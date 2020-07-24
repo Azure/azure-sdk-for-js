@@ -33,7 +33,7 @@ function getTenantIdFromVSCode(): string | undefined {
   function loadTenant(...pathSegments: string[]): string | undefined {
     const settingsPath = path.join(...pathSegments, ...commonSettingsPath);
     const settings = JSON.parse(fs.readFileSync(settingsPath, { encoding: "utf8" }));
-    return settings?.azure?.tenant
+    return settings["azure.tenant"];
   }
 
   try {
