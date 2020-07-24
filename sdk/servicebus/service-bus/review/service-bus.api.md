@@ -53,7 +53,7 @@ export interface CreateBatchOptions extends OperationOptionsBase {
 }
 
 // @public
-export interface CreateQueueOptions {
+export interface CreateQueueOptions extends OperationOptions {
     authorizationRules?: AuthorizationRule[];
     autoDeleteOnIdle?: string;
     deadLetteringOnMessageExpiration?: boolean;
@@ -66,7 +66,6 @@ export interface CreateQueueOptions {
     lockDuration?: string;
     maxDeliveryCount?: number;
     maxSizeInMegabytes?: number;
-    name: string;
     requiresDuplicateDetection?: boolean;
     requiresSession?: boolean;
     status?: EntityStatus;
@@ -85,7 +84,7 @@ export interface CreateSessionReceiverOptions extends SessionReceiverOptions, Op
 }
 
 // @public
-export interface CreateSubscriptionOptions {
+export interface CreateSubscriptionOptions extends OperationOptions {
     autoDeleteOnIdle?: string;
     deadLetteringOnFilterEvaluationExceptions?: boolean;
     deadLetteringOnMessageExpiration?: boolean;
@@ -97,13 +96,11 @@ export interface CreateSubscriptionOptions {
     maxDeliveryCount?: number;
     requiresSession?: boolean;
     status?: EntityStatus;
-    subscriptionName: string;
-    topicName: string;
     userMetadata?: string;
 }
 
 // @public
-export interface CreateTopicOptions {
+export interface CreateTopicOptions extends OperationOptions {
     authorizationRules?: AuthorizationRule[];
     autoDeleteOnIdle?: string;
     defaultMessageTtl?: string;
@@ -111,7 +108,6 @@ export interface CreateTopicOptions {
     enableBatchedOperations?: boolean;
     enablePartitioning?: boolean;
     maxSizeInMegabytes?: number;
-    name: string;
     requiresDuplicateDetection?: boolean;
     status?: EntityStatus;
     supportOrdering?: boolean;
@@ -137,12 +133,6 @@ export type EntityStatus = "Active" | "Creating" | "Deleting" | "ReceiveDisabled
 
 // @public
 export interface GetMessageIteratorOptions extends OperationOptionsBase, WaitTimeOptions {
-}
-
-// @public
-export interface ListRequestOptions {
-    maxCount?: number;
-    skip?: number;
 }
 
 // @public
@@ -343,13 +333,10 @@ export interface ServiceBusClientOptions {
 export class ServiceBusManagementClient extends ServiceClient {
     constructor(connectionString: string, options?: ServiceBusManagementClientOptions);
     constructor(fullyQualifiedNamespace: string, credential: TokenCredential, options?: ServiceBusManagementClientOptions);
-    createQueue(queueName: string, operationOptions?: OperationOptions): Promise<QueueResponse>;
-    createQueue(queue: CreateQueueOptions, operationOptions?: OperationOptions): Promise<QueueResponse>;
+    createQueue(queueName: string, options?: CreateQueueOptions): Promise<QueueResponse>;
     createRule(topicName: string, subscriptionName: string, rule: CreateRuleOptions, operationOptions?: OperationOptions): Promise<RuleResponse>;
-    createSubscription(topicName: string, subscriptionName: string, operationOptions?: OperationOptions): Promise<SubscriptionResponse>;
-    createSubscription(subscription: CreateSubscriptionOptions, operationOptions?: OperationOptions): Promise<SubscriptionResponse>;
-    createTopic(topicName: string, operationOptions?: OperationOptions): Promise<TopicResponse>;
-    createTopic(topic: CreateTopicOptions, operationOptions?: OperationOptions): Promise<TopicResponse>;
+    createSubscription(topicName: string, subscriptionName: string, options?: CreateSubscriptionOptions): Promise<SubscriptionResponse>;
+    createTopic(topicName: string, options?: CreateTopicOptions): Promise<TopicResponse>;
     deleteQueue(queueName: string, operationOptions?: OperationOptions): Promise<Response>;
     deleteRule(topicName: string, subscriptionName: string, ruleName: string, operationOptions?: OperationOptions): Promise<Response>;
     deleteSubscription(topicName: string, subscriptionName: string, operationOptions?: OperationOptions): Promise<Response>;
