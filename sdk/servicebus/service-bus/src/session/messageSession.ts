@@ -618,6 +618,7 @@ export class MessageSession extends LinkEntity {
         this.name
       );
 
+      this._isReceivingMessagesForSubscriber = false;
       if (this._sessionLockRenewalTimer) clearTimeout(this._sessionLockRenewalTimer);
       log.messageSession(
         "[%s] Cleared the timers for 'no new message received' task and " +
@@ -631,7 +632,6 @@ export class MessageSession extends LinkEntity {
         await this._closeLink(receiverLink);
       }
 
-      this._isReceivingMessagesForSubscriber = false;
       await this._batchingReceiverLite.close();
     } catch (err) {
       log.error(
@@ -674,11 +674,10 @@ export class MessageSession extends LinkEntity {
    */
   subscribe(onMessage: OnMessage, onError: OnError, options?: SessionMessageHandlerOptions): void {
     if (!options) options = {};
+    this._isReceivingMessagesForSubscriber = true;
     if (typeof options.maxConcurrentCalls === "number" && options.maxConcurrentCalls > 0) {
       this.maxConcurrentCalls = options.maxConcurrentCalls;
     }
-
-    this._isReceivingMessagesForSubscriber = true;
 
     // If explicitly set to false then autoComplete is false else true (default).
     this.autoComplete = options.autoComplete === false ? options.autoComplete : true;
