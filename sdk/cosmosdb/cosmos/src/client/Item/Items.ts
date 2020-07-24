@@ -19,7 +19,7 @@ import {
   Operation,
   getPartitionKeyToHash,
   addPKToOperation,
-  OperationResponse,
+  OperationResponse
 } from "../../utils/batch";
 import { hashV1PartitionKey } from "../../utils/hashing/v1";
 import { hashV2PartitionKey } from "../../utils/hashing/v2";
@@ -95,7 +95,7 @@ export class Items {
         resultFn: (result) => (result ? result.Documents : []),
         query,
         options: innerOptions,
-        partitionKey: options.partitionKey,
+        partitionKey: options.partitionKey
       });
     };
 
@@ -297,7 +297,7 @@ export class Items {
       resourceType: ResourceType.item,
       resourceId: id,
       options,
-      partitionKey,
+      partitionKey
     });
 
     const ref = new Item(
@@ -366,7 +366,7 @@ export class Items {
       resourceType: ResourceType.item,
       resourceId: id,
       options,
-      partitionKey,
+      partitionKey
     });
 
     const ref = new Item(
@@ -384,12 +384,37 @@ export class Items {
     );
   }
 
+  /**
+   * Execute bulk operations on items.
+   *
+   * Bulk takes an array of Operations which are typed based on what the operation does.
+   * The choices are: Create, Upsert, Read, Replace, and Delete
+   *
+   * Usage example:
+   *
+   * const operations: Operation[] = [
+   *    {
+   *       operationType: "Create",
+   *       resourceBody: { id: "doc1", name: "sample", key: "A" }
+   *    },
+   *    {
+   *       operationType: "Upsert",
+   *       partitionKey: `["A"]`,
+   *       resourceBody: { id: "doc2", name: "other", key: "A" }
+   *    }
+   * ]
+   *
+   * await database.container.items.bulk(operation)
+   *
+   * @param operations. List of operations. Limit 100
+   * @param options Used for modifying the request.
+   */
   public async bulk(
     operations: Operation[],
     options?: RequestOptions
   ): Promise<OperationResponse[]> {
     const {
-      resources: partitionKeyRanges,
+      resources: partitionKeyRanges
     } = await this.container.readPartitionKeyRanges().fetchAll();
     const { resource: definition } = await this.container.getPartitionKeyDefinition();
     const batches: Batch[] = partitionKeyRanges.map((keyRange: PartitionKeyRange) => {
@@ -398,7 +423,7 @@ export class Items {
         max: keyRange.maxExclusive,
         rangeId: keyRange.id,
         indexes: [],
-        operations: [],
+        operations: []
       };
     });
     operations
@@ -422,13 +447,16 @@ export class Items {
       batches
         .filter((batch: Batch) => batch.operations.length)
         .map(async (batch: Batch) => {
+          if (batch.operations.length > 100) {
+            throw new Error("Cannot run bulk request with more than 100 operations per partition");
+          }
           try {
             const response = await this.clientContext.bulk({
               body: batch.operations,
               partitionKeyRangeId: batch.rangeId,
               path,
               resourceId: this.container.url,
-              options,
+              options
             });
             response.result.forEach((operationResponse: OperationResponse, index: number) => {
               orderedResponses[batch.indexes[index]] = operationResponse;

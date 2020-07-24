@@ -2,7 +2,6 @@
 
 ## 3.7.5 (Unreleased)
 
-
 ## 3.7.4 (2020-6-30)
 
 - BUGFIX: Properly escape ASCII "DEL" character in partition key header
@@ -214,14 +213,14 @@ Constructor options have been simplified:
 const client = new CosmosClient({
   endpoint: "https://your-database.cosmos.azure.com",
   auth: {
-    masterKey: "your-primary-key",
-  },
+    masterKey: "your-primary-key"
+  }
 });
 
 // v3
 const client = new CosmosClient({
   endpoint: "https://your-database.cosmos.azure.com",
-  key: "your-primary-key",
+  key: "your-primary-key"
 });
 ```
 
