@@ -1,5 +1,8 @@
 # Release History
 
+## 1.1.0-preview.6 (Unreleased)
+
+
 ## 1.1.0-preview.5 (2020-07-22)
 
 - Make the keytar dependency optional, allowing for building and running on platforms not supported by keytar [PR #10142](https://github.com/Azure/azure-sdk-for-js/pull/10142)
