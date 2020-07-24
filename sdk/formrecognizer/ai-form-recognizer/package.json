@@ -146,7 +146,9 @@
       "recognizeCustomForm.js",
       "trainLabeledModel.js",
       "trainUnlabeledModel.js",
-      "copyModel.js"
+      "copyModel.js",
+      "authenticationMethods.js",
+      "recognizeContent.js"
     ]
   }
 }
