@@ -28,20 +28,20 @@ export class ComponentQuotaStatus {
 
   /**
    * Returns daily data volume cap (quota) status for an Application Insights component.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the Application Insights component resource.
    * @param [options] The optional parameters
    * @returns Promise<Models.ComponentQuotaStatusGetResponse>
    */
   get(resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase): Promise<Models.ComponentQuotaStatusGetResponse>;
   /**
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the Application Insights component resource.
    * @param callback The callback
    */
   get(resourceGroupName: string, resourceName: string, callback: msRest.ServiceCallback<Models.ApplicationInsightsComponentQuotaStatus>): void;
   /**
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the Application Insights component resource.
    * @param options The optional parameters
    * @param callback The callback
@@ -70,7 +70,7 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.resourceName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
