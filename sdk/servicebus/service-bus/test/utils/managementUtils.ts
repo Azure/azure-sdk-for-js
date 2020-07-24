@@ -87,7 +87,7 @@ export async function recreateQueue(
   };
 
   const createQueueOperation = async () => {
-    await client.createQueue({ name: queueName, ...parameters });
+    await client.createQueue(queueName, parameters);
   };
 
   const checkIfQueueExistsOperation = async () => {
@@ -125,7 +125,7 @@ export async function recreateTopic(
   };
 
   const createTopicOperation = async () => {
-    await client.createTopic({ name: topicName, ...parameters });
+    await client.createTopic(topicName, parameters);
   };
 
   const checkIfTopicExistsOperation = async () => {
@@ -166,7 +166,7 @@ export async function recreateSubscription(
   */
 
   const createSubscriptionOperation = async () => {
-    await client.createSubscription({ topicName, subscriptionName, ...parameters });
+    await client.createSubscription(topicName, subscriptionName, parameters);
   };
 
   const checkIfSubscriptionExistsOperation = async () => {
@@ -205,7 +205,8 @@ export async function verifyMessageCount(
   should.equal(
     queueName
       ? (await client.getQueueRuntimeProperties(queueName)).totalMessageCount
-      : (await client.getSubscriptionRuntimeProperties(topicName!, subscriptionName!)).totalMessageCount,
+      : (await client.getSubscriptionRuntimeProperties(topicName!, subscriptionName!))
+          .totalMessageCount,
     expectedMessageCount,
     `Unexpected number of messages are present in the entity.`
   );

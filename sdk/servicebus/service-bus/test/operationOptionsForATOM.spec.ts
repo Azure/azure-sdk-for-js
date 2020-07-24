@@ -165,7 +165,7 @@ describe("Operation Options", () => {
       await verifyAbortError(
         async () =>
           await serviceBusAtomManagementClient.createSubscription(
-            { topicName: entityName1, subscriptionName: entityName2 },
+            entityName1,  entityName2 ,
             {
               abortSignal: AbortController.timeout(1)
             }

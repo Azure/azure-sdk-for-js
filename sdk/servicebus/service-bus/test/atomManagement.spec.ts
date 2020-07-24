@@ -279,8 +279,7 @@ describe("Atom management - Authentication", function(): void {
         managementQueue1,
         "Unexpected queue name in the createQueue response"
       );
-      const createQueue2Response = await serviceBusManagementClient.createQueue({
-        name: managementQueue2,
+      const createQueue2Response = await serviceBusManagementClient.createQueue(managementQueue2, {
         forwardTo: managementQueue1
       });
       should.equal(
@@ -2420,14 +2419,12 @@ async function createEntity(
 
   switch (testEntityType) {
     case EntityType.QUEUE:
-      const queueResponse = await serviceBusAtomManagementClient.createQueue({
-        name: entityPath,
+      const queueResponse = await serviceBusAtomManagementClient.createQueue(entityPath, {
         ...queueOptions
       });
       return queueResponse;
     case EntityType.TOPIC:
-      const topicResponse = await serviceBusAtomManagementClient.createTopic({
-        name: entityPath,
+      const topicResponse = await serviceBusAtomManagementClient.createTopic(entityPath, {
         ...topicOptions
       });
       return topicResponse;
@@ -2437,11 +2434,13 @@ async function createEntity(
           "TestError: Topic path must be passed when invoking tests on subscriptions"
         );
       }
-      const subscriptionResponse = await serviceBusAtomManagementClient.createSubscription({
-        topicName: topicPath,
-        subscriptionName: entityPath,
-        ...subscriptionOptions
-      });
+      const subscriptionResponse = await serviceBusAtomManagementClient.createSubscription(
+        topicPath,
+        entityPath,
+        {
+          ...subscriptionOptions
+        }
+      );
       return subscriptionResponse;
     case EntityType.RULE:
       if (!topicPath || !subscriptionPath) {
