@@ -742,8 +742,7 @@ class MockSerializer implements AtomXmlSerializer {
         };
       };
       try {
-        await mockServiceBusAtomManagementClient.createQueue({
-          queueName: "test",
+        await mockServiceBusAtomManagementClient.createQueue("test", {
           ...(testCase.input as any)
         });
         assert.fail("Error must be thrown");
@@ -901,8 +900,7 @@ class MockSerializer implements AtomXmlSerializer {
         return response;
       };
       try {
-        await mockServiceBusAtomManagementClient.createQueue({
-          queueName: "test",
+        await mockServiceBusAtomManagementClient.createQueue("test", {
           ...(testCase.input as any)
         });
         assert.fail("Error must be thrown");
@@ -1042,8 +1040,7 @@ class MockSerializer implements AtomXmlSerializer {
       };
 
       try {
-        await mockServiceBusAtomManagementClient.createQueue({
-          queueName: "test",
+        await mockServiceBusAtomManagementClient.createQueue("test", {
           ...(testCase as any)
         });
         assert.fail("Error must be thrown");
