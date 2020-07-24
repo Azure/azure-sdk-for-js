@@ -222,7 +222,7 @@ export interface TopicProperties {
    * as a single messages. For example, if message m exists once in subscription s1
    * and twice in subscription s2, m is counted as a single message.
    */
-  readonly maxSizeInMegabytes: number;
+  maxSizeInMegabytes: number;
 
   /**
    * If enabled, the topic will detect duplicate messages within the time span
@@ -243,29 +243,29 @@ export interface TopicProperties {
   /**
    * Specifies if batched operations should be allowed.
    */
-  readonly enableBatchedOperations: boolean;
+  enableBatchedOperations: boolean;
 
   /**
    * Authorization rules on the topic
    */
-  readonly authorizationRules?: AuthorizationRule[];
+  authorizationRules?: AuthorizationRule[];
 
   /**
    * Status of the messaging entity.
    */
-  readonly status: EntityStatus;
+  status: EntityStatus;
 
   /**
    * The user provided metadata information associated with the topic.
    * Used to specify textual content such as tags, labels, etc.
    * Value must not exceed 1024 bytes encoded in utf-8.
    */
-  readonly userMetadata: string;
+  userMetadata: string;
 
   /**
    * Specifies whether the topic supports message ordering.
    */
-  readonly supportOrdering: boolean;
+  supportOrdering: boolean;
 
   /**
    * Max idle time before entity is deleted.
@@ -274,7 +274,7 @@ export interface TopicProperties {
    *
    * More on ISO-8601 duration format: https://en.wikipedia.org/wiki/ISO_8601#Durations
    */
-  readonly autoDeleteOnIdle: string;
+  autoDeleteOnIdle: string;
 
   /**
    * Specifies whether the topic should be partitioned

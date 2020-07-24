@@ -666,12 +666,8 @@ export class ServiceBusManagementClient extends ServiceClient {
    * update as needed and then pass it to `updateQueue()`.
    * See https://docs.microsoft.com/en-us/rest/api/servicebus/update-queue for more details.
    *
-   * @param queue Object representing the queue with one or more of the below properties updated
-   * - defaultMessageTimeToLive
-   * - lockDuration
-   * - deadLetteringOnMessageExpiration
-   * - duplicateDetectionHistoryTimeWindow
-   * - maxDeliveryCount
+   * @param queue Object representing the properties of the queue.
+   * `requiresSession`, `requiresDuplicateDetection`, `enablePartitioning`, and `name` can't be updated after creating the queue.
    * @param operationOptions The options that can be used to abort, trace and control other configurations on the HTTP request.
    *
    * Following are errors that can be expected from this operation
@@ -1162,9 +1158,8 @@ export class ServiceBusManagementClient extends ServiceClient {
    * update as needed and then pass it to `updateTopic()`.
    * See https://docs.microsoft.com/en-us/rest/api/servicebus/update-topic for more details.
    *
-   * @param topic Object representing the topic with one or more of the below properties updated
-   *   - defaultMessageTimeToLive
-   *   - duplicateDetectionHistoryTimeWindow
+   * @param topic Object representing the properties of the topic.
+   * `requiresDuplicateDetection`, `enablePartitioning`, and `name` can't be updated after creating the topic.
    * @param operationOptions The options that can be used to abort, trace and control other configurations on the HTTP request.
    *
    * Following are errors that can be expected from this operation
@@ -1696,10 +1691,8 @@ export class ServiceBusManagementClient extends ServiceClient {
    * Therefore, the suggested flow is to use `getSubscription()` to get the complete set of subscription properties,
    * update as needed and then pass it to `updateSubscription()`.
    *
-   * @param subscription Object representing the subscription with one or more of the below properties updated
-   *   - lockDuration
-   *   - deadLetteringOnMessageExpiration
-   *   - maxDeliveryCount
+   * @param subscription Object representing the properties of the subscription.
+   * `subscriptionName`, `topicName`, and `requiresSession` can't be updated after creating the subscription.
    * @param operationOptions The options that can be used to abort, trace and control other configurations on the HTTP request.
    *
    * Following are errors that can be expected from this operation

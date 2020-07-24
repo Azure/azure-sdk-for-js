@@ -170,23 +170,23 @@ export interface PeekMessagesOptions extends OperationOptionsBase {
 
 // @public
 export interface QueueProperties {
-    readonly authorizationRules?: AuthorizationRule[];
-    readonly autoDeleteOnIdle: string;
+    authorizationRules?: AuthorizationRule[];
+    autoDeleteOnIdle: string;
     deadLetteringOnMessageExpiration: boolean;
     defaultMessageTtl: string;
     duplicateDetectionHistoryTimeWindow: string;
-    readonly enableBatchedOperations: boolean;
+    enableBatchedOperations: boolean;
     readonly enablePartitioning: boolean;
-    readonly forwardDeadLetteredMessagesTo?: string;
-    readonly forwardTo?: string;
+    forwardDeadLetteredMessagesTo?: string;
+    forwardTo?: string;
     lockDuration: string;
     maxDeliveryCount: number;
-    readonly maxSizeInMegabytes: number;
+    maxSizeInMegabytes: number;
     readonly name: string;
     readonly requiresDuplicateDetection: boolean;
     readonly requiresSession: boolean;
-    readonly status: EntityStatus;
-    readonly userMetadata: string;
+    status: EntityStatus;
+    userMetadata: string;
 }
 
 // @public
@@ -442,20 +442,20 @@ export interface SubscribeOptions extends OperationOptionsBase, MessageHandlerOp
 
 // @public
 export interface SubscriptionProperties {
-    readonly autoDeleteOnIdle: string;
-    readonly deadLetteringOnFilterEvaluationExceptions: boolean;
+    autoDeleteOnIdle: string;
+    deadLetteringOnFilterEvaluationExceptions: boolean;
     deadLetteringOnMessageExpiration: boolean;
-    readonly defaultMessageTtl: string;
-    readonly enableBatchedOperations: boolean;
-    readonly forwardDeadLetteredMessagesTo?: string;
-    readonly forwardTo?: string;
+    defaultMessageTtl: string;
+    enableBatchedOperations: boolean;
+    forwardDeadLetteredMessagesTo?: string;
+    forwardTo?: string;
     lockDuration: string;
     maxDeliveryCount: number;
     readonly requiresSession: boolean;
-    readonly status: EntityStatus;
+    status: EntityStatus;
     readonly subscriptionName: string;
     readonly topicName: string;
-    readonly userMetadata: string;
+    userMetadata: string;
 }
 
 // @public
@@ -487,18 +487,18 @@ export { TokenType }
 
 // @public
 export interface TopicProperties {
-    readonly authorizationRules?: AuthorizationRule[];
-    readonly autoDeleteOnIdle: string;
+    authorizationRules?: AuthorizationRule[];
+    autoDeleteOnIdle: string;
     defaultMessageTtl: string;
     duplicateDetectionHistoryTimeWindow: string;
-    readonly enableBatchedOperations: boolean;
+    enableBatchedOperations: boolean;
     readonly enablePartitioning: boolean;
-    readonly maxSizeInMegabytes: number;
+    maxSizeInMegabytes: number;
     readonly name: string;
     readonly requiresDuplicateDetection: boolean;
-    readonly status: EntityStatus;
-    readonly supportOrdering: boolean;
-    readonly userMetadata: string;
+    status: EntityStatus;
+    supportOrdering: boolean;
+    userMetadata: string;
 }
 
 // @public

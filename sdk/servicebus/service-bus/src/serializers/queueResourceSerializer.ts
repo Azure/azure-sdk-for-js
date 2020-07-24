@@ -277,7 +277,7 @@ export interface QueueProperties {
    * Specifies the maximum queue size in megabytes. Any attempt to enqueue a message that
    * will cause the queue to exceed this value will fail.
    */
-  readonly maxSizeInMegabytes: number;
+  maxSizeInMegabytes: number;
 
   /**
    * If enabled, the topic will detect duplicate messages within the time
@@ -333,17 +333,17 @@ export interface QueueProperties {
   /**
    * Specifies if batched operations should be allowed.
    */
-  readonly enableBatchedOperations: boolean;
+  enableBatchedOperations: boolean;
 
   /**
    * Authorization rules on the queue
    */
-  readonly authorizationRules?: AuthorizationRule[];
+  authorizationRules?: AuthorizationRule[];
 
   /**
    * Status of the messaging entity.
    */
-  readonly status: EntityStatus;
+  status: EntityStatus;
 
   /**
    * Absolute URL or the name of the queue or topic the
@@ -351,14 +351,14 @@ export interface QueueProperties {
    * For example, an absolute URL input would be of the form
    * `sb://<your-service-bus-namespace-endpoint>/<queue-or-topic-name>`
    */
-  readonly forwardTo?: string;
+  forwardTo?: string;
 
   /**
    * The user provided metadata information associated with the queue.
    * Used to specify textual content such as tags, labels, etc.
    * Value must not exceed 1024 bytes encoded in utf-8.
    */
-  readonly userMetadata: string;
+  userMetadata: string;
 
   /**
    * Max idle time before entity is deleted.
@@ -367,7 +367,7 @@ export interface QueueProperties {
    *
    * More on ISO-8601 duration format: https://en.wikipedia.org/wiki/ISO_8601#Durations
    */
-  readonly autoDeleteOnIdle: string;
+  autoDeleteOnIdle: string;
 
   /**
    * Specifies whether the queue should be partitioned.
@@ -380,7 +380,7 @@ export interface QueueProperties {
    * For example, an absolute URL input would be of the form
    * `sb://<your-service-bus-namespace-endpoint>/<queue-or-topic-name>`
    */
-  readonly forwardDeadLetteredMessagesTo?: string;
+  forwardDeadLetteredMessagesTo?: string;
 }
 /**
  * @internal

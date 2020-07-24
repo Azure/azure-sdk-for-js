@@ -261,7 +261,7 @@ export interface SubscriptionProperties {
    *
    * More on ISO-8601 duration format: https://en.wikipedia.org/wiki/ISO_8601#Durations
    */
-  readonly defaultMessageTtl: string;
+  defaultMessageTtl: string;
 
   /**
    * If it is enabled and a message expires, the Service Bus moves the message from
@@ -280,7 +280,7 @@ export interface SubscriptionProperties {
    * It can occur from a malformed message or some incorrect assumptions being made
    * in the filter about the form of the message. Settable only at topic creation time.
    */
-  readonly deadLetteringOnFilterEvaluationExceptions: boolean;
+  deadLetteringOnFilterEvaluationExceptions: boolean;
 
   /**
    * The maximum delivery count of messages after which if it is still not settled,
@@ -292,12 +292,12 @@ export interface SubscriptionProperties {
   /**
    * Specifies if batched operations should be allowed.
    */
-  readonly enableBatchedOperations: boolean;
+  enableBatchedOperations: boolean;
 
   /**
    * Status of the messaging entity.
    */
-  readonly status: EntityStatus;
+  status: EntityStatus;
 
   /**
    * Absolute URL or the name of the queue or topic the
@@ -305,14 +305,14 @@ export interface SubscriptionProperties {
    * For example, an absolute URL input would be of the form
    * `sb://<your-service-bus-namespace-endpoint>/<queue-or-topic-name>`
    */
-  readonly forwardTo?: string;
+  forwardTo?: string;
 
   /**
    * The user provided metadata information associated with the subscription.
    * Used to specify textual content such as tags, labels, etc.
    * Value must not exceed 1024 bytes encoded in utf-8.
    */
-  readonly userMetadata: string;
+  userMetadata: string;
 
   /**
    * Absolute URL or the name of the queue or topic the dead-lettered
@@ -320,7 +320,7 @@ export interface SubscriptionProperties {
    * For example, an absolute URL input would be of the form
    * `sb://<your-service-bus-namespace-endpoint>/<queue-or-topic-name>`
    */
-  readonly forwardDeadLetteredMessagesTo?: string;
+  forwardDeadLetteredMessagesTo?: string;
 
   /**
    * Max idle time before entity is deleted.
@@ -329,7 +329,7 @@ export interface SubscriptionProperties {
    *
    * More on ISO-8601 duration format: https://en.wikipedia.org/wiki/ISO_8601#Durations
    */
-  readonly autoDeleteOnIdle: string;
+  autoDeleteOnIdle: string;
 }
 
 /**
