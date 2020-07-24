@@ -25,7 +25,7 @@ export class SqlManagementClientContext extends msRestAzure.AzureServiceClient {
    * @param subscriptionId The subscription ID that identifies an Azure subscription.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.SqlManagementClientOptions) {
+constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.SqlManagementClientOptions) {
     if (credentials == undefined) {
       throw new Error('\'credentials\' cannot be null.');
     }
@@ -56,5 +56,29 @@ export class SqlManagementClientContext extends msRestAzure.AzureServiceClient {
     if(options.longRunningOperationRetryTimeout !== null && options.longRunningOperationRetryTimeout !== undefined) {
       this.longRunningOperationRetryTimeout = options.longRunningOperationRetryTimeout;
     }
+  }
+
+  /**
+   * NOTE: This is an override added manually to workaround bug Azure/ms-rest-js/issues/395
+   * When this library is regenerated, this override needs to be brought back
+   * This override adds the header "Accept: application/json" to every request
+   */
+  sendOperationRequest(
+    operationArguments: msRest.OperationArguments,
+    operationSpec: msRest.OperationSpec,
+    callback?: msRest.ServiceCallback<any>
+  ): Promise<msRest.RestResponse> {
+    const options = {
+      ...operationArguments,
+      options: {
+        ...operationArguments.options,
+        customHeaders: {
+          ...operationArguments.options?.customHeaders,
+          accept: "application/json",
+        },
+      },
+    };
+
+    return super.sendOperationRequest(options, operationSpec, callback);
   }
 }
