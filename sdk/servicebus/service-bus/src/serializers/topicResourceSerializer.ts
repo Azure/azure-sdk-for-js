@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { HttpOperationResponse } from "@azure/core-http";
+import { HttpOperationResponse, OperationOptions } from "@azure/core-http";
 import {
   AtomXmlSerializer,
   deserializeAtomXmlResponse,
@@ -107,12 +107,7 @@ export function buildTopicRuntimeProperties(rawTopic: any): TopicRuntimeProperti
 /**
  * Represents settable options on a topic
  */
-export interface CreateTopicOptions {
-  /**
-   * Name of the topic
-   */
-  name: string;
-
+export interface CreateTopicOptions extends OperationOptions {
   /**
    * Determines how long a message lives in the associated subscriptions.
    * Subscriptions inherit the TTL from the topic unless they are created explicitly

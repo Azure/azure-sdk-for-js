@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { HttpOperationResponse } from "@azure/core-http";
+import { HttpOperationResponse, OperationOptions } from "@azure/core-http";
 import {
   AtomXmlSerializer,
   deserializeAtomXmlResponse,
@@ -128,12 +128,7 @@ export function buildQueueRuntimeProperties(rawQueue: any): QueueRuntimeProperti
 /**
  * Represents settable options on a queue
  */
-export interface CreateQueueOptions {
-  /**
-   * Name of the queue
-   */
-  name: string;
-
+export interface CreateQueueOptions extends OperationOptions {
   /**
    * Determines the amount of time in seconds in which a message should be locked for
    * processing by a receiver. After this period, the message is unlocked and available

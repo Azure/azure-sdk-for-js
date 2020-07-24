@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { HttpOperationResponse } from "@azure/core-http";
+import { HttpOperationResponse, OperationOptions } from "@azure/core-http";
 import {
   AtomXmlSerializer,
   deserializeAtomXmlResponse,
@@ -120,17 +120,7 @@ export function buildSubscriptionRuntimeProperties(
 /**
  * Represents settable options on a subscription
  */
-export interface CreateSubscriptionOptions {
-  /**
-   * Name of the subscription
-   */
-  subscriptionName: string;
-
-  /**
-   * Name of the topic
-   */
-  topicName: string;
-
+export interface CreateSubscriptionOptions extends OperationOptions {
   /**
    * The default lock duration is applied to subscriptions that do not define a lock
    * duration. Settable only at subscription creation time.
