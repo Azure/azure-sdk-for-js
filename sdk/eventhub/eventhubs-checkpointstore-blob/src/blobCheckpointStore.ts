@@ -276,7 +276,7 @@ export class BlobCheckpointStore implements CheckpointStore {
           throw err;
         }
         const errorDetails = (err as RestError).details as { [field: string]: string } | undefined;
-        const errorCode = errorDetails?.errorCode ?? errorDetails?.Code;
+        const errorCode = errorDetails?.errorCode;
         if (!errorCode || errorCode !== "BlobNotFound") {
           throw err;
         }
