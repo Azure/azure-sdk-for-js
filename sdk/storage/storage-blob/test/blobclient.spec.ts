@@ -814,6 +814,10 @@ describe("BlobClient", () => {
     const tagConditionUnmet = { ifTags: "tag1 = 'val2'" };
 
     beforeEach(async function() {
+      if (!isNode) {
+        // SAS in test pipeline need to support the new permission.
+        this.skip();
+      }
       await blobClient.setTags(tags);
     });
 
