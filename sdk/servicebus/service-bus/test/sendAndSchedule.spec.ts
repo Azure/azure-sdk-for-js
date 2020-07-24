@@ -281,7 +281,7 @@ describe("Sender Tests", () => {
       console.log(
         `message count before scheduling the messages = `,
         (await serviceBusAtomManagementClient.getQueueRuntimeProperties(entityName.queue!))
-          .messageCount
+          .totalMessageCount
       );
       const date = new Date();
       const messages = [
