@@ -2,11 +2,11 @@
   "name": "@azure/arm-containerinstance",
   "author": "Microsoft Corporation",
   "description": "ContainerInstanceManagementClient Library with typescript type definitions for node.js and browser.",
-  "version": "5.4.0",
+  "version": "6.0.0",
   "dependencies": {
-    "@azure/ms-rest-azure-js": "^1.1.0",
-    "@azure/ms-rest-js": "^1.1.0",
-    "tslib": "^1.9.3"
+    "@azure/ms-rest-azure-js": "^2.0.1",
+    "@azure/ms-rest-js": "^2.0.4",
+    "tslib": "^1.10.0"
   },
   "keywords": [
     "node",
@@ -20,18 +20,19 @@
   "module": "./esm/containerInstanceManagementClient.js",
   "types": "./esm/containerInstanceManagementClient.d.ts",
   "devDependencies": {
-    "typescript": "^3.1.1",
-    "rollup": "^0.66.2",
-    "rollup-plugin-node-resolve": "^3.4.0",
-    "uglify-js": "^3.4.9"
+    "typescript": "^3.5.3",
+    "rollup": "^1.18.0",
+    "rollup-plugin-node-resolve": "^5.2.0",
+    "rollup-plugin-sourcemaps": "^0.4.2",
+    "uglify-js": "^3.6.0"
   },
-  "homepage": "https://github.com/azure/azure-sdk-for-js/tree/master/sdk/containerinstance/arm-containerinstance",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/containerinstance/arm-containerinstance",
   "repository": {
     "type": "git",
-    "url": "https://github.com/azure/azure-sdk-for-js.git"
+    "url": "https://github.com/Azure/azure-sdk-for-js.git"
   },
   "bugs": {
-    "url": "https://github.com/azure/azure-sdk-for-js/issues"
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
   "files": [
     "dist/**/*.js",
@@ -43,6 +44,7 @@
     "esm/**/*.d.ts",
     "esm/**/*.d.ts.map",
     "src/**/*.ts",
+    "README.md",
     "rollup.config.js",
     "tsconfig.json"
   ],

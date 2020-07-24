@@ -5,10 +5,12 @@
 
 import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-http";
 import { TokenCredentialOptions } from "../client/identityClient";
+import { credentialLogger, formatError } from "../util/logging";
 
 const BrowserNotSupportedError = new Error(
   "ManagedIdentityCredential is not supported in the browser."
 );
+const logger = credentialLogger("ManagedIdentityCredential");
 
 export class ManagedIdentityCredential implements TokenCredential {
   constructor(clientId: string, options?: TokenCredentialOptions);
@@ -17,6 +19,7 @@ export class ManagedIdentityCredential implements TokenCredential {
     clientIdOrOptions: string | TokenCredentialOptions | undefined,
     options?: TokenCredentialOptions
   ) {
+    logger.info(formatError(BrowserNotSupportedError));
     throw BrowserNotSupportedError;
   }
 
@@ -24,6 +27,7 @@ export class ManagedIdentityCredential implements TokenCredential {
     scopes: string | string[],
     options?: GetTokenOptions
   ): Promise<AccessToken | null> {
+    logger.getToken.info(formatError(BrowserNotSupportedError));
     throw BrowserNotSupportedError;
   }
 }
