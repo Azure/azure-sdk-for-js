@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
 import assert from "assert";
 import {
@@ -92,7 +92,7 @@ describe("Identity logging utilities", function() {
 
       public async getToken(
         scopes: string | string[],
-        options?: GetTokenOptions
+        _options?: GetTokenOptions
       ): Promise<AccessToken | null> {
         if (scopes.length) {
           this.logger.getToken.info(formatSuccess(scopes));
@@ -113,11 +113,10 @@ describe("Identity logging utilities", function() {
       "FakeCredential => getToken() => SUCCESS: Scope 1, Scope 2"
     );
 
-    let error: Error | undefined;
     try {
       await fakeCredential.getToken([]);
-    } catch (e) {
-      error = e;
+    } catch {
+      // Nothing to do here
     }
 
     assert.equal(
