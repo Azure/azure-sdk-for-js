@@ -245,6 +245,14 @@ export class RuleResourceSerializer implements AtomXmlSerializer {
 }
 
 /**
+ * @internal
+ * @ignore
+ */
+export function isSqlRuleAction(action: any): action is SqlRuleAction {
+  return action != null && typeof action === "object" && "sqlExpression" in action;
+}
+
+/**
  * Service expects the XML request with the special type names serialized in the request,
  * the request would fail otherwise.
  *

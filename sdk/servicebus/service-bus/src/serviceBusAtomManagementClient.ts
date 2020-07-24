@@ -24,6 +24,7 @@ import {
   WebResource
 } from "@azure/core-http";
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { CorrelationRuleFilter } from "./core/managementClient";
 import * as log from "./log";
 import {
   buildNamespace,
@@ -43,8 +44,11 @@ import {
 import {
   buildRule,
   CreateRuleOptions,
+  isSqlRuleAction,
   RuleProperties,
-  RuleResourceSerializer
+  RuleResourceSerializer,
+  SqlRuleAction,
+  SqlRuleFilter
 } from "./serializers/ruleResourceSerializer";
 import {
   buildSubscription,
@@ -1850,7 +1854,8 @@ export class ServiceBusManagementClient extends ServiceClient {
    * Creates a rule with given name, configured using the given options.
    * @param topicName
    * @param subscriptionName
-   * @param rule
+   * @param ruleName
+   * @param ruleFilter Defines the filter expression that the rule evaluates.
    * @param operationOptions The options that can be used to abort, trace and control other configurations on the HTTP request.
    *
    * Following are errors that can be expected from this operation
@@ -1864,24 +1869,71 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
    * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
    */
+  createRule(
+    topicName: string,
+    subscriptionName: string,
+    ruleName: string,
+    ruleFilter: SqlRuleFilter | CorrelationRuleFilter,
+    operationOptions?: OperationOptions
+  ): Promise<RuleResponse>;
+  /**
+   * Creates a rule with given name, configured using the given options.
+   * @param topicName
+   * @param subscriptionName
+   * @param ruleName
+   * @param ruleFilter Defines the filter expression that the rule evaluates.
+   * @param ruleAction The SQL like expression that can be executed on the message should the associated filter apply.
+   * @param operationOptions The options that can be used to abort, trace and control other configurations on the HTTP request.
+   *
+   * Following are errors that can be expected from this operation
+   * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
+   * @throws `RestError` with code `MessageEntityAlreadyExistsError` when requested messaging entity already exists,
+   * @throws `RestError` with code `InvalidOperationError` when requested operation is invalid and we encounter a 403 HTTP status code,
+   * @throws `RestError` with code `QuotaExceededError` when requested operation fails due to quote limits exceeding from service side,
+   * @throws `RestError` with code `ServerBusyError` when the request fails due to server being busy,
+   * @throws `RestError` with code `ServiceError` when receiving unrecognized HTTP status or for a scenarios such as
+   * bad requests or requests resulting in conflicting operation on the server,
+   * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
+   * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
+   */
+  createRule(
+    topicName: string,
+    subscriptionName: string,
+    ruleName: string,
+    ruleFilter: SqlRuleFilter | CorrelationRuleFilter,
+    ruleAction: SqlRuleAction,
+    operationOptions?: OperationOptions
+  ): Promise<RuleResponse>;
   async createRule(
     topicName: string,
     subscriptionName: string,
-    rule: CreateRuleOptions,
+    ruleName: string,
+    ruleFilter: SqlRuleFilter | CorrelationRuleFilter,
+    ruleActionOrOperationOptions?: SqlRuleAction | OperationOptions,
     operationOptions?: OperationOptions
   ): Promise<RuleResponse> {
+    let ruleAction: SqlRuleAction | undefined = undefined;
+    let operOptions: OperationOptions | undefined;
+    if (ruleActionOrOperationOptions) {
+      if (isSqlRuleAction(ruleActionOrOperationOptions)) {
+        ruleAction = ruleActionOrOperationOptions;
+        operOptions = operationOptions;
+      } else {
+        operOptions = ruleActionOrOperationOptions;
+      }
+    }
     const { span, updatedOperationOptions } = createSpan(
       "ServiceBusManagementClient-createRule",
-      operationOptions
+      operOptions
     );
     try {
       log.httpAtomXml(
-        `Performing management operation - createRule() for "${rule.name}" with options: "${rule}"`
+        `Performing management operation - createRule() for "${ruleName}" with filter: "${ruleFilter}"`
       );
-      const fullPath = this.getRulePath(topicName, subscriptionName, rule.name);
+      const fullPath = this.getRulePath(topicName, subscriptionName, ruleName);
       const response: HttpOperationResponse = await this.putResource(
         fullPath,
-        rule,
+        { name: ruleName, filter: ruleFilter, action: ruleAction },
         this.ruleResourceSerializer,
         false,
         updatedOperationOptions

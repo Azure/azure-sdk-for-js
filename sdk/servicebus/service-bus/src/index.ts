@@ -39,7 +39,6 @@ export {
   QueueRuntimeProperties
 } from "./serializers/queueResourceSerializer";
 export {
-  CreateRuleOptions,
   RuleProperties,
   SqlParameter,
   SqlRuleAction,
