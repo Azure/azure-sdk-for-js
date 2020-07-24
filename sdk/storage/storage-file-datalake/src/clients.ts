@@ -1133,17 +1133,17 @@ export class DataLakeFileClient extends DataLakePathClient {
    * ```js
    * // Download and convert a file to a string
    * const downloadResponse = await fileClient.read();
-   * const downloaded = await streamToString(downloadResponse.readableStreamBody);
-   * console.log("Downloaded file content:", downloaded);
+   * const downloaded = await streamToBuffer(downloadResponse.readableStreamBody);
+   * console.log("Downloaded file content:", downloaded.toString());
    *
-   * async function streamToString(readableStream) {
+   * async function streamToBuffer(readableStream) {
    *   return new Promise((resolve, reject) => {
    *     const chunks = [];
    *     readableStream.on("data", (data) => {
-   *       chunks.push(data.toString());
+   *       chunks.push(data instanceof Buffer ? data : Buffer.from(data));
    *     });
    *     readableStream.on("end", () => {
-   *       resolve(chunks.join(""));
+   *       resolve(Buffer.concat(chunks));
    *     });
    *     readableStream.on("error", reject);
    *   });

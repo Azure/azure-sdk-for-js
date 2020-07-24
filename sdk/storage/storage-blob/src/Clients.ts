@@ -1226,20 +1226,20 @@ export class BlobClient extends StorageClient {
    * ```js
    * // Download and convert a blob to a string
    * const downloadBlockBlobResponse = await blobClient.download();
-   * const downloaded = await streamToString(downloadBlockBlobResponse.readableStreamBody);
-   * console.log("Downloaded blob content:", downloaded);
+   * const downloaded = await streamToBuffer(downloadBlockBlobResponse.readableStreamBody);
+   * console.log("Downloaded blob content:", downloaded.toString());
    *
-   * async function streamToString(readableStream) {
-   *   return new Promise((resolve, reject) => {
-   *     const chunks = [];
-   *     readableStream.on("data", (data) => {
-   *       chunks.push(data.toString());
-   *     });
-   *     readableStream.on("end", () => {
-   *       resolve(chunks.join(""));
-   *     });
-   *     readableStream.on("error", reject);
-   *   });
+   * async function streamToBuffer(readableStream) {
+   * return new Promise((resolve, reject) => {
+   * const chunks = [];
+   * readableStream.on("data", (data) => {
+   * chunks.push(data instanceof Buffer ? data : Buffer.from(data));
+   * });
+   * readableStream.on("end", () => {
+   * resolve(Buffer.concat(chunks));
+   * });
+   * readableStream.on("error", reject);
+   * });
    * }
    * ```
    *
@@ -3809,17 +3809,17 @@ export class BlockBlobClient extends BlobClient {
    * ```js
    * // Query and convert a blob to a string
    * const queryBlockBlobResponse = await blockBlobClient.query("select * from BlobStorage");
-   * const downloaded = await streamToString(queryBlockBlobResponse.readableStreamBody);
-   * console.log("Query blob content:", downloaded);
+   * const downloaded = await streamToBuffer(queryBlockBlobResponse.readableStreamBody);
+   * console.log("Query blob content:", downloaded.toString());
    *
-   * async function streamToString(readableStream) {
+   * async function streamToBuffer(readableStream) {
    *   return new Promise((resolve, reject) => {
    *     const chunks = [];
    *     readableStream.on("data", (data) => {
-   *       chunks.push(data.toString());
+   *       chunks.push(data instanceof Buffer ? data : Buffer.from(data));
    *     });
    *     readableStream.on("end", () => {
-   *       resolve(chunks.join(""));
+   *       resolve(Buffer.concat(chunks));
    *     });
    *     readableStream.on("error", reject);
    *   });

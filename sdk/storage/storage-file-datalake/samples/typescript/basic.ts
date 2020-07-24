@@ -73,7 +73,10 @@ async function main() {
   // In Node.js, get downloaded data by accessing downloadBlockBlobResponse.readableStreamBody
   // In browsers, get downloaded data by accessing downloadBlockBlobResponse.contentAsBlob
   const readFileResponse = await fileClient.read();
-  console.log("Downloaded file content", await streamToString(readFileResponse.readableStreamBody));
+  console.log(
+    "Downloaded file content",
+    (await streamToBuffer(readFileResponse.readableStreamBody)).toString()
+  );
 
   // Delete filesystem
   await fileSystemClient.delete();
@@ -81,15 +84,15 @@ async function main() {
   console.log("Deleted filesystem");
 }
 
-// A helper method used to read a Node.js readable stream into string
-async function streamToString(readableStream: NodeJS.ReadableStream) {
+// A helper method used to read a Node.js readable stream into a Buffer
+async function streamToBuffer(readableStream: NodeJS.ReadableStream): Promise<Buffer> {
   return new Promise((resolve, reject) => {
-    const chunks: string[] = [];
-    readableStream.on("data", (data) => {
-      chunks.push(data.toString());
+    const chunks: Buffer[] = [];
+    readableStream.on("data", (data: Buffer | string) => {
+      chunks.push(data instanceof Buffer ? data : Buffer.from(data));
     });
     readableStream.on("end", () => {
-      resolve(chunks.join(""));
+      resolve(Buffer.concat(chunks));
     });
     readableStream.on("error", reject);
   });

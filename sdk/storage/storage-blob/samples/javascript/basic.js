@@ -85,18 +85,18 @@ async function main() {
   console.log("deleted container");
 }
 
-// A helper method used to read a Node.js readable stream into string
-async function streamToBuffer(readableStream: NodeJS.ReadableStream) {
-    return new Promise((resolve, reject) => {
-        let buffer = [];
-        readableStream.on("data", (data) => {
-            buffer.push(typeof data === "string" ? Buffer.from(data) : data);
-        });
-        readableStream.on("end", () => {
-            resolve(Buffer.concat(buffer));
-        });
-        readableStream.on("error", reject);
+// A helper method used to read a Node.js readable stream into a Buffer
+async function streamToBuffer(readableStream) {
+  return new Promise((resolve, reject) => {
+    const chunks = [];
+    readableStream.on("data", (data) => {
+      chunks.push(data instanceof Buffer ? data : Buffer.from(data));
     });
+    readableStream.on("end", () => {
+      resolve(Buffer.concat(chunks));
+    });
+    readableStream.on("error", reject);
+  });
 }
 
 main().catch((err) => {
