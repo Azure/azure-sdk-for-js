@@ -82,7 +82,19 @@ export const alertsSuppressionRuleName: msRest.OperationURLParameter = {
     }
   }
 };
-export const alertType: msRest.OperationQueryParameter = {
+export const alertType0: msRest.OperationQueryParameter = {
+  parameterPath: [
+    "options",
+    "alertType"
+  ],
+  mapper: {
+    serializedName: "alertType",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const alertType1: msRest.OperationQueryParameter = {
   parameterPath: [
     "options",
     "alertType"
@@ -284,6 +296,16 @@ export const connectionType: msRest.OperationURLParameter = {
     }
   }
 };
+export const connectorName: msRest.OperationURLParameter = {
+  parameterPath: "connectorName",
+  mapper: {
+    required: true,
+    serializedName: "connectorName",
+    type: {
+      name: "String"
+    }
+  }
+};
 export const deviceSecurityGroupName: msRest.OperationURLParameter = {
   parameterPath: "deviceSecurityGroupName",
   mapper: {
@@ -370,6 +392,46 @@ export const informationProtectionPolicyName: msRest.OperationURLParameter = {
     }
   }
 };
+export const iotAlertId: msRest.OperationURLParameter = {
+  parameterPath: "iotAlertId",
+  mapper: {
+    required: true,
+    serializedName: "iotAlertId",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const iotAlertTypeName: msRest.OperationURLParameter = {
+  parameterPath: "iotAlertTypeName",
+  mapper: {
+    required: true,
+    serializedName: "iotAlertTypeName",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const iotRecommendationId: msRest.OperationURLParameter = {
+  parameterPath: "iotRecommendationId",
+  mapper: {
+    required: true,
+    serializedName: "iotRecommendationId",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const iotRecommendationTypeName: msRest.OperationURLParameter = {
+  parameterPath: "iotRecommendationTypeName",
+  mapper: {
+    required: true,
+    serializedName: "iotRecommendationTypeName",
+    type: {
+      name: "String"
+    }
+  }
+};
 export const jitNetworkAccessPolicyInitiateType: msRest.OperationURLParameter = {
   parameterPath: "jitNetworkAccessPolicyInitiateType",
   mapper: {
@@ -392,6 +454,42 @@ export const jitNetworkAccessPolicyName: msRest.OperationURLParameter = {
     }
   }
 };
+export const limit: msRest.OperationQueryParameter = {
+  parameterPath: [
+    "options",
+    "limit"
+  ],
+  mapper: {
+    serializedName: "$limit",
+    type: {
+      name: "Number"
+    }
+  }
+};
+export const maxStartTimeUtc: msRest.OperationQueryParameter = {
+  parameterPath: [
+    "options",
+    "maxStartTimeUtc"
+  ],
+  mapper: {
+    serializedName: "startTimeUtc<",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const minStartTimeUtc: msRest.OperationQueryParameter = {
+  parameterPath: [
+    "options",
+    "minStartTimeUtc"
+  ],
+  mapper: {
+    serializedName: "startTimeUtc>",
+    type: {
+      name: "String"
+    }
+  }
+};
 export const nextPageLink: msRest.OperationURLParameter = {
   parameterPath: "nextPageLink",
   mapper: {
@@ -408,6 +506,18 @@ export const pricingName: msRest.OperationURLParameter = {
   mapper: {
     required: true,
     serializedName: "pricingName",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const recommendationType: msRest.OperationQueryParameter = {
+  parameterPath: [
+    "options",
+    "recommendationType"
+  ],
+  mapper: {
+    serializedName: "recommendationType",
     type: {
       name: "String"
     }
@@ -466,7 +576,8 @@ export const resourceId: msRest.OperationURLParameter = {
     type: {
       name: "String"
     }
-  }
+  },
+  skipEncoding: true
 };
 export const resourceName: msRest.OperationURLParameter = {
   parameterPath: "resourceName",
@@ -506,7 +617,8 @@ export const scope: msRest.OperationURLParameter = {
     type: {
       name: "String"
     }
-  }
+  },
+  skipEncoding: true
 };
 export const secureScoreName: msRest.OperationURLParameter = {
   parameterPath: "secureScoreName",
@@ -523,6 +635,16 @@ export const securityContactName: msRest.OperationURLParameter = {
   mapper: {
     required: true,
     serializedName: "securityContactName",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const securitySolutionName: msRest.OperationURLParameter = {
+  parameterPath: "securitySolutionName",
+  mapper: {
+    required: true,
+    serializedName: "securitySolutionName",
     type: {
       name: "String"
     }
@@ -569,6 +691,18 @@ export const settingName1: msRest.OperationURLParameter = {
     isConstant: true,
     serializedName: "settingName",
     defaultValue: 'current',
+    type: {
+      name: "String"
+    }
+  }
+};
+export const skipToken: msRest.OperationQueryParameter = {
+  parameterPath: [
+    "options",
+    "skipToken"
+  ],
+  mapper: {
+    serializedName: "$skipToken",
     type: {
       name: "String"
     }

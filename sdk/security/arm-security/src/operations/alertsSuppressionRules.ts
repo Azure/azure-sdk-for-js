@@ -177,7 +177,7 @@ const listOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.apiVersion6,
-    Parameters.alertType
+    Parameters.alertType1
   ],
   headerParameters: [
     Parameters.acceptLanguage

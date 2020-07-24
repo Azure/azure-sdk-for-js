@@ -1400,7 +1400,7 @@ export interface IoTSecuritySolutionModel {
   /**
    * Workspace resource ID
    */
-  workspace: string;
+  workspace?: string;
   /**
    * Resource display name.
    */
@@ -1767,6 +1767,199 @@ export interface IoTSecurityAggregatedRecommendation {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly logAnalyticsQuery?: string;
+}
+
+/**
+ * IoT alert type.
+ */
+export interface IotAlertType extends Resource {
+  /**
+   * The display name of the alert
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly alertDisplayName?: string;
+  /**
+   * The severity of the alert. Possible values include: 'Informational', 'Low', 'Medium', 'High'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly severity?: AlertSeverity;
+  /**
+   * Description of the suspected vulnerability and meaning.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly description?: string;
+  /**
+   * The name of the alert provider or internal partner
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly providerName?: string;
+  /**
+   * The name of the product which published this alert
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly productName?: string;
+  /**
+   * The name of a component inside the product which generated the alert
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly productComponentName?: string;
+  /**
+   * The name of the vendor that raise the alert
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly vendorName?: string;
+  /**
+   * Kill chain related intent behind the alert. Could contain multiple enum values (separated by
+   * commas). Possible values include: 'Unknown', 'PreAttack', 'InitialAccess', 'Persistence',
+   * 'PrivilegeEscalation', 'DefenseEvasion', 'CredentialAccess', 'Discovery', 'LateralMovement',
+   * 'Execution', 'Collection', 'Exfiltration', 'CommandAndControl', 'Impact', 'Probing',
+   * 'Exploitation'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly intent?: AlertIntent;
+  /**
+   * Manual action items to take to remediate the alert
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly remediationSteps?: string[];
+}
+
+/**
+ * List of alert types
+ */
+export interface IotAlertTypeList {
+  /**
+   * List data
+   */
+  value?: IotAlertType[];
+}
+
+/**
+ * IoT alert
+ */
+export interface IotAlert {
+  /**
+   * Holds the product canonical identifier of the alert within the scope of a product
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly systemAlertId?: string;
+  /**
+   * Display name of the main entity being reported on
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly compromisedEntity?: string;
+  /**
+   * The type name of the alert
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly alertType?: string;
+  /**
+   * The impact start time of the alert (the time of the first event or activity included in the
+   * alert)
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly startTimeUtc?: string;
+  /**
+   * The impact end time of the alert (the time of the last event or activity included in the
+   * alert)
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly endTimeUtc?: string;
+  /**
+   * A list of entities related to the alert
+   */
+  entities?: any[];
+  /**
+   * A bag of fields which extends the alert information
+   */
+  extendedProperties?: any;
+}
+
+/**
+ * IoT recommendation type.
+ */
+export interface IotRecommendationType extends Resource {
+  /**
+   * The display name of the recommendation
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly recommendationDisplayName?: string;
+  /**
+   * The severity of the recommendation. Possible values include: 'Unknown', 'NotApplicable',
+   * 'Healthy', 'OffByPolicy', 'Low', 'Medium', 'High'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly severity?: RecommendationSeverity;
+  /**
+   * Description of the suspected vulnerability and meaning.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly description?: string;
+  /**
+   * The name of the product which published this recommendation
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly productName?: string;
+  /**
+   * The name of a component inside the product which generated the recommendation
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly productComponentName?: string;
+  /**
+   * The name of the vendor that raised the recommendation
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly vendorName?: string;
+  /**
+   * The name of the recommendation's control category
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly control?: string;
+  /**
+   * Manual action items to take to resolve the recommendation
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly remediationSteps?: string[];
+  /**
+   * The alert's data source
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly dataSource?: string;
+}
+
+/**
+ * List of recommendation types
+ */
+export interface IotRecommendationTypeList {
+  /**
+   * List data
+   */
+  value?: IotRecommendationType[];
+}
+
+/**
+ * IoT recommendation
+ */
+export interface IotRecommendation extends Resource {
+  /**
+   * Identifier of the device being reported on
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly deviceId?: string;
+  /**
+   * The type name of the recommendation
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly recommendationType?: string;
+  /**
+   * The discovery time of the recommendation
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly discoveredTimeUtc?: string;
+  /**
+   * A bag of fields which extends the recommendation information
+   */
+  recommendationAdditionalData?: any;
 }
 
 /**
@@ -2163,25 +2356,6 @@ export interface RegulatoryComplianceAssessment extends Resource {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly unsupportedResources?: number;
-}
-
-/**
- * Describes the server vulnerability assessment details on a resource
- */
-export interface ServerVulnerabilityAssessment extends Resource {
-  /**
-   * The provisioningState of the vulnerability assessment capability on the VM. Possible values
-   * include: 'Succeeded', 'Failed', 'Canceled', 'Provisioning', 'Deprovisioning'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly provisioningState?: ProvisioningState;
-}
-
-/**
- * List of server vulnerability assessments
- */
-export interface ServerVulnerabilityAssessmentsList {
-  value?: ServerVulnerabilityAssessment[];
 }
 
 /**
@@ -2732,6 +2906,25 @@ export interface AlertsSuppressionRule extends Resource {
 }
 
 /**
+ * Describes the server vulnerability assessment details on a resource
+ */
+export interface ServerVulnerabilityAssessment extends Resource {
+  /**
+   * The provisioningState of the vulnerability assessment capability on the VM. Possible values
+   * include: 'Succeeded', 'Failed', 'Canceled', 'Provisioning', 'Deprovisioning'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly provisioningState?: ProvisioningState1;
+}
+
+/**
+ * List of server vulnerability assessments
+ */
+export interface ServerVulnerabilityAssessmentsList {
+  value?: ServerVulnerabilityAssessment[];
+}
+
+/**
  * Describes the partner that created the assessment
  */
 export interface SecurityAssessmentMetadataPartnerData {
@@ -2935,9 +3128,9 @@ export interface ProtectionMode {
 }
 
 /**
- * Represents a summary of the alerts of the VM/server group
+ * Represents a summary of the alerts of the machine group
  */
-export interface AppWhitelistingIssueSummary {
+export interface AdaptiveApplicationControlIssueSummary {
   /**
    * Possible values include: 'ViolationsAudited', 'ViolationsBlocked',
    * 'MsiAndScriptViolationsAudited', 'MsiAndScriptViolationsBlocked',
@@ -2945,13 +3138,13 @@ export interface AppWhitelistingIssueSummary {
    */
   issue?: Issue;
   /**
-   * The number of machines in the VM/server group that have this alert
+   * The number of machines in the group that have this alert
    */
   numberOfVms?: number;
 }
 
 /**
- * Represents a machine that is part of a VM/server group
+ * Represents a machine that is part of a machine group
  */
 export interface VmRecommendation {
   /**
@@ -3011,7 +3204,7 @@ export interface UserRecommendation {
  */
 export interface PathRecommendation {
   /**
-   * The full path to whitelist
+   * The full path of the file, or an identifier of the application
    */
   path?: string;
   /**
@@ -3025,7 +3218,7 @@ export interface PathRecommendation {
   type?: Type;
   publisherInfo?: PublisherInfo;
   /**
-   * Whether the path is commonly run on the machine
+   * Whether the application is commonly run on the machine
    */
   common?: boolean;
   userSids?: string[];
@@ -3041,9 +3234,9 @@ export interface PathRecommendation {
 }
 
 /**
- * An interface representing AppWhitelistingGroup.
+ * An interface representing AdaptiveApplicationControlGroup.
  */
-export interface AppWhitelistingGroup {
+export interface AdaptiveApplicationControlGroup {
   /**
    * Resource Id
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -3082,7 +3275,7 @@ export interface AppWhitelistingGroup {
   /**
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly issues?: AppWhitelistingIssueSummary[];
+  readonly issues?: AdaptiveApplicationControlIssueSummary[];
   /**
    * Possible values include: 'Azure_AppLocker', 'Azure_AuditD', 'NonAzure_AppLocker',
    * 'NonAzure_AuditD', 'None'
@@ -3094,11 +3287,11 @@ export interface AppWhitelistingGroup {
 }
 
 /**
- * Represents a list of VM/server groups and set of rules that are Recommended by Azure Security
+ * Represents a list of machine groups and set of rules that are recommended by Azure Security
  * Center to be allowed
  */
-export interface AppWhitelistingGroups {
-  value?: AppWhitelistingGroup[];
+export interface AdaptiveApplicationControlGroups {
+  value?: AdaptiveApplicationControlGroup[];
 }
 
 /**
@@ -3596,6 +3789,68 @@ export interface DiscoveredSecuritySolution {
 }
 
 /**
+ * An interface representing SecuritySolutionsReferenceData.
+ */
+export interface SecuritySolutionsReferenceData {
+  /**
+   * Resource Id
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly id?: string;
+  /**
+   * Resource name
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * Resource type
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: string;
+  /**
+   * Location where the resource is stored
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly location?: string;
+  /**
+   * The security family of the security solution. Possible values include: 'Waf', 'Ngfw',
+   * 'SaasWaf', 'Va'
+   */
+  securityFamily: SecurityFamily;
+  /**
+   * The security solutions' vendor name
+   */
+  alertVendorName: string;
+  /**
+   * The security solutions' package info url
+   */
+  packageInfoUrl: string;
+  /**
+   * The security solutions' product name
+   */
+  productName: string;
+  /**
+   * The security solutions' publisher
+   */
+  publisher: string;
+  /**
+   * The security solutions' publisher display name
+   */
+  publisherDisplayName: string;
+  /**
+   * The security solutions' template
+   */
+  template: string;
+}
+
+/**
+ * An interface representing SecuritySolutionsReferenceDataList.
+ */
+export interface SecuritySolutionsReferenceDataList {
+  value?: SecuritySolutionsReferenceData[];
+}
+
+/**
  * Contains the possible cases for ExternalSecuritySolution.
  */
 export type ExternalSecuritySolutionUnion = ExternalSecuritySolution | CefExternalSecuritySolution | AtaExternalSecuritySolution | AadExternalSecuritySolution;
@@ -3807,17 +4062,17 @@ export interface AadConnectivityState1 {
  */
 export interface SecureScoreItem extends Resource {
   /**
-   * User friendly display name of the secure score item
+   * The initiative’s name
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly displayName?: string;
   /**
-   * Maximum score applicable
+   * Maximum score available
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly max?: number;
   /**
-   * Actual score
+   * Current score
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly current?: number;
@@ -3841,13 +4096,12 @@ export interface SecureScoreControlScore {
 }
 
 /**
- * representing the source of the control
+ * The type of the security control (For example, BuiltIn)
  */
 export interface SecureScoreControlDefinitionSource {
   /**
-   * BuiltIn if the control is built-in from Azure Security Center managed assessments, Custom
-   * (Future) if the assessment based on custom Azure Policy definition, CustomerManaged (future)
-   * for customers who build their own controls. Possible values include: 'BuiltIn', 'Custom'
+   * The type of security control (for example, BuiltIn). Possible values include: 'BuiltIn',
+   * 'Custom'
    */
   sourceType?: ControlType;
 }
@@ -3864,7 +4118,7 @@ export interface AzureResourceLink {
 }
 
 /**
- * Secure Score Control's Definition information
+ * Information about the security control.
  */
 export interface SecureScoreControlDefinitionItem extends Resource {
   /**
@@ -3888,14 +4142,14 @@ export interface SecureScoreControlDefinitionItem extends Resource {
    */
   readonly source?: SecureScoreControlDefinitionSource;
   /**
-   * array of assessments metadata IDs that are included in this control
+   * Array of assessments metadata IDs that are included in this security control
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly assessmentDefinitions?: AzureResourceLink[];
 }
 
 /**
- * Secure score control (calculated) object
+ * Details of the security control, its score, and the health status of the relevant resources.
  */
 export interface SecureScoreControlDetails extends Resource {
   /**
@@ -3904,12 +4158,12 @@ export interface SecureScoreControlDetails extends Resource {
    */
   readonly displayName?: string;
   /**
-   * Maximum score applicable
+   * Maximum score available
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly max?: number;
   /**
-   * Actual score
+   * Current score
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly current?: number;
@@ -3929,6 +4183,296 @@ export interface SecureScoreControlDetails extends Resource {
    */
   readonly notApplicableResourceCount?: number;
   definition?: SecureScoreControlDefinitionItem;
+}
+
+/**
+ * An interface representing SecuritySolution.
+ */
+export interface SecuritySolution {
+  /**
+   * Resource Id
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly id?: string;
+  /**
+   * Resource name
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * Resource type
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: string;
+  /**
+   * Location where the resource is stored
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly location?: string;
+  /**
+   * The security family of the security solution. Possible values include: 'Waf', 'Ngfw',
+   * 'SaasWaf', 'Va'
+   */
+  securityFamily: SecurityFamily;
+  /**
+   * The security family provisioning State. Possible values include: 'Succeeded', 'Failed',
+   * 'Updating'
+   */
+  provisioningState: ProvisioningState;
+  /**
+   * The security solutions' template
+   */
+  template: string;
+  /**
+   * The security solutions' status
+   */
+  protectionStatus: string;
+}
+
+/**
+ * For a non-Azure machine that is not connected directly to the internet, specify a proxy server
+ * that the non-Azure machine can use.
+ */
+export interface ProxyServerProperties {
+  /**
+   * Proxy server IP
+   */
+  ip?: string;
+  /**
+   * Proxy server port
+   */
+  port?: string;
+}
+
+/**
+ * Details of the service principal.
+ */
+export interface ServicePrincipalProperties {
+  /**
+   * Application id of service principal.
+   */
+  applicationId?: string;
+  /**
+   * A secret string that the application uses to prove its identity, also can be referred to as
+   * application password (write only).
+   */
+  secret?: string;
+}
+
+/**
+ * Settings for hybrid compute management
+ */
+export interface HybridComputeSettingsProperties {
+  /**
+   * State of the service principal and its secret. Possible values include: 'Valid', 'Invalid',
+   * 'Expired'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly hybridComputeProvisioningState?: HybridComputeProvisioningState;
+  /**
+   * Whether or not to automatically install Azure Arc (hybrid compute) agents on machines.
+   * Possible values include: 'On', 'Off'
+   */
+  autoProvision: AutoProvision;
+  /**
+   * The name of the resource group where Arc (Hybrid Compute) connectors are connected.
+   */
+  resourceGroupName?: string;
+  /**
+   * The location where the meta data of machines will be stored
+   */
+  region?: string;
+  /**
+   * For a non-Azure machine that is not connected directly to the internet, specify a proxy server
+   * that the non-Azure machine can use.
+   */
+  proxyServer?: ProxyServerProperties;
+  /**
+   * An object to access resources that are secured by an Azure AD tenant.
+   */
+  servicePrincipal?: ServicePrincipalProperties;
+}
+
+/**
+ * Contains the possible cases for AuthenticationDetailsProperties.
+ */
+export type AuthenticationDetailsPropertiesUnion = AuthenticationDetailsProperties | AwsCredsAuthenticationDetailsProperties | AwAssumeRoleAuthenticationDetailsProperties | GcpCredentialsDetailsProperties;
+
+/**
+ * Settings for cloud authentication management
+ */
+export interface AuthenticationDetailsProperties {
+  /**
+   * Polymorphic Discriminator
+   */
+  authenticationType: "AuthenticationDetailsProperties";
+  /**
+   * State of the multi-cloud connector. Possible values include: 'Valid', 'Invalid', 'Expired',
+   * 'IncorrectPolicy'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly authenticationProvisioningState?: AuthenticationProvisioningState;
+  /**
+   * The permissions detected in the cloud account.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly grantedPermissions?: PermissionProperty[];
+}
+
+/**
+ * The connector setting
+ */
+export interface ConnectorSetting extends Resource {
+  /**
+   * Settings for hybrid compute management, these settings are relevant only Arc autoProvision
+   * (Hybrid Compute).
+   */
+  hybridComputeSettings?: HybridComputeSettingsProperties;
+  /**
+   * Settings for authentication management, these settings are relevant only for the cloud
+   * connector.
+   */
+  authenticationDetails?: AuthenticationDetailsPropertiesUnion;
+}
+
+/**
+ * AWS cloud account connector based credentials, the credentials is composed of access key id and
+ * secret key, for more details, refer to <a
+ * href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_users_create.html">Creating an IAM
+ * User in Your AWS Account (write only)</a>
+ */
+export interface AwsCredsAuthenticationDetailsProperties {
+  /**
+   * Polymorphic Discriminator
+   */
+  authenticationType: "awsCreds";
+  /**
+   * State of the multi-cloud connector. Possible values include: 'Valid', 'Invalid', 'Expired',
+   * 'IncorrectPolicy'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly authenticationProvisioningState?: AuthenticationProvisioningState;
+  /**
+   * The permissions detected in the cloud account.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly grantedPermissions?: PermissionProperty[];
+  /**
+   * The ID of the cloud account
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly accountId?: string;
+  /**
+   * Public key element of the AWS credential object (write only)
+   */
+  awsAccessKeyId: string;
+  /**
+   * Secret key element of the AWS credential object (write only)
+   */
+  awsSecretAccessKey: string;
+}
+
+/**
+ * AWS cloud account connector based assume role, the role enables delegating access to your AWS
+ * resources. The role is composed of role arn and external id, for more details, refer to <a
+ * href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles_create_for-user.html">Creating a
+ * Role to Delegate Permissions to an IAM User (write only)</a>
+ */
+export interface AwAssumeRoleAuthenticationDetailsProperties {
+  /**
+   * Polymorphic Discriminator
+   */
+  authenticationType: "awsAssumeRole";
+  /**
+   * State of the multi-cloud connector. Possible values include: 'Valid', 'Invalid', 'Expired',
+   * 'IncorrectPolicy'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly authenticationProvisioningState?: AuthenticationProvisioningState;
+  /**
+   * The permissions detected in the cloud account.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly grantedPermissions?: PermissionProperty[];
+  /**
+   * The ID of the cloud account
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly accountId?: string;
+  /**
+   * Assumed role ID is an identifier that you can use to create temporary security credentials.
+   */
+  awsAssumeRoleArn: string;
+  /**
+   * A unique identifier that is required when you assume a role in another account.
+   */
+  awsExternalId: string;
+}
+
+/**
+ * GCP cloud account connector based service to service credentials, the credentials is composed of
+ * organization id and json api key (write only)</a>
+ */
+export interface GcpCredentialsDetailsProperties {
+  /**
+   * Polymorphic Discriminator
+   */
+  authenticationType: "gcpCredentials";
+  /**
+   * State of the multi-cloud connector. Possible values include: 'Valid', 'Invalid', 'Expired',
+   * 'IncorrectPolicy'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly authenticationProvisioningState?: AuthenticationProvisioningState;
+  /**
+   * The permissions detected in the cloud account.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly grantedPermissions?: PermissionProperty[];
+  /**
+   * The Organization ID of the GCP cloud account
+   */
+  organizationId: string;
+  /**
+   * Type field of the API key (write only)
+   */
+  type: string;
+  /**
+   * Project Id field of the API key (write only)
+   */
+  projectId: string;
+  /**
+   * Private key Id field of the API key (write only)
+   */
+  privateKeyId: string;
+  /**
+   * Private key field of the API key (write only)
+   */
+  privateKey: string;
+  /**
+   * Client email field of the API key (write only)
+   */
+  clientEmail: string;
+  /**
+   * Client Id field of the API key (write only)
+   */
+  clientId: string;
+  /**
+   * Auth Uri field of the API key (write only)
+   */
+  authUri: string;
+  /**
+   * Token Uri field of the API key (write only)
+   */
+  tokenUri: string;
+  /**
+   * Auth provider x509 certificate url field of the API key (write only)
+   */
+  authProviderX509CertUrl: string;
+  /**
+   * Client x509 certificate url field of the API key (write only)
+   */
+  clientX509CertUrl: string;
 }
 
 /**
@@ -4065,6 +4609,50 @@ export interface IotSecuritySolutionsAnalyticsRecommendationListOptionalParams e
    * Number of results to retrieve.
    */
   top?: number;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface IotAlertsListOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * Filter by minimum startTimeUtc (ISO 8601 format)
+   */
+  minStartTimeUtc?: string;
+  /**
+   * Filter by maximum startTimeUtc (ISO 8601 format)
+   */
+  maxStartTimeUtc?: string;
+  /**
+   * Filter by alert type
+   */
+  alertType?: string;
+  /**
+   * Limit the number of items returned in a single page
+   */
+  limit?: number;
+  /**
+   * Skip token used for pagination
+   */
+  skipToken?: string;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface IotRecommendationsListOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * Filter by recommendation type
+   */
+  recommendationType?: string;
+  /**
+   * Limit the number of items returned in a single page
+   */
+  limit?: number;
+  /**
+   * Skip token used for pagination
+   */
+  skipToken?: string;
 }
 
 /**
@@ -4277,6 +4865,43 @@ export interface IoTSecurityAggregatedRecommendationList extends Array<IoTSecuri
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly nextLink?: string;
+}
+
+/**
+ * @interface
+ * List of IoT alerts
+ * @extends Array<IotAlert>
+ */
+export interface IotAlertList extends Array<IotAlert> {
+  /**
+   * When available, follow the URI to get the next page of data
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly nextLink?: string;
+  /**
+   * Total count of alerts that conforms with the given filter options (not affected by page size)
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly totalCount?: number;
+}
+
+/**
+ * @interface
+ * List of IoT recommendations
+ * @extends Array<IotRecommendation>
+ */
+export interface IotRecommendationList extends Array<IotRecommendation> {
+  /**
+   * When available, follow the URI to get the next page of data
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly nextLink?: string;
+  /**
+   * Total count of recommendations that conforms with the given filter options (not affected by
+   * page size)
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly totalCount?: number;
 }
 
 /**
@@ -4566,7 +5191,7 @@ export interface ExternalSecuritySolutionList extends Array<ExternalSecuritySolu
 
 /**
  * @interface
- * Page of a secure scores list
+ * List of secure scores
  * @extends Array<SecureScoreItem>
  */
 export interface SecureScoresList extends Array<SecureScoreItem> {
@@ -4579,7 +5204,7 @@ export interface SecureScoresList extends Array<SecureScoreItem> {
 
 /**
  * @interface
- * Page of a secure score controls list
+ * List of security controls
  * @extends Array<SecureScoreControlDetails>
  */
 export interface SecureScoreControlList extends Array<SecureScoreControlDetails> {
@@ -4592,10 +5217,36 @@ export interface SecureScoreControlList extends Array<SecureScoreControlDetails>
 
 /**
  * @interface
- * Page of a secure score controls definition list
+ * List of security controls definition
  * @extends Array<SecureScoreControlDefinitionItem>
  */
 export interface SecureScoreControlDefinitionList extends Array<SecureScoreControlDefinitionItem> {
+  /**
+   * The URI to fetch the next page.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
+ * @interface
+ * An interface representing the SecuritySolutionList.
+ * @extends Array<SecuritySolution>
+ */
+export interface SecuritySolutionList extends Array<SecuritySolution> {
+  /**
+   * The URI to fetch the next page.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
+ * @interface
+ * For a subscription, list of all cloud account connectors and their settings
+ * @extends Array<ConnectorSetting>
+ */
+export interface ConnectorSettingList extends Array<ConnectorSetting> {
   /**
    * The URI to fetch the next page.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -4687,6 +5338,34 @@ export type RecommendationConfigStatus = 'Disabled' | 'Enabled';
  * @enum {string}
  */
 export type UnmaskedIpLoggingStatus = 'Disabled' | 'Enabled';
+
+/**
+ * Defines values for AlertSeverity.
+ * Possible values include: 'Informational', 'Low', 'Medium', 'High'
+ * @readonly
+ * @enum {string}
+ */
+export type AlertSeverity = 'Informational' | 'Low' | 'Medium' | 'High';
+
+/**
+ * Defines values for AlertIntent.
+ * Possible values include: 'Unknown', 'PreAttack', 'InitialAccess', 'Persistence',
+ * 'PrivilegeEscalation', 'DefenseEvasion', 'CredentialAccess', 'Discovery', 'LateralMovement',
+ * 'Execution', 'Collection', 'Exfiltration', 'CommandAndControl', 'Impact', 'Probing',
+ * 'Exploitation'
+ * @readonly
+ * @enum {string}
+ */
+export type AlertIntent = 'Unknown' | 'PreAttack' | 'InitialAccess' | 'Persistence' | 'PrivilegeEscalation' | 'DefenseEvasion' | 'CredentialAccess' | 'Discovery' | 'LateralMovement' | 'Execution' | 'Collection' | 'Exfiltration' | 'CommandAndControl' | 'Impact' | 'Probing' | 'Exploitation';
+
+/**
+ * Defines values for RecommendationSeverity.
+ * Possible values include: 'Unknown', 'NotApplicable', 'Healthy', 'OffByPolicy', 'Low', 'Medium',
+ * 'High'
+ * @readonly
+ * @enum {string}
+ */
+export type RecommendationSeverity = 'Unknown' | 'NotApplicable' | 'Healthy' | 'OffByPolicy' | 'Low' | 'Medium' | 'High';
 
 /**
  * Defines values for AutoProvision.
@@ -4900,6 +5579,39 @@ export type ExternalSecuritySolutionKind = 'CEF' | 'ATA' | 'AAD';
 export type ControlType = 'BuiltIn' | 'Custom';
 
 /**
+ * Defines values for ProvisioningState.
+ * Possible values include: 'Succeeded', 'Failed', 'Updating'
+ * @readonly
+ * @enum {string}
+ */
+export type ProvisioningState = 'Succeeded' | 'Failed' | 'Updating';
+
+/**
+ * Defines values for HybridComputeProvisioningState.
+ * Possible values include: 'Valid', 'Invalid', 'Expired'
+ * @readonly
+ * @enum {string}
+ */
+export type HybridComputeProvisioningState = 'Valid' | 'Invalid' | 'Expired';
+
+/**
+ * Defines values for AuthenticationProvisioningState.
+ * Possible values include: 'Valid', 'Invalid', 'Expired', 'IncorrectPolicy'
+ * @readonly
+ * @enum {string}
+ */
+export type AuthenticationProvisioningState = 'Valid' | 'Invalid' | 'Expired' | 'IncorrectPolicy';
+
+/**
+ * Defines values for PermissionProperty.
+ * Possible values include: 'AWS::AWSSecurityHubReadOnlyAccess', 'AWS::SecurityAudit',
+ * 'AWS::AmazonSSMAutomationRole', 'GCP::Security Center Admin Viewer'
+ * @readonly
+ * @enum {string}
+ */
+export type PermissionProperty = 'AWS::AWSSecurityHubReadOnlyAccess' | 'AWS::SecurityAudit' | 'AWS::AmazonSSMAutomationRole' | 'GCP::Security Center Admin Viewer';
+
+/**
  * Defines values for ExpandEnum.
  * Possible values include: 'links', 'metadata'
  * @readonly
@@ -4924,12 +5636,12 @@ export type ConnectionType = 'Internal' | 'External';
 export type ExpandControlsEnum = 'definition';
 
 /**
- * Defines values for ProvisioningState.
+ * Defines values for ProvisioningState1.
  * Possible values include: 'Succeeded', 'Failed', 'Canceled', 'Provisioning', 'Deprovisioning'
  * @readonly
  * @enum {string}
  */
-export type ProvisioningState = 'Succeeded' | 'Failed' | 'Canceled' | 'Provisioning' | 'Deprovisioning';
+export type ProvisioningState1 = 'Succeeded' | 'Failed' | 'Canceled' | 'Provisioning' | 'Deprovisioning';
 
 /**
  * Defines values for Exe.
@@ -5942,6 +6654,206 @@ export type IotSecuritySolutionsAnalyticsRecommendationListNextResponse = IoTSec
 /**
  * Contains response data for the list operation.
  */
+export type IotAlertTypesListResponse = IotAlertTypeList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: IotAlertTypeList;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type IotAlertTypesGetResponse = IotAlertType & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: IotAlertType;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type IotAlertsListResponse = IotAlertList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: IotAlertList;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type IotAlertsGetResponse = IotAlert & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: IotAlert;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type IotAlertsListNextResponse = IotAlertList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: IotAlertList;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type IotRecommendationTypesListResponse = IotRecommendationTypeList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: IotRecommendationTypeList;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type IotRecommendationTypesGetResponse = IotRecommendationType & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: IotRecommendationType;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type IotRecommendationsListResponse = IotRecommendationList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: IotRecommendationList;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type IotRecommendationsGetResponse = IotRecommendation & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: IotRecommendation;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type IotRecommendationsListNextResponse = IotRecommendationList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: IotRecommendationList;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
 export type LocationsListResponse = AscLocationList & {
   /**
    * The underlying HTTP response.
@@ -6800,66 +7712,6 @@ export type RegulatoryComplianceAssessmentsListNextResponse = RegulatoryComplian
 };
 
 /**
- * Contains response data for the listByExtendedResource operation.
- */
-export type ServerVulnerabilityAssessmentListByExtendedResourceResponse = ServerVulnerabilityAssessmentsList & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ServerVulnerabilityAssessmentsList;
-    };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type ServerVulnerabilityAssessmentGetResponse = ServerVulnerabilityAssessment & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ServerVulnerabilityAssessment;
-    };
-};
-
-/**
- * Contains response data for the createOrUpdate operation.
- */
-export type ServerVulnerabilityAssessmentCreateOrUpdateResponse = ServerVulnerabilityAssessment & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ServerVulnerabilityAssessment;
-    };
-};
-
-/**
  * Contains response data for the listAll operation.
  */
 export type SubAssessmentsListAllResponse = SecuritySubAssessmentList & {
@@ -7180,6 +8032,66 @@ export type AlertsSuppressionRulesListNextResponse = AlertsSuppressionRulesList 
 };
 
 /**
+ * Contains response data for the listByExtendedResource operation.
+ */
+export type ServerVulnerabilityAssessmentListByExtendedResourceResponse = ServerVulnerabilityAssessmentsList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ServerVulnerabilityAssessmentsList;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type ServerVulnerabilityAssessmentGetResponse = ServerVulnerabilityAssessment & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ServerVulnerabilityAssessment;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type ServerVulnerabilityAssessmentCreateOrUpdateResponse = ServerVulnerabilityAssessment & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ServerVulnerabilityAssessment;
+    };
+};
+
+/**
  * Contains response data for the list operation.
  */
 export type AssessmentsMetadataListResponse = SecurityAssessmentMetadataList & {
@@ -7402,7 +8314,7 @@ export type AssessmentsListNextResponse = SecurityAssessmentList & {
 /**
  * Contains response data for the list operation.
  */
-export type AdaptiveApplicationControlsListResponse = AppWhitelistingGroups & {
+export type AdaptiveApplicationControlsListResponse = AdaptiveApplicationControlGroups & {
   /**
    * The underlying HTTP response.
    */
@@ -7415,14 +8327,14 @@ export type AdaptiveApplicationControlsListResponse = AppWhitelistingGroups & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: AppWhitelistingGroups;
+      parsedBody: AdaptiveApplicationControlGroups;
     };
 };
 
 /**
  * Contains response data for the get operation.
  */
-export type AdaptiveApplicationControlsGetResponse = AppWhitelistingGroup & {
+export type AdaptiveApplicationControlsGetResponse = AdaptiveApplicationControlGroup & {
   /**
    * The underlying HTTP response.
    */
@@ -7435,14 +8347,14 @@ export type AdaptiveApplicationControlsGetResponse = AppWhitelistingGroup & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: AppWhitelistingGroup;
+      parsedBody: AdaptiveApplicationControlGroup;
     };
 };
 
 /**
  * Contains response data for the put operation.
  */
-export type AdaptiveApplicationControlsPutResponse = AppWhitelistingGroup & {
+export type AdaptiveApplicationControlsPutResponse = AdaptiveApplicationControlGroup & {
   /**
    * The underlying HTTP response.
    */
@@ -7455,7 +8367,7 @@ export type AdaptiveApplicationControlsPutResponse = AppWhitelistingGroup & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: AppWhitelistingGroup;
+      parsedBody: AdaptiveApplicationControlGroup;
     };
 };
 
@@ -8042,6 +8954,46 @@ export type DiscoveredSecuritySolutionsListByHomeRegionNextResponse = Discovered
 /**
  * Contains response data for the list operation.
  */
+export type SecuritySolutionsReferenceDataListResponse = SecuritySolutionsReferenceDataList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SecuritySolutionsReferenceDataList;
+    };
+};
+
+/**
+ * Contains response data for the listByHomeRegion operation.
+ */
+export type SecuritySolutionsReferenceDataListByHomeRegionResponse = SecuritySolutionsReferenceDataList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SecuritySolutionsReferenceDataList;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
 export type ExternalSecuritySolutionsListResponse = ExternalSecuritySolutionList & {
   /**
    * The underlying HTTP response.
@@ -8356,5 +9308,145 @@ export type SecureScoreControlDefinitionsListBySubscriptionNextResponse = Secure
        * The response body as parsed JSON or XML
        */
       parsedBody: SecureScoreControlDefinitionList;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type SecuritySolutionsListResponse = SecuritySolutionList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SecuritySolutionList;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type SecuritySolutionsGetResponse = SecuritySolution & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SecuritySolution;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type SecuritySolutionsListNextResponse = SecuritySolutionList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SecuritySolutionList;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type ConnectorsListResponse = ConnectorSettingList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ConnectorSettingList;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type ConnectorsGetResponse = ConnectorSetting & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ConnectorSetting;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type ConnectorsCreateOrUpdateResponse = ConnectorSetting & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ConnectorSetting;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type ConnectorsListNextResponse = ConnectorSettingList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ConnectorSettingList;
     };
 };
