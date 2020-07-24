@@ -69,4 +69,4 @@ export {
 } from "./serviceBusMessage";
 export { ServiceBusMessageBatch } from "./serviceBusMessageBatch";
 export { SessionMessageHandlerOptions, SessionReceiverOptions } from "./session/messageSession";
-export { AuthorizationRule, EntityStatus, MessageCountDetails } from "./util/utils";
+export { AuthorizationRule, EntityStatus } from "./util/utils";

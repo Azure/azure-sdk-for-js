@@ -107,19 +107,14 @@ export function browserConfig(test = false) {
           "if (isNode)": "if (false)"
         }
       ),
-
-      // dotenv, path, and os don't work in the browser, so replace it with a no-op function
-      shim({
-        fs: `export default {}`,
-        dotenv: `export function config() { }`,
-        os: `
-          export function arch() { return "javascript" }
-          export function type() { return "Browser" }
-          export function release() { return typeof navigator === 'undefined' ? '' : navigator.appVersion }
-        `,
-        path: `export default {}`
-      }),
-
+      ...(!test
+        ? []
+        : [
+            shim({
+              // dotenv doesn't work in the browser, so replace it with a no-op function
+              dotenv: `export function config() { }`
+            })
+          ]),
       nodeResolve({
         mainFields: ["module", "browser"],
         preferBuiltins: false
@@ -127,7 +122,6 @@ export function browserConfig(test = false) {
 
       cjs({
         namedExports: {
-          events: ["EventEmitter"],
           "@opentelemetry/api": ["CanonicalCode", "SpanKind", "TraceFlags"]
         }
       }),
