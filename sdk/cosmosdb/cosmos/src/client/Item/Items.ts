@@ -39,7 +39,7 @@ export class Items {
   constructor(
     public readonly container: Container,
     private readonly clientContext: ClientContext
-  ) { }
+  ) {}
 
   /**
    * Queries all items.
