@@ -79,6 +79,11 @@ function SetEnvironmentVariable {
   }
 }
 
+Write-Verbose "Setting AAD environment variables for Test Application..."
+SetEnvironmentVariable -Name AZURE_CLIENT_ID -Value $TestApplicationId
+SetEnvironmentVariable -Name AZURE_CLIENT_SECRET -Value $TestApplicationSecret
+SetEnvironmentVariable -Name AZURE_TENANT_ID -Value $TenantId
+
 $repoRoot = Resolve-Path -Path "$PSScriptRoot../../../"
 
 Write-Verbose "Detecting samples..."
