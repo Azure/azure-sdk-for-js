@@ -23,7 +23,7 @@ describe("LeaseClient from Container", () => {
 
   afterEach(async function() {
     await containerClient.delete();
-    recorder.stop();
+    await recorder.stop();
   });
 
   it("acquireLease", async () => {
@@ -161,7 +161,7 @@ describe("LeaseClient from Blob", () => {
 
   afterEach(async function() {
     await containerClient.delete();
-    recorder.stop();
+    await recorder.stop();
   });
 
   it("acquireLease", async () => {

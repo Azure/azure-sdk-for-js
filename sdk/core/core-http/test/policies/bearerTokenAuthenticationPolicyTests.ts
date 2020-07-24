@@ -79,7 +79,10 @@ describe("BearerTokenAuthenticationPolicy", function() {
     return request;
   }
 
-  function createBearerTokenPolicy(scopes: string | string[], credential: TokenCredential) {
+  function createBearerTokenPolicy(
+    scopes: string | string[],
+    credential: TokenCredential
+  ): BearerTokenAuthenticationPolicy {
     return new BearerTokenAuthenticationPolicy(
       mockPolicy,
       new RequestPolicyOptions(),

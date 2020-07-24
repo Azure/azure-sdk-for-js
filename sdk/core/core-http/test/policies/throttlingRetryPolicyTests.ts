@@ -33,7 +33,7 @@ describe("ThrottlingRetryPolicy", () => {
       httpRequest: WebResource,
       response: HttpOperationResponse
     ) => Promise<HttpOperationResponse>
-  ) {
+  ): ThrottlingRetryPolicy {
     if (!response) {
       response = defaultResponse;
     }

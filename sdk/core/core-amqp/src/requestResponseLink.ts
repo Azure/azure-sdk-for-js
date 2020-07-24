@@ -235,8 +235,8 @@ export class RequestResponseLink implements ReqResLink {
    * @returns {Promise<void>} Promise<void>
    */
   async close(): Promise<void> {
-    await this.sender.close();
-    await this.receiver.close();
+    await this.sender.close({ closeSession: false });
+    await this.receiver.close({ closeSession: false });
     await this.session.close();
   }
 

@@ -1,0 +1,127 @@
+{
+ "recordings": [
+  {
+   "method": "PUT",
+   "url": "https://fakestorageaccount.file.core.windows.net/share158978112763200734",
+   "query": {
+    "restype": "share"
+   },
+   "requestBody": null,
+   "status": 201,
+   "response": "",
+   "responseHeaders": {
+    "content-length": "0",
+    "date": "Mon, 18 May 2020 05:52:05 GMT",
+    "etag": "\"0x8D7FAEF98ABBCA7\"",
+    "last-modified": "Mon, 18 May 2020 05:52:06 GMT",
+    "server": "Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0",
+    "x-ms-client-request-id": "3184ab5a-c2fe-4379-bcbd-5de9335e85ec",
+    "x-ms-request-id": "a9f6a5e9-601a-0048-09d8-2cbf38000000",
+    "x-ms-version": "2019-07-07"
+   }
+  },
+  {
+   "method": "PUT",
+   "url": "https://fakestorageaccount.file.core.windows.net/share158978112763200734/dir158978112820509613",
+   "query": {
+    "restype": "directory"
+   },
+   "requestBody": null,
+   "status": 201,
+   "response": "",
+   "responseHeaders": {
+    "content-length": "0",
+    "date": "Mon, 18 May 2020 05:52:05 GMT",
+    "etag": "\"0x8D7FAEF99046415\"",
+    "last-modified": "Mon, 18 May 2020 05:52:06 GMT",
+    "server": "Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0",
+    "x-ms-client-request-id": "b7646bcd-195d-4147-aaa2-6bedd208bb01",
+    "x-ms-file-attributes": "Directory",
+    "x-ms-file-change-time": "2020-05-18T05:52:06.7544085Z",
+    "x-ms-file-creation-time": "2020-05-18T05:52:06.7544085Z",
+    "x-ms-file-id": "13835128424026341376",
+    "x-ms-file-last-write-time": "2020-05-18T05:52:06.7544085Z",
+    "x-ms-file-parent-id": "0",
+    "x-ms-file-permission-key": "15783046271365971681*12957844477200427368",
+    "x-ms-request-id": "a9f6a5ed-601a-0048-0bd8-2cbf38000000",
+    "x-ms-request-server-encrypted": "true",
+    "x-ms-version": "2019-07-07"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://fakestorageaccount.file.core.windows.net/share158978112763200734/dir158978112820509613",
+   "query": {
+    "restype": "directory"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "",
+   "responseHeaders": {
+    "content-length": "0",
+    "date": "Mon, 18 May 2020 05:52:06 GMT",
+    "etag": "\"0x8D7FAEF99046415\"",
+    "last-modified": "Mon, 18 May 2020 05:52:06 GMT",
+    "server": "Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0",
+    "x-ms-client-request-id": "2e5d5098-144f-4906-8a95-1fac48a25b82",
+    "x-ms-file-attributes": "Directory",
+    "x-ms-file-change-time": "2020-05-18T05:52:06.7544085Z",
+    "x-ms-file-creation-time": "2020-05-18T05:52:06.7544085Z",
+    "x-ms-file-id": "13835128424026341376",
+    "x-ms-file-last-write-time": "2020-05-18T05:52:06.7544085Z",
+    "x-ms-file-parent-id": "0",
+    "x-ms-file-permission-key": "15783046271365971681*12957844477200427368",
+    "x-ms-request-id": "a9f6a5ef-601a-0048-0dd8-2cbf38000000",
+    "x-ms-server-encrypted": "true",
+    "x-ms-version": "2019-07-07"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://fakestorageaccount.file.core.windows.net/share158978112763200734/dir158978112820509613158978112936208676",
+   "query": {
+    "restype": "directory"
+   },
+   "requestBody": null,
+   "status": 404,
+   "response": "<?xml version=\"1.0\" encoding=\"utf-8\"?><Error><Code>ResourceNotFound</Code><Message>The specified resource does not exist.\nRequestId:a9f6a5f3-601a-0048-10d8-2cbf38000000\nTime:2020-05-18T05:52:07.9136362Z</Message></Error>",
+   "responseHeaders": {
+    "content-length": "223",
+    "content-type": "application/xml",
+    "date": "Mon, 18 May 2020 05:52:07 GMT",
+    "server": "Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0",
+    "x-ms-client-request-id": "1d56bf0e-c139-4387-92dc-0beb2aa68ddb",
+    "x-ms-error-code": "ResourceNotFound",
+    "x-ms-request-id": "a9f6a5f3-601a-0048-10d8-2cbf38000000",
+    "x-ms-version": "2019-07-07"
+   }
+  },
+  {
+   "method": "DELETE",
+   "url": "https://fakestorageaccount.file.core.windows.net/share158978112763200734",
+   "query": {
+    "restype": "share"
+   },
+   "requestBody": null,
+   "status": 202,
+   "response": "",
+   "responseHeaders": {
+    "content-length": "0",
+    "date": "Mon, 18 May 2020 05:52:07 GMT",
+    "server": "Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0",
+    "x-ms-client-request-id": "c449059b-914d-4b72-ae01-2b0ed8236eb3",
+    "x-ms-request-id": "a9f6a5f6-601a-0048-12d8-2cbf38000000",
+    "x-ms-version": "2019-07-07"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {
+   "share": "share158978112763200734",
+   "dir": "dir158978112820509613",
+   "dir158978112820509613": "dir158978112820509613158978112936208676"
+  },
+  "newDate": {}
+ },
+ "hash": "b8a79749eb645a2f892fbec5c54ff311"
+}

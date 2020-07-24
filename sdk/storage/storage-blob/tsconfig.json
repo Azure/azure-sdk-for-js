@@ -6,6 +6,7 @@
     "outDir": "./dist-esm",
     "lib": ["dom", "es5", "es6", "es7", "esnext"]
   },
-  "exclude": ["node_modules", "./typings/**/*.d.ts", "./samples/**"],
-  "include": ["./src/**/*.ts", "./test/**/*.ts"]
+  "compileOnSave": true,
+  "exclude": ["node_modules", "./typings/**/*.d.ts", "../storage-internal-avro/node_modules", "./samples/**"],
+  "include": ["./src/**/*.ts", "./test/**/*.ts", "../storage-internal-avro/**/*.ts"]
 }

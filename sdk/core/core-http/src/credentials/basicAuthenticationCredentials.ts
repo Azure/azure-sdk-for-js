@@ -44,7 +44,7 @@ export class BasicAuthenticationCredentials implements ServiceClientCredentials 
    * @param {WebResourceLike} webResource The WebResourceLike to be signed.
    * @returns {Promise<WebResourceLike>} The signed request object.
    */
-  signRequest(webResource: WebResourceLike) {
+  signRequest(webResource: WebResourceLike): Promise<WebResourceLike> {
     const credentials = `${this.userName}:${this.password}`;
     const encodedCredentials = `${this.authorizationScheme} ${base64.encodeString(credentials)}`;
     if (!webResource.headers) webResource.headers = new HttpHeaders();

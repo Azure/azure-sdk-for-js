@@ -40,7 +40,7 @@ describe("PageBlobClient", () => {
 
   afterEach(async function() {
     await containerClient.delete();
-    recorder.stop();
+    await recorder.stop();
   });
 
   it("create with default parameters", async () => {
@@ -96,6 +96,16 @@ describe("PageBlobClient", () => {
         assert.fail("Error thrown while it's not AccessTierNotSupportedForBlobType.");
       }
     }
+  });
+
+  it("createIfNotExists", async () => {
+    const res = await pageBlobClient.createIfNotExists(512);
+    assert.ok(res.succeeded);
+    assert.ok(res.etag);
+
+    const res2 = await pageBlobClient.createIfNotExists(512);
+    assert.ok(!res2.succeeded);
+    assert.equal(res2.errorCode, "BlobAlreadyExists");
   });
 
   it("uploadPages", async () => {

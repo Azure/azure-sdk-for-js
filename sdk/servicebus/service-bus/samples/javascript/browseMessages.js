@@ -3,7 +3,7 @@
   Licensed under the MIT Licence.
 
   **NOTE**: If you are using version 1.1.x or lower, then please use the link below:
-  https://github.com/Azure/azure-sdk-for-js/tree/%40azure/service-bus_1.1.5/sdk/servicebus/service-bus/samples
+  https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/servicebus/service-bus/samples-v1
   
   This sample demonstrates how the peekMessages() function can be used to browse a Service Bus message.
 
@@ -30,12 +30,12 @@ async function main() {
   const queueReceiver = sbClient.createReceiver(queueName, "receiveAndDelete");
   try {
     for (let i = 0; i < 20; i++) {
-      const messages = await queueReceiver.peekMessages();
-      if (!messages.length) {
+      const [message] = await queueReceiver.peekMessages(1);
+      if (!message) {
         console.log("No more messages to peek");
         break;
       }
-      console.log(`Peeking message #${i}: ${messages[0].body}`);
+      console.log(`Peeking message #${i}: ${message.body}`);
     }
     await queueReceiver.close();
   } finally {

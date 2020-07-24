@@ -21,7 +21,7 @@ import {
   RetryOptions,
   retry
 } from "@azure/core-amqp";
-import { OperationOptions } from "./modelsToBeSharedWithEventHubs";
+import { OperationOptionsBase } from "./modelsToBeSharedWithEventHubs";
 
 /**
  * A Sender can be used to send messages, schedule messages to be sent at a later time
@@ -48,7 +48,7 @@ export interface Sender {
    */
   sendMessages(
     messages: ServiceBusMessage | ServiceBusMessage[] | ServiceBusMessageBatch,
-    options?: OperationOptions
+    options?: OperationOptionsBase
   ): Promise<void>;
 
   /**
@@ -97,7 +97,7 @@ export interface Sender {
   scheduleMessages(
     scheduledEnqueueTimeUtc: Date,
     messages: ServiceBusMessage | ServiceBusMessage[],
-    options?: OperationOptions
+    options?: OperationOptionsBase
   ): Promise<Long[]>;
 
   /**
@@ -110,7 +110,7 @@ export interface Sender {
    */
   cancelScheduledMessages(
     sequenceNumbers: Long | Long[],
-    options?: OperationOptions
+    options?: OperationOptionsBase
   ): Promise<void>;
   /**
    * Path of the entity for which the sender has been created.
@@ -173,14 +173,20 @@ export class SenderImpl implements Sender {
 
   async sendMessages(
     messages: ServiceBusMessage | ServiceBusMessage[] | ServiceBusMessageBatch,
-    options?: OperationOptions
+    options?: OperationOptionsBase
   ): Promise<void> {
     this._throwIfSenderOrConnectionClosed();
+    throwTypeErrorIfParameterMissing(this._context.namespace.connectionId, "messages", messages);
+    const invalidTypeErrMsg =
+      "Provided value for 'messages' must be of type ServiceBusMessage, ServiceBusMessageBatch or an array of type ServiceBusMessage.";
 
     if (Array.isArray(messages)) {
       const batch = await this.createBatch(options);
 
       for (const message of messages) {
+        if (!isServiceBusMessage(message)) {
+          throw new TypeError(invalidTypeErrMsg);
+        }
         if (!batch.tryAdd(message)) {
           // this is too big - throw an error
           const error = new MessagingError(
@@ -196,11 +202,8 @@ export class SenderImpl implements Sender {
       return this._sender.sendBatch(messages, options);
     } else if (isServiceBusMessage(messages)) {
       return this._sender.send(messages, options);
-    } else {
-      throw new TypeError(
-        "Invalid type for message. Must be a ServiceBusMessage, an array of ServiceBusMessage or a ServiceBusMessageBatch"
-      );
     }
+    throw new TypeError(invalidTypeErrMsg);
   }
 
   async createBatch(options?: CreateBatchOptions): Promise<ServiceBusMessageBatch> {
@@ -211,7 +214,7 @@ export class SenderImpl implements Sender {
   async scheduleMessages(
     scheduledEnqueueTimeUtc: Date,
     messages: ServiceBusMessage | ServiceBusMessage[],
-    options: OperationOptions = {}
+    options: OperationOptionsBase = {}
   ): Promise<Long[]> {
     this._throwIfSenderOrConnectionClosed();
     throwTypeErrorIfParameterMissing(
@@ -221,6 +224,14 @@ export class SenderImpl implements Sender {
     );
     throwTypeErrorIfParameterMissing(this._context.namespace.connectionId, "messages", messages);
     const messagesToSchedule = Array.isArray(messages) ? messages : [messages];
+
+    for (const message of messagesToSchedule) {
+      if (!isServiceBusMessage(message)) {
+        throw new TypeError(
+          "Provided value for 'messages' must be of type ServiceBusMessage or an array of type ServiceBusMessage."
+        );
+      }
+    }
 
     const scheduleMessageOperationPromise = async () => {
       return this._context.managementClient!.scheduleMessages(
@@ -245,7 +256,7 @@ export class SenderImpl implements Sender {
 
   async cancelScheduledMessages(
     sequenceNumbers: Long | Long[],
-    options: OperationOptions = {}
+    options: OperationOptionsBase = {}
   ): Promise<void> {
     this._throwIfSenderOrConnectionClosed();
     throwTypeErrorIfParameterMissing(

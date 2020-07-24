@@ -40,7 +40,7 @@ describe("Highlevel browser only", () => {
   afterEach(async function() {
     if (!this.currentTest?.isPending()) {
       await fileSystemClient.delete();
-      recorder.stop();
+      await recorder.stop();
     }
   });
 
@@ -48,7 +48,7 @@ describe("Highlevel browser only", () => {
     recorder = record(this, recorderEnvSetup);
     tempFileLarge = getBrowserFile(recorder.getUniqueName("browserfilesmall"), tempFileLargeLength);
     tempFileSmall = getBrowserFile(recorder.getUniqueName("browserfilelarge"), tempFileSmallLength);
-    recorder.stop();
+    await recorder.stop();
   });
 
   after(async () => {});

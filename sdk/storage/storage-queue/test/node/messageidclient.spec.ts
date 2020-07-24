@@ -23,7 +23,7 @@ describe("QueueClient messageId methods, Node.js only", () => {
 
   afterEach(async function() {
     await queueClient.delete();
-    recorder.stop();
+    await recorder.stop();
   });
 
   it("update message with 64KB characters including special char which is computed after encoding", async () => {

@@ -11,7 +11,7 @@
 import * as msRest from "@azure/ms-rest-js";
 
 const packageName = "@azure/cognitiveservices-customvision-training";
-const packageVersion = "5.0.0";
+const packageVersion = "5.1.0";
 
 export class TrainingAPIClientContext extends msRest.ServiceClient {
   endpoint: string;
@@ -42,7 +42,7 @@ export class TrainingAPIClientContext extends msRest.ServiceClient {
 
     super(credentials, options);
 
-    this.baseUri = "{Endpoint}/customvision/v3.2/training";
+    this.baseUri = "{Endpoint}/customvision/v3.3/training";
     this.requestContentType = "application/json; charset=utf-8";
     this.endpoint = endpoint;
     this.credentials = credentials;

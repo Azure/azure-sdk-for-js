@@ -10,6 +10,16 @@ import { VSCodeCredential } from "./vscodeCredential";
 import { TokenCredential } from "@azure/core-http";
 
 /**
+ * Provides options to configure the default Azure credentials.
+ */
+export interface DefaultAzureCredentialOptions extends TokenCredentialOptions {
+  /**
+   * Optionally pass in a Tenant ID to be used as part of the credential 
+   */
+  tenantId?: string;
+}
+
+/**
  * Provides a default {@link ChainedTokenCredential} configuration for
  * applications that will be deployed to Azure.  The following credential
  * types will be tried, in order:
@@ -22,11 +32,11 @@ import { TokenCredential } from "@azure/core-http";
  */
 export class DefaultAzureCredential extends ChainedTokenCredential {
   /**
-   * Returns the list of credentials DefaultAzureCredential will use to authenticate.
+   * Creates an instance of the DefaultAzureCredential class.
    *
    * @param options Options for configuring the client which makes the authentication request.
    */
-  static credentials(tokenCredentialOptions?: TokenCredentialOptions): TokenCredential[] {
+  constructor(tokenCredentialOptions?: DefaultAzureCredentialOptions) {
     let credentials = [];
     credentials.push(new EnvironmentCredential(tokenCredentialOptions));
     credentials.push(new ManagedIdentityCredential(tokenCredentialOptions));
@@ -38,19 +48,8 @@ export class DefaultAzureCredential extends ChainedTokenCredential {
     credentials.push(new AzureCliCredential());
     credentials.push(new VSCodeCredential(tokenCredentialOptions));
 
-    return credentials;
-  }
-  /**
-   * Creates an instance of the DefaultAzureCredential class.
-   *
-   * @param options Options for configuring the client which makes the authentication request.
-   */
-  constructor(tokenCredentialOptions?: TokenCredentialOptions) {
-    let credentials = DefaultAzureCredential.credentials(tokenCredentialOptions);
-    super(
-      ...credentials
-    );
+    super(...credentials);
     this.UnavailableMessage =
-      "DefaultAzureCredential failed to retrieve a token from the included credentials";
+      "DefaultAzureCredential => failed to retrieve a token from the included credentials";
   }
 }
