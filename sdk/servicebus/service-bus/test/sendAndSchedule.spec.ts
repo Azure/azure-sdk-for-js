@@ -296,6 +296,10 @@ describe("Sender Tests", () => {
         sender.scheduleMessages(date, messages[2])
       ]);
       const sequenceNumbers = [result1[0], result2[0], result3[0]];
+      console.log("Printing the sequence numbers...");
+      sequenceNumbers.forEach((seq) => {
+        console.log(seq ? seq.toNumber() : undefined);
+      });
       compareSequenceNumbers(sequenceNumbers[0], sequenceNumbers[1]);
       compareSequenceNumbers(sequenceNumbers[0], sequenceNumbers[2]);
       compareSequenceNumbers(sequenceNumbers[1], sequenceNumbers[2]);
@@ -310,6 +314,10 @@ describe("Sender Tests", () => {
 
       const receivedMsgs = await receiver.receiveMessages(3);
       should.equal(receivedMsgs.length, 3, "Unexpected number of messages received");
+      console.log("Sequence numbers from received messages...");
+      receivedMsgs.forEach((msg) => {
+        console.log(msg.sequenceNumber ? msg.sequenceNumber.toNumber() : undefined);
+      });
       for (const seqNum of sequenceNumbers) {
         const msgWithSeqNum = receivedMsgs.find(
           ({ sequenceNumber }) => sequenceNumber?.comp(seqNum) === 0
