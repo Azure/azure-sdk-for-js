@@ -54,8 +54,7 @@ jobs:
           versionSpec: $(NodeVersion)
 
       - pwsh: npm install -g
-        inputs:
-          workingDirectory: $(Build.SourcesDirectory)/common/tools/dev-tool
+        workingDirectory: $(Build.SourcesDirectory)/common/tools/dev-tool
         displayName: Install dev-tool
 
       # New-TestResources command requires Az module
