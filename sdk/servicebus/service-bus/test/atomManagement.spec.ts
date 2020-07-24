@@ -105,7 +105,8 @@ describe("Listing methods - PagedAsyncIterableIterator", function(): void {
           await serviceBusAtomManagementClient.createRule(
             managementTopic1,
             managementSubscription1,
-            { name: baseName + "_rule_" + i }
+            baseName + "_rule_" + i,
+            { sqlExpression: "1=1" }
           )
         ).name
       );
@@ -2451,7 +2452,9 @@ async function createEntity(
       const ruleResponse = await serviceBusAtomManagementClient.createRule(
         topicPath,
         subscriptionPath,
-        { name: entityPath, ...ruleOptions }
+        entityPath,
+        ruleOptions?.filter!,
+        ruleOptions?.action!
       );
       return ruleResponse;
   }
