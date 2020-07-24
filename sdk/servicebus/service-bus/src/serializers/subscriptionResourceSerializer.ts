@@ -15,7 +15,8 @@ import {
   getInteger,
   getString,
   getStringOrUndefined,
-  getDate
+  getDate,
+  MessageCountDetails
 } from "../util/utils";
 
 /**
@@ -105,7 +106,12 @@ export function buildSubscription(rawSubscription: any): SubscriptionProperties 
 export function buildSubscriptionRuntimeProperties(
   rawSubscription: any
 ): SubscriptionRuntimeProperties {
-  const messageCountDetails = getMessageCountDetails(rawSubscription[Constants.COUNT_DETAILS]);
+  type MakeTOptional<M, T extends keyof M> = Partial<Pick<M, T>> & Omit<M, T>;
+  const messageCountDetails: MakeTOptional<
+    MessageCountDetails,
+    "scheduledMessageCount"
+  > = getMessageCountDetails(rawSubscription[Constants.COUNT_DETAILS]);
+  delete messageCountDetails.scheduledMessageCount;
   return {
     subscriptionName: getString(rawSubscription[Constants.SUBSCRIPTION_NAME], "subscriptionName"),
     topicName: getString(rawSubscription[Constants.TOPIC_NAME], "topicName"),
@@ -360,11 +366,6 @@ export interface SubscriptionRuntimeProperties {
    * The number of messages that have been dead lettered.
    */
   deadLetterMessageCount: number;
-
-  /**
-   * The number of scheduled messages.
-   */
-  scheduledMessageCount: number;
 
   /**
    * The number of messages transferred to another queue, topic, or subscription
