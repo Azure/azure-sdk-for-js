@@ -2,17 +2,250 @@
 // Licensed under the MIT license.
 
 import {
+  AppConfigurationKeyValueDeletedEventData,
+  AppConfigurationKeyValueModifiedEventData,
   ContainerRegistryImagePushedEventData,
   ContainerRegistryImageDeletedEventData,
   ContainerRegistryChartDeletedEventData,
   ContainerRegistryChartPushedEventData,
-  EventHubCaptureFileCreatedEventData
+  IotHubDeviceCreatedEventData,
+  IotHubDeviceDeletedEventData,
+  IotHubDeviceConnectedEventData,
+  IotHubDeviceDisconnectedEventData,
+  IotHubDeviceTelemetryEventData,
+  SubscriptionValidationEventData,
+  SubscriptionDeletedEventData,
+  EventHubCaptureFileCreatedEventData,
+  MachineLearningServicesDatasetDriftDetectedEventData,
+  MachineLearningServicesModelDeployedEventData,
+  MachineLearningServicesModelRegisteredEventData,
+  MachineLearningServicesRunCompletedEventData,
+  MachineLearningServicesRunStatusChangedEventData,
+  MapsGeofenceEnteredEventData,
+  MapsGeofenceExitedEventData,
+  MapsGeofenceResultEventData,
+  MediaJobStateChangeEventData,
+  MediaJobOutputStateChangeEventData,
+  MediaJobScheduledEventData,
+  MediaJobProcessingEventData,
+  MediaJobCancelingEventData,
+  MediaJobFinishedEventData,
+  MediaJobCanceledEventData,
+  MediaJobErroredEventData,
+  MediaJobOutputCanceledEventData,
+  MediaJobOutputCancelingEventData,
+  MediaJobOutputErroredEventData,
+  MediaJobOutputFinishedEventData,
+  MediaJobOutputProcessingEventData,
+  MediaJobOutputScheduledEventData,
+  MediaJobOutputProgressEventData,
+  MediaLiveEventEncoderConnectedEventData,
+  MediaLiveEventConnectionRejectedEventData,
+  MediaLiveEventEncoderDisconnectedEventData,
+  MediaLiveEventIncomingStreamReceivedEventData,
+  MediaLiveEventIncomingStreamsOutOfSyncEventData,
+  MediaLiveEventIncomingVideoStreamsOutOfSyncEventData,
+  MediaLiveEventIncomingDataChunkDroppedEventData,
+  MediaLiveEventIngestHeartbeatEventData,
+  MediaLiveEventTrackDiscontinuityDetectedEventData,
+  ResourceWriteSuccessEventData,
+  ResourceWriteFailureEventData,
+  ResourceWriteCancelEventData,
+  ResourceDeleteSuccessEventData,
+  ResourceDeleteFailureEventData,
+  ResourceDeleteCancelEventData,
+  ResourceActionSuccessEventData,
+  ResourceActionFailureEventData,
+  ResourceActionCancelEventData,
+  ServiceBusActiveMessagesAvailableWithNoListenersEventData,
+  ServiceBusDeadletterMessagesAvailableWithNoListenersEventData,
+  StorageBlobCreatedEventData,
+  StorageBlobDeletedEventData,
+  StorageBlobRenamedEventData,
+  StorageDirectoryCreatedEventData,
+  StorageDirectoryDeletedEventData,
+  StorageDirectoryRenamedEventData,
+  WebAppUpdatedEventData,
+  WebBackupOperationStartedEventData,
+  WebBackupOperationCompletedEventData,
+  WebBackupOperationFailedEventData,
+  WebRestoreOperationStartedEventData,
+  WebRestoreOperationCompletedEventData,
+  WebRestoreOperationFailedEventData,
+  WebSlotSwapStartedEventData,
+  WebSlotSwapCompletedEventData,
+  WebSlotSwapFailedEventData,
+  WebSlotSwapWithPreviewStartedEventData,
+  WebSlotSwapWithPreviewCancelledEventData,
+  WebAppServicePlanUpdatedEventData
 } from "./generated/models";
 
 import { CloudEvent, EventGridEvent } from "./models";
 
-// TODO(matell): We need to generate `isXYZEvent`'s for all the known system events and add
-//               the coresponding mappers.
+/**
+ * TODO(matell): Write some good prose here.
+ */
+export type KnownSystemEventTypes =
+  | "Microsoft.AppConfiguration.KeyValueDeleted"
+  | "Microsoft.AppConfiguration.KeyValueModified"
+  | "Microsoft.ContainerRegistry.ImagePushed"
+  | "Microsoft.ContainerRegistry.ImageDeleted"
+  | "Microsoft.ContainerRegistry.ChartDeleted"
+  | "Microsoft.ContainerRegistry.ChartPushed"
+  | "Microsoft.Devices.DeviceCreated"
+  | "Microsoft.Devices.DeviceDeleted"
+  | "Microsoft.Devices.DeviceConnected"
+  | "Microsoft.Devices.DeviceDisconnected"
+  | "Microsoft.Devices.DeviceTelemetry"
+  | "Microsoft.EventGrid.SubscriptionValidationEvent"
+  | "Microsoft.EventGrid.SubscriptionDeletedEvent"
+  | "Microsoft.EventHub.CaptureFileCreated"
+  | "Microsoft.MachineLearningServices.DatasetDriftDetected"
+  | "Microsoft.MachineLearningServices.ModelDeployed"
+  | "Microsoft.MachineLearningServices.ModelRegistered"
+  | "Microsoft.MachineLearningServices.RunCompleted"
+  | "Microsoft.MachineLearningServices.RunStatusChanged"
+  | "Microsoft.Maps.GeofenceEntered"
+  | "Microsoft.Maps.GeofenceExited"
+  | "Microsoft.Maps.GeofenceResult"
+  | "Microsoft.Media.JobStateChange"
+  | "Microsoft.Media.JobOutputStateChange"
+  | "Microsoft.Media.JobScheduled"
+  | "Microsoft.Media.JobProcessing"
+  | "Microsoft.Media.JobCanceling"
+  | "Microsoft.Media.JobFinished"
+  | "Microsoft.Media.JobCanceled"
+  | "Microsoft.Media.JobErrored"
+  | "Microsoft.Media.JobOutputCanceled"
+  | "Microsoft.Media.JobOutputCanceling"
+  | "Microsoft.Media.JobOutputErrored"
+  | "Microsoft.Media.JobOutputFinished"
+  | "Microsoft.Media.JobOutputProcessing"
+  | "Microsoft.Media.JobOutputScheduled"
+  | "Microsoft.Media.JobOutputProgress"
+  | "Microsoft.Media.LiveEventEncoderConnected"
+  | "Microsoft.Media.LiveEventConnectionRejected"
+  | "Microsoft.Media.LiveEventEncoderDisconnected"
+  | "Microsoft.Media.LiveEventIncomingStreamReceived"
+  | "Microsoft.Media.LiveEventIncomingStreamsOutOfSync"
+  | "Microsoft.Media.LiveEventIncomingVideoStreamsOutOfSync"
+  | "Microsoft.Media.LiveEventIncomingDataChunkDropped"
+  | "Microsoft.Media.LiveEventIngestHeartbeat"
+  | "Microsoft.Media.LiveEventTrackDiscontinuityDetected"
+  | "Microsoft.Resources.ResourceWriteSuccess"
+  | "Microsoft.Resources.ResourceWriteFailure"
+  | "Microsoft.Resources.ResourceWriteCancel"
+  | "Microsoft.Resources.ResourceDeleteSuccess"
+  | "Microsoft.Resources.ResourceDeleteFailure"
+  | "Microsoft.Resources.ResourceDeleteCancel"
+  | "Microsoft.Resources.ResourceActionSuccess"
+  | "Microsoft.Resources.ResourceActionFailure"
+  | "Microsoft.Resources.ResourceActionCancel"
+  | "Microsoft.ServiceBus.ActiveMessagesAvailableWithNoListeners"
+  | "Microsoft.ServiceBus.DeadletterMessagesAvailableWithNoListener"
+  | "Microsoft.Storage.BlobCreated"
+  | "Microsoft.Storage.BlobDeleted"
+  | "Microsoft.Storage.BlobRenamed"
+  | "Microsoft.Storage.DirectoryCreated"
+  | "Microsoft.Storage.DirectoryDeleted"
+  | "Microsoft.Storage.DirectoryRenamed"
+  | "Microsoft.Web.AppUpdated"
+  | "Microsoft.Web.BackupOperationStarted"
+  | "Microsoft.Web.BackupOperationCompleted"
+  | "Microsoft.Web.BackupOperationFailed"
+  | "Microsoft.Web.RestoreOperationStarted"
+  | "Microsoft.Web.RestoreOperationCompleted"
+  | "Microsoft.Web.RestoreOperationFailed"
+  | "Microsoft.Web.SlotSwapStarted"
+  | "Microsoft.Web.SlotSwapCompleted"
+  | "Microsoft.Web.SlotSwapFailed"
+  | "Microsoft.Web.SlotSwapWithPreviewStarted"
+  | "Microsoft.Web.SlotSwapWithPreviewCancelled"
+  | "Microsoft.Web.AppServicePlanUpdated";
+
+/**
+ * A mapping of event type names to event data type interfaces.
+ *
+ * @ignore
+ */
+export interface SystemEventNameToEventData {
+  "Microsoft.AppConfiguration.KeyValueDeleted": AppConfigurationKeyValueDeletedEventData;
+  "Microsoft.AppConfiguration.KeyValueModified": AppConfigurationKeyValueModifiedEventData;
+  "Microsoft.ContainerRegistry.ImagePushed": ContainerRegistryImagePushedEventData;
+  "Microsoft.ContainerRegistry.ImageDeleted": ContainerRegistryImageDeletedEventData;
+  "Microsoft.ContainerRegistry.ChartDeleted": ContainerRegistryChartDeletedEventData;
+  "Microsoft.ContainerRegistry.ChartPushed": ContainerRegistryChartPushedEventData;
+  "Microsoft.Devices.DeviceCreated": IotHubDeviceCreatedEventData;
+  "Microsoft.Devices.DeviceDeleted": IotHubDeviceDeletedEventData;
+  "Microsoft.Devices.DeviceConnected": IotHubDeviceConnectedEventData;
+  "Microsoft.Devices.DeviceDisconnected": IotHubDeviceDisconnectedEventData;
+  "Microsoft.Devices.DeviceTelemetry": IotHubDeviceTelemetryEventData;
+  "Microsoft.EventGrid.SubscriptionValidationEvent": SubscriptionValidationEventData;
+  "Microsoft.EventGrid.SubscriptionDeletedEvent": SubscriptionDeletedEventData;
+  "Microsoft.EventHub.CaptureFileCreated": EventHubCaptureFileCreatedEventData;
+  "Microsoft.MachineLearningServices.DatasetDriftDetected": MachineLearningServicesDatasetDriftDetectedEventData;
+  "Microsoft.MachineLearningServices.ModelDeployed": MachineLearningServicesModelDeployedEventData;
+  "Microsoft.MachineLearningServices.ModelRegistered": MachineLearningServicesModelRegisteredEventData;
+  "Microsoft.MachineLearningServices.RunCompleted": MachineLearningServicesRunCompletedEventData;
+  "Microsoft.MachineLearningServices.RunStatusChanged": MachineLearningServicesRunStatusChangedEventData;
+  "Microsoft.Maps.GeofenceEntered": MapsGeofenceEnteredEventData;
+  "Microsoft.Maps.GeofenceExited": MapsGeofenceExitedEventData;
+  "Microsoft.Maps.GeofenceResult": MapsGeofenceResultEventData;
+  "Microsoft.Media.JobStateChange": MediaJobStateChangeEventData;
+  "Microsoft.Media.JobOutputStateChange": MediaJobOutputStateChangeEventData;
+  "Microsoft.Media.JobScheduled": MediaJobScheduledEventData;
+  "Microsoft.Media.JobProcessing": MediaJobProcessingEventData;
+  "Microsoft.Media.JobCanceling": MediaJobCancelingEventData;
+  "Microsoft.Media.JobFinished": MediaJobFinishedEventData;
+  "Microsoft.Media.JobCanceled": MediaJobCanceledEventData;
+  "Microsoft.Media.JobErrored": MediaJobErroredEventData;
+  "Microsoft.Media.JobOutputCanceled": MediaJobOutputCanceledEventData;
+  "Microsoft.Media.JobOutputCanceling": MediaJobOutputCancelingEventData;
+  "Microsoft.Media.JobOutputErrored": MediaJobOutputErroredEventData;
+  "Microsoft.Media.JobOutputFinished": MediaJobOutputFinishedEventData;
+  "Microsoft.Media.JobOutputProcessing": MediaJobOutputProcessingEventData;
+  "Microsoft.Media.JobOutputScheduled": MediaJobOutputScheduledEventData;
+  "Microsoft.Media.JobOutputProgress": MediaJobOutputProgressEventData;
+  "Microsoft.Media.LiveEventEncoderConnected": MediaLiveEventEncoderConnectedEventData;
+  "Microsoft.Media.LiveEventConnectionRejected": MediaLiveEventConnectionRejectedEventData;
+  "Microsoft.Media.LiveEventEncoderDisconnected": MediaLiveEventEncoderDisconnectedEventData;
+  "Microsoft.Media.LiveEventIncomingStreamReceived": MediaLiveEventIncomingStreamReceivedEventData;
+  "Microsoft.Media.LiveEventIncomingStreamsOutOfSync": MediaLiveEventIncomingStreamsOutOfSyncEventData;
+  "Microsoft.Media.LiveEventIncomingVideoStreamsOutOfSync": MediaLiveEventIncomingVideoStreamsOutOfSyncEventData;
+  "Microsoft.Media.LiveEventIncomingDataChunkDropped": MediaLiveEventIncomingDataChunkDroppedEventData;
+  "Microsoft.Media.LiveEventIngestHeartbeat": MediaLiveEventIngestHeartbeatEventData;
+  "Microsoft.Media.LiveEventTrackDiscontinuityDetected": MediaLiveEventTrackDiscontinuityDetectedEventData;
+  "Microsoft.Resources.ResourceWriteSuccess": ResourceWriteSuccessEventData;
+  "Microsoft.Resources.ResourceWriteFailure": ResourceWriteFailureEventData;
+  "Microsoft.Resources.ResourceWriteCancel": ResourceWriteCancelEventData;
+  "Microsoft.Resources.ResourceDeleteSuccess": ResourceDeleteSuccessEventData;
+  "Microsoft.Resources.ResourceDeleteFailure": ResourceDeleteFailureEventData;
+  "Microsoft.Resources.ResourceDeleteCancel": ResourceDeleteCancelEventData;
+  "Microsoft.Resources.ResourceActionSuccess": ResourceActionSuccessEventData;
+  "Microsoft.Resources.ResourceActionFailure": ResourceActionFailureEventData;
+  "Microsoft.Resources.ResourceActionCancel": ResourceActionCancelEventData;
+  "Microsoft.ServiceBus.ActiveMessagesAvailableWithNoListeners": ServiceBusActiveMessagesAvailableWithNoListenersEventData;
+  "Microsoft.ServiceBus.DeadletterMessagesAvailableWithNoListener": ServiceBusDeadletterMessagesAvailableWithNoListenersEventData;
+  "Microsoft.Storage.BlobCreated": StorageBlobCreatedEventData;
+  "Microsoft.Storage.BlobDeleted": StorageBlobDeletedEventData;
+  "Microsoft.Storage.BlobRenamed": StorageBlobRenamedEventData;
+  "Microsoft.Storage.DirectoryCreated": StorageDirectoryCreatedEventData;
+  "Microsoft.Storage.DirectoryDeleted": StorageDirectoryDeletedEventData;
+  "Microsoft.Storage.DirectoryRenamed": StorageDirectoryRenamedEventData;
+  "Microsoft.Web.AppUpdated": WebAppUpdatedEventData;
+  "Microsoft.Web.BackupOperationStarted": WebBackupOperationStartedEventData;
+  "Microsoft.Web.BackupOperationCompleted": WebBackupOperationCompletedEventData;
+  "Microsoft.Web.BackupOperationFailed": WebBackupOperationFailedEventData;
+  "Microsoft.Web.RestoreOperationStarted": WebRestoreOperationStartedEventData;
+  "Microsoft.Web.RestoreOperationCompleted": WebRestoreOperationCompletedEventData;
+  "Microsoft.Web.RestoreOperationFailed": WebRestoreOperationFailedEventData;
+  "Microsoft.Web.SlotSwapStarted": WebSlotSwapStartedEventData;
+  "Microsoft.Web.SlotSwapCompleted": WebSlotSwapCompletedEventData;
+  "Microsoft.Web.SlotSwapFailed": WebSlotSwapFailedEventData;
+  "Microsoft.Web.SlotSwapWithPreviewStarted": WebSlotSwapWithPreviewStartedEventData;
+  "Microsoft.Web.SlotSwapWithPreviewCancelled": WebSlotSwapWithPreviewCancelledEventData;
+  "Microsoft.Web.AppServicePlanUpdated": WebAppServicePlanUpdatedEventData;
+}
 
 /**
  * isCloudEventLike returns "true" when the event is a CloudEvent
@@ -25,102 +258,29 @@ function isCloudEventLike(
   return (o as any).source !== undefined;
 }
 
-/** isEventHubCaptureFileCreatedEvent returns true if the event is of type "Microsoft.EventHub.CaptureFileCreated" */
-export function isEventHubCaptureFileCreatedEvent(
+/**
+ * TODO(matell): Document this.
+ */
+export function isSystemEvent<T extends KnownSystemEventTypes>(
+  eventType: T,
   event: EventGridEvent<unknown>
-): event is EventGridEvent<EventHubCaptureFileCreatedEventData>;
-/** isEventHubCaptureFileCreatedEvent returns true if the event is of type "Microsoft.EventHub.CaptureFileCreated" */
-export function isEventHubCaptureFileCreatedEvent(
+): event is EventGridEvent<SystemEventNameToEventData[T]>;
+/**
+ * TODO(matell): Document this.
+ */
+export function isSystemEvent<T extends KnownSystemEventTypes>(
+  eventType: T,
   event: CloudEvent<unknown>
-): event is CloudEvent<EventHubCaptureFileCreatedEventData>;
-export function isEventHubCaptureFileCreatedEvent(
+): event is CloudEvent<SystemEventNameToEventData[T]>;
+export function isSystemEvent<T extends KnownSystemEventTypes>(
+  eventType: T,
   event: EventGridEvent<unknown> | CloudEvent<unknown>
 ): event is
-  | CloudEvent<EventHubCaptureFileCreatedEventData>
-  | EventGridEvent<EventHubCaptureFileCreatedEventData> {
+  | EventGridEvent<SystemEventNameToEventData[T]>
+  | CloudEvent<SystemEventNameToEventData[T]> {
   if (isCloudEventLike(event)) {
-    return event.type === "Microsoft.EventHub.CaptureFileCreated";
+    return event.type === eventType;
   } else {
-    return event.eventType === "Microsoft.EventHub.CaptureFileCreated";
-  }
-}
-
-/** isContainerRegistryImagePushedEvent returns true if the event is of type "Microsoft.ContainerRegistry.ImagePushed" */
-export function isContainerRegistryImagePushedEvent(
-  event: EventGridEvent<unknown>
-): event is EventGridEvent<ContainerRegistryImagePushedEventData>;
-/** isContainerRegistryImagePushedEvent returns true if the event is of type "Microsoft.ContainerRegistry.ImagePushed" */
-export function isContainerRegistryImagePushedEvent(
-  event: CloudEvent<unknown>
-): event is CloudEvent<ContainerRegistryImagePushedEventData>;
-export function isContainerRegistryImagePushedEvent(
-  event: EventGridEvent<unknown> | CloudEvent<unknown>
-): event is
-  | CloudEvent<ContainerRegistryImagePushedEventData>
-  | EventGridEvent<ContainerRegistryImagePushedEventData> {
-  if (isCloudEventLike(event)) {
-    return event.type === "Microsoft.ContainerRegistry.ImagePushed";
-  } else {
-    return event.eventType === "Microsoft.ContainerRegistry.ImagePushed";
-  }
-}
-
-/** isContainerRegistryImageDeletedEvent returns true if the event is of type "Microsoft.ContainerRegistry.ImageDeleted" */
-export function isContainerRegistryImageDeletedEvent(
-  event: EventGridEvent<unknown>
-): event is EventGridEvent<ContainerRegistryImageDeletedEventData>;
-/** isContainerRegistryImageDeletedEvent returns true if the event is of type "Microsoft.ContainerRegistry.ImageDeleted" */
-export function isContainerRegistryImageDeletedEvent(
-  event: CloudEvent<unknown>
-): event is CloudEvent<ContainerRegistryImageDeletedEventData>;
-export function isContainerRegistryImageDeletedEvent(
-  event: EventGridEvent<unknown> | CloudEvent<unknown>
-): event is
-  | CloudEvent<ContainerRegistryImageDeletedEventData>
-  | EventGridEvent<ContainerRegistryImageDeletedEventData> {
-  if (isCloudEventLike(event)) {
-    return event.type === "Microsoft.ContainerRegistry.ImageDeleted";
-  } else {
-    return event.eventType === "Microsoft.ContainerRegistry.ImageDeleted";
-  }
-}
-
-/** isContainerRegistryChartPushedEvent returns true if the event is of type "Microsoft.ContainerRegistry.ChartPushed" */
-export function isContainerRegistryChartPushedEvent(
-  event: EventGridEvent<unknown>
-): event is EventGridEvent<ContainerRegistryChartPushedEventData>;
-/** isContainerRegistryChartPushedEvent returns true if the event is of type "Microsoft.ContainerRegistry.ChartPushed" */
-export function isContainerRegistryChartPushedEvent(
-  event: CloudEvent<unknown>
-): event is CloudEvent<ContainerRegistryChartPushedEventData>;
-export function isContainerRegistryChartPushedEvent(
-  event: EventGridEvent<unknown> | CloudEvent<unknown>
-): event is
-  | CloudEvent<ContainerRegistryChartPushedEventData>
-  | EventGridEvent<ContainerRegistryChartPushedEventData> {
-  if (isCloudEventLike(event)) {
-    return event.type === "Microsoft.ContainerRegistry.ChartPushed";
-  } else {
-    return event.eventType === "Microsoft.ContainerRegistry.ChartPushed";
-  }
-}
-
-/** isContainerRegistryChartDeletedEvent returns true if the event is of type "Microsoft.ContainerRegistry.ChartDeleted" */
-export function isContainerRegistryChartDeletedEvent(
-  event: EventGridEvent<unknown>
-): event is EventGridEvent<ContainerRegistryChartDeletedEventData>;
-/** isContainerRegistryChartDeletedEvent returns true if the event is of type "Microsoft.ContainerRegistry.ChartDeleted" */
-export function isContainerRegistryChartDeletedEvent(
-  event: CloudEvent<unknown>
-): event is CloudEvent<ContainerRegistryChartDeletedEventData>;
-export function isContainerRegistryChartDeletedEvent(
-  event: EventGridEvent<unknown> | CloudEvent<unknown>
-): event is
-  | CloudEvent<ContainerRegistryChartDeletedEventData>
-  | EventGridEvent<ContainerRegistryChartDeletedEventData> {
-  if (isCloudEventLike(event)) {
-    return event.type === "Microsoft.ContainerRegistry.ChartDeleted";
-  } else {
-    return event.eventType === "Microsoft.ContainerRegistry.ChartDeleted";
+    return event.eventType === eventType;
   }
 }

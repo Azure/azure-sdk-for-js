@@ -10,6 +10,38 @@ import { OperationOptions } from '@azure/core-http';
 import { PipelineOptions } from '@azure/core-http';
 import { RestResponse } from '@azure/core-http';
 
+// @public
+export type AppAction = "Restarted" | "Stopped" | "ChangedAppSettings" | "Started" | "Completed" | "Failed";
+
+// @public
+export interface AppConfigurationKeyValueDeletedEventData {
+    etag?: string;
+    key?: string;
+    label?: string;
+}
+
+// @public
+export interface AppConfigurationKeyValueModifiedEventData {
+    etag?: string;
+    key?: string;
+    label?: string;
+}
+
+// @public
+export interface AppEventTypeDetail {
+    action?: AppAction;
+}
+
+// @public
+export interface AppServicePlanEventTypeDetail {
+    action?: "Updated";
+    stampKind?: StampKind;
+    status?: AsyncStatus;
+}
+
+// @public
+export type AsyncStatus = "Started" | "Completed" | "Failed";
+
 export { AzureKeyCredential }
 
 // @public
@@ -102,6 +134,75 @@ export type ContainerRegistryImagePushedEventData = ContainerRegistryEventData &
 export type CustomEventDataDeserializer = (o: any) => Promise<any>;
 
 // @public
+export interface DeviceConnectionStateEventInfo {
+    sequenceNumber?: string;
+}
+
+// @public
+export interface DeviceConnectionStateEventProperties {
+    deviceConnectionStateEventInfo?: DeviceConnectionStateEventInfo;
+    deviceId?: string;
+    hubName?: string;
+    moduleId?: string;
+}
+
+// @public
+export interface DeviceLifeCycleEventProperties {
+    deviceId?: string;
+    hubName?: string;
+    twin?: DeviceTwinInfo;
+}
+
+// @public
+export interface DeviceTelemetryEventProperties {
+    body?: any;
+    properties?: {
+        [propertyName: string]: string;
+    };
+    systemProperties?: {
+        [propertyName: string]: string;
+    };
+}
+
+// @public
+export interface DeviceTwinInfo {
+    authenticationType?: string;
+    cloudToDeviceMessageCount?: number;
+    connectionState?: string;
+    deviceId?: string;
+    etag?: string;
+    lastActivityTime?: string;
+    properties?: DeviceTwinInfoProperties;
+    status?: string;
+    statusUpdateTime?: string;
+    version?: number;
+    x509Thumbprint?: DeviceTwinInfoX509Thumbprint;
+}
+
+// @public
+export interface DeviceTwinInfoProperties {
+    desired?: DeviceTwinProperties;
+    reported?: DeviceTwinProperties;
+}
+
+// @public
+export interface DeviceTwinInfoX509Thumbprint {
+    primaryThumbprint?: string;
+    secondaryThumbprint?: string;
+}
+
+// @public
+export interface DeviceTwinMetadata {
+    lastUpdated?: string;
+}
+
+// @public
+export interface DeviceTwinProperties {
+    metadata?: DeviceTwinMetadata;
+    version?: number;
+}
+
+// @public
 export class EventGridConsumer {
     constructor(options?: EventGridConsumerOptions);
     // (undocumented)
@@ -133,7 +234,6 @@ export class EventGridPublisherClient {
     constructor(endpointUrl: string, credential: KeyCredential | SignatureCredential, options?: EventGridPublisherClientOptions);
     readonly apiVersion: string;
     readonly endpointUrl: string;
-    generateSharedAccessSignature(expiresOnUtc: Date): Promise<string>;
     sendCloudEvents(events: CloudEvent<any>[], options?: SendCloudEventsOptions): Promise<RestResponse>;
     sendCustomSchemaEvents(events: Record<string, any>[], options?: SendCustomSchemaEventsOptions): Promise<RestResponse>;
     sendEvents(events: EventGridEvent<any>[], options?: SendEventsOptions): Promise<RestResponse>;
@@ -163,34 +263,457 @@ export interface EventHubCaptureFileCreatedEventData {
 }
 
 // @public
-export function isContainerRegistryChartDeletedEvent(event: EventGridEvent<unknown>): event is EventGridEvent<ContainerRegistryChartDeletedEventData>;
+export function generateSharedAccessSignature(endpointUrl: string, credential: KeyCredential, expiresOnUtc: Date, options?: GenerateSharedAccessSignatureOptions): Promise<string>;
+
+// @public (undocumented)
+export interface GenerateSharedAccessSignatureOptions {
+    apiVersion?: string;
+}
 
 // @public
-export function isContainerRegistryChartDeletedEvent(event: CloudEvent<unknown>): event is CloudEvent<ContainerRegistryChartDeletedEventData>;
+export type IotHubDeviceConnectedEventData = DeviceConnectionStateEventProperties & {};
 
 // @public
-export function isContainerRegistryChartPushedEvent(event: EventGridEvent<unknown>): event is EventGridEvent<ContainerRegistryChartPushedEventData>;
+export type IotHubDeviceCreatedEventData = DeviceLifeCycleEventProperties & {};
 
 // @public
-export function isContainerRegistryChartPushedEvent(event: CloudEvent<unknown>): event is CloudEvent<ContainerRegistryChartPushedEventData>;
+export type IotHubDeviceDeletedEventData = DeviceLifeCycleEventProperties & {};
 
 // @public
-export function isContainerRegistryImageDeletedEvent(event: EventGridEvent<unknown>): event is EventGridEvent<ContainerRegistryImageDeletedEventData>;
+export type IotHubDeviceDisconnectedEventData = DeviceConnectionStateEventProperties & {};
 
 // @public
-export function isContainerRegistryImageDeletedEvent(event: CloudEvent<unknown>): event is CloudEvent<ContainerRegistryImageDeletedEventData>;
+export type IotHubDeviceTelemetryEventData = DeviceTelemetryEventProperties & {};
 
 // @public
-export function isContainerRegistryImagePushedEvent(event: EventGridEvent<unknown>): event is EventGridEvent<ContainerRegistryImagePushedEventData>;
+export function isSystemEvent<T extends KnownSystemEventTypes>(eventType: T, event: EventGridEvent<unknown>): event is EventGridEvent<SystemEventNameToEventData[T]>;
 
 // @public
-export function isContainerRegistryImagePushedEvent(event: CloudEvent<unknown>): event is CloudEvent<ContainerRegistryImagePushedEventData>;
+export function isSystemEvent<T extends KnownSystemEventTypes>(eventType: T, event: CloudEvent<unknown>): event is CloudEvent<SystemEventNameToEventData[T]>;
 
 // @public
-export function isEventHubCaptureFileCreatedEvent(event: EventGridEvent<unknown>): event is EventGridEvent<EventHubCaptureFileCreatedEventData>;
+export type KnownSystemEventTypes = "Microsoft.AppConfiguration.KeyValueDeleted" | "Microsoft.AppConfiguration.KeyValueModified" | "Microsoft.ContainerRegistry.ImagePushed" | "Microsoft.ContainerRegistry.ImageDeleted" | "Microsoft.ContainerRegistry.ChartDeleted" | "Microsoft.ContainerRegistry.ChartPushed" | "Microsoft.Devices.DeviceCreated" | "Microsoft.Devices.DeviceDeleted" | "Microsoft.Devices.DeviceConnected" | "Microsoft.Devices.DeviceDisconnected" | "Microsoft.Devices.DeviceTelemetry" | "Microsoft.EventGrid.SubscriptionValidationEvent" | "Microsoft.EventGrid.SubscriptionDeletedEvent" | "Microsoft.EventHub.CaptureFileCreated" | "Microsoft.MachineLearningServices.DatasetDriftDetected" | "Microsoft.MachineLearningServices.ModelDeployed" | "Microsoft.MachineLearningServices.ModelRegistered" | "Microsoft.MachineLearningServices.RunCompleted" | "Microsoft.MachineLearningServices.RunStatusChanged" | "Microsoft.Maps.GeofenceEntered" | "Microsoft.Maps.GeofenceExited" | "Microsoft.Maps.GeofenceResult" | "Microsoft.Media.JobStateChange" | "Microsoft.Media.JobOutputStateChange" | "Microsoft.Media.JobScheduled" | "Microsoft.Media.JobProcessing" | "Microsoft.Media.JobCanceling" | "Microsoft.Media.JobFinished" | "Microsoft.Media.JobCanceled" | "Microsoft.Media.JobErrored" | "Microsoft.Media.JobOutputCanceled" | "Microsoft.Media.JobOutputCanceling" | "Microsoft.Media.JobOutputErrored" | "Microsoft.Media.JobOutputFinished" | "Microsoft.Media.JobOutputProcessing" | "Microsoft.Media.JobOutputScheduled" | "Microsoft.Media.JobOutputProgress" | "Microsoft.Media.LiveEventEncoderConnected" | "Microsoft.Media.LiveEventConnectionRejected" | "Microsoft.Media.LiveEventEncoderDisconnected" | "Microsoft.Media.LiveEventIncomingStreamReceived" | "Microsoft.Media.LiveEventIncomingStreamsOutOfSync" | "Microsoft.Media.LiveEventIncomingVideoStreamsOutOfSync" | "Microsoft.Media.LiveEventIncomingDataChunkDropped" | "Microsoft.Media.LiveEventIngestHeartbeat" | "Microsoft.Media.LiveEventTrackDiscontinuityDetected" | "Microsoft.Resources.ResourceWriteSuccess" | "Microsoft.Resources.ResourceWriteFailure" | "Microsoft.Resources.ResourceWriteCancel" | "Microsoft.Resources.ResourceDeleteSuccess" | "Microsoft.Resources.ResourceDeleteFailure" | "Microsoft.Resources.ResourceDeleteCancel" | "Microsoft.Resources.ResourceActionSuccess" | "Microsoft.Resources.ResourceActionFailure" | "Microsoft.Resources.ResourceActionCancel" | "Microsoft.ServiceBus.ActiveMessagesAvailableWithNoListeners" | "Microsoft.ServiceBus.DeadletterMessagesAvailableWithNoListener" | "Microsoft.Storage.BlobCreated" | "Microsoft.Storage.BlobDeleted" | "Microsoft.Storage.BlobRenamed" | "Microsoft.Storage.DirectoryCreated" | "Microsoft.Storage.DirectoryDeleted" | "Microsoft.Storage.DirectoryRenamed" | "Microsoft.Web.AppUpdated" | "Microsoft.Web.BackupOperationStarted" | "Microsoft.Web.BackupOperationCompleted" | "Microsoft.Web.BackupOperationFailed" | "Microsoft.Web.RestoreOperationStarted" | "Microsoft.Web.RestoreOperationCompleted" | "Microsoft.Web.RestoreOperationFailed" | "Microsoft.Web.SlotSwapStarted" | "Microsoft.Web.SlotSwapCompleted" | "Microsoft.Web.SlotSwapFailed" | "Microsoft.Web.SlotSwapWithPreviewStarted" | "Microsoft.Web.SlotSwapWithPreviewCancelled" | "Microsoft.Web.AppServicePlanUpdated";
 
 // @public
-export function isEventHubCaptureFileCreatedEvent(event: CloudEvent<unknown>): event is CloudEvent<EventHubCaptureFileCreatedEventData>;
+export interface MachineLearningServicesDatasetDriftDetectedEventData {
+    baseDatasetId?: string;
+    dataDriftId?: string;
+    dataDriftName?: string;
+    driftCoefficient?: number;
+    endTime?: Date;
+    runId?: string;
+    startTime?: Date;
+    targetDatasetId?: string;
+}
+
+// @public
+export interface MachineLearningServicesModelDeployedEventData {
+    modelIds?: string;
+    serviceComputeType?: string;
+    serviceName?: string;
+    serviceProperties?: any;
+    serviceTags?: any;
+}
+
+// @public
+export interface MachineLearningServicesModelRegisteredEventData {
+    modelName?: string;
+    modelProperties?: any;
+    modelTags?: any;
+    modelVersion?: string;
+}
+
+// @public
+export interface MachineLearningServicesRunCompletedEventData {
+    experimentId?: string;
+    experimentName?: string;
+    runId?: string;
+    runProperties?: any;
+    runTags?: any;
+    runType?: string;
+}
+
+// @public
+export interface MachineLearningServicesRunStatusChangedEventData {
+    experimentId?: string;
+    experimentName?: string;
+    runId?: string;
+    runProperties?: any;
+    runStatus?: string;
+    runTags?: any;
+    runType?: string;
+}
+
+// @public
+export type MapsGeofenceEnteredEventData = MapsGeofenceEventProperties & {};
+
+// @public
+export interface MapsGeofenceEventProperties {
+    expiredGeofenceGeometryId?: string[];
+    geometries?: MapsGeofenceGeometry[];
+    invalidPeriodGeofenceGeometryId?: string[];
+    isEventPublished?: boolean;
+}
+
+// @public
+export type MapsGeofenceExitedEventData = MapsGeofenceEventProperties & {};
+
+// @public
+export interface MapsGeofenceGeometry {
+    deviceId?: string;
+    distance?: number;
+    geometryId?: string;
+    nearestLat?: number;
+    nearestLon?: number;
+    udId?: string;
+}
+
+// @public
+export type MapsGeofenceResultEventData = MapsGeofenceEventProperties & {};
+
+// @public
+export type MediaJobCanceledEventData = MediaJobStateChangeEventData & {
+    outputs?: MediaJobOutputUnion[];
+};
+
+// @public
+export type MediaJobCancelingEventData = MediaJobStateChangeEventData & {};
+
+// @public
+export interface MediaJobError {
+    readonly category?: MediaJobErrorCategory;
+    readonly code?: MediaJobErrorCode;
+    readonly details?: MediaJobErrorDetail[];
+    readonly message?: string;
+    readonly retry?: MediaJobRetry;
+}
+
+// @public
+export type MediaJobErrorCategory = "Service" | "Download" | "Upload" | "Configuration" | "Content";
+
+// @public
+export type MediaJobErrorCode = "ServiceError" | "ServiceTransientError" | "DownloadNotAccessible" | "DownloadTransientError" | "UploadNotAccessible" | "UploadTransientError" | "ConfigurationUnsupported" | "ContentMalformed" | "ContentUnsupported";
+
+// @public
+export interface MediaJobErrorDetail {
+    readonly code?: string;
+    readonly message?: string;
+}
+
+// @public
+export type MediaJobErroredEventData = MediaJobStateChangeEventData & {
+    outputs?: MediaJobOutputUnion[];
+};
+
+// @public
+export type MediaJobFinishedEventData = MediaJobStateChangeEventData & {
+    outputs?: MediaJobOutputUnion[];
+};
+
+// @public
+export interface MediaJobOutput {
+    "@odata.type": "#Microsoft.Media.JobOutputAsset";
+    error?: MediaJobError;
+    label?: string;
+    odataType?: string;
+    progress: number;
+    state: MediaJobState;
+}
+
+// @public
+export type MediaJobOutputAsset = MediaJobOutput & {
+    assetName?: string;
+};
+
+// @public
+export type MediaJobOutputCanceledEventData = MediaJobOutputStateChangeEventData & {};
+
+// @public
+export type MediaJobOutputCancelingEventData = MediaJobOutputStateChangeEventData & {};
+
+// @public
+export type MediaJobOutputErroredEventData = MediaJobOutputStateChangeEventData & {};
+
+// @public
+export type MediaJobOutputFinishedEventData = MediaJobOutputStateChangeEventData & {};
+
+// @public
+export type MediaJobOutputProcessingEventData = MediaJobOutputStateChangeEventData & {};
+
+// @public
+export interface MediaJobOutputProgressEventData {
+    jobCorrelationData?: {
+        [propertyName: string]: string;
+    };
+    label?: string;
+    progress?: number;
+}
+
+// @public
+export type MediaJobOutputScheduledEventData = MediaJobOutputStateChangeEventData & {};
+
+// @public
+export interface MediaJobOutputStateChangeEventData {
+    jobCorrelationData?: {
+        [propertyName: string]: string;
+    };
+    output?: MediaJobOutputUnion;
+    readonly previousState?: MediaJobState;
+}
+
+// @public (undocumented)
+export type MediaJobOutputUnion = MediaJobOutput | MediaJobOutputAsset;
+
+// @public
+export type MediaJobProcessingEventData = MediaJobStateChangeEventData & {};
+
+// @public
+export type MediaJobRetry = "DoNotRetry" | "MayRetry";
+
+// @public
+export type MediaJobScheduledEventData = MediaJobStateChangeEventData & {};
+
+// @public
+export type MediaJobState = "Canceled" | "Canceling" | "Error" | "Finished" | "Processing" | "Queued" | "Scheduled";
+
+// @public
+export interface MediaJobStateChangeEventData {
+    correlationData?: {
+        [propertyName: string]: string;
+    };
+    readonly previousState?: MediaJobState;
+    readonly state?: MediaJobState;
+}
+
+// @public
+export interface MediaLiveEventConnectionRejectedEventData {
+    readonly encoderIp?: string;
+    readonly encoderPort?: string;
+    readonly ingestUrl?: string;
+    readonly resultCode?: string;
+    readonly streamId?: string;
+}
+
+// @public
+export interface MediaLiveEventEncoderConnectedEventData {
+    readonly encoderIp?: string;
+    readonly encoderPort?: string;
+    readonly ingestUrl?: string;
+    readonly streamId?: string;
+}
+
+// @public
+export interface MediaLiveEventEncoderDisconnectedEventData {
+    readonly encoderIp?: string;
+    readonly encoderPort?: string;
+    readonly ingestUrl?: string;
+    readonly resultCode?: string;
+    readonly streamId?: string;
+}
+
+// @public
+export interface MediaLiveEventIncomingDataChunkDroppedEventData {
+    readonly bitrate?: number;
+    readonly resultCode?: string;
+    readonly timescale?: string;
+    readonly timestamp?: string;
+    readonly trackName?: string;
+    readonly trackType?: string;
+}
+
+// @public
+export interface MediaLiveEventIncomingStreamReceivedEventData {
+    readonly bitrate?: number;
+    readonly duration?: string;
+    readonly encoderIp?: string;
+    readonly encoderPort?: string;
+    readonly ingestUrl?: string;
+    readonly timescale?: string;
+    readonly timestamp?: string;
+    readonly trackName?: string;
+    readonly trackType?: string;
+}
+
+// @public
+export interface MediaLiveEventIncomingStreamsOutOfSyncEventData {
+    readonly maxLastTimestamp?: string;
+    readonly minLastTimestamp?: string;
+    readonly timescaleOfMaxLastTimestamp?: string;
+    readonly timescaleOfMinLastTimestamp?: string;
+    readonly typeOfStreamWithMaxLastTimestamp?: string;
+    readonly typeOfStreamWithMinLastTimestamp?: string;
+}
+
+// @public
+export interface MediaLiveEventIncomingVideoStreamsOutOfSyncEventData {
+    readonly firstDuration?: string;
+    readonly firstTimestamp?: string;
+    readonly secondDuration?: string;
+    readonly secondTimestamp?: string;
+    readonly timescale?: string;
+}
+
+// @public
+export interface MediaLiveEventIngestHeartbeatEventData {
+    readonly bitrate?: number;
+    readonly discontinuityCount?: number;
+    readonly healthy?: boolean;
+    readonly incomingBitrate?: number;
+    readonly lastTimestamp?: string;
+    readonly nonincreasingCount?: number;
+    readonly overlapCount?: number;
+    readonly state?: string;
+    readonly timescale?: string;
+    readonly trackName?: string;
+    readonly trackType?: string;
+    readonly unexpectedBitrate?: boolean;
+}
+
+// @public
+export interface MediaLiveEventTrackDiscontinuityDetectedEventData {
+    readonly bitrate?: number;
+    readonly discontinuityGap?: string;
+    readonly newTimestamp?: string;
+    readonly previousTimestamp?: string;
+    readonly timescale?: string;
+    readonly trackName?: string;
+    readonly trackType?: string;
+}
+
+// @public
+export interface ResourceActionCancelEventData {
+    authorization?: string;
+    claims?: string;
+    correlationId?: string;
+    httpRequest?: string;
+    operationName?: string;
+    resourceGroup?: string;
+    resourceProvider?: string;
+    resourceUri?: string;
+    status?: string;
+    subscriptionId?: string;
+    tenantId?: string;
+}
+
+// @public
+export interface ResourceActionFailureEventData {
+    authorization?: string;
+    claims?: string;
+    correlationId?: string;
+    httpRequest?: string;
+    operationName?: string;
+    resourceGroup?: string;
+    resourceProvider?: string;
+    resourceUri?: string;
+    status?: string;
+    subscriptionId?: string;
+    tenantId?: string;
+}
+
+// @public
+export interface ResourceActionSuccessEventData {
+    authorization?: string;
+    claims?: string;
+    correlationId?: string;
+    httpRequest?: string;
+    operationName?: string;
+    resourceGroup?: string;
+    resourceProvider?: string;
+    resourceUri?: string;
+    status?: string;
+    subscriptionId?: string;
+    tenantId?: string;
+}
+
+// @public
+export interface ResourceDeleteCancelEventData {
+    authorization?: string;
+    claims?: string;
+    correlationId?: string;
+    httpRequest?: string;
+    operationName?: string;
+    resourceGroup?: string;
+    resourceProvider?: string;
+    resourceUri?: string;
+    status?: string;
+    subscriptionId?: string;
+    tenantId?: string;
+}
+
+// @public
+export interface ResourceDeleteFailureEventData {
+    authorization?: string;
+    claims?: string;
+    correlationId?: string;
+    httpRequest?: string;
+    operationName?: string;
+    resourceGroup?: string;
+    resourceProvider?: string;
+    resourceUri?: string;
+    status?: string;
+    subscriptionId?: string;
+    tenantId?: string;
+}
+
+// @public
+export interface ResourceDeleteSuccessEventData {
+    authorization?: string;
+    claims?: string;
+    correlationId?: string;
+    httpRequest?: string;
+    operationName?: string;
+    resourceGroup?: string;
+    resourceProvider?: string;
+    resourceUri?: string;
+    status?: string;
+    subscriptionId?: string;
+    tenantId?: string;
+}
+
+// @public
+export interface ResourceWriteCancelEventData {
+    authorization?: string;
+    claims?: string;
+    correlationId?: string;
+    httpRequest?: string;
+    operationName?: string;
+    resourceGroup?: string;
+    resourceProvider?: string;
+    resourceUri?: string;
+    status?: string;
+    subscriptionId?: string;
+    tenantId?: string;
+}
+
+// @public
+export interface ResourceWriteFailureEventData {
+    authorization?: string;
+    claims?: string;
+    correlationId?: string;
+    httpRequest?: string;
+    operationName?: string;
+    resourceGroup?: string;
+    resourceProvider?: string;
+    resourceUri?: string;
+    status?: string;
+    subscriptionId?: string;
+    tenantId?: string;
+}
+
+// @public
+export interface ResourceWriteSuccessEventData {
+    authorization?: string;
+    claims?: string;
+    correlationId?: string;
+    httpRequest?: string;
+    operationName?: string;
+    resourceGroup?: string;
+    resourceProvider?: string;
+    resourceUri?: string;
+    status?: string;
+    subscriptionId?: string;
+    tenantId?: string;
+}
 
 // @public
 export type SendCloudEventsOptions = OperationOptions;
@@ -202,8 +725,428 @@ export type SendCustomSchemaEventsOptions = OperationOptions;
 export type SendEventsOptions = OperationOptions;
 
 // @public
+export interface ServiceBusActiveMessagesAvailableWithNoListenersEventData {
+    entityType?: string;
+    namespaceName?: string;
+    queueName?: string;
+    requestUri?: string;
+    subscriptionName?: string;
+    topicName?: string;
+}
+
+// @public
+export interface ServiceBusDeadletterMessagesAvailableWithNoListenersEventData {
+    entityType?: string;
+    namespaceName?: string;
+    queueName?: string;
+    requestUri?: string;
+    subscriptionName?: string;
+    topicName?: string;
+}
+
+// @public
 export interface SignatureCredential {
     signature(): string;
+}
+
+// @public
+export type StampKind = "Public" | "AseV1" | "AseV2";
+
+// @public
+export interface StorageBlobCreatedEventData {
+    api?: string;
+    blobType?: string;
+    clientRequestId?: string;
+    contentLength?: number;
+    contentOffset?: number;
+    contentType?: string;
+    eTag?: string;
+    identity?: string;
+    requestId?: string;
+    sequencer?: string;
+    storageDiagnostics?: any;
+    url?: string;
+}
+
+// @public
+export interface StorageBlobDeletedEventData {
+    api?: string;
+    blobType?: string;
+    clientRequestId?: string;
+    contentType?: string;
+    identity?: string;
+    requestId?: string;
+    sequencer?: string;
+    storageDiagnostics?: any;
+    url?: string;
+}
+
+// @public
+export interface StorageBlobRenamedEventData {
+    api?: string;
+    clientRequestId?: string;
+    destinationUrl?: string;
+    identity?: string;
+    requestId?: string;
+    sequencer?: string;
+    sourceUrl?: string;
+    storageDiagnostics?: any;
+}
+
+// @public
+export interface StorageDirectoryCreatedEventData {
+    api?: string;
+    clientRequestId?: string;
+    eTag?: string;
+    identity?: string;
+    requestId?: string;
+    sequencer?: string;
+    storageDiagnostics?: any;
+    url?: string;
+}
+
+// @public
+export interface StorageDirectoryDeletedEventData {
+    api?: string;
+    clientRequestId?: string;
+    identity?: string;
+    recursive?: boolean;
+    requestId?: string;
+    sequencer?: string;
+    storageDiagnostics?: any;
+    url?: string;
+}
+
+// @public
+export interface StorageDirectoryRenamedEventData {
+    api?: string;
+    clientRequestId?: string;
+    destinationUrl?: string;
+    identity?: string;
+    requestId?: string;
+    sequencer?: string;
+    sourceUrl?: string;
+    storageDiagnostics?: any;
+}
+
+// @public
+export interface SubscriptionDeletedEventData {
+    readonly eventSubscriptionId?: string;
+}
+
+// @public
+export interface SubscriptionValidationEventData {
+    readonly validationCode?: string;
+    readonly validationUrl?: string;
+}
+
+// @public
+export interface SystemEventNameToEventData {
+    // (undocumented)
+    "Microsoft.AppConfiguration.KeyValueDeleted": AppConfigurationKeyValueDeletedEventData;
+    // (undocumented)
+    "Microsoft.AppConfiguration.KeyValueModified": AppConfigurationKeyValueModifiedEventData;
+    // (undocumented)
+    "Microsoft.ContainerRegistry.ChartDeleted": ContainerRegistryChartDeletedEventData;
+    // (undocumented)
+    "Microsoft.ContainerRegistry.ChartPushed": ContainerRegistryChartPushedEventData;
+    // (undocumented)
+    "Microsoft.ContainerRegistry.ImageDeleted": ContainerRegistryImageDeletedEventData;
+    // (undocumented)
+    "Microsoft.ContainerRegistry.ImagePushed": ContainerRegistryImagePushedEventData;
+    // (undocumented)
+    "Microsoft.Devices.DeviceConnected": IotHubDeviceConnectedEventData;
+    // (undocumented)
+    "Microsoft.Devices.DeviceCreated": IotHubDeviceCreatedEventData;
+    // (undocumented)
+    "Microsoft.Devices.DeviceDeleted": IotHubDeviceDeletedEventData;
+    // (undocumented)
+    "Microsoft.Devices.DeviceDisconnected": IotHubDeviceDisconnectedEventData;
+    // (undocumented)
+    "Microsoft.Devices.DeviceTelemetry": IotHubDeviceTelemetryEventData;
+    // (undocumented)
+    "Microsoft.EventGrid.SubscriptionDeletedEvent": SubscriptionDeletedEventData;
+    // (undocumented)
+    "Microsoft.EventGrid.SubscriptionValidationEvent": SubscriptionValidationEventData;
+    // (undocumented)
+    "Microsoft.EventHub.CaptureFileCreated": EventHubCaptureFileCreatedEventData;
+    // (undocumented)
+    "Microsoft.MachineLearningServices.DatasetDriftDetected": MachineLearningServicesDatasetDriftDetectedEventData;
+    // (undocumented)
+    "Microsoft.MachineLearningServices.ModelDeployed": MachineLearningServicesModelDeployedEventData;
+    // (undocumented)
+    "Microsoft.MachineLearningServices.ModelRegistered": MachineLearningServicesModelRegisteredEventData;
+    // (undocumented)
+    "Microsoft.MachineLearningServices.RunCompleted": MachineLearningServicesRunCompletedEventData;
+    // (undocumented)
+    "Microsoft.MachineLearningServices.RunStatusChanged": MachineLearningServicesRunStatusChangedEventData;
+    // (undocumented)
+    "Microsoft.Maps.GeofenceEntered": MapsGeofenceEnteredEventData;
+    // (undocumented)
+    "Microsoft.Maps.GeofenceExited": MapsGeofenceExitedEventData;
+    // (undocumented)
+    "Microsoft.Maps.GeofenceResult": MapsGeofenceResultEventData;
+    // (undocumented)
+    "Microsoft.Media.JobCanceled": MediaJobCanceledEventData;
+    // (undocumented)
+    "Microsoft.Media.JobCanceling": MediaJobCancelingEventData;
+    // (undocumented)
+    "Microsoft.Media.JobErrored": MediaJobErroredEventData;
+    // (undocumented)
+    "Microsoft.Media.JobFinished": MediaJobFinishedEventData;
+    // (undocumented)
+    "Microsoft.Media.JobOutputCanceled": MediaJobOutputCanceledEventData;
+    // (undocumented)
+    "Microsoft.Media.JobOutputCanceling": MediaJobOutputCancelingEventData;
+    // (undocumented)
+    "Microsoft.Media.JobOutputErrored": MediaJobOutputErroredEventData;
+    // (undocumented)
+    "Microsoft.Media.JobOutputFinished": MediaJobOutputFinishedEventData;
+    // (undocumented)
+    "Microsoft.Media.JobOutputProcessing": MediaJobOutputProcessingEventData;
+    // (undocumented)
+    "Microsoft.Media.JobOutputProgress": MediaJobOutputProgressEventData;
+    // (undocumented)
+    "Microsoft.Media.JobOutputScheduled": MediaJobOutputScheduledEventData;
+    // (undocumented)
+    "Microsoft.Media.JobOutputStateChange": MediaJobOutputStateChangeEventData;
+    // (undocumented)
+    "Microsoft.Media.JobProcessing": MediaJobProcessingEventData;
+    // (undocumented)
+    "Microsoft.Media.JobScheduled": MediaJobScheduledEventData;
+    // (undocumented)
+    "Microsoft.Media.JobStateChange": MediaJobStateChangeEventData;
+    // (undocumented)
+    "Microsoft.Media.LiveEventConnectionRejected": MediaLiveEventConnectionRejectedEventData;
+    // (undocumented)
+    "Microsoft.Media.LiveEventEncoderConnected": MediaLiveEventEncoderConnectedEventData;
+    // (undocumented)
+    "Microsoft.Media.LiveEventEncoderDisconnected": MediaLiveEventEncoderDisconnectedEventData;
+    // (undocumented)
+    "Microsoft.Media.LiveEventIncomingDataChunkDropped": MediaLiveEventIncomingDataChunkDroppedEventData;
+    // (undocumented)
+    "Microsoft.Media.LiveEventIncomingStreamReceived": MediaLiveEventIncomingStreamReceivedEventData;
+    // (undocumented)
+    "Microsoft.Media.LiveEventIncomingStreamsOutOfSync": MediaLiveEventIncomingStreamsOutOfSyncEventData;
+    // (undocumented)
+    "Microsoft.Media.LiveEventIncomingVideoStreamsOutOfSync": MediaLiveEventIncomingVideoStreamsOutOfSyncEventData;
+    // (undocumented)
+    "Microsoft.Media.LiveEventIngestHeartbeat": MediaLiveEventIngestHeartbeatEventData;
+    // (undocumented)
+    "Microsoft.Media.LiveEventTrackDiscontinuityDetected": MediaLiveEventTrackDiscontinuityDetectedEventData;
+    // (undocumented)
+    "Microsoft.Resources.ResourceActionCancel": ResourceActionCancelEventData;
+    // (undocumented)
+    "Microsoft.Resources.ResourceActionFailure": ResourceActionFailureEventData;
+    // (undocumented)
+    "Microsoft.Resources.ResourceActionSuccess": ResourceActionSuccessEventData;
+    // (undocumented)
+    "Microsoft.Resources.ResourceDeleteCancel": ResourceDeleteCancelEventData;
+    // (undocumented)
+    "Microsoft.Resources.ResourceDeleteFailure": ResourceDeleteFailureEventData;
+    // (undocumented)
+    "Microsoft.Resources.ResourceDeleteSuccess": ResourceDeleteSuccessEventData;
+    // (undocumented)
+    "Microsoft.Resources.ResourceWriteCancel": ResourceWriteCancelEventData;
+    // (undocumented)
+    "Microsoft.Resources.ResourceWriteFailure": ResourceWriteFailureEventData;
+    // (undocumented)
+    "Microsoft.Resources.ResourceWriteSuccess": ResourceWriteSuccessEventData;
+    // (undocumented)
+    "Microsoft.ServiceBus.ActiveMessagesAvailableWithNoListeners": ServiceBusActiveMessagesAvailableWithNoListenersEventData;
+    // (undocumented)
+    "Microsoft.ServiceBus.DeadletterMessagesAvailableWithNoListener": ServiceBusDeadletterMessagesAvailableWithNoListenersEventData;
+    // (undocumented)
+    "Microsoft.Storage.BlobCreated": StorageBlobCreatedEventData;
+    // (undocumented)
+    "Microsoft.Storage.BlobDeleted": StorageBlobDeletedEventData;
+    // (undocumented)
+    "Microsoft.Storage.BlobRenamed": StorageBlobRenamedEventData;
+    // (undocumented)
+    "Microsoft.Storage.DirectoryCreated": StorageDirectoryCreatedEventData;
+    // (undocumented)
+    "Microsoft.Storage.DirectoryDeleted": StorageDirectoryDeletedEventData;
+    // (undocumented)
+    "Microsoft.Storage.DirectoryRenamed": StorageDirectoryRenamedEventData;
+    // (undocumented)
+    "Microsoft.Web.AppServicePlanUpdated": WebAppServicePlanUpdatedEventData;
+    // (undocumented)
+    "Microsoft.Web.AppUpdated": WebAppUpdatedEventData;
+    // (undocumented)
+    "Microsoft.Web.BackupOperationCompleted": WebBackupOperationCompletedEventData;
+    // (undocumented)
+    "Microsoft.Web.BackupOperationFailed": WebBackupOperationFailedEventData;
+    // (undocumented)
+    "Microsoft.Web.BackupOperationStarted": WebBackupOperationStartedEventData;
+    // (undocumented)
+    "Microsoft.Web.RestoreOperationCompleted": WebRestoreOperationCompletedEventData;
+    // (undocumented)
+    "Microsoft.Web.RestoreOperationFailed": WebRestoreOperationFailedEventData;
+    // (undocumented)
+    "Microsoft.Web.RestoreOperationStarted": WebRestoreOperationStartedEventData;
+    // (undocumented)
+    "Microsoft.Web.SlotSwapCompleted": WebSlotSwapCompletedEventData;
+    // (undocumented)
+    "Microsoft.Web.SlotSwapFailed": WebSlotSwapFailedEventData;
+    // (undocumented)
+    "Microsoft.Web.SlotSwapStarted": WebSlotSwapStartedEventData;
+    // (undocumented)
+    "Microsoft.Web.SlotSwapWithPreviewCancelled": WebSlotSwapWithPreviewCancelledEventData;
+    // (undocumented)
+    "Microsoft.Web.SlotSwapWithPreviewStarted": WebSlotSwapWithPreviewStartedEventData;
+}
+
+// @public
+export interface WebAppServicePlanUpdatedEventData {
+    address?: string;
+    appServicePlanEventTypeDetail?: AppServicePlanEventTypeDetail;
+    clientRequestId?: string;
+    correlationRequestId?: string;
+    name?: string;
+    requestId?: string;
+    sku?: WebAppServicePlanUpdatedEventDataSku;
+    verb?: string;
+}
+
+// @public
+export interface WebAppServicePlanUpdatedEventDataSku {
+    capacity?: string;
+    family?: string;
+    name?: string;
+    size?: string;
+    tier?: string;
+}
+
+// @public
+export interface WebAppUpdatedEventData {
+    address?: string;
+    appEventTypeDetail?: AppEventTypeDetail;
+    clientRequestId?: string;
+    correlationRequestId?: string;
+    name?: string;
+    requestId?: string;
+    verb?: string;
+}
+
+// @public
+export interface WebBackupOperationCompletedEventData {
+    address?: string;
+    appEventTypeDetail?: AppEventTypeDetail;
+    clientRequestId?: string;
+    correlationRequestId?: string;
+    name?: string;
+    requestId?: string;
+    verb?: string;
+}
+
+// @public
+export interface WebBackupOperationFailedEventData {
+    address?: string;
+    appEventTypeDetail?: AppEventTypeDetail;
+    clientRequestId?: string;
+    correlationRequestId?: string;
+    name?: string;
+    requestId?: string;
+    verb?: string;
+}
+
+// @public
+export interface WebBackupOperationStartedEventData {
+    address?: string;
+    appEventTypeDetail?: AppEventTypeDetail;
+    clientRequestId?: string;
+    correlationRequestId?: string;
+    name?: string;
+    requestId?: string;
+    verb?: string;
+}
+
+// @public
+export interface WebRestoreOperationCompletedEventData {
+    address?: string;
+    appEventTypeDetail?: AppEventTypeDetail;
+    clientRequestId?: string;
+    correlationRequestId?: string;
+    name?: string;
+    requestId?: string;
+    verb?: string;
+}
+
+// @public
+export interface WebRestoreOperationFailedEventData {
+    address?: string;
+    appEventTypeDetail?: AppEventTypeDetail;
+    clientRequestId?: string;
+    correlationRequestId?: string;
+    name?: string;
+    requestId?: string;
+    verb?: string;
+}
+
+// @public
+export interface WebRestoreOperationStartedEventData {
+    address?: string;
+    appEventTypeDetail?: AppEventTypeDetail;
+    clientRequestId?: string;
+    correlationRequestId?: string;
+    name?: string;
+    requestId?: string;
+    verb?: string;
+}
+
+// @public
+export interface WebSlotSwapCompletedEventData {
+    address?: string;
+    appEventTypeDetail?: AppEventTypeDetail;
+    clientRequestId?: string;
+    correlationRequestId?: string;
+    name?: string;
+    requestId?: string;
+    verb?: string;
+}
+
+// @public
+export interface WebSlotSwapFailedEventData {
+    address?: string;
+    appEventTypeDetail?: AppEventTypeDetail;
+    clientRequestId?: string;
+    correlationRequestId?: string;
+    name?: string;
+    requestId?: string;
+    verb?: string;
+}
+
+// @public
+export interface WebSlotSwapStartedEventData {
+    address?: string;
+    appEventTypeDetail?: AppEventTypeDetail;
+    clientRequestId?: string;
+    correlationRequestId?: string;
+    name?: string;
+    requestId?: string;
+    verb?: string;
+}
+
+// @public
+export interface WebSlotSwapWithPreviewCancelledEventData {
+    address?: string;
+    appEventTypeDetail?: AppEventTypeDetail;
+    clientRequestId?: string;
+    correlationRequestId?: string;
+    name?: string;
+    requestId?: string;
+    verb?: string;
+}
+
+// @public
+export interface WebSlotSwapWithPreviewStartedEventData {
+    address?: string;
+    appEventTypeDetail?: AppEventTypeDetail;
+    clientRequestId?: string;
+    correlationRequestId?: string;
+    name?: string;
+    requestId?: string;
+    verb?: string;
 }
 
 
