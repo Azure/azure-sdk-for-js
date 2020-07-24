@@ -25,7 +25,7 @@ export class SqlManagementClientContext extends msRestAzure.AzureServiceClient {
    * @param subscriptionId The subscription ID that identifies an Azure subscription.
    * @param [options] The parameter options
    */
-constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.SqlManagementClientOptions) {
+ constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.SqlManagementClientOptions) {
     if (credentials == undefined) {
       throw new Error('\'credentials\' cannot be null.');
     }
