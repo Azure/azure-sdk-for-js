@@ -116,7 +116,7 @@ export interface CopyFileSmbInfo {
 }
 
 // @public
-export type CopyStatusType = 'pending' | 'success' | 'aborted' | 'failed';
+export type CopyStatusType = "pending" | "success" | "aborted" | "failed";
 
 // @public
 export interface CorsRule {
@@ -142,7 +142,7 @@ export abstract class CredentialPolicy extends BaseRequestPolicy {
 export type CredentialPolicyCreator = (nextPolicy: RequestPolicy, options: RequestPolicyOptions) => CredentialPolicy;
 
 // @public
-export type DeleteSnapshotsOptionType = 'include';
+export type DeleteSnapshotsOptionType = "include";
 
 export { deserializationPolicy }
 
@@ -940,7 +940,7 @@ export class FileSystemAttributes {
 }
 
 // @public
-export type FileType = 'File';
+export type FileType = "File";
 
 // @public
 export interface FileUploadRangeFromURLHeaders {
@@ -1049,7 +1049,7 @@ export interface LeaseAccessConditions {
 }
 
 // @public
-export type LeaseDurationType = 'infinite' | 'fixed';
+export type LeaseDurationType = "infinite" | "fixed";
 
 // @public
 export interface LeaseOperationOptions extends CommonOptions {
@@ -1076,10 +1076,10 @@ export interface LeaseOperationResponseHeaders {
 }
 
 // @public
-export type LeaseStateType = 'available' | 'leased' | 'expired' | 'breaking' | 'broken';
+export type LeaseStateType = "available" | "leased" | "expired" | "breaking" | "broken";
 
 // @public
-export type LeaseStatusType = 'locked' | 'unlocked';
+export type LeaseStatusType = "locked" | "unlocked";
 
 // @public
 export interface ListFilesAndDirectoriesSegmentResponse {
@@ -1112,7 +1112,7 @@ export interface ListHandlesResponse {
 }
 
 // @public
-export type ListSharesIncludeType = 'snapshots' | 'metadata' | 'deleted';
+export type ListSharesIncludeType = "snapshots" | "metadata" | "deleted";
 
 // @public
 export interface ListSharesResponse {

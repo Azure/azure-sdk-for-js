@@ -153,7 +153,7 @@ export interface GeoReplication {
 }
 
 // @public
-export type GeoReplicationStatusType = 'live' | 'bootstrap' | 'unavailable';
+export type GeoReplicationStatusType = "live" | "bootstrap" | "unavailable";
 
 export { HttpHeaders }
 
@@ -164,7 +164,7 @@ export { HttpRequestBody }
 export { IHttpClient }
 
 // @public
-export type ListQueuesIncludeType = 'metadata';
+export type ListQueuesIncludeType = "metadata";
 
 // @public
 export interface ListQueuesSegmentResponse {

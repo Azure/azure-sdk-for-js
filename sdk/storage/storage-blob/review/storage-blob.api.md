@@ -38,10 +38,10 @@ export interface AccessPolicy {
 }
 
 // @public
-export type AccessTier = 'P4' | 'P6' | 'P10' | 'P15' | 'P20' | 'P30' | 'P40' | 'P50' | 'P60' | 'P70' | 'P80' | 'Hot' | 'Cool' | 'Archive';
+export type AccessTier = "P4" | "P6" | "P10" | "P15" | "P20" | "P30" | "P40" | "P50" | "P60" | "P70" | "P80" | "Hot" | "Cool" | "Archive";
 
 // @public
-export type AccountKind = 'Storage' | 'BlobStorage' | 'StorageV2' | 'FileStorage' | 'BlockBlobStorage';
+export type AccountKind = "Storage" | "BlobStorage" | "StorageV2" | "FileStorage" | "BlockBlobStorage";
 
 // @public
 export class AccountSASPermissions {
@@ -246,7 +246,7 @@ export interface AppendPositionAccessConditions {
 }
 
 // @public
-export type ArchiveStatus = 'rehydrate-pending-to-hot' | 'rehydrate-pending-to-cool';
+export type ArchiveStatus = "rehydrate-pending-to-hot" | "rehydrate-pending-to-cool";
 
 export { BaseRequestPolicy }
 
@@ -1194,7 +1194,7 @@ export interface BlobTags {
 }
 
 // @public
-export type BlobType = 'BlockBlob' | 'PageBlob' | 'AppendBlob';
+export type BlobType = "BlockBlob" | "PageBlob" | "AppendBlob";
 
 // @public
 export interface BlobUndeleteHeaders {
@@ -1472,7 +1472,7 @@ export interface BlockList {
 }
 
 // @public
-export type BlockListType = 'committed' | 'uncommitted' | 'all';
+export type BlockListType = "committed" | "uncommitted" | "all";
 
 // @public
 export interface CommonOptions {
@@ -1856,7 +1856,7 @@ export type CopyPollerBlobClient = Pick<BlobClient, "abortCopyFromURL" | "getPro
 };
 
 // @public
-export type CopyStatusType = 'pending' | 'success' | 'aborted' | 'failed';
+export type CopyStatusType = "pending" | "success" | "aborted" | "failed";
 
 // @public
 export interface CorsRule {
@@ -1889,12 +1889,12 @@ export abstract class CredentialPolicy extends BaseRequestPolicy {
 export type CredentialPolicyCreator = (nextPolicy: RequestPolicy, options: RequestPolicyOptions) => CredentialPolicy;
 
 // @public
-export type DeleteSnapshotsOptionType = 'include' | 'only';
+export type DeleteSnapshotsOptionType = "include" | "only";
 
 export { deserializationPolicy }
 
 // @public
-export type EncryptionAlgorithmType = 'AES256';
+export type EncryptionAlgorithmType = "AES256";
 
 // @public
 export interface FilterBlobItem {
@@ -1934,7 +1934,7 @@ export interface GeoReplication {
 }
 
 // @public
-export type GeoReplicationStatusType = 'live' | 'bootstrap' | 'unavailable';
+export type GeoReplicationStatusType = "live" | "bootstrap" | "unavailable";
 
 export { HttpHeaders }
 
@@ -1962,7 +1962,7 @@ export interface LeaseAccessConditions {
 }
 
 // @public
-export type LeaseDurationType = 'infinite' | 'fixed';
+export type LeaseDurationType = "infinite" | "fixed";
 
 // @public
 export interface LeaseOperationOptions extends CommonOptions {
@@ -1978,10 +1978,10 @@ export type LeaseOperationResponse = Lease & {
 };
 
 // @public
-export type LeaseStateType = 'available' | 'leased' | 'expired' | 'breaking' | 'broken';
+export type LeaseStateType = "available" | "leased" | "expired" | "breaking" | "broken";
 
 // @public
-export type LeaseStatusType = 'locked' | 'unlocked';
+export type LeaseStatusType = "locked" | "unlocked";
 
 // @public
 export interface ListBlobsFlatSegmentResponse {
@@ -2060,10 +2060,10 @@ export interface ListBlobsHierarchySegmentResponseModel {
 }
 
 // @public
-export type ListBlobsIncludeItem = 'copy' | 'deleted' | 'metadata' | 'snapshots' | 'uncommittedblobs' | 'versions' | 'tags';
+export type ListBlobsIncludeItem = "copy" | "deleted" | "metadata" | "snapshots" | "uncommittedblobs" | "versions" | "tags";
 
 // @public
-export type ListContainersIncludeType = 'metadata' | 'deleted';
+export type ListContainersIncludeType = "metadata" | "deleted";
 
 // @public
 export interface ListContainersSegmentResponse {
@@ -2480,7 +2480,7 @@ export enum PremiumPageBlobTier {
 }
 
 // @public
-export type PublicAccessType = 'container' | 'blob';
+export type PublicAccessType = "container" | "blob";
 
 // @public
 export interface Range {
@@ -2489,7 +2489,7 @@ export interface Range {
 }
 
 // @public
-export type RehydratePriority = 'High' | 'Standard';
+export type RehydratePriority = "High" | "Standard";
 
 export { RequestPolicy }
 
@@ -2547,7 +2547,7 @@ export interface SequenceNumberAccessConditions {
 }
 
 // @public
-export type SequenceNumberActionType = 'max' | 'update' | 'increment';
+export type SequenceNumberActionType = "max" | "update" | "increment";
 
 // @public
 export interface ServiceFilterBlobsHeaders {
@@ -2757,7 +2757,7 @@ export interface SignedIdentifierModel {
 }
 
 // @public
-export type SkuName = 'Standard_LRS' | 'Standard_GRS' | 'Standard_RAGRS' | 'Standard_ZRS' | 'Premium_LRS';
+export type SkuName = "Standard_LRS" | "Standard_GRS" | "Standard_RAGRS" | "Standard_ZRS" | "Premium_LRS";
 
 // @public
 export interface StaticWebsite {
@@ -2835,7 +2835,7 @@ export class StorageSharedKeyCredentialPolicy extends CredentialPolicy {
 }
 
 // @public
-export type SyncCopyStatusType = 'success';
+export type SyncCopyStatusType = "success";
 
 // @public
 export type Tags = Record<string, string>;
