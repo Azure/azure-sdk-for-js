@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+/* eslint-disable @typescript-eslint/no-useless-constructor */
+
 import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-http";
 import { createSpan } from "../util/tracing";
 import { AuthenticationErrorName, CredentialUnavailable } from "../client/errors";
@@ -27,12 +29,17 @@ const logger = credentialLogger("AzureCliCredential");
  */
 export class AzureCliCredential implements TokenCredential {
   /**
+   * Creates an instance of the AzureCliCredential class.
+   */
+  constructor() {
+    // Inherited from TokenCredential
+  }
+
+  /**
    * Gets the access token from Azure CLI
    * @param resource The resource to use when getting the token
    */
-  protected async getAzureCliAccessToken(
-    resource: string
-  ): Promise<{ stdout: string; stderr: string }> {
+  protected async getAzureCliAccessToken(resource: string) {
     return new Promise((resolve, reject) => {
       try {
         child_process.exec(
