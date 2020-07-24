@@ -600,14 +600,12 @@ describe("EventHubConsumerClient", function(): void {
       );
       let subscription: Subscription | undefined;
       const caughtErr = await new Promise<Error | MessagingError>((resolve) => {
-        subscription = badConsumerClient.subscribe(
-          {
-            processEvents: async () => {},
-            processError: async (err) => {
-              resolve(err);
-            }
+        subscription = badConsumerClient.subscribe({
+          processEvents: async () => {},
+          processError: async (err) => {
+            resolve(err);
           }
-        );
+        });
       });
       await subscription!.close();
       await badConsumerClient.close();
