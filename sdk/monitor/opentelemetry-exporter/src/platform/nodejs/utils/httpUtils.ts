@@ -1,8 +1,16 @@
 import * as http from "http";
 import * as https from "https";
 import * as url from "url";
-import { constants } from "crypto";
 import { NodejsPlatformConfig } from "../../types";
+
+//
+
+/**
+ * TODO: These were not added to @types/node until v12,
+ * but are available as of node 6.3. Move to imports once node types
+ * support this.
+ */
+const constants = require('crypto');
 
 // Used when sending via HTTPS without a passed in agent. Use one that enforces our TLS rules
 const tlsRestrictedAgent = new https.Agent(<any>{

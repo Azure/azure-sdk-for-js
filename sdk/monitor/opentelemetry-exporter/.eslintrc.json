@@ -18,7 +18,6 @@
   "parserOptions": {
     "project": "./tsconfig.json",
     "tsconfigRootDir": ".",
-    "sourceType": "module",
-    "createDefaultProgram": true
+    "sourceType": "module"
   }
 }

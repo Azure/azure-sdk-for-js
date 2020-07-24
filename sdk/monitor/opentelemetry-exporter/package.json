@@ -10,7 +10,7 @@
     "clean": "rimraf dist-esm types dist",
     "build:browser": "echo skipped",
     "build:node": "tsc -p .",
-    "build": "npm run build && npm run build:browser",
+    "build": "npm run build:node && npm run build:browser",
     "lint": "eslint . --ext .ts",
     "test": "npm run test:node && npm run test:browser",
     "test:node": "c8 ts-mocha -p ./tsconfig.json 'test/**/*.test.ts'",
@@ -39,7 +39,7 @@
   },
   "devDependencies": {
     "@types/mocha": "^7.0.2",
-    "@types/node": "^14.0.23",
+    "@types/node": "^10.0.0",
     "@typescript-eslint/parser": "^2.0.0",
     "@typescript-eslint/eslint-plugin": "^2.0.0",
     "c8": "^7.2.0",

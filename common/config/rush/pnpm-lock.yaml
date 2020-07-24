@@ -792,10 +792,6 @@ packages:
     dev: false
     resolution:
       integrity: sha512-pMCcqU2zT4TjqYFrWtYHKal7Sl30Ims6ulZ4UFXxI4xbtQqK/qqKwkDoBFCfooRqqmRu9vY3xaJRwxSh673aYg==
-  /@types/node/14.0.24:
-    dev: false
-    resolution:
-      integrity: sha512-btt/oNOiDWcSuI721MdL8VQGnjsKjlTMdrKyTcLCKeQp/n4AAMFJ961wMbp+09y8WuGPClDEv07RIItdXKIXAA==
   /@types/node/8.10.61:
     dev: false
     resolution:
@@ -9224,7 +9220,7 @@ packages:
       '@opentelemetry/semantic-conventions': 0.9.0
       '@opentelemetry/tracing': 0.9.0
       '@types/mocha': 7.0.2
-      '@types/node': 14.0.24
+      '@types/node': 10.17.13
       '@typescript-eslint/eslint-plugin': 2.34.0_3787943315ebc5ea524d5c102dc9e452
       '@typescript-eslint/parser': 2.34.0_eslint@6.8.0+typescript@3.9.6
       c8: 7.2.1
@@ -9243,7 +9239,7 @@ packages:
     dev: false
     name: '@rush-temp/monitor-opentelemetry-exporter'
     resolution:
-      integrity: sha512-1vfuiNcI64KwEzG+ZMkaM6QVuMfcok8j1plLEoKQGZg2TwvjCUaWWCePcTXkQ1rVfNt/YoU0R6UFAf4/cUVzeg==
+      integrity: sha512-slNEH8sqE68VzbHvhmGqLe/Ff3VmlYHrD86q25GnLXiMwHFDP1V7QFZTtI1p6chnvc/w3/8R1Xd427nnU4OkkA==
       tarball: 'file:projects/monitor-opentelemetry-exporter.tgz'
     version: 0.0.0
   'file:projects/search-documents.tgz':
