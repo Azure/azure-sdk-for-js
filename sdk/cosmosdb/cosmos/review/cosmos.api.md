@@ -54,7 +54,7 @@ export class ChangeFeedResponse<T> {
 export class ClientContext {
     constructor(cosmosClientOptions: CosmosClientOptions, globalEndpointManager: GlobalEndpointManager);
     // (undocumented)
-    bulk<T>({ body, path, resourceId, partitionKeyRangeId, options, }: {
+    bulk<T>({ body, path, resourceId, partitionKeyRangeId, options }: {
         body: T;
         path: string;
         partitionKeyRangeId: string;
@@ -64,7 +64,7 @@ export class ClientContext {
     // (undocumented)
     clearSessionToken(path: string): void;
     // (undocumented)
-    create<T, U = T>({ body, path, resourceType, resourceId, options, partitionKey, }: {
+    create<T, U = T>({ body, path, resourceType, resourceId, options, partitionKey }: {
         body: T;
         path: string;
         resourceType: ResourceType;
@@ -73,7 +73,7 @@ export class ClientContext {
         partitionKey?: PartitionKey;
     }): Promise<Response<T & U & Resource>>;
     // (undocumented)
-    delete<T>({ path, resourceType, resourceId, options, partitionKey, }: {
+    delete<T>({ path, resourceType, resourceId, options, partitionKey }: {
         path: string;
         resourceType: ResourceType;
         resourceId: string;
@@ -81,7 +81,7 @@ export class ClientContext {
         partitionKey?: PartitionKey;
     }): Promise<Response<T & Resource>>;
     // (undocumented)
-    execute<T>({ sprocLink, params, options, partitionKey, }: {
+    execute<T>({ sprocLink, params, options, partitionKey }: {
         sprocLink: string;
         params?: any[];
         options?: RequestOptions;
@@ -99,7 +99,7 @@ export class ClientContext {
         [containerUrl: string]: any;
     };
     // (undocumented)
-    queryFeed<T>({ path, resourceType, resourceId, resultFn, query, options, partitionKeyRangeId, partitionKey, }: {
+    queryFeed<T>({ path, resourceType, resourceId, resultFn, query, options, partitionKeyRangeId, partitionKey }: {
         path: string;
         resourceType: ResourceType;
         resourceId: string;
@@ -114,7 +114,7 @@ export class ClientContext {
     // (undocumented)
     queryPartitionKeyRanges(collectionLink: string, query?: string | SqlQuerySpec, options?: FeedOptions): QueryIterator<PartitionKeyRange>;
     // (undocumented)
-    read<T>({ path, resourceType, resourceId, options, partitionKey, }: {
+    read<T>({ path, resourceType, resourceId, options, partitionKey }: {
         path: string;
         resourceType: ResourceType;
         resourceId: string;
@@ -122,7 +122,7 @@ export class ClientContext {
         partitionKey?: PartitionKey;
     }): Promise<Response<T & Resource>>;
     // (undocumented)
-    replace<T>({ body, path, resourceType, resourceId, options, partitionKey, }: {
+    replace<T>({ body, path, resourceType, resourceId, options, partitionKey }: {
         body: any;
         path: string;
         resourceType: ResourceType;
@@ -131,7 +131,7 @@ export class ClientContext {
         partitionKey?: PartitionKey;
     }): Promise<Response<T & Resource>>;
     // (undocumented)
-    upsert<T, U = T>({ body, path, resourceType, resourceId, options, partitionKey, }: {
+    upsert<T, U = T>({ body, path, resourceType, resourceId, options, partitionKey }: {
         body: T;
         path: string;
         resourceType: ResourceType;
@@ -781,7 +781,6 @@ export class ItemResponse<T extends ItemDefinition> extends ResourceResponse<T &
 // @public
 export class Items {
     constructor(container: Container, clientContext: ClientContext);
-    // (undocumented)
     bulk(operations: Operation[], options?: RequestOptions): Promise<OperationResponse[]>;
     changeFeed(partitionKey: string | number | boolean, changeFeedOptions?: ChangeFeedOptions): ChangeFeedIterator<any>;
     changeFeed(changeFeedOptions?: ChangeFeedOptions): ChangeFeedIterator<any>;
