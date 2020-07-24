@@ -9,7 +9,11 @@ const assert = chai.assert;
 import * as sinon from "sinon";
 import { EventEmitter } from "events";
 
-import { BatchingReceiver, getRemainingWaitTimeInMsFn } from "../../src/core/batchingReceiver";
+import {
+  BatchingReceiver,
+  getRemainingWaitTimeInMsFn,
+  BatchingReceiverLite
+} from "../../src/core/batchingReceiver";
 import { createClientEntityContextForTests, defer } from "./unittestUtils";
 import { ReceiverImpl } from "../../src/receivers/receiver";
 import { createAbortSignalForTest } from "../utils/abortSignalTestUtils";
@@ -20,10 +24,12 @@ import {
   ReceiverEvents,
   SessionEvents,
   EventContext,
-  Message as RheaMessage
+  Message as RheaMessage,
+  Receiver
 } from "rhea-promise";
 import { StandardAbortMessage } from "../../src/util/utils";
 import { OnAmqpEventAsPromise } from "../../src/core/messageReceiver";
+import { ClientEntityContext } from "../../src/clientEntityContext";
 
 describe("BatchingReceiver unit tests", () => {
   describe("AbortSignal", () => {
@@ -162,7 +168,7 @@ describe("BatchingReceiver unit tests", () => {
           receiveMode: lockMode
         });
 
-        const { receiveIsReady, emitter, remainingRegisteredListeners } = setupFakeReceiver(
+        const { receiveIsReady, emitter, remainingRegisteredListeners } = setupBatchingReceiver(
           receiver
         );
 
@@ -190,7 +196,7 @@ describe("BatchingReceiver unit tests", () => {
           receiveMode: lockMode
         });
 
-        const { receiveIsReady, remainingRegisteredListeners } = setupFakeReceiver(receiver);
+        const { receiveIsReady, remainingRegisteredListeners } = setupBatchingReceiver(receiver);
 
         const receivePromise = receiver.receive(1, littleTimeout, bigTimeout);
 
@@ -216,7 +222,7 @@ describe("BatchingReceiver unit tests", () => {
             receiveMode: lockMode
           });
 
-          const { receiveIsReady, emitter, remainingRegisteredListeners } = setupFakeReceiver(
+          const { receiveIsReady, emitter, remainingRegisteredListeners } = setupBatchingReceiver(
             receiver
           );
 
@@ -262,7 +268,7 @@ describe("BatchingReceiver unit tests", () => {
             receiveMode: lockMode
           });
 
-          const { receiveIsReady, emitter, remainingRegisteredListeners } = setupFakeReceiver(
+          const { receiveIsReady, emitter, remainingRegisteredListeners } = setupBatchingReceiver(
             receiver
           );
 
@@ -313,7 +319,7 @@ describe("BatchingReceiver unit tests", () => {
             receiveMode: lockMode
           });
 
-          const { receiveIsReady, emitter, remainingRegisteredListeners } = setupFakeReceiver(
+          const { receiveIsReady, emitter, remainingRegisteredListeners } = setupBatchingReceiver(
             receiver
           );
 
@@ -360,68 +366,19 @@ describe("BatchingReceiver unit tests", () => {
         }
       );
 
-      function setupFakeReceiver(
+      function setupBatchingReceiver(
         batchingReceiver: BatchingReceiver
       ): {
         receiveIsReady: Promise<void>;
         emitter: EventEmitter;
         remainingRegisteredListeners: Set<string>;
       } {
-        const emitter = new EventEmitter();
-        const { promise: receiveIsReady, resolve: resolvePromiseIsReady } = defer<void>();
-        let credits = 0;
-
-        const remainingRegisteredListeners = new Set<string>();
-
-        const fakeRheaReceiver = {
-          on(evt: ReceiverEvents, handler: OnAmqpEventAsPromise) {
-            emitter.on(evt, handler);
-
-            if (evt === ReceiverEvents.message) {
-              --credits;
-            }
-
-            assert.isFalse(remainingRegisteredListeners.has(evt.toString()));
-            remainingRegisteredListeners.add(evt.toString());
-          },
-          removeListener(evt: ReceiverEvents, handler: OnAmqpEventAsPromise) {
-            remainingRegisteredListeners.delete(evt.toString());
-            emitter.removeListener(evt, handler);
-          },
-          session: {
-            on(evt: SessionEvents, handler: OnAmqpEventAsPromise) {
-              emitter.on(evt, handler);
-
-              if (evt === SessionEvents.sessionClose) {
-                // this also happens to be the final thing the Promise does
-                // as part of it's initialization.
-                resolvePromiseIsReady();
-              }
-
-              assert.isFalse(remainingRegisteredListeners.has(evt.toString()));
-              remainingRegisteredListeners.add(evt.toString());
-            },
-            removeListener(evt: SessionEvents, handler: OnAmqpEventAsPromise) {
-              remainingRegisteredListeners.delete(evt.toString());
-              emitter.removeListener(evt, handler);
-            }
-          },
-          isOpen: () => true,
-          addCredit: (_credits: number) => {
-            if (_credits === 1 && fakeRheaReceiver.drain === true) {
-              // special case - if we're draining we should initiate a drain
-              emitter.emit(ReceiverEvents.receiverDrained, undefined);
-            } else {
-              credits += _credits;
-            }
-          },
-          get credit() {
-            return credits;
-          },
-          connection: {
-            id: "connection-id"
-          }
-        } as RheaReceiver;
+        const {
+          fakeRheaReceiver,
+          emitter,
+          remainingRegisteredListeners,
+          receiveIsReady
+        } = createFakeReceiver();
 
         batchingReceiver["_receiver"] = fakeRheaReceiver;
 
@@ -439,6 +396,76 @@ describe("BatchingReceiver unit tests", () => {
       }
     });
   });
+
+  function createFakeReceiver(): {
+    receiveIsReady: Promise<void>;
+    emitter: EventEmitter;
+    remainingRegisteredListeners: Set<string>;
+    fakeRheaReceiver: Receiver;
+  } {
+    const emitter = new EventEmitter();
+    const { promise: receiveIsReady, resolve: resolvePromiseIsReady } = defer<void>();
+    let credits = 0;
+
+    const remainingRegisteredListeners = new Set<string>();
+
+    const fakeRheaReceiver = {
+      on(evt: ReceiverEvents, handler: OnAmqpEventAsPromise) {
+        emitter.on(evt, handler);
+
+        if (evt === ReceiverEvents.message) {
+          --credits;
+        }
+
+        assert.isFalse(remainingRegisteredListeners.has(evt.toString()));
+        remainingRegisteredListeners.add(evt.toString());
+      },
+      removeListener(evt: ReceiverEvents, handler: OnAmqpEventAsPromise) {
+        remainingRegisteredListeners.delete(evt.toString());
+        emitter.removeListener(evt, handler);
+      },
+      session: {
+        on(evt: SessionEvents, handler: OnAmqpEventAsPromise) {
+          emitter.on(evt, handler);
+
+          if (evt === SessionEvents.sessionClose) {
+            // this also happens to be the final thing the Promise does
+            // as part of it's initialization.
+            resolvePromiseIsReady();
+          }
+
+          assert.isFalse(remainingRegisteredListeners.has(evt.toString()));
+          remainingRegisteredListeners.add(evt.toString());
+        },
+        removeListener(evt: SessionEvents, handler: OnAmqpEventAsPromise) {
+          remainingRegisteredListeners.delete(evt.toString());
+          emitter.removeListener(evt, handler);
+        }
+      },
+      isOpen: () => true,
+      addCredit: (_credits: number) => {
+        if (_credits === 1 && fakeRheaReceiver.drain === true) {
+          // special case - if we're draining we should initiate a drain
+          emitter.emit(ReceiverEvents.receiverDrained, undefined);
+        } else {
+          credits += _credits;
+        }
+      },
+      get credit() {
+        return credits;
+      },
+      connection: {
+        id: "connection-id"
+      }
+    } as RheaReceiver;
+
+    return {
+      receiveIsReady,
+      emitter,
+      remainingRegisteredListeners,
+      fakeRheaReceiver
+    };
+  }
 
   describe("getRemainingWaitTimeInMs", () => {
     let clock: ReturnType<typeof sinon.useFakeTimers>;
@@ -475,7 +502,104 @@ describe("BatchingReceiver unit tests", () => {
   });
 
   describe("BatchingReceiverLite", () => {
-    it("isReceivingMessages flag", () => {});
-    it("cleanup happens properly on close()", () => {});
+    let clock: ReturnType<typeof sinon.useFakeTimers>;
+
+    beforeEach(() => {
+      clock = sinon.useFakeTimers();
+    });
+
+    afterEach(() => {
+      clock.restore();
+    });
+
+    it("isReceivingMessages is properly set and unset when receiving operations run", async () => {
+      const { fakeRheaReceiver, receiveIsReady } = createFakeReceiver();
+
+      const receiver = new BatchingReceiverLite(
+        {} as ClientEntityContext,
+        async () => {
+          return fakeRheaReceiver;
+        },
+        ReceiveMode.peekLock
+      );
+
+      assert.isFalse(receiver.isReceivingMessages);
+
+      const prm = receiver.receiveMessages({
+        maxMessageCount: 1,
+        maxTimeAfterFirstMessageInMs: 1,
+        maxWaitTimeInMs: 1
+      });
+
+      assert.isTrue(receiver.isReceivingMessages);
+
+      await receiveIsReady;
+      await clock.tick(1);
+
+      await prm;
+      assert.isFalse(receiver.isReceivingMessages);
+    });
+
+    it("batchingReceiverLite.close(actual-error) - throws the error from the current receiverMessages() call", async () => {
+      const { fakeRheaReceiver, receiveIsReady } = createFakeReceiver();
+
+      const receiver = new BatchingReceiverLite(
+        {} as ClientEntityContext,
+        async () => {
+          return fakeRheaReceiver;
+        },
+        ReceiveMode.peekLock
+      );
+
+      assert.notExists(receiver["_closeHandler"]);
+
+      const receiveMessagesPromise = receiver.receiveMessages({
+        maxMessageCount: 1,
+        maxTimeAfterFirstMessageInMs: 1,
+        maxWaitTimeInMs: 1
+      });
+
+      await receiveIsReady;
+      assert.exists(receiver["_closeHandler"]);
+
+      await receiver.close(new Error("actual error"));
+
+      try {
+        await receiveMessagesPromise;
+        assert.fail("Test should have thrown");
+      } catch (err) {
+        assert.equal(err.message, "actual error");
+      }
+    });
+
+    it("batchingReceiverLite.close() (ie, no error) just shuts down the current operation with no error", async () => {
+      const { fakeRheaReceiver, receiveIsReady } = createFakeReceiver();
+
+      const receiver = new BatchingReceiverLite(
+        {} as ClientEntityContext,
+        async () => {
+          return fakeRheaReceiver;
+        },
+        ReceiveMode.peekLock
+      );
+
+      assert.notExists(receiver["_closeHandler"]);
+
+      const receiveMessagesPromise = receiver.receiveMessages({
+        maxMessageCount: 1,
+        maxTimeAfterFirstMessageInMs: 1,
+        maxWaitTimeInMs: 1
+      });
+
+      await receiveIsReady;
+      assert.exists(receiver["_closeHandler"]);
+
+      await receiver.close();
+
+      const results = await receiveMessagesPromise;
+
+      // TODO: let's have a few messages in here.
+      assert.isEmpty(results);
+    });
   });
 });
