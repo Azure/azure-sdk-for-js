@@ -50,7 +50,7 @@ function afterEachTest(): Promise<void> {
   return serviceBusClient.test.afterEach();
 }
 
-describe.only("Batching Receiver", () => {
+describe("Batching Receiver", () => {
   describe("Batch Receiver - default values", function(): void {
     before(() => {
       serviceBusClient = createServiceBusClientForTests();
