@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 import * as log from "./log";
-import * as os from "os";
 import { packageJsonInfo } from "./util/constants";
 import {
   ConnectionConfig,
@@ -16,6 +15,8 @@ import {
 import { ServiceBusClientOptions } from "./constructorHelpers";
 import { ClientEntityContext } from "./clientEntityContext";
 import { Connection, ConnectionEvents, EventContext, OnAmqpEvent } from "rhea-promise";
+import { formatUserAgentPrefix } from "./util/utils";
+import { getRuntimeInfo } from "./util/runtimeInfo";
 
 /**
  * @internal
@@ -90,20 +91,15 @@ type ConnectionContextMethods = Omit<
  * @internal
  */
 export namespace ConnectionContext {
-  /**
-   * @property {string} userAgent The user agent string for the ServiceBus client.
-   * See guideline at https://github.com/Azure/azure-sdk/blob/master/docs/design/Telemetry.mdk
-   */
-  export const userAgent: string = `azsdk-js-azureservicebus/${
-    packageJsonInfo.version
-  } (NODE-VERSION ${process.version}; ${os.type()} ${os.release()})`;
-
   export function create(
     config: ConnectionConfig,
     tokenCredential: SharedKeyCredential | TokenCredential,
     options?: ServiceBusClientOptions
   ): ConnectionContext {
     if (!options) options = {};
+    const userAgent = `${formatUserAgentPrefix(
+      options.userAgentOptions?.userAgentPrefix
+    )} ${getRuntimeInfo()}`;
     const parameters: CreateConnectionContextBaseParameters = {
       config: config,
       tokenCredential: tokenCredential,
@@ -112,7 +108,7 @@ export namespace ConnectionContext {
       isEntityPathRequired: false,
       connectionProperties: {
         product: "MSJSClient",
-        userAgent: userAgent,
+        userAgent,
         version: packageJsonInfo.version
       }
     };

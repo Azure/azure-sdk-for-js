@@ -1088,7 +1088,7 @@ describe(`Parse empty response for list() requests to return as empty array`, fu
         headers: new HttpHeaders({})
       };
     };
-    const result = await mockServiceBusAtomManagementClient["listQueues"]();
+    const result = await mockServiceBusAtomManagementClient["getQueues"]();
     assertEmptyArray(result);
   });
 
@@ -1101,7 +1101,7 @@ describe(`Parse empty response for list() requests to return as empty array`, fu
         headers: new HttpHeaders({})
       };
     };
-    const result = await mockServiceBusAtomManagementClient["listTopics"]();
+    const result = await mockServiceBusAtomManagementClient["getTopics"]();
     assertEmptyArray(result);
   });
 
@@ -1114,7 +1114,7 @@ describe(`Parse empty response for list() requests to return as empty array`, fu
         headers: new HttpHeaders({})
       };
     };
-    const result = await mockServiceBusAtomManagementClient["listSubscriptions"]("testTopic");
+    const result = await mockServiceBusAtomManagementClient["getSubscriptions"]("testTopic");
     assertEmptyArray(result);
   });
 
@@ -1127,7 +1127,7 @@ describe(`Parse empty response for list() requests to return as empty array`, fu
         headers: new HttpHeaders({})
       };
     };
-    const result = await mockServiceBusAtomManagementClient["listRules"](
+    const result = await mockServiceBusAtomManagementClient["getRules"](
       "testTopic",
       "testSubscription"
     );

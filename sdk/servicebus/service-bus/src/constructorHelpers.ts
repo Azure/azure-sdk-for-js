@@ -10,6 +10,7 @@ import {
   WebSocketOptions
 } from "@azure/core-amqp";
 import { ConnectionContext } from "./connectionContext";
+import { UserAgentOptions } from "@azure/core-http";
 
 /**
  * Describes the options that can be provided while creating the ServiceBusClient.
@@ -24,6 +25,10 @@ export interface ServiceBusClientOptions {
    * Options to configure the channelling of the AMQP connection over Web Sockets.
    */
   webSocketOptions?: WebSocketOptions;
+  /**
+   * Options for adding user agent details to outgoing requests.
+   */
+  userAgentOptions?: UserAgentOptions;
 }
 
 /**

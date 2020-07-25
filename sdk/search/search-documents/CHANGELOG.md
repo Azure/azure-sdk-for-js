@@ -1,5 +1,8 @@
 # Release History
 
+## 11.0.2 (Unreleased)
+
+
 ## 11.0.1 (2020-07-20)
 - [BugFix] Set the correct continuation token in the search documrnts API. Please refer [#10146](https://github.com/Azure/azure-sdk-for-js/pull/10146) for further details.
 
