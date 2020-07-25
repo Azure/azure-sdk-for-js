@@ -292,6 +292,7 @@ export class TableClient {
     constructor(url: string, tableName: string, options?: TableServiceClientOptions);
     createEntity(entity?: Entity, options?: CreateEntityOptions): Promise<CreateEntityResponse>;
     deleteEntity(partitionKey: string, rowKey: string, ifMatch: string, options?: DeleteEntityOptions): Promise<DeleteEntityResponse>;
+    static fromConnectionString(connectionString: string, tableName: string, options?: TableServiceClientOptions): TableClient;
     getAccessPolicy(options?: GetAccessPolicyOptions): Promise<GetAccessPolicyResponse>;
     getEntity(partitionKey: string, rowKey: string, options?: GetEntityOptions): Promise<GetEntityResponse>;
     listEntities(query?: QueryOptions, options?: ListEntitiesOptions): Promise<ListEntitiesResponse>;
@@ -476,6 +477,7 @@ export class TableServiceClient {
     createTable(tableName: string, options?: CreateTableOptions): Promise<CreateTableResponse>;
     deleteEntity(tableName: string, partitionKey: string, rowKey: string, ifMatch: string, options?: DeleteEntityOptions): Promise<DeleteEntityResponse>;
     deleteTable(tableName: string, options?: DeleteTableOptions): Promise<DeleteTableResponse>;
+    static fromConnectionString(connectionString: string, options?: TableServiceClientOptions): TableServiceClient;
     getAccessPolicy(tableName: string, options?: GetAccessPolicyOptions): Promise<GetAccessPolicyResponse>;
     getEntity(tableName: string, partitionKey: string, rowKey: string, options?: GetEntityOptions): Promise<GetEntityResponse>;
     getProperties(options?: GetPropertiesOptions): Promise<GetPropertiesResponse>;
