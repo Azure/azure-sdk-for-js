@@ -265,6 +265,7 @@ export function isSystemEvent<T extends KnownSystemEventTypes>(
   eventType: T,
   event: EventGridEvent<unknown>
 ): event is EventGridEvent<SystemEventNameToEventData[T]>;
+
 /**
  * TODO(matell): Document this.
  */
@@ -272,6 +273,7 @@ export function isSystemEvent<T extends KnownSystemEventTypes>(
   eventType: T,
   event: CloudEvent<unknown>
 ): event is CloudEvent<SystemEventNameToEventData[T]>;
+
 export function isSystemEvent<T extends KnownSystemEventTypes>(
   eventType: T,
   event: EventGridEvent<unknown> | CloudEvent<unknown>

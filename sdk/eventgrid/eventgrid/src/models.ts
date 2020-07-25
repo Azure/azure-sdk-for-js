@@ -80,6 +80,21 @@ export interface CloudEvent<T> {
 }
 
 /**
+ * Property names defined by the CloudEvents 1.0 specification, these may not be reused as the names of extension properties.
+ */
+export const cloudEventReservedPropertyNames = [
+  "specversion",
+  "id",
+  "source",
+  "type",
+  "datacontenttype",
+  "dataschema",
+  "subject",
+  "time",
+  "data"
+];
+
+/**
  * A function which provides custom logic to be used when decoding events.
  */
 export type CustomEventDataDeserializer = (o: any) => Promise<any>;

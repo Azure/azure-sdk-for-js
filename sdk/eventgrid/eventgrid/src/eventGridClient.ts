@@ -14,8 +14,13 @@ import { v4 as uuidv4 } from "uuid";
 import { createEventGridCredentialPolicy } from "./eventGridAuthenticationPolicy";
 import { SignatureCredential } from "./sharedAccessSignitureCredential";
 import { SDK_VERSION } from "./constants";
+import { CloudEvent, EventGridEvent, cloudEventReservedPropertyNames } from "./models";
+import { base64Encode } from "./base64";
 import { GeneratedClient } from "./generated/generatedClient";
-import { CloudEvent, EventGridEvent } from "./models";
+import {
+  CloudEvent as CloudEventWireModel,
+  EventGridEvent as EventGridEventWireModel
+} from "./generated/models";
 
 /**
  * Options for the Event Grid Client.
@@ -106,18 +111,11 @@ export class EventGridPublisherClient {
    * @param message One or more events to publish
    */
   sendEvents(events: EventGridEvent<any>[], options?: SendEventsOptions): Promise<RestResponse> {
-    const toPublish = (events || []).map((evt) => {
-      return {
-        eventType: evt.eventType,
-        eventTime: evt.eventTime ?? new Date(),
-        id: evt.id ?? uuidv4(),
-        subject: evt.subject,
-        topic: evt.topic,
-        data: evt.data,
-        dataVersion: evt.dataVersion
-      };
-    });
-    return this.client.publishEvents(this.endpointUrl, toPublish, options);
+    return this.client.publishEvents(
+      this.endpointUrl,
+      (events || []).map(convertEventGridEventToModelType),
+      options
+    );
   }
 
   /**
@@ -125,28 +123,15 @@ export class EventGridPublisherClient {
    *
    * @param message One or more events to publish
    */
-
   sendCloudEvents(
     events: CloudEvent<any>[],
     options?: SendCloudEventsOptions
   ): Promise<RestResponse> {
-    const toPublish = (events || []).map((evt) => {
-      // TODO(matell): If data is of type `Buffer` or other binary data we should Base64 encoded the data and set
-      //               `data_base64` instead.  We also need to validate that `datacontenttype` is set in this case.
-      return {
-        specversion: "1.0",
-        type: evt.type,
-        source: evt.source,
-        id: evt.id ?? uuidv4(),
-        time: evt.time ?? new Date(),
-        subject: evt.subject,
-        dataschema: evt.dataschema,
-        datacontenttype: evt.datacontenttype ?? "application/json",
-        ...(evt.extensionAttributes ?? [])
-      };
-    });
-
-    return this.client.publishCloudEventEvents(this.endpointUrl, toPublish, options);
+    return this.client.publishCloudEventEvents(
+      this.endpointUrl,
+      (events || []).map(convertCloudEventToModelType),
+      options
+    );
   }
 
   /**
@@ -158,6 +143,69 @@ export class EventGridPublisherClient {
     events: Record<string, any>[],
     options?: SendCustomSchemaEventsOptions
   ): Promise<RestResponse> {
-    return this.client.publishCustomEventEvents(this.endpointUrl, events, options);
+    return this.client.publishCustomEventEvents(this.endpointUrl, events || [], options);
   }
+}
+
+/**
+ * @internal
+ */
+export function convertEventGridEventToModelType(
+  event: EventGridEvent<any>
+): EventGridEventWireModel {
+  return {
+    eventType: event.eventType,
+    eventTime: event.eventTime ?? new Date(),
+    id: event.id ?? uuidv4(),
+    subject: event.subject,
+    topic: event.topic,
+    data: event.data,
+    dataVersion: event.dataVersion
+  };
+}
+
+/**
+ * @internal
+ */
+export function convertCloudEventToModelType(event: CloudEvent<any>): CloudEventWireModel {
+  if (event.extensionAttributes) {
+    for (const propName in event.extensionAttributes) {
+      // Per the cloud events spec: "CloudEvents attribute names MUST consist of lower-case letters ('a' to 'z') or digits ('0' to '9') from the ASCII character set"
+      // they also can not match an existing defined property name.
+
+      if (
+        !/^[a-z0-9]*$/.test(propName) ||
+        cloudEventReservedPropertyNames.indexOf(propName) !== -1
+      ) {
+        throw new Error(`invalid extension attribute name: ${propName}`);
+      }
+    }
+  }
+
+  const converted: CloudEventWireModel = {
+    specversion: "1.0",
+    type: event.type,
+    source: event.source,
+    id: event.id ?? uuidv4(),
+    time: event.time ?? new Date(),
+    subject: event.subject,
+    dataschema: event.dataschema,
+    ...(event.extensionAttributes ?? [])
+  };
+
+  if (event.data instanceof Uint8Array) {
+    if (!event.datacontenttype) {
+      throw new Error(
+        "a data content type must be provided when sending an event with binary data"
+      );
+    }
+
+    converted.datacontenttype = event.datacontenttype;
+    converted.dataBase64 = base64Encode(event.data);
+  } else {
+    converted.datacontenttype = event.datacontenttype ?? "application/json";
+    converted.data = event.data;
+  }
+
+  return converted;
 }

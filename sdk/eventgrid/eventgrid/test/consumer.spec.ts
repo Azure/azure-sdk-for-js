@@ -151,6 +151,29 @@ describe("EventGridConsumer", function() {
         /event is not in the Cloud Event 1.0 schema/
       );
     });
+
+    it("decodes byte arrays for cloud events as expected", async () => {
+      const events = await consumer.deserializeCloudEvents({
+        type: "Azure.Sdk.TestEvent",
+        id: "a-unique-id",
+        source: "/azure/sdk/test",
+        specversion: "1.0",
+        data_base64: "AAECAwQFBgcICQ==" /* Base 64 encoding of: 0x01 0x02 ... 0x09 */
+      });
+
+      assert.strictEqual(events.length, 1);
+
+      const data = events[0].data;
+
+      assert.instanceOf(data, Uint8Array);
+      assert.strictEqual((data as Uint8Array).length, 10);
+
+      for (let i = 0; i < 10; i++) {
+        assert.strictEqual((data as Uint8Array)[i], i);
+      }
+
+      assert.isUndefined((data as any)["data_base64"]);
+    });
   });
 });
 

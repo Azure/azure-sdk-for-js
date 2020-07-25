@@ -3,13 +3,19 @@
 
 import { Serializer } from "@azure/core-http";
 import { CloudEvent as WireCloudEvent } from "./generated/models";
-import { CustomEventDataDeserializer, CloudEvent, EventGridEvent } from "./models";
+import {
+  CustomEventDataDeserializer,
+  CloudEvent,
+  EventGridEvent,
+  cloudEventReservedPropertyNames
+} from "./models";
 import {
   EventGridEvent as EventGridEventMapper,
   CloudEvent as CloudEventMapper
 } from "./generated/models/mappers";
 import { parseAndWrap, validateEventGridEvent, validateCloudEventEvent } from "./util";
 import { systemDeserializers } from "./systemEventDecoders";
+import { base64Decode } from "./base64";
 
 const serializer = new Serializer();
 
@@ -142,7 +148,7 @@ export class EventGridConsumer {
           throw new TypeError("event data_base64 property should be a string");
         }
 
-        modelEvent.data = Buffer.from(deserialized.dataBase64, "base64");
+        modelEvent.data = base64Decode(deserialized.dataBase64);
       }
 
       // If a decoder is registered, apply it to the data.
@@ -154,16 +160,12 @@ export class EventGridConsumer {
 
       // Build the "extensionsAttributes" property bag by removing all known top level properties.
       const extensionAttributes = { ...deserialized };
-      delete extensionAttributes.specversion;
-      delete extensionAttributes.id;
-      delete extensionAttributes.source;
-      delete extensionAttributes.type;
-      delete extensionAttributes.datacontenttype;
-      delete extensionAttributes.dataschema;
-      delete extensionAttributes.subject;
-      delete extensionAttributes.time;
-      delete extensionAttributes.data;
+      for (const propName of cloudEventReservedPropertyNames) {
+        delete extensionAttributes[propName];
+      }
+      delete extensionAttributes.dataBase64;
 
+      // If any properties remain, copy them to the model.
       if (Object.keys(extensionAttributes).length > 0) {
         modelEvent.extensionAttributes = extensionAttributes;
       }
