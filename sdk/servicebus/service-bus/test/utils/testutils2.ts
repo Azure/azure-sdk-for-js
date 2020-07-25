@@ -26,6 +26,7 @@ import {
   ReceivedMessageWithLock,
   ServiceBusMessage
 } from "../../src/serviceBusMessage";
+import { serviceBusAtomManagementClient } from "../atomManagement.spec";
 
 dotenv.config();
 const env = getEnvVars();
@@ -503,9 +504,12 @@ export function createServiceBusClientForTests(
 export async function drainReceiveAndDeleteReceiver(receiver: Receiver<{}>): Promise<void> {
   try {
     while (true) {
-      const messages = await receiver.receiveMessages(10, { maxWaitTimeInMs: 1000 });
+      await receiver.receiveMessages(10, { maxWaitTimeInMs: 1000 });
 
-      if (messages.length === 0) {
+      if (
+        (await serviceBusAtomManagementClient.getQueueRuntimeProperties(receiver.entityPath))
+          .totalMessageCount === 0
+      ) {
         break;
       }
     }
