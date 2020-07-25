@@ -16,7 +16,8 @@ import {
   getRandomTestClientTypeWithNoSessions,
   getRandomTestClientTypeWithSessions,
   EntityName,
-  getRandomTestClientType
+  getRandomTestClientType,
+  drainReceiveAndDeleteReceiver
 } from "./utils/testutils2";
 import { Sender } from "../src/sender";
 import { ReceivedMessageWithLock } from "../src/serviceBusMessage";
@@ -276,8 +277,17 @@ describe("Sender Tests", () => {
   });
 
   for (let index = 0; index < 1000; index++) {
-    it.only(anyRandomTestClientType + ": Schedule messages in parallel", async () => {
-      await beforeEachTest(TestClientType.UnpartitionedQueue);
+    const testClientType = TestClientType.PartitionedQueue;
+    it.only(testClientType + ": Schedule messages in parallel", async () => {
+      await beforeEachTest(testClientType);
+      if (
+        (await serviceBusAtomManagementClient.getQueueRuntimeProperties(entityName.queue!))
+          .totalMessageCount !== 0
+      ) {
+        await drainReceiveAndDeleteReceiver(
+          serviceBusClient.createReceiver(entityName.queue!, "receiveAndDelete")
+        );
+      }
       console.log(
         `message count before scheduling the messages = `,
         (await serviceBusAtomManagementClient.getQueueRuntimeProperties(entityName.queue!))
@@ -336,7 +346,7 @@ describe("Sender Tests", () => {
       }
 
       await testPeekMsgsLength(receiver, 0);
-    });
+    }).timeout(200000);
   }
 
   async function testReceivedMsgsLength(
