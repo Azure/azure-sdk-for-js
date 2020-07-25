@@ -26,13 +26,13 @@ const logger = credentialLogger("VSCodeCredential");
  * Attempts to load the tenant from the VSCode configurations of the current OS.
  * If it fails at any point, returns undefined.
  */
-function getTenantIdFromVSCode(): string | undefined {
+export function getTenantIdFromVSCode(): string | undefined {
   const commonSettingsPath = ["Code", "User", "settings.json"];
   const homedir = os.homedir();
 
   function loadTenant(...pathSegments: string[]): string | undefined {
     const settingsPath = path.join(...pathSegments, ...commonSettingsPath);
-    const settings = JSON.parse(fs.readFileSync(settingsPath, { encoding: "utf8" }));
+    const settings = JSON.parse(fs.readFileSync(settingsPath as string, { encoding: "utf8" }));
     return settings["azure.tenant"];
   }
 
@@ -49,7 +49,7 @@ function getTenantIdFromVSCode(): string | undefined {
         return;
     }
   } catch (e) {
-    logger.info("Failed to find the ")
+    logger.info("Failed to find the VSCode configuration file.");
     return;
   }
 }
