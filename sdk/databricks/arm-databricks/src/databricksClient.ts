@@ -18,6 +18,7 @@ import { DatabricksClientContext } from "./databricksClientContext";
 class DatabricksClient extends DatabricksClientContext {
   // Operation groups
   workspaces: operations.Workspaces;
+  vNetPeering: operations.VNetPeering;
   operations: operations.Operations;
 
   /**
@@ -29,6 +30,7 @@ class DatabricksClient extends DatabricksClientContext {
   constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.DatabricksClientOptions) {
     super(credentials, subscriptionId, options);
     this.workspaces = new operations.Workspaces(this);
+    this.vNetPeering = new operations.VNetPeering(this);
     this.operations = new operations.Operations(this);
   }
 }
