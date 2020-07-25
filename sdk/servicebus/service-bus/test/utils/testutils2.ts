@@ -301,8 +301,10 @@ export class ServiceBusTestHelpers {
     // do that soon.
     let entityValues = this._testClientEntities.get(testClientType);
 
-    entityValues = await createTestEntities(testClientType);
-    this._testClientEntities.set(testClientType, entityValues);
+    if (entityValues == null) {
+      entityValues = await createTestEntities(testClientType);
+      this._testClientEntities.set(testClientType, entityValues);
+    }
 
     return entityValues;
   }
