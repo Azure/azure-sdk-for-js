@@ -147,6 +147,12 @@ export const ExportPipeline: msRest.CompositeMapper = {
     className: "ExportPipeline",
     modelProperties: {
       ...ProxyResource.type.modelProperties,
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      },
       identity: {
         serializedName: "identity",
         type: {
@@ -362,6 +368,12 @@ export const ImportPipeline: msRest.CompositeMapper = {
     className: "ImportPipeline",
     modelProperties: {
       ...ProxyResource.type.modelProperties,
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      },
       identity: {
         serializedName: "identity",
         type: {
@@ -2858,6 +2870,12 @@ export const RunGetLogResult: msRest.CompositeMapper = {
     modelProperties: {
       logLink: {
         serializedName: "logLink",
+        type: {
+          name: "String"
+        }
+      },
+      logArtifactLink: {
+        serializedName: "logArtifactLink",
         type: {
           name: "String"
         }

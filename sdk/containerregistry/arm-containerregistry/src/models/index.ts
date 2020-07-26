@@ -98,6 +98,10 @@ export interface ProxyResource extends BaseResource {
  */
 export interface ExportPipeline extends ProxyResource {
   /**
+   * The location of the export pipeline.
+   */
+  location?: string;
+  /**
    * The identity of the export pipeline.
    */
   identity?: IdentityProperties;
@@ -227,6 +231,10 @@ export interface PipelineTriggerProperties {
  * An object that represents an import pipeline for a container registry.
  */
 export interface ImportPipeline extends ProxyResource {
+  /**
+   * The location of the import pipeline.
+   */
+  location?: string;
   /**
    * The identity of the import pipeline.
    */
@@ -1746,6 +1754,10 @@ export interface RunGetLogResult {
    * The link to logs for a run on a azure container registry.
    */
   logLink?: string;
+  /**
+   * The link to logs in registry for a run on a azure container registry.
+   */
+  logArtifactLink?: string;
 }
 
 /**
