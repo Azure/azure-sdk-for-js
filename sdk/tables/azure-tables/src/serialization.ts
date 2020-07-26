@@ -6,16 +6,29 @@ import { EdmInt64 } from "./EdmInt64";
 import { isUint8Array, encodeByteArray, decodeString } from "./utils/bufferSerializer";
 
 const Edm = {
-  DateTime: "Edm.DateTime",
+  Boolean: "Edm.Boolean",
+  String: "Edm.String",
+  Int32: "Edm.Int32",
   Int64: "Edm.Int64",
-  Guid: "Edm.Guid",
-  Binary: "Edm.Binary"
+  Double: "Edm.Double",
+  DateTime: "Edm.DateTime",
+  Binary: "Edm.Binary",
+  Guid: "Edm.Guid"
 };
 
 export function serialize(obj: any): object {
   const serialized: any = {};
   for (const [key, value] of Object.entries(obj)) {
-    if (value instanceof Date) {
+    if (
+      value instanceof String ||
+      typeof value === "string" ||
+      value instanceof Number ||
+      typeof value === "number" ||
+      value instanceof Boolean ||
+      typeof value === "boolean"
+    ) {
+      serialized[key] = value;
+    } else if (value instanceof Date) {
       serialized[key] = value;
       serialized[`${key}@odata.type`] = Edm.DateTime;
     } else if (value instanceof EdmInt64) {
@@ -28,7 +41,7 @@ export function serialize(obj: any): object {
       serialized[key] = encodeByteArray(value as Uint8Array);
       serialized[`${key}@odata.type`] = Edm.Binary;
     } else {
-      serialized[key] = value;
+      throw new Error(`Unknown EDM type ${typeof value}`);
     }
   }
   return serialized;
@@ -36,6 +49,11 @@ export function serialize(obj: any): object {
 
 function getTypedObject(value: any, type: string): any {
   switch (type) {
+    case Edm.Boolean:
+    case Edm.String:
+    case Edm.Int32:
+    case Edm.Double:
+      return value;
     case Edm.DateTime:
       return new Date(value);
     case Edm.Int64:
@@ -45,23 +63,26 @@ function getTypedObject(value: any, type: string): any {
     case Edm.Binary:
       return decodeString(value);
     default:
-      return value;
+      throw new Error(`Unknown EDM type ${type}`);
   }
 }
 
-export function deserialize(obj?: any): object {
+export function deserialize(obj?: object): object {
   if (obj === undefined) return {};
   const deserialized: any = {};
   for (const [key, value] of Object.entries(obj)) {
     if (key.indexOf("@odata.type") === -1) {
-      const type = obj[`${key}@odata.type`];
-      const typed = getTypedObject(value, type);
-      deserialized[key] = typed;
+      let typedValue = value;
+      if (`${key}@odata.type` in obj) {
+        const type = (obj as any)[`${key}@odata.type`];
+        typedValue = getTypedObject(value, type);
+      }
+      deserialized[key] = typedValue;
     }
   }
   return deserialized;
 }
 
-export function deserializeObjectsArray(objArray?: object[]): object[] {
-  return (objArray || []).map((obj) => deserialize(obj));
+export function deserializeObjectsArray(objArray: object[] = []): object[] {
+  return objArray.map(deserialize);
 }
