@@ -12,6 +12,14 @@ export class EdmInt64 {
   }
 
   /**
+   * Checks if the integer is a valid 64 bit integer
+   */
+  public isSafeInteger(): boolean {
+    const numericValue = Number(this.value);
+    return Number.isSafeInteger(numericValue);
+  }
+
+  /**
    * Returns the value of the integer
    */
   get value(): string {
@@ -19,6 +27,10 @@ export class EdmInt64 {
   }
 
   set value(integer: string) {
-    this._value = integer;
+    if (Number.isInteger(Number(this._value)) && this.isSafeInteger()) {
+      this._value = integer;
+    } else {
+      throw new Error("Not a valid 64-bit integer");
+    }
   }
 }

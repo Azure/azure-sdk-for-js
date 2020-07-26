@@ -96,6 +96,7 @@ export class EdmGuid {
 // @public
 export class EdmInt64 {
   constructor(integer: string);
+  isSafeInteger(): boolean;
   get value(): string;
   set value(integer: string);
 }
