@@ -3,7 +3,7 @@
 
 import { EdmGuid } from "./EdmGuid";
 import { EdmInt64 } from "./EdmInt64";
-import { isUint8Array, encodeByteArray, decodeString } from "./utils/bufferSerializer";
+import { encodeByteArray, decodeString } from "./utils/bufferSerializer";
 
 const Edm = {
   Boolean: "Edm.Boolean",
@@ -37,8 +37,8 @@ export function serialize(obj: any): object {
     } else if (value instanceof EdmGuid) {
       serialized[key] = value.value;
       serialized[`${key}@odata.type`] = Edm.Guid;
-    } else if (isUint8Array(value)) {
-      serialized[key] = encodeByteArray(value as Uint8Array);
+    } else if (value instanceof Uint8Array) {
+      serialized[key] = encodeByteArray(value);
       serialized[`${key}@odata.type`] = Edm.Binary;
     } else {
       throw new Error(`Unknown EDM type ${typeof value}`);

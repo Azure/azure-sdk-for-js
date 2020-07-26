@@ -1,10 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-export function isUint8Array(value: any): boolean {
-  return value instanceof Uint8Array;
-}
-
 /**
  * Encodes a byte array in base64 format.
  * @param value the Uint8Aray to encode
