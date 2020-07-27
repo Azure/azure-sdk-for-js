@@ -14,7 +14,7 @@ export const endpoint: msRest.OperationURLParameter = {
   parameterPath: "endpoint",
   mapper: {
     required: true,
-    serializedName: "Endpoint",
+    serializedName: "endpoint",
     defaultValue: '',
     type: {
       name: "String"
@@ -22,51 +22,73 @@ export const endpoint: msRest.OperationURLParameter = {
   },
   skipEncoding: true
 };
-export const formStream: msRest.OperationParameter = {
-  parameterPath: "formStream",
+export const includeKeys: msRest.OperationQueryParameter = {
+  parameterPath: [
+    "options",
+    "includeKeys"
+  ],
   mapper: {
-    required: true,
-    serializedName: "form_stream",
+    serializedName: "includeKeys",
+    defaultValue: false,
     type: {
-      name: "Stream"
+      name: "Boolean"
     }
   }
 };
-export const id: msRest.OperationURLParameter = {
-  parameterPath: "id",
+export const includeTextDetails: msRest.OperationQueryParameter = {
+  parameterPath: [
+    "options",
+    "includeTextDetails"
+  ],
+  mapper: {
+    serializedName: "includeTextDetails",
+    defaultValue: false,
+    type: {
+      name: "Boolean"
+    }
+  }
+};
+export const modelId: msRest.OperationURLParameter = {
+  parameterPath: "modelId",
   mapper: {
     required: true,
-    serializedName: "id",
+    serializedName: "modelId",
     type: {
       name: "Uuid"
     }
   }
 };
-export const keys: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "keys"
-  ],
-  mapper: {
-    serializedName: "keys",
-    type: {
-      name: "Sequence",
-      element: {
-        type: {
-          name: "String"
-        }
-      }
-    }
-  },
-  collectionFormat: msRest.QueryCollectionFormat.Csv
-};
-export const operationId: msRest.OperationURLParameter = {
-  parameterPath: "operationId",
+export const op0: msRest.OperationQueryParameter = {
+  parameterPath: "op",
   mapper: {
     required: true,
-    serializedName: "operationId",
+    isConstant: true,
+    serializedName: "op",
+    defaultValue: 'full',
     type: {
       name: "String"
+    }
+  }
+};
+export const op1: msRest.OperationQueryParameter = {
+  parameterPath: "op",
+  mapper: {
+    required: true,
+    isConstant: true,
+    serializedName: "op",
+    defaultValue: 'summary',
+    type: {
+      name: "String"
+    }
+  }
+};
+export const resultId: msRest.OperationURLParameter = {
+  parameterPath: "resultId",
+  mapper: {
+    required: true,
+    serializedName: "resultId",
+    type: {
+      name: "Uuid"
     }
   }
 };

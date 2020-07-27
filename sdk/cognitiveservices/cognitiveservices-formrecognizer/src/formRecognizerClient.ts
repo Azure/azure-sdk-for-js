@@ -27,121 +27,65 @@ class FormRecognizerClient extends FormRecognizerClientContext {
   }
 
   /**
-   * Create and train a custom model. The train request must include a source parameter that is
-   * either an externally accessible Azure Storage blob container Uri (preferably a Shared Access
-   * Signature Uri) or valid path to a data folder in a locally mounted drive. When local paths are
-   * specified, they must follow the Linux/Unix path format and be an absolute path rooted to the
-   * input mount configuration
-   * setting value e.g., if '{Mounts:Input}' configuration setting value is '/input' then a valid
-   * source path would be '/input/contosodataset'. All data to be trained is expected to be directly
-   * under the source folder. Subfolders are not supported. Models are trained using documents that
-   * are of the following content type - 'application/pdf', 'image/jpeg' and 'image/png'."
+   * Create and train a custom model. The request must include a source parameter that is either an
+   * externally accessible Azure storage blob container Uri (preferably a Shared Access Signature
+   * Uri) or valid path to a data folder in a locally mounted drive. When local paths are specified,
+   * they must follow the Linux/Unix path format and be an absolute path rooted to the input mount
+   * configuration setting value e.g., if '{Mounts:Input}' configuration setting value is '/input'
+   * then a valid source path would be '/input/contosodataset'. All data to be trained is expected to
+   * be under the source folder or sub folders under it. Models are trained using documents that are
+   * of the following content type - 'application/pdf', 'image/jpeg', 'image/png', 'image/tiff'.
    * Other type of content is ignored.
-   * @summary Train Model
-   * @param trainRequest Request object for training.
+   * @summary Train Custom Model
+   * @param trainRequest Training request parameters.
    * @param [options] The optional parameters
-   * @returns Promise<Models.TrainCustomModelResponse>
+   * @returns Promise<Models.TrainCustomModelAsyncResponse>
    */
-  trainCustomModel(trainRequest: Models.TrainRequest, options?: msRest.RequestOptionsBase): Promise<Models.TrainCustomModelResponse>;
+  trainCustomModelAsync(trainRequest: Models.TrainRequest, options?: msRest.RequestOptionsBase): Promise<Models.TrainCustomModelAsyncResponse>;
   /**
-   * @param trainRequest Request object for training.
+   * @param trainRequest Training request parameters.
    * @param callback The callback
    */
-  trainCustomModel(trainRequest: Models.TrainRequest, callback: msRest.ServiceCallback<Models.TrainResult>): void;
+  trainCustomModelAsync(trainRequest: Models.TrainRequest, callback: msRest.ServiceCallback<void>): void;
   /**
-   * @param trainRequest Request object for training.
+   * @param trainRequest Training request parameters.
    * @param options The optional parameters
    * @param callback The callback
    */
-  trainCustomModel(trainRequest: Models.TrainRequest, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TrainResult>): void;
-  trainCustomModel(trainRequest: Models.TrainRequest, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TrainResult>, callback?: msRest.ServiceCallback<Models.TrainResult>): Promise<Models.TrainCustomModelResponse> {
+  trainCustomModelAsync(trainRequest: Models.TrainRequest, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
+  trainCustomModelAsync(trainRequest: Models.TrainRequest, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.TrainCustomModelAsyncResponse> {
     return this.sendOperationRequest(
       {
         trainRequest,
         options
       },
-      trainCustomModelOperationSpec,
-      callback) as Promise<Models.TrainCustomModelResponse>;
+      trainCustomModelAsyncOperationSpec,
+      callback) as Promise<Models.TrainCustomModelAsyncResponse>;
   }
 
   /**
-   * Retrieve the keys that were
-   * extracted during the training of the specified model.
-   * @summary Get Keys
-   * @param id Model identifier.
-   * @param [options] The optional parameters
-   * @returns Promise<Models.GetExtractedKeysResponse>
-   */
-  getExtractedKeys(id: string, options?: msRest.RequestOptionsBase): Promise<Models.GetExtractedKeysResponse>;
-  /**
-   * @param id Model identifier.
-   * @param callback The callback
-   */
-  getExtractedKeys(id: string, callback: msRest.ServiceCallback<Models.KeysResult>): void;
-  /**
-   * @param id Model identifier.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  getExtractedKeys(id: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.KeysResult>): void;
-  getExtractedKeys(id: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.KeysResult>, callback?: msRest.ServiceCallback<Models.KeysResult>): Promise<Models.GetExtractedKeysResponse> {
-    return this.sendOperationRequest(
-      {
-        id,
-        options
-      },
-      getExtractedKeysOperationSpec,
-      callback) as Promise<Models.GetExtractedKeysResponse>;
-  }
-
-  /**
-   * Get information about all trained custom models
-   * @summary Get Models
-   * @param [options] The optional parameters
-   * @returns Promise<Models.GetCustomModelsResponse>
-   */
-  getCustomModels(options?: msRest.RequestOptionsBase): Promise<Models.GetCustomModelsResponse>;
-  /**
-   * @param callback The callback
-   */
-  getCustomModels(callback: msRest.ServiceCallback<Models.ModelsResult>): void;
-  /**
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  getCustomModels(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ModelsResult>): void;
-  getCustomModels(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ModelsResult>, callback?: msRest.ServiceCallback<Models.ModelsResult>): Promise<Models.GetCustomModelsResponse> {
-    return this.sendOperationRequest(
-      {
-        options
-      },
-      getCustomModelsOperationSpec,
-      callback) as Promise<Models.GetCustomModelsResponse>;
-  }
-
-  /**
-   * Get information about a model.
-   * @summary Get Model
-   * @param id Model identifier.
+   * Get detailed information about a custom model.
+   * @summary Get Custom Model
+   * @param modelId Model identifier.
    * @param [options] The optional parameters
    * @returns Promise<Models.GetCustomModelResponse>
    */
-  getCustomModel(id: string, options?: msRest.RequestOptionsBase): Promise<Models.GetCustomModelResponse>;
+  getCustomModel(modelId: string, options?: Models.FormRecognizerClientGetCustomModelOptionalParams): Promise<Models.GetCustomModelResponse>;
   /**
-   * @param id Model identifier.
+   * @param modelId Model identifier.
    * @param callback The callback
    */
-  getCustomModel(id: string, callback: msRest.ServiceCallback<Models.ModelResult>): void;
+  getCustomModel(modelId: string, callback: msRest.ServiceCallback<Models.Model>): void;
   /**
-   * @param id Model identifier.
+   * @param modelId Model identifier.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getCustomModel(id: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ModelResult>): void;
-  getCustomModel(id: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ModelResult>, callback?: msRest.ServiceCallback<Models.ModelResult>): Promise<Models.GetCustomModelResponse> {
+  getCustomModel(modelId: string, options: Models.FormRecognizerClientGetCustomModelOptionalParams, callback: msRest.ServiceCallback<Models.Model>): void;
+  getCustomModel(modelId: string, options?: Models.FormRecognizerClientGetCustomModelOptionalParams | msRest.ServiceCallback<Models.Model>, callback?: msRest.ServiceCallback<Models.Model>): Promise<Models.GetCustomModelResponse> {
     return this.sendOperationRequest(
       {
-        id,
+        modelId,
         options
       },
       getCustomModelOperationSpec,
@@ -149,28 +93,29 @@ class FormRecognizerClient extends FormRecognizerClientContext {
   }
 
   /**
-   * Delete model artifacts.
-   * @summary Delete Model
-   * @param id The identifier of the model to delete.
+   * Mark model for deletion. Model artifacts will be permanently removed within a predetermined
+   * period.
+   * @summary Delete Custom Model
+   * @param modelId Model identifier.
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteCustomModel(id: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteCustomModel(modelId: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
   /**
-   * @param id The identifier of the model to delete.
+   * @param modelId Model identifier.
    * @param callback The callback
    */
-  deleteCustomModel(id: string, callback: msRest.ServiceCallback<void>): void;
+  deleteCustomModel(modelId: string, callback: msRest.ServiceCallback<void>): void;
   /**
-   * @param id The identifier of the model to delete.
+   * @param modelId Model identifier.
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteCustomModel(id: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteCustomModel(id: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteCustomModel(modelId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
+  deleteCustomModel(modelId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.sendOperationRequest(
       {
-        id,
+        modelId,
         options
       },
       deleteCustomModelOperationSpec,
@@ -178,34 +123,31 @@ class FormRecognizerClient extends FormRecognizerClientContext {
   }
 
   /**
-   * Extract key-value pairs from a given document. The input document must be of one of the
-   * supported content types - 'application/pdf', 'image/jpeg' or 'image/png'. A success response is
-   * returned in JSON.
+   * Extract key-value pairs, tables, and semantic values from a given document. The input document
+   * must be of one of the supported content types - 'application/pdf', 'image/jpeg', 'image/png' or
+   * 'image/tiff'. Alternatively, use 'application/json' type to specify the location (Uri or local
+   * path) of the document to be analyzed.
    * @summary Analyze Form
-   * @param id Model Identifier to analyze the document with.
-   * @param formStream A pdf document or image (jpg,png) file to analyze.
+   * @param modelId Model identifier.
    * @param [options] The optional parameters
    * @returns Promise<Models.AnalyzeWithCustomModelResponse>
    */
-  analyzeWithCustomModel(id: string, formStream: msRest.HttpRequestBody, options?: Models.FormRecognizerClientAnalyzeWithCustomModelOptionalParams): Promise<Models.AnalyzeWithCustomModelResponse>;
+  analyzeWithCustomModel(modelId: string, options?: Models.FormRecognizerClientAnalyzeWithCustomModelOptionalParams): Promise<Models.AnalyzeWithCustomModelResponse>;
   /**
-   * @param id Model Identifier to analyze the document with.
-   * @param formStream A pdf document or image (jpg,png) file to analyze.
+   * @param modelId Model identifier.
    * @param callback The callback
    */
-  analyzeWithCustomModel(id: string, formStream: msRest.HttpRequestBody, callback: msRest.ServiceCallback<Models.AnalyzeResult>): void;
+  analyzeWithCustomModel(modelId: string, callback: msRest.ServiceCallback<void>): void;
   /**
-   * @param id Model Identifier to analyze the document with.
-   * @param formStream A pdf document or image (jpg,png) file to analyze.
+   * @param modelId Model identifier.
    * @param options The optional parameters
    * @param callback The callback
    */
-  analyzeWithCustomModel(id: string, formStream: msRest.HttpRequestBody, options: Models.FormRecognizerClientAnalyzeWithCustomModelOptionalParams, callback: msRest.ServiceCallback<Models.AnalyzeResult>): void;
-  analyzeWithCustomModel(id: string, formStream: msRest.HttpRequestBody, options?: Models.FormRecognizerClientAnalyzeWithCustomModelOptionalParams | msRest.ServiceCallback<Models.AnalyzeResult>, callback?: msRest.ServiceCallback<Models.AnalyzeResult>): Promise<Models.AnalyzeWithCustomModelResponse> {
+  analyzeWithCustomModel(modelId: string, options: Models.FormRecognizerClientAnalyzeWithCustomModelOptionalParams, callback: msRest.ServiceCallback<void>): void;
+  analyzeWithCustomModel(modelId: string, options?: Models.FormRecognizerClientAnalyzeWithCustomModelOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.AnalyzeWithCustomModelResponse> {
     return this.sendOperationRequest(
       {
-        id,
-        formStream,
+        modelId,
         options
       },
       analyzeWithCustomModelOperationSpec,
@@ -213,103 +155,300 @@ class FormRecognizerClient extends FormRecognizerClientContext {
   }
 
   /**
-   * Batch Read Receipt operation. The response contains a field called 'Operation-Location', which
-   * contains the URL that you must use for your 'Get Read Receipt Result' operation.
-   * @param url Publicly reachable URL of an image.
+   * Obtain current status and the result of the analyze form operation.
+   * @summary Get Analyze Form Result
+   * @param modelId Model identifier.
+   * @param resultId Analyze operation result identifier.
    * @param [options] The optional parameters
-   * @returns Promise<Models.BatchReadReceiptResponse>
+   * @returns Promise<Models.GetAnalyzeFormResultResponse>
    */
-  batchReadReceipt(url: string, options?: msRest.RequestOptionsBase): Promise<Models.BatchReadReceiptResponse>;
+  getAnalyzeFormResult(modelId: string, resultId: string, options?: msRest.RequestOptionsBase): Promise<Models.GetAnalyzeFormResultResponse>;
   /**
-   * @param url Publicly reachable URL of an image.
+   * @param modelId Model identifier.
+   * @param resultId Analyze operation result identifier.
    * @param callback The callback
    */
-  batchReadReceipt(url: string, callback: msRest.ServiceCallback<void>): void;
+  getAnalyzeFormResult(modelId: string, resultId: string, callback: msRest.ServiceCallback<Models.AnalyzeOperationResult>): void;
   /**
-   * @param url Publicly reachable URL of an image.
+   * @param modelId Model identifier.
+   * @param resultId Analyze operation result identifier.
    * @param options The optional parameters
    * @param callback The callback
    */
-  batchReadReceipt(url: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  batchReadReceipt(url: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.BatchReadReceiptResponse> {
+  getAnalyzeFormResult(modelId: string, resultId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AnalyzeOperationResult>): void;
+  getAnalyzeFormResult(modelId: string, resultId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AnalyzeOperationResult>, callback?: msRest.ServiceCallback<Models.AnalyzeOperationResult>): Promise<Models.GetAnalyzeFormResultResponse> {
     return this.sendOperationRequest(
       {
-        url,
+        modelId,
+        resultId,
         options
       },
-      batchReadReceiptOperationSpec,
-      callback) as Promise<Models.BatchReadReceiptResponse>;
+      getAnalyzeFormResultOperationSpec,
+      callback) as Promise<Models.GetAnalyzeFormResultResponse>;
   }
 
   /**
-   * This interface is used for getting the analysis results of a 'Batch Read Receipt' operation. The
-   * URL to this interface should be retrieved from the 'Operation-Location' field returned from the
-   * 'Batch Read Receipt' operation.
-   * @param operationId Id of read operation returned in the response of a 'Batch Read Receipt'
-   * operation.
+   * Copy custom model stored in this resource (the source) to user specified target Form Recognizer
+   * resource.
+   * @summary Copy Custom Model
+   * @param modelId Model identifier.
+   * @param copyRequest Copy request parameters.
    * @param [options] The optional parameters
-   * @returns Promise<Models.GetReadReceiptResultResponse>
+   * @returns Promise<Models.CopyCustomModelResponse>
    */
-  getReadReceiptResult(operationId: string, options?: msRest.RequestOptionsBase): Promise<Models.GetReadReceiptResultResponse>;
+  copyCustomModel(modelId: string, copyRequest: Models.CopyRequest, options?: msRest.RequestOptionsBase): Promise<Models.CopyCustomModelResponse>;
   /**
-   * @param operationId Id of read operation returned in the response of a 'Batch Read Receipt'
-   * operation.
+   * @param modelId Model identifier.
+   * @param copyRequest Copy request parameters.
    * @param callback The callback
    */
-  getReadReceiptResult(operationId: string, callback: msRest.ServiceCallback<Models.ReadReceiptResult>): void;
+  copyCustomModel(modelId: string, copyRequest: Models.CopyRequest, callback: msRest.ServiceCallback<void>): void;
   /**
-   * @param operationId Id of read operation returned in the response of a 'Batch Read Receipt'
-   * operation.
+   * @param modelId Model identifier.
+   * @param copyRequest Copy request parameters.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getReadReceiptResult(operationId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ReadReceiptResult>): void;
-  getReadReceiptResult(operationId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ReadReceiptResult>, callback?: msRest.ServiceCallback<Models.ReadReceiptResult>): Promise<Models.GetReadReceiptResultResponse> {
+  copyCustomModel(modelId: string, copyRequest: Models.CopyRequest, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
+  copyCustomModel(modelId: string, copyRequest: Models.CopyRequest, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.CopyCustomModelResponse> {
     return this.sendOperationRequest(
       {
-        operationId,
+        modelId,
+        copyRequest,
         options
       },
-      getReadReceiptResultOperationSpec,
-      callback) as Promise<Models.GetReadReceiptResultResponse>;
+      copyCustomModelOperationSpec,
+      callback) as Promise<Models.CopyCustomModelResponse>;
   }
 
   /**
-   * Read Receipt operation. When you use the 'Batch Read Receipt' interface, the response contains a
-   * field called 'Operation-Location'. The 'Operation-Location' field contains the URL that you must
-   * use for your 'Get Read Receipt Result' operation.
-   * @param image An image stream.
+   * Obtain current status and the result of a custom model copy operation.
+   * @summary Get Custom Model Copy Result
+   * @param modelId Model identifier.
+   * @param resultId Copy operation result identifier.
    * @param [options] The optional parameters
-   * @returns Promise<Models.BatchReadReceiptInStreamResponse>
+   * @returns Promise<Models.GetCustomModelCopyResultResponse>
    */
-  batchReadReceiptInStream(image: msRest.HttpRequestBody, options?: msRest.RequestOptionsBase): Promise<Models.BatchReadReceiptInStreamResponse>;
+  getCustomModelCopyResult(modelId: string, resultId: string, options?: msRest.RequestOptionsBase): Promise<Models.GetCustomModelCopyResultResponse>;
   /**
-   * @param image An image stream.
+   * @param modelId Model identifier.
+   * @param resultId Copy operation result identifier.
    * @param callback The callback
    */
-  batchReadReceiptInStream(image: msRest.HttpRequestBody, callback: msRest.ServiceCallback<void>): void;
+  getCustomModelCopyResult(modelId: string, resultId: string, callback: msRest.ServiceCallback<Models.CopyOperationResult>): void;
   /**
-   * @param image An image stream.
+   * @param modelId Model identifier.
+   * @param resultId Copy operation result identifier.
    * @param options The optional parameters
    * @param callback The callback
    */
-  batchReadReceiptInStream(image: msRest.HttpRequestBody, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  batchReadReceiptInStream(image: msRest.HttpRequestBody, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.BatchReadReceiptInStreamResponse> {
+  getCustomModelCopyResult(modelId: string, resultId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CopyOperationResult>): void;
+  getCustomModelCopyResult(modelId: string, resultId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CopyOperationResult>, callback?: msRest.ServiceCallback<Models.CopyOperationResult>): Promise<Models.GetCustomModelCopyResultResponse> {
     return this.sendOperationRequest(
       {
-        image,
+        modelId,
+        resultId,
         options
       },
-      batchReadReceiptInStreamOperationSpec,
-      callback) as Promise<Models.BatchReadReceiptInStreamResponse>;
+      getCustomModelCopyResultOperationSpec,
+      callback) as Promise<Models.GetCustomModelCopyResultResponse>;
+  }
+
+  /**
+   * Generate authorization to copy a model into the target Form Recognizer resource.
+   * @summary Generate Copy Authorization
+   * @param [options] The optional parameters
+   * @returns Promise<Models.GenerateModelCopyAuthorizationResponse>
+   */
+  generateModelCopyAuthorization(options?: msRest.RequestOptionsBase): Promise<Models.GenerateModelCopyAuthorizationResponse>;
+  /**
+   * @param callback The callback
+   */
+  generateModelCopyAuthorization(callback: msRest.ServiceCallback<Models.CopyAuthorizationResult>): void;
+  /**
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  generateModelCopyAuthorization(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CopyAuthorizationResult>): void;
+  generateModelCopyAuthorization(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CopyAuthorizationResult>, callback?: msRest.ServiceCallback<Models.CopyAuthorizationResult>): Promise<Models.GenerateModelCopyAuthorizationResponse> {
+    return this.sendOperationRequest(
+      {
+        options
+      },
+      generateModelCopyAuthorizationOperationSpec,
+      callback) as Promise<Models.GenerateModelCopyAuthorizationResponse>;
+  }
+
+  /**
+   * Extract field text and semantic values from a given receipt document. The input document must be
+   * of one of the supported content types - 'application/pdf', 'image/jpeg', 'image/png' or
+   * 'image/tiff'. Alternatively, use 'application/json' type to specify the location (Uri or local
+   * path) of the document to be analyzed.
+   * @summary Analyze Receipt
+   * @param [options] The optional parameters
+   * @returns Promise<Models.AnalyzeReceiptAsyncResponse>
+   */
+  analyzeReceiptAsync(options?: Models.FormRecognizerClientAnalyzeReceiptAsyncOptionalParams): Promise<Models.AnalyzeReceiptAsyncResponse>;
+  /**
+   * @param callback The callback
+   */
+  analyzeReceiptAsync(callback: msRest.ServiceCallback<void>): void;
+  /**
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  analyzeReceiptAsync(options: Models.FormRecognizerClientAnalyzeReceiptAsyncOptionalParams, callback: msRest.ServiceCallback<void>): void;
+  analyzeReceiptAsync(options?: Models.FormRecognizerClientAnalyzeReceiptAsyncOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.AnalyzeReceiptAsyncResponse> {
+    return this.sendOperationRequest(
+      {
+        options
+      },
+      analyzeReceiptAsyncOperationSpec,
+      callback) as Promise<Models.AnalyzeReceiptAsyncResponse>;
+  }
+
+  /**
+   * Track the progress and obtain the result of the analyze receipt operation.
+   * @summary Get Analyze Receipt Result
+   * @param resultId Analyze operation result identifier.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.GetAnalyzeReceiptResultResponse>
+   */
+  getAnalyzeReceiptResult(resultId: string, options?: msRest.RequestOptionsBase): Promise<Models.GetAnalyzeReceiptResultResponse>;
+  /**
+   * @param resultId Analyze operation result identifier.
+   * @param callback The callback
+   */
+  getAnalyzeReceiptResult(resultId: string, callback: msRest.ServiceCallback<Models.AnalyzeOperationResult>): void;
+  /**
+   * @param resultId Analyze operation result identifier.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  getAnalyzeReceiptResult(resultId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AnalyzeOperationResult>): void;
+  getAnalyzeReceiptResult(resultId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AnalyzeOperationResult>, callback?: msRest.ServiceCallback<Models.AnalyzeOperationResult>): Promise<Models.GetAnalyzeReceiptResultResponse> {
+    return this.sendOperationRequest(
+      {
+        resultId,
+        options
+      },
+      getAnalyzeReceiptResultOperationSpec,
+      callback) as Promise<Models.GetAnalyzeReceiptResultResponse>;
+  }
+
+  /**
+   * Extract text and layout information from a given document. The input document must be of one of
+   * the supported content types - 'application/pdf', 'image/jpeg', 'image/png' or 'image/tiff'.
+   * Alternatively, use 'application/json' type to specify the location (Uri or local path) of the
+   * document to be analyzed.
+   * @summary Analyze Layout
+   * @param [options] The optional parameters
+   * @returns Promise<Models.AnalyzeLayoutAsyncResponse>
+   */
+  analyzeLayoutAsync(options?: Models.FormRecognizerClientAnalyzeLayoutAsyncOptionalParams): Promise<Models.AnalyzeLayoutAsyncResponse>;
+  /**
+   * @param callback The callback
+   */
+  analyzeLayoutAsync(callback: msRest.ServiceCallback<void>): void;
+  /**
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  analyzeLayoutAsync(options: Models.FormRecognizerClientAnalyzeLayoutAsyncOptionalParams, callback: msRest.ServiceCallback<void>): void;
+  analyzeLayoutAsync(options?: Models.FormRecognizerClientAnalyzeLayoutAsyncOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.AnalyzeLayoutAsyncResponse> {
+    return this.sendOperationRequest(
+      {
+        options
+      },
+      analyzeLayoutAsyncOperationSpec,
+      callback) as Promise<Models.AnalyzeLayoutAsyncResponse>;
+  }
+
+  /**
+   * Track the progress and obtain the result of the analyze layout operation
+   * @summary Get Analyze Layout Result
+   * @param resultId Analyze operation result identifier.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.GetAnalyzeLayoutResultResponse>
+   */
+  getAnalyzeLayoutResult(resultId: string, options?: msRest.RequestOptionsBase): Promise<Models.GetAnalyzeLayoutResultResponse>;
+  /**
+   * @param resultId Analyze operation result identifier.
+   * @param callback The callback
+   */
+  getAnalyzeLayoutResult(resultId: string, callback: msRest.ServiceCallback<Models.AnalyzeOperationResult>): void;
+  /**
+   * @param resultId Analyze operation result identifier.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  getAnalyzeLayoutResult(resultId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AnalyzeOperationResult>): void;
+  getAnalyzeLayoutResult(resultId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AnalyzeOperationResult>, callback?: msRest.ServiceCallback<Models.AnalyzeOperationResult>): Promise<Models.GetAnalyzeLayoutResultResponse> {
+    return this.sendOperationRequest(
+      {
+        resultId,
+        options
+      },
+      getAnalyzeLayoutResultOperationSpec,
+      callback) as Promise<Models.GetAnalyzeLayoutResultResponse>;
+  }
+
+  /**
+   * Get information about all custom models
+   * @summary List Custom Models
+   * @param [options] The optional parameters
+   * @returns Promise<Models.ListCustomModelsResponse>
+   */
+  listCustomModels(options?: msRest.RequestOptionsBase): Promise<Models.ListCustomModelsResponse>;
+  /**
+   * @param callback The callback
+   */
+  listCustomModels(callback: msRest.ServiceCallback<Models.ModelsModel>): void;
+  /**
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  listCustomModels(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ModelsModel>): void;
+  listCustomModels(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ModelsModel>, callback?: msRest.ServiceCallback<Models.ModelsModel>): Promise<Models.ListCustomModelsResponse> {
+    return this.sendOperationRequest(
+      {
+        options
+      },
+      listCustomModelsOperationSpec,
+      callback) as Promise<Models.ListCustomModelsResponse>;
+  }
+
+  /**
+   * Get information about all custom models
+   * @summary Get Custom Models
+   * @param [options] The optional parameters
+   * @returns Promise<Models.GetCustomModelsResponse>
+   */
+  getCustomModels(options?: msRest.RequestOptionsBase): Promise<Models.GetCustomModelsResponse>;
+  /**
+   * @param callback The callback
+   */
+  getCustomModels(callback: msRest.ServiceCallback<Models.ModelsModel>): void;
+  /**
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  getCustomModels(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ModelsModel>): void;
+  getCustomModels(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ModelsModel>, callback?: msRest.ServiceCallback<Models.ModelsModel>): Promise<Models.GetCustomModelsResponse> {
+    return this.sendOperationRequest(
+      {
+        options
+      },
+      getCustomModelsOperationSpec,
+      callback) as Promise<Models.GetCustomModelsResponse>;
   }
 }
 
 // Operation Specifications
 const serializer = new msRest.Serializer(Mappers);
-const trainCustomModelOperationSpec: msRest.OperationSpec = {
+const trainCustomModelAsyncOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "custom/train",
+  path: "custom/models",
   urlParameters: [
     Parameters.endpoint
   ],
@@ -321,8 +460,8 @@ const trainCustomModelOperationSpec: msRest.OperationSpec = {
     }
   },
   responses: {
-    200: {
-      bodyMapper: Mappers.TrainResult
+    201: {
+      headersMapper: Mappers.TrainCustomModelAsyncHeaders
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -331,16 +470,251 @@ const trainCustomModelOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const getExtractedKeysOperationSpec: msRest.OperationSpec = {
+const getCustomModelOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "custom/models/{id}/keys",
+  path: "custom/models/{modelId}",
   urlParameters: [
     Parameters.endpoint,
-    Parameters.id
+    Parameters.modelId
+  ],
+  queryParameters: [
+    Parameters.includeKeys
   ],
   responses: {
     200: {
-      bodyMapper: Mappers.KeysResult
+      bodyMapper: Mappers.Model
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  serializer
+};
+
+const deleteCustomModelOperationSpec: msRest.OperationSpec = {
+  httpMethod: "DELETE",
+  path: "custom/models/{modelId}",
+  urlParameters: [
+    Parameters.endpoint,
+    Parameters.modelId
+  ],
+  responses: {
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  serializer
+};
+
+const analyzeWithCustomModelOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "custom/models/{modelId}/analyze",
+  urlParameters: [
+    Parameters.endpoint,
+    Parameters.modelId
+  ],
+  queryParameters: [
+    Parameters.includeTextDetails
+  ],
+  requestBody: {
+    parameterPath: [
+      "options",
+      "fileStream"
+    ],
+    mapper: Mappers.SourcePath
+  },
+  responses: {
+    202: {
+      headersMapper: Mappers.AnalyzeWithCustomModelHeaders
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  serializer
+};
+
+const getAnalyzeFormResultOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "custom/models/{modelId}/analyzeResults/{resultId}",
+  urlParameters: [
+    Parameters.endpoint,
+    Parameters.modelId,
+    Parameters.resultId
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.AnalyzeOperationResult
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  serializer
+};
+
+const copyCustomModelOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "custom/models/{modelId}/copy",
+  urlParameters: [
+    Parameters.endpoint,
+    Parameters.modelId
+  ],
+  requestBody: {
+    parameterPath: "copyRequest",
+    mapper: {
+      ...Mappers.CopyRequest,
+      required: true
+    }
+  },
+  responses: {
+    202: {
+      headersMapper: Mappers.CopyCustomModelHeaders
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  serializer
+};
+
+const getCustomModelCopyResultOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "custom/models/{modelId}/copyResults/{resultId}",
+  urlParameters: [
+    Parameters.endpoint,
+    Parameters.modelId,
+    Parameters.resultId
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.CopyOperationResult
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  serializer
+};
+
+const generateModelCopyAuthorizationOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "custom/models/copyAuthorization",
+  urlParameters: [
+    Parameters.endpoint
+  ],
+  responses: {
+    201: {
+      bodyMapper: Mappers.CopyAuthorizationResult,
+      headersMapper: Mappers.GenerateModelCopyAuthorizationHeaders
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  serializer
+};
+
+const analyzeReceiptAsyncOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "prebuilt/receipt/analyze",
+  urlParameters: [
+    Parameters.endpoint
+  ],
+  queryParameters: [
+    Parameters.includeTextDetails
+  ],
+  requestBody: {
+    parameterPath: [
+      "options",
+      "fileStream"
+    ],
+    mapper: Mappers.SourcePath
+  },
+  responses: {
+    202: {
+      headersMapper: Mappers.AnalyzeReceiptAsyncHeaders
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  serializer
+};
+
+const getAnalyzeReceiptResultOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "prebuilt/receipt/analyzeResults/{resultId}",
+  urlParameters: [
+    Parameters.endpoint,
+    Parameters.resultId
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.AnalyzeOperationResult
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  serializer
+};
+
+const analyzeLayoutAsyncOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "layout/analyze",
+  urlParameters: [
+    Parameters.endpoint
+  ],
+  requestBody: {
+    parameterPath: [
+      "options",
+      "fileStream"
+    ],
+    mapper: Mappers.SourcePath
+  },
+  responses: {
+    202: {
+      headersMapper: Mappers.AnalyzeLayoutAsyncHeaders
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  serializer
+};
+
+const getAnalyzeLayoutResultOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "layout/analyzeResults/{resultId}",
+  urlParameters: [
+    Parameters.endpoint,
+    Parameters.resultId
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.AnalyzeOperationResult
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  serializer
+};
+
+const listCustomModelsOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "custom/models",
+  urlParameters: [
+    Parameters.endpoint
+  ],
+  queryParameters: [
+    Parameters.op0
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.ModelsModel
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -355,143 +729,15 @@ const getCustomModelsOperationSpec: msRest.OperationSpec = {
   urlParameters: [
     Parameters.endpoint
   ],
-  responses: {
-    200: {
-      bodyMapper: Mappers.ModelsResult
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  serializer
-};
-
-const getCustomModelOperationSpec: msRest.OperationSpec = {
-  httpMethod: "GET",
-  path: "custom/models/{id}",
-  urlParameters: [
-    Parameters.endpoint,
-    Parameters.id
-  ],
-  responses: {
-    200: {
-      bodyMapper: Mappers.ModelResult
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  serializer
-};
-
-const deleteCustomModelOperationSpec: msRest.OperationSpec = {
-  httpMethod: "DELETE",
-  path: "custom/models/{id}",
-  urlParameters: [
-    Parameters.endpoint,
-    Parameters.id
-  ],
-  responses: {
-    204: {},
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  serializer
-};
-
-const analyzeWithCustomModelOperationSpec: msRest.OperationSpec = {
-  httpMethod: "POST",
-  path: "custom/models/{id}/analyze",
-  urlParameters: [
-    Parameters.endpoint,
-    Parameters.id
-  ],
   queryParameters: [
-    Parameters.keys
+    Parameters.op1
   ],
-  formDataParameters: [
-    Parameters.formStream
-  ],
-  contentType: "multipart/form-data",
   responses: {
     200: {
-      bodyMapper: Mappers.AnalyzeResult
+      bodyMapper: Mappers.ModelsModel
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  serializer
-};
-
-const batchReadReceiptOperationSpec: msRest.OperationSpec = {
-  httpMethod: "POST",
-  path: "prebuilt/receipt/asyncBatchAnalyze",
-  urlParameters: [
-    Parameters.endpoint
-  ],
-  requestBody: {
-    parameterPath: {
-      url: "url"
-    },
-    mapper: {
-      ...Mappers.ImageUrl,
-      required: true
-    }
-  },
-  responses: {
-    202: {
-      headersMapper: Mappers.BatchReadReceiptHeaders
-    },
-    default: {
-      bodyMapper: Mappers.ComputerVisionError
-    }
-  },
-  serializer
-};
-
-const getReadReceiptResultOperationSpec: msRest.OperationSpec = {
-  httpMethod: "GET",
-  path: "prebuilt/receipt/operations/{operationId}",
-  urlParameters: [
-    Parameters.endpoint,
-    Parameters.operationId
-  ],
-  responses: {
-    200: {
-      bodyMapper: Mappers.ReadReceiptResult
-    },
-    default: {
-      bodyMapper: Mappers.ComputerVisionError
-    }
-  },
-  serializer
-};
-
-const batchReadReceiptInStreamOperationSpec: msRest.OperationSpec = {
-  httpMethod: "POST",
-  path: "prebuilt/receipt/asyncBatchAnalyze",
-  urlParameters: [
-    Parameters.endpoint
-  ],
-  requestBody: {
-    parameterPath: "image",
-    mapper: {
-      required: true,
-      serializedName: "Image",
-      type: {
-        name: "Stream"
-      }
-    }
-  },
-  contentType: "application/octet-stream",
-  responses: {
-    202: {
-      headersMapper: Mappers.BatchReadReceiptInStreamHeaders
-    },
-    default: {
-      bodyMapper: Mappers.ComputerVisionError
     }
   },
   serializer

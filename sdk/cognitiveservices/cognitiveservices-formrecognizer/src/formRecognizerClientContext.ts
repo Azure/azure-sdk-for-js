@@ -11,7 +11,7 @@
 import * as msRest from "@azure/ms-rest-js";
 
 const packageName = "@azure/cognitiveservices-formrecognizer";
-const packageVersion = "2.0.0";
+const packageVersion = "3.0.0";
 
 export class FormRecognizerClientContext extends msRest.ServiceClient {
   endpoint: string;
@@ -43,7 +43,7 @@ export class FormRecognizerClientContext extends msRest.ServiceClient {
 
     super(credentials, options);
 
-    this.baseUri = "{Endpoint}/formrecognizer/v1.0-preview";
+    this.baseUri = "{endpoint}/formrecognizer/v2.0-preview";
     this.requestContentType = "application/json; charset=utf-8";
     this.endpoint = endpoint;
     this.credentials = credentials;

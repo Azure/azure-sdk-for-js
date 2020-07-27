@@ -9,6 +9,928 @@
 import * as msRest from "@azure/ms-rest-js";
 
 
+export const CopyAuthorizationResult: msRest.CompositeMapper = {
+  serializedName: "CopyAuthorizationResult",
+  type: {
+    name: "Composite",
+    className: "CopyAuthorizationResult",
+    modelProperties: {
+      modelId: {
+        required: true,
+        serializedName: "modelId",
+        type: {
+          name: "String"
+        }
+      },
+      accessToken: {
+        required: true,
+        serializedName: "accessToken",
+        type: {
+          name: "String"
+        }
+      },
+      expirationDateTimeTicks: {
+        required: true,
+        serializedName: "expirationDateTimeTicks",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const CopyRequest: msRest.CompositeMapper = {
+  serializedName: "CopyRequest",
+  type: {
+    name: "Composite",
+    className: "CopyRequest",
+    modelProperties: {
+      targetResourceId: {
+        required: true,
+        serializedName: "targetResourceId",
+        constraints: {
+          MaxLength: 1024,
+          Pattern: /^\/subscriptions\/[^\/]*\/resourceGroups\/[^\/]*\/providers\/Microsoft.CognitiveServices\/accounts\/[^\/]*$/
+        },
+        type: {
+          name: "String"
+        }
+      },
+      targetResourceRegion: {
+        required: true,
+        serializedName: "targetResourceRegion",
+        constraints: {
+          MaxLength: 24,
+          MinLength: 1,
+          Pattern: /^[a-z0-9]+$/
+        },
+        type: {
+          name: "String"
+        }
+      },
+      copyAuthorization: {
+        required: true,
+        serializedName: "copyAuthorization",
+        type: {
+          name: "Composite",
+          className: "CopyAuthorizationResult"
+        }
+      }
+    }
+  }
+};
+
+export const ErrorInformation: msRest.CompositeMapper = {
+  serializedName: "ErrorInformation",
+  type: {
+    name: "Composite",
+    className: "ErrorInformation",
+    modelProperties: {
+      code: {
+        required: true,
+        serializedName: "code",
+        type: {
+          name: "String"
+        }
+      },
+      message: {
+        required: true,
+        serializedName: "message",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const CopyResult: msRest.CompositeMapper = {
+  serializedName: "CopyResult",
+  type: {
+    name: "Composite",
+    className: "CopyResult",
+    modelProperties: {
+      modelId: {
+        required: true,
+        serializedName: "modelId",
+        type: {
+          name: "Uuid"
+        }
+      },
+      errors: {
+        serializedName: "errors",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ErrorInformation"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const CopyOperationResult: msRest.CompositeMapper = {
+  serializedName: "CopyOperationResult",
+  type: {
+    name: "Composite",
+    className: "CopyOperationResult",
+    modelProperties: {
+      status: {
+        required: true,
+        nullable: false,
+        serializedName: "status",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "notStarted",
+            "running",
+            "succeeded",
+            "failed"
+          ]
+        }
+      },
+      createdDateTime: {
+        required: true,
+        nullable: false,
+        serializedName: "createdDateTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      lastUpdatedDateTime: {
+        required: true,
+        nullable: false,
+        serializedName: "lastUpdatedDateTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      copyResult: {
+        serializedName: "copyResult",
+        type: {
+          name: "Composite",
+          className: "CopyResult"
+        }
+      }
+    }
+  }
+};
+
+export const TextWord: msRest.CompositeMapper = {
+  serializedName: "TextWord",
+  type: {
+    name: "Composite",
+    className: "TextWord",
+    modelProperties: {
+      text: {
+        required: true,
+        serializedName: "text",
+        type: {
+          name: "String"
+        }
+      },
+      boundingBox: {
+        required: true,
+        serializedName: "boundingBox",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Number"
+            }
+          }
+        }
+      },
+      confidence: {
+        serializedName: "confidence",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const TextLine: msRest.CompositeMapper = {
+  serializedName: "TextLine",
+  type: {
+    name: "Composite",
+    className: "TextLine",
+    modelProperties: {
+      text: {
+        required: true,
+        serializedName: "text",
+        type: {
+          name: "String"
+        }
+      },
+      boundingBox: {
+        required: true,
+        serializedName: "boundingBox",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Number"
+            }
+          }
+        }
+      },
+      language: {
+        nullable: false,
+        serializedName: "language",
+        type: {
+          name: "String"
+        }
+      },
+      words: {
+        required: true,
+        serializedName: "words",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "TextWord"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const ReadResult: msRest.CompositeMapper = {
+  serializedName: "ReadResult",
+  type: {
+    name: "Composite",
+    className: "ReadResult",
+    modelProperties: {
+      page: {
+        required: true,
+        nullable: false,
+        serializedName: "page",
+        constraints: {
+          InclusiveMinimum: 1
+        },
+        type: {
+          name: "Number"
+        }
+      },
+      angle: {
+        required: true,
+        nullable: false,
+        serializedName: "angle",
+        constraints: {
+          InclusiveMaximum: 180,
+          ExclusiveMinimum: -180
+        },
+        type: {
+          name: "Number"
+        }
+      },
+      width: {
+        required: true,
+        nullable: false,
+        serializedName: "width",
+        constraints: {
+          InclusiveMinimum: 0
+        },
+        type: {
+          name: "Number"
+        }
+      },
+      height: {
+        required: true,
+        nullable: false,
+        serializedName: "height",
+        constraints: {
+          InclusiveMinimum: 0
+        },
+        type: {
+          name: "Number"
+        }
+      },
+      unit: {
+        required: true,
+        nullable: false,
+        serializedName: "unit",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "pixel",
+            "inch"
+          ]
+        }
+      },
+      language: {
+        nullable: false,
+        serializedName: "language",
+        type: {
+          name: "String"
+        }
+      },
+      lines: {
+        serializedName: "lines",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "TextLine"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const KeyValueElement: msRest.CompositeMapper = {
+  serializedName: "KeyValueElement",
+  type: {
+    name: "Composite",
+    className: "KeyValueElement",
+    modelProperties: {
+      text: {
+        required: true,
+        serializedName: "text",
+        type: {
+          name: "String"
+        }
+      },
+      boundingBox: {
+        serializedName: "boundingBox",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Number"
+            }
+          }
+        }
+      },
+      elements: {
+        serializedName: "elements",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const KeyValuePair: msRest.CompositeMapper = {
+  serializedName: "KeyValuePair",
+  type: {
+    name: "Composite",
+    className: "KeyValuePair",
+    modelProperties: {
+      label: {
+        serializedName: "label",
+        type: {
+          name: "String"
+        }
+      },
+      key: {
+        required: true,
+        serializedName: "key",
+        type: {
+          name: "Composite",
+          className: "KeyValueElement"
+        }
+      },
+      value: {
+        required: true,
+        serializedName: "value",
+        type: {
+          name: "Composite",
+          className: "KeyValueElement"
+        }
+      },
+      confidence: {
+        required: true,
+        serializedName: "confidence",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const DataTableCell: msRest.CompositeMapper = {
+  serializedName: "DataTableCell",
+  type: {
+    name: "Composite",
+    className: "DataTableCell",
+    modelProperties: {
+      rowIndex: {
+        required: true,
+        nullable: false,
+        serializedName: "rowIndex",
+        constraints: {
+          InclusiveMinimum: 0
+        },
+        type: {
+          name: "Number"
+        }
+      },
+      columnIndex: {
+        required: true,
+        nullable: false,
+        serializedName: "columnIndex",
+        constraints: {
+          InclusiveMinimum: 0
+        },
+        type: {
+          name: "Number"
+        }
+      },
+      rowSpan: {
+        nullable: false,
+        serializedName: "rowSpan",
+        defaultValue: 1,
+        constraints: {
+          InclusiveMinimum: 1
+        },
+        type: {
+          name: "Number"
+        }
+      },
+      columnSpan: {
+        nullable: false,
+        serializedName: "columnSpan",
+        defaultValue: 1,
+        constraints: {
+          InclusiveMinimum: 1
+        },
+        type: {
+          name: "Number"
+        }
+      },
+      text: {
+        required: true,
+        serializedName: "text",
+        type: {
+          name: "String"
+        }
+      },
+      boundingBox: {
+        required: true,
+        serializedName: "boundingBox",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Number"
+            }
+          }
+        }
+      },
+      confidence: {
+        required: true,
+        serializedName: "confidence",
+        type: {
+          name: "Number"
+        }
+      },
+      elements: {
+        serializedName: "elements",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      isHeader: {
+        nullable: false,
+        serializedName: "isHeader",
+        defaultValue: false,
+        type: {
+          name: "Boolean"
+        }
+      },
+      isFooter: {
+        nullable: false,
+        serializedName: "isFooter",
+        defaultValue: false,
+        type: {
+          name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
+export const DataTable: msRest.CompositeMapper = {
+  serializedName: "DataTable",
+  type: {
+    name: "Composite",
+    className: "DataTable",
+    modelProperties: {
+      rows: {
+        required: true,
+        nullable: false,
+        serializedName: "rows",
+        constraints: {
+          InclusiveMinimum: 1
+        },
+        type: {
+          name: "Number"
+        }
+      },
+      columns: {
+        required: true,
+        nullable: false,
+        serializedName: "columns",
+        constraints: {
+          InclusiveMinimum: 1
+        },
+        type: {
+          name: "Number"
+        }
+      },
+      cells: {
+        required: true,
+        serializedName: "cells",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "DataTableCell"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const PageResult: msRest.CompositeMapper = {
+  serializedName: "PageResult",
+  type: {
+    name: "Composite",
+    className: "PageResult",
+    modelProperties: {
+      page: {
+        required: true,
+        nullable: false,
+        serializedName: "page",
+        constraints: {
+          InclusiveMinimum: 1
+        },
+        type: {
+          name: "Number"
+        }
+      },
+      clusterId: {
+        nullable: false,
+        serializedName: "clusterId",
+        constraints: {
+          InclusiveMinimum: 0
+        },
+        type: {
+          name: "Number"
+        }
+      },
+      keyValuePairs: {
+        serializedName: "keyValuePairs",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "KeyValuePair"
+            }
+          }
+        }
+      },
+      tables: {
+        serializedName: "tables",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "DataTable"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const FieldValue: msRest.CompositeMapper = {
+  serializedName: "FieldValue",
+  type: {
+    name: "Composite",
+    className: "FieldValue",
+    modelProperties: {
+      type: {
+        required: true,
+        nullable: false,
+        serializedName: "type",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "string",
+            "date",
+            "time",
+            "phoneNumber",
+            "number",
+            "integer",
+            "array",
+            "object"
+          ]
+        }
+      },
+      valueString: {
+        serializedName: "valueString",
+        type: {
+          name: "String"
+        }
+      },
+      valueDate: {
+        nullable: false,
+        serializedName: "valueDate",
+        type: {
+          name: "Date"
+        }
+      },
+      valueTime: {
+        nullable: false,
+        serializedName: "valueTime",
+        type: {
+          name: "String"
+        }
+      },
+      valuePhoneNumber: {
+        serializedName: "valuePhoneNumber",
+        type: {
+          name: "String"
+        }
+      },
+      valueNumber: {
+        nullable: false,
+        serializedName: "valueNumber",
+        type: {
+          name: "Number"
+        }
+      },
+      valueInteger: {
+        nullable: false,
+        serializedName: "valueInteger",
+        type: {
+          name: "Number"
+        }
+      },
+      valueArray: {
+        serializedName: "valueArray",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "FieldValue"
+            }
+          }
+        }
+      },
+      valueObject: {
+        serializedName: "valueObject",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "Composite",
+              className: "FieldValue"
+            }
+          }
+        }
+      },
+      text: {
+        serializedName: "text",
+        type: {
+          name: "String"
+        }
+      },
+      boundingBox: {
+        serializedName: "boundingBox",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Number"
+            }
+          }
+        }
+      },
+      confidence: {
+        serializedName: "confidence",
+        type: {
+          name: "Number"
+        }
+      },
+      elements: {
+        serializedName: "elements",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      page: {
+        nullable: false,
+        serializedName: "page",
+        constraints: {
+          InclusiveMinimum: 1
+        },
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const DocumentResult: msRest.CompositeMapper = {
+  serializedName: "DocumentResult",
+  type: {
+    name: "Composite",
+    className: "DocumentResult",
+    modelProperties: {
+      docType: {
+        required: true,
+        serializedName: "docType",
+        type: {
+          name: "String"
+        }
+      },
+      pageRange: {
+        required: true,
+        serializedName: "pageRange",
+        constraints: {
+          MaxItems: 2,
+          MinItems: 2
+        },
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Number"
+            }
+          }
+        }
+      },
+      fields: {
+        required: true,
+        serializedName: "fields",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "Composite",
+              className: "FieldValue"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const AnalyzeResult: msRest.CompositeMapper = {
+  serializedName: "AnalyzeResult",
+  type: {
+    name: "Composite",
+    className: "AnalyzeResult",
+    modelProperties: {
+      version: {
+        required: true,
+        serializedName: "version",
+        type: {
+          name: "String"
+        }
+      },
+      readResults: {
+        required: true,
+        serializedName: "readResults",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ReadResult"
+            }
+          }
+        }
+      },
+      pageResults: {
+        serializedName: "pageResults",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "PageResult"
+            }
+          }
+        }
+      },
+      documentResults: {
+        serializedName: "documentResults",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "DocumentResult"
+            }
+          }
+        }
+      },
+      errors: {
+        serializedName: "errors",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ErrorInformation"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const AnalyzeOperationResult: msRest.CompositeMapper = {
+  serializedName: "AnalyzeOperationResult",
+  type: {
+    name: "Composite",
+    className: "AnalyzeOperationResult",
+    modelProperties: {
+      status: {
+        required: true,
+        nullable: false,
+        serializedName: "status",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "notStarted",
+            "running",
+            "succeeded",
+            "failed"
+          ]
+        }
+      },
+      createdDateTime: {
+        required: true,
+        nullable: false,
+        serializedName: "createdDateTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      lastUpdatedDateTime: {
+        required: true,
+        nullable: false,
+        serializedName: "lastUpdatedDateTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      analyzeResult: {
+        serializedName: "analyzeResult",
+        type: {
+          name: "Composite",
+          className: "AnalyzeResult"
+        }
+      }
+    }
+  }
+};
+
 export const TrainSourceFilter: msRest.CompositeMapper = {
   serializedName: "TrainSourceFilter",
   type: {
@@ -18,7 +940,7 @@ export const TrainSourceFilter: msRest.CompositeMapper = {
       prefix: {
         serializedName: "prefix",
         constraints: {
-          MaxLength: 128,
+          MaxLength: 1024,
           MinLength: 0
         },
         type: {
@@ -26,7 +948,9 @@ export const TrainSourceFilter: msRest.CompositeMapper = {
         }
       },
       includeSubFolders: {
+        nullable: false,
         serializedName: "includeSubFolders",
+        defaultValue: false,
         type: {
           name: "Boolean"
         }
@@ -58,60 +982,88 @@ export const TrainRequest: msRest.CompositeMapper = {
           name: "Composite",
           className: "TrainSourceFilter"
         }
+      },
+      useLabelFile: {
+        serializedName: "useLabelFile",
+        defaultValue: false,
+        type: {
+          name: "Boolean"
+        }
       }
     }
   }
 };
 
-export const FormDocumentReport: msRest.CompositeMapper = {
-  serializedName: "FormDocumentReport",
+export const TrainingDocumentInfo: msRest.CompositeMapper = {
+  serializedName: "TrainingDocumentInfo",
   type: {
     name: "Composite",
-    className: "FormDocumentReport",
+    className: "TrainingDocumentInfo",
     modelProperties: {
       documentName: {
+        required: true,
         serializedName: "documentName",
         type: {
           name: "String"
         }
       },
       pages: {
+        required: true,
+        nullable: false,
         serializedName: "pages",
         type: {
           name: "Number"
         }
       },
       errors: {
+        required: true,
         serializedName: "errors",
         type: {
           name: "Sequence",
           element: {
             type: {
-              name: "String"
+              name: "Composite",
+              className: "ErrorInformation"
             }
           }
         }
       },
       status: {
+        required: true,
+        nullable: false,
         serializedName: "status",
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: [
+            "succeeded",
+            "partiallySucceeded",
+            "failed"
+          ]
         }
       }
     }
   }
 };
 
-export const FormOperationError: msRest.CompositeMapper = {
-  serializedName: "FormOperationError",
+export const FormFieldsReport: msRest.CompositeMapper = {
+  serializedName: "FormFieldsReport",
   type: {
     name: "Composite",
-    className: "FormOperationError",
+    className: "FormFieldsReport",
     modelProperties: {
-      errorMessage: {
-        serializedName: "errorMessage",
+      fieldName: {
+        required: true,
+        serializedName: "fieldName",
         type: {
           name: "String"
+        }
+      },
+      accuracy: {
+        required: true,
+        nullable: false,
+        serializedName: "accuracy",
+        type: {
+          name: "Number"
         }
       }
     }
@@ -124,23 +1076,36 @@ export const TrainResult: msRest.CompositeMapper = {
     name: "Composite",
     className: "TrainResult",
     modelProperties: {
-      modelId: {
-        nullable: false,
-        serializedName: "modelId",
-        type: {
-          name: "Uuid"
-        }
-      },
       trainingDocuments: {
+        required: true,
         serializedName: "trainingDocuments",
         type: {
           name: "Sequence",
           element: {
             type: {
               name: "Composite",
-              className: "FormDocumentReport"
+              className: "TrainingDocumentInfo"
             }
           }
+        }
+      },
+      fields: {
+        serializedName: "fields",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "FormFieldsReport"
+            }
+          }
+        }
+      },
+      averageModelAccuracy: {
+        nullable: false,
+        serializedName: "averageModelAccuracy",
+        type: {
+          name: "Number"
         }
       },
       errors: {
@@ -150,9 +1115,145 @@ export const TrainResult: msRest.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "FormOperationError"
+              className: "ErrorInformation"
             }
           }
+        }
+      }
+    }
+  }
+};
+
+export const SourcePath: msRest.CompositeMapper = {
+  serializedName: "SourcePath",
+  type: {
+    name: "Composite",
+    className: "SourcePath",
+    modelProperties: {
+      source: {
+        serializedName: "source",
+        constraints: {
+          MaxLength: 2048,
+          MinLength: 0
+        },
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ModelInfo: msRest.CompositeMapper = {
+  serializedName: "ModelInfo",
+  type: {
+    name: "Composite",
+    className: "ModelInfo",
+    modelProperties: {
+      modelId: {
+        required: true,
+        nullable: false,
+        serializedName: "modelId",
+        type: {
+          name: "Uuid"
+        }
+      },
+      status: {
+        required: true,
+        nullable: false,
+        serializedName: "status",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "creating",
+            "ready",
+            "invalid"
+          ]
+        }
+      },
+      createdDateTime: {
+        required: true,
+        nullable: false,
+        serializedName: "createdDateTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      lastUpdatedDateTime: {
+        required: true,
+        nullable: false,
+        serializedName: "lastUpdatedDateTime",
+        type: {
+          name: "DateTime"
+        }
+      }
+    }
+  }
+};
+
+export const ModelsSummary: msRest.CompositeMapper = {
+  serializedName: "Models_summary",
+  type: {
+    name: "Composite",
+    className: "ModelsSummary",
+    modelProperties: {
+      count: {
+        required: true,
+        nullable: false,
+        serializedName: "count",
+        type: {
+          name: "Number"
+        }
+      },
+      limit: {
+        required: true,
+        nullable: false,
+        serializedName: "limit",
+        type: {
+          name: "Number"
+        }
+      },
+      lastUpdatedDateTime: {
+        required: true,
+        nullable: false,
+        serializedName: "lastUpdatedDateTime",
+        type: {
+          name: "DateTime"
+        }
+      }
+    }
+  }
+};
+
+export const ModelsModel: msRest.CompositeMapper = {
+  serializedName: "Models",
+  type: {
+    name: "Composite",
+    className: "ModelsModel",
+    modelProperties: {
+      summary: {
+        serializedName: "summary",
+        type: {
+          name: "Composite",
+          className: "ModelsSummary"
+        }
+      },
+      modelList: {
+        serializedName: "modelList",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ModelInfo"
+            }
+          }
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String"
         }
       }
     }
@@ -166,6 +1267,7 @@ export const KeysResult: msRest.CompositeMapper = {
     className: "KeysResult",
     modelProperties: {
       clusters: {
+        required: true,
         serializedName: "clusters",
         type: {
           name: "Dictionary",
@@ -185,102 +1287,32 @@ export const KeysResult: msRest.CompositeMapper = {
   }
 };
 
-export const ModelResult: msRest.CompositeMapper = {
-  serializedName: "ModelResult",
+export const Model: msRest.CompositeMapper = {
+  serializedName: "Model",
   type: {
     name: "Composite",
-    className: "ModelResult",
+    className: "Model",
     modelProperties: {
-      modelId: {
-        nullable: false,
-        serializedName: "modelId",
-        type: {
-          name: "Uuid"
-        }
-      },
-      status: {
-        serializedName: "status",
-        type: {
-          name: "String"
-        }
-      },
-      createdDateTime: {
-        serializedName: "createdDateTime",
-        type: {
-          name: "DateTime"
-        }
-      },
-      lastUpdatedDateTime: {
-        serializedName: "lastUpdatedDateTime",
-        type: {
-          name: "DateTime"
-        }
-      }
-    }
-  }
-};
-
-export const ModelsResult: msRest.CompositeMapper = {
-  serializedName: "ModelsResult",
-  type: {
-    name: "Composite",
-    className: "ModelsResult",
-    modelProperties: {
-      modelsProperty: {
-        serializedName: "models",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "ModelResult"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
-export const InnerError: msRest.CompositeMapper = {
-  serializedName: "InnerError",
-  type: {
-    name: "Composite",
-    className: "InnerError",
-    modelProperties: {
-      requestId: {
-        serializedName: "requestId",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const ErrorInformation: msRest.CompositeMapper = {
-  serializedName: "ErrorInformation",
-  type: {
-    name: "Composite",
-    className: "ErrorInformation",
-    modelProperties: {
-      code: {
-        serializedName: "code",
-        type: {
-          name: "String"
-        }
-      },
-      innerError: {
-        serializedName: "innerError",
+      modelInfo: {
+        required: true,
+        serializedName: "modelInfo",
         type: {
           name: "Composite",
-          className: "InnerError"
+          className: "ModelInfo"
         }
       },
-      message: {
-        serializedName: "message",
+      keys: {
+        serializedName: "keys",
         type: {
-          name: "String"
+          name: "Composite",
+          className: "KeysResult"
+        }
+      },
+      trainResult: {
+        serializedName: "trainResult",
+        type: {
+          name: "Composite",
+          className: "TrainResult"
         }
       }
     }
@@ -294,6 +1326,7 @@ export const ErrorResponse: msRest.CompositeMapper = {
     className: "ErrorResponse",
     modelProperties: {
       error: {
+        required: true,
         serializedName: "error",
         type: {
           name: "Composite",
@@ -304,383 +1337,14 @@ export const ErrorResponse: msRest.CompositeMapper = {
   }
 };
 
-export const ExtractedToken: msRest.CompositeMapper = {
-  serializedName: "ExtractedToken",
+export const TrainCustomModelAsyncHeaders: msRest.CompositeMapper = {
+  serializedName: "traincustommodelasync-headers",
   type: {
     name: "Composite",
-    className: "ExtractedToken",
+    className: "TrainCustomModelAsyncHeaders",
     modelProperties: {
-      text: {
-        serializedName: "text",
-        type: {
-          name: "String"
-        }
-      },
-      boundingBox: {
-        serializedName: "boundingBox",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Number"
-            }
-          }
-        }
-      },
-      confidence: {
-        serializedName: "confidence",
-        type: {
-          name: "Number"
-        }
-      }
-    }
-  }
-};
-
-export const ExtractedKeyValuePair: msRest.CompositeMapper = {
-  serializedName: "ExtractedKeyValuePair",
-  type: {
-    name: "Composite",
-    className: "ExtractedKeyValuePair",
-    modelProperties: {
-      key: {
-        serializedName: "key",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "ExtractedToken"
-            }
-          }
-        }
-      },
-      value: {
-        serializedName: "value",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "ExtractedToken"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
-export const ExtractedTableColumn: msRest.CompositeMapper = {
-  serializedName: "ExtractedTableColumn",
-  type: {
-    name: "Composite",
-    className: "ExtractedTableColumn",
-    modelProperties: {
-      header: {
-        serializedName: "header",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "ExtractedToken"
-            }
-          }
-        }
-      },
-      entries: {
-        serializedName: "entries",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Sequence",
-              element: {
-                type: {
-                  name: "Composite",
-                  className: "ExtractedToken"
-                }
-              }
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
-export const ExtractedTable: msRest.CompositeMapper = {
-  serializedName: "ExtractedTable",
-  type: {
-    name: "Composite",
-    className: "ExtractedTable",
-    modelProperties: {
-      id: {
-        serializedName: "id",
-        type: {
-          name: "String"
-        }
-      },
-      columns: {
-        serializedName: "columns",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "ExtractedTableColumn"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
-export const ExtractedPage: msRest.CompositeMapper = {
-  serializedName: "ExtractedPage",
-  type: {
-    name: "Composite",
-    className: "ExtractedPage",
-    modelProperties: {
-      number: {
-        serializedName: "number",
-        type: {
-          name: "Number"
-        }
-      },
-      height: {
-        serializedName: "height",
-        type: {
-          name: "Number"
-        }
-      },
-      width: {
-        serializedName: "width",
-        type: {
-          name: "Number"
-        }
-      },
-      clusterId: {
-        serializedName: "clusterId",
-        type: {
-          name: "Number"
-        }
-      },
-      keyValuePairs: {
-        serializedName: "keyValuePairs",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "ExtractedKeyValuePair"
-            }
-          }
-        }
-      },
-      tables: {
-        serializedName: "tables",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "ExtractedTable"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
-export const AnalyzeResult: msRest.CompositeMapper = {
-  serializedName: "AnalyzeResult",
-  type: {
-    name: "Composite",
-    className: "AnalyzeResult",
-    modelProperties: {
-      status: {
-        serializedName: "status",
-        type: {
-          name: "String"
-        }
-      },
-      pages: {
-        serializedName: "pages",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "ExtractedPage"
-            }
-          }
-        }
-      },
-      errors: {
-        serializedName: "errors",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "FormOperationError"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
-export const Word: msRest.CompositeMapper = {
-  serializedName: "Word",
-  type: {
-    name: "Composite",
-    className: "Word",
-    modelProperties: {
-      boundingBox: {
-        required: true,
-        serializedName: "boundingBox",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Number"
-            }
-          }
-        }
-      },
-      text: {
-        required: true,
-        serializedName: "text",
-        type: {
-          name: "String"
-        }
-      },
-      confidence: {
-        nullable: true,
-        serializedName: "confidence",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "High",
-            "Low"
-          ]
-        }
-      }
-    }
-  }
-};
-
-export const Line: msRest.CompositeMapper = {
-  serializedName: "Line",
-  type: {
-    name: "Composite",
-    className: "Line",
-    modelProperties: {
-      boundingBox: {
-        serializedName: "boundingBox",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Number"
-            }
-          }
-        }
-      },
-      text: {
-        serializedName: "text",
-        type: {
-          name: "String"
-        }
-      },
-      words: {
-        serializedName: "words",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "Word"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
-export const TextRecognitionResult: msRest.CompositeMapper = {
-  serializedName: "TextRecognitionResult",
-  type: {
-    name: "Composite",
-    className: "TextRecognitionResult",
-    modelProperties: {
-      page: {
-        serializedName: "page",
-        type: {
-          name: "Number"
-        }
-      },
-      clockwiseOrientation: {
-        serializedName: "clockwiseOrientation",
-        type: {
-          name: "Number"
-        }
-      },
-      width: {
-        serializedName: "width",
-        type: {
-          name: "Number"
-        }
-      },
-      height: {
-        serializedName: "height",
-        type: {
-          name: "Number"
-        }
-      },
-      unit: {
-        nullable: true,
-        serializedName: "unit",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "pixel",
-            "inch"
-          ]
-        }
-      },
-      lines: {
-        required: true,
-        serializedName: "lines",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "Line"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
-export const ElementReference: msRest.CompositeMapper = {
-  serializedName: "elementReference",
-  type: {
-    name: "Composite",
-    className: "ElementReference",
-    modelProperties: {
-      ref: {
-        serializedName: "$ref",
+      location: {
+        serializedName: "location",
         type: {
           name: "String"
         }
@@ -689,216 +1353,11 @@ export const ElementReference: msRest.CompositeMapper = {
   }
 };
 
-export const FieldValue: msRest.CompositeMapper = {
-  serializedName: "fieldValue",
+export const AnalyzeWithCustomModelHeaders: msRest.CompositeMapper = {
+  serializedName: "analyzewithcustommodel-headers",
   type: {
     name: "Composite",
-    polymorphicDiscriminator: {
-      serializedName: "valueType",
-      clientName: "valueType"
-    },
-    uberParent: "FieldValue",
-    className: "FieldValue",
-    modelProperties: {
-      text: {
-        serializedName: "text",
-        type: {
-          name: "String"
-        }
-      },
-      elements: {
-        serializedName: "elements",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "ElementReference"
-            }
-          }
-        }
-      },
-      valueType: {
-        required: true,
-        serializedName: "valueType",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const UnderstandingResult: msRest.CompositeMapper = {
-  serializedName: "understandingResult",
-  type: {
-    name: "Composite",
-    className: "UnderstandingResult",
-    modelProperties: {
-      pages: {
-        serializedName: "pages",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Number"
-            }
-          }
-        }
-      },
-      fields: {
-        serializedName: "fields",
-        type: {
-          name: "Dictionary",
-          value: {
-            type: {
-              name: "Composite",
-              className: "FieldValue"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
-export const ReadReceiptResult: msRest.CompositeMapper = {
-  serializedName: "readReceiptResult",
-  type: {
-    name: "Composite",
-    className: "ReadReceiptResult",
-    modelProperties: {
-      status: {
-        nullable: false,
-        serializedName: "status",
-        type: {
-          name: "Enum",
-          allowedValues: [
-            "Not Started",
-            "Running",
-            "Failed",
-            "Succeeded"
-          ]
-        }
-      },
-      recognitionResults: {
-        serializedName: "recognitionResults",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "TextRecognitionResult"
-            }
-          }
-        }
-      },
-      understandingResults: {
-        serializedName: "understandingResults",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "UnderstandingResult"
-            }
-          }
-        }
-      }
-    }
-  }
-};
-
-export const StringValue: msRest.CompositeMapper = {
-  serializedName: "stringValue",
-  type: {
-    name: "Composite",
-    polymorphicDiscriminator: FieldValue.type.polymorphicDiscriminator,
-    uberParent: "FieldValue",
-    className: "StringValue",
-    modelProperties: {
-      ...FieldValue.type.modelProperties,
-      value: {
-        serializedName: "value",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const NumberValue: msRest.CompositeMapper = {
-  serializedName: "numberValue",
-  type: {
-    name: "Composite",
-    polymorphicDiscriminator: FieldValue.type.polymorphicDiscriminator,
-    uberParent: "FieldValue",
-    className: "NumberValue",
-    modelProperties: {
-      ...FieldValue.type.modelProperties,
-      value: {
-        serializedName: "value",
-        type: {
-          name: "Number"
-        }
-      }
-    }
-  }
-};
-
-export const ComputerVisionError: msRest.CompositeMapper = {
-  serializedName: "ComputerVisionError",
-  type: {
-    name: "Composite",
-    className: "ComputerVisionError",
-    modelProperties: {
-      code: {
-        required: true,
-        serializedName: "code",
-        type: {
-          name: "Object"
-        }
-      },
-      message: {
-        required: true,
-        serializedName: "message",
-        type: {
-          name: "String"
-        }
-      },
-      requestId: {
-        serializedName: "requestId",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const ImageUrl: msRest.CompositeMapper = {
-  serializedName: "ImageUrl",
-  type: {
-    name: "Composite",
-    className: "ImageUrl",
-    modelProperties: {
-      url: {
-        required: true,
-        serializedName: "url",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const BatchReadReceiptHeaders: msRest.CompositeMapper = {
-  serializedName: "batchreadreceipt-headers",
-  type: {
-    name: "Composite",
-    className: "BatchReadReceiptHeaders",
+    className: "AnalyzeWithCustomModelHeaders",
     modelProperties: {
       operationLocation: {
         serializedName: "operation-location",
@@ -910,11 +1369,11 @@ export const BatchReadReceiptHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const BatchReadReceiptInStreamHeaders: msRest.CompositeMapper = {
-  serializedName: "batchreadreceiptinstream-headers",
+export const CopyCustomModelHeaders: msRest.CompositeMapper = {
+  serializedName: "copycustommodel-headers",
   type: {
     name: "Composite",
-    className: "BatchReadReceiptInStreamHeaders",
+    className: "CopyCustomModelHeaders",
     modelProperties: {
       operationLocation: {
         serializedName: "operation-location",
@@ -926,9 +1385,50 @@ export const BatchReadReceiptInStreamHeaders: msRest.CompositeMapper = {
   }
 };
 
-export const discriminators = {
-  'fieldValue' : FieldValue,
-  'FieldValue.stringValue' : StringValue,
-  'FieldValue.numberValue' : NumberValue
+export const GenerateModelCopyAuthorizationHeaders: msRest.CompositeMapper = {
+  serializedName: "generatemodelcopyauthorization-headers",
+  type: {
+    name: "Composite",
+    className: "GenerateModelCopyAuthorizationHeaders",
+    modelProperties: {
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
 
+export const AnalyzeReceiptAsyncHeaders: msRest.CompositeMapper = {
+  serializedName: "analyzereceiptasync-headers",
+  type: {
+    name: "Composite",
+    className: "AnalyzeReceiptAsyncHeaders",
+    modelProperties: {
+      operationLocation: {
+        serializedName: "operation-location",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AnalyzeLayoutAsyncHeaders: msRest.CompositeMapper = {
+  serializedName: "analyzelayoutasync-headers",
+  type: {
+    name: "Composite",
+    className: "AnalyzeLayoutAsyncHeaders",
+    modelProperties: {
+      operationLocation: {
+        serializedName: "operation-location",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
 };

@@ -10,477 +10,623 @@
 import * as msRest from "@azure/ms-rest-js";
 
 /**
- * Filters to be applied when traversing a data source.
+ * Request parameter that contains authorization claims for copy operation.
  */
-export interface TrainSourceFilter {
+export interface CopyAuthorizationResult {
   /**
-   * A case-sensitive prefix string to filter content
-   * under the source location. For e.g., when using a Azure Blob
-   * Uri use the prefix to restrict subfolders for content.
+   * Model identifier.
    */
-  prefix?: string;
+  modelId: string;
   /**
-   * A flag to indicate if sub folders within the set of
-   * prefix folders will also need to be included when searching
-   * for content to be preprocessed.
+   * Token claim used to authorize the request.
    */
-  includeSubFolders?: boolean;
+  accessToken: string;
+  /**
+   * The time when the access token expires. The date is represented as the number of seconds from
+   * 1970-01-01T0:0:0Z UTC until the expiration time.
+   */
+  expirationDateTimeTicks: number;
 }
 
 /**
- * Contract to initiate a train request.
+ * Request parameter to copy an existing custom model from the source resource to a target resource
+ * referenced by the resource ID.
  */
-export interface TrainRequest {
+export interface CopyRequest {
   /**
-   * Get or set source path.
+   * Azure Resource Id of the target Form Recognizer resource where the model is copied to.
    */
-  source: string;
+  targetResourceId: string;
   /**
-   * Get or set filter to further search the
-   * source path for content.
+   * Location of the target Azure resource. A valid Azure region name supported by Cognitive
+   * Services.
    */
-  sourceFilter?: TrainSourceFilter;
-}
-
-/**
- * An interface representing FormDocumentReport.
- */
-export interface FormDocumentReport {
+  targetResourceRegion: string;
   /**
-   * Reference to the data that the report is for.
+   * Entity that encodes claims to authorize the copy request.
    */
-  documentName?: string;
-  /**
-   * Total number of pages trained on.
-   */
-  pages?: number;
-  /**
-   * List of errors per page.
-   */
-  errors?: string[];
-  /**
-   * Status of the training operation. Possible values include: 'success', 'partialSuccess',
-   * 'failure'
-   */
-  status?: Status;
-}
-
-/**
- * Error reported during an operation.
- */
-export interface FormOperationError {
-  /**
-   * Message reported during the train operation.
-   */
-  errorMessage?: string;
-}
-
-/**
- * Response of the Train API call.
- */
-export interface TrainResult {
-  /**
-   * Identifier of the model.
-   */
-  modelId?: string;
-  /**
-   * List of documents used to train the model and the
-   * train operation error reported by each.
-   */
-  trainingDocuments?: FormDocumentReport[];
-  /**
-   * Errors returned during the training operation.
-   */
-  errors?: FormOperationError[];
-}
-
-/**
- * Result of an operation to get
- * the keys extracted by a model.
- */
-export interface KeysResult {
-  /**
-   * Object mapping ClusterIds to Key lists.
-   */
-  clusters?: { [propertyName: string]: string[] };
-}
-
-/**
- * Result of a model status query operation.
- */
-export interface ModelResult {
-  /**
-   * Get or set model identifier.
-   */
-  modelId?: string;
-  /**
-   * Get or set the status of model. Possible values include: 'created', 'ready', 'invalid'
-   */
-  status?: Status1;
-  /**
-   * Get or set the created date time of the model.
-   */
-  createdDateTime?: Date;
-  /**
-   * Get or set the model last updated datetime.
-   */
-  lastUpdatedDateTime?: Date;
-}
-
-/**
- * Result of query operation to fetch multiple models.
- */
-export interface ModelsResult {
-  /**
-   * Collection of models.
-   */
-  modelsProperty?: ModelResult[];
-}
-
-/**
- * An interface representing InnerError.
- */
-export interface InnerError {
-  requestId?: string;
+  copyAuthorization: CopyAuthorizationResult;
 }
 
 /**
  * An interface representing ErrorInformation.
  */
 export interface ErrorInformation {
-  code?: string;
-  innerError?: InnerError;
-  message?: string;
+  code: string;
+  message: string;
+}
+
+/**
+ * Custom model copy result.
+ */
+export interface CopyResult {
+  /**
+   * Identifier of the target model.
+   */
+  modelId: string;
+  /**
+   * Errors returned during the copy operation.
+   */
+  errors?: ErrorInformation[];
+}
+
+/**
+ * Status and result of the queued copy operation.
+ */
+export interface CopyOperationResult {
+  /**
+   * Operation status. Possible values include: 'notStarted', 'running', 'succeeded', 'failed'
+   */
+  status: OperationStatus;
+  /**
+   * Date and time (UTC) when the copy operation was submitted.
+   */
+  createdDateTime: Date;
+  /**
+   * Date and time (UTC) when the status was last updated.
+   */
+  lastUpdatedDateTime: Date;
+  /**
+   * Results of the copy operation.
+   */
+  copyResult?: CopyResult;
+}
+
+/**
+ * An object representing a word.
+ */
+export interface TextWord {
+  /**
+   * The text content of the word.
+   */
+  text: string;
+  /**
+   * Bounding box of an extracted word.
+   */
+  boundingBox: number[];
+  /**
+   * Confidence value.
+   */
+  confidence?: number;
+}
+
+/**
+ * An object representing an extracted text line.
+ */
+export interface TextLine {
+  /**
+   * The text content of the line.
+   */
+  text: string;
+  /**
+   * Bounding box of an extracted line.
+   */
+  boundingBox: number[];
+  /**
+   * The detected language of this line, if different from the overall page language. Possible
+   * values include: 'en', 'es'
+   */
+  language?: Language;
+  /**
+   * List of words in the text line.
+   */
+  words: TextWord[];
+}
+
+/**
+ * Text extracted from a page in the input document.
+ */
+export interface ReadResult {
+  /**
+   * The 1-based page number in the input document.
+   */
+  page: number;
+  /**
+   * The general orientation of the text in clockwise direction, measured in degrees between (-180,
+   * 180].
+   */
+  angle: number;
+  /**
+   * The width of the image/PDF in pixels/inches, respectively.
+   */
+  width: number;
+  /**
+   * The height of the image/PDF in pixels/inches, respectively.
+   */
+  height: number;
+  /**
+   * The unit used by the width, height and boundingBox properties. For images, the unit is
+   * "pixel". For PDF, the unit is "inch". Possible values include: 'pixel', 'inch'
+   */
+  unit: LengthUnit;
+  /**
+   * The detected language on the page overall. Possible values include: 'en', 'es'
+   */
+  language?: Language;
+  /**
+   * When includeTextDetails is set to true, a list of recognized text lines. The maximum number of
+   * lines returned is 300 per page. The lines are sorted top to bottom, left to right, although in
+   * certain cases proximity is treated with higher priority. As the sorting order depends on the
+   * detected text, it may change across images and OCR version updates. Thus, business logic
+   * should be built upon the actual line location instead of order.
+   */
+  lines?: TextLine[];
+}
+
+/**
+ * Information about the extracted key or value in a key-value pair.
+ */
+export interface KeyValueElement {
+  /**
+   * The text content of the key or value.
+   */
+  text: string;
+  /**
+   * Bounding box of the key or value.
+   */
+  boundingBox?: number[];
+  /**
+   * When includeTextDetails is set to true, a list of references to the text elements constituting
+   * this key or value.
+   */
+  elements?: string[];
+}
+
+/**
+ * Information about the extracted key-value pair.
+ */
+export interface KeyValuePair {
+  /**
+   * A user defined label for the key/value pair entry.
+   */
+  label?: string;
+  /**
+   * Information about the extracted key in a key-value pair.
+   */
+  key: KeyValueElement;
+  /**
+   * Information about the extracted value in a key-value pair.
+   */
+  value: KeyValueElement;
+  /**
+   * Confidence value.
+   */
+  confidence: number;
+}
+
+/**
+ * Information about the extracted cell in a table.
+ */
+export interface DataTableCell {
+  /**
+   * Row index of the cell.
+   */
+  rowIndex: number;
+  /**
+   * Column index of the cell.
+   */
+  columnIndex: number;
+  /**
+   * Number of rows spanned by this cell. Default value: 1.
+   */
+  rowSpan?: number;
+  /**
+   * Number of columns spanned by this cell. Default value: 1.
+   */
+  columnSpan?: number;
+  /**
+   * Text content of the cell.
+   */
+  text: string;
+  /**
+   * Bounding box of the cell.
+   */
+  boundingBox: number[];
+  /**
+   * Confidence value.
+   */
+  confidence: number;
+  /**
+   * When includeTextDetails is set to true, a list of references to the text elements constituting
+   * this table cell.
+   */
+  elements?: string[];
+  /**
+   * Is the current cell a header cell?. Default value: false.
+   */
+  isHeader?: boolean;
+  /**
+   * Is the current cell a footer cell?. Default value: false.
+   */
+  isFooter?: boolean;
+}
+
+/**
+ * Information about the extracted table contained in a page.
+ */
+export interface DataTable {
+  /**
+   * Number of rows.
+   */
+  rows: number;
+  /**
+   * Number of columns.
+   */
+  columns: number;
+  /**
+   * List of cells contained in the table.
+   */
+  cells: DataTableCell[];
+}
+
+/**
+ * Extracted information from a single page.
+ */
+export interface PageResult {
+  /**
+   * Page number.
+   */
+  page: number;
+  /**
+   * Cluster identifier.
+   */
+  clusterId?: number;
+  /**
+   * List of key-value pairs extracted from the page.
+   */
+  keyValuePairs?: KeyValuePair[];
+  /**
+   * List of data tables extracted from the page.
+   */
+  tables?: DataTable[];
+}
+
+/**
+ * Recognized field value.
+ */
+export interface FieldValue {
+  /**
+   * Type of field value. Possible values include: 'string', 'date', 'time', 'phoneNumber',
+   * 'number', 'integer', 'array', 'object'
+   */
+  type: FieldValueType;
+  /**
+   * String value.
+   */
+  valueString?: string;
+  /**
+   * Date value.
+   */
+  valueDate?: Date;
+  /**
+   * Time value.
+   */
+  valueTime?: string;
+  /**
+   * Phone number value.
+   */
+  valuePhoneNumber?: string;
+  /**
+   * Floating point value.
+   */
+  valueNumber?: number;
+  /**
+   * Integer value.
+   */
+  valueInteger?: number;
+  /**
+   * Array of field values.
+   */
+  valueArray?: FieldValue[];
+  /**
+   * Dictionary of named field values.
+   */
+  valueObject?: { [propertyName: string]: FieldValue };
+  /**
+   * Text content of the extracted field.
+   */
+  text?: string;
+  /**
+   * Bounding box of the field value, if appropriate.
+   */
+  boundingBox?: number[];
+  /**
+   * Confidence score.
+   */
+  confidence?: number;
+  /**
+   * When includeTextDetails is set to true, a list of references to the text elements constituting
+   * this field.
+   */
+  elements?: string[];
+  /**
+   * The 1-based page number in the input document.
+   */
+  page?: number;
+}
+
+/**
+ * A set of extracted fields corresponding to the input document.
+ */
+export interface DocumentResult {
+  /**
+   * Document type.
+   */
+  docType: string;
+  /**
+   * First and last page number where the document is found.
+   */
+  pageRange: number[];
+  /**
+   * Dictionary of named field values.
+   */
+  fields: { [propertyName: string]: FieldValue };
+}
+
+/**
+ * Analyze operation result.
+ */
+export interface AnalyzeResult {
+  /**
+   * Version of schema used for this result.
+   */
+  version: string;
+  /**
+   * Text extracted from the input.
+   */
+  readResults: ReadResult[];
+  /**
+   * Page-level information extracted from the input.
+   */
+  pageResults?: PageResult[];
+  /**
+   * Document-level information extracted from the input.
+   */
+  documentResults?: DocumentResult[];
+  /**
+   * List of errors reported during the analyze operation.
+   */
+  errors?: ErrorInformation[];
+}
+
+/**
+ * Status and result of the queued analyze operation.
+ */
+export interface AnalyzeOperationResult {
+  /**
+   * Operation status. Possible values include: 'notStarted', 'running', 'succeeded', 'failed'
+   */
+  status: OperationStatus;
+  /**
+   * Date and time (UTC) when the analyze operation was submitted.
+   */
+  createdDateTime: Date;
+  /**
+   * Date and time (UTC) when the status was last updated.
+   */
+  lastUpdatedDateTime: Date;
+  /**
+   * Results of the analyze operation.
+   */
+  analyzeResult?: AnalyzeResult;
+}
+
+/**
+ * Filter to apply to the documents in the source path for training.
+ */
+export interface TrainSourceFilter {
+  /**
+   * A case-sensitive prefix string to filter documents in the source path for training. For
+   * example, when using a Azure storage blob Uri, use the prefix to restrict sub folders for
+   * training.
+   */
+  prefix?: string;
+  /**
+   * A flag to indicate if sub folders within the set of prefix folders will also need to be
+   * included when searching for content to be preprocessed. Default value: false.
+   */
+  includeSubFolders?: boolean;
+}
+
+/**
+ * Request parameter to train a new custom model.
+ */
+export interface TrainRequest {
+  /**
+   * Source path containing the training documents.
+   */
+  source: string;
+  /**
+   * Filter to apply to the documents in the source path for training.
+   */
+  sourceFilter?: TrainSourceFilter;
+  /**
+   * Use label file for training a model. Default value: false.
+   */
+  useLabelFile?: boolean;
+}
+
+/**
+ * Report for a custom model training document.
+ */
+export interface TrainingDocumentInfo {
+  /**
+   * Training document name.
+   */
+  documentName: string;
+  /**
+   * Total number of pages trained.
+   */
+  pages: number;
+  /**
+   * List of errors.
+   */
+  errors: ErrorInformation[];
+  /**
+   * Status of the training operation. Possible values include: 'succeeded', 'partiallySucceeded',
+   * 'failed'
+   */
+  status: TrainStatus;
+}
+
+/**
+ * Report for a custom model training field.
+ */
+export interface FormFieldsReport {
+  /**
+   * Training field name.
+   */
+  fieldName: string;
+  /**
+   * Estimated extraction accuracy for this field.
+   */
+  accuracy: number;
+}
+
+/**
+ * Custom model training result.
+ */
+export interface TrainResult {
+  /**
+   * List of the documents used to train the model and any errors reported in each document.
+   */
+  trainingDocuments: TrainingDocumentInfo[];
+  /**
+   * List of fields used to train the model and the train operation error reported by each.
+   */
+  fields?: FormFieldsReport[];
+  /**
+   * Average accuracy.
+   */
+  averageModelAccuracy?: number;
+  /**
+   * Errors returned during the training operation.
+   */
+  errors?: ErrorInformation[];
+}
+
+/**
+ * Uri or local path to source data.
+ */
+export interface SourcePath {
+  /**
+   * File source path.
+   */
+  source?: string;
+}
+
+/**
+ * Basic custom model information.
+ */
+export interface ModelInfo {
+  /**
+   * Model identifier.
+   */
+  modelId: string;
+  /**
+   * Status of the model. Possible values include: 'creating', 'ready', 'invalid'
+   */
+  status: ModelStatus;
+  /**
+   * Date and time (UTC) when the model was created.
+   */
+  createdDateTime: Date;
+  /**
+   * Date and time (UTC) when the status was last updated.
+   */
+  lastUpdatedDateTime: Date;
+}
+
+/**
+ * Summary of all trained custom models.
+ */
+export interface ModelsSummary {
+  /**
+   * Current count of trained custom models.
+   */
+  count: number;
+  /**
+   * Max number of models that can be trained for this account.
+   */
+  limit: number;
+  /**
+   * Date and time (UTC) when the summary was last updated.
+   */
+  lastUpdatedDateTime: Date;
+}
+
+/**
+ * Response to the list custom models operation.
+ */
+export interface ModelsModel {
+  /**
+   * Summary of all trained custom models.
+   */
+  summary?: ModelsSummary;
+  /**
+   * Collection of trained custom models.
+   */
+  modelList?: ModelInfo[];
+  /**
+   * Link to the next page of custom models.
+   */
+  nextLink?: string;
+}
+
+/**
+ * Keys extracted by the custom model.
+ */
+export interface KeysResult {
+  /**
+   * Object mapping clusterIds to a list of keys.
+   */
+  clusters: { [propertyName: string]: string[] };
+}
+
+/**
+ * Response to the get custom model operation.
+ */
+export interface Model {
+  modelInfo: ModelInfo;
+  keys?: KeysResult;
+  trainResult?: TrainResult;
 }
 
 /**
  * An interface representing ErrorResponse.
  */
 export interface ErrorResponse {
-  error?: ErrorInformation;
+  error: ErrorInformation;
 }
 
 /**
- * Canonical representation of single extracted text.
+ * Optional Parameters.
  */
-export interface ExtractedToken {
+export interface FormRecognizerClientGetCustomModelOptionalParams extends msRest.RequestOptionsBase {
   /**
-   * String value of the extracted text.
+   * Include list of extracted keys in model information. Default value: false.
    */
-  text?: string;
-  /**
-   * Bounding box of the extracted text. Represents the
-   * location of the extracted text as a pair of
-   * cartesian co-ordinates. The co-ordinate pairs are arranged by
-   * top-left, top-right, bottom-right and bottom-left endpoints box
-   * with origin reference from the bottom-left of the page.
-   */
-  boundingBox?: number[];
-  /**
-   * A measure of accuracy of the extracted text.
-   */
-  confidence?: number;
-}
-
-/**
- * Representation of a key-value pair as a list
- * of key and value tokens.
- */
-export interface ExtractedKeyValuePair {
-  /**
-   * List of tokens for the extracted key in a key-value pair.
-   */
-  key?: ExtractedToken[];
-  /**
-   * List of tokens for the extracted value in a key-value pair.
-   */
-  value?: ExtractedToken[];
-}
-
-/**
- * Extraction information of a column in
- * a table.
- */
-export interface ExtractedTableColumn {
-  /**
-   * List of extracted tokens for the column header.
-   */
-  header?: ExtractedToken[];
-  /**
-   * Extracted text for each cell of a column. Each cell
-   * in the column can have a list of one or more tokens.
-   */
-  entries?: ExtractedToken[][];
-}
-
-/**
- * Extraction information about a table
- * contained in a page.
- */
-export interface ExtractedTable {
-  /**
-   * Table identifier.
-   */
-  id?: string;
-  /**
-   * List of columns contained in the table.
-   */
-  columns?: ExtractedTableColumn[];
-}
-
-/**
- * Extraction information of a single page in a
- * with a document.
- */
-export interface ExtractedPage {
-  /**
-   * Page number.
-   */
-  number?: number;
-  /**
-   * Height of the page (in pixels).
-   */
-  height?: number;
-  /**
-   * Width of the page (in pixels).
-   */
-  width?: number;
-  /**
-   * Cluster identifier.
-   */
-  clusterId?: number;
-  /**
-   * List of Key-Value pairs extracted from the page.
-   */
-  keyValuePairs?: ExtractedKeyValuePair[];
-  /**
-   * List of Tables and their information extracted from the page.
-   */
-  tables?: ExtractedTable[];
-}
-
-/**
- * Analyze API call result.
- */
-export interface AnalyzeResult {
-  /**
-   * Status of the analyze operation. Possible values include: 'success', 'partialSuccess',
-   * 'failure'
-   */
-  status?: Status2;
-  /**
-   * Page level information extracted in the analyzed
-   * document.
-   */
-  pages?: ExtractedPage[];
-  /**
-   * List of errors reported during the analyze
-   * operation.
-   */
-  errors?: FormOperationError[];
-}
-
-/**
- * An object representing a recognized word.
- */
-export interface Word {
-  /**
-   * Bounding box of a recognized word.
-   */
-  boundingBox: number[];
-  /**
-   * The text content of the word.
-   */
-  text: string;
-  /**
-   * Qualitative confidence measure. Possible values include: 'High', 'Low'
-   */
-  confidence?: TextRecognitionResultConfidenceClass;
-}
-
-/**
- * An object representing a recognized text line.
- */
-export interface Line {
-  /**
-   * Bounding box of a recognized line.
-   */
-  boundingBox?: number[];
-  /**
-   * The text content of the line.
-   */
-  text?: string;
-  /**
-   * List of words in the text line.
-   */
-  words?: Word[];
-}
-
-/**
- * An object representing a recognized text region
- */
-export interface TextRecognitionResult {
-  /**
-   * The 1-based page number of the recognition result.
-   */
-  page?: number;
-  /**
-   * The orientation of the image in degrees in the clockwise direction. Range between [0, 360).
-   */
-  clockwiseOrientation?: number;
-  /**
-   * The width of the image in pixels or the PDF in inches.
-   */
-  width?: number;
-  /**
-   * The height of the image in pixels or the PDF in inches.
-   */
-  height?: number;
-  /**
-   * The unit used in the Width, Height and BoundingBox. For images, the unit is 'pixel'. For PDF,
-   * the unit is 'inch'. Possible values include: 'pixel', 'inch'
-   */
-  unit?: TextRecognitionResultDimensionUnit;
-  /**
-   * A list of recognized text lines.
-   */
-  lines: Line[];
-}
-
-/**
- * Reference to an OCR word.
- */
-export interface ElementReference {
-  ref?: string;
-}
-
-/**
- * Contains the possible cases for FieldValue.
- */
-export type FieldValueUnion = FieldValue | StringValue | NumberValue;
-
-/**
- * Base class representing a recognized field value.
- */
-export interface FieldValue {
-  /**
-   * Polymorphic Discriminator
-   */
-  valueType: "fieldValue";
-  /**
-   * OCR text content of the recognized field.
-   */
-  text?: string;
-  /**
-   * List of references to OCR words comprising the recognized field value.
-   */
-  elements?: ElementReference[];
-}
-
-/**
- * A set of extracted fields corresponding to a semantic object, such as a receipt, in the input
- * document.
- */
-export interface UnderstandingResult {
-  /**
-   * List of pages where the document is found.
-   */
-  pages?: number[];
-  /**
-   * Dictionary of recognized field values.
-   */
-  fields?: { [propertyName: string]: FieldValueUnion };
-}
-
-/**
- * Analysis result of the 'Batch Read Receipt' operation.
- */
-export interface ReadReceiptResult {
-  /**
-   * Status of the read operation. Possible values include: 'Not Started', 'Running', 'Failed',
-   * 'Succeeded'
-   */
-  status?: TextOperationStatusCodes;
-  /**
-   * Text recognition result of the 'Batch Read Receipt' operation.
-   */
-  recognitionResults?: TextRecognitionResult[];
-  /**
-   * Semantic understanding result of the 'Batch Read Receipt' operation.
-   */
-  understandingResults?: UnderstandingResult[];
-}
-
-/**
- * Recognized string field value.
- */
-export interface StringValue {
-  /**
-   * Polymorphic Discriminator
-   */
-  valueType: "stringValue";
-  /**
-   * OCR text content of the recognized field.
-   */
-  text?: string;
-  /**
-   * List of references to OCR words comprising the recognized field value.
-   */
-  elements?: ElementReference[];
-  /**
-   * String value of the recognized field.
-   */
-  value?: string;
-}
-
-/**
- * Recognized numeric field value.
- */
-export interface NumberValue {
-  /**
-   * Polymorphic Discriminator
-   */
-  valueType: "numberValue";
-  /**
-   * OCR text content of the recognized field.
-   */
-  text?: string;
-  /**
-   * List of references to OCR words comprising the recognized field value.
-   */
-  elements?: ElementReference[];
-  /**
-   * Numeric value of the recognized field.
-   */
-  value?: number;
-}
-
-/**
- * Details about the API request error.
- */
-export interface ComputerVisionError {
-  /**
-   * The error code.
-   */
-  code: any;
-  /**
-   * A message explaining the error reported by the service.
-   */
-  message: string;
-  /**
-   * A unique request identifier.
-   */
-  requestId?: string;
-}
-
-/**
- * An interface representing ImageUrl.
- */
-export interface ImageUrl {
-  /**
-   * Publicly reachable URL of an image.
-   */
-  url: string;
+  includeKeys?: boolean;
 }
 
 /**
@@ -488,143 +634,173 @@ export interface ImageUrl {
  */
 export interface FormRecognizerClientAnalyzeWithCustomModelOptionalParams extends msRest.RequestOptionsBase {
   /**
-   * An optional list of known keys to extract the values for.
+   * Include text lines and element references in the result. Default value: false.
    */
-  keys?: string[];
+  includeTextDetails?: boolean;
+  /**
+   * .json, .pdf, .jpg, .png or .tiff type file stream.
+   */
+  fileStream?: SourcePath;
 }
 
 /**
- * Defines headers for BatchReadReceipt operation.
+ * Optional Parameters.
  */
-export interface BatchReadReceiptHeaders {
+export interface FormRecognizerClientAnalyzeReceiptAsyncOptionalParams extends msRest.RequestOptionsBase {
   /**
-   * URL to query for status of the operation. The URL will expire in 48 hours.
+   * Include text lines and element references in the result. Default value: false.
+   */
+  includeTextDetails?: boolean;
+  /**
+   * .json, .pdf, .jpg, .png or .tiff type file stream.
+   */
+  fileStream?: SourcePath;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface FormRecognizerClientAnalyzeLayoutAsyncOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * .json, .pdf, .jpg, .png or .tiff type file stream.
+   */
+  fileStream?: SourcePath;
+}
+
+/**
+ * Defines headers for TrainCustomModelAsync operation.
+ */
+export interface TrainCustomModelAsyncHeaders {
+  /**
+   * Location and ID of the model being trained. The status of model training is specified in the
+   * status property at the model location.
+   */
+  location: string;
+}
+
+/**
+ * Defines headers for AnalyzeWithCustomModel operation.
+ */
+export interface AnalyzeWithCustomModelHeaders {
+  /**
+   * URL containing the resultId used to track the progress and obtain the result of the analyze
+   * operation.
    */
   operationLocation: string;
 }
 
 /**
- * Defines headers for BatchReadReceiptInStream operation.
+ * Defines headers for CopyCustomModel operation.
  */
-export interface BatchReadReceiptInStreamHeaders {
+export interface CopyCustomModelHeaders {
   /**
-   * URL to query for status of the operation. The URL will expire in 48 hours.
+   * URL containing the resultId used to track the progress and obtain the result of the copy
+   * operation.
    */
   operationLocation: string;
 }
 
 /**
- * Defines values for TextOperationStatusCodes.
- * Possible values include: 'Not Started', 'Running', 'Failed', 'Succeeded'
+ * Defines headers for GenerateModelCopyAuthorization operation.
+ */
+export interface GenerateModelCopyAuthorizationHeaders {
+  /**
+   * Location and ID of the model being copied. The status of model copy is specified in the status
+   * property at the model location.
+   */
+  location: string;
+}
+
+/**
+ * Defines headers for AnalyzeReceiptAsync operation.
+ */
+export interface AnalyzeReceiptAsyncHeaders {
+  /**
+   * URL containing the resultId used to track the progress and obtain the result of the analyze
+   * operation.
+   */
+  operationLocation: string;
+}
+
+/**
+ * Defines headers for AnalyzeLayoutAsync operation.
+ */
+export interface AnalyzeLayoutAsyncHeaders {
+  /**
+   * URL containing the resultId used to track the progress and obtain the result of the analyze
+   * operation.
+   */
+  operationLocation: string;
+}
+
+/**
+ * Defines values for OperationStatus.
+ * Possible values include: 'notStarted', 'running', 'succeeded', 'failed'
  * @readonly
  * @enum {string}
  */
-export type TextOperationStatusCodes = 'Not Started' | 'Running' | 'Failed' | 'Succeeded';
+export type OperationStatus = 'notStarted' | 'running' | 'succeeded' | 'failed';
 
 /**
- * Defines values for TextRecognitionResultDimensionUnit.
+ * Defines values for LengthUnit.
  * Possible values include: 'pixel', 'inch'
  * @readonly
  * @enum {string}
  */
-export type TextRecognitionResultDimensionUnit = 'pixel' | 'inch';
+export type LengthUnit = 'pixel' | 'inch';
 
 /**
- * Defines values for TextRecognitionResultConfidenceClass.
- * Possible values include: 'High', 'Low'
+ * Defines values for Language.
+ * Possible values include: 'en', 'es'
  * @readonly
  * @enum {string}
  */
-export type TextRecognitionResultConfidenceClass = 'High' | 'Low';
+export type Language = 'en' | 'es';
 
 /**
- * Defines values for Status.
- * Possible values include: 'success', 'partialSuccess', 'failure'
+ * Defines values for FieldValueType.
+ * Possible values include: 'string', 'date', 'time', 'phoneNumber', 'number', 'integer', 'array',
+ * 'object'
  * @readonly
  * @enum {string}
  */
-export type Status = 'success' | 'partialSuccess' | 'failure';
+export type FieldValueType = 'string' | 'date' | 'time' | 'phoneNumber' | 'number' | 'integer' | 'array' | 'object';
 
 /**
- * Defines values for Status1.
- * Possible values include: 'created', 'ready', 'invalid'
+ * Defines values for TrainStatus.
+ * Possible values include: 'succeeded', 'partiallySucceeded', 'failed'
  * @readonly
  * @enum {string}
  */
-export type Status1 = 'created' | 'ready' | 'invalid';
+export type TrainStatus = 'succeeded' | 'partiallySucceeded' | 'failed';
 
 /**
- * Defines values for Status2.
- * Possible values include: 'success', 'partialSuccess', 'failure'
+ * Defines values for ModelStatus.
+ * Possible values include: 'creating', 'ready', 'invalid'
  * @readonly
  * @enum {string}
  */
-export type Status2 = 'success' | 'partialSuccess' | 'failure';
+export type ModelStatus = 'creating' | 'ready' | 'invalid';
 
 /**
- * Contains response data for the trainCustomModel operation.
+ * Contains response data for the trainCustomModelAsync operation.
  */
-export type TrainCustomModelResponse = TrainResult & {
+export type TrainCustomModelAsyncResponse = TrainCustomModelAsyncHeaders & {
   /**
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
       /**
-       * The response body as text (string format)
+       * The parsed HTTP response headers.
        */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: TrainResult;
-    };
-};
-
-/**
- * Contains response data for the getExtractedKeys operation.
- */
-export type GetExtractedKeysResponse = KeysResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: KeysResult;
-    };
-};
-
-/**
- * Contains response data for the getCustomModels operation.
- */
-export type GetCustomModelsResponse = ModelsResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ModelsResult;
+      parsedHeaders: TrainCustomModelAsyncHeaders;
     };
 };
 
 /**
  * Contains response data for the getCustomModel operation.
  */
-export type GetCustomModelResponse = ModelResult & {
+export type GetCustomModelResponse = Model & {
   /**
    * The underlying HTTP response.
    */
@@ -637,14 +813,29 @@ export type GetCustomModelResponse = ModelResult & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: ModelResult;
+      parsedBody: Model;
     };
 };
 
 /**
  * Contains response data for the analyzeWithCustomModel operation.
  */
-export type AnalyzeWithCustomModelResponse = AnalyzeResult & {
+export type AnalyzeWithCustomModelResponse = AnalyzeWithCustomModelHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: AnalyzeWithCustomModelHeaders;
+    };
+};
+
+/**
+ * Contains response data for the getAnalyzeFormResult operation.
+ */
+export type GetAnalyzeFormResultResponse = AnalyzeOperationResult & {
   /**
    * The underlying HTTP response.
    */
@@ -657,14 +848,14 @@ export type AnalyzeWithCustomModelResponse = AnalyzeResult & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: AnalyzeResult;
+      parsedBody: AnalyzeOperationResult;
     };
 };
 
 /**
- * Contains response data for the batchReadReceipt operation.
+ * Contains response data for the copyCustomModel operation.
  */
-export type BatchReadReceiptResponse = BatchReadReceiptHeaders & {
+export type CopyCustomModelResponse = CopyCustomModelHeaders & {
   /**
    * The underlying HTTP response.
    */
@@ -672,14 +863,14 @@ export type BatchReadReceiptResponse = BatchReadReceiptHeaders & {
       /**
        * The parsed HTTP response headers.
        */
-      parsedHeaders: BatchReadReceiptHeaders;
+      parsedHeaders: CopyCustomModelHeaders;
     };
 };
 
 /**
- * Contains response data for the getReadReceiptResult operation.
+ * Contains response data for the getCustomModelCopyResult operation.
  */
-export type GetReadReceiptResultResponse = ReadReceiptResult & {
+export type GetCustomModelCopyResultResponse = CopyOperationResult & {
   /**
    * The underlying HTTP response.
    */
@@ -692,14 +883,14 @@ export type GetReadReceiptResultResponse = ReadReceiptResult & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: ReadReceiptResult;
+      parsedBody: CopyOperationResult;
     };
 };
 
 /**
- * Contains response data for the batchReadReceiptInStream operation.
+ * Contains response data for the generateModelCopyAuthorization operation.
  */
-export type BatchReadReceiptInStreamResponse = BatchReadReceiptInStreamHeaders & {
+export type GenerateModelCopyAuthorizationResponse = CopyAuthorizationResult & GenerateModelCopyAuthorizationHeaders & {
   /**
    * The underlying HTTP response.
    */
@@ -707,6 +898,126 @@ export type BatchReadReceiptInStreamResponse = BatchReadReceiptInStreamHeaders &
       /**
        * The parsed HTTP response headers.
        */
-      parsedHeaders: BatchReadReceiptInStreamHeaders;
+      parsedHeaders: GenerateModelCopyAuthorizationHeaders;
+
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: CopyAuthorizationResult;
+    };
+};
+
+/**
+ * Contains response data for the analyzeReceiptAsync operation.
+ */
+export type AnalyzeReceiptAsyncResponse = AnalyzeReceiptAsyncHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: AnalyzeReceiptAsyncHeaders;
+    };
+};
+
+/**
+ * Contains response data for the getAnalyzeReceiptResult operation.
+ */
+export type GetAnalyzeReceiptResultResponse = AnalyzeOperationResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: AnalyzeOperationResult;
+    };
+};
+
+/**
+ * Contains response data for the analyzeLayoutAsync operation.
+ */
+export type AnalyzeLayoutAsyncResponse = AnalyzeLayoutAsyncHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: AnalyzeLayoutAsyncHeaders;
+    };
+};
+
+/**
+ * Contains response data for the getAnalyzeLayoutResult operation.
+ */
+export type GetAnalyzeLayoutResultResponse = AnalyzeOperationResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: AnalyzeOperationResult;
+    };
+};
+
+/**
+ * Contains response data for the listCustomModels operation.
+ */
+export type ListCustomModelsResponse = ModelsModel & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ModelsModel;
+    };
+};
+
+/**
+ * Contains response data for the getCustomModels operation.
+ */
+export type GetCustomModelsResponse = ModelsModel & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ModelsModel;
     };
 };
