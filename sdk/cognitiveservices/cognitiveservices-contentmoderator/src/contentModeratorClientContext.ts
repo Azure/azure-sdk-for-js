@@ -11,7 +11,7 @@
 import * as msRest from "@azure/ms-rest-js";
 
 const packageName = "@azure/cognitiveservices-contentmoderator";
-const packageVersion = "5.0.0";
+const packageVersion = "5.0.1";
 
 export class ContentModeratorClientContext extends msRest.ServiceClient {
   endpoint: string;
