@@ -9,7 +9,7 @@
 const operations: Operation[] = [
   {
     operationType: "Create",
-    resourceBody: { id: addEntropy("doc1"), name: "sample", key: "A" }
+    resourceBody: { id: "doc1", name: "sample", key: "A" }
   },
   {
     operationType: "Upsert",
