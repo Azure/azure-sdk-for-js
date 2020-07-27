@@ -75,7 +75,7 @@ export class BatchingReceiver extends MessageReceiver {
 
   private _batchingReceiverLite: BatchingReceiverLite;
 
-  get isReceivingMessages() {
+  get isReceivingMessages(): boolean {
     return this._batchingReceiverLite.isReceivingMessages;
   }
 
@@ -282,6 +282,7 @@ export class BatchingReceiverLite {
       const receiver = await this._getCurrentReceiver(args.userAbortSignal);
       return await this._receiveMessagesImpl(receiver, args);
     } finally {
+      this._closeHandler = undefined;
       this.isReceivingMessages = false;
     }
   }
