@@ -15,22 +15,22 @@ import {
 /**
  * Contains response data for the getEntity operation.
  */
-export interface ListEntitiesResponse<T> extends Omit<TableQueryEntitiesResponse, "value"> {
+export type ListEntitiesResponse<T> = Omit<TableQueryEntitiesResponse, "value"> & {
   /**
    * List of table entities.
    */
   value?: T[];
-}
+};
 
 /**
  * Contains response data for the listEntities operation.
  */
-export interface GetEntityResponse<T> extends TableQueryEntitiesWithPartitionAndRowKeyResponse {
+export type GetEntityResponse<T> = TableQueryEntitiesWithPartitionAndRowKeyResponse & {
   /**
    * The table entity object.
    */
   value?: T;
-}
+};
 
 /**
  * List tables optional parameters.
