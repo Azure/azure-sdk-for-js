@@ -91,6 +91,8 @@ export class Service {
 
 const xmlSerializer = new coreHttp.Serializer(Mappers, /* isXml */ true);
 
+// const serializer = new coreHttp.Serializer(Mappers, /* isXml */ false);
+
 const setPropertiesOperationSpec: coreHttp.OperationSpec = {
   path: "/",
   httpMethod: "PUT",
