@@ -1,8 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-/* eslint-disable @typescript-eslint/no-useless-constructor */
-
 import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-http";
 import { createSpan } from "../util/tracing";
 import { AuthenticationErrorName, CredentialUnavailable } from "../client/errors";
@@ -28,13 +26,6 @@ const logger = credentialLogger("AzureCliCredential");
  * with Azure CLI command "az account get-access-token".
  */
 export class AzureCliCredential implements TokenCredential {
-  /**
-   * Creates an instance of the AzureCliCredential class.
-   */
-  constructor() {
-    // Inherited from TokenCredential
-  }
-
   /**
    * Gets the access token from Azure CLI
    * @param resource The resource to use when getting the token
