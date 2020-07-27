@@ -176,6 +176,16 @@ export interface Autoscale {
 }
 
 /**
+ * The autoscale configuration update parameter.
+ */
+export interface AutoscaleConfigurationUpdateParameter {
+  /**
+   * The autoscale configuration.
+   */
+  autoscale?: Autoscale;
+}
+
+/**
  * The hardware profile.
  */
 export interface HardwareProfile {
@@ -383,6 +393,22 @@ export interface StorageProfile {
 }
 
 /**
+ * The network settings.
+ */
+export interface NetworkSettings {
+  /**
+   * Specifies whether public network access is enabled for inbound and outbound, or outbound only.
+   * Possible values include: 'InboundAndOutbound', 'OutboundOnly'
+   */
+  publicNetworkAccess?: PublicNetworkAccess;
+  /**
+   * The mechanism through which the cluster will have outbound access to the public network.
+   * Possible values include: 'PublicLoadBalancer', 'UDR'
+   */
+  outboundOnlyPublicNetworkAccessType?: OutboundOnlyPublicNetworkAccessType;
+}
+
+/**
  * The disk encryption properties
  */
 export interface DiskEncryptionProperties {
@@ -407,6 +433,17 @@ export interface DiskEncryptionProperties {
    * Resource ID of Managed Identity that is used to access the key vault.
    */
   msiResourceId?: string;
+}
+
+/**
+ * The encryption-in-transit properties.
+ */
+export interface EncryptionInTransitProperties {
+  /**
+   * Indicates whether or not inter cluster node communication is encrypted in transit. Default
+   * value: false.
+   */
+  isEncryptionInTransitEnabled?: boolean;
 }
 
 /**
@@ -450,9 +487,17 @@ export interface ClusterCreateProperties {
    */
   diskEncryptionProperties?: DiskEncryptionProperties;
   /**
+   * The encryption-in-transit properties.
+   */
+  encryptionInTransitProperties?: EncryptionInTransitProperties;
+  /**
    * The minimal supported tls version.
    */
   minSupportedTlsVersion?: string;
+  /**
+   * The network settings.
+   */
+  networkSettings?: NetworkSettings;
 }
 
 /**
@@ -641,9 +686,17 @@ export interface ClusterGetProperties {
    */
   diskEncryptionProperties?: DiskEncryptionProperties;
   /**
+   * The encryption-in-transit properties.
+   */
+  encryptionInTransitProperties?: EncryptionInTransitProperties;
+  /**
    * The minimal supported tls version.
    */
   minSupportedTlsVersion?: string;
+  /**
+   * The network settings.
+   */
+  networkSettings?: NetworkSettings;
 }
 
 /**
@@ -1567,6 +1620,22 @@ export type DirectoryType = 'ActiveDirectory';
  * @enum {string}
  */
 export type DaysOfWeek = 'Monday' | 'Tuesday' | 'Wednesday' | 'Thursday' | 'Friday' | 'Saturday' | 'Sunday';
+
+/**
+ * Defines values for PublicNetworkAccess.
+ * Possible values include: 'InboundAndOutbound', 'OutboundOnly'
+ * @readonly
+ * @enum {string}
+ */
+export type PublicNetworkAccess = 'InboundAndOutbound' | 'OutboundOnly';
+
+/**
+ * Defines values for OutboundOnlyPublicNetworkAccessType.
+ * Possible values include: 'PublicLoadBalancer', 'UDR'
+ * @readonly
+ * @enum {string}
+ */
+export type OutboundOnlyPublicNetworkAccessType = 'PublicLoadBalancer' | 'UDR';
 
 /**
  * Defines values for OSType.

@@ -11,11 +11,10 @@ import * as Constants from "../util/constants";
 import {
   EntityStatus,
   getBoolean,
-  getCountDetailsOrUndefined,
+  getMessageCountDetails,
   getInteger,
   getString,
   getStringOrUndefined,
-  MessageCountDetails,
   getDate
 } from "../util/utils";
 
@@ -106,11 +105,12 @@ export function buildSubscription(rawSubscription: any): SubscriptionProperties 
 export function buildSubscriptionRuntimeProperties(
   rawSubscription: any
 ): SubscriptionRuntimeProperties {
+  const messageCountDetails = getMessageCountDetails(rawSubscription[Constants.COUNT_DETAILS]);
   return {
     subscriptionName: getString(rawSubscription[Constants.SUBSCRIPTION_NAME], "subscriptionName"),
     topicName: getString(rawSubscription[Constants.TOPIC_NAME], "topicName"),
-    messageCount: getInteger(rawSubscription[Constants.MESSAGE_COUNT], "messageCount"),
-    messageCountDetails: getCountDetailsOrUndefined(rawSubscription[Constants.COUNT_DETAILS]),
+    totalMessageCount: getInteger(rawSubscription[Constants.MESSAGE_COUNT], "messageCount"),
+    ...messageCountDetails,
     createdAt: getDate(rawSubscription[Constants.CREATED_AT], "createdAt"),
     updatedAt: getDate(rawSubscription[Constants.UPDATED_AT], "updatedAt"),
     accessedAt: getDate(rawSubscription[Constants.ACCESSED_AT], "accessedAt")
@@ -349,12 +349,32 @@ export interface SubscriptionRuntimeProperties {
    * The entity's message count.
    *
    */
-  messageCount: number;
+  totalMessageCount: number;
 
   /**
-   * Message count details
+   * The number of active messages in the queue.
    */
-  messageCountDetails?: MessageCountDetails;
+  activeMessageCount: number;
+
+  /**
+   * The number of messages that have been dead lettered.
+   */
+  deadLetterMessageCount: number;
+
+  /**
+   * The number of scheduled messages.
+   */
+  scheduledMessageCount: number;
+
+  /**
+   * The number of messages transferred to another queue, topic, or subscription
+   */
+  transferMessageCount: number;
+
+  /**
+   * The number of messages transferred to the dead letter queue.
+   */
+  transferDeadLetterMessageCount: number;
 
   /**
    * Created at timestamp

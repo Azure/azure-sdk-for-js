@@ -30,24 +30,24 @@ export async function main() {
     await serviceBusManagementClient.createQueue(baseQueueName + "_" + i);
   }
 
-  // This sample leverages `getQueues()` as an example, you can iterate over topics, subscriptions, and rules
-  // as well as on the runtime info of entities by using methods like `getQueuesRuntimeProperties()`
+  // This sample leverages `listQueues()` as an example, you can iterate over topics, subscriptions, and rules
+  // as well as on the runtime info of entities by using methods like `listQueuesRuntimeProperties()`
   // 1. List Queues
   let i = 1;
-  let queues = serviceBusManagementClient.getQueues();
+  let queues = serviceBusManagementClient.listQueues();
   for await (const queue of queues) {
     console.log(`Queue ${i++}: ${queue.name}`);
   }
 
   // 2. Same as the previous example
   i = 1;
-  for await (const queue of serviceBusManagementClient.getQueues()) {
+  for await (const queue of serviceBusManagementClient.listQueues()) {
     console.log(`Queue ${i++}: ${queue.name}`);
   }
 
   // 3. Generator syntax .next()
   i = 1;
-  queues = serviceBusManagementClient.getQueues();
+  queues = serviceBusManagementClient.listQueues();
   let queueItem = await queues.next();
   while (!queueItem.done) {
     console.log(`Queue ${i++}: ${queueItem.value.name}`);
@@ -60,7 +60,7 @@ export async function main() {
 
   // 4. list queues by page
   i = 1;
-  for await (const queuesPage of serviceBusManagementClient.getQueues().byPage()) {
+  for await (const queuesPage of serviceBusManagementClient.listQueues().byPage()) {
     for (const queue of queuesPage) {
       console.log(`Queue ${i++}: ${queue.name}`);
     }
@@ -69,7 +69,7 @@ export async function main() {
   // 5. Same as the previous example - passing maxPageSize in the page settings
   i = 1;
   for await (const queuesPage of serviceBusManagementClient
-    .getQueues()
+    .listQueues()
     .byPage({ maxPageSize: 2 })) {
     for (const queue of queuesPage) {
       console.log(`Queue ${i++}: ${queue.name}`);
@@ -78,7 +78,7 @@ export async function main() {
 
   // 6. Generator syntax .next()
   i = 1;
-  let iterator = serviceBusManagementClient.getQueues().byPage({ maxPageSize: 3 });
+  let iterator = serviceBusManagementClient.listQueues().byPage({ maxPageSize: 3 });
   let queuesPage = await iterator.next();
   while (!queuesPage.done) {
     if (queuesPage.value) {
@@ -91,7 +91,7 @@ export async function main() {
 
   // 7. Passing marker as an argument (similar to the previous example)
   i = 1;
-  iterator = serviceBusManagementClient.getQueues().byPage({ maxPageSize: 2 });
+  iterator = serviceBusManagementClient.listQueues().byPage({ maxPageSize: 2 });
   queuesPage = await iterator.next();
   // Prints 2 queue names
   if (!queuesPage.done) {
@@ -100,10 +100,10 @@ export async function main() {
     }
   }
 
-  // Gets next marker
+  // lists next marker
   let marker = queuesPage.value.continuationToken;
   // Passing next marker as continuationToken
-  iterator = serviceBusManagementClient.getQueues().byPage({
+  iterator = serviceBusManagementClient.listQueues().byPage({
     continuationToken: marker,
     maxPageSize: 10
   });

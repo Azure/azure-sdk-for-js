@@ -21,7 +21,6 @@ import {
   FormPage,
   FormLine,
   FormElement,
-  FormTableRow,
   FormTable,
   RecognizedForm,
   FieldData,
@@ -124,12 +123,10 @@ export function toFormFieldFromKeyValuePairModel(
 }
 
 export function toFormTable(original: DataTableModel, readResults?: FormPage[]): FormTable {
-  const rows: FormTableRow[] = [];
-  for (let i = 0; i < original.rows; i++) {
-    rows.push({ cells: [] });
-  }
-  for (const cell of original.cells) {
-    rows[cell.rowIndex].cells.push({
+  return {
+    rowCount: original.rows,
+    columnCount: original.columns,
+    cells: original.cells.map((cell) => ({
       boundingBox: toBoundingBox(cell.boundingBox),
       columnIndex: cell.columnIndex,
       columnSpan: cell.columnSpan || 1,
@@ -140,12 +137,7 @@ export function toFormTable(original: DataTableModel, readResults?: FormPage[]):
       rowIndex: cell.rowIndex,
       rowSpan: cell.rowSpan || 1,
       text: cell.text
-    });
-  }
-  return {
-    rowCount: original.rows,
-    columnCount: original.columns,
-    rows: rows
+    }))
   };
 }
 
