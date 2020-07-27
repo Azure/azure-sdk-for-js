@@ -485,24 +485,22 @@ export class BatchingReceiverLite {
         return finalAction();
       };
 
-      const addCreditAndSetTimer = (reuse?: boolean): void => {
-        log.batching(
-          `${loggingPrefix} Adding credit for receiving ${args.maxMessageCount} messages.`
-        );
-        // By adding credit here, we let the service know that at max we can handle `maxMessageCount`
-        // number of messages concurrently. We will return the user an array of messages that can
-        // be of size upto maxMessageCount. Then the user needs to accordingly dispose
-        // (complete/abandon/defer/deadletter) the messages from the array.
-        receiver.addCredit(args.maxMessageCount);
+      log.batching(
+        `${loggingPrefix} Adding credit for receiving ${args.maxMessageCount} messages.`
+      );
 
-        let msg: string = `${loggingPrefix} Setting the wait timer for ${args.maxWaitTimeInMs} milliseconds`;
-        if (reuse) msg += " Receiver link already present, hence reusing it.";
-        log.batching(msg);
+      // By adding credit here, we let the service know that at max we can handle `maxMessageCount`
+      // number of messages concurrently. We will return the user an array of messages that can
+      // be of size upto maxMessageCount. Then the user needs to accordingly dispose
+      // (complete/abandon/defer/deadletter) the messages from the array.
+      receiver.addCredit(args.maxMessageCount);
 
-        totalWaitTimer = setTimeout(actionAfterWaitTimeout, args.maxWaitTimeInMs);
-      };
+      log.batching(
+        `${loggingPrefix} Setting the wait timer for ${args.maxWaitTimeInMs} milliseconds.`
+      );
 
-      addCreditAndSetTimer(true);
+      totalWaitTimer = setTimeout(actionAfterWaitTimeout, args.maxWaitTimeInMs);
+
       receiver.on(ReceiverEvents.message, onReceiveMessage);
       receiver.on(ReceiverEvents.receiverError, onError);
       receiver.on(ReceiverEvents.receiverClose, onClose);
