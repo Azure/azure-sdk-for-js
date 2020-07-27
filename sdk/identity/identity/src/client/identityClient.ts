@@ -107,7 +107,6 @@ export class IdentityClient extends ServiceClient {
     }
   }
 
-  //
   async refreshAccessToken(
     tenantId: string,
     clientId: string,
