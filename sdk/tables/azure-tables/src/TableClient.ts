@@ -26,7 +26,7 @@ import {
   SignedIdentifier,
   SetAccessPolicyResponse
 } from "./generatedModels";
-import { clientParamsFromConnectionString } from "./utils/utils.common";
+import { getClientParamsFromConnectionString } from "./utils/connectionString";
 
 /**
  * A TableClient represents a Client to the Azure Tables service allowing you
@@ -173,7 +173,7 @@ export class TableClient {
     tableName: string,
     options?: TableServiceClientOptions
   ): TableClient {
-    const { url, options: clientOptions } = clientParamsFromConnectionString(
+    const { url, options: clientOptions } = getClientParamsFromConnectionString(
       connectionString,
       options
     );

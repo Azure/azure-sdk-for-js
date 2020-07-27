@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 export const HeaderConstants = {
   AUTHORIZATION: "authorization",
   CONTENT_LENGTH: "content-length",

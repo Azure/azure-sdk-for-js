@@ -1,5 +1,5 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
 import {
   RequestPolicy,
@@ -10,7 +10,8 @@ import {
 } from "@azure/core-http";
 import { SharedKeyCredential } from "./SharedKeyCredential";
 import { HeaderConstants } from "./utils/constants";
-import { getURLPath, getURLQueries } from "./utils/utils.common";
+import { URL } from "./utils/url";
+
 /**
  * SharedKeyCredentialPolicy is a policy used to sign HTTP request with a shared key.
  *
@@ -124,24 +125,26 @@ export class SharedKeyCredentialPolicy extends BaseRequestPolicy {
    * @memberof SharedKeyCredentialPolicy
    */
   private getCanonicalizedResourceString(request: WebResource): string {
-    const path = getURLPath(request.url) || "/";
+    const url = new URL(request.url);
+    const path = url.pathname || "/";
 
     let canonicalizedResourceString: string = "";
     canonicalizedResourceString += `/${this.factory.accountName}${path}`;
 
-    const queries = getURLQueries(request.url);
+    const queries = url.searchParams;
     const lowercaseQueries: { [key: string]: string } = {};
     if (queries) {
       const queryKeys: string[] = [];
       for (const key in queries) {
         if (queries.hasOwnProperty(key)) {
           const lowercaseKey = key.toLowerCase();
-          lowercaseQueries[lowercaseKey] = queries[key];
+          lowercaseQueries[lowercaseKey] = queries.get(key) || "";
           queryKeys.push(lowercaseKey);
         }
       }
 
       queryKeys.sort();
+
       for (const key of queryKeys) {
         canonicalizedResourceString += `\n${key}:${decodeURIComponent(lowercaseQueries[key])}`;
       }
