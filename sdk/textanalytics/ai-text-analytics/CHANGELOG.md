@@ -2,6 +2,7 @@
 
 ## 5.0.1 (Unreleased)
 
+- The `text` property of the `SentenceSentiment` interface is no longer optional because the service always returns it. This interface is implemented by output types, so this change does not break existing code that calls the library APIs.
 
 ## 5.0.0 (2020-07-27)
 
