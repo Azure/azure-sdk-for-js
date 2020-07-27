@@ -10,7 +10,7 @@ import * as coreHttp from "@azure/core-http";
 import { GeneratedClientOptionalParams } from "./models";
 
 const packageName = "@azure/ai-text-analytics";
-const packageVersion = "1.0.1";
+const packageVersion = "5.0.0";
 
 export class GeneratedClientContext extends coreHttp.ServiceClient {
   endpoint: string;
