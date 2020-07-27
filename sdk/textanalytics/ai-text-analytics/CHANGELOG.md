@@ -1,5 +1,9 @@
 # Release History
 
+## 5.0.0 (2020-07-27)
+
+- Updated the package version to be 5.0.0 instead of 1.0.0 in order to reduce confusion with older versions of the Azure Text Analytics SDKs.
+
 ## 1.0.0 (2020-06-09)
 
 - This release marks the general availability of the `@azure/ai-text-analytics` package.
