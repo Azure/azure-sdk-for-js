@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { Delivery } from "rhea-promise";
 import { translate } from "@azure/core-amqp";
 import * as log from "../log";
@@ -29,7 +32,7 @@ export function onMessageSettled(
   connectionId: string,
   delivery: Delivery | undefined,
   deliveryDispositionMap: Map<number, DeferredPromiseAndTimer>
-) {
+): void {
   if (delivery) {
     const id = delivery.id;
     const state = delivery.remote_state;
