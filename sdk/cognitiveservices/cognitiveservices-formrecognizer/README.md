@@ -27,11 +27,11 @@ npm install @azure/ms-rest-azure-js
 ##### Sample code
 The following sample reads the scanned copy of a sample receipt. To know more, refer to the [Azure Documentation on Form Recognizer](https://docs.microsoft.com/en-us/azure/cognitive-services/form-recognizer/overview)
 
-```typescript
-import { FormRecognizerClient } from "@azure/cognitiveservices-formrecognizer";
-import { CognitiveServicesCredentials } from "@azure/ms-rest-azure-js";
+```javascript
+const { FormRecognizerClient } = require("@azure/cognitiveservices-formrecognizer");
+const { CognitiveServicesCredentials } = require("@azure/ms-rest-azure-js");
 
-async function main(): Promise<void> {
+async function main() {
   const formRecognizerKey = process.env["formRecognizerKey"] || "<formRecognizerKey>";
   const endPoint = process.env["endPoint"] || "<endPoint>";
   const cognitiveServiceCredentials = new CognitiveServicesCredentials(formRecognizerKey);
