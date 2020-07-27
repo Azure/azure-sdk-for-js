@@ -421,15 +421,11 @@ export class BatchingReceiverLite {
         const type = context.session?.error != null ? "session_closed" : "receiver_closed";
         const error = context.session?.error || context.receiver?.error;
 
-        try {
-          if (error) {
-            log.error(
-              `${loggingPrefix} '${type}' event occurred. The associated error is: %O`,
-              error
-            );
-          }
-        } catch (err) {
-          log.error(`${loggingPrefix} error thrown in ${type} handler:\n%O`, translate(err));
+        if (error) {
+          log.error(
+            `${loggingPrefix} '${type}' event occurred. The associated error is: %O`,
+            error
+          );
         }
       };
 
