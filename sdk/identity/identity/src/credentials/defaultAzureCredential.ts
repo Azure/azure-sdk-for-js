@@ -14,7 +14,7 @@ import { TokenCredential } from "@azure/core-http";
  */
 export interface DefaultAzureCredentialOptions extends TokenCredentialOptions {
   /**
-   * Optionally pass in a Tenant ID to be used as part of the credential 
+   * Optionally pass in a Tenant ID to be used as part of the credential
    */
   tenantId?: string;
 }

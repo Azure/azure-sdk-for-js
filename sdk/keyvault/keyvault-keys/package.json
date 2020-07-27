@@ -73,11 +73,11 @@
   "//metadata": {
     "constantPaths": [
       {
-        "path": "src/core/keyVaultClientContext.ts",
+        "path": "src/generated/keyVaultClientContext.ts",
         "prefix": "packageVersion"
       },
       {
-        "path": "src/core/utils/constants.ts",
+        "path": "src/generated/utils/constants.ts",
         "prefix": "SDK_VERSION"
       }
     ]
@@ -122,7 +122,7 @@
     "eslint-plugin-promise": "^4.1.1",
     "esm": "^3.2.18",
     "fs-extra": "^8.1.0",
-    "karma": "^4.0.1",
+    "karma": "^5.1.0",
     "karma-chrome-launcher": "^3.0.0",
     "karma-coverage": "^2.0.0",
     "karma-edge-launcher": "^0.4.2",
