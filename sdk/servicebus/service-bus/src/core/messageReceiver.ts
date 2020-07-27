@@ -30,7 +30,7 @@ import { MessageHandlerOptions } from "../models";
 import { DispositionStatusOptions } from "./managementClient";
 import { AbortSignalLike } from "@azure/core-http";
 import { AbortError } from "@azure/abort-controller";
-import { onMessageSettled, PromiseLike } from "./shared";
+import { onMessageSettled, DeferredPromiseAndTimer } from "./shared";
 
 /**
  * @internal
@@ -152,7 +152,7 @@ export class MessageReceiver extends LinkEntity {
    * are being actively disposed. It acts as a store for correlating the responses received for
    * active dispositions.
    */
-  protected _deliveryDispositionMap: Map<number, PromiseLike> = new Map<number, PromiseLike>();
+  protected _deliveryDispositionMap: Map<number, DeferredPromiseAndTimer> = new Map<number, DeferredPromiseAndTimer>();
   /**
    * @property {OnMessage} _onMessage The message handler provided by the user that will be wrapped
    * inside _onAmqpMessage.

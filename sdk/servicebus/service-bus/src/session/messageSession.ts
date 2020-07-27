@@ -20,7 +20,7 @@ import { DispositionType, ReceiveMode, ServiceBusMessageImpl } from "../serviceB
 import { throwErrorIfConnectionClosed } from "../util/errors";
 import { calculateRenewAfterDuration, convertTicksToDate } from "../util/utils";
 import { BatchingReceiverLite, MinimalReceiver } from "../core/batchingReceiver";
-import { onMessageSettled, PromiseLike } from "../core/shared";
+import { onMessageSettled, DeferredPromiseAndTimer } from "../core/shared";
 import { AbortSignalLike } from "@azure/core-http";
 
 /**
@@ -156,7 +156,7 @@ export class MessageSession extends LinkEntity {
    * are being actively disposed. It acts as a store for correlating the responses received for
    * active dispositions.
    */
-  private _deliveryDispositionMap: Map<number, PromiseLike> = new Map<number, PromiseLike>();
+  private _deliveryDispositionMap: Map<number, DeferredPromiseAndTimer> = new Map<number, DeferredPromiseAndTimer>();
   /**
    * @property {OnMessage} _onMessage The message handler provided by the user that will
    * be wrapped inside _onAmqpMessage.

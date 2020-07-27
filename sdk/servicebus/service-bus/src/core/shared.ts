@@ -6,7 +6,7 @@ import * as log from "../log";
  * @internal
  * @ignore
  */
-export interface PromiseLike {
+export interface DeferredPromiseAndTimer {
   resolve: (value?: any) => void;
   reject: (reason?: any) => void;
   timer: NodeJS.Timer;
@@ -28,7 +28,7 @@ export interface PromiseLike {
 export function onMessageSettled(
   connectionId: string,
   delivery: Delivery | undefined,
-  deliveryDispositionMap: Map<number, PromiseLike>
+  deliveryDispositionMap: Map<number, DeferredPromiseAndTimer>
 ) {
   if (delivery) {
     const id = delivery.id;
@@ -42,7 +42,7 @@ export function onMessageSettled(
       state && state.error ? state.error : state
     );
     if (settled && deliveryDispositionMap.has(id)) {
-      const promise = deliveryDispositionMap.get(id) as PromiseLike;
+      const promise = deliveryDispositionMap.get(id) as DeferredPromiseAndTimer;
       clearTimeout(promise.timer);
       log.receiver(
         "[%s] Found the delivery with id %d in the map and cleared the timer.",
