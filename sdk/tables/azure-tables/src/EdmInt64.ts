@@ -27,8 +27,8 @@ export class EdmInt64 {
   }
 
   set value(integer: string) {
-    if (Number.isInteger(Number(this._value)) && this.isSafeInteger()) {
-      this._value = integer;
+    if (Number.isInteger(Number(this._value))) {
+      this._value = Number(integer).toString();
     } else {
       throw new Error("Not a valid 64-bit integer");
     }
