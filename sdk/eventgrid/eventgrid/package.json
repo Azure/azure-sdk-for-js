@@ -43,8 +43,7 @@
     ]
   },
   "browser": {
-    "./dist-esm/src/utils/hmac.js": "./dist-esm/src/utils/hmac.browser.js",
-    "./dist-esm/src/utils/atob.js": "./dist-esm/src/utils/atob.browser.js",
+    "./dist-esm/src/cryptoHelpers.js": "./dist-esm/src/cryptoHelpers.browser.js",
     "./dist-esm/src/base64.js": "./dist-esm/src/base64.browser.js"
   },
   "scripts": {

@@ -3,7 +3,7 @@
 
 import { KeyCredential } from "@azure/core-auth";
 import { DEFAULT_API_VERSION } from "./constants";
-import { hmac } from "./utils/hmac";
+import { sha256Hmac } from "./cryptoHelpers";
 import { dateToServiceTimeString } from "./util";
 
 export interface GenerateSharedAccessSignatureOptions {
@@ -33,7 +33,7 @@ export async function generateSharedAccessSignature(
   const unsignedSas = `r=${encodeURIComponent(
     `${endpointUrl}?apiVersion=${options?.apiVersion || DEFAULT_API_VERSION}`
   )}&e=${encodeURIComponent(expiresOnString)}`;
-  return hmac(credential.key, unsignedSas).then(
+  return sha256Hmac(credential.key, unsignedSas).then(
     (digest) => `${unsignedSas}&s=${encodeURIComponent(digest)}`
   );
 }
