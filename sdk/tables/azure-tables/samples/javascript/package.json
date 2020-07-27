@@ -6,10 +6,6 @@
   "engine": {
     "node": ">=8.0.0"
   },
-  "scripts": {
-    "build": "tsc",
-    "prebuild": "rimraf dist/"
-  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Azure/azure-sdk-for-js.git"
@@ -18,8 +14,7 @@
     "Azure",
     "Storage",
     "Tables",
-    "Node.js",
-    "TypeScript"
+    "Node.js"
   ],
   "author": "Microsoft Corporation",
   "license": "MIT",
