@@ -2,6 +2,9 @@
 
 ## 5.3.0-preview.2 (Unreleased)
 
+- Fixes issue [#9704](https://github.com/Azure/azure-sdk-for-js/issues/9704)
+  where events could be _skipped_ while receiving messages.
+  Previously this could occur when a retryable error was encountered and retries were exhausted while receiving a batch of events.
 
 ## 5.3.0-preview.1 (2020-07-07)
 

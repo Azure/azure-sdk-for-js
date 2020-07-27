@@ -6,13 +6,12 @@ import { PerfStressTest, PerfStressOptionDictionary } from "../src";
 import fetch from "node-fetch";
 import * as http from "http";
 
-type OptionNames =
-  | "url";
+type OptionNames = "url";
 
 export class NodeFetchTest extends PerfStressTest<string> {
   private static fetchOptions = {
     agent: new http.Agent({ keepAlive: true })
-  }
+  };
 
   private url: string = "";
 

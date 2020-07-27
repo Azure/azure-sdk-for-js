@@ -9,19 +9,18 @@ import {
 } from "@azure/core-amqp";
 import {
   bearerTokenAuthenticationPolicy,
+  createPipelineFromOptions,
   HttpOperationResponse,
   OperationOptions,
-  proxyPolicy,
   ProxySettings,
   RequestPolicyFactory,
   RestError,
   ServiceClient,
-  ServiceClientOptions,
   signingPolicy,
   stripRequest,
   stripResponse,
-  tracingPolicy,
   URLBuilder,
+  UserAgentOptions,
   WebResource
 } from "@azure/core-http";
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
@@ -65,10 +64,10 @@ import {
 } from "./serializers/topicResourceSerializer";
 import { AtomXmlSerializer, executeAtomXmlOperation } from "./util/atomXmlHelper";
 import * as Constants from "./util/constants";
-import { SasServiceClientCredentials } from "./util/sasServiceClientCredentials";
-import { isAbsoluteUrl, isJSONLikeObject } from "./util/utils";
-import { createSpan, getCanonicalCode } from "./util/tracing";
 import { parseURL } from "./util/parseUrl";
+import { SasServiceClientCredentials } from "./util/sasServiceClientCredentials";
+import { createSpan, getCanonicalCode } from "./util/tracing";
+import { formatUserAgentPrefix, isAbsoluteUrl, isJSONLikeObject } from "./util/utils";
 
 /**
  * Options to use with ServiceBusManagementClient creation
@@ -78,6 +77,10 @@ export interface ServiceBusManagementClientOptions {
    * Proxy related settings
    */
   proxySettings?: ProxySettings;
+  /**
+   * Options for adding user agent details to outgoing requests.
+   */
+  userAgentOptions?: UserAgentOptions;
 }
 
 /**
@@ -206,28 +209,20 @@ export class ServiceBusManagementClient extends ServiceClient {
     credential: TokenCredential,
     options?: ServiceBusManagementClientOptions
   );
-
   constructor(
     fullyQualifiedNamespaceOrConnectionString1: string,
     credentialOrOptions2?: TokenCredential | ServiceBusManagementClientOptions,
     options3?: ServiceBusManagementClientOptions
   ) {
-    const requestPolicyFactories: RequestPolicyFactory[] = [];
     let options: ServiceBusManagementClientOptions;
     let fullyQualifiedNamespace: string;
     let credentials: SasServiceClientCredentials | TokenCredential;
-    requestPolicyFactories.push(
-      // TODO: Update the userAgent in ConnectionContext to properly distinguish among Node and browser (Reference: EventHubs)
-      //       And use the same userAgent string for both ServiceBusManagementClient and the ServiceBusClient.
-      tracingPolicy({ userAgent: `azsdk-js-azureservicebus/${Constants.packageJsonInfo.version}` })
-    );
+    let authPolicy: RequestPolicyFactory;
     if (isTokenCredential(credentialOrOptions2)) {
       fullyQualifiedNamespace = fullyQualifiedNamespaceOrConnectionString1;
       options = options3 || {};
       credentials = credentialOrOptions2;
-      requestPolicyFactories.push(
-        bearerTokenAuthenticationPolicy(credentials, AMQPConstants.aadServiceBusScope)
-      );
+      authPolicy = bearerTokenAuthenticationPolicy(credentials, AMQPConstants.aadServiceBusScope);
     } else {
       const connectionString = fullyQualifiedNamespaceOrConnectionString1;
       options = credentialOrOptions2 || {};
@@ -244,15 +239,18 @@ export class ServiceBusManagementClient extends ServiceClient {
         connectionStringObj.SharedAccessKeyName,
         connectionStringObj.SharedAccessKey
       );
-      requestPolicyFactories.push(signingPolicy(credentials));
+      authPolicy = signingPolicy(credentials);
     }
-    if (options && options.proxySettings) {
-      requestPolicyFactories.push(proxyPolicy(options.proxySettings));
-    }
-    const serviceClientOptions: ServiceClientOptions = {
-      requestPolicyFactories: requestPolicyFactories
-    };
-
+    const userAgentPrefix = formatUserAgentPrefix(options.userAgentOptions?.userAgentPrefix);
+    const serviceClientOptions = createPipelineFromOptions(
+      {
+        proxyOptions: options.proxySettings,
+        userAgentOptions: {
+          userAgentPrefix
+        }
+      },
+      authPolicy
+    );
     super(credentials, serviceClientOptions);
     this.endpoint = fullyQualifiedNamespace;
     this.endpointWithProtocol = fullyQualifiedNamespace.endsWith("/")
@@ -475,15 +473,15 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
    * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
    */
-  private async listQueues(
+  private async getQueues(
     options?: ListRequestOptions & OperationOptions
   ): Promise<EntitiesResponse<QueueProperties>> {
     const { span, updatedOperationOptions } = createSpan(
-      "ServiceBusManagementClient-listQueues",
+      "ServiceBusManagementClient-getQueues",
       options
     );
     try {
-      log.httpAtomXml(`Performing management operation - listQueues() with options: ${options}`);
+      log.httpAtomXml(`Performing management operation - getQueues() with options: ${options}`);
       const response: HttpOperationResponse = await this.listResources(
         "$Resources/Queues",
         updatedOperationOptions,
@@ -508,7 +506,7 @@ export class ServiceBusManagementClient extends ServiceClient {
   ): AsyncIterableIterator<EntitiesResponse<QueueProperties>> {
     let listResponse;
     do {
-      listResponse = await this.listQueues({
+      listResponse = await this.getQueues({
         skip: Number(marker),
         maxCount: options.maxPageSize,
         ...options
@@ -539,7 +537,7 @@ export class ServiceBusManagementClient extends ServiceClient {
    *   >} An asyncIterableIterator that supports paging.
    * @memberof ServiceBusManagementClient
    */
-  public getQueues(
+  public listQueues(
     options?: OperationOptions
   ): PagedAsyncIterableIterator<QueueProperties, EntitiesResponse<QueueProperties>> {
     log.httpAtomXml(`Performing management operation - listQueues() with options: ${options}`);
@@ -583,16 +581,16 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
    * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
    */
-  private async listQueuesRuntimeProperties(
+  private async getQueuesRuntimeProperties(
     options?: ListRequestOptions & OperationOptions
   ): Promise<EntitiesResponse<QueueRuntimeProperties>> {
     const { span, updatedOperationOptions } = createSpan(
-      "ServiceBusManagementClient-listQueuesRuntimeProperties",
+      "ServiceBusManagementClient-getQueuesRuntimeProperties",
       options
     );
     try {
       log.httpAtomXml(
-        `Performing management operation - listQueuesRuntimeProperties() with options: ${options}`
+        `Performing management operation - getQueuesRuntimeProperties() with options: ${options}`
       );
       const response: HttpOperationResponse = await this.listResources(
         "$Resources/Queues",
@@ -618,7 +616,7 @@ export class ServiceBusManagementClient extends ServiceClient {
   ): AsyncIterableIterator<EntitiesResponse<QueueRuntimeProperties>> {
     let listResponse;
     do {
-      listResponse = await this.listQueuesRuntimeProperties({
+      listResponse = await this.getQueuesRuntimeProperties({
         skip: Number(marker),
         maxCount: options.maxPageSize,
         ...options
@@ -650,11 +648,11 @@ export class ServiceBusManagementClient extends ServiceClient {
    *   >} An asyncIterableIterator that supports paging.
    * @memberof ServiceBusManagementClient
    */
-  public getQueuesRuntimeProperties(
+  public listQueuesRuntimeProperties(
     options?: OperationOptions
   ): PagedAsyncIterableIterator<QueueRuntimeProperties, EntitiesResponse<QueueRuntimeProperties>> {
     log.httpAtomXml(
-      `Performing management operation - getQueuesRuntimeProperties() with options: ${options}`
+      `Performing management operation - listQueuesRuntimeProperties() with options: ${options}`
     );
     const iter = this.listQueuesRuntimePropertiesAll(options);
     return {
@@ -999,15 +997,15 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
    * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
    */
-  private async listTopics(
+  private async getTopics(
     options?: ListRequestOptions & OperationOptions
   ): Promise<EntitiesResponse<TopicProperties>> {
     const { span, updatedOperationOptions } = createSpan(
-      "ServiceBusManagementClient-listTopics",
+      "ServiceBusManagementClient-getTopics",
       options
     );
     try {
-      log.httpAtomXml(`Performing management operation - listTopics() with options: ${options}`);
+      log.httpAtomXml(`Performing management operation - getTopics() with options: ${options}`);
       const response: HttpOperationResponse = await this.listResources(
         "$Resources/Topics",
         updatedOperationOptions,
@@ -1032,7 +1030,7 @@ export class ServiceBusManagementClient extends ServiceClient {
   ): AsyncIterableIterator<EntitiesResponse<TopicProperties>> {
     let listResponse;
     do {
-      listResponse = await this.listTopics({
+      listResponse = await this.getTopics({
         skip: Number(marker),
         maxCount: options.maxPageSize,
         ...options
@@ -1064,10 +1062,10 @@ export class ServiceBusManagementClient extends ServiceClient {
    *   >} An asyncIterableIterator that supports paging.
    * @memberof ServiceBusManagementClient
    */
-  public getTopics(
+  public listTopics(
     options?: OperationOptions
   ): PagedAsyncIterableIterator<TopicProperties, EntitiesResponse<TopicProperties>> {
-    log.httpAtomXml(`Performing management operation - getTopics() with options: ${options}`);
+    log.httpAtomXml(`Performing management operation - listTopics() with options: ${options}`);
     const iter = this.listTopicsAll(options);
     return {
       /**
@@ -1108,11 +1106,11 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
    * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
    */
-  private async listTopicsRuntimeProperties(
+  private async getTopicsRuntimeProperties(
     options?: ListRequestOptions & OperationOptions
   ): Promise<EntitiesResponse<TopicRuntimeProperties>> {
     const { span, updatedOperationOptions } = createSpan(
-      "ServiceBusManagementClient-listTopicsRuntimeProperties",
+      "ServiceBusManagementClient-getTopicsRuntimeProperties",
       options
     );
     try {
@@ -1143,7 +1141,7 @@ export class ServiceBusManagementClient extends ServiceClient {
   ): AsyncIterableIterator<EntitiesResponse<TopicRuntimeProperties>> {
     let listResponse;
     do {
-      listResponse = await this.listTopicsRuntimeProperties({
+      listResponse = await this.getTopicsRuntimeProperties({
         skip: Number(marker),
         maxCount: options.maxPageSize,
         ...options
@@ -1176,11 +1174,11 @@ export class ServiceBusManagementClient extends ServiceClient {
    *   >} An asyncIterableIterator that supports paging.
    * @memberof ServiceBusManagementClient
    */
-  public getTopicsRuntimeProperties(
+  public listTopicsRuntimeProperties(
     options?: OperationOptions
   ): PagedAsyncIterableIterator<TopicRuntimeProperties, EntitiesResponse<TopicRuntimeProperties>> {
     log.httpAtomXml(
-      `Performing management operation - getTopicsRuntimeProperties() with options: ${options}`
+      `Performing management operation - listTopicsRuntimeProperties() with options: ${options}`
     );
     const iter = this.listTopicsRuntimePropertiesAll(options);
     return {
@@ -1554,12 +1552,12 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
    * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
    */
-  private async listSubscriptions(
+  private async getSubscriptions(
     topicName: string,
     options?: ListRequestOptions & OperationOptions
   ): Promise<EntitiesResponse<SubscriptionProperties>> {
     const { span, updatedOperationOptions } = createSpan(
-      "ServiceBusManagementClient-listSubscriptions",
+      "ServiceBusManagementClient-getSubscriptions",
       options
     );
     try {
@@ -1591,7 +1589,7 @@ export class ServiceBusManagementClient extends ServiceClient {
   ): AsyncIterableIterator<EntitiesResponse<SubscriptionProperties>> {
     let listResponse;
     do {
-      listResponse = await this.listSubscriptions(topicName, {
+      listResponse = await this.getSubscriptions(topicName, {
         skip: Number(marker),
         maxCount: options.maxPageSize,
         ...options
@@ -1627,12 +1625,12 @@ export class ServiceBusManagementClient extends ServiceClient {
    *   >} An asyncIterableIterator that supports paging.
    * @memberof ServiceBusManagementClient
    */
-  public getSubscriptions(
+  public listSubscriptions(
     topicName: string,
     options?: OperationOptions
   ): PagedAsyncIterableIterator<SubscriptionProperties, EntitiesResponse<SubscriptionProperties>> {
     log.httpAtomXml(
-      `Performing management operation - getSubscriptions() with options: ${options}`
+      `Performing management operation - listSubscriptions() with options: ${options}`
     );
     const iter = this.listSubscriptionsAll(topicName, options);
     return {
@@ -1675,12 +1673,12 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
    * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
    */
-  private async listSubscriptionsRuntimeProperties(
+  private async getSubscriptionsRuntimeProperties(
     topicName: string,
     options?: ListRequestOptions & OperationOptions
   ): Promise<EntitiesResponse<SubscriptionRuntimeProperties>> {
     const { span, updatedOperationOptions } = createSpan(
-      "ServiceBusManagementClient-listSubscriptionsRuntimeProperties",
+      "ServiceBusManagementClient-getSubscriptionsRuntimeProperties",
       options
     );
     try {
@@ -1712,7 +1710,7 @@ export class ServiceBusManagementClient extends ServiceClient {
   ): AsyncIterableIterator<EntitiesResponse<SubscriptionRuntimeProperties>> {
     let listResponse;
     do {
-      listResponse = await this.listSubscriptionsRuntimeProperties(topicName, {
+      listResponse = await this.getSubscriptionsRuntimeProperties(topicName, {
         skip: Number(marker),
         maxCount: options.maxPageSize,
         ...options
@@ -1751,7 +1749,7 @@ export class ServiceBusManagementClient extends ServiceClient {
    *   >}  An asyncIterableIterator that supports paging.
    * @memberof ServiceBusManagementClient
    */
-  public getSubscriptionsRuntimeProperties(
+  public listSubscriptionsRuntimeProperties(
     topicName: string,
     options?: OperationOptions
   ): PagedAsyncIterableIterator<
@@ -1759,7 +1757,7 @@ export class ServiceBusManagementClient extends ServiceClient {
     EntitiesResponse<SubscriptionRuntimeProperties>
   > {
     log.httpAtomXml(
-      `Performing management operation - getSubscriptionsRuntimeProperties() with options: ${options}`
+      `Performing management operation - listSubscriptionsRuntimeProperties() with options: ${options}`
     );
     const iter = this.listSubscriptionsRuntimePropertiesAll(topicName, options);
     return {
@@ -2063,13 +2061,13 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
    * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
    */
-  private async listRules(
+  private async getRules(
     topicName: string,
     subscriptionName: string,
     options?: ListRequestOptions & OperationOptions
   ): Promise<EntitiesResponse<RuleProperties>> {
     const { span, updatedOperationOptions } = createSpan(
-      "ServiceBusManagementClient-listRules",
+      "ServiceBusManagementClient-getRules",
       options
     );
     try {
@@ -2101,7 +2099,7 @@ export class ServiceBusManagementClient extends ServiceClient {
   ): AsyncIterableIterator<EntitiesResponse<RuleProperties>> {
     let listResponse;
     do {
-      listResponse = await this.listRules(topicName, subscriptionName, {
+      listResponse = await this.getRules(topicName, subscriptionName, {
         skip: Number(marker),
         maxCount: options.maxPageSize,
         ...options
@@ -2134,12 +2132,12 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @returns {PagedAsyncIterableIterator<RuleProperties, EntitiesResponse<RuleProperties>>} An asyncIterableIterator that supports paging.
    * @memberof ServiceBusManagementClient
    */
-  public getRules(
+  public listRules(
     topicName: string,
     subscriptionName: string,
     options?: OperationOptions
   ): PagedAsyncIterableIterator<RuleProperties, EntitiesResponse<RuleProperties>> {
-    log.httpAtomXml(`Performing management operation - getRules() with options: ${options}`);
+    log.httpAtomXml(`Performing management operation - listRules() with options: ${options}`);
     const iter = this.listRulesAll(topicName, subscriptionName, options);
     return {
       /**

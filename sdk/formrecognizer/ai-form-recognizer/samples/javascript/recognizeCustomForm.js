@@ -40,10 +40,8 @@ async function main() {
       console.log(`Page number: ${page.pageNumber}`);
       console.log("Tables");
       for (const table of page.tables || []) {
-        for (const row of table.rows) {
-          for (const cell of row.cells) {
-            console.log(`cell (${cell.rowIndex},${cell.columnIndex}) ${cell.text}`);
-          }
+        for (const cell of table.cells) {
+          console.log(`cell (${cell.rowIndex},${cell.columnIndex}) ${cell.text}`);
         }
       }
     }
