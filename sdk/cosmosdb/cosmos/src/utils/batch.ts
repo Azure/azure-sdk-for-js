@@ -36,6 +36,13 @@ export interface OperationBase {
   ifNoneMatch?: string;
 }
 
+export interface OperationInput {
+  partitionKey?: string | number | null | {} | undefined;
+  ifMatch?: string;
+  ifNoneMatch?: string;
+  resourceBody?: JSONObject;
+}
+
 export type OperationWithItem = OperationBase & {
   resourceBody: JSONObject;
 };
@@ -81,10 +88,13 @@ export function getPartitionKeyToHash(operation: Operation, partitionProperty: s
   return toHashKey;
 }
 
-export function addPKToOperation(operation: Operation, definition: PartitionKeyDefinition) {
-  if (operation.partitionKey || !hasResource(operation)) {
-    return operation;
+export function addPKToOperation(operation: OperationInput, definition: PartitionKeyDefinition) {
+  if (operation.partitionKey) {
+    const extracted = extractPartitionKey(operation, { paths: ["/partitionKey"] });
+    return { ...operation, partitionKey: JSON.stringify(extracted) };
+  } else if (operation.resourceBody) {
+    const pk = extractPartitionKey(operation.resourceBody, definition);
+    return { ...operation, partitionKey: JSON.stringify(pk) };
   }
-  const pk = extractPartitionKey(operation.resourceBody, definition);
-  return { ...operation, partitionKey: JSON.stringify(pk) };
+  return operation;
 }

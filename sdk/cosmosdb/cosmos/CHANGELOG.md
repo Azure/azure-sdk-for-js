@@ -6,19 +6,19 @@
 
 ```js
 // up to 100 operations
-const operations: Operation[] = [
+const operations: OperationInput[] = [
   {
     operationType: "Create",
-    resourceBody: { id: addEntropy("doc1"), name: "sample", key: "A" }
+    resourceBody: { id: "doc1", name: "sample", key: "A" }
   },
   {
     operationType: "Upsert",
-    resourceBody: { id: addEntropy("doc2"), name: "other", key: "A" }
+    resourceBody: { id: "doc2", name: "other", key: "A" }
   },
   {
     operationType: "Read",
     id: "readItemId",
-    partitionKey: `["key"]`
+    partitionKey: "key"
   }
 ];
 

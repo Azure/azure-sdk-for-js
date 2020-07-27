@@ -16,7 +16,6 @@ import {
   addEntropy,
   getTestContainer
 } from "../common/TestHelpers";
-import { Operation } from "../../src/utils/batch";
 
 /**
  * @ignore
@@ -257,29 +256,29 @@ describe("bulk item operations", function() {
       });
     });
     it("handles create, upsert, replace, delete", async function() {
-      const operations: Operation[] = [
+      const operations = [
         {
           operationType: "Create",
           resourceBody: { id: addEntropy("doc1"), name: "sample", key: "A" }
         },
         {
           operationType: "Upsert",
-          partitionKey: `["A"]`,
+          partitionKey: "A",
           resourceBody: { id: addEntropy("doc2"), name: "other", key: "A" }
         },
         {
           operationType: "Read",
           id: readItemId,
-          partitionKey: `["A"]`
+          partitionKey: "A"
         },
         {
           operationType: "Delete",
           id: deleteItemId,
-          partitionKey: `["A"]`
+          partitionKey: "A"
         },
         {
           operationType: "Replace",
-          partitionKey: "[5]",
+          partitionKey: 5,
           id: replaceItemId,
           resourceBody: { id: replaceItemId, name: "nice", key: 5 }
         }
@@ -334,30 +333,30 @@ describe("bulk item operations", function() {
       });
     });
     it("handles create, upsert, replace, delete", async function() {
-      const operations: Operation[] = [
+      const operations = [
         {
           operationType: "Create",
-          partitionKey: `["A"]`,
+          partitionKey: "A",
           resourceBody: { id: addEntropy("doc1"), name: "sample", key: "A" }
         },
         {
           operationType: "Upsert",
-          partitionKey: `["U"]`,
+          partitionKey: "U",
           resourceBody: { id: addEntropy("doc2"), name: "other", key: "U" }
         },
         {
           operationType: "Read",
           id: readItemId,
-          partitionKey: `[true]`
+          partitionKey: true
         },
         {
           operationType: "Delete",
           id: deleteItemId,
-          partitionKey: `[{}]`
+          partitionKey: {}
         },
         {
           operationType: "Replace",
-          partitionKey: "[5]",
+          partitionKey: 5,
           id: replaceItemId,
           resourceBody: { id: replaceItemId, name: "nice", key: 5 }
         }
@@ -385,16 +384,16 @@ describe("bulk item operations", function() {
         key: "A",
         class: "2010"
       });
-      const operations: Operation[] = [
+      const operations = [
         {
           operationType: "Delete",
           id: readItemId,
-          partitionKey: `["A"]`
+          partitionKey: "A"
         },
         {
           operationType: "Read",
           id: readItemId,
-          partitionKey: `["A"]`
+          partitionKey: "A"
         }
       ];
       const response = await v2Container.items.bulk(operations);

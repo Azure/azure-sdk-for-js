@@ -19,7 +19,8 @@ import {
   Operation,
   getPartitionKeyToHash,
   addPKToOperation,
-  OperationResponse
+  OperationResponse,
+  OperationInput
 } from "../../utils/batch";
 import { hashV1PartitionKey } from "../../utils/hashing/v1";
 import { hashV2PartitionKey } from "../../utils/hashing/v2";
@@ -392,14 +393,15 @@ export class Items {
    *
    * Usage example:
    *
-   * const operations: Operation[] = [
+   * // partitionKey is optional at the top level if present in the resourceBody
+   * const operations: OperationInput[] = [
    *    {
    *       operationType: "Create",
    *       resourceBody: { id: "doc1", name: "sample", key: "A" }
    *    },
    *    {
    *       operationType: "Upsert",
-   *       partitionKey: `["A"]`,
+   *       partitionKey: 'A',
    *       resourceBody: { id: "doc2", name: "other", key: "A" }
    *    }
    * ]
@@ -410,7 +412,7 @@ export class Items {
    * @param options Used for modifying the request.
    */
   public async bulk(
-    operations: Operation[],
+    operations: OperationInput[],
     options?: RequestOptions
   ): Promise<OperationResponse[]> {
     const {

@@ -14,6 +14,7 @@ export {
   ReadOperation,
   OperationBase,
   OperationWithItem,
+  OperationInput
 } from "./utils/batch";
 export {
   ConnectionMode,
@@ -35,7 +36,7 @@ export {
   PermissionMode,
   TriggerOperation,
   TriggerType,
-  UserDefinedFunctionType,
+  UserDefinedFunctionType
 } from "./documents";
 
 export { Constants, OperationType, ResourceType, HTTPMethod } from "./common";
@@ -48,7 +49,7 @@ export {
   SqlQuerySpec,
   JSONValue,
   JSONArray,
-  JSONObject,
+  JSONObject
 } from "./queryExecutionContext";
 export { QueryIterator } from "./queryIterator";
 export * from "./queryMetrics";

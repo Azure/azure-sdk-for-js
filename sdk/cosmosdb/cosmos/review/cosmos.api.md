@@ -781,7 +781,7 @@ export class ItemResponse<T extends ItemDefinition> extends ResourceResponse<T &
 // @public
 export class Items {
     constructor(container: Container, clientContext: ClientContext);
-    bulk(operations: Operation[], options?: RequestOptions): Promise<OperationResponse[]>;
+    bulk(operations: OperationInput[], options?: RequestOptions): Promise<OperationResponse[]>;
     changeFeed(partitionKey: string | number | boolean, changeFeedOptions?: ChangeFeedOptions): ChangeFeedIterator<any>;
     changeFeed(changeFeedOptions?: ChangeFeedOptions): ChangeFeedIterator<any>;
     changeFeed<T>(partitionKey: string | number | boolean, changeFeedOptions?: ChangeFeedOptions): ChangeFeedIterator<T>;
@@ -889,6 +889,18 @@ export interface OperationBase {
     ifNoneMatch?: string;
     // (undocumented)
     partitionKey?: string;
+}
+
+// @public (undocumented)
+export interface OperationInput {
+    // (undocumented)
+    ifMatch?: string;
+    // (undocumented)
+    ifNoneMatch?: string;
+    // (undocumented)
+    partitionKey?: string | number | null | {} | undefined;
+    // (undocumented)
+    resourceBody?: JSONObject;
 }
 
 // @public (undocumented)
