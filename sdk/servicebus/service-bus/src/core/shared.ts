@@ -21,8 +21,6 @@ export function sharedOnSettled(
   delivery: Delivery | undefined,
   deliveryDispositionMap: Map<number, PromiseLike>
 ) {
-  // const connectionId = this._context.namespace.connectionId;
-  // const delivery = context.delivery;
   if (delivery) {
     const id = delivery.id;
     const state = delivery.remote_state;
