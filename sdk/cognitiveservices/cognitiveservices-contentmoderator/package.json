@@ -2,7 +2,7 @@
   "name": "@azure/cognitiveservices-contentmoderator",
   "author": "Microsoft Corporation",
   "description": "ContentModeratorClient Library with typescript type definitions for node.js and browser.",
-  "version": "5.0.0",
+  "version": "5.0.1",
   "dependencies": {
     "@azure/ms-rest-js": "^2.0.4",
     "tslib": "^1.10.0"
