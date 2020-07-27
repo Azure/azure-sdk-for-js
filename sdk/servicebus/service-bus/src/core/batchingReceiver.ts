@@ -308,7 +308,7 @@ export class BatchingReceiverLite {
     );
 
     const brokeredMessages: ServiceBusMessageImpl[] = [];
-    const loggingPrefix = `[${receiver.connection.id}|r:${receiver.name}`;
+    const loggingPrefix = `[${receiver.connection.id}|r:${receiver.name}]`;
 
     return new Promise<ServiceBusMessageImpl[]>((resolve, reject) => {
       let totalWaitTimer: NodeJS.Timer | undefined;
