@@ -17,7 +17,12 @@ import { PersonalizerClientContext } from "./personalizerClientContext";
 
 class PersonalizerClient extends PersonalizerClientContext {
   // Operation groups
+  serviceConfiguration: operations.ServiceConfigurationOperations;
+  policy: operations.Policy;
+  evaluations: operations.Evaluations;
   events: operations.Events;
+  log: operations.Log;
+  model: operations.Model;
 
   /**
    * Initializes a new instance of the PersonalizerClient class.
@@ -27,11 +32,18 @@ class PersonalizerClient extends PersonalizerClientContext {
    */
   constructor(credentials: msRest.ServiceClientCredentials, endpoint: string, options?: msRest.ServiceClientOptions) {
     super(credentials, endpoint, options);
+    this.serviceConfiguration = new operations.ServiceConfigurationOperations(this);
+    this.policy = new operations.Policy(this);
+    this.evaluations = new operations.Evaluations(this);
     this.events = new operations.Events(this);
+    this.log = new operations.Log(this);
+    this.model = new operations.Model(this);
   }
 
   /**
-   * @summary A Personalizer rank request.
+   * Submit a Personalizer rank request, to get which of the provided actions should be used in the
+   * provided context.
+   * @summary Post Rank.
    * @param rankRequest A Personalizer request.
    * @param [options] The optional parameters
    * @returns Promise<Models.RankResponse2>
