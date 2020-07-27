@@ -48,9 +48,8 @@ export interface Request {
    */
   series: Point[];
   /**
-   * Can only be one of yearly, monthly, weekly, daily, hourly or minutely. Granularity is used for
-   * verify whether input series is valid. Possible values include: 'yearly', 'monthly', 'weekly',
-   * 'daily', 'hourly', 'minutely'
+   * Possible values include: 'yearly', 'monthly', 'weekly', 'daily', 'hourly', 'minutely',
+   * 'secondly'
    */
   granularity: Granularity;
   /**
@@ -170,12 +169,70 @@ export interface LastDetectResponse {
 }
 
 /**
+ * An interface representing ChangePointDetectRequest.
+ */
+export interface ChangePointDetectRequest {
+  /**
+   * Time series data points. Points should be sorted by timestamp in ascending order to match the
+   * change point detection result.
+   */
+  series: Point[];
+  /**
+   * Can only be one of yearly, monthly, weekly, daily, hourly, minutely or secondly. Granularity
+   * is used for verify whether input series is valid. Possible values include: 'yearly',
+   * 'monthly', 'weekly', 'daily', 'hourly', 'minutely', 'secondly'
+   */
+  granularity: Granularity;
+  /**
+   * Custom Interval is used to set non-standard time interval, for example, if the series is 5
+   * minutes, request can be set as {"granularity":"minutely", "customInterval":5}.
+   */
+  customInterval?: number;
+  /**
+   * Optional argument, periodic value of a time series. If the value is null or does not present,
+   * the API will determine the period automatically.
+   */
+  period?: number;
+  /**
+   * Optional argument, advanced model parameter, a default stableTrendWindow will be used in
+   * detection.
+   */
+  stableTrendWindow?: number;
+  /**
+   * Optional argument, advanced model parameter, between 0.0-1.0, the lower the value is, the
+   * larger the trend error will be which means less change point will be accepted.
+   */
+  threshold?: number;
+}
+
+/**
+ * An interface representing ChangePointDetectResponse.
+ */
+export interface ChangePointDetectResponse {
+  /**
+   * Frequency extracted from the series, zero means no recurrent pattern has been found.
+   */
+  period: number;
+  /**
+   * isChangePoint contains change point properties for each input point. True means an anomaly
+   * either negative or positive has been detected. The index of the array is consistent with the
+   * input series.
+   */
+  isChangePoint: boolean[];
+  /**
+   * the change point confidence of each point
+   */
+  confidenceScores: number[];
+}
+
+/**
  * Defines values for Granularity.
- * Possible values include: 'yearly', 'monthly', 'weekly', 'daily', 'hourly', 'minutely'
+ * Possible values include: 'yearly', 'monthly', 'weekly', 'daily', 'hourly', 'minutely',
+ * 'secondly'
  * @readonly
  * @enum {string}
  */
-export type Granularity = 'yearly' | 'monthly' | 'weekly' | 'daily' | 'hourly' | 'minutely';
+export type Granularity = 'yearly' | 'monthly' | 'weekly' | 'daily' | 'hourly' | 'minutely' | 'secondly';
 
 /**
  * Contains response data for the entireDetect operation.
@@ -214,5 +271,25 @@ export type LastDetectResponse2 = LastDetectResponse & {
        * The response body as parsed JSON or XML
        */
       parsedBody: LastDetectResponse;
+    };
+};
+
+/**
+ * Contains response data for the changePointDetect operation.
+ */
+export type ChangePointDetectResponse2 = ChangePointDetectResponse & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ChangePointDetectResponse;
     };
 };
