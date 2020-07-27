@@ -4,11 +4,33 @@
 import {
   TableQueryOptionalParams,
   TableQueryEntitiesOptionalParams,
+  TableQueryEntitiesWithPartitionAndRowKeyResponse,
+  TableQueryEntitiesResponse,
   TableInsertEntityOptionalParams,
   TableUpdateEntityOptionalParams,
   TableMergeEntityOptionalParams,
   TableSetAccessPolicyOptionalParams
 } from "./generated/models";
+
+/**
+ * Contains response data for the getEntity operation.
+ */
+export interface ListEntitiesResponse<T> extends Omit<TableQueryEntitiesResponse, "value"> {
+  /**
+   * List of table entities.
+   */
+  value?: T[];
+}
+
+/**
+ * Contains response data for the listEntities operation.
+ */
+export interface GetEntityResponse<T> extends TableQueryEntitiesWithPartitionAndRowKeyResponse {
+  /**
+   * The table entity object.
+   */
+  value?: T;
+}
 
 /**
  * List tables optional parameters.

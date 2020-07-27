@@ -8,6 +8,8 @@ import {
   Entity,
   ListTablesOptions,
   ListEntitiesOptions,
+  GetEntityResponse,
+  ListEntitiesResponse,
   CreateEntityOptions,
   UpdateEntityOptions,
   MergeEntityOptions,
@@ -29,8 +31,6 @@ import {
   QueryOptions,
   ListTablesResponse,
   GetEntityOptions,
-  GetEntityResponse,
-  ListEntitiesResponse,
   CreateEntityResponse,
   DeleteEntityOptions,
   DeleteEntityResponse,
@@ -203,19 +203,19 @@ export class TableServiceClient {
    * @param rowKey The row key of the entity.
    * @param options The options parameters.
    */
-  public async getEntity(
+  public async getEntity<T extends object>(
     tableName: string,
     partitionKey: string,
     rowKey: string,
     options?: GetEntityOptions
-  ): Promise<GetEntityResponse> {
-    const response = await this.table.queryEntitiesWithPartitionAndRowKey(
+  ): Promise<GetEntityResponse<T>> {
+    const response = (await this.table.queryEntitiesWithPartitionAndRowKey(
       tableName,
       partitionKey,
       rowKey,
       options
-    );
-    response.value = deserialize(response._response.parsedBody) as object[];
+    )) as GetEntityResponse<T>;
+    response.value = deserialize<T>(response._response.parsedBody);
     return response;
   }
 
@@ -225,14 +225,17 @@ export class TableServiceClient {
    * @param query The OData query parameters.
    * @param options The options parameters.
    */
-  public async listEntities(
+  public async listEntities<T extends object>(
     tableName: string,
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     query?: QueryOptions,
     options?: ListEntitiesOptions
-  ): Promise<ListEntitiesResponse> {
-    const response = await this.table.queryEntities(tableName, { queryOptions: query, ...options });
-    response.value = deserializeObjectsArray(response.value);
+  ): Promise<ListEntitiesResponse<T>> {
+    const response = (await this.table.queryEntities(tableName, {
+      queryOptions: query,
+      ...options
+    })) as ListEntitiesResponse<T>;
+    response.value = deserializeObjectsArray<T>(response.value);
     return response;
   }
 

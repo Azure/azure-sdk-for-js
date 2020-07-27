@@ -16,7 +16,7 @@ const Edm = {
   Guid: "Edm.Guid"
 };
 
-export function serialize(obj: object): object {
+export function serialize(obj: object = {}): object {
   const serialized: any = {};
   for (const [key, value] of Object.entries(obj)) {
     if (
@@ -67,8 +67,7 @@ function getTypedObject(value: any, type: string): any {
   }
 }
 
-export function deserialize(obj?: object): object {
-  if (obj === undefined) return {};
+export function deserialize<T extends object>(obj: object = {}): T {
   const deserialized: any = {};
   for (const [key, value] of Object.entries(obj)) {
     if (key.indexOf("@odata.type") === -1) {
@@ -83,6 +82,6 @@ export function deserialize(obj?: object): object {
   return deserialized;
 }
 
-export function deserializeObjectsArray(objArray: object[] = []): object[] {
-  return objArray.map(deserialize);
+export function deserializeObjectsArray<T extends object>(objArray: object[] = []): T[] {
+  return objArray.map((obj) => deserialize<T>(obj));
 }

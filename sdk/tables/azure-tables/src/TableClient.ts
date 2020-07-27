@@ -5,6 +5,8 @@ import { TableServiceClient } from "./TableServiceClient";
 import {
   Entity,
   ListEntitiesOptions,
+  GetEntityResponse,
+  ListEntitiesResponse,
   CreateEntityOptions,
   UpdateEntityOptions,
   MergeEntityOptions,
@@ -16,8 +18,6 @@ import {
   DeleteTableResponse,
   QueryOptions,
   GetEntityOptions,
-  GetEntityResponse,
-  ListEntitiesResponse,
   CreateEntityResponse,
   DeleteEntityOptions,
   DeleteEntityResponse,
@@ -127,12 +127,12 @@ export class TableClient {
    * @param rowKey The row key of the entity.
    * @param options The options parameters.
    */
-  public getEntity(
+  public getEntity<T extends object>(
     partitionKey: string,
     rowKey: string,
     options?: GetEntityOptions
-  ): Promise<GetEntityResponse> {
-    return this.client.getEntity(this.tableName, partitionKey, rowKey, options);
+  ): Promise<GetEntityResponse<T>> {
+    return this.client.getEntity<T>(this.tableName, partitionKey, rowKey, options);
   }
 
   /**
@@ -140,12 +140,12 @@ export class TableClient {
    * @param query The OData query parameters.
    * @param options The options parameters.
    */
-  public listEntities(
+  public listEntities<T extends object>(
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     query?: QueryOptions,
     options?: ListEntitiesOptions
-  ): Promise<ListEntitiesResponse> {
-    return this.client.listEntities(this.tableName, query, options);
+  ): Promise<ListEntitiesResponse<T>> {
+    return this.client.listEntities<T>(this.tableName, query, options);
   }
 
   /**
