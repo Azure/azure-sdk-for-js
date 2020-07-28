@@ -8,9 +8,10 @@ import {
   OnMessage,
   ReceiveOptions,
   ReceiverHandlers,
-  ReceiverHelper,
   ReceiverType
 } from "./messageReceiver";
+
+import { ReceiverHelper } from "./receiverHelper";
 
 import { ClientEntityContext } from "../clientEntityContext";
 
@@ -29,6 +30,7 @@ import * as log from "../log";
 import { AmqpError, EventContext, isAmqpError, OnAmqpEvent, ReceiverOptions } from "rhea-promise";
 import { ReceiveMode, ServiceBusMessageImpl } from "../serviceBusMessage";
 import { calculateRenewAfterDuration } from "../util/utils";
+import { AbortSignalLike } from "@azure/abort-controller";
 
 /**
  * @internal
@@ -497,6 +499,15 @@ export class StreamingReceiver extends MessageReceiver {
     };
   }
 
+  stopReceivingMessages(): Promise<void> {
+    return this._receiverHelper.stopReceivingMessages();
+  }
+
+  init(useNewName: boolean, abortSignal?: AbortSignalLike): Promise<void> {
+    const options: ReceiverOptions = this._createReceiverOptions(useNewName, this._getHandlers());
+    return super._init(options, abortSignal);
+  }
+
   /**
    * Starts the receiver by establishing an AMQP session and an AMQP receiver link on the session.
    *
@@ -602,15 +613,16 @@ export class StreamingReceiver extends MessageReceiver {
         throw translatedError;
       }
 
-      // provide a new name to the link while re-connecting it. This ensures that
-      // the service does not send an error stating that the link is still open.
-      const options: ReceiverOptions = this._createReceiverOptions(true, this._getHandlers());
-
       // shall retry forever at an interval of 15 seconds if the error is a retryable error
       // else bail out when the error is not retryable or the operation succeeds.
       const config: RetryConfig<void> = {
         operation: () =>
-          this._init(options).then(async () => {
+          this.init(
+            // provide a new name to the link while re-connecting it. This ensures that
+            // the service does not send an error stating that the link is still open.
+            true,
+            undefined
+          ).then(async () => {
             if (this.wasCloseInitiated) {
               log.error(
                 "[%s] close() method of Receiver '%s' with address '%s' was called. " +
@@ -622,7 +634,7 @@ export class StreamingReceiver extends MessageReceiver {
               await this.close();
             } else {
               if (this._receiver && this.receiverType === ReceiverType.streaming) {
-                this.receiverHelper.addCredit(this.maxConcurrentCalls);
+                this._receiverHelper.addCredit(this.maxConcurrentCalls);
               }
             }
             return;
@@ -703,7 +715,7 @@ export class StreamingReceiver extends MessageReceiver {
 
     const config: RetryConfig<void> = {
       operation: () => {
-        return sReceiver._init(undefined, options?.abortSignal);
+        return sReceiver.init(false, options?.abortSignal);
       },
       connectionId: context.namespace.connectionId,
       operationType: RetryOperationType.receiveMessage,
