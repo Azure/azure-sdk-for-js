@@ -163,7 +163,6 @@ export class MessageReceiver extends LinkEntity {
    * the active messages.
    */
   protected _clearAllMessageLockRenewTimers: () => void;
-  private _stopReceivingMessages: boolean = false;
 
   constructor(
     context: ClientEntityContext,
@@ -208,22 +207,6 @@ export class MessageReceiver extends LinkEntity {
         this._clearMessageLockRenewTimer(messageId);
       }
     };
-  }
-
-  /**
-   * Adds credits to the receiver, respecting any state that
-   * indicates the receiver is closed or should not continue
-   * to receive more messages.
-   *
-   * @param credits Number of credits to add.
-   */
-  protected addCredit(credits: number): boolean {
-    if (this._stopReceivingMessages || this._receiver == null) {
-      return false;
-    }
-
-    this._receiver.addCredit(credits);
-    return true;
   }
 
   /**
