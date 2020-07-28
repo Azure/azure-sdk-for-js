@@ -3,6 +3,7 @@
 
 import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
+import { ReceiverOptions } from "rhea-promise";
 chai.use(chaiAsPromised);
 const assert = chai.assert;
 
@@ -56,7 +57,7 @@ describe("init() and close() interactions", () => {
       );
     };
 
-    await messageReceiver2["_init"]();
+    await messageReceiver2["_init"]({} as ReceiverOptions);
 
     assert.isFalse(negotiateClaimWasCalled);
   });
