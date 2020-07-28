@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
 import { TokenCredentialOptions } from "../client/identityClient";
 import { ChainedTokenCredential } from "./chainedTokenCredential";
@@ -26,7 +26,7 @@ export class DefaultAzureCredential extends ChainedTokenCredential {
    * @param options Options for configuring the client which makes the authentication request.
    */
   constructor(tokenCredentialOptions?: TokenCredentialOptions) {
-    let credentials = [];
+    const credentials = [];
     credentials.push(new EnvironmentCredential(tokenCredentialOptions));
     credentials.push(new ManagedIdentityCredential(tokenCredentialOptions));
     credentials.push(new AzureCliCredential());

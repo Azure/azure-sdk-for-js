@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
 import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-http";
 import { createSpan } from "../util/tracing";
@@ -26,11 +26,6 @@ const logger = credentialLogger("AzureCliCredential");
  * with Azure CLI command "az account get-access-token".
  */
 export class AzureCliCredential implements TokenCredential {
-  /**
-   * Creates an instance of the AzureCliCredential class.
-   */
-  constructor() {}
-
   /**
    * Gets the access token from Azure CLI
    * @param resource The resource to use when getting the token
@@ -66,8 +61,7 @@ export class AzureCliCredential implements TokenCredential {
     options?: GetTokenOptions
   ): Promise<AccessToken | null> {
     return new Promise((resolve, reject) => {
-      let scope: string;
-      scope = typeof scopes === "string" ? scopes : scopes[0];
+      const scope = typeof scopes === "string" ? scopes : scopes[0];
       logger.getToken.info(`Using the scope ${scope}`);
 
       const resource = scope.replace(/\/.default$/, "");
@@ -85,8 +79,8 @@ export class AzureCliCredential implements TokenCredential {
       this.getAzureCliAccessToken(resource)
         .then((obj: any) => {
           if (obj.stderr) {
-            let isLoginError = obj.stderr.match("(.*)az login(.*)");
-            let isNotInstallError =
+            const isLoginError = obj.stderr.match("(.*)az login(.*)");
+            const isNotInstallError =
               obj.stderr.match("az:(.*)not found") ||
               obj.stderr.startsWith("'az' is not recognized");
             if (isNotInstallError) {
@@ -109,10 +103,12 @@ export class AzureCliCredential implements TokenCredential {
             responseData = obj.stdout;
             const response: { accessToken: string; expiresOn: string } = JSON.parse(responseData);
             logger.getToken.info(formatSuccess(scopes));
-            resolve({
+            const returnValue = {
               token: response.accessToken,
               expiresOnTimestamp: new Date(response.expiresOn).getTime()
-            });
+            };
+            resolve(returnValue);
+            return returnValue;
           }
         })
         .catch((err) => {
