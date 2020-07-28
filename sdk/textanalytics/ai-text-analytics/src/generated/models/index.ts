@@ -457,7 +457,7 @@ export interface SentenceSentiment {
   /**
    * The sentence text.
    */
-  text?: string;
+  text: string;
   /**
    * The predicted Sentiment for the sentence.
    */

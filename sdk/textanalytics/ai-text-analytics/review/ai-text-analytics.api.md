@@ -174,7 +174,7 @@ export interface RecognizeLinkedEntitiesSuccessResult extends TextAnalyticsSucce
 export interface SentenceSentiment {
     confidenceScores: SentimentConfidenceScores;
     sentiment: SentenceSentimentLabel;
-    text?: string;
+    text: string;
 }
 
 // @public
