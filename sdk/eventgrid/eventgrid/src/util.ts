@@ -97,14 +97,14 @@ export function validateCloudEventEvent(o: any): void {
   }
 
   if (o.specversion !== CLOUD_EVENT_1_0_SPEC_VERSION) {
-    throw new TypeError("event is not in the Cloud Event 1.0 schema");
+    throw new Error("event is not in the Cloud Event 1.0 schema");
   }
 }
 
 function validateRequiredStringProperties(o: any, propertyNames: string[]): void {
   for (const propertyName of propertyNames) {
     if (typeof o[propertyName] === "undefined") {
-      throw new TypeError(`event is missing required property '${propertyName}'`);
+      throw new Error(`event is missing required property '${propertyName}'`);
     }
 
     if (typeof o[propertyName] !== "string") {
@@ -118,7 +118,7 @@ function validateRequiredStringProperties(o: any, propertyNames: string[]): void
 function validateRequiredAnyProperties(o: any, propertyNames: string[]): void {
   for (const propertyName of propertyNames) {
     if (typeof o[propertyName] === "undefined") {
-      throw new TypeError(`event is missing required property '${propertyName}'`);
+      throw new Error(`event is missing required property '${propertyName}'`);
     }
   }
 }
