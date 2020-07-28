@@ -30,11 +30,61 @@ export const annotationId: msRest.OperationURLParameter = {
     }
   }
 };
-export const apiVersion: msRest.OperationQueryParameter = {
+export const apiVersion0: msRest.OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
     required: true,
+    isConstant: true,
     serializedName: "api-version",
+    defaultValue: '2015-05-01',
+    constraints: {
+      MinLength: 1
+    },
+    type: {
+      name: "String"
+    }
+  }
+};
+export const apiVersion1: msRest.OperationQueryParameter = {
+  parameterPath: "apiVersion",
+  mapper: {
+    required: true,
+    isConstant: true,
+    serializedName: "api-version",
+    defaultValue: '2020-06-02-preview',
+    constraints: {
+      MinLength: 1
+    },
+    type: {
+      name: "String"
+    }
+  }
+};
+export const apiVersion2: msRest.OperationQueryParameter = {
+  parameterPath: "apiVersion",
+  mapper: {
+    required: true,
+    isConstant: true,
+    serializedName: "api-version",
+    defaultValue: '2018-05-01-preview',
+    constraints: {
+      MinLength: 1
+    },
+    type: {
+      name: "String"
+    }
+  }
+};
+export const apiVersion3: msRest.OperationQueryParameter = {
+  parameterPath: "apiVersion",
+  mapper: {
+    required: true,
+    isConstant: true,
+    serializedName: "api-version",
+    defaultValue: '2020-03-01-preview',
+    constraints: {
+      MinLength: 1
+    },
     type: {
       name: "String"
     }
@@ -213,6 +263,11 @@ export const resourceGroupName: msRest.OperationURLParameter = {
   mapper: {
     required: true,
     serializedName: "resourceGroupName",
+    constraints: {
+      MaxLength: 90,
+      MinLength: 1,
+      Pattern: /^[-\w\._\(\)]+$/
+    },
     type: {
       name: "String"
     }
@@ -227,6 +282,17 @@ export const resourceName: msRest.OperationURLParameter = {
       name: "String"
     }
   }
+};
+export const resourceUri: msRest.OperationURLParameter = {
+  parameterPath: "resourceUri",
+  mapper: {
+    required: true,
+    serializedName: "resourceUri",
+    type: {
+      name: "String"
+    }
+  },
+  skipEncoding: true
 };
 export const scope: msRest.OperationQueryParameter = {
   parameterPath: [
@@ -273,11 +339,26 @@ export const start: msRest.OperationQueryParameter = {
     }
   }
 };
+export const storageType: msRest.OperationURLParameter = {
+  parameterPath: "storageType",
+  mapper: {
+    required: true,
+    isConstant: true,
+    serializedName: "storageType",
+    defaultValue: 'ServiceProfiler',
+    type: {
+      name: "String"
+    }
+  }
+};
 export const subscriptionId: msRest.OperationURLParameter = {
   parameterPath: "subscriptionId",
   mapper: {
     required: true,
     serializedName: "subscriptionId",
+    constraints: {
+      MinLength: 1
+    },
     type: {
       name: "String"
     }

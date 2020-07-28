@@ -28,7 +28,7 @@ export class AnalyticsItems {
 
   /**
    * Gets a list of Analytics Items defined within an Application Insights component.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the Application Insights component resource.
    * @param scopePath Enum indicating if this item definition is owned by a specific user or is
    * shared between all users with access to the Application Insights component. Possible values
@@ -38,7 +38,7 @@ export class AnalyticsItems {
    */
   list(resourceGroupName: string, resourceName: string, scopePath: Models.ItemScopePath, options?: Models.AnalyticsItemsListOptionalParams): Promise<Models.AnalyticsItemsListResponse>;
   /**
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the Application Insights component resource.
    * @param scopePath Enum indicating if this item definition is owned by a specific user or is
    * shared between all users with access to the Application Insights component. Possible values
@@ -47,7 +47,7 @@ export class AnalyticsItems {
    */
   list(resourceGroupName: string, resourceName: string, scopePath: Models.ItemScopePath, callback: msRest.ServiceCallback<Models.ApplicationInsightsComponentAnalyticsItem[]>): void;
   /**
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the Application Insights component resource.
    * @param scopePath Enum indicating if this item definition is owned by a specific user or is
    * shared between all users with access to the Application Insights component. Possible values
@@ -70,7 +70,7 @@ export class AnalyticsItems {
 
   /**
    * Gets a specific Analytics Items defined within an Application Insights component.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the Application Insights component resource.
    * @param scopePath Enum indicating if this item definition is owned by a specific user or is
    * shared between all users with access to the Application Insights component. Possible values
@@ -80,7 +80,7 @@ export class AnalyticsItems {
    */
   get(resourceGroupName: string, resourceName: string, scopePath: Models.ItemScopePath, options?: Models.AnalyticsItemsGetOptionalParams): Promise<Models.AnalyticsItemsGetResponse>;
   /**
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the Application Insights component resource.
    * @param scopePath Enum indicating if this item definition is owned by a specific user or is
    * shared between all users with access to the Application Insights component. Possible values
@@ -89,7 +89,7 @@ export class AnalyticsItems {
    */
   get(resourceGroupName: string, resourceName: string, scopePath: Models.ItemScopePath, callback: msRest.ServiceCallback<Models.ApplicationInsightsComponentAnalyticsItem>): void;
   /**
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the Application Insights component resource.
    * @param scopePath Enum indicating if this item definition is owned by a specific user or is
    * shared between all users with access to the Application Insights component. Possible values
@@ -112,7 +112,7 @@ export class AnalyticsItems {
 
   /**
    * Adds or Updates a specific Analytics Item within an Application Insights component.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the Application Insights component resource.
    * @param scopePath Enum indicating if this item definition is owned by a specific user or is
    * shared between all users with access to the Application Insights component. Possible values
@@ -124,7 +124,7 @@ export class AnalyticsItems {
    */
   put(resourceGroupName: string, resourceName: string, scopePath: Models.ItemScopePath, itemProperties: Models.ApplicationInsightsComponentAnalyticsItem, options?: Models.AnalyticsItemsPutOptionalParams): Promise<Models.AnalyticsItemsPutResponse>;
   /**
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the Application Insights component resource.
    * @param scopePath Enum indicating if this item definition is owned by a specific user or is
    * shared between all users with access to the Application Insights component. Possible values
@@ -135,7 +135,7 @@ export class AnalyticsItems {
    */
   put(resourceGroupName: string, resourceName: string, scopePath: Models.ItemScopePath, itemProperties: Models.ApplicationInsightsComponentAnalyticsItem, callback: msRest.ServiceCallback<Models.ApplicationInsightsComponentAnalyticsItem>): void;
   /**
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the Application Insights component resource.
    * @param scopePath Enum indicating if this item definition is owned by a specific user or is
    * shared between all users with access to the Application Insights component. Possible values
@@ -161,7 +161,7 @@ export class AnalyticsItems {
 
   /**
    * Deletes a specific Analytics Items defined within an Application Insights component.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the Application Insights component resource.
    * @param scopePath Enum indicating if this item definition is owned by a specific user or is
    * shared between all users with access to the Application Insights component. Possible values
@@ -171,7 +171,7 @@ export class AnalyticsItems {
    */
   deleteMethod(resourceGroupName: string, resourceName: string, scopePath: Models.ItemScopePath, options?: Models.AnalyticsItemsDeleteMethodOptionalParams): Promise<msRest.RestResponse>;
   /**
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the Application Insights component resource.
    * @param scopePath Enum indicating if this item definition is owned by a specific user or is
    * shared between all users with access to the Application Insights component. Possible values
@@ -180,7 +180,7 @@ export class AnalyticsItems {
    */
   deleteMethod(resourceGroupName: string, resourceName: string, scopePath: Models.ItemScopePath, callback: msRest.ServiceCallback<void>): void;
   /**
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the Application Insights component resource.
    * @param scopePath Enum indicating if this item definition is owned by a specific user or is
    * shared between all users with access to the Application Insights component. Possible values
@@ -214,7 +214,7 @@ const listOperationSpec: msRest.OperationSpec = {
     Parameters.scopePath
   ],
   queryParameters: [
-    Parameters.apiVersion,
+    Parameters.apiVersion0,
     Parameters.scope,
     Parameters.type,
     Parameters.includeContent
@@ -254,7 +254,7 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.scopePath
   ],
   queryParameters: [
-    Parameters.apiVersion,
+    Parameters.apiVersion0,
     Parameters.id,
     Parameters.name
   ],
@@ -282,7 +282,7 @@ const putOperationSpec: msRest.OperationSpec = {
     Parameters.scopePath
   ],
   queryParameters: [
-    Parameters.apiVersion,
+    Parameters.apiVersion0,
     Parameters.overrideItem
   ],
   headerParameters: [
@@ -316,7 +316,7 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.scopePath
   ],
   queryParameters: [
-    Parameters.apiVersion,
+    Parameters.apiVersion0,
     Parameters.id,
     Parameters.name
   ],
