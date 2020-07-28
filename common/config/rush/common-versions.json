@@ -56,9 +56,10 @@
     "@azure/storage-blob": ["^12.2.0-preview.1"],
 
     // Monitor: Allow node 10 types until Timeout / Timer conflict is resolved in OpenTelemetry repo
+    // TODO: remove when released https://github.com/open-telemetry/opentelemetry-js/pull/1352
     "@types/node": ["^10.0.0"],
 
     // Monitor: Always test on latest version of OpenTelemetry
-    "@opentelemetry/api": ["^0.9.0"]
+    "@opentelemetry/api": ["^0.10.1"]
   }
 }

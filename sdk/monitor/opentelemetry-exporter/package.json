@@ -58,10 +58,10 @@
     "typescript": "~3.9.3"
   },
   "dependencies": {
-    "@opentelemetry/api": "^0.9.0",
-    "@opentelemetry/core": "^0.9.0",
-    "@opentelemetry/semantic-conventions": "^0.9.0",
-    "@opentelemetry/tracing": "^0.9.0"
+    "@opentelemetry/api": "^0.10.1",
+    "@opentelemetry/core": "^0.10.1",
+    "@opentelemetry/semantic-conventions": "^0.10.1",
+    "@opentelemetry/tracing": "^0.10.1"
   },
   "sideEffects": false,
   "keywords": [
