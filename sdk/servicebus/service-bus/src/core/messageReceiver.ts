@@ -8,14 +8,7 @@ import {
   RetryOptions,
   translate
 } from "@azure/core-amqp";
-import {
-  AmqpError,
-  EventContext,
-  OnAmqpEvent,
-  Receiver,
-  ReceiverOptions,
-  ReceiverEvents
-} from "rhea-promise";
+import { AmqpError, EventContext, OnAmqpEvent, Receiver, ReceiverOptions } from "rhea-promise";
 import * as log from "../log";
 import { LinkEntity } from "./linkEntity";
 import { ClientEntityContext } from "../clientEntityContext";
@@ -215,42 +208,6 @@ export class MessageReceiver extends LinkEntity {
         this._clearMessageLockRenewTimer(messageId);
       }
     };
-  }
-
-  /**
-   * Prevents us from receiving any further messages.
-   */
-  public stopReceivingMessages(): Promise<void> {
-    log.receiver(
-      `[${this.name}] User has requested to stop receiving new messages, attempting to drain the credits.`
-    );
-    this._stopReceivingMessages = true;
-
-    return this.drainReceiver();
-  }
-
-  private drainReceiver(): Promise<void> {
-    log.receiver(`[${this.name}] Receiver is starting drain.`);
-
-    const drainPromise = new Promise<void>((resolve) => {
-      if (this._receiver == null) {
-        log.receiver(`[${this.name}] Internal receiver has been removed. Not draining.`);
-        resolve();
-        return;
-      }
-
-      this._receiver.once(ReceiverEvents.receiverDrained, () => {
-        log.receiver(`[${this.name}] Receiver has been drained.`);
-        resolve();
-      });
-
-      this._receiver.drain = true;
-      // this is not actually adding another credit - it'll just
-      // cause the drain call to start.
-      this._receiver.addCredit(1);
-    });
-
-    return drainPromise;
   }
 
   /**
