@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
 import { TokenCredentialOptions } from "../client/identityClient";
 import { ChainedTokenCredential } from "./chainedTokenCredential";
@@ -7,7 +7,6 @@ import { EnvironmentCredential } from "./environmentCredential";
 import { ManagedIdentityCredential } from "./managedIdentityCredential";
 import { AzureCliCredential } from "./azureCliCredential";
 import { VSCodeCredential } from "./vscodeCredential";
-import { TokenCredential } from "@azure/core-http";
 
 /**
  * Provides options to configure the default Azure credentials.
@@ -37,7 +36,7 @@ export class DefaultAzureCredential extends ChainedTokenCredential {
    * @param options Options for configuring the client which makes the authentication request.
    */
   constructor(tokenCredentialOptions?: DefaultAzureCredentialOptions) {
-    let credentials = [];
+    const credentials = [];
     credentials.push(new EnvironmentCredential(tokenCredentialOptions));
     credentials.push(new ManagedIdentityCredential(tokenCredentialOptions));
     if (process.env.AZURE_CLIENT_ID) {
