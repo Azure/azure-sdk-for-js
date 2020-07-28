@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 import {
-  ConditionErrorNameMapper,
   Constants,
   ErrorNameConditionMapper,
   MessagingError,
@@ -15,14 +14,13 @@ import {
   OnAmqpEvent,
   Receiver,
   ReceiverOptions,
-  isAmqpError,
   ReceiverEvents
 } from "rhea-promise";
 import * as log from "../log";
 import { LinkEntity } from "./linkEntity";
 import { ClientEntityContext } from "../clientEntityContext";
 import { DispositionType, ReceiveMode, ServiceBusMessageImpl } from "../serviceBusMessage";
-import { calculateRenewAfterDuration, getUniqueName, StandardAbortMessage } from "../util/utils";
+import { getUniqueName, StandardAbortMessage } from "../util/utils";
 import { MessageHandlerOptions } from "../models";
 import { DispositionStatusOptions } from "./managementClient";
 import { AbortSignalLike } from "@azure/core-http";
@@ -158,16 +156,6 @@ export class MessageReceiver extends LinkEntity {
    */
   protected _onAmqpMessage: OnAmqpEventAsPromise;
   /**
-   * @property {OnAmqpEvent} _onSessionError The message handler that will be set as the handler on
-   * the underlying rhea receiver's session for the "session_error" event.
-   */
-  protected _onSessionError: OnAmqpEvent;
-  /**
-   * @property {OnAmqpEvent} _onAmqpError The message handler that will be set as the handler on the
-   * underlying rhea receiver for the "receiver_error" event.
-   */
-  protected _onAmqpError: OnAmqpEvent;
-  /**
    * @property {boolean} wasCloseInitiated Denotes if receiver was explicitly closed by user.
    */
   protected wasCloseInitiated?: boolean;
@@ -238,281 +226,6 @@ export class MessageReceiver extends LinkEntity {
       );
       for (const messageId of this._messageRenewLockTimers.keys()) {
         this._clearMessageLockRenewTimer(messageId);
-      }
-    };
-    // setting all the handlers
-    this._onAmqpMessage = async (context: EventContext) => {
-      // If the receiver got closed in PeekLock mode, avoid processing the message as we
-      // cannot settle the message.
-      if (
-        this.receiveMode === ReceiveMode.peekLock &&
-        (!this._receiver || !this._receiver.isOpen())
-      ) {
-        log.error(
-          "[%s] Not calling the user's message handler for the current message " +
-            "as the receiver '%s' is closed",
-          this._context.namespace.connectionId,
-          this.name
-        );
-        return;
-      }
-
-      const connectionId = this._context.namespace.connectionId;
-      const bMessage: ServiceBusMessageImpl = new ServiceBusMessageImpl(
-        this._context,
-        context.message!,
-        context.delivery!,
-        true
-      );
-
-      if (this.autoRenewLock && bMessage.lockToken) {
-        const lockToken = bMessage.lockToken;
-        // - We need to renew locks before they expire by looking at bMessage.lockedUntilUtc.
-        // - This autorenewal needs to happen **NO MORE** than maxAutoRenewDurationInMs
-        // - We should be able to clear the renewal timer when the user's message handler
-        // is done (whether it succeeds or fails).
-        // Setting the messageId with undefined value in the _messageRenewockTimers Map because we
-        // track state by checking the presence of messageId in the map. It is removed from the map
-        // when an attempt is made to settle the message (either by the user or by the sdk) OR
-        // when the execution of user's message handler completes.
-        this._messageRenewLockTimers.set(bMessage.messageId as string, undefined);
-        log.receiver(
-          "[%s] message with id '%s' is locked until %s.",
-          connectionId,
-          bMessage.messageId,
-          bMessage.lockedUntilUtc!.toString()
-        );
-        const totalAutoLockRenewDuration = Date.now() + this.maxAutoRenewDurationInMs;
-        log.receiver(
-          "[%s] Total autolockrenew duration for message with id '%s' is: ",
-          connectionId,
-          bMessage.messageId,
-          new Date(totalAutoLockRenewDuration).toString()
-        );
-        const autoRenewLockTask = (): void => {
-          if (
-            new Date(totalAutoLockRenewDuration) > bMessage.lockedUntilUtc! &&
-            Date.now() < totalAutoLockRenewDuration
-          ) {
-            if (this._messageRenewLockTimers.has(bMessage.messageId as string)) {
-              // TODO: We can run into problems with clock skew between the client and the server.
-              // It would be better to calculate the duration based on the "lockDuration" property
-              // of the queue. However, we do not have the management plane of the client ready for
-              // now. Hence we rely on the lockedUntilUtc property on the message set by ServiceBus.
-              const amount = calculateRenewAfterDuration(bMessage.lockedUntilUtc!);
-              log.receiver(
-                "[%s] Sleeping for %d milliseconds while renewing the lock for " +
-                  "message with id '%s' is: ",
-                connectionId,
-                amount,
-                bMessage.messageId
-              );
-              // Setting the value of the messageId to the actual timer. This will be cleared when
-              // an attempt is made to settle the message (either by the user or by the sdk) OR
-              // when the execution of user's message handler completes.
-              this._messageRenewLockTimers.set(
-                bMessage.messageId as string,
-                setTimeout(async () => {
-                  try {
-                    log.receiver(
-                      "[%s] Attempting to renew the lock for message with id '%s'.",
-                      connectionId,
-                      bMessage.messageId
-                    );
-                    bMessage.lockedUntilUtc = await this._context.managementClient!.renewLock(
-                      lockToken
-                    );
-                    log.receiver(
-                      "[%s] Successfully renewed the lock for message with id '%s'.",
-                      connectionId,
-                      bMessage.messageId
-                    );
-                    log.receiver(
-                      "[%s] Calling the autorenewlock task again for message with " + "id '%s'.",
-                      connectionId,
-                      bMessage.messageId
-                    );
-                    autoRenewLockTask();
-                  } catch (err) {
-                    log.error(
-                      "[%s] An error occured while auto renewing the message lock '%s' " +
-                        "for message with id '%s': %O.",
-                      connectionId,
-                      bMessage.lockToken,
-                      bMessage.messageId,
-                      err
-                    );
-                    // Let the user know that there was an error renewing the message lock.
-                    this._onError!(err);
-                  }
-                }, amount)
-              );
-            } else {
-              log.receiver(
-                "[%s] Looks like the message lock renew timer has already been " +
-                  "cleared for message with id '%s'.",
-                connectionId,
-                bMessage.messageId
-              );
-            }
-          } else {
-            log.receiver(
-              "[%s] Current time %s exceeds the total autolockrenew duration %s for " +
-                "message with messageId '%s'. Hence we will stop the autoLockRenewTask.",
-              connectionId,
-              new Date(Date.now()).toString(),
-              new Date(totalAutoLockRenewDuration).toString(),
-              bMessage.messageId
-            );
-            this._clearMessageLockRenewTimer(bMessage.messageId as string);
-          }
-        };
-        // start
-        autoRenewLockTask();
-      }
-      try {
-        await this._onMessage(bMessage);
-        this._clearMessageLockRenewTimer(bMessage.messageId as string);
-      } catch (err) {
-        // This ensures we call users' error handler when users' message handler throws.
-        if (!isAmqpError(err)) {
-          log.error(
-            "[%s] An error occurred while running user's message handler for the message " +
-              "with id '%s' on the receiver '%s': %O",
-            connectionId,
-            bMessage.messageId,
-            this.name,
-            err
-          );
-          this._onError!(err);
-        }
-
-        // Do not want renewLock to happen unnecessarily, while abandoning the message. Hence,
-        // doing this here. Otherwise, this should be done in finally.
-        this._clearMessageLockRenewTimer(bMessage.messageId as string);
-        const error = translate(err) as MessagingError;
-        // Nothing much to do if user's message handler throws. Let us try abandoning the message.
-        if (
-          !bMessage.delivery.remote_settled &&
-          error.code !== ConditionErrorNameMapper["com.microsoft:message-lock-lost"] &&
-          this.receiveMode === ReceiveMode.peekLock &&
-          this.isOpen() // only try to abandon the messages if the connection is still open
-        ) {
-          try {
-            log.error(
-              "[%s] Abandoning the message with id '%s' on the receiver '%s' since " +
-                "an error occured: %O.",
-              connectionId,
-              bMessage.messageId,
-              this.name,
-              error
-            );
-            await bMessage.abandon();
-          } catch (abandonError) {
-            const translatedError = translate(abandonError);
-            log.error(
-              "[%s] An error occurred while abandoning the message with id '%s' on the " +
-                "receiver '%s': %O.",
-              connectionId,
-              bMessage.messageId,
-              this.name,
-              translatedError
-            );
-            this._onError!(translatedError);
-          }
-        }
-        return;
-      } finally {
-        this._receiverHelper.addCredit(1);
-      }
-
-      // If we've made it this far, then user's message handler completed fine. Let us try
-      // completing the message.
-      if (
-        this.autoComplete &&
-        this.receiveMode === ReceiveMode.peekLock &&
-        !bMessage.delivery.remote_settled
-      ) {
-        try {
-          log[this.receiverType](
-            "[%s] Auto completing the message with id '%s' on " + "the receiver '%s'.",
-            connectionId,
-            bMessage.messageId,
-            this.name
-          );
-          await bMessage.complete();
-        } catch (completeError) {
-          const translatedError = translate(completeError);
-          log.error(
-            "[%s] An error occurred while completing the message with id '%s' on the " +
-              "receiver '%s': %O.",
-            connectionId,
-            bMessage.messageId,
-            this.name,
-            translatedError
-          );
-          this._onError!(translatedError);
-        }
-      }
-    };
-
-    this._onAmqpError = (context: EventContext) => {
-      const connectionId = this._context.namespace.connectionId;
-      const receiver = this._receiver || context.receiver!;
-      const receiverError = context.receiver && context.receiver.error;
-      if (receiverError) {
-        const sbError = translate(receiverError) as MessagingError;
-        log.error(
-          "[%s] An error occurred for Receiver '%s': %O.",
-          connectionId,
-          this.name,
-          sbError
-        );
-        if (!sbError.retryable) {
-          if (receiver && !receiver.isItselfClosed()) {
-            log.error(
-              "[%s] Since the user did not close the receiver and the error is not " +
-                "retryable, we let the user know about it by calling the user's error handler.",
-              connectionId
-            );
-            this._onError!(sbError);
-          } else {
-            log.error(
-              "[%s] The received error is not retryable. However, the receiver was " +
-                "closed by the user. Hence not notifying the user's error handler.",
-              connectionId
-            );
-          }
-        } else {
-          log.error(
-            "[%s] Since received error is retryable, we will NOT notify the user's " +
-              "error handler.",
-            connectionId
-          );
-        }
-      }
-    };
-
-    this._onSessionError = (context: EventContext) => {
-      const connectionId = this._context.namespace.connectionId;
-      const receiver = this._receiver || context.receiver!;
-      const sessionError = context.session && context.session.error;
-      if (sessionError) {
-        const sbError = translate(sessionError) as MessagingError;
-        log.error(
-          "[%s] An error occurred on the session for Receiver '%s': %O.",
-          connectionId,
-          this.name,
-          sbError
-        );
-        if (receiver && !receiver.isSessionItselfClosed() && !sbError.retryable) {
-          log.error(
-            "[%s] Since the user did not close the receiver and the session error is not " +
-              "retryable, we let the user know about it by calling the user's error handler.",
-            connectionId
-          );
-          this._onError!(sbError);
-        }
       }
     };
   }
