@@ -394,7 +394,8 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
       const receivedMessages = await this._messageSession!.receiveMessages(
         maxMessageCount,
         options?.maxWaitTimeInMs ?? Constants.defaultOperationTimeoutInMs,
-        defaultMaxTimeAfterFirstMessageForBatchingMs
+        defaultMaxTimeAfterFirstMessageForBatchingMs,
+        options?.abortSignal
       );
 
       return (receivedMessages as any) as ReceivedMessageT[];
@@ -475,7 +476,7 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
     }
 
     try {
-      this._messageSession.receive(onMessage, onError, options);
+      this._messageSession.subscribe(onMessage, onError, options);
     } catch (err) {
       onError(err);
     }
