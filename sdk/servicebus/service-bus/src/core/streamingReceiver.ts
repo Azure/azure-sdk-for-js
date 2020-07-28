@@ -12,8 +12,17 @@ import {
 import { ClientEntityContext } from "../clientEntityContext";
 
 import { throwErrorIfConnectionClosed } from "../util/errors";
-import { RetryOperationType, RetryConfig, retry } from "@azure/core-amqp";
+import {
+  RetryOperationType,
+  RetryConfig,
+  retry,
+  MessagingError,
+  translate,
+  RetryOptions
+} from "@azure/core-amqp";
 import { OperationOptionsBase } from "../modelsToBeSharedWithEventHubs";
+import * as log from "../log";
+import { AmqpError, ReceiverOptions } from "rhea-promise";
 
 /**
  * @internal
@@ -38,6 +47,10 @@ export class StreamingReceiver extends MessageReceiver {
    * to bring its link back up due to a retryable issue.
    */
   private _isDetaching: boolean = false;
+  /**
+   *Retry policy options that determine the mode, number of retries, retry interval etc.
+   */
+  private _retryOptions: RetryOptions;
 
   /**
    * Instantiate a new Streaming receiver for receiving messages with handlers.
@@ -52,6 +65,8 @@ export class StreamingReceiver extends MessageReceiver {
     if (typeof options?.maxConcurrentCalls === "number" && options?.maxConcurrentCalls > 0) {
       this.maxConcurrentCalls = options.maxConcurrentCalls;
     }
+
+    this._retryOptions = options?.retryOptions || {};
   }
 
   /**

@@ -6,10 +6,7 @@ import {
   Constants,
   ErrorNameConditionMapper,
   MessagingError,
-  RetryConfig,
-  RetryOperationType,
   RetryOptions,
-  retry,
   translate
 } from "@azure/core-amqp";
 import {
@@ -137,10 +134,6 @@ export class MessageReceiver extends LinkEntity {
    */
   protected _receiver?: Receiver;
   /**
-   *Retry policy options that determine the mode, number of retries, retry interval etc.
-   */
-  private _retryOptions: RetryOptions;
-  /**
    * @property {Map<number, Promise<any>>} _deliveryDispositionMap Maintains a map of deliveries that
    * are being actively disposed. It acts as a store for correlating the responses received for
    * active dispositions.
@@ -224,7 +217,6 @@ export class MessageReceiver extends LinkEntity {
     });
 
     if (!options) options = {};
-    this._retryOptions = options.retryOptions || {};
     this.wasCloseInitiated = false;
     this.receiverType = receiverType;
     this.receiveMode = options.receiveMode || ReceiveMode.peekLock;
