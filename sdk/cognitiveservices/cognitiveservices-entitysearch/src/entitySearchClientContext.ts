@@ -12,7 +12,7 @@ import * as msRest from "@azure/ms-rest-js";
 import * as Models from "./models";
 
 const packageName = "@azure/cognitiveservices-entitysearch";
-const packageVersion = "3.0.0";
+const packageVersion = "3.0.1";
 
 export class EntitySearchClientContext extends msRest.ServiceClient {
   endpoint?: string;

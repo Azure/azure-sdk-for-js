@@ -135,13 +135,13 @@ describe("Listing methods - PagedAsyncIterableIterator", function(): void {
   }
 
   [
-    "getQueues",
-    "getQueuesRuntimeProperties",
-    "getTopics",
-    "getTopicsRuntimeProperties",
-    "getSubscriptions",
-    "getSubscriptionsRuntimeProperties",
-    "getRules"
+    "listQueues",
+    "listQueuesRuntimeProperties",
+    "listTopics",
+    "listTopicsRuntimeProperties",
+    "listSubscriptions",
+    "listSubscriptionsRuntimeProperties",
+    "listRules"
   ].forEach((methodName) => {
     describe(`${methodName}`, () => {
       function getIter() {
@@ -2528,10 +2528,10 @@ async function getEntitiesRuntimeProperties(
 ): Promise<any> {
   switch (testEntityType) {
     case EntityType.QUEUE:
-      const queueResponse = await serviceBusAtomManagementClient["listQueuesRuntimeProperties"]();
+      const queueResponse = await serviceBusAtomManagementClient["getQueuesRuntimeProperties"]();
       return queueResponse;
     case EntityType.TOPIC:
-      const topicResponse = await serviceBusAtomManagementClient["listTopicsRuntimeProperties"]();
+      const topicResponse = await serviceBusAtomManagementClient["getTopicsRuntimeProperties"]();
       return topicResponse;
     case EntityType.SUBSCRIPTION:
       if (!topicPath) {
@@ -2540,7 +2540,7 @@ async function getEntitiesRuntimeProperties(
         );
       }
       const subscriptionResponse = await serviceBusAtomManagementClient[
-        "listSubscriptionsRuntimeProperties"
+        "getSubscriptionsRuntimeProperties"
       ](topicPath);
       return subscriptionResponse;
   }
@@ -2727,13 +2727,13 @@ async function listEntities(
 ): Promise<any> {
   switch (testEntityType) {
     case EntityType.QUEUE:
-      const queueResponse = await serviceBusAtomManagementClient["listQueues"]({
+      const queueResponse = await serviceBusAtomManagementClient["getQueues"]({
         skip,
         maxCount
       });
       return queueResponse;
     case EntityType.TOPIC:
-      const topicResponse = await serviceBusAtomManagementClient["listTopics"]({
+      const topicResponse = await serviceBusAtomManagementClient["getTopics"]({
         skip,
         maxCount
       });
@@ -2745,7 +2745,7 @@ async function listEntities(
         );
       }
       const subscriptionResponse = await serviceBusAtomManagementClient[
-        "listSubscriptions"
+        "getSubscriptions"
       ](topicPath, { skip, maxCount });
       return subscriptionResponse;
     case EntityType.RULE:
@@ -2754,7 +2754,7 @@ async function listEntities(
           "TestError: Topic path AND subscription path must be passed when invoking tests on rules"
         );
       }
-      const ruleResponse = await serviceBusAtomManagementClient["listRules"](
+      const ruleResponse = await serviceBusAtomManagementClient["getRules"](
         topicPath,
         subscriptionPath,
         { skip, maxCount }

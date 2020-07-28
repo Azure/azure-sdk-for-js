@@ -26,17 +26,17 @@ npm install @azure/ms-rest-azure-js
 ##### Sample code
 The following sample gets suggestions from Bing for the given query **Microsoft Azure**. To know more, refer to the [Azure Documentation on Bing Auto Suggest](https://docs.microsoft.com/en-us/azure/cognitive-services/bing-autosuggest/)
 
-```typescript
-import { AutoSuggestClient, AutoSuggestModels } from "@azure/cognitiveservices-autosuggest";
-import { CognitiveServicesCredentials } from "@azure/ms-rest-azure-js";
+```javascript
+const { AutoSuggestClient } = require("@azure/cognitiveservices-autosuggest");
+const { CognitiveServicesCredentials } = require("@azure/ms-rest-azure-js");
 
-async function main(): Promise<void> {
+async function main() {
   const autoSuggestKey = process.env["autoSuggestKey"] || "<autoSuggestKey>";
   const cognitiveServiceCredentials = new CognitiveServicesCredentials(autoSuggestKey);
   const client = new AutoSuggestClient(cognitiveServiceCredentials);
 
   const query = "Microsoft Azure";
-  const options: AutoSuggestModels.AutoSuggestClientAutoSuggestOptionalParams = {
+  const options = {
     acceptLanguage: "en-US",
     pragma: "no-cache",
     clientId: "testclientId",
