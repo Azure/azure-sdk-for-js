@@ -29,14 +29,12 @@ import { onMessageSettled, DeferredPromiseAndTimer } from "./shared";
 
 /**
  * @internal
+ * @ignore
  */
-interface CreateReceiverOptions {
-  onMessage: OnAmqpEventAsPromise;
-  onClose: OnAmqpEventAsPromise;
-  onSessionClose: OnAmqpEventAsPromise;
-  onError: OnAmqpEvent;
-  onSessionError: OnAmqpEvent;
-}
+export type ReceiverHandlers = Pick<
+  ReceiverOptions,
+  "onMessage" | "onError" | "onClose" | "onSessionError" | "onSessionClose"
+>;
 
 /**
  * @internal
@@ -151,11 +149,6 @@ export class MessageReceiver extends LinkEntity {
    */
   protected _onError?: OnError;
   /**
-   * @property {OnAmqpEventAsPromise} _onAmqpMessage The message handler that will be set as the handler on the
-   * underlying rhea receiver for the "message" event.
-   */
-  protected _onAmqpMessage: OnAmqpEventAsPromise;
-  /**
    * @property {boolean} wasCloseInitiated Denotes if receiver was explicitly closed by user.
    */
   protected wasCloseInitiated?: boolean;
@@ -179,11 +172,6 @@ export class MessageReceiver extends LinkEntity {
   protected _clearAllMessageLockRenewTimers: () => void;
   private _stopReceivingMessages: boolean = false;
 
-  public get receiverHelper(): ReceiverHelper {
-    return this._receiverHelper;
-  }
-  private _receiverHelper: ReceiverHelper;
-
   constructor(
     context: ClientEntityContext,
     receiverType: ReceiverType,
@@ -198,7 +186,6 @@ export class MessageReceiver extends LinkEntity {
     this.wasCloseInitiated = false;
     this.receiverType = receiverType;
     this.receiveMode = options.receiveMode || ReceiveMode.peekLock;
-    this._receiverHelper = new ReceiverHelper(() => this._receiver);
 
     // If explicitly set to false then autoComplete is false else true (default).
     this.autoComplete = options.autoComplete === false ? options.autoComplete : true;
@@ -286,27 +273,9 @@ export class MessageReceiver extends LinkEntity {
    * Creates the options that need to be specified while creating an AMQP receiver link.
    */
   protected _createReceiverOptions(
-    useNewName?: boolean,
-    options?: CreateReceiverOptions
+    useNewName: boolean,
+    handlers: ReceiverHandlers
   ): ReceiverOptions {
-    if (!options) {
-      options = {
-        onMessage: (context: EventContext) =>
-          this._onAmqpMessage(context).catch(() => {
-            /* */
-          }),
-        onClose: (context: EventContext) =>
-          this._onAmqpClose(context).catch(() => {
-            /* */
-          }),
-        onSessionClose: (context: EventContext) =>
-          this._onSessionClose(context).catch(() => {
-            /* */
-          }),
-        onError: this._onAmqpError,
-        onSessionError: this._onSessionError
-      };
-    }
     const rcvrOptions: ReceiverOptions = {
       name: useNewName ? getUniqueName(this._context.entityPath) : this.name,
       autoaccept: this.receiveMode === ReceiveMode.receiveAndDelete ? true : false,
@@ -325,7 +294,7 @@ export class MessageReceiver extends LinkEntity {
           this._deliveryDispositionMap
         );
       },
-      ...options
+      ...handlers
     };
 
     return rcvrOptions;
@@ -336,7 +305,7 @@ export class MessageReceiver extends LinkEntity {
    *
    * @returns {Promise<void>} Promise<void>.
    */
-  protected async _init(options?: ReceiverOptions, abortSignal?: AbortSignalLike): Promise<void> {
+  protected async _init(options: ReceiverOptions, abortSignal?: AbortSignalLike): Promise<void> {
     const checkAborted = (): void => {
       if (abortSignal?.aborted) {
         throw new AbortError(StandardAbortMessage);
@@ -373,9 +342,6 @@ export class MessageReceiver extends LinkEntity {
         await this._negotiateClaim();
         checkAborted();
 
-        if (!options) {
-          options = this._createReceiverOptions();
-        }
         log.error(
           "[%s] Trying to create receiver '%s' with options %O",
           connectionId,

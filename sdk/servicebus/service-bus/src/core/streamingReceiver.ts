@@ -7,6 +7,8 @@ import {
   OnError,
   OnMessage,
   ReceiveOptions,
+  ReceiverHandlers,
+  ReceiverHelper,
   ReceiverType
 } from "./messageReceiver";
 
@@ -56,6 +58,8 @@ export class StreamingReceiver extends MessageReceiver {
    */
   private _retryOptions: RetryOptions;
 
+  private _receiverHelper: ReceiverHelper;
+
   /**
    * @property {OnAmqpEventAsPromise} _onAmqpClose The message handler that will be set as the handler on the
    * underlying rhea receiver for the "receiver_close" event.
@@ -72,12 +76,18 @@ export class StreamingReceiver extends MessageReceiver {
    * @property {OnAmqpEvent} _onSessionError The message handler that will be set as the handler on
    * the underlying rhea receiver's session for the "session_error" event.
    */
-  protected _onSessionError: OnAmqpEvent;
+  private _onSessionError: OnAmqpEvent;
   /**
    * @property {OnAmqpEvent} _onAmqpError The message handler that will be set as the handler on the
    * underlying rhea receiver for the "receiver_error" event.
    */
-  protected _onAmqpError: OnAmqpEvent;
+  private _onAmqpError: OnAmqpEvent;
+
+  /**
+   * @property {OnAmqpEventAsPromise} _onAmqpMessage The message handler that will be set as the handler on the
+   * underlying rhea receiver for the "message" event.
+   */
+  protected _onAmqpMessage: OnAmqpEventAsPromise;
 
   /**
    * Instantiate a new Streaming receiver for receiving messages with handlers.
@@ -94,6 +104,7 @@ export class StreamingReceiver extends MessageReceiver {
     }
 
     this._retryOptions = options?.retryOptions || {};
+    this._receiverHelper = new ReceiverHelper(() => this._receiver);
 
     this._onAmqpClose = async (context: EventContext) => {
       const connectionId = this._context.namespace.connectionId;
@@ -467,6 +478,25 @@ export class StreamingReceiver extends MessageReceiver {
     };
   }
 
+  private _getHandlers(): ReceiverHandlers {
+    return {
+      onMessage: (context: EventContext) =>
+        this._onAmqpMessage(context).catch(() => {
+          /* */
+        }),
+      onClose: (context: EventContext) =>
+        this._onAmqpClose(context).catch(() => {
+          /* */
+        }),
+      onSessionClose: (context: EventContext) =>
+        this._onSessionClose(context).catch(() => {
+          /* */
+        }),
+      onError: this._onAmqpError,
+      onSessionError: this._onSessionError
+    };
+  }
+
   /**
    * Starts the receiver by establishing an AMQP session and an AMQP receiver link on the session.
    *
@@ -479,7 +509,7 @@ export class StreamingReceiver extends MessageReceiver {
     this._onMessage = onMessage;
     this._onError = onError;
 
-    this.receiverHelper.addCredit(this.maxConcurrentCalls);
+    this._receiverHelper.addCredit(this.maxConcurrentCalls);
   }
 
   /**
@@ -574,7 +604,7 @@ export class StreamingReceiver extends MessageReceiver {
 
       // provide a new name to the link while re-connecting it. This ensures that
       // the service does not send an error stating that the link is still open.
-      const options: ReceiverOptions = this._createReceiverOptions(true);
+      const options: ReceiverOptions = this._createReceiverOptions(true, this._getHandlers());
 
       // shall retry forever at an interval of 15 seconds if the error is a retryable error
       // else bail out when the error is not retryable or the operation succeeds.
