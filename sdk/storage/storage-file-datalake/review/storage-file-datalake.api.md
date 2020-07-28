@@ -1359,16 +1359,6 @@ export interface PathSetAccessControlOptions extends CommonOptions {
 }
 
 // @public
-export enum PathSetAccessControlRecursiveMode {
-    // (undocumented)
-    Modify = "modify",
-    // (undocumented)
-    Remove = "remove",
-    // (undocumented)
-    Set = "set"
-}
-
-// @public
 type PathSetAccessControlResponse = PathSetAccessControlHeaders & {
     _response: coreHttp.HttpResponse & {
         parsedHeaders: PathSetAccessControlHeaders;
