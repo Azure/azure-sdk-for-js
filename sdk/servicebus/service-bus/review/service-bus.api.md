@@ -425,7 +425,6 @@ export interface SubscriptionRuntimeProperties {
     activeMessageCount: number;
     createdAt: Date;
     deadLetterMessageCount: number;
-    scheduledMessageCount: number;
     subscriptionName: string;
     topicName: string;
     totalMessageCount: number;
@@ -467,6 +466,7 @@ export interface TopicRuntimeProperties {
     accessedAt: Date;
     createdAt: Date;
     name: string;
+    scheduledMessageCount: number;
     sizeInBytes?: number;
     subscriptionCount?: number;
     updatedAt: Date;

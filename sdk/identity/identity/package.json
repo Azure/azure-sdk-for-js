@@ -36,8 +36,9 @@
     "integration-test:browser": "echo skipped",
     "integration-test:node": "echo skipped",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
-    "lint:fix": "eslint package.json tsconfig.json src test samples --ext .ts --fix --fix-type [problem,suggestion]",
-    "lint": "eslint package.json tsconfig.json src test samples --ext .ts -f html -o identity-lintReport.html || exit 0",
+    "lint:fix": "eslint package.json tsconfig.json src test --ext .ts --fix --fix-type [problem,suggestion]",
+    "lint": "eslint package.json tsconfig.json src test --ext .ts -f html -o identity-lintReport.html",
+    "lint:terminal": "eslint package.json api-extractor.json src test --ext .ts",
     "pack": "npm pack 2>&1",
     "prebuild": "npm run clean",
     "test:browser": "npm run build:test && npm run unit-test:browser && npm run integration-test:browser",
@@ -54,9 +55,13 @@
     "README.md",
     "LICENSE"
   ],
+  "engines": {
+    "node": ">=8.0.0"
+  },
   "repository": "github:Azure/azure-sdk-for-js",
   "keywords": [
-    "azure",
+    "Azure",
+    "cloud",
     "active directory",
     "authentication",
     "credential",
@@ -68,12 +73,12 @@
   "author": "Microsoft Corporation",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/azure/azure-sdk-for-js/issues"
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
   "engine": {
     "node": ">=8.0.0"
   },
-  "homepage": "https://github.com/azure/azure-sdk-for-js/tree/master/sdk/identity/identity",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/identity/identity/README.md",
   "sideEffects": false,
   "dependencies": {
     "@azure/core-http": "^1.1.4",
@@ -91,6 +96,7 @@
     "keytar": "^5.4.0"
   },
   "devDependencies": {
+    "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@azure/abort-controller": "^1.0.0",
     "@microsoft/api-extractor": "7.7.11",
     "@rollup/plugin-commonjs": "11.0.2",

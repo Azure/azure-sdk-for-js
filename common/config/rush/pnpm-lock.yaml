@@ -3890,6 +3890,10 @@ packages:
     hasBin: true
     resolution:
       integrity: sha512-/4IbIeHcD9VMHFqDR/gQ7EdZdLimOvW2DdcxFjdyyZ9NsbS+ccrXqVWDtab/lRl5AlUqmpBx8EhPaWR+OtY17A==
+  /jsbi/3.1.3:
+    dev: false
+    resolution:
+      integrity: sha512-nBJqA0C6Qns+ZxurbEoIR56wyjiUszpNy70FHvxO5ervMoCbZVE3z3kxr5nKGhlxr/9MhKTSUBs7cAwwuf3g9w==
   /jsbn/0.1.1:
     dev: false
     resolution:
@@ -8088,6 +8092,7 @@ packages:
       esm: 3.2.25
       execa: 3.4.0
       fast-json-stable-stringify: 2.1.0
+      jsbi: 3.1.3
       mocha: 7.2.0
       mocha-junit-reporter: 1.23.3_mocha@7.2.0
       node-abort-controller: 1.1.0
@@ -8114,7 +8119,7 @@ packages:
     dev: false
     name: '@rush-temp/cosmos'
     resolution:
-      integrity: sha512-OFXCs9hekvAyYVa+9rX7LfU4X4u3Gil18Ip3gJYvFGfC24rvkxJ3ODKtokBBSPUArJWTFahCXfQCC+2W/59rtg==
+      integrity: sha512-lpTdhiEWZ/QNiArY5mrQLIdd/KjmBl/Xn71juX1PtSQ5cziny1tfnRIcSjyLUq3aTlPAYhs9XjI6ixFrknYVOA==
       tarball: 'file:projects/cosmos.tgz'
     version: 0.0.0
   'file:projects/dev-tool.tgz':
@@ -8429,7 +8434,7 @@ packages:
     optionalDependencies:
       keytar: 5.6.0
     resolution:
-      integrity: sha512-AkwvsMXVaM26Uzs2FVdCj5oaJUsuZHhDduh3pjRDx6rrgkJLdR4pXkgiFAQ6ZobDfcVcnNCURK8+Eh+xb25zlg==
+      integrity: sha512-V/n8RbciKYfEj26tvYdAINtpFhgK9UwWtKOTGo6rfBJ+RILVCJ1AUjgtvIs3YuiIjwD9NVhnmxrYKuq6/6zl1w==
       tarball: 'file:projects/identity.tgz'
     version: 0.0.0
   'file:projects/keyvault-admin.tgz':
