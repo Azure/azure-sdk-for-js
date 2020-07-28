@@ -285,7 +285,7 @@
     },
     "DFS_ACCOUNT_KEY": {
       "type": "string",
-      "value": "[listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('dataLakeAccountName')), variables('mgmtApiVersion')).keys[0].value]"
+      "value": "[listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('dataLakeAccountName')), variables('storageApiVersion')).keys[0].value]"
     }
   }
 }
