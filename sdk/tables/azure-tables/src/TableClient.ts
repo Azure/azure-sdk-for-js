@@ -27,6 +27,7 @@ import {
   SetAccessPolicyResponse
 } from "./generatedModels";
 import { getClientParamsFromConnectionString } from "./utils/connectionString";
+import { SharedKeyCredential } from "./SharedKeyCredential";
 
 /**
  * A TableClient represents a Client to the Azure Tables service allowing you
@@ -40,14 +41,69 @@ export class TableClient {
   public readonly tableName: string;
 
   /**
-   * Initializes a new instance of the TableClient class.
-   * @param url The URL of the service account that is the target of the desired operation.
-   * @param tableName The name of the table
-   * @param options The parameter options.
+   * Creates a new instance of the TableClient class.
+   *
+   * @param {string} url The URL of the service account that is the target of the desired operation., such as
+   *                     "https://myaccount.table.core.windows.net".
+   * @param {string} tableName the name of the table
+   * @param {SharedKeyCredential} credential  SharedKeyCredential used to authenticate requests. Only Supported for Browsers
+   * @param {TableServiceClientOptions} options Optional. Options to configure the HTTP pipeline.
+   *
+   * Example using an account name/key:
+   *
+   * ```js
+   * const account = "<storage account name>";
+   * const tableName = "<table name>";
+   * const sharedKeyCredential = new SharedKeyCredential(account, "<account key>");
+   *
+   * const tableServiceClient = new TableServiceClient(
+   *   `https://${account}.table.core.windows.net`,
+   *   `${tableName}`
+   *   sharedKeyCredential
+   * );
+   * ```
    */
   // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-  constructor(url: string, tableName: string, options?: TableServiceClientOptions) {
-    this.client = new TableServiceClient(url, options);
+  constructor(
+    url: string,
+    tableName: string,
+    credential: SharedKeyCredential,
+    options?: TableServiceClientOptions
+  );
+  /**
+   * Creates an instance of TableClient.
+   *
+   * @param {string} url A Client string pointing to Azure Storage table service, such as
+   *                     "https://myaccount.table.core.windows.net". You can append a SAS,
+   *                      such as "https://myaccount.table.core.windows.net?sasString".
+   * @param {string} tableName the name of the table
+   * @param {TableServiceClientOptions} options Optional. Options to configure the HTTP pipeline.
+   *
+   * Example appending a SAS token:
+   *
+   * ```js
+   * const account = "<storage account name>";
+   * const sasToken = "<SAS token>";
+   * const tableName = "<table name>";
+   *
+   * const tableServiceClient = new TableServiceClient(
+   *   `https://${account}.table.core.windows.net?${sasToken}`,
+   *   `${tableName}`
+   * );
+   * ```
+   */
+  constructor(url: string, tableName: string, options?: TableServiceClientOptions);
+  constructor(
+    url: string,
+    tableName: string,
+    credentialOrOptions?: SharedKeyCredential | TableServiceClientOptions,
+    options?: TableServiceClientOptions
+  ) {
+    if (credentialOrOptions instanceof SharedKeyCredential) {
+      this.client = new TableServiceClient(url, credentialOrOptions, options);
+    } else {
+      this.client = new TableServiceClient(url, credentialOrOptions);
+    }
     this.tableName = tableName;
   }
 

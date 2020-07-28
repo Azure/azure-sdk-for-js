@@ -4,7 +4,13 @@
 
 ```ts
 
+import { BaseRequestPolicy } from '@azure/core-http';
 import * as coreHttp from '@azure/core-http';
+import { HttpOperationResponse } from '@azure/core-http';
+import { RequestPolicy } from '@azure/core-http';
+import { RequestPolicyFactory } from '@azure/core-http';
+import { RequestPolicyOptions } from '@azure/core-http';
+import { WebResource } from '@azure/core-http';
 
 // @public
 export interface AccessPolicy {
@@ -282,6 +288,21 @@ export type SetPropertiesResponse = ServiceSetPropertiesHeaders & {
 };
 
 // @public
+export class SharedKeyCredential implements RequestPolicyFactory {
+    constructor(accountName: string, accountKey: string);
+    readonly accountName: string;
+    computeHMACSHA256(stringToSign: string): string;
+    create(nextPolicy: RequestPolicy, options: RequestPolicyOptions): SharedKeyCredentialPolicy;
+}
+
+// @public
+export class SharedKeyCredentialPolicy extends BaseRequestPolicy {
+    constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptions, factory: SharedKeyCredential);
+    sendRequest(request: WebResource): Promise<HttpOperationResponse>;
+    protected signRequest(request: WebResource): WebResource;
+}
+
+// @public
 export interface SignedIdentifier {
     accessPolicy: AccessPolicy;
     id: string;
@@ -289,6 +310,7 @@ export interface SignedIdentifier {
 
 // @public
 export class TableClient {
+    constructor(url: string, tableName: string, credential: SharedKeyCredential, options?: TableServiceClientOptions);
     constructor(url: string, tableName: string, options?: TableServiceClientOptions);
     createEntity(entity?: Entity, options?: CreateEntityOptions): Promise<CreateEntityResponse>;
     deleteEntity(partitionKey: string, rowKey: string, ifMatch: string, options?: DeleteEntityOptions): Promise<DeleteEntityResponse>;
@@ -472,6 +494,7 @@ export interface TableResponseProperties {
 
 // @public
 export class TableServiceClient {
+    constructor(url: string, credential: SharedKeyCredential, options?: TableServiceClientOptions);
     constructor(url: string, options?: TableServiceClientOptions);
     createEntity(tableName: string, entity?: Entity, options?: CreateEntityOptions): Promise<CreateEntityResponse>;
     createTable(tableName: string, options?: CreateTableOptions): Promise<CreateTableResponse>;

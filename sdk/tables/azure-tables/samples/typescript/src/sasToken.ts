@@ -7,10 +7,12 @@ import { TableServiceClient, TableClient } from "@azure/tables";
 import * as dotenv from "dotenv";
 dotenv.config();
 
-const connectionString = process.env["ACCOUNT_CONNECTION_STRING"] || "";
-// const connectionString = process.env["SAS_CONNECTION_STRING"] || "";
+const accountSas = process.env["ACCOUNT_SAS"] || "";
+const accountName = process.env["ACCOUNT_NAME"] || "";
+
 async function listTables() {
-  const client = TableServiceClient.fromConnectionString(connectionString);
+  const accountUrl = `https://${accountName}.table.core.windows.net${accountSas}`;
+  const client = new TableServiceClient(accountUrl);
 
   const tables = await client.listTables();
 
@@ -18,7 +20,9 @@ async function listTables() {
 }
 
 async function listEntities() {
-  const client = TableClient.fromConnectionString(connectionString, "test1");
+  const accountUrl = `https://${accountName}.table.core.windows.net${accountSas}`;
+  const tableName = "test1";
+  const client = new TableClient(accountUrl, tableName);
 
   const entities = await client.listEntities();
 
