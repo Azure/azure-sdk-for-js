@@ -23,7 +23,7 @@ export class FileSystemPersist implements PersistentStorage {
     this._logger = options.logger || new NoopLogger();
     if (!this._options.instrumentationKey) {
       this._logger.error(
-        `No instrumentation key was provided to FileSystemPersister. Files may not be properly persisted`,
+        `No instrumentation key was provided to FileSystemPersister. Files may not be properly persisted`
       );
     }
   }
@@ -54,7 +54,7 @@ export class FileSystemPersist implements PersistentStorage {
   private _getFirstFileOnDisk(callback: (error: Error | null, value?: Buffer) => void): void {
     const tempDir = path.join(
       os.tmpdir(),
-      FileSystemPersist.TEMPDIR_PREFIX + this._options.instrumentationKey!,
+      FileSystemPersist.TEMPDIR_PREFIX + this._options.instrumentationKey
     );
 
     fs.stat(tempDir, (statErr: Error | null, stats: fs.Stats) => {
@@ -68,7 +68,7 @@ export class FileSystemPersist implements PersistentStorage {
         fs.readdir(tempDir, (error, origFiles) => {
           if (!error) {
             const files = origFiles.filter((f) =>
-              path.basename(f).includes(FileSystemPersist.FILENAME_SUFFIX),
+              path.basename(f).includes(FileSystemPersist.FILENAME_SUFFIX)
             );
             if (files.length === 0) {
               callback(null);
@@ -100,11 +100,11 @@ export class FileSystemPersist implements PersistentStorage {
 
   private _storeToDisk(
     payload: string,
-    cb: (error: Error | null, success?: boolean) => void,
+    cb: (error: Error | null, success?: boolean) => void
   ): void {
     const directory = path.join(
       os.tmpdir(),
-      FileSystemPersist.TEMPDIR_PREFIX + this._options.instrumentationKey!,
+      FileSystemPersist.TEMPDIR_PREFIX + this._options.instrumentationKey
     );
 
     confirmDirExists(directory, (error) => {
@@ -117,14 +117,14 @@ export class FileSystemPersist implements PersistentStorage {
       getShallowDirectorySize(directory, (err, size) => {
         if (err || size < 0) {
           this._logger.warn(
-            `Error while checking directory size: ${err?.message ?? "unknown error"}`,
+            `Error while checking directory size: ${err?.message ?? "unknown error"}`
           );
           cb(err);
           return;
         }
         if (size > this.maxBytesOnDisk) {
           this._logger.warn(
-            `Not saving data due to max size limit being met. Directory size in bytes is: ${size}`,
+            `Not saving data due to max size limit being met. Directory size in bytes is: ${size}`
           );
           cb(new Error(`FileSystemPersist size limit reached: ${this.maxBytesOnDisk}`));
           return;
