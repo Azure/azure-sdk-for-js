@@ -6,7 +6,7 @@ import { ContainerItem, PublicAccessType as ContainerPublicAccessType } from "@a
 
 import { AclFailedEntry, PathGetPropertiesResponse } from "./generated/src/models";
 import {
-  AccessControlChangeFailure,
+  AccessControlChangeError,
   FileSystemItem,
   Metadata,
   PathAccessControlItem,
@@ -443,12 +443,12 @@ export function toPermissionsString(permissions: PathPermissions): string {
 
 export function toAccessControlChangeFailureArray(
   aclFailedEntry: AclFailedEntry[] = []
-): AccessControlChangeFailure[] {
+): AccessControlChangeError[] {
   return aclFailedEntry.map((aclFailedEntry: AclFailedEntry) => {
     return {
       name: aclFailedEntry.name || "",
       isDirectory: (aclFailedEntry.type || "").toLowerCase() === "directory",
-      errorMessage: aclFailedEntry.errorMessage || ""
+      message: aclFailedEntry.errorMessage || ""
     };
   });
 }

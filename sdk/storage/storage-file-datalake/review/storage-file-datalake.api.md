@@ -45,9 +45,9 @@ export interface AccessControlChangeCounters {
 }
 
 // @public
-export interface AccessControlChangeFailure {
-    errorMessage: string;
+export interface AccessControlChangeError {
     isDirectory: boolean;
+    message: string;
     name: string;
 }
 
@@ -55,7 +55,7 @@ export interface AccessControlChangeFailure {
 export interface AccessControlChanges {
     aggregateCounters: AccessControlChangeCounters;
     batchCounters: AccessControlChangeCounters;
-    batchFailures: AccessControlChangeFailure[];
+    batchFailures: AccessControlChangeError[];
     continuationToken?: string;
 }
 

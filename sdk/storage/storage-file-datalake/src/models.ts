@@ -594,7 +594,7 @@ export interface PathChangeAccessControlRecursiveOptions extends CommonOptions {
  * @export
  * @interface AccessControlChangeFailure
  */
-export interface AccessControlChangeFailure {
+export interface AccessControlChangeError {
   /**
    * Returns name of an entry.
    *
@@ -615,7 +615,7 @@ export interface AccessControlChangeFailure {
    * @type {string}
    * @memberof AccessControlChangeFailure
    */
-  errorMessage: string;
+  message: string;
 }
 
 /**
@@ -629,10 +629,10 @@ export interface AccessControlChanges {
   /**
    * Path entries that failed to update Access Control List within single batch.
    *
-   * @type {AccessControlChangeFailure[]}
+   * @type {AccessControlChangeError[]}
    * @memberof AccessControlChanges
    */
-  batchFailures: AccessControlChangeFailure[];
+  batchFailures: AccessControlChangeError[];
   /**
    * Counts of paths changed within single batch.
    *
