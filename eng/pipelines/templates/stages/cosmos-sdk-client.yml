@@ -27,7 +27,7 @@ stages:
               OSVmImage: "windows-2019"
               NodeTestVersion: "8.x"
               TestType: "node"
-          PreIntegrationSteps: cosmos-emulator
+          PreIntegrationSteps: cosmos-integration-public
           PostIntegrationSteps: cosmos-additional-steps
           EnvVars:
             MOCHA_TIMEOUT: 100000
