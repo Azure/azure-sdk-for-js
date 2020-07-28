@@ -51,6 +51,7 @@
     "accountName": "[parameters('baseName')]",
     "datalakeAccountName": "[concat('d', parameters('baseName'))]",
     "accountNameTidy": "[toLower(trim(variables('accountName')))]",
+    "datalakeaccountNameTidy": "[toLower(trim(variables('datalakeAccountName')))]",
     "blobEndPoint": "[concat('https://',variables('accountNameTidy'),'.blob.', parameters('storageEndpointSuffix'))]",
     "accountSasProperties": {
       "signedServices": "bfqt",
@@ -286,6 +287,10 @@
     "DFS_ACCOUNT_KEY": {
       "type": "string",
       "value": "[listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('dataLakeAccountName')), variables('storageApiVersion')).keys[0].value]"
+    },
+    "DFS_ACCOUNT_SAS": {
+      "type": "string",
+      "value": "[concat('?', listAccountSas(variables('datalakeaccountNameTidy'), variables('storageApiVersion'), variables('accountSasProperties')).accountSasToken)]"
     }
   }
 }
