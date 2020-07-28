@@ -158,20 +158,10 @@ export class MessageReceiver extends LinkEntity {
    */
   protected _onAmqpMessage: OnAmqpEventAsPromise;
   /**
-   * @property {OnAmqpEventAsPromise} _onAmqpClose The message handler that will be set as the handler on the
-   * underlying rhea receiver for the "receiver_close" event.
-   */
-  protected _onAmqpClose: OnAmqpEventAsPromise;
-  /**
    * @property {OnAmqpEvent} _onSessionError The message handler that will be set as the handler on
    * the underlying rhea receiver's session for the "session_error" event.
    */
   protected _onSessionError: OnAmqpEvent;
-  /**
-   * @property {OnAmqpEventAsPromise} _onSessionClose The message handler that will be set as the handler on
-   * the underlying rhea receiver's session for the "session_close" event.
-   */
-  protected _onSessionClose: OnAmqpEventAsPromise;
   /**
    * @property {OnAmqpEvent} _onAmqpError The message handler that will be set as the handler on the
    * underlying rhea receiver for the "receiver_error" event.
@@ -523,102 +513,6 @@ export class MessageReceiver extends LinkEntity {
           );
           this._onError!(sbError);
         }
-      }
-    };
-
-    this._onAmqpClose = async (context: EventContext) => {
-      const connectionId = this._context.namespace.connectionId;
-      const receiverError = context.receiver && context.receiver.error;
-      const receiver = this._receiver || context.receiver!;
-      if (receiverError) {
-        log.error(
-          "[%s] 'receiver_close' event occurred for receiver '%s' with address '%s'. " +
-            "The associated error is: %O",
-          connectionId,
-          this.name,
-          this.address,
-          receiverError
-        );
-      }
-      this._clearAllMessageLockRenewTimers();
-      if (receiver && !receiver.isItselfClosed()) {
-        if (!this.isConnecting) {
-          log.error(
-            "[%s] 'receiver_close' event occurred on the receiver '%s' with address '%s' " +
-              "and the sdk did not initiate this. The receiver is not reconnecting. Hence, calling " +
-              "detached from the _onAmqpClose() handler.",
-            connectionId,
-            this.name,
-            this.address
-          );
-          await this.onDetached(receiverError);
-        } else {
-          log.error(
-            "[%s] 'receiver_close' event occurred on the receiver '%s' with address '%s' " +
-              "and the sdk did not initate this. Moreover the receiver is already re-connecting. " +
-              "Hence not calling detached from the _onAmqpClose() handler.",
-            connectionId,
-            this.name,
-            this.address
-          );
-        }
-      } else {
-        log.error(
-          "[%s] 'receiver_close' event occurred on the receiver '%s' with address '%s' " +
-            "because the sdk initiated it. Hence not calling detached from the _onAmqpClose" +
-            "() handler.",
-          connectionId,
-          this.name,
-          this.address
-        );
-      }
-    };
-
-    this._onSessionClose = async (context: EventContext) => {
-      const connectionId = this._context.namespace.connectionId;
-      const receiver = this._receiver || context.receiver!;
-      const sessionError = context.session && context.session.error;
-      if (sessionError) {
-        log.error(
-          "[%s] 'session_close' event occurred for receiver '%s' with address '%s'. " +
-            "The associated error is: %O",
-          connectionId,
-          this.name,
-          this.address,
-          sessionError
-        );
-      }
-      this._clearAllMessageLockRenewTimers();
-      if (receiver && !receiver.isSessionItselfClosed()) {
-        if (!this.isConnecting) {
-          log.error(
-            "[%s] 'session_close' event occurred on the session of receiver '%s' with " +
-              "address '%s' and the sdk did not initiate this. Hence calling detached from the " +
-              "_onSessionClose() handler.",
-            connectionId,
-            this.name,
-            this.address
-          );
-          await this.onDetached(sessionError);
-        } else {
-          log.error(
-            "[%s] 'session_close' event occurred on the session of receiver '%s' with " +
-              "address '%s' and the sdk did not initiate this. Moreover the receiver is already " +
-              "re-connecting. Hence not calling detached from the _onSessionClose() handler.",
-            connectionId,
-            this.name,
-            this.address
-          );
-        }
-      } else {
-        log.error(
-          "[%s] 'session_close' event occurred on the session of receiver '%s' with address " +
-            "'%s' because the sdk initiated it. Hence not calling detached from the _onSessionClose" +
-            "() handler.",
-          connectionId,
-          this.name,
-          this.address
-        );
       }
     };
   }
