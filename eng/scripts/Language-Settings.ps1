@@ -4,7 +4,7 @@ $PackageRepository = "NPM"
 $packagePattern = "*.tgz"
 $MetadataUri = "https://raw.githubusercontent.com/Azure/azure-sdk/master/_data/releases/latest/js-packages.csv"
 
-function Extract-javascript-PkgProperties ($pkgPath, $serviceName, $pkgName)
+function Get-javascript-PackageInfoFromRepo ($pkgPath, $serviceName, $pkgName)
 {
   $projectPath = Join-Path $pkgPath "package.json"
   if (Test-Path $projectPath)
@@ -20,7 +20,7 @@ function Extract-javascript-PkgProperties ($pkgPath, $serviceName, $pkgName)
 }
 
 # Returns the npm publish status of a package id and version.
-function IsNPMPackageVersionPublished($pkgId, $pkgVersion)
+function IsNPMPackageVersionPublished ($pkgId, $pkgVersion)
 {
   $npmVersions = (npm show $pkgId versions)
   if ($LastExitCode -ne 0) {
@@ -36,7 +36,7 @@ function IsNPMPackageVersionPublished($pkgId, $pkgVersion)
 }
 
 # Parse out package publishing information given a .tgz npm artifact
-function Parse-javascript-Package($pkg, $workingDirectory)
+function Get-javascript-PackageInfoFromPackageFile ($pkg, $workingDirectory)
 {
   $workFolder = "$workingDirectory$($pkg.Basename)"
   $origFolder = Get-Location
@@ -75,7 +75,7 @@ function Parse-javascript-Package($pkg, $workingDirectory)
 }
 
 # Stage and Upload Docs to blob Storage
-function StageAndUpload-javascript-Docs()
+function Publish-javascript-GithubIODocs ()
 {
   $PublishedDocs = Get-ChildItem "$($DocLocation)/documentation" | Where-Object -FilterScript {$_.Name.EndsWith(".zip")}
 
