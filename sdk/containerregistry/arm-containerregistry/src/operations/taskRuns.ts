@@ -31,7 +31,7 @@ export class TaskRuns {
    * Gets the detailed information for a given task run.
    * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param registryName The name of the container registry.
-   * @param taskRunName The run request name.
+   * @param taskRunName The name of the task run.
    * @param [options] The optional parameters
    * @returns Promise<Models.TaskRunsGetResponse>
    */
@@ -39,14 +39,14 @@ export class TaskRuns {
   /**
    * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param registryName The name of the container registry.
-   * @param taskRunName The run request name.
+   * @param taskRunName The name of the task run.
    * @param callback The callback
    */
   get(resourceGroupName: string, registryName: string, taskRunName: string, callback: msRest.ServiceCallback<Models.TaskRun>): void;
   /**
    * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param registryName The name of the container registry.
-   * @param taskRunName The run request name.
+   * @param taskRunName The name of the task run.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -67,7 +67,7 @@ export class TaskRuns {
    * Creates a task run for a container registry with the specified parameters.
    * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param registryName The name of the container registry.
-   * @param taskRunName The name of task run.
+   * @param taskRunName The name of the task run.
    * @param taskRun The parameters of a run that needs to scheduled.
    * @param [options] The optional parameters
    * @returns Promise<Models.TaskRunsCreateResponse>
@@ -81,7 +81,7 @@ export class TaskRuns {
    * Deletes a specified task run resource.
    * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param registryName The name of the container registry.
-   * @param taskRunName The task run name.
+   * @param taskRunName The name of the task run.
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
@@ -94,7 +94,7 @@ export class TaskRuns {
    * Updates a task run with the specified parameters.
    * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param registryName The name of the container registry.
-   * @param taskRunName The task run name.
+   * @param taskRunName The name of the task run.
    * @param updateParameters The parameters for updating a task run.
    * @param [options] The optional parameters
    * @returns Promise<Models.TaskRunsUpdateResponse>
@@ -108,7 +108,7 @@ export class TaskRuns {
    * Gets the detailed information for a given task run that includes all secrets.
    * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param registryName The name of the container registry.
-   * @param taskRunName The run request name.
+   * @param taskRunName The name of the task run.
    * @param [options] The optional parameters
    * @returns Promise<Models.TaskRunsGetDetailsResponse>
    */
@@ -116,14 +116,14 @@ export class TaskRuns {
   /**
    * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param registryName The name of the container registry.
-   * @param taskRunName The run request name.
+   * @param taskRunName The name of the task run.
    * @param callback The callback
    */
   getDetails(resourceGroupName: string, registryName: string, taskRunName: string, callback: msRest.ServiceCallback<Models.TaskRun>): void;
   /**
    * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param registryName The name of the container registry.
-   * @param taskRunName The run request name.
+   * @param taskRunName The name of the task run.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -176,7 +176,7 @@ export class TaskRuns {
    * Creates a task run for a container registry with the specified parameters.
    * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param registryName The name of the container registry.
-   * @param taskRunName The name of task run.
+   * @param taskRunName The name of the task run.
    * @param taskRun The parameters of a run that needs to scheduled.
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
@@ -198,7 +198,7 @@ export class TaskRuns {
    * Deletes a specified task run resource.
    * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param registryName The name of the container registry.
-   * @param taskRunName The task run name.
+   * @param taskRunName The name of the task run.
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
@@ -218,7 +218,7 @@ export class TaskRuns {
    * Updates a task run with the specified parameters.
    * @param resourceGroupName The name of the resource group to which the container registry belongs.
    * @param registryName The name of the container registry.
-   * @param taskRunName The task run name.
+   * @param taskRunName The name of the task run.
    * @param updateParameters The parameters for updating a task run.
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>

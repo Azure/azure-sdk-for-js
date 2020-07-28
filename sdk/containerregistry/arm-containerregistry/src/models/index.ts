@@ -98,6 +98,10 @@ export interface ProxyResource extends BaseResource {
  */
 export interface ExportPipeline extends ProxyResource {
   /**
+   * The location of the export pipeline.
+   */
+  location?: string;
+  /**
    * The identity of the export pipeline.
    */
   identity?: IdentityProperties;
@@ -227,6 +231,10 @@ export interface PipelineTriggerProperties {
  * An object that represents an import pipeline for a container registry.
  */
 export interface ImportPipeline extends ProxyResource {
+  /**
+   * The location of the import pipeline.
+   */
+  location?: string;
   /**
    * The identity of the import pipeline.
    */
@@ -1746,13 +1754,17 @@ export interface RunGetLogResult {
    * The link to logs for a run on a azure container registry.
    */
   logLink?: string;
+  /**
+   * The link to logs in registry for a run on a azure container registry.
+   */
+  logArtifactLink?: string;
 }
 
 /**
  * The task run that has the ARM resource and properties.
  * The task run will have the information of request and result of a run.
  */
-export interface TaskRun extends Resource {
+export interface TaskRun extends ProxyResource {
   /**
    * Identity for the resource.
    */
@@ -1776,6 +1788,10 @@ export interface TaskRun extends Resource {
    * How the run should be forced to rerun even if the run request configuration has not changed
    */
   forceUpdateTag?: string;
+  /**
+   * The location of the resource
+   */
+  location?: string;
 }
 
 /**
@@ -1794,6 +1810,10 @@ export interface TaskRunUpdateParameters {
    * How the run should be forced to rerun even if the run request configuration has not changed
    */
   forceUpdateTag?: string;
+  /**
+   * The location of the resource
+   */
+  location?: string;
   /**
    * The ARM resource tags.
    */

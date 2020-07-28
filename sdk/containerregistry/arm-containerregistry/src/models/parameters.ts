@@ -247,6 +247,11 @@ export const taskRunName: msRest.OperationURLParameter = {
   mapper: {
     required: true,
     serializedName: "taskRunName",
+    constraints: {
+      MaxLength: 50,
+      MinLength: 5,
+      Pattern: /^[a-zA-Z0-9-]*$/
+    },
     type: {
       name: "String"
     }
