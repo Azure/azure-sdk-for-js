@@ -18,6 +18,7 @@ import {
   SendRequest,
   RawHttpHeaders
 } from "@azure/core-https";
+import { parseXML } from "@azure/core-xml";
 
 describe("deserializationPolicy", function() {
   it(`should not modify a request that has no request body mapper`, async function() {
@@ -68,7 +69,7 @@ describe("deserializationPolicy", function() {
       assert.isUndefined(response.parsedHeaders);
     });
 
-    it.skip(`with xml response body, application/xml content-type, but no operation spec`, async function() {
+    it(`with xml response body, application/xml content-type, but no operation spec`, async function() {
       const response = await getDeserializedResponse({
         headers: { "content-type": "application/xml" },
         bodyAsText: `<fruit><apples>3</apples></fruit>`
@@ -76,13 +77,12 @@ describe("deserializationPolicy", function() {
       assert.exists(response);
       assert.isUndefined(response.readableStreamBody);
       assert.isUndefined(response.blobBody);
-      assert.isUndefined(response.parsedBody);
       assert.isUndefined(response.parsedHeaders);
       assert.strictEqual(response.bodyAsText, `<fruit><apples>3</apples></fruit>`);
       assert.deepEqual(response.parsedBody, { apples: "3" });
     });
 
-    it.skip(`with xml response body with child element with attributes and value, application/xml content-type, but no operation spec`, async function() {
+    it(`with xml response body with child element with attributes and value, application/xml content-type, but no operation spec`, async function() {
       const response = await getDeserializedResponse({
         headers: { "content-type": "application/xml" },
         bodyAsText: `<fruit><apples tasty="yes">3</apples></fruit>`
@@ -103,7 +103,7 @@ describe("deserializationPolicy", function() {
       assert.isUndefined(response.parsedHeaders);
     });
 
-    it.skip(`with xml response body, application/xml content-type, and operation spec for only String value`, async function() {
+    it(`with xml response body, application/xml content-type, and operation spec for only String value`, async function() {
       const operationSpec: OperationSpec = {
         httpMethod: "GET",
         serializer: createSerializer({}, true),
@@ -144,7 +144,7 @@ describe("deserializationPolicy", function() {
       assert.isUndefined(response.parsedHeaders);
     });
 
-    it.skip(`with xml response body, application/xml content-type, and operation spec for only number value`, async function() {
+    it(`with xml response body, application/xml content-type, and operation spec for only number value`, async function() {
       const operationSpec: OperationSpec = {
         httpMethod: "GET",
         serializer: createSerializer({}, true),
@@ -180,11 +180,11 @@ describe("deserializationPolicy", function() {
       assert.isUndefined(response.readableStreamBody);
       assert.isUndefined(response.blobBody);
       assert.strictEqual(response.bodyAsText, `<fruit><apples tasty="yes">3</apples></fruit>`);
-      assert.deepEqual(response.parsedBody, { apples: "3" });
+      assert.deepEqual(response.parsedBody, { apples: 3 });
       assert.isUndefined(response.parsedHeaders);
     });
 
-    it.skip(`with xml response body, application/xml content-type, and operation spec for only headers`, async function() {
+    it(`with xml response body, application/xml content-type, and operation spec for only headers`, async function() {
       const operationSpec: OperationSpec = {
         httpMethod: "GET",
         serializer: createSerializer({}, true),
@@ -235,7 +235,7 @@ describe("deserializationPolicy", function() {
       assert.deepEqual(response.parsedBody, { apples: { tasty: "yes" } });
     });
 
-    it.skip(`with xml response body, application/atom+xml content-type, but no operation spec`, async function() {
+    it(`with xml response body, application/atom+xml content-type, but no operation spec`, async function() {
       const response = await getDeserializedResponse({
         headers: { "content-type": "application/xml" },
         bodyAsText: `<fruit><apples>3</apples></fruit>`
@@ -249,7 +249,7 @@ describe("deserializationPolicy", function() {
       assert.deepEqual(response.parsedBody, { apples: "3" });
     });
 
-    it.skip(`with xml property with attribute and value, application/atom+xml content-type, but no operation spec`, async function() {
+    it(`with xml property with attribute and value, application/atom+xml content-type, but no operation spec`, async function() {
       const response = await getDeserializedResponse({
         headers: { "content-type": "application/atom+xml" },
         bodyAsText: `<fruit><apples taste="good">3</apples></fruit>`
@@ -270,7 +270,7 @@ describe("deserializationPolicy", function() {
       });
     });
 
-    it.skip(`with xml property with attribute and value, my/weird-xml content-type, but no operation spec`, async function() {
+    it(`with xml property with attribute and value, my/weird-xml content-type, but no operation spec`, async function() {
       const response = await getDeserializedResponse({
         headers: { "content-type": "my/weird-xml" },
         bodyAsText: `<fruit><apples taste="good">3</apples></fruit>`,
@@ -292,7 +292,7 @@ describe("deserializationPolicy", function() {
       });
     });
 
-    it.skip(`with service bus response body, application/atom+xml content-type, and no operationSpec`, async function() {
+    it(`with service bus response body, application/atom+xml content-type, and no operationSpec`, async function() {
       const response = await getDeserializedResponse({
         headers: { "content-type": "application/atom+xml;type=entry;charset=utf-8" },
         bodyAsText: `<entry xmlns="http://www.w3.org/2005/Atom"><id>https://daschulttest1.servicebus.windows.net/testQueuePath/?api-version=2017-04&amp;enrich=False</id><title type="text">testQueuePath</title><published>2018-10-09T19:56:34Z</published><updated>2018-10-09T19:56:35Z</updated><author><name>daschulttest1</name></author><link rel="self" href="https://daschulttest1.servicebus.windows.net/testQueuePath/?api-version=2017-04&amp;enrich=False"/><content type="application/xml"><QueueDescription xmlns="http://schemas.microsoft.com/netservices/2010/10/servicebus/connect" xmlns:i="http://www.w3.org/2001/XMLSchema-instance"><LockDuration>PT1M</LockDuration><MaxSizeInMegabytes>1024</MaxSizeInMegabytes><RequiresDuplicateDetection>false</RequiresDuplicateDetection><RequiresSession>false</RequiresSession><DefaultMessageTimeToLive>P14D</DefaultMessageTimeToLive><DeadLetteringOnMessageExpiration>false</DeadLetteringOnMessageExpiration><DuplicateDetectionHistoryTimeWindow>PT10M</DuplicateDetectionHistoryTimeWindow><MaxDeliveryCount>10</MaxDeliveryCount><EnableBatchedOperations>true</EnableBatchedOperations><SizeInBytes>0</SizeInBytes><MessageCount>0</MessageCount><IsAnonymousAccessible>false</IsAnonymousAccessible><AuthorizationRules></AuthorizationRules><Status>Active</Status><CreatedAt>2018-10-09T19:56:34.903Z</CreatedAt><UpdatedAt>2018-10-09T19:56:35.013Z</UpdatedAt><AccessedAt>0001-01-01T00:00:00Z</AccessedAt><SupportOrdering>true</SupportOrdering><CountDetails xmlns:d2p1="http://schemas.microsoft.com/netservices/2011/06/servicebus"><d2p1:ActiveMessageCount>0</d2p1:ActiveMessageCount><d2p1:DeadLetterMessageCount>0</d2p1:DeadLetterMessageCount><d2p1:ScheduledMessageCount>0</d2p1:ScheduledMessageCount><d2p1:TransferMessageCount>0</d2p1:TransferMessageCount><d2p1:TransferDeadLetterMessageCount>0</d2p1:TransferDeadLetterMessageCount></CountDetails><AutoDeleteOnIdle>P10675199DT2H48M5.4775807S</AutoDeleteOnIdle><EnablePartitioning>false</EnablePartitioning><EntityAvailabilityStatus>Available</EntityAvailabilityStatus><EnableExpress>false</EnableExpress></QueueDescription></content></entry>`
@@ -444,7 +444,10 @@ async function getDeserializedResponse(
     xmlContentTypes?: string[];
   } = {}
 ): Promise<FullOperationResponse> {
-  const policy = deserializationPolicy({ expectedContentTypes: { xml: options.xmlContentTypes } });
+  const policy = deserializationPolicy({
+    expectedContentTypes: { xml: options.xmlContentTypes },
+    parseXML
+  });
   const request: OperationRequest = createPipelineRequest({ url: "https://example.com" });
   request.additionalInfo = {
     operationSpec: options.operationSpec
