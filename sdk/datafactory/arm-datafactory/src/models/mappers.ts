@@ -2891,7 +2891,7 @@ export const DataFlowStagingInfo: msRest.CompositeMapper = {
       folderPath: {
         serializedName: "folderPath",
         type: {
-          name: "String"
+          name: "Object"
         }
       }
     }
@@ -4045,6 +4045,12 @@ export const AzureDatabricksLinkedService: msRest.CompositeMapper = {
           }
         }
       },
+      newClusterLogDestination: {
+        serializedName: "typeProperties.newClusterLogDestination",
+        type: {
+          name: "Object"
+        }
+      },
       newClusterDriverNodeType: {
         serializedName: "typeProperties.newClusterDriverNodeType",
         type: {
@@ -4422,8 +4428,13 @@ export const SalesforceMarketingCloudLinkedService: msRest.CompositeMapper = {
     className: "SalesforceMarketingCloudLinkedService",
     modelProperties: {
       ...LinkedService.type.modelProperties,
+      connectionProperties: {
+        serializedName: "typeProperties.connectionProperties",
+        type: {
+          name: "Object"
+        }
+      },
       clientId: {
-        required: true,
         serializedName: "typeProperties.clientId",
         type: {
           name: "Object"
@@ -4540,8 +4551,13 @@ export const ZohoLinkedService: msRest.CompositeMapper = {
     className: "ZohoLinkedService",
     modelProperties: {
       ...LinkedService.type.modelProperties,
+      connectionProperties: {
+        serializedName: "typeProperties.connectionProperties",
+        type: {
+          name: "Object"
+        }
+      },
       endpoint: {
-        required: true,
         serializedName: "typeProperties.endpoint",
         type: {
           name: "Object"
@@ -4592,8 +4608,13 @@ export const XeroLinkedService: msRest.CompositeMapper = {
     className: "XeroLinkedService",
     modelProperties: {
       ...LinkedService.type.modelProperties,
+      connectionProperties: {
+        serializedName: "typeProperties.connectionProperties",
+        type: {
+          name: "Object"
+        }
+      },
       host: {
-        required: true,
         serializedName: "typeProperties.host",
         type: {
           name: "Object"
@@ -4651,15 +4672,19 @@ export const SquareLinkedService: msRest.CompositeMapper = {
     className: "SquareLinkedService",
     modelProperties: {
       ...LinkedService.type.modelProperties,
+      connectionProperties: {
+        serializedName: "typeProperties.connectionProperties",
+        type: {
+          name: "Object"
+        }
+      },
       host: {
-        required: true,
         serializedName: "typeProperties.host",
         type: {
           name: "Object"
         }
       },
       clientId: {
-        required: true,
         serializedName: "typeProperties.clientId",
         type: {
           name: "Object"
@@ -4673,7 +4698,6 @@ export const SquareLinkedService: msRest.CompositeMapper = {
         }
       },
       redirectUri: {
-        required: true,
         serializedName: "typeProperties.redirectUri",
         type: {
           name: "Object"
@@ -4949,29 +4973,31 @@ export const QuickBooksLinkedService: msRest.CompositeMapper = {
     className: "QuickBooksLinkedService",
     modelProperties: {
       ...LinkedService.type.modelProperties,
+      connectionProperties: {
+        serializedName: "typeProperties.connectionProperties",
+        type: {
+          name: "Object"
+        }
+      },
       endpoint: {
-        required: true,
         serializedName: "typeProperties.endpoint",
         type: {
           name: "Object"
         }
       },
       companyId: {
-        required: true,
         serializedName: "typeProperties.companyId",
         type: {
           name: "Object"
         }
       },
       consumerKey: {
-        required: true,
         serializedName: "typeProperties.consumerKey",
         type: {
           name: "Object"
         }
       },
       consumerSecret: {
-        required: true,
         serializedName: "typeProperties.consumerSecret",
         type: {
           name: "Composite",
@@ -4979,7 +5005,6 @@ export const QuickBooksLinkedService: msRest.CompositeMapper = {
         }
       },
       accessToken: {
-        required: true,
         serializedName: "typeProperties.accessToken",
         type: {
           name: "Composite",
@@ -4987,7 +5012,6 @@ export const QuickBooksLinkedService: msRest.CompositeMapper = {
         }
       },
       accessTokenSecret: {
-        required: true,
         serializedName: "typeProperties.accessTokenSecret",
         type: {
           name: "Composite",
@@ -6800,6 +6824,12 @@ export const RestServiceLinkedService: msRest.CompositeMapper = {
           name: "Object"
         }
       },
+      azureCloudType: {
+        serializedName: "typeProperties.azureCloudType",
+        type: {
+          name: "Object"
+        }
+      },
       aadResourceId: {
         serializedName: "typeProperties.aadResourceId",
         type: {
@@ -6827,21 +6857,18 @@ export const SapOpenHubLinkedService: msRest.CompositeMapper = {
     modelProperties: {
       ...LinkedService.type.modelProperties,
       server: {
-        required: true,
         serializedName: "typeProperties.server",
         type: {
           name: "Object"
         }
       },
       systemNumber: {
-        required: true,
         serializedName: "typeProperties.systemNumber",
         type: {
           name: "Object"
         }
       },
       clientId: {
-        required: true,
         serializedName: "typeProperties.clientId",
         type: {
           name: "Object"
@@ -6849,6 +6876,12 @@ export const SapOpenHubLinkedService: msRest.CompositeMapper = {
       },
       language: {
         serializedName: "typeProperties.language",
+        type: {
+          name: "Object"
+        }
+      },
+      systemId: {
+        serializedName: "typeProperties.systemId",
         type: {
           name: "Object"
         }
@@ -6864,6 +6897,24 @@ export const SapOpenHubLinkedService: msRest.CompositeMapper = {
         type: {
           name: "Composite",
           className: "SecretBase"
+        }
+      },
+      messageServer: {
+        serializedName: "typeProperties.messageServer",
+        type: {
+          name: "Object"
+        }
+      },
+      messageServerService: {
+        serializedName: "typeProperties.messageServerService",
+        type: {
+          name: "Object"
+        }
+      },
+      logonGroup: {
+        serializedName: "typeProperties.logonGroup",
+        type: {
+          name: "Object"
         }
       },
       encryptedCredential: {
@@ -7157,6 +7208,12 @@ export const AzureBlobFSLinkedService: msRest.CompositeMapper = {
           name: "Object"
         }
       },
+      azureCloudType: {
+        serializedName: "typeProperties.azureCloudType",
+        type: {
+          name: "Object"
+        }
+      },
       encryptedCredential: {
         serializedName: "typeProperties.encryptedCredential",
         type: {
@@ -7199,6 +7256,12 @@ export const AzureDataLakeStoreLinkedService: msRest.CompositeMapper = {
       },
       tenant: {
         serializedName: "typeProperties.tenant",
+        type: {
+          name: "Object"
+        }
+      },
+      azureCloudType: {
+        serializedName: "typeProperties.azureCloudType",
         type: {
           name: "Object"
         }
@@ -7581,6 +7644,12 @@ export const ODataLinkedService: msRest.CompositeMapper = {
       },
       servicePrincipalId: {
         serializedName: "typeProperties.servicePrincipalId",
+        type: {
+          name: "Object"
+        }
+      },
+      azureCloudType: {
+        serializedName: "typeProperties.azureCloudType",
         type: {
           name: "Object"
         }
@@ -8368,6 +8437,12 @@ export const AzureFileStorageLinkedService: msRest.CompositeMapper = {
           name: "Object"
         }
       },
+      snapshot: {
+        serializedName: "typeProperties.snapshot",
+        type: {
+          name: "Object"
+        }
+      },
       encryptedCredential: {
         serializedName: "typeProperties.encryptedCredential",
         type: {
@@ -8920,6 +8995,12 @@ export const AzureSqlMILinkedService: msRest.CompositeMapper = {
           name: "Object"
         }
       },
+      azureCloudType: {
+        serializedName: "typeProperties.azureCloudType",
+        type: {
+          name: "Object"
+        }
+      },
       encryptedCredential: {
         serializedName: "typeProperties.encryptedCredential",
         type: {
@@ -8969,6 +9050,12 @@ export const AzureSqlDatabaseLinkedService: msRest.CompositeMapper = {
       },
       tenant: {
         serializedName: "typeProperties.tenant",
+        type: {
+          name: "Object"
+        }
+      },
+      azureCloudType: {
+        serializedName: "typeProperties.azureCloudType",
         type: {
           name: "Object"
         }
@@ -9062,6 +9149,12 @@ export const AzureSqlDWLinkedService: msRest.CompositeMapper = {
       },
       tenant: {
         serializedName: "typeProperties.tenant",
+        type: {
+          name: "Object"
+        }
+      },
+      azureCloudType: {
+        serializedName: "typeProperties.azureCloudType",
         type: {
           name: "Object"
         }
@@ -9179,6 +9272,12 @@ export const AzureBlobStorageLinkedService: msRest.CompositeMapper = {
       },
       tenant: {
         serializedName: "typeProperties.tenant",
+        type: {
+          name: "Object"
+        }
+      },
+      azureCloudType: {
+        serializedName: "typeProperties.azureCloudType",
         type: {
           name: "Object"
         }
@@ -17253,6 +17352,12 @@ export const SapTableSource: msRest.CompositeMapper = {
           name: "Object"
         }
       },
+      sapDataColumnDelimiter: {
+        serializedName: "sapDataColumnDelimiter",
+        type: {
+          name: "Object"
+        }
+      },
       partitionOption: {
         serializedName: "partitionOption",
         type: {
@@ -17288,6 +17393,18 @@ export const SapOpenHubSource: msRest.CompositeMapper = {
       },
       baseRequestId: {
         serializedName: "baseRequestId",
+        type: {
+          name: "Object"
+        }
+      },
+      customRfcReadTableFunctionModule: {
+        serializedName: "customRfcReadTableFunctionModule",
+        type: {
+          name: "Object"
+        }
+      },
+      sapDataColumnDelimiter: {
+        serializedName: "sapDataColumnDelimiter",
         type: {
           name: "Object"
         }
@@ -20551,6 +20668,56 @@ export const AzurePostgreSqlSink: msRest.CompositeMapper = {
   }
 };
 
+export const RestSink: msRest.CompositeMapper = {
+  serializedName: "RestSink",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: CopySink.type.polymorphicDiscriminator,
+    uberParent: "CopySink",
+    className: "RestSink",
+    modelProperties: {
+      ...CopySink.type.modelProperties,
+      requestMethod: {
+        serializedName: "requestMethod",
+        type: {
+          name: "Object"
+        }
+      },
+      additionalHeaders: {
+        serializedName: "additionalHeaders",
+        type: {
+          name: "Object"
+        }
+      },
+      httpRequestTimeout: {
+        serializedName: "httpRequestTimeout",
+        type: {
+          name: "Object"
+        }
+      },
+      requestInterval: {
+        serializedName: "requestInterval",
+        type: {
+          name: "Object"
+        }
+      },
+      compressionType: {
+        serializedName: "compressionType",
+        type: {
+          name: "Object"
+        }
+      },
+      wrapRequestJsonInAnObject: {
+        serializedName: "wrapRequestJsonInAnObject",
+        type: {
+          name: "Object"
+        }
+      }
+    },
+    additionalProperties: CopySink.type.additionalProperties
+  }
+};
+
 export const OrcSink: msRest.CompositeMapper = {
   serializedName: "OrcSink",
   type: {
@@ -22035,6 +22202,26 @@ export const CustomSetupBase: msRest.CompositeMapper = {
       type: {
         required: true,
         serializedName: "type",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AzPowerShellSetup: msRest.CompositeMapper = {
+  serializedName: "AzPowerShellSetup",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: CustomSetupBase.type.polymorphicDiscriminator,
+    uberParent: "CustomSetupBase",
+    className: "AzPowerShellSetup",
+    modelProperties: {
+      ...CustomSetupBase.type.modelProperties,
+      version: {
+        required: true,
+        serializedName: "typeProperties.version",
         type: {
           name: "String"
         }
@@ -23807,6 +23994,7 @@ export const discriminators = {
   'CopySink.SapCloudForCustomerSink' : SapCloudForCustomerSink,
   'CopySink.AzureMySqlSink' : AzureMySqlSink,
   'CopySink.AzurePostgreSqlSink' : AzurePostgreSqlSink,
+  'CopySink.RestSink' : RestSink,
   'CopySink.OrcSink' : OrcSink,
   'CopySink.JsonSink' : JsonSink,
   'CopySink.DelimitedTextSink' : DelimitedTextSink,
@@ -23831,6 +24019,7 @@ export const discriminators = {
   'LinkedIntegrationRuntimeType.Key' : LinkedIntegrationRuntimeKeyAuthorization,
   'LinkedIntegrationRuntimeType' : LinkedIntegrationRuntimeType,
   'IntegrationRuntime.SelfHosted' : SelfHostedIntegrationRuntime,
+  'CustomSetupBase.AzPowerShellSetup' : AzPowerShellSetup,
   'CustomSetupBase.ComponentSetup' : ComponentSetup,
   'CustomSetupBase.EnvironmentVariableSetup' : EnvironmentVariableSetup,
   'CustomSetupBase.CmdkeySetup' : CmdkeySetup,
