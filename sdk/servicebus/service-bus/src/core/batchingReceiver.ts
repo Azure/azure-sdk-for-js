@@ -49,10 +49,10 @@ export class BatchingReceiver extends MessageReceiver {
 
         const rcvrOptions = this._createReceiverOptions(false, {
           onError: (context) => {
-            lastError = context.error || context?.session?.error || context?.receiver?.error;
+            lastError = context?.receiver?.error;
           },
           onSessionError: (context) => {
-            lastError = context.error || context?.session?.error || context?.receiver?.error;
+            lastError = context?.session?.error;
           },
           // ignored for now - the next call will just fail so they'll get an appropriate error from somewhere else.
           onClose: async () => {},
