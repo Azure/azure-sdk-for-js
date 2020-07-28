@@ -475,6 +475,14 @@ export interface PathUpdateOptionalParams extends coreHttp.RequestOptionsBase {
    */
   continuation?: string;
   /**
+   * Optional. Valid for "SetAccessControlRecursive" operation. If set to false, the operation will
+   * terminate quickly on encountering user errors (4XX). If true, the operation will ignore user
+   * errors and proceed with the operation on other sub-entities of the directory. Continuation
+   * token will only be returned when forceFlag is true in case of user errors. If not set the
+   * default value is false for this.
+   */
+  forceFlag?: boolean;
+  /**
    * This parameter allows the caller to upload data in parallel and control the order in which it
    * is appended to the file.  It is required when uploading data to be appended to the file and
    * when flushing previously uploaded data to the file.  The value must be the position where the
@@ -787,6 +795,14 @@ export interface PathSetAccessControlRecursiveOptionalParams extends coreHttp.Re
    * continue deleting the directory.
    */
   continuation?: string;
+  /**
+   * Optional. Valid for "SetAccessControlRecursive" operation. If set to false, the operation will
+   * terminate quickly on encountering user errors (4XX). If true, the operation will ignore user
+   * errors and proceed with the operation on other sub-entities of the directory. Continuation
+   * token will only be returned when forceFlag is true in case of user errors. If not set the
+   * default value is false for this.
+   */
+  forceFlag?: boolean;
   /**
    * Optional. It specifies the maximum number of files or directories on which the acl change will
    * be applied. If omitted or greater than 2,000, the request will process up to 2,000 items

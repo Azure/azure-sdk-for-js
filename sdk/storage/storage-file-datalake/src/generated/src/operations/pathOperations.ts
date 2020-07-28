@@ -478,6 +478,7 @@ const updateOperationSpec: coreHttp.OperationSpec = {
     Parameters.maxRecords,
     Parameters.continuation,
     Parameters.mode1,
+    Parameters.forceFlag,
     Parameters.position,
     Parameters.retainUncommittedData,
     Parameters.close,
@@ -727,6 +728,7 @@ const setAccessControlRecursiveOperationSpec: coreHttp.OperationSpec = {
     Parameters.timeout,
     Parameters.continuation,
     Parameters.mode1,
+    Parameters.forceFlag,
     Parameters.maxRecords,
     Parameters.action3
   ],

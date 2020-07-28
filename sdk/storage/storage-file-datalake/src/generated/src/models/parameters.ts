@@ -254,6 +254,18 @@ export const expiryOptions: coreHttp.OperationParameter = {
     }
   }
 };
+export const forceFlag: coreHttp.OperationQueryParameter = {
+  parameterPath: [
+    "options",
+    "forceFlag"
+  ],
+  mapper: {
+    serializedName: "forceFlag",
+    type: {
+      name: "Boolean"
+    }
+  }
+};
 export const group: coreHttp.OperationParameter = {
   parameterPath: [
     "options",

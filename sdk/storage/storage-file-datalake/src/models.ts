@@ -566,6 +566,14 @@ export interface PathChangeAccessControlRecursiveOptions extends CommonOptions {
    */
   maxBatches?: number;
   /**
+   * Optional. Default false. If set to false, the operation will terminate quickly on encountering user failures.
+   * If true, the operation will ignore user failures and proceed with the operation on other sub-entities of the directory.
+   *
+   * @type {boolean}
+   * @memberof PathChangeAccessControlRecursiveOptions
+   */
+  continueOnFailure?: boolean;
+  /**
    * Continuation token to continue next batch of operations.
    *
    * @type {string}
