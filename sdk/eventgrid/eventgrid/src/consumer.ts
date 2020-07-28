@@ -31,7 +31,20 @@ export interface EventGridConsumerOptions {
 }
 
 /**
- * TODO(matell): Document this.
+ * EventGridConsumer is used to aid in processing events delivered by EventGrid. It can deserialize a JSON encoded payload
+ * of either a single event or batch of events as well as be used to convert the result of `JSON.parse` into an
+ * `EventGridEvent` or `CloudEvent` like object.
+ *
+ * Unlike normal JSON deseralization, EventGridConsumer does some additional conversions:
+ *
+ * - The consumer parses the event time property into a `Date` object, for ease of use.
+ * - When deserializing an event in the CloudEvent schema, if the event contains binary data, it is base64 decoded
+ *   and returned as an instance of the `Uint8Array` type.
+ * - The `data` payload from system events is converted to match the interfaces this library defines.
+ *
+ * When constructing an `EventGridConsumer`, a map of event types to custom deserializers may be provided. When
+ * deserializing, if a custom deserializer has been registered for a given event type, it will be called with the
+ * data object. The object this deserializer returns will replace the existing data object.
  */
 export class EventGridConsumer {
   readonly customDeserializers: Record<string, CustomEventDataDeserializer>;

@@ -83,7 +83,8 @@ import {
 import { CloudEvent, EventGridEvent } from "./models";
 
 /**
- * TODO(matell): Write some good prose here.
+ * The Event Types for all System Events. These may be used with `isSystemEvent` to determine if an
+ * event is a system event of a given type.
  */
 export type KnownSystemEventTypes =
   | "Microsoft.AppConfiguration.KeyValueDeleted"
@@ -259,7 +260,12 @@ function isCloudEventLike(
 }
 
 /**
- * TODO(matell): Document this.
+ * iSystemEvent returns "true" when a given event is a system event of a given type. When using
+ * TypeScript, this function acts as a custom type guard and allows the TypeScript compiler to
+ * identify the underlying data
+ *
+ * @param eventType The type of system event to check for, e.g., "Microsoft.AppConfiguration.KeyValueDeleted"
+ * @param event The event to test.
  */
 export function isSystemEvent<T extends KnownSystemEventTypes>(
   eventType: T,
@@ -267,7 +273,12 @@ export function isSystemEvent<T extends KnownSystemEventTypes>(
 ): event is EventGridEvent<SystemEventNameToEventData[T]>;
 
 /**
- * TODO(matell): Document this.
+ * iSystemEvent returns "true" when a given event is a system event of a given type. When using
+ * TypeScript, this function acts as a custom type guard and allows the TypeScript compiler to
+ * identify the underlying data
+ *
+ * @param eventType The type of system event to check for, e.g., "Microsoft.AppConfiguration.KeyValueDeleted"
+ * @param event The event to test.
  */
 export function isSystemEvent<T extends KnownSystemEventTypes>(
   eventType: T,
