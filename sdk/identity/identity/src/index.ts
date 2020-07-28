@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
 import { TokenCredential } from "@azure/core-http";
 import { DefaultAzureCredential } from "./credentials/defaultAzureCredential";
@@ -24,7 +24,10 @@ export {
   DeviceCodeInfo
 } from "./credentials/deviceCodeCredential";
 
-export { DefaultAzureCredential, DefaultAzureCredentialOptions } from "./credentials/defaultAzureCredential";
+export {
+  DefaultAzureCredential,
+  DefaultAzureCredentialOptions
+} from "./credentials/defaultAzureCredential";
 export { UsernamePasswordCredential } from "./credentials/usernamePasswordCredential";
 export { AuthorizationCodeCredential } from "./credentials/authorizationCodeCredential";
 export {

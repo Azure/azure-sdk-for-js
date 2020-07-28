@@ -18,7 +18,8 @@ import {
   getRawAuthorizationRules,
   getString,
   getStringOrUndefined,
-  getDate
+  getDate,
+  getMessageCountDetails
 } from "../util/utils";
 
 /**
@@ -99,6 +100,8 @@ export function buildTopicRuntimeProperties(rawTopic: any): TopicRuntimeProperti
     sizeInBytes: getIntegerOrUndefined(rawTopic[Constants.SIZE_IN_BYTES]),
     subscriptionCount: getIntegerOrUndefined(rawTopic[Constants.SUBSCRIPTION_COUNT]),
     createdAt: getDate(rawTopic[Constants.CREATED_AT], "createdAt"),
+    scheduledMessageCount: getMessageCountDetails(rawTopic[Constants.COUNT_DETAILS])
+      .scheduledMessageCount,
     updatedAt: getDate(rawTopic[Constants.UPDATED_AT], "updatedAt"),
     accessedAt: getDate(rawTopic[Constants.ACCESSED_AT], "accessedAt")
   };
@@ -301,6 +304,11 @@ export interface TopicRuntimeProperties {
    *
    */
   subscriptionCount?: number;
+
+  /**
+   * The number of scheduled messages.
+   */
+  scheduledMessageCount: number;
 
   /**
    * Created at timestamp

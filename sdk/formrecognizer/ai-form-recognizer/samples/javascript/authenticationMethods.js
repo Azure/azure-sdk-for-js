@@ -78,10 +78,8 @@ async function recognizeContentWithClient(client) {
       `Page ${page.pageNumber}: width ${page.width} and height ${page.height} with unit ${page.unit}`
     );
     for (const table of page.tables) {
-      for (const row of table.rows) {
-        for (const cell of row.cells) {
-          console.log(`cell [${cell.rowIndex},${cell.columnIndex}] has text ${cell.text}`);
-        }
+      for (const cell of table.cells) {
+        console.log(`cell [${cell.rowIndex},${cell.columnIndex}] has text ${cell.text}`);
       }
     }
   }

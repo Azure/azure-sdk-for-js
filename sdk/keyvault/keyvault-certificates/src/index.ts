@@ -136,10 +136,10 @@ import {
   CertificateAttributes,
   Contacts as CoreContacts,
   IssuerBundle
-} from "./core/models";
-import { KeyVaultClient } from "./core/keyVaultClient";
-import { SDK_VERSION } from "./core/utils/constants";
-import { parseKeyvaultIdentifier as parseKeyvaultEntityIdentifier } from "./core/utils";
+} from "./generated/models";
+import { KeyVaultClient } from "./generated/keyVaultClient";
+import { SDK_VERSION } from "./generated/utils/constants";
+import { parseKeyvaultIdentifier as parseKeyvaultEntityIdentifier } from "./generated/utils";
 import "@azure/core-paging";
 import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
 import { challengeBasedAuthenticationPolicy } from "../../keyvault-common/src";

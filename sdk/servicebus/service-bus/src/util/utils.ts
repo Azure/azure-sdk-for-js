@@ -584,3 +584,22 @@ export function checkAndRegisterWithAbortSignal(
 
   return () => abortSignal.removeEventListener("abort", onAbort);
 }
+
+/**
+ * @property {string} libInfo The user agent prefix string for the ServiceBus client.
+ * See guideline at https://azure.github.io/azure-sdk/general_azurecore.html#telemetry-policy
+ */
+export const libInfo: string = `azsdk-js-azureservicebus/${Constants.packageJsonInfo.version}`;
+
+/**
+ * Returns the formatted prefix by removing the spaces, by appending the libInfo.
+ *
+ * @export
+ * @param {string} [prefix]
+ * @returns {string}
+ */
+export function formatUserAgentPrefix(prefix?: string): string {
+  let userAgentPrefix = `${(prefix || "").replace(" ", "")}`;
+  userAgentPrefix = userAgentPrefix.length > 0 ? userAgentPrefix + " " : "";
+  return `${userAgentPrefix}${libInfo}`;
+}

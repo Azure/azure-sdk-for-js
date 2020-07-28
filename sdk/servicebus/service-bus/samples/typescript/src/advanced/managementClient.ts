@@ -37,7 +37,9 @@ async function main() {
   const updateQueueResponse = await serviceBusManagementClient.updateQueue(getQueueResponse);
   console.log("(Updated)max delivery count = ", updateQueueResponse.maxDeliveryCount);
 
-  const queueRuntimeProperties = await serviceBusManagementClient.getQueueRuntimeProperties(queueName);
+  const queueRuntimeProperties = await serviceBusManagementClient.getQueueRuntimeProperties(
+    queueName
+  );
   console.log("Number of messages in the queue = ", queueRuntimeProperties.totalMessageCount);
 
   const namespaceInfo = await serviceBusManagementClient.getNamespaceProperties();

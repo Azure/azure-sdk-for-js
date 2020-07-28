@@ -26,14 +26,11 @@ npm install @azure/ms-rest-azure-js
 ##### Sample code
 The following sample performs an image search for 'Microsoft Azure' with conditions such as the color has to be 'Monochrome', etc. To know more, refer to the [Azure Documentation on Bing Image Search](https://docs.microsoft.com/en-us/azure/cognitive-services/bing-image-search/)
 
-```typescript
-import {
-  ImageSearchClient,
-  ImageSearchModels
-} from "@azure/cognitiveservices-imagesearch";
-import { CognitiveServicesCredentials } from "@azure/ms-rest-azure-js";
+```javascript
+const { ImageSearchClient } = require("@azure/cognitiveservices-imagesearch");
+const { CognitiveServicesCredentials } = require("@azure/ms-rest-azure-js");
 
-async function main(): Promise<void> {
+async function main() {
   const imageSearchKey = process.env["imageSearchKey"] || "<imageSearchKey>";
   const imageSearchEndPoint =
     process.env["imageSearchEndPoint"] || "<imageSearchEndPoint>";
@@ -45,7 +42,7 @@ async function main(): Promise<void> {
   });
 
   const query = "Microsoft Azure";
-  const options: ImageSearchModels.ImagesSearchOptionalParams = {
+  const options = {
     color: "Monochrome",
     count: 10,
     imageType: "Photo",

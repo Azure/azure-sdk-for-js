@@ -1,10 +1,9 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
 import assert from "assert";
 import { createSandbox } from "sinon";
 import * as fs from "fs";
-import * as os from "os";
 import * as path from "path";
 import { getTenantIdFromVSCode } from "../../src/credentials/vscodeCredential";
 

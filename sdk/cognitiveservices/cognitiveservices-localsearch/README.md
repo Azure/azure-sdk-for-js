@@ -26,11 +26,11 @@ npm install @azure/ms-rest-azure-js
 ##### Sample code
 The following sample performs an local business search with the query 'Coffee 98052'. To know more, refer to the [Azure Documentation on Bing Local Search](https://docs.microsoft.com/en-us/azure/cognitive-services/bing-local-business-search/)
 
-```typescript
-import { LocalSearchClient } from "@azure/cognitiveservices-localsearch";
-import { CognitiveServicesCredentials } from "@azure/ms-rest-azure-js";
+```javascript
+const { LocalSearchClient } = require("@azure/cognitiveservices-localsearch");
+const { CognitiveServicesCredentials } = require("@azure/ms-rest-azure-js");
 
-async function main(): Promise<void> {
+async function main() {
   const localSearchKey = process.env["localSearchKey"] || "<localSearchKey>";
   const cognitiveServiceCredentials = new CognitiveServicesCredentials(
     localSearchKey
@@ -43,7 +43,7 @@ async function main(): Promise<void> {
     .search("Coffee 98052")
     .then(result => {
       console.log("The result is: ");
-      result.places!.value.forEach(place => {
+      result.places.value.forEach(place => {
         console.log(place);
       });
     })

@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
@@ -8,8 +8,10 @@ import { TokenCredentialOptions, IdentityClient } from "../client/identityClient
 import * as fs from "fs";
 import * as os from "os";
 import * as path from "path";
+
+let keytar: any;
 try {
-  var keytar = require("keytar");
+  keytar = require("keytar");
 } catch (er) {
   keytar = null;
 }
@@ -37,9 +39,10 @@ export function getTenantIdFromVSCode(): string | undefined {
   }
 
   try {
+    let appData: string;
     switch (process.platform) {
       case "win32":
-        const appData = process.env.APPDATA!;
+        appData = process.env.APPDATA!;
         return appData ? loadTenant(appData) : undefined;
       case "darwin":
         return loadTenant(homedir, "Library", "Application Support");
@@ -119,9 +122,9 @@ export class VSCodeCredential implements TokenCredential {
       scopeString += " offline_access";
     }
 
-    let refreshToken = await keytar.findPassword(VSCodeUserName);
+    const refreshToken = await keytar.findPassword(VSCodeUserName);
     if (refreshToken) {
-      let tokenResponse = await this.identityClient.refreshAccessToken(
+      const tokenResponse = await this.identityClient.refreshAccessToken(
         this.tenantId,
         AzureAccountClientId,
         scopeString,
