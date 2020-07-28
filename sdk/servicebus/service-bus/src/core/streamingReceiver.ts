@@ -194,7 +194,7 @@ export class StreamingReceiver extends MessageReceiver {
               await this.close();
             } else {
               if (this._receiver && this.receiverType === ReceiverType.streaming) {
-                this._receiverHelper.addCredit(this.maxConcurrentCalls);
+                this.receiverHelper.addCredit(this.maxConcurrentCalls);
               }
             }
             return;
