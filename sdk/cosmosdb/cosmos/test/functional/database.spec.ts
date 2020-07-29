@@ -165,7 +165,7 @@ describe("database.readOffer", function() {
   });
 });
 
-describe("database.create", function() {
+describe.only("database.create", function() {
   it("uses autoscale", async function() {
     const maxThroughput = 50000;
     const databaseRequest: DatabaseRequest = {
@@ -173,7 +173,8 @@ describe("database.create", function() {
     };
     const database = await getTestDatabase("autoscale db", undefined, databaseRequest);
     const { resource: offer } = await database.readOffer();
-    const settings = offer.content.offerAutoscaleSettings;
+    console.log({ offer: offer.content });
+    const settings = offer.content.offerAutopilotSettings;
     assert.equal(settings.maxThroughput, maxThroughput);
   });
   it("throws with maxThroughput and throughput", function() {

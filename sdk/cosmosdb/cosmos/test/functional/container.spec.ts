@@ -478,7 +478,7 @@ describe("container.create", function() {
     };
     const { container } = await database.containers.create(containerRequest);
     const { resource: offer } = await container.readOffer();
-    const settings = offer.content.offerAutoscaleSettings;
+    const settings = offer.content.offerAutopilotSettings;
     assert.equal(settings.maxThroughput, maxThroughput);
   });
   it("throws with maxThroughput and throughput", function() {

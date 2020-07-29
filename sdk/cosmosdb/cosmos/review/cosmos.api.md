@@ -870,7 +870,7 @@ export interface OfferDefinition {
             maxThroughputEverProvisioned: number;
             maxConsumedStorageEverInKB: number;
         };
-        offerAutoscaleSettings: {
+        offerAutopilotSettings: {
             tier: number;
             maximumTierThroughput: number;
             autoUpgrade: boolean;
