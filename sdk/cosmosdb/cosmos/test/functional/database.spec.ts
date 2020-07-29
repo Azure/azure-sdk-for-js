@@ -165,7 +165,7 @@ describe("database.readOffer", function() {
   });
 });
 
-describe.only("database.create", function() {
+describe("database.create", function() {
   it("uses autoscale", async function() {
     const maxThroughput = 50000;
     const databaseRequest: DatabaseRequest = {

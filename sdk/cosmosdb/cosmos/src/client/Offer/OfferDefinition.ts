@@ -9,11 +9,11 @@ export interface OfferDefinition {
   content?: {
     offerThroughput: number;
     offerIsRUPerMinuteThroughputEnabled: boolean;
-    offerMinimumThroughputParameters: {
+    offerMinimumThroughputParameters?: {
       maxThroughputEverProvisioned: number;
       maxConsumedStorageEverInKB: number;
     };
-    offerAutopilotSettings: {
+    offerAutopilotSettings?: {
       tier: number;
       maximumTierThroughput: number;
       autoUpgrade: boolean;
