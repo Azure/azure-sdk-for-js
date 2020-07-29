@@ -13,7 +13,7 @@ import * as msRest from "@azure/ms-rest-js";
 import * as msRestAzure from "@azure/ms-rest-azure-js";
 
 const packageName = "@azure/arm-rediscache";
-const packageVersion = "3.0.1";
+const packageVersion = "4.0.0";
 
 export class RedisManagementClientContext extends msRestAzure.AzureServiceClient {
   credentials: msRest.ServiceClientCredentials;
@@ -45,7 +45,7 @@ export class RedisManagementClientContext extends msRestAzure.AzureServiceClient
 
     super(credentials, options);
 
-    this.apiVersion = '2018-03-01';
+    this.apiVersion = '2019-07-01';
     this.acceptLanguage = 'en-US';
     this.longRunningOperationRetryTimeout = 30;
     this.baseUri = options.baseUri || this.baseUri || "https://management.azure.com";

@@ -357,8 +357,11 @@ export class QueueClient extends StorageClient {
     constructor(url: string, pipeline: Pipeline);
     clearMessages(options?: QueueClearMessagesOptions): Promise<QueueClearMessagesResponse>;
     create(options?: QueueCreateOptions): Promise<QueueCreateResponse>;
+    createIfNotExists(options?: QueueCreateOptions): Promise<QueueCreateIfNotExistsResponse>;
     delete(options?: QueueDeleteOptions): Promise<QueueDeleteResponse>;
+    deleteIfExists(options?: QueueDeleteOptions): Promise<QueueDeleteIfExistsResponse>;
     deleteMessage(messageId: string, popReceipt: string, options?: QueueDeleteMessageOptions): Promise<QueueDeleteMessageResponse>;
+    exists(options?: QueueExistsOptions): Promise<boolean>;
     getAccessPolicy(options?: QueueGetAccessPolicyOptions): Promise<QueueGetAccessPolicyResponse>;
     getProperties(options?: QueueGetPropertiesOptions): Promise<QueueGetPropertiesResponse>;
     get name(): string;
@@ -378,6 +381,11 @@ export interface QueueCreateHeaders {
     errorCode?: string;
     requestId?: string;
     version?: string;
+}
+
+// @public
+export interface QueueCreateIfNotExistsResponse extends QueueCreateResponse {
+    succeeded: boolean;
 }
 
 // @public
@@ -404,6 +412,11 @@ export interface QueueDeleteHeaders {
 }
 
 // @public
+export interface QueueDeleteIfExistsResponse extends QueueDeleteResponse {
+    succeeded: boolean;
+}
+
+// @public
 export interface QueueDeleteMessageOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
 }
@@ -422,6 +435,11 @@ export type QueueDeleteResponse = QueueDeleteHeaders & {
         parsedHeaders: QueueDeleteHeaders;
     };
 };
+
+// @public
+export interface QueueExistsOptions extends CommonOptions {
+    abortSignal?: AbortSignalLike;
+}
 
 // @public
 export interface QueueGetAccessPolicyHeaders {

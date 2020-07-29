@@ -175,10 +175,10 @@ export interface ConnectionConfig {
 }
 
 // @public
-export namespace ConnectionConfig {
-    export function create(connectionString: string, path?: string): ConnectionConfig;
-    export function validate(config: ConnectionConfig, options?: ConnectionConfigOptions): void;
-}
+export const ConnectionConfig: {
+    create(connectionString: string, path?: string | undefined): ConnectionConfig;
+    validate(config: ConnectionConfig, options?: ConnectionConfigOptions | undefined): void;
+};
 
 // @public
 export interface ConnectionConfigOptions {
@@ -200,9 +200,9 @@ export interface ConnectionContextBase {
 }
 
 // @public (undocumented)
-export module ConnectionContextBase {
-    export function create(parameters: CreateConnectionContextBaseParameters): ConnectionContextBase;
-}
+export const ConnectionContextBase: {
+    create(parameters: CreateConnectionContextBaseParameters): ConnectionContextBase;
+};
 
 // @public
 export interface ConnectionProperties {
@@ -421,11 +421,11 @@ export interface EventHubConnectionConfig extends ConnectionConfig {
 }
 
 // @public
-export module EventHubConnectionConfig {
-    export function create(connectionString: string, path?: string): EventHubConnectionConfig;
-    export function createFromConnectionConfig(config: ConnectionConfig): EventHubConnectionConfig;
-    export function validate(config: EventHubConnectionConfig): void;
-}
+export const EventHubConnectionConfig: {
+    create(connectionString: string, path?: string | undefined): EventHubConnectionConfig;
+    createFromConnectionConfig(config: ConnectionConfig): EventHubConnectionConfig;
+    validate(config: EventHubConnectionConfig): void;
+};
 
 // @public
 export interface EventHubConnectionStringModel {
@@ -462,11 +462,11 @@ export interface IotHubConnectionConfig {
 }
 
 // @public
-export namespace IotHubConnectionConfig {
-    export function convertToEventHubConnectionConfig(iotHubConfig: IotHubConnectionConfig): EventHubConnectionConfig;
-    export function create(connectionString: string, path?: string): IotHubConnectionConfig;
-    export function validate(config: IotHubConnectionConfig): void;
-}
+export const IotHubConnectionConfig: {
+    create(connectionString: string, path?: string | undefined): IotHubConnectionConfig;
+    validate(config: IotHubConnectionConfig): void;
+    convertToEventHubConnectionConfig(iotHubConfig: IotHubConnectionConfig): EventHubConnectionConfig;
+};
 
 // @public
 export interface IotHubConnectionStringModel {
@@ -511,10 +511,10 @@ export interface MessageHeader {
 }
 
 // @public
-export namespace MessageHeader {
-    export function fromAmqpMessageHeader(props: AmqpMessageHeader): MessageHeader;
-    export function toAmqpMessageHeader(props: MessageHeader): AmqpMessageHeader;
-}
+export const MessageHeader: {
+    toAmqpMessageHeader(props: MessageHeader): AmqpMessageHeader;
+    fromAmqpMessageHeader(props: AmqpMessageHeader): MessageHeader;
+};
 
 // @public
 export interface MessageProperties {
@@ -534,10 +534,10 @@ export interface MessageProperties {
 }
 
 // @public
-export namespace MessageProperties {
-    export function fromAmqpMessageProperties(props: AmqpMessageProperties): MessageProperties;
-    export function toAmqpMessageProperties(props: MessageProperties): AmqpMessageProperties;
-}
+export const MessageProperties: {
+    toAmqpMessageProperties(props: MessageProperties): AmqpMessageProperties;
+    fromAmqpMessageProperties(props: AmqpMessageProperties): MessageProperties;
+};
 
 // @public
 export class MessagingError extends Error {

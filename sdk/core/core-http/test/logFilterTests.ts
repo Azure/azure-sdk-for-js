@@ -1,5 +1,5 @@
 ﻿// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
 import { assert } from "chai";
 import { HttpHeaders, RawHttpHeaders } from "../src/httpHeaders";
@@ -40,7 +40,9 @@ function assertLog(
     destroy: () => true,
     namespace: "test",
     extend: () => logger,
-    log: () => {}
+    log: () => {
+      // Nothing to do here.
+    }
   });
 
   const options: LogPolicyOptions = {
@@ -53,8 +55,9 @@ function assertLog(
 
   lf.sendRequest(request)
     .then(() => {
-      assert.deepEqual(output, expectedLog);
+      assert.equal(output, expectedLog);
       doneCallback();
+      return;
     })
     .catch((err: Error) => {
       doneCallback(err);

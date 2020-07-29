@@ -29,20 +29,20 @@ export class GremlinResources {
 
   /**
    * Lists the Gremlin databases under an existing Azure Cosmos DB database account.
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param [options] The optional parameters
    * @returns Promise<Models.GremlinResourcesListGremlinDatabasesResponse>
    */
   listGremlinDatabases(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase): Promise<Models.GremlinResourcesListGremlinDatabasesResponse>;
   /**
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param callback The callback
    */
   listGremlinDatabases(resourceGroupName: string, accountName: string, callback: msRest.ServiceCallback<Models.GremlinDatabaseListResult>): void;
   /**
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param options The optional parameters
    * @param callback The callback
@@ -62,7 +62,7 @@ export class GremlinResources {
   /**
    * Gets the Gremlin databases under an existing Azure Cosmos DB database account with the provided
    * name.
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param databaseName Cosmos DB database name.
    * @param [options] The optional parameters
@@ -70,14 +70,14 @@ export class GremlinResources {
    */
   getGremlinDatabase(resourceGroupName: string, accountName: string, databaseName: string, options?: msRest.RequestOptionsBase): Promise<Models.GremlinResourcesGetGremlinDatabaseResponse>;
   /**
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param databaseName Cosmos DB database name.
    * @param callback The callback
    */
   getGremlinDatabase(resourceGroupName: string, accountName: string, databaseName: string, callback: msRest.ServiceCallback<Models.GremlinDatabaseGetResults>): void;
   /**
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param databaseName Cosmos DB database name.
    * @param options The optional parameters
@@ -98,7 +98,7 @@ export class GremlinResources {
 
   /**
    * Create or update an Azure Cosmos DB Gremlin database
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param databaseName Cosmos DB database name.
    * @param createUpdateGremlinDatabaseParameters The parameters to provide for the current Gremlin
@@ -113,7 +113,7 @@ export class GremlinResources {
 
   /**
    * Deletes an existing Azure Cosmos DB Gremlin database.
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param databaseName Cosmos DB database name.
    * @param [options] The optional parameters
@@ -127,7 +127,7 @@ export class GremlinResources {
   /**
    * Gets the RUs per second of the Gremlin database under an existing Azure Cosmos DB database
    * account with the provided name.
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param databaseName Cosmos DB database name.
    * @param [options] The optional parameters
@@ -135,14 +135,14 @@ export class GremlinResources {
    */
   getGremlinDatabaseThroughput(resourceGroupName: string, accountName: string, databaseName: string, options?: msRest.RequestOptionsBase): Promise<Models.GremlinResourcesGetGremlinDatabaseThroughputResponse>;
   /**
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param databaseName Cosmos DB database name.
    * @param callback The callback
    */
   getGremlinDatabaseThroughput(resourceGroupName: string, accountName: string, databaseName: string, callback: msRest.ServiceCallback<Models.ThroughputSettingsGetResults>): void;
   /**
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param databaseName Cosmos DB database name.
    * @param options The optional parameters
@@ -163,7 +163,7 @@ export class GremlinResources {
 
   /**
    * Update RUs per second of an Azure Cosmos DB Gremlin database
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param databaseName Cosmos DB database name.
    * @param updateThroughputParameters The RUs per second of the parameters to provide for the
@@ -178,7 +178,7 @@ export class GremlinResources {
 
   /**
    * Lists the Gremlin graph under an existing Azure Cosmos DB database account.
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param databaseName Cosmos DB database name.
    * @param [options] The optional parameters
@@ -186,14 +186,14 @@ export class GremlinResources {
    */
   listGremlinGraphs(resourceGroupName: string, accountName: string, databaseName: string, options?: msRest.RequestOptionsBase): Promise<Models.GremlinResourcesListGremlinGraphsResponse>;
   /**
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param databaseName Cosmos DB database name.
    * @param callback The callback
    */
   listGremlinGraphs(resourceGroupName: string, accountName: string, databaseName: string, callback: msRest.ServiceCallback<Models.GremlinGraphListResult>): void;
   /**
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param databaseName Cosmos DB database name.
    * @param options The optional parameters
@@ -214,7 +214,7 @@ export class GremlinResources {
 
   /**
    * Gets the Gremlin graph under an existing Azure Cosmos DB database account.
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param databaseName Cosmos DB database name.
    * @param graphName Cosmos DB graph name.
@@ -223,7 +223,7 @@ export class GremlinResources {
    */
   getGremlinGraph(resourceGroupName: string, accountName: string, databaseName: string, graphName: string, options?: msRest.RequestOptionsBase): Promise<Models.GremlinResourcesGetGremlinGraphResponse>;
   /**
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param databaseName Cosmos DB database name.
    * @param graphName Cosmos DB graph name.
@@ -231,7 +231,7 @@ export class GremlinResources {
    */
   getGremlinGraph(resourceGroupName: string, accountName: string, databaseName: string, graphName: string, callback: msRest.ServiceCallback<Models.GremlinGraphGetResults>): void;
   /**
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param databaseName Cosmos DB database name.
    * @param graphName Cosmos DB graph name.
@@ -254,7 +254,7 @@ export class GremlinResources {
 
   /**
    * Create or update an Azure Cosmos DB Gremlin graph
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param databaseName Cosmos DB database name.
    * @param graphName Cosmos DB graph name.
@@ -270,7 +270,7 @@ export class GremlinResources {
 
   /**
    * Deletes an existing Azure Cosmos DB Gremlin graph.
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param databaseName Cosmos DB database name.
    * @param graphName Cosmos DB graph name.
@@ -285,7 +285,7 @@ export class GremlinResources {
   /**
    * Gets the Gremlin graph throughput under an existing Azure Cosmos DB database account with the
    * provided name.
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param databaseName Cosmos DB database name.
    * @param graphName Cosmos DB graph name.
@@ -294,7 +294,7 @@ export class GremlinResources {
    */
   getGremlinGraphThroughput(resourceGroupName: string, accountName: string, databaseName: string, graphName: string, options?: msRest.RequestOptionsBase): Promise<Models.GremlinResourcesGetGremlinGraphThroughputResponse>;
   /**
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param databaseName Cosmos DB database name.
    * @param graphName Cosmos DB graph name.
@@ -302,7 +302,7 @@ export class GremlinResources {
    */
   getGremlinGraphThroughput(resourceGroupName: string, accountName: string, databaseName: string, graphName: string, callback: msRest.ServiceCallback<Models.ThroughputSettingsGetResults>): void;
   /**
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param databaseName Cosmos DB database name.
    * @param graphName Cosmos DB graph name.
@@ -325,7 +325,7 @@ export class GremlinResources {
 
   /**
    * Update RUs per second of an Azure Cosmos DB Gremlin graph
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param databaseName Cosmos DB database name.
    * @param graphName Cosmos DB graph name.
@@ -341,7 +341,7 @@ export class GremlinResources {
 
   /**
    * Create or update an Azure Cosmos DB Gremlin database
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param databaseName Cosmos DB database name.
    * @param createUpdateGremlinDatabaseParameters The parameters to provide for the current Gremlin
@@ -364,7 +364,7 @@ export class GremlinResources {
 
   /**
    * Deletes an existing Azure Cosmos DB Gremlin database.
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param databaseName Cosmos DB database name.
    * @param [options] The optional parameters
@@ -384,7 +384,7 @@ export class GremlinResources {
 
   /**
    * Update RUs per second of an Azure Cosmos DB Gremlin database
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param databaseName Cosmos DB database name.
    * @param updateThroughputParameters The RUs per second of the parameters to provide for the
@@ -407,7 +407,7 @@ export class GremlinResources {
 
   /**
    * Create or update an Azure Cosmos DB Gremlin graph
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param databaseName Cosmos DB database name.
    * @param graphName Cosmos DB graph name.
@@ -432,7 +432,7 @@ export class GremlinResources {
 
   /**
    * Deletes an existing Azure Cosmos DB Gremlin graph.
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param databaseName Cosmos DB database name.
    * @param graphName Cosmos DB graph name.
@@ -454,7 +454,7 @@ export class GremlinResources {
 
   /**
    * Update RUs per second of an Azure Cosmos DB Gremlin graph
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param databaseName Cosmos DB database name.
    * @param graphName Cosmos DB graph name.
@@ -484,7 +484,7 @@ const listGremlinDatabasesOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases",
   urlParameters: [
-    Parameters.subscriptionId0,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName
   ],
@@ -509,7 +509,7 @@ const getGremlinDatabaseOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases/{databaseName}",
   urlParameters: [
-    Parameters.subscriptionId0,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.databaseName
@@ -535,7 +535,7 @@ const getGremlinDatabaseThroughputOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases/{databaseName}/throughputSettings/default",
   urlParameters: [
-    Parameters.subscriptionId0,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.databaseName
@@ -561,7 +561,7 @@ const listGremlinGraphsOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases/{databaseName}/graphs",
   urlParameters: [
-    Parameters.subscriptionId0,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.databaseName
@@ -587,7 +587,7 @@ const getGremlinGraphOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases/{databaseName}/graphs/{graphName}",
   urlParameters: [
-    Parameters.subscriptionId0,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.databaseName,
@@ -614,7 +614,7 @@ const getGremlinGraphThroughputOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases/{databaseName}/graphs/{graphName}/throughputSettings/default",
   urlParameters: [
-    Parameters.subscriptionId0,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.databaseName,
@@ -641,7 +641,7 @@ const beginCreateUpdateGremlinDatabaseOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases/{databaseName}",
   urlParameters: [
-    Parameters.subscriptionId0,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.databaseName
@@ -675,7 +675,7 @@ const beginDeleteGremlinDatabaseOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases/{databaseName}",
   urlParameters: [
-    Parameters.subscriptionId0,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.databaseName
@@ -700,7 +700,7 @@ const beginUpdateGremlinDatabaseThroughputOperationSpec: msRest.OperationSpec = 
   httpMethod: "PUT",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases/{databaseName}/throughputSettings/default",
   urlParameters: [
-    Parameters.subscriptionId0,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.databaseName
@@ -734,7 +734,7 @@ const beginCreateUpdateGremlinGraphOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases/{databaseName}/graphs/{graphName}",
   urlParameters: [
-    Parameters.subscriptionId0,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.databaseName,
@@ -769,7 +769,7 @@ const beginDeleteGremlinGraphOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases/{databaseName}/graphs/{graphName}",
   urlParameters: [
-    Parameters.subscriptionId0,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.databaseName,
@@ -795,7 +795,7 @@ const beginUpdateGremlinGraphThroughputOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/gremlinDatabases/{databaseName}/graphs/{graphName}/throughputSettings/default",
   urlParameters: [
-    Parameters.subscriptionId0,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.databaseName,

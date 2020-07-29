@@ -4,21 +4,26 @@
 // Anything we expect to be available to users should come from this import
 // as a simple sanity check that we've exported things properly.
 import {
-  ServiceBusClient,
-  SessionReceiver,
+  CreateSessionReceiverOptions,
   Receiver,
-  CreateSessionReceiverOptions
+  ServiceBusClient,
+  SessionReceiver
 } from "../../src";
 
 import { TestClientType, TestMessage } from "./testUtils";
-import { getEnvVars, EnvVarNames } from "./envVarUtils";
+import { EnvVarNames, getEnvVars } from "./envVarUtils";
 import * as dotenv from "dotenv";
-import { recreateQueue, recreateTopic, recreateSubscription } from "./managementUtils";
+import {
+  recreateQueue,
+  recreateSubscription,
+  recreateTopic,
+  verifyMessageCount
+} from "./managementUtils";
 import { ServiceBusClientOptions } from "../../src";
 import chai from "chai";
 import {
-  ReceivedMessageWithLock,
   ReceivedMessage,
+  ReceivedMessageWithLock,
   ServiceBusMessage
 } from "../../src/serviceBusMessage";
 
@@ -37,7 +42,7 @@ function getEntityNames(
   usesSessions: boolean;
   isPartitioned: boolean;
 } {
-  const name = TestClientType[testClientType];
+  const name = testClientType;
   let prefix = "";
   let isPartitioned = false;
 
@@ -117,7 +122,7 @@ async function createTestEntities(
 
 export async function drainAllMessages(receiver: Receiver<{}>): Promise<void> {
   while (true) {
-    const messages = await receiver.receiveBatch(10, { maxWaitTimeInMs: 1000 });
+    const messages = await receiver.receiveMessages(10, { maxWaitTimeInMs: 1000 });
 
     if (messages.length === 0) {
       break;
@@ -125,6 +130,58 @@ export async function drainAllMessages(receiver: Receiver<{}>): Promise<void> {
   }
 
   await receiver.close();
+}
+
+/**
+ * Returns a TestClientType for either a Queue or a Subscription
+ * @param useSessions
+ */
+export function getRandomTestClientType(): TestClientType {
+  const allTestClientTypes = [
+    TestClientType.PartitionedQueue,
+    TestClientType.PartitionedSubscription,
+    TestClientType.UnpartitionedQueue,
+    TestClientType.UnpartitionedSubscription,
+    TestClientType.PartitionedQueueWithSessions,
+    TestClientType.PartitionedSubscriptionWithSessions,
+    TestClientType.UnpartitionedQueueWithSessions,
+    TestClientType.UnpartitionedSubscriptionWithSessions
+  ];
+
+  const index = Math.floor(Math.random() * allTestClientTypes.length);
+  return allTestClientTypes[index];
+}
+
+/**
+ * Returns a TestClientType for either a Queue or a Subscription with no
+ * sessions enabled
+ */
+export function getRandomTestClientTypeWithNoSessions(): TestClientType {
+  const noSessionTestClientTypes = [
+    TestClientType.PartitionedQueue,
+    TestClientType.PartitionedSubscription,
+    TestClientType.UnpartitionedQueue,
+    TestClientType.UnpartitionedSubscription
+  ];
+
+  const index = Math.floor(Math.random() * noSessionTestClientTypes.length);
+  return noSessionTestClientTypes[index];
+}
+
+/**
+ * Returns a TestClientType for either a Queue or a Subscription with
+ * sessions enabled
+ */
+export function getRandomTestClientTypeWithSessions(): TestClientType {
+  const withSessionTestClientTypes = [
+    TestClientType.PartitionedQueueWithSessions,
+    TestClientType.PartitionedSubscriptionWithSessions,
+    TestClientType.UnpartitionedQueueWithSessions,
+    TestClientType.UnpartitionedSubscriptionWithSessions
+  ];
+
+  const index = Math.floor(Math.random() * withSessionTestClientTypes.length);
+  return withSessionTestClientTypes[index];
 }
 
 export type EntityName = ReturnType<typeof getEntityNames>;
@@ -156,21 +213,20 @@ export class ServiceBusTestHelpers {
     useSessions: boolean,
     sentMessages: ServiceBusMessage[]
   ): Promise<void> {
-    let receiverClient: Receiver<ReceivedMessage> | SessionReceiver<ReceivedMessage>;
+    let receiver: Receiver<ReceivedMessage> | SessionReceiver<ReceivedMessage>;
     let receivedMsgs: ReceivedMessage[];
     if (!useSessions) {
-      receiverClient = await this.getReceiveAndDeleteReceiver({
+      receiver = await this.getReceiveAndDeleteReceiver({
         queue: entityNames.queue,
         topic: entityNames.topic,
         subscription: entityNames.subscription,
         usesSessions: false
       });
-      receivedMsgs = await receiverClient.receiveBatch(sentMessages.length, {
-        // To Do - Maybe change the maxWaitTime
-        // Currently set same as numberOfMessages being received
+      receivedMsgs = await receiver.receiveMessages(sentMessages.length, {
+        // maxWaitTime is set same as numberOfMessages being received
         maxWaitTimeInMs: sentMessages.length * 1000
       });
-      await receiverClient.close();
+      await receiver.close();
     } else {
       // From the sentMessages array, creating a set of all the `session-id`s
       const setOfSessionIds: Set<string> = new Set();
@@ -184,14 +240,14 @@ export class ServiceBusTestHelpers {
       });
       // for-loop to receive messages from those `session-id`s
       for (const id of setOfSessionIds) {
-        receiverClient = await this.getReceiveAndDeleteReceiver({
+        receiver = await this.getReceiveAndDeleteReceiver({
           queue: entityNames.queue,
           topic: entityNames.topic,
           subscription: entityNames.subscription,
           usesSessions: true,
           sessionId: id
         });
-        const msgs = await receiverClient.receiveBatch(numOfMsgsWithSessionId[id], {
+        const msgs = await receiver.receiveMessages(numOfMsgsWithSessionId[id], {
           // Since we know the exact number of messages to be received per session-id,
           //   a higher `maxWaitTimeInMs` is not a problem
           maxWaitTimeInMs: 5000 * numOfMsgsWithSessionId[id]
@@ -202,7 +258,7 @@ export class ServiceBusTestHelpers {
           `Unexpected number of messages received with session-id - "${id}".`
         );
         receivedMsgs = !receivedMsgs! ? msgs : receivedMsgs!.concat(msgs);
-        await receiverClient.close();
+        await receiver.close();
       }
     }
     should.equal(
@@ -211,15 +267,20 @@ export class ServiceBusTestHelpers {
       "Unexpected number of messages received."
     );
     receivedMsgs!.forEach((receivedMessage) => {
-      sentMessages = sentMessages.filter(
-        (sentMessage) =>
-          sentMessage.messageId !== receivedMessage.messageId &&
-          sentMessage.body !== receivedMessage.body
-        // To Do - Can check more properties here other than just messageId and body
-      );
+      sentMessages = sentMessages.filter((sentMessage) => {
+        try {
+          TestMessage.checkMessageContents(sentMessage, receivedMessage, useSessions);
+          return true;
+        } catch (err) {
+          return false;
+        }
+      });
     });
     should.equal(sentMessages.length, 0, "Unexpected messages received.");
-    // To Do - Maybe peek into the entity to make sure there are no messages left in the entity
+    // Relying on Atom mgmt client for the message count verification instead of the `testPeekMsgsLength`
+    // because creating the session receivers might encounter timeouts or
+    // "MessagingError: No unlocked sessions were available" when there are no available sessions
+    await verifyMessageCount(0, entityNames.queue, entityNames.topic, entityNames.subscription);
   }
 
   async after(): Promise<void> {
@@ -265,7 +326,7 @@ export class ServiceBusTestHelpers {
    * The receiver created by this method will be cleaned up by `afterEach()`
    */
   async getPeekLockReceiver(
-    entityNames: ReturnType<typeof getEntityNames>
+    entityNames: Omit<ReturnType<typeof getEntityNames>, "isPartitioned">
   ): Promise<Receiver<ReceivedMessageWithLock>> {
     try {
       // if you're creating a receiver this way then you'll just use the default
@@ -293,7 +354,7 @@ export class ServiceBusTestHelpers {
   }
 
   async getSessionPeekLockReceiver(
-    entityNames: ReturnType<typeof getEntityNames>,
+    entityNames: Omit<ReturnType<typeof getEntityNames>, "isPartitioned">,
     getSessionReceiverOptions?: CreateSessionReceiverOptions
   ): Promise<SessionReceiver<ReceivedMessageWithLock>> {
     if (!entityNames.usesSessions) {
@@ -380,6 +441,14 @@ export class ServiceBusTestHelpers {
     );
   }
 
+  async createSender(entityNames: Omit<ReturnType<typeof getEntityNames>, "isPartitioned">) {
+    return this.addToCleanup(
+      entityNames.queue
+        ? this._serviceBusClient.createSender(entityNames.queue)
+        : this._serviceBusClient.createSender(entityNames.topic!)
+    );
+  }
+
   private _closeables: { close(): Promise<void> }[] = [];
   private _testClientEntities: Map<TestClientType, ReturnType<typeof getEntityNames>> = new Map();
 }
@@ -434,7 +503,7 @@ export function createServiceBusClientForTests(
 export async function drainReceiveAndDeleteReceiver(receiver: Receiver<{}>): Promise<void> {
   try {
     while (true) {
-      const messages = await receiver.receiveBatch(10, { maxWaitTimeInMs: 1000 });
+      const messages = await receiver.receiveMessages(10, { maxWaitTimeInMs: 1000 });
 
       if (messages.length === 0) {
         break;
@@ -459,12 +528,10 @@ export async function testPeekMsgsLength(
   peekableReceiver: Receiver<ReceivedMessage>,
   expectedPeekLength: number
 ): Promise<void> {
-  const browsedMsgs = await peekableReceiver.browseMessages({
-    maxMessageCount: expectedPeekLength + 1
-  });
+  const peekedMsgs = await peekableReceiver.peekMessages(expectedPeekLength + 1);
 
   should.equal(
-    browsedMsgs.length,
+    peekedMsgs.length,
     expectedPeekLength,
     "Unexpected number of msgs found when peeking"
   );

@@ -19,6 +19,8 @@ class SignalRManagementClient extends SignalRManagementClientContext {
   // Operation groups
   operations: operations.Operations;
   signalR: operations.SignalR;
+  signalRPrivateEndpointConnections: operations.SignalRPrivateEndpointConnections;
+  signalRPrivateLinkResources: operations.SignalRPrivateLinkResources;
   usages: operations.Usages;
 
   /**
@@ -32,6 +34,8 @@ class SignalRManagementClient extends SignalRManagementClientContext {
     super(credentials, subscriptionId, options);
     this.operations = new operations.Operations(this);
     this.signalR = new operations.SignalR(this);
+    this.signalRPrivateEndpointConnections = new operations.SignalRPrivateEndpointConnections(this);
+    this.signalRPrivateLinkResources = new operations.SignalRPrivateLinkResources(this);
     this.usages = new operations.Usages(this);
   }
 }

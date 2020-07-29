@@ -690,30 +690,30 @@ export class Apps {
 
   /**
    * Imports an application to LUIS, the application's structure is included in the request body.
-   * @param luisApplu A LUIS application structure.
+   * @param luisAppLu A LUIS application structure.
    * @param [options] The optional parameters
-   * @returns Promise<Models.AppsImportLuFromatResponse>
+   * @returns Promise<Models.AppsImportLuFormatResponse>
    */
-  importLuFromat(luisApplu: string, options?: Models.AppsImportLuFromatOptionalParams): Promise<Models.AppsImportLuFromatResponse>;
+  importLuFormat(luisAppLu: string, options?: Models.AppsImportLuFormatOptionalParams): Promise<Models.AppsImportLuFormatResponse>;
   /**
-   * @param luisApplu A LUIS application structure.
+   * @param luisAppLu A LUIS application structure.
    * @param callback The callback
    */
-  importLuFromat(luisApplu: string, callback: msRest.ServiceCallback<string>): void;
+  importLuFormat(luisAppLu: string, callback: msRest.ServiceCallback<string>): void;
   /**
-   * @param luisApplu A LUIS application structure.
+   * @param luisAppLu A LUIS application structure.
    * @param options The optional parameters
    * @param callback The callback
    */
-  importLuFromat(luisApplu: string, options: Models.AppsImportLuFromatOptionalParams, callback: msRest.ServiceCallback<string>): void;
-  importLuFromat(luisApplu: string, options?: Models.AppsImportLuFromatOptionalParams | msRest.ServiceCallback<string>, callback?: msRest.ServiceCallback<string>): Promise<Models.AppsImportLuFromatResponse> {
+  importLuFormat(luisAppLu: string, options: Models.AppsImportLuFormatOptionalParams, callback: msRest.ServiceCallback<string>): void;
+  importLuFormat(luisAppLu: string, options?: Models.AppsImportLuFormatOptionalParams | msRest.ServiceCallback<string>, callback?: msRest.ServiceCallback<string>): Promise<Models.AppsImportLuFormatResponse> {
     return this.client.sendOperationRequest(
       {
-        luisApplu,
+        luisAppLu,
         options
       },
-      importLuFromatOperationSpec,
-      callback) as Promise<Models.AppsImportLuFromatResponse>;
+      importLuFormatOperationSpec,
+      callback) as Promise<Models.AppsImportLuFormatResponse>;
   }
 }
 
@@ -1304,7 +1304,7 @@ const importV2AppOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const importLuFromatOperationSpec: msRest.OperationSpec = {
+const importLuFormatOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "apps/import",
   urlParameters: [
@@ -1314,10 +1314,10 @@ const importLuFromatOperationSpec: msRest.OperationSpec = {
     Parameters.appName
   ],
   requestBody: {
-    parameterPath: "luisApplu",
+    parameterPath: "luisAppLu",
     mapper: {
       required: true,
-      serializedName: "luisApplu",
+      serializedName: "luisAppLu",
       type: {
         name: "String"
       }

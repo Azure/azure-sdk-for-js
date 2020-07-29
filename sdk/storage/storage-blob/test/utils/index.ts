@@ -4,10 +4,10 @@ import * as fs from "fs";
 import * as path from "path";
 
 import { SimpleTokenCredential } from "./testutils.common";
-import { StorageSharedKeyCredential } from "../../src/credentials/StorageSharedKeyCredential";
-import { BlobServiceClient } from "../../src/BlobServiceClient";
+import { StorageSharedKeyCredential } from "../../src";
+import { BlobServiceClient } from "../../src";
 import { getUniqueName } from "./testutils.common";
-import { newPipeline } from "../../src/Pipeline";
+import { newPipeline } from "../../src";
 import {
   generateAccountSASQueryParameters,
   AccountSASPermissions,
@@ -148,14 +148,30 @@ export async function bodyToString(
 export async function createRandomLocalFile(
   folder: string,
   blockNumber: number,
+  blockContent: Buffer
+): Promise<string>;
+export async function createRandomLocalFile(
+  folder: string,
+  blockNumber: number,
   blockSize: number
+): Promise<string>;
+export async function createRandomLocalFile(
+  folder: string,
+  blockNumber: number,
+  blockSizeOrContent: number | Buffer
 ): Promise<string> {
   return new Promise<string>((resolve, reject) => {
     const destFile = path.join(folder, getUniqueName("tempfile."));
     const ws = fs.createWriteStream(destFile);
     let offsetInMB = 0;
 
-    function randomValueHex(len = blockSize) {
+    function randomValueHex() {
+      if (blockSizeOrContent instanceof Buffer) {
+        return blockSizeOrContent;
+      }
+
+      const len = blockSizeOrContent;
+
       return randomBytes(Math.ceil(len / 2))
         .toString("hex") // convert to hexadecimal format
         .slice(0, len); // return required number of characters

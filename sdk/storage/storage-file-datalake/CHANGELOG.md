@@ -1,7 +1,20 @@
 # Release History
 
-## 12.0.1 (Unreleased)
+## 12.1.0 (Unreleased)
 
+
+## 12.1.0-preview.1 (2020.07)
+
+- Increased the maximum block size for file from 100MiB to 4000MiB(~4GB). And thereby supporting ~200TB maximum size for file.
+- Added more mappings for Blob and DFS endpoints. [issue #8744](https://github.com/Azure/azure-sdk-for-js/issues/8744).
+- Added convenience methods `createIfNotExists`, `deleteIfExists` to `DataLakeFileSystemClient`, `DataLakePathClient`, `DataLakeDirectoryClient`, and `DataLakeFileClient`.
+
+## 12.0.1 (2020.05)
+
+- Fix data corruption failure error [issue #6411](https://github.com/Azure/azure-sdk-for-js/issues/6411) when downloading compressed files. [PR #7993](https://github.com/Azure/azure-sdk-for-js/pull/7993)
+- Fix un-handled TypeError [issue #8499](https://github.com/Azure/azure-sdk-for-js/issues/8499) in Electron applications. [PR #8568](https://github.com/Azure/azure-sdk-for-js/pull/8568)
+- Updated to use `@opentelemetry/api` 0.6.1 via `@azure/core-tracing`. [PR #7998](https://github.com/Azure/azure-sdk-for-js/pull/7998)
+- Updated to use `typescript` 3.8.3. [PR #8659](https://github.com/Azure/azure-sdk-for-js/pull/8659)
 
 ## 12.0.0 (2020.03)
 

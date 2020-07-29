@@ -36,16 +36,16 @@
     "@azure/event-hubs": "^2.1.4",
     "@azure/event-processor-host": "^2.0.0",
     "@types/node": "^8.0.0",
-    "@types/uuid": "^3.4.3",
-    "@types/yargs": "^13.0.0",
+    "@types/uuid": "^8.0.0",
+    "@types/yargs": "^15.0.5",
     "async-lock": "^1.1.3",
     "death": "^1.1.0",
     "debug": "^4.1.1",
-    "rhea": "^1.0.18",
+    "rhea": "^1.0.21",
     "rimraf": "^3.0.0",
-    "tslib": "^1.10.0",
-    "typescript": "~3.8.3",
-    "uuid": "^3.3.2",
+    "tslib": "^2.0.0",
+    "typescript": "~3.9.3",
+    "uuid": "^8.1.0",
     "yargs": "^15.0.0"
   }
 }

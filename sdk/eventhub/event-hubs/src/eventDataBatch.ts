@@ -4,10 +4,10 @@
 import { EventData, toAmqpMessage } from "./eventData";
 import { ConnectionContext } from "./connectionContext";
 import { AmqpMessage } from "@azure/core-amqp";
-import { message, MessageAnnotations } from "rhea-promise";
+import { MessageAnnotations, message } from "rhea-promise";
 import { throwTypeErrorIfParameterMissing } from "./util/error";
 import { Span, SpanContext } from "@opentelemetry/api";
-import { instrumentEventData, TRACEPARENT_PROPERTY } from "./diagnostics/instrumentEventData";
+import { TRACEPARENT_PROPERTY, instrumentEventData } from "./diagnostics/instrumentEventData";
 import { createMessageSpan } from "./diagnostics/messageSpan";
 
 /**
@@ -139,9 +139,14 @@ export class EventDataBatchImpl implements EventDataBatch {
    */
   private _context: ConnectionContext;
   /**
+   * @property The Id of the partition to which the batch is expected to be sent to.
+   * Specifying this will throw an error if the batch was created using a `paritionKey`.
+   */
+  private _partitionId?: string;
+  /**
    * @property A value that is hashed to produce a partition assignment.
    * It guarantees that messages with the same partitionKey end up in the same partition.
-   * Specifying this will throw an error if the producer was created using a `paritionId`.
+   * Specifying this will throw an error if the batch was created using a `paritionId`.
    */
   private _partitionKey?: string;
   /**
@@ -183,11 +188,12 @@ export class EventDataBatchImpl implements EventDataBatch {
     context: ConnectionContext,
     maxSizeInBytes: number,
     partitionKey?: string,
-    private _partitionId?: string
+    partitionId?: string
   ) {
     this._context = context;
     this._maxSizeInBytes = maxSizeInBytes;
-    this._partitionKey = partitionKey;
+    this._partitionKey = partitionKey != undefined ? String(partitionKey) : partitionKey;
+    this._partitionId = partitionId != undefined ? String(partitionId) : partitionId;
     this._sizeInBytes = 0;
     this._count = 0;
   }

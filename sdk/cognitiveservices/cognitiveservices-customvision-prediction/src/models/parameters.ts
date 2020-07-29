@@ -10,16 +10,6 @@
 
 import * as msRest from "@azure/ms-rest-js";
 
-export const apiKey: msRest.OperationParameter = {
-  parameterPath: "apiKey",
-  mapper: {
-    required: true,
-    serializedName: "Prediction-Key",
-    type: {
-      name: "String"
-    }
-  }
-};
 export const application: msRest.OperationQueryParameter = {
   parameterPath: [
     "options",

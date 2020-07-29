@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 
-import * as fs from "fs";
 import { HttpRequestBody, HttpResponse, isNode, TransferProgressEvent } from "@azure/core-http";
 import { CanonicalCode } from "@opentelemetry/api";
 import { AbortSignalLike } from "@azure/abort-controller";
@@ -56,7 +55,12 @@ import { Batch } from "./utils/Batch";
 import { BufferScheduler } from "./utils/BufferScheduler";
 import { Readable } from "stream";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
-import { readStreamToLocalFile, streamToBuffer, fsStat } from "./utils/utils.node";
+import {
+  readStreamToLocalFile,
+  streamToBuffer,
+  fsStat,
+  fsCreateReadStream
+} from "./utils/utils.node";
 import { FileSystemAttributes } from "./FileSystemAttributes";
 import { getShareNameAndPathFromUrl } from "./utils/utils.common";
 import { createSpan } from "./utils/tracing";
@@ -76,7 +80,7 @@ export interface FileCreateOptions extends FileAndDirectoryCreateCommonOptions, 
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    *
    * @type {AbortSignalLike}
-   * @memberof AppendBlobCreateOptions
+   * @memberof FileCreateOptions
    */
   abortSignal?: AbortSignalLike;
   /**
@@ -170,7 +174,7 @@ export interface FileDownloadOptions extends CommonOptions {
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    *
    * @type {AbortSignalLike}
-   * @memberof AppendBlobCreateOptions
+   * @memberof FileDownloadOptions
    */
   abortSignal?: AbortSignalLike;
   /**
@@ -227,7 +231,7 @@ export interface FileUploadRangeOptions extends CommonOptions {
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    *
    * @type {AbortSignalLike}
-   * @memberof AppendBlobCreateOptions
+   * @memberof FileUploadRangeOptions
    */
   abortSignal?: AbortSignalLike;
   /**
@@ -331,7 +335,7 @@ export interface FileGetRangeListOptions extends CommonOptions {
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    *
    * @type {AbortSignalLike}
-   * @memberof AppendBlobCreateOptions
+   * @memberof FileGetRangeListOptions
    */
   abortSignal?: AbortSignalLike;
   /**
@@ -351,6 +355,23 @@ export interface FileGetRangeListOptions extends CommonOptions {
 }
 
 /**
+ * Options to configure the {@link ShareFileClient.exists} operation.
+ *
+ * @export
+ * @interface FileExistsOptions
+ */
+export interface FileExistsOptions extends CommonOptions {
+  /**
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
+   *
+   * @type {AbortSignalLike}
+   * @memberof FileExistsOptions
+   */
+  abortSignal?: AbortSignalLike;
+}
+
+/**
  * Options to configure the {@link ShareFileClient.getProperties} operation.
  *
  * @export
@@ -362,7 +383,7 @@ export interface FileGetPropertiesOptions extends CommonOptions {
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    *
    * @type {AbortSignalLike}
-   * @memberof AppendBlobCreateOptions
+   * @memberof FileGetPropertiesOptions
    */
   abortSignal?: AbortSignalLike;
   /**
@@ -820,7 +841,7 @@ export interface FileDownloadToBufferOptions extends CommonOptions {
   abortSignal?: AbortSignalLike;
   /**
    * When downloading Azure files, download method will try to split large file into small ranges.
-   * Every small range will be downloaded via a separte request.
+   * Every small range will be downloaded via a separate request.
    * This option defines size data every small request trying to download.
    * Must be > 0, will use the default value if undefined,
    *
@@ -869,6 +890,22 @@ export interface FileDownloadToBufferOptions extends CommonOptions {
    * @memberof FileDownloadToBufferOptions
    */
   leaseAccessConditions?: LeaseAccessConditions;
+}
+
+/**
+ * Contains response data for the {@link ShareFileClient.deleteIfExists} operation.
+ *
+ * @export
+ * @interface FileDeleteIfExistsResponse
+ */
+export interface FileDeleteIfExistsResponse extends FileDeleteResponse {
+  /**
+   * Indicate whether the file is successfully deleted. Is false if the file does not exist in the first place.
+   *
+   * @type {boolean}
+   * @memberof FileDeleteIfExistsResponse
+   */
+  succeeded: boolean;
 }
 
 /**
@@ -1192,6 +1229,46 @@ export class ShareFileClient extends StorageClient {
   }
 
   /**
+   * Returns true if the specified file exists; false otherwise.
+   *
+   * NOTE: use this function with care since an existing file might be deleted by other clients or
+   * applications. Vice versa new files might be added by other clients or applications after this
+   * function completes.
+   *
+   * @param {FileExistsOptions} [options] options to Exists operation.
+   * @returns {Promise<boolean>}
+   * @memberof ShareFileClient
+   */
+  public async exists(options: FileExistsOptions = {}): Promise<boolean> {
+    const { span, spanOptions } = createSpan("ShareFileClient-exists", options.tracingOptions);
+    try {
+      await this.getProperties({
+        abortSignal: options.abortSignal,
+        tracingOptions: {
+          ...options.tracingOptions,
+          spanOptions
+        }
+      });
+      return true;
+    } catch (e) {
+      if (e.statusCode === 404) {
+        span.setStatus({
+          code: CanonicalCode.NOT_FOUND,
+          message: "Expected exception when checking file existence"
+        });
+        return false;
+      }
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
    * Returns all user-defined metadata, standard HTTP properties, and system properties
    * for the file. It does not return the content of the file.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-file-properties
@@ -1296,6 +1373,62 @@ export class ShareFileClient extends StorageClient {
         spanOptions
       });
     } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Removes the file from the storage account if it exists.
+   * When a file is successfully deleted, it is immediately removed from the storage
+   * account's index and is no longer accessible to clients. The file's data is later
+   * removed from the service during garbage collection.
+   *
+   * Delete File will fail with status code 409 (Conflict) and error code SharingViolation
+   * if the file is open on an SMB client.
+   *
+   * Delete File is not supported on a share snapshot, which is a read-only copy of
+   * a share. An attempt to perform this operation on a share snapshot will fail with 400 (InvalidQueryParameterValue)
+   *
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/delete-file2
+   *
+   * @param {FileDeleteOptions} [options]
+   * @returns {Promise<FileDeleteIfExistsResponse>}
+   * @memberof ShareFileClient
+   */
+  public async deleteIfExists(
+    options: FileDeleteOptions = {}
+  ): Promise<FileDeleteIfExistsResponse> {
+    const { span, spanOptions } = createSpan(
+      "ShareFileClient-deleteIfExists",
+      options.tracingOptions
+    );
+    try {
+      const res = await this.delete({
+        ...options,
+        tracingOptions: { ...options!.tracingOptions, spanOptions }
+      });
+      return {
+        succeeded: true,
+        ...res
+      };
+    } catch (e) {
+      if (e.details?.errorCode === "ResourceNotFound") {
+        span.setStatus({
+          code: CanonicalCode.NOT_FOUND,
+          message: "Expected exception when deleting a file only if it exists."
+        });
+        return {
+          succeeded: false,
+          ...e.response?.parsedHeaders,
+          _response: e.response
+        };
+      }
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
         message: e.message
@@ -1875,7 +2008,7 @@ export class ShareFileClient extends StorageClient {
       const size = (await fsStat(filePath)).size;
       return await this.uploadResetableStream(
         (offset, count) =>
-          fs.createReadStream(filePath, {
+          fsCreateReadStream(filePath, {
             autoClose: true,
             end: count ? offset + count - 1 : Infinity,
             start: offset
@@ -2183,7 +2316,7 @@ export class ShareFileClient extends StorageClient {
         } catch (error) {
           throw new Error(
             `Unable to allocate a buffer of size: ${count} bytes. Please try passing your own Buffer to ` +
-              'the "downloadToBuffer method or try using other moethods like "download" or "downloadToFile".' +
+              'the "downloadToBuffer method or try using other methods like "download" or "downloadToFile".' +
               `\t ${error.message}`
           );
         }
@@ -2247,7 +2380,7 @@ export class ShareFileClient extends StorageClient {
    *   parameter, which will avoid Buffer.concat() operations.
    *
    * @param {Readable} stream Node.js Readable stream. Must be less or equal than file size.
-   * @param {number} size Size of file to be created. Maxium size allowed is 1TB.
+   * @param {number} size Size of file to be created. Maximum size allowed is 1TB.
    *                      If this value is larger than stream size, there will be empty bytes in file tail.
    * @param {number} bufferSize Size of every buffer allocated in bytes, also the chunk/range size during
    *                            the uploaded file. Size must be > 0 and <= 4 * 1024 * 1024 (4MB)

@@ -3,7 +3,7 @@
   Licensed under the MIT Licence.
 
   **NOTE**: If you are using version 1.1.x or lower, then please use the link below:
-  https://github.com/Azure/azure-sdk-for-js/tree/%40azure/service-bus_1.1.5/sdk/servicebus/service-bus/samples
+  https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/servicebus/service-bus/samples-v1
   
   This sample demonstrates how the scheduleMessage() function can be used to schedule messages to
   appear on a Service Bus Queue/Subscription at a later time.
@@ -47,7 +47,7 @@ async function main() {
 // Scheduling messages to be sent after 10 seconds from now
 async function sendScheduledMessages(sbClient) {
   // createSender() handles sending to a queue or a topic
-  const sender = await sbClient.createSender(queueName);
+  const sender = sbClient.createSender(queueName);
 
   const messages = listOfScientists.map((scientist) => ({
     body: `${scientist.firstName} ${scientist.lastName}`,

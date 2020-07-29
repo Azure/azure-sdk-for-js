@@ -5,7 +5,7 @@ import { assert } from "chai";
 
 import {
   TextAnalyticsClient,
-  DetectLanguageResultCollection,
+  DetectLanguageResultArray,
   DetectLanguageSuccessResult,
   AzureKeyCredential
 } from "../src";
@@ -17,7 +17,7 @@ describe("TextAnalyticsClient Custom PipelineOptions", function() {
   let credential = new AzureKeyCredential(testEnv.TEXT_ANALYTICS_API_KEY);
 
   it("use custom HTTPClient", async () => {
-    const pipelineTester = new Promise<DetectLanguageResultCollection>((resolve) => {
+    const pipelineTester = new Promise<DetectLanguageResultArray>((resolve) => {
       const client = new TextAnalyticsClient(testEnv.ENDPOINT, credential, {
         httpClient: {
           sendRequest: async (request: WebResource): Promise<HttpOperationResponse> => ({
@@ -25,7 +25,7 @@ describe("TextAnalyticsClient Custom PipelineOptions", function() {
             request,
             bodyAsText: JSON.stringify({
               documents: [
-                { id: "0", detectedLanguages: [{ name: "English", iso6391Name: "en", score: 1.0 }] }
+                { id: "0", detectedLanguage: { name: "English", iso6391Name: "en", score: 1.0 } }
               ],
               errors: [],
               modelVersion: "2019-10-01"

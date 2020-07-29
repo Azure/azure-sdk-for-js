@@ -1,5 +1,5 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License. See License.txt in the project root for license information.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
 import * as tough from "tough-cookie";
 import * as http from "http";
@@ -87,12 +87,13 @@ export class NodeFetchHttpClient extends FetchHttpClient {
     }
   }
 
+  // eslint-disable-next-line @azure/azure-sdk/ts-apisurface-standardized-verbs
   async fetch(input: CommonRequestInfo, init?: RequestInit): Promise<Response> {
     return fetch(input, init);
   }
 
   async prepareRequest(httpRequest: WebResourceLike): Promise<Partial<RequestInit>> {
-    const requestInit: Partial<RequestInit & { agent?: any, compress?: boolean }> = {};
+    const requestInit: Partial<RequestInit & { agent?: any; compress?: boolean }> = {};
 
     if (this.cookieJar && !httpRequest.headers.get("Cookie")) {
       const cookieString = await new Promise<string>((resolve, reject) => {
@@ -119,7 +120,7 @@ export class NodeFetchHttpClient extends FetchHttpClient {
   async processRequest(operationResponse: HttpOperationResponse): Promise<void> {
     if (this.cookieJar) {
       const setCookieHeader = operationResponse.headers.get("Set-Cookie");
-      if (setCookieHeader != undefined) {
+      if (setCookieHeader !== undefined) {
         await new Promise((resolve, reject) => {
           this.cookieJar!.setCookie(
             setCookieHeader,

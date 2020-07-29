@@ -3,17 +3,17 @@
 
 import {
   MessageReceiver,
-  ReceiveOptions,
-  OnMessage,
   OnError,
+  OnMessage,
+  ReceiveOptions,
   ReceiverType
 } from "./messageReceiver";
 
 import { ClientEntityContext } from "../clientEntityContext";
 
-import * as log from "../log";
 import { throwErrorIfConnectionClosed } from "../util/errors";
 import { RetryOperationType, RetryConfig, retry } from "@azure/core-amqp";
+import { OperationOptionsBase } from "../modelsToBeSharedWithEventHubs";
 
 /**
  * @internal
@@ -32,21 +32,6 @@ export class StreamingReceiver extends MessageReceiver {
    */
   constructor(context: ClientEntityContext, options?: ReceiveOptions) {
     super(context, ReceiverType.streaming, options);
-
-    this.resetTimerOnNewMessageReceived = () => {
-      if (this._newMessageReceivedTimer) clearTimeout(this._newMessageReceivedTimer);
-      if (this.newMessageWaitTimeoutInMs) {
-        this._newMessageReceivedTimer = setTimeout(async () => {
-          const msg =
-            `StreamingReceiver '${this.name}' did not receive any messages in ` +
-            `the last ${this.newMessageWaitTimeoutInMs} milliseconds. ` +
-            `Hence ending this receive operation.`;
-          log.error("[%s] %s", this._context.namespace.connectionId, msg);
-
-          await this.close();
-        }, this.newMessageWaitTimeoutInMs);
-      }
-    };
   }
 
   /**
@@ -59,10 +44,7 @@ export class StreamingReceiver extends MessageReceiver {
     throwErrorIfConnectionClosed(this._context.namespace);
     this._onMessage = onMessage;
     this._onError = onError;
-
-    if (this._receiver) {
-      this._receiver.addCredit(this.maxConcurrentCalls);
-    }
+    this.receiverHelper.addCredit(this.maxConcurrentCalls);
   }
 
   /**
@@ -75,20 +57,34 @@ export class StreamingReceiver extends MessageReceiver {
    */
   static async create(
     context: ClientEntityContext,
-    options?: ReceiveOptions
+    options?: ReceiveOptions &
+      Pick<OperationOptionsBase, "abortSignal"> & {
+        _createStreamingReceiver?: (
+          context: ClientEntityContext,
+          options?: ReceiveOptions
+        ) => StreamingReceiver;
+      }
   ): Promise<StreamingReceiver> {
     throwErrorIfConnectionClosed(context.namespace);
     if (!options) options = {};
     if (options.autoComplete == null) options.autoComplete = true;
-    const sReceiver = new StreamingReceiver(context, options);
+
+    let sReceiver: StreamingReceiver;
+
+    if (options?._createStreamingReceiver) {
+      sReceiver = options._createStreamingReceiver(context, options);
+    } else {
+      sReceiver = new StreamingReceiver(context, options);
+    }
 
     const config: RetryConfig<void> = {
       operation: () => {
-        return sReceiver._init();
+        return sReceiver._init(undefined, options?.abortSignal);
       },
       connectionId: context.namespace.connectionId,
       operationType: RetryOperationType.receiveMessage,
-      retryOptions: options.retryOptions
+      retryOptions: options.retryOptions,
+      abortSignal: options?.abortSignal
     };
     await retry<void>(config);
     context.streamingReceiver = sReceiver;

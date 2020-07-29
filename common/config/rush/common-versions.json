@@ -51,7 +51,15 @@
     // ]
     // Following is required to allow for backward compatibility with Event Processor Host Track 1
     "@azure/event-hubs": ["^2.1.4"],
-    // Allow packages to continue to use old eslint-plugin-azure-sdk until they can adapt to 3.0.0
-    "@azure/eslint-plugin-azure-sdk": ["^2.0.1"]
+
+    // Allow storage-blob-changefeed and storage-file-datalake to use the preview version of storage-blob.
+    "@azure/storage-blob": ["^12.2.0-preview.1"],
+
+    // Monitor: Allow node 10 types until Timeout / Timer conflict is resolved in OpenTelemetry repo
+    // TODO: remove when released https://github.com/open-telemetry/opentelemetry-js/pull/1352
+    "@types/node": ["^10.0.0"],
+
+    // Monitor: Always test on latest version of OpenTelemetry
+    "@opentelemetry/api": ["^0.10.1"]
   }
 }

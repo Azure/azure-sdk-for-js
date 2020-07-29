@@ -24,7 +24,7 @@
   "homepage": "https://github.com/Azure/azure-sdk-for-js#readme",
   "sideEffects": false,
   "dependencies": {
-    "@azure/app-configuration": "next",
+    "@azure/app-configuration": "^1.0.0",
     "dotenv": "^8.2.0"
   },
   "devDependencies": {

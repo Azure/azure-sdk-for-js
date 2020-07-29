@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { generate_uuid } from "rhea-promise";
-import { delay, AsyncLock } from "@azure/core-amqp";
+import { AsyncLock, delay } from "@azure/core-amqp";
 import * as log from "../log";
 
 /**

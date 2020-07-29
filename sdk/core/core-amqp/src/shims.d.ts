@@ -1,5 +1,5 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
 // d.ts shims provide types for things we use internally but are not part
 // of amqp-common's surface area.
@@ -11,6 +11,6 @@ interface Navigator {
 interface Window {
   readonly navigator: Navigator;
 }
-declare var navigator: Navigator;
+declare let navigator: Navigator;
 
-declare var window: Window;
+declare let window: Window;

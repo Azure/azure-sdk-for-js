@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AppConfigurationClient, AppConfigurationClientOptions } from "../src";
+import { AppConfigurationClient } from "../src";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { ConfigurationSetting, ListConfigurationSettingPage, ListRevisionsPage } from "../src";
 import { env, isPlaybackMode, RecorderEnvironmentSetup, record } from "@azure/test-utils-recorder";
@@ -88,7 +88,7 @@ export function createAppConfigurationClientForTests(
 }
 
 export async function deleteKeyCompletely(keys: string[], client: AppConfigurationClient) {
-  const settingsIterator = await client.listConfigurationSettings({
+  const settingsIterator = client.listConfigurationSettings({
     keyFilter: keys.join(",")
   });
 

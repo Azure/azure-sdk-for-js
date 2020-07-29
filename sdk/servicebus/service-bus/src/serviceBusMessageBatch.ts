@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { ServiceBusMessage, toAmqpMessage } from "./serviceBusMessage";
+import { ServiceBusMessage, toAmqpMessage, isServiceBusMessage } from "./serviceBusMessage";
 import { throwTypeErrorIfParameterMissing } from "./util/errors";
 import { ClientEntityContext } from "./clientEntityContext";
 import {
-  message as RheaMessageUtil,
+  MessageAnnotations,
   messageProperties as RheaMessagePropertiesList,
-  MessageAnnotations
+  message as RheaMessageUtil
 } from "rhea-promise";
 import { AmqpMessage } from "@azure/core-amqp";
 
@@ -215,7 +215,10 @@ export class ServiceBusMessageBatchImpl implements ServiceBusMessageBatch {
    * @returns A boolean value indicating if the message has been added to the batch or not.
    */
   public tryAdd(message: ServiceBusMessage): boolean {
-    throwTypeErrorIfParameterMissing(this._context.namespace.connectionId, "tryAdd", "message");
+    throwTypeErrorIfParameterMissing(this._context.namespace.connectionId, "message", message);
+    if (!isServiceBusMessage(message)) {
+      throw new TypeError("Provided value for 'message' must be of type ServiceBusMessage.");
+    }
 
     // Convert ServiceBusMessage to AmqpMessage.
     const amqpMessage = toAmqpMessage(message);

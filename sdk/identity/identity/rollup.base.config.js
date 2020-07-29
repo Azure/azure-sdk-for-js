@@ -12,7 +12,7 @@ const input = "dist-esm/src/index.js";
 const production = process.env.NODE_ENV === "production";
 
 export function nodeConfig(test = false) {
-  const externalNodeBuiltins = ["crypto", "events", "fs", "child-process"];
+  const externalNodeBuiltins = ["crypto", "events", "fs", "child_process"];
   const baseConfig = {
     input: input,
     external: depNames.concat(externalNodeBuiltins),
@@ -22,11 +22,9 @@ export function nodeConfig(test = false) {
       sourcemaps(),
       replace({
         delimiters: ["", ""],
-        values: {
-          // replace dynamic checks with if (true) since this is for node only.
-          // Allows rollup's dead code elimination to be more aggressive.
-          "if (isNode)": "if (true)"
-        }
+        // replace dynamic checks with if (true) since this is for node only.
+        // Allows rollup's dead code elimination to be more aggressive.
+        "if (isNode)": "if (true)"
       }),
       nodeResolve({ preferBuiltins: true }),
       cjs()
@@ -43,7 +41,7 @@ export function nodeConfig(test = false) {
     baseConfig.output.file = "test-dist/index.js";
 
     // mark assert as external
-    baseConfig.external.push("assert");
+    baseConfig.external.push("assert", "path");
 
     // Disable tree-shaking of test code.  In rollup-plugin-node-resolve@5.0.0, rollup started respecting
     // the "sideEffects" field in package.json.  Since our package.json sets "sideEffects=false", this also
@@ -70,12 +68,10 @@ export function browserConfig(test = false) {
       sourcemaps(),
       replace({
         delimiters: ["", ""],
-        values: {
-          // replace dynamic checks with if (false) since this is for
-          // browser only. Rollup's dead code elimination will remove
-          // any code guarded by if (isNode) { ... }
-          "if (isNode)": "if (false)"
-        }
+        // replace dynamic checks with if (false) since this is for
+        // browser only. Rollup's dead code elimination will remove
+        // any code guarded by if (isNode) { ... }
+        "if (isNode)": "if (false)"
       }),
       nodeResolve({
         mainFields: ["module", "browser"],

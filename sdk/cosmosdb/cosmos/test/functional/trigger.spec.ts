@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import assert from "assert";
-import { TriggerOperation, TriggerType } from "../../dist-esm";
-import { TriggerDefinition, Container } from "../../dist-esm/client";
+import { TriggerOperation, TriggerType } from "../../src";
+import { TriggerDefinition, Container } from "../../src/client";
 import { getTestContainer, removeAllDatabases } from "../common/TestHelpers";
 
 const notFoundErrorCode = 404;

@@ -12,6 +12,7 @@
         "<node_internals>/**"
       ],
       "program": "${file}",
+      "cwd": "${fileDirname}",
       "outFiles": [
         "${workspaceFolder}/dist/**/*.js"
       ]

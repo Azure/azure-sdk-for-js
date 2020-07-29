@@ -2,34 +2,20 @@
 // Licensed under the MIT license.
 
 import { HttpOperationResponse } from "@azure/core-http";
+import { CorrelationRuleFilter } from "../core/managementClient";
+import {
+  AtomXmlSerializer,
+  deserializeAtomXmlResponse,
+  serializeToAtomXmlRequest
+} from "../util/atomXmlHelper";
 import * as Constants from "../util/constants";
 import {
-  serializeToAtomXmlRequest,
-  deserializeAtomXmlResponse,
-  AtomXmlSerializer
-} from "../util/atomXmlHelper";
-import {
-  getIntegerOrUndefined,
-  getStringOrUndefined,
   getBooleanOrUndefined,
+  getIntegerOrUndefined,
   getString,
+  getStringOrUndefined,
   isJSONLikeObject
 } from "../util/utils";
-import { CorrelationFilter } from "../core/managementClient";
-
-/**
- * @internal
- * @ignore
- * Builds the rule options object from the user provided options.
- * Handles the differences in casing for the property names,
- * converts values to string and ensures the right order as expected by the service
- * @param name
- * @param ruleOptions
- */
-export function buildRuleOptions(name: string, ruleOptions: RuleOptions = {}): InternalRuleOptions {
-  const internalRuleOptions: InternalRuleOptions = Object.assign({}, ruleOptions, { name: name });
-  return internalRuleOptions;
-}
 
 /**
  * @internal
@@ -38,14 +24,11 @@ export function buildRuleOptions(name: string, ruleOptions: RuleOptions = {}): I
  * response from the service
  * @param rawRule
  */
-export function buildRule(rawRule: any): RuleDetails {
+export function buildRule(rawRule: any): RuleProperties {
   return {
-    ruleName: getString(rawRule["RuleName"], "ruleName"),
-    topicName: getString(rawRule["TopicName"], "topicName"),
-    subscriptionName: getString(rawRule["SubscriptionName"], "subscriptionName"),
+    name: getString(rawRule["RuleName"], "ruleName"),
     filter: getTopicFilter(rawRule["Filter"]),
-    action: getRuleActionOrUndefined(rawRule["Action"]),
-    createdOn: getString(rawRule["CreatedAt"], "createdOn")
+    action: getRuleActionOrUndefined(rawRule["Action"])
   };
 }
 
@@ -56,8 +39,8 @@ export function buildRule(rawRule: any): RuleDetails {
  * or undefined if not passed in.
  * @param value
  */
-function getTopicFilter(value: any): SqlFilter | CorrelationFilter {
-  let result: SqlFilter | CorrelationFilter;
+function getTopicFilter(value: any): SqlRuleFilter | CorrelationRuleFilter {
+  let result: SqlRuleFilter | CorrelationRuleFilter;
 
   if (value["SqlExpression"] != undefined) {
     result = {
@@ -76,7 +59,7 @@ function getTopicFilter(value: any): SqlFilter | CorrelationFilter {
       sessionId: getStringOrUndefined(value["SessionId"]),
       messageId: getStringOrUndefined(value["MessageId"]),
       contentType: getStringOrUndefined(value["ContentType"]),
-      userProperties: value["UserProperties"]
+      properties: getUserPropertiesOrUndefined(value["Properties"])
     };
   }
   return result;
@@ -89,7 +72,7 @@ function getTopicFilter(value: any): SqlFilter | CorrelationFilter {
  * or undefined if not passed in.
  * @param value
  */
-function getRuleActionOrUndefined(value: any): SqlAction | undefined {
+function getRuleActionOrUndefined(value: any): SqlRuleAction | undefined {
   if (value == undefined) {
     return undefined;
   } else {
@@ -103,135 +86,55 @@ function getRuleActionOrUndefined(value: any): SqlAction | undefined {
 }
 
 /**
- * @internal
- * @ignore
- * Represents settable options on a rule
- */
-export interface RuleOptions {
-  /**
-   * @internal
-   * @ignore
-   * Defines the filter expression that the rule evaluates. For `SqlFilter` input,
-   * the expression string is interpreted as a SQL92 expression which must
-   * evaluate to True or False. Only one between a `CorrelationFilter` or
-   * a `SqlFilter` can be defined.
-   */
-  filter?: SqlFilter | CorrelationFilter;
-
-  /**
-   * @internal
-   * @ignore
-   * The SQL like expression that can be executed on the message should the
-   * associated filter apply.
-   */
-  action?: SqlAction;
-}
-
-/**
- * @internal
- * @ignore
- * Internal representation of settable options on a rule
- */
-export interface InternalRuleOptions extends RuleOptions {
-  /**
-   * @internal
-   * @ignore
-   * Name of the rule.
-   */
-  name?: string;
-}
-
-/**
- * @internal
- * @ignore
  * Represents all attributes of a rule entity
  */
-export interface RuleDetails {
+export interface RuleProperties {
   /**
-   * @internal
-   * @ignore
    * Name of the rule
    */
-  ruleName: string;
+  name: string;
 
   /**
-   * @internal
-   * @ignore
-   * Defines the filter expression that the rule evaluates. For `SqlFilter` input,
+   * Defines the filter expression that the rule evaluates. For `SqlRuleFilter` input,
    * the expression string is interpreted as a SQL92 expression which must
-   * evaluate to True or False. Only one between a `CorrelationFilter` or
-   * a `SqlFilter` can be defined.
+   * evaluate to True or False. Only one between a `CorrelationRuleFilter` or
+   * a `SqlRuleFilter` can be defined.
    */
-  filter?: SqlFilter | CorrelationFilter;
+  filter?: SqlRuleFilter | CorrelationRuleFilter;
 
   /**
-   * @internal
-   * @ignore
    * The SQL like expression that can be executed on the message should the
    * associated filter apply.
    */
-  action?: SqlAction;
-
-  /**
-   * @internal
-   * @ignore
-   * Name of topic
-   */
-  topicName: string;
-
-  /**
-   * @internal
-   * @ignore
-   * Name of subscription
-   */
-  subscriptionName: string;
-
-  /**
-   * @internal
-   * @ignore
-   * Created at timestamp
-   */
-  createdOn: string;
+  action?: SqlRuleAction;
 }
 
 /**
- * @internal
- * @ignore
  * Represents all possible fields on SqlAction
  */
-export type SqlAction = SqlFilter;
+export type SqlRuleAction = SqlRuleFilter;
 
 /**
- * @internal
- * @ignore
- * Represents all possible fields on SqlFilter
+ * Represents all possible fields on SqlRuleFilter
  */
-export interface SqlFilter {
+export interface SqlRuleFilter {
   /**
-   * @internal
-   * @ignore
    * SQL expression to use.
    */
   sqlExpression?: string;
 
   /**
-   * @internal
-   * @ignore
    * SQL parameters to the expression
    */
   sqlParameters?: SqlParameter[];
 
   /**
-   * @internal
-   * @ignore
    * This property is reserved for future use. An integer value showing the
    * compatibility level, currently hard-coded to 20.
    */
   compatibilityLevel?: number;
 
   /**
-   * @internal
-   * @ignore
    * Boolean value indicating whether the SQL filter expression requires preprocessing
    */
   requiresPreprocessing?: boolean;
@@ -239,10 +142,11 @@ export interface SqlFilter {
 
 /**
  * @internal
- * @ignore RuleResourceSerializer for serializing / deserializing Rule entities
+ * @ignore
+ * RuleResourceSerializer for serializing / deserializing Rule entities
  */
 export class RuleResourceSerializer implements AtomXmlSerializer {
-  serialize(rule: InternalRuleOptions): object {
+  serialize(rule: RuleProperties): object {
     const resource: { Name: any; Filter: any; Action: any } = {
       Filter: {},
       Action: {},
@@ -261,7 +165,7 @@ export class RuleResourceSerializer implements AtomXmlSerializer {
       };
     } else {
       if (rule.filter.hasOwnProperty("sqlExpression")) {
-        const sqlFilter: SqlFilter = rule.filter as SqlFilter;
+        const sqlFilter: SqlRuleFilter = rule.filter as SqlRuleFilter;
         resource.Filter = {
           SqlExpression: sqlFilter.sqlExpression,
           Parameters: getRawSqlParameters(sqlFilter.sqlParameters),
@@ -273,7 +177,7 @@ export class RuleResourceSerializer implements AtomXmlSerializer {
           "xmlns:p4": "http://www.w3.org/2001/XMLSchema-instance"
         };
       } else {
-        const correlationFilter: CorrelationFilter = rule.filter as CorrelationFilter;
+        const correlationFilter: CorrelationRuleFilter = rule.filter as CorrelationRuleFilter;
 
         resource.Filter = {
           CorrelationId: correlationFilter.correlationId,
@@ -284,7 +188,7 @@ export class RuleResourceSerializer implements AtomXmlSerializer {
           ContentType: correlationFilter.contentType,
           SessionId: correlationFilter.sessionId,
           MessageId: correlationFilter.messageId,
-          Properties: correlationFilter.userProperties
+          Properties: getRawUserProperties(correlationFilter.properties)
         };
         resource.Filter[Constants.XML_METADATA_MARKER] = {
           "p4:type": "CorrelationFilter",
@@ -322,19 +226,31 @@ export class RuleResourceSerializer implements AtomXmlSerializer {
 }
 
 /**
+ * Service expects the XML request with the special type names serialized in the request,
+ * the request would fail otherwise.
+ *
  * @internal
  * @ignore
- * @enum {number}
  */
-enum SqlParameterType {
-  Integer = "l28:int",
-  String = "l28:string",
-  Long = "l28:long",
-  Date = "l28:date"
-}
+const TypeMapForRequestSerialization: Record<string, string> = {
+  int: "l28:int",
+  string: "l28:string",
+  long: "l28:long",
+  date: "l28:date",
+  boolean: "l28:boolean"
+};
+
 /**
  * @internal
  * @ignore
+ */
+const TypeMapForResponseDeserialization: Record<string, string> = {
+  number: "d6p1:int",
+  string: "d6p1:string",
+  boolean: "d6p1:boolean"
+};
+
+/**
  * Represents type of SQL `Parameter` in ATOM based management operations
  */
 export type SqlParameter = {
@@ -346,12 +262,24 @@ export type SqlParameter = {
 /**
  * @internal
  * @ignore
- * Internal representation of SQL parameter info
+ * Internal representation of key-value pair
  */
-type RawSqlParameter = {
+type RawKeyValuePair = {
   Key: string;
   Value: any;
 };
+
+interface InternalRawKeyValuePairs {
+  KeyValueOfstringanyType: RawKeyValuePair[];
+}
+
+/**
+ * Key-value pairs are supposed to be wrapped with this tag in the XML request, they are ignored otherwise.
+ *
+ * @internal
+ * @ignore
+ */
+const keyValuePairXMLTag = "KeyValueOfstringanyType";
 
 /**
  * @internal
@@ -372,7 +300,7 @@ function getSqlParametersOrUndefined(value: any): SqlParameter[] | undefined {
     return undefined;
   }
 
-  const rawParameters = value["KeyValueOfstringanyType"];
+  const rawParameters = value[keyValuePairXMLTag];
   if (Array.isArray(rawParameters)) {
     for (let i = 0; i < rawParameters.length; i++) {
       parameters.push(buildSqlParameter(rawParameters[i]));
@@ -386,11 +314,49 @@ function getSqlParametersOrUndefined(value: any): SqlParameter[] | undefined {
 /**
  * @internal
  * @ignore
- * Helper utility to build an instance of parsed SQL parameteras `Parameter`
+ * Helper utility to retrieve the user-properties from given input,
+ * or undefined if not passed in.
+ * @param value
+ */
+function getUserPropertiesOrUndefined(value: any): { [key: string]: any } | undefined {
+  if (!value) {
+    return undefined;
+  }
+  const properties: any = {};
+  const rawProperties = value[keyValuePairXMLTag];
+  if (Array.isArray(rawProperties)) {
+    for (const rawProperty of rawProperties) {
+      properties[rawProperty.Key] = rawProperty.Value["_"];
+      if (rawProperty.Value["$"]["i:type"] === TypeMapForResponseDeserialization.number) {
+        properties[rawProperty.Key] = Number(rawProperty.Value["_"]);
+      } else if (rawProperty.Value["$"]["i:type"] === TypeMapForResponseDeserialization.string) {
+        properties[rawProperty.Key] = rawProperty.Value["_"];
+      } else if (rawProperty.Value["$"]["i:type"] === TypeMapForResponseDeserialization.boolean) {
+        properties[rawProperty.Key] = rawProperty.Value["_"] === "true" ? true : false;
+      } else {
+        throw new TypeError(
+          `Unable to parse the user property in the response - ${JSON.stringify(rawProperty)}`
+        );
+      }
+    }
+  } else {
+    throw new TypeError(
+      `"UserProperties" in the response is not an array, unable to parse the response - ${JSON.stringify(
+        value
+      )}`
+    );
+  }
+  return properties;
+}
+
+/**
+ * @internal
+ * @ignore
+ * Helper utility to build an instance of parsed SQL parameters `Parameter`
  * from given input
  * @param value
  */
-function buildSqlParameter(value: RawSqlParameter): SqlParameter {
+function buildSqlParameter(value: RawKeyValuePair): SqlParameter {
   const rawValue = value["Value"]["_"];
   const type = value["Value"]["$"]["i:type"].toString().substring(5);
   let parsedValue: any;
@@ -405,7 +371,7 @@ function buildSqlParameter(value: RawSqlParameter): SqlParameter {
       break;
 
     default:
-      throw new Error(
+      throw new TypeError(
         `Invalid type "${type}" on the SQL Parameter. Must be either of "interface, "string", "long" or "date".`
       );
   }
@@ -424,7 +390,9 @@ function buildSqlParameter(value: RawSqlParameter): SqlParameter {
  * or undefined if not passed in.
  * @param value
  */
-export function getRawSqlParameters(parameters: SqlParameter[] | undefined): any {
+export function getRawSqlParameters(
+  parameters: SqlParameter[] | undefined
+): InternalRawKeyValuePairs | undefined {
   if (parameters == undefined) {
     return undefined;
   }
@@ -439,21 +407,78 @@ export function getRawSqlParameters(parameters: SqlParameter[] | undefined): any
     );
   }
 
-  const rawParameters: RawSqlParameter[] = [];
+  const rawParameters: RawKeyValuePair[] = [];
   for (let i = 0; i < parameters.length; i++) {
-    rawParameters.push(buildRawSqlParameter(parameters[i]));
+    rawParameters.push(buildRawKeyValuePairFromSqlParameter(parameters[i]));
   }
-  return { KeyValueOfstringanyType: rawParameters };
+  return { [keyValuePairXMLTag]: rawParameters };
 }
 
 /**
  * @internal
  * @ignore
- * Helper utility to build an instance of raw SQL parameter as `RawSqlParameter`
+ * Helper utility to extract array of user properties key-value instances from given input,
+ * or undefined if not passed in.
+ * @param value
+ */
+export function getRawUserProperties(
+  parameters: { [key: string]: any } | undefined
+): InternalRawKeyValuePairs | undefined {
+  if (parameters == undefined) {
+    return undefined;
+  }
+  if (
+    Array.isArray(parameters) ||
+    typeof parameters === "string" ||
+    typeof parameters !== "object" ||
+    Object.entries(parameters).length < 1
+  ) {
+    throw new TypeError(
+      `Unsupported value for the properties ${JSON.stringify(
+        parameters
+      )}, expected a JSON object with key-value pairs.`
+    );
+  }
+  const rawParameters: RawKeyValuePair[] = [];
+  for (let [key, value] of Object.entries(parameters)) {
+    let type: string | number | boolean;
+    if (typeof value === "number") {
+      type = TypeMapForRequestSerialization.int;
+    } else if (typeof value === "string") {
+      type = TypeMapForRequestSerialization.string;
+    } else if (typeof value === "boolean") {
+      type = TypeMapForRequestSerialization.boolean;
+    } else {
+      throw new TypeError(
+        `Unsupported type for the value in the user property {${key}:${JSON.stringify(value)}}`
+      );
+    }
+
+    const rawParameter: RawKeyValuePair = {
+      Key: key,
+      Value: {
+        [Constants.XML_METADATA_MARKER]: {
+          "p4:type": type,
+          "xmlns:l28": "http://www.w3.org/2001/XMLSchema"
+        },
+        [Constants.XML_VALUE_MARKER]: value
+      }
+    };
+    rawParameters.push(rawParameter);
+  }
+  return {
+    [keyValuePairXMLTag]: rawParameters
+  };
+}
+
+/**
+ * @internal
+ * @ignore
+ * Helper utility to build an instance of raw SQL parameter as `RawKeyValuePair`
  * from given `SqlParameter` input,
  * @param parameter parsed SQL parameter instance
  */
-function buildRawSqlParameter(parameter: SqlParameter): RawSqlParameter {
+function buildRawKeyValuePairFromSqlParameter(parameter: SqlParameter): RawKeyValuePair {
   if (!isJSONLikeObject(parameter) || parameter === null) {
     throw new TypeError(
       `Expected SQL parameter input to be a JS object value, but received ${JSON.stringify(
@@ -464,37 +489,22 @@ function buildRawSqlParameter(parameter: SqlParameter): RawSqlParameter {
     );
   }
 
-  let type: SqlParameterType;
-  switch (parameter.type) {
-    case "int":
-      type = SqlParameterType.Integer;
-      break;
-    case "string":
-      type = SqlParameterType.String;
-      break;
-    case "long":
-      type = SqlParameterType.Long;
-      break;
-    case "date":
-      type = SqlParameterType.Date;
-      break;
-
-    default:
-      throw new Error(
-        `Invalid type "${parameter.type}" supplied for the SQL Parameter. Must be either of "interface, "string", "long" or "date".`
-      );
+  let paramType = TypeMapForRequestSerialization[parameter.type];
+  if (!paramType) {
+    throw new Error(
+      `Invalid type "${parameter.type}" supplied for the SQL Parameter. Must be either of "int", "string", "long" or "date".`
+    );
   }
 
-  const rawParameterValue: any = {};
-  rawParameterValue[Constants.XML_METADATA_MARKER] = {
-    "p4:type": type.valueOf(),
-    "xmlns:l28": "http://www.w3.org/2001/XMLSchema"
-  };
-  rawParameterValue[Constants.XML_VALUE_MARKER] = parameter.value;
-
-  const rawParameter: RawSqlParameter = {
+  const rawParameter: RawKeyValuePair = {
     Key: parameter.key,
-    Value: rawParameterValue
+    Value: {
+      [Constants.XML_METADATA_MARKER]: {
+        "p4:type": paramType,
+        "xmlns:l28": "http://www.w3.org/2001/XMLSchema"
+      },
+      [Constants.XML_VALUE_MARKER]: parameter.value
+    }
   };
   return rawParameter;
 }

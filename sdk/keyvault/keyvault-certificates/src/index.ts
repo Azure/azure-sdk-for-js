@@ -7,6 +7,8 @@
 // This file makes more sense if ordered based on how meaningful are some methods in relation to others.
 /* eslint-disable @typescript-eslint/member-ordering */
 
+/// <reference lib="esnext.asynciterable" />
+
 import {
   TokenCredential,
   isTokenCredential,
@@ -134,14 +136,13 @@ import {
   CertificateAttributes,
   Contacts as CoreContacts,
   IssuerBundle
-} from "./core/models";
-import { KeyVaultClient } from "./core/keyVaultClient";
-import { SDK_VERSION } from "./core/utils/constants";
-import { parseKeyvaultIdentifier as parseKeyvaultEntityIdentifier } from "./core/utils";
+} from "./generated/models";
+import { KeyVaultClient } from "./generated/keyVaultClient";
+import { SDK_VERSION } from "./generated/utils/constants";
+import { parseKeyvaultIdentifier as parseKeyvaultEntityIdentifier } from "./generated/utils";
 import "@azure/core-paging";
 import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
-import { challengeBasedAuthenticationPolicy } from "./core/challengeBasedAuthenticationPolicy";
-
+import { challengeBasedAuthenticationPolicy } from "../../keyvault-common/src";
 import { CreateCertificatePoller } from "./lro/create/poller";
 import { CertificateOperationPoller } from "./lro/operation/poller";
 import { DeleteCertificatePoller } from "./lro/delete/poller";
@@ -232,7 +233,10 @@ export {
 /**
  * Deprecated KeyVault copy of core-lro's PollerLike.
  */
-export type KVPollerLike<TState extends PollOperationState<TResult>, TResult> = PollerLike<TState, TResult>;
+export type KVPollerLike<TState extends PollOperationState<TResult>, TResult> = PollerLike<
+  TState,
+  TResult
+>;
 
 function toCoreAttributes(properties: CertificateProperties): CoreCertificateAttributes {
   return {
@@ -467,11 +471,7 @@ export class CertificateClient {
     };
 
     const pipeline = createPipelineFromOptions(internalPipelineOptions, authPolicy);
-    this.client = new KeyVaultClient(
-      credential,
-      pipelineOptions.apiVersion || LATEST_API_VERSION,
-      pipeline
-    );
+    this.client = new KeyVaultClient(pipelineOptions.apiVersion || LATEST_API_VERSION, pipeline);
   }
 
   private async *listPropertiesOfCertificatesPage(
@@ -1434,12 +1434,10 @@ export class CertificateClient {
     let result: UpdateCertificateResponse;
 
     try {
-      result = await this.client.updateCertificate(
-        this.vaultUrl,
-        certificateName,
-        version,
-        this.setParentSpan(span, requestOptions)
-      );
+      result = await this.client.updateCertificate(this.vaultUrl, certificateName, version, {
+        ...this.setParentSpan(span, requestOptions),
+        certificateAttributes: toCoreAttributes(options)
+      });
     } finally {
       span.end();
     }
@@ -2150,7 +2148,6 @@ export class CertificateClient {
     const attributes: any = item.attributes || {};
 
     const abstractProperties: any = {
-      name: parsedId.name,
       createdOn: attributes.created,
       updatedOn: attributes.updated,
       expiresOn: attributes.expires,

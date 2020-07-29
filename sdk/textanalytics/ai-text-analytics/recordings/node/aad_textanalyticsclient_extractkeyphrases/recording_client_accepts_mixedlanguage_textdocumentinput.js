@@ -1,5 +1,7 @@
 let nock = require('nock');
 
+module.exports.hash = "aca0020df32a3f512c0fab5aece01369";
+
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
 nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
@@ -18,26 +20,26 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'x-ms-request-id',
-  '9471cb60-6a88-4fd5-ba3c-f99c72b83000',
+  'b075580b-0a29-4acd-befb-c8fd66551d02',
   'x-ms-ests-server',
-  '2.1.9987.14 - WST ProdSlices',
+  '2.1.10571.11 - WUS2 ProdSlices',
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'Set-Cookie',
-  'fpc=AsCw2PvgiAFNvblJTihK7ZL0CyfMAQAAAJxDzdUOAAAA; expires=Fri, 06-Mar-2020 23:15:40 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AgqPHWagQftDrt58Vj1pUXf0CyfMAQAAAPRTX9YOAAAA; expires=Thu, 25-Jun-2020 18:16:21 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
-  'x-ms-gateway-slice=corp; path=/; SameSite=None; secure; HttpOnly',
+  'x-ms-gateway-slice=prod; path=/; SameSite=None; secure; HttpOnly',
   'Set-Cookie',
-  'stsservicecookie=estscorp; path=/; SameSite=None; secure; HttpOnly',
+  'stsservicecookie=ests; path=/; SameSite=None; secure; HttpOnly',
   'Date',
-  'Wed, 05 Feb 2020 23:15:40 GMT',
+  'Tue, 26 May 2020 18:16:20 GMT',
   'Content-Length',
   '1417'
 ]);
 
-nock('https://endpoint:443', {"encodedQueryParams":true})
-  .post('/text/analytics/v3.0-preview.1/keyPhrases', {"documents":[{"id":"1","text":"I had a wonderful trip to Seattle last week and even visited the Space Needle 2 times!","language":"en"},{"id":"2","text":"Unfortunately, it rained during my entire trip to Seattle. I didn't even get to visit the Space Needle","language":"en"},{"id":"3","text":"I went to see a movie on Saturday and it was perfectly average, nothing more or less than I expected.","language":"en"},{"id":"4","text":"I didn't like the last book I read at all.","language":"en"},{"id":"5","text":"Los caminos que llevan hasta Monte Rainier son espectaculares y hermosos.","language":"es"},{"id":"6","text":"La carretera estaba atascada. Había mucho tráfico el día de ayer.","language":"es"}]})
-  .reply(200, {"documents":[{"id":"1","keyPhrases":["week","Space Needle","wonderful trip","Seattle","times"]},{"id":"2","keyPhrases":["entire trip","Seattle","Space Needle"]},{"id":"3","keyPhrases":["movie"]},{"id":"4","keyPhrases":["book"]},{"id":"5","keyPhrases":["Monte Rainier","caminos"]},{"id":"6","keyPhrases":["carretera","tráfico","día"]}],"errors":[],"modelVersion":"2019-10-01"}, [
+nock('https://endpoint', {"encodedQueryParams":true})
+  .post('/text/analytics/v3.0/keyPhrases', {"documents":[{"id":"1","text":"I had a wonderful trip to Seattle last week and even visited the Space Needle 2 times!","language":"en"},{"id":"2","text":"Unfortunately, it rained during my entire trip to Seattle. I didn't even get to visit the Space Needle","language":"en"},{"id":"3","text":"I went to see a movie on Saturday and it was perfectly average, nothing more or less than I expected.","language":"en"},{"id":"4","text":"I didn't like the last book I read at all.","language":"en"},{"id":"5","text":"Los caminos que llevan hasta Monte Rainier son espectaculares y hermosos.","language":"es"},{"id":"6","text":"La carretera estaba atascada. Había mucho tráfico el día de ayer.","language":"es"}]})
+  .reply(200, {"documents":[{"id":"1","keyPhrases":["week","Space Needle","wonderful trip","Seattle","times"],"warnings":[]},{"id":"2","keyPhrases":["entire trip","Seattle","Space Needle"],"warnings":[]},{"id":"3","keyPhrases":["movie"],"warnings":[]},{"id":"4","keyPhrases":["book"],"warnings":[]},{"id":"5","keyPhrases":["Monte Rainier","caminos"],"warnings":[]},{"id":"6","keyPhrases":["carretera","tráfico","día"],"warnings":[]}],"errors":[],"modelVersion":"2019-10-01"}, [
   'Transfer-Encoding',
   'chunked',
   'Content-Type',
@@ -45,13 +47,13 @@ nock('https://endpoint:443', {"encodedQueryParams":true})
   'csp-billing-usage',
   'CognitiveServices.TextAnalytics.BatchScoring=6',
   'x-envoy-upstream-service-time',
-  '15',
+  '12',
   'apim-request-id',
-  'a4cd00df-fd91-4f7b-8f34-03e408479d09',
+  '6c11ef48-707d-4d7d-96d5-eaaaaa2fcf9d',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Wed, 05 Feb 2020 23:15:39 GMT'
+  'Tue, 26 May 2020 18:16:21 GMT'
 ]);

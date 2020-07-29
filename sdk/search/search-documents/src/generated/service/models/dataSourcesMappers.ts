@@ -9,13 +9,13 @@
 export {
   discriminators,
   DataChangeDetectionPolicy,
-  DataContainer,
   DataDeletionDetectionPolicy,
-  DataSource,
   DataSourceCredentials,
   HighWaterMarkChangeDetectionPolicy,
   ListDataSourcesResult,
   SearchError,
+  SearchIndexerDataContainer,
+  SearchIndexerDataSource,
   SoftDeleteColumnDeletionDetectionPolicy,
   SqlIntegratedChangeTrackingPolicy
 } from "../models/mappers";

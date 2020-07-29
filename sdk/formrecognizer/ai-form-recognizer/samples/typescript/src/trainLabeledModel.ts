@@ -6,28 +6,28 @@
  * See recognizeForm.ts to recognize forms using a custom model.
  */
 
-import { FormRecognizerClient, AzureKeyCredential } from "@azure/ai-form-recognizer";
+import { FormTrainingClient, AzureKeyCredential } from "@azure/ai-form-recognizer";
 
 // Load the .env file if it exists
-require("dotenv").config();
+import * as dotenv from "dotenv";
+dotenv.config();
 
 export async function main() {
   // You will need to set these environment variables or edit the following values
   const endpoint = process.env["FORM_RECOGNIZER_ENDPOINT"] || "<cognitive services endpoint>";
   const apiKey = process.env["FORM_RECOGNIZER_API_KEY"] || "<api key>";
-  const containerSasUrl = process.env["LABELED_CONTAINER_SAS_URL"] || "<url to Azure blob container storing the labeled training documents>";
+  const containerSasUrl =
+    process.env["LABELED_CONTAINER_SAS_URL"] ||
+    "<url to Azure blob container storing the labeled training documents>";
 
-  const client = new FormRecognizerClient(endpoint, new AzureKeyCredential(apiKey));
-  const trainingClient = client.getFormTrainingClient();
+  const trainingClient = new FormTrainingClient(endpoint, new AzureKeyCredential(apiKey));
 
   const poller = await trainingClient.beginTraining(containerSasUrl, true, {
     onProgress: (state) => {
-      console.log("training status: ");
-      console.log(state.status);
+      console.log(`training status: ${state.status}`);
     }
   });
-  await poller.pollUntilDone();
-  const model = poller.getResult();
+  const model = await poller.pollUntilDone();
   console.dir(model, { depth: 4 });
 }
 

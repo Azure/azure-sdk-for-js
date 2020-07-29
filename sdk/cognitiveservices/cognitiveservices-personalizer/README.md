@@ -26,14 +26,11 @@ npm install @azure/ms-rest-azure-js
 ##### Sample code
 The following sample ranks a personalized request object. To know more, refer to the [Azure Documentation on Personalizer](https://docs.microsoft.com/en-us/azure/cognitive-services/personalizer/)
 
-```typescript
-import {
-  PersonalizerClient,
-  PersonalizerModels
-} from "@azure/cognitiveservices-personalizer";
-import { CognitiveServicesCredentials } from "@azure/ms-rest-azure-js";
+```javascript
+const { PersonalizerClient } = require("@azure/cognitiveservices-personalizer");
+const { CognitiveServicesCredentials } = require("@azure/ms-rest-azure-js");
 
-async function main(): Promise<void> {
+async function main() {
   const personalizerKey = process.env["personalizerKey"] || "<personalizerKey>";
   const personalizerEndPoint =
     process.env["personalizerEndPoint"] || "<personalizerEndPoint>";
@@ -46,7 +43,7 @@ async function main(): Promise<void> {
     personalizerEndPoint
   );
 
-  const rankRequest: PersonalizerModels.RankRequest = {
+  const rankRequest = {
     contextFeatures: [
       {
         timeOfDay: "Morning"

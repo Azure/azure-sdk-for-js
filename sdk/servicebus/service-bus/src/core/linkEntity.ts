@@ -2,11 +2,11 @@
 // Licensed under the MIT license.
 
 import {
-  defaultLock,
-  TokenType,
   AccessToken,
   Constants,
-  SharedKeyCredential
+  SharedKeyCredential,
+  TokenType,
+  defaultLock
 } from "@azure/core-amqp";
 import { ClientEntityContext } from "../clientEntityContext";
 import * as log from "../log";
@@ -109,6 +109,8 @@ export class LinkEntity {
    * @return {Promise<void>} Promise<void>
    */
   protected async _negotiateClaim(setTokenRenewal?: boolean): Promise<void> {
+    // Wait for the connectionContext to be ready to open the link.
+    await this._context.namespace.readyToOpenLink();
     // Acquire the lock and establish a cbs session if it does not exist on the connection.
     // Although node.js is single threaded, we need a locking mechanism to ensure that a
     // race condition does not happen while creating a shared resource (in this case the
@@ -176,7 +178,7 @@ export class LinkEntity {
       this.address
     );
     if (setTokenRenewal) {
-      await this._ensureTokenRenewal();
+      this._ensureTokenRenewal();
     }
   }
 
@@ -184,9 +186,15 @@ export class LinkEntity {
    * Ensures that the token is renewed within the predefined renewal margin.
    * @returns {void}
    */
-  protected async _ensureTokenRenewal(): Promise<void> {
+  protected _ensureTokenRenewal(): void {
     if (!this._tokenTimeout) {
       return;
+    }
+    // Clear the existing token renewal timer.
+    // This scenario can happen if the connection goes down and is brought back up
+    // before the `nextRenewalTimeout` was reached.
+    if (this._tokenRenewalTimer) {
+      clearTimeout(this._tokenRenewalTimer);
     }
     this._tokenRenewalTimer = setTimeout(async () => {
       try {

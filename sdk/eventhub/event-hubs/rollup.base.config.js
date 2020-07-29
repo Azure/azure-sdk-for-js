@@ -29,11 +29,9 @@ export function nodeConfig(test = false) {
       sourcemaps(),
       replace({
         delimiters: ["", ""],
-        values: {
-          // replace dynamic checks with if (true) since this is for node only.
-          // Allows rollup's dead code elimination to be more aggressive.
-          "if (isNode)": "if (true)"
-        }
+        // replace dynamic checks with if (true) since this is for node only.
+        // Allows rollup's dead code elimination to be more aggressive.
+        "if (isNode)": "if (true)"
       }),
       nodeResolve({ preferBuiltins: true }),
       cjs(),
@@ -103,27 +101,20 @@ export function browserConfig(test = false) {
         // ms-rest-js is externalized so users must include it prior to using this bundle.
         {
           delimiters: ["", ""],
-          values: {
-            // replace dynamic checks with if (false) since this is for
-            // browser only. Rollup's dead code elimination will remove
-            // any code guarded by if (isNode) { ... }
-            "if (isNode)": "if (false)"
-          }
+          // replace dynamic checks with if (false) since this is for
+          // browser only. Rollup's dead code elimination will remove
+          // any code guarded by if (isNode) { ... }
+          "if (isNode)": "if (false)"
         }
       ),
-
-      // dotenv, path, and os don't work in the browser, so replace it with a no-op function
-      shim({
-        fs: `export default {}`,
-        dotenv: `export function config() { }`,
-        os: `
-          export function arch() { return "javascript" }
-          export function type() { return "Browser" }
-          export function release() { return typeof navigator === 'undefined' ? '' : navigator.appVersion }
-        `,
-        path: `export default {}`
-      }),
-
+      ...(!test
+        ? []
+        : [
+            shim({
+              // dotenv doesn't work in the browser, so replace it with a no-op function
+              dotenv: `export function config() { }`
+            })
+          ]),
       nodeResolve({
         mainFields: ["module", "browser"],
         preferBuiltins: false
@@ -131,7 +122,6 @@ export function browserConfig(test = false) {
 
       cjs({
         namedExports: {
-          events: ["EventEmitter"],
           "@opentelemetry/api": ["CanonicalCode", "SpanKind", "TraceFlags"]
         }
       }),

@@ -1,16 +1,10 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { Container } from "../../dist-esm/client";
+import { Container } from "../../src/client";
 import { bulkInsertItems, getTestContainer, removeAllDatabases } from "../common/TestHelpers";
-import {
-  Constants,
-  CosmosClient,
-  PluginOn,
-  CosmosClientOptions,
-  PluginConfig
-} from "../../dist-esm";
+import { Constants, CosmosClient, PluginOn, CosmosClientOptions, PluginConfig } from "../../src";
 import { masterKey, endpoint } from "../common/_testConfig";
-import { SubStatusCodes } from "../../dist-esm/common";
+import { SubStatusCodes } from "../../src/common";
 import assert from "assert";
 
 const splitError = new Error("Fake Partition Split") as any;

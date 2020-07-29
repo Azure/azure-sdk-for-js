@@ -2,31 +2,35 @@
 // Licensed under the MIT license.
 
 import {
-  translate,
-  Constants,
-  MessagingError,
-  retry,
-  RetryOperationType,
-  RetryConfig,
   ConditionErrorNameMapper,
+  Constants,
   ErrorNameConditionMapper,
-  RetryOptions
+  MessagingError,
+  RetryConfig,
+  RetryOperationType,
+  RetryOptions,
+  retry,
+  translate
 } from "@azure/core-amqp";
 import {
-  Receiver,
-  OnAmqpEvent,
-  EventContext,
-  ReceiverOptions,
   AmqpError,
-  isAmqpError
+  EventContext,
+  OnAmqpEvent,
+  Receiver,
+  ReceiverOptions,
+  isAmqpError,
+  ReceiverEvents
 } from "rhea-promise";
 import * as log from "../log";
 import { LinkEntity } from "./linkEntity";
 import { ClientEntityContext } from "../clientEntityContext";
-import { ServiceBusMessageImpl, DispositionType, ReceiveMode } from "../serviceBusMessage";
-import { getUniqueName, calculateRenewAfterDuration } from "../util/utils";
+import { DispositionType, ReceiveMode, ServiceBusMessageImpl } from "../serviceBusMessage";
+import { calculateRenewAfterDuration, getUniqueName, StandardAbortMessage } from "../util/utils";
 import { MessageHandlerOptions } from "../models";
 import { DispositionStatusOptions } from "./managementClient";
+import { AbortSignalLike } from "@azure/core-http";
+import { AbortError } from "@azure/abort-controller";
+import { onMessageSettled, DeferredPromiseAndTimer } from "./shared";
 
 /**
  * @internal
@@ -36,7 +40,6 @@ interface CreateReceiverOptions {
   onClose: OnAmqpEventAsPromise;
   onSessionClose: OnAmqpEventAsPromise;
   onError: OnAmqpEvent;
-  onSettled: OnAmqpEvent;
   onSessionError: OnAmqpEvent;
 }
 
@@ -45,15 +48,6 @@ interface CreateReceiverOptions {
  */
 export interface OnAmqpEventAsPromise extends OnAmqpEvent {
   (context: EventContext): Promise<void>;
-}
-
-/**
- * @internal
- */
-export interface PromiseLike {
-  resolve: (value?: any) => void;
-  reject: (reason?: any) => void;
-  timer: NodeJS.Timer;
 }
 
 /**
@@ -142,12 +136,6 @@ export class MessageReceiver extends LinkEntity {
    */
   maxAutoRenewDurationInMs: number;
   /**
-   * @property {number} [newMessageWaitTimeoutInMs] The maximum amount of idle time the
-   * receiver will wait after a message has been received. If no messages are received by this
-   * time then the receive operation will end.
-   */
-  newMessageWaitTimeoutInMs?: number;
-  /**
    * @property {boolean} autoRenewLock Should lock renewal happen automatically.
    */
   autoRenewLock: boolean;
@@ -164,7 +152,7 @@ export class MessageReceiver extends LinkEntity {
    * are being actively disposed. It acts as a store for correlating the responses received for
    * active dispositions.
    */
-  protected _deliveryDispositionMap: Map<number, PromiseLike> = new Map<number, PromiseLike>();
+  protected _deliveryDispositionMap: Map<number, DeferredPromiseAndTimer> = new Map<number, DeferredPromiseAndTimer>();
   /**
    * @property {OnMessage} _onMessage The message handler provided by the user that will be wrapped
    * inside _onAmqpMessage.
@@ -201,11 +189,6 @@ export class MessageReceiver extends LinkEntity {
    */
   protected _onAmqpError: OnAmqpEvent;
   /**
-   * @property {OnAmqpEvent} _onSettled The message handler that will be set as the handler on the
-   * underlying rhea receiver for the "settled" event.
-   */
-  protected _onSettled: OnAmqpEvent;
-  /**
    * @property {boolean} wasCloseInitiated Denotes if receiver was explicitly closed by user.
    */
   protected wasCloseInitiated?: boolean;
@@ -217,15 +200,6 @@ export class MessageReceiver extends LinkEntity {
     string,
     NodeJS.Timer | undefined
   >();
-  /**
-   * @property {NodeJS.Timer} _newMessageReceivedTimer The timer that keeps track of time since the
-   * last message was received.
-   */
-  protected _newMessageReceivedTimer?: NodeJS.Timer;
-  /**
-   * Resets the `_newMessageReceivedTimer` timer when a new message is received.
-   */
-  protected resetTimerOnNewMessageReceived: () => void;
   /**
    * @property {Function} _clearMessageLockRenewTimer Clears the message lock renew timer for a
    * specific messageId.
@@ -243,23 +217,29 @@ export class MessageReceiver extends LinkEntity {
    * to bring its link back up due to a retryable issue.
    */
   private _isDetaching: boolean = false;
+  private _stopReceivingMessages: boolean = false;
+
+  public get receiverHelper(): ReceiverHelper {
+    return this._receiverHelper;
+  }
+  private _receiverHelper: ReceiverHelper;
 
   constructor(context: ClientEntityContext, receiverType: ReceiverType, options?: ReceiveOptions) {
     super(context.entityPath, context, {
       address: context.entityPath,
       audience: `${context.namespace.config.endpoint}${context.entityPath}`
     });
+
     if (!options) options = {};
     this._retryOptions = options.retryOptions || {};
     this.wasCloseInitiated = false;
     this.receiverType = receiverType;
     this.receiveMode = options.receiveMode || ReceiveMode.peekLock;
+    this._receiverHelper = new ReceiverHelper(() => this._receiver);
+
     if (typeof options.maxConcurrentCalls === "number" && options.maxConcurrentCalls > 0) {
       this.maxConcurrentCalls = options.maxConcurrentCalls;
     }
-    this.resetTimerOnNewMessageReceived = () => {
-      /** */
-    };
     // If explicitly set to false then autoComplete is false else true (default).
     this.autoComplete = options.autoComplete === false ? options.autoComplete : true;
     this.maxAutoRenewDurationInMs =
@@ -289,45 +269,6 @@ export class MessageReceiver extends LinkEntity {
       }
     };
     // setting all the handlers
-    this._onSettled = (context: EventContext) => {
-      const connectionId = this._context.namespace.connectionId;
-      const delivery = context.delivery;
-      if (delivery) {
-        const id = delivery.id;
-        const state = delivery.remote_state;
-        const settled = delivery.remote_settled;
-        log.receiver(
-          "[%s] Delivery with id %d, remote_settled: %s, remote_state: %o has been " + "received.",
-          connectionId,
-          id,
-          settled,
-          state && state.error ? state.error : state
-        );
-        if (settled && this._deliveryDispositionMap.has(id)) {
-          const promise = this._deliveryDispositionMap.get(id) as PromiseLike;
-          clearTimeout(promise.timer);
-          log.receiver(
-            "[%s] Found the delivery with id %d in the map and cleared the timer.",
-            connectionId,
-            id
-          );
-          const deleteResult = this._deliveryDispositionMap.delete(id);
-          log.receiver(
-            "[%s] Successfully deleted the delivery with id %d from the map.",
-            connectionId,
-            id,
-            deleteResult
-          );
-          if (state && state.error && (state.error.condition || state.error.description)) {
-            const error = translate(state.error);
-            return promise.reject(error);
-          }
-
-          return promise.resolve();
-        }
-      }
-    };
-
     this._onAmqpMessage = async (context: EventContext) => {
       // If the receiver got closed in PeekLock mode, avoid processing the message as we
       // cannot settle the message.
@@ -337,14 +278,13 @@ export class MessageReceiver extends LinkEntity {
       ) {
         log.error(
           "[%s] Not calling the user's message handler for the current message " +
-            "as the receiver '%s' is closed",
+          "as the receiver '%s' is closed",
           this._context.namespace.connectionId,
           this.name
         );
         return;
       }
 
-      this.resetTimerOnNewMessageReceived();
       const connectionId = this._context.namespace.connectionId;
       const bMessage: ServiceBusMessageImpl = new ServiceBusMessageImpl(
         this._context,
@@ -390,7 +330,7 @@ export class MessageReceiver extends LinkEntity {
               const amount = calculateRenewAfterDuration(bMessage.lockedUntilUtc!);
               log.receiver(
                 "[%s] Sleeping for %d milliseconds while renewing the lock for " +
-                  "message with id '%s' is: ",
+                "message with id '%s' is: ",
                 connectionId,
                 amount,
                 bMessage.messageId
@@ -424,7 +364,7 @@ export class MessageReceiver extends LinkEntity {
                   } catch (err) {
                     log.error(
                       "[%s] An error occured while auto renewing the message lock '%s' " +
-                        "for message with id '%s': %O.",
+                      "for message with id '%s': %O.",
                       connectionId,
                       bMessage.lockToken,
                       bMessage.messageId,
@@ -438,7 +378,7 @@ export class MessageReceiver extends LinkEntity {
             } else {
               log.receiver(
                 "[%s] Looks like the message lock renew timer has already been " +
-                  "cleared for message with id '%s'.",
+                "cleared for message with id '%s'.",
                 connectionId,
                 bMessage.messageId
               );
@@ -446,7 +386,7 @@ export class MessageReceiver extends LinkEntity {
           } else {
             log.receiver(
               "[%s] Current time %s exceeds the total autolockrenew duration %s for " +
-                "message with messageId '%s'. Hence we will stop the autoLockRenewTask.",
+              "message with messageId '%s'. Hence we will stop the autoLockRenewTask.",
               connectionId,
               new Date(Date.now()).toString(),
               new Date(totalAutoLockRenewDuration).toString(),
@@ -466,7 +406,7 @@ export class MessageReceiver extends LinkEntity {
         if (!isAmqpError(err)) {
           log.error(
             "[%s] An error occurred while running user's message handler for the message " +
-              "with id '%s' on the receiver '%s': %O",
+            "with id '%s' on the receiver '%s': %O",
             connectionId,
             bMessage.messageId,
             this.name,
@@ -489,7 +429,7 @@ export class MessageReceiver extends LinkEntity {
           try {
             log.error(
               "[%s] Abandoning the message with id '%s' on the receiver '%s' since " +
-                "an error occured: %O.",
+              "an error occured: %O.",
               connectionId,
               bMessage.messageId,
               this.name,
@@ -500,7 +440,7 @@ export class MessageReceiver extends LinkEntity {
             const translatedError = translate(abandonError);
             log.error(
               "[%s] An error occurred while abandoning the message with id '%s' on the " +
-                "receiver '%s': %O.",
+              "receiver '%s': %O.",
               connectionId,
               bMessage.messageId,
               this.name,
@@ -511,9 +451,7 @@ export class MessageReceiver extends LinkEntity {
         }
         return;
       } finally {
-        if (this._receiver) {
-          this._receiver.addCredit(1);
-        }
+        this._receiverHelper.addCredit(1);
       }
 
       // If we've made it this far, then user's message handler completed fine. Let us try
@@ -535,7 +473,7 @@ export class MessageReceiver extends LinkEntity {
           const translatedError = translate(completeError);
           log.error(
             "[%s] An error occurred while completing the message with id '%s' on the " +
-              "receiver '%s': %O.",
+            "receiver '%s': %O.",
             connectionId,
             bMessage.messageId,
             this.name,
@@ -562,27 +500,24 @@ export class MessageReceiver extends LinkEntity {
           if (receiver && !receiver.isItselfClosed()) {
             log.error(
               "[%s] Since the user did not close the receiver and the error is not " +
-                "retryable, we let the user know about it by calling the user's error handler.",
+              "retryable, we let the user know about it by calling the user's error handler.",
               connectionId
             );
             this._onError!(sbError);
           } else {
             log.error(
               "[%s] The received error is not retryable. However, the receiver was " +
-                "closed by the user. Hence not notifying the user's error handler.",
+              "closed by the user. Hence not notifying the user's error handler.",
               connectionId
             );
           }
         } else {
           log.error(
             "[%s] Since received error is retryable, we will NOT notify the user's " +
-              "error handler.",
+            "error handler.",
             connectionId
           );
         }
-      }
-      if (this._newMessageReceivedTimer) {
-        clearTimeout(this._newMessageReceivedTimer);
       }
     };
 
@@ -601,14 +536,11 @@ export class MessageReceiver extends LinkEntity {
         if (receiver && !receiver.isSessionItselfClosed() && !sbError.retryable) {
           log.error(
             "[%s] Since the user did not close the receiver and the session error is not " +
-              "retryable, we let the user know about it by calling the user's error handler.",
+            "retryable, we let the user know about it by calling the user's error handler.",
             connectionId
           );
           this._onError!(sbError);
         }
-      }
-      if (this._newMessageReceivedTimer) {
-        clearTimeout(this._newMessageReceivedTimer);
       }
     };
 
@@ -619,7 +551,7 @@ export class MessageReceiver extends LinkEntity {
       if (receiverError) {
         log.error(
           "[%s] 'receiver_close' event occurred for receiver '%s' with address '%s'. " +
-            "The associated error is: %O",
+          "The associated error is: %O",
           connectionId,
           this.name,
           this.address,
@@ -631,8 +563,8 @@ export class MessageReceiver extends LinkEntity {
         if (!this.isConnecting) {
           log.error(
             "[%s] 'receiver_close' event occurred on the receiver '%s' with address '%s' " +
-              "and the sdk did not initiate this. The receiver is not reconnecting. Hence, calling " +
-              "detached from the _onAmqpClose() handler.",
+            "and the sdk did not initiate this. The receiver is not reconnecting. Hence, calling " +
+            "detached from the _onAmqpClose() handler.",
             connectionId,
             this.name,
             this.address
@@ -641,8 +573,8 @@ export class MessageReceiver extends LinkEntity {
         } else {
           log.error(
             "[%s] 'receiver_close' event occurred on the receiver '%s' with address '%s' " +
-              "and the sdk did not initate this. Moreover the receiver is already re-connecting. " +
-              "Hence not calling detached from the _onAmqpClose() handler.",
+            "and the sdk did not initate this. Moreover the receiver is already re-connecting. " +
+            "Hence not calling detached from the _onAmqpClose() handler.",
             connectionId,
             this.name,
             this.address
@@ -651,8 +583,8 @@ export class MessageReceiver extends LinkEntity {
       } else {
         log.error(
           "[%s] 'receiver_close' event occurred on the receiver '%s' with address '%s' " +
-            "because the sdk initiated it. Hence not calling detached from the _onAmqpClose" +
-            "() handler.",
+          "because the sdk initiated it. Hence not calling detached from the _onAmqpClose" +
+          "() handler.",
           connectionId,
           this.name,
           this.address
@@ -667,7 +599,7 @@ export class MessageReceiver extends LinkEntity {
       if (sessionError) {
         log.error(
           "[%s] 'session_close' event occurred for receiver '%s' with address '%s'. " +
-            "The associated error is: %O",
+          "The associated error is: %O",
           connectionId,
           this.name,
           this.address,
@@ -679,8 +611,8 @@ export class MessageReceiver extends LinkEntity {
         if (!this.isConnecting) {
           log.error(
             "[%s] 'session_close' event occurred on the session of receiver '%s' with " +
-              "address '%s' and the sdk did not initiate this. Hence calling detached from the " +
-              "_onSessionClose() handler.",
+            "address '%s' and the sdk did not initiate this. Hence calling detached from the " +
+            "_onSessionClose() handler.",
             connectionId,
             this.name,
             this.address
@@ -689,8 +621,8 @@ export class MessageReceiver extends LinkEntity {
         } else {
           log.error(
             "[%s] 'session_close' event occurred on the session of receiver '%s' with " +
-              "address '%s' and the sdk did not initiate this. Moreover the receiver is already " +
-              "re-connecting. Hence not calling detached from the _onSessionClose() handler.",
+            "address '%s' and the sdk did not initiate this. Moreover the receiver is already " +
+            "re-connecting. Hence not calling detached from the _onSessionClose() handler.",
             connectionId,
             this.name,
             this.address
@@ -699,14 +631,66 @@ export class MessageReceiver extends LinkEntity {
       } else {
         log.error(
           "[%s] 'session_close' event occurred on the session of receiver '%s' with address " +
-            "'%s' because the sdk initiated it. Hence not calling detached from the _onSessionClose" +
-            "() handler.",
+          "'%s' because the sdk initiated it. Hence not calling detached from the _onSessionClose" +
+          "() handler.",
           connectionId,
           this.name,
           this.address
         );
       }
     };
+  }
+
+  /**
+   * Prevents us from receiving any further messages.
+   */
+  public stopReceivingMessages(): Promise<void> {
+    log.receiver(
+      `[${this.name}] User has requested to stop receiving new messages, attempting to drain the credits.`
+    );
+    this._stopReceivingMessages = true;
+
+    return this.drainReceiver();
+  }
+
+  private drainReceiver(): Promise<void> {
+    log.receiver(`[${this.name}] Receiver is starting drain.`);
+
+    const drainPromise = new Promise<void>((resolve) => {
+      if (this._receiver == null) {
+        log.receiver(`[${this.name}] Internal receiver has been removed. Not draining.`);
+        resolve();
+        return;
+      }
+
+      this._receiver.once(ReceiverEvents.receiverDrained, () => {
+        log.receiver(`[${this.name}] Receiver has been drained.`);
+        resolve();
+      });
+
+      this._receiver.drain = true;
+      // this is not actually adding another credit - it'll just
+      // cause the drain call to start.
+      this._receiver.addCredit(1);
+    });
+
+    return drainPromise;
+  }
+
+  /**
+   * Adds credits to the receiver, respecting any state that
+   * indicates the receiver is closed or should not continue
+   * to receive more messages.
+   *
+   * @param credits Number of credits to add.
+   */
+  protected addCredit(credits: number): boolean {
+    if (this._stopReceivingMessages || this._receiver == null) {
+      return false;
+    }
+
+    this._receiver.addCredit(credits);
+    return true;
   }
 
   /**
@@ -731,8 +715,7 @@ export class MessageReceiver extends LinkEntity {
             /* */
           }),
         onError: this._onAmqpError,
-        onSessionError: this._onSessionError,
-        onSettled: this._onSettled
+        onSessionError: this._onSessionError
       };
     }
     const rcvrOptions: ReceiverOptions = {
@@ -746,6 +729,13 @@ export class MessageReceiver extends LinkEntity {
         address: this.address
       },
       credit_window: 0,
+      onSettled: (context) => {
+        return onMessageSettled(
+          this._context.namespace.connection.id,
+          context.delivery,
+          this._deliveryDispositionMap
+        );
+      },
       ...options
     };
 
@@ -757,13 +747,29 @@ export class MessageReceiver extends LinkEntity {
    *
    * @returns {Promise<void>} Promise<void>.
    */
-  protected async _init(options?: ReceiverOptions): Promise<void> {
+  protected async _init(options?: ReceiverOptions, abortSignal?: AbortSignalLike): Promise<void> {
+    const checkAborted = (): void => {
+      if (abortSignal?.aborted) {
+        throw new AbortError(StandardAbortMessage);
+      }
+    };
+
     const connectionId = this._context.namespace.connectionId;
+
+    checkAborted();
+
     try {
       if (!this.isOpen() && !this.isConnecting) {
+        if (this.wasCloseInitiated) {
+          // in track 1 we'll maintain backwards compatible behavior for the codebase and
+          // just treat this as a no-op. There are cases, like in onDetached, where throwing
+          // an error here could have unintended consequences.
+          return;
+        }
+
         log.error(
           "[%s] The receiver '%s' with address '%s' is not open and is not currently " +
-            "establishing itself. Hence let's try to connect.",
+          "establishing itself. Hence let's try to connect.",
           connectionId,
           this.name,
           this.address
@@ -774,7 +780,10 @@ export class MessageReceiver extends LinkEntity {
         }
 
         this.isConnecting = true;
+
         await this._negotiateClaim();
+        checkAborted();
+
         if (!options) {
           options = this._createReceiverOptions();
         }
@@ -787,6 +796,8 @@ export class MessageReceiver extends LinkEntity {
 
         this._receiver = await this._context.namespace.connection.createReceiver(options);
         this.isConnecting = false;
+        checkAborted();
+
         log.error(
           "[%s] Receiver '%s' with address '%s' has established itself.",
           connectionId,
@@ -810,11 +821,11 @@ export class MessageReceiver extends LinkEntity {
         } else if (this.receiverType === ReceiverType.batching && !this._context.batchingReceiver) {
           this._context.batchingReceiver = this as any;
         }
-        await this._ensureTokenRenewal();
+        this._ensureTokenRenewal();
       } else {
         log.error(
           "[%s] The receiver '%s' with address '%s' is open -> %s and is connecting " +
-            "-> %s. Hence not reconnecting.",
+          "-> %s. Hence not reconnecting.",
           connectionId,
           this.name,
           this.address,
@@ -888,7 +899,7 @@ export class MessageReceiver extends LinkEntity {
       if (this.receiverType === ReceiverType.batching) {
         log.error(
           "[%s] Receiver '%s' with address '%s' is a Batching Receiver, so we will not be " +
-            "re-establishing the receiver link.",
+          "re-establishing the receiver link.",
           connectionId,
           this.name,
           this.address
@@ -908,7 +919,7 @@ export class MessageReceiver extends LinkEntity {
       //   - Any non MessagingError because such errors do not get
       //     translated by `@azure/core-amqp` to a MessagingError
       //   - More details here - https://github.com/Azure/azure-sdk-for-js/pull/8580#discussion_r417087030
-      let shouldReopen =
+      const shouldReopen =
         translatedError instanceof MessagingError ? translatedError.retryable : true;
 
       // Non-retryable errors that aren't caused by disconnect
@@ -951,7 +962,7 @@ export class MessageReceiver extends LinkEntity {
             if (this.wasCloseInitiated) {
               log.error(
                 "[%s] close() method of Receiver '%s' with address '%s' was called. " +
-                  "by the time the receiver finished getting created. Hence, disallowing messages from being received. ",
+                "by the time the receiver finished getting created. Hence, disallowing messages from being received. ",
                 connectionId,
                 this.name,
                 this.address
@@ -959,7 +970,7 @@ export class MessageReceiver extends LinkEntity {
               await this.close();
             } else {
               if (this._receiver && this.receiverType === ReceiverType.streaming) {
-                this._receiver.addCredit(this.maxConcurrentCalls);
+                this._receiverHelper.addCredit(this.maxConcurrentCalls);
               }
             }
             return;
@@ -1000,7 +1011,7 @@ export class MessageReceiver extends LinkEntity {
           // close the receiver to prevent future messages/errors from being received.
           // Swallow errors from the close rather than forwarding to user's error handler
           // to prevent a never ending loop.
-          await this.close().catch(() => {});
+          await this.close().catch(() => { });
         }
       }
     } finally {
@@ -1020,7 +1031,6 @@ export class MessageReceiver extends LinkEntity {
       this.receiverType,
       this._context.entityPath
     );
-    if (this._newMessageReceivedTimer) clearTimeout(this._newMessageReceivedTimer);
     this._clearAllMessageLockRenewTimers();
     if (this._receiver) {
       const receiverLink = this._receiver;
@@ -1052,7 +1062,7 @@ export class MessageReceiver extends LinkEntity {
 
         log.receiver(
           "[%s] Disposition for delivery id: %d, did not complete in %d milliseconds. " +
-            "Hence rejecting the promise with timeout error.",
+          "Hence rejecting the promise with timeout error.",
           this._context.namespace.connectionId,
           delivery.id,
           Constants.defaultOperationTimeoutInMs
@@ -1113,5 +1123,85 @@ export class MessageReceiver extends LinkEntity {
       result
     );
     return result;
+  }
+}
+
+/**
+ * Wraps the receiver with some higher level operations for managing state
+ * like credits, draining, etc...
+ *
+ * @internal
+ * @ignore
+ */
+export class ReceiverHelper {
+  private _stopReceivingMessages: boolean = false;
+
+  constructor(private _getCurrentReceiver: () => Receiver | undefined) { }
+
+  /**
+   * Adds credits to the receiver, respecting any state that
+   * indicates the receiver is closed or should not continue
+   * to receive more messages.
+   *
+   * @param credits Number of credits to add.
+   * @returns true if credits were added, false if there is no current receiver instance
+   * or `stopReceivingMessages` has been called.
+   */
+  public addCredit(credits: number): boolean {
+    const receiver = this._getCurrentReceiver();
+
+    if (this._stopReceivingMessages || receiver == null) {
+      return false;
+    }
+
+    receiver.addCredit(credits);
+    return true;
+  }
+
+  /**
+   * Prevents us from receiving any further messages.
+   */
+  public async stopReceivingMessages(): Promise<void> {
+    const receiver = this._getCurrentReceiver();
+
+    if (receiver == null) {
+      return;
+    }
+
+    log.receiver(
+      `[${receiver.name}] User has requested to stop receiving new messages, attempting to drain the credits.`
+    );
+    this._stopReceivingMessages = true;
+
+    return this.drain();
+  }
+
+  /**
+   * Initiates a drain for the current receiver and resolves when
+   * the drain has completed.
+   */
+  public async drain(): Promise<void> {
+    const receiver = this._getCurrentReceiver();
+
+    if (receiver == null) {
+      return;
+    }
+
+    log.receiver(`[${receiver.name}] Receiver is starting drain.`);
+
+    const drainPromise = new Promise<void>((resolve) => {
+      receiver.once(ReceiverEvents.receiverDrained, () => {
+        log.receiver(`[${receiver.name}] Receiver has been drained.`);
+        receiver.drain = false;
+        resolve();
+      });
+
+      receiver.drain = true;
+      // this is not actually adding another credit - it'll just
+      // cause the drain call to start.
+      receiver.addCredit(1);
+    });
+
+    return drainPromise;
   }
 }

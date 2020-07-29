@@ -1,11 +1,11 @@
 let nock = require('nock');
 
-module.exports.hash = "6e94482398ad8bf5a080d8e155a1993b";
+module.exports.hash = "6f980535ac15be901313455dcfccca09";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .post('/certificates/recoverCertificateName-canreadcancelanddeleteacertificatesoperation-/create')
+  .post('/certificates/CRUDCertificateName-canreadcancelanddeleteacertificatesoperation-/create')
   .query(true)
   .reply(401, {"error":{"code":"Unauthorized","message":"Request is missing a Bearer or PoP token."}}, [
   'Cache-Control',
@@ -18,18 +18,16 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'application/json; charset=utf-8',
   'Expires',
   '-1',
-  'Server',
-  'Microsoft-IIS/10.0',
   'WWW-Authenticate',
   'Bearer authorization="https://login.windows.net/azure_tenant_id", resource="https://vault.azure.net"',
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  'f5ae314f-ce74-401f-8758-a9017ef1bca2',
+  '53f79497-ed5d-4128-9614-fb70c308b73e',
   'x-ms-keyvault-service-version',
-  '1.1.0.898',
+  '1.1.6.0',
   'x-ms-keyvault-network-info',
-  'addr=52.247.203.156;act_addr_fam=InterNetwork;',
+  'conn_type=Ipv4;addr=51.141.175.151;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -39,7 +37,7 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Tue, 28 Apr 2020 05:51:58 GMT'
+  'Thu, 25 Jun 2020 12:57:11 GMT'
 ]);
 
 nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
@@ -58,27 +56,27 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'x-ms-request-id',
-  '78e5f76a-bce4-46fd-bbc8-9acaa79e9a00',
+  '497f2c90-bca1-4bbe-801d-cb13e6083401',
   'x-ms-ests-server',
-  '2.1.10433.14 - WUS2 ProdSlices',
+  '2.1.10732.8 - WUS2 ProdSlices',
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'Set-Cookie',
-  'fpc=AqX-0AgeuLxHts1wKaGuvHA_aSJHAQAAAH67OdYOAAAA; expires=Thu, 28-May-2020 05:51:59 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=Ao94pwcTU1xEqxJkcwpvCV8_aSJHAQAAACiWhtYOAAAA; expires=Sat, 25-Jul-2020 12:57:12 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; SameSite=None; secure; HttpOnly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; SameSite=None; secure; HttpOnly',
   'Date',
-  'Tue, 28 Apr 2020 05:51:58 GMT',
+  'Thu, 25 Jun 2020 12:57:11 GMT',
   'Content-Length',
   '1315'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .post('/certificates/recoverCertificateName-canreadcancelanddeleteacertificatesoperation-/create', {"policy":{"key_props":{},"secret_props":{},"x509_props":{"subject":"cn=MyCert","sans":{}},"issuer":{"name":"Self"},"attributes":{}},"attributes":{}})
+  .post('/certificates/CRUDCertificateName-canreadcancelanddeleteacertificatesoperation-/create', {"policy":{"key_props":{},"secret_props":{},"x509_props":{"subject":"cn=MyCert","sans":{}},"issuer":{"name":"Self"},"attributes":{}},"attributes":{}})
   .query(true)
-  .reply(202, {"id":"https://keyvault_name.vault.azure.net/certificates/recoverCertificateName-canreadcancelanddeleteacertificatesoperation-/pending","issuer":{"name":"Self"},"csr":"MIICoTCCAYkCAQAwETEPMA0GA1UEAxMGTXlDZXJ0MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAjIcFlGijBWCgR1mzrBxpK9PrXKBtRHDSvmV3IlW7hsjyWaKMUzmjd197VVq78HJA81fz/Eb4kko/4Lb7RstDYtqdsM0ZhqQybcRNnt6hozBj+Nz4Asil0+k15GtGQF+CuVTm8yBxq6EhoU5OS8zT78gz2E0PuJ9IutS4OhXj2iDcvnRl+RQ0jbnflOneWF/tg8E/icvSAZOOgh1x72aBfRZshGZuQewcUw2yac01UikN680Y0F5Xchoynnj4kYMzLUMxWsNU2i5Z/plCHehTKs2K6HzYoq8R+FFFTTeB0nNusAHYUvsIeUgF9ODSDgmeEgTSg9UzZXZLvWgyXdOCBwIDAQABoEswSQYJKoZIhvcNAQkOMTwwOjAOBgNVHQ8BAf8EBAMCBaAwHQYDVR0lBBYwFAYIKwYBBQUHAwEGCCsGAQUFBwMCMAkGA1UdEwQCMAAwDQYJKoZIhvcNAQELBQADggEBAFTL1mZMgfX5f3FV+WhhIqWfJWC9CuCy1EJJmep9s6B8QmMu6zaT6HNwEJ+yAM0Su3rdOPcSlYNrq3pRCYLQcosit54CnSS6KYGtl4H9ndnm3rGrHaBio/jAcs4YLgfOVrWinx5cwKMA8ouUdaziN3NX1JoO50Kr5HDf12CqRrpN7wpWTJVQmWm1cHHA2Dfa3bDrnPFyi0+fof0FT6MMxk706XCEY22lmVkRp+/KDEvRuQ+UCTfcGzdaAcXNtKUgVW/cFvNfL2/P60SEPeZ/cmGVBu/nqiMtEgZvihN2eK17+2mCDsm3+y13remaGGrp0ef1YQb5eD2fIlksvBkX8fI=","cancellation_requested":false,"status":"inProgress","status_details":"Pending certificate created. Certificate request is in progress. This may take some time based on the issuer provider. Please check again later.","request_id":"3113c4519ef2438d9aad95bc4529e4d0"}, [
+  .reply(202, {"id":"https://keyvault_name.vault.azure.net/certificates/CRUDCertificateName-canreadcancelanddeleteacertificatesoperation-/pending","issuer":{"name":"Self"},"csr":"MIICoTCCAYkCAQAwETEPMA0GA1UEAxMGTXlDZXJ0MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAqFFJQ4t3qe2gcC5rvCg6oQcnspHTG8j9Pc1jUviKWQQN78EqouSASEVtuz5PE2696GIAYKx0Ot9JWDyM2fyctXMCw1VM0BMy/uhVCa7SE/RPlsiiIaVUhSZVGYljh2Hju8c9HjRDWyKDIlIFRi4tv1/f4jdS83+PF2reUYYIgro5Xk7M13EaYH4YQy/B2Va3/3/CiPk95vy/Z0jbRp6m7rtJNngWNIgAZjyJGc2Kp5Tu8xyRxuOL3ib1gOS0I0pfzknQOOyptoFAsDMRxqIaX5uMbHCZEclYkPAP0VHoj3zogYmIpXUeBzDcO9cN6+x6if4QyfoLSfrgWExQ6ooa3wIDAQABoEswSQYJKoZIhvcNAQkOMTwwOjAOBgNVHQ8BAf8EBAMCBaAwHQYDVR0lBBYwFAYIKwYBBQUHAwEGCCsGAQUFBwMCMAkGA1UdEwQCMAAwDQYJKoZIhvcNAQELBQADggEBADSkIxgOLUR3UbR6U3PJMQWKINYIf7jbmxBbbStC4HHogsO4y/9wxitfXUW46PsYIlu8wyvrrjd6qu8x0yH7dSn5PSEsBfKuQbpEM11U0XRSUdhBLEkcvF8zs1yvr+ij20qnTbysHipcnpgnRewYo0VeKz17HK9DDrv4ygn+9URZBZYOXoj5OdcGDyw7uX/IQYkaJ8Nyywj2agvxuLq+cXccgqDU9I0euz3hJK1evi5VXWXXGdl5AxbeoETIAQljLS2AvoJ0dJiWjmU7PN1Ng5pr3Nim7rVeTApztIlbwCnFzuBkJzu3cx2/DOWH7Xf/9/Rhm1jvw1Cn7V5uL91zxhs=","cancellation_requested":false,"status":"inProgress","status_details":"Pending certificate created. Certificate request is in progress. This may take some time based on the issuer provider. Please check again later.","request_id":"1c8db011c0314967876ee158372efa9a"}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
@@ -88,19 +86,17 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://keyvault_name.vault.azure.net/certificates/recoverCertificateName-canreadcancelanddeleteacertificatesoperation-/pending?api-version=7.1-preview&request_id=3113c4519ef2438d9aad95bc4529e4d0',
+  'https://keyvault_name.vault.azure.net/certificates/CRUDCertificateName-canreadcancelanddeleteacertificatesoperation-/pending?api-version=7.1-preview&request_id=1c8db011c0314967876ee158372efa9a',
   'Retry-After',
   '10',
-  'Server',
-  'Microsoft-IIS/10.0',
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  'e3eb226d-6e79-4abb-8473-0821c05664ba',
+  '6cf32f48-d503-4789-a0cf-fa0eced59771',
   'x-ms-keyvault-service-version',
-  '1.1.0.898',
+  '1.1.6.0',
   'x-ms-keyvault-network-info',
-  'addr=52.247.203.156;act_addr_fam=InterNetwork;',
+  'conn_type=Ipv4;addr=51.141.175.151;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -110,89 +106,15 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Tue, 28 Apr 2020 05:51:59 GMT',
+  'Thu, 25 Jun 2020 12:57:12 GMT',
   'Content-Length',
-  '1361'
+  '1357'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/certificates/recoverCertificateName-canreadcancelanddeleteacertificatesoperation-/pending')
+  .get('/certificates/CRUDCertificateName-canreadcancelanddeleteacertificatesoperation-/pending')
   .query(true)
-  .reply(200, {"id":"https://keyvault_name.vault.azure.net/certificates/recoverCertificateName-canreadcancelanddeleteacertificatesoperation-/pending","issuer":{"name":"Self"},"csr":"MIICoTCCAYkCAQAwETEPMA0GA1UEAxMGTXlDZXJ0MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAjIcFlGijBWCgR1mzrBxpK9PrXKBtRHDSvmV3IlW7hsjyWaKMUzmjd197VVq78HJA81fz/Eb4kko/4Lb7RstDYtqdsM0ZhqQybcRNnt6hozBj+Nz4Asil0+k15GtGQF+CuVTm8yBxq6EhoU5OS8zT78gz2E0PuJ9IutS4OhXj2iDcvnRl+RQ0jbnflOneWF/tg8E/icvSAZOOgh1x72aBfRZshGZuQewcUw2yac01UikN680Y0F5Xchoynnj4kYMzLUMxWsNU2i5Z/plCHehTKs2K6HzYoq8R+FFFTTeB0nNusAHYUvsIeUgF9ODSDgmeEgTSg9UzZXZLvWgyXdOCBwIDAQABoEswSQYJKoZIhvcNAQkOMTwwOjAOBgNVHQ8BAf8EBAMCBaAwHQYDVR0lBBYwFAYIKwYBBQUHAwEGCCsGAQUFBwMCMAkGA1UdEwQCMAAwDQYJKoZIhvcNAQELBQADggEBAFTL1mZMgfX5f3FV+WhhIqWfJWC9CuCy1EJJmep9s6B8QmMu6zaT6HNwEJ+yAM0Su3rdOPcSlYNrq3pRCYLQcosit54CnSS6KYGtl4H9ndnm3rGrHaBio/jAcs4YLgfOVrWinx5cwKMA8ouUdaziN3NX1JoO50Kr5HDf12CqRrpN7wpWTJVQmWm1cHHA2Dfa3bDrnPFyi0+fof0FT6MMxk706XCEY22lmVkRp+/KDEvRuQ+UCTfcGzdaAcXNtKUgVW/cFvNfL2/P60SEPeZ/cmGVBu/nqiMtEgZvihN2eK17+2mCDsm3+y13remaGGrp0ef1YQb5eD2fIlksvBkX8fI=","cancellation_requested":false,"status":"inProgress","status_details":"Pending certificate created. Certificate request is in progress. This may take some time based on the issuer provider. Please check again later.","request_id":"3113c4519ef2438d9aad95bc4529e4d0"}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Retry-After',
-  '10',
-  'Server',
-  'Microsoft-IIS/10.0',
-  'x-ms-keyvault-region',
-  'westus',
-  'x-ms-request-id',
-  'ae622a25-7421-43aa-8047-ed65489569f7',
-  'x-ms-keyvault-service-version',
-  '1.1.0.898',
-  'x-ms-keyvault-network-info',
-  'addr=52.247.203.156;act_addr_fam=InterNetwork;',
-  'X-AspNet-Version',
-  '4.0.30319',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Tue, 28 Apr 2020 05:51:59 GMT',
-  'Content-Length',
-  '1361'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/certificates/recoverCertificateName-canreadcancelanddeleteacertificatesoperation-/')
-  .query(true)
-  .reply(200, {"id":"https://keyvault_name.vault.azure.net/certificates/recoverCertificateName-canreadcancelanddeleteacertificatesoperation-/1b62e846d11648419776ef90570b48f1","attributes":{"enabled":false,"nbf":1588052519,"exp":1619589119,"created":1588053119,"updated":1588053119,"recoveryLevel":"Recoverable+Purgeable","recoverableDays":90},"policy":{"id":"https://keyvault_name.vault.azure.net/certificates/recoverCertificateName-canreadcancelanddeleteacertificatesoperation-/policy","key_props":{"exportable":true,"kty":"RSA","key_size":2048,"reuse_key":false},"secret_props":{"contentType":"application/x-pkcs12"},"x509_props":{"subject":"cn=MyCert","sans":{},"ekus":["1.3.6.1.5.5.7.3.1","1.3.6.1.5.5.7.3.2"],"key_usage":["digitalSignature","keyEncipherment"],"validity_months":12,"basic_constraints":{"ca":false}},"lifetime_actions":[{"trigger":{"lifetime_percentage":80},"action":{"action_type":"AutoRenew"}}],"issuer":{"name":"Self"},"attributes":{"enabled":true,"created":1588053119,"updated":1588053119}},"pending":{"id":"https://keyvault_name.vault.azure.net/certificates/recoverCertificateName-canreadcancelanddeleteacertificatesoperation-/pending"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Server',
-  'Microsoft-IIS/10.0',
-  'x-ms-keyvault-region',
-  'westus',
-  'x-ms-request-id',
-  'a425ac55-399d-4dd9-bb15-fac51941a2c5',
-  'x-ms-keyvault-service-version',
-  '1.1.0.898',
-  'x-ms-keyvault-network-info',
-  'addr=52.247.203.156;act_addr_fam=InterNetwork;',
-  'X-AspNet-Version',
-  '4.0.30319',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Tue, 28 Apr 2020 05:51:59 GMT',
-  'Content-Length',
-  '1214'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/certificates/recoverCertificateName-canreadcancelanddeleteacertificatesoperation-/pending')
-  .query(true)
-  .reply(200, {"id":"https://keyvault_name.vault.azure.net/certificates/recoverCertificateName-canreadcancelanddeleteacertificatesoperation-/pending","issuer":{"name":"Self"},"csr":"MIICoTCCAYkCAQAwETEPMA0GA1UEAxMGTXlDZXJ0MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAjIcFlGijBWCgR1mzrBxpK9PrXKBtRHDSvmV3IlW7hsjyWaKMUzmjd197VVq78HJA81fz/Eb4kko/4Lb7RstDYtqdsM0ZhqQybcRNnt6hozBj+Nz4Asil0+k15GtGQF+CuVTm8yBxq6EhoU5OS8zT78gz2E0PuJ9IutS4OhXj2iDcvnRl+RQ0jbnflOneWF/tg8E/icvSAZOOgh1x72aBfRZshGZuQewcUw2yac01UikN680Y0F5Xchoynnj4kYMzLUMxWsNU2i5Z/plCHehTKs2K6HzYoq8R+FFFTTeB0nNusAHYUvsIeUgF9ODSDgmeEgTSg9UzZXZLvWgyXdOCBwIDAQABoEswSQYJKoZIhvcNAQkOMTwwOjAOBgNVHQ8BAf8EBAMCBaAwHQYDVR0lBBYwFAYIKwYBBQUHAwEGCCsGAQUFBwMCMAkGA1UdEwQCMAAwDQYJKoZIhvcNAQELBQADggEBAFTL1mZMgfX5f3FV+WhhIqWfJWC9CuCy1EJJmep9s6B8QmMu6zaT6HNwEJ+yAM0Su3rdOPcSlYNrq3pRCYLQcosit54CnSS6KYGtl4H9ndnm3rGrHaBio/jAcs4YLgfOVrWinx5cwKMA8ouUdaziN3NX1JoO50Kr5HDf12CqRrpN7wpWTJVQmWm1cHHA2Dfa3bDrnPFyi0+fof0FT6MMxk706XCEY22lmVkRp+/KDEvRuQ+UCTfcGzdaAcXNtKUgVW/cFvNfL2/P60SEPeZ/cmGVBu/nqiMtEgZvihN2eK17+2mCDsm3+y13remaGGrp0ef1YQb5eD2fIlksvBkX8fI=","cancellation_requested":false,"status":"inProgress","status_details":"Pending certificate created. Certificate request is in progress. This may take some time based on the issuer provider. Please check again later.","request_id":"3113c4519ef2438d9aad95bc4529e4d0"}, [
+  .reply(200, {"id":"https://keyvault_name.vault.azure.net/certificates/CRUDCertificateName-canreadcancelanddeleteacertificatesoperation-/pending","issuer":{"name":"Self"},"csr":"MIICoTCCAYkCAQAwETEPMA0GA1UEAxMGTXlDZXJ0MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAqFFJQ4t3qe2gcC5rvCg6oQcnspHTG8j9Pc1jUviKWQQN78EqouSASEVtuz5PE2696GIAYKx0Ot9JWDyM2fyctXMCw1VM0BMy/uhVCa7SE/RPlsiiIaVUhSZVGYljh2Hju8c9HjRDWyKDIlIFRi4tv1/f4jdS83+PF2reUYYIgro5Xk7M13EaYH4YQy/B2Va3/3/CiPk95vy/Z0jbRp6m7rtJNngWNIgAZjyJGc2Kp5Tu8xyRxuOL3ib1gOS0I0pfzknQOOyptoFAsDMRxqIaX5uMbHCZEclYkPAP0VHoj3zogYmIpXUeBzDcO9cN6+x6if4QyfoLSfrgWExQ6ooa3wIDAQABoEswSQYJKoZIhvcNAQkOMTwwOjAOBgNVHQ8BAf8EBAMCBaAwHQYDVR0lBBYwFAYIKwYBBQUHAwEGCCsGAQUFBwMCMAkGA1UdEwQCMAAwDQYJKoZIhvcNAQELBQADggEBADSkIxgOLUR3UbR6U3PJMQWKINYIf7jbmxBbbStC4HHogsO4y/9wxitfXUW46PsYIlu8wyvrrjd6qu8x0yH7dSn5PSEsBfKuQbpEM11U0XRSUdhBLEkcvF8zs1yvr+ij20qnTbysHipcnpgnRewYo0VeKz17HK9DDrv4ygn+9URZBZYOXoj5OdcGDyw7uX/IQYkaJ8Nyywj2agvxuLq+cXccgqDU9I0euz3hJK1evi5VXWXXGdl5AxbeoETIAQljLS2AvoJ0dJiWjmU7PN1Ng5pr3Nim7rVeTApztIlbwCnFzuBkJzu3cx2/DOWH7Xf/9/Rhm1jvw1Cn7V5uL91zxhs=","cancellation_requested":false,"status":"inProgress","status_details":"Pending certificate created. Certificate request is in progress. This may take some time based on the issuer provider. Please check again later.","request_id":"1c8db011c0314967876ee158372efa9a"}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
@@ -203,16 +125,14 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   '-1',
   'Retry-After',
   '10',
-  'Server',
-  'Microsoft-IIS/10.0',
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  '7b249636-3933-4952-9c82-d1cad9a1f011',
+  'e779606c-f46d-4cf4-a9b0-f17e241b7468',
   'x-ms-keyvault-service-version',
-  '1.1.0.898',
+  '1.1.6.0',
   'x-ms-keyvault-network-info',
-  'addr=52.247.203.156;act_addr_fam=InterNetwork;',
+  'conn_type=Ipv4;addr=51.141.175.151;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -222,15 +142,15 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Tue, 28 Apr 2020 05:51:59 GMT',
+  'Thu, 25 Jun 2020 12:57:12 GMT',
   'Content-Length',
-  '1361'
+  '1357'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .patch('/certificates/recoverCertificateName-canreadcancelanddeleteacertificatesoperation-/pending', {"cancellation_requested":true})
+  .get('/certificates/CRUDCertificateName-canreadcancelanddeleteacertificatesoperation-/')
   .query(true)
-  .reply(200, {"id":"https://keyvault_name.vault.azure.net/certificates/recoverCertificateName-canreadcancelanddeleteacertificatesoperation-/pending","issuer":{"name":"Self"},"csr":"MIICoTCCAYkCAQAwETEPMA0GA1UEAxMGTXlDZXJ0MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAjIcFlGijBWCgR1mzrBxpK9PrXKBtRHDSvmV3IlW7hsjyWaKMUzmjd197VVq78HJA81fz/Eb4kko/4Lb7RstDYtqdsM0ZhqQybcRNnt6hozBj+Nz4Asil0+k15GtGQF+CuVTm8yBxq6EhoU5OS8zT78gz2E0PuJ9IutS4OhXj2iDcvnRl+RQ0jbnflOneWF/tg8E/icvSAZOOgh1x72aBfRZshGZuQewcUw2yac01UikN680Y0F5Xchoynnj4kYMzLUMxWsNU2i5Z/plCHehTKs2K6HzYoq8R+FFFTTeB0nNusAHYUvsIeUgF9ODSDgmeEgTSg9UzZXZLvWgyXdOCBwIDAQABoEswSQYJKoZIhvcNAQkOMTwwOjAOBgNVHQ8BAf8EBAMCBaAwHQYDVR0lBBYwFAYIKwYBBQUHAwEGCCsGAQUFBwMCMAkGA1UdEwQCMAAwDQYJKoZIhvcNAQELBQADggEBAFTL1mZMgfX5f3FV+WhhIqWfJWC9CuCy1EJJmep9s6B8QmMu6zaT6HNwEJ+yAM0Su3rdOPcSlYNrq3pRCYLQcosit54CnSS6KYGtl4H9ndnm3rGrHaBio/jAcs4YLgfOVrWinx5cwKMA8ouUdaziN3NX1JoO50Kr5HDf12CqRrpN7wpWTJVQmWm1cHHA2Dfa3bDrnPFyi0+fof0FT6MMxk706XCEY22lmVkRp+/KDEvRuQ+UCTfcGzdaAcXNtKUgVW/cFvNfL2/P60SEPeZ/cmGVBu/nqiMtEgZvihN2eK17+2mCDsm3+y13remaGGrp0ef1YQb5eD2fIlksvBkX8fI=","cancellation_requested":true,"status":"inProgress","status_details":"Pending certificate created. Certificate request is in progress. This may take some time based on the issuer provider. Please check again later.","request_id":"3113c4519ef2438d9aad95bc4529e4d0"}, [
+  .reply(200, {"id":"https://keyvault_name.vault.azure.net/certificates/CRUDCertificateName-canreadcancelanddeleteacertificatesoperation-/eff85035ec784db59e9641455c218c72","attributes":{"enabled":false,"nbf":1593089232,"exp":1624625832,"created":1593089832,"updated":1593089832,"recoveryLevel":"Recoverable+Purgeable","recoverableDays":90},"policy":{"id":"https://keyvault_name.vault.azure.net/certificates/CRUDCertificateName-canreadcancelanddeleteacertificatesoperation-/policy","key_props":{"exportable":true,"kty":"RSA","key_size":2048,"reuse_key":false},"secret_props":{"contentType":"application/x-pkcs12"},"x509_props":{"subject":"cn=MyCert","sans":{},"ekus":["1.3.6.1.5.5.7.3.1","1.3.6.1.5.5.7.3.2"],"key_usage":["digitalSignature","keyEncipherment"],"validity_months":12,"basic_constraints":{"ca":false}},"lifetime_actions":[{"trigger":{"lifetime_percentage":80},"action":{"action_type":"AutoRenew"}}],"issuer":{"name":"Self"},"attributes":{"enabled":true,"created":1593089832,"updated":1593089832}},"pending":{"id":"https://keyvault_name.vault.azure.net/certificates/CRUDCertificateName-canreadcancelanddeleteacertificatesoperation-/pending"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
@@ -239,16 +159,14 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'application/json; charset=utf-8',
   'Expires',
   '-1',
-  'Server',
-  'Microsoft-IIS/10.0',
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  '4659f374-340a-48bc-9682-8de076ae4ee8',
+  '57463149-7c0b-48b5-995e-8139f0624981',
   'x-ms-keyvault-service-version',
-  '1.1.0.898',
+  '1.1.6.0',
   'x-ms-keyvault-network-info',
-  'addr=52.247.203.156;act_addr_fam=InterNetwork;',
+  'conn_type=Ipv4;addr=51.141.175.151;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -258,15 +176,15 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Tue, 28 Apr 2020 05:51:59 GMT',
+  'Thu, 25 Jun 2020 12:57:12 GMT',
   'Content-Length',
-  '1360'
+  '1202'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .delete('/certificates/recoverCertificateName-canreadcancelanddeleteacertificatesoperation-/pending')
+  .get('/certificates/CRUDCertificateName-canreadcancelanddeleteacertificatesoperation-/pending')
   .query(true)
-  .reply(200, {"id":"https://keyvault_name.vault.azure.net/certificates/recoverCertificateName-canreadcancelanddeleteacertificatesoperation-/pending","issuer":{"name":"Self"},"csr":"MIICoTCCAYkCAQAwETEPMA0GA1UEAxMGTXlDZXJ0MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAjIcFlGijBWCgR1mzrBxpK9PrXKBtRHDSvmV3IlW7hsjyWaKMUzmjd197VVq78HJA81fz/Eb4kko/4Lb7RstDYtqdsM0ZhqQybcRNnt6hozBj+Nz4Asil0+k15GtGQF+CuVTm8yBxq6EhoU5OS8zT78gz2E0PuJ9IutS4OhXj2iDcvnRl+RQ0jbnflOneWF/tg8E/icvSAZOOgh1x72aBfRZshGZuQewcUw2yac01UikN680Y0F5Xchoynnj4kYMzLUMxWsNU2i5Z/plCHehTKs2K6HzYoq8R+FFFTTeB0nNusAHYUvsIeUgF9ODSDgmeEgTSg9UzZXZLvWgyXdOCBwIDAQABoEswSQYJKoZIhvcNAQkOMTwwOjAOBgNVHQ8BAf8EBAMCBaAwHQYDVR0lBBYwFAYIKwYBBQUHAwEGCCsGAQUFBwMCMAkGA1UdEwQCMAAwDQYJKoZIhvcNAQELBQADggEBAFTL1mZMgfX5f3FV+WhhIqWfJWC9CuCy1EJJmep9s6B8QmMu6zaT6HNwEJ+yAM0Su3rdOPcSlYNrq3pRCYLQcosit54CnSS6KYGtl4H9ndnm3rGrHaBio/jAcs4YLgfOVrWinx5cwKMA8ouUdaziN3NX1JoO50Kr5HDf12CqRrpN7wpWTJVQmWm1cHHA2Dfa3bDrnPFyi0+fof0FT6MMxk706XCEY22lmVkRp+/KDEvRuQ+UCTfcGzdaAcXNtKUgVW/cFvNfL2/P60SEPeZ/cmGVBu/nqiMtEgZvihN2eK17+2mCDsm3+y13remaGGrp0ef1YQb5eD2fIlksvBkX8fI=","cancellation_requested":true,"status":"inProgress","status_details":"Pending certificate created. Certificate request is in progress. This may take some time based on the issuer provider. Please check again later.","request_id":"3113c4519ef2438d9aad95bc4529e4d0"}, [
+  .reply(200, {"id":"https://keyvault_name.vault.azure.net/certificates/CRUDCertificateName-canreadcancelanddeleteacertificatesoperation-/pending","issuer":{"name":"Self"},"csr":"MIICoTCCAYkCAQAwETEPMA0GA1UEAxMGTXlDZXJ0MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAqFFJQ4t3qe2gcC5rvCg6oQcnspHTG8j9Pc1jUviKWQQN78EqouSASEVtuz5PE2696GIAYKx0Ot9JWDyM2fyctXMCw1VM0BMy/uhVCa7SE/RPlsiiIaVUhSZVGYljh2Hju8c9HjRDWyKDIlIFRi4tv1/f4jdS83+PF2reUYYIgro5Xk7M13EaYH4YQy/B2Va3/3/CiPk95vy/Z0jbRp6m7rtJNngWNIgAZjyJGc2Kp5Tu8xyRxuOL3ib1gOS0I0pfzknQOOyptoFAsDMRxqIaX5uMbHCZEclYkPAP0VHoj3zogYmIpXUeBzDcO9cN6+x6if4QyfoLSfrgWExQ6ooa3wIDAQABoEswSQYJKoZIhvcNAQkOMTwwOjAOBgNVHQ8BAf8EBAMCBaAwHQYDVR0lBBYwFAYIKwYBBQUHAwEGCCsGAQUFBwMCMAkGA1UdEwQCMAAwDQYJKoZIhvcNAQELBQADggEBADSkIxgOLUR3UbR6U3PJMQWKINYIf7jbmxBbbStC4HHogsO4y/9wxitfXUW46PsYIlu8wyvrrjd6qu8x0yH7dSn5PSEsBfKuQbpEM11U0XRSUdhBLEkcvF8zs1yvr+ij20qnTbysHipcnpgnRewYo0VeKz17HK9DDrv4ygn+9URZBZYOXoj5OdcGDyw7uX/IQYkaJ8Nyywj2agvxuLq+cXccgqDU9I0euz3hJK1evi5VXWXXGdl5AxbeoETIAQljLS2AvoJ0dJiWjmU7PN1Ng5pr3Nim7rVeTApztIlbwCnFzuBkJzu3cx2/DOWH7Xf/9/Rhm1jvw1Cn7V5uL91zxhs=","cancellation_requested":false,"status":"inProgress","status_details":"Pending certificate created. Certificate request is in progress. This may take some time based on the issuer provider. Please check again later.","request_id":"1c8db011c0314967876ee158372efa9a"}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
@@ -275,16 +193,16 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'application/json; charset=utf-8',
   'Expires',
   '-1',
-  'Server',
-  'Microsoft-IIS/10.0',
+  'Retry-After',
+  '10',
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  '8471db12-e1c8-44d2-bdc1-a7a24da8275e',
+  '543d92d0-df3d-4fcc-ae2b-7ee4976fb53a',
   'x-ms-keyvault-service-version',
-  '1.1.0.898',
+  '1.1.6.0',
   'x-ms-keyvault-network-info',
-  'addr=52.247.203.156;act_addr_fam=InterNetwork;',
+  'conn_type=Ipv4;addr=51.141.175.151;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -294,15 +212,15 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Tue, 28 Apr 2020 05:51:59 GMT',
+  'Thu, 25 Jun 2020 12:57:12 GMT',
   'Content-Length',
-  '1360'
+  '1357'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/certificates/recoverCertificateName-canreadcancelanddeleteacertificatesoperation-/')
+  .patch('/certificates/CRUDCertificateName-canreadcancelanddeleteacertificatesoperation-/pending', {"cancellation_requested":true})
   .query(true)
-  .reply(200, {"id":"https://keyvault_name.vault.azure.net/certificates/recoverCertificateName-canreadcancelanddeleteacertificatesoperation-/1b62e846d11648419776ef90570b48f1","attributes":{"enabled":false,"nbf":1588052519,"exp":1619589119,"created":1588053119,"updated":1588053119,"recoveryLevel":"Recoverable+Purgeable","recoverableDays":90},"policy":{"id":"https://keyvault_name.vault.azure.net/certificates/recoverCertificateName-canreadcancelanddeleteacertificatesoperation-/policy","key_props":{"exportable":true,"kty":"RSA","key_size":2048,"reuse_key":false},"secret_props":{"contentType":"application/x-pkcs12"},"x509_props":{"subject":"cn=MyCert","sans":{},"ekus":["1.3.6.1.5.5.7.3.1","1.3.6.1.5.5.7.3.2"],"key_usage":["digitalSignature","keyEncipherment"],"validity_months":12,"basic_constraints":{"ca":false}},"lifetime_actions":[{"trigger":{"lifetime_percentage":80},"action":{"action_type":"AutoRenew"}}],"issuer":{"name":"Self"},"attributes":{"enabled":true,"created":1588053119,"updated":1588053119}}}, [
+  .reply(200, {"id":"https://keyvault_name.vault.azure.net/certificates/CRUDCertificateName-canreadcancelanddeleteacertificatesoperation-/pending","issuer":{"name":"Self"},"csr":"MIICoTCCAYkCAQAwETEPMA0GA1UEAxMGTXlDZXJ0MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAqFFJQ4t3qe2gcC5rvCg6oQcnspHTG8j9Pc1jUviKWQQN78EqouSASEVtuz5PE2696GIAYKx0Ot9JWDyM2fyctXMCw1VM0BMy/uhVCa7SE/RPlsiiIaVUhSZVGYljh2Hju8c9HjRDWyKDIlIFRi4tv1/f4jdS83+PF2reUYYIgro5Xk7M13EaYH4YQy/B2Va3/3/CiPk95vy/Z0jbRp6m7rtJNngWNIgAZjyJGc2Kp5Tu8xyRxuOL3ib1gOS0I0pfzknQOOyptoFAsDMRxqIaX5uMbHCZEclYkPAP0VHoj3zogYmIpXUeBzDcO9cN6+x6if4QyfoLSfrgWExQ6ooa3wIDAQABoEswSQYJKoZIhvcNAQkOMTwwOjAOBgNVHQ8BAf8EBAMCBaAwHQYDVR0lBBYwFAYIKwYBBQUHAwEGCCsGAQUFBwMCMAkGA1UdEwQCMAAwDQYJKoZIhvcNAQELBQADggEBADSkIxgOLUR3UbR6U3PJMQWKINYIf7jbmxBbbStC4HHogsO4y/9wxitfXUW46PsYIlu8wyvrrjd6qu8x0yH7dSn5PSEsBfKuQbpEM11U0XRSUdhBLEkcvF8zs1yvr+ij20qnTbysHipcnpgnRewYo0VeKz17HK9DDrv4ygn+9URZBZYOXoj5OdcGDyw7uX/IQYkaJ8Nyywj2agvxuLq+cXccgqDU9I0euz3hJK1evi5VXWXXGdl5AxbeoETIAQljLS2AvoJ0dJiWjmU7PN1Ng5pr3Nim7rVeTApztIlbwCnFzuBkJzu3cx2/DOWH7Xf/9/Rhm1jvw1Cn7V5uL91zxhs=","cancellation_requested":true,"status":"inProgress","status_details":"Pending certificate created. Certificate request is in progress. This may take some time based on the issuer provider. Please check again later.","request_id":"1c8db011c0314967876ee158372efa9a"}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
@@ -311,16 +229,14 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'application/json; charset=utf-8',
   'Expires',
   '-1',
-  'Server',
-  'Microsoft-IIS/10.0',
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  '33c2d87d-3341-4c5b-9221-6423eb925d7e',
+  '6382d983-a20f-47fa-b17c-eeddc7ef0915',
   'x-ms-keyvault-service-version',
-  '1.1.0.898',
+  '1.1.6.0',
   'x-ms-keyvault-network-info',
-  'addr=52.247.203.156;act_addr_fam=InterNetwork;',
+  'conn_type=Ipv4;addr=51.141.175.151;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -330,51 +246,15 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Tue, 28 Apr 2020 05:51:59 GMT',
+  'Thu, 25 Jun 2020 12:57:12 GMT',
   'Content-Length',
-  '1045'
+  '1356'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/certificates/recoverCertificateName-canreadcancelanddeleteacertificatesoperation-/pending')
+  .delete('/certificates/CRUDCertificateName-canreadcancelanddeleteacertificatesoperation-/pending')
   .query(true)
-  .reply(404, {"error":{"code":"PendingCertificateNotFound","message":"Pending certificate not found: recoverCertificateName-canreadcancelanddeleteacertificatesoperation-"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '176',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Server',
-  'Microsoft-IIS/10.0',
-  'x-ms-keyvault-region',
-  'westus',
-  'x-ms-request-id',
-  'bdbcb3a3-78b8-44f2-aab5-b839c1db3698',
-  'x-ms-keyvault-service-version',
-  '1.1.0.898',
-  'x-ms-keyvault-network-info',
-  'addr=52.247.203.156;act_addr_fam=InterNetwork;',
-  'X-AspNet-Version',
-  '4.0.30319',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Tue, 28 Apr 2020 05:51:59 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .delete('/certificates/recoverCertificateName-canreadcancelanddeleteacertificatesoperation-')
-  .query(true)
-  .reply(200, {"recoveryId":"https://keyvault_name.vault.azure.net/deletedcertificates/recoverCertificateName-canreadcancelanddeleteacertificatesoperation-","deletedDate":1588053120,"scheduledPurgeDate":1595829120,"id":"https://keyvault_name.vault.azure.net/certificates/recoverCertificateName-canreadcancelanddeleteacertificatesoperation-/1b62e846d11648419776ef90570b48f1","attributes":{"enabled":false,"nbf":1588052519,"exp":1619589119,"created":1588053119,"updated":1588053119,"recoveryLevel":"Recoverable+Purgeable","recoverableDays":90},"policy":{"id":"https://keyvault_name.vault.azure.net/certificates/recoverCertificateName-canreadcancelanddeleteacertificatesoperation-/policy","key_props":{"exportable":true,"kty":"RSA","key_size":2048,"reuse_key":false},"secret_props":{"contentType":"application/x-pkcs12"},"x509_props":{"subject":"cn=MyCert","sans":{},"ekus":["1.3.6.1.5.5.7.3.1","1.3.6.1.5.5.7.3.2"],"key_usage":["digitalSignature","keyEncipherment"],"validity_months":12,"basic_constraints":{"ca":false}},"lifetime_actions":[{"trigger":{"lifetime_percentage":80},"action":{"action_type":"AutoRenew"}}],"issuer":{"name":"Self"},"attributes":{"enabled":true,"created":1588053119,"updated":1588053119}}}, [
+  .reply(200, {"id":"https://keyvault_name.vault.azure.net/certificates/CRUDCertificateName-canreadcancelanddeleteacertificatesoperation-/pending","issuer":{"name":"Self"},"csr":"MIICoTCCAYkCAQAwETEPMA0GA1UEAxMGTXlDZXJ0MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAqFFJQ4t3qe2gcC5rvCg6oQcnspHTG8j9Pc1jUviKWQQN78EqouSASEVtuz5PE2696GIAYKx0Ot9JWDyM2fyctXMCw1VM0BMy/uhVCa7SE/RPlsiiIaVUhSZVGYljh2Hju8c9HjRDWyKDIlIFRi4tv1/f4jdS83+PF2reUYYIgro5Xk7M13EaYH4YQy/B2Va3/3/CiPk95vy/Z0jbRp6m7rtJNngWNIgAZjyJGc2Kp5Tu8xyRxuOL3ib1gOS0I0pfzknQOOyptoFAsDMRxqIaX5uMbHCZEclYkPAP0VHoj3zogYmIpXUeBzDcO9cN6+x6if4QyfoLSfrgWExQ6ooa3wIDAQABoEswSQYJKoZIhvcNAQkOMTwwOjAOBgNVHQ8BAf8EBAMCBaAwHQYDVR0lBBYwFAYIKwYBBQUHAwEGCCsGAQUFBwMCMAkGA1UdEwQCMAAwDQYJKoZIhvcNAQELBQADggEBADSkIxgOLUR3UbR6U3PJMQWKINYIf7jbmxBbbStC4HHogsO4y/9wxitfXUW46PsYIlu8wyvrrjd6qu8x0yH7dSn5PSEsBfKuQbpEM11U0XRSUdhBLEkcvF8zs1yvr+ij20qnTbysHipcnpgnRewYo0VeKz17HK9DDrv4ygn+9URZBZYOXoj5OdcGDyw7uX/IQYkaJ8Nyywj2agvxuLq+cXccgqDU9I0euz3hJK1evi5VXWXXGdl5AxbeoETIAQljLS2AvoJ0dJiWjmU7PN1Ng5pr3Nim7rVeTApztIlbwCnFzuBkJzu3cx2/DOWH7Xf/9/Rhm1jvw1Cn7V5uL91zxhs=","cancellation_requested":true,"status":"inProgress","status_details":"Pending certificate created. Certificate request is in progress. This may take some time based on the issuer provider. Please check again later.","request_id":"1c8db011c0314967876ee158372efa9a"}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
@@ -383,16 +263,14 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'application/json; charset=utf-8',
   'Expires',
   '-1',
-  'Server',
-  'Microsoft-IIS/10.0',
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  '7b974897-a828-407e-a208-6f48dd938035',
+  'e152ec4c-cfce-4f08-843c-bd9f6445ade0',
   'x-ms-keyvault-service-version',
-  '1.1.0.898',
+  '1.1.6.0',
   'x-ms-keyvault-network-info',
-  'addr=52.247.203.156;act_addr_fam=InterNetwork;',
+  'conn_type=Ipv4;addr=51.141.175.151;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -402,1167 +280,15 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Tue, 28 Apr 2020 05:51:59 GMT',
+  'Thu, 25 Jun 2020 12:57:12 GMT',
   'Content-Length',
-  '1266'
+  '1356'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedcertificates/recoverCertificateName-canreadcancelanddeleteacertificatesoperation-')
+  .get('/certificates/CRUDCertificateName-canreadcancelanddeleteacertificatesoperation-/')
   .query(true)
-  .reply(404, {"error":{"code":"CertificateNotFound","message":"Deleted Certificate not found: recoverCertificateName-canreadcancelanddeleteacertificatesoperation-"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '169',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Server',
-  'Microsoft-IIS/10.0',
-  'x-ms-keyvault-region',
-  'westus',
-  'x-ms-request-id',
-  'c4f11761-61d4-4b83-9f5f-41eb983a83a6',
-  'x-ms-keyvault-service-version',
-  '1.1.0.898',
-  'x-ms-keyvault-network-info',
-  'addr=52.247.203.156;act_addr_fam=InterNetwork;',
-  'X-AspNet-Version',
-  '4.0.30319',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Tue, 28 Apr 2020 05:52:01 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedcertificates/recoverCertificateName-canreadcancelanddeleteacertificatesoperation-')
-  .query(true)
-  .reply(404, {"error":{"code":"CertificateNotFound","message":"Deleted Certificate not found: recoverCertificateName-canreadcancelanddeleteacertificatesoperation-"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '169',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Server',
-  'Microsoft-IIS/10.0',
-  'x-ms-keyvault-region',
-  'westus',
-  'x-ms-request-id',
-  '1b18e70b-344e-42d7-84e2-f09eeb9ef318',
-  'x-ms-keyvault-service-version',
-  '1.1.0.898',
-  'x-ms-keyvault-network-info',
-  'addr=52.247.203.156;act_addr_fam=InterNetwork;',
-  'X-AspNet-Version',
-  '4.0.30319',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Tue, 28 Apr 2020 05:52:01 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedcertificates/recoverCertificateName-canreadcancelanddeleteacertificatesoperation-')
-  .query(true)
-  .reply(404, {"error":{"code":"CertificateNotFound","message":"Deleted Certificate not found: recoverCertificateName-canreadcancelanddeleteacertificatesoperation-"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '169',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Server',
-  'Microsoft-IIS/10.0',
-  'x-ms-keyvault-region',
-  'westus',
-  'x-ms-request-id',
-  '315fbdac-6f62-4edf-9249-0f3d2225f4fb',
-  'x-ms-keyvault-service-version',
-  '1.1.0.898',
-  'x-ms-keyvault-network-info',
-  'addr=52.247.203.156;act_addr_fam=InterNetwork;',
-  'X-AspNet-Version',
-  '4.0.30319',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Tue, 28 Apr 2020 05:52:03 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedcertificates/recoverCertificateName-canreadcancelanddeleteacertificatesoperation-')
-  .query(true)
-  .reply(404, {"error":{"code":"CertificateNotFound","message":"Deleted Certificate not found: recoverCertificateName-canreadcancelanddeleteacertificatesoperation-"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '169',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Server',
-  'Microsoft-IIS/10.0',
-  'x-ms-keyvault-region',
-  'westus',
-  'x-ms-request-id',
-  'a4fb95b0-8b55-4d67-b0f6-62857181f570',
-  'x-ms-keyvault-service-version',
-  '1.1.0.898',
-  'x-ms-keyvault-network-info',
-  'addr=52.247.203.156;act_addr_fam=InterNetwork;',
-  'X-AspNet-Version',
-  '4.0.30319',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Tue, 28 Apr 2020 05:52:05 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedcertificates/recoverCertificateName-canreadcancelanddeleteacertificatesoperation-')
-  .query(true)
-  .reply(404, {"error":{"code":"CertificateNotFound","message":"Deleted Certificate not found: recoverCertificateName-canreadcancelanddeleteacertificatesoperation-"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '169',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Server',
-  'Microsoft-IIS/10.0',
-  'x-ms-keyvault-region',
-  'westus',
-  'x-ms-request-id',
-  'ac4acd1b-0292-49fd-a814-a58d0a22d329',
-  'x-ms-keyvault-service-version',
-  '1.1.0.898',
-  'x-ms-keyvault-network-info',
-  'addr=52.247.203.156;act_addr_fam=InterNetwork;',
-  'X-AspNet-Version',
-  '4.0.30319',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Tue, 28 Apr 2020 05:52:07 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedcertificates/recoverCertificateName-canreadcancelanddeleteacertificatesoperation-')
-  .query(true)
-  .reply(404, {"error":{"code":"CertificateNotFound","message":"Deleted Certificate not found: recoverCertificateName-canreadcancelanddeleteacertificatesoperation-"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '169',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Server',
-  'Microsoft-IIS/10.0',
-  'x-ms-keyvault-region',
-  'westus',
-  'x-ms-request-id',
-  '37398cc0-c738-40b2-a63a-e2f47c7a5c76',
-  'x-ms-keyvault-service-version',
-  '1.1.0.898',
-  'x-ms-keyvault-network-info',
-  'addr=52.247.203.156;act_addr_fam=InterNetwork;',
-  'X-AspNet-Version',
-  '4.0.30319',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Tue, 28 Apr 2020 05:52:09 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedcertificates/recoverCertificateName-canreadcancelanddeleteacertificatesoperation-')
-  .query(true)
-  .reply(404, {"error":{"code":"CertificateNotFound","message":"Deleted Certificate not found: recoverCertificateName-canreadcancelanddeleteacertificatesoperation-"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '169',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Server',
-  'Microsoft-IIS/10.0',
-  'x-ms-keyvault-region',
-  'westus',
-  'x-ms-request-id',
-  '431253ca-96c3-475a-bf5a-f37b77169fc7',
-  'x-ms-keyvault-service-version',
-  '1.1.0.898',
-  'x-ms-keyvault-network-info',
-  'addr=52.247.203.156;act_addr_fam=InterNetwork;',
-  'X-AspNet-Version',
-  '4.0.30319',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Tue, 28 Apr 2020 05:52:11 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedcertificates/recoverCertificateName-canreadcancelanddeleteacertificatesoperation-')
-  .query(true)
-  .reply(404, {"error":{"code":"CertificateNotFound","message":"Deleted Certificate not found: recoverCertificateName-canreadcancelanddeleteacertificatesoperation-"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '169',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Server',
-  'Microsoft-IIS/10.0',
-  'x-ms-keyvault-region',
-  'westus',
-  'x-ms-request-id',
-  'e0a50e48-74a8-49f8-aa80-3c2cd8838285',
-  'x-ms-keyvault-service-version',
-  '1.1.0.898',
-  'x-ms-keyvault-network-info',
-  'addr=52.247.203.156;act_addr_fam=InterNetwork;',
-  'X-AspNet-Version',
-  '4.0.30319',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Tue, 28 Apr 2020 05:52:13 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedcertificates/recoverCertificateName-canreadcancelanddeleteacertificatesoperation-')
-  .query(true)
-  .reply(404, {"error":{"code":"CertificateNotFound","message":"Deleted Certificate not found: recoverCertificateName-canreadcancelanddeleteacertificatesoperation-"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '169',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Server',
-  'Microsoft-IIS/10.0',
-  'x-ms-keyvault-region',
-  'westus',
-  'x-ms-request-id',
-  '4c76bcea-05e6-488b-b0c6-0948cdabcaf9',
-  'x-ms-keyvault-service-version',
-  '1.1.0.898',
-  'x-ms-keyvault-network-info',
-  'addr=52.247.203.156;act_addr_fam=InterNetwork;',
-  'X-AspNet-Version',
-  '4.0.30319',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Tue, 28 Apr 2020 05:52:15 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedcertificates/recoverCertificateName-canreadcancelanddeleteacertificatesoperation-')
-  .query(true)
-  .reply(404, {"error":{"code":"CertificateNotFound","message":"Deleted Certificate not found: recoverCertificateName-canreadcancelanddeleteacertificatesoperation-"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '169',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Server',
-  'Microsoft-IIS/10.0',
-  'x-ms-keyvault-region',
-  'westus',
-  'x-ms-request-id',
-  '96002704-b40c-4299-93e6-91752cb2bf32',
-  'x-ms-keyvault-service-version',
-  '1.1.0.898',
-  'x-ms-keyvault-network-info',
-  'addr=52.247.203.156;act_addr_fam=InterNetwork;',
-  'X-AspNet-Version',
-  '4.0.30319',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Tue, 28 Apr 2020 05:52:16 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedcertificates/recoverCertificateName-canreadcancelanddeleteacertificatesoperation-')
-  .query(true)
-  .reply(404, {"error":{"code":"CertificateNotFound","message":"Deleted Certificate not found: recoverCertificateName-canreadcancelanddeleteacertificatesoperation-"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '169',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Server',
-  'Microsoft-IIS/10.0',
-  'x-ms-keyvault-region',
-  'westus',
-  'x-ms-request-id',
-  '46ab5b43-3868-4450-8758-5be636834665',
-  'x-ms-keyvault-service-version',
-  '1.1.0.898',
-  'x-ms-keyvault-network-info',
-  'addr=52.247.203.156;act_addr_fam=InterNetwork;',
-  'X-AspNet-Version',
-  '4.0.30319',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Tue, 28 Apr 2020 05:52:18 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedcertificates/recoverCertificateName-canreadcancelanddeleteacertificatesoperation-')
-  .query(true)
-  .reply(404, {"error":{"code":"CertificateNotFound","message":"Deleted Certificate not found: recoverCertificateName-canreadcancelanddeleteacertificatesoperation-"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '169',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Server',
-  'Microsoft-IIS/10.0',
-  'x-ms-keyvault-region',
-  'westus',
-  'x-ms-request-id',
-  'd9f14de0-d69c-43d8-99a4-9b171ae83eeb',
-  'x-ms-keyvault-service-version',
-  '1.1.0.898',
-  'x-ms-keyvault-network-info',
-  'addr=52.247.203.156;act_addr_fam=InterNetwork;',
-  'X-AspNet-Version',
-  '4.0.30319',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Tue, 28 Apr 2020 05:52:20 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedcertificates/recoverCertificateName-canreadcancelanddeleteacertificatesoperation-')
-  .query(true)
-  .reply(404, {"error":{"code":"CertificateNotFound","message":"Deleted Certificate not found: recoverCertificateName-canreadcancelanddeleteacertificatesoperation-"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '169',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Server',
-  'Microsoft-IIS/10.0',
-  'x-ms-keyvault-region',
-  'westus',
-  'x-ms-request-id',
-  '56479a41-8e89-49f9-9266-174e1540b02e',
-  'x-ms-keyvault-service-version',
-  '1.1.0.898',
-  'x-ms-keyvault-network-info',
-  'addr=52.247.203.156;act_addr_fam=InterNetwork;',
-  'X-AspNet-Version',
-  '4.0.30319',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Tue, 28 Apr 2020 05:52:22 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedcertificates/recoverCertificateName-canreadcancelanddeleteacertificatesoperation-')
-  .query(true)
-  .reply(404, {"error":{"code":"CertificateNotFound","message":"Deleted Certificate not found: recoverCertificateName-canreadcancelanddeleteacertificatesoperation-"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '169',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Server',
-  'Microsoft-IIS/10.0',
-  'x-ms-keyvault-region',
-  'westus',
-  'x-ms-request-id',
-  'd1235f19-9450-4f40-86c5-05acb592cb27',
-  'x-ms-keyvault-service-version',
-  '1.1.0.898',
-  'x-ms-keyvault-network-info',
-  'addr=52.247.203.156;act_addr_fam=InterNetwork;',
-  'X-AspNet-Version',
-  '4.0.30319',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Tue, 28 Apr 2020 05:52:24 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedcertificates/recoverCertificateName-canreadcancelanddeleteacertificatesoperation-')
-  .query(true)
-  .reply(404, {"error":{"code":"CertificateNotFound","message":"Deleted Certificate not found: recoverCertificateName-canreadcancelanddeleteacertificatesoperation-"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '169',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Server',
-  'Microsoft-IIS/10.0',
-  'x-ms-keyvault-region',
-  'westus',
-  'x-ms-request-id',
-  '26417f6b-c9e2-4511-ad41-b20b0bad3b33',
-  'x-ms-keyvault-service-version',
-  '1.1.0.898',
-  'x-ms-keyvault-network-info',
-  'addr=52.247.203.156;act_addr_fam=InterNetwork;',
-  'X-AspNet-Version',
-  '4.0.30319',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Tue, 28 Apr 2020 05:52:27 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedcertificates/recoverCertificateName-canreadcancelanddeleteacertificatesoperation-')
-  .query(true)
-  .reply(404, {"error":{"code":"CertificateNotFound","message":"Deleted Certificate not found: recoverCertificateName-canreadcancelanddeleteacertificatesoperation-"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '169',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Server',
-  'Microsoft-IIS/10.0',
-  'x-ms-keyvault-region',
-  'westus',
-  'x-ms-request-id',
-  '21ba54d1-4891-413e-9bb2-e642a587a217',
-  'x-ms-keyvault-service-version',
-  '1.1.0.898',
-  'x-ms-keyvault-network-info',
-  'addr=52.247.203.156;act_addr_fam=InterNetwork;',
-  'X-AspNet-Version',
-  '4.0.30319',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Tue, 28 Apr 2020 05:52:30 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedcertificates/recoverCertificateName-canreadcancelanddeleteacertificatesoperation-')
-  .query(true)
-  .reply(404, {"error":{"code":"CertificateNotFound","message":"Deleted Certificate not found: recoverCertificateName-canreadcancelanddeleteacertificatesoperation-"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '169',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Server',
-  'Microsoft-IIS/10.0',
-  'x-ms-keyvault-region',
-  'westus',
-  'x-ms-request-id',
-  'f78bab49-7aa7-40a0-b263-d4c7ec629172',
-  'x-ms-keyvault-service-version',
-  '1.1.0.898',
-  'x-ms-keyvault-network-info',
-  'addr=52.247.203.156;act_addr_fam=InterNetwork;',
-  'X-AspNet-Version',
-  '4.0.30319',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Tue, 28 Apr 2020 05:52:32 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedcertificates/recoverCertificateName-canreadcancelanddeleteacertificatesoperation-')
-  .query(true)
-  .reply(404, {"error":{"code":"CertificateNotFound","message":"Deleted Certificate not found: recoverCertificateName-canreadcancelanddeleteacertificatesoperation-"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '169',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Server',
-  'Microsoft-IIS/10.0',
-  'x-ms-keyvault-region',
-  'westus',
-  'x-ms-request-id',
-  'e4a89d94-ae1d-4608-adc9-4b6ee112e698',
-  'x-ms-keyvault-service-version',
-  '1.1.0.898',
-  'x-ms-keyvault-network-info',
-  'addr=52.247.203.156;act_addr_fam=InterNetwork;',
-  'X-AspNet-Version',
-  '4.0.30319',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Tue, 28 Apr 2020 05:52:34 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedcertificates/recoverCertificateName-canreadcancelanddeleteacertificatesoperation-')
-  .query(true)
-  .reply(404, {"error":{"code":"CertificateNotFound","message":"Deleted Certificate not found: recoverCertificateName-canreadcancelanddeleteacertificatesoperation-"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '169',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Server',
-  'Microsoft-IIS/10.0',
-  'x-ms-keyvault-region',
-  'westus',
-  'x-ms-request-id',
-  '32a1b1bf-05cc-4833-b872-51aacbc2c57a',
-  'x-ms-keyvault-service-version',
-  '1.1.0.898',
-  'x-ms-keyvault-network-info',
-  'addr=52.247.203.156;act_addr_fam=InterNetwork;',
-  'X-AspNet-Version',
-  '4.0.30319',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Tue, 28 Apr 2020 05:52:35 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedcertificates/recoverCertificateName-canreadcancelanddeleteacertificatesoperation-')
-  .query(true)
-  .reply(404, {"error":{"code":"CertificateNotFound","message":"Deleted Certificate not found: recoverCertificateName-canreadcancelanddeleteacertificatesoperation-"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '169',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Server',
-  'Microsoft-IIS/10.0',
-  'x-ms-keyvault-region',
-  'westus',
-  'x-ms-request-id',
-  'd0ce8914-cda5-41c3-8540-2cc0c46ae250',
-  'x-ms-keyvault-service-version',
-  '1.1.0.898',
-  'x-ms-keyvault-network-info',
-  'addr=52.247.203.156;act_addr_fam=InterNetwork;',
-  'X-AspNet-Version',
-  '4.0.30319',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Tue, 28 Apr 2020 05:52:38 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedcertificates/recoverCertificateName-canreadcancelanddeleteacertificatesoperation-')
-  .query(true)
-  .reply(404, {"error":{"code":"CertificateNotFound","message":"Deleted Certificate not found: recoverCertificateName-canreadcancelanddeleteacertificatesoperation-"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '169',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Server',
-  'Microsoft-IIS/10.0',
-  'x-ms-keyvault-region',
-  'westus',
-  'x-ms-request-id',
-  'd73f210a-ac5d-4115-a34e-5e2456bb431b',
-  'x-ms-keyvault-service-version',
-  '1.1.0.898',
-  'x-ms-keyvault-network-info',
-  'addr=52.247.203.156;act_addr_fam=InterNetwork;',
-  'X-AspNet-Version',
-  '4.0.30319',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Tue, 28 Apr 2020 05:52:40 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedcertificates/recoverCertificateName-canreadcancelanddeleteacertificatesoperation-')
-  .query(true)
-  .reply(404, {"error":{"code":"CertificateNotFound","message":"Deleted Certificate not found: recoverCertificateName-canreadcancelanddeleteacertificatesoperation-"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '169',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Server',
-  'Microsoft-IIS/10.0',
-  'x-ms-keyvault-region',
-  'westus',
-  'x-ms-request-id',
-  'a945de80-d52b-4374-878b-2d6e861a0846',
-  'x-ms-keyvault-service-version',
-  '1.1.0.898',
-  'x-ms-keyvault-network-info',
-  'addr=52.247.203.156;act_addr_fam=InterNetwork;',
-  'X-AspNet-Version',
-  '4.0.30319',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Tue, 28 Apr 2020 05:52:42 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedcertificates/recoverCertificateName-canreadcancelanddeleteacertificatesoperation-')
-  .query(true)
-  .reply(404, {"error":{"code":"CertificateNotFound","message":"Deleted Certificate not found: recoverCertificateName-canreadcancelanddeleteacertificatesoperation-"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '169',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Server',
-  'Microsoft-IIS/10.0',
-  'x-ms-keyvault-region',
-  'westus',
-  'x-ms-request-id',
-  'cd44436b-6376-4588-96ca-7a0a29810ee1',
-  'x-ms-keyvault-service-version',
-  '1.1.0.898',
-  'x-ms-keyvault-network-info',
-  'addr=52.247.203.156;act_addr_fam=InterNetwork;',
-  'X-AspNet-Version',
-  '4.0.30319',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Tue, 28 Apr 2020 05:52:44 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedcertificates/recoverCertificateName-canreadcancelanddeleteacertificatesoperation-')
-  .query(true)
-  .reply(404, {"error":{"code":"CertificateNotFound","message":"Deleted Certificate not found: recoverCertificateName-canreadcancelanddeleteacertificatesoperation-"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '169',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Server',
-  'Microsoft-IIS/10.0',
-  'x-ms-keyvault-region',
-  'westus',
-  'x-ms-request-id',
-  '780b3b2a-9bd1-47d8-b358-4165e92c3d9c',
-  'x-ms-keyvault-service-version',
-  '1.1.0.898',
-  'x-ms-keyvault-network-info',
-  'addr=52.247.203.156;act_addr_fam=InterNetwork;',
-  'X-AspNet-Version',
-  '4.0.30319',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Tue, 28 Apr 2020 05:52:46 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedcertificates/recoverCertificateName-canreadcancelanddeleteacertificatesoperation-')
-  .query(true)
-  .reply(404, {"error":{"code":"CertificateNotFound","message":"Deleted Certificate not found: recoverCertificateName-canreadcancelanddeleteacertificatesoperation-"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '169',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Server',
-  'Microsoft-IIS/10.0',
-  'x-ms-keyvault-region',
-  'westus',
-  'x-ms-request-id',
-  '1a067255-79b8-463e-b80f-510ec17daa23',
-  'x-ms-keyvault-service-version',
-  '1.1.0.898',
-  'x-ms-keyvault-network-info',
-  'addr=52.247.203.156;act_addr_fam=InterNetwork;',
-  'X-AspNet-Version',
-  '4.0.30319',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Tue, 28 Apr 2020 05:52:48 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedcertificates/recoverCertificateName-canreadcancelanddeleteacertificatesoperation-')
-  .query(true)
-  .reply(404, {"error":{"code":"CertificateNotFound","message":"Deleted Certificate not found: recoverCertificateName-canreadcancelanddeleteacertificatesoperation-"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '169',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Server',
-  'Microsoft-IIS/10.0',
-  'x-ms-keyvault-region',
-  'westus',
-  'x-ms-request-id',
-  'f0361ecd-86bd-467d-aa28-cbeb08abdc20',
-  'x-ms-keyvault-service-version',
-  '1.1.0.898',
-  'x-ms-keyvault-network-info',
-  'addr=52.247.203.156;act_addr_fam=InterNetwork;',
-  'X-AspNet-Version',
-  '4.0.30319',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Tue, 28 Apr 2020 05:52:50 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedcertificates/recoverCertificateName-canreadcancelanddeleteacertificatesoperation-')
-  .query(true)
-  .reply(404, {"error":{"code":"CertificateNotFound","message":"Deleted Certificate not found: recoverCertificateName-canreadcancelanddeleteacertificatesoperation-"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '169',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Server',
-  'Microsoft-IIS/10.0',
-  'x-ms-keyvault-region',
-  'westus',
-  'x-ms-request-id',
-  '699812da-602f-4d54-9ef3-cb5092a05b2b',
-  'x-ms-keyvault-service-version',
-  '1.1.0.898',
-  'x-ms-keyvault-network-info',
-  'addr=52.247.203.156;act_addr_fam=InterNetwork;',
-  'X-AspNet-Version',
-  '4.0.30319',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Tue, 28 Apr 2020 05:52:52 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedcertificates/recoverCertificateName-canreadcancelanddeleteacertificatesoperation-')
-  .query(true)
-  .reply(404, {"error":{"code":"CertificateNotFound","message":"Deleted Certificate not found: recoverCertificateName-canreadcancelanddeleteacertificatesoperation-"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '169',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Server',
-  'Microsoft-IIS/10.0',
-  'x-ms-keyvault-region',
-  'westus',
-  'x-ms-request-id',
-  '45fbff63-d349-4bdd-bfaf-35439a4d43ac',
-  'x-ms-keyvault-service-version',
-  '1.1.0.898',
-  'x-ms-keyvault-network-info',
-  'addr=52.247.203.156;act_addr_fam=InterNetwork;',
-  'X-AspNet-Version',
-  '4.0.30319',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Tue, 28 Apr 2020 05:52:54 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedcertificates/recoverCertificateName-canreadcancelanddeleteacertificatesoperation-')
-  .query(true)
-  .reply(404, {"error":{"code":"CertificateNotFound","message":"Deleted Certificate not found: recoverCertificateName-canreadcancelanddeleteacertificatesoperation-"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '169',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Server',
-  'Microsoft-IIS/10.0',
-  'x-ms-keyvault-region',
-  'westus',
-  'x-ms-request-id',
-  '36e510d4-b18c-4a48-b81b-007e2509e57d',
-  'x-ms-keyvault-service-version',
-  '1.1.0.898',
-  'x-ms-keyvault-network-info',
-  'addr=52.247.203.156;act_addr_fam=InterNetwork;',
-  'X-AspNet-Version',
-  '4.0.30319',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Tue, 28 Apr 2020 05:52:56 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedcertificates/recoverCertificateName-canreadcancelanddeleteacertificatesoperation-')
-  .query(true)
-  .reply(404, {"error":{"code":"CertificateNotFound","message":"Deleted Certificate not found: recoverCertificateName-canreadcancelanddeleteacertificatesoperation-"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '169',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Server',
-  'Microsoft-IIS/10.0',
-  'x-ms-keyvault-region',
-  'westus',
-  'x-ms-request-id',
-  '2ed290bf-6c82-4eff-af7b-3625cbce440d',
-  'x-ms-keyvault-service-version',
-  '1.1.0.898',
-  'x-ms-keyvault-network-info',
-  'addr=52.247.203.156;act_addr_fam=InterNetwork;',
-  'X-AspNet-Version',
-  '4.0.30319',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Tue, 28 Apr 2020 05:52:58 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedcertificates/recoverCertificateName-canreadcancelanddeleteacertificatesoperation-')
-  .query(true)
-  .reply(404, {"error":{"code":"CertificateNotFound","message":"Deleted Certificate not found: recoverCertificateName-canreadcancelanddeleteacertificatesoperation-"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '169',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Server',
-  'Microsoft-IIS/10.0',
-  'x-ms-keyvault-region',
-  'westus',
-  'x-ms-request-id',
-  '7f5cb33b-7a38-4442-a3b3-debc08e2ec51',
-  'x-ms-keyvault-service-version',
-  '1.1.0.898',
-  'x-ms-keyvault-network-info',
-  'addr=52.247.203.156;act_addr_fam=InterNetwork;',
-  'X-AspNet-Version',
-  '4.0.30319',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Tue, 28 Apr 2020 05:53:00 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedcertificates/recoverCertificateName-canreadcancelanddeleteacertificatesoperation-')
-  .query(true)
-  .reply(404, {"error":{"code":"CertificateNotFound","message":"Deleted Certificate not found: recoverCertificateName-canreadcancelanddeleteacertificatesoperation-"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '169',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Server',
-  'Microsoft-IIS/10.0',
-  'x-ms-keyvault-region',
-  'westus',
-  'x-ms-request-id',
-  '1a354158-f162-421f-8bd3-8af4a69db067',
-  'x-ms-keyvault-service-version',
-  '1.1.0.898',
-  'x-ms-keyvault-network-info',
-  'addr=52.247.203.156;act_addr_fam=InterNetwork;',
-  'X-AspNet-Version',
-  '4.0.30319',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Tue, 28 Apr 2020 05:53:02 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedcertificates/recoverCertificateName-canreadcancelanddeleteacertificatesoperation-')
-  .query(true)
-  .reply(200, {"recoveryId":"https://keyvault_name.vault.azure.net/deletedcertificates/recoverCertificateName-canreadcancelanddeleteacertificatesoperation-","deletedDate":1588053120,"scheduledPurgeDate":1595829120,"id":"https://keyvault_name.vault.azure.net/certificates/recoverCertificateName-canreadcancelanddeleteacertificatesoperation-/1b62e846d11648419776ef90570b48f1","attributes":{"enabled":false,"nbf":1588052519,"exp":1619589119,"created":1588053119,"updated":1588053119,"recoveryLevel":"Recoverable+Purgeable","recoverableDays":90},"policy":{"id":"https://keyvault_name.vault.azure.net/certificates/recoverCertificateName-canreadcancelanddeleteacertificatesoperation-/policy","key_props":{"exportable":true,"kty":"RSA","key_size":2048,"reuse_key":false},"secret_props":{"contentType":"application/x-pkcs12"},"x509_props":{"subject":"cn=MyCert","sans":{},"ekus":["1.3.6.1.5.5.7.3.1","1.3.6.1.5.5.7.3.2"],"key_usage":["digitalSignature","keyEncipherment"],"validity_months":12,"basic_constraints":{"ca":false}},"lifetime_actions":[{"trigger":{"lifetime_percentage":80},"action":{"action_type":"AutoRenew"}}],"issuer":{"name":"Self"},"attributes":{"enabled":true,"created":1588053119,"updated":1588053119}}}, [
+  .reply(200, {"id":"https://keyvault_name.vault.azure.net/certificates/CRUDCertificateName-canreadcancelanddeleteacertificatesoperation-/eff85035ec784db59e9641455c218c72","attributes":{"enabled":false,"nbf":1593089232,"exp":1624625832,"created":1593089832,"updated":1593089832,"recoveryLevel":"Recoverable+Purgeable","recoverableDays":90},"policy":{"id":"https://keyvault_name.vault.azure.net/certificates/CRUDCertificateName-canreadcancelanddeleteacertificatesoperation-/policy","key_props":{"exportable":true,"kty":"RSA","key_size":2048,"reuse_key":false},"secret_props":{"contentType":"application/x-pkcs12"},"x509_props":{"subject":"cn=MyCert","sans":{},"ekus":["1.3.6.1.5.5.7.3.1","1.3.6.1.5.5.7.3.2"],"key_usage":["digitalSignature","keyEncipherment"],"validity_months":12,"basic_constraints":{"ca":false}},"lifetime_actions":[{"trigger":{"lifetime_percentage":80},"action":{"action_type":"AutoRenew"}}],"issuer":{"name":"Self"},"attributes":{"enabled":true,"created":1593089832,"updated":1593089832}}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
@@ -1571,16 +297,14 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'application/json; charset=utf-8',
   'Expires',
   '-1',
-  'Server',
-  'Microsoft-IIS/10.0',
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  '43780ffa-a5f5-4f5f-895b-88226b1c6971',
+  '2392ed14-0ba9-4164-ab8b-ff1e1a4f543f',
   'x-ms-keyvault-service-version',
-  '1.1.0.898',
+  '1.1.6.0',
   'x-ms-keyvault-network-info',
-  'addr=52.247.203.156;act_addr_fam=InterNetwork;',
+  'conn_type=Ipv4;addr=51.141.175.151;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -1590,13 +314,387 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Tue, 28 Apr 2020 05:53:04 GMT',
+  'Thu, 25 Jun 2020 12:57:12 GMT',
   'Content-Length',
-  '1266'
+  '1037'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .delete('/deletedcertificates/recoverCertificateName-canreadcancelanddeleteacertificatesoperation-')
+  .get('/certificates/CRUDCertificateName-canreadcancelanddeleteacertificatesoperation-/pending')
+  .query(true)
+  .reply(404, {"error":{"code":"PendingCertificateNotFound","message":"Pending certificate not found: CRUDCertificateName-canreadcancelanddeleteacertificatesoperation-"}}, [
+  'Cache-Control',
+  'no-cache',
+  'Pragma',
+  'no-cache',
+  'Content-Length',
+  '172',
+  'Content-Type',
+  'application/json; charset=utf-8',
+  'Expires',
+  '-1',
+  'x-ms-keyvault-region',
+  'westus',
+  'x-ms-request-id',
+  '1c718083-57c2-4126-9455-4bd7557796cc',
+  'x-ms-keyvault-service-version',
+  '1.1.6.0',
+  'x-ms-keyvault-network-info',
+  'conn_type=Ipv4;addr=51.141.175.151;act_addr_fam=InterNetwork;',
+  'X-AspNet-Version',
+  '4.0.30319',
+  'X-Powered-By',
+  'ASP.NET',
+  'Strict-Transport-Security',
+  'max-age=31536000;includeSubDomains',
+  'X-Content-Type-Options',
+  'nosniff',
+  'Date',
+  'Thu, 25 Jun 2020 12:57:12 GMT'
+]);
+
+nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
+  .delete('/certificates/CRUDCertificateName-canreadcancelanddeleteacertificatesoperation-')
+  .query(true)
+  .reply(200, {"recoveryId":"https://keyvault_name.vault.azure.net/deletedcertificates/CRUDCertificateName-canreadcancelanddeleteacertificatesoperation-","deletedDate":1593089833,"scheduledPurgeDate":1600865833,"id":"https://keyvault_name.vault.azure.net/certificates/CRUDCertificateName-canreadcancelanddeleteacertificatesoperation-/eff85035ec784db59e9641455c218c72","attributes":{"enabled":false,"nbf":1593089232,"exp":1624625832,"created":1593089832,"updated":1593089832,"recoveryLevel":"Recoverable+Purgeable","recoverableDays":90},"policy":{"id":"https://keyvault_name.vault.azure.net/certificates/CRUDCertificateName-canreadcancelanddeleteacertificatesoperation-/policy","key_props":{"exportable":true,"kty":"RSA","key_size":2048,"reuse_key":false},"secret_props":{"contentType":"application/x-pkcs12"},"x509_props":{"subject":"cn=MyCert","sans":{},"ekus":["1.3.6.1.5.5.7.3.1","1.3.6.1.5.5.7.3.2"],"key_usage":["digitalSignature","keyEncipherment"],"validity_months":12,"basic_constraints":{"ca":false}},"lifetime_actions":[{"trigger":{"lifetime_percentage":80},"action":{"action_type":"AutoRenew"}}],"issuer":{"name":"Self"},"attributes":{"enabled":true,"created":1593089832,"updated":1593089832}}}, [
+  'Cache-Control',
+  'no-cache',
+  'Pragma',
+  'no-cache',
+  'Content-Type',
+  'application/json; charset=utf-8',
+  'Expires',
+  '-1',
+  'x-ms-keyvault-region',
+  'westus',
+  'x-ms-request-id',
+  '370fea1e-33ce-49f9-afef-fa7894c08c58',
+  'x-ms-keyvault-service-version',
+  '1.1.6.0',
+  'x-ms-keyvault-network-info',
+  'conn_type=Ipv4;addr=51.141.175.151;act_addr_fam=InterNetwork;',
+  'X-AspNet-Version',
+  '4.0.30319',
+  'X-Powered-By',
+  'ASP.NET',
+  'Strict-Transport-Security',
+  'max-age=31536000;includeSubDomains',
+  'X-Content-Type-Options',
+  'nosniff',
+  'Date',
+  'Thu, 25 Jun 2020 12:57:12 GMT',
+  'Content-Length',
+  '1254'
+]);
+
+nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
+  .get('/deletedcertificates/CRUDCertificateName-canreadcancelanddeleteacertificatesoperation-')
+  .query(true)
+  .reply(404, {"error":{"code":"CertificateNotFound","message":"Deleted Certificate not found: CRUDCertificateName-canreadcancelanddeleteacertificatesoperation-"}}, [
+  'Cache-Control',
+  'no-cache',
+  'Pragma',
+  'no-cache',
+  'Content-Length',
+  '165',
+  'Content-Type',
+  'application/json; charset=utf-8',
+  'Expires',
+  '-1',
+  'x-ms-keyvault-region',
+  'westus',
+  'x-ms-request-id',
+  '71ef0aba-98f0-47ea-87ef-64a4640cfd55',
+  'x-ms-keyvault-service-version',
+  '1.1.6.0',
+  'x-ms-keyvault-network-info',
+  'conn_type=Ipv4;addr=51.141.175.151;act_addr_fam=InterNetwork;',
+  'X-AspNet-Version',
+  '4.0.30319',
+  'X-Powered-By',
+  'ASP.NET',
+  'Strict-Transport-Security',
+  'max-age=31536000;includeSubDomains',
+  'X-Content-Type-Options',
+  'nosniff',
+  'Date',
+  'Thu, 25 Jun 2020 12:57:12 GMT'
+]);
+
+nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
+  .get('/deletedcertificates/CRUDCertificateName-canreadcancelanddeleteacertificatesoperation-')
+  .query(true)
+  .reply(404, {"error":{"code":"CertificateNotFound","message":"Deleted Certificate not found: CRUDCertificateName-canreadcancelanddeleteacertificatesoperation-"}}, [
+  'Cache-Control',
+  'no-cache',
+  'Pragma',
+  'no-cache',
+  'Content-Length',
+  '165',
+  'Content-Type',
+  'application/json; charset=utf-8',
+  'Expires',
+  '-1',
+  'x-ms-keyvault-region',
+  'westus',
+  'x-ms-request-id',
+  'f298545a-6ef5-4cbf-97d5-14ba73dbbfd7',
+  'x-ms-keyvault-service-version',
+  '1.1.6.0',
+  'x-ms-keyvault-network-info',
+  'conn_type=Ipv4;addr=51.141.175.151;act_addr_fam=InterNetwork;',
+  'X-AspNet-Version',
+  '4.0.30319',
+  'X-Powered-By',
+  'ASP.NET',
+  'Strict-Transport-Security',
+  'max-age=31536000;includeSubDomains',
+  'X-Content-Type-Options',
+  'nosniff',
+  'Date',
+  'Thu, 25 Jun 2020 12:57:12 GMT'
+]);
+
+nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
+  .get('/deletedcertificates/CRUDCertificateName-canreadcancelanddeleteacertificatesoperation-')
+  .query(true)
+  .reply(404, {"error":{"code":"CertificateNotFound","message":"Deleted Certificate not found: CRUDCertificateName-canreadcancelanddeleteacertificatesoperation-"}}, [
+  'Cache-Control',
+  'no-cache',
+  'Pragma',
+  'no-cache',
+  'Content-Length',
+  '165',
+  'Content-Type',
+  'application/json; charset=utf-8',
+  'Expires',
+  '-1',
+  'x-ms-keyvault-region',
+  'westus',
+  'x-ms-request-id',
+  '9519b820-e156-4581-be12-30e012783ec8',
+  'x-ms-keyvault-service-version',
+  '1.1.6.0',
+  'x-ms-keyvault-network-info',
+  'conn_type=Ipv4;addr=51.141.175.151;act_addr_fam=InterNetwork;',
+  'X-AspNet-Version',
+  '4.0.30319',
+  'X-Powered-By',
+  'ASP.NET',
+  'Strict-Transport-Security',
+  'max-age=31536000;includeSubDomains',
+  'X-Content-Type-Options',
+  'nosniff',
+  'Date',
+  'Thu, 25 Jun 2020 12:57:15 GMT'
+]);
+
+nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
+  .get('/deletedcertificates/CRUDCertificateName-canreadcancelanddeleteacertificatesoperation-')
+  .query(true)
+  .reply(404, {"error":{"code":"CertificateNotFound","message":"Deleted Certificate not found: CRUDCertificateName-canreadcancelanddeleteacertificatesoperation-"}}, [
+  'Cache-Control',
+  'no-cache',
+  'Pragma',
+  'no-cache',
+  'Content-Length',
+  '165',
+  'Content-Type',
+  'application/json; charset=utf-8',
+  'Expires',
+  '-1',
+  'x-ms-keyvault-region',
+  'westus',
+  'x-ms-request-id',
+  'c3bfd77c-351c-4d63-a4f3-3707fcd5b1de',
+  'x-ms-keyvault-service-version',
+  '1.1.6.0',
+  'x-ms-keyvault-network-info',
+  'conn_type=Ipv4;addr=51.141.175.151;act_addr_fam=InterNetwork;',
+  'X-AspNet-Version',
+  '4.0.30319',
+  'X-Powered-By',
+  'ASP.NET',
+  'Strict-Transport-Security',
+  'max-age=31536000;includeSubDomains',
+  'X-Content-Type-Options',
+  'nosniff',
+  'Date',
+  'Thu, 25 Jun 2020 12:57:17 GMT'
+]);
+
+nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
+  .get('/deletedcertificates/CRUDCertificateName-canreadcancelanddeleteacertificatesoperation-')
+  .query(true)
+  .reply(404, {"error":{"code":"CertificateNotFound","message":"Deleted Certificate not found: CRUDCertificateName-canreadcancelanddeleteacertificatesoperation-"}}, [
+  'Cache-Control',
+  'no-cache',
+  'Pragma',
+  'no-cache',
+  'Content-Length',
+  '165',
+  'Content-Type',
+  'application/json; charset=utf-8',
+  'Expires',
+  '-1',
+  'x-ms-keyvault-region',
+  'westus',
+  'x-ms-request-id',
+  'de316c66-dbc6-4f47-adb2-4ed11315f17f',
+  'x-ms-keyvault-service-version',
+  '1.1.6.0',
+  'x-ms-keyvault-network-info',
+  'conn_type=Ipv4;addr=51.141.175.151;act_addr_fam=InterNetwork;',
+  'X-AspNet-Version',
+  '4.0.30319',
+  'X-Powered-By',
+  'ASP.NET',
+  'Strict-Transport-Security',
+  'max-age=31536000;includeSubDomains',
+  'X-Content-Type-Options',
+  'nosniff',
+  'Date',
+  'Thu, 25 Jun 2020 12:57:19 GMT'
+]);
+
+nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
+  .get('/deletedcertificates/CRUDCertificateName-canreadcancelanddeleteacertificatesoperation-')
+  .query(true)
+  .reply(404, {"error":{"code":"CertificateNotFound","message":"Deleted Certificate not found: CRUDCertificateName-canreadcancelanddeleteacertificatesoperation-"}}, [
+  'Cache-Control',
+  'no-cache',
+  'Pragma',
+  'no-cache',
+  'Content-Length',
+  '165',
+  'Content-Type',
+  'application/json; charset=utf-8',
+  'Expires',
+  '-1',
+  'x-ms-keyvault-region',
+  'westus',
+  'x-ms-request-id',
+  'fc800f2c-3fcc-43b7-bced-783b8528db07',
+  'x-ms-keyvault-service-version',
+  '1.1.6.0',
+  'x-ms-keyvault-network-info',
+  'conn_type=Ipv4;addr=51.141.175.151;act_addr_fam=InterNetwork;',
+  'X-AspNet-Version',
+  '4.0.30319',
+  'X-Powered-By',
+  'ASP.NET',
+  'Strict-Transport-Security',
+  'max-age=31536000;includeSubDomains',
+  'X-Content-Type-Options',
+  'nosniff',
+  'Date',
+  'Thu, 25 Jun 2020 12:57:21 GMT'
+]);
+
+nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
+  .get('/deletedcertificates/CRUDCertificateName-canreadcancelanddeleteacertificatesoperation-')
+  .query(true)
+  .reply(404, {"error":{"code":"CertificateNotFound","message":"Deleted Certificate not found: CRUDCertificateName-canreadcancelanddeleteacertificatesoperation-"}}, [
+  'Cache-Control',
+  'no-cache',
+  'Pragma',
+  'no-cache',
+  'Content-Length',
+  '165',
+  'Content-Type',
+  'application/json; charset=utf-8',
+  'Expires',
+  '-1',
+  'x-ms-keyvault-region',
+  'westus',
+  'x-ms-request-id',
+  '17c367b1-b8fb-44ef-9f62-ffaee75052ca',
+  'x-ms-keyvault-service-version',
+  '1.1.6.0',
+  'x-ms-keyvault-network-info',
+  'conn_type=Ipv4;addr=51.141.175.151;act_addr_fam=InterNetwork;',
+  'X-AspNet-Version',
+  '4.0.30319',
+  'X-Powered-By',
+  'ASP.NET',
+  'Strict-Transport-Security',
+  'max-age=31536000;includeSubDomains',
+  'X-Content-Type-Options',
+  'nosniff',
+  'Date',
+  'Thu, 25 Jun 2020 12:57:23 GMT'
+]);
+
+nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
+  .get('/deletedcertificates/CRUDCertificateName-canreadcancelanddeleteacertificatesoperation-')
+  .query(true)
+  .reply(404, {"error":{"code":"CertificateNotFound","message":"Deleted Certificate not found: CRUDCertificateName-canreadcancelanddeleteacertificatesoperation-"}}, [
+  'Cache-Control',
+  'no-cache',
+  'Pragma',
+  'no-cache',
+  'Content-Length',
+  '165',
+  'Content-Type',
+  'application/json; charset=utf-8',
+  'Expires',
+  '-1',
+  'x-ms-keyvault-region',
+  'westus',
+  'x-ms-request-id',
+  '09f26cda-5a09-4413-ba04-7bcfaa6fec9d',
+  'x-ms-keyvault-service-version',
+  '1.1.6.0',
+  'x-ms-keyvault-network-info',
+  'conn_type=Ipv4;addr=51.141.175.151;act_addr_fam=InterNetwork;',
+  'X-AspNet-Version',
+  '4.0.30319',
+  'X-Powered-By',
+  'ASP.NET',
+  'Strict-Transport-Security',
+  'max-age=31536000;includeSubDomains',
+  'X-Content-Type-Options',
+  'nosniff',
+  'Date',
+  'Thu, 25 Jun 2020 12:57:25 GMT'
+]);
+
+nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
+  .get('/deletedcertificates/CRUDCertificateName-canreadcancelanddeleteacertificatesoperation-')
+  .query(true)
+  .reply(200, {"recoveryId":"https://keyvault_name.vault.azure.net/deletedcertificates/CRUDCertificateName-canreadcancelanddeleteacertificatesoperation-","deletedDate":1593089833,"scheduledPurgeDate":1600865833,"id":"https://keyvault_name.vault.azure.net/certificates/CRUDCertificateName-canreadcancelanddeleteacertificatesoperation-/eff85035ec784db59e9641455c218c72","attributes":{"enabled":false,"nbf":1593089232,"exp":1624625832,"created":1593089832,"updated":1593089832,"recoveryLevel":"Recoverable+Purgeable","recoverableDays":90},"policy":{"id":"https://keyvault_name.vault.azure.net/certificates/CRUDCertificateName-canreadcancelanddeleteacertificatesoperation-/policy","key_props":{"exportable":true,"kty":"RSA","key_size":2048,"reuse_key":false},"secret_props":{"contentType":"application/x-pkcs12"},"x509_props":{"subject":"cn=MyCert","sans":{},"ekus":["1.3.6.1.5.5.7.3.1","1.3.6.1.5.5.7.3.2"],"key_usage":["digitalSignature","keyEncipherment"],"validity_months":12,"basic_constraints":{"ca":false}},"lifetime_actions":[{"trigger":{"lifetime_percentage":80},"action":{"action_type":"AutoRenew"}}],"issuer":{"name":"Self"},"attributes":{"enabled":true,"created":1593089832,"updated":1593089832}}}, [
+  'Cache-Control',
+  'no-cache',
+  'Pragma',
+  'no-cache',
+  'Content-Type',
+  'application/json; charset=utf-8',
+  'Expires',
+  '-1',
+  'x-ms-keyvault-region',
+  'westus',
+  'x-ms-request-id',
+  'f2ed43f6-2319-41e9-b878-710cf8beed00',
+  'x-ms-keyvault-service-version',
+  '1.1.6.0',
+  'x-ms-keyvault-network-info',
+  'conn_type=Ipv4;addr=51.141.175.151;act_addr_fam=InterNetwork;',
+  'X-AspNet-Version',
+  '4.0.30319',
+  'X-Powered-By',
+  'ASP.NET',
+  'Strict-Transport-Security',
+  'max-age=31536000;includeSubDomains',
+  'X-Content-Type-Options',
+  'nosniff',
+  'Date',
+  'Thu, 25 Jun 2020 12:57:27 GMT',
+  'Content-Length',
+  '1254'
+]);
+
+nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
+  .delete('/deletedcertificates/CRUDCertificateName-canreadcancelanddeleteacertificatesoperation-')
   .query(true)
   .reply(204, "", [
   'Cache-Control',
@@ -1605,16 +703,14 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'no-cache',
   'Expires',
   '-1',
-  'Server',
-  'Microsoft-IIS/10.0',
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  '6d7a317f-cf47-423a-9def-5b84eadd6ad0',
+  'ef847a53-049f-48c9-a32c-7defa4de1320',
   'x-ms-keyvault-service-version',
-  '1.1.0.898',
+  '1.1.6.0',
   'x-ms-keyvault-network-info',
-  'addr=52.247.203.156;act_addr_fam=InterNetwork;',
+  'conn_type=Ipv4;addr=51.141.175.151;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -1624,5 +720,5 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Tue, 28 Apr 2020 05:53:04 GMT'
+  'Thu, 25 Jun 2020 12:57:27 GMT'
 ]);

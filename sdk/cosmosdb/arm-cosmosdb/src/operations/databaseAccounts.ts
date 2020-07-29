@@ -29,20 +29,20 @@ export class DatabaseAccounts {
 
   /**
    * Retrieves the properties of an existing Azure Cosmos DB database account.
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param [options] The optional parameters
    * @returns Promise<Models.DatabaseAccountsGetResponse>
    */
   get(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase): Promise<Models.DatabaseAccountsGetResponse>;
   /**
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param callback The callback
    */
   get(resourceGroupName: string, accountName: string, callback: msRest.ServiceCallback<Models.DatabaseAccountGetResults>): void;
   /**
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param options The optional parameters
    * @param callback The callback
@@ -61,7 +61,7 @@ export class DatabaseAccounts {
 
   /**
    * Updates the properties of an existing Azure Cosmos DB database account.
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param updateParameters The parameters to provide for the current database account.
    * @param [options] The optional parameters
@@ -75,7 +75,7 @@ export class DatabaseAccounts {
   /**
    * Creates or updates an Azure Cosmos DB database account. The "Update" method is preferred when
    * performing updates on an account.
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param createUpdateParameters The parameters to provide for the current database account.
    * @param [options] The optional parameters
@@ -88,7 +88,7 @@ export class DatabaseAccounts {
 
   /**
    * Deletes an existing Azure Cosmos DB database account.
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
@@ -103,7 +103,7 @@ export class DatabaseAccounts {
    * indicates a write region. The maximum value for a failover priority = (total number of regions -
    * 1). Failover priority values must be unique for each of the regions in which the database
    * account exists.
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param failoverParameters The new failover policies for the database account.
    * @param [options] The optional parameters
@@ -140,18 +140,18 @@ export class DatabaseAccounts {
 
   /**
    * Lists all the Azure Cosmos DB database accounts available under the given resource group.
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param [options] The optional parameters
    * @returns Promise<Models.DatabaseAccountsListByResourceGroupResponse>
    */
   listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.DatabaseAccountsListByResourceGroupResponse>;
   /**
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param callback The callback
    */
   listByResourceGroup(resourceGroupName: string, callback: msRest.ServiceCallback<Models.DatabaseAccountsListResult>): void;
   /**
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -168,20 +168,20 @@ export class DatabaseAccounts {
 
   /**
    * Lists the access keys for the specified Azure Cosmos DB database account.
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param [options] The optional parameters
    * @returns Promise<Models.DatabaseAccountsListKeysResponse>
    */
   listKeys(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase): Promise<Models.DatabaseAccountsListKeysResponse>;
   /**
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param callback The callback
    */
   listKeys(resourceGroupName: string, accountName: string, callback: msRest.ServiceCallback<Models.DatabaseAccountListKeysResult>): void;
   /**
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param options The optional parameters
    * @param callback The callback
@@ -200,20 +200,20 @@ export class DatabaseAccounts {
 
   /**
    * Lists the connection strings for the specified Azure Cosmos DB database account.
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param [options] The optional parameters
    * @returns Promise<Models.DatabaseAccountsListConnectionStringsResponse>
    */
   listConnectionStrings(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase): Promise<Models.DatabaseAccountsListConnectionStringsResponse>;
   /**
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param callback The callback
    */
   listConnectionStrings(resourceGroupName: string, accountName: string, callback: msRest.ServiceCallback<Models.DatabaseAccountListConnectionStringsResult>): void;
   /**
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param options The optional parameters
    * @param callback The callback
@@ -232,7 +232,7 @@ export class DatabaseAccounts {
 
   /**
    * Offline the specified region for the specified Azure Cosmos DB database account.
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param regionParameterForOffline Cosmos DB region to offline for the database account.
    * @param [options] The optional parameters
@@ -245,7 +245,7 @@ export class DatabaseAccounts {
 
   /**
    * Online the specified region for the specified Azure Cosmos DB database account.
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param regionParameterForOnline Cosmos DB region to online for the database account.
    * @param [options] The optional parameters
@@ -258,20 +258,20 @@ export class DatabaseAccounts {
 
   /**
    * Lists the read-only access keys for the specified Azure Cosmos DB database account.
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param [options] The optional parameters
    * @returns Promise<Models.DatabaseAccountsGetReadOnlyKeysResponse>
    */
   getReadOnlyKeys(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase): Promise<Models.DatabaseAccountsGetReadOnlyKeysResponse>;
   /**
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param callback The callback
    */
   getReadOnlyKeys(resourceGroupName: string, accountName: string, callback: msRest.ServiceCallback<Models.DatabaseAccountListReadOnlyKeysResult>): void;
   /**
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param options The optional parameters
    * @param callback The callback
@@ -290,20 +290,20 @@ export class DatabaseAccounts {
 
   /**
    * Lists the read-only access keys for the specified Azure Cosmos DB database account.
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param [options] The optional parameters
    * @returns Promise<Models.DatabaseAccountsListReadOnlyKeysResponse>
    */
   listReadOnlyKeys(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase): Promise<Models.DatabaseAccountsListReadOnlyKeysResponse>;
   /**
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param callback The callback
    */
   listReadOnlyKeys(resourceGroupName: string, accountName: string, callback: msRest.ServiceCallback<Models.DatabaseAccountListReadOnlyKeysResult>): void;
   /**
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param options The optional parameters
    * @param callback The callback
@@ -322,7 +322,7 @@ export class DatabaseAccounts {
 
   /**
    * Regenerates an access key for the specified Azure Cosmos DB database account.
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param keyToRegenerate The name of the key to regenerate.
    * @param [options] The optional parameters
@@ -364,7 +364,7 @@ export class DatabaseAccounts {
 
   /**
    * Retrieves the metrics determined by the given filter for the given database account.
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param filter An OData filter expression that describes a subset of metrics to return. The
    * parameters that can be filtered are name.value (name of the metric, can have an or of multiple
@@ -374,7 +374,7 @@ export class DatabaseAccounts {
    */
   listMetrics(resourceGroupName: string, accountName: string, filter: string, options?: msRest.RequestOptionsBase): Promise<Models.DatabaseAccountsListMetricsResponse>;
   /**
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param filter An OData filter expression that describes a subset of metrics to return. The
    * parameters that can be filtered are name.value (name of the metric, can have an or of multiple
@@ -383,7 +383,7 @@ export class DatabaseAccounts {
    */
   listMetrics(resourceGroupName: string, accountName: string, filter: string, callback: msRest.ServiceCallback<Models.MetricListResult>): void;
   /**
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param filter An OData filter expression that describes a subset of metrics to return. The
    * parameters that can be filtered are name.value (name of the metric, can have an or of multiple
@@ -406,20 +406,20 @@ export class DatabaseAccounts {
 
   /**
    * Retrieves the usages (most recent data) for the given database account.
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param [options] The optional parameters
    * @returns Promise<Models.DatabaseAccountsListUsagesResponse>
    */
   listUsages(resourceGroupName: string, accountName: string, options?: Models.DatabaseAccountsListUsagesOptionalParams): Promise<Models.DatabaseAccountsListUsagesResponse>;
   /**
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param callback The callback
    */
   listUsages(resourceGroupName: string, accountName: string, callback: msRest.ServiceCallback<Models.UsagesResult>): void;
   /**
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param options The optional parameters
    * @param callback The callback
@@ -438,20 +438,20 @@ export class DatabaseAccounts {
 
   /**
    * Retrieves metric definitions for the given database account.
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param [options] The optional parameters
    * @returns Promise<Models.DatabaseAccountsListMetricDefinitionsResponse>
    */
   listMetricDefinitions(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase): Promise<Models.DatabaseAccountsListMetricDefinitionsResponse>;
   /**
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param callback The callback
    */
   listMetricDefinitions(resourceGroupName: string, accountName: string, callback: msRest.ServiceCallback<Models.MetricDefinitionsListResult>): void;
   /**
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param options The optional parameters
    * @param callback The callback
@@ -470,7 +470,7 @@ export class DatabaseAccounts {
 
   /**
    * Updates the properties of an existing Azure Cosmos DB database account.
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param updateParameters The parameters to provide for the current database account.
    * @param [options] The optional parameters
@@ -491,7 +491,7 @@ export class DatabaseAccounts {
   /**
    * Creates or updates an Azure Cosmos DB database account. The "Update" method is preferred when
    * performing updates on an account.
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param createUpdateParameters The parameters to provide for the current database account.
    * @param [options] The optional parameters
@@ -511,7 +511,7 @@ export class DatabaseAccounts {
 
   /**
    * Deletes an existing Azure Cosmos DB database account.
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
@@ -532,7 +532,7 @@ export class DatabaseAccounts {
    * indicates a write region. The maximum value for a failover priority = (total number of regions -
    * 1). Failover priority values must be unique for each of the regions in which the database
    * account exists.
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param failoverParameters The new failover policies for the database account.
    * @param [options] The optional parameters
@@ -552,7 +552,7 @@ export class DatabaseAccounts {
 
   /**
    * Offline the specified region for the specified Azure Cosmos DB database account.
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param regionParameterForOffline Cosmos DB region to offline for the database account.
    * @param [options] The optional parameters
@@ -572,7 +572,7 @@ export class DatabaseAccounts {
 
   /**
    * Online the specified region for the specified Azure Cosmos DB database account.
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param regionParameterForOnline Cosmos DB region to online for the database account.
    * @param [options] The optional parameters
@@ -592,7 +592,7 @@ export class DatabaseAccounts {
 
   /**
    * Regenerates an access key for the specified Azure Cosmos DB database account.
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param keyToRegenerate The name of the key to regenerate.
    * @param [options] The optional parameters
@@ -617,7 +617,7 @@ const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}",
   urlParameters: [
-    Parameters.subscriptionId0,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName
   ],
@@ -643,7 +643,7 @@ const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.DocumentDB/databaseAccounts",
   urlParameters: [
-    Parameters.subscriptionId0
+    Parameters.subscriptionId
   ],
   queryParameters: [
     Parameters.apiVersion0
@@ -667,7 +667,7 @@ const listByResourceGroupOperationSpec: msRest.OperationSpec = {
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts",
   urlParameters: [
     Parameters.resourceGroupName,
-    Parameters.subscriptionId0
+    Parameters.subscriptionId
   ],
   queryParameters: [
     Parameters.apiVersion0
@@ -690,7 +690,7 @@ const listKeysOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/listKeys",
   urlParameters: [
-    Parameters.subscriptionId0,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName
   ],
@@ -715,7 +715,7 @@ const listConnectionStringsOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/listConnectionStrings",
   urlParameters: [
-    Parameters.subscriptionId0,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName
   ],
@@ -740,7 +740,7 @@ const getReadOnlyKeysOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/readonlykeys",
   urlParameters: [
-    Parameters.subscriptionId0,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName
   ],
@@ -765,7 +765,7 @@ const listReadOnlyKeysOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/readonlykeys",
   urlParameters: [
-    Parameters.subscriptionId0,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName
   ],
@@ -812,7 +812,7 @@ const listMetricsOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/metrics",
   urlParameters: [
-    Parameters.subscriptionId0,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName
   ],
@@ -838,7 +838,7 @@ const listUsagesOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/usages",
   urlParameters: [
-    Parameters.subscriptionId0,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName
   ],
@@ -864,7 +864,7 @@ const listMetricDefinitionsOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/metricDefinitions",
   urlParameters: [
-    Parameters.subscriptionId0,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName
   ],
@@ -889,7 +889,7 @@ const beginUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}",
   urlParameters: [
-    Parameters.subscriptionId0,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName
   ],
@@ -921,7 +921,7 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}",
   urlParameters: [
-    Parameters.subscriptionId0,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName
   ],
@@ -953,7 +953,7 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}",
   urlParameters: [
-    Parameters.subscriptionId0,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName
   ],
@@ -977,7 +977,7 @@ const beginFailoverPriorityChangeOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/failoverPriorityChange",
   urlParameters: [
-    Parameters.subscriptionId0,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName
   ],
@@ -1008,7 +1008,7 @@ const beginOfflineRegionOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/offlineRegion",
   urlParameters: [
-    Parameters.subscriptionId0,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName
   ],
@@ -1039,7 +1039,7 @@ const beginOnlineRegionOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/onlineRegion",
   urlParameters: [
-    Parameters.subscriptionId0,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName
   ],
@@ -1070,7 +1070,7 @@ const beginRegenerateKeyOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/regenerateKey",
   urlParameters: [
-    Parameters.subscriptionId0,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName
   ],

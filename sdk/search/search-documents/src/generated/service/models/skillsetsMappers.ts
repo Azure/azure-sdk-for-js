@@ -22,10 +22,10 @@ export {
   OcrSkill,
   OutputFieldMappingEntry,
   SearchError,
+  SearchIndexerSkill,
+  SearchIndexerSkillset,
   SentimentSkill,
   ShaperSkill,
-  Skill,
-  Skillset,
   SplitSkill,
   TextTranslationSkill,
   WebApiSkill

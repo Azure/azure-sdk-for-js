@@ -4,7 +4,7 @@ Azure Storage Blob is Microsoft's object storage solution for the cloud. Blob st
 
 This project provides a client library in JavaScript that makes it easy to consume Microsoft Azure Storage Blob service.
 
-Use the client libararies in this package to:
+Use the client libraries in this package to:
   - Get/Set Blob Service Properties
   - Create/List/Delete Containers
   - Create/Read/List/Update/Delete Block Blobs
@@ -13,7 +13,7 @@ Use the client libararies in this package to:
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-blob) |
 [Package (npm)](https://www.npmjs.com/package/@azure/storage-blob/) |
-[API Reference Documentation](https://docs.microsoft.com/javascript/api/@azure/storage-blob) |
+[API Reference Documentation](https://docs.microsoft.com/en-us/javascript/api/overview/azure/storage-overview) |
 [Product documentation](https://docs.microsoft.com/azure/storage/blobs/storage-blobs-overview) |
 [Samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-blob/samples) |
 [Azure Storage Blob REST APIs](https://docs.microsoft.com/rest/api/storageservices/blob-service-rest-api)
@@ -39,7 +39,7 @@ Azure Storage supports several ways to authenticate. In order to interact with t
 
 #### Azure Active Directory
 
-The Azure Blob Storage service supports the use of Azure Active Directory to authenticate requests to its APIs. The [`@azure/identity`](https://www.npmjs.com/package/@azure/identity) package provides a variety of credential types that your application can use to do this. Please see the [README for `@azure/identity`](/sdk/identity/identity/README.md) for more details and samples to get you started.
+The Azure Blob Storage service supports the use of Azure Active Directory to authenticate requests to its APIs. The [`@azure/identity`](https://www.npmjs.com/package/@azure/identity) package provides a variety of credential types that your application can use to do this. Please see the [README for `@azure/identity`](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/identity/README.md) for more details and samples to get you started.
 
 ### Compatibility
 
@@ -59,7 +59,7 @@ This library depends on following ES features which need external polyfills load
 - `String.prototype.includes`
 - `Array.prototype.includes`
 - `Object.assign`
-- `Object.keys` (Override IE11's `Object.keys` with ES6 polyfill forcely to enable [ES6 behavior](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object/keys#Notes))
+- `Object.keys` (Overrides the IE11's `Object.keys` with a polyfill to enable the [ES6 behavior](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object/keys#Notes))
 - `Symbol`
 - `Symbol.iterator`
 
@@ -89,7 +89,19 @@ There are differences between Node.js and browsers runtime. When getting started
 
 ### JavaScript Bundle
 
-To use this client library in the browser, you need to use a bundler. For details on how to do this, please refer to our [bundling documentation](https://aka.ms/AzureSDKBundling).
+To use this client library in the browser, first you need to use a bundler. For details on how to do this, please refer to our [bundling documentation](https://aka.ms/AzureSDKBundling).
+
+#### Special bundling notes for IE11
+
+Currently only `Parcel` and `Rollup` work well with Storage client libraries for IE11.
+
+If `Parcel` is used  then no further work is needed. If using Rollup, an additional step is needed to transform the bundled output to the format that IE11 supports.
+
+Assuming `bundled-output.js` is the result from `Rollup`:
+
+```bash
+tsc --allowJS --target es5 bundled-output.js --outfile final-output.js
+```
 
 ### CORS
 
@@ -192,7 +204,7 @@ Alternatively, you instantiate a `BlobServiceClient` with a `StorageSharedKeyCre
   const accountKey = "<accountkey>";
 
   // Use StorageSharedKeyCredential with storage account and account key
-  // StorageSharedKeyCredential is only avaiable in Node.js runtime, not in browsers
+  // StorageSharedKeyCredential is only available in Node.js runtime, not in browsers
   const sharedKeyCredential = new StorageSharedKeyCredential(account, accountKey);
   const blobServiceClient = new BlobServiceClient(
     `https://${account}.blob.core.windows.net`,
@@ -261,8 +273,8 @@ const blobServiceClient = new BlobServiceClient(
 
 async function main() {
   let i = 1;
-  let iter = await blobServiceClient.listContainers();
-  for await (const container of iter) {
+  let containers = blobServiceClient.listContainers();
+  for await (const container of containers) {
     console.log(`Container ${i++}: ${container.name}`);
   }
 }
@@ -325,7 +337,7 @@ async function main() {
 main();
 ```
 
-For a complete sample on iterating containers please see [samples/iterators-containers.ts](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/storage/storage-blob/samples/typescript/iterators-containers.ts).
+For a complete sample on iterating containers please see [samples/src/iterators-containers.ts](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/storage/storage-blob/samples/typescript/src/iterators-containers.ts).
 
 ### Create a blob by uploading data to
 
@@ -378,8 +390,8 @@ async function main() {
   const containerClient = blobServiceClient.getContainerClient(containerName);
 
   let i = 1;
-  let iter = await containerClient.listBlobsFlat();
-  for await (const blob of iter) {
+  let blobs = containerClient.listBlobsFlat();
+  for await (const blob of blobs) {
     console.log(`Blob ${i++}: ${blob.name}`);
   }
 }
@@ -387,7 +399,7 @@ async function main() {
 main();
 ```
 
-For a complete sample on iterating blobs please see [samples/iterators-blobs.ts](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/storage/storage-blob/samples/typescript/iterators-blobs.ts).
+For a complete sample on iterating blobs please see [samples/src/iterators-blobs.ts](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/storage/storage-blob/samples/typescript/src/iterators-blobs.ts).
 
 ### Download a blob and convert it to a string (Node.js)
 
@@ -479,7 +491,7 @@ async function main() {
 main();
 ```
 
-A complete example of basic scenarios is at [samples/basic.ts](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/storage/storage-blob/samples/typescript/basic.ts).
+A complete example of basic scenarios is at [samples/src/basic.ts](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/storage/storage-blob/samples/typescript/src/basic.ts).
 
 ## Troubleshooting
 

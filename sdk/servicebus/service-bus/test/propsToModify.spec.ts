@@ -6,7 +6,7 @@ const should = chai.should();
 
 import { createServiceBusClientForTests } from "./utils/testutils2";
 import { TestClientType, TestMessage } from "./utils/testUtils";
-import { Receiver, ReceivedMessage, ReceivedMessageWithLock } from "../src";
+import { ReceivedMessage, ReceivedMessageWithLock, Receiver } from "../src";
 
 describe("dead lettering", () => {
   let serviceBusClient: ReturnType<typeof createServiceBusClientForTests>;
@@ -31,10 +31,10 @@ describe("dead lettering", () => {
 
     // send a test message with the body being the title of the test (for something unique)
     const sender = serviceBusClient.test.addToCleanup(
-      await serviceBusClient.createSender(entityNames.queue)
+      serviceBusClient.createSender(entityNames.queue)
     );
 
-    await sender.send({
+    await sender.sendMessages({
       body: "message-body",
       sessionId: entityNames.usesSessions ? TestMessage.getSessionSample().sessionId : undefined
     });
@@ -46,9 +46,7 @@ describe("dead lettering", () => {
 
     receiver = await serviceBusClient.test.getPeekLockReceiver(entityNames);
 
-    const receivedMessages = await receiver.receiveBatch(1, {
-      maxWaitTimeInMs: 1000
-    });
+    const receivedMessages = await receiver.receiveMessages(1);
 
     if (receivedMessages.length == 0) {
       throw new Error("No messages were received");
@@ -69,7 +67,9 @@ describe("dead lettering", () => {
     // defer this message so we can pick it up via the management API
     await receivedMessage.defer();
 
-    const deferredMessage = await receiver.receiveDeferredMessage(receivedMessage.sequenceNumber!);
+    const [deferredMessage] = await receiver.receiveDeferredMessages(
+      receivedMessage.sequenceNumber!
+    );
 
     await deferredMessage!.deadLetter({
       deadLetterErrorDescription: "this is the dead letter error description (was deferred)",
@@ -109,7 +109,9 @@ describe("dead lettering", () => {
     // defer this message so we can pick it up via the management API
     await receivedMessage.defer();
 
-    const deferredMessage = await receiver.receiveDeferredMessage(receivedMessage.sequenceNumber!);
+    const [deferredMessage] = await receiver.receiveDeferredMessages(
+      receivedMessage.sequenceNumber!
+    );
 
     await deferredMessage!.deadLetter({
       deadLetterErrorDescription: "this is the dead letter error description (was deferred)",
@@ -146,12 +148,12 @@ describe("dead lettering", () => {
     description: string;
     customProperty?: string;
   }) {
-    const deadLetterMessages = await deadLetterReceiver.receiveBatch(1);
+    const deadLetterMessages = await deadLetterReceiver.receiveMessages(1);
     should.exist(deadLetterMessages[0]);
 
-    const reason = deadLetterMessages[0]!.userProperties!["DeadLetterReason"];
-    const description = deadLetterMessages[0]!.userProperties!["DeadLetterErrorDescription"];
-    const customProperty = deadLetterMessages[0]!.userProperties!["customProperty"];
+    const reason = deadLetterMessages[0].deadLetterReason;
+    const description = deadLetterMessages[0].deadLetterErrorDescription;
+    const customProperty = deadLetterMessages[0]!.properties!["customProperty"];
 
     should.equal(reason, expected.reason);
     should.equal(description, expected.description);
@@ -181,19 +183,17 @@ describe("abandoning", () => {
 
     // send a test message with the body being the title of the test (for something unique)
     const sender = serviceBusClient.test.addToCleanup(
-      await serviceBusClient.createSender(entityNames.queue)
+      serviceBusClient.createSender(entityNames.queue)
     );
 
-    await sender.send({
+    await sender.sendMessages({
       body: "message-body",
       sessionId: entityNames.usesSessions ? TestMessage.getSessionSample().sessionId : undefined
     });
 
     receiver = await serviceBusClient.test.getPeekLockReceiver(entityNames);
 
-    const receivedMessages = await receiver.receiveBatch(1, {
-      maxWaitTimeInMs: 1000
-    });
+    const receivedMessages = await receiver.receiveMessages(1);
 
     if (receivedMessages.length == 0) {
       throw new Error("No messages were received");
@@ -211,13 +211,15 @@ describe("abandoning", () => {
     // defer this message so we can pick it up via the management API
     await receivedMessage.defer();
 
-    const deferredMessage = await receiver.receiveDeferredMessage(receivedMessage.sequenceNumber!);
+    const [deferredMessage] = await receiver.receiveDeferredMessages(
+      receivedMessage.sequenceNumber!
+    );
 
     await deferredMessage!.abandon({
       customProperty: "hello, setting this custom property"
     });
 
-    const abandonedMessage = await receiver.receiveDeferredMessage(
+    const [abandonedMessage] = await receiver.receiveDeferredMessages(
       deferredMessage!.sequenceNumber!
     );
     await checkAbandonedMessage(abandonedMessage!, {
@@ -231,7 +233,7 @@ describe("abandoning", () => {
       customProperty: "hello, setting this custom property"
     });
 
-    const abandonedMessage = (await receiver.receiveBatch(1))[0];
+    const abandonedMessage = (await receiver.receiveMessages(1))[0];
     await checkAbandonedMessage(abandonedMessage, {
       customProperty: "hello, setting this custom property"
     });
@@ -242,13 +244,15 @@ describe("abandoning", () => {
     // defer this message so we can pick it up via the management API
     await receivedMessage.defer();
 
-    const deferredMessage = await receiver.receiveDeferredMessage(receivedMessage.sequenceNumber!);
+    const [deferredMessage] = await receiver.receiveDeferredMessages(
+      receivedMessage.sequenceNumber!
+    );
 
     await deferredMessage!.abandon({
       customProperty: "hello, setting this custom property"
     });
 
-    const abandonedMessage = await receiver.receiveDeferredMessage(
+    const [abandonedMessage] = await receiver.receiveDeferredMessages(
       deferredMessage!.sequenceNumber!
     );
     await checkAbandonedMessage(abandonedMessage!, {
@@ -262,7 +266,7 @@ describe("abandoning", () => {
       customProperty: "hello, setting this custom property"
     });
 
-    const abandonedMessage = (await receiver.receiveBatch(1))[0];
+    const abandonedMessage = (await receiver.receiveMessages(1))[0];
     await checkAbandonedMessage(abandonedMessage, {
       customProperty: "hello, setting this custom property"
     });
@@ -274,7 +278,7 @@ describe("abandoning", () => {
   ) {
     should.exist(abandonedMessage);
 
-    const customProperty = abandonedMessage.userProperties!["customProperty"];
+    const customProperty = abandonedMessage.properties!["customProperty"];
 
     should.equal(customProperty, expected.customProperty);
   }
@@ -302,19 +306,17 @@ describe("deferring", () => {
 
     // send a test message with the body being the title of the test (for something unique)
     const sender = serviceBusClient.test.addToCleanup(
-      await serviceBusClient.createSender(entityNames.queue)
+      serviceBusClient.createSender(entityNames.queue)
     );
 
-    await sender.send({
+    await sender.sendMessages({
       body: "message-body",
       sessionId: entityNames.usesSessions ? TestMessage.getSessionSample().sessionId : undefined
     });
 
     receiver = await serviceBusClient.test.getPeekLockReceiver(entityNames);
 
-    const receivedMessages = await receiver.receiveBatch(1, {
-      maxWaitTimeInMs: 1000
-    });
+    const receivedMessages = await receiver.receiveMessages(1);
 
     if (receivedMessages.length == 0) {
       throw new Error("No messages were received");
@@ -332,7 +334,9 @@ describe("deferring", () => {
     // defer this message so we can pick it up via the management API
     await receivedMessage.defer();
 
-    const deferredMessage = await receiver.receiveDeferredMessage(receivedMessage.sequenceNumber!);
+    const [deferredMessage] = await receiver.receiveDeferredMessages(
+      receivedMessage.sequenceNumber!
+    );
 
     await deferredMessage!.defer({
       customProperty: "hello, setting this custom property"
@@ -359,7 +363,9 @@ describe("deferring", () => {
     // defer this message so we can pick it up via the management API
     await receivedMessage.defer();
 
-    const deferredMessage = await receiver.receiveDeferredMessage(receivedMessage.sequenceNumber!);
+    const [deferredMessage] = await receiver.receiveDeferredMessages(
+      receivedMessage.sequenceNumber!
+    );
 
     await deferredMessage!.defer({
       customProperty: "hello, setting this custom property"
@@ -382,11 +388,13 @@ describe("deferring", () => {
   });
 
   async function checkDeferredMessage(expected: { customProperty?: string }) {
-    const deferredMessage = await receiver.receiveDeferredMessage(receivedMessage.sequenceNumber!);
+    const [deferredMessage] = await receiver.receiveDeferredMessages(
+      receivedMessage.sequenceNumber!
+    );
 
     should.exist(deferredMessage);
 
-    const customProperty = deferredMessage!.userProperties!["customProperty"];
+    const customProperty = deferredMessage!.properties!["customProperty"];
 
     should.equal(customProperty, expected.customProperty);
   }

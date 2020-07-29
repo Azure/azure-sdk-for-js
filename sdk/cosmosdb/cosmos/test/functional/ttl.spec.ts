@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import assert from "assert";
-import { Container, ContainerDefinition, Database } from "../../dist-esm/client";
+import { Container, ContainerDefinition, Database } from "../../src/client";
 import { getTestDatabase, removeAllDatabases } from "../common/TestHelpers";
-import { StatusCodes } from "../../dist-esm";
+import { StatusCodes } from "../../src";
 
 async function sleep(time: number) {
   return new Promise((resolve) => {

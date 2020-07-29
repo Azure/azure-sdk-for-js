@@ -20,26 +20,26 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'x-ms-request-id',
-  '12212c07-3b6f-4abf-b810-5b3676f00f01',
+  '5ef31b46-1219-435f-9eb0-fba174810600',
   'x-ms-ests-server',
-  '2.1.10104.13 - SAN ProdSlices',
+  '2.1.10620.9 - WUS2 ProdSlices',
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'Set-Cookie',
-  'fpc=Agg1gYJnBeRPjltof7Vl8_v0CyfMAQAAAGye69UOAAAA; expires=Sun, 29-Mar-2020 23:51:08 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AnrQjzNY_5lFuznw4Pg9ilv0CyfMAQAAAPBTX9YOAAAA; expires=Thu, 25-Jun-2020 18:16:17 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
-  'x-ms-gateway-slice=corp; path=/; SameSite=None; secure; HttpOnly',
+  'x-ms-gateway-slice=prod; path=/; SameSite=None; secure; HttpOnly',
   'Set-Cookie',
-  'stsservicecookie=estscorp; path=/; SameSite=None; secure; HttpOnly',
+  'stsservicecookie=ests; path=/; SameSite=None; secure; HttpOnly',
   'Date',
-  'Fri, 28 Feb 2020 23:51:07 GMT',
+  'Tue, 26 May 2020 18:16:16 GMT',
   'Content-Length',
   '1417'
 ]);
 
-nock('https://endpoint:443', {"encodedQueryParams":true})
-  .post('/text/analytics/v3.0-preview.1/languages', {"documents":[{"id":"1","text":"I had a wonderful trip to Seattle last week and even visited the Space Needle 2 times!","countryHint":""},{"id":"2","text":"Unfortunately, it rained during my entire trip to Seattle. I didn't even get to visit the Space Needle","countryHint":""},{"id":"3","text":"I went to see a movie on Saturday and it was perfectly average, nothing more or less than I expected.","countryHint":""},{"id":"4","text":"I didn't like the last book I read at all.","countryHint":""},{"id":"5","text":"Los caminos que llevan hasta Monte Rainier son espectaculares y hermosos.","countryHint":""},{"id":"6","text":"La carretera estaba atascada. Había mucho tráfico el día de ayer.","countryHint":""}]})
-  .reply(200, {"documents":[{"id":"1","detectedLanguages":[{"name":"English","iso6391Name":"en","score":1}]},{"id":"2","detectedLanguages":[{"name":"English","iso6391Name":"en","score":1}]},{"id":"3","detectedLanguages":[{"name":"English","iso6391Name":"en","score":1}]},{"id":"4","detectedLanguages":[{"name":"English","iso6391Name":"en","score":1}]},{"id":"5","detectedLanguages":[{"name":"Spanish","iso6391Name":"es","score":1}]},{"id":"6","detectedLanguages":[{"name":"Spanish","iso6391Name":"es","score":1}]}],"errors":[],"modelVersion":"2019-10-01"}, [
+nock('https://endpoint', {"encodedQueryParams":true})
+  .post('/text/analytics/v3.0/languages', {"documents":[{"id":"1","text":"I had a wonderful trip to Seattle last week and even visited the Space Needle 2 times!","countryHint":""},{"id":"2","text":"Unfortunately, it rained during my entire trip to Seattle. I didn't even get to visit the Space Needle","countryHint":""},{"id":"3","text":"I went to see a movie on Saturday and it was perfectly average, nothing more or less than I expected.","countryHint":""},{"id":"4","text":"I didn't like the last book I read at all.","countryHint":""},{"id":"5","text":"Los caminos que llevan hasta Monte Rainier son espectaculares y hermosos.","countryHint":""},{"id":"6","text":"La carretera estaba atascada. Había mucho tráfico el día de ayer.","countryHint":""}]})
+  .reply(200, {"documents":[{"id":"1","detectedLanguage":{"name":"English","iso6391Name":"en","confidenceScore":1},"warnings":[]},{"id":"2","detectedLanguage":{"name":"English","iso6391Name":"en","confidenceScore":1},"warnings":[]},{"id":"3","detectedLanguage":{"name":"English","iso6391Name":"en","confidenceScore":1},"warnings":[]},{"id":"4","detectedLanguage":{"name":"English","iso6391Name":"en","confidenceScore":1},"warnings":[]},{"id":"5","detectedLanguage":{"name":"Spanish","iso6391Name":"es","confidenceScore":1},"warnings":[]},{"id":"6","detectedLanguage":{"name":"Spanish","iso6391Name":"es","confidenceScore":1},"warnings":[]}],"errors":[],"modelVersion":"2019-10-01"}, [
   'Transfer-Encoding',
   'chunked',
   'Content-Type',
@@ -47,13 +47,13 @@ nock('https://endpoint:443', {"encodedQueryParams":true})
   'csp-billing-usage',
   'CognitiveServices.TextAnalytics.BatchScoring=6',
   'x-envoy-upstream-service-time',
-  '3',
+  '8',
   'apim-request-id',
-  '3687ae63-0fed-4952-acbb-9f2c07a4b006',
+  '0cc1b905-580c-46a8-8f3b-44115082a543',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Fri, 28 Feb 2020 23:51:07 GMT'
+  'Tue, 26 May 2020 18:16:17 GMT'
 ]);

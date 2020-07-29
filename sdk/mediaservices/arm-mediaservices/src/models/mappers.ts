@@ -630,6 +630,102 @@ export const MediaService: msRest.CompositeMapper = {
   }
 };
 
+export const ListEdgePoliciesInput: msRest.CompositeMapper = {
+  serializedName: "ListEdgePoliciesInput",
+  type: {
+    name: "Composite",
+    className: "ListEdgePoliciesInput",
+    modelProperties: {
+      deviceId: {
+        serializedName: "deviceId",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const EdgeUsageDataEventHub: msRest.CompositeMapper = {
+  serializedName: "EdgeUsageDataEventHub",
+  type: {
+    name: "Composite",
+    className: "EdgeUsageDataEventHub",
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      namespace: {
+        serializedName: "namespace",
+        type: {
+          name: "String"
+        }
+      },
+      token: {
+        serializedName: "token",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const EdgeUsageDataCollectionPolicy: msRest.CompositeMapper = {
+  serializedName: "EdgeUsageDataCollectionPolicy",
+  type: {
+    name: "Composite",
+    className: "EdgeUsageDataCollectionPolicy",
+    modelProperties: {
+      dataCollectionFrequency: {
+        serializedName: "dataCollectionFrequency",
+        type: {
+          name: "String"
+        }
+      },
+      dataReportingFrequency: {
+        serializedName: "dataReportingFrequency",
+        type: {
+          name: "String"
+        }
+      },
+      maxAllowedUnreportedUsageDuration: {
+        serializedName: "maxAllowedUnreportedUsageDuration",
+        type: {
+          name: "String"
+        }
+      },
+      eventHubDetails: {
+        serializedName: "eventHubDetails",
+        type: {
+          name: "Composite",
+          className: "EdgeUsageDataEventHub"
+        }
+      }
+    }
+  }
+};
+
+export const EdgePolicies: msRest.CompositeMapper = {
+  serializedName: "EdgePolicies",
+  type: {
+    name: "Composite",
+    className: "EdgePolicies",
+    modelProperties: {
+      usageDataCollectionPolicy: {
+        serializedName: "usageDataCollectionPolicy",
+        type: {
+          name: "Composite",
+          className: "EdgeUsageDataCollectionPolicy"
+        }
+      }
+    }
+  }
+};
+
 export const SubscriptionMediaService: msRest.CompositeMapper = {
   serializedName: "SubscriptionMediaService",
   type: {

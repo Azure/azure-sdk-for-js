@@ -10,6 +10,7 @@ import { CosmosClientOptions } from "./CosmosClientOptions";
 import { DatabaseAccount, defaultConnectionPolicy } from "./documents";
 import { GlobalEndpointManager } from "./globalEndpointManager";
 import { RequestOptions, ResourceResponse } from "./request";
+import { URL } from "url";
 
 /**
  * Provides a client-side logical representation of the Azure Cosmos DB database account.
@@ -61,6 +62,11 @@ export class CosmosClient {
   constructor(optionsOrConnectionString: string | CosmosClientOptions) {
     if (typeof optionsOrConnectionString === "string") {
       optionsOrConnectionString = parseConnectionString(optionsOrConnectionString);
+    }
+
+    const endpoint = new URL(optionsOrConnectionString.endpoint);
+    if (!endpoint) {
+      throw new Error("Invalid endpoint specified");
     }
 
     optionsOrConnectionString.connectionPolicy = Object.assign(

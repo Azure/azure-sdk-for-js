@@ -43,15 +43,15 @@ describe("Highlevel", () => {
   afterEach(async function() {
     if (!this.currentTest?.isPending()) {
       await containerClient.delete();
-      recorder.stop();
+      await recorder.stop();
     }
   });
 
   before(async function() {
     recorder = record(this, recorderEnvSetup);
     tempFile1 = getBrowserFile(recorder.getUniqueName("browserfile"), tempFile1Length);
-    tempFile2 = getBrowserFile(recorder.getUniqueName("browserfile"), tempFile2Length);
-    recorder.stop();
+    tempFile2 = getBrowserFile(recorder.getUniqueName("browserfile2"), tempFile2Length);
+    await recorder.stop();
   });
 
   after(async () => {});
@@ -152,6 +152,25 @@ describe("Highlevel", () => {
     const uploadedString = await blobToString(tempFile2);
 
     assert.equal(uploadedString, downloadedString);
+  });
+
+  // SAS in test pipeline need to support the new permission.
+  it.skip("uploadBrowserDataToBlockBlob should work with tags", async function() {
+    recorder.skip("browser", "Temp file - recorder doesn't support saving the file");
+
+    const tags = {
+      tag1: "val1",
+      tag2: "val2"
+    };
+
+    await blockBlobClient.uploadBrowserData(tempFile2, {
+      blockSize: 512 * 1024,
+      maxSingleShotSize: 0,
+      tags
+    });
+
+    const response = await blockBlobClient.getTags();
+    assert.deepStrictEqual(response.tags, tags);
   });
 
   it("uploadBrowserDataToBlockBlob should success when blob >= BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES", async function() {

@@ -1,5 +1,7 @@
 let nock = require('nock');
 
+module.exports.hash = "12e2b3b67f3a691671585c0eef389371";
+
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
 nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
@@ -18,26 +20,26 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'x-ms-request-id',
-  '182c1c08-935c-465a-96df-e9c940059600',
+  '00617ba3-827d-49e4-a275-3d62316d3802',
   'x-ms-ests-server',
-  '2.1.9987.14 - SAN ProdSlices',
+  '2.1.10571.11 - WUS2 ProdSlices',
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'Set-Cookie',
-  'fpc=AsZDUUqF_glNimNhKtg1vnD0CyfMAQAAAP-cztUOAAAA; expires=Sat, 07-Mar-2020 23:49:19 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AkqCBV7rEQhHtuC71ckWBuT0CyfMAQAAAO5TX9YOAAAA; expires=Thu, 25-Jun-2020 18:16:15 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
-  'x-ms-gateway-slice=corp; path=/; SameSite=None; secure; HttpOnly',
+  'x-ms-gateway-slice=prod; path=/; SameSite=None; secure; HttpOnly',
   'Set-Cookie',
-  'stsservicecookie=estscorp; path=/; SameSite=None; secure; HttpOnly',
+  'stsservicecookie=ests; path=/; SameSite=None; secure; HttpOnly',
   'Date',
-  'Thu, 06 Feb 2020 23:49:18 GMT',
+  'Tue, 26 May 2020 18:16:15 GMT',
   'Content-Length',
   '1417'
 ]);
 
-nock('https://endpoint:443', {"encodedQueryParams":true})
-  .post('/text/analytics/v3.0-preview.1/sentiment', {"documents":[{"id":"0","text":"Hello world!","language":"notalanguage"}]})
-  .reply(200, {"documents":[],"errors":[{"id":"0","error":{"code":"InvalidArgument","message":"Invalid Language Code.","innerError":{"code":"UnsupportedLanguageCode","message":"Supplied language not supported. Pass in one of: de,en,es,fr,it,ja,ko,nl,pt-PT,zh-Hans,zh-Hant"}}}],"modelVersion":"2019-10-01"}, [
+nock('https://endpoint', {"encodedQueryParams":true})
+  .post('/text/analytics/v3.0/sentiment', {"documents":[{"id":"0","text":"Hello world!","language":"notalanguage"}]})
+  .reply(200, {"documents":[],"errors":[{"id":"0","error":{"code":"InvalidArgument","message":"Invalid Language Code.","innererror":{"code":"UnsupportedLanguageCode","message":"Supplied language not supported. Pass in one of: de,en,es,fr,it,ja,ko,nl,pt-PT,zh-Hans,zh-Hant"}}}],"modelVersion":"2020-04-01"}, [
   'Transfer-Encoding',
   'chunked',
   'Content-Type',
@@ -45,11 +47,11 @@ nock('https://endpoint:443', {"encodedQueryParams":true})
   'x-envoy-upstream-service-time',
   '3',
   'apim-request-id',
-  '55dee208-f7a2-490a-ba08-7626b278637e',
+  '944dbd71-2261-47f9-bb68-8fde4191173a',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Thu, 06 Feb 2020 23:49:19 GMT'
+  'Tue, 26 May 2020 18:16:15 GMT'
 ]);

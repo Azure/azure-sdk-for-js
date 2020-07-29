@@ -29,7 +29,7 @@ const config = {
  */`
   },
   plugins: [
-    nodeResolve({ module: true }),
+    nodeResolve({ mainFields: ['module', 'main'] }),
     sourcemaps()
   ]
 };

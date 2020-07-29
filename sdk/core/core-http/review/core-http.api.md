@@ -220,9 +220,7 @@ export class DisableResponseDecompressionPolicy extends BaseRequestPolicy {
 }
 
 // @public
-export function disableResponseDecompressionPolicy(): {
-    create: (nextPolicy: RequestPolicy, options: RequestPolicyOptions) => DisableResponseDecompressionPolicy;
-};
+export function disableResponseDecompressionPolicy(): RequestPolicyFactory;
 
 // @public
 export function encodeUri(uri: string): string;
@@ -382,9 +380,7 @@ export class KeepAlivePolicy extends BaseRequestPolicy {
 }
 
 // @public (undocumented)
-export function keepAlivePolicy(keepAliveOptions?: KeepAliveOptions): {
-    create: (nextPolicy: RequestPolicy, options: RequestPolicyOptions) => KeepAlivePolicy;
-};
+export function keepAlivePolicy(keepAliveOptions?: KeepAliveOptions): RequestPolicyFactory;
 
 // @public (undocumented)
 export function logPolicy(loggingOptions?: LogPolicyOptions): RequestPolicyFactory;
@@ -501,6 +497,7 @@ export interface OperationSpec {
     readonly headerParameters?: ReadonlyArray<OperationParameter>;
     readonly httpMethod: HttpMethods;
     readonly isXML?: boolean;
+    readonly mediaType?: "json" | "xml" | "form" | "binary" | "multipart" | "text" | "unknown" | string;
     readonly path?: string;
     readonly queryParameters?: ReadonlyArray<OperationQueryParameter>;
     readonly requestBody?: OperationParameter;
@@ -571,10 +568,8 @@ export function proxyPolicy(proxySettings?: ProxySettings): RequestPolicyFactory
 
 // @public
 export interface ProxySettings {
-    // (undocumented)
     host: string;
     password?: string;
-    // (undocumented)
     port: number;
     username?: string;
 }

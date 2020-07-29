@@ -1,8 +1,53 @@
 # Release History
 
-## 3.7.0 (Unreleased)
+## 3.7.5 (Unreleased)
+
+- FEATURE: Adds bulk request to container.items. Allows aggregate bulk request for up to 100 operations on items with the types: Create, Upsert, Read, Replace, Delete
+
+```js
+// up to 100 operations
+const operations: OperationInput[] = [
+  {
+    operationType: "Create",
+    resourceBody: { id: "doc1", name: "sample", key: "A" }
+  },
+  {
+    operationType: "Upsert",
+    resourceBody: { id: "doc2", name: "other", key: "A" }
+  },
+  {
+    operationType: "Read",
+    id: "readItemId",
+    partitionKey: "key"
+  }
+];
+
+await database.container.items.bulk(operations);
+```
+
+- FEATURE: Throws when initializing ClientContext with an invalid endpoint
+
+## 3.7.4 (2020-6-30)
+
+- BUGFIX: Properly escape ASCII "DEL" character in partition key header
+
+## 3.7.3 (2020-6-29)
+
+- BUGFIX: Cannot create item with automatic id generation and a container partitioned on ID (#9734)
+
+## 3.7.2 (2020-6-16)
+
+- BUGFIX: Internal abort signal incorrectly triggered when user passes a custom abort signal. See #9510 for details.
+
+## 3.7.1 (2020-6-12)
+
+- BUGFIX: Typo in globalCrypto.js causing errors in IE browser
+- BUGFIX: Resource tokens not matching for item delete operations (#9110)
+
+## 3.7.0 (2020-6-08)
 
 - BUGFIX: Support crypto functions in Internet Explorer browser
+- BUGFIX: Incorrect key casing in object returned by `setAuthorizationHeader`
 - FEATURE: Adds `readOffer` methods to container and database
 - FEATURE: Allows string value `partitionKey` parameter when creating containers
 
@@ -210,7 +255,7 @@ Fixes broken session tokens in the browser. Cosmos uses file system friendly bas
   - User cancelable requests
 - Update to the latest Cosmos REST API version where [all containers have unlimited scale](https://docs.microsoft.com/en-us/azure/cosmos-db/migrate-containers-partitioned-to-nonpartitioned)
 - Make it easier to use Cosmos from the browser
-- Better align with the new [Azure JS SDK guidlines](https://azuresdkspecs.z5.web.core.windows.net/TypeScriptSpec.html)
+- Better align with the new [Azure JS SDK guidlines](https://azure.github.io/azure-sdk/typescript_introduction.html)
 
 ### Migration Guide for Breaking Changes
 

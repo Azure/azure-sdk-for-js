@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
 import * as xml2js from "xml2js";
 
@@ -66,7 +66,7 @@ xml2jsBuilderSettings.renderOpts = {
  * @param opts Options that govern the parsing of given JSON object
  * `rootName` indicates the name of the root element in the resulting XML
  */
-export function stringifyXML(obj: any, opts?: { rootName?: string }) {
+export function stringifyXML(obj: any, opts?: { rootName?: string }): string {
   xml2jsBuilderSettings.rootName = (opts || {}).rootName;
   const builder = new xml2js.Builder(xml2jsBuilderSettings);
   return builder.buildObject(obj);

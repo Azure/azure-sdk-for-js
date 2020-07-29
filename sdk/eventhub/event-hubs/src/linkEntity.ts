@@ -1,13 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import uuid from "uuid/v4";
+import { v4 as uuid } from "uuid";
 import {
-  defaultLock,
-  SharedKeyCredential,
   AccessToken,
   Constants,
-  TokenType
+  SharedKeyCredential,
+  TokenType,
+  defaultLock
 } from "@azure/core-amqp";
 import { ConnectionContext } from "./connectionContext";
 import { AwaitableSender, Receiver } from "rhea-promise";
@@ -192,6 +192,12 @@ export class LinkEntity {
   protected async _ensureTokenRenewal(): Promise<void> {
     if (!this._tokenTimeoutInMs) {
       return;
+    }
+    // Clear the existing token renewal timer.
+    // This scenario can happen if the connection goes down and is brought back up
+    // before the `nextRenewalTimeout` was reached.
+    if (this._tokenRenewalTimer) {
+      clearTimeout(this._tokenRenewalTimer);
     }
     this._tokenRenewalTimer = setTimeout(async () => {
       try {

@@ -48,7 +48,7 @@ describe("EPH with iothub connection string", function(): void {
         const onMessage: OnReceivedMessage = (context: PartitionContext, data: EventData) => {
           debug(">>> [%s] Rx message from '%s': '%O'", hostName, context.partitionId, data);
         };
-        const onError: OnReceivedError = err => {
+        const onError: OnReceivedError = (err) => {
           debug("An error occurred while receiving the message: %O", err);
           throw err;
         };
@@ -68,7 +68,7 @@ describe("EPH with iothub connection string", function(): void {
       .then(() => {
         done();
       })
-      .catch(err => {
+      .catch((err) => {
         done(err);
       });
   });

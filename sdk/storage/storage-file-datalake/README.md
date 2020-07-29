@@ -37,7 +37,7 @@ Azure Storage supports several ways to authenticate. In order to interact with t
 
 #### Azure Active Directory
 
-The Azure Data Lake Storage service supports the use of Azure Active Directory to authenticate requests to its APIs. The [`@azure/identity`](https://www.npmjs.com/package/@azure/identity) package provides a variety of credential types that your application can use to do this. Please see the [README for `@azure/identity`](/sdk/identity/identity/README.md) for more details and samples to get you started.
+The Azure Data Lake Storage service supports the use of Azure Active Directory to authenticate requests to its APIs. The [`@azure/identity`](https://www.npmjs.com/package/@azure/identity) package provides a variety of credential types that your application can use to do this. Please see the [README for `@azure/identity`](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/identity/README.md) for more details and samples to get you started.
 
 ### Compatibility
 
@@ -57,7 +57,7 @@ This library depends on following ES features which need external polyfills load
 - `String.prototype.includes`
 - `Array.prototype.includes`
 - `Object.assign`
-- `Object.keys` (Override IE11's `Object.keys` with ES6 polyfill forcely to enable [ES6 behavior](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object/keys#Notes))
+- `Object.keys` (Overrides the IE11's `Object.keys` with a polyfill to enable the [ES6 behavior](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object/keys#Notes))
 - `Symbol`
 - `Symbol.iterator`
 
@@ -81,7 +81,19 @@ There are differences between Node.js and browsers runtime. When getting started
 
 ### JavaScript Bundle
 
-To use this client library in the browser, you need to use a bundler. For details on how to do this, please refer to our [bundling documentation](https://aka.ms/AzureSDKBundling).
+To use this client library in the browser, first you need to use a bundler. For details on how to do this, please refer to our [bundling documentation](https://aka.ms/AzureSDKBundling).
+
+#### Special bundling notes for IE11
+
+Currently only `Parcel` and `Rollup` work well with Storage client libraries for IE11.
+
+If `Parcel` is used  then no further work is needed. If using Rollup, an additional step is needed to transform the bundled output to the format that IE11 supports.
+
+Assuming `bundled-output.js` is the result from `Rollup`:
+
+```bash
+tsc --allowJS --target es5 bundled-output.js --outfile final-output.js
+```
 
 ### CORS
 
@@ -206,7 +218,7 @@ Alternatively, you instantiate a `DataLakeServiceClient` with a `StorageSharedKe
   const accountKey = "<accountkey>";
 
   // Use StorageSharedKeyCredential with storage account and account key
-  // StorageSharedKeyCredential is only avaiable in Node.js runtime, not in browsers
+  // StorageSharedKeyCredential is only available in Node.js runtime, not in browsers
   const sharedKeyCredential = new StorageSharedKeyCredential(account, accountKey);
   const datalakeServiceClient = new DataLakeServiceClient(
     `https://${account}.dfs.core.windows.net`,
@@ -274,8 +286,8 @@ const datalakeServiceClient = new DataLakeServiceClient(
 
 async function main() {
   let i = 1;
-  let iter = await datalakeServiceClient.listFileSystems();
-  for await (const fileSystem of iter) {
+  let fileSystems = datalakeServiceClient.listFileSystems();
+  for await (const fileSystem of fileSystems) {
     console.log(`File system ${i++}: ${fileSystem.name}`);
   }
 }
@@ -417,8 +429,8 @@ async function main() {
   const fileSystemClient = datalakeServiceClient.getFileSystemClient(fileSystemName);
   
   let i = 1;
-  let iter = await fileSystemClient.listPaths();
-  for await (const path of iter) {
+  let paths = fileSystemClient.listPaths();
+  for await (const path of paths) {
     console.log(`Path ${i++}: ${path.name}, is directory: ${path.isDirectory}`);
   }
 }

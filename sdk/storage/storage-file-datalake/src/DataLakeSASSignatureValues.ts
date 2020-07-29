@@ -326,7 +326,8 @@ function generateBlobSASQueryParameters20150405(
 ): SASQueryParameters {
   if (
     !dataLakeSASSignatureValues.identifier &&
-    !dataLakeSASSignatureValues.permissions && !dataLakeSASSignatureValues.expiresOn
+    !dataLakeSASSignatureValues.permissions &&
+    !dataLakeSASSignatureValues.expiresOn
   ) {
     throw new RangeError(
       "Must provide 'permissions' and 'expiresOn' for DataLake SAS generation when 'identifier' is not provided."
@@ -429,7 +430,8 @@ function generateBlobSASQueryParameters20181109(
 ): SASQueryParameters {
   if (
     !dataLakeSASSignatureValues.identifier &&
-    !dataLakeSASSignatureValues.permissions && !dataLakeSASSignatureValues.expiresOn
+    !dataLakeSASSignatureValues.permissions &&
+    !dataLakeSASSignatureValues.expiresOn
   ) {
     throw new RangeError(
       "Must provide 'permissions' and 'expiresOn' for Blob SAS generation when 'identifier' is not provided."

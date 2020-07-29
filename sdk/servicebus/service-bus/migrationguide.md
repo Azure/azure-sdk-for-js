@@ -1,4 +1,4 @@
-# Guide to migrate from @azure/service-bus v1 to v7.preview.2
+# Guide to migrate from @azure/service-bus v1 to v7.preview.3
 
 This document is intended for users that would like to try out preview 7
 for @azure/service-bus. As the package is in preview, these details might
@@ -11,6 +11,8 @@ by standardizing on common infrastructure with `@azure/event-hubs`. This change
 brings this package in line with the [Azure SDK Design Guidelines for Typescript](https://azure.github.io/azure-sdk/typescript_introduction.html#design-principles).
 
 ## API changes from V1 to V7
+
+### Creating ServiceBusClient
 
 - `ServiceBusClient` can now be constructed using new(). The static methods to
   construct it have been removed.
@@ -26,6 +28,8 @@ brings this package in line with the [Azure SDK Design Guidelines for Typescript
   ```typescript
   const serviceBusClient = new ServiceBusClient("connection string");
   ```
+
+### Creating senders and receivers
 
 - `QueueClient`, `TopicClient` and `SubscriptionClient` have been replaced with methods to
   create receivers and senders directly from `ServiceBusClient`.
@@ -67,6 +71,20 @@ brings this package in line with the [Azure SDK Design Guidelines for Typescript
   const subscriptionReceiver = serviceBusClient.createReceiver("topic", "subscription", "peekLock");
   ```
 
+- `createSessionReceiver()` is now an async method. 
+  - The promise returned by this method is resolved when a receiver link has been initialized with a session in the service.
+  - Prior to v7 `createSessionReceiver()` worked using lazy-initialization, where the
+receiver link to the session was only initialized when the async methods on the `SessionReceiver`
+were first called.
+
+### Receiving messages
+
+* `peek()` and `peekBySequenceNumber()` methods are collapsed into a single method `peekMessages()`. 
+The options passed to this new method accommodates both number of messages to be peeked and the sequence number to peek from.
+
+* `receiveBatch()` method is renamed to `receiveMessages()` to be consistent in usage of the `Messages` suffix in other methods
+on the receiver and the sender.
+
 * `registerMessageHandler` on `Receiver` has been renamed to `subscribe` and takes different arguments.
 
   In V1:
@@ -78,7 +96,7 @@ brings this package in line with the [Azure SDK Design Guidelines for Typescript
   In V7:
 
   ```typescript
-  queueOrSubscriptionReceiver.registerMessageHandler({
+  queueOrSubscriptionReceiver.subscribe({
     processMessage: onMessageFn,
     // `processError` is now declared as async and should return a promise.
     processError: async (err) => {
@@ -87,32 +105,28 @@ brings this package in line with the [Azure SDK Design Guidelines for Typescript
   });
   ```
 
-* `peek()`is renamed to `browseMessages()` to avoid confusion with the PeekLock mode
+### Rule management
 
-* Subscription rule management has been moved to its own class, rather than being part of the now-removed `SubscriptionClient`
+* The add/get/remove rule operations on the older `SubscriptionClient` have moved to the new `ServiceBusManagementClient` class which will be supporting 
+Create, Get, Update and Delete operations on Queues, Topics, Subscriptions and Rules.
 
   In V1:
 
   ```typescript
-  subscriptionClient.addRule();
-  subscriptionClient.getRules();
-  subscriptionClient.removeRule();
+  await subscriptionClient.addRule();
+  await subscriptionClient.getRules();
+  await subscriptionClient.removeRule();
   ```
 
   In V7:
 
   ```typescript
-  const ruleManager = serviceBusClient.getSubscriptionRuleManager("topic", "subscription");
-  ruleManager.addRule();
-  ruleManager.getRules();
-  ruleManager.removeRule();
+  const serviceBusManagementClient = new ServiceBusManagementClient(connectionString);
+  await serviceBusManagementClient.createRule();
+  await serviceBusManagementClient.getRules();
+  await serviceBusManagementClient.deleteRule();
   ```
 
-* createSender() and createSessionReceiver() are now async methods and initialize the connection
 
-Prior to v7 `createSender()` and `createSessionReceiver()` worked using lazy-initialization, where the
-AMQP connection would only be initialized on first send or receiving of a message.
 
-The connection and link are now initialized after calling either method.
-
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fservicebus%2Fservice-bus%2FREADME.png)
+![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fservicebus%2Fservice-bus%2FMIGRATIONGUIDE.png)

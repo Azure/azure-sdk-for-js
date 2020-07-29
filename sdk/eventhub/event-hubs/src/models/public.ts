@@ -129,6 +129,69 @@ export interface EventHubClientOptions {
 }
 
 /**
+ * Describes the options that can be provided while creating the EventHubConsumerClient.
+ * - `loadBalancingOptions`: Options to tune how the EventHubConsumerClient claims partitions.
+ * - `userAgent`        : A string to append to the built in user agent string that is passed as a connection property
+ * to the service.
+ * - `webSocketOptions` : Options to configure the channelling of the AMQP connection over Web Sockets.
+ *    - `websocket`     : The WebSocket constructor used to create an AMQP connection if you choose to make the connection
+ * over a WebSocket.
+ *    - `webSocketConstructorOptions` : Options to pass to the Websocket constructor when you choose to make the connection
+ * over a WebSocket.
+ * - `retryOptions`     : The retry options for all the operations on the EventHubConsumerClient.
+ * A simple usage can be `{ "maxRetries": 4 }`.
+ *
+ * Example usage:
+ * ```js
+ * {
+ *     retryOptions: {
+ *         maxRetries: 4
+ *     }
+ * }
+ * ```
+ */
+export interface EventHubConsumerClientOptions extends EventHubClientOptions {
+  /**
+   * Options to tune how the EventHubConsumerClient claims partitions.
+   */
+  loadBalancingOptions?: LoadBalancingOptions;
+}
+
+/**
+ * An options bag to configure load balancing settings.
+ */
+export interface LoadBalancingOptions {
+  /**
+   * Whether to apply a greedy or a more balanced approach when
+   * claiming partitions.
+   *
+   * - balanced: The `EventHubConsumerClient` will take a measured approach to
+   * requesting partition ownership when balancing work with other clients,
+   * slowly claiming partitions until a stabilized distribution is achieved.
+   *
+   * - greedy: The `EventHubConsumerClient` will attempt to claim ownership
+   * of its fair share of partitions aggressively when balancing work with
+   * other clients.
+   *
+   * This option is ignored when either:
+   *   - `CheckpointStore` is __not__ provided to the `EventHubConsumerClient`.
+   *   - `subscribe()` is called for a single partition.
+   * Default: balanced
+   */
+  strategy?: "balanced" | "greedy";
+  /**
+   * The length of time between attempts to claim partitions.
+   * Default: 10000
+   */
+  updateIntervalInMs?: number;
+  /**
+   * The length of time a partition claim is valid.
+   * Default: 60000
+   */
+  partitionOwnershipExpirationIntervalInMs?: number;
+}
+
+/**
  * Options to configure the `createBatch` method on the `EventHubProducerClient`.
  * - `partitionKey`  : A value that is hashed to produce a partition assignment.
  * - `maxSizeInBytes`: The upper limit for the size of batch.

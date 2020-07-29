@@ -2,9 +2,9 @@ import * as assert from "assert";
 import * as dotenv from "dotenv";
 
 import { AbortController } from "@azure/abort-controller";
-import { isNode, URLBuilder } from "@azure/core-http";
+import { isNode, URLBuilder, URLQuery } from "@azure/core-http";
 import { setTracer, SpanGraph, TestTracer } from "@azure/core-tracing";
-import { delay, record, Recorder } from "@azure/test-utils-recorder";
+import { delay, record, Recorder, isPlaybackMode } from "@azure/test-utils-recorder";
 
 import { FileStartCopyOptions, ShareClient, ShareDirectoryClient, ShareFileClient } from "../src";
 import { FileSystemAttributes } from "../src/FileSystemAttributes";
@@ -13,6 +13,8 @@ import { Pipeline } from "../src/Pipeline";
 import { truncatedISO8061Date } from "../src/utils/utils.common";
 import { bodyToString, getBSU, recorderEnvSetup } from "./utils";
 import { MockPolicyFactory } from "./utils/MockPolicyFactory";
+import { FILE_MAX_SIZE_BYTES } from "../src/utils/constants";
+import { isIE } from "./utils/index.browser";
 
 dotenv.config();
 
@@ -59,7 +61,7 @@ describe("FileClient", () => {
   afterEach(async function() {
     if (!this.currentTest?.isPending()) {
       await shareClient.delete();
-      recorder.stop();
+      await recorder.stop();
     }
   });
 
@@ -145,6 +147,23 @@ describe("FileClient", () => {
     assert.ok(properties.fileChangeOn!);
     assert.ok(properties.fileId!);
     assert.ok(properties.fileParentId!);
+  });
+
+  // need to skip this test in live as it requires Premium_LRS SKU for 2019-12-12.
+  it("create largest file", async function() {
+    // IE complains about "Arithmetic result exceeded 32 bits".
+    if (!isPlaybackMode() || (!isNode && isIE())) {
+      this.skip();
+    }
+
+    const GB = 1024 * 1024 * 1024;
+    await shareClient.setQuota(FILE_MAX_SIZE_BYTES / GB);
+    const cResp = await fileClient.create(FILE_MAX_SIZE_BYTES);
+    assert.equal(cResp.errorCode, undefined);
+
+    await fileClient.resize(FILE_MAX_SIZE_BYTES);
+    const updatedProperties = await fileClient.getProperties();
+    assert.deepStrictEqual(updatedProperties.contentLength, FILE_MAX_SIZE_BYTES);
   });
 
   it("setProperties with default parameters", async () => {
@@ -288,6 +307,22 @@ describe("FileClient", () => {
     await fileClient.delete();
   });
 
+  it("deleteIfExists", async () => {
+    const res = await fileClient.deleteIfExists();
+    assert.ok(!res.succeeded);
+    assert.equal(res.errorCode, "ResourceNotFound");
+
+    await fileClient.create(content.length);
+    const res2 = await fileClient.deleteIfExists();
+    assert.ok(res2.succeeded);
+  });
+
+  it("exists", async () => {
+    assert.ok(!(await fileClient.exists()));
+    await fileClient.create(content.length);
+    assert.ok(await fileClient.exists());
+  });
+
   it("startCopyFromURL", async () => {
     recorder.skip("browser");
     await fileClient.create(1024);
@@ -299,7 +334,26 @@ describe("FileClient", () => {
     const properties2 = await newFileClient.getProperties();
     assert.deepStrictEqual(properties1.contentMD5, properties2.contentMD5);
     assert.deepStrictEqual(properties2.copyId, result.copyId);
-    assert.deepStrictEqual(properties2.copySource, fileClient.url);
+
+    // A service feature is being rolling out which will sanitize the sig field
+    // so we remove it before comparing urls.
+    assert.ok(properties2.copySource, "Expecting valid 'properties2.copySource");
+
+    const sanitizedActualUrl = URLBuilder.parse(properties2.copySource!);
+    const sanitizedQuery = URLQuery.parse(sanitizedActualUrl.getQuery()!);
+    sanitizedQuery.set("sig", undefined);
+    sanitizedActualUrl.setQuery(sanitizedQuery.toString());
+
+    const sanitizedExpectedUrl = URLBuilder.parse(fileClient.url);
+    const sanitizedQuery2 = URLQuery.parse(sanitizedActualUrl.getQuery()!);
+    sanitizedQuery2.set("sig", undefined);
+    sanitizedExpectedUrl.setQuery(sanitizedQuery.toString());
+
+    assert.strictEqual(
+      sanitizedActualUrl.toString(),
+      sanitizedExpectedUrl.toString(),
+      "copySource does not match original source"
+    );
   });
 
   it("startCopyFromURL with smb options", async () => {
@@ -418,7 +472,7 @@ describe("FileClient", () => {
     assert.deepStrictEqual(await bodyToString(response, 8), "HelloWor");
   });
 
-  it("uploadRange with conent MD5", async () => {
+  it("uploadRange with content MD5", async () => {
     await fileClient.create(10);
     await fileClient.uploadRange("Hello", 0, 5, {
       contentMD5: new Uint8Array([

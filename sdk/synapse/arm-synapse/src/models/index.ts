@@ -3079,6 +3079,27 @@ export interface PrivateLinkResource extends ProxyResource {
 }
 
 /**
+ * A privateLinkHub
+ */
+export interface PrivateLinkHub extends TrackedResource {
+  /**
+   * PrivateLinkHub provisioning state. Possible values include: 'Succeeded', 'Failed'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly provisioningState?: ProvisioningState1;
+}
+
+/**
+ * PrivateLinkHub patch details
+ */
+export interface PrivateLinkHubPatchInfo {
+  /**
+   * Resource tags
+   */
+  tags?: { [propertyName: string]: string };
+}
+
+/**
  * Optional Parameters.
  */
 export interface BigDataPoolsCreateOrUpdateOptionalParams extends msRest.RequestOptionsBase {
@@ -3414,6 +3435,18 @@ export interface PrivateEndpointConnectionList extends Array<PrivateEndpointConn
 }
 
 /**
+ * @interface
+ * List of privateLinkHubs
+ * @extends Array<PrivateLinkHub>
+ */
+export interface PrivateLinkHubInfoListResult extends Array<PrivateLinkHub> {
+  /**
+   * Link to the next page of results
+   */
+  nextLink?: string;
+}
+
+/**
  * Defines values for NodeSize.
  * Possible values include: 'None', 'Small', 'Medium', 'Large'
  * @readonly
@@ -3723,6 +3756,14 @@ export type DesiredState = 'Enabled' | 'Disabled';
  * @enum {string}
  */
 export type ActualState = 'Enabling' | 'Enabled' | 'Disabling' | 'Disabled' | 'Unknown';
+
+/**
+ * Defines values for ProvisioningState1.
+ * Possible values include: 'Succeeded', 'Failed'
+ * @readonly
+ * @enum {string}
+ */
+export type ProvisioningState1 = 'Succeeded' | 'Failed';
 
 /**
  * Contains response data for the get operation.
@@ -6091,5 +6132,145 @@ export type PrivateEndpointConnectionsListNextResponse = PrivateEndpointConnecti
        * The response body as parsed JSON or XML
        */
       parsedBody: PrivateEndpointConnectionList;
+    };
+};
+
+/**
+ * Contains response data for the listByResourceGroup operation.
+ */
+export type PrivateLinkHubsListByResourceGroupResponse = PrivateLinkHubInfoListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateLinkHubInfoListResult;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type PrivateLinkHubsGetResponse = PrivateLinkHub & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateLinkHub;
+    };
+};
+
+/**
+ * Contains response data for the update operation.
+ */
+export type PrivateLinkHubsUpdateResponse = PrivateLinkHub & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateLinkHub;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type PrivateLinkHubsCreateOrUpdateResponse = PrivateLinkHub & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateLinkHub;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type PrivateLinkHubsListResponse = PrivateLinkHubInfoListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateLinkHubInfoListResult;
+    };
+};
+
+/**
+ * Contains response data for the listByResourceGroupNext operation.
+ */
+export type PrivateLinkHubsListByResourceGroupNextResponse = PrivateLinkHubInfoListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateLinkHubInfoListResult;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type PrivateLinkHubsListNextResponse = PrivateLinkHubInfoListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateLinkHubInfoListResult;
     };
 };

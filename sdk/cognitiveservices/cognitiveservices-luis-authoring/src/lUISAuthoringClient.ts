@@ -22,7 +22,6 @@ class LUISAuthoringClient extends LUISAuthoringClientContext {
   apps: operations.Apps;
   versions: operations.Versions;
   train: operations.Train;
-  permissions: operations.Permissions;
   pattern: operations.Pattern;
   settings: operations.Settings;
   azureAccounts: operations.AzureAccounts;
@@ -42,7 +41,6 @@ class LUISAuthoringClient extends LUISAuthoringClientContext {
     this.apps = new operations.Apps(this);
     this.versions = new operations.Versions(this);
     this.train = new operations.Train(this);
-    this.permissions = new operations.Permissions(this);
     this.pattern = new operations.Pattern(this);
     this.settings = new operations.Settings(this);
     this.azureAccounts = new operations.AzureAccounts(this);

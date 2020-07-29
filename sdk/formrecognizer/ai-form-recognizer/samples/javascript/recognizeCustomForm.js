@@ -25,31 +25,23 @@ async function main() {
   const readStream = fs.createReadStream(path);
 
   const client = new FormRecognizerClient(endpoint, new AzureKeyCredential(apiKey));
-  const poller = await client.beginRecognizeForms(modelId, readStream, "application/pdf", {
+  const poller = await client.beginRecognizeCustomForms(modelId, readStream, "application/pdf", {
     onProgress: (state) => {
       console.log(`status: ${state.status}`);
     }
   });
-  await poller.pollUntilDone();
-  const response = poller.getResult();
+  const forms = await poller.pollUntilDone();
 
-  if (!response) {
-    throw new Error("Expecting valid response!");
-  }
-
-  console.log(response.status);
   console.log("Forms:");
-  for (const form of response.forms || []) {
+  for (const form of forms || []) {
     console.log(`${form.formType}, page range: ${form.pageRange}`);
     console.log("Pages:");
     for (const page of form.pages || []) {
       console.log(`Page number: ${page.pageNumber}`);
       console.log("Tables");
       for (const table of page.tables || []) {
-        for (const row of table.rows) {
-          for (const cell of row.cells) {
-            console.log(`cell (${cell.rowIndex},${cell.columnIndex}) ${cell.text}`);
-          }
+        for (const cell of table.cells) {
+          console.log(`cell (${cell.rowIndex},${cell.columnIndex}) ${cell.text}`);
         }
       }
     }
@@ -63,9 +55,6 @@ async function main() {
       );
     }
   }
-
-  console.log("Errors:");
-  console.log(response.errors);
 }
 
 main().catch((err) => {

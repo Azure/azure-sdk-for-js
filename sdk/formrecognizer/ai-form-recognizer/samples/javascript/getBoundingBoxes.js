@@ -27,30 +27,24 @@ async function main() {
   const readStream = fs.createReadStream(path);
 
   const client = new FormRecognizerClient(endpoint, new AzureKeyCredential(apiKey));
-  const poller = await client.beginRecognizeForms(modelId, readStream, "application/pdf", {
+  const poller = await client.beginRecognizeCustomForms(modelId, readStream, "application/pdf", {
     onProgress: (state) => {
       console.log(`status: ${state.status}`);
     }
   });
-  await poller.pollUntilDone();
-  const response = poller.getResult();
+  const forms = await poller.pollUntilDone();
 
-  if (!response) {
-    throw new Error("Expecting valid response!");
-  }
-
-  console.log(response.status);
   console.log("Forms:");
   let i = 0;
-  for (const form of response.forms || []) {
+  for (const form of forms || []) {
     console.log(`  Form #${i++} has type ${form.formType}`);
     console.log("  Fields:");
     for (const fieldName in form.fields) {
       // each field is of type FormField
       const field = form.fields[fieldName];
       const boundingBox =
-        field.valueText && field.valueText.boundingBox
-          ? field.valueText.boundingBox.map((p) => `[${p.x},${p.y}]`).join(", ")
+        field.valueData && field.valueData.boundingBox
+          ? field.valueData.boundingBox.map((p) => `[${p.x},${p.y}]`).join(", ")
           : "N/A";
       console.log(
         `    Field ${fieldName} has value '${field.value}' with a confidence score of ${field.confidence} within bounding box ${boundingBox}`
@@ -63,25 +57,20 @@ async function main() {
       );
       console.log("    Tables");
       for (const table of page.tables || []) {
-        for (const row of table.rows) {
-          for (const cell of row.cells) {
-            console.log(
-              `      Cell[${cell.rowIndex},${cell.columnIndex}] has text ${cell.text} with confidence ${cell.confidence} based on the following words:`
-            );
-            for (const element of cell.textContent || []) {
-              const boundingBox = element.boundingBox
-                ? element.boundingBox.map((p) => `[${p.x},${p.y}]`).join(", ")
-                : "N/A";
-              console.log(`        '${element.text}' within bounding box ${boundingBox}`);
-            }
+        for (const cell of table.cells) {
+          console.log(
+            `      Cell[${cell.rowIndex},${cell.columnIndex}] has text ${cell.text} with confidence ${cell.confidence} based on the following words:`
+          );
+          for (const element of cell.fieldElements || []) {
+            const boundingBox = element.boundingBox
+              ? element.boundingBox.map((p) => `[${p.x},${p.y}]`).join(", ")
+              : "N/A";
+            console.log(`        '${element.text}' within bounding box ${boundingBox}`);
           }
         }
       }
     }
   }
-
-  console.log("Errors:");
-  console.log(response.errors);
 }
 
 main().catch((err) => {

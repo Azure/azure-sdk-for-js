@@ -4,7 +4,7 @@
 
   **NOTE**: This sample uses the preview of the next version of the @azure/service-bus package.
   For samples using the current stable version of the package, please use the link below:
-  https://github.com/Azure/azure-sdk-for-js/tree/%40azure/service-bus_1.1.5/sdk/servicebus/service-bus/samples
+  https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/servicebus/service-bus/samples-v1
   
   This sample demonstrates usage of SessionState.
 
@@ -101,7 +101,7 @@ async function getSessionState(sessionId: string) {
 
 async function sendMessagesForSession(shoppingEvents: any[], sessionId: string) {
   // createSender() can also be used to create a sender for a topic.
-  const sender = await sbClient.createSender(userEventsQueueName);
+  const sender = sbClient.createSender(userEventsQueueName);
 
   for (let index = 0; index < shoppingEvents.length; index++) {
     const message = {
@@ -109,7 +109,7 @@ async function sendMessagesForSession(shoppingEvents: any[], sessionId: string) 
       body: shoppingEvents[index],
       label: "Shopping Step"
     };
-    await sender.send(message);
+    await sender.sendMessages(message);
   }
   await sender.close();
 }
@@ -120,7 +120,7 @@ async function processMessageFromSession(sessionId: string) {
     sessionId
   });
 
-  const messages = await sessionReceiver.receiveBatch(1, {
+  const messages = await sessionReceiver.receiveMessages(1, {
     maxWaitTimeInMs: 10000
   });
 

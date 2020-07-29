@@ -10,14 +10,14 @@ export {
   discriminators,
   FieldMapping,
   FieldMappingFunction,
-  Indexer,
-  IndexerExecutionInfo,
   IndexerExecutionResult,
-  IndexerLimits,
   IndexingParameters,
   IndexingSchedule,
-  ItemError,
-  ItemWarning,
   ListIndexersResult,
-  SearchError
+  SearchError,
+  SearchIndexer,
+  SearchIndexerError,
+  SearchIndexerLimits,
+  SearchIndexerStatus,
+  SearchIndexerWarning
 } from "../models/mappers";

@@ -1,12 +1,11 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
 import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-http";
 import { createSpan } from "../util/tracing";
-import { AuthenticationErrorName } from "../client/errors";
+import { AuthenticationErrorName, CredentialUnavailable } from "../client/errors";
 import { CanonicalCode } from "@opentelemetry/api";
-import { logger } from "../util/logging";
-
+import { credentialLogger, formatSuccess, formatError } from "../util/logging";
 import * as child_process from "child_process";
 
 function getSafeWorkingDir(): string {
@@ -20,16 +19,13 @@ function getSafeWorkingDir(): string {
   }
 }
 
+const logger = credentialLogger("AzureCliCredential");
+
 /**
  * Provides the user access token and expire time
  * with Azure CLI command "az account get-access-token".
  */
 export class AzureCliCredential implements TokenCredential {
-  /**
-   * Creates an instance of the AzureCliCredential class.
-   */
-  constructor() {}
-
   /**
    * Gets the access token from Azure CLI
    * @param resource The resource to use when getting the token
@@ -65,14 +61,16 @@ export class AzureCliCredential implements TokenCredential {
     options?: GetTokenOptions
   ): Promise<AccessToken | null> {
     return new Promise((resolve, reject) => {
-      let scope: string;
-      scope = typeof scopes === "string" ? scopes : scopes[0];
-      logger.info(`use the scope ${scope}`);
+      const scope = typeof scopes === "string" ? scopes : scopes[0];
+      logger.getToken.info(`Using the scope ${scope}`);
+
       const resource = scope.replace(/\/.default$/, "");
 
       // Check to make sure the scope we get back is a valid scope
       if (!scope.match(/^[0-9a-zA-Z-.:/]+$/)) {
-        throw new Error("Invalid scope was specified by the user or calling client");
+        const error = new Error("Invalid scope was specified by the user or calling client");
+        logger.getToken.info(formatError(error));
+        throw error;
       }
 
       let responseData = "";
@@ -81,27 +79,36 @@ export class AzureCliCredential implements TokenCredential {
       this.getAzureCliAccessToken(resource)
         .then((obj: any) => {
           if (obj.stderr) {
-            let isLoginError = obj.stderr.match("(.*)az login(.*)");
-            let isNotInstallError =
+            const isLoginError = obj.stderr.match("(.*)az login(.*)");
+            const isNotInstallError =
               obj.stderr.match("az:(.*)not found") ||
               obj.stderr.startsWith("'az' is not recognized");
             if (isNotInstallError) {
-              throw new Error(
+              const error = new CredentialUnavailable(
                 "Azure CLI could not be found.  Please visit https://aka.ms/azure-cli for installation instructions and then, once installed, authenticate to your Azure account using 'az login'."
               );
+              logger.getToken.info(formatError(error));
+              throw error;
             } else if (isLoginError) {
-              throw new Error(
+              const error = new CredentialUnavailable(
                 "Please run 'az login' from a command prompt to authenticate before using this credential."
               );
+              logger.getToken.info(formatError(error));
+              throw error;
             }
-            throw new Error(obj.stderr);
+            const error = new CredentialUnavailable(obj.stderr);
+            logger.getToken.info(formatError(error));
+            throw error;
           } else {
             responseData = obj.stdout;
             const response: { accessToken: string; expiresOn: string } = JSON.parse(responseData);
-            resolve({
+            logger.getToken.info(formatSuccess(scopes));
+            const returnValue = {
               token: response.accessToken,
               expiresOnTimestamp: new Date(response.expiresOn).getTime()
-            });
+            };
+            resolve(returnValue);
+            return returnValue;
           }
         })
         .catch((err) => {
@@ -113,6 +120,7 @@ export class AzureCliCredential implements TokenCredential {
             code,
             message: err.message
           });
+          logger.getToken.info(formatError(err));
           reject(err);
         });
     });

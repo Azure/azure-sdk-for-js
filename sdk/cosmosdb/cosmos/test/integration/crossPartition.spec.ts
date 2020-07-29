@@ -2,17 +2,17 @@
 // Licensed under the MIT license.
 import assert from "assert";
 import * as util from "util";
-import { Container, ContainerDefinition } from "../../dist-esm/client";
-import { DataType, IndexKind } from "../../dist-esm/documents";
-import { SqlQuerySpec } from "../../dist-esm/queryExecutionContext";
-import { QueryIterator } from "../../dist-esm/queryIterator";
+import { Container, ContainerDefinition } from "../../src/client";
+import { DataType, IndexKind } from "../../src/documents";
+import { SqlQuerySpec } from "../../src/queryExecutionContext";
+import { QueryIterator } from "../../src/queryIterator";
 import {
   bulkInsertItems,
   getTestContainer,
   removeAllDatabases,
   generateDocuments
 } from "../common/TestHelpers";
-import { FeedResponse, FeedOptions } from "../../dist-esm";
+import { FeedResponse, FeedOptions } from "../../src";
 
 function compare(key: string) {
   return function(a: any, b: any): number {

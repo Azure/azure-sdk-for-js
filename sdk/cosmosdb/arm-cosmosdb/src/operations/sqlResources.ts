@@ -29,20 +29,20 @@ export class SqlResources {
 
   /**
    * Lists the SQL databases under an existing Azure Cosmos DB database account.
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param [options] The optional parameters
    * @returns Promise<Models.SqlResourcesListSqlDatabasesResponse>
    */
   listSqlDatabases(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase): Promise<Models.SqlResourcesListSqlDatabasesResponse>;
   /**
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param callback The callback
    */
   listSqlDatabases(resourceGroupName: string, accountName: string, callback: msRest.ServiceCallback<Models.SqlDatabaseListResult>): void;
   /**
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param options The optional parameters
    * @param callback The callback
@@ -61,7 +61,7 @@ export class SqlResources {
 
   /**
    * Gets the SQL database under an existing Azure Cosmos DB database account with the provided name.
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param databaseName Cosmos DB database name.
    * @param [options] The optional parameters
@@ -69,14 +69,14 @@ export class SqlResources {
    */
   getSqlDatabase(resourceGroupName: string, accountName: string, databaseName: string, options?: msRest.RequestOptionsBase): Promise<Models.SqlResourcesGetSqlDatabaseResponse>;
   /**
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param databaseName Cosmos DB database name.
    * @param callback The callback
    */
   getSqlDatabase(resourceGroupName: string, accountName: string, databaseName: string, callback: msRest.ServiceCallback<Models.SqlDatabaseGetResults>): void;
   /**
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param databaseName Cosmos DB database name.
    * @param options The optional parameters
@@ -97,7 +97,7 @@ export class SqlResources {
 
   /**
    * Create or update an Azure Cosmos DB SQL database
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param databaseName Cosmos DB database name.
    * @param createUpdateSqlDatabaseParameters The parameters to provide for the current SQL database.
@@ -111,7 +111,7 @@ export class SqlResources {
 
   /**
    * Deletes an existing Azure Cosmos DB SQL database.
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param databaseName Cosmos DB database name.
    * @param [options] The optional parameters
@@ -125,7 +125,7 @@ export class SqlResources {
   /**
    * Gets the RUs per second of the SQL database under an existing Azure Cosmos DB database account
    * with the provided name.
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param databaseName Cosmos DB database name.
    * @param [options] The optional parameters
@@ -133,14 +133,14 @@ export class SqlResources {
    */
   getSqlDatabaseThroughput(resourceGroupName: string, accountName: string, databaseName: string, options?: msRest.RequestOptionsBase): Promise<Models.SqlResourcesGetSqlDatabaseThroughputResponse>;
   /**
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param databaseName Cosmos DB database name.
    * @param callback The callback
    */
   getSqlDatabaseThroughput(resourceGroupName: string, accountName: string, databaseName: string, callback: msRest.ServiceCallback<Models.ThroughputSettingsGetResults>): void;
   /**
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param databaseName Cosmos DB database name.
    * @param options The optional parameters
@@ -161,7 +161,7 @@ export class SqlResources {
 
   /**
    * Update RUs per second of an Azure Cosmos DB SQL database
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param databaseName Cosmos DB database name.
    * @param updateThroughputParameters The parameters to provide for the RUs per second of the
@@ -176,7 +176,7 @@ export class SqlResources {
 
   /**
    * Lists the SQL container under an existing Azure Cosmos DB database account.
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param databaseName Cosmos DB database name.
    * @param [options] The optional parameters
@@ -184,14 +184,14 @@ export class SqlResources {
    */
   listSqlContainers(resourceGroupName: string, accountName: string, databaseName: string, options?: msRest.RequestOptionsBase): Promise<Models.SqlResourcesListSqlContainersResponse>;
   /**
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param databaseName Cosmos DB database name.
    * @param callback The callback
    */
   listSqlContainers(resourceGroupName: string, accountName: string, databaseName: string, callback: msRest.ServiceCallback<Models.SqlContainerListResult>): void;
   /**
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param databaseName Cosmos DB database name.
    * @param options The optional parameters
@@ -212,7 +212,7 @@ export class SqlResources {
 
   /**
    * Gets the SQL container under an existing Azure Cosmos DB database account.
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param databaseName Cosmos DB database name.
    * @param containerName Cosmos DB container name.
@@ -221,7 +221,7 @@ export class SqlResources {
    */
   getSqlContainer(resourceGroupName: string, accountName: string, databaseName: string, containerName: string, options?: msRest.RequestOptionsBase): Promise<Models.SqlResourcesGetSqlContainerResponse>;
   /**
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param databaseName Cosmos DB database name.
    * @param containerName Cosmos DB container name.
@@ -229,7 +229,7 @@ export class SqlResources {
    */
   getSqlContainer(resourceGroupName: string, accountName: string, databaseName: string, containerName: string, callback: msRest.ServiceCallback<Models.SqlContainerGetResults>): void;
   /**
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param databaseName Cosmos DB database name.
    * @param containerName Cosmos DB container name.
@@ -252,7 +252,7 @@ export class SqlResources {
 
   /**
    * Create or update an Azure Cosmos DB SQL container
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param databaseName Cosmos DB database name.
    * @param containerName Cosmos DB container name.
@@ -268,7 +268,7 @@ export class SqlResources {
 
   /**
    * Deletes an existing Azure Cosmos DB SQL container.
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param databaseName Cosmos DB database name.
    * @param containerName Cosmos DB container name.
@@ -282,7 +282,7 @@ export class SqlResources {
 
   /**
    * Gets the RUs per second of the SQL container under an existing Azure Cosmos DB database account.
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param databaseName Cosmos DB database name.
    * @param containerName Cosmos DB container name.
@@ -291,7 +291,7 @@ export class SqlResources {
    */
   getSqlContainerThroughput(resourceGroupName: string, accountName: string, databaseName: string, containerName: string, options?: msRest.RequestOptionsBase): Promise<Models.SqlResourcesGetSqlContainerThroughputResponse>;
   /**
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param databaseName Cosmos DB database name.
    * @param containerName Cosmos DB container name.
@@ -299,7 +299,7 @@ export class SqlResources {
    */
   getSqlContainerThroughput(resourceGroupName: string, accountName: string, databaseName: string, containerName: string, callback: msRest.ServiceCallback<Models.ThroughputSettingsGetResults>): void;
   /**
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param databaseName Cosmos DB database name.
    * @param containerName Cosmos DB container name.
@@ -322,7 +322,7 @@ export class SqlResources {
 
   /**
    * Update RUs per second of an Azure Cosmos DB SQL container
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param databaseName Cosmos DB database name.
    * @param containerName Cosmos DB container name.
@@ -338,7 +338,7 @@ export class SqlResources {
 
   /**
    * Lists the SQL storedProcedure under an existing Azure Cosmos DB database account.
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param databaseName Cosmos DB database name.
    * @param containerName Cosmos DB container name.
@@ -347,7 +347,7 @@ export class SqlResources {
    */
   listSqlStoredProcedures(resourceGroupName: string, accountName: string, databaseName: string, containerName: string, options?: msRest.RequestOptionsBase): Promise<Models.SqlResourcesListSqlStoredProceduresResponse>;
   /**
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param databaseName Cosmos DB database name.
    * @param containerName Cosmos DB container name.
@@ -355,7 +355,7 @@ export class SqlResources {
    */
   listSqlStoredProcedures(resourceGroupName: string, accountName: string, databaseName: string, containerName: string, callback: msRest.ServiceCallback<Models.SqlStoredProcedureListResult>): void;
   /**
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param databaseName Cosmos DB database name.
    * @param containerName Cosmos DB container name.
@@ -378,7 +378,7 @@ export class SqlResources {
 
   /**
    * Gets the SQL storedProcedure under an existing Azure Cosmos DB database account.
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param databaseName Cosmos DB database name.
    * @param containerName Cosmos DB container name.
@@ -388,7 +388,7 @@ export class SqlResources {
    */
   getSqlStoredProcedure(resourceGroupName: string, accountName: string, databaseName: string, containerName: string, storedProcedureName: string, options?: msRest.RequestOptionsBase): Promise<Models.SqlResourcesGetSqlStoredProcedureResponse>;
   /**
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param databaseName Cosmos DB database name.
    * @param containerName Cosmos DB container name.
@@ -397,7 +397,7 @@ export class SqlResources {
    */
   getSqlStoredProcedure(resourceGroupName: string, accountName: string, databaseName: string, containerName: string, storedProcedureName: string, callback: msRest.ServiceCallback<Models.SqlStoredProcedureGetResults>): void;
   /**
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param databaseName Cosmos DB database name.
    * @param containerName Cosmos DB container name.
@@ -422,7 +422,7 @@ export class SqlResources {
 
   /**
    * Create or update an Azure Cosmos DB SQL storedProcedure
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param databaseName Cosmos DB database name.
    * @param containerName Cosmos DB container name.
@@ -439,7 +439,7 @@ export class SqlResources {
 
   /**
    * Deletes an existing Azure Cosmos DB SQL storedProcedure.
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param databaseName Cosmos DB database name.
    * @param containerName Cosmos DB container name.
@@ -454,7 +454,7 @@ export class SqlResources {
 
   /**
    * Lists the SQL userDefinedFunction under an existing Azure Cosmos DB database account.
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param databaseName Cosmos DB database name.
    * @param containerName Cosmos DB container name.
@@ -463,7 +463,7 @@ export class SqlResources {
    */
   listSqlUserDefinedFunctions(resourceGroupName: string, accountName: string, databaseName: string, containerName: string, options?: msRest.RequestOptionsBase): Promise<Models.SqlResourcesListSqlUserDefinedFunctionsResponse>;
   /**
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param databaseName Cosmos DB database name.
    * @param containerName Cosmos DB container name.
@@ -471,7 +471,7 @@ export class SqlResources {
    */
   listSqlUserDefinedFunctions(resourceGroupName: string, accountName: string, databaseName: string, containerName: string, callback: msRest.ServiceCallback<Models.SqlUserDefinedFunctionListResult>): void;
   /**
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param databaseName Cosmos DB database name.
    * @param containerName Cosmos DB container name.
@@ -494,7 +494,7 @@ export class SqlResources {
 
   /**
    * Gets the SQL userDefinedFunction under an existing Azure Cosmos DB database account.
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param databaseName Cosmos DB database name.
    * @param containerName Cosmos DB container name.
@@ -504,7 +504,7 @@ export class SqlResources {
    */
   getSqlUserDefinedFunction(resourceGroupName: string, accountName: string, databaseName: string, containerName: string, userDefinedFunctionName: string, options?: msRest.RequestOptionsBase): Promise<Models.SqlResourcesGetSqlUserDefinedFunctionResponse>;
   /**
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param databaseName Cosmos DB database name.
    * @param containerName Cosmos DB container name.
@@ -513,7 +513,7 @@ export class SqlResources {
    */
   getSqlUserDefinedFunction(resourceGroupName: string, accountName: string, databaseName: string, containerName: string, userDefinedFunctionName: string, callback: msRest.ServiceCallback<Models.SqlUserDefinedFunctionGetResults>): void;
   /**
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param databaseName Cosmos DB database name.
    * @param containerName Cosmos DB container name.
@@ -538,7 +538,7 @@ export class SqlResources {
 
   /**
    * Create or update an Azure Cosmos DB SQL userDefinedFunction
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param databaseName Cosmos DB database name.
    * @param containerName Cosmos DB container name.
@@ -555,7 +555,7 @@ export class SqlResources {
 
   /**
    * Deletes an existing Azure Cosmos DB SQL userDefinedFunction.
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param databaseName Cosmos DB database name.
    * @param containerName Cosmos DB container name.
@@ -570,7 +570,7 @@ export class SqlResources {
 
   /**
    * Lists the SQL trigger under an existing Azure Cosmos DB database account.
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param databaseName Cosmos DB database name.
    * @param containerName Cosmos DB container name.
@@ -579,7 +579,7 @@ export class SqlResources {
    */
   listSqlTriggers(resourceGroupName: string, accountName: string, databaseName: string, containerName: string, options?: msRest.RequestOptionsBase): Promise<Models.SqlResourcesListSqlTriggersResponse>;
   /**
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param databaseName Cosmos DB database name.
    * @param containerName Cosmos DB container name.
@@ -587,7 +587,7 @@ export class SqlResources {
    */
   listSqlTriggers(resourceGroupName: string, accountName: string, databaseName: string, containerName: string, callback: msRest.ServiceCallback<Models.SqlTriggerListResult>): void;
   /**
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param databaseName Cosmos DB database name.
    * @param containerName Cosmos DB container name.
@@ -610,7 +610,7 @@ export class SqlResources {
 
   /**
    * Gets the SQL trigger under an existing Azure Cosmos DB database account.
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param databaseName Cosmos DB database name.
    * @param containerName Cosmos DB container name.
@@ -620,7 +620,7 @@ export class SqlResources {
    */
   getSqlTrigger(resourceGroupName: string, accountName: string, databaseName: string, containerName: string, triggerName: string, options?: msRest.RequestOptionsBase): Promise<Models.SqlResourcesGetSqlTriggerResponse>;
   /**
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param databaseName Cosmos DB database name.
    * @param containerName Cosmos DB container name.
@@ -629,7 +629,7 @@ export class SqlResources {
    */
   getSqlTrigger(resourceGroupName: string, accountName: string, databaseName: string, containerName: string, triggerName: string, callback: msRest.ServiceCallback<Models.SqlTriggerGetResults>): void;
   /**
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param databaseName Cosmos DB database name.
    * @param containerName Cosmos DB container name.
@@ -654,7 +654,7 @@ export class SqlResources {
 
   /**
    * Create or update an Azure Cosmos DB SQL trigger
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param databaseName Cosmos DB database name.
    * @param containerName Cosmos DB container name.
@@ -670,7 +670,7 @@ export class SqlResources {
 
   /**
    * Deletes an existing Azure Cosmos DB SQL trigger.
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param databaseName Cosmos DB database name.
    * @param containerName Cosmos DB container name.
@@ -685,7 +685,7 @@ export class SqlResources {
 
   /**
    * Create or update an Azure Cosmos DB SQL database
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param databaseName Cosmos DB database name.
    * @param createUpdateSqlDatabaseParameters The parameters to provide for the current SQL database.
@@ -707,7 +707,7 @@ export class SqlResources {
 
   /**
    * Deletes an existing Azure Cosmos DB SQL database.
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param databaseName Cosmos DB database name.
    * @param [options] The optional parameters
@@ -727,7 +727,7 @@ export class SqlResources {
 
   /**
    * Update RUs per second of an Azure Cosmos DB SQL database
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param databaseName Cosmos DB database name.
    * @param updateThroughputParameters The parameters to provide for the RUs per second of the
@@ -750,7 +750,7 @@ export class SqlResources {
 
   /**
    * Create or update an Azure Cosmos DB SQL container
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param databaseName Cosmos DB database name.
    * @param containerName Cosmos DB container name.
@@ -775,7 +775,7 @@ export class SqlResources {
 
   /**
    * Deletes an existing Azure Cosmos DB SQL container.
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param databaseName Cosmos DB database name.
    * @param containerName Cosmos DB container name.
@@ -797,7 +797,7 @@ export class SqlResources {
 
   /**
    * Update RUs per second of an Azure Cosmos DB SQL container
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param databaseName Cosmos DB database name.
    * @param containerName Cosmos DB container name.
@@ -822,7 +822,7 @@ export class SqlResources {
 
   /**
    * Create or update an Azure Cosmos DB SQL storedProcedure
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param databaseName Cosmos DB database name.
    * @param containerName Cosmos DB container name.
@@ -849,7 +849,7 @@ export class SqlResources {
 
   /**
    * Deletes an existing Azure Cosmos DB SQL storedProcedure.
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param databaseName Cosmos DB database name.
    * @param containerName Cosmos DB container name.
@@ -873,7 +873,7 @@ export class SqlResources {
 
   /**
    * Create or update an Azure Cosmos DB SQL userDefinedFunction
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param databaseName Cosmos DB database name.
    * @param containerName Cosmos DB container name.
@@ -900,7 +900,7 @@ export class SqlResources {
 
   /**
    * Deletes an existing Azure Cosmos DB SQL userDefinedFunction.
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param databaseName Cosmos DB database name.
    * @param containerName Cosmos DB container name.
@@ -924,7 +924,7 @@ export class SqlResources {
 
   /**
    * Create or update an Azure Cosmos DB SQL trigger
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param databaseName Cosmos DB database name.
    * @param containerName Cosmos DB container name.
@@ -950,7 +950,7 @@ export class SqlResources {
 
   /**
    * Deletes an existing Azure Cosmos DB SQL trigger.
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param databaseName Cosmos DB database name.
    * @param containerName Cosmos DB container name.
@@ -979,7 +979,7 @@ const listSqlDatabasesOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases",
   urlParameters: [
-    Parameters.subscriptionId0,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName
   ],
@@ -1004,7 +1004,7 @@ const getSqlDatabaseOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}",
   urlParameters: [
-    Parameters.subscriptionId0,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.databaseName
@@ -1030,7 +1030,7 @@ const getSqlDatabaseThroughputOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/throughputSettings/default",
   urlParameters: [
-    Parameters.subscriptionId0,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.databaseName
@@ -1056,7 +1056,7 @@ const listSqlContainersOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers",
   urlParameters: [
-    Parameters.subscriptionId0,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.databaseName
@@ -1082,7 +1082,7 @@ const getSqlContainerOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}",
   urlParameters: [
-    Parameters.subscriptionId0,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.databaseName,
@@ -1109,7 +1109,7 @@ const getSqlContainerThroughputOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}/throughputSettings/default",
   urlParameters: [
-    Parameters.subscriptionId0,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.databaseName,
@@ -1136,7 +1136,7 @@ const listSqlStoredProceduresOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}/storedProcedures",
   urlParameters: [
-    Parameters.subscriptionId0,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.databaseName,
@@ -1163,7 +1163,7 @@ const getSqlStoredProcedureOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}/storedProcedures/{storedProcedureName}",
   urlParameters: [
-    Parameters.subscriptionId0,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.databaseName,
@@ -1191,7 +1191,7 @@ const listSqlUserDefinedFunctionsOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}/userDefinedFunctions",
   urlParameters: [
-    Parameters.subscriptionId0,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.databaseName,
@@ -1218,7 +1218,7 @@ const getSqlUserDefinedFunctionOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}/userDefinedFunctions/{userDefinedFunctionName}",
   urlParameters: [
-    Parameters.subscriptionId0,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.databaseName,
@@ -1246,7 +1246,7 @@ const listSqlTriggersOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}/triggers",
   urlParameters: [
-    Parameters.subscriptionId0,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.databaseName,
@@ -1273,7 +1273,7 @@ const getSqlTriggerOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}/triggers/{triggerName}",
   urlParameters: [
-    Parameters.subscriptionId0,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.databaseName,
@@ -1301,7 +1301,7 @@ const beginCreateUpdateSqlDatabaseOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}",
   urlParameters: [
-    Parameters.subscriptionId0,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.databaseName
@@ -1335,7 +1335,7 @@ const beginDeleteSqlDatabaseOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}",
   urlParameters: [
-    Parameters.subscriptionId0,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.databaseName
@@ -1360,7 +1360,7 @@ const beginUpdateSqlDatabaseThroughputOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/throughputSettings/default",
   urlParameters: [
-    Parameters.subscriptionId0,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.databaseName
@@ -1394,7 +1394,7 @@ const beginCreateUpdateSqlContainerOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}",
   urlParameters: [
-    Parameters.subscriptionId0,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.databaseName,
@@ -1429,7 +1429,7 @@ const beginDeleteSqlContainerOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}",
   urlParameters: [
-    Parameters.subscriptionId0,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.databaseName,
@@ -1455,7 +1455,7 @@ const beginUpdateSqlContainerThroughputOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}/throughputSettings/default",
   urlParameters: [
-    Parameters.subscriptionId0,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.databaseName,
@@ -1490,7 +1490,7 @@ const beginCreateUpdateSqlStoredProcedureOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}/storedProcedures/{storedProcedureName}",
   urlParameters: [
-    Parameters.subscriptionId0,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.databaseName,
@@ -1526,7 +1526,7 @@ const beginDeleteSqlStoredProcedureOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}/storedProcedures/{storedProcedureName}",
   urlParameters: [
-    Parameters.subscriptionId0,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.databaseName,
@@ -1553,7 +1553,7 @@ const beginCreateUpdateSqlUserDefinedFunctionOperationSpec: msRest.OperationSpec
   httpMethod: "PUT",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}/userDefinedFunctions/{userDefinedFunctionName}",
   urlParameters: [
-    Parameters.subscriptionId0,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.databaseName,
@@ -1589,7 +1589,7 @@ const beginDeleteSqlUserDefinedFunctionOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}/userDefinedFunctions/{userDefinedFunctionName}",
   urlParameters: [
-    Parameters.subscriptionId0,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.databaseName,
@@ -1616,7 +1616,7 @@ const beginCreateUpdateSqlTriggerOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}/triggers/{triggerName}",
   urlParameters: [
-    Parameters.subscriptionId0,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.databaseName,
@@ -1652,7 +1652,7 @@ const beginDeleteSqlTriggerOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/sqlDatabases/{databaseName}/containers/{containerName}/triggers/{triggerName}",
   urlParameters: [
-    Parameters.subscriptionId0,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.databaseName,

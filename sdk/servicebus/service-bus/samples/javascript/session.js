@@ -3,7 +3,7 @@
   Licensed under the MIT Licence.
 
   **NOTE**: If you are using version 1.1.x or lower, then please use the link below:
-  https://github.com/Azure/azure-sdk-for-js/tree/%40azure/service-bus_1.1.5/sdk/servicebus/service-bus/samples
+  https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/servicebus/service-bus/samples-v1
   
   This sample demonstrates how to send/receive messages to/from session enabled queues/subscriptions
   in Service Bus.
@@ -60,7 +60,7 @@ async function main() {
 
 async function sendMessage(sbClient, scientist, sessionId) {
   // createSender() also works with topics
-  const sender = await sbClient.createSender(queueName);
+  const sender = sbClient.createSender(queueName);
 
   const message = {
     body: `${scientist.firstName} ${scientist.lastName}`,
@@ -69,7 +69,7 @@ async function sendMessage(sbClient, scientist, sessionId) {
   };
 
   console.log(`Sending message: "${message.body}" to "${sessionId}"`);
-  await sender.send(message);
+  await sender.sendMessages(message);
 
   await sender.close();
 }

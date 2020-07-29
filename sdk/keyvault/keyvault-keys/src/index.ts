@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 /* eslint @typescript-eslint/member-ordering: 0 */
+/// <reference lib="esnext.asynciterable" />
 
 import {
   PipelineOptions,
@@ -35,10 +36,10 @@ import {
   RecoverDeletedKeyResponse,
   RestoreKeyResponse,
   UpdateKeyResponse
-} from "./core/models";
-import { KeyVaultClient } from "./core/keyVaultClient";
-import { SDK_VERSION } from "./core/utils/constants";
-import { challengeBasedAuthenticationPolicy } from "./core/challengeBasedAuthenticationPolicy";
+} from "./generated/models";
+import { KeyVaultClient } from "./generated/keyVaultClient";
+import { SDK_VERSION } from "./generated/utils/constants";
+import { challengeBasedAuthenticationPolicy } from "../../keyvault-common/src";
 
 import { DeleteKeyPoller } from "./lro/delete/poller";
 import { RecoverDeletedKeyPoller } from "./lro/recover/poller";
@@ -76,7 +77,7 @@ import {
   LATEST_API_VERSION,
   CryptographyClientOptions
 } from "./keysModels";
-import { parseKeyvaultIdentifier as parseKeyvaultEntityIdentifier } from "./core/utils";
+import { parseKeyvaultIdentifier as parseKeyvaultEntityIdentifier } from "./generated/utils";
 
 import {
   CryptographyClient,
@@ -238,11 +239,7 @@ export class KeyClient {
     };
 
     const pipeline = createPipelineFromOptions(internalPipelineOptions, authPolicy);
-    this.client = new KeyVaultClient(
-      credential,
-      pipelineOptions.apiVersion || LATEST_API_VERSION,
-      pipeline
-    );
+    this.client = new KeyVaultClient(pipelineOptions.apiVersion || LATEST_API_VERSION, pipeline);
   }
 
   /**
@@ -1144,11 +1141,9 @@ export class KeyClient {
       keyType: keyBundle.key ? keyBundle.key.kty : undefined,
       properties: {
         id: keyBundle.key ? keyBundle.key.kid : undefined,
-        name: parsedId.name,
         expiresOn: attributes.expires,
         createdOn: attributes.created,
         updatedOn: attributes.updated,
-        vaultUrl: parsedId.vaultUrl,
         ...keyBundle,
         ...parsedId,
         ...attributes
@@ -1188,7 +1183,6 @@ export class KeyClient {
 
     const abstractProperties: any = {
       id: keyItem.kid,
-      name: parsedId.name,
       deletedOn: (attributes as any).deletedDate,
       expiresOn: attributes.expires,
       createdOn: attributes.created,
@@ -1233,7 +1227,6 @@ export class KeyClient {
     const resultObject: any = {
       createdOn: attributes.created,
       updatedOn: attributes.updated,
-      vaultUrl: parsedId.vaultUrl,
       ...keyItem,
       ...parsedId,
       ...keyItem.attributes

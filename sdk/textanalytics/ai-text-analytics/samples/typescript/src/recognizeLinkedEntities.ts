@@ -17,7 +17,7 @@ const apiKey = process.env["TEXT_ANALYTICS_API_KEY"] || "<api key>";
 
 const documents = [
   "Microsoft moved its headquarters to Bellevue, Washington in January 1979.",
-  "Steve Ballmer stepped down as CEO of Microsoft and was succeeded by Satya Nadella.",
+  "Steve Ballmer stepped down as CEO of Microsoft and was succeeded by Satya Nadella."
 ];
 
 export async function main() {
@@ -37,7 +37,9 @@ export async function main() {
         );
         console.log("    Matches:");
         for (const match of entity.matches) {
-          console.log(`    - Entity appears as "${match.text}" (confidence: ${match.score}`);
+          console.log(
+            `    - Entity appears as "${match.text}" (confidence: ${match.confidenceScore}`
+          );
         }
       }
     } else {

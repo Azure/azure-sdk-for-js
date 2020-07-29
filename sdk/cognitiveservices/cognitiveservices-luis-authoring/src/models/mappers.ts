@@ -42,6 +42,18 @@ export const EntityLabelObject: msRest.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      children: {
+        serializedName: "children",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "EntityLabelObject"
+            }
+          }
+        }
       }
     }
   }
@@ -297,6 +309,18 @@ export const JSONEntity: msRest.CompositeMapper = {
         serializedName: "role",
         type: {
           name: "String"
+        }
+      },
+      children: {
+        serializedName: "children",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "JSONEntity"
+            }
+          }
         }
       }
     }
@@ -1289,6 +1313,12 @@ export const LuisAppV2: msRest.CompositeMapper = {
     name: "Composite",
     className: "LuisAppV2",
     modelProperties: {
+      luisSchemaVersion: {
+        serializedName: "luis_schema_version",
+        type: {
+          name: "String"
+        }
+      },
       name: {
         serializedName: "name",
         type: {
@@ -1361,18 +1391,6 @@ export const LuisAppV2: msRest.CompositeMapper = {
           }
         }
       },
-      hierarchicals: {
-        serializedName: "hierarchicals",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "HierarchicalModelV2"
-            }
-          }
-        }
-      },
       patternAnyEntities: {
         serializedName: "patternAnyEntities",
         type: {
@@ -1421,8 +1439,8 @@ export const LuisAppV2: msRest.CompositeMapper = {
           }
         }
       },
-      phraselists: {
-        serializedName: "phraselists",
+      modelFeatures: {
+        serializedName: "model_features",
         type: {
           name: "Sequence",
           element: {
@@ -1687,6 +1705,18 @@ export const EntityLabel: msRest.CompositeMapper = {
         type: {
           name: "Uuid"
         }
+      },
+      children: {
+        serializedName: "children",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "EntityLabel"
+            }
+          }
+        }
       }
     }
   }
@@ -1746,6 +1776,18 @@ export const EntityPrediction: msRest.CompositeMapper = {
         serializedName: "phrase",
         type: {
           name: "String"
+        }
+      },
+      children: {
+        serializedName: "children",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "EntityPrediction"
+            }
+          }
         }
       }
     }
@@ -3786,6 +3828,12 @@ export const ModelFeatureInformation: msRest.CompositeMapper = {
         serializedName: "featureName",
         type: {
           name: "String"
+        }
+      },
+      isRequired: {
+        serializedName: "isRequired",
+        type: {
+          name: "Boolean"
         }
       }
     }

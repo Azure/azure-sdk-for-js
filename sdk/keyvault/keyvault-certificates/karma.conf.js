@@ -33,7 +33,7 @@ module.exports = function(config) {
       // Promise,String.prototype.startsWith,String.prototype.endsWith,String.prototype.repeat,String.prototype.includes,Array.prototype.includes,Object.keys
       "https://cdn.polyfill.io/v2/polyfill.js?features=Promise,String.prototype.startsWith,String.prototype.endsWith,String.prototype.repeat,String.prototype.includes,Array.prototype.includes,Object.keys|always",
       "dist-test/index.browser.js",
-      { pattern: "dist-test/index.browser.js.map", type: "html", included: false, served: false }
+      { pattern: "dist-test/index.browser.js.map", type: "html", included: false, served: true }
     ].concat(isPlaybackMode() || isSoftRecordMode() ? ["recordings/browsers/**/*.json"] : []),
 
     exclude: [],
@@ -104,7 +104,7 @@ module.exports = function(config) {
     singleRun: false,
     concurrency: 1,
 
-    browserNoActivityTimeout: 180000,
+    browserNoActivityTimeout: 250000,
     browserDisconnectTimeout: 10000,
     browserDisconnectTolerance: 3,
     browserConsoleLogOptions: {
@@ -116,7 +116,7 @@ module.exports = function(config) {
       mocha: {
         // change Karma's debug.html to the mocha web reporter
         reporter: "html",
-        timeout: "180000"
+        timeout: "250000"
       }
     }
   });

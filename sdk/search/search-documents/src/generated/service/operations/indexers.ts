@@ -89,21 +89,21 @@ export class Indexers {
    * @param [options] The optional parameters
    * @returns Promise<Models.IndexersCreateOrUpdateResponse>
    */
-  createOrUpdate(indexerName: string, indexer: Models.Indexer, options?: Models.IndexersCreateOrUpdateOptionalParams): Promise<Models.IndexersCreateOrUpdateResponse>;
+  createOrUpdate(indexerName: string, indexer: Models.SearchIndexer, options?: Models.IndexersCreateOrUpdateOptionalParams): Promise<Models.IndexersCreateOrUpdateResponse>;
   /**
    * @param indexerName The name of the indexer to create or update.
    * @param indexer The definition of the indexer to create or update.
    * @param callback The callback
    */
-  createOrUpdate(indexerName: string, indexer: Models.Indexer, callback: coreHttp.ServiceCallback<Models.Indexer>): void;
+  createOrUpdate(indexerName: string, indexer: Models.SearchIndexer, callback: coreHttp.ServiceCallback<Models.SearchIndexer>): void;
   /**
    * @param indexerName The name of the indexer to create or update.
    * @param indexer The definition of the indexer to create or update.
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdate(indexerName: string, indexer: Models.Indexer, options: Models.IndexersCreateOrUpdateOptionalParams, callback: coreHttp.ServiceCallback<Models.Indexer>): void;
-  createOrUpdate(indexerName: string, indexer: Models.Indexer, options?: Models.IndexersCreateOrUpdateOptionalParams | coreHttp.ServiceCallback<Models.Indexer>, callback?: coreHttp.ServiceCallback<Models.Indexer>): Promise<Models.IndexersCreateOrUpdateResponse> {
+  createOrUpdate(indexerName: string, indexer: Models.SearchIndexer, options: Models.IndexersCreateOrUpdateOptionalParams, callback: coreHttp.ServiceCallback<Models.SearchIndexer>): void;
+  createOrUpdate(indexerName: string, indexer: Models.SearchIndexer, options?: Models.IndexersCreateOrUpdateOptionalParams | coreHttp.ServiceCallback<Models.SearchIndexer>, callback?: coreHttp.ServiceCallback<Models.SearchIndexer>): Promise<Models.IndexersCreateOrUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         indexerName,
@@ -153,14 +153,14 @@ export class Indexers {
    * @param indexerName The name of the indexer to retrieve.
    * @param callback The callback
    */
-  get(indexerName: string, callback: coreHttp.ServiceCallback<Models.Indexer>): void;
+  get(indexerName: string, callback: coreHttp.ServiceCallback<Models.SearchIndexer>): void;
   /**
    * @param indexerName The name of the indexer to retrieve.
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(indexerName: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.Indexer>): void;
-  get(indexerName: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.Indexer>, callback?: coreHttp.ServiceCallback<Models.Indexer>): Promise<Models.IndexersGetResponse> {
+  get(indexerName: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.SearchIndexer>): void;
+  get(indexerName: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.SearchIndexer>, callback?: coreHttp.ServiceCallback<Models.SearchIndexer>): Promise<Models.IndexersGetResponse> {
     return this.client.sendOperationRequest(
       {
         indexerName,
@@ -200,19 +200,19 @@ export class Indexers {
    * @param [options] The optional parameters
    * @returns Promise<Models.IndexersCreateResponse>
    */
-  create(indexer: Models.Indexer, options?: coreHttp.RequestOptionsBase): Promise<Models.IndexersCreateResponse>;
+  create(indexer: Models.SearchIndexer, options?: coreHttp.RequestOptionsBase): Promise<Models.IndexersCreateResponse>;
   /**
    * @param indexer The definition of the indexer to create.
    * @param callback The callback
    */
-  create(indexer: Models.Indexer, callback: coreHttp.ServiceCallback<Models.Indexer>): void;
+  create(indexer: Models.SearchIndexer, callback: coreHttp.ServiceCallback<Models.SearchIndexer>): void;
   /**
    * @param indexer The definition of the indexer to create.
    * @param options The optional parameters
    * @param callback The callback
    */
-  create(indexer: Models.Indexer, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.Indexer>): void;
-  create(indexer: Models.Indexer, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.Indexer>, callback?: coreHttp.ServiceCallback<Models.Indexer>): Promise<Models.IndexersCreateResponse> {
+  create(indexer: Models.SearchIndexer, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.SearchIndexer>): void;
+  create(indexer: Models.SearchIndexer, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.SearchIndexer>, callback?: coreHttp.ServiceCallback<Models.SearchIndexer>): Promise<Models.IndexersCreateResponse> {
     return this.client.sendOperationRequest(
       {
         indexer,
@@ -233,14 +233,14 @@ export class Indexers {
    * @param indexerName The name of the indexer for which to retrieve status.
    * @param callback The callback
    */
-  getStatus(indexerName: string, callback: coreHttp.ServiceCallback<Models.IndexerExecutionInfo>): void;
+  getStatus(indexerName: string, callback: coreHttp.ServiceCallback<Models.SearchIndexerStatus>): void;
   /**
    * @param indexerName The name of the indexer for which to retrieve status.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getStatus(indexerName: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.IndexerExecutionInfo>): void;
-  getStatus(indexerName: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.IndexerExecutionInfo>, callback?: coreHttp.ServiceCallback<Models.IndexerExecutionInfo>): Promise<Models.IndexersGetStatusResponse> {
+  getStatus(indexerName: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.SearchIndexerStatus>): void;
+  getStatus(indexerName: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.SearchIndexerStatus>, callback?: coreHttp.ServiceCallback<Models.SearchIndexerStatus>): Promise<Models.IndexersGetStatusResponse> {
     return this.client.sendOperationRequest(
       {
         indexerName,
@@ -302,23 +302,23 @@ const createOrUpdateOperationSpec: coreHttp.OperationSpec = {
     Parameters.apiVersion
   ],
   headerParameters: [
-    Parameters.prefer,
     Parameters.ifMatch,
-    Parameters.ifNoneMatch
+    Parameters.ifNoneMatch,
+    Parameters.prefer
   ],
   requestBody: {
     parameterPath: "indexer",
     mapper: {
-      ...Mappers.Indexer,
+      ...Mappers.SearchIndexer,
       required: true
     }
   },
   responses: {
     200: {
-      bodyMapper: Mappers.Indexer
+      bodyMapper: Mappers.SearchIndexer
     },
     201: {
-      bodyMapper: Mappers.Indexer
+      bodyMapper: Mappers.SearchIndexer
     },
     default: {
       bodyMapper: Mappers.SearchError
@@ -363,7 +363,7 @@ const getOperationSpec: coreHttp.OperationSpec = {
   ],
   responses: {
     200: {
-      bodyMapper: Mappers.Indexer
+      bodyMapper: Mappers.SearchIndexer
     },
     default: {
       bodyMapper: Mappers.SearchError
@@ -405,13 +405,13 @@ const createOperationSpec: coreHttp.OperationSpec = {
   requestBody: {
     parameterPath: "indexer",
     mapper: {
-      ...Mappers.Indexer,
+      ...Mappers.SearchIndexer,
       required: true
     }
   },
   responses: {
     201: {
-      bodyMapper: Mappers.Indexer
+      bodyMapper: Mappers.SearchIndexer
     },
     default: {
       bodyMapper: Mappers.SearchError
@@ -432,7 +432,7 @@ const getStatusOperationSpec: coreHttp.OperationSpec = {
   ],
   responses: {
     200: {
-      bodyMapper: Mappers.IndexerExecutionInfo
+      bodyMapper: Mappers.SearchIndexerStatus
     },
     default: {
       bodyMapper: Mappers.SearchError

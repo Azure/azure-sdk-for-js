@@ -1,5 +1,7 @@
 let nock = require('nock');
 
+module.exports.hash = "478153a23d876107580922f28fbb0568";
+
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
 nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
@@ -18,26 +20,26 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'x-ms-request-id',
-  '182c1c08-935c-465a-96df-e9c9ea3b1c00',
+  '82c001a5-8280-4356-9ea6-f330636a3d01',
   'x-ms-ests-server',
-  '2.1.9987.14 - SAN ProdSlices',
+  '2.1.10571.11 - WUS2 ProdSlices',
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'Set-Cookie',
-  'fpc=AuJTSWXEYTBDjTxrR8sMMbT0CyfMAQAAAJ5DzdUOAAAA; expires=Fri, 06-Mar-2020 23:15:43 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=ArEGPJU7qStNslmZc0wZACH0CyfMAQAAAPVTX9YOAAAA; expires=Thu, 25-Jun-2020 18:16:21 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
-  'x-ms-gateway-slice=corp; path=/; SameSite=None; secure; HttpOnly',
+  'x-ms-gateway-slice=prod; path=/; SameSite=None; secure; HttpOnly',
   'Set-Cookie',
-  'stsservicecookie=estscorp; path=/; SameSite=None; secure; HttpOnly',
+  'stsservicecookie=ests; path=/; SameSite=None; secure; HttpOnly',
   'Date',
-  'Wed, 05 Feb 2020 23:15:42 GMT',
+  'Tue, 26 May 2020 18:16:21 GMT',
   'Content-Length',
   '1417'
 ]);
 
-nock('https://endpoint:443', {"encodedQueryParams":true})
-  .post('/text/analytics/v3.0-preview.1/entities/linking', {"documents":[{"id":"0","text":"I had a wonderful trip to Seattle last week and even visited the Space Needle 2 times!","language":"en"},{"id":"1","text":"Unfortunately, it rained during my entire trip to Seattle. I didn't even get to visit the Space Needle","language":"en"},{"id":"2","text":"I went to see a movie on Saturday and it was perfectly average, nothing more or less than I expected.","language":"en"},{"id":"3","text":"I didn't like the last book I read at all.","language":"en"}]})
-  .reply(200, {"documents":[{"id":"0","entities":[{"name":"Space Needle","matches":[{"text":"Space Needle","offset":65,"length":12,"score":0.7805134120794834}],"language":"en","id":"Space Needle","url":"https://en.wikipedia.org/wiki/Space_Needle","dataSource":"Wikipedia"},{"name":"Seattle","matches":[{"text":"Seattle","offset":26,"length":7,"score":0.17662735414636144}],"language":"en","id":"Seattle","url":"https://en.wikipedia.org/wiki/Seattle","dataSource":"Wikipedia"}]},{"id":"1","entities":[{"name":"Space Needle","matches":[{"text":"Space Needle","offset":90,"length":12,"score":0.7491254387960375}],"language":"en","id":"Space Needle","url":"https://en.wikipedia.org/wiki/Space_Needle","dataSource":"Wikipedia"},{"name":"Seattle","matches":[{"text":"Seattle","offset":50,"length":7,"score":0.15581376791353607}],"language":"en","id":"Seattle","url":"https://en.wikipedia.org/wiki/Seattle","dataSource":"Wikipedia"}]},{"id":"2","entities":[]},{"id":"3","entities":[]}],"errors":[],"modelVersion":"2019-10-01"}, [
+nock('https://endpoint', {"encodedQueryParams":true})
+  .post('/text/analytics/v3.0/entities/linking', {"documents":[{"id":"0","text":"I had a wonderful trip to Seattle last week and even visited the Space Needle 2 times!","language":"en"},{"id":"1","text":"Unfortunately, it rained during my entire trip to Seattle. I didn't even get to visit the Space Needle","language":"en"},{"id":"2","text":"I went to see a movie on Saturday and it was perfectly average, nothing more or less than I expected.","language":"en"},{"id":"3","text":"I didn't like the last book I read at all.","language":"en"}]})
+  .reply(200, {"documents":[{"id":"0","entities":[{"name":"Space Needle","matches":[{"text":"Space Needle","offset":65,"length":12,"confidenceScore":0.42}],"language":"en","id":"Space Needle","url":"https://en.wikipedia.org/wiki/Space_Needle","dataSource":"Wikipedia"},{"name":"Seattle","matches":[{"text":"Seattle","offset":26,"length":7,"confidenceScore":0.21}],"language":"en","id":"Seattle","url":"https://en.wikipedia.org/wiki/Seattle","dataSource":"Wikipedia"}],"warnings":[]},{"id":"1","entities":[{"name":"Space Needle","matches":[{"text":"Space Needle","offset":90,"length":12,"confidenceScore":0.36}],"language":"en","id":"Space Needle","url":"https://en.wikipedia.org/wiki/Space_Needle","dataSource":"Wikipedia"},{"name":"Seattle","matches":[{"text":"Seattle","offset":50,"length":7,"confidenceScore":0.2}],"language":"en","id":"Seattle","url":"https://en.wikipedia.org/wiki/Seattle","dataSource":"Wikipedia"}],"warnings":[]},{"id":"2","entities":[{"name":"Saturday","matches":[{"text":"Saturday","offset":25,"length":8,"confidenceScore":0.05}],"language":"en","id":"Saturday","url":"https://en.wikipedia.org/wiki/Saturday","dataSource":"Wikipedia"}],"warnings":[]},{"id":"3","entities":[],"warnings":[]}],"errors":[],"modelVersion":"2020-02-01"}, [
   'Transfer-Encoding',
   'chunked',
   'Content-Type',
@@ -45,13 +47,13 @@ nock('https://endpoint:443', {"encodedQueryParams":true})
   'csp-billing-usage',
   'CognitiveServices.TextAnalytics.BatchScoring=4',
   'x-envoy-upstream-service-time',
-  '17',
+  '37',
   'apim-request-id',
-  '35031a7a-1fe4-46bc-b4af-4320f44eb5b6',
+  'b6b999a1-8175-4d81-be49-bcd5b72f20e5',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Wed, 05 Feb 2020 23:15:42 GMT'
+  'Tue, 26 May 2020 18:16:21 GMT'
 ]);

@@ -11,7 +11,7 @@
   "dtsRollup": {
     "enabled": true,
     "untrimmedFilePath": "",
-    "publicTrimmedFilePath": "./types/latest/coreHttps.d.ts"
+    "publicTrimmedFilePath": "./types/latest/core-https.d.ts"
   },
   "messages": {
     "tsdocMessageReporting": {

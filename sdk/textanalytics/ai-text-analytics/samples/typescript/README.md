@@ -5,6 +5,7 @@ languages:
 products:
   - azure
   - azure-cognitive-services
+  - azure-text-analytics
 urlFragment: ai-text-analytics-typescript
 ---
 

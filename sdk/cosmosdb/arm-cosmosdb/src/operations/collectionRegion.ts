@@ -29,7 +29,7 @@ export class CollectionRegion {
   /**
    * Retrieves the metrics determined by the given filter for the given database account, collection
    * and region.
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param region Cosmos DB region, with spaces between words and each word capitalized.
    * @param databaseRid Cosmos DB database rid.
@@ -42,7 +42,7 @@ export class CollectionRegion {
    */
   listMetrics(resourceGroupName: string, accountName: string, region: string, databaseRid: string, collectionRid: string, filter: string, options?: msRest.RequestOptionsBase): Promise<Models.CollectionRegionListMetricsResponse>;
   /**
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param region Cosmos DB region, with spaces between words and each word capitalized.
    * @param databaseRid Cosmos DB database rid.
@@ -54,7 +54,7 @@ export class CollectionRegion {
    */
   listMetrics(resourceGroupName: string, accountName: string, region: string, databaseRid: string, collectionRid: string, filter: string, callback: msRest.ServiceCallback<Models.MetricListResult>): void;
   /**
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param region Cosmos DB region, with spaces between words and each word capitalized.
    * @param databaseRid Cosmos DB database rid.
@@ -88,7 +88,7 @@ const listMetricsOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/region/{region}/databases/{databaseRid}/collections/{collectionRid}/metrics",
   urlParameters: [
-    Parameters.subscriptionId0,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.region,

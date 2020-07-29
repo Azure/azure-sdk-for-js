@@ -188,7 +188,7 @@ export class SASQueryParameters {
    * @type {string}
    * @memberof SASQueryParameters
    */
-  private readonly signedTenentId?: string;
+  private readonly signedTenantId?: string;
 
   /**
    * The date-time the key is active.
@@ -307,7 +307,7 @@ export class SASQueryParameters {
 
     if (userDelegationKey) {
       this.signedOid = userDelegationKey.signedObjectId;
-      this.signedTenentId = userDelegationKey.signedTenantId;
+      this.signedTenantId = userDelegationKey.signedTenantId;
       this.signedStartsOn = userDelegationKey.signedStartsOn;
       this.signedExpiresOn = userDelegationKey.signedExpiresOn;
       this.signedService = userDelegationKey.signedService;
@@ -390,7 +390,7 @@ export class SASQueryParameters {
           this.tryAppendQueryParameter(queries, param, this.signedOid);
           break;
         case "sktid": // Signed tenant ID
-          this.tryAppendQueryParameter(queries, param, this.signedTenentId);
+          this.tryAppendQueryParameter(queries, param, this.signedTenantId);
           break;
         case "skt": // Signed key start time
           this.tryAppendQueryParameter(

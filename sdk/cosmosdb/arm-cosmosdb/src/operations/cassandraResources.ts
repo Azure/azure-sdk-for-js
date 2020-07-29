@@ -29,20 +29,20 @@ export class CassandraResources {
 
   /**
    * Lists the Cassandra keyspaces under an existing Azure Cosmos DB database account.
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param [options] The optional parameters
    * @returns Promise<Models.CassandraResourcesListCassandraKeyspacesResponse>
    */
   listCassandraKeyspaces(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase): Promise<Models.CassandraResourcesListCassandraKeyspacesResponse>;
   /**
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param callback The callback
    */
   listCassandraKeyspaces(resourceGroupName: string, accountName: string, callback: msRest.ServiceCallback<Models.CassandraKeyspaceListResult>): void;
   /**
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param options The optional parameters
    * @param callback The callback
@@ -62,7 +62,7 @@ export class CassandraResources {
   /**
    * Gets the Cassandra keyspaces under an existing Azure Cosmos DB database account with the
    * provided name.
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param keyspaceName Cosmos DB keyspace name.
    * @param [options] The optional parameters
@@ -70,14 +70,14 @@ export class CassandraResources {
    */
   getCassandraKeyspace(resourceGroupName: string, accountName: string, keyspaceName: string, options?: msRest.RequestOptionsBase): Promise<Models.CassandraResourcesGetCassandraKeyspaceResponse>;
   /**
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param keyspaceName Cosmos DB keyspace name.
    * @param callback The callback
    */
   getCassandraKeyspace(resourceGroupName: string, accountName: string, keyspaceName: string, callback: msRest.ServiceCallback<Models.CassandraKeyspaceGetResults>): void;
   /**
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param keyspaceName Cosmos DB keyspace name.
    * @param options The optional parameters
@@ -98,7 +98,7 @@ export class CassandraResources {
 
   /**
    * Create or update an Azure Cosmos DB Cassandra keyspace
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param keyspaceName Cosmos DB keyspace name.
    * @param createUpdateCassandraKeyspaceParameters The parameters to provide for the current
@@ -113,7 +113,7 @@ export class CassandraResources {
 
   /**
    * Deletes an existing Azure Cosmos DB Cassandra keyspace.
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param keyspaceName Cosmos DB keyspace name.
    * @param [options] The optional parameters
@@ -127,7 +127,7 @@ export class CassandraResources {
   /**
    * Gets the RUs per second of the Cassandra Keyspace under an existing Azure Cosmos DB database
    * account with the provided name.
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param keyspaceName Cosmos DB keyspace name.
    * @param [options] The optional parameters
@@ -135,14 +135,14 @@ export class CassandraResources {
    */
   getCassandraKeyspaceThroughput(resourceGroupName: string, accountName: string, keyspaceName: string, options?: msRest.RequestOptionsBase): Promise<Models.CassandraResourcesGetCassandraKeyspaceThroughputResponse>;
   /**
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param keyspaceName Cosmos DB keyspace name.
    * @param callback The callback
    */
   getCassandraKeyspaceThroughput(resourceGroupName: string, accountName: string, keyspaceName: string, callback: msRest.ServiceCallback<Models.ThroughputSettingsGetResults>): void;
   /**
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param keyspaceName Cosmos DB keyspace name.
    * @param options The optional parameters
@@ -163,7 +163,7 @@ export class CassandraResources {
 
   /**
    * Update RUs per second of an Azure Cosmos DB Cassandra Keyspace
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param keyspaceName Cosmos DB keyspace name.
    * @param updateThroughputParameters The RUs per second of the parameters to provide for the
@@ -178,7 +178,7 @@ export class CassandraResources {
 
   /**
    * Lists the Cassandra table under an existing Azure Cosmos DB database account.
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param keyspaceName Cosmos DB keyspace name.
    * @param [options] The optional parameters
@@ -186,14 +186,14 @@ export class CassandraResources {
    */
   listCassandraTables(resourceGroupName: string, accountName: string, keyspaceName: string, options?: msRest.RequestOptionsBase): Promise<Models.CassandraResourcesListCassandraTablesResponse>;
   /**
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param keyspaceName Cosmos DB keyspace name.
    * @param callback The callback
    */
   listCassandraTables(resourceGroupName: string, accountName: string, keyspaceName: string, callback: msRest.ServiceCallback<Models.CassandraTableListResult>): void;
   /**
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param keyspaceName Cosmos DB keyspace name.
    * @param options The optional parameters
@@ -214,7 +214,7 @@ export class CassandraResources {
 
   /**
    * Gets the Cassandra table under an existing Azure Cosmos DB database account.
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param keyspaceName Cosmos DB keyspace name.
    * @param tableName Cosmos DB table name.
@@ -223,7 +223,7 @@ export class CassandraResources {
    */
   getCassandraTable(resourceGroupName: string, accountName: string, keyspaceName: string, tableName: string, options?: msRest.RequestOptionsBase): Promise<Models.CassandraResourcesGetCassandraTableResponse>;
   /**
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param keyspaceName Cosmos DB keyspace name.
    * @param tableName Cosmos DB table name.
@@ -231,7 +231,7 @@ export class CassandraResources {
    */
   getCassandraTable(resourceGroupName: string, accountName: string, keyspaceName: string, tableName: string, callback: msRest.ServiceCallback<Models.CassandraTableGetResults>): void;
   /**
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param keyspaceName Cosmos DB keyspace name.
    * @param tableName Cosmos DB table name.
@@ -254,7 +254,7 @@ export class CassandraResources {
 
   /**
    * Create or update an Azure Cosmos DB Cassandra Table
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param keyspaceName Cosmos DB keyspace name.
    * @param tableName Cosmos DB table name.
@@ -270,7 +270,7 @@ export class CassandraResources {
 
   /**
    * Deletes an existing Azure Cosmos DB Cassandra table.
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param keyspaceName Cosmos DB keyspace name.
    * @param tableName Cosmos DB table name.
@@ -285,7 +285,7 @@ export class CassandraResources {
   /**
    * Gets the RUs per second of the Cassandra table under an existing Azure Cosmos DB database
    * account with the provided name.
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param keyspaceName Cosmos DB keyspace name.
    * @param tableName Cosmos DB table name.
@@ -294,7 +294,7 @@ export class CassandraResources {
    */
   getCassandraTableThroughput(resourceGroupName: string, accountName: string, keyspaceName: string, tableName: string, options?: msRest.RequestOptionsBase): Promise<Models.CassandraResourcesGetCassandraTableThroughputResponse>;
   /**
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param keyspaceName Cosmos DB keyspace name.
    * @param tableName Cosmos DB table name.
@@ -302,7 +302,7 @@ export class CassandraResources {
    */
   getCassandraTableThroughput(resourceGroupName: string, accountName: string, keyspaceName: string, tableName: string, callback: msRest.ServiceCallback<Models.ThroughputSettingsGetResults>): void;
   /**
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param keyspaceName Cosmos DB keyspace name.
    * @param tableName Cosmos DB table name.
@@ -325,7 +325,7 @@ export class CassandraResources {
 
   /**
    * Update RUs per second of an Azure Cosmos DB Cassandra table
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param keyspaceName Cosmos DB keyspace name.
    * @param tableName Cosmos DB table name.
@@ -341,7 +341,7 @@ export class CassandraResources {
 
   /**
    * Create or update an Azure Cosmos DB Cassandra keyspace
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param keyspaceName Cosmos DB keyspace name.
    * @param createUpdateCassandraKeyspaceParameters The parameters to provide for the current
@@ -364,7 +364,7 @@ export class CassandraResources {
 
   /**
    * Deletes an existing Azure Cosmos DB Cassandra keyspace.
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param keyspaceName Cosmos DB keyspace name.
    * @param [options] The optional parameters
@@ -384,7 +384,7 @@ export class CassandraResources {
 
   /**
    * Update RUs per second of an Azure Cosmos DB Cassandra Keyspace
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param keyspaceName Cosmos DB keyspace name.
    * @param updateThroughputParameters The RUs per second of the parameters to provide for the
@@ -407,7 +407,7 @@ export class CassandraResources {
 
   /**
    * Create or update an Azure Cosmos DB Cassandra Table
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param keyspaceName Cosmos DB keyspace name.
    * @param tableName Cosmos DB table name.
@@ -432,7 +432,7 @@ export class CassandraResources {
 
   /**
    * Deletes an existing Azure Cosmos DB Cassandra table.
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param keyspaceName Cosmos DB keyspace name.
    * @param tableName Cosmos DB table name.
@@ -454,7 +454,7 @@ export class CassandraResources {
 
   /**
    * Update RUs per second of an Azure Cosmos DB Cassandra table
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param keyspaceName Cosmos DB keyspace name.
    * @param tableName Cosmos DB table name.
@@ -484,7 +484,7 @@ const listCassandraKeyspacesOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces",
   urlParameters: [
-    Parameters.subscriptionId0,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName
   ],
@@ -509,7 +509,7 @@ const getCassandraKeyspaceOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}",
   urlParameters: [
-    Parameters.subscriptionId0,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.keyspaceName
@@ -535,7 +535,7 @@ const getCassandraKeyspaceThroughputOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}/throughputSettings/default",
   urlParameters: [
-    Parameters.subscriptionId0,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.keyspaceName
@@ -561,7 +561,7 @@ const listCassandraTablesOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}/tables",
   urlParameters: [
-    Parameters.subscriptionId0,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.keyspaceName
@@ -587,7 +587,7 @@ const getCassandraTableOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}/tables/{tableName}",
   urlParameters: [
-    Parameters.subscriptionId0,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.keyspaceName,
@@ -614,7 +614,7 @@ const getCassandraTableThroughputOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}/tables/{tableName}/throughputSettings/default",
   urlParameters: [
-    Parameters.subscriptionId0,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.keyspaceName,
@@ -641,7 +641,7 @@ const beginCreateUpdateCassandraKeyspaceOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}",
   urlParameters: [
-    Parameters.subscriptionId0,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.keyspaceName
@@ -675,7 +675,7 @@ const beginDeleteCassandraKeyspaceOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}",
   urlParameters: [
-    Parameters.subscriptionId0,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.keyspaceName
@@ -700,7 +700,7 @@ const beginUpdateCassandraKeyspaceThroughputOperationSpec: msRest.OperationSpec 
   httpMethod: "PUT",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}/throughputSettings/default",
   urlParameters: [
-    Parameters.subscriptionId0,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.keyspaceName
@@ -734,7 +734,7 @@ const beginCreateUpdateCassandraTableOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}/tables/{tableName}",
   urlParameters: [
-    Parameters.subscriptionId0,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.keyspaceName,
@@ -769,7 +769,7 @@ const beginDeleteCassandraTableOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}/tables/{tableName}",
   urlParameters: [
-    Parameters.subscriptionId0,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.keyspaceName,
@@ -795,7 +795,7 @@ const beginUpdateCassandraTableThroughputOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/cassandraKeyspaces/{keyspaceName}/tables/{tableName}/throughputSettings/default",
   urlParameters: [
-    Parameters.subscriptionId0,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.keyspaceName,

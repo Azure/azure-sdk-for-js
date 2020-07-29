@@ -4,33 +4,33 @@
 import Long from "long";
 import {
   EventContext,
-  SenderEvents,
   ReceiverEvents,
-  SenderOptions,
   ReceiverOptions,
-  types,
   message as RheaMessageUtil,
+  SenderEvents,
+  SenderOptions,
   generate_uuid,
-  string_to_uuid
+  string_to_uuid,
+  types
 } from "rhea-promise";
 import {
-  defaultLock,
-  translate,
-  Constants,
-  RequestResponseLink,
-  ConditionErrorNameMapper,
   AmqpMessage,
+  ConditionErrorNameMapper,
+  Constants,
+  MessagingError,
+  RequestResponseLink,
   SendRequestOptions as SendManagementRequestOptions,
-  MessagingError
+  defaultLock,
+  translate
 } from "@azure/core-amqp";
 import { ClientEntityContext } from "../clientEntityContext";
 import {
+  DispositionType,
   ReceivedMessage,
-  ServiceBusMessageImpl,
   ServiceBusMessage,
-  toAmqpMessage,
+  ServiceBusMessageImpl,
   getMessagePropertyTypeMismatchError,
-  DispositionType
+  toAmqpMessage
 } from "../serviceBusMessage";
 import { LinkEntity } from "./linkEntity";
 import * as log from "../log";
@@ -38,20 +38,18 @@ import { ReceiveMode, fromAmqpMessage } from "../serviceBusMessage";
 import { toBuffer } from "../util/utils";
 import {
   throwErrorIfConnectionClosed,
+  throwTypeErrorIfParameterIsEmptyString,
   throwTypeErrorIfParameterMissing,
   throwTypeErrorIfParameterNotLong,
-  throwTypeErrorIfParameterTypeMismatch,
-  throwTypeErrorIfParameterIsEmptyString
+  throwTypeErrorIfParameterTypeMismatch
 } from "../util/errors";
 import { Typed } from "rhea-promise";
 import { max32BitNumber } from "../util/constants";
 import { Buffer } from "buffer";
-import { OperationOptions } from "../modelsToBeSharedWithEventHubs";
+import { OperationOptionsBase } from "./../modelsToBeSharedWithEventHubs";
 import { AbortError } from "@azure/abort-controller";
 
 /**
- * @internal
- * @ignore
  * Represents a Rule on a Subscription that is used to filter the incoming message from the
  * Subscription.
  */
@@ -61,9 +59,9 @@ export interface RuleDescription {
    * - `string`: SQL-like condition expression that is evaluated against the messages'
    * user-defined properties and system properties. All system properties will be prefixed with
    * `sys.` in the condition expression.
-   * - `CorrelationFilter`: Properties of the filter will be used to match with the message properties.
+   * - `CorrelationRuleFilter`: Properties of the filter will be used to match with the message properties.
    */
-  filter?: string | CorrelationFilter;
+  filter?: string | CorrelationRuleFilter;
   /**
    * Action to perform if the message satisfies the filtering expression.
    */
@@ -75,14 +73,11 @@ export interface RuleDescription {
 }
 
 /**
- * @internal
- * @ignore
- *
  * Represents the correlation filter expression.
- * A CorrelationFilter holds a set of conditions that are matched against user and system properties
+ * A CorrelationRuleFilter holds a set of conditions that are matched against user and system properties
  * of incoming messages from a Subscription.
  */
-export interface CorrelationFilter {
+export interface CorrelationRuleFilter {
   /**
    * Value to be matched with the `correlationId` property of the incoming message.
    */
@@ -118,7 +113,7 @@ export interface CorrelationFilter {
   /**
    * Value to be matched with the user properties of the incoming message.
    */
-  userProperties?: any;
+  properties?: any;
 }
 
 /**
@@ -134,7 +129,7 @@ const correlationProperties = [
   "sessionId",
   "replyToSessionId",
   "contentType",
-  "userProperties"
+  "properties"
 ];
 
 /**
@@ -142,7 +137,7 @@ const correlationProperties = [
  * @ignore
  * Options to set when updating the disposition status
  */
-export interface DispositionStatusOptions extends OperationOptions {
+export interface DispositionStatusOptions extends OperationOptionsBase {
   /**
    * @property [propertiesToModify] A dictionary of Service Bus brokered message properties
    * to modify.
@@ -267,7 +262,7 @@ export class ManagementClient extends LinkEntity {
           this._mgmtReqResLink!.sender.name,
           this._mgmtReqResLink!.receiver.name
         );
-        await this._ensureTokenRenewal();
+        this._ensureTokenRenewal();
       }
     } catch (err) {
       err = translate(err);
@@ -355,6 +350,7 @@ export class ManagementClient extends LinkEntity {
     sendRequestOptions.timeoutInMs = retryTimeoutInMs - timeTakenByInit;
 
     try {
+      if (!request.message_id) request.message_id = generate_uuid();
       return await this._mgmtReqResLink!.sendRequest(request, sendRequestOptions);
     } catch (err) {
       err = translate(err);
@@ -431,7 +427,7 @@ export class ManagementClient extends LinkEntity {
    */
   async peek(
     messageCount?: number,
-    options?: OperationOptions & SendManagementRequestOptions
+    options?: OperationOptionsBase & SendManagementRequestOptions
   ): Promise<ReceivedMessage[]> {
     throwErrorIfConnectionClosed(this._context.namespace);
     return this.peekBySequenceNumber(
@@ -457,7 +453,7 @@ export class ManagementClient extends LinkEntity {
   async peekMessagesBySession(
     sessionId: string,
     messageCount?: number,
-    options?: OperationOptions & SendManagementRequestOptions
+    options?: OperationOptionsBase & SendManagementRequestOptions
   ): Promise<ReceivedMessage[]> {
     throwErrorIfConnectionClosed(this._context.namespace);
     return this.peekBySequenceNumber(
@@ -479,7 +475,7 @@ export class ManagementClient extends LinkEntity {
     fromSequenceNumber: Long,
     maxMessageCount?: number,
     sessionId?: string,
-    options?: OperationOptions & SendManagementRequestOptions
+    options?: OperationOptionsBase & SendManagementRequestOptions
   ): Promise<ReceivedMessage[]> {
     throwErrorIfConnectionClosed(this._context.namespace);
     const connId = this._context.namespace.connectionId;
@@ -510,7 +506,6 @@ export class ManagementClient extends LinkEntity {
       }
       const request: AmqpMessage = {
         body: messageBody,
-        message_id: generate_uuid(),
         reply_to: this.replyTo,
         application_properties: {
           operation: Constants.operations.peekMessage
@@ -623,7 +618,7 @@ export class ManagementClient extends LinkEntity {
   async scheduleMessages(
     scheduledEnqueueTimeUtc: Date,
     messages: ServiceBusMessage[],
-    options?: OperationOptions & SendManagementRequestOptions
+    options?: OperationOptionsBase & SendManagementRequestOptions
   ): Promise<Long[]> {
     throwErrorIfConnectionClosed(this._context.namespace);
     const messageBody: any[] = [];
@@ -716,7 +711,7 @@ export class ManagementClient extends LinkEntity {
    */
   async cancelScheduledMessages(
     sequenceNumbers: Long[],
-    options?: OperationOptions & SendManagementRequestOptions
+    options?: OperationOptionsBase & SendManagementRequestOptions
   ): Promise<void> {
     throwErrorIfConnectionClosed(this._context.namespace);
     const messageBody: any = {};
@@ -745,7 +740,6 @@ export class ManagementClient extends LinkEntity {
       );
       const request: AmqpMessage = {
         body: messageBody,
-        message_id: generate_uuid(),
         reply_to: this.replyTo,
         application_properties: {
           operation: Constants.operations.cancelScheduledMessage
@@ -788,7 +782,7 @@ export class ManagementClient extends LinkEntity {
     sequenceNumbers: Long[],
     receiveMode: ReceiveMode,
     sessionId?: string,
-    options?: OperationOptions & SendManagementRequestOptions
+    options?: OperationOptionsBase & SendManagementRequestOptions
   ): Promise<ServiceBusMessageImpl[]> {
     throwErrorIfConnectionClosed(this._context.namespace);
 
@@ -824,7 +818,6 @@ export class ManagementClient extends LinkEntity {
       }
       const request: AmqpMessage = {
         body: messageBody,
-        message_id: generate_uuid(),
         reply_to: this.replyTo,
         application_properties: {
           operation: Constants.operations.receiveBySequenceNumber
@@ -918,7 +911,6 @@ export class ManagementClient extends LinkEntity {
       }
       const request: AmqpMessage = {
         body: messageBody,
-        message_id: generate_uuid(),
         reply_to: this.replyTo,
         application_properties: {
           operation: Constants.operations.updateDisposition
@@ -954,7 +946,7 @@ export class ManagementClient extends LinkEntity {
    */
   async renewSessionLock(
     sessionId: string,
-    options?: OperationOptions & SendManagementRequestOptions
+    options?: OperationOptionsBase & SendManagementRequestOptions
   ): Promise<Date> {
     throwErrorIfConnectionClosed(this._context.namespace);
     try {
@@ -1005,7 +997,7 @@ export class ManagementClient extends LinkEntity {
   async setSessionState(
     sessionId: string,
     state: any,
-    options?: OperationOptions & SendManagementRequestOptions
+    options?: OperationOptionsBase & SendManagementRequestOptions
   ): Promise<void> {
     throwErrorIfConnectionClosed(this._context.namespace);
 
@@ -1048,7 +1040,7 @@ export class ManagementClient extends LinkEntity {
    */
   async getSessionState(
     sessionId: string,
-    options?: OperationOptions & SendManagementRequestOptions
+    options?: OperationOptionsBase & SendManagementRequestOptions
   ): Promise<any> {
     throwErrorIfConnectionClosed(this._context.namespace);
     try {
@@ -1096,7 +1088,7 @@ export class ManagementClient extends LinkEntity {
     skip: number,
     top: number,
     lastUpdatedTime?: Date,
-    options?: OperationOptions & SendManagementRequestOptions
+    options?: OperationOptionsBase & SendManagementRequestOptions
   ): Promise<string[]> {
     throwErrorIfConnectionClosed(this._context.namespace);
     const defaultLastUpdatedTimeForListingSessions: number = 259200000; // 3 * 24 * 3600 * 1000
@@ -1148,7 +1140,7 @@ export class ManagementClient extends LinkEntity {
    * @returns Promise<RuleDescription[]> A list of rules.
    */
   async getRules(
-    options?: OperationOptions & SendManagementRequestOptions
+    options?: OperationOptionsBase & SendManagementRequestOptions
   ): Promise<RuleDescription[]> {
     throwErrorIfConnectionClosed(this._context.namespace);
     try {
@@ -1221,7 +1213,7 @@ export class ManagementClient extends LinkEntity {
               sessionId: this._safelyGetTypedValueFromArray(filtersRawData.value, 5),
               replyToSessionId: this._safelyGetTypedValueFromArray(filtersRawData.value, 6),
               contentType: this._safelyGetTypedValueFromArray(filtersRawData.value, 7),
-              userProperties: this._safelyGetTypedValueFromArray(filtersRawData.value, 8)
+              properties: this._safelyGetTypedValueFromArray(filtersRawData.value, 8)
             };
             break;
           default:
@@ -1259,7 +1251,7 @@ export class ManagementClient extends LinkEntity {
    */
   async removeRule(
     ruleName: string,
-    options?: OperationOptions & SendManagementRequestOptions
+    options?: OperationOptionsBase & SendManagementRequestOptions
   ): Promise<void> {
     throwErrorIfConnectionClosed(this._context.namespace);
     throwTypeErrorIfParameterMissing(this._context.namespace.connectionId, "ruleName", ruleName);
@@ -1306,9 +1298,9 @@ export class ManagementClient extends LinkEntity {
    */
   async addRule(
     ruleName: string,
-    filter: boolean | string | CorrelationFilter,
+    filter: boolean | string | CorrelationRuleFilter,
     sqlRuleActionExpression?: string,
-    options?: OperationOptions & SendManagementRequestOptions
+    options?: OperationOptionsBase & SendManagementRequestOptions
   ): Promise<void> {
     throwErrorIfConnectionClosed(this._context.namespace);
 
@@ -1327,7 +1319,7 @@ export class ManagementClient extends LinkEntity {
       !correlationProperties.some((validProperty) => filter.hasOwnProperty(validProperty))
     ) {
       throw new TypeError(
-        `The parameter "filter" should be either a boolean, string or implement the CorrelationFilter interface.`
+        `The parameter "filter" should be either a boolean, string or implement the CorrelationRuleFilter interface.`
       );
     }
 
@@ -1354,7 +1346,7 @@ export class ManagementClient extends LinkEntity {
             "session-id": filter.sessionId,
             "reply-to-session-id": filter.replyToSessionId,
             "content-type": filter.contentType,
-            properties: filter.userProperties
+            properties: filter.properties
           };
           break;
       }
