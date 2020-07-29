@@ -5,7 +5,7 @@
  * Demonstrates something
  */
 
-import { AzureKeyCredential } from "@azure/schema-registry";
+import { SchemaRegistryClient } from "@azure/schema-registry";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
@@ -17,7 +17,7 @@ const apiKey = process.env["API_KEY"] || "<api key>";
 
 export async function main() {
   console.log("== Sample SchemaRegistry ==");
-  new AzureKeyCredential(apiKey);
+  new SchemaRegistryClient("https://example.com");
 
   // TODO
 }

@@ -4,22 +4,91 @@
 
 ```ts
 
-import { AzureKeyCredential } from '@azure/core-auth';
-import EventEmitter from 'events';
-import { KeyCredential } from '@azure/core-auth';
-import { URLBuilder } from '@azure/core-http';
-
-export { AzureKeyCredential }
+import * as coreHttp from '@azure/core-http';
 
 // @public (undocumented)
-export function createEventEmitter(): EventEmitter;
-
-export { KeyCredential }
+export interface SchemaId {
+    // (undocumented)
+    id: string;
+}
 
 // @public (undocumented)
-export function (str: string): void;
+export class SchemaRegistryClient extends SchemaRegistryClientContext {
+    constructor($host: string, options?: SchemaRegistryClientOptionalParams);
+    getIdBySchemaContent(groupName: string, schemaName: string, serializationType: string, schemaContent: string, options?: coreHttp.OperationOptions): Promise<SchemaRegistryClientGetIdBySchemaContentResponse>;
+    getSchemaById(schemaId: string, options?: coreHttp.OperationOptions): Promise<SchemaRegistryClientGetSchemaByIdResponse>;
+    registerSchema(groupName: string, schemaName: string, serializationType: string, schemaContent: string, options?: coreHttp.OperationOptions): Promise<SchemaRegistryClientRegisterSchemaResponse>;
+}
 
-export { URLBuilder }
+// @public (undocumented)
+export class SchemaRegistryClientContext extends coreHttp.ServiceClient {
+    // (undocumented)
+    $host: string;
+    constructor($host: string, options?: SchemaRegistryClientOptionalParams);
+}
+
+// @public
+export interface SchemaRegistryClientGetIdBySchemaContentHeaders {
+    // (undocumented)
+    location?: string;
+    xSchemaId?: string;
+    xSchemaIdLocation?: string;
+    xSchemaVersion?: number;
+    xSerialization?: string;
+}
+
+// @public
+export type SchemaRegistryClientGetIdBySchemaContentResponse = SchemaRegistryClientGetIdBySchemaContentHeaders & SchemaId & {
+    _response: coreHttp.HttpResponse & {
+        bodyAsText: string;
+        parsedBody: SchemaId;
+        parsedHeaders: SchemaRegistryClientGetIdBySchemaContentHeaders;
+    };
+};
+
+// @public
+export interface SchemaRegistryClientGetSchemaByIdHeaders {
+    // (undocumented)
+    location?: string;
+    xSchemaId?: string;
+    xSchemaIdLocation?: string;
+    xSchemaVersion?: number;
+    xSerialization?: string;
+}
+
+// @public
+export type SchemaRegistryClientGetSchemaByIdResponse = SchemaRegistryClientGetSchemaByIdHeaders & {
+    body: string;
+    _response: coreHttp.HttpResponse & {
+        bodyAsText: string;
+        parsedBody: string;
+        parsedHeaders: SchemaRegistryClientGetSchemaByIdHeaders;
+    };
+};
+
+// @public
+export interface SchemaRegistryClientOptionalParams extends coreHttp.ServiceClientOptions {
+    endpoint?: string;
+}
+
+// @public
+export interface SchemaRegistryClientRegisterSchemaHeaders {
+    // (undocumented)
+    location?: string;
+    xSchemaId?: string;
+    xSchemaIdLocation?: string;
+    xSchemaVersion?: number;
+    xSerialization?: string;
+}
+
+// @public
+export type SchemaRegistryClientRegisterSchemaResponse = SchemaRegistryClientRegisterSchemaHeaders & SchemaId & {
+    _response: coreHttp.HttpResponse & {
+        bodyAsText: string;
+        parsedBody: SchemaId;
+        parsedHeaders: SchemaRegistryClientRegisterSchemaHeaders;
+    };
+};
 
 
 // (No @packageDocumentation comment for this package)
