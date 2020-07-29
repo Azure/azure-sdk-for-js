@@ -27,7 +27,7 @@ import {
 } from "@azure/core-amqp";
 import { OperationOptionsBase } from "../modelsToBeSharedWithEventHubs";
 import * as log from "../log";
-import { AmqpError, EventContext, isAmqpError, OnAmqpEvent, ReceiverOptions } from "rhea-promise";
+import { AmqpError, EventContext, isAmqpError, OnAmqpEvent } from "rhea-promise";
 import { ReceiveMode, ServiceBusMessageImpl } from "../serviceBusMessage";
 import { calculateRenewAfterDuration } from "../util/utils";
 import { AbortSignalLike } from "@azure/abort-controller";
@@ -504,7 +504,7 @@ export class StreamingReceiver extends MessageReceiver {
   }
 
   init(useNewName: boolean, abortSignal?: AbortSignalLike): Promise<void> {
-    const options: ReceiverOptions = this._createReceiverOptions(useNewName, this._getHandlers());
+    const options = this._createReceiverOptions(useNewName, this._getHandlers());
     return super._init(options, abortSignal);
   }
 
@@ -620,8 +620,7 @@ export class StreamingReceiver extends MessageReceiver {
           this.init(
             // provide a new name to the link while re-connecting it. This ensures that
             // the service does not send an error stating that the link is still open.
-            true,
-            undefined
+            true
           ).then(async () => {
             if (this.wasCloseInitiated) {
               log.error(
