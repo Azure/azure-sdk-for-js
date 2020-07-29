@@ -183,3 +183,4 @@ describe("database.create", function() {
     };
     assertThrowsAsync(() => getTestDatabase("autoscale db", undefined, databaseRequest));
   });
+});
