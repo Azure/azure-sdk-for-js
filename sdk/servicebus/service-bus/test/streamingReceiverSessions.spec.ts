@@ -756,7 +756,7 @@ describe("Streaming with sessions", () => {
           body: "test",
           label: `${num}`,
           sessionId: TestMessage.sessionId,
-          partitionKey: "dummy" // Ensures all messages go to same partition to make peek work reliably
+          partitionKey: TestMessage.sessionId // Ensures all messages go to same partition to make peek work reliably
         };
         num++;
         messages.push(message);

@@ -6,9 +6,9 @@ import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
 const assert = chai.assert;
 
-import { ClientEntityContext } from "../src/clientEntityContext";
-import { BatchingReceiver } from "../src/core/batchingReceiver";
-import { MessageReceiver, ReceiverType } from "../src/core/messageReceiver";
+import { ClientEntityContext } from "../../src/clientEntityContext";
+import { BatchingReceiver } from "../../src/core/batchingReceiver";
+import { MessageReceiver, ReceiverType } from "../../src/core/messageReceiver";
 
 describe("init() and close() interactions", () => {
   function fakeContext(): ClientEntityContext {
