@@ -184,16 +184,12 @@ export interface ReceivedMessage extends ServiceBusMessage {
 
 // @public
 export interface ReceivedMessageWithLock extends ReceivedMessage {
-    abandon(propertiesToModify?: {
-        [key: string]: any;
-    }): Promise<void>;
+    abandon(propertiesToModify?: Record<string, any>): Promise<void>;
     complete(): Promise<void>;
     deadLetter(options?: DeadLetterOptions & {
         [key: string]: any;
     }): Promise<void>;
-    defer(propertiesToModify?: {
-        [key: string]: any;
-    }): Promise<void>;
+    defer(propertiesToModify?: Record<string, any>): Promise<void>;
     renewLock(): Promise<Date>;
 }
 
@@ -332,9 +328,7 @@ export interface ServiceBusMessage {
     label?: string;
     messageId?: string | number | Buffer;
     partitionKey?: string;
-    properties?: {
-        [key: string]: any;
-    };
+    properties?: Record<string, any>;
     replyTo?: string;
     replyToSessionId?: string;
     scheduledEnqueueTimeUtc?: Date;
