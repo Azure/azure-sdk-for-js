@@ -138,7 +138,8 @@ async function run() {
     label: "optional-label"
   });
 
-  let retrievedSetting = await client.getConfigurationSetting("testkey", {
+  let retrievedSetting = await client.getConfigurationSetting({
+    key: "testkey",
     label: "optional-label"
   });
 

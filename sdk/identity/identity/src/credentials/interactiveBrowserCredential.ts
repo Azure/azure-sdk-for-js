@@ -1,14 +1,16 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
 import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-http";
 import { InteractiveBrowserCredentialOptions } from "./interactiveBrowserCredentialOptions";
+import { credentialLogger, formatError } from "../util/logging";
 
 const BrowserNotSupportedError = new Error(
   "InteractiveBrowserCredential is not supported in Node.js."
 );
+const logger = credentialLogger("InteractiveBrowserCredential");
 
 /**
  * Enables authentication to Azure Active Directory inside of the web browser
@@ -17,6 +19,7 @@ const BrowserNotSupportedError = new Error(
  */
 export class InteractiveBrowserCredential implements TokenCredential {
   constructor(options?: InteractiveBrowserCredentialOptions) {
+    logger.info(formatError(BrowserNotSupportedError));
     throw BrowserNotSupportedError;
   }
 
@@ -34,6 +37,7 @@ export class InteractiveBrowserCredential implements TokenCredential {
     scopes: string | string[],
     options?: GetTokenOptions
   ): Promise<AccessToken | null> {
+    logger.getToken.info(formatError(BrowserNotSupportedError));
     throw BrowserNotSupportedError;
   }
 }

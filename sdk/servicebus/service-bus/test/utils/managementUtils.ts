@@ -2,9 +2,9 @@
 // Licensed under the MIT license.
 
 import { delay } from "../../src";
-import { QueueDescription } from "../../src/serializers/queueResourceSerializer";
-import { TopicDescription } from "../../src/serializers/topicResourceSerializer";
-import { SubscriptionDescription } from "../../src/serializers/subscriptionResourceSerializer";
+import { QueueProperties } from "../../src/serializers/queueResourceSerializer";
+import { TopicProperties } from "../../src/serializers/topicResourceSerializer";
+import { SubscriptionProperties } from "../../src/serializers/subscriptionResourceSerializer";
 import { ServiceBusManagementClient } from "../../src/serviceBusAtomManagementClient";
 
 import { EnvVarNames, getEnvVars } from "./envVarUtils";
@@ -78,7 +78,7 @@ async function retry(
  */
 export async function recreateQueue(
   queueName: string,
-  parameters?: Omit<QueueDescription, "name">
+  parameters?: Omit<QueueProperties, "name">
 ): Promise<void> {
   await getManagementClient();
 
@@ -116,7 +116,7 @@ export async function recreateQueue(
  */
 export async function recreateTopic(
   topicName: string,
-  parameters?: Omit<TopicDescription, "name">
+  parameters?: Omit<TopicProperties, "name">
 ): Promise<void> {
   await getManagementClient();
 
@@ -156,7 +156,7 @@ export async function recreateTopic(
 export async function recreateSubscription(
   topicName: string,
   subscriptionName: string,
-  parameters?: Omit<SubscriptionDescription, "topicName" | "subscriptionName">
+  parameters?: Omit<SubscriptionProperties, "topicName" | "subscriptionName">
 ): Promise<void> {
   await getManagementClient();
   /*
@@ -204,8 +204,9 @@ export async function verifyMessageCount(
   await getManagementClient();
   should.equal(
     queueName
-      ? (await client.getQueueRuntimeInfo(queueName)).messageCount
-      : (await client.getSubscriptionRuntimeInfo(topicName!, subscriptionName!)).messageCount,
+      ? (await client.getQueueRuntimeProperties(queueName)).totalMessageCount
+      : (await client.getSubscriptionRuntimeProperties(topicName!, subscriptionName!))
+          .totalMessageCount,
     expectedMessageCount,
     `Unexpected number of messages are present in the entity.`
   );

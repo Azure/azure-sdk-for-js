@@ -2,15 +2,16 @@
 // Licensed under the MIT license.
 
 import { isNode, parseConnectionString } from "@azure/core-amqp";
+import { PageSettings } from "@azure/core-paging";
 import { DefaultAzureCredential } from "@azure/identity";
 import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
 import chaiExclude from "chai-exclude";
 import * as dotenv from "dotenv";
-import { QueueDescription } from "../src/serializers/queueResourceSerializer";
-import { RuleDescription } from "../src/serializers/ruleResourceSerializer";
-import { SubscriptionDescription } from "../src/serializers/subscriptionResourceSerializer";
-import { TopicDescription } from "../src/serializers/topicResourceSerializer";
+import { QueueProperties } from "../src/serializers/queueResourceSerializer";
+import { RuleProperties } from "../src/serializers/ruleResourceSerializer";
+import { SubscriptionProperties } from "../src/serializers/subscriptionResourceSerializer";
+import { TopicProperties } from "../src/serializers/topicResourceSerializer";
 import { ServiceBusManagementClient } from "../src/serviceBusAtomManagementClient";
 import { EntityStatus } from "../src/util/utils";
 import { EnvVarNames, getEnvVars } from "./utils/envVarUtils";
@@ -65,6 +66,194 @@ describe("Atom management - Namespace", function(): void {
   });
 });
 
+describe("Listing methods - PagedAsyncIterableIterator", function(): void {
+  const baseName = "random";
+  const queueNames: string[] = [];
+  const topicNames: string[] = [];
+  const subscriptionNames: string[] = [];
+  const ruleNames: string[] = [];
+  const numberOfEntities = 5;
+
+  before(async () => {
+    await recreateTopic(managementTopic1);
+    await recreateSubscription(managementTopic1, managementSubscription1);
+    for (let i = 0; i < numberOfEntities; i++) {
+      queueNames.push(
+        (await serviceBusAtomManagementClient.createQueue(baseName + "_queue_" + i)).name
+      );
+      topicNames.push(
+        (await serviceBusAtomManagementClient.createTopic(baseName + "_topic_" + i)).name
+      );
+      subscriptionNames.push(
+        (
+          await serviceBusAtomManagementClient.createSubscription(
+            managementTopic1,
+            baseName + "_subscription_" + i
+          )
+        ).subscriptionName
+      );
+      ruleNames.push(
+        (
+          await serviceBusAtomManagementClient.createRule(
+            managementTopic1,
+            managementSubscription1,
+            { name: baseName + "_rule_" + i }
+          )
+        ).name
+      );
+    }
+  });
+
+  after(async () => {
+    for (let i = 0; i < numberOfEntities; i++) {
+      await serviceBusAtomManagementClient.deleteQueue(baseName + "_queue_" + i);
+      await serviceBusAtomManagementClient.deleteTopic(baseName + "_topic_" + i);
+    }
+    await serviceBusAtomManagementClient.deleteTopic(managementTopic1);
+  });
+
+  function verifyEntities(methodName: string, receivedNames: string[]) {
+    let createdNames: string[];
+    if (methodName.includes("Queue")) {
+      createdNames = queueNames;
+    } else if (methodName.includes("Topic")) {
+      createdNames = topicNames;
+    } else if (methodName.includes("Subscription")) {
+      createdNames = subscriptionNames;
+    } else {
+      createdNames = ruleNames;
+    }
+    const numberOfReceived = receivedNames.length;
+    createdNames.forEach((createdName) => {
+      receivedNames = receivedNames.filter((receivedName) => createdName !== receivedName);
+    });
+    should.equal(
+      numberOfReceived,
+      receivedNames.length + createdNames.length,
+      "Unexpected number of entities received"
+    );
+  }
+
+  [
+    "listQueues",
+    "listQueuesRuntimeProperties",
+    "listTopics",
+    "listTopicsRuntimeProperties",
+    "listSubscriptions",
+    "listSubscriptionsRuntimeProperties",
+    "listRules"
+  ].forEach((methodName) => {
+    describe(`${methodName}`, () => {
+      function getIter() {
+        let iterator;
+        if (methodName.includes("Subscription")) {
+          iterator = (serviceBusAtomManagementClient as any)[methodName](managementTopic1);
+        } else if (methodName.includes("Rule")) {
+          iterator = (serviceBusAtomManagementClient as any)[methodName](
+            managementTopic1,
+            managementSubscription1
+          );
+        } else if (methodName.includes("Queue") || methodName.includes("Topic")) {
+          iterator = (serviceBusAtomManagementClient as any)[methodName]();
+        } else {
+          throw new Error("Invalid methodName");
+        }
+        return iterator;
+      }
+
+      it("Verify PagedAsyncIterableIterator", async () => {
+        const receivedEntities = [];
+        let iter = getIter();
+        for await (const entity of iter) {
+          receivedEntities.push(
+            methodName.includes("Subscription") ? entity.subscriptionName : entity.name
+          );
+        }
+        verifyEntities(methodName, receivedEntities);
+      });
+
+      it("Verify PagedAsyncIterableIterator(byPage())", async () => {
+        const receivedEntities = [];
+        let iter = getIter().byPage({
+          maxPageSize: 2
+        });
+        for await (const response of iter) {
+          for (const entity of response) {
+            receivedEntities.push(
+              methodName.includes("Subscription") ? entity.subscriptionName : entity.name
+            );
+          }
+        }
+        verifyEntities(methodName, receivedEntities);
+      });
+
+      it("Verify PagedAsyncIterableIterator(byPage() - continuationToken)", async () => {
+        const receivedEntities = [];
+        let iterator = getIter().byPage({ maxPageSize: 2 });
+        let response = await iterator.next();
+        // Prints 2 entity names
+        if (!response.done) {
+          for (const entity of response.value) {
+            receivedEntities.push(
+              methodName.includes("Subscription") ? entity.subscriptionName : entity.name
+            );
+          }
+        }
+
+        // Gets next marker
+        let marker = response.value.continuationToken;
+        // Passing next marker as continuationToken
+        iterator = getIter().byPage({
+          continuationToken: marker,
+          maxPageSize: 5
+        });
+        response = await iterator.next();
+        // Gets up to 5 entity names
+        if (!response.done) {
+          for (const entity of response.value) {
+            receivedEntities.push(
+              methodName.includes("Subscription") ? entity.subscriptionName : entity.name
+            );
+          }
+        }
+        marker = response.value.continuationToken;
+
+        // In case the namespace has too many entities and the newly created entities were not recovered
+        if (marker) {
+          for await (const response of getIter().byPage({
+            continuationToken: marker
+          })) {
+            for (const entity of response) {
+              receivedEntities.push(
+                methodName.includes("Subscription") ? entity.subscriptionName : entity.name
+              );
+            }
+          }
+        }
+        verifyEntities(methodName, receivedEntities);
+      });
+
+      [2, "-1", [], null].forEach((token) => {
+        it(`Validate continuationToken ${token} - PagedAsyncIterableIterator(byPage())`, async () => {
+          const settings: PageSettings = { continuationToken: token as string };
+          let errorWasThrown = false;
+          try {
+            getIter().byPage(settings);
+          } catch (error) {
+            errorWasThrown = true;
+            should.equal(
+              error.message,
+              `Invalid continuationToken ${token} provided`,
+              "Unexpected error message"
+            );
+          }
+          should.equal(errorWasThrown, true, "Error was not thrown");
+        });
+      });
+    });
+  });
+});
+
 describe("Atom management - Authentication", function(): void {
   if (isNode) {
     it("Token credential - DefaultAzureCredential from `@azure/identity`", async () => {
@@ -108,9 +297,9 @@ describe("Atom management - Authentication", function(): void {
         "Unexpected queue name in the updateQueue response"
       );
       should.equal(
-        (await serviceBusManagementClient.getQueueRuntimeInfo(managementQueue1)).name,
+        (await serviceBusManagementClient.getQueueRuntimeProperties(managementQueue1)).name,
         managementQueue1,
-        "Unexpected queue name in the getQueueRuntimeInfo response"
+        "Unexpected queue name in the getQueueRuntimeProperties response"
       );
       should.equal(
         (await serviceBusManagementClient.getNamespaceProperties()).name,
@@ -328,14 +517,12 @@ describe("Atom management - Authentication", function(): void {
     alwaysBeExistingEntity: managementQueue1,
     output: {
       sizeInBytes: 0,
-      messageCount: 0,
-      messageCountDetails: {
-        activeMessageCount: 0,
-        deadLetterMessageCount: 0,
-        scheduledMessageCount: 0,
-        transferMessageCount: 0,
-        transferDeadLetterMessageCount: 0
-      },
+      totalMessageCount: 0,
+      activeMessageCount: 0,
+      deadLetterMessageCount: 0,
+      scheduledMessageCount: 0,
+      transferMessageCount: 0,
+      transferDeadLetterMessageCount: 0,
       name: managementQueue1
     }
   },
@@ -345,6 +532,7 @@ describe("Atom management - Authentication", function(): void {
     output: {
       sizeInBytes: 0,
       subscriptionCount: 0,
+      scheduledMessageCount: 0,
       name: managementTopic1
     }
   },
@@ -352,14 +540,11 @@ describe("Atom management - Authentication", function(): void {
     entityType: EntityType.SUBSCRIPTION,
     alwaysBeExistingEntity: managementSubscription1,
     output: {
-      messageCount: 0,
-      messageCountDetails: {
-        activeMessageCount: 0,
-        deadLetterMessageCount: 0,
-        scheduledMessageCount: 0,
-        transferMessageCount: 0,
-        transferDeadLetterMessageCount: 0
-      },
+      totalMessageCount: 0,
+      activeMessageCount: 0,
+      deadLetterMessageCount: 0,
+      transferMessageCount: 0,
+      transferDeadLetterMessageCount: 0,
       topicName: managementTopic1,
       subscriptionName: managementSubscription1
     }
@@ -403,7 +588,7 @@ describe("Atom management - Authentication", function(): void {
     });
 
     it(`Gets runtime info for an existing ${testCase.entityType} entity(single) successfully`, async () => {
-      const response = await getEntityRuntimeInfo(
+      const response = await getEntityRuntimeProperties(
         testCase.entityType,
         testCase.alwaysBeExistingEntity,
         managementTopic1
@@ -430,14 +615,12 @@ describe("Atom management - Authentication", function(): void {
       alwaysBeExistingEntity: managementQueue1,
       output: {
         sizeInBytes: 0,
-        messageCount: 0,
-        messageCountDetails: {
-          activeMessageCount: 0,
-          deadLetterMessageCount: 0,
-          scheduledMessageCount: 0,
-          transferMessageCount: 0,
-          transferDeadLetterMessageCount: 0
-        },
+        totalMessageCount: 0,
+        activeMessageCount: 0,
+        deadLetterMessageCount: 0,
+        scheduledMessageCount: 0,
+        transferMessageCount: 0,
+        transferDeadLetterMessageCount: 0,
         name: managementQueue1
       }
     },
@@ -445,14 +628,12 @@ describe("Atom management - Authentication", function(): void {
       alwaysBeExistingEntity: managementQueue2,
       output: {
         sizeInBytes: 0,
-        messageCount: 0,
-        messageCountDetails: {
-          activeMessageCount: 0,
-          deadLetterMessageCount: 0,
-          scheduledMessageCount: 0,
-          transferMessageCount: 0,
-          transferDeadLetterMessageCount: 0
-        },
+        totalMessageCount: 0,
+        activeMessageCount: 0,
+        deadLetterMessageCount: 0,
+        scheduledMessageCount: 0,
+        transferMessageCount: 0,
+        transferDeadLetterMessageCount: 0,
         name: managementQueue2
       }
     }
@@ -464,6 +645,7 @@ describe("Atom management - Authentication", function(): void {
       output: {
         sizeInBytes: 0,
         subscriptionCount: 0,
+        scheduledMessageCount: 0,
         name: managementTopic1
       }
     },
@@ -472,6 +654,7 @@ describe("Atom management - Authentication", function(): void {
       output: {
         sizeInBytes: 0,
         subscriptionCount: 0,
+        scheduledMessageCount: 0,
         name: managementTopic2
       }
     }
@@ -481,14 +664,11 @@ describe("Atom management - Authentication", function(): void {
     1: {
       alwaysBeExistingEntity: managementSubscription1,
       output: {
-        messageCount: 0,
-        messageCountDetails: {
-          activeMessageCount: 0,
-          deadLetterMessageCount: 0,
-          scheduledMessageCount: 0,
-          transferMessageCount: 0,
-          transferDeadLetterMessageCount: 0
-        },
+        totalMessageCount: 0,
+        activeMessageCount: 0,
+        deadLetterMessageCount: 0,
+        transferMessageCount: 0,
+        transferDeadLetterMessageCount: 0,
         topicName: managementTopic1,
         subscriptionName: managementSubscription1
       }
@@ -496,14 +676,11 @@ describe("Atom management - Authentication", function(): void {
     2: {
       alwaysBeExistingEntity: managementSubscription2,
       output: {
-        messageCount: 0,
-        messageCountDetails: {
-          activeMessageCount: 0,
-          deadLetterMessageCount: 0,
-          scheduledMessageCount: 0,
-          transferMessageCount: 0,
-          transferDeadLetterMessageCount: 0
-        },
+        totalMessageCount: 0,
+        activeMessageCount: 0,
+        deadLetterMessageCount: 0,
+        transferMessageCount: 0,
+        transferDeadLetterMessageCount: 0,
         topicName: managementTopic1,
         subscriptionName: managementSubscription2
       }
@@ -556,7 +733,7 @@ describe("Atom management - Authentication", function(): void {
     });
 
     it(`Gets runtime info for existing ${testCase.entityType} entities(multiple) successfully`, async () => {
-      const response = await getEntitiesRuntimeInfo(testCase.entityType, managementTopic1);
+      const response = await getEntitiesRuntimeProperties(testCase.entityType, managementTopic1);
       const name = testCase.entityType === EntityType.SUBSCRIPTION ? "subscriptionName" : "name";
       const paramsToExclude = ["createdAt", "accessedAt", "updatedAt"];
       for (const info of response) {
@@ -2183,10 +2360,10 @@ async function createEntity(
   topicPath?: string,
   subscriptionPath?: string,
   overrideOptions?: boolean, // If this is false, then the default options will be populated as used for basic testing.
-  queueOptions?: Omit<QueueDescription, "name">,
-  topicOptions?: Omit<TopicDescription, "name">,
-  subscriptionOptions?: Omit<SubscriptionDescription, "topicName" | "subscriptionName">,
-  ruleOptions?: Omit<RuleDescription, "name">
+  queueOptions?: Omit<QueueProperties, "name">,
+  topicOptions?: Omit<TopicProperties, "name">,
+  subscriptionOptions?: Omit<SubscriptionProperties, "topicName" | "subscriptionName">,
+  ruleOptions?: Omit<RuleProperties, "name">
 ): Promise<any> {
   if (!overrideOptions) {
     if (queueOptions == undefined) {
@@ -2314,17 +2491,21 @@ async function getEntity(
   throw new Error("TestError: Unrecognized EntityType");
 }
 
-async function getEntityRuntimeInfo(
+async function getEntityRuntimeProperties(
   testEntityType: EntityType,
   entityPath: string,
   topicPath?: string
 ): Promise<any> {
   switch (testEntityType) {
     case EntityType.QUEUE:
-      const queueResponse = await serviceBusAtomManagementClient.getQueueRuntimeInfo(entityPath);
+      const queueResponse = await serviceBusAtomManagementClient.getQueueRuntimeProperties(
+        entityPath
+      );
       return queueResponse;
     case EntityType.TOPIC:
-      const topicResponse = await serviceBusAtomManagementClient.getTopicRuntimeInfo(entityPath);
+      const topicResponse = await serviceBusAtomManagementClient.getTopicRuntimeProperties(
+        entityPath
+      );
       return topicResponse;
     case EntityType.SUBSCRIPTION:
       if (!topicPath) {
@@ -2332,7 +2513,7 @@ async function getEntityRuntimeInfo(
           "TestError: Topic path must be passed when invoking tests on subscriptions"
         );
       }
-      const subscriptionResponse = await serviceBusAtomManagementClient.getSubscriptionRuntimeInfo(
+      const subscriptionResponse = await serviceBusAtomManagementClient.getSubscriptionRuntimeProperties(
         topicPath,
         entityPath
       );
@@ -2341,16 +2522,16 @@ async function getEntityRuntimeInfo(
   throw new Error("TestError: Unrecognized EntityType");
 }
 
-async function getEntitiesRuntimeInfo(
+async function getEntitiesRuntimeProperties(
   testEntityType: EntityType,
   topicPath?: string
 ): Promise<any> {
   switch (testEntityType) {
     case EntityType.QUEUE:
-      const queueResponse = await serviceBusAtomManagementClient.getQueuesRuntimeInfo();
+      const queueResponse = await serviceBusAtomManagementClient["getQueuesRuntimeProperties"]();
       return queueResponse;
     case EntityType.TOPIC:
-      const topicResponse = await serviceBusAtomManagementClient.getTopicsRuntimeInfo();
+      const topicResponse = await serviceBusAtomManagementClient["getTopicsRuntimeProperties"]();
       return topicResponse;
     case EntityType.SUBSCRIPTION:
       if (!topicPath) {
@@ -2358,9 +2539,9 @@ async function getEntitiesRuntimeInfo(
           "TestError: Topic path must be passed when invoking tests on subscriptions"
         );
       }
-      const subscriptionResponse = await serviceBusAtomManagementClient.getSubscriptionsRuntimeInfo(
-        topicPath
-      );
+      const subscriptionResponse = await serviceBusAtomManagementClient[
+        "getSubscriptionsRuntimeProperties"
+      ](topicPath);
       return subscriptionResponse;
   }
   throw new Error("TestError: Unrecognized EntityType");
@@ -2399,10 +2580,10 @@ async function updateEntity(
   topicPath?: string,
   subscriptionPath?: string,
   overrideOptions?: boolean, // If this is false, then the default options will be populated as used for basic testing.
-  queueOptions?: Omit<QueueDescription, "name">,
-  topicOptions?: Omit<TopicDescription, "name">,
-  subscriptionOptions?: Omit<SubscriptionDescription, "topicName" | "subscriptionName">,
-  ruleOptions?: Omit<RuleDescription, "name">
+  queueOptions?: Omit<QueueProperties, "name">,
+  topicOptions?: Omit<TopicProperties, "name">,
+  subscriptionOptions?: Omit<SubscriptionProperties, "topicName" | "subscriptionName">,
+  ruleOptions?: Omit<RuleProperties, "name">
 ): Promise<any> {
   if (!overrideOptions) {
     if (queueOptions == undefined) {
@@ -2546,13 +2727,13 @@ async function listEntities(
 ): Promise<any> {
   switch (testEntityType) {
     case EntityType.QUEUE:
-      const queueResponse = await serviceBusAtomManagementClient.getQueues({
+      const queueResponse = await serviceBusAtomManagementClient["getQueues"]({
         skip,
         maxCount
       });
       return queueResponse;
     case EntityType.TOPIC:
-      const topicResponse = await serviceBusAtomManagementClient.getTopics({
+      const topicResponse = await serviceBusAtomManagementClient["getTopics"]({
         skip,
         maxCount
       });
@@ -2563,10 +2744,9 @@ async function listEntities(
           "TestError: Topic path must be passed when invoking tests on subscriptions"
         );
       }
-      const subscriptionResponse = await serviceBusAtomManagementClient.getSubscriptions(
-        topicPath,
-        { skip, maxCount }
-      );
+      const subscriptionResponse = await serviceBusAtomManagementClient[
+        "getSubscriptions"
+      ](topicPath, { skip, maxCount });
       return subscriptionResponse;
     case EntityType.RULE:
       if (!topicPath || !subscriptionPath) {
@@ -2574,7 +2754,7 @@ async function listEntities(
           "TestError: Topic path AND subscription path must be passed when invoking tests on rules"
         );
       }
-      const ruleResponse = await serviceBusAtomManagementClient.getRules(
+      const ruleResponse = await serviceBusAtomManagementClient["getRules"](
         topicPath,
         subscriptionPath,
         { skip, maxCount }

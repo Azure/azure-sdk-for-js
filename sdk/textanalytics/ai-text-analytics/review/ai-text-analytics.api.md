@@ -75,7 +75,7 @@ export interface DetectLanguageSuccessResult extends TextAnalyticsSuccessResult 
 }
 
 // @public
-export type DocumentSentimentLabel = 'positive' | 'neutral' | 'negative' | 'mixed';
+export type DocumentSentimentLabel = "positive" | "neutral" | "negative" | "mixed";
 
 // @public
 export interface Entity {
@@ -89,7 +89,7 @@ export interface Entity {
 export type ErrorCode = ErrorCodeValue | InnerErrorCodeValue;
 
 // @public
-export type ErrorCodeValue = 'InvalidRequest' | 'InvalidArgument' | 'InternalServerError' | 'ServiceUnavailable';
+export type ErrorCodeValue = "InvalidRequest" | "InvalidArgument" | "InternalServerError" | "ServiceUnavailable";
 
 // @public
 export type ExtractKeyPhrasesErrorResult = TextAnalyticsErrorResult;
@@ -112,7 +112,7 @@ export interface ExtractKeyPhrasesSuccessResult extends TextAnalyticsSuccessResu
 }
 
 // @public
-export type InnerErrorCodeValue = 'InvalidParameterValue' | 'InvalidRequestBodyFormat' | 'EmptyRequest' | 'MissingInputRecords' | 'InvalidDocument' | 'ModelVersionIncorrect' | 'InvalidDocumentBatch' | 'UnsupportedLanguageCode' | 'InvalidCountryHint';
+export type InnerErrorCodeValue = "InvalidParameterValue" | "InvalidRequestBodyFormat" | "EmptyRequest" | "MissingInputRecords" | "InvalidDocument" | "ModelVersionIncorrect" | "InvalidDocumentBatch" | "UnsupportedLanguageCode" | "InvalidCountryHint";
 
 // @public
 export interface LinkedEntity {
@@ -174,11 +174,11 @@ export interface RecognizeLinkedEntitiesSuccessResult extends TextAnalyticsSucce
 export interface SentenceSentiment {
     confidenceScores: SentimentConfidenceScores;
     sentiment: SentenceSentimentLabel;
-    text?: string;
+    text: string;
 }
 
 // @public
-export type SentenceSentimentLabel = 'positive' | 'neutral' | 'negative';
+export type SentenceSentimentLabel = "positive" | "neutral" | "negative";
 
 // @public
 export interface SentimentConfidenceScores {
@@ -272,7 +272,7 @@ export interface TextDocumentStatistics {
 }
 
 // @public
-export type WarningCode = 'LongWordsInDocument' | 'DocumentTruncated';
+export type WarningCode = "LongWordsInDocument" | "DocumentTruncated";
 
 
 // (No @packageDocumentation comment for this package)

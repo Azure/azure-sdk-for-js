@@ -11,6 +11,7 @@ import { AbortController } from "@azure/abort-controller";
 import { WebResource } from "@azure/core-http";
 import { executeAtomXmlOperation } from "../src/util/atomXmlHelper";
 import { NamespaceResourceSerializer } from "../src/serializers/namespaceResourceSerializer";
+import { TestTracer, setTracer, SpanGraph } from "@azure/core-tracing";
 
 chai.use(chaiAsPromised);
 chai.use(chaiExclude);
@@ -83,10 +84,10 @@ describe("Operation Options", () => {
           })
       );
     });
-    it("getQueueRuntimeinfo", async () => {
+    it("getQueueRuntimeProperties", async () => {
       await verifyAbortError(
         async () =>
-          await serviceBusAtomManagementClient.getQueueRuntimeInfo(enitityName1, {
+          await serviceBusAtomManagementClient.getQueueRuntimeProperties(enitityName1, {
             abortSignal: AbortController.timeout(1)
           })
       );
@@ -94,15 +95,15 @@ describe("Operation Options", () => {
     it("getQueues", async () => {
       await verifyAbortError(
         async () =>
-          await serviceBusAtomManagementClient.getQueues({
+          await serviceBusAtomManagementClient["getQueues"]({
             abortSignal: AbortController.timeout(1)
           })
       );
     });
-    it("getQueuesRuntimeinfo", async () => {
+    it("getQueuesRuntimeProperties", async () => {
       await verifyAbortError(
         async () =>
-          await serviceBusAtomManagementClient.getQueuesRuntimeInfo({
+          await serviceBusAtomManagementClient["getQueuesRuntimeProperties"]({
             abortSignal: AbortController.timeout(1)
           })
       );
@@ -142,10 +143,10 @@ describe("Operation Options", () => {
           })
       );
     });
-    it("getTopicRuntimeinfo", async () => {
+    it("getTopicRuntimeProperties", async () => {
       await verifyAbortError(
         async () =>
-          await serviceBusAtomManagementClient.getTopicRuntimeInfo(enitityName1, {
+          await serviceBusAtomManagementClient.getTopicRuntimeProperties(enitityName1, {
             abortSignal: AbortController.timeout(1)
           })
       );
@@ -153,15 +154,15 @@ describe("Operation Options", () => {
     it("getTopics", async () => {
       await verifyAbortError(
         async () =>
-          await serviceBusAtomManagementClient.getTopics({
+          await serviceBusAtomManagementClient["getTopics"]({
             abortSignal: AbortController.timeout(1)
           })
       );
     });
-    it("getTopicsRuntimeinfo", async () => {
+    it("getTopicsRuntimeProperties", async () => {
       await verifyAbortError(
         async () =>
-          await serviceBusAtomManagementClient.getTopicsRuntimeInfo({
+          await serviceBusAtomManagementClient["getTopicsRuntimeProperties"]({
             abortSignal: AbortController.timeout(1)
           })
       );
@@ -204,10 +205,10 @@ describe("Operation Options", () => {
           })
       );
     });
-    it("getSubscriptionRuntimeinfo", async () => {
+    it("getSubscriptionRuntimeProperties", async () => {
       await verifyAbortError(
         async () =>
-          await serviceBusAtomManagementClient.getSubscriptionRuntimeInfo(
+          await serviceBusAtomManagementClient.getSubscriptionRuntimeProperties(
             enitityName1,
             enitityName2,
             {
@@ -219,15 +220,15 @@ describe("Operation Options", () => {
     it("getSubscriptions", async () => {
       await verifyAbortError(
         async () =>
-          await serviceBusAtomManagementClient.getSubscriptions(enitityName1, {
+          await serviceBusAtomManagementClient["getSubscriptions"](enitityName1, {
             abortSignal: AbortController.timeout(1)
           })
       );
     });
-    it("getSubscriptionsRuntimeinfo", async () => {
+    it("getSubscriptionsRuntimeProperties", async () => {
       await verifyAbortError(
         async () =>
-          await serviceBusAtomManagementClient.getSubscriptionsRuntimeInfo(enitityName1, {
+          await serviceBusAtomManagementClient["getSubscriptionsRuntimeProperties"](enitityName1, {
             abortSignal: AbortController.timeout(1)
           })
       );
@@ -269,6 +270,49 @@ describe("Operation Options", () => {
         "WA",
         "Custom header from the requestOptions is not populated as expected."
       );
+    });
+  });
+
+  describe("Tracing", () => {
+    it("getNamespaceProperties with tracing", async () => {
+      const tracer = new TestTracer();
+      setTracer(tracer);
+      const rootSpan = tracer.startSpan("root");
+      await serviceBusAtomManagementClient.getNamespaceProperties({
+        tracingOptions: { spanOptions: { parent: rootSpan.context() } }
+      });
+      rootSpan.end();
+
+      const rootSpans = tracer.getRootSpans();
+      assert.strictEqual(rootSpans.length, 1, "Should only have one root span.");
+      assert.strictEqual(rootSpan, rootSpans[0], "The root span should match what was passed in.");
+
+      const expectedGraph: SpanGraph = {
+        roots: [
+          {
+            name: rootSpan.name,
+            children: [
+              {
+                name: "Azure.ServiceBus.ServiceBusManagementClient-getNamespaceProperties",
+                children: [
+                  {
+                    children: [
+                      {
+                        children: [],
+                        name: "/$namespaceinfo"
+                      }
+                    ],
+                    name: "Azure.ServiceBus.ServiceBusManagementClient-getResource"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      };
+
+      assert.deepStrictEqual(tracer.getSpanGraph(rootSpan.context().traceId), expectedGraph);
+      assert.strictEqual(tracer.getActiveSpans().length, 0, "All spans should have had end called");
     });
   });
 });

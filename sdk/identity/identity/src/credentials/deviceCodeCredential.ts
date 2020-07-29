@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
 import qs from "qs";
 import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-http";
@@ -8,7 +8,7 @@ import { AuthenticationError, AuthenticationErrorName } from "../client/errors";
 import { createSpan } from "../util/tracing";
 import { delay } from "../util/delay";
 import { CanonicalCode } from "@opentelemetry/api";
-import { logger } from "../util/logging";
+import { credentialLogger, formatSuccess } from "../util/logging";
 
 /**
  * An internal interface that contains the verbatim devicecode response.
@@ -54,6 +54,8 @@ export interface DeviceCodeInfo {
  * details to the user.
  */
 export type DeviceCodePromptCallback = (deviceCodeInfo: DeviceCodeInfo) => void;
+
+const logger = credentialLogger("DeviceCodeCredential");
 
 /**
  * Enables authentication to Azure Active Directory using a device code
@@ -115,7 +117,7 @@ export class DeviceCodeCredential implements TokenCredential {
         spanOptions: newOptions.tracingOptions && newOptions.tracingOptions.spanOptions
       });
 
-      logger.info("DeviceCodeCredential: sending devicecode request");
+      logger.info("Sending devicecode request");
 
       const response = await this.identityClient.sendRequest(webResource);
       if (!(response.status === 200 || response.status === 201)) {
@@ -130,13 +132,11 @@ export class DeviceCodeCredential implements TokenCredential {
           : CanonicalCode.UNKNOWN;
 
       if (err.name === AuthenticationErrorName) {
-        logger.warning(
-          `DeviceCodeCredential: failed to authenticate ${
-            (err as AuthenticationError).errorResponse.errorDescription
-          }`
+        logger.info(
+          `Failed to authenticate ${(err as AuthenticationError).errorResponse.errorDescription}`
         );
       } else {
-        logger.warning(`DeviceCodeCredential: failed to authenticate ${err}`);
+        logger.info(`Failed to authenticate ${err}`);
       }
 
       span.setStatus({
@@ -270,6 +270,7 @@ export class DeviceCodeCredential implements TokenCredential {
       }
 
       this.lastTokenResponse = tokenResponse;
+      logger.getToken.info(formatSuccess(scopes));
       return (tokenResponse && tokenResponse.accessToken) || null;
     } catch (err) {
       const code =
@@ -280,6 +281,7 @@ export class DeviceCodeCredential implements TokenCredential {
         code,
         message: err.message
       });
+      logger.getToken.info(err);
       throw err;
     } finally {
       span.end();

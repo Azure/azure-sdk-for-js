@@ -42,8 +42,8 @@ async function runSingle(name: string, accumulatedErrors: Array<[string, string]
       .split("\n")[0]
       .slice(0, 100);
     accumulatedErrors.push([path.basename(name), truncatedError]);
-    log.warn("Error in", name, ":", err);
-    log.warn("Continuing ...");
+    log.warn(`Error in ${name}:`);
+    log.warn(err);
   }
 }
 
@@ -71,7 +71,7 @@ export default leafCommand(commandInfo, async (options) => {
           ignore: IGNORE
         }
       )) {
-        runSingle(fileName, errors);
+        await runSingle(fileName, errors);
       }
     } else {
       log.warn(`Sample ${sample} is neither a file nor a directory.`);

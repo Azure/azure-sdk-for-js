@@ -470,6 +470,13 @@ export const BlobPropertiesInternal: coreHttp.CompositeMapper = {
         type: {
           name: "Boolean"
         }
+      },
+      rehydratePriority: {
+        xmlName: "RehydratePriority",
+        serializedName: "RehydratePriority",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -1783,6 +1790,13 @@ export const StaticWebsite: coreHttp.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      defaultIndexDocumentPath: {
+        xmlName: "DefaultIndexDocumentPath",
+        serializedName: "DefaultIndexDocumentPath",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -2397,7 +2411,9 @@ export const ServiceGetAccountInfoHeaders: coreHttp.CompositeMapper = {
           allowedValues: [
             "Storage",
             "BlobStorage",
-            "StorageV2"
+            "StorageV2",
+            "FileStorage",
+            "BlockBlobStorage"
           ]
         }
       },
@@ -3338,7 +3354,9 @@ export const ContainerGetAccountInfoHeaders: coreHttp.CompositeMapper = {
           allowedValues: [
             "Storage",
             "BlobStorage",
-            "StorageV2"
+            "StorageV2",
+            "FileStorage",
+            "BlockBlobStorage"
           ]
         }
       },
@@ -4206,6 +4224,12 @@ export const BlobGetPropertiesHeaders: coreHttp.CompositeMapper = {
         serializedName: "x-ms-blob-sealed",
         type: {
           name: "Boolean"
+        }
+      },
+      rehydratePriority: {
+        serializedName: "x-ms-rehydrate-priority",
+        type: {
+          name: "String"
         }
       },
       errorCode: {
@@ -5537,7 +5561,9 @@ export const BlobGetAccountInfoHeaders: coreHttp.CompositeMapper = {
           allowedValues: [
             "Storage",
             "BlobStorage",
-            "StorageV2"
+            "StorageV2",
+            "FileStorage",
+            "BlockBlobStorage"
           ]
         }
       },

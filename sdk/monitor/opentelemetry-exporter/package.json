@@ -1,0 +1,76 @@
+{
+  "name": "@azure/monitor-opentelemetry-exporter",
+  "author": "appinsightssdk@microsoft.com",
+  "version": "1.0.0-preview.5",
+  "description": "Application Insights exporter for the OpenTelemetry JavaScript (Node.js) SDK",
+  "main": "dist-esm/src/index.js",
+  "module": "dist-esm/src/index.js",
+  "types": "types/src/index.d.ts",
+  "scripts": {
+    "clean": "rimraf dist-esm types dist",
+    "build:browser": "echo skipped",
+    "build:test": "echo skipped",
+    "build:node": "tsc -p .",
+    "build": "npm run build:node && npm run build:browser",
+    "lint": "eslint . --ext .ts",
+    "test": "npm run test:node && npm run test:browser",
+    "test:node": "c8 ts-mocha -p ./tsconfig.json 'test/**/*.test.ts'",
+    "test:browser": "echo skipped",
+    "report": "c8 report --reporter=json",
+    "prepare": "npm run build"
+  },
+  "engines": {
+    "node": ">=8.3.0"
+  },
+  "files": [
+    "dist-esm/src/",
+    "dist/src/",
+    "browser/src/",
+    "types/src/",
+    "src/",
+    "README.md",
+    "SECURITY.md",
+    "LICENSE"
+  ],
+  "license": "MIT",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/monitor/opentelemetry-exporter",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/monitor/opentelemetry-exporter"
+  },
+  "devDependencies": {
+    "@types/mocha": "^7.0.2",
+    "@types/node": "^10.0.0",
+    "@typescript-eslint/parser": "^2.0.0",
+    "@typescript-eslint/eslint-plugin": "^2.0.0",
+    "c8": "^7.2.0",
+    "eslint": "^6.1.0",
+    "eslint-config-prettier": "^6.0.0",
+    "eslint-plugin-import": "^2.21.2",
+    "eslint-plugin-node": "^11.1.0",
+    "eslint-plugin-prettier": "^3.1.4",
+    "mocha": "^7.1.1",
+    "nock": "^12.0.3",
+    "prettier": "^1.16.4",
+    "rimraf": "^3.0.0",
+    "sinon": "^9.0.2",
+    "ts-mocha": "^7.0.0",
+    "typescript": "~3.9.3"
+  },
+  "dependencies": {
+    "@opentelemetry/api": "^0.10.1",
+    "@opentelemetry/core": "^0.10.1",
+    "@opentelemetry/semantic-conventions": "^0.10.1",
+    "@opentelemetry/tracing": "^0.10.1"
+  },
+  "sideEffects": false,
+  "keywords": [
+    "node",
+    "azure",
+    "monitor",
+    "javascript",
+    "applicationinsights",
+    "opentelemetry",
+    "exporter"
+  ]
+}

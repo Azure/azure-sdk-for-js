@@ -13,13 +13,12 @@ import {
   EntityStatus,
   getAuthorizationRulesOrUndefined,
   getBoolean,
-  getCountDetailsOrUndefined,
+  getMessageCountDetails,
   getInteger,
   getIntegerOrUndefined,
   getRawAuthorizationRules,
   getString,
   getStringOrUndefined,
-  MessageCountDetails,
   getDate
 } from "../util/utils";
 
@@ -31,7 +30,7 @@ import {
  * converts values to string and ensures the right order as expected by the service
  * @param queue
  */
-export function buildQueueOptions(queue: QueueDescription): InternalQueueOptions {
+export function buildQueueOptions(queue: QueueProperties): InternalQueueOptions {
   return {
     LockDuration: queue.lockDuration,
     MaxSizeInMegabytes: getStringOrUndefined(queue.maxSizeInMegabytes),
@@ -59,7 +58,7 @@ export function buildQueueOptions(queue: QueueDescription): InternalQueueOptions
  * response from the service
  * @param rawQueue
  */
-export function buildQueue(rawQueue: any): QueueDescription {
+export function buildQueue(rawQueue: any): QueueProperties {
   return {
     name: getString(rawQueue[Constants.QUEUE_NAME], "queueName"),
 
@@ -113,12 +112,13 @@ export function buildQueue(rawQueue: any): QueueDescription {
  * response from the service
  * @param rawQueue
  */
-export function buildQueueRuntimeInfo(rawQueue: any): QueueRuntimeInfo {
+export function buildQueueRuntimeProperties(rawQueue: any): QueueRuntimeProperties {
+  const messageCountDetails = getMessageCountDetails(rawQueue[Constants.COUNT_DETAILS]);
   return {
     name: getString(rawQueue[Constants.QUEUE_NAME], "queueName"),
     sizeInBytes: getIntegerOrUndefined(rawQueue[Constants.SIZE_IN_BYTES]),
-    messageCount: getIntegerOrUndefined(rawQueue[Constants.MESSAGE_COUNT]),
-    messageCountDetails: getCountDetailsOrUndefined(rawQueue[Constants.COUNT_DETAILS]),
+    totalMessageCount: getIntegerOrUndefined(rawQueue[Constants.MESSAGE_COUNT]),
+    ...messageCountDetails,
     createdAt: getDate(rawQueue[Constants.CREATED_AT], "createdAt"),
     updatedAt: getDate(rawQueue[Constants.UPDATED_AT], "updatedAt"),
     accessedAt: getDate(rawQueue[Constants.ACCESSED_AT], "accessedAt")
@@ -128,7 +128,7 @@ export function buildQueueRuntimeInfo(rawQueue: any): QueueRuntimeInfo {
 /**
  * Represents settable options on a queue
  */
-export interface QueueDescription {
+export interface QueueProperties {
   /**
    * Name of the queue
    */
@@ -226,7 +226,7 @@ export interface QueueDescription {
   forwardTo?: string;
 
   /**
-   * The user provided metadata information associated with the queue description.
+   * The user provided metadata information associated with the queue.
    * Used to specify textual content such as tags, labels, etc.
    * Value must not exceed 1024 bytes encoded in utf-8.
    */
@@ -354,7 +354,7 @@ export interface InternalQueueOptions {
   ForwardTo?: string;
 
   /**
-   * The user provided metadata information associated with the queue description.
+   * The user provided metadata information associated with the queue.
    * Used to specify textual content such as tags, labels, etc.
    * Value must not exceed 1024 bytes encoded in utf-8.
    */
@@ -386,7 +386,7 @@ export interface InternalQueueOptions {
 /**
  * Represents runtime info attributes of a queue entity
  */
-export interface QueueRuntimeInfo {
+export interface QueueRuntimeProperties {
   /**
    * Name of the queue
    */
@@ -411,12 +411,32 @@ export interface QueueRuntimeInfo {
    * The entity's message count.
    *
    */
-  messageCount?: number;
+  totalMessageCount?: number;
 
   /**
-   * Message count details
+   * The number of active messages in the queue.
    */
-  messageCountDetails?: MessageCountDetails;
+  activeMessageCount: number;
+
+  /**
+   * The number of messages that have been dead lettered.
+   */
+  deadLetterMessageCount: number;
+
+  /**
+   * The number of scheduled messages.
+   */
+  scheduledMessageCount: number;
+
+  /**
+   * The number of messages transferred to another queue, topic, or subscription
+   */
+  transferMessageCount: number;
+
+  /**
+   * The number of messages transferred to the dead letter queue.
+   */
+  transferDeadLetterMessageCount: number;
 
   /**
    * The entity's size in bytes.
