@@ -2,41 +2,4 @@ parameters:
   EmulatorMsiUrl: "https://aka.ms/cosmosdb-emulator"
 
 steps:
-  - pwsh: |
-      $targetDir = $env:temp
-      Write-Host "Downloading and extracting Cosmos DB Emulator - ${{ parameters.EmulatorMsiUrl }}"
-      Write-Host "Target Dir: $targetDir"
-      msiexec /a ${{ parameters.EmulatorMsiUrl }} TARGETDIR=$targetDir /qn | wait-process
-    displayName: Download and Extract Public Cosmos DB Emulator
-
-  - pwsh: |
-      $emulator = "$env:tmp\Azure Cosmos DB Emulator\CosmosDB.Emulator.exe"
-
-      Write-Host "Launching Cosmos DB Emulator at $emulator"
-      Start-Process $emulator "/NoExplorer /NoUI" -Verb RunAs
-
-      Write-Host "Waiting for emulator to start..."
-      $continueChecking = $true
-      do {
-        $process = Start-Process $emulator -ArgumentList "/getstatus" -PassThru -Wait
-        switch ($process.ExitCode) {
-          1 {
-            Write-Host "Emulator is starting"
-          }
-          2 {
-            Write-Host "Emulator is running"
-            $continueChecking = $false
-          }
-          3 {
-            Write-Host "Emulator is stopped"
-            $continueChecking = $false
-          }
-          default {
-            Write-Host "Unknown exit code: $process.ExitCode"
-            $continueChecking = $false
-          }
-        }
-        Start-Sleep -Seconds 1
-      } while ($continueChecking)
-    displayName: Start Cosmos DB Emulator
-    timeoutInMinutes: 10
+  - template: /eng/common/pipelines/templates/steps/cosmos-emulator.yml
