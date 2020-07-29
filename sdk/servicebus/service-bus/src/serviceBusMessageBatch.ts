@@ -140,18 +140,18 @@ export class ServiceBusMessageBatchImpl implements ServiceBusMessageBatch {
    * Generates an AMQP message that contains the provided encoded messages and annotations.
    *
    * @private
-   * @param {Buffer[]} encodedMessages The already encoded messages to include in the AMQP batch.
-   * @param {MessageAnnotations} [annotations] The message annotations to set on the batch.
-   * @param {{ [key: string]: any }} [applicationProperties] The application properties to set on the batch.
-   * @param {{ [key: string]: string }} [messageProperties] The message properties to set on the batch.
+   * @param encodedMessages The already encoded messages to include in the AMQP batch.
+   * @param annotations The message annotations to set on the batch.
+   * @param applicationProperties The application properties to set on the batch.
+   * @param messageProperties The message properties to set on the batch.
    * @returns {Buffer}
    * @memberof ServiceBusMessageBatchImpl
    */
   private _generateBatch(
     encodedMessages: Buffer[],
     annotations?: MessageAnnotations,
-    applicationProperties?: { [key: string]: any },
-    messageProperties?: { [key: string]: string }
+    applicationProperties?: Record<string, any>,
+    messageProperties?: Record<string, string>
   ): Buffer {
     const batchEnvelope: AmqpMessage = {
       body: RheaMessageUtil.data_sections(encodedMessages),
@@ -198,13 +198,13 @@ export class ServiceBusMessageBatchImpl implements ServiceBusMessageBatch {
    * This will reflect the message properties on the first message
    * that was added to the batch.
    */
-  private _batchMessageProperties?: { [key: string]: string };
+  private _batchMessageProperties?: Record<string, string>;
   /**
    * The application properties to apply on the batch envelope.
    * This will reflect the application properties on the first message
    * that was added to the batch.
    */
-  private _batchApplicationProperties?: { [key: string]: any };
+  private _batchApplicationProperties?: Record<string, any>;
 
   /**
    * Tries to add a message to the batch if permitted by the batch's size limit.

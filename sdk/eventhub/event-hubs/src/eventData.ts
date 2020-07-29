@@ -87,7 +87,7 @@ export interface EventDataInternal {
   /**
    * @property [properties] The application specific properties.
    */
-  properties?: { [property: string]: any };
+  properties?: Record<string, any>;
   /**
    * @property [lastSequenceNumber] The last sequence number of the event within the partition stream of the Event Hub.
    */
@@ -107,7 +107,7 @@ export interface EventDataInternal {
   /**
    * @property [systemProperties] The properties set by the service.
    */
-  systemProperties?: { [property: string]: any };
+  systemProperties?: Record<string, any>;
 }
 
 const messagePropertiesMap = {

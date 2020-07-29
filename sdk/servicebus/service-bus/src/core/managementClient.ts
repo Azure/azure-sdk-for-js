@@ -142,7 +142,7 @@ export interface DispositionStatusOptions extends OperationOptionsBase {
    * @property [propertiesToModify] A dictionary of Service Bus brokered message properties
    * to modify.
    */
-  propertiesToModify?: { [key: string]: any };
+  propertiesToModify?: Record<string, any>;
   /**
    * @property [deadLetterReason] The deadletter reason. May be set if disposition status
    * is set to suspended.

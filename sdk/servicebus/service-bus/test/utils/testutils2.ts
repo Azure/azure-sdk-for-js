@@ -231,7 +231,7 @@ export class ServiceBusTestHelpers {
       // From the sentMessages array, creating a set of all the `session-id`s
       const setOfSessionIds: Set<string> = new Set();
       // numOfMsgsWithSessionId - To keep track of number of messages sent per session in the sent messages
-      const numOfMsgsWithSessionId: { [sessionId: string]: number } = {};
+      const numOfMsgsWithSessionId: Record<string, number> = {};
       sentMessages.forEach((msg) => {
         setOfSessionIds.add(msg.sessionId!);
         numOfMsgsWithSessionId[msg.sessionId!] = numOfMsgsWithSessionId[msg.sessionId!]

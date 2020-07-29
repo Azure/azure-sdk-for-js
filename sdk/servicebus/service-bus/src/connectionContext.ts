@@ -28,7 +28,7 @@ export interface ConnectionContext extends ConnectionContextBase {
    * @property A dictionary of ClientEntityContext
    * objects for each of the client in the `clients` dictionary
    */
-  clientContexts: { [name: string]: ClientEntityContext };
+  clientContexts: Record<string, ClientEntityContext>;
 
   /**
    * Function returning a promise that resolves once the connectionContext is ready to open an AMQP link.

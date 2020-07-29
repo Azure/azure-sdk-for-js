@@ -19,7 +19,7 @@ import { loopUntil } from "./testUtils";
 const should = chai.should();
 
 export interface HandlerAndPositions {
-  startPosition: { [partitionId: string]: EventPosition };
+  startPosition: Record<string, EventPosition>;
   subscriptionEventHandler: SubscriptionHandlerForTests;
 }
 
@@ -31,7 +31,7 @@ export class SubscriptionHandlerForTests implements Required<SubscriptionEventHa
     client: EventHubProducerClient | EventHubConsumerClient
   ): Promise<HandlerAndPositions> {
     const partitionIds = await client.getPartitionIds({});
-    const startPosition: { [partitionId: string]: EventPosition } = {};
+    const startPosition: Record<string, EventPosition> = {};
 
     for (const partitionId of partitionIds) {
       const props = await client.getPartitionProperties(partitionId);

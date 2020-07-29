@@ -2414,7 +2414,7 @@ export class ServiceBusManagementClient extends ServiceClient {
       options
     );
     try {
-      const queryParams: { [key: string]: string } = {};
+      const queryParams: Record<string, string> = {};
       if (options) {
         if (options.skip) {
           queryParams["$skip"] = options.skip.toString();
@@ -2466,7 +2466,7 @@ export class ServiceBusManagementClient extends ServiceClient {
     }
   }
 
-  private getUrl(path: string, queryParams?: { [key: string]: string }): string {
+  private getUrl(path: string, queryParams?: Record<string, string>): string {
     const baseUri = `https://${this.endpoint}/${path}`;
 
     const requestUrl: URLBuilder = URLBuilder.parse(baseUri);

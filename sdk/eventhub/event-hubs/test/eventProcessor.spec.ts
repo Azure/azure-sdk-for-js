@@ -868,7 +868,7 @@ describe("Event Processor", function(): void {
       let processedAtLeastOneEvent = new Set();
       const checkpointSequenceNumbers: Map<string, number> = new Map();
 
-      let partionCount: { [x: string]: number } = {};
+      let partionCount: Record<string, number> = {};
 
       class FooPartitionProcessor {
         async processEvents(events: ReceivedEventData[], context: PartitionContext) {

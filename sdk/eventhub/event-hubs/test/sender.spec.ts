@@ -34,7 +34,7 @@ describe("EventHub Sender", function(): void {
   };
   let producerClient: EventHubProducerClient;
   let consumerClient: EventHubConsumerClient;
-  let startPosition: { [partitionId: string]: EventPosition };
+  let startPosition: Record<string, EventPosition>;
 
   before("validate environment", function(): void {
     should.exist(

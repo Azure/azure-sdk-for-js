@@ -52,7 +52,7 @@ export interface ClientEntityContextBase {
    * @property messageSessions A dictionary of the MessageSession
    * objects associated with this client.
    */
-  messageSessions: { [name: string]: MessageSession };
+  messageSessions: Record<string, MessageSession>;
   /**
    * @property {MessageSender} [sender] The ServiceBus sender associated with the client entity.
    */
@@ -314,7 +314,7 @@ export namespace ClientEntityContext {
  * @ignore
  */
 function getManagementClient(
-  clients: { [name: string]: ClientEntityContext },
+  clients: Record<string, ClientEntityContext>,
   entityPath: string
 ): ManagementClient | undefined {
   let result: ManagementClient | undefined;

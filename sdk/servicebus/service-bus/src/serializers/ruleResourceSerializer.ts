@@ -318,7 +318,7 @@ function getSqlParametersOrUndefined(value: any): SqlParameter[] | undefined {
  * or undefined if not passed in.
  * @param value
  */
-function getUserPropertiesOrUndefined(value: any): { [key: string]: any } | undefined {
+function getUserPropertiesOrUndefined(value: any): Record<string, any> | undefined {
   if (!value) {
     return undefined;
   }
@@ -422,7 +422,7 @@ export function getRawSqlParameters(
  * @param value
  */
 export function getRawUserProperties(
-  parameters: { [key: string]: any } | undefined
+  parameters: Record<string, any> | undefined
 ): InternalRawKeyValuePairs | undefined {
   if (parameters == undefined) {
     return undefined;

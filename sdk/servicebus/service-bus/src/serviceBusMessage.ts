@@ -219,7 +219,7 @@ export interface ServiceBusMessage {
    * @property The application specific properties which can be
    * used for custom message metadata.
    */
-  properties?: { [key: string]: any };
+  properties?: Record<string, any>;
 }
 
 /**
@@ -495,7 +495,7 @@ export interface ReceivedMessageWithLock extends ReceivedMessage {
    *
    * @return Promise<void>.
    */
-  abandon(propertiesToModify?: { [key: string]: any }): Promise<void>;
+  abandon(propertiesToModify?: Record<string, any>): Promise<void>;
 
   /**
    * Defers the processing of the message. Save the `sequenceNumber` of the message, in order to
@@ -521,7 +521,7 @@ export interface ReceivedMessageWithLock extends ReceivedMessage {
    *
    * @returns Promise<void>
    */
-  defer(propertiesToModify?: { [key: string]: any }): Promise<void>;
+  defer(propertiesToModify?: Record<string, any>): Promise<void>;
 
   /**
    * Moves the message to the deadletter sub-queue. To receive a deadletted message, create a new
@@ -704,7 +704,7 @@ export class ServiceBusMessageImpl implements ReceivedMessageWithLock {
   /**
    * @property The application specific properties.
    */
-  properties?: { [key: string]: any };
+  properties?: Record<string, any>;
   /**
    * @property The message identifier is an
    * application-defined value that uniquely identifies the message and its payload. The identifier
@@ -925,7 +925,7 @@ export class ServiceBusMessageImpl implements ReceivedMessageWithLock {
   /**
    * See ReceivedMessageWithLock.abandon().
    */
-  async abandon(propertiesToModify?: { [key: string]: any }): Promise<void> {
+  async abandon(propertiesToModify?: Record<string, any>): Promise<void> {
     // TODO: Figure out a mechanism to convert specified properties to message_annotations.
     log.message(
       "[%s] Abandoning the message with id '%s'.",
@@ -940,7 +940,7 @@ export class ServiceBusMessageImpl implements ReceivedMessageWithLock {
   /**
    * See ReceivedMessageWithLock.defer().
    */
-  async defer(propertiesToModify?: { [key: string]: any }): Promise<void> {
+  async defer(propertiesToModify?: Record<string, any>): Promise<void> {
     log.message(
       "[%s] Deferring the message with id '%s'.",
       this._context.namespace.connectionId,

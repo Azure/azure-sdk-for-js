@@ -72,7 +72,7 @@ export async function getStartingPositionsForTests(
 ): Promise<{ [partitionId: string]: EventPosition }> {
   const eventHubProperties = await client.getEventHubProperties();
 
-  const startingPositions: { [partitionId: string]: EventPosition } = {};
+  const startingPositions: Record<string, EventPosition> = {};
 
   for (const partitionId of eventHubProperties.partitionIds) {
     startingPositions[partitionId] = {
