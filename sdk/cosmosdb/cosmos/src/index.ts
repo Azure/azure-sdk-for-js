@@ -5,6 +5,18 @@ export { StatusCodes } from "./common";
 export { extractPartitionKey } from "./extractPartitionKey";
 export { setAuthorizationTokenHeaderUsingMasterKey } from "./auth";
 export {
+  Operation,
+  OperationResponse,
+  CreateOperation,
+  UpsertOperation,
+  ReplaceOperation,
+  DeleteOperation,
+  ReadOperation,
+  OperationBase,
+  OperationWithItem,
+  OperationInput
+} from "./utils/batch";
+export {
   ConnectionMode,
   ConsistencyLevel,
   ConnectionPolicy,

@@ -26,14 +26,11 @@ npm install @azure/ms-rest-azure-js
 ##### Sample code
 The following sample determines anamolies with the given time series. To know more, refer to the [Azure Documentation on Anomaly Detectors](https://docs.microsoft.com/en-us/azure/cognitive-services/anomaly-detector/)
 
-```typescript
-import {
-  AnomalyDetectorClient,
-  AnomalyDetectorModels
-} from "@azure/cognitiveservices-anomalydetector";
-import { CognitiveServicesCredentials } from "@azure/ms-rest-azure-js";
+```javascript
+const { AnomalyDetectorClient } = require("@azure/cognitiveservices-anomalydetector");
+const { CognitiveServicesCredentials } = require("@azure/ms-rest-azure-js");
 
-async function main(): Promise<void> {
+async function main() {
   const anomalyDetectorKey = process.env["anomalyDetectorKey"] || "<anomalyDetectorKey>";
   const anomalyDetectorEndPoint =
     process.env["anomalyDetectorEndPoint"] || "<anomalyDetectorEndPoint>";
@@ -42,7 +39,7 @@ async function main(): Promise<void> {
 
   const client = new AnomalyDetectorClient(cognitiveServiceCredentials, anomalyDetectorEndPoint);
 
-  const body: AnomalyDetectorModels.Request = {
+  const body = {
     series: [
       {
         timestamp: new Date("December 15, 2018"),

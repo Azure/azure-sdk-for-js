@@ -919,6 +919,7 @@ export const SentenceSentiment: coreHttp.CompositeMapper = {
     modelProperties: {
       text: {
         serializedName: "text",
+        required: true,
         type: {
           name: "String"
         }

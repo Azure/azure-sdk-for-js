@@ -20,6 +20,7 @@ export function createClientEntityContextForTests(options?: {
       config: { endpoint: "my.service.bus" },
       connectionId: "connection-id",
       connection: {
+        id: "connection-id",
         createAwaitableSender: async (): Promise<AwaitableSender> => {
           if (options?.onCreateAwaitableSenderCalled) {
             options.onCreateAwaitableSenderCalled();
@@ -36,7 +37,11 @@ export function createClientEntityContextForTests(options?: {
             options.onCreateReceiverCalled();
           }
 
-          return ({} as any) as RheaReceiver;
+          return ({
+            connection: {
+              id: "connection-id",
+            }
+          } as any) as RheaReceiver;
         }
       },
       dataTransformer: new DefaultDataTransformer(),

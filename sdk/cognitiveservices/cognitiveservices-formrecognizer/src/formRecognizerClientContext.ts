@@ -11,7 +11,7 @@
 import * as msRest from "@azure/ms-rest-js";
 
 const packageName = "@azure/cognitiveservices-formrecognizer";
-const packageVersion = "2.0.0";
+const packageVersion = "2.0.1";
 
 export class FormRecognizerClientContext extends msRest.ServiceClient {
   endpoint: string;
