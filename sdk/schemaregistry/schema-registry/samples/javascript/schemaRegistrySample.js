@@ -5,18 +5,18 @@
  * Demonstrates something
  */
 
-import { AzureKeyCredential } from "@azure/template";
+import { AzureKeyCredential } from "@azure/schema-registry";
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
+const dotenv = require("dotenv");
 dotenv.config();
 
 // You will need to set this environment variables or edit the following values
 // const endpoint = process.env["ENDPOINT"] || "<endpoint>";
 const apiKey = process.env["API_KEY"] || "<api key>";
 
-export async function main() {
-  console.log("== Sample Template ==");
+async function main() {
+  console.log("== Sample SchemaRegistry ==");
   new AzureKeyCredential(apiKey);
 
   // TODO
@@ -25,3 +25,4 @@ export async function main() {
 main().catch((err) => {
   console.error("The sample encountered an error:", err);
 });
+

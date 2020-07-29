@@ -6,17 +6,17 @@ languages:
   - typescript
 products:
   - azure
-  - azure-template
-urlFragment: template-typescript
+  - azure-schema-registry
+urlFragment: schema-registry-typescript
 --- -->
 
-# Azure Template client library samples for TypeScript
+# Azure Schema-Registry client library samples for TypeScript
 
-These sample programs show how to use the TypeScript client libraries for Azure Template in some common scenarios.
+These sample programs show how to use the TypeScript client libraries for Azure schema-registry in some common scenarios.
 
 | **File Name**                                           | **Description**                                                                                    |
 | ------------------------------------------------------- | -------------------------------------------------------------------------------------------------- |
-| [sampleTemplate.ts][sampleTemplate]                     | sample template                                                                                    |
+| [schemaRegistrySample.ts][schemaRegistrySample]         | schema-registry sample                                                                                    |
 
 ## Prerequisites
 
@@ -53,21 +53,21 @@ npm run build
 4. Run whichever samples you like (note that some samples may require additional setup, see the table above):
 
 ```bash
-node dist/sampleTemplate.js
+node dist/schemaRegistrySample.js
 ```
 
 Alternatively, run a single sample with the correct environment variables set (step 3 is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env ENDPOINT="<endpoint>" API_KEY="<api key>" node dist/sampleTemplate.js
+npx cross-env ENDPOINT="<endpoint>" API_KEY="<api key>" node dist/schemaRegistrySample.js
 ```
 
 ## Next Steps
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[sampleTemplate]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/template/template/samples/typescript/src/sampleTemplate.ts
+[schemaRegistrySample]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/schemaregistry/schema-registry/samples/typescript/src/schemaRegistrySample.ts
 [apiref]: https://docs.microsoft.com/javascript/api
 [freesub]: https://azure.microsoft.com/free/
-[package]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/template/template/README.md
+[package]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/schemaregistry/schema-registry/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

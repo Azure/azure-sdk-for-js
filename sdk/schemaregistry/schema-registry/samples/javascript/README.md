@@ -6,17 +6,17 @@ languages:
   - javascript
 products:
   - azure
-  - azure-template
-urlFragment: template-javascript
+  - azure-schema-registry
+urlFragment: schema-registry-javascript
 --- -->
 
-# Azure Template client library samples for JavaScript
+# Azure Schema Registry client library samples for JavaScript
 
-These sample programs show how to use the JavaScript client libraries for Azure Template in some common scenarios.
+These sample programs show how to use the JavaScript client libraries for Azure schema-registry in some common scenarios.
 
 | **File Name**                                           | **Description**                                                                                    |
 | ------------------------------------------------------- | -------------------------------------------------------------------------------------------------- |
-| [sampleTemplate.js][sampleTemplate]                     | sample template                                                                                    |
+| [schemaRegistrySample.js][schemaRegistrySample]         | schema-registry sample                                                                                    |
 
 ## Prerequisites
 
@@ -41,20 +41,20 @@ npm install
 3. Run whichever samples you like (note that some samples may require additional setup, see the table above):
 
 ```bash
-node sampleTemplate.js
+node schemaRegistrySample.js
 ```
 
 Alternatively, run a single sample with the correct environment variables set (step 3 is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env ENDPOINT="<endpoint>" API_KEY="<api key>" node sampleTemplate.js
+npx cross-env ENDPOINT="<endpoint>" API_KEY="<api key>" node schemaRegistrySample.js
 ```
 
 ## Next Steps
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[sampleTemplate]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/template/template/samples/javascript/sampleTemplate.js
+[schemaRegistrySample]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/schemaregistry/schema-registry/samples/javascript/sampleschema-registry.js
 [apiref]: https://docs.microsoft.com/javascript/api
 [freesub]: https://azure.microsoft.com/free/
-[package]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/template/template/README.md
+[package]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/schemaregistry/schema-registry/README.md

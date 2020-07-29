@@ -1,8 +1,8 @@
 {
-  "name": "azure-template-samples-ts",
+  "name": "azure-schema-registry-samples-ts",
   "private": true,
   "version": "0.1.0",
-  "description": "Azure template client library samples for TypeScript",
+  "description": "Azure schema-registry client library samples for TypeScript",
   "engine": {
     "node": ">=8.0.0"
   },
@@ -13,7 +13,7 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Azure/azure-sdk-for-js.git",
-    "directory": "sdk/template/template"
+    "directory": "sdk/schema-registry/schema-registry"
   },
   "keywords": [
     "Azure",
@@ -25,7 +25,7 @@
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/template/template",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/schema-registry/schema-registry",
   "sideEffects": false,
   "dependencies": {
     "@azure/identity": "latest",

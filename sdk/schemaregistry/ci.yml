@@ -9,7 +9,7 @@ trigger:
       - hotfix/*
   paths:
     include:
-      - sdk/template/
+      - sdk/schemaregistry/
 
 pr:
   branches:
@@ -20,12 +20,12 @@ pr:
       - hotfix/*
   paths:
     include:
-      - sdk/template/
+      - sdk/schemaregistry/
 
 extends:
   template: ../../eng/pipelines/templates/stages/archetype-sdk-client.yml
   parameters:
-    ServiceDirectory: template
+    ServiceDirectory: schemaregistry
     Artifacts:
-      - name: azure-template
-        safeName: azuretemplate
+      - name: azure-schema-registry
+        safeName: azure-schema-registry
