@@ -44,7 +44,7 @@ export class BatchingReceiver extends MessageReceiver {
 
     this._batchingReceiverLite = new BatchingReceiverLite(
       context,
-      async (abortSignal?: AbortSignalLike): Promise<MinimalReceiver> => {
+      async (abortSignal?: AbortSignalLike): Promise<MinimalReceiver | undefined> => {
         let lastError: Error | AmqpError | undefined;
 
         const rcvrOptions = this._createReceiverOptions(false, {
@@ -67,7 +67,7 @@ export class BatchingReceiver extends MessageReceiver {
           throw lastError;
         }
 
-        return this._receiver!;
+        return this._receiver;
       },
       this.receiveMode
     );
@@ -241,7 +241,9 @@ interface ReceiveMessageArgs {
 export class BatchingReceiverLite {
   constructor(
     clientEntityContext: ClientEntityContext,
-    private _getCurrentReceiver: (abortSignal?: AbortSignalLike) => Promise<MinimalReceiver>,
+    private _getCurrentReceiver: (
+      abortSignal?: AbortSignalLike
+    ) => Promise<MinimalReceiver | undefined>,
     private _receiveMode: ReceiveMode
   ) {
     this._createServiceBusMessage = (context: MessageAndDelivery) => {
@@ -280,6 +282,12 @@ export class BatchingReceiverLite {
     try {
       this.isReceivingMessages = true;
       const receiver = await this._getCurrentReceiver(args.userAbortSignal);
+
+      if (receiver == null) {
+        // (was somehow closed in between the init() and the return)
+        return [];
+      }
+
       return await this._receiveMessagesImpl(receiver, args);
     } finally {
       this._closeHandler = undefined;
