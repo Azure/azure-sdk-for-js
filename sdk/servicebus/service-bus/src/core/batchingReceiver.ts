@@ -122,11 +122,6 @@ export class BatchingReceiver extends MessageReceiver {
         this.name
       );
 
-      // while creating the receiver link for batching receiver the max concurrent calls
-      // i.e. the credit_window on the link is set to zero. After the link is created
-      // successfully, we add credit which is the maxMessageCount specified by the user.
-      this.maxConcurrentCalls = 0;
-
       return await this._batchingReceiverLite.receiveMessages({
         maxMessageCount,
         maxWaitTimeInMs,

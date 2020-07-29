@@ -14,6 +14,7 @@ import Long from "long";
 import { BatchingReceiver } from "../src/core/batchingReceiver";
 import { delay } from "rhea-promise";
 import { SessionReceiverImpl } from "../src/receivers/sessionReceiver";
+import { ReceiverImpl } from "../src/receivers/receiver";
 
 describe("Retries - ManagementClient", () => {
   let sender: Sender;
@@ -460,10 +461,12 @@ describe("Retries - onDetached", () => {
         async processError() {}
       });
       await delay(2000);
-      (receiver as any)._context.streamingReceiver._init = fakeFunction;
-      await (receiver as any)._context.streamingReceiver.onDetached(
-        new MessagingError("Hello there, I'm an error")
-      );
+
+      const streamingReceiver = (receiver as ReceiverImpl<any>)["_context"].streamingReceiver!;
+      should.exist(streamingReceiver);
+
+      streamingReceiver["init"] = fakeFunction;
+      await streamingReceiver.onDetached(new MessagingError("Hello there, I'm an error"));
     });
   });
 
