@@ -72,7 +72,7 @@ const mockServiceBusAtomManagementClient: ServiceBusManagementClient = new Servi
   "Endpoint=sb://test/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=test"
 );
 
-describe("atom", () => {
+describe("ATOM Serializers", () => {
   describe("atomSerializationPolicy", function() {
     it("should throw an error if receiving a non-XML response body", async function() {
       const request = new WebResource();
