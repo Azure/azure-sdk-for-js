@@ -34,7 +34,7 @@ import { AzureReservationAPI, AzureReservationAPIModels, AzureReservationAPIMapp
 const subscriptionId = process.env["AZURE_SUBSCRIPTION_ID"];
 
 msRestNodeAuth.interactiveLogin().then((creds) => {
-  const client = new AzureReservationAPI(creds, subscriptionId);
+  const client = new AzureReservationAPI(creds);
   const subscriptionId = "testsubscriptionId";
   const providerId = "testproviderId";
   const location = "westus";
@@ -81,7 +81,7 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
           // may cause redirects
           authManager.login();
         }
-        const client = new Azure.ArmReservations.AzureReservationAPI(res.creds, subscriptionId);
+        const client = new Azure.ArmReservations.AzureReservationAPI(res.creds);
         const subscriptionId = "testsubscriptionId";
         const providerId = "testproviderId";
         const location = "westus";
