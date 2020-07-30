@@ -26,21 +26,23 @@ npm install @azure/ms-rest-nodeauth
 ##### Sample code
 
 ```typescript
-import * as msRest from "@azure/ms-rest-js";
-import * as msRestAzure from "@azure/ms-rest-azure-js";
-import * as msRestNodeAuth from "@azure/ms-rest-nodeauth";
-import { AuthorizationManagementClient, AuthorizationManagementModels, AuthorizationManagementMappers } from "@azure/arm-authorization";
+const armAuthorization = require("@azure/arm-authorization");
+const msRestNodeAuth = require("@azure/ms-rest-nodeauth");
+
 const subscriptionId = process.env["AZURE_SUBSCRIPTION_ID"];
 
-msRestNodeAuth.interactiveLogin().then((creds) => {
-  const client = new AuthorizationManagementClient(creds, subscriptionId);
-  client.classicAdministrators.list().then((result) => {
-    console.log("The result is:");
-    console.log(result);
+msRestNodeAuth
+  .interactiveLogin()
+  .then((creds) => {
+    const client = new armAuthorization.AuthorizationManagementClient(creds, subscriptionId);
+    client.classicAdministrators.list().then((result) => {
+      console.log("The result is:");
+      console.log(result);
+    });
+  })
+  .catch((err) => {
+    console.error(err);
   });
-}).catch((err) => {
-  console.error(err);
-});
 ```
 
 #### browser - Authentication, client creation and list classicAdministrators as an example written in JavaScript.
