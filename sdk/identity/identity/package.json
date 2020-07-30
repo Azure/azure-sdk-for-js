@@ -7,7 +7,6 @@
   "module": "dist-esm/src/index.js",
   "types": "./types/identity.d.ts",
   "browser": {
-    "stream": "./node_modules/stream-browserify/index.js",
     "./dist-esm/src/credentials/azureCliCredential.js": "./dist-esm/src/credentials/azureCliCredential.browser.js",
     "./dist-esm/src/credentials/environmentCredential.js": "./dist-esm/src/credentials/environmentCredential.browser.js",
     "./dist-esm/src/credentials/managedIdentityCredential.js": "./dist-esm/src/credentials/managedIdentityCredential.browser.js",
