@@ -3,7 +3,7 @@
 
 import { TableServiceClientOptions } from "..";
 import { ConnectionString } from "./connectionString";
-import { SharedKeyCredential } from "../SharedKeyCredential";
+import { TablesSharedKeyCredential } from "../TablesSharedKeyCredential";
 
 /**
  * Gets client parameters from an Account Connection String
@@ -15,7 +15,7 @@ export function fromAccountConnectionString(
   extractedCreds: ConnectionString,
   options?: TableServiceClientOptions
 ) {
-  const sharedKeyCredential = new SharedKeyCredential(
+  const sharedKeyCredential = new TablesSharedKeyCredential(
     extractedCreds.accountName!,
     extractedCreds.accountKey
   );

@@ -6,5 +6,5 @@ export * from "./models";
 
 export { TableServiceClient } from "./TableServiceClient";
 export { TableClient } from "./TableClient";
-export { SharedKeyCredential } from "./SharedKeyCredential";
-export { SharedKeyCredentialPolicy } from "./SharedKeyCredentialPolicy";
+export { TablesSharedKeyCredential } from "./TablesSharedKeyCredential";
+export { TablesSharedKeyCredentialPolicy } from "./TablesSharedKeyCredentialPolicy";

@@ -288,21 +288,6 @@ export type SetPropertiesResponse = ServiceSetPropertiesHeaders & {
 };
 
 // @public
-export class SharedKeyCredential implements RequestPolicyFactory {
-    constructor(accountName: string, accountKey: string);
-    readonly accountName: string;
-    computeHMACSHA256(stringToSign: string): string;
-    create(nextPolicy: RequestPolicy, options: RequestPolicyOptions): SharedKeyCredentialPolicy;
-}
-
-// @public
-export class SharedKeyCredentialPolicy extends BaseRequestPolicy {
-    constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptions, factory: SharedKeyCredential);
-    sendRequest(request: WebResource): Promise<HttpOperationResponse>;
-    protected signRequest(request: WebResource): WebResource;
-}
-
-// @public
 export interface SignedIdentifier {
     accessPolicy: AccessPolicy;
     id: string;
@@ -310,7 +295,7 @@ export interface SignedIdentifier {
 
 // @public
 export class TableClient {
-    constructor(url: string, tableName: string, credential: SharedKeyCredential, options?: TableServiceClientOptions);
+    constructor(url: string, tableName: string, credential: TablesSharedKeyCredential, options?: TableServiceClientOptions);
     constructor(url: string, tableName: string, options?: TableServiceClientOptions);
     createEntity(entity?: Entity, options?: CreateEntityOptions): Promise<CreateEntityResponse>;
     deleteEntity(partitionKey: string, rowKey: string, ifMatch: string, options?: DeleteEntityOptions): Promise<DeleteEntityResponse>;
@@ -494,7 +479,7 @@ export interface TableResponseProperties {
 
 // @public
 export class TableServiceClient {
-    constructor(url: string, credential: SharedKeyCredential, options?: TableServiceClientOptions);
+    constructor(url: string, credential: TablesSharedKeyCredential, options?: TableServiceClientOptions);
     constructor(url: string, options?: TableServiceClientOptions);
     createEntity(tableName: string, entity?: Entity, options?: CreateEntityOptions): Promise<CreateEntityResponse>;
     createTable(tableName: string, options?: CreateTableOptions): Promise<CreateTableResponse>;
@@ -537,6 +522,21 @@ export interface TableSetAccessPolicyOptionalParams extends coreHttp.OperationOp
     requestId?: string;
     tableAcl?: SignedIdentifier[];
     timeout?: number;
+}
+
+// @public
+export class TablesSharedKeyCredential implements RequestPolicyFactory {
+    constructor(accountName: string, accountKey: string);
+    readonly accountName: string;
+    computeHMACSHA256(stringToSign: string): string;
+    create(nextPolicy: RequestPolicy, options: RequestPolicyOptions): TablesSharedKeyCredentialPolicy;
+}
+
+// @public
+export class TablesSharedKeyCredentialPolicy extends BaseRequestPolicy {
+    constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptions, factory: TablesSharedKeyCredential);
+    sendRequest(request: WebResource): Promise<HttpOperationResponse>;
+    protected signRequest(request: WebResource): WebResource;
 }
 
 // @public

@@ -8,37 +8,35 @@ import {
   BaseRequestPolicy,
   HttpOperationResponse
 } from "@azure/core-http";
-import { SharedKeyCredential } from "./SharedKeyCredential";
+import { TablesSharedKeyCredential } from "./TablesSharedKeyCredential";
 import { HeaderConstants } from "./utils/constants";
 import { URL } from "./utils/url";
 
 /**
- * SharedKeyCredentialPolicy is a policy used to sign HTTP request with a shared key.
+ * TablesSharedKeyCredentialPolicy is a policy used to sign HTTP request with a shared key.
  *
  * @export
- * @class SharedKeyCredentialPolicy
+ * @class TablesSharedKeyCredentialPolicy
  * @extends {CredentialPolicy}
  */
-export class SharedKeyCredentialPolicy extends BaseRequestPolicy {
+export class TablesSharedKeyCredentialPolicy extends BaseRequestPolicy {
   /**
-   * Reference to {@link SharedKeyCredential} which generates SharedKeyCredentialPolicy
+   * Reference to {@link TablesSharedKeyCredential} which generates TablesSharedKeyCredentialPolicy
    *
-   * @type {SharedKeyCredential}
-   * @memberof SharedKeyCredentialPolicy
+   * @type {TablesSharedKeyCredential}
    */
-  private readonly factory: SharedKeyCredential;
+  private readonly factory: TablesSharedKeyCredential;
 
   /**
-   * Creates an instance of SharedKeyCredentialPolicy.
+   * Creates an instance of TablesSharedKeyCredentialPolicy.
    * @param {RequestPolicy} nextPolicy
    * @param {RequestPolicyOptions} options
-   * @param {SharedKeyCredential} factory
-   * @memberof SharedKeyCredentialPolicy
+   * @param {TablesSharedKeyCredential} factory
    */
   constructor(
     nextPolicy: RequestPolicy,
     options: RequestPolicyOptions,
-    factory: SharedKeyCredential
+    factory: TablesSharedKeyCredential
   ) {
     super(nextPolicy, options);
     this.factory = factory;
@@ -49,7 +47,6 @@ export class SharedKeyCredentialPolicy extends BaseRequestPolicy {
    *
    * @param {WebResource} request
    * @returns {Promise<HttpOperationResponse>}
-   * @memberof CredentialPolicy
    */
   public sendRequest(request: WebResource): Promise<HttpOperationResponse> {
     return this._nextPolicy.sendRequest(this.signRequest(request));
@@ -61,7 +58,6 @@ export class SharedKeyCredentialPolicy extends BaseRequestPolicy {
    * @protected
    * @param {WebResource} request
    * @returns {WebResource}
-   * @memberof SharedKeyCredentialPolicy
    */
   protected signRequest(request: WebResource): WebResource {
     request.headers.set(HeaderConstants.X_MS_DATE, new Date().toUTCString());
@@ -105,7 +101,6 @@ export class SharedKeyCredentialPolicy extends BaseRequestPolicy {
    * @param {WebResource} request
    * @param {string} headerName
    * @returns {string}
-   * @memberof SharedKeyCredentialPolicy
    */
   private getHeaderValueToSign(request: WebResource, headerName: string): string {
     const value = request.headers.get(headerName);
@@ -122,7 +117,6 @@ export class SharedKeyCredentialPolicy extends BaseRequestPolicy {
    * @private
    * @param {WebResource} request
    * @returns {string}
-   * @memberof SharedKeyCredentialPolicy
    */
   private getCanonicalizedResourceString(request: WebResource): string {
     const url = new URL(request.url);

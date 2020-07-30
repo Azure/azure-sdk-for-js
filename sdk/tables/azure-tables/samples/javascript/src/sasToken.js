@@ -1,19 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { TableServiceClient, TableClient, TablesSharedKeyCredential } from "@azure/tables";
+const { TableServiceClient, TableClient } = require("@azure/tables");
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
+const dotenv = require("dotenv");
 dotenv.config();
 
+const accountSas = process.env["ACCOUNT_SAS"] || "";
 const accountName = process.env["ACCOUNT_NAME"] || "";
-const accountKey = process.env["ACCOUNT_KEY"] || "";
-const accountUrl = process.env["ACCOUNT_URL"] || "";
 
 async function listTables() {
-  const credential = new TablesSharedKeyCredential(accountName, accountKey);
-  const client = new TableServiceClient(accountUrl, credential);
+  const accountUrl = `https://${accountName}.table.core.windows.net${accountSas}`;
+  const client = new TableServiceClient(accountUrl);
 
   const tables = await client.listTables();
 
@@ -21,9 +20,9 @@ async function listTables() {
 }
 
 async function listEntities() {
+  const accountUrl = `https://${accountName}.table.core.windows.net${accountSas}`;
   const tableName = "test1";
-  const credential = new TablesSharedKeyCredential(accountName, accountKey);
-  const client = new TableClient(accountUrl, tableName, credential);
+  const client = new TableClient(accountUrl, tableName);
 
   const entities = await client.listEntities();
 

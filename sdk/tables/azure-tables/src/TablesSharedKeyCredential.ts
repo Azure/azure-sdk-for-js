@@ -4,23 +4,21 @@
 import { createHmac } from "crypto";
 import { RequestPolicy, RequestPolicyOptions, RequestPolicyFactory } from "@azure/core-http";
 
-import { SharedKeyCredentialPolicy } from "./SharedKeyCredentialPolicy";
+import { TablesSharedKeyCredentialPolicy } from "./TablesSharedKeyCredentialPolicy";
 
 /**
  * ONLY AVAILABLE IN NODE.JS RUNTIME.
  *
- * SharedKeyCredential for account key authorization of Azure  service.
+ * TablesSharedKeyCredential for account key authorization of Azure  service.
  *
  * @export
- * @class SharedKeyCredential
- * @extends {Credential}
+ * @class TablesSharedKeyCredential
  */
-export class SharedKeyCredential implements RequestPolicyFactory {
+export class TablesSharedKeyCredential implements RequestPolicyFactory {
   /**
    * Azure  account name; readonly.
    *
    * @type {string}
-   * @memberof SharedKeyCredential
    */
   public readonly accountName: string;
 
@@ -28,15 +26,13 @@ export class SharedKeyCredential implements RequestPolicyFactory {
    * Azure  account key; readonly.
    *
    * @type {Buffer}
-   * @memberof SharedKeyCredential
    */
   private readonly accountKey: Buffer;
 
   /**
-   * Creates an instance of SharedKeyCredential.
+   * Creates an instance of TablesSharedKeyCredential.
    * @param {string} accountName
    * @param {string} accountKey
-   * @memberof SharedKeyCredential
    */
   constructor(accountName: string, accountKey: string) {
     this.accountName = accountName;
@@ -44,18 +40,17 @@ export class SharedKeyCredential implements RequestPolicyFactory {
   }
 
   /**
-   * Creates a {@link SharedKeyCredentialPolicy} object.
+   * Creates a {@link TablesSharedKeyCredentialPolicy} object.
    *
    * @param {RequestPolicy} nextPolicy
    * @param {RequestPolicyOptions} options
-   * @returns {SharedKeyCredentialPolicy}
-   * @memberof SharedKeyCredential
+   * @returns {TablesSharedKeyCredentialPolicy}
    */
   public create(
     nextPolicy: RequestPolicy,
     options: RequestPolicyOptions
-  ): SharedKeyCredentialPolicy {
-    return new SharedKeyCredentialPolicy(nextPolicy, options, this);
+  ): TablesSharedKeyCredentialPolicy {
+    return new TablesSharedKeyCredentialPolicy(nextPolicy, options, this);
   }
 
   /**
@@ -63,7 +58,6 @@ export class SharedKeyCredential implements RequestPolicyFactory {
    *
    * @param {string} stringToSign
    * @returns {string}
-   * @memberof SharedKeyCredential
    */
   public computeHMACSHA256(stringToSign: string): string {
     return createHmac("sha256", this.accountKey)

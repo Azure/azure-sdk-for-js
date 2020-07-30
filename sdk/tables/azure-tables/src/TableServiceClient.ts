@@ -42,7 +42,7 @@ import {
   SetAccessPolicyResponse
 } from "./generatedModels";
 import { getClientParamsFromConnectionString } from "./utils/connectionString";
-import { SharedKeyCredential } from "./SharedKeyCredential";
+import { TablesSharedKeyCredential } from "./TablesSharedKeyCredential";
 
 /**
  * A TableServiceClient represents a Client to the Azure Tables service allowing you
@@ -58,14 +58,14 @@ export class TableServiceClient {
    * @param {string} url The URL of the service account that is the target of the desired operation., such as
    *                     "https://myaccount.table.core.windows.net". You can append a SAS,
    *                     such as "https://myaccount.table.core.windows.net?sasString".
-   * @param {SharedKeyCredential} credential  SharedKeyCredential used to authenticate requests. Only Supported for Browsers
+   * @param {TablesSharedKeyCredential} credential  TablesSharedKeyCredential used to authenticate requests. Only Supported for Browsers
    * @param {TableServiceClientOptions} options Optional. Options to configure the HTTP pipeline.
    *
    * Example using an account name/key:
    *
    * ```js
    * const account = "<storage account name>"
-   * const sharedKeyCredential = new SharedKeyCredential(account, "<account key>");
+   * const sharedKeyCredential = new TablesSharedKeyCredential(account, "<account key>");
    *
    * const tableServiceClient = new TableServiceClient(
    *   `https://${account}.table.core.windows.net`,
@@ -74,7 +74,11 @@ export class TableServiceClient {
    * ```
    */
   // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-  constructor(url: string, credential: SharedKeyCredential, options?: TableServiceClientOptions);
+  constructor(
+    url: string,
+    credential: TablesSharedKeyCredential,
+    options?: TableServiceClientOptions
+  );
   /**
    * Creates a new instance of the TableServiceClient class.
    *
@@ -96,13 +100,15 @@ export class TableServiceClient {
   constructor(url: string, options?: TableServiceClientOptions);
   constructor(
     url: string,
-    credentialOrOptions?: SharedKeyCredential | TableServiceClientOptions,
+    credentialOrOptions?: TablesSharedKeyCredential | TableServiceClientOptions,
     options?: TableServiceClientOptions
   ) {
     const credential =
-      credentialOrOptions instanceof SharedKeyCredential ? credentialOrOptions : undefined;
+      credentialOrOptions instanceof TablesSharedKeyCredential ? credentialOrOptions : undefined;
     const clientOptions =
-      (!(credentialOrOptions instanceof SharedKeyCredential) ? credentialOrOptions : options) || {};
+      (!(credentialOrOptions instanceof TablesSharedKeyCredential)
+        ? credentialOrOptions
+        : options) || {};
 
     if (credential) {
       clientOptions.requestPolicyFactories = (defaultFactories) => [
@@ -324,7 +330,6 @@ export class TableServiceClient {
    *                                  `BlobEndpoint=https://myaccount.table.core.windows.net/;QueueEndpoint=https://myaccount.queue.core.windows.net/;FileEndpoint=https://myaccount.file.core.windows.net/;TableEndpoint=https://myaccount.table.core.windows.net/;SharedAccessSignature=sasString`
    * @param {TableServiceClientOptions} [options] Options to configure the HTTP pipeline.
    * @returns {TableServiceClient} A new TableServiceClient from the given connection string.
-   * @memberof TableServiceClient
    */
   public static fromConnectionString(
     connectionString: string,
