@@ -41,6 +41,35 @@ export interface AnalyzeSentimentSuccessResult extends TextAnalyticsSuccessResul
   sentences: SentenceSentiment[];
 }
 
+export interface AspectSentiment {
+  /**
+   * AspectSentiment contains the related opinions, predicted sentiment,
+   * confidence scores and other information about an aspect of a product.
+   * An aspect of a product/service is a key component of that product/service.
+   * For example in "The food at Hotel Foo is good", "food" is an aspect of
+   * "Hotel Foo".
+   */
+  confidenceScores: SentimentConfidenceScores;
+  length: number;
+  offset: number;
+  sentiment: DocumentSentimentLabel;
+  text: string;
+}
+
+export interface OpinionSentiment {
+  confidenceScores: SentimentConfidenceScores;
+  isNegated: boolean;
+  length: number;
+  offset: number;
+  sentiment: DocumentSentimentLabel;
+  text: string;
+}
+
+export interface MinedOpinion {
+  aspect: AspectSentiment;
+  opinions: OpinionSentiment[];
+}
+
 /**
  * An error result from the analyze sentiment operation on a single document.
  */

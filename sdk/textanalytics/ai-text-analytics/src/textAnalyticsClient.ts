@@ -86,7 +86,24 @@ export type RecognizeCategorizedEntitiesOptions = TextAnalyticsOperationOptions;
 /**
  * Options for the analyze sentiment operation.
  */
-export type AnalyzeSentimentOptions = TextAnalyticsOperationOptions;
+export interface AnalyzeSentimentOptions extends TextAnalyticsOperationOptions {
+  /**
+   * Opinion mining is a feature of Sentiment Analysis. Also known as Aspect-based Sentiment
+   * Analysis in Natural Language Processing (NLP), this feature provides more granular
+   * information about the opinions related to aspects (such as the attributes of products
+   * or services) in text. For example, if a customer leaves feedback about a hotel such as
+   * "the room was great, but the staff was unfriendly", opinion mining will locate aspects
+   * in the text, and their associated opinions and sentiments:
+   *
+   * Aspect	    Opinion	   Sentiment
+   * room	      great	     positive
+   * staff	    unfriendly negative
+   *
+   * To get opinion mining in your results, you must set the mineOpinions flag to be true.
+   * The opinion mining results will be included in the sentiment analysis response.
+   */
+  mineOpinions?: boolean;
+}
 
 /**
  * Options for the extract key phrases operation.
