@@ -398,6 +398,11 @@
       "versionPolicyName": "core"
     },
     {
+      "packageName": "@azure/core-xml",
+      "projectFolder": "sdk/core/core-xml",
+      "versionPolicyName": "core"
+    },
+    {
       "packageName": "@azure/cosmos",
       "projectFolder": "sdk/cosmosdb/cosmos",
       "versionPolicyName": "client"

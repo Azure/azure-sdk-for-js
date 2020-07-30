@@ -1,16 +1,15 @@
 {
-  "name": "@azure/core-client",
+  "name": "@azure/core-xml",
   "version": "1.0.0-preview.1",
   "private": true,
-  "description": "Core library for interfacing with AutoRest generated code",
+  "description": "Core library for interacting with XML payloads",
   "sdk-type": "client",
   "main": "dist/index.js",
   "module": "dist-esm/src/index.js",
   "browser": {
-    "./dist-esm/src/base64.js": "./dist-esm/src/base64.browser.js",
-    "./dist-esm/src/url.js": "./dist-esm/src/url.browser.js"
+    "./dist-esm/src/xml.js": "./dist-esm/src/xml.browser.js"
   },
-  "types": "types/latest/core-client.d.ts",
+  "types": "types/latest/core-xml.d.ts",
   "typesVersions": {
     "<3.6": {
       "types/latest/*": [
@@ -41,7 +40,7 @@
     "integration-test:node": "echo skipped",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "lint:fix": "eslint package.json tsconfig.json api-extractor.json src test --ext .ts --fix --fix-type [problem,suggestion]",
-    "lint": "eslint package.json tsconfig.json api-extractor.json src test --ext .ts -f html -o coreClient-lintReport.html || exit 0",
+    "lint": "eslint package.json tsconfig.json api-extractor.json src test --ext .ts -f html -o coreXml-lintReport.html || exit 0",
     "pack": "npm pack 2>&1",
     "prebuild": "npm run clean",
     "test:browser": "npm run build:test:browser && npm run unit-test:browser && npm run integration-test:browser",
@@ -54,8 +53,8 @@
   "files": [
     "dist/",
     "dist-esm/src/",
-    "types/latest/core-client.d.ts",
-    "types/3.1/core-client.d.ts",
+    "types/latest/core-xml.d.ts",
+    "types/3.1/core-xml.d.ts",
     "README.md",
     "LICENSE"
   ],
@@ -73,19 +72,14 @@
   "engines": {
     "node": ">=8.0.0"
   },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/core/core-client/",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/core/core-xml/",
   "sideEffects": false,
   "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
   "dependencies": {
-    "@azure/abort-controller": "^1.0.0",
-    "@azure/core-auth": "^1.1.3",
-    "@azure/core-https": "1.0.0-preview.1",
-    "@azure/core-tracing": "1.0.0-preview.8",
-    "@opentelemetry/api": "^0.6.1",
-    "tslib": "^2.0.0"
+    "tslib": "^2.0.0",
+    "xml2js": "^0.4.19"
   },
   "devDependencies": {
-    "@azure/core-xml": "1.0.0-preview.1",
     "@microsoft/api-extractor": "7.7.11",
     "@rollup/plugin-commonjs": "11.0.2",
     "@rollup/plugin-json": "^4.0.0",
@@ -96,6 +90,7 @@
     "@types/mocha": "^7.0.2",
     "@types/node": "^8.0.0",
     "@types/sinon": "^9.0.4",
+    "@types/xml2js": "^0.4.3",
     "@typescript-eslint/eslint-plugin": "^2.0.0",
     "@typescript-eslint/parser": "^2.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",

@@ -21,6 +21,7 @@ import {
   HttpsClient,
   createPipelineRequest
 } from "@azure/core-https";
+import { stringifyXML } from "@azure/core-xml";
 import { serializeRequestBody } from "../src/serviceClient";
 import { getOperationArgumentValueFromParameter } from "../src/operationHelpers";
 import { deserializationPolicy } from "../src/deserializationPolicy";
@@ -279,12 +280,13 @@ describe("ServiceClient", function() {
           },
           responses: { 200: {} },
           serializer: createSerializer()
-        }
+        },
+        stringifyXML
       );
       assert.strictEqual(httpRequest.body, "body value");
     });
 
-    it.skip("should serialize an XML String request body", () => {
+    it("should serialize an XML String request body", () => {
       const httpRequest = createPipelineRequest({ url: "https://example.com" });
       serializeRequestBody(
         httpRequest,
@@ -306,7 +308,8 @@ describe("ServiceClient", function() {
           responses: { 200: {} },
           serializer: createSerializer(),
           isXML: true
-        }
+        },
+        stringifyXML
       );
       assert.strictEqual(
         httpRequest.body,
@@ -314,7 +317,7 @@ describe("ServiceClient", function() {
       );
     });
 
-    it.skip("should serialize an XML ByteArray request body", () => {
+    it("should serialize an XML ByteArray request body", () => {
       const httpRequest = createPipelineRequest({ url: "https://example.com" });
       serializeRequestBody(
         httpRequest,
@@ -336,7 +339,8 @@ describe("ServiceClient", function() {
           responses: { 200: {} },
           serializer: createSerializer(),
           isXML: true
-        }
+        },
+        stringifyXML
       );
       assert.strictEqual(
         httpRequest.body,
@@ -344,7 +348,7 @@ describe("ServiceClient", function() {
       );
     });
 
-    it.skip("should serialize an XML Stream request body", () => {
+    it("should serialize an XML Stream request body", () => {
       const httpRequest = createPipelineRequest({ url: "https://example.com" });
       serializeRequestBody(
         httpRequest,
@@ -366,7 +370,8 @@ describe("ServiceClient", function() {
           responses: { 200: {} },
           serializer: createSerializer(),
           isXML: true
-        }
+        },
+        stringifyXML
       );
       assert.strictEqual(httpRequest.body, "body value");
     });
