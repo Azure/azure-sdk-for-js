@@ -6,11 +6,11 @@
 
 import { AzureServiceClientOptions } from '@azure/core-arm';
 import * as coreHttp from '@azure/core-http';
+import { OperationOptions } from '@azure/core-http';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { PageSettings } from '@azure/core-paging';
 import { RequestOptionsBase } from '@azure/core-http';
 import { RestResponse } from '@azure/core-http';
-import { ServiceClientCredentials } from '@azure/core-http';
 import { TokenCredential } from '@azure/core-http';
 
 // @public
@@ -66,11 +66,6 @@ export interface DigitalTwinsAddHeaders {
 }
 
 // @public
-export interface DigitalTwinsAddOptionalParams extends coreHttp.RequestOptionsBase {
-    ifNoneMatch?: IfNoneMatch;
-}
-
-// @public
 export interface DigitalTwinsAddRelationshipHeaders {
     etag: string;
 }
@@ -103,31 +98,31 @@ export type DigitalTwinsAddResponse = DigitalTwinsAddHeaders & {
 
 // @public
 export class DigitalTwinsClient {
-    constructor(endpoint: string, credential: TokenCredential | ServiceClientCredentials, options?: AzureDigitalTwinsAPIOptions);
-    createModels(models: any[]): Promise<DigitalTwinModelsAddResponse>;
-    decomissionModel(modelId: string, updateModel: any[]): Promise<RestResponse>;
-    deleteDigitalTwin(digitalTwinId: string, ifMatch?: string): Promise<RestResponse>;
-    deleteEventRoute(eventRouteId: string): Promise<RestResponse>;
-    deleteModel(modelId: string): Promise<RestResponse>;
-    deleteRelationship(digitalTwinId: string, relationshipId: string, ifMatch: string): Promise<RestResponse>;
-    getComponent(digitalTwinId: string, componentPath: string): Promise<DigitalTwinsGetComponentResponse>;
-    getDigitalTwin(digitalTwinId: string): Promise<DigitalTwinsGetByIdResponse>;
-    getEventRoute(eventRouteId: string): Promise<EventRoutesGetByIdResponse>;
-    getModel(modelId: string): Promise<DigitalTwinModelsGetByIdResponse>;
-    getRelationship(digitalTwinId: string, relationshipId: string): Promise<DigitalTwinsGetByIdResponse>;
+    constructor(endpoint: string, credential: TokenCredential, options?: AzureDigitalTwinsAPIOptions);
+    createModels(models: any[], options?: OperationOptions): Promise<DigitalTwinModelsAddResponse>;
+    decomissionModel(modelId: string, updateModel: any[], options?: OperationOptions): Promise<RestResponse>;
+    deleteDigitalTwin(digitalTwinId: string, etag?: string, options?: OperationOptions): Promise<RestResponse>;
+    deleteEventRoute(eventRouteId: string, options?: OperationOptions): Promise<RestResponse>;
+    deleteModel(modelId: string, options?: OperationOptions): Promise<RestResponse>;
+    deleteRelationship(digitalTwinId: string, relationshipId: string, etag?: string, options?: OperationOptions): Promise<RestResponse>;
+    getComponent(digitalTwinId: string, componentPath: string, options?: OperationOptions): Promise<DigitalTwinsGetComponentResponse>;
+    getDigitalTwin(digitalTwinId: string, options?: OperationOptions): Promise<DigitalTwinsGetByIdResponse>;
+    getEventRoute(eventRouteId: string, options?: OperationOptions): Promise<EventRoutesGetByIdResponse>;
+    getModel(modelId: string, includeModelDefinition?: boolean, options?: OperationOptions): Promise<DigitalTwinModelsGetByIdResponse>;
+    getRelationship(digitalTwinId: string, relationshipId: string, options?: OperationOptions): Promise<DigitalTwinsGetByIdResponse>;
     listEventRoutes(maxItemCount?: number): PagedAsyncIterableIterator<EventRoute, EventRoutesListNextResponse>;
     listIncomingRelationships(digitalTwinId: string, options?: RequestOptionsBase & PageSettings): PagedAsyncIterableIterator<IncomingRelationship, DigitalTwinsListIncomingRelationshipsResponse>;
     listModels(dependeciesFor?: string[], includeModelDefinition?: boolean, maxItemCount?: number): PagedAsyncIterableIterator<ModelData, DigitalTwinModelsListResponse>;
     listRelationships(digitalTwinId: string, options?: DigitalTwinsListRelationshipsOptionalParams & PageSettings): PagedAsyncIterableIterator<any>;
-    publishComponentTelemetry(digitalTwinId: string, componentPath: string, payload: string, messageId?: string): Promise<RestResponse>;
-    publishTelemetry(digitalTwinId: string, payload: any, messageId?: string): Promise<RestResponse>;
+    publishComponentTelemetry(digitalTwinId: string, componentPath: string, payload: string, messageId?: string, options?: OperationOptions): Promise<RestResponse>;
+    publishTelemetry(digitalTwinId: string, payload: any, messageId?: string, options?: OperationOptions): Promise<RestResponse>;
     queryTwins(query?: string): PagedAsyncIterableIterator<any, QueryQueryTwinsResponse>;
-    updateComponent(digitalTwinId: string, componentPath: string, options?: DigitalTwinsUpdateComponentOptionalParams): Promise<DigitalTwinsUpdateComponentResponse>;
-    updateDigitalTwin(digitalTwinId: string, twinPatch: any, options?: DigitalTwinsUpdateOptionalParams): Promise<DigitalTwinsUpdateResponse>;
-    updateRelationship(digitalTwinId: string, relationshipId: string, options?: DigitalTwinsUpdateRelationshipOptionalParams): Promise<DigitalTwinsUpdateRelationshipResponse>;
-    upsertDigitalTwin(digitalTwinId: string, digitalTwinJson: string, options?: DigitalTwinsAddOptionalParams): Promise<DigitalTwinsAddResponse>;
-    upsertEventRoute(eventRouteId: string, endpointName: string, filter?: string): Promise<RestResponse>;
-    upsertRelationship(digitalTwinId: string, relationshipId: string, options?: DigitalTwinsAddRelationshipOptionalParams): Promise<DigitalTwinsAddRelationshipResponse>;
+    updateComponent(digitalTwinId: string, componentPath: string, componentPatch?: any[], etag?: string, options?: OperationOptions): Promise<DigitalTwinsUpdateComponentResponse>;
+    updateDigitalTwin(digitalTwinId: string, twinPatch: any, etag?: string, options?: OperationOptions): Promise<DigitalTwinsUpdateResponse>;
+    updateRelationship(digitalTwinId: string, relationshipId: string, relationshipPatch: any[], etag?: string, options?: OperationOptions): Promise<DigitalTwinsUpdateRelationshipResponse>;
+    upsertDigitalTwin(digitalTwinId: string, digitalTwinJson: string, enableUpdate?: boolean, options?: OperationOptions): Promise<DigitalTwinsAddResponse>;
+    upsertEventRoute(eventRouteId: string, endpointId: string, filter?: string, options?: OperationOptions): Promise<RestResponse>;
+    upsertRelationship(digitalTwinId: string, relationshipId: string, relationship: any, enableUpdate?: boolean, options?: OperationOptions): Promise<DigitalTwinsAddRelationshipResponse>;
 }
 
 // @public

@@ -43,14 +43,23 @@ export class EventRoutes {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: Models.EventRoutesListOptionalParams, callback: coreHttp.ServiceCallback<Models.EventRouteCollection>): void;
-  list(options?: Models.EventRoutesListOptionalParams | coreHttp.ServiceCallback<Models.EventRouteCollection>, callback?: coreHttp.ServiceCallback<Models.EventRouteCollection>): Promise<Models.EventRoutesListResponse> {
+  list(
+    options: Models.EventRoutesListOptionalParams,
+    callback: coreHttp.ServiceCallback<Models.EventRouteCollection>
+  ): void;
+  list(
+    options?:
+      | Models.EventRoutesListOptionalParams
+      | coreHttp.ServiceCallback<Models.EventRouteCollection>,
+    callback?: coreHttp.ServiceCallback<Models.EventRouteCollection>
+  ): Promise<Models.EventRoutesListResponse> {
     return this.client.sendOperationRequest(
       {
         options
       },
       listOperationSpec,
-      callback) as Promise<Models.EventRoutesListResponse>;
+      callback
+    ) as Promise<Models.EventRoutesListResponse>;
   }
 
   /**
@@ -62,7 +71,10 @@ export class EventRoutes {
    * @param [options] The optional parameters
    * @returns Promise<Models.EventRoutesGetByIdResponse>
    */
-  getById(id: string, options?: coreHttp.RequestOptionsBase): Promise<Models.EventRoutesGetByIdResponse>;
+  getById(
+    id: string,
+    options?: coreHttp.RequestOptionsBase
+  ): Promise<Models.EventRoutesGetByIdResponse>;
   /**
    * @param id The id for an event route. The id is unique within event routes and case sensitive.
    * @param callback The callback
@@ -73,15 +85,24 @@ export class EventRoutes {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getById(id: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<Models.EventRoute>): void;
-  getById(id: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.EventRoute>, callback?: coreHttp.ServiceCallback<Models.EventRoute>): Promise<Models.EventRoutesGetByIdResponse> {
+  getById(
+    id: string,
+    options: coreHttp.RequestOptionsBase,
+    callback: coreHttp.ServiceCallback<Models.EventRoute>
+  ): void;
+  getById(
+    id: string,
+    options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<Models.EventRoute>,
+    callback?: coreHttp.ServiceCallback<Models.EventRoute>
+  ): Promise<Models.EventRoutesGetByIdResponse> {
     return this.client.sendOperationRequest(
       {
         id,
         options
       },
       getByIdOperationSpec,
-      callback) as Promise<Models.EventRoutesGetByIdResponse>;
+      callback
+    ) as Promise<Models.EventRoutesGetByIdResponse>;
   }
 
   /**
@@ -104,15 +125,24 @@ export class EventRoutes {
    * @param options The optional parameters
    * @param callback The callback
    */
-  add(id: string, options: Models.EventRoutesAddOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
-  add(id: string, options?: Models.EventRoutesAddOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<coreHttp.RestResponse> {
+  add(
+    id: string,
+    options: Models.EventRoutesAddOptionalParams,
+    callback: coreHttp.ServiceCallback<void>
+  ): void;
+  add(
+    id: string,
+    options?: Models.EventRoutesAddOptionalParams | coreHttp.ServiceCallback<void>,
+    callback?: coreHttp.ServiceCallback<void>
+  ): Promise<coreHttp.RestResponse> {
     return this.client.sendOperationRequest(
       {
         id,
         options
       },
       addOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -135,15 +165,24 @@ export class EventRoutes {
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(id: string, options: coreHttp.RequestOptionsBase, callback: coreHttp.ServiceCallback<void>): void;
-  deleteMethod(id: string, options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<coreHttp.RestResponse> {
+  deleteMethod(
+    id: string,
+    options: coreHttp.RequestOptionsBase,
+    callback: coreHttp.ServiceCallback<void>
+  ): void;
+  deleteMethod(
+    id: string,
+    options?: coreHttp.RequestOptionsBase | coreHttp.ServiceCallback<void>,
+    callback?: coreHttp.ServiceCallback<void>
+  ): Promise<coreHttp.RestResponse> {
     return this.client.sendOperationRequest(
       {
         id,
         options
       },
       deleteMethodOperationSpec,
-      callback);
+      callback
+    );
   }
 
   /**
@@ -155,26 +194,43 @@ export class EventRoutes {
    * @param [options] The optional parameters
    * @returns Promise<Models.EventRoutesListNextResponse>
    */
-  listNext(nextPageLink: string, options?: Models.EventRoutesListNextOptionalParams): Promise<Models.EventRoutesListNextResponse>;
+  listNext(
+    nextPageLink: string,
+    options?: Models.EventRoutesListNextOptionalParams
+  ): Promise<Models.EventRoutesListNextResponse>;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listNext(nextPageLink: string, callback: coreHttp.ServiceCallback<Models.EventRouteCollection>): void;
+  listNext(
+    nextPageLink: string,
+    callback: coreHttp.ServiceCallback<Models.EventRouteCollection>
+  ): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listNext(nextPageLink: string, options: Models.EventRoutesListNextOptionalParams, callback: coreHttp.ServiceCallback<Models.EventRouteCollection>): void;
-  listNext(nextPageLink: string, options?: Models.EventRoutesListNextOptionalParams | coreHttp.ServiceCallback<Models.EventRouteCollection>, callback?: coreHttp.ServiceCallback<Models.EventRouteCollection>): Promise<Models.EventRoutesListNextResponse> {
+  listNext(
+    nextPageLink: string,
+    options: Models.EventRoutesListNextOptionalParams,
+    callback: coreHttp.ServiceCallback<Models.EventRouteCollection>
+  ): void;
+  listNext(
+    nextPageLink: string,
+    options?:
+      | Models.EventRoutesListNextOptionalParams
+      | coreHttp.ServiceCallback<Models.EventRouteCollection>,
+    callback?: coreHttp.ServiceCallback<Models.EventRouteCollection>
+  ): Promise<Models.EventRoutesListNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
         options
       },
       listNextOperationSpec,
-      callback) as Promise<Models.EventRoutesListNextResponse>;
+      callback
+    ) as Promise<Models.EventRoutesListNextResponse>;
   }
 }
 
@@ -183,10 +239,7 @@ const serializer = new coreHttp.Serializer(Mappers);
 const listOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "eventroutes",
-  headerParameters: [
-    Parameters.acceptLanguage,
-    Parameters.maxItemCount1
-  ],
+  headerParameters: [Parameters.acceptLanguage, Parameters.maxItemCount1],
   responses: {
     200: {
       bodyMapper: Mappers.EventRouteCollection
@@ -201,12 +254,8 @@ const listOperationSpec: coreHttp.OperationSpec = {
 const getByIdOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   path: "eventroutes/{id}",
-  urlParameters: [
-    Parameters.id
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.id],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     200: {
       bodyMapper: Mappers.EventRoute
@@ -221,17 +270,10 @@ const getByIdOperationSpec: coreHttp.OperationSpec = {
 const addOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PUT",
   path: "eventroutes/{id}",
-  urlParameters: [
-    Parameters.id
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.id],
+  headerParameters: [Parameters.acceptLanguage],
   requestBody: {
-    parameterPath: [
-      "options",
-      "eventRoute"
-    ],
+    parameterPath: ["options", "eventRoute"],
     mapper: Mappers.EventRoute
   },
   responses: {
@@ -246,12 +288,8 @@ const addOperationSpec: coreHttp.OperationSpec = {
 const deleteMethodOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "DELETE",
   path: "eventroutes/{id}",
-  urlParameters: [
-    Parameters.id
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
+  urlParameters: [Parameters.id],
+  headerParameters: [Parameters.acceptLanguage],
   responses: {
     204: {},
     default: {
@@ -265,13 +303,8 @@ const listNextOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "GET",
   baseUrl: "https://digitaltwins-name.digitaltwins.azure.net",
   path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage,
-    Parameters.maxItemCount1
-  ],
+  urlParameters: [Parameters.nextPageLink],
+  headerParameters: [Parameters.acceptLanguage, Parameters.maxItemCount1],
   responses: {
     200: {
       bodyMapper: Mappers.EventRouteCollection

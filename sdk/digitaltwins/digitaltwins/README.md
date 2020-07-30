@@ -1,124 +1,104 @@
-# Azure IoT Digital Twins client library for Javascript
+## Azure AzureDigitalTwinsAPI SDK for JavaScript
 
-Azure Digital Twins is a developer platform for next-generation IoT solutions that lets you create, run, and manage digital representations of your business environment, securely and efficiently in the cloud. With Azure Digital Twins, creating live operational state representations is quick and cost-effective, and digital representations stay current with real-time data from IoT and other data sources. If you are new to Azure Digital Twins and would like to learn more about the platform, please make sure you check out the Azure Digital Twins [official documentation page](https://docs.microsoft.com/azure/digital-twins/overview).
+This package contains an isomorphic SDK for AzureDigitalTwinsAPI.
 
-For an introduction on how to program against the Azure Digital Twins service, visit the [coding tutorial page](https://docs.microsoft.com/en-us/azure/digital-twins/tutorial-code) for an easy step-by-step guide. Visit [this tutorial](https://docs.microsoft.com/azure/digital-twins/tutorial-command-line-app) to learn how to interact with an Azure Digital Twin instance using a command-line client application. Finally, for a quick guide on how to build an end-to-end Azure Digital Twins solution that is driven by live data from your environment, make sure you check out [this helpful guide](https://docs.microsoft.com/azure/digital-twins/tutorial-end-to-end).
+### Currently supported environments
 
-This library provides access to the Azure Digital Twins service for managing twins, models, relationships, etc.
+- Node.js version 6.x.x or higher
+- Browser JavaScript
 
-Use the client library to:
-
-- Create and manage models and components.
-- Create and manage digital twins.
-- Create and manage event routes.
-- Create and manage relationships between the models and twins.
-- Publish telemetry to digital twin or component.
-
-[Source code][source] | [NPM package][adt_npm]
-
-## Getting started
-
-The complete Microsoft Azure SDK can be downloaded from the [Microsoft Azure downloads][microsoft_sdk_download] page, and it ships with support for building deployment packages, integrating with tooling, rich command line tooling, and more.
-
-For the best development experience, developers should use the official NPM packages for libraries. NPM packages are regularly updated with new functionality and hotfixes.
-
-### Install the package
-
-Install the Azure Digital Twins client library for Javascript with [NPM][npm_package]:
+### How to Install
 
 ```bash
 npm install @azure/digitaltwins
 ```
 
-View the package details at [npmjs.com][adt_npm].
+### How to use
 
-### Prerequisites
+#### nodejs - Authentication, client creation and list digitalTwinModels as an example written in TypeScript.
 
-- [Node.js](https://nodejs.org/) version 8.x.x or higher
-- An [Azure subscription][azure_sub].
-- An Azure Digital Twins instance
-  - In order to use the Azure Digital Twins SDK, first create a Digital Twins instance using one of options:
-    - Using [Azure portal][azure_portal]
-    - Using [Azure Management APIs][azure_rest_api]
-    - Using [Azure CLI][azure_cli]
-      - You will need to [install azure cli][azure_cli_install] and the [Azure IoT extension][iot_cli_extension] for Azure CLI.
-      - Refer to [IoT CLI documentation][azure_cli_install] for more information on how to create and interact with your Digital Twins instance.
-
-### Authenticate the Client
-
-In order to interact with the Azure Digital Twins service, you will need to create an instance of a [TokenCredential class][token_credential] or a [ServiceClientCredential class][service_client_credential] and pass it to the constructor of your [DigitalTwinsClient][digital_twins_client].
-
-## Key concepts
-
-Azure Digital Twins Preview is an Azure IoT service that creates comprehensive models of the physical environment.
-It can create spatial intelligence graphs to model the relationships and interactions between people, spaces, and devices.
-
-You can learn more about Azure Digital Twins by visiting [Azure Digital Twins Documentation][digital_twins_documentation]
-
-## Examples
-
-You can familiarize yourself with different APIs using [samples for Digital Twins](./samples/).
-
-## Source code folder structure
-
-### /src
-
-The Digital Twins public client, `DigitalTwinsClient`, and the additional configuration options, `AzureDigitalTwinsAPIOptions`, that can be sent to the Digital Twins service.
-
-### /src/swagger
-
-A local copy of the swagger file that defines the structure of the REST APIs supported by the Azure Digital Twins service.
-
-To regenerate the code, run the following command:
+##### Install @azure/ms-rest-nodeauth
 
 ```bash
-npm run generate-pl
+npm install @azure/ms-rest-nodeauth
 ```
 
-Any time the client library code is updated, the following scripts need to be run:
+##### Sample code
+
+```typescript
+import * as coreHttp from "@azure/core-http";
+import * as coreArm from "@azure/core-arm";
+import * as msRestNodeAuth from "@azure/ms-rest-nodeauth";
+import { AzureDigitalTwinsAPI, AzureDigitalTwinsAPIModels, AzureDigitalTwinsAPIMappers } from "@azure/digitaltwins";
+const subscriptionId = process.env["AZURE_SUBSCRIPTION_ID"];
+
+msRestNodeAuth.interactiveLogin().then((creds) => {
+  const client = new AzureDigitalTwinsAPI(creds, subscriptionId);
+  const dependenciesFor = ["testdependenciesFor"];
+  const includeModelDefinition = true;
+  const maxItemCount = 1;
+  client.digitalTwinModels.list(dependenciesFor, includeModelDefinition, maxItemCount).then((result) => {
+    console.log("The result is:");
+    console.log(result);
+  });
+}).catch((err) => {
+  console.error(err);
+});
+```
+
+#### browser - Authentication, client creation and list digitalTwinModels as an example written in JavaScript.
+
+##### Install @azure/ms-rest-browserauth
 
 ```bash
-npm pack
+npm install @azure/ms-rest-browserauth
 ```
 
-This will update the [API surface document](./review), build the distributed [Javascript code](./dist).
+##### Sample code
 
-### /src/generated
+See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to Azure in the browser.
 
-The code generated by autorest using the swagger file defined under /swagger.
+- index.html
+```html
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>@azure/digitaltwins sample</title>
+    <script src="node_modules/@azure/core-http/dist/coreHttp.browser.js"></script>
+    <script src="node_modules/@azure/core-arm/dist/coreArm.js"></script>
+    <script src="node_modules/@azure/ms-rest-browserauth/dist/msAuth.js"></script>
+    <script src="node_modules/@azure/digitaltwins/dist/digitaltwins.js"></script>
+    <script type="text/javascript">
+      const subscriptionId = "<Subscription_Id>";
+      const authManager = new msAuth.AuthManager({
+        clientId: "<client id for your Azure AD app>",
+        tenant: "<optional tenant for your organization>"
+      });
+      authManager.finalizeLogin().then((res) => {
+        if (!res.isLoggedIn) {
+          // may cause redirects
+          authManager.login();
+        }
+        const client = new Azure.Digitaltwins.AzureDigitalTwinsAPI(res.creds, subscriptionId);
+        const dependenciesFor = ["testdependenciesFor"];
+        const includeModelDefinition = true;
+        const maxItemCount = 1;
+        client.digitalTwinModels.list(dependenciesFor, includeModelDefinition, maxItemCount).then((result) => {
+          console.log("The result is:");
+          console.log(result);
+        }).catch((err) => {
+          console.log("An error occurred:");
+          console.error(err);
+        });
+      });
+    </script>
+  </head>
+  <body></body>
+</html>
+```
 
-## Next steps
+## Related projects
 
-See implementation examples with our [code samples](./samples).
+- [Microsoft Azure SDK for Javascript](https://github.com/Azure/azure-sdk-for-js)
 
-## Contributing
-
-This project welcomes contributions and suggestions.
-Most contributions require you to agree to a Contributor License Agreement (CLA) declaring that you have the right to, and actually do, grant us the rights to use your contribution.
-For details, visit <https://cla.microsoft.com.>
-
-When you submit a pull request, a CLA-bot will automatically determine whether you need to provide a CLA and decorate the PR appropriately (e.g., label, comment).
-Simply follow the instructions provided by the bot.
-You will only need to do this once across all repos using our CLA.
-
-This project has adopted the [Microsoft Open Source Code of Conduct][code_of_conduct].
-For more information see the Code of Conduct FAQ or contact opencode@microsoft.com with any additional questions or comments.
-
-<!-- LINKS -->
-
-[microsoft_sdk_download]: https://azure.microsoft.com/en-us/downloads
-[azure_cli]: https://docs.microsoft.com/cli/azure
-[azure_cli_install]: https://docs.microsoft.com/en-us/cli/azure/install-azure-cli?view=azure-cli-latest
-[iot_cli_extension]: https://docs.microsoft.com/en-us/azure/iot-pnp/howto-install-pnp-cli
-[azure_sub]: https://azure.microsoft.com/free/
-[source]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/digitaltwins
-[adt_npm]: https://www.npmjs.com/package/@azure/digitaltwins
-[code_of_conduct]: https://opensource.microsoft.com/codeofconduct/
-[npm]: https://www.npmjs.com/
-[npm_package]: https://www.npmjs.com/search?q=%40azure%2Fdigitaltwins
-[azure_portal]: https://portal.azure.com/
-[azure_rest_api]: https://docs.microsoft.com/en-us/rest/api/azure/
-[token_credential]: https://docs.microsoft.com/en-us/javascript/api/@azure/ms-rest-js/tokencredentials?view=azure-node-latest
-[service_client_credential]: https://docs.microsoft.com/en-us/javascript/api/@azure/ms-rest-js/serviceclientcredentials?view=azure-node-latest
-[digital_twins_client]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/digitaltwins/digitaltwins/src/digitalTwinsClient.ts
-[digital_twins_documentation]: https://docs.microsoft.com/en-us/azure/digital-twins/
+![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js/sdk/README.png)

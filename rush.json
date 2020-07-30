@@ -516,6 +516,11 @@
       "packageName": "@azure/test-utils-perfstress",
       "projectFolder": "sdk/test-utils/perfstress",
       "versionPolicyName": "utility"
+    },
+    {
+      "packageName": "@azure/digitaltwins",
+      "projectFolder": "sdk/digitaltwins/digitaltwins",
+      "versionPolicyName": "client"
     }
   ]
 }
