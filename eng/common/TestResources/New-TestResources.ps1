@@ -176,10 +176,6 @@ if ($ProvisionerApplicationId) {
     }
 }
 
-# Set standard environment variables from configuration
-$azContext = Get-AzContext;
-$environmentVariables['AZURE_AUTHORITY_HOST'] = $azContext.Environment.ActiveDirectoryAuthority
-
 # Get test application OID from ID if not already provided.
 if ($TestApplicationId -and !$TestApplicationOid) {
     $testServicePrincipal = Retry {

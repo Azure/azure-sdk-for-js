@@ -84,6 +84,10 @@ SetEnvironmentVariable -Name AZURE_CLIENT_ID -Value $TestApplicationId
 SetEnvironmentVariable -Name AZURE_CLIENT_SECRET -Value $TestApplicationSecret
 SetEnvironmentVariable -Name AZURE_TENANT_ID -Value $TenantId
 
+Write-Verbose "Setting cloud-specific environment variables"
+$cloudEnvironment = Get-AzEnvironment -Name $Environment
+SetEnvironmentVariable -Name AZURE_AUTHORITY_HOST -Value $cloudEnvironment.ActiveDirectoryAuthority
+
 $repoRoot = Resolve-Path -Path "$PSScriptRoot../../../"
 
 Write-Verbose "Detecting samples..."
