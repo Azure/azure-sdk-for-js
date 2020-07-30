@@ -41,6 +41,8 @@ export {
   CertificateContract,
   CertificateInformation,
   ClientSecretContract,
+  ContentItemContract,
+  ContentTypeContract,
   DiagnosticContract,
   EmailTemplateContract,
   EmailTemplateParametersContractProperties,

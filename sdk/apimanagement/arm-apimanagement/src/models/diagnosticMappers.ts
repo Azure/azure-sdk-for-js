@@ -36,6 +36,8 @@ export {
   CertificateConfiguration,
   CertificateContract,
   CertificateInformation,
+  ContentItemContract,
+  ContentTypeContract,
   DiagnosticCollection,
   DiagnosticContract,
   DiagnosticCreateOrUpdateHeaders,

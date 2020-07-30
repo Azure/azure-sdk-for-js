@@ -252,7 +252,8 @@ const getEntityTagOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.TenantAccessGetEntityTagHeaders
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ErrorResponse,
+      headersMapper: Mappers.TenantAccessGetEntityTagHeaders
     }
   },
   serializer
@@ -279,7 +280,8 @@ const getOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.TenantAccessGetHeaders
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ErrorResponse,
+      headersMapper: Mappers.TenantAccessGetHeaders
     }
   },
   serializer
@@ -386,7 +388,8 @@ const listSecretsOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.TenantAccessListSecretsHeaders
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ErrorResponse,
+      headersMapper: Mappers.TenantAccessListSecretsHeaders
     }
   },
   serializer
