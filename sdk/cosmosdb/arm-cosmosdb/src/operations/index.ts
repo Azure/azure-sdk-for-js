@@ -26,6 +26,7 @@ export * from "./mongoDBResources";
 export * from "./tableResources";
 export * from "./cassandraResources";
 export * from "./gremlinResources";
+export * from "./restorableDatabaseAccounts";
 export * from "./notebookWorkspaces";
 export * from "./privateLinkResources";
 export * from "./privateEndpointConnections";
