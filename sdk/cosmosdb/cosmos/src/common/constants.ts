@@ -145,7 +145,14 @@ export const Constants = {
     ScriptLogResults: "x-ms-documentdb-script-log-results",
 
     // Multi-Region Write
-    ALLOW_MULTIPLE_WRITES: "x-ms-cosmos-allow-tentative-writes"
+    ALLOW_MULTIPLE_WRITES: "x-ms-cosmos-allow-tentative-writes",
+
+    // Bulk/Batch header
+    IsBatchRequest: "x-ms-cosmos-is-batch-request",
+    IsBatchAtomic: "x-ms-cosmos-batch-atomic",
+
+    // Cache Refresh header
+    ForceRefresh: "x-ms-force-refresh"
   },
 
   // GlobalDB related constants
@@ -247,5 +254,6 @@ export enum OperationType {
   Delete = "delete",
   Read = "read",
   Query = "query",
-  Execute = "execute"
+  Execute = "execute",
+  Batch = "batch"
 }

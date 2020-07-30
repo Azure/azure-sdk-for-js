@@ -2,8 +2,35 @@
 
 ## 7.0.0-preview.5 (Unreleased)
 
+- User agent details can now be added to the outgoing requests by passing the user-agent prefixes to the `ServiceBusClient` and the `ServiceBusManagementClient` through options.
+  Example user-agent string if the prefix `SampleApp` is provided to `ServiceBusManagementClient`:
+  `SampleApp azsdk-js-azureservicebus/7.0.0-preview.5 core-http/1.1.5 Node/v12.16.0 OS/(x64-Windows_NT-10.0.18363)`
+  [PR 10092](https://github.com/Azure/azure-sdk-for-js/pull/10092)
+- Adding `deadLetterErrorDescription` and `deadLetterReason` properties on the received messages. Previously, they were under the `properties` in the message.
+  OLD: `message.properties["DeadLetterReason"]` and `message.properties["DeadLetterErrorDescription"]`
+  NEW: `message.deadLetterReason` and `message.deadLetterErrorDescription`
+  [PR 10106](https://github.com/Azure/azure-sdk-for-js/pull/10106)
+- Adds tracing support to the methods under `ServiceBusManagementClient`.
+  [PR 9987](https://github.com/Azure/azure-sdk-for-js/pull/9987)
+
+### Breaking Changes
+
+- Added Async iterable iterators with pagination support for all the listing methods like `getQueues()`, `getTopics()`, `getQueuesRuntimeInfo()`, etc. and renamed them to use the `list` verb.
+  [PR 9951](https://github.com/Azure/azure-sdk-for-js/pull/9951)
+  [PR 10223](https://github.com/Azure/azure-sdk-for-js/pull/10223)
+  - Please refer to the examples in the `samples` folder - [listingEntities](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/servicebus/service-bus/samples/typescript/src/advanced/listingEntities.ts)
+- `receiveMessages()`'s optional `maxWaitTimeInMs` parameter now controls how long to wait for the _first_
+  message, rather than how long to wait for an entire set of messages. This change allows for a faster return
+  of messages to your application.
+  [PR 9968](https://github.com/Azure/azure-sdk-for-js/pull/9968)
+  [PR 10107](https://github.com/Azure/azure-sdk-for-js/pull/10107)
 - `userProperties` attribute under the `ServiceBusMessage`(and `ReceivedMessage`, `ReceivedMessageWithLock`) has been renamed to `properties`. Same change has been made to the `userProperties` attribute in the correlation-rule filter.
   [PR 10003](https://github.com/Azure/azure-sdk-for-js/pull/10003)
+- Fixes [bug 9926](https://github.com/Azure/azure-sdk-for-js/issues/9926)
+  where attempting to create AMQP links when the AMQP connection was in the
+  process of closing resulted in a `TypeError` in an uncaught exception.
+
+- The terms `RuntimeInfo` and `Description` are replaced with `RuntimeProperties` and `Properties` to better align with guidelines around the kind of suffixes we use for naming methods and interfaces.
 
 ## 7.0.0-preview.4 (2020-07-07)
 

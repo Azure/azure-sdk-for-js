@@ -178,7 +178,7 @@ describe("Streaming Receiver Tests", () => {
 
         // overwrite _init to throw a non-retryable error.
         // this will be called by onDetached
-        (streamingReceiver as any)._init = async () => {
+        (streamingReceiver as any).init = async () => {
           const error = new Error("Expected test error!");
           // prevent retry from translating error.
           (error as any).translated = true;
@@ -1140,9 +1140,6 @@ describe(testClientType + ": Streaming - disconnects", function(): void {
     // Simulate a disconnect being called with a non-retryable error.
     (receiver as any)["_context"].namespace.connection["_connection"].idle();
 
-    // Allow rhea to clear internal setTimeouts (since we're triggering idle manually).
-    // Otherwise, it will get into a bad internal state with uncaught exceptions.
-    await delay(2000);
     // send a second message to trigger the message handler again.
     await sender.sendMessages(TestMessage.getSample());
 

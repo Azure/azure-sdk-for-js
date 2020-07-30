@@ -2,6 +2,30 @@
 
 ## 3.7.5 (Unreleased)
 
+- FEATURE: Adds bulk request to container.items. Allows aggregate bulk request for up to 100 operations on items with the types: Create, Upsert, Read, Replace, Delete
+
+```js
+// up to 100 operations
+const operations: OperationInput[] = [
+  {
+    operationType: "Create",
+    resourceBody: { id: "doc1", name: "sample", key: "A" }
+  },
+  {
+    operationType: "Upsert",
+    resourceBody: { id: "doc2", name: "other", key: "A" }
+  },
+  {
+    operationType: "Read",
+    id: "readItemId",
+    partitionKey: "key"
+  }
+];
+
+await database.container.items.bulk(operations);
+```
+
+- FEATURE: Throws when initializing ClientContext with an invalid endpoint
 
 ## 3.7.4 (2020-6-30)
 
@@ -214,14 +238,14 @@ Constructor options have been simplified:
 const client = new CosmosClient({
   endpoint: "https://your-database.cosmos.azure.com",
   auth: {
-    masterKey: "your-primary-key",
-  },
+    masterKey: "your-primary-key"
+  }
 });
 
 // v3
 const client = new CosmosClient({
   endpoint: "https://your-database.cosmos.azure.com",
-  key: "your-primary-key",
+  key: "your-primary-key"
 });
 ```
 

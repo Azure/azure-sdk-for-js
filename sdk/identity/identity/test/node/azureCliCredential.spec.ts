@@ -1,22 +1,22 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
 import assert from "assert";
 import { MockAzureCliCredentialClient } from "../mockAzureCliCredentialClient";
 
 describe("AzureCliCredential", function() {
   it("get access token without error", async function() {
-    var mockCliCredentialClient = new MockAzureCliCredentialClient({
+    const mockCliCredentialClient = new MockAzureCliCredentialClient({
       stdout: '{"accessToken": "token","expiresOn": "01/01/1900 00:00:00 +00:00"}',
       stderr: ""
     });
-    let actualToken = await mockCliCredentialClient.getToken("https://service/.default");
+    const actualToken = await mockCliCredentialClient.getToken("https://service/.default");
     assert.equal(actualToken!.token, "token");
   });
 
   it("get access token when azure cli not installed", async () => {
-    if (process.platform == "linux" || process.platform == "darwin") {
-      var mockCliCredentialClient = new MockAzureCliCredentialClient({
+    if (process.platform === "linux" || process.platform === "darwin") {
+      const mockCliCredentialClient = new MockAzureCliCredentialClient({
         stdout: "",
         stderr: "az: command not found"
       });
@@ -30,7 +30,7 @@ describe("AzureCliCredential", function() {
         );
       }
     } else {
-      var mockCliCredentialClient = new MockAzureCliCredentialClient({
+      const mockCliCredentialClient = new MockAzureCliCredentialClient({
         stdout: "",
         stderr: "'az' is not recognized"
       });
@@ -47,7 +47,7 @@ describe("AzureCliCredential", function() {
   });
 
   it("get access token when azure cli not login in", async () => {
-    var mockCliCredentialClient = new MockAzureCliCredentialClient({
+    const mockCliCredentialClient = new MockAzureCliCredentialClient({
       stdout: "",
       stderr:
         "Please run 'az login' from a command prompt to authenticate before using this credential."
@@ -63,7 +63,7 @@ describe("AzureCliCredential", function() {
   });
 
   it("get access token when having other access token error", async () => {
-    var mockCliCredentialClient = new MockAzureCliCredentialClient({
+    const mockCliCredentialClient = new MockAzureCliCredentialClient({
       stdout: "",
       stderr: "mock other access token error"
     });

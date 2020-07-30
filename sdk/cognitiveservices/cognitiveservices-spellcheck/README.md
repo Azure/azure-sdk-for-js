@@ -26,14 +26,11 @@ npm install @azure/ms-rest-azure-js
 ##### Sample code
 The following sample performs a spell check on the text - 'Bill Gatos'. The result will return a suggestion of 'Gates'. To know more, refer to the [Azure Documentation on Spell Check](https://docs.microsoft.com/en-us/azure/cognitive-services/bing-spell-check/)
 
-```typescript
-import {
-  SpellCheckClient,
-  SpellCheckModels
-} from "@azure/cognitiveservices-spellcheck";
-import { CognitiveServicesCredentials } from "@azure/ms-rest-azure-js";
+```javascript
+const { SpellCheckClient } = require("@azure/cognitiveservices-spellcheck");
+const { CognitiveServicesCredentials } = require("@azure/ms-rest-azure-js");
 
-async function main(): Promise<void> {
+async function main() {
   const spellCheckKey = process.env["spellCheckKey"] || "<spellCheckKey>";
   const spellCheckEndPoint =
     process.env["spellCheckEndPoint"] || "<spellCheckEndPoint>";
@@ -44,7 +41,7 @@ async function main(): Promise<void> {
     endpoint: spellCheckEndPoint
   });
 
-  const options: SpellCheckModels.SpellCheckClientSpellCheckerOptionalParams = {
+  const options = {
     mode: "proof",
     pragma: "no-cache"
   };
@@ -54,7 +51,7 @@ async function main(): Promise<void> {
     .then(result => {
       console.log("The result is: ");
       result.flaggedTokens.forEach(flaggedToken => {
-        flaggedToken.suggestions!.forEach(suggestion => {
+        flaggedToken.suggestions.forEach(suggestion => {
           console.log(suggestion);
         });
       });

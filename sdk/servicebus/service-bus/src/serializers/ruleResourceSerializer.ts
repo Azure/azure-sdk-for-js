@@ -24,7 +24,7 @@ import {
  * response from the service
  * @param rawRule
  */
-export function buildRule(rawRule: any): RuleDescription {
+export function buildRule(rawRule: any): RuleProperties {
   return {
     name: getString(rawRule["RuleName"], "ruleName"),
     filter: getTopicFilter(rawRule["Filter"]),
@@ -88,7 +88,7 @@ function getRuleActionOrUndefined(value: any): SqlRuleAction | undefined {
 /**
  * Represents all attributes of a rule entity
  */
-export interface RuleDescription {
+export interface RuleProperties {
   /**
    * Name of the rule
    */
@@ -146,7 +146,7 @@ export interface SqlRuleFilter {
  * RuleResourceSerializer for serializing / deserializing Rule entities
  */
 export class RuleResourceSerializer implements AtomXmlSerializer {
-  serialize(rule: RuleDescription): object {
+  serialize(rule: RuleProperties): object {
     const resource: { Name: any; Filter: any; Action: any } = {
       Filter: {},
       Action: {},

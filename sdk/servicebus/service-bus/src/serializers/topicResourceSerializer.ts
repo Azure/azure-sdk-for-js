@@ -18,7 +18,8 @@ import {
   getRawAuthorizationRules,
   getString,
   getStringOrUndefined,
-  getDate
+  getDate,
+  getMessageCountDetails
 } from "../util/utils";
 
 /**
@@ -29,7 +30,7 @@ import {
  * converts values to string and ensures the right order as expected by the service
  * @param topic
  */
-export function buildTopicOptions(topic: TopicDescription): InternalTopicOptions {
+export function buildTopicOptions(topic: TopicProperties): InternalTopicOptions {
   return {
     DefaultMessageTimeToLive: topic.defaultMessageTtl,
     MaxSizeInMegabytes: getStringOrUndefined(topic.maxSizeInMegabytes),
@@ -52,7 +53,7 @@ export function buildTopicOptions(topic: TopicDescription): InternalTopicOptions
  * response from the service
  * @param rawTopic
  */
-export function buildTopic(rawTopic: any): TopicDescription {
+export function buildTopic(rawTopic: any): TopicProperties {
   return {
     name: getString(rawTopic[Constants.TOPIC_NAME], "topicName"),
     maxSizeInMegabytes: getInteger(rawTopic[Constants.MAX_SIZE_IN_MEGABYTES], "maxSizeInMegabytes"),
@@ -93,12 +94,14 @@ export function buildTopic(rawTopic: any): TopicDescription {
  * response from the service
  * @param rawTopic
  */
-export function buildTopicRuntimeInfo(rawTopic: any): TopicRuntimeInfo {
+export function buildTopicRuntimeProperties(rawTopic: any): TopicRuntimeProperties {
   return {
     name: getString(rawTopic[Constants.TOPIC_NAME], "topicName"),
     sizeInBytes: getIntegerOrUndefined(rawTopic[Constants.SIZE_IN_BYTES]),
     subscriptionCount: getIntegerOrUndefined(rawTopic[Constants.SUBSCRIPTION_COUNT]),
     createdAt: getDate(rawTopic[Constants.CREATED_AT], "createdAt"),
+    scheduledMessageCount: getMessageCountDetails(rawTopic[Constants.COUNT_DETAILS])
+      .scheduledMessageCount,
     updatedAt: getDate(rawTopic[Constants.UPDATED_AT], "updatedAt"),
     accessedAt: getDate(rawTopic[Constants.ACCESSED_AT], "accessedAt")
   };
@@ -107,7 +110,7 @@ export function buildTopicRuntimeInfo(rawTopic: any): TopicRuntimeInfo {
 /**
  * Represents settable options on a topic
  */
-export interface TopicDescription {
+export interface TopicProperties {
   /**
    * Name of the topic
    */
@@ -168,7 +171,7 @@ export interface TopicDescription {
   status?: EntityStatus;
 
   /**
-   * The user provided metadata information associated with the topic description.
+   * The user provided metadata information associated with the topic.
    * Used to specify textual content such as tags, labels, etc.
    * Value must not exceed 1024 bytes encoded in utf-8.
    */
@@ -256,7 +259,7 @@ export interface InternalTopicOptions {
   Status?: string;
 
   /**
-   * The user provided metadata information associated with the topic description.
+   * The user provided metadata information associated with the topic.
    * Used to specify textual content such as tags, labels, etc.
    * Value must not exceed 1024 bytes encoded in utf-8.
    */
@@ -285,7 +288,7 @@ export interface InternalTopicOptions {
 /**
  * Represents runtime info attributes of a topic entity
  */
-export interface TopicRuntimeInfo {
+export interface TopicRuntimeProperties {
   /**
    * Name of the topic
    */
@@ -301,6 +304,11 @@ export interface TopicRuntimeInfo {
    *
    */
   subscriptionCount?: number;
+
+  /**
+   * The number of scheduled messages.
+   */
+  scheduledMessageCount: number;
 
   /**
    * Created at timestamp

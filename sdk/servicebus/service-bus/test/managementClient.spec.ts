@@ -3,7 +3,7 @@
 
 import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
-import { ReceivedMessageWithLock, Receiver, Sender, delay } from "../src";
+import { ReceivedMessageWithLock, Receiver, Sender } from "../src";
 import { TestClientType, TestMessage } from "./utils/testUtils";
 import { ServiceBusClientForTests, createServiceBusClientForTests } from "./utils/testutils2";
 chai.should();
@@ -62,10 +62,6 @@ describe("ManagementClient - disconnects", function(): void {
     // Simulate a disconnect being called with a non-retryable error.
     connectionContext.connection["_connection"].idle();
 
-    // Allow rhea to clear internal setTimeouts (since we're triggering idle manually).
-    // Otherwise, it will get into a bad internal state with uncaught exceptions.
-    await delay(2000);
-
     // peek additional messages
     messages = await receiver.peekMessages(1);
     peekedMessageCount += messages.length;
@@ -98,10 +94,6 @@ describe("ManagementClient - disconnects", function(): void {
 
     // Simulate a disconnect being called with a non-retryable error.
     connectionContext.connection["_connection"].idle();
-
-    // Allow rhea to clear internal setTimeouts (since we're triggering idle manually).
-    // Otherwise, it will get into a bad internal state with uncaught exceptions.
-    await delay(2000);
 
     // peek additional messages
     const [deliveryId] = await sender.scheduleMessages(

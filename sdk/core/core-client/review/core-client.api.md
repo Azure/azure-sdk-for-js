@@ -4,8 +4,340 @@
 
 ```ts
 
+import { AbortSignalLike } from '@azure/abort-controller';
+import { HttpMethods } from '@azure/core-https';
+import { HttpsClient } from '@azure/core-https';
+import { OperationTracingOptions } from '@azure/core-tracing';
+import { Pipeline } from '@azure/core-https';
+import { PipelinePolicy } from '@azure/core-https';
+import { PipelineRequest } from '@azure/core-https';
+import { PipelineResponse } from '@azure/core-https';
+import { TokenCredential } from '@azure/core-auth';
+import { TransferProgressEvent } from '@azure/core-https';
+
 // @public (undocumented)
-export function helloWorld(): string;
+export interface BaseMapper {
+    // (undocumented)
+    constraints?: MapperConstraints;
+    // (undocumented)
+    defaultValue?: any;
+    // (undocumented)
+    isConstant?: boolean;
+    // (undocumented)
+    nullable?: boolean;
+    // (undocumented)
+    readOnly?: boolean;
+    // (undocumented)
+    required?: boolean;
+    // (undocumented)
+    serializedName?: string;
+    // (undocumented)
+    type: MapperType;
+    // (undocumented)
+    xmlElementName?: string;
+    // (undocumented)
+    xmlIsAttribute?: boolean;
+    // (undocumented)
+    xmlIsWrapped?: boolean;
+    // (undocumented)
+    xmlName?: string;
+}
+
+// @public (undocumented)
+export interface CompositeMapper extends BaseMapper {
+    // (undocumented)
+    type: CompositeMapperType;
+}
+
+// @public (undocumented)
+export interface CompositeMapperType {
+    // (undocumented)
+    additionalProperties?: Mapper;
+    // (undocumented)
+    className?: string;
+    // (undocumented)
+    modelProperties?: {
+        [propertyName: string]: Mapper;
+    };
+    // (undocumented)
+    name: "Composite";
+    // (undocumented)
+    polymorphicDiscriminator?: PolymorphicDiscriminator;
+    // (undocumented)
+    uberParent?: string;
+}
+
+// @public
+export function createSerializer(modelMappers?: {
+    [key: string]: any;
+}, isXML?: boolean): Serializer;
+
+// @public
+export interface DeserializationContentTypes {
+    json?: string[];
+    xml?: string[];
+}
+
+// @public
+export function deserializationPolicy(options?: DeserializationPolicyOptions): PipelinePolicy;
+
+// @public
+export const deserializationPolicyName = "deserializationPolicy";
+
+// @public
+export interface DeserializationPolicyOptions {
+    expectedContentTypes?: DeserializationContentTypes;
+    parseXML?: (str: string, opts?: {
+        includeRoot?: boolean;
+    }) => Promise<any>;
+}
+
+// @public (undocumented)
+export interface DictionaryMapper extends BaseMapper {
+    // (undocumented)
+    headerCollectionPrefix?: string;
+    // (undocumented)
+    type: DictionaryMapperType;
+}
+
+// @public (undocumented)
+export interface DictionaryMapperType {
+    // (undocumented)
+    name: "Dictionary";
+    // (undocumented)
+    value: Mapper;
+}
+
+// @public (undocumented)
+export interface EnumMapper extends BaseMapper {
+    // (undocumented)
+    type: EnumMapperType;
+}
+
+// @public (undocumented)
+export interface EnumMapperType {
+    // (undocumented)
+    allowedValues: any[];
+    // (undocumented)
+    name: "Enum";
+}
+
+// @public
+export interface FullOperationResponse extends PipelineResponse {
+    parsedBody?: any;
+    parsedHeaders?: {
+        [key: string]: unknown;
+    };
+    request: OperationRequest;
+}
+
+// @public (undocumented)
+export type Mapper = BaseMapper | CompositeMapper | SequenceMapper | DictionaryMapper | EnumMapper;
+
+// @public (undocumented)
+export interface MapperConstraints {
+    // (undocumented)
+    ExclusiveMaximum?: number;
+    // (undocumented)
+    ExclusiveMinimum?: number;
+    // (undocumented)
+    InclusiveMaximum?: number;
+    // (undocumented)
+    InclusiveMinimum?: number;
+    // (undocumented)
+    MaxItems?: number;
+    // (undocumented)
+    MaxLength?: number;
+    // (undocumented)
+    MinItems?: number;
+    // (undocumented)
+    MinLength?: number;
+    // (undocumented)
+    MultipleOf?: number;
+    // (undocumented)
+    Pattern?: RegExp;
+    // (undocumented)
+    UniqueItems?: true;
+}
+
+// @public (undocumented)
+export type MapperType = SimpleMapperType | CompositeMapperType | SequenceMapperType | DictionaryMapperType | EnumMapperType;
+
+// @public
+export const MapperTypeNames: {
+    readonly Base64Url: "Base64Url";
+    readonly Boolean: "Boolean";
+    readonly ByteArray: "ByteArray";
+    readonly Composite: "Composite";
+    readonly Date: "Date";
+    readonly DateTime: "DateTime";
+    readonly DateTimeRfc1123: "DateTimeRfc1123";
+    readonly Dictionary: "Dictionary";
+    readonly Enum: "Enum";
+    readonly Number: "Number";
+    readonly Object: "Object";
+    readonly Sequence: "Sequence";
+    readonly String: "String";
+    readonly Stream: "Stream";
+    readonly TimeSpan: "TimeSpan";
+    readonly UnixTime: "UnixTime";
+};
+
+// @public
+export interface OperationArguments {
+    [parameterName: string]: unknown;
+    options?: OperationOptions;
+}
+
+// @public
+export interface OperationOptions {
+    abortSignal?: AbortSignalLike;
+    requestOptions?: OperationRequestOptions;
+    tracingOptions?: OperationTracingOptions;
+}
+
+// @public
+export interface OperationParameter {
+    mapper: Mapper;
+    parameterPath: ParameterPath;
+}
+
+// @public
+export interface OperationQueryParameter extends OperationParameter {
+    collectionFormat?: QueryCollectionFormat;
+    skipEncoding?: boolean;
+}
+
+// @public
+export type OperationRequest = PipelineRequest<OperationRequestInfo>;
+
+// @public
+export interface OperationRequestInfo {
+    operationResponseGetter?: (operationSpec: OperationSpec, response: PipelineResponse) => undefined | OperationResponseMap;
+    operationSpec?: OperationSpec;
+    shouldDeserialize?: boolean | ((response: PipelineResponse) => boolean);
+}
+
+// @public
+export interface OperationRequestOptions {
+    customHeaders?: {
+        [key: string]: string;
+    };
+    onDownloadProgress?: (progress: TransferProgressEvent) => void;
+    onUploadProgress?: (progress: TransferProgressEvent) => void;
+    shouldDeserialize?: boolean | ((response: PipelineResponse) => boolean);
+    timeout?: number;
+}
+
+// @public
+export interface OperationResponse {
+    // (undocumented)
+    [key: string]: any;
+    _response: FullOperationResponse;
+}
+
+// @public
+export interface OperationResponseMap {
+    bodyMapper?: Mapper;
+    headersMapper?: Mapper;
+}
+
+// @public
+export interface OperationSpec {
+    readonly baseUrl?: string;
+    readonly contentType?: string;
+    readonly formDataParameters?: ReadonlyArray<OperationParameter>;
+    readonly headerParameters?: ReadonlyArray<OperationParameter>;
+    readonly httpMethod: HttpMethods;
+    readonly isXML?: boolean;
+    readonly mediaType?: "json" | "xml" | "form" | "binary" | "multipart" | "text" | "unknown" | string;
+    readonly path?: string;
+    readonly queryParameters?: ReadonlyArray<OperationQueryParameter>;
+    readonly requestBody?: OperationParameter;
+    readonly responses: {
+        [responseCode: string]: OperationResponseMap;
+    };
+    readonly serializer: Serializer;
+    readonly urlParameters?: ReadonlyArray<OperationURLParameter>;
+}
+
+// @public
+export interface OperationURLParameter extends OperationParameter {
+    skipEncoding?: boolean;
+}
+
+// @public
+export type ParameterPath = string | string[] | {
+    [propertyName: string]: ParameterPath;
+};
+
+// @public (undocumented)
+export interface PolymorphicDiscriminator {
+    // (undocumented)
+    [key: string]: string;
+    // (undocumented)
+    clientName: string;
+    // (undocumented)
+    serializedName: string;
+}
+
+// @public
+export type QueryCollectionFormat = "CSV" | "SSV" | "TSV" | "Pipes" | "Multi";
+
+// @public (undocumented)
+export interface SequenceMapper extends BaseMapper {
+    // (undocumented)
+    type: SequenceMapperType;
+}
+
+// @public (undocumented)
+export interface SequenceMapperType {
+    // (undocumented)
+    element: Mapper;
+    // (undocumented)
+    name: "Sequence";
+}
+
+// @public
+export interface Serializer {
+    // (undocumented)
+    deserialize(mapper: Mapper, responseBody: any, objectName: string): any;
+    // (undocumented)
+    readonly isXML: boolean;
+    // (undocumented)
+    readonly modelMappers: {
+        [key: string]: any;
+    };
+    // (undocumented)
+    serialize(mapper: Mapper, object: any, objectName?: string): any;
+    // (undocumented)
+    validateConstraints(mapper: Mapper, value: any, objectName: string): void;
+}
+
+// @public
+export class ServiceClient {
+    constructor(options?: ServiceClientOptions);
+    sendOperationRequest(operationArguments: OperationArguments, operationSpec: OperationSpec): Promise<OperationResponse>;
+    sendRequest(request: PipelineRequest): Promise<PipelineResponse>;
+    }
+
+// @public
+export interface ServiceClientOptions {
+    baseUri?: string;
+    credential?: TokenCredential;
+    httpsClient?: HttpsClient;
+    pipeline?: Pipeline;
+    requestContentType?: string;
+    stringifyXML?: (obj: any, opts?: {
+        rootName?: string;
+    }) => string;
+}
+
+// @public (undocumented)
+export interface SimpleMapperType {
+    // (undocumented)
+    name: "Base64Url" | "Boolean" | "ByteArray" | "Date" | "DateTime" | "DateTimeRfc1123" | "Object" | "Stream" | "String" | "TimeSpan" | "UnixTime" | "Uuid" | "Number" | "any";
+}
 
 
 // (No @packageDocumentation comment for this package)

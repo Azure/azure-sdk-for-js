@@ -746,6 +746,10 @@ export class EventHubReceiver extends LinkEntity {
             }
           },
           (err) => {
+            // restore events to the front of the internal queue.
+            while (receivedEvents.length) {
+              this._internalQueue.unshift(receivedEvents.pop()!);
+            }
             cleanUpBeforeReturn();
             if (err.name === "AbortError") {
               rejectOnAbort();

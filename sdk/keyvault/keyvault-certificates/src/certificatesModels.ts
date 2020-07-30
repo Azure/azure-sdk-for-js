@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import * as coreHttp from "@azure/core-http";
-import { DeletionRecoveryLevel, KeyUsageType } from "./core/models";
+import { DeletionRecoveryLevel, KeyUsageType } from "./generated/models";
 
 /**
  * Defines values for CertificateKeyType.

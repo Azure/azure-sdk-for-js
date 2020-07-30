@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
 import qs from "qs";
 import {
@@ -16,7 +16,7 @@ import { CanonicalCode } from "@opentelemetry/api";
 import { AuthenticationError, AuthenticationErrorName } from "./errors";
 import { createSpan } from "../util/tracing";
 import { logger } from "../util/logging";
-import { getAuthorityHostEnvironment } from "../util/authHostEnv"
+import { getAuthorityHostEnvironment } from "../util/authHostEnv";
 
 const DefaultAuthorityHost = "https://login.microsoftonline.com";
 

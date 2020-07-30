@@ -43,7 +43,12 @@
     "LICENSE"
   ],
   "repository": "github:Azure/azure-sdk-for-js",
-  "keywords": ["azure", "tracing", "Azure", "cloud"],
+  "keywords": [
+    "azure",
+    "tracing",
+    "Azure",
+    "cloud"
+  ],
   "author": "Microsoft Corporation",
   "license": "MIT",
   "bugs": {

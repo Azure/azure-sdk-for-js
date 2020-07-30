@@ -11,11 +11,10 @@ import * as Constants from "../util/constants";
 import {
   EntityStatus,
   getBoolean,
-  getCountDetailsOrUndefined,
+  getMessageCountDetails,
   getInteger,
   getString,
   getStringOrUndefined,
-  MessageCountDetails,
   getDate
 } from "../util/utils";
 
@@ -28,7 +27,7 @@ import {
  * @param subscription
  */
 export function buildSubscriptionOptions(
-  subscription: SubscriptionDescription
+  subscription: SubscriptionProperties
 ): InternalSubscriptionOptions {
   return {
     LockDuration: subscription.lockDuration,
@@ -57,7 +56,7 @@ export function buildSubscriptionOptions(
  * the response from the service
  * @param rawSubscription
  */
-export function buildSubscription(rawSubscription: any): SubscriptionDescription {
+export function buildSubscription(rawSubscription: any): SubscriptionProperties {
   return {
     subscriptionName: getString(rawSubscription[Constants.SUBSCRIPTION_NAME], "subscriptionName"),
     topicName: getString(rawSubscription[Constants.TOPIC_NAME], "topicName"),
@@ -103,12 +102,18 @@ export function buildSubscription(rawSubscription: any): SubscriptionDescription
  * the response from the service
  * @param rawSubscription
  */
-export function buildSubscriptionRuntimeInfo(rawSubscription: any): SubscriptionRuntimeInfo {
+export function buildSubscriptionRuntimeProperties(
+  rawSubscription: any
+): SubscriptionRuntimeProperties {
+  const messageCountDetails = getMessageCountDetails(rawSubscription[Constants.COUNT_DETAILS]);
   return {
     subscriptionName: getString(rawSubscription[Constants.SUBSCRIPTION_NAME], "subscriptionName"),
     topicName: getString(rawSubscription[Constants.TOPIC_NAME], "topicName"),
-    messageCount: getInteger(rawSubscription[Constants.MESSAGE_COUNT], "messageCount"),
-    messageCountDetails: getCountDetailsOrUndefined(rawSubscription[Constants.COUNT_DETAILS]),
+    totalMessageCount: getInteger(rawSubscription[Constants.MESSAGE_COUNT], "messageCount"),
+    activeMessageCount: messageCountDetails.activeMessageCount,
+    deadLetterMessageCount: messageCountDetails.deadLetterMessageCount,
+    transferDeadLetterMessageCount: messageCountDetails.transferDeadLetterMessageCount,
+    transferMessageCount: messageCountDetails.transferMessageCount,
     createdAt: getDate(rawSubscription[Constants.CREATED_AT], "createdAt"),
     updatedAt: getDate(rawSubscription[Constants.UPDATED_AT], "updatedAt"),
     accessedAt: getDate(rawSubscription[Constants.ACCESSED_AT], "accessedAt")
@@ -118,7 +123,7 @@ export function buildSubscriptionRuntimeInfo(rawSubscription: any): Subscription
 /**
  * Represents settable options on a subscription
  */
-export interface SubscriptionDescription {
+export interface SubscriptionProperties {
   /**
    * Name of the subscription
    */
@@ -202,7 +207,7 @@ export interface SubscriptionDescription {
   forwardTo?: string;
 
   /**
-   * The user provided metadata information associated with the subscription description.
+   * The user provided metadata information associated with the subscription.
    * Used to specify textual content such as tags, labels, etc.
    * Value must not exceed 1024 bytes encoded in utf-8.
    */
@@ -305,7 +310,7 @@ export interface InternalSubscriptionOptions {
   ForwardTo?: string;
 
   /**
-   * The user provided metadata information associated with the subscription description.
+   * The user provided metadata information associated with the subscription.
    * Used to specify textual content such as tags, labels, etc.
    * Value must not exceed 1024 bytes encoded in utf-8.
    */
@@ -332,7 +337,7 @@ export interface InternalSubscriptionOptions {
 /**
  * Represents runtime info attributes of a subscription entity
  */
-export interface SubscriptionRuntimeInfo {
+export interface SubscriptionRuntimeProperties {
   /**
    * Name of the subscription
    */
@@ -347,12 +352,27 @@ export interface SubscriptionRuntimeInfo {
    * The entity's message count.
    *
    */
-  messageCount: number;
+  totalMessageCount: number;
 
   /**
-   * Message count details
+   * The number of active messages in the queue.
    */
-  messageCountDetails?: MessageCountDetails;
+  activeMessageCount: number;
+
+  /**
+   * The number of messages that have been dead lettered.
+   */
+  deadLetterMessageCount: number;
+
+  /**
+   * The number of messages transferred to another queue, topic, or subscription
+   */
+  transferMessageCount: number;
+
+  /**
+   * The number of messages transferred to the dead letter queue.
+   */
+  transferDeadLetterMessageCount: number;
 
   /**
    * Created at timestamp

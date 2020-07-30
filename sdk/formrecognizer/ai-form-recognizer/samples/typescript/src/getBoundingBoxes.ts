@@ -6,11 +6,7 @@
  * form content and fields, which can be used for manual validation and drawing UI as part of an application.
  */
 
-import {
-  FormRecognizerClient,
-  AzureKeyCredential,
-  BeginRecognizeCustomFormPollState
-} from "@azure/ai-form-recognizer";
+import { FormRecognizerClient, AzureKeyCredential } from "@azure/ai-form-recognizer";
 
 import * as fs from "fs";
 import * as path from "path";
@@ -36,7 +32,7 @@ export async function main() {
 
   const client = new FormRecognizerClient(endpoint, new AzureKeyCredential(apiKey));
   const poller = await client.beginRecognizeCustomForms(modelId, readStream, "application/pdf", {
-    onProgress: (state: BeginRecognizeCustomFormPollState) => {
+    onProgress: (state) => {
       console.log(`status: ${state.status}`);
     }
   });
@@ -65,17 +61,15 @@ export async function main() {
       );
       console.log("    Tables");
       for (const table of page.tables || []) {
-        for (const row of table.rows) {
-          for (const cell of row.cells) {
-            console.log(
-              `      Cell[${cell.rowIndex},${cell.columnIndex}] has text ${cell.text} with confidence ${cell.confidence} based on the following words:`
-            );
-            for (const element of cell.fieldElements || []) {
-              const boundingBox = element.boundingBox
-                ? element.boundingBox.map((p) => `[$.2d{p.x},${p.y}]`).join(", ")
-                : "N/A";
-              console.log(`        '${element.text}' within bounding box ${boundingBox}`);
-            }
+        for (const cell of table.cells) {
+          console.log(
+            `      Cell[${cell.rowIndex},${cell.columnIndex}] has text ${cell.text} with confidence ${cell.confidence} based on the following words:`
+          );
+          for (const element of cell.fieldElements || []) {
+            const boundingBox = element.boundingBox
+              ? element.boundingBox.map((p) => `[$.2d{p.x},${p.y}]`).join(", ")
+              : "N/A";
+            console.log(`        '${element.text}' within bounding box ${boundingBox}`);
           }
         }
       }

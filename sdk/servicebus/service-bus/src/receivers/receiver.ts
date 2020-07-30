@@ -69,7 +69,7 @@ export interface Receiver<ReceivedMessageT> {
    *
    * @param maxMessageCount The maximum number of messages to receive.
    * @param options A set of options to control the receive operation.
-   * - `maxWaitTimeInMs`: The time to wait to receive the given number of messages.
+   * - `maxWaitTimeInMs`: The maximum time to wait for the first message before returning an empty array if no messages are available.
    * - `abortSignal`: The signal to use to abort the ongoing operation.
    * @returns Promise<ReceivedMessageT[]> A promise that resolves with an array of messages.
    * @throws Error if the underlying connection, client or receiver is closed.
@@ -173,10 +173,7 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
   private _throwIfReceiverOrConnectionClosed(): void {
     throwErrorIfConnectionClosed(this._context.namespace);
     if (this.isClosed) {
-      const errorMessage = getReceiverClosedErrorMsg(
-        this._context.entityPath,
-        this._context.isClosed
-      );
+      const errorMessage = getReceiverClosedErrorMsg(this._context.entityPath);
       const error = new Error(errorMessage);
       log.error(`[${this._context.namespace.connectionId}] %O`, error);
       throw error;
@@ -281,6 +278,7 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
       const receivedMessages = await this._context.batchingReceiver.receive(
         maxMessageCount,
         options?.maxWaitTimeInMs ?? Constants.defaultOperationTimeoutInMs,
+        defaultMaxTimeAfterFirstMessageForBatchingMs,
         options?.abortSignal
       );
       return (receivedMessages as unknown) as ReceivedMessageT[];
@@ -405,7 +403,7 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
 
     return {
       close: async (): Promise<void> => {
-        return this._context.streamingReceiver?.receiverHelper.stopReceivingMessages();
+        return this._context.streamingReceiver?.stopReceivingMessages();
       }
     };
   }
@@ -463,3 +461,14 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
     return BatchingReceiver.create(context, options);
   }
 }
+
+/**
+ * The default time to wait for messages _after_ the first message
+ * has been received.
+ *
+ * This timeout only applies to receiveMessages()
+ *
+ * @internal
+ * @ignore
+ */
+export const defaultMaxTimeAfterFirstMessageForBatchingMs = 1000;

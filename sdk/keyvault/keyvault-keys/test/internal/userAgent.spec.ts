@@ -3,8 +3,8 @@
 
 import * as assert from "assert";
 import { version } from "../../package.json";
-import { SDK_VERSION } from "../../src/core/utils/constants";
-import { packageVersion } from "../../src/core/keyVaultClientContext";
+import { SDK_VERSION } from "../../src/generated/utils/constants";
+import { packageVersion } from "../../src/generated/keyVaultClientContext";
 
 describe("Keys client's user agent", () => {
   // The tests follow

@@ -5,6 +5,143 @@
 ```ts
 
 // @public (undocumented)
+export interface Agent {
+    // (undocumented)
+    destroy(): void;
+    // (undocumented)
+    maxFreeSockets: number;
+    // (undocumented)
+    maxSockets: number;
+    // (undocumented)
+    requests: any;
+    // (undocumented)
+    sockets: any;
+}
+
+// @public (undocumented)
+export type AggregateType = "Average" | "Count" | "Max" | "Min" | "Sum";
+
+// @public
+export class ChangeFeedIterator<T> {
+    fetchNext(): Promise<ChangeFeedResponse<Array<T & Resource>>>;
+    getAsyncIterator(): AsyncIterable<ChangeFeedResponse<Array<T & Resource>>>;
+    get hasMoreResults(): boolean;
+    }
+
+// @public
+export interface ChangeFeedOptions {
+    continuation?: string;
+    maxItemCount?: number;
+    sessionToken?: string;
+    startFromBeginning?: boolean;
+    startTime?: Date;
+}
+
+// @public
+export class ChangeFeedResponse<T> {
+    get activityId(): string;
+    get continuation(): string;
+    readonly count: number;
+    get etag(): string;
+    headers: CosmosHeaders;
+    get requestCharge(): number;
+    readonly result: T;
+    get sessionToken(): string;
+    readonly statusCode: number;
+}
+
+// @public (undocumented)
+export class ClientContext {
+    constructor(cosmosClientOptions: CosmosClientOptions, globalEndpointManager: GlobalEndpointManager);
+    // (undocumented)
+    bulk<T>({ body, path, resourceId, partitionKeyRangeId, options }: {
+        body: T;
+        path: string;
+        partitionKeyRangeId: string;
+        resourceId: string;
+        options?: RequestOptions;
+    }): Promise<Response<any>>;
+    // (undocumented)
+    clearSessionToken(path: string): void;
+    // (undocumented)
+    create<T, U = T>({ body, path, resourceType, resourceId, options, partitionKey }: {
+        body: T;
+        path: string;
+        resourceType: ResourceType;
+        resourceId: string;
+        options?: RequestOptions;
+        partitionKey?: PartitionKey;
+    }): Promise<Response<T & U & Resource>>;
+    // (undocumented)
+    delete<T>({ path, resourceType, resourceId, options, partitionKey }: {
+        path: string;
+        resourceType: ResourceType;
+        resourceId: string;
+        options?: RequestOptions;
+        partitionKey?: PartitionKey;
+    }): Promise<Response<T & Resource>>;
+    // (undocumented)
+    execute<T>({ sprocLink, params, options, partitionKey }: {
+        sprocLink: string;
+        params?: any[];
+        options?: RequestOptions;
+        partitionKey?: PartitionKey;
+    }): Promise<Response<T>>;
+    getDatabaseAccount(options?: RequestOptions): Promise<Response<DatabaseAccount>>;
+    // (undocumented)
+    getQueryPlan(path: string, resourceType: ResourceType, resourceId: string, query: SqlQuerySpec | string, options?: FeedOptions): Promise<Response<PartitionedQueryExecutionInfo>>;
+    // (undocumented)
+    getReadEndpoint(): Promise<string>;
+    // (undocumented)
+    getWriteEndpoint(): Promise<string>;
+    // (undocumented)
+    partitionKeyDefinitionCache: {
+        [containerUrl: string]: any;
+    };
+    // (undocumented)
+    queryFeed<T>({ path, resourceType, resourceId, resultFn, query, options, partitionKeyRangeId, partitionKey }: {
+        path: string;
+        resourceType: ResourceType;
+        resourceId: string;
+        resultFn: (result: {
+            [key: string]: any;
+        }) => any[];
+        query: SqlQuerySpec | string;
+        options: FeedOptions;
+        partitionKeyRangeId?: string;
+        partitionKey?: PartitionKey;
+    }): Promise<Response<T & Resource>>;
+    // (undocumented)
+    queryPartitionKeyRanges(collectionLink: string, query?: string | SqlQuerySpec, options?: FeedOptions): QueryIterator<PartitionKeyRange>;
+    // (undocumented)
+    read<T>({ path, resourceType, resourceId, options, partitionKey }: {
+        path: string;
+        resourceType: ResourceType;
+        resourceId: string;
+        options?: RequestOptions;
+        partitionKey?: PartitionKey;
+    }): Promise<Response<T & Resource>>;
+    // (undocumented)
+    replace<T>({ body, path, resourceType, resourceId, options, partitionKey }: {
+        body: any;
+        path: string;
+        resourceType: ResourceType;
+        resourceId: string;
+        options?: RequestOptions;
+        partitionKey?: PartitionKey;
+    }): Promise<Response<T & Resource>>;
+    // (undocumented)
+    upsert<T, U = T>({ body, path, resourceType, resourceId, options, partitionKey }: {
+        body: T;
+        path: string;
+        resourceType: ResourceType;
+        resourceId: string;
+        options?: RequestOptions;
+        partitionKey?: PartitionKey;
+    }): Promise<Response<T & U & Resource>>;
+}
+
+// @public (undocumented)
 export class ClientSideMetrics {
     constructor(requestCharge: number);
     add(...clientSideMetricsArray: ClientSideMetrics[]): ClientSideMetrics;
@@ -18,7 +155,6 @@ export class ClientSideMetrics {
 
 // @public
 export class Conflict {
-    // Warning: (ae-forgotten-export) The symbol "ClientContext" needs to be exported by the entry point index.d.ts
     constructor(container: Container, id: string, clientContext: ClientContext);
     // (undocumented)
     readonly container: Container;
@@ -37,8 +173,6 @@ export interface ConflictDefinition {
     // (undocumented)
     operationType?: OperationType;
     resourceId?: string;
-    // Warning: (ae-forgotten-export) The symbol "ResourceType" needs to be exported by the entry point index.d.ts
-    //
     // (undocumented)
     resourceType?: ResourceType;
 }
@@ -204,6 +338,9 @@ export const Constants: {
         EnableScriptLogging: string;
         ScriptLogResults: string;
         ALLOW_MULTIPLE_WRITES: string;
+        IsBatchRequest: string;
+        IsBatchAtomic: string;
+        ForceRefresh: string;
     };
     WritableLocations: string;
     ReadableLocations: string;
@@ -260,8 +397,6 @@ export class Container {
     delete(options?: RequestOptions): Promise<ContainerResponse>;
     // @deprecated
     getPartitionKeyDefinition(): Promise<ResourceResponse<PartitionKeyDefinition>>;
-    // Warning: (ae-forgotten-export) The symbol "PartitionedQueryExecutionInfo" needs to be exported by the entry point index.d.ts
-    //
     // (undocumented)
     getQueryPlan(query: string | SqlQuerySpec): Promise<Response<PartitionedQueryExecutionInfo>>;
     // (undocumented)
@@ -274,7 +409,6 @@ export class Container {
     // (undocumented)
     readPartitionKeyRanges(feedOptions?: FeedOptions): QueryIterator<PartitionKeyRange>;
     replace(body: ContainerDefinition, options?: RequestOptions): Promise<ContainerResponse>;
-    // Warning: (ae-forgotten-export) The symbol "Scripts" needs to be exported by the entry point index.d.ts
     get scripts(): Scripts;
     get url(): string;
 }
@@ -292,6 +426,16 @@ export interface ContainerDefinition {
     uniqueKeyPolicy?: UniqueKeyPolicy;
 }
 
+// Warning: (ae-forgotten-export) The symbol "VerboseOmit" needs to be exported by the entry point index.d.ts
+//
+// @public (undocumented)
+export interface ContainerRequest extends VerboseOmit<ContainerDefinition, "partitionKey"> {
+    // (undocumented)
+    partitionKey?: string | PartitionKeyDefinition;
+    // (undocumented)
+    throughput?: number;
+}
+
 // @public
 export class ContainerResponse extends ResourceResponse<ContainerDefinition & Resource> {
     constructor(resource: ContainerDefinition & Resource, headers: CosmosHeaders, statusCode: number, container: Container);
@@ -301,7 +445,6 @@ export class ContainerResponse extends ResourceResponse<ContainerDefinition & Re
 // @public
 export class Containers {
     constructor(database: Database, clientContext: ClientContext);
-    // Warning: (ae-forgotten-export) The symbol "ContainerRequest" needs to be exported by the entry point index.d.ts
     create(body: ContainerRequest, options?: RequestOptions): Promise<ContainerResponse>;
     createIfNotExists(body: ContainerRequest, options?: RequestOptions): Promise<ContainerResponse>;
     // (undocumented)
@@ -326,7 +469,6 @@ export class CosmosClient {
 
 // @public (undocumented)
 export interface CosmosClientOptions {
-    // Warning: (ae-forgotten-export) The symbol "Agent" needs to be exported by the entry point index.d.ts
     agent?: Agent;
     connectionPolicy?: ConnectionPolicy;
     consistencyLevel?: keyof typeof ConsistencyLevel;
@@ -349,6 +491,11 @@ export interface CosmosHeaders {
     // (undocumented)
     [key: string]: any;
 }
+
+// @public (undocumented)
+export type CreateOperation = OperationWithItem & {
+    operationType: "Create";
+};
 
 // @public
 export class Database {
@@ -398,6 +545,11 @@ export interface DatabaseDefinition {
     id?: string;
 }
 
+// @public (undocumented)
+export interface DatabaseRequest extends DatabaseDefinition {
+    throughput?: number;
+}
+
 // @public
 export class DatabaseResponse extends ResourceResponse<DatabaseDefinition & Resource> {
     constructor(resource: DatabaseDefinition & Resource, headers: CosmosHeaders, statusCode: number, database: Database);
@@ -409,7 +561,6 @@ export class Databases {
     constructor(client: CosmosClient, clientContext: ClientContext);
     // (undocumented)
     readonly client: CosmosClient;
-    // Warning: (ae-forgotten-export) The symbol "DatabaseRequest" needs to be exported by the entry point index.d.ts
     create(body: DatabaseRequest, options?: RequestOptions): Promise<DatabaseResponse>;
     createIfNotExists(body: DatabaseRequest, options?: RequestOptions): Promise<DatabaseResponse>;
     query(query: string | SqlQuerySpec, options?: FeedOptions): QueryIterator<any>;
@@ -431,13 +582,27 @@ export enum DataType {
 export const DEFAULT_PARTITION_KEY_PATH: "/_partitionKey";
 
 // @public (undocumented)
+export type DeleteOperation = OperationBase & {
+    operationType: "Delete";
+    id: string;
+};
+
+// @public (undocumented)
+export interface ErrorBody {
+    // (undocumented)
+    additionalErrorInfo?: PartitionedQueryExecutionInfo;
+    // (undocumented)
+    code: string;
+    // (undocumented)
+    message: string;
+}
+
+// @public (undocumented)
 export interface ErrorResponse extends Error {
     // (undocumented)
     [key: string]: any;
     // (undocumented)
     activityId?: string;
-    // Warning: (ae-forgotten-export) The symbol "ErrorBody" needs to be exported by the entry point index.d.ts
-    //
     // (undocumented)
     body?: ErrorBody;
     // (undocumented)
@@ -455,8 +620,6 @@ export interface ErrorResponse extends Error {
 // @public (undocumented)
 export function extractPartitionKey(document: any, partitionKeyDefinition: PartitionKeyDefinition): PartitionKey[];
 
-// Warning: (ae-forgotten-export) The symbol "SharedOptions" needs to be exported by the entry point index.d.ts
-//
 // @public
 export interface FeedOptions extends SharedOptions {
     accessCondition?: {
@@ -497,6 +660,55 @@ export class FeedResponse<TResource> {
 }
 
 // @public (undocumented)
+export enum GeospatialType {
+    Geography = "Geography",
+    Geometry = "Geometry"
+}
+
+// @public
+export class GlobalEndpointManager {
+    constructor(options: CosmosClientOptions, readDatabaseAccount: (opts: RequestOptions) => Promise<ResourceResponse<DatabaseAccount>>);
+    // (undocumented)
+    canUseMultipleWriteLocations(resourceType?: ResourceType, operationType?: OperationType): boolean;
+    // (undocumented)
+    enableEndpointDiscovery: boolean;
+    getReadEndpoint(): Promise<string>;
+    // (undocumented)
+    getReadEndpoints(): Promise<ReadonlyArray<string>>;
+    getWriteEndpoint(): Promise<string>;
+    // (undocumented)
+    getWriteEndpoints(): Promise<ReadonlyArray<string>>;
+    // (undocumented)
+    markCurrentLocationUnavailableForRead(endpoint: string): Promise<void>;
+    // (undocumented)
+    markCurrentLocationUnavailableForWrite(endpoint: string): Promise<void>;
+    refreshEndpointList(): Promise<void>;
+    // (undocumented)
+    resolveServiceEndpoint(resourceType: ResourceType, operationType: OperationType): Promise<string>;
+    }
+
+// @public (undocumented)
+export interface GroupByAliasToAggregateType {
+    // (undocumented)
+    [key: string]: AggregateType;
+}
+
+// @public (undocumented)
+export type GroupByExpressions = string[];
+
+// @public (undocumented)
+export enum HTTPMethod {
+    // (undocumented)
+    delete = "DELETE",
+    // (undocumented)
+    get = "GET",
+    // (undocumented)
+    post = "POST",
+    // (undocumented)
+    put = "PUT"
+}
+
+// @public (undocumented)
 export interface Index {
     // (undocumented)
     dataType: keyof typeof DataType;
@@ -528,8 +740,6 @@ export interface IndexingPolicy {
     excludedPaths?: IndexedPath[];
     includedPaths?: IndexedPath[];
     indexingMode?: keyof typeof IndexingMode;
-    // Warning: (ae-forgotten-export) The symbol "SpatialIndex" needs to be exported by the entry point index.d.ts
-    //
     // (undocumented)
     spatialIndexes?: SpatialIndex[];
 }
@@ -571,6 +781,7 @@ export class ItemResponse<T extends ItemDefinition> extends ResourceResponse<T &
 // @public
 export class Items {
     constructor(container: Container, clientContext: ClientContext);
+    bulk(operations: OperationInput[], options?: RequestOptions): Promise<OperationResponse[]>;
     changeFeed(partitionKey: string | number | boolean, changeFeedOptions?: ChangeFeedOptions): ChangeFeedIterator<any>;
     changeFeed(changeFeedOptions?: ChangeFeedOptions): ChangeFeedIterator<any>;
     changeFeed<T>(partitionKey: string | number | boolean, changeFeedOptions?: ChangeFeedOptions): ChangeFeedIterator<T>;
@@ -582,9 +793,6 @@ export class Items {
     query<T>(query: string | SqlQuerySpec, options?: FeedOptions): QueryIterator<T>;
     readAll(options?: FeedOptions): QueryIterator<ItemDefinition>;
     readAll<T extends ItemDefinition>(options?: FeedOptions): QueryIterator<T>;
-    // Warning: (ae-forgotten-export) The symbol "ChangeFeedOptions" needs to be exported by the entry point index.d.ts
-    // Warning: (ae-forgotten-export) The symbol "ChangeFeedIterator" needs to be exported by the entry point index.d.ts
-    //
     // @deprecated
     readChangeFeed(partitionKey: string | number | boolean, changeFeedOptions?: ChangeFeedOptions): ChangeFeedIterator<any>;
     // @deprecated
@@ -596,6 +804,19 @@ export class Items {
     upsert(body: any, options?: RequestOptions): Promise<ItemResponse<ItemDefinition>>;
     upsert<T extends ItemDefinition>(body: T, options?: RequestOptions): Promise<ItemResponse<T>>;
 }
+
+// @public (undocumented)
+export interface JSONArray extends Array<JSONValue> {
+}
+
+// @public (undocumented)
+export interface JSONObject {
+    // (undocumented)
+    [key: string]: JSONValue;
+}
+
+// @public (undocumented)
+export type JSONValue = boolean | number | string | null | JSONArray | JSONObject;
 
 // @public
 export interface Location {
@@ -658,7 +879,46 @@ export class Offers {
 }
 
 // @public (undocumented)
+export type Operation = CreateOperation | UpsertOperation | ReadOperation | DeleteOperation | ReplaceOperation;
+
+// @public (undocumented)
+export interface OperationBase {
+    // (undocumented)
+    ifMatch?: string;
+    // (undocumented)
+    ifNoneMatch?: string;
+    // (undocumented)
+    partitionKey?: string;
+}
+
+// @public (undocumented)
+export interface OperationInput {
+    // (undocumented)
+    ifMatch?: string;
+    // (undocumented)
+    ifNoneMatch?: string;
+    // (undocumented)
+    partitionKey?: string | number | null | {} | undefined;
+    // (undocumented)
+    resourceBody?: JSONObject;
+}
+
+// @public (undocumented)
+export interface OperationResponse {
+    // (undocumented)
+    eTag?: string;
+    // (undocumented)
+    requestCharge: number;
+    // (undocumented)
+    resourceBody?: JSONObject;
+    // (undocumented)
+    statusCode: number;
+}
+
+// @public (undocumented)
 export enum OperationType {
+    // (undocumented)
+    Batch = "batch",
     // (undocumented)
     Create = "create",
     // (undocumented)
@@ -673,6 +933,21 @@ export enum OperationType {
     Replace = "replace",
     // (undocumented)
     Upsert = "upsert"
+}
+
+// @public (undocumented)
+export type OperationWithItem = OperationBase & {
+    resourceBody: JSONObject;
+};
+
+// @public (undocumented)
+export interface PartitionedQueryExecutionInfo {
+    // (undocumented)
+    partitionedQueryExecutionInfoVersion: number;
+    // (undocumented)
+    queryInfo: QueryInfo;
+    // (undocumented)
+    queryRanges: QueryRange[];
 }
 
 // @public (undocumented)
@@ -718,6 +993,11 @@ export class Permission {
 }
 
 // @public (undocumented)
+export interface PermissionBody {
+    _token: string;
+}
+
+// @public (undocumented)
 export interface PermissionDefinition {
     id: string;
     permissionMode: PermissionMode;
@@ -733,8 +1013,6 @@ export enum PermissionMode {
     Read = "read"
 }
 
-// Warning: (ae-forgotten-export) The symbol "PermissionBody" needs to be exported by the entry point index.d.ts
-//
 // @public (undocumented)
 export class PermissionResponse extends ResourceResponse<PermissionDefinition & PermissionBody & Resource> {
     constructor(resource: PermissionDefinition & PermissionBody & Resource, headers: CosmosHeaders, statusCode: number, permission: Permission);
@@ -766,6 +1044,32 @@ export interface PluginConfig {
 export enum PluginOn {
     operation = "operation",
     request = "request"
+}
+
+// @public (undocumented)
+export interface QueryInfo {
+    // (undocumented)
+    aggregates?: AggregateType[];
+    // (undocumented)
+    distinctType: string;
+    // (undocumented)
+    groupByAliasToAggregateType: GroupByAliasToAggregateType;
+    // (undocumented)
+    groupByExpressions?: GroupByExpressions;
+    // (undocumented)
+    hasSelectValue: boolean;
+    // (undocumented)
+    limit?: number;
+    // (undocumented)
+    offset?: number;
+    // (undocumented)
+    orderBy?: any[];
+    // (undocumented)
+    orderByExpressions?: any[];
+    // (undocumented)
+    rewrittenQuery?: any;
+    // (undocumented)
+    top?: any;
 }
 
 // @public
@@ -883,6 +1187,30 @@ export class QueryPreparationTimes {
 }
 
 // @public (undocumented)
+export interface QueryRange {
+    // (undocumented)
+    isMaxInclusive: boolean;
+    // (undocumented)
+    isMinInclusive: boolean;
+    // (undocumented)
+    max: string;
+    // (undocumented)
+    min: string;
+}
+
+// @public (undocumented)
+export type ReadOperation = OperationBase & {
+    operationType: "Read";
+    id: string;
+};
+
+// @public (undocumented)
+export type ReplaceOperation = OperationWithItem & {
+    operationType: "Replace";
+    id: string;
+};
+
+// @public (undocumented)
 export interface RequestContext {
     // (undocumented)
     body?: any;
@@ -892,14 +1220,10 @@ export interface RequestContext {
     connectionPolicy: ConnectionPolicy;
     // (undocumented)
     endpoint?: string;
-    // Warning: (ae-forgotten-export) The symbol "GlobalEndpointManager" needs to be exported by the entry point index.d.ts
-    //
     // (undocumented)
     globalEndpointManager: GlobalEndpointManager;
     // (undocumented)
     headers?: CosmosHeaders_2;
-    // Warning: (ae-forgotten-export) The symbol "HTTPMethod" needs to be exported by the entry point index.d.ts
-    //
     // (undocumented)
     method: HTTPMethod;
     // (undocumented)
@@ -980,14 +1304,38 @@ export class ResourceResponse<TResource> {
     get requestCharge(): number;
     // (undocumented)
     readonly resource: TResource | undefined;
-    // Warning: (ae-forgotten-export) The symbol "StatusCode" needs to be exported by the entry point index.d.ts
-    //
     // (undocumented)
     readonly statusCode: StatusCode;
-    // Warning: (ae-forgotten-export) The symbol "SubStatusCode" needs to be exported by the entry point index.d.ts
-    //
     // (undocumented)
     readonly substatus?: SubStatusCode;
+}
+
+// @public (undocumented)
+export enum ResourceType {
+    // (undocumented)
+    conflicts = "conflicts",
+    // (undocumented)
+    container = "colls",
+    // (undocumented)
+    database = "dbs",
+    // (undocumented)
+    item = "docs",
+    // (undocumented)
+    none = "",
+    // (undocumented)
+    offer = "offers",
+    // (undocumented)
+    permission = "permissions",
+    // (undocumented)
+    pkranges = "pkranges",
+    // (undocumented)
+    sproc = "sprocs",
+    // (undocumented)
+    trigger = "triggers",
+    // (undocumented)
+    udf = "udfs",
+    // (undocumented)
+    user = "users"
 }
 
 // @public (undocumented)
@@ -1026,13 +1374,59 @@ export class RuntimeExecutionTimes {
     static readonly zero: RuntimeExecutionTimes;
 }
 
+// @public (undocumented)
+export class Scripts {
+    constructor(container: Container, clientContext: ClientContext);
+    // (undocumented)
+    readonly container: Container;
+    storedProcedure(id: string): StoredProcedure;
+    get storedProcedures(): StoredProcedures;
+    trigger(id: string): Trigger;
+    get triggers(): Triggers;
+    userDefinedFunction(id: string): UserDefinedFunction;
+    get userDefinedFunctions(): UserDefinedFunctions;
+}
+
 // @public
 export function setAuthorizationTokenHeaderUsingMasterKey(verb: HTTPMethod, resourceId: string, resourceType: ResourceType, headers: CosmosHeaders, masterKey: string): Promise<void>;
 
 // @public
+export interface SharedOptions {
+    abortSignal?: AbortSignal;
+    initialHeaders?: CosmosHeaders;
+    sessionToken?: string;
+}
+
+// @public (undocumented)
+export interface SpatialIndex {
+    // (undocumented)
+    boundingBox: {
+        xmin: number;
+        ymin: number;
+        xmax: number;
+        ymax: number;
+    };
+    // (undocumented)
+    path: string;
+    // (undocumented)
+    types: SpatialType[];
+}
+
+// @public (undocumented)
+export enum SpatialType {
+    // (undocumented)
+    LineString = "LineString",
+    // (undocumented)
+    MultiPolygon = "MultiPolygon",
+    // (undocumented)
+    Point = "Point",
+    // (undocumented)
+    Polygon = "Polygon"
+}
+
+// @public
 export interface SqlParameter {
     name: string;
-    // Warning: (ae-forgotten-export) The symbol "JSONValue" needs to be exported by the entry point index.d.ts
     value: JSONValue;
 }
 
@@ -1041,6 +1435,34 @@ export interface SqlQuerySpec {
     parameters?: SqlParameter[];
     query: string;
 }
+
+// @public (undocumented)
+export const StatusCode: {
+    Ok: 200;
+    Created: 201;
+    Accepted: 202;
+    NoContent: 204;
+    NotModified: 304;
+    BadRequest: 400;
+    Unauthorized: 401;
+    Forbidden: 403;
+    NotFound: 404;
+    MethodNotAllowed: 405;
+    RequestTimeout: 408;
+    Conflict: 409;
+    Gone: 410;
+    PreconditionFailed: 412;
+    RequestEntityTooLarge: 413;
+    TooManyRequests: 429;
+    RetryWith: 449;
+    InternalServerError: 500;
+    ServiceUnavailable: 503;
+    OperationPaused: 1200;
+    OperationCancelled: number;
+};
+
+// @public (undocumented)
+export type StatusCode = typeof StatusCode[keyof typeof StatusCode];
 
 // @public (undocumented)
 export const StatusCodes: {
@@ -1104,6 +1526,18 @@ export class StoredProcedures {
     query<T>(query: SqlQuerySpec, options?: FeedOptions): QueryIterator<T>;
     readAll(options?: FeedOptions): QueryIterator<StoredProcedureDefinition & Resource>;
 }
+
+// @public (undocumented)
+export const SubStatusCode: {
+    Unknown: 0;
+    CrossPartitionQueryNotServable: 1004;
+    PartitionKeyRangeGone: 1002;
+    ReadSessionNotAvailable: 1002;
+    WriteForbidden: number;
+};
+
+// @public (undocumented)
+export type SubStatusCode = typeof SubStatusCode[keyof typeof SubStatusCode];
 
 // @public
 export class TimeSpan {
@@ -1234,6 +1668,11 @@ export interface UniqueKeyPolicy {
     uniqueKeys: UniqueKey[];
 }
 
+// @public (undocumented)
+export type UpsertOperation = OperationWithItem & {
+    operationType: "Upsert";
+};
+
 // @public
 export class User {
     constructor(database: Database, id: string, clientContext: ClientContext);
@@ -1314,10 +1753,6 @@ export class Users {
     upsert(body: UserDefinition, options?: RequestOptions): Promise<UserResponse>;
 }
 
-
-// Warnings were encountered during analysis:
-//
-// src/client/Container/ContainerDefinition.ts:23:5 - (ae-forgotten-export) The symbol "GeospatialType" needs to be exported by the entry point index.d.ts
 
 // (No @packageDocumentation comment for this package)
 

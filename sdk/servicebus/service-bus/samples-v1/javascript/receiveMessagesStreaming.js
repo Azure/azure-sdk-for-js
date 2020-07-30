@@ -1,17 +1,18 @@
 /*
-Copyright (c) Microsoft Corporation. All rights reserved.
-Licensed under the MIT Licence.
+  Copyright (c) Microsoft Corporation. All rights reserved.
+  Licensed under the MIT Licence.
 
-This sample demonstrates how the receive() function can be used to receive Service Bus messages
-in a stream.
+  This sample demonstrates how the registerMessageHandler() function can be used to receive Service Bus messages
+  in a stream.
 
-Setup: Please run "sendMessages.ts" sample before running this to populate the queue/topic
+  Setup: Please run "sendMessages.ts" sample before running this to populate the queue/topic
 */
 
-const { delay, ServiceBusClient, ReceiveMode } = require("@azure/service-bus");
+const { ServiceBusClient, ReceiveMode } = require("@azure/service-bus");
 
 // Load the .env file if it exists
-require("dotenv").config();
+const dotenv = require("dotenv");
+dotenv.config();
 
 // Define connection string and related Service Bus entity names here
 const connectionString = process.env.SERVICE_BUS_CONNECTION_STRING || "<connection string>";
@@ -23,31 +24,47 @@ async function main() {
   // If receiving from a Subscription, use `createSubscriptionClient` instead of `createQueueClient`
   const queueClient = sbClient.createQueueClient(queueName);
 
-  // To receive messages from sessions, use getSessionReceiver instead of getReceiver or look at
+  // To receive messages from sessions, use createSessionReceiver instead of createReceiver or look at
   // the sample in sessions.ts file
-  const receiver = queueClient.createReceiver(ReceiveMode.peekLock);
 
-  const onMessageHandler = async (brokeredMessage) => {
-    console.log(`Received message: ${brokeredMessage.body}`);
-    await brokeredMessage.complete();
-  };
-  const onErrorHandler = (err) => {
-    console.log("Error occurred: ", err);
-  };
+  // controls whether we continue to recover from fatal Receiver failures.
+  let enableReceiverRecovery = true;
 
-  try {
-    receiver.registerMessageHandler(onMessageHandler, onErrorHandler, {
-      autoComplete: false
+  do {
+    const receiver = queueClient.createReceiver(ReceiveMode.peekLock);
+
+    const receiverPromise = new Promise((resolve, _reject) => {
+      const onMessageHandler = async (brokeredMessage) => {
+        console.log(`Received message: ${brokeredMessage.body}`);
+        await brokeredMessage.complete();
+      };
+
+      const onErrorHandler = (err) => {
+        if (err.retryable === true) {
+          console.log("Receiver will be recreated. A recoverable error occurred:", err);
+          resolve();
+        } else {
+          console.log("Error occurred: ", err);
+        }
+      };
+
+      receiver.registerMessageHandler(onMessageHandler, onErrorHandler, { autoComplete: false });
     });
 
-    // Waiting long enough before closing the receiver to receive messages
-    await delay(5000);
+    // This will only resolve if our receiver has failed in a way that is not recoverable.
+    await receiverPromise;
 
+    // the Service Bus package is intended to be resilient in the face of transitive issues, like network
+    // interruptions. If there are continual restarts this might indicate a more serious issue, like a network
+    // outage.
+    console.log(`Closing previous receiver and recreating - a fatal error has occurred.`);
+
+    // we can close the old receiver and just let the loop start again.
     await receiver.close();
-    await queueClient.close();
-  } finally {
-    await sbClient.close();
-  }
+  } while (enableReceiverRecovery);
+
+  await queueClient.close();
+  await sbClient.close();
 }
 
 main().catch((err) => {

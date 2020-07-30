@@ -26,9 +26,9 @@ npm install @azure/ms-rest-azure-js
 
 ##### Sample code
 
-```typescript
-import { CognitiveServicesCredentials } from "@azure/ms-rest-azure-js";
-import { QnAMakerClient } from "@azure/cognitiveservices-qnamaker";
+```javascript
+const { CognitiveServicesCredentials } = require("@azure/ms-rest-azure-js");  
+const { QnAMakerClient } = require("@azure/cognitiveservices-qnamaker");
 
 async function main() {
   const QNAMAKER_KEY = process.env["QNAMAKER_KEY"] || "<QNAMAKER_KEY>";

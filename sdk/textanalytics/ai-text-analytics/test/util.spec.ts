@@ -22,6 +22,6 @@ describe("util.sortByPreviousOrder", () => {
     ];
     assert.throws(() => {
       sortResponseIdObjects(input, output);
-    }, /^A fatal error\!$/);
+    }, /^A fatal error!$/);
   });
 });

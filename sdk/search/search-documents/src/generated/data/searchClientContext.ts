@@ -11,7 +11,7 @@
 import * as coreHttp from "@azure/core-http";
 
 const packageName = "@azure/search-documents";
-const packageVersion = "11.0.1";
+const packageVersion = "11.0.2";
 
 export class SearchClientContext extends coreHttp.ServiceClient {
   apiVersion: string;
