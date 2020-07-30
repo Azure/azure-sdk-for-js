@@ -9,82 +9,91 @@
 import * as coreHttp from "@azure/core-http";
 
 export interface SchemaId {
-  id: string;
+  id?: string;
 }
 
 /**
- * Defines headers for SchemaRegistryClient_getSchemaById operation.
+ * Defines headers for Schema_getById operation.
  */
-export interface SchemaRegistryClientGetSchemaByIdHeaders {
+export interface SchemaGetByIdHeaders {
+  /**
+   * URL location of schema, identified by schema group, schema name, and version.
+   */
   location?: string;
   /**
-   * schema type
+   * Serialization type for the schema being stored.
    */
   xSerialization?: string;
   /**
-   * unique schema identifier
+   * References specific schema in registry namespace.
    */
   xSchemaId?: string;
   /**
-   * location of schema resource
+   * URL location of schema, identified by schema ID.
    */
   xSchemaIdLocation?: string;
   /**
-   * version of returned schema
+   * Version of the returned schema.
    */
   xSchemaVersion?: number;
 }
 
 /**
- * Defines headers for SchemaRegistryClient_getIdBySchemaContent operation.
+ * Defines headers for Schema_getIdByContent operation.
  */
-export interface SchemaRegistryClientGetIdBySchemaContentHeaders {
+export interface SchemaGetIdByContentHeaders {
+  /**
+   * URL location of schema, identified by schema group, schema name, and version.
+   */
   location?: string;
   /**
-   * schema type
+   * Serialization type for the schema being stored.
    */
   xSerialization?: string;
   /**
-   * unique schema identifier
+   * References specific schema in registry namespace.
    */
   xSchemaId?: string;
   /**
-   * location of schema resource
+   * URL location of schema, identified by schema ID.
    */
   xSchemaIdLocation?: string;
   /**
-   * version of returned schema
+   * Version of the returned schema.
    */
   xSchemaVersion?: number;
 }
 
 /**
- * Defines headers for SchemaRegistryClient_registerSchema operation.
+ * Defines headers for Schema_register operation.
  */
-export interface SchemaRegistryClientRegisterSchemaHeaders {
+export interface SchemaRegisterHeaders {
+  /**
+   * URL location of schema, identified by schema group, schema name, and version.
+   */
   location?: string;
   /**
-   * schema type
+   * Serialization type for the schema being registered.
    */
   xSerialization?: string;
   /**
-   * unique schema identifier
+   * References specific schema in registry namespace.
    */
   xSchemaId?: string;
   /**
-   * location of schema resource
+   * URL location of schema, identified by schema ID.
    */
   xSchemaIdLocation?: string;
   /**
-   * version of returned schema
+   * Version of the returned schema.
    */
   xSchemaVersion?: number;
 }
 
 /**
- * Contains response data for the getSchemaById operation.
+ * Contains response data for the getById operation.
  */
-export type SchemaRegistryClientGetSchemaByIdResponse = SchemaRegistryClientGetSchemaByIdHeaders & {
+export type SchemaGetByIdResponse = SchemaGetByIdHeaders & {
   /**
    * The parsed response body.
    */
@@ -106,14 +115,14 @@ export type SchemaRegistryClientGetSchemaByIdResponse = SchemaRegistryClientGetS
     /**
      * The parsed HTTP response headers.
      */
-    parsedHeaders: SchemaRegistryClientGetSchemaByIdHeaders;
+    parsedHeaders: SchemaGetByIdHeaders;
   };
 };
 
 /**
- * Contains response data for the getIdBySchemaContent operation.
+ * Contains response data for the getIdByContent operation.
  */
-export type SchemaRegistryClientGetIdBySchemaContentResponse = SchemaRegistryClientGetIdBySchemaContentHeaders &
+export type SchemaGetIdByContentResponse = SchemaGetIdByContentHeaders &
   SchemaId & {
     /**
      * The underlying HTTP response.
@@ -131,14 +140,14 @@ export type SchemaRegistryClientGetIdBySchemaContentResponse = SchemaRegistryCli
       /**
        * The parsed HTTP response headers.
        */
-      parsedHeaders: SchemaRegistryClientGetIdBySchemaContentHeaders;
+      parsedHeaders: SchemaGetIdByContentHeaders;
     };
   };
 
 /**
- * Contains response data for the registerSchema operation.
+ * Contains response data for the register operation.
  */
-export type SchemaRegistryClientRegisterSchemaResponse = SchemaRegistryClientRegisterSchemaHeaders &
+export type SchemaRegisterResponse = SchemaRegisterHeaders &
   SchemaId & {
     /**
      * The underlying HTTP response.
@@ -156,7 +165,7 @@ export type SchemaRegistryClientRegisterSchemaResponse = SchemaRegistryClientReg
       /**
        * The parsed HTTP response headers.
        */
-      parsedHeaders: SchemaRegistryClientRegisterSchemaHeaders;
+      parsedHeaders: SchemaRegisterHeaders;
     };
   };
 

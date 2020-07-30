@@ -15,7 +15,6 @@ export const SchemaId: coreHttp.CompositeMapper = {
     modelProperties: {
       id: {
         serializedName: "id",
-        required: true,
         type: {
           name: "String"
         }
@@ -24,10 +23,10 @@ export const SchemaId: coreHttp.CompositeMapper = {
   }
 };
 
-export const SchemaRegistryClientGetSchemaByIdHeaders: coreHttp.CompositeMapper = {
+export const SchemaGetByIdHeaders: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "SchemaRegistryClientGetSchemaByIdHeaders",
+    className: "SchemaGetByIdHeaders",
     modelProperties: {
       location: {
         serializedName: "location",
@@ -63,10 +62,10 @@ export const SchemaRegistryClientGetSchemaByIdHeaders: coreHttp.CompositeMapper 
   }
 };
 
-export const SchemaRegistryClientGetIdBySchemaContentHeaders: coreHttp.CompositeMapper = {
+export const SchemaGetIdByContentHeaders: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "SchemaRegistryClientGetIdBySchemaContentHeaders",
+    className: "SchemaGetIdByContentHeaders",
     modelProperties: {
       location: {
         serializedName: "location",
@@ -102,10 +101,10 @@ export const SchemaRegistryClientGetIdBySchemaContentHeaders: coreHttp.Composite
   }
 };
 
-export const SchemaRegistryClientRegisterSchemaHeaders: coreHttp.CompositeMapper = {
+export const SchemaRegisterHeaders: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "SchemaRegistryClientRegisterSchemaHeaders",
+    className: "SchemaRegisterHeaders",
     modelProperties: {
       location: {
         serializedName: "location",
