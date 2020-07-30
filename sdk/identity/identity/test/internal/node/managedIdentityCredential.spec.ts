@@ -3,15 +3,15 @@
 
 import qs from "qs";
 import assert from "assert";
-import { ManagedIdentityCredential, AuthenticationError } from "../../src";
+import { ManagedIdentityCredential, AuthenticationError } from "../../../src";
 import {
   ImdsEndpoint,
   ImdsApiVersion,
   AppServiceMsiApiVersion
-} from "../../src/credentials/managedIdentityCredential";
-import { MockAuthHttpClient, MockAuthHttpClientOptions, assertRejects } from "../authTestUtils";
+} from "../../../src/credentials/managedIdentityCredential";
+import { MockAuthHttpClient, MockAuthHttpClientOptions, assertRejects } from "../../authTestUtils";
 import { WebResource, AccessToken } from "@azure/core-http";
-import { OAuthErrorResponse } from "../../src/client/errors";
+import { OAuthErrorResponse } from "../../../src/client/errors";
 
 interface AuthRequestDetails {
   requests: WebResource[];

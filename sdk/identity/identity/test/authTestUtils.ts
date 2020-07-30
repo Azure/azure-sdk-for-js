@@ -238,7 +238,7 @@ export function createDelayController(): DelayController {
   sandbox.replace(
     coreHttp,
     "delay",
-    (t): Promise<any> => {
+    (t: any): Promise<any> => {
       return controller.delayRequested(t);
     }
   );
