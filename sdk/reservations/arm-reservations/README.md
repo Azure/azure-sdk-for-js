@@ -31,7 +31,6 @@ import * as msRest from "@azure/ms-rest-js";
 import * as msRestAzure from "@azure/ms-rest-azure-js";
 import * as msRestNodeAuth from "@azure/ms-rest-nodeauth";
 import { AzureReservationAPI, AzureReservationAPIModels, AzureReservationAPIMappers } from "@azure/arm-reservations";
-const subscriptionId = process.env["AZURE_SUBSCRIPTION_ID"];
 
 msRestNodeAuth.interactiveLogin().then((creds) => {
   const client = new AzureReservationAPI(creds);
@@ -71,7 +70,6 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
     <script src="node_modules/@azure/ms-rest-browserauth/dist/msAuth.js"></script>
     <script src="node_modules/@azure/arm-reservations/dist/arm-reservations.js"></script>
     <script type="text/javascript">
-      const subscriptionId = "<Subscription_Id>";
       const authManager = new msAuth.AuthManager({
         clientId: "<client id for your Azure AD app>",
         tenant: "<optional tenant for your organization>"
