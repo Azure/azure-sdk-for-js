@@ -69,6 +69,9 @@ export class ManagedIdentityCredential implements TokenCredential {
       // options only constructor
       this.identityClient = new IdentityClient(clientIdOrOptions);
     }
+    if (!this.clientId && process.env.AZURE_CLIENT_ID) {
+      this.clientId = process.env.AZURE_CLIENT_ID;
+    }
   }
 
   private mapScopesToResource(scopes: string | string[]): string {
