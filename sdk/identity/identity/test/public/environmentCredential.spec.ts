@@ -11,7 +11,15 @@ import {
   assertRejects
 } from "../authTestUtils";
 import { TestTracer, setTracer, SpanGraph } from "@azure/core-tracing";
-import { OAuthErrorResponse } from "../../src/client/errors";
+
+interface OAuthErrorResponse {
+  error: string;
+  error_description: string;
+  error_codes?: number[];
+  timestamp?: string;
+  trace_id?: string;
+  correlation_id?: string;
+}
 
 describe("EnvironmentCredential", function() {
   it("finds and uses client credential environment variables", async () => {

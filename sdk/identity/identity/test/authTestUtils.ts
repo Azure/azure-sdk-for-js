@@ -2,8 +2,8 @@
 // Licensed under the MIT license.
 
 import assert from "assert";
+import * as sinon from "sinon";
 import { TokenCredentialOptions } from "../src";
-import { _setDelayTestFunction } from "../src/util/delay";
 import {
   HttpHeaders,
   HttpOperationResponse,
@@ -11,6 +11,7 @@ import {
   HttpClient,
   RestError
 } from "@azure/core-http";
+import * as coreHttp from "@azure/core-http";
 
 export interface MockAuthResponse {
   status: number;
@@ -162,10 +163,6 @@ export async function assertRejects(
   }
 }
 
-export function setDelayInstantlyCompletes(): void {
-  _setDelayTestFunction(() => Promise.resolve());
-}
-
 export interface DelayInfo {
   resolve: () => void;
   reject: (e: Error) => void;
@@ -229,14 +226,25 @@ export class DelayController {
   }
 }
 
+const sandbox = sinon.createSandbox();
+
+export function setDelayInstantlyCompletes(): void {
+  sandbox.replace(coreHttp, "delay", (): any => Promise.resolve());
+}
+
 export function createDelayController(): DelayController {
   const controller = new DelayController();
-  _setDelayTestFunction((t) => {
-    return controller.delayRequested(t);
-  });
+  sandbox.restore();
+  sandbox.replace(
+    coreHttp,
+    "delay",
+    (t): Promise<any> => {
+      return controller.delayRequested(t);
+    }
+  );
   return controller;
 }
 
 export function restoreDelayBehavior(): void {
-  _setDelayTestFunction();
+  sandbox.restore();
 }
