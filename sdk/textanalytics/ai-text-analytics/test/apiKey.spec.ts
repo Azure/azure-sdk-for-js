@@ -24,9 +24,11 @@ describe("[API Key] TextAnalyticsClient", function() {
 
   const apiKey = new AzureKeyCredential(testEnv.TEXT_ANALYTICS_API_KEY);
 
+  // eslint-disable-next-line no-invalid-this
   this.timeout(10000);
 
   beforeEach(function() {
+    // eslint-disable-next-line no-invalid-this
     ({ client, recorder } = createRecordedClient(this, apiKey));
   });
 
