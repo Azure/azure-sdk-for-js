@@ -393,6 +393,7 @@ describe("Session Lock Renewal", () => {
   function getTestMessage(): ServiceBusMessage {
     const baseMessage = TestMessage.getSessionSample();
     baseMessage.sessionId = sessionId;
+    baseMessage.partitionKey = sessionId;
     return baseMessage;
   }
 });

@@ -8,7 +8,7 @@ const assert = chai.assert;
 
 import { MessageSender } from "../../src/core/messageSender";
 import { OperationOptionsBase } from "../../src/modelsToBeSharedWithEventHubs";
-import { AwaitableSender, delay } from "rhea-promise";
+import { AwaitableSender, delay, ReceiverOptions } from "rhea-promise";
 import { ServiceBusMessageBatchImpl } from "../../src/serviceBusMessageBatch";
 import { MessageReceiver, ReceiverType } from "../../src/core/messageReceiver";
 import {
@@ -228,7 +228,7 @@ describe("AbortSignal", () => {
       const abortSignal = createCountdownAbortSignal(1);
 
       try {
-        await messageReceiver["_init"](undefined, abortSignal);
+        await messageReceiver["_init"]({} as ReceiverOptions, abortSignal);
         assert.fail("Should have thrown an AbortError");
       } catch (err) {
         assert.equal(err.message, StandardAbortMessage);
@@ -252,7 +252,7 @@ describe("AbortSignal", () => {
       };
 
       try {
-        await messageReceiver["_init"](undefined, abortSignal);
+        await messageReceiver["_init"]({} as ReceiverOptions, abortSignal);
         assert.fail("Should have thrown an AbortError");
       } catch (err) {
         assert.equal(err.message, StandardAbortMessage);
@@ -276,7 +276,7 @@ describe("AbortSignal", () => {
       messageReceiver["_negotiateClaim"] = async () => {};
 
       try {
-        await messageReceiver["_init"](undefined, abortSignal);
+        await messageReceiver["_init"]({} as ReceiverOptions, abortSignal);
         assert.fail("Should have thrown an AbortError");
       } catch (err) {
         assert.equal(err.message, StandardAbortMessage);

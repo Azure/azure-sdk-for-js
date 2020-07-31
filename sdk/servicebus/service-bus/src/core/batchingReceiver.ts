@@ -44,7 +44,7 @@ export class BatchingReceiver extends MessageReceiver {
 
     this._batchingReceiverLite = new BatchingReceiverLite(
       context,
-      async (abortSignal?: AbortSignalLike): Promise<MinimalReceiver> => {
+      async (abortSignal?: AbortSignalLike): Promise<MinimalReceiver | undefined> => {
         let lastError: Error | AmqpError | undefined;
 
         const rcvrOptions = this._createReceiverOptions(false, {
@@ -67,7 +67,7 @@ export class BatchingReceiver extends MessageReceiver {
           throw lastError;
         }
 
-        return this._receiver!;
+        return this._receiver;
       },
       this.receiveMode
     );
@@ -121,11 +121,6 @@ export class BatchingReceiver extends MessageReceiver {
         this._context.namespace.connectionId,
         this.name
       );
-
-      // while creating the receiver link for batching receiver the max concurrent calls
-      // i.e. the credit_window on the link is set to zero. After the link is created
-      // successfully, we add credit which is the maxMessageCount specified by the user.
-      this.maxConcurrentCalls = 0;
 
       return await this._batchingReceiverLite.receiveMessages({
         maxMessageCount,
@@ -241,7 +236,9 @@ interface ReceiveMessageArgs {
 export class BatchingReceiverLite {
   constructor(
     clientEntityContext: ClientEntityContext,
-    private _getCurrentReceiver: (abortSignal?: AbortSignalLike) => Promise<MinimalReceiver>,
+    private _getCurrentReceiver: (
+      abortSignal?: AbortSignalLike
+    ) => Promise<MinimalReceiver | undefined>,
     private _receiveMode: ReceiveMode
   ) {
     this._createServiceBusMessage = (context: MessageAndDelivery) => {
@@ -280,6 +277,12 @@ export class BatchingReceiverLite {
     try {
       this.isReceivingMessages = true;
       const receiver = await this._getCurrentReceiver(args.userAbortSignal);
+
+      if (receiver == null) {
+        // (was somehow closed in between the init() and the return)
+        return [];
+      }
+
       return await this._receiveMessagesImpl(receiver, args);
     } finally {
       this._closeHandler = undefined;
