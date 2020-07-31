@@ -41,6 +41,8 @@ import {
   SignedIdentifier,
   SetAccessPolicyResponse
 } from "./generatedModels";
+import { getClientParamsFromConnectionString } from "./utils/connectionString";
+import { TablesSharedKeyCredential } from "./TablesSharedKeyCredential";
 
 /**
  * A TableServiceClient represents a Client to the Azure Tables service allowing you
@@ -51,13 +53,71 @@ export class TableServiceClient {
   private service: Service;
 
   /**
-   * Initializes a new instance of the TableServiceClient class.
-   * @param url The URL of the service account that is the target of the desired operation.
-   * @param options The parameter options.
+   * Creates a new instance of the TableServiceClient class.
+   *
+   * @param {string} url The URL of the service account that is the target of the desired operation., such as
+   *                     "https://myaccount.table.core.windows.net". You can append a SAS,
+   *                     such as "https://myaccount.table.core.windows.net?sasString".
+   * @param {TablesSharedKeyCredential} credential  TablesSharedKeyCredential used to authenticate requests. Only Supported for Browsers
+   * @param {TableServiceClientOptions} options Optional. Options to configure the HTTP pipeline.
+   *
+   * Example using an account name/key:
+   *
+   * ```js
+   * const account = "<storage account name>"
+   * const sharedKeyCredential = new TablesSharedKeyCredential(account, "<account key>");
+   *
+   * const tableServiceClient = new TableServiceClient(
+   *   `https://${account}.table.core.windows.net`,
+   *   sharedKeyCredential
+   * );
+   * ```
    */
   // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-  constructor(url: string, options?: TableServiceClientOptions) {
-    const client = new GeneratedClient(url, options);
+  constructor(
+    url: string,
+    credential: TablesSharedKeyCredential,
+    options?: TableServiceClientOptions
+  );
+  /**
+   * Creates a new instance of the TableServiceClient class.
+   *
+   * @param {string} url The URL of the service account that is the target of the desired operation., such as
+   *                     "https://myaccount.table.core.windows.net". You can append a SAS,
+   *                     such as "https://myaccount.table.core.windows.net?sasString".
+   * @param {TableServiceClientOptions} options Optional. Options to configure the HTTP pipeline.
+   * Example appending a SAS token:
+   *
+   * ```js
+   * const account = "<storage account name>";
+   * const sasToken = "<SAS token>";
+   *
+   * const tableServiceClient = new TableServiceClient(
+   *   `https://${account}.table.core.windows.net?${sasToken}`,
+   * );
+   * ```
+   */
+  constructor(url: string, options?: TableServiceClientOptions);
+  constructor(
+    url: string,
+    credentialOrOptions?: TablesSharedKeyCredential | TableServiceClientOptions,
+    options?: TableServiceClientOptions
+  ) {
+    const credential =
+      credentialOrOptions instanceof TablesSharedKeyCredential ? credentialOrOptions : undefined;
+    const clientOptions =
+      (!(credentialOrOptions instanceof TablesSharedKeyCredential)
+        ? credentialOrOptions
+        : options) || {};
+
+    if (credential) {
+      clientOptions.requestPolicyFactories = (defaultFactories) => [
+        ...defaultFactories,
+        credential
+      ];
+    }
+
+    const client = new GeneratedClient(url, clientOptions);
     this.table = client.table;
     this.service = client.service;
 
@@ -256,5 +316,29 @@ export class TableServiceClient {
     options?: SetAccessPolicyOptions
   ): Promise<SetAccessPolicyResponse> {
     return this.table.setAccessPolicy(tableName, { tableAcl: acl, ...options });
+  }
+
+  /**
+   *
+   * Creates an instance of TableServiceClient from connection string.
+   *
+   * @param {string} connectionString Account connection string or a SAS connection string of an Azure storage account.
+   *                                  [ Note - Account connection string can only be used in NODE.JS runtime. ]
+   *                                  Account connection string example -
+   *                                  `DefaultEndpointsProtocol=https;AccountName=myaccount;AccountKey=accountKey;EndpointSuffix=core.windows.net`
+   *                                  SAS connection string example -
+   *                                  `BlobEndpoint=https://myaccount.table.core.windows.net/;QueueEndpoint=https://myaccount.queue.core.windows.net/;FileEndpoint=https://myaccount.file.core.windows.net/;TableEndpoint=https://myaccount.table.core.windows.net/;SharedAccessSignature=sasString`
+   * @param {TableServiceClientOptions} [options] Options to configure the HTTP pipeline.
+   * @returns {TableServiceClient} A new TableServiceClient from the given connection string.
+   */
+  public static fromConnectionString(
+    connectionString: string,
+    options?: TableServiceClientOptions
+  ): TableServiceClient {
+    const { url, options: clientOptions } = getClientParamsFromConnectionString(
+      connectionString,
+      options
+    );
+    return new TableServiceClient(url, clientOptions);
   }
 }
