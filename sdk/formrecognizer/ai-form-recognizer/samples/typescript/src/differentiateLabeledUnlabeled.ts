@@ -56,7 +56,9 @@ export async function main() {
     for (const [fieldName, field] of Object.entries(form.fields)) {
       // The recognized form fields with an unlabeled custom model will also include data about recognized labels.
       console.log(
-        `  Field ${fieldName} has label '${field.labelData?.text}' with a confidence score of ${field.confidence}`
+        `  Field ${fieldName} has label '${
+          field.labelData ? field.labelData.text : undefined
+        }' with a confidence score of ${field.confidence}`
       );
       console.log(
         `  Field ${fieldName} has value '${field.value}' with a confidence score of ${field.confidence}`
@@ -81,7 +83,7 @@ async function recognizeCustomForm(
     }
   });
   const forms = await poller.pollUntilDone();
-  if (!forms || forms?.length <= 0) {
+  if (!forms) {
     throw new Error("Expecting valid response!");
   }
   return forms;

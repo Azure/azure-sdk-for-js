@@ -52,7 +52,7 @@ export async function main() {
   console.log(`Model Id: ${model.modelId}`);
   console.log(`Status: ${model.status}`);
   console.log("Documents used in training:");
-  for (const doc of model.trainingDocuments ?? []) {
+  for (const doc of model.trainingDocuments || []) {
     console.log(`- ${doc.name}`);
   }
 
