@@ -31,6 +31,7 @@ export async function authenticate(that: any): Promise<any> {
     env.AZURE_CLIENT_ID,
     env.AZURE_CLIENT_SECRET
   );
+
   const keyVaultName = getKeyvaultName();
   const keyVaultUrl = `https://${keyVaultName}.vault.azure.net`;
   const client = new KeyClient(keyVaultUrl, credential);
