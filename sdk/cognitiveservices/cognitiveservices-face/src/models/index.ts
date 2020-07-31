@@ -1647,7 +1647,7 @@ export interface SnapshotApplyHeaders {
  * @readonly
  * @enum {string}
  */
-export type RecognitionModel = "recognition_01" | "recognition_02" | "recognition_03";
+export type RecognitionModel = 'recognition_01' | 'recognition_02' | 'recognition_03';
 
 /**
  * Defines values for Gender.

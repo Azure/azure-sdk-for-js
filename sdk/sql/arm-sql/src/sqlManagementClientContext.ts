@@ -16,76 +16,69 @@ const packageName = "@azure/arm-sql";
 const packageVersion = "7.0.1";
 
 export class SqlManagementClientContext extends msRestAzure.AzureServiceClient {
-         credentials: msRest.ServiceClientCredentials;
-         subscriptionId: string;
+  credentials: msRest.ServiceClientCredentials;
+  subscriptionId: string;
 
-         /**
-          * Initializes a new instance of the SqlManagementClient class.
-          * @param credentials Credentials needed for the client to connect to Azure.
-          * @param subscriptionId The subscription ID that identifies an Azure subscription.
-          * @param [options] The parameter options
-          */
-         constructor(
-           credentials: msRest.ServiceClientCredentials,
-           subscriptionId: string,
-           options?: Models.SqlManagementClientOptions
-         ) {
-           if (credentials == undefined) {
-             throw new Error("'credentials' cannot be null.");
-           }
-           if (subscriptionId == undefined) {
-             throw new Error("'subscriptionId' cannot be null.");
-           }
+  /**
+   * Initializes a new instance of the SqlManagementClient class.
+   * @param credentials Credentials needed for the client to connect to Azure.
+   * @param subscriptionId The subscription ID that identifies an Azure subscription.
+   * @param [options] The parameter options
+   */
+  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.SqlManagementClientOptions) {
+    if (credentials == undefined) {
+      throw new Error('\'credentials\' cannot be null.');
+    }
+    if (subscriptionId == undefined) {
+      throw new Error('\'subscriptionId\' cannot be null.');
+    }
 
-           if (!options) {
-             options = {};
-           }
-           if (!options.userAgent) {
-             const defaultUserAgent = msRestAzure.getDefaultUserAgentValue();
-             options.userAgent = `${packageName}/${packageVersion} ${defaultUserAgent}`;
-           }
+    if (!options) {
+      options = {};
+    }
+    if(!options.userAgent) {
+      const defaultUserAgent = msRestAzure.getDefaultUserAgentValue();
+      options.userAgent = `${packageName}/${packageVersion} ${defaultUserAgent}`;
+    }
 
-           super(credentials, options);
+    super(credentials, options);
 
-           this.acceptLanguage = "en-US";
-           this.longRunningOperationRetryTimeout = 30;
-           this.baseUri = options.baseUri || this.baseUri || "https://management.azure.com";
-           this.requestContentType = "application/json; charset=utf-8";
-           this.credentials = credentials;
-           this.subscriptionId = subscriptionId;
+    this.acceptLanguage = 'en-US';
+    this.longRunningOperationRetryTimeout = 30;
+    this.baseUri = options.baseUri || this.baseUri || "https://management.azure.com";
+    this.requestContentType = "application/json; charset=utf-8";
+    this.credentials = credentials;
+    this.subscriptionId = subscriptionId;
 
-           if (options.acceptLanguage !== null && options.acceptLanguage !== undefined) {
-             this.acceptLanguage = options.acceptLanguage;
-           }
-           if (
-             options.longRunningOperationRetryTimeout !== null &&
-             options.longRunningOperationRetryTimeout !== undefined
-           ) {
-             this.longRunningOperationRetryTimeout = options.longRunningOperationRetryTimeout;
-           }
-         }
+    if(options.acceptLanguage !== null && options.acceptLanguage !== undefined) {
+      this.acceptLanguage = options.acceptLanguage;
+    }
+    if(options.longRunningOperationRetryTimeout !== null && options.longRunningOperationRetryTimeout !== undefined) {
+      this.longRunningOperationRetryTimeout = options.longRunningOperationRetryTimeout;
+    }
+  }
 
-         /**
-          * NOTE: This is an override added manually to workaround bug Azure/ms-rest-js/issues/395
-          * When this library is regenerated, this override needs to be brought back
-          * This override adds the header "Accept: application/json" to every request
-          */
-         sendOperationRequest(
-           operationArguments: msRest.OperationArguments,
-           operationSpec: msRest.OperationSpec,
-           callback?: msRest.ServiceCallback<any>
-         ): Promise<msRest.RestResponse> {
-           const options = {
-             ...operationArguments,
-             options: {
-               ...operationArguments.options,
-               customHeaders: {
-                 ...operationArguments.options?.customHeaders,
-                 accept: "application/json"
-               }
-             }
-           };
+  /**
+   * NOTE: This is an override added manually to workaround bug Azure/ms-rest-js/issues/395
+   * When this library is regenerated, this override needs to be brought back
+   * This override adds the header "Accept: application/json" to every request
+   */
+  sendOperationRequest(
+    operationArguments: msRest.OperationArguments,
+    operationSpec: msRest.OperationSpec,
+    callback?: msRest.ServiceCallback<any>
+  ): Promise<msRest.RestResponse> {
+    const options = {
+      ...operationArguments,
+      options: {
+        ...operationArguments.options,
+        customHeaders: {
+          ...operationArguments.options?.customHeaders,
+          accept: "application/json",
+        },
+      },
+    };
 
-           return super.sendOperationRequest(options, operationSpec, callback);
-         }
-       }
+    return super.sendOperationRequest(options, operationSpec, callback);
+  }
+}

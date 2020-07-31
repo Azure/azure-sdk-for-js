@@ -22,11 +22,7 @@ class AnomalyDetectorClient extends AnomalyDetectorClientContext {
    * @param credentials Subscription credentials which uniquely identify client subscription.
    * @param [options] The parameter options
    */
-  constructor(
-    credentials: msRest.ServiceClientCredentials,
-    endpoint: string,
-    options?: msRest.ServiceClientOptions
-  ) {
+  constructor(credentials: msRest.ServiceClientCredentials, endpoint: string, options?: msRest.ServiceClientOptions) {
     super(credentials, endpoint, options);
   }
 
@@ -40,43 +36,28 @@ class AnomalyDetectorClient extends AnomalyDetectorClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.EntireDetectResponse2>
    */
-  entireDetect(
-    body: Models.Request,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.EntireDetectResponse2>;
+  entireDetect(body: Models.Request, options?: msRest.RequestOptionsBase): Promise<Models.EntireDetectResponse2>;
   /**
    * @param body Time series points and period if needed. Advanced model parameters can also be set
    * in the request.
    * @param callback The callback
    */
-  entireDetect(
-    body: Models.Request,
-    callback: msRest.ServiceCallback<Models.EntireDetectResponse>
-  ): void;
+  entireDetect(body: Models.Request, callback: msRest.ServiceCallback<Models.EntireDetectResponse>): void;
   /**
    * @param body Time series points and period if needed. Advanced model parameters can also be set
    * in the request.
    * @param options The optional parameters
    * @param callback The callback
    */
-  entireDetect(
-    body: Models.Request,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.EntireDetectResponse>
-  ): void;
-  entireDetect(
-    body: Models.Request,
-    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EntireDetectResponse>,
-    callback?: msRest.ServiceCallback<Models.EntireDetectResponse>
-  ): Promise<Models.EntireDetectResponse2> {
+  entireDetect(body: Models.Request, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EntireDetectResponse>): void;
+  entireDetect(body: Models.Request, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EntireDetectResponse>, callback?: msRest.ServiceCallback<Models.EntireDetectResponse>): Promise<Models.EntireDetectResponse2> {
     return this.sendOperationRequest(
       {
         body,
         options
       },
       entireDetectOperationSpec,
-      callback
-    ) as Promise<Models.EntireDetectResponse2>;
+      callback) as Promise<Models.EntireDetectResponse2>;
   }
 
   /**
@@ -89,43 +70,28 @@ class AnomalyDetectorClient extends AnomalyDetectorClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.LastDetectResponse2>
    */
-  lastDetect(
-    body: Models.Request,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.LastDetectResponse2>;
+  lastDetect(body: Models.Request, options?: msRest.RequestOptionsBase): Promise<Models.LastDetectResponse2>;
   /**
    * @param body Time series points and period if needed. Advanced model parameters can also be set
    * in the request.
    * @param callback The callback
    */
-  lastDetect(
-    body: Models.Request,
-    callback: msRest.ServiceCallback<Models.LastDetectResponse>
-  ): void;
+  lastDetect(body: Models.Request, callback: msRest.ServiceCallback<Models.LastDetectResponse>): void;
   /**
    * @param body Time series points and period if needed. Advanced model parameters can also be set
    * in the request.
    * @param options The optional parameters
    * @param callback The callback
    */
-  lastDetect(
-    body: Models.Request,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.LastDetectResponse>
-  ): void;
-  lastDetect(
-    body: Models.Request,
-    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LastDetectResponse>,
-    callback?: msRest.ServiceCallback<Models.LastDetectResponse>
-  ): Promise<Models.LastDetectResponse2> {
+  lastDetect(body: Models.Request, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.LastDetectResponse>): void;
+  lastDetect(body: Models.Request, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LastDetectResponse>, callback?: msRest.ServiceCallback<Models.LastDetectResponse>): Promise<Models.LastDetectResponse2> {
     return this.sendOperationRequest(
       {
         body,
         options
       },
       lastDetectOperationSpec,
-      callback
-    ) as Promise<Models.LastDetectResponse2>;
+      callback) as Promise<Models.LastDetectResponse2>;
   }
 
   /**
@@ -136,43 +102,28 @@ class AnomalyDetectorClient extends AnomalyDetectorClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.ChangePointDetectResponse2>
    */
-  changePointDetect(
-    body: Models.ChangePointDetectRequest,
-    options?: msRest.RequestOptionsBase
-  ): Promise<Models.ChangePointDetectResponse2>;
+  changePointDetect(body: Models.ChangePointDetectRequest, options?: msRest.RequestOptionsBase): Promise<Models.ChangePointDetectResponse2>;
   /**
    * @param body Time series points and granularity is needed. Advanced model parameters can also be
    * set in the request if needed.
    * @param callback The callback
    */
-  changePointDetect(
-    body: Models.ChangePointDetectRequest,
-    callback: msRest.ServiceCallback<Models.ChangePointDetectResponse>
-  ): void;
+  changePointDetect(body: Models.ChangePointDetectRequest, callback: msRest.ServiceCallback<Models.ChangePointDetectResponse>): void;
   /**
    * @param body Time series points and granularity is needed. Advanced model parameters can also be
    * set in the request if needed.
    * @param options The optional parameters
    * @param callback The callback
    */
-  changePointDetect(
-    body: Models.ChangePointDetectRequest,
-    options: msRest.RequestOptionsBase,
-    callback: msRest.ServiceCallback<Models.ChangePointDetectResponse>
-  ): void;
-  changePointDetect(
-    body: Models.ChangePointDetectRequest,
-    options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ChangePointDetectResponse>,
-    callback?: msRest.ServiceCallback<Models.ChangePointDetectResponse>
-  ): Promise<Models.ChangePointDetectResponse2> {
+  changePointDetect(body: Models.ChangePointDetectRequest, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ChangePointDetectResponse>): void;
+  changePointDetect(body: Models.ChangePointDetectRequest, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ChangePointDetectResponse>, callback?: msRest.ServiceCallback<Models.ChangePointDetectResponse>): Promise<Models.ChangePointDetectResponse2> {
     return this.sendOperationRequest(
       {
         body,
         options
       },
       changePointDetectOperationSpec,
-      callback
-    ) as Promise<Models.ChangePointDetectResponse2>;
+      callback) as Promise<Models.ChangePointDetectResponse2>;
   }
 }
 
@@ -181,7 +132,9 @@ const serializer = new msRest.Serializer(Mappers);
 const entireDetectOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "timeseries/entire/detect",
-  urlParameters: [Parameters.endpoint],
+  urlParameters: [
+    Parameters.endpoint
+  ],
   requestBody: {
     parameterPath: "body",
     mapper: {
@@ -203,7 +156,9 @@ const entireDetectOperationSpec: msRest.OperationSpec = {
 const lastDetectOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "timeseries/last/detect",
-  urlParameters: [Parameters.endpoint],
+  urlParameters: [
+    Parameters.endpoint
+  ],
   requestBody: {
     parameterPath: "body",
     mapper: {
@@ -225,7 +180,9 @@ const lastDetectOperationSpec: msRest.OperationSpec = {
 const changePointDetectOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "timeseries/changePoint/detect",
-  urlParameters: [Parameters.endpoint],
+  urlParameters: [
+    Parameters.endpoint
+  ],
   requestBody: {
     parameterPath: "body",
     mapper: {

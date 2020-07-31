@@ -496,7 +496,11 @@ export type InnerErrorCodeValue =
 /**
  * Defines values for DocumentSentimentLabel.
  */
-export type DocumentSentimentLabel = "positive" | "neutral" | "negative" | "mixed";
+export type DocumentSentimentLabel =
+  | "positive"
+  | "neutral"
+  | "negative"
+  | "mixed";
 /**
  * Defines values for SentenceSentimentLabel.
  */
