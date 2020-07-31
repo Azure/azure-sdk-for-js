@@ -2,7 +2,7 @@
   "name": "@azure/app-configuration",
   "author": "Microsoft Corporation",
   "description": "An isomorphic client library for the Azure App Configuration service.",
-  "version": "1.1.0",
+  "version": "1.1.1",
   "sdk-type": "client",
   "keywords": [
     "node",
@@ -47,7 +47,7 @@
     "build:test": "npm run build:test:node && npm run build:test:browser",
     "build:test:node": "tsc -p . && cross-env ONLY_NODE=true rollup -c rollup.test.config.js 2>&1",
     "build:test:browser": "tsc -p . && cross-env ONLY_BROWSER=true rollup -c rollup.test.config.js 2>&1",
-    "build:samples": "node ../../../common/scripts/prep-samples.js && cd samples && tsc",
+    "build:samples": "dev-tool samples prep && cd dist-samples && tsc",
     "check-format": "prettier --list-different --config ../../.prettierrc.json --ignore-path ../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf dist dist-esm dist-browser test-dist test-browser types *.tgz *.log",
     "coverage": "nyc --reporter=lcov --exclude-after-remap=false mocha -t 120000 test-dist/index.js --reporter ../../../common/tools/mocha-multi-reporter.js",
@@ -88,6 +88,7 @@
     "tslib": "^2.0.0"
   },
   "devDependencies": {
+    "@azure/dev-tool": "^1.0.0",
     "@azure/identity": "^1.1.0-preview",
     "@azure/test-utils-recorder": "^1.0.0",
     "@microsoft/api-extractor": "7.7.11",
@@ -110,7 +111,7 @@
     "eslint-plugin-no-only-tests": "^2.3.0",
     "eslint-plugin-promise": "^4.1.1",
     "esm": "^3.2.18",
-    "karma": "^4.0.1",
+    "karma": "^5.1.0",
     "karma-chrome-launcher": "^3.0.0",
     "karma-coverage": "^2.0.0",
     "karma-edge-launcher": "^0.4.2",
@@ -118,7 +119,7 @@
     "karma-firefox-launcher": "^1.1.0",
     "karma-ie-launcher": "^1.0.0",
     "karma-junit-reporter": "^2.0.1",
-    "karma-mocha": "^1.3.0",
+    "karma-mocha": "^2.0.1",
     "karma-mocha-reporter": "^2.2.5",
     "karma-remap-istanbul": "^0.6.0",
     "mocha": "^7.1.1",

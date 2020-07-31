@@ -144,9 +144,9 @@ async function retry(
     const statusCode = response?.status;
     if (
       statusCode === undefined ||
-        (statusCode < 500 && statusCode !== 408) ||
-        statusCode === 501 ||
-        statusCode === 505
+      (statusCode < 500 && statusCode !== 408) ||
+      statusCode === 501 ||
+      statusCode === 505
     ) {
       return false;
     }

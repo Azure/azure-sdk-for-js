@@ -43,8 +43,8 @@ async function main() {
       // each field is of type FormField
       const field = form.fields[fieldName];
       const boundingBox =
-        field.valueText && field.valueText.boundingBox
-          ? field.valueText.boundingBox.map((p) => `[${p.x},${p.y}]`).join(", ")
+        field.valueData && field.valueData.boundingBox
+          ? field.valueData.boundingBox.map((p) => `[${p.x},${p.y}]`).join(", ")
           : "N/A";
       console.log(
         `    Field ${fieldName} has value '${field.value}' with a confidence score of ${field.confidence} within bounding box ${boundingBox}`
@@ -57,17 +57,15 @@ async function main() {
       );
       console.log("    Tables");
       for (const table of page.tables || []) {
-        for (const row of table.rows) {
-          for (const cell of row.cells) {
-            console.log(
-              `      Cell[${cell.rowIndex},${cell.columnIndex}] has text ${cell.text} with confidence ${cell.confidence} based on the following words:`
-            );
-            for (const element of cell.textContent || []) {
-              const boundingBox = element.boundingBox
-                ? element.boundingBox.map((p) => `[${p.x},${p.y}]`).join(", ")
-                : "N/A";
-              console.log(`        '${element.text}' within bounding box ${boundingBox}`);
-            }
+        for (const cell of table.cells) {
+          console.log(
+            `      Cell[${cell.rowIndex},${cell.columnIndex}] has text ${cell.text} with confidence ${cell.confidence} based on the following words:`
+          );
+          for (const element of cell.fieldElements || []) {
+            const boundingBox = element.boundingBox
+              ? element.boundingBox.map((p) => `[${p.x},${p.y}]`).join(", ")
+              : "N/A";
+            console.log(`        '${element.text}' within bounding box ${boundingBox}`);
           }
         }
       }

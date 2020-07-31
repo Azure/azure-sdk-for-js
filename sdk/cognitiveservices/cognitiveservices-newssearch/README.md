@@ -26,21 +26,18 @@ npm install @azure/ms-rest-azure-js
 ##### Sample code
 The following sample performs a news search on 'Microsoft Azure' with conditions such as the freshness must be within a Month, etc. To know more, refer to the [Azure Documentation on Bing News Search](https://docs.microsoft.com/en-us/azure/cognitive-services/bing-news-search/)
 
-```typescript
-import {
-  NewsSearchClient,
-  NewsSearchModels
-} from "@azure/cognitiveservices-newssearch";
-import { CognitiveServicesCredentials } from "@azure/ms-rest-azure-js";
+```javascript
+const { NewsSearchClient } = require("@azure/cognitiveservices-newssearch");
+const { CognitiveServicesCredentials } = require("@azure/ms-rest-azure-js");
 
-async function main(): Promise<void> {
+async function main() {
   const newsSearchKey = process.env["newsSearchKey"] || "<newsSearchKey>";
   const cognitiveServiceCredentials = new CognitiveServicesCredentials(
     newsSearchKey
   );
   const client = new NewsSearchClient(cognitiveServiceCredentials);
   const query = "Microsoft Azure";
-  const options: NewsSearchModels.NewsSearchOptionalParams = {
+  const options = {
     count: 10,
     freshness: "Month",
     safeSearch: "Strict"

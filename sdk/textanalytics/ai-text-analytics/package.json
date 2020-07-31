@@ -3,10 +3,11 @@
   "sdk-type": "client",
   "author": "Microsoft Corporation",
   "description": "An isomorphic client library for the Azure Text Analytics service.",
-  "version": "1.0.1",
+  "version": "5.0.1",
   "keywords": [
     "node",
-    "azure",
+    "Azure",
+    "cloud",
     "typescript",
     "browser",
     "isomorphic"
@@ -15,11 +16,8 @@
   "main": "./dist/index.js",
   "module": "./dist-esm/src/index.js",
   "types": "./types/ai-text-analytics.d.ts",
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/textanalytics/ai-text-analytics",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/Azure/azure-sdk-for-js.git"
-  },
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/textanalytics/ai-text-analytics/README.md",
+  "repository": "github:Azure/azure-sdk-for-js",
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
@@ -42,25 +40,24 @@
       }
     ]
   },
+  "engines" : { "node" : ">=8.0.0" },
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build:browser": "tsc -p . && cross-env ONLY_BROWSER=true rollup -c 2>&1",
     "build:node": "tsc -p . && cross-env ONLY_NODE=true rollup -c 2>&1",
-    "build:samples": "node ../../../common/scripts/prep-samples.js && cd samples && tsc -p .",
+    "build:samples": "dev-tool samples prep && cd dist-samples && tsc -p .",
     "build:test": "tsc -p . && rollup -c rollup.test.config.js 2>&1",
-    "build": "tsc -p . && rollup -c 2>&1 && api-extractor run --local",
+    "build": "tsc -p . && npm run lint && rollup -c 2>&1 && api-extractor run --local",
     "check-format": "prettier --list-different --config ../../.prettierrc.json --ignore-path ../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf dist dist-browser dist-esm test-dist temp types *.tgz *.log",
-    "execute:js-samples": "node ../../../common/scripts/run-samples.js samples/javascript/",
-    "execute:ts-samples": "node ../../../common/scripts/run-samples.js samples/typescript/dist/samples/typescript/src/",
-    "execute:samples": "npm run build:samples && npm run execute:js-samples && npm run execute:ts-samples",
+    "execute:samples": "npm run build:samples && dev-tool samples run dist-samples/javascript dist-samples/typescript/dist/dist-samples/typescript/src/",
     "extract-api": "tsc -p . && api-extractor run --local",
     "format": "prettier --write --config ../../.prettierrc.json --ignore-path ../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "integration-test:browser": "karma start --single-run",
     "integration-test:node": "nyc mocha -r esm --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 5000000 --full-trace dist-esm/test/**/*.spec.js",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "lint:fix": "eslint \"src/**/*.ts\" --fix --fix-type [problem,suggestion]",
-    "lint": "eslint src --ext .ts -f html -o textAnalytics-lintReport.html",
+    "lint": "eslint package.json api-extractor.json src test --ext .ts",
     "pack": "npm pack 2>&1",
     "prebuild": "npm run clean",
     "test:browser": "npm run clean && npm run build:test && npm run unit-test:browser",
@@ -81,6 +78,7 @@
     "tslib": "^2.0.0"
   },
   "devDependencies": {
+    "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@azure/identity": "^1.1.0-preview",
     "@azure/test-utils-recorder": "^1.0.0",
@@ -106,7 +104,7 @@
     "eslint-plugin-no-null": "^1.0.2",
     "eslint-plugin-no-only-tests": "^2.3.0",
     "eslint-plugin-promise": "^4.1.1",
-    "karma": "^4.0.1",
+    "karma": "^5.1.0",
     "karma-chrome-launcher": "^3.0.0",
     "karma-coverage": "^2.0.0",
     "karma-edge-launcher": "^0.4.2",
@@ -116,7 +114,7 @@
     "karma-json-preprocessor": "^0.3.3",
     "karma-json-to-file-reporter": "^1.0.1",
     "karma-junit-reporter": "^2.0.1",
-    "karma-mocha": "^1.3.0",
+    "karma-mocha": "^2.0.1",
     "karma-mocha-reporter": "^2.2.5",
     "karma-remap-istanbul": "^0.6.0",
     "mocha": "^7.1.1",

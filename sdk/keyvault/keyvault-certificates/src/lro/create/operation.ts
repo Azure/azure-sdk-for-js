@@ -10,7 +10,7 @@ import {
   CertificatePolicy,
   CertificateClientInterface
 } from "../../certificatesModels";
-import { CertificateOperation } from "../../core/models";
+import { CertificateOperation } from "../../generated/models";
 
 /**
  * The public representation of the CreateCertificatePoller operation state.

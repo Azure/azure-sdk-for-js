@@ -1038,9 +1038,12 @@ export const SqlFilter: msRest.CompositeMapper = {
         }
       },
       compatibilityLevel: {
-        readOnly: true,
         serializedName: "compatibilityLevel",
         defaultValue: 20,
+        constraints: {
+          InclusiveMaximum: 20,
+          InclusiveMinimum: 20
+        },
         type: {
           name: "Number"
         }
@@ -1671,6 +1674,34 @@ export const SBAuthorizationRuleListResult: msRest.CompositeMapper = {
             type: {
               name: "Composite",
               className: "SBAuthorizationRule"
+            }
+          }
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const NetworkRuleSetListResult: msRest.CompositeMapper = {
+  serializedName: "NetworkRuleSetListResult",
+  type: {
+    name: "Composite",
+    className: "NetworkRuleSetListResult",
+    modelProperties: {
+      value: {
+        serializedName: "",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "NetworkRuleSet"
             }
           }
         }

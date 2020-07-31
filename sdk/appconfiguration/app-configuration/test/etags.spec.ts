@@ -28,7 +28,7 @@ describe("etags", () => {
 
   afterEach(async function() {
     await deleteKeyCompletely([key], client);
-    recorder.stop();
+    await recorder.stop();
   });
 
   // etag usage is 'opt-in' via the onlyIfChanged/onlyIfUnchanged options for certain calls

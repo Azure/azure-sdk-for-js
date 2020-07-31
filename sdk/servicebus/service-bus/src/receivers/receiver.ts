@@ -37,8 +37,18 @@ export interface Receiver<ReceivedMessageT> {
    * Streams messages to message handlers.
    * @param handlers A handler that gets called for messages and errors.
    * @param options Options for subscribe.
+   * @returns An object that can be closed, sending any remaining messages to `handlers` and
+   * stopping new messages from arriving.
    */
-  subscribe(handlers: MessageHandlers<ReceivedMessageT>, options?: SubscribeOptions): void;
+  subscribe(
+    handlers: MessageHandlers<ReceivedMessageT>,
+    options?: SubscribeOptions
+  ): {
+    /**
+     * Causes the subscriber to stop receiving new messages.
+     */
+    close(): Promise<void>;
+  };
 
   /**
    * Returns an iterator that can be used to receive messages from Service Bus.
@@ -59,9 +69,9 @@ export interface Receiver<ReceivedMessageT> {
    *
    * @param maxMessageCount The maximum number of messages to receive.
    * @param options A set of options to control the receive operation.
-   * - `maxWaitTimeInMs`: The time to wait to receive the given number of messages.
+   * - `maxWaitTimeInMs`: The maximum time to wait for the first message before returning an empty array if no messages are available.
    * - `abortSignal`: The signal to use to abort the ongoing operation.
-   * @returns Promise<ServiceBusMessage[]> A promise that resolves with an array of messages.
+   * @returns Promise<ReceivedMessageT[]> A promise that resolves with an array of messages.
    * @throws Error if the underlying connection, client or receiver is closed.
    * @throws Error if current receiver is already in state of receiving messages.
    * @throws MessagingError if the service returns an error while receiving messages.
@@ -85,12 +95,6 @@ export interface Receiver<ReceivedMessageT> {
     sequenceNumbers: Long | Long[],
     options?: OperationOptionsBase
   ): Promise<ReceivedMessageT[]>;
-  /**
-   * Indicates whether the receiver is currently receiving messages or not.
-   * When this returns true, new `registerMessageHandler()` or `receiveMessages()` calls cannot be made.
-   * @returns {boolean}
-   */
-  isReceivingMessages(): boolean;
 
   /**
    * Peek the next batch of active messages (including deferred but not deadlettered messages) on the
@@ -158,7 +162,7 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
   }
 
   private _throwIfAlreadyReceiving(): void {
-    if (this.isReceivingMessages()) {
+    if (this._isReceivingMessages()) {
       const errorMessage = getAlreadyReceivingErrorMsg(this._context.entityPath);
       const error = new Error(errorMessage);
       log.error(`[${this._context.namespace.connectionId}] %O`, error);
@@ -169,10 +173,7 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
   private _throwIfReceiverOrConnectionClosed(): void {
     throwErrorIfConnectionClosed(this._context.namespace);
     if (this.isClosed) {
-      const errorMessage = getReceiverClosedErrorMsg(
-        this._context.entityPath,
-        this._context.isClosed
-      );
+      const errorMessage = getReceiverClosedErrorMsg(this._context.entityPath);
       const error = new Error(errorMessage);
       log.error(`[${this._context.namespace.connectionId}] %O`, error);
       throw error;
@@ -277,6 +278,7 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
       const receivedMessages = await this._context.batchingReceiver.receive(
         maxMessageCount,
         options?.maxWaitTimeInMs ?? Constants.defaultOperationTimeoutInMs,
+        defaultMaxTimeAfterFirstMessageForBatchingMs,
         options?.abortSignal
       );
       return (receivedMessages as unknown) as ReceivedMessageT[];
@@ -381,7 +383,12 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
     return retry<ReceivedMessage[]>(config);
   }
 
-  subscribe(handlers: MessageHandlers<ReceivedMessageT>, options?: SubscribeOptions): void {
+  subscribe(
+    handlers: MessageHandlers<ReceivedMessageT>,
+    options?: SubscribeOptions
+  ): {
+    close(): Promise<void>;
+  } {
     assertValidMessageHandlers(handlers);
 
     const processError = wrapProcessErrorHandler(handlers);
@@ -393,6 +400,12 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
       processError,
       options
     );
+
+    return {
+      close: async (): Promise<void> => {
+        return this._context.streamingReceiver?.stopReceivingMessages();
+      }
+    };
   }
 
   async close(): Promise<void> {
@@ -427,7 +440,7 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
    * Indicates whether the receiver is currently receiving messages or not.
    * When this returns true, new `registerMessageHandler()` or `receiveMessages()` calls cannot be made.
    */
-  isReceivingMessages(): boolean {
+  private _isReceivingMessages(): boolean {
     if (this._context.streamingReceiver && this._context.streamingReceiver.isOpen()) {
       return true;
     }
@@ -448,3 +461,14 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
     return BatchingReceiver.create(context, options);
   }
 }
+
+/**
+ * The default time to wait for messages _after_ the first message
+ * has been received.
+ *
+ * This timeout only applies to receiveMessages()
+ *
+ * @internal
+ * @ignore
+ */
+export const defaultMaxTimeAfterFirstMessageForBatchingMs = 1000;

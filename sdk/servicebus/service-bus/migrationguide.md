@@ -80,7 +80,7 @@ were first called.
 ### Receiving messages
 
 * `peek()` and `peekBySequenceNumber()` methods are collapsed into a single method `peekMessages()`. 
-The options passed to this new method accomodates both number of messages to be peeked and the sequence number to peek from.
+The options passed to this new method accommodates both number of messages to be peeked and the sequence number to peek from.
 
 * `receiveBatch()` method is renamed to `receiveMessages()` to be consistent in usage of the `Messages` suffix in other methods
 on the receiver and the sender.
@@ -96,7 +96,7 @@ on the receiver and the sender.
   In V7:
 
   ```typescript
-  queueOrSubscriptionReceiver.registerMessageHandler({
+  queueOrSubscriptionReceiver.subscribe({
     processMessage: onMessageFn,
     // `processError` is now declared as async and should return a promise.
     processError: async (err) => {

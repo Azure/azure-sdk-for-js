@@ -146,12 +146,7 @@ export class SearchClient<T> {
       pipeline.requestPolicyFactories.unshift(odataMetadataPolicy("none"));
     }
 
-    this.client = new GeneratedClient(
-      this.apiVersion,
-      this.endpoint,
-      this.indexName,
-      pipeline
-    );
+    this.client = new GeneratedClient(this.apiVersion, this.endpoint, this.indexName, pipeline);
   }
 
   /**
@@ -292,7 +287,7 @@ export class SearchClient<T> {
     // Technically, we should also leverage nextLink, but the generated code
     // doesn't support this yet.
     while (result.continuationToken) {
-      const decodedContinuation = this.decodeContinuationToken(settings.continuationToken);
+      const decodedContinuation = this.decodeContinuationToken(result.continuationToken);
       result = await this.searchDocuments(
         searchText,
         options,

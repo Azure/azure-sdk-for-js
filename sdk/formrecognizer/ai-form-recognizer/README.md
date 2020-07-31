@@ -163,19 +163,19 @@ async function main() {
   const receipt = receipts[0];
   console.log("First receipt:");
   // For supported fields recognized by the service, please refer to https://westus2.dev.cognitive.microsoft.com/docs/services/form-recognizer-api-v2-preview/operations/GetAnalyzeReceiptResult.
-  const receiptTypeField = receipt.recognizedForm.fields["ReceiptType"];
+  const receiptTypeField = receipt.fields["ReceiptType"];
   if (receiptTypeField.valueType === "string") {
     console.log(`  Receipt Type: '${receiptTypeField.value || "<missing>"}', with confidence of ${receiptTypeField.confidence}`);
   }
-  const merchantNameField = receipt.recognizedForm.fields["MerchantName"];
+  const merchantNameField = receipt.fields["MerchantName"];
   if (merchantNameField.valueType === "string") {
     console.log(`  Merchant Name: '${merchantNameField.value || "<missing>"}', with confidence of ${merchantNameField.confidence}`);
   }
-  const transactionDate = receipt.recognizedForm.fields["TransactionDate"];
+  const transactionDate = receipt.fields["TransactionDate"];
   if (transactionDate.valueType === "date") {
     console.log(`  Transaction Date: '${transactionDate.value || "<missing>"}', with confidence of ${transactionDate.confidence}`);
   }
-  const itemsField = receipt.recognizedForm.fields["Items"];
+  const itemsField = receipt.fields["Items"];
   if (itemsField.valueType === "array") {
     for (const itemField of itemsField.value || []) {
       if (itemField.valueType === "object") {
@@ -186,7 +186,7 @@ async function main() {
       }
     }
   }
-  const totalField = receipt.recognizedForm.fields["Total"];
+  const totalField = receipt.fields["Total"];
   if (totalField.valueType === "number") {
     console.log(`  Total: '${totalField.value || "<missing>"}', with confidence of ${totalField.confidence}`);
   }
@@ -225,10 +225,8 @@ async function main() {
       `Page ${page.pageNumber}: width ${page.width} and height ${page.height} with unit ${page.unit}`
     );
     for (const table of page.tables) {
-      for (const row of table.rows) {
-        for (const cell of row.cells) {
-          console.log(`cell [${cell.rowIndex},${cell.columnIndex}] has text ${cell.text}`);
-        }
+      for (const cell of table.cells) {
+        console.log(`cell [${cell.rowIndex},${cell.columnIndex}] has text ${cell.text}`);
       }
     }
   }
@@ -320,10 +318,8 @@ async function main() {
       console.log(`Page number: ${page.pageNumber}`);
       console.log("Tables");
       for (const table of page.tables || []) {
-        for (const row of table.rows) {
-          for (const cell of row.cells) {
-            console.log(`cell (${cell.rowIndex},${cell.columnIndex}) ${cell.text}`);
-          }
+        for (const cell of table.cells) {
+          console.log(`cell (${cell.rowIndex},${cell.columnIndex}) ${cell.text}`);
         }
       }
     }

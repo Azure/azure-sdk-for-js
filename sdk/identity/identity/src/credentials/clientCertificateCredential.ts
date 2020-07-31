@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
 import qs from "qs";
 import jws from "jws";
@@ -11,6 +11,7 @@ import { TokenCredentialOptions, IdentityClient } from "../client/identityClient
 import { createSpan } from "../util/tracing";
 import { AuthenticationErrorName } from "../client/errors";
 import { CanonicalCode } from "@opentelemetry/api";
+import { credentialLogger, formatSuccess, formatError } from "../util/logging";
 
 const SelfSignedJwtLifetimeMins = 10;
 
@@ -22,6 +23,8 @@ function addMinutes(date: Date, minutes: number): Date {
   date.setMinutes(date.getMinutes() + minutes);
   return date;
 }
+
+const logger = credentialLogger("ClientCertificateCredential");
 
 /**
  * Enables authentication to Azure Active Directory using a PEM-encoded
@@ -57,14 +60,17 @@ export class ClientCertificateCredential implements TokenCredential {
     this.identityClient = new IdentityClient(options);
     this.tenantId = tenantId;
     this.clientId = clientId;
-
     this.certificateString = readFileSync(certificatePath, "utf8");
 
     const certificatePattern = /(-+BEGIN CERTIFICATE-+)(\n\r?|\r\n?)([A-Za-z0-9+/\n\r]+=*)(\n\r?|\r\n?)(-+END CERTIFICATE-+)/;
     const matchCert = this.certificateString.match(certificatePattern);
     const publicKey = matchCert ? matchCert[3] : "";
     if (!publicKey) {
-      throw new Error("The file at the specified path does not contain a PEM-encoded certificate.");
+      const error = new Error(
+        "The file at the specified path does not contain a PEM-encoded certificate."
+      );
+      logger.info(formatError(error));
+      throw error;
     }
 
     this.certificateThumbprint = createHash("sha1")
@@ -139,6 +145,7 @@ export class ClientCertificateCredential implements TokenCredential {
       });
 
       const tokenResponse = await this.identityClient.sendTokenRequest(webResource);
+      logger.getToken.info(formatSuccess(scopes));
       return (tokenResponse && tokenResponse.accessToken) || null;
     } catch (err) {
       const code =
@@ -149,6 +156,7 @@ export class ClientCertificateCredential implements TokenCredential {
         code,
         message: err.message
       });
+      logger.getToken.info(formatError(err));
       throw err;
     } finally {
       span.end();

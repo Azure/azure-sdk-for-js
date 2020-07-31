@@ -49,6 +49,10 @@
       "path": "sdk\\core\\core-tracing"
     },
     {
+      "name": "core-xml",
+      "path": "sdk\\core\\core-xml"
+    },
+    {
       "name": "cosmos",
       "path": "sdk\\cosmosdb\\cosmos"
     },

@@ -5,6 +5,18 @@ export { StatusCodes } from "./common";
 export { extractPartitionKey } from "./extractPartitionKey";
 export { setAuthorizationTokenHeaderUsingMasterKey } from "./auth";
 export {
+  Operation,
+  OperationResponse,
+  CreateOperation,
+  UpsertOperation,
+  ReplaceOperation,
+  DeleteOperation,
+  ReadOperation,
+  OperationBase,
+  OperationWithItem,
+  OperationInput
+} from "./utils/batch";
+export {
   ConnectionMode,
   ConsistencyLevel,
   ConnectionPolicy,
@@ -14,6 +26,9 @@ export {
   IndexedPath,
   IndexingMode,
   IndexingPolicy,
+  SpatialIndex,
+  SpatialType,
+  GeospatialType,
   IndexKind,
   Location,
   PartitionKey,
@@ -24,17 +39,29 @@ export {
   UserDefinedFunctionType
 } from "./documents";
 
-export { UniqueKeyPolicy, UniqueKey } from "./client/Container/UniqueKeyPolicy";
-export { Constants, OperationType } from "./common";
+export { Constants, OperationType, ResourceType, HTTPMethod } from "./common";
 export { RetryOptions } from "./retry";
-export { Response, RequestOptions, FeedOptions, ErrorResponse, ResourceResponse } from "./request";
-export { FeedResponse } from "./request/FeedResponse";
-export { RequestContext } from "./request/RequestContext";
-export { CosmosHeaders, SqlParameter, SqlQuerySpec } from "./queryExecutionContext";
+export * from "./request";
+
+export {
+  CosmosHeaders,
+  SqlParameter,
+  SqlQuerySpec,
+  JSONValue,
+  JSONArray,
+  JSONObject
+} from "./queryExecutionContext";
 export { QueryIterator } from "./queryIterator";
 export * from "./queryMetrics";
 export { CosmosClient } from "./CosmosClient";
-export { CosmosClientOptions } from "./CosmosClientOptions";
+export { CosmosClientOptions, Agent } from "./CosmosClientOptions";
 export * from "./client";
+export { Scripts } from "./client/Script/Scripts";
 export { Next, Plugin, PluginConfig, PluginOn } from "./plugins/Plugin";
 export { TokenProvider, RequestInfo } from "./auth";
+
+export { ChangeFeedIterator } from "./ChangeFeedIterator";
+export { ChangeFeedOptions } from "./ChangeFeedOptions";
+export { ChangeFeedResponse } from "./ChangeFeedResponse";
+export { ClientContext } from "./ClientContext";
+export { GlobalEndpointManager } from "./globalEndpointManager";

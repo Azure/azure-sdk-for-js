@@ -12,19 +12,20 @@ urlFragment: ai-form-recognizer-javascript
 
 These sample programs show how to use the JavaScript client libraries for Azure Cognitive Services Form Recognizer in some common scenarios.
 
-|**File Name**|**Description**|
-|----------------|-------------|
-|[recognizeContent.js][recognizeContent]|Recognize text and table structures of a document|
-|[recognizeReceipt.js][recognizeReceipt]|Recognize data from a file of a US sales receipt using a prebuilt model|
-|[recognizeReceiptFromUrl.js][recognizeReceiptFromUrl]|Recognize data from a URL of a US sales receipt using a prebuilt model|
-|[recognizeCustomForm.js][recognizeCustomForm]|Recognize forms with your custom model|
-|[trainLabeledModel.js][trainLabeledModel]|Train a custom model with labeled data|
-|[trainUnlabeledModel.js][trainUnlabeledModel]|Train a custom model with unlabeled data|
-|[customModelManagement.js][customModelManagement]|Manage the custom models in your account|
-|[iteratorModels.js][iteratorModels]|List custom models using different ways|
-|[getBoundingBoxes.js][getBoundingBoxes]|Get information to to visualize outlines of form content and field.|
-|[differentiateLabeledUnlabeled.js][differentiateLabeledUnlabeled]|See the differences in output when using a custom model trained with labeled data and one trained with unlabeled data|
-|[copyModel.js][copyModel]|Copy a custom model from one Form Recognizer resource to another|
+| **File Name**                                                     | **Description**                                                                                                       |
+| ----------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------- |
+| [recognizeContent.js][recognizecontent]                           | Recognize text and table structures of a document                                                                     |
+| [recognizeReceipt.js][recognizereceipt]                           | Recognize data from a file of a US sales receipt using a prebuilt model                                               |
+| [recognizeReceiptFromUrl.js][recognizereceiptfromurl]             | Recognize data from a URL of a US sales receipt using a prebuilt model                                                |
+| [recognizeCustomForm.js][recognizecustomform]                     | Recognize forms with your custom model                                                                                |
+| [trainLabeledModel.js][trainlabeledmodel]                         | Train a custom model with labeled data                                                                                |
+| [trainUnlabeledModel.js][trainunlabeledmodel]                     | Train a custom model with unlabeled data                                                                              |
+| [customModelManagement.js][custommodelmanagement]                 | Manage the custom models in your account                                                                              |
+| [iteratorModels.js][iteratormodels]                               | List custom models using different ways                                                                               |
+| [getBoundingBoxes.js][getboundingboxes]                           | Get information to to visualize outlines of form content and field.                                                   |
+| [differentiateLabeledUnlabeled.js][differentiatelabeledunlabeled] | See the differences in output when using a custom model trained with labeled data and one trained with unlabeled data |
+| [copyModel.js][copymodel]                                         | Copy a custom model from one Form Recognizer resource to another                                                      |
+| [authenticationMethods.js][authenticationmethods]                 | authenticates a service client using both Azure Active Directory and an API key                                       |
 
 ## Prerequisites
 
@@ -43,11 +44,10 @@ To run the samples using the published version of the package:
 ```bash
 npm install
 ```
-2. Edit the file `sample.env`, adding the correct credentials to access the Azure service and run the samples. Then rename the file from `sample.env` to just `.env`. The sample programs will read this file automatically.
 
-3. Add additional environment variables specified in the sample file you wish to run.
+2. Edit the file `sample.env`, adding the correct credentials to access the Azure service and run the samples. Not all environment variables are required. Read the relevant sample sources and the `sample.env` file to determine which ones are required. Then rename the file from `sample.env` to just `.env`. The sample programs will read this file automatically.
 
-4. Run whichever samples you like:
+3. Run whichever samples you like:
 
 ```bash
 node recognizeReceipt.js
@@ -57,17 +57,18 @@ node recognizeReceipt.js
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[recognizeReceipt]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/formrecognizer/ai-form-recognizer/samples/javascript/recognizeReceipt.js
-[recognizeReceiptFromUrl]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/formrecognizer/ai-form-recognizer/samples/javascript/recognizeReceiptFromUrl.js
-[recognizeContent]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/formrecognizer/ai-form-recognizer/samples/javascript/recognizeContent.js
-[recognizeCustomForm]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/formrecognizer/ai-form-recognizer/samples/javascript/recognizeCustomForm.js
-[trainLabeledModel]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/formrecognizer/ai-form-recognizer/samples/javascript/trainLabeledModel.js
-[trainUnlabeledModel]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/formrecognizer/ai-form-recognizer/samples/javascript/trainUnlabeledModel.js
-[customModelManagement]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/formrecognizer/ai-form-recognizer/samples/javascript/customModelManagement.js
-[iteratorModels]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/formrecognizer/ai-form-recognizer/samples/javascript/iteratorModels.js
-[getBoundingBoxes]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/formrecognizer/ai-form-recognizer/samples/javascript/getBoundingBoxes.js
-[differentiateLabeledUnlabeled]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/formrecognizer/ai-form-recognizer/samples/javascript/differentiateLabeledUnlabeled.js
-[copyModel]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/formrecognizer/ai-form-recognizer/samples/javascript/copyModel.js
+[recognizereceipt]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/formrecognizer/ai-form-recognizer/samples/javascript/recognizeReceipt.js
+[recognizereceiptfromurl]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/formrecognizer/ai-form-recognizer/samples/javascript/recognizeReceiptFromUrl.js
+[recognizecontent]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/formrecognizer/ai-form-recognizer/samples/javascript/recognizeContent.js
+[recognizecustomform]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/formrecognizer/ai-form-recognizer/samples/javascript/recognizeCustomForm.js
+[trainlabeledmodel]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/formrecognizer/ai-form-recognizer/samples/javascript/trainLabeledModel.js
+[trainunlabeledmodel]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/formrecognizer/ai-form-recognizer/samples/javascript/trainUnlabeledModel.js
+[custommodelmanagement]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/formrecognizer/ai-form-recognizer/samples/javascript/customModelManagement.js
+[iteratormodels]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/formrecognizer/ai-form-recognizer/samples/javascript/iteratorModels.js
+[getboundingboxes]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/formrecognizer/ai-form-recognizer/samples/javascript/getBoundingBoxes.js
+[differentiatelabeledunlabeled]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/formrecognizer/ai-form-recognizer/samples/javascript/differentiateLabeledUnlabeled.js
+[copymodel]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/formrecognizer/ai-form-recognizer/samples/javascript/copyModel.js
+[authenticationmethods]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/formrecognizer/ai-form-recognizer/samples/javascript/authenticationMethods.js
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/ai-form-recognizer
 [azcogsvc]: https://docs.microsoft.com/azure/cognitive-services/cognitive-services-apis-create-account
 [freesub]: https://azure.microsoft.com/free/

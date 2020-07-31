@@ -4,13 +4,7 @@ import * as path from "path";
 import { PassThrough } from "stream";
 
 import { AbortController } from "@azure/abort-controller";
-import {
-  createRandomLocalFile,
-  getBSU,
-  recorderEnvSetup,
-  isBlobVersioningDisabled,
-  isBlobTagsDisabled
-} from "../utils";
+import { createRandomLocalFile, getBSU, recorderEnvSetup } from "../utils";
 import { RetriableReadableStreamOptions } from "../../src/utils/RetriableReadableStream";
 import { record, Recorder } from "@azure/test-utils-recorder";
 import { ContainerClient, BlobClient, BlockBlobClient, BlobServiceClient } from "../../src";
@@ -49,7 +43,7 @@ describe("Highlevel", () => {
   afterEach(async function() {
     if (!this.currentTest?.isPending()) {
       await containerClient.delete();
-      recorder.stop();
+      await recorder.stop();
     }
   });
 
@@ -62,14 +56,14 @@ describe("Highlevel", () => {
     tempFileLargeLength = 257 * 1024 * 1024;
     tempFileSmall = await createRandomLocalFile(tempFolderPath, 15, 1024 * 1024);
     tempFileSmallLength = 15 * 1024 * 1024;
-    recorder.stop();
+    await recorder.stop();
   });
 
   after(async function() {
     recorder = record(this, recorderEnvSetup);
     fs.unlinkSync(tempFileLarge);
     fs.unlinkSync(tempFileSmall);
-    recorder.stop();
+    await recorder.stop();
   });
 
   it("put blob with maximum size", async () => {
@@ -109,9 +103,6 @@ describe("Highlevel", () => {
   }).timeout(timeoutForLargeFileUploadingTest);
 
   it("uploadFile should work with tags", async function() {
-    if (isBlobTagsDisabled()) {
-      this.skip();
-    }
     recorder.skip("node", "Temp file - recorder doesn't support saving the file");
 
     const tags = {
@@ -282,9 +273,7 @@ describe("Highlevel", () => {
     const bufferStream = new PassThrough();
     bufferStream.end(buf);
 
-    const uploadStreamRes = await blockBlobClient.uploadStream(bufferStream, 4 * 1024 * 1024, 20);
-    assert.ok(isBlobVersioningDisabled() || uploadStreamRes.versionId);
-
+    await blockBlobClient.uploadStream(bufferStream, 4 * 1024 * 1024, 20);
     const downloadResponse = await blockBlobClient.download(0);
 
     const downloadFilePath = path.join(tempFolderPath, recorder.getUniqueName("downloadFile"));
@@ -297,9 +286,6 @@ describe("Highlevel", () => {
   });
 
   it("uploadStream should work with tags", async function() {
-    if (isBlobTagsDisabled()) {
-      this.skip();
-    }
     recorder.skip("node", "Temp file - recorder doesn't support saving the file");
 
     const buf = Buffer.from([0x62, 0x75, 0x66, 0x66, 0x65, 0x72]);
