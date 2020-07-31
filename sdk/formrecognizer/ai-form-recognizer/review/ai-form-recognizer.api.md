@@ -35,6 +35,7 @@ export type BeginRecognizeContentOptions = RecognizeContentOptions & {
     updateIntervalInMs?: number;
     onProgress?: (state: RecognizeContentOperationState) => void;
     resumeFrom?: string;
+    contentType?: FormContentType;
 };
 
 // @public
@@ -42,6 +43,7 @@ export type BeginRecognizeFormsOptions = RecognizeFormsOptions & {
     updateIntervalInMs?: number;
     onProgress?: (state: RecognizeFormsOperationState) => void;
     resumeFrom?: string;
+    contentType?: FormContentType;
 };
 
 // @public
@@ -225,11 +227,11 @@ export type FormPollerLike = PollerLike<RecognizeFormsOperationState, Recognized
 // @public
 export class FormRecognizerClient {
     constructor(endpointUrl: string, credential: TokenCredential | KeyCredential, options?: FormRecognizerClientOptions);
-    beginRecognizeContent(form: FormRecognizerRequestBody, contentType?: FormContentType, options?: BeginRecognizeContentOptions): Promise<ContentPollerLike>;
+    beginRecognizeContent(form: FormRecognizerRequestBody, options?: BeginRecognizeContentOptions): Promise<ContentPollerLike>;
     beginRecognizeContentFromUrl(formUrl: string, options?: BeginRecognizeContentOptions): Promise<ContentPollerLike>;
-    beginRecognizeCustomForms(modelId: string, form: FormRecognizerRequestBody, contentType?: FormContentType, options?: BeginRecognizeFormsOptions): Promise<FormPollerLike>;
+    beginRecognizeCustomForms(modelId: string, form: FormRecognizerRequestBody, options?: BeginRecognizeFormsOptions): Promise<FormPollerLike>;
     beginRecognizeCustomFormsFromUrl(modelId: string, formUrl: string, options?: BeginRecognizeFormsOptions): Promise<FormPollerLike>;
-    beginRecognizeReceipts(receipt: FormRecognizerRequestBody, contentType?: FormContentType, options?: BeginRecognizeFormsOptions): Promise<FormPollerLike>;
+    beginRecognizeReceipts(receipt: FormRecognizerRequestBody, options?: BeginRecognizeFormsOptions): Promise<FormPollerLike>;
     beginRecognizeReceiptsFromUrl(receiptUrl: string, options?: BeginRecognizeFormsOptions): Promise<FormPollerLike>;
     readonly endpointUrl: string;
     }

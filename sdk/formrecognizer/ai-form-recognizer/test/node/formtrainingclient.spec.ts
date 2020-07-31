@@ -248,11 +248,9 @@ describe("FormRecognizerClient form recognition NodeJS", () => {
     const stream = fs.createReadStream(filePath);
 
     assert.ok(unlabeledModelId, "Expecting valid model id from training without labels");
-    const poller = await recognizerClient.beginRecognizeCustomForms(
-      unlabeledModelId!,
-      stream,
-      "image/jpeg"
-    );
+    const poller = await recognizerClient.beginRecognizeCustomForms(unlabeledModelId!, stream, {
+      contentType: "image/jpeg"
+    });
     const forms = await poller.pollUntilDone();
 
     assert.ok(forms && forms.length > 0, `Expect no-empty pages but got ${forms}`);
@@ -295,11 +293,9 @@ describe("FormRecognizerClient form recognition NodeJS", () => {
     const stream = fs.createReadStream(filePath);
 
     assert.ok(unlabeledModelId, "Expecting valid model id from training without labels");
-    const poller = await recognizerClient.beginRecognizeCustomForms(
-      labeledModelId!,
-      stream,
-      "image/jpeg"
-    );
+    const poller = await recognizerClient.beginRecognizeCustomForms(labeledModelId!, stream, {
+      contentType: "image/jpeg"
+    });
     const forms = await poller.pollUntilDone();
 
     assert.ok(forms && forms.length > 0, `Expect no-empty pages but got ${forms}`);
