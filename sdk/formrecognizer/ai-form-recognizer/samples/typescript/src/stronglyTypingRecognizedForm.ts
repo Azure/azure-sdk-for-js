@@ -10,12 +10,7 @@
  * and types.
  */
 
-import {
-  FormRecognizerClient,
-  AzureKeyCredential,
-  FormField,
-  RecognizedForm
-} from "@azure/ai-form-recognizer";
+import { FormRecognizerClient, AzureKeyCredential, FormField } from "@azure/ai-form-recognizer";
 
 import * as fs from "fs";
 import * as path from "path";
@@ -23,6 +18,15 @@ import * as path from "path";
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
 dotenv.config();
+
+/**
+ * A `FormField` that is an object with a specific shape (defined by the type
+ * parameter T).
+ */
+type StrongObjectField<T> = Extract<FormField, { valueType?: "object" }> & {
+  valueType: "object";
+  value: T;
+};
 
 /**
  * A Receipt returned by the Receipt Recognition method.
@@ -37,7 +41,7 @@ interface USReceipt {
   MerchantName?: FormField;
   MerchantAddress?: FormField;
   MerchantPhoneNumber?: FormField;
-  Items?: ReceiptItem[];
+  Items?: Array<StrongObjectField<ReceiptItem>>;
   Subtotal?: FormField;
   Tax?: FormField;
   Tip?: FormField;
@@ -56,29 +60,6 @@ interface ReceiptItem {
   TotalPrice?: FormField;
 }
 
-/**
- * Creates a strongly-typed representation of a receipt by
- *
- * 1) Applying the USReceipt type to the fields of the returned model
- * 2) Extracting the "Items" array values to their own strongly-typed value
- */
-function toTypedUSReceipt(original: RecognizedForm): USReceipt {
-  if (original.fields["Items"].valueType !== "array") {
-    throw new Error("Expected 'Items' field to be an array.");
-  }
-
-  return {
-    ...original.fields,
-    Items: original.fields["Items"].value?.map((v) => {
-      if (v.valueType !== "object") {
-        throw new Error("Expected every Receipt Item to be an object.");
-      }
-
-      return v.value;
-    }) as ReceiptItem[]
-  };
-}
-
 export async function main() {
   // You will need to set these environment variables or edit the following values
   const endpoint = process.env["FORM_RECOGNIZER_ENDPOINT"] || "<cognitive services endpoint>";
@@ -92,7 +73,8 @@ export async function main() {
   const readStream = fs.createReadStream(fileName);
 
   const client = new FormRecognizerClient(endpoint, new AzureKeyCredential(apiKey));
-  const poller = await client.beginRecognizeReceipts(readStream, "image/jpeg", {
+  const poller = await client.beginRecognizeReceipts(readStream, {
+    contentType: "image/jpeg",
     onProgress: (state) => {
       console.log(`status: ${state.status}`);
     }
@@ -104,9 +86,9 @@ export async function main() {
     throw new Error("Expecting at lease one receipt in analysis result");
   }
 
-  // Convert the receipts in the response to our typed model, then extract
+  // Cast the receipts in the response to our typed model, then extract
   // the first one (we only sent one receipt to the service)
-  const [receipt] = receiptResponse.map(toTypedUSReceipt);
+  const [receipt] = receiptResponse as USReceipt[];
 
   // NOTE: Not all fields will be present on every receipt. It is important
   // to check which fields were identified. In this example, we will simply
@@ -133,7 +115,7 @@ export async function main() {
 
   if (receipt.Items) {
     console.log("Items:");
-    for (const item of receipt.Items) {
+    for (const { value: item } of receipt.Items) {
       console.log(item);
       console.log(`  - Name: "${item.Name?.value}" has confidence ${item.Name?.confidence}`);
       console.log(

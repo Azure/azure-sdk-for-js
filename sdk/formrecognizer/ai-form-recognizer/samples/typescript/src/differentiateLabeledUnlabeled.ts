@@ -76,16 +76,12 @@ async function recognizeCustomForm(
   console.log("# Recognizing...");
   const readStream = fs.createReadStream(fileName);
   const client = new FormRecognizerClient(endpoint, new AzureKeyCredential(apiKey));
-  const poller = await client.beginRecognizeCustomForms(
-    labeledModelId,
-    readStream,
-    "application/pdf",
-    {
-      onProgress: (state) => {
-        console.log(`  status: ${state.status}`);
-      }
+  const poller = await client.beginRecognizeCustomForms(labeledModelId, readStream, {
+    contentType: "application/pdf",
+    onProgress: (state) => {
+      console.log(`  status: ${state.status}`);
     }
-  );
+  });
   const forms = await poller.pollUntilDone();
   if (!forms || forms?.length <= 0) {
     throw new Error("Expecting valid response!");

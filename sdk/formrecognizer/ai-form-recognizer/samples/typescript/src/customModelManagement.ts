@@ -56,7 +56,7 @@ export async function main() {
   console.log(`Status: ${model.status}`);
   console.log("Documents used in training: [");
   for (const doc of model.trainingDocuments || []) {
-    console.log(`  ${doc.documentName}`);
+    console.log(`  ${doc.name}`);
   }
   console.log("]");
 

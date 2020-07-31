@@ -51,7 +51,7 @@ export async function main() {
   // Training document information
   if (model.trainingDocuments) {
     for (const doc of model.trainingDocuments) {
-      console.log(`Document name: ${doc.documentName}`);
+      console.log(`Document name: ${doc.name}`);
       console.log(`Document status: ${doc.status}`);
       console.log(`Document page count: ${doc.pageCount}`);
       console.log(
