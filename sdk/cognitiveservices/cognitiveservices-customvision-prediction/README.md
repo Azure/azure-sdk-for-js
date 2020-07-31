@@ -22,7 +22,7 @@ The following sample predicts and classifies the given image based on your custo
 
 ```javascript
 const { PredictionAPIClient } = require("@azure/cognitiveservices-customvision-prediction");
-const { CognitiveServicesCredentials } = require("@azure/ms-rest-azure-js");
+const { ApiKeyCredentials } = require("@azure/ms-rest-js");
 
 async function main() {
   const customVisionPredictionKey =
@@ -32,8 +32,8 @@ async function main() {
     "<customVisionPredictionEndPoint>";
   const projectId = process.env["projectId"] || "<projectId>";
 
-  const cognitiveServiceCredentials = new CognitiveServicesCredentials(customVisionPredictionKey);
-  const client = new PredictionAPIClient(cognitiveServiceCredentials, customVisionPredictionEndPoint);
+  const credentials = new ApiKeyCredentials({ inHeader: {"Prediction-key": customVisionPredictionKey } });
+  const client = new PredictionAPIClient(credentials, customVisionPredictionEndPoint);
 
   const imageURL =
     "https://www.atlantatrails.com/wp-content/uploads/2019/02/north-georgia-waterfalls-1024x683.jpg";
