@@ -214,8 +214,6 @@ describe("FormTrainingClient NodeJS only", () => {
     const resourceRegion = env.FORM_RECOGNIZER_TARGET_RESOURCE_REGION;
     const targetAuth = await trainingClient.getCopyAuthorization(resourceId, resourceRegion);
 
-    assert.ok(targetAuth.expiresOn.getTime() / 1000 === targetAuth.expirationDateTimeTicks);
-
     assert.ok(labeledModelId, "Expecting valide model id in source");
     const poller = await trainingClient.beginCopyModel(labeledModelId!, targetAuth);
     const result = await poller.pollUntilDone();

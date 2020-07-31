@@ -5,7 +5,6 @@ import * as coreHttp from "@azure/core-http";
 
 import {
   FormFieldsReport,
-  CopyAuthorizationResult as CopyAuthorizationResultModel,
   KeysResult,
   KeyValueElement as KeyValueElementModel,
   KeyValuePair as KeyValuePairModel,
@@ -19,7 +18,6 @@ import {
 } from "./generated/models";
 
 export {
-  CopyAuthorizationResultModel,
   FormFieldsReport,
   KeysResult,
   KeyValueElementModel,
@@ -636,7 +634,15 @@ export interface FormRecognizerError {
 /**
  * Request parameter that contains authorization claims for copy operation.
  */
-export interface CopyAuthorization extends CopyAuthorizationResultModel {
+export interface CopyAuthorization {
+  /**
+   * Model identifier.
+   */
+  modelId: string;
+  /**
+   * Token claim used to authorize the copy request.
+   */
+  accessToken: string;
   /**
    * Target resource Id.
    */

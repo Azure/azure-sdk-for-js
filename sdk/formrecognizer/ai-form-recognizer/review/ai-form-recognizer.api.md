@@ -66,17 +66,12 @@ export interface CommonFieldValue {
 export type ContentPollerLike = PollerLike<PollOperationState<FormPageArray>, FormPageArray>;
 
 // @public
-export interface CopyAuthorization extends CopyAuthorizationResultModel {
+export interface CopyAuthorization {
+    accessToken: string;
     expiresOn: Date;
+    modelId: string;
     resourceId: string;
     resourceRegion: string;
-}
-
-// @public
-export interface CopyAuthorizationResultModel {
-    accessToken: string;
-    expirationDateTimeTicks: number;
-    modelId: string;
 }
 
 // @public
