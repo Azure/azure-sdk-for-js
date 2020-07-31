@@ -26,14 +26,11 @@ npm install @azure/ms-rest-azure-js
 ##### Sample code
 The following sample performs a web search on the text 'Microsoft Azure'. To know more, refer to the [Azure Documentation on Bing Web Search](https://docs.microsoft.com/en-us/azure/cognitive-services/bing-web-search/)
 
-```typescript
-import {
-  WebSearchClient,
-  WebSearchModels
-} from "@azure/cognitiveservices-websearch";
-import { CognitiveServicesCredentials } from "@azure/ms-rest-azure-js";
+```javascript
+const { WebSearchClient } = require("@azure/cognitiveservices-websearch");
+const { CognitiveServicesCredentials } = require("@azure/ms-rest-azure-js");
 
-async function main(): Promise<void> {
+async function main() {
   const webSearchKey = process.env["webSearchKey"] || "<webSearchKey>";
   const webSearchEndPoint =
     process.env["webSearchEndPoint"] || "<webSearchEndPoint>";
@@ -44,7 +41,7 @@ async function main(): Promise<void> {
     endpoint: webSearchEndPoint
   });
   const query = "Microsoft Azure";
-  const options: WebSearchModels.WebSearchOptionalParams = {
+  const options = {
     acceptLanguage: "en-US",
     pragma: "no-cache",
     location: "westus2"

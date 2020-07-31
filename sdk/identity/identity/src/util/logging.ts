@@ -1,9 +1,7 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
 import { createClientLogger, AzureLogger } from "@azure/logger";
-import { TokenCredentialOptions } from "../client/identityClient";
-import { CredentialUnavailable } from "../client/errors";
 
 /**
  * The AzureLogger used for all clients within the identity package
@@ -49,14 +47,14 @@ export function logEnvVars(credentialName: string, supportedEnvVars: string[]): 
 /**
  * Formatting the success event on the credentials
  */
-export function formatSuccess(scope: string | string[]) {
+export function formatSuccess(scope: string | string[]): string {
   return `SUCCESS: ${Array.isArray(scope) ? scope.join(", ") : scope}`;
 }
 
 /**
  * Formatting the success event on the credentials
  */
-export function formatError(error: Error | string) {
+export function formatError(error: Error | string): string {
   return `ERROR: ${typeof error === "string" ? error : error.message}`;
 }
 

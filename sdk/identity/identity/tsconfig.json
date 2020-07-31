@@ -54,5 +54,5 @@
     "forceConsistentCasingInFileNames": true
   },
   "include": ["src/**/*", "test/*", "test/manual/**/*", "test/node/**/*"],
-  "exclude": ["test/manual"]
+  "exclude": ["test/manual", "node_modules"]
 }

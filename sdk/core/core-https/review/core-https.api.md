@@ -7,6 +7,7 @@
 import { AbortSignalLike } from '@azure/abort-controller';
 import { Debugger } from '@azure/logger';
 import { SpanOptions } from '@azure/core-tracing';
+import { TokenCredential } from '@azure/core-auth';
 
 // @public
 export interface AddPipelineOptions {
@@ -14,6 +15,18 @@ export interface AddPipelineOptions {
     afterPolicies?: string[];
     beforePolicies?: string[];
     phase?: PipelinePhase;
+}
+
+// @public
+export function bearerTokenAuthenticationPolicy(options: BearerTokenAuthenticationPolicyOptions): PipelinePolicy;
+
+// @public
+export const bearerTokenAuthenticationPolicyName = "bearerTokenAuthenticationPolicy";
+
+// @public
+export interface BearerTokenAuthenticationPolicyOptions {
+    credential: TokenCredential;
+    scopes: string | string[];
 }
 
 // @public
@@ -154,8 +167,9 @@ export interface PipelineRedirectOptions extends RedirectPolicyOptions {
 }
 
 // @public
-export interface PipelineRequest {
+export interface PipelineRequest<AdditionalInfo = any> {
     abortSignal?: AbortSignalLike;
+    additionalInfo?: AdditionalInfo;
     body?: RequestBodyType;
     clone(): PipelineRequest;
     formData?: FormDataMap;
@@ -175,8 +189,9 @@ export interface PipelineRequest {
 }
 
 // @public
-export interface PipelineRequestOptions {
+export interface PipelineRequestOptions<AdditionalInfo = any> {
     abortSignal?: AbortSignalLike;
+    additionalInfo?: AdditionalInfo;
     body?: RequestBodyType;
     formData?: FormDataMap;
     headers?: HttpHeaders;
