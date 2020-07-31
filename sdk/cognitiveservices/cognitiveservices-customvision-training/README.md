@@ -22,7 +22,7 @@ The following sample performs a quick test of the given image based on your cust
 
 ```javascript
 const { TrainingAPIClient } = require("@azure/cognitiveservices-customvision-training");
-const { ApiKeyCredentials } = require("@azure/ms-rest-js");
+const { CognitiveServicesCredentials } = require("@azure/ms-rest-azure-js");
 
 async function main() {
   const customVisionTrainingKey =
@@ -33,8 +33,8 @@ async function main() {
   const projectId = process.env["projectId"] || "<projectId>";
   const iterationId = process.env["iterationId"] || "<iterationId>";
 
-  const credentials = new ApiKeyCredentials({ inHeader: { "Training-key": customVisionTrainingKey } });
-  const client = new TrainingAPIClient(credentials, customVisionTrainingEndPoint);
+  const cognitiveServiceCredentials = new CognitiveServicesCredentials(customVisionTrainingKey);
+  const client = new TrainingAPIClient(cognitiveServiceCredentials, customVisionTrainingEndPoint);
 
   const imageURL =
     "https://www.atlantatrails.com/wp-content/uploads/2019/02/north-georgia-waterfalls-1024x683.jpg";
