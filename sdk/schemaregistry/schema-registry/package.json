@@ -1,13 +1,11 @@
 {
   "name": "@azure/schema-registry",
-  "version": "0.1.0",
+  "version": "1.0.0-preview.1",
   "description": "Schema Registry Library with typescript type definitions for node.js and browser.",
   "sdk-type": "client",
   "main": "dist/index.js",
   "module": "dist-esm/src/index.js",
   "browser": {
-    "stream": "./node_modules/stream-browserify/index.js",
-    "./dist-esm/src/print.js": "./dist-esm/src/print.browser.js"
   },
   "types": "types/schema-registry.d.ts",
   "scripts": {
@@ -70,7 +68,6 @@
     "@azure/core-tracing": "1.0.0-preview.8",
     "@azure/logger": "^1.0.0",
     "@opentelemetry/api": "^0.6.1",
-    "events": "^3.0.0",
     "tslib": "^2.0.0"
   },
   "devDependencies": {
