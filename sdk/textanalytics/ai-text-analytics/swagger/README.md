@@ -14,8 +14,10 @@ output-folder: ../
 source-code-folder-path: ./src/generated
 input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/master/specification/cognitiveservices/data-plane/TextAnalytics/stable/v3.0/TextAnalytics.json
 add-credentials: false
+package-version: 5.0.1
+v3: true
 use-extension:
-  "@microsoft.azure/autorest.typescript": "5.0.1"
+  "@autorest/typescript": "6.0.0-dev.20200618.1"
 ```
 
 ## Customizations for Track 2 Generator
@@ -78,18 +80,9 @@ directive:
 ```yaml
 directive:
   - from: swagger-document
-    where: $.definitions
+    where: $.definitions.DocumentStatistics
     transform: >
-      if (!$.TextDocumentStatistics) {
-          $.TextDocumentStatistics = $.DocumentStatistics;
-          delete $.DocumentStatistics;
-      }
-  - from: swagger-document
-    where: $.definitions..properties.statistics
-    transform: >
-      if ($["$ref"] && $["$ref"] === "#/definitions/DocumentStatistics") {
-          $["$ref"] = "#/definitions/TextDocumentStatistics";
-      }
+        $["x-ms-client-name"] = "TextDocumentStatistics";
 ```
 
 ### RequestStatistics => TextDocumentBatchStatistics
@@ -97,18 +90,9 @@ directive:
 ```yaml
 directive:
   - from: swagger-document
-    where: $.definitions
+    where: $.definitions.RequestStatistics
     transform: >
-      if (!$.TextDocumentBatchStatistics) {
-          $.TextDocumentBatchStatistics = $.RequestStatistics;
-          delete $.RequestStatistics;
-      }
-  - from: swagger-document
-    where: $.definitions..properties.statistics
-    transform: >
-      if ($["$ref"] && $["$ref"] === "#/definitions/RequestStatistics") {
-          $["$ref"] = "#/definitions/TextDocumentBatchStatistics";
-      }
+     $["x-ms-client-name"] = "TextDocumentBatchStatistics";
 ```
 
 ### Rename showStats -> includeStatistics
@@ -181,18 +165,9 @@ directive:
 ```yaml
 directive:
   - from: swagger-document
-    where: $.definitions
+    where: $.definitions.SentimentConfidenceScorePerLabel
     transform: >
-      if (!$.SentimentConfidenceScores) {
-          $.SentimentConfidenceScores = $.SentimentConfidenceScorePerLabel;
-          delete $.SentimentConfidenceScorePerLabel;
-      }
-  - from: swagger-document
-    where: $.definitions..properties[*]
-    transform: >
-      if ($["$ref"] && $["$ref"] === "#/definitions/SentimentConfidenceScorePerLabel") {
-          $["$ref"] = "#/definitions/SentimentConfidenceScores";
-      }
+     $["x-ms-client-name"] = "SentimentConfidenceScores";
 ```
 
 ### Change some casing to use camelCase
@@ -290,4 +265,3 @@ directive:
     where: $.definitions.DetectedLanguage
     transform: $.description = "Information about the language of a document as identified by the Text Analytics service."
 ```
-

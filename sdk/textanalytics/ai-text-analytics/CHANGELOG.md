@@ -1,7 +1,12 @@
 # Release History
 
-## 1.0.1 (Unreleased)
+## 5.0.1 (Unreleased)
 
+- The `text` property of the `SentenceSentiment` interface is no longer marked as optional because the service has always returned it. This interface is used exclusively as an output type so this change does not break existing code.
+
+## 5.0.0 (2020-07-27)
+
+- Updated the package version to be 5.0.0 instead of 1.0.0 in order to reduce confusion with older versions of the Azure Text Analytics SDKs.
 
 ## 1.0.0 (2020-06-09)
 

@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
 import qs from "qs";
 import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-http";

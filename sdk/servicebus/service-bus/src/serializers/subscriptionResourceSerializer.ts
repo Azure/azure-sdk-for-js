@@ -110,7 +110,10 @@ export function buildSubscriptionRuntimeProperties(
     subscriptionName: getString(rawSubscription[Constants.SUBSCRIPTION_NAME], "subscriptionName"),
     topicName: getString(rawSubscription[Constants.TOPIC_NAME], "topicName"),
     totalMessageCount: getInteger(rawSubscription[Constants.MESSAGE_COUNT], "messageCount"),
-    ...messageCountDetails,
+    activeMessageCount: messageCountDetails.activeMessageCount,
+    deadLetterMessageCount: messageCountDetails.deadLetterMessageCount,
+    transferDeadLetterMessageCount: messageCountDetails.transferDeadLetterMessageCount,
+    transferMessageCount: messageCountDetails.transferMessageCount,
     createdAt: getDate(rawSubscription[Constants.CREATED_AT], "createdAt"),
     updatedAt: getDate(rawSubscription[Constants.UPDATED_AT], "updatedAt"),
     accessedAt: getDate(rawSubscription[Constants.ACCESSED_AT], "accessedAt")
@@ -464,11 +467,6 @@ export interface SubscriptionRuntimeProperties {
    * The number of messages that have been dead lettered.
    */
   deadLetterMessageCount: number;
-
-  /**
-   * The number of scheduled messages.
-   */
-  scheduledMessageCount: number;
 
   /**
    * The number of messages transferred to another queue, topic, or subscription

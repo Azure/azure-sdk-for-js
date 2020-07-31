@@ -1,12 +1,13 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
 import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-http";
 import { TokenCredentialOptions, IdentityClient } from "../client/identityClient";
+let keytar: any;
 try {
-  var keytar = require("keytar");
+  keytar = require("keytar");
 } catch (er) {
   keytar = null;
 }
@@ -24,7 +25,7 @@ const logger = credentialLogger("VSCodeCredential");
  */
 export interface VSCodeCredentialOptions extends TokenCredentialOptions {
   /**
-   * Optionally pass in a Tenant ID to be used as part of the credential 
+   * Optionally pass in a Tenant ID to be used as part of the credential
    */
   tenantId?: string;
 }
@@ -83,9 +84,9 @@ export class VSCodeCredential implements TokenCredential {
       scopeString += " offline_access";
     }
 
-    let refreshToken = await keytar.findPassword(VSCodeUserName);
+    const refreshToken = await keytar.findPassword(VSCodeUserName);
     if (refreshToken) {
-      let tokenResponse = await this.identityClient.refreshAccessToken(
+      const tokenResponse = await this.identityClient.refreshAccessToken(
         this.tenantId,
         AzureAccountClientId,
         scopeString,

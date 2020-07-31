@@ -9,7 +9,7 @@ import { DEFAULT_BREEZE_ENDPOINT } from "../../src/Declarations/Constants";
 import {
   failedBreezeResponse,
   partialBreezeResponse,
-  successfulBreezeResponse,
+  successfulBreezeResponse
 } from "../breezeTestUtils";
 import { FileSystemPersist } from "../../src/platform";
 import nock = require("nock");
@@ -22,7 +22,7 @@ describe("#AzureMonitorBaseExporter", () => {
   class TestExporter extends AzureMonitorBaseExporter {
     constructor() {
       super({
-        instrumentationKey: "foo",
+        instrumentationKey: "foo"
       });
     }
 
@@ -115,7 +115,7 @@ describe("#AzureMonitorBaseExporter", () => {
 
       it("should not start a retry timer when one already exists", (done) => {
         const exporter = new TestExporter();
-        exporter["_retryTimer"] = ("foo" as unknown) as NodeJS.Timeout;
+        exporter["_retryTimer"] = ("foo" as unknown) as NodeJS.Timer;
         const response = successfulBreezeResponse(1);
         scope.reply(200, JSON.stringify(response));
         exporter.exportEnvelopes([envelope], (result) => {

@@ -64,7 +64,7 @@ describe("StreamingReceiver unit tests", () => {
         _createStreamingReceiver: (_context, _options) => {
           wasCalled = true;
           return ({
-            _init: (_ignoredOptions: any, abortSignal?: AbortSignalLike) => {
+            init: (_useNewName: boolean, abortSignal?: AbortSignalLike) => {
               wasCalled = true;
               assert.equal(
                 abortSignal,

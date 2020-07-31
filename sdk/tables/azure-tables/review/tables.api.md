@@ -4,7 +4,13 @@
 
 ```ts
 
+import { BaseRequestPolicy } from '@azure/core-http';
 import * as coreHttp from '@azure/core-http';
+import { HttpOperationResponse } from '@azure/core-http';
+import { RequestPolicy } from '@azure/core-http';
+import { RequestPolicyFactory } from '@azure/core-http';
+import { RequestPolicyOptions } from '@azure/core-http';
+import { WebResource } from '@azure/core-http';
 
 // @public
 export interface AccessPolicy {
@@ -289,9 +295,11 @@ export interface SignedIdentifier {
 
 // @public
 export class TableClient {
+    constructor(url: string, tableName: string, credential: TablesSharedKeyCredential, options?: TableServiceClientOptions);
     constructor(url: string, tableName: string, options?: TableServiceClientOptions);
     createEntity(entity?: Entity, options?: CreateEntityOptions): Promise<CreateEntityResponse>;
     deleteEntity(partitionKey: string, rowKey: string, ifMatch: string, options?: DeleteEntityOptions): Promise<DeleteEntityResponse>;
+    static fromConnectionString(connectionString: string, tableName: string, options?: TableServiceClientOptions): TableClient;
     getAccessPolicy(options?: GetAccessPolicyOptions): Promise<GetAccessPolicyResponse>;
     getEntity(partitionKey: string, rowKey: string, options?: GetEntityOptions): Promise<GetEntityResponse>;
     listEntities(query?: QueryOptions, options?: ListEntitiesOptions): Promise<ListEntitiesResponse>;
@@ -471,11 +479,13 @@ export interface TableResponseProperties {
 
 // @public
 export class TableServiceClient {
+    constructor(url: string, credential: TablesSharedKeyCredential, options?: TableServiceClientOptions);
     constructor(url: string, options?: TableServiceClientOptions);
     createEntity(tableName: string, entity?: Entity, options?: CreateEntityOptions): Promise<CreateEntityResponse>;
     createTable(tableName: string, options?: CreateTableOptions): Promise<CreateTableResponse>;
     deleteEntity(tableName: string, partitionKey: string, rowKey: string, ifMatch: string, options?: DeleteEntityOptions): Promise<DeleteEntityResponse>;
     deleteTable(tableName: string, options?: DeleteTableOptions): Promise<DeleteTableResponse>;
+    static fromConnectionString(connectionString: string, options?: TableServiceClientOptions): TableServiceClient;
     getAccessPolicy(tableName: string, options?: GetAccessPolicyOptions): Promise<GetAccessPolicyResponse>;
     getEntity(tableName: string, partitionKey: string, rowKey: string, options?: GetEntityOptions): Promise<GetEntityResponse>;
     getProperties(options?: GetPropertiesOptions): Promise<GetPropertiesResponse>;
@@ -512,6 +522,21 @@ export interface TableSetAccessPolicyOptionalParams extends coreHttp.OperationOp
     requestId?: string;
     tableAcl?: SignedIdentifier[];
     timeout?: number;
+}
+
+// @public
+export class TablesSharedKeyCredential implements RequestPolicyFactory {
+    constructor(accountName: string, accountKey: string);
+    readonly accountName: string;
+    computeHMACSHA256(stringToSign: string): string;
+    create(nextPolicy: RequestPolicy, options: RequestPolicyOptions): TablesSharedKeyCredentialPolicy;
+}
+
+// @public
+export class TablesSharedKeyCredentialPolicy extends BaseRequestPolicy {
+    constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptions, factory: TablesSharedKeyCredential);
+    sendRequest(request: WebResource): Promise<HttpOperationResponse>;
+    protected signRequest(request: WebResource): WebResource;
 }
 
 // @public

@@ -20,14 +20,11 @@ npm install @azure/cognitiveservices-customvision-training
 ##### Sample code
 The following sample performs a quick test of the given image based on your custom vision training. To know more, refer to the [Azure Documentation on Custom Vision Services](https://docs.microsoft.com/en-us/azure/cognitive-services/custom-vision-service/home).
 
-```typescript
-import {
-  TrainingAPIClient,
-  TrainingAPIModels
-} from "@azure/cognitiveservices-customvision-training";
-import { CognitiveServicesCredentials } from "@azure/ms-rest-azure-js";
+```javascript
+const { TrainingAPIClient } = require("@azure/cognitiveservices-customvision-training");
+const { CognitiveServicesCredentials } = require("@azure/ms-rest-azure-js");
 
-async function main(): Promise<void> {
+async function main() {
   const customVisionTrainingKey =
     process.env["customVisionTrainingKey"] || "<customVisionTrainingKey>";
   const customVisionTrainingEndPoint =
@@ -42,7 +39,7 @@ async function main(): Promise<void> {
   const imageURL =
     "https://www.atlantatrails.com/wp-content/uploads/2019/02/north-georgia-waterfalls-1024x683.jpg";
 
-  const options: TrainingAPIModels.TrainingAPIClientQuickTestImageUrlOptionalParams = {
+  const options = {
     iterationId: iterationId
   };
 
