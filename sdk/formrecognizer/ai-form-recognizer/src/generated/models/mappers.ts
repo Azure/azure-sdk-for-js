@@ -239,7 +239,7 @@ export const TrainingDocumentInfo: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "TrainingDocumentInfo",
     modelProperties: {
-      documentName: {
+      name: {
         serializedName: "documentName",
         required: true,
         type: {

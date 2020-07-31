@@ -2,6 +2,7 @@
 
 ## 1.0.0-preview.5 (Unreleased)
 
+- [Breaking] Renamed the `documentName` property of the `TrainingDocumentInfo` type to just `name`.
 - [Breaking] Removed the `containingLine` property of the `FormWord` type.
 - Made the `rowSpan`, `columnSpan`, `isHeader`, and `isFooter` properties of the `FormTableCell` type non-optional to reflect that they have default values.
 - [Breaking] Renamed `CustomFormField` to `CustomFormModelField` for similarity to other language SDKs.

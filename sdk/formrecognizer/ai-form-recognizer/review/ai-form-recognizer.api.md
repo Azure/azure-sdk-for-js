@@ -407,8 +407,8 @@ export { RestResponse }
 
 // @public
 export interface TrainingDocumentInfo {
-    documentName: string;
     errors: FormRecognizerError[];
+    name: string;
     pageCount: number;
     status: TrainingStatus;
 }

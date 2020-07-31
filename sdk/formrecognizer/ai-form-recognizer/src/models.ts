@@ -388,7 +388,7 @@ export interface TrainingDocumentInfo {
   /**
    * Training document name.
    */
-  documentName: string;
+  name: string;
   /**
    * Total number of pages trained.
    */
