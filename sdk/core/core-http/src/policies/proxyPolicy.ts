@@ -12,23 +12,62 @@ import { ProxySettings } from "../serviceClient";
 import { WebResourceLike } from "../webResource";
 import { Constants } from "../util/constants";
 import { URLBuilder } from "../url";
+import { getEnvironmentValue } from "../util/utils";
+
+let noProxyList: string[] = [];
+let isNoProxyInitalized = false;
+let byPassedList = new Map();
 
 function loadEnvironmentProxyValue(): string | undefined {
   if (!process) {
     return undefined;
   }
 
-  if (process.env[Constants.HTTPS_PROXY]) {
-    return process.env[Constants.HTTPS_PROXY];
-  } else if (process.env[Constants.HTTPS_PROXY.toLowerCase()]) {
-    return process.env[Constants.HTTPS_PROXY.toLowerCase()];
-  } else if (process.env[Constants.HTTP_PROXY]) {
-    return process.env[Constants.HTTP_PROXY];
-  } else if (process.env[Constants.HTTP_PROXY.toLowerCase()]) {
-    return process.env[Constants.HTTP_PROXY.toLowerCase()];
-  }
+  const httpsProxy =
+    getEnvironmentValue(Constants.HTTPS_PROXY) || getEnvironmentValue(Constants.ALL_PROXY);
+  const httpProxy =
+    getEnvironmentValue(Constants.HTTP_PROXY) || getEnvironmentValue(Constants.ALL_PROXY);
 
-  return undefined;
+  return httpsProxy || httpProxy;
+}
+
+// Check whether uri match noProxyList. If match, won't set proxy settings while sending request to the uri.
+function isBypassed(uri: string) {
+  if (byPassedList.has(uri)) {
+    return byPassedList.get(uri);
+  }
+  loadNoProxy();
+  let isBypassed: boolean = false;
+  let host = URLBuilder.parse(uri).getHost()!;
+  for (const s of noProxyList) {
+    if (s[0] == ".") {
+      if (uri.endsWith(s)) {
+        isBypassed = true;
+      } else {
+        if (host == s.slice(1) && host.length == s.length - 1) {
+          isBypassed = true;
+        }
+      }
+    } else {
+      if (host == s) {
+        isBypassed = true;
+        }
+    }
+  }
+  byPassedList.set(uri, isBypassed);
+  return isBypassed;
+}
+
+function loadNoProxy() {
+  if (isNoProxyInitalized) {
+    return;
+  }
+  const noProxy = getEnvironmentValue(Constants.NO_PROXY);
+  if (noProxy != undefined) {
+    let list = noProxy.split(",");
+    noProxyList = list.map((item) => item.trim()).filter((item) => item.length);
+  }
+  isNoProxyInitalized = true;
 }
 
 export function getDefaultProxySettings(proxyUrl?: string): ProxySettings | undefined {
@@ -97,7 +136,7 @@ export class ProxyPolicy extends BaseRequestPolicy {
   }
 
   public sendRequest(request: WebResourceLike): Promise<HttpOperationResponse> {
-    if (!request.proxySettings) {
+    if (!isBypassed(request.url) && !request.proxySettings) {
       request.proxySettings = this.proxySettings;
     }
     return this._nextPolicy.sendRequest(request);
