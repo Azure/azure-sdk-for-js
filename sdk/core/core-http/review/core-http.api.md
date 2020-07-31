@@ -168,9 +168,11 @@ export function createPipelineFromOptions(pipelineOptions: InternalPipelineOptio
 // @public (undocumented)
 export class DefaultHttpClient extends FetchHttpClient {
     // Warning: (ae-forgotten-export) The symbol "CommonRequestInfo" needs to be exported by the entry point coreHttp.d.ts
+    // Warning: (ae-forgotten-export) The symbol "CommonRequestInit" needs to be exported by the entry point coreHttp.d.ts
+    // Warning: (ae-forgotten-export) The symbol "CommonResponse" needs to be exported by the entry point coreHttp.d.ts
     //
     // (undocumented)
-    fetch(input: CommonRequestInfo, init?: RequestInit): Promise<Response>;
+    fetch(input: CommonRequestInfo, init?: CommonRequestInit): Promise<CommonResponse>;
     // (undocumented)
     prepareRequest(httpRequest: WebResourceLike): Promise<Partial<RequestInit>>;
     // (undocumented)
