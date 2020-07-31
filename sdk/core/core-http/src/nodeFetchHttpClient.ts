@@ -34,20 +34,6 @@ export class NodeFetchHttpClient extends FetchHttpClient {
 
   private readonly cookieJar = new tough.CookieJar(undefined, { looseMode: true });
 
-  /**
-   * As we no longer use the global fetch on NodeJS, we need a way to set the local fetch to a mock for testing.
-   */
-  private _fetch: typeof node_fetch | undefined;
-
-  constructor(_fetch?: typeof node_fetch) {
-    super();
-    this._fetch = _fetch;
-  }
-
-  private getFetch(): typeof node_fetch {
-    return this._fetch || node_fetch;
-  }
-
   private getOrCreateAgent(httpRequest: WebResourceLike): http.Agent | https.Agent {
     const isHttps = isUrlHttps(httpRequest.url);
 
@@ -98,7 +84,7 @@ export class NodeFetchHttpClient extends FetchHttpClient {
 
   // eslint-disable-next-line @azure/azure-sdk/ts-apisurface-standardized-verbs
   async fetch(input: CommonRequestInfo, init?: CommonRequestInit): Promise<CommonResponse> {
-    const response = await this.getFetch()(input, init);
+    const response = await node_fetch(input, init);
     return (response as unknown) as CommonResponse;
   }
 

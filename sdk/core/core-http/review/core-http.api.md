@@ -9,7 +9,6 @@ import { AccessToken } from '@azure/core-auth';
 import { Debugger } from '@azure/logger';
 import { GetTokenOptions } from '@azure/core-auth';
 import { isTokenCredential } from '@azure/core-auth';
-import node_fetch from 'node-fetch';
 import { OperationTracingOptions } from '@azure/core-tracing';
 import { SpanOptions } from '@azure/core-tracing';
 import { TokenCredential } from '@azure/core-auth';
@@ -168,7 +167,6 @@ export function createPipelineFromOptions(pipelineOptions: InternalPipelineOptio
 //
 // @public (undocumented)
 export class DefaultHttpClient extends FetchHttpClient {
-    constructor(_fetch?: typeof node_fetch);
     // Warning: (ae-forgotten-export) The symbol "CommonRequestInfo" needs to be exported by the entry point coreHttp.d.ts
     // Warning: (ae-forgotten-export) The symbol "CommonRequestInit" needs to be exported by the entry point coreHttp.d.ts
     // Warning: (ae-forgotten-export) The symbol "CommonResponse" needs to be exported by the entry point coreHttp.d.ts
