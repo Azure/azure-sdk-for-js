@@ -50,7 +50,9 @@ ts-node sample.ts
 
 ## Browser sample
 
-Running these samples in the browser requires a bundler. While we give examples using Webpack, any bundler will do!
+Currently, the Azure Monitor OpenTelemetry Exporter only supports Node.js environments.  This sample will be updated once browser support becomes available.
+
+<!-- Running these samples in the browser requires a bundler. While we give examples using Webpack, any bundler will do!
 
 First, install webpack and webpack-cli.
 
@@ -68,4 +70,4 @@ This will produce `dist/main.js`. Reference this file in an HTML file script tag
 
 ```html
 <script src="./dist/main.js"></script>
-```
+``` -->
