@@ -15,20 +15,6 @@ These sample programs show how to use the TypeScript client libraries for Azure 
 | **File Name**                                             | **Description**                                                                                                                                            |
 | --------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | [basic.ts][basic]                                         | authenticate with the service using an account name & key (or anonymously with a SAS URL); create and delete containers; create, list, and download a blob |
-| [withConnString.ts][withconnstring]                       | connect to and authenticate with the service using a connection string                                                                                     |
-| [sharedKeyCred.ts][sharedkeycred]                         | authenticate with the service using an account name and a shared key                                                                                       |
-| [anonymousCred.ts][anonymouscred]                         | authenticate with the service anonymously using a SAS URL                                                                                                  |
-| [azureAdAuth.ts][azureadauth]                             | authenticate with the service using Azure Active Directory                                                                                                 |
-| [proxyAuth.ts][proxyauth]                                 | connect to the service using a proxy and authenticate with an account name & key                                                                           |
-| [iterators-blobs.ts][iterators-blobs]                     | different methods for iterating over blobs in a container, showing options for paging, resuming paging, etc.                                               |
-| [iterators-containers.ts][iterators-containers]           | different methods for iterating over containers in an account, showing options for paging, resuming paging, etc.                                           |
-| [iterators-blobs-hierarchy.ts][iterators-blobs-hierarchy] | iterating over blobs by hierarchy, using separators in the blob names, showing options for paging, resuming paging, etc.                                   |
-| [iterators-without-await.ts][iterators-without-await]     | iterating over blobs in a container without using `for await` syntax                                                                                       |
-| [customPipeline.ts][custompipeline]                       | use custom HTTP pipeline options when connecting to the service                                                                                            |
-| [customizedClientHeaders.ts][customizedclientheaders]     | use a custom request policy to add metadata to requests, in this case through the custom x-ms-client-request-id header                                     |
-| [errorsAndResponses.ts][errorsandresponses]               | demonstrate various errors and responses                                                                                                                   |
-| [readingSnapshot.ts][readingsnapshot]                     | create a blob snapshot and read from that snapshot                                                                                                         |
-| [advanced.ts][advanced]                                   | use custom logging and pipeline options, then shows some example advanced options when creating containers, listing and downloading blobs, etc.            |
 
 ## Prerequisites
 

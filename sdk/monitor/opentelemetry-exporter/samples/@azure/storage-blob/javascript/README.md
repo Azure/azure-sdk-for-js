@@ -15,20 +15,6 @@ These sample programs show how to use the JavaScript client libraries for Azure 
 | **File Name**                                             | **Description**                                                                                                                                            |
 | --------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | [basic.js][basic]                                         | authenticate with the service using an account name & key (or anonymously with a SAS URL); create and delete containers; create, list, and download a blob |
-| [withConnString.js][withconnstring]                       | connect to and authenticate with the service using a connection string                                                                                     |
-| [sharedKeyCred.js][sharedkeycred]                         | authenticate with the service using an account name and a shared key                                                                                       |
-| [anonymousCred.js][anonymouscred]                         | authenticate with the service anonymously using a SAS URL                                                                                                  |
-| [azureAdAuth.js][azureadauth]                             | authenticate with the service using Azure Active Directory                                                                                                 |
-| [proxyAuth.js][proxyauth]                                 | connect to the service using a proxy and authenticate with an account name & key                                                                           |
-| [iterators-blobs.js][iterators-blobs]                     | different methods for iterating over blobs in a container, showing options for paging, resuming paging, etc.                                               |
-| [iterators-containers.js][iterators-containers]           | different methods for iterating over containers in an account, showing options for paging, resuming paging, etc.                                           |
-| [iterators-blobs-hierarchy.js][iterators-blobs-hierarchy] | iterating over blobs by hierarchy, using separators in the blob names, showing options for paging, resuming paging, etc.                                   |
-| [iterators-without-await.js][iterators-without-await]     | iterating over blobs in a container without using `for await` syntax                                                                                       |
-| [customPipeline.js][custompipeline]                       | use custom HTTP pipeline options when connecting to the service                                                                                            |
-| [customizedClientHeaders.js][customizedclientheaders]     | use a custom request policy to add metadata to requests, in this case through the custom x-ms-client-request-id header                                     |
-| [errorsAndResponses.js][errorsandresponses]               | demonstrate various errors and responses                                                                                                                   |
-| [readingSnapshot.js][readingsnapshot]                     | create a blob snapshot and read from that snapshot                                                                                                         |
-| [advanced.js][advanced]                                   | use custom logging and pipeline options, then shows some example advanced options when creating containers, listing and downloading blobs, etc.            |
 
 ## Prerequisites
 

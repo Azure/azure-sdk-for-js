@@ -25,5 +25,3 @@ $ npm start
 ## LICENSE
 
 Apache License 2.0
-
-[opentelemetry-collector-url]: https://github.com/open-telemetry/opentelemetry-exporter-collector
