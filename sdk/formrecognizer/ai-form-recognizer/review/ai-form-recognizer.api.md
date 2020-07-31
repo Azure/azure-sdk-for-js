@@ -282,7 +282,6 @@ export class FormTrainingClient {
 // @public
 export interface FormWord extends FormElementCommon {
     confidence?: number;
-    containingLine?: FormLine;
     kind: "word";
 }
 

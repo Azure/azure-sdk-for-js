@@ -57,9 +57,6 @@ export function toTextLine(original: TextLineModel, pageNumber: number): FormLin
       };
     })
   };
-  line.words = line.words.map((w) => {
-    return { ...w, containingLine: line };
-  });
 
   return line;
 }

@@ -74,9 +74,6 @@ describe("Transforms", () => {
     assert.deepStrictEqual(transformed.words[1].text, originalLine1.words[1].text);
     assert.deepStrictEqual(transformed.words[1].confidence, originalLine1.words[1].confidence);
     assert.deepStrictEqual(transformed.words[1].pageNumber, pageNumber);
-
-    assert.equal(transformed.words[0].containingLine, transformed);
-    assert.equal(transformed.words[1].containingLine, transformed);
   });
 
   const originalLine2 = {

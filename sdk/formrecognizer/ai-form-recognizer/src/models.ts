@@ -75,10 +75,6 @@ export interface FormWord extends FormElementCommon {
    * Confidence value.
    */
   confidence?: number;
-  /**
-   * The recognized text line that contains this recognized word
-   */
-  containingLine?: FormLine;
 }
 
 /**
