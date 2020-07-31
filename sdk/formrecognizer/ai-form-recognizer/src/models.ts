@@ -157,6 +157,10 @@ export interface FormTableCell {
    * Is the current cell a footer cell?
    */
   isFooter: boolean;
+  /**
+   * The 1-based page number in the input document where the table cell appears.
+   */
+  pageNumber: number;
 }
 
 /**
@@ -175,6 +179,10 @@ export interface FormTable {
    * List of cells in the data table
    */
   cells: FormTableCell[];
+  /**
+   * The 1-based page number in the input document where the table appears.
+   */
+  pageNumber: number;
 }
 
 /**

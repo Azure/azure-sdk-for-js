@@ -248,6 +248,7 @@ export type FormRecognizerRequestBody = Blob | ArrayBuffer | ArrayBufferView | N
 export interface FormTable {
     cells: FormTableCell[];
     columnCount: number;
+    pageNumber: number;
     rowCount: number;
 }
 
@@ -260,6 +261,7 @@ export interface FormTableCell {
     fieldElements?: FormElement[];
     isFooter: boolean;
     isHeader: boolean;
+    pageNumber: number;
     rowIndex: number;
     rowSpan: number;
     text: string;

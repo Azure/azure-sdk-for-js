@@ -119,22 +119,28 @@ export function toFormFieldFromKeyValuePairModel(
   };
 }
 
-export function toFormTable(original: DataTableModel, readResults?: FormPage[]): FormTable {
+export function toFormTable(
+  original: DataTableModel,
+  readResults: FormPage[],
+  pageNumber: number
+): FormTable {
   return {
     rowCount: original.rows,
     columnCount: original.columns,
     cells: original.cells.map((cell) => ({
       boundingBox: toBoundingBox(cell.boundingBox),
       columnIndex: cell.columnIndex,
-      fieldElements: cell.elements?.map((element) => toFormContent(element, readResults!)),
+      fieldElements: cell.elements?.map((element) => toFormContent(element, readResults)),
       rowIndex: cell.rowIndex,
       columnSpan: cell.columnSpan ?? 1,
       rowSpan: cell.rowSpan ?? 1,
       isHeader: cell.isHeader ?? false,
       isFooter: cell.isFooter ?? false,
       confidence: cell.confidence ?? 1,
-      text: cell.text
-    }))
+      text: cell.text,
+      pageNumber
+    })),
+    pageNumber
   };
 }
 
@@ -152,7 +158,9 @@ export function toFormPages(
     if (readResult) {
       const pageResult = pageMap.get(pageNumber);
       if (pageResult) {
-        readResult.tables = pageResult.tables?.map((table) => toFormTable(table, transformed));
+        readResult.tables = pageResult.tables?.map((table) =>
+          toFormTable(table, transformed!, pageNumber)
+        );
         result.push(readResult);
       }
     }

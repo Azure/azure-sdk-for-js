@@ -2,6 +2,7 @@
 
 ## 1.0.0-preview.5 (Unreleased)
 
+- Added a `pageNumber` property to the `FormTable` and `FormTableCell` types indicating the number of the page where the table/cell appeared within the input document.
 - [Breaking] Renamed the `includeSubFolders` property of the `TrainSourceFilter` type to `includeSubfolders`.
 - [Breaking] Renamed the `documentName` property of the `TrainingDocumentInfo` type to just `name`.
 - [Breaking] Removed the `containingLine` property of the `FormWord` type.
