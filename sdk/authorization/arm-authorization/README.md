@@ -26,15 +26,14 @@ npm install @azure/ms-rest-nodeauth
 ##### Sample code
 
 ```typescript
-const armAuthorization = require("@azure/arm-authorization");
-const msRestNodeAuth = require("@azure/ms-rest-nodeauth");
+const { AuthorizationManagementClient } = require("@azure/arm-authorization");
+const { interactiveLogin } = require("@azure/ms-rest-nodeauth");
 
 const subscriptionId = process.env["AZURE_SUBSCRIPTION_ID"];
 
-msRestNodeAuth
-  .interactiveLogin()
+interactiveLogin()
   .then((creds) => {
-    const client = new armAuthorization.AuthorizationManagementClient(creds, subscriptionId);
+    const client = new AuthorizationManagementClient(creds, subscriptionId);
     client.classicAdministrators.list().then((result) => {
       console.log("The result is:");
       console.log(result);
@@ -58,6 +57,7 @@ npm install @azure/ms-rest-browserauth
 See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to Azure in the browser.
 
 - index.html
+
 ```html
 <!DOCTYPE html>
 <html lang="en">
@@ -71,21 +71,27 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
       const subscriptionId = "<Subscription_Id>";
       const authManager = new msAuth.AuthManager({
         clientId: "<client id for your Azure AD app>",
-        tenant: "<optional tenant for your organization>"
+        tenant: "<optional tenant for your organization>",
       });
       authManager.finalizeLogin().then((res) => {
         if (!res.isLoggedIn) {
           // may cause redirects
           authManager.login();
         }
-        const client = new Azure.ArmAuthorization.AuthorizationManagementClient(res.creds, subscriptionId);
-        client.classicAdministrators.list().then((result) => {
-          console.log("The result is:");
-          console.log(result);
-        }).catch((err) => {
-          console.log("An error occurred:");
-          console.error(err);
-        });
+        const client = new Azure.ArmAuthorization.AuthorizationManagementClient(
+          res.creds,
+          subscriptionId
+        );
+        client.classicAdministrators
+          .list()
+          .then((result) => {
+            console.log("The result is:");
+            console.log(result);
+          })
+          .catch((err) => {
+            console.log("An error occurred:");
+            console.error(err);
+          });
       });
     </script>
   </head>
