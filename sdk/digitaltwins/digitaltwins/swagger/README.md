@@ -8,7 +8,7 @@ typescript:
   title: GeneratedClient
   description: Digitaltwins Client
 use-extension:
-  "@microsoft.azure/autorest.typescript": "~5.1.0"
+  "@autorest/typescript": "6.0.0-dev.20200727.1"
 azure-arm: true
 generate-metadata: false
 add-credentials: true
