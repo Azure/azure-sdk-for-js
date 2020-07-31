@@ -27,7 +27,7 @@ import {
   FormField,
   Point2D,
   FormModelResponse,
-  CustomFormField,
+  CustomFormModelField,
   CustomFormSubmodel
 } from "./models";
 import { RecognizeFormResultResponse, RecognizeContentResultResponse } from "./internalModels";
@@ -396,7 +396,7 @@ export function toFormModelResponse(response: GetCustomModelResponse): FormModel
 
   if (response.trainResult?.averageModelAccuracy || response.trainResult?.fields) {
     // training with forms and labels, populate from trainingResult.fields
-    const fields: { [propertyName: string]: CustomFormField } = {};
+    const fields: Record<string, CustomFormModelField> = {};
     for (const f of response.trainResult.fields!) {
       fields[f.fieldName] = { name: f.fieldName, accuracy: f.accuracy, label: null };
     }
@@ -415,7 +415,7 @@ export function toFormModelResponse(response: GetCustomModelResponse): FormModel
     const submodels: CustomFormSubmodel[] = [];
     for (const clusterKey in response.keys.clusters) {
       const cluster = response.keys.clusters[clusterKey];
-      const fields: { [propertyName: string]: CustomFormField } = {};
+      const fields: Record<string, CustomFormModelField> = {};
 
       for (let i = 0; i < cluster.length; i++) {
         fields[`field-${i}`] = { name: `field-${i}`, label: cluster[i] };

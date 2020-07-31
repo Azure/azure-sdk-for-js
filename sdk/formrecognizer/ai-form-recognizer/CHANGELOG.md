@@ -2,6 +2,7 @@
 
 ## 1.0.0-preview.5 (Unreleased)
 
+- [Breaking] Renamed `CustomFormField` to `CustomFormModelField` for similarity to other language SDKs.
 - [Breaking] Removed the redundant `expirationDateTimeTicks` property from the `CopyAuthorization` type, as the `expiresOn` property exists.
 - [Breaking] Moved the optional `contentType` parameter of the `FormRecognizerClient` recognition methods (`recognizeContent`, `recognizeCustomForms`, `recognizeReceipts`, and their URL-based variants) to the associated options bag for these methods.
 - [Breaking] Removed exports of several internal types, including most internal poller operation states and some unused types. All client poller implementations now return a smaller subset of fields.

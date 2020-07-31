@@ -82,13 +82,6 @@ export type CopyModelOperationState = PollOperationState<CustomFormModel> & {
 // @public
 export type CopyModelOptions = FormRecognizerOperationOptions;
 
-// @public (undocumented)
-export interface CustomFormField {
-    accuracy?: number;
-    label: string | null;
-    name: string;
-}
-
 // @public
 export interface CustomFormModel {
     errors?: FormRecognizerError[];
@@ -98,6 +91,13 @@ export interface CustomFormModel {
     trainingCompletedOn: Date;
     trainingDocuments?: TrainingDocumentInfo[];
     trainingStartedOn: Date;
+}
+
+// @public (undocumented)
+export interface CustomFormModelField {
+    accuracy?: number;
+    label: string | null;
+    name: string;
 }
 
 // @public
@@ -111,9 +111,7 @@ export interface CustomFormModelInfo {
 // @public
 export interface CustomFormSubmodel {
     accuracy?: number;
-    fields: {
-        [propertyName: string]: CustomFormField;
-    };
+    fields: Record<string, CustomFormModelField>;
     formType: string;
 }
 
@@ -169,9 +167,7 @@ export type FormField = {
     value?: FormField[];
     valueType?: "array";
 } | {
-    value?: {
-        [propertyName: string]: FormField;
-    };
+    value?: Record<string, FormField>;
     valueType?: "object";
 });
 
@@ -388,9 +384,7 @@ export type RecognizeContentOptions = FormRecognizerOperationOptions;
 
 // @public
 export interface RecognizedForm {
-    fields: {
-        [propertyName: string]: FormField;
-    };
+    fields: Record<string, FormField>;
     formType: string;
     pageRange: FormPageRange;
     pages: FormPage[];

@@ -263,7 +263,7 @@ export type FormField = {
       valueType?: "array";
     }
   | {
-      value?: { [propertyName: string]: FormField };
+      value?: Record<string, FormField>;
       valueType?: "object";
     }
 );
@@ -346,7 +346,7 @@ export interface RecognizedForm {
   /**
    * Dictionary of named field values.
    */
-  fields: { [propertyName: string]: FormField };
+  fields: Record<string, FormField>;
   /**
    * Texts and tables extracted from a page in the input
    */
@@ -429,7 +429,7 @@ export interface CustomFormModelInfo {
   trainingCompletedOn: Date;
 }
 
-export interface CustomFormField {
+export interface CustomFormModelField {
   /**
    * Estimated extraction accuracy for this field.
    */
@@ -455,7 +455,7 @@ export interface CustomFormSubmodel {
   /**
    * Form fields
    */
-  fields: { [propertyName: string]: CustomFormField };
+  fields: Record<string, CustomFormModelField>;
   /**
    * Form type
    */
