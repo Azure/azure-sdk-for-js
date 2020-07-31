@@ -14,7 +14,7 @@ async function main() {
   console.log("Running get setting only if changed sample");
 
   // Set the following environment variable or edit the value on the following line.
-  const connectionString = process.env["AZ_CONFIG_CONNECTION"] || "<connection string>";
+  const connectionString = process.env["APPCONFIG_CONNECTION_STRING"] || "<connection string>";
   const client = new AppConfigurationClient(connectionString);
 
   const key = "getSettingOnlyIfChangedExample";
