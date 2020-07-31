@@ -42,8 +42,7 @@ export async function main() {
     for (const submodel of model.submodels) {
       // since the training data is unlabeled, we are unable to return the accuracy of this model
       console.log("We have recognized the following fields");
-      for (const key in submodel.fields) {
-        const field = submodel.fields[key];
+      for (const [_, field] of Object.entries(submodel.fields)) {
         console.log(`The model found field '${field.name}'`);
       }
     }

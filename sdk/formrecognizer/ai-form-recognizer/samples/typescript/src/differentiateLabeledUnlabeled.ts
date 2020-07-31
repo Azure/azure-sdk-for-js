@@ -41,11 +41,10 @@ export async function main() {
   // the unlabeled one will be denoted with indices
   console.log("# Recognized fields using labeled custom model");
   for (const form of formsWithLabels || []) {
-    for (const fieldName in form.fields) {
+    for (const [fieldName, field] of Object.entries(form.fields)) {
       // With your labeled custom model, you will not get back label data but will get back value data
       // This is because your custom model didn't have to use any machine learning to deduce the label,
       // the label was directly provided to it.
-      const field = form.fields[fieldName];
       console.log(
         `  Field ${fieldName} has value '${field.value}' with a confidence score of ${field.confidence}`
       );
@@ -54,9 +53,8 @@ export async function main() {
 
   console.log("# Recognized fields using unlabeled custom model");
   for (const form of forms || []) {
-    for (const fieldName in form.fields) {
+    for (const [fieldName, field] of Object.entries(form.fields)) {
       // The recognized form fields with an unlabeled custom model will also include data about recognized labels.
-      const field = form.fields[fieldName];
       console.log(
         `  Field ${fieldName} has label '${field.labelData?.text}' with a confidence score of ${field.confidence}`
       );

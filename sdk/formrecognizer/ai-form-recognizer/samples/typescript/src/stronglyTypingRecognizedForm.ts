@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 /**
- * This sample demonstrates how to convert a RecognizedForm into a strongly-typed
+ * This sample demonstrates how to assign a RecognizedForm to a strongly-typed
  * object with known fields.
  *
  * We use the pre-trained receipt model as an example, but a similar approach could
@@ -13,6 +13,7 @@
 import { FormRecognizerClient, AzureKeyCredential, FormField } from "@azure/ai-form-recognizer";
 
 import * as fs from "fs";
+import * as os from "os";
 import * as path from "path";
 
 // Load the .env file if it exists
@@ -95,47 +96,38 @@ export async function main() {
   // print "undefined" for any fields that are not present.
 
   console.log(
-    `Receipt Type: "${receipt.ReceiptType?.value}" has confidence ${receipt.ReceiptType?.confidence}`
-  );
-  console.log(
-    `Merchant Name: "${receipt.MerchantName?.value}" has confidence ${receipt.MerchantName?.confidence}`
-  );
-  console.log(
-    `Merchant Address: "${receipt.MerchantAddress?.value}" has confidence ${receipt.MerchantAddress?.confidence}`
-  );
-  console.log(
-    `Merchant Phone Number: "${receipt.MerchantPhoneNumber?.value}" has confidence ${receipt.MerchantPhoneNumber?.confidence}`
-  );
-  console.log(
-    `Transaction Date: ${receipt.TransactionDate?.value} has confidence ${receipt.TransactionDate?.confidence}`
-  );
-  console.log(
-    `Transaction Time: ${receipt.TransactionTime?.value} has confidence ${receipt.TransactionTime?.confidence}`
+    [
+      `Receipt Type: "${receipt.ReceiptType?.value}" has confidence ${receipt.ReceiptType?.confidence}`,
+      `Merchant Name: "${receipt.MerchantName?.value}" has confidence ${receipt.MerchantName?.confidence}`,
+      `Merchant Address: "${receipt.MerchantAddress?.value}" has confidence ${receipt.MerchantAddress?.confidence}`,
+      `Merchant Phone Number: "${receipt.MerchantPhoneNumber?.value}" has confidence ${receipt.MerchantPhoneNumber?.confidence}`,
+      `Transaction Date: ${receipt.TransactionDate?.value} has confidence ${receipt.TransactionDate?.confidence}`,
+      `Transaction Time: ${receipt.TransactionTime?.value} has confidence ${receipt.TransactionTime?.confidence}`
+    ].join(os.EOL)
   );
 
   if (receipt.Items) {
     console.log("Items:");
     for (const { value: item } of receipt.Items) {
-      console.log(item);
-      console.log(`  - Name: "${item.Name?.value}" has confidence ${item.Name?.confidence}`);
       console.log(
-        `    Quantity: ${item.Quantity?.value} has confidence ${item.Quantity?.confidence}`
-      );
-      console.log(
-        `    Individual Item Price: ${item.Price?.value} has confidence ${item.Price?.confidence}`
-      );
-      console.log(
-        `    Total Price: ${item.TotalPrice?.value} has confidence ${item.TotalPrice?.confidence}`
+        [
+          `- Name: "${item.Name?.value}" has confidence ${item.Name?.confidence}`,
+          `  Quantity: ${item.Quantity?.value} has confidence ${item.Quantity?.confidence}`,
+          `  Individual Item Price: ${item.Price?.value} has confidence ${item.Price?.confidence}`,
+          `  Total Price: ${item.TotalPrice?.value} has confidence ${item.TotalPrice?.confidence}`
+        ].join(os.EOL)
       );
     }
   }
 
   console.log(
-    `Subtotal: ${receipt.Subtotal?.value} has confidence ${receipt.Subtotal?.confidence}`
+    [
+      `Subtotal: ${receipt.Subtotal?.value} has confidence ${receipt.Subtotal?.confidence}`,
+      `Tax: ${receipt.Tax?.value} has confidence ${receipt.Tax?.confidence}`,
+      `Tip: ${receipt.Tip?.value} has confidence ${receipt.Tip?.confidence}`,
+      `Total: ${receipt.Total?.value} has confidence ${receipt.Total?.confidence}`
+    ].join(os.EOL)
   );
-  console.log(`Tax: ${receipt.Tax?.value} has confidence ${receipt.Tax?.confidence}`);
-  console.log(`Tip: ${receipt.Tip?.value} has confidence ${receipt.Tip?.confidence}`);
-  console.log(`Total: ${receipt.Total?.value} has confidence ${receipt.Total?.confidence}`);
 }
 
 main().catch((err) => {

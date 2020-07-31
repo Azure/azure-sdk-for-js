@@ -34,14 +34,12 @@ export async function main() {
     }
   });
 
-  const receipts = await poller.pollUntilDone();
+  const [receipt] = await poller.pollUntilDone();
 
-  if (!receipts || receipts.length <= 0) {
+  if (receipt === undefined) {
     throw new Error("Expecting at lease one receipt in analysis result");
   }
 
-  const receipt = receipts[0];
-  console.log("First receipt:");
   // For supported fields recognized by the service, please refer to https://westus2.dev.cognitive.microsoft.com/docs/services/form-recognizer-api-v2-preview/operations/GetAnalyzeReceiptResult.
   const receiptTypeField = receipt.fields["ReceiptType"];
   if (receiptTypeField.valueType === "string") {
