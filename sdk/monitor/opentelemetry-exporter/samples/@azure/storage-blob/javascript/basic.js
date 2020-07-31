@@ -105,3 +105,8 @@ async function streamToString(readableStream) {
 main().catch((err) => {
   console.error("Error running sample:", err.message);
 });
+
+console.log("Waiting batched span processor to export batched spans");
+setTimeout(() => {
+  console.log("Terminating");
+}, 6000);

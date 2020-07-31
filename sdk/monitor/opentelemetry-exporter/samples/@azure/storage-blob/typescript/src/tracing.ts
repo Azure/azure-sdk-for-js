@@ -10,10 +10,12 @@ const azureExporter = new AzureMonitorTraceExporter({
   logger: provider.logger,
 });
 
-provider.addSpanProcessor(new BatchSpanProcessor(azureExporter, {
-  bufferSize: 1000, // 1000 spans
-  bufferTimeout: 15000, // 15 seconds
-}));
+provider.addSpanProcessor(
+  new BatchSpanProcessor(azureExporter, {
+    bufferSize: 1000, // 1000 spans
+    bufferTimeout: 5000 // 5 seconds
+  })
+);
 
 provider.register();
 

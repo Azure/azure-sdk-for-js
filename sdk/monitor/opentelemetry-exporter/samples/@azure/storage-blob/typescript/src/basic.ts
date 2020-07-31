@@ -114,3 +114,8 @@ tracer.withSpan(rootSpan, () => {
     console.error("Error running sample:", err.message);
   }).then(() => rootSpan.end()); // End the optional root span on completion
 });
+
+console.log("Waiting batched span processor to export batched spans");
+setTimeout(() => {
+  console.log("Terminating");
+}, 6000);

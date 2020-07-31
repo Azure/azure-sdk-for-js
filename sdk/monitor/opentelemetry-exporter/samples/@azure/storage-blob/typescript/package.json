@@ -7,8 +7,8 @@
     "node": ">=8.0.0"
   },
   "scripts": {
-    "build": "tsc",
-    "prebuild": "rimraf dist/"
+    "build": "tsc -p ./tsconfig.json",
+    "prebuild": "rimraf dist"
   },
   "repository": {
     "type": "git",
@@ -29,10 +29,9 @@
   "homepage": "https://github.com/Azure/azure-sdk-for-js#readme",
   "sideEffects": false,
   "dependencies": {
-    "@azure/abort-controller": "latest",
-    "@azure/identity": "latest",
     "@azure/storage-blob": "latest",
     "@azure/monitor-opentelemetry-exporter": "latest",
+    "@opentelemetry/plugins-node-core": "latest",
     "@opentelemetry/node": "latest",
     "dotenv": "^8.2.0"
   },

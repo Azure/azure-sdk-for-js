@@ -1,12 +1,14 @@
 # Getting started with samples
 
-Cloned from [azure-sdk-for-js/storage-blob/samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-blob/samples).
+Code cloned from [azure-sdk-for-js/storage-blob/samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-blob/samples).
 
 ## `@azure/monitor-opentelemetry-exporter`
 
 All changes required to enable exporting trace data to Azure Monitor were made in `tracing.ts` / `tracing.js`.
 
 In order for auto-instrumentation to take effect, `tracing` must be imported **before** you `import` or `require` any other module into your application!.
+
+![AzureMonitorImage](./images/storage.png)
 
 ## Get account credentials of your storage account
 
