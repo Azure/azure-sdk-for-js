@@ -17,6 +17,10 @@ provider.addSpanProcessor(new BatchSpanProcessor(azureExporter, {
 
 provider.register();
 
+const tracer = provider.getTracer("example tracer");
+
 azureSdkTracing.setTracer(
-  provider.getTracer("example tracer") as any // cast to any until azure sdk uses latest types
+  tracer as any // cast to any until expected type uses @opentelemetry/api
 );
+
+export default tracer;

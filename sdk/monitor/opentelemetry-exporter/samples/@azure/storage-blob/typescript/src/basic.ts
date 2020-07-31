@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 // Setup tracing before importing anything else
-require("./tracing");
+import tracer from "./tracing";
 
 /*
  Setup: Enter connection string of your storage account name in main()
@@ -107,6 +107,10 @@ async function streamToString(readableStream: NodeJS.ReadableStream) {
   });
 }
 
-main().catch((err) => {
-  console.error("Error running sample:", err.message);
+// OPTIONAL: Manually start and propagate a root span
+const rootSpan = tracer.startSpan('root span');
+tracer.withSpan(rootSpan, () => {
+  main().catch((err) => {
+    console.error("Error running sample:", err.message);
+  }).then(() => rootSpan.end()); // End the optional root span on completion
 });
