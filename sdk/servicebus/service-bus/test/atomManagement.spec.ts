@@ -2232,8 +2232,11 @@ describe("Atom management - Authentication", function(): void {
     testCaseTitle: "Sql Filter rule options",
     input: {
       filter: {
-        sqlExpression: "stringValue = @stringParam",
-        sqlParameters: [{ key: "@stringParam", value: "b", type: "string" }]
+        sqlExpression: "stringValue = @stringParam AND dateValue = @dateParam",
+        sqlParameters: [
+          { key: "@stringParam", value: "b", type: "string" },
+          { key: "@dateParam", value: new Date(), type: "date" }
+        ]
       },
       action: { sqlExpression: "SET a='c'" }
     },
@@ -2285,7 +2288,7 @@ describe("Atom management - Authentication", function(): void {
     }
   }
 ].forEach((testCase) => {
-  describe(`updateRule() using different variations to the input parameter "ruleOptions"`, function(): void {
+  describe.only(`updateRule() using different variations to the input parameter "ruleOptions"`, function(): void {
     beforeEach(async () => {
       await recreateTopic(managementTopic1);
       await recreateSubscription(managementTopic1, managementSubscription1);
