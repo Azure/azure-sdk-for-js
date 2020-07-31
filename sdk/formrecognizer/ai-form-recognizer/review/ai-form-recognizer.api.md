@@ -255,13 +255,13 @@ export interface FormTable {
 export interface FormTableCell {
     boundingBox: Point2D[];
     columnIndex: number;
-    columnSpan?: number;
+    columnSpan: number;
     confidence: number;
     fieldElements?: FormElement[];
-    isFooter?: boolean;
-    isHeader?: boolean;
+    isFooter: boolean;
+    isHeader: boolean;
     rowIndex: number;
-    rowSpan?: number;
+    rowSpan: number;
     text: string;
 }
 

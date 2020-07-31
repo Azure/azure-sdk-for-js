@@ -2,6 +2,7 @@
 
 ## 1.0.0-preview.5 (Unreleased)
 
+- Made the `rowSpan`, `columnSpan`, `isHeader`, and `isFooter` properties of the `FormTableCell` type non-optional to reflect that they have default values.
 - [Breaking] Renamed `CustomFormField` to `CustomFormModelField` for similarity to other language SDKs.
 - [Breaking] Removed the redundant `expirationDateTimeTicks` property from the `CopyAuthorization` type, as the `expiresOn` property exists.
 - [Breaking] Moved the optional `contentType` parameter of the `FormRecognizerClient` recognition methods (`recognizeContent`, `recognizeCustomForms`, `recognizeReceipts`, and their URL-based variants) to the associated options bag for these methods.

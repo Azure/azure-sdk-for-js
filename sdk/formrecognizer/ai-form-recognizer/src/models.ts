@@ -132,11 +132,11 @@ export interface FormTableCell {
   /**
    * Number of rows spanned by this cell.
    */
-  rowSpan?: number;
+  rowSpan: number;
   /**
    * Number of columns spanned by this cell.
    */
-  columnSpan?: number;
+  columnSpan: number;
   /**
    * Text content of the cell.
    */
@@ -156,11 +156,11 @@ export interface FormTableCell {
   /**
    * Is the current cell a header cell?
    */
-  isHeader?: boolean;
+  isHeader: boolean;
   /**
    * Is the current cell a footer cell?
    */
-  isFooter?: boolean;
+  isFooter: boolean;
 }
 
 /**

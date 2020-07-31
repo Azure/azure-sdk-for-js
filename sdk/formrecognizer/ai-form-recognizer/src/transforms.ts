@@ -129,13 +129,13 @@ export function toFormTable(original: DataTableModel, readResults?: FormPage[]):
     cells: original.cells.map((cell) => ({
       boundingBox: toBoundingBox(cell.boundingBox),
       columnIndex: cell.columnIndex,
-      columnSpan: cell.columnSpan || 1,
-      confidence: cell.confidence || 1,
       fieldElements: cell.elements?.map((element) => toFormContent(element, readResults!)),
-      isFooter: cell.isFooter || false,
-      isHeader: cell.isHeader || false,
       rowIndex: cell.rowIndex,
-      rowSpan: cell.rowSpan || 1,
+      columnSpan: cell.columnSpan ?? 1,
+      rowSpan: cell.rowSpan ?? 1,
+      isHeader: cell.isHeader ?? false,
+      isFooter: cell.isFooter ?? false,
+      confidence: cell.confidence ?? 1,
       text: cell.text
     }))
   };
