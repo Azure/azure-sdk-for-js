@@ -3,7 +3,7 @@
 
 import { getTracer } from "@azure/core-tracing";
 import { Span, SpanContext, SpanKind } from "@opentelemetry/api";
-import { EventHubConnectionConfig } from '@azure/core-amqp';
+import { EventHubConnectionConfig } from "@azure/core-amqp";
 
 /**
  * @internal
@@ -11,7 +11,7 @@ import { EventHubConnectionConfig } from '@azure/core-amqp';
  */
 export function createMessageSpan(
   parentSpan?: Span | SpanContext | null,
-  eventHubConfig?: Pick<EventHubConnectionConfig, "entityPath" | "host">,
+  eventHubConfig?: Pick<EventHubConnectionConfig, "entityPath" | "host">
 ): Span {
   const tracer = getTracer();
   const span = tracer.startSpan("Azure.EventHubs.message", {
