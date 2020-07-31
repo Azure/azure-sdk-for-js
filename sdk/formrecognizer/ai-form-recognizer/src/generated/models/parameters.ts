@@ -30,9 +30,9 @@ export const contentType: OperationParameter = {
 };
 
 export const trainRequest: OperationParameter = {
-         parameterPath: "trainRequest",
-         mapper: TrainRequestMapper
-       };
+  parameterPath: "trainRequest",
+  mapper: TrainRequestMapper
+};
 
 export const endpoint: OperationURLParameter = {
   parameterPath: "endpoint",
@@ -68,16 +68,21 @@ export const includeKeys: OperationQueryParameter = {
 };
 
 export const contentType1: OperationParameter = {
-         parameterPath: "contentType",
-         mapper: {
-           serializedName: "Content-Type",
-           required: true,
-           type: {
-             name: "Enum",
-             allowedValues: ["application/pdf", "image/jpeg", "image/png", "image/tiff"]
-           }
-         }
-       };
+  parameterPath: "contentType",
+  mapper: {
+    serializedName: "Content-Type",
+    required: true,
+    type: {
+      name: "Enum",
+      allowedValues: [
+        "application/pdf",
+        "image/jpeg",
+        "image/png",
+        "image/tiff"
+      ]
+    }
+  }
+};
 
 export const fileStream: OperationParameter = {
   parameterPath: "fileStream",
@@ -103,9 +108,9 @@ export const contentType2: OperationParameter = {
 };
 
 export const fileStream1: OperationParameter = {
-         parameterPath: ["options", "fileStream"],
-         mapper: SourcePathMapper
-       };
+  parameterPath: ["options", "fileStream"],
+  mapper: SourcePathMapper
+};
 
 export const includeTextDetails: OperationQueryParameter = {
   parameterPath: ["options", "includeTextDetails"],
@@ -129,9 +134,9 @@ export const resultId: OperationURLParameter = {
 };
 
 export const copyRequest: OperationParameter = {
-         parameterPath: "copyRequest",
-         mapper: CopyRequestMapper
-       };
+  parameterPath: "copyRequest",
+  mapper: CopyRequestMapper
+};
 
 export const op: OperationQueryParameter = {
   parameterPath: "op",

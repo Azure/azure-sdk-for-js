@@ -37,7 +37,7 @@ export interface TrainSourceFilter {
   /**
    * A flag to indicate if sub folders within the set of prefix folders will also need to be included when searching for content to be preprocessed.
    */
-  includeSubFolders?: boolean;
+  includeSubfolders?: boolean;
 }
 
 export interface ErrorResponse {

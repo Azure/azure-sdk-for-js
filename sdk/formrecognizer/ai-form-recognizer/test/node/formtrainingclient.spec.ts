@@ -103,7 +103,7 @@ describe("FormTrainingClient NodeJS only", () => {
     assert.ok(containerSasUrl, "Expect valid container sas url");
 
     const poller = await trainingClient.beginTraining(containerSasUrl, false, {
-      includeSubFolders: true
+      includeSubfolders: true
     });
     const response = await poller.pollUntilDone();
 

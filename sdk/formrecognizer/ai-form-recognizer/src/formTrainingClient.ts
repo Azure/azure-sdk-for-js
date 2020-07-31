@@ -110,7 +110,7 @@ export type BeginCopyModelOptions = FormRecognizerOperationOptions & {
  */
 export type TrainingFileFilter = FormRecognizerOperationOptions & {
   prefix?: string;
-  includeSubFolders?: boolean;
+  includeSubfolders?: boolean;
 };
 
 /**
@@ -683,16 +683,15 @@ async function trainCustomModelInternal(
   );
 
   try {
-    const requestBody = {
-      source: source,
-      sourceFilter: {
-        prefix: realOptions.prefix,
-        includeSubFolders: realOptions.includeSubFolders
-      },
-      useLabelFile
-    };
     return await client.trainCustomModelAsync(
-      requestBody,
+      {
+        source: source,
+        sourceFilter: {
+          prefix: realOptions.prefix,
+          includeSubfolders: realOptions.includeSubfolders
+        },
+        useLabelFile
+      },
       operationOptionsToRequestOptionsBase(finalOptions)
     );
   } catch (e) {

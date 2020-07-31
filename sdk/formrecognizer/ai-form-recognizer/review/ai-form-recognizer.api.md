@@ -416,7 +416,7 @@ export interface TrainingDocumentInfo {
 // @public
 export type TrainingFileFilter = FormRecognizerOperationOptions & {
     prefix?: string;
-    includeSubFolders?: boolean;
+    includeSubfolders?: boolean;
 };
 
 // @public

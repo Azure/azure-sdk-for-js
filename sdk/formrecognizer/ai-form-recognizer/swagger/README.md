@@ -137,3 +137,13 @@ directive:
   where: $.definitions.TrainingDocumentInfo.properties.documentName
   transform: >
     $["x-ms-client-name"] = "name";
+```
+
+### `includeSubFolders` => `includeSubfolders`
+```yaml
+directive:
+- from: swagger-document
+  where: $.definitions.TrainSourceFilter.properties.includeSubFolders
+  transform: >
+    $["x-ms-client-name"] = "includeSubfolders";
+```

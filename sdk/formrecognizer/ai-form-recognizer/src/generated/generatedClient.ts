@@ -156,7 +156,11 @@ class GeneratedClient extends GeneratedClientContext {
           coreHttp.HttpRequestBody,
           GeneratedClientAnalyzeWithCustomModel$binaryOptionalParams?
         ]
-      | [string, "application/json", GeneratedClientAnalyzeWithCustomModel$jsonOptionalParams?]
+      | [
+          string,
+          "application/json",
+          GeneratedClientAnalyzeWithCustomModel$jsonOptionalParams?
+        ]
   ): Promise<GeneratedClientAnalyzeWithCustomModelResponse> {
     let operationSpec: coreHttp.OperationSpec;
     let operationArguments: coreHttp.OperationArguments;
@@ -181,11 +185,14 @@ class GeneratedClient extends GeneratedClientContext {
         options: args[2]
       };
     } else {
-      throw new TypeError(`"contentType" must be a valid value but instead was "${args[1]}".`);
+      throw new TypeError(
+        `"contentType" must be a valid value but instead was "${args[1]}".`
+      );
     }
-    return this.sendOperationRequest(operationArguments, operationSpec) as Promise<
-      GeneratedClientAnalyzeWithCustomModelResponse
-    >;
+    return this.sendOperationRequest(
+      operationArguments,
+      operationSpec
+    ) as Promise<GeneratedClientAnalyzeWithCustomModelResponse>;
   }
 
   /**
@@ -305,7 +312,10 @@ class GeneratedClient extends GeneratedClientContext {
           coreHttp.HttpRequestBody,
           GeneratedClientAnalyzeReceiptAsync$binaryOptionalParams?
         ]
-      | ["application/json", GeneratedClientAnalyzeReceiptAsync$jsonOptionalParams?]
+      | [
+          "application/json",
+          GeneratedClientAnalyzeReceiptAsync$jsonOptionalParams?
+        ]
   ): Promise<GeneratedClientAnalyzeReceiptAsyncResponse> {
     let operationSpec: coreHttp.OperationSpec;
     let operationArguments: coreHttp.OperationArguments;
@@ -328,11 +338,14 @@ class GeneratedClient extends GeneratedClientContext {
         options: args[1]
       };
     } else {
-      throw new TypeError(`"contentType" must be a valid value but instead was "${args[0]}".`);
+      throw new TypeError(
+        `"contentType" must be a valid value but instead was "${args[0]}".`
+      );
     }
-    return this.sendOperationRequest(operationArguments, operationSpec) as Promise<
-      GeneratedClientAnalyzeReceiptAsyncResponse
-    >;
+    return this.sendOperationRequest(
+      operationArguments,
+      operationSpec
+    ) as Promise<GeneratedClientAnalyzeReceiptAsyncResponse>;
   }
 
   /**
@@ -393,7 +406,10 @@ class GeneratedClient extends GeneratedClientContext {
           coreHttp.HttpRequestBody,
           GeneratedClientAnalyzeLayoutAsync$binaryOptionalParams?
         ]
-      | ["application/json", GeneratedClientAnalyzeLayoutAsync$jsonOptionalParams?]
+      | [
+          "application/json",
+          GeneratedClientAnalyzeLayoutAsync$jsonOptionalParams?
+        ]
   ): Promise<GeneratedClientAnalyzeLayoutAsyncResponse> {
     let operationSpec: coreHttp.OperationSpec;
     let operationArguments: coreHttp.OperationArguments;
@@ -416,11 +432,14 @@ class GeneratedClient extends GeneratedClientContext {
         options: args[1]
       };
     } else {
-      throw new TypeError(`"contentType" must be a valid value but instead was "${args[0]}".`);
+      throw new TypeError(
+        `"contentType" must be a valid value but instead was "${args[0]}".`
+      );
     }
-    return this.sendOperationRequest(operationArguments, operationSpec) as Promise<
-      GeneratedClientAnalyzeLayoutAsyncResponse
-    >;
+    return this.sendOperationRequest(
+      operationArguments,
+      operationSpec
+    ) as Promise<GeneratedClientAnalyzeLayoutAsyncResponse>;
   }
 
   /**
