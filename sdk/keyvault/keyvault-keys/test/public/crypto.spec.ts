@@ -24,8 +24,6 @@ describe("CryptographyClient (all decrypts happen remotely)", () => {
   let keyName: string;
   let keyVaultKey: KeyVaultKey;
   let keySuffix: string;
-  let hsmKey: KeyVaultKey;
-  let hsmCryptoClient: CryptographyClient;
 
   if (!isNode) {
     // Local cryptography is only supported in NodeJS
@@ -42,8 +40,6 @@ describe("CryptographyClient (all decrypts happen remotely)", () => {
     keyName = testClient.formatName("cryptography-client-test" + keySuffix);
     keyVaultKey = await client.createKey(keyName, "RSA");
     cryptoClient = new CryptographyClient(keyVaultKey.id!, credential);
-    hsmKey = await client.createKey(keyName + "2", "RSA-HSM");
-    hsmCryptoClient = new CryptographyClient(hsmKey.id!, credential);
   });
 
   afterEach(async function() {
@@ -142,19 +138,27 @@ describe("CryptographyClient (all decrypts happen remotely)", () => {
 
   if (isRecordMode() || process.env.TEST_MODE === "live") {
     it("encrypt & decrypt with an RSA-HSM key and the RSA-OAEP algorithm", async function() {
+      const hsmKeyName = keyName + "2";
+      const hsmKey = await client.createKey(hsmKeyName, "RSA-HSM");
+      const hsmCryptoClient = new CryptographyClient(hsmKey.id!, credential);
       const text = this.test!.title;
       const encryptResult = await hsmCryptoClient.encrypt("RSA-OAEP", stringToUint8Array(text));
       const decryptResult = await hsmCryptoClient.decrypt("RSA-OAEP", encryptResult.result);
       const decryptedText = uint8ArrayToString(decryptResult.result);
       assert.equal(text, decryptedText);
+      await testClient.flushKey(hsmKeyName);
     });
 
     it("encrypt & decrypt with an RSA-HSM key and the RSA1_5 algorithm", async function() {
+      const hsmKeyName = keyName + "2";
+      const hsmKey = await client.createKey(hsmKeyName, "RSA-HSM");
+      const hsmCryptoClient = new CryptographyClient(hsmKey.id!, credential);
       const text = this.test!.title;
       const encryptResult = await hsmCryptoClient.encrypt("RSA1_5", stringToUint8Array(text));
       const decryptResult = await hsmCryptoClient.decrypt("RSA1_5", encryptResult.result);
       const decryptedText = uint8ArrayToString(decryptResult.result);
       assert.equal(text, decryptedText);
+      await testClient.flushKey(hsmKeyName);
     });
   }
 
@@ -163,11 +167,15 @@ describe("CryptographyClient (all decrypts happen remotely)", () => {
       undefined,
       "Wrapping and unwrapping don't cause a repeatable pattern, so this test can only run live"
     );
+    const hsmKeyName = keyName + "2";
+    const hsmKey = await client.createKey(hsmKeyName, "RSA-HSM");
+    const hsmCryptoClient = new CryptographyClient(hsmKey.id!, credential);
     const text = this.test!.title;
     const wrapped = await hsmCryptoClient.wrapKey("RSA-OAEP", stringToUint8Array(text));
     const unwrappedResult = await hsmCryptoClient.unwrapKey("RSA-OAEP", wrapped.result);
     const unwrappedText = uint8ArrayToString(unwrappedResult.result);
     assert.equal(text, unwrappedText);
+    await testClient.flushKey(hsmKeyName);
   });
 
   it("wrap and unwrap with RSA1_5 on a RSA-HSM key", async function() {
@@ -175,14 +183,21 @@ describe("CryptographyClient (all decrypts happen remotely)", () => {
       undefined,
       "Wrapping and unwrapping don't cause a repeatable pattern, so this test can only run live"
     );
+    const hsmKeyName = keyName + "2";
+    const hsmKey = await client.createKey(hsmKeyName, "RSA-HSM");
+    const hsmCryptoClient = new CryptographyClient(hsmKey.id!, credential);
     const text = this.test!.title;
     const wrapped = await hsmCryptoClient.wrapKey("RSA1_5", stringToUint8Array(text));
     const unwrappedResult = await hsmCryptoClient.unwrapKey("RSA1_5", wrapped.result);
     const unwrappedText = uint8ArrayToString(unwrappedResult.result);
     assert.equal(text, unwrappedText);
+    await testClient.flushKey(hsmKeyName);
   });
 
   it("sign and verify with RS256 through an RSA-HRM key", async function(): Promise<void> {
+    const hsmKeyName = keyName + "2";
+    const hsmKey = await client.createKey(hsmKeyName, "RSA-HSM");
+    const hsmCryptoClient = new CryptographyClient(hsmKey.id!, credential);
     const signatureValue = this.test!.title;
     const hash = createHash("sha256");
     hash.update(signatureValue);
@@ -190,9 +205,13 @@ describe("CryptographyClient (all decrypts happen remotely)", () => {
     const signature = await hsmCryptoClient.sign("RS256", digest);
     const verifyResult = await hsmCryptoClient.verify("RS256", digest, signature.result);
     assert.ok(verifyResult);
+    await testClient.flushKey(hsmKeyName);
   });
 
   it("sign and verify with RS384 through an RSA-HRM key", async function(): Promise<void> {
+    const hsmKeyName = keyName + "2";
+    const hsmKey = await client.createKey(hsmKeyName, "RSA-HSM");
+    const hsmCryptoClient = new CryptographyClient(hsmKey.id!, credential);
     const signatureValue = this.test!.title;
     const hash = createHash("sha384");
     hash.update(signatureValue);
@@ -200,5 +219,6 @@ describe("CryptographyClient (all decrypts happen remotely)", () => {
     const signature = await hsmCryptoClient.sign("RS384", digest);
     const verifyResult = await hsmCryptoClient.verify("RS384", digest, signature.result);
     assert.ok(verifyResult);
+    await testClient.flushKey(hsmKeyName);
   });
 });
