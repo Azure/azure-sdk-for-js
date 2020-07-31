@@ -1909,11 +1909,13 @@ export class ServiceBusManagementClient extends ServiceClient {
     let operOptions: OperationOptions | undefined;
     if (ruleActionOrOperationOptions) {
       if (isSqlRuleAction(ruleActionOrOperationOptions)) {
-        // Overload#1
+        // Overload#2 - where the sqlExpression in the ruleAction is defined
         ruleAction = ruleActionOrOperationOptions;
         operOptions = operationOptions;
       } else {
-        operOptions = ruleActionOrOperationOptions;
+        // Overload#1
+        // Overload#2 - where the sqlExpression in the ruleAction is undefined
+        operOptions = { ...ruleActionOrOperationOptions, ...operationOptions };
       }
     }
     const { span, updatedOperationOptions } = createSpan(
