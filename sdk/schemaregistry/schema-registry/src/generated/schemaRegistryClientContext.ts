@@ -13,16 +13,25 @@ const packageName = "@azure/schema-registry";
 const packageVersion = "1.0.0";
 
 export class SchemaRegistryClientContext extends coreHttp.ServiceClient {
-  $host: string;
+  endpoint: string;
 
   /**
    * Initializes a new instance of the SchemaRegistryClientContext class.
-   * @param $host server parameter
+   * @param credentials Subscription credentials which uniquely identify client subscription.
+   * @param endpoint The Schema Registry service endpoint, for example
+   *                 https://mynamespace.servicebus.windows.net.
    * @param options The parameter options
    */
-  constructor($host: string, options?: SchemaRegistryClientOptionalParams) {
-    if ($host === undefined) {
-      throw new Error("'$host' cannot be null");
+  constructor(
+    credentials: coreHttp.TokenCredential | coreHttp.ServiceClientCredentials,
+    endpoint: string,
+    options?: SchemaRegistryClientOptionalParams
+  ) {
+    if (credentials === undefined) {
+      throw new Error("'credentials' cannot be null");
+    }
+    if (endpoint === undefined) {
+      throw new Error("'endpoint' cannot be null");
     }
 
     // Initializing default values for options
@@ -35,13 +44,13 @@ export class SchemaRegistryClientContext extends coreHttp.ServiceClient {
       options.userAgent = `${packageName}/${packageVersion} ${defaultUserAgent}`;
     }
 
-    super(undefined, options);
+    super(credentials, options);
 
     this.requestContentType = "application/json; charset=utf-8";
 
-    this.baseUri = options.endpoint || "{$host}";
+    this.baseUri = options.endpoint || "{endpoint}/$schemagroups";
 
     // Parameter assignments
-    this.$host = $host;
+    this.endpoint = endpoint;
   }
 }

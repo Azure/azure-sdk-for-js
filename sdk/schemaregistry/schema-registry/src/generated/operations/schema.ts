@@ -122,7 +122,7 @@ export class Schema {
 const serializer = new coreHttp.Serializer(Mappers, /* isXml */ false);
 
 const getByIdOperationSpec: coreHttp.OperationSpec = {
-  path: "/$schemagroups/getSchemaById/{schema-id}",
+  path: "/getSchemaById/{schema-id}",
   httpMethod: "GET",
   responses: {
     200: {
@@ -133,11 +133,11 @@ const getByIdOperationSpec: coreHttp.OperationSpec = {
       bodyMapper: { type: { name: "String" } }
     }
   },
-  urlParameters: [Parameters.$host, Parameters.schemaId],
+  urlParameters: [Parameters.endpoint, Parameters.schemaId],
   serializer
 };
 const getIdByContentOperationSpec: coreHttp.OperationSpec = {
-  path: "/$schemagroups/{group-name}/schemas/{schema-name}",
+  path: "/{group-name}/schemas/{schema-name}",
   httpMethod: "POST",
   responses: {
     200: {
@@ -150,7 +150,7 @@ const getIdByContentOperationSpec: coreHttp.OperationSpec = {
   },
   requestBody: Parameters.schemaContent,
   urlParameters: [
-    Parameters.$host,
+    Parameters.endpoint,
     Parameters.groupName,
     Parameters.schemaName
   ],
@@ -159,7 +159,7 @@ const getIdByContentOperationSpec: coreHttp.OperationSpec = {
   serializer
 };
 const registerOperationSpec: coreHttp.OperationSpec = {
-  path: "/$schemagroups/{group-name}/schemas/{schema-name}",
+  path: "/{group-name}/schemas/{schema-name}",
   httpMethod: "PUT",
   responses: {
     200: {
@@ -172,7 +172,7 @@ const registerOperationSpec: coreHttp.OperationSpec = {
   },
   requestBody: Parameters.schemaContent,
   urlParameters: [
-    Parameters.$host,
+    Parameters.endpoint,
     Parameters.groupName,
     Parameters.schemaName
   ],

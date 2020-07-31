@@ -17,7 +17,6 @@ const apiKey = process.env["API_KEY"] || "<api key>";
 
 async function main() {
   console.log("== Sample SchemaRegistry ==");
-  new SchemaRegistryClient("https://example.com");
 
   // TODO
 }

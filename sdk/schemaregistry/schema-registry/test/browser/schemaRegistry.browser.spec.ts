@@ -1,13 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as lib from "../../src/index";
+// import * as lib from "../../src/index";
 
-describe("SchemaRegistryClient constructor - browser", () => {
+describe("SchemaRegistryClient placeholder test - browser", () => {
   it("should succeed", () => {
-    const result = new lib.SchemaRegistryClient("https://example.com");
-    if (!(result instanceof lib.SchemaRegistryClient)) {
-      throw new Error();
-    }
+    // TODO
   });
 });

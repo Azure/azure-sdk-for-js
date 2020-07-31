@@ -6,6 +6,7 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
+import * as coreHttp from "@azure/core-http";
 import * as operations from "./operations";
 import * as Models from "./models";
 import * as Mappers from "./models/mappers";
@@ -15,11 +16,17 @@ import { SchemaRegistryClientOptionalParams } from "./models";
 class SchemaRegistryClient extends SchemaRegistryClientContext {
   /**
    * Initializes a new instance of the SchemaRegistryClient class.
-   * @param $host server parameter
+   * @param credentials Subscription credentials which uniquely identify client subscription.
+   * @param endpoint The Schema Registry service endpoint, for example
+   *                 https://mynamespace.servicebus.windows.net.
    * @param options The parameter options
    */
-  constructor($host: string, options?: SchemaRegistryClientOptionalParams) {
-    super($host, options);
+  constructor(
+    credentials: coreHttp.TokenCredential | coreHttp.ServiceClientCredentials,
+    endpoint: string,
+    options?: SchemaRegistryClientOptionalParams
+  ) {
+    super(credentials, endpoint, options);
     this.schema = new operations.Schema(this);
   }
 

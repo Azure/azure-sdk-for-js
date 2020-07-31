@@ -8,7 +8,13 @@
 
 import * as coreHttp from "@azure/core-http";
 
+/**
+ * JSON Object received from the registry containing schema identifiers.
+ */
 export interface SchemaId {
+  /**
+   * Schema ID that uniquely identifies a schema in the registry namespace.
+   */
   id?: string;
 }
 

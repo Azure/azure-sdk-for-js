@@ -8,10 +8,10 @@
 
 import { OperationURLParameter, OperationParameter } from "@azure/core-http";
 
-export const $host: OperationURLParameter = {
-  parameterPath: "$host",
+export const endpoint: OperationURLParameter = {
+  parameterPath: "endpoint",
   mapper: {
-    serializedName: "$host",
+    serializedName: "endpoint",
     required: true,
     type: {
       name: "String"
