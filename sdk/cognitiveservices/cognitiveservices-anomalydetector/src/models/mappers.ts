@@ -56,68 +56,59 @@ export const Point: msRest.CompositeMapper = {
 };
 
 export const Request: msRest.CompositeMapper = {
-  serializedName: "Request",
+         serializedName: "Request",
   type: {
-    name: "Composite",
+           name: "Composite",
     className: "Request",
-    modelProperties: {
+        modelProperties: {
       series: {
         required: true,
-        serializedName: "series",
+          serializedName: "series",
         type: {
           name: "Sequence",
           element: {
             type: {
               name: "Composite",
               className: "Point"
-            }
           }
-        }
-      },
-      granularity: {
-        required: true,
+       }           }          },
+        granularity: {
+              required: true,
         nullable: false,
-        serializedName: "granularity",
-        type: {
-          name: "Enum",
+              serializedName: "granularity",
+               type: {
+            name: "Enum",
           allowedValues: [
-            "yearly",
+      "yearly",
             "monthly",
             "weekly",
-            "daily",
-            "hourly",
-            "minutely",
-            "secondly"
-          ]
-        }
-      },
-      customInterval: {
-        serializedName: "customInterval",
+                   "daily",
+                 "hourly",
+       "minutely",
+              "secondly"
+    },
+             customInterval: {
+               serializedName: "customInterval",
+               type: {
+                 name: "Number"
+               }
+             },
+             period: {
+               serializedName: "period",
         type: {
           name: "Number"
-        }
+     },
+             maxAnomalyRatio: {
+             serializedName: "maxAnomalyRatio",
+          type: {
+ name: "Number"
       },
-      period: {
-        serializedName: "period",
-        type: {
-          name: "Number"
-        }
-      },
-      maxAnomalyRatio: {
-        serializedName: "maxAnomalyRatio",
-        type: {
-          name: "Number"
-        }
-      },
-      sensitivity: {
-        serializedName: "sensitivity",
-        type: {
-          name: "Number"
-        }
-      }
-    }
-  }
-};
+             sensitivity: {
+       serializedName: "sensitivity",
+           type: {
+   name: "Number"
+ }
+    }};
 
 export const EntireDetectResponse: msRest.CompositeMapper = {
   serializedName: "EntireDetectResponse",
@@ -267,8 +258,7 @@ export const LastDetectResponse: msRest.CompositeMapper = {
         required: true,
         serializedName: "isPositiveAnomaly",
         type: {
-          name: "Boolean"
-        }
+          name: "Boolean"}
       }
     }
   }
@@ -348,9 +338,7 @@ export const ChangePointDetectResponse: msRest.CompositeMapper = {
         required: true,
         serializedName: "period",
         type: {
-          name: "Number"
-        }
-      },
+          name: "Number"   },
       isChangePoint: {
         required: true,
         serializedName: "isChangePoint",

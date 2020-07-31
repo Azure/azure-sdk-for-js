@@ -16,259 +16,414 @@ import { FaceClientContext } from "../faceClientContext";
 
 /** Class representing a LargePersonGroupOperations. */
 export class LargePersonGroupOperations {
-  private readonly client: FaceClientContext;
+                              private readonly client: FaceClientContext;
 
-  /**
-   * Create a LargePersonGroupOperations.
-   * @param {FaceClientContext} client Reference to the service client.
-   */
-  constructor(client: FaceClientContext) {
-    this.client = client;
-  }
+                              /       **
+          * Create a LargePersonGroupOperations.
+                               * @param {FaceClientContext} client Reference to the service client.
+                 */
+                              constructor(client: FaceClientContext) {
+                                this.client = client;
+                                     }       
+       
+                /**
+                 *        Create a new large person group with user-specified largePersonGroupId, name, an optional
+                        * userData and recognitionModel.
+                               * <br /> A large person group is the container of the uploaded person data, including face
+                               * recognition feature, and up to 1,000,000
+                        * people.
+                               * <br /> After creation, use [LargePersonGroup Person -
+                               * Create](https://docs.microsoft.com/rest/api/cognitiveservices/face/largepersongroupperson/create)
+                               * to add person into the group, and call [LargePersonGroup -
+                               * Train](https://docs.microsoft.com/rest/api/cognitiveservices/face/largepersongroup/train) to get
+                        * this group ready for [Face -
+                        * Identify](https://docs.microsoft.com/rest/api/cognitiveservices/face/face/identify).
+                 * <br /> No image will be               stored. Only the person's extracted face features and userData will be
+          * stored on server until [LargePersonGroup Person -
+                               * Delete](https://docs.microsoft.com/rest/api/cognitiveservices/face/largepersongroupperson/delete)
+                 * or [LargePersonGroup -
+          * Delete](https://docs.microsoft.com/rest/api/cognitiveservices/face/largepersongroup/delete) is
+                 * called.
+                 * <br/>'recognitionModel' should be specified to associate with this large person group. The
+                 * default value for 'recognitionModel              ' is 'recognition_01', if the latest model needed, please
+                 * explicitly specify the model you need in this parameter. New faces that are added to an existing
+                 * large person group will use the recognition model that's already associated with the collection.
+                 * Existing face features in a large person group can't be updated to features extracted by another
+          * version of recognition model.
+                                                           * * 'recognition_01': The default recognition model for [LargePersonGroup -
+                 * Create](https://docs.microsoft.com/rest/api/cognitiveservices/face/largepersongroup/create). All
+                 * those large person groups created before 2019 March are bonded with this recognition model.
+                        * * 'recognition_02': Recognition model released in 2019 March.
+          * * 'recognition_03': Recognition model released in 2020 May. 'recognition_03' is recommended
+                 * since its overall accuracy is improved compared with 'recognition_01' and 'recognition_02'.
+                        *
+          * Large person group quota:
+                 * * Free-tier subscription quota: 1,000 large person groups.
+                        * * S0-tier subscription quota: 1,000,000 large person groups.
+                 * @param largePersonGroupId Id referencing a particular large person group.
+                        * @param [options] The optional parameters
+                        * @returns
+          Promise<msRest.RestResponse>
+                               */
+                create(
+           
+           
+           largePersonGroupId: string,
 
-  /**
-   * Create a new large person group with user-specified largePersonGroupId, name, an optional
-   * userData and recognitionModel.
-   * <br /> A large person group is the container of the uploaded person data, including face
-   * recognition feature, and up to 1,000,000
-   * people.
-   * <br /> After creation, use [LargePersonGroup Person -
-   * Create](https://docs.microsoft.com/rest/api/cognitiveservices/face/largepersongroupperson/create)
-   * to add person into the group, and call [LargePersonGroup -
-   * Train](https://docs.microsoft.com/rest/api/cognitiveservices/face/largepersongroup/train) to get
-   * this group ready for [Face -
-   * Identify](https://docs.microsoft.com/rest/api/cognitiveservices/face/face/identify).
-   * <br /> No image will be stored. Only the person's extracted face features and userData will be
-   * stored on server until [LargePersonGroup Person -
-   * Delete](https://docs.microsoft.com/rest/api/cognitiveservices/face/largepersongroupperson/delete)
-   * or [LargePersonGroup -
-   * Delete](https://docs.microsoft.com/rest/api/cognitiveservices/face/largepersongroup/delete) is
-   * called.
-   * <br/>'recognitionModel' should be specified to associate with this large person group. The
-   * default value for 'recognitionModel' is 'recognition_01', if the latest model needed, please
-   * explicitly specify the model you need in this parameter. New faces that are added to an existing
-   * large person group will use the recognition model that's already associated with the collection.
-   * Existing face features in a large person group can't be updated to features extracted by another
-   * version of recognition model.
-   * * 'recognition_01': The default recognition model for [LargePersonGroup -
-   * Create](https://docs.microsoft.com/rest/api/cognitiveservices/face/largepersongroup/create). All
-   * those large person groups created before 2019 March are bonded with this recognition model.
-   * * 'recognition_02': Recognition model released in 2019 March.
-   * * 'recognition_03': Recognition model released in 2020 May. 'recognition_03' is recommended
-   * since its overall accuracy is improved compared with 'recognition_01' and 'recognition_02'.
-   *
-   * Large person group quota:
-   * * Free-tier subscription quota: 1,000 large person groups.
-   * * S0-tier subscription quota: 1,000,000 large person groups.
-   * @param largePersonGroupId Id referencing a particular large person group.
-   * @param [options] The optional parameters
-   * @returns Promise<msRest.RestResponse>
-   */
-  create(largePersonGroupId: string, options?: Models.LargePersonGroupCreateOptionalParams): Promise<msRest.RestResponse>;
-  /**
-   * @param largePersonGroupId Id referencing a particular large person group.
-   * @param callback The callback
-   */
-  create(largePersonGroupId: string, callback: msRest.ServiceCallback<void>): void;
-  /**
-   * @param largePersonGroupId Id referencing a particular large person group.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  create(largePersonGroupId: string, options: Models.LargePersonGroupCreateOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  create(largePersonGroupId: string, options?: Models.LargePersonGroupCreateOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
-    return this.client.sendOperationRequest(
-      {
-        largePersonGroupId,
-        options
-      },
-      createOperationSpec,
-      callback);
-  }
+                    
+           options?: Models.LargePersonGroupCreateOptionalParams
+         ): Promise<msRest.RestResponse>;
+         /**
+          * @param largePersonGroupId Id referencing a particular large person group.
+                               * @param callback The callback
+                               */
+                create(
+                                       largePersonGroupId: string,
+           callback: msRest.ServiceCallback<void>
+          ): v      oid;     
+                                /**            
+            * @param largePersonGroupId Id referencing a particular large person        group.
+          * @param options The optional parameters
+                 * @param callback The callback
+          *       /
+                       create(
+                         largePersonGroupId: string,
+           options: Mode
+           ls.LargePersonGroupCreateOptionalParams,
+           callback: msRest.ServiceCallback<void>
+          ): v      oid;            
+                         create(
+           
+           largePersonGroupId: string,
+           options?: Models.LargePersonGroupCreateOptionalParams | msRest.ServiceCallback<void>,
+           callback?: msRest.ServiceCallback<void>
+         ): Promise<msRest.RestResponse> {
+                         return this.client.sendOperationRequest(
+             {
+               
+           
+           largePersonGroupId,
+               options
+             },
+             createOperationSpec,
+             callback
+           );
+         }
 
-  /**
-   * Delete an existing large person group. Persisted face features of all people in the large person
-   * group will also be deleted.
-   * @param largePersonGroupId Id referencing a particular large person group.
-   * @param [options] The optional parameters
-   * @returns Promise<msRest.RestResponse>
-   */
-  deleteMethod(largePersonGroupId: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
-  /**
-   * @param largePersonGroupId Id referencing a particular large person group.
-   * @param callback The callback
-   */
-  deleteMethod(largePersonGroupId: string, callback: msRest.ServiceCallback<void>): void;
-  /**
-   * @param largePersonGroupId Id referencing a particular large person group.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  deleteMethod(largePersonGroupId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(largePersonGroupId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
-    return this.client.sendOperationRequest(
-      {
-        largePersonGroupId,
-        options
-      },
-      deleteMethodOperationSpec,
-      callback);
-  }
+         /**
+          * Delete an existing large person group.               Persisted face features of all people in the large person
+          * group will also be deleted.
+          * @param 
+           largePersonGroupId Id referencing a particular large person group.
+                 * @param [options] The optional parameters
+                        * @returns Promise<msRest.RestResponse>
+          */
+                              deleteMethod(
+           
+                         largePersonGroupId: string,
+                        
+           options?: msRest.RequestOptionsBase
+         
+         ): Promise<msRest.RestResponse>;
+                       /**
+          * @param largePersonGroupId Id referencing a particular large person group.
+          * @param callback The        call
+           back
+                 */       
+                deleteMethod(
+                  
+                  largePersonGroupId: string,
+           callback: msRest.ServiceCallback<void>
+                
+       
+                   ): void;
+                /**
+          * @param largePersonGroupId Id referencing a particular large person group.
+                        * @param options The optional parameters
+                        * @param callback The        call
+           back
+                        */
+                deleteMethod(
+                         largePersonGroupId: string,
 
-  /**
-   * Retrieve the information of a large person group, including its name, userData and
-   * recognitionModel. This API returns large person group information only, use [LargePersonGroup
-   * Person -
-   * List](https://docs.microsoft.com/rest/api/cognitiveservices/face/largepersongroupperson/list)
-   * instead to retrieve person information under the large person group.
-   * @param largePersonGroupId Id referencing a particular large person group.
-   * @param [options] The optional parameters
-   * @returns Promise<Models.LargePersonGroupGetResponse>
-   */
-  get(largePersonGroupId: string, options?: Models.LargePersonGroupGetOptionalParams): Promise<Models.LargePersonGroupGetResponse>;
-  /**
-   * @param largePersonGroupId Id referencing a particular large person group.
-   * @param callback The callback
-   */
-  get(largePersonGroupId: string, callback: msRest.ServiceCallback<Models.LargePersonGroup>): void;
-  /**
-   * @param largePersonGroupId Id referencing a particular large person group.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  get(largePersonGroupId: string, options: Models.LargePersonGroupGetOptionalParams, callback: msRest.ServiceCallback<Models.LargePersonGroup>): void;
-  get(largePersonGroupId: string, options?: Models.LargePersonGroupGetOptionalParams | msRest.ServiceCallback<Models.LargePersonGroup>, callback?: msRest.ServiceCallback<Models.LargePersonGroup>): Promise<Models.LargePersonGroupGetResponse> {
-    return this.client.sendOperationRequest(
-      {
-        largePersonGroupId,
-        options
-      },
-      getOperationSpec,
-      callback) as Promise<Models.LargePersonGroupGetResponse>;
-  }
 
-  /**
-   * Update an existing large person group's display name and userData. The properties which does not
-   * appear in request body will not be updated.
-   * @param largePersonGroupId Id referencing a particular large person group.
-   * @param [options] The optional parameters
-   * @returns Promise<msRest.RestResponse>
-   */
-  update(largePersonGroupId: string, options?: Models.LargePersonGroupUpdateOptionalParams): Promise<msRest.RestResponse>;
-  /**
-   * @param largePersonGroupId Id referencing a particular large person group.
-   * @param callback The callback
-   */
-  update(largePersonGroupId: string, callback: msRest.ServiceCallback<void>): void;
-  /**
-   * @param largePersonGroupId Id referencing a particular large person group.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  update(largePersonGroupId: string, options: Models.LargePersonGroupUpdateOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  update(largePersonGroupId: string, options?: Models.LargePersonGroupUpdateOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
-    return this.client.sendOperationRequest(
-      {
-        largePersonGroupId,
-        options
-      },
-      updateOperationSpec,
-      callback);
-  }
+                                      options: msRest.RequestOptionsBase,
+          
+           callback: msRest.ServiceCallback<void>
+         ): void;
+                       deleteMethod(
+           largePersonGroup
+         Id: string,
+           options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+           callback?: msRest.ServiceCallback<void>
+         ): Promise<msRest.RestResponse> {
+           return this.client.sendOperationRequest(
+             {
+               largePersonGroup
+         Id,
+               options
+             },
+             deleteMethodOperationSpec,
+             callback
+           );
+         }
 
-  /**
-   * Retrieve the training status of a large person group (completed or ongoing).
-   * @param largePersonGroupId Id referencing a particular large person group.
-   * @param [options] The optional parameters
-   * @returns Promise<Models.LargePersonGroupGetTrainingStatusResponse>
-   */
-  getTrainingStatus(largePersonGroupId: string, options?: msRest.RequestOptionsBase): Promise<Models.LargePersonGroupGetTrainingStatusResponse>;
-  /**
-   * @param largePersonGroupId Id referencing a particular large person group.
-   * @param callback The callback
-   */
-  getTrainingStatus(largePersonGroupId: string, callback: msRest.ServiceCallback<Models.TrainingStatus>): void;
-  /**
-   * @param largePersonGroupId Id referencing a particular large person group.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  getTrainingStatus(largePersonGroupId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.TrainingStatus>): void;
-  getTrainingStatus(largePersonGroupId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.TrainingStatus>, callback?: msRest.ServiceCallback<Models.TrainingStatus>): Promise<Models.LargePersonGroupGetTrainingStatusResponse> {
-    return this.client.sendOperationRequest(
-      {
-        largePersonGroupId,
-        options
-      },
-      getTrainingStatusOperationSpec,
-      callback) as Promise<Models.LargePersonGroupGetTrainingStatusResponse>;
-  }
+         /**
+                 * Retrieve the information of a large person group, including its name, userData and
+          * recognitionModel. This API returns large person group information only, use [LargePersonGroup
+                
+                 * Person -
+          * List](https://docs.microsoft.com/rest/api/cognitiveservices/face/largepersongroupperson/list)
+          * instead to retrieve person information under the large person group.
+          * @param largePersonGroupId Id referencing a particular large person group.
+                           * @p    ara       m [options] The optional parameters
+          * @returns Promise<Models.LargePersonGroupGetResponse>
+                        */       
+         get(
+                         l
+           argePersonGroupId: string,
+          
+                  options?:   
+                        | Models.LargePersonGroupGetOptionalParams
 
-  /**
-   * List all existing large person groups’ largePersonGroupId, name, userData and
-   * recognitionModel.<br />
-   * * Large person groups are stored in alphabetical order of largePersonGroupId.
-   * * "start" parameter (string, optional) is a user-provided largePersonGroupId value that returned
-   * entries have larger ids by string comparison. "start" set to empty to indicate return from the
-   * first item.
-   * * "top" parameter (int, optional) specifies the number of entries to return. A maximal of 1000
-   * entries can be returned in one call. To fetch more, you can specify "start" with the last
-   * returned entry’s Id of the current call.
-   * <br />
-   * For example, total 5 large person groups: "group1", ..., "group5".
-   * <br /> "start=&top=" will return all 5 groups.
-   * <br /> "start=&top=2" will return "group1", "group2".
-   * <br /> "start=group2&top=3" will return "group3", "group4", "group5".
-   * @param [options] The optional parameters
-   * @returns Promise<Models.LargePersonGroupListResponse>
-   */
-  list(options?: Models.LargePersonGroupListOptionalParams): Promise<Models.LargePersonGroupListResponse>;
-  /**
-   * @param callback The callback
-   */
-  list(callback: msRest.ServiceCallback<Models.LargePersonGroup[]>): void;
-  /**
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  list(options: Models.LargePersonGroupListOptionalParams, callback: msRest.ServiceCallback<Models.LargePersonGroup[]>): void;
-  list(options?: Models.LargePersonGroupListOptionalParams | msRest.ServiceCallback<Models.LargePersonGroup[]>, callback?: msRest.ServiceCallback<Models.LargePersonGroup[]>): Promise<Models.LargePersonGroupListResponse> {
-    return this.client.sendOperationRequest(
-      {
-        options
-      },
-      listOperationSpec,
-      callback) as Promise<Models.LargePersonGroupListResponse>;
-  }
+                     ): Promise<Models.LargePersonGroupGetResponse>;
+         /**
+          * @param largePersonGroup
+         Id Id referencing a particular large person group.
+          * @param
+           callback The callback
+                        */
+         get(
+           largePersonGroup
+         Id: string,
+           callback: msRest.ServiceCallback<Models.LargePersonGroup>
+         ): void;
+                /**   
+                     * @       param largePersonGroupId Id referencing a particular large person group.
+                        * @param options The optional parameters
+                 * @param callback The callback
+          */
+         get(
+           
+           largePersonGroupId: string,
 
-  /**
-   * Queue a large person group training task, the training task may not be started immediately.
-   * @param largePersonGroupId Id referencing a particular large person group.
-   * @param [options] The optional parameters
-   * @returns Promise<msRest.RestResponse>
-   */
-  train(largePersonGroupId: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
-  /**
-   * @param largePersonGroupId Id referencing a particular large person group.
-   * @param callback The callback
-   */
-  train(largePersonGroupId: string, callback: msRest.ServiceCallback<void>): void;
-  /**
-   * @param largePersonGroupId Id referencing a particular large person group.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  train(largePersonGroupId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  train(largePersonGroupId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
-    return this.client.sendOperationRequest(
-      {
-        largePersonGroupId,
-        options
-      },
-      trainOperationSpec,
-      callback);
-  }
-}
+                    
+           options: Models.LargePersonGroupGetOptionalParams,
+                  callback: msRest.ServiceCallback<Models.LargePersonGroup>
+                ): void;
+         get(
+           largePersonGroupId: string,
+          
+           options?:
+             | Models.LargePersonGroupGetOptionalParams
+             | msRest.ServiceCallback<Models.LargePersonGroup>,
+           callback?: msRest.ServiceCallback<Models.LargePersonGroup>
+         ): Promise<Models.LargePersonGroupGetResponse> {
+                                return this.client.sendOperationRequest(
+                           {
+               
+           largePersonGroupId,
+                      options     
+               },
+                    getOperationSpec,
+             callback
+           ) as Promise<Models.LargePersonGroupGetResponse>;
+         }
+
+                /**
+                 * Update an existing large person group's display name and userData. The properties which does not
+          * appear in request body will not be updated.
+           *       @param      
+                    largePersonGroupId Id referencing a particular large person group.
+                        * @param [options] The optional parameters
+                               * @returns Promise<msRest.RestResponse>
+                        */
+         update(
+           largePersonGroupId: string,
+          
+           options?: Models.LargePersonGroupUpdateOptionalParams
+         ): Promise<msRest.RestResponse>;
+                /**
+                 * @param largePersonGroupId Id referencing a particular large person group.
+                               * @param callback The callback
+                        */
+         update(
+           
+           largePersonGroupId: string,
+
+                     callback: msRest.ServiceCallback<void>
+         ): void;
+                              /**            
+                          * @param 
+           largePersonGroupId Id referencing a particular large person group.
+                 * @param options The optional parameters
+                                      * @param callback The callback
+          */
+         update(
+                         largePersonGroupId: string,
+                  op   tions: Mode
+                      ls.LargePersonGroupUpdateOptionalParams,
+                         cal
+           lback: msRest.ServiceCallback<void>
+         ): void;
+         update(
+           
+           largePersonGroupId: string,
+          
+           options?: Models.LargePersonGroupUpdateOptionalParams | msRest.ServiceCallback<void>,
+           callback?: msRest.ServiceCallback<void>
+         ): Promise<msRest.RestResponse> {
+                  return this.client.sendOperationRequest(
+                           {
+               largePersonGroupId,
+                             options   
+                        },
+             updateOperationSpec,
+             callback
+           );
+         }
+
+         /**
+          * Retrieve the training status of a large person group (completed or ongoing).
+                 * @param 
+           largePersonGroupId Id referencing a particular large person group.
+                        * @param [options] The optional parameters
+                 * @returns Promise<Models.LargePersonGroupGetTrainingStatusResponse>
+          */
+                       getTrainingStatus(
+           largePersonGroupId: string,
+          
+           options?: msRest.RequestOptionsBase
+         ): Promise<Models.LargePersonGroupGetTrainingStatusResponse>;
+         /**
+          * @param largePersonGroupId Id referencing a particular large person group.
+                 * @param callback The callback
+          */
+         getTrainingStatus(
+                                              largePersonGroupId: string,
+                  callback: msR
+           est.ServiceCallback<Models.TrainingStatus>
+         ): void;
+         /**
+          * @param largePersonGroupId Id referencing a particular large person group.
+                        * @param options The optional parameters
+                 * @param
+           callback The callback
+          */
+         getTrainingStatus(
+           largePersonGroupId: string,
+           options:
+             | msRest.RequestOptionsBase,
+           callback: msRest.ServiceCallback<Models.TrainingStatus>
+         ): void;
+         getTrainingStatus(
+           largePersonGroupId: string,
+                         options
+           ?: msRest.RequestOptionsBase
+             | msRest.ServiceCallback<Models.TrainingStatus>,
+           callback?: msRest.ServiceCallback<Models.TrainingStatus>
+         ): Promise<Models.LargePersonGroupGetTrainingStatusResponse> {
+                  return this.client.sendOperationRequest(
+             {
+                      largePersonGroupId,
+                             options
+                    },
+             getTrainingStatusOperationSpec,
+             callback
+           ) as Promis
+             |e<Models.LargePersonGroupGetTrainingStatusResponse>;
+                       }
+
+         /**
+          * List all existing large person groups’ largePersonGroupId, name, userData and
+          * recognitionModel.<br />
+          * * Large person groups are stored in alphabetical order of largePersonGroupId.
+          * * "start" parameter (string, optional) is a user-provided largePersonGroupId value that returned
+                     * e   ntries ha       ve larger ids by string comparison. "start" set to empty to indicate return from the
+          * first item.
+          * * "top" parameter (int, optional) specifies the number of entries to return. A maximal of 1000
+          * entries can be returned in one call. To fetch more, you can specify "start" with the last
+                               * returned entry’s Id of the current call.
+                     *    <br />
+                 * For example, total 5 large person groups: "group1", ..., "group5".
+          * <br /> "start=&top=" will return all 5 groups.
+          * <br /> "start=&top=2" will return "group1", "gr       oup2".     
+                   * <br /> "start=group2&top=3" will return "group3", "group4", "group5".
+          * @param [options] The optional parameters
+          * @returns Promise<Models.LargePersonGroupListResponse>
+          */
+                list(
+           options?: Models.LargePersonGroupListOptionalParams
+         ): Promise<Models.LargePersonGroupListResponse>;
+                       /**
+                        * @param callback The callback
+          */
+         list(callback: msRest.ServiceCallback<Models.LargePersonGroup[]>): void;
+         /**
+                 * @param options The optional parameters
+                 * @param
+           callback The
+           callback
+          */
+         list(
+           options: Models.LargePersonGroupListOptionalParams,
+           callback: msRest.ServiceCallback<Models.LargePersonGroup[]>
+         ): void;
+         list(
+                                options?:     
+                      | Models.LargePersonGroupListOptionalParams
+             | msRest.ServiceCallback<Models.LargePersonGroup[]>,
+           callback?: msRest.ServiceCallback<Models.LargePersonGroup[]>
+         ): Promise<Models.LargePersonGroupListResponse> {
+           return this.client.sendOperationRequest(
+             {
+               options
+             },
+             listOperationSpec,
+             callback
+           ) as Promise<Models.LargePersonGroupListResponse>;
+                }
+
+         /**
+          * Queue a large person group training task, the training task may not be started immediately.
+          * @param largePersonGroupId Id referencing a particular large person group.
+                        * @param [options] The optional parameters
+          * @returns Promise<msRest.RestResponse>
+          */
+                train(     
+                    largePersonGroupId: string,
+           options?: msRest.RequestOptionsBase
+         ): Promise<msRest.RestResponse>;
+         /**
+          * @param largePersonGroupId Id referencing a particular large person group.
+          * @param callback The callback
+          */
+         train(largePersonGroupId: string, callback: msRest.ServiceCallback<void>): void;
+         /**
+          * @param largePersonGroupId Id referencing a particular large person group.
+          * @param options The optional parameters
+          * @param callback The callback
+          */
+         train(
+           largePersonGroupId: string,
+           options: msRest.RequestOptionsBase,
+           callback: msRest.ServiceCallback<void>
+         ): void;
+         train(
+           largePersonGroupId: string,
+           options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>,
+           callback?: msRest.ServiceCallback<void>
+         ): Promise<msRest.RestResponse> {
+           return this.client.sendOperationRequest(
+             {
+               largePersonGroupId,
+               options
+             },
+             trainOperationSpec,
+             callback
+           );
+         }
+       }
 
 // Operation Specifications
 const serializer = new msRest.Serializer(Mappers);

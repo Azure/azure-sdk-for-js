@@ -232,7 +232,14 @@ export interface ChangePointDetectResponse {
  * @readonly
  * @enum {string}
  */
-export type Granularity = 'yearly' | 'monthly' | 'weekly' | 'daily' | 'hourly' | 'minutely' | 'secondly';
+export type Granularity =
+  | "yearly"
+  | "monthly"
+  | "weekly"
+  | "daily"
+  | "hourly"
+  | "minutely"
+  | "secondly";
 
 /**
  * Contains response data for the entireDetect operation.
@@ -262,16 +269,16 @@ export type LastDetectResponse2 = LastDetectResponse & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: LastDetectResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: LastDetectResponse;
+  };
 };
 
 /**
@@ -282,14 +289,14 @@ export type ChangePointDetectResponse2 = ChangePointDetectResponse & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ChangePointDetectResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ChangePointDetectResponse;
+  };
 };

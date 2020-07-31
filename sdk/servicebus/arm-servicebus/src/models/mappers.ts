@@ -1026,38 +1026,38 @@ export const Action: msRest.CompositeMapper = {
 };
 
 export const SqlFilter: msRest.CompositeMapper = {
-  serializedName: "SqlFilter",
-  type: {
-    name: "Composite",
-    className: "SqlFilter",
-    modelProperties: {
-      sqlExpression: {
-        serializedName: "sqlExpression",
-        type: {
-          name: "String"
-        }
-      },
-      compatibilityLevel: {
-        serializedName: "compatibilityLevel",
-        defaultValue: 20,
-        constraints: {
-          InclusiveMaximum: 20,
-          InclusiveMinimum: 20
-        },
-        type: {
-          name: "Number"
-        }
-      },
-      requiresPreprocessing: {
-        serializedName: "requiresPreprocessing",
-        defaultValue: true,
-        type: {
-          name: "Boolean"
-        }
-      }
-    }
-  }
-};
+         serializedName: "SqlFilter",
+         type: {
+           name: "Composite",
+           className: "SqlFilter",
+           modelProperties: {
+             sqlExpression: {
+               serializedName: "sqlExpression",
+               type: {
+                 name: "String"
+               }
+             },
+             compatibilityLevel: {
+               serializedName: "compatibilityLevel",
+               defaultValue: 20,
+               constraints: {
+                 InclusiveMaximum: 20,
+                 InclusiveMinimum: 20
+               },
+               type: {
+                 name: "Number"
+               }
+             },
+             requiresPreprocessing: {
+               serializedName: "requiresPreprocessing",
+               defaultValue: true,
+               type: {
+                 name: "Boolean"
+               }
+             }
+           }
+         }
+       };
 
 export const CorrelationFilter: msRest.CompositeMapper = {
   serializedName: "CorrelationFilter",

@@ -1909,6 +1909,7 @@ export class ServiceBusManagementClient extends ServiceClient {
     let operOptions: OperationOptions | undefined;
     if (ruleActionOrOperationOptions) {
       if (isSqlRuleAction(ruleActionOrOperationOptions)) {
+        // Overload#1
         ruleAction = ruleActionOrOperationOptions;
         operOptions = operationOptions;
       } else {
