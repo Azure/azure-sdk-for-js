@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { ClientEntityContext } from "../clientEntityContext";
+import { ConnectionContext } from "../connectionContext";
 import {
   MessageHandlers,
   ReceiveMessagesOptions,
@@ -40,6 +40,7 @@ import {
 } from "@azure/core-amqp";
 import { OperationOptionsBase } from "../modelsToBeSharedWithEventHubs";
 import "@azure/core-asynciterator-polyfill";
+import { ManagementClient } from "../core/managementClient";
 import { AmqpError } from "rhea-promise";
 
 /**
@@ -99,7 +100,6 @@ export interface SessionReceiver<
  */
 export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMessageWithLock>
   implements SessionReceiver<ReceivedMessageT> {
-  public entityPath: string;
   public sessionId: string;
 
   /**
@@ -114,28 +114,36 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
    */
   private constructor(
     private _messageSession: MessageSession,
-    private _context: ClientEntityContext,
+    private _context: ConnectionContext,
+    public entityPath: string,
     public receiveMode: "peekLock" | "receiveAndDelete",
     private _retryOptions: RetryOptions = {}
   ) {
-    throwErrorIfConnectionClosed(this._context.namespace);
-    this.entityPath = this._context.entityPath;
+    throwErrorIfConnectionClosed(_context);
+    if (!this._context.managementClients[entityPath]) {
+      this._context.managementClients[entityPath] = new ManagementClient(
+        this._context,
+        entityPath,
+        { address: `${entityPath}/$management` }
+      );
+    }
+
     this.sessionId = _messageSession.sessionId;
   }
 
   static async createInitializedSessionReceiver<
     ReceivedMessageT extends ReceivedMessage | ReceivedMessageWithLock
   >(
-    context: ClientEntityContext,
+    context: ConnectionContext,
+    entityPath: string,
     receiveMode: "peekLock" | "receiveAndDelete",
     sessionOptions: CreateSessionReceiverOptions,
     retryOptions: RetryOptions = {}
   ): Promise<SessionReceiver<ReceivedMessageT>> {
-    context.isSessionEnabled = true;
     if (sessionOptions.sessionId != undefined) {
       sessionOptions.sessionId = String(sessionOptions.sessionId);
     }
-    const messageSession = await MessageSession.create(context, {
+    const messageSession = await MessageSession.create(context, entityPath, {
       sessionId: sessionOptions.sessionId,
       autoRenewLockDurationInMs: sessionOptions.autoRenewLockDurationInMs,
       receiveMode: convertToInternalReceiveMode(receiveMode)
@@ -143,6 +151,7 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
     const sessionReceiver = new SessionReceiverImpl<ReceivedMessageT>(
       messageSession,
       context,
+      entityPath,
       receiveMode,
       retryOptions
     );
@@ -150,12 +159,12 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
   }
 
   private _throwIfReceiverOrConnectionClosed(): void {
-    throwErrorIfConnectionClosed(this._context.namespace);
+    throwErrorIfConnectionClosed(this._context);
     if (this.isClosed) {
       if (this._isClosed) {
-        const errorMessage = getReceiverClosedErrorMsg(this._context.entityPath, this.sessionId);
+        const errorMessage = getReceiverClosedErrorMsg(this.entityPath, this.sessionId);
         const error = new Error(errorMessage);
-        log.error(`[${this._context.namespace.connectionId}] %O`, error);
+        log.error(`[${this._context.connectionId}] %O`, error);
         throw error;
       }
       const amqpError: AmqpError = {
@@ -168,9 +177,9 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
 
   private _throwIfAlreadyReceiving(): void {
     if (this._isReceivingMessages()) {
-      const errorMessage = getAlreadyReceivingErrorMsg(this._context.entityPath, this.sessionId);
+      const errorMessage = getAlreadyReceivingErrorMsg(this.entityPath, this.sessionId);
       const error = new Error(errorMessage);
-      log.error(`[${this._context.namespace.connectionId}] %O`, error);
+      log.error(`[${this._context.connectionId}] %O`, error);
       throw error;
     }
   }
@@ -178,7 +187,7 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
   public get isClosed(): boolean {
     return (
       this._isClosed ||
-      !this._context.messageSessions[this.sessionId] ||
+      !this._context.messageSessions[this._messageSession.name] ||
       !this._messageSession.isOpen()
     );
   }
@@ -218,19 +227,18 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
   async renewSessionLock(options?: OperationOptionsBase): Promise<Date> {
     this._throwIfReceiverOrConnectionClosed();
     const renewSessionLockOperationPromise = async () => {
-      this._messageSession!.sessionLockedUntilUtc = await this._context.managementClient!.renewSessionLock(
-        this.sessionId,
-        {
-          ...options,
-          requestName: "renewSessionLock",
-          timeoutInMs: this._retryOptions.timeoutInMs
-        }
-      );
+      this._messageSession!.sessionLockedUntilUtc = await this._context.managementClients[
+        this.entityPath
+      ].renewSessionLock(this._messageSession.name, this.sessionId, {
+        ...options,
+        requestName: "renewSessionLock",
+        timeoutInMs: this._retryOptions.timeoutInMs
+      });
       return this._messageSession!.sessionLockedUntilUtc!;
     };
     const config: RetryConfig<Date> = {
       operation: renewSessionLockOperationPromise,
-      connectionId: this._context.namespace.connectionId,
+      connectionId: this._context.connectionId,
       operationType: RetryOperationType.management,
       retryOptions: this._retryOptions,
       abortSignal: options?.abortSignal
@@ -250,16 +258,21 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
     this._throwIfReceiverOrConnectionClosed();
 
     const setSessionStateOperationPromise = async () => {
-      await this._context.managementClient!.setSessionState(this.sessionId!, state, {
-        ...options,
-        requestName: "setState",
-        timeoutInMs: this._retryOptions.timeoutInMs
-      });
+      await this._context.managementClients[this.entityPath].setSessionState(
+        this._messageSession.name,
+        this.sessionId!,
+        state,
+        {
+          ...options,
+          requestName: "setState",
+          timeoutInMs: this._retryOptions.timeoutInMs
+        }
+      );
       return;
     };
     const config: RetryConfig<void> = {
       operation: setSessionStateOperationPromise,
-      connectionId: this._context.namespace.connectionId,
+      connectionId: this._context.connectionId,
       operationType: RetryOperationType.management,
       retryOptions: this._retryOptions,
       abortSignal: options?.abortSignal
@@ -279,15 +292,19 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
     this._throwIfReceiverOrConnectionClosed();
 
     const getSessionStateOperationPromise = async () => {
-      return this._context.managementClient!.getSessionState(this.sessionId, {
-        ...options,
-        requestName: "getState",
-        timeoutInMs: this._retryOptions.timeoutInMs
-      });
+      return this._context.managementClients[this.entityPath].getSessionState(
+        this._messageSession.name,
+        this.sessionId,
+        {
+          ...options,
+          requestName: "getState",
+          timeoutInMs: this._retryOptions.timeoutInMs
+        }
+      );
     };
     const config: RetryConfig<any> = {
       operation: getSessionStateOperationPromise,
-      connectionId: this._context.namespace.connectionId,
+      connectionId: this._context.connectionId,
       operationType: RetryOperationType.management,
       retryOptions: this._retryOptions,
       abortSignal: options?.abortSignal
@@ -312,14 +329,16 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
     };
     const peekOperationPromise = async () => {
       if (options.fromSequenceNumber) {
-        return await this._context.managementClient!.peekBySequenceNumber(
+        return await this._context.managementClients[this.entityPath].peekBySequenceNumber(
+          this._messageSession!.name,
           options.fromSequenceNumber,
           maxMessageCount,
           this.sessionId,
           managementRequestOptions
         );
       } else {
-        return await this._context.managementClient!.peekMessagesBySession(
+        return await this._context.managementClients[this.entityPath].peekMessagesBySession(
+          this._messageSession!.name,
           this.sessionId,
           maxMessageCount,
           managementRequestOptions
@@ -329,7 +348,7 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
 
     const config: RetryConfig<ReceivedMessage[]> = {
       operation: peekOperationPromise,
-      connectionId: this._context.namespace.connectionId,
+      connectionId: this._context.connectionId,
       operationType: RetryOperationType.management,
       retryOptions: this._retryOptions,
       abortSignal: options?.abortSignal
@@ -343,12 +362,12 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
   ): Promise<ReceivedMessageT[]> {
     this._throwIfReceiverOrConnectionClosed();
     throwTypeErrorIfParameterMissing(
-      this._context.namespace.connectionId,
+      this._context.connectionId,
       "sequenceNumbers",
       sequenceNumbers
     );
     throwTypeErrorIfParameterNotLong(
-      this._context.namespace.connectionId,
+      this._context.connectionId,
       "sequenceNumbers",
       sequenceNumbers
     );
@@ -357,7 +376,10 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
       ? sequenceNumbers
       : [sequenceNumbers];
     const receiveDeferredMessagesOperationPromise = async () => {
-      const deferredMessages = await this._context.managementClient!.receiveDeferredMessages(
+      const deferredMessages = await this._context.managementClients[
+        this.entityPath
+      ].receiveDeferredMessages(
+        this._messageSession.name,
         deferredSequenceNumbers,
         convertToInternalReceiveMode(this.receiveMode),
         this.sessionId,
@@ -371,7 +393,7 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
     };
     const config: RetryConfig<ReceivedMessageT[]> = {
       operation: receiveDeferredMessagesOperationPromise,
-      connectionId: this._context.namespace.connectionId,
+      connectionId: this._context.connectionId,
       operationType: RetryOperationType.management,
       retryOptions: this._retryOptions,
       abortSignal: options?.abortSignal
@@ -402,7 +424,7 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
     };
     const config: RetryConfig<ReceivedMessageT[]> = {
       operation: receiveBatchOperationPromise,
-      connectionId: this._context.namespace.connectionId,
+      connectionId: this._context.connectionId,
       operationType: RetryOperationType.receiveMessage,
       retryOptions: this._retryOptions,
       abortSignal: options?.abortSignal
@@ -465,7 +487,7 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
   ): void {
     this._throwIfReceiverOrConnectionClosed();
     this._throwIfAlreadyReceiving();
-    const connId = this._context.namespace.connectionId;
+    const connId = this._context.connectionId;
     throwTypeErrorIfParameterMissing(connId, "onMessage", onMessage);
     throwTypeErrorIfParameterMissing(connId, "onError", onError);
     if (typeof onMessage !== "function") {
@@ -492,9 +514,9 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
     } catch (err) {
       log.error(
         "[%s] An error occurred while closing the SessionReceiver for session %s in %s: %O",
-        this._context.namespace.connectionId,
+        this._context.connectionId,
         this.sessionId,
-        this._context.entityPath,
+        this.entityPath,
         err
       );
       throw err;

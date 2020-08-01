@@ -5,7 +5,7 @@ import Long from "long";
 import * as log from "./log";
 import { MessageSender } from "./core/messageSender";
 import { ServiceBusMessage, isServiceBusMessage } from "./serviceBusMessage";
-import { ClientEntityContext } from "./clientEntityContext";
+import { ConnectionContext } from "./connectionContext";
 import {
   getSenderClosedErrorMsg,
   throwErrorIfConnectionClosed,
@@ -22,6 +22,7 @@ import {
   retry
 } from "@azure/core-amqp";
 import { OperationOptionsBase } from "./modelsToBeSharedWithEventHubs";
+import { ManagementClient } from "./core/managementClient";
 
 /**
  * A Sender can be used to send messages, schedule messages to be sent at a later time
@@ -133,10 +134,6 @@ export interface Sender {
  * @implements {Sender}
  */
 export class SenderImpl implements Sender {
-  /**
-   * @property Describes the amqp connection context for the Client.
-   */
-  private _context: ClientEntityContext;
   private _retryOptions: RetryOptions;
   /**
    * @property Denotes if close() was called on this sender
@@ -149,26 +146,36 @@ export class SenderImpl implements Sender {
    * @internal
    * @throws Error if the underlying connection is closed.
    */
-  constructor(context: ClientEntityContext, retryOptions: RetryOptions = {}) {
-    throwErrorIfConnectionClosed(context.namespace);
-    this._context = context;
-    this.entityPath = context.entityPath;
-    this._sender = MessageSender.create(this._context, retryOptions);
+  constructor(
+    private _context: ConnectionContext,
+    private _entityPath: string,
+    retryOptions: RetryOptions = {}
+  ) {
+    throwErrorIfConnectionClosed(_context);
+    this.entityPath = _entityPath;
+    this._sender = MessageSender.create(this._context, _entityPath, retryOptions);
+    if (!this._context.managementClients[this._entityPath]) {
+      this._context.managementClients[this._entityPath] = new ManagementClient(
+        this._context,
+        this._entityPath,
+        { address: `${this._entityPath}/$management` }
+      );
+    }
     this._retryOptions = retryOptions;
   }
 
   private _throwIfSenderOrConnectionClosed(): void {
-    throwErrorIfConnectionClosed(this._context.namespace);
+    throwErrorIfConnectionClosed(this._context);
     if (this.isClosed) {
-      const errorMessage = getSenderClosedErrorMsg(this._context.entityPath);
+      const errorMessage = getSenderClosedErrorMsg(this._entityPath);
       const error = new Error(errorMessage);
-      log.error(`[${this._context.namespace.connectionId}] %O`, error);
+      log.error(`[${this._context.connectionId}] %O`, error);
       throw error;
     }
   }
 
   public get isClosed(): boolean {
-    return this._isClosed || this._context.isClosed;
+    return this._isClosed || this._context.wasConnectionCloseCalled;
   }
 
   async sendMessages(
@@ -176,7 +183,7 @@ export class SenderImpl implements Sender {
     options?: OperationOptionsBase
   ): Promise<void> {
     this._throwIfSenderOrConnectionClosed();
-    throwTypeErrorIfParameterMissing(this._context.namespace.connectionId, "messages", messages);
+    throwTypeErrorIfParameterMissing(this._context.connectionId, "messages", messages);
     const invalidTypeErrMsg =
       "Provided value for 'messages' must be of type ServiceBusMessage, ServiceBusMessageBatch or an array of type ServiceBusMessage.";
 
@@ -218,11 +225,11 @@ export class SenderImpl implements Sender {
   ): Promise<Long[]> {
     this._throwIfSenderOrConnectionClosed();
     throwTypeErrorIfParameterMissing(
-      this._context.namespace.connectionId,
+      this._context.connectionId,
       "scheduledEnqueueTimeUtc",
       scheduledEnqueueTimeUtc
     );
-    throwTypeErrorIfParameterMissing(this._context.namespace.connectionId, "messages", messages);
+    throwTypeErrorIfParameterMissing(this._context.connectionId, "messages", messages);
     const messagesToSchedule = Array.isArray(messages) ? messages : [messages];
 
     for (const message of messagesToSchedule) {
@@ -234,9 +241,11 @@ export class SenderImpl implements Sender {
     }
 
     const scheduleMessageOperationPromise = async () => {
-      return this._context.managementClient!.scheduleMessages(
+      return this._context.managementClients[this._entityPath].scheduleMessages(
+        this._sender.name,
         scheduledEnqueueTimeUtc,
         messagesToSchedule,
+
         {
           ...options,
           requestName: "scheduleMessages",
@@ -246,7 +255,7 @@ export class SenderImpl implements Sender {
     };
     const config: RetryConfig<Long[]> = {
       operation: scheduleMessageOperationPromise,
-      connectionId: this._context.namespace.connectionId,
+      connectionId: this._context.connectionId,
       operationType: RetryOperationType.management,
       retryOptions: this._retryOptions,
       abortSignal: options?.abortSignal
@@ -260,12 +269,12 @@ export class SenderImpl implements Sender {
   ): Promise<void> {
     this._throwIfSenderOrConnectionClosed();
     throwTypeErrorIfParameterMissing(
-      this._context.namespace.connectionId,
+      this._context.connectionId,
       "sequenceNumbers",
       sequenceNumbers
     );
     throwTypeErrorIfParameterNotLong(
-      this._context.namespace.connectionId,
+      this._context.connectionId,
       "sequenceNumbers",
       sequenceNumbers
     );
@@ -274,15 +283,20 @@ export class SenderImpl implements Sender {
       ? sequenceNumbers
       : [sequenceNumbers];
     const cancelSchedulesMessagesOperationPromise = async () => {
-      return this._context.managementClient!.cancelScheduledMessages(sequenceNumbersToCancel, {
-        ...options,
-        requestName: "cancelScheduledMessages",
-        timeoutInMs: this._retryOptions.timeoutInMs
-      });
+      return this._context.managementClients[this._entityPath].cancelScheduledMessages(
+        this._sender.name,
+        sequenceNumbersToCancel,
+
+        {
+          ...options,
+          requestName: "cancelScheduledMessages",
+          timeoutInMs: this._retryOptions.timeoutInMs
+        }
+      );
     };
     const config: RetryConfig<void> = {
       operation: cancelSchedulesMessagesOperationPromise,
-      connectionId: this._context.namespace.connectionId,
+      connectionId: this._context.connectionId,
       operationType: RetryOperationType.management,
       retryOptions: this._retryOptions,
       abortSignal: options?.abortSignal
@@ -295,7 +309,7 @@ export class SenderImpl implements Sender {
 
     const config: RetryConfig<void> = {
       operation: () => this._sender.open(undefined, options?.abortSignal),
-      connectionId: this._context.namespace.connectionId,
+      connectionId: this._context.connectionId,
       operationType: RetryOperationType.senderLink,
       retryOptions: this._retryOptions,
       abortSignal: options?.abortSignal
@@ -307,18 +321,12 @@ export class SenderImpl implements Sender {
   async close(): Promise<void> {
     try {
       this._isClosed = true;
-      if (
-        this._context.namespace.connection &&
-        this._context.namespace.connection.isOpen() &&
-        this._context.sender
-      ) {
-        await this._context.sender.close();
-      }
+      await this._sender.close();
     } catch (err) {
       log.error(
         "[%s] An error occurred while closing the Sender for %s: %O",
-        this._context.namespace.connectionId,
-        this._context.entityPath,
+        this._context.connectionId,
+        this._entityPath,
         err
       );
       throw err;

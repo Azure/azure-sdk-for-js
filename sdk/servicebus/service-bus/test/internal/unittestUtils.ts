@@ -1,66 +1,64 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { ClientEntityContext } from "../../src/clientEntityContext";
+import { ConnectionContext } from "../../src/connectionContext";
 import { AwaitableSender, Receiver as RheaReceiver } from "rhea-promise";
 import { DefaultDataTransformer, AccessToken } from "@azure/core-amqp";
 
-export function createClientEntityContextForTests(options?: {
+export function createConnectionContextForTests(options?: {
   onCreateAwaitableSenderCalled?: () => void;
   onCreateReceiverCalled?: () => void;
-}): ClientEntityContext & { initWasCalled: boolean } {
+}): ConnectionContext & { initWasCalled: boolean } {
   let initWasCalled = false;
 
-  const fakeClientEntityContext = {
-    entityPath: "queue",
-    sender: {
-      credit: 999
+  const fakeConnectionContext = {
+    config: { endpoint: "my.service.bus" },
+    connectionId: "connection-id",
+    batchingReceivers: {},
+    streamingReceivers: {},
+    senders: {},
+    messageSessions: {},
+    managementClients: {},
+    connection: {
+      createAwaitableSender: async (): Promise<AwaitableSender> => {
+        if (options?.onCreateAwaitableSenderCalled) {
+          options.onCreateAwaitableSenderCalled();
+        }
+
+        const testAwaitableSender = ({
+          setMaxListeners: () => testAwaitableSender
+        } as any) as AwaitableSender;
+
+        return testAwaitableSender;
+      },
+      createReceiver: async (): Promise<RheaReceiver> => {
+        if (options?.onCreateReceiverCalled) {
+          options.onCreateReceiverCalled();
+        }
+
+        return ({
+          connection: {
+            id: "connection-id"
+          }
+        } as any) as RheaReceiver;
+      }
     },
-    namespace: {
-      config: { endpoint: "my.service.bus" },
-      connectionId: "connection-id",
-      connection: {
-        id: "connection-id",
-        createAwaitableSender: async (): Promise<AwaitableSender> => {
-          if (options?.onCreateAwaitableSenderCalled) {
-            options.onCreateAwaitableSenderCalled();
-          }
-
-          const testAwaitableSender = ({
-            setMaxListeners: () => testAwaitableSender
-          } as any) as AwaitableSender;
-
-          return testAwaitableSender;
-        },
-        createReceiver: async (): Promise<RheaReceiver> => {
-          if (options?.onCreateReceiverCalled) {
-            options.onCreateReceiverCalled();
-          }
-
-          return ({
-            connection: {
-              id: "connection-id",
-            }
-          } as any) as RheaReceiver;
-        }
-      },
-      dataTransformer: new DefaultDataTransformer(),
-      tokenCredential: {
-        getToken() {
-          return {} as AccessToken;
-        }
-      },
-      cbsSession: {
-        cbsLock: "cbs-lock",
-        async init() {
-          initWasCalled = true;
-        }
+    dataTransformer: new DefaultDataTransformer(),
+    tokenCredential: {
+      getToken() {
+        return {} as AccessToken;
+      }
+    },
+    cbsSession: {
+      cbsLock: "cbs-lock",
+      async init() {
+        initWasCalled = true;
       }
     },
     initWasCalled
   };
 
-  return (fakeClientEntityContext as any) as ReturnType<typeof createClientEntityContextForTests>;
+  return (fakeConnectionContext as any) as ReturnType<typeof createConnectionContextForTests>;
 }
 
 export function getPromiseResolverForTest(): {

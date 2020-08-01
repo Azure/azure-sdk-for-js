@@ -7,21 +7,19 @@ import { ReceiverOptions } from "rhea-promise";
 chai.use(chaiAsPromised);
 const assert = chai.assert;
 
-import { ClientEntityContext } from "../../src/clientEntityContext";
+import { ConnectionContext } from "../../src/connectionContext";
 import { BatchingReceiver } from "../../src/core/batchingReceiver";
 import { MessageReceiver, ReceiverType } from "../../src/core/messageReceiver";
 
 describe("init() and close() interactions", () => {
-  function fakeContext(): ClientEntityContext {
+  function fakeContext(): ConnectionContext {
     return ({
-      namespace: {
-        config: {}
-      }
-    } as unknown) as ClientEntityContext;
+      config: {}
+    } as unknown) as ConnectionContext;
   }
 
   it("close() called just after init() but before the next step", async () => {
-    const batchingReceiver = new BatchingReceiver(fakeContext());
+    const batchingReceiver = new BatchingReceiver(fakeContext(), "fakeEntityPath");
 
     let initWasCalled = false;
     batchingReceiver["_init"] = async () => {
@@ -39,7 +37,11 @@ describe("init() and close() interactions", () => {
   });
 
   it("message receiver init() bails out early if object is closed()", async () => {
-    const messageReceiver2 = new MessageReceiver(fakeContext(), ReceiverType.streaming);
+    const messageReceiver2 = new MessageReceiver(
+      fakeContext(),
+      "fakeEntityPath",
+      ReceiverType.streaming
+    );
 
     // so our object basically looks like an unopened receiver
     messageReceiver2["isOpen"] = () => false;

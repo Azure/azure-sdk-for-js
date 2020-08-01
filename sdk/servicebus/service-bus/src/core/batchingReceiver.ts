@@ -19,7 +19,7 @@ import {
   ReceiveOptions,
   ReceiverType
 } from "./messageReceiver";
-import { ClientEntityContext } from "../clientEntityContext";
+import { ConnectionContext } from "../connectionContext";
 import { throwErrorIfConnectionClosed } from "../util/errors";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { checkAndRegisterWithAbortSignal } from "../util/utils";
@@ -39,11 +39,12 @@ export class BatchingReceiver extends MessageReceiver {
    * @param {ClientEntityContext} context The client entity context.
    * @param {ReceiveOptions} [options]  Options for how you'd like to connect.
    */
-  constructor(context: ClientEntityContext, options?: ReceiveOptions) {
-    super(context, ReceiverType.batching, options);
+  constructor(context: ConnectionContext, protected _entityPath: string, options?: ReceiveOptions) {
+    super(context, _entityPath, ReceiverType.batching, options);
 
     this._batchingReceiverLite = new BatchingReceiverLite(
       context,
+      _entityPath,
       async (abortSignal?: AbortSignalLike): Promise<MinimalReceiver | undefined> => {
         let lastError: Error | AmqpError | undefined;
 
@@ -113,12 +114,12 @@ export class BatchingReceiver extends MessageReceiver {
     maxTimeAfterFirstMessageInMs: number,
     userAbortSignal?: AbortSignalLike
   ): Promise<ServiceBusMessageImpl[]> {
-    throwErrorIfConnectionClosed(this._context.namespace);
+    throwErrorIfConnectionClosed(this._context);
 
     try {
       log.batching(
         "[%s] Receiver '%s', setting max concurrent calls to 0.",
-        this._context.namespace.connectionId,
+        this._context.connectionId,
         this.name
       );
 
@@ -131,7 +132,7 @@ export class BatchingReceiver extends MessageReceiver {
     } catch (error) {
       log.error(
         "[%s] Receiver '%s': Rejecting receiveMessages() with error %O: ",
-        this._context.namespace.connectionId,
+        this._context.connectionId,
         this.name,
         error
       );
@@ -139,17 +140,14 @@ export class BatchingReceiver extends MessageReceiver {
     }
   }
 
-  /**
-   * Creates a batching receiver.
-   * @static
-   *
-   * @param {ClientEntityContext} context    The connection context.
-   * @param {ReceiveOptions} [options]     Receive options.
-   */
-  static create(context: ClientEntityContext, options?: ReceiveOptions): BatchingReceiver {
-    throwErrorIfConnectionClosed(context.namespace);
-    const bReceiver = new BatchingReceiver(context, options);
-    context.batchingReceiver = bReceiver;
+  static create(
+    context: ConnectionContext,
+    entityPath: string,
+    options?: ReceiveOptions
+  ): BatchingReceiver {
+    throwErrorIfConnectionClosed(context);
+    const bReceiver = new BatchingReceiver(context, entityPath, options);
+    context.batchingReceivers[bReceiver.name] = bReceiver;
     return bReceiver;
   }
 }
@@ -235,7 +233,8 @@ interface ReceiveMessageArgs {
  */
 export class BatchingReceiverLite {
   constructor(
-    clientEntityContext: ClientEntityContext,
+    connectionContext: ConnectionContext,
+    entityPath: string,
     private _getCurrentReceiver: (
       abortSignal?: AbortSignalLike
     ) => Promise<MinimalReceiver | undefined>,
@@ -243,7 +242,8 @@ export class BatchingReceiverLite {
   ) {
     this._createServiceBusMessage = (context: MessageAndDelivery) => {
       return new ServiceBusMessageImpl(
-        clientEntityContext,
+        connectionContext,
+        entityPath,
         context.message!,
         context.delivery!,
         true

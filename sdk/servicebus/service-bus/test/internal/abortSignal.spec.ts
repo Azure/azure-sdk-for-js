@@ -15,7 +15,7 @@ import {
   createAbortSignalForTest,
   createCountdownAbortSignal
 } from "../utils/abortSignalTestUtils";
-import { createClientEntityContextForTests } from "./unittestUtils";
+import { createConnectionContextForTests } from "./unittestUtils";
 import { StandardAbortMessage } from "../../src/util/utils";
 
 describe("AbortSignal", () => {
@@ -24,14 +24,14 @@ describe("AbortSignal", () => {
   };
 
   describe("sender", () => {
-    let clientEntityContext: ReturnType<typeof createClientEntityContextForTests>;
+    let connectionContext: ReturnType<typeof createConnectionContextForTests>;
 
     beforeEach(() => {
-      clientEntityContext = createClientEntityContextForTests();
+      connectionContext = createConnectionContextForTests();
     });
 
     it("AbortSignal is plumbed through all send operations", async () => {
-      const sender = new MessageSender(clientEntityContext, {});
+      const sender = new MessageSender(connectionContext, "fakeEntityPath", {});
 
       let passedInOptions: OperationOptionsBase | undefined;
 
@@ -49,7 +49,7 @@ describe("AbortSignal", () => {
 
       abortSignal = createAbortSignalForTest(false);
 
-      const batchMessage = new ServiceBusMessageBatchImpl(clientEntityContext, 1000);
+      const batchMessage = new ServiceBusMessageBatchImpl(connectionContext, 1000);
       await sender.sendBatch(batchMessage, {
         abortSignal
       });
@@ -64,7 +64,7 @@ describe("AbortSignal", () => {
     });
 
     it("_trySend with an already aborted AbortSignal", async () => {
-      const sender = new MessageSender(clientEntityContext, { timeoutInMs: 1 });
+      const sender = new MessageSender(connectionContext, "fakeEntityPath", { timeoutInMs: 1 });
 
       sender["open"] = async () => {
         throw new Error("INIT SHOULD NEVER HAVE BEEN CALLED");
@@ -85,12 +85,12 @@ describe("AbortSignal", () => {
         assert.isFalse(abortSignal.removeWasCalled);
 
         // init() doesn't get called - we abort early on this one.
-        assert.isFalse(clientEntityContext.initWasCalled);
+        assert.isFalse(connectionContext.initWasCalled);
       }
     });
 
     it("_trySend when the timer expires", async () => {
-      const sender = new MessageSender(clientEntityContext, {
+      const sender = new MessageSender(connectionContext, "fakeEntityPath", {
         timeoutInMs: 1
       });
       sender["_retryOptions"].timeoutInMs = 1;
@@ -136,7 +136,7 @@ describe("AbortSignal", () => {
 
   describe("MessageSender.open() aborts after...", () => {
     it("...beforeLock", async () => {
-      const sender = new MessageSender(createClientEntityContextForTests(), {});
+      const sender = new MessageSender(createConnectionContextForTests(), "fakeEntityPath", {});
       const abortSignal = createCountdownAbortSignal(1);
 
       try {
@@ -151,7 +151,7 @@ describe("AbortSignal", () => {
     });
 
     it("...afterLock", async () => {
-      const sender = new MessageSender(createClientEntityContextForTests(), {});
+      const sender = new MessageSender(createConnectionContextForTests(), "fakeEntityPath", {});
       const abortSignal = createCountdownAbortSignal(2);
 
       try {
@@ -170,9 +170,10 @@ describe("AbortSignal", () => {
       const taggedAbortSignal = createAbortSignalForTest(() => isAborted);
 
       const sender = new MessageSender(
-        createClientEntityContextForTests({
+        createConnectionContextForTests({
           onCreateAwaitableSenderCalled: () => {}
         }),
+        "fakeEntityPath",
         {}
       );
 
@@ -196,11 +197,12 @@ describe("AbortSignal", () => {
       const taggedAbortSignal = createAbortSignalForTest(() => isAborted);
 
       const sender = new MessageSender(
-        createClientEntityContextForTests({
+        createConnectionContextForTests({
           onCreateAwaitableSenderCalled: () => {
             isAborted = true;
           }
         }),
+        "fakeEntityPath",
         {}
       );
 
@@ -221,7 +223,8 @@ describe("AbortSignal", () => {
   describe("MessageReceiver.open() aborts after...", () => {
     it("...before first async call", async () => {
       const messageReceiver = new MessageReceiver(
-        createClientEntityContextForTests(),
+        createConnectionContextForTests(),
+        "fakeEntityPath",
         ReceiverType.streaming
       );
 
@@ -240,7 +243,8 @@ describe("AbortSignal", () => {
 
     it("...after negotiateClaim", async () => {
       const messageReceiver = new MessageReceiver(
-        createClientEntityContextForTests(),
+        createConnectionContextForTests(),
+        "fakeEntityPath",
         ReceiverType.streaming
       );
 
@@ -266,12 +270,16 @@ describe("AbortSignal", () => {
       let isAborted = false;
       const abortSignal = createAbortSignalForTest(() => isAborted);
 
-      const fakeContext = createClientEntityContextForTests({
+      const fakeContext = createConnectionContextForTests({
         onCreateReceiverCalled: () => {
           isAborted = true;
         }
       });
-      const messageReceiver = new MessageReceiver(fakeContext, ReceiverType.streaming);
+      const messageReceiver = new MessageReceiver(
+        fakeContext,
+        "fakeEntityPath",
+        ReceiverType.streaming
+      );
 
       messageReceiver["_negotiateClaim"] = async () => {};
 

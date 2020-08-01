@@ -11,7 +11,7 @@ import {
 import { AmqpError, EventContext, OnAmqpEvent, Receiver, ReceiverOptions } from "rhea-promise";
 import * as log from "../log";
 import { LinkEntity } from "./linkEntity";
-import { ClientEntityContext } from "../clientEntityContext";
+import { ConnectionContext } from "../connectionContext";
 import { DispositionType, ReceiveMode, ServiceBusMessageImpl } from "../serviceBusMessage";
 import { getUniqueName, StandardAbortMessage } from "../util/utils";
 import { MessageHandlerOptions } from "../models";
@@ -165,13 +165,14 @@ export class MessageReceiver extends LinkEntity {
   protected _clearAllMessageLockRenewTimers: () => void;
 
   constructor(
-    context: ClientEntityContext,
+    context: ConnectionContext,
+    protected _entityPath: string,
     receiverType: ReceiverType,
     options?: Omit<ReceiveOptions, "maxConcurrentCalls">
   ) {
-    super(context.entityPath, context, {
-      address: context.entityPath,
-      audience: `${context.namespace.config.endpoint}${context.entityPath}`
+    super(_entityPath, context, {
+      address: _entityPath,
+      audience: `${context.config.endpoint}${_entityPath}`
     });
 
     if (!options) options = {};
@@ -192,7 +193,7 @@ export class MessageReceiver extends LinkEntity {
         clearTimeout(this._messageRenewLockTimers.get(messageId) as NodeJS.Timer);
         log.receiver(
           "[%s] Cleared the message renew lock timer for message with id '%s'.",
-          this._context.namespace.connectionId,
+          this._context.connectionId,
           messageId
         );
         this._messageRenewLockTimers.delete(messageId);
@@ -201,7 +202,7 @@ export class MessageReceiver extends LinkEntity {
     this._clearAllMessageLockRenewTimers = () => {
       log.receiver(
         "[%s] Clearing message renew lock timers for all the active messages.",
-        this._context.namespace.connectionId
+        this._context.connectionId
       );
       for (const messageId of this._messageRenewLockTimers.keys()) {
         this._clearMessageLockRenewTimer(messageId);
@@ -217,7 +218,7 @@ export class MessageReceiver extends LinkEntity {
     handlers: ReceiverHandlers
   ): ReceiverOptions {
     const rcvrOptions: ReceiverOptions = {
-      name: useNewName ? getUniqueName(this._context.entityPath) : this.name,
+      name: useNewName ? getUniqueName(this._entityPath) : this.name,
       autoaccept: this.receiveMode === ReceiveMode.receiveAndDelete ? true : false,
       // receiveAndDelete -> first(0), peekLock -> second (1)
       rcv_settle_mode: this.receiveMode === ReceiveMode.receiveAndDelete ? 0 : 1,
@@ -229,7 +230,7 @@ export class MessageReceiver extends LinkEntity {
       credit_window: 0,
       onSettled: (context) => {
         return onMessageSettled(
-          this._context.namespace.connection.id,
+          this._context.connection.id,
           context.delivery,
           this._deliveryDispositionMap
         );
@@ -252,7 +253,7 @@ export class MessageReceiver extends LinkEntity {
       }
     };
 
-    const connectionId = this._context.namespace.connectionId;
+    const connectionId = this._context.connectionId;
 
     checkAborted();
 
@@ -289,7 +290,7 @@ export class MessageReceiver extends LinkEntity {
           options
         );
 
-        this._receiver = await this._context.namespace.connection.createReceiver(options);
+        this._receiver = await this._context.connection.createReceiver(options);
         this.isConnecting = false;
         checkAborted();
 
@@ -311,10 +312,16 @@ export class MessageReceiver extends LinkEntity {
         );
         // It is possible for someone to close the receiver and then start it again.
         // Thus make sure that the receiver is present in the client cache.
-        if (this.receiverType === ReceiverType.streaming && !this._context.streamingReceiver) {
-          this._context.streamingReceiver = this as any;
-        } else if (this.receiverType === ReceiverType.batching && !this._context.batchingReceiver) {
-          this._context.batchingReceiver = this as any;
+        if (
+          this.receiverType === ReceiverType.streaming &&
+          !this._context.streamingReceivers[this.name]
+        ) {
+          this._context.streamingReceivers[this.name] = this as any;
+        } else if (
+          this.receiverType === ReceiverType.batching &&
+          !this._context.batchingReceivers[this.name]
+        ) {
+          this._context.batchingReceivers[this.name] = this as any;
         }
         this._ensureTokenRenewal();
       } else {
@@ -333,7 +340,7 @@ export class MessageReceiver extends LinkEntity {
       err = translate(err);
       log.error(
         "[%s] An error occured while creating the receiver '%s': %O",
-        this._context.namespace.connectionId,
+        this._context.connectionId,
         this.name,
         err
       );
@@ -344,13 +351,13 @@ export class MessageReceiver extends LinkEntity {
   protected _deleteFromCache(): void {
     this._receiver = undefined;
     if (this.receiverType === ReceiverType.streaming) {
-      this._context.streamingReceiver = undefined;
+      delete this._context.streamingReceivers[this.name];
     } else if (this.receiverType === ReceiverType.batching) {
-      this._context.batchingReceiver = undefined;
+      delete this._context.batchingReceivers[this.name];
     }
     log.error(
       "[%s] Deleted the receiver '%s' from the client cache.",
-      this._context.namespace.connectionId,
+      this._context.connectionId,
       this.name
     );
   }
@@ -363,9 +370,9 @@ export class MessageReceiver extends LinkEntity {
     this.wasCloseInitiated = true;
     log.receiver(
       "[%s] Closing the [%s]Receiver for entity '%s'.",
-      this._context.namespace.connectionId,
+      this._context.connectionId,
       this.receiverType,
-      this._context.entityPath
+      this._entityPath
     );
     this._clearAllMessageLockRenewTimers();
     if (this._receiver) {
@@ -399,7 +406,7 @@ export class MessageReceiver extends LinkEntity {
         log.receiver(
           "[%s] Disposition for delivery id: %d, did not complete in %d milliseconds. " +
             "Hence rejecting the promise with timeout error.",
-          this._context.namespace.connectionId,
+          this._context.connectionId,
           delivery.id,
           Constants.defaultOperationTimeoutInMs
         );
@@ -453,7 +460,7 @@ export class MessageReceiver extends LinkEntity {
     const result: boolean = this._receiver! && this._receiver!.isOpen();
     log.error(
       "[%s] Receiver '%s' with address '%s' is open? -> %s",
-      this._context.namespace.connectionId,
+      this._context.connectionId,
       this.name,
       this.address,
       result

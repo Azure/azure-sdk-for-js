@@ -4,19 +4,24 @@
 import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
 import { ReceiverImpl } from "../../src/receivers/receiver";
-import { createClientEntityContextForTests, getPromiseResolverForTest } from "./unittestUtils";
-import { ClientEntityContext } from "../../src/clientEntityContext";
+import { createConnectionContextForTests, getPromiseResolverForTest } from "./unittestUtils";
+import { ConnectionContext } from "../../src/connectionContext";
 import { ReceiveOptions } from "../../src/core/messageReceiver";
 import { OperationOptions } from "../../src";
 import { StreamingReceiver } from "../../src/core/streamingReceiver";
 import { AbortController, AbortSignalLike } from "@azure/abort-controller";
+
 chai.use(chaiAsPromised);
 const assert = chai.assert;
 
 describe("StreamingReceiver unit tests", () => {
   describe("AbortSignal", () => {
     it("sanity check - abortSignal is propagated", async () => {
-      const receiverImpl = new ReceiverImpl(createClientEntityContextForTests(), "peekLock");
+      const receiverImpl = new ReceiverImpl(
+        createConnectionContextForTests(),
+        "fakeEntityPath",
+        "peekLock"
+      );
 
       const abortController = new AbortController();
       const abortSignal = abortController.signal;
@@ -24,11 +29,13 @@ describe("StreamingReceiver unit tests", () => {
       const { resolve, promise } = getPromiseResolverForTest();
 
       receiverImpl["_createStreamingReceiver"] = async (
-        _context: ClientEntityContext,
+        _context: ConnectionContext,
+        _entityPath: string,
         options?: ReceiveOptions &
           Pick<OperationOptions, "abortSignal"> & {
             createStreamingReceiver?: (
-              context: ClientEntityContext,
+              context: ConnectionContext,
+              entityPath: string,
               options?: ReceiveOptions
             ) => StreamingReceiver;
           }
@@ -60,7 +67,7 @@ describe("StreamingReceiver unit tests", () => {
       let wasCalled = false;
       const abortController = new AbortController();
 
-      await StreamingReceiver.create(createClientEntityContextForTests(), {
+      await StreamingReceiver.create(createConnectionContextForTests(), "fakeEntityPath", {
         _createStreamingReceiver: (_context, _options) => {
           wasCalled = true;
           return ({
