@@ -330,13 +330,13 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
   ],
   requestBody: {
     parameterPath: {
-      certificate: [
+      properties: [
         "options",
-        "certificate"
+        "properties"
       ]
     },
     mapper: {
-      ...Mappers.CertificateBodyDescription,
+      ...Mappers.CertificateDescription,
       required: true
     }
   },
