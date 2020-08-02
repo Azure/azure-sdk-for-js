@@ -710,7 +710,8 @@ export class MessageSession extends LinkEntity {
           this._context,
           context.message!,
           context.delivery!,
-          true
+          true,
+          this.receiveMode
         );
 
         try {
