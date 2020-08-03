@@ -11,8 +11,8 @@ export { ClientSecretCredential } from "./credentials/clientSecretCredential";
 export { ClientCertificateCredential } from "./credentials/clientCertificateCredential";
 export { InteractiveBrowserCredential } from "./credentials/interactiveBrowserCredential";
 export {
-  VisualStudioCodeCredential as VSCodeCredential,
-  VisualStudioCodeCredentialOptions as VSCodeCredentialOptions
+  VisualStudioCodeCredential,
+  VisualStudioCodeCredentialOptions
 } from "./credentials/visualStudioCodeCredential";
 export { AzureCliCredential } from "./credentials/azureCliCredential";
 
