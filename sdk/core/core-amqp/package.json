@@ -24,8 +24,7 @@
   "browser": {
     "./dist-esm/src/util/checkNetworkConnection.js": "./dist-esm/src/util/checkNetworkConnection.browser.js",
     "./dist-esm/src/util/runtimeInfo.js": "./dist-esm/src/util/runtimeInfo.browser.js",
-    "buffer": "buffer",
-    "stream": "stream-browserify"
+    "buffer": "buffer"
   },
   "files": [
     "dist/",
@@ -83,7 +82,6 @@
     "process": "^0.11.10",
     "rhea": "^1.0.21",
     "rhea-promise": "^1.0.0",
-    "stream-browserify": "^3.0.0",
     "tslib": "^2.0.0",
     "url": "^0.11.0",
     "util": "^0.12.1"
