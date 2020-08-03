@@ -5,7 +5,8 @@ import {
   TextDocumentBatchStatistics,
   DocumentError,
   DocumentSentiment,
-  TextDocumentInput, GeneratedClientSentimentResponse
+  TextDocumentInput,
+  GeneratedClientSentimentResponse
 } from "./generated/models";
 import {
   AnalyzeSentimentResult,
@@ -33,33 +34,33 @@ export interface AnalyzeSentimentResultArray extends Array<AnalyzeSentimentResul
 }
 
 export function makeAnalyzeSentimentResultArray(
-  input: TextDocumentInput[],
-  response: GeneratedClientSentimentResponse
-): AnalyzeSentimentResultArray {
-  const { documents, errors, modelVersion, statistics } = response;
-  const unsortedResult = documents
-    .map(
-      (document): AnalyzeSentimentResult => {
-        return makeAnalyzeSentimentResult(
-          document.id,
-          document.sentiment,
-          document.confidenceScores,
-          document.sentenceSentiments,
-          document.warnings,
-          document.statistics
-        );
-      }
-    )
-    .concat(
-      errors.map(
-        (error): AnalyzeSentimentResult => {
-          return makeAnalyzeSentimentErrorResult(error.id, error.error);
-        }
-      )
-    );
-  const result = sortResponseIdObjects(input, unsortedResult);
-  return Object.assign(result, {
-    statistics,
-    modelVersion
-  });
-}
+         input: TextDocumentInput[],
+         response: GeneratedClientSentimentResponse
+       ): AnalyzeSentimentResultArray {
+         const { documents, errors, modelVersion, statistics } = response;
+         const unsortedResult = documents
+           .map(
+             (document): AnalyzeSentimentResult => {
+               return makeAnalyzeSentimentResult(
+                 document.id,
+                 document.sentiment,
+                 document.confidenceScores,
+                 document.sentenceSentiments,
+                 document.warnings,
+                 document.statistics
+               );
+             }
+           )
+           .concat(
+             errors.map(
+               (error): AnalyzeSentimentResult => {
+                 return makeAnalyzeSentimentErrorResult(error.id, error.error);
+               }
+             )
+           );
+         const result = sortResponseIdObjects(input, unsortedResult);
+         return Object.assign(result, {
+           statistics,
+           modelVersion
+         });
+       }

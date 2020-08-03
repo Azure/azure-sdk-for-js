@@ -17,7 +17,8 @@ import {
   SentenceSentimentLabel,
   DocumentSentiment,
   GeneratedClientSentimentResponse,
-  SentenceAspect, AspectRelation
+  SentenceAspect,
+  AspectRelation
 } from "./generated/models";
 import { AspectRelation } from "./generated/models/mappers";
 
@@ -97,24 +98,26 @@ export interface MinedOpinion {
 export type AnalyzeSentimentErrorResult = TextAnalyticsErrorResult;
 
 export function makeAnalyzeSentimentResult(
-  document: DocumentSentiment,
-  response: GeneratedClientSentimentResponse
-): AnalyzeSentimentSuccessResult {
-  const {
-    id,
-    sentiment,
-    confidenceScores,
-    sentenceSentiments: sentences,
-    warnings,
-    statistics
-  } = document;
-  return {
-    ...makeTextAnalyticsSuccessResult(id, warnings, statistics),
-    sentiment,
-    confidenceScores,
-    sentences: sentences.map((sentence) => convertGeneratedSentenceSentiment(response, sentence))
-  };
-}
+         document: DocumentSentiment,
+         response: GeneratedClientSentimentResponse
+       ): AnalyzeSentimentSuccessResult {
+         const {
+           id,
+           sentiment,
+           confidenceScores,
+           sentenceSentiments: sentences,
+           warnings,
+           statistics
+         } = document;
+         return {
+           ...makeTextAnalyticsSuccessResult(id, warnings, statistics),
+           sentiment,
+           confidenceScores,
+           sentences: sentences.map((sentence) =>
+             convertGeneratedSentenceSentiment(response, sentence)
+           )
+         };
+       }
 
 export function makeAnalyzeSentimentErrorResult(
   id: string,
@@ -133,19 +136,20 @@ function convertGeneratedSentenceSentiment(
     text: sentence.text,
     minedOpinions: sentence.aspects?.map(
       (aspect: SentenceAspect): MinedOpinion => ({
-        aspect: { 
+        aspect: {
           confidenceScores: aspect.confidenceScores as SentimentConfidenceScores,
           sentiment: aspect.sentiment,
           text: aspect.text
         },
-        opinions: aspect.relations.map(relation => convertAspectRelationToOpinionSentiment(relation, response))
+        opinions: aspect.relations.map((relation) =>
+          convertAspectRelationToOpinionSentiment(relation, response)
+        )
       })
     )
   };
 }
 
 function convertAspectRelationToOpinionSentiment(
-  aspectRelation:AspectRelation,
-  response : GeneratedClientSentimentResponse) : OpinionSentiment {
-    
-  }
+  aspectRelation: AspectRelation,
+  response: GeneratedClientSentimentResponse
+): OpinionSentiment {}

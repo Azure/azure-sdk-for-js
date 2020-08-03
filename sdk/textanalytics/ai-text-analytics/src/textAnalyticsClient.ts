@@ -14,7 +14,11 @@ import { TokenCredential, KeyCredential } from "@azure/core-auth";
 import { SDK_VERSION } from "./constants";
 import { GeneratedClient } from "./generated/generatedClient";
 import { logger } from "./logger";
-import { DetectLanguageInput, GeneratedClientSentimentOptionalParams, TextDocumentInput } from "./generated/models";
+import {
+  DetectLanguageInput,
+  GeneratedClientSentimentOptionalParams,
+  TextDocumentInput
+} from "./generated/models";
 import {
   DetectLanguageResultArray,
   makeDetectLanguageResultArray
@@ -435,7 +439,7 @@ export class TextAnalyticsClient {
         includeStatistics: (languageOrOptions as AnalyzeSentimentOptions)?.includeStatistics,
         modelVersion: (languageOrOptions as AnalyzeSentimentOptions)?.modelVersion,
         opinionMining: (languageOrOptions as AnalyzeSentimentOptions)?.mineOpinions
-      }
+      };
     }
 
     const { span, updatedOptions: finalOptions } = createSpan(
@@ -451,10 +455,7 @@ export class TextAnalyticsClient {
         operationOptionsToRequestOptionsBase(finalOptions)
       );
 
-      return makeAnalyzeSentimentResultArray(
-        realInputs,
-        result
-      );
+      return makeAnalyzeSentimentResultArray(realInputs, result);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
