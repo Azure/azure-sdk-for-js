@@ -65,8 +65,8 @@ describe("ThrottlingRetryPolicy", () => {
       const policy = createDefaultThrottlingRetryPolicy();
       const response = await policy.sendRequest(request);
       // requestId is unique, even across retries.
-      delete response.request.requestId;
-      delete request.requestId;
+      delete (response as any).request.requestId;
+      delete (request as any).requestId;
       chai.assert.deepEqual(response.request, request);
     });
 
