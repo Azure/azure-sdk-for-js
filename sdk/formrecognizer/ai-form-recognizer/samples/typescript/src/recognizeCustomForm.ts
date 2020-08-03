@@ -32,7 +32,8 @@ export async function main() {
   const readStream = fs.createReadStream(fileName);
 
   const client = new FormRecognizerClient(endpoint, new AzureKeyCredential(apiKey));
-  const poller = await client.beginRecognizeCustomForms(modelId, readStream, "application/pdf", {
+  const poller = await client.beginRecognizeCustomForms(modelId, readStream, {
+    contentType: "application/pdf",
     onProgress: (state) => {
       console.log(`status: ${state.status}`);
     }
@@ -54,11 +55,10 @@ export async function main() {
     }
 
     console.log("Fields:");
-    for (const fieldName in form.fields) {
+    for (const [fieldName, field] of Object.entries(form.fields)) {
       // each field is of type FormField
-      const field = form.fields[fieldName];
       console.log(
-        `Field ${fieldName} has value '${field.value}' with a confidence score of ${field.confidence}`
+        `Field '${fieldName}' has value '${field.value}' with a confidence score of ${field.confidence}`
       );
     }
   }

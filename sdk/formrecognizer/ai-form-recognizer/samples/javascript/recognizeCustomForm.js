@@ -5,14 +5,17 @@
  * This sample demonstrates how to analyze a form from a document with an unlabeled
  * custom model. The form must be of the same type as the forms the custom model
  * was trained on. To learn how to train your own models, see the samples in
- * trainUnlabeledModel.js or trainLabeledModel.js
+ * trainUnlabeledModel.ts or trainLabeledModel.ts
  */
 
 const { FormRecognizerClient, AzureKeyCredential } = require("@azure/ai-form-recognizer");
+
 const fs = require("fs");
+const path = require("path");
 
 // Load the .env file if it exists
-require("dotenv").config();
+const dotenv = require("dotenv");
+dotenv.config();
 
 async function main() {
   // You will need to set these environment variables or edit the following values
@@ -20,12 +23,17 @@ async function main() {
   const apiKey = process.env["FORM_RECOGNIZER_API_KEY"] || "<api key>";
   const modelId = process.env["UNLABELED_CUSTOM_MODEL_ID"] || "<unlabeled custom model id>";
   // The form you are recognizing must be of the same type as the forms the custom model was trained on
-  const path = "./assets/Invoice_6.pdf";
+  const fileName = path.join(__dirname, "./assets/Invoice_6.pdf");
 
-  const readStream = fs.createReadStream(path);
+  if (!fs.existsSync(fileName)) {
+    throw new Error(`Expecting file ${fileName} exists`);
+  }
+
+  const readStream = fs.createReadStream(fileName);
 
   const client = new FormRecognizerClient(endpoint, new AzureKeyCredential(apiKey));
-  const poller = await client.beginRecognizeCustomForms(modelId, readStream, "application/pdf", {
+  const poller = await client.beginRecognizeCustomForms(modelId, readStream, {
+    contentType: "application/pdf",
     onProgress: (state) => {
       console.log(`status: ${state.status}`);
     }
@@ -47,11 +55,10 @@ async function main() {
     }
 
     console.log("Fields:");
-    for (const fieldName in form.fields) {
+    for (const [fieldName, field] of Object.entries(form.fields)) {
       // each field is of type FormField
-      const field = form.fields[fieldName];
       console.log(
-        `Field ${fieldName} has value '${field.value}' with a confidence score of ${field.confidence}`
+        `Field '${fieldName}' has value '${field.value}' with a confidence score of ${field.confidence}`
       );
     }
   }
