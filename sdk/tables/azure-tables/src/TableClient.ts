@@ -12,6 +12,8 @@ import {
 } from "./models";
 import {
   TableServiceClientOptions as TableClientOptions,
+  DeleteTableOptions,
+  DeleteTableResponse,
   QueryOptions,
   GetEntityOptions,
   GetEntityResponse,
@@ -108,6 +110,15 @@ export class TableClient {
       this.client = new TableServiceClient(url, credentialOrOptions);
     }
     this.tableName = tableName;
+  }
+
+  /**
+   * Permanently deletes the current table with all of its entities.
+   * @param options The options parameters.
+   */
+  // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
+  delete(options?: DeleteTableOptions): Promise<DeleteTableResponse> {
+    return this.client.deleteTable(this.tableName, options);
   }
 
   /**
