@@ -12,7 +12,7 @@ const input = "dist-esm/src/index.js";
 const production = process.env.NODE_ENV === "production";
 
 export function nodeConfig(test = false) {
-  const externalNodeBuiltins = ["events"];
+  const externalNodeBuiltins = [];
   const baseConfig = {
     input: input,
     external: depNames.concat(externalNodeBuiltins),
@@ -79,7 +79,6 @@ export function browserConfig(test = false) {
       }),
       cjs({
         namedExports: {
-          events: ["EventEmitter"],
           "@opentelemetry/api": ["CanonicalCode", "SpanKind", "TraceFlags"]
         }
       }),

@@ -29,6 +29,7 @@
   "sideEffects": false,
   "dependencies": {
     "@azure/identity": "latest",
+    "@azure/schema-registry": "latest",
     "dotenv": "^8.2.0"
   },
   "devDependencies": {
