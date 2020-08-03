@@ -14,7 +14,7 @@ import { TokenCredential, KeyCredential } from "@azure/core-auth";
 import { SDK_VERSION } from "./constants";
 import { GeneratedClient } from "./generated/generatedClient";
 import { logger } from "./logger";
-import { DetectLanguageInput, TextDocumentInput } from "./generated/models";
+import { DetectLanguageInput, GeneratedClientSentimentOptionalParams, TextDocumentInput } from "./generated/models";
 import {
   DetectLanguageResultArray,
   makeDetectLanguageResultArray
@@ -414,7 +414,7 @@ export class TextAnalyticsClient {
     languageOrOptions?: string | AnalyzeSentimentOptions,
     options?: AnalyzeSentimentOptions
   ): Promise<AnalyzeSentimentResultArray> {
-    let realOptions: AnalyzeSentimentOptions;
+    let realOptions: GeneratedClientSentimentOptionalParams;
     let realInputs: TextDocumentInput[];
 
     if (!Array.isArray(documents) || documents.length === 0) {
@@ -424,10 +424,18 @@ export class TextAnalyticsClient {
     if (isStringArray(documents)) {
       const language = (languageOrOptions as string) || this.defaultLanguage;
       realInputs = convertToTextDocumentInput(documents, language);
-      realOptions = options || {};
+      realOptions = {
+        includeStatistics: options?.includeStatistics,
+        modelVersion: options?.modelVersion,
+        opinionMining: options?.mineOpinions
+      };
     } else {
       realInputs = documents;
-      realOptions = (languageOrOptions as AnalyzeSentimentOptions) || {};
+      realOptions = {
+        includeStatistics: (languageOrOptions as AnalyzeSentimentOptions)?.includeStatistics,
+        modelVersion: (languageOrOptions as AnalyzeSentimentOptions)?.modelVersion,
+        opinionMining: (languageOrOptions as AnalyzeSentimentOptions)?.mineOpinions
+      }
     }
 
     const { span, updatedOptions: finalOptions } = createSpan(
@@ -445,10 +453,7 @@ export class TextAnalyticsClient {
 
       return makeAnalyzeSentimentResultArray(
         realInputs,
-        result.documents,
-        result.errors,
-        result.modelVersion,
-        result.statistics
+        result
       );
     } catch (e) {
       span.setStatus({

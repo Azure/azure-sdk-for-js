@@ -11,10 +11,15 @@ import {
   TextDocumentStatistics,
   TextAnalyticsError,
   DocumentSentimentLabel,
-  SentenceSentiment,
   SentimentConfidenceScores,
-  TextAnalyticsWarning
+  SentenceSentiment as GeneratedSentenceSentiment,
+  TextAnalyticsWarning,
+  SentenceSentimentLabel,
+  DocumentSentiment,
+  GeneratedClientSentimentResponse,
+  SentenceAspect, AspectRelation
 } from "./generated/models";
+import { AspectRelation } from "./generated/models/mappers";
 
 /**
  * The result of the analyze sentiment operation on a single document.
@@ -41,6 +46,26 @@ export interface AnalyzeSentimentSuccessResult extends TextAnalyticsSuccessResul
   sentences: SentenceSentiment[];
 }
 
+/**
+ * The predicted sentiment for a given span of text. For more information regarding text sentiment, see https://docs.microsoft.com/azure/cognitive-services/Text-Analytics/how-tos/text-analytics-how-to-sentiment-analysis.
+ */
+export interface SentenceSentiment {
+  /**
+   * The sentence text.
+   */
+  text: string;
+  /**
+   * The predicted Sentiment for the sentence.
+   */
+  sentiment: SentenceSentimentLabel;
+  /**
+   * The sentiment confidence score between 0 and 1 for the sentence for all classes.
+   */
+  confidenceScores: SentimentConfidenceScores;
+
+  minedOpinions?: MinedOpinion[];
+}
+
 export interface AspectSentiment {
   /**
    * AspectSentiment contains the related opinions, predicted sentiment,
@@ -50,8 +75,6 @@ export interface AspectSentiment {
    * "Hotel Foo".
    */
   confidenceScores: SentimentConfidenceScores;
-  length: number;
-  offset: number;
   sentiment: DocumentSentimentLabel;
   text: string;
 }
@@ -59,8 +82,6 @@ export interface AspectSentiment {
 export interface OpinionSentiment {
   confidenceScores: SentimentConfidenceScores;
   isNegated: boolean;
-  length: number;
-  offset: number;
   sentiment: DocumentSentimentLabel;
   text: string;
 }
@@ -76,18 +97,22 @@ export interface MinedOpinion {
 export type AnalyzeSentimentErrorResult = TextAnalyticsErrorResult;
 
 export function makeAnalyzeSentimentResult(
-  id: string,
-  sentiment: DocumentSentimentLabel,
-  confidenceScores: SentimentConfidenceScores,
-  sentences: SentenceSentiment[],
-  warnings: TextAnalyticsWarning[],
-  statistics?: TextDocumentStatistics
+  document: DocumentSentiment,
+  response: GeneratedClientSentimentResponse
 ): AnalyzeSentimentSuccessResult {
+  const {
+    id,
+    sentiment,
+    confidenceScores,
+    sentenceSentiments: sentences,
+    warnings,
+    statistics
+  } = document;
   return {
     ...makeTextAnalyticsSuccessResult(id, warnings, statistics),
     sentiment,
     confidenceScores,
-    sentences
+    sentences: sentences.map((sentence) => convertGeneratedSentenceSentiment(response, sentence))
   };
 }
 
@@ -97,3 +122,30 @@ export function makeAnalyzeSentimentErrorResult(
 ): AnalyzeSentimentErrorResult {
   return makeTextAnalyticsErrorResult(id, error);
 }
+
+function convertGeneratedSentenceSentiment(
+  sentence: GeneratedSentenceSentiment,
+  response: GeneratedClientSentimentResponse
+): SentenceSentiment {
+  return {
+    confidenceScores: sentence.confidenceScores,
+    sentiment: sentence.sentiment,
+    text: sentence.text,
+    minedOpinions: sentence.aspects?.map(
+      (aspect: SentenceAspect): MinedOpinion => ({
+        aspect: { 
+          confidenceScores: aspect.confidenceScores as SentimentConfidenceScores,
+          sentiment: aspect.sentiment,
+          text: aspect.text
+        },
+        opinions: aspect.relations.map(relation => convertAspectRelationToOpinionSentiment(relation, response))
+      })
+    )
+  };
+}
+
+function convertAspectRelationToOpinionSentiment(
+  aspectRelation:AspectRelation,
+  response : GeneratedClientSentimentResponse) : OpinionSentiment {
+    
+  }
