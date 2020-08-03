@@ -20,19 +20,17 @@ export const acceptLanguage: msRest.OperationParameter = {
     }
   }
 };
-export const apiVersion0: msRest.OperationQueryParameter = {
-  parameterPath: "apiVersion",
+export const aliasName: msRest.OperationURLParameter = {
+  parameterPath: "aliasName",
   mapper: {
     required: true,
-    isConstant: true,
-    serializedName: "api-version",
-    defaultValue: '2019-03-01-preview',
+    serializedName: "aliasName",
     type: {
       name: "String"
     }
   }
 };
-export const apiVersion1: msRest.OperationQueryParameter = {
+export const apiVersion0: msRest.OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
     required: true,
@@ -44,25 +42,13 @@ export const apiVersion1: msRest.OperationQueryParameter = {
     }
   }
 };
-export const apiVersion2: msRest.OperationQueryParameter = {
+export const apiVersion1: msRest.OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
     required: true,
     isConstant: true,
     serializedName: "api-version",
-    defaultValue: '2018-11-01-preview',
-    type: {
-      name: "String"
-    }
-  }
-};
-export const apiVersion3: msRest.OperationQueryParameter = {
-  parameterPath: "apiVersion",
-  mapper: {
-    required: true,
-    isConstant: true,
-    serializedName: "api-version",
-    defaultValue: '2018-03-01-preview',
+    defaultValue: '2019-10-01-preview',
     type: {
       name: "String"
     }
@@ -73,6 +59,26 @@ export const billingAccountName: msRest.OperationURLParameter = {
   mapper: {
     required: true,
     serializedName: "billingAccountName",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const billingProfileName: msRest.OperationURLParameter = {
+  parameterPath: "billingProfileName",
+  mapper: {
+    required: true,
+    serializedName: "billingProfileName",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const customerName: msRest.OperationURLParameter = {
+  parameterPath: "customerName",
+  mapper: {
+    required: true,
+    serializedName: "customerName",
     type: {
       name: "String"
     }
