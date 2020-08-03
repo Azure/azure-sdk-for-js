@@ -274,7 +274,13 @@ describe("Sender Tests", () => {
     await testCancelMultipleScheduleMessages();
   });
 
-  it(anyRandomTestClientType + ": Schedule messages in parallel", async () => {
+  // This test occasionally fails on macOS.
+  // Issue - https://github.com/Azure/azure-sdk-for-js/issues/9912
+  // Failure - The queue is initially empty, we schedule 3 messages and get their sequence numbers, receive the 3 messages,
+  //           the error is that one of the sequence numbers do not have a counterpart in the received messages.
+  // To be un-skipped once the root cause is found, the bug is fixed.
+  // Being investigated at https://github.com/Azure/azure-sdk-for-js/pull/10053.
+  it.skip(anyRandomTestClientType + ": Schedule messages in parallel", async () => {
     await beforeEachTest(TestClientType.UnpartitionedQueue);
     const date = new Date();
     const messages = [
