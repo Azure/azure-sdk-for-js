@@ -31,35 +31,35 @@ async function main() {
   const credential = new DefaultAzureCredential();
   const serviceClient = new DigitalTwinsClient(url, credential);
 
-  // Create model first
-  const newModels = [building];
-  const model = await serviceClient.createModels(newModels);
-  console.log(`Model: ${model.body}`);
+  // // Create model first
+  // const newModels = [building];
+  // const model = await serviceClient.createModels(newModels);
+  // console.log(`Model: ${model.body}`);
 
-  // Create digital twin based on the created model
-  const digitalTwinId = `digitalTwin-${v4()}`;
-  const newTwin = buildingTwin;
-  const createdTwin = await serviceClient.upsertDigitalTwin(digitalTwinId, newTwin, {
-    enableUpdate: true,
-  });
-  console.log(createdTwin.body);
+  // // Create digital twin based on the created model
+  // const digitalTwinId = `digitalTwin-${v4()}`;
+  // const newTwin = buildingTwin;
+  // const createdTwin = await serviceClient.upsertDigitalTwin(digitalTwinId, newTwin, {
+  //   enableUpdate: true,
+  // });
+  // console.log(createdTwin.body);
 
-  // Get digital twin
-  const twin = await serviceClient.getDigitalTwin(digitalTwinId);
-  console.log(`DigitalTwin's etag: ${twin.eTag}`);
-  console.log(`DigitalTwin: ${twin.body}`);
+  // // Get digital twin
+  // const twin = await serviceClient.getDigitalTwin(digitalTwinId);
+  // console.log(`DigitalTwin's etag: ${twin.eTag}`);
+  // console.log(`DigitalTwin: ${twin.body}`);
 
-  // Update digital twin
-  const twinPatch = {
-    AverageTemperature: 42,
-  };
-  const updatedTwin = await serviceClient.updateDigitalTwin(digitalTwinId, twinPatch);
-  console.log(`Updated digitalTwin's etag: ${updatedTwin.eTag}`);
-  console.log(`Updated digitalTwin: ${updatedTwin.body}`);
+  // // Update digital twin
+  // const twinPatch = {
+  //   AverageTemperature: 42,
+  // };
+  // const updatedTwin = await serviceClient.updateDigitalTwin(digitalTwinId, twinPatch);
+  // console.log(`Updated digitalTwin's etag: ${updatedTwin.eTag}`);
+  // console.log(`Updated digitalTwin: ${updatedTwin.body}`);
 
-  // Delete digital twin
-  const response = await serviceClient.deleteDigitalTwin(digitalTwinId);
-  console.log(response);
+  // // Delete digital twin
+  // const response = await serviceClient.deleteDigitalTwin(digitalTwinId);
+  // console.log(response);
 }
 
 main().catch((err) => {

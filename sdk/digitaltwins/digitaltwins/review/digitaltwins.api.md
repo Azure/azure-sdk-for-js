@@ -4,7 +4,6 @@
 
 ```ts
 
-import { AzureServiceClientOptions } from '@azure/core-arm';
 import * as coreHttp from '@azure/core-http';
 import { OperationOptions } from '@azure/core-http';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
@@ -14,18 +13,12 @@ import { RestResponse } from '@azure/core-http';
 import { TokenCredential } from '@azure/core-http';
 
 // @public
-export interface AzureDigitalTwinsAPIOptions extends AzureServiceClientOptions {
-    // (undocumented)
-    baseUri?: string;
-}
-
-// @public
-export interface DigitalTwinModelsAddOptionalParams extends coreHttp.RequestOptionsBase {
+export interface DigitalTwinModelsAddOptionalParams extends coreHttp.OperationOptions {
     models?: any[];
 }
 
 // @public
-export type DigitalTwinModelsAddResponse = Array<ModelData> & {
+export type DigitalTwinModelsAddResponse = ModelData[] & {
     _response: coreHttp.HttpResponse & {
         bodyAsText: string;
         parsedBody: ModelData[];
@@ -41,7 +34,7 @@ export type DigitalTwinModelsGetByIdResponse = ModelData & {
 };
 
 // @public
-export interface DigitalTwinModelsListOptionalParams extends coreHttp.RequestOptionsBase {
+export interface DigitalTwinModelsListOptionalParams extends coreHttp.OperationOptions {
     dependenciesFor?: string[];
     digitalTwinModelsListOptions?: DigitalTwinModelsListOptions;
     includeModelDefinition?: boolean;
@@ -62,17 +55,16 @@ export type DigitalTwinModelsListResponse = PagedModelDataCollection & {
 
 // @public
 export interface DigitalTwinsAddHeaders {
-    etag: string;
+    etag?: string;
 }
 
 // @public
 export interface DigitalTwinsAddRelationshipHeaders {
-    etag: string;
+    etag?: string;
 }
 
 // @public
-export interface DigitalTwinsAddRelationshipOptionalParams extends coreHttp.RequestOptionsBase {
-    ifNoneMatch?: IfNoneMatch1;
+export interface DigitalTwinsAddRelationshipOptionalParams extends coreHttp.OperationOptions {
     relationship?: any;
 }
 
@@ -80,9 +72,9 @@ export interface DigitalTwinsAddRelationshipOptionalParams extends coreHttp.Requ
 export type DigitalTwinsAddRelationshipResponse = DigitalTwinsAddRelationshipHeaders & {
     body: any;
     _response: coreHttp.HttpResponse & {
-        parsedHeaders: DigitalTwinsAddRelationshipHeaders;
         bodyAsText: string;
         parsedBody: any;
+        parsedHeaders: DigitalTwinsAddRelationshipHeaders;
     };
 };
 
@@ -90,15 +82,16 @@ export type DigitalTwinsAddRelationshipResponse = DigitalTwinsAddRelationshipHea
 export type DigitalTwinsAddResponse = DigitalTwinsAddHeaders & {
     body: any;
     _response: coreHttp.HttpResponse & {
-        parsedHeaders: DigitalTwinsAddHeaders;
         bodyAsText: string;
         parsedBody: any;
+        parsedHeaders: DigitalTwinsAddHeaders;
     };
 };
 
 // @public
 export class DigitalTwinsClient {
-    constructor(endpoint: string, credential: TokenCredential, options?: AzureDigitalTwinsAPIOptions);
+    // Warning: (ae-forgotten-export) The symbol "AzureDigitalTwinsAPIOptionalParams" needs to be exported by the entry point index.d.ts
+    constructor(endpoint: string, credential: TokenCredential, options?: AzureDigitalTwinsAPIOptionalParams);
     createModels(models: any[], options?: OperationOptions): Promise<DigitalTwinModelsAddResponse>;
     decomissionModel(modelId: string, updateModel: any[], options?: OperationOptions): Promise<RestResponse>;
     deleteDigitalTwin(digitalTwinId: string, etag?: string, options?: OperationOptions): Promise<RestResponse>;
@@ -113,55 +106,50 @@ export class DigitalTwinsClient {
     listEventRoutes(maxItemCount?: number): PagedAsyncIterableIterator<EventRoute, EventRoutesListNextResponse>;
     listIncomingRelationships(digitalTwinId: string, options?: RequestOptionsBase & PageSettings): PagedAsyncIterableIterator<IncomingRelationship, DigitalTwinsListIncomingRelationshipsResponse>;
     listModels(dependeciesFor?: string[], includeModelDefinition?: boolean, maxItemCount?: number): PagedAsyncIterableIterator<ModelData, DigitalTwinModelsListResponse>;
-    listRelationships(digitalTwinId: string, options?: DigitalTwinsListRelationshipsOptionalParams & PageSettings): PagedAsyncIterableIterator<any>;
+    listRelationships(digitalTwinId: string, options?: RequestOptionsBase & PageSettings): PagedAsyncIterableIterator<any, DigitalTwinsListRelationshipsResponse>;
     publishComponentTelemetry(digitalTwinId: string, componentPath: string, payload: string, messageId?: string, options?: OperationOptions): Promise<RestResponse>;
     publishTelemetry(digitalTwinId: string, payload: any, messageId?: string, options?: OperationOptions): Promise<RestResponse>;
     queryTwins(query?: string): PagedAsyncIterableIterator<any, QueryQueryTwinsResponse>;
     updateComponent(digitalTwinId: string, componentPath: string, componentPatch?: any[], etag?: string, options?: OperationOptions): Promise<DigitalTwinsUpdateComponentResponse>;
     updateDigitalTwin(digitalTwinId: string, twinPatch: any, etag?: string, options?: OperationOptions): Promise<DigitalTwinsUpdateResponse>;
     updateRelationship(digitalTwinId: string, relationshipId: string, relationshipPatch: any[], etag?: string, options?: OperationOptions): Promise<DigitalTwinsUpdateRelationshipResponse>;
-    upsertDigitalTwin(digitalTwinId: string, digitalTwinJson: string, enableUpdate?: boolean, options?: OperationOptions): Promise<DigitalTwinsAddResponse>;
+    upsertDigitalTwin(digitalTwinId: string, digitalTwinJson: string, options?: OperationOptions): Promise<DigitalTwinsAddResponse>;
     upsertEventRoute(eventRouteId: string, endpointId: string, filter?: string, options?: OperationOptions): Promise<RestResponse>;
-    upsertRelationship(digitalTwinId: string, relationshipId: string, relationship: any, enableUpdate?: boolean, options?: OperationOptions): Promise<DigitalTwinsAddRelationshipResponse>;
+    upsertRelationship(digitalTwinId: string, relationshipId: string, relationship: any, options?: OperationOptions): Promise<DigitalTwinsAddRelationshipResponse>;
 }
 
 // @public
-export interface DigitalTwinsDeleteMethodOptionalParams extends coreHttp.RequestOptionsBase {
-    ifMatch?: string;
-}
-
-// @public
-export interface DigitalTwinsDeleteRelationshipOptionalParams extends coreHttp.RequestOptionsBase {
+export interface DigitalTwinsDeleteRelationshipOptionalParams extends coreHttp.OperationOptions {
     ifMatch?: string;
 }
 
 // @public
 export interface DigitalTwinsGetByIdHeaders {
-    etag: string;
+    etag?: string;
 }
 
 // @public
 export type DigitalTwinsGetByIdResponse = DigitalTwinsGetByIdHeaders & {
     body: any;
     _response: coreHttp.HttpResponse & {
-        parsedHeaders: DigitalTwinsGetByIdHeaders;
         bodyAsText: string;
         parsedBody: any;
+        parsedHeaders: DigitalTwinsGetByIdHeaders;
     };
 };
 
 // @public
 export interface DigitalTwinsGetComponentHeaders {
-    etag: string;
+    etag?: string;
 }
 
 // @public
 export type DigitalTwinsGetComponentResponse = DigitalTwinsGetComponentHeaders & {
     body: any;
     _response: coreHttp.HttpResponse & {
-        parsedHeaders: DigitalTwinsGetComponentHeaders;
         bodyAsText: string;
         parsedBody: any;
+        parsedHeaders: DigitalTwinsGetComponentHeaders;
     };
 };
 
@@ -174,7 +162,7 @@ export type DigitalTwinsListIncomingRelationshipsResponse = IncomingRelationship
 };
 
 // @public
-export interface DigitalTwinsListRelationshipsOptionalParams extends coreHttp.RequestOptionsBase {
+export interface DigitalTwinsListRelationshipsOptionalParams extends coreHttp.OperationOptions {
     relationshipName?: string;
 }
 
@@ -187,22 +175,22 @@ export type DigitalTwinsListRelationshipsResponse = RelationshipCollection & {
 };
 
 // @public
-export interface DigitalTwinsSendComponentTelemetryOptionalParams extends coreHttp.RequestOptionsBase {
+export interface DigitalTwinsSendComponentTelemetryOptionalParams extends coreHttp.OperationOptions {
     dtTimestamp?: string;
 }
 
 // @public
-export interface DigitalTwinsSendTelemetryOptionalParams extends coreHttp.RequestOptionsBase {
+export interface DigitalTwinsSendTelemetryOptionalParams extends coreHttp.OperationOptions {
     dtTimestamp?: string;
 }
 
 // @public
 export interface DigitalTwinsUpdateComponentHeaders {
-    etag: string;
+    etag?: string;
 }
 
 // @public
-export interface DigitalTwinsUpdateComponentOptionalParams extends coreHttp.RequestOptionsBase {
+export interface DigitalTwinsUpdateComponentOptionalParams extends coreHttp.OperationOptions {
     ifMatch?: string;
     patchDocument?: any[];
 }
@@ -216,21 +204,21 @@ export type DigitalTwinsUpdateComponentResponse = DigitalTwinsUpdateComponentHea
 
 // @public
 export interface DigitalTwinsUpdateHeaders {
-    etag: string;
+    etag?: string;
 }
 
 // @public
-export interface DigitalTwinsUpdateOptionalParams extends coreHttp.RequestOptionsBase {
+export interface DigitalTwinsUpdateOptionalParams extends coreHttp.OperationOptions {
     ifMatch?: string;
 }
 
 // @public
 export interface DigitalTwinsUpdateRelationshipHeaders {
-    etag: string;
+    etag?: string;
 }
 
 // @public
-export interface DigitalTwinsUpdateRelationshipOptionalParams extends coreHttp.RequestOptionsBase {
+export interface DigitalTwinsUpdateRelationshipOptionalParams extends coreHttp.OperationOptions {
     ifMatch?: string;
     patchDocument?: any[];
 }
@@ -257,12 +245,13 @@ export interface EventRoute {
 }
 
 // @public
-export interface EventRouteCollection extends Array<EventRoute> {
+export interface EventRouteCollection {
     nextLink?: string;
+    value?: EventRoute[];
 }
 
 // @public
-export interface EventRoutesAddOptionalParams extends coreHttp.RequestOptionsBase {
+export interface EventRoutesAddOptionalParams extends coreHttp.OperationOptions {
     eventRoute?: EventRoute;
 }
 
@@ -283,7 +272,7 @@ export type EventRoutesListNextResponse = EventRouteCollection & {
 };
 
 // @public
-export interface EventRoutesListOptionalParams extends coreHttp.RequestOptionsBase {
+export interface EventRoutesListOptionalParams extends coreHttp.OperationOptions {
     eventRoutesListOptions?: EventRoutesListOptions;
 }
 
@@ -291,12 +280,6 @@ export interface EventRoutesListOptionalParams extends coreHttp.RequestOptionsBa
 export interface EventRoutesListOptions {
     maxItemCount?: number;
 }
-
-// @public
-export type IfNoneMatch = '*';
-
-// @public
-export type IfNoneMatch1 = '*';
 
 // @public
 export interface IncomingRelationship {
@@ -307,8 +290,10 @@ export interface IncomingRelationship {
 }
 
 // @public
-export interface IncomingRelationshipCollection extends Array<IncomingRelationship> {
+export interface IncomingRelationshipCollection {
     nextLink?: string;
+    // (undocumented)
+    value?: IncomingRelationship[];
 }
 
 // @public
@@ -326,21 +311,22 @@ export interface ModelData {
 }
 
 // @public
-export interface PagedModelDataCollection extends Array<ModelData> {
+export interface PagedModelDataCollection {
     nextLink?: string;
+    value?: ModelData[];
 }
 
 // @public
 export interface QueryQueryTwinsHeaders {
-    queryCharge: number;
+    queryCharge?: number;
 }
 
 // @public
-export type QueryQueryTwinsResponse = QueryResult & QueryQueryTwinsHeaders & {
+export type QueryQueryTwinsResponse = QueryQueryTwinsHeaders & QueryResult & {
     _response: coreHttp.HttpResponse & {
-        parsedHeaders: QueryQueryTwinsHeaders;
         bodyAsText: string;
         parsedBody: QueryResult;
+        parsedHeaders: QueryQueryTwinsHeaders;
     };
 };
 
@@ -357,8 +343,9 @@ export interface QuerySpecification {
 }
 
 // @public
-export interface RelationshipCollection extends Array<any> {
+export interface RelationshipCollection {
     nextLink?: string;
+    value?: any[];
 }
 
 

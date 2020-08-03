@@ -4,7 +4,6 @@
 export { DigitalTwinsClient } from "./digitalTwinsClient";
 
 export {
-  AzureDigitalTwinsAPIOptions,
   DigitalTwinsAddHeaders,
   DigitalTwinsAddResponse,
   DigitalTwinsGetByIdResponse,
@@ -30,7 +29,6 @@ export {
   DigitalTwinsUpdateComponentResponse,
   DigitalTwinsGetComponentResponse,
   DigitalTwinsSendTelemetryOptionalParams,
-  DigitalTwinsDeleteMethodOptionalParams,
   DigitalTwinModelsGetByIdResponse,
   DigitalTwinModelsListOptionalParams,
   DigitalTwinModelsListResponse,
@@ -46,8 +44,6 @@ export {
   EventRoutesListNextResponse,
   EventRoutesListOptionalParams,
   EventRoutesListOptions,
-  IfNoneMatch,
-  IfNoneMatch1,
   ModelData,
   PagedModelDataCollection,
   QueryQueryTwinsHeaders,

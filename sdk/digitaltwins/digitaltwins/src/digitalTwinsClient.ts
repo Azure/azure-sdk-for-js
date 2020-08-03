@@ -32,25 +32,24 @@ import {
   DigitalTwinsUpdateRelationshipOptionalParams,
   DigitalTwinsUpdateRelationshipResponse,
   DigitalTwinsDeleteRelationshipOptionalParams,
-  DigitalTwinsListIncomingRelationshipsResponse,
-  DigitalTwinsListRelationshipsOptionalParams,
-  DigitalTwinsListRelationshipsResponse,
   DigitalTwinsSendTelemetryOptionalParams,
   DigitalTwinsSendComponentTelemetryOptionalParams,
-  DigitalTwinModelsGetByIdOptionalParams,
+  DigitalTwinsListRelationshipsResponse,
+  IncomingRelationship,
+  DigitalTwinsListIncomingRelationshipsResponse,
+  ModelData,
   DigitalTwinModelsGetByIdResponse,
-  DigitalTwinModelsListOptionalParams,
-  DigitalTwinModelsListResponse,
-  DigitalTwinModelsListOptions,
+  DigitalTwinModelsGetByIdOptionalParams,
   DigitalTwinModelsAddResponse,
   DigitalTwinModelsAddOptionalParams,
-  ModelData,
-  IncomingRelationship,
+  DigitalTwinModelsListResponse,
+  DigitalTwinModelsListOptionalParams,
+  DigitalTwinModelsListOptions,
   EventRoutesGetByIdResponse,
-  EventRoutesListOptionalParams,
-  EventRoutesListNextResponse,
   EventRoute,
   EventRoutesAddOptionalParams,
+  EventRoutesListNextResponse,
+  EventRoutesListOptionalParams,
   QueryQueryTwinsResponse,
   QuerySpecification
 } from "./generated/models";
@@ -109,7 +108,7 @@ export class DigitalTwinsClient {
    */
   public getDigitalTwin(
     digitalTwinId: string,
-    options?: OperationOptions
+    options: OperationOptions = {}
   ): Promise<DigitalTwinsGetByIdResponse> {
     return this.client.digitalTwins.getById(digitalTwinId, options);
   }
@@ -126,7 +125,7 @@ export class DigitalTwinsClient {
   public upsertDigitalTwin(
     digitalTwinId: string,
     digitalTwinJson: string,
-    options?: OperationOptions
+    options: OperationOptions = {}
   ): Promise<DigitalTwinsAddResponse> {
     return this.client.digitalTwins.add(digitalTwinId, digitalTwinJson, options);
   }
@@ -188,7 +187,7 @@ export class DigitalTwinsClient {
   public getComponent(
     digitalTwinId: string,
     componentPath: string,
-    options?: OperationOptions
+    options: OperationOptions = {}
   ): Promise<DigitalTwinsGetComponentResponse> {
     return this.client.digitalTwins.getComponent(digitalTwinId, componentPath, options);
   }
@@ -232,7 +231,7 @@ export class DigitalTwinsClient {
   public getRelationship(
     digitalTwinId: string,
     relationshipId: string,
-    options?: OperationOptions
+    options: OperationOptions = {}
   ): Promise<DigitalTwinsGetByIdResponse> {
     return this.client.digitalTwins.getRelationshipById(digitalTwinId, relationshipId, options);
   }
@@ -322,11 +321,11 @@ export class DigitalTwinsClient {
    */
   private async *listRelationshipsPage(
     digitalTwinId: string,
-    options: DigitalTwinsListRelationshipsOptionalParams,
+    options: RequestOptionsBase,
     continuationState: PageSettings
   ): AsyncIterableIterator<DigitalTwinsListRelationshipsResponse> {
     if (continuationState.continuationToken == null) {
-      const optionsComplete: DigitalTwinsListRelationshipsOptionalParams = {
+      const optionsComplete: RequestOptionsBase = {
         maxresults: continuationState.maxPageSize,
         ...options
       };
@@ -340,6 +339,7 @@ export class DigitalTwinsClient {
     while (continuationState.continuationToken) {
       const listRelationshipResponse = await this.client.digitalTwins.listRelationshipsNext(
         continuationState.continuationToken,
+        "",
         options
       );
 
@@ -356,10 +356,11 @@ export class DigitalTwinsClient {
    */
   private async *listRelationshipsAll(
     digitalTwinId: string,
-    options: DigitalTwinsListRelationshipsOptionalParams
+    options: RequestOptionsBase
   ): AsyncIterableIterator<any> {
     for await (const page of this.listRelationshipsPage(digitalTwinId, options, {})) {
-      for (const item of page) {
+      const value = page.value || [];
+      for (const item of value) {
         yield item;
       }
     }
@@ -372,8 +373,8 @@ export class DigitalTwinsClient {
    */
   public listRelationships(
     digitalTwinId: string,
-    options: DigitalTwinsListRelationshipsOptionalParams & PageSettings = {}
-  ): PagedAsyncIterableIterator<any> {
+    options: RequestOptionsBase & PageSettings = {}
+  ): PagedAsyncIterableIterator<any, DigitalTwinsListRelationshipsResponse> {
     const iter = this.listRelationshipsAll(digitalTwinId, options);
 
     return {
@@ -417,6 +418,7 @@ export class DigitalTwinsClient {
     while (continuationState.continuationToken) {
       const listIncomingRelationshipsResponse = await this.client.digitalTwins.listIncomingRelationshipsNext(
         continuationState.continuationToken,
+        "",
         options
       );
 
@@ -438,7 +440,8 @@ export class DigitalTwinsClient {
     const f = {};
 
     for await (const page of this.listIncomingRelationshipsPage(digitalTwinId, options, f)) {
-      for (const item of page) {
+      const value = page.value || [];
+      for (const item of value) {
         yield item;
       }
     }
@@ -594,7 +597,8 @@ export class DigitalTwinsClient {
     const f = {};
 
     for await (const page of this.getModelsPage(options, f)) {
-      for (const item of page) {
+      const value = page.value || [];
+      for (const item of value) {
         yield item;
       }
     }
@@ -665,7 +669,7 @@ export class DigitalTwinsClient {
   public decomissionModel(
     modelId: string,
     updateModel: any[],
-    options?: OperationOptions
+    options: OperationOptions = {}
   ): Promise<RestResponse> {
     return this.client.digitalTwinModels.update(modelId, updateModel, options);
   }
@@ -679,7 +683,7 @@ export class DigitalTwinsClient {
    * @param options The operation options
    * @returns The http response.
    */
-  public deleteModel(modelId: string, options?: OperationOptions): Promise<RestResponse> {
+  public deleteModel(modelId: string, options: OperationOptions = {}): Promise<RestResponse> {
     return this.client.digitalTwinModels.delete(modelId, options);
   }
 
@@ -743,7 +747,8 @@ export class DigitalTwinsClient {
   ): AsyncIterableIterator<EventRoute> {
     const f = {};
     for await (const page of this.getEventRoutesPage(options, f)) {
-      for (const item of page) {
+      const value = page.value || [];
+      for (const item of value) {
         yield item;
       }
     }
@@ -809,7 +814,10 @@ export class DigitalTwinsClient {
    * @param options The operation options
    * @returns The http response.
    */
-  public deleteEventRoute(eventRouteId: string, options?: OperationOptions): Promise<RestResponse> {
+  public deleteEventRoute(
+    eventRouteId: string,
+    options: OperationOptions = {}
+  ): Promise<RestResponse> {
     return this.client.eventRoutes.delete(eventRouteId, options);
   }
 

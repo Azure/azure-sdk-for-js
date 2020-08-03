@@ -89,32 +89,16 @@ async function main() {
   const hvacTwinId = "HVACTwin";
   const roomTwinId = "RoomTwin";
 
-  const createdBuildingTwin = await serviceClient.upsertDigitalTwin(
-    buildingTwinId,
-    buildingTwin,
-    (enableUpdate = true)
-  );
+  const createdBuildingTwin = await serviceClient.upsertDigitalTwin(buildingTwinId, buildingTwin);
   console.log(`BuildingTwin: ${createdBuildingTwin.body}`);
 
-  const createdFloorTwin = await serviceClient.upsertDigitalTwin(
-    floorTwinId,
-    floorTwin,
-    (enableUpdate = true)
-  );
+  const createdFloorTwin = await serviceClient.upsertDigitalTwin(floorTwinId, floorTwin);
   console.log(`FloorTwin: ${createdFloorTwin.body}`);
 
-  const createdHVACTwin = await serviceClient.upsertDigitalTwin(
-    hvacTwinId,
-    hvacTwin,
-    (enableUpdate = true)
-  );
+  const createdHVACTwin = await serviceClient.upsertDigitalTwin(hvacTwinId, hvacTwin);
   console.log(`FloorTwin: ${createdHVACTwin.body}`);
 
-  const createdRoomTwin = await serviceClient.upsertDigitalTwin(
-    roomTwinId,
-    roomTwin,
-    (enableUpdate = true)
-  );
+  const createdRoomTwin = await serviceClient.upsertDigitalTwin(roomTwinId, roomTwin);
   console.log(`FloorTwin: ${createdRoomTwin.body}`);
 
   // Create relationships
