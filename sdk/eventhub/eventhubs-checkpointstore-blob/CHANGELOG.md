@@ -1,6 +1,9 @@
 # Release History
 
-## 1.0.1 (Unreleased)
+## 1.0.2 (Unreleased)
+
+
+## 1.0.1 (2020-08-03)
 
 - Fixes issue [#10132](https://github.com/Azure/azure-sdk-for-js/issues/10132)
   where using an Azure Storage Account with soft-deletes or blob versioning enabled

@@ -3,12 +3,13 @@
 
 import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
+import { ReceiverOptions } from "rhea-promise";
 chai.use(chaiAsPromised);
 const assert = chai.assert;
 
-import { ClientEntityContext } from "../src/clientEntityContext";
-import { BatchingReceiver } from "../src/core/batchingReceiver";
-import { MessageReceiver, ReceiverType } from "../src/core/messageReceiver";
+import { ClientEntityContext } from "../../src/clientEntityContext";
+import { BatchingReceiver } from "../../src/core/batchingReceiver";
+import { MessageReceiver, ReceiverType } from "../../src/core/messageReceiver";
 
 describe("init() and close() interactions", () => {
   function fakeContext(): ClientEntityContext {
@@ -56,7 +57,7 @@ describe("init() and close() interactions", () => {
       );
     };
 
-    await messageReceiver2["_init"]();
+    await messageReceiver2["_init"]({} as ReceiverOptions);
 
     assert.isFalse(negotiateClaimWasCalled);
   });

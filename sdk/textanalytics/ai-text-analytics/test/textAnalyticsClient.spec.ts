@@ -32,9 +32,11 @@ describe("[AAD] TextAnalyticsClient", function() {
 
   let getId: () => string;
 
+  // eslint-disable-next-line no-invalid-this
   this.timeout(10000);
 
   beforeEach(function() {
+    // eslint-disable-next-line no-invalid-this
     ({ client, recorder } = createRecordedClient(this));
     let nextId = 0;
     getId = () => {

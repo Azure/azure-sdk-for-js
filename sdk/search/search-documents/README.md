@@ -22,13 +22,9 @@ Use the @azure/search-documents client library to:
 [Source code](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/search/search-documents/) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/search-documents) |
 [API reference documentation](https://aka.ms/azsdk/js/search/docs) |
-<<<<<<< HEAD
 [REST API documentation](https://docs.microsoft.com/rest/api/searchservice/) |
-[Product documentation](https://docs.microsoft.com/azure/search/)
-=======
 [Product documentation](https://docs.microsoft.com/azure/search/) |
 [Samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/search/search-documents/samples)
->>>>>>> 1488623e0... fix link in search-documents
 
 ## Getting started
 
@@ -113,7 +109,7 @@ async function main() {
   // Let's get the top 5 jobs related to Microsoft
   const searchResults = await client.search("Microsoft", { top: 5 });
   for await (const result of searchResults.results) {
-    console.log(`${result.business_title}\n${result.job_description}\n`);
+    console.log(`${result.document.business_title}\n${result.document.job_description}\n`);
   }
 }
 
@@ -349,9 +345,9 @@ async function main() {
   });
 
   for await (const result of searchResults.results) {
-    // result has HotelId, HotelName, and Rating.
-    // Trying to access result.Description would emit a TS error.
-    console.log(result.HotelName);
+    // result.document has HotelId, HotelName, and Rating.
+    // Trying to access result.document.Description would emit a TS error.
+    console.log(result.document.HotelName);
   }
 }
 

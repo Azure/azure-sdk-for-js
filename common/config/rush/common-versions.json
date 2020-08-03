@@ -15,7 +15,8 @@
      * When someone asks for "^1.0.0" make sure they get "1.2.3" when working in this repo,
      * instead of the latest version.
      */
-    // "some-library": "1.2.3"
+    "prettier": "^1.16.4",
+    "precise-commits": "^1.0.2"
   },
   /**
    * When set to true, for all projects in the repo, all dependencies will be automatically added as preferredVersions,
@@ -53,6 +54,13 @@
     "@azure/event-hubs": ["^2.1.4"],
 
     // Allow storage-blob-changefeed and storage-file-datalake to use the preview version of storage-blob.
-    "@azure/storage-blob": ["^12.2.0-preview.1"]
+    "@azure/storage-blob": ["^12.2.0-preview.1"],
+
+    // Monitor: Allow node 10 types until Timeout / Timer conflict is resolved in OpenTelemetry repo
+    // TODO: remove when released https://github.com/open-telemetry/opentelemetry-js/pull/1352
+    "@types/node": ["^10.0.0"],
+
+    // Monitor: Always test on latest version of OpenTelemetry
+    "@opentelemetry/api": ["^0.10.1"]
   }
 }

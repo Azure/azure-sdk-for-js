@@ -495,7 +495,7 @@ describe("Highlevel Node.js only", () => {
         abortSignal: AbortController.timeout(20 * 1000) // takes too long to upload the file
       });
     } catch (err) {
-      assert.equal(err.name, 'AbortError');
+      assert.equal(err.name, "AbortError");
     }
 
     fs.unlinkSync(tempFile);
@@ -511,7 +511,7 @@ describe("Highlevel Node.js only", () => {
         abortSignal: AbortController.timeout(20 * 1000) // takes too long to upload the file
       });
     } catch (err) {
-      assert.equal(err.name, 'AbortError');
+      assert.equal(err.name, "AbortError");
     }
   }).timeout(timeoutForLargeFileUploadingTest);
 
