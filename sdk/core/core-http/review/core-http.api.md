@@ -102,6 +102,7 @@ export class BasicAuthenticationCredentials implements ServiceClientCredentials 
 export class BearerTokenAuthenticationPolicy extends BaseRequestPolicy {
     constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptions, credential: TokenCredential, scopes: string | string[], tokenCache: AccessTokenCache);
     sendRequest(webResource: WebResourceLike): Promise<HttpOperationResponse>;
+    timeBetweenRefreshAttemptsInMs: number;
     }
 
 // @public

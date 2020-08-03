@@ -50,6 +50,13 @@ export class BearerTokenAuthenticationPolicy extends BaseRequestPolicy {
   private tokenRefresher: AccessTokenRefresher;
 
   /**
+   * The automated token refresh will only start to happen at the
+   * expiration date minus the value of timeBetweenRefreshAttemptsInMs,
+   * which is by default 30 seconds.
+   */
+  public timeBetweenRefreshAttemptsInMs: number = 30000;
+
+  /**
    * Creates a new BearerTokenAuthenticationPolicy object.
    *
    * @param nextPolicy The next RequestPolicy in the request pipeline.
@@ -66,11 +73,10 @@ export class BearerTokenAuthenticationPolicy extends BaseRequestPolicy {
     private tokenCache: AccessTokenCache
   ) {
     super(nextPolicy, options);
-    const requiredMillisecondsBeforeNewRefresh = 30000;
     this.tokenRefresher = new AccessTokenRefresher(
       this.credential,
       this.scopes,
-      requiredMillisecondsBeforeNewRefresh
+      this.timeBetweenRefreshAttemptsInMs
     );
   }
 
