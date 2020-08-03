@@ -25,7 +25,7 @@ npm install @azure/ms-rest-nodeauth
 
 ##### Sample code
 
-```typescript
+```javascript
 const { AuthorizationManagementClient } = require("@azure/arm-authorization");
 const { interactiveLogin } = require("@azure/ms-rest-nodeauth");
 
