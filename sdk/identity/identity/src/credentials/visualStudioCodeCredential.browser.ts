@@ -7,10 +7,12 @@ import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-http"
 import { TokenCredentialOptions } from "../client/identityClient";
 import { credentialLogger, formatError } from "../util/logging";
 
-const BrowserNotSupportedError = new Error("VSCodeCredential is not supported in the browser.");
-const logger = credentialLogger("VSCodeCredential");
+const BrowserNotSupportedError = new Error(
+  "VisualStudioCodeCredential is not supported in the browser."
+);
+const logger = credentialLogger("VisualStudioCodeCredential");
 
-export class VSCodeCredential implements TokenCredential {
+export class VisualStudioCodeCredential implements TokenCredential {
   constructor(options?: TokenCredentialOptions) {
     logger.info(formatError(BrowserNotSupportedError));
     throw BrowserNotSupportedError;
