@@ -98,26 +98,24 @@ export interface MinedOpinion {
 export type AnalyzeSentimentErrorResult = TextAnalyticsErrorResult;
 
 export function makeAnalyzeSentimentResult(
-         document: DocumentSentiment,
-         response: GeneratedClientSentimentResponse
-       ): AnalyzeSentimentSuccessResult {
-         const {
-           id,
-           sentiment,
-           confidenceScores,
-           sentenceSentiments: sentences,
-           warnings,
-           statistics
-         } = document;
-         return {
-           ...makeTextAnalyticsSuccessResult(id, warnings, statistics),
-           sentiment,
-           confidenceScores,
-           sentences: sentences.map((sentence) =>
-             convertGeneratedSentenceSentiment(response, sentence)
-           )
-         };
-       }
+  document: DocumentSentiment,
+  response: GeneratedClientSentimentResponse
+): AnalyzeSentimentSuccessResult {
+  const {
+    id,
+    sentiment,
+    confidenceScores,
+    sentenceSentiments: sentences,
+    warnings,
+    statistics
+  } = document;
+  return {
+    ...makeTextAnalyticsSuccessResult(id, warnings, statistics),
+    sentiment,
+    confidenceScores,
+    sentences: sentences.map((sentence) => convertGeneratedSentenceSentiment(response, sentence))
+  };
+}
 
 export function makeAnalyzeSentimentErrorResult(
   id: string,
