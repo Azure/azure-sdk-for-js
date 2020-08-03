@@ -17,6 +17,8 @@ const { wifi } = require("../dtdl/models/wifi.ts");
 
 const { hospitalRelationships } = require("../dtdl/relationships/hospitalRelationships.ts");
 
+const { inspect } = require("util");
+
 // <summary>
 // This sample creates all the models in \DTDL\Models folder in the ADT service instance
 // and creates the corresponding twins in \DTDL\DigitalTwins folder
@@ -73,15 +75,15 @@ async function main() {
   const serviceClient = new DigitalTwinsClient(url, credential);
 
   // Create models
-  const newModels = [wifi, room, floor, building];
-  const createdModels = await serviceClient.createModels(newModels);
-  console.log(createdModels);
+  // const newModels = [wifi, room, floor, building];
+  // const createdModels = await serviceClient.createModels(newModels);
+  // console.log(createdModels);
 
-  // List models
-  const models = serviceClient.listModels();
-  for await (const model of models) {
-    console.log(`Model: ${model}`);
-  }
+  // // List models
+  // const models = serviceClient.listModels();
+  // for await (const model of models) {
+  //   console.log(`Model: ${model}`);
+  // }
 
   // Create digital twins
   const buildingTwinId = "BuildingTwin";
@@ -90,16 +92,20 @@ async function main() {
   const roomTwinId = "RoomTwin";
 
   const createdBuildingTwin = await serviceClient.upsertDigitalTwin(buildingTwinId, buildingTwin);
-  console.log(`BuildingTwin: ${createdBuildingTwin.body}`);
+  console.log(`BuildingTwin:`);
+  console.log(inspect(createdBuildingTwin));
 
   const createdFloorTwin = await serviceClient.upsertDigitalTwin(floorTwinId, floorTwin);
-  console.log(`FloorTwin: ${createdFloorTwin.body}`);
+  console.log(`FloorTwin:`);
+  console.log(inspect(createdFloorTwin));
 
   const createdHVACTwin = await serviceClient.upsertDigitalTwin(hvacTwinId, hvacTwin);
-  console.log(`FloorTwin: ${createdHVACTwin.body}`);
+  console.log(`HVACTwin:`);
+  console.log(inspect(createdHVACTwin));
 
   const createdRoomTwin = await serviceClient.upsertDigitalTwin(roomTwinId, roomTwin);
-  console.log(`FloorTwin: ${createdRoomTwin.body}`);
+  console.log(`RoomTwin:`);
+  console.log(inspect(createdRoomTwin));
 
   // Create relationships
   for (const relationship of hospitalRelationships) {
@@ -119,11 +125,13 @@ async function main() {
     eventHubEndpointName,
     eventFilter
   );
-  console.log(response);
+  console.log(`Upsert Event Route response:`);
+  console.log(inspect(response));
 
   // Get event route
   const createdEventRoute = await serviceClient.getEventRoute(eventRouteId);
-  console.log(createdEventRoute);
+  console.log(`Created Event Route:`);
+  console.log(inspect(createdEventRoute));
 
   // Clean up
   await serviceClient.deleteEventRoute(eventRouteId);

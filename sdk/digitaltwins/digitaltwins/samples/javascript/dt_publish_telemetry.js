@@ -3,6 +3,7 @@
 
 const { DefaultAzureCredential } = require("@azure/identity");
 const { DigitalTwinsClient } = require("@azure/digitaltwins");
+const { inspect } = require("util");
 
 // Simple example of how to:
 // - create a DigitalTwins Service Client using the DigitalTwinsClient constructor
@@ -23,10 +24,11 @@ async function main() {
   const serviceClient = new DigitalTwinsClient(url, credential);
 
   // Publish telemetry message
-  const digitalTwinId = "<DIGITAL TWIN ID>";
+  const digitalTwinId = "<DIGITAL TWIN ID>"; // from the samples: BuildingTwin, FloorTwin, HVACTwin, RoomTwin
   const telemetryPayload = '{"Telemetry1": 5}';
   const response = await serviceClient.publishTelemetry(digitalTwinId, telemetryPayload);
-  console.log(response);
+  console.log(`Publis Component Telemetry response:`);
+  console.log(inspect(response));
 }
 
 main().catch((err) => {

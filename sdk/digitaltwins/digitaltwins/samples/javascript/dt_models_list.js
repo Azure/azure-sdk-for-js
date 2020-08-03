@@ -3,6 +3,7 @@
 
 const { DefaultAzureCredential } = require("@azure/identity");
 const { DigitalTwinsClient } = require("@azure/digitaltwins");
+const { inspect } = require("util");
 
 // Simple example of how to:
 // - create a DigitalTwins Service Client using the DigitalTwinsClient constructor
@@ -25,7 +26,8 @@ async function main() {
   // List models
   const models = serviceClient.listModels();
   for await (const model of models) {
-    console.log(`Model: ${model}`);
+    console.log(`Model:`);
+    console.log(inspect(model));
   }
 }
 

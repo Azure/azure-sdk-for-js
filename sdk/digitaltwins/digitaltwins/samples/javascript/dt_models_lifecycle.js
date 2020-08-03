@@ -4,6 +4,7 @@
 const { DefaultAzureCredential } = require("@azure/identity");
 const { DigitalTwinsClient } = require("@azure/digitaltwins");
 const { v4 } = require("uuid");
+const { inspect } = require("util");
 
 // Scenario example of how to:
 // - create a DigitalTwins Service Client using the DigitalTwinsClient constructor
@@ -32,14 +33,14 @@ async function main() {
       {
         "@type": "Property",
         name: "ComponentProp1",
-        schema: "string",
+        schema: "string"
       },
       {
         "@type": "Telemetry",
         name: "ComponentTelemetry1",
-        schema: "integer",
-      },
-    ],
+        schema: "integer"
+      }
+    ]
   };
 
   const temporaryModel = {
@@ -51,19 +52,19 @@ async function main() {
       {
         "@type": "Property",
         name: "Prop1",
-        schema: "string",
+        schema: "string"
       },
       {
         "@type": "Component",
         name: "Component1",
-        schema: componentId,
+        schema: componentId
       },
       {
         "@type": "Telemetry",
         name: "Telemetry1",
-        schema: "integer",
-      },
-    ],
+        schema: "integer"
+      }
+    ]
   };
 
   // - AZURE_URL: The tenant ID in Azure Active Directory
@@ -79,34 +80,42 @@ async function main() {
   // Create models
   const newModels = [temporaryComponent, temporaryModel];
   const models = await serviceClient.createModels(newModels);
-  console.log(models);
+  console.log(`Created Models:`);
+  console.log(inspect(models));
 
   // Get created model
-  const componentModel = await serviceClient.getModel(componentId);
-  console.log(componentModel);
+  const getComponentModel = await serviceClient.getModel(componentId);
+  console.log(`Get Component Models:`);
+  console.log(inspect(getComponentModel));
 
-  const model = await serviceClient.getModel(modelId);
-  console.log(model);
+  const getModel = await serviceClient.getModel(modelId);
+  console.log(`Get Models:`);
+  console.log(inspect(getModel));
 
   // List all models
   const listedModels = serviceClient.listModels();
   for await (const model of listedModels) {
-    console.log(`Model: ${model}`);
+    console.log(`Model:`);
+    console.log(inspect(model));
   }
 
   // Decomission models
   const response = await serviceClient.decomissionModel(modelId);
-  console.log(response);
+  console.log(`Decomission Model response:`);
+  console.log(inspect(response));
 
   response = await serviceClient.decomissionModel(componentId);
-  console.log(response);
+  console.log(`Decomission Component Model response:`);
+  console.log(inspect(response));
 
   // Delete models
   response = await serviceClient.deleteModel(modelId);
-  console.log(response);
+  console.log(`Delete Model response:`);
+  console.log(inspect(response));
 
   response = await serviceClient.deleteModel(componentId);
-  console.log(response);
+  console.log(`Delete Component Model response:`);
+  console.log(inspect(response));
 }
 
 main().catch((err) => {

@@ -3,6 +3,7 @@
 
 const { DefaultAzureCredential } = require("@azure/identity");
 const { DigitalTwinsClient } = require("@azure/digitaltwins");
+const { inspect } = require("util");
 
 // Simple example of how to:
 // - create a DigitalTwins Service Client using the DigitalTwinsClient constructor
@@ -23,10 +24,11 @@ async function main() {
   const serviceClient = new DigitalTwinsClient(url, credential);
 
   // List incoming relationships
-  const digitalTwinId = "<DIGITAL TWIN ID>";
+  const digitalTwinId = "<DIGITAL TWIN ID>"; // from the samples: BuildingTwin, FloorTwin, HVACTwin, RoomTwin
   const incomingRelationships = serviceClient.listIncomingRelationships(digitalTwinId);
   for await (const incomingRelationship of incomingRelationships) {
-    console.log(`EventRoute: ${incomingRelationship}`);
+    console.log(`Incoming Relationship:`);
+    console.log(inspect(incomingRelationship));
   }
 }
 

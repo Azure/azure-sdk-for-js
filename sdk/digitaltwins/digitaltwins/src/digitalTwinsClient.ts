@@ -93,7 +93,7 @@ export class DigitalTwinsClient {
       "https://digitaltwins.azure.net/.default"
     );
     this.client = new GeneratedClient(credential, {
-      ...{ baseUri: endpoint },
+      ...{ endpoint },
       ...createPipelineFromOptions({}, authPolicy),
       ...options
     });

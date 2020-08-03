@@ -4,6 +4,7 @@
 const { DefaultAzureCredential } = require("@azure/identity");
 const { DigitalTwinsClient } = require("@azure/digitaltwins");
 const { v4 } = require("uuid");
+const { inspect } = require("util");
 
 // Scenario example of how to:
 // - create a DigitalTwins Service Client using the DigitalTwinsClient constructor
@@ -34,9 +35,9 @@ async function main() {
       {
         "@type": "Property",
         name: "ComponentProp1",
-        schema: "string",
-      },
-    ],
+        schema: "string"
+      }
+    ]
   };
 
   const temporaryModel = {
@@ -48,26 +49,26 @@ async function main() {
       {
         "@type": "Property",
         name: "Prop1",
-        schema: "double",
+        schema: "double"
       },
       {
         "@type": "Component",
         name: "Component1",
-        schema: componentId,
-      },
-    ],
+        schema: componentId
+      }
+    ]
   };
 
   const temporaryTwin = {
     "@id": digitalTwinId,
     $metadata: {
-      "@model": modelId,
+      "@model": modelId
     },
     Prop1: 42,
     Component1: {
       $metadata: {},
-      ComponentProp1: "value1",
-    },
+      ComponentProp1: "value1"
+    }
   };
 
   // - AZURE_URL: The tenant ID in Azure Active Directory
@@ -83,44 +84,53 @@ async function main() {
   // Create models
   const newModels = [temporaryComponent, temporaryModel];
   const models = await serviceClient.createModels(newModels);
-  console.log(models);
+  console.log(`Created Models:`);
+  console.log(inspect(models));
 
   // Create digital twin
   const createdTwin = await serviceClient.upsertDigitalTwin(digitalTwinId, temporaryTwin, {
-    enableUpdate: true,
+    enableUpdate: true
   });
-  console.log(createdTwin.body);
+  console.log(`Created Digital Twin:`);
+  console.log(inspect(createdTwin));
 
   // Update component
   const componentPath = "Component1";
   const options = {
     patchDocument: {
-      ComponentProp1: "value2",
-    },
+      ComponentProp1: "value2"
+    }
   };
   const response = await serviceClient.updateComponent(digitalTwinId, componentPath, options);
-  console.log(response);
+  console.log(`Update Component response:`);
+  console.log(inspect(response));
 
   // Get component
-  const component = await serviceClient.getComponent(digitalTwinId, componentPath);
-  console.log(`Updated component: ${component}`);
+  const getComponent = await serviceClient.getComponent(digitalTwinId, componentPath);
+  console.log(`Get Component:`);
+  console.log(inspect(getComponent));
 
   // Delete digital twin
   const response = await serviceClient.deleteDigitalTwin(digitalTwinId);
-  console.log(response);
+  console.log(`Delete response:`);
+  console.log(inspect(response));
 
   // Decomission models
   const response = await serviceClient.decomissionModel(modelId);
-  console.log(response);
+  console.log(`Decomission Model response:`);
+  console.log(inspect(response));
   const response = await serviceClient.decomissionModel(componentId);
-  console.log(response);
+  console.log(`Decomission Component Model response:`);
+  console.log(inspect(response));
 
   // Delete models
   response = await serviceClient.deleteModel(modelId);
-  console.log(response);
+  console.log(`Delete Model response:`);
+  console.log(inspect(response));
 
   response = await serviceClient.deleteModel(componentId);
-  console.log(response);
+  console.log(`Delete Component Model response:`);
+  console.log(inspect(response));
 }
 
 main().catch((err) => {

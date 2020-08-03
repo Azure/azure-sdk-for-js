@@ -3,6 +3,7 @@
 
 const { DefaultAzureCredential } = require("@azure/identity");
 const { DigitalTwinsClient } = require("@azure/digitaltwins");
+const { inspect } = require("util");
 
 // Simple example of how to:
 // - create a DigitalTwins Service Client using the DigitalTwinsClient constructor
@@ -20,10 +21,9 @@ async function main() {
     // - AZURE_CLIENT_ID: The application (client) ID registered in the AAD tenant
     // - AZURE_CLIENT_SECRET: The client secret for the registered application
     const credential = new DefaultAzureCredential();
-
     const serviceClient = new DigitalTwinsClient(url, credential);
 
-    console.log(serviceClient);
+    console.log(inspect(serviceClient));
   } catch (err) {
     console.log(err);
   }
