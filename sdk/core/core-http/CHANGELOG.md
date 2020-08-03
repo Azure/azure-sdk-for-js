@@ -2,7 +2,7 @@
 
 ## 1.1.5 (2020-08-04)
 
-- The global `fetch()` is no longer overridden by node-fetch. This fix an issue impacting Electron render process. [PR #9880](https://github.com/Azure/azure-sdk-for-js/pull/9880)
+- The global `fetch()` is no longer overridden by node-fetch. This fixed an issue impacting Electron render process. [PR #9880](https://github.com/Azure/azure-sdk-for-js/pull/9880)
 
 ## 1.1.4 (2020-07-02)
 
