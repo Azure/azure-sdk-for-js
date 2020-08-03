@@ -10,6 +10,7 @@ https://github.com/Azure/azure-rest-api-specs/pull/10220 is merged.
 ```yaml
 v3: true
 package-name: "@azure/schema-registry"
+package-version: 1.0.0-preview.1
 title: SchemaRegistryClient
 description: SchemaRegistry Client
 generate-metadata: false
