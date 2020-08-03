@@ -26,7 +26,7 @@ npm install @azure/ms-rest-nodeauth@"^3.0.0"
 
 ##### Sample code
 
-```typescript
+```javascript
 const { AzureReservationAPI } = require("@azure/arm-reservations");
 const { interactiveLogin } = require("@azure/ms-rest-nodeauth");
 
