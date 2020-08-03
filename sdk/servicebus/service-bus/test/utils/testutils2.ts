@@ -492,7 +492,7 @@ export function createServiceBusClientForTests(
   options?: ServiceBusClientOptions
 ): ServiceBusClientForTests {
   const serviceBusClient = new ServiceBusClient(
-    connectionString(),
+    getConnectionString(),
     options
   ) as ServiceBusClientForTests;
 
@@ -514,7 +514,7 @@ export async function drainReceiveAndDeleteReceiver(receiver: Receiver<{}>): Pro
   }
 }
 
-function connectionString() {
+export function getConnectionString() {
   if (env[EnvVarNames.SERVICEBUS_CONNECTION_STRING] == null) {
     throw new Error(
       `No service bus connection string defined in ${EnvVarNames.SERVICEBUS_CONNECTION_STRING}`
