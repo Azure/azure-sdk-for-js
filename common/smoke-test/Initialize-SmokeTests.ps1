@@ -35,7 +35,7 @@ param (
   [hashtable] $AdditionalParameters,
 
   [Parameter()]
-  [string] $ServiceDirectory = '',
+  [string] $ServiceDirectory = '*',
 
   [Parameter()]
   [switch] $CI = ($null -ne $env:SYSTEM_TEAMPROJECTID),
@@ -91,11 +91,8 @@ SetEnvironmentVariable -Name AZURE_AUTHORITY_HOST -Value $cloudEnvironment.Activ
 $repoRoot = Resolve-Path -Path "$PSScriptRoot../../../"
 
 Write-Verbose "Detecting samples..."
-$javascriptSamples = (Get-ChildItem -Path "$repoRoot/sdk/*/*/samples/javascript/" -Directory
-  | Where-Object {
-    (Test-Path "$_/package.json") `
-      -and ( ($ServiceDirectory -eq '') -or (((Join-Path $_ ../../../) | Get-Item).Name -eq $ServiceDirectory))
-  })
+$javascriptSamples = (Get-ChildItem -Path "$repoRoot/sdk/$ServiceDirectory/*/samples/javascript/" -Directory
+  | Where-Object { Test-Path "$_/package.json" })
 
 $manifest = $javascriptSamples | ForEach-Object {
   # Example: C:\code\azure-sdk-for-js\sdk\appconfiguration\app-configuration\samples\javascript
@@ -121,6 +118,11 @@ $resourceGroupName = "rg-smoke-$baseName"
 SetEnvironmentVariable -Name 'AZURE_RESOURCEGROUP_NAME' -Value $resourceGroupName
 
 foreach ($entry in $manifest) {
+  if (!(Get-ChildItem -Path "$repoRoot/sdk/$($entry.ResourcesDirectory)" -Filter test-resources.json -Recurse)) {
+    Write-Verbose "Skipping $($entry.ResourcesDirectory): could not find test-resources.json"
+    continue
+  }
+
   try {
     Write-Verbose "Deploying resources for $($entry.Name)..."
     if ($deployedServiceDirectories.ContainsKey($entry.ResourcesDirectory) -ne $true) {
@@ -205,7 +207,7 @@ SetEnvironmentVariable -Name "NODE_PATH" -Value "$PSScriptRoot/node_modules"
 if ($CI) {
   # If in CI mark the task as successful even if there are warnings so the
   # pipeline execution status shows up as red or green
-  Write-Host "##vso[task.complete result=Succeeded;]DONE"
+  Write-Host "##vso[task.complete result=Succeeded; ]DONE"
 }
 
 
