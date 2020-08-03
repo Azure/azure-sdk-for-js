@@ -27,12 +27,10 @@ npm install @azure/ms-rest-nodeauth@"^3.0.0"
 ##### Sample code
 
 ```typescript
-import * as msRest from "@azure/ms-rest-js";
-import * as msRestAzure from "@azure/ms-rest-azure-js";
-import * as msRestNodeAuth from "@azure/ms-rest-nodeauth";
-import { AzureReservationAPI, AzureReservationAPIModels, AzureReservationAPIMappers } from "@azure/arm-reservations";
+const { AzureReservationAPI } = require("@azure/arm-reservations");
+const { interactiveLogin } = require("@azure/ms-rest-nodeauth");
 
-msRestNodeAuth.interactiveLogin().then((creds) => {
+interactiveLogin().then((creds) => {
   const client = new AzureReservationAPI(creds);
   const subscriptionId = "testsubscriptionId";
   const providerId = "testproviderId";
