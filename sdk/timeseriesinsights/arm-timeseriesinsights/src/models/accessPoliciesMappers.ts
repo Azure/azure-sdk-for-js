@@ -19,12 +19,17 @@ export {
   EnvironmentStatus,
   EventHubEventSourceResource,
   EventSourceResource,
+  Gen1EnvironmentResource,
+  Gen2EnvironmentResource,
+  Gen2StorageConfigurationOutput,
   IngressEnvironmentStatus,
   IoTHubEventSourceResource,
-  PartitionKeyProperty,
   ReferenceDataSetKeyProperty,
   ReferenceDataSetResource,
   Resource,
   Sku,
-  TrackedResource
+  TimeSeriesIdProperty,
+  TrackedResource,
+  WarmStorageEnvironmentStatus,
+  WarmStoreConfigurationProperties
 } from "../models/mappers";
