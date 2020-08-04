@@ -54,7 +54,7 @@ export class BearerTokenAuthenticationPolicy extends BaseRequestPolicy {
    * expiration date minus the value of timeBetweenRefreshAttemptsInMs,
    * which is by default 30 seconds.
    */
-  public timeBetweenRefreshAttemptsInMs: number = 30000;
+  private timeBetweenRefreshAttemptsInMs: number = 30000;
 
   /**
    * Creates a new BearerTokenAuthenticationPolicy object.
