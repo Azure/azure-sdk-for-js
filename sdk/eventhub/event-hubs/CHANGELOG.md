@@ -6,6 +6,12 @@
   where events could be _skipped_ while receiving messages.
   Previously this could occur when a retryable error was encountered and retries were exhausted while receiving a batch of events.
 
+### Tracing updates:
+
+- Addresses [#10276](https://github.com/Azure/azure-sdk-for-js/issues/10276): adds
+  `message_bus.destination` and `peer.address` attributes to `Azure.EventHubs.message` spans.
+  ([PR 10389](https://github.com/Azure/azure-sdk-for-js/pull/10389))
+
 ## 5.3.0-preview.1 (2020-07-07)
 
 - Adds `loadBalancingOptions` to the `EventHubConsumerClient` to add control around
