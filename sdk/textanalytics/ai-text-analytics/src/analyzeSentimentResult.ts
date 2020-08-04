@@ -151,5 +151,5 @@ function convertAspectRelationToOpinionSentiment(
   aspectRelation: AspectRelation,
   response: GeneratedClientSentimentResponse
 ): OpinionSentiment {
-  return {}
+  return {};
 }
