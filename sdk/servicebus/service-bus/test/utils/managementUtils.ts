@@ -2,13 +2,13 @@
 // Licensed under the MIT license.
 
 import { delay } from "../../src";
-import { QueueProperties } from "../../src/serializers/queueResourceSerializer";
-import { TopicProperties } from "../../src/serializers/topicResourceSerializer";
-import { SubscriptionProperties } from "../../src/serializers/subscriptionResourceSerializer";
+import { CreateTopicOptions } from "../../src/serializers/topicResourceSerializer";
+import { CreateSubscriptionOptions } from "../../src/serializers/subscriptionResourceSerializer";
 import { ServiceBusManagementClient } from "../../src/serviceBusAtomManagementClient";
 
 import { EnvVarNames, getEnvVars } from "./envVarUtils";
 import chai from "chai";
+import { CreateQueueOptions } from "../../src/serializers/queueResourceSerializer";
 const should = chai.should();
 
 let client: ServiceBusManagementClient;
@@ -78,7 +78,7 @@ async function retry(
  */
 export async function recreateQueue(
   queueName: string,
-  parameters?: Omit<QueueProperties, "name">
+  parameters?: Omit<CreateQueueOptions, "name">
 ): Promise<void> {
   await getManagementClient();
 
@@ -87,7 +87,7 @@ export async function recreateQueue(
   };
 
   const createQueueOperation = async () => {
-    await client.createQueue({ name: queueName, ...parameters });
+    await client.createQueue(queueName, parameters);
   };
 
   const checkIfQueueExistsOperation = async () => {
@@ -116,7 +116,7 @@ export async function recreateQueue(
  */
 export async function recreateTopic(
   topicName: string,
-  parameters?: Omit<TopicProperties, "name">
+  parameters?: Omit<CreateTopicOptions, "name">
 ): Promise<void> {
   await getManagementClient();
 
@@ -125,7 +125,7 @@ export async function recreateTopic(
   };
 
   const createTopicOperation = async () => {
-    await client.createTopic({ name: topicName, ...parameters });
+    await client.createTopic(topicName, parameters);
   };
 
   const checkIfTopicExistsOperation = async () => {
@@ -156,7 +156,7 @@ export async function recreateTopic(
 export async function recreateSubscription(
   topicName: string,
   subscriptionName: string,
-  parameters?: Omit<SubscriptionProperties, "topicName" | "subscriptionName">
+  parameters?: Omit<CreateSubscriptionOptions, "topicName" | "subscriptionName">
 ): Promise<void> {
   await getManagementClient();
   /*
@@ -166,7 +166,7 @@ export async function recreateSubscription(
   */
 
   const createSubscriptionOperation = async () => {
-    await client.createSubscription({ topicName, subscriptionName, ...parameters });
+    await client.createSubscription(topicName, subscriptionName, parameters);
   };
 
   const checkIfSubscriptionExistsOperation = async () => {

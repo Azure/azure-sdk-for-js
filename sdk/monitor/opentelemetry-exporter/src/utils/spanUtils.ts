@@ -210,9 +210,9 @@ export function readableSpanToEnvelope(
     default:
       // never
       if (logger) {
-        logger.error(`Unsupported span kind ${span.kind as string}`);
+        logger.error(`Unsupported span kind ${span.kind}`);
       }
-      throw new Error(`Unsupported span kind ${span.kind as string}`);
+      throw new Error(`Unsupported span kind ${span.kind}`);
   }
 
   envelope.data.baseData = { ...data, properties };
