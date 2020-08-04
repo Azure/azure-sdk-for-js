@@ -8,19 +8,17 @@ import {
   makeTextAnalyticsErrorResult
 } from "./textAnalyticsResult";
 import {
-  TextDocumentStatistics,
   TextAnalyticsError,
   DocumentSentimentLabel,
   SentimentConfidenceScores,
   SentenceSentiment as GeneratedSentenceSentiment,
-  TextAnalyticsWarning,
   SentenceSentimentLabel,
   DocumentSentiment,
   GeneratedClientSentimentResponse,
   SentenceAspect,
   AspectRelation
 } from "./generated/models";
-import { AspectRelation } from "./generated/models/mappers";
+import { dereferenceJsonPointer } from "./util";
 
 /**
  * The result of the analyze sentiment operation on a single document.
@@ -139,9 +137,9 @@ function convertGeneratedSentenceSentiment(
           sentiment: aspect.sentiment,
           text: aspect.text
         },
-        opinions: aspect.relations.map((relation) =>
-          convertAspectRelationToOpinionSentiment(relation, response)
-        )
+        opinions: aspect.relations
+          .filter((relation) => relation.relationType === "opinion")
+          .map((relation) => convertAspectRelationToOpinionSentiment(relation, response))
       })
     )
   };
@@ -151,5 +149,6 @@ function convertAspectRelationToOpinionSentiment(
   aspectRelation: AspectRelation,
   response: GeneratedClientSentimentResponse
 ): OpinionSentiment {
-  return {};
+  return dereferenceJsonPointer(response, aspectRelation.ref);
 }
+

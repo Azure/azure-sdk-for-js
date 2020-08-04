@@ -3,8 +3,6 @@
 
 import {
   TextDocumentBatchStatistics,
-  DocumentError,
-  DocumentSentiment,
   TextDocumentInput,
   GeneratedClientSentimentResponse
 } from "./generated/models";
@@ -41,14 +39,7 @@ export function makeAnalyzeSentimentResultArray(
   const unsortedResult = documents
     .map(
       (document): AnalyzeSentimentResult => {
-        return makeAnalyzeSentimentResult(
-          document.id,
-          document.sentiment,
-          document.confidenceScores,
-          document.sentenceSentiments,
-          document.warnings,
-          document.statistics
-        );
+        return makeAnalyzeSentimentResult(document, response);
       }
     )
     .concat(
