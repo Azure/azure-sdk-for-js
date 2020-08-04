@@ -53,16 +53,16 @@ describe("BearerTokenAuthenticationPolicy", function() {
     );
   });
 
-  it("refreshes access tokens when they expire", async function() {
+  it("refreshes access tokens when they expire", async () => {
     const now = Date.now();
     const refreshCred1 = new MockRefreshAzureCredential(now);
     const refreshCred2 = new MockRefreshAzureCredential(now + TokenRefreshBufferMs);
     const notRefreshCred1 = new MockRefreshAzureCredential(now + TokenRefreshBufferMs + 5000);
 
     const credentialsToTest: [MockRefreshAzureCredential, number][] = [
-      [refreshCred1, 1],
-      [refreshCred2, 1],
-      [notRefreshCred1, 1]
+      [refreshCred1, 2],
+      [refreshCred2, 2],
+      [notRefreshCred1, 2]
     ];
 
     const request = createRequest();
