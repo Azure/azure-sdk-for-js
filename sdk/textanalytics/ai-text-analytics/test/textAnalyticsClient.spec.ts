@@ -406,27 +406,27 @@ describe("[AAD] TextAnalyticsClient", function() {
     });
   });
 
-  describe("#opinionMining", () => {
-    it("client accepts TextDocumentInput[]", async () => {
-      const enInputs = testDataEn.map(
-        (text): TextDocumentInput => ({
-          id: getId(),
-          language: "en",
-          text
-        })
-      );
-      const esInputs = testDataEs.map(
-        (text): TextDocumentInput => ({
-          id: getId(),
-          language: "es",
-          text
-        })
-      );
-      const allInputs = enInputs.concat(esInputs);
+  // describe.only("#opinionMining", () => {
+  //   it("client accepts TextDocumentInput[]", async () => {
+  //     const enInputs = testDataEn.map(
+  //       (text): TextDocumentInput => ({
+  //         id: getId(),
+  //         language: "en",
+  //         text
+  //       })
+  //     );
+  //     const esInputs = testDataEs.map(
+  //       (text): TextDocumentInput => ({
+  //         id: getId(),
+  //         language: "es",
+  //         text
+  //       })
+  //     );
+  //     const allInputs = enInputs.concat(esInputs);
 
-      const results = await client.analyzeSentiment(allInputs, { mineOpinions: true });
-      assert.equal(results.length, testDataEn.length + testDataEs.length);
-      assertAllSuccess(results);
-    });
-  });
+  //     const results = await client.analyzeSentiment(allInputs, { mineOpinions: true });
+  //     assert.equal(results.length, testDataEn.length + testDataEs.length);
+  //     assertAllSuccess(results);
+  //   });
+  // });
 });
