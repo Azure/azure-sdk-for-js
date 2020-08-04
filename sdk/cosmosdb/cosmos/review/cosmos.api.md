@@ -806,7 +806,7 @@ export class Items {
 }
 
 // @public (undocumented)
-export interface JSONArray extends Array<JSONValue> {
+export interface JSONArray extends ArrayLike<JSONValue> {
 }
 
 // @public (undocumented)

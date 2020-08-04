@@ -42,7 +42,7 @@ describe("FormTrainingClient NodeJS only", () => {
   });
 
   const expectedDocumentInfo: TrainingDocumentInfo = {
-    documentName: "Form_1.jpg",
+    name: "Form_1.jpg",
     errors: [],
     pageCount: 1,
     status: "succeeded"
@@ -95,10 +95,7 @@ describe("FormTrainingClient NodeJS only", () => {
     assert.ok(model.fields["Signature"], "Expecting field with name 'Signature' to be valid");
 
     // TODO: why training with labels is missing `errors` array?
-    assert.deepStrictEqual(
-      response?.trainingDocuments![0].documentName,
-      expectedDocumentInfo.documentName
-    );
+    assert.deepStrictEqual(response?.trainingDocuments![0].name, expectedDocumentInfo.name);
   });
 
   it("trains model with forms and no labels including sub folders", async () => {
@@ -106,7 +103,7 @@ describe("FormTrainingClient NodeJS only", () => {
     assert.ok(containerSasUrl, "Expect valid container sas url");
 
     const poller = await trainingClient.beginTraining(containerSasUrl, false, {
-      includeSubFolders: true
+      includeSubfolders: true
     });
     const response = await poller.pollUntilDone();
 
@@ -214,8 +211,6 @@ describe("FormTrainingClient NodeJS only", () => {
     const resourceRegion = env.FORM_RECOGNIZER_TARGET_RESOURCE_REGION;
     const targetAuth = await trainingClient.getCopyAuthorization(resourceId, resourceRegion);
 
-    assert.ok(targetAuth.expiresOn.getTime() / 1000 === targetAuth.expirationDateTimeTicks);
-
     assert.ok(labeledModelId, "Expecting valide model id in source");
     const poller = await trainingClient.beginCopyModel(labeledModelId!, targetAuth);
     const result = await poller.pollUntilDone();
@@ -248,11 +243,9 @@ describe("FormRecognizerClient form recognition NodeJS", () => {
     const stream = fs.createReadStream(filePath);
 
     assert.ok(unlabeledModelId, "Expecting valid model id from training without labels");
-    const poller = await recognizerClient.beginRecognizeCustomForms(
-      unlabeledModelId!,
-      stream,
-      "image/jpeg"
-    );
+    const poller = await recognizerClient.beginRecognizeCustomForms(unlabeledModelId!, stream, {
+      contentType: "image/jpeg"
+    });
     const forms = await poller.pollUntilDone();
 
     assert.ok(forms && forms.length > 0, `Expect no-empty pages but got ${forms}`);
@@ -295,11 +288,9 @@ describe("FormRecognizerClient form recognition NodeJS", () => {
     const stream = fs.createReadStream(filePath);
 
     assert.ok(unlabeledModelId, "Expecting valid model id from training without labels");
-    const poller = await recognizerClient.beginRecognizeCustomForms(
-      labeledModelId!,
-      stream,
-      "image/jpeg"
-    );
+    const poller = await recognizerClient.beginRecognizeCustomForms(labeledModelId!, stream, {
+      contentType: "image/jpeg"
+    });
     const forms = await poller.pollUntilDone();
 
     assert.ok(forms && forms.length > 0, `Expect no-empty pages but got ${forms}`);

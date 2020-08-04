@@ -39,7 +39,7 @@ export function createClientEntityContextForTests(options?: {
 
           return ({
             connection: {
-              id: "connection-id",
+              id: "connection-id"
             }
           } as any) as RheaReceiver;
         }

@@ -743,8 +743,7 @@ describe("ATOM Serializers", () => {
           };
         };
         try {
-          await mockServiceBusAtomManagementClient.createQueue({
-            queueName: "test",
+          await mockServiceBusAtomManagementClient.createQueue("test", {
             ...(testCase.input as any)
           });
           assert.fail("Error must be thrown");
