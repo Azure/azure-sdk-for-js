@@ -17,6 +17,7 @@
     "test:node": "c8 ts-mocha -p ./tsconfig.json 'test/**/*.test.ts'",
     "test:browser": "echo skipped",
     "report": "c8 report --reporter=json",
+    "test-opentelemetry-versions": "node test-opentelemetry-versions.js 2>&1",
     "prepare": "npm run build"
   },
   "engines": {
@@ -41,14 +42,15 @@
   "devDependencies": {
     "@types/mocha": "^7.0.2",
     "@types/node": "^10.0.0",
-    "@typescript-eslint/parser": "^2.0.0",
     "@typescript-eslint/eslint-plugin": "^2.0.0",
+    "@typescript-eslint/parser": "^2.0.0",
     "c8": "^7.2.0",
     "eslint": "^6.1.0",
     "eslint-config-prettier": "^6.0.0",
     "eslint-plugin-import": "^2.21.2",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-prettier": "^3.1.4",
+    "execa": "^4.0.3",
     "mocha": "^7.1.1",
     "nock": "^12.0.3",
     "prettier": "^1.16.4",
@@ -59,9 +61,9 @@
   },
   "dependencies": {
     "@opentelemetry/api": "^0.10.2",
-    "@opentelemetry/core": "^0.10.1",
-    "@opentelemetry/semantic-conventions": "^0.10.1",
-    "@opentelemetry/tracing": "^0.10.1"
+    "@opentelemetry/core": "^0.10.2",
+    "@opentelemetry/semantic-conventions": "^0.10.2",
+    "@opentelemetry/tracing": "^0.10.2"
   },
   "sideEffects": false,
   "keywords": [
