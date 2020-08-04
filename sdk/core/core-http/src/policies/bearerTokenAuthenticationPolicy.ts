@@ -99,10 +99,10 @@ export class BearerTokenAuthenticationPolicy extends BaseRequestPolicy {
   private async getToken(options: GetTokenOptions): Promise<string | undefined> {
     let accessToken = this.tokenCache.getCachedToken();
     if (accessToken === undefined) {
-      // Triggering or waiting for the next refresh
+      // Waiting for the next refresh (or forcefully triggering a new refresh)
       // only if the cache is unable to retrieve the access token,
       // which means that it has expired, or it has never been set.
-      const refreshPromise = this.tokenRefresher.refresh(options);
+      const refreshPromise = this.tokenRefresher.forcedRefresh(options);
       if (refreshPromise !== null) {
         accessToken = await refreshPromise;
       }

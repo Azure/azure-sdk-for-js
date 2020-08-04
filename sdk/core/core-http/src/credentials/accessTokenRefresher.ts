@@ -51,4 +51,17 @@ export class AccessTokenRefresher {
       }
     }
   }
+
+  /**
+   * Forces the requests of a new token if we're not currently waiting for a new token.
+   * @param options getToken options
+   */
+  public forcedRefresh(options: GetTokenOptions): Promise<AccessToken | undefined> | null {
+    if (this.promise) {
+      return this.promise;
+    } else {
+      this.promise = this.getToken(options);
+      return this.promise;
+    }
+  }
 }
