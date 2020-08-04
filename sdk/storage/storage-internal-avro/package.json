@@ -22,7 +22,7 @@
     "unit-test:node": "mocha --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --full-trace -t 120000 dist-test/index.node.js",
     "unit-test:browser": "echo 'browser not supported yet.'",
     "test:node": "npm run clean && npm run build:test && npm run unit-test:node",
-    "format": "prettier --write --config ../../.prettierrc.json \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
+    "format": "prettier --write --config ../../../.prettierrc.json \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "pack": "npm pack 2>&1"
   },
   "dependencies": {

@@ -6,7 +6,7 @@ import { ChainedTokenCredential } from "./chainedTokenCredential";
 import { EnvironmentCredential } from "./environmentCredential";
 import { ManagedIdentityCredential } from "./managedIdentityCredential";
 import { AzureCliCredential } from "./azureCliCredential";
-import { VSCodeCredential } from "./vscodeCredential";
+import { VisualStudioCodeCredential } from "./visualStudioCodeCredential";
 
 /**
  * Provides options to configure the default Azure credentials.
@@ -45,7 +45,7 @@ export class DefaultAzureCredential extends ChainedTokenCredential {
       );
     }
     credentials.push(new AzureCliCredential());
-    credentials.push(new VSCodeCredential(tokenCredentialOptions));
+    credentials.push(new VisualStudioCodeCredential(tokenCredentialOptions));
 
     super(...credentials);
     this.UnavailableMessage =

@@ -473,6 +473,11 @@
       "versionPolicyName": "core"
     },
     {
+      "packageName": "@azure/schema-registry",
+      "projectFolder": "sdk/schemaregistry/schema-registry",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure/service-bus",
       "projectFolder": "sdk/servicebus/service-bus",
       "versionPolicyName": "client"

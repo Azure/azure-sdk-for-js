@@ -1,7 +1,7 @@
 {
   "arrowParens": "always",
   "bracketSpacing": true,
-  "endOfLine":"lf",
+  "endOfLine": "lf",
   "printWidth": 100,
   "semi": true,
   "singleQuote": false,
