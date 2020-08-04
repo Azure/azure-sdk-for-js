@@ -16,7 +16,8 @@ import {
   DocumentSentiment,
   GeneratedClientSentimentResponse,
   SentenceAspect,
-  AspectRelation, SentenceOpinion
+  AspectRelation,
+  SentenceOpinion
 } from "./generated/models";
 import { dereferenceJsonPointer } from "./util";
 
@@ -146,13 +147,17 @@ function convertGeneratedSentenceSentiment(
   };
 }
 
-function convertSentenceOpinionToOpinionSentiment(opinion : SentenceOpinion) : OpinionSentiment {
-  const opinionConfidenceScore : SentimentConfidenceScores = { positive:opinion.confidenceScores.positive, negative:opinion.confidenceScores.negative, neutral:0};
+function convertSentenceOpinionToOpinionSentiment(opinion: SentenceOpinion): OpinionSentiment {
+  const opinionConfidenceScore: SentimentConfidenceScores = {
+    positive: opinion.confidenceScores.positive,
+    negative: opinion.confidenceScores.negative,
+    neutral: 0
+  };
   return {
     confidenceScores: opinionConfidenceScore,
-    isNegated:opinion.isNegated,
-    sentiment:opinion.sentiment,
-    text:opinion.text
+    isNegated: opinion.isNegated,
+    sentiment: opinion.sentiment,
+    text: opinion.text
   };
 }
 
@@ -160,6 +165,9 @@ function convertAspectRelationToOpinionSentiment(
   aspectRelation: AspectRelation,
   response: GeneratedClientSentimentResponse
 ): OpinionSentiment {
-  const opinion : SentenceOpinion = dereferenceJsonPointer(response, aspectRelation.ref) as SentenceOpinion;
+  const opinion: SentenceOpinion = dereferenceJsonPointer(
+    response,
+    aspectRelation.ref
+  ) as SentenceOpinion;
   return convertSentenceOpinionToOpinionSentiment(opinion);
 }
