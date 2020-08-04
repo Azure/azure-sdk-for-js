@@ -36,7 +36,7 @@ export class Reservation {
    * @returns Promise<Models.ReservationAvailableScopesResponse>
    */
   availableScopes(reservationOrderId: string, reservationId: string, body: Models.AvailableScopeRequest, options?: msRest.RequestOptionsBase): Promise<Models.ReservationAvailableScopesResponse> {
-    return this.beginAvailableScopes(reservationOrderId,reservationId,body,options)
+    return this.beginAvailableScopes(reservationOrderId, reservationId, body, options)
       .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.ReservationAvailableScopesResponse>;
   }
 
@@ -49,7 +49,7 @@ export class Reservation {
    * @returns Promise<Models.ReservationSplitResponse>
    */
   split(reservationOrderId: string, body: Models.SplitRequest, options?: msRest.RequestOptionsBase): Promise<Models.ReservationSplitResponse> {
-    return this.beginSplit(reservationOrderId,body,options)
+    return this.beginSplit(reservationOrderId, body, options)
       .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.ReservationSplitResponse>;
   }
 
@@ -63,7 +63,7 @@ export class Reservation {
    * @returns Promise<Models.ReservationMergeResponse>
    */
   merge(reservationOrderId: string, body: Models.MergeRequest, options?: msRest.RequestOptionsBase): Promise<Models.ReservationMergeResponse> {
-    return this.beginMerge(reservationOrderId,body,options)
+    return this.beginMerge(reservationOrderId, body, options)
       .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.ReservationMergeResponse>;
   }
 
@@ -139,7 +139,7 @@ export class Reservation {
    * @returns Promise<Models.ReservationUpdateResponse>
    */
   update(reservationOrderId: string, reservationId: string, parameters: Models.Patch, options?: msRest.RequestOptionsBase): Promise<Models.ReservationUpdateResponse> {
-    return this.beginUpdate(reservationOrderId,reservationId,parameters,options)
+    return this.beginUpdate(reservationOrderId, reservationId, parameters, options)
       .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.ReservationUpdateResponse>;
   }
 

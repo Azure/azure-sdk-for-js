@@ -91,7 +91,7 @@ export class Quota {
    * @returns Promise<Models.QuotaCreateOrUpdateResponse>
    */
   createOrUpdate(subscriptionId: string, providerId: string, location: string, resourceName: string, createQuotaRequest: Models.CurrentQuotaLimitBase, options?: msRest.RequestOptionsBase): Promise<Models.QuotaCreateOrUpdateResponse> {
-    return this.beginCreateOrUpdate(subscriptionId,providerId,location,resourceName,createQuotaRequest,options)
+    return this.beginCreateOrUpdate(subscriptionId, providerId, location, resourceName, createQuotaRequest, options)
       .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.QuotaCreateOrUpdateResponse>;
   }
 
@@ -115,7 +115,7 @@ export class Quota {
    * @returns Promise<Models.QuotaUpdateResponse>
    */
   update(subscriptionId: string, providerId: string, location: string, resourceName: string, createQuotaRequest: Models.CurrentQuotaLimitBase, options?: msRest.RequestOptionsBase): Promise<Models.QuotaUpdateResponse> {
-    return this.beginUpdate(subscriptionId,providerId,location,resourceName,createQuotaRequest,options)
+    return this.beginUpdate(subscriptionId, providerId, location, resourceName, createQuotaRequest, options)
       .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.QuotaUpdateResponse>;
   }
 

@@ -1605,16 +1605,16 @@ export type ReservationAvailableScopesResponse = AvailableScopeProperties & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AvailableScopeProperties;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AvailableScopeProperties;
+  };
 };
 
 /**
@@ -1625,16 +1625,16 @@ export type ReservationSplitResponse = Array<ReservationResponse> & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ReservationResponse[];
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ReservationResponse[];
+  };
 };
 
 /**
@@ -1645,16 +1645,16 @@ export type ReservationMergeResponse = Array<ReservationResponse> & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ReservationResponse[];
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ReservationResponse[];
+  };
 };
 
 /**
@@ -1665,16 +1665,16 @@ export type ReservationListResponse = ReservationList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ReservationList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ReservationList;
+  };
 };
 
 /**
@@ -1685,16 +1685,16 @@ export type ReservationGetResponse = ReservationResponse & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ReservationResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ReservationResponse;
+  };
 };
 
 /**
@@ -1705,16 +1705,16 @@ export type ReservationUpdateResponse = ReservationResponse & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ReservationResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ReservationResponse;
+  };
 };
 
 /**
@@ -1725,16 +1725,16 @@ export type ReservationListRevisionsResponse = ReservationList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ReservationList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ReservationList;
+  };
 };
 
 /**
@@ -1745,16 +1745,16 @@ export type ReservationBeginAvailableScopesResponse = AvailableScopeProperties &
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AvailableScopeProperties;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AvailableScopeProperties;
+  };
 };
 
 /**
@@ -1765,16 +1765,16 @@ export type ReservationBeginSplitResponse = Array<ReservationResponse> & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ReservationResponse[];
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ReservationResponse[];
+  };
 };
 
 /**
@@ -1785,16 +1785,16 @@ export type ReservationBeginMergeResponse = Array<ReservationResponse> & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ReservationResponse[];
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ReservationResponse[];
+  };
 };
 
 /**
@@ -1805,16 +1805,16 @@ export type ReservationBeginUpdateResponse = ReservationResponse & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ReservationResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ReservationResponse;
+  };
 };
 
 /**
@@ -1825,16 +1825,16 @@ export type ReservationListNextResponse = ReservationList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ReservationList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ReservationList;
+  };
 };
 
 /**
@@ -1845,16 +1845,16 @@ export type ReservationListRevisionsNextResponse = ReservationList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ReservationList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ReservationList;
+  };
 };
 
 /**
@@ -1865,16 +1865,16 @@ export type GetCatalogResponse = Array<Catalog> & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Catalog[];
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: Catalog[];
+  };
 };
 
 /**
@@ -1885,16 +1885,16 @@ export type GetAppliedReservationListResponse = AppliedReservations & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AppliedReservations;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: AppliedReservations;
+  };
 };
 
 /**
@@ -1905,16 +1905,16 @@ export type ReservationOrderCalculateResponse = CalculatePriceResponse & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CalculatePriceResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: CalculatePriceResponse;
+  };
 };
 
 /**
@@ -1925,16 +1925,16 @@ export type ReservationOrderListResponse = ReservationOrderList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ReservationOrderList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ReservationOrderList;
+  };
 };
 
 /**
@@ -1945,16 +1945,16 @@ export type ReservationOrderPurchaseResponse = ReservationOrderResponse & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ReservationOrderResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ReservationOrderResponse;
+  };
 };
 
 /**
@@ -1965,16 +1965,16 @@ export type ReservationOrderGetResponse = ReservationOrderResponse & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ReservationOrderResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ReservationOrderResponse;
+  };
 };
 
 /**
@@ -1985,16 +1985,16 @@ export type ReservationOrderBeginPurchaseResponse = ReservationOrderResponse & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ReservationOrderResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ReservationOrderResponse;
+  };
 };
 
 /**
@@ -2005,16 +2005,16 @@ export type ReservationOrderListNextResponse = ReservationOrderList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ReservationOrderList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ReservationOrderList;
+  };
 };
 
 /**
@@ -2025,16 +2025,16 @@ export type OperationListResponse = OperationList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationList;
+  };
 };
 
 /**
@@ -2045,16 +2045,16 @@ export type OperationListNextResponse = OperationList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: OperationList;
+  };
 };
 
 /**
@@ -2065,21 +2065,21 @@ export type CalculateExchangePostResponse = CalculateExchangeOperationResultResp
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: CalculateExchangePostHeaders;
+    /**
+     * The parsed HTTP response headers.
+     */
+    parsedHeaders: CalculateExchangePostHeaders;
 
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CalculateExchangeOperationResultResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: CalculateExchangeOperationResultResponse;
+  };
 };
 
 /**
@@ -2090,21 +2090,21 @@ export type ExchangePostResponse = ExchangeOperationResultResponse & ExchangePos
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: ExchangePostHeaders;
+    /**
+     * The parsed HTTP response headers.
+     */
+    parsedHeaders: ExchangePostHeaders;
 
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ExchangeOperationResultResponse;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: ExchangeOperationResultResponse;
+  };
 };
 
 /**
@@ -2115,21 +2115,21 @@ export type QuotaGetResponse = CurrentQuotaLimitBase & QuotaGetHeaders & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: QuotaGetHeaders;
+    /**
+     * The parsed HTTP response headers.
+     */
+    parsedHeaders: QuotaGetHeaders;
 
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: CurrentQuotaLimitBase;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: CurrentQuotaLimitBase;
+  };
 };
 
 /**
@@ -2145,16 +2145,16 @@ export type QuotaCreateOrUpdateResponse = {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: any;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: any;
+  };
 };
 
 /**
@@ -2170,16 +2170,16 @@ export type QuotaUpdateResponse = {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: any;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: any;
+  };
 };
 
 /**
@@ -2190,21 +2190,21 @@ export type QuotaListResponse = QuotaLimits & QuotaListHeaders & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: QuotaListHeaders;
+    /**
+     * The parsed HTTP response headers.
+     */
+    parsedHeaders: QuotaListHeaders;
 
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: QuotaLimits;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: QuotaLimits;
+  };
 };
 
 /**
@@ -2220,16 +2220,16 @@ export type QuotaBeginCreateOrUpdateResponse = {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: any;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: any;
+  };
 };
 
 /**
@@ -2245,16 +2245,16 @@ export type QuotaBeginUpdateResponse = {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: any;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: any;
+  };
 };
 
 /**
@@ -2265,16 +2265,16 @@ export type QuotaRequestStatusGetResponse = QuotaRequestDetails & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: QuotaRequestDetails;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: QuotaRequestDetails;
+  };
 };
 
 /**
@@ -2285,16 +2285,16 @@ export type QuotaRequestStatusListResponse = QuotaRequestDetailsList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: QuotaRequestDetailsList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: QuotaRequestDetailsList;
+  };
 };
 
 /**
@@ -2305,14 +2305,14 @@ export type QuotaRequestStatusListNextResponse = QuotaRequestDetailsList & {
    * The underlying HTTP response.
    */
   _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: QuotaRequestDetailsList;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: QuotaRequestDetailsList;
+  };
 };

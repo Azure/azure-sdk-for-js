@@ -89,7 +89,7 @@ export class ReservationOrder {
    * @returns Promise<Models.ReservationOrderPurchaseResponse>
    */
   purchase(reservationOrderId: string, body: Models.PurchaseRequest, options?: msRest.RequestOptionsBase): Promise<Models.ReservationOrderPurchaseResponse> {
-    return this.beginPurchase(reservationOrderId,body,options)
+    return this.beginPurchase(reservationOrderId, body, options)
       .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.ReservationOrderPurchaseResponse>;
   }
 
