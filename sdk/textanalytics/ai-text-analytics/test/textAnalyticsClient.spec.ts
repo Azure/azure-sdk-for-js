@@ -11,7 +11,7 @@ import {
   TextDocumentInput,
   DetectLanguageInput,
   DetectLanguageSuccessResult,
-  ExtractKeyPhrasesSuccessResult
+  ExtractKeyPhrasesSuccessResult, AnalyzeSentimentOptions
 } from "../src/index";
 import { assertAllSuccess } from "./utils/resultHelper";
 
@@ -89,7 +89,7 @@ describe("[AAD] TextAnalyticsClient", function() {
       assert.equal(errorResult.error.code, "InvalidDocument");
     });
 
-    it("client accepts TextDocumentInput[]", async () => {
+    it.only("client accepts TextDocumentInput[]", async () => {
       const enInputs = testDataEn.map(
         (text): TextDocumentInput => ({
           id: getId(),
@@ -105,8 +105,8 @@ describe("[AAD] TextAnalyticsClient", function() {
         })
       );
       const allInputs = enInputs.concat(esInputs);
-
-      const results = await client.analyzeSentiment(allInputs);
+      const options:AnalyzeSentimentOptions = { mineOpinions: true };
+      const results = await client.analyzeSentiment(allInputs, options);
       assert.equal(results.length, testDataEn.length + testDataEs.length);
       assertAllSuccess(results);
     });
@@ -405,28 +405,4 @@ describe("[AAD] TextAnalyticsClient", function() {
       }
     });
   });
-
-  // describe.only("#opinionMining", () => {
-  //   it("client accepts TextDocumentInput[]", async () => {
-  //     const enInputs = testDataEn.map(
-  //       (text): TextDocumentInput => ({
-  //         id: getId(),
-  //         language: "en",
-  //         text
-  //       })
-  //     );
-  //     const esInputs = testDataEs.map(
-  //       (text): TextDocumentInput => ({
-  //         id: getId(),
-  //         language: "es",
-  //         text
-  //       })
-  //     );
-  //     const allInputs = enInputs.concat(esInputs);
-
-  //     const results = await client.analyzeSentiment(allInputs, { mineOpinions: true });
-  //     assert.equal(results.length, testDataEn.length + testDataEs.length);
-  //     assertAllSuccess(results);
-  //   });
-  // });
 });
