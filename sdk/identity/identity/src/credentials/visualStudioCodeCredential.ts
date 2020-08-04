@@ -132,7 +132,7 @@ export class VisualStudioCodeCredential implements TokenCredential {
     await this.prepareOnce();
     if (!keytar) {
       throw new CredentialUnavailable(
-        "VSCode credential requires the optional dependency 'keytar' to work correctly"
+        "Visual Studio Code credential requires the optional dependency 'keytar' to work correctly"
       );
     }
 
@@ -164,14 +164,14 @@ export class VisualStudioCodeCredential implements TokenCredential {
         return tokenResponse.accessToken;
       } else {
         const error = new CredentialUnavailable(
-          "Could not retrieve the token associated with VSCode. Have you connected using the 'Azure Account' extension recently?"
+          "Could not retrieve the token associated with Visual Studio Code. Have you connected using the 'Azure Account' extension recently?"
         );
         logger.getToken.info(formatError(error));
         throw error;
       }
     } else {
       const error = new CredentialUnavailable(
-        "Could not retrieve the token associated with VSCode. Did you connect using the 'Azure Account' extension?"
+        "Could not retrieve the token associated with Visual Studio Code. Did you connect using the 'Azure Account' extension?"
       );
       logger.getToken.info(formatError(error));
       throw error;
