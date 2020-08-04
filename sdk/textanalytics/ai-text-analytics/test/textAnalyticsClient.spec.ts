@@ -424,7 +424,7 @@ describe("[AAD] TextAnalyticsClient", function() {
       );
       const allInputs = enInputs.concat(esInputs);
 
-      const results = await client.analyzeSentiment(allInputs, {mineOpinions:true});
+      const results = await client.analyzeSentiment(allInputs, { mineOpinions: true });
       assert.equal(results.length, testDataEn.length + testDataEs.length);
       assertAllSuccess(results);
     });
