@@ -134,6 +134,12 @@ to illustrate using long-running operations [below](#Examples).
 ## Examples
 The following section provides several JavaScript code snippets illustrating common patterns used in the Form Recognizer client libraries.
 
+* [Recognize receipts](#recognize-receipts "Recognize receipts")
+* [Recognize content](#recognize-content "Recognize content")
+* [Train model](#train-model "Train model")
+* [Recognize forms using a custom model](#recognize-forms-using-a-custom-model "Recognize forms using a custom model")
+* [Listing all models](#listing-all-models "Listing all models")
+
 ### Recognize receipts
 
 Recognize data from sales receipts using the pre-built model.
