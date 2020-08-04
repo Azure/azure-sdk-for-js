@@ -7,7 +7,7 @@ const { inspect } = require("util");
 
 // Simple example of how to:
 // - create a DigitalTwins Service Client using the DigitalTwinsClient constructor
-// - list all eventRoutes using the paginated API
+// - list all models using the paginated API
 //
 // Preconditions:
 // - Environment variables have to be set
@@ -23,12 +23,11 @@ async function main() {
   const credential = new DefaultAzureCredential();
   const serviceClient = new DigitalTwinsClient(url, credential);
 
-  // List event routes
-  const eventRoutes = serviceClient.listEventRoutes();
-  for await (const eventRoute of eventRoutes) {
-    console.log(`EventRoute:`);
-    console.log(inspect(eventRoute));
-  }
+  // List models
+  const modelId = "<MODEL_ID>"; // from the samples: dtmi:samples:Room;1, dtmi:samples:Wifi;1, dtmi:samples:Floor;1, dtmi:samples:Building;1
+  const model = await serviceClient.getModel(modelId);
+  console.log(`Model:`);
+  console.log(inspect(model));
 }
 
 main().catch((err) => {

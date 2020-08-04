@@ -26,7 +26,7 @@ async function main() {
   const serviceClient = new DigitalTwinsClient(url, credential);
 
   // Get digital twin
-  const digitalTwintId = "<DIGITAL TWIN ID>"; // from the samples: BuildingTwin, FloorTwin, HVACTwin, RoomTwin
+  const digitalTwintId = "<DIGITAL_TWIN_ID>"; // from the samples: BuildingTwin, FloorTwin, HVACTwin, RoomTwin
   const digitalTwin = await serviceClient.getDigitalTwin(digitalTwintId);
   console.log(`DigitalTwin:`);
   console.log(inspect(digitalTwin));

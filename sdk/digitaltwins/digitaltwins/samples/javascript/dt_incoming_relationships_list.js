@@ -24,7 +24,7 @@ async function main() {
   const serviceClient = new DigitalTwinsClient(url, credential);
 
   // List incoming relationships
-  const digitalTwinId = "<DIGITAL TWIN ID>"; // from the samples: BuildingTwin, FloorTwin, HVACTwin, RoomTwin
+  const digitalTwinId = "<DIGITAL_TWIN_ID>"; // from the samples: BuildingTwin, FloorTwin, HVACTwin, RoomTwin
   const incomingRelationships = serviceClient.listIncomingRelationships(digitalTwinId);
   for await (const incomingRelationship of incomingRelationships) {
     console.log(`Incoming Relationship:`);

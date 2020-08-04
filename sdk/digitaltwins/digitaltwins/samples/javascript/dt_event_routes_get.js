@@ -24,11 +24,10 @@ async function main() {
   const serviceClient = new DigitalTwinsClient(url, credential);
 
   // List event routes
-  const eventRoutes = serviceClient.listEventRoutes();
-  for await (const eventRoute of eventRoutes) {
-    console.log(`EventRoute:`);
-    console.log(inspect(eventRoute));
-  }
+  const eventRouteId = "<EVENT_ROUTE_ID>";
+  const eventRoute = serviceClient.getEventRoute(eventRouteId);
+  console.log(`EventRoute:`);
+  console.log(inspect(eventRoute));
 }
 
 main().catch((err) => {

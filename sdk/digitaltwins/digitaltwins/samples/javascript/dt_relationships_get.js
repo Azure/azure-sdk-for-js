@@ -7,7 +7,7 @@ const { inspect } = require("util");
 
 // Simple example of how to:
 // - create a DigitalTwins Service Client using the DigitalTwinsClient constructor
-// - list all eventRoutes using the paginated API
+// - list all relationships using the paginated API
 //
 // Preconditions:
 // - Environment variables have to be set
@@ -23,12 +23,12 @@ async function main() {
   const credential = new DefaultAzureCredential();
   const serviceClient = new DigitalTwinsClient(url, credential);
 
-  // List event routes
-  const eventRoutes = serviceClient.listEventRoutes();
-  for await (const eventRoute of eventRoutes) {
-    console.log(`EventRoute:`);
-    console.log(inspect(eventRoute));
-  }
+  // List incoming relationships
+  const digitalTwinId = "<DIGITAL_TWIN_ID>"; // from the samples: BuildingTwin, FloorTwin, HVACTwin, RoomTwin
+  const relationshipId = "<RELATIONSHIP_ID>"; // from the samples: BuildingHasFloor, BuildingIsEquippedWithHVAC, HVACCoolsFloor, FloorContainsRoom
+  const relationship = await serviceClient.getRelationship(digitalTwinId, relationshipId);
+  console.log(`Relationship:`);
+  console.log(inspect(relationship));
 }
 
 main().catch((err) => {
