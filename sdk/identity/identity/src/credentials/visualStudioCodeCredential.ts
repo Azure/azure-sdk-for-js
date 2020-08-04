@@ -52,7 +52,7 @@ export function getTenantIdFromVSCode(): string | undefined {
         return;
     }
   } catch (e) {
-    logger.info(`Failed to load the VSCode configuration file. Error: ${e.message}`);
+    logger.info(`Failed to load the Visual Studio Code configuration file. Error: ${e.message}`);
     return;
   }
 }
