@@ -50,7 +50,7 @@
     "eslint-plugin-import": "^2.21.2",
     "eslint-plugin-node": "^11.1.0",
     "eslint-plugin-prettier": "^3.1.4",
-    "execa": "^4.0.3",
+    "execa": "^3.3.0",
     "mocha": "^7.1.1",
     "nock": "^12.0.3",
     "prettier": "^1.16.4",
