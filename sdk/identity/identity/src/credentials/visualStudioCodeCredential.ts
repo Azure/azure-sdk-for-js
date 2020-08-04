@@ -5,9 +5,9 @@
 
 import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-http";
 import { TokenCredentialOptions, IdentityClient } from "../client/identityClient";
-import * as fs from "fs";
-import * as os from "os";
-import * as path from "path";
+import fs from "fs";
+import os from "os";
+import path from "path";
 
 let keytar: any;
 try {
@@ -83,12 +83,38 @@ export class VisualStudioCodeCredential implements TokenCredential {
    */
   constructor(options?: VisualStudioCodeCredentialOptions) {
     this.identityClient = new IdentityClient(options);
-    const settingsTenant = getTenantIdFromVSCode();
     if (options && options.tenantId) {
       this.tenantId = options.tenantId;
     } else {
-      this.tenantId = settingsTenant || CommonTenantId;
+      this.tenantId = CommonTenantId;
     }
+  }
+
+  /**
+   * Runs preparations for any further getToken request.
+   */
+  private async prepare() {
+    // Attempts to load the tenant from the VSCode configuration file.
+    const settingsTenant = getTenantIdFromVSCode();
+    if (settingsTenant) {
+      this.tenantId = settingsTenant;
+    }
+  }
+
+  /**
+   * The promise of the single preparation that will be executed at the first getToken request for an instance of this class.
+   */
+  private preparePromise: Promise<void> | undefined;
+
+  /**
+   * Runs preparations for any further getToken, but only once.
+   */
+  private prepareOnce(): Promise<void> | undefined {
+    if (this.preparePromise) {
+      return this.preparePromise;
+    }
+    this.preparePromise = this.prepare();
+    return this.preparePromise;
   }
 
   /**
@@ -103,6 +129,7 @@ export class VisualStudioCodeCredential implements TokenCredential {
     scopes: string | string[],
     options?: GetTokenOptions
   ): Promise<AccessToken | null> {
+    await this.prepareOnce();
     if (!keytar) {
       throw new CredentialUnavailable(
         "VSCode credential requires the optional dependency 'keytar' to work correctly"
