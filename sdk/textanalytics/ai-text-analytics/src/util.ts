@@ -118,7 +118,7 @@ function* pathFragments(rawPath: string): Generator<string> {
  *             JSON pointer
  */
 
-export function dereferenceJsonPointer<T>(root: any, path: string): T {
+export function dereferenceJsonPointer(root: any, path: string): unknown {
   let cursor: any = root;
 
   for (const fragment of pathFragments(path)) {
@@ -136,5 +136,5 @@ export function dereferenceJsonPointer<T>(root: any, path: string): T {
     cursor = cursor[fragment];
   }
 
-  return cursor as T;
+  return cursor;
 }
