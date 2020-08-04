@@ -20,26 +20,26 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'x-ms-request-id',
-  'c12d1a28-eba5-4fa9-ac49-f9fae5972e02',
+  'e76a2158-61cf-4201-ad72-12b05de24500',
   'x-ms-ests-server',
-  '2.1.10571.11 - WUS2 ProdSlices',
+  '2.1.10897.16 - CHI ProdSlices',
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'Set-Cookie',
-  'fpc=AlpkPTBu0k9Juwr3tLHowEn0CyfMAQAAAPNTX9YOAAAA; expires=Thu, 25-Jun-2020 18:16:20 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AgNmNLp17IBOrrezzhpvIaT0CyfMAQAAAL6bu9YOAAAA; expires=Thu, 03-Sep-2020 18:11:11 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=prod; path=/; SameSite=None; secure; HttpOnly',
   'Set-Cookie',
   'stsservicecookie=ests; path=/; SameSite=None; secure; HttpOnly',
   'Date',
-  'Tue, 26 May 2020 18:16:19 GMT',
+  'Tue, 04 Aug 2020 18:11:11 GMT',
   'Content-Length',
   '1417'
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
   .post('/text/analytics/v3.0/keyPhrases', {"documents":[{"id":"0","text":"This is some text, but it doesn't matter.","language":"notalanguage"}]})
-  .reply(200, {"documents":[],"errors":[{"id":"0","error":{"code":"InvalidArgument","message":"Invalid Language Code.","innererror":{"code":"UnsupportedLanguageCode","message":"Supplied language not supported. Pass in one of: da,de,en,es,fi,fr,it,ja,ko,nl,no,pl,pt-BR,pt-PT,ru,sv"}}}],"modelVersion":"2019-10-01"}, [
+  .reply(200, {"documents":[],"errors":[{"id":"0","error":{"code":"InvalidArgument","message":"Invalid Language Code.","innererror":{"code":"UnsupportedLanguageCode","message":"Invalid language code. Supported languages: da,de,en,es,fi,fr,it,ja,ko,nl,no,pl,pt-BR,pt-PT,ru,sv"}}}],"modelVersion":"2020-07-01"}, [
   'Transfer-Encoding',
   'chunked',
   'Content-Type',
@@ -47,13 +47,13 @@ nock('https://endpoint', {"encodedQueryParams":true})
   'csp-billing-usage',
   'CognitiveServices.TextAnalytics.BatchScoring=0',
   'x-envoy-upstream-service-time',
-  '4',
+  '28',
   'apim-request-id',
-  'dc43a11b-9a75-45db-a087-e1528a7c1e01',
+  'a4dd71c8-8459-4be7-bcd0-0a66e9fa53aa',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Tue, 26 May 2020 18:16:20 GMT'
+  'Tue, 04 Aug 2020 18:11:10 GMT'
 ]);

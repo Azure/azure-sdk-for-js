@@ -20,26 +20,26 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'x-ms-request-id',
-  'cfc71d7d-75a2-4d19-8989-71a00016fa01',
+  '6b21ef0e-4d48-4900-96b1-f22f97893a00',
   'x-ms-ests-server',
-  '2.1.10571.11 - WUS2 ProdSlices',
+  '2.1.10897.16 - CHI ProdSlices',
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'Set-Cookie',
-  'fpc=AtELdDDVSt5KuE72otInIN_0CyfMAQAAAPBTX9YOAAAA; expires=Thu, 25-Jun-2020 18:16:16 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=Ao_mcXVzKUpFmepanWnzBQP0CyfMAQAAALebu9YOAAAA; expires=Thu, 03-Sep-2020 18:11:04 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=prod; path=/; SameSite=None; secure; HttpOnly',
   'Set-Cookie',
   'stsservicecookie=ests; path=/; SameSite=None; secure; HttpOnly',
   'Date',
-  'Tue, 26 May 2020 18:16:16 GMT',
+  'Tue, 04 Aug 2020 18:11:03 GMT',
   'Content-Length',
   '1417'
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
   .post('/text/analytics/v3.0/languages', {"documents":[{"id":"0","text":"I use Azure Functions to develop my service.","countryHint":""}]})
-  .reply(200, {"documents":[{"id":"0","detectedLanguage":{"name":"English","iso6391Name":"en","confidenceScore":1},"warnings":[]}],"errors":[],"modelVersion":"2019-10-01"}, [
+  .reply(200, {"documents":[{"id":"0","detectedLanguage":{"name":"English","iso6391Name":"en","confidenceScore":1},"warnings":[]}],"errors":[],"modelVersion":"2020-07-01"}, [
   'Transfer-Encoding',
   'chunked',
   'Content-Type',
@@ -47,13 +47,13 @@ nock('https://endpoint', {"encodedQueryParams":true})
   'csp-billing-usage',
   'CognitiveServices.TextAnalytics.BatchScoring=1',
   'x-envoy-upstream-service-time',
-  '7',
+  '13',
   'apim-request-id',
-  'eabef592-3e92-4e72-84ce-6e3a1bd61a97',
+  'a5c246ec-75b6-45e3-aded-3f4690fdb2dd',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Tue, 26 May 2020 18:16:16 GMT'
+  'Tue, 04 Aug 2020 18:11:03 GMT'
 ]);

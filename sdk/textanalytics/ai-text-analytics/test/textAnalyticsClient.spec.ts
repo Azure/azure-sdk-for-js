@@ -258,8 +258,8 @@ describe("[AAD] TextAnalyticsClient", function() {
         assert.fail("Oops, an exception didn't happen.");
       } catch (e) {
         assert.equal(e.statusCode, 400);
-        assert.equal(e.code, "InvalidDocumentBatch");
-        assert.match(e.message, /exceeded the data limitations/);
+        assert.equal(e.code, "InvalidRequest");
+        assert.match(e.message, /Invalid document in request./);
       }
     });
   });
@@ -400,8 +400,8 @@ describe("[AAD] TextAnalyticsClient", function() {
         assert.fail("Oops, an exception didn't happen.");
       } catch (e) {
         assert.equal(e.statusCode, 400);
-        assert.equal(e.code, "InvalidDocumentBatch");
-        assert.match(e.message, /exceeded the data limitations/);
+        assert.equal(e.code, "InvalidRequest");
+        assert.match(e.message, /Invalid document in request./);
       }
     });
   });
