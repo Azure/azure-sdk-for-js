@@ -5,9 +5,9 @@ import assert from "assert";
 import { createSandbox } from "sinon";
 import * as fs from "fs";
 import * as path from "path";
-import { getTenantIdFromVSCode } from "../../src/credentials/vscodeCredential";
+import { getTenantIdFromVSCode } from "../../src/credentials/visualStudioCodeCredential";
 
-describe("VSCodeCredential", function() {
+describe("VisualStudioCodeCredential", function() {
   it("getTenantIdFromVSCode should load the tenant on different OSs", function() {
     const sandbox = createSandbox();
     const stub = sandbox.stub(fs, "readFileSync");
