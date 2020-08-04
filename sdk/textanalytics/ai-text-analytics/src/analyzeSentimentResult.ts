@@ -113,7 +113,7 @@ export function makeAnalyzeSentimentResult(
     ...makeTextAnalyticsSuccessResult(id, warnings, statistics),
     sentiment,
     confidenceScores,
-    sentences: sentences.map((sentence) => convertGeneratedSentenceSentiment(response, sentence))
+    sentences: sentences.map((sentence) => convertGeneratedSentenceSentiment(sentence, response))
   };
 }
 
@@ -150,4 +150,6 @@ function convertGeneratedSentenceSentiment(
 function convertAspectRelationToOpinionSentiment(
   aspectRelation: AspectRelation,
   response: GeneratedClientSentimentResponse
-): OpinionSentiment {}
+): OpinionSentiment {
+  return {}
+}
