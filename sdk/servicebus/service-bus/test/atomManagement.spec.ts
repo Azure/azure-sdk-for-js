@@ -1127,7 +1127,6 @@ describe("Atom management - Authentication", function(): void {
           error = err;
         }
 
-        should.equal(error.statusCode, 404);
         should.equal(error.code, "MessageEntityNotFoundError", `Unexpected error code found.`);
         should.equal(
           error.message.startsWith("The messaging entity") ||
@@ -1147,7 +1146,6 @@ describe("Atom management - Authentication", function(): void {
           error = err;
         }
 
-        should.equal(error.statusCode, 404, "Unexpected status code found.");
         should.equal(error.code, "MessageEntityNotFoundError", `Unexpected error code found.`);
         should.equal(
           error.message.startsWith("The messaging entity") ||
@@ -1204,7 +1202,6 @@ describe("Atom management - Authentication", function(): void {
             throw new Error("TestError: Unrecognized EntityType");
         }
 
-        should.equal(error.statusCode, 404, "Unexpected status code found.");
         should.equal(error.code, "MessageEntityNotFoundError", `Unexpected error code found.`);
         should.equal(
           error.message.startsWith("The messaging entity") ||
