@@ -27,6 +27,7 @@ dependencies:
   '@rush-temp/keyvault-keys': 'file:projects/keyvault-keys.tgz'
   '@rush-temp/keyvault-secrets': 'file:projects/keyvault-secrets.tgz'
   '@rush-temp/logger': 'file:projects/logger.tgz'
+  '@rush-temp/mockhub': 'file:projects/mockhub.tgz'
   '@rush-temp/monitor-opentelemetry-exporter': 'file:projects/monitor-opentelemetry-exporter.tgz'
   '@rush-temp/schema-registry': 'file:projects/schema-registry.tgz'
   '@rush-temp/search-documents': 'file:projects/search-documents.tgz'
@@ -6335,6 +6336,12 @@ packages:
     dev: false
     resolution:
       integrity: sha512-c6xocb+x3uqcC30WDbbIQzeLuc0KNellSNWIzjUDC1WzlM/BwWnsVukDIP89+aqJ0MYAwly/B+ozGwdrF+EBrw==
+  /rhea/1.0.24:
+    dependencies:
+      debug: 3.2.6
+    dev: false
+    resolution:
+      integrity: sha512-PEl62U2EhxCO5wMUZ2/bCBcXAVKN9AdMSNQOrp3+R5b77TEaOSiy16MQ0sIOmzj/iqsgIAgPs1mt3FYfu1vIXA==
   /rimraf/2.6.3:
     dependencies:
       glob: 7.1.6
@@ -8238,7 +8245,7 @@ packages:
       prettier: 1.19.1
       process: 0.11.10
       puppeteer: 3.3.0
-      rhea: 1.0.23
+      rhea: 1.0.24
       rhea-promise: 1.0.0
       rimraf: 3.0.2
       rollup: 1.32.1
@@ -8256,7 +8263,7 @@ packages:
     dev: false
     name: '@rush-temp/core-amqp'
     resolution:
-      integrity: sha512-f+Y6cKl0gXVLgxhe0x3tRdRSowkjkHkaHbYIeWl6q4zRpevrZyZJFLcbUGcKBFC8UKYFcKV+V+ABtJIlmMEdiA==
+      integrity: sha512-u/yJtv6UzLlZIp8yezNNyovzqxVpNIgJZbfzZq7WaKRXbCkfUw2GIq4M5/q/BHB8c6DxIQ2QB7Kz7u+/JjEM1A==
       tarball: 'file:projects/core-amqp.tgz'
     version: 0.0.0
   'file:projects/core-arm.tgz':
@@ -9370,6 +9377,18 @@ packages:
       integrity: sha512-hNBX+jdOuiLLL4tZ3Tj37DCPmSAaqTSoI3DysAOy1lxW9ylIYPIWSkBOoEKw6mgzWx+EAnddcxR7biuAJnd/HA==
       tarball: 'file:projects/logger.tgz'
     version: 0.0.0
+  'file:projects/mockhub.tgz':
+    dependencies:
+      '@types/node': 8.10.61
+      rhea: 1.0.24
+      rimraf: 3.0.2
+      typescript: 3.9.6
+    dev: false
+    name: '@rush-temp/mockhub'
+    resolution:
+      integrity: sha512-/HJChN+W+vAZqot5eM0V/8TvYLwndKeYKW6YaYrsY2GD7Ry01PotrYX9rDuDddidh/djN8KcgKpKi9SahJyT1A==
+      tarball: 'file:projects/mockhub.tgz'
+    version: 0.0.0
   'file:projects/monitor-opentelemetry-exporter.tgz':
     dependencies:
       '@opentelemetry/api': 0.10.2
@@ -9453,7 +9472,7 @@ packages:
     dev: false
     name: '@rush-temp/schema-registry'
     resolution:
-      integrity: sha512-kJysPmRlc4yhrxhxm7PCNSFP/NS4tP2Pnt1W2qqWPDYNgh8r/TzEC4MdnPT9/fSbopfvWq6UmrywagPdjEF01g==
+      integrity: sha512-ZNA2cSVX7oDC1MP0nec4Eh1swWW4RZ8PZ7vFy+rqqv8aCvs4mqOpdjTGVzb0PZvwczgkwViuBd3sZ6vKT97SDg==
       tarball: 'file:projects/schema-registry.tgz'
     version: 0.0.0
   'file:projects/search-documents.tgz':
@@ -10168,7 +10187,7 @@ packages:
       async-lock: 1.2.4
       death: 1.1.0
       debug: 4.1.1
-      rhea: 1.0.23
+      rhea: 1.0.24
       rimraf: 3.0.2
       tslib: 2.0.0
       typescript: 3.9.6
@@ -10177,7 +10196,7 @@ packages:
     dev: false
     name: '@rush-temp/testhub'
     resolution:
-      integrity: sha512-wWCeWZLGFaZKJOdG2zTpsvZxIdzw5SSDZfCYo/gcI3i0/IK+ukijKncP1wy1SpQG7pnc0CRY3IaJ6UdaMI93bg==
+      integrity: sha512-07MeFdwTzKTzpjOtDjsD+BtM48L8gCIEWb9J5+HHQsowbjcDlbRLoy4ft+P9IjO+XcwbDWvuN7xnLi0EOWAX0w==
       tarball: 'file:projects/testhub.tgz'
     version: 0.0.0
 registry: ''
@@ -10210,6 +10229,7 @@ specifiers:
   '@rush-temp/keyvault-keys': 'file:./projects/keyvault-keys.tgz'
   '@rush-temp/keyvault-secrets': 'file:./projects/keyvault-secrets.tgz'
   '@rush-temp/logger': 'file:./projects/logger.tgz'
+  '@rush-temp/mockhub': 'file:./projects/mockhub.tgz'
   '@rush-temp/monitor-opentelemetry-exporter': 'file:./projects/monitor-opentelemetry-exporter.tgz'
   '@rush-temp/schema-registry': 'file:./projects/schema-registry.tgz'
   '@rush-temp/search-documents': 'file:./projects/search-documents.tgz'
