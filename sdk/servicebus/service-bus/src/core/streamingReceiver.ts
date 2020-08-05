@@ -285,7 +285,8 @@ export class StreamingReceiver extends MessageReceiver {
         this._context,
         context.message!,
         context.delivery!,
-        true
+        true,
+        this.receiveMode
       );
 
       if (this.autoRenewLock && bMessage.lockToken) {
