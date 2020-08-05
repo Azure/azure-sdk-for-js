@@ -398,6 +398,15 @@ export class MessageSession extends LinkEntity {
         this.name,
         errObj
       );
+
+      // Fix the unhelpful error messages for the OperationTimeoutError that comes from `rhea-promise`.
+      if ((errObj as MessagingError).code === "OperationTimeoutError") {
+        if (this.providedSessionId) {
+          errObj.message = `Failed to create a receiver for the requested session '${this.providedSessionId}' within allocated time and retry attempts.`;
+        } else {
+          errObj.message = "Failed to create a receiver within allocated time and retry attempts.";
+        }
+      }
       throw errObj;
     }
   }
@@ -919,20 +928,7 @@ export class MessageSession extends LinkEntity {
   ): Promise<MessageSession> {
     throwErrorIfConnectionClosed(context.namespace);
     const messageSession = new MessageSession(context, options);
-    try {
-      await messageSession._init();
-    } catch (error) {
-      // Fix the unhelpful error messages for the OperationTimeoutError that comes from `rhea-promise`.
-      if ((error as MessagingError).code === "OperationTimeoutError") {
-        if (options?.sessionId) {
-          error.message = `Failed to create a receiver for the requested session '${options?.sessionId}'`;
-        } else {
-          error.message = "Failed to create a receiver.";
-        }
-      }
-      throw error;
-    }
-    
+    await messageSession._init();
     return messageSession;
   }
 }
