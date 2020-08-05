@@ -903,6 +903,8 @@ export class ServiceBusMessageImpl implements ReceivedMessageWithLock {
     receiveMode: ReceiveMode
   ) {
     Object.assign(this, fromAmqpMessage(msg, delivery, shouldReorderLockToken));
+    // Lock on a message is applicable only in peekLock mode, but the service sets
+    // the lock token even in receiveAndDelete mode if the entity in question is partitioned.
     if (receiveMode === ReceiveMode.receiveAndDelete) {
       this.lockToken = undefined;
     }
