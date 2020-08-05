@@ -26,20 +26,21 @@ export class ServiceBusClient {
   /**
    * The fully qualified namespace of the Service Bus instance for which this client is created.
    * This is likely to be similar to <yournamespace>.servicebus.windows.net.
-   *
-   * @type {string}
-   * @memberof ServiceBusClient
    */
   public fullyQualifiedNamespace: string;
   /**
-   *
-   * @param connectionString A connection string for Azure Service Bus.
+   * Creates an instance of the ServiceBusClient class which can be used to create senders and receivers to
+   * the Azure Service Bus namespace provided in the connection string. No connection is made to the service
+   * until the senders/receivers created with the client are used to send/receive messages.
+   * @param connectionString A connection string for Azure Service Bus namespace.
    * NOTE: this connection string can contain an EntityPath, which is ignored.
    * @param options Options for the service bus client.
    */
   constructor(connectionString: string, options?: ServiceBusClientOptions);
   /**
-   *
+   * Creates an instance of the ServiceBusClient class which can be used to create senders and receivers to
+   * the Azure Service Bus namespace provided. No connection is made to the service until
+   * the senders/receivers created with the client are used to send/receive messages.
    * @param fullyQualifiedNamespace The full namespace of your Service Bus instance which is
    * likely to be similar to <yournamespace>.servicebus.windows.net.
    * @param credential A credential object used by the client to get the token to authenticate the connection
@@ -93,7 +94,8 @@ export class ServiceBusClient {
   }
 
   /**
-   * Creates a receiver for an Azure Service Bus queue in peekLock mode.
+   * Creates a receiver for an Azure Service Bus queue in peekLock mode. No connection is made
+   * to the service until one of the methods on the receiver is called.
    *
    * In peekLock mode, the receiver has a lock on the message for the duration specified on the
    * queue.
@@ -113,7 +115,8 @@ export class ServiceBusClient {
    */
   createReceiver(queueName: string, receiveMode: "peekLock"): Receiver<ReceivedMessageWithLock>;
   /**
-   * Creates a receiver for an Azure Service Bus queue in receiveAndDelete mode.
+   * Creates a receiver for an Azure Service Bus queue in receiveAndDelete mode. No connection is made
+   * to the service until one of the methods on the receiver is called.
    *
    * In receiveAndDelete mode, messages are deleted from Service Bus as they are received.
    *
@@ -122,7 +125,8 @@ export class ServiceBusClient {
    */
   createReceiver(queueName: string, receiveMode: "receiveAndDelete"): Receiver<ReceivedMessage>;
   /**
-   * Creates a receiver for an Azure Service Bus subscription in peekLock mode.
+   * Creates a receiver for an Azure Service Bus subscription in peekLock mode. No connection is made
+   * to the service until one of the methods on the receiver is called.
    *
    * In peekLock mode, the receiver has a lock on the message for the duration specified on the
    * subscription.
@@ -147,7 +151,8 @@ export class ServiceBusClient {
     receiveMode: "peekLock"
   ): Receiver<ReceivedMessageWithLock>;
   /**
-   * Creates a receiver for an Azure Service Bus subscription in receiveAndDelete mode.
+   * Creates a receiver for an Azure Service Bus subscription in receiveAndDelete mode. No connection is made
+   * to the service until one of the methods on the receiver is called.
    *
    * In receiveAndDelete mode, messages are deleted from Service Bus as they are received.
    *
@@ -308,7 +313,8 @@ export class ServiceBusClient {
 
   /**
    * Creates a Sender which can be used to send messages, schedule messages to be
-   * sent at a later time and cancel such scheduled messages.
+   * sent at a later time and cancel such scheduled messages. No connection is made
+   * to the service until one of the methods on the sender is called.
    * @param queueOrTopicName The name of a queue or topic to send messages to.
    */
   createSender(queueOrTopicName: string): Sender {
@@ -322,6 +328,7 @@ export class ServiceBusClient {
 
   /**
    * Creates a receiver for an Azure Service Bus queue's dead letter queue in peekLock mode.
+   *  No connection is made to the service until one of the methods on the receiver is called.
    *
    * In peekLock mode, the receiver has a lock on the message for the duration specified on the
    * queue.
@@ -347,6 +354,7 @@ export class ServiceBusClient {
   ): Receiver<ReceivedMessageWithLock>;
   /**
    * Creates a receiver for an Azure Service Bus queue's dead letter queue in receiveAndDelete mode.
+   *  No connection is made to the service until one of the methods on the receiver is called.
    *
    * In receiveAndDelete mode, messages are deleted from Service Bus as they are received.
    *
@@ -362,6 +370,7 @@ export class ServiceBusClient {
   ): Receiver<ReceivedMessage>;
   /**
    * Creates a receiver for an Azure Service Bus subscription's dead letter queue in peekLock mode.
+   *  No connection is made to the service until one of the methods on the receiver is called.
    *
    * In peekLock mode, the receiver has a lock on the message for the duration specified on the
    * subscription. Messages that are not settled within the lock duration will be redelivered.
@@ -386,6 +395,7 @@ export class ServiceBusClient {
   ): Receiver<ReceivedMessageWithLock>;
   /**
    * Creates a receiver for an Azure Service Bus subscription's dead letter queue in receiveAndDelete mode.
+   *  No connection is made to the service until one of the methods on the receiver is called.
    *
    * In receiveAndDelete mode, messages are deleted from Service Bus as they are received.
    *
