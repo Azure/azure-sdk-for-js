@@ -150,9 +150,9 @@ export function findOpinionIndex(pointer: string): OpinionIndex {
   const res = regex.exec(pointer);
   if (res !== null) {
     const opinionIndex: OpinionIndex = {
-      document: parseInt(res[0]),
-      sentence: parseInt(res[1]),
-      opinion: parseInt(res[2])
+      document: parseInt(res[1]),
+      sentence: parseInt(res[2]),
+      opinion: parseInt(res[3])
     };
     return opinionIndex;
   } else {

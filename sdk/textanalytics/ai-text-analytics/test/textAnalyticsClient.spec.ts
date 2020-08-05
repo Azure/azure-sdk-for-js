@@ -11,7 +11,8 @@ import {
   TextDocumentInput,
   DetectLanguageInput,
   DetectLanguageSuccessResult,
-  ExtractKeyPhrasesSuccessResult, AnalyzeSentimentOptions
+  ExtractKeyPhrasesSuccessResult,
+  AnalyzeSentimentOptions
 } from "../src/index";
 import { assertAllSuccess } from "./utils/resultHelper";
 
@@ -105,7 +106,7 @@ describe("[AAD] TextAnalyticsClient", function() {
         })
       );
       const allInputs = enInputs.concat(esInputs);
-      const options:AnalyzeSentimentOptions = { mineOpinions: true };
+      const options:  AnalyzeSentimentOptions = { mineOpinions: true };
       const results = await client.analyzeSentiment(allInputs, options);
       assert.equal(results.length, testDataEn.length + testDataEs.length);
       assertAllSuccess(results);
