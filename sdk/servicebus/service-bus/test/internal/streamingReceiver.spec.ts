@@ -262,7 +262,7 @@ describe("StreamingReceiver unit tests", () => {
       const abortController = new AbortController();
 
       await StreamingReceiver.create(createClientEntityContextForTests(), {
-        _createStreamingReceiver: (_context, _options) => {
+        _createStreamingReceiverStubForTests: (_context, _options) => {
           wasCalled = true;
           return ({
             init: (_useNewName: boolean, abortSignal?: AbortSignalLike) => {

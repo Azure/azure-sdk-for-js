@@ -716,7 +716,7 @@ export class StreamingReceiver extends MessageReceiver {
     context: ClientEntityContext,
     options?: ReceiveOptions &
       Pick<OperationOptionsBase, "abortSignal"> & {
-        _createStreamingReceiver?: (
+        _createStreamingReceiverStubForTests?: (
           context: ClientEntityContext,
           options?: ReceiveOptions
         ) => StreamingReceiver;
@@ -730,8 +730,8 @@ export class StreamingReceiver extends MessageReceiver {
 
     if (context.streamingReceiver) {
       sReceiver = context.streamingReceiver;
-    } else if (options?._createStreamingReceiver) {
-      sReceiver = options._createStreamingReceiver(context, options);
+    } else if (options?._createStreamingReceiverStubForTests) {
+      sReceiver = options._createStreamingReceiverStubForTests(context, options);
     } else {
       sReceiver = new StreamingReceiver(context, options);
     }
