@@ -5,6 +5,10 @@
 
 import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-http";
 import { TokenCredentialOptions, IdentityClient } from "../client/identityClient";
+import fs from "fs";
+import os from "os";
+import path from "path";
+
 let keytar: any;
 try {
   keytar = require("keytar");
@@ -19,6 +23,39 @@ const CommonTenantId = "common";
 const AzureAccountClientId = "aebc6443-996d-45c2-90f0-388ff96faa56"; // VSC: 'aebc6443-996d-45c2-90f0-388ff96faa56'
 const VSCodeUserName = "VS Code Azure";
 const logger = credentialLogger("VisualStudioCodeCredential");
+
+/**
+ * Attempts to load the tenant from the VSCode configurations of the current OS.
+ * If it fails at any point, returns undefined.
+ */
+export function getTenantIdFromVSCode(): string | undefined {
+  const commonSettingsPath = ["Code", "User", "settings.json"];
+  const homedir = os.homedir();
+
+  function loadTenant(...pathSegments: string[]): string | undefined {
+    const settingsPath = path.join(...pathSegments, ...commonSettingsPath);
+    const settings = JSON.parse(fs.readFileSync(settingsPath as string, { encoding: "utf8" }));
+    return settings["azure.tenant"];
+  }
+
+  try {
+    let appData: string;
+    switch (process.platform) {
+      case "win32":
+        appData = process.env.APPDATA!;
+        return appData ? loadTenant(appData) : undefined;
+      case "darwin":
+        return loadTenant(homedir, "Library", "Application Support");
+      case "linux":
+        return loadTenant(homedir, ".config");
+      default:
+        return;
+    }
+  } catch (e) {
+    logger.info(`Failed to load the Visual Studio Code configuration file. Error: ${e.message}`);
+    return;
+  }
+}
 
 /**
  * Provides options to configure the Visual Studio Code credential.
@@ -54,6 +91,33 @@ export class VisualStudioCodeCredential implements TokenCredential {
   }
 
   /**
+   * Runs preparations for any further getToken request.
+   */
+  private async prepare() {
+    // Attempts to load the tenant from the VSCode configuration file.
+    const settingsTenant = getTenantIdFromVSCode();
+    if (settingsTenant) {
+      this.tenantId = settingsTenant;
+    }
+  }
+
+  /**
+   * The promise of the single preparation that will be executed at the first getToken request for an instance of this class.
+   */
+  private preparePromise: Promise<void> | undefined;
+
+  /**
+   * Runs preparations for any further getToken, but only once.
+   */
+  private prepareOnce(): Promise<void> | undefined {
+    if (this.preparePromise) {
+      return this.preparePromise;
+    }
+    this.preparePromise = this.prepare();
+    return this.preparePromise;
+  }
+
+  /**
    * Returns the token found by searching VSCode's authentication cache or
    * returns null if no token could be found.
    *
@@ -65,9 +129,10 @@ export class VisualStudioCodeCredential implements TokenCredential {
     scopes: string | string[],
     options?: GetTokenOptions
   ): Promise<AccessToken | null> {
+    await this.prepareOnce();
     if (!keytar) {
       throw new CredentialUnavailable(
-        "VSCode credential requires the optional dependency 'keytar' to work correctly"
+        "Visual Studio Code credential requires the optional dependency 'keytar' to work correctly"
       );
     }
 
@@ -99,14 +164,14 @@ export class VisualStudioCodeCredential implements TokenCredential {
         return tokenResponse.accessToken;
       } else {
         const error = new CredentialUnavailable(
-          "Could not retrieve the token associated with VSCode. Have you connected using the 'Azure Account' extension recently?"
+          "Could not retrieve the token associated with Visual Studio Code. Have you connected using the 'Azure Account' extension recently?"
         );
         logger.getToken.info(formatError(error));
         throw error;
       }
     } else {
       const error = new CredentialUnavailable(
-        "Could not retrieve the token associated with VSCode. Did you connect using the 'Azure Account' extension?"
+        "Could not retrieve the token associated with Visual Studio Code. Did you connect using the 'Azure Account' extension?"
       );
       logger.getToken.info(formatError(error));
       throw error;
