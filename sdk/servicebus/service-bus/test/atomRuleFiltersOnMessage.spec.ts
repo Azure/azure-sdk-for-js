@@ -45,15 +45,17 @@ describe.only("Filter messages with the rules set by the ATOM API", () => {
     filter: SqlRuleFilter | CorrelationRuleFilter,
     toCheck: (msg: ReceivedMessage) => void
   ) {
-    await serviceBusAtomManagementClient.createRule(topicName, subscriptionName, {
-      name: "rule-name",
+    await serviceBusAtomManagementClient.createRule(
+      topicName,
+      subscriptionName,
+      "rule-name",
       filter
-    });
+    );
 
     await serviceBusClient.createSender(topicName).sendMessages(messageToSend);
 
     const receivedMessages = await serviceBusClient
-      .createReceiver(topicName, subscriptionName, "peekLock")
+      .createReceiver(topicName, subscriptionName, "receiveAndDelete")
       .receiveMessages(1);
     should.equal(receivedMessages.length, 1, "Unexpected number of messages received");
 
@@ -84,6 +86,21 @@ describe.only("Filter messages with the rules set by the ATOM API", () => {
 
   it("Rule - 3", async () => {
     const filter: CorrelationRuleFilter = { properties: { state: "OH" } };
+    await verifyRuleFilter(
+      { body: "random-body", properties: filter.properties },
+      filter,
+      (msg) => {
+        chai.assert.deepEqual(
+          msg.properties,
+          filter.properties,
+          "Unexpected properties on the message"
+        );
+      }
+    );
+  });
+
+  it("Rule - 4", async () => {
+    const filter: CorrelationRuleFilter = { properties: { boolVal: true } };
     await verifyRuleFilter(
       { body: "random-body", properties: filter.properties },
       filter,
