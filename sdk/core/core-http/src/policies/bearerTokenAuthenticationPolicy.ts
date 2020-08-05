@@ -40,6 +40,13 @@ export function bearerTokenAuthenticationPolicy(
 }
 
 /**
+ * The automated token refresh will only start to happen at the
+ * expiration date minus the value of timeBetweenRefreshAttemptsInMs,
+ * which is by default 30 seconds.
+ */
+const timeBetweenRefreshAttemptsInMs = 30000;
+
+/**
  *
  * Provides a RequestPolicy that can request a token from a TokenCredential
  * implementation and then apply it to the Authorization header of a request
@@ -48,13 +55,6 @@ export function bearerTokenAuthenticationPolicy(
  */
 export class BearerTokenAuthenticationPolicy extends BaseRequestPolicy {
   private tokenRefresher: AccessTokenRefresher;
-
-  /**
-   * The automated token refresh will only start to happen at the
-   * expiration date minus the value of timeBetweenRefreshAttemptsInMs,
-   * which is by default 30 seconds.
-   */
-  private timeBetweenRefreshAttemptsInMs: number = 30000;
 
   /**
    * Creates a new BearerTokenAuthenticationPolicy object.
@@ -76,7 +76,7 @@ export class BearerTokenAuthenticationPolicy extends BaseRequestPolicy {
     this.tokenRefresher = new AccessTokenRefresher(
       this.credential,
       this.scopes,
-      this.timeBetweenRefreshAttemptsInMs
+      timeBetweenRefreshAttemptsInMs
     );
   }
 
@@ -99,21 +99,18 @@ export class BearerTokenAuthenticationPolicy extends BaseRequestPolicy {
   private async getToken(options: GetTokenOptions): Promise<string | undefined> {
     let accessToken = this.tokenCache.getCachedToken();
     if (accessToken === undefined) {
-      // Waiting for the next refresh (or forcefully triggering a new refresh)
-      // only if the cache is unable to retrieve the access token,
+      // Waiting for the next refresh only if the cache is unable to retrieve the access token,
       // which means that it has expired, or it has never been set.
-      const refreshPromise = this.tokenRefresher.forcedRefresh(options);
+      const refreshPromise = this.tokenRefresher.refresh(options);
       if (refreshPromise !== null) {
         accessToken = await refreshPromise;
       }
     } else {
       // If we still have a cached access token,
+      // And any other time related conditionals have been reached based on the tokenRefresher class,
       // then attempt to refresh without waiting.
-      const refreshPromise = this.tokenRefresher.refresh(options);
-      // If the tokenRefresher returned null, some other refresh is happening already.
-      // if this is a new refresh, we set it up to update the cachedToken once it finishes.
-      if (refreshPromise !== null) {
-        refreshPromise.then((accessToken: AccessToken | undefined) => {
+      if (this.tokenRefresher.ready()) {
+        this.tokenRefresher.refresh(options).then((accessToken: AccessToken | undefined) => {
           this.tokenCache.setCachedToken(accessToken);
         });
       }
