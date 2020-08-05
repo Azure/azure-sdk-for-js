@@ -24,9 +24,7 @@ export interface MessageHandlers<ReceivedMessageT> {
 }
 
 /**
- * Represents all the receive modes for the receiver.
- *
- * @type
+ * Represents the possible receive modes for the receiver.
  */
 export type ReceiveMode = "peekLock" | "receiveAndDelete";
 
