@@ -246,7 +246,8 @@ export class BatchingReceiverLite {
         clientEntityContext,
         context.message!,
         context.delivery!,
-        true
+        true,
+        this._receiveMode
       );
     };
 

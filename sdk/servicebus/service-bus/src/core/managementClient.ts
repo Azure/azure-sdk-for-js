@@ -846,7 +846,8 @@ export class ManagementClient extends LinkEntity {
           this._context,
           decodedMessage as any,
           { tag: msg["lock-token"] } as any,
-          false
+          false,
+          receiveMode
         );
         if (message.lockToken && message.lockedUntilUtc) {
           this._context.requestResponseLockedMessages.set(

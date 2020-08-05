@@ -58,10 +58,10 @@ describe("The Secrets client should set the apiVersion", () => {
   });
 
   // Adding this to the source would change the public API.
-  type ApIVersions = "7.0" | "7.1-preview";
+  type ApIVersions = "7.0" | "7.1";
 
   it("it should allow us to specify an API version from a specific set of versions", async function() {
-    const versions: ApIVersions[] = ["7.0", "7.1-preview"];
+    const versions: ApIVersions[] = ["7.0", "7.1"];
     for (const apiVersion in versions) {
       const credential = await new ClientSecretCredential(
         env.AZURE_TENANT_ID!,
