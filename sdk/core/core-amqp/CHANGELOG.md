@@ -1,5 +1,9 @@
 # Release History
 
+## 1.1.6 (Unreleased)
+
+- Update to use `@azure/core-auth` version 1.1.4
+
 ## 1.1.5 (2020-08-04)
 
 - Fixes issue [9615](https://github.com/Azure/azure-sdk-for-js/issues/9615)
