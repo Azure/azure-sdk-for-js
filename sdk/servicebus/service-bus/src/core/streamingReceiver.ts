@@ -519,7 +519,7 @@ export class StreamingReceiver extends MessageReceiver {
     // results in a receive(). Once we're being initialized we should consider ourselves the
     // "owner" of the receiver and that it's now being locked into being the actual receiver.
     this.isReceivingMessages = true;
-    this._receiverHelper.unsuspend();
+    this._receiverHelper.resume();
   }
 
   /**

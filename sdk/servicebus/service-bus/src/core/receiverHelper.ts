@@ -37,8 +37,8 @@ export class ReceiverHelper {
   }
 
   /**
-   * Drains the receiver, preventing any new activity by
-   * causing addCredits to no longer add any credits.
+   * Drains the receiver and prevents the `addCredit()` method from adding credits.
+   * Call `resume()` to enable the `addCredit()` method.
    */
   public async suspend(): Promise<void> {
     const receiver = this._getCurrentReceiver();
@@ -58,7 +58,7 @@ export class ReceiverHelper {
   /**
    * Resets tracking so addCredits works again.
    */
-  unsuspend(): void {
+  resume(): void {
     this._isSuspended = false;
   }
 
