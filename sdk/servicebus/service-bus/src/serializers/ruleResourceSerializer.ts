@@ -352,10 +352,15 @@ function getUserPropertiesOrUndefined(value: any): { [key: string]: any } | unde
     return undefined;
   }
   const properties: any = {};
-  const rawProperties = value[keyValuePairXMLTag];
+  let rawProperties;
+  if (!Array.isArray(value[keyValuePairXMLTag]) && value[keyValuePairXMLTag]?.Key) {
+    // When a single property is present
+    rawProperties = [value[keyValuePairXMLTag]];
+  } else {
+    rawProperties = value[keyValuePairXMLTag];
+  }
   if (Array.isArray(rawProperties)) {
     for (const rawProperty of rawProperties) {
-      properties[rawProperty.Key] = rawProperty.Value["_"];
       if (rawProperty.Value["$"]["i:type"] === TypeMapForResponseDeserialization.number) {
         properties[rawProperty.Key] = Number(rawProperty.Value["_"]);
       } else if (rawProperty.Value["$"]["i:type"] === TypeMapForResponseDeserialization.string) {
