@@ -2,12 +2,15 @@
 // Licensed under the MIT license.
 
 import { ClientEntityContext } from "../../src/clientEntityContext";
-import { AwaitableSender, Receiver as RheaReceiver } from "rhea-promise";
+import { AwaitableSender, Receiver, Receiver as RheaReceiver, ReceiverEvents } from "rhea-promise";
 import { DefaultDataTransformer, AccessToken } from "@azure/core-amqp";
+import { ConcurrentExpiringMap } from "../../src/util/concurrentExpiringMap";
+import { EventEmitter } from "events";
+import { getUniqueName } from "../../src/util/utils";
 
 export function createClientEntityContextForTests(options?: {
   onCreateAwaitableSenderCalled?: () => void;
-  onCreateReceiverCalled?: () => void;
+  onCreateReceiverCalled?: (receiver: RheaReceiver) => void;
 }): ClientEntityContext & { initWasCalled: boolean } {
   let initWasCalled = false;
 
@@ -17,10 +20,15 @@ export function createClientEntityContextForTests(options?: {
       credit: 999
     },
     namespace: {
+      async readyToOpenLink(): Promise<void> {},
       config: { endpoint: "my.service.bus" },
       connectionId: "connection-id",
       connection: {
         id: "connection-id",
+
+        isOpen(): boolean {
+          return true;
+        },
         createAwaitableSender: async (): Promise<AwaitableSender> => {
           if (options?.onCreateAwaitableSenderCalled) {
             options.onCreateAwaitableSenderCalled();
@@ -33,15 +41,41 @@ export function createClientEntityContextForTests(options?: {
           return testAwaitableSender;
         },
         createReceiver: async (): Promise<RheaReceiver> => {
+          const receiver = new EventEmitter() as RheaReceiver;
+
+          (receiver as any).name = getUniqueName("entity");
+
+          (receiver as any).connection = {
+            id: "connection-id"
+          };
+
+          (receiver as any).addCredit = (credit: number) => {
+            if ((receiver as any).credit == null || isNaN((receiver as any).credit)) {
+              (receiver as any).credit = 0;
+            }
+
+            (receiver as any).credit += credit;
+
+            if (credit === 1 && receiver.drain) {
+              (receiver as any).credit = 0;
+              receiver.emit(ReceiverEvents.receiverDrained, undefined);
+            }
+          };
+
+          let isOpen = true;
+
+          (receiver as any).close = async (): Promise<void> => {
+            isOpen = false;
+          };
+
+          (receiver as any).isOpen = () => isOpen;
+
           if (options?.onCreateReceiverCalled) {
-            options.onCreateReceiverCalled();
+            options.onCreateReceiverCalled(receiver);
           }
 
-          return ({
-            connection: {
-              id: "connection-id"
-            }
-          } as any) as RheaReceiver;
+          (receiver as any).connection = { id: "connection-id" };
+          return receiver;
         }
       },
       dataTransformer: new DefaultDataTransformer(),
@@ -54,10 +88,12 @@ export function createClientEntityContextForTests(options?: {
         cbsLock: "cbs-lock",
         async init() {
           initWasCalled = true;
-        }
+        },
+        async negotiateClaim(): Promise<void> {}
       }
     },
-    initWasCalled
+    initWasCalled,
+    requestResponseLockedMessages: new ConcurrentExpiringMap<string>()
   };
 
   return (fakeClientEntityContext as any) as ReturnType<typeof createClientEntityContextForTests>;

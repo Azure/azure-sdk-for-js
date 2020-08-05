@@ -24,6 +24,15 @@ export interface MessageHandlers<ReceivedMessageT> {
 }
 
 /**
+ * @internal
+ * @ignore
+ */
+export interface InternalMessageHandlers<ReceivedMessageT>
+  extends MessageHandlers<ReceivedMessageT> {
+  processInitialize?: () => Promise<void>;
+}
+
+/**
  * Options related to wait times.
  */
 export interface WaitTimeOptions {

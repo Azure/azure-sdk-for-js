@@ -12,7 +12,7 @@ import * as log from "../log";
  * @ignore
  */
 export class ReceiverHelper {
-  private _stopReceivingMessages: boolean = false;
+  private _isSuspended: boolean = false;
 
   constructor(private _getCurrentReceiver: () => Receiver | undefined) {}
 
@@ -28,7 +28,7 @@ export class ReceiverHelper {
   public addCredit(credits: number): boolean {
     const receiver = this._getCurrentReceiver();
 
-    if (this._stopReceivingMessages || receiver == null) {
+    if (this._isSuspended || receiver == null) {
       return false;
     }
 
@@ -37,9 +37,10 @@ export class ReceiverHelper {
   }
 
   /**
-   * Prevents us from receiving any further messages.
+   * Drains the receiver, preventing any new activity by
+   * causing addCredits to no longer add any credits.
    */
-  public async stopReceivingMessages(): Promise<void> {
+  public async suspend(): Promise<void> {
     const receiver = this._getCurrentReceiver();
 
     if (receiver == null) {
@@ -49,9 +50,16 @@ export class ReceiverHelper {
     log.receiver(
       `[${receiver.name}] User has requested to stop receiving new messages, attempting to drain the credits.`
     );
-    this._stopReceivingMessages = true;
+    this._isSuspended = true;
 
     return this.drain();
+  }
+
+  /**
+   * Resets tracking so addCredits works again.
+   */
+  unsuspend(): void {
+    this._isSuspended = false;
   }
 
   /**

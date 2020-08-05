@@ -290,6 +290,7 @@ export class MessageReceiver extends LinkEntity {
         );
 
         this._receiver = await this._context.namespace.connection.createReceiver(options);
+
         this.isConnecting = false;
         checkAborted();
 

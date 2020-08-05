@@ -92,6 +92,11 @@ export class StreamingReceiver extends MessageReceiver {
   protected _onAmqpMessage: OnAmqpEventAsPromise;
 
   /**
+   * Whether we are currently registered for receiving messages.
+   */
+  public isReceivingMessages: boolean;
+
+  /**
    * Instantiate a new Streaming receiver for receiving messages with handlers.
    *
    * @constructor
@@ -100,6 +105,8 @@ export class StreamingReceiver extends MessageReceiver {
    */
   constructor(context: ClientEntityContext, options?: ReceiveOptions) {
     super(context, ReceiverType.streaming, options);
+
+    this.isReceivingMessages = false;
 
     if (typeof options?.maxConcurrentCalls === "number" && options?.maxConcurrentCalls > 0) {
       this.maxConcurrentCalls = options.maxConcurrentCalls;
@@ -499,13 +506,20 @@ export class StreamingReceiver extends MessageReceiver {
     };
   }
 
-  stopReceivingMessages(): Promise<void> {
-    return this._receiverHelper.stopReceivingMessages();
+  async stopReceivingMessages(): Promise<void> {
+    await this._receiverHelper.suspend();
+    this.isReceivingMessages = false;
   }
 
-  init(useNewName: boolean, abortSignal?: AbortSignalLike): Promise<void> {
+  async init(useNewName: boolean, abortSignal?: AbortSignalLike): Promise<void> {
     const options = this._createReceiverOptions(useNewName, this._getHandlers());
-    return super._init(options, abortSignal);
+    await this._init(options, abortSignal);
+
+    // this might seem odd but in reality this entire class is like one big function call that
+    // results in a receive(). Once we're being initialized we should consider ourselves the
+    // "owner" of the receiver and that it's now being locked into being the actual receiver.
+    this.isReceivingMessages = true;
+    this._receiverHelper.unsuspend();
   }
 
   /**
@@ -554,6 +568,8 @@ export class StreamingReceiver extends MessageReceiver {
     }
 
     this._isDetaching = true;
+    this.isReceivingMessages = false;
+
     try {
       // Clears the token renewal timer. Closes the link and its session if they are open.
       // Removes the link and its session if they are present in rhea's cache.
@@ -682,6 +698,12 @@ export class StreamingReceiver extends MessageReceiver {
     }
   }
 
+  async close(): Promise<void> {
+    await super.close();
+    this.isReceivingMessages = false;
+    this.stopReceivingMessages();
+  }
+
   /**
    * Creates a streaming receiver.
    * @static
@@ -706,7 +728,9 @@ export class StreamingReceiver extends MessageReceiver {
 
     let sReceiver: StreamingReceiver;
 
-    if (options?._createStreamingReceiver) {
+    if (context.streamingReceiver) {
+      sReceiver = context.streamingReceiver;
+    } else if (options?._createStreamingReceiver) {
       sReceiver = options._createStreamingReceiver(context, options);
     } else {
       sReceiver = new StreamingReceiver(context, options);

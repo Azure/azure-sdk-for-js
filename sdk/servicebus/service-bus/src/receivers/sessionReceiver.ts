@@ -431,7 +431,7 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
 
     return {
       close: async (): Promise<void> => {
-        return this._messageSession?.receiverHelper.stopReceivingMessages();
+        return this._messageSession?.receiverHelper.suspend();
       }
     };
   }
