@@ -90,11 +90,25 @@
   "homepage": "https://github.com/Azure/azure-sdk-for-js#readme",
   "sideEffects": false,
   "//metadata": {
-    "constantPaths": [
-      {
-        "path": "src/utils/constants.ts",
-        "prefix": "SDK_VERSION"
-      }
+    "constantPaths": [{
+      "path": "src/utils/constants.ts",
+      "prefix": "SDK_VERSION"
+    }]
+  },
+  "//smokeTestConfiguration": {
+    "skip": [
+      "advanced.js",
+      "anonymousCred.js",
+      "azureAdAuth.js",
+      "basic.js",
+      "customPipeline.js",
+      "customizedClientHeaders.js",
+      "iterators-blobs-hierarchy.js",
+      "iterators-blobs.js",
+      "iterators-containers.js",
+      "iterators-without-await.js",
+      "readingSnapshot.js",
+      "sharedKeyCred.js"
     ]
   },
   "dependencies": {

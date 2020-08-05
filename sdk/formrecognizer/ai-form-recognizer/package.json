@@ -33,8 +33,7 @@
     "LICENSE"
   ],
   "//metadata": {
-    "constantPaths": [
-      {
+    "constantPaths": [{
         "path": "src/generated/generatedClientContext.ts",
         "prefix": "packageVersion"
       },
@@ -138,5 +137,18 @@
     "typescript": "~3.9.3",
     "fs-extra": "^8.1.0",
     "@types/fs-extra": "^8.0.0"
+  },
+  "//smokeTestConfiguration": {
+    "skip": [
+      "customModelManagement.js",
+      "differentiateLabeledUnlabeled.js",
+      "getBoundingBoxes.js",
+      "recognizeCustomForm.js",
+      "trainLabeledModel.js",
+      "trainUnlabeledModel.js",
+      "copyModel.js",
+      "authenticationMethods.js",
+      "recognizeContent.js"
+    ]
   }
 }

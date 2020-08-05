@@ -85,6 +85,11 @@
       }
     ]
   },
+  "//smokeTestConfiguration": {
+    "skip": [
+      "backupAndRestore.js"
+    ]
+  },
   "dependencies": {
     "@azure/abort-controller": "^1.0.0",
     "@azure/core-http": "^1.1.4",
