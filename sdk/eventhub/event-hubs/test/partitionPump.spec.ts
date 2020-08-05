@@ -14,7 +14,7 @@ const should = chai.should();
 describe("PartitionPump", () => {
   describe("telemetry", () => {
     const eventHubProperties = {
-      endpoint: "theendpoint",
+      host: "thehost",
       eventHubName: "theeventhubname"
     };
 
