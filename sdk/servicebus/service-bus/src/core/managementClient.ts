@@ -34,7 +34,7 @@ import {
 } from "../serviceBusMessage";
 import { LinkEntity } from "./linkEntity";
 import * as log from "../log";
-import { ReceiveMode, fromAmqpMessage } from "../serviceBusMessage";
+import { InternalReceiveMode, fromAmqpMessage } from "../serviceBusMessage";
 import { toBuffer } from "../util/utils";
 import {
   throwErrorIfConnectionClosed,
@@ -780,7 +780,7 @@ export class ManagementClient extends LinkEntity {
    */
   async receiveDeferredMessages(
     sequenceNumbers: Long[],
-    receiveMode: ReceiveMode,
+    receiveMode: InternalReceiveMode,
     sessionId?: string,
     options?: OperationOptionsBase & SendManagementRequestOptions
   ): Promise<ServiceBusMessageImpl[]> {
@@ -811,7 +811,8 @@ export class ManagementClient extends LinkEntity {
         0x81,
         undefined
       );
-      const receiverSettleMode: number = receiveMode === ReceiveMode.receiveAndDelete ? 0 : 1;
+      const receiverSettleMode: number =
+        receiveMode === InternalReceiveMode.receiveAndDelete ? 0 : 1;
       messageBody[Constants.receiverSettleMode] = types.wrap_uint(receiverSettleMode);
       if (sessionId != null) {
         messageBody[Constants.sessionIdMapKey] = sessionId;

@@ -83,7 +83,7 @@ async function receiveFromNextSession(serviceBusClient: ServiceBusClient): Promi
   let sessionReceiver: SessionReceiver<ReceivedMessageWithLock>;
 
   try {
-    sessionReceiver = await serviceBusClient.createSessionReceiver(queueName, "peekLock", {
+    sessionReceiver = await serviceBusClient.createSessionReceiver(queueName, {
       autoRenewLockDurationInMs: sessionIdleTimeoutMs
     });
   } catch (err) {
