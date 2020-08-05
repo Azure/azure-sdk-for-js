@@ -111,10 +111,9 @@ export class ServiceBusClient {
    * More information about how peekLock and message settlement works here:
    * https://docs.microsoft.com/en-us/azure/service-bus-messaging/message-transfers-locks-settlement#peeklock
    *
-   * @param {string} queueName The name of the queue to receive from.
-   * @param {CreateReceiverOptions<"peekLock">} [options] Options to pass the receiveMode, defaulted to peekLock.
-   * @returns {Receiver<ReceivedMessageWithLock>}
-   * @memberof ServiceBusClient
+   * @param queueName The name of the queue to receive from.
+   * @param options Options to pass the receiveMode, defaulted to peekLock.
+   * @returns A receiver that can be used to receive messages of the form `ReceivedMessageWithLock`
    */
   createReceiver(
     queueName: string,
@@ -127,10 +126,9 @@ export class ServiceBusClient {
    *
    * In receiveAndDelete mode, messages are deleted from Service Bus as they are received.
    *
-   * @param {string} queueName The name of the queue to receive from.
-   * @param {CreateReceiverOptions<"receiveAndDelete">} [options] Options to pass the receiveMode, defaulted to receiveAndDelete.
-   * @returns {Receiver<ReceivedMessage>}
-   * @memberof ServiceBusClient
+   * @param queueName The name of the queue to receive from.
+   * @param options Options to pass the receiveMode, defaulted to receiveAndDelete.
+   * @returns A receiver that can be used to receive messages of the form `ReceivedMessage`
    */
   createReceiver(
     queueName: string,
@@ -154,11 +152,10 @@ export class ServiceBusClient {
    * More information about how peekLock and message settlement works here:
    * https://docs.microsoft.com/en-us/azure/service-bus-messaging/message-transfers-locks-settlement#peeklock
    *
-   * @param {string} topicName Name of the topic for the subscription we want to receive from.
-   * @param {string} subscriptionName Name of the subscription (under the `topic`) that we want to receive from.
-   * @param {CreateReceiverOptions<"peekLock">} [options] Options to pass the receiveMode, defaulted to peekLock.
-   * @returns {Receiver<ReceivedMessageWithLock>}
-   * @memberof ServiceBusClient
+   * @param topicName Name of the topic for the subscription we want to receive from.
+   * @param subscriptionName Name of the subscription (under the `topic`) that we want to receive from.
+   * @param options Options to pass the receiveMode, defaulted to peekLock.
+   * @returns A receiver that can be used to receive messages of the form `ReceivedMessageWithLock`
    */
   createReceiver(
     topicName: string,
@@ -172,11 +169,10 @@ export class ServiceBusClient {
    *
    * In receiveAndDelete mode, messages are deleted from Service Bus as they are received.
    *
-   * @param {string} topicName Name of the topic for the subscription we want to receive from.
-   * @param {string} subscriptionName Name of the subscription (under the `topic`) that we want to receive from.
-   * @param {CreateReceiverOptions<"receiveAndDelete">} [options] Options to pass the receiveMode, defaulted to receiveAndDelete.
-   * @returns {Receiver<ReceivedMessage>}
-   * @memberof ServiceBusClient
+   * @param topicName Name of the topic for the subscription we want to receive from.
+   * @param subscriptionName Name of the subscription (under the `topic`) that we want to receive from.
+   * @param options Options to pass the receiveMode, defaulted to receiveAndDelete.
+   * @returns A receiver that can be used to receive messages of the form `ReceivedMessage`
    */
   createReceiver(
     topicName: string,
@@ -237,10 +233,9 @@ export class ServiceBusClient {
    * More information about how peekLock and message settlement works here:
    * https://docs.microsoft.com/en-us/azure/service-bus-messaging/message-transfers-locks-settlement#peeklock
    *
-   * @param {string} queueName The name of the queue to receive from.
-   * @param {CreateSessionReceiverOptions<"peekLock">} [options] Options include receiveMode(defaulted to peekLock), options to create session receiver.
-   * @returns {Promise<SessionReceiver<ReceivedMessageWithLock>>}
-   * @memberof ServiceBusClient
+   * @param queueName The name of the queue to receive from.
+   * @param options Options include receiveMode(defaulted to peekLock), options to create session receiver.
+   * @returns A receiver that can be used to receive messages of the form `ReceivedMessageWithLock`
    */
   createSessionReceiver(
     queueName: string,
@@ -252,10 +247,9 @@ export class ServiceBusClient {
    *
    * In receiveAndDelete mode, messages are deleted from Service Bus as they are received.
    *
-   * @param {string} queueName The name of the queue to receive from.
-   * @param {CreateSessionReceiverOptions<"receiveAndDelete">} [options] Options include receiveMode(defaulted to receiveAndDelete), options to create session receiver.
-   * @returns {Promise<SessionReceiver<ReceivedMessage>>}
-   * @memberof ServiceBusClient
+   * @param queueName The name of the queue to receive from.
+   * @param options Options include receiveMode(defaulted to receiveAndDelete), options to create session receiver.
+   * @returns A receiver that can be used to receive messages of the form `ReceivedMessage`
    */
   createSessionReceiver(
     queueName: string,
@@ -278,11 +272,10 @@ export class ServiceBusClient {
    * More information about how peekLock and message settlement works here:
    * https://docs.microsoft.com/en-us/azure/service-bus-messaging/message-transfers-locks-settlement#peeklock
    *
-   * @param {string} topicName Name of the topic for the subscription we want to receive from.
-   * @param {string} subscriptionName Name of the subscription (under the `topic`) that we want to receive from.
-   * @param {CreateSessionReceiverOptions<"peekLock">} [options] Options include receiveMode(defaulted to peekLock), options to create session receiver.
-   * @returns {Promise<SessionReceiver<ReceivedMessageWithLock>>}
-   * @memberof ServiceBusClient
+   * @param topicName Name of the topic for the subscription we want to receive from.
+   * @param subscriptionName Name of the subscription (under the `topic`) that we want to receive from.
+   * @param options Options include receiveMode(defaulted to peekLock), options to create session receiver.
+   * @returns A receiver that can be used to receive messages of the form `ReceivedMessageWithLock`
    */
   createSessionReceiver(
     topicName: string,
@@ -295,11 +288,10 @@ export class ServiceBusClient {
    *
    * In receiveAndDelete mode, messages are deleted from Service Bus as they are received.
    *
-   * @param {string} topicName Name of the topic for the subscription we want to receive from.
-   * @param {string} subscriptionName Name of the subscription (under the `topic`) that we want to receive from.
-   * @param {CreateSessionReceiverOptions<"receiveAndDelete">} [options] Options include receiveMode(defaulted to receiveAndDelete), options to create session receiver.
-   * @returns {Promise<SessionReceiver<ReceivedMessage>>}
-   * @memberof ServiceBusClient
+   * @param topicName Name of the topic for the subscription we want to receive from.
+   * @param subscriptionName Name of the subscription (under the `topic`) that we want to receive from.
+   * @param options Options include receiveMode(defaulted to receiveAndDelete), options to create session receiver.
+   * @returns A receiver that can be used to receive messages of the form `ReceivedMessage`
    */
   createSessionReceiver(
     topicName: string,
@@ -373,10 +365,9 @@ export class ServiceBusClient {
    * More information about how peekLock and message settlement works here:
    * https://docs.microsoft.com/en-us/azure/service-bus-messaging/message-transfers-locks-settlement#peeklock
    *
-   * @param {string} queueName The name of the queue to receive from.
-   * @param {CreateReceiverOptions<"peekLock">} [options] Options to pass the receiveMode, defaulted to peekLock.
-   * @returns {Receiver<ReceivedMessageWithLock>}
-   * @memberof ServiceBusClient
+   * @param queueName The name of the queue to receive from.
+   * @param options Options to pass the receiveMode, defaulted to peekLock.
+   * @returns A receiver that can be used to receive messages of the form `ReceivedMessageWithLock`
    */
   createDeadLetterReceiver(
     queueName: string,
@@ -392,10 +383,9 @@ export class ServiceBusClient {
    * See here for more information about dead letter queues:
    * https://docs.microsoft.com/en-us/azure/service-bus-messaging/service-bus-dead-letter-queues
    *
-   * @param {string} queueName The name of the queue to receive from.
-   * @param {CreateReceiverOptions<"receiveAndDelete">} [options] Options to pass the receiveMode, defaulted to receiveAndDelete.
-   * @returns {Receiver<ReceivedMessage>}
-   * @memberof ServiceBusClient
+   * @param queueName The name of the queue to receive from.
+   * @param options Options to pass the receiveMode, defaulted to receiveAndDelete.
+   * @returns A receiver that can be used to receive messages of the form `ReceivedMessage`
    */
   createDeadLetterReceiver(
     queueName: string,
@@ -418,11 +408,10 @@ export class ServiceBusClient {
    * More information about how peekLock and message settlement works here:
    * https://docs.microsoft.com/en-us/azure/service-bus-messaging/message-transfers-locks-settlement#peeklock
    *
-   * @param {string} topicName Name of the topic for the subscription we want to receive from.
-   * @param {string} subscriptionName Name of the subscription (under the `topic`) that we want to receive from.
-   * @param {CreateReceiverOptions<"peekLock">} [options] Options to pass the receiveMode, defaulted to peekLock.
-   * @returns {Receiver<ReceivedMessageWithLock>}
-   * @memberof ServiceBusClient
+   * @param topicName Name of the topic for the subscription we want to receive from.
+   * @param subscriptionName Name of the subscription (under the `topic`) that we want to receive from.
+   * @param options Options to pass the receiveMode, defaulted to peekLock.
+   * @returns A receiver that can be used to receive messages of the form `ReceivedMessageWithLock`
    */
   createDeadLetterReceiver(
     topicName: string,
@@ -439,11 +428,10 @@ export class ServiceBusClient {
    * See here for more information about dead letter queues:
    * https://docs.microsoft.com/en-us/azure/service-bus-messaging/service-bus-dead-letter-queues
    *
-   * @param {string} topicName Name of the topic for the subscription we want to receive from.
-   * @param {string} subscriptionName Name of the subscription (under the `topic`) that we want to receive from.
-   * @param {CreateReceiverOptions<"receiveAndDelete">} [options] Options to pass the receiveMode, defaulted to receiveAndDelete.
-   * @returns {Receiver<ReceivedMessage>}
-   * @memberof ServiceBusClient
+   * @param topicName Name of the topic for the subscription we want to receive from.
+   * @param subscriptionName Name of the subscription (under the `topic`) that we want to receive from.
+   * @param options Options to pass the receiveMode, defaulted to receiveAndDelete.
+   * @returns A receiver that can be used to receive messages of the form `ReceivedMessage`
    */
   createDeadLetterReceiver(
     topicName: string,
