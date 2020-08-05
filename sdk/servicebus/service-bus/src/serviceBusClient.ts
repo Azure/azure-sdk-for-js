@@ -29,7 +29,7 @@ export class ServiceBusClient {
    */
   public fullyQualifiedNamespace: string;
   /**
-   * Creates an instance of the ServiceBusClient class which can be used to create senders and receivers to 
+   * Creates an instance of the ServiceBusClient class which can be used to create senders and receivers to
    * the Azure Service Bus namespace provided in the connection string. No connection is made to the service
    * until the senders/receivers created with the client are used to send/receive messages.
    * @param connectionString A connection string for Azure Service Bus namespace.
@@ -38,8 +38,8 @@ export class ServiceBusClient {
    */
   constructor(connectionString: string, options?: ServiceBusClientOptions);
   /**
-   * Creates an instance of the ServiceBusClient class which can be used to create senders and receivers to 
-   * the Azure Service Bus namespace provided. No connection is made to the service until 
+   * Creates an instance of the ServiceBusClient class which can be used to create senders and receivers to
+   * the Azure Service Bus namespace provided. No connection is made to the service until
    * the senders/receivers created with the client are used to send/receive messages.
    * @param fullyQualifiedNamespace The full namespace of your Service Bus instance which is
    * likely to be similar to <yournamespace>.servicebus.windows.net.
