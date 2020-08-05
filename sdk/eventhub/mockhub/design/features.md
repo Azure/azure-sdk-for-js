@@ -32,3 +32,5 @@ Lacking:
   Assumes all CBS requests accepted unless against an invalid entity.
 - Receiver redirect.
 - Probably more error handling?
+- Multiple event-hub support. Currently supports a single Event Hub in a namespace.
+- Persistent message storage (not a goal.)

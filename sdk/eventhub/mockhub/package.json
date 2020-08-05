@@ -19,7 +19,6 @@
     "prebuild": "npm run clean",
     "prepare": "npm run build",
     "test": "echo \"No tests implemented\"",
-    "start": "node dist/sandbox/ehSample.js",
     "unit-test:browser": "echo skipped",
     "unit-test:node": "echo skipped",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser"
