@@ -37,7 +37,7 @@ export class ReceiverHelper {
   }
 
   /**
-   * Drains the receiver and prevents the `addCredit()` method from adding credits.
+   * Drains the receiver and prevents the `receiverHelper.addCredit()` method from adding credits.
    * Call `resume()` to enable the `addCredit()` method.
    */
   public async suspend(): Promise<void> {
