@@ -39,7 +39,8 @@
   },
   "dependencies": {
     "@azure/abort-controller": "^1.0.0",
-    "rhea": "^1.0.24"
+    "@azure/core-asynciterator-polyfill": "^1.0.0",
+    "rhea": "^1.0.24",
+    "tslib": "^2.0.0"
   }
 }
-

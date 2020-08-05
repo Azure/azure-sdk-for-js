@@ -1,5 +1,6 @@
 import { Sender, SenderEvents, DeliveryAnnotations } from "rhea";
 import { AbortController, AbortSignalLike, AbortError } from "@azure/abort-controller";
+
 import { MessageStore, MessageRecord } from "../storage/messageStore";
 import { EventPosition } from "../utils/eventPosition";
 import { Message } from "rhea";
@@ -96,7 +97,7 @@ export class StreamingPartitionSender {
         }
 
         const outgoingMessage: Message = {
-          ...value.message
+          ...value.message,
         };
         if (Object.keys(messageAnnotations).length) {
           outgoingMessage.message_annotations = messageAnnotations;
@@ -130,4 +131,3 @@ export class StreamingPartitionSender {
     });
   }
 }
-

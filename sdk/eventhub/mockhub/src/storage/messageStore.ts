@@ -1,4 +1,7 @@
+/// <reference lib="ES2018.AsyncIterable" />
+
 import { Message } from "rhea";
+import "@azure/core-asynciterator-polyfill";
 import { EventPosition } from "../utils/eventPosition";
 import { Queue } from "./queue";
 
@@ -104,7 +107,7 @@ export class MessageStore {
         lastEnqueuedTimeUtc: new Date(0).getTime(),
         lastEnqueuedSequenceNumber: -1,
         partitionId,
-        isPartitionEmpty: isEmpty
+        isPartitionEmpty: isEmpty,
       };
     }
 
@@ -116,7 +119,7 @@ export class MessageStore {
       lastEnqueuedTimeUtc: lastMessage.enqueuedTime,
       lastEnqueuedSequenceNumber: lastMessage.sequenceNumber,
       partitionId,
-      isPartitionEmpty: isEmpty
+      isPartitionEmpty: isEmpty,
     };
   }
 
@@ -134,7 +137,7 @@ export class MessageStore {
       enqueuedTime: Date.now(),
       sequenceNumber: partitionStore.length + 1,
       offset: partitionStore.length,
-      message
+      message,
     };
     if (partitionKey) {
       record.partitionKey = partitionKey;
@@ -150,7 +153,10 @@ export class MessageStore {
    * @param partitionId
    * @param startPosition Specifies which `MessageRecord` to start iterating from.
    */
-  public async *getMessageIterator(partitionId: string, startPosition: EventPosition) {
+  public async *getMessageIterator(
+    partitionId: string,
+    startPosition: EventPosition
+  ): AsyncIterator<MessageRecord, any, boolean | undefined> {
     const partitionStore = this._getPartitionStore(partitionId);
     const partitionViews = this._getPartitionViews(partitionId);
     const partitionStoreSubset = this._getSubList(partitionStore, startPosition);
@@ -161,10 +167,9 @@ export class MessageStore {
     do {
       const nextItem = await queueView.shift();
       if (this._isValidPositionedRecord(nextItem, startPosition)) {
-        shouldStop = yield nextItem;
+        shouldStop = Boolean(yield nextItem);
       }
     } while (!shouldStop);
     partitionViews.delete(queueView);
   }
 }
-
