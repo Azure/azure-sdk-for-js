@@ -30,6 +30,14 @@ export interface ConnectionConfig {
    */
   host: string;
   /**
+   * @property {string} hostname - The hostname "<yournamespace>.servicebus.windows.net".
+   */
+  hostname?: string;
+  /**
+   * The port number.
+   */
+  port?: number;
+  /**
    * @property {string} connectionString - The connection string.
    */
   connectionString: string;
@@ -64,6 +72,14 @@ export interface ConnectionConfig {
    * @property {any} [webSocketConstructorOptions] - Options to be passed to the WebSocket constructor
    */
   webSocketConstructorOptions?: any;
+
+  /**
+   * Determines whether to disable using TLS when connecting to the service.
+   * This is useful when connecting to a local AMQP server.
+   *
+   * Defaults to false.
+   */
+  disableTLS?: boolean;
 }
 
 /**
