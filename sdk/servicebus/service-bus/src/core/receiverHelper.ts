@@ -28,7 +28,7 @@ export class ReceiverHelper {
   public addCredit(credits: number): boolean {
     const receiver = this._getCurrentReceiver();
 
-    if (this._isSuspended || receiver == null) {
+    if (this._isSuspended || receiver == null || !receiver.isOpen()) {
       return false;
     }
 
@@ -43,15 +43,15 @@ export class ReceiverHelper {
   public async suspend(): Promise<void> {
     const receiver = this._getCurrentReceiver();
 
-    if (receiver == null) {
+    this._isSuspended = true;
+
+    if (receiver == null || !receiver.isOpen()) {
       return;
     }
 
     log.receiver(
       `[${receiver.name}] User has requested to stop receiving new messages, attempting to drain the credits.`
     );
-    this._isSuspended = true;
-
     return this.drain();
   }
 
@@ -69,7 +69,7 @@ export class ReceiverHelper {
   public async drain(): Promise<void> {
     const receiver = this._getCurrentReceiver();
 
-    if (receiver == null) {
+    if (receiver == null || !receiver.isOpen()) {
       return;
     }
 
