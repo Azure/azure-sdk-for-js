@@ -7,20 +7,20 @@ import {
   ReceiverOpenEvent,
   OnMessageEvent,
   SenderCloseEvent,
-  ConnectionCloseEvent,
+  ConnectionCloseEvent
 } from "../server/mockServer";
 import { MessageStore } from "../storage/messageStore";
 import { createCbsAccepted } from "../messages/cbs/cbsAccepted";
 import {
   isHubRuntimeInfo,
-  generateHubRuntimeInfoResponse,
+  generateHubRuntimeInfoResponse
 } from "../messages/event-hubs/runtimeInfo";
 import { StreamingPartitionSender } from "../sender/streamingPartitionSender";
 import { getEventPosition } from "../utils/eventPosition";
 import {
   isPartitionInfo,
   generatePartitionInfoResponse,
-  generateBadPartitionInfoResponse,
+  generateBadPartitionInfoResponse
 } from "../messages/event-hubs/partitionInfo";
 
 export interface MockEventHubOptions {
@@ -85,20 +85,14 @@ export class MockEventHub {
    * This provides convenient access to a `Sender`'s `StreamingPartitionSender`
    * so that we can stop it when a `Sender` is closed.
    */
-  private _streamingPartitionSenderMap = new Map<
-    Sender,
-    StreamingPartitionSender
-  >();
+  private _streamingPartitionSenderMap = new Map<Sender, StreamingPartitionSender>();
   /**
    * This provides a way to find all the partition senders for a combination
    * of `consumerGroup` and `partitionId`.
    *
    * This is needed to support `ownerLevel` (epoch).
    */
-  private _consumerGroupPartitionSenderMap = new Map<
-    string,
-    Map<string, Set<Sender>>
-  >();
+  private _consumerGroupPartitionSenderMap = new Map<string, Map<string, Set<Sender>>>();
 
   /**
    * The Event Hub's partition ids.
@@ -153,9 +147,7 @@ export class MockEventHub {
   private _handleReceiverOpen = (event: ReceiverOpenEvent) => {
     if (this._isReceiverPartitionEntityPath(event.entityPath)) {
       // Handle the case where the client is creating a partition-specific sender.
-      const entityComponents = this._parseReceiverPartitionEntityPath(
-        event.entityPath
-      );
+      const entityComponents = this._parseReceiverPartitionEntityPath(event.entityPath);
       if (!entityComponents) {
         return;
       }
@@ -166,7 +158,7 @@ export class MockEventHub {
         return event.receiver.close({
           condition: "com.microsoft:argument-out-of-range",
           description:
-            "The specified partition is invalid for an EventHub partition sender or receiver.",
+            "The specified partition is invalid for an EventHub partition sender or receiver."
         });
       }
     }
@@ -186,20 +178,14 @@ export class MockEventHub {
       // We don't need to do anything special when opening a $management sender.
     } else if (this._isSenderPartitionEntityPath(event.entityPath)) {
       // Handle partition-specific senders (e.g. /eventHubName/ConsumerGroups/$default/Partitions/0)
-      const entityComponents = this._parseSenderPartitionEntityPath(
-        event.entityPath
-      );
+      const entityComponents = this._parseSenderPartitionEntityPath(event.entityPath);
       if (!entityComponents) {
         return;
       }
 
       // Ensure the resource the sender is sourced from exists.
       if (
-        !this._handlePartitionSenderOpenValidation(
-          entityComponents,
-          event.sender,
-          event.context
-        )
+        !this._handlePartitionSenderOpenValidation(entityComponents, event.sender, event.context)
       ) {
         return;
       }
@@ -215,9 +201,7 @@ export class MockEventHub {
         return;
       }
 
-      const desiredCapabilities = Array.isArray(
-        event.sender.desired_capabilities
-      )
+      const desiredCapabilities = Array.isArray(event.sender.desired_capabilities)
         ? event.sender.desired_capabilities
         : [event.sender.desired_capabilities];
 
@@ -228,8 +212,7 @@ export class MockEventHub {
 
       // Get the starting position from which to start reading events.
       const sourceFilter: string =
-        event.sender.source.filter?.["apache.org:selector-filter:string"]
-          ?.value ?? "";
+        event.sender.source.filter?.["apache.org:selector-filter:string"]?.value ?? "";
 
       try {
         const startPosition = getEventPosition(sourceFilter);
@@ -241,10 +224,7 @@ export class MockEventHub {
           startPosition,
           enableRuntimeMetric
         );
-        this._streamingPartitionSenderMap.set(
-          event.sender,
-          streamingPartitionSender
-        );
+        this._streamingPartitionSenderMap.set(event.sender, streamingPartitionSender);
         streamingPartitionSender.start();
         this._storePartitionSender(
           entityComponents.consumerGroup,
@@ -255,7 +235,7 @@ export class MockEventHub {
         // Probably should close the sender at this point.
         event.sender.close({
           condition: "amqp:internal-error",
-          description: err?.message ?? "",
+          description: err?.message ?? ""
         });
       }
     }
@@ -271,12 +251,8 @@ export class MockEventHub {
   private _handleSenderClose = (event: SenderCloseEvent) => {
     if (this._isSenderPartitionEntityPath(event.entityPath)) {
       // Handles partition-specific senders.
-      const entityComponents = this._parseSenderPartitionEntityPath(
-        event.entityPath
-      );
-      const streamingPartitionSender = this._streamingPartitionSenderMap.get(
-        event.sender
-      );
+      const entityComponents = this._parseSenderPartitionEntityPath(event.entityPath);
+      const streamingPartitionSender = this._streamingPartitionSenderMap.get(event.sender);
       if (streamingPartitionSender) {
         streamingPartitionSender.stop();
       }
@@ -299,8 +275,7 @@ export class MockEventHub {
   private _handleConnectionClose = (event: ConnectionCloseEvent) => {
     // Cleanup the partition senders we might have for this connection.
     // We'll just do brute force for now and optimize later.
-    for (const [consumerGroup, partitionMap] of this
-      ._consumerGroupPartitionSenderMap) {
+    for (const [consumerGroup, partitionMap] of this._consumerGroupPartitionSenderMap) {
       for (const [partitionId, senders] of partitionMap) {
         for (const sender of senders) {
           if (sender.connection === event.context.connection) {
@@ -336,9 +311,7 @@ export class MockEventHub {
     } else if (isPartitionInfo(event.entityPath, event.message)) {
       return this._handlePartitionInfoMessage(event);
     } else if (this._isSenderPartitionEntityPath(event.entityPath)) {
-      const entityComponents = this._parseSenderPartitionEntityPath(
-        event.entityPath
-      );
+      const entityComponents = this._parseSenderPartitionEntityPath(event.entityPath);
       // Handle links to partitions
       if (!entityComponents) {
         return;
@@ -347,9 +320,7 @@ export class MockEventHub {
       return;
     } else if (this._isReceiverPartitionEntityPath(event.entityPath)) {
       // received a message targetted at a partition id
-      const entityComponents = this._parseReceiverPartitionEntityPath(
-        event.entityPath
-      );
+      const entityComponents = this._parseReceiverPartitionEntityPath(event.entityPath);
       if (!entityComponents) {
         return;
       }
@@ -377,14 +348,14 @@ export class MockEventHub {
         application_properties: {
           "status-code": 404,
           "status-description": `The messaging entity '${event.message.application_properties?.name}' could not be found.`,
-          "error-condition": "amqp:not-found",
+          "error-condition": "amqp:not-found"
         },
-        body: undefined,
+        body: undefined
       };
     } else {
       outgoingMessage = createCbsAccepted({
         correlationId: event.message.message_id as string,
-        toLinkName: event.message.reply_to,
+        toLinkName: event.message.reply_to
       });
     }
     event.context.delivery?.accept();
@@ -401,7 +372,7 @@ export class MockEventHub {
       partitions: this.partitionIds,
       targetLinkName: event.message.reply_to,
       createdOn: this._createdOn,
-      eventHubName: this._name,
+      eventHubName: this._name
     });
     event.context.delivery?.accept();
     return event.sendMessage(outgoingMessage);
@@ -417,7 +388,7 @@ export class MockEventHub {
     if (!this.partitionIds.includes(partitionId)) {
       outgoingMessage = generateBadPartitionInfoResponse({
         correlationId: event.message.message_id!.toString(),
-        targetLinkName: event.message.reply_to,
+        targetLinkName: event.message.reply_to
       });
     } else {
       const partitionInfo = this._messageStore.getPartitionInfo(partitionId);
@@ -425,7 +396,7 @@ export class MockEventHub {
         ...partitionInfo,
         correlationId: event.message.message_id!.toString(),
         targetLinkName: event.message.reply_to,
-        eventHubName: this._name,
+        eventHubName: this._name
       });
     }
     event.context.delivery?.accept();
@@ -441,17 +412,15 @@ export class MockEventHub {
     const delivery = event.context.delivery!;
     const deliverySize = (delivery as any)["data"]?.length ?? 0;
     const maxMessageSize =
-      event.context.receiver?.get_option("max_message_size", 1024 * 1024) ??
-      1024 * 1024;
+      event.context.receiver?.get_option("max_message_size", 1024 * 1024) ?? 1024 * 1024;
     if (deliverySize >= maxMessageSize) {
       console.log("too large!");
       delivery.reject({
         condition: "amqp:link:message-size-exceeded",
         description: `The received message (delivery-id:${
           delivery.id
-        }, size:${deliverySize} bytes) exceeds the limit (${
-          maxMessageSize ?? 1024 * 1024
-        } bytes) currently allowed on the link.`,
+        }, size:${deliverySize} bytes) exceeds the limit (${maxMessageSize ??
+          1024 * 1024} bytes) currently allowed on the link.`
       });
       return;
     }
@@ -464,8 +433,7 @@ export class MockEventHub {
    * @param sender
    */
   private _getSenderOwnerLevel(sender: Sender): number | undefined {
-    const ownerLevel: number | undefined =
-      sender.properties?.["com.microsoft:epoch"];
+    const ownerLevel: number | undefined = sender.properties?.["com.microsoft:epoch"];
     return ownerLevel;
   }
 
@@ -478,23 +446,14 @@ export class MockEventHub {
    * @param partitionId
    * @param sender
    */
-  private _storePartitionSender(
-    consumerGroup: string,
-    partitionId: string,
-    sender: Sender
-  ) {
+  private _storePartitionSender(consumerGroup: string, partitionId: string, sender: Sender) {
     // Ensure we have an entry for the consumer group.
     const consumerGroupPartitionMap =
-      this._consumerGroupPartitionSenderMap.get(consumerGroup) ??
-      new Map<string, Set<Sender>>();
-    this._consumerGroupPartitionSenderMap.set(
-      consumerGroup,
-      consumerGroupPartitionMap
-    );
+      this._consumerGroupPartitionSenderMap.get(consumerGroup) ?? new Map<string, Set<Sender>>();
+    this._consumerGroupPartitionSenderMap.set(consumerGroup, consumerGroupPartitionMap);
 
     // Ensure we have an entry for the partition id.
-    const partitionSenderSet =
-      consumerGroupPartitionMap.get(partitionId) ?? new Set<Sender>();
+    const partitionSenderSet = consumerGroupPartitionMap.get(partitionId) ?? new Set<Sender>();
     consumerGroupPartitionMap.set(partitionId, partitionSenderSet);
 
     partitionSenderSet.add(sender);
@@ -507,11 +466,7 @@ export class MockEventHub {
    * @param partitionId
    * @param sender
    */
-  private _deletePartitionSender(
-    consumerGroup: string,
-    partitionId: string,
-    sender: Sender
-  ) {
+  private _deletePartitionSender(consumerGroup: string, partitionId: string, sender: Sender) {
     const partitionSenders = this._consumerGroupPartitionSenderMap
       .get(consumerGroup)
       ?.get(partitionId);
@@ -550,10 +505,7 @@ export class MockEventHub {
     let maxOwnerLevel = -1;
     for (const partitionSender of partitionSenders) {
       const senderOwnerLevel = this._getSenderOwnerLevel(partitionSender);
-      if (
-        typeof senderOwnerLevel === "number" &&
-        senderOwnerLevel > maxOwnerLevel
-      ) {
+      if (typeof senderOwnerLevel === "number" && senderOwnerLevel > maxOwnerLevel) {
         maxOwnerLevel = senderOwnerLevel;
       }
     }
@@ -568,7 +520,7 @@ export class MockEventHub {
           condition: "amqp:link:stolen",
           description:
             `At least one receiver for the endpoint is created with epoch of '${maxOwnerLevel}', and so non-epoch receiver is not allowed. ` +
-            `Either reconnect with a higher epoch, or make sure all epoch receivers are closed or disconnected.`,
+            `Either reconnect with a higher epoch, or make sure all epoch receivers are closed or disconnected.`
         });
         return false;
       }
@@ -582,10 +534,9 @@ export class MockEventHub {
         partitionSender.close({
           condition: "amqp:link:stolen",
           description:
-            `New receiver 'nil' with higher epoch of '${ownerLevel}' is created hence current receiver 'nil' with epoch '${
-              senderOwnerLevel ?? ""
-            }' is getting disconnected. ` +
-            `If you are recreating the receiver, make sure a higher epoch is used.`,
+            `New receiver 'nil' with higher epoch of '${ownerLevel}' is created hence current receiver 'nil' with epoch '${senderOwnerLevel ??
+              ""}' is getting disconnected. ` +
+            `If you are recreating the receiver, make sure a higher epoch is used.`
         });
       }
       return true;
@@ -597,7 +548,7 @@ export class MockEventHub {
       description:
         `Receiver 'nil' with a higher epoch '${maxOwnerLevel}' already exists. ` +
         `Receiver 'nil' with epoch ${ownerLevel} cannot be created. ` +
-        `Make sure you are creating receiver with increasing epoch value to ensure connectivity, or ensure all old epoch receivers are closed or disconnected.`,
+        `Make sure you are creating receiver with increasing epoch value to ensure connectivity, or ensure all old epoch receivers are closed or disconnected.`
     });
     return false;
   }
@@ -615,9 +566,7 @@ export class MockEventHub {
     // determine partition id
     if (!partitionId) {
       // handle partition key
-      partitionKey = message.message_annotations?.[
-        "x-opt-partition-key"
-      ] as string;
+      partitionKey = message.message_annotations?.["x-opt-partition-key"] as string;
       if (partitionKey) {
         partitionId = this._partitionIdFromKey(partitionKey);
       } else {
@@ -658,7 +607,7 @@ export class MockEventHub {
       sender.close({
         condition: "com.microsoft:argument-out-of-range",
         description:
-          "The specified partition is invalid for an EventHub partition sender or receiver.",
+          "The specified partition is invalid for an EventHub partition sender or receiver."
       });
       return false;
     }
@@ -666,7 +615,7 @@ export class MockEventHub {
       const host = (context.connection.hostname ?? "").split(".")[0];
       sender.close({
         condition: "amqp-not-found",
-        description: `The messaging entity '${host}:eventhub:${eventHubName}~0|${consumerGroup}' could not be found.`,
+        description: `The messaging entity '${host}:eventhub:${eventHubName}~0|${consumerGroup}' could not be found.`
       });
       return false;
     }
@@ -699,7 +648,7 @@ export class MockEventHub {
     const [eventHubName, _1, partitionId] = parts;
     return {
       eventHubName,
-      partitionId,
+      partitionId
     };
   }
 
@@ -715,7 +664,7 @@ export class MockEventHub {
     return {
       eventHubName,
       consumerGroup,
-      partitionId,
+      partitionId
     };
   }
 
@@ -727,9 +676,7 @@ export class MockEventHub {
 
     const url = new URL(name);
 
-    const searchPath = url.pathname.startsWith("/")
-      ? url.pathname.substring(1)
-      : url.pathname;
+    const searchPath = url.pathname.startsWith("/") ? url.pathname.substring(1) : url.pathname;
 
     if ([`${this._name}/$management`, this._name].includes(searchPath)) {
       return true;
@@ -742,9 +689,7 @@ export class MockEventHub {
       return true;
     }
 
-    const senderRegex = new RegExp(
-      `^${this._name}\\/Partitions\\/[\\w\\d\\$\\-\\_]+`
-    );
+    const senderRegex = new RegExp(`^${this._name}\\/Partitions\\/[\\w\\d\\$\\-\\_]+`);
     if (senderRegex.test(searchPath)) {
       return true;
     }
@@ -760,3 +705,4 @@ export class MockEventHub {
     return entityPath?.split("/").length === 5;
   }
 }
+

@@ -5,15 +5,13 @@ export interface CreateCbsAcceptedOptions {
   toLinkName?: string;
 }
 
-export function createCbsAccepted(
-  options: CreateCbsAcceptedOptions = {}
-): Message {
+export function createCbsAccepted(options: CreateCbsAcceptedOptions = {}): Message {
   const amqpMessage: Message = {
     body: undefined,
     application_properties: {
       "status-code": 202,
-      "status-description": "Accepted",
-    },
+      "status-description": "Accepted"
+    }
   };
 
   if (options.toLinkName) {
@@ -25,3 +23,4 @@ export function createCbsAccepted(
 
   return amqpMessage;
 }
+

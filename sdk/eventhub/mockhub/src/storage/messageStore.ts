@@ -76,10 +76,7 @@ export class MessageStore {
     return fullList.slice(index);
   }
 
-  private _isValidPositionedRecord(
-    record: MessageRecord,
-    startPosition: EventPosition
-  ): boolean {
+  private _isValidPositionedRecord(record: MessageRecord, startPosition: EventPosition): boolean {
     if (startPosition.type === "offset" && startPosition.value === "@latest") {
       return true;
     }
@@ -107,7 +104,7 @@ export class MessageStore {
         lastEnqueuedTimeUtc: new Date(0).getTime(),
         lastEnqueuedSequenceNumber: -1,
         partitionId,
-        isPartitionEmpty: isEmpty,
+        isPartitionEmpty: isEmpty
       };
     }
 
@@ -119,7 +116,7 @@ export class MessageStore {
       lastEnqueuedTimeUtc: lastMessage.enqueuedTime,
       lastEnqueuedSequenceNumber: lastMessage.sequenceNumber,
       partitionId,
-      isPartitionEmpty: isEmpty,
+      isPartitionEmpty: isEmpty
     };
   }
 
@@ -131,17 +128,13 @@ export class MessageStore {
    * @param message
    * @param partitionKey
    */
-  public storeMessage(
-    partitionId: string,
-    message: Message,
-    partitionKey?: string
-  ) {
+  public storeMessage(partitionId: string, message: Message, partitionKey?: string) {
     const partitionStore = this._getPartitionStore(partitionId);
     const record: MessageRecord = {
       enqueuedTime: Date.now(),
       sequenceNumber: partitionStore.length + 1,
       offset: partitionStore.length,
-      message,
+      message
     };
     if (partitionKey) {
       record.partitionKey = partitionKey;
@@ -157,16 +150,10 @@ export class MessageStore {
    * @param partitionId
    * @param startPosition Specifies which `MessageRecord` to start iterating from.
    */
-  public async *getMessageIterator(
-    partitionId: string,
-    startPosition: EventPosition
-  ) {
+  public async *getMessageIterator(partitionId: string, startPosition: EventPosition) {
     const partitionStore = this._getPartitionStore(partitionId);
     const partitionViews = this._getPartitionViews(partitionId);
-    const partitionStoreSubset = this._getSubList(
-      partitionStore,
-      startPosition
-    );
+    const partitionStoreSubset = this._getSubList(partitionStore, startPosition);
     const queueView = new Queue(partitionStoreSubset);
     partitionViews.add(queueView);
 
@@ -180,3 +167,4 @@ export class MessageStore {
     partitionViews.delete(queueView);
   }
 }
+

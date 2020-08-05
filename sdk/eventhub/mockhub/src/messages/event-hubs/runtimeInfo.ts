@@ -6,10 +6,7 @@ import { Message } from "rhea";
  * Expected to be `$management` if the message is requesting runtime info.
  * @param message The message sent by the client.
  */
-export function isHubRuntimeInfo(
-  entityPath: string,
-  message: Message
-): boolean {
+export function isHubRuntimeInfo(entityPath: string, message: Message): boolean {
   if (entityPath !== "$management") {
     return false;
   }
@@ -19,10 +16,7 @@ export function isHubRuntimeInfo(
     return false;
   }
 
-  if (
-    properties.operation !== "READ" ||
-    properties.type !== "com.microsoft:eventhub"
-  ) {
+  if (properties.operation !== "READ" || properties.type !== "com.microsoft:eventhub") {
     return false;
   }
 
@@ -53,7 +47,7 @@ export function generateHubRuntimeInfoResponse({
   partitions,
   targetLinkName,
   createdOn,
-  eventHubName,
+  eventHubName
 }: GenerateHubRuntimeInfoResponseOptions): Message {
   return {
     to: targetLinkName,
@@ -64,7 +58,8 @@ export function generateHubRuntimeInfoResponse({
       type: "com.microsoft:eventhub",
       created_at: createdOn,
       partition_count: partitions.length,
-      partition_ids: partitions,
-    },
+      partition_ids: partitions
+    }
   };
 }
+

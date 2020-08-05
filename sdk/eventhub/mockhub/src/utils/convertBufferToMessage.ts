@@ -18,3 +18,4 @@ export function convertBufferToMessages(buf: Buffer): Message[] {
 
   return [(rheaMessage.decode(amqpMessage.body.content) as unknown) as Message];
 }
+

@@ -11,7 +11,7 @@ import {
   SenderEvents,
   Receiver,
   ConnectionEvents,
-  ConnectionError,
+  ConnectionError
 } from "rhea";
 import { convertBufferToMessages } from "../utils/convertBufferToMessage";
 
@@ -115,11 +115,11 @@ export class MockServer extends EventEmitter {
         receiver_options: {
           max_message_size: options.maxMessageSize ?? ONE_MB,
           autosettle: true,
-          autoaccept: false,
+          autoaccept: false
         },
         sender_options: {
-          max_message_size: options.maxMessageSize ?? ONE_MB,
-        },
+          max_message_size: options.maxMessageSize ?? ONE_MB
+        }
       };
 
       this._setupDefaultListeners();
@@ -149,10 +149,7 @@ export class MockServer extends EventEmitter {
    * @param type "receiverOpen"
    * @param listener
    */
-  public on(
-    type: "receiverOpen",
-    listener: (event: ReceiverOpenEvent) => void
-  ): this;
+  public on(type: "receiverOpen", listener: (event: ReceiverOpenEvent) => void): this;
   /**
    * Add new "receiverClose" event listener.
    * This event indicates when the remote peer has closed a `Sender`
@@ -160,20 +157,14 @@ export class MockServer extends EventEmitter {
    * @param type "receiverClose"
    * @param listener
    */
-  public on(
-    type: "receiverClose",
-    listener: (event: ReceiverCloseEvent) => void
-  ): this;
+  public on(type: "receiverClose", listener: (event: ReceiverCloseEvent) => void): this;
   /**
    * Add new "connectionOpen" event listener.
    * This event indicates when the remote peer has created a connection to the server.
    * @param type "connectionOpen"
    * @param listener
    */
-  public on(
-    type: "connectionOpen",
-    listener: (event: ConnectionOpenEvent) => void
-  ): this;
+  public on(type: "connectionOpen", listener: (event: ConnectionOpenEvent) => void): this;
   /**
    * Add new "senderOpen" event listener.
    * This event indicates when the remote peer has created a `Receiver`
@@ -181,10 +172,7 @@ export class MockServer extends EventEmitter {
    * @param type "senderOpen"
    * @param listener
    */
-  public on(
-    type: "senderOpen",
-    listener: (event: SenderOpenEvent) => void
-  ): this;
+  public on(type: "senderOpen", listener: (event: SenderOpenEvent) => void): this;
   /**
    * Add new "senderClose" event listener.
    * This event indicates when the remote peer has closed a `Receiver`
@@ -192,20 +180,14 @@ export class MockServer extends EventEmitter {
    * @param type "senderClose"
    * @param listener
    */
-  public on(
-    type: "senderClose",
-    listener: (event: SenderCloseEvent) => void
-  ): this;
+  public on(type: "senderClose", listener: (event: SenderCloseEvent) => void): this;
   /**
    * Add new "connectionClose" event listener.
    * This event indicates when the remote peer has closed a connection to the server.
    * @param type "connectionClose"
    * @param listener
    */
-  public on(
-    type: "connectionClose",
-    listener: (event: ConnectionCloseEvent) => void
-  ): this;
+  public on(type: "connectionClose", listener: (event: ConnectionCloseEvent) => void): this;
   /**
    * Add new "onMessage" event listener.
    * This event indicates when the server has received a message from a remote peer.
@@ -241,39 +223,30 @@ export class MockServer extends EventEmitter {
   private _setupDefaultListeners() {
     this._container.on(ConnectionEvents.connectionError, () => {});
     this._container.on(ConnectionEvents.protocolError, () => {});
-    this._container.on(
-      ConnectionEvents.connectionOpen,
-      (context: EventContext) => {
-        this.emit("connectionOpen", {
-          context,
-        });
-      }
-    );
-    this._container.on(
-      ConnectionEvents.connectionClose,
-      (context: EventContext) => {
-        this.emit("connectionClose", {
-          context,
-          error: context.error as ConnectionError,
-        });
-      }
-    );
-    this._container.on(
-      ConnectionEvents.disconnected,
-      (context: EventContext) => {
-        this.emit("connectionClose", {
-          context,
-          error: context.error as Error,
-        });
-      }
-    );
+    this._container.on(ConnectionEvents.connectionOpen, (context: EventContext) => {
+      this.emit("connectionOpen", {
+        context
+      });
+    });
+    this._container.on(ConnectionEvents.connectionClose, (context: EventContext) => {
+      this.emit("connectionClose", {
+        context,
+        error: context.error as ConnectionError
+      });
+    });
+    this._container.on(ConnectionEvents.disconnected, (context: EventContext) => {
+      this.emit("connectionClose", {
+        context,
+        error: context.error as Error
+      });
+    });
     this._container.on(SenderEvents.senderOpen, (context: EventContext) => {
       if (context.sender) {
         const entityPath = context.sender.source.address;
         this.emit("senderOpen", {
           context,
           entityPath,
-          sender: context.sender,
+          sender: context.sender
         });
       }
     });
@@ -283,7 +256,7 @@ export class MockServer extends EventEmitter {
         this.emit("receiverOpen", {
           context,
           entityPath,
-          receiver: context.receiver,
+          receiver: context.receiver
         });
       }
     });
@@ -294,28 +267,23 @@ export class MockServer extends EventEmitter {
         this.emit("senderClose", {
           context,
           entityPath,
-          sender: context.sender,
+          sender: context.sender
         });
       }
     });
-    this._container.on(
-      ReceiverEvents.receiverClose,
-      (context: EventContext) => {
-        if (context.receiver) {
-          const entityPath = context.receiver.target.address;
-          this.emit("receiverClose", {
-            context,
-            entityPath,
-            receiver: context.receiver,
-          });
-        }
+    this._container.on(ReceiverEvents.receiverClose, (context: EventContext) => {
+      if (context.receiver) {
+        const entityPath = context.receiver.target.address;
+        this.emit("receiverClose", {
+          context,
+          entityPath,
+          receiver: context.receiver
+        });
       }
-    );
+    });
   }
 
-  private _normalizeIncomingMessage(
-    message: Message | Buffer
-  ): Array<Message & { body?: Buffer }> {
+  private _normalizeIncomingMessage(message: Message | Buffer): Array<Message & { body?: Buffer }> {
     const incomingMessages = Buffer.isBuffer(message)
       ? convertBufferToMessages(message)
       : [message];
@@ -343,19 +311,13 @@ export class MockServer extends EventEmitter {
         sendMessage: (message: Message) => {
           this._sendMessage(context, message, message.to);
         },
-        context,
+        context
       });
     }
   };
 
-  private _sendMessage = (
-    context: EventContext,
-    outgoingMessage: Message,
-    toLinkName?: string
-  ) => {
-    const sender = context.connection.find_sender(
-      (s: Sender) => s.name === toLinkName
-    );
+  private _sendMessage = (context: EventContext, outgoingMessage: Message, toLinkName?: string) => {
+    const sender = context.connection.find_sender((s: Sender) => s.name === toLinkName);
     if (sender) {
       sender.send(outgoingMessage);
     } else {
@@ -363,3 +325,4 @@ export class MockServer extends EventEmitter {
     }
   };
 }
+
