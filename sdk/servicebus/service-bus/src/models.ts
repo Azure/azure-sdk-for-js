@@ -40,7 +40,14 @@ export interface CreateReceiverOptions<ReceiveModeT extends ReceiveMode> {
    *
    * In receiveAndDelete mode, messages are deleted from Service Bus as they are received.
    *
-   * In peekLock mode, messages are not deleted from the queue directly, you need to settle the message by calling complete(), abandon() or defer() methods on
+   * In peekLock mode, the receiver has a lock on the message for the duration specified on the
+   * queue/subscription.
+   *
+   * Messages that are not settled within the lock duration will be redelivered as many times as
+   * the max delivery count set on the queue/subscription, after which they get sent to a separate 
+   * dead letter queue.
+   * 
+   * You can settle a message by calling complete(), abandon(), defer() or deadletter() methods on
    * the message.
    *
    * More information about how peekLock and message settlement works here:
