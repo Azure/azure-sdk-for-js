@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { Message } from "rhea";
 
 /**
@@ -47,7 +50,7 @@ export function generateHubRuntimeInfoResponse({
   partitions,
   targetLinkName,
   createdOn,
-  eventHubName
+  eventHubName,
 }: GenerateHubRuntimeInfoResponseOptions): Message {
   return {
     to: targetLinkName,
@@ -58,8 +61,7 @@ export function generateHubRuntimeInfoResponse({
       type: "com.microsoft:eventhub",
       created_at: createdOn,
       partition_count: partitions.length,
-      partition_ids: partitions
-    }
+      partition_ids: partitions,
+    },
   };
 }
-

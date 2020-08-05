@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { ListenOptions } from "net";
 import { EventEmitter } from "events";
 import {
@@ -11,7 +14,7 @@ import {
   SenderEvents,
   Receiver,
   ConnectionEvents,
-  ConnectionError
+  ConnectionError,
 } from "rhea";
 import { convertBufferToMessages } from "../utils/convertBufferToMessage";
 
@@ -115,11 +118,11 @@ export class MockServer extends EventEmitter {
         receiver_options: {
           max_message_size: options.maxMessageSize ?? ONE_MB,
           autosettle: true,
-          autoaccept: false
+          autoaccept: false,
         },
         sender_options: {
-          max_message_size: options.maxMessageSize ?? ONE_MB
-        }
+          max_message_size: options.maxMessageSize ?? ONE_MB,
+        },
       };
 
       this._setupDefaultListeners();
@@ -225,19 +228,19 @@ export class MockServer extends EventEmitter {
     this._container.on(ConnectionEvents.protocolError, () => {});
     this._container.on(ConnectionEvents.connectionOpen, (context: EventContext) => {
       this.emit("connectionOpen", {
-        context
+        context,
       });
     });
     this._container.on(ConnectionEvents.connectionClose, (context: EventContext) => {
       this.emit("connectionClose", {
         context,
-        error: context.error as ConnectionError
+        error: context.error as ConnectionError,
       });
     });
     this._container.on(ConnectionEvents.disconnected, (context: EventContext) => {
       this.emit("connectionClose", {
         context,
-        error: context.error as Error
+        error: context.error as Error,
       });
     });
     this._container.on(SenderEvents.senderOpen, (context: EventContext) => {
@@ -246,7 +249,7 @@ export class MockServer extends EventEmitter {
         this.emit("senderOpen", {
           context,
           entityPath,
-          sender: context.sender
+          sender: context.sender,
         });
       }
     });
@@ -256,7 +259,7 @@ export class MockServer extends EventEmitter {
         this.emit("receiverOpen", {
           context,
           entityPath,
-          receiver: context.receiver
+          receiver: context.receiver,
         });
       }
     });
@@ -267,7 +270,7 @@ export class MockServer extends EventEmitter {
         this.emit("senderClose", {
           context,
           entityPath,
-          sender: context.sender
+          sender: context.sender,
         });
       }
     });
@@ -277,7 +280,7 @@ export class MockServer extends EventEmitter {
         this.emit("receiverClose", {
           context,
           entityPath,
-          receiver: context.receiver
+          receiver: context.receiver,
         });
       }
     });
@@ -311,7 +314,7 @@ export class MockServer extends EventEmitter {
         sendMessage: (message: Message) => {
           this._sendMessage(context, message, message.to);
         },
-        context
+        context,
       });
     }
   };
@@ -325,4 +328,3 @@ export class MockServer extends EventEmitter {
     }
   };
 }
-

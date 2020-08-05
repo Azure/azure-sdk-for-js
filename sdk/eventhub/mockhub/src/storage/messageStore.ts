@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 /// <reference lib="ES2018.AsyncIterable" />
 
 import { Message } from "rhea";

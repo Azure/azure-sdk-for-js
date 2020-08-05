@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { Message } from "rhea";
 
 export interface CreateCbsAcceptedOptions {
@@ -10,8 +13,8 @@ export function createCbsAccepted(options: CreateCbsAcceptedOptions = {}): Messa
     body: undefined,
     application_properties: {
       "status-code": 202,
-      "status-description": "Accepted"
-    }
+      "status-description": "Accepted",
+    },
   };
 
   if (options.toLinkName) {
@@ -23,4 +26,3 @@ export function createCbsAccepted(options: CreateCbsAcceptedOptions = {}): Messa
 
   return amqpMessage;
 }
-

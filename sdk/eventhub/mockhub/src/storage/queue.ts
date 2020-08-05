@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 /**
  * `Queue` stores items in the order that they are received.
  *
@@ -31,9 +34,7 @@ export class Queue<T> {
       return Promise.resolve(item);
     }
 
-    this._nextItemPromise = new Promise<T>(
-      (resolve) => (this._nextItemResolve = resolve)
-    );
+    this._nextItemPromise = new Promise<T>((resolve) => (this._nextItemResolve = resolve));
 
     return this._nextItemPromise;
   }
@@ -59,4 +60,3 @@ export class Queue<T> {
     return true;
   }
 }
-
