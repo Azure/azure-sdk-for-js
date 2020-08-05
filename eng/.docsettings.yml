@@ -107,6 +107,7 @@ known_content_issues:
   - ["sdk/eventhub/event-processor-host/README.md",  "#1583"]
   - ["sdk/eventhub/README.md",  "#1583"]
   - ["sdk/eventhub/testhub/README.md",  "#1583"]
+  - ["sdk/eventhub/mockhub/README.md",  "#1583"]
   - ["sdk/graphrbac/graph/README.md",  "#1583"]
   - ["sdk/keyvault/README.md",  "#1583"]
   - ["sdk/operationalinsights/loganalytics/README.md",  "#1583"]
