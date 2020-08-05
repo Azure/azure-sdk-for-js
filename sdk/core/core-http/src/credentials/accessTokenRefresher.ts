@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { AccessToken, TokenCredential, GetTokenOptions } from "@azure/core-auth";
 
 /**
@@ -5,7 +8,7 @@ import { AccessToken, TokenCredential, GetTokenOptions } from "@azure/core-auth"
  */
 export class AccessTokenRefresher {
   private promise: Promise<AccessToken | undefined> | undefined;
-  private lastCalled: number | undefined;
+  private lastCalled = 0;
 
   constructor(
     private credential: TokenCredential,
