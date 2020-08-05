@@ -32,9 +32,9 @@ export class AccessTokenRefresher {
    */
   private async getToken(options: GetTokenOptions): Promise<AccessToken | undefined> {
     this.lastCalled = Date.now();
-    const token = (await this.credential.getToken(this.scopes, options)) || undefined;
+    const token = await this.credential.getToken(this.scopes, options);
     this.promise = undefined;
-    return token;
+    return token || undefined;
   }
 
   /**

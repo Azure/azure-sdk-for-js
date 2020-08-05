@@ -15,7 +15,7 @@ import {
   ExpiringAccessTokenCache,
   TokenRefreshBufferMs
 } from "../../src/credentials/accessTokenCache";
-import { AccessTokenRefresher } from '../../src/credentials/accessTokenRefresher';
+import { AccessTokenRefresher } from "../../src/credentials/accessTokenRefresher";
 
 describe("BearerTokenAuthenticationPolicy", function() {
   const mockPolicy: RequestPolicy = {
