@@ -25,7 +25,7 @@ export {
   MessageHandlers,
   PeekMessagesOptions,
   ReceiveMessagesOptions,
-  ReceiveModes,
+  ReceiveMode,
   SenderOpenOptions,
   SubscribeOptions,
   WaitTimeOptions

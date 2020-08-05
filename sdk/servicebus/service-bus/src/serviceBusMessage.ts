@@ -18,7 +18,7 @@ import { DispositionStatusOptions } from "./core/managementClient";
  * @ignore
  * @enum {number}
  */
-export enum ReceiveMode {
+export enum InternalReceiveMode {
   /**
    * Once a message is received in this mode, the receiver has a lock on the message for a
    * particular duration. If the message is not settled by this time, it lands back on Service Bus
@@ -1004,7 +1004,7 @@ export class ServiceBusMessageImpl implements ReceivedMessageWithLock {
       //      - If the flag is false, we can't say that the message has not been settled
       //        since settling with the management link won't update the delivery (In this case, service would throw an error)
       const receiver = this._context.getReceiver(this.delivery.link.name, this.sessionId);
-      if (receiver && receiver.receiveMode !== ReceiveMode.peekLock) {
+      if (receiver && receiver.receiveMode !== InternalReceiveMode.peekLock) {
         error = new Error(
           getErrorMessageNotSupportedInReceiveAndDeleteMode(`renew the lock on the message`)
         );
@@ -1081,7 +1081,7 @@ export class ServiceBusMessageImpl implements ReceivedMessageWithLock {
       //   3. If the message has a session-id and if the associated receiver link is unavailable,
       //      then throw an error since we need a lock on the session to settle the message.
       let error: Error | undefined;
-      if (receiver && receiver.receiveMode !== ReceiveMode.peekLock) {
+      if (receiver && receiver.receiveMode !== InternalReceiveMode.peekLock) {
         error = new Error(
           getErrorMessageNotSupportedInReceiveAndDeleteMode(`${operation} the message`)
         );

@@ -10,7 +10,7 @@ import { StreamingReceiver } from "../src/core/streamingReceiver";
 
 import {
   DispositionType,
-  ReceiveMode,
+  InternalReceiveMode,
   ReceivedMessageWithLock,
   ServiceBusMessageImpl
 } from "../src/serviceBusMessage";
@@ -166,7 +166,7 @@ describe("Streaming Receiver Tests", () => {
       try {
         let actualError: Error | undefined;
         streamingReceiver = await StreamingReceiver.create((receiver as any)._context, {
-          receiveMode: ReceiveMode.peekLock
+          receiveMode: InternalReceiveMode.peekLock
         });
 
         streamingReceiver.receive(

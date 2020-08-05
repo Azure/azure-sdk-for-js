@@ -11,7 +11,7 @@ import {
 import { ConnectionContext } from "./connectionContext";
 import { ClientEntityContext } from "./clientEntityContext";
 import { Sender, SenderImpl } from "./sender";
-import { CreateReceiverOptions, CreateSessionReceiverOptions, ReceiveModes } from "./models";
+import { CreateReceiverOptions, CreateSessionReceiverOptions, ReceiveMode } from "./models";
 import { Receiver, ReceiverImpl } from "./receivers/receiver";
 import { SessionReceiver, SessionReceiverImpl } from "./receivers/sessionReceiver";
 import { ReceivedMessage, ReceivedMessageWithLock } from "./serviceBusMessage";
@@ -482,13 +482,13 @@ export class ServiceBusClient {
  * @internal
  * @ignore
  */
-export function extractReceiverArguments<OptionsT extends { receiveMode?: ReceiveModes }>(
+export function extractReceiverArguments<OptionsT extends { receiveMode?: ReceiveMode }>(
   queueOrTopicName1: string,
   optionsOrSubscriptionName2: string | OptionsT | undefined,
   definitelyOptions3?: OptionsT
 ): {
   entityPath: string;
-  receiveMode: ReceiveModes;
+  receiveMode: ReceiveMode;
   options?: Omit<OptionsT, "receiveMode">;
 } {
   try {
@@ -503,7 +503,7 @@ export function extractReceiverArguments<OptionsT extends { receiveMode?: Receiv
       entityPath = queueOrTopicName1;
       options = optionsOrSubscriptionName2;
     }
-    let receiveMode: ReceiveModes;
+    let receiveMode: ReceiveMode;
     if (options?.receiveMode == undefined || options.receiveMode === "peekLock") {
       receiveMode = "peekLock";
     } else if (options.receiveMode === "receiveAndDelete") {

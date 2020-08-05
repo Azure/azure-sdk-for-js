@@ -28,7 +28,7 @@ export interface MessageHandlers<ReceivedMessageT> {
  *
  * @type
  */
-export type ReceiveModes = "peekLock" | "receiveAndDelete";
+export type ReceiveMode = "peekLock" | "receiveAndDelete";
 
 /**
  *
@@ -36,7 +36,7 @@ export type ReceiveModes = "peekLock" | "receiveAndDelete";
  * @interface CreateReceiverOptions
  * @template ReceiveModeT
  */
-export interface CreateReceiverOptions<ReceiveModeT extends ReceiveModes> {
+export interface CreateReceiverOptions<ReceiveModeT extends ReceiveMode> {
   /**
    * Represents the receive mode for the receiver.
    *
@@ -138,7 +138,7 @@ export interface MessageHandlerOptions {
  * @extends {OperationOptionsBase}
  * @template ReceiveModeT
  */
-export interface CreateSessionReceiverOptions<ReceiveModeT extends ReceiveModes>
+export interface CreateSessionReceiverOptions<ReceiveModeT extends ReceiveMode>
   extends CreateReceiverOptions<ReceiveModeT>,
     SessionReceiverOptions,
     OperationOptionsBase {}

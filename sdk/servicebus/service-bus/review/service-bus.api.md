@@ -74,12 +74,12 @@ export interface CreateQueueOptions extends OperationOptions {
 }
 
 // @public
-export interface CreateReceiverOptions<ReceiveModeT extends ReceiveModes> {
+export interface CreateReceiverOptions<ReceiveModeT extends ReceiveMode> {
     receiveMode?: ReceiveModeT;
 }
 
 // @public
-export interface CreateSessionReceiverOptions<ReceiveModeT extends ReceiveModes> extends CreateReceiverOptions<ReceiveModeT>, SessionReceiverOptions, OperationOptionsBase {
+export interface CreateSessionReceiverOptions<ReceiveModeT extends ReceiveMode> extends CreateReceiverOptions<ReceiveModeT>, SessionReceiverOptions, OperationOptionsBase {
 }
 
 // @public
@@ -252,7 +252,7 @@ export interface ReceiveMessagesOptions extends OperationOptionsBase, WaitTimeOp
 }
 
 // @public
-export type ReceiveModes = "peekLock" | "receiveAndDelete";
+export type ReceiveMode = "peekLock" | "receiveAndDelete";
 
 // @public
 export interface Receiver<ReceivedMessageT> {
