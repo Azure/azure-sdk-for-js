@@ -19,7 +19,7 @@ import {
   AspectRelation,
   SentenceOpinion
 } from "./generated/models";
-import { dereferenceJsonPointer } from "./util";
+import { findOpinionIndex, OpinionIndex } from "./util";
 
 /**
  * The result of the analyze sentiment operation on a single document.
@@ -165,9 +165,12 @@ function convertAspectRelationToOpinionSentiment(
   aspectRelation: AspectRelation,
   response: GeneratedClientSentimentResponse
 ): OpinionSentiment {
-  const opinion: SentenceOpinion = dereferenceJsonPointer(
-    response,
-    aspectRelation.ref
-  ) as SentenceOpinion;
-  return convertSentenceOpinionToOpinionSentiment(opinion);
+  const opinionPtr = aspectRelation.ref;
+  const opinionIndex: OpinionIndex = findOpinionIndex(opinionPtr);
+  const opinion: SentenceOpinion | undefined = response.documents?.[opinionIndex.document].sentenceSentiments?.[opinionIndex.sentence].opinions?.[opinionIndex.opinion];
+  if (opinion !== undefined) {
+    return convertSentenceOpinionToOpinionSentiment(opinion);
+  } else {
+    throw new Error(`Pointer "${opinionPtr}" is not a valid opinion pointer`);
+  }
 }
