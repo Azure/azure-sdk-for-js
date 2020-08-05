@@ -52,11 +52,11 @@
     "build:test": "tsc -p . && rollup -c rollup.test.config.js 2>&1",
     "build:types": "downlevel-dts types/latest types/3.1",
     "build": "tsc -p . && rollup -c 2>&1 && npm run extract-api && npm run build:types",
-    "check-format": "prettier --list-different --config ../../.prettierrc.json --ignore-path ../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
+    "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf dist dist-esm test-dist types *.tgz *.log",
     "execute:samples": "npm run build:samples && echo Skipped.",
     "extract-api": "tsc -p . && api-extractor run --local",
-    "format": "prettier --write --config ../../.prettierrc.json --ignore-path ../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
+    "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "integration-test:browser": "karma start --single-run",
     "integration-test:node": "nyc mocha -r esm --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 1200000 --full-trace dist-esm/test/*.spec.js dist-esm/test/**/*.spec.js",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
@@ -72,20 +72,25 @@
     "unit-test": "npm run unit-test:node && npm run unit-test:browser"
   },
   "//metadata": {
-    "constantPaths": [
-      {
-        "path": "src/util/constants.ts",
-        "prefix": "version"
-      }
+    "constantPaths": [{
+      "path": "src/util/constants.ts",
+      "prefix": "version"
+    }]
+  },
+  "//smokeTestConfiguration": {
+    "skip": [
+      "iothubConnectionString.js",
+      "useWithIotHub.js",
+      "usingAadAuth.js"
     ]
   },
   "dependencies": {
     "@azure/abort-controller": "^1.0.0",
     "@azure/core-amqp": "^1.1.4",
     "@azure/core-asynciterator-polyfill": "^1.0.0",
-    "@azure/core-tracing": "1.0.0-preview.8",
+    "@azure/core-tracing": "1.0.0-preview.9",
     "@azure/logger": "^1.0.0",
-    "@opentelemetry/api": "^0.6.1",
+    "@opentelemetry/api": "^0.10.2",
     "buffer": "^5.2.1",
     "process": "^0.11.10",
     "rhea-promise": "^1.0.0",

@@ -28,7 +28,8 @@ import { GeneratedClient } from "./generated/generatedClient";
 import {
   GeneratedClientGetCustomModelCopyResultResponse as GetCustomModelCopyResultResponseModel,
   GeneratedClientCopyCustomModelResponse as CopyCustomModelResponseModel,
-  GeneratedClientTrainCustomModelAsyncResponse
+  GeneratedClientTrainCustomModelAsyncResponse,
+  CopyAuthorizationResult
 } from "./generated/models";
 import { TrainPollerClient, BeginTrainingPoller } from "./lro/train/poller";
 import { PollOperationState, PollerLike } from "@azure/core-lro";
@@ -39,7 +40,6 @@ import {
   CustomFormModel,
   CustomFormModelInfo,
   CopyAuthorization,
-  CopyAuthorizationResultModel,
   ListCustomModelsResponse,
   OperationStatus,
   ModelStatus
@@ -110,7 +110,7 @@ export type BeginCopyModelOptions = FormRecognizerOperationOptions & {
  */
 export type TrainingFileFilter = FormRecognizerOperationOptions & {
   prefix?: string;
-  includeSubFolders?: boolean;
+  includeSubfolders?: boolean;
 };
 
 /**
@@ -533,14 +533,15 @@ export class FormTrainingClient {
     );
 
     try {
-      const response = await this.client.generateModelCopyAuthorization(
+      const response = (await this.client.generateModelCopyAuthorization(
         operationOptionsToRequestOptionsBase(finalOptions)
-      );
+      )) as CopyAuthorizationResult;
       return {
         resourceId: resourceId,
         resourceRegion: resourceRegion,
         expiresOn: new Date(response.expirationDateTimeTicks * 1000), // Convert to ms
-        ...(response as CopyAuthorizationResultModel)
+        modelId: response.modelId,
+        accessToken: response.accessToken
       };
     } catch (e) {
       span.setStatus({
@@ -619,7 +620,11 @@ export class FormTrainingClient {
         {
           targetResourceId: copyAuthorization.resourceId,
           targetResourceRegion: copyAuthorization.resourceRegion,
-          copyAuthorization: copyAuthorization
+          copyAuthorization: {
+            modelId: copyAuthorization.modelId,
+            accessToken: copyAuthorization.accessToken,
+            expirationDateTimeTicks: copyAuthorization.expiresOn.getTime() / 1000
+          }
         },
         operationOptionsToRequestOptionsBase(finalOptions)
       );
@@ -678,16 +683,15 @@ async function trainCustomModelInternal(
   );
 
   try {
-    const requestBody = {
-      source: source,
-      sourceFilter: {
-        prefix: realOptions.prefix,
-        includeSubFolders: realOptions.includeSubFolders
-      },
-      useLabelFile
-    };
     return await client.trainCustomModelAsync(
-      requestBody,
+      {
+        source: source,
+        sourceFilter: {
+          prefix: realOptions.prefix,
+          includeSubfolders: realOptions.includeSubfolders
+        },
+        useLabelFile
+      },
       operationOptionsToRequestOptionsBase(finalOptions)
     );
   } catch (e) {

@@ -331,11 +331,11 @@ export class MessageSession extends LinkEntity {
         if (this.providedSessionId == null && receivedSessionId == null) {
           // Ideally this code path should never be reached as `MessageSession.createReceiver()` should fail instead
           // TODO: https://github.com/Azure/azure-sdk-for-js/issues/9775 to figure out why this code path indeed gets hit.
-          errorMessage = `No unlocked sessions were available`;
+          errorMessage = `Failed to create a receiver. No unlocked sessions available.`;
         } else if (this.providedSessionId != null && receivedSessionId !== this.providedSessionId) {
           // This code path is reached if the session is already locked by another receiver.
           // TODO: Check why the service would not throw an error or just timeout instead of giving a misleading successful receiver
-          errorMessage = `Failed to get a lock on the session ${this.providedSessionId}`;
+          errorMessage = `Failed to create a receiver for the requested session '${this.providedSessionId}'. It may be locked by another receiver.`;
         }
 
         if (errorMessage) {
@@ -398,6 +398,15 @@ export class MessageSession extends LinkEntity {
         this.name,
         errObj
       );
+
+      // Fix the unhelpful error messages for the OperationTimeoutError that comes from `rhea-promise`.
+      if ((errObj as MessagingError).code === "OperationTimeoutError") {
+        if (this.providedSessionId) {
+          errObj.message = `Failed to create a receiver for the requested session '${this.providedSessionId}' within allocated time and retry attempts.`;
+        } else {
+          errObj.message = "Failed to create a receiver within allocated time and retry attempts.";
+        }
+      }
       throw errObj;
     }
   }
@@ -710,7 +719,8 @@ export class MessageSession extends LinkEntity {
           this._context,
           context.message!,
           context.delivery!,
-          true
+          true,
+          this.receiveMode
         );
 
         try {

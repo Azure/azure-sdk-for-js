@@ -4,7 +4,7 @@
    "method": "GET",
    "url": "https://keyvault_name.vault.azure.net/keys/listKeyName-list0versionsofanon-existingkeypaged-/versions",
    "query": {
-    "api-version": "7.1-preview"
+    "api-version": "7.1"
    },
    "requestBody": "",
    "status": 401,
@@ -54,7 +54,7 @@
    "method": "GET",
    "url": "https://keyvault_name.vault.azure.net/keys/listKeyName-list0versionsofanon-existingkeypaged-/versions",
    "query": {
-    "api-version": "7.1-preview"
+    "api-version": "7.1"
    },
    "requestBody": null,
    "status": 200,

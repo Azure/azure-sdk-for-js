@@ -2,6 +2,7 @@
 
 ## 1.1.0-preview.6 (Unreleased)
 
+- Renamed the `VSCodeCredential` to `VisualStudioCodeCredential`, and its options parameter from `VSCodeCredentialOptions` to `VisualStudioCodeCredentialOptions`.
 
 ## 1.1.0-preview.5 (2020-07-22)
 

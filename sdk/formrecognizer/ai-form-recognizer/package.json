@@ -33,8 +33,7 @@
     "LICENSE"
   ],
   "//metadata": {
-    "constantPaths": [
-      {
+    "constantPaths": [{
         "path": "src/generated/generatedClientContext.ts",
         "prefix": "packageVersion"
       },
@@ -52,11 +51,11 @@
     "build:samples": "dev-tool samples prep && cd dist-samples && tsc -p .",
     "build:test": "tsc -p . && rollup -c rollup.test.config.js 2>&1",
     "build": "tsc -p . && rollup -c 2>&1 && api-extractor run --local",
-    "check-format": "prettier --list-different --config ../../.prettierrc.json --ignore-path ../../.prettierignore --ignore-path ../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
+    "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf dist dist-esm dist-browser dist-test test-browser temp types *.tgz *.log",
     "execute:samples": "npm run build:samples && dev-tool samples run samples/javascript/ && dev-tool samples run dist-samples/typescript/dist/dist-samples/typescript/src/",
     "extract-api": "tsc -p . && api-extractor run --local",
-    "format": "prettier --write --config ../../.prettierrc.json --ignore-path ../../.prettierignore --ignore-path ../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
+    "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "integration-test:browser": "karma start --single-run",
     "integration-test:node": "nyc mocha -r esm --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --full-trace -t 300000  dist-esm/test/*.spec.js dist-esm/test/node/*.spec.js",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
@@ -79,9 +78,9 @@
     "@azure/core-lro": "^1.0.2",
     "@azure/core-paging": "^1.1.1",
     "@azure/core-http": "^1.1.4",
-    "@azure/core-tracing": "1.0.0-preview.8",
+    "@azure/core-tracing": "1.0.0-preview.9",
     "@azure/logger": "^1.0.0",
-    "@opentelemetry/api": "^0.6.1",
+    "@opentelemetry/api": "^0.10.2",
     "tslib": "^2.0.0"
   },
   "devDependencies": {
@@ -138,5 +137,18 @@
     "typescript": "~3.9.3",
     "fs-extra": "^8.1.0",
     "@types/fs-extra": "^8.0.0"
+  },
+  "//smokeTestConfiguration": {
+    "skip": [
+      "customModelManagement.js",
+      "differentiateLabeledUnlabeled.js",
+      "getBoundingBoxes.js",
+      "recognizeCustomForm.js",
+      "trainLabeledModel.js",
+      "trainUnlabeledModel.js",
+      "copyModel.js",
+      "authenticationMethods.js",
+      "recognizeContent.js"
+    ]
   }
 }

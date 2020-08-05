@@ -460,6 +460,10 @@ export class MessageSender extends LinkEntity {
           this.name,
           err
         );
+        // Fix the unhelpful error messages for the OperationTimeoutError that comes from `rhea-promise`.
+        if ((err as MessagingError).code === "OperationTimeoutError") {
+          err.message = "Failed to create a sender within allocated time and retry attempts.";
+        }
         throw err;
       } finally {
         this.isConnecting = false;
