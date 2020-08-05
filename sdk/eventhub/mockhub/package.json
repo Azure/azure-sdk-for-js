@@ -2,7 +2,8 @@
   "name": "mockhub",
   "version": "1.0.0",
   "private": true,
-  "main": "dist/src/index.js",
+  "main": "dist/index.js",
+  "types": "types/index.d.ts",
   "scripts": {
     "build": "tsc -p .",
     "check-format": "echo skipped",
