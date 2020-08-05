@@ -30,7 +30,7 @@ const depNames = Object.keys(pkg.dependencies);
 const production = process.env.NODE_ENV === "production";
 
 export function nodeConfig(test = false) {
-  const externalNodeBuiltins = ["crypto", "fs", "os", "url", "assert"];
+  const externalNodeBuiltins = ["crypto", "fs", "os", "url", "assert", "constants"];
   const additionalExternals = ["keytar"];
   const baseConfig = {
     input: "dist-esm/keyvault-keys/src/index.js",

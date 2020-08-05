@@ -89,6 +89,10 @@ export type BeginRecognizeContentOptions = RecognizeContentOptions & {
    * A serialized poller which can be used to resume an existing paused Long-Running-Operation.
    */
   resumeFrom?: string;
+  /**
+   * Content type of the input. Supported types are "application/pdf", "image/jpeg", "image/png", and "image/tiff".
+   */
+  contentType?: FormContentType;
 };
 
 /**
@@ -137,6 +141,10 @@ export type BeginRecognizeFormsOptions = RecognizeFormsOptions & {
    * A serialized poller which can be used to resume an existing paused Long-Running-Operation.
    */
   resumeFrom?: string;
+  /**
+   * Content type of the input. Supported types are "application/pdf", "image/jpeg", "image/png", and "image/tiff".
+   */
+  contentType?: FormContentType;
 };
 
 /**
@@ -246,12 +254,10 @@ export class FormRecognizerClient {
    * ```
    * @summary Recognizes content/layout information from a given document
    * @param {FormRecognizerRequestBody} form Input document
-   * @param {FormContentType} contentType Content type of the input. Supported types are "application/pdf", "image/jpeg", "image/png", and "image/tiff";
    * @param {BeginRecognizeContentOptions} [options] Options to start content recognition operation
    */
   public async beginRecognizeContent(
     form: FormRecognizerRequestBody,
-    contentType?: FormContentType,
     options: BeginRecognizeContentOptions = {}
   ): Promise<ContentPollerLike> {
     const analyzePollerClient: RecognizeContentPollerClient = {
@@ -262,7 +268,6 @@ export class FormRecognizerClient {
     const poller = new BeginRecognizeContentPoller({
       client: analyzePollerClient,
       source: form,
-      contentType,
       ...options
     });
 
@@ -302,11 +307,15 @@ export class FormRecognizerClient {
       getRecognizeResult: (...args) => this.getRecognizedContent(...args)
     };
 
+    if (options.contentType) {
+      logger.warning("Ignoring 'contentType' parameter passed to URL-based method.");
+    }
+
     const poller = new BeginRecognizeContentPoller({
       client: analyzePollerClient,
       source: formUrl,
-      contentType: undefined,
-      ...options
+      ...options,
+      contentType: undefined
     });
 
     await poller.poll();
@@ -363,13 +372,11 @@ export class FormRecognizerClient {
    * @summary Recognizes form information from a given document using a custom form model.
    * @param {string} modelId Id of the custom form model to use
    * @param {FormRecognizerRequestBody} form Input form document
-   * @param {FormContentType} contentType Content type of the input. Supported types are "application/pdf", "image/jpeg", "image/png", and "image/tiff";
    * @param {BeginRecognizeFormsOptions} [options] Options to start the form recognition operation
    */
   public async beginRecognizeCustomForms(
     modelId: string,
     form: FormRecognizerRequestBody,
-    contentType?: FormContentType,
     options: BeginRecognizeFormsOptions = {}
   ): Promise<FormPollerLike> {
     if (!modelId) {
@@ -390,7 +397,6 @@ export class FormRecognizerClient {
       client: analyzePollerClient,
       modelId,
       source: form,
-      contentType,
       ...options
     });
 
@@ -439,12 +445,16 @@ export class FormRecognizerClient {
         this.getRecognizedForm(modelId, resultId, options)
     };
 
+    if (options.contentType) {
+      logger.warning("Ignoring 'contentType' parameter passed to URL-based method.");
+    }
+
     const poller = new BeginRecognizeCustomFormPoller({
       client: analyzePollerClient,
       modelId,
       source: formUrl,
-      contentType: undefined,
-      ...options
+      ...options,
+      contentType: undefined
     });
 
     await poller.poll();
@@ -547,7 +557,6 @@ export class FormRecognizerClient {
    */
   public async beginRecognizeReceipts(
     receipt: FormRecognizerRequestBody,
-    contentType?: FormContentType,
     options: BeginRecognizeFormsOptions = {}
   ): Promise<FormPollerLike> {
     const analyzePollerClient: RecognizeReceiptPollerClient = {
@@ -558,7 +567,6 @@ export class FormRecognizerClient {
     const poller = new BeginRecognizeReceiptPoller({
       client: analyzePollerClient,
       source: receipt,
-      contentType,
       ...options
     });
 
@@ -634,11 +642,15 @@ export class FormRecognizerClient {
       getRecognizeResult: (...args) => this.getReceipts(...args)
     };
 
+    if (options.contentType) {
+      logger.warning("Ignoring 'contentType' parameter passed to URL-based method.");
+    }
+
     const poller = new BeginRecognizeReceiptPoller({
       client: analyzePollerClient,
       source: receiptUrl,
-      contentType: undefined,
-      ...options
+      ...options,
+      contentType: undefined
     });
 
     await poller.poll();
@@ -730,7 +742,7 @@ async function recognizeCustomFormInternal(
     includeTextDetails: options.includeFieldElements
   });
   const requestBody = await toRequestBody(body);
-  const requestContentType = contentType ? contentType : await getContentType(requestBody);
+  const requestContentType = contentType ?? (await getContentType(requestBody));
 
   try {
     if (requestContentType) {
@@ -772,8 +784,7 @@ async function recognizeReceiptInternal(
     includeTextDetails: realOptions.includeFieldElements
   });
   const requestBody = await toRequestBody(body);
-  const requestContentType =
-    contentType !== undefined ? contentType : await getContentType(requestBody);
+  const requestContentType = contentType ?? (await getContentType(requestBody));
 
   try {
     if (requestContentType) {

@@ -28,7 +28,7 @@ export function buildRule(rawRule: any): RuleProperties {
   return {
     name: getString(rawRule["RuleName"], "ruleName"),
     filter: getTopicFilter(rawRule["Filter"]),
-    action: getRuleActionOrUndefined(rawRule["Action"])
+    action: getRuleAction(rawRule["Action"])
   };
 }
 
@@ -68,27 +68,24 @@ function getTopicFilter(value: any): SqlRuleFilter | CorrelationRuleFilter {
 /**
  * @internal
  * @ignore
- * Helper utility to retrieve rule `action` value from given input,
- * or undefined if not passed in.
+ * Helper utility to retrieve rule `action` value from given input.
  * @param value
  */
-function getRuleActionOrUndefined(value: any): SqlRuleAction | undefined {
-  if (value == undefined) {
-    return undefined;
-  } else {
-    return {
-      sqlExpression: value["SqlExpression"],
-      sqlParameters: getSqlParametersOrUndefined(value["Parameters"]),
-      compatibilityLevel: getIntegerOrUndefined(value["CompatibilityLevel"]),
-      requiresPreprocessing: getBooleanOrUndefined(value["RequiresPreprocessing"])
-    };
-  }
+function getRuleAction(value: any): SqlRuleAction {
+  return {
+    sqlExpression: value["SqlExpression"],
+    sqlParameters: getSqlParametersOrUndefined(value["Parameters"]),
+    compatibilityLevel: getIntegerOrUndefined(value["CompatibilityLevel"]),
+    requiresPreprocessing: getBooleanOrUndefined(value["RequiresPreprocessing"])
+  };
 }
 
 /**
- * Represents all attributes of a rule entity
+ * Represents the options to create a rule for a subscription.
+ * @internal
+ * @ignore
  */
-export interface RuleProperties {
+export interface CreateRuleOptions {
   /**
    * Name of the rule
    */
@@ -107,6 +104,30 @@ export interface RuleProperties {
    * associated filter apply.
    */
   action?: SqlRuleAction;
+}
+
+/**
+ * Represents all the attributes of a rule.
+ */
+export interface RuleProperties {
+  /**
+   * Name of the rule
+   */
+  readonly name: string;
+
+  /**
+   * Defines the filter expression that the rule evaluates. For `SqlRuleFilter` input,
+   * the expression string is interpreted as a SQL92 expression which must
+   * evaluate to True or False. Only one between a `CorrelationRuleFilter` or
+   * a `SqlRuleFilter` can be defined.
+   */
+  filter: SqlRuleFilter | CorrelationRuleFilter;
+
+  /**
+   * The SQL like expression that can be executed on the message should the
+   * associated filter apply.
+   */
+  action: SqlRuleAction;
 }
 
 /**
@@ -223,6 +244,14 @@ export class RuleResourceSerializer implements AtomXmlSerializer {
   async deserialize(response: HttpOperationResponse): Promise<HttpOperationResponse> {
     return deserializeAtomXmlResponse(["TopicName", "SubscriptionName", "RuleName"], response);
   }
+}
+
+/**
+ * @internal
+ * @ignore
+ */
+export function isSqlRuleAction(action: any): action is SqlRuleAction {
+  return action != null && typeof action === "object" && "sqlExpression" in action;
 }
 
 /**

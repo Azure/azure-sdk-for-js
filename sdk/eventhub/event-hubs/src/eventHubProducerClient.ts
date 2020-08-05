@@ -265,7 +265,10 @@ export class EventHubProducerClient {
       for (let i = 0; i < batch.length; i++) {
         const event = batch[i];
         if (!event.properties || !event.properties[TRACEPARENT_PROPERTY]) {
-          const messageSpan = createMessageSpan(getParentSpan(options.tracingOptions));
+          const messageSpan = createMessageSpan(
+            getParentSpan(options.tracingOptions),
+            this._context.config
+          );
           // since these message spans are created from same context as the send span,
           // these message spans don't need to be linked.
           // replace the original event with the instrumented one

@@ -11,7 +11,8 @@ import {
   ReceiverEvents,
   Receiver as RheaReceiver,
   EventContext,
-  Message as RheaMessage
+  Message as RheaMessage,
+  SessionEvents
 } from "rhea-promise";
 import { OnAmqpEventAsPromise } from "../../src/core/messageReceiver";
 import { ServiceBusMessageImpl, ReceiveMode } from "../../src/serviceBusMessage";
@@ -78,10 +79,11 @@ describe("Message session unit tests", () => {
 
           const receivePromise = receiver.receiveMessages(1, littleTimeout, bigTimeout);
 
+          await receiveIsReady;
+
           // force the overall timeout to fire
           clock.tick(littleTimeout);
 
-          await receiveIsReady;
           const messages = await receivePromise;
           assert.isEmpty(messages);
         }).timeout(5 * 1000);
@@ -192,7 +194,7 @@ describe("Message session unit tests", () => {
 
             const arbitraryAmountOfTimeInMs = 40;
 
-            receiver["_getRemainingWaitTimeInMsFn"] = (
+            receiver["_batchingReceiverLite"]["_getRemainingWaitTimeInMsFn"] = (
               maxWaitTimeInMs: number,
               maxTimeAfterFirstMessageMs: number
             ) => {
@@ -232,31 +234,50 @@ describe("Message session unit tests", () => {
     });
 
     function setupFakeReceiver(
-      messageSession: MessageSession
+      batchingReceiver: MessageSession
     ): {
       receiveIsReady: Promise<void>;
       emitter: EventEmitter;
+      remainingRegisteredListeners: Set<string>;
     } {
       const emitter = new EventEmitter();
       const { promise: receiveIsReady, resolve: resolvePromiseIsReady } = defer<void>();
       let credits = 0;
 
+      const remainingRegisteredListeners = new Set<string>();
+
       const fakeRheaReceiver = {
         on(evt: ReceiverEvents, handler: OnAmqpEventAsPromise) {
           emitter.on(evt, handler);
 
-          if (evt === ReceiverEvents.receiverDrained) {
-            // this also happens to be the final thing the Promise does
-            // as part of it's initialization.
-            resolvePromiseIsReady();
-          }
-
           if (evt === ReceiverEvents.message) {
             --credits;
           }
+
+          assert.isFalse(remainingRegisteredListeners.has(evt.toString()));
+          remainingRegisteredListeners.add(evt.toString());
         },
         removeListener(evt: ReceiverEvents, handler: OnAmqpEventAsPromise) {
+          remainingRegisteredListeners.delete(evt.toString());
           emitter.removeListener(evt, handler);
+        },
+        session: {
+          on(evt: SessionEvents, handler: OnAmqpEventAsPromise) {
+            emitter.on(evt, handler);
+
+            if (evt === SessionEvents.sessionClose) {
+              // this also happens to be the final thing the Promise does
+              // as part of it's initialization.
+              resolvePromiseIsReady();
+            }
+
+            assert.isFalse(remainingRegisteredListeners.has(evt.toString()));
+            remainingRegisteredListeners.add(evt.toString());
+          },
+          removeListener(evt: SessionEvents, handler: OnAmqpEventAsPromise) {
+            remainingRegisteredListeners.delete(evt.toString());
+            emitter.removeListener(evt, handler);
+          }
         },
         isOpen: () => true,
         addCredit: (_credits: number) => {
@@ -269,12 +290,15 @@ describe("Message session unit tests", () => {
         },
         get credit() {
           return credits;
+        },
+        connection: {
+          id: "connection-id"
         }
       } as RheaReceiver;
 
-      messageSession["_receiver"] = fakeRheaReceiver;
+      batchingReceiver["_receiver"] = fakeRheaReceiver;
 
-      messageSession["_getServiceBusMessage"] = (eventContext) => {
+      batchingReceiver["_batchingReceiverLite"]["_createServiceBusMessage"] = (eventContext) => {
         return {
           body: eventContext.message?.body
         } as ServiceBusMessageImpl;
@@ -282,7 +306,8 @@ describe("Message session unit tests", () => {
 
       return {
         receiveIsReady,
-        emitter
+        emitter,
+        remainingRegisteredListeners
       };
     }
   });

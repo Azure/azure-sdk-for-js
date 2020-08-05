@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
 import qs from "qs";
 import {
@@ -369,7 +369,7 @@ export class ManagedIdentityCredential implements TokenCredential {
         message: err.message
       });
 
-      if (err.code == "ENETUNREACH") {
+      if (err.code === "ENETUNREACH") {
         const error = new CredentialUnavailable(
           "ManagedIdentityCredential is unavailable. No managed identity endpoint found."
         );
@@ -387,6 +387,7 @@ export class ManagedIdentityCredential implements TokenCredential {
           "ManagedIdentityCredential is unavailable. No managed identity endpoint found."
         );
         logger.getToken.info(formatError(error));
+        // eslint-disable-next-line no-unsafe-finally
         throw error;
       }
       span.end();

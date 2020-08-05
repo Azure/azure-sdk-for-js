@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import * as coreHttp from "@azure/core-http";
-import { DeletionRecoveryLevel } from "./core/models";
+import { DeletionRecoveryLevel } from "./generated/models";
 
 /**
  * Defines values for EncryptionAlgorithm.

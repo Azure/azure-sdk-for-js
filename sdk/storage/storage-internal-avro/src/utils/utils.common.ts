@@ -3,7 +3,7 @@ export interface KeyValuePair<T> {
   value: T;
 }
 
-export function arraysEqual(a: Uint8Array, b: Uint8Array) : boolean {
+export function arraysEqual(a: Uint8Array, b: Uint8Array): boolean {
   if (a === b) return true;
   if (a == null || b == null) return false;
   if (a.length != b.length) return false;

@@ -4,7 +4,15 @@
 import { GeneratedClient } from "./generated/generatedClient";
 import { Service } from "./generated/operations";
 import { Table } from "./generated/operations";
-import { Entity } from "./models";
+import {
+  Entity,
+  ListTablesOptions,
+  ListEntitiesOptions,
+  CreateEntityOptions,
+  UpdateEntityOptions,
+  MergeEntityOptions,
+  SetAccessPolicyOptions
+} from "./models";
 import {
   TableServiceClientOptions,
   GetStatisticsOptions,
@@ -18,27 +26,23 @@ import {
   CreateTableResponse,
   DeleteTableOptions,
   DeleteTableResponse,
-  ListTablesOptions,
   QueryOptions,
   ListTablesResponse,
   GetEntityOptions,
   GetEntityResponse,
-  ListEntitiesOptions,
   ListEntitiesResponse,
-  CreateEntityOptions,
   CreateEntityResponse,
   DeleteEntityOptions,
   DeleteEntityResponse,
-  UpdateEntityOptions,
   UpdateEntityResponse,
-  MergeEntityOptions,
   MergeEntityResponse,
   GetAccessPolicyOptions,
   GetAccessPolicyResponse,
-  SetAccessPolicyOptions,
   SignedIdentifier,
   SetAccessPolicyResponse
 } from "./generatedModels";
+import { getClientParamsFromConnectionString } from "./utils/connectionString";
+import { TablesSharedKeyCredential } from "./TablesSharedKeyCredential";
 
 /**
  * A TableServiceClient represents a Client to the Azure Tables service allowing you
@@ -49,13 +53,71 @@ export class TableServiceClient {
   private service: Service;
 
   /**
-   * Initializes a new instance of the TableServiceClient class.
-   * @param url The URL of the service account that is the target of the desired operation.
-   * @param options The parameter options.
+   * Creates a new instance of the TableServiceClient class.
+   *
+   * @param {string} url The URL of the service account that is the target of the desired operation., such as
+   *                     "https://myaccount.table.core.windows.net". You can append a SAS,
+   *                     such as "https://myaccount.table.core.windows.net?sasString".
+   * @param {TablesSharedKeyCredential} credential  TablesSharedKeyCredential used to authenticate requests. Only Supported for Browsers
+   * @param {TableServiceClientOptions} options Optional. Options to configure the HTTP pipeline.
+   *
+   * Example using an account name/key:
+   *
+   * ```js
+   * const account = "<storage account name>"
+   * const sharedKeyCredential = new TablesSharedKeyCredential(account, "<account key>");
+   *
+   * const tableServiceClient = new TableServiceClient(
+   *   `https://${account}.table.core.windows.net`,
+   *   sharedKeyCredential
+   * );
+   * ```
    */
   // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-  constructor(url: string, options?: TableServiceClientOptions) {
-    const client = new GeneratedClient(url, options);
+  constructor(
+    url: string,
+    credential: TablesSharedKeyCredential,
+    options?: TableServiceClientOptions
+  );
+  /**
+   * Creates a new instance of the TableServiceClient class.
+   *
+   * @param {string} url The URL of the service account that is the target of the desired operation., such as
+   *                     "https://myaccount.table.core.windows.net". You can append a SAS,
+   *                     such as "https://myaccount.table.core.windows.net?sasString".
+   * @param {TableServiceClientOptions} options Optional. Options to configure the HTTP pipeline.
+   * Example appending a SAS token:
+   *
+   * ```js
+   * const account = "<storage account name>";
+   * const sasToken = "<SAS token>";
+   *
+   * const tableServiceClient = new TableServiceClient(
+   *   `https://${account}.table.core.windows.net?${sasToken}`,
+   * );
+   * ```
+   */
+  constructor(url: string, options?: TableServiceClientOptions);
+  constructor(
+    url: string,
+    credentialOrOptions?: TablesSharedKeyCredential | TableServiceClientOptions,
+    options?: TableServiceClientOptions
+  ) {
+    const credential =
+      credentialOrOptions instanceof TablesSharedKeyCredential ? credentialOrOptions : undefined;
+    const clientOptions =
+      (!(credentialOrOptions instanceof TablesSharedKeyCredential)
+        ? credentialOrOptions
+        : options) || {};
+
+    if (credential) {
+      clientOptions.requestPolicyFactories = (defaultFactories) => [
+        ...defaultFactories,
+        credential
+      ];
+    }
+
+    const client = new GeneratedClient(url, clientOptions);
     this.table = client.table;
     this.service = client.service;
 
@@ -119,7 +181,7 @@ export class TableServiceClient {
   listTables(
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     query?: QueryOptions,
-    options?: Omit<ListTablesOptions, "queryOptions">
+    options?: ListTablesOptions
   ): Promise<ListTablesResponse> {
     return this.table.query({ queryOptions: query, ...options });
   }
@@ -150,7 +212,7 @@ export class TableServiceClient {
     tableName: string,
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     query?: QueryOptions,
-    options?: Omit<ListEntitiesOptions, "queryOptions">
+    options?: ListEntitiesOptions
   ): Promise<ListEntitiesResponse> {
     return this.table.queryEntities(tableName, { queryOptions: query, ...options });
   }
@@ -164,7 +226,7 @@ export class TableServiceClient {
   createEntity(
     tableName: string,
     entity?: Entity,
-    options?: Omit<CreateEntityOptions, "tableEntityProperties">
+    options?: CreateEntityOptions
   ): Promise<CreateEntityResponse> {
     return this.table.insertEntity(tableName, { tableEntityProperties: entity, ...options });
   }
@@ -192,18 +254,15 @@ export class TableServiceClient {
   /**
    * Update entity in a table.
    * @param tableName The name of the table.
-   * @param partitionKey The partition key of the entity.
-   * @param rowKey The row key of the entity.
-   * @param entity The properties for the table entity.
+   * @param entity The properties of the updated entity.
    * @param ifMatch Match condition for an entity to be updated. If specified and a matching entity is not found, an error will be raised. To force an unconditional update, set to the wildcard character (*). If not specified, an insert will be performed when no existing entity is found to update and a replace will be performed if an existing entity is found.
    * @param options The options parameters.
    */
-
   updateEntity(
     tableName: string,
     entity: Entity,
     ifMatch?: string,
-    options?: Omit<UpdateEntityOptions, "tableEntityProperties" | "ifMatch">
+    options?: UpdateEntityOptions
   ): Promise<UpdateEntityResponse> {
     return this.table.updateEntity(tableName, entity.PartitionKey, entity.RowKey, {
       tableEntityProperties: entity,
@@ -223,7 +282,7 @@ export class TableServiceClient {
     tableName: string,
     entity: Entity,
     ifMatch?: string,
-    options?: Omit<MergeEntityOptions, "tableEntityProperties" | "ifMatch">
+    options?: MergeEntityOptions
   ): Promise<MergeEntityResponse> {
     return this.table.mergeEntity(tableName, entity.PartitionKey, entity.RowKey, {
       tableEntityProperties: entity,
@@ -254,8 +313,32 @@ export class TableServiceClient {
   setAccessPolicy(
     tableName: string,
     acl?: SignedIdentifier[],
-    options?: Omit<SetAccessPolicyOptions, "tableAcl">
+    options?: SetAccessPolicyOptions
   ): Promise<SetAccessPolicyResponse> {
     return this.table.setAccessPolicy(tableName, { tableAcl: acl, ...options });
+  }
+
+  /**
+   *
+   * Creates an instance of TableServiceClient from connection string.
+   *
+   * @param {string} connectionString Account connection string or a SAS connection string of an Azure storage account.
+   *                                  [ Note - Account connection string can only be used in NODE.JS runtime. ]
+   *                                  Account connection string example -
+   *                                  `DefaultEndpointsProtocol=https;AccountName=myaccount;AccountKey=accountKey;EndpointSuffix=core.windows.net`
+   *                                  SAS connection string example -
+   *                                  `BlobEndpoint=https://myaccount.table.core.windows.net/;QueueEndpoint=https://myaccount.queue.core.windows.net/;FileEndpoint=https://myaccount.file.core.windows.net/;TableEndpoint=https://myaccount.table.core.windows.net/;SharedAccessSignature=sasString`
+   * @param {TableServiceClientOptions} [options] Options to configure the HTTP pipeline.
+   * @returns {TableServiceClient} A new TableServiceClient from the given connection string.
+   */
+  public static fromConnectionString(
+    connectionString: string,
+    options?: TableServiceClientOptions
+  ): TableServiceClient {
+    const { url, options: clientOptions } = getClientParamsFromConnectionString(
+      connectionString,
+      options
+    );
+    return new TableServiceClient(url, clientOptions);
   }
 }

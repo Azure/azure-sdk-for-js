@@ -28,18 +28,14 @@ export async function main() {
   // Next, we get a paged async iterator of all of our custom models
   const result = client.listCustomModels();
 
-  // We could print out information about first ten models
-  // and save the first model id for later use
-  let i = 0;
-  let firstModel;
+  // We can iterate over all the models and print their ID
+  // We'll also save the first model to get some detailed information
+  // in the next step;
+  let firstModel = undefined;
   for await (const model of result) {
-    console.log(`model ${i++}:`);
-    console.log(model);
-    if (i === 1) {
+    console.log(`- Model:`, model.modelId);
+    if (firstModel === undefined) {
       firstModel = model;
-    }
-    if (i > 10) {
-      break;
     }
   }
 
@@ -52,13 +48,13 @@ export async function main() {
 
   // Now we'll get the first custom model in the paged list
   const model = await client.getCustomModel(firstModel.modelId);
+  console.log("--- First Custom Model ---");
   console.log(`Model Id: ${model.modelId}`);
   console.log(`Status: ${model.status}`);
-  console.log("Documents used in training: [");
+  console.log("Documents used in training:");
   for (const doc of model.trainingDocuments || []) {
-    console.log(`  ${doc.documentName}`);
+    console.log(`- ${doc.name}`);
   }
-  console.log("]");
 
   // Finally, we can delete this model if we want (for example, if its status is 'invalid')
   //   await client.deleteModel(firstModel.modelId);
