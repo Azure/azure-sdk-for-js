@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { assert } from "chai";
-import { fake } from "sinon";
+import { fake, createSandbox } from "sinon";
 import { OperationSpec } from "../../src/operationSpec";
 import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-auth";
 import { RequestPolicy, RequestPolicyOptions } from "../../src/policies/requestPolicy";
@@ -15,7 +15,7 @@ import {
   ExpiringAccessTokenCache,
   TokenRefreshBufferMs
 } from "../../src/credentials/accessTokenCache";
-import { delay } from "../../src/coreHttp";
+import { AccessTokenRefresher } from '../../src/credentials/accessTokenRefresher';
 
 describe("BearerTokenAuthenticationPolicy", function() {
   const mockPolicy: RequestPolicy = {
@@ -75,15 +75,16 @@ describe("BearerTokenAuthenticationPolicy", function() {
   });
 
   it("tests that AccessTokenRefresher is working", async function() {
-    this.timeout(35000);
     const now = Date.now();
     const credentialToTest = new MockRefreshAzureCredential(now);
-
     const request = createRequest();
     const policy = createBearerTokenPolicy("testscope", credentialToTest);
     await policy.sendRequest(request);
-    await delay(30000);
+
+    const sandbox = createSandbox();
+    sandbox.replace(AccessTokenRefresher.prototype, "ready", () => true);
     await policy.sendRequest(request);
+    sandbox.restore();
     assert.strictEqual(credentialToTest.authCount, 2);
   });
 
