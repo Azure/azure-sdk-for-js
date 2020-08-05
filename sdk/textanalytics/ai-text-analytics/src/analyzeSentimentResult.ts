@@ -167,7 +167,9 @@ function convertAspectRelationToOpinionSentiment(
 ): OpinionSentiment {
   const opinionPtr = aspectRelation.ref;
   const opinionIndex: OpinionIndex = findOpinionIndex(opinionPtr);
-  const opinion: SentenceOpinion | undefined = response.documents?.[opinionIndex.document].sentenceSentiments?.[opinionIndex.sentence].opinions?.[opinionIndex.opinion];
+  const opinion: SentenceOpinion | undefined =
+    response.documents?.[opinionIndex.document].sentenceSentiments?.[opinionIndex.sentence]
+      .opinions?.[opinionIndex.opinion];
   if (opinion !== undefined) {
     return convertSentenceOpinionToOpinionSentiment(opinion);
   } else {

@@ -140,16 +140,16 @@ export function dereferenceJsonPointer(root: any, path: string): unknown {
 }
 
 export interface OpinionIndex {
-  document:number,
-  sentence:number,
-  opinion:number
-};
+  document: number;
+  sentence: number;
+  opinion: number;
+}
 
-export function findOpinionIndex(pointer: string) : OpinionIndex {
+export function findOpinionIndex(pointer: string): OpinionIndex {
   const regex = new RegExp(/#\/documents\/(\d+)\/sentences\/(\d+)\/opinions\/(\d+)/);
   const res = regex.exec(pointer);
   if (res !== null) {
-    const opinionIndex : OpinionIndex = {
+    const opinionIndex: OpinionIndex = {
       document: parseInt(res[0]),
       sentence: parseInt(res[1]),
       opinion: parseInt(res[2])
