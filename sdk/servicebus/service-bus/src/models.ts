@@ -29,6 +29,11 @@ export interface MessageHandlers<ReceivedMessageT> {
  */
 export interface InternalMessageHandlers<ReceivedMessageT>
   extends MessageHandlers<ReceivedMessageT> {
+  /**
+   * Called when the connection is initialized but before we subscribe to messages or add credits.
+   *
+   * NOTE: This handler is completely internal and only used for tests.
+   */
   processInitialize?: () => Promise<void>;
 }
 
