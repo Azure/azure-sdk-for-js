@@ -18,12 +18,14 @@ export { ServiceBusClientOptions } from "./constructorHelpers";
 export { CorrelationRuleFilter } from "./core/managementClient";
 export {
   CreateBatchOptions,
+  CreateReceiverOptions,
   CreateSessionReceiverOptions,
   GetMessageIteratorOptions,
   MessageHandlerOptions,
   MessageHandlers,
   PeekMessagesOptions,
   ReceiveMessagesOptions,
+  ReceiveModes,
   SenderOpenOptions,
   SubscribeOptions,
   WaitTimeOptions

@@ -351,7 +351,7 @@ export class ServiceBusTestHelpers {
 
   async getSessionPeekLockReceiver(
     entityNames: Omit<ReturnType<typeof getEntityNames>, "isPartitioned">,
-    getSessionReceiverOptions?: CreateSessionReceiverOptions
+    getSessionReceiverOptions?: CreateSessionReceiverOptions<"peekLock">
   ): Promise<SessionReceiver<ReceivedMessageWithLock>> {
     if (!entityNames.usesSessions) {
       throw new TypeError(

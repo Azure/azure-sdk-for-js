@@ -24,12 +24,19 @@ export interface MessageHandlers<ReceivedMessageT> {
 }
 
 /**
- * Options to create a receiver.
+ * Represents all the receive modes for the receiver.
  *
- * @export
- * @interface BaseCreateReceiverOptions
+ * @type
  */
-export interface BaseCreateReceiverOptions {
+export type ReceiveModes = "peekLock" | "receiveAndDelete";
+
+/**
+ *
+ *
+ * @interface CreateReceiverOptions
+ * @template ReceiveModeT
+ */
+export interface CreateReceiverOptions<ReceiveModeT extends ReceiveModes> {
   /**
    * Represents the receive mode for the receiver.
    *
@@ -41,11 +48,8 @@ export interface BaseCreateReceiverOptions {
    * More information about how peekLock and message settlement works here:
    * https://docs.microsoft.com/en-us/azure/service-bus-messaging/message-transfers-locks-settlement#peeklock
    *
-   *
-   * @type {("receiveAndDelete" | "peekLock")}
-   * @memberof BaseCreateReceiverOptions
    */
-  receiveMode?: "receiveAndDelete" | "peekLock";
+  receiveMode?: ReceiveModeT;
 }
 
 /**
@@ -126,9 +130,17 @@ export interface MessageHandlerOptions {
 /**
  * Describes the options passed to the `createSessionReceiver` method when using a Queue/Subscription that
  * has sessions enabled.
+ *
+ * @export
+ * @interface CreateSessionReceiverOptions
+ * @extends {CreateReceiverOptions<ReceiveModeT>}
+ * @extends {SessionReceiverOptions}
+ * @extends {OperationOptionsBase}
+ * @template ReceiveModeT
  */
-export interface CreateSessionReceiverOptions
-  extends SessionReceiverOptions,
+export interface CreateSessionReceiverOptions<ReceiveModeT extends ReceiveModes>
+  extends CreateReceiverOptions<ReceiveModeT>,
+    SessionReceiverOptions,
     OperationOptionsBase {}
 
 /**

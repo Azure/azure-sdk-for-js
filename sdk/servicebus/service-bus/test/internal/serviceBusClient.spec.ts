@@ -14,7 +14,9 @@ describe("serviceBusClient unit tests", () => {
   // we pass.
   // So if we add other options types there's no need to generate a whole
   // new set of tests for it. :)
-  const sessionReceiverOptions: CreateSessionReceiverOptions = {
+  const sessionReceiverOptions:
+    | CreateSessionReceiverOptions<"peekLock">
+    | CreateSessionReceiverOptions<"receiveAndDelete"> = {
     sessionId: "session-id"
   };
 
