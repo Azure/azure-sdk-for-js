@@ -2,7 +2,7 @@
 
 ## 1.1.6 (Unreleased)
 
-- Update to use `@azure/core-auth` version 1.1.4
+- Update to use `@azure/core-auth` version 1.1.4 to avoid having multiple versions of pinned `@azure/core-tracing` dependency when this library is used with latest version of other Azure SDK client libraries. [10456](https://github.com/Azure/azure-sdk-for-js/issues/10456)
 
 ## 1.1.5 (2020-08-04)
 
