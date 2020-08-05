@@ -10,6 +10,7 @@ import { ReceiveOptions } from "../../src/core/messageReceiver";
 import { OperationOptions } from "../../src";
 import { StreamingReceiver } from "../../src/core/streamingReceiver";
 import { AbortController, AbortSignalLike } from "@azure/abort-controller";
+import sinon from "sinon";
 chai.use(chaiAsPromised);
 const assert = chai.assert;
 
@@ -151,6 +152,67 @@ describe("StreamingReceiver unit tests", () => {
       await streamingReceiver.onDetached(new Error("let's detach"));
       assert.isTrue(streamingReceiver.isReceivingMessages);
     });
+  });
+
+  it("create() with an existing receiver and that receiver is open()", async () => {
+    const context = createClientEntityContextForTests();
+    const existingStreamingReceiver = new StreamingReceiver(context);
+    await existingStreamingReceiver.init(false);
+
+    const originalReceiver = await existingStreamingReceiver["_receiver"]!;
+    assert.isTrue(existingStreamingReceiver.isOpen(), "newly created receiver is open");
+    const spy = sinon.spy(existingStreamingReceiver, "init");
+
+    const newStreamingReceiver = await StreamingReceiver.create(context);
+
+    assert.isTrue(spy.called, "We do still call init() on the receiver");
+    assert.strictEqual(
+      newStreamingReceiver,
+      existingStreamingReceiver,
+      "Should re-use the existing streamingReceiver instance, and not create a new one"
+    );
+
+    assert.isTrue(newStreamingReceiver.isOpen(), "Streaming receiver will also remain open()");
+
+    assert.strictEqual(
+      originalReceiver,
+      newStreamingReceiver["_receiver"]!,
+      "The existing internal rhea receiver was open so we kept it, even after init()"
+    );
+  });
+
+  it("create() with an existing receiver and that receiver is NOT open()", async () => {
+    const context = createClientEntityContextForTests();
+    const existingStreamingReceiver = new StreamingReceiver(context);
+    await existingStreamingReceiver.init(false);
+
+    assert.isTrue(existingStreamingReceiver.isOpen(), "newly created receiver is open");
+    const spy = sinon.spy(existingStreamingReceiver, "init");
+
+    // we'll close the inner receiver - this will simulate the receiver being closed out from underneath us in some
+    // way. This will cause the normal MessageReceiver._init() behavior to run.
+    const originalReceiver = await existingStreamingReceiver["_receiver"]!;
+    await originalReceiver.close();
+    assert.isFalse(
+      existingStreamingReceiver.isOpen(),
+      "The internal receiver has been closed. This instance can be reopened"
+    );
+
+    const newStreamingReceiver = await StreamingReceiver.create(context);
+
+    assert.isTrue(spy.called, "We do still call init() on the receiver");
+    assert.strictEqual(
+      newStreamingReceiver,
+      existingStreamingReceiver,
+      "Should re-use the existing streamingReceiver instance, and not create a new one"
+    );
+
+    assert.isTrue(newStreamingReceiver.isOpen(), "Streaming receiver has been reopened");
+    assert.notStrictEqual(
+      originalReceiver,
+      newStreamingReceiver["_receiver"]!,
+      "The existing internal rhea receiver was closed so a new one had to be created."
+    );
   });
 
   describe("AbortSignal", () => {
