@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { ClientEntityContext } from "../../src/clientEntityContext";
-import { AwaitableSender, Receiver, Receiver as RheaReceiver, ReceiverEvents } from "rhea-promise";
+import { AwaitableSender, Receiver as RheaReceiver, ReceiverEvents } from "rhea-promise";
 import { DefaultDataTransformer, AccessToken } from "@azure/core-amqp";
 import { ConcurrentExpiringMap } from "../../src/util/concurrentExpiringMap";
 import { EventEmitter } from "events";
