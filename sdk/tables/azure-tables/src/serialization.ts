@@ -3,14 +3,14 @@
 import { base64Encode, base64Decode } from "./utils/bufferSerializer";
 
 const Edm = {
+  Binary: "Edm.Binary",
   Boolean: "Edm.Boolean",
-  String: "Edm.String",
+  DateTime: "Edm.DateTime",
+  Double: "Edm.Double",
+  Guid: "Edm.Guid",
   Int32: "Edm.Int32",
   Int64: "Edm.Int64",
-  Double: "Edm.Double",
-  DateTime: "Edm.DateTime",
-  Binary: "Edm.Binary",
-  Guid: "Edm.Guid"
+  String: "Edm.String"
 };
 
 type supportedTypes = boolean | string | number | Date | Uint8Array;
@@ -41,12 +41,12 @@ function serializeObject(obj: { value: any; type: string }): serializedType {
   const serializedValue: serializedType = { value: obj.value };
   if (
     obj.type === "Boolean" ||
-    obj.type === "String" ||
+    obj.type === "DateTime" ||
+    obj.type === "Double" ||
+    obj.type === "Guid" ||
     obj.type === "Int32" ||
     obj.type === "Int64" ||
-    obj.type === "Double" ||
-    obj.type === "DateTime" ||
-    obj.type === "Guid"
+    obj.type === "String"
   ) {
     serializedValue.value = obj.value;
     serializedValue.type = Edm[obj.type];
@@ -83,9 +83,9 @@ export function serialize(obj: object): object {
 function getTypedObject(value: any, type: string): any {
   switch (type) {
     case Edm.Boolean:
-    case Edm.String:
-    case Edm.Int32:
     case Edm.Double:
+    case Edm.Int32:
+    case Edm.String:
       return value;
     case Edm.DateTime:
       return new Date(value);

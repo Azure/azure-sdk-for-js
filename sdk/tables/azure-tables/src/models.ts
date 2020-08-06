@@ -86,27 +86,39 @@ export interface Entity {
   [propertyName: string]: any;
 }
 
+/**
+ * Supported EDM Types by Azure Tables.
+ */
 export type EdmTypes =
+  | "Binary"
   | "Boolean"
-  | "String"
+  | "DateTime"
+  | "Double"
+  | "Guid"
   | "Int32"
   | "Int64"
-  | "Double"
-  | "DateTime"
-  | "Binary"
-  | "Guid";
+  | "String";
 
+/**
+ * Entity Data Model representation for an entity property.
+ */
 export interface Edm<T extends EdmTypes> {
-  value: T extends "Boolean"
+  /**
+   * The value of the entity property
+   */
+  value: T extends "Binary"
+    ? Uint8Array
+    : T extends "Boolean"
     ? boolean
-    : T extends "Int32"
-    ? number
-    : T extends "Double"
-    ? number
     : T extends "DateTime"
     ? Date
-    : T extends "Binary"
-    ? Uint8Array
+    : T extends "Double"
+    ? number
+    : T extends "Int32"
+    ? number
     : string;
+  /**
+   * The type of the entity property
+   */
   type: T;
 }

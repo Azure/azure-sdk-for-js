@@ -91,6 +91,8 @@ export class Service {
 
 const xmlSerializer = new coreHttp.Serializer(Mappers, /* isXml */ true);
 
+// This line should be manually commented out for now after generating
+// It will be no longer needed once autorest is fixed: github.com/Azure/autorest.typescript/issues/709
 // const serializer = new coreHttp.Serializer(Mappers, /* isXml */ false);
 
 const setPropertiesOperationSpec: coreHttp.OperationSpec = {

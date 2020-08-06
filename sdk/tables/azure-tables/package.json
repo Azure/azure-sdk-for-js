@@ -8,7 +8,8 @@
   "browser": {
     "./dist-esm/src/TablesSharedKeyCredential.js": "./dist-esm/src/TablesSharedKeyCredential.browser.js",
     "./dist-esm/src/utils/fromAccountConnectionString.js": "./dist-esm/src/utils/fromAccountConnectionString.browser.js",
-    "./dist-esm/src/utils/url.js": "./dist-esm/src/utils/url.browser.js"
+    "./dist-esm/src/utils/url.js": "./dist-esm/src/utils/url.browser.js",
+    "./dist-esm/src/utils/bufferSerializer.js": "./dist-esm/src/utils/bufferSerializer.browser.js"
   },
   "types": "types/latest/tables.d.ts",
   "scripts": {
@@ -48,9 +49,6 @@
     "README.md",
     "LICENSE"
   ],
-  "browser": {
-    "./dist-esm/src/utils/bufferSerializer.js": "./dist-esm/src/utils/bufferSerializer.browser.js"
-  },
   "repository": "github:Azure/azure-sdk-for-js",
   "keywords": [
     "azure",

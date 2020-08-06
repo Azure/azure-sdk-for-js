@@ -86,16 +86,14 @@ export type DeleteTableResponse = TableDeleteHeaders & {
     };
 };
 
-// @public (undocumented)
+// @public
 export interface Edm<T extends EdmTypes> {
-    // (undocumented)
     type: T;
-    // (undocumented)
-    value: T extends "Boolean" ? boolean : T extends "Int32" ? number : T extends "Double" ? number : T extends "DateTime" ? Date : T extends "Binary" ? Uint8Array : string;
+    value: T extends "Binary" ? Uint8Array : T extends "Boolean" ? boolean : T extends "DateTime" ? Date : T extends "Double" ? number : T extends "Int32" ? number : string;
 }
 
-// @public (undocumented)
-export type EdmTypes = "Boolean" | "String" | "Int32" | "Int64" | "Double" | "DateTime" | "Binary" | "Guid";
+// @public
+export type EdmTypes = "Binary" | "Boolean" | "DateTime" | "Double" | "Guid" | "Int32" | "Int64" | "String";
 
 // @public
 export interface Entity {
