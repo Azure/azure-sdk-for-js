@@ -185,10 +185,6 @@ describe("Receiver unit tests", () => {
           processMessage: async (_msg) => {}
         },
         {
-          //
-          // TODO: why is tracingOptions mandatory now?
-          //
-          tracingOptions: {},
           abortSignal
         }
       );
