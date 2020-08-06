@@ -2,20 +2,17 @@
 
 ## 4.1.0 (Unreleased)
 
-- Added support for service version 7.1.
+- Added the optional `serviceVersion` property to the `KeyClient` and `CryptographyClient` optional parameters.
+  It defaults to the latest supported API version, which currently is `7.1`.
+- Added `import` to the list of possible values for `KeyOperation`.
+- Added `recoverableDays` as an optional property to `KeyProperties`.
+- Fixed [bug 10352](https://github.com/Azure/azure-sdk-for-js/issues/10352), which caused cryptography operations on RSA-HSM keys to fail.
 - Fixed [bug 8378](https://github.com/Azure/azure-sdk-for-js/issues/8378), which caused the challenge based authentication to re-authenticate on every new request.
 - Fixed [bug 9005](https://github.com/Azure/azure-sdk-for-js/issues/9005), which caused parallel requests to throw if one of them needed to authenticate.
 
 ## 4.0.3 (2020-05-13)
 
 - Fixed [bug 8378](https://github.com/Azure/azure-sdk-for-js/issues/8378), which caused the challenge based authentication to re-authenticate on every new request.
-
-## 4.1.0-preview.1 (2020-03-10)
-
-- Added the optional `apiVersion` property to the `KeyClient` and `CryptographyClient` optional parameters.
-  It defaults to the latest supported API version, which currently is `7.1-preview`.
-- Added `import` to the list of possible values for `KeyOperation`.
-- Added `recoverableDays` as an optional property to `KeyProperties`.
 
 ## 4.0.2 (2019-12-03)
 
