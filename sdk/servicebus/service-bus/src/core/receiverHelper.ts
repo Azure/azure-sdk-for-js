@@ -59,7 +59,7 @@ export class ReceiverHelper {
   }
 
   /**
-   * Resets tracking so addCredits works again.
+   * Resets tracking so `addCredit` works again.
    */
   resume(): void {
     this._isSuspended = false;
