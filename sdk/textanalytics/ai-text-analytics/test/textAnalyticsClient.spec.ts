@@ -16,7 +16,7 @@ import {
   AnalyzeSentimentSuccessResult
 } from "../src/index";
 import { assertAllSuccess } from "./utils/resultHelper";
-import { assertOpinionsEqual } from './utils/opinionMiningHelpers';
+import { assertOpinionsEqual } from "./utils/opinionMiningHelpers";
 
 const testDataEn = [
   "I had a wonderful trip to Seattle last week and even visited the Space Needle 2 times!",
