@@ -1,7 +1,8 @@
 # Release History
 
-## 4.1.0-preview.2 (Unreleased)
+## 4.1.0 (Unreleased)
 
+- Added support for service version 7.1.
 - Fixed [bug 8378](https://github.com/Azure/azure-sdk-for-js/issues/8378), which caused the challenge based authentication to re-authenticate on every new request.
 - Fixed [bug 9005](https://github.com/Azure/azure-sdk-for-js/issues/9005), which caused parallel requests to throw if one of them needed to authenticate.
 

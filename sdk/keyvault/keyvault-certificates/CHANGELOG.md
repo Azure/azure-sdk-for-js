@@ -1,7 +1,8 @@
 # Release History
 
-## 4.1.0-preview.2 (Unreleased)
+## 4.1.0 (Unreleased)
 
+- Added support for service version 7.1.
 - Using `Poller` and `PollerLike` from the latest `@azure/core-lro` instead of `KVPoller` and `KVPollerLike`.
 - `KVPollerLike` is now an alias of `PollerLike`.
 - `KVPollerLike` is considered deprecated. Use `PollerLike`.
