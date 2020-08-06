@@ -8,7 +8,6 @@
   "keywords": [
     "azure",
     "amqp",
-    "azure",
     "cloud"
   ],
   "main": "./dist/index.js",
