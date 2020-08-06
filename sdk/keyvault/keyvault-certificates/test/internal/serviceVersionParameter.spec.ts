@@ -9,7 +9,7 @@ import { HttpClient, WebResourceLike, HttpOperationResponse, HttpHeaders } from 
 import { ClientSecretCredential } from "@azure/identity";
 import { env } from "@azure/test-utils-recorder";
 
-describe("The Certificates client should set the apiVersion", () => {
+describe("The Certificates client should set the serviceVersion", () => {
   const keyVaultUrl = `https://keyVaultName.vault.azure.net`;
 
   const mockHttpClient: HttpClient = {
@@ -62,9 +62,9 @@ describe("The Certificates client should set the apiVersion", () => {
 
   it("it should allow us to specify an API version from a specific set of versions", async function() {
     const versions: ApIVersions[] = ["7.0", "7.1"];
-    for (const apiVersion in versions) {
+    for (const serviceVersion in versions) {
       const client = new CertificateClient(keyVaultUrl, credential, {
-        apiVersion: apiVersion as ApIVersions,
+        serviceVersion: serviceVersion as ApIVersions,
         httpClient: mockHttpClient
       });
       await client.getCertificate("certificateName");
@@ -73,7 +73,7 @@ describe("The Certificates client should set the apiVersion", () => {
       const lastCall = calls[calls.length - 1];
       assert.equal(
         lastCall.args[0].url,
-        `https://keyVaultName.vault.azure.net/certificates/certificateName/?api-version=${apiVersion}`
+        `https://keyVaultName.vault.azure.net/certificates/certificateName/?api-version=${serviceVersion}`
       );
     }
   });
