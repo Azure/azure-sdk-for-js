@@ -358,7 +358,7 @@ function getUserPropertiesOrUndefined(value: any): { [key: string]: any } | unde
     //    value["KeyValueOfstringanyType"] = { Key: <key>, Value: [Object] }
     // When multiple properties are present,
     //    value["KeyValueOfstringanyType"] = [ { Key: <key-1>, Value: [Object] }, { Key: <key-2>, Value: [Object] } ]
-    // For consistency, wrapping `value["KeyValueOfstringanyType"]` as an array even for the "single property" case.
+    // For consistency, wrapping `value["KeyValueOfstringanyType"]` as an array for the "single property" case.
     rawProperties = [value[keyValuePairXMLTag]];
   } else {
     rawProperties = value[keyValuePairXMLTag];
