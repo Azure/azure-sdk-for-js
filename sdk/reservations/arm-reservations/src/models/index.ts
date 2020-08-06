@@ -708,7 +708,9 @@ export interface PurchaseRequest {
   location?: string;
   /**
    * Possible values include: 'VirtualMachines', 'SqlDatabases', 'SuseLinux', 'CosmosDb', 'RedHat',
-   * 'SqlDataWarehouse', 'VMwareCloudSimple', 'RedHatOsa'
+   * 'SqlDataWarehouse', 'VMwareCloudSimple', 'RedHatOsa', 'Databricks', 'AppService',
+   * 'ManagedDisk', 'BlockBlob', 'RedisCache', 'AzureDataExplorer', 'MySql', 'MariaDb',
+   * 'PostgreSql', 'DedicatedHost', 'SapHana', 'SqlAzureHybridBenefit'
    */
   reservedResourceType?: ReservedResourceType;
   billingScopeId?: string;
@@ -778,7 +780,9 @@ export interface RenewPropertiesResponse {
 export interface ReservationProperties {
   /**
    * Possible values include: 'VirtualMachines', 'SqlDatabases', 'SuseLinux', 'CosmosDb', 'RedHat',
-   * 'SqlDataWarehouse', 'VMwareCloudSimple', 'RedHatOsa'
+   * 'SqlDataWarehouse', 'VMwareCloudSimple', 'RedHatOsa', 'Databricks', 'AppService',
+   * 'ManagedDisk', 'BlockBlob', 'RedisCache', 'AzureDataExplorer', 'MySql', 'MariaDb',
+   * 'PostgreSql', 'DedicatedHost', 'SapHana', 'SqlAzureHybridBenefit'
    */
   reservedResourceType?: ReservedResourceType;
   /**
@@ -1353,11 +1357,13 @@ export type PaymentStatus = 'Succeeded' | 'Failed' | 'Scheduled' | 'Cancelled';
 /**
  * Defines values for ReservedResourceType.
  * Possible values include: 'VirtualMachines', 'SqlDatabases', 'SuseLinux', 'CosmosDb', 'RedHat',
- * 'SqlDataWarehouse', 'VMwareCloudSimple', 'RedHatOsa'
+ * 'SqlDataWarehouse', 'VMwareCloudSimple', 'RedHatOsa', 'Databricks', 'AppService', 'ManagedDisk',
+ * 'BlockBlob', 'RedisCache', 'AzureDataExplorer', 'MySql', 'MariaDb', 'PostgreSql',
+ * 'DedicatedHost', 'SapHana', 'SqlAzureHybridBenefit'
  * @readonly
  * @enum {string}
  */
-export type ReservedResourceType = 'VirtualMachines' | 'SqlDatabases' | 'SuseLinux' | 'CosmosDb' | 'RedHat' | 'SqlDataWarehouse' | 'VMwareCloudSimple' | 'RedHatOsa';
+export type ReservedResourceType = 'VirtualMachines' | 'SqlDatabases' | 'SuseLinux' | 'CosmosDb' | 'RedHat' | 'SqlDataWarehouse' | 'VMwareCloudSimple' | 'RedHatOsa' | 'Databricks' | 'AppService' | 'ManagedDisk' | 'BlockBlob' | 'RedisCache' | 'AzureDataExplorer' | 'MySql' | 'MariaDb' | 'PostgreSql' | 'DedicatedHost' | 'SapHana' | 'SqlAzureHybridBenefit';
 
 /**
  * Defines values for InstanceFlexibility.
