@@ -298,6 +298,7 @@ export class TableClient {
     constructor(url: string, tableName: string, credential: TablesSharedKeyCredential, options?: TableServiceClientOptions);
     constructor(url: string, tableName: string, options?: TableServiceClientOptions);
     createEntity(entity?: Entity, options?: CreateEntityOptions): Promise<CreateEntityResponse>;
+    delete(options?: DeleteTableOptions): Promise<DeleteTableResponse>;
     deleteEntity(partitionKey: string, rowKey: string, ifMatch: string, options?: DeleteEntityOptions): Promise<DeleteEntityResponse>;
     static fromConnectionString(connectionString: string, tableName: string, options?: TableServiceClientOptions): TableClient;
     getAccessPolicy(options?: GetAccessPolicyOptions): Promise<GetAccessPolicyResponse>;
