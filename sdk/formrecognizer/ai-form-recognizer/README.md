@@ -162,7 +162,7 @@ async function main() {
 
   const receipt = receipts[0];
   console.log("First receipt:");
-  // For supported fields recognized by the service, please refer to https://westus2.dev.cognitive.microsoft.com/docs/services/form-recognizer-api-v2-preview/operations/GetAnalyzeReceiptResult.
+  // For a list of fields that are contained in the response, please refer to the "Supported fields" section at the following link: https://aka.ms/azsdk/formrecognizer/receiptfields
   const receiptTypeField = receipt.fields["ReceiptType"];
   if (receiptTypeField.valueType === "string") {
     console.log(`  Receipt Type: '${receiptTypeField.value || "<missing>"}', with confidence of ${receiptTypeField.confidence}`);

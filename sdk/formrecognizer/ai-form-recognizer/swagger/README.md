@@ -18,6 +18,7 @@ add-credentials: false
 override-client-name: GeneratedClient
 use-extension:
   "@autorest/typescript": "6.0.0-dev.20200717.1"
+package-version: "3.0.0"
 ```
 
 ## Customizations for Track 2 Generator
