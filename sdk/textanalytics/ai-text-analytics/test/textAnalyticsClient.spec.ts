@@ -12,7 +12,8 @@ import {
   DetectLanguageInput,
   DetectLanguageSuccessResult,
   ExtractKeyPhrasesSuccessResult,
-  AnalyzeSentimentOptions
+  AnalyzeSentimentResultArray,
+  AnalyzeSentimentSuccessResult
 } from "../src/index";
 import { assertAllSuccess } from "./utils/resultHelper";
 
@@ -90,7 +91,7 @@ describe("[AAD] TextAnalyticsClient", function() {
       assert.equal(errorResult.error.code, "InvalidDocument");
     });
 
-    it.only("client accepts TextDocumentInput[]", async () => {
+    it("client accepts TextDocumentInput[]", async () => {
       const enInputs = testDataEn.map(
         (text): TextDocumentInput => ({
           id: getId(),
@@ -106,10 +107,107 @@ describe("[AAD] TextAnalyticsClient", function() {
         })
       );
       const allInputs = enInputs.concat(esInputs);
-      const options:  AnalyzeSentimentOptions = { mineOpinions: true };
-      const results = await client.analyzeSentiment(allInputs, options);
+      const results = await client.analyzeSentiment(allInputs);
       assert.equal(results.length, testDataEn.length + testDataEs.length);
       assertAllSuccess(results);
+    });
+
+    it("client gets positive mined opinions", async () => {
+      const documents = [
+        {
+          text: "It has a sleek premium aluminum design that makes it beautiful to look at.",
+          id: "0",
+          language: "en"
+        }
+      ];
+      const results: AnalyzeSentimentResultArray = await client.analyzeSentiment(documents, {
+        mineOpinions: true
+      });
+      assert.equal(results.length, 1);
+      assertAllSuccess(results);
+      const documentSentiment: AnalyzeSentimentSuccessResult = results[0] as AnalyzeSentimentSuccessResult;
+      documentSentiment.sentences.map((sentence) =>
+        sentence.minedOpinions?.map((opinion) => {
+          const aspect = opinion.aspect;
+          assert.equal("design", aspect.text);
+          assert.equal("positive", aspect.sentiment);
+          assert.isAtLeast(aspect.confidenceScores.positive, 0);
+          assert.isUndefined(aspect.confidenceScores.neutral);
+          assert.isAtLeast(aspect.confidenceScores.negative, 0);
+
+          const sleekOpinion = opinion.opinions[0];
+          assert.equal("sleek", sleekOpinion.text);
+          assert.equal("positive", sleekOpinion.sentiment);
+          assert.isAtLeast(sleekOpinion.confidenceScores.positive, 0);
+          assert.isAtLeast(sleekOpinion.confidenceScores.neutral, 0);
+          assert.isAtLeast(sleekOpinion.confidenceScores.positive, 0);
+          assert.isFalse(sleekOpinion.isNegated);
+
+          const premiumOpinion = opinion.opinions[1];
+          assert.equal("premium", premiumOpinion.text);
+          assert.equal("positive", premiumOpinion.sentiment);
+          assert.isAtLeast(premiumOpinion.confidenceScores.positive, 0);
+          assert.isAtLeast(premiumOpinion.confidenceScores.neutral, 0);
+          assert.isAtLeast(premiumOpinion.confidenceScores.positive, 0);
+          assert.isFalse(premiumOpinion.isNegated);
+        })
+      );
+    });
+
+    it("client gets negative mined opinions", async () => {
+      const documents = [
+        {
+          text: "The food and service is not good",
+          id: "0",
+          language: "en"
+        }
+      ];
+      const results: AnalyzeSentimentResultArray = await client.analyzeSentiment(documents, {
+        mineOpinions: true
+      });
+      assert.equal(results.length, 1);
+      assertAllSuccess(results);
+      const documentSentiment: AnalyzeSentimentSuccessResult = results[0] as AnalyzeSentimentSuccessResult;
+      documentSentiment.sentences.map((sentence) => {
+        const foodAspect = sentence.minedOpinions?.[0].aspect;
+        assert.equal("food", foodAspect?.text);
+        assert.equal("negative", foodAspect?.sentiment);
+        assert.isAtLeast(foodAspect?.confidenceScores.positive!, 0);
+        assert.isUndefined(foodAspect?.confidenceScores.neutral);
+        assert.isAtLeast(foodAspect?.confidenceScores.negative!, 0);
+
+        const serviceAspect = sentence.minedOpinions?.[0].aspect;
+        assert.equal("food", serviceAspect?.text);
+        assert.equal("negative", serviceAspect?.sentiment);
+        assert.isAtLeast(serviceAspect?.confidenceScores.positive!, 0);
+        assert.isUndefined(serviceAspect?.confidenceScores.neutral);
+        assert.isAtLeast(serviceAspect?.confidenceScores.negative!, 0);
+
+        const foodOpinion = sentence.minedOpinions?.[0].opinions[0];
+        assert.equal("good", foodOpinion?.text);
+        assert.equal("negative", foodOpinion?.sentiment);
+        assert.isAtLeast(foodOpinion?.confidenceScores.positive!, 0);
+        assert.isAtLeast(foodOpinion?.confidenceScores.neutral!, 0);
+        assert.isAtLeast(foodOpinion?.confidenceScores.positive!, 0);
+        assert.isTrue(foodOpinion?.isNegated);
+      });
+    });
+
+    it.only("client gets no mined opinions", async () => {
+      const documents = [
+        {
+          text: "today is a hot day",
+          id: "0",
+          language: "en"
+        }
+      ];
+      const results: AnalyzeSentimentResultArray = await client.analyzeSentiment(documents, {
+        mineOpinions: true
+      });
+      assert.equal(results.length, 1);
+      assertAllSuccess(results);
+      const documentSentiment: AnalyzeSentimentSuccessResult = results[0] as AnalyzeSentimentSuccessResult;
+      assert.isEmpty(documentSentiment.sentences[0].minedOpinions);
     });
   });
 
