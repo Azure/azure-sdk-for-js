@@ -34,14 +34,23 @@ describe("ReceiverHelper unit tests", () => {
       await helper.drain();
 
       await helper.suspend();
-      assert.isTrue(helper["_isSuspended"]);
+      assert.isFalse(helper["_canReceiveMessages"]);
 
       helper.resume();
-      assert.isFalse(helper["_isSuspended"]);
+      // our internal state is now set so we can receive messages but...
+      assert.isTrue(helper["_canReceiveMessages"]);
+      // ...we still won't _because_ the receiver is not open.
+      assert.isFalse(
+        helper.canReceiveMessages(),
+        "We still can't receive messages because the receiver is either invalid _or_ isn't open"
+      );
+
+      // should still do nothing.
+      helper.addCredit(101);
     });
   });
 
-  it("operations an open receiver", async () => {
+  it("operations on an open receiver", async () => {
     const receiver = createRheaReceiverForTests();
     const helper = new ReceiverHelper(() => receiver);
 

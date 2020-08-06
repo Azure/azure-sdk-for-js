@@ -94,7 +94,12 @@ export class StreamingReceiver extends MessageReceiver {
   /**
    * Whether we are currently registered for receiving messages.
    */
-  public isReceivingMessages: boolean;
+  public get isReceivingMessages(): boolean {
+    // for the streaming receiver so long as we can receive messages then we
+    // _are_ receiving messages - there's no in-between state like there is
+    // with BatchingReceiver.
+    return this._receiverHelper.canReceiveMessages();
+  }
 
   /**
    * Instantiate a new Streaming receiver for receiving messages with handlers.
@@ -105,8 +110,6 @@ export class StreamingReceiver extends MessageReceiver {
    */
   constructor(context: ClientEntityContext, options?: ReceiveOptions) {
     super(context, ReceiverType.streaming, options);
-
-    this.isReceivingMessages = false;
 
     if (typeof options?.maxConcurrentCalls === "number" && options?.maxConcurrentCalls > 0) {
       this.maxConcurrentCalls = options.maxConcurrentCalls;
@@ -509,7 +512,6 @@ export class StreamingReceiver extends MessageReceiver {
 
   async stopReceivingMessages(): Promise<void> {
     await this._receiverHelper.suspend();
-    this.isReceivingMessages = false;
   }
 
   async init(useNewName: boolean, abortSignal?: AbortSignalLike): Promise<void> {
@@ -519,7 +521,6 @@ export class StreamingReceiver extends MessageReceiver {
     // this might seem odd but in reality this entire class is like one big function call that
     // results in a receive(). Once we're being initialized we should consider ourselves the
     // "owner" of the receiver and that it's now being locked into being the actual receiver.
-    this.isReceivingMessages = true;
     this._receiverHelper.resume();
   }
 
@@ -689,7 +690,6 @@ export class StreamingReceiver extends MessageReceiver {
 
   async close(): Promise<void> {
     await super.close();
-    this.isReceivingMessages = false;
     this.stopReceivingMessages();
   }
 
