@@ -688,11 +688,6 @@ export class StreamingReceiver extends MessageReceiver {
     }
   }
 
-  async close(): Promise<void> {
-    await super.close();
-    this.stopReceivingMessages();
-  }
-
   /**
    * Creates a streaming receiver.
    * @static
