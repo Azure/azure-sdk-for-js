@@ -2,55 +2,34 @@
  "recordings": [
   {
    "method": "POST",
-   "url": "https://endpoint/formrecognizer/v2.0-preview/custom/models",
+   "url": "https://endpoint/formrecognizer/v2.0/custom/models",
    "query": {},
    "requestBody": "{\"source\":\"https://storageaccount/trainingdata?sastoken\",\"sourceFilter\":{\"prefix\":\"Form_\"},\"useLabelFile\":false}",
    "status": 201,
    "response": "",
    "responseHeaders": {
-    "access-control-allow-origin": "*",
-    "access-control-expose-headers": "Operation-Location,Location",
-    "apim-request-id": "d0da3486-83da-4ae4-a5e4-53016d55eec0",
+    "apim-request-id": "ec071fdd-3d5c-4bf7-8505-88c1af2b4c91",
     "content-length": "0",
-    "date": "Sat, 02 May 2020 19:34:27 GMT",
-    "location": "https://endpoint/formrecognizer/v2.0-preview/custom/models/da164f94-5df2-4792-8efc-56a5249cba36",
+    "date": "Wed, 05 Aug 2020 23:32:07 GMT",
+    "location": "https://endpoint/formrecognizer/v2.0/custom/models/b0289b83-9ea9-4818-8ffc-4e810dc714d1",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "88"
+    "x-envoy-upstream-service-time": "59"
    }
   },
   {
    "method": "GET",
-   "url": "https://endpoint/formrecognizer/v2.0-preview/custom/models/da164f94-5df2-4792-8efc-56a5249cba36",
+   "url": "https://endpoint/formrecognizer/v2.0/custom/models/b0289b83-9ea9-4818-8ffc-4e810dc714d1",
    "query": {
     "includeKeys": "true"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"modelInfo\":{\"modelId\":\"da164f94-5df2-4792-8efc-56a5249cba36\",\"status\":\"creating\",\"createdDateTime\":\"2020-05-02T19:34:27Z\",\"lastUpdatedDateTime\":\"2020-05-02T19:34:27Z\"}}",
+   "response": "{\"modelInfo\":{\"modelId\":\"b0289b83-9ea9-4818-8ffc-4e810dc714d1\",\"status\":\"creating\",\"createdDateTime\":\"2020-08-05T23:32:08Z\",\"lastUpdatedDateTime\":\"2020-08-05T23:32:08Z\"}}",
    "responseHeaders": {
-    "apim-request-id": "fc797d84-3b5c-49ba-94bb-f5619a7e0f23",
+    "apim-request-id": "b5f454b3-1a07-48cf-b09a-91a9416500af",
     "content-type": "application/json; charset=utf-8",
-    "date": "Sat, 02 May 2020 19:34:27 GMT",
-    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
-    "transfer-encoding": "chunked",
-    "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "33"
-   }
-  },
-  {
-   "method": "GET",
-   "url": "https://endpoint/formrecognizer/v2.0-preview/custom/models/da164f94-5df2-4792-8efc-56a5249cba36",
-   "query": {
-    "includeKeys": "true"
-   },
-   "requestBody": null,
-   "status": 200,
-   "response": "{\"modelInfo\":{\"modelId\":\"da164f94-5df2-4792-8efc-56a5249cba36\",\"status\":\"creating\",\"createdDateTime\":\"2020-05-02T19:34:27Z\",\"lastUpdatedDateTime\":\"2020-05-02T19:34:27Z\"}}",
-   "responseHeaders": {
-    "apim-request-id": "89a18983-c1fb-4199-8213-fba9cca3ebe3",
-    "content-type": "application/json; charset=utf-8",
-    "date": "Sat, 02 May 2020 19:34:27 GMT",
+    "date": "Wed, 05 Aug 2020 23:32:07 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
@@ -59,40 +38,59 @@
   },
   {
    "method": "GET",
-   "url": "https://endpoint/formrecognizer/v2.0-preview/custom/models/da164f94-5df2-4792-8efc-56a5249cba36",
+   "url": "https://endpoint/formrecognizer/v2.0/custom/models/b0289b83-9ea9-4818-8ffc-4e810dc714d1",
    "query": {
     "includeKeys": "true"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"modelInfo\":{\"modelId\":\"da164f94-5df2-4792-8efc-56a5249cba36\",\"status\":\"creating\",\"createdDateTime\":\"2020-05-02T19:34:27Z\",\"lastUpdatedDateTime\":\"2020-05-02T19:34:27Z\"}}",
+   "response": "{\"modelInfo\":{\"modelId\":\"b0289b83-9ea9-4818-8ffc-4e810dc714d1\",\"status\":\"creating\",\"createdDateTime\":\"2020-08-05T23:32:08Z\",\"lastUpdatedDateTime\":\"2020-08-05T23:32:08Z\"}}",
    "responseHeaders": {
-    "apim-request-id": "04beb498-c9fd-47a2-9740-30932a16e501",
+    "apim-request-id": "d277c50a-7986-4c10-947d-71d1b1f06915",
     "content-type": "application/json; charset=utf-8",
-    "date": "Sat, 02 May 2020 19:34:32 GMT",
+    "date": "Wed, 05 Aug 2020 23:32:07 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "273"
+    "x-envoy-upstream-service-time": "14"
    }
   },
   {
    "method": "GET",
-   "url": "https://endpoint/formrecognizer/v2.0-preview/custom/models/da164f94-5df2-4792-8efc-56a5249cba36",
+   "url": "https://endpoint/formrecognizer/v2.0/custom/models/b0289b83-9ea9-4818-8ffc-4e810dc714d1",
    "query": {
     "includeKeys": "true"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"modelInfo\":{\"modelId\":\"da164f94-5df2-4792-8efc-56a5249cba36\",\"status\":\"ready\",\"createdDateTime\":\"2020-05-02T19:34:27Z\",\"lastUpdatedDateTime\":\"2020-05-02T19:34:35Z\"},\"keys\":{\"clusters\":{\"0\":[\"Additional Notes:\",\"Address:\",\"Address:\",\"Company Name:\",\"Company Phone:\",\"Dated As:\",\"Email:\",\"Hero Limited\",\"Name:\",\"Phone:\",\"Phone:\",\"Purchase Order\",\"Purchase Order\",\"Purchase Order #:\",\"SUBTOTAL\",\"Seattle, WA 93849 Phone:\",\"Shipped From\",\"Shipped To\",\"TAX\",\"TOTAL\",\"Vendor Name:\",\"Website:\"]}},\"trainResult\":{\"trainingDocuments\":[{\"documentName\":\"Form_1.jpg\",\"pages\":1,\"errors\":[],\"status\":\"succeeded\"},{\"documentName\":\"Form_2.jpg\",\"pages\":1,\"errors\":[],\"status\":\"succeeded\"},{\"documentName\":\"Form_3.jpg\",\"pages\":1,\"errors\":[],\"status\":\"succeeded\"},{\"documentName\":\"Form_4.jpg\",\"pages\":1,\"errors\":[],\"status\":\"succeeded\"},{\"documentName\":\"Form_5.jpg\",\"pages\":1,\"errors\":[],\"status\":\"succeeded\"}],\"errors\":[]}}",
+   "response": "{\"modelInfo\":{\"modelId\":\"b0289b83-9ea9-4818-8ffc-4e810dc714d1\",\"status\":\"creating\",\"createdDateTime\":\"2020-08-05T23:32:08Z\",\"lastUpdatedDateTime\":\"2020-08-05T23:32:08Z\"}}",
    "responseHeaders": {
-    "apim-request-id": "1b94e3b5-5817-4f70-a382-1b86307910d3",
+    "apim-request-id": "e3affcb4-2c51-4685-bade-838186863aee",
     "content-type": "application/json; charset=utf-8",
-    "date": "Sat, 02 May 2020 19:34:37 GMT",
+    "date": "Wed, 05 Aug 2020 23:32:13 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "34"
+    "x-envoy-upstream-service-time": "19"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://endpoint/formrecognizer/v2.0/custom/models/b0289b83-9ea9-4818-8ffc-4e810dc714d1",
+   "query": {
+    "includeKeys": "true"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"modelInfo\":{\"modelId\":\"b0289b83-9ea9-4818-8ffc-4e810dc714d1\",\"status\":\"ready\",\"createdDateTime\":\"2020-08-05T23:32:08Z\",\"lastUpdatedDateTime\":\"2020-08-05T23:32:16Z\"},\"keys\":{\"clusters\":{\"0\":[\"Additional Notes:\",\"Address:\",\"Company Name:\",\"Company Phone:\",\"Dated As:\",\"Details\",\"Email:\",\"Hero Limited\",\"Name:\",\"Phone:\",\"Purchase Order\",\"Purchase Order #:\",\"Quantity\",\"SUBTOTAL\",\"Seattle, WA 93849 Phone:\",\"Shipped From\",\"Shipped To\",\"TAX\",\"TOTAL\",\"Total\",\"Unit Price\",\"Vendor Name:\",\"Website:\"]}},\"trainResult\":{\"trainingDocuments\":[{\"documentName\":\"Form_1.jpg\",\"pages\":1,\"errors\":[],\"status\":\"succeeded\"},{\"documentName\":\"Form_2.jpg\",\"pages\":1,\"errors\":[],\"status\":\"succeeded\"},{\"documentName\":\"Form_3.jpg\",\"pages\":1,\"errors\":[],\"status\":\"succeeded\"},{\"documentName\":\"Form_4.jpg\",\"pages\":1,\"errors\":[],\"status\":\"succeeded\"},{\"documentName\":\"Form_5.jpg\",\"pages\":1,\"errors\":[],\"status\":\"succeeded\"}],\"errors\":[]}}",
+   "responseHeaders": {
+    "apim-request-id": "20bedff3-d045-44cc-b984-a03c6595e417",
+    "content-type": "application/json; charset=utf-8",
+    "date": "Wed, 05 Aug 2020 23:32:18 GMT",
+    "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-envoy-upstream-service-time": "20"
    }
   }
  ],
@@ -100,5 +98,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "a52a5d6b1c21d296248b4e0244223542"
+ "hash": "4a4e2a2138862d4c6afd54d5672d8bf6"
 }
