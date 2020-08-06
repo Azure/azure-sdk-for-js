@@ -33,8 +33,7 @@
     "LICENSE"
   ],
   "//metadata": {
-    "constantPaths": [
-      {
+    "constantPaths": [{
         "path": "src/generated/generatedClientContext.ts",
         "prefix": "packageVersion"
       },
@@ -79,9 +78,9 @@
     "@azure/core-lro": "^1.0.2",
     "@azure/core-paging": "^1.1.1",
     "@azure/core-http": "^1.1.4",
-    "@azure/core-tracing": "1.0.0-preview.8",
+    "@azure/core-tracing": "1.0.0-preview.9",
     "@azure/logger": "^1.0.0",
-    "@opentelemetry/api": "^0.6.1",
+    "@opentelemetry/api": "^0.10.2",
     "tslib": "^2.0.0"
   },
   "devDependencies": {
@@ -138,5 +137,18 @@
     "typescript": "~3.9.3",
     "fs-extra": "^8.1.0",
     "@types/fs-extra": "^8.0.0"
+  },
+  "//smokeTestConfiguration": {
+    "skip": [
+      "customModelManagement.js",
+      "differentiateLabeledUnlabeled.js",
+      "getBoundingBoxes.js",
+      "recognizeCustomForm.js",
+      "trainLabeledModel.js",
+      "trainUnlabeledModel.js",
+      "copyModel.js",
+      "authenticationMethods.js",
+      "recognizeContent.js"
+    ]
   }
 }

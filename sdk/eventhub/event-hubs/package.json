@@ -72,20 +72,25 @@
     "unit-test": "npm run unit-test:node && npm run unit-test:browser"
   },
   "//metadata": {
-    "constantPaths": [
-      {
-        "path": "src/util/constants.ts",
-        "prefix": "version"
-      }
+    "constantPaths": [{
+      "path": "src/util/constants.ts",
+      "prefix": "version"
+    }]
+  },
+  "//smokeTestConfiguration": {
+    "skip": [
+      "iothubConnectionString.js",
+      "useWithIotHub.js",
+      "usingAadAuth.js"
     ]
   },
   "dependencies": {
     "@azure/abort-controller": "^1.0.0",
     "@azure/core-amqp": "^1.1.4",
     "@azure/core-asynciterator-polyfill": "^1.0.0",
-    "@azure/core-tracing": "1.0.0-preview.8",
+    "@azure/core-tracing": "1.0.0-preview.9",
     "@azure/logger": "^1.0.0",
-    "@opentelemetry/api": "^0.6.1",
+    "@opentelemetry/api": "^0.10.2",
     "buffer": "^5.2.1",
     "process": "^0.11.10",
     "rhea-promise": "^1.0.0",

@@ -51,7 +51,7 @@ async function sendMessage() {
 
 async function receiveMessage() {
   // If receiving from a subscription you can use the createReceiver(topic, subscription) overload
-  const receiver = sbClient.createReceiver(queueName, "peekLock");
+  const receiver = sbClient.createReceiver(queueName);
 
   const messages = await receiver.receiveMessages(1);
 

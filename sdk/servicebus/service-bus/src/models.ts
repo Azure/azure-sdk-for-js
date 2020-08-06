@@ -38,6 +38,40 @@ export interface InternalMessageHandlers<ReceivedMessageT>
 }
 
 /**
+ * Represents the possible receive modes for the receiver.
+ */
+export type ReceiveMode = "peekLock" | "receiveAndDelete";
+
+/**
+ *
+ *
+ * @interface CreateReceiverOptions
+ * @template ReceiveModeT
+ */
+export interface CreateReceiverOptions<ReceiveModeT extends ReceiveMode> {
+  /**
+   * Represents the receive mode for the receiver.
+   *
+   * In receiveAndDelete mode, messages are deleted from Service Bus as they are received.
+   *
+   * In peekLock mode, the receiver has a lock on the message for the duration specified on the
+   * queue/subscription.
+   *
+   * Messages that are not settled within the lock duration will be redelivered as many times as
+   * the max delivery count set on the queue/subscription, after which they get sent to a separate
+   * dead letter queue.
+   *
+   * You can settle a message by calling complete(), abandon(), defer() or deadletter() methods on
+   * the message.
+   *
+   * More information about how peekLock and message settlement works here:
+   * https://docs.microsoft.com/en-us/azure/service-bus-messaging/message-transfers-locks-settlement#peeklock
+   *
+   */
+  receiveMode?: ReceiveModeT;
+}
+
+/**
  * Options related to wait times.
  */
 export interface WaitTimeOptions {
@@ -115,9 +149,17 @@ export interface MessageHandlerOptions {
 /**
  * Describes the options passed to the `createSessionReceiver` method when using a Queue/Subscription that
  * has sessions enabled.
+ *
+ * @export
+ * @interface CreateSessionReceiverOptions
+ * @extends {CreateReceiverOptions<ReceiveModeT>}
+ * @extends {SessionReceiverOptions}
+ * @extends {OperationOptionsBase}
+ * @template ReceiveModeT
  */
-export interface CreateSessionReceiverOptions
-  extends SessionReceiverOptions,
+export interface CreateSessionReceiverOptions<ReceiveModeT extends ReceiveMode>
+  extends CreateReceiverOptions<ReceiveModeT>,
+    SessionReceiverOptions,
     OperationOptionsBase {}
 
 /**

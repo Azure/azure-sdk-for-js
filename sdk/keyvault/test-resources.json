@@ -103,6 +103,10 @@
     "KEYVAULT_NAME": {
       "type": "string",
       "value": "[variables('keyVaultName')]"
+    },
+    "KEYVAULT_URI": {
+      "type": "string",
+      "value": "[reference(variables('keyVaultName')).vaultUri]"
     }
   }
 }

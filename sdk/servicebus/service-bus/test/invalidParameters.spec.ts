@@ -50,26 +50,6 @@ describe("invalid parameters", () => {
       return serviceBusClient.test.afterEach();
     });
 
-    it("SessionReceiver: Missing ReceiveMode", async function(): Promise<void> {
-      let errorCaught: string = "";
-      try {
-        const { queue } = serviceBusClient.test.getTestEntities(
-          TestClientType.PartitionedQueueWithSessions
-        );
-
-        await serviceBusClient.createSessionReceiver(queue!, undefined as any, {
-          sessionId: TestMessage.sessionId
-        });
-      } catch (error) {
-        errorCaught = error.message;
-      }
-      should.equal(
-        errorCaught,
-        "Invalid receiveMode provided",
-        "Did not throw error if created a client with invalid receiveMode."
-      );
-    });
-
     it("SessionReceiver: Throws error if created a client with invalid receiveMode", async function(): Promise<
       void
     > {
@@ -79,15 +59,16 @@ describe("invalid parameters", () => {
           TestClientType.PartitionedQueueWithSessions
         );
 
-        await serviceBusClient.createSessionReceiver(queue!, 123 as any, {
-          sessionId: TestMessage.sessionId
+        await serviceBusClient.createSessionReceiver(queue!, {
+          sessionId: TestMessage.sessionId,
+          receiveMode: 123 as any
         });
       } catch (error) {
         errorCaught = error.message;
       }
       should.equal(
         errorCaught,
-        "Invalid receiveMode provided",
+        "Unable to parse the arguments\nTypeError: Invalid receiveMode provided",
         "Did not throw error if created a client with invalid receiveMode."
       );
     });
@@ -232,34 +213,19 @@ describe("invalid parameters", () => {
     const mockConnectionString =
       "Endpoint=sb://test/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=test";
     const sbClient = new ServiceBusClient(mockConnectionString);
-    const receiver = sbClient.createReceiver("dummyQueue", "peekLock");
-
-    it("Receiver: Missing ReceiveMode", async function(): Promise<void> {
-      let errorCaught: string = "";
-      try {
-        // @ts-expect-error
-        sbClient.createReceiver("dummyQueue");
-      } catch (error) {
-        errorCaught = error.message;
-      }
-      should.equal(
-        errorCaught,
-        "Invalid receiveMode provided",
-        "Did not throw error if created a client with invalid receiveMode."
-      );
-    });
+    const receiver = sbClient.createReceiver("dummyQueue");
 
     it("Receiver: Invalid ReceiveMode", async function(): Promise<void> {
       let errorCaught: string = "";
       try {
         // @ts-expect-error
-        sbClient.createReceiver("dummyQueue", 123);
+        sbClient.createReceiver("dummyQueue", { receiveMode: 123 });
       } catch (error) {
         errorCaught = error.message;
       }
       should.equal(
         errorCaught,
-        "Invalid receiveMode provided",
+        "Unable to parse the arguments\nTypeError: Invalid receiveMode provided",
         "Did not throw error if created a client with invalid receiveMode."
       );
     });

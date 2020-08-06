@@ -90,11 +90,25 @@
   "homepage": "https://github.com/Azure/azure-sdk-for-js#readme",
   "sideEffects": false,
   "//metadata": {
-    "constantPaths": [
-      {
-        "path": "src/utils/constants.ts",
-        "prefix": "SDK_VERSION"
-      }
+    "constantPaths": [{
+      "path": "src/utils/constants.ts",
+      "prefix": "SDK_VERSION"
+    }]
+  },
+  "//smokeTestConfiguration": {
+    "skip": [
+      "advanced.js",
+      "anonymousCred.js",
+      "azureAdAuth.js",
+      "basic.js",
+      "customPipeline.js",
+      "customizedClientHeaders.js",
+      "iterators-blobs-hierarchy.js",
+      "iterators-blobs.js",
+      "iterators-containers.js",
+      "iterators-without-await.js",
+      "readingSnapshot.js",
+      "sharedKeyCred.js"
     ]
   },
   "dependencies": {
@@ -102,9 +116,9 @@
     "@azure/core-http": "^1.1.4",
     "@azure/core-lro": "^1.0.2",
     "@azure/core-paging": "^1.1.1",
-    "@azure/core-tracing": "1.0.0-preview.8",
+    "@azure/core-tracing": "1.0.0-preview.9",
     "@azure/logger": "^1.0.0",
-    "@opentelemetry/api": "^0.6.1",
+    "@opentelemetry/api": "^0.10.2",
     "events": "^3.0.0",
     "tslib": "^2.0.0"
   },
