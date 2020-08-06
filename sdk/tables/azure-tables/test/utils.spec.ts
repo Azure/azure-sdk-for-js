@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { extractConnectionStringParts, ConnectionString } from "../src/utils/connectionString";
 import { isNode } from "@azure/core-http";
 import { assert } from "chai";
