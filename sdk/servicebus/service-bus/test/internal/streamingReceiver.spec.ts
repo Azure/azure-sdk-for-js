@@ -40,7 +40,7 @@ describe("StreamingReceiver unit tests", () => {
         "receive() sets the isReceivingMessages flag immediately to avoid race conditions"
       );
 
-      streamingReceiver.receive(
+      streamingReceiver.subscribe(
         async (_msg) => {},
         async (_err) => {}
       );
@@ -77,7 +77,7 @@ describe("StreamingReceiver unit tests", () => {
         "we've initialized the streaming receiver again so we're ready to receive again"
       );
 
-      streamingReceiver.receive(
+      streamingReceiver.subscribe(
         async (_msg) => {},
         async (_err) => {}
       );
@@ -93,7 +93,7 @@ describe("StreamingReceiver unit tests", () => {
       const streamingReceiver = new StreamingReceiver(createClientEntityContextForTests());
       await streamingReceiver.init(true);
 
-      streamingReceiver.receive(
+      streamingReceiver.subscribe(
         async (_msg) => {},
         async (_err) => {}
       );
@@ -108,7 +108,7 @@ describe("StreamingReceiver unit tests", () => {
       const streamingReceiver = new StreamingReceiver(createClientEntityContextForTests());
       await streamingReceiver.init(true);
 
-      streamingReceiver.receive(
+      streamingReceiver.subscribe(
         async (_msg) => {},
         async (_err) => {}
       );
@@ -123,7 +123,7 @@ describe("StreamingReceiver unit tests", () => {
       const streamingReceiver = new StreamingReceiver(createClientEntityContextForTests());
       await streamingReceiver.init(true);
 
-      streamingReceiver.receive(
+      streamingReceiver.subscribe(
         async (_msg) => {},
         async (_err) => {}
       );
@@ -142,7 +142,7 @@ describe("StreamingReceiver unit tests", () => {
       const streamingReceiver = new StreamingReceiver(createClientEntityContextForTests());
       await streamingReceiver.init(true);
 
-      streamingReceiver.receive(
+      streamingReceiver.subscribe(
         async (_msg) => {},
         async (_err) => {}
       );

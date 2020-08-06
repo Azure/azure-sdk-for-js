@@ -530,7 +530,7 @@ export class StreamingReceiver extends MessageReceiver {
    * @param {OnMessage} onMessage The message handler to receive servicebus messages.
    * @param {OnError} onError The error handler to receive an error that occurs while receivin messages.
    */
-  receive(onMessage: OnMessage, onError: OnError): void {
+  subscribe(onMessage: OnMessage, onError: OnError): void {
     throwErrorIfConnectionClosed(this._context.namespace);
 
     this._onMessage = onMessage;
