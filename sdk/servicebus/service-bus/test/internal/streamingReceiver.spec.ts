@@ -56,8 +56,6 @@ describe("StreamingReceiver unit tests", () => {
         "receive() sets the isReceivingMessages flag immediately to avoid race conditions"
       );
 
-      assert.equal(streamingReceiver["_receiver"]?.credit, 101);
-
       // now we'll stop the streaming receiver and then start it back up again.
       await streamingReceiver.stopReceivingMessages();
       assert.isFalse(
