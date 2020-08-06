@@ -119,7 +119,7 @@ describe("StreamingReceiver unit tests", () => {
       assert.isFalse(streamingReceiver.isReceivingMessages);
     });
 
-    it("isReceivingMessages set to false by calling detach and init fails", async () => {
+    it("isReceivingMessages set to false by calling onDetach and init fails", async () => {
       const streamingReceiver = new StreamingReceiver(createClientEntityContextForTests());
       await streamingReceiver.init(true);
 
