@@ -12,7 +12,7 @@ import * as log from "../log";
  * @ignore
  */
 export class ReceiverHelper {
-  private _canReceiveMessages: boolean = false;
+  private _isSuspended: boolean = false;
 
   constructor(private _getCurrentReceiver: () => Receiver | undefined) {}
 
@@ -46,7 +46,7 @@ export class ReceiverHelper {
   async suspend(): Promise<void> {
     const receiver = this._getCurrentReceiver();
 
-    this._canReceiveMessages = false;
+    this._isSuspended = true;
 
     if (!this._isValidReceiver(receiver)) {
       return;
@@ -62,7 +62,7 @@ export class ReceiverHelper {
    * Resets tracking so addCredits works again.
    */
   resume(): void {
-    this._canReceiveMessages = true;
+    this._isSuspended = false;
   }
 
   /**
@@ -74,7 +74,7 @@ export class ReceiverHelper {
    */
   canReceiveMessages(): boolean {
     const receiver = this._getCurrentReceiver();
-    return this._canReceiveMessages && this._isValidReceiver(receiver);
+    return !this._isSuspended && this._isValidReceiver(receiver);
   }
 
   /**

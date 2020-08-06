@@ -34,11 +34,11 @@ describe("ReceiverHelper unit tests", () => {
       await helper.drain();
 
       await helper.suspend();
-      assert.isFalse(helper["_canReceiveMessages"]);
+      assert.isTrue(helper["_isSuspended"]);
 
       helper.resume();
       // our internal state is now set so we can receive messages but...
-      assert.isTrue(helper["_canReceiveMessages"]);
+      assert.isFalse(helper["_isSuspended"]);
       // ...we still won't _because_ the receiver is not open.
       assert.isFalse(
         helper.canReceiveMessages(),
@@ -74,6 +74,7 @@ describe("ReceiverHelper unit tests", () => {
     helper.addCredit(101);
 
     await helper.suspend();
+    assert.isTrue(helper["_isSuspended"]);
     assert.isTrue(drainWasCalled);
     assert.isFalse(receiver.drain);
     assert.equal(receiver.credit, 0);
@@ -87,6 +88,7 @@ describe("ReceiverHelper unit tests", () => {
     );
 
     helper.resume();
+    assert.isFalse(helper["_isSuspended"]);
     helper.addCredit(101);
     assert.equal(receiver.credit, 101);
   });
