@@ -71,13 +71,13 @@
     "url": "git+https://github.com/Azure/azure-sdk-for-js.git"
   },
   "keywords": [
-    "Azure",
-    "Storage",
-    "File",
-    "Node.js",
-    "TypeScript",
-    "JavaScript",
-    "Browser"
+    "azure",
+    "storage",
+    "file",
+    "node.js",
+    "typeScript",
+    "javaScript",
+    "browser"
   ],
   "author": "Microsoft Corporation",
   "license": "MIT",
@@ -87,7 +87,8 @@
   "homepage": "https://github.com/Azure/azure-sdk-for-js#readme",
   "sideEffects": false,
   "//metadata": {
-    "constantPaths": [{
+    "constantPaths": [
+      {
         "path": "src/generated/src/storageClientContext.ts",
         "prefix": "packageVersion"
       },

@@ -71,14 +71,14 @@
     "url": "git+https://github.com/Azure/azure-sdk-for-js.git"
   },
   "keywords": [
-    "Azure",
-    "Storage",
-    "Blob",
-    "Change feed",
-    "Node.js",
-    "TypeScript",
-    "JavaScript",
-    "Browser"
+    "azure",
+    "storage",
+    "blob",
+    "change feed",
+    "node.js",
+    "typeScript",
+    "javaScript",
+    "browser"
   ],
   "author": "Microsoft Corporation",
   "license": "MIT",

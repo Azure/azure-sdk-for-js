@@ -12,7 +12,7 @@
     "nosql",
     "database",
     "cloud",
-    "Azure"
+    "azure"
   ],
   "author": "Microsoft Corporation",
   "main": "./dist/index.js",

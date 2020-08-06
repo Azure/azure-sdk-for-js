@@ -47,14 +47,14 @@
     "url": "git+https://github.com/Azure/azure-sdk-for-js.git"
   },
   "keywords": [
-    "Azure",
-    "Aborter",
-    "AbortSignal",
-    "Cancellation",
-    "Node.js",
-    "TypeScript",
-    "JavaScript",
-    "Browser"
+    "azure",
+    "aborter",
+    "abortSignal",
+    "cancellation",
+    "node.js",
+    "typeScript",
+    "javaScript",
+    "browser"
   ],
   "author": "Microsoft Corporation",
   "license": "MIT",
