@@ -3,7 +3,7 @@
   "sdk-type": "client",
   "author": "Microsoft Corporation",
   "description": "An isomorphic client library for the Azure Form Recognizer service.",
-  "version": "1.0.0-preview.5",
+  "version": "3.0.0",
   "keywords": [
     "node",
     "azure",
@@ -33,7 +33,8 @@
     "LICENSE"
   ],
   "//metadata": {
-    "constantPaths": [{
+    "constantPaths": [
+      {
         "path": "src/generated/generatedClientContext.ts",
         "prefix": "packageVersion"
       },

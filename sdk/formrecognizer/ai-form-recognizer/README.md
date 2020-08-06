@@ -7,6 +7,8 @@ from form documents. It includes the following main functionalities:
 * Content API - Recognize text and table structures, along with their bounding box coordinates, from documents. Corresponds to the REST service's Layout API.
 * Prebuilt receipt model - Recognize data from sales receipts using a prebuilt model.
 
+**Note:** This package targets Azure Form Recognizer service API version 2.0.
+
 [Source code](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/formrecognizer/ai-form-recognizer/) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/ai-form-recognizer) |
 [API reference documentation](https://aka.ms/azsdk/js/formrecognizer/docs) |
@@ -52,8 +54,6 @@ Install the Azure Form Recognizer client library for JavaScript with `npm`:
 ```bash
 npm install @azure/ai-form-recognizer
 ```
-
-**Note:** This preview version targets Azure Form Recognizer service API version v2.0-preview.
 
 ### Create and authenticate a client
 
