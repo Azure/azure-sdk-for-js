@@ -233,17 +233,5 @@ describe("Receiver unit tests", () => {
 
       return sub;
     }
-
-    // function assertProperListenerCleanup(receiver: Receiver): void {
-    //   for (const event of [
-    //     ReceiverEvents.message,
-    //     ReceiverEvents.receiverClose,
-    //     // ReceiverEvents.receiverDrained,
-    //     ReceiverEvents.receiverError
-    //   ]) {
-    //     const functions = receiver.listeners(event);
-    //     assert.isEmpty(functions, `All listeners for ${event} removed.`);
-    //   }
-    // }
   });
 });
