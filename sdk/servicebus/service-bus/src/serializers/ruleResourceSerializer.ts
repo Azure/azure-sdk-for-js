@@ -265,7 +265,7 @@ const TypeMapForRequestSerialization: Record<string, string> = {
   int: "l28:int",
   string: "l28:string",
   long: "l28:long",
-  date: "l28:date",
+  date: "l28:dateTime",
   boolean: "l28:boolean"
 };
 
@@ -276,7 +276,8 @@ const TypeMapForRequestSerialization: Record<string, string> = {
 const TypeMapForResponseDeserialization: Record<string, string> = {
   number: "d6p1:int",
   string: "d6p1:string",
-  boolean: "d6p1:boolean"
+  boolean: "d6p1:boolean",
+  date: "d6p1:dateTime"
 };
 
 /**
@@ -367,6 +368,8 @@ function getUserPropertiesOrUndefined(value: any): { [key: string]: any } | unde
         properties[rawProperty.Key] = rawProperty.Value["_"];
       } else if (rawProperty.Value["$"]["i:type"] === TypeMapForResponseDeserialization.boolean) {
         properties[rawProperty.Key] = rawProperty.Value["_"] === "true" ? true : false;
+      } else if (rawProperty.Value["$"]["i:type"] === TypeMapForResponseDeserialization.date) {
+        properties[rawProperty.Key] = rawProperty.Value["_"];
       } else {
         throw new TypeError(
           `Unable to parse the user property in the response - ${JSON.stringify(rawProperty)}`
@@ -478,10 +481,13 @@ export function getRawUserProperties(
     let type: string | number | boolean;
     if (typeof value === "number") {
       type = TypeMapForRequestSerialization.int;
-    } else if (typeof value === "string") {
-      type = TypeMapForRequestSerialization.string;
     } else if (typeof value === "boolean") {
       type = TypeMapForRequestSerialization.boolean;
+    } else if (typeof value === "string") {
+      type = TypeMapForRequestSerialization.string;
+    } else if (value instanceof Date) {
+      type = TypeMapForRequestSerialization.date;
+
     } else {
       throw new TypeError(
         `Unsupported type for the value in the user property {${key}:${JSON.stringify(value)}}`
