@@ -16,6 +16,7 @@ import {
   AnalyzeSentimentSuccessResult
 } from "../src/index";
 import { assertAllSuccess } from "./utils/resultHelper";
+import { assertOpinionsEqual } from './utils/opinionMiningHelpers';
 
 const testDataEn = [
   "I had a wonderful trip to Seattle last week and even visited the Space Needle 2 times!",
@@ -184,6 +185,10 @@ describe("[AAD] TextAnalyticsClient", function() {
         assert.isAtLeast(serviceAspect?.confidenceScores.negative!, 0);
 
         const foodOpinion = sentence.minedOpinions?.[0].opinions[0];
+        const serviceOpinion = sentence.minedOpinions?.[1].opinions[0];
+
+        assertOpinionsEqual(foodOpinion!, serviceOpinion!);
+        
         assert.equal("good", foodOpinion?.text);
         assert.equal("negative", foodOpinion?.sentiment);
         assert.isAtLeast(foodOpinion?.confidenceScores.positive!, 0);
@@ -193,7 +198,7 @@ describe("[AAD] TextAnalyticsClient", function() {
       });
     });
 
-    it.only("client gets no mined opinions", async () => {
+    it("client gets no mined opinions", async () => {
       const documents = [
         {
           text: "today is a hot day",
