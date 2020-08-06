@@ -7,7 +7,8 @@ import { v4 as uuidV4 } from "uuid";
 import { readFileSync } from "fs";
 import { createHash } from "crypto";
 import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-http";
-import { TokenCredentialOptions, IdentityClient } from "../client/identityClient";
+import { IdentityClient } from "../client/identityClient";
+import { ClientCertificateCredentialOptions } from "./clientCertificateCredentialOptions";
 import { createSpan } from "../util/tracing";
 import { AuthenticationErrorName } from "../client/errors";
 import { CanonicalCode } from "@opentelemetry/api";
@@ -51,14 +52,12 @@ export class ClientCertificateCredential implements TokenCredential {
    * @param clientId The client (application) ID of an App Registration in the tenant.
    * @param certificatePath The path to a PEM-encoded public/private key certificate on the filesystem.
    * @param options Options for configuring the client which makes the authentication request.
-   * @param sendX5c Set this option to send base64 encoded public certificate in the client assertion header as an x5c claim
    */
   constructor(
     tenantId: string,
     clientId: string,
     certificatePath: string,
-    options?: TokenCredentialOptions,
-    sendX5c?: boolean
+    options?: ClientCertificateCredentialOptions
   ) {
     this.identityClient = new IdentityClient(options);
     this.tenantId = tenantId;
@@ -82,7 +81,7 @@ export class ClientCertificateCredential implements TokenCredential {
       .toUpperCase();
 
     this.certificateX5t = Buffer.from(this.certificateThumbprint, "hex").toString("base64");
-    if (sendX5c) {
+    if (options && options.includeX5c) {
       this.certificateX5c = [publicKey];
     }
   }

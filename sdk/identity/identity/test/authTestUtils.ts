@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 import assert from "assert";
-import { TokenCredentialOptions } from "../src";
 import { _setDelayTestFunction } from "../src/util/delay";
 import {
   HttpHeaders,
@@ -11,6 +10,7 @@ import {
   HttpClient,
   RestError
 } from "@azure/core-http";
+import { ClientCertificateCredentialOptions } from "../src/credentials/clientCertificateCredentialOptions";
 
 export interface MockAuthResponse {
   status: number;
@@ -29,7 +29,7 @@ export class MockAuthHttpClient implements HttpClient {
   private currentResponse: number = 0;
   private mockTimeout: boolean;
 
-  public tokenCredentialOptions: TokenCredentialOptions;
+  public tokenCredentialOptions: ClientCertificateCredentialOptions;
   public requests: WebResource[] = [];
 
   constructor(options?: MockAuthHttpClientOptions) {
@@ -60,7 +60,8 @@ export class MockAuthHttpClient implements HttpClient {
       httpClient: this,
       retryOptions: {
         maxRetries: 0
-      }
+      },
+      includeX5c: false
     };
   }
 
