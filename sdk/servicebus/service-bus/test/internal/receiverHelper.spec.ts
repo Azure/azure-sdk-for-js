@@ -67,7 +67,7 @@ describe("ReceiverHelper unit tests", () => {
     assert.isTrue(drainWasCalled);
     assert.isFalse(receiver.drain);
 
-    assert.equal(receiver.credit, 0, "and now after we drain they're back to zero");
+    assert.equal(receiver.credit, 0, "Credits should be completely drained.");
 
     // or we can drain as part of suspending a receiver.
     drainWasCalled = false;
