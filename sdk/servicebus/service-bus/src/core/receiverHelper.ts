@@ -40,7 +40,7 @@ export class ReceiverHelper {
   }
 
   /**
-   * Drains the receiver and prevents the `receiverHelper.addCredit()` method from adding credits.
+   * Drains the credits for the receiver and prevents the `receiverHelper.addCredit()` method from adding credits.
    * Call `resume()` to enable the `addCredit()` method.
    */
   async suspend(): Promise<void> {
@@ -59,7 +59,7 @@ export class ReceiverHelper {
   }
 
   /**
-   * Resets tracking so addCredits works again.
+   * Resets tracking so `addCredit` works again.
    */
   resume(): void {
     this._isSuspended = false;
