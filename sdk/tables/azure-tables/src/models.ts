@@ -85,3 +85,28 @@ export interface Entity {
    */
   [propertyName: string]: any;
 }
+
+export type EdmTypes =
+  | "Boolean"
+  | "String"
+  | "Int32"
+  | "Int64"
+  | "Double"
+  | "DateTime"
+  | "Binary"
+  | "Guid";
+
+export interface Edm<T extends EdmTypes> {
+  value: T extends "Boolean"
+    ? boolean
+    : T extends "Int32"
+    ? number
+    : T extends "Double"
+    ? number
+    : T extends "DateTime"
+    ? Date
+    : T extends "Binary"
+    ? Uint8Array
+    : string;
+  type: T;
+}
