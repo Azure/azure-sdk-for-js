@@ -138,7 +138,7 @@ describe("StreamingReceiver unit tests", () => {
       assert.isFalse(streamingReceiver.isReceivingMessages);
     });
 
-    it("isReceivingMessages is set to true if detach succeeds", async () => {
+    it("isReceivingMessages is set to true if onDetach succeeds in reconnecting", async () => {
       const streamingReceiver = new StreamingReceiver(createClientEntityContextForTests());
       await streamingReceiver.init(true);
 
@@ -159,7 +159,7 @@ describe("StreamingReceiver unit tests", () => {
     const existingStreamingReceiver = new StreamingReceiver(context);
     await existingStreamingReceiver.init(false);
 
-    const originalReceiver = await existingStreamingReceiver["_receiver"]!;
+    const originalReceiver = existingStreamingReceiver["_receiver"]!;
     assert.isTrue(existingStreamingReceiver.isOpen(), "newly created receiver is open");
     const spy = sinon.spy(existingStreamingReceiver, "init");
 
@@ -191,7 +191,7 @@ describe("StreamingReceiver unit tests", () => {
 
     // we'll close the inner receiver - this will simulate the receiver being closed out from underneath us in some
     // way. This will cause the normal MessageReceiver._init() behavior to run.
-    const originalReceiver = await existingStreamingReceiver["_receiver"]!;
+    const originalReceiver = existingStreamingReceiver["_receiver"]!;
     await originalReceiver.close();
     assert.isFalse(
       existingStreamingReceiver.isOpen(),
