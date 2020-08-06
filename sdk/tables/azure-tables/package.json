@@ -51,8 +51,7 @@
   "repository": "github:Azure/azure-sdk-for-js",
   "keywords": [
     "azure",
-    "cloud",
-    "azure"
+    "cloud"
   ],
   "author": "Microsoft Corporation",
   "license": "MIT",
