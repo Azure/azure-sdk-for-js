@@ -50,7 +50,7 @@ describe("Encryption Scope", function() {
     if (containerClient) {
       await containerClient.delete();
     }
-    recorder.stop();
+    await recorder.stop();
   });
 
   it("create container", async () => {

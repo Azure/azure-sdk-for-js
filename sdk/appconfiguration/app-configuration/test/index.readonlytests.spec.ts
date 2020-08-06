@@ -28,7 +28,7 @@ describe("AppConfigurationClient (set|clear)ReadOnly", () => {
 
   afterEach(async function() {
     await deleteKeyCompletely([testConfigSetting.key], client);
-    recorder.stop();
+    await recorder.stop();
   });
 
   it("basic", async function() {

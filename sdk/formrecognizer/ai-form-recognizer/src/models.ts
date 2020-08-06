@@ -4,9 +4,7 @@
 import * as coreHttp from "@azure/core-http";
 
 import {
-  AnalyzeOperationResult as AnalyzeOperationResultModel,
   FormFieldsReport,
-  CopyAuthorizationResult as CopyAuthorizationResultModel,
   KeysResult,
   KeyValueElement as KeyValueElementModel,
   KeyValuePair as KeyValuePairModel,
@@ -15,12 +13,11 @@ import {
   ModelsSummary,
   ModelStatus as CustomFormModelStatus,
   TrainStatus as TrainingStatus,
-  OperationStatus
+  OperationStatus,
+  ModelStatus
 } from "./generated/models";
 
 export {
-  AnalyzeOperationResultModel,
-  CopyAuthorizationResultModel,
   FormFieldsReport,
   KeysResult,
   KeyValueElementModel,
@@ -28,6 +25,7 @@ export {
   Language,
   LengthUnit,
   ModelsSummary,
+  ModelStatus,
   CustomFormModelStatus,
   OperationStatus,
   TrainingStatus
@@ -77,10 +75,6 @@ export interface FormWord extends FormElementCommon {
    * Confidence value.
    */
   confidence?: number;
-  /**
-   * The recognized text line that contains this recognized word
-   */
-  containingLine?: FormLine;
 }
 
 /**
@@ -134,11 +128,11 @@ export interface FormTableCell {
   /**
    * Number of rows spanned by this cell.
    */
-  rowSpan?: number;
+  rowSpan: number;
   /**
    * Number of columns spanned by this cell.
    */
-  columnSpan?: number;
+  columnSpan: number;
   /**
    * Text content of the cell.
    */
@@ -158,21 +152,15 @@ export interface FormTableCell {
   /**
    * Is the current cell a header cell?
    */
-  isHeader?: boolean;
+  isHeader: boolean;
   /**
    * Is the current cell a footer cell?
    */
-  isFooter?: boolean;
-}
-
-/**
- * Represents a row of data table cells in recognized table.
- */
-export interface FormTableRow {
+  isFooter: boolean;
   /**
-   * List of data table cells in a {@link FormTableRow}
+   * The 1-based page number in the input document where the table cell appears.
    */
-  cells: FormTableCell[];
+  pageNumber: number;
 }
 
 /**
@@ -188,9 +176,13 @@ export interface FormTable {
    */
   columnCount: number;
   /**
-   * List of rows in the data table
+   * List of cells in the data table
    */
-  rows: FormTableRow[];
+  cells: FormTableCell[];
+  /**
+   * The 1-based page number in the input document where the table appears.
+   */
+  pageNumber: number;
 }
 
 /**
@@ -275,7 +267,7 @@ export type FormField = {
       valueType?: "array";
     }
   | {
-      value?: { [propertyName: string]: FormField };
+      value?: Record<string, FormField>;
       valueType?: "object";
     }
 );
@@ -358,7 +350,7 @@ export interface RecognizedForm {
   /**
    * Dictionary of named field values.
    */
-  fields: { [propertyName: string]: FormField };
+  fields: Record<string, FormField>;
   /**
    * Texts and tables extracted from a page in the input
    */
@@ -404,7 +396,7 @@ export interface TrainingDocumentInfo {
   /**
    * Training document name.
    */
-  documentName: string;
+  name: string;
   /**
    * Total number of pages trained.
    */
@@ -441,7 +433,7 @@ export interface CustomFormModelInfo {
   trainingCompletedOn: Date;
 }
 
-export interface CustomFormField {
+export interface CustomFormModelField {
   /**
    * Estimated extraction accuracy for this field.
    */
@@ -467,7 +459,7 @@ export interface CustomFormSubmodel {
   /**
    * Form fields
    */
-  fields: { [propertyName: string]: CustomFormField };
+  fields: Record<string, CustomFormModelField>;
   /**
    * Form type
    */
@@ -646,7 +638,15 @@ export interface FormRecognizerError {
 /**
  * Request parameter that contains authorization claims for copy operation.
  */
-export interface CopyAuthorization extends CopyAuthorizationResultModel {
+export interface CopyAuthorization {
+  /**
+   * Model identifier.
+   */
+  modelId: string;
+  /**
+   * Token claim used to authorize the copy request.
+   */
+  accessToken: string;
   /**
    * Target resource Id.
    */

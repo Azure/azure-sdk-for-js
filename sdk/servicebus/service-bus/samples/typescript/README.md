@@ -1,29 +1,30 @@
 # Azure Service Bus client library samples for TypeScript
 
-**NOTE**: Samples for @azure/service-bus v1.1.x are still available [here](https://github.com/Azure/azure-sdk-for-js/tree/%40azure/service-bus_1.1.5/sdk/servicebus/service-bus/samples)
+**NOTE**: Samples for @azure/service-bus v1.1.x are still available [here](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/servicebus/service-bus/samples-v1)
 
 These sample programs show how to use the TypeScript client libraries for Azure Service Bus in some common scenarios.
 
-| **File Name**                                                       | **Description**                                                                                                                |
-| ------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------ |
-| [sendMessages.ts][sendmessages]                                     | uses the send() function to send messages to Service Bus Queue/Topic                                                           |
-| [receiveMessagesStreaming.ts][receivemessagesstreaming]             | uses the receive() function to receive Service Bus messages in a stream                                                        |
-| [receiveMessagesLoop.ts][receivemessagesloop]                       | uses the receiveMessages() function to receive Service Bus messages in a loop                                                  |
-| [scheduledMessages.ts][scheduledmessages]                           | uses the scheduleMessage() function to schedule messages to appear on a Service Bus Queue/Subscription at a later time         |
-| [session.ts][session]                                               | sends/receives messages to/from session enabled queues/subscriptions in Service Bus                                            |
-| [browseMessages.ts][browsemessages]                                 | uses the peekMessages() function to browse a Service Bus                                                                       |
-| [usingAadAuth.ts][usingaadauth]                                     | creates a ServiceBusClient that authenticates using AAD credentials                                                            |
-| [useProxy.ts][useproxy]                                             | creates a ServiceBusClient that uses an HTTP(S) proxy server to make requests                                                  |
-| [advanced/movingMessagesToDLQ.ts][advanced-movingmessagestodlq]     | moves a message explicitly to the dead-letter queue                                                                            |
-| [advanced/deferral.ts][advanced-deferral]                           | uses the defer() function to defer a message for later processing                                                              |
-| [advanced/processMessageFromDLQ.ts][advanced-processmessagefromdlq] | retrieves a message from a dead-letter queue, edits it, and sends it back to the main queue                                    |
-| [advanced/sessionRoundRobin.ts][advanced-session-round-robin]       | uses `SessionReceiver`'s ability to get the next available session to round-robin through all sessions in a Queue/Subscription |
-| [advanced/sessionState.ts][advanced-sessionstate]                   | uses a "shopping cart" example to demonstrate how SessionState information can be read and maintained in an application        |
-| [advanced/managementClient.ts][advanced-management-client]          | demonstrates how the ServiceBusManagementClient can be used to manage the resources of a service bus namespace                 |
+| **File Name**                                                       | **Description**                                                                                                                                                                        |
+| ------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [sendMessages.ts][sendmessages]                                     | uses the send() function to send messages to Service Bus Queue/Topic                                                                                                                   |
+| [receiveMessagesStreaming.ts][receivemessagesstreaming]             | uses the receive() function to receive Service Bus messages in a stream                                                                                                                |
+| [receiveMessagesLoop.ts][receivemessagesloop]                       | uses the receiveMessages() function to receive Service Bus messages in a loop                                                                                                          |
+| [scheduledMessages.ts][scheduledmessages]                           | uses the scheduleMessage() function to schedule messages to appear on a Service Bus Queue/Subscription at a later time                                                                 |
+| [session.ts][session]                                               | sends/receives messages to/from session enabled queues/subscriptions in Service Bus                                                                                                    |
+| [browseMessages.ts][browsemessages]                                 | uses the peekMessages() function to browse a Service Bus                                                                                                                               |
+| [usingAadAuth.ts][usingaadauth]                                     | creates a ServiceBusClient that authenticates using AAD credentials                                                                                                                    |
+| [useProxy.ts][useproxy]                                             | creates a ServiceBusClient that uses an HTTP(S) proxy server to make requests                                                                                                          |
+| [advanced/movingMessagesToDLQ.ts][advanced-movingmessagestodlq]     | moves a message explicitly to the dead-letter queue                                                                                                                                    |
+| [advanced/deferral.ts][advanced-deferral]                           | uses the defer() function to defer a message for later processing                                                                                                                      |
+| [advanced/processMessageFromDLQ.ts][advanced-processmessagefromdlq] | retrieves a message from a dead-letter queue, edits it, and sends it back to the main queue                                                                                            |
+| [advanced/sessionRoundRobin.ts][advanced-session-round-robin]       | uses `SessionReceiver`'s ability to get the next available session to round-robin through all sessions in a Queue/Subscription                                                         |
+| [advanced/sessionState.ts][advanced-sessionstate]                   | uses a "shopping cart" example to demonstrate how SessionState information can be read and maintained in an application                                                                |
+| [advanced/managementClient.ts][advanced-management-client]          | demonstrates how the ServiceBusManagementClient can be used to manage the resources of a service bus namespace                                                                         |
+| [advanced/listingEntities.ts][advanced-listing-entities]            | Async iterable iterators with pagination support for all the listing methods under ServiceBusManagementClient like `listQueues()`, `listTopics()`,`listQueuesRuntimeProperties()`, etc |
 
 ## Prerequisites
 
-The samples are compatible with Node.js >= 8.0.0.
+The samples are compatible with Node.js >= 8.0.0, except for the samples that use the async for await syntax, which require Node.js >= 10.0.0.
 
 Before running the samples in Node, they must be compiled to JavaScript using the TypeScript compiler. For more information on TypeScript, see the [TypeScript documentation][typescript]. Install the TypeScript compiler using
 
@@ -85,6 +86,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [sendmessages]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/servicebus/service-bus/samples/typescript/src/sendMessages.ts
 [serviceprincipallogin]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/servicebus/service-bus/samples/typescript/src/servicePrincipalLogin.ts
 [advanced-management-client]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/servicebus/service-bus/samples/typescript/src/advanced/managementClient.ts
+[advanced-listing-entities]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/servicebus/service-bus/samples/typescript/src/advanced/listingEntities.ts
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/service-bus
 [azsvcbus]: https://docs.microsoft.com/azure/service-bus-messaging/service-bus-create-namespace-portal
 [freesub]: https://azure.microsoft.com/free/

@@ -4,7 +4,7 @@
 
   **NOTE**: This sample uses the preview of the next version of the @azure/service-bus package.
   For samples using the current stable version of the package, please use the link below:
-  https://github.com/Azure/azure-sdk-for-js/tree/%40azure/service-bus_1.1.5/sdk/servicebus/service-bus/samples
+  https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/servicebus/service-bus/samples-v1
   
   This sample demonstrates retrieving a message from a dead letter queue, editing it and
   sending it back to the main queue.
@@ -35,7 +35,7 @@ export async function main() {
 
 async function processDeadletterMessageQueue() {
   // If connecting to a subscription's dead letter queue you can use the createDeadLetterReceiver(topic, subscription) overload
-  const receiver = sbClient.createDeadLetterReceiver(queueName, "peekLock");
+  const receiver = sbClient.createDeadLetterReceiver(queueName);
 
   const messages = await receiver.receiveMessages(1);
 

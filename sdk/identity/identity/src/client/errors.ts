@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
 /**
  * See the official documentation for more details:
@@ -152,11 +152,9 @@ export class AggregateAuthenticationError extends Error {
    */
   public errors: any[];
 
-  constructor(errors: any[], errMsg?: string) {
-    let errorDetail =
-      errors
-        .join("\n");
-    super(`${errMsg}\n\n${errorDetail}`);
+  constructor(errors: any[], errorMessage?: string) {
+    const errorDetail = errors.join("\n");
+    super(`${errorMessage}\n\n${errorDetail}`);
     this.errors = errors;
 
     // Ensure that this type reports the correct name

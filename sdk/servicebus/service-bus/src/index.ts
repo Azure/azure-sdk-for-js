@@ -18,12 +18,14 @@ export { ServiceBusClientOptions } from "./constructorHelpers";
 export { CorrelationRuleFilter } from "./core/managementClient";
 export {
   CreateBatchOptions,
+  CreateReceiverOptions,
   CreateSessionReceiverOptions,
   GetMessageIteratorOptions,
   MessageHandlerOptions,
   MessageHandlers,
   PeekMessagesOptions,
   ReceiveMessagesOptions,
+  ReceiveMode,
   SenderOpenOptions,
   SubscribeOptions,
   WaitTimeOptions
@@ -33,38 +35,40 @@ export { Receiver } from "./receivers/receiver";
 export { SessionReceiver } from "./receivers/sessionReceiver";
 export { Sender } from "./sender";
 export { NamespaceProperties } from "./serializers/namespaceResourceSerializer";
-export { QueueDescription, QueueRuntimeInfo } from "./serializers/queueResourceSerializer";
 export {
-  RuleDescription,
+  CreateQueueOptions,
+  QueueProperties,
+  QueueRuntimeProperties
+} from "./serializers/queueResourceSerializer";
+export {
+  RuleProperties,
   SqlParameter,
   SqlRuleAction,
   SqlRuleFilter
 } from "./serializers/ruleResourceSerializer";
 export {
-  SubscriptionDescription,
-  SubscriptionRuntimeInfo
+  CreateSubscriptionOptions,
+  SubscriptionProperties,
+  SubscriptionRuntimeProperties
 } from "./serializers/subscriptionResourceSerializer";
-export { TopicDescription, TopicRuntimeInfo } from "./serializers/topicResourceSerializer";
 export {
-  ListRequestOptions,
+  CreateTopicOptions,
+  TopicProperties,
+  TopicRuntimeProperties
+} from "./serializers/topicResourceSerializer";
+export {
+  EntitiesResponse,
   NamespacePropertiesResponse,
   QueueResponse,
-  QueueRuntimeInfoResponse,
-  QueuesResponse,
-  QueuesRuntimeInfoResponse,
+  QueueRuntimePropertiesResponse,
   Response,
   RuleResponse,
-  RulesResponse,
   ServiceBusManagementClient,
   ServiceBusManagementClientOptions,
   SubscriptionResponse,
-  SubscriptionRuntimeInfoResponse,
-  SubscriptionsResponse,
-  SubscriptionsRuntimeInfoResponse,
+  SubscriptionRuntimePropertiesResponse,
   TopicResponse,
-  TopicRuntimeInfoResponse,
-  TopicsResponse,
-  TopicsRuntimeInfoResponse
+  TopicRuntimePropertiesResponse
 } from "./serviceBusAtomManagementClient";
 export { ServiceBusClient } from "./serviceBusClient";
 export {
@@ -75,4 +79,4 @@ export {
 } from "./serviceBusMessage";
 export { ServiceBusMessageBatch } from "./serviceBusMessageBatch";
 export { SessionMessageHandlerOptions, SessionReceiverOptions } from "./session/messageSession";
-export { AuthorizationRule, EntityStatus, MessageCountDetails } from "./util/utils";
+export { AuthorizationRule, EntityStatus } from "./util/utils";

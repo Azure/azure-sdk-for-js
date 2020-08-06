@@ -5,7 +5,7 @@ If you would like to know more about Azure Key Vault, you may want to review: [W
 
 The package `@azure/keyvault-admin` provides support for the administrative Key Vault tasks. It includes the backup and restore operations for whole Key Vault instances, and the role-based access control (RBAC) operations.
 
-[Source code](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-admin) | [Package (npm)](https://www.npmjs.com/package/@azure/keyvault-admin) | [API Reference Documentation](https://docs.microsoft.com/javascript/api/@azure/keyvault-admin) | [Product documentation](https://azure.microsoft.com/en-us/services/key-vault/) | [Samples](./samples)
+[Source code](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-admin) | [Package (npm)](https://www.npmjs.com/package/@azure/keyvault-admin) | [API Reference Documentation](https://docs.microsoft.com/javascript/api/@azure/keyvault-admin) | [Product documentation](https://azure.microsoft.com/en-us/services/key-vault/) | [Samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-admin/samples)
 
 ## Getting started
 
@@ -58,9 +58,9 @@ setLogLevel("info");
 
 You can find more code samples through the following links:
 
-- [KeyVault Admin Samples (JavaScript)](./samples/javascript)
-- [KeyVault Admin Samples (TypeScript)](./samples/typescript)
-- [KeyVault Admin Test Cases](./test/)
+- [KeyVault Admin Samples (JavaScript)](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-admin/samples/javascript)
+- [KeyVault Admin Samples (TypeScript)](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-admin/samples/typescript)
+- [KeyVault Admin Test Cases](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-admin/test/)
 
 ## Contributing
 

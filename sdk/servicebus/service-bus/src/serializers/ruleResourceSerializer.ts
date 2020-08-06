@@ -24,11 +24,11 @@ import {
  * response from the service
  * @param rawRule
  */
-export function buildRule(rawRule: any): RuleDescription {
+export function buildRule(rawRule: any): RuleProperties {
   return {
     name: getString(rawRule["RuleName"], "ruleName"),
     filter: getTopicFilter(rawRule["Filter"]),
-    action: getRuleActionOrUndefined(rawRule["Action"])
+    action: getRuleAction(rawRule["Action"])
   };
 }
 
@@ -59,7 +59,7 @@ function getTopicFilter(value: any): SqlRuleFilter | CorrelationRuleFilter {
       sessionId: getStringOrUndefined(value["SessionId"]),
       messageId: getStringOrUndefined(value["MessageId"]),
       contentType: getStringOrUndefined(value["ContentType"]),
-      userProperties: getUserPropertiesOrUndefined(value["Properties"])
+      properties: getUserPropertiesOrUndefined(value["Properties"])
     };
   }
   return result;
@@ -68,27 +68,24 @@ function getTopicFilter(value: any): SqlRuleFilter | CorrelationRuleFilter {
 /**
  * @internal
  * @ignore
- * Helper utility to retrieve rule `action` value from given input,
- * or undefined if not passed in.
+ * Helper utility to retrieve rule `action` value from given input.
  * @param value
  */
-function getRuleActionOrUndefined(value: any): SqlRuleAction | undefined {
-  if (value == undefined) {
-    return undefined;
-  } else {
-    return {
-      sqlExpression: value["SqlExpression"],
-      sqlParameters: getSqlParametersOrUndefined(value["Parameters"]),
-      compatibilityLevel: getIntegerOrUndefined(value["CompatibilityLevel"]),
-      requiresPreprocessing: getBooleanOrUndefined(value["RequiresPreprocessing"])
-    };
-  }
+function getRuleAction(value: any): SqlRuleAction {
+  return {
+    sqlExpression: value["SqlExpression"],
+    sqlParameters: getSqlParametersOrUndefined(value["Parameters"]),
+    compatibilityLevel: getIntegerOrUndefined(value["CompatibilityLevel"]),
+    requiresPreprocessing: getBooleanOrUndefined(value["RequiresPreprocessing"])
+  };
 }
 
 /**
- * Represents all attributes of a rule entity
+ * Represents the options to create a rule for a subscription.
+ * @internal
+ * @ignore
  */
-export interface RuleDescription {
+export interface CreateRuleOptions {
   /**
    * Name of the rule
    */
@@ -107,6 +104,30 @@ export interface RuleDescription {
    * associated filter apply.
    */
   action?: SqlRuleAction;
+}
+
+/**
+ * Represents all the attributes of a rule.
+ */
+export interface RuleProperties {
+  /**
+   * Name of the rule
+   */
+  readonly name: string;
+
+  /**
+   * Defines the filter expression that the rule evaluates. For `SqlRuleFilter` input,
+   * the expression string is interpreted as a SQL92 expression which must
+   * evaluate to True or False. Only one between a `CorrelationRuleFilter` or
+   * a `SqlRuleFilter` can be defined.
+   */
+  filter: SqlRuleFilter | CorrelationRuleFilter;
+
+  /**
+   * The SQL like expression that can be executed on the message should the
+   * associated filter apply.
+   */
+  action: SqlRuleAction;
 }
 
 /**
@@ -146,7 +167,7 @@ export interface SqlRuleFilter {
  * RuleResourceSerializer for serializing / deserializing Rule entities
  */
 export class RuleResourceSerializer implements AtomXmlSerializer {
-  serialize(rule: RuleDescription): object {
+  serialize(rule: RuleProperties): object {
     const resource: { Name: any; Filter: any; Action: any } = {
       Filter: {},
       Action: {},
@@ -188,7 +209,7 @@ export class RuleResourceSerializer implements AtomXmlSerializer {
           ContentType: correlationFilter.contentType,
           SessionId: correlationFilter.sessionId,
           MessageId: correlationFilter.messageId,
-          Properties: getRawUserProperties(correlationFilter.userProperties)
+          Properties: getRawUserProperties(correlationFilter.properties)
         };
         resource.Filter[Constants.XML_METADATA_MARKER] = {
           "p4:type": "CorrelationFilter",
@@ -223,6 +244,14 @@ export class RuleResourceSerializer implements AtomXmlSerializer {
   async deserialize(response: HttpOperationResponse): Promise<HttpOperationResponse> {
     return deserializeAtomXmlResponse(["TopicName", "SubscriptionName", "RuleName"], response);
   }
+}
+
+/**
+ * @internal
+ * @ignore
+ */
+export function isSqlRuleAction(action: any): action is SqlRuleAction {
+  return action != null && typeof action === "object" && "sqlExpression" in action;
 }
 
 /**
@@ -417,7 +446,7 @@ export function getRawSqlParameters(
 /**
  * @internal
  * @ignore
- * Helper utility to extract array of userProperties key-value instances from given input,
+ * Helper utility to extract array of user properties key-value instances from given input,
  * or undefined if not passed in.
  * @param value
  */
@@ -434,7 +463,7 @@ export function getRawUserProperties(
     Object.entries(parameters).length < 1
   ) {
     throw new TypeError(
-      `Unsupported value for the userProperties ${JSON.stringify(
+      `Unsupported value for the properties ${JSON.stringify(
         parameters
       )}, expected a JSON object with key-value pairs.`
     );

@@ -36,7 +36,7 @@ describe("Highlevel Node.js only", () => {
 
   let recorder: any;
 
-  beforeEach(async function () {
+  beforeEach(async function() {
     recorder = record(this, recorderEnvSetup);
     const serviceClient = getDataLakeServiceClient();
     fileSystemName = recorder.getUniqueName("filesystem");
@@ -46,14 +46,14 @@ describe("Highlevel Node.js only", () => {
     fileClient = fileSystemClient.getFileClient(fileName);
   });
 
-  afterEach(async function () {
+  afterEach(async function() {
     if (!this.currentTest?.isPending()) {
       await fileSystemClient.delete();
-      recorder.stop();
+      await recorder.stop();
     }
   });
 
-  before(async function () {
+  before(async function() {
     recorder = record(this, recorderEnvSetup);
     if (!fs.existsSync(tempFolderPath)) {
       fs.mkdirSync(tempFolderPath);
@@ -63,14 +63,14 @@ describe("Highlevel Node.js only", () => {
     tempFileSmall = await createRandomLocalFile(tempFolderPath, 15, MB);
     tempFileSmallLength = 15 * MB;
 
-    recorder.stop();
+    await recorder.stop();
   });
 
-  after(async function () {
+  after(async function() {
     recorder = record(this, recorderEnvSetup);
     fs.unlinkSync(tempFileLarge);
     fs.unlinkSync(tempFileSmall);
-    recorder.stop();
+    await recorder.stop();
   });
 
   it("upload should work for large data", async () => {
@@ -495,7 +495,7 @@ describe("Highlevel Node.js only", () => {
         abortSignal: AbortController.timeout(20 * 1000) // takes too long to upload the file
       });
     } catch (err) {
-      assert.equal(err.name, 'AbortError');
+      assert.equal(err.name, "AbortError");
     }
 
     fs.unlinkSync(tempFile);
@@ -511,7 +511,7 @@ describe("Highlevel Node.js only", () => {
         abortSignal: AbortController.timeout(20 * 1000) // takes too long to upload the file
       });
     } catch (err) {
-      assert.equal(err.name, 'AbortError');
+      assert.equal(err.name, "AbortError");
     }
   }).timeout(timeoutForLargeFileUploadingTest);
 

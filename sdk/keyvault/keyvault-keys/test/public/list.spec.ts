@@ -26,7 +26,7 @@ describe("Keys client - list keys in various ways", () => {
   });
 
   afterEach(async function() {
-    recorder.stop();
+    await recorder.stop();
   });
 
   // The tests follow

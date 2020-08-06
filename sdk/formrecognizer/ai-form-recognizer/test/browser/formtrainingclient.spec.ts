@@ -33,14 +33,14 @@ describe("FormTrainingClient browser only", () => {
     );
   });
 
-  afterEach(function() {
+  afterEach(async function() {
     if (recorder) {
-      recorder.stop();
+      await recorder.stop();
     }
   });
 
   const expectedDocumentInfo: TrainingDocumentInfo = {
-    documentName: "Form_1.jpg",
+    name: "Form_1.jpg",
     errors: [],
     pageCount: 1,
     status: "succeeded"
@@ -91,10 +91,7 @@ describe("FormTrainingClient browser only", () => {
     assert.ok(model.fields["Signature"], "Expecting field with name 'Signature' to be valid");
 
     // TODO: why training with labels is missing `errors` array?
-    assert.deepStrictEqual(
-      response?.trainingDocuments![0].documentName,
-      expectedDocumentInfo.documentName
-    );
+    assert.deepStrictEqual(response?.trainingDocuments![0].name, expectedDocumentInfo.name);
   });
 
   it("trains model with forms and no labels including sub folders", async () => {
@@ -102,7 +99,7 @@ describe("FormTrainingClient browser only", () => {
     assert.ok(containerSasUrl, "Expect valid container sas url");
 
     const poller = await trainingClient.beginTraining(containerSasUrl, false, {
-      includeSubFolders: true
+      includeSubfolders: true
     });
     const response = await poller.pollUntilDone();
 
@@ -214,9 +211,9 @@ describe("FormRecognizerClient custom form recognition browser only", () => {
     ({ recorder, client: recognizerClient } = createRecordedRecognizerClient(this, apiKey));
   });
 
-  afterEach(function() {
+  afterEach(async function() {
     if (recorder) {
-      recorder.stop();
+      await recorder.stop();
     }
   });
   it("recognizes form url unlabeled model", async () => {

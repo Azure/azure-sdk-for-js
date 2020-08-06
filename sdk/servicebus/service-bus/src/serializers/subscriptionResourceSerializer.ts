@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { HttpOperationResponse } from "@azure/core-http";
+import { HttpOperationResponse, OperationOptions } from "@azure/core-http";
 import {
   AtomXmlSerializer,
   deserializeAtomXmlResponse,
@@ -11,11 +11,10 @@ import * as Constants from "../util/constants";
 import {
   EntityStatus,
   getBoolean,
-  getCountDetailsOrUndefined,
+  getMessageCountDetails,
   getInteger,
   getString,
   getStringOrUndefined,
-  MessageCountDetails,
   getDate
 } from "../util/utils";
 
@@ -28,7 +27,7 @@ import {
  * @param subscription
  */
 export function buildSubscriptionOptions(
-  subscription: SubscriptionDescription
+  subscription: CreateSubscriptionOptions
 ): InternalSubscriptionOptions {
   return {
     LockDuration: subscription.lockDuration,
@@ -57,7 +56,7 @@ export function buildSubscriptionOptions(
  * the response from the service
  * @param rawSubscription
  */
-export function buildSubscription(rawSubscription: any): SubscriptionDescription {
+export function buildSubscription(rawSubscription: any): SubscriptionProperties {
   return {
     subscriptionName: getString(rawSubscription[Constants.SUBSCRIPTION_NAME], "subscriptionName"),
     topicName: getString(rawSubscription[Constants.TOPIC_NAME], "topicName"),
@@ -103,12 +102,18 @@ export function buildSubscription(rawSubscription: any): SubscriptionDescription
  * the response from the service
  * @param rawSubscription
  */
-export function buildSubscriptionRuntimeInfo(rawSubscription: any): SubscriptionRuntimeInfo {
+export function buildSubscriptionRuntimeProperties(
+  rawSubscription: any
+): SubscriptionRuntimeProperties {
+  const messageCountDetails = getMessageCountDetails(rawSubscription[Constants.COUNT_DETAILS]);
   return {
     subscriptionName: getString(rawSubscription[Constants.SUBSCRIPTION_NAME], "subscriptionName"),
     topicName: getString(rawSubscription[Constants.TOPIC_NAME], "topicName"),
-    messageCount: getInteger(rawSubscription[Constants.MESSAGE_COUNT], "messageCount"),
-    messageCountDetails: getCountDetailsOrUndefined(rawSubscription[Constants.COUNT_DETAILS]),
+    totalMessageCount: getInteger(rawSubscription[Constants.MESSAGE_COUNT], "messageCount"),
+    activeMessageCount: messageCountDetails.activeMessageCount,
+    deadLetterMessageCount: messageCountDetails.deadLetterMessageCount,
+    transferDeadLetterMessageCount: messageCountDetails.transferDeadLetterMessageCount,
+    transferMessageCount: messageCountDetails.transferMessageCount,
     createdAt: getDate(rawSubscription[Constants.CREATED_AT], "createdAt"),
     updatedAt: getDate(rawSubscription[Constants.UPDATED_AT], "updatedAt"),
     accessedAt: getDate(rawSubscription[Constants.ACCESSED_AT], "accessedAt")
@@ -118,17 +123,7 @@ export function buildSubscriptionRuntimeInfo(rawSubscription: any): Subscription
 /**
  * Represents settable options on a subscription
  */
-export interface SubscriptionDescription {
-  /**
-   * Name of the subscription
-   */
-  subscriptionName: string;
-
-  /**
-   * Name of the topic
-   */
-  topicName: string;
-
+export interface CreateSubscriptionOptions extends OperationOptions {
   /**
    * The default lock duration is applied to subscriptions that do not define a lock
    * duration. Settable only at subscription creation time.
@@ -202,7 +197,7 @@ export interface SubscriptionDescription {
   forwardTo?: string;
 
   /**
-   * The user provided metadata information associated with the subscription description.
+   * The user provided metadata information associated with the subscription.
    * Used to specify textual content such as tags, labels, etc.
    * Value must not exceed 1024 bytes encoded in utf-8.
    */
@@ -224,6 +219,120 @@ export interface SubscriptionDescription {
    * More on ISO-8601 duration format: https://en.wikipedia.org/wiki/ISO_8601#Durations
    */
   autoDeleteOnIdle?: string;
+}
+
+/**
+ * Represents the input for updateSubscription.
+ *
+ * @export
+ * @interface SubscriptionProperties
+ */
+export interface SubscriptionProperties {
+  /**
+   * Name of the subscription
+   */
+  readonly subscriptionName: string;
+
+  /**
+   * Name of the topic
+   */
+  readonly topicName: string;
+
+  /**
+   * The default lock duration is applied to subscriptions that do not define a lock
+   * duration. Settable only at subscription creation time.
+   * This is to be specified in ISO-8601 duration format
+   * such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
+   *
+   * More on ISO-8601 duration format: https://en.wikipedia.org/wiki/ISO_8601#Durations
+   */
+  lockDuration: string;
+
+  /**
+   * If set to true, the subscription will be session-aware and only SessionReceiver
+   * will be supported. Session-aware subscription are not supported through REST.
+   * Settable only at subscription creation time.
+   */
+  readonly requiresSession: boolean;
+
+  /**
+   * Determines how long a message lives in the subscription. Based on whether
+   * dead-lettering is enabled, a message whose TTL has expired will either be moved
+   * to the subscription’s associated DeadLtterQueue or permanently deleted.
+   * This is to be specified in ISO-8601 duration format
+   * such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
+   *
+   * More on ISO-8601 duration format: https://en.wikipedia.org/wiki/ISO_8601#Durations
+   */
+  defaultMessageTtl: string;
+
+  /**
+   * If it is enabled and a message expires, the Service Bus moves the message from
+   * the queue into the subscription’s dead-letter sub-queue. If disabled, message
+   * will be permanently deleted from the subscription’s main queue.
+   * Settable only at subscription creation time.
+   */
+  deadLetteringOnMessageExpiration: boolean;
+
+  /**
+   * Determines how the Service Bus handles a message that causes an exception during
+   * a subscription’s filter evaluation. If the value is set to true, the message that
+   * caused the exception will be moved to the subscription’s dead-letter sub-queue.
+   * Otherwise, it will be discarded. By default this parameter is set to true,
+   * allowing the user a chance to investigate the cause of the exception.
+   * It can occur from a malformed message or some incorrect assumptions being made
+   * in the filter about the form of the message. Settable only at topic creation time.
+   */
+  deadLetteringOnFilterEvaluationExceptions: boolean;
+
+  /**
+   * The maximum delivery count of messages after which if it is still not settled,
+   * gets moved to the dead-letter sub-queue.
+   *
+   */
+  maxDeliveryCount: number;
+
+  /**
+   * Specifies if batched operations should be allowed.
+   */
+  enableBatchedOperations: boolean;
+
+  /**
+   * Status of the messaging entity.
+   */
+  status: EntityStatus;
+
+  /**
+   * Absolute URL or the name of the queue or topic the
+   * messages are to be forwarded to.
+   * For example, an absolute URL input would be of the form
+   * `sb://<your-service-bus-namespace-endpoint>/<queue-or-topic-name>`
+   */
+  forwardTo?: string;
+
+  /**
+   * The user provided metadata information associated with the subscription.
+   * Used to specify textual content such as tags, labels, etc.
+   * Value must not exceed 1024 bytes encoded in utf-8.
+   */
+  userMetadata: string;
+
+  /**
+   * Absolute URL or the name of the queue or topic the dead-lettered
+   * messages are to be forwarded to.
+   * For example, an absolute URL input would be of the form
+   * `sb://<your-service-bus-namespace-endpoint>/<queue-or-topic-name>`
+   */
+  forwardDeadLetteredMessagesTo?: string;
+
+  /**
+   * Max idle time before entity is deleted.
+   * This is to be specified in ISO-8601 duration format
+   * such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
+   *
+   * More on ISO-8601 duration format: https://en.wikipedia.org/wiki/ISO_8601#Durations
+   */
+  autoDeleteOnIdle: string;
 }
 
 /**
@@ -305,7 +414,7 @@ export interface InternalSubscriptionOptions {
   ForwardTo?: string;
 
   /**
-   * The user provided metadata information associated with the subscription description.
+   * The user provided metadata information associated with the subscription.
    * Used to specify textual content such as tags, labels, etc.
    * Value must not exceed 1024 bytes encoded in utf-8.
    */
@@ -332,7 +441,7 @@ export interface InternalSubscriptionOptions {
 /**
  * Represents runtime info attributes of a subscription entity
  */
-export interface SubscriptionRuntimeInfo {
+export interface SubscriptionRuntimeProperties {
   /**
    * Name of the subscription
    */
@@ -347,12 +456,27 @@ export interface SubscriptionRuntimeInfo {
    * The entity's message count.
    *
    */
-  messageCount: number;
+  totalMessageCount: number;
 
   /**
-   * Message count details
+   * The number of active messages in the queue.
    */
-  messageCountDetails?: MessageCountDetails;
+  activeMessageCount: number;
+
+  /**
+   * The number of messages that have been dead lettered.
+   */
+  deadLetterMessageCount: number;
+
+  /**
+   * The number of messages transferred to another queue, topic, or subscription
+   */
+  transferMessageCount: number;
+
+  /**
+   * The number of messages transferred to the dead letter queue.
+   */
+  transferDeadLetterMessageCount: number;
 
   /**
    * Created at timestamp

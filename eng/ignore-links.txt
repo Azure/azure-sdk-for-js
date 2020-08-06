@@ -1,0 +1,9 @@
+https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-admin/samples
+https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-admin/samples/javascript
+https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-admin/samples/typescript
+https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-admin/test/
+https://docs.microsoft.com/javascript/api/@azure/keyvault-admin
+https://docs.microsoft.com/javascript/api/@azure/storage-blob-changefeed
+https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-blob-changefeed/samples/javascript
+https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-blob-changefeed/samples/typescript
+https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-blob-changefeed/test/

@@ -136,10 +136,10 @@ import {
   CertificateAttributes,
   Contacts as CoreContacts,
   IssuerBundle
-} from "./core/models";
-import { KeyVaultClient } from "./core/keyVaultClient";
-import { SDK_VERSION } from "./core/utils/constants";
-import { parseKeyvaultIdentifier as parseKeyvaultEntityIdentifier } from "./core/utils";
+} from "./generated/models";
+import { KeyVaultClient } from "./generated/keyVaultClient";
+import { SDK_VERSION } from "./generated/utils/constants";
+import { parseKeyvaultIdentifier as parseKeyvaultEntityIdentifier } from "./generated/utils";
 import "@azure/core-paging";
 import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
 import { challengeBasedAuthenticationPolicy } from "../../keyvault-common/src";
@@ -471,10 +471,7 @@ export class CertificateClient {
     };
 
     const pipeline = createPipelineFromOptions(internalPipelineOptions, authPolicy);
-    this.client = new KeyVaultClient(
-      pipelineOptions.apiVersion || LATEST_API_VERSION,
-      pipeline
-    );
+    this.client = new KeyVaultClient(pipelineOptions.apiVersion || LATEST_API_VERSION, pipeline);
   }
 
   private async *listPropertiesOfCertificatesPage(
@@ -1437,15 +1434,10 @@ export class CertificateClient {
     let result: UpdateCertificateResponse;
 
     try {
-      result = await this.client.updateCertificate(
-        this.vaultUrl,
-        certificateName,
-        version,
-        {
-          ...this.setParentSpan(span, requestOptions),
-          certificateAttributes: toCoreAttributes(options)
-        }
-      );
+      result = await this.client.updateCertificate(this.vaultUrl, certificateName, version, {
+        ...this.setParentSpan(span, requestOptions),
+        certificateAttributes: toCoreAttributes(options)
+      });
     } finally {
       span.end();
     }

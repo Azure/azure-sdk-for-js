@@ -16,7 +16,8 @@ import {
   BlockBlobClient,
   ContainerClient,
   BlockBlobTier,
-  BlobServiceClient
+  BlobServiceClient,
+  RehydratePriority
 } from "../src";
 import { Test_CPK_INFO } from "./utils/constants";
 dotenv.config();
@@ -47,7 +48,7 @@ describe("BlobClient", () => {
   afterEach(async function() {
     if (!this.currentTest?.isPending()) {
       await containerClient.delete();
-      recorder.stop();
+      await recorder.stop();
     }
   });
 
@@ -773,6 +774,34 @@ describe("BlobClient", () => {
       exceptionCaught = true;
     }
     assert.ok(exceptionCaught);
+  });
+
+  async function checkRehydratePriority(rehydratePriority: RehydratePriority) {
+    await blobClient.setAccessTier("Archive");
+    await blobClient.setAccessTier("Hot", { rehydratePriority });
+
+    const res = await blobClient.getProperties();
+    assert.equal(res.rehydratePriority, rehydratePriority);
+
+    for await (const item of containerClient.listBlobsFlat()) {
+      if (item.name === blobName) {
+        assert.equal(item.properties.rehydratePriority, rehydratePriority);
+      }
+    }
+
+    for await (const item of containerClient.listBlobsByHierarchy("/")) {
+      if (item.kind === "blob" && item.name === blobName) {
+        assert.equal(item.properties.rehydratePriority, rehydratePriority);
+      }
+    }
+  }
+
+  it("getProperties and listBlob RehydratePriority = High", async () => {
+    await checkRehydratePriority("High");
+  });
+
+  it("getProperties and listBlob RehydratePriority = Standard", async () => {
+    await checkRehydratePriority("Standard");
   });
 });
 

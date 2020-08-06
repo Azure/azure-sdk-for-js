@@ -4,7 +4,7 @@
 
   **NOTE**: This sample uses the preview of the next version of the @azure/service-bus package.
   For samples using the current stable version of the package, please use the link below:
-  https://github.com/Azure/azure-sdk-for-js/tree/%40azure/service-bus_1.1.5/sdk/servicebus/service-bus/samples
+  https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/servicebus/service-bus/samples-v1
   
   This sample demonstrates how the scheduleMessages() function can be used to schedule messages to
   appear on a Service Bus Queue/Subscription at a later time.
@@ -70,7 +70,7 @@ async function sendScheduledMessages(sbClient: ServiceBusClient) {
 async function receiveMessages(sbClient: ServiceBusClient) {
   // If receiving from a subscription you can use the createReceiver(topic, subscription) overload
   // instead.
-  let queueReceiver = sbClient.createReceiver(queueName, "peekLock");
+  let queueReceiver = sbClient.createReceiver(queueName);
 
   let numOfMessagesReceived = 0;
   const processMessage = async (brokeredMessage) => {
@@ -95,7 +95,7 @@ async function receiveMessages(sbClient: ServiceBusClient) {
   await delay(5000);
   console.log(`\nStarting receiver at ${new Date(Date.now())}`);
 
-  queueReceiver = sbClient.createReceiver(queueName, "peekLock");
+  queueReceiver = sbClient.createReceiver(queueName);
 
   queueReceiver.subscribe({
     processMessage,

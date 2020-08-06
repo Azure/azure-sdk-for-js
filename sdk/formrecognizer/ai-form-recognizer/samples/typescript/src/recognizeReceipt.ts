@@ -5,11 +5,7 @@
  * This sample demonstrates how to recognize US sales receipts from a file.
  */
 
-import {
-  FormRecognizerClient,
-  AzureKeyCredential,
-  BeginRecognizeReceiptPollState
-} from "@azure/ai-form-recognizer";
+import { FormRecognizerClient, AzureKeyCredential } from "@azure/ai-form-recognizer";
 
 import * as fs from "fs";
 import * as path from "path";
@@ -31,20 +27,19 @@ export async function main() {
   const readStream = fs.createReadStream(fileName);
 
   const client = new FormRecognizerClient(endpoint, new AzureKeyCredential(apiKey));
-  const poller = await client.beginRecognizeReceipts(readStream, "image/jpeg", {
-    onProgress: (state: BeginRecognizeReceiptPollState) => {
+  const poller = await client.beginRecognizeReceipts(readStream, {
+    contentType: "image/jpeg",
+    onProgress: (state) => {
       console.log(`status: ${state.status}`);
     }
   });
 
-  const receipts = await poller.pollUntilDone();
+  const [receipt] = await poller.pollUntilDone();
 
-  if (!receipts || receipts.length <= 0) {
+  if (receipt === undefined) {
     throw new Error("Expecting at lease one receipt in analysis result");
   }
 
-  const receipt = receipts[0];
-  console.log("First receipt:");
   // For supported fields recognized by the service, please refer to https://westus2.dev.cognitive.microsoft.com/docs/services/form-recognizer-api-v2-preview/operations/GetAnalyzeReceiptResult.
   const receiptTypeField = receipt.fields["ReceiptType"];
   if (receiptTypeField.valueType === "string") {

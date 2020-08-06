@@ -25,7 +25,7 @@ describe("BlobChangeFeedClient", async () => {
   });
 
   afterEach(async function() {
-    recorder.stop();
+    await recorder.stop();
   });
 
   it("next(): fetch all events", async () => {
@@ -129,7 +129,7 @@ describe("BlobChangeFeedClient: Change Feed not configured", async () => {
   });
 
   afterEach(async function() {
-    recorder.stop();
+    await recorder.stop();
   });
 
   it("should throw when fetching changes", async () => {

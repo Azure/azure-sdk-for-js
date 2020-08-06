@@ -34,7 +34,7 @@ import {
 } from "../serviceBusMessage";
 import { LinkEntity } from "./linkEntity";
 import * as log from "../log";
-import { ReceiveMode, fromAmqpMessage } from "../serviceBusMessage";
+import { InternalReceiveMode, fromAmqpMessage } from "../serviceBusMessage";
 import { toBuffer } from "../util/utils";
 import {
   throwErrorIfConnectionClosed,
@@ -113,7 +113,7 @@ export interface CorrelationRuleFilter {
   /**
    * Value to be matched with the user properties of the incoming message.
    */
-  userProperties?: any;
+  properties?: any;
 }
 
 /**
@@ -129,7 +129,7 @@ const correlationProperties = [
   "sessionId",
   "replyToSessionId",
   "contentType",
-  "userProperties"
+  "properties"
 ];
 
 /**
@@ -780,7 +780,7 @@ export class ManagementClient extends LinkEntity {
    */
   async receiveDeferredMessages(
     sequenceNumbers: Long[],
-    receiveMode: ReceiveMode,
+    receiveMode: InternalReceiveMode,
     sessionId?: string,
     options?: OperationOptionsBase & SendManagementRequestOptions
   ): Promise<ServiceBusMessageImpl[]> {
@@ -811,7 +811,8 @@ export class ManagementClient extends LinkEntity {
         0x81,
         undefined
       );
-      const receiverSettleMode: number = receiveMode === ReceiveMode.receiveAndDelete ? 0 : 1;
+      const receiverSettleMode: number =
+        receiveMode === InternalReceiveMode.receiveAndDelete ? 0 : 1;
       messageBody[Constants.receiverSettleMode] = types.wrap_uint(receiverSettleMode);
       if (sessionId != null) {
         messageBody[Constants.sessionIdMapKey] = sessionId;
@@ -845,7 +846,8 @@ export class ManagementClient extends LinkEntity {
           this._context,
           decodedMessage as any,
           { tag: msg["lock-token"] } as any,
-          false
+          false,
+          receiveMode
         );
         if (message.lockToken && message.lockedUntilUtc) {
           this._context.requestResponseLockedMessages.set(
@@ -1213,7 +1215,7 @@ export class ManagementClient extends LinkEntity {
               sessionId: this._safelyGetTypedValueFromArray(filtersRawData.value, 5),
               replyToSessionId: this._safelyGetTypedValueFromArray(filtersRawData.value, 6),
               contentType: this._safelyGetTypedValueFromArray(filtersRawData.value, 7),
-              userProperties: this._safelyGetTypedValueFromArray(filtersRawData.value, 8)
+              properties: this._safelyGetTypedValueFromArray(filtersRawData.value, 8)
             };
             break;
           default:
@@ -1346,7 +1348,7 @@ export class ManagementClient extends LinkEntity {
             "session-id": filter.sessionId,
             "reply-to-session-id": filter.replyToSessionId,
             "content-type": filter.contentType,
-            properties: filter.userProperties
+            properties: filter.properties
           };
           break;
       }

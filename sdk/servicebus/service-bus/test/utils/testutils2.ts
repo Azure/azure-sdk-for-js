@@ -42,7 +42,7 @@ function getEntityNames(
   usesSessions: boolean;
   isPartitioned: boolean;
 } {
-  const name = TestClientType[testClientType];
+  const name = testClientType;
   let prefix = "";
   let isPartitioned = false;
 
@@ -130,6 +130,58 @@ export async function drainAllMessages(receiver: Receiver<{}>): Promise<void> {
   }
 
   await receiver.close();
+}
+
+/**
+ * Returns a TestClientType for either a Queue or a Subscription
+ * @param useSessions
+ */
+export function getRandomTestClientType(): TestClientType {
+  const allTestClientTypes = [
+    TestClientType.PartitionedQueue,
+    TestClientType.PartitionedSubscription,
+    TestClientType.UnpartitionedQueue,
+    TestClientType.UnpartitionedSubscription,
+    TestClientType.PartitionedQueueWithSessions,
+    TestClientType.PartitionedSubscriptionWithSessions,
+    TestClientType.UnpartitionedQueueWithSessions,
+    TestClientType.UnpartitionedSubscriptionWithSessions
+  ];
+
+  const index = Math.floor(Math.random() * allTestClientTypes.length);
+  return allTestClientTypes[index];
+}
+
+/**
+ * Returns a TestClientType for either a Queue or a Subscription with no
+ * sessions enabled
+ */
+export function getRandomTestClientTypeWithNoSessions(): TestClientType {
+  const noSessionTestClientTypes = [
+    TestClientType.PartitionedQueue,
+    TestClientType.PartitionedSubscription,
+    TestClientType.UnpartitionedQueue,
+    TestClientType.UnpartitionedSubscription
+  ];
+
+  const index = Math.floor(Math.random() * noSessionTestClientTypes.length);
+  return noSessionTestClientTypes[index];
+}
+
+/**
+ * Returns a TestClientType for either a Queue or a Subscription with
+ * sessions enabled
+ */
+export function getRandomTestClientTypeWithSessions(): TestClientType {
+  const withSessionTestClientTypes = [
+    TestClientType.PartitionedQueueWithSessions,
+    TestClientType.PartitionedSubscriptionWithSessions,
+    TestClientType.UnpartitionedQueueWithSessions,
+    TestClientType.UnpartitionedSubscriptionWithSessions
+  ];
+
+  const index = Math.floor(Math.random() * withSessionTestClientTypes.length);
+  return withSessionTestClientTypes[index];
 }
 
 export type EntityName = ReturnType<typeof getEntityNames>;
@@ -292,18 +344,14 @@ export class ServiceBusTestHelpers {
 
     return this.addToCleanup(
       entityNames.queue
-        ? this._serviceBusClient.createReceiver(entityNames.queue, "peekLock")
-        : this._serviceBusClient.createReceiver(
-            entityNames.topic!,
-            entityNames.subscription!,
-            "peekLock"
-          )
+        ? this._serviceBusClient.createReceiver(entityNames.queue)
+        : this._serviceBusClient.createReceiver(entityNames.topic!, entityNames.subscription!)
     );
   }
 
   async getSessionPeekLockReceiver(
     entityNames: Omit<ReturnType<typeof getEntityNames>, "isPartitioned">,
-    getSessionReceiverOptions?: CreateSessionReceiverOptions
+    getSessionReceiverOptions?: CreateSessionReceiverOptions<"peekLock">
   ): Promise<SessionReceiver<ReceivedMessageWithLock>> {
     if (!entityNames.usesSessions) {
       throw new TypeError(
@@ -315,13 +363,11 @@ export class ServiceBusTestHelpers {
       entityNames.queue
         ? await this._serviceBusClient.createSessionReceiver(
             entityNames.queue,
-            "peekLock",
             getSessionReceiverOptions
           )
         : await this._serviceBusClient.createSessionReceiver(
             entityNames.topic!,
             entityNames.subscription!,
-            "peekLock",
             getSessionReceiverOptions
           )
     );
@@ -346,31 +392,28 @@ export class ServiceBusTestHelpers {
     if (entityNames.usesSessions) {
       return this.addToCleanup(
         entityNames.queue
-          ? await this._serviceBusClient.createSessionReceiver(
-              entityNames.queue,
-              "receiveAndDelete",
-              {
-                sessionId
-              }
-            )
+          ? await this._serviceBusClient.createSessionReceiver(entityNames.queue, {
+              sessionId,
+              receiveMode: "receiveAndDelete"
+            })
           : await this._serviceBusClient.createSessionReceiver(
               entityNames.topic!,
               entityNames.subscription!,
-              "receiveAndDelete",
               {
-                sessionId
+                sessionId,
+                receiveMode: "receiveAndDelete"
               }
             )
       );
     } else {
       return this.addToCleanup(
         entityNames.queue
-          ? this._serviceBusClient.createReceiver(entityNames.queue, "receiveAndDelete")
-          : this._serviceBusClient.createReceiver(
-              entityNames.topic!,
-              entityNames.subscription!,
-              "receiveAndDelete"
-            )
+          ? this._serviceBusClient.createReceiver(entityNames.queue, {
+              receiveMode: "receiveAndDelete"
+            })
+          : this._serviceBusClient.createReceiver(entityNames.topic!, entityNames.subscription!, {
+              receiveMode: "receiveAndDelete"
+            })
       );
     }
   }
@@ -380,11 +423,10 @@ export class ServiceBusTestHelpers {
   ): Receiver<ReceivedMessageWithLock> {
     return this.addToCleanup(
       entityNames.queue
-        ? this._serviceBusClient.createDeadLetterReceiver(entityNames.queue, "peekLock")
+        ? this._serviceBusClient.createDeadLetterReceiver(entityNames.queue)
         : this._serviceBusClient.createDeadLetterReceiver(
             entityNames.topic!,
-            entityNames.subscription!,
-            "peekLock"
+            entityNames.subscription!
           )
     );
   }
@@ -411,20 +453,17 @@ async function purgeForTestClientType(
 
   if (entityPaths.queue) {
     receiver = serviceBusClient.createReceiver(entityPaths.queue, "receiveAndDelete");
-    deadLetterReceiver = serviceBusClient.createDeadLetterReceiver(
-      entityPaths.queue,
-      "receiveAndDelete"
-    );
+    deadLetterReceiver = serviceBusClient.createDeadLetterReceiver(entityPaths.queue, {
+      receiveMode: "receiveAndDelete"
+    });
   } else if (entityPaths.topic && entityPaths.subscription) {
-    receiver = serviceBusClient.createReceiver(
-      entityPaths.topic,
-      entityPaths.subscription,
-      "receiveAndDelete"
-    );
+    receiver = serviceBusClient.createReceiver(entityPaths.topic, entityPaths.subscription, {
+      receiveMode: "receiveAndDelete"
+    });
     deadLetterReceiver = serviceBusClient.createDeadLetterReceiver(
       entityPaths.topic,
       entityPaths.subscription,
-      "receiveAndDelete"
+      { receiveMode: "receiveAndDelete" }
     );
   } else {
     throw new Error(`Unsupported TestClientType for purge: ${testClientType}`);
