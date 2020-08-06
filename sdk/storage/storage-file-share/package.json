@@ -75,8 +75,8 @@
     "storage",
     "file",
     "node.js",
-    "typeScript",
-    "javaScript",
+    "typescript",
+    "javascript",
     "browser"
   ],
   "author": "Microsoft Corporation",

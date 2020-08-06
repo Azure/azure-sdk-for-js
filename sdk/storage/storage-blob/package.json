@@ -75,12 +75,12 @@
   },
   "keywords": [
     "azure",
-    "Storage",
-    "Blob",
-    "Node.js",
-    "TypeScript",
-    "JavaScript",
-    "Browser"
+    "atorage",
+    "alob",
+    "node.js",
+    "typescript",
+    "javascript",
+    "browser"
   ],
   "author": "Microsoft Corporation",
   "license": "MIT",

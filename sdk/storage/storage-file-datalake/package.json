@@ -73,10 +73,10 @@
     "storage",
     "ADLS",
     "DFS",
-    "dataLake",
+    "datalake",
     "node.js",
-    "typeScript",
-    "javaScript",
+    "typescript",
+    "javascript",
     "browser"
   ],
   "author": "Microsoft Corporation",

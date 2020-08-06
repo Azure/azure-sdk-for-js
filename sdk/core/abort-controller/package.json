@@ -49,11 +49,11 @@
   "keywords": [
     "azure",
     "aborter",
-    "abortSignal",
+    "abortsignal",
     "cancellation",
     "node.js",
-    "typeScript",
-    "javaScript",
+    "typescript",
+    "javascript",
     "browser"
   ],
   "author": "Microsoft Corporation",
