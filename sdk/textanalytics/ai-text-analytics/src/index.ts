@@ -73,11 +73,11 @@ export {
   LinkedEntity,
   Match,
   TextAnalyticsWarning,
-  SentenceAspect,
-  SentenceOpinion,
-  AspectConfidenceScoreLabel,
-  SentenceAspectSentiment,
-  SentenceOpinionSentiment,
-  AspectRelation,
-  AspectRelationType
+  // SentenceAspect,
+  // SentenceOpinion,
+  // AspectConfidenceScoreLabel,
+  // SentenceAspectSentiment,
+  // SentenceOpinionSentiment,
+  // AspectRelation,
+  // AspectRelationType
 } from "./generated/models";

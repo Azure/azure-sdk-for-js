@@ -34,23 +34,6 @@ export interface AnalyzeSentimentSuccessResult extends TextAnalyticsSuccessResul
     sentiment: DocumentSentimentLabel;
 }
 
-// @public
-export interface AspectConfidenceScoreLabel {
-    // (undocumented)
-    negative: number;
-    // (undocumented)
-    positive: number;
-}
-
-// @public (undocumented)
-export interface AspectRelation {
-    ref: string;
-    relationType: AspectRelationType;
-}
-
-// @public
-export type AspectRelationType = "opinion" | "aspect";
-
 // @public (undocumented)
 export interface AspectSentiment {
     confidenceScores: SentimentConfidenceScores;
@@ -217,28 +200,6 @@ export interface RecognizeLinkedEntitiesResultArray extends Array<RecognizeLinke
 export interface RecognizeLinkedEntitiesSuccessResult extends TextAnalyticsSuccessResult {
     readonly entities: LinkedEntity[];
 }
-
-// @public (undocumented)
-export interface SentenceAspect {
-    confidenceScores: AspectConfidenceScoreLabel;
-    relations: AspectRelation[];
-    sentiment: SentenceAspectSentiment;
-    text: string;
-}
-
-// @public
-export type SentenceAspectSentiment = "positive" | "mixed" | "negative";
-
-// @public (undocumented)
-export interface SentenceOpinion {
-    confidenceScores: AspectConfidenceScoreLabel;
-    isNegated: boolean;
-    sentiment: SentenceOpinionSentiment;
-    text: string;
-}
-
-// @public
-export type SentenceOpinionSentiment = "positive" | "mixed" | "negative";
 
 // @public
 export interface SentenceSentiment {
