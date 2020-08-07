@@ -117,7 +117,7 @@ describe("[AAD] TextAnalyticsClient", function() {
       );
     });
 
-    it.only("client gets positive mined opinions", async () => {
+    it("client gets positive mined opinions", async () => {
       const documents = [
         {
           text: "It has a sleek premium aluminum design that makes it beautiful to look at.",
@@ -177,16 +177,28 @@ describe("[AAD] TextAnalyticsClient", function() {
         const foodAspect = sentence.minedOpinions?.[0].aspect;
         assert.equal("food", foodAspect?.text);
         assert.equal("negative", foodAspect?.sentiment);
-        assert.isAtLeast(foodAspect?.confidenceScores.positive!, 0);
-        assert.equal(foodAspect?.confidenceScores.neutral, 0);
-        assert.isAtLeast(foodAspect?.confidenceScores.negative!, 0);
+
+        const foodAspectPositiveScore = foodAspect?.confidenceScores.positive!;
+        const foodAspectNegativeScore = foodAspect?.confidenceScores.negative!;
+        const foodAspectNeutralScore = foodAspect?.confidenceScores.neutral!;
+
+        assert.isAtLeast(foodAspectPositiveScore, 0);
+        assert.isAtLeast(foodAspectNegativeScore, 0);
+        assert.isAtLeast(foodAspectNeutralScore, 0);
+        assert.equal(foodAspectPositiveScore + foodAspectNeutralScore + foodAspectNegativeScore, 1);
 
         const serviceAspect = sentence.minedOpinions?.[1].aspect;
         assert.equal("service", serviceAspect?.text);
         assert.equal("negative", serviceAspect?.sentiment);
-        assert.isAtLeast(serviceAspect?.confidenceScores.positive!, 0);
-        assert.equal(serviceAspect?.confidenceScores.neutral, 0);
-        assert.isAtLeast(serviceAspect?.confidenceScores.negative!, 0);
+
+        const serviceAspectPositiveScore = serviceAspect?.confidenceScores.positive!;
+        const serviceAspectNegativeScore = serviceAspect?.confidenceScores.negative!;
+        const serviceAspectNeutralScore = serviceAspect?.confidenceScores.neutral!;
+
+        assert.isAtLeast(serviceAspectPositiveScore, 0);
+        assert.isAtLeast(serviceAspectNeutralScore, 0);
+        assert.isAtLeast(serviceAspectNegativeScore, 0);
+        assert.equal(serviceAspectPositiveScore + serviceAspectNegativeScore + serviceAspectNeutralScore, 1);
 
         const foodOpinion = sentence.minedOpinions?.[0].opinions[0];
         const serviceOpinion = sentence.minedOpinions?.[1].opinions[0];
@@ -195,9 +207,15 @@ describe("[AAD] TextAnalyticsClient", function() {
 
         assert.equal("good", foodOpinion?.text);
         assert.equal("negative", foodOpinion?.sentiment);
-        assert.isAtLeast(foodOpinion?.confidenceScores.positive!, 0);
-        assert.isAtLeast(foodOpinion?.confidenceScores.neutral!, 0);
-        assert.isAtLeast(foodOpinion?.confidenceScores.positive!, 0);
+
+        const foodOpinionPositiveScore = foodOpinion?.confidenceScores.positive!;
+        const foodOpinionNegativeScore = foodOpinion?.confidenceScores.negative!;
+        const foodOpinionNeutralScore = foodOpinion?.confidenceScores.neutral!;
+
+        assert.isAtLeast(foodOpinionPositiveScore, 0);
+        assert.isAtLeast(foodOpinionNegativeScore, 0);
+        assert.isAtLeast(foodOpinionNeutralScore, 0);
+        assert.equal(foodOpinionPositiveScore + foodOpinionNeutralScore + foodOpinionNegativeScore, 1);
         assert.isTrue(foodOpinion?.isNegated);
       });
     });
