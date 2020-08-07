@@ -20,7 +20,7 @@ async function main() {
   const sbClient = new ServiceBusClient(connectionString);
   // If receiving from a subscription you can use the createReceiver(topic, subscription) overload
   // instead.
-  const queueReceiver = sbClient.createReceiver(queueName, "peekLock");
+  const queueReceiver = sbClient.createReceiver(queueName);
 
   // To receive messages from sessions, use getSessionReceiver instead of getReceiver or look at
   // the sample in sessions.ts file

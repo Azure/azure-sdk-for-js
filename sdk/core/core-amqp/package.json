@@ -1,14 +1,13 @@
 {
   "name": "@azure/core-amqp",
   "sdk-type": "client",
-  "version": "1.1.5",
+  "version": "1.1.6",
   "description": "Common library for amqp based azure sdks like @azure/event-hubs.",
   "author": "Microsoft Corporation",
   "license": "MIT",
   "keywords": [
     "azure",
     "amqp",
-    "Azure",
     "cloud"
   ],
   "main": "./dist/index.js",
@@ -24,8 +23,7 @@
   "browser": {
     "./dist-esm/src/util/checkNetworkConnection.js": "./dist-esm/src/util/checkNetworkConnection.browser.js",
     "./dist-esm/src/util/runtimeInfo.js": "./dist-esm/src/util/runtimeInfo.browser.js",
-    "buffer": "buffer",
-    "stream": "stream-browserify"
+    "buffer": "buffer"
   },
   "files": [
     "dist/",
@@ -41,11 +39,11 @@
     "build:test": "tsc -p . && rollup -c rollup.test.config.js 2>&1",
     "build:types": "downlevel-dts types/latest types/3.1",
     "build": "tsc -p . && rollup -c 2>&1 && api-extractor run --local && npm run build:types",
-    "check-format": "prettier --list-different --config ../../.prettierrc.json --ignore-path ../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
+    "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf dist dist-esm types temp dist-browser/*.js* dist-browser/*.zip statistics.html coverage coverage-browser test-browser .nyc_output *.tgz *.log test*.xml TEST*.xml",
     "execute:samples": "echo skipped",
     "extract-api": "tsc -p . && api-extractor run --local",
-    "format": "prettier --write --config ../../.prettierrc.json --ignore-path ../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
+    "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "integration-test:browser": "echo skipped",
     "integration-test:node": "echo skipped",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
@@ -83,7 +81,6 @@
     "process": "^0.11.10",
     "rhea": "^1.0.21",
     "rhea-promise": "^1.0.0",
-    "stream-browserify": "^3.0.0",
     "tslib": "^2.0.0",
     "url": "^0.11.0",
     "util": "^0.12.1"

@@ -7,10 +7,10 @@
  */
 
 import * as coreHttp from "@azure/core-http";
-import * as Models from "./models";
+import { GeneratedClientOptionalParams } from "./models";
 
 const packageName = "@azure/ai-form-recognizer";
-const packageVersion = "1.0.0-preview.5";
+const packageVersion = "3.0.0";
 
 export class GeneratedClientContext extends coreHttp.ServiceClient {
   endpoint: string;
@@ -21,10 +21,7 @@ export class GeneratedClientContext extends coreHttp.ServiceClient {
    *                 https://westus2.api.cognitive.microsoft.com).
    * @param options The parameter options
    */
-  constructor(
-    endpoint: string,
-    options?: Models.GeneratedClientOptionalParams
-  ) {
+  constructor(endpoint: string, options?: GeneratedClientOptionalParams) {
     if (endpoint === undefined) {
       throw new Error("'endpoint' cannot be null");
     }
@@ -43,7 +40,7 @@ export class GeneratedClientContext extends coreHttp.ServiceClient {
 
     this.requestContentType = "application/json; charset=utf-8";
 
-    this.baseUri = options.endpoint || "{endpoint}/formrecognizer/v2.0-preview";
+    this.baseUri = options.endpoint || "{endpoint}/formrecognizer/v2.0";
 
     // Parameter assignments
     this.endpoint = endpoint;

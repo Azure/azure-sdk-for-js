@@ -11,7 +11,9 @@ import {
   SetAccessPolicyOptions
 } from "./models";
 import {
-  TableServiceClientOptions,
+  TableServiceClientOptions as TableClientOptions,
+  DeleteTableOptions,
+  DeleteTableResponse,
   QueryOptions,
   GetEntityOptions,
   GetEntityResponse,
@@ -26,6 +28,8 @@ import {
   SignedIdentifier,
   SetAccessPolicyResponse
 } from "./generatedModels";
+import { getClientParamsFromConnectionString } from "./utils/connectionString";
+import { TablesSharedKeyCredential } from "./TablesSharedKeyCredential";
 
 /**
  * A TableClient represents a Client to the Azure Tables service allowing you
@@ -39,15 +43,82 @@ export class TableClient {
   public readonly tableName: string;
 
   /**
-   * Initializes a new instance of the TableClient class.
-   * @param url The URL of the service account that is the target of the desired operation.
-   * @param tableName The name of the table
-   * @param options The parameter options.
+   * Creates a new instance of the TableClient class.
+   *
+   * @param {string} url The URL of the service account that is the target of the desired operation., such as
+   *                     "https://myaccount.table.core.windows.net".
+   * @param {string} tableName the name of the table
+   * @param {TablesSharedKeyCredential} credential  TablesSharedKeyCredential used to authenticate requests. Only Supported for Browsers
+   * @param {TableServiceClientOptions} options Optional. Options to configure the HTTP pipeline.
+   *
+   * Example using an account name/key:
+   *
+   * ```js
+   * const account = "<storage account name>";
+   * const tableName = "<table name>";
+   * const sharedKeyCredential = new TablesSharedKeyCredential(account, "<account key>");
+   *
+   * const tableServiceClient = new TableServiceClient(
+   *   `https://${account}.table.core.windows.net`,
+   *   `${tableName}`
+   *   sharedKeyCredential
+   * );
+   * ```
+   */
+  constructor(
+    url: string,
+    tableName: string,
+    credential: TablesSharedKeyCredential,
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
+    options?: TableClientOptions
+  );
+  /**
+   * Creates an instance of TableClient.
+   *
+   * @param {string} url A Client string pointing to Azure Storage table service, such as
+   *                     "https://myaccount.table.core.windows.net". You can append a SAS,
+   *                      such as "https://myaccount.table.core.windows.net?sasString".
+   * @param {string} tableName the name of the table
+   * @param {TableServiceClientOptions} options Optional. Options to configure the HTTP pipeline.
+   *
+   * Example appending a SAS token:
+   *
+   * ```js
+   * const account = "<storage account name>";
+   * const sasToken = "<SAS token>";
+   * const tableName = "<table name>";
+   *
+   * const tableServiceClient = new TableServiceClient(
+   *   `https://${account}.table.core.windows.net?${sasToken}`,
+   *   `${tableName}`
+   * );
+   * ```
+   */
+
+  // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
+  constructor(url: string, tableName: string, options?: TableClientOptions);
+  constructor(
+    url: string,
+    tableName: string,
+    credentialOrOptions?: TablesSharedKeyCredential | TableClientOptions,
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
+    options?: TableClientOptions
+  ) {
+    if (credentialOrOptions instanceof TablesSharedKeyCredential) {
+      this.client = new TableServiceClient(url, credentialOrOptions, options);
+    } else {
+      this.client = new TableServiceClient(url, credentialOrOptions);
+    }
+    this.tableName = tableName;
+  }
+
+  /**
+   * Permanently deletes the current table with all of its entities.
+   * @param options The options parameters.
    */
   // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-  constructor(url: string, tableName: string, options?: TableServiceClientOptions) {
-    this.client = new TableServiceClient(url, options);
-    this.tableName = tableName;
+  delete(options?: DeleteTableOptions): Promise<DeleteTableResponse> {
+    return this.client.deleteTable(this.tableName, options);
   }
 
   /**
@@ -151,5 +222,31 @@ export class TableClient {
     options?: SetAccessPolicyOptions
   ): Promise<SetAccessPolicyResponse> {
     return this.client.setAccessPolicy(this.tableName, acl, options);
+  }
+
+  /**
+   *
+   * Creates an instance of TableClient from connection string.
+   *
+   * @param {string} connectionString Account connection string or a SAS connection string of an Azure storage account.
+   *                                  [ Note - Account connection string can only be used in NODE.JS runtime. ]
+   *                                  Account connection string example -
+   *                                  `DefaultEndpointsProtocol=https;AccountName=myaccount;AccountKey=accountKey;EndpointSuffix=core.windows.net`
+   *                                  SAS connection string example -
+   *                                  `BlobEndpoint=https://myaccount.table.core.windows.net/;QueueEndpoint=https://myaccount.queue.core.windows.net/;FileEndpoint=https://myaccount.file.core.windows.net/;TableEndpoint=https://myaccount.table.core.windows.net/;SharedAccessSignature=sasString`
+   * @param {TableServiceClientOptions} [options] Options to configure the HTTP pipeline.
+   * @returns {TableClient} A new TableClient from the given connection string.
+   */
+  public static fromConnectionString(
+    connectionString: string,
+    tableName: string,
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
+    options?: TableClientOptions
+  ): TableClient {
+    const { url, options: clientOptions } = getClientParamsFromConnectionString(
+      connectionString,
+      options
+    );
+    return new TableClient(url, tableName, clientOptions);
   }
 }

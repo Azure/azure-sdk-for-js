@@ -1,7 +1,17 @@
 # Release History
 
-## 1.0.0-preview.5 (Unreleased)
+## 3.0.0 (Unreleased)
 
+- This release marks the general availability of the Azure Form Recognizer SDK for JavaScript.
+- Switched to using the generally-available 2.0 service endpoint rather than 2.0-preview.
+- Added a `pageNumber` property to the `FormTable` and `FormTableCell` types indicating the number of the page where the table/cell appeared within the input document.
+- [Breaking] Renamed the `includeSubFolders` property of the `TrainSourceFilter` type to `includeSubfolders`.
+- [Breaking] Renamed the `documentName` property of the `TrainingDocumentInfo` type to just `name`.
+- [Breaking] Removed the `containingLine` property of the `FormWord` type.
+- Made the `rowSpan`, `columnSpan`, `isHeader`, and `isFooter` properties of the `FormTableCell` type non-optional to reflect that they have default values.
+- [Breaking] Renamed `CustomFormField` to `CustomFormModelField` for similarity to other language SDKs.
+- [Breaking] Removed the redundant `expirationDateTimeTicks` property from the `CopyAuthorization` type, as the `expiresOn` property exists.
+- [Breaking] Moved the optional `contentType` parameter of the `FormRecognizerClient` recognition methods (`recognizeContent`, `recognizeCustomForms`, `recognizeReceipts`, and their URL-based variants) to the associated options bag for these methods.
 - [Breaking] Removed exports of several internal types, including most internal poller operation states and some unused types. All client poller implementations now return a smaller subset of fields.
 
 ## 1.0.0-preview.4 (2020-07-07)

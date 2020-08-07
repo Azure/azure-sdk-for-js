@@ -398,6 +398,11 @@
       "versionPolicyName": "core"
     },
     {
+      "packageName": "@azure/core-xml",
+      "projectFolder": "sdk/core/core-xml",
+      "versionPolicyName": "core"
+    },
+    {
       "packageName": "@azure/cosmos",
       "projectFolder": "sdk/cosmosdb/cosmos",
       "versionPolicyName": "client"
@@ -471,6 +476,11 @@
       "packageName": "@azure/logger",
       "projectFolder": "sdk/core/logger",
       "versionPolicyName": "core"
+    },
+    {
+      "packageName": "@azure/schema-registry",
+      "projectFolder": "sdk/schemaregistry/schema-registry",
+      "versionPolicyName": "client"
     },
     {
       "packageName": "@azure/service-bus",

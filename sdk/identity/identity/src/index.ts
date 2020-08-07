@@ -10,7 +10,10 @@ export { EnvironmentCredential } from "./credentials/environmentCredential";
 export { ClientSecretCredential } from "./credentials/clientSecretCredential";
 export { ClientCertificateCredential } from "./credentials/clientCertificateCredential";
 export { InteractiveBrowserCredential } from "./credentials/interactiveBrowserCredential";
-export { VSCodeCredential, VSCodeCredentialOptions } from "./credentials/vscodeCredential";
+export {
+  VisualStudioCodeCredential,
+  VisualStudioCodeCredentialOptions
+} from "./credentials/visualStudioCodeCredential";
 export { AzureCliCredential } from "./credentials/azureCliCredential";
 
 export {

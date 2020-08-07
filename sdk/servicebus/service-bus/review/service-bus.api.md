@@ -54,7 +54,63 @@ export interface CreateBatchOptions extends OperationOptionsBase {
 }
 
 // @public
-export interface CreateSessionReceiverOptions extends SessionReceiverOptions, OperationOptionsBase {
+export interface CreateQueueOptions extends OperationOptions {
+    authorizationRules?: AuthorizationRule[];
+    autoDeleteOnIdle?: string;
+    deadLetteringOnMessageExpiration?: boolean;
+    defaultMessageTtl?: string;
+    duplicateDetectionHistoryTimeWindow?: string;
+    enableBatchedOperations?: boolean;
+    enablePartitioning?: boolean;
+    forwardDeadLetteredMessagesTo?: string;
+    forwardTo?: string;
+    lockDuration?: string;
+    maxDeliveryCount?: number;
+    maxSizeInMegabytes?: number;
+    requiresDuplicateDetection?: boolean;
+    requiresSession?: boolean;
+    status?: EntityStatus;
+    userMetadata?: string;
+}
+
+// @public
+export interface CreateReceiverOptions<ReceiveModeT extends ReceiveMode> {
+    receiveMode?: ReceiveModeT;
+}
+
+// @public
+export interface CreateSessionReceiverOptions<ReceiveModeT extends ReceiveMode> extends CreateReceiverOptions<ReceiveModeT>, SessionReceiverOptions, OperationOptionsBase {
+}
+
+// @public
+export interface CreateSubscriptionOptions extends OperationOptions {
+    autoDeleteOnIdle?: string;
+    deadLetteringOnFilterEvaluationExceptions?: boolean;
+    deadLetteringOnMessageExpiration?: boolean;
+    defaultMessageTtl?: string;
+    enableBatchedOperations?: boolean;
+    forwardDeadLetteredMessagesTo?: string;
+    forwardTo?: string;
+    lockDuration?: string;
+    maxDeliveryCount?: number;
+    requiresSession?: boolean;
+    status?: EntityStatus;
+    userMetadata?: string;
+}
+
+// @public
+export interface CreateTopicOptions extends OperationOptions {
+    authorizationRules?: AuthorizationRule[];
+    autoDeleteOnIdle?: string;
+    defaultMessageTtl?: string;
+    duplicateDetectionHistoryTimeWindow?: string;
+    enableBatchedOperations?: boolean;
+    enablePartitioning?: boolean;
+    maxSizeInMegabytes?: number;
+    requiresDuplicateDetection?: boolean;
+    status?: EntityStatus;
+    supportOrdering?: boolean;
+    userMetadata?: string;
 }
 
 // @public
@@ -76,12 +132,6 @@ export type EntityStatus = "Active" | "Creating" | "Deleting" | "ReceiveDisabled
 
 // @public
 export interface GetMessageIteratorOptions extends OperationOptionsBase, WaitTimeOptions {
-}
-
-// @public
-export interface ListRequestOptions {
-    maxCount?: number;
-    skip?: number;
 }
 
 // @public
@@ -126,22 +176,22 @@ export interface PeekMessagesOptions extends OperationOptionsBase {
 // @public
 export interface QueueProperties {
     authorizationRules?: AuthorizationRule[];
-    autoDeleteOnIdle?: string;
-    deadLetteringOnMessageExpiration?: boolean;
-    defaultMessageTtl?: string;
-    duplicateDetectionHistoryTimeWindow?: string;
-    enableBatchedOperations?: boolean;
-    enablePartitioning?: boolean;
+    autoDeleteOnIdle: string;
+    deadLetteringOnMessageExpiration: boolean;
+    defaultMessageTtl: string;
+    duplicateDetectionHistoryTimeWindow: string;
+    enableBatchedOperations: boolean;
+    readonly enablePartitioning: boolean;
     forwardDeadLetteredMessagesTo?: string;
     forwardTo?: string;
-    lockDuration?: string;
-    maxDeliveryCount?: number;
-    maxSizeInMegabytes?: number;
-    name: string;
-    requiresDuplicateDetection?: boolean;
-    requiresSession?: boolean;
-    status?: EntityStatus;
-    userMetadata?: string;
+    lockDuration: string;
+    maxDeliveryCount: number;
+    maxSizeInMegabytes: number;
+    readonly name: string;
+    readonly requiresDuplicateDetection: boolean;
+    readonly requiresSession: boolean;
+    status: EntityStatus;
+    userMetadata: string;
 }
 
 // @public
@@ -202,6 +252,9 @@ export interface ReceiveMessagesOptions extends OperationOptionsBase, WaitTimeOp
 }
 
 // @public
+export type ReceiveMode = "peekLock" | "receiveAndDelete";
+
+// @public
 export interface Receiver<ReceivedMessageT> {
     close(): Promise<void>;
     entityPath: string;
@@ -225,9 +278,9 @@ export { RetryOptions }
 
 // @public
 export interface RuleProperties {
-    action?: SqlRuleAction;
-    filter?: SqlRuleFilter | CorrelationRuleFilter;
-    name: string;
+    action: SqlRuleAction;
+    filter: SqlRuleFilter | CorrelationRuleFilter;
+    readonly name: string;
 }
 
 // @public
@@ -256,19 +309,19 @@ export class ServiceBusClient {
     constructor(connectionString: string, options?: ServiceBusClientOptions);
     constructor(fullyQualifiedNamespace: string, credential: TokenCredential, options?: ServiceBusClientOptions);
     close(): Promise<void>;
-    createDeadLetterReceiver(queueName: string, receiveMode: "peekLock"): Receiver<ReceivedMessageWithLock>;
-    createDeadLetterReceiver(queueName: string, receiveMode: "receiveAndDelete"): Receiver<ReceivedMessage>;
-    createDeadLetterReceiver(topicName: string, subscriptionName: string, receiveMode: "peekLock"): Receiver<ReceivedMessageWithLock>;
-    createDeadLetterReceiver(topicName: string, subscriptionName: string, receiveMode: "receiveAndDelete"): Receiver<ReceivedMessage>;
-    createReceiver(queueName: string, receiveMode: "peekLock"): Receiver<ReceivedMessageWithLock>;
-    createReceiver(queueName: string, receiveMode: "receiveAndDelete"): Receiver<ReceivedMessage>;
-    createReceiver(topicName: string, subscriptionName: string, receiveMode: "peekLock"): Receiver<ReceivedMessageWithLock>;
-    createReceiver(topicName: string, subscriptionName: string, receiveMode: "receiveAndDelete"): Receiver<ReceivedMessage>;
+    createDeadLetterReceiver(queueName: string, options?: CreateReceiverOptions<"peekLock">): Receiver<ReceivedMessageWithLock>;
+    createDeadLetterReceiver(queueName: string, options: CreateReceiverOptions<"receiveAndDelete">): Receiver<ReceivedMessage>;
+    createDeadLetterReceiver(topicName: string, subscriptionName: string, options?: CreateReceiverOptions<"peekLock">): Receiver<ReceivedMessageWithLock>;
+    createDeadLetterReceiver(topicName: string, subscriptionName: string, options: CreateReceiverOptions<"receiveAndDelete">): Receiver<ReceivedMessage>;
+    createReceiver(queueName: string, options?: CreateReceiverOptions<"peekLock">): Receiver<ReceivedMessageWithLock>;
+    createReceiver(queueName: string, options: CreateReceiverOptions<"receiveAndDelete">): Receiver<ReceivedMessage>;
+    createReceiver(topicName: string, subscriptionName: string, options?: CreateReceiverOptions<"peekLock">): Receiver<ReceivedMessageWithLock>;
+    createReceiver(topicName: string, subscriptionName: string, options: CreateReceiverOptions<"receiveAndDelete">): Receiver<ReceivedMessage>;
     createSender(queueOrTopicName: string): Sender;
-    createSessionReceiver(queueName: string, receiveMode: "peekLock", options?: CreateSessionReceiverOptions): Promise<SessionReceiver<ReceivedMessageWithLock>>;
-    createSessionReceiver(queueName: string, receiveMode: "receiveAndDelete", options?: CreateSessionReceiverOptions): Promise<SessionReceiver<ReceivedMessage>>;
-    createSessionReceiver(topicName: string, subscriptionName: string, receiveMode: "peekLock", options?: CreateSessionReceiverOptions): Promise<SessionReceiver<ReceivedMessageWithLock>>;
-    createSessionReceiver(topicName: string, subscriptionName: string, receiveMode: "receiveAndDelete", options?: CreateSessionReceiverOptions): Promise<SessionReceiver<ReceivedMessage>>;
+    createSessionReceiver(queueName: string, options?: CreateSessionReceiverOptions<"peekLock">): Promise<SessionReceiver<ReceivedMessageWithLock>>;
+    createSessionReceiver(queueName: string, options: CreateSessionReceiverOptions<"receiveAndDelete">): Promise<SessionReceiver<ReceivedMessage>>;
+    createSessionReceiver(topicName: string, subscriptionName: string, options?: CreateSessionReceiverOptions<"peekLock">): Promise<SessionReceiver<ReceivedMessageWithLock>>;
+    createSessionReceiver(topicName: string, subscriptionName: string, options: CreateSessionReceiverOptions<"receiveAndDelete">): Promise<SessionReceiver<ReceivedMessage>>;
     fullyQualifiedNamespace: string;
 }
 
@@ -283,13 +336,11 @@ export interface ServiceBusClientOptions {
 export class ServiceBusManagementClient extends ServiceClient {
     constructor(connectionString: string, options?: ServiceBusManagementClientOptions);
     constructor(fullyQualifiedNamespace: string, credential: TokenCredential, options?: ServiceBusManagementClientOptions);
-    createQueue(queueName: string, operationOptions?: OperationOptions): Promise<QueueResponse>;
-    createQueue(queue: QueueProperties, operationOptions?: OperationOptions): Promise<QueueResponse>;
-    createRule(topicName: string, subscriptionName: string, rule: RuleProperties, operationOptions?: OperationOptions): Promise<RuleResponse>;
-    createSubscription(topicName: string, subscriptionName: string, operationOptions?: OperationOptions): Promise<SubscriptionResponse>;
-    createSubscription(subscription: SubscriptionProperties, operationOptions?: OperationOptions): Promise<SubscriptionResponse>;
-    createTopic(topicName: string, operationOptions?: OperationOptions): Promise<TopicResponse>;
-    createTopic(topic: TopicProperties, operationOptions?: OperationOptions): Promise<TopicResponse>;
+    createQueue(queueName: string, options?: CreateQueueOptions): Promise<QueueResponse>;
+    createRule(topicName: string, subscriptionName: string, ruleName: string, ruleFilter: SqlRuleFilter | CorrelationRuleFilter, operationOptions?: OperationOptions): Promise<RuleResponse>;
+    createRule(topicName: string, subscriptionName: string, ruleName: string, ruleFilter: SqlRuleFilter | CorrelationRuleFilter, ruleAction: SqlRuleAction, operationOptions?: OperationOptions): Promise<RuleResponse>;
+    createSubscription(topicName: string, subscriptionName: string, options?: CreateSubscriptionOptions): Promise<SubscriptionResponse>;
+    createTopic(topicName: string, options?: CreateTopicOptions): Promise<TopicResponse>;
     deleteQueue(queueName: string, operationOptions?: OperationOptions): Promise<Response>;
     deleteRule(topicName: string, subscriptionName: string, ruleName: string, operationOptions?: OperationOptions): Promise<Response>;
     deleteSubscription(topicName: string, subscriptionName: string, operationOptions?: OperationOptions): Promise<Response>;
@@ -399,20 +450,20 @@ export interface SubscribeOptions extends OperationOptionsBase, MessageHandlerOp
 
 // @public
 export interface SubscriptionProperties {
-    autoDeleteOnIdle?: string;
-    deadLetteringOnFilterEvaluationExceptions?: boolean;
-    deadLetteringOnMessageExpiration?: boolean;
-    defaultMessageTtl?: string;
-    enableBatchedOperations?: boolean;
+    autoDeleteOnIdle: string;
+    deadLetteringOnFilterEvaluationExceptions: boolean;
+    deadLetteringOnMessageExpiration: boolean;
+    defaultMessageTtl: string;
+    enableBatchedOperations: boolean;
     forwardDeadLetteredMessagesTo?: string;
     forwardTo?: string;
-    lockDuration?: string;
-    maxDeliveryCount?: number;
-    requiresSession?: boolean;
-    status?: EntityStatus;
-    subscriptionName: string;
-    topicName: string;
-    userMetadata?: string;
+    lockDuration: string;
+    maxDeliveryCount: number;
+    readonly requiresSession: boolean;
+    status: EntityStatus;
+    readonly subscriptionName: string;
+    readonly topicName: string;
+    userMetadata: string;
 }
 
 // @public
@@ -444,17 +495,17 @@ export { TokenType }
 // @public
 export interface TopicProperties {
     authorizationRules?: AuthorizationRule[];
-    autoDeleteOnIdle?: string;
-    defaultMessageTtl?: string;
-    duplicateDetectionHistoryTimeWindow?: string;
-    enableBatchedOperations?: boolean;
-    enablePartitioning?: boolean;
-    maxSizeInMegabytes?: number;
-    name: string;
-    requiresDuplicateDetection?: boolean;
-    status?: EntityStatus;
-    supportOrdering?: boolean;
-    userMetadata?: string;
+    autoDeleteOnIdle: string;
+    defaultMessageTtl: string;
+    duplicateDetectionHistoryTimeWindow: string;
+    enableBatchedOperations: boolean;
+    readonly enablePartitioning: boolean;
+    maxSizeInMegabytes: number;
+    readonly name: string;
+    readonly requiresDuplicateDetection: boolean;
+    status: EntityStatus;
+    supportOrdering: boolean;
+    userMetadata: string;
 }
 
 // @public

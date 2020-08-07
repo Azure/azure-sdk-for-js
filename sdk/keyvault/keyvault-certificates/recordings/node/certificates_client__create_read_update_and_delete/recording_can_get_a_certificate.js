@@ -86,7 +86,7 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://keyvault_name.vault.azure.net/certificates/CRUDCertificateName-cangetacertificate-/pending?api-version=7.1-preview&request_id=a2b52ab4542b4b679f43cfdcd40540f6',
+  'https://keyvault_name.vault.azure.net/certificates/CRUDCertificateName-cangetacertificate-/pending?api-version=7.1&request_id=a2b52ab4542b4b679f43cfdcd40540f6',
   'Retry-After',
   '10',
   'x-ms-keyvault-region',

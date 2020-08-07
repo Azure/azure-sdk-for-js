@@ -8,10 +8,10 @@ import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
 import chaiExclude from "chai-exclude";
 import * as dotenv from "dotenv";
-import { QueueProperties } from "../src/serializers/queueResourceSerializer";
+import { CreateQueueOptions } from "../src/serializers/queueResourceSerializer";
 import { RuleProperties } from "../src/serializers/ruleResourceSerializer";
-import { SubscriptionProperties } from "../src/serializers/subscriptionResourceSerializer";
-import { TopicProperties } from "../src/serializers/topicResourceSerializer";
+import { CreateSubscriptionOptions } from "../src/serializers/subscriptionResourceSerializer";
+import { CreateTopicOptions } from "../src/serializers/topicResourceSerializer";
 import { ServiceBusManagementClient } from "../src/serviceBusAtomManagementClient";
 import { EntityStatus } from "../src/util/utils";
 import { EnvVarNames, getEnvVars } from "./utils/envVarUtils";
@@ -64,6 +64,14 @@ describe("Atom management - Namespace", function(): void {
       ["_response", "createdAt", "updatedAt", "name"]
     );
   });
+
+  it("Create queue response", async () => {
+    const response = await serviceBusAtomManagementClient.createQueue("random");
+    // @ts-expect-error
+    response.authorizationRules = "";
+    // @ts-expect-error
+    response.maxDeliveryCount = undefined;
+  });
 });
 
 describe("Listing methods - PagedAsyncIterableIterator", function(): void {
@@ -97,7 +105,8 @@ describe("Listing methods - PagedAsyncIterableIterator", function(): void {
           await serviceBusAtomManagementClient.createRule(
             managementTopic1,
             managementSubscription1,
-            { name: baseName + "_rule_" + i }
+            baseName + "_rule_" + i,
+            { sqlExpression: "1=1" }
           )
         ).name
       );
@@ -271,8 +280,7 @@ describe("Atom management - Authentication", function(): void {
         managementQueue1,
         "Unexpected queue name in the createQueue response"
       );
-      const createQueue2Response = await serviceBusManagementClient.createQueue({
-        name: managementQueue2,
+      const createQueue2Response = await serviceBusManagementClient.createQueue(managementQueue2, {
         forwardTo: managementQueue1
       });
       should.equal(
@@ -1119,7 +1127,6 @@ describe("Atom management - Authentication", function(): void {
           error = err;
         }
 
-        should.equal(error.statusCode, 404);
         should.equal(error.code, "MessageEntityNotFoundError", `Unexpected error code found.`);
         should.equal(
           error.message.startsWith("The messaging entity") ||
@@ -1139,7 +1146,6 @@ describe("Atom management - Authentication", function(): void {
           error = err;
         }
 
-        should.equal(error.statusCode, 404, "Unexpected status code found.");
         should.equal(error.code, "MessageEntityNotFoundError", `Unexpected error code found.`);
         should.equal(
           error.message.startsWith("The messaging entity") ||
@@ -1196,7 +1202,6 @@ describe("Atom management - Authentication", function(): void {
             throw new Error("TestError: Unrecognized EntityType");
         }
 
-        should.equal(error.statusCode, 404, "Unexpected status code found.");
         should.equal(error.code, "MessageEntityNotFoundError", `Unexpected error code found.`);
         should.equal(
           error.message.startsWith("The messaging entity") ||
@@ -1705,7 +1710,41 @@ describe("Atom management - Authentication", function(): void {
     }
   },
   {
-    testCaseTitle: "Correlation Filter rule options",
+    testCaseTitle: "Correlation Filter rule options with a single property",
+    input: {
+      filter: {
+        correlationId: "abcd",
+        properties: {
+          randomState: "WA"
+        }
+      },
+      action: { sqlExpression: "SET sys.label='GREEN'" }
+    },
+    output: {
+      filter: {
+        correlationId: "abcd",
+        contentType: "",
+        label: "",
+        messageId: "",
+        replyTo: "",
+        replyToSessionId: "",
+        sessionId: "",
+        to: "",
+        properties: {
+          randomState: "WA"
+        }
+      },
+      action: {
+        sqlExpression: "SET sys.label='GREEN'",
+        requiresPreprocessing: false,
+        sqlParameters: undefined,
+        compatibilityLevel: 20
+      },
+      name: managementRule1
+    }
+  },
+  {
+    testCaseTitle: "Correlation Filter rule options with multiple properties",
     input: {
       filter: {
         correlationId: "abcd",
@@ -2360,9 +2399,9 @@ async function createEntity(
   topicPath?: string,
   subscriptionPath?: string,
   overrideOptions?: boolean, // If this is false, then the default options will be populated as used for basic testing.
-  queueOptions?: Omit<QueueProperties, "name">,
-  topicOptions?: Omit<TopicProperties, "name">,
-  subscriptionOptions?: Omit<SubscriptionProperties, "topicName" | "subscriptionName">,
+  queueOptions?: Omit<CreateQueueOptions, "name">,
+  topicOptions?: Omit<CreateTopicOptions, "name">,
+  subscriptionOptions?: Omit<CreateSubscriptionOptions, "topicName" | "subscriptionName">,
   ruleOptions?: Omit<RuleProperties, "name">
 ): Promise<any> {
   if (!overrideOptions) {
@@ -2412,14 +2451,12 @@ async function createEntity(
 
   switch (testEntityType) {
     case EntityType.QUEUE:
-      const queueResponse = await serviceBusAtomManagementClient.createQueue({
-        name: entityPath,
+      const queueResponse = await serviceBusAtomManagementClient.createQueue(entityPath, {
         ...queueOptions
       });
       return queueResponse;
     case EntityType.TOPIC:
-      const topicResponse = await serviceBusAtomManagementClient.createTopic({
-        name: entityPath,
+      const topicResponse = await serviceBusAtomManagementClient.createTopic(entityPath, {
         ...topicOptions
       });
       return topicResponse;
@@ -2429,11 +2466,13 @@ async function createEntity(
           "TestError: Topic path must be passed when invoking tests on subscriptions"
         );
       }
-      const subscriptionResponse = await serviceBusAtomManagementClient.createSubscription({
-        topicName: topicPath,
-        subscriptionName: entityPath,
-        ...subscriptionOptions
-      });
+      const subscriptionResponse = await serviceBusAtomManagementClient.createSubscription(
+        topicPath,
+        entityPath,
+        {
+          ...subscriptionOptions
+        }
+      );
       return subscriptionResponse;
     case EntityType.RULE:
       if (!topicPath || !subscriptionPath) {
@@ -2444,7 +2483,9 @@ async function createEntity(
       const ruleResponse = await serviceBusAtomManagementClient.createRule(
         topicPath,
         subscriptionPath,
-        { name: entityPath, ...ruleOptions }
+        entityPath,
+        ruleOptions?.filter!,
+        ruleOptions?.action!
       );
       return ruleResponse;
   }
@@ -2580,9 +2621,9 @@ async function updateEntity(
   topicPath?: string,
   subscriptionPath?: string,
   overrideOptions?: boolean, // If this is false, then the default options will be populated as used for basic testing.
-  queueOptions?: Omit<QueueProperties, "name">,
-  topicOptions?: Omit<TopicProperties, "name">,
-  subscriptionOptions?: Omit<SubscriptionProperties, "topicName" | "subscriptionName">,
+  queueOptions?: Omit<CreateQueueOptions, "name">,
+  topicOptions?: Omit<CreateTopicOptions, "name">,
+  subscriptionOptions?: Omit<CreateSubscriptionOptions, "topicName" | "subscriptionName">,
   ruleOptions?: Omit<RuleProperties, "name">
 ): Promise<any> {
   if (!overrideOptions) {
@@ -2666,11 +2707,16 @@ async function updateEntity(
           "TestError: Topic path AND subscription path must be passed when invoking tests on rules"
         );
       }
+      const getRuleResponse = await serviceBusAtomManagementClient.getRule(
+        topicPath,
+        subscriptionPath,
+        entityPath
+      );
       const ruleResponse = await serviceBusAtomManagementClient.updateRule(
         topicPath,
         subscriptionPath,
         {
-          name: entityPath,
+          ...getRuleResponse,
           ...ruleOptions
         }
       );

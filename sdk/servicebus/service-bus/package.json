@@ -12,7 +12,7 @@
     "cloud",
     "service bus",
     "AMQP",
-    "Azure"
+    "azure"
   ],
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
@@ -55,13 +55,13 @@
     "build:test": "npm run build:test:node && npm run build:test:browser",
     "build:types": "downlevel-dts types/latest types/3.1",
     "build": "tsc -p . && rollup -c 2>&1 && npm run extract-api && npm run build:types",
-    "check-format": "prettier --list-different --config ../../.prettierrc.json --ignore-path ../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
+    "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf dist dist-esm test-dist types *.tgz *.log coverage coverage-browser .nyc_output",
     "execute:js-samples": "node ../../../common/scripts/run-samples.js samples/javascript/",
     "execute:ts-samples": "node ../../../common/scripts/run-samples.js samples/typescript/dist/samples/typescript/src/",
     "execute:samples": "echo skipped",
     "extract-api": "tsc -p . && api-extractor run --local",
-    "format": "prettier --write --config ../../.prettierrc.json --ignore-path ../../.prettierignore \"samples/**/*.{ts,js}\" \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
+    "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"samples/**/*.{ts,js}\" \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "integration-test:browser": "karma start --single-run",
     "integration-test:node": "nyc mocha -r esm --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 120000 --full-trace dist-esm/test/*.spec.js dist-esm/test/**/*.spec.js",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
@@ -85,14 +85,25 @@
       }
     ]
   },
+  "//smokeTestConfiguration": {
+    "skip": [
+      "browseMessages.js",
+      "receiveMessagesLoop.js",
+      "receiveMessagesStreaming.js",
+      "scheduledMessages.js",
+      "sendMessages.js",
+      "session.js",
+      "useProxy.js"
+    ]
+  },
   "dependencies": {
     "@azure/abort-controller": "^1.0.0",
     "@azure/core-amqp": "^1.1.4",
     "@azure/core-asynciterator-polyfill": "^1.0.0",
-    "@azure/core-http": "^1.1.4",
-    "@azure/core-tracing": "1.0.0-preview.8",
+    "@azure/core-http": "^1.1.6",
+    "@azure/core-tracing": "1.0.0-preview.9",
     "@azure/core-paging": "^1.1.1",
-    "@opentelemetry/api": "^0.6.1",
+    "@opentelemetry/api": "^0.10.2",
     "@types/is-buffer": "^2.0.0",
     "@types/long": "^4.0.0",
     "buffer": "^5.2.1",

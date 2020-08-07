@@ -12,7 +12,7 @@ import { AmqpError, EventContext, OnAmqpEvent, Receiver, ReceiverOptions } from 
 import * as log from "../log";
 import { LinkEntity } from "./linkEntity";
 import { ClientEntityContext } from "../clientEntityContext";
-import { DispositionType, ReceiveMode, ServiceBusMessageImpl } from "../serviceBusMessage";
+import { DispositionType, InternalReceiveMode, ServiceBusMessageImpl } from "../serviceBusMessage";
 import { getUniqueName, StandardAbortMessage } from "../util/utils";
 import { MessageHandlerOptions } from "../models";
 import { DispositionStatusOptions } from "./managementClient";
@@ -53,7 +53,7 @@ export interface ReceiveOptions extends MessageHandlerOptions {
    * @property {number} [receiveMode] The mode in which messages should be received.
    * Default: ReceiveMode.peekLock
    */
-  receiveMode?: ReceiveMode;
+  receiveMode?: InternalReceiveMode;
   /**
    * Retry policy options that determine the mode, number of retries, retry interval etc.
    */
@@ -99,7 +99,7 @@ export class MessageReceiver extends LinkEntity {
    * @property {number} [receiveMode] The mode in which messages should be received.
    * Default: ReceiveMode.peekLock
    */
-  receiveMode: ReceiveMode;
+  receiveMode: InternalReceiveMode;
   /**
    * @property {boolean} autoComplete Indicates whether `Message.complete()` should be called
    * automatically after the message processing is complete while receiving messages with handlers.
@@ -177,7 +177,7 @@ export class MessageReceiver extends LinkEntity {
     if (!options) options = {};
     this.wasCloseInitiated = false;
     this.receiverType = receiverType;
-    this.receiveMode = options.receiveMode || ReceiveMode.peekLock;
+    this.receiveMode = options.receiveMode || InternalReceiveMode.peekLock;
 
     // If explicitly set to false then autoComplete is false else true (default).
     this.autoComplete = options.autoComplete === false ? options.autoComplete : true;
@@ -186,7 +186,7 @@ export class MessageReceiver extends LinkEntity {
         ? options.maxMessageAutoRenewLockDurationInMs
         : 300 * 1000;
     this.autoRenewLock =
-      this.maxAutoRenewDurationInMs > 0 && this.receiveMode === ReceiveMode.peekLock;
+      this.maxAutoRenewDurationInMs > 0 && this.receiveMode === InternalReceiveMode.peekLock;
     this._clearMessageLockRenewTimer = (messageId: string) => {
       if (this._messageRenewLockTimers.has(messageId)) {
         clearTimeout(this._messageRenewLockTimers.get(messageId) as NodeJS.Timer);
@@ -218,11 +218,11 @@ export class MessageReceiver extends LinkEntity {
   ): ReceiverOptions {
     const rcvrOptions: ReceiverOptions = {
       name: useNewName ? getUniqueName(this._context.entityPath) : this.name,
-      autoaccept: this.receiveMode === ReceiveMode.receiveAndDelete ? true : false,
+      autoaccept: this.receiveMode === InternalReceiveMode.receiveAndDelete ? true : false,
       // receiveAndDelete -> first(0), peekLock -> second (1)
-      rcv_settle_mode: this.receiveMode === ReceiveMode.receiveAndDelete ? 0 : 1,
+      rcv_settle_mode: this.receiveMode === InternalReceiveMode.receiveAndDelete ? 0 : 1,
       // receiveAndDelete -> settled (1), peekLock -> unsettled (0)
-      snd_settle_mode: this.receiveMode === ReceiveMode.receiveAndDelete ? 1 : 0,
+      snd_settle_mode: this.receiveMode === InternalReceiveMode.receiveAndDelete ? 1 : 0,
       source: {
         address: this.address
       },
@@ -290,6 +290,7 @@ export class MessageReceiver extends LinkEntity {
         );
 
         this._receiver = await this._context.namespace.connection.createReceiver(options);
+
         this.isConnecting = false;
         checkAborted();
 
@@ -337,6 +338,12 @@ export class MessageReceiver extends LinkEntity {
         this.name,
         err
       );
+
+      // Fix the unhelpful error messages for the OperationTimeoutError that comes from `rhea-promise`.
+      if ((err as MessagingError).code === "OperationTimeoutError") {
+        err.message = "Failed to create a receiver within allocated time and retry attempts.";
+      }
+
       throw err;
     }
   }

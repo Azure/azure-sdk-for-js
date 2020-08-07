@@ -24,6 +24,7 @@ import {
   WebResource
 } from "@azure/core-http";
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
+import { CorrelationRuleFilter } from "./core/managementClient";
 import * as log from "./log";
 import {
   buildNamespace,
@@ -34,6 +35,7 @@ import {
   buildQueue,
   buildQueueOptions,
   buildQueueRuntimeProperties,
+  CreateQueueOptions,
   InternalQueueOptions,
   QueueProperties,
   QueueResourceSerializer,
@@ -41,13 +43,18 @@ import {
 } from "./serializers/queueResourceSerializer";
 import {
   buildRule,
+  CreateRuleOptions,
+  isSqlRuleAction,
   RuleProperties,
-  RuleResourceSerializer
+  RuleResourceSerializer,
+  SqlRuleAction,
+  SqlRuleFilter
 } from "./serializers/ruleResourceSerializer";
 import {
   buildSubscription,
   buildSubscriptionOptions,
   buildSubscriptionRuntimeProperties,
+  CreateSubscriptionOptions,
   InternalSubscriptionOptions,
   SubscriptionProperties,
   SubscriptionResourceSerializer,
@@ -57,6 +64,7 @@ import {
   buildTopic,
   buildTopicOptions,
   buildTopicRuntimeProperties,
+  CreateTopicOptions,
   InternalTopicOptions,
   TopicProperties,
   TopicResourceSerializer,
@@ -122,14 +130,14 @@ export interface EntitiesResponse<T>
 export interface NamespacePropertiesResponse extends NamespaceProperties, Response {}
 
 /**
- * Represents runtime info of a queue.
- */
-export interface QueueRuntimePropertiesResponse extends QueueRuntimeProperties, Response {}
-
-/**
  * Represents result of create, get, and update operations on queue.
  */
 export interface QueueResponse extends QueueProperties, Response {}
+
+/**
+ * Represents runtime info of a queue.
+ */
+export interface QueueRuntimePropertiesResponse extends QueueRuntimeProperties, Response {}
 
 /**
  * Represents result of create, get, and update operations on topic.
@@ -300,7 +308,8 @@ export class ServiceBusManagementClient extends ServiceClient {
   /**
    * Creates a queue with given name, configured using the given options
    * @param queueName
-   * @param operationOptions The options that can be used to abort, trace and control other configurations on the HTTP request.
+   * @param options Options to configure the Queue being created(For example, you can configure a queue to support partitions or sessions)
+   *  and the operation options that can be used to abort, trace and control other configurations on the HTTP request.
    *
    * Following are errors that can be expected from this operation
    * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
@@ -313,49 +322,18 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
    * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
    */
-  async createQueue(queueName: string, operationOptions?: OperationOptions): Promise<QueueResponse>;
-  /**
-   * Creates a queue configured using the given options
-   * @param queue Options to configure the Queue being created.
-   * For example, you can configure a queue to support partitions or sessions.
-   * @param operationOptions The options that can be used to abort, trace and control other configurations on the HTTP request.
-   *
-   * Following are errors that can be expected from this operation
-   * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
-   * @throws `RestError` with code `MessageEntityAlreadyExistsError` when requested messaging entity already exists,
-   * @throws `RestError` with code `InvalidOperationError` when requested operation is invalid and we encounter a 403 HTTP status code,
-   * @throws `RestError` with code `QuotaExceededError` when requested operation fails due to quote limits exceeding from service side,
-   * @throws `RestError` with code `ServerBusyError` when the request fails due to server being busy,
-   * @throws `RestError` with code `ServiceError` when receiving unrecognized HTTP status or for a scenarios such as
-   * bad requests or requests resulting in conflicting operation on the server,
-   * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
-   * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
-   */
-  async createQueue(
-    queue: QueueProperties,
-    operationOptions?: OperationOptions
-  ): Promise<QueueResponse>;
-  async createQueue(
-    queueNameOrOptions: string | QueueProperties,
-    operationOptions?: OperationOptions
-  ): Promise<QueueResponse> {
+  async createQueue(queueName: string, options?: CreateQueueOptions): Promise<QueueResponse> {
     const { span, updatedOperationOptions } = createSpan(
       "ServiceBusManagementClient-createQueue",
-      operationOptions
+      options
     );
     try {
-      let queue: QueueProperties;
-      if (typeof queueNameOrOptions === "string") {
-        queue = { name: queueNameOrOptions };
-      } else {
-        queue = queueNameOrOptions;
-      }
       log.httpAtomXml(
-        `Performing management operation - createQueue() for "${queue.name}" with options: ${queue}`
+        `Performing management operation - createQueue() for "${queueName}" with options: ${options}`
       );
       const response: HttpOperationResponse = await this.putResource(
-        queue.name,
-        buildQueueOptions(queue),
+        queueName,
+        buildQueueOptions(options || {}),
         this.queueResourceSerializer,
         false,
         updatedOperationOptions
@@ -688,12 +666,8 @@ export class ServiceBusManagementClient extends ServiceClient {
    * update as needed and then pass it to `updateQueue()`.
    * See https://docs.microsoft.com/en-us/rest/api/servicebus/update-queue for more details.
    *
-   * @param queue Object representing the queue with one or more of the below properties updated
-   * - defaultMessageTimeToLive
-   * - lockDuration
-   * - deadLetteringOnMessageExpiration
-   * - duplicateDetectionHistoryTimeWindow
-   * - maxDeliveryCount
+   * @param queue Object representing the properties of the queue.
+   * `requiresSession`, `requiresDuplicateDetection`, `enablePartitioning`, and `name` can't be updated after creating the queue.
    * @param operationOptions The options that can be used to abort, trace and control other configurations on the HTTP request.
    *
    * Following are errors that can be expected from this operation
@@ -824,7 +798,8 @@ export class ServiceBusManagementClient extends ServiceClient {
   /**
    * Creates a topic with given name, configured using the given options
    * @param topicName
-   * @param operationOptions The options that can be used to abort, trace and control other configurations on the HTTP request.
+   * @param options Options to configure the Topic being created(For example, you can configure a topic to support partitions)
+   * and the operation options that can be used to abort, trace and control other configurations on the HTTP request.
    *
    * Following are errors that can be expected from this operation
    * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
@@ -837,49 +812,18 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
    * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
    */
-  async createTopic(topicName: string, operationOptions?: OperationOptions): Promise<TopicResponse>;
-  /**
-   * Creates a topic with given name, configured using the given options
-   * @param topic Options to configure the Topic being created.
-   * For example, you can configure a topic to support partitions or sessions.
-   * @param operationOptions The options that can be used to abort, trace and control other configurations on the HTTP request.
-   *
-   * Following are errors that can be expected from this operation
-   * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
-   * @throws `RestError` with code `MessageEntityAlreadyExistsError` when requested messaging entity already exists,
-   * @throws `RestError` with code `InvalidOperationError` when requested operation is invalid and we encounter a 403 HTTP status code,
-   * @throws `RestError` with code `QuotaExceededError` when requested operation fails due to quote limits exceeding from service side,
-   * @throws `RestError` with code `ServerBusyError` when the request fails due to server being busy,
-   * @throws `RestError` with code `ServiceError` when receiving unrecognized HTTP status or for a scenarios such as
-   * bad requests or requests resulting in conflicting operation on the server,
-   * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
-   * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
-   */
-  async createTopic(
-    topic: TopicProperties,
-    operationOptions?: OperationOptions
-  ): Promise<TopicResponse>;
-  async createTopic(
-    topicNameOrOptions: string | TopicProperties,
-    operationOptions?: OperationOptions
-  ): Promise<TopicResponse> {
+  async createTopic(topicName: string, options?: CreateTopicOptions): Promise<TopicResponse> {
     const { span, updatedOperationOptions } = createSpan(
       "ServiceBusManagementClient-createTopic",
-      operationOptions
+      options
     );
     try {
-      let topic: TopicProperties;
-      if (typeof topicNameOrOptions === "string") {
-        topic = { name: topicNameOrOptions };
-      } else {
-        topic = topicNameOrOptions;
-      }
       log.httpAtomXml(
-        `Performing management operation - createTopic() for "${topic.name}" with options: ${topic}`
+        `Performing management operation - createTopic() for "${topicName}" with options: ${options}`
       );
       const response: HttpOperationResponse = await this.putResource(
-        topic.name,
-        buildTopicOptions(topic),
+        topicName,
+        buildTopicOptions(options || {}),
         this.topicResourceSerializer,
         false,
         updatedOperationOptions
@@ -1214,9 +1158,8 @@ export class ServiceBusManagementClient extends ServiceClient {
    * update as needed and then pass it to `updateTopic()`.
    * See https://docs.microsoft.com/en-us/rest/api/servicebus/update-topic for more details.
    *
-   * @param topic Object representing the topic with one or more of the below properties updated
-   *   - defaultMessageTimeToLive
-   *   - duplicateDetectionHistoryTimeWindow
+   * @param topic Object representing the properties of the topic.
+   * `requiresDuplicateDetection`, `enablePartitioning`, and `name` can't be updated after creating the topic.
    * @param operationOptions The options that can be used to abort, trace and control other configurations on the HTTP request.
    *
    * Following are errors that can be expected from this operation
@@ -1348,7 +1291,8 @@ export class ServiceBusManagementClient extends ServiceClient {
    * Creates a subscription with given name, configured using the given options
    * @param topicName
    * @param subscriptionName
-   * @param operationOptions The options that can be used to abort, trace and control other configurations on the HTTP request.
+   * @param options Options to configure the Subscription being created(For example, you can configure a Subscription to support partitions or sessions)
+   * and the operation options that can be used to abort, trace and control other configurations on the HTTP request.
    *
    * Following are errors that can be expected from this operation
    * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
@@ -1364,65 +1308,20 @@ export class ServiceBusManagementClient extends ServiceClient {
   async createSubscription(
     topicName: string,
     subscriptionName: string,
-    operationOptions?: OperationOptions
-  ): Promise<SubscriptionResponse>;
-
-  /**
-   * Creates a subscription with given name, configured using the given options
-   * @param subscription Options to configure the Subscription being created.
-   * For example, you can configure a Subscription to support partitions or sessions.
-   * @param operationOptions The options that can be used to abort, trace and control other configurations on the HTTP request.
-   *
-   * Following are errors that can be expected from this operation
-   * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
-   * @throws `RestError` with code `MessageEntityAlreadyExistsError` when requested messaging entity already exists,
-   * @throws `RestError` with code `InvalidOperationError` when requested operation is invalid and we encounter a 403 HTTP status code,
-   * @throws `RestError` with code `QuotaExceededError` when requested operation fails due to quote limits exceeding from service side,
-   * @throws `RestError` with code `ServerBusyError` when the request fails due to server being busy,
-   * @throws `RestError` with code `ServiceError` when receiving unrecognized HTTP status or for a scenarios such as
-   * bad requests or requests resulting in conflicting operation on the server,
-   * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
-   * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
-   */
-  async createSubscription(
-    subscription: SubscriptionProperties,
-    operationOptions?: OperationOptions
-  ): Promise<SubscriptionResponse>;
-  async createSubscription(
-    topicNameOrSubscriptionOptions: string | SubscriptionProperties,
-    subscriptionNameOrOperationOptions?: string | OperationOptions,
-    operationOptions?: OperationOptions
+    options?: CreateSubscriptionOptions
   ): Promise<SubscriptionResponse> {
-    let subscription: SubscriptionProperties;
-    let operOptions: OperationOptions | undefined;
-    if (typeof subscriptionNameOrOperationOptions === "string") {
-      if (typeof topicNameOrSubscriptionOptions !== "string") {
-        throw new Error("Topic name provided is invalid");
-      }
-      subscription = {
-        topicName: topicNameOrSubscriptionOptions,
-        subscriptionName: subscriptionNameOrOperationOptions
-      };
-      operOptions = operationOptions;
-    } else {
-      subscription = topicNameOrSubscriptionOptions as SubscriptionProperties;
-      operOptions = subscriptionNameOrOperationOptions;
-    }
     const { span, updatedOperationOptions } = createSpan(
       "ServiceBusManagementClient-createSubscription",
-      operOptions
+      options
     );
     try {
       log.httpAtomXml(
-        `Performing management operation - createSubscription() for "${subscription.subscriptionName}" with options: ${subscription}`
+        `Performing management operation - createSubscription() for "${subscriptionName}" with options: ${options}`
       );
-      const fullPath = this.getSubscriptionPath(
-        subscription.topicName,
-        subscription.subscriptionName
-      );
+      const fullPath = this.getSubscriptionPath(topicName, subscriptionName);
       const response: HttpOperationResponse = await this.putResource(
         fullPath,
-        buildSubscriptionOptions(subscription),
+        buildSubscriptionOptions(options || {}),
         this.subscriptionResourceSerializer,
         false,
         updatedOperationOptions
@@ -1792,10 +1691,8 @@ export class ServiceBusManagementClient extends ServiceClient {
    * Therefore, the suggested flow is to use `getSubscription()` to get the complete set of subscription properties,
    * update as needed and then pass it to `updateSubscription()`.
    *
-   * @param subscription Object representing the subscription with one or more of the below properties updated
-   *   - lockDuration
-   *   - deadLetteringOnMessageExpiration
-   *   - maxDeliveryCount
+   * @param subscription Object representing the properties of the subscription.
+   * `subscriptionName`, `topicName`, and `requiresSession` can't be updated after creating the subscription.
    * @param operationOptions The options that can be used to abort, trace and control other configurations on the HTTP request.
    *
    * Following are errors that can be expected from this operation
@@ -1950,7 +1847,8 @@ export class ServiceBusManagementClient extends ServiceClient {
    * Creates a rule with given name, configured using the given options.
    * @param topicName
    * @param subscriptionName
-   * @param rule
+   * @param ruleName
+   * @param ruleFilter Defines the filter expression that the rule evaluates.
    * @param operationOptions The options that can be used to abort, trace and control other configurations on the HTTP request.
    *
    * Following are errors that can be expected from this operation
@@ -1964,24 +1862,74 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
    * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
    */
+  createRule(
+    topicName: string,
+    subscriptionName: string,
+    ruleName: string,
+    ruleFilter: SqlRuleFilter | CorrelationRuleFilter,
+    operationOptions?: OperationOptions
+  ): Promise<RuleResponse>;
+  /**
+   * Creates a rule with given name, configured using the given options.
+   * @param topicName
+   * @param subscriptionName
+   * @param ruleName
+   * @param ruleFilter Defines the filter expression that the rule evaluates.
+   * @param ruleAction The SQL like expression that can be executed on the message should the associated filter apply.
+   * @param operationOptions The options that can be used to abort, trace and control other configurations on the HTTP request.
+   *
+   * Following are errors that can be expected from this operation
+   * @throws `RestError` with code `UnauthorizedRequestError` when given request fails due to authorization problems,
+   * @throws `RestError` with code `MessageEntityAlreadyExistsError` when requested messaging entity already exists,
+   * @throws `RestError` with code `InvalidOperationError` when requested operation is invalid and we encounter a 403 HTTP status code,
+   * @throws `RestError` with code `QuotaExceededError` when requested operation fails due to quote limits exceeding from service side,
+   * @throws `RestError` with code `ServerBusyError` when the request fails due to server being busy,
+   * @throws `RestError` with code `ServiceError` when receiving unrecognized HTTP status or for a scenarios such as
+   * bad requests or requests resulting in conflicting operation on the server,
+   * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
+   * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
+   */
+  createRule(
+    topicName: string,
+    subscriptionName: string,
+    ruleName: string,
+    ruleFilter: SqlRuleFilter | CorrelationRuleFilter,
+    ruleAction: SqlRuleAction,
+    operationOptions?: OperationOptions
+  ): Promise<RuleResponse>;
   async createRule(
     topicName: string,
     subscriptionName: string,
-    rule: RuleProperties,
+    ruleName: string,
+    ruleFilter: SqlRuleFilter | CorrelationRuleFilter,
+    ruleActionOrOperationOptions?: SqlRuleAction | OperationOptions,
     operationOptions?: OperationOptions
   ): Promise<RuleResponse> {
+    let ruleAction: SqlRuleAction | undefined = undefined;
+    let operOptions: OperationOptions | undefined;
+    if (ruleActionOrOperationOptions) {
+      if (isSqlRuleAction(ruleActionOrOperationOptions)) {
+        // Overload#2 - where the sqlExpression in the ruleAction is defined
+        ruleAction = ruleActionOrOperationOptions;
+        operOptions = operationOptions;
+      } else {
+        // Overload#1
+        // Overload#2 - where the sqlExpression in the ruleAction is undefined
+        operOptions = { ...ruleActionOrOperationOptions, ...operationOptions };
+      }
+    }
     const { span, updatedOperationOptions } = createSpan(
       "ServiceBusManagementClient-createRule",
-      operationOptions
+      operOptions
     );
     try {
       log.httpAtomXml(
-        `Performing management operation - createRule() for "${rule.name}" with options: "${rule}"`
+        `Performing management operation - createRule() for "${ruleName}" with filter: "${ruleFilter}"`
       );
-      const fullPath = this.getRulePath(topicName, subscriptionName, rule.name);
+      const fullPath = this.getRulePath(topicName, subscriptionName, ruleName);
       const response: HttpOperationResponse = await this.putResource(
         fullPath,
-        rule,
+        { name: ruleName, filter: ruleFilter, action: ruleAction },
         this.ruleResourceSerializer,
         false,
         updatedOperationOptions
@@ -2167,6 +2115,10 @@ export class ServiceBusManagementClient extends ServiceClient {
 
   /**
    * Updates properties on the Rule by the given name based on the given options.
+   * All rule properties must be set even if one of them is being updated.
+   * Therefore, the suggested flow is to use `getRule()` to get the complete set of rule properties,
+   * update as needed and then pass it to `updateRule()`.
+   *
    * @param topicName
    * @param subscriptionName
    * @param rule Options to configure the Rule being updated.
@@ -2290,7 +2242,7 @@ export class ServiceBusManagementClient extends ServiceClient {
       | InternalQueueOptions
       | InternalTopicOptions
       | InternalSubscriptionOptions
-      | RuleProperties,
+      | CreateRuleOptions,
     serializer: AtomXmlSerializer,
     isUpdate: boolean = false,
     operationOptions: OperationOptions = {}
@@ -2380,7 +2332,7 @@ export class ServiceBusManagementClient extends ServiceClient {
         const err = new RestError(
           `The messaging entity "${name}" being requested cannot be found.`,
           "MessageEntityNotFoundError",
-          404,
+          response.status,
           stripRequest(webResource),
           stripResponse(response)
         );

@@ -1,7 +1,12 @@
 # Release History
+## 11.0.4 (Unreleased)
 
-## 11.0.2 (Unreleased)
 
+## 11.0.3 (2020-08-04)
+- Fixed the parented tracing span in the searchClient.search API. Please refer [#10442](https://github.com/Azure/azure-sdk-for-js/issues/10442) for further details.
+
+## 11.0.2 (2020-07-31)
+- Fixed the samples in the Readme File. Please refer [#10383](https://github.com/Azure/azure-sdk-for-js/pull/10383) for further details.
 
 ## 11.0.1 (2020-07-20)
 - [BugFix] Set the correct continuation token in the search documrnts API. Please refer [#10146](https://github.com/Azure/azure-sdk-for-js/pull/10146) for further details.

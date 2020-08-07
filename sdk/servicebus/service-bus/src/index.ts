@@ -18,12 +18,14 @@ export { ServiceBusClientOptions } from "./constructorHelpers";
 export { CorrelationRuleFilter } from "./core/managementClient";
 export {
   CreateBatchOptions,
+  CreateReceiverOptions,
   CreateSessionReceiverOptions,
   GetMessageIteratorOptions,
   MessageHandlerOptions,
   MessageHandlers,
   PeekMessagesOptions,
   ReceiveMessagesOptions,
+  ReceiveMode,
   SenderOpenOptions,
   SubscribeOptions,
   WaitTimeOptions
@@ -33,7 +35,11 @@ export { Receiver } from "./receivers/receiver";
 export { SessionReceiver } from "./receivers/sessionReceiver";
 export { Sender } from "./sender";
 export { NamespaceProperties } from "./serializers/namespaceResourceSerializer";
-export { QueueProperties, QueueRuntimeProperties } from "./serializers/queueResourceSerializer";
+export {
+  CreateQueueOptions,
+  QueueProperties,
+  QueueRuntimeProperties
+} from "./serializers/queueResourceSerializer";
 export {
   RuleProperties,
   SqlParameter,
@@ -41,13 +47,17 @@ export {
   SqlRuleFilter
 } from "./serializers/ruleResourceSerializer";
 export {
+  CreateSubscriptionOptions,
   SubscriptionProperties,
   SubscriptionRuntimeProperties
 } from "./serializers/subscriptionResourceSerializer";
-export { TopicProperties, TopicRuntimeProperties } from "./serializers/topicResourceSerializer";
+export {
+  CreateTopicOptions,
+  TopicProperties,
+  TopicRuntimeProperties
+} from "./serializers/topicResourceSerializer";
 export {
   EntitiesResponse,
-  ListRequestOptions,
   NamespacePropertiesResponse,
   QueueResponse,
   QueueRuntimePropertiesResponse,
