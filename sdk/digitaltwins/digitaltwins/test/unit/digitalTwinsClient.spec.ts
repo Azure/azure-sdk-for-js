@@ -22,8 +22,8 @@ import {
   DigitalTwinModelsAddOptionalParams,
   EventRoute,
   EventRoutesAddOptionalParams
-} from "../src/generated/models";
-import { DigitalTwinsClient } from "../src/index";
+} from "../../src/generated/models";
+import { DigitalTwinsClient } from "../../src/index";
 
 describe("DigitalTwinsClient", () => {
   let operationOptions: OperationOptions;

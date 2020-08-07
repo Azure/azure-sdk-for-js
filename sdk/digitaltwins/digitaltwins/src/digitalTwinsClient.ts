@@ -12,11 +12,11 @@ import {
   RequestOptionsBase,
   OperationOptions,
   bearerTokenAuthenticationPolicy,
-  createPipelineFromOptions
+  createPipelineFromOptions,
+  generateUuid
 } from "@azure/core-http";
 import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
 import { AzureDigitalTwinsAPI as GeneratedClient } from "./generated/azureDigitalTwinsAPI";
-import uuid from "uuid";
 import {
   AzureDigitalTwinsAPIOptionalParams,
   DigitalTwinsGetByIdResponse,
@@ -491,7 +491,7 @@ export class DigitalTwinsClient {
     const digitalTwinsSendTelemetryOptionalParams: DigitalTwinsSendTelemetryOptionalParams = options;
     digitalTwinsSendTelemetryOptionalParams.dtTimestamp = new Date().getTime().toString();
     if (!messageId) {
-      messageId = uuid.v4();
+      messageId = generateUuid();
     }
     return this.client.digitalTwins.sendTelemetry(
       digitalTwinId,
@@ -521,7 +521,7 @@ export class DigitalTwinsClient {
     const digitalTwinsSendComponentTelemetryOptionalParams: DigitalTwinsSendComponentTelemetryOptionalParams = options;
     digitalTwinsSendComponentTelemetryOptionalParams.dtTimestamp = new Date().getTime().toString();
     if (!messageId) {
-      messageId = uuid.v4();
+      messageId = generateUuid();
     }
     return this.client.digitalTwins.sendComponentTelemetry(
       digitalTwinId,

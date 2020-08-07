@@ -56,7 +56,7 @@ export function nodeConfig(test = false) {
 
   if (test) {
     // Entry points - test files under the `test` folder(common for both browser and node), node specific test files
-    baseConfig.input = ["dist-esm/test/*.spec.js", "dist-esm/test/node/*.spec.js"];
+    baseConfig.input = ["dist-esm/test/*.spec.js", "dist-esm/test/unit/*.spec.js"];
     baseConfig.plugins.unshift(multiEntry({ exports: false }));
 
     // different output file
@@ -84,12 +84,11 @@ export function browserConfig(test = false) {
       format: "umd",
       name: "Azure.DigitialTwins",
       globals: {
-        "@azure/core-http": "Azure.Core.HTTP",
-        uuid: "uuid"
+        "@azure/core-http": "Azure.Core.HTTP"
       },
       sourcemap: true
     },
-    external: ["nock", "fs-extra", "uuid"],
+    external: ["nock", "fs-extra"],
     preserveSymlinks: false,
     plugins: [
       sourcemaps(),
@@ -124,7 +123,7 @@ export function browserConfig(test = false) {
   baseConfig.onwarn = ignoreKnownWarnings;
 
   if (test) {
-    baseConfig.input = ["dist-esm/test/*.spec.js", "dist-esm/test/internal/*.spec.js"];
+    baseConfig.input = ["dist-esm/test/*.spec.js", "dist-esm/test/unit/*.spec.js"];
 
     baseConfig.external.unshift(...["process"]);
 
