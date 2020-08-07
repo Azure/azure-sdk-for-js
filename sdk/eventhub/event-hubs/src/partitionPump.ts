@@ -215,7 +215,7 @@ export function createProcessingSpan(
  */
 export async function trace(fn: () => Promise<void>, span: Span): Promise<void> {
   try {
-    await fn();
+    await getTracer().withSpan(span, fn);
     span.setStatus({ code: CanonicalCode.OK });
   } catch (err) {
     span.setStatus({

@@ -3,7 +3,7 @@
 
 import { createProcessingSpan, trace } from "../src/partitionPump";
 import { NoOpSpan, TestSpan, TestTracer } from "@azure/core-tracing";
-import { CanonicalCode, SpanKind, SpanOptions } from "@opentelemetry/api";
+import { CanonicalCode, SpanKind, SpanOptions, Span } from "@opentelemetry/api";
 import chai from "chai";
 import { ReceivedEventData } from "../src/eventData";
 import { instrumentEventData } from "../src/diagnostics/instrumentEventData";
@@ -21,6 +21,7 @@ describe("PartitionPump", () => {
     class TestTracer2 extends TestTracer {
       public spanOptions: SpanOptions | undefined;
       public spanName: string | undefined;
+      public spanStack: Span[] = [];
 
       constructor() {
         super();
@@ -30,6 +31,23 @@ describe("PartitionPump", () => {
         this.spanName = nameArg;
         this.spanOptions = optionsArg;
         return super.startSpan(nameArg, optionsArg);
+      }
+
+      withSpan<T extends (...args: unknown[]) => ReturnType<T>>(span: Span, fn: T): ReturnType<T> {
+        this.spanStack.push(span);
+        const result = fn();
+        if (typeof (result as any).then === "function") {
+          (result as any)
+            .then(() => this.spanStack.pop())
+            .catch((e: Error) => {
+              throw e;
+            });
+        }
+        return result;
+      }
+
+      getCurrentSpan(): Span {
+        return this.spanStack[this.spanStack.length - 1];
       }
     }
 
@@ -122,6 +140,26 @@ describe("PartitionPump", () => {
       span.status!.code.should.equal(CanonicalCode.UNKNOWN);
       span.status!.message!.should.equal("error thrown from fn");
       span.endCalled.should.be.ok;
+    });
+
+    it("trace - span is propagated to downstream operations", async () => {
+      const { tracer, resetTracer } = setTracerForTest(new TestTracer2());
+      const span = tracer.startSpan("whatever");
+
+      should.equal(undefined, tracer.getCurrentSpan());
+      await trace(async () => {
+        const childSpan = tracer.startSpan("child");
+        should.equal(span, tracer.getCurrentSpan());
+        await trace(async () => {
+          await should.equal(childSpan, tracer.getCurrentSpan());
+        }, childSpan);
+        await should.equal(span, tracer.getCurrentSpan());
+      }, span);
+      should.equal(undefined, tracer.getCurrentSpan());
+
+      span.status!.code.should.equal(CanonicalCode.OK);
+      span.endCalled.should.be.ok;
+      resetTracer();
     });
   });
 });
