@@ -12,9 +12,12 @@ In ancient times (~5 years ago), Microsoft provided SDKs for NodeJS developers w
 
 Another package `ms-rest-azure` was created to house Azure-specific components and authetication code that worked with a variety of credentials like Service Principal, Device Token, and Managed Identity. At this point, support for TypeScript came in the form of hand-authored type declaration files.
 
-Later, there emerged a desire for isomorphic packages, packages that worked in both the browser as well as Node. This required a new runtime and code generator. As part of this effort, code was generated in TypeScript directly and a new repo was created: `azure-sdk-for-js`.
-
-A new code generator was created (`autorest.typescript`) that replaced the existing one (`autorest.nodejs`.) `ms-rest` became `@azure/ms-rest-js`. The authentication pieces from `ms-rest-azure` were put into `@azure/ms-rest-nodeauth` and an equivalent package was created for the browser called `@azure/ms-rest-browserauth`. All remaining parts of `ms-rest-azure` were placed into `@azure/ms-rest-azure-js`.
+Later, there emerged a desire for isomorphic packages, packages that worked in both the browser as well as Node. This required a new runtime, code generator and repo. As part of this effort, 
+- `ms-rest` became `@azure/ms-rest-js` to provide the same capabilities in both Node.js and browser
+- The authentication pieces from `ms-rest-azure` were put into `@azure/ms-rest-nodeauth` and an equivalent package was created for the browser called `@azure/ms-rest-browserauth`.
+- All remaining parts of `ms-rest-azure` were placed into `@azure/ms-rest-azure-js`.
+- The new code generator (`autorest.typescript`) that generated code in TypeScript and used the newer runtimes mentioned above replaced the existing one (`autorest.nodejs`) that generated JavaScript code.
+- The packages thus generated got a new home in the repo `azure-sdk-for-js`. The older packages lived in `azure-sdk-for-node` repo.
 
 `@azure/ms-rest-js` was used as the basis for `@azure/core-http` when the JS team for the new Azure SDK was formed. This was nice as it bootstrapped the ability to make HTTP requests and provided broad compatibility with many track 1 clients that still exist in the `@azure/sdk-for-js` repository today.
 
