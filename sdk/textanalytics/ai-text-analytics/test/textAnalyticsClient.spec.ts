@@ -110,8 +110,11 @@ describe("[AAD] TextAnalyticsClient", function() {
       const results = await client.analyzeSentiment(allInputs);
       assert.equal(results.length, testDataEn.length + testDataEs.length);
       assertAllSuccess(results);
-      results.map(result => (result as AnalyzeSentimentSuccessResult).sentences.map(sentence =>
-        assert.isUndefined(sentence.minedOpinions)));
+      results.map((result) =>
+        (result as AnalyzeSentimentSuccessResult).sentences.map((sentence) =>
+          assert.isUndefined(sentence.minedOpinions)
+        )
+      );
     });
 
     it("client gets positive mined opinions", async () => {
@@ -128,7 +131,7 @@ describe("[AAD] TextAnalyticsClient", function() {
       assert.equal(results.length, 1);
       assertAllSuccess(results);
       const documentSentiment: AnalyzeSentimentSuccessResult = results[0] as AnalyzeSentimentSuccessResult;
-      documentSentiment.sentences.map(sentence =>
+      documentSentiment.sentences.map((sentence) =>
         sentence.minedOpinions?.map((opinion) => {
           const aspect = opinion.aspect;
           assert.equal("design", aspect.text);
@@ -170,7 +173,7 @@ describe("[AAD] TextAnalyticsClient", function() {
       assert.equal(results.length, 1);
       assertAllSuccess(results);
       const documentSentiment: AnalyzeSentimentSuccessResult = results[0] as AnalyzeSentimentSuccessResult;
-      documentSentiment.sentences.map(sentence => {
+      documentSentiment.sentences.map((sentence) => {
         const foodAspect = sentence.minedOpinions?.[0].aspect;
         assert.equal("food", foodAspect?.text);
         assert.equal("negative", foodAspect?.sentiment);
@@ -189,7 +192,7 @@ describe("[AAD] TextAnalyticsClient", function() {
         const serviceOpinion = sentence.minedOpinions?.[1].opinions[0];
 
         assert.deepEqual(foodOpinion!, serviceOpinion!);
-        
+
         assert.equal("good", foodOpinion?.text);
         assert.equal("negative", foodOpinion?.sentiment);
         assert.isAtLeast(foodOpinion?.confidenceScores.positive!, 0);
