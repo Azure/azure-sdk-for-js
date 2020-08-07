@@ -117,7 +117,7 @@ describe("[AAD] TextAnalyticsClient", function() {
       );
     });
 
-    it("client gets positive mined opinions", async () => {
+    it.only("client gets positive mined opinions", async () => {
       const documents = [
         {
           text: "It has a sleek premium aluminum design that makes it beautiful to look at.",
@@ -137,7 +137,7 @@ describe("[AAD] TextAnalyticsClient", function() {
           assert.equal("design", aspect.text);
           assert.equal("positive", aspect.sentiment);
           assert.isAtLeast(aspect.confidenceScores.positive, 0);
-          assert.isUndefined(aspect.confidenceScores.neutral);
+          assert.equal(aspect.confidenceScores.neutral, 0);
           assert.isAtLeast(aspect.confidenceScores.negative, 0);
 
           const sleekOpinion = opinion.opinions[0];
@@ -178,14 +178,14 @@ describe("[AAD] TextAnalyticsClient", function() {
         assert.equal("food", foodAspect?.text);
         assert.equal("negative", foodAspect?.sentiment);
         assert.isAtLeast(foodAspect?.confidenceScores.positive!, 0);
-        assert.isUndefined(foodAspect?.confidenceScores.neutral);
+        assert.equal(foodAspect?.confidenceScores.neutral, 0);
         assert.isAtLeast(foodAspect?.confidenceScores.negative!, 0);
 
         const serviceAspect = sentence.minedOpinions?.[1].aspect;
         assert.equal("service", serviceAspect?.text);
         assert.equal("negative", serviceAspect?.sentiment);
         assert.isAtLeast(serviceAspect?.confidenceScores.positive!, 0);
-        assert.isUndefined(serviceAspect?.confidenceScores.neutral);
+        assert.equal(serviceAspect?.confidenceScores.neutral, 0);
         assert.isAtLeast(serviceAspect?.confidenceScores.negative!, 0);
 
         const foodOpinion = sentence.minedOpinions?.[0].opinions[0];

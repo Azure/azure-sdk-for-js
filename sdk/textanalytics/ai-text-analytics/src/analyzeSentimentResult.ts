@@ -191,7 +191,7 @@ function convertGeneratedSentenceSentiment(
     minedOpinions: sentence.aspects?.map(
       (aspect: SentenceAspect): MinedOpinion => ({
         aspect: {
-          confidenceScores: aspect.confidenceScores as SentimentConfidenceScores,
+          confidenceScores: {... aspect.confidenceScores as SentimentConfidenceScores, neutral:0},
           sentiment: aspect.sentiment,
           text: aspect.text
         },
