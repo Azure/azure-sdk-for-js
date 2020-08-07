@@ -124,6 +124,15 @@ export function makeAnalyzeSentimentErrorResult(
   return makeTextAnalyticsErrorResult(id, error);
 }
 
+/**
+ * Converts a sentence sentiment object returned by the service to another that 
+ * is user-friendly.
+ *
+ * @param sentence - The sentence sentiment object to be converted.
+ * @param response - The entire response returned by the service.
+ * @returns The user-friendly sentence sentiment object.
+ */
+
 function convertGeneratedSentenceSentiment(
   sentence: GeneratedSentenceSentiment,
   response: GeneratedClientSentimentResponse
@@ -147,6 +156,15 @@ function convertGeneratedSentenceSentiment(
   };
 }
 
+/**
+ * Converts a sentence opinion returned by the service to an opinion 
+ * sentiment object.
+ *
+ * @param opinion - The sentence opinion object to be converted.
+ * @param response - The entire response returned by the service.
+ * @returns The user-friendly opinion sentiment object.
+ */
+
 function convertSentenceOpinionToOpinionSentiment(opinion: SentenceOpinion): OpinionSentiment {
   const opinionConfidenceScore: SentimentConfidenceScores = {
     positive: opinion.confidenceScores.positive,
@@ -160,6 +178,16 @@ function convertSentenceOpinionToOpinionSentiment(opinion: SentenceOpinion): Opi
     text: opinion.text
   };
 }
+
+/**
+ * Converts an aspect relation object returned by the service to an opinion 
+ * sentiment object where JSON pointers in the former are realized in the 
+ * latter.
+ *
+ * @param aspectRelation - The aspect relation object to be converted.
+ * @param response - The entire response returned by the service.
+ * @returns The user-friendly opinion sentiment object.
+ */
 
 function convertAspectRelationToOpinionSentiment(
   aspectRelation: AspectRelation,
