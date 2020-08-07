@@ -10,7 +10,7 @@ chai.use(chaiString);
 import { EnvVarKeys, getEnvVars } from "../utils/testUtils";
 import { EnvironmentCredential, TokenCredential } from "@azure/identity";
 import { EventHubProducerClient, EventHubConsumerClient } from "../../src";
-import { getTracer, setTracer, TestTracer } from '@azure/core-tracing';
+import { getTracer, setTracer, TestTracer } from "@azure/core-tracing";
 const env = getEnvVars();
 
 describe("Create clients using Azure Identity", function(): void {
@@ -96,8 +96,9 @@ describe("Create clients using Azure Identity", function(): void {
 
       await client.close();
 
-      const spans = tracer.getKnownSpans()
-        .filter(s => s.name === 'Azure.EventHubs.getEventHubProperties');
+      const spans = tracer
+        .getKnownSpans()
+        .filter((s) => s.name === "Azure.EventHubs.getEventHubProperties");
 
       spans.length.should.equal(1);
       spans[0].attributes.should.deep.equal({
@@ -106,5 +107,5 @@ describe("Create clients using Azure Identity", function(): void {
         "peer.address": client.fullyQualifiedNamespace
       });
     });
-  })
+  });
 });
