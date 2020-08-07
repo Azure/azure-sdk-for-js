@@ -13,14 +13,6 @@ to authenticate API requests. It supports token authentication using an Azure Ac
     - You can sign up for a [free account](https://azure.microsoft.com/free/).
 - The [Azure CLI][azure_cli] can also be useful for authenticating in a development environment, creating accounts, and managing account roles.
 
-#### Authenticating via Visual Studio 
-
-Developers using Visual Studio 2017 or later can authenticate an Azure Active Directory account through the IDE. Applications using the `DefaultAzureCredential` or the `VisualStudioCredential` can then use this account to authenticate calls in their application when running locally.
-
-To authenticate in Visual Studio select the `Tools > Options` menu to launch the Options dialog. Then navigate to the `Azure Service Authentication` options to sign in with your Azure Active Directory account.
-
-![Visual Studio Account Selection](./images/VsLoginDialog.png)
-
 #### Authenticating via Visual Studio Code
 
 Developers using Visual Studio Code can use the [Azure Account Extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode.azure-account), to authenticate via the IDE. Applications using the `DefaultAzureCredential` or the `VisualStudioCodeCredential` can then use this account to authenticate calls in their application when running locally.
@@ -72,11 +64,9 @@ The `DefaultAzureCredential` is appropriate for most scenarios where the applica
 ![DefaultAzureCredential authentication flow](./images/DefaultAzureCredentialAuthenticationFlow.png)
 
 - Environment - The `DefaultAzureCredential` will read account information specified via [environment variables](#Environment-variables) and use it to authenticate.
- - Managed Identity - If the application is deployed to an Azure host with Managed Identity enabled, the `DefaultAzureCredential` will authenticate with that account.
- - Visual Studio - If the developer has authenticated via Visual Studio, the `DefaultAzureCredential` will authenticate with that account.
- - Visual Studio Code - If the developer has authenticated via the Visual Studio Code Azure Account plugin, the `DefaultAzureCredential` will authenticate with that account.
- - Azure CLI - If the developer has authenticated an account via the Azure CLI `az login` command, the `DefaultAzureCredential` will authenticate with that account.
- - Interactive - If enabled the `DefaultAzureCredential` will interactively authenticate the developer via the current system's default browser.
+- Managed Identity - If the application is deployed to an Azure host with Managed Identity enabled, the `DefaultAzureCredential` will authenticate with that account.
+- Visual Studio Code - If the developer has authenticated via the Visual Studio Code Azure Account plugin, the `DefaultAzureCredential` will authenticate with that account.
+- Azure CLI - If the developer has authenticated an account via the Azure CLI `az login` command, the `DefaultAzureCredential` will authenticate with that account.
 
 ### Environment variables
 
@@ -126,32 +116,6 @@ const credentialChain = new ChainedTokenCredential(firstCredential, secondCreden
 const { KeyClient } = require("@azure/keyvault-keys");
 const client = new KeyClient(vaultUrl, credentialChain);
 ```
-
-### Different ways of authenticating as a service principal
-
-The following example shows how to authenticate as a service principal using the a Tenant ID, Client ID and client secret through the `ClientSecretCredential`; then using a PEM-encoded certificate with a private key, not password protected through the `ClientCertificateCredential`; then using environment variables through the `EnvironmentCredential`:
-
-```javascript
-// Using a client secret
-const { ClientSecretCredential } = require("@azure/identity");
-const credential = new ClientSecretCredential(tenantId, clientId, clientSecret);
-
-// Using a PEM-encoded certificate with a private key, not password protected
-const { ClientCertificateCredential } = require("@azure/identity");
-const credential = new ClientCertificateCredential(
-  tenantId,
-  clientId,
-  "/app/certs/certificate.pem"
-);
-
-// Using environment variables (see "Environment variables" above for variable names)
-const { EnvironmentCredential } = require("@azure/identity");
-const credential = new EnvironmentCredential();
-```
-
-### Using the `AuthorizationCodeCredential`
-
-The `AuthorizationCodeCredential` takes more up-front work to use than the other credential types at this time. A full sample demonstrating how to use this credential can be found in [`samples/authorizationCodeSample.ts`](samples/authorizationCodeSample.ts).
 
 ## Credential Classes
 
