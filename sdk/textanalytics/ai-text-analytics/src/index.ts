@@ -72,12 +72,5 @@ export {
   WarningCode,
   LinkedEntity,
   Match,
-  TextAnalyticsWarning,
-  // SentenceAspect,
-  // SentenceOpinion,
-  // AspectConfidenceScoreLabel,
-  // SentenceAspectSentiment,
-  // SentenceOpinionSentiment,
-  // AspectRelation,
-  // AspectRelationType
+  TextAnalyticsWarning
 } from "./generated/models";
