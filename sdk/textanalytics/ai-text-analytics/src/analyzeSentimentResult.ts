@@ -62,11 +62,15 @@ export interface SentenceSentiment {
    * The sentiment confidence score between 0 and 1 for the sentence for all classes.
    */
   confidenceScores: SentimentConfidenceScores;
-
+  /**
+   * The list of opinions mined from this sentence. For example in "The food is 
+   * good, but the service is bad", we would mind these two opinions "food is 
+   * good", "service is bad". Only returned if `show_opinion_mining` is set to 
+   * True in the call to `analyze_sentiment`.
+   */
   minedOpinions?: MinedOpinion[];
 }
 
-export interface AspectSentiment {
   /**
    * AspectSentiment contains the related opinions, predicted sentiment,
    * confidence scores and other information about an aspect of a product.
@@ -74,21 +78,56 @@ export interface AspectSentiment {
    * For example in "The food at Hotel Foo is good", "food" is an aspect of
    * "Hotel Foo".
    */
+export interface AspectSentiment {
+  /**
+   * The sentiment confidence score between 0 and 1 for the aspect for 
+   * 'positive' and 'negative' labels. It's score for 'neutral' will always be 
+   * 0.
+   */
   confidenceScores: SentimentConfidenceScores;
+  /**
+   * The predicted Sentiment for the aspect. Possible values include 'positive', 
+   * 'mixed', and 'negative'.
+   */
   sentiment: DocumentSentimentLabel;
+  /**
+   * The aspect text.
+   */
   text: string;
 }
 
 export interface OpinionSentiment {
+  /**
+   * The sentiment confidence score between 0 and 1 for the opinion for 
+   * 'positive' and 'negative' labels. It's score for 'neutral' will always be 
+   * 0.
+   */
   confidenceScores: SentimentConfidenceScores;
+  /**
+   * Whether the opinion is negated. For example, in "The food is not good", the 
+   * opinion "good" is negated.
+   */
   isNegated: boolean;
+  /**
+   * The predicted Sentiment for the opinion. Possible values include 
+   * 'positive', 'mixed', and 'negative'.
+   */
   sentiment: DocumentSentimentLabel;
+  /**
+   * The opinion text.
+   */
   text: string;
 }
 
 
 export interface MinedOpinion {
+  /**
+   * The aspect of a product/service that this opinion is about.
+   */
   aspect: AspectSentiment;
+  /**
+   * The actual opinions of the aspect.
+   */
   opinions: OpinionSentiment[];
 }
 
@@ -132,7 +171,6 @@ export function makeAnalyzeSentimentErrorResult(
  * @param response - The entire response returned by the service.
  * @returns The user-friendly sentence sentiment object.
  */
-
 function convertGeneratedSentenceSentiment(
   sentence: GeneratedSentenceSentiment,
   response: GeneratedClientSentimentResponse
@@ -164,7 +202,6 @@ function convertGeneratedSentenceSentiment(
  * @param response - The entire response returned by the service.
  * @returns The user-friendly opinion sentiment object.
  */
-
 function convertSentenceOpinionToOpinionSentiment(opinion: SentenceOpinion): OpinionSentiment {
   const opinionConfidenceScore: SentimentConfidenceScores = {
     positive: opinion.confidenceScores.positive,
@@ -188,7 +225,6 @@ function convertSentenceOpinionToOpinionSentiment(opinion: SentenceOpinion): Opi
  * @param response - The entire response returned by the service.
  * @returns The user-friendly opinion sentiment object.
  */
-
 function convertAspectRelationToOpinionSentiment(
   aspectRelation: AspectRelation,
   response: GeneratedClientSentimentResponse

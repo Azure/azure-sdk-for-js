@@ -34,12 +34,10 @@ export interface AnalyzeSentimentSuccessResult extends TextAnalyticsSuccessResul
     sentiment: DocumentSentimentLabel;
 }
 
-// @public (undocumented)
+// @public
 export interface AspectSentiment {
     confidenceScores: SentimentConfidenceScores;
-    // (undocumented)
     sentiment: DocumentSentimentLabel;
-    // (undocumented)
     text: string;
 }
 
@@ -143,21 +141,15 @@ export interface Match {
 
 // @public (undocumented)
 export interface MinedOpinion {
-    // (undocumented)
     aspect: AspectSentiment;
-    // (undocumented)
     opinions: OpinionSentiment[];
 }
 
 // @public (undocumented)
 export interface OpinionSentiment {
-    // (undocumented)
     confidenceScores: SentimentConfidenceScores;
-    // (undocumented)
     isNegated: boolean;
-    // (undocumented)
     sentiment: DocumentSentimentLabel;
-    // (undocumented)
     text: string;
 }
 
@@ -204,7 +196,6 @@ export interface RecognizeLinkedEntitiesSuccessResult extends TextAnalyticsSucce
 // @public
 export interface SentenceSentiment {
     confidenceScores: SentimentConfidenceScores;
-    // (undocumented)
     minedOpinions?: MinedOpinion[];
     sentiment: SentenceSentimentLabel;
     text: string;

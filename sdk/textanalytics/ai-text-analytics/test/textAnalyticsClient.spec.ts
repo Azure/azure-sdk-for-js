@@ -16,7 +16,6 @@ import {
   AnalyzeSentimentSuccessResult
 } from "../src/index";
 import { assertAllSuccess } from "./utils/resultHelper";
-import { assertOpinionsEqual } from "./utils/opinionMiningHelpers";
 
 const testDataEn = [
   "I had a wonderful trip to Seattle last week and even visited the Space Needle 2 times!",
@@ -187,7 +186,7 @@ describe("[AAD] TextAnalyticsClient", function() {
         const foodOpinion = sentence.minedOpinions?.[0].opinions[0];
         const serviceOpinion = sentence.minedOpinions?.[1].opinions[0];
 
-        assertOpinionsEqual(foodOpinion!, serviceOpinion!);
+        assert.deepEqual(foodOpinion!, serviceOpinion!);
         
         assert.equal("good", foodOpinion?.text);
         assert.equal("negative", foodOpinion?.sentiment);
