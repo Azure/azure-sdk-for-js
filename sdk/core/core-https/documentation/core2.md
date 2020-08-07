@@ -19,7 +19,7 @@ Later, there emerged a desire for isomorphic packages, packages that worked in b
 - The new code generator (`autorest.typescript`) that generated code in TypeScript and used the newer runtimes mentioned above replaced the existing one (`autorest.nodejs`) that generated JavaScript code.
 - The packages thus generated got a new home in the repo `azure-sdk-for-js`. The older packages lived in `azure-sdk-for-node` repo.
 
-`@azure/ms-rest-js` was used as the basis for `@azure/core-http` when the JS team for the new Azure SDK was formed. This was nice as it bootstrapped the ability to make HTTP requests and provided broad compatibility with many track 1 clients that still exist in the `@azure/sdk-for-js` repository today.
+A year or so later, the new Azure SDK team was formed in Nov 2018 that then came up with guidelines on how to write an Azure SDK in TypeScript. To follow these guidelines, we needed yet another runtime. This was the new `@azure/core-http` package built over the existing  `@azure/ms-rest-js`. At the time we chose to do so as making slight changes and improvements to a tried and tested solution was preferred over investing time in a solution that had to be written from scratch.
 
 The downside is that much of the code had evolved organically over time, experienced incomplete upgrades to various layers, and had dead code that wasn't really needed anymore. We mitigated this during the 1.0 GA timeframe in Nov 2020 by manually declaring cleaner public interfaces (e.g. `OperationOptions` over `RequestOptionsBase`) but many of the internal interfaces were still messy, loosely typed, or confusing.
 
