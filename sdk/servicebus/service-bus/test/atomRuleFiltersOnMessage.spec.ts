@@ -15,6 +15,7 @@ import {
 import { ServiceBusManagementClient } from "../src/serviceBusAtomManagementClient";
 import { recreateSubscription, recreateTopic } from "./utils/managementUtils";
 import { getConnectionString } from "./utils/testutils2";
+import Long from "long";
 
 chai.use(chaiAsPromised);
 chai.use(chaiExclude);
@@ -53,9 +54,11 @@ describe("Filter messages with the rules set by the ATOM API", () => {
     );
     serviceBusAtomManagementClient;
     filter;
-
-    await serviceBusClient.createSender(topicName).sendMessages(messageToSend);
-
+    try {
+      await serviceBusClient.createSender(topicName).sendMessages(messageToSend);
+    } catch (error) {
+      console.log(error);
+    }
     const receivedMessages = await serviceBusClient
       .createReceiver(topicName, subscriptionName, "peekLock")
       .receiveMessages(1);
@@ -140,7 +143,7 @@ describe("Filter messages with the rules set by the ATOM API", () => {
     );
   });
 
-  it.only("properties: date value", async () => {
+  it("properties: date value", async () => {
     const filter: CorrelationRuleFilter = {
       properties: { dateVal: new Date() }
     };
@@ -152,8 +155,122 @@ describe("Filter messages with the rules set by the ATOM API", () => {
       filter,
       (msg) => {
         chai.assert.deepEqual(
-          msg.properties!.arrayVal,
-          filter.properties.arrayVal,
+          msg.properties!.dateVal,
+          filter.properties.dateVal,
+          "Unexpected properties on the message"
+        );
+      }
+    );
+  });
+
+  it("properties: JSON object as value", async () => {
+    // Following error is thrown when sending the message
+    //     MessagingError: Serialization operation failed due to unsupported type Microsoft.ServiceBus.Messaging.Amqp.Encoding.AmqpMap.
+    // JSON is not supported, nothing to do here
+    const filter: CorrelationRuleFilter = {
+      properties: { a: { b: "c" } }
+    };
+    await verifyRuleFilter(
+      {
+        body: "random-body",
+        properties: filter.properties
+      },
+      filter,
+      (msg) => {
+        chai.assert.deepEqual(
+          msg.properties,
+          filter.properties,
+          "Unexpected properties on the message"
+        );
+      }
+    );
+  });
+
+  it("properties: Buffer as value", async () => {
+    // Following error is thrown when sending the message
+    //     MessagingError: The service was unable to process the request; please retry the operation. For more information on exception types and proper exception handling, please refer to http://go.microsoft.com/fwlink/?LinkId=761101 Reference:90ecdfdb-f679-4344-9abf-fb0bd7afe049, TrackingId:5733b2110000001100b364b15f2dcabb_G51_B22, SystemTracker:servicebus:Topic:new-topic, Timestamp:2020-08-07T21:43:50
+    // Buffer is not supported, nothing to do here
+    const filter: CorrelationRuleFilter = {
+      properties: { a: Buffer.from("abc") }
+    };
+    await verifyRuleFilter(
+      {
+        body: "random-body",
+        properties: filter.properties
+      },
+      filter,
+      (msg) => {
+        chai.assert.deepEqual(
+          msg.properties,
+          filter.properties,
+          "Unexpected properties on the message"
+        );
+      }
+    );
+  });
+
+  it.only("properties: Long as value", async () => {
+    const filter: CorrelationRuleFilter = {
+      properties: { longVal: new Long(0) }
+    };
+
+    console.log(filter.properties.longVal);
+    await verifyRuleFilter(
+      {
+        body: "random-body",
+        properties: filter.properties
+      },
+      filter,
+      (msg) => {
+        chai.assert.deepEqual(
+          msg.properties,
+          filter.properties,
+          "Unexpected properties on the message"
+        );
+      }
+    );
+  });
+
+  it("properties: Long as value", async () => {
+    // Failed with the same serialization error
+    const filter: CorrelationRuleFilter = {
+      properties: { longVal: new Long(0) }
+    };
+
+    console.log(filter.properties.longVal);
+    await verifyRuleFilter(
+      {
+        body: "random-body",
+        properties: filter.properties
+      },
+      filter,
+      (msg) => {
+        chai.assert.deepEqual(
+          msg.properties,
+          filter.properties,
+          "Unexpected properties on the message"
+        );
+      }
+    );
+  });
+
+  it("properties: bigint as value", async () => {
+    // TS error - BigInt literals are not available when targeting lower than ES2020.ts(2737)
+    const filter: CorrelationRuleFilter = {
+      // properties: { val: 9007199254740991n }
+    };
+
+    console.log(filter.properties.longVal);
+    await verifyRuleFilter(
+      {
+        body: "random-body",
+        properties: filter.properties
+      },
+      filter,
+      (msg) => {
+        chai.assert.deepEqual(
+          msg.properties,
+          filter.properties,
           "Unexpected properties on the message"
         );
       }
