@@ -28,7 +28,7 @@ export {
   TableUpdateEntityOptionalParams,
   TableUpdateEntityResponse as UpdateEntityResponse,
   TableMergeEntityOptionalParams,
-  TableMergeEntityResponse as MergeEntityResponse,
+  TableMergeEntityResponse as UpsertEntityResponse,
   TableGetAccessPolicyOptionalParams as GetAccessPolicyOptions,
   TableGetAccessPolicyResponse as GetAccessPolicyResponse,
   TableSetAccessPolicyOptionalParams,

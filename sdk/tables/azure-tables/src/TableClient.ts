@@ -9,8 +9,9 @@ import {
   ListEntitiesResponse,
   CreateEntityOptions,
   UpdateEntityOptions,
-  MergeEntityOptions,
-  SetAccessPolicyOptions
+  UpsertEntityOptions,
+  SetAccessPolicyOptions,
+  UpdateMode
 } from "./models";
 import {
   TableServiceClientOptions as TableClientOptions,
@@ -22,7 +23,7 @@ import {
   DeleteEntityOptions,
   DeleteEntityResponse,
   UpdateEntityResponse,
-  MergeEntityResponse,
+  UpsertEntityResponse,
   GetAccessPolicyOptions,
   GetAccessPolicyResponse,
   SignedIdentifier,
@@ -179,31 +180,38 @@ export class TableClient {
   }
 
   /**
-   * Update entity in the table.
-   * @param entity The properties of the updated entity.
-   * @param ifMatch Match condition for an entity to be updated. If specified and a matching entity is not found, an error will be raised. To force an unconditional update, set to the wildcard character (*). If not specified, an insert will be performed when no existing entity is found to update and a replace will be performed if an existing entity is found.
+   * Update an entity in the table.
+   * @param entity The properties of the entity to be updated.
+   * @param mode The different modes for updating the entity:
+   *             - Merge: Updates an entity by updating the entity's properties without replacing the existing entity.
+   *             - Replace: Updates an existing entity by replacing the entire entity.
+   * @param etag The ETag of the entity to be updated. If specified and a matching entity is not found, an error will be raised. To force an unconditional update, set to the wildcard character (*). If not specified, an insert will be performed when no existing entity is found to update and a replace will be performed if an existing entity is found.
    * @param options The options parameters.
    */
   public updateEntity(
     entity: Entity,
-    ifMatch?: string,
+    mode: UpdateMode = "Merge",
+    etag: string = "*",
     options?: UpdateEntityOptions
   ): Promise<UpdateEntityResponse> {
-    return this.client.updateEntity(this.tableName, entity, ifMatch, options);
+    return this.client.updateEntity(this.tableName, entity, mode, etag, options);
   }
 
   /**
-   * Merge entity in the table.
-   * @param entity The properties of the merged entity
-   * @param ifMatch Match condition for an entity to be updated. If specified and a matching entity is not found, an error will be raised. To force an unconditional update, set to the wildcard character (*). If not specified, an insert will be performed when no existing entity is found to update and a merge will be performed if an existing entity is found.
+   * Upsert an entity in the table.
+   * @param tableName The name of the table.
+   * @param entity The properties for the table entity.
+   * @param mode The different modes for updating the entity:
+   *             - Merge: Updates an entity by updating the entity's properties without replacing the existing entity.
+   *             - Replace: Updates an existing entity by replacing the entire entity.
    * @param options The options parameters.
    */
-  public mergeEntity(
+  public upsertEntity(
     entity: Entity,
-    ifMatch?: string,
-    options?: MergeEntityOptions
-  ): Promise<MergeEntityResponse> {
-    return this.client.mergeEntity(this.tableName, entity, ifMatch, options);
+    mode: UpdateMode = "Merge",
+    options?: UpsertEntityOptions
+  ): Promise<UpsertEntityResponse> {
+    return this.client.upsertEntity(this.tableName, entity, mode, options);
   }
 
   /**
