@@ -58,17 +58,9 @@ export {
 } from "./serializers/topicResourceSerializer";
 export {
   EntitiesResponse,
-  NamespacePropertiesResponse,
-  QueueResponse,
-  QueueRuntimePropertiesResponse,
   Response,
-  RuleResponse,
   ServiceBusManagementClient,
-  ServiceBusManagementClientOptions,
-  SubscriptionResponse,
-  SubscriptionRuntimePropertiesResponse,
-  TopicResponse,
-  TopicRuntimePropertiesResponse
+  ServiceBusManagementClientOptions
 } from "./serviceBusAtomManagementClient";
 export { ServiceBusClient } from "./serviceBusClient";
 export {
