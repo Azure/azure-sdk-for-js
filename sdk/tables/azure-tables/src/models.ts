@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import {
+  QueryOptions as TableQueryOptions,
   TableQueryOptionalParams,
   TableQueryEntitiesOptionalParams,
   TableQueryEntitiesWithPartitionAndRowKeyResponse,
@@ -30,6 +31,16 @@ export type GetEntityResponse<T> = TableQueryEntitiesWithPartitionAndRowKeyRespo
    * The table entity object.
    */
   value?: T;
+};
+
+/*
+ * OData Query options to limit the set of tables or entities returned.
+ */
+export type QueryOptions = Omit<TableQueryOptions, "select"> & {
+  /**
+   * A select expression limits the properties on each entity to just those requested.
+   */
+  select?: string[];
 };
 
 /**
