@@ -206,6 +206,9 @@ export interface Metrics {
 }
 
 // @public
+export function odata(strings: TemplateStringsArray, ...values: unknown[]): string;
+
+// @public
 export type OdataMetadataFormat = "application/json;odata=nometadata" | "application/json;odata=minimalmetadata" | "application/json;odata=fullmetadata";
 
 // @public
