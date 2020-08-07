@@ -185,7 +185,7 @@ The `AuthorizationCodeCredential` takes more up-front work to use than the other
 |credential  | usage
 |-|-
 |`AzureCliCredential`|authenticate in a development environment with the Azure CLI
-|`VisualStudioCodeCredential`|authenticate in a development environment with Visual Studio
+|`VisualStudioCodeCredential`|authenticate in a development environment with Visual Studio Code
 
 ## Troubleshooting
 
