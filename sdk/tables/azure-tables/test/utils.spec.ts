@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import { extractConnectionStringParts, ConnectionString } from "../src/utils/connectionString";
+import { base64Encode, base64Decode } from "../src/utils/bufferSerializer";
 import { isNode } from "@azure/core-http";
 import { assert } from "chai";
 
@@ -100,6 +101,19 @@ describe("Utility Helpers", () => {
           "BlobEndpoint=BlobEndpoint=https://testaccount.blob.core.windows.net/;QueueEndpoint=https://testaccount.queue.core.windows.net/;FileEndpoint=https://testaccount.file.core.windows.net/;TableEndpoint=https://testaccount.buggyUrl.core.windows.net/;SharedAccessSignature=REDACTED";
         assert.throws(() => extractConnectionStringParts(invalidSAS), /Invalid AccountName/);
       });
+    });
+  });
+  describe("bufferSerializer", () => {
+    it("should correctly serialize a Uint8Array object to a base64 string", () => {
+      const binValue = new Uint8Array([84, 101, 115, 116, 49, 50, 51]);
+      const base64Encoded = "VGVzdDEyMw==";
+      assert.strictEqual(base64Encode(binValue), base64Encoded);
+    });
+
+    it("should correctly deserialize a base64 string to a Uint8Array object", () => {
+      const base64Str = "VGVzdDEyMw==";
+      const binValue = new Uint8Array([84, 101, 115, 116, 49, 50, 51]);
+      assert.deepEqual(base64Decode(base64Str), binValue);
     });
   });
 });

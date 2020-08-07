@@ -26,8 +26,8 @@ interface Entity {
 }
 
 describe("Serializer", () => {
-  const boolValue = true;
   it("should serialize a Boolean value", () => {
+    const boolValue = true;
     const serialized: any = serialize({
       boolProp: boolValue,
       boolObjProp: { value: boolValue, type: "Boolean" }
@@ -161,7 +161,7 @@ describe("Deserializer", () => {
       dateProp: dateValue.toJSON(),
       "dateProp@odata.type": "Edm.DateTime"
     });
-    assert.deepStrictEqual(deserialized.dateProp, dateValue);
+    assert.deepEqual(deserialized.dateProp, dateValue);
   });
 
   it("should deserialize a Guid value", () => {
@@ -181,6 +181,6 @@ describe("Deserializer", () => {
       binProp: base64Encoded,
       "binProp@odata.type": "Edm.Binary"
     });
-    assert.deepStrictEqual(deserialized.binProp, binValue);
+    assert.deepEqual(deserialized.binProp, binValue);
   });
 });
