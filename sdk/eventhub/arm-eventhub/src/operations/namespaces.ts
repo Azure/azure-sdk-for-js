@@ -28,31 +28,147 @@ export class Namespaces {
   }
 
   /**
-   * Check the give Namespace name availability.
-   * @param parameters Parameters to check availability of the given Namespace name
+   * Gets a list of IP Filter rules for a Namespace.
+   * @param resourceGroupName Name of the resource group within the azure subscription.
+   * @param namespaceName The Namespace name
    * @param [options] The optional parameters
-   * @returns Promise<Models.NamespacesCheckNameAvailabilityResponse>
+   * @returns Promise<Models.NamespacesListIPFilterRulesResponse>
    */
-  checkNameAvailability(parameters: Models.CheckNameAvailabilityParameter, options?: msRest.RequestOptionsBase): Promise<Models.NamespacesCheckNameAvailabilityResponse>;
+  listIPFilterRules(resourceGroupName: string, namespaceName: string, options?: msRest.RequestOptionsBase): Promise<Models.NamespacesListIPFilterRulesResponse>;
   /**
-   * @param parameters Parameters to check availability of the given Namespace name
+   * @param resourceGroupName Name of the resource group within the azure subscription.
+   * @param namespaceName The Namespace name
    * @param callback The callback
    */
-  checkNameAvailability(parameters: Models.CheckNameAvailabilityParameter, callback: msRest.ServiceCallback<Models.CheckNameAvailabilityResult>): void;
+  listIPFilterRules(resourceGroupName: string, namespaceName: string, callback: msRest.ServiceCallback<Models.IpFilterRuleListResult>): void;
   /**
-   * @param parameters Parameters to check availability of the given Namespace name
+   * @param resourceGroupName Name of the resource group within the azure subscription.
+   * @param namespaceName The Namespace name
    * @param options The optional parameters
    * @param callback The callback
    */
-  checkNameAvailability(parameters: Models.CheckNameAvailabilityParameter, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CheckNameAvailabilityResult>): void;
-  checkNameAvailability(parameters: Models.CheckNameAvailabilityParameter, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CheckNameAvailabilityResult>, callback?: msRest.ServiceCallback<Models.CheckNameAvailabilityResult>): Promise<Models.NamespacesCheckNameAvailabilityResponse> {
+  listIPFilterRules(resourceGroupName: string, namespaceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.IpFilterRuleListResult>): void;
+  listIPFilterRules(resourceGroupName: string, namespaceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IpFilterRuleListResult>, callback?: msRest.ServiceCallback<Models.IpFilterRuleListResult>): Promise<Models.NamespacesListIPFilterRulesResponse> {
     return this.client.sendOperationRequest(
       {
+        resourceGroupName,
+        namespaceName,
+        options
+      },
+      listIPFilterRulesOperationSpec,
+      callback) as Promise<Models.NamespacesListIPFilterRulesResponse>;
+  }
+
+  /**
+   * Creates or updates an IpFilterRule for a Namespace.
+   * @param resourceGroupName Name of the resource group within the azure subscription.
+   * @param namespaceName The Namespace name
+   * @param ipFilterRuleName The IP Filter Rule name.
+   * @param parameters The Namespace IpFilterRule.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.NamespacesCreateOrUpdateIpFilterRuleResponse>
+   */
+  createOrUpdateIpFilterRule(resourceGroupName: string, namespaceName: string, ipFilterRuleName: string, parameters: Models.IpFilterRule, options?: msRest.RequestOptionsBase): Promise<Models.NamespacesCreateOrUpdateIpFilterRuleResponse>;
+  /**
+   * @param resourceGroupName Name of the resource group within the azure subscription.
+   * @param namespaceName The Namespace name
+   * @param ipFilterRuleName The IP Filter Rule name.
+   * @param parameters The Namespace IpFilterRule.
+   * @param callback The callback
+   */
+  createOrUpdateIpFilterRule(resourceGroupName: string, namespaceName: string, ipFilterRuleName: string, parameters: Models.IpFilterRule, callback: msRest.ServiceCallback<Models.IpFilterRule>): void;
+  /**
+   * @param resourceGroupName Name of the resource group within the azure subscription.
+   * @param namespaceName The Namespace name
+   * @param ipFilterRuleName The IP Filter Rule name.
+   * @param parameters The Namespace IpFilterRule.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  createOrUpdateIpFilterRule(resourceGroupName: string, namespaceName: string, ipFilterRuleName: string, parameters: Models.IpFilterRule, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.IpFilterRule>): void;
+  createOrUpdateIpFilterRule(resourceGroupName: string, namespaceName: string, ipFilterRuleName: string, parameters: Models.IpFilterRule, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IpFilterRule>, callback?: msRest.ServiceCallback<Models.IpFilterRule>): Promise<Models.NamespacesCreateOrUpdateIpFilterRuleResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        namespaceName,
+        ipFilterRuleName,
         parameters,
         options
       },
-      checkNameAvailabilityOperationSpec,
-      callback) as Promise<Models.NamespacesCheckNameAvailabilityResponse>;
+      createOrUpdateIpFilterRuleOperationSpec,
+      callback) as Promise<Models.NamespacesCreateOrUpdateIpFilterRuleResponse>;
+  }
+
+  /**
+   * Deletes an IpFilterRule for a Namespace.
+   * @param resourceGroupName Name of the resource group within the azure subscription.
+   * @param namespaceName The Namespace name
+   * @param ipFilterRuleName The IP Filter Rule name.
+   * @param [options] The optional parameters
+   * @returns Promise<msRest.RestResponse>
+   */
+  deleteIpFilterRule(resourceGroupName: string, namespaceName: string, ipFilterRuleName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  /**
+   * @param resourceGroupName Name of the resource group within the azure subscription.
+   * @param namespaceName The Namespace name
+   * @param ipFilterRuleName The IP Filter Rule name.
+   * @param callback The callback
+   */
+  deleteIpFilterRule(resourceGroupName: string, namespaceName: string, ipFilterRuleName: string, callback: msRest.ServiceCallback<void>): void;
+  /**
+   * @param resourceGroupName Name of the resource group within the azure subscription.
+   * @param namespaceName The Namespace name
+   * @param ipFilterRuleName The IP Filter Rule name.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  deleteIpFilterRule(resourceGroupName: string, namespaceName: string, ipFilterRuleName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
+  deleteIpFilterRule(resourceGroupName: string, namespaceName: string, ipFilterRuleName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        namespaceName,
+        ipFilterRuleName,
+        options
+      },
+      deleteIpFilterRuleOperationSpec,
+      callback);
+  }
+
+  /**
+   * Gets an IpFilterRule for a Namespace by rule name.
+   * @param resourceGroupName Name of the resource group within the azure subscription.
+   * @param namespaceName The Namespace name
+   * @param ipFilterRuleName The IP Filter Rule name.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.NamespacesGetIpFilterRuleResponse>
+   */
+  getIpFilterRule(resourceGroupName: string, namespaceName: string, ipFilterRuleName: string, options?: msRest.RequestOptionsBase): Promise<Models.NamespacesGetIpFilterRuleResponse>;
+  /**
+   * @param resourceGroupName Name of the resource group within the azure subscription.
+   * @param namespaceName The Namespace name
+   * @param ipFilterRuleName The IP Filter Rule name.
+   * @param callback The callback
+   */
+  getIpFilterRule(resourceGroupName: string, namespaceName: string, ipFilterRuleName: string, callback: msRest.ServiceCallback<Models.IpFilterRule>): void;
+  /**
+   * @param resourceGroupName Name of the resource group within the azure subscription.
+   * @param namespaceName The Namespace name
+   * @param ipFilterRuleName The IP Filter Rule name.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  getIpFilterRule(resourceGroupName: string, namespaceName: string, ipFilterRuleName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.IpFilterRule>): void;
+  getIpFilterRule(resourceGroupName: string, namespaceName: string, ipFilterRuleName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IpFilterRule>, callback?: msRest.ServiceCallback<Models.IpFilterRule>): Promise<Models.NamespacesGetIpFilterRuleResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        namespaceName,
+        ipFilterRuleName,
+        options
+      },
+      getIpFilterRuleOperationSpec,
+      callback) as Promise<Models.NamespacesGetIpFilterRuleResponse>;
   }
 
   /**
@@ -204,35 +320,215 @@ export class Namespaces {
   }
 
   /**
-   * Gets messaging plan for specified namespace.
+   * Gets a list of VirtualNetwork rules for a Namespace.
    * @param resourceGroupName Name of the resource group within the azure subscription.
    * @param namespaceName The Namespace name
    * @param [options] The optional parameters
-   * @returns Promise<Models.NamespacesGetMessagingPlanResponse>
+   * @returns Promise<Models.NamespacesListVirtualNetworkRulesResponse>
    */
-  getMessagingPlan(resourceGroupName: string, namespaceName: string, options?: msRest.RequestOptionsBase): Promise<Models.NamespacesGetMessagingPlanResponse>;
+  listVirtualNetworkRules(resourceGroupName: string, namespaceName: string, options?: msRest.RequestOptionsBase): Promise<Models.NamespacesListVirtualNetworkRulesResponse>;
   /**
    * @param resourceGroupName Name of the resource group within the azure subscription.
    * @param namespaceName The Namespace name
    * @param callback The callback
    */
-  getMessagingPlan(resourceGroupName: string, namespaceName: string, callback: msRest.ServiceCallback<Models.MessagingPlan>): void;
+  listVirtualNetworkRules(resourceGroupName: string, namespaceName: string, callback: msRest.ServiceCallback<Models.VirtualNetworkRuleListResult>): void;
   /**
    * @param resourceGroupName Name of the resource group within the azure subscription.
    * @param namespaceName The Namespace name
    * @param options The optional parameters
    * @param callback The callback
    */
-  getMessagingPlan(resourceGroupName: string, namespaceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.MessagingPlan>): void;
-  getMessagingPlan(resourceGroupName: string, namespaceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.MessagingPlan>, callback?: msRest.ServiceCallback<Models.MessagingPlan>): Promise<Models.NamespacesGetMessagingPlanResponse> {
+  listVirtualNetworkRules(resourceGroupName: string, namespaceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VirtualNetworkRuleListResult>): void;
+  listVirtualNetworkRules(resourceGroupName: string, namespaceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VirtualNetworkRuleListResult>, callback?: msRest.ServiceCallback<Models.VirtualNetworkRuleListResult>): Promise<Models.NamespacesListVirtualNetworkRulesResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         namespaceName,
         options
       },
-      getMessagingPlanOperationSpec,
-      callback) as Promise<Models.NamespacesGetMessagingPlanResponse>;
+      listVirtualNetworkRulesOperationSpec,
+      callback) as Promise<Models.NamespacesListVirtualNetworkRulesResponse>;
+  }
+
+  /**
+   * Creates or updates an VirtualNetworkRule for a Namespace.
+   * @param resourceGroupName Name of the resource group within the azure subscription.
+   * @param namespaceName The Namespace name
+   * @param virtualNetworkRuleName The Virtual Network Rule name.
+   * @param parameters The Namespace VirtualNetworkRule.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.NamespacesCreateOrUpdateVirtualNetworkRuleResponse>
+   */
+  createOrUpdateVirtualNetworkRule(resourceGroupName: string, namespaceName: string, virtualNetworkRuleName: string, parameters: Models.VirtualNetworkRule, options?: msRest.RequestOptionsBase): Promise<Models.NamespacesCreateOrUpdateVirtualNetworkRuleResponse>;
+  /**
+   * @param resourceGroupName Name of the resource group within the azure subscription.
+   * @param namespaceName The Namespace name
+   * @param virtualNetworkRuleName The Virtual Network Rule name.
+   * @param parameters The Namespace VirtualNetworkRule.
+   * @param callback The callback
+   */
+  createOrUpdateVirtualNetworkRule(resourceGroupName: string, namespaceName: string, virtualNetworkRuleName: string, parameters: Models.VirtualNetworkRule, callback: msRest.ServiceCallback<Models.VirtualNetworkRule>): void;
+  /**
+   * @param resourceGroupName Name of the resource group within the azure subscription.
+   * @param namespaceName The Namespace name
+   * @param virtualNetworkRuleName The Virtual Network Rule name.
+   * @param parameters The Namespace VirtualNetworkRule.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  createOrUpdateVirtualNetworkRule(resourceGroupName: string, namespaceName: string, virtualNetworkRuleName: string, parameters: Models.VirtualNetworkRule, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VirtualNetworkRule>): void;
+  createOrUpdateVirtualNetworkRule(resourceGroupName: string, namespaceName: string, virtualNetworkRuleName: string, parameters: Models.VirtualNetworkRule, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VirtualNetworkRule>, callback?: msRest.ServiceCallback<Models.VirtualNetworkRule>): Promise<Models.NamespacesCreateOrUpdateVirtualNetworkRuleResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        namespaceName,
+        virtualNetworkRuleName,
+        parameters,
+        options
+      },
+      createOrUpdateVirtualNetworkRuleOperationSpec,
+      callback) as Promise<Models.NamespacesCreateOrUpdateVirtualNetworkRuleResponse>;
+  }
+
+  /**
+   * Deletes an VirtualNetworkRule for a Namespace.
+   * @param resourceGroupName Name of the resource group within the azure subscription.
+   * @param namespaceName The Namespace name
+   * @param virtualNetworkRuleName The Virtual Network Rule name.
+   * @param [options] The optional parameters
+   * @returns Promise<msRest.RestResponse>
+   */
+  deleteVirtualNetworkRule(resourceGroupName: string, namespaceName: string, virtualNetworkRuleName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  /**
+   * @param resourceGroupName Name of the resource group within the azure subscription.
+   * @param namespaceName The Namespace name
+   * @param virtualNetworkRuleName The Virtual Network Rule name.
+   * @param callback The callback
+   */
+  deleteVirtualNetworkRule(resourceGroupName: string, namespaceName: string, virtualNetworkRuleName: string, callback: msRest.ServiceCallback<void>): void;
+  /**
+   * @param resourceGroupName Name of the resource group within the azure subscription.
+   * @param namespaceName The Namespace name
+   * @param virtualNetworkRuleName The Virtual Network Rule name.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  deleteVirtualNetworkRule(resourceGroupName: string, namespaceName: string, virtualNetworkRuleName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
+  deleteVirtualNetworkRule(resourceGroupName: string, namespaceName: string, virtualNetworkRuleName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        namespaceName,
+        virtualNetworkRuleName,
+        options
+      },
+      deleteVirtualNetworkRuleOperationSpec,
+      callback);
+  }
+
+  /**
+   * Gets an VirtualNetworkRule for a Namespace by rule name.
+   * @param resourceGroupName Name of the resource group within the azure subscription.
+   * @param namespaceName The Namespace name
+   * @param virtualNetworkRuleName The Virtual Network Rule name.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.NamespacesGetVirtualNetworkRuleResponse>
+   */
+  getVirtualNetworkRule(resourceGroupName: string, namespaceName: string, virtualNetworkRuleName: string, options?: msRest.RequestOptionsBase): Promise<Models.NamespacesGetVirtualNetworkRuleResponse>;
+  /**
+   * @param resourceGroupName Name of the resource group within the azure subscription.
+   * @param namespaceName The Namespace name
+   * @param virtualNetworkRuleName The Virtual Network Rule name.
+   * @param callback The callback
+   */
+  getVirtualNetworkRule(resourceGroupName: string, namespaceName: string, virtualNetworkRuleName: string, callback: msRest.ServiceCallback<Models.VirtualNetworkRule>): void;
+  /**
+   * @param resourceGroupName Name of the resource group within the azure subscription.
+   * @param namespaceName The Namespace name
+   * @param virtualNetworkRuleName The Virtual Network Rule name.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  getVirtualNetworkRule(resourceGroupName: string, namespaceName: string, virtualNetworkRuleName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VirtualNetworkRule>): void;
+  getVirtualNetworkRule(resourceGroupName: string, namespaceName: string, virtualNetworkRuleName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VirtualNetworkRule>, callback?: msRest.ServiceCallback<Models.VirtualNetworkRule>): Promise<Models.NamespacesGetVirtualNetworkRuleResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        namespaceName,
+        virtualNetworkRuleName,
+        options
+      },
+      getVirtualNetworkRuleOperationSpec,
+      callback) as Promise<Models.NamespacesGetVirtualNetworkRuleResponse>;
+  }
+
+  /**
+   * Create or update NetworkRuleSet for a Namespace.
+   * @param resourceGroupName Name of the resource group within the azure subscription.
+   * @param namespaceName The Namespace name
+   * @param parameters The Namespace IpFilterRule.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.NamespacesCreateOrUpdateNetworkRuleSetResponse>
+   */
+  createOrUpdateNetworkRuleSet(resourceGroupName: string, namespaceName: string, parameters: Models.NetworkRuleSet, options?: msRest.RequestOptionsBase): Promise<Models.NamespacesCreateOrUpdateNetworkRuleSetResponse>;
+  /**
+   * @param resourceGroupName Name of the resource group within the azure subscription.
+   * @param namespaceName The Namespace name
+   * @param parameters The Namespace IpFilterRule.
+   * @param callback The callback
+   */
+  createOrUpdateNetworkRuleSet(resourceGroupName: string, namespaceName: string, parameters: Models.NetworkRuleSet, callback: msRest.ServiceCallback<Models.NetworkRuleSet>): void;
+  /**
+   * @param resourceGroupName Name of the resource group within the azure subscription.
+   * @param namespaceName The Namespace name
+   * @param parameters The Namespace IpFilterRule.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  createOrUpdateNetworkRuleSet(resourceGroupName: string, namespaceName: string, parameters: Models.NetworkRuleSet, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NetworkRuleSet>): void;
+  createOrUpdateNetworkRuleSet(resourceGroupName: string, namespaceName: string, parameters: Models.NetworkRuleSet, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NetworkRuleSet>, callback?: msRest.ServiceCallback<Models.NetworkRuleSet>): Promise<Models.NamespacesCreateOrUpdateNetworkRuleSetResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        namespaceName,
+        parameters,
+        options
+      },
+      createOrUpdateNetworkRuleSetOperationSpec,
+      callback) as Promise<Models.NamespacesCreateOrUpdateNetworkRuleSetResponse>;
+  }
+
+  /**
+   * Gets NetworkRuleSet for a Namespace.
+   * @param resourceGroupName Name of the resource group within the azure subscription.
+   * @param namespaceName The Namespace name
+   * @param [options] The optional parameters
+   * @returns Promise<Models.NamespacesGetNetworkRuleSetResponse>
+   */
+  getNetworkRuleSet(resourceGroupName: string, namespaceName: string, options?: msRest.RequestOptionsBase): Promise<Models.NamespacesGetNetworkRuleSetResponse>;
+  /**
+   * @param resourceGroupName Name of the resource group within the azure subscription.
+   * @param namespaceName The Namespace name
+   * @param callback The callback
+   */
+  getNetworkRuleSet(resourceGroupName: string, namespaceName: string, callback: msRest.ServiceCallback<Models.NetworkRuleSet>): void;
+  /**
+   * @param resourceGroupName Name of the resource group within the azure subscription.
+   * @param namespaceName The Namespace name
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  getNetworkRuleSet(resourceGroupName: string, namespaceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NetworkRuleSet>): void;
+  getNetworkRuleSet(resourceGroupName: string, namespaceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NetworkRuleSet>, callback?: msRest.ServiceCallback<Models.NetworkRuleSet>): Promise<Models.NamespacesGetNetworkRuleSetResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        namespaceName,
+        options
+      },
+      getNetworkRuleSetOperationSpec,
+      callback) as Promise<Models.NamespacesGetNetworkRuleSetResponse>;
   }
 
   /**
@@ -456,71 +752,31 @@ export class Namespaces {
   }
 
   /**
-   * Create or update NetworkRuleSet for a Namespace.
-   * @param resourceGroupName Name of the resource group within the azure subscription.
-   * @param namespaceName The Namespace name
-   * @param parameters The Namespace IpFilterRule.
+   * Check the give Namespace name availability.
+   * @param parameters Parameters to check availability of the given Namespace name
    * @param [options] The optional parameters
-   * @returns Promise<Models.NamespacesCreateOrUpdateNetworkRuleSetResponse>
+   * @returns Promise<Models.NamespacesCheckNameAvailabilityResponse>
    */
-  createOrUpdateNetworkRuleSet(resourceGroupName: string, namespaceName: string, parameters: Models.NetworkRuleSet, options?: msRest.RequestOptionsBase): Promise<Models.NamespacesCreateOrUpdateNetworkRuleSetResponse>;
+  checkNameAvailability(parameters: Models.CheckNameAvailabilityParameter, options?: msRest.RequestOptionsBase): Promise<Models.NamespacesCheckNameAvailabilityResponse>;
   /**
-   * @param resourceGroupName Name of the resource group within the azure subscription.
-   * @param namespaceName The Namespace name
-   * @param parameters The Namespace IpFilterRule.
+   * @param parameters Parameters to check availability of the given Namespace name
    * @param callback The callback
    */
-  createOrUpdateNetworkRuleSet(resourceGroupName: string, namespaceName: string, parameters: Models.NetworkRuleSet, callback: msRest.ServiceCallback<Models.NetworkRuleSet>): void;
+  checkNameAvailability(parameters: Models.CheckNameAvailabilityParameter, callback: msRest.ServiceCallback<Models.CheckNameAvailabilityResult>): void;
   /**
-   * @param resourceGroupName Name of the resource group within the azure subscription.
-   * @param namespaceName The Namespace name
-   * @param parameters The Namespace IpFilterRule.
+   * @param parameters Parameters to check availability of the given Namespace name
    * @param options The optional parameters
    * @param callback The callback
    */
-  createOrUpdateNetworkRuleSet(resourceGroupName: string, namespaceName: string, parameters: Models.NetworkRuleSet, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NetworkRuleSet>): void;
-  createOrUpdateNetworkRuleSet(resourceGroupName: string, namespaceName: string, parameters: Models.NetworkRuleSet, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NetworkRuleSet>, callback?: msRest.ServiceCallback<Models.NetworkRuleSet>): Promise<Models.NamespacesCreateOrUpdateNetworkRuleSetResponse> {
+  checkNameAvailability(parameters: Models.CheckNameAvailabilityParameter, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CheckNameAvailabilityResult>): void;
+  checkNameAvailability(parameters: Models.CheckNameAvailabilityParameter, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CheckNameAvailabilityResult>, callback?: msRest.ServiceCallback<Models.CheckNameAvailabilityResult>): Promise<Models.NamespacesCheckNameAvailabilityResponse> {
     return this.client.sendOperationRequest(
       {
-        resourceGroupName,
-        namespaceName,
         parameters,
         options
       },
-      createOrUpdateNetworkRuleSetOperationSpec,
-      callback) as Promise<Models.NamespacesCreateOrUpdateNetworkRuleSetResponse>;
-  }
-
-  /**
-   * Gets NetworkRuleSet for a Namespace.
-   * @param resourceGroupName Name of the resource group within the azure subscription.
-   * @param namespaceName The Namespace name
-   * @param [options] The optional parameters
-   * @returns Promise<Models.NamespacesGetNetworkRuleSetResponse>
-   */
-  getNetworkRuleSet(resourceGroupName: string, namespaceName: string, options?: msRest.RequestOptionsBase): Promise<Models.NamespacesGetNetworkRuleSetResponse>;
-  /**
-   * @param resourceGroupName Name of the resource group within the azure subscription.
-   * @param namespaceName The Namespace name
-   * @param callback The callback
-   */
-  getNetworkRuleSet(resourceGroupName: string, namespaceName: string, callback: msRest.ServiceCallback<Models.NetworkRuleSet>): void;
-  /**
-   * @param resourceGroupName Name of the resource group within the azure subscription.
-   * @param namespaceName The Namespace name
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  getNetworkRuleSet(resourceGroupName: string, namespaceName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NetworkRuleSet>): void;
-  getNetworkRuleSet(resourceGroupName: string, namespaceName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NetworkRuleSet>, callback?: msRest.ServiceCallback<Models.NetworkRuleSet>): Promise<Models.NamespacesGetNetworkRuleSetResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        namespaceName,
-        options
-      },
-      getNetworkRuleSetOperationSpec,
-      callback) as Promise<Models.NamespacesGetNetworkRuleSetResponse>;
+      checkNameAvailabilityOperationSpec,
+      callback) as Promise<Models.NamespacesCheckNameAvailabilityResponse>;
   }
 
   /**
@@ -561,6 +817,34 @@ export class Namespaces {
       },
       beginDeleteMethodOperationSpec,
       options);
+  }
+
+  /**
+   * Gets a list of IP Filter rules for a Namespace.
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.NamespacesListIPFilterRulesNextResponse>
+   */
+  listIPFilterRulesNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.NamespacesListIPFilterRulesNextResponse>;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param callback The callback
+   */
+  listIPFilterRulesNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.IpFilterRuleListResult>): void;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  listIPFilterRulesNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.IpFilterRuleListResult>): void;
+  listIPFilterRulesNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.IpFilterRuleListResult>, callback?: msRest.ServiceCallback<Models.IpFilterRuleListResult>): Promise<Models.NamespacesListIPFilterRulesNextResponse> {
+    return this.client.sendOperationRequest(
+      {
+        nextPageLink,
+        options
+      },
+      listIPFilterRulesNextOperationSpec,
+      callback) as Promise<Models.NamespacesListIPFilterRulesNextResponse>;
   }
 
   /**
@@ -620,6 +904,34 @@ export class Namespaces {
   }
 
   /**
+   * Gets a list of VirtualNetwork rules for a Namespace.
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.NamespacesListVirtualNetworkRulesNextResponse>
+   */
+  listVirtualNetworkRulesNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.NamespacesListVirtualNetworkRulesNextResponse>;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param callback The callback
+   */
+  listVirtualNetworkRulesNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.VirtualNetworkRuleListResult>): void;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  listVirtualNetworkRulesNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.VirtualNetworkRuleListResult>): void;
+  listVirtualNetworkRulesNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.VirtualNetworkRuleListResult>, callback?: msRest.ServiceCallback<Models.VirtualNetworkRuleListResult>): Promise<Models.NamespacesListVirtualNetworkRulesNextResponse> {
+    return this.client.sendOperationRequest(
+      {
+        nextPageLink,
+        options
+      },
+      listVirtualNetworkRulesNextOperationSpec,
+      callback) as Promise<Models.NamespacesListVirtualNetworkRulesNextResponse>;
+  }
+
+  /**
    * Gets a list of authorization rules for a Namespace.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
@@ -650,14 +962,42 @@ export class Namespaces {
 
 // Operation Specifications
 const serializer = new msRest.Serializer(Mappers);
-const checkNameAvailabilityOperationSpec: msRest.OperationSpec = {
-  httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.EventHub/CheckNameAvailability",
+const listIPFilterRulesOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/ipfilterrules",
   urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.namespaceName,
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.IpFilterRuleListResult
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  serializer
+};
+
+const createOrUpdateIpFilterRuleOperationSpec: msRest.OperationSpec = {
+  httpMethod: "PUT",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/ipfilterrules/{ipFilterRuleName}",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.namespaceName,
+    Parameters.ipFilterRuleName,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -665,13 +1005,64 @@ const checkNameAvailabilityOperationSpec: msRest.OperationSpec = {
   requestBody: {
     parameterPath: "parameters",
     mapper: {
-      ...Mappers.CheckNameAvailabilityParameter,
+      ...Mappers.IpFilterRule,
       required: true
     }
   },
   responses: {
     200: {
-      bodyMapper: Mappers.CheckNameAvailabilityResult
+      bodyMapper: Mappers.IpFilterRule
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  serializer
+};
+
+const deleteIpFilterRuleOperationSpec: msRest.OperationSpec = {
+  httpMethod: "DELETE",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/ipfilterrules/{ipFilterRuleName}",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.namespaceName,
+    Parameters.ipFilterRuleName,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion0
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  serializer
+};
+
+const getIpFilterRuleOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/ipfilterrules/{ipFilterRuleName}",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.namespaceName,
+    Parameters.ipFilterRuleName,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion0
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.IpFilterRule
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -687,7 +1078,7 @@ const listOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -711,7 +1102,7 @@ const listByResourceGroupOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -736,7 +1127,7 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -764,7 +1155,7 @@ const updateOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -791,23 +1182,23 @@ const updateOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const getMessagingPlanOperationSpec: msRest.OperationSpec = {
+const listVirtualNetworkRulesOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/messagingplan",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/virtualnetworkrules",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.namespaceName,
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
   ],
   responses: {
     200: {
-      bodyMapper: Mappers.MessagingPlan
+      bodyMapper: Mappers.VirtualNetworkRuleListResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -816,42 +1207,17 @@ const getMessagingPlanOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listAuthorizationRulesOperationSpec: msRest.OperationSpec = {
-  httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/AuthorizationRules",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.namespaceName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  responses: {
-    200: {
-      bodyMapper: Mappers.AuthorizationRuleListResult
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  serializer
-};
-
-const createOrUpdateAuthorizationRuleOperationSpec: msRest.OperationSpec = {
+const createOrUpdateVirtualNetworkRuleOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/AuthorizationRules/{authorizationRuleName}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/virtualnetworkrules/{virtualNetworkRuleName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.namespaceName,
-    Parameters.authorizationRuleName,
+    Parameters.virtualNetworkRuleName,
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -859,13 +1225,13 @@ const createOrUpdateAuthorizationRuleOperationSpec: msRest.OperationSpec = {
   requestBody: {
     parameterPath: "parameters",
     mapper: {
-      ...Mappers.AuthorizationRule,
+      ...Mappers.VirtualNetworkRule,
       required: true
     }
   },
   responses: {
     200: {
-      bodyMapper: Mappers.AuthorizationRule
+      bodyMapper: Mappers.VirtualNetworkRule
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -874,17 +1240,17 @@ const createOrUpdateAuthorizationRuleOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const deleteAuthorizationRuleOperationSpec: msRest.OperationSpec = {
+const deleteVirtualNetworkRuleOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/AuthorizationRules/{authorizationRuleName}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/virtualnetworkrules/{virtualNetworkRuleName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.namespaceName,
-    Parameters.authorizationRuleName,
+    Parameters.virtualNetworkRuleName,
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -899,83 +1265,24 @@ const deleteAuthorizationRuleOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const getAuthorizationRuleOperationSpec: msRest.OperationSpec = {
+const getVirtualNetworkRuleOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/AuthorizationRules/{authorizationRuleName}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/virtualnetworkrules/{virtualNetworkRuleName}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.namespaceName,
-    Parameters.authorizationRuleName,
+    Parameters.virtualNetworkRuleName,
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
   ],
   responses: {
     200: {
-      bodyMapper: Mappers.AuthorizationRule
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  serializer
-};
-
-const listKeysOperationSpec: msRest.OperationSpec = {
-  httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/AuthorizationRules/{authorizationRuleName}/listKeys",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.namespaceName,
-    Parameters.authorizationRuleName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  responses: {
-    200: {
-      bodyMapper: Mappers.AccessKeys
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  serializer
-};
-
-const regenerateKeysOperationSpec: msRest.OperationSpec = {
-  httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/AuthorizationRules/{authorizationRuleName}/regenerateKeys",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.namespaceName,
-    Parameters.authorizationRuleName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  requestBody: {
-    parameterPath: "parameters",
-    mapper: {
-      ...Mappers.RegenerateAccessKeyParameters,
-      required: true
-    }
-  },
-  responses: {
-    200: {
-      bodyMapper: Mappers.AccessKeys
+      bodyMapper: Mappers.VirtualNetworkRule
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -993,7 +1300,7 @@ const createOrUpdateNetworkRuleSetOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1025,7 +1332,7 @@ const getNetworkRuleSetOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1033,6 +1340,204 @@ const getNetworkRuleSetOperationSpec: msRest.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.NetworkRuleSet
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  serializer
+};
+
+const listAuthorizationRulesOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/authorizationRules",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.namespaceName,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion1
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.AuthorizationRuleListResult
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  serializer
+};
+
+const createOrUpdateAuthorizationRuleOperationSpec: msRest.OperationSpec = {
+  httpMethod: "PUT",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/authorizationRules/{authorizationRuleName}",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.namespaceName,
+    Parameters.authorizationRuleName,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion1
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "parameters",
+    mapper: {
+      ...Mappers.AuthorizationRule,
+      required: true
+    }
+  },
+  responses: {
+    200: {
+      bodyMapper: Mappers.AuthorizationRule
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  serializer
+};
+
+const deleteAuthorizationRuleOperationSpec: msRest.OperationSpec = {
+  httpMethod: "DELETE",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/authorizationRules/{authorizationRuleName}",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.namespaceName,
+    Parameters.authorizationRuleName,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion1
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  serializer
+};
+
+const getAuthorizationRuleOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/authorizationRules/{authorizationRuleName}",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.namespaceName,
+    Parameters.authorizationRuleName,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion1
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.AuthorizationRule
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  serializer
+};
+
+const listKeysOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/authorizationRules/{authorizationRuleName}/listKeys",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.namespaceName,
+    Parameters.authorizationRuleName,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion1
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.AccessKeys
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  serializer
+};
+
+const regenerateKeysOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/authorizationRules/{authorizationRuleName}/regenerateKeys",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.namespaceName,
+    Parameters.authorizationRuleName,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion1
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "parameters",
+    mapper: {
+      ...Mappers.RegenerateAccessKeyParameters,
+      required: true
+    }
+  },
+  responses: {
+    200: {
+      bodyMapper: Mappers.AccessKeys
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  serializer
+};
+
+const checkNameAvailabilityOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/providers/Microsoft.EventHub/checkNameAvailability",
+  urlParameters: [
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion1
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "parameters",
+    mapper: {
+      ...Mappers.CheckNameAvailabilityParameter,
+      required: true
+    }
+  },
+  responses: {
+    200: {
+      bodyMapper: Mappers.CheckNameAvailabilityResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -1050,7 +1555,7 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1086,7 +1591,7 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -1095,6 +1600,27 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
     200: {},
     202: {},
     204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  serializer
+};
+
+const listIPFilterRulesNextOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  baseUrl: "https://management.azure.com",
+  path: "{nextLink}",
+  urlParameters: [
+    Parameters.nextPageLink
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.IpFilterRuleListResult
+    },
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
@@ -1136,6 +1662,27 @@ const listByResourceGroupNextOperationSpec: msRest.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.EHNamespaceListResult
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  serializer
+};
+
+const listVirtualNetworkRulesNextOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  baseUrl: "https://management.azure.com",
+  path: "{nextLink}",
+  urlParameters: [
+    Parameters.nextPageLink
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.VirtualNetworkRuleListResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse

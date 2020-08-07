@@ -34,11 +34,25 @@ export const alias: msRest.OperationURLParameter = {
     }
   }
 };
-export const apiVersion: msRest.OperationQueryParameter = {
+export const apiVersion0: msRest.OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
     required: true,
+    isConstant: true,
     serializedName: "api-version",
+    defaultValue: '2018-01-01-preview',
+    type: {
+      name: "String"
+    }
+  }
+};
+export const apiVersion1: msRest.OperationQueryParameter = {
+  parameterPath: "apiVersion",
+  mapper: {
+    required: true,
+    isConstant: true,
+    serializedName: "api-version",
+    defaultValue: '2017-04-01',
     type: {
       name: "String"
     }
@@ -51,6 +65,20 @@ export const authorizationRuleName: msRest.OperationURLParameter = {
     serializedName: "authorizationRuleName",
     constraints: {
       MinLength: 1
+    },
+    type: {
+      name: "String"
+    }
+  }
+};
+export const clusterName: msRest.OperationURLParameter = {
+  parameterPath: "clusterName",
+  mapper: {
+    required: true,
+    serializedName: "clusterName",
+    constraints: {
+      MaxLength: 50,
+      MinLength: 6
     },
     type: {
       name: "String"
@@ -76,6 +104,20 @@ export const eventHubName: msRest.OperationURLParameter = {
   mapper: {
     required: true,
     serializedName: "eventHubName",
+    constraints: {
+      MaxLength: 50,
+      MinLength: 1
+    },
+    type: {
+      name: "String"
+    }
+  }
+};
+export const ipFilterRuleName: msRest.OperationURLParameter = {
+  parameterPath: "ipFilterRuleName",
+  mapper: {
+    required: true,
+    serializedName: "ipFilterRuleName",
     constraints: {
       MinLength: 1
     },
@@ -176,6 +218,19 @@ export const top: msRest.OperationQueryParameter = {
     },
     type: {
       name: "Number"
+    }
+  }
+};
+export const virtualNetworkRuleName: msRest.OperationURLParameter = {
+  parameterPath: "virtualNetworkRuleName",
+  mapper: {
+    required: true,
+    serializedName: "virtualNetworkRuleName",
+    constraints: {
+      MinLength: 1
+    },
+    type: {
+      name: "String"
     }
   }
 };
