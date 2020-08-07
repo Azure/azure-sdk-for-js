@@ -139,13 +139,13 @@ export interface Match {
     text: string;
 }
 
-// @public (undocumented)
+// @public
 export interface MinedOpinion {
     aspect: AspectSentiment;
     opinions: OpinionSentiment[];
 }
 
-// @public (undocumented)
+// @public
 export interface OpinionSentiment {
     confidenceScores: SentimentConfidenceScores;
     isNegated: boolean;

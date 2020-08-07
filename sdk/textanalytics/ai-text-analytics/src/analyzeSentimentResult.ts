@@ -96,6 +96,11 @@ export interface AspectSentiment {
   text: string;
 }
 
+/**
+ * OpinionSentiment contains the predicted sentiment, confidence scores and 
+ * other information about an opinion of an aspect. For example, in the sentence 
+ * "The food is good", the opinion of the aspect 'food' is 'good'.
+ */
 export interface OpinionSentiment {
   /**
    * The sentiment confidence score between 0 and 1 for the opinion for
@@ -119,7 +124,11 @@ export interface OpinionSentiment {
   text: string;
 }
 
-
+/**
+ * A mined opinion object represents an opinion we've extracted from a sentence. 
+ * It consists of both an aspect that these opinions are about, and the actual 
+ * opinions themselves.
+ */
 export interface MinedOpinion {
   /**
    * The aspect of a product/service that this opinion is about.
