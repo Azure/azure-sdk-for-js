@@ -9,12 +9,12 @@
 export {
   discriminators,
   Advisor,
+  AdvisorsResultList,
   AzureEntityResource,
   BaseResource,
   CloudError,
   Configuration,
   Database,
-  DatabaseListResult,
   FirewallRule,
   LogFile,
   PrivateEndpointConnection,

@@ -14,7 +14,6 @@ export {
   CloudError,
   Configuration,
   Database,
-  DatabaseListResult,
   FirewallRule,
   LogFile,
   PrivateEndpointConnection,
@@ -38,6 +37,8 @@ export {
   Sku,
   StorageProfile,
   SystemData,
+  TopQueryStatisticsInput,
+  TopQueryStatisticsResultList,
   TrackedResource,
   VirtualNetworkRule,
   WaitStatistic
