@@ -63,9 +63,9 @@ export interface SentenceSentiment {
    */
   confidenceScores: SentimentConfidenceScores;
   /**
-   * The list of opinions mined from this sentence. For example in "The food is 
-   * good, but the service is bad", we would mind these two opinions "food is 
-   * good", "service is bad". Only returned if `show_opinion_mining` is set to 
+   * The list of opinions mined from this sentence. For example in "The food is
+   * good, but the service is bad", we would mind these two opinions "food is
+   * good", "service is bad". Only returned if `show_opinion_mining` is set to
    * True in the call to `analyze_sentiment`.
    */
   minedOpinions?: MinedOpinion[];
@@ -80,13 +80,13 @@ export interface SentenceSentiment {
    */
 export interface AspectSentiment {
   /**
-   * The sentiment confidence score between 0 and 1 for the aspect for 
-   * 'positive' and 'negative' labels. It's score for 'neutral' will always be 
+   * The sentiment confidence score between 0 and 1 for the aspect for
+   * 'positive' and 'negative' labels. It's score for 'neutral' will always be
    * 0.
    */
   confidenceScores: SentimentConfidenceScores;
   /**
-   * The predicted Sentiment for the aspect. Possible values include 'positive', 
+   * The predicted Sentiment for the aspect. Possible values include 'positive',
    * 'mixed', and 'negative'.
    */
   sentiment: DocumentSentimentLabel;
@@ -98,18 +98,18 @@ export interface AspectSentiment {
 
 export interface OpinionSentiment {
   /**
-   * The sentiment confidence score between 0 and 1 for the opinion for 
-   * 'positive' and 'negative' labels. It's score for 'neutral' will always be 
+   * The sentiment confidence score between 0 and 1 for the opinion for
+   * 'positive' and 'negative' labels. It's score for 'neutral' will always be
    * 0.
    */
   confidenceScores: SentimentConfidenceScores;
   /**
-   * Whether the opinion is negated. For example, in "The food is not good", the 
+   * Whether the opinion is negated. For example, in "The food is not good", the
    * opinion "good" is negated.
    */
   isNegated: boolean;
   /**
-   * The predicted Sentiment for the opinion. Possible values include 
+   * The predicted Sentiment for the opinion. Possible values include
    * 'positive', 'mixed', and 'negative'.
    */
   sentiment: DocumentSentimentLabel;
