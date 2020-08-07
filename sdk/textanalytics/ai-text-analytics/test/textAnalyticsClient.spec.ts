@@ -126,7 +126,7 @@ describe("[AAD] TextAnalyticsClient", function() {
         }
       ];
       const results: AnalyzeSentimentResultArray = await client.analyzeSentiment(documents, {
-        mineOpinions: true
+        includeOpinionMining: true
       });
       assert.equal(results.length, 1);
       assertAllSuccess(results);
@@ -168,7 +168,7 @@ describe("[AAD] TextAnalyticsClient", function() {
         }
       ];
       const results: AnalyzeSentimentResultArray = await client.analyzeSentiment(documents, {
-        mineOpinions: true
+        includeOpinionMining: true
       });
       assert.equal(results.length, 1);
       assertAllSuccess(results);
@@ -211,7 +211,7 @@ describe("[AAD] TextAnalyticsClient", function() {
         }
       ];
       const results: AnalyzeSentimentResultArray = await client.analyzeSentiment(documents, {
-        mineOpinions: true
+        includeOpinionMining: true
       });
       assert.equal(results.length, 1);
       assertAllSuccess(results);

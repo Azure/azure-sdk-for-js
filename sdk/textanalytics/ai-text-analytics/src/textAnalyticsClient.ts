@@ -103,10 +103,10 @@ export interface AnalyzeSentimentOptions extends TextAnalyticsOperationOptions {
    * room	      great	     positive
    * staff	    unfriendly negative
    *
-   * To get opinion mining in your results, you must set the mineOpinions flag to be true.
+   * To get opinion mining in your results, you must set the includeOpinionMining flag to be true.
    * The opinion mining results will be included in the sentiment analysis response.
    */
-  mineOpinions?: boolean;
+  includeOpinionMining?: boolean;
 }
 
 /**
@@ -431,14 +431,14 @@ export class TextAnalyticsClient {
       realOptions = {
         includeStatistics: options?.includeStatistics,
         modelVersion: options?.modelVersion,
-        opinionMining: options?.mineOpinions
+        opinionMining: options?.includeOpinionMining
       };
     } else {
       realInputs = documents;
       realOptions = {
         includeStatistics: (languageOrOptions as AnalyzeSentimentOptions)?.includeStatistics,
         modelVersion: (languageOrOptions as AnalyzeSentimentOptions)?.modelVersion,
-        opinionMining: (languageOrOptions as AnalyzeSentimentOptions)?.mineOpinions
+        opinionMining: (languageOrOptions as AnalyzeSentimentOptions)?.includeOpinionMining
       };
     }
 

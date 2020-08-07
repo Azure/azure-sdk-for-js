@@ -15,7 +15,7 @@ export type AnalyzeSentimentErrorResult = TextAnalyticsErrorResult;
 
 // @public
 export interface AnalyzeSentimentOptions extends TextAnalyticsOperationOptions {
-    mineOpinions?: boolean;
+    includeOpinionMining?: boolean;
 }
 
 // @public
