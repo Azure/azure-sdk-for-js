@@ -8,16 +8,39 @@
 - Fixed a bug on `importCertificate`. The bytes of a PEM formatted certificate were being encoded again on base64.
   Now, if the user provides a policy with contentType `application/x-pem-file`, the bytes will be assumed to be formatted using ASCII,
   and thus will be sent as is.
-- Using `Poller` and `PollerLike` from the latest `@azure/core-lro` instead of `KVPoller` and `KVPollerLike`.
+- Now using `Poller` and `PollerLike` from the latest `@azure/core-lro` instead of `KVPoller` and `KVPollerLike`.
 - `KVPollerLike` is now an alias of `PollerLike`.
 - `KVPollerLike` is considered deprecated. Use `PollerLike`.
-- Fixed [bug 8378](https://github.com/Azure/azure-sdk-for-js/issues/8378), which caused the challenge based authentication to re-authenticate on every new request.
+
+## 4.1.0-preview.2 (Unreleased)
+
+- Renamed the `apiVersion` (optional to the `CertificateClient`) as `serviceVersion`,
+  and increased the latest supported API version to `7.1`.
+- Added `recoverableDays` as an optional property to `KeyProperties`.
+- Fixed a bug on `importCertificate`. The bytes of a PEM formatted certificate were being encoded again on base64.
+  Now, if the user provides a policy with contentType `application/x-pem-file`, the bytes will be assumed to be formatted using ASCII,
+  and thus will be sent as is.
+- Now using `Poller` and `PollerLike` from the latest `@azure/core-lro` instead of `KVPoller` and `KVPollerLike`.
+- `KVPollerLike` is now an alias of `PollerLike`.
+- `KVPollerLike` is considered deprecated. Use `PollerLike`.
+
+## 4.0.2 (2020-06-01)
+
 - Fixed [bug 9005](https://github.com/Azure/azure-sdk-for-js/issues/9005), which caused parallel requests to throw if one of them needed to authenticate.
 - Fixed [bug 9020](https://github.com/Azure/azure-sdk-for-js/issues/9020), which caused updateCertificateProperties to not properly send the certificate attributes to the service.
 
 ## 4.0.1 (2020-05-13)
 
 - Fixed [bug 8378](https://github.com/Azure/azure-sdk-for-js/issues/8378), which caused the challenge based authentication to re-authenticate on every new request.
+
+## 4.1.0-preview.1 (2020-03-10)
+
+- Added the optional `apiVersion` property to the `CertificateClient` optional parameters.
+  It defaults to the latest supported API version, which currently is `7.1-preview`.
+- Added `recoverableDays` as an optional property to `KeyProperties`.
+- Fixed a bug on `importCertificate`. The bytes of a PEM formatted certificate were being encoded again on base64.
+  Now, if the user provides a policy with contentType `application/x-pem-file`, the bytes will be assumed to be formatted using ASCII,
+  and thus will be sent as is.
 
 ## 4.0.0 (2020-01-07)
 
