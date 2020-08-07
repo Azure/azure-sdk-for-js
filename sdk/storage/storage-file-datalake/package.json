@@ -69,15 +69,15 @@
     "url": "git+https://github.com/Azure/azure-sdk-for-js.git"
   },
   "keywords": [
-    "Azure",
-    "Storage",
+    "azure",
+    "storage",
     "ADLS",
     "DFS",
-    "DataLake",
-    "Node.js",
-    "TypeScript",
-    "JavaScript",
-    "Browser"
+    "datalake",
+    "node.js",
+    "typescript",
+    "javascript",
+    "browser"
   ],
   "author": "Microsoft Corporation",
   "license": "MIT",
