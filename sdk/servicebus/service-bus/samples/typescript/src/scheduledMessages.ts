@@ -70,7 +70,7 @@ async function sendScheduledMessages(sbClient: ServiceBusClient) {
 async function receiveMessages(sbClient: ServiceBusClient) {
   // If receiving from a subscription you can use the createReceiver(topic, subscription) overload
   // instead.
-  let queueReceiver = sbClient.createReceiver(queueName, "peekLock");
+  let queueReceiver = sbClient.createReceiver(queueName);
 
   let numOfMessagesReceived = 0;
   const processMessage = async (brokeredMessage) => {
@@ -95,7 +95,7 @@ async function receiveMessages(sbClient: ServiceBusClient) {
   await delay(5000);
   console.log(`\nStarting receiver at ${new Date(Date.now())}`);
 
-  queueReceiver = sbClient.createReceiver(queueName, "peekLock");
+  queueReceiver = sbClient.createReceiver(queueName);
 
   queueReceiver.subscribe({
     processMessage,

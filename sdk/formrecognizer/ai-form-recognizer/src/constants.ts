@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-export const SDK_VERSION: string = "1.0.0-preview.5";
+export const SDK_VERSION: string = "3.0.0";
 
 export const DEFAULT_COGNITIVE_SCOPE = "https://cognitiveservices.azure.com/.default";
 

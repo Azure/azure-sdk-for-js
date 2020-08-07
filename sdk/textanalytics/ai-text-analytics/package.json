@@ -6,7 +6,7 @@
   "version": "5.0.1",
   "keywords": [
     "node",
-    "Azure",
+    "azure",
     "cloud",
     "typescript",
     "browser",
@@ -29,7 +29,8 @@
     "LICENSE"
   ],
   "//metadata": {
-    "constantPaths": [{
+    "constantPaths": [
+      {
         "path": "src/generated/generatedClientContext.ts",
         "prefix": "packageVersion"
       },
@@ -40,7 +41,7 @@
     ]
   },
   "engines": {
-    "node": ">=8.0.0" 
+    "node": ">=8.0.0"
   },
   "//smokeTestConfiguration": {
     "skipFolder": true

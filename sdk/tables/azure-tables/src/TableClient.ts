@@ -11,7 +11,9 @@ import {
   SetAccessPolicyOptions
 } from "./models";
 import {
-  TableServiceClientOptions,
+  TableServiceClientOptions as TableClientOptions,
+  DeleteTableOptions,
+  DeleteTableResponse,
   QueryOptions,
   GetEntityOptions,
   GetEntityResponse,
@@ -63,12 +65,12 @@ export class TableClient {
    * );
    * ```
    */
-  // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
   constructor(
     url: string,
     tableName: string,
     credential: TablesSharedKeyCredential,
-    options?: TableServiceClientOptions
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
+    options?: TableClientOptions
   );
   /**
    * Creates an instance of TableClient.
@@ -92,12 +94,15 @@ export class TableClient {
    * );
    * ```
    */
-  constructor(url: string, tableName: string, options?: TableServiceClientOptions);
+
+  // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
+  constructor(url: string, tableName: string, options?: TableClientOptions);
   constructor(
     url: string,
     tableName: string,
-    credentialOrOptions?: TablesSharedKeyCredential | TableServiceClientOptions,
-    options?: TableServiceClientOptions
+    credentialOrOptions?: TablesSharedKeyCredential | TableClientOptions,
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
+    options?: TableClientOptions
   ) {
     if (credentialOrOptions instanceof TablesSharedKeyCredential) {
       this.client = new TableServiceClient(url, credentialOrOptions, options);
@@ -105,6 +110,15 @@ export class TableClient {
       this.client = new TableServiceClient(url, credentialOrOptions);
     }
     this.tableName = tableName;
+  }
+
+  /**
+   * Permanently deletes the current table with all of its entities.
+   * @param options The options parameters.
+   */
+  // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
+  delete(options?: DeleteTableOptions): Promise<DeleteTableResponse> {
+    return this.client.deleteTable(this.tableName, options);
   }
 
   /**
@@ -226,7 +240,8 @@ export class TableClient {
   public static fromConnectionString(
     connectionString: string,
     tableName: string,
-    options?: TableServiceClientOptions
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
+    options?: TableClientOptions
   ): TableClient {
     const { url, options: clientOptions } = getClientParamsFromConnectionString(
       connectionString,

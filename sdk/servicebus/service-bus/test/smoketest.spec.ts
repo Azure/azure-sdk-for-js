@@ -44,7 +44,7 @@ describe("Sample scenarios for track 2", () => {
 
     it("Queue, peek/lock", async () => {
       const receiver = serviceBusClient.test.addToCleanup(
-        serviceBusClient.createReceiver(queueName, "peekLock")
+        serviceBusClient.createReceiver(queueName)
       );
 
       await sendSampleMessage(sender, "Queue, peek/lock", undefined, "single");
@@ -67,7 +67,7 @@ describe("Sample scenarios for track 2", () => {
 
     it("Queue, peek/lock, receiveBatch", async () => {
       const receiver = serviceBusClient.test.addToCleanup(
-        serviceBusClient.createReceiver(queueName, "receiveAndDelete")
+        serviceBusClient.createReceiver(queueName, { receiveMode: "receiveAndDelete" })
       );
 
       await sendSampleMessage(sender, "Queue, peek/lock, receiveBatch", undefined, "array");
@@ -84,7 +84,7 @@ describe("Sample scenarios for track 2", () => {
 
     it("Queue, peek/lock, iterate messages", async () => {
       const receiver = serviceBusClient.test.addToCleanup(
-        serviceBusClient.createReceiver(queueName, "peekLock")
+        serviceBusClient.createReceiver(queueName)
       );
 
       await sendSampleMessage(sender, "Queue, peek/lock, iterate messages", undefined, "batch");
@@ -117,7 +117,7 @@ describe("Sample scenarios for track 2", () => {
 
     it("Queue, receive and delete", async () => {
       const receiver = serviceBusClient.test.addToCleanup(
-        serviceBusClient.createReceiver(queueName, "receiveAndDelete")
+        serviceBusClient.createReceiver(queueName, { receiveMode: "receiveAndDelete" })
       );
 
       await sendSampleMessage(sender, "Queue, receiveAndDelete");
@@ -139,7 +139,7 @@ describe("Sample scenarios for track 2", () => {
 
     it("Queue, receive and delete, iterate messages", async () => {
       const receiver = serviceBusClient.test.addToCleanup(
-        serviceBusClient.createReceiver(queueName, "receiveAndDelete")
+        serviceBusClient.createReceiver(queueName, { receiveMode: "receiveAndDelete" })
       );
 
       await sendSampleMessage(sender, "Queue, receive and delete, iterate messages");
@@ -197,7 +197,7 @@ describe("Sample scenarios for track 2", () => {
 
     it("Subscription, peek/lock", async () => {
       const receiver = serviceBusClient.test.addToCleanup(
-        serviceBusClient.createReceiver(topic, subscription, "peekLock")
+        serviceBusClient.createReceiver(topic, subscription)
       );
 
       await sendSampleMessage(sender, "Subscription, peek/lock");
@@ -222,7 +222,7 @@ describe("Sample scenarios for track 2", () => {
 
     it("Subscription, receive and delete", async () => {
       const receiver = serviceBusClient.test.addToCleanup(
-        serviceBusClient.createReceiver(topic, subscription, "receiveAndDelete")
+        serviceBusClient.createReceiver(topic, subscription, { receiveMode: "receiveAndDelete" })
       );
 
       await sendSampleMessage(sender, "Subscription, receive and delete");
@@ -246,7 +246,7 @@ describe("Sample scenarios for track 2", () => {
 
     it("Subscription, peek/lock, iterate messages", async () => {
       const receiver = serviceBusClient.test.addToCleanup(
-        serviceBusClient.createReceiver(topic, subscription, "peekLock")
+        serviceBusClient.createReceiver(topic, subscription)
       );
 
       await sendSampleMessage(sender, "Subscription, peek/lock, iterate messages");
@@ -284,7 +284,7 @@ describe("Sample scenarios for track 2", () => {
 
     it("Subscription, receive and delete, iterate messages", async () => {
       const receiver = serviceBusClient.test.addToCleanup(
-        serviceBusClient.createReceiver(topic, subscription, "receiveAndDelete")
+        serviceBusClient.createReceiver(topic, subscription, { receiveMode: "receiveAndDelete" })
       );
 
       await sendSampleMessage(sender, "Subscription, receive and delete, iterate messages");
@@ -335,7 +335,7 @@ describe("Sample scenarios for track 2", () => {
       await sendSampleMessage(sender, "Queue, next unlocked session, sessions", sessionId);
 
       const receiver = serviceBusClient.test.addToCleanup(
-        await serviceBusClient.createSessionReceiver(queue, "receiveAndDelete")
+        await serviceBusClient.createSessionReceiver(queue, { receiveMode: "receiveAndDelete" })
       );
 
       // this queue was freshly created so we are the first session (and thus the first session to get picked
@@ -365,7 +365,10 @@ describe("Sample scenarios for track 2", () => {
     it("Queue, receive and delete, sessions", async () => {
       const sessionId = Date.now().toString();
       const receiver = serviceBusClient.test.addToCleanup(
-        await serviceBusClient.createSessionReceiver(queue, "receiveAndDelete", { sessionId })
+        await serviceBusClient.createSessionReceiver(queue, {
+          sessionId,
+          receiveMode: "receiveAndDelete"
+        })
       );
 
       assert.equal(receiver.sessionId, sessionId);
@@ -400,7 +403,7 @@ describe("Sample scenarios for track 2", () => {
       const sessionId = Date.now().toString();
 
       const receiver = serviceBusClient.test.addToCleanup(
-        await serviceBusClient.createSessionReceiver(queue, "peekLock", { sessionId })
+        await serviceBusClient.createSessionReceiver(queue, { sessionId })
       );
 
       await sendSampleMessage(sender, "Queue, peek/lock, sessions", sessionId);

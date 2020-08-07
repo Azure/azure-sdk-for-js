@@ -127,8 +127,16 @@ Once you have created an instance of a `ServiceBusClient` class, you can get a `
 using the [createReceiver][sbclient_createreceiver] method.
 
 ```javascript
-const receiver = serviceBusClient.createReceiver("my-queue", "peekLock");
+const receiver = serviceBusClient.createReceiver("my-queue");
 ```
+
+There are two `receiveMode`s available.
+
+- "peekLock" - In peekLock mode, the receiver has a lock on the message for the duration specified on the queue.
+- "receiveAndDelete" - In receiveAndDelete mode, messages are deleted from Service Bus as they are received.
+
+If the receiveMode is not provided in the options, it defaults to the "peekLock" mode.
+You can also [settle the messages](#settle-a-message) received in "peekLock" mode.
 
 You can use this receiver in one of 3 ways to receive messages:
 
@@ -217,7 +225,7 @@ There are two ways of choosing which session to open:
 1. Specify a `sessionId`, which locks a named session.
 
    ```javascript
-   const receiver = await serviceBusClient.createSessionReceiver("my-session-queue", "peekLock", {
+   const receiver = await serviceBusClient.createSessionReceiver("my-session-queue", {
      sessionId: "my-session"
    });
    ```
@@ -226,10 +234,12 @@ There are two ways of choosing which session to open:
    that is not already locked.
 
    ```javascript
-   const receiver = await serviceBusClient.createSessionReceiver("my-session-queue", "peekLock");
+   const receiver = await serviceBusClient.createSessionReceiver("my-session-queue");
    ```
 
    You can find the name of the session via the `sessionId` property on the `SessionReceiver`.
+   If the receiveMode is not provided in the options, it defaults to the "peekLock" mode.
+   You can also [settle the messages](#settle-a-message) received in "peekLock" mode.
 
 Once the receiver is created you can use choose between 3 ways to receive messages:
 

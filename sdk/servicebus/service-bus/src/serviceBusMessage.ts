@@ -18,7 +18,7 @@ import { DispositionStatusOptions } from "./core/managementClient";
  * @ignore
  * @enum {number}
  */
-export enum ReceiveMode {
+export enum InternalReceiveMode {
   /**
    * Once a message is received in this mode, the receiver has a lock on the message for a
    * particular duration. If the message is not settled by this time, it lands back on Service Bus
@@ -900,12 +900,12 @@ export class ServiceBusMessageImpl implements ReceivedMessageWithLock {
     msg: AmqpMessage,
     delivery: Delivery,
     shouldReorderLockToken: boolean,
-    receiveMode: ReceiveMode
+    receiveMode: InternalReceiveMode
   ) {
     Object.assign(this, fromAmqpMessage(msg, delivery, shouldReorderLockToken));
     // Lock on a message is applicable only in peekLock mode, but the service sets
     // the lock token even in receiveAndDelete mode if the entity in question is partitioned.
-    if (receiveMode === ReceiveMode.receiveAndDelete) {
+    if (receiveMode === InternalReceiveMode.receiveAndDelete) {
       this.lockToken = undefined;
     }
     this._context = context;
