@@ -177,7 +177,7 @@ await client.sendEvents([
 ]);
 ```
 
-### Deserialzing an Event
+### Deserializing an Event
 
 `EventGridConsumer` can be used to deserialize events delivered by Event Grid. When deserlizing an event, you need to know the schema used to deliver the event. In this example we have events being delivered to an Azure Service Bus Topic in the Cloud Events schema. Using the Service Bus SDK we can recieve these events from the Service Bus Topic and then deserialize them using `EventGridConsumer` and use `isSystemEvent` to detect what type of events they are.
 
