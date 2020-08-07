@@ -198,7 +198,10 @@ describe("[AAD] TextAnalyticsClient", function() {
         assert.isAtLeast(serviceAspectPositiveScore, 0);
         assert.isAtLeast(serviceAspectNeutralScore, 0);
         assert.isAtLeast(serviceAspectNegativeScore, 0);
-        assert.equal(serviceAspectPositiveScore + serviceAspectNegativeScore + serviceAspectNeutralScore, 1);
+        assert.equal(
+          serviceAspectPositiveScore + serviceAspectNegativeScore + serviceAspectNeutralScore,
+          1
+        );
 
         const foodOpinion = sentence.minedOpinions?.[0].opinions[0];
         const serviceOpinion = sentence.minedOpinions?.[1].opinions[0];
@@ -215,7 +218,10 @@ describe("[AAD] TextAnalyticsClient", function() {
         assert.isAtLeast(foodOpinionPositiveScore, 0);
         assert.isAtLeast(foodOpinionNegativeScore, 0);
         assert.isAtLeast(foodOpinionNeutralScore, 0);
-        assert.equal(foodOpinionPositiveScore + foodOpinionNeutralScore + foodOpinionNegativeScore, 1);
+        assert.equal(
+          foodOpinionPositiveScore + foodOpinionNeutralScore + foodOpinionNegativeScore,
+          1
+        );
         assert.isTrue(foodOpinion?.isNegated);
       });
     });
