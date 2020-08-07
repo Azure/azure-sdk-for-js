@@ -6,12 +6,6 @@
   It defaults to the latest supported API version, which currently is `7.1`.
 - Added `recoverableDays` as an optional property to `SecretProperties`.
 
-## 4.1.0-preview.2 (Unreleased)
-
-- Renamed the `apiVersion` (optional to the `SecretClient`) as `serviceVersion`,
-  and increased the latest supported API version to `7.1`.
-- Added `recoverableDays` as an optional property to `SecretProperties`.
-
 ## 4.0.4 (2020-06-01)
 
 - Fixed [bug 9005](https://github.com/Azure/azure-sdk-for-js/issues/9005), which caused parallel requests to throw if one of them needed to authenticate.

@@ -8,14 +8,6 @@
 - Added `recoverableDays` as an optional property to `KeyProperties`.
 - Fixed [bug 10352](https://github.com/Azure/azure-sdk-for-js/issues/10352), which caused cryptography operations on RSA-HSM keys to fail.
 
-## 4.1.0-preview.2 (Unreleased)
-
-- Renamed the `apiVersion` (optional to both the `KeyClient` and `CryptographyClient`) as `serviceVersion`,
-  and increased the latest supported API version to `7.1`.
-- Added `import` to the list of possible values for `KeyOperation`.
-- Added `recoverableDays` as an optional property to `KeyProperties`.
-- Fixed [bug 10352](https://github.com/Azure/azure-sdk-for-js/issues/10352), which caused cryptography operations on RSA-HSM keys to fail.
-
 ## 4.0.4 (2020-06-01)
 
 - Fixed [bug 9005](https://github.com/Azure/azure-sdk-for-js/issues/9005), which caused parallel requests to throw if one of them needed to authenticate.

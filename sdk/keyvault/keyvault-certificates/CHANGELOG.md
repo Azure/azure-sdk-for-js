@@ -12,18 +12,6 @@
 - `KVPollerLike` is now an alias of `PollerLike`.
 - `KVPollerLike` is considered deprecated. Use `PollerLike`.
 
-## 4.1.0-preview.2 (Unreleased)
-
-- Renamed the `apiVersion` (optional to the `CertificateClient`) as `serviceVersion`,
-  and increased the latest supported API version to `7.1`.
-- Added `recoverableDays` as an optional property to `KeyProperties`.
-- Fixed a bug on `importCertificate`. The bytes of a PEM formatted certificate were being encoded again on base64.
-  Now, if the user provides a policy with contentType `application/x-pem-file`, the bytes will be assumed to be formatted using ASCII,
-  and thus will be sent as is.
-- Now using `Poller` and `PollerLike` from the latest `@azure/core-lro` instead of `KVPoller` and `KVPollerLike`.
-- `KVPollerLike` is now an alias of `PollerLike`.
-- `KVPollerLike` is considered deprecated. Use `PollerLike`.
-
 ## 4.0.2 (2020-06-01)
 
 - Fixed [bug 9005](https://github.com/Azure/azure-sdk-for-js/issues/9005), which caused parallel requests to throw if one of them needed to authenticate.
