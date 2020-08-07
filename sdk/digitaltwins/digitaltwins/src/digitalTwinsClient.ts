@@ -16,7 +16,7 @@ import {
 } from "@azure/core-http";
 import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
 import { AzureDigitalTwinsAPI as GeneratedClient } from "./generated/azureDigitalTwinsAPI";
-import { v4 } from "uuid";
+import uuid from "uuid";
 import {
   AzureDigitalTwinsAPIOptionalParams,
   DigitalTwinsGetByIdResponse,
@@ -491,7 +491,7 @@ export class DigitalTwinsClient {
     const digitalTwinsSendTelemetryOptionalParams: DigitalTwinsSendTelemetryOptionalParams = options;
     digitalTwinsSendTelemetryOptionalParams.dtTimestamp = new Date().getTime().toString();
     if (!messageId) {
-      messageId = v4();
+      messageId = uuid.v4();
     }
     return this.client.digitalTwins.sendTelemetry(
       digitalTwinId,
@@ -521,7 +521,7 @@ export class DigitalTwinsClient {
     const digitalTwinsSendComponentTelemetryOptionalParams: DigitalTwinsSendComponentTelemetryOptionalParams = options;
     digitalTwinsSendComponentTelemetryOptionalParams.dtTimestamp = new Date().getTime().toString();
     if (!messageId) {
-      messageId = v4();
+      messageId = uuid.v4();
     }
     return this.client.digitalTwins.sendComponentTelemetry(
       digitalTwinId,

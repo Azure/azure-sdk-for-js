@@ -111,15 +111,15 @@ async function main() {
   console.log(inspect(getComponent));
 
   // Delete digital twin
-  const response = await serviceClient.deleteDigitalTwin(digitalTwinId);
+  response = await serviceClient.deleteDigitalTwin(digitalTwinId);
   console.log(`Delete response:`);
   console.log(inspect(response));
 
   // Decomission models
-  const response = await serviceClient.decomissionModel(modelId);
+  response = await serviceClient.decomissionModel(modelId);
   console.log(`Decomission Model response:`);
   console.log(inspect(response));
-  const response = await serviceClient.decomissionModel(componentId);
+  response = await serviceClient.decomissionModel(componentId);
   console.log(`Decomission Component Model response:`);
   console.log(inspect(response));
 
