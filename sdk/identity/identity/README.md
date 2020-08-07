@@ -153,6 +153,12 @@ const client = new KeyClient(vaultUrl, credentialChain);
 
 ## Troubleshooting
 
+### Error Handling
+
+Credentials raise `AuthenticationError` when they fail to authenticate. This class has a `message` field which describes why authentication failed. An `AggregateAuthenticationError` will be raised by `ChainedTokenCredential` with an `errors` field containing an array of errors from each credential in the chain.
+
+### Logging
+
 Enabling logging may help uncover useful information about failures. In order to see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment variable to `info`. Alternatively, logging can be enabled at runtime by calling `setLogLevel` in the `@azure/logger`:
 
 ```javascript
@@ -161,11 +167,18 @@ import { setLogLevel } from "@azure/logger";
 setLogLevel("info");
 ```
 
-### General
-
-Credentials raise `AuthenticationError` when they fail to authenticate. This class has a `message` field which describes why authentication failed. An `AggregateAuthenticationError` will be raised by `ChainedTokenCredential` with an `errors` field containing an array of errors from each credential in the chain.
-
 ## Next steps
+
+### Client libraries supporting authentication with Azure Identity
+
+Currently, the following client libraries support authenticating with `TokenCredential` and the Azure Identity library. You can learn more about their use, and find additional documentation on use of these client libraries along samples with can be found in the links below.
+
+- [@azure/event-hubs](http://npmjs.com/package/@azure/event-hubs)
+- [@azure/keyvault-keys](http://npmjs.com/package/@azure/keyvault-keys)
+- [@azure/keyvault-secrets](http://npmjs.com/package/@azure/keyvault-secrets)
+- [@azure/keyvault-certificates](http://npmjs.com/package/@azure/keyvault-certificates)
+- [@azure/storage-blob](http://npmjs.com/package/@azure/storage-blob)
+- [@azure/storage-queue](http://npmjs.com/package/@azure/storage-queue)
 
 ### Read the documentation
 
