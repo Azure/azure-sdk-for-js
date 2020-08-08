@@ -99,6 +99,20 @@ const client = new KeyClient(vaultUrl, credential);
 const getResult = await client.getKey("MyKeyName");
 ```
 
+### Specifying a user assigned managed identity with the `DefaultAzureCredential`
+
+Many Azure hosts allow the assignment of a user assigned managed identity. This example demonstrates configuring the `DefaultAzureCredential` to authenticate a user assigned identity when deployed to an azure host. It then authenticates a `KeyClient` from the [@azure/keyvault-keys](https://www.npmjs.com/package/@azure/keyvault-keys) client library with credential.
+
+```ts
+const { KeyClient } = require("@azure/keyvault-keys");
+const { DefaultAzureCredential } = require("@azure/identity");
+
+// when deployed to an azure host the default azure credential will authenticate the specified user assigned managed identity
+var credential = new DefaultAzureCredential({ managedIdentityClientId: userAssignedClientId });
+
+const client = new KeyClient(vaultUrl, credential);
+```
+
 ### Define a custom authentication flow with the `ChainedTokenCredential`
 
 While the `DefaultAzureCredential` is generally the quickest way to get started developing applications for Azure, more advanced users may want to customize the credentials considered when authenticating. The `ChainedTokenCredential` enables users to combine multiple credential instances to define a customized chain of credentials. This example demonstrates creating a `ChainedTokenCredential` which will attempt to authenticate using two differently configured instances of `ClientSecretCredential`, to then authenticate the `KeyClient` from the [@azure/keyvault-keys](https://www.npmjs.com/package/@azure/keyvault-keys):
