@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import { base64Encode, base64Decode } from "./utils/bufferSerializer";
+import { EdmTypes } from "./models";
 
 const Edm = {
   Binary: "Edm.Binary",
@@ -11,7 +12,7 @@ const Edm = {
   Int32: "Edm.Int32",
   Int64: "Edm.Int64",
   String: "Edm.String"
-};
+} as const;
 
 type supportedTypes = boolean | string | number | Date | Uint8Array;
 
@@ -37,7 +38,7 @@ function serializePrimitive(value: any): serializedType {
   return serializedValue;
 }
 
-function serializeObject(obj: { value: any; type: string }): serializedType {
+function serializeObject(obj: { value: any; type: EdmTypes }): serializedType {
   const serializedValue: serializedType = { value: obj.value };
   if (
     obj.type === "Boolean" ||
@@ -61,7 +62,7 @@ function serializeObject(obj: { value: any; type: string }): serializedType {
 }
 
 function getSerializedValue(value: any): serializedType {
-  if (typeof value === "object" && "value" in value && "type" in value) {
+  if (typeof value === "object" && value.value && value.type) {
     return serializeObject(value);
   } else {
     return serializePrimitive(value);
@@ -73,7 +74,7 @@ export function serialize(obj: object): object {
   for (const [key, value] of Object.entries(obj)) {
     const serializedVal = getSerializedValue(value);
     serialized[key] = serializedVal.value;
-    if ("type" in serializedVal && serializedVal.type !== undefined) {
+    if (serializedVal.type) {
       serialized[`${key}@odata.type`] = serializedVal.type;
     }
   }
@@ -100,7 +101,7 @@ function getTypedObject(value: any, type: string): any {
   }
 }
 
-export function deserialize<T extends object>(obj: object = {}): T {
+export function deserialize<T extends object>(obj: object): T {
   const deserialized: any = {};
   for (const [key, value] of Object.entries(obj)) {
     if (key.indexOf("@odata.type") === -1) {
@@ -115,6 +116,6 @@ export function deserialize<T extends object>(obj: object = {}): T {
   return deserialized;
 }
 
-export function deserializeObjectsArray<T extends object>(objArray: object[] = []): T[] {
+export function deserializeObjectsArray<T extends object>(objArray: object[]): T[] {
   return objArray.map((obj) => deserialize<T>(obj));
 }

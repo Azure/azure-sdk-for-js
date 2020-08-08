@@ -235,7 +235,7 @@ export class TableServiceClient {
       queryOptions: query,
       ...options
     })) as ListEntitiesResponse<T>;
-    response.value = deserializeObjectsArray<T>(response.value);
+    response.value = deserializeObjectsArray<T>(response.value || []);
     return response;
   }
 
