@@ -68,13 +68,13 @@
     "url": "git+https://github.com/Azure/azure-sdk-for-js.git"
   },
   "keywords": [
-    "Azure",
-    "Storage",
-    "Queue",
-    "Node.js",
-    "TypeScript",
-    "JavaScript",
-    "Browser"
+    "azure",
+    "storage",
+    "queue",
+    "node.js",
+    "typescript",
+    "javascript",
+    "browser"
   ],
   "author": "Microsoft Corporation",
   "license": "MIT",
@@ -95,9 +95,19 @@
       }
     ]
   },
+  "//smokeTestConfiguration": {
+    "skip": [
+      "anonymousCred.js",
+      "azureAdAuth.js",
+      "basic.js",
+      "customPipeline.js",
+      "iterators.js",
+      "sharedKeyCred.js"
+    ]
+  },
   "dependencies": {
     "@azure/abort-controller": "^1.0.0",
-    "@azure/core-http": "^1.1.4",
+    "@azure/core-http": "^1.1.6",
     "@azure/core-paging": "^1.1.1",
     "@azure/core-tracing": "1.0.0-preview.9",
     "@azure/logger": "^1.0.0",

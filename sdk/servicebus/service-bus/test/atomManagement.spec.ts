@@ -1127,7 +1127,6 @@ describe("Atom management - Authentication", function(): void {
           error = err;
         }
 
-        should.equal(error.statusCode, 404);
         should.equal(error.code, "MessageEntityNotFoundError", `Unexpected error code found.`);
         should.equal(
           error.message.startsWith("The messaging entity") ||
@@ -1147,7 +1146,6 @@ describe("Atom management - Authentication", function(): void {
           error = err;
         }
 
-        should.equal(error.statusCode, 404, "Unexpected status code found.");
         should.equal(error.code, "MessageEntityNotFoundError", `Unexpected error code found.`);
         should.equal(
           error.message.startsWith("The messaging entity") ||
@@ -1204,7 +1202,6 @@ describe("Atom management - Authentication", function(): void {
             throw new Error("TestError: Unrecognized EntityType");
         }
 
-        should.equal(error.statusCode, 404, "Unexpected status code found.");
         should.equal(error.code, "MessageEntityNotFoundError", `Unexpected error code found.`);
         should.equal(
           error.message.startsWith("The messaging entity") ||
@@ -1713,7 +1710,41 @@ describe("Atom management - Authentication", function(): void {
     }
   },
   {
-    testCaseTitle: "Correlation Filter rule options",
+    testCaseTitle: "Correlation Filter rule options with a single property",
+    input: {
+      filter: {
+        correlationId: "abcd",
+        properties: {
+          randomState: "WA"
+        }
+      },
+      action: { sqlExpression: "SET sys.label='GREEN'" }
+    },
+    output: {
+      filter: {
+        correlationId: "abcd",
+        contentType: "",
+        label: "",
+        messageId: "",
+        replyTo: "",
+        replyToSessionId: "",
+        sessionId: "",
+        to: "",
+        properties: {
+          randomState: "WA"
+        }
+      },
+      action: {
+        sqlExpression: "SET sys.label='GREEN'",
+        requiresPreprocessing: false,
+        sqlParameters: undefined,
+        compatibilityLevel: 20
+      },
+      name: managementRule1
+    }
+  },
+  {
+    testCaseTitle: "Correlation Filter rule options with multiple properties",
     input: {
       filter: {
         correlationId: "abcd",

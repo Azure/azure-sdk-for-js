@@ -7,7 +7,7 @@ import { SecretClient } from "@azure/keyvault-secrets";
 
 const uuidv1 = require("uuid/v1");
 
-export class KeyVaultSecrets {
+class KeyVaultSecrets {
   private static client: SecretClient;
   private static secretName: string;
   private static secretValue: string;
@@ -16,7 +16,7 @@ export class KeyVaultSecrets {
     AzureCloud: AzureAuthorityHosts.AzurePublicCloud,
     AzureChinaCloud: AzureAuthorityHosts.AzureChina,
     AzureGermanCloud: AzureAuthorityHosts.AzureGermany,
-    AzureUSGovernment: AzureAuthorityHosts.AzureGovernment
+    AzureUSGovernment: AzureAuthorityHosts.AzureGovernment,
   };
 
   static async Run() {
@@ -30,7 +30,7 @@ export class KeyVaultSecrets {
         3) Delete that secret (Clean up the resource)
         `);
 
-    const authorityHost = this.getAuthorityHost(
+    const authorityHost = KeyVaultSecrets.getAuthorityHost(
       process.env["AZURE_CLOUD"] || "",
       AzureAuthorityHosts.AzurePublicCloud
     );
@@ -40,7 +40,7 @@ export class KeyVaultSecrets {
     // * AZURE_CLIENT_ID: The application (client) ID registered in the AAD tenant
     // * AZURE_CLIENT_SECRET: The client secret for the registered application
     const credential = new DefaultAzureCredential({
-      authorityHost: authorityHost
+      authorityHost: authorityHost,
     });
     const url = process.env["AZURE_PROJECT_URL"] || "<YourProjectURL>";
 
@@ -107,4 +107,17 @@ export class KeyVaultSecrets {
     }
     return defaultAuthorityHost;
   }
+}
+
+// Simulation of exports that will be written into samples via future
+// preparation methods
+export const RequiredEnvironmentVariables = [
+  "AZURE_TENANT_ID",
+  "AZURE_CLIENT_ID",
+  "AZURE_CLIENT_SECRET",
+  "AZURE_PROJECT_URL",
+];
+
+export function main() {
+  KeyVaultSecrets.Run();
 }

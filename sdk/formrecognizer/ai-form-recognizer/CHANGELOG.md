@@ -1,7 +1,9 @@
 # Release History
 
-## 1.0.0-preview.5 (Unreleased)
+## 3.0.0 (Unreleased)
 
+- This release marks the general availability of the Azure Form Recognizer SDK for JavaScript.
+- Switched to using the generally-available 2.0 service endpoint rather than 2.0-preview.
 - Added a `pageNumber` property to the `FormTable` and `FormTableCell` types indicating the number of the page where the table/cell appeared within the input document.
 - [Breaking] Renamed the `includeSubFolders` property of the `TrainSourceFilter` type to `includeSubfolders`.
 - [Breaking] Renamed the `documentName` property of the `TrainingDocumentInfo` type to just `name`.

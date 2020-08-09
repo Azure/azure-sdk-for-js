@@ -471,7 +471,7 @@ export class CertificateClient {
     };
 
     const pipeline = createPipelineFromOptions(internalPipelineOptions, authPolicy);
-    this.client = new KeyVaultClient(pipelineOptions.apiVersion || LATEST_API_VERSION, pipeline);
+    this.client = new KeyVaultClient(pipelineOptions.serviceVersion || LATEST_API_VERSION, pipeline);
   }
 
   private async *listPropertiesOfCertificatesPage(

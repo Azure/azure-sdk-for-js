@@ -18,7 +18,7 @@ import { createConnectionContextForTests, defer } from "./unittestUtils";
 import { ReceiverImpl } from "../../src/receivers/receiver";
 import { createAbortSignalForTest } from "../utils/abortSignalTestUtils";
 import { AbortController, AbortSignalLike } from "@azure/abort-controller";
-import { ServiceBusMessageImpl, ReceiveMode } from "../../src/serviceBusMessage";
+import { ServiceBusMessageImpl, InternalReceiveMode } from "../../src/serviceBusMessage";
 import {
   Receiver as RheaReceiver,
   ReceiverEvents,
@@ -72,7 +72,7 @@ describe("BatchingReceiver unit tests", () => {
       abortController.abort();
 
       const receiver = new BatchingReceiver(createConnectionContextForTests(), "fakeEntityPath", {
-        receiveMode: ReceiveMode.peekLock
+        receiveMode: InternalReceiveMode.peekLock
       });
 
       try {
@@ -88,7 +88,7 @@ describe("BatchingReceiver unit tests", () => {
       const abortController = new AbortController();
 
       const receiver = new BatchingReceiver(createConnectionContextForTests(), "fakeEntityPath", {
-        receiveMode: ReceiveMode.peekLock
+        receiveMode: InternalReceiveMode.peekLock
       });
 
       const listeners = new Set<string>();
@@ -153,8 +153,8 @@ describe("BatchingReceiver unit tests", () => {
    * 2. We've waited 'max wait time'
    * 3. We've received 1 message and _now_ have exceeded 'max wait time past first message'
    */
-  [ReceiveMode.peekLock, ReceiveMode.receiveAndDelete].forEach((lockMode) => {
-    describe(`${ReceiveMode[lockMode]} receive, exit paths`, () => {
+  [InternalReceiveMode.peekLock, InternalReceiveMode.receiveAndDelete].forEach((lockMode) => {
+    describe(`${InternalReceiveMode[lockMode]} receive, exit paths`, () => {
       const bigTimeout = 60 * 1000;
       const littleTimeout = 30 * 1000;
       let clock: ReturnType<typeof sinon.useFakeTimers>;
@@ -227,7 +227,7 @@ describe("BatchingReceiver unit tests", () => {
       // too aggressive about returning early. In that case we just revert to using the older behavior of waiting for
       // the duration of time given (or max messages) with no idle timer.
       // When we eliminate that bug we can remove this check.
-      (lockMode === ReceiveMode.peekLock ? it : it.skip)(
+      (lockMode === InternalReceiveMode.peekLock ? it : it.skip)(
         `3a. (with idle timeout) We've received 1 message and _now_ have exceeded 'max wait time past first message'`,
         async () => {
           const receiver = new BatchingReceiver(
@@ -277,7 +277,7 @@ describe("BatchingReceiver unit tests", () => {
       // too aggressive about returning early. In that case we just revert to using the older behavior of waiting for
       // the duration of time given (or max messages) with no idle timer.
       // When we eliminate that bug we can remove this test in favor of the idle timeout test above.
-      (lockMode === ReceiveMode.receiveAndDelete ? it : it.skip)(
+      (lockMode === InternalReceiveMode.receiveAndDelete ? it : it.skip)(
         `3b. (without idle timeout)`,
         async () => {
           const receiver = new BatchingReceiver(
@@ -332,7 +332,7 @@ describe("BatchingReceiver unit tests", () => {
       // too aggressive about returning early. In that case we just revert to using the older behavior of waiting for
       // the duration of time given (or max messages) with no idle timer.
       // When we eliminate that bug we can enable this test for all modes.
-      (lockMode === ReceiveMode.peekLock ? it : it.skip)(
+      (lockMode === InternalReceiveMode.peekLock ? it : it.skip)(
         "4. sanity check that we're using getRemainingWaitTimeInMs",
         async () => {
           const receiver = new BatchingReceiver(
@@ -545,7 +545,7 @@ describe("BatchingReceiver unit tests", () => {
         async () => {
           return fakeRheaReceiver;
         },
-        ReceiveMode.peekLock
+        InternalReceiveMode.peekLock
       );
 
       assert.isFalse(receiver.isReceivingMessages);
@@ -574,7 +574,7 @@ describe("BatchingReceiver unit tests", () => {
         async () => {
           return fakeRheaReceiver;
         },
-        ReceiveMode.peekLock
+        InternalReceiveMode.peekLock
       );
 
       assert.notExists(receiver["_closeHandler"]);
@@ -607,7 +607,7 @@ describe("BatchingReceiver unit tests", () => {
         async () => {
           return fakeRheaReceiver;
         },
-        ReceiveMode.peekLock
+        InternalReceiveMode.peekLock
       );
 
       assert.notExists(receiver["_closeHandler"]);

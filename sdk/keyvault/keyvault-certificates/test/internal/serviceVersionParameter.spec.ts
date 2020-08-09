@@ -3,13 +3,13 @@
 
 import * as assert from "assert";
 import { createSandbox, SinonSandbox, SinonSpy } from "sinon";
-import { SecretClient } from "../../src";
-import { LATEST_API_VERSION } from "../../src/secretsModels";
+import { CertificateClient } from "../../src";
+import { LATEST_API_VERSION } from "../../src/certificatesModels";
 import { HttpClient, WebResourceLike, HttpOperationResponse, HttpHeaders } from "@azure/core-http";
 import { ClientSecretCredential } from "@azure/identity";
 import { env } from "@azure/test-utils-recorder";
 
-describe("The Secrets client should set the apiVersion", () => {
+describe("The Certificates client should set the serviceVersion", () => {
   const keyVaultUrl = `https://keyVaultName.vault.azure.net`;
 
   const mockHttpClient: HttpClient = {
@@ -19,7 +19,7 @@ describe("The Secrets client should set the apiVersion", () => {
         headers: new HttpHeaders(),
         request: httpRequest,
         parsedBody: {
-          id: `${keyVaultUrl}/secrets/secretName/id`,
+          id: `${keyVaultUrl}/certificates/certificateName/id`,
           attributes: {}
         }
       };
@@ -45,40 +45,35 @@ describe("The Secrets client should set the apiVersion", () => {
   });
 
   it("it should default to the latest API version", async function() {
-    const client = new SecretClient(keyVaultUrl, credential, {
+    const client = new CertificateClient(keyVaultUrl, credential, {
       httpClient: mockHttpClient
     });
-    await client.setSecret("secretName", "value");
+    await client.getCertificate("certificateName");
 
     const calls = spy.getCalls();
     assert.equal(
       calls[0].args[0].url,
-      `https://keyVaultName.vault.azure.net/secrets/secretName?api-version=${LATEST_API_VERSION}`
+      `https://keyVaultName.vault.azure.net/certificates/certificateName/?api-version=${LATEST_API_VERSION}`
     );
   });
 
   // Adding this to the source would change the public API.
-  type ApIVersions = "7.0" | "7.1-preview";
+  type ApIVersions = "7.0" | "7.1";
 
   it("it should allow us to specify an API version from a specific set of versions", async function() {
-    const versions: ApIVersions[] = ["7.0", "7.1-preview"];
-    for (const apiVersion in versions) {
-      const credential = await new ClientSecretCredential(
-        env.AZURE_TENANT_ID!,
-        env.AZURE_CLIENT_ID!,
-        env.AZURE_CLIENT_SECRET!
-      );
-      const client = new SecretClient(keyVaultUrl, credential, {
-        apiVersion: apiVersion as ApIVersions,
+    const versions: ApIVersions[] = ["7.0", "7.1"];
+    for (const serviceVersion in versions) {
+      const client = new CertificateClient(keyVaultUrl, credential, {
+        serviceVersion: serviceVersion as ApIVersions,
         httpClient: mockHttpClient
       });
-      await client.setSecret("secretName", "value");
+      await client.getCertificate("certificateName");
 
       const calls = spy.getCalls();
       const lastCall = calls[calls.length - 1];
       assert.equal(
         lastCall.args[0].url,
-        `https://keyVaultName.vault.azure.net/secrets/secretName?api-version=${apiVersion}`
+        `https://keyVaultName.vault.azure.net/certificates/certificateName/?api-version=${serviceVersion}`
       );
     }
   });

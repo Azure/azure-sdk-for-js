@@ -16,7 +16,7 @@ import { LinkEntity } from "../core/linkEntity";
 import { DispositionStatusOptions } from "../core/managementClient";
 import { OnAmqpEventAsPromise, OnError, OnMessage } from "../core/messageReceiver";
 import * as log from "../log";
-import { DispositionType, ReceiveMode, ServiceBusMessageImpl } from "../serviceBusMessage";
+import { DispositionType, InternalReceiveMode, ServiceBusMessageImpl } from "../serviceBusMessage";
 import { throwErrorIfConnectionClosed } from "../util/errors";
 import { calculateRenewAfterDuration, convertTicksToDate } from "../util/utils";
 import { BatchingReceiverLite, MinimalReceiver } from "../core/batchingReceiver";
@@ -82,7 +82,7 @@ export interface SessionMessageHandlerOptions {
  * Describes all the options that can be set while instantiating a MessageSession object.
  */
 export type MessageSessionOptions = SessionReceiverOptions & {
-  receiveMode?: ReceiveMode;
+  receiveMode?: InternalReceiveMode;
 };
 
 /**
@@ -119,7 +119,7 @@ export class MessageSession extends LinkEntity {
    * @property {number} [receiveMode] The mode in which messages should be received.
    * Default: ReceiveMode.peekLock
    */
-  receiveMode: ReceiveMode;
+  receiveMode: InternalReceiveMode;
   /**
    * @property {boolean} autoComplete Indicates whether `Message.complete()` should be called
    * automatically after the message processing is complete while receiving messages with handlers.
@@ -330,11 +330,11 @@ export class MessageSession extends LinkEntity {
         if (this.providedSessionId == null && receivedSessionId == null) {
           // Ideally this code path should never be reached as `MessageSession.createReceiver()` should fail instead
           // TODO: https://github.com/Azure/azure-sdk-for-js/issues/9775 to figure out why this code path indeed gets hit.
-          errorMessage = `No unlocked sessions were available`;
+          errorMessage = `Failed to create a receiver. No unlocked sessions available.`;
         } else if (this.providedSessionId != null && receivedSessionId !== this.providedSessionId) {
           // This code path is reached if the session is already locked by another receiver.
           // TODO: Check why the service would not throw an error or just timeout instead of giving a misleading successful receiver
-          errorMessage = `Failed to get a lock on the session ${this.providedSessionId}`;
+          errorMessage = `Failed to create a receiver for the requested session '${this.providedSessionId}'. It may be locked by another receiver.`;
         }
 
         if (errorMessage) {
@@ -397,6 +397,15 @@ export class MessageSession extends LinkEntity {
         this.name,
         errObj
       );
+
+      // Fix the unhelpful error messages for the OperationTimeoutError that comes from `rhea-promise`.
+      if ((errObj as MessagingError).code === "OperationTimeoutError") {
+        if (this.providedSessionId) {
+          errObj.message = `Failed to create a receiver for the requested session '${this.providedSessionId}' within allocated time and retry attempts.`;
+        } else {
+          errObj.message = "Failed to create a receiver within allocated time and retry attempts.";
+        }
+      }
       throw errObj;
     }
   }
@@ -409,9 +418,9 @@ export class MessageSession extends LinkEntity {
       name: this.name,
       autoaccept: false,
       // receiveAndDelete -> first(0), peekLock -> second (1)
-      rcv_settle_mode: this.receiveMode === ReceiveMode.receiveAndDelete ? 0 : 1,
+      rcv_settle_mode: this.receiveMode === InternalReceiveMode.receiveAndDelete ? 0 : 1,
       // receiveAndDelete -> settled (1), peekLock -> unsettled (0)
-      snd_settle_mode: this.receiveMode === ReceiveMode.receiveAndDelete ? 1 : 0,
+      snd_settle_mode: this.receiveMode === InternalReceiveMode.receiveAndDelete ? 1 : 0,
       source: {
         address: this.address,
         filter: {}
@@ -447,12 +456,12 @@ export class MessageSession extends LinkEntity {
     this.autoComplete = false;
     this.providedSessionId = options.sessionId;
     if (this.providedSessionId != undefined) this.sessionId = this.providedSessionId;
-    this.receiveMode = options.receiveMode || ReceiveMode.peekLock;
+    this.receiveMode = options.receiveMode || InternalReceiveMode.peekLock;
     this.maxAutoRenewDurationInMs =
       options.autoRenewLockDurationInMs != null ? options.autoRenewLockDurationInMs : 300 * 1000;
     this._totalAutoLockRenewDuration = Date.now() + this.maxAutoRenewDurationInMs;
     this.autoRenewLock =
-      this.maxAutoRenewDurationInMs > 0 && this.receiveMode === ReceiveMode.peekLock;
+      this.maxAutoRenewDurationInMs > 0 && this.receiveMode === InternalReceiveMode.peekLock;
 
     this._isReceivingMessagesForSubscriber = false;
     this._batchingReceiverLite = new BatchingReceiverLite(
@@ -697,7 +706,7 @@ export class MessageSession extends LinkEntity {
         // If the receiver got closed in PeekLock mode, avoid processing the message as we
         // cannot settle the message.
         if (
-          this.receiveMode === ReceiveMode.peekLock &&
+          this.receiveMode === InternalReceiveMode.peekLock &&
           (!this._receiver || !this._receiver.isOpen())
         ) {
           log.error(
@@ -714,7 +723,8 @@ export class MessageSession extends LinkEntity {
           this._entityPath,
           context.message!,
           context.delivery!,
-          true
+          true,
+          this.receiveMode
         );
 
         try {
@@ -737,7 +747,7 @@ export class MessageSession extends LinkEntity {
           // Nothing much to do if user's message handler throws. Let us try abandoning the message.
           if (
             !bMessage.delivery.remote_settled &&
-            this.receiveMode === ReceiveMode.peekLock &&
+            this.receiveMode === InternalReceiveMode.peekLock &&
             this.isOpen() // only try to abandon the messages if the connection is still open
           ) {
             try {
@@ -772,7 +782,7 @@ export class MessageSession extends LinkEntity {
         // completing the message.
         if (
           this.autoComplete &&
-          this.receiveMode === ReceiveMode.peekLock &&
+          this.receiveMode === InternalReceiveMode.peekLock &&
           !bMessage.delivery.remote_settled
         ) {
           try {

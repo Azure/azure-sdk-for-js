@@ -72,11 +72,16 @@
     "unit-test": "npm run unit-test:node && npm run unit-test:browser"
   },
   "//metadata": {
-    "constantPaths": [
-      {
-        "path": "src/util/constants.ts",
-        "prefix": "version"
-      }
+    "constantPaths": [{
+      "path": "src/util/constants.ts",
+      "prefix": "version"
+    }]
+  },
+  "//smokeTestConfiguration": {
+    "skip": [
+      "iothubConnectionString.js",
+      "useWithIotHub.js",
+      "usingAadAuth.js"
     ]
   },
   "dependencies": {

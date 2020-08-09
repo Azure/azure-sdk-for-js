@@ -27,7 +27,7 @@ import {
 import { OperationOptionsBase } from "../modelsToBeSharedWithEventHubs";
 import * as log from "../log";
 import { AmqpError, EventContext, isAmqpError, OnAmqpEvent } from "rhea-promise";
-import { ReceiveMode, ServiceBusMessageImpl } from "../serviceBusMessage";
+import { InternalReceiveMode, ServiceBusMessageImpl } from "../serviceBusMessage";
 import { calculateRenewAfterDuration } from "../util/utils";
 import { AbortSignalLike } from "@azure/abort-controller";
 
@@ -89,6 +89,16 @@ export class StreamingReceiver extends MessageReceiver {
    * underlying rhea receiver for the "message" event.
    */
   protected _onAmqpMessage: OnAmqpEventAsPromise;
+
+  /**
+   * Whether we are currently registered for receiving messages.
+   */
+  public get isReceivingMessages(): boolean {
+    // for the streaming receiver so long as we can receive messages then we
+    // _are_ receiving messages - there's no in-between state like there is
+    // with BatchingReceiver.
+    return this._receiverHelper.canReceiveMessages();
+  }
 
   /**
    * Instantiate a new Streaming receiver for receiving messages with handlers.
@@ -267,7 +277,7 @@ export class StreamingReceiver extends MessageReceiver {
       // If the receiver got closed in PeekLock mode, avoid processing the message as we
       // cannot settle the message.
       if (
-        this.receiveMode === ReceiveMode.peekLock &&
+        this.receiveMode === InternalReceiveMode.peekLock &&
         (!this._receiver || !this._receiver.isOpen())
       ) {
         log.error(
@@ -285,7 +295,8 @@ export class StreamingReceiver extends MessageReceiver {
         this._entityPath,
         context.message!,
         context.delivery!,
-        true
+        true,
+        this.receiveMode
       );
 
       if (this.autoRenewLock && bMessage.lockToken) {
@@ -418,7 +429,7 @@ export class StreamingReceiver extends MessageReceiver {
         if (
           !bMessage.delivery.remote_settled &&
           error.code !== ConditionErrorNameMapper["com.microsoft:message-lock-lost"] &&
-          this.receiveMode === ReceiveMode.peekLock &&
+          this.receiveMode === InternalReceiveMode.peekLock &&
           this.isOpen() // only try to abandon the messages if the connection is still open
         ) {
           try {
@@ -453,7 +464,7 @@ export class StreamingReceiver extends MessageReceiver {
       // completing the message.
       if (
         this.autoComplete &&
-        this.receiveMode === ReceiveMode.peekLock &&
+        this.receiveMode === InternalReceiveMode.peekLock &&
         !bMessage.delivery.remote_settled
       ) {
         try {
@@ -499,13 +510,18 @@ export class StreamingReceiver extends MessageReceiver {
     };
   }
 
-  stopReceivingMessages(): Promise<void> {
-    return this._receiverHelper.stopReceivingMessages();
+  async stopReceivingMessages(): Promise<void> {
+    await this._receiverHelper.suspend();
   }
 
-  init(useNewName: boolean, abortSignal?: AbortSignalLike): Promise<void> {
+  async init(useNewName: boolean, abortSignal?: AbortSignalLike): Promise<void> {
     const options = this._createReceiverOptions(useNewName, this._getHandlers());
-    return super._init(options, abortSignal);
+    await this._init(options, abortSignal);
+
+    // this might seem odd but in reality this entire class is like one big function call that
+    // results in a receive(). Once we're being initialized we should consider ourselves the
+    // "owner" of the receiver and that it's now being locked into being the actual receiver.
+    this._receiverHelper.resume();
   }
 
   /**
@@ -514,8 +530,9 @@ export class StreamingReceiver extends MessageReceiver {
    * @param {OnMessage} onMessage The message handler to receive servicebus messages.
    * @param {OnError} onError The error handler to receive an error that occurs while receivin messages.
    */
-  receive(onMessage: OnMessage, onError: OnError): void {
+  subscribe(onMessage: OnMessage, onError: OnError): void {
     throwErrorIfConnectionClosed(this._context);
+
     this._onMessage = onMessage;
     this._onError = onError;
 
@@ -553,21 +570,11 @@ export class StreamingReceiver extends MessageReceiver {
     }
 
     this._isDetaching = true;
+
     try {
       // Clears the token renewal timer. Closes the link and its session if they are open.
       // Removes the link and its session if they are present in rhea's cache.
       await this._closeLink(this._receiver);
-
-      if (this.receiverType === ReceiverType.batching) {
-        log.error(
-          "[%s] Receiver '%s' with address '%s' is a Batching Receiver, so we will not be " +
-            "re-establishing the receiver link.",
-          connectionId,
-          this.name,
-          this.address
-        );
-        return;
-      }
 
       const translatedError = receiverError ? translate(receiverError) : receiverError;
 
@@ -686,10 +693,11 @@ export class StreamingReceiver extends MessageReceiver {
     entityPath: string,
     options?: ReceiveOptions &
       Pick<OperationOptionsBase, "abortSignal"> & {
-        _createStreamingReceiver?: (
+        _createStreamingReceiverStubForTests?: (
           context: ConnectionContext,
           options?: ReceiveOptions
         ) => StreamingReceiver;
+        cachedStreamingReceiver?: StreamingReceiver;
       }
   ): Promise<StreamingReceiver> {
     throwErrorIfConnectionClosed(context);
@@ -698,8 +706,10 @@ export class StreamingReceiver extends MessageReceiver {
 
     let sReceiver: StreamingReceiver;
 
-    if (options?._createStreamingReceiver) {
-      sReceiver = options._createStreamingReceiver(context, options);
+    if (options.cachedStreamingReceiver) {
+      sReceiver = options.cachedStreamingReceiver;
+    } else if (options?._createStreamingReceiverStubForTests) {
+      sReceiver = options._createStreamingReceiverStubForTests(context, options);
     } else {
       sReceiver = new StreamingReceiver(context, entityPath, options);
     }

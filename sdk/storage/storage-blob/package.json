@@ -74,13 +74,13 @@
     "url": "git+https://github.com/Azure/azure-sdk-for-js.git"
   },
   "keywords": [
-    "Azure",
-    "Storage",
-    "Blob",
-    "Node.js",
-    "TypeScript",
-    "JavaScript",
-    "Browser"
+    "azure",
+    "atorage",
+    "alob",
+    "node.js",
+    "typescript",
+    "javascript",
+    "browser"
   ],
   "author": "Microsoft Corporation",
   "license": "MIT",
@@ -97,9 +97,25 @@
       }
     ]
   },
+  "//smokeTestConfiguration": {
+    "skip": [
+      "advanced.js",
+      "anonymousCred.js",
+      "azureAdAuth.js",
+      "basic.js",
+      "customPipeline.js",
+      "customizedClientHeaders.js",
+      "iterators-blobs-hierarchy.js",
+      "iterators-blobs.js",
+      "iterators-containers.js",
+      "iterators-without-await.js",
+      "readingSnapshot.js",
+      "sharedKeyCred.js"
+    ]
+  },
   "dependencies": {
     "@azure/abort-controller": "^1.0.0",
-    "@azure/core-http": "^1.1.4",
+    "@azure/core-http": "^1.1.6",
     "@azure/core-lro": "^1.0.2",
     "@azure/core-paging": "^1.1.1",
     "@azure/core-tracing": "1.0.0-preview.9",

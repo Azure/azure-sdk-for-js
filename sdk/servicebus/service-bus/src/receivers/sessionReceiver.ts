@@ -137,7 +137,9 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
     context: ConnectionContext,
     entityPath: string,
     receiveMode: "peekLock" | "receiveAndDelete",
-    sessionOptions: CreateSessionReceiverOptions,
+    sessionOptions:
+      | CreateSessionReceiverOptions<"peekLock">
+      | CreateSessionReceiverOptions<"receiveAndDelete">,
     retryOptions: RetryOptions = {}
   ): Promise<SessionReceiver<ReceivedMessageT>> {
     if (sessionOptions.sessionId != undefined) {
@@ -453,7 +455,7 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
 
     return {
       close: async (): Promise<void> => {
-        return this._messageSession?.receiverHelper.stopReceivingMessages();
+        return this._messageSession?.receiverHelper.suspend();
       }
     };
   }

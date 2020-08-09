@@ -1,14 +1,13 @@
 {
   "name": "@azure/core-amqp",
   "sdk-type": "client",
-  "version": "1.1.5",
+  "version": "1.1.6",
   "description": "Common library for amqp based azure sdks like @azure/event-hubs.",
   "author": "Microsoft Corporation",
   "license": "MIT",
   "keywords": [
     "azure",
     "amqp",
-    "Azure",
     "cloud"
   ],
   "main": "./dist/index.js",
