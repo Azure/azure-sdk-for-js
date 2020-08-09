@@ -104,7 +104,7 @@
     "tslib": "^2.0.0"
   },
   "devDependencies": {
-    "@azure/identity": "^1.1.0-preview",
+    "@azure/identity": "^1.1.0",
     "@azure/test-utils-recorder": "^1.0.0",
     "@microsoft/api-extractor": "7.7.11",
     "@opentelemetry/api": "^0.10.2",

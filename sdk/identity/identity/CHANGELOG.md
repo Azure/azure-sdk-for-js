@@ -1,8 +1,9 @@
 # Release History
 
-## 1.1.0-preview.6 (Unreleased)
+## 1.1.0 (2020-08-11)
 
 - Renamed the `VSCodeCredential` to `VisualStudioCodeCredential`, and its options parameter from `VSCodeCredentialOptions` to `VisualStudioCodeCredentialOptions`.
+- Tenant information is now loaded from the Visual Studio Code settings file when the `VisualStudioCodeCredential` is used.
 - Added `managedIdentityClientId` to optionally pass in a user assigned client ID for the `ManagedIdentityCredential`.
 
 ## 1.1.0-preview.5 (2020-07-22)
