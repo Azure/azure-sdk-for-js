@@ -7,6 +7,8 @@ from form documents. It includes the following main functionalities:
 * Content API - Recognize text and table structures, along with their bounding box coordinates, from documents. Corresponds to the REST service's Layout API.
 * Prebuilt receipt model - Recognize data from sales receipts using a prebuilt model.
 
+**Note:** This package targets Azure Form Recognizer service API version 2.0.
+
 [Source code](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/formrecognizer/ai-form-recognizer/) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/ai-form-recognizer) |
 [API reference documentation](https://aka.ms/azsdk/js/formrecognizer/docs) |
@@ -52,8 +54,6 @@ Install the Azure Form Recognizer client library for JavaScript with `npm`:
 ```bash
 npm install @azure/ai-form-recognizer
 ```
-
-**Note:** This preview version targets Azure Form Recognizer service API version v2.0-preview.
 
 ### Create and authenticate a client
 
@@ -162,7 +162,7 @@ async function main() {
 
   const receipt = receipts[0];
   console.log("First receipt:");
-  // For supported fields recognized by the service, please refer to https://westus2.dev.cognitive.microsoft.com/docs/services/form-recognizer-api-v2-preview/operations/GetAnalyzeReceiptResult.
+  // For a list of fields that are contained in the response, please refer to the "Supported fields" section at the following link: https://aka.ms/azsdk/formrecognizer/receiptfields
   const receiptTypeField = receipt.fields["ReceiptType"];
   if (receiptTypeField.valueType === "string") {
     console.log(`  Receipt Type: '${receiptTypeField.value || "<missing>"}', with confidence of ${receiptTypeField.confidence}`);

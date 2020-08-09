@@ -5,6 +5,9 @@
 - Fixes issue [#9704](https://github.com/Azure/azure-sdk-for-js/issues/9704)
   where events could be _skipped_ while receiving messages.
   Previously this could occur when a retryable error was encountered and retries were exhausted while receiving a batch of events.
+- Fixes issue [#10298](https://github.com/Azure/azure-sdk-for-js/issues/10298)
+  where spans had inconsistent `peer.address` attributes by removing the scheme
+  (i.e. `sb://`) from EventHub `peer.address` span attributes
 
 ### Tracing updates:
 

@@ -8,9 +8,12 @@ dotenv.config();
 const endpoint = process.env.SEARCH_API_ENDPOINT || "";
 const apiKey = process.env.SEARCH_API_KEY || "";
 
-async function main(): Promise<void> {
+export async function main() {
   console.log(`Running List Datasource Connection Names Sample....`);
-
+  if (!endpoint || !apiKey) {
+    console.log("Make sure to set valid values for endpoint and apiKey with proper authorization.");
+    return;
+  }
   const client = new SearchIndexerClient(endpoint, new AzureKeyCredential(apiKey));
   const listOfDataSourceConnectionNames: string[] = await client.listDataSourceConnectionsNames();
 
@@ -21,4 +24,6 @@ async function main(): Promise<void> {
   }
 }
 
-main();
+main().catch((err) => {
+  console.error("The sample encountered an error:", err);
+});

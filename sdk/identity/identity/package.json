@@ -59,7 +59,7 @@
   },
   "repository": "github:Azure/azure-sdk-for-js",
   "keywords": [
-    "Azure",
+    "azure",
     "cloud",
     "active directory",
     "authentication",
@@ -80,7 +80,7 @@
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/identity/identity/README.md",
   "sideEffects": false,
   "dependencies": {
-    "@azure/core-http": "^1.1.4",
+    "@azure/core-http": "^1.1.6",
     "@azure/core-tracing": "1.0.0-preview.9",
     "@azure/logger": "^1.0.0",
     "@opentelemetry/api": "^0.10.2",

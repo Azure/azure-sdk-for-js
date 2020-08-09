@@ -8,6 +8,13 @@ COMMAND=common/temp/node_modules/.bin/precise-commits
 echo --------------------------------------------
 echo Starting Git hook: pre-commit
 
+MERGE=$(git rev-parse -q --verify MERGE_HEAD)
+
+if [[ $MERGE ]]; then
+    echo "This is a merge.... Skipping prettying"
+    exit
+fi
+
 if [ -f $COMMAND ]; then
   echo Invoking $COMMAND
   $COMMAND

@@ -51,8 +51,7 @@
   "repository": "github:Azure/azure-sdk-for-js",
   "keywords": [
     "azure",
-    "cloud",
-    "Azure"
+    "cloud"
   ],
   "author": "Microsoft Corporation",
   "license": "MIT",
@@ -74,7 +73,7 @@
   "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
   "private": true,
   "dependencies": {
-    "@azure/core-http": "^1.1.4",
+    "@azure/core-http": "^1.1.6",
     "@opentelemetry/api": "^0.10.2",
     "tslib": "^2.0.0"
   },

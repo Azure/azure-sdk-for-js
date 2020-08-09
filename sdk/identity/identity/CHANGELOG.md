@@ -3,11 +3,12 @@
 ## 1.1.0 (Unreleased)
 
 - Renamed the `VSCodeCredential` to `VisualStudioCodeCredential`, and its options parameter from `VSCodeCredentialOptions` to `VisualStudioCodeCredentialOptions`.
+- Added `managedIdentityClientId` to optionally pass in a user assigned client ID for the `ManagedIdentityCredential`.
 
 ## 1.1.0-preview.5 (2020-07-22)
 
 - Make the keytar dependency optional, allowing for building and running on platforms not supported by keytar [PR #10142](https://github.com/Azure/azure-sdk-for-js/pull/10142)
-- DefaultAzureCredential and VSCodeCrential can now take a tenant id as part of the options object
+- DefaultAzureCredential and VSCodeCredential can now take a tenant id as part of the options object
 - KnownAuthorityHosts has been renamed to AzureAuthorityHosts
 
 ## 1.1.0-preview.4 (2020-06-09)

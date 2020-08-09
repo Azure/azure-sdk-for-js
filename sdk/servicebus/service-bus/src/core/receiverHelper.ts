@@ -12,7 +12,7 @@ import * as log from "../log";
  * @ignore
  */
 export class ReceiverHelper {
-  private _stopReceivingMessages: boolean = false;
+  private _isSuspended: boolean = false;
 
   constructor(private _getCurrentReceiver: () => Receiver | undefined) {}
 
@@ -25,43 +25,66 @@ export class ReceiverHelper {
    * @returns true if credits were added, false if there is no current receiver instance
    * or `stopReceivingMessages` has been called.
    */
-  public addCredit(credits: number): boolean {
+  addCredit(credits: number): boolean {
     const receiver = this._getCurrentReceiver();
 
-    if (this._stopReceivingMessages || receiver == null) {
+    if (!this.canReceiveMessages()) {
       return false;
     }
 
-    receiver.addCredit(credits);
+    if (receiver != null) {
+      receiver.addCredit(credits);
+    }
+
     return true;
   }
 
   /**
-   * Prevents us from receiving any further messages.
+   * Drains the credits for the receiver and prevents the `receiverHelper.addCredit()` method from adding credits.
+   * Call `resume()` to enable the `addCredit()` method.
    */
-  public async stopReceivingMessages(): Promise<void> {
+  async suspend(): Promise<void> {
     const receiver = this._getCurrentReceiver();
 
-    if (receiver == null) {
+    this._isSuspended = true;
+
+    if (!this._isValidReceiver(receiver)) {
       return;
     }
 
     log.receiver(
       `[${receiver.name}] User has requested to stop receiving new messages, attempting to drain the credits.`
     );
-    this._stopReceivingMessages = true;
-
     return this.drain();
+  }
+
+  /**
+   * Resets tracking so `addCredit` works again.
+   */
+  resume(): void {
+    this._isSuspended = false;
+  }
+
+  /**
+   * Whether the receiver can receive messages.
+   *
+   * This checks if the the caller has decided to disable adding
+   * credits via 'suspend' as well as whether the receiver itself is
+   * still open.
+   */
+  canReceiveMessages(): boolean {
+    const receiver = this._getCurrentReceiver();
+    return !this._isSuspended && this._isValidReceiver(receiver);
   }
 
   /**
    * Initiates a drain for the current receiver and resolves when
    * the drain has completed.
    */
-  public async drain(): Promise<void> {
+  async drain(): Promise<void> {
     const receiver = this._getCurrentReceiver();
 
-    if (receiver == null) {
+    if (!this._isValidReceiver(receiver)) {
       return;
     }
 
@@ -81,5 +104,9 @@ export class ReceiverHelper {
     });
 
     return drainPromise;
+  }
+
+  private _isValidReceiver(receiver: Receiver | undefined): receiver is Receiver {
+    return receiver != null && receiver.isOpen();
   }
 }
