@@ -180,7 +180,9 @@ describe("StreamingReceiver unit tests", () => {
     assert.isTrue(existingStreamingReceiver.isOpen(), "newly created receiver is open");
     const spy = sinon.spy(existingStreamingReceiver, "init");
 
-    const newStreamingReceiver = await StreamingReceiver.create(context, "fakeEntityPath");
+    const newStreamingReceiver = await StreamingReceiver.create(context, "fakeEntityPath", {
+      cachedStreamingReceiver: existingStreamingReceiver
+    });
 
     assert.isTrue(spy.called, "We do still call init() on the receiver");
     assert.strictEqual(
@@ -215,7 +217,9 @@ describe("StreamingReceiver unit tests", () => {
       "The internal receiver has been closed. This instance can be reopened"
     );
 
-    const newStreamingReceiver = await StreamingReceiver.create(context, "fakeEntityPath");
+    const newStreamingReceiver = await StreamingReceiver.create(context, "fakeEntityPath", {
+      cachedStreamingReceiver: existingStreamingReceiver
+    });
 
     assert.isTrue(spy.called, "We do still call init() on the receiver");
     assert.strictEqual(

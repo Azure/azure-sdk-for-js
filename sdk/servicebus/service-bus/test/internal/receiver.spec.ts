@@ -133,7 +133,7 @@ describe("Receiver unit tests", () => {
           },
           {
             name: "Error",
-            message: 'The receiver for "queue" is already receiving messages.'
+            message: `The receiver for "${receiverImpl.entityPath}" is already receiving messages.`
           }
         );
       }

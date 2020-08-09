@@ -245,6 +245,7 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
         if (!sReceiver) {
           return;
         }
+        this._streamingReceiver = sReceiver;
 
         try {
           await onInitialize();
@@ -253,7 +254,6 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
         }
 
         if (!this.isClosed) {
-          this._streamingReceiver = sReceiver;
           sReceiver.subscribe(onMessage, onError);
         } else {
           await sReceiver.close();
