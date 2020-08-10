@@ -1,10 +1,14 @@
 # Release History
 
-## 4.1.0 (Unreleased)
+## 4.1.0 (2020-08-11)
 
 - Added the optional `serviceVersion` property to the `SecretClient` optional parameters.
-  It defaults to the latest supported API version, which currently is `7.1`.
+    - It defaults to the latest supported API version, which currently is `7.1`.
+    - Other supported service version at the moment is `7.0`.
+    - If you were using `4.1.0-preview.1` version of this package, then this was previously named `apiVersion`.
 - Added `recoverableDays` as an optional property to `SecretProperties`.
+    - Secrets can now be created with a determined number of days in which they can be recovered after deletion.
+      This is only relevant for Azure Key Vaults with the soft-delete setting enabled. 
 
 ## 4.0.4 (2020-06-01)
 

@@ -1,16 +1,23 @@
 # Release History
 
-## 4.1.0 (Unreleased)
+## 4.1.0 (2020-08-11)
 
 - Added the optional `serviceVersion` property to the `CertificateClient` optional parameters.
-  It defaults to the latest supported API version, which currently is `7.1`.
+    - It defaults to the latest supported API version, which currently is `7.1`.
+    - Other supported service version at the moment is `7.0`.
+    - If you were using `4.1.0-preview.1` version of this package, then this was previously named `apiVersion`.
+- `CertificateKeyType` now supports the `oct` type.
+    - Since the service now supports `oct` keys, now the client will correctly report the type of these keys.  
 - Added `recoverableDays` as an optional property to `CertificateProperties`.
-- Fixed a bug on `importCertificate`. The bytes of a PEM formatted certificate were being encoded again on base64.
+    - The Key Vault Keys client `4.1.0` now allows for Keys to be created with a determined number of days in which they can be recovered after deletion.
+      For this reason, the Certificates client will now show this `recoverableDays` property when reading the key in use. This is only relevant for Azure Key Vaults with the soft-delete setting enabled.
+- Now using `Poller` and `PollerLike` from the latest `@azure/core-lro` instead of `KVPoller` and `KVPollerLike`.
+    - `KVPollerLike` is now an alias of `PollerLike`.
+    - `KVPollerLike` is considered deprecated. Use `PollerLike`.
+- Fixed [bug 7407](https://github.com/Azure/azure-sdk-for-js/issues/7407) on `importCertificate`.
+  The bytes of a PEM formatted certificate were being encoded again on base64.
   Now, if the user provides a policy with contentType `application/x-pem-file`, the bytes will be assumed to be formatted using ASCII,
   and thus will be sent as is.
-- Now using `Poller` and `PollerLike` from the latest `@azure/core-lro` instead of `KVPoller` and `KVPollerLike`.
-- `KVPollerLike` is now an alias of `PollerLike`.
-- `KVPollerLike` is considered deprecated. Use `PollerLike`.
 
 ## 4.0.2 (2020-06-01)
 
