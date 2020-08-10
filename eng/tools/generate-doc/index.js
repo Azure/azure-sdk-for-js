@@ -48,7 +48,7 @@ const generateOldIndex = serviceList => {
     });
 
     var dest = process.cwd() + "/docGen/index.html";
-    fs.writeFile(dest, renderedIndex, function(err, result) {
+    fs.writeFile(dest, renderedIndex, function (err, result) {
       if (err)
         console.log(
           "error in writing the generated html to docGen/index.html",
@@ -121,15 +121,15 @@ const executeTypedoc = async (
 
             console.log(
               "checks after walk: checks.isPrivate = " +
-                checks.isPrivate +
-                ", checks.srcPresent = " +
-                checks.srcPresent +
-                ", typedocPresent = " +
-                checks.typedocPresent +
-                ", isClient = " +
-                checks.isClient +
-                ", version = " +
-                checks.version
+              checks.isPrivate +
+              ", checks.srcPresent = " +
+              checks.srcPresent +
+              ", typedocPresent = " +
+              checks.typedocPresent +
+              ", isClient = " +
+              checks.isClient +
+              ", version = " +
+              checks.version
             );
             console.log("Path: " + eachPackagePath);
             if (!checks.isPrivate) {
@@ -164,7 +164,7 @@ const executeTypedoc = async (
                       "--excludeNotExported",
                       '--exclude "node_modules/**/*"',
                       "--ignoreCompilerErrors",
-                      "--mode file",
+                      "--mode library",
                       docOutputFolder
                     ]);
                   }
@@ -174,47 +174,9 @@ const executeTypedoc = async (
                     indexPackageList.push(eachPackage);
                   }
                 } else {
-                  if (
-                    eachPackage === "core-http" ||
-                    eachPackage === "core-tracing"
-                  ) {
-                    if (argv.docGenOutput === "dg") {
-                      docOutputFolder =
-                        "--out ../../../docGen/" +
-                        eachPackage +
-                        "/" +
-                        checks.version +
-                        " ./lib";
-                    }
-
-                    let typedocProcess;
-                    let commandRun = [];
-                    commandRun.push("typedoc");
-                    commandRun.push({
-                      cwd: eachPackagePath,
-                      shell: true
-                    });
-
-                    commandRun.push([
-                      '--theme "../../../eng/tools/generate-doc/theme/default"',
-                      "--excludePrivate",
-                      "--excludeNotExported",
-                      '--exclude "node_modules/**/*"',
-                      "--ignoreCompilerErrors",
-                      "--mode file",
-                      docOutputFolder
-                    ]);
-
-                    commandList.push(commandRun);
-                    if (generateIndexWithTemplate) {
-                      /* Adding package to packageList for the template index generation */
-                      indexPackageList.push(eachPackage);
-                    }
-                  } else {
-                    console.log(
-                      "...SKIPPING Since src folder could not be found....."
-                    );
-                  }
+                  console.log(
+                    "...SKIPPING Since src folder could not be found....."
+                  );
                 }
               } else {
                 //console.log("...SKIPPING Since package is either not sdkType client");
