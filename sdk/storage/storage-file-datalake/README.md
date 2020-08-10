@@ -148,15 +148,15 @@ Data Lake storage offers three types of resources:
 
 ## Examples
 
-- [Import the package](#import-the-package "Import the package")
-- [Create the data lake service client](#create-the-data-lake-service-client "Create the data lake service client")
-- [Create a new file system](#create-a-new-file-system "Create a new file system")
-- [List the file systems](#list-the-file-systems "List the file systems")
-- [Create and delete a directory](#create-and-delete-a-directory "Create and delete a directory")
-- [Create a file](#create-a-file "Create a file")
-- [List paths inside a file system](#list-paths-inside-a-file-system "List paths inside a file system")
-- [Download a file and convert it to a string (Node.js)](#download-a-file-and-convert-it-to-a-string-nodejs "Download a file and convert it to a string (Node.js)")
-- [Download a file and convert it to a string (Browsers)](#download-a-file-and-convert-it-to-a-string-browsers "Download a file and convert it to a string (Browsers)")
+- [Import the package](#import-the-package)
+- [Create the data lake service client](#create-the-data-lake-service-client)
+- [Create a new file system](#create-a-new-file-system)
+- [List the file systems](#list-the-file-systems)
+- [Create and delete a directory](#create-and-delete-a-directory)
+- [Create a file](#create-a-file)
+- [List paths inside a file system](#list-paths-inside-a-file-system)
+- [Download a file and convert it to a string (Node.js)](#download-a-file-and-convert-it-to-a-string-nodejs)
+- [Download a file and convert it to a string (Browsers)](#download-a-file-and-convert-it-to-a-string-browsers)
 
 ### Import the package
 
