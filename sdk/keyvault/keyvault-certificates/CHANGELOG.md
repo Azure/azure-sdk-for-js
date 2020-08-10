@@ -9,8 +9,8 @@
 - `CertificateKeyType` now supports the `oct` type.
     - Since the service now supports `oct` keys, now the client will correctly report the type of these keys.  
 - Added `recoverableDays` as an optional property to `CertificateProperties`.
-    - The Key Vault Keys client `4.1.0` now allows for Keys to be created with a determined number of days in which they can be recovered after deletion.
-      For this reason, the Certificates client will now show this `recoverableDays` property when reading the key in use. This is only relevant for Azure Key Vaults with the soft-delete setting enabled.
+    - When creating and updating a certificate, use the `recoverableDays` property to set the number of days in which the certificate can be recovered after deletion. When certificates are read from the service, they will have the `recoverableDays` property in their `properties` field.
+    - This is applicable only for Azure Key Vaults with the soft-delete setting enabled.
 - Now using `Poller` and `PollerLike` from the latest `@azure/core-lro` instead of `KVPoller` and `KVPollerLike`.
     - `KVPollerLike` is now an alias of `PollerLike`.
     - `KVPollerLike` is considered deprecated. Use `PollerLike`.

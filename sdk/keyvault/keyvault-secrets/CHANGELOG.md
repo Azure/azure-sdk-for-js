@@ -7,8 +7,8 @@
     - Other supported service version at the moment is `7.0`.
     - If you were using `4.1.0-preview.1` version of this package, then this was previously named `apiVersion`.
 - Added `recoverableDays` as an optional property to `SecretProperties`.
-    - Secrets can now be created with a determined number of days in which they can be recovered after deletion.
-      This is only relevant for Azure Key Vaults with the soft-delete setting enabled. 
+    - When creating and updating a secret, use the `recoverableDays` property to set the number of days in which the secret can be recovered after deletion. When secrets are read from the service, they will have the `recoverableDays` property in their `properties` field.
+    - This is applicable only for Azure Key Vaults with the soft-delete setting enabled.
 
 ## 4.0.4 (2020-06-01)
 
