@@ -11,15 +11,15 @@
     "cache-control": "no-cache, no-store",
     "content-length": "1417",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 28 Jul 2020 20:54:20 GMT",
+    "date": "Mon, 10 Aug 2020 21:15:56 GMT",
     "expires": "-1",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
     "referrer-policy": "strict-origin-when-cross-origin",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.10877.10 - CHI ProdSlices",
-    "x-ms-request-id": "f096d8d1-45bb-479a-99aa-e9e400b3a700"
+    "x-ms-ests-server": "2.1.10922.14 - CHI ProdSlices",
+    "x-ms-request-id": "de6660ae-5728-457b-9cbe-fbd06a25b000"
    }
   },
   {
@@ -30,14 +30,14 @@
    "status": 200,
    "response": "{\"documents\":[{\"id\":\"0\",\"sentiment\":\"positive\",\"confidenceScores\":{\"positive\":0.99,\"neutral\":0.01,\"negative\":0.0},\"sentences\":[{\"sentiment\":\"positive\",\"confidenceScores\":{\"positive\":0.99,\"neutral\":0.01,\"negative\":0.0},\"offset\":0,\"length\":86,\"text\":\"I had a wonderful trip to Seattle last week and even visited the Space Needle 2 times!\"}],\"warnings\":[]},{\"id\":\"1\",\"sentiment\":\"negative\",\"confidenceScores\":{\"positive\":0.0,\"neutral\":0.0,\"negative\":1.0},\"sentences\":[{\"sentiment\":\"negative\",\"confidenceScores\":{\"positive\":0.0,\"neutral\":0.0,\"negative\":1.0},\"offset\":0,\"length\":58,\"text\":\"Unfortunately, it rained during my entire trip to Seattle.\"},{\"sentiment\":\"neutral\",\"confidenceScores\":{\"positive\":0.01,\"neutral\":0.7,\"negative\":0.29},\"offset\":59,\"length\":43,\"text\":\"I didn't even get to visit the Space Needle\"}],\"warnings\":[]},{\"id\":\"2\",\"sentiment\":\"positive\",\"confidenceScores\":{\"positive\":1.0,\"neutral\":0.0,\"negative\":0.0},\"sentences\":[{\"sentiment\":\"positive\",\"confidenceScores\":{\"positive\":1.0,\"neutral\":0.0,\"negative\":0.0},\"offset\":0,\"length\":101,\"text\":\"I went to see a movie on Saturday and it was perfectly average, nothing more or less than I expected.\"}],\"warnings\":[]},{\"id\":\"3\",\"sentiment\":\"negative\",\"confidenceScores\":{\"positive\":0.01,\"neutral\":0.03,\"negative\":0.96},\"sentences\":[{\"sentiment\":\"negative\",\"confidenceScores\":{\"positive\":0.01,\"neutral\":0.03,\"negative\":0.96},\"offset\":0,\"length\":42,\"text\":\"I didn't like the last book I read at all.\"}],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-04-01\"}",
    "responseHeaders": {
-    "apim-request-id": "0b5df3df-38ee-43c0-b4f0-0e66ba3eeed8",
+    "apim-request-id": "6f467f0b-74f7-4468-afb9-c6f2bd5d03ab",
     "content-type": "application/json; charset=utf-8",
     "csp-billing-usage": "CognitiveServices.TextAnalytics.BatchScoring=4",
-    "date": "Tue, 28 Jul 2020 20:54:19 GMT",
+    "date": "Mon, 10 Aug 2020 21:15:57 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "137"
+    "x-envoy-upstream-service-time": "106"
    }
   }
  ],

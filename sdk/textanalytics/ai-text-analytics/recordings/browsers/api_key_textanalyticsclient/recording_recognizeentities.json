@@ -8,14 +8,14 @@
    "status": 200,
    "response": "{\"documents\":[{\"id\":\"0\",\"entities\":[{\"text\":\"trip\",\"category\":\"Event\",\"offset\":18,\"length\":4,\"confidenceScore\":0.6},{\"text\":\"Seattle\",\"category\":\"Location\",\"subcategory\":\"GPE\",\"offset\":26,\"length\":7,\"confidenceScore\":0.83},{\"text\":\"last weekend\",\"category\":\"DateTime\",\"subcategory\":\"DateRange\",\"offset\":34,\"length\":12,\"confidenceScore\":0.8}],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-04-01\"}",
    "responseHeaders": {
-    "apim-request-id": "a62408f1-f6ea-41b2-aa08-eb5dd443e240",
+    "apim-request-id": "da7bde70-e0a7-40ad-8084-1abcfa2719ad",
     "content-type": "application/json; charset=utf-8",
     "csp-billing-usage": "CognitiveServices.TextAnalytics.BatchScoring=1",
-    "date": "Tue, 28 Jul 2020 20:54:19 GMT",
+    "date": "Mon, 10 Aug 2020 21:15:55 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "90"
+    "x-envoy-upstream-service-time": "87"
    }
   }
  ],

@@ -11,7 +11,7 @@
     "cache-control": "no-cache, no-store",
     "content-length": "1417",
     "content-type": "application/json; charset=utf-8",
-    "date": "Mon, 10 Aug 2020 21:15:59 GMT",
+    "date": "Mon, 10 Aug 2020 21:15:58 GMT",
     "expires": "-1",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
@@ -19,25 +19,27 @@
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
     "x-ms-ests-server": "2.1.10922.14 - CHI ProdSlices",
-    "x-ms-request-id": "07e70073-e53d-4a53-a961-0fa1ca0dad00"
+    "x-ms-request-id": "9286c865-f3a2-45bc-9b78-6f388730bc00"
    }
   },
   {
    "method": "POST",
-   "url": "https://endpoint/text/analytics/v3.1-preview.1/languages",
-   "query": {},
-   "requestBody": "{\"documents\":[{\"id\":\"0\",\"text\":\"I use Azure Functions to develop my service.\",\"countryHint\":\"\"}]}",
+   "url": "https://endpoint/text/analytics/v3.1-preview.1/sentiment",
+   "query": {
+    "opinionMining": "true"
+   },
+   "requestBody": "{\"documents\":[{\"id\":\"0\",\"text\":\"today is a hot day\",\"language\":\"en\"}]}",
    "status": 200,
-   "response": "{\"documents\":[{\"id\":\"0\",\"detectedLanguage\":{\"name\":\"English\",\"iso6391Name\":\"en\",\"confidenceScore\":1.0},\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}",
+   "response": "{\"documents\":[{\"id\":\"0\",\"sentiment\":\"neutral\",\"confidenceScores\":{\"positive\":0.1,\"neutral\":0.88,\"negative\":0.02},\"sentences\":[{\"sentiment\":\"neutral\",\"confidenceScores\":{\"positive\":0.1,\"neutral\":0.88,\"negative\":0.02},\"offset\":0,\"length\":18,\"text\":\"today is a hot day\",\"aspects\":[],\"opinions\":[]}],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-04-01\"}",
    "responseHeaders": {
-    "apim-request-id": "c2c6c225-fec6-409f-a59f-e387f4547fa4",
+    "apim-request-id": "df832d90-ac15-4324-b7dd-a7ced53a424e",
     "content-type": "application/json; charset=utf-8",
     "csp-billing-usage": "CognitiveServices.TextAnalytics.BatchScoring=1",
-    "date": "Mon, 10 Aug 2020 21:16:00 GMT",
+    "date": "Mon, 10 Aug 2020 21:15:59 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "7"
+    "x-envoy-upstream-service-time": "97"
    }
   }
  ],
@@ -45,5 +47,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "6bb71b1055c9adfaf9b7c302deae77f0"
+ "hash": "ff5a7c0cb65d0abb9694ac801f4d7764"
 }
