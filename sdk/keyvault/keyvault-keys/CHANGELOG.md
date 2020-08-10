@@ -2,7 +2,7 @@
 
 ## 4.1.0 (2020-08-11)
 
-### Changes since 4.0.*
+### Changes since 4.0.4
 
 - Added the optional `serviceVersion` property to the `KeyClient` and `CryptographyClient` optional parameters to control the version of the Key Vault service being used by the clients.
     - It defaults to the latest supported API version, which currently is `7.1`.
@@ -11,7 +11,7 @@
 - Added `recoverableDays` as an optional property to `KeyProperties` which denotes the number of days in which the key can be recovered after deletion. This is only applicable for Azure Key Vaults with the soft-delete setting enabled.
 - Fixed [bug 10352](https://github.com/Azure/azure-sdk-for-js/issues/10352), which caused cryptography operations on RSA-HSM keys to fail.
 
-### Changes since 4.1.0-preview.*
+### Changes since 4.1.0-preview.1
 
 - Renamed the `apiVersion` property to the `KeyClient` constructor as `serviceVersion`.
 - Moved from service version `7.1-preview` to `7.1`.
