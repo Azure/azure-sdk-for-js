@@ -20,26 +20,26 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'x-ms-request-id',
-  '5877d6a4-298c-4efc-a894-f6bfe23fb600',
+  '14e868b5-b646-443a-97a6-bd1c5b02cd00',
   'x-ms-ests-server',
-  '2.1.10877.10 - CHI ProdSlices',
+  '2.1.10922.14 - CHI ProdSlices',
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'Set-Cookie',
-  'fpc=Akdwi1v0T_ZOjTr3hItkDRv0CyfMAQAAAHCHstYOAAAA; expires=Thu, 27-Aug-2020 20:54:09 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AuiUVYxs6HpJvIOt0ICiH1f0CyfMAQAAADSmw9YOAAAA; expires=Wed, 09-Sep-2020 20:33:57 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=prod; path=/; SameSite=None; secure; HttpOnly',
   'Set-Cookie',
   'stsservicecookie=ests; path=/; SameSite=None; secure; HttpOnly',
   'Date',
-  'Tue, 28 Jul 2020 20:54:09 GMT',
+  'Mon, 10 Aug 2020 20:33:57 GMT',
   'Content-Length',
   '1417'
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
   .post('/text/analytics/v3.1-preview.1/keyPhrases', {"documents":[{"id":"0","text":"Hello world, thisisanextremelymassivesequenceoflettersthatislongerthansixtyfourcharacters.","language":"en"}]})
-  .reply(200, {"documents":[{"id":"0","keyPhrases":["world","thisisanextremelymassivesequenceoflettersthatislongerthansixtyfo"],"warnings":[{"code":"LongWordsInDocument","message":"The document contains very long words (longer than 64 characters). These words will be truncated and may result in unreliable model predictions."}]}],"errors":[],"modelVersion":"2019-10-01"}, [
+  .reply(200, {"documents":[{"id":"0","keyPhrases":["world","thisisanextremelymassivesequenceoflettersthatislongerthansixtyfo"],"warnings":[{"code":"LongWordsInDocument","message":"The document contains very long words (longer than 64 characters). These words will be truncated and may result in unreliable model predictions."}]}],"errors":[],"modelVersion":"2020-07-01"}, [
   'Transfer-Encoding',
   'chunked',
   'Content-Type',
@@ -47,13 +47,13 @@ nock('https://endpoint', {"encodedQueryParams":true})
   'csp-billing-usage',
   'CognitiveServices.TextAnalytics.BatchScoring=1',
   'x-envoy-upstream-service-time',
-  '8',
+  '6',
   'apim-request-id',
-  '00540c17-87c0-425f-a47e-7c3786104809',
+  '075def24-b5c9-4874-8c5f-ea18e6e15415',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Tue, 28 Jul 2020 20:54:10 GMT'
+  'Mon, 10 Aug 2020 20:33:57 GMT'
 ]);

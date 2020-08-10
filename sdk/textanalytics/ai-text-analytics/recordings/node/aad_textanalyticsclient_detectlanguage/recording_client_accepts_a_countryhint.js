@@ -20,26 +20,26 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'x-ms-request-id',
-  'ef59e65a-1b65-4dbf-b7bc-dd88d653cf00',
+  'af8f1f49-c3cb-4759-98a7-c5916a7db300',
   'x-ms-ests-server',
-  '2.1.10877.10 - CHI ProdSlices',
+  '2.1.10922.14 - CHI ProdSlices',
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'Set-Cookie',
-  'fpc=Apu05on0iOpNm-CCIPd5dgH0CyfMAQAAAGOHstYOAAAA; expires=Thu, 27-Aug-2020 20:53:55 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=Amv3z9_CTPFGpBM16IHt8cn0CyfMAQAAAC2mw9YOAAAA; expires=Wed, 09-Sep-2020 20:33:49 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=prod; path=/; SameSite=None; secure; HttpOnly',
   'Set-Cookie',
   'stsservicecookie=ests; path=/; SameSite=None; secure; HttpOnly',
   'Date',
-  'Tue, 28 Jul 2020 20:53:54 GMT',
+  'Mon, 10 Aug 2020 20:33:48 GMT',
   'Content-Length',
   '1417'
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
   .post('/text/analytics/v3.1-preview.1/languages', {"documents":[{"id":"0","text":"impossible","countryHint":"fr"}]})
-  .reply(200, {"documents":[{"id":"0","detectedLanguage":{"name":"French","iso6391Name":"fr","confidenceScore":1},"warnings":[]}],"errors":[],"modelVersion":"2019-10-01"}, [
+  .reply(200, {"documents":[{"id":"0","detectedLanguage":{"name":"French","iso6391Name":"fr","confidenceScore":1},"warnings":[]}],"errors":[],"modelVersion":"2020-07-01"}, [
   'Transfer-Encoding',
   'chunked',
   'Content-Type',
@@ -47,13 +47,13 @@ nock('https://endpoint', {"encodedQueryParams":true})
   'csp-billing-usage',
   'CognitiveServices.TextAnalytics.BatchScoring=1',
   'x-envoy-upstream-service-time',
-  '23',
+  '8',
   'apim-request-id',
-  '83140337-396e-440e-9d12-11fab715a239',
+  'a964876b-01e8-43be-9e98-63fefb183440',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Tue, 28 Jul 2020 20:53:54 GMT'
+  'Mon, 10 Aug 2020 20:33:49 GMT'
 ]);
