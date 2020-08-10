@@ -14,10 +14,9 @@
 - Now using `Poller` and `PollerLike` from the latest `@azure/core-lro` instead of `KVPoller` and `KVPollerLike`.
     - `KVPollerLike` is now an alias of `PollerLike`.
     - `KVPollerLike` is considered deprecated. Use `PollerLike`.
-- Fixed [bug 7407](https://github.com/Azure/azure-sdk-for-js/issues/7407) on `importCertificate`.
-  The bytes of a PEM formatted certificate were being encoded again on base64.
-  Now, if the user provides a policy with contentType `application/x-pem-file`, the bytes will be assumed to be formatted using ASCII,
-  and thus will be sent as is.
+- If the policy in the options has contentType `application/x-pem-file` when using the `importCertificate`
+  method, we now encode the bytes of the certificate as an ASCII string instead of base64 which is the default
+  treatment. This is to fix [bug 7407](https://github.com/Azure/azure-sdk-for-js/issues/7407)
 
 ## 4.0.2 (2020-06-01)
 
