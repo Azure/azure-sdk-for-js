@@ -164,7 +164,7 @@ const executeTypedoc = async (
                       "--excludeNotExported",
                       '--exclude "node_modules/**/*"',
                       "--ignoreCompilerErrors",
-                      "--mode library",
+                      "--mode file",
                       docOutputFolder
                     ]);
                   }
