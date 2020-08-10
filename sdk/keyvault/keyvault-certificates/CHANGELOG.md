@@ -6,9 +6,7 @@
     - It defaults to the latest supported API version, which currently is `7.1`.
     - Other supported service version at the moment is `7.0`.
     - If you were using `4.1.0-preview.1` version of this package, then this was previously named `apiVersion`.
-- Added `recoverableDays` as an optional property to `CertificateProperties`.
-    - When certificates are read from the service, they will have the `recoverableDays` property in their `properties` field.
-    - This is applicable only for Azure Key Vaults with the soft-delete setting enabled.
+- Added `recoverableDays` as an optional property to `CertificateProperties` which denotes the number of days in which the certificate can be recovered after deletion. This is only applicable for Azure Key Vaults with the soft-delete setting enabled.
 - Now using `Poller` and `PollerLike` from the latest `@azure/core-lro` instead of `KVPoller` and `KVPollerLike`.
     - `KVPollerLike` is now an alias of `PollerLike`.
     - `KVPollerLike` is considered deprecated. Use `PollerLike`.

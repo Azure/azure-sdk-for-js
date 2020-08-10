@@ -7,9 +7,7 @@
     - Other supported service version at the moment is `7.0`.
     - If you were using `4.1.0-preview.1` version of this package, then this was previously named `apiVersion`.
 - Added `import` to the list of possible values for `KeyOperation`.
-- Added `recoverableDays` as an optional property to `KeyProperties`.
-    - When keys are read from the service, they will have the `recoverableDays` property in their `properties` field.
-    - This is applicable only for Azure Key Vaults with the soft-delete setting enabled.
+- Added `recoverableDays` as an optional property to `KeyProperties` which denotes the number of days in which the key can be recovered after deletion. This is only applicable for Azure Key Vaults with the soft-delete setting enabled.
 - Fixed [bug 10352](https://github.com/Azure/azure-sdk-for-js/issues/10352), which caused cryptography operations on RSA-HSM keys to fail.
 
 ## 4.0.4 (2020-06-01)
