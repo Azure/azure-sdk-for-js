@@ -6,8 +6,7 @@
     - It defaults to the latest supported API version, which currently is `7.1`.
     - Other supported service version at the moment is `7.0`.
     - If you were using `4.1.0-preview.1` version of this package, then this was previously named `apiVersion`.
-- `CertificateKeyType` now supports the `oct` type.
-    - Since the service now supports `oct` keys, now the client will correctly report the type of these keys.  
+- `CertificateKeyType` now supports the `oct` type. To align with the Key Vault Keys client.
 - Added `recoverableDays` as an optional property to `CertificateProperties`.
     - When creating and updating a certificate, use the `recoverableDays` property to set the number of days in which the certificate can be recovered after deletion. When certificates are read from the service, they will have the `recoverableDays` property in their `properties` field.
     - This is applicable only for Azure Key Vaults with the soft-delete setting enabled.
