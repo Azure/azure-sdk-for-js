@@ -33,7 +33,7 @@
     "test:node": "npm run build:test && npm run unit-test:node && npm run integration-test:node",
     "test": "npm run build:test && npm run unit-test && npm run integration-test",
     "unit-test:browser": "karma start --single-run",
-    "unit-test:node": "mocha --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 1200000 --full-trace dist-test/index.node.js",
+    "unit-test:node": "env TS_NODE_COMPILER_OPTIONS='{\"module\":\"commonjs\"}' mocha --require ts-node/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 1200000 --full-trace test/node/index.spec.ts",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser"
   },
   "files": [
@@ -118,7 +118,8 @@
     "rollup-plugin-terser": "^5.1.1",
     "rollup-plugin-visualizer": "^4.0.4",
     "typescript": "~3.9.3",
-    "util": "^0.12.1"
+    "util": "^0.12.1",
+    "karma-typescript": "~5.0.3"
   },
   "//smokeTestConfiguration": {
     "skipFolder": true

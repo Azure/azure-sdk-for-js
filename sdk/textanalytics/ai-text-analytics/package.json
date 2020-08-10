@@ -6,7 +6,7 @@
   "version": "5.0.1",
   "keywords": [
     "node",
-    "Azure",
+    "azure",
     "cloud",
     "typescript",
     "browser",
@@ -29,7 +29,8 @@
     "LICENSE"
   ],
   "//metadata": {
-    "constantPaths": [{
+    "constantPaths": [
+      {
         "path": "src/generated/generatedClientContext.ts",
         "prefix": "packageVersion"
       },
@@ -40,7 +41,7 @@
     ]
   },
   "engines": {
-    "node": ">=8.0.0" 
+    "node": ">=8.0.0"
   },
   "//smokeTestConfiguration": {
     "skipFolder": true
@@ -68,7 +69,7 @@
     "test:node": "npm run clean && npm run build:test && npm run unit-test:node",
     "test": "npm run clean && npm run build:test && npm run unit-test",
     "unit-test:browser": "karma start --single-run",
-    "unit-test:node": "mocha --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 1200000 --full-trace dist-test/index.node.js",
+    "unit-test:node": "env TS_NODE_COMPILER_OPTIONS='{\"module\":\"commonjs\"}' mocha --require ts-node/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 1200000 --full-trace test/**/*.spec.ts",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser"
   },
   "sideEffects": false,
@@ -133,6 +134,7 @@
     "rollup-plugin-visualizer": "^4.0.4",
     "sinon": "^9.0.2",
     "source-map-support": "^0.5.9",
-    "typescript": "~3.9.3"
+    "typescript": "~3.9.3",
+    "ts-node": "^8.3.0"
   }
 }
