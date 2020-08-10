@@ -4,16 +4,19 @@
 
 ### Changes since 1.0.*
 
-- With 1.1.0, new developer credentials are now available: `VisualStudioCodeCredential` and `AzureCLICredential`. These developer credentials may be used directly or indirectly as part of `DefaultAzureCredential`.
-- Added the ability to configured the Managed Identity client ID via the `DefaultAzureCredential` constructor options.
-- Made a list of known authorities available via a new value: `AzureAuthorityHosts`.
+- With 1.1.0, new developer credentials are now available: `VisualStudioCodeCredential` and `AzureCliCredential`.
+  - `VisualStudioCodeCredential` allows developers to log into Azure using the credentials available through the Azure Account extension to Visual Studio Code.
+  - `AzureCliCredential` allows developers to log into Azure using the login credentials after an "az login" call.
+- Both `VisualStudioCodeCredential` and `AzureCliCredential` may be used directly or indirectly as part of `DefaultAzureCredential`.
+- Added the ability to configure the Managed Identity with a user-assigned client ID via a new option available in the `DefaultAzureCredential` constructor options: `managedIdentityClientId`.
+- Made a list of known authorities is now available via a new top-level constant: `AzureAuthorityHosts`.
 - Introduced the `CredentialUnavailable` error, which allows developers to differentiate between a credential not being available and an error happening during authentication.
 
-### Changes since the latest preview
+### Changes since the latest 1.1.0* preview
 
 - Renamed the `VSCodeCredential` to `VisualStudioCodeCredential`, and its options parameter from `VSCodeCredentialOptions` to `VisualStudioCodeCredentialOptions`.
 - Tenant information is now loaded from the Visual Studio Code settings file when the `VisualStudioCodeCredential` is used.
-- Added `managedIdentityClientId` to optionally pass in a user assigned client ID for the `ManagedIdentityCredential`.
+- Added `managedIdentityClientId` to optionally pass in a user-assigned client ID for the `ManagedIdentityCredential`.
 
 ## 1.1.0-preview.5 (2020-07-22)
 
