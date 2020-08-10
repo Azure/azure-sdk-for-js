@@ -16,6 +16,7 @@ import { MessageSession } from "./session/messageSession";
  * Provides contextual information like the underlying amqp connection, cbs session,
  * management session, tokenCredential, senders, receivers, etc. about the ServiceBus client.
  * @internal
+ * @ignore
  */
 export interface ClientEntityContextBase {
   /**
@@ -75,6 +76,7 @@ export interface ClientEntityContextBase {
 
 /**
  * @internal
+ * @ignore
  */
 export interface ClientEntityContext extends ClientEntityContextBase {
   onDetached(error?: AmqpError | Error): Promise<void>;
@@ -84,6 +86,7 @@ export interface ClientEntityContext extends ClientEntityContextBase {
 
 /**
  * @internal
+ * @ignore
  */
 export interface ClientEntityContextOptions {
   managementClientAddress?: string;
@@ -93,6 +96,7 @@ export interface ClientEntityContextOptions {
 
 /**
  * @internal
+ * @ignore
  */
 export namespace ClientEntityContext {
   /**

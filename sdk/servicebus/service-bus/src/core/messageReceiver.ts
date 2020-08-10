@@ -31,6 +31,7 @@ export type ReceiverHandlers = Pick<
 
 /**
  * @internal
+ * @ignore
  */
 export interface OnAmqpEventAsPromise extends OnAmqpEvent {
   (context: EventContext): Promise<void>;
@@ -47,6 +48,7 @@ export enum ReceiverType {
 
 /**
  * @internal
+ * @ignore
  */
 export interface ReceiveOptions extends MessageHandlerOptions {
   /**
@@ -87,6 +89,7 @@ export interface OnError {
 
 /**
  * @internal
+ * @ignore
  * Describes the MessageReceiver that will receive messages from ServiceBus.
  * @class MessageReceiver
  */

@@ -6,6 +6,12 @@
 
 import crypto from "crypto";
 
+/**
+ * @internal
+ * @ignore
+ * @param {string} secret
+ * @param {string} stringToSign
+ */
 export async function generateKey(secret: string, stringToSign: string) {
   const result = encodeURIComponent(
     crypto
