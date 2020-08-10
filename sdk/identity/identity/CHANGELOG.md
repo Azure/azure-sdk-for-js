@@ -5,7 +5,7 @@
 ### Changes since 1.0.*
 
 - With 1.1.0, new developer credentials are now available: `VisualStudioCodeCredential` and `AzureCliCredential`.
-  - `VisualStudioCodeCredential` allows developers to log into Azure using the credentials available through the Azure Account extension to Visual Studio Code.
+  - `VisualStudioCodeCredential` allows developers to log into Azure using the credentials available after logging in through the Azure Account extension in Visual Studio Code.
   - `AzureCliCredential` allows developers to log into Azure using the login credentials after an "az login" call.
 - Both `VisualStudioCodeCredential` and `AzureCliCredential` may be used directly or indirectly as part of `DefaultAzureCredential`.
 - Added the ability to configure the Managed Identity with a user-assigned client ID via a new option available in the `DefaultAzureCredential` constructor options: `managedIdentityClientId`.
