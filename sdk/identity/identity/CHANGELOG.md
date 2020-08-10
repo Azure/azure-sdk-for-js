@@ -2,6 +2,15 @@
 
 ## 1.1.0 (2020-08-11)
 
+### Changes since 1.0.*
+
+- With 1.1.0, new developer credentials are now available: `VisualStudioCodeCredential` and `AzureCLICredential`. These developer credentials may be used directly or indirectly as part of `DefaultAzureCredential`.
+- Added the ability to configured the Managed Identity client ID via the `DefaultAzureCredential` constructor options.
+- Made a list of known authorities available via a new value: `AzureAuthorityHosts`.
+- Introduced the `CredentialUnavailable` error, which allows developers to differentiate between a credential not being available and an error happening during authentication.
+
+### Changes since the latest preview
+
 - Renamed the `VSCodeCredential` to `VisualStudioCodeCredential`, and its options parameter from `VSCodeCredentialOptions` to `VisualStudioCodeCredentialOptions`.
 - Tenant information is now loaded from the Visual Studio Code settings file when the `VisualStudioCodeCredential` is used.
 - Added `managedIdentityClientId` to optionally pass in a user assigned client ID for the `ManagedIdentityCredential`.
