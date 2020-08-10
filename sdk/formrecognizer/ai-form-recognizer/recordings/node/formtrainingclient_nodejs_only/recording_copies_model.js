@@ -1,112 +1,102 @@
 let nock = require('nock');
 
-module.exports.hash = "a4d1af0f0e467a862bd88a6c2ae35d93";
+module.exports.hash = "4ec91c8a02172889bbf82f3bfbd0df30";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .post('/formrecognizer/v2.0-preview/custom/models/copyAuthorization')
-  .reply(201, {"modelId":"be7f15e3-1b1e-43da-a133-d2869763f3c2","accessToken":"accessToken","expirationDateTimeTicks":1593293052}, [
+  .post('/formrecognizer/v2.0/custom/models/copyAuthorization')
+  .reply(201, {"modelId":"4427c94c-7eb1-4c80-8317-7e13df1ba522","accessToken":"accessToken","expirationDateTimeTicks":1596756591}, [
   'Transfer-Encoding',
   'chunked',
   'Content-Type',
   'application/json; charset=utf-8',
   'Location',
-  'https://endpoint/formrecognizer/v2.0-preview/custom/models/be7f15e3-1b1e-43da-a133-d2869763f3c2',
+  'https://endpoint/formrecognizer/v2.0/custom/models/4427c94c-7eb1-4c80-8317-7e13df1ba522',
   'x-envoy-upstream-service-time',
-  '502',
+  '27',
   'apim-request-id',
-  'aa0b36eb-b20d-4afb-ae48-cc01a872d827',
+  '69b5e386-f453-4626-b464-8500bb60dca6',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Fri, 26 Jun 2020 21:24:11 GMT',
-  'Connection',
-  'close'
+  'Wed, 05 Aug 2020 23:29:50 GMT'
 ]);
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .post('/formrecognizer/v2.0-preview/custom/models/7f954280-8212-4c61-9c33-8fea2e47d279/copy', {"targetResourceId":"/subscriptions/e1367d46-77d4-4f57-8cfe-348edbdc84a3/resourceGroups/jstests/providers/Microsoft.CognitiveServices/accounts/jstests-fr","targetResourceRegion":"westus2","copyAuthorization":{"modelId":"be7f15e3-1b1e-43da-a133-d2869763f3c2","accessToken":"accessToken","expirationDateTimeTicks":1593293052}})
+  .post('/formrecognizer/v2.0/custom/models/718c523f-7326-4425-b496-acd0504c2327/copy', {"targetResourceId":"/subscriptions/e1367d46-77d4-4f57-8cfe-348edbdc84a3/resourceGroups/jstests/providers/Microsoft.CognitiveServices/accounts/jstests-fr","targetResourceRegion":"westus2","copyAuthorization":{"modelId":"4427c94c-7eb1-4c80-8317-7e13df1ba522","accessToken":"accessToken","expirationDateTimeTicks":1596756591}})
   .reply(202, "", [
   'Content-Length',
   '0',
   'Operation-Location',
-  'https://endpoint/formrecognizer/v2.0-preview/custom/models/7f954280-8212-4c61-9c33-8fea2e47d279/copyresults/eefd4da6-4503-4542-99bb-eee373b53f7e',
+  'https://endpoint/formrecognizer/v2.0/custom/models/718c523f-7326-4425-b496-acd0504c2327/copyresults/5ed3c150-8851-4938-a277-4750a36ced05',
   'x-envoy-upstream-service-time',
-  '5085',
+  '36',
   'apim-request-id',
-  '5403624a-676c-4b32-9642-275b03542946',
+  'bb6a396a-1f6a-42c4-8803-5f3084530a1e',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Fri, 26 Jun 2020 21:24:17 GMT',
-  'Connection',
-  'close'
+  'Wed, 05 Aug 2020 23:29:50 GMT'
 ]);
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .get('/formrecognizer/v2.0-preview/custom/models/7f954280-8212-4c61-9c33-8fea2e47d279/copyResults/eefd4da6-4503-4542-99bb-eee373b53f7e')
-  .reply(200, {"status":"notStarted","createdDateTime":"2020-06-26T21:24:12Z","lastUpdatedDateTime":"2020-06-26T21:24:12Z","copyResult":{"modelId":"be7f15e3-1b1e-43da-a133-d2869763f3c2"}}, [
+  .get('/formrecognizer/v2.0/custom/models/718c523f-7326-4425-b496-acd0504c2327/copyResults/5ed3c150-8851-4938-a277-4750a36ced05')
+  .reply(200, {"status":"notStarted","createdDateTime":"2020-08-05T23:29:51Z","lastUpdatedDateTime":"2020-08-05T23:29:51Z","copyResult":{"modelId":"4427c94c-7eb1-4c80-8317-7e13df1ba522"}}, [
   'Transfer-Encoding',
   'chunked',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-envoy-upstream-service-time',
-  '17',
+  '11',
   'apim-request-id',
-  'b06eec3e-69f4-4da3-847c-2e2be31ef887',
+  'd750bdd8-7ff4-41fb-999c-1db90d4f2bab',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Fri, 26 Jun 2020 21:24:17 GMT',
-  'Connection',
-  'close'
+  'Wed, 05 Aug 2020 23:29:50 GMT'
 ]);
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .get('/formrecognizer/v2.0-preview/custom/models/7f954280-8212-4c61-9c33-8fea2e47d279/copyResults/eefd4da6-4503-4542-99bb-eee373b53f7e')
-  .reply(200, {"status":"notStarted","createdDateTime":"2020-06-26T21:24:12Z","lastUpdatedDateTime":"2020-06-26T21:24:12Z","copyResult":{"modelId":"be7f15e3-1b1e-43da-a133-d2869763f3c2"}}, [
+  .get('/formrecognizer/v2.0/custom/models/718c523f-7326-4425-b496-acd0504c2327/copyResults/5ed3c150-8851-4938-a277-4750a36ced05')
+  .reply(200, {"status":"notStarted","createdDateTime":"2020-08-05T23:29:51Z","lastUpdatedDateTime":"2020-08-05T23:29:51Z","copyResult":{"modelId":"4427c94c-7eb1-4c80-8317-7e13df1ba522"}}, [
   'Transfer-Encoding',
   'chunked',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-envoy-upstream-service-time',
-  '19',
+  '10',
   'apim-request-id',
-  'df40c290-1d3a-4d13-9dc0-0638d5f48a8a',
+  'ad3febdb-7e91-44c0-a49f-7f435ac263a7',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Fri, 26 Jun 2020 21:24:17 GMT',
-  'Connection',
-  'close'
+  'Wed, 05 Aug 2020 23:29:50 GMT'
 ]);
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .get('/formrecognizer/v2.0-preview/custom/models/7f954280-8212-4c61-9c33-8fea2e47d279/copyResults/eefd4da6-4503-4542-99bb-eee373b53f7e')
-  .reply(200, {"status":"succeeded","createdDateTime":"2020-06-26T21:24:36.5192716Z","lastUpdatedDateTime":"2020-06-26T21:24:36.5192718Z","copyResult":{"modelId":"be7f15e3-1b1e-43da-a133-d2869763f3c2"}}, [
+  .get('/formrecognizer/v2.0/custom/models/718c523f-7326-4425-b496-acd0504c2327/copyResults/5ed3c150-8851-4938-a277-4750a36ced05')
+  .reply(200, {"status":"succeeded","createdDateTime":"2020-08-05T23:29:52.9066304Z","lastUpdatedDateTime":"2020-08-05T23:29:52.9066306Z","copyResult":{"modelId":"4427c94c-7eb1-4c80-8317-7e13df1ba522"}}, [
   'Transfer-Encoding',
   'chunked',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-envoy-upstream-service-time',
-  '28',
+  '14',
   'apim-request-id',
-  '0f65dce7-4331-42cf-9427-9f2050ee9871',
+  'e23e3b7d-8ac7-4bdb-9413-35893bf4840c',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Fri, 26 Jun 2020 21:24:37 GMT',
-  'Connection',
-  'close'
+  'Wed, 05 Aug 2020 23:29:56 GMT'
 ]);

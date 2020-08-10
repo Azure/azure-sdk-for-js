@@ -49,7 +49,7 @@
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "unit-test:node": "mocha --require source-map-support/register --timeout 10000 --full-trace --recursive dist/tests",
     "unit-test:browser": "echo skipped",
-    "unit-test": "unit-test:node && unit-test:browser",
+    "unit-test": "npm run unit-test:node && npm run unit-test:browser",
     "test": "npm run clean && npm run build:test && npm run unit-test"
   },
   "engines": {

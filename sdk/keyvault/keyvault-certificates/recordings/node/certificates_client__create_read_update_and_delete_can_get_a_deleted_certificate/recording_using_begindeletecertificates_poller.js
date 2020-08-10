@@ -86,7 +86,7 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://keyvault_name.vault.azure.net/certificates/CRUDCertificateName-usingbeginDeleteCertificatespoller-/pending?api-version=7.1-preview&request_id=10ed71c706004f7dbbd53dbaaaa0d4cb',
+  'https://keyvault_name.vault.azure.net/certificates/CRUDCertificateName-usingbeginDeleteCertificatespoller-/pending?api-version=7.1&request_id=10ed71c706004f7dbbd53dbaaaa0d4cb',
   'Retry-After',
   '10',
   'x-ms-keyvault-region',

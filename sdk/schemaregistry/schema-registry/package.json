@@ -5,8 +5,7 @@
   "sdk-type": "client",
   "main": "dist/index.js",
   "module": "dist-esm/src/index.js",
-  "browser": {
-  },
+  "browser": {},
   "types": "types/schema-registry.d.ts",
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
@@ -51,7 +50,6 @@
   "keywords": [
     "azure",
     "cloud",
-    "Azure",
     "typescript"
   ],
   "author": "Microsoft Corporation",
@@ -63,7 +61,7 @@
   "sideEffects": false,
   "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
   "dependencies": {
-    "@azure/core-http": "^1.1.4",
+    "@azure/core-http": "^1.1.6",
     "tslib": "^2.0.0"
   },
   "devDependencies": {

@@ -352,10 +352,19 @@ function getUserPropertiesOrUndefined(value: any): { [key: string]: any } | unde
     return undefined;
   }
   const properties: any = {};
-  const rawProperties = value[keyValuePairXMLTag];
+  let rawProperties;
+  if (!Array.isArray(value[keyValuePairXMLTag]) && value[keyValuePairXMLTag]?.Key) {
+    // When a single property is present,
+    //    value["KeyValueOfstringanyType"] = { Key: <key>, Value: [Object] }
+    // When multiple properties are present,
+    //    value["KeyValueOfstringanyType"] = [ { Key: <key-1>, Value: [Object] }, { Key: <key-2>, Value: [Object] } ]
+    // For consistency, wrapping `value["KeyValueOfstringanyType"]` as an array for the "single property" case.
+    rawProperties = [value[keyValuePairXMLTag]];
+  } else {
+    rawProperties = value[keyValuePairXMLTag];
+  }
   if (Array.isArray(rawProperties)) {
     for (const rawProperty of rawProperties) {
-      properties[rawProperty.Key] = rawProperty.Value["_"];
       if (rawProperty.Value["$"]["i:type"] === TypeMapForResponseDeserialization.number) {
         properties[rawProperty.Key] = Number(rawProperty.Value["_"]);
       } else if (rawProperty.Value["$"]["i:type"] === TypeMapForResponseDeserialization.string) {

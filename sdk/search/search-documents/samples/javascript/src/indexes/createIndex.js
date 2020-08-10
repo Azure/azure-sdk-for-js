@@ -12,7 +12,10 @@ const apiKey = process.env.SEARCH_API_KEY || "";
 
 async function main() {
   console.log(`Running Create Index Sample....`);
-
+  if (!endpoint || !apiKey) {
+    console.log("Make sure to set valid values for endpoint and apiKey with proper authorization.");
+    return;
+  }
   const client = new SearchIndexClient(endpoint, new AzureKeyCredential(apiKey));
   const index = {
     name: "example-index-2",
@@ -55,4 +58,6 @@ async function main() {
   await client.createIndex(index);
 }
 
-main();
+main().catch((err) => {
+  console.error("The sample encountered an error:", err);
+});

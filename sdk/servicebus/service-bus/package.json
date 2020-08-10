@@ -12,7 +12,7 @@
     "cloud",
     "service bus",
     "AMQP",
-    "Azure"
+    "azure"
   ],
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
@@ -85,11 +85,22 @@
       }
     ]
   },
+  "//smokeTestConfiguration": {
+    "skip": [
+      "browseMessages.js",
+      "receiveMessagesLoop.js",
+      "receiveMessagesStreaming.js",
+      "scheduledMessages.js",
+      "sendMessages.js",
+      "session.js",
+      "useProxy.js"
+    ]
+  },
   "dependencies": {
     "@azure/abort-controller": "^1.0.0",
     "@azure/core-amqp": "^1.1.4",
     "@azure/core-asynciterator-polyfill": "^1.0.0",
-    "@azure/core-http": "^1.1.4",
+    "@azure/core-http": "^1.1.6",
     "@azure/core-tracing": "1.0.0-preview.9",
     "@azure/core-paging": "^1.1.1",
     "@opentelemetry/api": "^0.10.2",
@@ -106,7 +117,7 @@
   "devDependencies": {
     "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
-    "@azure/identity": "^1.1.0-preview",
+    "@azure/identity": "^1.1.0",
     "@microsoft/api-extractor": "7.7.11",
     "@rollup/plugin-commonjs": "11.0.2",
     "@rollup/plugin-inject": "^4.0.0",

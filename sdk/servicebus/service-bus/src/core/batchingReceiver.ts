@@ -12,7 +12,7 @@ import {
   Receiver,
   Session
 } from "rhea-promise";
-import { ReceiveMode, ServiceBusMessageImpl } from "../serviceBusMessage";
+import { InternalReceiveMode, ServiceBusMessageImpl } from "../serviceBusMessage";
 import {
   MessageReceiver,
   OnAmqpEventAsPromise,
@@ -239,14 +239,15 @@ export class BatchingReceiverLite {
     private _getCurrentReceiver: (
       abortSignal?: AbortSignalLike
     ) => Promise<MinimalReceiver | undefined>,
-    private _receiveMode: ReceiveMode
+    private _receiveMode: InternalReceiveMode
   ) {
     this._createServiceBusMessage = (context: MessageAndDelivery) => {
       return new ServiceBusMessageImpl(
         clientEntityContext,
         context.message!,
         context.delivery!,
-        true
+        true,
+        this._receiveMode
       );
     };
 
@@ -347,7 +348,7 @@ export class BatchingReceiverLite {
           // no error, just closing. Go ahead and return what we have.
           error == null ||
           // Return the collected messages if in ReceiveAndDelete mode because otherwise they are lost forever
-          (this._receiveMode === ReceiveMode.receiveAndDelete && brokeredMessages.length)
+          (this._receiveMode === InternalReceiveMode.receiveAndDelete && brokeredMessages.length)
         ) {
           log.batching(
             `${loggingPrefix} Closing. Resolving with ${brokeredMessages.length} messages.`
@@ -389,7 +390,7 @@ export class BatchingReceiverLite {
         // TODO: this appears to be aggravating a bug that we need to look into more deeply.
         // The same timeout+drain sequence should work fine for receiveAndDelete but it appears
         // to cause problems.
-        if (this._receiveMode === ReceiveMode.peekLock) {
+        if (this._receiveMode === InternalReceiveMode.peekLock) {
           if (brokeredMessages.length === 0) {
             // We'll now remove the old timer (which was the overall `maxWaitTimeMs` timer)
             // and replace it with another timer that is a (probably) much shorter interval.
