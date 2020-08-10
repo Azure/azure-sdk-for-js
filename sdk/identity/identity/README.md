@@ -19,7 +19,7 @@ Developers using Visual Studio Code can use the [Azure Account Extension](https:
 
 To authenticate in Visual Studio Code, first ensure the [Azure Account Extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode.azure-account) is installed. Once the extension is installed, press `F1` to open the command palette and run the `Azure: Sign In` command.
 
-![Visual Studio Code Account Sign In](https://raw.githubusercontent.com/Azure/azure-sdk-for-js/master/sdk/identity/identity/images/VsCodeLoginCommand.png)
+![Visual Studio Code Account Sign In][VsCodeLoginCommand_image]
 
 #### Authenticating via the Azure CLI
 
@@ -27,11 +27,11 @@ Applications using the `AzureCliCredential`, rather directly or via the `Default
 
 To authenticate with the [Azure CLI][azure_cli] users can run the command `az login`. For users running on a system with a default web browser the azure cli will launch the browser to authenticate the user.
 
-![Azure CLI Account Sign In](https://raw.githubusercontent.com/Azure/azure-sdk-for-js/master/sdk/identity/identity/images/AzureCliLogin.png)
+![Azure CLI Account Sign In][AzureCliLogin_image]
 
 For systems without a default web browser, the `az login` command will use the device code authentication flow. The user can also force the Azure ClI to use the device code flow rather than launching a browser by specifying the `--use-device-code` argument.
 
-![Azure CLI Account Device Code Sign In](https://raw.githubusercontent.com/Azure/azure-sdk-for-js/master/sdk/identity/identity/images/AzureCliLoginDeviceCode.png)
+![Azure CLI Account Device Code Sign In][AzureCliLoginDeviceCode_image]
 
 ### Install the package
 
@@ -57,7 +57,7 @@ See [Credential Classes](#credential-classes).
 
 The `DefaultAzureCredential` is appropriate for most scenarios where the application is intended to ultimately be run in the Azure Cloud. This is because the `DefaultAzureCredential` combines credentials commonly used to authenticate when deployed, with credentials used to authenticate in a development environment. The `DefaultAzureCredential` will attempt to authenticate via the following mechanisms in order.
 
-![DefaultAzureCredential authentication flow](https://raw.githubusercontent.com/Azure/azure-sdk-for-js/master/sdk/identity/identity/images/DefaultAzureCredentialAuthenticationFlow.png)
+![DefaultAzureCredential authentication flow][DefaultAuthFlow_image]
 
 - Environment - The `DefaultAzureCredential` will read account information specified via [environment variables](#Environment-variables) and use it to authenticate.
 - Managed Identity - If the application is deployed to an Azure host with Managed Identity enabled, the `DefaultAzureCredential` will authenticate with that account.
@@ -213,5 +213,9 @@ If you'd like to contribute to this library, please read the [contributing guide
 [8]: https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-identity/1.0.0/classes/interactivebrowsercredential.html
 [9]: https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-identity/1.0.0/classes/usernamepasswordcredential.html
 [azure_cli]: https://docs.microsoft.com/cli/azure
+[VsCodeLoginCommand_image]: https://raw.githubusercontent.com/Azure/azure-sdk-for-js/master/sdk/identity/identity/images/VsCodeLoginCommand.png
+[AzureCliLogin_image]: https://raw.githubusercontent.com/Azure/azure-sdk-for-js/master/sdk/identity/identity/images/AzureCliLogin.png
+[AzureCliLoginDeviceCode_image]: https://raw.githubusercontent.com/Azure/azure-sdk-for-js/master/sdk/identity/identity/images/AzureCliLoginDeviceCode.png
+[DefaultAuthFlow_image]: https://raw.githubusercontent.com/Azure/azure-sdk-for-js/master/sdk/identity/identity/images/DefaultAzureCredentialAuthenticationFlow.png
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fidentity%2Fidentity%2FREADME.png)
