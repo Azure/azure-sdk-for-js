@@ -92,19 +92,12 @@ export type RecognizeCategorizedEntitiesOptions = TextAnalyticsOperationOptions;
  */
 export interface AnalyzeSentimentOptions extends TextAnalyticsOperationOptions {
   /**
-   * Opinion mining is a feature of Sentiment Analysis. Also known as Aspect-based Sentiment
-   * Analysis in Natural Language Processing (NLP), this feature provides more granular
-   * information about the opinions related to aspects (such as the attributes of products
-   * or services) in text. For example, if a customer leaves feedback about a hotel such as
-   * "the room was great, but the staff was unfriendly", opinion mining will locate aspects
-   * in the text, and their associated opinions and sentiments:
-   *
-   * Aspect	    Opinion	   Sentiment
-   * room	      great	     positive
-   * staff	    unfriendly negative
-   *
-   * To get opinion mining in your results, you must set the includeOpinionMining flag to be true.
-   * The opinion mining results will be included in the sentiment analysis response.
+   * Whether to mine the opinions of a sentence and conduct more  granular 
+   * analysis around the aspects of a product or service (also known as 
+   * aspect-based sentiment analysis). If set to true, the returned 
+   * `SentenceSentiment` objects will have property `mined_opinions` containing 
+   * the result of this analysis. Only available for API version v3.1-preview.1.
+   * More information about the feature can be found here: https://docs.microsoft.com/en-us/azure/cognitive-services/text-analytics/how-tos/text-analytics-how-to-sentiment-analysis?tabs=version-3-1#opinion-mining
    */
   includeOpinionMining?: boolean;
 }
