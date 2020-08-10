@@ -143,6 +143,7 @@ export interface SetSecretOptions extends coreHttp.OperationOptions {
     enabled?: boolean;
     readonly expiresOn?: Date;
     readonly notBefore?: Date;
+    recoverableDays?: number;
     tags?: {
         [propertyName: string]: string;
     };

@@ -239,7 +239,10 @@ export class KeyClient {
     };
 
     const pipeline = createPipelineFromOptions(internalPipelineOptions, authPolicy);
-    this.client = new KeyVaultClient(pipelineOptions.serviceVersion || LATEST_API_VERSION, pipeline);
+    this.client = new KeyVaultClient(
+      pipelineOptions.serviceVersion || LATEST_API_VERSION,
+      pipeline
+    );
   }
 
   /**
@@ -320,13 +323,20 @@ export class KeyClient {
   ): Promise<KeyVaultKey> {
     if (options) {
       const requestOptions = operationOptionsToRequestOptionsBase(options);
-      const { enabled, notBefore, expiresOn: expires, ...remainingOptions } = requestOptions;
+      const {
+        enabled,
+        notBefore,
+        expiresOn: expires,
+        recoverableDays,
+        ...remainingOptions
+      } = requestOptions;
       const unflattenedOptions = {
         ...remainingOptions,
         keyAttributes: {
           enabled,
           notBefore,
-          expires
+          expires,
+          recoverableDays
         }
       };
 
@@ -368,13 +378,20 @@ export class KeyClient {
   public async createEcKey(name: string, options?: CreateEcKeyOptions): Promise<KeyVaultKey> {
     if (options) {
       const requestOptions = operationOptionsToRequestOptionsBase(options);
-      const { enabled, notBefore, expiresOn: expires, ...remainingOptions } = requestOptions;
+      const {
+        enabled,
+        notBefore,
+        expiresOn: expires,
+        recoverableDays,
+        ...remainingOptions
+      } = requestOptions;
       const unflattenedOptions = {
         ...remainingOptions,
         keyAttributes: {
           enabled,
           notBefore,
-          expires
+          expires,
+          recoverableDays
         }
       };
 
@@ -416,13 +433,20 @@ export class KeyClient {
   public async createRsaKey(name: string, options?: CreateRsaKeyOptions): Promise<KeyVaultKey> {
     if (options) {
       const requestOptions = operationOptionsToRequestOptionsBase(options);
-      const { enabled, notBefore, expiresOn: expires, ...remainingOptions } = requestOptions;
+      const {
+        enabled,
+        notBefore,
+        expiresOn: expires,
+        recoverableDays,
+        ...remainingOptions
+      } = requestOptions;
       const unflattenedOptions = {
         ...remainingOptions,
         keyAttributes: {
           enabled,
           notBefore,
-          expires
+          expires,
+          recoverableDays
         }
       };
 

@@ -37,6 +37,7 @@ export interface CreateKeyOptions extends coreHttp.OperationOptions {
     keyOps?: KeyOperation[];
     keySize?: number;
     notBefore?: Date;
+    recoverableDays?: number;
     tags?: {
         [propertyName: string]: string;
     };
