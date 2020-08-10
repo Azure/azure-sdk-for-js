@@ -34,6 +34,7 @@ export enum InternalReceiveMode {
 
 /**
  * @internal
+ * @ignore
  */
 export enum DispositionType {
   complete = "complete",
@@ -44,6 +45,7 @@ export enum DispositionType {
 
 /**
  * @internal
+ * @ignore
  * Describes the delivery annotations for Service Bus.
  */
 export interface ServiceBusDeliveryAnnotations extends DeliveryAnnotations {
@@ -71,6 +73,7 @@ export interface ServiceBusDeliveryAnnotations extends DeliveryAnnotations {
 
 /**
  * @internal
+ * @ignore
  * Describes the message annotations for Service Bus.
  */
 export interface ServiceBusMessageAnnotations extends MessageAnnotations {
@@ -224,6 +227,7 @@ export interface ServiceBusMessage {
 
 /**
  * @internal
+ * @ignore
  * Gets the error message for when a property on given message is not of expected type
  */
 export function getMessagePropertyTypeMismatchError(msg: ServiceBusMessage): Error | undefined {
@@ -281,6 +285,7 @@ export function getMessagePropertyTypeMismatchError(msg: ServiceBusMessage): Err
 
 /**
  * @internal
+ * @ignore
  * Converts given ServiceBusMessage to AmqpMessage
  */
 export function toAmqpMessage(msg: ServiceBusMessage): AmqpMessage {
@@ -566,6 +571,7 @@ export interface ReceivedMessageWithLock extends ReceivedMessage {
 }
 
 /**
+ * @internal
  * @ignore
  * Converts given AmqpMessage to ReceivedMessage
  */

@@ -20,6 +20,7 @@ import { getRuntimeInfo } from "./util/runtimeInfo";
 
 /**
  * @internal
+ * @ignore
  * Provides contextual information like the underlying amqp connection, cbs session, management session,
  * tokenCredential, senders, receivers, etc. about the ServiceBus client.
  */
@@ -89,6 +90,7 @@ type ConnectionContextMethods = Omit<
 
 /**
  * @internal
+ * @ignore
  */
 export namespace ConnectionContext {
   export function create(
