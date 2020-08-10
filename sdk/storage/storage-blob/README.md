@@ -136,14 +136,14 @@ Blob storage offers three types of resources:
 
 ## Examples
 
-- [Import the package](#import-the-package "Import the package")
-- [Create the blob service client](#create-the-blob-service-client "Create the blob service client")
-- [Create a new container](#create-a-new-container "Create a new container")
-- [List the containers](#list-the-containers "List the containers")
-- [Create a blob by uploading data](#create-a-blob-by-uploading-data "Create a blob by uploading data")
-- [List blobs inside a container](#list-blobs-inside-a-container "List blobs inside a container")
-- [Download a blob and convert it to a string (Node.js)](#download-a-blob-and-convert-it-to-a-string-nodejs) "Download a blob and convert it to a string (Node.js)")
-- [Download a blob and convert it to a string (Browsers)](#download-a-blob-and-convert-it-to-a-string-browsers) "Download a blob and convert it to a string (Browsers)")
+- [Import the package](#import-the-package)
+- [Create the blob service client](#create-the-blob-service-client)
+- [Create a new container](#create-a-new-container)
+- [List the containers](#list-the-containers)
+- [Create a blob by uploading data](#create-a-blob-by-uploading-data)
+- [List blobs inside a container](#list-blobs-inside-a-container)
+- [Download a blob and convert it to a string (Node.js)](#download-a-blob-and-convert-it-to-a-string-nodejs))
+- [Download a blob and convert it to a string (Browsers)](#download-a-blob-and-convert-it-to-a-string-browsers))
 
 ### Import the package
 
