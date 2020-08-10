@@ -4,7 +4,7 @@
 
 - Added the optional `serviceVersion` property to the `CertificateClient` optional parameters.
   It defaults to the latest supported API version, which currently is `7.1`.
-- Added `recoverableDays` as an optional property to `KeyProperties`.
+- Added `recoverableDays` as an optional property to `CertificateProperties`.
 - Fixed a bug on `importCertificate`. The bytes of a PEM formatted certificate were being encoded again on base64.
   Now, if the user provides a policy with contentType `application/x-pem-file`, the bytes will be assumed to be formatted using ASCII,
   and thus will be sent as is.
