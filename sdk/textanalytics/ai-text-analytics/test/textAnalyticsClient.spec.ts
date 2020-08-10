@@ -258,11 +258,9 @@ describe("[AAD] TextAnalyticsClient", function() {
         assert.fail("Oops, an exception didn't happen.");
       } catch (e) {
         assert.equal(e.statusCode, 400);
-        assert.equal(e.code, "InvalidRequest");
-        assert.match(e.message, /Invalid document in request./);
-        assert.equal(e.response.parsedBody.error.innererror.code, "InvalidDocumentBatch");
+        assert.equal(e.code, "InvalidDocumentBatch");
         assert.equal(
-          e.response.parsedBody.error.innererror.message,
+          e.message,
           "Batch request contains too many records. Max 5 records are permitted."
         );
       }
@@ -405,11 +403,9 @@ describe("[AAD] TextAnalyticsClient", function() {
         assert.fail("Oops, an exception didn't happen.");
       } catch (e) {
         assert.equal(e.statusCode, 400);
-        assert.equal(e.code, "InvalidRequest");
-        assert.match(e.message, /Invalid document in request./);
-        assert.equal(e.response.parsedBody.error.innererror.code, "InvalidDocumentBatch");
+        assert.equal(e.code, "InvalidDocumentBatch");
         assert.equal(
-          e.response.parsedBody.error.innererror.message,
+          e.message,
           "Batch request contains too many records. Max 5 records are permitted."
         );
       }

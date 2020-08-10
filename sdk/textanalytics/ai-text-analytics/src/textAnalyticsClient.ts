@@ -354,7 +354,16 @@ export class TextAnalyticsClient {
         code: CanonicalCode.UNKNOWN,
         message: e.message
       });
-      throw e;
+      if (e.response.parsedBody.error.innererror.code === "InvalidDocumentBatch") {
+        const innerError = {
+          statusCode: e.statusCode,
+          code: e.response.parsedBody.error.innererror.code,
+          message: e.response.parsedBody.error.innererror.message
+        };
+        throw innerError;
+      } else {
+        throw e;
+      }
     } finally {
       span.end();
     }
