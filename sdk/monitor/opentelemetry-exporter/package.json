@@ -61,9 +61,9 @@
   },
   "dependencies": {
     "@opentelemetry/api": "^0.10.2",
-    "@opentelemetry/core": "^0.10.2",
-    "@opentelemetry/semantic-conventions": "^0.10.2",
-    "@opentelemetry/tracing": "^0.10.2"
+    "@opentelemetry/core": "^0.10.1",
+    "@opentelemetry/semantic-conventions": "^0.10.1",
+    "@opentelemetry/tracing": "^0.10.1"
   },
   "sideEffects": false,
   "keywords": [
