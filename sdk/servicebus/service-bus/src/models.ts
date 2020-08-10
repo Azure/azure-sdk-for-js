@@ -24,6 +24,20 @@ export interface MessageHandlers<ReceivedMessageT> {
 }
 
 /**
+ * @internal
+ * @ignore
+ */
+export interface InternalMessageHandlers<ReceivedMessageT>
+  extends MessageHandlers<ReceivedMessageT> {
+  /**
+   * Called when the connection is initialized but before we subscribe to messages or add credits.
+   *
+   * NOTE: This handler is completely internal and only used for tests.
+   */
+  processInitialize?: () => Promise<void>;
+}
+
+/**
  * Represents the possible receive modes for the receiver.
  */
 export type ReceiveMode = "peekLock" | "receiveAndDelete";
@@ -44,9 +58,9 @@ export interface CreateReceiverOptions<ReceiveModeT extends ReceiveMode> {
    * queue/subscription.
    *
    * Messages that are not settled within the lock duration will be redelivered as many times as
-   * the max delivery count set on the queue/subscription, after which they get sent to a separate 
+   * the max delivery count set on the queue/subscription, after which they get sent to a separate
    * dead letter queue.
-   * 
+   *
    * You can settle a message by calling complete(), abandon(), defer() or deadletter() methods on
    * the message.
    *

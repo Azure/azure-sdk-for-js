@@ -24,7 +24,7 @@
     "microsoft",
     "autorest",
     "clientruntime",
-    "Azure",
+    "azure",
     "cloud"
   ],
   "main": "dist/index.js",

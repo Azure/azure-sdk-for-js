@@ -6,7 +6,8 @@ import {
   GetMessageIteratorOptions,
   MessageHandlers,
   ReceiveMessagesOptions,
-  SubscribeOptions
+  SubscribeOptions,
+  InternalMessageHandlers
 } from "../models";
 import { OperationOptionsBase } from "../modelsToBeSharedWithEventHubs";
 import { ReceivedMessage } from "..";
@@ -206,6 +207,7 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
    * @throws MessagingError if the service returns an error while receiving messages. These are bubbled up to be handled by user provided `onError` handler.
    */
   private _registerMessageHandler(
+    onInitialize: () => Promise<void>,
     onMessage: OnMessage,
     onError: OnError,
     options?: SubscribeOptions
@@ -231,8 +233,15 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
         if (!sReceiver) {
           return;
         }
+
+        try {
+          await onInitialize();
+        } catch (err) {
+          onError(err);
+        }
+
         if (!this.isClosed) {
-          sReceiver.receive(onMessage, onError);
+          sReceiver.subscribe(onMessage, onError);
         } else {
           await sReceiver.close();
         }
@@ -393,7 +402,16 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
 
     const processError = wrapProcessErrorHandler(handlers);
 
+    const internalMessageHandlers = handlers as
+      | InternalMessageHandlers<ReceivedMessageT>
+      | undefined;
+
     this._registerMessageHandler(
+      async () => {
+        if (internalMessageHandlers?.processInitialize) {
+          await internalMessageHandlers.processInitialize();
+        }
+      },
       async (message: ServiceBusMessageImpl) => {
         return handlers.processMessage((message as any) as ReceivedMessageT);
       },
@@ -441,7 +459,11 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
    * When this returns true, new `registerMessageHandler()` or `receiveMessages()` calls cannot be made.
    */
   private _isReceivingMessages(): boolean {
-    if (this._context.streamingReceiver && this._context.streamingReceiver.isOpen()) {
+    if (
+      this._context.streamingReceiver &&
+      this._context.streamingReceiver.isOpen() &&
+      this._context.streamingReceiver.isReceivingMessages
+    ) {
       return true;
     }
     if (

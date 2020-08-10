@@ -9,7 +9,7 @@ import { HttpClient, WebResourceLike, HttpOperationResponse, HttpHeaders } from 
 import { ClientSecretCredential } from "@azure/identity";
 import { env } from "@azure/test-utils-recorder";
 
-describe("The Secrets client should set the apiVersion", () => {
+describe("The Secrets client should set the serviceVersion", () => {
   const keyVaultUrl = `https://keyVaultName.vault.azure.net`;
 
   const mockHttpClient: HttpClient = {
@@ -62,14 +62,14 @@ describe("The Secrets client should set the apiVersion", () => {
 
   it("it should allow us to specify an API version from a specific set of versions", async function() {
     const versions: ApIVersions[] = ["7.0", "7.1"];
-    for (const apiVersion in versions) {
+    for (const serviceVersion in versions) {
       const credential = await new ClientSecretCredential(
         env.AZURE_TENANT_ID!,
         env.AZURE_CLIENT_ID!,
         env.AZURE_CLIENT_SECRET!
       );
       const client = new SecretClient(keyVaultUrl, credential, {
-        apiVersion: apiVersion as ApIVersions,
+        serviceVersion: serviceVersion as ApIVersions,
         httpClient: mockHttpClient
       });
       await client.setSecret("secretName", "value");
@@ -78,7 +78,7 @@ describe("The Secrets client should set the apiVersion", () => {
       const lastCall = calls[calls.length - 1];
       assert.equal(
         lastCall.args[0].url,
-        `https://keyVaultName.vault.azure.net/secrets/secretName?api-version=${apiVersion}`
+        `https://keyVaultName.vault.azure.net/secrets/secretName?api-version=${serviceVersion}`
       );
     }
   });

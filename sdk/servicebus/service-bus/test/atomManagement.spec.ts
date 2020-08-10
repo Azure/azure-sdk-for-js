@@ -1710,7 +1710,41 @@ describe("Atom management - Authentication", function(): void {
     }
   },
   {
-    testCaseTitle: "Correlation Filter rule options",
+    testCaseTitle: "Correlation Filter rule options with a single property",
+    input: {
+      filter: {
+        correlationId: "abcd",
+        properties: {
+          randomState: "WA"
+        }
+      },
+      action: { sqlExpression: "SET sys.label='GREEN'" }
+    },
+    output: {
+      filter: {
+        correlationId: "abcd",
+        contentType: "",
+        label: "",
+        messageId: "",
+        replyTo: "",
+        replyToSessionId: "",
+        sessionId: "",
+        to: "",
+        properties: {
+          randomState: "WA"
+        }
+      },
+      action: {
+        sqlExpression: "SET sys.label='GREEN'",
+        requiresPreprocessing: false,
+        sqlParameters: undefined,
+        compatibilityLevel: 20
+      },
+      name: managementRule1
+    }
+  },
+  {
+    testCaseTitle: "Correlation Filter rule options with multiple properties",
     input: {
       filter: {
         correlationId: "abcd",
