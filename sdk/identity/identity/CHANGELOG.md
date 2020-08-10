@@ -12,7 +12,7 @@
 - Made a list of known authorities is now available via a new top-level constant: `AzureAuthorityHosts`.
 - Introduced the `CredentialUnavailable` error, which allows developers to differentiate between a credential not being available and an error happening during authentication.
 
-### Changes since the latest 1.1.0* preview
+### Changes since the latest 1.1-preview
 
 - Renamed the `VSCodeCredential` to `VisualStudioCodeCredential`, and its options parameter from `VSCodeCredentialOptions` to `VisualStudioCodeCredentialOptions`.
 - Tenant information is now loaded from the Visual Studio Code settings file when the `VisualStudioCodeCredential` is used.
