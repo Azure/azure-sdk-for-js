@@ -1,6 +1,6 @@
 # Release History
 
-## 3.7.5 (Unreleased)
+## 3.8.0 (2020-8-10)
 
 - FEATURE: Changes JSONArray type internal from Array to ArrayLike to avoid requiring type coercion for immutable data
 - FEATURE: Adds bulk request to container.items. Allows aggregate bulk request for up to 100 operations on items with the types: Create, Upsert, Read, Replace, Delete
