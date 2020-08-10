@@ -47,6 +47,9 @@ export type BeginRecognizeFormsOptions = RecognizeFormsOptions & {
 };
 
 // @public
+export type BeginRecognizeReceiptsOptions = BeginRecognizeFormsOptions;
+
+// @public
 export type BeginTrainingOptions = TrainingFileFilter & {
     updateIntervalInMs?: number;
     onProgress?: (state: TrainingOperationState) => void;
@@ -222,8 +225,8 @@ export class FormRecognizerClient {
     beginRecognizeContentFromUrl(formUrl: string, options?: BeginRecognizeContentOptions): Promise<ContentPollerLike>;
     beginRecognizeCustomForms(modelId: string, form: FormRecognizerRequestBody, options?: BeginRecognizeFormsOptions): Promise<FormPollerLike>;
     beginRecognizeCustomFormsFromUrl(modelId: string, formUrl: string, options?: BeginRecognizeFormsOptions): Promise<FormPollerLike>;
-    beginRecognizeReceipts(receipt: FormRecognizerRequestBody, options?: BeginRecognizeFormsOptions): Promise<FormPollerLike>;
-    beginRecognizeReceiptsFromUrl(receiptUrl: string, options?: BeginRecognizeFormsOptions): Promise<FormPollerLike>;
+    beginRecognizeReceipts(receipt: FormRecognizerRequestBody, options?: BeginRecognizeReceiptsOptions): Promise<FormPollerLike>;
+    beginRecognizeReceiptsFromUrl(receiptUrl: string, options?: BeginRecognizeReceiptsOptions): Promise<FormPollerLike>;
     readonly endpointUrl: string;
     }
 
