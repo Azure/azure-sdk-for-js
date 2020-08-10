@@ -126,14 +126,14 @@ The following components and their corresponding client libraries make up the Az
 
 ## Examples
 
-- [Import the package](#import-the-package "Import the package")
-- [Create the share service client](#create-the-share-service-client "Create the share service client")
-- [List shares in the account](#list-shares-in-the-account "List shares in the account")
-- [Create a new share and a directory](#create-a-new-share-and-a-directory "Create a new share and a directory")
-- [Create an azure file then upload to it](#create-an-azure-file-then-upload-to-it "Create an azure file then upload to it")
-- [List files and directories under a directory](#list-files-and-directories-under-a-directory "List files and directories under a directory")
-- [Download a file and convert it to a string (Node.js)](#download-a-file-and-convert-it-to-a-string-nodejs "Download a file and convert it to a string (Node.js)")
-- [Download a file and convert it to a string (Browsers)](#download-a-file-and-convert-it-to-a-string-browsers "Download a file and convert it to a string (Browsers)")
+- [Import the package](#import-the-package)
+- [Create the share service client](#create-the-share-service-client)
+- [List shares in the account](#list-shares-in-the-account)
+- [Create a new share and a directory](#create-a-new-share-and-a-directory)
+- [Create an azure file then upload to it](#create-an-azure-file-then-upload-to-it)
+- [List files and directories under a directory](#list-files-and-directories-under-a-directory)
+- [Download a file and convert it to a string (Node.js)](#download-a-file-and-convert-it-to-a-string-nodejs)
+- [Download a file and convert it to a string (Browsers)](#download-a-file-and-convert-it-to-a-string-browsers)
 
 ### Import the package
 
