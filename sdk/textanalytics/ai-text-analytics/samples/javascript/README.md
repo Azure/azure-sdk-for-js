@@ -13,15 +13,16 @@ urlFragment: ai-text-analytics-javascript
 
 These sample programs show how to use the JavaScript client libraries for Azure Cognitive Services Text Analytics in some common scenarios.
 
-| **File Name**                                           | **Description**                                                                                    |
-| ------------------------------------------------------- | -------------------------------------------------------------------------------------------------- |
-| [alternativeDocumentInput.js][alternativedocumentinput] | uses object document inputs with attached metadata rather than simple strings for more flexibility |
-| [analyzeSentiment.js][analyzesentiment]                 | analyzes the sentiment of a piece of text                                                          |
-| [detectLanguage.js][detectlanguages]                    | detects the language of a piece of text                                                            |
-| [extractKeyPhrases.js][extractkeyphrases]               | extracts key phrases from a piece of text                                                          |
-| [recognizeLinkedEntities.js][recognizelinkedentities]   | detects entities that have links to more information on the web                                    |
-| [authenticationMethods.js][authenticationmethods]       | authenticates a service client using both Azure Active Directory and an API key                    |
-| [recognizeEntities.js][recognizeentities]               | detects entites in a piece of text and prints them along with the entity type                      |
+| **File Name**                                                             | **Description**                                                                                    |
+| ------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------- |
+| [alternativeDocumentInput.js][alternativedocumentinput]                   | uses object document inputs with attached metadata rather than simple strings for more flexibility |
+| [analyzeSentiment.js][analyzesentiment]                                   | analyzes the sentiment of a piece of text                                                          |
+| [analyzeSentimentWithOpinionMining.js][analyzesentimentwithopinionmining] | analyzes the sentiment of a piece of text and mine opinions about different aspects                |
+| [detectLanguage.js][detectlanguages]                                      | detects the language of a piece of text                                                            |
+| [extractKeyPhrases.js][extractkeyphrases]                                 | extracts key phrases from a piece of text                                                          |
+| [recognizeLinkedEntities.js][recognizelinkedentities]                     | detects entities that have links to more information on the web                                    |
+| [authenticationMethods.js][authenticationmethods]                         | authenticates a service client using both Azure Active Directory and an API key                    |
+| [recognizeEntities.js][recognizeentities]                                 | detects entites in a piece of text and prints them along with the entity type                      |
 
 ## Prerequisites
 

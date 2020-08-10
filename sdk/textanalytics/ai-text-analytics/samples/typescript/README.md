@@ -13,15 +13,16 @@ urlFragment: ai-text-analytics-typescript
 
 These sample programs show how to use the TypeScript client libraries for Azure Cognitive Services Text Analytics in some common scenarios.
 
-| **File Name**                                           | **Description**                                                                                    |
-| ------------------------------------------------------- | -------------------------------------------------------------------------------------------------- |
-| [alternativeDocumentInput.ts][alternativedocumentinput] | uses object document inputs with attached metadata rather than simple strings for more flexibility |
-| [analyzeSentiment.ts][analyzesentiment]                 | analyzes the sentiment of a piece of text                                                          |
-| [detectLanguage.ts][detectlanguages]                    | detects the language of a piece of text                                                            |
-| [extractKeyPhrases.ts][extractkeyphrases]               | extracts key phrases from a piece of text                                                          |
-| [recognizeLinkedEntities.ts][recognizelinkedentities]   | detects entities that have links to more information on the web                                    |
-| [authenticationMethods.ts][authenticationmethods]       | authenticates a service client using both Azure Active Directory and an API key                    |
-| [recognizeEntities.ts][recognizeentities]               | detects entites in a piece of text and prints them along with the entity type                      |
+| **File Name**                                                             | **Description**                                                                                    |
+| ------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------- |
+| [alternativeDocumentInput.ts][alternativedocumentinput]                   | uses object document inputs with attached metadata rather than simple strings for more flexibility |
+| [analyzeSentiment.ts][analyzesentiment]                                   | analyzes the sentiment of a piece of text                                                          |
+| [analyzeSentimentWithOpinionMining.ts][analyzesentimentwithopinionmining] | analyzes the sentiment of a piece of text and mine opinions about different aspects                |
+| [detectLanguage.ts][detectlanguages]                                      | detects the language of a piece of text                                                            |
+| [extractKeyPhrases.ts][extractkeyphrases]                                 | extracts key phrases from a piece of text                                                          |
+| [recognizeLinkedEntities.ts][recognizelinkedentities]                     | detects entities that have links to more information on the web                                    |
+| [authenticationMethods.ts][authenticationmethods]                         | authenticates a service client using both Azure Active Directory and an API key                    |
+| [recognizeEntities.ts][recognizeentities]                                 | detects entites in a piece of text and prints them along with the entity type                      |
 
 ## Prerequisites
 
