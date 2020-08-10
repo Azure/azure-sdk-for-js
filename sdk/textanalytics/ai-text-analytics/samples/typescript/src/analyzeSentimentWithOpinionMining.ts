@@ -23,31 +23,32 @@ const endpoint = process.env["ENDPOINT"] || "<cognitive services endpoint>";
 const apiKey = process.env["TEXT_ANALYTICS_API_KEY"] || "<api key>";
 
 const documents = [
-    {
-        text: "The food and service were unacceptable, but the concierge were nice",
-        id: "0",
-        language: "en"
-    },
-    {
-        text: "The rooms were beautiful but dirty. The AC was good and quiet, but the elevator was broken",
-        id: "1",
-        language: "en"
-    },
-    {
-        text: "The breakfast was good, but the toilet was smelly",
-        id: "2",
-        language: "en"
-    },
-    {
-        text: "Loved this hotel - good breakfast - nice shuttle service.",
-        id: "3",
-        language: "en"
-    },
-    {
-        text: "I had a great unobstructed view of the Microsoft campus",
-        id: "4",
-        language: "en"
-    }
+  {
+    text: "The food and service were unacceptable, but the concierge were nice",
+    id: "0",
+    language: "en"
+  },
+  {
+    text:
+      "The rooms were beautiful but dirty. The AC was good and quiet, but the elevator was broken",
+    id: "1",
+    language: "en"
+  },
+  {
+    text: "The breakfast was good, but the toilet was smelly",
+    id: "2",
+    language: "en"
+  },
+  {
+    text: "Loved this hotel - good breakfast - nice shuttle service.",
+    id: "3",
+    language: "en"
+  },
+  {
+    text: "I had a great unobstructed view of the Microsoft campus",
+    id: "4",
+    language: "en"
+  }
 ];
 
 export async function main() {
@@ -66,20 +67,46 @@ export async function main() {
       console.log("  Sentiment confidence scores:", result.confidenceScores);
       console.log("  Sentences");
       for (const { sentiment, confidenceScores, minedOpinions } of result.sentences) {
-        console.log(`  - Sentence sentiment: ${sentiment}`);
-        console.log("    Confidence scores:", confidenceScores);
-        console.log("    Mined opinions");
-        for (const { aspect, opinions } of minedOpinions!) {
-            console.log(`      - Aspect text: ${aspect.text}`);
-            console.log(`        Aspect sentiment: ${aspect.sentiment}`);
-            console.log("        Aspect confidence scores:", aspect.confidenceScores);
-            console.log("        Aspect opinions");
-            for (const { text, sentiment } of opinions) {
-                console.log(`        - Text: ${text}`);
-                console.log(`          Sentiment: ${sentiment}`);
-            }
-        }
-      }
+                                                                                       console.log(
+                                                                                         `  - Sentence sentiment: ${sentiment}`
+                                                                                       );
+                                                                                       console.log(
+                                                                                         "    Confidence scores:",
+                                                                                         confidenceScores
+                                                                                       );
+                                                                                       console.log(
+                                                                                         "    Mined opinions"
+                                                                                       );
+                                                                                       for (const {
+                                                                                         aspect,
+                                                                                         opinions
+                                                                                       } of minedOpinions!) {
+                                                                                         console.log(`      - Aspect text: ${aspect.text}`
+                                                                                         );
+                                                                                         console.log(
+                                                                                           `        Aspect sentiment: ${aspect.sentiment}`
+                                                                                         );
+                                                                                         console.log(
+                                                                                           "        Aspect confidence scores:",
+                                                                                           aspect.confidenceScores
+                                                                                         );
+            console.log(
+                                                                                           "        Aspect opinions"
+                                                                                         );
+                                                                                         for (const {
+                                                                                           text,
+                                                                                           sentiment
+                                                                                         } of opinions) {
+                                                                                                                                                                        console.log(
+                                                                                             
+                                                                                           `        - Text: ${text}`
+                                                                                           );
+                                                                                           console.log(
+                                                                                             `          Sentiment: ${sentiment}`
+                                                                                           );
+                                                                                         }
+                                                                                       }
+                                                                                     }
     } else {
       console.error(`  Error: ${result.error}`);
     }
