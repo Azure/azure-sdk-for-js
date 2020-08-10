@@ -19,23 +19,19 @@ Developers using Visual Studio Code can use the [Azure Account Extension](https:
 
 To authenticate in Visual Studio Code, first ensure the [Azure Account Extension](https://marketplace.visualstudio.com/items?itemName=ms-vscode.azure-account) is installed. Once the extension is installed, press `F1` to open the command palette and run the `Azure: Sign In` command.
 
-![Visual Studio Code Account Sign In](./images/VsCodeLoginCommand.png)
+![Visual Studio Code Account Sign In](https://raw.githubusercontent.com/Azure/azure-sdk-for-js/master/sdk/identity/identity/images/VsCodeLoginCommand.png)
 
 #### Authenticating via the Azure CLI
 
-Developers coding outside of an IDE can also use the [Azure CLI][azure_cli] to authenticate. Applications using the `DefaultAzureCredential` or the `AzureCliCredential` can then use this account to authenticate calls in their application when running locally.
+Applications using the `AzureCliCredential`, rather directly or via the `DefaultAzureCredential`, can use the Azure CLI account to authenticate calls in the application when running locally.
 
 To authenticate with the [Azure CLI][azure_cli] users can run the command `az login`. For users running on a system with a default web browser the azure cli will launch the browser to authenticate the user.
 
-![Azure CLI Account Sign In](./images/AzureCliLogin.png)
+![Azure CLI Account Sign In](https://raw.githubusercontent.com/Azure/azure-sdk-for-js/master/sdk/identity/identity/images/AzureCliLogin.png)
 
 For systems without a default web browser, the `az login` command will use the device code authentication flow. The user can also force the Azure ClI to use the device code flow rather than launching a browser by specifying the `--use-device-code` argument.
 
-![Azure CLI Account Device Code Sign In](./images/AzureCliLoginDeviceCode.png)
-
-### Authenticating the development environment
-
-When debugging and executing code locally it is typical for a developer to use their own account for authenticating calls to Azure services. There are several developer tools which can be used to perform this authentication in your development environment.
+![Azure CLI Account Device Code Sign In](https://raw.githubusercontent.com/Azure/azure-sdk-for-js/master/sdk/identity/identity/images/AzureCliLoginDeviceCode.png)
 
 ### Install the package
 
@@ -61,7 +57,7 @@ See [Credential Classes](#credential-classes).
 
 The `DefaultAzureCredential` is appropriate for most scenarios where the application is intended to ultimately be run in the Azure Cloud. This is because the `DefaultAzureCredential` combines credentials commonly used to authenticate when deployed, with credentials used to authenticate in a development environment. The `DefaultAzureCredential` will attempt to authenticate via the following mechanisms in order.
 
-![DefaultAzureCredential authentication flow](./images/DefaultAzureCredentialAuthenticationFlow.png)
+![DefaultAzureCredential authentication flow](https://raw.githubusercontent.com/Azure/azure-sdk-for-js/master/sdk/identity/identity/images/DefaultAzureCredentialAuthenticationFlow.png)
 
 - Environment - The `DefaultAzureCredential` will read account information specified via [environment variables](#Environment-variables) and use it to authenticate.
 - Managed Identity - If the application is deployed to an Azure host with Managed Identity enabled, the `DefaultAzureCredential` will authenticate with that account.
@@ -159,6 +155,7 @@ const client = new KeyClient(vaultUrl, credentialChain);
 |`AuthorizationCodeCredential`|authenticate a user with a previously obtained authorization code
 
 ### Authenticating via Development Tools
+
 
 |credential  | usage
 |-|-
