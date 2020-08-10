@@ -19,11 +19,12 @@ import { createIndex, populateIndex } from "../utils/setupIndex";
 import { delay } from "@azure/core-http";
 
 const TEST_INDEX_NAME = "hotel-live-test";
+const WAIT_TIME = 2000;
 
 describe("SearchClient", function() {
   let recorder: Recorder;
   let searchClient: SearchClient<Hotel>;
-  let indexClient: SearchIndexClient;
+  let indexClient: SearchIndexClient;  
 
   this.timeout(30000);
 
@@ -72,22 +73,20 @@ describe("SearchClient", function() {
 
   describe("#search", function() {
     it("returns the correct search result", async function() {
-      const options: any = {
+      const searchResults = await searchClient.search("budget", {
         skip: 0,
         top: 5,
         includeTotalCount: true
-      };
-      const searchResults = await searchClient.search("budget", options);
+      });
       assert.equal(searchResults.count, 6);
     });
 
     it("returns zero results for invalid query", async function() {
-      const options: any = {
+      const searchResults = await searchClient.search("garbxyz", {
         skip: 0,
         top: 5,
         includeTotalCount: true
-      };
-      const searchResults = await searchClient.search("garbxyz", options);
+      });
       assert.equal(searchResults.count, 0);
     });
   });
@@ -137,14 +136,14 @@ describe("SearchClient", function() {
     it("delete a document by documents", async function() {
       const getDocumentResult = await searchClient.getDocument("8");
       await searchClient.deleteDocuments([getDocumentResult]);
-      await delay(2000);
+      await delay(WAIT_TIME);
       const documentCount = await searchClient.getDocumentsCount();
       assert.equal(documentCount, 9);
     });
 
     it("delete a document by key/keyNames", async function() {
       await searchClient.deleteDocuments("hotelId", ["9", "10"]);
-      await delay(2000);
+      await delay(WAIT_TIME);
       const documentCount = await searchClient.getDocumentsCount();
       assert.equal(documentCount, 8);
     });
@@ -155,7 +154,7 @@ describe("SearchClient", function() {
       let getDocumentResult = await searchClient.getDocument("6");
       getDocumentResult.description = "Modified Description";
       await searchClient.mergeOrUploadDocuments([getDocumentResult]);
-      await delay(2000);
+      await delay(WAIT_TIME);
       getDocumentResult = await searchClient.getDocument("6");
       assert.equal(getDocumentResult.description, "Modified Description");
     });
@@ -167,7 +166,7 @@ describe("SearchClient", function() {
         lastRenovationDate: null
       };
       await searchClient.mergeOrUploadDocuments([document]);
-      await delay(2000);
+      await delay(WAIT_TIME);
       const documentCount = await searchClient.getDocumentsCount();
       assert.equal(documentCount, 11);
     });
@@ -178,7 +177,7 @@ describe("SearchClient", function() {
       let getDocumentResult = await searchClient.getDocument("6");
       getDocumentResult.description = "Modified Description";
       await searchClient.mergeDocuments([getDocumentResult]);
-      await delay(2000);
+      await delay(WAIT_TIME);
       getDocumentResult = await searchClient.getDocument("6");
       assert.equal(getDocumentResult.description, "Modified Description");
     });
@@ -199,7 +198,7 @@ describe("SearchClient", function() {
         }
       ];
       await searchClient.uploadDocuments(documents);
-      await delay(2000);
+      await delay(WAIT_TIME);
       const documentCount = await searchClient.getDocumentsCount();
       assert.equal(documentCount, 12);
     });
@@ -207,62 +206,60 @@ describe("SearchClient", function() {
 
   describe("#indexDocuments", function() {
     it("upload a new document", async function() {
-      const batch: IndexDocumentsBatch<Hotel> = new IndexDocumentsBatch<Hotel>([
+      const batch: IndexDocumentsBatch<Hotel> = new IndexDocumentsBatch<Hotel>();
+      batch.upload([
         {
-          __actionType: "upload",
           hotelId: "11",
           description: "New Hotel Description",
           lastRenovationDate: null
         }
       ]);
       await searchClient.indexDocuments(batch);
-      await delay(2000);
+      await delay(WAIT_TIME);
       const documentCount = await searchClient.getDocumentsCount();
       assert.equal(documentCount, 11);
     });
 
     it("deletes existing documents", async function() {
-      const batch: IndexDocumentsBatch<Hotel> = new IndexDocumentsBatch<Hotel>([
+      const batch: IndexDocumentsBatch<Hotel> = new IndexDocumentsBatch<Hotel>();
+      batch.delete([
         {
-          __actionType: "delete",
           hotelId: "9"
         },
         {
-          __actionType: "delete",
           hotelId: "10"
         }
       ]);
 
       await searchClient.indexDocuments(batch);
-      await delay(2000);
+      await delay(WAIT_TIME);
       const documentCount = await searchClient.getDocumentsCount();
       assert.equal(documentCount, 8);
     });
 
     it("merges an existing document", async function() {
-      const batch: IndexDocumentsBatch<Hotel> = new IndexDocumentsBatch<Hotel>([
+      const batch: IndexDocumentsBatch<Hotel> = new IndexDocumentsBatch<Hotel>();
+      batch.merge([
         {
-          __actionType: "merge",
           hotelId: "8",
           description: "Modified Description"
         }
       ]);
 
       await searchClient.indexDocuments(batch);
-      await delay(2000);
+      await delay(WAIT_TIME);
       const getDocumentResult = await searchClient.getDocument("8");
       assert.equal(getDocumentResult.description, "Modified Description");
     });
 
     it("merge/upload documents", async function() {
-      const batch: IndexDocumentsBatch<Hotel> = new IndexDocumentsBatch<Hotel>([
+      const batch: IndexDocumentsBatch<Hotel> = new IndexDocumentsBatch<Hotel>();
+      batch.mergeOrUpload([
         {
-          __actionType: "mergeOrUpload",
           hotelId: "8",
           description: "Modified Description"
         },
         {
-          __actionType: "mergeOrUpload",
           hotelId: "11",
           description: "New Hotel Description",
           lastRenovationDate: null
@@ -270,7 +267,7 @@ describe("SearchClient", function() {
       ]);
 
       await searchClient.indexDocuments(batch);
-      await delay(2000);
+      await delay(WAIT_TIME);
       const getDocumentResult = await searchClient.getDocument("8");
       assert.equal(getDocumentResult.description, "Modified Description");
       const documentCount = await searchClient.getDocumentsCount();
