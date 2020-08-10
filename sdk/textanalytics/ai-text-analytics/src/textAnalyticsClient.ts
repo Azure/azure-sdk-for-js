@@ -92,10 +92,10 @@ export type RecognizeCategorizedEntitiesOptions = TextAnalyticsOperationOptions;
  */
 export interface AnalyzeSentimentOptions extends TextAnalyticsOperationOptions {
   /**
-   * Whether to mine the opinions of a sentence and conduct more  granular 
-   * analysis around the aspects of a product or service (also known as 
-   * aspect-based sentiment analysis). If set to true, the returned 
-   * `SentenceSentiment` objects will have property `mined_opinions` containing 
+   * Whether to mine the opinions of a sentence and conduct more  granular
+   * analysis around the aspects of a product or service (also known as
+   * aspect-based sentiment analysis). If set to true, the returned
+   * `SentenceSentiment` objects will have property `mined_opinions` containing
    * the result of this analysis. Only available for API version v3.1-preview.1.
    * More information about the feature can be found here: https://docs.microsoft.com/en-us/azure/cognitive-services/text-analytics/how-tos/text-analytics-how-to-sentiment-analysis?tabs=version-3-1#opinion-mining
    */
