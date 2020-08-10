@@ -123,15 +123,13 @@ describe("SearchClient", function() {
     });
 
     it("throws error for invalid getDocument Value", async function() {
-      let getDocumentResult;
+      let errorThrown = false;
       try {
-        getDocumentResult = await searchClient.getDocument("garbxyz");
+         await searchClient.getDocument("garbxyz");
       } catch (ex) {
-        assert.equal(true, true);
-        return;
+        errorThrown = true;
       }
-      assert.equal(false, true);
-      assert.equal(getDocumentResult.hotelId, "garbxyz");
+      assert.equal(errorThrown, true, "Expected getDocument to fail with an exception");
     });
   });
 
