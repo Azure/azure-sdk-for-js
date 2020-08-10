@@ -2,7 +2,7 @@
 
 ## 4.1.0 (2020-08-11)
 
-- Added the optional `serviceVersion` property to the `CertificateClient` optional parameters.
+- Added the optional `serviceVersion` property to the `CertificateClient` optional parameters to control the version of the Key Vault service being used by the client. 
     - It defaults to the latest supported API version, which currently is `7.1`.
     - Other supported service version at the moment is `7.0`.
     - If you were using `4.1.0-preview.1` version of this package, then this was previously named `apiVersion`.
