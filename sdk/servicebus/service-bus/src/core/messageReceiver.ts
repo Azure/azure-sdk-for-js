@@ -8,16 +8,22 @@ import {
   RetryOptions,
   translate
 } from "@azure/core-amqp";
-import { AmqpError, EventContext, OnAmqpEvent, Receiver, ReceiverOptions } from "rhea-promise";
+import {
+  AmqpError,
+  EventContext,
+  OnAmqpEvent,
+  Receiver,
+  ReceiverOptions,
+  ReceiverOptionsWithSession
+} from "rhea-promise";
 import * as log from "../log";
 import { LinkEntity } from "./linkEntity";
 import { ClientEntityContext } from "../clientEntityContext";
 import { DispositionType, InternalReceiveMode, ServiceBusMessageImpl } from "../serviceBusMessage";
-import { getUniqueName, StandardAbortMessage } from "../util/utils";
+import { getUniqueName } from "../util/utils";
 import { MessageHandlerOptions } from "../models";
 import { DispositionStatusOptions } from "./managementClient";
 import { AbortSignalLike } from "@azure/core-http";
-import { AbortError } from "@azure/abort-controller";
 import { onMessageSettled, DeferredPromiseAndTimer } from "./shared";
 
 /**
@@ -93,7 +99,7 @@ export interface OnError {
  * Describes the MessageReceiver that will receive messages from ServiceBus.
  * @class MessageReceiver
  */
-export class MessageReceiver extends LinkEntity {
+export class MessageReceiver extends LinkEntity<Receiver> {
   /**
    * @property {string} receiverType The type of receiver: "batching" or "streaming".
    */
@@ -122,10 +128,6 @@ export class MessageReceiver extends LinkEntity {
    */
   autoRenewLock: boolean;
   /**
-   * @property {Receiver} [_receiver] The AMQP receiver link.
-   */
-  protected _receiver?: Receiver;
-  /**
    * @property {Map<number, Promise<any>>} _deliveryDispositionMap Maintains a map of deliveries that
    * are being actively disposed. It acts as a store for correlating the responses received for
    * active dispositions.
@@ -144,10 +146,6 @@ export class MessageReceiver extends LinkEntity {
    * inside _onAmqpError.
    */
   protected _onError?: OnError;
-  /**
-   * @property {boolean} wasCloseInitiated Denotes if receiver was explicitly closed by user.
-   */
-  protected wasCloseInitiated?: boolean;
   /**
    * @property {Map<string, Function>} _messageRenewLockTimers Maintains a map of messages for which
    * the lock is automatically renewed.
@@ -178,7 +176,6 @@ export class MessageReceiver extends LinkEntity {
     });
 
     if (!options) options = {};
-    this.wasCloseInitiated = false;
     this.receiverType = receiverType;
     this.receiveMode = options.receiveMode || InternalReceiveMode.peekLock;
 
@@ -249,91 +246,17 @@ export class MessageReceiver extends LinkEntity {
    * @returns {Promise<void>} Promise<void>.
    */
   protected async _init(options: ReceiverOptions, abortSignal?: AbortSignalLike): Promise<void> {
-    const checkAborted = (): void => {
-      if (abortSignal?.aborted) {
-        throw new AbortError(StandardAbortMessage);
-      }
-    };
-
-    const connectionId = this._context.namespace.connectionId;
-
-    checkAborted();
-
     try {
-      if (!this.isOpen() && !this.isConnecting) {
-        if (this.wasCloseInitiated) {
-          // in track 1 we'll maintain backwards compatible behavior for the codebase and
-          // just treat this as a no-op. There are cases, like in onDetached, where throwing
-          // an error here could have unintended consequences.
-          return;
-        }
+      await this.initLink(options, abortSignal);
 
-        log.error(
-          "[%s] The receiver '%s' with address '%s' is not open and is not currently " +
-            "establishing itself. Hence let's try to connect.",
-          connectionId,
-          this.name,
-          this.address
-        );
-
-        if (options && options.name) {
-          this.name = options.name;
-        }
-
-        this.isConnecting = true;
-
-        await this._negotiateClaim();
-        checkAborted();
-
-        log.error(
-          "[%s] Trying to create receiver '%s' with options %O",
-          connectionId,
-          this.name,
-          options
-        );
-
-        this._receiver = await this._context.namespace.connection.createReceiver(options);
-
-        this.isConnecting = false;
-        checkAborted();
-
-        log.error(
-          "[%s] Receiver '%s' with address '%s' has established itself.",
-          connectionId,
-          this.name,
-          this.address
-        );
-        log[this.receiverType](
-          "Promise to create the receiver resolved. " + "Created receiver with name: ",
-          this.name
-        );
-        log[this.receiverType](
-          "[%s] Receiver '%s' created with receiver options: %O",
-          connectionId,
-          this.name,
-          options
-        );
-        // It is possible for someone to close the receiver and then start it again.
-        // Thus make sure that the receiver is present in the client cache.
-        if (this.receiverType === ReceiverType.streaming && !this._context.streamingReceiver) {
-          this._context.streamingReceiver = this as any;
-        } else if (this.receiverType === ReceiverType.batching && !this._context.batchingReceiver) {
-          this._context.batchingReceiver = this as any;
-        }
-        this._ensureTokenRenewal();
-      } else {
-        log.error(
-          "[%s] The receiver '%s' with address '%s' is open -> %s and is connecting " +
-            "-> %s. Hence not reconnecting.",
-          connectionId,
-          this.name,
-          this.address,
-          this.isOpen(),
-          this.isConnecting
-        );
+      // It is possible for someone to close the receiver and then start it again.
+      // Thus make sure that the receiver is present in the client cache.
+      if (this.receiverType === ReceiverType.streaming && !this._context.streamingReceiver) {
+        this._context.streamingReceiver = this as any;
+      } else if (this.receiverType === ReceiverType.batching && !this._context.batchingReceiver) {
+        this._context.batchingReceiver = this as any;
       }
     } catch (err) {
-      this.isConnecting = false;
       err = translate(err);
       log.error(
         "[%s] An error occured while creating the receiver '%s': %O",
@@ -351,8 +274,14 @@ export class MessageReceiver extends LinkEntity {
     }
   }
 
+  protected async createRheaLink(
+    options: ReceiverOptionsWithSession,
+    _abortSignal?: AbortSignalLike
+  ): Promise<Receiver> {
+    return this._context.namespace.connection.createReceiver(options);
+  }
+
   protected _deleteFromCache(): void {
-    this._receiver = undefined;
     if (this.receiverType === ReceiverType.streaming) {
       this._context.streamingReceiver = undefined;
     } else if (this.receiverType === ReceiverType.batching) {
@@ -370,7 +299,6 @@ export class MessageReceiver extends LinkEntity {
    * @return {Promise<void>} Promise<void>.
    */
   async close(): Promise<void> {
-    this.wasCloseInitiated = true;
     log.receiver(
       "[%s] Closing the [%s]Receiver for entity '%s'.",
       this._context.namespace.connectionId,
@@ -378,11 +306,8 @@ export class MessageReceiver extends LinkEntity {
       this._context.entityPath
     );
     this._clearAllMessageLockRenewTimers();
-    if (this._receiver) {
-      const receiverLink = this._receiver;
-      this._deleteFromCache();
-      await this._closeLink(receiverLink);
-    }
+    this._deleteFromCache();
+    await super._closeLink();
   }
 
   /**
@@ -453,21 +378,5 @@ export class MessageReceiver extends LinkEntity {
         delivery.reject(error);
       }
     });
-  }
-
-  /**
-   * Determines whether the AMQP receiver link is open. If open then returns true else returns false.
-   * @return {boolean} boolean
-   */
-  isOpen(): boolean {
-    const result: boolean = this._receiver! && this._receiver!.isOpen();
-    log.error(
-      "[%s] Receiver '%s' with address '%s' is open? -> %s",
-      this._context.namespace.connectionId,
-      this.name,
-      this.address,
-      result
-    );
-    return result;
   }
 }

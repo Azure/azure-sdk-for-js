@@ -97,7 +97,7 @@ describe("AbortSignal", () => {
       sender["_retryOptions"].maxRetries = 1;
       sender["_retryOptions"].retryDelayInMs = 1;
 
-      sender["_sender"] = {
+      sender["_link"] = {
         credit: 999,
         isOpen: () => false,
         session: {
@@ -259,7 +259,7 @@ describe("AbortSignal", () => {
         assert.equal(err.name, "AbortError");
       }
 
-      assert.isFalse(messageReceiver.isConnecting);
+      assert.isFalse(messageReceiver["_isConnecting"]);
     });
 
     it("...after createReceiver", async () => {

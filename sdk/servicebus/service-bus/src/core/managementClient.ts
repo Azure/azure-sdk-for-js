@@ -32,7 +32,7 @@ import {
   getMessagePropertyTypeMismatchError,
   toAmqpMessage
 } from "../serviceBusMessage";
-import { LinkEntity } from "./linkEntity";
+import { LinkEntity, RequestResponseLinkOptions } from "./linkEntity";
 import * as log from "../log";
 import { InternalReceiveMode, fromAmqpMessage } from "../serviceBusMessage";
 import { toBuffer } from "../util/utils";
@@ -176,7 +176,7 @@ export interface ManagementClientOptions {
  * Describes the ServiceBus Management Client that talks
  * to the $management endpoint over AMQP connection.
  */
-export class ManagementClient extends LinkEntity {
+export class ManagementClient extends LinkEntity<RequestResponseLink> {
   readonly managementLock: string = `${Constants.managementRequestKey}-${generate_uuid()}`;
   /**
    * @property {string} entityPath - The name/path of the entity (queue/topic/subscription name)
@@ -187,10 +187,6 @@ export class ManagementClient extends LinkEntity {
    * @property {string} replyTo The reply to Guid for the management client.
    */
   replyTo: string = generate_uuid();
-  /**
-   * @property $management sender, receiver on the same session.
-   */
-  private _mgmtReqResLink?: RequestResponseLink;
   /**
    * @property _lastPeekedSequenceNumber Provides the sequence number of the last peeked message.
    */
@@ -243,17 +239,19 @@ export class ManagementClient extends LinkEntity {
           sropt,
           rxopt
         );
-        this._mgmtReqResLink = await RequestResponseLink.create(
-          this._context.namespace.connection,
-          sropt,
-          rxopt
-        );
-        this._mgmtReqResLink!.sender.on(SenderEvents.senderError, (context: EventContext) => {
+
+        await this.initLink({
+          name: "mgmt",
+          senderOptions: sropt,
+          receiverOptions: rxopt
+        });
+
+        this.link!.sender.on(SenderEvents.senderError, (context: EventContext) => {
           const id = context.connection.options.id;
           const ehError = translate(context.sender!.error!);
           log.error("[%s] An error occurred on the $management sender link.. %O", id, ehError);
         });
-        this._mgmtReqResLink!.receiver.on(ReceiverEvents.receiverError, (context: EventContext) => {
+        this.link!.receiver.on(ReceiverEvents.receiverError, (context: EventContext) => {
           const id = context.connection.options.id;
           const ehError = translate(context.receiver!.error!);
           log.error("[%s] An error occurred on the $management receiver link.. %O", id, ehError);
@@ -261,8 +259,8 @@ export class ManagementClient extends LinkEntity {
         log.mgmt(
           "[%s] Created sender '%s' and receiver '%s' links for $management endpoint.",
           this._context.namespace.connectionId,
-          this._mgmtReqResLink!.sender.name,
-          this._mgmtReqResLink!.receiver.name
+          this.link!.sender.name,
+          this.link!.receiver.name
         );
         this._ensureTokenRenewal();
       }
@@ -277,8 +275,16 @@ export class ManagementClient extends LinkEntity {
     }
   }
 
+  protected createRheaLink(options?: RequestResponseLinkOptions): Promise<RequestResponseLink> {
+    return RequestResponseLink.create(
+      this._context.namespace.connection,
+      options!.senderOptions,
+      options!.receiverOptions
+    );
+  }
+
   private _isMgmtRequestResponseLinkOpen(): boolean {
-    return this._mgmtReqResLink! && this._mgmtReqResLink!.isOpen();
+    return this.link! && this.link!.isOpen();
   }
 
   /**
@@ -353,7 +359,7 @@ export class ManagementClient extends LinkEntity {
 
     try {
       if (!request.message_id) request.message_id = generate_uuid();
-      return await this._mgmtReqResLink!.sendRequest(request, sendRequestOptions);
+      return await this.link!.sendRequest(request, sendRequestOptions);
     } catch (err) {
       err = translate(err);
       log.warning(
@@ -401,9 +407,7 @@ export class ManagementClient extends LinkEntity {
       // false without ever having cleared the timeout otherwise.
       clearTimeout(this._tokenRenewalTimer as NodeJS.Timer);
       if (this._isMgmtRequestResponseLinkOpen()) {
-        const mgmtLink = this._mgmtReqResLink;
-        this._mgmtReqResLink = undefined;
-        await mgmtLink!.close();
+        await this._closeLink();
         log.mgmt("Successfully closed the management session.");
       }
     } catch (err) {

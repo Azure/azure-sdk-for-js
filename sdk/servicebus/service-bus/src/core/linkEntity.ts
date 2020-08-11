@@ -6,12 +6,21 @@ import {
   Constants,
   SharedKeyCredential,
   TokenType,
-  defaultLock
+  defaultLock,
+  RequestResponseLink
 } from "@azure/core-amqp";
 import { ClientEntityContext } from "../clientEntityContext";
 import * as log from "../log";
-import { AwaitableSender, Receiver } from "rhea-promise";
-import { getUniqueName } from "../util/utils";
+import {
+  AwaitableSender,
+  AwaitableSenderOptions,
+  Receiver,
+  ReceiverOptions,
+  ReceiverOptionsWithSession,
+  SenderOptions
+} from "rhea-promise";
+import { getUniqueName, StandardAbortMessage } from "../util/utils";
+import { AbortError, AbortSignalLike } from "@azure/abort-controller";
 
 /**
  * @internal
@@ -29,13 +38,29 @@ export interface LinkEntityOptions {
   audience?: string;
 }
 
+export interface RequestResponseLinkOptions {
+  senderOptions: SenderOptions;
+  receiverOptions: ReceiverOptions;
+  name: string;
+}
+
+type LinkOptionsT<
+  LinkT extends Receiver | AwaitableSender | RequestResponseLink
+> = LinkT extends Receiver
+  ? ReceiverOptionsWithSession
+  : LinkT extends AwaitableSender
+  ? AwaitableSenderOptions
+  : LinkT extends RequestResponseLink
+  ? RequestResponseLinkOptions
+  : never;
+
 /**
  * @internal
  * @ignore
  * Describes the base class for entities like MessageSender, MessageReceiver and Management client.
  * @class ClientEntity
  */
-export class LinkEntity {
+export class LinkEntity<LinkT extends Receiver | AwaitableSender | RequestResponseLink> {
   /**
    * @property {string} id The unique name for the entity in the format:
    * `${name of the entity}-${guid}`.
@@ -73,11 +98,6 @@ export class LinkEntity {
    */
   audience: string;
   /**
-   * @property {boolean} isConnecting Indicates whether the link is in the process of connecting
-   * (establishing) itself. Default value: `false`.
-   */
-  isConnecting: boolean = false;
-  /**
    * @property {ClientEntityContext} _context Provides relevant information about the amqp connection,
    * cbs and $management sessions, token provider, sender and receivers.
    */
@@ -91,6 +111,17 @@ export class LinkEntity {
    * @property _tokenTimeout Indicates token timeout
    */
   protected _tokenTimeout?: number;
+
+  /**
+   * The actual rhea link (of type Receiver or AwaitableSender)
+   */
+  private _link?: LinkT;
+
+  /**
+   * The log prefix for any log messages.
+   */
+  private _logPrefix: string;
+
   /**
    * Creates a new ClientEntity instance.
    * @constructor
@@ -103,6 +134,7 @@ export class LinkEntity {
     this.address = options.address || "";
     this.audience = options.audience || "";
     this.name = getUniqueName(name);
+    this._logPrefix = `[${context.namespace.connection.id}|r:${this.name}|a:${this.address}]`;
   }
 
   /**
@@ -230,13 +262,18 @@ export class LinkEntity {
    * @param {Sender | Receiver} [link] The Sender or Receiver link that needs to be closed and
    * removed.
    */
-  protected async _closeLink(link?: AwaitableSender | Receiver): Promise<void> {
+  async _closeLink(): Promise<void> {
+    this._wasCloseInitiated = true;
+
     clearTimeout(this._tokenRenewalTimer as NodeJS.Timer);
-    if (link) {
+
+    if (this._link) {
       try {
         // This should take care of closing the link and it's underlying session. This should also
         // remove them from the internal map.
-        await link.close();
+        await this._link.close();
+        this._link = undefined;
+
         log.link(
           "[%s] %s '%s' with address '%s' closed.",
           this._context.namespace.connectionId,
@@ -267,5 +304,107 @@ export class LinkEntity {
       result = (this as any).constructor.name;
     }
     return result;
+  }
+
+  /**
+   * Determines whether the AMQP link is open. If open then returns true else returns false.
+   * @return {boolean} boolean
+   */
+  isOpen(): boolean {
+    const result: boolean = this._link ? this._link.isOpen() : false;
+    log.error(`${this._logPrefix} is open? ${result}`);
+    return result;
+  }
+
+  /**
+   * Indicates that closeLink() has been called on this link.
+   */
+  private _wasCloseInitiated: boolean = false;
+
+  protected get wasCloseInitiated(): boolean {
+    return this._wasCloseInitiated;
+  }
+
+  /**
+   * Indicates that a link initialization is in process.
+   */
+  public get isConnecting(): boolean {
+    return this._isConnecting;
+  }
+
+  private _isConnecting: boolean = false;
+
+  /**
+   * NOTE: This method should be implemented by any child classes to actually create the underlying
+   * Rhea link (AwaitableSender vs Receiver)
+   *
+   * @param _options
+   */
+  protected createRheaLink(_options?: LinkOptionsT<LinkT>): Promise<LinkT> {
+    throw new Error("UNIMPLEMENTED");
+  }
+
+  /**
+   * Initializes this LinkEntity as a receiver link, updating this._receiver
+   * with a valid rhea Receiver if one is not already set or if it's not open.
+   *
+   * @param abortSignal
+   * @param options
+   * @returns undefined if the link is already open or the object has been close()'d.
+   */
+  async initLink(options: LinkOptionsT<LinkT>, abortSignal?: AbortSignalLike): Promise<void> {
+    const checkAborted = (): void => {
+      if (abortSignal?.aborted) {
+        throw new AbortError(StandardAbortMessage);
+      }
+    };
+
+    const connectionId = this._context.namespace.connectionId;
+    checkAborted();
+
+    if (options.name) {
+      this.name = options.name;
+      this._logPrefix = `[${connectionId}|r:${this.name}|a:${this.address}]`;
+    }
+
+    const logPrefix = `[${connectionId}|r:${this.name}|a:${this.address}]`;
+
+    if (this._wasCloseInitiated) {
+      log.error(`${logPrefix} Link has been closed by user. Not reopening.`);
+      return;
+    }
+
+    if (this.isOpen()) {
+      log.error(`${logPrefix} Link is already open. Returning.`);
+      return;
+    }
+
+    if (this.isConnecting) {
+      log.error(`${logPrefix} Link is currently opening. Returning.`);
+      return;
+    }
+
+    log.error(`${logPrefix} Is not open and is not currently connecting. Opening.`);
+
+    this._isConnecting = true;
+
+    await this._negotiateClaim();
+    checkAborted();
+
+    log.error(`${logPrefix} Creating with options %O`, options);
+
+    this._link = await this.createRheaLink(options);
+    this._isConnecting = false;
+
+    if (abortSignal?.aborted) {
+      log.error(`${logPrefix} created but abortSignal was set. Closing and aborting.`);
+      await this._link.close();
+      this._link = undefined;
+      throw new AbortError(StandardAbortMessage);
+    }
+  }
+
+  protected get link(): LinkT | undefined {
+    return this._link;
   }
 }

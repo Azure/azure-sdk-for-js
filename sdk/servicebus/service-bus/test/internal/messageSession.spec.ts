@@ -296,7 +296,7 @@ describe("Message session unit tests", () => {
         }
       } as RheaReceiver;
 
-      batchingReceiver["_receiver"] = fakeRheaReceiver;
+      batchingReceiver["_link"] = fakeRheaReceiver;
 
       batchingReceiver["_batchingReceiverLite"]["_createServiceBusMessage"] = (eventContext) => {
         return {

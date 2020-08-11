@@ -93,7 +93,7 @@ describe("BatchingReceiver unit tests", () => {
       receiver["_init"] = async () => {
         // just enough of a Receiver to validate that cleanup actions
         // are being run on abort.
-        receiver["_receiver"] = ({
+        receiver["_link"] = ({
           connection: {
             id: "connection id"
           },
@@ -380,7 +380,7 @@ describe("BatchingReceiver unit tests", () => {
           receiveIsReady
         } = createFakeReceiver();
 
-        batchingReceiver["_receiver"] = fakeRheaReceiver;
+        batchingReceiver["_link"] = fakeRheaReceiver;
 
         batchingReceiver["_batchingReceiverLite"]["_createServiceBusMessage"] = (eventContext) => {
           return {

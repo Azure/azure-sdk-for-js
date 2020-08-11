@@ -68,7 +68,7 @@ export class BatchingReceiver extends MessageReceiver {
           throw lastError;
         }
 
-        return this._receiver;
+        return this.link;
       },
       this.receiveMode
     );
@@ -87,7 +87,7 @@ export class BatchingReceiver extends MessageReceiver {
    */
   async onDetached(connectionError?: AmqpError | Error): Promise<void> {
     // Clears the token renewal timer. Closes the link and its session if they are open.
-    await this._closeLink(this._receiver);
+    await this._closeLink();
 
     if (connectionError == null) {
       connectionError = new Error(

@@ -45,7 +45,7 @@ import { AbortError, AbortSignalLike } from "@azure/abort-controller";
  * Describes the MessageSender that will send messages to ServiceBus.
  * @class MessageSender
  */
-export class MessageSender extends LinkEntity {
+export class MessageSender extends LinkEntity<AwaitableSender> {
   /**
    * @property {string} openLock The unique lock name per connection that is used to acquire the
    * lock for establishing a sender link by an entity on that connection.
@@ -74,10 +74,6 @@ export class MessageSender extends LinkEntity {
    * the underlying rhea sender's session for the "session_close" event.
    */
   private _onSessionClose: OnAmqpEvent;
-  /**
-   * @property {Sender} [_sender] The AMQP sender link.
-   */
-  private _sender?: AwaitableSender;
   private _retryOptions: RetryOptions;
 
   /**
@@ -118,7 +114,7 @@ export class MessageSender extends LinkEntity {
     };
 
     this._onAmqpClose = async (context: EventContext) => {
-      const sender = this._sender || context.sender!;
+      const sender = this.link || context.sender!;
       const senderError = context.sender && context.sender.error;
       if (senderError) {
         log.error(
@@ -164,7 +160,7 @@ export class MessageSender extends LinkEntity {
     };
 
     this._onSessionClose = async (context: EventContext) => {
-      const sender = this._sender || context.sender!;
+      const sender = this.link || context.sender!;
       const sessionError = context.session && context.session.error;
       if (sessionError) {
         log.error(
@@ -211,7 +207,6 @@ export class MessageSender extends LinkEntity {
   }
 
   private _deleteFromCache(): void {
-    this._sender = undefined;
     delete this._context.sender;
     log.error(
       "[%s] Deleted the sender '%s' with address '%s' from the client cache.",
@@ -291,11 +286,11 @@ export class MessageSender extends LinkEntity {
           "[%s] Sender '%s', credit: %d available: %d",
           this._context.namespace.connectionId,
           this.name,
-          this._sender!.credit,
-          this._sender!.session.outgoing.available()
+          this.link!.credit,
+          this.link!.session.outgoing.available()
         );
 
-        if (!this._sender!.sendable()) {
+        if (!this.link!.sendable()) {
           log.sender(
             "[%s] Sender '%s', waiting for 1 second for sender to become sendable",
             this._context.namespace.connectionId,
@@ -308,11 +303,11 @@ export class MessageSender extends LinkEntity {
             "[%s] Sender '%s' after waiting for a second, credit: %d available: %d",
             this._context.namespace.connectionId,
             this.name,
-            this._sender!.credit,
-            this._sender!.session.outgoing.available()
+            this.link!.credit,
+            this.link!.session.outgoing.available()
           );
         }
-        if (this._sender!.sendable()) {
+        if (this.link!.sendable()) {
           if (timeoutInMs <= timeTakenByInit) {
             const desc: string =
               `[${this._context.namespace.connectionId}] Sender "${this.name}" ` +
@@ -326,8 +321,8 @@ export class MessageSender extends LinkEntity {
             return reject(translate(e));
           }
           try {
-            this._sender!.sendTimeoutInSeconds = (timeoutInMs - timeTakenByInit) / 1000;
-            const delivery = await this._sender!.send(
+            this.link!.sendTimeoutInSeconds = (timeoutInMs - timeTakenByInit) / 1000;
+            const delivery = await this.link!.send(
               encodedMessage,
               undefined,
               sendBatch ? 0x80013700 : 0
@@ -373,6 +368,12 @@ export class MessageSender extends LinkEntity {
     return retry<void>(config);
   }
 
+  protected async createRheaLink(options?: AwaitableSenderOptions): Promise<AwaitableSender> {
+    const sender = await this._context.namespace.connection.createAwaitableSender(options);
+    sender.setMaxListeners(1000);
+    return sender;
+  }
+
   /**
    * Initializes the sender session on the connection.
    */
@@ -399,60 +400,10 @@ export class MessageSender extends LinkEntity {
 
     return defaultLock.acquire(this.openLock, async () => {
       try {
-        checkAborted();
-
-        // isOpen isConnecting  Should establish
-        // true     false          No
-        // true     true           No
-        // false    true           No
-        // false    false          Yes
-        if (!this.isOpen()) {
-          log.error(
-            "[%s] The sender '%s' with address '%s' is not open and is not currently " +
-              "establishing itself. Hence let's try to connect.",
-            this._context.namespace.connectionId,
-            this.name,
-            this.address
-          );
-          this.isConnecting = true;
-          await this._negotiateClaim();
-          checkAborted();
-
-          log.error(
-            "[%s] Trying to create sender '%s'...",
-            this._context.namespace.connectionId,
-            this.name
-          );
-          if (!options) {
-            options = this._createSenderOptions(Constants.defaultOperationTimeoutInMs);
-          }
-
-          this._sender = await this._context.namespace.connection.createAwaitableSender(options);
-          checkAborted();
-
-          log.error(
-            "[%s] Sender '%s' with address '%s' has established itself.",
-            this._context.namespace.connectionId,
-            this.name,
-            this.address
-          );
-          this._sender.setMaxListeners(1000);
-          log.error(
-            "[%s] Promise to create the sender resolved. Created sender with name: %s",
-            this._context.namespace.connectionId,
-            this.name
-          );
-          log.error(
-            "[%s] Sender '%s' created with sender options: %O",
-            this._context.namespace.connectionId,
-            this.name,
-            options
-          );
-          // It is possible for someone to close the sender and then start it again.
-          // Thus make sure that the sender is present in the client cache.
-          if (!this._sender) this._context.sender = this;
-          this._ensureTokenRenewal();
+        if (!options) {
+          options = this._createSenderOptions(Constants.defaultOperationTimeoutInMs);
         }
+        await this.initLink(options, abortSignal);
       } catch (err) {
         err = translate(err);
         log.error(
@@ -466,8 +417,6 @@ export class MessageSender extends LinkEntity {
           err.message = "Failed to create a sender within allocated time and retry attempts.";
         }
         throw err;
-      } finally {
-        this.isConnecting = false;
       }
     });
   }
@@ -479,10 +428,13 @@ export class MessageSender extends LinkEntity {
    */
   async onDetached(senderError?: AmqpError | Error): Promise<void> {
     try {
-      const wasCloseInitiated = this._sender && this._sender.isItselfClosed();
+      const wasCloseInitiated = this.link && this.link.isItselfClosed();
       // Clears the token renewal timer. Closes the link and its session if they are open.
       // Removes the link and its session if they are present in rhea's cache.
-      await this._closeLink(this._sender);
+      if (this.link) {
+        await this._closeLink();
+      }
+
       // We should attempt to reopen only when the sender(sdk) did not initiate the close
       let shouldReopen = false;
       if (senderError && !wasCloseInitiated) {
@@ -521,7 +473,7 @@ export class MessageSender extends LinkEntity {
         const state: any = {
           wasCloseInitiated: wasCloseInitiated,
           senderError: senderError,
-          _sender: this._sender
+          _sender: this.link
         };
         log.error(
           "[%s] Something went wrong. State of sender '%s' with address '%s' is: %O",
@@ -564,15 +516,14 @@ export class MessageSender extends LinkEntity {
    * @return {Promise<void>} Promise<void>
    */
   async close(): Promise<void> {
-    if (this._sender) {
+    if (this.link) {
       log.sender(
         "[%s] Closing the Sender for the entity '%s'.",
         this._context.namespace.connectionId,
         this._context.entityPath
       );
-      const senderLink = this._sender;
       this._deleteFromCache();
-      await this._closeLink(senderLink);
+      await this._closeLink();
     }
   }
 
@@ -581,7 +532,7 @@ export class MessageSender extends LinkEntity {
    * @return {boolean} boolean
    */
   isOpen(): boolean {
-    const result: boolean = this._sender! && this._sender!.isOpen();
+    const result: boolean = this.link! && this.link!.isOpen();
     log.error(
       "[%s] Sender '%s' with address '%s' is open? -> %s",
       this._context.namespace.connectionId,
@@ -740,7 +691,7 @@ export class MessageSender extends LinkEntity {
   ): Promise<number> {
     const retryOptions = options.retryOptions || {};
     if (this.isOpen()) {
-      return this._sender!.maxMessageSize;
+      return this.link!.maxMessageSize;
     }
     return new Promise<number>(async (resolve, reject) => {
       try {
@@ -754,7 +705,7 @@ export class MessageSender extends LinkEntity {
 
         await retry<void>(config);
 
-        return resolve(this._sender!.maxMessageSize);
+        return resolve(this.link!.maxMessageSize);
       } catch (err) {
         reject(err);
       }
