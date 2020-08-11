@@ -4,7 +4,7 @@
 import * as assert from "assert";
 import { SDK_VERSION } from "../../src/generated/utils/constants";
 import { packageVersion } from "../../src/generated/keyVaultClientContext";
-import { isNode } from '@azure/core-http';
+import { isNode } from "@azure/core-http";
 import fs from "fs";
 
 describe("Secrets client's user agent (only in Node, because of fs)", () => {
@@ -17,7 +17,9 @@ describe("Secrets client's user agent (only in Node, because of fs)", () => {
       this.skip();
       return;
     }
-    const { version } = JSON.parse(fs.readFileSync(__dirname + "/../package.json", { encoding: "utf-8" }))
+    const { version } = JSON.parse(
+      fs.readFileSync(__dirname + "/../package.json", { encoding: "utf-8" })
+    );
     assert.equal(version, packageVersion);
   });
 });
