@@ -1,5 +1,8 @@
 # Release History
 
+## 3.0.0-preview.2 (Unreleased)
+
+
 ## 3.0.0-preview.1 (2020-08-11)
 
 - Changed the package version to 3.0.0-preview.1 to reduce confusion with older versions of the Azure Form Recognizer SDKs.
