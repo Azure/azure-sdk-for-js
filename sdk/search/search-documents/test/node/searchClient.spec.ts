@@ -18,7 +18,7 @@ import { Hotel } from "../utils/interfaces";
 import { createIndex, populateIndex } from "../utils/setupIndex";
 import { delay } from "@azure/core-http";
 
-const TEST_INDEX_NAME = "hotel-live-test-1";
+const TEST_INDEX_NAME = "hotel-live-test1";
 const WAIT_TIME = 2000;
 
 describe("SearchClient", function() {

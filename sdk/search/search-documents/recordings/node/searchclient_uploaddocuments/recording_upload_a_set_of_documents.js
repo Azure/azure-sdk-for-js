@@ -1,11 +1,11 @@
 let nock = require('nock');
 
-module.exports.hash = "a1c4dcd3b7e31b478f25199128acbca5";
+module.exports.hash = "c440ab9f23e146ad8d22c9a0dbf5220c";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .post('/indexes(%27hotel-live-test%27)/docs/search.index', {"value":[{"@search.action":"upload","hotelId":"11","description":"New Hotel Description","lastRenovationDate":null},{"@search.action":"upload","hotelId":"12","description":"New Hotel II Description","lastRenovationDate":null}]})
+  .post('/indexes(%27hotel-live-test1%27)/docs/search.index', {"value":[{"@search.action":"upload","hotelId":"11","description":"New Hotel Description","lastRenovationDate":null},{"@search.action":"upload","hotelId":"12","description":"New Hotel II Description","lastRenovationDate":null}]})
   .query(true)
   .reply(200, ["1f8b0800000000000400edbd07601c499625262f6dca7b7f4af54ad7e074a10880601324d8904010ecc188cde692ec1d69472329ab2a81ca6556655d661640cced9dbcf7de7befbdf7de7befbdf7ba3b9d4e27f7dfff3f5c6664016cf6ce4adac99e2180aac81f3f7e7c1f3f227ef1479759b9ce3f7af4bd5ffcd1dbfcfaa3471fedee7e34faa869b376dd7cf4a8add7f9e8a3bcaeabfa8bbc69b20b6ab95c97a5697152cde893bd9ddd5f32b2efef7dadf7bfff4bfe1fabe085b98b000000"], [ 'Cache-Control',
   'no-cache',
@@ -20,9 +20,9 @@ nock('https://endpoint:443', {"encodedQueryParams":true})
   'Vary',
   'Accept-Encoding',
   'request-id',
-  'f14e6daf-6cca-4d24-aeab-838f33364e83',
+  '188869ab-25fc-41e7-8f62-72e891aeca20',
   'elapsed-time',
-  '43',
+  '32',
   'OData-Version',
   '4.0',
   'Preference-Applied',
@@ -30,12 +30,12 @@ nock('https://endpoint:443', {"encodedQueryParams":true})
   'Strict-Transport-Security',
   'max-age=15724800; includeSubDomains',
   'Date',
-  'Tue, 11 Aug 2020 11:04:19 GMT',
+  'Tue, 11 Aug 2020 11:45:57 GMT',
   'Content-Length',
   '191' ]);
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .get('/indexes(%27hotel-live-test%27)/docs/$count')
+  .get('/indexes(%27hotel-live-test1%27)/docs/$count')
   .query(true)
   .reply(200, ["1f8b0800000000000400edbd07601c499625262f6dca7b7f4af54ad7e074a10880601324d8904010ecc188cde692ec1d69472329ab2a81ca6556655d661640cced9dbcf7de7befbdf7de7befbdf7ba3b9d4e27f7dfff3f5c6664016cf6ce4adac99e2180aac81f3f7e7c1f3f22fec7bff71fdcddfb7f0097815d6605000000"], [ 'Cache-Control',
   'no-cache',
@@ -50,9 +50,9 @@ nock('https://endpoint:443', {"encodedQueryParams":true})
   'Vary',
   'Accept-Encoding',
   'request-id',
-  'd27a8658-cc93-4497-a817-aa248cfd39c0',
+  'dde40d4b-6393-437e-9032-fcb064b040d7',
   'elapsed-time',
-  '5',
+  '3',
   'OData-Version',
   '4.0',
   'Preference-Applied',
@@ -60,6 +60,6 @@ nock('https://endpoint:443', {"encodedQueryParams":true})
   'Strict-Transport-Security',
   'max-age=15724800; includeSubDomains',
   'Date',
-  'Tue, 11 Aug 2020 11:04:20 GMT',
+  'Tue, 11 Aug 2020 11:45:59 GMT',
   'Content-Length',
   '127' ]);

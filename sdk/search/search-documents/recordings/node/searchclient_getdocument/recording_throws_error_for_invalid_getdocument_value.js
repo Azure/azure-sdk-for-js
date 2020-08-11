@@ -5,7 +5,7 @@ module.exports.hash = "9dd6f93d2e3c4f1bb4561712f12cf6db";
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .get('/indexes(%27hotel-live-test%27)/docs(%27garbxyz%27)')
+  .get('/indexes(%27hotel-live-test1%27)/docs(%27garbxyz%27)')
   .query(true)
   .reply(404, "", [ 'Cache-Control',
   'no-cache',
@@ -14,12 +14,12 @@ nock('https://endpoint:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'request-id',
-  'a9ee9450-b341-40c8-9222-19f9e17233fa',
+  'af8a88a4-89ae-4bfa-9bac-6d39cb8612fe',
   'elapsed-time',
-  '3',
+  '4',
   'Strict-Transport-Security',
   'max-age=15724800; includeSubDomains',
   'Date',
-  'Tue, 11 Aug 2020 11:03:48 GMT',
+  'Tue, 11 Aug 2020 11:45:02 GMT',
   'Content-Length',
   '0' ]);

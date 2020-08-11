@@ -652,31 +652,31 @@ export async function createIndexers(client: SearchIndexerClient): Promise<void>
     name: "my-azure-indexer-1",
     description: "Description for Sample Indexer",
     dataSourceName: "my-data-source-5",
-    targetIndexName: "hotel-live-test-2",
+    targetIndexName: "hotel-live-test2",
     isDisabled: false
   },{
     name: "my-azure-indexer-2",
     description: "Description for Sample Indexer",
     dataSourceName: "my-data-source-5",
-    targetIndexName: "hotel-live-test-2",
+    targetIndexName: "hotel-live-test2",
     isDisabled: false
   },{
     name: "my-azure-indexer-3",
     description: "Description for Sample Indexer",
     dataSourceName: "my-data-source-5",
-    targetIndexName: "hotel-live-test-2",
+    targetIndexName: "hotel-live-test2",
     isDisabled: false
   },{
     name: "my-azure-indexer-4",
     description: "Description for Sample Indexer",
     dataSourceName: "my-data-source-5",
-    targetIndexName: "hotel-live-test-2",
+    targetIndexName: "hotel-live-test2",
     isDisabled: false
   },{
     name: "my-azure-indexer-5",
     description: "Description for Sample Indexer",
     dataSourceName: "my-data-source-5",
-    targetIndexName: "hotel-live-test-2",
+    targetIndexName: "hotel-live-test2",
     isDisabled: false
   }];
   for(const indexer of indexers) {

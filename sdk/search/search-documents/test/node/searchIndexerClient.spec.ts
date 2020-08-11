@@ -10,7 +10,7 @@ import {createClients, environmentSetup} from "../utils/recordedClient";
 import {createIndex, createDataSourceConnections, deleteDataSourceConnections, createSkillsets, deleteSkillsets, createIndexers, deleteIndexers} from "../utils/setupIndex";
 import { delay } from "@azure/core-http";
 
-const TEST_INDEX_NAME = "hotel-live-test-2";
+const TEST_INDEX_NAME = "hotel-live-test2";
 
 describe("SearchIndexerClient", function() {
   let recorder: Recorder;
@@ -67,7 +67,7 @@ describe("SearchIndexerClient", function() {
       const indexer = await indexerClient.getIndexer("my-azure-indexer-1");
       assert.equal(indexer.name, "my-azure-indexer-1");
       assert.equal(indexer.dataSourceName, "my-data-source-5");
-      assert.equal(indexer.targetIndexName, "hotel-live-test-2");
+      assert.equal(indexer.targetIndexName, "hotel-live-test2");
       assert.equal(indexer.isDisabled, false);
     });
 
@@ -86,14 +86,14 @@ describe("SearchIndexerClient", function() {
         name: "my-azure-indexer-6",
         description: "Description for Sample Indexer",
         dataSourceName: "my-data-source-5",
-        targetIndexName: "hotel-live-test-2",
+        targetIndexName: "hotel-live-test2",
         isDisabled: false
       };
       await indexerClient.createOrUpdateIndexer(indexer);
       indexer = await indexerClient.getIndexer("my-azure-indexer-6");
       assert.equal(indexer.name, "my-azure-indexer-6");
       assert.equal(indexer.dataSourceName, "my-data-source-5");
-      assert.equal(indexer.targetIndexName, "hotel-live-test-2");
+      assert.equal(indexer.targetIndexName, "hotel-live-test2");
       assert.equal(indexer.isDisabled, false);
       await indexerClient.deleteIndexer(indexer);
     });
