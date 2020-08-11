@@ -432,7 +432,7 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
       // Clears the token renewal timer. Closes the link and its session if they are open.
       // Removes the link and its session if they are present in rhea's cache.
       if (this.link) {
-        await this._closeLink();
+        await this._closeLink("detach");
       }
 
       // We should attempt to reopen only when the sender(sdk) did not initiate the close
@@ -523,7 +523,7 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
         this._context.entityPath
       );
       this._deleteFromCache();
-      await this._closeLink();
+      await this._closeLink("close");
     }
   }
 

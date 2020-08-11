@@ -21,7 +21,10 @@ describe("Receiver unit tests", () => {
     function fakeContext(): ClientEntityContext {
       return ({
         namespace: {
-          config: {}
+          config: {},
+          connection: {
+            id: "connection-id"
+          }
         }
       } as unknown) as ClientEntityContext;
     }
@@ -48,11 +51,6 @@ describe("Receiver unit tests", () => {
       const messageReceiver2 = new MessageReceiver(fakeContext(), ReceiverType.streaming);
 
       await messageReceiver2.close();
-
-      // so our object basically looks like an unopened receiver
-
-      // messageReceiver2["isOpen"] = () => false;
-      // messageReceiver2["isConnecting"] = false;
 
       // close() the object. Closed objects should not be able to be reopened.
       await messageReceiver2.close();

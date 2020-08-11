@@ -407,7 +407,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
       // false without ever having cleared the timeout otherwise.
       clearTimeout(this._tokenRenewalTimer as NodeJS.Timer);
       if (this._isMgmtRequestResponseLinkOpen()) {
-        await this._closeLink();
+        await this._closeLink("close");
         log.mgmt("Successfully closed the management session.");
       }
     } catch (err) {

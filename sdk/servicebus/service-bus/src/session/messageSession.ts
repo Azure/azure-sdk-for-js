@@ -611,7 +611,7 @@ export class MessageSession extends LinkEntity<Receiver> {
 
       if (this.link) {
         this._deleteFromCache();
-        await this._closeLink();
+        await this._closeLink("close");
       }
 
       await this._batchingReceiverLite.close();

@@ -141,10 +141,17 @@ describe("StreamingReceiver unit tests", () => {
         async (_err) => {}
       );
 
-      assert.isTrue(streamingReceiver.isReceivingMessages);
+      assert.isTrue(
+        streamingReceiver.isReceivingMessages,
+        "A receiver that has successfully opened the link and is subscribing should be receiving messages"
+      );
 
       await streamingReceiver.onDetached(new Error("let's detach"));
-      assert.isTrue(streamingReceiver.isReceivingMessages);
+
+      assert.isTrue(
+        streamingReceiver.isReceivingMessages,
+        "After a successful reconnect (within detach) we should be able to receive messages"
+      );
     });
   });
 

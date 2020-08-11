@@ -134,7 +134,7 @@ export class LinkEntity<LinkT extends Receiver | AwaitableSender | RequestRespon
     this.address = options.address || "";
     this.audience = options.audience || "";
     this.name = getUniqueName(name);
-    this._logPrefix = `[${context.namespace.connection.id}|r:${this.name}|a:${this.address}]`;
+    this._logPrefix = `[${context.namespace.connection.id}|l:${this.name}|a:${this.address}]`;
   }
 
   /**
@@ -256,14 +256,18 @@ export class LinkEntity<LinkT extends Receiver | AwaitableSender | RequestRespon
   }
 
   /**
-   * Closes the Sender|Receiver link and it's underlying session and also removes it from the
-   * internal map.
+   * Closes the internally held rhea link, stops the token renewal timer and sets
+   * the this._link field to undefined.
    *
-   * @param {Sender | Receiver} [link] The Sender or Receiver link that needs to be closed and
-   * removed.
+   * @param originator Indicates the original caller.
+   * - "close" closes the link permanently, setting _wasCloseInitiated which
+   * prevents it from being reinitializing.
+   * - "detach" closes the link but does not permanently close the LinkEntity. It can be reinitialized.
    */
-  async _closeLink(): Promise<void> {
-    this._wasCloseInitiated = true;
+  async _closeLink(originator: "close" | "detach"): Promise<void> {
+    if (originator === "close") {
+      this._wasCloseInitiated = true;
+    }
 
     clearTimeout(this._tokenRenewalTimer as NodeJS.Timer);
 
@@ -274,13 +278,7 @@ export class LinkEntity<LinkT extends Receiver | AwaitableSender | RequestRespon
         await this._link.close();
         this._link = undefined;
 
-        log.link(
-          "[%s] %s '%s' with address '%s' closed.",
-          this._context.namespace.connectionId,
-          this._type,
-          this.name,
-          this.address
-        );
+        log.link(`${this._logPrefix} closed by ${originator}.`);
       } catch (err) {
         log.error(
           "[%s] An error occurred while closing the %s '%s': %O",
@@ -388,19 +386,22 @@ export class LinkEntity<LinkT extends Receiver | AwaitableSender | RequestRespon
 
     this._isConnecting = true;
 
-    await this._negotiateClaim();
-    checkAborted();
+    try {
+      await this._negotiateClaim();
+      checkAborted();
 
-    log.error(`${logPrefix} Creating with options %O`, options);
+      log.error(`${logPrefix} Creating with options %O`, options);
 
-    this._link = await this.createRheaLink(options);
-    this._isConnecting = false;
+      this._link = await this.createRheaLink(options);
 
-    if (abortSignal?.aborted) {
-      log.error(`${logPrefix} created but abortSignal was set. Closing and aborting.`);
-      await this._link.close();
-      this._link = undefined;
-      throw new AbortError(StandardAbortMessage);
+      if (abortSignal?.aborted) {
+        log.error(`${logPrefix} created but abortSignal was set. Closing and aborting.`);
+        await this._link.close();
+        this._link = undefined;
+        throw new AbortError(StandardAbortMessage);
+      }
+    } finally {
+      this._isConnecting = false;
     }
   }
 

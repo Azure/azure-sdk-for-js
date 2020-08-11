@@ -46,7 +46,8 @@ export function createClientEntityContextForTests(options?: {
           }
 
           const testAwaitableSender = ({
-            setMaxListeners: () => testAwaitableSender
+            setMaxListeners: () => testAwaitableSender,
+            close: async () => {}
           } as any) as AwaitableSender;
 
           return testAwaitableSender;
@@ -101,6 +102,8 @@ export function createRheaReceiverForTests() {
   };
 
   (receiver as any).addCredit = (credit: number) => {
+    // TODO: would we like to do some more aggressive checks here?
+    // for instance, validating that nobody calls .addCredit on a closed receiver?
     if ((receiver as any).credit == null || isNaN((receiver as any).credit)) {
       (receiver as any).credit = 0;
     }
