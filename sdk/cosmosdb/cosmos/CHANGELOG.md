@@ -1,5 +1,9 @@
 # Release History
 
+## 3.8.1 (Unreleased)
+
+- BUGFIX: Adds separate URL module for browser/node.
+
 ## 3.8.0 (2020-8-10)
 
 - FEATURE: Throws when initializing ClientContext with an invalid endpoint
