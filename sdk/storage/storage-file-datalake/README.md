@@ -171,7 +171,7 @@ Alternatively, selectively import only the types you need:
 ```javascript
 const {
   DataLakeServiceClient,
-  StorageSharedKeyCredential,
+  StorageSharedKeyCredential
 } = require("@azure/storage-file-datalake");
 ```
 
