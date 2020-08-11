@@ -1,6 +1,6 @@
 let nock = require('nock');
 
-module.exports.hash = "5865e1fa81324ea752e95462e0fe69dc";
+module.exports.hash = "85456313ae0503acd573fdfc0a429f86";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
@@ -20,25 +20,25 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'x-ms-request-id',
-  'f552ab20-7594-458a-b0a5-36cd71723701',
+  '1d1ee2e6-4f83-4f01-8bbf-36e57539db00',
   'x-ms-ests-server',
-  '2.1.10571.11 - WUS2 ProdSlices',
+  '2.1.10922.14 - CHI ProdSlices',
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'Set-Cookie',
-  'fpc=AhN4UpVyY6pLkd-_qGQUOVn0CyfMAQAAAO9TX9YOAAAA; expires=Thu, 25-Jun-2020 18:16:15 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AuExkTwldGtHgUWDvzgjkxn0CyfMAQAAALWfxNYOAAAA; expires=Thu, 10-Sep-2020 14:18:29 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=prod; path=/; SameSite=None; secure; HttpOnly',
   'Set-Cookie',
   'stsservicecookie=ests; path=/; SameSite=None; secure; HttpOnly',
   'Date',
-  'Tue, 26 May 2020 18:16:15 GMT',
+  'Tue, 11 Aug 2020 14:18:29 GMT',
   'Content-Length',
   '1417'
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .post('/text/analytics/v3.0/sentiment', {"documents":[{"id":"1","text":"I had a wonderful trip to Seattle last week and even visited the Space Needle 2 times!","language":"en"},{"id":"2","text":"Unfortunately, it rained during my entire trip to Seattle. I didn't even get to visit the Space Needle","language":"en"},{"id":"3","text":"I went to see a movie on Saturday and it was perfectly average, nothing more or less than I expected.","language":"en"},{"id":"4","text":"I didn't like the last book I read at all.","language":"en"},{"id":"5","text":"Los caminos que llevan hasta Monte Rainier son espectaculares y hermosos.","language":"es"},{"id":"6","text":"La carretera estaba atascada. Había mucho tráfico el día de ayer.","language":"es"}]})
+  .post('/text/analytics/v3.1-preview.1/sentiment', {"documents":[{"id":"1","text":"I had a wonderful trip to Seattle last week and even visited the Space Needle 2 times!","language":"en"},{"id":"2","text":"Unfortunately, it rained during my entire trip to Seattle. I didn't even get to visit the Space Needle","language":"en"},{"id":"3","text":"I went to see a movie on Saturday and it was perfectly average, nothing more or less than I expected.","language":"en"},{"id":"4","text":"I didn't like the last book I read at all.","language":"en"},{"id":"5","text":"Los caminos que llevan hasta Monte Rainier son espectaculares y hermosos.","language":"es"},{"id":"6","text":"La carretera estaba atascada. Había mucho tráfico el día de ayer.","language":"es"}]})
   .reply(200, {"documents":[{"id":"1","sentiment":"positive","confidenceScores":{"positive":0.99,"neutral":0.01,"negative":0},"sentences":[{"sentiment":"positive","confidenceScores":{"positive":0.99,"neutral":0.01,"negative":0},"offset":0,"length":86,"text":"I had a wonderful trip to Seattle last week and even visited the Space Needle 2 times!"}],"warnings":[]},{"id":"2","sentiment":"negative","confidenceScores":{"positive":0,"neutral":0,"negative":1},"sentences":[{"sentiment":"negative","confidenceScores":{"positive":0,"neutral":0,"negative":1},"offset":0,"length":58,"text":"Unfortunately, it rained during my entire trip to Seattle."},{"sentiment":"neutral","confidenceScores":{"positive":0.01,"neutral":0.7,"negative":0.29},"offset":59,"length":43,"text":"I didn't even get to visit the Space Needle"}],"warnings":[]},{"id":"3","sentiment":"positive","confidenceScores":{"positive":1,"neutral":0,"negative":0},"sentences":[{"sentiment":"positive","confidenceScores":{"positive":1,"neutral":0,"negative":0},"offset":0,"length":101,"text":"I went to see a movie on Saturday and it was perfectly average, nothing more or less than I expected."}],"warnings":[]},{"id":"4","sentiment":"negative","confidenceScores":{"positive":0.01,"neutral":0.03,"negative":0.96},"sentences":[{"sentiment":"negative","confidenceScores":{"positive":0.01,"neutral":0.03,"negative":0.96},"offset":0,"length":42,"text":"I didn't like the last book I read at all."}],"warnings":[]},{"id":"5","sentiment":"positive","confidenceScores":{"positive":0.89,"neutral":0.08,"negative":0.03},"sentences":[{"sentiment":"positive","confidenceScores":{"positive":0.89,"neutral":0.08,"negative":0.03},"offset":0,"length":73,"text":"Los caminos que llevan hasta Monte Rainier son espectaculares y hermosos."}],"warnings":[]},{"id":"6","sentiment":"negative","confidenceScores":{"positive":0.11,"neutral":0.29,"negative":0.6},"sentences":[{"sentiment":"negative","confidenceScores":{"positive":0.11,"neutral":0.29,"negative":0.6},"offset":0,"length":29,"text":"La carretera estaba atascada."},{"sentiment":"neutral","confidenceScores":{"positive":0.09,"neutral":0.58,"negative":0.33},"offset":30,"length":35,"text":"Había mucho tráfico el día de ayer."}],"warnings":[]}],"errors":[],"modelVersion":"2020-04-01"}, [
   'Transfer-Encoding',
   'chunked',
@@ -47,13 +47,13 @@ nock('https://endpoint', {"encodedQueryParams":true})
   'csp-billing-usage',
   'CognitiveServices.TextAnalytics.BatchScoring=6',
   'x-envoy-upstream-service-time',
-  '360',
+  '114',
   'apim-request-id',
-  '2e948419-ab38-48b1-b383-443b97e50e3f',
+  '4f9ff25a-c927-4465-bd2e-68023a8eba7e',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Tue, 26 May 2020 18:16:15 GMT'
+  'Tue, 11 Aug 2020 14:18:30 GMT'
 ]);

@@ -314,6 +314,17 @@ export const ActiveDirectory: msRest.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      backupOperators: {
+        serializedName: "backupOperators",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
       }
     }
   }
@@ -800,6 +811,22 @@ export const ReplicationObject: msRest.CompositeMapper = {
   }
 };
 
+export const VolumeSnapshotProperties: msRest.CompositeMapper = {
+  serializedName: "volumeSnapshotProperties",
+  type: {
+    name: "Composite",
+    className: "VolumeSnapshotProperties",
+    modelProperties: {
+      snapshotPolicyId: {
+        serializedName: "snapshotPolicyId",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const VolumePropertiesDataProtection: msRest.CompositeMapper = {
   serializedName: "volumeProperties_dataProtection",
   type: {
@@ -811,6 +838,13 @@ export const VolumePropertiesDataProtection: msRest.CompositeMapper = {
         type: {
           name: "Composite",
           className: "ReplicationObject"
+        }
+      },
+      snapshot: {
+        serializedName: "snapshot",
+        type: {
+          name: "Composite",
+          className: "VolumeSnapshotProperties"
         }
       }
     }
@@ -987,6 +1021,12 @@ export const Volume: msRest.CompositeMapper = {
       },
       isRestoring: {
         serializedName: "properties.isRestoring",
+        type: {
+          name: "Boolean"
+        }
+      },
+      snapshotDirectoryVisible: {
+        serializedName: "properties.snapshotDirectoryVisible",
         type: {
           name: "Boolean"
         }
@@ -1283,17 +1323,6 @@ export const Snapshot: msRest.CompositeMapper = {
       snapshotId: {
         readOnly: true,
         serializedName: "properties.snapshotId",
-        constraints: {
-          MaxLength: 36,
-          MinLength: 36,
-          Pattern: /^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$/
-        },
-        type: {
-          name: "String"
-        }
-      },
-      fileSystemId: {
-        serializedName: "properties.fileSystemId",
         constraints: {
           MaxLength: 36,
           MinLength: 36,
