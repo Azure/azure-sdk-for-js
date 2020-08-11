@@ -26,9 +26,8 @@ describe("SentimentResultArray", () => {
         text: "test3"
       }
     ];
-    const result = makeAnalyzeSentimentResultArray(
-      input,
-      [
+    const result = makeAnalyzeSentimentResultArray(input, {
+      documents: [
         {
           id: "A",
           confidenceScores: {
@@ -52,7 +51,7 @@ describe("SentimentResultArray", () => {
           warnings: []
         }
       ],
-      [
+      errors: [
         {
           id: "B",
           error: {
@@ -61,8 +60,9 @@ describe("SentimentResultArray", () => {
           }
         }
       ],
-      ""
-    );
+      _response: {} as any,
+      modelVersion: ""
+    });
 
     const inputOrder = input.map((item) => item.id);
     const outputOrder = result.map((item) => item.id);

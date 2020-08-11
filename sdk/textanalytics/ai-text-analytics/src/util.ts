@@ -33,3 +33,24 @@ export function sortResponseIdObjects<T extends IdObject, U extends IdObject>(
 
   return sortedArray.map((item) => unsortedMap.get(item.id)!);
 }
+
+export interface OpinionIndex {
+  document: number;
+  sentence: number;
+  opinion: number;
+}
+
+export function findOpinionIndex(pointer: string): OpinionIndex {
+  const regex = new RegExp(/#\/documents\/(\d+)\/sentences\/(\d+)\/opinions\/(\d+)/);
+  const res = regex.exec(pointer);
+  if (res !== null) {
+    const opinionIndex: OpinionIndex = {
+      document: parseInt(res[1]),
+      sentence: parseInt(res[2]),
+      opinion: parseInt(res[3])
+    };
+    return opinionIndex;
+  } else {
+    throw new Error(`Pointer "${pointer}" is not a valid opinion pointer`);
+  }
+}

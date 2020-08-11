@@ -14,7 +14,9 @@ import { TokenCredential } from '@azure/core-auth';
 export type AnalyzeSentimentErrorResult = TextAnalyticsErrorResult;
 
 // @public
-export type AnalyzeSentimentOptions = TextAnalyticsOperationOptions;
+export interface AnalyzeSentimentOptions extends TextAnalyticsOperationOptions {
+    includeOpinionMining?: boolean;
+}
 
 // @public
 export type AnalyzeSentimentResult = AnalyzeSentimentSuccessResult | AnalyzeSentimentErrorResult;
@@ -30,6 +32,13 @@ export interface AnalyzeSentimentSuccessResult extends TextAnalyticsSuccessResul
     confidenceScores: SentimentConfidenceScores;
     sentences: SentenceSentiment[];
     sentiment: DocumentSentimentLabel;
+}
+
+// @public
+export interface AspectSentiment {
+    confidenceScores: SentimentConfidenceScores;
+    sentiment: DocumentSentimentLabel;
+    text: string;
 }
 
 export { AzureKeyCredential }
@@ -131,6 +140,20 @@ export interface Match {
 }
 
 // @public
+export interface MinedOpinion {
+    aspect: AspectSentiment;
+    opinions: OpinionSentiment[];
+}
+
+// @public
+export interface OpinionSentiment {
+    confidenceScores: SentimentConfidenceScores;
+    isNegated: boolean;
+    sentiment: DocumentSentimentLabel;
+    text: string;
+}
+
+// @public
 export type RecognizeCategorizedEntitiesErrorResult = TextAnalyticsErrorResult;
 
 // @public
@@ -173,6 +196,7 @@ export interface RecognizeLinkedEntitiesSuccessResult extends TextAnalyticsSucce
 // @public
 export interface SentenceSentiment {
     confidenceScores: SentimentConfidenceScores;
+    minedOpinions?: MinedOpinion[];
     sentiment: SentenceSentimentLabel;
     text: string;
 }

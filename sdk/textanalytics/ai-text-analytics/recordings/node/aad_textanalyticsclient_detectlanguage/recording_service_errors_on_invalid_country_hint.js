@@ -20,25 +20,25 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'x-ms-request-id',
-  '27c5f89a-a330-4105-aa7c-b6355e903800',
+  '5fd739bd-29eb-45e2-a247-b6d8c97bd800',
   'x-ms-ests-server',
-  '2.1.10897.16 - CHI ProdSlices',
+  '2.1.10922.14 - CHI ProdSlices',
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'Set-Cookie',
-  'fpc=Ar_39H87z_5JvTx7Hw3W1qL0CyfMAQAAALibu9YOAAAA; expires=Thu, 03-Sep-2020 18:11:05 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AlQ9QVp09w1GmX8p2Btw0tX0CyfMAQAAALqfxNYOAAAA; expires=Thu, 10-Sep-2020 14:18:35 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=prod; path=/; SameSite=None; secure; HttpOnly',
   'Set-Cookie',
   'stsservicecookie=ests; path=/; SameSite=None; secure; HttpOnly',
   'Date',
-  'Tue, 04 Aug 2020 18:11:04 GMT',
+  'Tue, 11 Aug 2020 14:18:34 GMT',
   'Content-Length',
   '1417'
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .post('/text/analytics/v3.0/languages', {"documents":[{"id":"0","text":"hello","countryHint":"invalidcountry"}]})
+  .post('/text/analytics/v3.1-preview.1/languages', {"documents":[{"id":"0","text":"hello","countryHint":"invalidcountry"}]})
   .reply(200, {"documents":[],"errors":[{"id":"0","error":{"code":"InvalidArgument","message":"Invalid Country Hint.","innererror":{"code":"InvalidCountryHint","message":"Country hint is not valid. Please specify an ISO 3166-1 alpha-2 two letter country code."}}}],"modelVersion":"2020-07-01"}, [
   'Transfer-Encoding',
   'chunked',
@@ -47,11 +47,11 @@ nock('https://endpoint', {"encodedQueryParams":true})
   'x-envoy-upstream-service-time',
   '2',
   'apim-request-id',
-  'cf503c04-e9ac-4377-920e-6db43a5c5d07',
+  '273e8164-885a-456c-8bab-5415e711d415',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Tue, 04 Aug 2020 18:11:04 GMT'
+  'Tue, 11 Aug 2020 14:18:35 GMT'
 ]);

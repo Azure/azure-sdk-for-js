@@ -466,8 +466,85 @@ export interface SentenceSentiment {
    * The sentiment confidence score between 0 and 1 for the sentence for all classes.
    */
   confidenceScores: SentimentConfidenceScores;
+  /**
+   * The array of aspect object for the sentence.
+   */
+  aspects?: SentenceAspect[];
+  /**
+   * The array of opinion object for the sentence.
+   */
+  opinions?: SentenceOpinion[];
 }
 
+export interface SentenceAspect {
+  /**
+   * Aspect level sentiment for the aspect in the sentence.
+   */
+  sentiment: SentenceAspectSentiment;
+  /**
+   * Aspect level sentiment confidence scores for the aspect in the sentence.
+   */
+  confidenceScores: AspectConfidenceScoreLabel;
+  /**
+   * The aspect text detected.
+   */
+  text: string;
+  /**
+   * The array of either opinion or aspect object which is related to the aspect.
+   */
+  relations: AspectRelation[];
+}
+
+/**
+ * Represents the confidence scores across all sentiment classes: positive, neutral, negative.
+ */
+export interface AspectConfidenceScoreLabel {
+  positive: number;
+  negative: number;
+}
+
+export interface AspectRelation {
+  /**
+   * The type related to the aspect.
+   */
+  relationType: AspectRelationType;
+  /**
+   * The JSON pointer indicating the linked object.
+   */
+  ref: string;
+}
+
+export interface SentenceOpinion {
+  /**
+   * Opinion level sentiment for the aspect in the sentence.
+   */
+  sentiment: SentenceOpinionSentiment;
+  /**
+   * Opinion level sentiment confidence scores for the aspect in the sentence.
+   */
+  confidenceScores: AspectConfidenceScoreLabel;
+  /**
+   * The aspect text detected.
+   */
+  text: string;
+  /**
+   * The indicator representing if the opinion is negated.
+   */
+  isNegated: boolean;
+}
+
+/**
+ * Defines values for SentenceAspectSentiment.
+ */
+export type SentenceAspectSentiment = "positive" | "mixed" | "negative";
+/**
+ * Defines values for AspectRelationType.
+ */
+export type AspectRelationType = "opinion" | "aspect";
+/**
+ * Defines values for SentenceOpinionSentiment.
+ */
+export type SentenceOpinionSentiment = "positive" | "mixed" | "negative";
 /**
  * Defines values for WarningCode.
  */
@@ -525,6 +602,45 @@ export interface GeneratedClientEntitiesRecognitionGeneralOptionalParams
  * Contains response data for the entitiesRecognitionGeneral operation.
  */
 export type GeneratedClientEntitiesRecognitionGeneralResponse = EntitiesResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: EntitiesResult;
+  };
+};
+
+/**
+ * Optional parameters.
+ */
+export interface GeneratedClientEntitiesRecognitionPiiOptionalParams
+  extends coreHttp.OperationOptions {
+  /**
+   * (Optional) This value indicates which model will be used for scoring. If a model-version is not specified, the API should default to the latest, non-preview version.
+   */
+  modelVersion?: string;
+  /**
+   * (Optional) if set to true, response will contain input and document level statistics.
+   */
+  includeStatistics?: boolean;
+  /**
+   * (Optional) if set to 'PHI', response will contain only PHI entities.
+   */
+  domain?: string;
+}
+
+/**
+ * Contains response data for the entitiesRecognitionPii operation.
+ */
+export type GeneratedClientEntitiesRecognitionPiiResponse = EntitiesResult & {
   /**
    * The underlying HTTP response.
    */
@@ -659,6 +775,10 @@ export interface GeneratedClientSentimentOptionalParams
    * (Optional) if set to true, response will contain input and document level statistics.
    */
   includeStatistics?: boolean;
+  /**
+   * (Optional) if set to true, response will contain input and document level statistics including aspect-based sentiment analysis results.
+   */
+  opinionMining?: boolean;
 }
 
 /**
