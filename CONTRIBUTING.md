@@ -250,3 +250,13 @@ nodeResolve({
   preferBuiltins: false
 }),
 ```
+
+### Package Versioning
+
+For information about packages are versioned and tagged see [Javascript Releases](https://azure.github.io/azure-sdk/policies_releases.html#javascript)
+
+### Dev Packages
+
+The daily dev build for JS are published directly to [npmjs.com](https://npmjs.com) under the dev tag. These are published daily whenever there is a change in the package. You can test them by downloading or taking a dependency the "dev" tagged version of the package, or pinning to particular dev version.
+
+The daily dev packages are considered volatile and taking dependencies on a dev package should be considered a temporary arrangement.

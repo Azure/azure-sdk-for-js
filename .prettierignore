@@ -1,0 +1,5 @@
+src/generated/
+review/*.api.md
+*.yml
+*.yaml
+*.d.ts

@@ -7,8 +7,9 @@ The change feed provides an ordered, guaranteed, durable, immutable, read-only t
 This project provides a client library in JavaScript that makes it easy to consume the change feed.
 
 Use the client libraries in this package to:
-  - Reading change feed events, all or within a time range
-  - Resuming reading events from a saved position
+
+- Reading change feed events, all or within a time range
+- Resuming reading events from a saved position
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-blob-changefeed) |
 [Package (npm)](https://www.npmjs.com/package/@azure/storage-blob-changefeed/) |
@@ -45,27 +46,32 @@ This library offers a client you can use to fetch the change events.
 
 ## Examples
 
+- [Initialize the change feed client](#initialize-the-change-feed-client "Initialize the change feed client")
+- [Reading all events in the Change Feed](#reading-all-events-in-the-change-feed "Reading all events in the Change Feed")
+- [Resuming reading events with a cursor](#resuming-reading-events-with-a-cursor "Resuming reading events with a cursor")
+- [Reading events within a time range](#reading-events-within-a-time-range "Reading events within a time range")
+
 ### Initialize the change feed client
 
 The `BlobChangeFeedClient` requires a `BlobServiceClient` to initialize. Refer to [storage-blob](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-blob#create-the-blob-service-client) for how to create the blob service client. Here is an example using `StorageSharedKeyCredential`.
 
-  ```javascript
-  const { BlobServiceClient, StorageSharedKeyCredential } = require("@azure/storage-blob");
-  const { BlobChangeFeedClient } = require("@azure/storage-blob-changefeed");
+```javascript
+const { BlobServiceClient, StorageSharedKeyCredential } = require("@azure/storage-blob");
+const { BlobChangeFeedClient } = require("@azure/storage-blob-changefeed");
 
-  // Enter your storage account name and shared key
-  const account = "<account>";
-  const accountKey = "<accountkey>";
-  // Use StorageSharedKeyCredential with storage account and account key
-  // StorageSharedKeyCredential is only available in Node.js runtime, not in browsers
-  const sharedKeyCredential = new StorageSharedKeyCredential(account, accountKey);
-  const blobServiceClient = new BlobServiceClient(
-    `https://${account}.blob.core.windows.net`,
-    sharedKeyCredential
-  );
+// Enter your storage account name and shared key
+const account = "<account>";
+const accountKey = "<accountkey>";
+// Use StorageSharedKeyCredential with storage account and account key
+// StorageSharedKeyCredential is only available in Node.js runtime, not in browsers
+const sharedKeyCredential = new StorageSharedKeyCredential(account, accountKey);
+const blobServiceClient = new BlobServiceClient(
+  `https://${account}.blob.core.windows.net`,
+  sharedKeyCredential
+);
 
-  const changeFeedClient = new BlobChangeFeedClient(blobServiceClient);
-  ```
+const changeFeedClient = new BlobChangeFeedClient(blobServiceClient);
+```
 
 ### Reading all events in the Change Feed
 
@@ -74,9 +80,9 @@ Use `BlobChangeFeedClient.listChanges()` to get iterators to iterate through the
 ```javascript
 const { BlobChangeFeedEvent } = require("@azure/storage-blob-changefeed");
 
-let changeFeedEvents : BlobChangeFeedEvent[] = [];
+let changeFeedEvents = [];
 for await (const event of changeFeedClient.listChanges()) {
-    changeFeedEvents.push(event);
+  changeFeedEvents.push(event);
 }
 ```
 
@@ -85,11 +91,11 @@ By page.
 ```javascript
 const { BlobChangeFeedEvent } = require("@azure/storage-blob-changefeed");
 
-let changeFeedEvents : BlobChangeFeedEvent[] = [];
+let changeFeedEvents = [];
 for await (const eventPage of changeFeedClient.listChanges().byPage()) {
-    for (const event of eventPage) {
-        changeFeedEvents.push(event);
-    }
+  for (const event of eventPage.events) {
+    changeFeedEvents.push(event);
+  }
 }
 ```
 
@@ -98,17 +104,19 @@ for await (const eventPage of changeFeedClient.listChanges().byPage()) {
 ```javascript
 const { BlobChangeFeedEvent } = require("@azure/storage-blob-changefeed");
 
-let changeFeedEvents : BlobChangeFeedEvent[] = [];
-const firstPage = await changeFeedClient.listChanges().byPage({maxPageSize: 10}).next();
-for (const event of firstPage) {
-    changeFeedEvents.push(event);
+let changeFeedEvents = [];
+const firstPage = await changeFeedClient.listChanges().byPage({ maxPageSize: 10 }).next();
+for (const event of firstPage.value.events) {
+  changeFeedEvents.push(event);
 }
 
 // Resume iterating from the previous position with the continuationToken.
-for await (const eventPage of changeFeedClient.listChanges().byPage({continuationToken: firstPage.continuationToken})) {
-    for (const event of eventPage) {
-        changeFeedEvents.push(event);
-    }
+for await (const eventPage of changeFeedClient
+  .listChanges()
+  .byPage({ continuationToken: firstPage.value.continuationToken })) {
+  for (const event of eventPage.events) {
+    changeFeedEvents.push(event);
+  }
 }
 ```
 
@@ -124,10 +132,10 @@ const { BlobChangeFeedEvent } = require("@azure/storage-blob-changefeed");
 const start = new Date(Date.UTC(2020, 1, 21, 22, 30, 0)); // will be rounded down to 22:00
 const end = new Date(Date.UTC(2020, 4, 8, 21, 10, 0)); // will be rounded up to 22:00
 
-let changeFeedEvents : BlobChangeFeedEvent[] = [];
+let changeFeedEvents = [];
 // You can also provide just a start or end time.
 for await (const event of changeFeedClient.listChanges({ start, end })) {
-    changeFeedEvents.push(event);
+  changeFeedEvents.push(event);
 }
 ```
 

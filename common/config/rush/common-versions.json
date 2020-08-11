@@ -58,9 +58,6 @@
 
     // Monitor: Allow node 10 types until Timeout / Timer conflict is resolved in OpenTelemetry repo
     // TODO: remove when released https://github.com/open-telemetry/opentelemetry-js/pull/1352
-    "@types/node": ["^10.0.0"],
-
-    // Monitor: Always test on latest version of OpenTelemetry
-    "@opentelemetry/api": ["^0.10.1"]
+    "@types/node": ["^10.0.0"]
   }
 }

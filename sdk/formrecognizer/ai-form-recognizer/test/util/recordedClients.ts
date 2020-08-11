@@ -3,7 +3,6 @@
 
 import { Context } from "mocha";
 import * as dotenv from "dotenv";
-import * as path from "path";
 
 import { env, Recorder, record, RecorderEnvironmentSetup } from "@azure/test-utils-recorder";
 import { isNode } from "@azure/core-http";
@@ -12,7 +11,7 @@ import { AzureKeyCredential, FormTrainingClient, FormRecognizerClient } from "..
 import { ClientSecretCredential } from "@azure/identity";
 
 if (isNode) {
-  dotenv.config({ path: path.join(__dirname, "..", ".env") });
+  dotenv.config();
 }
 
 export interface RecordedTrainingClient {

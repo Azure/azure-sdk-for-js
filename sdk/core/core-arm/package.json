@@ -72,10 +72,10 @@
     "build:rollup": "rollup -c rollup.config.js 2>&1",
     "build:minify": "uglifyjs -c -m --comments --source-map \"content='./dist/coreArm.js.map'\" -o ./dist/coreArm.min.js ./dist/coreArm.js",
     "build:test": "npm run build",
-    "check-format": "prettier --list-different --config ../../.prettierrc.json --ignore-path ../../.prettierignore --ignore-path ../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
+    "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf ./es ./dist",
     "execute:samples": "echo skipped",
-    "format": "prettier --write --config ../../.prettierrc.json --ignore-path ../../.prettierignore --ignore-path ../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
+    "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "integration-test:browser": "echo skipped",
     "integration-test:node": "echo skipped",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
@@ -101,7 +101,7 @@
     ]
   },
   "dependencies": {
-    "@azure/core-http": "^1.1.4",
+    "@azure/core-http": "^1.1.6",
     "tslib": "^2.0.0"
   },
   "devDependencies": {

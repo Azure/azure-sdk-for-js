@@ -2,21 +2,21 @@
  "recordings": [
   {
    "method": "GET",
-   "url": "https://endpoint/formrecognizer/v2.0-preview/custom/models",
+   "url": "https://endpoint/formrecognizer/v2.0/custom/models",
    "query": {
     "op": "summary"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"summary\":{\"count\":93,\"limit\":5000,\"lastUpdatedDateTime\":\"2020-05-02T19:34:38Z\"}}",
+   "response": "{\"summary\":{\"count\":33,\"limit\":5000,\"lastUpdatedDateTime\":\"2020-08-05T23:32:19Z\"}}",
    "responseHeaders": {
-    "apim-request-id": "67f2bbb0-2e5f-4b25-ad3c-2c629eb81975",
+    "apim-request-id": "6ab34f31-546f-40ce-84b8-67e05435b537",
     "content-type": "application/json; charset=utf-8",
-    "date": "Sat, 02 May 2020 19:34:37 GMT",
+    "date": "Wed, 05 Aug 2020 23:32:18 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "16"
+    "x-envoy-upstream-service-time": "17"
    }
   }
  ],
@@ -24,5 +24,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "2091eb079a9677093738568620a3b079"
+ "hash": "096df90c67560fe108512b54cbfdbbca"
 }

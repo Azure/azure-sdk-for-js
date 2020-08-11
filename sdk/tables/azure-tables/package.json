@@ -24,7 +24,7 @@
     "clean": "rimraf dist dist-* types *.tgz *.log",
     "execute:samples": "echo skipped",
     "extract-api": "tsc -p . && api-extractor run --local",
-    "format": "prettier --write --config ../../.prettierrc.json --ignore-path ../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
+    "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "integration-test:browser": "echo skipped",
     "integration-test:node": "echo skipped",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
@@ -51,8 +51,7 @@
   "repository": "github:Azure/azure-sdk-for-js",
   "keywords": [
     "azure",
-    "cloud",
-    "Azure"
+    "cloud"
   ],
   "author": "Microsoft Corporation",
   "license": "MIT",
@@ -74,8 +73,8 @@
   "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
   "private": true,
   "dependencies": {
-    "@azure/core-http": "^1.1.4",
-    "@opentelemetry/api": "^0.6.1",
+    "@azure/core-http": "^1.1.6",
+    "@opentelemetry/api": "^0.10.2",
     "tslib": "^2.0.0"
   },
   "devDependencies": {

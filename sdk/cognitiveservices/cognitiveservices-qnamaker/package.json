@@ -2,7 +2,7 @@
   "name": "@azure/cognitiveservices-qnamaker",
   "author": "Microsoft Corporation",
   "description": "QnAMakerClient Library with typescript type definitions for node.js and browser.",
-  "version": "3.1.0",
+  "version": "3.1.1",
   "dependencies": {
     "@azure/ms-rest-js": "^2.0.4",
     "tslib": "^1.10.0"
