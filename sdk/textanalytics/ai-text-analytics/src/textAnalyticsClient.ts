@@ -98,7 +98,7 @@ export interface AnalyzeSentimentOptions extends TextAnalyticsOperationOptions {
    * aspect-based sentiment analysis). If set to true, the returned
    * `SentenceSentiment` objects will have property `mined_opinions` containing
    * the result of this analysis. Only available for API version v3.1-preview.1.
-   * More information about the feature can be found here: https://docs.microsoft.com/en-us/azure/cognitive-services/text-analytics/how-tos/text-analytics-how-to-sentiment-analysis?tabs=version-3-1#opinion-mining
+   * More information about the feature can be found here: https://docs.microsoft.com/azure/cognitive-services/text-analytics/how-tos/text-analytics-how-to-sentiment-analysis?tabs=version-3-1#opinion-mining
    */
   includeOpinionMining?: boolean;
 }
