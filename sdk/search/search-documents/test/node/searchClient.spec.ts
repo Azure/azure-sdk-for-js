@@ -68,7 +68,7 @@ describe("SearchClient", function() {
         "garbxyz",
         "sg"
       );
-      assert.isTrue(autoCompleteResult.results.length == 0)
+      assert.isTrue(autoCompleteResult.results.length == 0);
     });
   });
 
@@ -96,7 +96,9 @@ describe("SearchClient", function() {
     it("returns the correct suggestions", async function() {
       const suggestResult = await searchClient.suggest("wifi", "sg");
       assert.equal(suggestResult.results.length, 1);
-      assert.isTrue(suggestResult.results[0].text.startsWith("Save up to 50% off traditional hotels"));
+      assert.isTrue(
+        suggestResult.results[0].text.startsWith("Save up to 50% off traditional hotels")
+      );
     });
 
     it("returns zero suggestions for invalid input", async function() {

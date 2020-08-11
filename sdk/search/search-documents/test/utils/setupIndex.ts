@@ -422,28 +422,28 @@ export async function populateIndex(client: SearchClient<Hotel>): Promise<void> 
 // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
 export async function createDataSourceConnections(client: SearchIndexerClient): Promise<void> {
   const connectionString:string = "AccountEndpoint=https://hotels-docbb.documents.azure.com:443/;AccountKey=4UPsNZyFAjgZ1tzHPGZaxS09XcwLrIawbXBWk6IixcxJoSePTcjBn0mi53XiKWu8MaUgowUhIovOv7kjksqAug==;Database=SampleData";
-  for(let i = 1; i <= 5; i++) {
+  for (let i = 1; i <= 5; i++) {
     await client.createDataSourceConnection({
       name: `my-data-source-${i}`,
       type: "cosmosdb",
       container: {
         name: "hotels"
       },
-      connectionString: connectionString  
+      connectionString: connectionString
     });
   }
 }
 
 // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
 export async function deleteDataSourceConnections(client: SearchIndexerClient): Promise<void> {
-  for(let i = 1; i <= 5; i++) {
+  for (let i = 1; i <= 5; i++) {
     await client.deleteDataSourceConnection(`my-data-source-${i}`);
   }
 }
 
 // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
 export async function createSkillsets(client: SearchIndexerClient): Promise<void> {
-  for(let i = 1; i <= 4; i++) {
+  for (let i = 1; i <= 4; i++) {
     await client.createSkillset({
       name: `my-azureblob-skillset-${i}`,
       description: `Skillset description`,
@@ -506,19 +506,19 @@ export async function createSkillsets(client: SearchIndexerClient): Promise<void
         ]
       }
     ]
-  })
+  });;
 }
 
 // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
 export async function deleteSkillsets(client: SearchIndexerClient): Promise<void> {
-  for(let i = 1; i <= 5; i++) {
+  for (let i = 1; i <= 5; i++) {
     await client.deleteSkillset(`my-azureblob-skillset-${i}`);
   }
 }
 
 // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
 export async function createIndexers(client: SearchIndexerClient): Promise<void> {
-  for(let i = 1; i <= 5; i++) {
+  for (let i = 1; i <= 5; i++) {
     await client.createIndexer({
       name: `my-azure-indexer-${i}`,
       description: "Description for Sample Indexer",
@@ -530,7 +530,7 @@ export async function createIndexers(client: SearchIndexerClient): Promise<void>
 }
 
 export async function deleteIndexers(client: SearchIndexerClient): Promise<void> {
-  for(let i = 1; i <= 5; i++) {
+  for (let i = 1; i <= 5; i++) {
     await client.deleteIndexer(`my-azure-indexer-${i}`);
   }
 }

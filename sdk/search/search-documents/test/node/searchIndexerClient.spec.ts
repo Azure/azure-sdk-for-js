@@ -7,7 +7,16 @@ import {assert} from "chai";
 import {SearchIndexClient, SearchIndexerClient, SearchIndexerDataSourceConnection, SearchIndexerSkillset, SearchIndexer} from "../../src/index";
 import {Hotel} from "../utils/interfaces";
 import {createClients, environmentSetup} from "../utils/recordedClient";
-import {createIndex, createDataSourceConnections, deleteDataSourceConnections, createSkillsets, deleteSkillsets, createIndexers, deleteIndexers, WAIT_TIME} from "../utils/setupIndex";
+import {
+  createIndex,
+  createDataSourceConnections,
+  deleteDataSourceConnections,
+  createSkillsets,
+  deleteSkillsets,
+  createIndexers,
+  deleteIndexers,
+  WAIT_TIME
+} from "../utils/setupIndex";
 import { delay } from "@azure/core-http";
 
 const TEST_INDEX_NAME = "hotel-live-test2";
@@ -96,7 +105,7 @@ describe("SearchIndexerClient", function() {
         assert.equal(indexer.dataSourceName, "my-data-source-5");
         assert.equal(indexer.targetIndexName, "hotel-live-test2");
         assert.isFalse(indexer.isDisabled);
-      } catch(ex) {
+      } catch (ex) {
         throw ex;
       } finally {
         await indexerClient.deleteIndexer(indexer);
