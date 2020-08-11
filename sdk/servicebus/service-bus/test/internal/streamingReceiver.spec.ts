@@ -46,7 +46,7 @@ describe("StreamingReceiver unit tests", () => {
       );
 
       assert.equal(
-        streamingReceiver["_receiver"]!.credit,
+        streamingReceiver["link"]!.credit,
         101,
         "Credits are added when receive() is called"
       );
@@ -63,11 +63,7 @@ describe("StreamingReceiver unit tests", () => {
         "We've stopped receiving messages explicitly"
       );
 
-      assert.equal(
-        streamingReceiver["_receiver"]?.credit,
-        0,
-        "All receiver credits have been drained"
-      ); // ie, receiver drained
+      assert.equal(streamingReceiver["link"]?.credit, 0, "All receiver credits have been drained"); // ie, receiver drained
 
       await streamingReceiver.init(false);
       assert.isTrue(
@@ -81,7 +77,7 @@ describe("StreamingReceiver unit tests", () => {
       );
 
       assert.equal(
-        streamingReceiver["_receiver"]?.credit,
+        streamingReceiver["link"]?.credit,
         101,
         "subscribe has started again, and is revitalized with 101 credits."
       );
@@ -157,7 +153,7 @@ describe("StreamingReceiver unit tests", () => {
     const existingStreamingReceiver = new StreamingReceiver(context);
     await existingStreamingReceiver.init(false);
 
-    const originalReceiver = existingStreamingReceiver["_receiver"]!;
+    const originalReceiver = existingStreamingReceiver["link"]!;
     assert.isTrue(existingStreamingReceiver.isOpen(), "newly created receiver is open");
     const spy = sinon.spy(existingStreamingReceiver, "init");
 
@@ -174,7 +170,7 @@ describe("StreamingReceiver unit tests", () => {
 
     assert.strictEqual(
       originalReceiver,
-      newStreamingReceiver["_receiver"]!,
+      newStreamingReceiver["link"]!,
       "The existing internal rhea receiver was open so we kept it, even after init()"
     );
   });
@@ -189,7 +185,7 @@ describe("StreamingReceiver unit tests", () => {
 
     // we'll close the inner receiver - this will simulate the receiver being closed out from underneath us in some
     // way. This will cause the normal MessageReceiver._init() behavior to run.
-    const originalReceiver = existingStreamingReceiver["_receiver"]!;
+    const originalReceiver = existingStreamingReceiver["link"]!;
     await originalReceiver.close();
     assert.isFalse(
       existingStreamingReceiver.isOpen(),
@@ -208,7 +204,7 @@ describe("StreamingReceiver unit tests", () => {
     assert.isTrue(newStreamingReceiver.isOpen(), "Streaming receiver has been reopened");
     assert.notStrictEqual(
       originalReceiver,
-      newStreamingReceiver["_receiver"]!,
+      newStreamingReceiver["link"]!,
       "The existing internal rhea receiver was closed so a new one had to be created."
     );
   });

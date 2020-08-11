@@ -12,9 +12,9 @@ const assert = chai.assert;
 import { ClientEntityContext } from "../../src/clientEntityContext";
 import { BatchingReceiver } from "../../src/core/batchingReceiver";
 import { MessageReceiver, ReceiverType } from "../../src/core/messageReceiver";
-import { InternalMessageHandlers } from "../../src/models";
 import { ReceiverImpl } from "../../src/receivers/receiver";
 import { createClientEntityContextForTests } from "./unittestUtils";
+import { InternalMessageHandlers } from "../../src/models";
 
 describe("Receiver unit tests", () => {
   describe("init() and close() interactions", () => {
@@ -34,7 +34,7 @@ describe("Receiver unit tests", () => {
         initWasCalled = true;
         // ie, pretend that somebody called close() and the
         // call happened between .init().then()
-        batchingReceiver["_receiver"] = undefined;
+        batchingReceiver["_link"] = undefined;
       };
 
       // make an init() happen internally.
@@ -47,9 +47,12 @@ describe("Receiver unit tests", () => {
     it("message receiver init() bails out early if object is closed()", async () => {
       const messageReceiver2 = new MessageReceiver(fakeContext(), ReceiverType.streaming);
 
+      await messageReceiver2.close();
+
       // so our object basically looks like an unopened receiver
-      messageReceiver2["isOpen"] = () => false;
-      messageReceiver2["isConnecting"] = false;
+
+      // messageReceiver2["isOpen"] = () => false;
+      // messageReceiver2["isConnecting"] = false;
 
       // close() the object. Closed objects should not be able to be reopened.
       await messageReceiver2.close();
