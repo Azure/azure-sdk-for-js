@@ -54,7 +54,7 @@ export const enrich: OperationQueryParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2017_04",
+    defaultValue: "2017-04",
     isConstant: true,
     serializedName: "api-version",
     type: {
