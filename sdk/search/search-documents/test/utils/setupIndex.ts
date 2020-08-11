@@ -5,15 +5,14 @@ import {
   SearchClient,
   SearchIndexClient,
   SearchIndexerClient,
-  SearchIndexerSkillset,
-  SearchIndexer,
-  SearchIndexerDataSourceConnection,
   GeographyPoint,
   SearchIndex,
   KnownAnalyzerNames
 } from "../../src/index";
 import { Hotel } from "./interfaces";
 import { delay } from "@azure/core-http";
+
+export const WAIT_TIME = 2000;
 
 // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
 export async function createIndex(client: SearchIndexClient, name: string): Promise<void> {
@@ -423,187 +422,63 @@ export async function populateIndex(client: SearchClient<Hotel>): Promise<void> 
 // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
 export async function createDataSourceConnections(client: SearchIndexerClient): Promise<void> {
   const connectionString:string = "AccountEndpoint=https://hotels-docbb.documents.azure.com:443/;AccountKey=4UPsNZyFAjgZ1tzHPGZaxS09XcwLrIawbXBWk6IixcxJoSePTcjBn0mi53XiKWu8MaUgowUhIovOv7kjksqAug==;Database=SampleData";
-  const dataSourceConnections:SearchIndexerDataSourceConnection[] = [{
-    name: "my-data-source-1",
-    type: "cosmosdb",
-    container: {
-      name: "hotels"
-    },
-    connectionString: connectionString
-  },{
-    name: "my-data-source-2",
-    type: "cosmosdb",
-    container: {
-      name: "hotels"
-    },
-    connectionString: connectionString
-  },{
-    name: "my-data-source-3",
-    type: "cosmosdb",
-    container: {
-      name: "hotels"
-    },
-    connectionString: connectionString
-  },{
-    name: "my-data-source-4",
-    type: "cosmosdb",
-    container: {
-      name: "hotels"
-    },
-    connectionString: connectionString
-  },{
-    name: "my-data-source-5",
-    type: "cosmosdb",
-    container: {
-      name: "hotels"
-    },
-    connectionString: connectionString
-  }]
-  for(const dataSourceConnection of dataSourceConnections) {
-    await client.createDataSourceConnection(dataSourceConnection);
+  for(let i = 1; i <= 5; i++) {
+    await client.createDataSourceConnection({
+      name: `my-data-source-${i}`,
+      type: "cosmosdb",
+      container: {
+        name: "hotels"
+      },
+      connectionString: connectionString  
+    });
   }
 }
 
 // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
 export async function deleteDataSourceConnections(client: SearchIndexerClient): Promise<void> {
-  await client.deleteDataSourceConnection("my-data-source-1");
-  await client.deleteDataSourceConnection("my-data-source-2");
-  await client.deleteDataSourceConnection("my-data-source-3");
-  await client.deleteDataSourceConnection("my-data-source-4");
-  await client.deleteDataSourceConnection("my-data-source-5");
+  for(let i = 1; i <= 5; i++) {
+    await client.deleteDataSourceConnection(`my-data-source-${i}`);
+  }
 }
 
 // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
 export async function createSkillsets(client: SearchIndexerClient): Promise<void> {
-  const skillSets:SearchIndexerSkillset[] = [{
-    name: `my-azureblob-skillset-1`,
-    description: `Skillset description`,
-    skills: [
-      {
-        odatatype: "#Microsoft.Skills.Text.EntityRecognitionSkill",
-        inputs: [
-          {
-            name: "text",
-            source: "/document/merged_content"
-          },
-          {
-            name: "languageCode",
-            source: "/document/language"
-          }
-        ],
-        outputs: [
-          {
-            name: "persons",
-            targetName: "people"
-          },
-          {
-            name: "organizations",
-            targetName: "organizations"
-          },
-          {
-            name: "locations",
-            targetName: "locations"
-          }
-        ]
-      }
-    ]
-  },{
-    name: `my-azureblob-skillset-2`,
-    description: `Skillset description`,
-    skills: [
-      {
-        odatatype: "#Microsoft.Skills.Text.EntityRecognitionSkill",
-        inputs: [
-          {
-            name: "text",
-            source: "/document/merged_content"
-          },
-          {
-            name: "languageCode",
-            source: "/document/language"
-          }
-        ],
-        outputs: [
-          {
-            name: "persons",
-            targetName: "people"
-          },
-          {
-            name: "organizations",
-            targetName: "organizations"
-          },
-          {
-            name: "locations",
-            targetName: "locations"
-          }
-        ]
-      }
-    ]
-  },{
-    name: `my-azureblob-skillset-3`,
-    description: `Skillset description`,
-    skills: [
-      {
-        odatatype: "#Microsoft.Skills.Text.EntityRecognitionSkill",
-        inputs: [
-          {
-            name: "text",
-            source: "/document/merged_content"
-          },
-          {
-            name: "languageCode",
-            source: "/document/language"
-          }
-        ],
-        outputs: [
-          {
-            name: "persons",
-            targetName: "people"
-          },
-          {
-            name: "organizations",
-            targetName: "organizations"
-          },
-          {
-            name: "locations",
-            targetName: "locations"
-          }
-        ]
-      }
-    ]
-  },{
-    name: `my-azureblob-skillset-4`,
-    description: `Skillset description`,
-    skills: [
-      {
-        odatatype: "#Microsoft.Skills.Text.EntityRecognitionSkill",
-        inputs: [
-          {
-            name: "text",
-            source: "/document/merged_content"
-          },
-          {
-            name: "languageCode",
-            source: "/document/language"
-          }
-        ],
-        outputs: [
-          {
-            name: "persons",
-            targetName: "people"
-          },
-          {
-            name: "organizations",
-            targetName: "organizations"
-          },
-          {
-            name: "locations",
-            targetName: "locations"
-          }
-        ]
-      }
-    ]
-  },{
+  for(let i = 1; i <= 4; i++) {
+    await client.createSkillset({
+      name: `my-azureblob-skillset-${i}`,
+      description: `Skillset description`,
+      skills: [
+        {
+          odatatype: "#Microsoft.Skills.Text.EntityRecognitionSkill",
+          inputs: [
+            {
+              name: "text",
+              source: "/document/merged_content"
+            },
+            {
+              name: "languageCode",
+              source: "/document/language"
+            }
+          ],
+          outputs: [
+            {
+              name: "persons",
+              targetName: "people"
+            },
+            {
+              name: "organizations",
+              targetName: "organizations"
+            },
+            {
+              name: "locations",
+              targetName: "locations"
+            }
+          ]
+        }
+      ]
+    });
+  }
+  await client.createSkillset({
     name: `my-azureblob-skillset-5`,
     description: `Skillset description`,
     skills: [
@@ -631,63 +506,31 @@ export async function createSkillsets(client: SearchIndexerClient): Promise<void
         ]
       }
     ]
-  }];
-  for(const skillSet of skillSets) {
-    await client.createSkillset(skillSet);
-  }
+  })
 }
 
 // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
 export async function deleteSkillsets(client: SearchIndexerClient): Promise<void> {
-  await client.deleteSkillset("my-azureblob-skillset-1");
-  await client.deleteSkillset("my-azureblob-skillset-2");
-  await client.deleteSkillset("my-azureblob-skillset-3");
-  await client.deleteSkillset("my-azureblob-skillset-4");
-  await client.deleteSkillset("my-azureblob-skillset-5");
+  for(let i = 1; i <= 5; i++) {
+    await client.deleteSkillset(`my-azureblob-skillset-${i}`);
+  }
 }
 
 // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
 export async function createIndexers(client: SearchIndexerClient): Promise<void> {
-  const indexers:SearchIndexer[] = [{
-    name: "my-azure-indexer-1",
-    description: "Description for Sample Indexer",
-    dataSourceName: "my-data-source-5",
-    targetIndexName: "hotel-live-test2",
-    isDisabled: false
-  },{
-    name: "my-azure-indexer-2",
-    description: "Description for Sample Indexer",
-    dataSourceName: "my-data-source-5",
-    targetIndexName: "hotel-live-test2",
-    isDisabled: false
-  },{
-    name: "my-azure-indexer-3",
-    description: "Description for Sample Indexer",
-    dataSourceName: "my-data-source-5",
-    targetIndexName: "hotel-live-test2",
-    isDisabled: false
-  },{
-    name: "my-azure-indexer-4",
-    description: "Description for Sample Indexer",
-    dataSourceName: "my-data-source-5",
-    targetIndexName: "hotel-live-test2",
-    isDisabled: false
-  },{
-    name: "my-azure-indexer-5",
-    description: "Description for Sample Indexer",
-    dataSourceName: "my-data-source-5",
-    targetIndexName: "hotel-live-test2",
-    isDisabled: false
-  }];
-  for(const indexer of indexers) {
-    await client.createIndexer(indexer);
+  for(let i = 1; i <= 5; i++) {
+    await client.createIndexer({
+      name: `my-azure-indexer-${i}`,
+      description: "Description for Sample Indexer",
+      dataSourceName: "my-data-source-5",
+      targetIndexName: "hotel-live-test2",
+      isDisabled: false
+    });
   }
 }
 
 export async function deleteIndexers(client: SearchIndexerClient): Promise<void> {
-  await client.deleteIndexer("my-azure-indexer-1");
-  await client.deleteIndexer("my-azure-indexer-2");
-  await client.deleteIndexer("my-azure-indexer-3");
-  await client.deleteIndexer("my-azure-indexer-4");
-  await client.deleteIndexer("my-azure-indexer-5");
+  for(let i = 1; i <= 5; i++) {
+    await client.deleteIndexer(`my-azure-indexer-${i}`);
+  }
 }
