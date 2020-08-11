@@ -152,7 +152,7 @@ const client = new KeyClient(url, credential);
 
 ## Specifying the Azure Key Vault service API version
 
-By default, this package uses the latest Azure Key Vault service version which is `7.1`. The only other version that is supported is `7.0`. You can change the service version being used by setting the option `apiVersion` in the client constructor as shown below:
+By default, this package uses the latest Azure Key Vault service version which is `7.1`. The only other version that is supported is `7.0`. You can change the service version being used by setting the option `serviceVersion` in the client constructor as shown below:
 
 ```typescript
 const { DefaultAzureCredential } = require("@azure/identity");
@@ -163,9 +163,9 @@ const credential = new DefaultAzureCredential();
 const vaultName = "<YOUR KEYVAULT NAME>";
 const url = `https://${vaultName}.vault.azure.net`;
 
-// Change the Azure Key Vault service API version being used via the `apiVersion` option
+// Change the Azure Key Vault service API version being used via the `serviceVersion` option
 const client = new KeyClient(url, credential, {
-  apiVersion: "7.0"
+  serviceVersion: "7.0"
 });
 ```
 
