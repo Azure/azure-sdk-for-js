@@ -447,9 +447,9 @@ const fileName = "<file name>";
 const serviceClient = new ShareServiceClient(`https://${account}.file.core.windows.net${sas}`);
 
 async function main() {
-  const fileClient = serviceClient
-    .getShareClient(shareName)
-    .rootDirectoryClient.getFileClient(fileName);
+  const fileClient = serviceClient.getShareClient(shareName)
+    .rootDirectoryClient
+    .getFileClient(fileName);
 
   // Get file content from position 0 to the end
   // In browsers, get downloaded data by accessing downloadFileResponse.blobBody
