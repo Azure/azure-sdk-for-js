@@ -9,3 +9,6 @@
  */
 
 export * from "./accounts";
+export * from "./maps";
+export * from "./privateAtlases";
+export * from "./creators";
