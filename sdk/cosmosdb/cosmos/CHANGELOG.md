@@ -2,6 +2,8 @@
 
 ## 3.8.1 (Unreleased)
 
+- BUGFIX: Adds separate URL module for browser/node.
+
 
 ## 3.8.0 (2020-08-10)
 

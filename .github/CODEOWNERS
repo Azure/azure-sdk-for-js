@@ -38,7 +38,7 @@
 /sdk/appconfiguration/ @richardpark-msft @chradek
 
 # PRLabel: %Batch
-/sdk/batch/ @xingwu1 @matthchr @bgklein
+/sdk/batch/ @xingwu1 @matthchr @bgklein @deyaaeldeen
 
 # PRLabel: %Cosmos
 /sdk/cosmosdb/ @southpolesteve @zfoster
@@ -64,7 +64,7 @@
 /sdk/test-utils/ @HarshaNalluru @sadasant
 
 # PRLabel: %Cognitive - Text Analytics
-/sdk/textanalytics/ @xirzec @willmtemple
+/sdk/textanalytics/ @deyaaeldeen @xirzec @willmtemple
 
 # PRLabel: %Cognitive - Form Recognizer
 /sdk/formrecognizer/ @jeremymeng @willmtemple
@@ -95,9 +95,10 @@
 ###########
 # Config
 ###########
-/.vscode/ @mikeharder @KarishmaGhiya
+/.vscode/ @mikeharder @KarishmaGhiya @deyaaeldeen
 /common/ @mikeharder @KarishmaGhiya
 /common/config/rush/pnpm-lock.yaml @bterlson
+/common/git-hooks/ @deyaaeldeen
 /rush.json @mikeharder @KarishmaGhiya
 /tsconfig.json @mikeharder @KarishmaGhiya
 /**/tsconfig.json @bterlson

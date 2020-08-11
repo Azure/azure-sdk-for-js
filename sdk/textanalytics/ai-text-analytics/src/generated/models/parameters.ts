@@ -65,7 +65,27 @@ export const includeStatistics: OperationQueryParameter = {
   }
 };
 
+export const domain: OperationQueryParameter = {
+  parameterPath: ["options", "domain"],
+  mapper: {
+    serializedName: "domain",
+    type: {
+      name: "String"
+    }
+  }
+};
+
 export const input1: OperationParameter = {
   parameterPath: "input",
   mapper: LanguageBatchInputMapper
+};
+
+export const opinionMining: OperationQueryParameter = {
+  parameterPath: ["options", "opinionMining"],
+  mapper: {
+    serializedName: "opinionMining",
+    type: {
+      name: "Boolean"
+    }
+  }
 };
