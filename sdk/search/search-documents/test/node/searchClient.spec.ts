@@ -26,7 +26,7 @@ describe("SearchClient", function() {
   let searchClient: SearchClient<Hotel>;
   let indexClient: SearchIndexClient;
 
-  this.timeout(30000);
+  this.timeout(99999);
 
   beforeEach(async function() {
     ({ searchClient, indexClient } = createClients<Hotel>(TEST_INDEX_NAME));

@@ -7,7 +7,7 @@ module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 nock('https://endpoint:443', {"encodedQueryParams":true})
   .get('/skillsets(%27my-azureblob-skillset-1%27)')
   .query(true)
-  .reply(200, ["1f8b0800000000000400edbd07601c499625262f6dca7b7f4af54ad7e074a10880601324d8904010ecc188cde692ec1d69472329ab2a81ca6556655d661640cced9dbcf7de7befbdf7de7befbdf7ba3b9d4e27f7dfff3f5c6664016cf6ce4adac99e2180aac81f3f7e7c1f3f227ef147bf6735cbda6c3cad966dfeaefde8d147f3b65d358feede6df2ac9ece67d5b499bd1dcb1fe3ab6239abae9af1326feffe6e8bbccdf0ee8f376f8bb26cf2b6b9fbbbe5cbb668af3f1a19b0d4e48260febe1fedbc3b787a70efe9d3d367274fef9d3eddbffffb7e44ad96d922a7af17d7dbd90fd6753e29abc9b681b6bd4b0d667933ad8b555b544b6af75abf4afd8f471fc91b1f3dfa9e1d4d7bbd02dc1fffa298d655539db7637975fc86c6383e65245fe5d3ea625900067f4980149d1feff5bc5c97e5e82347a3bb4496f582064b0da7599b5f54759103838f5ee675436f8c3efa8975c6ddd0af5fd617d9b2f841c6b0461f7df5ea39fd7bbac80af4f9bc2200f2c55382f4a62014be8feecfb375d93ecf9617ebec223fa966c02c47b345b12c16ebc5cb3a9f160dde54f48ae5b45ccff23734f6326f1a1e256365be5ead5bfa8ba8a4e3e4c110f9aa753dc5df76547717797d91cf7e7f1e300f52da9ce06f7aa70bf1fbbf646481963ec6e645fadc01372decb7c3608910d5bad53f6d172ba67143efb719e1d9be301f57ab32ffc8c3a5f208df6b1e7ee9bd55ea8cf4de705ffc12464df9e7327f9dd797c5d491faedb2ba2af3d945febaad6a7a533ecd97d3fa9a19eaf7caafe5c35ff2ff00e4bcb26980030000"], [ 'Cache-Control',
+  .reply(200, ["1f8b0800000000000400edbd07601c499625262f6dca7b7f4af54ad7e074a10880601324d8904010ecc188cde692ec1d69472329ab2a81ca6556655d661640cced9dbcf7de7befbdf7de7befbdf7ba3b9d4e27f7dfff3f5c6664016cf6ce4adac99e2180aac81f3f7e7c1f3f227ef147bf6735cbda6c3cad966dfeaefde8d147f3b65d358feede6df3a66df2ac9ecea759933763f97d7c552c67d555335ee6eddddf6d91b7195efff1e66d51964dde36777fb77cd916edf5472303999a5c10d8dff7a39d77074f0fee3d3dfdf474fff8f8c99367bbbfef47d46a992d72fa7a71bd9dfd605de793b29a6c1b68dbbbd4609637d3ba58b545b5a476aff5abd4ff78f491bcf1d1a3efd901b5d72bc0fdf12f8a695d35d5793b9657c76f6898e35346f2553ead2e960560f0970448d1f9f15ecfcb75598e3e7264ba3baba6eb050d961a4eb336bfa8ea2207061fbdcceb86de187df413eb8cbba15fbfac2fb265f1838c618d3efaead573faf7749115e8f3794500e48ba704e94d41287c1fdd9f67ebb27d9e2d2fd6d9457e52cd80598e668b62592cd68b97753e2d1abca9e815cb69b99ee56f68ec65de343c4ac6ca7cbd5ab7f4175149c7c98321f255eb7a8abfeda8ee2ef2fa229ffdfe3c601ea4b439c1dff44e17e2f77fc9c8022d7d8ccd8bf4b9036e5ad86f87c11221aa75ab7fda2e564ce386de6f33c2b37d613eae5665fe91874be511bed73cfcd27babd419e9bde1bef8258c9af2cf65fe3aaf2f8ba923f5db657555e6b38bfc755bd5f4a67c9a2fa7f53533d4ef955fcb87bfe4ff01d803207983030000"], [ 'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
@@ -18,13 +18,13 @@ nock('https://endpoint:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'ETag',
-  'W/"0x8D83DDEFCD3ED45"',
+  'W/"0x8D83DE6E4AABBF1"',
   'Vary',
   'Accept-Encoding',
   'request-id',
-  '1471807e-76ac-4a0b-8a10-9054e1968b44',
+  '9ce594aa-56ee-40f7-b177-20db91c72da6',
   'elapsed-time',
-  '53',
+  '27',
   'OData-Version',
   '4.0',
   'Preference-Applied',
@@ -32,6 +32,6 @@ nock('https://endpoint:443', {"encodedQueryParams":true})
   'Strict-Transport-Security',
   'max-age=15724800; includeSubDomains',
   'Date',
-  'Tue, 11 Aug 2020 10:12:11 GMT',
+  'Tue, 11 Aug 2020 11:08:46 GMT',
   'Content-Length',
-  '581' ]);
+  '583' ]);

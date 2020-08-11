@@ -7,7 +7,7 @@ module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 nock('https://endpoint:443', {"encodedQueryParams":true})
   .get('/indexers(%27garbxyz%27)')
   .query(true)
-  .reply(404, {"error":{"code":"","message":"Indexer 'garbxyz' was not found in service 'searchdocsdk'."}}, [ 'Cache-Control',
+  .reply(404, {"error":{"code":"","message":"Indexer 'garbxyz' was not found in service 'testsearchcases'."}}, [ 'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
@@ -18,9 +18,9 @@ nock('https://endpoint:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'request-id',
-  'a9b0b411-e16b-4ba4-97f8-84b848113b4b',
+  '0577882f-065e-418d-8cbd-93457cc7d750',
   'elapsed-time',
-  '5',
+  '7',
   'OData-Version',
   '4.0',
   'Preference-Applied',
@@ -28,6 +28,6 @@ nock('https://endpoint:443', {"encodedQueryParams":true})
   'Strict-Transport-Security',
   'max-age=15724800; includeSubDomains',
   'Date',
-  'Tue, 11 Aug 2020 10:09:11 GMT',
+  'Tue, 11 Aug 2020 11:05:45 GMT',
   'Content-Length',
-  '92' ]);
+  '95' ]);
