@@ -24,7 +24,7 @@ const WAIT_TIME = 2000;
 describe("SearchClient", function() {
   let recorder: Recorder;
   let searchClient: SearchClient<Hotel>;
-  let indexClient: SearchIndexClient;  
+  let indexClient: SearchIndexClient;
 
   this.timeout(30000);
 
