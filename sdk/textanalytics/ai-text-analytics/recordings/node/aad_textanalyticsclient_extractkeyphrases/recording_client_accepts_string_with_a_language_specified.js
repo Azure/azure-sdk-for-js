@@ -20,26 +20,26 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'x-ms-request-id',
-  'c12d1a28-eba5-4fa9-ac49-f9fabd972e02',
+  '88a52692-8380-48df-a9e2-03a37b3b3d00',
   'x-ms-ests-server',
-  '2.1.10571.11 - WUS2 ProdSlices',
+  '2.1.10897.16 - CHI ProdSlices',
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'Set-Cookie',
-  'fpc=AuKBtbGGL3hHsn9f66G21ab0CyfMAQAAAPNTX9YOAAAA; expires=Thu, 25-Jun-2020 18:16:20 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AnDqOCfgz5VDiqkKCoIzMKz0CyfMAQAAAL2bu9YOAAAA; expires=Thu, 03-Sep-2020 18:11:10 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=prod; path=/; SameSite=None; secure; HttpOnly',
   'Set-Cookie',
   'stsservicecookie=ests; path=/; SameSite=None; secure; HttpOnly',
   'Date',
-  'Tue, 26 May 2020 18:16:19 GMT',
+  'Tue, 04 Aug 2020 18:11:10 GMT',
   'Content-Length',
   '1417'
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
   .post('/text/analytics/v3.0/keyPhrases', {"documents":[{"id":"0","text":"I had a wonderful trip to Seattle last week and even visited the Space Needle 2 times!","language":"en"},{"id":"1","text":"Unfortunately, it rained during my entire trip to Seattle. I didn't even get to visit the Space Needle","language":"en"},{"id":"2","text":"I went to see a movie on Saturday and it was perfectly average, nothing more or less than I expected.","language":"en"},{"id":"3","text":"I didn't like the last book I read at all.","language":"en"}]})
-  .reply(200, {"documents":[{"id":"0","keyPhrases":["week","Space Needle","wonderful trip","Seattle","times"],"warnings":[]},{"id":"1","keyPhrases":["entire trip","Seattle","Space Needle"],"warnings":[]},{"id":"2","keyPhrases":["movie"],"warnings":[]},{"id":"3","keyPhrases":["book"],"warnings":[]}],"errors":[],"modelVersion":"2019-10-01"}, [
+  .reply(200, {"documents":[{"id":"0","keyPhrases":["week","Space Needle","wonderful trip","Seattle","times"],"warnings":[]},{"id":"1","keyPhrases":["entire trip","Seattle","Space Needle"],"warnings":[]},{"id":"2","keyPhrases":["movie"],"warnings":[]},{"id":"3","keyPhrases":["book"],"warnings":[]}],"errors":[],"modelVersion":"2020-07-01"}, [
   'Transfer-Encoding',
   'chunked',
   'Content-Type',
@@ -49,11 +49,11 @@ nock('https://endpoint', {"encodedQueryParams":true})
   'x-envoy-upstream-service-time',
   '9',
   'apim-request-id',
-  'b03972e6-b2ea-4058-948d-899926e43afe',
+  '37df22c8-150a-42da-8881-611f9fc29250',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Tue, 26 May 2020 18:16:20 GMT'
+  'Tue, 04 Aug 2020 18:11:10 GMT'
 ]);

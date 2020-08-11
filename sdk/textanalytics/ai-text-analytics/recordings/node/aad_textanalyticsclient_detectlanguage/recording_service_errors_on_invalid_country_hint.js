@@ -20,38 +20,38 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'x-ms-request-id',
-  'cb7c5eec-fa33-4de7-8c27-4e1bc618ac00',
+  '27c5f89a-a330-4105-aa7c-b6355e903800',
   'x-ms-ests-server',
-  '2.1.10571.11 - WUS2 ProdSlices',
+  '2.1.10897.16 - CHI ProdSlices',
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'Set-Cookie',
-  'fpc=AhTwLH-mXnRIu4OLEgw5wi_0CyfMAQAAAPFTX9YOAAAA; expires=Thu, 25-Jun-2020 18:16:17 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=Ar_39H87z_5JvTx7Hw3W1qL0CyfMAQAAALibu9YOAAAA; expires=Thu, 03-Sep-2020 18:11:05 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=prod; path=/; SameSite=None; secure; HttpOnly',
   'Set-Cookie',
   'stsservicecookie=ests; path=/; SameSite=None; secure; HttpOnly',
   'Date',
-  'Tue, 26 May 2020 18:16:17 GMT',
+  'Tue, 04 Aug 2020 18:11:04 GMT',
   'Content-Length',
   '1417'
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
   .post('/text/analytics/v3.0/languages', {"documents":[{"id":"0","text":"hello","countryHint":"invalidcountry"}]})
-  .reply(200, {"documents":[],"errors":[{"id":"0","error":{"code":"InvalidArgument","message":"Invalid Country Hint.","innererror":{"code":"InvalidCountryHint","message":"Country hint is not valid. Please specify an ISO 3166-1 alpha-2 two letter country code."}}}],"modelVersion":"2019-10-01"}, [
+  .reply(200, {"documents":[],"errors":[{"id":"0","error":{"code":"InvalidArgument","message":"Invalid Country Hint.","innererror":{"code":"InvalidCountryHint","message":"Country hint is not valid. Please specify an ISO 3166-1 alpha-2 two letter country code."}}}],"modelVersion":"2020-07-01"}, [
   'Transfer-Encoding',
   'chunked',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-envoy-upstream-service-time',
-  '1',
+  '2',
   'apim-request-id',
-  'a0417790-14f0-47fc-89c6-ff8ff41f4cde',
+  'cf503c04-e9ac-4377-920e-6db43a5c5d07',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Tue, 26 May 2020 18:16:17 GMT'
+  'Tue, 04 Aug 2020 18:11:04 GMT'
 ]);
