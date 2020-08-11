@@ -1,5 +1,8 @@
 # Release History
 
+## 7.0.0-preview.6 (Unreleased)
+
+
 ## 7.0.0-preview.5 (2020-08-10)
 
 - User agent details can now be added to the outgoing requests by passing the user-agent prefixes to the `ServiceBusClient` and the `ServiceBusManagementClient` through options.
