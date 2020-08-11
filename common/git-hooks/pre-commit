@@ -10,7 +10,7 @@ echo Starting Git hook: pre-commit
 
 MERGE=$(git rev-parse -q --verify MERGE_HEAD)
 
-if [[ $MERGE ]]; then
+if [ ! -z ${MERGE} ]; then
     echo "This is a merge.... Skipping prettying"
     exit
 fi
