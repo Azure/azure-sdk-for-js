@@ -8,7 +8,8 @@ import {
   isTokenCredential,
   bearerTokenAuthenticationPolicy,
   operationOptionsToRequestOptionsBase,
-  OperationOptions
+  OperationOptions,
+  RestError
 } from "@azure/core-http";
 import { TokenCredential, KeyCredential } from "@azure/core-auth";
 import { SDK_VERSION } from "./constants";
@@ -350,11 +351,27 @@ export class TextAnalyticsClient {
         result.statistics
       );
     } catch (e) {
+      let backwardCompatibleException;
+      /**
+       * This special logic handles REST exception with code
+       * InvalidDocumentBatch and is needed to maintain backward compatability
+       * with sdk v5.0.0 and earlier. In general, REST exceptions are thrown as
+       * is and include both outer and inner exception codes. However, the
+       * earlier versions were throwing an exception that included the inner
+       * code only.
+       */
+      const innerCode = e.response?.parsedBody?.error?.innererror?.code;
+      const innerMessage = e.response?.parsedBody?.error?.innererror?.message;
+      if (innerCode === "InvalidDocumentBatch") {
+        backwardCompatibleException = new RestError(innerMessage, innerCode, e.statusCode);
+      } else {
+        backwardCompatibleException = e;
+      }
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
-        message: e.message
+        message: backwardCompatibleException.message
       });
-      throw e;
+      throw backwardCompatibleException;
     } finally {
       span.end();
     }

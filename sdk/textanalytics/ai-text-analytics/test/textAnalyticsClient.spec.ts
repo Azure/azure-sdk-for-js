@@ -259,7 +259,10 @@ describe("[AAD] TextAnalyticsClient", function() {
       } catch (e) {
         assert.equal(e.statusCode, 400);
         assert.equal(e.code, "InvalidDocumentBatch");
-        assert.match(e.message, /exceeded the data limitations/);
+        assert.equal(
+          e.message,
+          "Batch request contains too many records. Max 5 records are permitted."
+        );
       }
     });
   });
@@ -401,7 +404,10 @@ describe("[AAD] TextAnalyticsClient", function() {
       } catch (e) {
         assert.equal(e.statusCode, 400);
         assert.equal(e.code, "InvalidDocumentBatch");
-        assert.match(e.message, /exceeded the data limitations/);
+        assert.equal(
+          e.message,
+          "Batch request contains too many records. Max 5 records are permitted."
+        );
       }
     });
   });
