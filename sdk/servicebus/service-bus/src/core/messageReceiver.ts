@@ -274,7 +274,7 @@ export class MessageReceiver extends LinkEntity<Receiver> {
     }
   }
 
-  protected async createRheaLink(
+  protected createRheaLink(
     options: ReceiverOptionsWithSession,
     _abortSignal?: AbortSignalLike
   ): Promise<Receiver> {

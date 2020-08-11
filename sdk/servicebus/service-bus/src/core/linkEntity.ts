@@ -338,7 +338,7 @@ export class LinkEntity<LinkT extends Receiver | AwaitableSender | RequestRespon
    *
    * @param _options
    */
-  protected createRheaLink(_options?: LinkOptionsT<LinkT>): Promise<LinkT> {
+  protected createRheaLink(_options: LinkOptionsT<LinkT>): Promise<LinkT> {
     throw new Error("UNIMPLEMENTED");
   }
 

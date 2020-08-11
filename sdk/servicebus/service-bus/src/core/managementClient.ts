@@ -275,11 +275,11 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
     }
   }
 
-  protected createRheaLink(options?: RequestResponseLinkOptions): Promise<RequestResponseLink> {
+  protected createRheaLink(options: RequestResponseLinkOptions): Promise<RequestResponseLink> {
     return RequestResponseLink.create(
       this._context.namespace.connection,
-      options!.senderOptions,
-      options!.receiverOptions
+      options.senderOptions,
+      options.receiverOptions
     );
   }
 
