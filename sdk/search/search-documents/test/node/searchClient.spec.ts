@@ -18,7 +18,7 @@ import { Hotel } from "../utils/interfaces";
 import { createIndex, populateIndex } from "../utils/setupIndex";
 import { delay } from "@azure/core-http";
 
-const TEST_INDEX_NAME = "hotel-live-test";
+const TEST_INDEX_NAME = "hotel-live-test-1";
 const WAIT_TIME = 2000;
 
 describe("SearchClient", function() {
@@ -32,6 +32,7 @@ describe("SearchClient", function() {
     ({ searchClient, indexClient } = createClients<Hotel>(TEST_INDEX_NAME));
     if (!isPlaybackMode()) {
       await createIndex(indexClient, TEST_INDEX_NAME);
+      await delay(2000);
       await populateIndex(searchClient);
     }
     recorder = record(this, environmentSetup);
@@ -45,6 +46,7 @@ describe("SearchClient", function() {
     }
     if (!isPlaybackMode()) {
       await indexClient.deleteIndex(TEST_INDEX_NAME);
+      await delay(2000);
     }
   });
 
