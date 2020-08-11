@@ -239,8 +239,8 @@ const keyName = "MyKeyName";
 async function main() {
   const latestKey = await client.getKey(keyName);
   console.log(`Latest version of the key ${keyName}: `, latestKey);
-  const specificKey = await client.getKey(keyName, { version: latestKey.version! });
-  console.log(`The key ${keyName} at the version ${latestKey.version!}: `, specificKey);
+  const specificKey = await client.getKey(keyName, { version: latestKey.properties.version! });
+  console.log(`The key ${keyName} at the version ${latestKey.properties.version!}: `, specificKey);
 }
 
 main();
