@@ -144,7 +144,7 @@ describe("[AAD] TextAnalyticsClient", function() {
           assert.equal("sleek", sleekOpinion.text);
           assert.equal("positive", sleekOpinion.sentiment);
           assert.isAtLeast(sleekOpinion.confidenceScores.positive, 0);
-          assert.isAtLeast(sleekOpinion.confidenceScores.neutral, 0);
+          assert.equal(sleekOpinion.confidenceScores.neutral, 0);
           assert.isAtLeast(sleekOpinion.confidenceScores.positive, 0);
           assert.isFalse(sleekOpinion.isNegated);
 
@@ -152,7 +152,7 @@ describe("[AAD] TextAnalyticsClient", function() {
           assert.equal("premium", premiumOpinion.text);
           assert.equal("positive", premiumOpinion.sentiment);
           assert.isAtLeast(premiumOpinion.confidenceScores.positive, 0);
-          assert.isAtLeast(premiumOpinion.confidenceScores.neutral, 0);
+          assert.equal(premiumOpinion.confidenceScores.neutral, 0);
           assert.isAtLeast(premiumOpinion.confidenceScores.positive, 0);
           assert.isFalse(premiumOpinion.isNegated);
         })
@@ -184,7 +184,7 @@ describe("[AAD] TextAnalyticsClient", function() {
 
         assert.isAtLeast(foodAspectPositiveScore, 0);
         assert.isAtLeast(foodAspectNegativeScore, 0);
-        assert.isAtLeast(foodAspectNeutralScore, 0);
+        assert.equal(foodAspectNeutralScore, 0);
         assert.equal(foodAspectPositiveScore + foodAspectNeutralScore + foodAspectNegativeScore, 1);
 
         const serviceAspect = sentence.minedOpinions?.[1].aspect;
@@ -196,7 +196,7 @@ describe("[AAD] TextAnalyticsClient", function() {
         const serviceAspectNeutralScore = serviceAspect?.confidenceScores.neutral!;
 
         assert.isAtLeast(serviceAspectPositiveScore, 0);
-        assert.isAtLeast(serviceAspectNeutralScore, 0);
+        assert.equal(serviceAspectNeutralScore, 0);
         assert.isAtLeast(serviceAspectNegativeScore, 0);
         assert.equal(
           serviceAspectPositiveScore + serviceAspectNegativeScore + serviceAspectNeutralScore,
@@ -217,7 +217,7 @@ describe("[AAD] TextAnalyticsClient", function() {
 
         assert.isAtLeast(foodOpinionPositiveScore, 0);
         assert.isAtLeast(foodOpinionNegativeScore, 0);
-        assert.isAtLeast(foodOpinionNeutralScore, 0);
+        assert.equal(foodOpinionNeutralScore, 0);
         assert.equal(
           foodOpinionPositiveScore + foodOpinionNeutralScore + foodOpinionNegativeScore,
           1
