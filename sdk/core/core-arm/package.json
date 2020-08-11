@@ -87,7 +87,8 @@
     "test": "npm run build && npm run unit-test && npm run integration-test",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
     "unit-test:browser": "echo skipped",
-    "unit-test:node": "nyc mocha --require ts-node/register --timeout 50000 --reporter ../../../common/tools/mocha-multi-reporter.js --colors \"test/**/*.ts\"",
+    "unit-test:node": "mocha --require ts-node/register --timeout 50000 --reporter ../../../common/tools/mocha-multi-reporter.js --colors \"test/**/*.ts\"",
+    "cover:unit:node": "nyc npm run unit-test:node",
     "pack": "npm pack 2>&1",
     "prebuild": "npm run clean"
   },

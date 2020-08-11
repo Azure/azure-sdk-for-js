@@ -75,7 +75,13 @@ Next, get the code:
 
 If you have previously worked in this repo using the `npm` workflow, the first time you switch to using Rush you should commit or stash any untracked files and then get back to a clean state by running `rush reset-workspace` before proceeding any further. This will get rid of any latent package-lock files, as well as your existing (incompatible) node_modules directories. You can then proceed down the path outlined below.
 
-### Warnings for VSCode users
+### Using Visual Studio Code
+
+#### Debugging
+
+Debugging Node.js code in VSCode is [well documented](https://code.visualstudio.com/docs/nodejs/nodejs-debugging). However, starting from version 1.45.1, VSCode can automatically debug Node.js code in most cases without having to write custom `launch.json` files for that purpose and this is true for our SDKs code as well. A demonstration of that feature can be found in the [release notes](https://code.visualstudio.com/updates/v1_45#_automatic-debug-configurations).
+
+#### Warnings
 
 Visual Studio Code has a feature which will automatically fetch and install @types packages for you, using the standard npm package manager. This will cause problems with your node_modules directory, since Rush uses PNPM which lays out this directory quite differently. It's highly recommended that you ensure "Typescript: Disable Automatic Type Acquisition" is checked in your VSCode Workspace Settings (or ensure `typescript.disableAutomaticTypeAcquisition` is present in your .vscode/settings.json file).
 
