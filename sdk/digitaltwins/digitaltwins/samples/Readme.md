@@ -30,7 +30,7 @@ In this samples, we illustrate how to use one derived class: [DefaultAzureCreden
 > Note: In order to access the data plane for the Digital Twins service, the entity must be given permissions.
 > To do this, use the Azure CLI command: `az dt rbac assign-role --assignee '<user-email | application-id>' --role owner -n '<your-digital-twins-instance>'`
 
-```Javascript Snippet:dt_create_service_client_with_secret.js
+```JavaScript Snippet:dt_create_service_client_with_secret.js
 // DefaultAzureCredential supports different authentication mechanisms and determines the appropriate credential type based of the environment it is executing in.
 // It attempts to use multiple credential types in an order until it finds a working credential.
 
@@ -60,7 +60,7 @@ It provides an opportunity to override default behavior including:
 Let's create models using the code below. You need to pass in `any[]` containing list of json models.
 Check out sample models [here](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/digitaltwins/digitaltwins/samples/DTDL/Models).
 
-```Javascript Snippet:dt_models_lifecycle.js
+```JavaScript Snippet:dt_models_lifecycle.js
 const newModels = [temporaryComponent, temporaryModel];
 const models = await serviceClient.createModels(newModels);
 console.log(models);
@@ -70,7 +70,7 @@ console.log(models);
 
 Using `listModels`, all created models are returned as `PagedAsyncIterableIterator`.
 
-```Javascript Snippet:dt_models_list
+```JavaScript Snippet:dt_models_list
 const models = await serviceClient.listModels();
 for await (const model of models) {
   console.log(`Model Id: ${model.id}`);
@@ -79,7 +79,7 @@ for await (const model of models) {
 
 Use `getModel` with model's unique identifier to get a specific model.
 
-```Javascript Snippet:dt_models_lifecycle
+```JavaScript Snippet:dt_models_lifecycle
 const model = await serviceClient.getModel(modelId);
 ```
 
@@ -87,7 +87,7 @@ const model = await serviceClient.getModel(modelId);
 
 To decommision a model, pass in a model Id for the model you want to decommision.
 
-```Javascript Snippet:dt_models_lifecycle
+```JavaScript Snippet:dt_models_lifecycle
 await serviceClient.decomissionModel(modelId);
 ```
 
@@ -95,7 +95,7 @@ await serviceClient.decomissionModel(modelId);
 
 To delete a model, pass in a model Id for the model you want to delete.
 
-```Javascript Snippet:dt_models_lifecycle
+```JavaScript Snippet:dt_models_lifecycle
 await serviceClient.deleteModel(modelId);
 ```
 
@@ -105,7 +105,7 @@ await serviceClient.deleteModel(modelId);
 
 For Creating Twin you will need to provide Id of a digital Twin such as `myTwin` and the application/json digital twin based on the model created earlier. You can look at sample application/json [here](https://github.com/Azure/azure-sdk-for-net-pr/tree/feature/IoT-ADT/sdk/digitaltwins/Azure.DigitalTwins.Core/samples/DigitalTwinsClientSample/DTDL/DigitalTwins "DigitalTwin").
 
-```Javascript Snippet:dt_digitaltwins_lifecycle
+```JavaScript Snippet:dt_digitaltwins_lifecycle
 const digitalTwinId = "myTwin";
 const newTwin = "<JSON containing the digitalTwin object>";
 const createdTwin = await serviceClient.upsertDigitalTwin(
@@ -118,7 +118,7 @@ const createdTwin = await serviceClient.upsertDigitalTwin(
 
 Getting a digital twin is extremely easy.
 
-```Javascript Snippet:dt_digitaltwins_lifecycle
+```JavaScript Snippet:dt_digitaltwins_lifecycle
 const digitalTwinId = "myTwin";
 const twin = await serviceClient.getDigitalTwin(digitalTwinId);
 console.log(`DigitalTwin's etag: ${twin.eTag}`);
@@ -129,7 +129,7 @@ console.log(`DigitalTwin: ${twin.body}`);
 
 Query the Azure Digital Twins instance for digital twins using the [Azure Digital Twins Query Store lanaguage](https://review.docs.microsoft.com/en-us/azure/digital-twins-v2/concepts-query-language?branch=pr-en-us-114648). Query calls support paging. Here's an example of how to query for digital twins and how to iterate over the results.
 
-```Javascript Snippet:dt_digitaltwins_query
+```JavaScript Snippet:dt_digitaltwins_query
 const query = "SELECT * FROM digitaltwins";
 const queryResult = serviceClient.queryTwins(query);
 for await (const item of queryResult) {
@@ -141,7 +141,7 @@ for await (const item of queryResult) {
 
 Delete a digital twin simply by providing Id of a digital twin as below.
 
-```Javascript Snippet:dt_digitaltwins_lifecycle
+```JavaScript Snippet:dt_digitaltwins_lifecycle
 const digitalTwinId = "myTwin";
 await serviceClient.deleteDigitalTwin(digitalTwinId);
 ```
@@ -152,7 +152,7 @@ await serviceClient.deleteDigitalTwin(digitalTwinId);
 
 To update a component or in other words to replace, remove and/or add a component property or subproperty within Digital Twin, you would need Id of a digital twin, component name and application/json-patch+json operations to be performed on the specified digital twin's component. Here is the sample code on how to do it.
 
-```Javascript Snippet:dt_component_lifecycle
+```JavaScript Snippet:dt_component_lifecycle
 // Update Component1 by replacing the property ComponentProp1 value
 const digitalTwinId = "myTwin";
 const componentPath = "Component1";
@@ -166,7 +166,7 @@ await serviceClient.updateComponent(digitalTwinId, componentPath, jsonPatch);
 
 Get a component by providing name of a component and Id of digital twin to which it belongs.
 
-```Javascript Snippet:DigitalTwinsSampleGetComponent
+```JavaScript Snippet:DigitalTwinsSampleGetComponent
 const digitalTwinId = "myTwin";
 const componentPath = "Component1";
 const component = await serviceClient.getComponent(digitalTwinId, componentPath);
@@ -179,7 +179,7 @@ console.log(`Updated component: ${component}`);
 
 `upsertRelationship` creates a relationship on a digital twin provided with Id of a digital twin, name of relationship such as "contains", Id of an relationship such as "FloorContainsRoom" and an application/json relationship to be created. Must contain property with key "\$targetId" to specify the target of the relationship. Sample payloads for relationships can be found [here](https://github.com/Azure/azure-sdk-for-js/blob/digitaltwins/sdk/digitaltwins/digitaltwins/samples/dtdl/relationships/hospitalRelationships.ts "RelationshipExamples").
 
-```Javascript Snippet:dt_scenario
+```JavaScript Snippet:dt_scenario
 const hospitalRelationships = [
   {
     $relationshipId: "BuildingHasFloor",
@@ -201,7 +201,7 @@ for (const relationship of hospitalRelationships) {
 
 `listRelationships` and `listIncomingRelationships` lists all the relationships and all incoming relationships respectively of a digital twin.
 
-```Javascript Snippet:dt_relationships_list
+```JavaScript Snippet:dt_relationships_list
 const digitalTwinId = "myTwin";
 const relationships = serviceClient.listRelationships(digitalTwinId);
 for await (const relationship of relationships) {
@@ -209,7 +209,7 @@ for await (const relationship of relationships) {
 }
 ```
 
-```Javascript Snippet:dt_incoming_relationships_list
+```JavaScript Snippet:dt_incoming_relationships_list
 const digitalTwinId = "myTwin";
 const incomingRelationships = serviceClient.listIncomingRelationships(digitalTwinId);
 for await (const incomingRelationship of incomingRelationships) {
@@ -223,7 +223,7 @@ for await (const incomingRelationship of incomingRelationships) {
 
 To create an event route, provide an Id of an event route such as "myEventRouteId" and event route data containing the endpoint and optional filter like the example shown below.
 
-```Javascript Snippet:dt_scenario
+```JavaScript Snippet:dt_scenario
 const eventHubEndpointName = "myEventHubEndpointName";
 const eventRouteId = "myEventRouteId";
 const eventFilter =
@@ -241,7 +241,7 @@ For more information on the event route filter language, see the "how to manage 
 
 List a specific event route given event route Id or all event routes setting options with `listEventRoutes`.
 
-```Javascript Snippet:dt_event_routes_list
+```JavaScript Snippet:dt_event_routes_list
 const digitalTwinId = "myTwin";
 const eventRoutes = serviceClient.listEventRoutes(digitalTwinId);
 for await (const eventRoute of eventRoutes) {
@@ -253,7 +253,7 @@ for await (const eventRoute of eventRoutes) {
 
 Delete an event route given event route Id.
 
-```Javascript Snippet:dt_scenario
+```JavaScript Snippet:dt_scenario
 const eventRouteId = "myEventRouteId";
 await serviceClient.deleteEventRoute(eventRouteId);
 ```
@@ -262,7 +262,7 @@ await serviceClient.deleteEventRoute(eventRouteId);
 
 To publish a telemetry message for a digital twin, you need to provide the digital twin Id, along with the payload on which telemetry that needs the update.
 
-```Javascript Snippet:dt_publish_telemetry
+```JavaScript Snippet:dt_publish_telemetry
 const digitalTwinId = "<DIGITAL TWIN ID>";
 const telemetryPayload = '{"Telemetry1": 5}';
 await serviceClient.publishTelemetry(digitalTwinId, telemetryPayload);
@@ -270,7 +270,7 @@ await serviceClient.publishTelemetry(digitalTwinId, telemetryPayload);
 
 You can also publish a telemetry message for a specific component in a digital twin. In addition to the digital twin Id and payload, you need to specify the target component Id.
 
-```Javascript Snippet:dt_publish_component_telemetry
+```JavaScript Snippet:dt_publish_component_telemetry
   const digitalTwinId = "<DIGITAL TWIN ID>";
   const componentPath = "<COMPONENT_PATH>";
   const telemetryPayload = '{"Telemetry1": 5}';
