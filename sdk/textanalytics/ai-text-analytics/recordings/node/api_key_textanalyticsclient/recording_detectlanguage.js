@@ -16,11 +16,11 @@ nock('https://endpoint', {"encodedQueryParams":true})
   'x-envoy-upstream-service-time',
   '16',
   'apim-request-id',
-  '1dcee090-c160-48c7-957c-3a39af4ff6a1',
+  '6abbacf8-89c8-4a6f-b070-6bcb6d3a68e8',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Mon, 10 Aug 2020 20:33:41 GMT'
+  'Tue, 11 Aug 2020 14:18:24 GMT'
 ]);

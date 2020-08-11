@@ -163,6 +163,11 @@ type GetRecognizedFormsOptions = FormRecognizerOperationOptions;
 type GetReceiptsOptions = FormRecognizerOperationOptions;
 
 /**
+ * Options for starting the receipt recognition operation
+ */
+export type BeginRecognizeReceiptsOptions = BeginRecognizeFormsOptions;
+
+/**
  * Client class for interacting with Azure Form Recognizer service.
  */
 export class FormRecognizerClient {
@@ -498,7 +503,7 @@ export class FormRecognizerClient {
    * Recognizes data from receipts using pre-built receipt model, enabling you to extract structure data
    * from receipts such as merchant name, merchant phone number, transaction date, and more.
    *
-   * For supported fields recognized by the service, please refer to https://westus2.dev.cognitive.microsoft.com/docs/services/form-recognizer-api-v2-preview/operations/GetAnalyzeReceiptResult.
+   * For a list of fields that are contained in the response, please refer to the "Supported fields" section at the following link: https://aka.ms/azsdk/formrecognizer/receiptfields
    *
    * This method returns a long running operation poller that allows you to wait
    * indefinitely until the operation is completed.
@@ -557,7 +562,7 @@ export class FormRecognizerClient {
    */
   public async beginRecognizeReceipts(
     receipt: FormRecognizerRequestBody,
-    options: BeginRecognizeFormsOptions = {}
+    options: BeginRecognizeReceiptsOptions = {}
   ): Promise<FormPollerLike> {
     const analyzePollerClient: RecognizeReceiptPollerClient = {
       beginRecognize: (...args) => recognizeReceiptInternal(this.client, ...args),
@@ -578,7 +583,7 @@ export class FormRecognizerClient {
    * Recognizes receipt information from a url using pre-built receipt model, enabling you to extract structure data
    * from receipts such as merchant name, merchant phone number, transaction date, and more.
    *
-   * For supported fields recognized by the service, please refer to https://westus2.dev.cognitive.microsoft.com/docs/services/form-recognizer-api-v2-preview/operations/GetAnalyzeReceiptResult.
+   * For a list of fields that are contained in the response, please refer to the "Supported fields" section at the following link: https://aka.ms/azsdk/formrecognizer/receiptfields
    *
    * This method returns a long running operation poller that allows you to wait
    * indefinitely until the operation is completed.
@@ -635,7 +640,7 @@ export class FormRecognizerClient {
    */
   public async beginRecognizeReceiptsFromUrl(
     receiptUrl: string,
-    options: BeginRecognizeFormsOptions = {}
+    options: BeginRecognizeReceiptsOptions = {}
   ): Promise<FormPollerLike> {
     const analyzePollerClient: RecognizeReceiptPollerClient = {
       beginRecognize: (...args) => recognizeReceiptInternal(this.client, ...args),

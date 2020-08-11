@@ -5,12 +5,12 @@ import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
 import { ReceivedMessage, delay } from "../src";
 import { getAlreadyReceivingErrorMsg } from "../src/util/errors";
-import { TestMessage, checkWithTimeout } from "./utils/testUtils";
+import { TestMessage, checkWithTimeout, TestClientType } from "./utils/testUtils";
 import { StreamingReceiver } from "../src/core/streamingReceiver";
 
 import {
   DispositionType,
-  ReceiveMode,
+  InternalReceiveMode,
   ReceivedMessageWithLock,
   ServiceBusMessageImpl
 } from "../src/serviceBusMessage";
@@ -166,10 +166,10 @@ describe("Streaming Receiver Tests", () => {
       try {
         let actualError: Error | undefined;
         streamingReceiver = await StreamingReceiver.create((receiver as any)._context, {
-          receiveMode: ReceiveMode.peekLock
+          receiveMode: InternalReceiveMode.peekLock
         });
 
-        streamingReceiver.receive(
+        streamingReceiver.subscribe(
           async () => {},
           (err) => {
             actualError = err;
@@ -198,6 +198,57 @@ describe("Streaming Receiver Tests", () => {
           await streamingReceiver.close();
         }
       }
+    });
+
+    it("can stop and start a subscription", async () => {
+      const entities = await serviceBusClient.test.createTestEntities(
+        TestClientType.UnpartitionedQueue
+      );
+
+      const sender = await serviceBusClient.test.createSender(entities);
+      const receiver = await serviceBusClient.test.getReceiveAndDeleteReceiver(entities);
+
+      await sender.sendMessages({
+        body: "can stop and start a subscription message 1"
+      });
+
+      const { subscription, msg } = await new Promise<{
+        subscription: { close(): Promise<void> };
+        msg: string;
+      }>((resolve, reject) => {
+        const subscription = receiver.subscribe({
+          processMessage: async (msg) => {
+            resolve({ subscription, msg: msg.body });
+          },
+          processError: async (err) => {
+            reject(err);
+          }
+        });
+      });
+
+      msg.should.equal("can stop and start a subscription message 1");
+      await subscription.close();
+
+      await sender.sendMessages({
+        body: "can stop and start a subscription message 2"
+      });
+
+      const { subscription: subscription2, msg: msg2 } = await new Promise<{
+        subscription: { close(): Promise<void> };
+        msg: string;
+      }>((resolve, reject) => {
+        const subscription = receiver.subscribe({
+          processMessage: async (msg) => {
+            resolve({ subscription, msg: msg.body });
+          },
+          processError: async (err) => {
+            reject(err);
+          }
+        });
+      });
+
+      msg2.should.equal("can stop and start a subscription message 2");
+      await subscription2.close();
     });
   });
 

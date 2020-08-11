@@ -77,6 +77,7 @@ export class TableServiceClient {
   constructor(
     url: string,
     credential: TablesSharedKeyCredential,
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options?: TableServiceClientOptions
   );
   /**
@@ -97,10 +98,12 @@ export class TableServiceClient {
    * );
    * ```
    */
+  // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
   constructor(url: string, options?: TableServiceClientOptions);
   constructor(
     url: string,
     credentialOrOptions?: TablesSharedKeyCredential | TableServiceClientOptions,
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options?: TableServiceClientOptions
   ) {
     const credential =
@@ -333,6 +336,7 @@ export class TableServiceClient {
    */
   public static fromConnectionString(
     connectionString: string,
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options?: TableServiceClientOptions
   ): TableServiceClient {
     const { url, options: clientOptions } = getClientParamsFromConnectionString(

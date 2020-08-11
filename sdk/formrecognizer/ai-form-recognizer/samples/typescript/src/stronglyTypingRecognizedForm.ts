@@ -35,7 +35,7 @@ type StrongObjectField<T> = Extract<FormField, { valueType?: "object" }> & {
  * This type was accurate for a United States-based receipt at the time of
  * writing, but isn't guaranteed to be stable.
  *
- * For a reference of supported fields, see https://westus2.dev.cognitive.microsoft.com/docs/services/form-recognizer-api-v2-preview/operations
+ ( For a list of fields that are contained in the response, please refer to the "Supported fields" section at the following link: https://aka.ms/azsdk/formrecognizer/receiptfields
  */
 interface USReceipt {
   ReceiptType?: FormField; // example: "Itemized"

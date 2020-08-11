@@ -15,6 +15,7 @@ import { getUniqueName } from "../util/utils";
 
 /**
  * @internal
+ * @ignore
  * Options passed to the constructor of LinkEntity
  */
 export interface LinkEntityOptions {
@@ -30,6 +31,7 @@ export interface LinkEntityOptions {
 
 /**
  * @internal
+ * @ignore
  * Describes the base class for entities like MessageSender, MessageReceiver and Management client.
  * @class ClientEntity
  */

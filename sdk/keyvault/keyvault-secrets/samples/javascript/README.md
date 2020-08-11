@@ -12,13 +12,13 @@ urlFragment: keyvault-secrets-javascript
 
 These sample programs show how to use the JavaScript client libraries for Azure Key Vault Secrets in some common scenarios.
 
-| **File Name**                          | **Description**                                                                                                                                                                      |
+| **File Name**                           | **Description**                                                                                                                                                                       |
 | --------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
 | [backupAndRestore.js][backupandrestore] | creates a secret, then makes a backup from it, then deletes it and purges it, and finally restores it                                                                                 |
 | [deleteAndRecover.js][deleteandrecover] | creates a secret, then deletes it, then recovers it (soft-delete is required for this sample to run, see: https://docs.microsoft.com/en-us/azure/key-vault/key-vault-ovw-soft-delete) |
 | [helloWorld.js][helloworld]             | creates, reads, updates, and deletes a secret                                                                                                                                         |
 | [listOperations.js][listoperations]     | creates a secret and shows various ways to iterate over the secret and its versions                                                                                                   |
-| [purgeAllSecrets.js][purgeAllSecrets]   | purges all the secrets of a Key Vault (useful for repeated tests)                                                                                                                      |
+| [purgeAllSecrets.js][purgeallsecrets]   | purges all the secrets of a Key Vault (useful for repeated tests)                                                                                                                     |
 
 ## Prerequisites
 
@@ -55,7 +55,7 @@ node helloWorld.js
 Alternatively, run a single sample with the correct environment variables set (step 2 is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env KEYVAULT_NAME="<key vault name>" AZURE_TENANT_ID="<AAD tenant id>" AZURE_CLIENT_ID="<AAD client id>" AZURE_CLIENT_SECRET="<AAD client secret>" node helloWorld.js
+npx cross-env KEYVAULT_URI="<key vault URI>" AZURE_TENANT_ID="<AAD tenant id>" AZURE_CLIENT_ID="<AAD client id>" AZURE_CLIENT_SECRET="<AAD client secret>" node helloWorld.js
 ```
 
 ## Next Steps
@@ -66,7 +66,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [deleteandrecover]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-secrets/samples/javascript/deleteAndRecover.js
 [helloworld]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-secrets/samples/javascript/helloWorld.js
 [listoperations]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-secrets/samples/javascript/listOperations.js
-[purgeAllSecrets]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-secrets/samples/javascript/purgeAllSecrets.js
+[purgeallsecrets]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-secrets/samples/javascript/purgeAllSecrets.js
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/keyvault-secrets
 [azkeyvault]: https://docs.microsoft.com/azure/key-vault/quick-create-portal
 [kvsoftdelete]: https://docs.microsoft.com/azure/key-vault/key-vault-soft-delete-cli

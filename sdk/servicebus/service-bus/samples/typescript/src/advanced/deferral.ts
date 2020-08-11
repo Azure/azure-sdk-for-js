@@ -72,7 +72,7 @@ async function receiveMessage() {
   const sbClient = new ServiceBusClient(connectionString);
 
   // If receiving from a subscription, you can use the createReceiver(topic, subscription) overload
-  let receiver = sbClient.createReceiver(queueName, "peekLock");
+  let receiver = sbClient.createReceiver(queueName);
 
   const deferredSteps = new Map();
   let lastProcessedRecipeStep = 0;
@@ -119,7 +119,7 @@ async function receiveMessage() {
     await receiver.close();
     console.log("Total number of deferred messages:", deferredSteps.size);
 
-    receiver = sbClient.createReceiver(queueName, "peekLock");
+    receiver = sbClient.createReceiver(queueName);
     // Now we process the deferred messages
     while (deferredSteps.size > 0) {
       const step = lastProcessedRecipeStep + 1;

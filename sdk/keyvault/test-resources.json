@@ -6,7 +6,7 @@
       "type": "string",
       "defaultValue": "[resourceGroup().name]",
       "metadata": {
-          "description": "The base resource name that is used to ensure the generated resources have unique names. This field gets automatically generated on our CI pipelines. It's possible to use non-alphanumeric characters in some resource names, like dashes in KV names, but keeping it simple will reduce confusion. A safe upper limit on the number of characters is 17 characters."
+        "description": "The base resource name that is used to ensure the generated resources have unique names. This field gets automatically generated on our CI pipelines. It's possible to use non-alphanumeric characters in some resource names, like dashes in KV names, but keeping it simple will reduce confusion. A safe upper limit on the number of characters is 17 characters."
       }
     },
     "tenantId": {
@@ -35,7 +35,7 @@
       "properties": {
         "sku": {
           "family": "A",
-          "name": "standard"
+          "name": "Premium"
         },
         "tenantId": "[parameters('tenantId')]",
         "accessPolicies": [
@@ -61,16 +61,7 @@
                 "verify",
                 "wrapKey"
               ],
-              "secrets": [
-                "backup",
-                "delete",
-                "get",
-                "list",
-                "purge",
-                "recover",
-                "restore",
-                "set"
-              ],
+              "secrets": ["backup", "delete", "get", "list", "purge", "recover", "restore", "set"],
               "certificates": [
                 "backup",
                 "create",
@@ -88,7 +79,7 @@
                 "restore",
                 "setissuers",
                 "update"
-              ]  
+              ]
             }
           }
         ],
@@ -103,6 +94,10 @@
     "KEYVAULT_NAME": {
       "type": "string",
       "value": "[variables('keyVaultName')]"
+    },
+    "KEYVAULT_URI": {
+      "type": "string",
+      "value": "[reference(variables('keyVaultName')).vaultUri]"
     }
   }
 }
