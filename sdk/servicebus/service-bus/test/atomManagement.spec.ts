@@ -65,6 +65,11 @@ describe("Atom management - Namespace", function(): void {
     );
   });
 
+  it.only("Get namespace properties 2", async () => {
+    const namespaceProperties = await serviceBusAtomManagementClient.getNamespaceProperties2();
+    console.log(namespaceProperties);
+  });
+
   it("Create queue response", async () => {
     const response = await serviceBusAtomManagementClient.createQueue("random");
     // @ts-expect-error
