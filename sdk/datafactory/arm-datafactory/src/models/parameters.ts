@@ -163,6 +163,36 @@ export const locationId: msRest.OperationURLParameter = {
     }
   }
 };
+export const managedPrivateEndpointName: msRest.OperationURLParameter = {
+  parameterPath: "managedPrivateEndpointName",
+  mapper: {
+    required: true,
+    serializedName: "managedPrivateEndpointName",
+    constraints: {
+      MaxLength: 127,
+      MinLength: 1,
+      Pattern: /^([_A-Za-z0-9]|([_A-Za-z0-9][-_A-Za-z0-9]{0,125}[_A-Za-z0-9]))$/
+    },
+    type: {
+      name: "String"
+    }
+  }
+};
+export const managedVirtualNetworkName: msRest.OperationURLParameter = {
+  parameterPath: "managedVirtualNetworkName",
+  mapper: {
+    required: true,
+    serializedName: "managedVirtualNetworkName",
+    constraints: {
+      MaxLength: 127,
+      MinLength: 1,
+      Pattern: /^([_A-Za-z0-9]|([_A-Za-z0-9][-_A-Za-z0-9]{0,125}[_A-Za-z0-9]))$/
+    },
+    type: {
+      name: "String"
+    }
+  }
+};
 export const nextPageLink: msRest.OperationURLParameter = {
   parameterPath: "nextPageLink",
   mapper: {
