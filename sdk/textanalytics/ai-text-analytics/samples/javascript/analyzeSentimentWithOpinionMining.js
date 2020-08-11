@@ -7,9 +7,8 @@
  * sentiment analysis). This feature is only available for clients with api 
  * version v3.1-preview.1.
  * 
- * In this sample, we will be a customer who is trying to figure out whether 
- * they should stay at a specific hotel. We will be looking at which aspects of 
- * the hotel are good, and which are not.
+ * In this sample, a bunch of reviews about a hotel are being analyzed for
+ * sentiment and different opinions about aspects in the reviews are shown.
  */
 
 const { TextAnalyticsClient, AzureKeyCredential } = require("@azure/ai-text-analytics");
