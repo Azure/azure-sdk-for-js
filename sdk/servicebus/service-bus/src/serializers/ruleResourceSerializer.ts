@@ -301,7 +301,6 @@ type RawKeyValuePair = {
 /**
  * @internal
  * @ignore
- * @interface InternalRawKeyValuePairs
  */
 interface InternalRawKeyValuePairs {
   KeyValueOfstringanyType: RawKeyValuePair[];

@@ -598,7 +598,6 @@ export const libInfo: string = `azsdk-js-azureservicebus/${Constants.packageJson
  * @ignore
  * Returns the formatted prefix by removing the spaces, by appending the libInfo.
  *
- * @export
  * @param {string} [prefix]
  * @returns {string}
  */

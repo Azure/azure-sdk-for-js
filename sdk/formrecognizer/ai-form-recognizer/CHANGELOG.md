@@ -1,8 +1,9 @@
 # Release History
 
-## 3.0.0 (Unreleased)
+## 3.0.0-preview.1 (2020-08-11)
 
-- This release marks the general availability of the Azure Form Recognizer SDK for JavaScript.
+- Changed the package version to 3.0.0-preview.1 to reduce confusion with older versions of the Azure Form Recognizer SDKs.
+- Changed the name of the `options` bag parameter of `beginRecognizeReceipts` and `beginRecognizeReceiptsFromUrl` to `BeginRecognizeReceiptsOptions`.
 - Switched to using the generally-available 2.0 service endpoint rather than 2.0-preview.
 - Added a `pageNumber` property to the `FormTable` and `FormTableCell` types indicating the number of the page where the table/cell appeared within the input document.
 - [Breaking] Renamed the `includeSubFolders` property of the `TrainSourceFilter` type to `includeSubfolders`.

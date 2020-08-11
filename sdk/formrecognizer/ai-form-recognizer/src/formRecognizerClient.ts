@@ -163,6 +163,11 @@ type GetRecognizedFormsOptions = FormRecognizerOperationOptions;
 type GetReceiptsOptions = FormRecognizerOperationOptions;
 
 /**
+ * Options for starting the receipt recognition operation
+ */
+export type BeginRecognizeReceiptsOptions = BeginRecognizeFormsOptions;
+
+/**
  * Client class for interacting with Azure Form Recognizer service.
  */
 export class FormRecognizerClient {
@@ -557,7 +562,7 @@ export class FormRecognizerClient {
    */
   public async beginRecognizeReceipts(
     receipt: FormRecognizerRequestBody,
-    options: BeginRecognizeFormsOptions = {}
+    options: BeginRecognizeReceiptsOptions = {}
   ): Promise<FormPollerLike> {
     const analyzePollerClient: RecognizeReceiptPollerClient = {
       beginRecognize: (...args) => recognizeReceiptInternal(this.client, ...args),
@@ -635,7 +640,7 @@ export class FormRecognizerClient {
    */
   public async beginRecognizeReceiptsFromUrl(
     receiptUrl: string,
-    options: BeginRecognizeFormsOptions = {}
+    options: BeginRecognizeReceiptsOptions = {}
   ): Promise<FormPollerLike> {
     const analyzePollerClient: RecognizeReceiptPollerClient = {
       beginRecognize: (...args) => recognizeReceiptInternal(this.client, ...args),
