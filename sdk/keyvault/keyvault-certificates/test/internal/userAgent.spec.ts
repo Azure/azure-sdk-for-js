@@ -5,6 +5,7 @@ import * as assert from "assert";
 import { SDK_VERSION } from "../../src/generated/utils/constants";
 import { packageVersion } from "../../src/generated/keyVaultClientContext";
 import { isNode } from "@azure/core-http";
+import path from "path";
 import fs from "fs";
 
 describe("Certificates client's user agent (only in Node, because of fs)", () => {
@@ -18,7 +19,7 @@ describe("Certificates client's user agent (only in Node, because of fs)", () =>
       return;
     }
     const { version } = JSON.parse(
-      fs.readFileSync(__dirname + "/../package.json", { encoding: "utf-8" })
+      fs.readFileSync(path.join(__dirname, "../package.json"), { encoding: "utf-8" })
     );
     assert.equal(version, packageVersion);
   });
