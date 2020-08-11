@@ -1,5 +1,9 @@
 # Release History
 
+## 5.0.1 (2020-08-11)
+
+- Handles REST exceptions with code InvalidDocumentBatch in a way that maintains backward compatability.
+
 ## 5.0.0 (2020-07-27)
 
 - Updated the package version to be 5.0.0 instead of 1.0.0 in order to reduce confusion with older versions of the Azure Text Analytics SDKs.
