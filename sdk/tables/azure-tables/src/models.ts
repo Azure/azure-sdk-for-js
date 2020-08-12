@@ -4,11 +4,33 @@
 import {
   TableQueryOptionalParams,
   TableQueryEntitiesOptionalParams,
+  TableQueryEntitiesWithPartitionAndRowKeyResponse,
+  TableQueryEntitiesResponse,
   TableInsertEntityOptionalParams,
   TableUpdateEntityOptionalParams,
   TableMergeEntityOptionalParams,
   TableSetAccessPolicyOptionalParams
 } from "./generated/models";
+
+/**
+ * Contains response data for the getEntity operation.
+ */
+export type ListEntitiesResponse<T> = Omit<TableQueryEntitiesResponse, "value"> & {
+  /**
+   * List of table entities.
+   */
+  value?: T[];
+};
+
+/**
+ * Contains response data for the listEntities operation.
+ */
+export type GetEntityResponse<T> = TableQueryEntitiesWithPartitionAndRowKeyResponse & {
+  /**
+   * The table entity object.
+   */
+  value?: T;
+};
 
 /**
  * List tables optional parameters.
@@ -62,4 +84,41 @@ export interface Entity {
    * Any custom properties of the entity.
    */
   [propertyName: string]: any;
+}
+
+/**
+ * Supported EDM Types by Azure Tables.
+ */
+export type EdmTypes =
+  | "Binary"
+  | "Boolean"
+  | "DateTime"
+  | "Double"
+  | "Guid"
+  | "Int32"
+  | "Int64"
+  | "String";
+
+/**
+ * Entity Data Model representation for an entity property.
+ */
+export interface Edm<T extends EdmTypes> {
+  /**
+   * The value of the entity property
+   */
+  value: T extends "Binary"
+    ? Uint8Array
+    : T extends "Boolean"
+    ? boolean
+    : T extends "DateTime"
+    ? Date
+    : T extends "Double"
+    ? number
+    : T extends "Int32"
+    ? number
+    : string;
+  /**
+   * The type of the entity property
+   */
+  type: T;
 }

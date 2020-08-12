@@ -87,6 +87,15 @@ export type DeleteTableResponse = TableDeleteHeaders & {
 };
 
 // @public
+export interface Edm<T extends EdmTypes> {
+    type: T;
+    value: T extends "Binary" ? Uint8Array : T extends "Boolean" ? boolean : T extends "DateTime" ? Date : T extends "Double" ? number : T extends "Int32" ? number : string;
+}
+
+// @public
+export type EdmTypes = "Binary" | "Boolean" | "DateTime" | "Double" | "Guid" | "Int32" | "Int64" | "String";
+
+// @public
 export interface Entity {
     [propertyName: string]: any;
     PartitionKey: string;
@@ -125,12 +134,8 @@ export interface GetEntityOptions extends coreHttp.OperationOptions {
 }
 
 // @public
-export type GetEntityResponse = TableQueryEntitiesWithPartitionAndRowKeyHeaders & TableEntityQueryResponse & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: TableEntityQueryResponse;
-        parsedHeaders: TableQueryEntitiesWithPartitionAndRowKeyHeaders;
-    };
+export type GetEntityResponse<T> = TableQueryEntitiesWithPartitionAndRowKeyResponse & {
+    value?: T;
 };
 
 // @public
@@ -167,12 +172,8 @@ export type GetStatisticsResponse = ServiceGetStatisticsHeaders & TableServiceSt
 export type ListEntitiesOptions = Omit<TableQueryEntitiesOptionalParams, "queryOptions">;
 
 // @public
-export type ListEntitiesResponse = TableQueryEntitiesHeaders & TableEntityQueryResponse & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: TableEntityQueryResponse;
-        parsedHeaders: TableQueryEntitiesHeaders;
-    };
+export type ListEntitiesResponse<T> = Omit<TableQueryEntitiesResponse, "value"> & {
+    value?: T[];
 };
 
 // @public
@@ -297,13 +298,13 @@ export interface SignedIdentifier {
 export class TableClient {
     constructor(url: string, tableName: string, credential: TablesSharedKeyCredential, options?: TableServiceClientOptions);
     constructor(url: string, tableName: string, options?: TableServiceClientOptions);
-    createEntity(entity?: Entity, options?: CreateEntityOptions): Promise<CreateEntityResponse>;
+    createEntity(entity: Entity, options?: CreateEntityOptions): Promise<CreateEntityResponse>;
     delete(options?: DeleteTableOptions): Promise<DeleteTableResponse>;
     deleteEntity(partitionKey: string, rowKey: string, ifMatch: string, options?: DeleteEntityOptions): Promise<DeleteEntityResponse>;
     static fromConnectionString(connectionString: string, tableName: string, options?: TableServiceClientOptions): TableClient;
     getAccessPolicy(options?: GetAccessPolicyOptions): Promise<GetAccessPolicyResponse>;
-    getEntity(partitionKey: string, rowKey: string, options?: GetEntityOptions): Promise<GetEntityResponse>;
-    listEntities(query?: QueryOptions, options?: ListEntitiesOptions): Promise<ListEntitiesResponse>;
+    getEntity<T extends object>(partitionKey: string, rowKey: string, options?: GetEntityOptions): Promise<GetEntityResponse<T>>;
+    listEntities<T extends object>(query?: QueryOptions, options?: ListEntitiesOptions): Promise<ListEntitiesResponse<T>>;
     mergeEntity(entity: Entity, ifMatch?: string, options?: MergeEntityOptions): Promise<MergeEntityResponse>;
     setAccessPolicy(acl?: SignedIdentifier[], options?: SetAccessPolicyOptions): Promise<SetAccessPolicyResponse>;
     readonly tableName: string;
@@ -433,6 +434,15 @@ export interface TableQueryEntitiesOptionalParams extends coreHttp.OperationOpti
 }
 
 // @public
+export type TableQueryEntitiesResponse = TableQueryEntitiesHeaders & TableEntityQueryResponse & {
+    _response: coreHttp.HttpResponse & {
+        bodyAsText: string;
+        parsedBody: TableEntityQueryResponse;
+        parsedHeaders: TableQueryEntitiesHeaders;
+    };
+};
+
+// @public
 export interface TableQueryEntitiesWithPartitionAndRowKeyHeaders {
     clientRequestId?: string;
     date?: Date;
@@ -442,6 +452,19 @@ export interface TableQueryEntitiesWithPartitionAndRowKeyHeaders {
     xMsContinuationNextPartitionKey?: string;
     xMsContinuationNextRowKey?: string;
 }
+
+// @public
+export type TableQueryEntitiesWithPartitionAndRowKeyResponse = TableQueryEntitiesWithPartitionAndRowKeyHeaders & {
+    [propertyName: string]: any;
+} & {
+    _response: coreHttp.HttpResponse & {
+        bodyAsText: string;
+        parsedBody: {
+            [propertyName: string]: any;
+        };
+        parsedHeaders: TableQueryEntitiesWithPartitionAndRowKeyHeaders;
+    };
+};
 
 // @public
 export interface TableQueryHeaders {
@@ -482,16 +505,16 @@ export interface TableResponseProperties {
 export class TableServiceClient {
     constructor(url: string, credential: TablesSharedKeyCredential, options?: TableServiceClientOptions);
     constructor(url: string, options?: TableServiceClientOptions);
-    createEntity(tableName: string, entity?: Entity, options?: CreateEntityOptions): Promise<CreateEntityResponse>;
+    createEntity(tableName: string, entity: Entity, options?: CreateEntityOptions): Promise<CreateEntityResponse>;
     createTable(tableName: string, options?: CreateTableOptions): Promise<CreateTableResponse>;
     deleteEntity(tableName: string, partitionKey: string, rowKey: string, ifMatch: string, options?: DeleteEntityOptions): Promise<DeleteEntityResponse>;
     deleteTable(tableName: string, options?: DeleteTableOptions): Promise<DeleteTableResponse>;
     static fromConnectionString(connectionString: string, options?: TableServiceClientOptions): TableServiceClient;
     getAccessPolicy(tableName: string, options?: GetAccessPolicyOptions): Promise<GetAccessPolicyResponse>;
-    getEntity(tableName: string, partitionKey: string, rowKey: string, options?: GetEntityOptions): Promise<GetEntityResponse>;
+    getEntity<T extends object>(tableName: string, partitionKey: string, rowKey: string, options?: GetEntityOptions): Promise<GetEntityResponse<T>>;
     getProperties(options?: GetPropertiesOptions): Promise<GetPropertiesResponse>;
     getStatistics(options?: GetStatisticsOptions): Promise<GetStatisticsResponse>;
-    listEntities(tableName: string, query?: QueryOptions, options?: ListEntitiesOptions): Promise<ListEntitiesResponse>;
+    listEntities<T extends object>(tableName: string, query?: QueryOptions, options?: ListEntitiesOptions): Promise<ListEntitiesResponse<T>>;
     listTables(query?: QueryOptions, options?: ListTablesOptions): Promise<ListTablesResponse>;
     mergeEntity(tableName: string, entity: Entity, ifMatch?: string, options?: MergeEntityOptions): Promise<MergeEntityResponse>;
     setAccessPolicy(tableName: string, acl?: SignedIdentifier[], options?: SetAccessPolicyOptions): Promise<SetAccessPolicyResponse>;

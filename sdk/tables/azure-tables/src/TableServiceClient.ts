@@ -8,6 +8,8 @@ import {
   Entity,
   ListTablesOptions,
   ListEntitiesOptions,
+  GetEntityResponse,
+  ListEntitiesResponse,
   CreateEntityOptions,
   UpdateEntityOptions,
   MergeEntityOptions,
@@ -29,8 +31,6 @@ import {
   QueryOptions,
   ListTablesResponse,
   GetEntityOptions,
-  GetEntityResponse,
-  ListEntitiesResponse,
   CreateEntityResponse,
   DeleteEntityOptions,
   DeleteEntityResponse,
@@ -43,6 +43,7 @@ import {
 } from "./generatedModels";
 import { getClientParamsFromConnectionString } from "./utils/connectionString";
 import { TablesSharedKeyCredential } from "./TablesSharedKeyCredential";
+import { serialize, deserialize, deserializeObjectsArray } from "./serialization";
 
 /**
  * A TableServiceClient represents a Client to the Azure Tables service allowing you
@@ -132,7 +133,7 @@ export class TableServiceClient {
    * secondary location endpoint when read-access geo-redundant replication is enabled for the account.
    * @param options The options parameters.
    */
-  getStatistics(options?: GetStatisticsOptions): Promise<GetStatisticsResponse> {
+  public getStatistics(options?: GetStatisticsOptions): Promise<GetStatisticsResponse> {
     return this.service.getStatistics(options);
   }
 
@@ -141,7 +142,7 @@ export class TableServiceClient {
    * (Cross-Origin Resource Sharing) rules.
    * @param options The options parameters.
    */
-  getProperties(options?: GetPropertiesOptions): Promise<GetPropertiesResponse> {
+  public getProperties(options?: GetPropertiesOptions): Promise<GetPropertiesResponse> {
     return this.service.getProperties(options);
   }
 
@@ -151,7 +152,7 @@ export class TableServiceClient {
    * @param properties The Table Service properties.
    * @param options The options parameters.
    */
-  setProperties(
+  public setProperties(
     properties: ServiceProperties,
     options?: SetPropertiesOptions
   ): Promise<SetPropertiesResponse> {
@@ -163,7 +164,10 @@ export class TableServiceClient {
    * @param tableName The name of the table.
    * @param options The options parameters.
    */
-  createTable(tableName: string, options?: CreateTableOptions): Promise<CreateTableResponse> {
+  public createTable(
+    tableName: string,
+    options?: CreateTableOptions
+  ): Promise<CreateTableResponse> {
     return this.table.create({ tableName }, { ...options, responsePreference: "return-content" });
   }
 
@@ -172,7 +176,10 @@ export class TableServiceClient {
    * @param tableName The name of the table.
    * @param options The options parameters.
    */
-  deleteTable(tableName: string, options?: DeleteTableOptions): Promise<DeleteTableResponse> {
+  public deleteTable(
+    tableName: string,
+    options?: DeleteTableOptions
+  ): Promise<DeleteTableResponse> {
     return this.table.delete(tableName, options);
   }
 
@@ -181,7 +188,7 @@ export class TableServiceClient {
    * @param query The OData query parameters.
    * @param options The options parameters.
    */
-  listTables(
+  public listTables(
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     query?: QueryOptions,
     options?: ListTablesOptions
@@ -196,13 +203,20 @@ export class TableServiceClient {
    * @param rowKey The row key of the entity.
    * @param options The options parameters.
    */
-  getEntity(
+  public async getEntity<T extends object>(
     tableName: string,
     partitionKey: string,
     rowKey: string,
     options?: GetEntityOptions
-  ): Promise<GetEntityResponse> {
-    return this.table.queryEntitiesWithPartitionAndRowKey(tableName, partitionKey, rowKey, options);
+  ): Promise<GetEntityResponse<T>> {
+    const response = (await this.table.queryEntitiesWithPartitionAndRowKey(
+      tableName,
+      partitionKey,
+      rowKey,
+      options
+    )) as GetEntityResponse<T>;
+    response.value = deserialize<T>(response._response.parsedBody);
+    return response;
   }
 
   /**
@@ -211,13 +225,18 @@ export class TableServiceClient {
    * @param query The OData query parameters.
    * @param options The options parameters.
    */
-  listEntities(
+  public async listEntities<T extends object>(
     tableName: string,
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     query?: QueryOptions,
     options?: ListEntitiesOptions
-  ): Promise<ListEntitiesResponse> {
-    return this.table.queryEntities(tableName, { queryOptions: query, ...options });
+  ): Promise<ListEntitiesResponse<T>> {
+    const response = (await this.table.queryEntities(tableName, {
+      queryOptions: query,
+      ...options
+    })) as ListEntitiesResponse<T>;
+    response.value = deserializeObjectsArray<T>(response.value || []);
+    return response;
   }
 
   /**
@@ -226,12 +245,15 @@ export class TableServiceClient {
    * @param entity The properties for the table entity.
    * @param options The options parameters.
    */
-  createEntity(
+  public createEntity(
     tableName: string,
-    entity?: Entity,
+    entity: Entity,
     options?: CreateEntityOptions
   ): Promise<CreateEntityResponse> {
-    return this.table.insertEntity(tableName, { tableEntityProperties: entity, ...options });
+    return this.table.insertEntity(tableName, {
+      tableEntityProperties: serialize(entity),
+      ...options
+    });
   }
 
   /**
@@ -244,7 +266,7 @@ export class TableServiceClient {
    *                (*).
    * @param options The options parameters.
    */
-  deleteEntity(
+  public deleteEntity(
     tableName: string,
     partitionKey: string,
     rowKey: string,
@@ -261,14 +283,14 @@ export class TableServiceClient {
    * @param ifMatch Match condition for an entity to be updated. If specified and a matching entity is not found, an error will be raised. To force an unconditional update, set to the wildcard character (*). If not specified, an insert will be performed when no existing entity is found to update and a replace will be performed if an existing entity is found.
    * @param options The options parameters.
    */
-  updateEntity(
+  public updateEntity(
     tableName: string,
     entity: Entity,
     ifMatch?: string,
     options?: UpdateEntityOptions
   ): Promise<UpdateEntityResponse> {
     return this.table.updateEntity(tableName, entity.PartitionKey, entity.RowKey, {
-      tableEntityProperties: entity,
+      tableEntityProperties: serialize(entity),
       ifMatch,
       ...options
     });
@@ -281,14 +303,14 @@ export class TableServiceClient {
    * @param ifMatch Match condition for an entity to be updated. If specified and a matching entity is not found, an error will be raised. To force an unconditional update, set to the wildcard character (*). If not specified, an insert will be performed when no existing entity is found to update and a merge will be performed if an existing entity is found.
    * @param options The options parameters.
    */
-  mergeEntity(
+  public mergeEntity(
     tableName: string,
     entity: Entity,
     ifMatch?: string,
     options?: MergeEntityOptions
   ): Promise<MergeEntityResponse> {
     return this.table.mergeEntity(tableName, entity.PartitionKey, entity.RowKey, {
-      tableEntityProperties: entity,
+      tableEntityProperties: serialize(entity),
       ifMatch,
       ...options
     });
@@ -300,7 +322,7 @@ export class TableServiceClient {
    * @param tableName The name of the table.
    * @param options The options parameters.
    */
-  getAccessPolicy(
+  public getAccessPolicy(
     tableName: string,
     options?: GetAccessPolicyOptions
   ): Promise<GetAccessPolicyResponse> {
@@ -313,7 +335,7 @@ export class TableServiceClient {
    * @param acl The Access Control List for the table.
    * @param options The options parameters.
    */
-  setAccessPolicy(
+  public setAccessPolicy(
     tableName: string,
     acl?: SignedIdentifier[],
     options?: SetAccessPolicyOptions
