@@ -7,9 +7,8 @@
  */
 
 import * as coreHttp from "@azure/core-http";
-import * as operations from "./operations";
+import { Entity, Subscription, Rule, Namespace } from "./operations";
 import * as Parameters from "./models/parameters";
-import * as Models from "./models";
 import * as Mappers from "./models/mappers";
 import { ServiceBusManagementClientInternalContext } from "./serviceBusManagementClientInternalContext";
 import {
@@ -22,7 +21,7 @@ import {
   ServiceBusManagementClientInternalListEntitiesResponse
 } from "./models";
 
-class ServiceBusManagementClientInternal extends ServiceBusManagementClientInternalContext {
+export class ServiceBusManagementClientInternal extends ServiceBusManagementClientInternalContext {
   /**
    * Initializes a new instance of the ServiceBusManagementClientInternal class.
    * @param credentials Subscription credentials which uniquely identify client subscription.
@@ -35,10 +34,10 @@ class ServiceBusManagementClientInternal extends ServiceBusManagementClientInter
     options?: ServiceBusManagementClientInternalOptionalParams
   ) {
     super(credentials, endpoint, options);
-    this.entity = new operations.Entity(this);
-    this.subscription = new operations.Subscription(this);
-    this.rule = new operations.Rule(this);
-    this.namespace = new operations.Namespace(this);
+    this.entity = new Entity(this);
+    this.subscription = new Subscription(this);
+    this.rule = new Rule(this);
+    this.namespace = new Namespace(this);
   }
 
   /**
@@ -98,10 +97,10 @@ class ServiceBusManagementClientInternal extends ServiceBusManagementClientInter
     ) as Promise<ServiceBusManagementClientInternalListEntitiesResponse>;
   }
 
-  entity: operations.Entity;
-  subscription: operations.Subscription;
-  rule: operations.Rule;
-  namespace: operations.Namespace;
+  entity: Entity;
+  subscription: Subscription;
+  rule: Rule;
+  namespace: Namespace;
 }
 // Operation Specifications
 
@@ -164,13 +163,3 @@ const listEntitiesOperationSpec: coreHttp.OperationSpec = {
   isXML: true,
   serializer: xmlSerializer
 };
-
-// Operation Specifications
-
-export {
-  ServiceBusManagementClientInternal,
-  ServiceBusManagementClientInternalContext,
-  Models as ServiceBusManagementInternalModels,
-  Mappers as ServiceBusManagementInternalMappers
-};
-export * from "./operations";
