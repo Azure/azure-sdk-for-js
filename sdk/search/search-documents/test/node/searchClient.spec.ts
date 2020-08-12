@@ -15,23 +15,23 @@ import {
   IndexDocumentsBatch
 } from "../../src/index";
 import { Hotel } from "../utils/interfaces";
-import { createIndex, populateIndex } from "../utils/setupIndex";
+import { createIndex, populateIndex, WAIT_TIME } from "../utils/setupIndex";
 import { delay } from "@azure/core-http";
 
-const TEST_INDEX_NAME = "hotel-live-test";
-const WAIT_TIME = 2000;
+const TEST_INDEX_NAME = "hotel-live-test1";
 
 describe("SearchClient", function() {
   let recorder: Recorder;
   let searchClient: SearchClient<Hotel>;
-  let indexClient: SearchIndexClient;  
+  let indexClient: SearchIndexClient;
 
-  this.timeout(30000);
+  this.timeout(99999);
 
   beforeEach(async function() {
     ({ searchClient, indexClient } = createClients<Hotel>(TEST_INDEX_NAME));
     if (!isPlaybackMode()) {
       await createIndex(indexClient, TEST_INDEX_NAME);
+      await delay(WAIT_TIME);
       await populateIndex(searchClient);
     }
     recorder = record(this, environmentSetup);
@@ -45,6 +45,7 @@ describe("SearchClient", function() {
     }
     if (!isPlaybackMode()) {
       await indexClient.deleteIndex(TEST_INDEX_NAME);
+      await delay(WAIT_TIME);
     }
   });
 
@@ -67,7 +68,7 @@ describe("SearchClient", function() {
         "garbxyz",
         "sg"
       );
-      assert.equal(autoCompleteResult.results.length == 0, true);
+      assert.isTrue(autoCompleteResult.results.length == 0);
     });
   });
 
@@ -95,9 +96,8 @@ describe("SearchClient", function() {
     it("returns the correct suggestions", async function() {
       const suggestResult = await searchClient.suggest("wifi", "sg");
       assert.equal(suggestResult.results.length, 1);
-      assert.equal(
-        suggestResult.results[0].text.startsWith("Save up to 50% off traditional hotels"),
-        true
+      assert.isTrue(
+        suggestResult.results[0].text.startsWith("Save up to 50% off traditional hotels")
       );
     });
 
@@ -128,7 +128,7 @@ describe("SearchClient", function() {
       } catch (ex) {
         errorThrown = true;
       }
-      assert.equal(errorThrown, true, "Expected getDocument to fail with an exception");
+      assert.isTrue(errorThrown, "Expected getDocument to fail with an exception");
     });
   });
 
