@@ -20,7 +20,7 @@ nock('https://endpoint:443', {"encodedQueryParams":true})
   'Vary',
   'Accept-Encoding',
   'request-id',
-  '3a00038a-fd33-4c26-ba62-035d0f04f5a3',
+  '38ea1805-b85b-4a92-a90d-7183cba89ead',
   'elapsed-time',
   '23',
   'OData-Version',
@@ -30,7 +30,7 @@ nock('https://endpoint:443', {"encodedQueryParams":true})
   'Strict-Transport-Security',
   'max-age=15724800; includeSubDomains',
   'Date',
-  'Tue, 11 Aug 2020 11:45:38 GMT',
+  'Wed, 12 Aug 2020 05:42:12 GMT',
   'Content-Length',
   '185' ]);
 
@@ -50,9 +50,9 @@ nock('https://endpoint:443', {"encodedQueryParams":true})
   'Vary',
   'Accept-Encoding',
   'request-id',
-  'a7aa96b0-8dd2-476b-8514-52ff12ae1b38',
+  'c633ef39-c48c-4aa4-b013-11d422b14bb2',
   'elapsed-time',
-  '5',
+  '3',
   'OData-Version',
   '4.0',
   'Preference-Applied',
@@ -60,6 +60,6 @@ nock('https://endpoint:443', {"encodedQueryParams":true})
   'Strict-Transport-Security',
   'max-age=15724800; includeSubDomains',
   'Date',
-  'Tue, 11 Aug 2020 11:45:40 GMT',
+  'Wed, 12 Aug 2020 05:42:14 GMT',
   'Content-Length',
   '127' ]);
