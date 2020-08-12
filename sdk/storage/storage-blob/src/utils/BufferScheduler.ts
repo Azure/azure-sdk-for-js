@@ -3,11 +3,16 @@
 
 import { EventEmitter } from "events";
 import { Readable } from "stream";
+import { PooledBuffer } from "./PooledBuffer";
 
 /**
  * OutgoingHandler is an async function triggered by BufferScheduler.
  */
-export declare type OutgoingHandler = (buffer: Buffer, offset?: number) => Promise<any>;
+export declare type OutgoingHandler = (
+  body: () => NodeJS.ReadableStream,
+  length: number,
+  offset?: number
+) => Promise<any>;
 
 /**
  * This class accepts a Node.js Readable stream as input, and keeps reading data
@@ -170,19 +175,19 @@ export class BufferScheduler {
    * The array includes all the available buffers can be used to fill data from stream.
    *
    * @private
-   * @type {Buffer[]}
+   * @type {PooledBuffer[]}
    * @memberof BufferScheduler
    */
-  private incoming: Buffer[] = [];
+  private incoming: PooledBuffer[] = [];
 
   /**
    * The array (queue) includes all the buffers filled from stream data.
    *
    * @private
-   * @type {Buffer[]}
+   * @type {PooledBuffer[]}
    * @memberof BufferScheduler
    */
-  private outgoing: Buffer[] = [];
+  private outgoing: PooledBuffer[] = [];
 
   /**
    * Creates an instance of BufferScheduler.
@@ -266,7 +271,8 @@ export class BufferScheduler {
 
         if (this.isStreamEnd && this.executingOutgoingHandlers === 0) {
           if (this.unresolvedLength > 0 && this.unresolvedLength < this.bufferSize) {
-            this.outgoingHandler(this.shiftBufferFromUnresolvedDataArray(), this.offset)
+            const buffer = this.shiftBufferFromUnresolvedDataArray();
+            this.outgoingHandler(() => buffer.toReadableStream(), buffer.size, this.offset)
               .then(resolve)
               .catch(reject);
           } else if (this.unresolvedLength >= this.bufferSize) {
@@ -296,31 +302,18 @@ export class BufferScheduler {
    * than blockSize when data in unresolvedDataArray is less than bufferSize.
    *
    * @private
-   * @returns {Buffer}
+   * @returns {ArrayBufferWithView}
    * @memberof BufferScheduler
    */
-  private shiftBufferFromUnresolvedDataArray(): Buffer {
-    if (this.unresolvedLength >= this.bufferSize) {
-      if (this.bufferSize === this.unresolvedDataArray[0].length) {
-        this.unresolvedLength -= this.bufferSize;
-        return this.unresolvedDataArray.shift()!;
-      }
-
-      // Lazy concat because Buffer.concat highly drops performance
-      let merged = Buffer.concat(this.unresolvedDataArray, this.unresolvedLength);
-      const buffer = merged.slice(0, this.bufferSize);
-      merged = merged.slice(this.bufferSize);
-      this.unresolvedDataArray = [merged];
-      this.unresolvedLength -= buffer.length;
-      return buffer;
-    } else if (this.unresolvedLength > 0) {
-      const merged = Buffer.concat(this.unresolvedDataArray, this.unresolvedLength);
-      this.unresolvedDataArray = [];
-      this.unresolvedLength = 0;
-      return merged;
+  private shiftBufferFromUnresolvedDataArray(buffer?: PooledBuffer): PooledBuffer {
+    if (!buffer) {
+      buffer = new PooledBuffer(this.bufferSize, this.unresolvedDataArray, this.unresolvedLength);
     } else {
-      return Buffer.allocUnsafe(0);
+      buffer.fill(this.unresolvedDataArray, this.unresolvedLength);
     }
+
+    this.unresolvedLength -= buffer.size;
+    return buffer;
   }
 
   /**
@@ -336,13 +329,14 @@ export class BufferScheduler {
    */
   private resolveData(): boolean {
     while (this.unresolvedLength >= this.bufferSize) {
-      let buffer: Buffer;
+      let buffer: PooledBuffer;
 
       if (this.incoming.length > 0) {
         buffer = this.incoming.shift()!;
+        this.shiftBufferFromUnresolvedDataArray(buffer);
       } else {
         if (this.numBuffers < this.maxBuffers) {
-          buffer = Buffer.allocUnsafe(this.bufferSize);
+          buffer = this.shiftBufferFromUnresolvedDataArray();
           this.numBuffers++;
         } else {
           // No available buffer, wait for buffer returned
@@ -350,7 +344,6 @@ export class BufferScheduler {
         }
       }
 
-      buffer.fill(this.shiftBufferFromUnresolvedDataArray());
       this.outgoing.push(buffer);
       this.triggerOutgoingHandlers();
     }
@@ -365,7 +358,7 @@ export class BufferScheduler {
    * @memberof BufferScheduler
    */
   private async triggerOutgoingHandlers() {
-    let buffer: Buffer | undefined;
+    let buffer: PooledBuffer | undefined;
     do {
       if (this.executingOutgoingHandlers >= this.concurrency) {
         return;
@@ -386,14 +379,18 @@ export class BufferScheduler {
    * @returns {Promise<any>}
    * @memberof BufferScheduler
    */
-  private async triggerOutgoingHandler(buffer: Buffer): Promise<any> {
-    const bufferLength = buffer.length;
+  private async triggerOutgoingHandler(buffer: PooledBuffer): Promise<any> {
+    const bufferLength = buffer.size;
 
     this.executingOutgoingHandlers++;
     this.offset += bufferLength;
 
     try {
-      await this.outgoingHandler(buffer, this.offset - bufferLength);
+      await this.outgoingHandler(
+        () => buffer.toReadableStream(),
+        bufferLength,
+        this.offset - bufferLength
+      );
     } catch (err) {
       this.emitter.emit("error", err);
       return;
@@ -411,7 +408,7 @@ export class BufferScheduler {
    * @param {Buffer} buffer
    * @memberof BufferScheduler
    */
-  private reuseBuffer(buffer: Buffer) {
+  private reuseBuffer(buffer: PooledBuffer) {
     this.incoming.push(buffer);
     if (!this.isError && this.resolveData() && !this.isStreamEnd) {
       this.readable.resume();

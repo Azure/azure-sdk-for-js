@@ -4382,19 +4382,19 @@ export class BlockBlobClient extends BlobClient {
         stream,
         bufferSize,
         maxConcurrency,
-        async (buffer: Buffer) => {
+        async (body, length) => {
           const blockID = generateBlockID(blockIDPrefix, blockNum);
           blockList.push(blockID);
           blockNum++;
 
-          await this.stageBlock(blockID, buffer, buffer.length, {
+          await this.stageBlock(blockID, body, length, {
             conditions: options.conditions,
             encryptionScope: options.encryptionScope,
             tracingOptions: { ...options!.tracingOptions, spanOptions }
           });
 
           // Update progress after block is successfully uploaded to server, in case of block trying
-          transferProgress += buffer.length;
+          transferProgress += length;
           if (options.onProgress) {
             options.onProgress({ loadedBytes: transferProgress });
           }
