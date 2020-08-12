@@ -280,14 +280,7 @@ export class LinkEntity<LinkT extends Receiver | AwaitableSender | RequestRespon
 
         log.link(`${this._logPrefix} closed by ${originator}.`);
       } catch (err) {
-        log.error(
-          "[%s] An error occurred while closing the %s '%s': %O",
-          this._context.namespace.connectionId,
-          this._type,
-          this.name,
-          this.address,
-          err
-        );
+        log.error(`${this._logPrefix} An error occurred while closing the link.: %O`, err);
       }
     }
   }
