@@ -137,8 +137,8 @@ describe("SearchIndexClient", function() {
     });
 
     it("gets the correct index object", async function(){
-      const index = await indexClient.getIndex("hotel-live-test3");
-      assert.equal(index.name, "hotel-live-test3");
+      const index = await indexClient.getIndex(TEST_INDEX_NAME);
+      assert.equal(index.name, TEST_INDEX_NAME);
       assert.equal(index.fields.length, 5);
     });
 
@@ -204,14 +204,14 @@ describe("SearchIndexClient", function() {
     });
 
     it("modify and updates the index object", async function(){
-      let index = await indexClient.getIndex("hotel-live-test3");
+      let index = await indexClient.getIndex(TEST_INDEX_NAME);
       index.fields.push({
         type: "Edm.DateTimeOffset",
         name: "lastUpdatedOn",
         filterable: true
       });
       await indexClient.createOrUpdateIndex(index);
-      index = await indexClient.getIndex("hotel-live-test3");
+      index = await indexClient.getIndex(TEST_INDEX_NAME);
       assert.equal(index.fields.length, 6);
     });
   });
