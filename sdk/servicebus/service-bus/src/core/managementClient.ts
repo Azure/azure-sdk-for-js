@@ -241,7 +241,6 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
         );
 
         await this.initLink({
-          name: "mgmt",
           senderOptions: sropt,
           receiverOptions: rxopt
         });

@@ -38,12 +38,23 @@ export interface LinkEntityOptions {
   audience?: string;
 }
 
+/**
+ * A simple grouping of the sender and receiver options. Only used
+ * with the ManagementClient today.
+ *
+ * @internal
+ * @ignore
+ */
 export interface RequestResponseLinkOptions {
   senderOptions: SenderOptions;
   receiverOptions: ReceiverOptions;
-  name: string;
+  name?: string;
 }
 
+/**
+ * @internal
+ * @ignore
+ */
 type LinkOptionsT<
   LinkT extends Receiver | AwaitableSender | RequestResponseLink
 > = LinkT extends Receiver
@@ -354,27 +365,25 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
 
     if (options.name) {
       this.name = options.name;
-      this._logPrefix = `[${connectionId}|r:${this.name}|a:${this.address}]`;
+      this._logPrefix = `[${connectionId}|l:${this.name}|a:${this.address}]`;
     }
 
-    const logPrefix = `[${connectionId}|r:${this.name}|a:${this.address}]`;
-
     if (this._wasClosedByUser) {
-      log.error(`${logPrefix} Link has been closed by user. Not reopening.`);
+      log.error(`${this._logPrefix} Link has been closed by user. Not reopening.`);
       return;
     }
 
     if (this.isOpen()) {
-      log.error(`${logPrefix} Link is already open. Returning.`);
+      log.error(`${this._logPrefix} Link is already open. Returning.`);
       return;
     }
 
     if (this.isConnecting) {
-      log.error(`${logPrefix} Link is currently opening. Returning.`);
+      log.error(`${this._logPrefix} Link is currently opening. Returning.`);
       return;
     }
 
-    log.error(`${logPrefix} Is not open and is not currently connecting. Opening.`);
+    log.error(`${this._logPrefix} Is not open and is not currently connecting. Opening.`);
 
     this._isConnecting = true;
 
@@ -382,12 +391,12 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
       await this._negotiateClaim();
       checkAborted();
 
-      log.error(`${logPrefix} Creating with options %O`, options);
+      log.error(`${this._logPrefix} Creating with options %O`, options);
 
       this._link = await this.createRheaLink(options);
 
       if (abortSignal?.aborted) {
-        log.error(`${logPrefix} created but abortSignal was set. Closing and aborting.`);
+        log.error(`${this._logPrefix} created but abortSignal was set. Closing and aborting.`);
         await this._link.close();
         this._link = undefined;
         throw new AbortError(StandardAbortMessage);

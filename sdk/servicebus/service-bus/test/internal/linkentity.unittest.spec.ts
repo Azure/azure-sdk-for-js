@@ -190,7 +190,7 @@ describe("LinkEntity unit tests", () => {
       name: "some new name"
     });
 
-    assert.equal(linkEntity["_logPrefix"], "[connection-id|r:some new name|a:my-address]");
+    assert.equal(linkEntity["_logPrefix"], "[connection-id|l:some new name|a:my-address]");
 
     // note that specifying a name is a complete override - no additional tacking
     // on of a GUID or anything happens (that's up to you when you override the
@@ -202,6 +202,6 @@ describe("LinkEntity unit tests", () => {
     );
 
     // we also update the log prefix
-    assert.equal(linkEntity["_logPrefix"], "[connection-id|r:some new name|a:my-address]");
+    assert.equal(linkEntity["_logPrefix"], "[connection-id|l:some new name|a:my-address]");
   });
 });
