@@ -65,9 +65,17 @@ describe("Atom management - Namespace", function(): void {
     );
   });
 
-  it.only("Get namespace properties 2", async () => {
-    const namespaceProperties = await serviceBusAtomManagementClient.getNamespaceProperties2();
-    console.log(namespaceProperties);
+  it.only("Testing generated code", async () => {
+    // const namespaceProperties =
+    await serviceBusAtomManagementClient.getNamespaceProperties2();
+    // console.log(namespaceProperties);
+    const queueProps = await serviceBusAtomManagementClient.createQueue("random-name");
+    console.log(queueProps);
+    console.log(await serviceBusAtomManagementClient.deleteQueue2("random-name"));
+    // await serviceBusAtomManagementClient.deleteQueue("random-name");
+    // const queueProps2 = await serviceBusAtomManagementClient.createQueue2("random-name");
+    // console.log(queueProps2);
+    // await serviceBusAtomManagementClient.deleteQueue("random-name");
   });
 
   it("Create queue response", async () => {
