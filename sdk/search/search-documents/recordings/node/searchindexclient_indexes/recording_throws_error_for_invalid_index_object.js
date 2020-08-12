@@ -1,13 +1,13 @@
 let nock = require('nock');
 
-module.exports.hash = "b546af201e9f4b3ed9f7fb66f796c57e";
+module.exports.hash = "45022062f0e26a01c271e6703b334be4";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .get('/indexers(%27garbxyz%27)')
+  .get('/indexes(%27garbxyz%27)')
   .query(true)
-  .reply(404, {"error":{"code":"","message":"Indexer 'garbxyz' was not found in service 'testsearchcases'."}}, [ 'Cache-Control',
+  .reply(404, {"error":{"code":"","message":"No index with the name 'garbxyz' was found in the service 'testsearchcases'."}}, [ 'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
@@ -18,9 +18,9 @@ nock('https://endpoint:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'request-id',
-  '28ac5f08-f0a3-45c4-acc6-f7fdbc474e6c',
+  '22dcf592-a8e0-428c-a77d-b7ab35130fbc',
   'elapsed-time',
-  '6',
+  '14',
   'OData-Version',
   '4.0',
   'Preference-Applied',
@@ -28,6 +28,6 @@ nock('https://endpoint:443', {"encodedQueryParams":true})
   'Strict-Transport-Security',
   'max-age=15724800; includeSubDomains',
   'Date',
-  'Wed, 12 Aug 2020 05:45:18 GMT',
+  'Wed, 12 Aug 2020 05:44:05 GMT',
   'Content-Length',
-  '95' ]);
+  '110' ]);

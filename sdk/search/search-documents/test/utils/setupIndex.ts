@@ -534,3 +534,60 @@ export async function deleteIndexers(client: SearchIndexerClient): Promise<void>
     await client.deleteIndexer(`my-azure-indexer-${i}`);
   }
 }
+
+export async function createSynonymMaps(client: SearchIndexClient): Promise<void> {
+  for (let i = 1; i <= 4; i++) {
+    await client.createSynonymMap({
+      name: `my-azure-synonymmap-${i}`,
+      synonyms: ["United States, United States of America => USA", "Washington, Wash. => WA"]
+    });
+  }
+}
+
+export async function deleteSynonymMaps(client: SearchIndexClient): Promise<void> {
+  for (let i = 1; i <= 4; i++) {
+    await client.deleteSynonymMap(`my-azure-synonymmap-${i}`);
+  }
+}
+
+export async function createSimpleIndex(client: SearchIndexClient, name: string): Promise<void> {
+  let index: SearchIndex = {
+    name,
+    fields: [
+      {
+        type: "Edm.String",
+        name: "id",
+        key: true
+      },
+      {
+        type: "Edm.Double",
+        name: "awesomenessLevel",
+        sortable: true,
+        filterable: true,
+        facetable: true
+      },
+      {
+        type: "Edm.String",
+        name: "description",
+        searchable: true
+      },
+      {
+        type: "Edm.ComplexType",
+        name: "details",
+        fields: [
+          {
+            type: "Collection(Edm.String)",
+            name: "tags",
+            searchable: true
+          }
+        ]
+      },
+      {
+        type: "Edm.Int32",
+        name: "hiddenWeight",
+        hidden: true
+      }
+    ]
+  };
+  await client.createIndex(index);
+}

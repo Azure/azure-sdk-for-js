@@ -7,7 +7,7 @@ module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 nock('https://endpoint:443', {"encodedQueryParams":true})
   .get('/skillsets(%27my-azureblob-skillset-5%27)')
   .query(true)
-  .reply(200, ["1f8b0800000000000400edbd07601c499625262f6dca7b7f4af54ad7e074a10880601324d8904010ecc188cde692ec1d69472329ab2a81ca6556655d661640cced9dbcf7de7befbdf7de7befbdf7ba3b9d4e27f7dfff3f5c6664016cf6ce4adac99e2180aac81f3f7e7c1f3f227ef147bf6735cbda6c3cad966dfeaefde8d147f3b65d358feede6df3a66df2ac9ecea759933763f97d7c552c67d555335ee6eddddf6d91b7195efff1e66d51964dde36777fb77cd916edf5472303999a5c10d8dff7a39d77074f0fee3d3d3d79ba7fffdec1c9c3dddff7236ab5cc16397dbdb8dece7eb0aef349594db60db4edfbd4609637d3ba58b545b5a476aff5abd4ff78f491bcf1d1a3efd901b5d72bc0fdf12f8a695d35d5793b9657c76f6898e35346f2553ead2e960560f0970448d1f9f15dfaddefe2d1725d96a38f1c99eeceaae97a4183a586d3accd2faabac881c1472ff3baa137461ffdc43ae36ee8d72feb8b6c59fc206358a38fbe7af59cfe3d5d6405fa7c5e1100f9e229417a53100adf47f7e7d9ba6c9f67cb8b7576919f54336096a3d9a258168bf5e2659d4f8b066f2a7ac5725aae67f91b1a7b99370d8f92b1325fafd62dfd4554d271f260887cd5ba9ee26f3baabb8bbcbec867bf3f0f9807296d4ef037bdd385f8fd5f32b2404b1f63f3227dee809b16f6db61b044886addea9fb68b15d3b8a1f7db8cf06c5f988fab55997fe4e3a2b4ed35755ffc12ee4439e1327f9dd797c5d411ededb2ba2af3d945febaad6a7a533ecd97d3fa9a59e3f7caafe5c35ff2ff00b0a3f23f4d030000"], [ 'Cache-Control',
+  .reply(200, ["1f8b0800000000000400edbd07601c499625262f6dca7b7f4af54ad7e074a10880601324d8904010ecc188cde692ec1d69472329ab2a81ca6556655d661640cced9dbcf7de7befbdf7de7befbdf7ba3b9d4e27f7dfff3f5c6664016cf6ce4adac99e2180aac81f3f7e7c1f3f227ef147bf6735cbda6c3cad966dfeaefde8d147f3b65d358feede6df3a66df2ac9ecea759933763f97d7c552c67d555335ee6eddddf6d91b7195efff1e66d51964dde36777fb77cd916edf5472303999a5c10d8dff7a39d77074f0fee9d1edcfbf4debdfb3ba70f1efebe1f51ab65b6c8e9ebc5f576f683759d4fca6ab26da06ddfa706b3bc99d6c5aa2daa25b57bad5fa5fec7a38fe48d8f1e7dcf0ea8bd5e01ee8f7f514cebaaa9cedbb1bc3a7e43c31c9f3292aff26975b12c0083bf24408ace8fefd2ef7e178f96ebb21c7de4c87477564dd70b1a2c359c666d7e51d5450e0c3e7a99d70dbd31fae827d6197743bf7e595f64cbe20719c31a7df4d5abe7f4efe9222bd0e7f38a00c8174f09d29b8250f83eba3fcfd665fb3c5b5eacb38bfca49a01b31ccd16c5b258ac172feb7c5a347853d12b96d3723dcbdfd0d8cbbc6978948c95f97ab56ee92fa2928e930743e4abd6f5147fdb51dd5de4f5453efbfd79c03c48697382bfe99d2ec4efff9291055afa189b17e97307dcb4b0df0e83254254eb56ffb45dac98c60dbddf668467fbc27c5cadcafc231f17a56dafa9fbe2977027ca0997f9ebbcbe2ca68e686f97d55599cf2ef2d76d55d39bf269be9cd6d7cc1abf577e2d1ffe92ff078d4558d84d030000"], [ 'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
@@ -18,13 +18,13 @@ nock('https://endpoint:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'ETag',
-  'W/"0x8D83DECD4538C91"',
+  'W/"0x8D83E8363350E79"',
   'Vary',
   'Accept-Encoding',
   'request-id',
-  '0f72033a-cbeb-4faf-becf-364c2591dff4',
+  'b596cce5-ba76-42d1-95b2-a6f9a7136c19',
   'elapsed-time',
-  '32',
+  '42',
   'OData-Version',
   '4.0',
   'Preference-Applied',
@@ -32,14 +32,14 @@ nock('https://endpoint:443', {"encodedQueryParams":true})
   'Strict-Transport-Security',
   'max-age=15724800; includeSubDomains',
   'Date',
-  'Tue, 11 Aug 2020 11:51:16 GMT',
+  'Wed, 12 Aug 2020 05:48:59 GMT',
   'Content-Length',
   '577' ]);
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .put('/skillsets(%27my-azureblob-skillset-5%27)', {"name":"my-azureblob-skillset-5","description":"Skillset description","skills":[{"name":"#1","description":null,"context":"/document","inputs":[{"name":"text","source":"/document/merged_content","sourceContext":null,"inputs":[]},{"name":"languageCode","source":"/document/language","sourceContext":null,"inputs":[]}],"outputs":[{"name":"persons","targetName":"people"},{"name":"locations","targetName":"locations"},{"name":"organizations","targetName":"organizations"}],"@odata.type":"#Microsoft.Skills.Text.EntityRecognitionSkill","categories":["Person","Quantity","Organization","URL","Email","Location","DateTime"],"defaultLanguageCode":"en","includeTypelessEntities":null,"minimumPrecision":null}],"cognitiveServices":null,"@odata.etag":"\"0x8D83DECD4538C91\""})
+  .put('/skillsets(%27my-azureblob-skillset-5%27)', {"name":"my-azureblob-skillset-5","description":"Skillset description","skills":[{"name":"#1","description":null,"context":"/document","inputs":[{"name":"text","source":"/document/merged_content","sourceContext":null,"inputs":[]},{"name":"languageCode","source":"/document/language","sourceContext":null,"inputs":[]}],"outputs":[{"name":"persons","targetName":"people"},{"name":"locations","targetName":"locations"},{"name":"organizations","targetName":"organizations"}],"@odata.type":"#Microsoft.Skills.Text.EntityRecognitionSkill","categories":["Person","Quantity","Organization","URL","Email","Location","DateTime"],"defaultLanguageCode":"en","includeTypelessEntities":null,"minimumPrecision":null}],"cognitiveServices":null,"@odata.etag":"\"0x8D83E8363350E79\""})
   .query(true)
-  .reply(200, ["1f8b0800000000000400edbd07601c499625262f6dca7b7f4af54ad7e074a10880601324d8904010ecc188cde692ec1d69472329ab2a81ca6556655d661640cced9dbcf7de7befbdf7de7befbdf7ba3b9d4e27f7dfff3f5c6664016cf6ce4adac99e2180aac81f3f7e7c1f3f227ef147bf6735cbda6c3cad966dfeaefde8d147f3b65d358feede6df3a66df2ac9ecea759933763f97d7c552c67d555335ee6eddddf6d91b7195efff1e66d51964dde36777fb77cd916edf5472303999a5c10d8dff7a39d77074f0fee3d3d3d797afc70efd3a7bb0f7fdf8fa8d5325be4f4f5e27a3bfbc1bace276535d936d0b6ef538359de4ceb62d516d592dabdd6af52ffe3d147f2c6478fbe6707d45eaf00f7c7bf28a675d554e7ed585e1dbfa1618e4f19c957f9b4ba581680c15f122045e7c777e977bf8b47cb75598e3e7264ba3baba6eb050d961a4eb336bfa8ea2207061fbdcceb86de187df413eb8cbba15fbfac2fb265f1838c618d3efaead573faf7749115e8f3794500e48ba704e94d41287c1fdd9f67ebb27d9e2d2fd6d9457e52cd80598e668b62592cd68b97753e2d1abca9e815cb69b99ee56f68ec65de343c4ac6ca7cbd5ab7f4175149c7c98321f255eb7a8abfeda8ee2ef2fa229ffdfe3c601ea4b439c1dff44e17e2f77fc9c8022d7d8ccd8bf4b9036e5ad86f87c11221aa75ab7fda2e564ce386de6f33c2b37d613eae5665fe918f8bd2b6d7d47de1b5aebc69eabd117ef94b1835e59fcbfc755e5f165347eab7cbeaaacc6717f9ebb6aae96df9345f4eeb6b66a8df2bbf960f7fc9ff036927642e83030000"], [ 'Cache-Control',
+  .reply(200, ["1f8b0800000000000400edbd07601c499625262f6dca7b7f4af54ad7e074a10880601324d8904010ecc188cde692ec1d69472329ab2a81ca6556655d661640cced9dbcf7de7befbdf7de7befbdf7ba3b9d4e27f7dfff3f5c6664016cf6ce4adac99e2180aac81f3f7e7c1f3f227ef147bf6735cbda6c3cad966dfeaefde8d147f3b65d358feede6df3a66df2ac9ecea759933763f97d7c552c67d555335ee6eddddf6d91b7195efff1e66d51964dde36777fb77cd916edf5472303999a5c10d8dff7a39d77074f0fee9d1edcfbf4e1bd870f9e9cecffbe1f51ab65b6c8e9ebc5f576f683759d4fca6ab26da06ddfa706b3bc99d6c5aa2daa25b57bad5fa5fec7a38fe48d8f1e7dcf0ea8bd5e01ee8f7f514cebaaa9cedbb1bc3a7e43c31c9f3292aff26975b12c0083bf24408ace8fefd2ef7e178f96ebb21c7de4c87477564dd70b1a2c359c666d7e51d5450e0c3e7a99d70dbd31fae827d6197743bf7e595f64cbe20719c31a7df4d5abe7f4efe9222bd0e7f38a00c8174f09d29b8250f83eba3fcfd665fb3c5b5eacb38bfca49a01b31ccd16c5b258ac172feb7c5a347853d12b96d3723dcbdfd0d8cbbc6978948c95f97ab56ee92fa2928e930743e4abd6f5147fdb51dd5de4f5453efbfd79c03c48697382bfe99d2ec4efff9291055afa189b17e97307dcb4b0df0e83254254eb56ffb45dac98c60dbddf668467fbc27c5cadcafc231f17a56dafa9fbc26b5d79d3d47b23fcf297306aca3f97f9ebbcbe2ca68ed46f97d55599cf2ef2d76d55d3dbf269be9cd6d7cc50bf577e2d1ffe92ff0746301ca783030000"], [ 'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
@@ -50,13 +50,13 @@ nock('https://endpoint:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'ETag',
-  'W/"0x8D83DECDA926D19"',
+  'W/"0x8D83E8369397BC4"',
   'Vary',
   'Accept-Encoding',
   'request-id',
-  '71fb43d5-1c7b-4f1b-94e8-923c65370a52',
+  'da261f26-337d-48b8-871e-ad81e66a7bac',
   'elapsed-time',
-  '75',
+  '69',
   'OData-Version',
   '4.0',
   'Preference-Applied',
@@ -64,14 +64,14 @@ nock('https://endpoint:443', {"encodedQueryParams":true})
   'Strict-Transport-Security',
   'max-age=15724800; includeSubDomains',
   'Date',
-  'Tue, 11 Aug 2020 11:51:16 GMT',
+  'Wed, 12 Aug 2020 05:48:59 GMT',
   'Content-Length',
   '586' ]);
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
   .get('/skillsets(%27my-azureblob-skillset-5%27)')
   .query(true)
-  .reply(200, ["1f8b0800000000000400edbd07601c499625262f6dca7b7f4af54ad7e074a10880601324d8904010ecc188cde692ec1d69472329ab2a81ca6556655d661640cced9dbcf7de7befbdf7de7befbdf7ba3b9d4e27f7dfff3f5c6664016cf6ce4adac99e2180aac81f3f7e7c1f3f227ef147bf6735cbda6c3cad966dfeaefde8d147f3b65d358feede6df3a66df2ac9ecea759933763f97d7c552c67d555335ee6eddddf6d91b7195efff1e66d51964dde36777fb77cd916edf5472303999a5c10d8dff7a39d77074f0fee3d3d3d797afc70efd3a7bb0f7fdf8fa8d5325be4f4f5e27a3bfbc1bace276535d936d0b6ef538359de4ceb62d516d592dabdd6af52ffe3d147f2c6478fbe6707d45eaf00f7c7bf28a675d554e7ed585e1dbfa1618e4f19c957f9b4ba581680c15f122045e7c777e977bf8b47cb75598e3e7264ba3baba6eb050d961a4eb336bfa8ea2207061fbdcceb86de187df413eb8cbba15fbfac2fb265f1838c618d3efaead573faf7749115e8f3794500e48ba704e94d41287c1fdd9f67ebb27d9e2d2fd6d9457e52cd80598e668b62592cd68b97753e2d1abca9e815cb69b99ee56f68ec65de343c4ac6ca7cbd5ab7f4175149c7c98321f255eb7a8abfeda8ee2ef2fa229ffdfe3c601ea4b439c1dff44e17e2f77fc9c8022d7d8ccd8bf4b9036e5ad86f87c11221aa75ab7fda2e564ce386de6f33c2b37d613eae5665fe918f8bd2b6d7d47de1b5aebc69eabd117ef94b1835e59fcbfc755e5f165347eab7cbeaaacc6717f9ebb6aae96df9345f4eeb6b66a8df2bbf960f7fc9ff036927642e83030000"], [ 'Cache-Control',
+  .reply(200, ["1f8b0800000000000400edbd07601c499625262f6dca7b7f4af54ad7e074a10880601324d8904010ecc188cde692ec1d69472329ab2a81ca6556655d661640cced9dbcf7de7befbdf7de7befbdf7ba3b9d4e27f7dfff3f5c6664016cf6ce4adac99e2180aac81f3f7e7c1f3f227ef147bf6735cbda6c3cad966dfeaefde8d147f3b65d358feede6df3a66df2ac9ecea759933763f97d7c552c67d555335ee6eddddf6d91b7195efff1e66d51964dde36777fb77cd916edf5472303999a5c10d8dff7a39d77074f0fee9d1edcfbf4e1bd870f9e9cecffbe1f51ab65b6c8e9ebc5f576f683759d4fca6ab26da06ddfa706b3bc99d6c5aa2daa25b57bad5fa5fec7a38fe48d8f1e7dcf0ea8bd5e01ee8f7f514cebaaa9cedbb1bc3a7e43c31c9f3292aff26975b12c0083bf24408ace8fefd2ef7e178f96ebb21c7de4c87477564dd70b1a2c359c666d7e51d5450e0c3e7a99d70dbd31fae827d6197743bf7e595f64cbe20719c31a7df4d5abe7f4efe9222bd0e7f38a00c8174f09d29b8250f83eba3fcfd665fb3c5b5eacb38bfca49a01b31ccd16c5b258ac172feb7c5a347853d12b96d3723dcbdfd0d8cbbc6978948c95f97ab56ee92fa2928e930743e4abd6f5147fdb51dd5de4f5453efbfd79c03c48697382bfe99d2ec4efff9291055afa189b17e97307dcb4b0df0e83254254eb56ffb45dac98c60dbddf668467fbc27c5cadcafc231f17a56dafa9fbc26b5d79d3d47b23fcf297306aca3f97f9ebbcbe2ca68ed46f97d55599cf2ef2d76d55d3dbf269be9cd6d7cc50bf577e2d1ffe92ff0746301ca783030000"], [ 'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
@@ -82,13 +82,13 @@ nock('https://endpoint:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'ETag',
-  'W/"0x8D83DECDA926D19"',
+  'W/"0x8D83E8369397BC4"',
   'Vary',
   'Accept-Encoding',
   'request-id',
-  '3ac469a2-a6e6-4c07-9b21-21b0c3c8121a',
+  '70859a05-d3d9-49cd-8ca6-b5c58affa28b',
   'elapsed-time',
-  '30',
+  '47',
   'OData-Version',
   '4.0',
   'Preference-Applied',
@@ -96,6 +96,6 @@ nock('https://endpoint:443', {"encodedQueryParams":true})
   'Strict-Transport-Security',
   'max-age=15724800; includeSubDomains',
   'Date',
-  'Tue, 11 Aug 2020 11:51:16 GMT',
+  'Wed, 12 Aug 2020 05:48:59 GMT',
   'Content-Length',
   '586' ]);

@@ -65,11 +65,9 @@ describe("SearchIndexerClient", function() {
     it("gets the list of indexer names", async function(){
       const indexers = await indexerClient.listIndexersNames();
       assert.isAtLeast(indexers.length, 5);
-      assert.include(indexers, "my-azure-indexer-1");
-      assert.include(indexers, "my-azure-indexer-2");
-      assert.include(indexers, "my-azure-indexer-3");
-      assert.include(indexers, "my-azure-indexer-4");
-      assert.include(indexers, "my-azure-indexer-5");
+      for (let i = 1; i <= 5; i++) {
+        assert.include(indexers, `my-azure-indexer-${i}`);
+      }
     });
 
     it("gets the correct indexer object", async function(){
@@ -136,11 +134,9 @@ describe("SearchIndexerClient", function() {
     it("gets the list of datasourceconnection names", async function(){
       const dataSourceConnectionNames = await indexerClient.listDataSourceConnectionsNames();
       assert.isAtLeast(dataSourceConnectionNames.length, 5);
-      assert.include(dataSourceConnectionNames, "my-data-source-1");
-      assert.include(dataSourceConnectionNames, "my-data-source-2");
-      assert.include(dataSourceConnectionNames, "my-data-source-3");
-      assert.include(dataSourceConnectionNames, "my-data-source-4");
-      assert.include(dataSourceConnectionNames, "my-data-source-5");
+      for (let i = 1; i <= 5; i++) {
+        assert.include(dataSourceConnectionNames, `my-data-source-${i}`);
+      }
     });
 
     it("gets the correct datasourceconnection object", async function(){
@@ -201,11 +197,9 @@ describe("SearchIndexerClient", function() {
     it("gets the list of skillset names", async function(){
       const skillsets = await indexerClient.listSkillsetsNames();
       assert.isAtLeast(skillsets.length, 5);
-      assert.include(skillsets, "my-azureblob-skillset-1");
-      assert.include(skillsets, "my-azureblob-skillset-2");
-      assert.include(skillsets, "my-azureblob-skillset-3");
-      assert.include(skillsets, "my-azureblob-skillset-4");
-      assert.include(skillsets, "my-azureblob-skillset-5");
+      for (let i = 1; i <= 5; i++) {
+        assert.include(skillsets, `my-azureblob-skillset-${i}`);
+      }
     });
 
     it("gets the correct skillset object", async function(){
@@ -274,15 +268,15 @@ describe("SearchIndexerClient", function() {
       }
     });
 
-    it("modify and updates the skillsets object", async function(){
+    it("modify and updates the skillsets object", async function() {
       let skillSet = await indexerClient.getSkillset("my-azureblob-skillset-5");
       skillSet.skills[0].outputs.push({
-            name: "organizations",
-            targetName: "organizations"
+        name: "organizations",
+        targetName: "organizations"
       });
       await indexerClient.createOrUpdateSkillset(skillSet);
       skillSet = await indexerClient.getSkillset("my-azureblob-skillset-5");
       assert.equal(skillSet.skills[0].outputs.length, 3);
-    });
+    });    
   });
 });
