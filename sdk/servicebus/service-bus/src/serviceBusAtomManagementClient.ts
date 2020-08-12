@@ -15,7 +15,6 @@ import {
   ProxySettings,
   RequestPolicyFactory,
   RestError,
-  ServiceClient,
   signingPolicy,
   stripRequest,
   stripResponse,
@@ -25,6 +24,11 @@ import {
 } from "@azure/core-http";
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { CorrelationRuleFilter } from "./core/managementClient";
+import { QueueDescription } from "./generated/src/models";
+import {
+  ServiceBusManagementClientInternal,
+  ServiceBusManagementInternalModels
+} from "./generated/src/serviceBusManagementClientInternal";
 import * as log from "./log";
 import {
   buildNamespace,
@@ -171,12 +175,7 @@ export interface RuleResponse extends RuleProperties, Response {}
  * These objects also have a property called `_response` that you can use if you want to
  * access the direct response from the service.
  */
-export class ServiceBusManagementClient extends ServiceClient {
-  /**
-   * Reference to the endpoint as extracted from input connection string.
-   */
-  private endpoint: string;
-
+export class ServiceBusManagementClient extends ServiceBusManagementClientInternal {
   /**
    * Reference to the endpoint with protocol prefix as extracted from input connection string.
    */
@@ -259,7 +258,7 @@ export class ServiceBusManagementClient extends ServiceClient {
       },
       authPolicy
     );
-    super(credentials, serviceClientOptions);
+    super(credentials, fullyQualifiedNamespace, serviceClientOptions);
     this.endpoint = fullyQualifiedNamespace;
     this.endpointWithProtocol = fullyQualifiedNamespace.endsWith("/")
       ? "sb://" + fullyQualifiedNamespace
@@ -306,6 +305,18 @@ export class ServiceBusManagementClient extends ServiceClient {
   }
 
   /**
+   * Returns an object representing the metadata related to a service bus namespace.
+   * @param operationOptions The options that can be used to abort, trace and control other configurations on the HTTP request.
+   *
+   */
+  async getNamespaceProperties2(
+    operationOptions?: OperationOptions
+  ): Promise<ServiceBusManagementInternalModels.NamespaceProperties & Response> {
+    const response = await this.namespace.get(operationOptions);
+    return { ...response.content?.namespaceProperties!, _response: response._response };
+  }
+
+  /**
    * Creates a queue with given name, configured using the given options
    * @param queueName
    * @param options Options to configure the Queue being created(For example, you can configure a queue to support partitions or sessions)
@@ -349,6 +360,15 @@ export class ServiceBusManagementClient extends ServiceClient {
     } finally {
       span.end();
     }
+  }
+
+  async createQueue2(
+    queueName: string,
+    options?: QueueDescription & OperationOptions
+  ): Promise<QueueDescription> {
+    const response = await this.entity.put(queueName, {}, options);
+    console.log(response.body);
+    return {};
   }
 
   /**
@@ -761,6 +781,10 @@ export class ServiceBusManagementClient extends ServiceClient {
     } finally {
       span.end();
     }
+  }
+
+  async deleteQueue2(queueName: string, operationOptions?: OperationOptions): Promise<Response> {
+    return { _response: (await this.entity.delete(queueName, operationOptions))._response };
   }
 
   /**
@@ -1524,7 +1548,7 @@ export class ServiceBusManagementClient extends ServiceClient {
    *   >} An asyncIterableIterator that supports paging.
    * @memberof ServiceBusManagementClient
    */
-  public listSubscriptions(
+  public listSubscriptions2(
     topicName: string,
     options?: OperationOptions
   ): PagedAsyncIterableIterator<SubscriptionProperties, EntitiesResponse<SubscriptionProperties>> {
@@ -2080,7 +2104,7 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @returns {PagedAsyncIterableIterator<RuleProperties, EntitiesResponse<RuleProperties>>} An asyncIterableIterator that supports paging.
    * @memberof ServiceBusManagementClient
    */
-  public listRules(
+  public listRules2(
     topicName: string,
     subscriptionName: string,
     options?: OperationOptions
