@@ -28,9 +28,9 @@ describe("LinkEntity unit tests", () => {
     assert.isTrue(linkEntity.isOpen(), "link is now open - initLink() has been called.");
     assert.match(linkEntity.name, /^some initial name-.*$/);
 
-    // when we close with 'detach' it closes the link but the
+    // when we close with 'linkonly' it closes the link but the
     // link can be reopened.
-    await linkEntity._closeLink("detach");
+    await linkEntity["closeLink"]("linkonly");
     assert.isFalse(linkEntity.isOpen());
     assert.isFalse(linkEntity["_wasClosedByUser"]);
 
@@ -41,7 +41,7 @@ describe("LinkEntity unit tests", () => {
       'We are allowed to reopen a link if it\'s been closed with the "detach" flag'
     );
 
-    await linkEntity._closeLink("close");
+    await linkEntity["closeLink"]("permanently");
     assert.isFalse(linkEntity.isOpen());
     assert.isTrue(linkEntity["_wasClosedByUser"]);
 
@@ -102,7 +102,7 @@ describe("LinkEntity unit tests", () => {
       ++negotiateClaimCalled;
     };
 
-    await linkEntity._closeLink("close");
+    await linkEntity["closeLink"]("permanently");
 
     await linkEntity.initLink({});
     assert.isFalse(linkEntity.isOpen(), "Link was closed and will remain closed");

@@ -259,13 +259,13 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
    * Closes the internally held rhea link, stops the token renewal timer and sets
    * the this._link field to undefined.
    *
-   * @param originator Indicates the original caller.
-   * - "close" closes the link permanently, setting _wasCloseInitiated which
+   * @param mode Indicates the original caller.
+   * - "permanently" closes the link permanently, setting _wasClosedByUser to true which
    * prevents it from being reinitializing.
-   * - "detach" closes the link but does not permanently close the LinkEntity. It can be reinitialized.
+   * - "linkonly" closes the link but does not permanently close the LinkEntity. It can be reinitialized.
    */
-  async _closeLink(originator: "close" | "detach"): Promise<void> {
-    if (originator === "close") {
+  protected async closeLink(mode: "permanently" | "linkonly"): Promise<void> {
+    if (mode === "permanently") {
       this._wasClosedByUser = true;
     }
 
@@ -278,7 +278,7 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
         await this._link.close();
         this._link = undefined;
 
-        log.link(`${this._logPrefix} closed by ${originator}.`);
+        log.link(`${this._logPrefix} closed: ${mode}.`);
       } catch (err) {
         log.error(`${this._logPrefix} An error occurred while closing the link.: %O`, err);
       }

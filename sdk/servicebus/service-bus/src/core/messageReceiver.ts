@@ -307,7 +307,7 @@ export class MessageReceiver extends LinkEntity<Receiver> {
     );
     this._clearAllMessageLockRenewTimers();
     this._deleteFromCache();
-    await this._closeLink("close");
+    await this.closeLink("permanently");
   }
 
   /**

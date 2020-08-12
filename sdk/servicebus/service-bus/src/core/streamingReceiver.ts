@@ -575,7 +575,7 @@ export class StreamingReceiver extends MessageReceiver {
     try {
       // Clears the token renewal timer. Closes the link and its session if they are open.
       // Removes the link and its session if they are present in rhea's cache.
-      await this._closeLink("detach");
+      await this.closeLink("linkonly");
 
       const translatedError = receiverError ? translate(receiverError) : receiverError;
 
