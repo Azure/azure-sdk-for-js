@@ -27,8 +27,8 @@ import { CorrelationRuleFilter } from "./core/managementClient";
 import { QueueDescription } from "./generated/src/models";
 import {
   ServiceBusManagementClientInternal,
-  ServiceBusManagementInternalModels
-} from "./generated/src/serviceBusManagementClientInternal";
+  NamespaceProperties as NamespacePropertiesGenerated
+} from "./generated/src";
 import * as log from "./log";
 import {
   buildNamespace,
@@ -310,7 +310,7 @@ export class ServiceBusManagementClient extends ServiceBusManagementClientIntern
    */
   async getNamespaceProperties2(
     operationOptions?: OperationOptions
-  ): Promise<ServiceBusManagementInternalModels.NamespaceProperties & Response> {
+  ): Promise<NamespacePropertiesGenerated & Response> {
     const response = await this.namespace.get(operationOptions);
     return { ...response.content?.namespaceProperties!, _response: response._response };
   }
