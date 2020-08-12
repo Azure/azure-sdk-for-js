@@ -2,7 +2,12 @@
 // Licensed under the MIT license.
 
 import { ClientEntityContext } from "../../src/clientEntityContext";
-import { AwaitableSender, Receiver as RheaReceiver, ReceiverEvents } from "rhea-promise";
+import {
+  AwaitableSender,
+  Receiver as RheaReceiver,
+  ReceiverEvents,
+  ReceiverOptionsWithSession
+} from "rhea-promise";
 import { DefaultDataTransformer, AccessToken } from "@azure/core-amqp";
 import { ConcurrentExpiringMap } from "../../src/util/concurrentExpiringMap";
 import { EventEmitter } from "events";
@@ -36,7 +41,6 @@ export function createClientEntityContextForTests(options?: {
       connectionId: "connection-id",
       connection: {
         id: "connection-id",
-
         isOpen(): boolean {
           return true;
         },
@@ -92,18 +96,22 @@ export function createClientEntityContextForTests(options?: {
  * - It handles draining (via the .drain = true/addCredit(1) combo of operations).
  * - It respects .close(), so the state of the receiver should be accurate for isOpen().
  */
-export function createRheaReceiverForTests() {
+export function createRheaReceiverForTests(options?: ReceiverOptionsWithSession) {
   const receiver = new EventEmitter() as RheaReceiver;
 
-  (receiver as any).name = getUniqueName("entity");
+  (receiver as any).name = options?.name == null ? getUniqueName("entity") : options.name;
 
   (receiver as any).connection = {
     id: "connection-id"
   };
 
+  let isOpen = true;
+
   (receiver as any).addCredit = (credit: number) => {
-    // TODO: would we like to do some more aggressive checks here?
-    // for instance, validating that nobody calls .addCredit on a closed receiver?
+    if (!isOpen) {
+      throw new Error("TEST INCONSISTENCY: trying to .addCredit() to a closed receiver");
+    }
+
     if ((receiver as any).credit == null || isNaN((receiver as any).credit)) {
       (receiver as any).credit = 0;
     }
@@ -115,8 +123,6 @@ export function createRheaReceiverForTests() {
       receiver.emit(ReceiverEvents.receiverDrained, undefined);
     }
   };
-
-  let isOpen = true;
 
   (receiver as any).close = async (): Promise<void> => {
     isOpen = false;
