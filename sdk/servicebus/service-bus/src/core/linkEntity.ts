@@ -348,12 +348,10 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
   protected abstract createRheaLink(_options: LinkOptionsT<LinkT>): Promise<LinkT>;
 
   /**
-   * Initializes this LinkEntity as a receiver link, updating this._receiver
-   * with a valid rhea Receiver if one is not already set or if it's not open.
+   * Initializes this LinkEntity, setting this._link with the result of  `createRheaLink`, which
+   * is implemented by child classes.
    *
-   * @param abortSignal
-   * @param options
-   * @returns undefined if the link is already open or the object has been close()'d.
+   * @returns A Promise that resolves when the link has been properly initialized
    */
   async initLink(options: LinkOptionsT<LinkT>, abortSignal?: AbortSignalLike): Promise<void> {
     const checkAborted = (): void => {
