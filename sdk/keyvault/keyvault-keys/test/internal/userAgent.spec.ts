@@ -13,14 +13,26 @@ describe("Keys client's user agent (only in Node, because of fs)", () => {
     assert.equal(SDK_VERSION, packageVersion);
   });
 
-  it("the version should also match with the one available in the package.json  (only in Node, because of fs)", async function() {
+  it.only("the version should also match with the one available in the package.json  (only in Node, because of fs)", async function() {
     if (!isNode) {
       this.skip();
       return;
     }
-    const { version } = JSON.parse(
-      fs.readFileSync(path.join(__dirname, "../package.json"), { encoding: "utf-8" })
-    );
+    let version: string;
+    try {
+      // The unit-test script has this test file at: test/internal/userAgent.spec.ts
+      const fileContents = JSON.parse(
+        fs.readFileSync(path.join(__dirname, "../package.json"), { encoding: "utf-8" })
+      );
+      version = fileContents.version;
+    } catch {
+      // The integration-test script has this test file in a considerably different place,
+      // Along the lines of: dist-esm/keyvault-keys/test/internal/userAgent.spec.ts
+      const fileContents = JSON.parse(
+        fs.readFileSync(path.join(__dirname, "../../../../package.json"), { encoding: "utf-8" })
+      );
+      version = fileContents.version;
+    }
     assert.equal(version, packageVersion);
   });
 });
