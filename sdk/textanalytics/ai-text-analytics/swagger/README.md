@@ -147,19 +147,6 @@ directive:
       $["x-ms-client-name"] = "dataSourceEntityId";
 ```
 
-### Remove Entity/Match offset/length
-
-```yaml
-directive:
-  - from: swagger-document
-    where: $.definitions..properties
-    transform: >
-      if ($.length !== undefined && $.offset !== undefined) {
-        $.length = undefined;
-        $.offset = undefined;
-      }
-```
-
 ### Rename SentimentConfidenceScorePerLabel -> SentimentConfidenceScores
 
 ```yaml

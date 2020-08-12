@@ -37,6 +37,8 @@ export interface AnalyzeSentimentSuccessResult extends TextAnalyticsSuccessResul
 // @public
 export interface AspectSentiment {
     confidenceScores: SentimentConfidenceScores;
+    length: number;
+    offset: number;
     sentiment: DocumentSentimentLabel;
     text: string;
 }
@@ -90,6 +92,8 @@ export type DocumentSentimentLabel = "positive" | "neutral" | "negative" | "mixe
 export interface Entity {
     category: string;
     confidenceScore: number;
+    length: number;
+    offset: number;
     subCategory?: string;
     text: string;
 }
@@ -136,6 +140,8 @@ export interface LinkedEntity {
 // @public
 export interface Match {
     confidenceScore: number;
+    length: number;
+    offset: number;
     text: string;
 }
 
@@ -149,6 +155,8 @@ export interface MinedOpinion {
 export interface OpinionSentiment {
     confidenceScores: SentimentConfidenceScores;
     isNegated: boolean;
+    length: number;
+    offset: number;
     sentiment: DocumentSentimentLabel;
     text: string;
 }

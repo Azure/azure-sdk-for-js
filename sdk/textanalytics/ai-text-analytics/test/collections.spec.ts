@@ -199,7 +199,9 @@ describe("RecognizeCategorizedEntitiesResultArray", () => {
             {
               text: "Microsoft",
               category: "Organization",
-              confidenceScore: 0.9989
+              confidenceScore: 0.9989,
+              length: 0,
+              offset: 0
             }
           ],
           warnings: []
@@ -211,7 +213,9 @@ describe("RecognizeCategorizedEntitiesResultArray", () => {
               text: "last week",
               category: "DateTime",
               subCategory: "DateRange",
-              confidenceScore: 0.8
+              confidenceScore: 0.8,
+              length: 0,
+              offset: 0
             }
           ],
           warnings: []
@@ -262,7 +266,9 @@ describe("RecognizeLinkedEntitiesResultArray", () => {
               matches: [
                 {
                   text: "Seattle",
-                  confidenceScore: 0.15046201222847677
+                  confidenceScore: 0.15046201222847677,
+                  length: 0,
+                  offset: 0
                 }
               ],
               language: "en",
@@ -281,7 +287,9 @@ describe("RecognizeLinkedEntitiesResultArray", () => {
               matches: [
                 {
                   text: "Microsoft",
-                  confidenceScore: 0.1869365971673207
+                  confidenceScore: 0.1869365971673207,
+                  length: 0,
+                  offset: 0
                 }
               ],
               language: "en",

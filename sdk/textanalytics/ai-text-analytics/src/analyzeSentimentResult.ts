@@ -94,6 +94,14 @@ export interface AspectSentiment {
    * The aspect text.
    */
   text: string;
+  /**
+   * The aspect offset from the start of the sentence.
+   */
+  offset: number;
+  /**
+   * The length of the aspect.
+   */
+  length: number;
 }
 
 /**
@@ -122,6 +130,14 @@ export interface OpinionSentiment {
    * The opinion text.
    */
   text: string;
+  /**
+   * The opinion offset from the start of the sentence.
+   */
+  offset: number;
+  /**
+   * The length of the opinion.
+   */
+  length: number;
 }
 
 /**
@@ -196,7 +212,9 @@ function convertGeneratedSentenceSentiment(
             neutral: 0
           },
           sentiment: aspect.sentiment,
-          text: aspect.text
+          text: aspect.text,
+          offset: aspect.offset,
+          length: aspect.length
         },
         opinions: aspect.relations
           .filter((relation) => relation.relationType === "opinion")
@@ -224,7 +242,9 @@ function convertSentenceOpinionToOpinionSentiment(opinion: SentenceOpinion): Opi
     confidenceScores: opinionConfidenceScore,
     isNegated: opinion.isNegated,
     sentiment: opinion.sentiment,
-    text: opinion.text
+    text: opinion.text,
+    offset: opinion.offset,
+    length: opinion.length
   };
 }
 
