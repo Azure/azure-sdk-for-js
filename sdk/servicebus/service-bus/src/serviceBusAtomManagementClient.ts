@@ -307,7 +307,6 @@ export class ServiceBusManagementClient extends ServiceBusManagementClientIntern
   /**
    * Returns an object representing the metadata related to a service bus namespace.
    * @param operationOptions The options that can be used to abort, trace and control other configurations on the HTTP request.
-   *
    */
   async getNamespaceProperties2(
     operationOptions?: OperationOptions
