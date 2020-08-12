@@ -15,7 +15,6 @@ import {
 } from "./generated/models/mappers";
 import { parseAndWrap, validateEventGridEvent, validateCloudEventEvent } from "./util";
 import { systemDeserializers } from "./systemEventDecoders";
-import { base64Decode } from "./base64";
 
 const serializer = new Serializer();
 
@@ -157,11 +156,11 @@ export class EventGridConsumer {
           throw new TypeError("event contains both a data and data_base64 field");
         }
 
-        if (typeof deserialized.dataBase64 !== "string") {
-          throw new TypeError("event data_base64 property should be a string");
+        if (!(deserialized.dataBase64 instanceof Uint8Array)) {
+          throw new TypeError("event data_base64 property is invalid");
         }
 
-        modelEvent.data = base64Decode(deserialized.dataBase64);
+        modelEvent.data = deserialized.dataBase64;
       }
 
       // If a decoder is registered, apply it to the data.

@@ -107,6 +107,7 @@ export {
   StorageDirectoryCreatedEventData,
   StorageDirectoryDeletedEventData,
   StorageDirectoryRenamedEventData,
+  StorageLifecyclePolicyCompletedEventData,
   WebAppUpdatedEventData,
   WebBackupOperationStartedEventData,
   WebBackupOperationCompletedEventData,

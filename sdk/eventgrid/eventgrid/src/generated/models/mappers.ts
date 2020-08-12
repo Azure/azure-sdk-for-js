@@ -101,7 +101,7 @@ export const CloudEvent: coreHttp.CompositeMapper = {
       dataBase64: {
         serializedName: "data_base64",
         type: {
-          name: "String"
+          name: "ByteArray"
         }
       },
       type: {
@@ -512,6 +512,69 @@ export const StorageDirectoryRenamedEventData: coreHttp.CompositeMapper = {
         serializedName: "storageDiagnostics",
         type: {
           name: "any"
+        }
+      }
+    }
+  }
+};
+
+export const StorageLifecyclePolicyCompletedEventData: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "StorageLifecyclePolicyCompletedEventData",
+    modelProperties: {
+      scheduleTime: {
+        serializedName: "scheduleTime",
+        type: {
+          name: "String"
+        }
+      },
+      deleteSummary: {
+        serializedName: "deleteSummary",
+        type: {
+          name: "Composite",
+          className: "StorageLifecyclePolicyActionSummaryDetail"
+        }
+      },
+      tierToCoolSummary: {
+        serializedName: "tierToCoolSummary",
+        type: {
+          name: "Composite",
+          className: "StorageLifecyclePolicyActionSummaryDetail"
+        }
+      },
+      tierToArchiveSummary: {
+        serializedName: "tierToArchiveSummary",
+        type: {
+          name: "Composite",
+          className: "StorageLifecyclePolicyActionSummaryDetail"
+        }
+      }
+    }
+  }
+};
+
+export const StorageLifecyclePolicyActionSummaryDetail: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "StorageLifecyclePolicyActionSummaryDetail",
+    modelProperties: {
+      totalObjectsCount: {
+        serializedName: "totalObjectsCount",
+        type: {
+          name: "Number"
+        }
+      },
+      successCount: {
+        serializedName: "successCount",
+        type: {
+          name: "Number"
+        }
+      },
+      errorList: {
+        serializedName: "errorList",
+        type: {
+          name: "String"
         }
       }
     }

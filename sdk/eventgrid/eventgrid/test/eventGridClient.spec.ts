@@ -298,7 +298,7 @@ describe("convertCloudEventToModelType", function() {
     });
 
     assert.isUndefined(convertedEvent.data);
-    assert.strictEqual(convertedEvent.dataBase64, "AAECAwQFBgcICQ==");
+    assert.strictEqual(convertedEvent.dataBase64, binaryData);
   });
 
   it("fails if data content type is missing for binary data", () => {

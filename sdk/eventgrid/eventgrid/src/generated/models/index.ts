@@ -71,7 +71,7 @@ export interface CloudEvent {
   /**
    * Event data specific to the event type, encoded as a base64 string.
    */
-  dataBase64?: string;
+  dataBase64?: Uint8Array;
   /**
    * Type of event related to the originating occurrence.
    */
@@ -344,6 +344,46 @@ export interface StorageDirectoryRenamedEventData {
    * For service use only. Diagnostic data occasionally included by the Azure Storage service. This property should be ignored by event consumers.
    */
   storageDiagnostics?: any;
+}
+
+/**
+ * Schema of the Data property of an EventGridEvent for an Microsoft.Storage.LifecyclePolicyCompleted event.
+ */
+export interface StorageLifecyclePolicyCompletedEventData {
+  /**
+   * The time the policy task was scheduled.
+   */
+  scheduleTime?: string;
+  /**
+   * Execution statistics of a specific policy action in a Blob Management cycle.
+   */
+  deleteSummary?: StorageLifecyclePolicyActionSummaryDetail;
+  /**
+   * Execution statistics of a specific policy action in a Blob Management cycle.
+   */
+  tierToCoolSummary?: StorageLifecyclePolicyActionSummaryDetail;
+  /**
+   * Execution statistics of a specific policy action in a Blob Management cycle.
+   */
+  tierToArchiveSummary?: StorageLifecyclePolicyActionSummaryDetail;
+}
+
+/**
+ * Execution statistics of a specific policy action in a Blob Management cycle.
+ */
+export interface StorageLifecyclePolicyActionSummaryDetail {
+  /**
+   * Total number of objects to be acted on by this action.
+   */
+  totalObjectsCount?: number;
+  /**
+   * Number of success operations of this action.
+   */
+  successCount?: number;
+  /**
+   * Error messages of this action if any.
+   */
+  errorList?: string;
 }
 
 /**

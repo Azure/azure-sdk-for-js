@@ -15,7 +15,6 @@ import { createEventGridCredentialPolicy } from "./eventGridAuthenticationPolicy
 import { SignatureCredential } from "./sharedAccessSignitureCredential";
 import { SDK_VERSION } from "./constants";
 import { CloudEvent, EventGridEvent, cloudEventReservedPropertyNames } from "./models";
-import { base64Encode } from "./base64";
 import { GeneratedClient } from "./generated/generatedClient";
 import {
   CloudEvent as CloudEventWireModel,
@@ -201,7 +200,7 @@ export function convertCloudEventToModelType(event: CloudEvent<any>): CloudEvent
     }
 
     converted.datacontenttype = event.datacontenttype;
-    converted.dataBase64 = base64Encode(event.data);
+    converted.dataBase64 = event.data;
   } else {
     converted.datacontenttype = event.datacontenttype ?? "application/json";
     converted.data = event.data;

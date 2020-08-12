@@ -77,7 +77,8 @@ import {
   WebSlotSwapFailedEventData,
   WebSlotSwapWithPreviewStartedEventData,
   WebSlotSwapWithPreviewCancelledEventData,
-  WebAppServicePlanUpdatedEventData
+  WebAppServicePlanUpdatedEventData,
+  StorageLifecyclePolicyCompletedEventData
 } from "./generated/models";
 
 import { CloudEvent, EventGridEvent } from "./models";
@@ -150,6 +151,7 @@ export type KnownSystemEventTypes =
   | "Microsoft.Storage.DirectoryCreated"
   | "Microsoft.Storage.DirectoryDeleted"
   | "Microsoft.Storage.DirectoryRenamed"
+  | "Microsoft.Storage.LifecyclePolicyCompleted"
   | "Microsoft.Web.AppUpdated"
   | "Microsoft.Web.BackupOperationStarted"
   | "Microsoft.Web.BackupOperationCompleted"
@@ -233,6 +235,7 @@ export interface SystemEventNameToEventData {
   "Microsoft.Storage.DirectoryCreated": StorageDirectoryCreatedEventData;
   "Microsoft.Storage.DirectoryDeleted": StorageDirectoryDeletedEventData;
   "Microsoft.Storage.DirectoryRenamed": StorageDirectoryRenamedEventData;
+  "Microsoft.Storage.LifecyclePolicyCompleted": StorageLifecyclePolicyCompletedEventData;
   "Microsoft.Web.AppUpdated": WebAppUpdatedEventData;
   "Microsoft.Web.BackupOperationStarted": WebBackupOperationStartedEventData;
   "Microsoft.Web.BackupOperationCompleted": WebBackupOperationCompletedEventData;
