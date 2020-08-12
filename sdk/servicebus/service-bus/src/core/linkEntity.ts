@@ -60,7 +60,7 @@ type LinkOptionsT<
  * Describes the base class for entities like MessageSender, MessageReceiver and Management client.
  * @class ClientEntity
  */
-export class LinkEntity<LinkT extends Receiver | AwaitableSender | RequestResponseLink> {
+export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | RequestResponseLink> {
   /**
    * @property {string} id The unique name for the entity in the format:
    * `${name of the entity}-${guid}`.
@@ -266,7 +266,7 @@ export class LinkEntity<LinkT extends Receiver | AwaitableSender | RequestRespon
    */
   async _closeLink(originator: "close" | "detach"): Promise<void> {
     if (originator === "close") {
-      this._wasCloseInitiated = true;
+      this._wasClosedByUser = true;
     }
 
     clearTimeout(this._tokenRenewalTimer as NodeJS.Timer);
@@ -308,12 +308,13 @@ export class LinkEntity<LinkT extends Receiver | AwaitableSender | RequestRespon
   }
 
   /**
-   * Indicates that closeLink() has been called on this link.
+   * Indicates that _closeLink("close") has been called on this link and
+   * that it should not be allowed to reopen.
    */
-  private _wasCloseInitiated: boolean = false;
+  private _wasClosedByUser: boolean = false;
 
-  protected get wasCloseInitiated(): boolean {
-    return this._wasCloseInitiated;
+  protected get wasClosedByUser(): boolean {
+    return this._wasClosedByUser;
   }
 
   /**
@@ -331,9 +332,7 @@ export class LinkEntity<LinkT extends Receiver | AwaitableSender | RequestRespon
    *
    * @param _options
    */
-  protected createRheaLink(_options: LinkOptionsT<LinkT>): Promise<LinkT> {
-    throw new Error("UNIMPLEMENTED");
-  }
+  protected abstract createRheaLink(_options: LinkOptionsT<LinkT>): Promise<LinkT>;
 
   /**
    * Initializes this LinkEntity as a receiver link, updating this._receiver
@@ -360,7 +359,7 @@ export class LinkEntity<LinkT extends Receiver | AwaitableSender | RequestRespon
 
     const logPrefix = `[${connectionId}|r:${this.name}|a:${this.address}]`;
 
-    if (this._wasCloseInitiated) {
+    if (this._wasClosedByUser) {
       log.error(`${logPrefix} Link has been closed by user. Not reopening.`);
       return;
     }

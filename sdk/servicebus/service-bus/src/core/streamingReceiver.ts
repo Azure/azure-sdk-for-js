@@ -551,7 +551,7 @@ export class StreamingReceiver extends MessageReceiver {
 
     // User explicitly called `close` on the receiver, so link is already closed
     // and we can exit early.
-    if (this.wasCloseInitiated) {
+    if (this.wasClosedByUser) {
       return;
     }
 
