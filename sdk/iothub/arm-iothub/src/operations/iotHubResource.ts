@@ -313,7 +313,7 @@ export class IotHubResource {
    * @param [options] The optional parameters
    * @returns Promise<Models.IotHubResourceCreateEventHubConsumerGroupResponse>
    */
-  createEventHubConsumerGroup(resourceGroupName: string, resourceName: string, eventHubEndpointName: string, name: string, options?: msRest.RequestOptionsBase): Promise<Models.IotHubResourceCreateEventHubConsumerGroupResponse>;
+  createEventHubConsumerGroup(resourceGroupName: string, resourceName: string, eventHubEndpointName: string, name: string, options?: Models.IotHubResourceCreateEventHubConsumerGroupOptionalParams): Promise<Models.IotHubResourceCreateEventHubConsumerGroupResponse>;
   /**
    * @param resourceGroupName The name of the resource group that contains the IoT hub.
    * @param resourceName The name of the IoT hub.
@@ -330,8 +330,8 @@ export class IotHubResource {
    * @param options The optional parameters
    * @param callback The callback
    */
-  createEventHubConsumerGroup(resourceGroupName: string, resourceName: string, eventHubEndpointName: string, name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EventHubConsumerGroupInfo>): void;
-  createEventHubConsumerGroup(resourceGroupName: string, resourceName: string, eventHubEndpointName: string, name: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EventHubConsumerGroupInfo>, callback?: msRest.ServiceCallback<Models.EventHubConsumerGroupInfo>): Promise<Models.IotHubResourceCreateEventHubConsumerGroupResponse> {
+  createEventHubConsumerGroup(resourceGroupName: string, resourceName: string, eventHubEndpointName: string, name: string, options: Models.IotHubResourceCreateEventHubConsumerGroupOptionalParams, callback: msRest.ServiceCallback<Models.EventHubConsumerGroupInfo>): void;
+  createEventHubConsumerGroup(resourceGroupName: string, resourceName: string, eventHubEndpointName: string, name: string, options?: Models.IotHubResourceCreateEventHubConsumerGroupOptionalParams | msRest.ServiceCallback<Models.EventHubConsumerGroupInfo>, callback?: msRest.ServiceCallback<Models.EventHubConsumerGroupInfo>): Promise<Models.IotHubResourceCreateEventHubConsumerGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -1277,6 +1277,18 @@ const createEventHubConsumerGroupOperationSpec: msRest.OperationSpec = {
   headerParameters: [
     Parameters.acceptLanguage
   ],
+  requestBody: {
+    parameterPath: {
+      properties: [
+        "options",
+        "properties"
+      ]
+    },
+    mapper: {
+      ...Mappers.EventHubConsumerGroupBodyDescription,
+      required: true
+    }
+  },
   responses: {
     200: {
       bodyMapper: Mappers.EventHubConsumerGroupInfo
