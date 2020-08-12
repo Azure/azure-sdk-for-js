@@ -2,6 +2,8 @@
 
 ## 4.1.0 (2020-08-12)
 
+4.1.0 had changes both relative to the last GA release, `4.0.4`, and the last preview release, `4.1.0-preview.1`.
+
 ### Changes since 4.0.4
 
 - Added the optional `serviceVersion` property to the `KeyClient` and `CryptographyClient` optional parameters to control the version of the Key Vault service being used by the clients.
