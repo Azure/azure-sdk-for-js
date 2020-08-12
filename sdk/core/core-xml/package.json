@@ -80,7 +80,7 @@
     "xml2js": "^0.4.19"
   },
   "devDependencies": {
-    "@microsoft/api-extractor": "7.7.11",
+    "@microsoft/api-extractor": "7.9.3",
     "@rollup/plugin-commonjs": "11.0.2",
     "@rollup/plugin-json": "^4.0.0",
     "@rollup/plugin-multi-entry": "^3.0.0",
