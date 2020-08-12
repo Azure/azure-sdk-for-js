@@ -1,7 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { URL } from "url";
-
 export function checkURL(testString: string): URL {
-  return new URL(testString);
+  let _URL;
+  if (typeof URL === "undefined") {
+    // tslint:disable-next-line:no-var-requires
+    _URL = require("url").URL;
+  } else {
+    _URL = URL;
+  }
+  return new _URL(testString);
 }
