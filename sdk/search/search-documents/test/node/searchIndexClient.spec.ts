@@ -7,12 +7,7 @@ import {assert} from "chai";
 import {SearchIndexClient, SynonymMap, SearchIndex} from "../../src/index";
 import {Hotel} from "../utils/interfaces";
 import {createClients, environmentSetup} from "../utils/recordedClient";
-import {
-  createSimpleIndex,
-  createSynonymMaps,
-  deleteSynonymMaps,
-  WAIT_TIME
-} from "../utils/setupIndex";
+import { createSimpleIndex, createSynonymMaps, deleteSynonymMaps, WAIT_TIME } from "../utils/setup";
 import { delay } from "@azure/core-http";
 
 const TEST_INDEX_NAME = "hotel-live-test3";
