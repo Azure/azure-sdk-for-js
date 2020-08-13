@@ -147,7 +147,7 @@ const executeTypedoc = async (exclusionList, inclusionList, generateIndexWithTem
                       "--excludeNotExported",
                       '--exclude "node_modules/**/*"',
                       "--ignoreCompilerErrors",
-                      "--mode library",
+                      "--mode file",
                       docOutputFolder,
                     ]);
                   }
