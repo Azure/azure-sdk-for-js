@@ -5,26 +5,26 @@ import { Sender, SenderCallback } from "../../types";
 import { Envelope } from "../../Declarations/Contracts";
 import { DEFAULT_SENDER_OPTIONS, NodejsPlatformConfig } from "../types";
 import { promisify } from "util";
-import * as coreHttp from "@azure/core-http";
+import { DefaultHttpClient, HttpClient, HttpHeaders, WebResource } from "@azure/core-http";
+
+const gzipAsync = promisify<zlib.InputType, Buffer>(zlib.gzip);
 
 export class HttpSender implements Sender {
   private readonly _logger: Logger;
 
-  private readonly _httpClient: coreHttp.HttpClient;
+  private readonly _httpClient: HttpClient;
 
   constructor(private _options: NodejsPlatformConfig = DEFAULT_SENDER_OPTIONS) {
     this._logger = _options.logger || new ConsoleLogger(LogLevel.ERROR);
-    this._httpClient = new coreHttp.DefaultHttpClient();
+    this._httpClient = new DefaultHttpClient();
   }
 
   async send(envelopes: Envelope[], callback: SenderCallback = () => {}): Promise<void> {
     const endpointUrl = `${this._options.endpointUrl}/v2/track`;
     const payload = Buffer.from(JSON.stringify(envelopes));
 
-    // todo: investigate specifying an agent here: https://nodejs.org/api/http.html#http_class_http_agent
-    const headers = new coreHttp.HttpHeaders({ "Content-Type": "application/x-json-stream" });
+    const headers = new HttpHeaders({ "Content-Type": "application/x-json-stream" });
 
-    const gzipAsync = promisify<zlib.InputType, Buffer>(zlib.gzip);
     let dataToSend: Buffer;
     try {
       dataToSend = await gzipAsync(payload);
@@ -35,7 +35,7 @@ export class HttpSender implements Sender {
     }
     headers.set("Content-Length", dataToSend.length);
 
-    const options = new coreHttp.WebResource(
+    const options = new WebResource(
       endpointUrl,
       "POST",
       dataToSend,
