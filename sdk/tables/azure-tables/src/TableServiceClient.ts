@@ -290,7 +290,7 @@ export class TableServiceClient {
   public updateEntity(
     tableName: string,
     entity: Entity,
-    mode: UpdateMode = "Merge",
+    mode: UpdateMode,
     etag: string = "*",
     options?: UpdateEntityOptions
   ): Promise<UpdateEntityResponse> {
@@ -323,7 +323,7 @@ export class TableServiceClient {
   public upsertEntity(
     tableName: string,
     entity: Entity,
-    mode: UpdateMode = "Merge",
+    mode: UpdateMode,
     options?: UpsertEntityOptions
   ): Promise<UpsertEntityResponse> {
     if (mode === "Merge") {

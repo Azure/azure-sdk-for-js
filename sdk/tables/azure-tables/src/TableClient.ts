@@ -190,7 +190,7 @@ export class TableClient {
    */
   public updateEntity(
     entity: Entity,
-    mode: UpdateMode = "Merge",
+    mode: UpdateMode,
     etag: string = "*",
     options?: UpdateEntityOptions
   ): Promise<UpdateEntityResponse> {
@@ -208,7 +208,7 @@ export class TableClient {
    */
   public upsertEntity(
     entity: Entity,
-    mode: UpdateMode = "Merge",
+    mode: UpdateMode,
     options?: UpsertEntityOptions
   ): Promise<UpsertEntityResponse> {
     return this.client.upsertEntity(this.tableName, entity, mode, options);
