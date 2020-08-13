@@ -42,6 +42,22 @@
     "README.md",
     "LICENSE"
   ],
+  "//metadata": {
+    "constantPaths": [
+      {
+        "path": "src/generated/generatedSchemaRegistryClientContext.ts",
+        "prefix": "packageVersion"
+      },
+      {
+        "path": "src/constants.ts",
+        "prefix": "SDK_VERSION"
+      },
+      {
+        "path": "swagger/README.md",
+        "prefix": "package-version"
+      }
+    ]
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/Azure/azure-sdk-for-js.git",
