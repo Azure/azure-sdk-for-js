@@ -58,7 +58,7 @@ export interface CreateQueueOptions extends OperationOptions {
     authorizationRules?: AuthorizationRule[];
     autoDeleteOnIdle?: string;
     deadLetteringOnMessageExpiration?: boolean;
-    defaultMessageTtl?: string;
+    defaultMessageTimeToLive?: string;
     duplicateDetectionHistoryTimeWindow?: string;
     enableBatchedOperations?: boolean;
     enablePartitioning?: boolean;
@@ -79,7 +79,9 @@ export interface CreateReceiverOptions<ReceiveModeT extends ReceiveMode> {
 }
 
 // @public
-export interface CreateSessionReceiverOptions<ReceiveModeT extends ReceiveMode> extends CreateReceiverOptions<ReceiveModeT>, SessionReceiverOptions, OperationOptionsBase {
+export interface CreateSessionReceiverOptions<ReceiveModeT extends ReceiveMode> extends CreateReceiverOptions<ReceiveModeT>, OperationOptionsBase {
+    autoRenewLockDurationInMs?: number;
+    sessionId?: string;
 }
 
 // @public
@@ -87,7 +89,7 @@ export interface CreateSubscriptionOptions extends OperationOptions {
     autoDeleteOnIdle?: string;
     deadLetteringOnFilterEvaluationExceptions?: boolean;
     deadLetteringOnMessageExpiration?: boolean;
-    defaultMessageTtl?: string;
+    defaultMessageTimeToLive?: string;
     enableBatchedOperations?: boolean;
     forwardDeadLetteredMessagesTo?: string;
     forwardTo?: string;
@@ -102,7 +104,7 @@ export interface CreateSubscriptionOptions extends OperationOptions {
 export interface CreateTopicOptions extends OperationOptions {
     authorizationRules?: AuthorizationRule[];
     autoDeleteOnIdle?: string;
-    defaultMessageTtl?: string;
+    defaultMessageTimeToLive?: string;
     duplicateDetectionHistoryTimeWindow?: string;
     enableBatchedOperations?: boolean;
     enablePartitioning?: boolean;
@@ -130,14 +132,10 @@ export interface EntitiesResponse<T> extends Array<T>, Pick<PageSettings, "conti
 // @public
 export type EntityStatus = "Active" | "Creating" | "Deleting" | "ReceiveDisabled" | "SendDisabled" | "Disabled" | "Renaming" | "Restoring" | "Unknown";
 
+// Warning: (ae-forgotten-export) The symbol "MessageHandlerOptionsBase" needs to be exported by the entry point index.d.ts
+//
 // @public
-export interface GetMessageIteratorOptions extends OperationOptionsBase, WaitTimeOptions {
-}
-
-// @public
-export interface MessageHandlerOptions {
-    autoComplete?: boolean;
-    maxConcurrentCalls?: number;
+export interface MessageHandlerOptions extends MessageHandlerOptionsBase {
     maxMessageAutoRenewLockDurationInMs?: number;
 }
 
@@ -154,9 +152,9 @@ export interface NamespaceProperties {
     createdAt: Date;
     messagingSku: string;
     messagingUnits: number | undefined;
+    modifiedAt: Date;
     name: string;
     namespaceType: string;
-    updatedAt: Date;
 }
 
 // @public
@@ -178,7 +176,7 @@ export interface QueueProperties {
     authorizationRules?: AuthorizationRule[];
     autoDeleteOnIdle: string;
     deadLetteringOnMessageExpiration: boolean;
-    defaultMessageTtl: string;
+    defaultMessageTimeToLive: string;
     duplicateDetectionHistoryTimeWindow: string;
     enableBatchedOperations: boolean;
     readonly enablePartitioning: boolean;
@@ -204,13 +202,13 @@ export interface QueueRuntimeProperties {
     activeMessageCount: number;
     createdAt: Date;
     deadLetterMessageCount: number;
+    modifiedAt: Date;
     name: string;
     scheduledMessageCount: number;
     sizeInBytes?: number;
     totalMessageCount?: number;
     transferDeadLetterMessageCount: number;
     transferMessageCount: number;
-    updatedAt: Date;
 }
 
 // @public
@@ -255,21 +253,6 @@ export interface ReceiveMessagesOptions extends OperationOptionsBase, WaitTimeOp
 export type ReceiveMode = "peekLock" | "receiveAndDelete";
 
 // @public
-export interface Receiver<ReceivedMessageT> {
-    close(): Promise<void>;
-    entityPath: string;
-    getMessageIterator(options?: GetMessageIteratorOptions): AsyncIterableIterator<ReceivedMessageT>;
-    isClosed: boolean;
-    peekMessages(maxMessageCount: number, options?: PeekMessagesOptions): Promise<ReceivedMessage[]>;
-    receiveDeferredMessages(sequenceNumbers: Long | Long[], options?: OperationOptionsBase): Promise<ReceivedMessageT[]>;
-    receiveMessages(maxMessageCount: number, options?: ReceiveMessagesOptions): Promise<ReceivedMessageT[]>;
-    receiveMode: "peekLock" | "receiveAndDelete";
-    subscribe(handlers: MessageHandlers<ReceivedMessageT>, options?: SubscribeOptions): {
-        close(): Promise<void>;
-    };
-}
-
-// @public
 export interface Response {
     _response: HttpOperationResponse;
 }
@@ -288,18 +271,6 @@ export interface RuleResponse extends RuleProperties, Response {
 }
 
 // @public
-export interface Sender {
-    cancelScheduledMessages(sequenceNumbers: Long | Long[], options?: OperationOptionsBase): Promise<void>;
-    close(): Promise<void>;
-    createBatch(options?: CreateBatchOptions): Promise<ServiceBusMessageBatch>;
-    entityPath: string;
-    isClosed: boolean;
-    open(options?: SenderOpenOptions): Promise<void>;
-    scheduleMessages(scheduledEnqueueTimeUtc: Date, messages: ServiceBusMessage | ServiceBusMessage[], options?: OperationOptionsBase): Promise<Long[]>;
-    sendMessages(messages: ServiceBusMessage | ServiceBusMessage[] | ServiceBusMessageBatch, options?: OperationOptionsBase): Promise<void>;
-}
-
-// @public
 export interface SenderOpenOptions {
     abortSignal?: AbortSignalLike;
 }
@@ -309,19 +280,19 @@ export class ServiceBusClient {
     constructor(connectionString: string, options?: ServiceBusClientOptions);
     constructor(fullyQualifiedNamespace: string, credential: TokenCredential, options?: ServiceBusClientOptions);
     close(): Promise<void>;
-    createDeadLetterReceiver(queueName: string, options?: CreateReceiverOptions<"peekLock">): Receiver<ReceivedMessageWithLock>;
-    createDeadLetterReceiver(queueName: string, options: CreateReceiverOptions<"receiveAndDelete">): Receiver<ReceivedMessage>;
-    createDeadLetterReceiver(topicName: string, subscriptionName: string, options?: CreateReceiverOptions<"peekLock">): Receiver<ReceivedMessageWithLock>;
-    createDeadLetterReceiver(topicName: string, subscriptionName: string, options: CreateReceiverOptions<"receiveAndDelete">): Receiver<ReceivedMessage>;
-    createReceiver(queueName: string, options?: CreateReceiverOptions<"peekLock">): Receiver<ReceivedMessageWithLock>;
-    createReceiver(queueName: string, options: CreateReceiverOptions<"receiveAndDelete">): Receiver<ReceivedMessage>;
-    createReceiver(topicName: string, subscriptionName: string, options?: CreateReceiverOptions<"peekLock">): Receiver<ReceivedMessageWithLock>;
-    createReceiver(topicName: string, subscriptionName: string, options: CreateReceiverOptions<"receiveAndDelete">): Receiver<ReceivedMessage>;
-    createSender(queueOrTopicName: string): Sender;
-    createSessionReceiver(queueName: string, options?: CreateSessionReceiverOptions<"peekLock">): Promise<SessionReceiver<ReceivedMessageWithLock>>;
-    createSessionReceiver(queueName: string, options: CreateSessionReceiverOptions<"receiveAndDelete">): Promise<SessionReceiver<ReceivedMessage>>;
-    createSessionReceiver(topicName: string, subscriptionName: string, options?: CreateSessionReceiverOptions<"peekLock">): Promise<SessionReceiver<ReceivedMessageWithLock>>;
-    createSessionReceiver(topicName: string, subscriptionName: string, options: CreateSessionReceiverOptions<"receiveAndDelete">): Promise<SessionReceiver<ReceivedMessage>>;
+    createDeadLetterReceiver(queueName: string, options?: CreateReceiverOptions<"peekLock">): ServiceBusReceiver<ReceivedMessageWithLock>;
+    createDeadLetterReceiver(queueName: string, options: CreateReceiverOptions<"receiveAndDelete">): ServiceBusReceiver<ReceivedMessage>;
+    createDeadLetterReceiver(topicName: string, subscriptionName: string, options?: CreateReceiverOptions<"peekLock">): ServiceBusReceiver<ReceivedMessageWithLock>;
+    createDeadLetterReceiver(topicName: string, subscriptionName: string, options: CreateReceiverOptions<"receiveAndDelete">): ServiceBusReceiver<ReceivedMessage>;
+    createReceiver(queueName: string, options?: CreateReceiverOptions<"peekLock">): ServiceBusReceiver<ReceivedMessageWithLock>;
+    createReceiver(queueName: string, options: CreateReceiverOptions<"receiveAndDelete">): ServiceBusReceiver<ReceivedMessage>;
+    createReceiver(topicName: string, subscriptionName: string, options?: CreateReceiverOptions<"peekLock">): ServiceBusReceiver<ReceivedMessageWithLock>;
+    createReceiver(topicName: string, subscriptionName: string, options: CreateReceiverOptions<"receiveAndDelete">): ServiceBusReceiver<ReceivedMessage>;
+    createSender(queueOrTopicName: string): ServiceBusSender;
+    createSessionReceiver(queueName: string, options?: CreateSessionReceiverOptions<"peekLock">): Promise<ServiceBusSessionReceiver<ReceivedMessageWithLock>>;
+    createSessionReceiver(queueName: string, options: CreateSessionReceiverOptions<"receiveAndDelete">): Promise<ServiceBusSessionReceiver<ReceivedMessage>>;
+    createSessionReceiver(topicName: string, subscriptionName: string, options?: CreateSessionReceiverOptions<"peekLock">): Promise<ServiceBusSessionReceiver<ReceivedMessageWithLock>>;
+    createSessionReceiver(topicName: string, subscriptionName: string, options: CreateSessionReceiverOptions<"receiveAndDelete">): Promise<ServiceBusSessionReceiver<ReceivedMessage>>;
     fullyQualifiedNamespace: string;
 }
 
@@ -406,24 +377,44 @@ export interface ServiceBusMessageBatch {
 }
 
 // @public
-export interface SessionMessageHandlerOptions {
-    autoComplete?: boolean;
-    maxConcurrentCalls?: number;
+export interface ServiceBusReceiver<ReceivedMessageT> {
+    close(): Promise<void>;
+    entityPath: string;
+    // Warning: (ae-forgotten-export) The symbol "GetMessageIteratorOptions" needs to be exported by the entry point index.d.ts
+    getMessageIterator(options?: GetMessageIteratorOptions): AsyncIterableIterator<ReceivedMessageT>;
+    isClosed: boolean;
+    peekMessages(maxMessageCount: number, options?: PeekMessagesOptions): Promise<ReceivedMessage[]>;
+    receiveDeferredMessages(sequenceNumbers: Long | Long[], options?: OperationOptionsBase): Promise<ReceivedMessageT[]>;
+    receiveMessages(maxMessageCount: number, options?: ReceiveMessagesOptions): Promise<ReceivedMessageT[]>;
+    receiveMode: "peekLock" | "receiveAndDelete";
+    subscribe(handlers: MessageHandlers<ReceivedMessageT>, options?: SubscribeOptions): {
+        close(): Promise<void>;
+    };
 }
 
 // @public
-export interface SessionReceiver<ReceivedMessageT extends ReceivedMessage | ReceivedMessageWithLock> extends Receiver<ReceivedMessageT> {
+export interface ServiceBusSender {
+    cancelScheduledMessages(sequenceNumbers: Long | Long[], options?: OperationOptionsBase): Promise<void>;
+    close(): Promise<void>;
+    createBatch(options?: CreateBatchOptions): Promise<ServiceBusMessageBatch>;
+    entityPath: string;
+    isClosed: boolean;
+    open(options?: SenderOpenOptions): Promise<void>;
+    scheduleMessages(scheduledEnqueueTimeUtc: Date, messages: ServiceBusMessage | ServiceBusMessage[], options?: OperationOptionsBase): Promise<Long[]>;
+    sendMessages(messages: ServiceBusMessage | ServiceBusMessage[] | ServiceBusMessageBatch, options?: OperationOptionsBase): Promise<void>;
+}
+
+// @public
+export interface ServiceBusSessionReceiver<ReceivedMessageT extends ReceivedMessage | ReceivedMessageWithLock> extends ServiceBusReceiver<ReceivedMessageT> {
     getState(options?: OperationOptionsBase): Promise<any>;
     renewSessionLock(options?: OperationOptionsBase): Promise<Date>;
     readonly sessionId: string;
     sessionLockedUntilUtc: Date | undefined;
     setState(state: any, options?: OperationOptionsBase): Promise<void>;
-}
-
-// @public
-export interface SessionReceiverOptions {
-    autoRenewLockDurationInMs?: number;
-    sessionId?: string;
+    // Warning: (ae-forgotten-export) The symbol "SessionSubscribeOptions" needs to be exported by the entry point index.d.ts
+    subscribe(handlers: MessageHandlers<ReceivedMessageT>, options?: SessionSubscribeOptions): {
+        close(): Promise<void>;
+    };
 }
 
 // @public
@@ -453,7 +444,7 @@ export interface SubscriptionProperties {
     autoDeleteOnIdle: string;
     deadLetteringOnFilterEvaluationExceptions: boolean;
     deadLetteringOnMessageExpiration: boolean;
-    defaultMessageTtl: string;
+    defaultMessageTimeToLive: string;
     enableBatchedOperations: boolean;
     forwardDeadLetteredMessagesTo?: string;
     forwardTo?: string;
@@ -476,12 +467,12 @@ export interface SubscriptionRuntimeProperties {
     activeMessageCount: number;
     createdAt: Date;
     deadLetterMessageCount: number;
+    modifiedAt: Date;
     subscriptionName: string;
     topicName: string;
     totalMessageCount: number;
     transferDeadLetterMessageCount: number;
     transferMessageCount: number;
-    updatedAt: Date;
 }
 
 // @public
@@ -496,7 +487,7 @@ export { TokenType }
 export interface TopicProperties {
     authorizationRules?: AuthorizationRule[];
     autoDeleteOnIdle: string;
-    defaultMessageTtl: string;
+    defaultMessageTimeToLive: string;
     duplicateDetectionHistoryTimeWindow: string;
     enableBatchedOperations: boolean;
     readonly enablePartitioning: boolean;
@@ -516,11 +507,11 @@ export interface TopicResponse extends TopicProperties, Response {
 export interface TopicRuntimeProperties {
     accessedAt: Date;
     createdAt: Date;
+    modifiedAt: Date;
     name: string;
     scheduledMessageCount: number;
     sizeInBytes?: number;
     subscriptionCount?: number;
-    updatedAt: Date;
 }
 
 // @public
@@ -529,7 +520,7 @@ export interface TopicRuntimePropertiesResponse extends TopicRuntimeProperties, 
 
 // @public
 export interface WaitTimeOptions {
-    maxWaitTimeInMs: number;
+    maxWaitTimeInMs?: number;
 }
 
 export { WebSocketImpl }
