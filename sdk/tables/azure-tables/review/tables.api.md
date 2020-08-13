@@ -46,7 +46,7 @@ export type CreateEntityResponse = TableInsertEntityHeaders & {
 
 // @public
 export interface CreateTableOptions extends coreHttp.OperationOptions {
-    queryOptions?: QueryOptions;
+    queryOptions?: TableQueryOptions;
     requestId?: string;
     responsePreference?: ResponseFormat;
 }
@@ -62,7 +62,7 @@ export type CreateTableResponse = TableCreateHeaders & TableResponse & {
 
 // @public
 export interface DeleteEntityOptions extends coreHttp.OperationOptions {
-    queryOptions?: QueryOptions;
+    queryOptions?: TableQueryOptions;
     requestId?: string;
     timeout?: number;
 }
@@ -128,7 +128,7 @@ export type GetAccessPolicyResponse = TableGetAccessPolicyHeaders & SignedIdenti
 
 // @public
 export interface GetEntityOptions extends coreHttp.OperationOptions {
-    queryOptions?: QueryOptions;
+    queryOptions?: TableQueryOptions;
     requestId?: string;
     timeout?: number;
 }
@@ -206,15 +206,15 @@ export interface Metrics {
 }
 
 // @public
+export function odata(strings: TemplateStringsArray, ...values: unknown[]): string;
+
+// @public
 export type OdataMetadataFormat = "application/json;odata=nometadata" | "application/json;odata=minimalmetadata" | "application/json;odata=fullmetadata";
 
 // @public
-export interface QueryOptions {
-    filter?: string;
-    format?: OdataMetadataFormat;
-    select?: string;
-    top?: number;
-}
+export type QueryOptions = Omit<TableQueryOptions, "select"> & {
+    select?: string[];
+};
 
 // @public
 export type ResponseFormat = "return-no-content" | "return-content";
@@ -375,7 +375,7 @@ export interface TableInsertEntityHeaders {
 
 // @public
 export interface TableInsertEntityOptionalParams extends coreHttp.OperationOptions {
-    queryOptions?: QueryOptions;
+    queryOptions?: TableQueryOptions;
     requestId?: string;
     responsePreference?: ResponseFormat;
     tableEntityProperties?: {
@@ -396,7 +396,7 @@ export interface TableMergeEntityHeaders {
 // @public
 export interface TableMergeEntityOptionalParams extends coreHttp.OperationOptions {
     ifMatch?: string;
-    queryOptions?: QueryOptions;
+    queryOptions?: TableQueryOptions;
     requestId?: string;
     tableEntityProperties?: {
         [propertyName: string]: any;
@@ -418,7 +418,7 @@ export interface TableQueryEntitiesHeaders {
 export interface TableQueryEntitiesOptionalParams extends coreHttp.OperationOptions {
     nextPartitionKey?: string;
     nextRowKey?: string;
-    queryOptions?: QueryOptions;
+    queryOptions?: TableQueryOptions;
     requestId?: string;
     timeout?: number;
 }
@@ -468,8 +468,16 @@ export interface TableQueryHeaders {
 // @public
 export interface TableQueryOptionalParams extends coreHttp.OperationOptions {
     nextTableName?: string;
-    queryOptions?: QueryOptions;
+    queryOptions?: TableQueryOptions;
     requestId?: string;
+}
+
+// @public
+export interface TableQueryOptions {
+    filter?: string;
+    format?: OdataMetadataFormat;
+    select?: string;
+    top?: number;
 }
 
 // @public
@@ -565,7 +573,7 @@ export interface TableUpdateEntityHeaders {
 // @public
 export interface TableUpdateEntityOptionalParams extends coreHttp.OperationOptions {
     ifMatch?: string;
-    queryOptions?: QueryOptions;
+    queryOptions?: TableQueryOptions;
     requestId?: string;
     tableEntityProperties?: {
         [propertyName: string]: any;
