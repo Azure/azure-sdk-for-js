@@ -6,6 +6,7 @@
 
 import { AbortSignalLike } from '@azure/abort-controller';
 import { AmqpMessage } from '@azure/core-amqp';
+import * as coreHttp from '@azure/core-http';
 import { delay } from '@azure/core-amqp';
 import { Delivery } from 'rhea-promise';
 import { HttpOperationResponse } from '@azure/core-http';
@@ -16,7 +17,6 @@ import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { PageSettings } from '@azure/core-paging';
 import { ProxySettings } from '@azure/core-http';
 import { RetryOptions } from '@azure/core-amqp';
-import { ServiceClient } from '@azure/core-http';
 import { TokenCredential } from '@azure/core-amqp';
 import { TokenType } from '@azure/core-amqp';
 import { UserAgentOptions } from '@azure/core-http';
@@ -332,20 +332,30 @@ export interface ServiceBusClientOptions {
     webSocketOptions?: WebSocketOptions;
 }
 
+// Warning: (ae-forgotten-export) The symbol "ServiceBusManagementClientInternal" needs to be exported by the entry point index.d.ts
+//
 // @public
-export class ServiceBusManagementClient extends ServiceClient {
+export class ServiceBusManagementClient extends ServiceBusManagementClientInternal {
     constructor(connectionString: string, options?: ServiceBusManagementClientOptions);
     constructor(fullyQualifiedNamespace: string, credential: TokenCredential, options?: ServiceBusManagementClientOptions);
     createQueue(queueName: string, options?: CreateQueueOptions): Promise<QueueResponse>;
+    // Warning: (ae-forgotten-export) The symbol "QueueDescription" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    createQueue2(queueName: string, options?: QueueDescription & OperationOptions): Promise<QueueDescription>;
     createRule(topicName: string, subscriptionName: string, ruleName: string, ruleFilter: SqlRuleFilter | CorrelationRuleFilter, operationOptions?: OperationOptions): Promise<RuleResponse>;
     createRule(topicName: string, subscriptionName: string, ruleName: string, ruleFilter: SqlRuleFilter | CorrelationRuleFilter, ruleAction: SqlRuleAction, operationOptions?: OperationOptions): Promise<RuleResponse>;
     createSubscription(topicName: string, subscriptionName: string, options?: CreateSubscriptionOptions): Promise<SubscriptionResponse>;
     createTopic(topicName: string, options?: CreateTopicOptions): Promise<TopicResponse>;
     deleteQueue(queueName: string, operationOptions?: OperationOptions): Promise<Response>;
+    // (undocumented)
+    deleteQueue2(queueName: string, operationOptions?: OperationOptions): Promise<Response>;
     deleteRule(topicName: string, subscriptionName: string, ruleName: string, operationOptions?: OperationOptions): Promise<Response>;
     deleteSubscription(topicName: string, subscriptionName: string, operationOptions?: OperationOptions): Promise<Response>;
     deleteTopic(topicName: string, operationOptions?: OperationOptions): Promise<Response>;
     getNamespaceProperties(operationOptions?: OperationOptions): Promise<NamespacePropertiesResponse>;
+    // Warning: (ae-forgotten-export) The symbol "NamespaceProperties" needs to be exported by the entry point index.d.ts
+    getNamespaceProperties2(operationOptions?: OperationOptions): Promise<NamespaceProperties_2 & Response>;
     getQueue(queueName: string, operationOptions?: OperationOptions): Promise<QueueResponse>;
     getQueueRuntimeProperties(queueName: string, operationOptions?: OperationOptions): Promise<QueueRuntimePropertiesResponse>;
     getRule(topicName: string, subscriptionName: string, ruleName: string, operationOptions?: OperationOptions): Promise<RuleResponse>;
@@ -355,8 +365,8 @@ export class ServiceBusManagementClient extends ServiceClient {
     getTopicRuntimeProperties(topicName: string, operationOptions?: OperationOptions): Promise<TopicRuntimePropertiesResponse>;
     listQueues(options?: OperationOptions): PagedAsyncIterableIterator<QueueProperties, EntitiesResponse<QueueProperties>>;
     listQueuesRuntimeProperties(options?: OperationOptions): PagedAsyncIterableIterator<QueueRuntimeProperties, EntitiesResponse<QueueRuntimeProperties>>;
-    listRules(topicName: string, subscriptionName: string, options?: OperationOptions): PagedAsyncIterableIterator<RuleProperties, EntitiesResponse<RuleProperties>>;
-    listSubscriptions(topicName: string, options?: OperationOptions): PagedAsyncIterableIterator<SubscriptionProperties, EntitiesResponse<SubscriptionProperties>>;
+    listRules2(topicName: string, subscriptionName: string, options?: OperationOptions): PagedAsyncIterableIterator<RuleProperties, EntitiesResponse<RuleProperties>>;
+    listSubscriptions2(topicName: string, options?: OperationOptions): PagedAsyncIterableIterator<SubscriptionProperties, EntitiesResponse<SubscriptionProperties>>;
     listSubscriptionsRuntimeProperties(topicName: string, options?: OperationOptions): PagedAsyncIterableIterator<SubscriptionRuntimeProperties, EntitiesResponse<SubscriptionRuntimeProperties>>;
     listTopics(options?: OperationOptions): PagedAsyncIterableIterator<TopicProperties, EntitiesResponse<TopicProperties>>;
     listTopicsRuntimeProperties(options?: OperationOptions): PagedAsyncIterableIterator<TopicRuntimeProperties, EntitiesResponse<TopicRuntimeProperties>>;
