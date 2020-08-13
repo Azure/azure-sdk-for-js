@@ -630,6 +630,7 @@ export class StreamingReceiver extends MessageReceiver {
             true
           ).then(() => {
             this._receiverHelper.addCredit(this.maxConcurrentCalls);
+            return;
           }),
         connectionId: connectionId,
         operationType: RetryOperationType.receiverLink,
