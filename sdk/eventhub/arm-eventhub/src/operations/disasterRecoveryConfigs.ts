@@ -27,6 +27,122 @@ export class DisasterRecoveryConfigs {
   }
 
   /**
+   * Gets a list of authorization rules for a Namespace.
+   * @param resourceGroupName Name of the resource group within the azure subscription.
+   * @param namespaceName The Namespace name
+   * @param alias The Disaster Recovery configuration name
+   * @param [options] The optional parameters
+   * @returns Promise<Models.DisasterRecoveryConfigsListAuthorizationRulesResponse>
+   */
+  listAuthorizationRules(resourceGroupName: string, namespaceName: string, alias: string, options?: msRest.RequestOptionsBase): Promise<Models.DisasterRecoveryConfigsListAuthorizationRulesResponse>;
+  /**
+   * @param resourceGroupName Name of the resource group within the azure subscription.
+   * @param namespaceName The Namespace name
+   * @param alias The Disaster Recovery configuration name
+   * @param callback The callback
+   */
+  listAuthorizationRules(resourceGroupName: string, namespaceName: string, alias: string, callback: msRest.ServiceCallback<Models.AuthorizationRuleListResult>): void;
+  /**
+   * @param resourceGroupName Name of the resource group within the azure subscription.
+   * @param namespaceName The Namespace name
+   * @param alias The Disaster Recovery configuration name
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  listAuthorizationRules(resourceGroupName: string, namespaceName: string, alias: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AuthorizationRuleListResult>): void;
+  listAuthorizationRules(resourceGroupName: string, namespaceName: string, alias: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AuthorizationRuleListResult>, callback?: msRest.ServiceCallback<Models.AuthorizationRuleListResult>): Promise<Models.DisasterRecoveryConfigsListAuthorizationRulesResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        namespaceName,
+        alias,
+        options
+      },
+      listAuthorizationRulesOperationSpec,
+      callback) as Promise<Models.DisasterRecoveryConfigsListAuthorizationRulesResponse>;
+  }
+
+  /**
+   * Gets an AuthorizationRule for a Namespace by rule name.
+   * @param resourceGroupName Name of the resource group within the azure subscription.
+   * @param namespaceName The Namespace name
+   * @param alias The Disaster Recovery configuration name
+   * @param authorizationRuleName The authorization rule name.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.DisasterRecoveryConfigsGetAuthorizationRuleResponse>
+   */
+  getAuthorizationRule(resourceGroupName: string, namespaceName: string, alias: string, authorizationRuleName: string, options?: msRest.RequestOptionsBase): Promise<Models.DisasterRecoveryConfigsGetAuthorizationRuleResponse>;
+  /**
+   * @param resourceGroupName Name of the resource group within the azure subscription.
+   * @param namespaceName The Namespace name
+   * @param alias The Disaster Recovery configuration name
+   * @param authorizationRuleName The authorization rule name.
+   * @param callback The callback
+   */
+  getAuthorizationRule(resourceGroupName: string, namespaceName: string, alias: string, authorizationRuleName: string, callback: msRest.ServiceCallback<Models.AuthorizationRule>): void;
+  /**
+   * @param resourceGroupName Name of the resource group within the azure subscription.
+   * @param namespaceName The Namespace name
+   * @param alias The Disaster Recovery configuration name
+   * @param authorizationRuleName The authorization rule name.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  getAuthorizationRule(resourceGroupName: string, namespaceName: string, alias: string, authorizationRuleName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AuthorizationRule>): void;
+  getAuthorizationRule(resourceGroupName: string, namespaceName: string, alias: string, authorizationRuleName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AuthorizationRule>, callback?: msRest.ServiceCallback<Models.AuthorizationRule>): Promise<Models.DisasterRecoveryConfigsGetAuthorizationRuleResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        namespaceName,
+        alias,
+        authorizationRuleName,
+        options
+      },
+      getAuthorizationRuleOperationSpec,
+      callback) as Promise<Models.DisasterRecoveryConfigsGetAuthorizationRuleResponse>;
+  }
+
+  /**
+   * Gets the primary and secondary connection strings for the Namespace.
+   * @param resourceGroupName Name of the resource group within the azure subscription.
+   * @param namespaceName The Namespace name
+   * @param alias The Disaster Recovery configuration name
+   * @param authorizationRuleName The authorization rule name.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.DisasterRecoveryConfigsListKeysResponse>
+   */
+  listKeys(resourceGroupName: string, namespaceName: string, alias: string, authorizationRuleName: string, options?: msRest.RequestOptionsBase): Promise<Models.DisasterRecoveryConfigsListKeysResponse>;
+  /**
+   * @param resourceGroupName Name of the resource group within the azure subscription.
+   * @param namespaceName The Namespace name
+   * @param alias The Disaster Recovery configuration name
+   * @param authorizationRuleName The authorization rule name.
+   * @param callback The callback
+   */
+  listKeys(resourceGroupName: string, namespaceName: string, alias: string, authorizationRuleName: string, callback: msRest.ServiceCallback<Models.AccessKeys>): void;
+  /**
+   * @param resourceGroupName Name of the resource group within the azure subscription.
+   * @param namespaceName The Namespace name
+   * @param alias The Disaster Recovery configuration name
+   * @param authorizationRuleName The authorization rule name.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  listKeys(resourceGroupName: string, namespaceName: string, alias: string, authorizationRuleName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AccessKeys>): void;
+  listKeys(resourceGroupName: string, namespaceName: string, alias: string, authorizationRuleName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AccessKeys>, callback?: msRest.ServiceCallback<Models.AccessKeys>): Promise<Models.DisasterRecoveryConfigsListKeysResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        namespaceName,
+        alias,
+        authorizationRuleName,
+        options
+      },
+      listKeysOperationSpec,
+      callback) as Promise<Models.DisasterRecoveryConfigsListKeysResponse>;
+  }
+
+  /**
    * Check the give Namespace name availability.
    * @param resourceGroupName Name of the resource group within the azure subscription.
    * @param namespaceName The Namespace name
@@ -281,118 +397,30 @@ export class DisasterRecoveryConfigs {
 
   /**
    * Gets a list of authorization rules for a Namespace.
-   * @param resourceGroupName Name of the resource group within the azure subscription.
-   * @param namespaceName The Namespace name
-   * @param alias The Disaster Recovery configuration name
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
-   * @returns Promise<Models.DisasterRecoveryConfigsListAuthorizationRulesResponse>
+   * @returns Promise<Models.DisasterRecoveryConfigsListAuthorizationRulesNextResponse>
    */
-  listAuthorizationRules(resourceGroupName: string, namespaceName: string, alias: string, options?: msRest.RequestOptionsBase): Promise<Models.DisasterRecoveryConfigsListAuthorizationRulesResponse>;
+  listAuthorizationRulesNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.DisasterRecoveryConfigsListAuthorizationRulesNextResponse>;
   /**
-   * @param resourceGroupName Name of the resource group within the azure subscription.
-   * @param namespaceName The Namespace name
-   * @param alias The Disaster Recovery configuration name
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listAuthorizationRules(resourceGroupName: string, namespaceName: string, alias: string, callback: msRest.ServiceCallback<Models.AuthorizationRuleListResult>): void;
+  listAuthorizationRulesNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.AuthorizationRuleListResult>): void;
   /**
-   * @param resourceGroupName Name of the resource group within the azure subscription.
-   * @param namespaceName The Namespace name
-   * @param alias The Disaster Recovery configuration name
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listAuthorizationRules(resourceGroupName: string, namespaceName: string, alias: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AuthorizationRuleListResult>): void;
-  listAuthorizationRules(resourceGroupName: string, namespaceName: string, alias: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AuthorizationRuleListResult>, callback?: msRest.ServiceCallback<Models.AuthorizationRuleListResult>): Promise<Models.DisasterRecoveryConfigsListAuthorizationRulesResponse> {
+  listAuthorizationRulesNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AuthorizationRuleListResult>): void;
+  listAuthorizationRulesNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AuthorizationRuleListResult>, callback?: msRest.ServiceCallback<Models.AuthorizationRuleListResult>): Promise<Models.DisasterRecoveryConfigsListAuthorizationRulesNextResponse> {
     return this.client.sendOperationRequest(
       {
-        resourceGroupName,
-        namespaceName,
-        alias,
+        nextPageLink,
         options
       },
-      listAuthorizationRulesOperationSpec,
-      callback) as Promise<Models.DisasterRecoveryConfigsListAuthorizationRulesResponse>;
-  }
-
-  /**
-   * Gets an AuthorizationRule for a Namespace by rule name.
-   * @param resourceGroupName Name of the resource group within the azure subscription.
-   * @param namespaceName The Namespace name
-   * @param alias The Disaster Recovery configuration name
-   * @param authorizationRuleName The authorization rule name.
-   * @param [options] The optional parameters
-   * @returns Promise<Models.DisasterRecoveryConfigsGetAuthorizationRuleResponse>
-   */
-  getAuthorizationRule(resourceGroupName: string, namespaceName: string, alias: string, authorizationRuleName: string, options?: msRest.RequestOptionsBase): Promise<Models.DisasterRecoveryConfigsGetAuthorizationRuleResponse>;
-  /**
-   * @param resourceGroupName Name of the resource group within the azure subscription.
-   * @param namespaceName The Namespace name
-   * @param alias The Disaster Recovery configuration name
-   * @param authorizationRuleName The authorization rule name.
-   * @param callback The callback
-   */
-  getAuthorizationRule(resourceGroupName: string, namespaceName: string, alias: string, authorizationRuleName: string, callback: msRest.ServiceCallback<Models.AuthorizationRule>): void;
-  /**
-   * @param resourceGroupName Name of the resource group within the azure subscription.
-   * @param namespaceName The Namespace name
-   * @param alias The Disaster Recovery configuration name
-   * @param authorizationRuleName The authorization rule name.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  getAuthorizationRule(resourceGroupName: string, namespaceName: string, alias: string, authorizationRuleName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AuthorizationRule>): void;
-  getAuthorizationRule(resourceGroupName: string, namespaceName: string, alias: string, authorizationRuleName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AuthorizationRule>, callback?: msRest.ServiceCallback<Models.AuthorizationRule>): Promise<Models.DisasterRecoveryConfigsGetAuthorizationRuleResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        namespaceName,
-        alias,
-        authorizationRuleName,
-        options
-      },
-      getAuthorizationRuleOperationSpec,
-      callback) as Promise<Models.DisasterRecoveryConfigsGetAuthorizationRuleResponse>;
-  }
-
-  /**
-   * Gets the primary and secondary connection strings for the Namespace.
-   * @param resourceGroupName Name of the resource group within the azure subscription.
-   * @param namespaceName The Namespace name
-   * @param alias The Disaster Recovery configuration name
-   * @param authorizationRuleName The authorization rule name.
-   * @param [options] The optional parameters
-   * @returns Promise<Models.DisasterRecoveryConfigsListKeysResponse>
-   */
-  listKeys(resourceGroupName: string, namespaceName: string, alias: string, authorizationRuleName: string, options?: msRest.RequestOptionsBase): Promise<Models.DisasterRecoveryConfigsListKeysResponse>;
-  /**
-   * @param resourceGroupName Name of the resource group within the azure subscription.
-   * @param namespaceName The Namespace name
-   * @param alias The Disaster Recovery configuration name
-   * @param authorizationRuleName The authorization rule name.
-   * @param callback The callback
-   */
-  listKeys(resourceGroupName: string, namespaceName: string, alias: string, authorizationRuleName: string, callback: msRest.ServiceCallback<Models.AccessKeys>): void;
-  /**
-   * @param resourceGroupName Name of the resource group within the azure subscription.
-   * @param namespaceName The Namespace name
-   * @param alias The Disaster Recovery configuration name
-   * @param authorizationRuleName The authorization rule name.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  listKeys(resourceGroupName: string, namespaceName: string, alias: string, authorizationRuleName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AccessKeys>): void;
-  listKeys(resourceGroupName: string, namespaceName: string, alias: string, authorizationRuleName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AccessKeys>, callback?: msRest.ServiceCallback<Models.AccessKeys>): Promise<Models.DisasterRecoveryConfigsListKeysResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        namespaceName,
-        alias,
-        authorizationRuleName,
-        options
-      },
-      listKeysOperationSpec,
-      callback) as Promise<Models.DisasterRecoveryConfigsListKeysResponse>;
+      listAuthorizationRulesNextOperationSpec,
+      callback) as Promise<Models.DisasterRecoveryConfigsListAuthorizationRulesNextResponse>;
   }
 
   /**
@@ -422,48 +450,100 @@ export class DisasterRecoveryConfigs {
       listNextOperationSpec,
       callback) as Promise<Models.DisasterRecoveryConfigsListNextResponse>;
   }
-
-  /**
-   * Gets a list of authorization rules for a Namespace.
-   * @param nextPageLink The NextLink from the previous successful call to List operation.
-   * @param [options] The optional parameters
-   * @returns Promise<Models.DisasterRecoveryConfigsListAuthorizationRulesNextResponse>
-   */
-  listAuthorizationRulesNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.DisasterRecoveryConfigsListAuthorizationRulesNextResponse>;
-  /**
-   * @param nextPageLink The NextLink from the previous successful call to List operation.
-   * @param callback The callback
-   */
-  listAuthorizationRulesNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.AuthorizationRuleListResult>): void;
-  /**
-   * @param nextPageLink The NextLink from the previous successful call to List operation.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  listAuthorizationRulesNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AuthorizationRuleListResult>): void;
-  listAuthorizationRulesNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AuthorizationRuleListResult>, callback?: msRest.ServiceCallback<Models.AuthorizationRuleListResult>): Promise<Models.DisasterRecoveryConfigsListAuthorizationRulesNextResponse> {
-    return this.client.sendOperationRequest(
-      {
-        nextPageLink,
-        options
-      },
-      listAuthorizationRulesNextOperationSpec,
-      callback) as Promise<Models.DisasterRecoveryConfigsListAuthorizationRulesNextResponse>;
-  }
 }
 
 // Operation Specifications
 const serializer = new msRest.Serializer(Mappers);
+const listAuthorizationRulesOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/disasterRecoveryConfigs/{alias}/authorizationRules",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.namespaceName,
+    Parameters.alias,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion1
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.AuthorizationRuleListResult
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  serializer
+};
+
+const getAuthorizationRuleOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/disasterRecoveryConfigs/{alias}/authorizationRules/{authorizationRuleName}",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.namespaceName,
+    Parameters.alias,
+    Parameters.authorizationRuleName,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion1
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.AuthorizationRule
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  serializer
+};
+
+const listKeysOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/disasterRecoveryConfigs/{alias}/authorizationRules/{authorizationRuleName}/listKeys",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.namespaceName,
+    Parameters.alias,
+    Parameters.authorizationRuleName,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion1
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.AccessKeys
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  serializer
+};
+
 const checkNameAvailabilityOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/disasterRecoveryConfigs/CheckNameAvailability",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/disasterRecoveryConfigs/checkNameAvailability",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.namespaceName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion1
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -495,7 +575,7 @@ const listOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion1
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -521,7 +601,7 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion1
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -555,7 +635,7 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion1
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -579,7 +659,7 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion1
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -605,7 +685,7 @@ const breakPairingOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion1
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -629,7 +709,7 @@ const failOverOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion1
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -643,17 +723,12 @@ const failOverOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listAuthorizationRulesOperationSpec: msRest.OperationSpec = {
+const listAuthorizationRulesNextOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/disasterRecoveryConfigs/{alias}/AuthorizationRules",
+  baseUrl: "https://management.azure.com",
+  path: "{nextLink}",
   urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.namespaceName,
-    Parameters.alias,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
+    Parameters.nextPageLink
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -661,60 +736,6 @@ const listAuthorizationRulesOperationSpec: msRest.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.AuthorizationRuleListResult
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  serializer
-};
-
-const getAuthorizationRuleOperationSpec: msRest.OperationSpec = {
-  httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/disasterRecoveryConfigs/{alias}/AuthorizationRules/{authorizationRuleName}",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.namespaceName,
-    Parameters.alias,
-    Parameters.authorizationRuleName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  responses: {
-    200: {
-      bodyMapper: Mappers.AuthorizationRule
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  serializer
-};
-
-const listKeysOperationSpec: msRest.OperationSpec = {
-  httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventHub/namespaces/{namespaceName}/disasterRecoveryConfigs/{alias}/AuthorizationRules/{authorizationRuleName}/listKeys",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.namespaceName,
-    Parameters.alias,
-    Parameters.authorizationRuleName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  responses: {
-    200: {
-      bodyMapper: Mappers.AccessKeys
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -736,27 +757,6 @@ const listNextOperationSpec: msRest.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.ArmDisasterRecoveryListResult
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  serializer
-};
-
-const listAuthorizationRulesNextOperationSpec: msRest.OperationSpec = {
-  httpMethod: "GET",
-  baseUrl: "https://management.azure.com",
-  path: "{nextLink}",
-  urlParameters: [
-    Parameters.nextPageLink
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  responses: {
-    200: {
-      bodyMapper: Mappers.AuthorizationRuleListResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
