@@ -4,30 +4,28 @@
 import { TableServiceClient } from "./TableServiceClient";
 import {
   Entity,
-  QueryOptions,
-  ListEntitiesOptions,
+  ListTableEntitiesOptions,
   GetEntityResponse,
   ListEntitiesResponse,
-  CreateEntityOptions,
-  UpdateEntityOptions,
-  UpsertEntityOptions,
-  SetAccessPolicyOptions,
+  CreateTableEntityOptions,
+  UpdateTableEntityOptions,
+  UpsertTableEntityOptions,
+  DeleteTableEntityOptions,
+  GetTableEntityOptions,
   UpdateMode
 } from "./models";
 import {
   TableServiceClientOptions as TableClientOptions,
   DeleteTableOptions,
   DeleteTableResponse,
-  GetEntityOptions,
   CreateEntityResponse,
-  DeleteEntityOptions,
   DeleteEntityResponse,
   UpdateEntityResponse,
   UpsertEntityResponse,
   GetAccessPolicyOptions,
   GetAccessPolicyResponse,
-  SignedIdentifier,
-  SetAccessPolicyResponse
+  SetAccessPolicyResponse,
+  SetAccessPolicyOptions
 } from "./generatedModels";
 import { getClientParamsFromConnectionString } from "./utils/connectionString";
 import { TablesSharedKeyCredential } from "./TablesSharedKeyCredential";
@@ -131,7 +129,7 @@ export class TableClient {
   public getEntity<T extends object>(
     partitionKey: string,
     rowKey: string,
-    options?: GetEntityOptions
+    options?: GetTableEntityOptions
   ): Promise<GetEntityResponse<T>> {
     return this.client.getEntity<T>(this.tableName, partitionKey, rowKey, options);
   }
@@ -142,11 +140,9 @@ export class TableClient {
    * @param options The options parameters.
    */
   public listEntities<T extends object>(
-    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-    query?: QueryOptions,
-    options?: ListEntitiesOptions
+    options?: ListTableEntitiesOptions
   ): Promise<ListEntitiesResponse<T>> {
-    return this.client.listEntities<T>(this.tableName, query, options);
+    return this.client.listEntities<T>(this.tableName, options);
   }
 
   /**
@@ -156,7 +152,7 @@ export class TableClient {
    */
   public createEntity(
     entity: Entity,
-    options?: CreateEntityOptions
+    options?: CreateTableEntityOptions
   ): Promise<CreateEntityResponse> {
     return this.client.createEntity(this.tableName, entity, options);
   }
@@ -173,10 +169,9 @@ export class TableClient {
   public deleteEntity(
     partitionKey: string,
     rowKey: string,
-    ifMatch: string,
-    options?: DeleteEntityOptions
+    options?: DeleteTableEntityOptions
   ): Promise<DeleteEntityResponse> {
-    return this.client.deleteEntity(this.tableName, partitionKey, rowKey, ifMatch, options);
+    return this.client.deleteEntity(this.tableName, partitionKey, rowKey, options);
   }
 
   /**
@@ -191,10 +186,9 @@ export class TableClient {
   public updateEntity(
     entity: Entity,
     mode: UpdateMode,
-    etag: string = "*",
-    options?: UpdateEntityOptions
+    options?: UpdateTableEntityOptions
   ): Promise<UpdateEntityResponse> {
-    return this.client.updateEntity(this.tableName, entity, mode, etag, options);
+    return this.client.updateEntity(this.tableName, entity, mode, options);
   }
 
   /**
@@ -209,7 +203,7 @@ export class TableClient {
   public upsertEntity(
     entity: Entity,
     mode: UpdateMode,
-    options?: UpsertEntityOptions
+    options?: UpsertTableEntityOptions
   ): Promise<UpsertEntityResponse> {
     return this.client.upsertEntity(this.tableName, entity, mode, options);
   }
@@ -228,11 +222,8 @@ export class TableClient {
    * @param acl The Access Control List for the table.
    * @param options The options parameters.
    */
-  public setAccessPolicy(
-    acl?: SignedIdentifier[],
-    options?: SetAccessPolicyOptions
-  ): Promise<SetAccessPolicyResponse> {
-    return this.client.setAccessPolicy(this.tableName, acl, options);
+  public setAccessPolicy(options?: SetAccessPolicyOptions): Promise<SetAccessPolicyResponse> {
+    return this.client.setAccessPolicy(this.tableName, options);
   }
 
   /**
