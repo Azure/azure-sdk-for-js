@@ -251,3 +251,14 @@ export function generateDocuments(docSize: number) {
   }
   return docs;
 }
+
+export async function assertThrowsAsync(test: any, error?: any) {
+  try {
+    await test();
+  } catch (e) {
+    if (!error || e instanceof error) return "everything is fine";
+  }
+  throw new assert.AssertionError({
+    message: "Missing rejection" + (error ? " with " + error.name : "")
+  });
+}

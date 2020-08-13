@@ -328,6 +328,7 @@ export const Constants: {
         MaxResourceQuota: string;
         OfferType: string;
         OfferThroughput: string;
+        AutoscaleSettings: string;
         DisableRUPerMinuteUsage: string;
         IsRUPerMinuteUsed: string;
         OfferIsRUPerMinuteThroughputEnabled: string;
@@ -430,6 +431,14 @@ export interface ContainerDefinition {
 //
 // @public (undocumented)
 export interface ContainerRequest extends VerboseOmit<ContainerDefinition, "partitionKey"> {
+    // (undocumented)
+    autoUpgradePolicy?: {
+        throughputPolicy: {
+            incrementPercent: number;
+        };
+    };
+    // (undocumented)
+    maxThroughput?: number;
     // (undocumented)
     partitionKey?: string | PartitionKeyDefinition;
     // (undocumented)
@@ -547,6 +556,14 @@ export interface DatabaseDefinition {
 
 // @public (undocumented)
 export interface DatabaseRequest extends DatabaseDefinition {
+    // (undocumented)
+    autoUpgradePolicy?: {
+        throughputPolicy: {
+            incrementPercent: number;
+        };
+    };
+    // (undocumented)
+    maxThroughput?: number;
     throughput?: number;
 }
 
@@ -849,6 +866,16 @@ export interface OfferDefinition {
     content?: {
         offerThroughput: number;
         offerIsRUPerMinuteThroughputEnabled: boolean;
+        offerMinimumThroughputParameters?: {
+            maxThroughputEverProvisioned: number;
+            maxConsumedStorageEverInKB: number;
+        };
+        offerAutopilotSettings?: {
+            tier: number;
+            maximumTierThroughput: number;
+            autoUpgrade: boolean;
+            maxThroughput: number;
+        };
     };
     // (undocumented)
     id?: string;
