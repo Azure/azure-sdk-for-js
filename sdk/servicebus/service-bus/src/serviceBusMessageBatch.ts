@@ -12,14 +12,20 @@ import {
 import { AmqpMessage } from "@azure/core-amqp";
 
 /**
+ * @internal
+ * @ignore
  * The amount of bytes to reserve as overhead for a small message.
  */
 const smallMessageOverhead = 5;
 /**
+ * @internal
+ * @ignore
  * The amount of bytes to reserve as overhead for a large message.
  */
 const largeMessageOverhead = 8;
 /**
+ * @internal
+ * @ignore
  * The maximum number of bytes that a message may be to be considered small.
  */
 const smallMessageMaxBytes = 255;

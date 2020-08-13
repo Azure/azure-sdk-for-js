@@ -74,6 +74,73 @@ export const TableResponseProperties: coreHttp.CompositeMapper = {
   }
 };
 
+export const TableServiceError: coreHttp.CompositeMapper = {
+  serializedName: "TableServiceError",
+  type: {
+    name: "Composite",
+    className: "TableServiceError",
+    modelProperties: {
+      odataError: {
+        serializedName: "odata\\.error",
+        xmlName: "odata\\.error",
+        type: {
+          name: "Composite",
+          className: "TableServiceErrorOdataError"
+        }
+      }
+    }
+  }
+};
+
+export const TableServiceErrorOdataError: coreHttp.CompositeMapper = {
+  serializedName: "TableServiceErrorOdataError",
+  type: {
+    name: "Composite",
+    className: "TableServiceErrorOdataError",
+    modelProperties: {
+      code: {
+        serializedName: "code",
+        xmlName: "code",
+        type: {
+          name: "String"
+        }
+      },
+      message: {
+        serializedName: "message",
+        xmlName: "message",
+        type: {
+          name: "Composite",
+          className: "TableServiceErrorOdataErrorMessage"
+        }
+      }
+    }
+  }
+};
+
+export const TableServiceErrorOdataErrorMessage: coreHttp.CompositeMapper = {
+  serializedName: "TableServiceErrorOdataErrorMessage",
+  type: {
+    name: "Composite",
+    className: "TableServiceErrorOdataErrorMessage",
+    modelProperties: {
+      lang: {
+        serializedName: "lang",
+        xmlName: "lang",
+        type: {
+          name: "String"
+        }
+      },
+      value: {
+        serializedName: "value",
+        xmlName: "value",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const TableProperties: coreHttp.CompositeMapper = {
   serializedName: "TableProperties",
   type: {
@@ -83,23 +150,6 @@ export const TableProperties: coreHttp.CompositeMapper = {
       tableName: {
         serializedName: "TableName",
         xmlName: "TableName",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const TableServiceError: coreHttp.CompositeMapper = {
-  serializedName: "TableServiceError",
-  type: {
-    name: "Composite",
-    className: "TableServiceError",
-    modelProperties: {
-      message: {
-        serializedName: "Message",
-        xmlName: "Message",
         type: {
           name: "String"
         }

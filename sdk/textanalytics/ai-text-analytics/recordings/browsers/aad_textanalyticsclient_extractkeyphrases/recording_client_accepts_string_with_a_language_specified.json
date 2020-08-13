@@ -11,35 +11,33 @@
     "cache-control": "no-cache, no-store",
     "content-length": "1417",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 26 May 2020 18:16:27 GMT",
+    "date": "Tue, 11 Aug 2020 14:19:00 GMT",
     "expires": "-1",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
     "referrer-policy": "strict-origin-when-cross-origin",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.10571.11 - WUS2 ProdSlices",
-    "x-ms-request-id": "8249ae96-48d5-4ef1-a82c-7282458f0f02"
+    "x-ms-ests-server": "2.1.10922.14 - CHI ProdSlices",
+    "x-ms-request-id": "5c476cb6-14d2-4150-9de9-f0736e60d800"
    }
   },
   {
    "method": "POST",
-   "url": "https://endpoint/text/analytics/v3.0/keyPhrases",
+   "url": "https://endpoint/text/analytics/v3.1-preview.1/keyPhrases",
    "query": {},
    "requestBody": "{\"documents\":[{\"id\":\"0\",\"text\":\"I had a wonderful trip to Seattle last week and even visited the Space Needle 2 times!\",\"language\":\"en\"},{\"id\":\"1\",\"text\":\"Unfortunately, it rained during my entire trip to Seattle. I didn't even get to visit the Space Needle\",\"language\":\"en\"},{\"id\":\"2\",\"text\":\"I went to see a movie on Saturday and it was perfectly average, nothing more or less than I expected.\",\"language\":\"en\"},{\"id\":\"3\",\"text\":\"I didn't like the last book I read at all.\",\"language\":\"en\"}]}",
    "status": 200,
-   "response": "{\"documents\":[{\"id\":\"0\",\"keyPhrases\":[\"week\",\"Space Needle\",\"wonderful trip\",\"Seattle\",\"times\"],\"warnings\":[]},{\"id\":\"1\",\"keyPhrases\":[\"entire trip\",\"Seattle\",\"Space Needle\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"movie\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"book\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2019-10-01\"}",
+   "response": "{\"documents\":[{\"id\":\"0\",\"keyPhrases\":[\"week\",\"Space Needle\",\"wonderful trip\",\"Seattle\",\"times\"],\"warnings\":[]},{\"id\":\"1\",\"keyPhrases\":[\"entire trip\",\"Seattle\",\"Space Needle\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"movie\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"book\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}",
    "responseHeaders": {
-    "access-control-allow-origin": "*",
-    "access-control-expose-headers": "Operation-Location",
-    "apim-request-id": "5a4324e0-c00c-4ae4-9f7a-357d79302711",
+    "apim-request-id": "03d9ec00-ebc0-48f9-8f94-8b433c17ee31",
     "content-type": "application/json; charset=utf-8",
     "csp-billing-usage": "CognitiveServices.TextAnalytics.BatchScoring=4",
-    "date": "Tue, 26 May 2020 18:16:27 GMT",
+    "date": "Tue, 11 Aug 2020 14:19:00 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "12"
+    "x-envoy-upstream-service-time": "18"
    }
   }
  ],

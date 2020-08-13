@@ -1,19 +1,22 @@
 # Release History
 
-## 7.0.0-preview.5 (Unreleased)
+## 7.0.0-preview.6 (Unreleased)
+
+
+## 7.0.0-preview.5 (2020-08-10)
 
 - User agent details can now be added to the outgoing requests by passing the user-agent prefixes to the `ServiceBusClient` and the `ServiceBusManagementClient` through options.
   Example user-agent string if the prefix `SampleApp` is provided to `ServiceBusManagementClient`:
   `SampleApp azsdk-js-azureservicebus/7.0.0-preview.5 core-http/1.1.5 Node/v12.16.0 OS/(x64-Windows_NT-10.0.18363)`
   [PR 10092](https://github.com/Azure/azure-sdk-for-js/pull/10092)
-- Adding `deadLetterErrorDescription` and `deadLetterReason` properties on the received messages. Previously, they were under the `properties` in the message.
+- Added `deadLetterErrorDescription` and `deadLetterReason` properties on the received messages. Previously, they were under the `properties` in the message.
 
   OLD: `message.properties["DeadLetterReason"]` and `message.properties["DeadLetterErrorDescription"]`
   NEW: `message.deadLetterReason` and `message.deadLetterErrorDescription`
 
   [PR 10106](https://github.com/Azure/azure-sdk-for-js/pull/10106)
 
-- Adds tracing support to the methods under `ServiceBusManagementClient`.
+- Added tracing support to the methods under `ServiceBusManagementClient`.
   [PR 9987](https://github.com/Azure/azure-sdk-for-js/pull/9987)
 
 ### Breaking Changes
@@ -38,7 +41,7 @@
   [PR 10107](https://github.com/Azure/azure-sdk-for-js/pull/10107)
 - `userProperties` attribute under the `ServiceBusMessage`(and `ReceivedMessage`, `ReceivedMessageWithLock`) has been renamed to `properties`. Same change has been made to the `userProperties` attribute in the correlation-rule filter.
   [PR 10003](https://github.com/Azure/azure-sdk-for-js/pull/10003)
-- Fixes [bug 9926](https://github.com/Azure/azure-sdk-for-js/issues/9926)
+- Fixed [bug 9926](https://github.com/Azure/azure-sdk-for-js/issues/9926)
   where attempting to create AMQP links when the AMQP connection was in the
   process of closing resulted in a `TypeError` in an uncaught exception.
 

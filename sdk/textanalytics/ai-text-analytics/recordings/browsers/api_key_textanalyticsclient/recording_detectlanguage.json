@@ -2,22 +2,20 @@
  "recordings": [
   {
    "method": "POST",
-   "url": "https://endpoint/text/analytics/v3.0/languages",
+   "url": "https://endpoint/text/analytics/v3.1-preview.1/languages",
    "query": {},
    "requestBody": "{\"documents\":[{\"id\":\"0\",\"text\":\"impossible\",\"countryHint\":\"fr\"}]}",
    "status": 200,
-   "response": "{\"documents\":[{\"id\":\"0\",\"detectedLanguage\":{\"name\":\"French\",\"iso6391Name\":\"fr\",\"confidenceScore\":1.0},\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2019-10-01\"}",
+   "response": "{\"documents\":[{\"id\":\"0\",\"detectedLanguage\":{\"name\":\"French\",\"iso6391Name\":\"fr\",\"confidenceScore\":1.0},\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}",
    "responseHeaders": {
-    "access-control-allow-origin": "*",
-    "access-control-expose-headers": "Operation-Location,Location",
-    "apim-request-id": "36827089-58a5-4c33-8bbf-8290904a1920",
+    "apim-request-id": "e2b756e5-1d3b-4bf1-8c1b-d9870448dcac",
     "content-type": "application/json; charset=utf-8",
     "csp-billing-usage": "CognitiveServices.TextAnalytics.BatchScoring=1",
-    "date": "Tue, 26 May 2020 18:16:23 GMT",
+    "date": "Tue, 11 Aug 2020 14:18:53 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "8"
+    "x-envoy-upstream-service-time": "7"
    }
   }
  ],

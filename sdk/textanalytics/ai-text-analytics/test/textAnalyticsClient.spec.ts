@@ -11,7 +11,9 @@ import {
   TextDocumentInput,
   DetectLanguageInput,
   DetectLanguageSuccessResult,
-  ExtractKeyPhrasesSuccessResult
+  ExtractKeyPhrasesSuccessResult,
+  AnalyzeSentimentResultArray,
+  AnalyzeSentimentSuccessResult
 } from "../src/index";
 import { assertAllSuccess } from "./utils/resultHelper";
 
@@ -105,10 +107,140 @@ describe("[AAD] TextAnalyticsClient", function() {
         })
       );
       const allInputs = enInputs.concat(esInputs);
-
       const results = await client.analyzeSentiment(allInputs);
       assert.equal(results.length, testDataEn.length + testDataEs.length);
       assertAllSuccess(results);
+      results.map((result) =>
+        (result as AnalyzeSentimentSuccessResult).sentences.map((sentence) =>
+          assert.isUndefined(sentence.minedOpinions)
+        )
+      );
+    });
+
+    it("client gets positive mined opinions", async () => {
+      const documents = [
+        {
+          text: "It has a sleek premium aluminum design that makes it beautiful to look at.",
+          id: "0",
+          language: "en"
+        }
+      ];
+      const results: AnalyzeSentimentResultArray = await client.analyzeSentiment(documents, {
+        includeOpinionMining: true
+      });
+      assert.equal(results.length, 1);
+      assertAllSuccess(results);
+      const documentSentiment: AnalyzeSentimentSuccessResult = results[0] as AnalyzeSentimentSuccessResult;
+      documentSentiment.sentences.map((sentence) =>
+        sentence.minedOpinions?.map((opinion) => {
+          const aspect = opinion.aspect;
+          assert.equal("design", aspect.text);
+          assert.equal("positive", aspect.sentiment);
+          assert.isAtLeast(aspect.confidenceScores.positive, 0);
+          assert.equal(aspect.confidenceScores.neutral, 0);
+          assert.isAtLeast(aspect.confidenceScores.negative, 0);
+
+          const sleekOpinion = opinion.opinions[0];
+          assert.equal("sleek", sleekOpinion.text);
+          assert.equal("positive", sleekOpinion.sentiment);
+          assert.isAtLeast(sleekOpinion.confidenceScores.positive, 0);
+          assert.equal(sleekOpinion.confidenceScores.neutral, 0);
+          assert.isAtLeast(sleekOpinion.confidenceScores.positive, 0);
+          assert.isFalse(sleekOpinion.isNegated);
+
+          const premiumOpinion = opinion.opinions[1];
+          assert.equal("premium", premiumOpinion.text);
+          assert.equal("positive", premiumOpinion.sentiment);
+          assert.isAtLeast(premiumOpinion.confidenceScores.positive, 0);
+          assert.equal(premiumOpinion.confidenceScores.neutral, 0);
+          assert.isAtLeast(premiumOpinion.confidenceScores.positive, 0);
+          assert.isFalse(premiumOpinion.isNegated);
+        })
+      );
+    });
+
+    it("client gets negative mined opinions", async () => {
+      const documents = [
+        {
+          text: "The food and service is not good",
+          id: "0",
+          language: "en"
+        }
+      ];
+      const results: AnalyzeSentimentResultArray = await client.analyzeSentiment(documents, {
+        includeOpinionMining: true
+      });
+      assert.equal(results.length, 1);
+      assertAllSuccess(results);
+      const documentSentiment: AnalyzeSentimentSuccessResult = results[0] as AnalyzeSentimentSuccessResult;
+      documentSentiment.sentences.map((sentence) => {
+        const foodAspect = sentence.minedOpinions?.[0].aspect;
+        assert.equal("food", foodAspect?.text);
+        assert.equal("negative", foodAspect?.sentiment);
+
+        const foodAspectPositiveScore = foodAspect?.confidenceScores.positive!;
+        const foodAspectNegativeScore = foodAspect?.confidenceScores.negative!;
+        const foodAspectNeutralScore = foodAspect?.confidenceScores.neutral!;
+
+        assert.isAtLeast(foodAspectPositiveScore, 0);
+        assert.isAtLeast(foodAspectNegativeScore, 0);
+        assert.equal(foodAspectNeutralScore, 0);
+        assert.equal(foodAspectPositiveScore + foodAspectNeutralScore + foodAspectNegativeScore, 1);
+
+        const serviceAspect = sentence.minedOpinions?.[1].aspect;
+        assert.equal("service", serviceAspect?.text);
+        assert.equal("negative", serviceAspect?.sentiment);
+
+        const serviceAspectPositiveScore = serviceAspect?.confidenceScores.positive!;
+        const serviceAspectNegativeScore = serviceAspect?.confidenceScores.negative!;
+        const serviceAspectNeutralScore = serviceAspect?.confidenceScores.neutral!;
+
+        assert.isAtLeast(serviceAspectPositiveScore, 0);
+        assert.equal(serviceAspectNeutralScore, 0);
+        assert.isAtLeast(serviceAspectNegativeScore, 0);
+        assert.equal(
+          serviceAspectPositiveScore + serviceAspectNegativeScore + serviceAspectNeutralScore,
+          1
+        );
+
+        const foodOpinion = sentence.minedOpinions?.[0].opinions[0];
+        const serviceOpinion = sentence.minedOpinions?.[1].opinions[0];
+
+        assert.deepEqual(foodOpinion!, serviceOpinion!);
+
+        assert.equal("good", foodOpinion?.text);
+        assert.equal("negative", foodOpinion?.sentiment);
+
+        const foodOpinionPositiveScore = foodOpinion?.confidenceScores.positive!;
+        const foodOpinionNegativeScore = foodOpinion?.confidenceScores.negative!;
+        const foodOpinionNeutralScore = foodOpinion?.confidenceScores.neutral!;
+
+        assert.isAtLeast(foodOpinionPositiveScore, 0);
+        assert.isAtLeast(foodOpinionNegativeScore, 0);
+        assert.equal(foodOpinionNeutralScore, 0);
+        assert.equal(
+          foodOpinionPositiveScore + foodOpinionNeutralScore + foodOpinionNegativeScore,
+          1
+        );
+        assert.isTrue(foodOpinion?.isNegated);
+      });
+    });
+
+    it("client gets no mined opinions", async () => {
+      const documents = [
+        {
+          text: "today is a hot day",
+          id: "0",
+          language: "en"
+        }
+      ];
+      const results: AnalyzeSentimentResultArray = await client.analyzeSentiment(documents, {
+        includeOpinionMining: true
+      });
+      assert.equal(results.length, 1);
+      assertAllSuccess(results);
+      const documentSentiment: AnalyzeSentimentSuccessResult = results[0] as AnalyzeSentimentSuccessResult;
+      assert.isEmpty(documentSentiment.sentences[0].minedOpinions);
     });
   });
 
@@ -259,7 +391,10 @@ describe("[AAD] TextAnalyticsClient", function() {
       } catch (e) {
         assert.equal(e.statusCode, 400);
         assert.equal(e.code, "InvalidDocumentBatch");
-        assert.match(e.message, /exceeded the data limitations/);
+        assert.equal(
+          e.message,
+          "Batch request contains too many records. Max 5 records are permitted."
+        );
       }
     });
   });
@@ -401,7 +536,10 @@ describe("[AAD] TextAnalyticsClient", function() {
       } catch (e) {
         assert.equal(e.statusCode, 400);
         assert.equal(e.code, "InvalidDocumentBatch");
-        assert.match(e.message, /exceeded the data limitations/);
+        assert.equal(
+          e.message,
+          "Batch request contains too many records. Max 5 records are permitted."
+        );
       }
     });
   });

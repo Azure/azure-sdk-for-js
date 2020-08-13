@@ -11,35 +11,33 @@
     "cache-control": "no-cache, no-store",
     "content-length": "1417",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 26 May 2020 18:16:25 GMT",
+    "date": "Tue, 11 Aug 2020 14:18:57 GMT",
     "expires": "-1",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
     "referrer-policy": "strict-origin-when-cross-origin",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.10571.11 - WUS2 ProdSlices",
-    "x-ms-request-id": "93869a83-384e-466f-830a-541efd3c2c01"
+    "x-ms-ests-server": "2.1.10922.14 - CHI ProdSlices",
+    "x-ms-request-id": "9d2a80f6-4f13-4472-b401-16f989fcf100"
    }
   },
   {
    "method": "POST",
-   "url": "https://endpoint/text/analytics/v3.0/languages",
+   "url": "https://endpoint/text/analytics/v3.1-preview.1/languages",
    "query": {},
    "requestBody": "{\"documents\":[{\"id\":\"0\",\"text\":\"impossible\",\"countryHint\":\"fr\"}]}",
    "status": 200,
-   "response": "{\"documents\":[{\"id\":\"0\",\"detectedLanguage\":{\"name\":\"French\",\"iso6391Name\":\"fr\",\"confidenceScore\":1.0},\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2019-10-01\"}",
+   "response": "{\"documents\":[{\"id\":\"0\",\"detectedLanguage\":{\"name\":\"French\",\"iso6391Name\":\"fr\",\"confidenceScore\":1.0},\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}",
    "responseHeaders": {
-    "access-control-allow-origin": "*",
-    "access-control-expose-headers": "Operation-Location",
-    "apim-request-id": "94180870-cb54-4910-8bca-7809b347f6d5",
+    "apim-request-id": "8e241ad4-9172-4d3b-894c-a056a3092de2",
     "content-type": "application/json; charset=utf-8",
     "csp-billing-usage": "CognitiveServices.TextAnalytics.BatchScoring=1",
-    "date": "Tue, 26 May 2020 18:16:25 GMT",
+    "date": "Tue, 11 Aug 2020 14:18:57 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "9"
+    "x-envoy-upstream-service-time": "8"
    }
   }
  ],

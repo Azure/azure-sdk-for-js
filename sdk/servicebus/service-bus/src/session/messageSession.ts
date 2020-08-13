@@ -27,6 +27,7 @@ import { ReceiverHelper } from "../core/receiverHelper";
 /**
  * Describes the options that need to be provided while creating a message session receiver link.
  * @internal
+ * @ignore
  */
 export interface CreateMessageSessionReceiverLinkOptions {
   onClose: OnAmqpEventAsPromise;
@@ -79,6 +80,7 @@ export interface SessionMessageHandlerOptions {
 
 /**
  * @internal
+ * @ignore
  * Describes all the options that can be set while instantiating a MessageSession object.
  */
 export type MessageSessionOptions = SessionReceiverOptions & {
@@ -87,6 +89,7 @@ export type MessageSessionOptions = SessionReceiverOptions & {
 
 /**
  * @internal
+ * @ignore
  * Describes the receiver for a Message Session.
  */
 export class MessageSession extends LinkEntity {

@@ -173,6 +173,7 @@ export interface DispositionStatusOptions extends OperationOptionsBase {
 
 /**
  * @internal
+ * @ignore
  * Options passed to the constructor of ManagementClient
  */
 export interface ManagementClientOptions {
@@ -182,8 +183,9 @@ export interface ManagementClientOptions {
 
 /**
  * @internal
+ * @ignore
  * @class ManagementClient
- * Descibes the ServiceBus Management Client that talks
+ * Describes the ServiceBus Management Client that talks
  * to the $management endpoint over AMQP connection.
  */
 export class ManagementClient extends LinkEntity {

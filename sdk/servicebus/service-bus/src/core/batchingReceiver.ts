@@ -28,6 +28,7 @@ import { checkAndRegisterWithAbortSignal } from "../util/utils";
  * Describes the batching receiver where the user can receive a specified number of messages for
  * a predefined time.
  * @internal
+ * @ignore
  * @class BatchingReceiver
  * @extends MessageReceiver
  */

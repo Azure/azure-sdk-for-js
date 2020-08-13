@@ -11,35 +11,33 @@
     "cache-control": "no-cache, no-store",
     "content-length": "1417",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 26 May 2020 18:16:25 GMT",
+    "date": "Tue, 11 Aug 2020 14:18:58 GMT",
     "expires": "-1",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
     "referrer-policy": "strict-origin-when-cross-origin",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.10571.11 - WUS2 ProdSlices",
-    "x-ms-request-id": "89b0d59a-95df-4cb1-b102-8cff9843c101"
+    "x-ms-ests-server": "2.1.10922.14 - CHI ProdSlices",
+    "x-ms-request-id": "d464e04c-e735-493b-bedb-10660b2ce400"
    }
   },
   {
    "method": "POST",
-   "url": "https://endpoint/text/analytics/v3.0/languages",
+   "url": "https://endpoint/text/analytics/v3.1-preview.1/languages",
    "query": {},
    "requestBody": "{\"documents\":[{\"id\":\"0\",\"text\":\"I use Azure Functions to develop my service.\",\"countryHint\":\"\"}]}",
    "status": 200,
-   "response": "{\"documents\":[{\"id\":\"0\",\"detectedLanguage\":{\"name\":\"English\",\"iso6391Name\":\"en\",\"confidenceScore\":1.0},\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2019-10-01\"}",
+   "response": "{\"documents\":[{\"id\":\"0\",\"detectedLanguage\":{\"name\":\"English\",\"iso6391Name\":\"en\",\"confidenceScore\":1.0},\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}",
    "responseHeaders": {
-    "access-control-allow-origin": "*",
-    "access-control-expose-headers": "Operation-Location",
-    "apim-request-id": "e3d3b109-c7a5-40c3-826d-b1368b451def",
+    "apim-request-id": "9e45c379-8f2f-46f9-9633-5ffc0080080a",
     "content-type": "application/json; charset=utf-8",
     "csp-billing-usage": "CognitiveServices.TextAnalytics.BatchScoring=1",
-    "date": "Tue, 26 May 2020 18:16:25 GMT",
+    "date": "Tue, 11 Aug 2020 14:18:57 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "7"
+    "x-envoy-upstream-service-time": "22"
    }
   }
  ],

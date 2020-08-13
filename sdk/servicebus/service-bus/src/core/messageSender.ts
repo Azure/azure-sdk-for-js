@@ -41,6 +41,7 @@ import { AbortError, AbortSignalLike } from "@azure/abort-controller";
 
 /**
  * @internal
+ * @ignore
  * Describes the MessageSender that will send messages to ServiceBus.
  * @class MessageSender
  */
