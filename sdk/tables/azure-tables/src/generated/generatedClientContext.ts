@@ -18,7 +18,7 @@ export class GeneratedClientContext extends coreHttp.ServiceClient {
 
   /**
    * Initializes a new instance of the GeneratedClientContext class.
-   * @param url The URL of the service account or table that is the targe of the desired operation.
+   * @param url The URL of the service account or table that is the target of the desired operation.
    * @param options The parameter options
    */
   constructor(url: string, options?: GeneratedClientOptionalParams) {

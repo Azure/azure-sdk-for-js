@@ -2,42 +2,34 @@
 // Licensed under the MIT license.
 
 /* eslint-disable no-invalid-this */
-
-import { assert } from "chai";
-
-import { Recorder, record, isPlaybackMode } from "@azure/test-utils-recorder";
-
-import { createClients, environmentSetup } from "../utils/recordedClient";
-import {
-  SearchClient,
-  SearchIndexClient,
-  AutocompleteResult,
-  IndexDocumentsBatch
-} from "../../src/index";
-import { Hotel } from "../utils/interfaces";
-import { createIndex, populateIndex } from "../utils/setupIndex";
+import {isPlaybackMode, record, Recorder} from "@azure/test-utils-recorder";
+import {assert} from "chai";
+import {SearchIndexClient, SynonymMap, SearchIndex} from "../../src/index";
+import {Hotel} from "../utils/interfaces";
+import {createClients, environmentSetup} from "../utils/recordedClient";
+import { createSimpleIndex, createSynonymMaps, deleteSynonymMaps, WAIT_TIME } from "../utils/setup";
 import { delay } from "@azure/core-http";
 
-const TEST_INDEX_NAME = "hotel-live-test";
-const WAIT_TIME = 2000;
+const TEST_INDEX_NAME = "hotel-live-test3";
 
-describe("SearchClient", function() {
+describe("SearchIndexClient", function() {
   let recorder: Recorder;
-  let searchClient: SearchClient<Hotel>;
-  let indexClient: SearchIndexClient;  
+  let indexClient: SearchIndexClient;
 
-  this.timeout(30000);
+  this.timeout(99999);
 
   beforeEach(async function() {
-    ({ searchClient, indexClient } = createClients<Hotel>(TEST_INDEX_NAME));
+    ({ indexClient } = createClients<Hotel>(TEST_INDEX_NAME));
     if (!isPlaybackMode()) {
-      await createIndex(indexClient, TEST_INDEX_NAME);
-      await populateIndex(searchClient);
+      await createSynonymMaps(indexClient);
+      await createSimpleIndex(indexClient, TEST_INDEX_NAME);
+      await delay(WAIT_TIME);
     }
     recorder = record(this, environmentSetup);
     // create the clients again, but hooked up to the recorder
-    ({ searchClient, indexClient } = createClients<Hotel>(TEST_INDEX_NAME));
+    ({ indexClient } = createClients<Hotel>(TEST_INDEX_NAME))
   });
+
 
   afterEach(async function() {
     if (recorder) {
@@ -45,233 +37,177 @@ describe("SearchClient", function() {
     }
     if (!isPlaybackMode()) {
       await indexClient.deleteIndex(TEST_INDEX_NAME);
+      await delay(WAIT_TIME);
+      await deleteSynonymMaps(indexClient);
     }
   });
 
-  describe("#count", function() {
-    it("returns the correct document count", async function() {
-      const documentCount = await searchClient.getDocumentsCount();
-      assert.equal(documentCount, 10);
-    });
-  });
-
-  describe("#autocomplete", function() {
-    it("returns the correct autocomplete result", async function() {
-      const autoCompleteResult: AutocompleteResult = await searchClient.autocomplete("sec", "sg");
-      assert.equal(autoCompleteResult.results.length, 1);
-      assert.equal(autoCompleteResult.results[0].text, "secret");
+  describe("#synonymmaps", function() {
+    it("gets the list of synonymmaps", async function(){
+      const synonymMaps = await indexClient.listSynonymMaps();
+      assert.isAtLeast(synonymMaps.length, 4);
     });
 
-    it("returns zero results for invalid query", async function() {
-      const autoCompleteResult: AutocompleteResult = await searchClient.autocomplete(
-        "garbxyz",
-        "sg"
-      );
-      assert.equal(autoCompleteResult.results.length == 0, true);
-    });
-  });
-
-  describe("#search", function() {
-    it("returns the correct search result", async function() {
-      const searchResults = await searchClient.search("budget", {
-        skip: 0,
-        top: 5,
-        includeTotalCount: true
-      });
-      assert.equal(searchResults.count, 6);
-    });
-
-    it("returns zero results for invalid query", async function() {
-      const searchResults = await searchClient.search("garbxyz", {
-        skip: 0,
-        top: 5,
-        includeTotalCount: true
-      });
-      assert.equal(searchResults.count, 0);
-    });
-  });
-
-  describe("#suggest", function() {
-    it("returns the correct suggestions", async function() {
-      const suggestResult = await searchClient.suggest("wifi", "sg");
-      assert.equal(suggestResult.results.length, 1);
-      assert.equal(
-        suggestResult.results[0].text.startsWith("Save up to 50% off traditional hotels"),
-        true
-      );
-    });
-
-    it("returns zero suggestions for invalid input", async function() {
-      const suggestResult = await searchClient.suggest("garbxyz", "sg");
-      assert.equal(suggestResult.results.length, 0);
-    });
-  });
-
-  describe("#getDocument", function() {
-    it("returns the correct document result", async function() {
-      const getDocumentResult = await searchClient.getDocument("8");
-      assert.equal(
-        getDocumentResult.description,
-        "Has some road noise and is next to the very police station. Bathrooms had morel coverings."
-      );
-      assert.equal(
-        getDocumentResult.descriptionFr,
-        "Il y a du bruit de la route et se trouve à côté de la station de police. Les salles de bain avaient des revêtements de morilles."
-      );
-      assert.equal(getDocumentResult.hotelId, "8");
-    });
-
-    it("throws error for invalid getDocument Value", async function() {
-      let errorThrown = false;
-      try {
-         await searchClient.getDocument("garbxyz");
-      } catch (ex) {
-        errorThrown = true;
+    it("gets the list of synonymmaps names", async function(){
+      const synonymMapNames = await indexClient.listSynonymMapsNames();
+      assert.isAtLeast(synonymMapNames.length, 4);
+      for (let i = 1; i <= 4; i++) {
+        assert.include(synonymMapNames, `my-azure-synonymmap-${i}`);
       }
-      assert.equal(errorThrown, true, "Expected getDocument to fail with an exception");
-    });
-  });
-
-  describe("#deleteDocuments", function() {
-    it("delete a document by documents", async function() {
-      const getDocumentResult = await searchClient.getDocument("8");
-      await searchClient.deleteDocuments([getDocumentResult]);
-      await delay(WAIT_TIME);
-      const documentCount = await searchClient.getDocumentsCount();
-      assert.equal(documentCount, 9);
     });
 
-    it("delete a document by key/keyNames", async function() {
-      await searchClient.deleteDocuments("hotelId", ["9", "10"]);
-      await delay(WAIT_TIME);
-      const documentCount = await searchClient.getDocumentsCount();
-      assert.equal(documentCount, 8);
-    });
-  });
-
-  describe("#mergeOrUploadDocuments", function() {
-    it("modify & merge an existing document", async function() {
-      let getDocumentResult = await searchClient.getDocument("6");
-      getDocumentResult.description = "Modified Description";
-      await searchClient.mergeOrUploadDocuments([getDocumentResult]);
-      await delay(WAIT_TIME);
-      getDocumentResult = await searchClient.getDocument("6");
-      assert.equal(getDocumentResult.description, "Modified Description");
+    it("gets the correct synonymmap object", async function(){
+      const synonymMap = await indexClient.getSynonymMap("my-azure-synonymmap-1");
+      assert.equal(synonymMap.name, "my-azure-synonymmap-1");
+      assert.equal(synonymMap.synonyms.length, 2);
+      const synonyms = ["United States, United States of America => USA", "Washington, Wash. => WA"];
+      assert.include(synonyms, synonymMap.synonyms[0]);
+      assert.include(synonyms, synonymMap.synonyms[1]);
     });
 
-    it("merge a new document", async function() {
-      const document = {
-        hotelId: "11",
-        description: "New Hotel Description",
-        lastRenovationDate: null
+    it("throws error for invalid synonymmap object", async function(){
+      let retrievalError:boolean = false;
+      try {
+        await indexClient.getSynonymMap("garbxyz");
+      } catch(ex) {
+        retrievalError = true;
+      }
+      assert.isTrue(retrievalError);
+    });
+
+    it("creates the synonymmap object using createOrUpdateSynonymMap", async function(){
+      let synonymMap:SynonymMap = {
+        name: `my-azure-synonymmap-5`,
+        synonyms: ["United States, United States of America => USA", "Washington, Wash. => WA"]
       };
-      await searchClient.mergeOrUploadDocuments([document]);
-      await delay(WAIT_TIME);
-      const documentCount = await searchClient.getDocumentsCount();
-      assert.equal(documentCount, 11);
+      await indexClient.createOrUpdateSynonymMap(synonymMap);
+      try {
+        synonymMap = await indexClient.getSynonymMap("my-azure-synonymmap-5");
+        assert.equal(synonymMap.name, "my-azure-synonymmap-5");
+        assert.equal(synonymMap.synonyms.length, 2);
+        const synonyms = ["United States, United States of America => USA", "Washington, Wash. => WA"];
+        assert.include(synonyms, synonymMap.synonyms[0]);
+        assert.include(synonyms, synonymMap.synonyms[1]);
+      } catch (ex) {
+        throw ex;
+      } finally {
+        await indexClient.deleteSynonymMap(synonymMap);
+      }
+    });
+
+    it("modify and updates the synonymmap object", async function(){
+      let synonymMap = await indexClient.getSynonymMap("my-azure-synonymmap-1");
+      synonymMap.synonyms.push("California, Clif. => CA");
+      await indexClient.createOrUpdateSynonymMap(synonymMap);
+      synonymMap = await indexClient.getSynonymMap("my-azure-synonymmap-1");
+      assert.equal(synonymMap.synonyms.length, 3);
+      const synonyms = ["United States, United States of America => USA", "Washington, Wash. => WA", "California, Clif. => CA"];
+      assert.include(synonyms, synonymMap.synonyms[0]);
+      assert.include(synonyms, synonymMap.synonyms[1]);
+      assert.include(synonyms, synonymMap.synonyms[2]);
     });
   });
 
-  describe("#mergeDocuments", function() {
-    it("modify & merge an existing document", async function() {
-      let getDocumentResult = await searchClient.getDocument("6");
-      getDocumentResult.description = "Modified Description";
-      await searchClient.mergeDocuments([getDocumentResult]);
-      await delay(WAIT_TIME);
-      getDocumentResult = await searchClient.getDocument("6");
-      assert.equal(getDocumentResult.description, "Modified Description");
-    });
-  });
-
-  describe("#uploadDocuments", function() {
-    it("upload a set of documents", async function() {
-      const documents = [
-        {
-          hotelId: "11",
-          description: "New Hotel Description",
-          lastRenovationDate: null
-        },
-        {
-          hotelId: "12",
-          description: "New Hotel II Description",
-          lastRenovationDate: null
-        }
-      ];
-      await searchClient.uploadDocuments(documents);
-      await delay(WAIT_TIME);
-      const documentCount = await searchClient.getDocumentsCount();
-      assert.equal(documentCount, 12);
-    });
-  });
-
-  describe("#indexDocuments", function() {
-    it("upload a new document", async function() {
-      const batch: IndexDocumentsBatch<Hotel> = new IndexDocumentsBatch<Hotel>();
-      batch.upload([
-        {
-          hotelId: "11",
-          description: "New Hotel Description",
-          lastRenovationDate: null
-        }
-      ]);
-      await searchClient.indexDocuments(batch);
-      await delay(WAIT_TIME);
-      const documentCount = await searchClient.getDocumentsCount();
-      assert.equal(documentCount, 11);
+  describe("#indexes", function() {
+    it("gets the list of indexes", async function(){
+      const result = await indexClient.listIndexes();
+      let listOfIndexes = await result.next();
+      const indexNames:string[] = [];
+      while (!listOfIndexes.done) {
+        indexNames.push(listOfIndexes.value.name);
+        listOfIndexes = await result.next();
+      }
+      assert.include(indexNames, `hotel-live-test3`);
     });
 
-    it("deletes existing documents", async function() {
-      const batch: IndexDocumentsBatch<Hotel> = new IndexDocumentsBatch<Hotel>();
-      batch.delete([
-        {
-          hotelId: "9"
-        },
-        {
-          hotelId: "10"
-        }
-      ]);
-
-      await searchClient.indexDocuments(batch);
-      await delay(WAIT_TIME);
-      const documentCount = await searchClient.getDocumentsCount();
-      assert.equal(documentCount, 8);
+    it("gets the list of indexes names", async function(){
+      const result = await indexClient.listIndexesNames();
+      let listOfIndexNames = await result.next();
+      const indexNames:string[] = [];
+      while (!listOfIndexNames.done) {
+        indexNames.push(listOfIndexNames.value);
+        listOfIndexNames = await result.next();
+      }
+      assert.include(indexNames, `hotel-live-test3`);
     });
 
-    it("merges an existing document", async function() {
-      const batch: IndexDocumentsBatch<Hotel> = new IndexDocumentsBatch<Hotel>();
-      batch.merge([
-        {
-          hotelId: "8",
-          description: "Modified Description"
-        }
-      ]);
-
-      await searchClient.indexDocuments(batch);
-      await delay(WAIT_TIME);
-      const getDocumentResult = await searchClient.getDocument("8");
-      assert.equal(getDocumentResult.description, "Modified Description");
+    it("gets the correct index object", async function(){
+      const index = await indexClient.getIndex(TEST_INDEX_NAME);
+      assert.equal(index.name, TEST_INDEX_NAME);
+      assert.equal(index.fields.length, 5);
     });
 
-    it("merge/upload documents", async function() {
-      const batch: IndexDocumentsBatch<Hotel> = new IndexDocumentsBatch<Hotel>();
-      batch.mergeOrUpload([
-        {
-          hotelId: "8",
-          description: "Modified Description"
-        },
-        {
-          hotelId: "11",
-          description: "New Hotel Description",
-          lastRenovationDate: null
-        }
-      ]);
+    it("throws error for invalid index object", async function(){
+      let retrievalError:boolean = false;
+      try {
+        await indexClient.getIndex("garbxyz");
+      } catch(ex) {
+        retrievalError = true;
+      }
+      assert.isTrue(retrievalError);
+    });
 
-      await searchClient.indexDocuments(batch);
-      await delay(WAIT_TIME);
-      const getDocumentResult = await searchClient.getDocument("8");
-      assert.equal(getDocumentResult.description, "Modified Description");
-      const documentCount = await searchClient.getDocumentsCount();
-      assert.equal(documentCount, 11);
+    it("creates the index object using createOrUpdateIndex", async function(){
+      let index:SearchIndex = {
+        name: "hotel-live-test4",
+        fields: [
+          {
+            type: "Edm.String",
+            name: "id",
+            key: true
+          },
+          {
+            type: "Edm.Double",
+            name: "awesomenessLevel",
+            sortable: true,
+            filterable: true,
+            facetable: true
+          },
+          {
+            type: "Edm.String",
+            name: "description",
+            searchable: true
+          },
+          {
+            type: "Edm.ComplexType",
+            name: "details",
+            fields: [
+              {
+                type: "Collection(Edm.String)",
+                name: "tags",
+                searchable: true
+              }
+            ]
+          },
+          {
+            type: "Edm.Int32",
+            name: "hiddenWeight",
+            hidden: true
+          }
+        ]
+      };
+      await indexClient.createOrUpdateIndex(index);
+      try {
+        index = await indexClient.getIndex("hotel-live-test4");
+        assert.equal(index.name, "hotel-live-test4");
+        assert.equal(index.fields.length, 5);
+      } catch (ex) {
+        throw ex;
+      } finally {
+        await indexClient.deleteIndex(index);
+      }
+    });
+
+    it("modify and updates the index object", async function(){
+      let index = await indexClient.getIndex(TEST_INDEX_NAME);
+      index.fields.push({
+        type: "Edm.DateTimeOffset",
+        name: "lastUpdatedOn",
+        filterable: true
+      });
+      await indexClient.createOrUpdateIndex(index);
+      index = await indexClient.getIndex(TEST_INDEX_NAME);
+      assert.equal(index.fields.length, 6);
     });
   });
 });
