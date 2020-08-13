@@ -4,6 +4,7 @@
 import { TableServiceClient } from "./TableServiceClient";
 import {
   Entity,
+  QueryOptions,
   ListEntitiesOptions,
   GetEntityResponse,
   ListEntitiesResponse,
@@ -17,7 +18,6 @@ import {
   TableServiceClientOptions as TableClientOptions,
   DeleteTableOptions,
   DeleteTableResponse,
-  QueryOptions,
   GetEntityOptions,
   CreateEntityResponse,
   DeleteEntityOptions,

@@ -8,3 +8,4 @@ export { TableServiceClient } from "./TableServiceClient";
 export { TableClient } from "./TableClient";
 export { TablesSharedKeyCredential } from "./TablesSharedKeyCredential";
 export { TablesSharedKeyCredentialPolicy } from "./TablesSharedKeyCredentialPolicy";
+export { odata } from "./odata";
