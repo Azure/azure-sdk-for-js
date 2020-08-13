@@ -70,6 +70,17 @@ export interface ConnectionContext extends ConnectionContextBase {
    * is in the process of closing or disconnecting.
    */
   readyToOpenLink(): Promise<void>;
+  /**
+   * Fetches the receiver from the cache in ConnectionContext based on the receiverName given.
+   * Useful for when a message needs to be settled or have its lock renewed.
+   *
+   * TODO: Track the right receiver on the message instead of the ConnectionContext to remove
+   * the need for this helper.
+   */
+  getReceiverFromCache(
+    receiverName: string,
+    sessionId?: string
+  ): MessageReceiver | MessageSession | undefined;
 }
 
 /**
@@ -189,6 +200,45 @@ export namespace ConnectionContext {
           return waitForConnectionRefreshPromise;
         }
         return Promise.resolve();
+      },
+      getReceiverFromCache(
+        receiverName: string,
+        sessionId?: string
+      ): MessageReceiver | MessageSession | undefined {
+        if (sessionId != null && this.messageSessions[receiverName]) {
+          return this.messageSessions[receiverName];
+        }
+
+        if (this.streamingReceivers[receiverName]) {
+          return this.streamingReceivers[receiverName];
+        }
+
+        if (this.batchingReceivers[receiverName]) {
+          return this.batchingReceivers[receiverName];
+        }
+
+        let existingReceivers = "";
+        if (sessionId != null) {
+          for (const messageSessionName of Object.keys(this.messageSessions)) {
+            if (this.messageSessions[messageSessionName].sessionId === sessionId) {
+              existingReceivers = this.messageSessions[messageSessionName].name;
+              break;
+            }
+          }
+        } else {
+          existingReceivers +=
+            (existingReceivers ? ", " : "") + Object.keys(this.streamingReceivers).join(",");
+          existingReceivers +=
+            (existingReceivers ? ", " : "") + Object.keys(this.batchingReceivers).join(",");
+        }
+
+        log.error(
+          "[%s] Failed to find receiver '%s' among existing receivers: %s",
+          this.connectionId,
+          receiverName,
+          existingReceivers
+        );
+        return;
       }
     });
 
@@ -423,57 +473,6 @@ export namespace ConnectionContext {
     );
 
     return connectionContext;
-  }
-
-  /**
-   * Fetches the receiver from the cache in ConnectionContext based on the receiverName given.
-   * Useful for when a message needs to be settled or have its lock renewed.
-   *
-   * TODO: Track the right receiver on the message instead of the ConnectionContext to remove
-   * the need for this helper.
-   *
-   * @internal
-   * @ignore
-   */
-  export function getReceiverFromCache(
-    context: ConnectionContext,
-    receiverName: string,
-    sessionId?: string
-  ): MessageReceiver | MessageSession | undefined {
-    if (sessionId != null && context.messageSessions[receiverName]) {
-      return context.messageSessions[receiverName];
-    }
-
-    if (context.streamingReceivers[receiverName]) {
-      return context.streamingReceivers[receiverName];
-    }
-
-    if (context.batchingReceivers[receiverName]) {
-      return context.batchingReceivers[receiverName];
-    }
-
-    let existingReceivers = "";
-    if (sessionId != null) {
-      for (const messageSessionName of Object.keys(context.messageSessions)) {
-        if (context.messageSessions[messageSessionName].sessionId === sessionId) {
-          existingReceivers = context.messageSessions[messageSessionName].name;
-          break;
-        }
-      }
-    } else {
-      existingReceivers +=
-        (existingReceivers ? ", " : "") + Object.keys(context.streamingReceivers).join(",");
-      existingReceivers +=
-        (existingReceivers ? ", " : "") + Object.keys(context.batchingReceivers).join(",");
-    }
-
-    log.error(
-      "[%s] Failed to find receiver '%s' among existing receivers: %s",
-      context.connectionId,
-      receiverName,
-      existingReceivers
-    );
-    return;
   }
 
   /**

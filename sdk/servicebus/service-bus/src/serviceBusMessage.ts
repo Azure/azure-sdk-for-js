@@ -1016,10 +1016,7 @@ export class ServiceBusMessageImpl implements ReceivedMessageWithLock {
     }
 
     if (this.delivery.link) {
-      const associatedReceiver = ConnectionContext.getReceiverFromCache(
-        this._context,
-        this.delivery.link.name
-      );
+      const associatedReceiver = this._context.getReceiverFromCache(this.delivery.link.name);
       associatedLinkName = associatedReceiver?.name;
     }
     this.lockedUntilUtc = await this._context.managementClients[this._entityPath]!.renewLock(
@@ -1085,11 +1082,7 @@ export class ServiceBusMessageImpl implements ReceivedMessageWithLock {
     const isDeferredMessage = this._context.requestResponseLockedMessages.has(this.lockToken);
     const receiver = isDeferredMessage
       ? undefined
-      : ConnectionContext.getReceiverFromCache(
-          this._context,
-          this.delivery.link.name,
-          this.sessionId
-        );
+      : this._context.getReceiverFromCache(this.delivery.link.name, this.sessionId);
     const associatedLinkName = receiver?.name;
 
     if (!isDeferredMessage) {
