@@ -32,7 +32,7 @@ import {
  */
 export function buildTopicOptions(topic: CreateTopicOptions): InternalTopicOptions {
   return {
-    DefaultMessageTimeToLive: topic.defaultMessageTtl,
+    DefaultMessageTimeToLive: topic.defaultMessageTimeToLive,
     MaxSizeInMegabytes: getStringOrUndefined(topic.maxSizeInMegabytes),
     RequiresDuplicateDetection: getStringOrUndefined(topic.requiresDuplicateDetection),
     DuplicateDetectionHistoryTimeWindow: topic.duplicateDetectionHistoryTimeWindow,
@@ -65,9 +65,9 @@ export function buildTopic(rawTopic: any): TopicProperties {
       "enableBatchedOperations"
     ),
 
-    defaultMessageTtl: getString(
+    defaultMessageTimeToLive: getString(
       rawTopic[Constants.DEFAULT_MESSAGE_TIME_TO_LIVE],
-      "defaultMessageTtl"
+      "defaultMessageTimeToLive"
     ),
     autoDeleteOnIdle: rawTopic[Constants.AUTO_DELETE_ON_IDLE],
 
@@ -122,7 +122,7 @@ export interface CreateTopicOptions extends OperationOptions {
    *
    * More on ISO-8601 duration format: https://en.wikipedia.org/wiki/ISO_8601#Durations
    */
-  defaultMessageTtl?: string;
+  defaultMessageTimeToLive?: string;
 
   /**
    * Specifies the maximum topic size in megabytes. Any attempt to enqueue a message
@@ -215,7 +215,7 @@ export interface TopicProperties {
    *
    * More on ISO-8601 duration format: https://en.wikipedia.org/wiki/ISO_8601#Durations
    */
-  defaultMessageTtl: string;
+  defaultMessageTimeToLive: string;
 
   /**
    * Specifies the maximum topic size in megabytes. Any attempt to enqueue a message
@@ -416,7 +416,7 @@ export interface TopicRuntimeProperties {
 
 /**
  * @internal
- * @ignore 
+ * @ignore
  * TopicResourceSerializer for serializing / deserializing Topic entities
  */
 export class TopicResourceSerializer implements AtomXmlSerializer {

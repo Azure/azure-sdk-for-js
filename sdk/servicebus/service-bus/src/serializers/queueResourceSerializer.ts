@@ -36,7 +36,7 @@ export function buildQueueOptions(queue: CreateQueueOptions): InternalQueueOptio
     MaxSizeInMegabytes: getStringOrUndefined(queue.maxSizeInMegabytes),
     RequiresDuplicateDetection: getStringOrUndefined(queue.requiresDuplicateDetection),
     RequiresSession: getStringOrUndefined(queue.requiresSession),
-    DefaultMessageTimeToLive: queue.defaultMessageTtl,
+    DefaultMessageTimeToLive: queue.defaultMessageTimeToLive,
     DeadLetteringOnMessageExpiration: getStringOrUndefined(queue.deadLetteringOnMessageExpiration),
     DuplicateDetectionHistoryTimeWindow: queue.duplicateDetectionHistoryTimeWindow,
     MaxDeliveryCount: getStringOrUndefined(queue.maxDeliveryCount),
@@ -77,9 +77,9 @@ export function buildQueue(rawQueue: any): QueueProperties {
       "enableBatchedOperations"
     ),
 
-    defaultMessageTtl: getString(
+    defaultMessageTimeToLive: getString(
       rawQueue[Constants.DEFAULT_MESSAGE_TIME_TO_LIVE],
-      "defaultMessageTtl"
+      "defaultMessageTimeToLive"
     ),
     autoDeleteOnIdle: rawQueue[Constants.AUTO_DELETE_ON_IDLE],
 
@@ -172,7 +172,7 @@ export interface CreateQueueOptions extends OperationOptions {
    *
    * More on ISO-8601 duration format: https://en.wikipedia.org/wiki/ISO_8601#Durations
    */
-  defaultMessageTtl?: string;
+  defaultMessageTimeToLive?: string;
 
   /**
    * If it is enabled and a message expires, the Service Bus moves the message
@@ -305,7 +305,7 @@ export interface QueueProperties {
    *
    * More on ISO-8601 duration format: https://en.wikipedia.org/wiki/ISO_8601#Durations
    */
-  defaultMessageTtl: string;
+  defaultMessageTimeToLive: string;
 
   /**
    * If it is enabled and a message expires, the Service Bus moves the message
