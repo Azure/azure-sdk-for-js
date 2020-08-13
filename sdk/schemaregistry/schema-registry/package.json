@@ -62,6 +62,8 @@
   "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
   "dependencies": {
     "@azure/core-http": "^1.1.6",
+    "@azure/logger": "^1.0.0",
+    "@opentelemetry/api": "^0.10.2",
     "tslib": "^2.0.0"
   },
   "devDependencies": {
