@@ -25,8 +25,8 @@ export {
   PeekMessagesOptions,
   ReceiveMessagesOptions,
   ReceiveMode,
-  SenderOpenOptions,
   SubscribeOptions,
+  SessionSubscribeOptions,
   WaitTimeOptions
 } from "./models";
 export { OperationOptionsBase } from "./modelsToBeSharedWithEventHubs";

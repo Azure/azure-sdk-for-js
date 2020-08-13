@@ -3,7 +3,6 @@
 
 import { OperationOptionsBase } from "./modelsToBeSharedWithEventHubs";
 import Long from "long";
-import { AbortSignalLike } from "@azure/abort-controller";
 
 /**
  * The general message handler interface (used for streamMessages).
@@ -182,16 +181,6 @@ export interface CreateSessionReceiverOptions<ReceiveModeT extends ReceiveMode>
    * - **To disable autolock renewal**, set this to `0`.
    */
   autoRenewLockDurationInMs?: number;
-}
-
-/**
- * Describes the options passed to the `open` method on a `Sender`.
- */
-export interface SenderOpenOptions {
-  /**
-   * The signal which can be used to abort requests.
-   */
-  abortSignal?: AbortSignalLike;
 }
 
 /**

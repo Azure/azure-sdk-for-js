@@ -13,7 +13,7 @@ import {
   throwTypeErrorIfParameterNotLong
 } from "./util/errors";
 import { ServiceBusMessageBatch } from "./serviceBusMessageBatch";
-import { CreateBatchOptions, SenderOpenOptions } from "./models";
+import { CreateBatchOptions } from "./models";
 import {
   MessagingError,
   RetryConfig,
@@ -71,9 +71,9 @@ export interface ServiceBusSender {
    * recommended to call this before your first sendMessages() call if you
    * want to front load the work of setting up the AMQP link to the service.
    *
-   * @param options - Options bag to pass an abort signal.
+   * @param options - Options to configure tracing and the abortSignal.
    */
-  open(options?: SenderOpenOptions): Promise<void>;
+  open(options?: OperationOptionsBase): Promise<void>;
 
   /**
    * @property Returns `true` if either the sender or the client that created it has been closed
@@ -290,10 +290,11 @@ export class ServiceBusSenderImpl implements ServiceBusSender {
     return retry<void>(config);
   }
 
-  async open(options?: SenderOpenOptions): Promise<void> {
+  async open(options?: OperationOptionsBase): Promise<void> {
     this._throwIfSenderOrConnectionClosed();
 
     const config: RetryConfig<void> = {
+      // TODO: Pass tracing options too
       operation: () => this._sender.open(undefined, options?.abortSignal),
       connectionId: this._context.namespace.connectionId,
       operationType: RetryOperationType.senderLink,

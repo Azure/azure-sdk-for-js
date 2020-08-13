@@ -4,7 +4,6 @@
 
 ```ts
 
-import { AbortSignalLike } from '@azure/abort-controller';
 import { AmqpMessage } from '@azure/core-amqp';
 import { delay } from '@azure/core-amqp';
 import { Delivery } from 'rhea-promise';
@@ -271,11 +270,6 @@ export interface RuleResponse extends RuleProperties, Response {
 }
 
 // @public
-export interface SenderOpenOptions {
-    abortSignal?: AbortSignalLike;
-}
-
-// @public
 export class ServiceBusClient {
     constructor(connectionString: string, options?: ServiceBusClientOptions);
     constructor(fullyQualifiedNamespace: string, credential: TokenCredential, options?: ServiceBusClientOptions);
@@ -399,7 +393,7 @@ export interface ServiceBusSender {
     createBatch(options?: CreateBatchOptions): Promise<ServiceBusMessageBatch>;
     entityPath: string;
     isClosed: boolean;
-    open(options?: SenderOpenOptions): Promise<void>;
+    open(options?: OperationOptionsBase): Promise<void>;
     scheduleMessages(scheduledEnqueueTimeUtc: Date, messages: ServiceBusMessage | ServiceBusMessage[], options?: OperationOptionsBase): Promise<Long[]>;
     sendMessages(messages: ServiceBusMessage | ServiceBusMessage[] | ServiceBusMessageBatch, options?: OperationOptionsBase): Promise<void>;
 }
@@ -411,10 +405,13 @@ export interface ServiceBusSessionReceiver<ReceivedMessageT extends ReceivedMess
     readonly sessionId: string;
     sessionLockedUntilUtc: Date | undefined;
     setState(state: any, options?: OperationOptionsBase): Promise<void>;
-    // Warning: (ae-forgotten-export) The symbol "SessionSubscribeOptions" needs to be exported by the entry point index.d.ts
     subscribe(handlers: MessageHandlers<ReceivedMessageT>, options?: SessionSubscribeOptions): {
         close(): Promise<void>;
     };
+}
+
+// @public
+export interface SessionSubscribeOptions extends OperationOptionsBase, MessageHandlerOptionsBase {
 }
 
 // @public
