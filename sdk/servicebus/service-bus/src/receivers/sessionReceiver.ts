@@ -140,7 +140,8 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
     const messageSession = await MessageSession.create(context, {
       sessionId: sessionOptions.sessionId,
       autoRenewLockDurationInMs: sessionOptions.autoRenewLockDurationInMs,
-      receiveMode: convertToInternalReceiveMode(receiveMode)
+      receiveMode: convertToInternalReceiveMode(receiveMode),
+      abortSignal: sessionOptions.abortSignal
     });
     const sessionReceiver = new SessionReceiverImpl<ReceivedMessageT>(
       messageSession,

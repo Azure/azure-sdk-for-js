@@ -22,7 +22,7 @@ import { throwErrorIfConnectionClosed } from "../util/errors";
 import { calculateRenewAfterDuration, convertTicksToDate } from "../util/utils";
 import { BatchingReceiverLite, MinimalReceiver } from "../core/batchingReceiver";
 import { onMessageSettled, DeferredPromiseAndTimer } from "../core/shared";
-import { AbortSignalLike } from "@azure/core-http";
+import { AbortSignalLike } from "@azure/abort-controller";
 import { ReceiverHelper } from "../core/receiverHelper";
 
 /**
@@ -56,6 +56,10 @@ export interface SessionReceiverOptions {
    * - **To disable autolock renewal**, set this to `0`.
    */
   autoRenewLockDurationInMs?: number;
+  /**
+   * The signal which can be used to abort initialization.
+   */
+  abortSignal?: AbortSignalLike;
 }
 
 /**
@@ -906,7 +910,7 @@ export class MessageSession extends LinkEntity<Receiver> {
   ): Promise<MessageSession> {
     throwErrorIfConnectionClosed(context.namespace);
     const messageSession = new MessageSession(context, options);
-    await messageSession._init();
+    await messageSession._init(options?.abortSignal);
     return messageSession;
   }
 }
