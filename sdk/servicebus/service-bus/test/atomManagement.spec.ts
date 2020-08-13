@@ -1224,7 +1224,7 @@ describe("Atom management - Authentication", function(): void {
     output: {
       authorizationRules: undefined,
       autoDeleteOnIdle: "P10675199DT2H48M5.4775807S",
-      defaultMessageTtl: "P10675199DT2H48M5.4775807S",
+      defaultMessageTimeToLive: "P10675199DT2H48M5.4775807S",
       duplicateDetectionHistoryTimeWindow: "PT10M",
       enableBatchedOperations: true,
       enablePartitioning: false,
@@ -1240,7 +1240,7 @@ describe("Atom management - Authentication", function(): void {
     testCaseTitle: "all properties",
     input: {
       requiresDuplicateDetection: true,
-      defaultMessageTtl: "P2D",
+      defaultMessageTimeToLive: "P2D",
       deadLetteringOnMessageExpiration: true,
       duplicateDetectionHistoryTimeWindow: "PT1M",
       enableBatchedOperations: false,
@@ -1250,7 +1250,7 @@ describe("Atom management - Authentication", function(): void {
       userMetadata: "test metadata"
     },
     output: {
-      defaultMessageTtl: "P2D",
+      defaultMessageTimeToLive: "P2D",
       duplicateDetectionHistoryTimeWindow: "PT1M",
       status: "SendDisabled",
       enableBatchedOperations: false,
@@ -1300,7 +1300,7 @@ describe("Atom management - Authentication", function(): void {
       autoDeleteOnIdle: "P10675199DT2H48M5.4775807S",
       deadLetteringOnMessageExpiration: false,
       deadLetteringOnFilterEvaluationExceptions: true,
-      defaultMessageTtl: "P10675199DT2H48M5.4775807S",
+      defaultMessageTimeToLive: "P10675199DT2H48M5.4775807S",
       forwardDeadLetteredMessagesTo: undefined,
       enableBatchedOperations: true,
       forwardTo: undefined,
@@ -1318,7 +1318,7 @@ describe("Atom management - Authentication", function(): void {
     input: {
       lockDuration: "PT5M",
       maxDeliveryCount: 20,
-      defaultMessageTtl: "P2D",
+      defaultMessageTimeToLive: "P2D",
       autoDeleteOnIdle: "PT1H",
       deadLetteringOnFilterEvaluationExceptions: false,
       deadLetteringOnMessageExpiration: true,
@@ -1330,7 +1330,7 @@ describe("Atom management - Authentication", function(): void {
     output: {
       lockDuration: "PT5M",
       maxDeliveryCount: 20,
-      defaultMessageTtl: "P2D",
+      defaultMessageTimeToLive: "P2D",
       autoDeleteOnIdle: "PT1H",
       deadLetteringOnFilterEvaluationExceptions: false,
       deadLetteringOnMessageExpiration: true,
@@ -1393,7 +1393,7 @@ describe("Atom management - Authentication", function(): void {
     output: {
       lockDuration: "PT1M",
       maxDeliveryCount: 10,
-      defaultMessageTtl: "P10675199DT2H48M5.4775807S",
+      defaultMessageTimeToLive: "P10675199DT2H48M5.4775807S",
       deadLetteringOnFilterEvaluationExceptions: true,
       deadLetteringOnMessageExpiration: false,
       enableBatchedOperations: true,
@@ -1478,7 +1478,7 @@ describe("Atom management - Authentication", function(): void {
       authorizationRules: undefined,
       autoDeleteOnIdle: "P10675199DT2H48M5.4775807S",
       deadLetteringOnMessageExpiration: false,
-      defaultMessageTtl: "P10675199DT2H48M5.4775807S",
+      defaultMessageTimeToLive: "P10675199DT2H48M5.4775807S",
       duplicateDetectionHistoryTimeWindow: "PT10M",
       enableBatchedOperations: true,
       enablePartitioning: false,
@@ -1500,7 +1500,7 @@ describe("Atom management - Authentication", function(): void {
       lockDuration: "PT45S",
       requiresDuplicateDetection: true,
       requiresSession: true,
-      defaultMessageTtl: "P2D",
+      defaultMessageTimeToLive: "P2D",
       deadLetteringOnMessageExpiration: true,
       duplicateDetectionHistoryTimeWindow: "PT1M",
       maxDeliveryCount: 8,
@@ -1535,7 +1535,7 @@ describe("Atom management - Authentication", function(): void {
     output: {
       duplicateDetectionHistoryTimeWindow: "PT1M",
       lockDuration: "PT45S",
-      defaultMessageTtl: "P2D",
+      defaultMessageTimeToLive: "P2D",
       deadLetteringOnMessageExpiration: true,
       enableBatchedOperations: false,
       maxDeliveryCount: 8,
@@ -1822,7 +1822,7 @@ describe("Atom management - Authentication", function(): void {
     testCaseTitle: "all properties except forwardTo, forwardDeadLetteredMessagesTo",
     input: {
       lockDuration: "PT50S",
-      defaultMessageTtl: "P1D",
+      defaultMessageTimeToLive: "P1D",
       deadLetteringOnMessageExpiration: true,
       duplicateDetectionHistoryTimeWindow: "PT2M",
       maxDeliveryCount: 5,
@@ -1857,7 +1857,7 @@ describe("Atom management - Authentication", function(): void {
     output: {
       duplicateDetectionHistoryTimeWindow: "PT2M",
       lockDuration: "PT50S",
-      defaultMessageTtl: "P1D",
+      defaultMessageTimeToLive: "P1D",
       deadLetteringOnMessageExpiration: true,
       enableBatchedOperations: false,
       requiresDuplicateDetection: true,
@@ -1902,7 +1902,7 @@ describe("Atom management - Authentication", function(): void {
         lockDuration: "PT45S",
         requiresDuplicateDetection: true,
         requiresSession: true,
-        defaultMessageTtl: "P2D",
+        defaultMessageTimeToLive: "P2D",
         deadLetteringOnMessageExpiration: true,
         duplicateDetectionHistoryTimeWindow: "PT1M",
         maxDeliveryCount: 8,
@@ -1972,7 +1972,7 @@ describe("Atom management - Authentication", function(): void {
     output: {
       duplicateDetectionHistoryTimeWindow: "PT1M",
       lockDuration: "PT45S",
-      defaultMessageTtl: "P2D",
+      defaultMessageTimeToLive: "P2D",
       deadLetteringOnMessageExpiration: true,
       enableBatchedOperations: false,
 
@@ -2078,7 +2078,7 @@ describe("Atom management - Authentication", function(): void {
       status: "SendDisabled" as EntityStatus,
       userMetadata: "test metadata",
       requiresDuplicateDetection: false,
-      defaultMessageTtl: "P1D",
+      defaultMessageTimeToLive: "P1D",
       duplicateDetectionHistoryTimeWindow: "PT2M",
       autoDeleteOnIdle: "PT2H",
       supportOrdering: true,
@@ -2086,7 +2086,7 @@ describe("Atom management - Authentication", function(): void {
     },
     output: {
       requiresDuplicateDetection: false,
-      defaultMessageTtl: "P1D",
+      defaultMessageTimeToLive: "P1D",
       duplicateDetectionHistoryTimeWindow: "PT2M",
       autoDeleteOnIdle: "PT2H",
       supportOrdering: true,
@@ -2140,7 +2140,7 @@ describe("Atom management - Authentication", function(): void {
     input: {
       lockDuration: "PT3M",
       maxDeliveryCount: 10,
-      defaultMessageTtl: "P1D",
+      defaultMessageTimeToLive: "P1D",
       autoDeleteOnIdle: "P10675199DT2H48M5.4775807S",
       deadLetteringOnFilterEvaluationExceptions: true,
       deadLetteringOnMessageExpiration: false,
@@ -2152,7 +2152,7 @@ describe("Atom management - Authentication", function(): void {
     output: {
       lockDuration: "PT3M",
       maxDeliveryCount: 10,
-      defaultMessageTtl: "P1D",
+      defaultMessageTimeToLive: "P1D",
       autoDeleteOnIdle: "P10675199DT2H48M5.4775807S",
       deadLetteringOnFilterEvaluationExceptions: true,
       deadLetteringOnMessageExpiration: false,
