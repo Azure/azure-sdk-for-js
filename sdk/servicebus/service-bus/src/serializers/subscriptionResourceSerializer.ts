@@ -115,7 +115,7 @@ export function buildSubscriptionRuntimeProperties(
     transferDeadLetterMessageCount: messageCountDetails.transferDeadLetterMessageCount,
     transferMessageCount: messageCountDetails.transferMessageCount,
     createdAt: getDate(rawSubscription[Constants.CREATED_AT], "createdAt"),
-    updatedAt: getDate(rawSubscription[Constants.UPDATED_AT], "updatedAt"),
+    modifiedAt: getDate(rawSubscription[Constants.UPDATED_AT], "modifiedAt"),
     accessedAt: getDate(rawSubscription[Constants.ACCESSED_AT], "accessedAt")
   };
 }
@@ -486,7 +486,7 @@ export interface SubscriptionRuntimeProperties {
   /**
    * Updated at timestamp
    */
-  updatedAt: Date;
+  modifiedAt: Date;
 
   /**
    * Accessed at timestamp

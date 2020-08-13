@@ -120,7 +120,7 @@ export function buildQueueRuntimeProperties(rawQueue: any): QueueRuntimeProperti
     totalMessageCount: getIntegerOrUndefined(rawQueue[Constants.MESSAGE_COUNT]),
     ...messageCountDetails,
     createdAt: getDate(rawQueue[Constants.CREATED_AT], "createdAt"),
-    updatedAt: getDate(rawQueue[Constants.UPDATED_AT], "updatedAt"),
+    modifiedAt: getDate(rawQueue[Constants.UPDATED_AT], "modifiedAt"),
     accessedAt: getDate(rawQueue[Constants.ACCESSED_AT], "accessedAt")
   };
 }
@@ -527,7 +527,7 @@ export interface QueueRuntimeProperties {
   /**
    * Updated at timestamp
    */
-  updatedAt: Date;
+  modifiedAt: Date;
 
   /**
    * Accessed at timestamp

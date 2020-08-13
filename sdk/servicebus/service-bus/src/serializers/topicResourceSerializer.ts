@@ -102,7 +102,7 @@ export function buildTopicRuntimeProperties(rawTopic: any): TopicRuntimeProperti
     createdAt: getDate(rawTopic[Constants.CREATED_AT], "createdAt"),
     scheduledMessageCount: getMessageCountDetails(rawTopic[Constants.COUNT_DETAILS])
       .scheduledMessageCount,
-    updatedAt: getDate(rawTopic[Constants.UPDATED_AT], "updatedAt"),
+    modifiedAt: getDate(rawTopic[Constants.UPDATED_AT], "modifiedAt"),
     accessedAt: getDate(rawTopic[Constants.ACCESSED_AT], "accessedAt")
   };
 }
@@ -406,7 +406,7 @@ export interface TopicRuntimeProperties {
   /**
    * Updated at timestamp
    */
-  updatedAt: Date;
+  modifiedAt: Date;
 
   /**
    * Accessed at timestamp
