@@ -29,7 +29,11 @@ export { RecognizeCategorizedEntitiesResultArray } from "./recognizeCategorizedE
 export {
   AnalyzeSentimentResult,
   AnalyzeSentimentErrorResult,
-  AnalyzeSentimentSuccessResult
+  AnalyzeSentimentSuccessResult,
+  SentenceSentiment,
+  MinedOpinion,
+  AspectSentiment,
+  OpinionSentiment
 } from "./analyzeSentimentResult";
 export { AnalyzeSentimentResultArray } from "./analyzeSentimentResultArray";
 export {
@@ -61,7 +65,6 @@ export {
   DetectLanguageInput,
   TextDocumentBatchStatistics,
   Entity,
-  SentenceSentiment,
   DocumentSentimentLabel,
   SentenceSentimentLabel,
   ErrorCodeValue,

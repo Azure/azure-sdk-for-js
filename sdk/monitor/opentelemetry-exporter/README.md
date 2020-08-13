@@ -61,7 +61,7 @@ Coming Soon
 
 ## Examples
 
-Please take a look at the [examples](../examples) to see how to add the Azure Monitor Exporter to your existing OpenTelemetry instrumented project.
+Coming soon // TODO: Update this with link to samples when we have some
 
 ## Key concepts
 

@@ -20,6 +20,7 @@ import { getRuntimeInfo } from "./util/runtimeInfo";
 
 /**
  * @internal
+ * @ignore
  * Provides contextual information like the underlying amqp connection, cbs session, management session,
  * tokenCredential, senders, receivers, etc. about the ServiceBus client.
  */
@@ -68,14 +69,20 @@ export interface ConnectionContextInternalMembers extends ConnectionContext {
 }
 
 /**
+ * @internal
+ * @ignore
  * Helper type to get the names of all the functions on an object.
  */
 type FunctionPropertyNames<T> = { [K in keyof T]: T[K] extends Function ? K : never }[keyof T];
 /**
+ * @internal
+ * @ignore
  * Helper type to get the types of all the functions on an object.
  */
 type FunctionProperties<T> = Pick<T, FunctionPropertyNames<T>>;
 /**
+ * @internal
+ * @ignore
  * Helper type to get the types of all the functions on ConnectionContext
  * and the internal methods from ConnectionContextInternalMembers.
  * Note that this excludes the functions that ConnectionContext inherits.
@@ -89,6 +96,7 @@ type ConnectionContextMethods = Omit<
 
 /**
  * @internal
+ * @ignore
  */
 export namespace ConnectionContext {
   export function create(

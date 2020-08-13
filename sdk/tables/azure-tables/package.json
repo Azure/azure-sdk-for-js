@@ -5,6 +5,12 @@
   "sdk-type": "client",
   "main": "dist/index.js",
   "module": "dist-esm/src/index.js",
+  "browser": {
+    "./dist-esm/src/TablesSharedKeyCredential.js": "./dist-esm/src/TablesSharedKeyCredential.browser.js",
+    "./dist-esm/src/utils/fromAccountConnectionString.js": "./dist-esm/src/utils/fromAccountConnectionString.browser.js",
+    "./dist-esm/src/utils/url.js": "./dist-esm/src/utils/url.browser.js",
+    "./dist-esm/src/utils/bufferSerializer.js": "./dist-esm/src/utils/bufferSerializer.browser.js"
+  },
   "types": "types/latest/tables.d.ts",
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
@@ -19,19 +25,19 @@
     "clean": "rimraf dist dist-* types *.tgz *.log",
     "execute:samples": "echo skipped",
     "extract-api": "tsc -p . && api-extractor run --local",
-    "format": "prettier --write --config ../../.prettierrc.json --ignore-path ../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
+    "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "integration-test:browser": "echo skipped",
     "integration-test:node": "echo skipped",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
-    "lint:fix": "eslint package.json tsconfig.json api-extractor.json src test --ext .ts --fix --fix-type [problem,suggestion]",
-    "lint": "eslint package.json tsconfig.json api-extractor.json src test --ext .ts -f html -o tables-lintReport.html || exit 0",
+    "lint:fix": "eslint package.json api-extractor.json src test --ext .ts --fix --fix-type [problem,suggestion]",
+    "lint": "eslint package.json api-extractor.json src test --ext .ts -f html -o tables-lintReport.html || exit 0",
     "pack": "npm pack 2>&1",
     "prebuild": "npm run clean",
     "test:browser": "npm run build:test && npm run unit-test:browser && npm run integration-test:browser",
     "test:node": "npm run build:test && npm run unit-test:node && npm run integration-test:node",
     "test": "npm run build:test && npm run unit-test && npm run integration-test",
-    "unit-test:browser": "echo skipped",
-    "unit-test:node": "echo skipped",
+    "unit-test:browser": "karma start --single-run",
+    "unit-test:node": "mocha --reporter ../../../common/tools/mocha-multi-reporter.js dist-test/index.node.js",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser"
   },
   "files": [
@@ -46,8 +52,7 @@
   "repository": "github:Azure/azure-sdk-for-js",
   "keywords": [
     "azure",
-    "cloud",
-    "Azure"
+    "cloud"
   ],
   "author": "Microsoft Corporation",
   "license": "MIT",
@@ -69,8 +74,8 @@
   "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
   "private": true,
   "dependencies": {
-    "@azure/core-http": "^1.1.4",
-    "@opentelemetry/api": "^0.6.1",
+    "@azure/core-http": "^1.1.6",
+    "@opentelemetry/api": "^0.10.2",
     "tslib": "^2.0.0"
   },
   "devDependencies": {

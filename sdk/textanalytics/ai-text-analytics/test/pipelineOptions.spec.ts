@@ -14,7 +14,7 @@ import { testEnv } from "./utils/recordedClient";
 import { WebResource, HttpOperationResponse, HttpHeaders } from "@azure/core-http";
 
 describe("TextAnalyticsClient Custom PipelineOptions", function() {
-  let credential = new AzureKeyCredential(testEnv.TEXT_ANALYTICS_API_KEY);
+  const credential = new AzureKeyCredential(testEnv.TEXT_ANALYTICS_API_KEY);
 
   it("use custom HTTPClient", async () => {
     const pipelineTester = new Promise<DetectLanguageResultArray>((resolve) => {
@@ -35,7 +35,7 @@ describe("TextAnalyticsClient Custom PipelineOptions", function() {
         }
       });
 
-      client.detectLanguage(["Hello!"], "us").then((languages) => resolve(languages));
+      return client.detectLanguage(["Hello!"], "us").then((languages) => resolve(languages));
     });
 
     const [result] = await pipelineTester;

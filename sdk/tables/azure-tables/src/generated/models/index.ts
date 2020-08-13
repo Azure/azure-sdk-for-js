@@ -45,6 +45,44 @@ export interface TableResponseProperties {
 }
 
 /**
+ * Table Service error.
+ */
+export interface TableServiceError {
+  /**
+   * The odata error.
+   */
+  odataError?: TableServiceErrorOdataError;
+}
+
+/**
+ * The odata error.
+ */
+export interface TableServiceErrorOdataError {
+  /**
+   * The service error code. The error codes possible are listed in: https://docs.microsoft.com/rest/api/storageservices/table-service-error-codes
+   */
+  code?: string;
+  /**
+   * The service error message.
+   */
+  message?: TableServiceErrorOdataErrorMessage;
+}
+
+/**
+ * The service error message.
+ */
+export interface TableServiceErrorOdataErrorMessage {
+  /**
+   * Language code of the error message.
+   */
+  lang?: string;
+  /**
+   * The error message.
+   */
+  value?: string;
+}
+
+/**
  * The properties for creating a table.
  */
 export interface TableProperties {
@@ -52,16 +90,6 @@ export interface TableProperties {
    * The name of the table to create.
    */
   tableName?: string;
-}
-
-/**
- * Table Service error.
- */
-export interface TableServiceError {
-  /**
-   * The error message.
-   */
-  message?: string;
 }
 
 /**
@@ -879,27 +907,28 @@ export interface TableQueryEntitiesWithPartitionAndRowKeyOptionalParams
 /**
  * Contains response data for the queryEntitiesWithPartitionAndRowKey operation.
  */
-export type TableQueryEntitiesWithPartitionAndRowKeyResponse = TableQueryEntitiesWithPartitionAndRowKeyHeaders &
-  TableEntityQueryResponse & {
+export type TableQueryEntitiesWithPartitionAndRowKeyResponse = TableQueryEntitiesWithPartitionAndRowKeyHeaders & {
+  [propertyName: string]: any;
+} & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
     /**
-     * The underlying HTTP response.
+     * The response body as text (string format)
      */
-    _response: coreHttp.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
+    bodyAsText: string;
 
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: TableEntityQueryResponse;
-      /**
-       * The parsed HTTP response headers.
-       */
-      parsedHeaders: TableQueryEntitiesWithPartitionAndRowKeyHeaders;
-    };
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: { [propertyName: string]: any };
+    /**
+     * The parsed HTTP response headers.
+     */
+    parsedHeaders: TableQueryEntitiesWithPartitionAndRowKeyHeaders;
   };
+};
 
 /**
  * Optional parameters.

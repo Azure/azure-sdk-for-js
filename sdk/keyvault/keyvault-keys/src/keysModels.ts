@@ -74,7 +74,7 @@ export interface KeyClientInterface {
 /**
  * The latest supported KeyVault service API version
  */
-export const LATEST_API_VERSION = "7.1-preview";
+export const LATEST_API_VERSION = "7.1";
 
 /**
  * The optional parameters accepted by the KeyVault's KeyClient
@@ -83,7 +83,7 @@ export interface KeyClientOptions extends coreHttp.PipelineOptions {
   /**
    * The accepted versions of the KeyVault's service API.
    */
-  apiVersion?: "7.0" | "7.1-preview";
+  serviceVersion?: "7.0" | "7.1";
 }
 
 /**

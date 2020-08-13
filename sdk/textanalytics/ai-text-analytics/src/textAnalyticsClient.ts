@@ -8,13 +8,18 @@ import {
   isTokenCredential,
   bearerTokenAuthenticationPolicy,
   operationOptionsToRequestOptionsBase,
-  OperationOptions
+  OperationOptions,
+  RestError
 } from "@azure/core-http";
 import { TokenCredential, KeyCredential } from "@azure/core-auth";
 import { SDK_VERSION } from "./constants";
 import { GeneratedClient } from "./generated/generatedClient";
 import { logger } from "./logger";
-import { DetectLanguageInput, TextDocumentInput } from "./generated/models";
+import {
+  DetectLanguageInput,
+  GeneratedClientSentimentOptionalParams,
+  TextDocumentInput
+} from "./generated/models";
 import {
   DetectLanguageResultArray,
   makeDetectLanguageResultArray
@@ -86,7 +91,17 @@ export type RecognizeCategorizedEntitiesOptions = TextAnalyticsOperationOptions;
 /**
  * Options for the analyze sentiment operation.
  */
-export type AnalyzeSentimentOptions = TextAnalyticsOperationOptions;
+export interface AnalyzeSentimentOptions extends TextAnalyticsOperationOptions {
+  /**
+   * Whether to mine the opinions of a sentence and conduct more  granular
+   * analysis around the aspects of a product or service (also known as
+   * aspect-based sentiment analysis). If set to true, the returned
+   * `SentenceSentiment` objects will have property `mined_opinions` containing
+   * the result of this analysis. Only available for API version v3.1-preview.1.
+   * More information about the feature can be found here: https://docs.microsoft.com/azure/cognitive-services/text-analytics/how-tos/text-analytics-how-to-sentiment-analysis?tabs=version-3-1#opinion-mining
+   */
+  includeOpinionMining?: boolean;
+}
 
 /**
  * Options for the extract key phrases operation.
@@ -350,11 +365,27 @@ export class TextAnalyticsClient {
         result.statistics
       );
     } catch (e) {
+      let backwardCompatibleException;
+      /**
+       * This special logic handles REST exception with code
+       * InvalidDocumentBatch and is needed to maintain backward compatability
+       * with sdk v5.0.0 and earlier. In general, REST exceptions are thrown as
+       * is and include both outer and inner exception codes. However, the
+       * earlier versions were throwing an exception that included the inner
+       * code only.
+       */
+      const innerCode = e.response?.parsedBody?.error?.innererror?.code;
+      const innerMessage = e.response?.parsedBody?.error?.innererror?.message;
+      if (innerCode === "InvalidDocumentBatch") {
+        backwardCompatibleException = new RestError(innerMessage, innerCode, e.statusCode);
+      } else {
+        backwardCompatibleException = e;
+      }
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
-        message: e.message
+        message: backwardCompatibleException.message
       });
-      throw e;
+      throw backwardCompatibleException;
     } finally {
       span.end();
     }
@@ -397,7 +428,7 @@ export class TextAnalyticsClient {
     languageOrOptions?: string | AnalyzeSentimentOptions,
     options?: AnalyzeSentimentOptions
   ): Promise<AnalyzeSentimentResultArray> {
-    let realOptions: AnalyzeSentimentOptions;
+    let realOptions: GeneratedClientSentimentOptionalParams;
     let realInputs: TextDocumentInput[];
 
     if (!Array.isArray(documents) || documents.length === 0) {
@@ -407,10 +438,18 @@ export class TextAnalyticsClient {
     if (isStringArray(documents)) {
       const language = (languageOrOptions as string) || this.defaultLanguage;
       realInputs = convertToTextDocumentInput(documents, language);
-      realOptions = options || {};
+      realOptions = {
+        includeStatistics: options?.includeStatistics,
+        modelVersion: options?.modelVersion,
+        opinionMining: options?.includeOpinionMining
+      };
     } else {
       realInputs = documents;
-      realOptions = (languageOrOptions as AnalyzeSentimentOptions) || {};
+      realOptions = {
+        includeStatistics: (languageOrOptions as AnalyzeSentimentOptions)?.includeStatistics,
+        modelVersion: (languageOrOptions as AnalyzeSentimentOptions)?.modelVersion,
+        opinionMining: (languageOrOptions as AnalyzeSentimentOptions)?.includeOpinionMining
+      };
     }
 
     const { span, updatedOptions: finalOptions } = createSpan(
@@ -426,13 +465,7 @@ export class TextAnalyticsClient {
         operationOptionsToRequestOptionsBase(finalOptions)
       );
 
-      return makeAnalyzeSentimentResultArray(
-        realInputs,
-        result.documents,
-        result.errors,
-        result.modelVersion,
-        result.statistics
-      );
+      return makeAnalyzeSentimentResultArray(realInputs, result);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,

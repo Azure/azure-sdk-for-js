@@ -72,26 +72,26 @@ describe("Streaming with sessions", () => {
     receiver = serviceBusClient.test.addToCleanup(
       receiveMode === "receiveAndDelete"
         ? entityNames.queue
-          ? await serviceBusClient.createSessionReceiver(entityNames.queue, "receiveAndDelete", {
-              sessionId: TestMessage.sessionId
+          ? await serviceBusClient.createSessionReceiver(entityNames.queue, {
+              sessionId: TestMessage.sessionId,
+              receiveMode: "receiveAndDelete"
             })
           : await serviceBusClient.createSessionReceiver(
               entityNames.topic!,
               entityNames.subscription!,
-              "receiveAndDelete",
               {
                 // TODO: we should just be able to randomly generate this. Change _soon_.
-                sessionId: TestMessage.sessionId
+                sessionId: TestMessage.sessionId,
+                receiveMode: "receiveAndDelete"
               }
             )
         : entityNames.queue
-        ? await serviceBusClient.createSessionReceiver(entityNames.queue, "peekLock", {
+        ? await serviceBusClient.createSessionReceiver(entityNames.queue, {
             sessionId: TestMessage.sessionId
           })
         : await serviceBusClient.createSessionReceiver(
             entityNames.topic!,
             entityNames.subscription!,
-            "peekLock",
             {
               // TODO: we should just be able to randomly generate this. Change _soon_.
               sessionId: TestMessage.sessionId
@@ -756,7 +756,7 @@ describe("Streaming with sessions", () => {
           body: "test",
           label: `${num}`,
           sessionId: TestMessage.sessionId,
-          partitionKey: "dummy" // Ensures all messages go to same partition to make peek work reliably
+          partitionKey: TestMessage.sessionId // Ensures all messages go to same partition to make peek work reliably
         };
         num++;
         messages.push(message);

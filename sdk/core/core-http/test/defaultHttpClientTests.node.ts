@@ -5,6 +5,7 @@
 
 import { assert } from "chai";
 import "chai/register-should";
+import * as sinon from "sinon";
 import * as http from "http";
 import { createReadStream, ReadStream } from "fs";
 
@@ -12,7 +13,7 @@ import { DefaultHttpClient } from "../src/defaultHttpClient";
 import { WebResource, TransferProgressEvent } from "../src/webResource";
 import { getHttpMock, HttpMockFacade } from "./mockHttp";
 import { PassThrough } from "stream";
-import { ReportTransform } from "../src/fetchHttpClient";
+import { ReportTransform, CommonResponse } from "../src/fetchHttpClient";
 
 describe("defaultHttpClient (node)", function() {
   let httpMock: HttpMockFacade;
@@ -22,6 +23,16 @@ describe("defaultHttpClient (node)", function() {
   });
   afterEach(() => httpMock.teardown());
   after(() => httpMock.teardown());
+
+  function getMockedHttpClient(): DefaultHttpClient {
+    const httpClient = new DefaultHttpClient();
+    sinon.stub(httpClient, "fetch").callsFake(async (input, init) => {
+      const response = await httpMock.getFetch()!(input, init);
+      return (response as unknown) as CommonResponse;
+    });
+
+    return httpClient;
+  }
 
   it("should not overwrite a user-provided cookie (nodejs only)", async function() {
     // Cookie is only allowed to be set by the browser based on an actual response Set-Cookie header
@@ -39,7 +50,7 @@ describe("defaultHttpClient (node)", function() {
       };
     });
 
-    const client = new DefaultHttpClient();
+    const client = getMockedHttpClient();
 
     const request1 = new WebResource("http://my.fake.domain/set-cookie");
     const response1 = await client.sendRequest(request1);
@@ -126,7 +137,8 @@ describe("defaultHttpClient (node)", function() {
         (ev) => listener(download, ev)
       );
 
-      const client = new DefaultHttpClient();
+      const client = getMockedHttpClient();
+
       const response = await client.sendRequest(request);
       response.status.should.equal(250);
       if (response.blobBody) {

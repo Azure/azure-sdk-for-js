@@ -12,7 +12,7 @@ import {
   Receiver,
   Session
 } from "rhea-promise";
-import { ReceiveMode, ServiceBusMessageImpl } from "../serviceBusMessage";
+import { InternalReceiveMode, ServiceBusMessageImpl } from "../serviceBusMessage";
 import {
   MessageReceiver,
   OnAmqpEventAsPromise,
@@ -28,6 +28,7 @@ import { checkAndRegisterWithAbortSignal } from "../util/utils";
  * Describes the batching receiver where the user can receive a specified number of messages for
  * a predefined time.
  * @internal
+ * @ignore
  * @class BatchingReceiver
  * @extends MessageReceiver
  */
@@ -44,7 +45,7 @@ export class BatchingReceiver extends MessageReceiver {
 
     this._batchingReceiverLite = new BatchingReceiverLite(
       context,
-      async (abortSignal?: AbortSignalLike): Promise<MinimalReceiver> => {
+      async (abortSignal?: AbortSignalLike): Promise<MinimalReceiver | undefined> => {
         let lastError: Error | AmqpError | undefined;
 
         const rcvrOptions = this._createReceiverOptions(false, {
@@ -67,7 +68,7 @@ export class BatchingReceiver extends MessageReceiver {
           throw lastError;
         }
 
-        return this._receiver!;
+        return this._receiver;
       },
       this.receiveMode
     );
@@ -121,11 +122,6 @@ export class BatchingReceiver extends MessageReceiver {
         this._context.namespace.connectionId,
         this.name
       );
-
-      // while creating the receiver link for batching receiver the max concurrent calls
-      // i.e. the credit_window on the link is set to zero. After the link is created
-      // successfully, we add credit which is the maxMessageCount specified by the user.
-      this.maxConcurrentCalls = 0;
 
       return await this._batchingReceiverLite.receiveMessages({
         maxMessageCount,
@@ -241,15 +237,18 @@ interface ReceiveMessageArgs {
 export class BatchingReceiverLite {
   constructor(
     clientEntityContext: ClientEntityContext,
-    private _getCurrentReceiver: (abortSignal?: AbortSignalLike) => Promise<MinimalReceiver>,
-    private _receiveMode: ReceiveMode
+    private _getCurrentReceiver: (
+      abortSignal?: AbortSignalLike
+    ) => Promise<MinimalReceiver | undefined>,
+    private _receiveMode: InternalReceiveMode
   ) {
     this._createServiceBusMessage = (context: MessageAndDelivery) => {
       return new ServiceBusMessageImpl(
         clientEntityContext,
         context.message!,
         context.delivery!,
-        true
+        true,
+        this._receiveMode
       );
     };
 
@@ -280,6 +279,12 @@ export class BatchingReceiverLite {
     try {
       this.isReceivingMessages = true;
       const receiver = await this._getCurrentReceiver(args.userAbortSignal);
+
+      if (receiver == null) {
+        // (was somehow closed in between the init() and the return)
+        return [];
+      }
+
       return await this._receiveMessagesImpl(receiver, args);
     } finally {
       this._closeHandler = undefined;
@@ -344,7 +349,7 @@ export class BatchingReceiverLite {
           // no error, just closing. Go ahead and return what we have.
           error == null ||
           // Return the collected messages if in ReceiveAndDelete mode because otherwise they are lost forever
-          (this._receiveMode === ReceiveMode.receiveAndDelete && brokeredMessages.length)
+          (this._receiveMode === InternalReceiveMode.receiveAndDelete && brokeredMessages.length)
         ) {
           log.batching(
             `${loggingPrefix} Closing. Resolving with ${brokeredMessages.length} messages.`
@@ -386,7 +391,7 @@ export class BatchingReceiverLite {
         // TODO: this appears to be aggravating a bug that we need to look into more deeply.
         // The same timeout+drain sequence should work fine for receiveAndDelete but it appears
         // to cause problems.
-        if (this._receiveMode === ReceiveMode.peekLock) {
+        if (this._receiveMode === InternalReceiveMode.peekLock) {
           if (brokeredMessages.length === 0) {
             // We'll now remove the old timer (which was the overall `maxWaitTimeMs` timer)
             // and replace it with another timer that is a (probably) much shorter interval.
