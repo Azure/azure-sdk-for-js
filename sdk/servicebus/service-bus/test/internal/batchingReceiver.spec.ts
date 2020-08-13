@@ -32,12 +32,25 @@ import { OnAmqpEventAsPromise } from "../../src/core/messageReceiver";
 import { ClientEntityContext } from "../../src/clientEntityContext";
 
 describe("BatchingReceiver unit tests", () => {
+  let closeables: { close(): Promise<void> }[];
+
+  beforeEach(() => {
+    closeables = [];
+  });
+
+  afterEach(async () => {
+    for (const closeable of closeables) {
+      await closeable.close();
+    }
+  });
+
   describe("AbortSignal", () => {
     // establish that the abortSignal does get properly sent down. Now the rest of the tests
     // will test at the BatchingReceiver level.
     it("is plumbed into BatchingReceiver from ReceiverImpl", async () => {
       const origAbortSignal = createAbortSignalForTest();
       const receiver = new ReceiverImpl(createClientEntityContextForTests(), "peekLock");
+
       let wasCalled = false;
 
       receiver["_createBatchingReceiver"] = () => {
@@ -86,6 +99,7 @@ describe("BatchingReceiver unit tests", () => {
       const receiver = new BatchingReceiver(createClientEntityContextForTests(), {
         receiveMode: InternalReceiveMode.peekLock
       });
+      closeables.push(receiver);
 
       const listeners = new Set<string>();
       const callsDoneAfterAbort: string[] = [];
@@ -167,6 +181,7 @@ describe("BatchingReceiver unit tests", () => {
         const receiver = new BatchingReceiver(createClientEntityContextForTests(), {
           receiveMode: lockMode
         });
+        closeables.push(receiver);
 
         const { receiveIsReady, emitter, remainingRegisteredListeners } = setupBatchingReceiver(
           receiver
@@ -195,6 +210,7 @@ describe("BatchingReceiver unit tests", () => {
         const receiver = new BatchingReceiver(createClientEntityContextForTests(), {
           receiveMode: lockMode
         });
+        closeables.push(receiver);
 
         const { receiveIsReady, remainingRegisteredListeners } = setupBatchingReceiver(receiver);
 
@@ -221,6 +237,7 @@ describe("BatchingReceiver unit tests", () => {
           const receiver = new BatchingReceiver(createClientEntityContextForTests(), {
             receiveMode: lockMode
           });
+          closeables.push(receiver);
 
           const { receiveIsReady, emitter, remainingRegisteredListeners } = setupBatchingReceiver(
             receiver
@@ -267,6 +284,7 @@ describe("BatchingReceiver unit tests", () => {
           const receiver = new BatchingReceiver(createClientEntityContextForTests(), {
             receiveMode: lockMode
           });
+          closeables.push(receiver);
 
           const { receiveIsReady, emitter, remainingRegisteredListeners } = setupBatchingReceiver(
             receiver
@@ -318,6 +336,7 @@ describe("BatchingReceiver unit tests", () => {
           const receiver = new BatchingReceiver(createClientEntityContextForTests(), {
             receiveMode: lockMode
           });
+          closeables.push(receiver);
 
           const { receiveIsReady, emitter, remainingRegisteredListeners } = setupBatchingReceiver(
             receiver

@@ -15,9 +15,22 @@ chai.use(chaiAsPromised);
 const assert = chai.assert;
 
 describe("StreamingReceiver unit tests", () => {
+  let closeables: { close(): Promise<void> }[];
+
+  beforeEach(() => {
+    closeables = [];
+  });
+
+  afterEach(async () => {
+    for (const closeable of closeables) {
+      await closeable.close();
+    }
+  });
+
   describe("receive(), close() and stopReceivingMessages() interactions", () => {
     it("off by default", async () => {
       const streamingReceiver = new StreamingReceiver(createClientEntityContextForTests());
+      closeables.push(streamingReceiver);
       assert.isFalse(streamingReceiver.isReceivingMessages);
 
       // init() is considered the start of the receive operation (from StreamingReceiver's point of
@@ -30,6 +43,7 @@ describe("StreamingReceiver unit tests", () => {
       const streamingReceiver = new StreamingReceiver(createClientEntityContextForTests(), {
         maxConcurrentCalls: 101
       });
+      closeables.push(streamingReceiver);
 
       await streamingReceiver.init(true);
 
@@ -85,6 +99,8 @@ describe("StreamingReceiver unit tests", () => {
 
     it("isReceivingMessages set to false by close()'ing", async () => {
       const streamingReceiver = new StreamingReceiver(createClientEntityContextForTests());
+      closeables.push(streamingReceiver);
+
       await streamingReceiver.init(true);
 
       streamingReceiver.subscribe(
@@ -100,6 +116,8 @@ describe("StreamingReceiver unit tests", () => {
 
     it("isReceivingMessages set to false by calling stopReceivingMessages()", async () => {
       const streamingReceiver = new StreamingReceiver(createClientEntityContextForTests());
+      closeables.push(streamingReceiver);
+
       await streamingReceiver.init(true);
 
       streamingReceiver.subscribe(
@@ -115,6 +133,8 @@ describe("StreamingReceiver unit tests", () => {
 
     it("isReceivingMessages set to false by calling onDetach and init fails", async () => {
       const streamingReceiver = new StreamingReceiver(createClientEntityContextForTests());
+      closeables.push(streamingReceiver);
+
       await streamingReceiver.init(true);
 
       streamingReceiver.subscribe(
@@ -134,6 +154,8 @@ describe("StreamingReceiver unit tests", () => {
 
     it("isReceivingMessages is set to true if onDetach succeeds in reconnecting", async () => {
       const streamingReceiver = new StreamingReceiver(createClientEntityContextForTests());
+      closeables.push(streamingReceiver);
+
       await streamingReceiver.init(true);
 
       streamingReceiver.subscribe(
@@ -158,6 +180,8 @@ describe("StreamingReceiver unit tests", () => {
   it("create() with an existing receiver and that receiver is open()", async () => {
     const context = createClientEntityContextForTests();
     const existingStreamingReceiver = new StreamingReceiver(context);
+    closeables.push(existingStreamingReceiver);
+
     await existingStreamingReceiver.init(false);
 
     const originalReceiver = existingStreamingReceiver["link"]!;
@@ -185,6 +209,8 @@ describe("StreamingReceiver unit tests", () => {
   it("create() with an existing receiver and that receiver is NOT open()", async () => {
     const context = createClientEntityContextForTests();
     const existingStreamingReceiver = new StreamingReceiver(context);
+    closeables.push(existingStreamingReceiver);
+
     await existingStreamingReceiver.init(false);
 
     assert.isTrue(existingStreamingReceiver.isOpen(), "newly created receiver is open");
@@ -219,6 +245,7 @@ describe("StreamingReceiver unit tests", () => {
   describe("AbortSignal", () => {
     it("sanity check - abortSignal is propagated", async () => {
       const receiverImpl = new ReceiverImpl(createClientEntityContextForTests(), "peekLock");
+      closeables.push(receiverImpl);
 
       const abortController = new AbortController();
       const abortSignal = abortController.signal;
