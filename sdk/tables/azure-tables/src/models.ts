@@ -33,7 +33,7 @@ export type GetEntityResponse<T> = TableQueryEntitiesWithPartitionAndRowKeyRespo
   value?: T;
 };
 
-/*
+/**
  * OData Query options to limit the set of tables or entities returned.
  */
 export type QueryOptions = Omit<TableQueryOptions, "select"> & {
