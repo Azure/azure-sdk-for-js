@@ -78,7 +78,7 @@ export interface WaitTimeOptions {
    * The maximum amount of time to wait for messages to arrive.
    *  **Default**: `60000` milliseconds.
    */
-  maxWaitTimeInMs: number;
+  maxWaitTimeInMs?: number;
 }
 
 /**

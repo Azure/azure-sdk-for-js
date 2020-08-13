@@ -29,7 +29,7 @@ import { OperationOptionsBase } from "./modelsToBeSharedWithEventHubs";
  * Use the `createSender` function on the ServiceBusClient instantiate a Sender.
  * The Sender class is an abstraction over the underlying AMQP sender link.
  */
-export interface Sender {
+export interface ServiceBusSender {
   /**
    * Sends the given messages after creating an AMQP Sender link if it doesn't already exist.
    * Consider awaiting on open() beforehand to front load the work of link creation if needed.
@@ -129,10 +129,10 @@ export interface Sender {
 /**
  * @internal
  * @ignore
- * @class SenderImpl
- * @implements {Sender}
+ * @class ServiceBusSenderImpl
+ * @implements {ServiceBusSender}
  */
-export class SenderImpl implements Sender {
+export class ServiceBusSenderImpl implements ServiceBusSender {
   /**
    * @property Describes the amqp connection context for the Client.
    */

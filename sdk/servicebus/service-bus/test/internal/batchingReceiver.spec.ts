@@ -15,7 +15,7 @@ import {
   BatchingReceiverLite
 } from "../../src/core/batchingReceiver";
 import { createClientEntityContextForTests, defer } from "./unittestUtils";
-import { ReceiverImpl } from "../../src/receivers/receiver";
+import { ServiceBusReceiverImpl } from "../../src/receivers/receiver";
 import { createAbortSignalForTest } from "../utils/abortSignalTestUtils";
 import { AbortController, AbortSignalLike } from "@azure/abort-controller";
 import { ServiceBusMessageImpl, InternalReceiveMode } from "../../src/serviceBusMessage";
@@ -35,9 +35,9 @@ describe("BatchingReceiver unit tests", () => {
   describe("AbortSignal", () => {
     // establish that the abortSignal does get properly sent down. Now the rest of the tests
     // will test at the BatchingReceiver level.
-    it("is plumbed into BatchingReceiver from ReceiverImpl", async () => {
+    it("is plumbed into BatchingReceiver from ServiceBusReceiverImpl", async () => {
       const origAbortSignal = createAbortSignalForTest();
-      const receiver = new ReceiverImpl(createClientEntityContextForTests(), "peekLock");
+      const receiver = new ServiceBusReceiverImpl(createClientEntityContextForTests(), "peekLock");
       let wasCalled = false;
 
       receiver["_createBatchingReceiver"] = () => {

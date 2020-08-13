@@ -22,7 +22,7 @@ import * as log from "../log";
 import { OnError, OnMessage } from "../core/messageReceiver";
 import { assertValidMessageHandlers, getMessageIterator, wrapProcessErrorHandler } from "./shared";
 import { convertToInternalReceiveMode } from "../constructorHelpers";
-import { Receiver, defaultMaxTimeAfterFirstMessageForBatchingMs } from "./receiver";
+import { defaultMaxTimeAfterFirstMessageForBatchingMs, ServiceBusReceiver } from "./receiver";
 import Long from "long";
 import { ReceivedMessageWithLock, ServiceBusMessageImpl } from "../serviceBusMessage";
 import {
@@ -41,9 +41,9 @@ import { AmqpError } from "rhea-promise";
 /**
  *A receiver that handles sessions, including renewing the session lock.
  */
-export interface SessionReceiver<
+export interface ServiceBusSessionReceiver<
   ReceivedMessageT extends ReceivedMessage | ReceivedMessageWithLock
-> extends Receiver<ReceivedMessageT> {
+> extends ServiceBusReceiver<ReceivedMessageT> {
   /**
    * The session ID.
    */
@@ -110,8 +110,9 @@ export interface SessionReceiver<
  * @internal
  * @ignore
  */
-export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMessageWithLock>
-  implements SessionReceiver<ReceivedMessageT> {
+export class ServiceBusSessionReceiverImpl<
+  ReceivedMessageT extends ReceivedMessage | ReceivedMessageWithLock
+> implements ServiceBusSessionReceiver<ReceivedMessageT> {
   public entityPath: string;
   public sessionId: string;
 
@@ -145,7 +146,7 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
       | CreateSessionReceiverOptions<"peekLock">
       | CreateSessionReceiverOptions<"receiveAndDelete">,
     retryOptions: RetryOptions = {}
-  ): Promise<SessionReceiver<ReceivedMessageT>> {
+  ): Promise<ServiceBusSessionReceiver<ReceivedMessageT>> {
     context.isSessionEnabled = true;
     if (sessionOptions.sessionId != undefined) {
       sessionOptions.sessionId = String(sessionOptions.sessionId);
@@ -155,7 +156,7 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
       autoRenewLockDurationInMs: sessionOptions.autoRenewLockDurationInMs,
       receiveMode: convertToInternalReceiveMode(receiveMode)
     });
-    const sessionReceiver = new SessionReceiverImpl<ReceivedMessageT>(
+    const sessionReceiver = new ServiceBusSessionReceiverImpl<ReceivedMessageT>(
       messageSession,
       context,
       receiveMode,

@@ -20,7 +20,6 @@ export {
   CreateBatchOptions,
   CreateReceiverOptions,
   CreateSessionReceiverOptions,
-  GetMessageIteratorOptions,
   MessageHandlerOptions,
   MessageHandlers,
   PeekMessagesOptions,
@@ -31,9 +30,9 @@ export {
   WaitTimeOptions
 } from "./models";
 export { OperationOptionsBase } from "./modelsToBeSharedWithEventHubs";
-export { Receiver } from "./receivers/receiver";
-export { SessionReceiver } from "./receivers/sessionReceiver";
-export { Sender } from "./sender";
+export { ServiceBusReceiver } from "./receivers/receiver";
+export { ServiceBusSessionReceiver } from "./receivers/sessionReceiver";
+export { ServiceBusSender } from "./sender";
 export { NamespaceProperties } from "./serializers/namespaceResourceSerializer";
 export {
   CreateQueueOptions,

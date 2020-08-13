@@ -8,7 +8,7 @@ import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
 import { ServiceBusMessage, delay, ServiceBusClient } from "../src";
 import { TestClientType, TestMessage } from "./utils/testUtils";
-import { Receiver } from "../src/receivers/receiver";
+import { ServiceBusReceiver } from "../src/receivers/receiver";
 import {
   ServiceBusClientForTests,
   createServiceBusClientForTests,
@@ -18,7 +18,7 @@ import {
   EntityName,
   getRandomTestClientType
 } from "./utils/testutils2";
-import { Sender } from "../src/sender";
+import { ServiceBusSender } from "../src/sender";
 import { ReceivedMessageWithLock } from "../src/serviceBusMessage";
 import { AbortController } from "@azure/abort-controller";
 
@@ -27,8 +27,8 @@ const withSessionTestClientType = getRandomTestClientTypeWithSessions();
 const anyRandomTestClientType = getRandomTestClientType();
 
 describe("Sender Tests", () => {
-  let sender: Sender;
-  let receiver: Receiver<ReceivedMessageWithLock>;
+  let sender: ServiceBusSender;
+  let receiver: ServiceBusReceiver<ReceivedMessageWithLock>;
   let serviceBusClient: ServiceBusClientForTests;
   let entityName: EntityName;
 
@@ -330,7 +330,7 @@ describe("Sender Tests", () => {
   });
 
   async function testReceivedMsgsLength(
-    receiver: Receiver<ReceivedMessageWithLock>,
+    receiver: ServiceBusReceiver<ReceivedMessageWithLock>,
     expectedReceivedMsgsLength: number
   ): Promise<void> {
     const receivedMsgs = await receiver.receiveMessages(expectedReceivedMsgsLength + 1, {

@@ -5,20 +5,25 @@ import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
 const should = chai.should();
-import { ReceivedMessageWithLock, Receiver, SessionReceiver } from "../src";
+import { ReceivedMessageWithLock } from "../src";
 import { TestClientType, TestMessage } from "./utils/testUtils";
 import { ServiceBusClientForTests, createServiceBusClientForTests } from "./utils/testutils2";
-import { Sender, SenderImpl } from "../src/sender";
+import { ServiceBusSender, ServiceBusSenderImpl } from "../src/sender";
 import { MessagingError } from "@azure/core-amqp";
 import Long from "long";
 import { BatchingReceiver } from "../src/core/batchingReceiver";
 import { delay } from "rhea-promise";
-import { SessionReceiverImpl } from "../src/receivers/sessionReceiver";
-import { ReceiverImpl } from "../src/receivers/receiver";
+import {
+  ServiceBusSessionReceiverImpl,
+  ServiceBusSessionReceiver
+} from "../src/receivers/sessionReceiver";
+import { ServiceBusReceiver, ServiceBusReceiverImpl } from "../src/receivers/receiver";
 
 describe("Retries - ManagementClient", () => {
-  let sender: Sender;
-  let receiver: Receiver<ReceivedMessageWithLock> | SessionReceiver<ReceivedMessageWithLock>;
+  let sender: ServiceBusSender;
+  let receiver:
+    | ServiceBusReceiver<ReceivedMessageWithLock>
+    | ServiceBusSessionReceiver<ReceivedMessageWithLock>;
   let serviceBusClient: ServiceBusClientForTests;
   const defaultMaxRetries = 2;
   let numberOfTimesManagementClientInvoked: number;
@@ -132,11 +137,11 @@ describe("Retries - ManagementClient", () => {
   });
 
   describe("Session Receiver Retries", () => {
-    let sessionReceiver: SessionReceiver<ReceivedMessageWithLock>;
+    let sessionReceiver: ServiceBusSessionReceiver<ReceivedMessageWithLock>;
     beforeEach(async () => {
       numberOfTimesManagementClientInvoked = 0;
       await beforeEachTest(TestClientType.UnpartitionedQueueWithSessions);
-      sessionReceiver = receiver as SessionReceiver<ReceivedMessageWithLock>;
+      sessionReceiver = receiver as ServiceBusSessionReceiver<ReceivedMessageWithLock>;
     });
     afterEach(async () => {
       await afterEachTest();
@@ -183,7 +188,7 @@ describe("Retries - ManagementClient", () => {
 });
 
 describe("Retries - MessageSender", () => {
-  let sender: Sender;
+  let sender: ServiceBusSender;
   let serviceBusClient: ServiceBusClientForTests;
   const defaultMaxRetries = 2;
   let numberOfTimesInitInvoked: number;
@@ -220,8 +225,8 @@ describe("Retries - MessageSender", () => {
       throw new MessagingError("Hello there, I'm an error");
     };
 
-    (sender as SenderImpl)["_sender"]["isOpen"] = () => false;
-    (sender as SenderImpl)["_sender"]["open"] = fakeFunction;
+    (sender as ServiceBusSenderImpl)["_sender"]["isOpen"] = () => false;
+    (sender as ServiceBusSenderImpl)["_sender"]["open"] = fakeFunction;
   }
 
   async function mockInitAndVerifyRetries(func: Function) {
@@ -297,7 +302,7 @@ describe("Retries - MessageSender", () => {
 });
 
 describe("Retries - Receive methods", () => {
-  let receiver: Receiver<ReceivedMessageWithLock>;
+  let receiver: ServiceBusReceiver<ReceivedMessageWithLock>;
   let serviceBusClient: ServiceBusClientForTests;
   const defaultMaxRetries = 2;
   let numberOfTimesTried: number;
@@ -336,9 +341,9 @@ describe("Retries - Receive methods", () => {
     batchingReceiver.isOpen = () => true;
     batchingReceiver.receive = fakeFunction;
 
-    if (receiver instanceof SessionReceiverImpl) {
+    if (receiver instanceof ServiceBusSessionReceiverImpl) {
       // Mocking `_messageSession.receiveMessages()` to throw the error and fail
-      (receiver as SessionReceiverImpl<ReceivedMessageWithLock>)[
+      (receiver as ServiceBusSessionReceiverImpl<ReceivedMessageWithLock>)[
         "_messageSession"
       ].receiveMessages = fakeFunction;
     }
@@ -395,8 +400,10 @@ describe("Retries - Receive methods", () => {
 });
 
 describe("Retries - onDetached", () => {
-  let sender: Sender;
-  let receiver: Receiver<ReceivedMessageWithLock> | SessionReceiver<ReceivedMessageWithLock>;
+  let sender: ServiceBusSender;
+  let receiver:
+    | ServiceBusReceiver<ReceivedMessageWithLock>
+    | ServiceBusSessionReceiver<ReceivedMessageWithLock>;
   let serviceBusClient: ServiceBusClientForTests;
   const defaultMaxRetries = 2;
   let numberOfTimesOnDetachedInvoked: number;
@@ -462,7 +469,8 @@ describe("Retries - onDetached", () => {
       });
       await delay(2000);
 
-      const streamingReceiver = (receiver as ReceiverImpl<any>)["_context"].streamingReceiver!;
+      const streamingReceiver = (receiver as ServiceBusReceiverImpl<any>)["_context"]
+        .streamingReceiver!;
       should.exist(streamingReceiver);
 
       streamingReceiver["init"] = fakeFunction;
@@ -473,9 +481,9 @@ describe("Retries - onDetached", () => {
   it("Unpartitioned Queue: sender", async function(): Promise<void> {
     await beforeEachTest(TestClientType.UnpartitionedQueue);
     await mockOnDetachedAndVerifyRetries(async () => {
-      (sender as SenderImpl)["_sender"]["open"] = fakeFunction;
+      (sender as ServiceBusSenderImpl)["_sender"]["open"] = fakeFunction;
 
-      await (sender as SenderImpl)["_sender"].onDetached(
+      await (sender as ServiceBusSenderImpl)["_sender"].onDetached(
         new MessagingError("Hello there, I'm an error")
       );
     });

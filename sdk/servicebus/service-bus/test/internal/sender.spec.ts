@@ -5,7 +5,7 @@ import chai from "chai";
 import { ServiceBusMessageBatchImpl } from "../../src/serviceBusMessageBatch";
 import { ClientEntityContext } from "../../src/clientEntityContext";
 import { ServiceBusMessage } from "../../src";
-import { isServiceBusMessageBatch, SenderImpl } from "../../src/sender";
+import { isServiceBusMessageBatch, ServiceBusSenderImpl } from "../../src/sender";
 import { DefaultDataTransformer } from "@azure/core-amqp";
 const assert = chai.assert;
 
@@ -22,7 +22,7 @@ describe("sender unit tests", () => {
 
   ["hello", {}, 123, null, undefined, ["hello"]].forEach((invalidValue) => {
     it(`don't allow Sender.sendMessages(${invalidValue})`, async () => {
-      const sender = new SenderImpl(createClientEntityContextForTests());
+      const sender = new ServiceBusSenderImpl(createClientEntityContextForTests());
       let expectedErrorMsg =
         "Provided value for 'messages' must be of type ServiceBusMessage, ServiceBusMessageBatch or an array of type ServiceBusMessage.";
       if (invalidValue === null || invalidValue === undefined) {
@@ -42,7 +42,7 @@ describe("sender unit tests", () => {
 
   ["hello", {}, null, undefined].forEach((invalidValue) => {
     it(`don't allow tryAdd(${invalidValue})`, async () => {
-      const sender = new SenderImpl(createClientEntityContextForTests());
+      const sender = new ServiceBusSenderImpl(createClientEntityContextForTests());
       const batch = await sender.createBatch();
       let expectedErrorMsg = "Provided value for 'message' must be of type ServiceBusMessage.";
       if (invalidValue === null || invalidValue === undefined) {
@@ -62,7 +62,7 @@ describe("sender unit tests", () => {
 
   ["hello", {}, null, undefined, ["hello"]].forEach((invalidValue) => {
     it(`don't allow Sender.scheduleMessages(${invalidValue})`, async () => {
-      const sender = new SenderImpl(createClientEntityContextForTests());
+      const sender = new ServiceBusSenderImpl(createClientEntityContextForTests());
       let expectedErrorMsg =
         "Provided value for 'messages' must be of type ServiceBusMessage or an array of type ServiceBusMessage.";
       if (invalidValue === null || invalidValue === undefined) {

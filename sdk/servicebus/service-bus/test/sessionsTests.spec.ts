@@ -9,8 +9,8 @@ chai.use(chaiAsPromised);
 import { ReceivedMessage, delay } from "../src";
 
 import { TestClientType, TestMessage, checkWithTimeout, isMessagingError } from "./utils/testUtils";
-import { Sender } from "../src/sender";
-import { SessionReceiver } from "../src/receivers/sessionReceiver";
+import { ServiceBusSender } from "../src/sender";
+import { ServiceBusSessionReceiver } from "../src/receivers/sessionReceiver";
 import {
   EntityName,
   ServiceBusClientForTests,
@@ -31,8 +31,8 @@ async function processError(err: Error): Promise<void> {
 
 describe("session tests", () => {
   let serviceBusClient: ServiceBusClientForTests;
-  let sender: Sender;
-  let receiver: SessionReceiver<ReceivedMessageWithLock>;
+  let sender: ServiceBusSender;
+  let receiver: ServiceBusSessionReceiver<ReceivedMessageWithLock>;
   let testClientType = getRandomTestClientTypeWithSessions();
 
   async function beforeEachTest(sessionId?: string): Promise<void> {

@@ -13,7 +13,7 @@ import { ClientEntityContext } from "../../src/clientEntityContext";
 import { BatchingReceiver } from "../../src/core/batchingReceiver";
 import { MessageReceiver, ReceiverType } from "../../src/core/messageReceiver";
 import { InternalMessageHandlers } from "../../src/models";
-import { ReceiverImpl } from "../../src/receivers/receiver";
+import { ServiceBusReceiverImpl } from "../../src/receivers/receiver";
 import { createClientEntityContextForTests } from "./unittestUtils";
 
 describe("Receiver unit tests", () => {
@@ -74,7 +74,7 @@ describe("Receiver unit tests", () => {
       let receiverWasDrained = false;
       let closeWasCalled = false;
 
-      const receiverImpl = new ReceiverImpl<any>(
+      const receiverImpl = new ServiceBusReceiverImpl<any>(
         createClientEntityContextForTests({
           onCreateReceiverCalled: (receiver) => {
             receiver.addListener(ReceiverEvents.receiverDrained, () => {
@@ -111,7 +111,10 @@ describe("Receiver unit tests", () => {
     });
 
     it("can't subscribe while another subscribe is active", async () => {
-      const receiverImpl = new ReceiverImpl(createClientEntityContextForTests(), "peekLock");
+      const receiverImpl = new ServiceBusReceiverImpl(
+        createClientEntityContextForTests(),
+        "peekLock"
+      );
 
       const subscription = await subscribeAndWaitForInitialize(receiverImpl);
 
@@ -138,7 +141,7 @@ describe("Receiver unit tests", () => {
     it("can re-subscribe after previous subscription is closed", async () => {
       let closeWasCalled = false;
 
-      const receiverImpl = new ReceiverImpl(
+      const receiverImpl = new ServiceBusReceiverImpl(
         createClientEntityContextForTests({
           onCreateReceiverCalled: (receiver) => {
             (receiver as any).close = () => {
@@ -173,7 +176,10 @@ describe("Receiver unit tests", () => {
     });
 
     it("can re-subscribe after previous subscription is aborted", async () => {
-      const receiverImpl = new ReceiverImpl(createClientEntityContextForTests(), "peekLock");
+      const receiverImpl = new ServiceBusReceiverImpl(
+        createClientEntityContextForTests(),
+        "peekLock"
+      );
 
       const abortSignal = {
         aborted: true
@@ -202,7 +208,7 @@ describe("Receiver unit tests", () => {
 
     async function subscribeAndWaitForInitialize<
       T extends ReceivedMessage | ReceivedMessageWithLock
-    >(receiver: ReceiverImpl<T>): Promise<ReturnType<typeof receiver["subscribe"]>> {
+    >(receiver: ServiceBusReceiverImpl<T>): Promise<ReturnType<typeof receiver["subscribe"]>> {
       const sub = await new Promise<{
         close(): Promise<void>;
       }>((resolve, reject) => {

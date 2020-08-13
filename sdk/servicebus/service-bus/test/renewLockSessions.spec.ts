@@ -12,13 +12,13 @@ import {
   createServiceBusClientForTests,
   getRandomTestClientTypeWithSessions
 } from "./utils/testutils2";
-import { Sender } from "../src/sender";
-import { SessionReceiver } from "../src/receivers/sessionReceiver";
+import { ServiceBusSender } from "../src/sender";
+import { ServiceBusSessionReceiver } from "../src/receivers/sessionReceiver";
 import { ReceivedMessageWithLock } from "../src/serviceBusMessage";
 
 describe("Session Lock Renewal", () => {
-  let sender: Sender;
-  let receiver: SessionReceiver<ReceivedMessageWithLock>;
+  let sender: ServiceBusSender;
+  let receiver: ServiceBusSessionReceiver<ReceivedMessageWithLock>;
   let sessionId: string;
 
   let serviceBusClient: ServiceBusClientForTests;
@@ -133,8 +133,8 @@ describe("Session Lock Renewal", () => {
    * Test manual renewLock() using Batch Receiver, with autoLockRenewal disabled
    */
   async function testBatchReceiverManualLockRenewalHappyCase(
-    sender: Sender,
-    receiver: SessionReceiver<ReceivedMessageWithLock>
+    sender: ServiceBusSender,
+    receiver: ServiceBusSessionReceiver<ReceivedMessageWithLock>
   ): Promise<void> {
     const testMessage = getTestMessage();
     testMessage.body = `testBatchReceiverManualLockRenewalHappyCase-${Date.now().toString()}`;
@@ -181,8 +181,8 @@ describe("Session Lock Renewal", () => {
    */
   async function testBatchReceiverManualLockRenewalErrorOnLockExpiry(
     entityType: TestClientType,
-    sender: Sender,
-    receiver: SessionReceiver<ReceivedMessageWithLock>
+    sender: ServiceBusSender,
+    receiver: ServiceBusSessionReceiver<ReceivedMessageWithLock>
   ): Promise<void> {
     const testMessage = getTestMessage();
     testMessage.body = `testBatchReceiverManualLockRenewalErrorOnLockExpiry-${Date.now().toString()}`;
@@ -220,8 +220,8 @@ describe("Session Lock Renewal", () => {
    * Test manual renewLock() using Streaming Receiver with autoLockRenewal disabled
    */
   async function testStreamingReceiverManualLockRenewalHappyCase(
-    sender: Sender,
-    receiver: SessionReceiver<ReceivedMessageWithLock>
+    sender: ServiceBusSender,
+    receiver: ServiceBusSessionReceiver<ReceivedMessageWithLock>
   ): Promise<void> {
     let numOfMessagesReceived = 0;
     const testMessage = getTestMessage();
@@ -296,8 +296,8 @@ describe("Session Lock Renewal", () => {
   }
 
   async function testAutoLockRenewalConfigBehavior(
-    sender: Sender,
-    receiver: SessionReceiver<ReceivedMessageWithLock>,
+    sender: ServiceBusSender,
+    receiver: ServiceBusSessionReceiver<ReceivedMessageWithLock>,
     options: AutoLockRenewalTestOptions
   ): Promise<void> {
     let numOfMessagesReceived = 0;
