@@ -365,7 +365,10 @@ export class ServiceBusManagementClient extends ServiceBusManagementClientIntern
     queueName: string,
     options?: QueueDescription & OperationOptions
   ): Promise<QueueDescription> {
-    const response = await this.entity.put(queueName, {}, options);
+    const content: object = this.queueResourceSerializer.serialize(
+      buildQueueOptions(options || ({} as any))
+    );
+    const response = await this.entity.put(queueName, content, options);
     console.log(response.body);
     return {};
   }
