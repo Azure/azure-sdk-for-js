@@ -1598,10 +1598,12 @@ export interface Workspace extends TrackedResource {
    */
   sqlAdministratorLoginPassword?: string;
   /**
-   * Workspace managed resource group
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * Workspace managed resource group. The resource group name uniquely identifies the resource
+   * group within the user subscriptionId. The resource group name must be no longer than 90
+   * characters long, and must be alphanumeric characters (Char.IsLetterOrDigit()) and '-', '_',
+   * '(', ')' and'.'. Note that the name cannot end with '.'
    */
-  readonly managedResourceGroupName?: string;
+  managedResourceGroupName?: string;
   /**
    * Resource provisioning state
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -1628,6 +1630,11 @@ export interface Workspace extends TrackedResource {
    * Private endpoint connections to the workspace
    */
   privateEndpointConnections?: PrivateEndpointConnection[];
+  /**
+   * Workspace level configs and feature flags
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly extraProperties?: { [propertyName: string]: any };
   /**
    * Identity of the workspace
    */
@@ -3192,6 +3199,17 @@ export interface IntegrationRuntimesGetOptionalParams extends msRest.RequestOpti
  * Optional Parameters.
  */
 export interface IntegrationRuntimesCreateOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * ETag of the integration runtime entity. Should only be specified for update, for which it
+   * should match existing entity or can be * for unconditional update.
+   */
+  ifMatch?: string;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface IntegrationRuntimesBeginCreateOptionalParams extends msRest.RequestOptionsBase {
   /**
    * ETag of the integration runtime entity. Should only be specified for update, for which it
    * should match existing entity or can be * for unconditional update.
@@ -5712,6 +5730,26 @@ export type IntegrationRuntimesStartResponse = IntegrationRuntimeStatusResponse 
        * The response body as parsed JSON or XML
        */
       parsedBody: IntegrationRuntimeStatusResponse;
+    };
+};
+
+/**
+ * Contains response data for the beginCreate operation.
+ */
+export type IntegrationRuntimesBeginCreateResponse = IntegrationRuntimeResource & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: IntegrationRuntimeResource;
     };
 };
 

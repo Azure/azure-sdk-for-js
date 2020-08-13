@@ -2434,7 +2434,6 @@ export const Workspace: msRest.CompositeMapper = {
         }
       },
       managedResourceGroupName: {
-        readOnly: true,
         serializedName: "properties.managedResourceGroupName",
         type: {
           name: "String"
@@ -2485,6 +2484,18 @@ export const Workspace: msRest.CompositeMapper = {
             type: {
               name: "Composite",
               className: "PrivateEndpointConnection"
+            }
+          }
+        }
+      },
+      extraProperties: {
+        readOnly: true,
+        serializedName: "properties.extraProperties",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "Object"
             }
           }
         }
