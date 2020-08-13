@@ -22,7 +22,6 @@ import {
   retry
 } from "@azure/core-amqp";
 import { OperationOptionsBase } from "./modelsToBeSharedWithEventHubs";
-import { ManagementClient } from "./core/managementClient";
 
 /**
  * A Sender can be used to send messages, schedule messages to be sent at a later time
@@ -154,13 +153,6 @@ export class SenderImpl implements Sender {
     throwErrorIfConnectionClosed(_context);
     this.entityPath = _entityPath;
     this._sender = MessageSender.create(this._context, _entityPath, retryOptions);
-    if (!this._context.managementClients[this._entityPath]) {
-      this._context.managementClients[this._entityPath] = new ManagementClient(
-        this._context,
-        this._entityPath,
-        { address: `${this._entityPath}/$management` }
-      );
-    }
     this._retryOptions = retryOptions;
   }
 
@@ -241,7 +233,7 @@ export class SenderImpl implements Sender {
     }
 
     const scheduleMessageOperationPromise = async () => {
-      return this._context.managementClients[this._entityPath].scheduleMessages(
+      return this._context.getManagementClient(this._entityPath).scheduleMessages(
         this._sender.name,
         scheduledEnqueueTimeUtc,
         messagesToSchedule,
@@ -283,7 +275,7 @@ export class SenderImpl implements Sender {
       ? sequenceNumbers
       : [sequenceNumbers];
     const cancelSchedulesMessagesOperationPromise = async () => {
-      return this._context.managementClients[this._entityPath].cancelScheduledMessages(
+      return this._context.getManagementClient(this._entityPath).cancelScheduledMessages(
         this._sender.name,
         sequenceNumbersToCancel,
 

@@ -1019,10 +1019,9 @@ export class ServiceBusMessageImpl implements ReceivedMessageWithLock {
       const associatedReceiver = this._context.getReceiverFromCache(this.delivery.link.name);
       associatedLinkName = associatedReceiver?.name;
     }
-    this.lockedUntilUtc = await this._context.managementClients[this._entityPath]!.renewLock(
-      associatedLinkName,
-      this.lockToken!
-    );
+    this.lockedUntilUtc = await this._context
+      .getManagementClient(this._entityPath)
+      .renewLock(associatedLinkName, this.lockToken!);
     return this.lockedUntilUtc;
   }
 
@@ -1119,15 +1118,12 @@ export class ServiceBusMessageImpl implements ReceivedMessageWithLock {
     // 1. If the received message is deferred as such messages can only be settled using managementLink
     // 2. If the associated receiver link is not available. This does not apply to messages from sessions as we need a lock on the session to do so.
     if (isDeferredMessage || ((!receiver || !receiver.isOpen()) && this.sessionId == undefined)) {
-      await this._context.managementClients[this._entityPath].updateDispositionStatus(
-        associatedLinkName,
-        this.lockToken,
-        operation,
-        {
+      await this._context
+        .getManagementClient(this._entityPath)
+        .updateDispositionStatus(associatedLinkName, this.lockToken, operation, {
           ...options,
           sessionId: this.sessionId
-        }
-      );
+        });
       if (isDeferredMessage) {
         // Remove the message from the internal map of deferred messages
         this._context.requestResponseLockedMessages.delete(this.lockToken);

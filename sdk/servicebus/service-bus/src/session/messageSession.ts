@@ -236,11 +236,11 @@ export class MessageSession extends LinkEntity {
             this.sessionId,
             this.name
           );
-          this.sessionLockedUntilUtc = await this._context.managementClients[
-            this._entityPath
-          ].renewSessionLock(this.name, this.sessionId, {
-            timeoutInMs: 10000
-          });
+          this.sessionLockedUntilUtc = await this._context
+            .getManagementClient(this._entityPath)
+            .renewSessionLock(this.name, this.sessionId, {
+              timeoutInMs: 10000
+            });
           log.receiver(
             "[%s] Successfully renewed the session lock for MessageSession '%s' " +
               "with name '%s'.",

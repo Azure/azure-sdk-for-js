@@ -81,6 +81,11 @@ export interface ConnectionContext extends ConnectionContextBase {
     receiverName: string,
     sessionId?: string
   ): MessageReceiver | MessageSession | undefined;
+  /**
+   * Gets the management client for given entity path from the cache
+   * Creates one if none exists in the cache
+   */
+  getManagementClient(entityPath: string): ManagementClient;
 }
 
 /**
@@ -239,6 +244,14 @@ export namespace ConnectionContext {
           existingReceivers
         );
         return;
+      },
+      getManagementClient(entityPath: string): ManagementClient {
+        if (!this.managementClients[entityPath]) {
+          this.managementClients[entityPath] = new ManagementClient(this, entityPath, {
+            address: `${entityPath}/$management`
+          });
+        }
+        return this.managementClients[entityPath];
       }
     });
 

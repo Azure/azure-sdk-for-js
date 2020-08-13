@@ -29,7 +29,6 @@ import Long from "long";
 import { ReceivedMessageWithLock, ServiceBusMessageImpl } from "../serviceBusMessage";
 import { Constants, RetryConfig, RetryOperationType, RetryOptions, retry } from "@azure/core-amqp";
 import "@azure/core-asynciterator-polyfill";
-import { ManagementClient } from "../core/managementClient";
 
 /**
  * A receiver that does not handle sessions.
@@ -164,13 +163,6 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
   ) {
     throwErrorIfConnectionClosed(_context);
     this._retryOptions = retryOptions;
-    if (!this._context.managementClients[entityPath]) {
-      this._context.managementClients[entityPath] = new ManagementClient(
-        this._context,
-        entityPath,
-        { address: `${entityPath}/$management` }
-      );
-    }
   }
 
   private _throwIfAlreadyReceiving(): void {
@@ -350,19 +342,19 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
       ? sequenceNumbers
       : [sequenceNumbers];
     const receiveDeferredMessagesOperationPromise = async () => {
-      const deferredMessages = await this._context.managementClients[
-        this.entityPath
-      ].receiveDeferredMessages(
-        this._getAssociatedReceiverName(),
-        deferredSequenceNumbers,
-        convertToInternalReceiveMode(this.receiveMode),
-        undefined,
-        {
-          ...options,
-          requestName: "receiveDeferredMessages",
-          timeoutInMs: this._retryOptions.timeoutInMs
-        }
-      );
+      const deferredMessages = await this._context
+        .getManagementClient(this.entityPath)
+        .receiveDeferredMessages(
+          this._getAssociatedReceiverName(),
+          deferredSequenceNumbers,
+          convertToInternalReceiveMode(this.receiveMode),
+          undefined,
+          {
+            ...options,
+            requestName: "receiveDeferredMessages",
+            timeoutInMs: this._retryOptions.timeoutInMs
+          }
+        );
       return (deferredMessages as any) as ReceivedMessageT[];
     };
     const config: RetryConfig<ReceivedMessageT[]> = {
@@ -394,19 +386,19 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
     };
     const peekOperationPromise = async () => {
       if (options.fromSequenceNumber) {
-        return await this._context.managementClients[this.entityPath].peekBySequenceNumber(
-          this._getAssociatedReceiverName(),
-          options.fromSequenceNumber,
-          maxMessageCount,
-          undefined,
-          managementRequestOptions
-        );
+        return await this._context
+          .getManagementClient(this.entityPath)
+          .peekBySequenceNumber(
+            this._getAssociatedReceiverName(),
+            options.fromSequenceNumber,
+            maxMessageCount,
+            undefined,
+            managementRequestOptions
+          );
       } else {
-        return await this._context.managementClients[this.entityPath].peek(
-          this._getAssociatedReceiverName(),
-          maxMessageCount,
-          managementRequestOptions
-        );
+        return await this._context
+          .getManagementClient(this.entityPath)
+          .peek(this._getAssociatedReceiverName(), maxMessageCount, managementRequestOptions);
       }
     };
 
@@ -511,7 +503,7 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
 
   /**
    * Helper function to retrieve any active receiver name, regardless of streaming or
-   * batching if it exists. This is used for optimization on the service side 
+   * batching if it exists. This is used for optimization on the service side
    */
   private _getAssociatedReceiverName(): string | undefined {
     if (this._streamingReceiver && this._streamingReceiver.isOpen()) {
