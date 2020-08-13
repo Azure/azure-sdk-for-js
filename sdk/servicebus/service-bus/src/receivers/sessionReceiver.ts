@@ -2,17 +2,13 @@
 // Licensed under the MIT license.
 
 import { ClientEntityContext } from "../clientEntityContext";
-import {
-  MessageHandlers,
-  ReceiveMessagesOptions,
-  ReceivedMessage,
-  SessionMessageHandlerOptions,
-  SubscribeOptions
-} from "..";
+import { MessageHandlers, ReceiveMessagesOptions, ReceivedMessage } from "..";
 import {
   PeekMessagesOptions,
   CreateSessionReceiverOptions,
-  GetMessageIteratorOptions
+  GetMessageIteratorOptions,
+  MessageHandlerOptionsBase,
+  SessionSubscribeOptions
 } from "../models";
 import { MessageSession } from "../session/messageSession";
 import {
@@ -63,6 +59,23 @@ export interface SessionReceiver<
    * @readonly
    */
   sessionLockedUntilUtc: Date | undefined;
+
+  /**
+   * Streams messages to message handlers.
+   * @param handlers A handler that gets called for messages and errors.
+   * @param options Options for subscribe.
+   * @returns An object that can be closed, sending any remaining messages to `handlers` and
+   * stopping new messages from arriving.
+   */
+  subscribe(
+    handlers: MessageHandlers<ReceivedMessageT>,
+    options?: SessionSubscribeOptions
+  ): {
+    /**
+     * Causes the subscriber to stop receiving new messages.
+     */
+    close(): Promise<void>;
+  };
 
   /**
    * Renews the lock on the session.
@@ -414,7 +427,7 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
 
   subscribe(
     handlers: MessageHandlers<ReceivedMessageT>,
-    options?: SubscribeOptions
+    options?: SessionSubscribeOptions
   ): {
     close(): Promise<void>;
   } {
@@ -463,7 +476,7 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
   private _registerMessageHandler(
     onMessage: OnMessage,
     onError: OnError,
-    options?: SessionMessageHandlerOptions
+    options?: MessageHandlerOptionsBase
   ): void {
     this._throwIfReceiverOrConnectionClosed();
     this._throwIfAlreadyReceiving();
