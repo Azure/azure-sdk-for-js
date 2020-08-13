@@ -153,7 +153,7 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
    * @param {boolean} [setTokenRenewal] Set the token renewal timer. Default false.
    * @return {Promise<void>} Promise<void>
    */
-  protected async _negotiateClaim(setTokenRenewal?: boolean): Promise<void> {
+  private async _negotiateClaim(setTokenRenewal?: boolean): Promise<void> {
     // Wait for the connectionContext to be ready to open the link.
     await this._context.namespace.readyToOpenLink();
     // Acquire the lock and establish a cbs session if it does not exist on the connection.
@@ -231,7 +231,7 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
    * Ensures that the token is renewed within the predefined renewal margin.
    * @returns {void}
    */
-  protected _ensureTokenRenewal(): void {
+  private _ensureTokenRenewal(): void {
     if (!this._tokenTimeout) {
       return;
     }
@@ -281,6 +281,7 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
     }
 
     clearTimeout(this._tokenRenewalTimer as NodeJS.Timer);
+    this._tokenRenewalTimer = undefined;
 
     if (this._link) {
       try {
@@ -392,15 +393,13 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
       checkAborted();
 
       log.error(`${this._logPrefix} Creating with options %O`, options);
-
       this._link = await this.createRheaLink(options);
+      checkAborted();
 
-      if (abortSignal?.aborted) {
-        log.error(`${this._logPrefix} created but abortSignal was set. Closing and aborting.`);
-        await this._link.close();
-        this._link = undefined;
-        throw new AbortError(StandardAbortMessage);
-      }
+      this._ensureTokenRenewal();
+    } catch (err) {
+      await this.closeLink("linkonly");
+      throw err;
     } finally {
       this._isConnecting = false;
     }

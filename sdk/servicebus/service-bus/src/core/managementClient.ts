@@ -215,7 +215,6 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
     throwErrorIfConnectionClosed(this._context.namespace);
     try {
       if (!this._isMgmtRequestResponseLinkOpen()) {
-        await this._negotiateClaim();
         const rxopt: ReceiverOptions = {
           source: { address: this.address },
           name: this.replyTo,
@@ -261,7 +260,6 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
           this.link!.sender.name,
           this.link!.receiver.name
         );
-        this._ensureTokenRenewal();
       }
     } catch (err) {
       err = translate(err);

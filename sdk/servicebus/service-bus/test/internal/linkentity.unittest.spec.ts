@@ -17,44 +17,42 @@ describe("LinkEntity unit tests", () => {
     }
   }
 
-  it("initLink - basic case", async () => {
-    const linkEntity = new BasicLink("some initial name", createClientEntityContextForTests());
+  let linkEntity: LinkEntity<Receiver>;
 
+  beforeEach(() => {
+    linkEntity = new BasicLink("some initial name", createClientEntityContextForTests(), {
+      address: "my-address"
+    });
+  });
+
+  afterEach(async () => {
+    await linkEntity["closeLink"]("permanently");
+  });
+
+  it("initLink - basic case", async () => {
     assert.isFalse(linkEntity.isOpen(), "link isn't yet open, the class is just created.");
 
     await linkEntity.initLink({});
-    assert.exists(linkEntity);
 
-    assert.isTrue(linkEntity.isOpen(), "link is now open - initLink() has been called.");
     assert.match(linkEntity.name, /^some initial name-.*$/);
+    assertLinkEntityOpen();
 
     // when we close with 'linkonly' it closes the link but the
     // link can be reopened.
     await linkEntity["closeLink"]("linkonly");
-    assert.isFalse(linkEntity.isOpen());
-    assert.isFalse(linkEntity["_wasClosedByUser"]);
+    assertLinkEntityClosedTemporarily();
 
     await linkEntity.initLink({});
-
-    assert.isTrue(
-      linkEntity.isOpen(),
-      'We are allowed to reopen a link if it\'s been closed with the "detach" flag'
-    );
+    assertLinkEntityOpen();
 
     await linkEntity["closeLink"]("permanently");
-    assert.isFalse(linkEntity.isOpen());
-    assert.isTrue(linkEntity["_wasClosedByUser"]);
+    assertLinkEntityClosedPermanently();
 
     linkEntity.initLink({});
-    assert.isFalse(
-      linkEntity.isOpen(),
-      'Once a link is closed with the "close" flag it cannot be reopened'
-    );
+    assertLinkEntityClosedPermanently();
   });
 
   it("initLink - multiple simultaneous initLink calls are ignored", async () => {
-    const linkEntity = new BasicLink("some initial name", createClientEntityContextForTests());
-
     let timesCalled = 0;
 
     linkEntity["_negotiateClaim"] = async () => {
@@ -75,8 +73,6 @@ describe("LinkEntity unit tests", () => {
   });
 
   it("initLink - early exit when link is already open", async () => {
-    const linkEntity = new BasicLink("some initial name", createClientEntityContextForTests());
-
     await linkEntity.initLink({});
 
     let negotiateClaimCalled = 0;
@@ -87,14 +83,13 @@ describe("LinkEntity unit tests", () => {
 
     // connection already open
     await linkEntity.initLink({});
-    assert.isTrue(linkEntity.isOpen(), "Link should be open already");
+    assertLinkEntityOpen();
     assert.equal(negotiateClaimCalled, 0, "If the link is already open we don't open another");
   });
 
   it("initLink - early exit when link has been permanently closed", async () => {
-    const linkEntity = new BasicLink("some initial name", createClientEntityContextForTests());
-
     await linkEntity.initLink({});
+    assert.exists(linkEntity["_tokenRenewalTimer"], "the tokenrenewal timer should have been set");
 
     let negotiateClaimCalled = 0;
 
@@ -103,6 +98,7 @@ describe("LinkEntity unit tests", () => {
     };
 
     await linkEntity["closeLink"]("permanently");
+    assertLinkEntityClosedPermanently();
 
     await linkEntity.initLink({});
     assert.isFalse(linkEntity.isOpen(), "Link was closed and will remain closed");
@@ -110,8 +106,6 @@ describe("LinkEntity unit tests", () => {
   });
 
   it("initLink - error handling", async () => {
-    const linkEntity = new BasicLink("some initial name", createClientEntityContextForTests());
-
     linkEntity["_negotiateClaim"] = async () => {
       throw new Error("SPECIAL ERROR THROWN FROM NEGOTIATECLAIM");
     };
@@ -125,8 +119,6 @@ describe("LinkEntity unit tests", () => {
   });
 
   it("initLink - abortSignal - simple abort signal flow", async () => {
-    const linkEntity = new BasicLink("some initial name", createClientEntityContextForTests());
-
     try {
       await linkEntity.initLink({}, {
         aborted: true
@@ -138,8 +130,6 @@ describe("LinkEntity unit tests", () => {
   });
 
   it("initLink - abortSignal - if a link was actually created we clean up", async () => {
-    const linkEntity = new BasicLink("some initial name", createClientEntityContextForTests());
-
     let isAborted = false;
 
     const orig = linkEntity["createRheaLink"];
@@ -167,10 +157,11 @@ describe("LinkEntity unit tests", () => {
       assert.equal(err.name, "AbortError");
     }
 
-    assert.isFalse(linkEntity.isOpen());
-    assert.isFalse(returnedReceiver?.isOpen(), "The retruned receiver was closed since we aborted");
+    // The returned receiver was closed since we aborted
+    // but it's not permanent since the user didn't initiate it.
+    assertLinkEntityClosedTemporarily();
 
-    // also, this doesn't count as a "close permanently" event
+    // we can reinitialize an aborted link.
     linkEntity["createRheaLink"] = orig;
     await linkEntity.initLink({});
 
@@ -181,9 +172,6 @@ describe("LinkEntity unit tests", () => {
   });
 
   it("initLink - can use a custom name via options", async () => {
-    const linkEntity = new BasicLink("some initial name", createClientEntityContextForTests(), {
-      address: "my-address"
-    });
     assert.match(linkEntity.name, /some initial name-/);
 
     await linkEntity.initLink({
@@ -204,4 +192,29 @@ describe("LinkEntity unit tests", () => {
     // we also update the log prefix
     assert.equal(linkEntity["_logPrefix"], "[connection-id|l:some new name|a:my-address]");
   });
+
+  function assertLinkEntityOpen(): void {
+    assert.isTrue(linkEntity.isOpen(), "link should be open");
+    assert.exists(linkEntity["_tokenRenewalTimer"], "the tokenrenewal timer should have been set");
+  }
+
+  function assertLinkEntityClosedPermanently(): void {
+    assert.isFalse(linkEntity.isOpen(), "link should be closed");
+    assert.isTrue(linkEntity["_wasClosedByUser"], "link was closed by the user");
+
+    assert.notExists(
+      linkEntity["_tokenRenewalTimer"],
+      'the tokenrenewal timer should be cleared when we close("permanently")'
+    );
+  }
+
+  function assertLinkEntityClosedTemporarily(): void {
+    assert.isFalse(linkEntity.isOpen(), "link should be closed");
+    assert.isFalse(linkEntity["_wasClosedByUser"], "Only the internal link was closed");
+
+    assert.notExists(
+      linkEntity["_tokenRenewalTimer"],
+      'the tokenrenewal timer should be cleared when we close("linkonly")'
+    );
+  }
 });

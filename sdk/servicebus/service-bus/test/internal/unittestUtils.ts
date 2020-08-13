@@ -70,7 +70,9 @@ export function createClientEntityContextForTests(options?: {
       dataTransformer: new DefaultDataTransformer(),
       tokenCredential: {
         getToken() {
-          return {} as AccessToken;
+          return {
+            expiresOnTimestamp: Date.now() + 10 * 60 * 1000
+          } as AccessToken;
         }
       },
       cbsSession: {
