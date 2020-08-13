@@ -345,12 +345,12 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
       const deferredMessages = await this._context
         .getManagementClient(this.entityPath)
         .receiveDeferredMessages(
-          this._getAssociatedReceiverName(),
           deferredSequenceNumbers,
           convertToInternalReceiveMode(this.receiveMode),
           undefined,
           {
             ...options,
+            associatedLinkName: this._getAssociatedReceiverName(),
             requestName: "receiveDeferredMessages",
             timeoutInMs: this._retryOptions.timeoutInMs
           }
@@ -381,6 +381,7 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
 
     const managementRequestOptions = {
       ...options,
+      associatedLinkName: this._getAssociatedReceiverName(),
       requestName: "peekMessages",
       timeoutInMs: this._retryOptions?.timeoutInMs
     };
@@ -389,7 +390,6 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
         return await this._context
           .getManagementClient(this.entityPath)
           .peekBySequenceNumber(
-            this._getAssociatedReceiverName(),
             options.fromSequenceNumber,
             maxMessageCount,
             undefined,
@@ -398,7 +398,7 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
       } else {
         return await this._context
           .getManagementClient(this.entityPath)
-          .peek(this._getAssociatedReceiverName(), maxMessageCount, managementRequestOptions);
+          .peek(maxMessageCount, managementRequestOptions);
       }
     };
 

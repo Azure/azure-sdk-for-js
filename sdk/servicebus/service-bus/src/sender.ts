@@ -233,17 +233,14 @@ export class SenderImpl implements Sender {
     }
 
     const scheduleMessageOperationPromise = async () => {
-      return this._context.getManagementClient(this._entityPath).scheduleMessages(
-        this._sender.name,
-        scheduledEnqueueTimeUtc,
-        messagesToSchedule,
-
-        {
+      return this._context
+        .getManagementClient(this._entityPath)
+        .scheduleMessages(scheduledEnqueueTimeUtc, messagesToSchedule, {
           ...options,
+          associatedLinkName: this._sender.name,
           requestName: "scheduleMessages",
           timeoutInMs: this._retryOptions.timeoutInMs
-        }
-      );
+        });
     };
     const config: RetryConfig<Long[]> = {
       operation: scheduleMessageOperationPromise,
@@ -276,11 +273,11 @@ export class SenderImpl implements Sender {
       : [sequenceNumbers];
     const cancelSchedulesMessagesOperationPromise = async () => {
       return this._context.getManagementClient(this._entityPath).cancelScheduledMessages(
-        this._sender.name,
         sequenceNumbersToCancel,
 
         {
           ...options,
+          associatedLinkName: this._sender.name,
           requestName: "cancelScheduledMessages",
           timeoutInMs: this._retryOptions.timeoutInMs
         }

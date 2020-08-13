@@ -19,7 +19,7 @@ import {
   Constants,
   MessagingError,
   RequestResponseLink,
-  SendRequestOptions as SendManagementRequestOptions,
+  SendRequestOptions,
   defaultLock,
   translate
 } from "@azure/core-amqp";
@@ -48,6 +48,18 @@ import { max32BitNumber } from "../util/constants";
 import { Buffer } from "buffer";
 import { OperationOptionsBase } from "./../modelsToBeSharedWithEventHubs";
 import { AbortError } from "@azure/abort-controller";
+
+/**
+ * @internal
+ * @ignore
+ */
+interface SendManagementRequestOptions extends SendRequestOptions {
+  /**
+   * The name of the sender or receiver link associated with the managmenet operations.
+   * This is used for service side optimization.
+   */
+  associatedLinkName?: string;
+}
 
 /**
  * Represents a Rule on a Subscription that is used to filter the incoming message from the
@@ -400,18 +412,15 @@ export class ManagementClient extends LinkEntity {
    * and hence it cannot be `Completed/Abandoned/Deferred/Deadlettered/Renewed`. This method will
    * also fetch even Deferred messages (but not Deadlettered message).
    *
-   * @param associatedLinkName The name of the associated receiver link
    * @param messageCount The number of messages to retrieve. Default value `1`.
    * @returns Promise<ReceivedSBMessage[]>
    */
   async peek(
-    associatedLinkName: string | undefined,
     messageCount?: number,
     options?: OperationOptionsBase & SendManagementRequestOptions
   ): Promise<ReceivedMessage[]> {
     throwErrorIfConnectionClosed(this._context);
     return this.peekBySequenceNumber(
-      associatedLinkName,
       this._lastPeekedSequenceNumber.add(1),
       messageCount,
       undefined,
@@ -428,20 +437,17 @@ export class ManagementClient extends LinkEntity {
    * and hence it cannot be `Completed/Abandoned/Deferred/Deadlettered/Renewed`.  This method will
    * also fetch even Deferred messages (but not Deadlettered message).
    *
-   * @param associatedLinkName The name of the associated receiver link
    * @param sessionId The sessionId from which messages need to be peeked.
    * @param messageCount The number of messages to retrieve. Default value `1`.
    * @returns Promise<ReceivedMessageInfo[]>
    */
   async peekMessagesBySession(
-    associatedLinkName: string | undefined,
     sessionId: string,
     messageCount?: number,
     options?: OperationOptionsBase & SendManagementRequestOptions
   ): Promise<ReceivedMessage[]> {
     throwErrorIfConnectionClosed(this._context);
     return this.peekBySequenceNumber(
-      associatedLinkName,
       this._lastPeekedSequenceNumber.add(1),
       messageCount,
       sessionId,
@@ -452,14 +458,12 @@ export class ManagementClient extends LinkEntity {
   /**
    * Peeks the desired number of messages from the specified sequence number.
    *
-   * @param associatedLinkName The name of the associated receiver link
    * @param fromSequenceNumber The sequence number from where to read the message.
    * @param messageCount The number of messages to retrieve. Default value `1`.
    * @param sessionId The sessionId from which messages need to be peeked.
    * @returns Promise<ReceivedMessageInfo[]>
    */
   async peekBySequenceNumber(
-    associatedLinkName: string | undefined,
     fromSequenceNumber: Long,
     maxMessageCount?: number,
     sessionId?: string,
@@ -499,8 +503,8 @@ export class ManagementClient extends LinkEntity {
           operation: Constants.operations.peekMessage
         }
       };
-      if (associatedLinkName) {
-        request.application_properties![Constants.associatedLinkName] = associatedLinkName;
+      if (options?.associatedLinkName) {
+        request.application_properties![Constants.associatedLinkName] = options?.associatedLinkName;
       }
       request.application_properties![Constants.trackingId] = generate_uuid();
       log.mgmt(
@@ -545,16 +549,11 @@ export class ManagementClient extends LinkEntity {
    * lock needs to be renewed. For each renewal, it resets the time the message is locked by the
    * LockDuration set on the Entity.
    *
-   * @param associatedLinkName The name of the associated receiver link
    * @param lockToken Lock token of the message
    * @param options Options that can be set while sending the request.
    * @returns Promise<Date> New lock token expiry date and time in UTC format.
    */
-  async renewLock(
-    associatedLinkName: string | undefined,
-    lockToken: string,
-    options?: SendManagementRequestOptions
-  ): Promise<Date> {
+  async renewLock(lockToken: string, options?: SendManagementRequestOptions): Promise<Date> {
     throwErrorIfConnectionClosed(this._context);
     if (!options) options = {};
     if (options.timeoutInMs == null) options.timeoutInMs = 5000;
@@ -575,8 +574,8 @@ export class ManagementClient extends LinkEntity {
         }
       };
       request.application_properties![Constants.trackingId] = generate_uuid();
-      if (associatedLinkName) {
-        request.application_properties![Constants.associatedLinkName] = associatedLinkName;
+      if (options.associatedLinkName) {
+        request.application_properties![Constants.associatedLinkName] = options.associatedLinkName;
       }
       log.mgmt("[%s] Renew message Lock request: %O.", this._context.connectionId, request);
       const result = await this._makeManagementRequest(request, {
@@ -598,13 +597,11 @@ export class ManagementClient extends LinkEntity {
   /**
    * Schedules an array of messages to appear on Service Bus at a later time.
    *
-   * @param associatedLinkName The name of the associated sender link
    * @param scheduledEnqueueTimeUtc - The UTC time at which the messages should be enqueued.
    * @param messages - An array of messages that needs to be scheduled.
    * @returns Promise<number> The sequence numbers of messages that were scheduled.
    */
   async scheduleMessages(
-    associatedLinkName: string | undefined,
     scheduledEnqueueTimeUtc: Date,
     messages: ServiceBusMessage[],
     options?: OperationOptionsBase & SendManagementRequestOptions
@@ -662,8 +659,8 @@ export class ManagementClient extends LinkEntity {
           operation: Constants.operations.scheduleMessage
         }
       };
-      if (associatedLinkName) {
-        request.application_properties![Constants.associatedLinkName] = associatedLinkName;
+      if (options?.associatedLinkName) {
+        request.application_properties![Constants.associatedLinkName] = options?.associatedLinkName;
       }
       request.application_properties![Constants.trackingId] = generate_uuid();
       log.mgmt(
@@ -695,12 +692,10 @@ export class ManagementClient extends LinkEntity {
 
   /**
    * Cancels an array of messages that were scheduled.
-   * @param associatedLinkName The name of the associated sender link
    * @param sequenceNumbers - An Array of sequence numbers of the message to be cancelled.
    * @returns Promise<void>
    */
   async cancelScheduledMessages(
-    associatedLinkName: string | undefined,
     sequenceNumbers: Long[],
     options?: OperationOptionsBase & SendManagementRequestOptions
   ): Promise<void> {
@@ -737,8 +732,8 @@ export class ManagementClient extends LinkEntity {
         }
       };
 
-      if (associatedLinkName) {
-        request.application_properties![Constants.associatedLinkName] = associatedLinkName;
+      if (options?.associatedLinkName) {
+        request.application_properties![Constants.associatedLinkName] = options?.associatedLinkName;
       }
       request.application_properties![Constants.trackingId] = generate_uuid();
       log.mgmt(
@@ -763,7 +758,6 @@ export class ManagementClient extends LinkEntity {
   /**
    * Receives a list of deferred messages identified by `sequenceNumbers`.
    *
-   * @param associatedLinkName The name of the associated receiver link
    * @param sequenceNumbers A list containing the sequence numbers to receive.
    * @param receiveMode The mode in which the receiver was created.
    * @returns Promise<ServiceBusMessage[]>
@@ -772,7 +766,6 @@ export class ManagementClient extends LinkEntity {
    * - Throws an error if the messages have not been deferred.
    */
   async receiveDeferredMessages(
-    associatedLinkName: string | undefined,
     sequenceNumbers: Long[],
     receiveMode: InternalReceiveMode,
     sessionId?: string,
@@ -818,8 +811,8 @@ export class ManagementClient extends LinkEntity {
           operation: Constants.operations.receiveBySequenceNumber
         }
       };
-      if (associatedLinkName) {
-        request.application_properties![Constants.associatedLinkName] = associatedLinkName;
+      if (options?.associatedLinkName) {
+        request.application_properties![Constants.associatedLinkName] = options?.associatedLinkName;
       }
       request.application_properties![Constants.trackingId] = generate_uuid();
       log.mgmt(
@@ -866,7 +859,6 @@ export class ManagementClient extends LinkEntity {
   /**
    * Updates the disposition status of deferred messages.
    *
-   * @param associatedLinkName The name of the associated receiver link
    * @param lockTokens Message lock tokens to update disposition status.
    * @param dispositionStatus The disposition status to be set
    * @param options Optional parameters that can be provided while updating the disposition status.
@@ -874,7 +866,6 @@ export class ManagementClient extends LinkEntity {
    * @returns Promise<void>
    */
   async updateDispositionStatus(
-    associatedLinkName: string | undefined,
     lockToken: string,
     dispositionType: DispositionType,
     options?: DispositionStatusOptions & SendManagementRequestOptions
@@ -914,8 +905,8 @@ export class ManagementClient extends LinkEntity {
           operation: Constants.operations.updateDisposition
         }
       };
-      if (associatedLinkName) {
-        request.application_properties![Constants.associatedLinkName] = associatedLinkName;
+      if (options.associatedLinkName) {
+        request.application_properties![Constants.associatedLinkName] = options.associatedLinkName;
       }
       request.application_properties![Constants.trackingId] = generate_uuid();
       log.mgmt(
@@ -938,13 +929,11 @@ export class ManagementClient extends LinkEntity {
   /**
    * Renews the lock for the specified session.
    *
-   * @param associatedLinkName The name of the associated receiver link
    * @param sessionId Id of the session for which the lock needs to be renewed
    * @param options Options that can be set while sending the request.
    * @returns Promise<Date> New lock token expiry date and time in UTC format.
    */
   async renewSessionLock(
-    associatedLinkName: string | undefined,
     sessionId: string,
     options?: OperationOptionsBase & SendManagementRequestOptions
   ): Promise<Date> {
@@ -960,8 +949,8 @@ export class ManagementClient extends LinkEntity {
         }
       };
       request.application_properties![Constants.trackingId] = generate_uuid();
-      if (associatedLinkName) {
-        request.application_properties![Constants.associatedLinkName] = associatedLinkName;
+      if (options?.associatedLinkName) {
+        request.application_properties![Constants.associatedLinkName] = options?.associatedLinkName;
       }
       log.mgmt(
         "[%s] Renew Session Lock request body: %O.",
@@ -990,13 +979,11 @@ export class ManagementClient extends LinkEntity {
   /**
    * Sets the state of the specified session.
    *
-   * @param associatedLinkName The name of the associated receiver link
    * @param sessionId The session for which the state needs to be set
    * @param state The state that needs to be set.
    * @returns Promise<void>
    */
   async setSessionState(
-    associatedLinkName: string | undefined,
     sessionId: string,
     state: any,
     options?: OperationOptionsBase & SendManagementRequestOptions
@@ -1014,8 +1001,8 @@ export class ManagementClient extends LinkEntity {
           operation: Constants.operations.setSessionState
         }
       };
-      if (associatedLinkName) {
-        request.application_properties![Constants.associatedLinkName] = associatedLinkName;
+      if (options?.associatedLinkName) {
+        request.application_properties![Constants.associatedLinkName] = options?.associatedLinkName;
       }
       request.application_properties![Constants.trackingId] = generate_uuid();
       log.mgmt(
@@ -1037,12 +1024,10 @@ export class ManagementClient extends LinkEntity {
   /**
    * Gets the state of the specified session.
    *
-   * @param associatedLinkName The name of the associated receiver link
    * @param sessionId The session for which the state needs to be retrieved.
    * @returns Promise<any> The state of that session
    */
   async getSessionState(
-    associatedLinkName: string | undefined,
     sessionId: string,
     options?: OperationOptionsBase & SendManagementRequestOptions
   ): Promise<any> {
@@ -1057,8 +1042,8 @@ export class ManagementClient extends LinkEntity {
           operation: Constants.operations.getSessionState
         }
       };
-      if (associatedLinkName) {
-        request.application_properties![Constants.associatedLinkName] = associatedLinkName;
+      if (options?.associatedLinkName) {
+        request.application_properties![Constants.associatedLinkName] = options?.associatedLinkName;
       }
       request.application_properties![Constants.trackingId] = generate_uuid();
       log.mgmt(

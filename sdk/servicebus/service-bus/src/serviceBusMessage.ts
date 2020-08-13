@@ -1021,7 +1021,7 @@ export class ServiceBusMessageImpl implements ReceivedMessageWithLock {
     }
     this.lockedUntilUtc = await this._context
       .getManagementClient(this._entityPath)
-      .renewLock(associatedLinkName, this.lockToken!);
+      .renewLock(this.lockToken!, { associatedLinkName });
     return this.lockedUntilUtc;
   }
 
@@ -1120,8 +1120,9 @@ export class ServiceBusMessageImpl implements ReceivedMessageWithLock {
     if (isDeferredMessage || ((!receiver || !receiver.isOpen()) && this.sessionId == undefined)) {
       await this._context
         .getManagementClient(this._entityPath)
-        .updateDispositionStatus(associatedLinkName, this.lockToken, operation, {
+        .updateDispositionStatus(this.lockToken, operation, {
           ...options,
+          associatedLinkName,
           sessionId: this.sessionId
         });
       if (isDeferredMessage) {

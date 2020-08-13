@@ -222,8 +222,9 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
     const renewSessionLockOperationPromise = async () => {
       this._messageSession!.sessionLockedUntilUtc = await this._context
         .getManagementClient(this.entityPath)
-        .renewSessionLock(this._messageSession.name, this.sessionId, {
+        .renewSessionLock(this.sessionId, {
           ...options,
+          associatedLinkName: this._messageSession.name,
           requestName: "renewSessionLock",
           timeoutInMs: this._retryOptions.timeoutInMs
         });
@@ -253,8 +254,9 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
     const setSessionStateOperationPromise = async () => {
       await this._context
         .getManagementClient(this.entityPath)
-        .setSessionState(this._messageSession.name, this.sessionId!, state, {
+        .setSessionState(this.sessionId!, state, {
           ...options,
+          associatedLinkName: this._messageSession.name,
           requestName: "setState",
           timeoutInMs: this._retryOptions.timeoutInMs
         });
@@ -282,13 +284,12 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
     this._throwIfReceiverOrConnectionClosed();
 
     const getSessionStateOperationPromise = async () => {
-      return this._context
-        .getManagementClient(this.entityPath)
-        .getSessionState(this._messageSession.name, this.sessionId, {
-          ...options,
-          requestName: "getState",
-          timeoutInMs: this._retryOptions.timeoutInMs
-        });
+      return this._context.getManagementClient(this.entityPath).getSessionState(this.sessionId, {
+        ...options,
+        associatedLinkName: this._messageSession.name,
+        requestName: "getState",
+        timeoutInMs: this._retryOptions.timeoutInMs
+      });
     };
     const config: RetryConfig<any> = {
       operation: getSessionStateOperationPromise,
@@ -312,6 +313,7 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
 
     const managementRequestOptions = {
       ...options,
+      associatedLinkName: this._messageSession.name,
       requestName: "peekMessages",
       timeoutInMs: this._retryOptions?.timeoutInMs
     };
@@ -320,7 +322,6 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
         return await this._context
           .getManagementClient(this.entityPath)
           .peekBySequenceNumber(
-            this._messageSession!.name,
             options.fromSequenceNumber,
             maxMessageCount,
             this.sessionId,
@@ -329,12 +330,7 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
       } else {
         return await this._context
           .getManagementClient(this.entityPath)
-          .peekMessagesBySession(
-            this._messageSession!.name,
-            this.sessionId,
-            maxMessageCount,
-            managementRequestOptions
-          );
+          .peekMessagesBySession(this.sessionId, maxMessageCount, managementRequestOptions);
       }
     };
 
@@ -371,12 +367,12 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
       const deferredMessages = await this._context
         .getManagementClient(this.entityPath)
         .receiveDeferredMessages(
-          this._messageSession.name,
           deferredSequenceNumbers,
           convertToInternalReceiveMode(this.receiveMode),
           this.sessionId,
           {
             ...options,
+            associatedLinkName: this._messageSession.name,
             requestName: "receiveDeferredMessages",
             timeoutInMs: this._retryOptions.timeoutInMs
           }

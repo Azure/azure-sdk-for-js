@@ -355,7 +355,7 @@ export class StreamingReceiver extends MessageReceiver {
                     );
                     bMessage.lockedUntilUtc = await this._context
                       .getManagementClient(this._entityPath)
-                      .renewLock(this.name, lockToken);
+                      .renewLock(lockToken, { associatedLinkName: this.name });
                     log.receiver(
                       "[%s] Successfully renewed the lock for message with id '%s'.",
                       connectionId,
