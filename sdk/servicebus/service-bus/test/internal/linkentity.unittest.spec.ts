@@ -193,6 +193,25 @@ describe("LinkEntity unit tests", () => {
     assert.equal(linkEntity["_logPrefix"], "[connection-id|l:some new name|a:my-address]");
   });
 
+  it("initLink - user closes link while it's initializing", async () => {
+    linkEntity["createRheaLink"] = async () => {
+      await linkEntity["closeLink"]("permanently");
+      return createRheaReceiverForTests();
+    };
+
+    try {
+      await linkEntity.initLink({
+        name: "some new name"
+      });
+      assert.fail("Should have thrown");
+    } catch (err) {
+      assert.equal(err.name, "AbortError");
+    }
+
+    assert.equal(linkEntity["_logPrefix"], "[connection-id|l:some new name|a:my-address]");
+    assertLinkEntityClosedPermanently();
+  });
+
   function assertLinkEntityOpen(): void {
     assert.isTrue(linkEntity.isOpen(), "link should be open");
     assert.exists(linkEntity["_tokenRenewalTimer"], "the tokenrenewal timer should have been set");

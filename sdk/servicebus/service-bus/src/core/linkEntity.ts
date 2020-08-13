@@ -396,6 +396,13 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
       this._link = await this.createRheaLink(options);
       checkAborted();
 
+      if (this._wasClosedByUser) {
+        // the user attempted to close while we were still initializing the link. Go
+        // ahead and close the link we created.
+        log.error(`${this._logPrefix} User closed link while it was initializing.`);
+        throw new AbortError("Link closed by user while initializing.");
+      }
+
       this._ensureTokenRenewal();
     } catch (err) {
       await this.closeLink("linkonly");
