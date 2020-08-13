@@ -510,7 +510,8 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
   }
 
   /**
-   * Helper function to retrieve active receiver name, if it exists.
+   * Helper function to retrieve any active receiver name, regardless of streaming or
+   * batching if it exists. This is used for optimization on the service side 
    */
   private _getAssociatedReceiverName(): string | undefined {
     if (this._streamingReceiver && this._streamingReceiver.isOpen()) {
