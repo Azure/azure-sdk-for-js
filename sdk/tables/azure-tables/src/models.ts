@@ -8,7 +8,7 @@ import {
   TableQueryEntitiesResponse,
   TableInsertEntityOptionalParams,
   TableUpdateEntityOptionalParams,
-  TableMergeEntityOptionalParams,
+  TableMergeEntityOptionalParams as TableUpsertEntityOptionalParams,
   TableSetAccessPolicyOptionalParams
 } from "./generated/models";
 
@@ -58,8 +58,8 @@ export type UpdateEntityOptions = Omit<
 /**
  * Merge entity optional parameters.
  */
-export type MergeEntityOptions = Omit<
-  TableMergeEntityOptionalParams,
+export type UpsertEntityOptions = Omit<
+  TableUpsertEntityOptionalParams,
   "tableEntityProperties" | "ifMatch"
 >;
 
@@ -122,3 +122,9 @@ export interface Edm<T extends EdmTypes> {
    */
   type: T;
 }
+
+/* The different modes for Update and Upsert methods
+ * - Merge: Updates an entity by updating the entity's properties without replacing the existing entity.
+ * - Replace: Updates an existing entity by replacing the entire entity.
+ */
+export type UpdateMode = "Merge" | "Replace";
