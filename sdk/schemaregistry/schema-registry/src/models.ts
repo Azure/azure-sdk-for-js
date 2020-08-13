@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { PipelineOptions, OperationOptions, HttpOperationResponse } from "@azure/core-http";
+
 /**
  * Schema definition.
  */
@@ -47,3 +49,41 @@ export interface SchemaDescription extends SchemaDefinition {
    */
   serializationType: string;
 }
+
+/**
+ * Provides access to underlying HTTP response.
+ */
+export interface Response {
+  /** The underlying HTTP reponse. */
+  _response: HttpOperationResponse;
+}
+
+/**
+ * Schema with underlying HTTP response.
+ */
+export interface SchemaResponse extends Schema, Response {}
+
+/**
+ * SchemaId with underlying HTTP reponse.
+ */
+export interface SchemaIdResponse extends SchemaId, Response {}
+
+/**
+ * Options for SchemaRegistrationClient.
+ */
+export interface SchemaRegistryClientOptions extends PipelineOptions {}
+
+/**
+ * Options for SchemaRegistryClient.registerSchema.
+ */
+export interface RegisterSchemaOptions extends OperationOptions {}
+
+/**
+ * Options for SchemaRegistryClient.getSchemaId.
+ */
+export interface GetSchemaIdOptions extends OperationOptions {}
+
+/**
+ * Options to configure SchemaRegistryClient.getSchemaById.
+ */
+export interface GetSchemaByIdOptions extends OperationOptions {}

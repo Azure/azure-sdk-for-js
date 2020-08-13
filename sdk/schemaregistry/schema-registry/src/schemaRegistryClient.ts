@@ -1,28 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { DEFAULT_SCOPE, LIB_INFO } from "./constants";
-import { logger } from "./logger";
-import { Schema, SchemaId, SchemaDescription } from "./models";
+import { SerializationType } from "./generated/models";
 import { GeneratedSchemaRegistryClient } from "./generated/generatedSchemaRegistryClient";
+import { TokenCredential } from "@azure/core-http";
+import { createPipeline } from "./pipeline";
+import { convertSchemaIdResponse, convertSchemaResponse } from "./conversions";
 
 import {
-  SerializationType,
-  SchemaGetByIdResponse,
-  SchemaRegisterResponse,
-  SchemaQueryIdByContentResponse
-} from "./generated/models";
-
-import {
-  HttpOperationResponse,
-  InternalPipelineOptions,
-  OperationOptions,
-  PipelineOptions,
-  ServiceClientOptions,
-  TokenCredential,
-  bearerTokenAuthenticationPolicy,
-  createPipelineFromOptions
-} from "@azure/core-http";
+  GetSchemaByIdOptions,
+  GetSchemaIdOptions,
+  SchemaDescription,
+  SchemaIdResponse,
+  SchemaResponse,
+  SchemaRegistryClientOptions,
+  RegisterSchemaOptions
+} from "./models";
 
 /**
  * Client for Azure Schema Registry service.
@@ -49,7 +42,7 @@ export class SchemaRegistryClient {
   ) {
     const pipeline = createPipeline(options, credential);
     this.endpoint = endpoint;
-    this.client = new GeneratedSchemaRegistryClient(endpoint, { endpoint, ...pipeline });
+    this.client = new GeneratedSchemaRegistryClient(endpoint, { ...pipeline, endpoint });
   }
 
   /**
@@ -114,130 +107,3 @@ export class SchemaRegistryClient {
     return convertSchemaResponse(response);
   }
 }
-
-/**
- * Options for SchemaRegistrationClient.
- */
-export interface SchemaRegistryClientOptions extends PipelineOptions {}
-
-/**
- * Options for SchemaRegistryClient.registerSchema.
- */
-export interface RegisterSchemaOptions extends OperationOptions {}
-
-/**
- * Options for SchemaRegistryClient.getSchemaId.
- */
-export interface GetSchemaIdOptions extends OperationOptions {}
-
-/**
- * Options to configure SchemaRegistryClient.getSchemaById.
- */
-export interface GetSchemaByIdOptions extends OperationOptions {}
-
-/**
- * Provides access to underlying HTTP response.
- */
-export interface Response {
-  /** The underlying HTTP reponse. */
-  _response: HttpOperationResponse;
-}
-
-/**
- * Schema with underlying HTTP response.
- */
-export interface SchemaResponse extends Schema, Response {}
-
-/**
- * SchemaId with underlying HTTP reponse.
- */
-export interface SchemaIdResponse extends SchemaId, Response {}
-
-/**
- * Builds ServiceClientOptions from PipelineOptions and credentials.
- * Sets up logger and user agent prefix.
- */
-function createPipeline(
-  options: PipelineOptions,
-  credential: TokenCredential
-): ServiceClientOptions {
-  const internalOptions = convertPipelineOptions(options);
-  const policy = bearerTokenAuthenticationPolicy(credential, DEFAULT_SCOPE);
-  return createPipelineFromOptions(internalOptions, policy);
-}
-
-/**
- * Converts PipelineOptions to InternalPipelineOptions.
- * Adds logger and user agent prefix.
- */
-function convertPipelineOptions(options: PipelineOptions): InternalPipelineOptions {
-  if (!options.userAgentOptions) {
-    options.userAgentOptions = {};
-  }
-
-  if (options.userAgentOptions.userAgentPrefix) {
-    options.userAgentOptions.userAgentPrefix = `${options.userAgentOptions.userAgentPrefix} ${LIB_INFO}`;
-  } else {
-    options.userAgentOptions.userAgentPrefix = LIB_INFO;
-  }
-
-  return {
-    ...options,
-    loggingOptions: {
-      logger: logger.info
-    }
-  };
-}
-
-/**
- * Union of generated client's responses that return schema content.
- */
-type GeneratedSchemaResponse = SchemaGetByIdResponse;
-
-/**
- * Union of generated client's responses that return schema ID.
- */
-type GeneratedSchemaIdResponse = SchemaRegisterResponse | SchemaQueryIdByContentResponse;
-
-/**
- * Union of all generated client's responses.
- */
-type GeneratedResponse = GeneratedSchemaResponse | GeneratedSchemaIdResponse;
-
-/**
- * Converts generated client's reponse to IdentifiedSchemaResponse.
- */
-function convertSchemaResponse(response: GeneratedSchemaResponse): SchemaResponse {
-  return {
-    ...convertResponse(response),
-    content: response.body
-  };
-}
-
-/**
- * Converts generated client's response to SchemaIdentityResponse.
- */
-function convertSchemaIdResponse(response: GeneratedSchemaIdResponse): SchemaIdResponse {
-  return {
-    ...convertResponse(response),
-    // `!` here because server is required to return this on success, but that
-    // is not modeled by the generated client.
-    id: response.id!
-  };
-}
-
-/**
- * Converts common portion of all generated client responses.
- */
-function convertResponse(response: GeneratedResponse): SchemaIdResponse {
-  return {
-    _response: response._response,
-    // `!`s here because server is required to return these on success, but that
-    // is not modeled by the generated client.
-    location: response.location!,
-    locationById: response.xSchemaIdLocation!,
-    id: response.xSchemaId!,
-    version: response.xSchemaVersion!
-  };
-}
-
