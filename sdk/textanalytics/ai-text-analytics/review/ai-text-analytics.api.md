@@ -204,7 +204,9 @@ export interface RecognizeLinkedEntitiesSuccessResult extends TextAnalyticsSucce
 // @public
 export interface SentenceSentiment {
     confidenceScores: SentimentConfidenceScores;
+    length: number;
     minedOpinions?: MinedOpinion[];
+    offset: number;
     sentiment: SentenceSentimentLabel;
     text: string;
 }

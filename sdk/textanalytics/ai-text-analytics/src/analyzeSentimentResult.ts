@@ -69,6 +69,14 @@ export interface SentenceSentiment {
    * True in the call to `analyze_sentiment`.
    */
   minedOpinions?: MinedOpinion[];
+  /**
+   * The sentence offset from the start of the document.
+   */
+  offset: number;
+  /**
+   * The length of the sentence.
+   */
+  length: number;
 }
 
   /**
@@ -220,7 +228,9 @@ function convertGeneratedSentenceSentiment(
           .filter((relation) => relation.relationType === "opinion")
           .map((relation) => convertAspectRelationToOpinionSentiment(relation, response))
       })
-    )
+    ),
+    length: sentence.length,
+    offset: sentence.offset
   };
 }
 
