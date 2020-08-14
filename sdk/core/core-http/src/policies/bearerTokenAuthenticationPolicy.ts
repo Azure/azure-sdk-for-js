@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-auth";
+import { TokenCredential, GetTokenOptions } from "@azure/core-auth";
 import {
   BaseRequestPolicy,
   RequestPolicy,
@@ -96,6 +96,16 @@ export class BearerTokenAuthenticationPolicy extends BaseRequestPolicy {
     return this._nextPolicy.sendRequest(webResource);
   }
 
+  /**
+   * Attempts a token update if any other time related conditionals have been reached based on the tokenRefresher class.
+   */
+  private async updateTokenIfNeeded(options: GetTokenOptions): Promise<void> {
+    if (this.tokenRefresher.isReady()) {
+      const accessToken = await this.tokenRefresher.refresh(options);
+      this.tokenCache.setCachedToken(accessToken);
+    }
+  }
+
   private async getToken(options: GetTokenOptions): Promise<string | undefined> {
     let accessToken = this.tokenCache.getCachedToken();
     if (accessToken === undefined) {
@@ -106,11 +116,7 @@ export class BearerTokenAuthenticationPolicy extends BaseRequestPolicy {
       // If we still have a cached access token,
       // And any other time related conditionals have been reached based on the tokenRefresher class,
       // then attempt to refresh without waiting.
-      if (this.tokenRefresher.ready()) {
-        this.tokenRefresher.refresh(options).then((accessToken: AccessToken | undefined) => {
-          this.tokenCache.setCachedToken(accessToken);
-        });
-      }
+      this.updateTokenIfNeeded(options);
     }
 
     return accessToken ? accessToken.token : undefined;

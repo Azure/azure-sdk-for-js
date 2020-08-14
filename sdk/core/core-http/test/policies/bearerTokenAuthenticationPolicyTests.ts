@@ -82,7 +82,7 @@ describe("BearerTokenAuthenticationPolicy", function() {
     await policy.sendRequest(request);
 
     const sandbox = createSandbox();
-    sandbox.replace(AccessTokenRefresher.prototype, "ready", () => true);
+    sandbox.replace(AccessTokenRefresher.prototype, "isReady", () => true);
     await policy.sendRequest(request);
     sandbox.restore();
     assert.strictEqual(credentialToTest.authCount, 2);
