@@ -1808,7 +1808,6 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @param topicName
    * @param subscriptionName
    * @param operationOptions The options that can be used to abort, trace and control other configurations on the HTTP request.
-   *
    */
   async subscriptionExists(
     topicName: string,
@@ -2218,6 +2217,46 @@ export class ServiceBusManagementClient extends ServiceClient {
       );
 
       return { _response: response };
+    } catch (e) {
+      span.setStatus({
+        code: getCanonicalCode(e),
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Checks whether a given rule exists or not.
+   *
+   * @param {string} topicName
+   * @param {string} subscriptionName
+   * @param {string} ruleName
+   * @param {OperationOptions} [operationOptions]
+   */
+  async ruleExists(
+    topicName: string,
+    subscriptionName: string,
+    ruleName: string,
+    operationOptions?: OperationOptions
+  ): Promise<boolean> {
+    const { span, updatedOperationOptions } = createSpan(
+      "ServiceBusManagementClient-ruleExists",
+      operationOptions
+    );
+    try {
+      log.httpAtomXml(`Performing management operation - ruleExists() for "${ruleName}"`);
+      try {
+        await this.getRule(topicName, subscriptionName, ruleName, updatedOperationOptions);
+      } catch (error) {
+        if (error.code == "MessageEntityNotFoundError") {
+          return false;
+        }
+        throw error;
+      }
+      return true;
     } catch (e) {
       span.setStatus({
         code: getCanonicalCode(e),
