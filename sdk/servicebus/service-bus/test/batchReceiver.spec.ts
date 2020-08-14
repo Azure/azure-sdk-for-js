@@ -910,7 +910,7 @@ describe("Batching Receiver", () => {
 
       settledMessageCount.should.equal(1, "Unexpected number of settled messages.");
 
-      const connectionContext = (receiver as any)["_context"].namespace;
+      const connectionContext = (receiver as any)["_context"];
       const refreshConnection = connectionContext.refreshConnection;
       let refreshConnectionCalled = 0;
       connectionContext.refreshConnection = function(...args: any) {
@@ -919,7 +919,7 @@ describe("Batching Receiver", () => {
       };
 
       // Simulate a disconnect being called with a non-retryable error.
-      (receiver as ReceiverImpl<ReceivedMessageWithLock>)["_context"].namespace.connection[
+      (receiver as ReceiverImpl<ReceivedMessageWithLock>)["_context"].connection[
         "_connection"
       ].idle();
 
@@ -948,8 +948,10 @@ describe("Batching Receiver", () => {
       // The `receiver_drained` handler is only added after the link is created,
       // which is a non-blocking task.
       await receiver.receiveMessages(1, { maxWaitTimeInMs: 1000 });
-      const receiverContext = (receiver as ReceiverImpl<ReceivedMessage>)["_context"];
-      if (!receiverContext.batchingReceiver!.isOpen()) {
+      const receiverContext = (receiver as ReceiverImpl<ReceivedMessageWithLock>)["_context"];
+      const batchingReceiver = (receiver as ReceiverImpl<ReceivedMessage>)["_batchingReceiver"];
+
+      if (!batchingReceiver || !batchingReceiver.isOpen()) {
         throw new Error(`Unable to initialize receiver link.`);
       }
 
@@ -965,22 +967,20 @@ describe("Batching Receiver", () => {
       // tick of the event loop; after the handler has been attached.
       setTimeout(() => {
         // remove `receiver_drained` event
-        receiverContext.batchingReceiver!["_receiver"]!.removeAllListeners(
-          ReceiverEvents.receiverDrained
-        );
+        batchingReceiver["_receiver"]!.removeAllListeners(ReceiverEvents.receiverDrained);
       }, 0);
 
       // We want to simulate a disconnect once the batching receiver is draining.
       // We can detect when the receiver enters a draining state when `addCredit` is
       // called while `drain` is set to true.
       let didRequestDrain = false;
-      const addCredit = receiverContext.batchingReceiver!["_receiver"]!.addCredit;
-      receiverContext.batchingReceiver!["_receiver"]!.addCredit = function(credits) {
+      const addCredit = batchingReceiver["_receiver"]!.addCredit;
+      batchingReceiver["_receiver"]!.addCredit = function(credits) {
         addCredit.call(this, credits);
-        if (receiverContext.batchingReceiver!["_receiver"]!.drain) {
+        if (batchingReceiver["_receiver"]!.drain) {
           didRequestDrain = true;
           // Simulate a disconnect being called with a non-retryable error.
-          receiverContext.namespace.connection["_connection"].idle();
+          receiverContext.connection["_connection"].idle();
         }
       };
 
@@ -1010,8 +1010,9 @@ describe("Batching Receiver", () => {
       // which is a non-blocking task.
       await receiver.receiveMessages(1, { maxWaitTimeInMs: 1000 });
       const receiverContext = (receiver as ReceiverImpl<ReceivedMessageWithLock>)["_context"];
+      const batchingReceiver = (receiver as ReceiverImpl<ReceivedMessage>)["_batchingReceiver"];
 
-      if (!receiverContext.batchingReceiver!.isOpen()) {
+      if (!batchingReceiver || !batchingReceiver.isOpen()) {
         throw new Error(`Unable to initialize receiver link.`);
       }
 
@@ -1027,22 +1028,20 @@ describe("Batching Receiver", () => {
       // tick of the event loop; after the handler has been attached.
       setTimeout(() => {
         // remove `receiver_drained` event
-        receiverContext.batchingReceiver!["_receiver"]!.removeAllListeners(
-          ReceiverEvents.receiverDrained
-        );
+        batchingReceiver["_receiver"]!.removeAllListeners(ReceiverEvents.receiverDrained);
       }, 0);
 
       // We want to simulate a disconnect once the batching receiver is draining.
       // We can detect when the receiver enters a draining state when `addCredit` is
       // called while `drain` is set to true.
       let didRequestDrain = false;
-      const addCredit = receiverContext.batchingReceiver!["_receiver"]!.addCredit;
-      receiverContext.batchingReceiver!["_receiver"]!.addCredit = function(credits) {
+      const addCredit = batchingReceiver["_receiver"]!.addCredit;
+      batchingReceiver["_receiver"]!.addCredit = function(credits) {
         didRequestDrain = true;
         addCredit.call(this, credits);
-        if (receiverContext.batchingReceiver!["_receiver"]!.drain) {
+        if (batchingReceiver["_receiver"]!.drain) {
           // Simulate a disconnect being called with a non-retryable error.
-          receiverContext.namespace.connection["_connection"].idle();
+          receiverContext.connection["_connection"].idle();
         }
       };
 
@@ -1079,8 +1078,9 @@ describe("Batching Receiver", () => {
       // which is a non-blocking task.
       await receiver.receiveMessages(1, { maxWaitTimeInMs: 1000 });
       const receiverContext = (receiver as ReceiverImpl<ReceivedMessage>)["_context"];
+      const batchingReceiver = (receiver as ReceiverImpl<ReceivedMessage>)["_batchingReceiver"];
 
-      if (!receiverContext.batchingReceiver!.isOpen()) {
+      if (!batchingReceiver || !batchingReceiver.isOpen()) {
         throw new Error(`Unable to initialize receiver link.`);
       }
 
@@ -1088,10 +1088,10 @@ describe("Batching Receiver", () => {
       await sender.sendMessages(TestMessage.getSample());
 
       // Simulate a disconnect after a message has been received.
-      receiverContext.batchingReceiver!["_receiver"]!.once("message", function() {
+      batchingReceiver["_receiver"]!.once("message", function() {
         setTimeout(() => {
           // Simulate a disconnect being called with a non-retryable error.
-          receiverContext.namespace.connection["_connection"].idle();
+          receiverContext.connection["_connection"].idle();
         }, 0);
       });
 
@@ -1120,15 +1120,16 @@ describe("Batching Receiver", () => {
       // which is a non-blocking task.
       await receiver.receiveMessages(1, { maxWaitTimeInMs: 1000 });
       const receiverContext = (receiver as ReceiverImpl<ReceivedMessageWithLock>)["_context"];
+      const batchingReceiver = (receiver as ReceiverImpl<ReceivedMessage>)["_batchingReceiver"];
 
-      if (!receiverContext.batchingReceiver!.isOpen()) {
+      if (!batchingReceiver || !batchingReceiver.isOpen()) {
         throw new Error(`Unable to initialize receiver link.`);
       }
 
       // Simulate a disconnect
       setTimeout(() => {
         // Simulate a disconnect being called with a non-retryable error.
-        receiverContext.namespace.connection["_connection"].idle();
+        receiverContext.connection["_connection"].idle();
       }, 0);
 
       // Purposefully request more messages than what's available

@@ -13,8 +13,14 @@ import {
   delay
 } from "@azure/core-amqp";
 import { ServiceBusClientOptions } from "./constructorHelpers";
-import { ClientEntityContext } from "./clientEntityContext";
 import { Connection, ConnectionEvents, EventContext, OnAmqpEvent } from "rhea-promise";
+import { MessageSender } from "./core/messageSender";
+import { BatchingReceiver } from "./core/batchingReceiver";
+import { StreamingReceiver } from "./core/streamingReceiver";
+import { MessageSession } from "./session/messageSession";
+import { ConcurrentExpiringMap } from "./util/concurrentExpiringMap";
+import { MessageReceiver } from "./core/messageReceiver";
+import { ManagementClient } from "./core/managementClient";
 import { formatUserAgentPrefix } from "./util/utils";
 import { getRuntimeInfo } from "./util/runtimeInfo";
 
@@ -26,11 +32,35 @@ import { getRuntimeInfo } from "./util/runtimeInfo";
  */
 export interface ConnectionContext extends ConnectionContextBase {
   /**
-   * @property A dictionary of ClientEntityContext
-   * objects for each of the client in the `clients` dictionary
+   * @property A map of active Service Bus Senders with sender name as key.
    */
-  clientContexts: { [name: string]: ClientEntityContext };
-
+  senders: { [name: string]: MessageSender };
+  /**
+   * @property A map of active Service Bus receivers used to receive messages in pull mode
+   * with receiver name as key.
+   */
+  batchingReceivers: { [name: string]: BatchingReceiver };
+  /**
+   * @property A map of active Service Bus receivers used to receive messages in push mode
+   * with receiver name as key.
+   */
+  streamingReceivers: { [name: string]: StreamingReceiver };
+  /**
+   * @property A map of active Service Bus receivers for session enabled queues/subscriptions
+   * with receiver name as key.
+   */
+  messageSessions: { [name: string]: MessageSession };
+  /**
+   * @property A map of unsettled, unexpired deferred messages. When a message settlement request comes
+   * through, this map is used to determine if the message should be settled using the receiver link or
+   * the management link.
+   */
+  requestResponseLockedMessages: ConcurrentExpiringMap<string>;
+  /**
+   * @property A map of ManagementClient instances for operations over the $management link
+   * with key as the entity path.
+   */
+  managementClients: { [name: string]: ManagementClient };
   /**
    * Function returning a promise that resolves once the connectionContext is ready to open an AMQP link.
    * ConnectionContext will be ready to open an AMQP link when:
@@ -41,6 +71,22 @@ export interface ConnectionContext extends ConnectionContextBase {
    * is in the process of closing or disconnecting.
    */
   readyToOpenLink(): Promise<void>;
+  /**
+   * Fetches the receiver from the cache in ConnectionContext based on the receiverName given.
+   * Useful for when a message needs to be settled or have its lock renewed.
+   *
+   * TODO: Track the right receiver on the message instead of the ConnectionContext to remove
+   * the need for this helper.
+   */
+  getReceiverFromCache(
+    receiverName: string,
+    sessionId?: string
+  ): MessageReceiver | MessageSession | undefined;
+  /**
+   * Gets the management client for given entity path from the cache
+   * Creates one if none exists in the cache
+   */
+  getManagementClient(entityPath: string): ManagementClient;
 }
 
 /**
@@ -122,7 +168,12 @@ export namespace ConnectionContext {
     };
     // Let us create the base context and then add ServiceBus specific ConnectionContext properties.
     const connectionContext = ConnectionContextBase.create(parameters) as ConnectionContext;
-    connectionContext.clientContexts = {};
+    connectionContext.senders = {};
+    connectionContext.batchingReceivers = {};
+    connectionContext.streamingReceivers = {};
+    connectionContext.messageSessions = {};
+    connectionContext.requestResponseLockedMessages = new ConcurrentExpiringMap();
+    connectionContext.managementClients = {};
 
     let waitForConnectionRefreshResolve: () => void;
     let waitForConnectionRefreshPromise: Promise<void> | undefined;
@@ -162,6 +213,53 @@ export namespace ConnectionContext {
           return waitForConnectionRefreshPromise;
         }
         return Promise.resolve();
+      },
+      getReceiverFromCache(
+        receiverName: string,
+        sessionId?: string
+      ): MessageReceiver | MessageSession | undefined {
+        if (sessionId != null && this.messageSessions[receiverName]) {
+          return this.messageSessions[receiverName];
+        }
+
+        if (this.streamingReceivers[receiverName]) {
+          return this.streamingReceivers[receiverName];
+        }
+
+        if (this.batchingReceivers[receiverName]) {
+          return this.batchingReceivers[receiverName];
+        }
+
+        let existingReceivers = "";
+        if (sessionId != null) {
+          for (const messageSessionName of Object.keys(this.messageSessions)) {
+            if (this.messageSessions[messageSessionName].sessionId === sessionId) {
+              existingReceivers = this.messageSessions[messageSessionName].name;
+              break;
+            }
+          }
+        } else {
+          existingReceivers +=
+            (existingReceivers ? ", " : "") + Object.keys(this.streamingReceivers).join(",");
+          existingReceivers +=
+            (existingReceivers ? ", " : "") + Object.keys(this.batchingReceivers).join(",");
+        }
+
+        log.error(
+          "[%s] Failed to find receiver '%s' among existing receivers: %s",
+          this.connectionId,
+          receiverName,
+          existingReceivers
+        );
+        return;
+      },
+      getManagementClient(entityPath: string): ManagementClient {
+        if (!this.managementClients[entityPath]) {
+          this.managementClients[entityPath] = new ManagementClient(this, entityPath, {
+            address: `${entityPath}/$management`
+          });
+        }
+        return this.managementClients[entityPath];
       }
     });
 
@@ -203,10 +301,15 @@ export namespace ConnectionContext {
       }
       const state: Readonly<{
         wasConnectionCloseCalled: boolean;
-        numClients: number;
+        numSenders: number;
+        numReceivers: number;
       }> = {
         wasConnectionCloseCalled: connectionContext.wasConnectionCloseCalled,
-        numClients: Object.keys(connectionContext.clientContexts).length
+        numSenders: Object.keys(connectionContext.senders).length,
+        numReceivers:
+          Object.keys(connectionContext.batchingReceivers).length +
+          Object.keys(connectionContext.streamingReceivers).length +
+          Object.keys(connectionContext.messageSessions).length
       };
 
       // Clear internal map maintained by rhea to avoid reconnecting of old links once the
@@ -217,11 +320,8 @@ export namespace ConnectionContext {
       await connectionContext.cbsSession.close();
 
       // Close the management sessions to ensure all the event handlers are released.
-      for (const id of Object.keys(connectionContext.clientContexts)) {
-        const clientContext = connectionContext.clientContexts[id];
-        if (clientContext.managementClient) {
-          await clientContext.managementClient.close();
-        }
+      for (const entityPath of Object.keys(connectionContext.managementClients)) {
+        await connectionContext.managementClients[entityPath].close();
       }
 
       await refreshConnection(connectionContext);
@@ -230,30 +330,86 @@ export namespace ConnectionContext {
       // The connection should always be brought back up if the sdk did not call connection.close()
       // and there was atleast one sender/receiver link on the connection before it went down.
       log.error("[%s] state: %O", connectionContext.connectionId, state);
-      if (!state.wasConnectionCloseCalled && state.numClients) {
+      if (!state.wasConnectionCloseCalled && (state.numSenders || state.numReceivers)) {
         log.error(
           "[%s] connection.close() was not called from the sdk and there were some " +
-            "clients. We should reconnect.",
+            "senders and/or receivers. We should reconnect.",
           connectionContext.connection.id
         );
         await delay(Constants.connectionReconnectDelay);
-        // reconnect clients if any
-        for (const id of Object.keys(connectionContext.clientContexts)) {
-          const clientContext = connectionContext.clientContexts[id];
-          log.error(
-            "[%s] calling detached on client '%s'.",
-            connectionContext.connection.id,
-            clientContext.clientId
-          );
-          clientContext.onDetached(connectionError || contextError).catch((err) => {
+
+        const detachCalls: Promise<void>[] = [];
+
+        // Call onDetached() on sender so that it can decide whether to reconnect or not
+        for (const senderName of Object.keys(connectionContext.senders)) {
+          const sender = connectionContext.senders[senderName];
+          if (sender && !sender.isConnecting) {
             log.error(
-              "[%s] An error occurred while reconnecting the sender '%s': %O.",
+              "[%s] calling detached on sender '%s'.",
               connectionContext.connection.id,
-              clientContext.clientId,
-              err
+              sender.name
             );
-          });
+            detachCalls.push(
+              sender.onDetached().catch((err) => {
+                log.error(
+                  "[%s] An error occurred while calling onDetached() the sender '%s': %O.",
+                  connectionContext.connection.id,
+                  sender.name,
+                  err
+                );
+              })
+            );
+          }
         }
+
+        // Call onDetached() on batchingReceiver so that it can gracefully close any ongoing batch operation.
+        for (const batchingReceiverName of Object.keys(connectionContext.batchingReceivers)) {
+          const batchingReceiver = connectionContext.batchingReceivers[batchingReceiverName];
+          if (batchingReceiver && !batchingReceiver.isConnecting) {
+            log.error(
+              "[%s] calling detached on batching receiver '%s'.",
+              connectionContext.connection.id,
+              batchingReceiver.name
+            );
+            detachCalls.push(
+              batchingReceiver.onDetached(connectionError || contextError).catch((err) => {
+                log.error(
+                  "[%s] An error occurred while calling onDetached() on the batching receiver '%s': %O.",
+                  connectionContext.connection.id,
+                  batchingReceiver.name,
+                  err
+                );
+              })
+            );
+          }
+        }
+
+        // Call onDetached() on streamingReceiver so that it can decide whether to reconnect or not
+        for (const streamingReceiverName of Object.keys(connectionContext.streamingReceivers)) {
+          const streamingReceiver = connectionContext.streamingReceivers[streamingReceiverName];
+          if (streamingReceiver && !streamingReceiver.isConnecting) {
+            log.error(
+              "[%s] calling detached on streaming receiver '%s'.",
+              connectionContext.connection.id,
+              streamingReceiver.name
+            );
+            const causedByDisconnect = true;
+            detachCalls.push(
+              streamingReceiver
+                .onDetached(connectionError || contextError, causedByDisconnect)
+                .catch((err) => {
+                  log.error(
+                    "[%s] An error occurred while calling onDetached() on the streaming receiver '%s': %O.",
+                    connectionContext.connection.id,
+                    streamingReceiver.name,
+                    err
+                  );
+                })
+            );
+          }
+        }
+
+        await Promise.all(detachCalls);
       }
     };
 
@@ -354,11 +510,34 @@ export namespace ConnectionContext {
       if (context.connection.isOpen()) {
         log.ns("Closing the amqp connection '%s' on the client.", context.connectionId);
 
-        // Close all the clients.
-        for (const id of Object.keys(context.clientContexts)) {
-          const clientContext = context.clientContexts[id];
-          await clientContext.close();
+        // Close all the senders.
+        for (const senderName of Object.keys(context.senders)) {
+          await context.senders[senderName].close();
         }
+
+        // Close batching receiver
+        for (const batchingReceiverName of Object.keys(context.batchingReceivers)) {
+          await context.batchingReceivers[batchingReceiverName].close();
+        }
+
+        // Close streaming receiver
+        for (const streamingReceiverName of Object.keys(context.streamingReceivers)) {
+          await context.streamingReceivers[streamingReceiverName].close();
+        }
+
+        // Close all the MessageSessions.
+        for (const messageSessionName of Object.keys(context.messageSessions)) {
+          await context.messageSessions[messageSessionName].close();
+        }
+
+        // Close all the ManagementClients.
+        for (const entityPath of Object.keys(context.managementClients)) {
+          await context.managementClients[entityPath].close();
+        }
+
+        // Make sure that we clear the map of deferred messages
+        context.requestResponseLockedMessages.clear();
+
         await context.cbsSession.close();
 
         await context.connection.close();
