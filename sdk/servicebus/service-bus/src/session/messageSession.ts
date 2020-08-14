@@ -23,6 +23,7 @@ import { BatchingReceiverLite, MinimalReceiver } from "../core/batchingReceiver"
 import { onMessageSettled, DeferredPromiseAndTimer } from "../core/shared";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { ReceiverHelper } from "../core/receiverHelper";
+import { OperationOptionsBase } from "../modelsToBeSharedWithEventHubs";
 
 /**
  * Describes the options that need to be provided while creating a message session receiver link.
@@ -42,7 +43,7 @@ export interface CreateMessageSessionReceiverLinkOptions {
  * Describes the options passed to the `createReceiver` method when using a Queue/Subscription that
  * has sessions enabled.
  */
-export interface SessionReceiverOptions {
+export interface SessionReceiverOptions extends OperationOptionsBase {
   /**
    * @property The id of the session from which messages need to be received. If null or undefined is
    * provided, Service Bus chooses a random session from available sessions.
@@ -55,10 +56,6 @@ export interface SessionReceiverOptions {
    * - **To disable autolock renewal**, set this to `0`.
    */
   autoRenewLockDurationInMs?: number;
-  /**
-   * The signal which can be used to abort initialization.
-   */
-  abortSignal?: AbortSignalLike;
 }
 
 /**
