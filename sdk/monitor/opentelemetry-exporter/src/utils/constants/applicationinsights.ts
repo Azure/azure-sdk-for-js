@@ -3,3 +3,5 @@ export const AI_OPERATION_PARENT_ID = "ai.operation.parentId";
 export const AI_OPERATION_NAME = "ai.operation.name";
 export const MS_LINKS = "_MS.links";
 export const INPROC = "InProc";
+export const ENQUEUED_TIME = "enqueuedTime";
+export const TIME_SINCE_ENQUEUED = "timeSinceEnqueued";

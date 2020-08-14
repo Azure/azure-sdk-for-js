@@ -280,6 +280,10 @@ const queryOperationSpec: coreHttp.OperationSpec = {
     200: {
       bodyMapper: Mappers.TableQueryResponse,
       headersMapper: Mappers.TableQueryHeaders
+    },
+    default: {
+      bodyMapper: Mappers.TableServiceError,
+      headersMapper: Mappers.TableQueryHeaders
     }
   },
   queryParameters: [
@@ -377,7 +381,9 @@ const queryEntitiesWithPartitionAndRowKeyOperationSpec: coreHttp.OperationSpec =
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.TableEntityQueryResponse,
+      bodyMapper: {
+        type: { name: "Dictionary", value: { type: { name: "any" } } }
+      },
       headersMapper: Mappers.TableQueryEntitiesWithPartitionAndRowKeyHeaders
     },
     default: {

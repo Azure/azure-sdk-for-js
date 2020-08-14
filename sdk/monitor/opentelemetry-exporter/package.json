@@ -58,6 +58,7 @@
     "typescript": "~3.9.3"
   },
   "dependencies": {
+    "@azure/core-http": "^1.1.6",
     "@opentelemetry/api": "^0.10.2",
     "@opentelemetry/core": "^0.10.1",
     "@opentelemetry/semantic-conventions": "^0.10.1",

@@ -4,25 +4,26 @@
 import { TableServiceClient } from "./TableServiceClient";
 import {
   Entity,
+  QueryOptions,
   ListEntitiesOptions,
+  GetEntityResponse,
+  ListEntitiesResponse,
   CreateEntityOptions,
   UpdateEntityOptions,
-  MergeEntityOptions,
-  SetAccessPolicyOptions
+  UpsertEntityOptions,
+  SetAccessPolicyOptions,
+  UpdateMode
 } from "./models";
 import {
   TableServiceClientOptions as TableClientOptions,
   DeleteTableOptions,
   DeleteTableResponse,
-  QueryOptions,
   GetEntityOptions,
-  GetEntityResponse,
-  ListEntitiesResponse,
   CreateEntityResponse,
   DeleteEntityOptions,
   DeleteEntityResponse,
   UpdateEntityResponse,
-  MergeEntityResponse,
+  UpsertEntityResponse,
   GetAccessPolicyOptions,
   GetAccessPolicyResponse,
   SignedIdentifier,
@@ -127,12 +128,12 @@ export class TableClient {
    * @param rowKey The row key of the entity.
    * @param options The options parameters.
    */
-  getEntity(
+  public getEntity<T extends object>(
     partitionKey: string,
     rowKey: string,
     options?: GetEntityOptions
-  ): Promise<GetEntityResponse> {
-    return this.client.getEntity(this.tableName, partitionKey, rowKey, options);
+  ): Promise<GetEntityResponse<T>> {
+    return this.client.getEntity<T>(this.tableName, partitionKey, rowKey, options);
   }
 
   /**
@@ -140,12 +141,12 @@ export class TableClient {
    * @param query The OData query parameters.
    * @param options The options parameters.
    */
-  listEntities(
+  public listEntities<T extends object>(
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     query?: QueryOptions,
     options?: ListEntitiesOptions
-  ): Promise<ListEntitiesResponse> {
-    return this.client.listEntities(this.tableName, query, options);
+  ): Promise<ListEntitiesResponse<T>> {
+    return this.client.listEntities<T>(this.tableName, query, options);
   }
 
   /**
@@ -153,7 +154,10 @@ export class TableClient {
    * @param entity The properties for the table entity.
    * @param options The options parameters.
    */
-  createEntity(entity?: Entity, options?: CreateEntityOptions): Promise<CreateEntityResponse> {
+  public createEntity(
+    entity: Entity,
+    options?: CreateEntityOptions
+  ): Promise<CreateEntityResponse> {
     return this.client.createEntity(this.tableName, entity, options);
   }
 
@@ -166,7 +170,7 @@ export class TableClient {
    *                (*).
    * @param options The options parameters.
    */
-  deleteEntity(
+  public deleteEntity(
     partitionKey: string,
     rowKey: string,
     ifMatch: string,
@@ -176,31 +180,38 @@ export class TableClient {
   }
 
   /**
-   * Update entity in the table.
-   * @param entity The properties of the updated entity.
-   * @param ifMatch Match condition for an entity to be updated. If specified and a matching entity is not found, an error will be raised. To force an unconditional update, set to the wildcard character (*). If not specified, an insert will be performed when no existing entity is found to update and a replace will be performed if an existing entity is found.
+   * Update an entity in the table.
+   * @param entity The properties of the entity to be updated.
+   * @param mode The different modes for updating the entity:
+   *             - Merge: Updates an entity by updating the entity's properties without replacing the existing entity.
+   *             - Replace: Updates an existing entity by replacing the entire entity.
+   * @param etag The ETag of the entity to be updated. If specified and a matching entity is not found, an error will be raised. To force an unconditional update, set to the wildcard character (*). If not specified, an insert will be performed when no existing entity is found to update and a replace will be performed if an existing entity is found.
    * @param options The options parameters.
    */
-  updateEntity(
+  public updateEntity(
     entity: Entity,
-    ifMatch?: string,
+    mode: UpdateMode,
+    etag: string = "*",
     options?: UpdateEntityOptions
   ): Promise<UpdateEntityResponse> {
-    return this.client.updateEntity(this.tableName, entity, ifMatch, options);
+    return this.client.updateEntity(this.tableName, entity, mode, etag, options);
   }
 
   /**
-   * Merge entity in the table.
-   * @param entity The properties of the merged entity
-   * @param ifMatch Match condition for an entity to be updated. If specified and a matching entity is not found, an error will be raised. To force an unconditional update, set to the wildcard character (*). If not specified, an insert will be performed when no existing entity is found to update and a merge will be performed if an existing entity is found.
+   * Upsert an entity in the table.
+   * @param tableName The name of the table.
+   * @param entity The properties for the table entity.
+   * @param mode The different modes for updating the entity:
+   *             - Merge: Updates an entity by updating the entity's properties without replacing the existing entity.
+   *             - Replace: Updates an existing entity by replacing the entire entity.
    * @param options The options parameters.
    */
-  mergeEntity(
+  public upsertEntity(
     entity: Entity,
-    ifMatch?: string,
-    options?: MergeEntityOptions
-  ): Promise<MergeEntityResponse> {
-    return this.client.mergeEntity(this.tableName, entity, ifMatch, options);
+    mode: UpdateMode,
+    options?: UpsertEntityOptions
+  ): Promise<UpsertEntityResponse> {
+    return this.client.upsertEntity(this.tableName, entity, mode, options);
   }
 
   /**
@@ -208,7 +219,7 @@ export class TableClient {
    * Shared Access Signatures.
    * @param options The options parameters.
    */
-  getAccessPolicy(options?: GetAccessPolicyOptions): Promise<GetAccessPolicyResponse> {
+  public getAccessPolicy(options?: GetAccessPolicyOptions): Promise<GetAccessPolicyResponse> {
     return this.client.getAccessPolicy(this.tableName, options);
   }
 
@@ -217,7 +228,7 @@ export class TableClient {
    * @param acl The Access Control List for the table.
    * @param options The options parameters.
    */
-  setAccessPolicy(
+  public setAccessPolicy(
     acl?: SignedIdentifier[],
     options?: SetAccessPolicyOptions
   ): Promise<SetAccessPolicyResponse> {
