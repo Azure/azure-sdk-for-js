@@ -11,13 +11,13 @@ import { delay } from "../src";
 import { ServiceBusClientForTests, createServiceBusClientForTests } from "./utils/testutils2";
 import { defaultLock } from "@azure/core-amqp";
 import { TestClientType } from "./utils/testUtils";
-import { SenderImpl } from "../src/sender";
+import { ServiceBusSenderImpl } from "../src/sender";
 import { AbortController } from "@azure/abort-controller";
 
 chai.use(chaiAsPromised);
 
 describe("controlled connection initialization", () => {
-  let sender: SenderImpl;
+  let sender: ServiceBusSenderImpl;
   let senderEntityPath: string;
   let serviceBusClient: ServiceBusClientForTests;
 
@@ -36,7 +36,7 @@ describe("controlled connection initialization", () => {
 
     // casting because I need access to 'open' and the return type of createSender() is an
     // interface.
-    sender = serviceBusClient.createSender(queue!) as SenderImpl;
+    sender = serviceBusClient.createSender(queue!) as ServiceBusSenderImpl;
     senderEntityPath = queue!;
   });
 

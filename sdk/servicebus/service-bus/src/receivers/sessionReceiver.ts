@@ -2,17 +2,13 @@
 // Licensed under the MIT license.
 
 import { ConnectionContext } from "../connectionContext";
-import {
-  MessageHandlers,
-  ReceiveMessagesOptions,
-  ReceivedMessage,
-  SessionMessageHandlerOptions,
-  SubscribeOptions
-} from "..";
+import { MessageHandlers, ReceiveMessagesOptions, ReceivedMessage } from "..";
 import {
   PeekMessagesOptions,
   CreateSessionReceiverOptions,
-  GetMessageIteratorOptions
+  GetMessageIteratorOptions,
+  MessageHandlerOptionsBase,
+  SessionSubscribeOptions
 } from "../models";
 import { MessageSession } from "../session/messageSession";
 import {
@@ -26,7 +22,7 @@ import * as log from "../log";
 import { OnError, OnMessage } from "../core/messageReceiver";
 import { assertValidMessageHandlers, getMessageIterator, wrapProcessErrorHandler } from "./shared";
 import { convertToInternalReceiveMode } from "../constructorHelpers";
-import { Receiver, defaultMaxTimeAfterFirstMessageForBatchingMs } from "./receiver";
+import { defaultMaxTimeAfterFirstMessageForBatchingMs, ServiceBusReceiver } from "./receiver";
 import Long from "long";
 import { ReceivedMessageWithLock, ServiceBusMessageImpl } from "../serviceBusMessage";
 import {
@@ -45,9 +41,9 @@ import { AmqpError } from "rhea-promise";
 /**
  *A receiver that handles sessions, including renewing the session lock.
  */
-export interface SessionReceiver<
+export interface ServiceBusSessionReceiver<
   ReceivedMessageT extends ReceivedMessage | ReceivedMessageWithLock
-> extends Receiver<ReceivedMessageT> {
+> extends ServiceBusReceiver<ReceivedMessageT> {
   /**
    * The session ID.
    */
@@ -62,7 +58,24 @@ export interface SessionReceiver<
    *
    * @readonly
    */
-  sessionLockedUntilUtc: Date | undefined;
+  readonly sessionLockedUntilUtc: Date;
+
+  /**
+   * Streams messages to message handlers.
+   * @param handlers A handler that gets called for messages and errors.
+   * @param options Options for subscribe.
+   * @returns An object that can be closed, sending any remaining messages to `handlers` and
+   * stopping new messages from arriving.
+   */
+  subscribe(
+    handlers: MessageHandlers<ReceivedMessageT>,
+    options?: SessionSubscribeOptions
+  ): {
+    /**
+     * Causes the subscriber to stop receiving new messages.
+     */
+    close(): Promise<void>;
+  };
 
   /**
    * Renews the lock on the session.
@@ -77,7 +90,7 @@ export interface SessionReceiver<
    * @throws Error if the underlying connection or receiver is closed.
    * @throws MessagingError if the service returns an error while retrieving session state.
    */
-  getState(options?: OperationOptionsBase): Promise<any>;
+  getSessionState(options?: OperationOptionsBase): Promise<any>;
 
   /**
    * Sets the state on the Session. For more on session states, see
@@ -90,15 +103,16 @@ export interface SessionReceiver<
    * @param {*} state
    * @returns {Promise<void>}
    */
-  setState(state: any, options?: OperationOptionsBase): Promise<void>;
+  setSessionState(state: any, options?: OperationOptionsBase): Promise<void>;
 }
 
 /**
  * @internal
  * @ignore
  */
-export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMessageWithLock>
-  implements SessionReceiver<ReceivedMessageT> {
+export class ServiceBusSessionReceiverImpl<
+  ReceivedMessageT extends ReceivedMessage | ReceivedMessageWithLock
+> implements ServiceBusSessionReceiver<ReceivedMessageT> {
   public sessionId: string;
 
   /**
@@ -132,16 +146,16 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
       | CreateSessionReceiverOptions<"peekLock">
       | CreateSessionReceiverOptions<"receiveAndDelete">,
     retryOptions: RetryOptions = {}
-  ): Promise<SessionReceiver<ReceivedMessageT>> {
+  ): Promise<ServiceBusSessionReceiver<ReceivedMessageT>> {
     if (sessionOptions.sessionId != undefined) {
       sessionOptions.sessionId = String(sessionOptions.sessionId);
     }
     const messageSession = await MessageSession.create(context, entityPath, {
       sessionId: sessionOptions.sessionId,
-      autoRenewLockDurationInMs: sessionOptions.autoRenewLockDurationInMs,
+      maxAutoRenewLockDurationInMs: sessionOptions.maxAutoRenewLockDurationInMs,
       receiveMode: convertToInternalReceiveMode(receiveMode)
     });
-    const sessionReceiver = new SessionReceiverImpl<ReceivedMessageT>(
+    const sessionReceiver = new ServiceBusSessionReceiverImpl<ReceivedMessageT>(
       messageSession,
       context,
       entityPath,
@@ -198,8 +212,8 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
    *
    * @readonly
    */
-  public get sessionLockedUntilUtc(): Date | undefined {
-    return this._messageSession ? this._messageSession.sessionLockedUntilUtc : undefined;
+  public get sessionLockedUntilUtc(): Date {
+    return this._messageSession.sessionLockedUntilUtc;
   }
 
   /**
@@ -248,7 +262,7 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
    * @throws Error if the underlying connection or receiver is closed.
    * @throws MessagingError if the service returns an error while setting the session state.
    */
-  async setState(state: any, options: OperationOptionsBase = {}): Promise<void> {
+  async setSessionState(state: any, options: OperationOptionsBase = {}): Promise<void> {
     this._throwIfReceiverOrConnectionClosed();
 
     const setSessionStateOperationPromise = async () => {
@@ -280,7 +294,7 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
    * @throws Error if the underlying connection or receiver is closed.
    * @throws MessagingError if the service returns an error while retrieving session state.
    */
-  async getState(options: OperationOptionsBase = {}): Promise<any> {
+  async getSessionState(options: OperationOptionsBase = {}): Promise<any> {
     this._throwIfReceiverOrConnectionClosed();
 
     const getSessionStateOperationPromise = async () => {
@@ -422,7 +436,7 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
 
   subscribe(
     handlers: MessageHandlers<ReceivedMessageT>,
-    options?: SubscribeOptions
+    options?: SessionSubscribeOptions
   ): {
     close(): Promise<void>;
   } {
@@ -471,7 +485,7 @@ export class SessionReceiverImpl<ReceivedMessageT extends ReceivedMessage | Rece
   private _registerMessageHandler(
     onMessage: OnMessage,
     onError: OnError,
-    options?: SessionMessageHandlerOptions
+    options?: MessageHandlerOptionsBase
   ): void {
     this._throwIfReceiverOrConnectionClosed();
     this._throwIfAlreadyReceiving();
