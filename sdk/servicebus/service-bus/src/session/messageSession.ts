@@ -60,7 +60,7 @@ export class MessageSession extends LinkEntity {
   /**
    * @property {Date} [sessionLockedUntilUtc] Provides the duration until which the session is locked.
    */
-  sessionLockedUntilUtc?: Date;
+  sessionLockedUntilUtc!: Date;
   /**
    * @property {string} [providedSessionId] The sessionId provided in the MessageSessionOptions. Empty string is valid sessionId.
    */

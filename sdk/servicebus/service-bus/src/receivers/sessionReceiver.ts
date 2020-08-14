@@ -58,7 +58,7 @@ export interface ServiceBusSessionReceiver<
    *
    * @readonly
    */
-  sessionLockedUntilUtc: Date | undefined;
+  readonly sessionLockedUntilUtc: Date;
 
   /**
    * Streams messages to message handlers.
@@ -212,8 +212,8 @@ export class ServiceBusSessionReceiverImpl<
    *
    * @readonly
    */
-  public get sessionLockedUntilUtc(): Date | undefined {
-    return this._messageSession ? this._messageSession.sessionLockedUntilUtc : undefined;
+  public get sessionLockedUntilUtc(): Date {
+    return this._messageSession.sessionLockedUntilUtc;
   }
 
   /**
