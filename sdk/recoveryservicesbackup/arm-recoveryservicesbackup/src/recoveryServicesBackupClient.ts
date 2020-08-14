@@ -9,6 +9,7 @@
  */
 
 import * as msRest from "@azure/ms-rest-js";
+import * as msRestAzure from "@azure/ms-rest-azure-js";
 import * as Models from "./models";
 import * as Mappers from "./models/mappers";
 import * as Parameters from "./models/parameters";
@@ -18,6 +19,7 @@ import { RecoveryServicesBackupClientContext } from "./recoveryServicesBackupCli
 
 class RecoveryServicesBackupClient extends RecoveryServicesBackupClientContext {
   // Operation groups
+  bMSPrepareDataMoveOperationResult: operations.BMSPrepareDataMoveOperationResult;
   privateEndpointConnection: operations.PrivateEndpointConnectionOperations;
   backupResourceVaultConfigs: operations.BackupResourceVaultConfigs;
   protectedItems: operations.ProtectedItems;
@@ -66,6 +68,7 @@ class RecoveryServicesBackupClient extends RecoveryServicesBackupClientContext {
    */
   constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.RecoveryServicesBackupClientOptions) {
     super(credentials, subscriptionId, options);
+    this.bMSPrepareDataMoveOperationResult = new operations.BMSPrepareDataMoveOperationResult(this);
     this.privateEndpointConnection = new operations.PrivateEndpointConnectionOperations(this);
     this.backupResourceVaultConfigs = new operations.BackupResourceVaultConfigs(this);
     this.protectedItems = new operations.ProtectedItems(this);
@@ -108,6 +111,73 @@ class RecoveryServicesBackupClient extends RecoveryServicesBackupClientContext {
   }
 
   /**
+   * Fetches operation status for data move operation on vault
+   * @param vaultName The name of the recovery services vault.
+   * @param resourceGroupName The name of the resource group where the recovery services vault is
+   * present.
+   * @param operationId
+   * @param [options] The optional parameters
+   * @returns Promise<Models.GetOperationStatusResponse>
+   */
+  getOperationStatus(vaultName: string, resourceGroupName: string, operationId: string, options?: msRest.RequestOptionsBase): Promise<Models.GetOperationStatusResponse>;
+  /**
+   * @param vaultName The name of the recovery services vault.
+   * @param resourceGroupName The name of the resource group where the recovery services vault is
+   * present.
+   * @param operationId
+   * @param callback The callback
+   */
+  getOperationStatus(vaultName: string, resourceGroupName: string, operationId: string, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  /**
+   * @param vaultName The name of the recovery services vault.
+   * @param resourceGroupName The name of the resource group where the recovery services vault is
+   * present.
+   * @param operationId
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  getOperationStatus(vaultName: string, resourceGroupName: string, operationId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  getOperationStatus(vaultName: string, resourceGroupName: string, operationId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.GetOperationStatusResponse> {
+    return this.sendOperationRequest(
+      {
+        vaultName,
+        resourceGroupName,
+        operationId,
+        options
+      },
+      getOperationStatusOperationSpec,
+      callback) as Promise<Models.GetOperationStatusResponse>;
+  }
+
+  /**
+   * Prepares source vault for Data Move operation
+   * @param vaultName The name of the recovery services vault.
+   * @param resourceGroupName The name of the resource group where the recovery services vault is
+   * present.
+   * @param parameters Prepare data move request
+   * @param [options] The optional parameters
+   * @returns Promise<msRest.RestResponse>
+   */
+  bMSPrepareDataMove(vaultName: string, resourceGroupName: string, parameters: Models.PrepareDataMoveRequest, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+    return this.beginBMSPrepareDataMove(vaultName,resourceGroupName,parameters,options)
+      .then(lroPoller => lroPoller.pollUntilFinished());
+  }
+
+  /**
+   * Triggers Data Move Operation on target vault
+   * @param vaultName The name of the recovery services vault.
+   * @param resourceGroupName The name of the resource group where the recovery services vault is
+   * present.
+   * @param parameters Trigger data move request
+   * @param [options] The optional parameters
+   * @returns Promise<msRest.RestResponse>
+   */
+  bMSTriggerDataMove(vaultName: string, resourceGroupName: string, parameters: Models.TriggerDataMoveRequest, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+    return this.beginBMSTriggerDataMove(vaultName,resourceGroupName,parameters,options)
+      .then(lroPoller => lroPoller.pollUntilFinished());
+  }
+
+  /**
    * @summary Gets the operation status for a private endpoint connection.
    * @param vaultName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
@@ -115,9 +185,9 @@ class RecoveryServicesBackupClient extends RecoveryServicesBackupClientContext {
    * @param privateEndpointConnectionName The name of the private endpoint connection.
    * @param operationId Operation id
    * @param [options] The optional parameters
-   * @returns Promise<Models.GetOperationStatusResponse>
+   * @returns Promise<Models.GetOperationStatus1Response>
    */
-  getOperationStatus(vaultName: string, resourceGroupName: string, privateEndpointConnectionName: string, operationId: string, options?: msRest.RequestOptionsBase): Promise<Models.GetOperationStatusResponse>;
+  getOperationStatus1(vaultName: string, resourceGroupName: string, privateEndpointConnectionName: string, operationId: string, options?: msRest.RequestOptionsBase): Promise<Models.GetOperationStatus1Response>;
   /**
    * @param vaultName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
@@ -126,7 +196,7 @@ class RecoveryServicesBackupClient extends RecoveryServicesBackupClientContext {
    * @param operationId Operation id
    * @param callback The callback
    */
-  getOperationStatus(vaultName: string, resourceGroupName: string, privateEndpointConnectionName: string, operationId: string, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  getOperationStatus1(vaultName: string, resourceGroupName: string, privateEndpointConnectionName: string, operationId: string, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
   /**
    * @param vaultName The name of the recovery services vault.
    * @param resourceGroupName The name of the resource group where the recovery services vault is
@@ -136,8 +206,8 @@ class RecoveryServicesBackupClient extends RecoveryServicesBackupClientContext {
    * @param options The optional parameters
    * @param callback The callback
    */
-  getOperationStatus(vaultName: string, resourceGroupName: string, privateEndpointConnectionName: string, operationId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
-  getOperationStatus(vaultName: string, resourceGroupName: string, privateEndpointConnectionName: string, operationId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.GetOperationStatusResponse> {
+  getOperationStatus1(vaultName: string, resourceGroupName: string, privateEndpointConnectionName: string, operationId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.OperationStatus>): void;
+  getOperationStatus1(vaultName: string, resourceGroupName: string, privateEndpointConnectionName: string, operationId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.OperationStatus>, callback?: msRest.ServiceCallback<Models.OperationStatus>): Promise<Models.GetOperationStatus1Response> {
     return this.sendOperationRequest(
       {
         vaultName,
@@ -146,8 +216,50 @@ class RecoveryServicesBackupClient extends RecoveryServicesBackupClientContext {
         operationId,
         options
       },
-      getOperationStatusOperationSpec,
-      callback) as Promise<Models.GetOperationStatusResponse>;
+      getOperationStatus1OperationSpec,
+      callback) as Promise<Models.GetOperationStatus1Response>;
+  }
+
+  /**
+   * Prepares source vault for Data Move operation
+   * @param vaultName The name of the recovery services vault.
+   * @param resourceGroupName The name of the resource group where the recovery services vault is
+   * present.
+   * @param parameters Prepare data move request
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginBMSPrepareDataMove(vaultName: string, resourceGroupName: string, parameters: Models.PrepareDataMoveRequest, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.sendLRORequest(
+      {
+        vaultName,
+        resourceGroupName,
+        parameters,
+        options
+      },
+      beginBMSPrepareDataMoveOperationSpec,
+      options);
+  }
+
+  /**
+   * Triggers Data Move Operation on target vault
+   * @param vaultName The name of the recovery services vault.
+   * @param resourceGroupName The name of the resource group where the recovery services vault is
+   * present.
+   * @param parameters Trigger data move request
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginBMSTriggerDataMove(vaultName: string, resourceGroupName: string, parameters: Models.TriggerDataMoveRequest, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.sendLRORequest(
+      {
+        vaultName,
+        resourceGroupName,
+        parameters,
+        options
+      },
+      beginBMSTriggerDataMoveOperationSpec,
+      options);
   }
 }
 
@@ -155,12 +267,11 @@ class RecoveryServicesBackupClient extends RecoveryServicesBackupClientContext {
 const serializer = new msRest.Serializer(Mappers);
 const getOperationStatusOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/privateEndpointConnections/{privateEndpointConnectionName}/operationsStatus/{operationId}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupstorageconfig/vaultstorageconfig/operationStatus/{operationId}",
   urlParameters: [
     Parameters.vaultName,
     Parameters.resourceGroupName,
     Parameters.subscriptionId,
-    Parameters.privateEndpointConnectionName,
     Parameters.operationId
   ],
   queryParameters: [
@@ -174,7 +285,96 @@ const getOperationStatusOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.OperationStatus
     },
     default: {
+      bodyMapper: Mappers.NewErrorResponse
+    }
+  },
+  serializer
+};
+
+const getOperationStatus1OperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "Subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/privateEndpointConnections/{privateEndpointConnectionName}/operationsStatus/{operationId}",
+  urlParameters: [
+    Parameters.vaultName,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId,
+    Parameters.privateEndpointConnectionName,
+    Parameters.operationId
+  ],
+  queryParameters: [
+    Parameters.apiVersion1
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.OperationStatus
+    },
+    default: {
       bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  serializer
+};
+
+const beginBMSPrepareDataMoveOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupstorageconfig/vaultstorageconfig/prepareDataMove",
+  urlParameters: [
+    Parameters.vaultName,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion0
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "parameters",
+    mapper: {
+      ...Mappers.PrepareDataMoveRequest,
+      required: true
+    }
+  },
+  responses: {
+    200: {},
+    202: {},
+    default: {
+      bodyMapper: Mappers.NewErrorResponse
+    }
+  },
+  serializer
+};
+
+const beginBMSTriggerDataMoveOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.RecoveryServices/vaults/{vaultName}/backupstorageconfig/vaultstorageconfig/triggerDataMove",
+  urlParameters: [
+    Parameters.vaultName,
+    Parameters.resourceGroupName,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion0
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "parameters",
+    mapper: {
+      ...Mappers.TriggerDataMoveRequest,
+      required: true
+    }
+  },
+  responses: {
+    200: {},
+    202: {},
+    default: {
+      bodyMapper: Mappers.NewErrorResponse
     }
   },
   serializer

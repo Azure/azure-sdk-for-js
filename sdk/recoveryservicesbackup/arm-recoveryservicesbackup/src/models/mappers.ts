@@ -12,6 +12,259 @@ import * as msRest from "@azure/ms-rest-js";
 export const CloudError = CloudErrorMapper;
 export const BaseResource = BaseResourceMapper;
 
+export const ErrorAdditionalInfo: msRest.CompositeMapper = {
+  serializedName: "ErrorAdditionalInfo",
+  type: {
+    name: "Composite",
+    className: "ErrorAdditionalInfo",
+    modelProperties: {
+      type: {
+        readOnly: true,
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      },
+      info: {
+        readOnly: true,
+        serializedName: "info",
+        type: {
+          name: "Object"
+        }
+      }
+    }
+  }
+};
+
+export const NewErrorResponseError: msRest.CompositeMapper = {
+  serializedName: "NewErrorResponse_error",
+  type: {
+    name: "Composite",
+    className: "NewErrorResponseError",
+    modelProperties: {
+      code: {
+        readOnly: true,
+        serializedName: "code",
+        type: {
+          name: "String"
+        }
+      },
+      message: {
+        readOnly: true,
+        serializedName: "message",
+        type: {
+          name: "String"
+        }
+      },
+      target: {
+        readOnly: true,
+        serializedName: "target",
+        type: {
+          name: "String"
+        }
+      },
+      details: {
+        readOnly: true,
+        serializedName: "details",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "NewErrorResponse"
+            }
+          }
+        }
+      },
+      additionalInfo: {
+        readOnly: true,
+        serializedName: "additionalInfo",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ErrorAdditionalInfo"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const NewErrorResponse: msRest.CompositeMapper = {
+  serializedName: "NewErrorResponse",
+  type: {
+    name: "Composite",
+    className: "NewErrorResponse",
+    modelProperties: {
+      error: {
+        serializedName: "error",
+        type: {
+          name: "Composite",
+          className: "NewErrorResponseError"
+        }
+      }
+    }
+  }
+};
+
+export const VaultStorageConfigOperationResultResponse: msRest.CompositeMapper = {
+  serializedName: "VaultStorageConfigOperationResultResponse",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: {
+      serializedName: "objectType",
+      clientName: "objectType"
+    },
+    uberParent: "VaultStorageConfigOperationResultResponse",
+    className: "VaultStorageConfigOperationResultResponse",
+    modelProperties: {
+      objectType: {
+        required: true,
+        serializedName: "objectType",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const PrepareDataMoveRequest: msRest.CompositeMapper = {
+  serializedName: "PrepareDataMoveRequest",
+  type: {
+    name: "Composite",
+    className: "PrepareDataMoveRequest",
+    modelProperties: {
+      targetResourceId: {
+        required: true,
+        serializedName: "targetResourceId",
+        type: {
+          name: "String"
+        }
+      },
+      targetRegion: {
+        required: true,
+        serializedName: "targetRegion",
+        type: {
+          name: "String"
+        }
+      },
+      dataMoveLevel: {
+        required: true,
+        serializedName: "dataMoveLevel",
+        type: {
+          name: "String"
+        }
+      },
+      sourceContainerArmIds: {
+        serializedName: "sourceContainerArmIds",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      ignoreMoved: {
+        serializedName: "ignoreMoved",
+        type: {
+          name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
+export const PrepareDataMoveResponse: msRest.CompositeMapper = {
+  serializedName: "PrepareDataMoveResponse",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: VaultStorageConfigOperationResultResponse.type.polymorphicDiscriminator,
+    uberParent: "VaultStorageConfigOperationResultResponse",
+    className: "PrepareDataMoveResponse",
+    modelProperties: {
+      ...VaultStorageConfigOperationResultResponse.type.modelProperties,
+      correlationId: {
+        serializedName: "correlationId",
+        type: {
+          name: "String"
+        }
+      },
+      sourceVaultProperties: {
+        serializedName: "sourceVaultProperties",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const TriggerDataMoveRequest: msRest.CompositeMapper = {
+  serializedName: "TriggerDataMoveRequest",
+  type: {
+    name: "Composite",
+    className: "TriggerDataMoveRequest",
+    modelProperties: {
+      sourceResourceId: {
+        required: true,
+        serializedName: "sourceResourceId",
+        type: {
+          name: "String"
+        }
+      },
+      sourceRegion: {
+        required: true,
+        serializedName: "sourceRegion",
+        type: {
+          name: "String"
+        }
+      },
+      dataMoveLevel: {
+        required: true,
+        serializedName: "dataMoveLevel",
+        type: {
+          name: "String"
+        }
+      },
+      correlationId: {
+        required: true,
+        serializedName: "correlationId",
+        type: {
+          name: "String"
+        }
+      },
+      sourceContainerArmIds: {
+        serializedName: "sourceContainerArmIds",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      pauseGC: {
+        serializedName: "pauseGC",
+        type: {
+          name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
 export const OperationStatusError: msRest.CompositeMapper = {
   serializedName: "OperationStatusError",
   type: {
@@ -256,30 +509,6 @@ export const PrivateEndpointConnectionResource: msRest.CompositeMapper = {
   }
 };
 
-export const ErrorAdditionalInfo: msRest.CompositeMapper = {
-  serializedName: "ErrorAdditionalInfo",
-  type: {
-    name: "Composite",
-    className: "ErrorAdditionalInfo",
-    modelProperties: {
-      type: {
-        readOnly: true,
-        serializedName: "type",
-        type: {
-          name: "String"
-        }
-      },
-      info: {
-        readOnly: true,
-        serializedName: "info",
-        type: {
-          name: "Object"
-        }
-      }
-    }
-  }
-};
-
 export const ErrorResponse: msRest.CompositeMapper = {
   serializedName: "ErrorResponse",
   type: {
@@ -337,11 +566,11 @@ export const ErrorResponse: msRest.CompositeMapper = {
   }
 };
 
-export const HealthDetails: msRest.CompositeMapper = {
-  serializedName: "HealthDetails",
+export const ResourceHealthDetails: msRest.CompositeMapper = {
+  serializedName: "ResourceHealthDetails",
   type: {
     name: "Composite",
-    className: "HealthDetails",
+    className: "ResourceHealthDetails",
     modelProperties: {
       code: {
         readOnly: true,
@@ -372,6 +601,34 @@ export const HealthDetails: msRest.CompositeMapper = {
           element: {
             type: {
               name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const KPIResourceHealthDetails: msRest.CompositeMapper = {
+  serializedName: "KPIResourceHealthDetails",
+  type: {
+    name: "Composite",
+    className: "KPIResourceHealthDetails",
+    modelProperties: {
+      resourceHealthStatus: {
+        serializedName: "resourceHealthStatus",
+        type: {
+          name: "String"
+        }
+      },
+      resourceHealthDetails: {
+        serializedName: "resourceHealthDetails",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ResourceHealthDetails"
             }
           }
         }
@@ -549,24 +806,6 @@ export const AzureFileshareProtectedItem: msRest.CompositeMapper = {
           name: "String"
         }
       },
-      healthStatus: {
-        serializedName: "healthStatus",
-        type: {
-          name: "String"
-        }
-      },
-      healthDetails: {
-        serializedName: "healthDetails",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "HealthDetails"
-            }
-          }
-        }
-      },
       lastBackupStatus: {
         serializedName: "lastBackupStatus",
         type: {
@@ -577,6 +816,18 @@ export const AzureFileshareProtectedItem: msRest.CompositeMapper = {
         serializedName: "lastBackupTime",
         type: {
           name: "DateTime"
+        }
+      },
+      kpisHealths: {
+        serializedName: "kpisHealths",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "Composite",
+              className: "KPIResourceHealthDetails"
+            }
+          }
         }
       },
       extendedInfo: {
@@ -1045,6 +1296,18 @@ export const AzureIaaSVMProtectedItem: msRest.CompositeMapper = {
           }
         }
       },
+      kpisHealths: {
+        serializedName: "kpisHealths",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "Composite",
+              className: "KPIResourceHealthDetails"
+            }
+          }
+        }
+      },
       lastBackupStatus: {
         serializedName: "lastBackupStatus",
         type: {
@@ -1156,7 +1419,7 @@ export const AzureIaaSVMHealthDetails: msRest.CompositeMapper = {
     name: "Composite",
     className: "AzureIaaSVMHealthDetails",
     modelProperties: {
-      ...HealthDetails.type.modelProperties
+      ...ResourceHealthDetails.type.modelProperties
     }
   }
 };
@@ -1925,29 +2188,23 @@ export const AzureVmWorkloadProtectedItem: msRest.CompositeMapper = {
           name: "String"
         }
       },
-      healthStatus: {
-        serializedName: "healthStatus",
-        type: {
-          name: "String"
-        }
-      },
-      healthDetails: {
-        serializedName: "healthDetails",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "HealthDetails"
-            }
-          }
-        }
-      },
       extendedInfo: {
         serializedName: "extendedInfo",
         type: {
           name: "Composite",
           className: "AzureVmWorkloadProtectedItemExtendedInfo"
+        }
+      },
+      kpisHealths: {
+        serializedName: "kpisHealths",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "Composite",
+              className: "KPIResourceHealthDetails"
+            }
+          }
         }
       }
     }
@@ -7926,6 +8183,8 @@ export const ClientDiscoveryResponse: msRest.CompositeMapper = {
 };
 
 export const discriminators = {
+  'VaultStorageConfigOperationResultResponse' : VaultStorageConfigOperationResultResponse,
+  'VaultStorageConfigOperationResultResponse.PrepareDataMoveResponse' : PrepareDataMoveResponse,
   'OperationStatusExtendedInfo' : OperationStatusExtendedInfo,
   'ProtectedItem.AzureFileShareProtectedItem' : AzureFileshareProtectedItem,
   'RecoveryPoint.AzureFileShareRecoveryPoint' : AzureFileShareRecoveryPoint,

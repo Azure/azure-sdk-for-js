@@ -12,6 +12,153 @@ import * as msRest from "@azure/ms-rest-js";
 export { BaseResource, CloudError };
 
 /**
+ * The resource management error additional info.
+ */
+export interface ErrorAdditionalInfo {
+  /**
+   * The additional info type.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: string;
+  /**
+   * The additional info.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly info?: any;
+}
+
+/**
+ * The error object.
+ */
+export interface NewErrorResponseError {
+  /**
+   * The error code.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly code?: string;
+  /**
+   * The error message.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly message?: string;
+  /**
+   * The error target.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly target?: string;
+  /**
+   * The error details.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly details?: NewErrorResponse[];
+  /**
+   * The error additional info.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly additionalInfo?: ErrorAdditionalInfo[];
+}
+
+/**
+ * The resource management error response.
+ */
+export interface NewErrorResponse {
+  /**
+   * The error object.
+   */
+  error?: NewErrorResponseError;
+}
+
+/**
+ * Contains the possible cases for VaultStorageConfigOperationResultResponse.
+ */
+export type VaultStorageConfigOperationResultResponseUnion = VaultStorageConfigOperationResultResponse | PrepareDataMoveResponse;
+
+/**
+ * Operation result response for Vault Storage Config
+ */
+export interface VaultStorageConfigOperationResultResponse {
+  /**
+   * Polymorphic Discriminator
+   */
+  objectType: "VaultStorageConfigOperationResultResponse";
+}
+
+/**
+ * Prepare DataMove Request
+ */
+export interface PrepareDataMoveRequest {
+  /**
+   * ARM Id of target vault
+   */
+  targetResourceId: string;
+  /**
+   * Target Region
+   */
+  targetRegion: string;
+  /**
+   * DataMove Level. Possible values include: 'Invalid', 'Vault', 'Container'
+   */
+  dataMoveLevel: DataMoveLevel;
+  /**
+   * Source Container ArmIds
+   * This needs to be populated only if DataMoveLevel is set to container
+   */
+  sourceContainerArmIds?: string[];
+  /**
+   * Ignore the artifacts which are already moved.
+   */
+  ignoreMoved?: boolean;
+}
+
+/**
+ * Prepare DataMove Response
+ */
+export interface PrepareDataMoveResponse {
+  /**
+   * Polymorphic Discriminator
+   */
+  objectType: "PrepareDataMoveResponse";
+  /**
+   * Co-relationId for move operation
+   */
+  correlationId?: string;
+  /**
+   * Source Vault Properties
+   */
+  sourceVaultProperties?: { [propertyName: string]: string };
+}
+
+/**
+ * Trigger DataMove Request
+ */
+export interface TriggerDataMoveRequest {
+  /**
+   * ARM Id of source vault
+   */
+  sourceResourceId: string;
+  /**
+   * Source Region
+   */
+  sourceRegion: string;
+  /**
+   * DataMove Level. Possible values include: 'Invalid', 'Vault', 'Container'
+   */
+  dataMoveLevel: DataMoveLevel;
+  /**
+   * Correlation Id
+   */
+  correlationId: string;
+  /**
+   * Source Container ArmIds
+   */
+  sourceContainerArmIds?: string[];
+  /**
+   * Pause GC
+   */
+  pauseGC?: boolean;
+}
+
+/**
  * Error information associated with operation status call.
  */
 export interface OperationStatusError {
@@ -167,22 +314,6 @@ export interface PrivateEndpointConnectionResource extends Resource {
 }
 
 /**
- * The resource management error additional info.
- */
-export interface ErrorAdditionalInfo {
-  /**
-   * The additional info type.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly type?: string;
-  /**
-   * The additional info.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly info?: any;
-}
-
-/**
  * The resource management error response.
  */
 export interface ErrorResponse {
@@ -216,7 +347,7 @@ export interface ErrorResponse {
 /**
  * Health Details for backup items.
  */
-export interface HealthDetails {
+export interface ResourceHealthDetails {
   /**
    * Health Code
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -237,6 +368,21 @@ export interface HealthDetails {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly recommendations?: string[];
+}
+
+/**
+ * KPI Resource Health Details
+ */
+export interface KPIResourceHealthDetails {
+  /**
+   * Resource Health Status. Possible values include: 'Healthy', 'TransientDegraded',
+   * 'PersistentDegraded', 'TransientUnhealthy', 'PersistentUnhealthy', 'Invalid'
+   */
+  resourceHealthStatus?: ResourceHealthStatus;
+  /**
+   * Resource Health Status
+   */
+  resourceHealthDetails?: ResourceHealthDetails[];
 }
 
 /**
@@ -419,16 +565,6 @@ export interface AzureFileshareProtectedItem {
    */
   protectionState?: ProtectionState;
   /**
-   * Health status of protected item. Possible values include: 'Passed', 'ActionRequired',
-   * 'ActionSuggested', 'Healthy', 'TransientDegraded', 'PersistentDegraded', 'TransientUnhealthy',
-   * 'PersistentUnhealthy', 'Invalid'
-   */
-  healthStatus?: HealthStatus;
-  /**
-   * Health details on this backup item.
-   */
-  healthDetails?: HealthDetails[];
-  /**
    * Last backup operation status. Possible values: Healthy, Unhealthy.
    */
   lastBackupStatus?: string;
@@ -436,6 +572,10 @@ export interface AzureFileshareProtectedItem {
    * Timestamp of the last backup operation on this backup item.
    */
   lastBackupTime?: Date;
+  /**
+   * Health details of different KPIs
+   */
+  kpisHealths?: { [propertyName: string]: KPIResourceHealthDetails };
   /**
    * Additional information with this backup item.
    */
@@ -813,14 +953,17 @@ export interface AzureIaaSVMProtectedItem {
   protectionState?: ProtectionState;
   /**
    * Health status of protected item. Possible values include: 'Passed', 'ActionRequired',
-   * 'ActionSuggested', 'Healthy', 'TransientDegraded', 'PersistentDegraded', 'TransientUnhealthy',
-   * 'PersistentUnhealthy', 'Invalid'
+   * 'ActionSuggested', 'Invalid'
    */
   healthStatus?: HealthStatus;
   /**
    * Health details on this backup item.
    */
   healthDetails?: AzureIaaSVMHealthDetails[];
+  /**
+   * Health details of different KPIs
+   */
+  kpisHealths?: { [propertyName: string]: KPIResourceHealthDetails };
   /**
    * Last backup operation status.
    */
@@ -924,14 +1067,17 @@ export interface AzureIaaSClassicComputeVMProtectedItem {
   protectionState?: ProtectionState;
   /**
    * Health status of protected item. Possible values include: 'Passed', 'ActionRequired',
-   * 'ActionSuggested', 'Healthy', 'TransientDegraded', 'PersistentDegraded', 'TransientUnhealthy',
-   * 'PersistentUnhealthy', 'Invalid'
+   * 'ActionSuggested', 'Invalid'
    */
   healthStatus?: HealthStatus;
   /**
    * Health details on this backup item.
    */
   healthDetails?: AzureIaaSVMHealthDetails[];
+  /**
+   * Health details of different KPIs
+   */
+  kpisHealths?: { [propertyName: string]: KPIResourceHealthDetails };
   /**
    * Last backup operation status.
    */
@@ -1035,14 +1181,17 @@ export interface AzureIaaSComputeVMProtectedItem {
   protectionState?: ProtectionState;
   /**
    * Health status of protected item. Possible values include: 'Passed', 'ActionRequired',
-   * 'ActionSuggested', 'Healthy', 'TransientDegraded', 'PersistentDegraded', 'TransientUnhealthy',
-   * 'PersistentUnhealthy', 'Invalid'
+   * 'ActionSuggested', 'Invalid'
    */
   healthStatus?: HealthStatus;
   /**
    * Health details on this backup item.
    */
   healthDetails?: AzureIaaSVMHealthDetails[];
+  /**
+   * Health details of different KPIs
+   */
+  kpisHealths?: { [propertyName: string]: KPIResourceHealthDetails };
   /**
    * Last backup operation status.
    */
@@ -1091,7 +1240,7 @@ export interface AzureIaaSVMErrorInfo {
 /**
  * Azure IaaS VM workload-specific Health Details.
  */
-export interface AzureIaaSVMHealthDetails extends HealthDetails {
+export interface AzureIaaSVMHealthDetails extends ResourceHealthDetails {
 }
 
 /**
@@ -1737,19 +1886,13 @@ export interface AzureVmWorkloadProtectedItem {
    */
   protectedItemHealthStatus?: ProtectedItemHealthStatus;
   /**
-   * Health status of protected item. Possible values include: 'Passed', 'ActionRequired',
-   * 'ActionSuggested', 'Healthy', 'TransientDegraded', 'PersistentDegraded', 'TransientUnhealthy',
-   * 'PersistentUnhealthy', 'Invalid'
-   */
-  healthStatus?: HealthStatus;
-  /**
-   * Health details on this backup item.
-   */
-  healthDetails?: HealthDetails[];
-  /**
    * Additional information for this backup item.
    */
   extendedInfo?: AzureVmWorkloadProtectedItemExtendedInfo;
+  /**
+   * Health details of different KPIs
+   */
+  kpisHealths?: { [propertyName: string]: KPIResourceHealthDetails };
 }
 
 /**
@@ -1865,19 +2008,13 @@ export interface AzureVmWorkloadSAPAseDatabaseProtectedItem {
    */
   protectedItemHealthStatus?: ProtectedItemHealthStatus;
   /**
-   * Health status of protected item. Possible values include: 'Passed', 'ActionRequired',
-   * 'ActionSuggested', 'Healthy', 'TransientDegraded', 'PersistentDegraded', 'TransientUnhealthy',
-   * 'PersistentUnhealthy', 'Invalid'
-   */
-  healthStatus?: HealthStatus;
-  /**
-   * Health details on this backup item.
-   */
-  healthDetails?: HealthDetails[];
-  /**
    * Additional information for this backup item.
    */
   extendedInfo?: AzureVmWorkloadProtectedItemExtendedInfo;
+  /**
+   * Health details of different KPIs
+   */
+  kpisHealths?: { [propertyName: string]: KPIResourceHealthDetails };
 }
 
 /**
@@ -1993,19 +2130,13 @@ export interface AzureVmWorkloadSAPHanaDatabaseProtectedItem {
    */
   protectedItemHealthStatus?: ProtectedItemHealthStatus;
   /**
-   * Health status of protected item. Possible values include: 'Passed', 'ActionRequired',
-   * 'ActionSuggested', 'Healthy', 'TransientDegraded', 'PersistentDegraded', 'TransientUnhealthy',
-   * 'PersistentUnhealthy', 'Invalid'
-   */
-  healthStatus?: HealthStatus;
-  /**
-   * Health details on this backup item.
-   */
-  healthDetails?: HealthDetails[];
-  /**
    * Additional information for this backup item.
    */
   extendedInfo?: AzureVmWorkloadProtectedItemExtendedInfo;
+  /**
+   * Health details of different KPIs
+   */
+  kpisHealths?: { [propertyName: string]: KPIResourceHealthDetails };
 }
 
 /**
@@ -2121,19 +2252,13 @@ export interface AzureVmWorkloadSQLDatabaseProtectedItem {
    */
   protectedItemHealthStatus?: ProtectedItemHealthStatus;
   /**
-   * Health status of protected item. Possible values include: 'Passed', 'ActionRequired',
-   * 'ActionSuggested', 'Healthy', 'TransientDegraded', 'PersistentDegraded', 'TransientUnhealthy',
-   * 'PersistentUnhealthy', 'Invalid'
-   */
-  healthStatus?: HealthStatus;
-  /**
-   * Health details on this backup item.
-   */
-  healthDetails?: HealthDetails[];
-  /**
    * Additional information for this backup item.
    */
   extendedInfo?: AzureVmWorkloadProtectedItemExtendedInfo;
+  /**
+   * Health details of different KPIs
+   */
+  kpisHealths?: { [propertyName: string]: KPIResourceHealthDetails };
 }
 
 /**
@@ -7765,6 +7890,14 @@ export interface ClientDiscoveryResponse extends Array<ClientDiscoveryValueForSi
 }
 
 /**
+ * Defines values for DataMoveLevel.
+ * Possible values include: 'Invalid', 'Vault', 'Container'
+ * @readonly
+ * @enum {string}
+ */
+export type DataMoveLevel = 'Invalid' | 'Vault' | 'Container';
+
+/**
  * Defines values for OperationStatusValues.
  * Possible values include: 'Invalid', 'InProgress', 'Succeeded', 'Failed', 'Canceled'
  * @readonly
@@ -7798,14 +7931,13 @@ export type PrivateEndpointConnectionStatus = 'Pending' | 'Approved' | 'Rejected
 export type ProtectionState = 'Invalid' | 'IRPending' | 'Protected' | 'ProtectionError' | 'ProtectionStopped' | 'ProtectionPaused';
 
 /**
- * Defines values for HealthStatus.
- * Possible values include: 'Passed', 'ActionRequired', 'ActionSuggested', 'Healthy',
- * 'TransientDegraded', 'PersistentDegraded', 'TransientUnhealthy', 'PersistentUnhealthy',
- * 'Invalid'
+ * Defines values for ResourceHealthStatus.
+ * Possible values include: 'Healthy', 'TransientDegraded', 'PersistentDegraded',
+ * 'TransientUnhealthy', 'PersistentUnhealthy', 'Invalid'
  * @readonly
  * @enum {string}
  */
-export type HealthStatus = 'Passed' | 'ActionRequired' | 'ActionSuggested' | 'Healthy' | 'TransientDegraded' | 'PersistentDegraded' | 'TransientUnhealthy' | 'PersistentUnhealthy' | 'Invalid';
+export type ResourceHealthStatus = 'Healthy' | 'TransientDegraded' | 'PersistentDegraded' | 'TransientUnhealthy' | 'PersistentUnhealthy' | 'Invalid';
 
 /**
  * Defines values for RecoveryType.
@@ -7857,6 +7989,14 @@ export type PolicyType = 'Invalid' | 'Full' | 'Differential' | 'Log' | 'CopyOnly
  * @enum {string}
  */
 export type JobSupportedAction = 'Invalid' | 'Cancellable' | 'Retriable';
+
+/**
+ * Defines values for HealthStatus.
+ * Possible values include: 'Passed', 'ActionRequired', 'ActionSuggested', 'Invalid'
+ * @readonly
+ * @enum {string}
+ */
+export type HealthStatus = 'Passed' | 'ActionRequired' | 'ActionSuggested' | 'Invalid';
 
 /**
  * Defines values for ProtectedItemState.
@@ -8224,6 +8364,86 @@ export type ContainerType = 'Invalid' | 'Unknown' | 'IaasVMContainer' | 'IaasVMS
 export type BackupItemType = 'Invalid' | 'VM' | 'FileFolder' | 'AzureSqlDb' | 'SQLDB' | 'Exchange' | 'Sharepoint' | 'VMwareVM' | 'SystemState' | 'Client' | 'GenericDataSource' | 'SQLDataBase' | 'AzureFileShare' | 'SAPHanaDatabase' | 'SAPAseDatabase';
 
 /**
+ * Contains response data for the getOperationStatus operation.
+ */
+export type GetOperationStatusResponse = OperationStatus & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: OperationStatus;
+    };
+};
+
+/**
+ * Contains response data for the getOperationStatus1 operation.
+ */
+export type GetOperationStatus1Response = OperationStatus & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: OperationStatus;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type BMSPrepareDataMoveOperationResultGetResponse = VaultStorageConfigOperationResultResponseUnion & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: VaultStorageConfigOperationResultResponseUnion;
+    };
+};
+
+/**
+ * Contains response data for the beginGet operation.
+ */
+export type BMSPrepareDataMoveOperationResultBeginGetResponse = VaultStorageConfigOperationResultResponseUnion & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: VaultStorageConfigOperationResultResponseUnion;
+    };
+};
+
+/**
  * Contains response data for the get operation.
  */
 export type PrivateEndpointConnectionGetResponse = PrivateEndpointConnectionResource & {
@@ -8280,26 +8500,6 @@ export type PrivateEndpointConnectionBeginPutResponse = PrivateEndpointConnectio
        * The response body as parsed JSON or XML
        */
       parsedBody: PrivateEndpointConnectionResource;
-    };
-};
-
-/**
- * Contains response data for the getOperationStatus operation.
- */
-export type GetOperationStatusResponse = OperationStatus & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: OperationStatus;
     };
 };
 

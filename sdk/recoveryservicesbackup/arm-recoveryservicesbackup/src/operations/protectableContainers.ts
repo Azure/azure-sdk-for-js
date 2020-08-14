@@ -106,7 +106,7 @@ const listOperationSpec: msRest.OperationSpec = {
     Parameters.fabricName
   ],
   queryParameters: [
-    Parameters.apiVersion2,
+    Parameters.apiVersion3,
     Parameters.filter
   ],
   headerParameters: [
