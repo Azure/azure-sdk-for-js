@@ -124,7 +124,7 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
   protected _tokenTimeout?: number;
 
   /**
-   * The actual rhea link (of type Receiver or AwaitableSender)
+   * The actual rhea link (of type Receiver or AwaitableSender) or RequestResponseLink
    */
   private _link?: LinkT;
 
