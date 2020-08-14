@@ -29,8 +29,10 @@ class NetworkManagementClient extends NetworkManagementClientContext {
   azureFirewalls: operations.AzureFirewalls;
   azureFirewallFqdnTags: operations.AzureFirewallFqdnTags;
   bastionHosts: operations.BastionHosts;
+  customIPPrefixes: operations.CustomIPPrefixes;
   ddosCustomPolicies: operations.DdosCustomPolicies;
   ddosProtectionPlans: operations.DdosProtectionPlans;
+  dscpConfiguration: operations.DscpConfigurationOperations;
   availableEndpointServices: operations.AvailableEndpointServices;
   expressRouteCircuitAuthorizations: operations.ExpressRouteCircuitAuthorizations;
   expressRouteCircuitPeerings: operations.ExpressRouteCircuitPeerings;
@@ -140,8 +142,10 @@ class NetworkManagementClient extends NetworkManagementClientContext {
     this.azureFirewalls = new operations.AzureFirewalls(this);
     this.azureFirewallFqdnTags = new operations.AzureFirewallFqdnTags(this);
     this.bastionHosts = new operations.BastionHosts(this);
+    this.customIPPrefixes = new operations.CustomIPPrefixes(this);
     this.ddosCustomPolicies = new operations.DdosCustomPolicies(this);
     this.ddosProtectionPlans = new operations.DdosProtectionPlans(this);
+    this.dscpConfiguration = new operations.DscpConfigurationOperations(this);
     this.availableEndpointServices = new operations.AvailableEndpointServices(this);
     this.expressRouteCircuitAuthorizations = new operations.ExpressRouteCircuitAuthorizations(this);
     this.expressRouteCircuitPeerings = new operations.ExpressRouteCircuitPeerings(this);
