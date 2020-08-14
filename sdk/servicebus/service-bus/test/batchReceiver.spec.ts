@@ -728,7 +728,7 @@ describe("Batching Receiver", () => {
         await receiver.close();
         receiver = await serviceBusClient.test.getSessionPeekLockReceiver(entityNames, {
           sessionId: testMessages.sessionId,
-          autoRenewLockDurationInMs: 0
+          maxAutoRenewLockDurationInMs: 0
         });
       }
 
@@ -750,7 +750,7 @@ describe("Batching Receiver", () => {
         await delay(31000);
         receiver = await serviceBusClient.test.getSessionPeekLockReceiver(entityNames, {
           sessionId: testMessages.sessionId,
-          autoRenewLockDurationInMs: 0
+          maxAutoRenewLockDurationInMs: 0
         });
       }
 

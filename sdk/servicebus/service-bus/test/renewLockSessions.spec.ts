@@ -33,7 +33,7 @@ describe("Session Lock Renewal", () => {
     await serviceBusClient.test.after();
   });
 
-  async function beforeEachTest(autoRenewLockDurationInMs: number): Promise<void> {
+  async function beforeEachTest(maxAutoRenewLockDurationInMs: number): Promise<void> {
     const entityNames = await serviceBusClient.test.createTestEntities(testClientType);
 
     sender = serviceBusClient.test.addToCleanup(
@@ -44,7 +44,7 @@ describe("Session Lock Renewal", () => {
 
     receiver = await serviceBusClient.test.getSessionPeekLockReceiver(entityNames, {
       sessionId,
-      autoRenewLockDurationInMs
+      maxAutoRenewLockDurationInMs
     });
 
     // Observation -
@@ -97,12 +97,12 @@ describe("Session Lock Renewal", () => {
       ": Streaming Receiver: complete() after lock expiry with auto-renewal disabled throws error",
     async function(): Promise<void> {
       const options: AutoLockRenewalTestOptions = {
-        autoRenewLockDurationInMs: 0,
+        maxAutoRenewLockDurationInMs: 0,
         delayBeforeAttemptingToCompleteMessageInSeconds: 31,
         expectSessionLockLostErrorToBeThrown: true
       };
 
-      await beforeEachTest(options.autoRenewLockDurationInMs);
+      await beforeEachTest(options.maxAutoRenewLockDurationInMs);
       await testAutoLockRenewalConfigBehavior(sender, receiver, options);
     }
   );
@@ -111,18 +111,18 @@ describe("Session Lock Renewal", () => {
     testClientType + ": Streaming Receiver: lock will not expire until configured time",
     async function(): Promise<void> {
       const options: AutoLockRenewalTestOptions = {
-        autoRenewLockDurationInMs: 38 * 1000,
+        maxAutoRenewLockDurationInMs: 38 * 1000,
         delayBeforeAttemptingToCompleteMessageInSeconds: 35,
         expectSessionLockLostErrorToBeThrown: false
       };
 
-      await beforeEachTest(options.autoRenewLockDurationInMs);
+      await beforeEachTest(options.maxAutoRenewLockDurationInMs);
       await testAutoLockRenewalConfigBehavior(sender, receiver, options);
     }
   );
 
   const lockDurationInMilliseconds = 30000;
-  // const autoRenewLockDurationInMs = 300*1000;
+  // const maxAutoRenewLockDurationInMs = 300*1000;
   let uncaughtErrorFromHandlers: Error | undefined;
 
   async function processError(err: MessagingError | Error) {
@@ -290,7 +290,7 @@ describe("Session Lock Renewal", () => {
   }
 
   interface AutoLockRenewalTestOptions {
-    autoRenewLockDurationInMs: number;
+    maxAutoRenewLockDurationInMs: number;
     delayBeforeAttemptingToCompleteMessageInSeconds: number;
     expectSessionLockLostErrorToBeThrown: boolean;
   }

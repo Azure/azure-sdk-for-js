@@ -180,7 +180,7 @@ export interface CreateSessionReceiverOptions<ReceiveModeT extends ReceiveMode>
    * - **Default**: `300000` milliseconds (5 minutes).
    * - **To disable autolock renewal**, set this to `0`.
    */
-  autoRenewLockDurationInMs?: number;
+  maxAutoRenewLockDurationInMs?: number;
 }
 
 /**
