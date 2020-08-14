@@ -389,9 +389,9 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
       checkAborted();
 
       if (this._wasClosed) {
-        // the user attempted to close while we were still initializing the link. Go
-        // ahead and close the link we created.
-        log.error(`${this._logPrefix} User closed link while it was initializing.`);
+        // the user attempted to close while we were still initializing the link. Abort
+        // the current operation. This also makes it so the operation is non-retryable.
+        log.error(`${this._logPrefix} Link closed while it was initializing.`);
         throw new AbortError("Link closed while initializing.");
       }
 
