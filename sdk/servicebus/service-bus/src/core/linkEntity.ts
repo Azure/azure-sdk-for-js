@@ -9,7 +9,7 @@ import {
   defaultLock,
   RequestResponseLink
 } from "@azure/core-amqp";
-import { ClientEntityContext } from "../clientEntityContext";
+import { ConnectionContext } from "../connectionContext";
 import * as log from "../log";
 import {
   AwaitableSender,
@@ -107,10 +107,10 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
    */
   audience: string;
   /**
-   * @property {ClientEntityContext} _context Provides relevant information about the amqp connection,
+   * @property _context Provides relevant information about the amqp connection,
    * cbs and $management sessions, token provider, sender and receivers.
    */
-  protected _context: ClientEntityContext;
+  protected _context: ConnectionContext;
   /**
    * @property {NodeJS.Timer} _tokenRenewalTimer The token renewal timer that keeps track of when
    * the Client Entity is due for token renewal.
@@ -122,7 +122,7 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
   protected _tokenTimeout?: number;
 
   /**
-   * The actual rhea link (of type Receiver or AwaitableSender)
+   * The actual rhea link (of type Receiver or AwaitableSender) or RequestResponseLink
    */
   private _link?: LinkT;
 
@@ -134,16 +134,16 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
   /**
    * Creates a new ClientEntity instance.
    * @constructor
-   * @param {ClientEntityContext} context The connection context.
-   * @param {LinkEntityOptions} [options] Options that can be provided while creating the LinkEntity.
+   * @param context The connection context.
+   * @param options Options that can be provided while creating the LinkEntity.
    */
-  constructor(name: string, context: ClientEntityContext, options?: LinkEntityOptions) {
+  constructor(name: string, context: ConnectionContext, options?: LinkEntityOptions) {
     if (!options) options = {};
     this._context = context;
     this.address = options.address || "";
     this.audience = options.audience || "";
     this.name = getUniqueName(name);
-    this._logPrefix = `[${context.namespace.connection.id}|l:${this.name}|a:${this.address}]`;
+    this._logPrefix = `[${context.connectionId}|l:${this.name}|a:${this.address}]`;
   }
 
   /**
@@ -153,7 +153,7 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
    */
   private async _negotiateClaim(setTokenRenewal?: boolean): Promise<void> {
     // Wait for the connectionContext to be ready to open the link.
-    await this._context.namespace.readyToOpenLink();
+    await this._context.readyToOpenLink();
     // Acquire the lock and establish a cbs session if it does not exist on the connection.
     // Although node.js is single threaded, we need a locking mechanism to ensure that a
     // race condition does not happen while creating a shared resource (in this case the
@@ -161,26 +161,24 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
     log.link(
       "[%s] Acquiring cbs lock: '%s' for creating the cbs session while creating the %s: " +
         "'%s' with address: '%s'.",
-      this._context.namespace.connectionId,
-      this._context.namespace.cbsSession.cbsLock,
+      this._context.connectionId,
+      this._context.cbsSession.cbsLock,
       this._type,
       this.name,
       this.address
     );
-    await defaultLock.acquire(this._context.namespace.cbsSession.cbsLock, () => {
-      return this._context.namespace.cbsSession.init();
+    await defaultLock.acquire(this._context.cbsSession.cbsLock, () => {
+      return this._context.cbsSession.init();
     });
     let tokenObject: AccessToken;
     let tokenType: TokenType;
-    if (this._context.namespace.tokenCredential instanceof SharedKeyCredential) {
-      tokenObject = this._context.namespace.tokenCredential.getToken(this.audience);
+    if (this._context.tokenCredential instanceof SharedKeyCredential) {
+      tokenObject = this._context.tokenCredential.getToken(this.audience);
       tokenType = TokenType.CbsTokenTypeSas;
       // renew sas token in every 45 minutess
       this._tokenTimeout = (3600 - 900) * 1000;
     } else {
-      const aadToken = await this._context.namespace.tokenCredential.getToken(
-        Constants.aadServiceBusScope
-      );
+      const aadToken = await this._context.tokenCredential.getToken(Constants.aadServiceBusScope);
       if (!aadToken) {
         throw new Error(`Failed to get token from the provided "TokenCredential" object`);
       }
@@ -190,15 +188,15 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
     }
     log.link(
       "[%s] %s: calling negotiateClaim for audience '%s'.",
-      this._context.namespace.connectionId,
+      this._context.connectionId,
       this._type,
       this.audience
     );
     // Acquire the lock to negotiate the CBS claim.
     log.link(
       "[%s] Acquiring cbs lock: '%s' for cbs auth for %s: '%s' with address '%s'.",
-      this._context.namespace.connectionId,
-      this._context.namespace.negotiateClaimLock,
+      this._context.connectionId,
+      this._context.negotiateClaimLock,
       this._type,
       this.name,
       this.address
@@ -206,16 +204,12 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
     if (!tokenObject) {
       throw new Error("Token cannot be null");
     }
-    await defaultLock.acquire(this._context.namespace.negotiateClaimLock, () => {
-      return this._context.namespace.cbsSession.negotiateClaim(
-        this.audience,
-        tokenObject,
-        tokenType
-      );
+    await defaultLock.acquire(this._context.negotiateClaimLock, () => {
+      return this._context.cbsSession.negotiateClaim(this.audience, tokenObject, tokenType);
     });
     log.link(
       "[%s] Negotiated claim for %s '%s' with with address: %s",
-      this._context.namespace.connectionId,
+      this._context.connectionId,
       this._type,
       this.name,
       this.address
@@ -245,7 +239,7 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
       } catch (err) {
         log.error(
           "[%s] %s '%s' with address %s, an error occurred while renewing the token: %O",
-          this._context.namespace.connectionId,
+          this._context.connectionId,
           this._type,
           this.name,
           this.address,
@@ -255,7 +249,7 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
     }, this._tokenTimeout);
     log.link(
       "[%s] %s '%s' with address %s, has next token renewal in %d milliseconds @(%s).",
-      this._context.namespace.connectionId,
+      this._context.connectionId,
       this._type,
       this.name,
       this.address,
@@ -359,7 +353,7 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
       }
     };
 
-    const connectionId = this._context.namespace.connectionId;
+    const connectionId = this._context.connectionId;
     checkAborted();
 
     if (options.name) {

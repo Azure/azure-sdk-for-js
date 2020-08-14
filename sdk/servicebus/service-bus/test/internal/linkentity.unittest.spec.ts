@@ -6,7 +6,7 @@ import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
 import { Receiver, ReceiverOptions } from "rhea-promise";
 import { LinkEntity } from "../../src/core/linkEntity";
-import { createClientEntityContextForTests, createRheaReceiverForTests } from "./unittestUtils";
+import { createConnectionContextForTests, createRheaReceiverForTests } from "./unittestUtils";
 chai.use(chaiAsPromised);
 const assert = chai.assert;
 
@@ -20,7 +20,7 @@ describe("LinkEntity unit tests", () => {
   let linkEntity: LinkEntity<Receiver>;
 
   beforeEach(() => {
-    linkEntity = new BasicLink("some initial name", createClientEntityContextForTests(), {
+    linkEntity = new BasicLink("some initial name", createConnectionContextForTests(), {
       address: "my-address"
     });
   });
