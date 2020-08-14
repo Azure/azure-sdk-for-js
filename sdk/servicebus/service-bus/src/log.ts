@@ -58,13 +58,6 @@ export const streaming = debugModule("azure:service-bus:receiverstreaming");
 export const connectionCtxt = debugModule("azure:service-bus:connectionContext");
 /**
  * @internal
- * @ignore
- * log statements for clientEntityContext
- */
-export const entityCtxt = debugModule("azure:service-bus:clientEntityContext");
-/**
- * @internal
- * @ignore
  * log statements for namespace
  */
 export const ns = debugModule("azure:service-bus:namespace");

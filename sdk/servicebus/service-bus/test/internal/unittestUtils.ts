@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { ClientEntityContext } from "../../src/clientEntityContext";
+import { ConnectionContext } from "../../src/connectionContext";
 import { AwaitableSender, Receiver as RheaReceiver, ReceiverEvents } from "rhea-promise";
 import { DefaultDataTransformer, AccessToken } from "@azure/core-amqp";
 import { ConcurrentExpiringMap } from "../../src/util/concurrentExpiringMap";
@@ -9,7 +9,7 @@ import { EventEmitter } from "events";
 import { getUniqueName } from "../../src/util/utils";
 
 /**
- * Creates a fake ClientEntityContext for tests that can create semi-realistic
+ * Creates a fake ConnectionContext for tests that can create semi-realistic
  * senders (less realistic, could use some work) and receivers (decent!).
  *
  * Please feel free to expand this - every little bit helps the unit tests!
@@ -19,68 +19,67 @@ import { getUniqueName } from "../../src/util/utils";
  * is created (via onCreateAwaitableSenderCalled).
  *
  */
-export function createClientEntityContextForTests(options?: {
+export function createConnectionContextForTests(options?: {
   onCreateAwaitableSenderCalled?: () => void;
   onCreateReceiverCalled?: (receiver: RheaReceiver) => void;
-}): ClientEntityContext & { initWasCalled: boolean } {
+}): ConnectionContext & { initWasCalled: boolean } {
   let initWasCalled = false;
 
-  const fakeClientEntityContext = {
-    entityPath: "queue",
-    sender: {
-      credit: 999
-    },
-    namespace: {
-      async readyToOpenLink(): Promise<void> {},
-      config: { endpoint: "my.service.bus" },
-      connectionId: "connection-id",
-      connection: {
-        id: "connection-id",
+  const fakeConnectionContext = {
+    async readyToOpenLink(): Promise<void> {},
+    batchingReceivers: {},
+    streamingReceivers: {},
+    senders: {},
+    messageSessions: {},
+    managementClients: {},
+    config: { endpoint: "my.service.bus" },
+    connectionId: "connection-id",
+    requestResponseLockedMessages: new ConcurrentExpiringMap<string>(),
+    connection: {
+      id: "connection-id",
 
-        isOpen(): boolean {
-          return true;
-        },
-        createAwaitableSender: async (): Promise<AwaitableSender> => {
-          if (options?.onCreateAwaitableSenderCalled) {
-            options.onCreateAwaitableSenderCalled();
-          }
-
-          const testAwaitableSender = ({
-            setMaxListeners: () => testAwaitableSender
-          } as any) as AwaitableSender;
-
-          return testAwaitableSender;
-        },
-        createReceiver: async (): Promise<RheaReceiver> => {
-          const receiver = createRheaReceiverForTests();
-
-          if (options?.onCreateReceiverCalled) {
-            options.onCreateReceiverCalled(receiver);
-          }
-
-          (receiver as any).connection = { id: "connection-id" };
-          return receiver;
-        }
+      isOpen(): boolean {
+        return true;
       },
-      dataTransformer: new DefaultDataTransformer(),
-      tokenCredential: {
-        getToken() {
-          return {} as AccessToken;
+      createAwaitableSender: async (): Promise<AwaitableSender> => {
+        if (options?.onCreateAwaitableSenderCalled) {
+          options.onCreateAwaitableSenderCalled();
         }
+
+        const testAwaitableSender = ({
+          setMaxListeners: () => testAwaitableSender
+        } as any) as AwaitableSender;
+
+        return testAwaitableSender;
       },
-      cbsSession: {
-        cbsLock: "cbs-lock",
-        async init() {
-          initWasCalled = true;
-        },
-        async negotiateClaim(): Promise<void> {}
+      createReceiver: async (): Promise<RheaReceiver> => {
+        const receiver = createRheaReceiverForTests();
+
+        if (options?.onCreateReceiverCalled) {
+          options.onCreateReceiverCalled(receiver);
+        }
+
+        (receiver as any).connection = { id: "connection-id" };
+        return receiver;
       }
     },
-    initWasCalled,
-    requestResponseLockedMessages: new ConcurrentExpiringMap<string>()
+    dataTransformer: new DefaultDataTransformer(),
+    tokenCredential: {
+      getToken() {
+        return {} as AccessToken;
+      }
+    },
+    cbsSession: {
+      cbsLock: "cbs-lock",
+      async init() {
+        initWasCalled = true;
+      },
+      async negotiateClaim(): Promise<void> {}
+    },
+    initWasCalled
   };
 
-  return (fakeClientEntityContext as any) as ReturnType<typeof createClientEntityContextForTests>;
+  return (fakeConnectionContext as any) as ReturnType<typeof createConnectionContextForTests>;
 }
 
 /**

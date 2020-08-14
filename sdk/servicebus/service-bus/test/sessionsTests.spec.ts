@@ -387,7 +387,7 @@ describe.skip("SessionReceiver - disconnects", function(): void {
     settledMessageCount.should.equal(1, "Unexpected number of settled messages.");
     receivedErrors.length.should.equal(0, "Encountered an unexpected number of errors.");
 
-    const connectionContext = (receiver as any)["_context"].namespace;
+    const connectionContext = (receiver as any)["_context"];
     const refreshConnection = connectionContext.refreshConnection;
     let refreshConnectionCalled = 0;
     connectionContext.refreshConnection = function(...args: any) {
@@ -396,7 +396,7 @@ describe.skip("SessionReceiver - disconnects", function(): void {
     };
 
     // Simulate a disconnect being called with a non-retryable error.
-    (receiver as any)["_context"].namespace.connection["_connection"].idle();
+    (receiver as any)["_context"].connection["_connection"].idle();
 
     // send a second message to trigger the message handler again.
     await sender.sendMessages(TestMessage.getSessionSample());
