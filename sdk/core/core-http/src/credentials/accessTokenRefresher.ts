@@ -13,7 +13,7 @@ export class AccessTokenRefresher {
   constructor(
     private credential: TokenCredential,
     private scopes: string | string[],
-    private requiredMillisecondsBeforeNewRefresh: number
+    private requiredMillisecondsBeforeNewRefresh: number = 30000
   ) {}
 
   public isReady(): boolean {
