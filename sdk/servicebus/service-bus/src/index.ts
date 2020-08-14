@@ -65,7 +65,6 @@ export {
   Response,
   RuleResponse,
   ServiceBusManagementClient,
-  ServiceBusManagementClientOptions,
   SubscriptionResponse,
   SubscriptionRuntimePropertiesResponse,
   TopicResponse,

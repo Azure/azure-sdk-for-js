@@ -77,10 +77,6 @@ import { createSpan, getCanonicalCode } from "./util/tracing";
 import { formatUserAgentPrefix, isAbsoluteUrl, isJSONLikeObject } from "./util/utils";
 
 /**
- * Options to use with ServiceBusManagementClient creation
- */
-export interface ServiceBusManagementClientOptions extends PipelineOptions {}
-/**
  * Request options for list<entity-type>() operations
  */
 export interface ListRequestOptions {
@@ -188,9 +184,9 @@ export class ServiceBusManagementClient extends ServiceClient {
   /**
    * Initializes a new instance of the ServiceBusManagementClient class.
    * @param connectionString The connection string needed for the client to connect to Azure.
-   * @param options ServiceBusManagementClientOptions
+   * @param options PipelineOptions
    */
-  constructor(connectionString: string, options?: ServiceBusManagementClientOptions);
+  constructor(connectionString: string, options?: PipelineOptions);
   /**
    *
    * @param fullyQualifiedNamespace The fully qualified namespace of your Service Bus instance which is
@@ -199,19 +195,19 @@ export class ServiceBusManagementClient extends ServiceClient {
    * with the Azure Service Bus. See &commat;azure/identity for creating the credentials.
    * If you're using your own implementation of the `TokenCredential` interface against AAD, then set the "scopes" for service-bus
    * to be `["https://servicebus.azure.net//user_impersonation"]` to get the appropriate token.
-   * @param options ServiceBusManagementClientOptions
+   * @param options PipelineOptions
    */
   constructor(
     fullyQualifiedNamespace: string,
     credential: TokenCredential,
-    options?: ServiceBusManagementClientOptions
+    options?: PipelineOptions
   );
   constructor(
     fullyQualifiedNamespaceOrConnectionString1: string,
-    credentialOrOptions2?: TokenCredential | ServiceBusManagementClientOptions,
-    options3?: ServiceBusManagementClientOptions
+    credentialOrOptions2?: TokenCredential | PipelineOptions,
+    options3?: PipelineOptions
   ) {
-    let options: ServiceBusManagementClientOptions;
+    let options: PipelineOptions;
     let fullyQualifiedNamespace: string;
     let credentials: SasServiceClientCredentials | TokenCredential;
     let authPolicy: RequestPolicyFactory;
