@@ -219,7 +219,7 @@ describe("LinkEntity unit tests", () => {
 
   function assertLinkEntityClosedPermanently(): void {
     assert.isFalse(linkEntity.isOpen(), "link should be closed");
-    assert.isTrue(linkEntity["_wasClosedByUser"], "link was closed by the user");
+    assert.isTrue(linkEntity["_wasClosed"], "link was closed permanently");
 
     assert.notExists(
       linkEntity["_tokenRenewalTimer"],
@@ -229,7 +229,7 @@ describe("LinkEntity unit tests", () => {
 
   function assertLinkEntityClosedTemporarily(): void {
     assert.isFalse(linkEntity.isOpen(), "link should be closed");
-    assert.isFalse(linkEntity["_wasClosedByUser"], "Only the internal link was closed");
+    assert.isFalse(linkEntity["_wasClosed"], "Only the internal link was closed");
 
     assert.notExists(
       linkEntity["_tokenRenewalTimer"],
