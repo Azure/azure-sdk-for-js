@@ -602,16 +602,24 @@ describe("Errors after close()", function(): void {
     );
 
     let errorGetState: string = "";
-    await sessionReceiver.getState().catch((err) => {
+    await sessionReceiver.getSessionState().catch((err) => {
       errorGetState = err.message;
     });
-    should.equal(errorGetState, expectedErrorMsg, "Expected error not thrown for getState()");
+    should.equal(
+      errorGetState,
+      expectedErrorMsg,
+      "Expected error not thrown for getSessionState()"
+    );
 
     let errorSetState: string = "";
-    await sessionReceiver.setState("state!!").catch((err) => {
+    await sessionReceiver.setSessionState("state!!").catch((err) => {
       errorSetState = err.message;
     });
-    should.equal(errorSetState, expectedErrorMsg, "Expected error not thrown for setState()");
+    should.equal(
+      errorSetState,
+      expectedErrorMsg,
+      "Expected error not thrown for setSessionState()"
+    );
   }
 
   describe("Errors after close() on namespace", function(): void {

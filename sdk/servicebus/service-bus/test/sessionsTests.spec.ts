@@ -224,10 +224,10 @@ describe("session tests", () => {
         "SessionId is different than expected"
       );
 
-      let testState = await receiver.getState();
+      let testState = await receiver.getSessionState();
       should.equal(!!testState, false, "SessionState is different than expected");
-      await receiver.setState("new_state");
-      testState = await receiver.getState();
+      await receiver.setSessionState("new_state");
+      testState = await receiver.getSessionState();
       should.equal(testState, "new_state", "SessionState is different than expected");
 
       await receiver.close();
@@ -253,10 +253,10 @@ describe("session tests", () => {
         "SessionId is different than expected"
       );
 
-      testState = await receiver.getState();
+      testState = await receiver.getSessionState();
       should.equal(testState, "new_state", "SessionState is different than expected");
 
-      await receiver.setState(""); // clearing the session-state
+      await receiver.setSessionState(""); // clearing the session-state
       await msgs[0].complete();
       await testPeekMsgsLength(receiver, 0);
     });
@@ -266,7 +266,7 @@ describe("session tests", () => {
       const controller = new AbortController();
       setTimeout(() => controller.abort(), 1);
       try {
-        await receiver.getState({ abortSignal: controller.signal });
+        await receiver.getSessionState({ abortSignal: controller.signal });
         throw new Error(`Test failure`);
       } catch (err) {
         err.message.should.equal("The getState operation has been cancelled by the user.");
@@ -278,7 +278,7 @@ describe("session tests", () => {
       const controller = new AbortController();
       setTimeout(() => controller.abort(), 1);
       try {
-        await receiver.setState("why", { abortSignal: controller.signal });
+        await receiver.setSessionState("why", { abortSignal: controller.signal });
         throw new Error(`Test failure`);
       } catch (err) {
         err.message.should.equal("The setState operation has been cancelled by the user.");

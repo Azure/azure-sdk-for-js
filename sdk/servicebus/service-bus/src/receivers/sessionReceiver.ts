@@ -90,7 +90,7 @@ export interface ServiceBusSessionReceiver<
    * @throws Error if the underlying connection or receiver is closed.
    * @throws MessagingError if the service returns an error while retrieving session state.
    */
-  getState(options?: OperationOptionsBase): Promise<any>;
+  getSessionState(options?: OperationOptionsBase): Promise<any>;
 
   /**
    * Sets the state on the Session. For more on session states, see
@@ -103,7 +103,7 @@ export interface ServiceBusSessionReceiver<
    * @param {*} state
    * @returns {Promise<void>}
    */
-  setState(state: any, options?: OperationOptionsBase): Promise<void>;
+  setSessionState(state: any, options?: OperationOptionsBase): Promise<void>;
 }
 
 /**
@@ -262,7 +262,7 @@ export class ServiceBusSessionReceiverImpl<
    * @throws Error if the underlying connection or receiver is closed.
    * @throws MessagingError if the service returns an error while setting the session state.
    */
-  async setState(state: any, options: OperationOptionsBase = {}): Promise<void> {
+  async setSessionState(state: any, options: OperationOptionsBase = {}): Promise<void> {
     this._throwIfReceiverOrConnectionClosed();
 
     const setSessionStateOperationPromise = async () => {
@@ -294,7 +294,7 @@ export class ServiceBusSessionReceiverImpl<
    * @throws Error if the underlying connection or receiver is closed.
    * @throws MessagingError if the service returns an error while retrieving session state.
    */
-  async getState(options: OperationOptionsBase = {}): Promise<any> {
+  async getSessionState(options: OperationOptionsBase = {}): Promise<any> {
     this._throwIfReceiverOrConnectionClosed();
 
     const getSessionStateOperationPromise = async () => {

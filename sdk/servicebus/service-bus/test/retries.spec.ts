@@ -182,13 +182,13 @@ describe("Retries - ManagementClient", () => {
 
     it("Unpartitioned Queue with Sessions: setState", async function(): Promise<void> {
       await mockManagementClientAndVerifyRetries(async () => {
-        await sessionReceiver.setState("random-state");
+        await sessionReceiver.setSessionState("random-state");
       });
     });
 
     it("Unpartitioned Queue with Sessions: getState", async function(): Promise<void> {
       await mockManagementClientAndVerifyRetries(async () => {
-        await sessionReceiver.getState();
+        await sessionReceiver.getSessionState();
       });
     });
   });
@@ -357,7 +357,9 @@ describe("Retries - Receive methods", () => {
       );
       batchingReceiver.isOpen = () => true;
       batchingReceiver.receive = fakeFunction;
-      (receiver as ServiceBusReceiverImpl<ReceivedMessageWithLock>)["_batchingReceiver"] = batchingReceiver;
+      (receiver as ServiceBusReceiverImpl<ReceivedMessageWithLock>)[
+        "_batchingReceiver"
+      ] = batchingReceiver;
     }
   }
 
