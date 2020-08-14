@@ -145,7 +145,7 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
     this.address = options.address || "";
     this.audience = options.audience || "";
     this.name = getUniqueName(name);
-    this._logPrefix = `[${context.connection.id}|l:${this.name}|a:${this.address}]`;
+    this._logPrefix = `[${context.connectionId}|l:${this.name}|a:${this.address}]`;
   }
 
   /**

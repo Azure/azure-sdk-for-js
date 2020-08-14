@@ -293,7 +293,7 @@ describe("StreamingReceiver unit tests", () => {
       ) => {
         assert.equal(abortSignal, options?.abortSignal, "abortSignal is properly passed through");
         resolve();
-        return {} as StreamingReceiver;
+        return { close: () => {} } as StreamingReceiver;
       };
 
       const errors: string[] = [];
