@@ -46,7 +46,7 @@ export class AccessTokenRefresher {
     if (!this.promise) {
       this.promise = this.getToken(options);
     }
-      
+
     return this.promise;
   }
 }
