@@ -272,6 +272,8 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
       this._wasClosed = true;
     }
 
+    log.link(`${this._logPrefix} closeLink(${mode}) called`);
+
     clearTimeout(this._tokenRenewalTimer as NodeJS.Timer);
     this._tokenRenewalTimer = undefined;
 
