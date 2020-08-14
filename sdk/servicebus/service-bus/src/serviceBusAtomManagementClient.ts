@@ -12,7 +12,6 @@ import {
   createPipelineFromOptions,
   HttpOperationResponse,
   OperationOptions,
-  ProxySettings,
   RequestPolicyFactory,
   RestError,
   ServiceClient,
@@ -20,8 +19,8 @@ import {
   stripRequest,
   stripResponse,
   URLBuilder,
-  UserAgentOptions,
-  WebResource
+  WebResource,
+  PipelineOptions
 } from "@azure/core-http";
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { CorrelationRuleFilter } from "./core/managementClient";
@@ -80,17 +79,7 @@ import { formatUserAgentPrefix, isAbsoluteUrl, isJSONLikeObject } from "./util/u
 /**
  * Options to use with ServiceBusManagementClient creation
  */
-export interface ServiceBusManagementClientOptions {
-  /**
-   * Proxy related settings
-   */
-  proxySettings?: ProxySettings;
-  /**
-   * Options for adding user agent details to outgoing requests.
-   */
-  userAgentOptions?: UserAgentOptions;
-}
-
+export interface ServiceBusManagementClientOptions extends PipelineOptions {}
 /**
  * Request options for list<entity-type>() operations
  */
@@ -252,7 +241,7 @@ export class ServiceBusManagementClient extends ServiceClient {
     const userAgentPrefix = formatUserAgentPrefix(options.userAgentOptions?.userAgentPrefix);
     const serviceClientOptions = createPipelineFromOptions(
       {
-        proxyOptions: options.proxySettings,
+        ...options,
         userAgentOptions: {
           userAgentPrefix
         }
