@@ -70,17 +70,6 @@ export interface CreateReceiverOptions<ReceiveModeT extends ReceiveMode> {
 }
 
 /**
- * Options related to wait times.
- */
-export interface WaitTimeOptions {
-  /**
-   * The maximum amount of time to wait for messages to arrive.
-   *  **Default**: `60000` milliseconds.
-   */
-  maxWaitTimeInMs?: number;
-}
-
-/**
  * Options to configure the `createBatch` method on the `Sender`.
  * - `maxSizeInBytes`: The upper limit for the size of batch.
  *
@@ -102,7 +91,13 @@ export interface CreateBatchOptions extends OperationOptionsBase {
 /**
  * Options when receiving a batch of messages from Service Bus.
  */
-export interface ReceiveMessagesOptions extends OperationOptionsBase, WaitTimeOptions {}
+export interface ReceiveMessagesOptions extends OperationOptionsBase {
+  /**
+   * The maximum amount of time to wait for messages to arrive.
+   *  **Default**: `60000` milliseconds.
+   */
+  maxWaitTimeInMs?: number;
+}
 
 /**
  * Options when getting an iterable iterator from Service Bus.

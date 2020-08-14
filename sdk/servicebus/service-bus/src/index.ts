@@ -28,8 +28,7 @@ export {
   ReceiveMessagesOptions,
   ReceiveMode,
   SessionSubscribeOptions,
-  SubscribeOptions,
-  WaitTimeOptions
+  SubscribeOptions
 } from "./models";
 export { OperationOptionsBase } from "./modelsToBeSharedWithEventHubs";
 export { ServiceBusReceiver } from "./receivers/receiver";
