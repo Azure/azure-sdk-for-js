@@ -253,7 +253,8 @@ export interface ReceivedMessageWithLock extends ReceivedMessage {
 }
 
 // @public
-export interface ReceiveMessagesOptions extends OperationOptionsBase, WaitTimeOptions {
+export interface ReceiveMessagesOptions extends OperationOptionsBase {
+    maxWaitTimeInMs?: number;
 }
 
 // @public
@@ -307,8 +308,8 @@ export interface ServiceBusClientOptions {
 
 // @public
 export class ServiceBusManagementClient extends ServiceClient {
-    constructor(connectionString: string, options?: ServiceBusManagementClientOptions);
-    constructor(fullyQualifiedNamespace: string, credential: TokenCredential, options?: ServiceBusManagementClientOptions);
+    constructor(connectionString: string, options?: PipelineOptions);
+    constructor(fullyQualifiedNamespace: string, credential: TokenCredential, options?: PipelineOptions);
     createQueue(queueName: string, options?: CreateQueueOptions): Promise<QueueResponse>;
     createRule(topicName: string, subscriptionName: string, ruleName: string, ruleFilter: SqlRuleFilter | CorrelationRuleFilter, operationOptions?: OperationOptions): Promise<RuleResponse>;
     createRule(topicName: string, subscriptionName: string, ruleName: string, ruleFilter: SqlRuleFilter | CorrelationRuleFilter, ruleAction: SqlRuleAction, operationOptions?: OperationOptions): Promise<RuleResponse>;
@@ -341,10 +342,6 @@ export class ServiceBusManagementClient extends ServiceClient {
     updateRule(topicName: string, subscriptionName: string, rule: RuleProperties, operationOptions?: OperationOptions): Promise<RuleResponse>;
     updateSubscription(subscription: SubscriptionProperties, operationOptions?: OperationOptions): Promise<SubscriptionResponse>;
     updateTopic(topic: TopicProperties, operationOptions?: OperationOptions): Promise<TopicResponse>;
-}
-
-// @public
-export interface ServiceBusManagementClientOptions extends PipelineOptions {
 }
 
 // @public
@@ -519,11 +516,6 @@ export interface TopicRuntimeProperties {
 
 // @public
 export interface TopicRuntimePropertiesResponse extends TopicRuntimeProperties, Response {
-}
-
-// @public
-export interface WaitTimeOptions {
-    maxWaitTimeInMs?: number;
 }
 
 export { WebSocketImpl }
