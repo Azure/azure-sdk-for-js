@@ -68,6 +68,50 @@ export interface CloudErrorBody {
 }
 
 /**
+ * Describes the format of Error response.
+ */
+export interface ErrorResponse {
+  /**
+   * Error code
+   */
+  code?: string;
+  /**
+   * Error message indicating why the operation failed.
+   */
+  message?: string;
+}
+
+/**
+ * The status of operation.
+ */
+export interface AscOperation {
+  /**
+   * The operation Id.
+   */
+  id?: string;
+  /**
+   * The operation name.
+   */
+  name?: string;
+  /**
+   * The start time of the operation.
+   */
+  startTime?: string;
+  /**
+   * The end time of the operation.
+   */
+  endTime?: string;
+  /**
+   * The status of the operation.
+   */
+  status?: string;
+  /**
+   * The error detail of the operation if any.
+   */
+  error?: ErrorResponse;
+}
+
+/**
  * Cache identity properties.
  */
 export interface CacheIdentity {
@@ -349,15 +393,11 @@ export interface StorageTargetProperties {
   /**
    * Polymorphic Discriminator
    */
-  targetBaseType: "StorageTargetProperties";
+  targetType: "StorageTargetProperties";
   /**
    * List of Cache namespace junctions to target for namespace associations.
    */
   junctions?: NamespaceJunction[];
-  /**
-   * Type of the Storage Target.
-   */
-  targetType?: string;
   /**
    * ARM provisioning state, see
    * https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/Addendum.md#provisioningstate-property.
@@ -409,10 +449,6 @@ export interface StorageTarget extends StorageTargetResource {
    */
   junctions?: NamespaceJunction[];
   /**
-   * Type of the Storage Target.
-   */
-  targetType?: string;
-  /**
    * ARM provisioning state, see
    * https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/Addendum.md#provisioningstate-property.
    * Possible values include: 'Succeeded', 'Failed', 'Cancelled', 'Creating', 'Deleting',
@@ -434,7 +470,7 @@ export interface StorageTarget extends StorageTargetResource {
   /**
    * Polymorphic Discriminator
    */
-  targetBaseType: string;
+  targetType: string;
 }
 
 /**
@@ -444,15 +480,11 @@ export interface Nfs3TargetProperties {
   /**
    * Polymorphic Discriminator
    */
-  targetBaseType: "nfs3";
+  targetType: "nfs3";
   /**
    * List of Cache namespace junctions to target for namespace associations.
    */
   junctions?: NamespaceJunction[];
-  /**
-   * Type of the Storage Target.
-   */
-  targetType?: string;
   /**
    * ARM provisioning state, see
    * https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/Addendum.md#provisioningstate-property.
@@ -481,15 +513,11 @@ export interface ClfsTargetProperties {
   /**
    * Polymorphic Discriminator
    */
-  targetBaseType: "clfs";
+  targetType: "clfs";
   /**
    * List of Cache namespace junctions to target for namespace associations.
    */
   junctions?: NamespaceJunction[];
-  /**
-   * Type of the Storage Target.
-   */
-  targetType?: string;
   /**
    * ARM provisioning state, see
    * https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/Addendum.md#provisioningstate-property.
@@ -518,15 +546,11 @@ export interface UnknownTargetProperties {
   /**
    * Polymorphic Discriminator
    */
-  targetBaseType: "unknown";
+  targetType: "unknown";
   /**
    * List of Cache namespace junctions to target for namespace associations.
    */
   junctions?: NamespaceJunction[];
-  /**
-   * Type of the Storage Target.
-   */
-  targetType?: string;
   /**
    * ARM provisioning state, see
    * https://github.com/Azure/azure-resource-manager-rpc/blob/master/v1.0/Addendum.md#provisioningstate-property.
@@ -818,14 +842,6 @@ export type ProvisioningStateType = 'Succeeded' | 'Failed' | 'Cancelled' | 'Crea
 export type FirmwareStatusType = 'available' | 'unavailable';
 
 /**
- * Defines values for StorageTargetType.
- * Possible values include: 'nfs3', 'clfs', 'unknown'
- * @readonly
- * @enum {string}
- */
-export type StorageTargetType = 'nfs3' | 'clfs' | 'unknown';
-
-/**
  * Defines values for ReasonCode.
  * Possible values include: 'QuotaId', 'NotAvailableForSubscription'
  * @readonly
@@ -950,6 +966,26 @@ export type UsageModelsListNextResponse = UsageModelsResult & {
        * The response body as parsed JSON or XML
        */
       parsedBody: UsageModelsResult;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type AscOperationsGetResponse = AscOperation & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: AscOperation;
     };
 };
 

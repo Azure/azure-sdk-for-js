@@ -103,6 +103,75 @@ export const CloudErrorBody: msRest.CompositeMapper = {
   }
 };
 
+export const ErrorResponse: msRest.CompositeMapper = {
+  serializedName: "ErrorResponse",
+  type: {
+    name: "Composite",
+    className: "ErrorResponse",
+    modelProperties: {
+      code: {
+        serializedName: "code",
+        type: {
+          name: "String"
+        }
+      },
+      message: {
+        serializedName: "message",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AscOperation: msRest.CompositeMapper = {
+  serializedName: "AscOperation",
+  type: {
+    name: "Composite",
+    className: "AscOperation",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      startTime: {
+        serializedName: "startTime",
+        type: {
+          name: "String"
+        }
+      },
+      endTime: {
+        serializedName: "endTime",
+        type: {
+          name: "String"
+        }
+      },
+      status: {
+        serializedName: "status",
+        type: {
+          name: "String"
+        }
+      },
+      error: {
+        serializedName: "error",
+        type: {
+          name: "Composite",
+          className: "ErrorResponse"
+        }
+      }
+    }
+  }
+};
+
 export const CacheIdentity: msRest.CompositeMapper = {
   serializedName: "CacheIdentity",
   type: {
@@ -545,8 +614,8 @@ export const StorageTargetProperties: msRest.CompositeMapper = {
   type: {
     name: "Composite",
     polymorphicDiscriminator: {
-      serializedName: "targetBaseType",
-      clientName: "targetBaseType"
+      serializedName: "targetType",
+      clientName: "targetType"
     },
     uberParent: "StorageTargetProperties",
     className: "StorageTargetProperties",
@@ -561,12 +630,6 @@ export const StorageTargetProperties: msRest.CompositeMapper = {
               className: "NamespaceJunction"
             }
           }
-        }
-      },
-      targetType: {
-        serializedName: "targetType",
-        type: {
-          name: "String"
         }
       },
       provisioningState: {
@@ -596,9 +659,9 @@ export const StorageTargetProperties: msRest.CompositeMapper = {
           className: "UnknownTarget"
         }
       },
-      targetBaseType: {
+      targetType: {
         required: true,
-        serializedName: "targetBaseType",
+        serializedName: "targetType",
         type: {
           name: "String"
         }
@@ -657,12 +720,6 @@ export const StorageTarget: msRest.CompositeMapper = {
           }
         }
       },
-      targetType: {
-        serializedName: "properties.targetType",
-        type: {
-          name: "String"
-        }
-      },
       provisioningState: {
         serializedName: "properties.provisioningState",
         type: {
@@ -690,9 +747,9 @@ export const StorageTarget: msRest.CompositeMapper = {
           className: "UnknownTarget"
         }
       },
-      targetBaseType: {
+      targetType: {
         required: true,
-        serializedName: "properties.targetBaseType",
+        serializedName: "properties.targetType",
         type: {
           name: "String"
         }
