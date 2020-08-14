@@ -11,8 +11,7 @@ const assert = chai.assert;
 
 import { ConnectionContext } from "../../src/connectionContext";
 import { BatchingReceiver } from "../../src/core/batchingReceiver";
-import { MessageReceiver, ReceiverType } from "../../src/core/messageReceiver";
-import { InternalMessageHandlers } from "../../src/models";
+import { MessageReceiver } from "../../src/core/messageReceiver";
 import { ServiceBusReceiverImpl } from "../../src/receivers/receiver";
 import { createConnectionContextForTests } from "./unittestUtils";
 import { InternalMessageHandlers } from "../../src/models";
