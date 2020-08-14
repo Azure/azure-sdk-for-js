@@ -243,13 +243,6 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
           }
         };
         const sropt: SenderOptions = { target: { address: this.address } };
-        log.mgmt(
-          "[%s] Creating sender/receiver links on a session for $management endpoint with " +
-            "srOpts: %o, receiverOpts: %O.",
-          this._context.connectionId,
-          sropt,
-          rxopt
-        );
 
         await this.initLink({
           senderOptions: sropt,
@@ -266,12 +259,6 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
           const ehError = translate(context.receiver!.error!);
           log.error("[%s] An error occurred on the $management receiver link.. %O", id, ehError);
         });
-        log.mgmt(
-          "[%s] Created sender '%s' and receiver '%s' links for $management endpoint.",
-          this._context.connectionId,
-          this.link!.sender.name,
-          this.link!.receiver.name
-        );
       }
     } catch (err) {
       err = translate(err);

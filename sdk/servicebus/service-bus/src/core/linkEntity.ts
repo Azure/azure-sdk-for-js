@@ -247,7 +247,7 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
       await this._negotiateClaim();
       checkAborted();
 
-      log.error(`${this._logPrefix} Creating with options %O`, options);
+      this._logger(`${this._logPrefix} Creating with options %O`, options);
       this._link = await this.createRheaLink(options);
       checkAborted();
 
@@ -259,6 +259,8 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
       }
 
       this._ensureTokenRenewal();
+
+      this._logger(`${this._logPrefix} Link has been created.`);
     } catch (err) {
       await this.closeLink("linkonly");
       throw err;
