@@ -263,7 +263,7 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
    * the this._link field to undefined.
    *
    * @param mode Indicates the original caller.
-   * - "permanently" closes the link permanently, setting _wasClosedByUser to true which
+   * - "permanently" closes the link permanently, setting _wasClosed to true which
    * prevents it from being reinitializing.
    * - "linkonly" closes the link but does not permanently close the LinkEntity. It can be reinitialized.
    */
