@@ -57,12 +57,15 @@ describe("Retries - ManagementClient", () => {
       numberOfTimesManagementClientInvoked++;
       throw new MessagingError("Hello there, I'm an error");
     };
-    (sender as any)._context.managementClients[
+    const senderMgmtClient = serviceBusClient["_connectionContext"].getManagementClient(
       sender.entityPath
-    ]._makeManagementRequest = fakeFunction;
-    (receiver as any)._context.managementClients[
+    );
+    const receiverMgmtClient = serviceBusClient["_connectionContext"].getManagementClient(
       receiver.entityPath
-    ]._makeManagementRequest = fakeFunction;
+    );
+
+    senderMgmtClient["_makeManagementRequest"] = fakeFunction;
+    receiverMgmtClient["_makeManagementRequest"] = fakeFunction;
   }
 
   async function mockManagementClientAndVerifyRetries(func: Function) {
