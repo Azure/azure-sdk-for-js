@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { generate_uuid } from "rhea-promise";
 import { TokenCredential, isTokenCredential } from "@azure/core-amqp";
 import {
   ServiceBusClientOptions,
@@ -9,7 +8,6 @@ import {
   createConnectionContextForTokenCredential
 } from "./constructorHelpers";
 import { ConnectionContext } from "./connectionContext";
-import { ClientEntityContext } from "./clientEntityContext";
 import { CreateReceiverOptions, CreateSessionReceiverOptions, ReceiveMode } from "./models";
 import { ServiceBusReceiver, ServiceBusReceiverImpl } from "./receivers/receiver";
 import {
@@ -198,21 +196,17 @@ export class ServiceBusClient {
       options3
     );
 
-    const clientEntityContext = ClientEntityContext.create(
-      entityPath,
-      this._connectionContext,
-      `${entityPath}/${generate_uuid()}`
-    );
-
     if (receiveMode === "peekLock") {
       return new ServiceBusReceiverImpl<ReceivedMessageWithLock>(
-        clientEntityContext,
+        this._connectionContext,
+        entityPath,
         receiveMode,
         this._clientOptions.retryOptions
       );
     } else {
       return new ServiceBusReceiverImpl<ReceivedMessage>(
-        clientEntityContext,
+        this._connectionContext,
+        entityPath,
         receiveMode,
         this._clientOptions.retryOptions
       );
@@ -319,14 +313,9 @@ export class ServiceBusClient {
       options3
     );
 
-    const clientEntityContext = ClientEntityContext.create(
-      entityPath,
-      this._connectionContext,
-      `${entityPath}/${generate_uuid()}`
-    );
-
     return ServiceBusSessionReceiverImpl.createInitializedSessionReceiver(
-      clientEntityContext,
+      this._connectionContext,
+      entityPath,
       receiveMode,
       {
         sessionId: options?.sessionId,
@@ -342,12 +331,11 @@ export class ServiceBusClient {
    * @param queueOrTopicName The name of a queue or topic to send messages to.
    */
   createSender(queueOrTopicName: string): ServiceBusSender {
-    const clientEntityContext = ClientEntityContext.create(
-      queueOrTopicName,
+    return new ServiceBusSenderImpl(
       this._connectionContext,
-      `${queueOrTopicName}/${generate_uuid()}`
+      queueOrTopicName,
+      this._clientOptions.retryOptions
     );
-    return new ServiceBusSenderImpl(clientEntityContext, this._clientOptions.retryOptions);
   }
 
   /**

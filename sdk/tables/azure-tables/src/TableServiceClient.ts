@@ -6,14 +6,16 @@ import { Service } from "./generated/operations";
 import { Table } from "./generated/operations";
 import {
   Entity,
+  QueryOptions,
   ListTablesOptions,
   ListEntitiesOptions,
   GetEntityResponse,
   ListEntitiesResponse,
   CreateEntityOptions,
   UpdateEntityOptions,
-  MergeEntityOptions,
-  SetAccessPolicyOptions
+  UpsertEntityOptions,
+  SetAccessPolicyOptions,
+  UpdateMode
 } from "./models";
 import {
   TableServiceClientOptions,
@@ -28,14 +30,14 @@ import {
   CreateTableResponse,
   DeleteTableOptions,
   DeleteTableResponse,
-  QueryOptions,
+  TableQueryOptions,
   ListTablesResponse,
   GetEntityOptions,
   CreateEntityResponse,
   DeleteEntityOptions,
   DeleteEntityResponse,
   UpdateEntityResponse,
-  MergeEntityResponse,
+  UpsertEntityResponse,
   GetAccessPolicyOptions,
   GetAccessPolicyResponse,
   SignedIdentifier,
@@ -193,7 +195,7 @@ export class TableServiceClient {
     query?: QueryOptions,
     options?: ListTablesOptions
   ): Promise<ListTablesResponse> {
-    return this.table.query({ queryOptions: query, ...options });
+    return this.table.query({ queryOptions: this.convertQueryOptions(query), ...options });
   }
 
   /**
@@ -232,7 +234,7 @@ export class TableServiceClient {
     options?: ListEntitiesOptions
   ): Promise<ListEntitiesResponse<T>> {
     const response = (await this.table.queryEntities(tableName, {
-      queryOptions: query,
+      queryOptions: this.convertQueryOptions(query),
       ...options
     })) as ListEntitiesResponse<T>;
     response.value = deserializeObjectsArray<T>(response.value || []);
@@ -277,43 +279,67 @@ export class TableServiceClient {
   }
 
   /**
-   * Update entity in a table.
+   * Update an entity in a table.
    * @param tableName The name of the table.
-   * @param entity The properties of the updated entity.
-   * @param ifMatch Match condition for an entity to be updated. If specified and a matching entity is not found, an error will be raised. To force an unconditional update, set to the wildcard character (*). If not specified, an insert will be performed when no existing entity is found to update and a replace will be performed if an existing entity is found.
+   * @param entity The properties of the entity to be updated.
+   * @param mode The different modes for updating the entity:
+   *             - Merge: Updates an entity by updating the entity's properties without replacing the existing entity.
+   *             - Replace: Updates an existing entity by replacing the entire entity.
+   * @param etag The ETag of the entity to be updated. If specified and a matching entity is not found, an error will be raised. To force an unconditional update, set to the wildcard character (*). If not specified, an insert will be performed when no existing entity is found to update and a replace will be performed if an existing entity is found.
    * @param options The options parameters.
    */
   public updateEntity(
     tableName: string,
     entity: Entity,
-    ifMatch?: string,
+    mode: UpdateMode,
+    etag: string = "*",
     options?: UpdateEntityOptions
   ): Promise<UpdateEntityResponse> {
-    return this.table.updateEntity(tableName, entity.PartitionKey, entity.RowKey, {
-      tableEntityProperties: serialize(entity),
-      ifMatch,
-      ...options
-    });
+    if (mode === "Merge") {
+      return this.table.mergeEntity(tableName, entity.PartitionKey, entity.RowKey, {
+        tableEntityProperties: entity,
+        ifMatch: etag,
+        ...options
+      });
+    } else if (mode === "Replace") {
+      return this.table.updateEntity(tableName, entity.PartitionKey, entity.RowKey, {
+        tableEntityProperties: entity,
+        ifMatch: etag,
+        ...options
+      });
+    } else {
+      throw new Error(`Unexpected value for update mode: ${mode}`);
+    }
   }
 
   /**
-   * Merge entity in a table.
+   * Upsert an entity in a table.
    * @param tableName The name of the table.
    * @param entity The properties for the table entity.
-   * @param ifMatch Match condition for an entity to be updated. If specified and a matching entity is not found, an error will be raised. To force an unconditional update, set to the wildcard character (*). If not specified, an insert will be performed when no existing entity is found to update and a merge will be performed if an existing entity is found.
+   * @param mode The different modes for updating the entity:
+   *             - Merge: Updates an entity by updating the entity's properties without replacing the existing entity.
+   *             - Replace: Updates an existing entity by replacing the entire entity.
    * @param options The options parameters.
    */
-  public mergeEntity(
+  public upsertEntity(
     tableName: string,
     entity: Entity,
-    ifMatch?: string,
-    options?: MergeEntityOptions
-  ): Promise<MergeEntityResponse> {
-    return this.table.mergeEntity(tableName, entity.PartitionKey, entity.RowKey, {
-      tableEntityProperties: serialize(entity),
-      ifMatch,
-      ...options
-    });
+    mode: UpdateMode,
+    options?: UpsertEntityOptions
+  ): Promise<UpsertEntityResponse> {
+    if (mode === "Merge") {
+      return this.table.mergeEntity(tableName, entity.PartitionKey, entity.RowKey, {
+        tableEntityProperties: entity,
+        ...options
+      });
+    } else if (mode === "Replace") {
+      return this.table.updateEntity(tableName, entity.PartitionKey, entity.RowKey, {
+        tableEntityProperties: entity,
+        ...options
+      });
+    } else {
+      throw new Error(`Unexpected value for update mode: ${mode}`);
+    }
   }
 
   /**
@@ -341,6 +367,14 @@ export class TableServiceClient {
     options?: SetAccessPolicyOptions
   ): Promise<SetAccessPolicyResponse> {
     return this.table.setAccessPolicy(tableName, { tableAcl: acl, ...options });
+  }
+
+  private convertQueryOptions(query: QueryOptions = {}): TableQueryOptions {
+    const mappedQuery: any = { ...query };
+    if (mappedQuery.select) {
+      mappedQuery.select = mappedQuery.select.join(",");
+    }
+    return mappedQuery;
   }
 
   /**

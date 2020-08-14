@@ -5,15 +5,17 @@ import { DEFAULT_BREEZE_ENDPOINT } from "../../../src/Declarations/Constants";
 import {
   successfulBreezeResponse,
   failedBreezeResponse,
-  partialBreezeResponse,
+  partialBreezeResponse
 } from "../../breezeTestUtils";
 import nock = require("nock");
 
 describe("HttpSender", () => {
   const scope = nock(DEFAULT_BREEZE_ENDPOINT).post("/v2/track");
+  nock.disableNetConnect();
 
   after(() => {
     nock.cleanAll();
+    nock.enableNetConnect();
   });
 
   describe("#constructor", () => {

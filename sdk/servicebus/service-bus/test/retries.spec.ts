@@ -62,8 +62,15 @@ describe("Retries - ManagementClient", () => {
       numberOfTimesManagementClientInvoked++;
       throw new MessagingError("Hello there, I'm an error");
     };
-    (sender as any)._context.managementClient._makeManagementRequest = fakeFunction;
-    (receiver as any)._context.managementClient._makeManagementRequest = fakeFunction;
+    const senderMgmtClient = serviceBusClient["_connectionContext"].getManagementClient(
+      sender.entityPath
+    );
+    const receiverMgmtClient = serviceBusClient["_connectionContext"].getManagementClient(
+      receiver.entityPath
+    );
+
+    senderMgmtClient["_makeManagementRequest"] = fakeFunction;
+    receiverMgmtClient["_makeManagementRequest"] = fakeFunction;
   }
 
   async function mockManagementClientAndVerifyRetries(func: Function) {
@@ -336,16 +343,21 @@ describe("Retries - Receive methods", () => {
       numberOfTimesTried++;
       throw new MessagingError("Hello there, I'm an error");
     };
-    // Mocking batchingReceiver.receive to throw the error and fail
-    const batchingReceiver = BatchingReceiver.create((receiver as any)._context);
-    batchingReceiver.isOpen = () => true;
-    batchingReceiver.receive = fakeFunction;
 
     if (receiver instanceof ServiceBusSessionReceiverImpl) {
       // Mocking `_messageSession.receiveMessages()` to throw the error and fail
       (receiver as ServiceBusSessionReceiverImpl<ReceivedMessageWithLock>)[
         "_messageSession"
       ].receiveMessages = fakeFunction;
+    } else {
+      // Mocking batchingReceiver.receive to throw the error and fail
+      const batchingReceiver = BatchingReceiver.create(
+        (receiver as any)._context,
+        "dummyEntityPath"
+      );
+      batchingReceiver.isOpen = () => true;
+      batchingReceiver.receive = fakeFunction;
+      (receiver as ServiceBusReceiverImpl<ReceivedMessageWithLock>)["_batchingReceiver"] = batchingReceiver;
     }
   }
 
@@ -469,8 +481,7 @@ describe("Retries - onDetached", () => {
       });
       await delay(2000);
 
-      const streamingReceiver = (receiver as ServiceBusReceiverImpl<any>)["_context"]
-        .streamingReceiver!;
+      const streamingReceiver = (receiver as ServiceBusReceiverImpl<any>)["_streamingReceiver"]!;
       should.exist(streamingReceiver);
 
       streamingReceiver["init"] = fakeFunction;

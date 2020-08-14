@@ -51,7 +51,7 @@ describe("ManagementClient - disconnects", function(): void {
 
     peekedMessageCount.should.equal(1, "Unexpected number of peeked messages.");
 
-    const connectionContext = (receiver as any)["_context"].namespace;
+    const connectionContext = (receiver as any)["_context"];
     const refreshConnection = connectionContext.refreshConnection;
     let refreshConnectionCalled = 0;
     connectionContext.refreshConnection = function(...args: any) {
@@ -84,7 +84,7 @@ describe("ManagementClient - disconnects", function(): void {
 
     deliveryIds.length.should.equal(1, "Unexpected number of scheduled messages.");
 
-    const connectionContext = (receiver as any)["_context"].namespace;
+    const connectionContext = (receiver as any)["_context"];
     const refreshConnection = connectionContext.refreshConnection;
     let refreshConnectionCalled = 0;
     connectionContext.refreshConnection = function(...args: any) {

@@ -165,9 +165,13 @@ describe("Streaming Receiver Tests", () => {
       let streamingReceiver: StreamingReceiver | undefined;
       try {
         let actualError: Error | undefined;
-        streamingReceiver = await StreamingReceiver.create((receiver as any)._context, {
-          receiveMode: InternalReceiveMode.peekLock
-        });
+        streamingReceiver = await StreamingReceiver.create(
+          (receiver as any)._context,
+          receiver.entityPath,
+          {
+            receiveMode: InternalReceiveMode.peekLock
+          }
+        );
 
         streamingReceiver.subscribe(
           async () => {},
@@ -630,10 +634,11 @@ describe("Streaming Receiver Tests", () => {
     async function testUserError(): Promise<void> {
       await sender.sendMessages(TestMessage.getSample());
       const errorMessage = "Will we see this error message?";
-
+      let streamingReceiverName: string | undefined;
       const receivedMsgs: ReceivedMessageWithLock[] = [];
       receiver.subscribe({
         async processMessage(msg: ReceivedMessageWithLock) {
+          streamingReceiverName = (receiver as any)._streamingReceiver.name;
           await msg.complete();
           receivedMsgs.push(msg);
           throw new Error(errorMessage);
@@ -645,7 +650,7 @@ describe("Streaming Receiver Tests", () => {
 
       should.equal(msgsCheck, true, `Expected 1, received ${receivedMsgs.length} messages.`);
       should.equal(
-        !!(receiver as any)._context.streamingReceiver,
+        !!(receiver as any)._context.streamingReceivers[streamingReceiverName!],
         true,
         "Expected streaming receiver not to be cached."
       );
@@ -984,7 +989,7 @@ describe(testClientType + ": Streaming - onDetached", function(): void {
     // Simulate onDetached being called with a non-retryable error.
     const nonRetryableError = translate(new Error(`I break systems.`));
     (nonRetryableError as MessagingError).retryable = false;
-    await (receiver as any)["_context"].streamingReceiver!.onDetached(nonRetryableError);
+    await (receiver as any)._streamingReceiver!.onDetached(nonRetryableError);
 
     receivedErrors.length.should.equal(0, "Unexpected number of errors received.");
   });
@@ -1019,7 +1024,7 @@ describe(testClientType + ": Streaming - onDetached", function(): void {
     // Simulate onDetached being called with a non-retryable error.
     const nonRetryableError = new MessagingError(`I break systems.`);
     (nonRetryableError as MessagingError).retryable = false;
-    await (receiver as any)["_context"].streamingReceiver!.onDetached(nonRetryableError, true);
+    await (receiver as any)._streamingReceiver!.onDetached(nonRetryableError, true);
 
     receivedErrors.length.should.equal(1, "Unexpected number of errors received.");
   });
@@ -1055,8 +1060,8 @@ describe(testClientType + ": Streaming - onDetached", function(): void {
     const nonRetryableError = new MessagingError(`I break systems.`);
     (nonRetryableError as MessagingError).retryable = false;
     await Promise.all([
-      (receiver as any)["_context"].streamingReceiver!.onDetached(nonRetryableError, true),
-      (receiver as any)["_context"].streamingReceiver!.onDetached(nonRetryableError, true)
+      (receiver as any)._streamingReceiver!.onDetached(nonRetryableError, true),
+      (receiver as any)._streamingReceiver!.onDetached(nonRetryableError, true)
     ]);
 
     receivedErrors.length.should.equal(1, "Unexpected number of errors received.");
@@ -1095,8 +1100,8 @@ describe(testClientType + ": Streaming - onDetached", function(): void {
     const retryableError = new Error("I temporarily break systems.");
     (retryableError as any).retryable = true;
     await Promise.all([
-      (receiver as any)["_context"].streamingReceiver!.onDetached(nonRetryableError, true),
-      (receiver as any)["_context"].streamingReceiver!.onDetached(retryableError)
+      (receiver as any)._streamingReceiver!.onDetached(nonRetryableError, true),
+      (receiver as any)._streamingReceiver!.onDetached(retryableError)
     ]);
 
     receivedErrors.length.should.equal(1, "Unexpected number of errors received.");
@@ -1180,7 +1185,7 @@ describe(testClientType + ": Streaming - disconnects", function(): void {
     settledMessageCount.should.equal(1, "Unexpected number of settled messages.");
     receivedErrors.length.should.equal(0, "Encountered an unexpected number of errors.");
 
-    const connectionContext = (receiver as any)["_context"].namespace;
+    const connectionContext = (receiver as any)["_context"];
     const refreshConnection = connectionContext.refreshConnection;
     let refreshConnectionCalled = 0;
     connectionContext.refreshConnection = function(...args: any) {
@@ -1189,7 +1194,7 @@ describe(testClientType + ": Streaming - disconnects", function(): void {
     };
 
     // Simulate a disconnect being called with a non-retryable error.
-    (receiver as any)["_context"].namespace.connection["_connection"].idle();
+    (receiver as any)["_context"].connection["_connection"].idle();
 
     // send a second message to trigger the message handler again.
     await sender.sendMessages(TestMessage.getSample());

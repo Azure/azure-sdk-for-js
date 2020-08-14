@@ -16,7 +16,7 @@ import {
   createIndexers,
   deleteIndexers,
   WAIT_TIME
-} from "../utils/setupIndex";
+} from "../utils/setup";
 import { delay } from "@azure/core-http";
 
 const TEST_INDEX_NAME = "hotel-live-test2";

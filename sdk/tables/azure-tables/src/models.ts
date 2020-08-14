@@ -2,13 +2,14 @@
 // Licensed under the MIT license.
 
 import {
+  QueryOptions as TableQueryOptions,
   TableQueryOptionalParams,
   TableQueryEntitiesOptionalParams,
   TableQueryEntitiesWithPartitionAndRowKeyResponse,
   TableQueryEntitiesResponse,
   TableInsertEntityOptionalParams,
   TableUpdateEntityOptionalParams,
-  TableMergeEntityOptionalParams,
+  TableMergeEntityOptionalParams as TableUpsertEntityOptionalParams,
   TableSetAccessPolicyOptionalParams
 } from "./generated/models";
 
@@ -30,6 +31,16 @@ export type GetEntityResponse<T> = TableQueryEntitiesWithPartitionAndRowKeyRespo
    * The table entity object.
    */
   value?: T;
+};
+
+/**
+ * OData Query options to limit the set of tables or entities returned.
+ */
+export type QueryOptions = Omit<TableQueryOptions, "select"> & {
+  /**
+   * A select expression limits the properties on each entity to just those requested.
+   */
+  select?: string[];
 };
 
 /**
@@ -58,8 +69,8 @@ export type UpdateEntityOptions = Omit<
 /**
  * Merge entity optional parameters.
  */
-export type MergeEntityOptions = Omit<
-  TableMergeEntityOptionalParams,
+export type UpsertEntityOptions = Omit<
+  TableUpsertEntityOptionalParams,
   "tableEntityProperties" | "ifMatch"
 >;
 
@@ -122,3 +133,9 @@ export interface Edm<T extends EdmTypes> {
    */
   type: T;
 }
+
+/* The different modes for Update and Upsert methods
+ * - Merge: Updates an entity by updating the entity's properties without replacing the existing entity.
+ * - Replace: Updates an existing entity by replacing the entire entity.
+ */
+export type UpdateMode = "Merge" | "Replace";

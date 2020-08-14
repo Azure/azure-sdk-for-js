@@ -3,7 +3,7 @@ import { SpanKind, CanonicalCode } from "@opentelemetry/api";
 import * as assert from "assert";
 import { NoopLogger, hrTimeToMilliseconds } from "@opentelemetry/core";
 
-import { Tags, Properties } from "../../src/types";
+import { Tags, Properties, Measurements } from "../../src/types";
 import { RequestData, RemoteDependencyData, Envelope } from "../../src/Declarations/Contracts";
 import * as http from "../../src/utils/constants/span/httpAttributes";
 import * as grpc from "../../src/utils/constants/span/grpcAttributes";
@@ -24,6 +24,7 @@ function assertEnvelope(
   baseType: string,
   expectedTags: Tags,
   expectedProperties: Properties,
+  expectedMeasurements: Measurements | undefined,
   expectedBaseData: Partial<RequestData | RemoteDependencyData>,
   expectedTime?: string
 ) {
@@ -46,8 +47,11 @@ function assertEnvelope(
 
   assert.deepStrictEqual(envelope.tags, { ...context.tags, ...expectedTags });
   assert.deepStrictEqual(envelope?.data?.baseData?.properties, expectedProperties);
+  assert.deepStrictEqual(envelope?.data?.baseData?.measurements, expectedMeasurements);
   assert.deepStrictEqual(envelope.data?.baseData, expectedBaseData);
 }
+
+const emptyMeasurements: Measurements = {};
 
 describe("spanUtils.ts", () => {
   describe("#readableSpanToEnvelope", () => {
@@ -103,6 +107,7 @@ describe("spanUtils.ts", () => {
           "RequestData",
           expectedTags,
           expectedProperties,
+          emptyMeasurements,
           expectedBaseData
         );
       });
@@ -157,6 +162,7 @@ describe("spanUtils.ts", () => {
           "RemoteDependencyData",
           expectedTags,
           expectedProperties,
+          emptyMeasurements,
           expectedBaseData
         );
       });
@@ -205,6 +211,7 @@ describe("spanUtils.ts", () => {
           "RequestData",
           expectedTags,
           expectedProperties,
+          emptyMeasurements,
           expectedBaseData,
           expectedTime
         );
@@ -253,6 +260,7 @@ describe("spanUtils.ts", () => {
           "RemoteDependencyData",
           expectedTags,
           expectedProperties,
+          emptyMeasurements,
           expectedBaseData
         );
       });
@@ -309,6 +317,7 @@ describe("spanUtils.ts", () => {
           "RequestData",
           expectedTags,
           expectedProperties,
+          emptyMeasurements,
           expectedBaseData
         );
       });
@@ -359,6 +368,7 @@ describe("spanUtils.ts", () => {
           "RemoteDependencyData",
           expectedTags,
           expectedProperties,
+          emptyMeasurements,
           expectedBaseData
         );
       });

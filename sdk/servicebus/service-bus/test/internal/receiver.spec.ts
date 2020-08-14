@@ -9,25 +9,23 @@ import { ReceivedMessage, ReceivedMessageWithLock } from "../../src";
 chai.use(chaiAsPromised);
 const assert = chai.assert;
 
-import { ClientEntityContext } from "../../src/clientEntityContext";
+import { ConnectionContext } from "../../src/connectionContext";
 import { BatchingReceiver } from "../../src/core/batchingReceiver";
 import { MessageReceiver, ReceiverType } from "../../src/core/messageReceiver";
 import { InternalMessageHandlers } from "../../src/models";
-import { ServiceBusReceiverImpl } from "../../src/receivers/receiver";
-import { createClientEntityContextForTests } from "./unittestUtils";
+import { ReceiverImpl } from "../../src/receivers/receiver";
+import { createConnectionContextForTests } from "./unittestUtils";
 
 describe("Receiver unit tests", () => {
   describe("init() and close() interactions", () => {
-    function fakeContext(): ClientEntityContext {
+    function fakeContext(): ConnectionContext {
       return ({
-        namespace: {
-          config: {}
-        }
-      } as unknown) as ClientEntityContext;
+        config: {}
+      } as unknown) as ConnectionContext;
     }
 
     it("close() called just after init() but before the next step", async () => {
-      const batchingReceiver = new BatchingReceiver(fakeContext());
+      const batchingReceiver = new BatchingReceiver(fakeContext(), "fakeEntityPath");
 
       let initWasCalled = false;
       batchingReceiver["_init"] = async () => {
@@ -45,7 +43,11 @@ describe("Receiver unit tests", () => {
     });
 
     it("message receiver init() bails out early if object is closed()", async () => {
-      const messageReceiver2 = new MessageReceiver(fakeContext(), ReceiverType.streaming);
+      const messageReceiver2 = new MessageReceiver(
+        fakeContext(),
+        "fakeEntityPath",
+        ReceiverType.streaming
+      );
 
       // so our object basically looks like an unopened receiver
       messageReceiver2["isOpen"] = () => false;
@@ -74,8 +76,8 @@ describe("Receiver unit tests", () => {
       let receiverWasDrained = false;
       let closeWasCalled = false;
 
-      const receiverImpl = new ServiceBusReceiverImpl<any>(
-        createClientEntityContextForTests({
+      const receiverImpl = new ReceiverImpl<any>(
+        createConnectionContextForTests({
           onCreateReceiverCalled: (receiver) => {
             receiver.addListener(ReceiverEvents.receiverDrained, () => {
               receiverWasDrained = true;
@@ -86,6 +88,7 @@ describe("Receiver unit tests", () => {
             };
           }
         }),
+        "fakeEntityPath",
         "peekLock"
       );
 
@@ -111,8 +114,9 @@ describe("Receiver unit tests", () => {
     });
 
     it("can't subscribe while another subscribe is active", async () => {
-      const receiverImpl = new ServiceBusReceiverImpl(
-        createClientEntityContextForTests(),
+      const receiverImpl = new ReceiverImpl(
+        createConnectionContextForTests(),
+        "fakeEntityPath",
         "peekLock"
       );
 
@@ -129,7 +133,7 @@ describe("Receiver unit tests", () => {
           },
           {
             name: "Error",
-            message: 'The receiver for "queue" is already receiving messages.'
+            message: `The receiver for "${receiverImpl.entityPath}" is already receiving messages.`
           }
         );
       }
@@ -141,19 +145,20 @@ describe("Receiver unit tests", () => {
     it("can re-subscribe after previous subscription is closed", async () => {
       let closeWasCalled = false;
 
-      const receiverImpl = new ServiceBusReceiverImpl(
-        createClientEntityContextForTests({
+      const receiverImpl = new ReceiverImpl(
+        createConnectionContextForTests({
           onCreateReceiverCalled: (receiver) => {
             (receiver as any).close = () => {
               closeWasCalled = true;
             };
           }
         }),
+        "fakeEntityPath",
         "peekLock"
       );
 
       const subscription = await subscribeAndWaitForInitialize(receiverImpl);
-      const originalStreamingReceiver = receiverImpl["_context"].streamingReceiver;
+      const originalStreamingReceiver = receiverImpl["_streamingReceiver"];
 
       await subscription.close();
 
@@ -166,7 +171,7 @@ describe("Receiver unit tests", () => {
 
       assert.equal(
         originalStreamingReceiver?.name,
-        receiverImpl["_context"].streamingReceiver?.name,
+        receiverImpl["_streamingReceiver"]?.name,
         "StreamingReceiver is closed but not replaced - this allows us to just stop and start at will without losing anything."
       );
 
@@ -176,8 +181,9 @@ describe("Receiver unit tests", () => {
     });
 
     it("can re-subscribe after previous subscription is aborted", async () => {
-      const receiverImpl = new ServiceBusReceiverImpl(
-        createClientEntityContextForTests(),
+      const receiverImpl = new ReceiverImpl(
+        createConnectionContextForTests(),
+        "fakeEntityPath",
         "peekLock"
       );
 
@@ -224,12 +230,12 @@ describe("Receiver unit tests", () => {
       });
 
       assert.exists(
-        receiver["_context"].streamingReceiver,
+        receiver["_streamingReceiver"],
         "streaming receiver has been initialized in the context"
       );
 
       assert.isTrue(
-        receiver["_context"].streamingReceiver?.isReceivingMessages,
+        receiver["_streamingReceiver"]?.isReceivingMessages,
         "streaming receiver should indicate it's receiving messages"
       );
 
