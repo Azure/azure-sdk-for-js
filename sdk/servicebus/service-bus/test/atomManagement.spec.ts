@@ -767,6 +767,10 @@ describe("Atom management - Authentication", function(): void {
   {
     entityType: EntityType.SUBSCRIPTION,
     alwaysBeExistingEntity: managementSubscription1
+  },
+  {
+    entityType: EntityType.RULE,
+    alwaysBeExistingEntity: managementRule1
   }
 ].forEach((testCase) => {
   describe(`Atom management - "${testCase.entityType}" exists`, function(): void {
@@ -785,6 +789,17 @@ describe("Atom management - Authentication", function(): void {
           await recreateSubscription(managementTopic1, managementSubscription1);
           break;
 
+        case EntityType.RULE:
+          await recreateTopic(managementTopic1);
+          await recreateSubscription(managementTopic1, managementSubscription1);
+          await serviceBusAtomManagementClient.createRule(
+            managementTopic1,
+            managementSubscription1,
+            managementRule1,
+            { sqlExpression: "1=2" }
+          );
+          break;
+
         default:
           throw new Error("TestError: Unrecognized EntityType");
       }
@@ -798,6 +813,7 @@ describe("Atom management - Authentication", function(): void {
 
         case EntityType.TOPIC:
         case EntityType.SUBSCRIPTION:
+        case EntityType.RULE:
           await deleteEntity(EntityType.TOPIC, managementTopic1);
           break;
 
@@ -808,7 +824,12 @@ describe("Atom management - Authentication", function(): void {
 
     it(`Returns true for an existing ${testCase.entityType} entity`, async () => {
       should.equal(
-        await entityExists(testCase.entityType, testCase.alwaysBeExistingEntity, managementTopic1),
+        await entityExists(
+          testCase.entityType,
+          testCase.alwaysBeExistingEntity,
+          managementTopic1,
+          managementSubscription1
+        ),
         true,
         "Returned `false` for an existing entity"
       );
@@ -816,7 +837,12 @@ describe("Atom management - Authentication", function(): void {
 
     it(`Returns false for a non-existing ${testCase.entityType} entity`, async () => {
       should.equal(
-        await entityExists(testCase.entityType, "non-existing-entity-name", managementTopic1),
+        await entityExists(
+          testCase.entityType,
+          "non-existing-entity-name",
+          managementTopic1,
+          managementSubscription1
+        ),
         false,
         "Returned `true` for a non-existing entity"
       );
@@ -2591,7 +2617,8 @@ async function getEntitiesRuntimeProperties(
 async function entityExists(
   testEntityType: EntityType,
   entityPath: string,
-  topicPath?: string
+  topicPath?: string,
+  subscriptionPath?: string
 ): Promise<any> {
   switch (testEntityType) {
     case EntityType.QUEUE:
@@ -2611,6 +2638,18 @@ async function entityExists(
         entityPath
       );
       return subscriptionResponse;
+    case EntityType.RULE:
+      if (!topicPath || !subscriptionPath) {
+        throw new Error(
+          "TestError: topic path and subscription path must be passed when invoking tests on rules"
+        );
+      }
+      const ruleResponse = await serviceBusAtomManagementClient.ruleExists(
+        topicPath,
+        subscriptionPath,
+        entityPath
+      );
+      return ruleResponse;
   }
   throw new Error("TestError: Unrecognized EntityType");
 }
