@@ -68,7 +68,6 @@ type LinkOptionsT<
  * @internal
  * @ignore
  * Describes the base class for entities like MessageSender, MessageReceiver and Management client.
- * @class ClientEntity
  */
 export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | RequestResponseLink> {
   /**
