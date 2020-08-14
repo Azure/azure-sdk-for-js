@@ -9,8 +9,7 @@ import {
   OnAmqpEvent,
   Receiver,
   ReceiverEvents,
-  ReceiverOptions,
-  ReceiverOptionsWithSession
+  ReceiverOptions
 } from "rhea-promise";
 import { ClientEntityContext } from "../clientEntityContext";
 import { LinkEntity } from "../core/linkEntity";
@@ -296,7 +295,7 @@ export class MessageSession extends LinkEntity<Receiver> {
   }
 
   protected createRheaLink(
-    options: ReceiverOptionsWithSession,
+    options: ReceiverOptions,
     _abortSignal?: AbortSignalLike
   ): Promise<Receiver> {
     return this._context.namespace.connection.createReceiver(options);

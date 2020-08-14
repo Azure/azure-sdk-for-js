@@ -16,7 +16,6 @@ import {
   AwaitableSenderOptions,
   Receiver,
   ReceiverOptions,
-  ReceiverOptionsWithSession,
   SenderOptions
 } from "rhea-promise";
 import { getUniqueName, StandardAbortMessage } from "../util/utils";
@@ -58,7 +57,7 @@ export interface RequestResponseLinkOptions {
 type LinkOptionsT<
   LinkT extends Receiver | AwaitableSender | RequestResponseLink
 > = LinkT extends Receiver
-  ? ReceiverOptionsWithSession
+  ? ReceiverOptions
   : LinkT extends AwaitableSender
   ? AwaitableSenderOptions
   : LinkT extends RequestResponseLink

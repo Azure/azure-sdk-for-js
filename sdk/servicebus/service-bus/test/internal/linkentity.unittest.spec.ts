@@ -4,7 +4,7 @@
 import { AbortSignalLike } from "@azure/abort-controller";
 import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
-import { Receiver, ReceiverOptionsWithSession } from "rhea-promise";
+import { Receiver, ReceiverOptions } from "rhea-promise";
 import { LinkEntity } from "../../src/core/linkEntity";
 import { createClientEntityContextForTests, createRheaReceiverForTests } from "./unittestUtils";
 chai.use(chaiAsPromised);
@@ -12,7 +12,7 @@ const assert = chai.assert;
 
 describe("LinkEntity unit tests", () => {
   class BasicLink extends LinkEntity<Receiver> {
-    async createRheaLink(options: ReceiverOptionsWithSession): Promise<Receiver> {
+    async createRheaLink(options: ReceiverOptions): Promise<Receiver> {
       return createRheaReceiverForTests(options);
     }
   }

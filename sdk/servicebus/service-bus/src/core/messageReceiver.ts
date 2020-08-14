@@ -8,14 +8,7 @@ import {
   RetryOptions,
   translate
 } from "@azure/core-amqp";
-import {
-  AmqpError,
-  EventContext,
-  OnAmqpEvent,
-  Receiver,
-  ReceiverOptions,
-  ReceiverOptionsWithSession
-} from "rhea-promise";
+import { AmqpError, EventContext, OnAmqpEvent, Receiver, ReceiverOptions } from "rhea-promise";
 import * as log from "../log";
 import { LinkEntity } from "./linkEntity";
 import { ClientEntityContext } from "../clientEntityContext";
@@ -275,7 +268,7 @@ export class MessageReceiver extends LinkEntity<Receiver> {
   }
 
   protected createRheaLink(
-    options: ReceiverOptionsWithSession,
+    options: ReceiverOptions,
     _abortSignal?: AbortSignalLike
   ): Promise<Receiver> {
     return this._context.namespace.connection.createReceiver(options);

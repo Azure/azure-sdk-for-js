@@ -6,7 +6,7 @@ import {
   AwaitableSender,
   Receiver as RheaReceiver,
   ReceiverEvents,
-  ReceiverOptionsWithSession
+  ReceiverOptions
 } from "rhea-promise";
 import { DefaultDataTransformer, AccessToken } from "@azure/core-amqp";
 import { ConcurrentExpiringMap } from "../../src/util/concurrentExpiringMap";
@@ -98,7 +98,7 @@ export function createClientEntityContextForTests(options?: {
  * - It handles draining (via the .drain = true/addCredit(1) combo of operations).
  * - It respects .close(), so the state of the receiver should be accurate for isOpen().
  */
-export function createRheaReceiverForTests(options?: ReceiverOptionsWithSession) {
+export function createRheaReceiverForTests(options?: ReceiverOptions) {
   const receiver = new EventEmitter() as RheaReceiver;
 
   (receiver as any).name = options?.name == null ? getUniqueName("entity") : options.name;
