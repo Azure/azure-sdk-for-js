@@ -16,7 +16,7 @@ export class AccessTokenRefresher {
     private requiredMillisecondsBeforeNewRefresh: number
   ) {}
 
-  public ready() {
+  public isReady(): boolean {
     // We're only ready for a new refresh if the required milliseconds have passed.
     return (
       !this.lastCalled || Date.now() - this.lastCalled > this.requiredMillisecondsBeforeNewRefresh
@@ -43,11 +43,10 @@ export class AccessTokenRefresher {
    * @param options getToken options
    */
   public refresh(options: GetTokenOptions): Promise<AccessToken | undefined> {
-    if (this.promise) {
-      return this.promise;
-    } else {
+    if (!this.promise) {
       this.promise = this.getToken(options);
-      return this.promise;
     }
+      
+    return this.promise;
   }
 }
