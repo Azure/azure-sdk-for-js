@@ -153,7 +153,7 @@ export interface MessageHandlerOptions extends MessageHandlerOptionsBase {
    * - **Default**: `300 * 1000` milliseconds (5 minutes).
    * - **To disable autolock renewal**, set this to `0`.
    */
-  maxMessageAutoRenewLockDurationInMs?: number;
+  maxAutoRenewLockDurationInMs?: number;
 }
 
 /**
