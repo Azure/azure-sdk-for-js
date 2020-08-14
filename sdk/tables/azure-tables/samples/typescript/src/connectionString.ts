@@ -1,11 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { TableServiceClient, TableClient, TableEntity } from "../../..";
+import { TableServiceClient, TableClient } from "@azure/tables";
 
 // Load the .env file if it exists
-//import * as dotenv from "dotenv";
-//dotenv.config();
+import * as dotenv from "dotenv";
+dotenv.config();
 
 const connectionString = process.env["ACCOUNT_CONNECTION_STRING"] || "";
 // const connectionString = process.env["SAS_CONNECTION_STRING"] || "";
@@ -19,27 +19,15 @@ async function listTables() {
   }
 }
 
-interface Foo {
-  bar: string;
-}
-
 async function listEntities() {
-                                const client = TableClient.fromConnectionString(
-                                  connectionString,
-                                  "test1"
-                                );
-                                const TableEntity: TableEntity<Foo> = {
-                                  PartitionKey: "p1",
-                                  RowKey: "r2",
-                                  bar: "Bar"
-                                };;
-                                client.createEntity<Foo>(TableEntity);;
-                                const entities = await client.listEntities();
+  const client = TableClient.fromConnectionString(connectionString, "test1");
 
-                                for (let entity of entities) {
-                                  console.log(entity);
-                                }
-                              }
+  const entities = await client.listEntities();
+
+  for (let entity of entities) {
+    console.log(entity);
+  }
+}
 
 async function main() {
   await listTables();
