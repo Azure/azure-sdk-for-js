@@ -7,8 +7,7 @@ import {
   OnError,
   OnMessage,
   ReceiveOptions,
-  ReceiverHandlers,
-  ReceiverType
+  ReceiverHandlers
 } from "./messageReceiver";
 import { ConnectionContext } from "../connectionContext";
 
@@ -109,7 +108,7 @@ export class StreamingReceiver extends MessageReceiver {
    * @param {ReceiveOptions} [options]                         Options for how you'd like to connect.
    */
   constructor(context: ConnectionContext, entityPath: string, options?: ReceiveOptions) {
-    super(context, entityPath, ReceiverType.streaming, options);
+    super(context, entityPath, "sr", options);
 
     if (typeof options?.maxConcurrentCalls === "number" && options?.maxConcurrentCalls > 0) {
       this.maxConcurrentCalls = options.maxConcurrentCalls;
@@ -469,7 +468,7 @@ export class StreamingReceiver extends MessageReceiver {
         !bMessage.delivery.remote_settled
       ) {
         try {
-          log[this.receiverType](
+          log.streaming(
             "[%s] Auto completing the message with id '%s' on " + "the receiver '%s'.",
             connectionId,
             bMessage.messageId,

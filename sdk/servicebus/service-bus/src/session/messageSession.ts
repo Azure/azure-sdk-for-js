@@ -429,7 +429,7 @@ export class MessageSession extends LinkEntity<Receiver> {
     private _entityPath: string,
     options?: MessageSessionOptions
   ) {
-    super(_entityPath, context, {
+    super(_entityPath, context, "ms", {
       address: _entityPath,
       audience: `${context.config.endpoint}${_entityPath}`
     });

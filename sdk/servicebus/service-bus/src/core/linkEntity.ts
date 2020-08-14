@@ -54,6 +54,15 @@ export interface RequestResponseLinkOptions {
  * @internal
  * @ignore
  */
+export type ReceiverType =
+  | "br" // batching receiver
+  | "sr" // streaming receiver;
+  | "ms"; // message session
+
+/**
+ * @internal
+ * @ignore
+ */
 type LinkOptionsT<
   LinkT extends Receiver | AwaitableSender | RequestResponseLink
 > = LinkT extends Receiver
@@ -62,6 +71,20 @@ type LinkOptionsT<
   ? AwaitableSenderOptions
   : LinkT extends RequestResponseLink
   ? RequestResponseLinkOptions
+  : never;
+
+/**
+ * @internal
+ * @ignore
+ */
+type LinkTypeT<
+  LinkT extends Receiver | AwaitableSender | RequestResponseLink
+> = LinkT extends Receiver
+  ? ReceiverType
+  : LinkT extends AwaitableSender
+  ? "s" // sender
+  : LinkT extends RequestResponseLink
+  ? "m" // management link
   : never;
 
 /**
@@ -137,13 +160,44 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
    * @param context The connection context.
    * @param options Options that can be provided while creating the LinkEntity.
    */
-  constructor(name: string, context: ConnectionContext, options?: LinkEntityOptions) {
+  constructor(
+    name: string,
+    context: ConnectionContext,
+    private _linkType: LinkTypeT<LinkT>,
+    options?: LinkEntityOptions
+  ) {
     if (!options) options = {};
     this._context = context;
     this.address = options.address || "";
     this.audience = options.audience || "";
     this.name = getUniqueName(name);
-    this._logPrefix = `[${context.connectionId}|l:${this.name}|a:${this.address}]`;
+    this._logPrefix = `[${context.connectionId}|${this._linkType}:${this.name}|a:${this.address}]`;
+
+    this._logger = LinkEntity.getLogger(this._linkType);
+  }
+
+  private _logger: typeof log.error;
+
+  private static getLogger(
+    linkType: LinkTypeT<Receiver> | LinkTypeT<AwaitableSender> | LinkTypeT<RequestResponseLink>
+  ): typeof log.error {
+    switch (linkType) {
+      case "m": {
+        return log.mgmt;
+      }
+      case "s": {
+        return log.sender;
+      }
+      case "br": {
+        return log.batching;
+      }
+      case "sr": {
+        return log.streaming;
+      }
+      case "ms": {
+        return log.messageSession;
+      }
+    }
   }
 
   /**
@@ -158,7 +212,7 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
     // Although node.js is single threaded, we need a locking mechanism to ensure that a
     // race condition does not happen while creating a shared resource (in this case the
     // cbs session, since we want to have exactly 1 cbs session per connection).
-    log.link(
+    this._logger(
       "[%s] Acquiring cbs lock: '%s' for creating the cbs session while creating the %s: " +
         "'%s' with address: '%s'.",
       this._context.connectionId,
@@ -186,14 +240,14 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
       tokenType = TokenType.CbsTokenTypeJwt;
       this._tokenTimeout = tokenObject.expiresOnTimestamp - Date.now() - 2 * 60 * 1000;
     }
-    log.link(
+    this._logger(
       "[%s] %s: calling negotiateClaim for audience '%s'.",
       this._context.connectionId,
       this._type,
       this.audience
     );
     // Acquire the lock to negotiate the CBS claim.
-    log.link(
+    this._logger(
       "[%s] Acquiring cbs lock: '%s' for cbs auth for %s: '%s' with address '%s'.",
       this._context.connectionId,
       this._context.negotiateClaimLock,
@@ -207,7 +261,7 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
     await defaultLock.acquire(this._context.negotiateClaimLock, () => {
       return this._context.cbsSession.negotiateClaim(this.audience, tokenObject, tokenType);
     });
-    log.link(
+    this._logger(
       "[%s] Negotiated claim for %s '%s' with with address: %s",
       this._context.connectionId,
       this._type,
@@ -247,7 +301,7 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
         );
       }
     }, this._tokenTimeout);
-    log.link(
+    this._logger(
       "[%s] %s '%s' with address %s, has next token renewal in %d milliseconds @(%s).",
       this._context.connectionId,
       this._type,
@@ -272,7 +326,7 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
       this._wasClosed = true;
     }
 
-    log.link(`${this._logPrefix} closeLink(${mode}) called`);
+    this._logger(`${this._logPrefix} closeLink(${mode}) called`);
 
     clearTimeout(this._tokenRenewalTimer as NodeJS.Timer);
     this._tokenRenewalTimer = undefined;
@@ -286,7 +340,7 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
 
         await link.close();
 
-        log.link(`${this._logPrefix} closed: ${mode}.`);
+        this._logger(`${this._logPrefix} closed: ${mode}.`);
       } catch (err) {
         log.error(`${this._logPrefix} An error occurred while closing the link.: %O`, err);
       }
@@ -360,7 +414,7 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
 
     if (options.name) {
       this.name = options.name;
-      this._logPrefix = `[${connectionId}|l:${this.name}|a:${this.address}]`;
+      this._logPrefix = `[${connectionId}|${this._linkType}:${this.name}|a:${this.address}]`;
     }
 
     if (this._wasClosed) {

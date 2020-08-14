@@ -10,7 +10,7 @@ import {
 } from "@azure/core-amqp";
 import { AmqpError, EventContext, OnAmqpEvent, Receiver, ReceiverOptions } from "rhea-promise";
 import * as log from "../log";
-import { LinkEntity } from "./linkEntity";
+import { LinkEntity, ReceiverType } from "./linkEntity";
 import { ConnectionContext } from "../connectionContext";
 import { DispositionType, InternalReceiveMode, ServiceBusMessageImpl } from "../serviceBusMessage";
 import { getUniqueName } from "../util/utils";
@@ -34,15 +34,6 @@ export type ReceiverHandlers = Pick<
  */
 export interface OnAmqpEventAsPromise extends OnAmqpEvent {
   (context: EventContext): Promise<void>;
-}
-
-/**
- * @internal
- * @ignore
- */
-export enum ReceiverType {
-  batching = "batching",
-  streaming = "streaming"
 }
 
 /**
@@ -164,7 +155,7 @@ export class MessageReceiver extends LinkEntity<Receiver> {
     receiverType: ReceiverType,
     options?: Omit<ReceiveOptions, "maxConcurrentCalls">
   ) {
-    super(_entityPath, context, {
+    super(_entityPath, context, receiverType, {
       address: _entityPath,
       audience: `${context.config.endpoint}${_entityPath}`
     });
@@ -245,15 +236,9 @@ export class MessageReceiver extends LinkEntity<Receiver> {
 
       // It is possible for someone to close the receiver and then start it again.
       // Thus make sure that the receiver is present in the client cache.
-      if (
-        this.receiverType === ReceiverType.streaming &&
-        !this._context.streamingReceivers[this.name]
-      ) {
+      if (this.receiverType === "sr" && !this._context.streamingReceivers[this.name]) {
         this._context.streamingReceivers[this.name] = this as any;
-      } else if (
-        this.receiverType === ReceiverType.batching &&
-        !this._context.batchingReceivers[this.name]
-      ) {
+      } else if (this.receiverType === "br" && !this._context.batchingReceivers[this.name]) {
         this._context.batchingReceivers[this.name] = this as any;
       }
     } catch (err) {
@@ -282,9 +267,9 @@ export class MessageReceiver extends LinkEntity<Receiver> {
   }
 
   protected _deleteFromCache(): void {
-    if (this.receiverType === ReceiverType.streaming) {
+    if (this.receiverType === "sr") {
       delete this._context.streamingReceivers[this.name];
-    } else if (this.receiverType === ReceiverType.batching) {
+    } else if (this.receiverType === "br") {
       delete this._context.batchingReceivers[this.name];
     }
     log.error(

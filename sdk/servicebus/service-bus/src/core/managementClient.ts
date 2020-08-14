@@ -212,7 +212,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
    * "$management" client.
    */
   constructor(context: ConnectionContext, entityPath: string, options?: ManagementClientOptions) {
-    super(`${entityPath}/$management`, context, {
+    super(`${entityPath}/$management`, context, "m", {
       address: options && options.address ? options.address : Constants.management,
       audience:
         options && options.audience

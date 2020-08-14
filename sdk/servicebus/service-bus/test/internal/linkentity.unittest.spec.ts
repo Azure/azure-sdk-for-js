@@ -6,12 +6,13 @@ import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
 import { Receiver, ReceiverOptions } from "rhea-promise";
 import { LinkEntity } from "../../src/core/linkEntity";
+import * as log from "../../src/log";
 import { createConnectionContextForTests, createRheaReceiverForTests } from "./unittestUtils";
 chai.use(chaiAsPromised);
 const assert = chai.assert;
 
 describe("LinkEntity unit tests", () => {
-  class BasicLink extends LinkEntity<Receiver> {
+  class LinkForTests extends LinkEntity<Receiver> {
     async createRheaLink(options: ReceiverOptions): Promise<Receiver> {
       return createRheaReceiverForTests(options);
     }
@@ -20,7 +21,7 @@ describe("LinkEntity unit tests", () => {
   let linkEntity: LinkEntity<Receiver>;
 
   beforeEach(() => {
-    linkEntity = new BasicLink("some initial name", createConnectionContextForTests(), {
+    linkEntity = new LinkForTests("some initial name", createConnectionContextForTests(), "sr", {
       address: "my-address"
     });
   });
@@ -178,7 +179,7 @@ describe("LinkEntity unit tests", () => {
       name: "some new name"
     });
 
-    assert.equal(linkEntity["_logPrefix"], "[connection-id|l:some new name|a:my-address]");
+    assert.equal(linkEntity["_logPrefix"], "[connection-id|sr:some new name|a:my-address]");
 
     // note that specifying a name is a complete override - no additional tacking
     // on of a GUID or anything happens (that's up to you when you override the
@@ -190,7 +191,7 @@ describe("LinkEntity unit tests", () => {
     );
 
     // we also update the log prefix
-    assert.equal(linkEntity["_logPrefix"], "[connection-id|l:some new name|a:my-address]");
+    assert.equal(linkEntity["_logPrefix"], "[connection-id|sr:some new name|a:my-address]");
   });
 
   it("initLink - user closes link while it's initializing", async () => {
@@ -208,8 +209,16 @@ describe("LinkEntity unit tests", () => {
       assert.equal(err.name, "AbortError");
     }
 
-    assert.equal(linkEntity["_logPrefix"], "[connection-id|l:some new name|a:my-address]");
+    assert.equal(linkEntity["_logPrefix"], "[connection-id|sr:some new name|a:my-address]");
     assertLinkEntityClosedPermanently();
+  });
+
+  it("initLink - get logger", async () => {
+    assert.strictEqual(LinkEntity["getLogger"]("br"), log.batching);
+    assert.strictEqual(LinkEntity["getLogger"]("sr"), log.streaming);
+    assert.strictEqual(LinkEntity["getLogger"]("s"), log.sender);
+    assert.strictEqual(LinkEntity["getLogger"]("m"), log.mgmt);
+    assert.strictEqual(LinkEntity["getLogger"]("ms"), log.messageSession);
   });
 
   function assertLinkEntityOpen(): void {

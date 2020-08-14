@@ -11,7 +11,7 @@ const assert = chai.assert;
 
 import { ConnectionContext } from "../../src/connectionContext";
 import { BatchingReceiver } from "../../src/core/batchingReceiver";
-import { MessageReceiver, ReceiverType } from "../../src/core/messageReceiver";
+import { MessageReceiver } from "../../src/core/messageReceiver";
 import { ReceiverImpl } from "../../src/receivers/receiver";
 import { createConnectionContextForTests } from "./unittestUtils";
 import { InternalMessageHandlers } from "../../src/models";
@@ -47,11 +47,7 @@ describe("Receiver unit tests", () => {
     });
 
     it("message receiver init() bails out early if object is closed()", async () => {
-      const messageReceiver2 = new MessageReceiver(
-        fakeContext(),
-        "fakeEntityPath",
-        ReceiverType.streaming
-      );
+      const messageReceiver2 = new MessageReceiver(fakeContext(), "fakeEntityPath", "sr");
 
       await messageReceiver2.close();
 

@@ -13,12 +13,7 @@ import {
   Session
 } from "rhea-promise";
 import { InternalReceiveMode, ServiceBusMessageImpl } from "../serviceBusMessage";
-import {
-  MessageReceiver,
-  OnAmqpEventAsPromise,
-  ReceiveOptions,
-  ReceiverType
-} from "./messageReceiver";
+import { MessageReceiver, OnAmqpEventAsPromise, ReceiveOptions } from "./messageReceiver";
 import { ConnectionContext } from "../connectionContext";
 import { throwErrorIfConnectionClosed } from "../util/errors";
 import { AbortSignalLike } from "@azure/abort-controller";
@@ -41,7 +36,7 @@ export class BatchingReceiver extends MessageReceiver {
    * @param {ReceiveOptions} [options]  Options for how you'd like to connect.
    */
   constructor(context: ConnectionContext, protected _entityPath: string, options?: ReceiveOptions) {
-    super(context, _entityPath, ReceiverType.batching, options);
+    super(context, _entityPath, "br", options);
 
     this._batchingReceiverLite = new BatchingReceiverLite(
       context,
