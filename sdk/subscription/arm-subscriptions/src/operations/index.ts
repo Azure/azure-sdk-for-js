@@ -9,8 +9,6 @@
  */
 
 export * from "./subscriptions";
-export * from "./subscriptionOperationOperations";
-export * from "./subscriptionFactory";
+export * from "./tenants";
 export * from "./subscriptionOperations";
 export * from "./operations";
-export * from "./tenants";
