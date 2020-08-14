@@ -422,6 +422,7 @@ export interface SessionReceiver<ReceivedMessageT extends ReceivedMessage | Rece
 
 // @public
 export interface SessionReceiverOptions {
+    abortSignal?: AbortSignalLike;
     autoRenewLockDurationInMs?: number;
     sessionId?: string;
 }
