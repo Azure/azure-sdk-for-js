@@ -13,7 +13,7 @@ import { MessagingError } from '@azure/core-amqp';
 import { OperationOptions } from '@azure/core-http';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { PageSettings } from '@azure/core-paging';
-import { ProxySettings } from '@azure/core-http';
+import { PipelineOptions } from '@azure/core-http';
 import { RetryOptions } from '@azure/core-amqp';
 import { ServiceClient } from '@azure/core-http';
 import { TokenCredential } from '@azure/core-amqp';
@@ -79,7 +79,7 @@ export interface CreateReceiverOptions<ReceiveModeT extends ReceiveMode> {
 
 // @public
 export interface CreateSessionReceiverOptions<ReceiveModeT extends ReceiveMode> extends CreateReceiverOptions<ReceiveModeT>, OperationOptionsBase {
-    autoRenewLockDurationInMs?: number;
+    maxAutoRenewLockDurationInMs?: number;
     sessionId?: string;
 }
 
@@ -131,11 +131,19 @@ export interface EntitiesResponse<T> extends Array<T>, Pick<PageSettings, "conti
 // @public
 export type EntityStatus = "Active" | "Creating" | "Deleting" | "ReceiveDisabled" | "SendDisabled" | "Disabled" | "Renaming" | "Restoring" | "Unknown";
 
-// Warning: (ae-forgotten-export) The symbol "MessageHandlerOptionsBase" needs to be exported by the entry point index.d.ts
-//
+// @public
+export interface GetMessageIteratorOptions extends OperationOptionsBase {
+}
+
 // @public
 export interface MessageHandlerOptions extends MessageHandlerOptionsBase {
-    maxMessageAutoRenewLockDurationInMs?: number;
+    maxAutoRenewLockDurationInMs?: number;
+}
+
+// @public
+export interface MessageHandlerOptionsBase {
+    autoComplete?: boolean;
+    maxConcurrentCalls?: number;
 }
 
 // @public
@@ -326,6 +334,7 @@ export class ServiceBusManagementClient extends ServiceClient {
     listTopics(options?: OperationOptions): PagedAsyncIterableIterator<TopicProperties, EntitiesResponse<TopicProperties>>;
     listTopicsRuntimeProperties(options?: OperationOptions): PagedAsyncIterableIterator<TopicRuntimeProperties, EntitiesResponse<TopicRuntimeProperties>>;
     queueExists(queueName: string, operationOptions?: OperationOptions): Promise<boolean>;
+    ruleExists(topicName: string, subscriptionName: string, ruleName: string, operationOptions?: OperationOptions): Promise<boolean>;
     subscriptionExists(topicName: string, subscriptionName: string, operationOptions?: OperationOptions): Promise<boolean>;
     topicExists(topicName: string, operationOptions?: OperationOptions): Promise<boolean>;
     updateQueue(queue: QueueProperties, operationOptions?: OperationOptions): Promise<QueueResponse>;
@@ -335,9 +344,7 @@ export class ServiceBusManagementClient extends ServiceClient {
 }
 
 // @public
-export interface ServiceBusManagementClientOptions {
-    proxySettings?: ProxySettings;
-    userAgentOptions?: UserAgentOptions;
+export interface ServiceBusManagementClientOptions extends PipelineOptions {
 }
 
 // @public
@@ -374,7 +381,6 @@ export interface ServiceBusMessageBatch {
 export interface ServiceBusReceiver<ReceivedMessageT> {
     close(): Promise<void>;
     entityPath: string;
-    // Warning: (ae-forgotten-export) The symbol "GetMessageIteratorOptions" needs to be exported by the entry point index.d.ts
     getMessageIterator(options?: GetMessageIteratorOptions): AsyncIterableIterator<ReceivedMessageT>;
     isClosed: boolean;
     peekMessages(maxMessageCount: number, options?: PeekMessagesOptions): Promise<ReceivedMessage[]>;
@@ -400,11 +406,11 @@ export interface ServiceBusSender {
 
 // @public
 export interface ServiceBusSessionReceiver<ReceivedMessageT extends ReceivedMessage | ReceivedMessageWithLock> extends ServiceBusReceiver<ReceivedMessageT> {
-    getState(options?: OperationOptionsBase): Promise<any>;
+    getSessionState(options?: OperationOptionsBase): Promise<any>;
     renewSessionLock(options?: OperationOptionsBase): Promise<Date>;
     readonly sessionId: string;
-    sessionLockedUntilUtc: Date | undefined;
-    setState(state: any, options?: OperationOptionsBase): Promise<void>;
+    readonly sessionLockedUntilUtc: Date;
+    setSessionState(state: any, options?: OperationOptionsBase): Promise<void>;
     subscribe(handlers: MessageHandlers<ReceivedMessageT>, options?: SessionSubscribeOptions): {
         close(): Promise<void>;
     };

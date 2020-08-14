@@ -20,13 +20,15 @@ export {
   CreateBatchOptions,
   CreateReceiverOptions,
   CreateSessionReceiverOptions,
+  GetMessageIteratorOptions,
   MessageHandlerOptions,
+  MessageHandlerOptionsBase,
   MessageHandlers,
   PeekMessagesOptions,
   ReceiveMessagesOptions,
   ReceiveMode,
-  SubscribeOptions,
   SessionSubscribeOptions,
+  SubscribeOptions,
   WaitTimeOptions
 } from "./models";
 export { OperationOptionsBase } from "./modelsToBeSharedWithEventHubs";
