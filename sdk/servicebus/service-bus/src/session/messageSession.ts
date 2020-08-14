@@ -280,7 +280,6 @@ export class MessageSession extends LinkEntity<Receiver> {
         this.link.source.filter[Constants.sessionFilterName];
 
       let errorMessage: string = "";
-      // SB allows a sessionId with empty string value :)
 
       if (this.providedSessionId == null && receivedSessionId == null) {
         // Ideally this code path should never be reached as `MessageSession.createReceiver()` should fail instead
