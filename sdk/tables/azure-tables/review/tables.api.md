@@ -7,6 +7,7 @@
 import { BaseRequestPolicy } from '@azure/core-http';
 import * as coreHttp from '@azure/core-http';
 import { HttpOperationResponse } from '@azure/core-http';
+import { OperationOptions } from '@azure/core-http';
 import { RequestPolicy } from '@azure/core-http';
 import { RequestPolicyFactory } from '@azure/core-http';
 import { RequestPolicyOptions } from '@azure/core-http';
@@ -29,9 +30,6 @@ export interface CorsRule {
 }
 
 // @public
-export type CreateEntityOptions = Omit<TableInsertEntityOptionalParams, "tableEntityProperties">;
-
-// @public
 export type CreateEntityResponse = TableInsertEntityHeaders & {
     [propertyName: string]: any;
 } & {
@@ -45,11 +43,17 @@ export type CreateEntityResponse = TableInsertEntityHeaders & {
 };
 
 // @public
-export interface CreateTableOptions extends coreHttp.OperationOptions {
+export type CreateTableEntityOptions = OperationOptions & {
+    queryOptions?: TableEntityQueryOptions;
+    requestId?: string;
+    timeout?: number;
+};
+
+// @public
+export type CreateTableOptions = OperationOptions & {
     queryOptions?: TableQueryOptions;
     requestId?: string;
-    responsePreference?: ResponseFormat;
-}
+};
 
 // @public
 export type CreateTableResponse = TableCreateHeaders & TableResponse & {
@@ -61,17 +65,18 @@ export type CreateTableResponse = TableCreateHeaders & TableResponse & {
 };
 
 // @public
-export interface DeleteEntityOptions extends coreHttp.OperationOptions {
-    queryOptions?: TableQueryOptions;
-    requestId?: string;
-    timeout?: number;
-}
-
-// @public
 export type DeleteEntityResponse = TableDeleteEntityHeaders & {
     _response: coreHttp.HttpResponse & {
         parsedHeaders: TableDeleteEntityHeaders;
     };
+};
+
+// @public
+export type DeleteTableEntityOptions = OperationOptions & {
+    queryOptions?: TableEntityQueryOptions;
+    requestId?: string;
+    timeout?: number;
+    etag?: string;
 };
 
 // @public
@@ -127,13 +132,6 @@ export type GetAccessPolicyResponse = TableGetAccessPolicyHeaders & SignedIdenti
 };
 
 // @public
-export interface GetEntityOptions extends coreHttp.OperationOptions {
-    queryOptions?: TableQueryOptions;
-    requestId?: string;
-    timeout?: number;
-}
-
-// @public
 export type GetEntityResponse<T> = TableQueryEntitiesWithPartitionAndRowKeyResponse & {
     value?: T;
 };
@@ -169,7 +167,11 @@ export type GetStatisticsResponse = ServiceGetStatisticsHeaders & TableServiceSt
 };
 
 // @public
-export type ListEntitiesOptions = Omit<TableQueryEntitiesOptionalParams, "queryOptions">;
+export type GetTableEntityOptions = OperationOptions & {
+    queryOptions?: TableEntityQueryOptions;
+    requestId?: string;
+    timeout?: number;
+};
 
 // @public
 export type ListEntitiesResponse<T> = Omit<TableQueryEntitiesResponse, "value"> & {
@@ -177,7 +179,20 @@ export type ListEntitiesResponse<T> = Omit<TableQueryEntitiesResponse, "value"> 
 };
 
 // @public
-export type ListTablesOptions = Omit<TableQueryOptionalParams, "queryOptions">;
+export interface ListTableEntitiesOptions {
+    nextPartitionKey?: string;
+    nextRowKey?: string;
+    queryOptions?: TableEntityQueryOptions;
+    requestId?: string;
+    timeout?: number;
+}
+
+// @public
+export interface ListTablesOptions {
+    nextTableName?: string;
+    queryOptions?: TableQueryOptions;
+    requestId?: string;
+}
 
 // @public
 export type ListTablesResponse = TableQueryHeaders & TableQueryResponse & {
@@ -210,11 +225,6 @@ export function odata(strings: TemplateStringsArray, ...values: unknown[]): stri
 
 // @public
 export type OdataMetadataFormat = "application/json;odata=nometadata" | "application/json;odata=minimalmetadata" | "application/json;odata=fullmetadata";
-
-// @public
-export type QueryOptions = Omit<TableQueryOptions, "select"> & {
-    select?: string[];
-};
 
 // @public
 export type ResponseFormat = "return-no-content" | "return-content";
@@ -256,7 +266,11 @@ export interface ServiceSetPropertiesHeaders {
 }
 
 // @public
-export type SetAccessPolicyOptions = Omit<TableSetAccessPolicyOptionalParams, "tableAcl">;
+export interface SetAccessPolicyOptions extends coreHttp.OperationOptions {
+    requestId?: string;
+    tableAcl?: SignedIdentifier[];
+    timeout?: number;
+}
 
 // @public
 export type SetAccessPolicyResponse = TableSetAccessPolicyHeaders & {
@@ -288,17 +302,17 @@ export interface SignedIdentifier {
 export class TableClient {
     constructor(url: string, tableName: string, credential: TablesSharedKeyCredential, options?: TableServiceClientOptions);
     constructor(url: string, tableName: string, options?: TableServiceClientOptions);
-    createEntity(entity: Entity, options?: CreateEntityOptions): Promise<CreateEntityResponse>;
+    createEntity(entity: Entity, options?: CreateTableEntityOptions): Promise<CreateEntityResponse>;
     delete(options?: DeleteTableOptions): Promise<DeleteTableResponse>;
-    deleteEntity(partitionKey: string, rowKey: string, ifMatch: string, options?: DeleteEntityOptions): Promise<DeleteEntityResponse>;
+    deleteEntity(partitionKey: string, rowKey: string, options?: DeleteTableEntityOptions): Promise<DeleteEntityResponse>;
     static fromConnectionString(connectionString: string, tableName: string, options?: TableServiceClientOptions): TableClient;
     getAccessPolicy(options?: GetAccessPolicyOptions): Promise<GetAccessPolicyResponse>;
-    getEntity<T extends object>(partitionKey: string, rowKey: string, options?: GetEntityOptions): Promise<GetEntityResponse<T>>;
-    listEntities<T extends object>(query?: QueryOptions, options?: ListEntitiesOptions): Promise<ListEntitiesResponse<T>>;
-    setAccessPolicy(acl?: SignedIdentifier[], options?: SetAccessPolicyOptions): Promise<SetAccessPolicyResponse>;
+    getEntity<T extends object>(partitionKey: string, rowKey: string, options?: GetTableEntityOptions): Promise<GetEntityResponse<T>>;
+    listEntities<T extends object>(options?: ListTableEntitiesOptions): Promise<ListEntitiesResponse<T>>;
+    setAccessPolicy(options?: SetAccessPolicyOptions): Promise<SetAccessPolicyResponse>;
     readonly tableName: string;
-    updateEntity(entity: Entity, mode: UpdateMode, etag?: string, options?: UpdateEntityOptions): Promise<UpdateEntityResponse>;
-    upsertEntity(entity: Entity, mode: UpdateMode, options?: UpsertEntityOptions): Promise<UpsertEntityResponse>;
+    updateEntity(entity: Entity, mode: UpdateMode, options?: UpdateTableEntityOptions): Promise<UpdateEntityResponse>;
+    upsertEntity(entity: Entity, mode: UpdateMode, options?: UpsertTableEntityOptions): Promise<UpsertEntityResponse>;
 }
 
 // @public
@@ -333,6 +347,13 @@ export interface TableDeleteHeaders {
     date?: Date;
     requestId?: string;
     version?: string;
+}
+
+// @public
+export interface TableEntityQueryOptions {
+    filter?: string;
+    select?: string[];
+    top?: number;
 }
 
 // @public
@@ -374,34 +395,12 @@ export interface TableInsertEntityHeaders {
 }
 
 // @public
-export interface TableInsertEntityOptionalParams extends coreHttp.OperationOptions {
-    queryOptions?: TableQueryOptions;
-    requestId?: string;
-    responsePreference?: ResponseFormat;
-    tableEntityProperties?: {
-        [propertyName: string]: any;
-    };
-    timeout?: number;
-}
-
-// @public
 export interface TableMergeEntityHeaders {
     clientRequestId?: string;
     date?: Date;
     eTag?: string;
     requestId?: string;
     version?: string;
-}
-
-// @public
-export interface TableMergeEntityOptionalParams extends coreHttp.OperationOptions {
-    ifMatch?: string;
-    queryOptions?: TableQueryOptions;
-    requestId?: string;
-    tableEntityProperties?: {
-        [propertyName: string]: any;
-    };
-    timeout?: number;
 }
 
 // @public
@@ -412,15 +411,6 @@ export interface TableQueryEntitiesHeaders {
     version?: string;
     xMsContinuationNextPartitionKey?: string;
     xMsContinuationNextRowKey?: string;
-}
-
-// @public
-export interface TableQueryEntitiesOptionalParams extends coreHttp.OperationOptions {
-    nextPartitionKey?: string;
-    nextRowKey?: string;
-    queryOptions?: TableQueryOptions;
-    requestId?: string;
-    timeout?: number;
 }
 
 // @public
@@ -466,17 +456,8 @@ export interface TableQueryHeaders {
 }
 
 // @public
-export interface TableQueryOptionalParams extends coreHttp.OperationOptions {
-    nextTableName?: string;
-    queryOptions?: TableQueryOptions;
-    requestId?: string;
-}
-
-// @public
 export interface TableQueryOptions {
     filter?: string;
-    format?: OdataMetadataFormat;
-    select?: string;
     top?: number;
 }
 
@@ -503,21 +484,21 @@ export interface TableResponseProperties {
 export class TableServiceClient {
     constructor(url: string, credential: TablesSharedKeyCredential, options?: TableServiceClientOptions);
     constructor(url: string, options?: TableServiceClientOptions);
-    createEntity(tableName: string, entity: Entity, options?: CreateEntityOptions): Promise<CreateEntityResponse>;
+    createEntity(tableName: string, entity: Entity, options?: CreateTableEntityOptions): Promise<CreateEntityResponse>;
     createTable(tableName: string, options?: CreateTableOptions): Promise<CreateTableResponse>;
-    deleteEntity(tableName: string, partitionKey: string, rowKey: string, ifMatch: string, options?: DeleteEntityOptions): Promise<DeleteEntityResponse>;
+    deleteEntity(tableName: string, partitionKey: string, rowKey: string, options?: DeleteTableEntityOptions): Promise<DeleteEntityResponse>;
     deleteTable(tableName: string, options?: DeleteTableOptions): Promise<DeleteTableResponse>;
     static fromConnectionString(connectionString: string, options?: TableServiceClientOptions): TableServiceClient;
     getAccessPolicy(tableName: string, options?: GetAccessPolicyOptions): Promise<GetAccessPolicyResponse>;
-    getEntity<T extends object>(tableName: string, partitionKey: string, rowKey: string, options?: GetEntityOptions): Promise<GetEntityResponse<T>>;
+    getEntity<T extends object>(tableName: string, partitionKey: string, rowKey: string, options?: GetTableEntityOptions): Promise<GetEntityResponse<T>>;
     getProperties(options?: GetPropertiesOptions): Promise<GetPropertiesResponse>;
     getStatistics(options?: GetStatisticsOptions): Promise<GetStatisticsResponse>;
-    listEntities<T extends object>(tableName: string, query?: QueryOptions, options?: ListEntitiesOptions): Promise<ListEntitiesResponse<T>>;
-    listTables(query?: QueryOptions, options?: ListTablesOptions): Promise<ListTablesResponse>;
-    setAccessPolicy(tableName: string, acl?: SignedIdentifier[], options?: SetAccessPolicyOptions): Promise<SetAccessPolicyResponse>;
+    listEntities<T extends object>(tableName: string, options?: ListTableEntitiesOptions): Promise<ListEntitiesResponse<T>>;
+    listTables(options?: ListTablesOptions): Promise<ListTablesResponse>;
+    setAccessPolicy(tableName: string, options?: SetAccessPolicyOptions): Promise<SetAccessPolicyResponse>;
     setProperties(properties: ServiceProperties, options?: SetPropertiesOptions): Promise<SetPropertiesResponse>;
-    updateEntity(tableName: string, entity: Entity, mode: UpdateMode, etag?: string, options?: UpdateEntityOptions): Promise<UpdateEntityResponse>;
-    upsertEntity(tableName: string, entity: Entity, mode: UpdateMode, options?: UpsertEntityOptions): Promise<UpsertEntityResponse>;
+    updateEntity(tableName: string, entity: Entity, mode: UpdateMode, options?: UpdateTableEntityOptions): Promise<UpdateEntityResponse>;
+    upsertEntity(tableName: string, entity: Entity, mode: UpdateMode, options?: UpsertTableEntityOptions): Promise<UpsertEntityResponse>;
 }
 
 // @public
@@ -537,13 +518,6 @@ export interface TableSetAccessPolicyHeaders {
     date?: Date;
     requestId?: string;
     version?: string;
-}
-
-// @public
-export interface TableSetAccessPolicyOptionalParams extends coreHttp.OperationOptions {
-    requestId?: string;
-    tableAcl?: SignedIdentifier[];
-    timeout?: number;
 }
 
 // @public
@@ -571,37 +545,36 @@ export interface TableUpdateEntityHeaders {
 }
 
 // @public
-export interface TableUpdateEntityOptionalParams extends coreHttp.OperationOptions {
-    ifMatch?: string;
-    queryOptions?: TableQueryOptions;
-    requestId?: string;
-    tableEntityProperties?: {
-        [propertyName: string]: any;
-    };
-    timeout?: number;
-}
-
-// @public
-export type UpdateEntityOptions = Omit<TableUpdateEntityOptionalParams, "tableEntityProperties" | "ifMatch">;
-
-// @public
 export type UpdateEntityResponse = TableUpdateEntityHeaders & {
     _response: coreHttp.HttpResponse & {
         parsedHeaders: TableUpdateEntityHeaders;
     };
 };
 
-// @public (undocumented)
+// @public
 export type UpdateMode = "Merge" | "Replace";
 
 // @public
-export type UpsertEntityOptions = Omit<TableMergeEntityOptionalParams, "tableEntityProperties" | "ifMatch">;
+export type UpdateTableEntityOptions = OperationOptions & {
+    queryOptions?: TableQueryOptions;
+    requestId?: string;
+    timeout?: number;
+    etag?: string;
+};
 
 // @public
 export type UpsertEntityResponse = TableMergeEntityHeaders & {
     _response: coreHttp.HttpResponse & {
         parsedHeaders: TableMergeEntityHeaders;
     };
+};
+
+// @public
+export type UpsertTableEntityOptions = OperationOptions & {
+    queryOptions?: TableEntityQueryOptions;
+    requestId?: string;
+    timeout?: number;
+    etag?: string;
 };
 
 

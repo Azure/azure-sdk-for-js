@@ -6,16 +6,18 @@ import { Service } from "./generated/operations";
 import { Table } from "./generated/operations";
 import {
   Entity,
-  QueryOptions,
   ListTablesOptions,
-  ListEntitiesOptions,
+  ListTableEntitiesOptions,
   GetEntityResponse,
   ListEntitiesResponse,
-  CreateEntityOptions,
-  UpdateEntityOptions,
-  UpsertEntityOptions,
-  SetAccessPolicyOptions,
-  UpdateMode
+  CreateTableEntityOptions,
+  UpdateTableEntityOptions,
+  UpsertTableEntityOptions,
+  UpdateMode,
+  TableEntityQueryOptions,
+  DeleteTableEntityOptions,
+  CreateTableOptions,
+  GetTableEntityOptions
 } from "./models";
 import {
   TableServiceClientOptions,
@@ -26,23 +28,23 @@ import {
   SetPropertiesOptions,
   ServiceProperties,
   SetPropertiesResponse,
-  CreateTableOptions,
   CreateTableResponse,
   DeleteTableOptions,
   DeleteTableResponse,
-  TableQueryOptions,
   ListTablesResponse,
-  GetEntityOptions,
   CreateEntityResponse,
-  DeleteEntityOptions,
   DeleteEntityResponse,
   UpdateEntityResponse,
   UpsertEntityResponse,
   GetAccessPolicyOptions,
   GetAccessPolicyResponse,
-  SignedIdentifier,
-  SetAccessPolicyResponse
+  SetAccessPolicyResponse,
+  SetAccessPolicyOptions
 } from "./generatedModels";
+import {
+  QueryOptions as GeneratedQueryOptions,
+  TableDeleteEntityOptionalParams
+} from "./generated/models";
 import { getClientParamsFromConnectionString } from "./utils/connectionString";
 import { TablesSharedKeyCredential } from "./TablesSharedKeyCredential";
 import { serialize, deserialize, deserializeObjectsArray } from "./serialization";
@@ -187,15 +189,10 @@ export class TableServiceClient {
 
   /**
    * Queries tables under the given account.
-   * @param query The OData query parameters.
    * @param options The options parameters.
    */
-  public listTables(
-    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-    query?: QueryOptions,
-    options?: ListTablesOptions
-  ): Promise<ListTablesResponse> {
-    return this.table.query({ queryOptions: this.convertQueryOptions(query), ...options });
+  public listTables(options?: ListTablesOptions): Promise<ListTablesResponse> {
+    return this.table.query(options);
   }
 
   /**
@@ -209,13 +206,14 @@ export class TableServiceClient {
     tableName: string,
     partitionKey: string,
     rowKey: string,
-    options?: GetEntityOptions
+    options?: GetTableEntityOptions
   ): Promise<GetEntityResponse<T>> {
+    const { queryOptions, ...getEntityOptions } = options || {};
     const response = (await this.table.queryEntitiesWithPartitionAndRowKey(
       tableName,
       partitionKey,
       rowKey,
-      options
+      { ...getEntityOptions, queryOptions: this.convertQueryOptions(queryOptions || {}) }
     )) as GetEntityResponse<T>;
     response.value = deserialize<T>(response._response.parsedBody);
     return response;
@@ -224,18 +222,16 @@ export class TableServiceClient {
   /**
    * Queries entities in a table.
    * @param tableName The name of the table.
-   * @param query The OData query parameters.
    * @param options The options parameters.
    */
   public async listEntities<T extends object>(
     tableName: string,
-    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-    query?: QueryOptions,
-    options?: ListEntitiesOptions
+    options?: ListTableEntitiesOptions
   ): Promise<ListEntitiesResponse<T>> {
+    const queryOptions = this.convertQueryOptions(options?.queryOptions || {});
     const response = (await this.table.queryEntities(tableName, {
-      queryOptions: this.convertQueryOptions(query),
-      ...options
+      ...options,
+      queryOptions
     })) as ListEntitiesResponse<T>;
     response.value = deserializeObjectsArray<T>(response.value || []);
     return response;
@@ -250,11 +246,13 @@ export class TableServiceClient {
   public createEntity(
     tableName: string,
     entity: Entity,
-    options?: CreateEntityOptions
+    options?: CreateTableEntityOptions
   ): Promise<CreateEntityResponse> {
+    const { queryOptions, ...createTableEntity } = options || {};
     return this.table.insertEntity(tableName, {
-      tableEntityProperties: serialize(entity),
-      ...options
+      ...createTableEntity,
+      queryOptions: this.convertQueryOptions(queryOptions || {}),
+      tableEntityProperties: serialize(entity)
     });
   }
 
@@ -272,10 +270,14 @@ export class TableServiceClient {
     tableName: string,
     partitionKey: string,
     rowKey: string,
-    ifMatch: string,
-    options?: DeleteEntityOptions
+    options?: DeleteTableEntityOptions
   ): Promise<DeleteEntityResponse> {
-    return this.table.deleteEntity(tableName, partitionKey, rowKey, ifMatch, options);
+    const { etag = "*", queryOptions, ...rest } = options || {};
+    const deleteOptions: TableDeleteEntityOptionalParams = {
+      ...rest,
+      queryOptions: this.convertQueryOptions(queryOptions || {})
+    };
+    return this.table.deleteEntity(tableName, partitionKey, rowKey, etag, deleteOptions);
   }
 
   /**
@@ -292,20 +294,20 @@ export class TableServiceClient {
     tableName: string,
     entity: Entity,
     mode: UpdateMode,
-    etag: string = "*",
-    options?: UpdateEntityOptions
+    options?: UpdateTableEntityOptions
   ): Promise<UpdateEntityResponse> {
+    const { etag = "*", ...updateOptions } = options || {};
     if (mode === "Merge") {
       return this.table.mergeEntity(tableName, entity.PartitionKey, entity.RowKey, {
         tableEntityProperties: entity,
         ifMatch: etag,
-        ...options
+        ...updateOptions
       });
     } else if (mode === "Replace") {
       return this.table.updateEntity(tableName, entity.PartitionKey, entity.RowKey, {
         tableEntityProperties: entity,
         ifMatch: etag,
-        ...options
+        ...updateOptions
       });
     } else {
       throw new Error(`Unexpected value for update mode: ${mode}`);
@@ -325,17 +327,20 @@ export class TableServiceClient {
     tableName: string,
     entity: Entity,
     mode: UpdateMode,
-    options?: UpsertEntityOptions
+    options?: UpsertTableEntityOptions
   ): Promise<UpsertEntityResponse> {
+    const { queryOptions, etag = "*", ...upsertOptions } = options || {};
     if (mode === "Merge") {
       return this.table.mergeEntity(tableName, entity.PartitionKey, entity.RowKey, {
         tableEntityProperties: entity,
-        ...options
+        queryOptions: this.convertQueryOptions(queryOptions || {}),
+        ...upsertOptions
       });
     } else if (mode === "Replace") {
       return this.table.updateEntity(tableName, entity.PartitionKey, entity.RowKey, {
         tableEntityProperties: entity,
-        ...options
+        queryOptions: this.convertQueryOptions(queryOptions || {}),
+        ...upsertOptions
       });
     } else {
       throw new Error(`Unexpected value for update mode: ${mode}`);
@@ -363,16 +368,16 @@ export class TableServiceClient {
    */
   public setAccessPolicy(
     tableName: string,
-    acl?: SignedIdentifier[],
     options?: SetAccessPolicyOptions
   ): Promise<SetAccessPolicyResponse> {
-    return this.table.setAccessPolicy(tableName, { tableAcl: acl, ...options });
+    return this.table.setAccessPolicy(tableName, options);
   }
 
-  private convertQueryOptions(query: QueryOptions = {}): TableQueryOptions {
-    const mappedQuery: any = { ...query };
-    if (mappedQuery.select) {
-      mappedQuery.select = mappedQuery.select.join(",");
+  private convertQueryOptions(query: TableEntityQueryOptions): GeneratedQueryOptions {
+    const { select, ...queryOptions } = query;
+    const mappedQuery: GeneratedQueryOptions = { ...queryOptions };
+    if (select) {
+      mappedQuery.select = select.join(",");
     }
     return mappedQuery;
   }
