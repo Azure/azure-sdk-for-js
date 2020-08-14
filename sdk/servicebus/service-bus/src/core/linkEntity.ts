@@ -276,7 +276,7 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
    */
   protected async closeLink(mode: "permanently" | "linkonly"): Promise<void> {
     if (mode === "permanently") {
-      this._wasClosedByUser = true;
+      this._wasClosed = true;
     }
 
     clearTimeout(this._tokenRenewalTimer as NodeJS.Timer);
@@ -324,10 +324,10 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
    * Indicates that _closeLink("close") has been called on this link and
    * that it should not be allowed to reopen.
    */
-  private _wasClosedByUser: boolean = false;
+  private _wasClosed: boolean = false;
 
-  protected get wasClosedByUser(): boolean {
-    return this._wasClosedByUser;
+  protected get wasClosed(): boolean {
+    return this._wasClosed;
   }
 
   /**
@@ -368,8 +368,8 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
       this._logPrefix = `[${connectionId}|l:${this.name}|a:${this.address}]`;
     }
 
-    if (this._wasClosedByUser) {
-      log.error(`${this._logPrefix} Link has been closed by user. Not reopening.`);
+    if (this._wasClosed) {
+      log.error(`${this._logPrefix} Link has been closed. Not reopening.`);
       return;
     }
 
@@ -395,11 +395,11 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
       this._link = await this.createRheaLink(options);
       checkAborted();
 
-      if (this._wasClosedByUser) {
+      if (this._wasClosed) {
         // the user attempted to close while we were still initializing the link. Go
         // ahead and close the link we created.
         log.error(`${this._logPrefix} User closed link while it was initializing.`);
-        throw new AbortError("Link closed by user while initializing.");
+        throw new AbortError("Link closed while initializing.");
       }
 
       this._ensureTokenRenewal();
