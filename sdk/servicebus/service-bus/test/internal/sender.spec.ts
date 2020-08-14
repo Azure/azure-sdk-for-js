@@ -5,7 +5,7 @@ import chai from "chai";
 import { ServiceBusMessageBatchImpl } from "../../src/serviceBusMessageBatch";
 import { ConnectionContext } from "../../src/connectionContext";
 import { ServiceBusMessage } from "../../src";
-import { isServiceBusMessageBatch, SenderImpl } from "../../src/sender";
+import { isServiceBusMessageBatch, ServiceBusSenderImpl } from "../../src/sender";
 import { DefaultDataTransformer } from "@azure/core-amqp";
 
 const assert = chai.assert;
@@ -24,7 +24,7 @@ describe("Sender helper unit tests", () => {
 
 describe("sender unit tests", () => {
   const fakeContext = createConnectionContextForTests();
-  const sender = new SenderImpl(fakeContext, "fakeEntityPath");
+  const sender = new ServiceBusSenderImpl(fakeContext, "fakeEntityPath");
   sender["_sender"].createBatch = async () => {
     return new ServiceBusMessageBatchImpl(fakeContext, 100);
   };

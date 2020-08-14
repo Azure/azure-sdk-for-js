@@ -23,7 +23,7 @@ import { BatchingReceiverLite, MinimalReceiver } from "../core/batchingReceiver"
 import { onMessageSettled, DeferredPromiseAndTimer } from "../core/shared";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { ReceiverHelper } from "../core/receiverHelper";
-import { OperationOptionsBase } from "../modelsToBeSharedWithEventHubs";
+import { CreateSessionReceiverOptions, MessageHandlerOptionsBase } from "../models";
 
 /**
  * Describes the options that need to be provided while creating a message session receiver link.
@@ -40,51 +40,14 @@ export interface CreateMessageSessionReceiverLinkOptions {
 }
 
 /**
- * Describes the options passed to the `createReceiver` method when using a Queue/Subscription that
- * has sessions enabled.
- */
-export interface SessionReceiverOptions extends OperationOptionsBase {
-  /**
-   * @property The id of the session from which messages need to be received. If null or undefined is
-   * provided, Service Bus chooses a random session from available sessions.
-   */
-  sessionId?: string;
-  /**
-   * @property The maximum duration in milliseconds
-   * until which, the lock on the session will be renewed automatically by the sdk.
-   * - **Default**: `300000` milliseconds (5 minutes).
-   * - **To disable autolock renewal**, set this to `0`.
-   */
-  autoRenewLockDurationInMs?: number;
-}
-
-/**
- * Describes the options passed to `registerMessageHandler` method when receiving messages from a
- * Queue/Subscription which has sessions enabled.
- */
-export interface SessionMessageHandlerOptions {
-  /**
-   * @property Indicates whether the `complete()` method on the message should automatically be
-   * called by the sdk after the user provided onMessage handler has been executed.
-   * Calling `complete()` on a message removes it from the Queue/Subscription.
-   * - **Default**: `true`.
-   */
-  autoComplete?: boolean;
-  /**
-   * @property The maximum number of concurrent calls that the library
-   * can make to the user's message handler. Once this limit has been reached, more messages will
-   * not be received until atleast one of the calls to the user's message handler has completed.
-   * - **Default**: `1`.
-   */
-  maxConcurrentCalls?: number;
-}
-
-/**
  * @internal
  * @ignore
  * Describes all the options that can be set while instantiating a MessageSession object.
  */
-export type MessageSessionOptions = SessionReceiverOptions & {
+export type MessageSessionOptions = Pick<
+  CreateSessionReceiverOptions<"receiveAndDelete">,
+  "sessionId" | "maxAutoRenewLockDurationInMs" | "abortSignal"
+> & {
   receiveMode?: InternalReceiveMode;
 };
 
@@ -97,7 +60,7 @@ export class MessageSession extends LinkEntity<Receiver> {
   /**
    * @property {Date} [sessionLockedUntilUtc] Provides the duration until which the session is locked.
    */
-  sessionLockedUntilUtc?: Date;
+  sessionLockedUntilUtc!: Date;
   /**
    * @property {string} [providedSessionId] The sessionId provided in the MessageSessionOptions. Empty string is valid sessionId.
    */
@@ -437,7 +400,9 @@ export class MessageSession extends LinkEntity<Receiver> {
     if (this.providedSessionId != undefined) this.sessionId = this.providedSessionId;
     this.receiveMode = options.receiveMode || InternalReceiveMode.peekLock;
     this.maxAutoRenewDurationInMs =
-      options.autoRenewLockDurationInMs != null ? options.autoRenewLockDurationInMs : 300 * 1000;
+      options.maxAutoRenewLockDurationInMs != null
+        ? options.maxAutoRenewLockDurationInMs
+        : 300 * 1000;
     this._totalAutoLockRenewDuration = Date.now() + this.maxAutoRenewDurationInMs;
     this.autoRenewLock =
       this.maxAutoRenewDurationInMs > 0 && this.receiveMode === InternalReceiveMode.peekLock;
@@ -666,7 +631,7 @@ export class MessageSession extends LinkEntity<Receiver> {
    *
    * @returns void
    */
-  subscribe(onMessage: OnMessage, onError: OnError, options?: SessionMessageHandlerOptions): void {
+  subscribe(onMessage: OnMessage, onError: OnError, options?: MessageHandlerOptionsBase): void {
     if (!options) options = {};
     this._isReceivingMessagesForSubscriber = true;
     if (typeof options.maxConcurrentCalls === "number" && options.maxConcurrentCalls > 0) {

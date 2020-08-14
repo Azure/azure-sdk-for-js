@@ -14,11 +14,11 @@ import {
   getRandomTestClientTypeWithSessions,
   getRandomTestClientTypeWithNoSessions
 } from "./utils/testutils2";
-import { Sender } from "../src/sender";
+import { ServiceBusSender } from "../src/sender";
 import { ConditionErrorNameMapper } from "@azure/core-amqp";
 
 describe("Send Batch", () => {
-  let sender: Sender;
+  let sender: ServiceBusSender;
   let serviceBusClient: ServiceBusClientForTests;
 
   let entityNames: EntityName;

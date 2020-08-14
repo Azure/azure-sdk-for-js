@@ -11,8 +11,9 @@ const assert = chai.assert;
 
 import { ConnectionContext } from "../../src/connectionContext";
 import { BatchingReceiver } from "../../src/core/batchingReceiver";
-import { MessageReceiver } from "../../src/core/messageReceiver";
-import { ReceiverImpl } from "../../src/receivers/receiver";
+import { MessageReceiver, ReceiverType } from "../../src/core/messageReceiver";
+import { InternalMessageHandlers } from "../../src/models";
+import { ServiceBusReceiverImpl } from "../../src/receivers/receiver";
 import { createConnectionContextForTests } from "./unittestUtils";
 import { InternalMessageHandlers } from "../../src/models";
 
@@ -74,7 +75,7 @@ describe("Receiver unit tests", () => {
       let receiverWasDrained = false;
       let closeWasCalled = false;
 
-      const receiverImpl = new ReceiverImpl<any>(
+      const receiverImpl = new ServiceBusReceiverImpl<any>(
         createConnectionContextForTests({
           onCreateReceiverCalled: (receiver) => {
             receiver.addListener(ReceiverEvents.receiverDrained, () => {
@@ -112,7 +113,7 @@ describe("Receiver unit tests", () => {
     });
 
     it("can't subscribe while another subscribe is active", async () => {
-      const receiverImpl = new ReceiverImpl(
+      const receiverImpl = new ServiceBusReceiverImpl(
         createConnectionContextForTests(),
         "fakeEntityPath",
         "peekLock"
@@ -143,7 +144,7 @@ describe("Receiver unit tests", () => {
     it("can re-subscribe after previous subscription is closed", async () => {
       let closeWasCalled = false;
 
-      const receiverImpl = new ReceiverImpl(
+      const receiverImpl = new ServiceBusReceiverImpl(
         createConnectionContextForTests({
           onCreateReceiverCalled: (receiver) => {
             (receiver as any).close = () => {
@@ -179,7 +180,7 @@ describe("Receiver unit tests", () => {
     });
 
     it("can re-subscribe after previous subscription is aborted", async () => {
-      const receiverImpl = new ReceiverImpl(
+      const receiverImpl = new ServiceBusReceiverImpl(
         createConnectionContextForTests(),
         "fakeEntityPath",
         "peekLock"
@@ -212,7 +213,7 @@ describe("Receiver unit tests", () => {
 
     async function subscribeAndWaitForInitialize<
       T extends ReceivedMessage | ReceivedMessageWithLock
-    >(receiver: ReceiverImpl<T>): Promise<ReturnType<typeof receiver["subscribe"]>> {
+    >(receiver: ServiceBusReceiverImpl<T>): Promise<ReturnType<typeof receiver["subscribe"]>> {
       const sub = await new Promise<{
         close(): Promise<void>;
       }>((resolve, reject) => {

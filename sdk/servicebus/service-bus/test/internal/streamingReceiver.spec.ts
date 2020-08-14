@@ -3,7 +3,7 @@
 
 import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
-import { ReceiverImpl } from "../../src/receivers/receiver";
+import { ServiceBusReceiverImpl } from "../../src/receivers/receiver";
 import { createConnectionContextForTests, getPromiseResolverForTest } from "./unittestUtils";
 import { ConnectionContext } from "../../src/connectionContext";
 import { ReceiveOptions } from "../../src/core/messageReceiver";
@@ -267,7 +267,7 @@ describe("StreamingReceiver unit tests", () => {
 
   describe("AbortSignal", () => {
     it("sanity check - abortSignal is propagated", async () => {
-      const receiverImpl = new ReceiverImpl(
+      const receiverImpl = new ServiceBusReceiverImpl(
         createConnectionContextForTests(),
         "fakeEntityPath",
         "peekLock"

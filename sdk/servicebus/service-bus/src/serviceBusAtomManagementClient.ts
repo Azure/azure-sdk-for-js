@@ -12,7 +12,6 @@ import {
   createPipelineFromOptions,
   HttpOperationResponse,
   OperationOptions,
-  ProxySettings,
   RequestPolicyFactory,
   RestError,
   ServiceClient,
@@ -20,8 +19,8 @@ import {
   stripRequest,
   stripResponse,
   URLBuilder,
-  UserAgentOptions,
-  WebResource
+  WebResource,
+  PipelineOptions
 } from "@azure/core-http";
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { CorrelationRuleFilter } from "./core/managementClient";
@@ -76,20 +75,6 @@ import { parseURL } from "./util/parseUrl";
 import { SasServiceClientCredentials } from "./util/sasServiceClientCredentials";
 import { createSpan, getCanonicalCode } from "./util/tracing";
 import { formatUserAgentPrefix, isAbsoluteUrl, isJSONLikeObject } from "./util/utils";
-
-/**
- * Options to use with ServiceBusManagementClient creation
- */
-export interface ServiceBusManagementClientOptions {
-  /**
-   * Proxy related settings
-   */
-  proxySettings?: ProxySettings;
-  /**
-   * Options for adding user agent details to outgoing requests.
-   */
-  userAgentOptions?: UserAgentOptions;
-}
 
 /**
  * Request options for list<entity-type>() operations
@@ -199,9 +184,9 @@ export class ServiceBusManagementClient extends ServiceClient {
   /**
    * Initializes a new instance of the ServiceBusManagementClient class.
    * @param connectionString The connection string needed for the client to connect to Azure.
-   * @param options ServiceBusManagementClientOptions
+   * @param options PipelineOptions
    */
-  constructor(connectionString: string, options?: ServiceBusManagementClientOptions);
+  constructor(connectionString: string, options?: PipelineOptions);
   /**
    *
    * @param fullyQualifiedNamespace The fully qualified namespace of your Service Bus instance which is
@@ -210,19 +195,19 @@ export class ServiceBusManagementClient extends ServiceClient {
    * with the Azure Service Bus. See &commat;azure/identity for creating the credentials.
    * If you're using your own implementation of the `TokenCredential` interface against AAD, then set the "scopes" for service-bus
    * to be `["https://servicebus.azure.net//user_impersonation"]` to get the appropriate token.
-   * @param options ServiceBusManagementClientOptions
+   * @param options PipelineOptions
    */
   constructor(
     fullyQualifiedNamespace: string,
     credential: TokenCredential,
-    options?: ServiceBusManagementClientOptions
+    options?: PipelineOptions
   );
   constructor(
     fullyQualifiedNamespaceOrConnectionString1: string,
-    credentialOrOptions2?: TokenCredential | ServiceBusManagementClientOptions,
-    options3?: ServiceBusManagementClientOptions
+    credentialOrOptions2?: TokenCredential | PipelineOptions,
+    options3?: PipelineOptions
   ) {
-    let options: ServiceBusManagementClientOptions;
+    let options: PipelineOptions;
     let fullyQualifiedNamespace: string;
     let credentials: SasServiceClientCredentials | TokenCredential;
     let authPolicy: RequestPolicyFactory;
@@ -252,7 +237,7 @@ export class ServiceBusManagementClient extends ServiceClient {
     const userAgentPrefix = formatUserAgentPrefix(options.userAgentOptions?.userAgentPrefix);
     const serviceClientOptions = createPipelineFromOptions(
       {
-        proxyOptions: options.proxySettings,
+        ...options,
         userAgentOptions: {
           userAgentPrefix
         }
@@ -1808,7 +1793,6 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @param topicName
    * @param subscriptionName
    * @param operationOptions The options that can be used to abort, trace and control other configurations on the HTTP request.
-   *
    */
   async subscriptionExists(
     topicName: string,
@@ -2218,6 +2202,46 @@ export class ServiceBusManagementClient extends ServiceClient {
       );
 
       return { _response: response };
+    } catch (e) {
+      span.setStatus({
+        code: getCanonicalCode(e),
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Checks whether a given rule exists or not.
+   *
+   * @param {string} topicName
+   * @param {string} subscriptionName
+   * @param {string} ruleName
+   * @param {OperationOptions} [operationOptions]
+   */
+  async ruleExists(
+    topicName: string,
+    subscriptionName: string,
+    ruleName: string,
+    operationOptions?: OperationOptions
+  ): Promise<boolean> {
+    const { span, updatedOperationOptions } = createSpan(
+      "ServiceBusManagementClient-ruleExists",
+      operationOptions
+    );
+    try {
+      log.httpAtomXml(`Performing management operation - ruleExists() for "${ruleName}"`);
+      try {
+        await this.getRule(topicName, subscriptionName, ruleName, updatedOperationOptions);
+      } catch (error) {
+        if (error.code == "MessageEntityNotFoundError") {
+          return false;
+        }
+        throw error;
+      }
+      return true;
     } catch (e) {
       span.setStatus({
         code: getCanonicalCode(e),

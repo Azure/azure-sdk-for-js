@@ -13,7 +13,7 @@ import {
   throwTypeErrorIfParameterNotLong
 } from "./util/errors";
 import { ServiceBusMessageBatch } from "./serviceBusMessageBatch";
-import { CreateBatchOptions, SenderOpenOptions } from "./models";
+import { CreateBatchOptions } from "./models";
 import {
   MessagingError,
   RetryConfig,
@@ -29,7 +29,7 @@ import { OperationOptionsBase } from "./modelsToBeSharedWithEventHubs";
  * Use the `createSender` function on the ServiceBusClient instantiate a Sender.
  * The Sender class is an abstraction over the underlying AMQP sender link.
  */
-export interface Sender {
+export interface ServiceBusSender {
   /**
    * Sends the given messages after creating an AMQP Sender link if it doesn't already exist.
    * Consider awaiting on open() beforehand to front load the work of link creation if needed.
@@ -71,9 +71,9 @@ export interface Sender {
    * recommended to call this before your first sendMessages() call if you
    * want to front load the work of setting up the AMQP link to the service.
    *
-   * @param options - Options bag to pass an abort signal.
+   * @param options - Options to configure tracing and the abortSignal.
    */
-  open(options?: SenderOpenOptions): Promise<void>;
+  open(options?: OperationOptionsBase): Promise<void>;
 
   /**
    * @property Returns `true` if either the sender or the client that created it has been closed
@@ -129,10 +129,10 @@ export interface Sender {
 /**
  * @internal
  * @ignore
- * @class SenderImpl
- * @implements {Sender}
+ * @class ServiceBusSenderImpl
+ * @implements {ServiceBusSender}
  */
-export class SenderImpl implements Sender {
+export class ServiceBusSenderImpl implements ServiceBusSender {
   private _retryOptions: RetryOptions;
   /**
    * @property Denotes if close() was called on this sender
@@ -293,10 +293,11 @@ export class SenderImpl implements Sender {
     return retry<void>(config);
   }
 
-  async open(options?: SenderOpenOptions): Promise<void> {
+  async open(options?: OperationOptionsBase): Promise<void> {
     this._throwIfSenderOrConnectionClosed();
 
     const config: RetryConfig<void> = {
+      // TODO: Pass tracing options too
       operation: () => this._sender.open(undefined, options?.abortSignal),
       connectionId: this._context.connectionId,
       operationType: RetryOperationType.senderLink,

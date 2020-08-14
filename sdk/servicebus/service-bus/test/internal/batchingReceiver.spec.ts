@@ -14,8 +14,7 @@ import {
   getRemainingWaitTimeInMsFn,
   BatchingReceiverLite
 } from "../../src/core/batchingReceiver";
-import { createConnectionContextForTests, defer } from "./unittestUtils";
-import { ReceiverImpl } from "../../src/receivers/receiver";
+import { defer, createConnectionContextForTests } from "./unittestUtils";
 import { createAbortSignalForTest } from "../utils/abortSignalTestUtils";
 import { AbortController, AbortSignalLike } from "@azure/abort-controller";
 import { ServiceBusMessageImpl, InternalReceiveMode } from "../../src/serviceBusMessage";
@@ -30,6 +29,7 @@ import {
 import { StandardAbortMessage } from "../../src/util/utils";
 import { OnAmqpEventAsPromise } from "../../src/core/messageReceiver";
 import { ConnectionContext } from "../../src/connectionContext";
+import { ServiceBusReceiverImpl } from "../../src/receivers/receiver";
 
 describe("BatchingReceiver unit tests", () => {
   let closeables: { close(): Promise<void> }[];
@@ -47,9 +47,9 @@ describe("BatchingReceiver unit tests", () => {
   describe("AbortSignal", () => {
     // establish that the abortSignal does get properly sent down. Now the rest of the tests
     // will test at the BatchingReceiver level.
-    it("is plumbed into BatchingReceiver from ReceiverImpl", async () => {
+    it("is plumbed into BatchingReceiver from ServiceBusReceiverImpl", async () => {
       const origAbortSignal = createAbortSignalForTest();
-      const receiver = new ReceiverImpl(
+      const receiver = new ServiceBusReceiverImpl(
         createConnectionContextForTests(),
         "fakeEntityPath",
         "peekLock"
