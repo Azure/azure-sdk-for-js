@@ -154,6 +154,16 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
    */
   private _logPrefix: string;
 
+  private _logger: typeof log.error;
+
+  /**
+   * Indicates that _closeLink("permanently") has been called on this link and
+   * that it should not be allowed to reopen.
+   */
+  private _wasClosed: boolean = false;
+
+  private _isConnecting: boolean = false;
+
   /**
    * Creates a new ClientEntity instance.
    * @constructor
@@ -176,7 +186,129 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
     this._logger = LinkEntity.getLogger(this._linkType);
   }
 
-  private _logger: typeof log.error;
+  /**
+   * Determines whether the AMQP link is open. If open then returns true else returns false.
+   * @return {boolean} boolean
+   */
+  isOpen(): boolean {
+    const result: boolean = this._link ? this._link.isOpen() : false;
+    log.error(`${this._logPrefix} is open? ${result}`);
+    return result;
+  }
+
+  /**
+   * Indicates that a link initialization is in process.
+   */
+  get isConnecting(): boolean {
+    return this._isConnecting;
+  }
+
+  /**
+   * Initializes this LinkEntity, setting this._link with the result of  `createRheaLink`, which
+   * is implemented by child classes.
+   *
+   * @returns A Promise that resolves when the link has been properly initialized
+   */
+  async initLink(options: LinkOptionsT<LinkT>, abortSignal?: AbortSignalLike): Promise<void> {
+    const checkAborted = (): void => {
+      if (abortSignal?.aborted) {
+        throw new AbortError(StandardAbortMessage);
+      }
+    };
+
+    const connectionId = this._context.connectionId;
+    checkAborted();
+
+    if (options.name) {
+      this.name = options.name;
+      this._logPrefix = `[${connectionId}|${this._linkType}:${this.name}|a:${this.address}]`;
+    }
+
+    if (this._wasClosed) {
+      log.error(`${this._logPrefix} Link has been closed. Not reopening.`);
+      return;
+    }
+
+    if (this.isOpen()) {
+      log.error(`${this._logPrefix} Link is already open. Returning.`);
+      return;
+    }
+
+    if (this.isConnecting) {
+      log.error(`${this._logPrefix} Link is currently opening. Returning.`);
+      return;
+    }
+
+    log.error(`${this._logPrefix} Is not open and is not currently connecting. Opening.`);
+
+    this._isConnecting = true;
+
+    try {
+      await this._negotiateClaim();
+      checkAborted();
+
+      log.error(`${this._logPrefix} Creating with options %O`, options);
+      this._link = await this.createRheaLink(options);
+      checkAborted();
+
+      if (this._wasClosed) {
+        // the user attempted to close while we were still initializing the link. Abort
+        // the current operation. This also makes it so the operation is non-retryable.
+        log.error(`${this._logPrefix} Link closed while it was initializing.`);
+        throw new AbortError("Link closed while initializing.");
+      }
+
+      this._ensureTokenRenewal();
+    } catch (err) {
+      await this.closeLink("linkonly");
+      throw err;
+    } finally {
+      this._isConnecting = false;
+    }
+  }
+
+  /**
+   * NOTE: This method should be implemented by any child classes to actually create the underlying
+   * Rhea link (AwaitableSender vs Receiver vs RequestResponseLink)
+   *
+   * @param _options
+   */
+  protected abstract createRheaLink(_options: LinkOptionsT<LinkT>): Promise<LinkT>;
+
+  /**
+   * Closes the internally held rhea link, stops the token renewal timer and sets
+   * the this._link field to undefined.
+   *
+   * @param mode Indicates the original caller.
+   * - "permanently" closes the link permanently, setting _wasClosed to true which
+   * prevents it from being reinitializing.
+   * - "linkonly" closes the link but does not permanently close the LinkEntity. It can be reinitialized.
+   */
+  protected async closeLink(mode: "permanently" | "linkonly"): Promise<void> {
+    if (mode === "permanently") {
+      this._wasClosed = true;
+    }
+
+    this._logger(`${this._logPrefix} closeLink(${mode}) called`);
+
+    clearTimeout(this._tokenRenewalTimer as NodeJS.Timer);
+    this._tokenRenewalTimer = undefined;
+
+    if (this._link) {
+      try {
+        // This should take care of closing the link and it's underlying session. This should also
+        // remove them from the internal map.
+        const link = this._link;
+        this._link = undefined;
+
+        await link.close();
+
+        this._logger(`${this._logPrefix} closed: ${mode}.`);
+      } catch (err) {
+        log.error(`${this._logPrefix} An error occurred while closing the link.: %O`, err);
+      }
+    }
+  }
 
   private static getLogger(
     linkType: LinkTypeT<Receiver> | LinkTypeT<AwaitableSender> | LinkTypeT<RequestResponseLink>
@@ -198,6 +330,26 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
         return log.messageSession;
       }
     }
+  }
+
+  /**
+   * Provides the current type of the ClientEntity.
+   * @return {string} The entity type.
+   */
+  private get _type(): string {
+    let result = "LinkEntity";
+    if ((this as any).constructor && (this as any).constructor.name) {
+      result = (this as any).constructor.name;
+    }
+    return result;
+  }
+
+  protected get wasClosed(): boolean {
+    return this._wasClosed;
+  }
+
+  protected get link(): LinkT | undefined {
+    return this._link;
   }
 
   /**
@@ -310,157 +462,5 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
       this._tokenTimeout,
       new Date(Date.now() + this._tokenTimeout).toString()
     );
-  }
-
-  /**
-   * Closes the internally held rhea link, stops the token renewal timer and sets
-   * the this._link field to undefined.
-   *
-   * @param mode Indicates the original caller.
-   * - "permanently" closes the link permanently, setting _wasClosed to true which
-   * prevents it from being reinitializing.
-   * - "linkonly" closes the link but does not permanently close the LinkEntity. It can be reinitialized.
-   */
-  protected async closeLink(mode: "permanently" | "linkonly"): Promise<void> {
-    if (mode === "permanently") {
-      this._wasClosed = true;
-    }
-
-    this._logger(`${this._logPrefix} closeLink(${mode}) called`);
-
-    clearTimeout(this._tokenRenewalTimer as NodeJS.Timer);
-    this._tokenRenewalTimer = undefined;
-
-    if (this._link) {
-      try {
-        // This should take care of closing the link and it's underlying session. This should also
-        // remove them from the internal map.
-        const link = this._link;
-        this._link = undefined;
-
-        await link.close();
-
-        this._logger(`${this._logPrefix} closed: ${mode}.`);
-      } catch (err) {
-        log.error(`${this._logPrefix} An error occurred while closing the link.: %O`, err);
-      }
-    }
-  }
-
-  /**
-   * Provides the current type of the ClientEntity.
-   * @return {string} The entity type.
-   */
-  private get _type(): string {
-    let result = "LinkEntity";
-    if ((this as any).constructor && (this as any).constructor.name) {
-      result = (this as any).constructor.name;
-    }
-    return result;
-  }
-
-  /**
-   * Determines whether the AMQP link is open. If open then returns true else returns false.
-   * @return {boolean} boolean
-   */
-  isOpen(): boolean {
-    const result: boolean = this._link ? this._link.isOpen() : false;
-    log.error(`${this._logPrefix} is open? ${result}`);
-    return result;
-  }
-
-  /**
-   * Indicates that _closeLink("close") has been called on this link and
-   * that it should not be allowed to reopen.
-   */
-  private _wasClosed: boolean = false;
-
-  protected get wasClosed(): boolean {
-    return this._wasClosed;
-  }
-
-  /**
-   * Indicates that a link initialization is in process.
-   */
-  public get isConnecting(): boolean {
-    return this._isConnecting;
-  }
-
-  private _isConnecting: boolean = false;
-
-  /**
-   * NOTE: This method should be implemented by any child classes to actually create the underlying
-   * Rhea link (AwaitableSender vs Receiver vs RequestResponseLink)
-   *
-   * @param _options
-   */
-  protected abstract createRheaLink(_options: LinkOptionsT<LinkT>): Promise<LinkT>;
-
-  /**
-   * Initializes this LinkEntity, setting this._link with the result of  `createRheaLink`, which
-   * is implemented by child classes.
-   *
-   * @returns A Promise that resolves when the link has been properly initialized
-   */
-  async initLink(options: LinkOptionsT<LinkT>, abortSignal?: AbortSignalLike): Promise<void> {
-    const checkAborted = (): void => {
-      if (abortSignal?.aborted) {
-        throw new AbortError(StandardAbortMessage);
-      }
-    };
-
-    const connectionId = this._context.connectionId;
-    checkAborted();
-
-    if (options.name) {
-      this.name = options.name;
-      this._logPrefix = `[${connectionId}|${this._linkType}:${this.name}|a:${this.address}]`;
-    }
-
-    if (this._wasClosed) {
-      log.error(`${this._logPrefix} Link has been closed. Not reopening.`);
-      return;
-    }
-
-    if (this.isOpen()) {
-      log.error(`${this._logPrefix} Link is already open. Returning.`);
-      return;
-    }
-
-    if (this.isConnecting) {
-      log.error(`${this._logPrefix} Link is currently opening. Returning.`);
-      return;
-    }
-
-    log.error(`${this._logPrefix} Is not open and is not currently connecting. Opening.`);
-
-    this._isConnecting = true;
-
-    try {
-      await this._negotiateClaim();
-      checkAborted();
-
-      log.error(`${this._logPrefix} Creating with options %O`, options);
-      this._link = await this.createRheaLink(options);
-      checkAborted();
-
-      if (this._wasClosed) {
-        // the user attempted to close while we were still initializing the link. Abort
-        // the current operation. This also makes it so the operation is non-retryable.
-        log.error(`${this._logPrefix} Link closed while it was initializing.`);
-        throw new AbortError("Link closed while initializing.");
-      }
-
-      this._ensureTokenRenewal();
-    } catch (err) {
-      await this.closeLink("linkonly");
-      throw err;
-    } finally {
-      this._isConnecting = false;
-    }
-  }
-
-  protected get link(): LinkT | undefined {
-    return this._link;
   }
 }
