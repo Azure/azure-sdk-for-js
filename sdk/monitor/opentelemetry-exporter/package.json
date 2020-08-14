@@ -16,6 +16,13 @@
     "test": "npm run test:node && npm run test:browser",
     "test:node": "c8 ts-mocha -p ./tsconfig.json 'test/**/*.test.ts'",
     "test:browser": "echo skipped",
+    "unit-test:browser": "echo skipped",
+    "unit-test:node": "echo skipped",
+    "unit-test:node:no-timeout": "echo skipped",
+    "unit-test": "npm run unit-test:node && npm run unit-test:browser",
+    "integration-test:browser": "echo skipped",
+    "integration-test:node": "echo skipped",
+    "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "report": "c8 report --reporter=json",
     "prepare": "npm run build"
   },
