@@ -38,7 +38,7 @@ export type CreateTableEntityOptions = OperationOptions & {
 };
 
 // @public
-export type CreateTableEntityResponse<T extends object> = T & {
+export type CreateTableEntityResponse<T extends object> = TableEntity<T> & {
     _response: HttpResponse & {
         bodyAsText: string;
         parsedBody: {
@@ -161,7 +161,7 @@ export type GetTableEntityOptions = OperationOptions & {
 };
 
 // @public
-export type GetTableEntityResponse<T extends object> = T & {
+export type GetTableEntityResponse<T extends object> = TableEntity<T> & {
     _response: HttpResponse & {
         bodyAsText: string;
         parsedBody: {
@@ -172,7 +172,7 @@ export type GetTableEntityResponse<T extends object> = T & {
 };
 
 // @public
-export type ListEntitiesResponse<T extends object> = Array<T> & {
+export type ListEntitiesResponse<T extends object> = Array<TableEntity<T>> & {
     nextPartitionKey?: string;
     nextextRowKey?: string;
     _response: HttpResponse & {

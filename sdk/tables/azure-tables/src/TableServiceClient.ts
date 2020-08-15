@@ -221,7 +221,7 @@ export class TableServiceClient {
       rowKey,
       { ...getEntityOptions, queryOptions: this.convertQueryOptions(queryOptions || {}) }
     );
-    const tableEntity = deserialize<T>(_response.parsedBody);
+    const tableEntity = deserialize<TableEntity<T>>(_response.parsedBody);
     return { ...tableEntity, _response };
   }
 
@@ -244,7 +244,7 @@ export class TableServiceClient {
       ...options,
       queryOptions
     });
-    const tableEntities = deserializeObjectsArray<T>(value || []);
+    const tableEntities = deserializeObjectsArray<TableEntity<T>>(value || []);
     return Object.assign([...tableEntities], {
       _response,
       nextPartitionKey,

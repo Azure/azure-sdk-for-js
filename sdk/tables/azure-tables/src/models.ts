@@ -14,7 +14,7 @@ import { OperationOptions, HttpResponse } from "@azure/core-http";
 /**
  * Contains response data for the createEntity operation.
  */
-export type CreateTableEntityResponse<T extends object> = T & {
+export type CreateTableEntityResponse<T extends object> = TableEntity<T> & {
   /**
    * The underlying HTTP response.
    */
@@ -66,7 +66,7 @@ export type ListTableItemsResponse = Array<TableResponseProperties> & {
 /**
  * Contains response data for the getEntity operation.
  */
-export type ListEntitiesResponse<T extends object> = Array<T> & {
+export type ListEntitiesResponse<T extends object> = Array<TableEntity<T>> & {
   /**
    * Contains the continuation token value for partition key.
    */
@@ -97,7 +97,7 @@ export type ListEntitiesResponse<T extends object> = Array<T> & {
 /**
  * Contains response data for the listEntities operation.
  */
-export type GetTableEntityResponse<T extends object> = T & {
+export type GetTableEntityResponse<T extends object> = TableEntity<T> & {
   /**
    * The underlying HTTP response.
    */
