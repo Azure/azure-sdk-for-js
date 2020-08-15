@@ -347,7 +347,8 @@ export namespace ConnectionContext {
           }
         }
 
-        // Call onDetached() on batchingReceiver so that it can gracefully close any ongoing batch operation.
+        // Call onDetached() on receivers so that batching receivers it can gracefully close any ongoing batch operation
+        // and streaming receivers can decide whether to reconnect or not.
         for (const receiverName of Object.keys(connectionContext.messageReceivers)) {
           const receiver = connectionContext.messageReceivers[receiverName];
           if (receiver && !receiver.isConnecting) {
