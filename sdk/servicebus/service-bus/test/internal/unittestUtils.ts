@@ -27,8 +27,7 @@ export function createConnectionContextForTests(options?: {
 
   const fakeConnectionContext = {
     async readyToOpenLink(): Promise<void> {},
-    batchingReceivers: {},
-    streamingReceivers: {},
+    messageReceivers: {},
     senders: {},
     messageSessions: {},
     managementClients: {},

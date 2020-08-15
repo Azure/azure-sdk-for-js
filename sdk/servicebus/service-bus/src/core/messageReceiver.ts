@@ -93,7 +93,7 @@ export interface OnError {
  * Describes the MessageReceiver that will receive messages from ServiceBus.
  * @class MessageReceiver
  */
-export class MessageReceiver extends LinkEntity {
+export abstract class MessageReceiver extends LinkEntity {
   /**
    * @property {string} receiverType The type of receiver: "batching" or "streaming".
    */
@@ -315,17 +315,7 @@ export class MessageReceiver extends LinkEntity {
         );
         // It is possible for someone to close the receiver and then start it again.
         // Thus make sure that the receiver is present in the client cache.
-        if (
-          this.receiverType === ReceiverType.streaming &&
-          !this._context.streamingReceivers[this.name]
-        ) {
-          this._context.streamingReceivers[this.name] = this as any;
-        } else if (
-          this.receiverType === ReceiverType.batching &&
-          !this._context.batchingReceivers[this.name]
-        ) {
-          this._context.batchingReceivers[this.name] = this as any;
-        }
+        this._context.messageReceivers[this.name] = this as any;
         this._ensureTokenRenewal();
       } else {
         log.error(
@@ -359,17 +349,22 @@ export class MessageReceiver extends LinkEntity {
 
   protected _deleteFromCache(): void {
     this._receiver = undefined;
-    if (this.receiverType === ReceiverType.streaming) {
-      delete this._context.streamingReceivers[this.name];
-    } else if (this.receiverType === ReceiverType.batching) {
-      delete this._context.batchingReceivers[this.name];
-    }
+    delete this._context.messageReceivers[this.name];
     log.error(
       "[%s] Deleted the receiver '%s' from the client cache.",
       this._context.connectionId,
       this.name
     );
   }
+
+  /**
+   * React to receiver being detached due to given error.
+   * You may want to set up retries to recover the broken link and/or report error to user.
+   * @param error The error accompanying the receiver/session error or connection disconnected events
+   * @param causedByDisconnect Indicator of whether the error is caused by the connection disconnecting.
+   * In this case, the receiver/session error events do not get fired.
+   */
+  abstract async onDetached(error?: AmqpError | Error, causedByDisconnect?: boolean): Promise<void>;
 
   /**
    * Closes the underlying AMQP receiver.

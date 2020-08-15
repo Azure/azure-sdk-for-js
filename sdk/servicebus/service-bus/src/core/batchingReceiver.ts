@@ -148,7 +148,7 @@ export class BatchingReceiver extends MessageReceiver {
   ): BatchingReceiver {
     throwErrorIfConnectionClosed(context);
     const bReceiver = new BatchingReceiver(context, entityPath, options);
-    context.batchingReceivers[bReceiver.name] = bReceiver;
+    context.messageReceivers[bReceiver.name] = bReceiver;
     return bReceiver;
   }
 }

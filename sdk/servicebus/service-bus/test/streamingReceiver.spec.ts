@@ -650,7 +650,7 @@ describe("Streaming Receiver Tests", () => {
 
       should.equal(msgsCheck, true, `Expected 1, received ${receivedMsgs.length} messages.`);
       should.equal(
-        !!(receiver as any)._context.streamingReceivers[streamingReceiverName!],
+        !!(receiver as any)._context.messageReceivers[streamingReceiverName!],
         true,
         "Expected streaming receiver not to be cached."
       );

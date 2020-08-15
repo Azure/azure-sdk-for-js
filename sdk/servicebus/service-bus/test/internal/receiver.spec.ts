@@ -11,7 +11,7 @@ const assert = chai.assert;
 
 import { ConnectionContext } from "../../src/connectionContext";
 import { BatchingReceiver } from "../../src/core/batchingReceiver";
-import { MessageReceiver, ReceiverType } from "../../src/core/messageReceiver";
+import { StreamingReceiver } from "../../src/core/streamingReceiver";
 import { InternalMessageHandlers } from "../../src/models";
 import { ServiceBusReceiverImpl } from "../../src/receivers/receiver";
 import { createConnectionContextForTests } from "./unittestUtils";
@@ -43,11 +43,7 @@ describe("Receiver unit tests", () => {
     });
 
     it("message receiver init() bails out early if object is closed()", async () => {
-      const messageReceiver2 = new MessageReceiver(
-        fakeContext(),
-        "fakeEntityPath",
-        ReceiverType.streaming
-      );
+      const messageReceiver2 = new StreamingReceiver(fakeContext(), "fakeEntityPath");
 
       // so our object basically looks like an unopened receiver
       messageReceiver2["isOpen"] = () => false;
