@@ -1152,7 +1152,7 @@ export class ManagementClient extends LinkEntity {
         return [];
       }
 
-      // Reference: https://docs.microsoft.com/en-us/azure/service-bus-messaging/service-bus-amqp-request-response#response-11
+      // Reference: https://docs.microsoft.com/azure/service-bus-messaging/service-bus-amqp-request-response#response-11
       const result: { "rule-description": Typed }[] = response.body.rules || [];
       const rules: RuleDescription[] = [];
       result.forEach((x) => {

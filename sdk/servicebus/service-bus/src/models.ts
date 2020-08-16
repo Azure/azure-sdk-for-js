@@ -63,7 +63,7 @@ export interface CreateReceiverOptions<ReceiveModeT extends ReceiveMode> {
    * the message.
    *
    * More information about how peekLock and message settlement works here:
-   * https://docs.microsoft.com/en-us/azure/service-bus-messaging/message-transfers-locks-settlement#peeklock
+   * https://docs.microsoft.com/azure/service-bus-messaging/message-transfers-locks-settlement#peeklock
    *
    */
   receiveMode?: ReceiveModeT;

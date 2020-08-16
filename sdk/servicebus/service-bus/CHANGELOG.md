@@ -86,7 +86,7 @@
   - The "update" methods (`updateQueue`, `updateTopic`, and `updateSubscription`) now require all properties on the given queue/topic/subscription object to be set even though only a subset of them are updatable. Therefore, the suggested flow is to use the "get" methods to get the queue/topic/subscription object, update as needed and then pass it to the "update" methods.
     [PR 9751](https://github.com/Azure/azure-sdk-for-js/pull/9751)
 
-    See [update queue](https://docs.microsoft.com/en-us/rest/api/servicebus/update-queue) and [update-topic](https://docs.microsoft.com/en-us/rest/api/servicebus/update-queue) for list of updatable properties.
+    See [update queue](https://docs.microsoft.com/rest/api/servicebus/update-queue) and [update-topic](https://docs.microsoft.com/rest/api/servicebus/update-queue) for list of updatable properties.
 
 ## 7.0.0-preview.3 (2020-06-08)
 

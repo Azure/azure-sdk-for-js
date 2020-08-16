@@ -305,7 +305,7 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @throws `RestError` with code `ServiceError` when receiving unrecognized HTTP status or for a scenarios such as
    * bad requests or requests resulting in conflicting operation on the server,
    * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
-   * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
+   * https://docs.microsoft.com/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
    */
   async createQueue(queueName: string, options?: CreateQueueOptions): Promise<QueueResponse> {
     const { span, updatedOperationOptions } = createSpan(
@@ -350,7 +350,7 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @throws `RestError` with code `ServiceError` when receiving unrecognized HTTP status or for a scenarios such as
    * bad requests or requests resulting in conflicting operation on the server,
    * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
-   * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
+   * https://docs.microsoft.com/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
    */
   async getQueue(queueName: string, operationOptions?: OperationOptions): Promise<QueueResponse> {
     const { span, updatedOperationOptions } = createSpan(
@@ -390,7 +390,7 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @throws `RestError` with code `ServiceError` when receiving unrecognized HTTP status or for a scenarios such as
    * bad requests or requests resulting in conflicting operation on the server,
    * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
-   * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
+   * https://docs.microsoft.com/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
    */
   async getQueueRuntimeProperties(
     queueName: string,
@@ -434,7 +434,7 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @throws `RestError` with code `ServiceError` when receiving unrecognized HTTP status or for a scenarios such as
    * bad requests or requests resulting in conflicting operation on the server,
    * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
-   * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
+   * https://docs.microsoft.com/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
    */
   private async getQueues(
     options?: ListRequestOptions & OperationOptions
@@ -542,7 +542,7 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @throws `RestError` with code `ServiceError` when receiving unrecognized HTTP status or for a scenarios such as
    * bad requests or requests resulting in conflicting operation on the server,
    * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
-   * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
+   * https://docs.microsoft.com/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
    */
   private async getQueuesRuntimeProperties(
     options?: ListRequestOptions & OperationOptions
@@ -649,7 +649,7 @@ export class ServiceBusManagementClient extends ServiceClient {
    * All queue properties must be set even though only a subset of them are actually updatable.
    * Therefore, the suggested flow is to use `getQueue()` to get the complete set of queue properties,
    * update as needed and then pass it to `updateQueue()`.
-   * See https://docs.microsoft.com/en-us/rest/api/servicebus/update-queue for more details.
+   * See https://docs.microsoft.com/rest/api/servicebus/update-queue for more details.
    *
    * @param queue Object representing the properties of the queue.
    * `requiresSession`, `requiresDuplicateDetection`, `enablePartitioning`, and `name` can't be updated after creating the queue.
@@ -663,7 +663,7 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @throws `RestError` with code `ServiceError` when receiving unrecognized HTTP status or for a scenarios such as
    * bad requests or requests resulting in conflicting operation on the server,
    * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
-   * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
+   * https://docs.microsoft.com/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
    */
   async updateQueue(
     queue: QueueProperties,
@@ -721,7 +721,7 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @throws `RestError` with code `ServiceError` when receiving unrecognized HTTP status or for a scenarios such as
    * bad requests or requests resulting in conflicting operation on the server,
    * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
-   * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
+   * https://docs.microsoft.com/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
    */
   async deleteQueue(queueName: string, operationOptions?: OperationOptions): Promise<Response> {
     const { span, updatedOperationOptions } = createSpan(
@@ -795,7 +795,7 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @throws `RestError` with code `ServiceError` when receiving unrecognized HTTP status or for a scenarios such as
    * bad requests or requests resulting in conflicting operation on the server,
    * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
-   * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
+   * https://docs.microsoft.com/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
    */
   async createTopic(topicName: string, options?: CreateTopicOptions): Promise<TopicResponse> {
     const { span, updatedOperationOptions } = createSpan(
@@ -840,7 +840,7 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @throws `RestError` with code `ServiceError` when receiving unrecognized HTTP status or for a scenarios such as
    * bad requests or requests resulting in conflicting operation on the server,
    * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
-   * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
+   * https://docs.microsoft.com/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
    */
   async getTopic(topicName: string, operationOptions?: OperationOptions): Promise<TopicResponse> {
     const { span, updatedOperationOptions } = createSpan(
@@ -880,7 +880,7 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @throws `RestError` with code `ServiceError` when receiving unrecognized HTTP status or for a scenarios such as
    * bad requests or requests resulting in conflicting operation on the server,
    * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
-   * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
+   * https://docs.microsoft.com/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
    */
   async getTopicRuntimeProperties(
     topicName: string,
@@ -924,7 +924,7 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @throws `RestError` with code `ServiceError` when receiving unrecognized HTTP status or for a scenarios such as
    * bad requests or requests resulting in conflicting operation on the server,
    * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
-   * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
+   * https://docs.microsoft.com/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
    */
   private async getTopics(
     options?: ListRequestOptions & OperationOptions
@@ -1033,7 +1033,7 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @throws `RestError` with code `ServiceError` when receiving unrecognized HTTP status or for a scenarios such as
    * bad requests or requests resulting in conflicting operation on the server,
    * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
-   * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
+   * https://docs.microsoft.com/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
    */
   private async getTopicsRuntimeProperties(
     options?: ListRequestOptions & OperationOptions
@@ -1141,7 +1141,7 @@ export class ServiceBusManagementClient extends ServiceClient {
    * All topic properties must be set even though only a subset of them are actually updatable.
    * Therefore, the suggested flow is to use `getTopic()` to get the complete set of topic properties,
    * update as needed and then pass it to `updateTopic()`.
-   * See https://docs.microsoft.com/en-us/rest/api/servicebus/update-topic for more details.
+   * See https://docs.microsoft.com/rest/api/servicebus/update-topic for more details.
    *
    * @param topic Object representing the properties of the topic.
    * `requiresDuplicateDetection`, `enablePartitioning`, and `name` can't be updated after creating the topic.
@@ -1155,7 +1155,7 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @throws `RestError` with code `ServiceError` when receiving unrecognized HTTP status or for a scenarios such as
    * bad requests or requests resulting in conflicting operation on the server,
    * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
-   * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
+   * https://docs.microsoft.com/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
    */
   async updateTopic(
     topic: TopicProperties,
@@ -1213,7 +1213,7 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @throws `RestError` with code `ServiceError` when receiving unrecognized HTTP status or for a scenarios such as
    * bad requests or requests resulting in conflicting operation on the server,
    * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
-   * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
+   * https://docs.microsoft.com/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
    */
   async deleteTopic(topicName: string, operationOptions?: OperationOptions): Promise<Response> {
     const { span, updatedOperationOptions } = createSpan(
@@ -1288,7 +1288,7 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @throws `RestError` with code `ServiceError` when receiving unrecognized HTTP status or for a scenarios such as
    * bad requests or requests resulting in conflicting operation on the server,
    * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
-   * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
+   * https://docs.microsoft.com/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
    */
   async createSubscription(
     topicName: string,
@@ -1339,7 +1339,7 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @throws `RestError` with code `ServiceError` when receiving unrecognized HTTP status or for a scenarios such as
    * bad requests or requests resulting in conflicting operation on the server,
    * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
-   * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
+   * https://docs.microsoft.com/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
    */
   async getSubscription(
     topicName: string,
@@ -1387,7 +1387,7 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @throws `RestError` with code `ServiceError` when receiving unrecognized HTTP status or for a scenarios such as
    * bad requests or requests resulting in conflicting operation on the server,
    * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
-   * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
+   * https://docs.microsoft.com/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
    */
   async getSubscriptionRuntimeProperties(
     topicName: string,
@@ -1434,7 +1434,7 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @throws `RestError` with code `ServiceError` when receiving unrecognized HTTP status or for a scenarios such as
    * bad requests or requests resulting in conflicting operation on the server,
    * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
-   * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
+   * https://docs.microsoft.com/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
    */
   private async getSubscriptions(
     topicName: string,
@@ -1555,7 +1555,7 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @throws `RestError` with code `ServiceError` when receiving unrecognized HTTP status or for a scenarios such as
    * bad requests or requests resulting in conflicting operation on the server,
    * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
-   * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
+   * https://docs.microsoft.com/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
    */
   private async getSubscriptionsRuntimeProperties(
     topicName: string,
@@ -1688,7 +1688,7 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @throws `RestError` with code `ServiceError` when receiving unrecognized HTTP status or for a scenarios such as
    * bad requests or requests resulting in conflicting operation on the server,
    * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
-   * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
+   * https://docs.microsoft.com/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
    */
   async updateSubscription(
     subscription: SubscriptionProperties,
@@ -1754,7 +1754,7 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @throws `RestError` with code `ServiceError` when receiving unrecognized HTTP status or for a scenarios such as
    * bad requests or requests resulting in conflicting operation on the server,
    * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
-   * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
+   * https://docs.microsoft.com/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
    */
   async deleteSubscription(
     topicName: string,
@@ -1844,7 +1844,7 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @throws `RestError` with code `ServiceError` when receiving unrecognized HTTP status or for a scenarios such as
    * bad requests or requests resulting in conflicting operation on the server,
    * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
-   * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
+   * https://docs.microsoft.com/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
    */
   createRule(
     topicName: string,
@@ -1871,7 +1871,7 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @throws `RestError` with code `ServiceError` when receiving unrecognized HTTP status or for a scenarios such as
    * bad requests or requests resulting in conflicting operation on the server,
    * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
-   * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
+   * https://docs.microsoft.com/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
    */
   createRule(
     topicName: string,
@@ -1945,7 +1945,7 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @throws `RestError` with code `ServiceError` when receiving unrecognized HTTP status or for a scenarios such as
    * bad requests or requests resulting in conflicting operation on the server,
    * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
-   * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
+   * https://docs.microsoft.com/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
    */
   async getRule(
     topicName: string,
@@ -1991,7 +1991,7 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @throws `RestError` with code `ServiceError` when receiving unrecognized HTTP status or for a scenarios such as
    * bad requests or requests resulting in conflicting operation on the server,
    * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
-   * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
+   * https://docs.microsoft.com/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
    */
   private async getRules(
     topicName: string,
@@ -2117,7 +2117,7 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @throws `RestError` with code `ServiceError` when receiving unrecognized HTTP status or for a scenarios such as
    * bad requests or requests resulting in conflicting operation on the server,
    * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
-   * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
+   * https://docs.microsoft.com/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
    */
   async updateRule(
     topicName: string,
@@ -2180,7 +2180,7 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @throws `RestError` with code `ServiceError` when receiving unrecognized HTTP status or for a scenarios such as
    * bad requests or requests resulting in conflicting operation on the server,
    * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
-   * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
+   * https://docs.microsoft.com/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
    */
   async deleteRule(
     topicName: string,
