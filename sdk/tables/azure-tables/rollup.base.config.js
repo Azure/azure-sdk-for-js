@@ -12,8 +12,9 @@ const depNames = Object.keys(pkg.dependencies);
 const devDepNames = Object.keys(pkg.devDependencies);
 const input = "dist-esm/src/index.js";
 const production = process.env.NODE_ENV === "production";
+const testModes = ["unit", "integration"];
 
-export function nodeConfig(test = false) {
+export function nodeConfig() {
   const externalNodeBuiltins = ["crypto", "url"];
   const baseConfig = {
     input: input,
@@ -35,29 +36,14 @@ export function nodeConfig(test = false) {
     ]
   };
 
-  if (test) {
-    // Entry points - test files under the `test` folder(common for both browser and node), node specific test files
-    baseConfig.input = ["dist-esm/test/*.spec.js", "dist-esm/test/node/*.spec.js"];
-    baseConfig.plugins.unshift(multiEntry({ exports: false }));
-
-    // different output file
-    baseConfig.output.file = "dist-test/index.node.js";
-
-    // mark devdeps as external
-    baseConfig.external.push(...devDepNames);
-
-    // Disable tree-shaking of test code.  In rollup-plugin-node-resolve@5.0.0, rollup started respecting
-    // the "sideEffects" field in package.json.  Since our package.json sets "sideEffects=false", this also
-    // applies to test code, which causes all tests to be removed by tree-shaking.
-    baseConfig.treeshake = false;
-  } else if (production) {
+  if (production) {
     baseConfig.plugins.push(terser());
   }
 
   return baseConfig;
 }
 
-export function browserConfig(test = false) {
+export function browserConfig() {
   const baseConfig = {
     input: input,
     output: {
@@ -92,29 +78,92 @@ export function browserConfig(test = false) {
     ]
   };
 
-  if (test) {
-    // Entry points - test files under the `test` folder(common for both browser and node), browser specific test files
-    baseConfig.input = ["dist-esm/test/*.spec.js", "dist-esm/test/browser/*.spec.js"];
-    baseConfig.plugins.unshift(multiEntry({ exports: false }));
-    baseConfig.output.file = "dist-test/index.browser.js";
+  return baseConfig;
+}
 
-    baseConfig.onwarn = (warning) => {
-      if (
-        warning.code === "CIRCULAR_DEPENDENCY" &&
-        warning.importer.indexOf(path.normalize("node_modules/chai/lib") === 0)
-      ) {
-        // Chai contains circular references, but they are not fatal and can be ignored.
-        return;
-      }
-
-      console.error(`(!) ${warning.message}`);
-    };
-
-    // Disable tree-shaking of test code.  In rollup-plugin-node-resolve@5.0.0, rollup started respecting
-    // the "sideEffects" field in package.json.  Since our package.json sets "sideEffects=false", this also
-    // applies to test code, which causes all tests to be removed by tree-shaking.
-    baseConfig.treeshake = false;
+export function nodeTestConfig(testMode) {
+  if (!testModes.includes(testMode)) {
+    throw new Error(`Unknown test mode ${testMode}. Supported modes ${testModes.join(",")}`);
   }
+
+  const baseConfig = nodeConfig();
+
+  const input =
+    testMode === "unit"
+      ? [
+          // common tests
+          "dist-esm/test/unit/*.spec.js",
+          // node specific tests
+          "dist-esm/test/unit/node/*.spec.js"
+        ]
+      : [
+          // common tests
+          "dist-esm/test/integration/*.spec.js",
+          // node specific tests
+          "dist-esm/test/integration/node/*.spec.js"
+        ];
+
+  // Entry points - test files under the `test` folder(common for both browser and node), node specific test files
+  baseConfig.input = input;
+  baseConfig.plugins.unshift(multiEntry({ exports: false }));
+
+  // different output file
+  baseConfig.output.file = `dist-test/${testMode}.index.node.js`;
+
+  // mark devdeps as external
+  baseConfig.external.push(...devDepNames);
+
+  // Disable tree-shaking of test code.  In rollup-plugin-node-resolve@5.0.0, rollup started respecting
+  // the "sideEffects" field in package.json.  Since our package.json sets "sideEffects=false", this also
+  // applies to test code, which causes all tests to be removed by tree-shaking.
+  baseConfig.treeshake = false;
+
+  return baseConfig;
+}
+
+export function browserTestConfig(testMode) {
+  if (!testModes.includes(testMode)) {
+    throw new Error(`Unknown test mode ${testMode}. Supported modes ${testModes.join(",")}`);
+  }
+
+  const baseConfig = browserConfig();
+
+  const input =
+    testMode === "unit"
+      ? [
+          // common tests
+          "dist-esm/test/unit/*.spec.js",
+          // browser specific tests
+          "dist-esm/test/unit/browser/*.spec.js"
+        ]
+      : [
+          // common tests
+          "dist-esm/test/integration/*.spec.js",
+          // browser specific tests
+          "dist-esm/test/integration/browser/*.spec.js"
+        ];
+
+  // Entry points - test files under the `test` folder(common for both browser and node), browser specific test files
+  baseConfig.input = input;
+  baseConfig.plugins.unshift(multiEntry({ exports: false }));
+  baseConfig.output.file = `dist-test/${testMode}.index.browser.js`;
+
+  baseConfig.onwarn = (warning) => {
+    if (
+      warning.code === "CIRCULAR_DEPENDENCY" &&
+      warning.importer.indexOf(path.normalize("node_modules/chai/lib") === 0)
+    ) {
+      // Chai contains circular references, but they are not fatal and can be ignored.
+      return;
+    }
+
+    console.error(`(!) ${warning.message}`);
+  };
+
+  // Disable tree-shaking of test code.  In rollup-plugin-node-resolve@5.0.0, rollup started respecting
+  // the "sideEffects" field in package.json.  Since our package.json sets "sideEffects=false", this also
+  // applies to test code, which causes all tests to be removed by tree-shaking.
+  baseConfig.treeshake = false;
 
   return baseConfig;
 }

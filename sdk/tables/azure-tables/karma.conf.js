@@ -1,7 +1,16 @@
 // https://github.com/karma-runner/karma-chrome-launcher
 process.env.CHROME_BIN = require("puppeteer").executablePath();
+const testModes = ["unit", "integration"];
 
 module.exports = function(config) {
+  const testMode = config["testMode"];
+
+  if (!testModes.includes(testMode)) {
+    throw new Error(
+      "Unsuported test mode, make sure to pass the test mode to karma --testMode=[unit|integration]"
+    );
+  }
+
   config.set({
     // base path that will be used to resolve all patterns (eg. files, exclude)
     basePath: "./",
@@ -28,8 +37,13 @@ module.exports = function(config) {
       // Uncomment the cdn link below for the polyfill service to support IE11 missing features
       // Promise,String.prototype.startsWith,String.prototype.endsWith,String.prototype.repeat,String.prototype.includes,Array.prototype.includes,Object.keys
       // "https://cdn.polyfill.io/v2/polyfill.js?features=Symbol,Promise,String.prototype.startsWith,String.prototype.endsWith,String.prototype.repeat,String.prototype.includes,Array.prototype.includes,Object.keys|always",
-      "dist-test/index.browser.js",
-      { pattern: "dist-test/index.browser.js.map", type: "html", included: false, served: true }
+     `dist-test/${testMode}.index.browser.js`,
+      {
+        pattern: `dist-test/${testMode}.index.browser.js.map`,
+        type: "html",
+        included: false,
+        served: true
+      }
     ],
 
     // list of files / patterns to exclude
@@ -115,7 +129,8 @@ module.exports = function(config) {
         // change Karma's debug.html to the mocha web reporter
         reporter: "html",
         timeout: "600000"
-      }
+      },
+      args: config.testMode ? ["--testMode"] : []
     }
   });
 };
