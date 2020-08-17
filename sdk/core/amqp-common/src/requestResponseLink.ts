@@ -136,8 +136,6 @@ export class RequestResponseLink implements ReqResLink {
         };
 
         const messageCallback = (context: EventContext) => {
-          // remove the event listener as this will be registered next time when someone makes a request.
-          this.receiver.removeListener(ReceiverEvents.message, messageCallback);
           const info = getCodeDescriptionAndError(
             context.message!.application_properties
           );
@@ -162,11 +160,13 @@ export class RequestResponseLink implements ReqResLink {
                 request.message_id,
                 responseCorrelationId
               );
+
+              this.receiver.removeListener(ReceiverEvents.message, messageCallback);
               return resolve(context.message);
             } else {
               log.error(
                 "[%s] request-messageId | '%s' != '%s' | response-correlationId. " +
-                  "Hence dropping this response and waiting for the next one.",
+                "Hence dropping this response and waiting for the next one.",
                 this.connection.id,
                 request.message_id,
                 responseCorrelationId
@@ -183,6 +183,7 @@ export class RequestResponseLink implements ReqResLink {
             };
             const error = translate(e);
             log.error(error);
+            this.receiver.removeListener(ReceiverEvents.message, messageCallback);
             return reject(error);
           }
         };
