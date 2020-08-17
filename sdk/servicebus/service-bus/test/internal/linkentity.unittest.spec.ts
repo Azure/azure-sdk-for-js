@@ -213,6 +213,16 @@ describe("LinkEntity unit tests", () => {
     assertLinkEntityClosedPermanently();
   });
 
+  it("initLink - multiple closes don't cause errors", async () => {
+    // TODO: there is a possibility of a race condition here. We can address this
+    // when we properly lock around init operations that are in progress.
+    await linkEntity["closeLink"]("linkonly");
+    await linkEntity["closeLink"]("linkonly");
+
+    await linkEntity["closeLink"]("permanently");
+    await linkEntity["closeLink"]("permanently");
+  });
+
   it("initLink - get logger", async () => {
     assert.strictEqual(LinkEntity["getLogger"]("br"), log.batching);
     assert.strictEqual(LinkEntity["getLogger"]("sr"), log.streaming);
