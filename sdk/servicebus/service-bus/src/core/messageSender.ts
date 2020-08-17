@@ -423,14 +423,13 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
    */
   async onDetached(senderError?: AmqpError | Error): Promise<void> {
     try {
-      const wasCloseInitiated = this.link && this.link.isItselfClosed();
       // Clears the token renewal timer. Closes the link and its session if they are open.
       // Removes the link and its session if they are present in rhea's cache.
       await this.closeLink("linkonly");
 
       // We should attempt to reopen only when the sender(sdk) did not initiate the close
       let shouldReopen = false;
-      if (senderError && !wasCloseInitiated) {
+      if (senderError && !this.wasClosedPermanently) {
         const translatedError = translate(senderError) as MessagingError;
         if (translatedError.retryable) {
           shouldReopen = true;
@@ -452,7 +451,7 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
             this.address
           );
         }
-      } else if (!wasCloseInitiated) {
+      } else if (!this.wasClosedPermanently) {
         shouldReopen = true;
         log.error(
           "[%s] close() method of Sender '%s' with address '%s' was not called. There " +
@@ -464,7 +463,7 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
         );
       } else {
         const state: any = {
-          wasCloseInitiated: wasCloseInitiated,
+          wasClosedPermanently: this.wasClosedPermanently,
           senderError: senderError,
           _sender: this.link
         };

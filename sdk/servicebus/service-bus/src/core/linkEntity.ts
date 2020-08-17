@@ -346,7 +346,7 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
     return result;
   }
 
-  protected get wasClosed(): boolean {
+  protected get wasClosedPermanently(): boolean {
     return this._wasClosedPermanently;
   }
 
