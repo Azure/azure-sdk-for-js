@@ -298,11 +298,11 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
 
     if (this._link) {
       try {
-        // This should take care of closing the link and it's underlying session. This should also
-        // remove them from the internal map.
         const link = this._link;
         this._link = undefined;
 
+        // This should take care of closing the link and it's underlying session. This should also
+        // remove them from the internal map.
         await link.close();
 
         this._logger(`${this._logPrefix} closed: ${mode}.`);
