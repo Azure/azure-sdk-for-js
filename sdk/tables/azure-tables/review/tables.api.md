@@ -106,7 +106,7 @@ export interface GeoReplication {
 }
 
 // @public
-export type GeoReplicationStatusType = "live" | "bootstrap" | "unavailable";
+export type GeoReplicationStatusType = "live" | "bootstrap" | "unavailable" | string;
 
 // @public
 export interface GetAccessPolicyOptions extends coreHttp.OperationOptions {
@@ -242,10 +242,10 @@ export interface Metrics {
 export function odata(strings: TemplateStringsArray, ...values: unknown[]): string;
 
 // @public
-export type OdataMetadataFormat = "application/json;odata=nometadata" | "application/json;odata=minimalmetadata" | "application/json;odata=fullmetadata";
+export type OdataMetadataFormat = "application/json;odata=nometadata" | "application/json;odata=minimalmetadata" | "application/json;odata=fullmetadata" | string;
 
 // @public
-export type ResponseFormat = "return-no-content" | "return-content";
+export type ResponseFormat = "return-no-content" | "return-content" | string;
 
 // @public
 export interface RetentionPolicy {
