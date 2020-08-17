@@ -511,15 +511,13 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
    * @return {Promise<void>} Promise<void>
    */
   async close(): Promise<void> {
-    if (this.link) {
-      log.sender(
-        "[%s] Closing the Sender for the entity '%s'.",
-        this._context.connectionId,
-        this._entityPath
-      );
-      this._deleteFromCache();
-      await this.closeLink("permanently");
-    }
+    log.sender(
+      "[%s] Closing the Sender for the entity '%s'.",
+      this._context.connectionId,
+      this._entityPath
+    );
+    this._deleteFromCache();
+    await this.closeLink("permanently");
   }
 
   /**
