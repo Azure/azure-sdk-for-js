@@ -163,10 +163,12 @@ export class RequestResponseLink implements ReqResLink {
 
           // remove the event listeners as they will be registered next time when someone makes a request.
           this.receiver.removeListener(ReceiverEvents.message, messageCallback);
+
+          if (!timeOver) {
+            clearTimeout(waitTimer);
+          }
+
           if (info.statusCode > 199 && info.statusCode < 300) {
-            if (!timeOver) {
-              clearTimeout(waitTimer);
-            }
             log.reqres(
               "[%s] request-messageId | '%s' == '%s' | response-correlationId.",
               this.connection.id,
@@ -195,8 +197,7 @@ export class RequestResponseLink implements ReqResLink {
           this.receiver.removeListener(ReceiverEvents.message, messageCallback);
           const address = this.receiver.address || "address";
           const desc: string =
-            `The request with message_id "${
-              request.message_id
+            `The request with message_id "${request.message_id
             }" to "${address}" ` +
             `endpoint timed out. Please try again later.`;
           const e: AmqpError = {

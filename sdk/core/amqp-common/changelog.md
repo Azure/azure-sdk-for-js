@@ -2,6 +2,10 @@
 
 - Fixes [bug 10641](https://github.com/Azure/azure-sdk-for-js/issues/10641) where parallel requests
   on the management link would fail with a ServiceUnavailableError.
+- Fixes issue [9287](https://github.com/Azure/azure-sdk-for-js/issues/9287)
+  where operations that used the `RequestResponseLink` and encountered an error
+  would fail to cleanup their internal timer.
+  This caused exiting the process to be delayed until the timer reached its timeout.
 
 ### 2020-05-12 1.0.0-preview.15
 
