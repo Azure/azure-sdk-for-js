@@ -160,7 +160,7 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
    * Indicates that _closeLink("permanently") has been called on this link and
    * that it should not be allowed to reopen.
    */
-  private _wasClosed: boolean = false;
+  private _wasClosedPermanently: boolean = false;
 
   private _isConnecting: boolean = false;
 
@@ -224,7 +224,7 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
       this._logPrefix = `[${connectionId}|${this._linkType}:${this.name}|a:${this.address}]`;
     }
 
-    if (this._wasClosed) {
+    if (this._wasClosedPermanently) {
       log.error(`${this._logPrefix} Link has been closed. Not reopening.`);
       return;
     }
@@ -251,7 +251,7 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
       this._link = await this.createRheaLink(options);
       checkAborted();
 
-      if (this._wasClosed) {
+      if (this._wasClosedPermanently) {
         // the user attempted to close while we were still initializing the link. Abort
         // the current operation. This also makes it so the operation is non-retryable.
         log.error(`${this._logPrefix} Link closed while it was initializing.`);
@@ -288,7 +288,7 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
    */
   protected async closeLink(mode: "permanently" | "linkonly"): Promise<void> {
     if (mode === "permanently") {
-      this._wasClosed = true;
+      this._wasClosedPermanently = true;
     }
 
     this._logger(`${this._logPrefix} closeLink(${mode}) called`);
@@ -347,7 +347,7 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
   }
 
   protected get wasClosed(): boolean {
-    return this._wasClosed;
+    return this._wasClosedPermanently;
   }
 
   protected get link(): LinkT | undefined {
