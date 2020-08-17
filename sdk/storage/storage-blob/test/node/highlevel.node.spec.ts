@@ -343,8 +343,7 @@ describe("Highlevel", () => {
     assert.deepStrictEqual(data, "");
   });
 
-  it.only(
-    "uploadStream should work when blockSize = BLOCK_BLOB_MAX_STAGE_BLOCK_BYTES",
+  it("uploadStream should work when blockSize = BLOCK_BLOB_MAX_STAGE_BLOCK_BYTES",
     async () => {
       recorder.skip("node", "Temp file - recorder doesn't support saving the file");
       const tempFile = await createRandomLocalFile(
