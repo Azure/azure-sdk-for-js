@@ -17,7 +17,7 @@ import {
   GeneratedClientSentimentResponse,
   SentenceAspect,
   AspectRelation,
-  SentenceOpinion
+  SentenceOpinion, SentenceAspectSentiment, SentenceOpinionSentiment
 } from "./generated/models";
 import { findOpinionIndex, OpinionIndex } from "./util";
 
@@ -68,7 +68,7 @@ export interface SentenceSentiment {
    * good", "service is bad". Only returned if `show_opinion_mining` is set to
    * True in the call to `analyze_sentiment`.
    */
-  minedOpinions?: MinedOpinion[];
+  minedOpinions: MinedOpinion[];
 }
 
   /**
@@ -89,7 +89,7 @@ export interface AspectSentiment {
    * The predicted Sentiment for the aspect. Possible values include 'positive',
    * 'mixed', and 'negative'.
    */
-  sentiment: DocumentSentimentLabel;
+  sentiment: SentenceAspectSentiment;
   /**
    * The aspect text.
    */
@@ -117,7 +117,7 @@ export interface OpinionSentiment {
    * The predicted Sentiment for the opinion. Possible values include
    * 'positive', 'mixed', and 'negative'.
    */
-  sentiment: DocumentSentimentLabel;
+  sentiment: SentenceOpinionSentiment;
   /**
    * The opinion text.
    */
@@ -188,21 +188,22 @@ function convertGeneratedSentenceSentiment(
     confidenceScores: sentence.confidenceScores,
     sentiment: sentence.sentiment,
     text: sentence.text,
-    minedOpinions: sentence.aspects?.map(
-      (aspect: SentenceAspect): MinedOpinion => ({
-        aspect: {
-          confidenceScores: {
-            ...(aspect.confidenceScores as SentimentConfidenceScores),
-            neutral: 0
+    minedOpinions: sentence.aspects ?
+      sentence.aspects.map(
+        (aspect: SentenceAspect): MinedOpinion => ({
+          aspect: {
+            confidenceScores: {
+              ...(aspect.confidenceScores as SentimentConfidenceScores),
+              neutral: 0
+            },
+            sentiment: aspect.sentiment,
+            text: aspect.text
           },
-          sentiment: aspect.sentiment,
-          text: aspect.text
-        },
-        opinions: aspect.relations
-          .filter((relation) => relation.relationType === "opinion")
-          .map((relation) => convertAspectRelationToOpinionSentiment(relation, response))
-      })
-    )
+          opinions: aspect.relations
+            .filter((relation) => relation.relationType === "opinion")
+            .map((relation) => convertAspectRelationToOpinionSentiment(relation, response))
+        })
+      ) : []
   };
 }
 

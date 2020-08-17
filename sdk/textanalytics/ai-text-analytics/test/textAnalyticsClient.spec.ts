@@ -112,7 +112,7 @@ describe("[AAD] TextAnalyticsClient", function() {
       assertAllSuccess(results);
       results.map((result) =>
         (result as AnalyzeSentimentSuccessResult).sentences.map((sentence) =>
-          assert.isUndefined(sentence.minedOpinions)
+          assert.isEmpty(sentence.minedOpinions)
         )
       );
     });

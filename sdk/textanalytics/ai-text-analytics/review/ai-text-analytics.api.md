@@ -37,7 +37,7 @@ export interface AnalyzeSentimentSuccessResult extends TextAnalyticsSuccessResul
 // @public
 export interface AspectSentiment {
     confidenceScores: SentimentConfidenceScores;
-    sentiment: DocumentSentimentLabel;
+    sentiment: SentenceAspectSentiment;
     text: string;
 }
 
@@ -149,7 +149,7 @@ export interface MinedOpinion {
 export interface OpinionSentiment {
     confidenceScores: SentimentConfidenceScores;
     isNegated: boolean;
-    sentiment: DocumentSentimentLabel;
+    sentiment: SentenceOpinionSentiment;
     text: string;
 }
 
@@ -194,9 +194,15 @@ export interface RecognizeLinkedEntitiesSuccessResult extends TextAnalyticsSucce
 }
 
 // @public
+export type SentenceAspectSentiment = "positive" | "mixed" | "negative";
+
+// @public
+export type SentenceOpinionSentiment = "positive" | "mixed" | "negative";
+
+// @public
 export interface SentenceSentiment {
     confidenceScores: SentimentConfidenceScores;
-    minedOpinions?: MinedOpinion[];
+    minedOpinions: MinedOpinion[];
     sentiment: SentenceSentimentLabel;
     text: string;
 }
