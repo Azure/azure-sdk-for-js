@@ -138,7 +138,7 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
    * @property {NodeJS.Timer} _tokenRenewalTimer The token renewal timer that keeps track of when
    * the Client Entity is due for token renewal.
    */
-  protected _tokenRenewalTimer?: NodeJS.Timer;
+  private _tokenRenewalTimer?: NodeJS.Timer;
   /**
    * @property _tokenTimeout Indicates token timeout
    */

@@ -47,7 +47,7 @@ import { Typed } from "rhea-promise";
 import { max32BitNumber } from "../util/constants";
 import { Buffer } from "buffer";
 import { OperationOptionsBase } from "./../modelsToBeSharedWithEventHubs";
-import { AbortError } from "@azure/abort-controller";
+import { AbortError, AbortSignalLike } from "@azure/abort-controller";
 
 /**
  * @internal
@@ -226,40 +226,38 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
   private async _init(): Promise<void> {
     throwErrorIfConnectionClosed(this._context);
     try {
-      if (!this._isMgmtRequestResponseLinkOpen()) {
-        const rxopt: ReceiverOptions = {
-          source: { address: this.address },
-          name: this.replyTo,
-          target: { address: this.replyTo },
-          onSessionError: (context: EventContext) => {
-            const id = context.connection.options.id;
-            const ehError = translate(context.session!.error!);
-            log.error(
-              "[%s] An error occurred on the session for request/response links for " +
-                "$management: %O",
-              id,
-              ehError
-            );
-          }
-        };
-        const sropt: SenderOptions = { target: { address: this.address } };
-
-        await this.initLink({
-          senderOptions: sropt,
-          receiverOptions: rxopt
-        });
-
-        this.link!.sender.on(SenderEvents.senderError, (context: EventContext) => {
+      const rxopt: ReceiverOptions = {
+        source: { address: this.address },
+        name: this.replyTo,
+        target: { address: this.replyTo },
+        onSessionError: (context: EventContext) => {
           const id = context.connection.options.id;
-          const ehError = translate(context.sender!.error!);
-          log.error("[%s] An error occurred on the $management sender link.. %O", id, ehError);
-        });
-        this.link!.receiver.on(ReceiverEvents.receiverError, (context: EventContext) => {
-          const id = context.connection.options.id;
-          const ehError = translate(context.receiver!.error!);
-          log.error("[%s] An error occurred on the $management receiver link.. %O", id, ehError);
-        });
-      }
+          const ehError = translate(context.session!.error!);
+          log.error(
+            "[%s] An error occurred on the session for request/response links for " +
+              "$management: %O",
+            id,
+            ehError
+          );
+        }
+      };
+      const sropt: SenderOptions = { target: { address: this.address } };
+
+      await this.initLink({
+        senderOptions: sropt,
+        receiverOptions: rxopt
+      });
+
+      this.link!.sender.on(SenderEvents.senderError, (context: EventContext) => {
+        const id = context.connection.options.id;
+        const ehError = translate(context.sender!.error!);
+        log.error("[%s] An error occurred on the $management sender link.. %O", id, ehError);
+      });
+      this.link!.receiver.on(ReceiverEvents.receiverError, (context: EventContext) => {
+        const id = context.connection.options.id;
+        const ehError = translate(context.receiver!.error!);
+        log.error("[%s] An error occurred on the $management receiver link.. %O", id, ehError);
+      });
     } catch (err) {
       err = translate(err);
       log.error(
@@ -279,10 +277,6 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
     );
   }
 
-  private _isMgmtRequestResponseLinkOpen(): boolean {
-    return this.link! && this.link!.isOpen();
-  }
-
   /**
    * Given array of typed values, returns the element in given index
    */
@@ -299,7 +293,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
     const retryTimeoutInMs =
       sendRequestOptions.timeoutInMs ?? Constants.defaultOperationTimeoutInMs;
     const initOperationStartTime = Date.now();
-    if (!this._isMgmtRequestResponseLinkOpen()) {
+    if (!this.isOpen()) {
       const rejectOnAbort = () => {
         const requestName = sendRequestOptions.requestName;
         const desc: string =
@@ -378,11 +372,8 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
     try {
       // Always clear the timeout, as the isOpen check may report
       // false without ever having cleared the timeout otherwise.
-      clearTimeout(this._tokenRenewalTimer as NodeJS.Timer);
-      if (this._isMgmtRequestResponseLinkOpen()) {
-        await this.closeLink("permanently");
-        log.mgmt("Successfully closed the management session.");
-      }
+      await this.closeLink("permanently");
+      log.mgmt("Successfully closed the management session.");
     } catch (err) {
       log.error(
         "[%s] An error occurred while closing the management session: %O.",
