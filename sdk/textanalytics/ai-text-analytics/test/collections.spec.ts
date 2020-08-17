@@ -9,7 +9,7 @@ import { makeExtractKeyPhrasesResultArray } from "../src/extractKeyPhrasesResult
 import { makeRecognizeLinkedEntitiesResultArray } from "../src/recognizeLinkedEntitiesResultArray";
 import { makeRecognizeCategorizedEntitiesResultArray } from "../src/recognizeCategorizedEntitiesResultArray";
 import { DetectLanguageInput, TextDocumentInput } from "../src/generated/models";
-import { makeRecognizePiiEntitiesResultCollection } from "../src/recognizePiiEntitiesResultCollection";
+import { makeRecognizePiiEntitiesResultArray } from "../src/recognizePiiEntitiesResultArray";
 
 describe("SentimentResultArray", () => {
   it("merges items in order", () => {
@@ -310,7 +310,7 @@ describe("RecognizeLinkedEntitiesResultArray", () => {
     assert.deepEqual(inputOrder, outputOrder);
   });
 
-  describe("RecognizePiiEntitiesResultCollection", () => {
+  describe("RecognizePiiEntitiesResultArray", () => {
     it("merges items in order", () => {
       const input: TextDocumentInput[] = [
         {
@@ -326,7 +326,7 @@ describe("RecognizeLinkedEntitiesResultArray", () => {
           text: "test3"
         }
       ];
-      const result = makeRecognizePiiEntitiesResultCollection(input, {
+      const result = makeRecognizePiiEntitiesResultArray(input, {
         documents: [
           {
             id: "A",

@@ -32,7 +32,7 @@ export {
   RecognizePiiEntitiesErrorResult,
   RecognizePiiEntitiesSuccessResult
 } from "./recognizePiiEntitiesResult";
-export { RecognizePiiEntitiesResultCollection } from "./recognizePiiEntitiesResultCollection";
+export { RecognizePiiEntitiesResultArray } from "./recognizePiiEntitiesResultArray";
 export { RecognizeCategorizedEntitiesResultArray } from "./recognizeCategorizedEntitiesResultArray";
 export {
   AnalyzeSentimentResult,

@@ -37,9 +37,9 @@ import {
   ExtractKeyPhrasesResultArray
 } from "./extractKeyPhrasesResultArray";
 import {
-  RecognizePiiEntitiesResultCollection,
-  makeRecognizePiiEntitiesResultCollection
-} from "./recognizePiiEntitiesResultCollection";
+  RecognizePiiEntitiesResultArray,
+  makeRecognizePiiEntitiesResultArray
+} from "./recognizePiiEntitiesResultArray";
 import {
   RecognizeLinkedEntitiesResultArray,
   makeRecognizeLinkedEntitiesResultArray
@@ -587,7 +587,7 @@ export class TextAnalyticsClient {
     inputs: string[],
     language?: string,
     options?: RecognizePiiEntitiesOptions
-  ): Promise<RecognizePiiEntitiesResultCollection>;
+  ): Promise<RecognizePiiEntitiesResultArray>;
   /**
    * Runs a predictive model to identify a collection of entities containing
    * personally identifiable information found in the passed-in input documents,
@@ -601,12 +601,12 @@ export class TextAnalyticsClient {
   public async recognizePiiEntities(
     inputs: TextDocumentInput[],
     options?: RecognizePiiEntitiesOptions
-  ): Promise<RecognizePiiEntitiesResultCollection>;
+  ): Promise<RecognizePiiEntitiesResultArray>;
   public async recognizePiiEntities(
     inputs: string[] | TextDocumentInput[],
     languageOrOptions?: string | RecognizePiiEntitiesOptions,
     options?: RecognizePiiEntitiesOptions
-  ): Promise<RecognizePiiEntitiesResultCollection> {
+  ): Promise<RecognizePiiEntitiesResultArray> {
     let realOptions: RecognizePiiEntitiesOptions;
     let realInputs: TextDocumentInput[];
 
@@ -632,7 +632,7 @@ export class TextAnalyticsClient {
         operationOptionsToRequestOptionsBase(finalOptions)
       );
 
-      return makeRecognizePiiEntitiesResultCollection(
+      return makeRecognizePiiEntitiesResultArray(
         realInputs,
         result
       );

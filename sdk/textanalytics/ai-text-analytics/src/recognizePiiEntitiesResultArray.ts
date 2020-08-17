@@ -16,7 +16,7 @@ import { sortResponseIdObjects } from "./util";
  * Collection of `RecognizePiiEntitiesResult` objects corresponding to a batch of input documents, and
  * annotated with information about the batch operation.
  */
-export interface RecognizePiiEntitiesResultCollection extends Array<RecognizePiiEntitiesResult> {
+export interface RecognizePiiEntitiesResultArray extends Array<RecognizePiiEntitiesResult> {
   /**
    * Statistics about the input document batch and how it was processed
    * by the service. This property will have a value when includeStatistics is set to true
@@ -30,10 +30,10 @@ export interface RecognizePiiEntitiesResultCollection extends Array<RecognizePii
   modelVersion: string;
 }
 
-export function makeRecognizePiiEntitiesResultCollection(
+export function makeRecognizePiiEntitiesResultArray(
   input: TextDocumentInput[],
   response: GeneratedClientEntitiesRecognitionPiiResponse
-): RecognizePiiEntitiesResultCollection {
+): RecognizePiiEntitiesResultArray {
   const { documents, errors, statistics, modelVersion} = response;
   const unsortedResult = documents
     .map(
