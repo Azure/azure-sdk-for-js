@@ -25,6 +25,14 @@ export const ImdsApiVersion = "2018-02-01";
 export const AppServiceMsiApiVersion = "2017-09-01";
 const logger = credentialLogger("ManagedIdentityCredential");
 
+function getEnvMSIEndpoint(): string | undefined {
+  return process.env.IDENTITY_ENDPOINT || process.env.MSI_ENDPOINT;
+}
+
+function getEnvMSISecret(): string | undefined {
+  return process.env.IDENTITY_HEADER || process.env.MSI_SECRET;
+}
+
 /**
  * Attempts authentication using a managed identity that has been assigned
  * to the deployment environment.  This authentication type works in Azure VMs,
@@ -37,6 +45,8 @@ const logger = credentialLogger("ManagedIdentityCredential");
 export class ManagedIdentityCredential implements TokenCredential {
   private identityClient: IdentityClient;
   private clientId: string | undefined;
+  private principalId: string | undefined;
+  private resourceId: string | undefined;
   private isEndpointUnavailable: boolean | null = null;
 
   /**
@@ -47,6 +57,25 @@ export class ManagedIdentityCredential implements TokenCredential {
    * @param options Options for configuring the client which makes the access token request.
    */
   constructor(clientId: string, options?: TokenCredentialOptions);
+  /**
+   * Creates an instance of ManagedIdentityCredential with the client ID, and principal ID of a
+   * user-assigned identity.
+   *
+   * @param clientId The client ID of the user-assigned identity.
+   * @param principalId The principal ID of the user-assigned identity.
+   * @param options Options for configuring the client which makes the access token request.
+   */
+  constructor(clientId: string, principalId: string, options?: TokenCredentialOptions);
+  /**
+   * Creates an instance of ManagedIdentityCredential with the client ID, principal ID and resource ID of a
+   * user-assigned identity.
+   *
+   * @param clientId The client ID of the user-assigned identity.
+   * @param principalId The principal ID of the user-assigned identity.
+   * @param resourceId The resource ID of the user-assigned identity.
+   * @param options Options for configuring the client which makes the access token request.
+   */
+  constructor(clientId: string, principalId: string, resourceId: string, options?: TokenCredentialOptions);
   /**
    * Creates an instance of ManagedIdentityCredential
    *
@@ -59,16 +88,24 @@ export class ManagedIdentityCredential implements TokenCredential {
    */
   constructor(
     clientIdOrOptions: string | TokenCredentialOptions | undefined,
+    principalIdOrOptions?: string | TokenCredentialOptions,
+    resourceIdOrOptions?: string | TokenCredentialOptions,
     options?: TokenCredentialOptions
   ) {
+    const maybeOptions = options || resourceIdOrOptions || principalIdOrOptions;
+    const realOptions = typeof maybeOptions === "string" ? undefined : maybeOptions;
+
     if (typeof clientIdOrOptions === "string") {
-      // clientId, options constructor
       this.clientId = clientIdOrOptions;
-      this.identityClient = new IdentityClient(options);
-    } else {
-      // options only constructor
-      this.identityClient = new IdentityClient(clientIdOrOptions);
     }
+    if (typeof principalIdOrOptions === "string") {
+      this.principalId = principalIdOrOptions;
+    }
+    if (typeof resourceIdOrOptions === "string") {
+      this.resourceId = resourceIdOrOptions;
+    }
+
+    this.identityClient = new IdentityClient(options);
   }
 
   private mapScopesToResource(scopes: string | string[]): string {
@@ -92,7 +129,7 @@ export class ManagedIdentityCredential implements TokenCredential {
     return scope.substr(0, scope.lastIndexOf(DefaultScopeSuffix));
   }
 
-  private createImdsAuthRequest(resource: string, clientId?: string): RequestPrepareOptions {
+  private createImdsAuthRequest(resource: string, clientId?: string, principalId?: string, resourceId?: string): RequestPrepareOptions {
     const queryParameters: any = {
       resource,
       "api-version": ImdsApiVersion
@@ -100,6 +137,12 @@ export class ManagedIdentityCredential implements TokenCredential {
 
     if (clientId) {
       queryParameters.client_id = clientId;
+    }
+    if (principalId) {
+      queryParameters.principal_id = principalId;
+    }
+    if (resourceId) {
+      queryParameters.mi_res_id = resourceId;
     }
 
     return {
@@ -123,16 +166,16 @@ export class ManagedIdentityCredential implements TokenCredential {
     };
 
     if (clientId) {
-      queryParameters.clientid = clientId;
+      queryParameters.client_id = clientId;
     }
 
     return {
-      url: process.env.MSI_ENDPOINT,
+      url: getEnvMSIEndpoint(),
       method: "GET",
       queryParameters,
       headers: {
         Accept: "application/json",
-        secret: process.env.MSI_SECRET
+        "X-IDENTITY-HEADER": getEnvMSISecret()
       }
     };
   }
@@ -150,7 +193,7 @@ export class ManagedIdentityCredential implements TokenCredential {
     }
 
     return {
-      url: process.env.MSI_ENDPOINT,
+      url: getEnvMSIEndpoint(),
       method: "POST",
       body: qs.stringify(body),
       headers: {
@@ -225,6 +268,8 @@ export class ManagedIdentityCredential implements TokenCredential {
     scopes: string | string[],
     checkIfImdsEndpointAvailable: boolean,
     clientId?: string,
+    principalId?: string,
+    resourceId?: string,
     getTokenOptions?: GetTokenOptions
   ): Promise<AccessToken | null> {
     let authRequestOptions: RequestPrepareOptions;
@@ -236,10 +281,15 @@ export class ManagedIdentityCredential implements TokenCredential {
       getTokenOptions
     );
 
+    const msiEndpoint = getEnvMSIEndpoint();
+    const envEndpointName = msiEndpoint && (process.env.IDENTITY_ENDPOINT ? "IDENTITY_ENDPOINT" : "MSI_ENDPOINT");
+    const msiSecret = getEnvMSISecret();
+    const envSecretName = msiSecret && (process.env.IDENTITY_HEADER ? "IDENTITY_HEADER" : "MSI_HEADER");
+
     try {
       // Detect which type of environment we are running in
-      if (process.env.MSI_ENDPOINT) {
-        if (process.env.MSI_SECRET) {
+      if (msiEndpoint) {
+        if (msiSecret) {
           // Running in App Service
           authRequestOptions = this.createAppServiceMsiAuthRequest(resource, clientId);
           expiresInParser = (requestBody: any) => {
@@ -248,11 +298,11 @@ export class ManagedIdentityCredential implements TokenCredential {
             return Date.parse(requestBody.expires_on);
           };
           logger.info(
-            `Using the endpoint and the secret coming form the environment variables: MSI_ENDPOINT=${process.env.MSI_ENDPOINT} and MSI_SECRET=[REDACTED].`
+            `Using the endpoint and the secret coming form the environment variables: ${envEndpointName}=${msiEndpoint} and ${envSecretName}=[REDACTED].`
           );
         } else {
           logger.info(
-            `Using the endpoint coming form the environment variable MSI_ENDPOINT=${process.env.MSI_ENDPOINT}, and using the cloud shell to proceed with the authentication.`
+            `Using the endpoint coming form the environment variable ${envEndpointName}=${msiEndpoint}, and using the cloud shell to proceed with the authentication.`
           );
           // Running in Cloud Shell
           authRequestOptions = this.createCloudShellMsiAuthRequest(resource, clientId);
@@ -276,7 +326,7 @@ export class ManagedIdentityCredential implements TokenCredential {
           }
         };
         logger.info(
-          `Using the IMDS endpoint coming form the environment variable MSI_ENDPOINT=${process.env.MSI_ENDPOINT}, and using the cloud shell to proceed with the authentication.`
+          `Using the IMDS endpoint coming form the environment variable ${envEndpointName}=${msiEndpoint}, and using the cloud shell to proceed with the authentication.`
         );
         // Ping the IMDS endpoint to see if it's available
         if (
@@ -284,7 +334,7 @@ export class ManagedIdentityCredential implements TokenCredential {
           (await this.pingImdsEndpoint(resource, clientId, options))
         ) {
           // Running in an Azure VM
-          authRequestOptions = this.createImdsAuthRequest(resource, clientId);
+          authRequestOptions = this.createImdsAuthRequest(resource, clientId, principalId, resourceId);
         } else {
           // Returning null tells the ManagedIdentityCredential that
           // no MSI authentication endpoints are available
@@ -347,6 +397,8 @@ export class ManagedIdentityCredential implements TokenCredential {
           scopes,
           this.isEndpointUnavailable === null,
           this.clientId,
+          this.principalId,
+          this.resourceId,
           newOptions
         );
 
