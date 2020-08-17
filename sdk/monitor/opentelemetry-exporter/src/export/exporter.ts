@@ -30,7 +30,7 @@ export abstract class AzureMonitorBaseExporter implements BaseExporter {
     this._options = {
       ...DEFAULT_EXPORTER_CONFIG,
       ..._options,
-      instrumentationKey,
+      instrumentationKey
     };
 
     if (connectionString) {
@@ -39,7 +39,7 @@ export abstract class AzureMonitorBaseExporter implements BaseExporter {
         ...DEFAULT_EXPORTER_CONFIG,
         // Overwrite options with connection string results, if any
         instrumentationKey: parsedConnectionString.instrumentationkey || instrumentationKey,
-        endpointUrl: parsedConnectionString.ingestionendpoint || _options.endpointUrl!,
+        endpointUrl: parsedConnectionString.ingestionendpoint || _options.endpointUrl!
       };
     }
 
@@ -58,22 +58,22 @@ export abstract class AzureMonitorBaseExporter implements BaseExporter {
     this._logger.debug("AzureMonitorTraceExporter was successfully setup");
   }
 
-  exportEnvelopes(payload: Envelope[], resultCallback: (result: ExportResult) => void): void {
+  async exportEnvelopes(
+    payload: Envelope[],
+    resultCallback: (result: ExportResult) => void
+  ): Promise<void> {
     const envelopes = this._applyTelemetryProcessors(payload);
     this._logger.info(`Exporting ${envelopes.length} envelope(s)`);
-    this._sender.send(envelopes, (err, statusCode, resultString) => {
-      const persistCb = (persistErr: Error | null, persistSuccess?: boolean) => {
-        if (persistErr || !persistSuccess) {
-          return resultCallback(ExportResult.FAILED_NOT_RETRYABLE);
-        }
-        return resultCallback(ExportResult.FAILED_RETRYABLE);
-      };
+    const persistCb = (persistErr: Error | null, persistSuccess?: boolean) => {
+      if (persistErr || !persistSuccess) {
+        return resultCallback(ExportResult.FAILED_NOT_RETRYABLE);
+      }
+      return resultCallback(ExportResult.FAILED_RETRYABLE);
+    };
 
-      if (err) {
-        // Request failed -- always retry
-        this._logger.error(err.message);
-        this._persister.push(envelopes, persistCb);
-      } else if (statusCode === 200) {
+    try {
+      const { result, statusCode } = await this._sender.send(envelopes);
+      if (statusCode === 200) {
         // Success -- @todo: start retry timer
         if (!this._retryTimer) {
           this._retryTimer = setTimeout(() => {
@@ -85,9 +85,9 @@ export abstract class AzureMonitorBaseExporter implements BaseExporter {
         resultCallback(ExportResult.SUCCESS);
       } else if (statusCode && isRetriable(statusCode)) {
         // Failed -- persist failed data
-        if (resultString) {
-          this._logger.info(resultString);
-          const breezeResponse = JSON.parse(resultString) as BreezeResponse;
+        if (result) {
+          this._logger.info(result);
+          const breezeResponse = JSON.parse(result) as BreezeResponse;
           const filteredEnvelopes = breezeResponse.errors.reduce(
             (acc, v) => [...acc, envelopes[v.index]],
             [] as Envelope[]
@@ -102,7 +102,11 @@ export abstract class AzureMonitorBaseExporter implements BaseExporter {
         // Failed -- not retriable
         resultCallback(ExportResult.FAILED_NOT_RETRYABLE);
       }
-    });
+    } catch (senderErr) {
+      // Request failed -- always retry
+      this._logger.error(senderErr.message);
+      this._persister.push(envelopes, persistCb);
+    }
   }
 
   addTelemetryProcessor(processor: TelemetryProcessor): void {
