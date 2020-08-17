@@ -264,7 +264,7 @@ describe("[AAD] TextAnalyticsClient", function() {
       }
     });
 
-    it.only("client throws exception for too big of an input", async () => {
+    it("client throws exception for too big of an input", async () => {
       const constitution = 
       `Article I
       Section 1: Congress
