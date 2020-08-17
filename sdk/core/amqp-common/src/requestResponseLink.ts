@@ -146,32 +146,35 @@ export class RequestResponseLink implements ReqResLink {
             request.to || "$management",
             context.message
           );
-          if (info.statusCode > 199 && info.statusCode < 300) {
-            if (
-              request.message_id === responseCorrelationId ||
-              request.correlation_id === responseCorrelationId
-            ) {
-              if (!timeOver) {
-                clearTimeout(waitTimer);
-              }
-              log.reqres(
-                "[%s] request-messageId | '%s' == '%s' | response-correlationId.",
-                this.connection.id,
-                request.message_id,
-                responseCorrelationId
-              );
 
-              this.receiver.removeListener(ReceiverEvents.message, messageCallback);
-              return resolve(context.message);
-            } else {
-              log.error(
-                "[%s] request-messageId | '%s' != '%s' | response-correlationId. " +
-                "Hence dropping this response and waiting for the next one.",
-                this.connection.id,
-                request.message_id,
-                responseCorrelationId
-              );
+          if (request.message_id !== responseCorrelationId && request.correlation_id !== responseCorrelationId) {
+            // do not remove message listener.
+            // parallel requests listen on the same receiver, so continue waiting until respose that matches
+            // request via correlationId is found.
+            log.error(
+              "[%s] request-messageId | '%s' != '%s' | response-correlationId. " +
+              "Hence dropping this response and waiting for the next one.",
+              this.connection.id,
+              request.message_id,
+              responseCorrelationId
+            );
+            return;
+          }
+
+          // remove the event listeners as they will be registered next time when someone makes a request.
+          this.receiver.removeListener(ReceiverEvents.message, messageCallback);
+          if (info.statusCode > 199 && info.statusCode < 300) {
+            if (!timeOver) {
+              clearTimeout(waitTimer);
             }
+            log.reqres(
+              "[%s] request-messageId | '%s' == '%s' | response-correlationId.",
+              this.connection.id,
+              request.message_id,
+              responseCorrelationId
+            );
+
+            return resolve(context.message);
           } else {
             const condition =
               info.errorCondition ||
@@ -183,7 +186,6 @@ export class RequestResponseLink implements ReqResLink {
             };
             const error = translate(e);
             log.error(error);
-            this.receiver.removeListener(ReceiverEvents.message, messageCallback);
             return reject(error);
           }
         };
