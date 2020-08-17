@@ -9,17 +9,17 @@
    "response": "{\"token_type\":\"Bearer\",\"expires_in\":3599,\"ext_expires_in\":3599,\"access_token\":\"access_token\"}",
    "responseHeaders": {
     "cache-control": "no-cache, no-store",
-    "content-length": "1417",
+    "content-length": "1500",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 11 Aug 2020 14:18:58 GMT",
+    "date": "Fri, 14 Aug 2020 17:49:49 GMT",
     "expires": "-1",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
     "referrer-policy": "strict-origin-when-cross-origin",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.10922.14 - CHI ProdSlices",
-    "x-ms-request-id": "0704321a-b330-4278-89f3-2ddbf545e900"
+    "x-ms-ests-server": "2.1.10946.15 - NCUS ProdSlices",
+    "x-ms-request-id": "1acd1136-7407-482e-9cf0-518937ae2900"
    }
   },
   {
@@ -30,13 +30,13 @@
    "status": 200,
    "response": "{\"documents\":[],\"errors\":[{\"id\":\"0\",\"error\":{\"code\":\"InvalidArgument\",\"message\":\"Invalid Country Hint.\",\"innererror\":{\"code\":\"InvalidCountryHint\",\"message\":\"Country hint is not valid. Please specify an ISO 3166-1 alpha-2 two letter country code.\"}}}],\"modelVersion\":\"2020-07-01\"}",
    "responseHeaders": {
-    "apim-request-id": "b8a92f17-9e0b-45d8-92db-5adef39a13cf",
+    "apim-request-id": "127b0f7b-6327-4f17-bffc-8a4d6deee90f",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 11 Aug 2020 14:18:58 GMT",
+    "date": "Fri, 14 Aug 2020 17:49:51 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "2"
+    "x-envoy-upstream-service-time": "800"
    }
   }
  ],
