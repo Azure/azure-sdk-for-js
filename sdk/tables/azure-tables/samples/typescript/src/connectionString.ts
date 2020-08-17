@@ -14,7 +14,9 @@ async function listTables() {
 
   const tables = await client.listTables();
 
-  console.log(tables.value);
+  for (let table of tables) {
+    console.log(table);
+  }
 }
 
 async function listEntities() {
@@ -22,7 +24,9 @@ async function listEntities() {
 
   const entities = await client.listEntities();
 
-  console.log(entities.value);
+  for (let entity of entities) {
+    console.log(entity);
+  }
 }
 
 async function main() {
