@@ -426,9 +426,7 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
       const wasCloseInitiated = this.link && this.link.isItselfClosed();
       // Clears the token renewal timer. Closes the link and its session if they are open.
       // Removes the link and its session if they are present in rhea's cache.
-      if (this.link) {
-        await this.closeLink("linkonly");
-      }
+      await this.closeLink("linkonly");
 
       // We should attempt to reopen only when the sender(sdk) did not initiate the close
       let shouldReopen = false;
