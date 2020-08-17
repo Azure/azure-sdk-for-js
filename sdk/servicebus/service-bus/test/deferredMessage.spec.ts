@@ -251,4 +251,33 @@ describe("Deferred Messages", () => {
     await deferredMsg.defer();
     await completeDeferredMessage(sequenceNumber, 2, testMessages);
   });
+
+  async function settleTwice(): Promise<void> {
+    const testMessages = entityNames.usesSessions
+      ? TestMessage.getSessionSample()
+      : TestMessage.getSample();
+    const deferredMsg = await deferMessage(testMessages, false);
+    const sequenceNumber = deferredMsg.sequenceNumber;
+    if (!sequenceNumber) {
+      throw "Sequence Number can not be null";
+    }
+    await deferredMsg.complete();
+    await deferredMsg.complete();
+  }
+  
+  it.only(
+    noSessionTestClientType + ": Settling a deferred message twice throws an error.",
+    async function(): Promise<void> {
+      await beforeEachTest(noSessionTestClientType);
+      await settleTwice();
+    }
+  );
+
+  it.only(
+    withSessionTestClientType + ": Settling a deferred message twice throws an error.",
+    async function(): Promise<void> {
+      await beforeEachTest(withSessionTestClientType);
+      await settleTwice();
+    }
+  );
 });
