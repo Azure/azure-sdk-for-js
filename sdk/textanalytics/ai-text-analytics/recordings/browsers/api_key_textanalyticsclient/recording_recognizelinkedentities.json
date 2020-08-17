@@ -8,14 +8,16 @@
    "status": 200,
    "response": "{\"documents\":[{\"id\":\"0\",\"entities\":[{\"name\":\"Roman mythology\",\"matches\":[{\"text\":\"Roman god\",\"offset\":4,\"length\":9,\"confidenceScore\":0.18}],\"language\":\"en\",\"id\":\"Roman mythology\",\"url\":\"https://en.wikipedia.org/wiki/Roman_mythology\",\"dataSource\":\"Wikipedia\"}],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-02-01\"}",
    "responseHeaders": {
-    "apim-request-id": "d1e6a9b4-f271-43d9-821a-83e1fe0bc9f2",
+    "access-control-allow-origin": "*",
+    "access-control-expose-headers": "Operation-Location,Location",
+    "apim-request-id": "21d44d31-3781-43d7-9a42-5fe1560f4654",
     "content-type": "application/json; charset=utf-8",
     "csp-billing-usage": "CognitiveServices.TextAnalytics.BatchScoring=1",
-    "date": "Tue, 04 Aug 2020 18:11:20 GMT",
+    "date": "Mon, 17 Aug 2020 20:21:21 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "16"
+    "x-envoy-upstream-service-time": "829"
    }
   }
  ],

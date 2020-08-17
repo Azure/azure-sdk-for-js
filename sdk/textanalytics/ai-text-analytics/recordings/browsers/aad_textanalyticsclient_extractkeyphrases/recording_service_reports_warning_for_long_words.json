@@ -9,17 +9,17 @@
    "response": "{\"token_type\":\"Bearer\",\"expires_in\":3599,\"ext_expires_in\":3599,\"access_token\":\"access_token\"}",
    "responseHeaders": {
     "cache-control": "no-cache, no-store",
-    "content-length": "1417",
+    "content-length": "1247",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 04 Aug 2020 18:11:26 GMT",
+    "date": "Mon, 17 Aug 2020 20:21:44 GMT",
     "expires": "-1",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
     "referrer-policy": "strict-origin-when-cross-origin",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.10897.16 - CHI ProdSlices",
-    "x-ms-request-id": "8d4a52fb-8fa6-4678-a998-0b14c4673700"
+    "x-ms-ests-server": "2.1.10946.16 - CHI ProdSlices",
+    "x-ms-request-id": "f84396d9-d5d6-4d33-bfc8-c6ea32270000"
    }
   },
   {
@@ -30,14 +30,16 @@
    "status": 200,
    "response": "{\"documents\":[{\"id\":\"0\",\"keyPhrases\":[\"world\",\"thisisanextremelymassivesequenceoflettersthatislongerthansixtyfo\"],\"warnings\":[{\"code\":\"LongWordsInDocument\",\"message\":\"The document contains very long words (longer than 64 characters). These words will be truncated and may result in unreliable model predictions.\"}]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}",
    "responseHeaders": {
-    "apim-request-id": "95e75461-5415-48ed-8df1-c9ab390164dd",
+    "access-control-allow-origin": "*",
+    "access-control-expose-headers": "Operation-Location",
+    "apim-request-id": "ffba302f-bb7e-40af-bda7-144b882f431c",
     "content-type": "application/json; charset=utf-8",
     "csp-billing-usage": "CognitiveServices.TextAnalytics.BatchScoring=1",
-    "date": "Tue, 04 Aug 2020 18:11:25 GMT",
+    "date": "Mon, 17 Aug 2020 20:21:45 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "6"
+    "x-envoy-upstream-service-time": "871"
    }
   }
  ],

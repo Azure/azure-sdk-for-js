@@ -20,40 +20,38 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'x-ms-request-id',
-  'e76a2158-61cf-4201-ad72-12b05de24500',
+  'ed1f159e-25eb-47f8-a330-576f9e160000',
   'x-ms-ests-server',
-  '2.1.10897.16 - CHI ProdSlices',
+  '2.1.10946.16 - CHI ProdSlices',
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'Set-Cookie',
-  'fpc=AgNmNLp17IBOrrezzhpvIaT0CyfMAQAAAL6bu9YOAAAA; expires=Thu, 03-Sep-2020 18:11:11 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AggFlD0L1WZGrJon6OAS4tjIIHRUAQAAAKzdzNYOAAAA; expires=Wed, 16-Sep-2020 20:21:00 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=prod; path=/; SameSite=None; secure; HttpOnly',
   'Set-Cookie',
   'stsservicecookie=ests; path=/; SameSite=None; secure; HttpOnly',
   'Date',
-  'Tue, 04 Aug 2020 18:11:11 GMT',
+  'Mon, 17 Aug 2020 20:20:59 GMT',
   'Content-Length',
-  '1417'
+  '1247'
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
   .post('/text/analytics/v3.0/keyPhrases', {"documents":[{"id":"0","text":"This is some text, but it doesn't matter.","language":"notalanguage"}]})
-  .reply(200, {"documents":[],"errors":[{"id":"0","error":{"code":"InvalidArgument","message":"Invalid Language Code.","innererror":{"code":"UnsupportedLanguageCode","message":"Invalid language code. Supported languages: da,de,en,es,fi,fr,it,ja,ko,nl,no,pl,pt-BR,pt-PT,ru,sv"}}}],"modelVersion":"2020-07-01"}, [
+  .reply(200, {"documents":[],"errors":[{"id":"0","error":{"code":"InvalidArgument","message":"Invalid Language Code.","innererror":{"code":"UnsupportedLanguageCode","message":"Invalid language code. Supported languages: af,bg,ca,da,de,el,en,es,et,fi,fr,hr,hu,id,it,ja,ko,lv,nl,no,pl,pt-BR,pt-PT,ro,ru,sk,sl,sv,tr"}}}],"modelVersion":"2020-07-01"}, [
   'Transfer-Encoding',
   'chunked',
   'Content-Type',
   'application/json; charset=utf-8',
-  'csp-billing-usage',
-  'CognitiveServices.TextAnalytics.BatchScoring=0',
   'x-envoy-upstream-service-time',
-  '28',
+  '980',
   'apim-request-id',
-  'a4dd71c8-8459-4be7-bcd0-0a66e9fa53aa',
+  'b18d5b72-e76f-414a-a170-9928c79d599b',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Tue, 04 Aug 2020 18:11:10 GMT'
+  'Mon, 17 Aug 2020 20:21:01 GMT'
 ]);

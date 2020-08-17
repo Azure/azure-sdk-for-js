@@ -9,17 +9,17 @@
    "response": "{\"token_type\":\"Bearer\",\"expires_in\":3599,\"ext_expires_in\":3599,\"access_token\":\"access_token\"}",
    "responseHeaders": {
     "cache-control": "no-cache, no-store",
-    "content-length": "1417",
+    "content-length": "1247",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 04 Aug 2020 18:11:27 GMT",
+    "date": "Mon, 17 Aug 2020 20:21:52 GMT",
     "expires": "-1",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
     "referrer-policy": "strict-origin-when-cross-origin",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.10897.16 - CHI ProdSlices",
-    "x-ms-request-id": "77185982-914c-4265-8639-102bda633400"
+    "x-ms-ests-server": "2.1.10946.15 - CHI ProdSlices",
+    "x-ms-request-id": "9f1990c4-2683-4a54-b6fc-3e0090e6a700"
    }
   },
   {
@@ -30,13 +30,15 @@
    "status": 400,
    "response": "{\"error\":{\"code\":\"InvalidRequest\",\"message\":\"Invalid document in request.\",\"innererror\":{\"code\":\"InvalidDocumentBatch\",\"message\":\"Batch request contains too many records. Max 5 records are permitted.\"}}}",
    "responseHeaders": {
-    "apim-request-id": "eae1f39c-4dd2-4a21-9a88-cf7b03b4ee0f",
+    "access-control-allow-origin": "*",
+    "access-control-expose-headers": "Operation-Location",
+    "apim-request-id": "2a646110-232e-483d-b196-224bba377f6a",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 04 Aug 2020 18:11:27 GMT",
+    "date": "Mon, 17 Aug 2020 20:21:52 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "5"
+    "x-envoy-upstream-service-time": "834"
    }
   }
  ],
@@ -44,5 +46,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "f93214c7ed70456e063f61fc24cb15c8"
+ "hash": "7fe349e7ec672d7cba2f16dc30ec2d59"
 }
