@@ -372,7 +372,11 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
     try {
       // Always clear the timeout, as the isOpen check may report
       // false without ever having cleared the timeout otherwise.
-      await this.closeLink("permanently");
+
+      // NOTE: management link currently doesn't have a separate concept of "detaching" like
+      // the other links do. When we add handling of this (via the onDetached call, like other links)
+      // we can change this back to closeLink("permanent").
+      await this.closeLink("linkonly");
       log.mgmt("Successfully closed the management session.");
     } catch (err) {
       log.error(
