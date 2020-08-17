@@ -343,29 +343,26 @@ describe("Highlevel", () => {
     assert.deepStrictEqual(data, "");
   });
 
-  it.only(
-    "uploadStream should work when blockSize = BLOCK_BLOB_MAX_STAGE_BLOCK_BYTES",
-    async () => {
-      recorder.skip("node", "Temp file - recorder doesn't support saving the file");
-      const tempFile = await createRandomLocalFile(
-        tempFolderPath,
-        BLOCK_BLOB_MAX_STAGE_BLOCK_BYTES / (1024 * 1024) + 1,
-        1024 * 1024
-      );
+  it("uploadStream should work when blockSize = BLOCK_BLOB_MAX_STAGE_BLOCK_BYTES", async () => {
+    recorder.skip("node", "Temp file - recorder doesn't support saving the file");
+    const tempFile = await createRandomLocalFile(
+      tempFolderPath,
+      BLOCK_BLOB_MAX_STAGE_BLOCK_BYTES / (1024 * 1024) + 1,
+      1024 * 1024
+    );
 
-      const rs = fs.createReadStream(tempFile);
-      await blockBlobClient.uploadStream(rs, BLOCK_BLOB_MAX_STAGE_BLOCK_BYTES);
+    const rs = fs.createReadStream(tempFile);
+    await blockBlobClient.uploadStream(rs, BLOCK_BLOB_MAX_STAGE_BLOCK_BYTES);
 
-      const downloadResponse = await blockBlobClient.download(0);
-      const downloadFilePath = path.join(tempFolderPath, recorder.getUniqueName("downloadFile"));
-      await readStreamToLocalFileWithLogs(downloadResponse.readableStreamBody!, downloadFilePath);
-      const downloadedData = await fs.readFileSync(downloadFilePath);
-      const uploadedData = await fs.readFileSync(tempFile);
-      assert.ok(downloadedData.equals(uploadedData));
-      fs.unlinkSync(downloadFilePath);
-      fs.unlinkSync(tempFile);
-    }
-  ).timeout(timeoutForLargeFileUploadingTest);
+    const downloadResponse = await blockBlobClient.download(0);
+    const downloadFilePath = path.join(tempFolderPath, recorder.getUniqueName("downloadFile"));
+    await readStreamToLocalFileWithLogs(downloadResponse.readableStreamBody!, downloadFilePath);
+    const downloadedData = await fs.readFileSync(downloadFilePath);
+    const uploadedData = await fs.readFileSync(tempFile);
+    assert.ok(downloadedData.equals(uploadedData));
+    fs.unlinkSync(downloadFilePath);
+    fs.unlinkSync(tempFile);
+  }).timeout(timeoutForLargeFileUploadingTest);
 
   it("downloadToBuffer should success - without passing the buffer", async () => {
     recorder.skip("node", "Temp file - recorder doesn't support saving the file");
