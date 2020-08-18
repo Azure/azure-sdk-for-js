@@ -55,7 +55,9 @@ jobs:
 
       - task: CopyFiles@2
         inputs:
-          contents: "sdk/**/**/*.tgz"
+          sourceFolder: sdk
+          contents: |
+            **/$(coalesceResultFilter)/*.tgz
           targetFolder: $(Build.ArtifactStagingDirectory)
           flattenFolders: true
         displayName: "Copy packages"
