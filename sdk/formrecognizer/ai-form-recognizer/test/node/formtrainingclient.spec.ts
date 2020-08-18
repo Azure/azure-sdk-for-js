@@ -349,57 +349,6 @@ describe("FormRecognizerClient form recognition NodeJS", () => {
     assert.ok(form.fields["CompanyName"]);
     assert.ok(form.fields["Signature"]);
   });
-
-  /*
-  // This is probably not actually safe to test. Even though we are passing in a different
-  // type of form that doesn't have the same structure of "Merchant" as the model was
-  // trained on, there is enough uncertainty in the ML algorithm that it could find something
-  // it thinks is the merchant field.
-  it("handles missing fields", async () => {
-    const filePath = path.join(ASSET_PATH, "forms", "Invoice_1.pdf");
-    const stream = fs.createReadStream(filePath);
-
-    assert.ok(labeledModelId, "Expecting valid model id from training without labels");
-    const poller = await recognizerClient.beginRecognizeCustomForms(labeledModelId!, stream);
-    const forms = await poller.pollUntilDone();
-
-    assert.ok(forms && forms.length > 0, `Expect no-empty pages but got ${forms}`);
-    const form = forms![0];
-    assert.equal(form.formType, "custom:form");
-    assert.deepStrictEqual(form.pageRange, {
-      firstPageNumber: 1,
-      lastPageNumber: 1
-    });
-    assert.ok(form.pages.length > 0, "Expecting at least one page in the first recognized form");
-    assert.ok(form.fields);
-    assert.ok(form.fields["Merchant"], "Expecting valid 'Merchant' field");
-    assert.equal(
-      form.fields["Merchant"].confidence,
-      undefined,
-      "Expecting 'Merchant' field has undefined confidence"
-    );
-    assert.equal(
-      form.fields["Merchant"].labelData,
-      undefined,
-      "Expecting 'Merchant' field has undefined labelData"
-    );
-    assert.equal(
-      form.fields["Merchant"].value,
-      undefined,
-      "Expecting 'Merchant' field has undefined value"
-    );
-    assert.equal(
-      form.fields["Merchant"].valueData,
-      undefined,
-      "Expecting 'Merchant' field has undefined valueData"
-    );
-    assert.equal(
-      form.fields["Merchant"].valueType,
-      undefined,
-      "Expecting 'Merchant' field has undefined valueType"
-    );
-  });
-  */
 }).timeout(60000);
 
 describe("[AAD] FormTrainingClient NodeJS only", () => {
