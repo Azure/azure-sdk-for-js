@@ -15,36 +15,42 @@ npm install @azure/arm-authorization
 
 ### How to use
 
-#### nodejs - Authentication, client creation and list classicAdministrators as an example written in TypeScript.
+#### nodejs - Authentication, client creation and listForResource roleAssignments as an example written in TypeScript.
 
 ##### Install @azure/ms-rest-nodeauth
 
+- Please install minimum version of `"@azure/ms-rest-nodeauth": "^3.0.0"`.
 ```bash
-npm install @azure/ms-rest-nodeauth
+npm install @azure/ms-rest-nodeauth@"^3.0.0"
 ```
 
 ##### Sample code
 
-```javascript
-const { AuthorizationManagementClient } = require("@azure/arm-authorization");
-const { interactiveLogin } = require("@azure/ms-rest-nodeauth");
-
+```typescript
+import * as msRest from "@azure/ms-rest-js";
+import * as msRestAzure from "@azure/ms-rest-azure-js";
+import * as msRestNodeAuth from "@azure/ms-rest-nodeauth";
+import { AuthorizationManagementClient, AuthorizationManagementModels, AuthorizationManagementMappers } from "@azure/arm-authorization";
 const subscriptionId = process.env["AZURE_SUBSCRIPTION_ID"];
 
-interactiveLogin()
-  .then((creds) => {
-    const client = new AuthorizationManagementClient(creds, subscriptionId);
-    client.classicAdministrators.list().then((result) => {
-      console.log("The result is:");
-      console.log(result);
-    });
-  })
-  .catch((err) => {
-    console.error(err);
+msRestNodeAuth.interactiveLogin().then((creds) => {
+  const client = new AuthorizationManagementClient(creds, subscriptionId);
+  const resourceGroupName = "testresourceGroupName";
+  const resourceProviderNamespace = "testresourceProviderNamespace";
+  const parentResourcePath = "testparentResourcePath";
+  const resourceType = "testresourceType";
+  const resourceName = "testresourceName";
+  const filter = "testfilter";
+  client.roleAssignments.listForResource(resourceGroupName, resourceProviderNamespace, parentResourcePath, resourceType, resourceName, filter).then((result) => {
+    console.log("The result is:");
+    console.log(result);
   });
+}).catch((err) => {
+  console.error(err);
+});
 ```
 
-#### browser - Authentication, client creation and list classicAdministrators as an example written in JavaScript.
+#### browser - Authentication, client creation and listForResource roleAssignments as an example written in JavaScript.
 
 ##### Install @azure/ms-rest-browserauth
 
@@ -57,7 +63,6 @@ npm install @azure/ms-rest-browserauth
 See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to Azure in the browser.
 
 - index.html
-
 ```html
 <!DOCTYPE html>
 <html lang="en">
@@ -71,27 +76,27 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
       const subscriptionId = "<Subscription_Id>";
       const authManager = new msAuth.AuthManager({
         clientId: "<client id for your Azure AD app>",
-        tenant: "<optional tenant for your organization>",
+        tenant: "<optional tenant for your organization>"
       });
       authManager.finalizeLogin().then((res) => {
         if (!res.isLoggedIn) {
           // may cause redirects
           authManager.login();
         }
-        const client = new Azure.ArmAuthorization.AuthorizationManagementClient(
-          res.creds,
-          subscriptionId
-        );
-        client.classicAdministrators
-          .list()
-          .then((result) => {
-            console.log("The result is:");
-            console.log(result);
-          })
-          .catch((err) => {
-            console.log("An error occurred:");
-            console.error(err);
-          });
+        const client = new Azure.ArmAuthorization.AuthorizationManagementClient(res.creds, subscriptionId);
+        const resourceGroupName = "testresourceGroupName";
+        const resourceProviderNamespace = "testresourceProviderNamespace";
+        const parentResourcePath = "testparentResourcePath";
+        const resourceType = "testresourceType";
+        const resourceName = "testresourceName";
+        const filter = "testfilter";
+        client.roleAssignments.listForResource(resourceGroupName, resourceProviderNamespace, parentResourcePath, resourceType, resourceName, filter).then((result) => {
+          console.log("The result is:");
+          console.log(result);
+        }).catch((err) => {
+          console.log("An error occurred:");
+          console.error(err);
+        });
       });
     </script>
   </head>
@@ -103,4 +108,4 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
 
 - [Microsoft Azure SDK for Javascript](https://github.com/Azure/azure-sdk-for-js)
 
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fauthorization%2Farm-authorization%2FREADME.png)
+![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js/sdk/authorization/arm-authorization/README.png)

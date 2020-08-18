@@ -18,6 +18,7 @@ const packageVersion = "8.3.3";
 export class AuthorizationManagementClientContext extends msRestAzure.AzureServiceClient {
   credentials: msRest.ServiceClientCredentials;
   subscriptionId: string;
+  apiVersion?: string;
 
   /**
    * Initializes a new instance of the AuthorizationManagementClient class.
@@ -43,6 +44,7 @@ export class AuthorizationManagementClientContext extends msRestAzure.AzureServi
 
     super(credentials, options);
 
+    this.apiVersion = '2020-04-01-preview';
     this.acceptLanguage = 'en-US';
     this.longRunningOperationRetryTimeout = 30;
     this.baseUri = options.baseUri || this.baseUri || "https://management.azure.com";

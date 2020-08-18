@@ -20,95 +20,11 @@ export const acceptLanguage: msRest.OperationParameter = {
     }
   }
 };
-export const apiVersion0: msRest.OperationQueryParameter = {
+export const apiVersion: msRest.OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
     required: true,
-    isConstant: true,
     serializedName: "api-version",
-    defaultValue: '2015-06-01',
-    type: {
-      name: "String"
-    }
-  }
-};
-export const apiVersion1: msRest.OperationQueryParameter = {
-  parameterPath: "apiVersion",
-  mapper: {
-    required: true,
-    isConstant: true,
-    serializedName: "api-version",
-    defaultValue: '2015-07-01',
-    type: {
-      name: "String"
-    }
-  }
-};
-export const apiVersion2: msRest.OperationQueryParameter = {
-  parameterPath: "apiVersion",
-  mapper: {
-    required: true,
-    isConstant: true,
-    serializedName: "api-version",
-    defaultValue: '2018-01-01-preview',
-    type: {
-      name: "String"
-    }
-  }
-};
-export const apiVersion3: msRest.OperationQueryParameter = {
-  parameterPath: "apiVersion",
-  mapper: {
-    required: true,
-    isConstant: true,
-    serializedName: "api-version",
-    defaultValue: '2018-09-01-preview',
-    type: {
-      name: "String"
-    }
-  }
-};
-export const apiVersion4: msRest.OperationQueryParameter = {
-  parameterPath: "apiVersion",
-  mapper: {
-    required: true,
-    isConstant: true,
-    serializedName: "api-version",
-    defaultValue: '2018-07-01-preview',
-    type: {
-      name: "String"
-    }
-  }
-};
-export const denyAssignmentId0: msRest.OperationURLParameter = {
-  parameterPath: "denyAssignmentId",
-  mapper: {
-    required: true,
-    serializedName: "denyAssignmentId",
-    type: {
-      name: "String"
-    }
-  }
-};
-export const denyAssignmentId1: msRest.OperationURLParameter = {
-  parameterPath: "denyAssignmentId",
-  mapper: {
-    required: true,
-    serializedName: "denyAssignmentId",
-    type: {
-      name: "String"
-    }
-  },
-  skipEncoding: true
-};
-export const expand: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "expand"
-  ],
-  mapper: {
-    serializedName: "$expand",
-    defaultValue: 'resourceTypes',
     type: {
       name: "String"
     }
@@ -194,16 +110,6 @@ export const roleAssignmentName: msRest.OperationURLParameter = {
   mapper: {
     required: true,
     serializedName: "roleAssignmentName",
-    type: {
-      name: "String"
-    }
-  }
-};
-export const roleDefinitionId: msRest.OperationURLParameter = {
-  parameterPath: "roleDefinitionId",
-  mapper: {
-    required: true,
-    serializedName: "roleDefinitionId",
     type: {
       name: "String"
     }
