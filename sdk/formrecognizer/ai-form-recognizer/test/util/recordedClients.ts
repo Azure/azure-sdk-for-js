@@ -4,7 +4,13 @@
 import { Context } from "mocha";
 import * as dotenv from "dotenv";
 
-import { env, Recorder, record, RecorderEnvironmentSetup } from "@azure/test-utils-recorder";
+import {
+  env,
+  Recorder,
+  record,
+  RecorderEnvironmentSetup,
+  isPlaybackMode
+} from "@azure/test-utils-recorder";
 import { isNode } from "@azure/core-http";
 
 import { AzureKeyCredential, FormTrainingClient, FormRecognizerClient } from "../../src/index";
@@ -43,6 +49,10 @@ export const testEnv = new Proxy(replaceableVariables, {
     return env[key] || target[key];
   }
 });
+
+export const testPollingOptions = {
+  updateIntervalInMs: isPlaybackMode() ? 0 : undefined
+};
 
 export const environmentSetup: RecorderEnvironmentSetup = {
   replaceableVariables,

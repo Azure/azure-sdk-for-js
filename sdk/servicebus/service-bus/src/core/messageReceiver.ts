@@ -10,14 +10,13 @@ import {
 } from "@azure/core-amqp";
 import { AmqpError, EventContext, OnAmqpEvent, Receiver, ReceiverOptions } from "rhea-promise";
 import * as log from "../log";
-import { LinkEntity } from "./linkEntity";
-import { ClientEntityContext } from "../clientEntityContext";
+import { LinkEntity, ReceiverType } from "./linkEntity";
+import { ConnectionContext } from "../connectionContext";
 import { DispositionType, InternalReceiveMode, ServiceBusMessageImpl } from "../serviceBusMessage";
-import { getUniqueName, StandardAbortMessage } from "../util/utils";
+import { getUniqueName } from "../util/utils";
 import { MessageHandlerOptions } from "../models";
 import { DispositionStatusOptions } from "./managementClient";
 import { AbortSignalLike } from "@azure/core-http";
-import { AbortError } from "@azure/abort-controller";
 import { onMessageSettled, DeferredPromiseAndTimer } from "./shared";
 
 /**
@@ -35,15 +34,6 @@ export type ReceiverHandlers = Pick<
  */
 export interface OnAmqpEventAsPromise extends OnAmqpEvent {
   (context: EventContext): Promise<void>;
-}
-
-/**
- * @internal
- * @ignore
- */
-export enum ReceiverType {
-  batching = "batching",
-  streaming = "streaming"
 }
 
 /**
@@ -93,7 +83,7 @@ export interface OnError {
  * Describes the MessageReceiver that will receive messages from ServiceBus.
  * @class MessageReceiver
  */
-export class MessageReceiver extends LinkEntity {
+export abstract class MessageReceiver extends LinkEntity<Receiver> {
   /**
    * @property {string} receiverType The type of receiver: "batching" or "streaming".
    */
@@ -122,10 +112,6 @@ export class MessageReceiver extends LinkEntity {
    */
   autoRenewLock: boolean;
   /**
-   * @property {Receiver} [_receiver] The AMQP receiver link.
-   */
-  protected _receiver?: Receiver;
-  /**
    * @property {Map<number, Promise<any>>} _deliveryDispositionMap Maintains a map of deliveries that
    * are being actively disposed. It acts as a store for correlating the responses received for
    * active dispositions.
@@ -144,10 +130,6 @@ export class MessageReceiver extends LinkEntity {
    * inside _onAmqpError.
    */
   protected _onError?: OnError;
-  /**
-   * @property {boolean} wasCloseInitiated Denotes if receiver was explicitly closed by user.
-   */
-  protected wasCloseInitiated?: boolean;
   /**
    * @property {Map<string, Function>} _messageRenewLockTimers Maintains a map of messages for which
    * the lock is automatically renewed.
@@ -168,25 +150,25 @@ export class MessageReceiver extends LinkEntity {
   protected _clearAllMessageLockRenewTimers: () => void;
 
   constructor(
-    context: ClientEntityContext,
+    context: ConnectionContext,
+    protected _entityPath: string,
     receiverType: ReceiverType,
     options?: Omit<ReceiveOptions, "maxConcurrentCalls">
   ) {
-    super(context.entityPath, context, {
-      address: context.entityPath,
-      audience: `${context.namespace.config.endpoint}${context.entityPath}`
+    super(_entityPath, context, receiverType, {
+      address: _entityPath,
+      audience: `${context.config.endpoint}${_entityPath}`
     });
 
     if (!options) options = {};
-    this.wasCloseInitiated = false;
     this.receiverType = receiverType;
     this.receiveMode = options.receiveMode || InternalReceiveMode.peekLock;
 
     // If explicitly set to false then autoComplete is false else true (default).
     this.autoComplete = options.autoComplete === false ? options.autoComplete : true;
     this.maxAutoRenewDurationInMs =
-      options.maxMessageAutoRenewLockDurationInMs != null
-        ? options.maxMessageAutoRenewLockDurationInMs
+      options.maxAutoRenewLockDurationInMs != null
+        ? options.maxAutoRenewLockDurationInMs
         : 300 * 1000;
     this.autoRenewLock =
       this.maxAutoRenewDurationInMs > 0 && this.receiveMode === InternalReceiveMode.peekLock;
@@ -195,7 +177,7 @@ export class MessageReceiver extends LinkEntity {
         clearTimeout(this._messageRenewLockTimers.get(messageId) as NodeJS.Timer);
         log.receiver(
           "[%s] Cleared the message renew lock timer for message with id '%s'.",
-          this._context.namespace.connectionId,
+          this._context.connectionId,
           messageId
         );
         this._messageRenewLockTimers.delete(messageId);
@@ -204,7 +186,7 @@ export class MessageReceiver extends LinkEntity {
     this._clearAllMessageLockRenewTimers = () => {
       log.receiver(
         "[%s] Clearing message renew lock timers for all the active messages.",
-        this._context.namespace.connectionId
+        this._context.connectionId
       );
       for (const messageId of this._messageRenewLockTimers.keys()) {
         this._clearMessageLockRenewTimer(messageId);
@@ -220,7 +202,7 @@ export class MessageReceiver extends LinkEntity {
     handlers: ReceiverHandlers
   ): ReceiverOptions {
     const rcvrOptions: ReceiverOptions = {
-      name: useNewName ? getUniqueName(this._context.entityPath) : this.name,
+      name: useNewName ? getUniqueName(this._entityPath) : this.name,
       autoaccept: this.receiveMode === InternalReceiveMode.receiveAndDelete ? true : false,
       // receiveAndDelete -> first(0), peekLock -> second (1)
       rcv_settle_mode: this.receiveMode === InternalReceiveMode.receiveAndDelete ? 0 : 1,
@@ -232,7 +214,7 @@ export class MessageReceiver extends LinkEntity {
       credit_window: 0,
       onSettled: (context) => {
         return onMessageSettled(
-          this._context.namespace.connection.id,
+          this._context.connection.id,
           context.delivery,
           this._deliveryDispositionMap
         );
@@ -249,95 +231,17 @@ export class MessageReceiver extends LinkEntity {
    * @returns {Promise<void>} Promise<void>.
    */
   protected async _init(options: ReceiverOptions, abortSignal?: AbortSignalLike): Promise<void> {
-    const checkAborted = (): void => {
-      if (abortSignal?.aborted) {
-        throw new AbortError(StandardAbortMessage);
-      }
-    };
-
-    const connectionId = this._context.namespace.connectionId;
-
-    checkAborted();
-
     try {
-      if (!this.isOpen() && !this.isConnecting) {
-        if (this.wasCloseInitiated) {
-          // in track 1 we'll maintain backwards compatible behavior for the codebase and
-          // just treat this as a no-op. There are cases, like in onDetached, where throwing
-          // an error here could have unintended consequences.
-          return;
-        }
+      await this.initLink(options, abortSignal);
 
-        log.error(
-          "[%s] The receiver '%s' with address '%s' is not open and is not currently " +
-            "establishing itself. Hence let's try to connect.",
-          connectionId,
-          this.name,
-          this.address
-        );
-
-        if (options && options.name) {
-          this.name = options.name;
-        }
-
-        this.isConnecting = true;
-
-        await this._negotiateClaim();
-        checkAborted();
-
-        log.error(
-          "[%s] Trying to create receiver '%s' with options %O",
-          connectionId,
-          this.name,
-          options
-        );
-
-        this._receiver = await this._context.namespace.connection.createReceiver(options);
-
-        this.isConnecting = false;
-        checkAborted();
-
-        log.error(
-          "[%s] Receiver '%s' with address '%s' has established itself.",
-          connectionId,
-          this.name,
-          this.address
-        );
-        log[this.receiverType](
-          "Promise to create the receiver resolved. " + "Created receiver with name: ",
-          this.name
-        );
-        log[this.receiverType](
-          "[%s] Receiver '%s' created with receiver options: %O",
-          connectionId,
-          this.name,
-          options
-        );
-        // It is possible for someone to close the receiver and then start it again.
-        // Thus make sure that the receiver is present in the client cache.
-        if (this.receiverType === ReceiverType.streaming && !this._context.streamingReceiver) {
-          this._context.streamingReceiver = this as any;
-        } else if (this.receiverType === ReceiverType.batching && !this._context.batchingReceiver) {
-          this._context.batchingReceiver = this as any;
-        }
-        this._ensureTokenRenewal();
-      } else {
-        log.error(
-          "[%s] The receiver '%s' with address '%s' is open -> %s and is connecting " +
-            "-> %s. Hence not reconnecting.",
-          connectionId,
-          this.name,
-          this.address,
-          this.isOpen(),
-          this.isConnecting
-        );
-      }
+      // It is possible for someone to close the receiver and then start it again.
+      // Thus make sure that the receiver is present in the client cache.
+      this._context.messageReceivers[this.name] = this as any;
     } catch (err) {
-      this.isConnecting = false;
       err = translate(err);
       log.error(
         "[%s] An error occured while creating the receiver '%s': %O",
-        this._context.namespace.connectionId,
+        this._context.connectionId,
         this.name,
         err
       );
@@ -351,38 +255,30 @@ export class MessageReceiver extends LinkEntity {
     }
   }
 
-  protected _deleteFromCache(): void {
-    this._receiver = undefined;
-    if (this.receiverType === ReceiverType.streaming) {
-      this._context.streamingReceiver = undefined;
-    } else if (this.receiverType === ReceiverType.batching) {
-      this._context.batchingReceiver = undefined;
-    }
-    log.error(
-      "[%s] Deleted the receiver '%s' from the client cache.",
-      this._context.namespace.connectionId,
-      this.name
-    );
+  protected createRheaLink(
+    options: ReceiverOptions,
+    _abortSignal?: AbortSignalLike
+  ): Promise<Receiver> {
+    return this._context.connection.createReceiver(options);
   }
 
   /**
-   * Closes the underlying AMQP receiver.
+   * React to receiver being detached due to given error.
+   * You may want to set up retries to recover the broken link and/or report error to user.
+   * @param error The error accompanying the receiver/session error or connection disconnected events
+   * @param causedByDisconnect Indicator of whether the error is caused by the connection disconnecting.
+   * In this case, the receiver/session error events do not get fired.
+   */
+  abstract async onDetached(error?: AmqpError | Error, causedByDisconnect?: boolean): Promise<void>;
+
+  /**
+   * Clears lock renewal timers on all active messages, clears token remewal for current receiver,
+   * removes current MessageReceiver instance from cache, and closes the underlying AMQP receiver.
    * @return {Promise<void>} Promise<void>.
    */
   async close(): Promise<void> {
-    this.wasCloseInitiated = true;
-    log.receiver(
-      "[%s] Closing the [%s]Receiver for entity '%s'.",
-      this._context.namespace.connectionId,
-      this.receiverType,
-      this._context.entityPath
-    );
     this._clearAllMessageLockRenewTimers();
-    if (this._receiver) {
-      const receiverLink = this._receiver;
-      this._deleteFromCache();
-      await this._closeLink(receiverLink);
-    }
+    await super.close();
   }
 
   /**
@@ -409,7 +305,7 @@ export class MessageReceiver extends LinkEntity {
         log.receiver(
           "[%s] Disposition for delivery id: %d, did not complete in %d milliseconds. " +
             "Hence rejecting the promise with timeout error.",
-          this._context.namespace.connectionId,
+          this._context.connectionId,
           delivery.id,
           Constants.defaultOperationTimeoutInMs
         );
@@ -453,21 +349,5 @@ export class MessageReceiver extends LinkEntity {
         delivery.reject(error);
       }
     });
-  }
-
-  /**
-   * Determines whether the AMQP receiver link is open. If open then returns true else returns false.
-   * @return {boolean} boolean
-   */
-  isOpen(): boolean {
-    const result: boolean = this._receiver! && this._receiver!.isOpen();
-    log.error(
-      "[%s] Receiver '%s' with address '%s' is open? -> %s",
-      this._context.namespace.connectionId,
-      this.name,
-      this.address,
-      result
-    );
-    return result;
   }
 }

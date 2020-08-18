@@ -1,6 +1,6 @@
 let nock = require('nock');
 
-module.exports.hash = "584e14d5b46be1866453cbc57ea90fa9";
+module.exports.hash = "cf2cfcdfac7afbdcce6be2a7f43705b0";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
@@ -10,72 +10,72 @@ nock('https://endpoint:443', {"encodedQueryParams":true})
   'Content-Length',
   '0',
   'Operation-Location',
-  'https://endpoint/formrecognizer/v2.0/layout/analyzeResults/e52e84f3-62a1-4449-9ea8-1e3ecbbc142e',
+  'https://endpoint/formrecognizer/v2.0/layout/analyzeResults/a789219d-3358-40ad-a3bb-21577e371129',
   'x-envoy-upstream-service-time',
-  '132',
+  '173',
   'apim-request-id',
-  'e52e84f3-62a1-4449-9ea8-1e3ecbbc142e',
+  'a789219d-3358-40ad-a3bb-21577e371129',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Wed, 05 Aug 2020 23:28:09 GMT'
+  'Tue, 18 Aug 2020 18:45:55 GMT'
 ]);
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .get('/formrecognizer/v2.0/layout/analyzeResults/e52e84f3-62a1-4449-9ea8-1e3ecbbc142e')
-  .reply(200, {"status":"running","createdDateTime":"2020-08-05T23:28:10Z","lastUpdatedDateTime":"2020-08-05T23:28:10Z"}, [
+  .get('/formrecognizer/v2.0/layout/analyzeResults/a789219d-3358-40ad-a3bb-21577e371129')
+  .reply(200, {"status":"running","createdDateTime":"2020-08-18T18:45:55Z","lastUpdatedDateTime":"2020-08-18T18:45:55Z"}, [
   'Transfer-Encoding',
   'chunked',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-envoy-upstream-service-time',
-  '15',
+  '11',
   'apim-request-id',
-  '718fc55f-333f-437e-8045-9c64e9f1c723',
+  'ace839f1-13a1-4f2c-beb9-616d9b12a7dc',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Wed, 05 Aug 2020 23:28:10 GMT'
+  'Tue, 18 Aug 2020 18:45:55 GMT'
 ]);
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .get('/formrecognizer/v2.0/layout/analyzeResults/e52e84f3-62a1-4449-9ea8-1e3ecbbc142e')
-  .reply(200, {"status":"running","createdDateTime":"2020-08-05T23:28:10Z","lastUpdatedDateTime":"2020-08-05T23:28:10Z"}, [
+  .get('/formrecognizer/v2.0/layout/analyzeResults/a789219d-3358-40ad-a3bb-21577e371129')
+  .reply(200, {"status":"running","createdDateTime":"2020-08-18T18:45:55Z","lastUpdatedDateTime":"2020-08-18T18:45:55Z"}, [
   'Transfer-Encoding',
   'chunked',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-envoy-upstream-service-time',
-  '10',
+  '11',
   'apim-request-id',
-  'b5bf562b-e9ad-4fc0-b967-4115d754d3a6',
+  'ee418e87-7a0a-4ca8-8ecb-4d78291516e9',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Wed, 05 Aug 2020 23:28:10 GMT'
+  'Tue, 18 Aug 2020 18:45:55 GMT'
 ]);
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .get('/formrecognizer/v2.0/layout/analyzeResults/e52e84f3-62a1-4449-9ea8-1e3ecbbc142e')
-  .reply(200, {"status":"succeeded","createdDateTime":"2020-08-05T23:28:10Z","lastUpdatedDateTime":"2020-08-05T23:28:15Z","analyzeResult":{"version":"2.0.0","readResults":[{"page":1,"language":"en","angle":0,"width":1700,"height":2200,"unit":"pixel","lines":[{"boundingBox":[104,231,289,231,289,275,104,275],"text":"Contoso","words":[{"boundingBox":[106,232,290,231,289,276,108,276],"text":"Contoso","confidence":0.959}]},{"boundingBox":[159,301,280,301,280,326,159,325],"text":"Address:","words":[{"boundingBox":[161,302,280,302,280,327,160,325],"text":"Address:","confidence":0.959}]},{"boundingBox":[878,299,1165,299,1165,326,878,326],"text":"Invoice For: Microsoft","words":[{"boundingBox":[878,300,967,300,967,327,878,327],"text":"Invoice","confidence":0.914},{"boundingBox":[972,300,1031,300,1031,327,972,327],"text":"For:","confidence":0.959},{"boundingBox":[1038,300,1164,299,1164,327,1038,327],"text":"Microsoft","confidence":0.959}]},{"boundingBox":[159,337,431,337,431,368,158,366],"text":"1 Redmond way Suite","words":[{"boundingBox":[161,339,177,339,176,364,160,364],"text":"1","confidence":0.893},{"boundingBox":[182,339,305,339,304,367,181,364],"text":"Redmond","confidence":0.959},{"boundingBox":[310,339,364,338,362,368,308,368],"text":"way","confidence":0.958},{"boundingBox":[368,338,431,338,430,369,367,368],"text":"Suite","confidence":0.959}]},{"boundingBox":[1038,340,1311,341,1311,372,1038,370],"text":"1020 Enterprise Way","words":[{"boundingBox":[1040,341,1101,341,1100,371,1040,370],"text":"1020","confidence":0.959},{"boundingBox":[1107,341,1246,341,1245,372,1106,371],"text":"Enterprise","confidence":0.959},{"boundingBox":[1252,341,1312,342,1310,373,1250,372],"text":"Way","confidence":0.958}]},{"boundingBox":[159,376,410,376,410,405,159,404],"text":"6000 Redmond, WA","words":[{"boundingBox":[160,377,221,377,221,404,159,403],"text":"6000","confidence":0.953},{"boundingBox":[228,377,358,377,357,406,227,404],"text":"Redmond,","confidence":0.958},{"boundingBox":[364,377,408,377,406,406,362,406],"text":"WA","confidence":0.956}]},{"boundingBox":[1037,379,1333,377,1333,407,1037,408],"text":"Sunnayvale, CA 87659","words":[{"boundingBox":[1039,379,1204,379,1203,409,1038,407],"text":"Sunnayvale,","confidence":0.952},{"boundingBox":[1209,379,1246,379,1245,408,1208,408],"text":"CA","confidence":0.958},{"boundingBox":[1255,379,1332,378,1332,406,1254,408],"text":"87659","confidence":0.958}]},{"boundingBox":[159,415,238,414,238,439,159,439],"text":"99243","words":[{"boundingBox":[161,415,238,415,238,439,161,439],"text":"99243","confidence":0.959}]},{"boundingBox":[105,571,317,571,316,598,105,598],"text":"Invoice Number","words":[{"boundingBox":[107,572,205,572,204,599,106,598],"text":"Invoice","confidence":0.958},{"boundingBox":[210,572,317,572,316,599,209,599],"text":"Number","confidence":0.856}]},{"boundingBox":[386,571,553,571,553,598,386,598],"text":"Invoice Date","words":[{"boundingBox":[387,571,487,572,486,598,386,599],"text":"Invoice","confidence":0.945},{"boundingBox":[492,572,552,571,552,599,492,598],"text":"Date","confidence":0.959}]},{"boundingBox":[666,571,893,571,893,599,666,599],"text":"Invoice Due Date","words":[{"boundingBox":[667,572,767,571,767,599,666,599],"text":"Invoice","confidence":0.949},{"boundingBox":[772,571,826,571,826,599,772,599],"text":"Due","confidence":0.958},{"boundingBox":[831,571,894,571,894,600,831,599],"text":"Date","confidence":0.93}]},{"boundingBox":[947,571,1061,573,1060,603,947,600],"text":"Charges","words":[{"boundingBox":[948,572,1060,574,1059,604,948,600],"text":"Charges","confidence":0.959}]},{"boundingBox":[1226,572,1319,572,1319,596,1226,596],"text":"VAT ID","words":[{"boundingBox":[1227,573,1284,573,1284,597,1228,596],"text":"VAT","confidence":0.958},{"boundingBox":[1290,573,1315,572,1315,597,1290,597],"text":"ID","confidence":0.958}]},{"boundingBox":[105,679,232,681,231,706,105,704],"text":"34278587","words":[{"boundingBox":[106,680,232,681,231,706,107,705],"text":"34278587","confidence":0.959}]},{"boundingBox":[386,679,514,680,514,705,386,704],"text":"6/18/2017","words":[{"boundingBox":[387,680,513,681,512,705,387,705],"text":"6/18/2017","confidence":0.958}]},{"boundingBox":[667,679,793,679,793,705,667,705],"text":"6/24/2017","words":[{"boundingBox":[667,679,792,681,792,705,667,705],"text":"6/24/2017","confidence":0.92}]},{"boundingBox":[1074,680,1281,680,1282,705,1074,706],"text":"$56,651.49 PT","words":[{"boundingBox":[1076,680,1219,680,1219,705,1076,707],"text":"$56,651.49","confidence":0.909},{"boundingBox":[1242,680,1280,680,1281,705,1242,705],"text":"PT","confidence":0.911}]}]}],"pageResults":[{"page":1,"tables":[]}]}}, [
+  .get('/formrecognizer/v2.0/layout/analyzeResults/a789219d-3358-40ad-a3bb-21577e371129')
+  .reply(200, {"status":"succeeded","createdDateTime":"2020-08-18T18:45:55Z","lastUpdatedDateTime":"2020-08-18T18:46:00Z","analyzeResult":{"version":"2.0.0","readResults":[{"page":1,"language":"en","angle":0,"width":1700,"height":2200,"unit":"pixel","lines":[{"boundingBox":[104,231,289,231,289,275,104,275],"text":"Contoso","words":[{"boundingBox":[106,232,290,231,289,276,108,276],"text":"Contoso","confidence":0.959}]},{"boundingBox":[159,301,280,301,280,326,159,325],"text":"Address:","words":[{"boundingBox":[161,302,280,302,280,327,160,325],"text":"Address:","confidence":0.959}]},{"boundingBox":[878,299,1165,299,1165,326,878,326],"text":"Invoice For: Microsoft","words":[{"boundingBox":[878,300,967,300,967,327,878,327],"text":"Invoice","confidence":0.914},{"boundingBox":[972,300,1031,300,1031,327,972,327],"text":"For:","confidence":0.959},{"boundingBox":[1038,300,1164,299,1164,327,1038,327],"text":"Microsoft","confidence":0.959}]},{"boundingBox":[159,337,431,337,431,368,158,366],"text":"1 Redmond way Suite","words":[{"boundingBox":[161,339,177,339,176,364,160,364],"text":"1","confidence":0.893},{"boundingBox":[182,339,305,339,304,367,181,364],"text":"Redmond","confidence":0.959},{"boundingBox":[310,339,364,338,362,368,308,368],"text":"way","confidence":0.958},{"boundingBox":[368,338,431,338,430,369,367,368],"text":"Suite","confidence":0.959}]},{"boundingBox":[1038,340,1311,341,1311,372,1038,370],"text":"1020 Enterprise Way","words":[{"boundingBox":[1040,341,1101,341,1100,371,1040,370],"text":"1020","confidence":0.959},{"boundingBox":[1107,341,1246,341,1245,372,1106,371],"text":"Enterprise","confidence":0.959},{"boundingBox":[1252,341,1312,342,1310,373,1250,372],"text":"Way","confidence":0.958}]},{"boundingBox":[159,376,410,376,410,405,159,404],"text":"6000 Redmond, WA","words":[{"boundingBox":[160,377,221,377,221,404,159,403],"text":"6000","confidence":0.953},{"boundingBox":[228,377,358,377,357,406,227,404],"text":"Redmond,","confidence":0.958},{"boundingBox":[364,377,408,377,406,406,362,406],"text":"WA","confidence":0.956}]},{"boundingBox":[1037,379,1333,377,1333,407,1037,408],"text":"Sunnayvale, CA 87659","words":[{"boundingBox":[1039,379,1204,379,1203,409,1038,407],"text":"Sunnayvale,","confidence":0.952},{"boundingBox":[1209,379,1246,379,1245,408,1208,408],"text":"CA","confidence":0.958},{"boundingBox":[1255,379,1332,378,1332,406,1254,408],"text":"87659","confidence":0.958}]},{"boundingBox":[159,415,238,414,238,439,159,439],"text":"99243","words":[{"boundingBox":[161,415,238,415,238,439,161,439],"text":"99243","confidence":0.959}]},{"boundingBox":[105,571,317,571,316,598,105,598],"text":"Invoice Number","words":[{"boundingBox":[107,572,205,572,204,599,106,598],"text":"Invoice","confidence":0.958},{"boundingBox":[210,572,317,572,316,599,209,599],"text":"Number","confidence":0.856}]},{"boundingBox":[386,571,553,571,553,598,386,598],"text":"Invoice Date","words":[{"boundingBox":[387,571,487,572,486,598,386,599],"text":"Invoice","confidence":0.945},{"boundingBox":[492,572,552,571,552,599,492,598],"text":"Date","confidence":0.959}]},{"boundingBox":[666,571,893,571,893,599,666,599],"text":"Invoice Due Date","words":[{"boundingBox":[667,572,767,571,767,599,666,599],"text":"Invoice","confidence":0.949},{"boundingBox":[772,571,826,571,826,599,772,599],"text":"Due","confidence":0.958},{"boundingBox":[831,571,894,571,894,600,831,599],"text":"Date","confidence":0.93}]},{"boundingBox":[947,571,1061,573,1060,603,947,600],"text":"Charges","words":[{"boundingBox":[948,572,1060,574,1059,604,948,600],"text":"Charges","confidence":0.959}]},{"boundingBox":[1226,572,1319,572,1319,596,1226,596],"text":"VAT ID","words":[{"boundingBox":[1227,573,1284,573,1284,597,1228,596],"text":"VAT","confidence":0.958},{"boundingBox":[1290,573,1315,572,1315,597,1290,597],"text":"ID","confidence":0.958}]},{"boundingBox":[105,679,232,681,231,706,105,704],"text":"34278587","words":[{"boundingBox":[106,680,232,681,231,706,107,705],"text":"34278587","confidence":0.959}]},{"boundingBox":[386,679,514,680,514,705,386,704],"text":"6/18/2017","words":[{"boundingBox":[387,680,513,681,512,705,387,705],"text":"6/18/2017","confidence":0.958}]},{"boundingBox":[667,679,793,679,793,705,667,705],"text":"6/24/2017","words":[{"boundingBox":[667,679,792,681,792,705,667,705],"text":"6/24/2017","confidence":0.92}]},{"boundingBox":[1074,680,1281,680,1282,705,1074,706],"text":"$56,651.49 PT","words":[{"boundingBox":[1076,680,1219,680,1219,705,1076,707],"text":"$56,651.49","confidence":0.909},{"boundingBox":[1242,680,1280,680,1281,705,1242,705],"text":"PT","confidence":0.911}]}]}],"pageResults":[{"page":1,"tables":[]}]}}, [
   'Transfer-Encoding',
   'chunked',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-envoy-upstream-service-time',
-  '22',
+  '23',
   'apim-request-id',
-  '7636648c-3b87-4e2f-8287-35125a32d0f8',
+  '40bc91ca-01ba-4e0b-8d36-7279c33f4933',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Wed, 05 Aug 2020 23:28:14 GMT'
+  'Tue, 18 Aug 2020 18:46:00 GMT'
 ]);

@@ -3,7 +3,7 @@
 
 import { ServiceBusMessage, toAmqpMessage, isServiceBusMessage } from "./serviceBusMessage";
 import { throwTypeErrorIfParameterMissing } from "./util/errors";
-import { ClientEntityContext } from "./clientEntityContext";
+import { ConnectionContext } from "./connectionContext";
 import {
   MessageAnnotations,
   messageProperties as RheaMessagePropertiesList,
@@ -88,14 +88,6 @@ export interface ServiceBusMessageBatch {
  */
 export class ServiceBusMessageBatchImpl implements ServiceBusMessageBatch {
   /**
-   * @property Describes the amqp connection context for the Client.
-   */
-  private _context: ClientEntityContext;
-  /**
-   * @property The maximum size allowed for the batch.
-   */
-  private _maxSizeInBytes: number;
-  /**
    * @property Current size of the batch in bytes.
    */
   private _sizeInBytes: number;
@@ -110,9 +102,7 @@ export class ServiceBusMessageBatchImpl implements ServiceBusMessageBatch {
    * @internal
    * @ignore
    */
-  constructor(context: ClientEntityContext, maxSizeInBytes: number) {
-    this._context = context;
-    this._maxSizeInBytes = maxSizeInBytes;
+  constructor(private _context: ConnectionContext, private _maxSizeInBytes: number) {
     this._sizeInBytes = 0;
     this._batchMessageProperties = {};
   }
@@ -221,14 +211,14 @@ export class ServiceBusMessageBatchImpl implements ServiceBusMessageBatch {
    * @returns A boolean value indicating if the message has been added to the batch or not.
    */
   public tryAdd(message: ServiceBusMessage): boolean {
-    throwTypeErrorIfParameterMissing(this._context.namespace.connectionId, "message", message);
+    throwTypeErrorIfParameterMissing(this._context.connectionId, "message", message);
     if (!isServiceBusMessage(message)) {
       throw new TypeError("Provided value for 'message' must be of type ServiceBusMessage.");
     }
 
     // Convert ServiceBusMessage to AmqpMessage.
     const amqpMessage = toAmqpMessage(message);
-    amqpMessage.body = this._context.namespace.dataTransformer.encode(message.body);
+    amqpMessage.body = this._context.dataTransformer.encode(message.body);
     const encodedMessage = RheaMessageUtil.encode(amqpMessage);
 
     let currentSize = this._sizeInBytes;

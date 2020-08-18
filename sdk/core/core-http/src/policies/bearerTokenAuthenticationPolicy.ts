@@ -13,6 +13,7 @@ import { HttpOperationResponse } from "../httpOperationResponse";
 import { HttpHeaders } from "../httpHeaders";
 import { WebResourceLike } from "../webResource";
 import { AccessTokenCache, ExpiringAccessTokenCache } from "../credentials/accessTokenCache";
+import { AccessTokenRefresher } from "../credentials/accessTokenRefresher";
 
 /**
  * Creates a new BearerTokenAuthenticationPolicy factory.
@@ -39,6 +40,13 @@ export function bearerTokenAuthenticationPolicy(
 }
 
 /**
+ * The automated token refresh will only start to happen at the
+ * expiration date minus the value of timeBetweenRefreshAttemptsInMs,
+ * which is by default 30 seconds.
+ */
+const timeBetweenRefreshAttemptsInMs = 30000;
+
+/**
  *
  * Provides a RequestPolicy that can request a token from a TokenCredential
  * implementation and then apply it to the Authorization header of a request
@@ -46,6 +54,8 @@ export function bearerTokenAuthenticationPolicy(
  *
  */
 export class BearerTokenAuthenticationPolicy extends BaseRequestPolicy {
+  private tokenRefresher: AccessTokenRefresher;
+
   /**
    * Creates a new BearerTokenAuthenticationPolicy object.
    *
@@ -63,6 +73,11 @@ export class BearerTokenAuthenticationPolicy extends BaseRequestPolicy {
     private tokenCache: AccessTokenCache
   ) {
     super(nextPolicy, options);
+    this.tokenRefresher = new AccessTokenRefresher(
+      this.credential,
+      this.scopes,
+      timeBetweenRefreshAttemptsInMs
+    );
   }
 
   /**
@@ -81,11 +96,27 @@ export class BearerTokenAuthenticationPolicy extends BaseRequestPolicy {
     return this._nextPolicy.sendRequest(webResource);
   }
 
+  /**
+   * Attempts a token update if any other time related conditionals have been reached based on the tokenRefresher class.
+   */
+  private async updateTokenIfNeeded(options: GetTokenOptions): Promise<void> {
+    if (this.tokenRefresher.isReady()) {
+      const accessToken = await this.tokenRefresher.refresh(options);
+      this.tokenCache.setCachedToken(accessToken);
+    }
+  }
+
   private async getToken(options: GetTokenOptions): Promise<string | undefined> {
     let accessToken = this.tokenCache.getCachedToken();
     if (accessToken === undefined) {
-      accessToken = (await this.credential.getToken(this.scopes, options)) || undefined;
-      this.tokenCache.setCachedToken(accessToken);
+      // Waiting for the next refresh only if the cache is unable to retrieve the access token,
+      // which means that it has expired, or it has never been set.
+      accessToken = await this.tokenRefresher.refresh(options);
+    } else {
+      // If we still have a cached access token,
+      // And any other time related conditionals have been reached based on the tokenRefresher class,
+      // then attempt to refresh without waiting.
+      this.updateTokenIfNeeded(options);
     }
 
     return accessToken ? accessToken.token : undefined;
