@@ -129,7 +129,7 @@ Please note that models can also be trained using a graphical user interface suc
 Long-running operations are operations which consist of an initial request sent to the service to start an operation,followed by polling the service at intervals to determine whether the operation has completed or failed, and if it has succeeded, to get the result.
 
 Methods that train models or extract values from forms are modeled as long-running operations.  The client exposes a `begin<operation-name>` method that returns an `Promise<PollerLike>`.  Callers should wait for the operation to complete by calling `pollUntilDone()` on the poller returned from the `begin<operation-name>` method.  Sample code snippets are provided
-to illustrate using long-running operations [below](#Examples).
+to illustrate using long-running operations [below](#examples).
 
 ## Examples
 The following section provides several JavaScript code snippets illustrating common patterns used in the Form Recognizer client libraries.
@@ -284,7 +284,7 @@ async function main() {
   // Training document information
   if (model.trainingDocuments) {
     for (const doc of model.trainingDocuments) {
-      console.log(`Document name: ${doc.documentName}`);
+      console.log(`Document name: ${doc.name}`);
       console.log(`Document status: ${doc.status}`);
       console.log(`Document page count: ${doc.pageCount}`);
       console.log(`Document errors: ${doc.errors}`);
