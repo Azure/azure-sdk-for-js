@@ -20,6 +20,8 @@ interface AuthRequestDetails {
 
 describe("ManagedIdentityCredential", function() {
   afterEach(() => {
+    delete process.env.IDENTITY_ENDPOINT;
+    delete process.env.IDENTITY_HEADER;
     delete process.env.MSI_ENDPOINT;
     delete process.env.MSI_SECRET;
   });
@@ -219,7 +221,7 @@ describe("ManagedIdentityCredential", function() {
     if (authRequest.body) {
       const bodyParams = qs.parse(authRequest.body);
       assert.equal(authRequest.method, "POST");
-      assert.equal(bodyParams.clientid, "client");
+      assert.equal(bodyParams.client_id, "client");
       assert.equal(decodeURIComponent(bodyParams.resource as string), "https://service");
       assert.ok(
         authRequest.url.startsWith(process.env.MSI_ENDPOINT),
@@ -240,7 +242,7 @@ describe("ManagedIdentityCredential", function() {
     if (authRequest.body) {
       const bodyParams = qs.parse(authRequest.body);
       assert.equal(authRequest.method, "POST");
-      assert.equal(bodyParams.clientid, "client");
+      assert.equal(bodyParams.client_id, "client");
       assert.equal(decodeURIComponent(bodyParams.resource as string), "https://service");
       assert.ok(
         authRequest.url.startsWith(process.env.MSI_ENDPOINT),
