@@ -24,7 +24,7 @@ describe("Receiver unit tests", () => {
         connection: {
           id: "connection-id"
         },
-        streamingReceivers: {}
+        messageReceivers: {}
       } as unknown) as ConnectionContext;
     }
 
