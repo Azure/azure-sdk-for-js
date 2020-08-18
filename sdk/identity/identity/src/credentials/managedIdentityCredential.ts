@@ -25,14 +25,6 @@ export const ImdsApiVersion = "2018-02-01";
 export const AppServiceMsiApiVersion = "2017-09-01";
 const logger = credentialLogger("ManagedIdentityCredential");
 
-function getEnvMSIEndpoint(): string | undefined {
-  return process.env.IDENTITY_ENDPOINT || process.env.MSI_ENDPOINT;
-}
-
-function getEnvMSISecret(): string | undefined {
-  return process.env.IDENTITY_HEADER || process.env.MSI_SECRET;
-}
-
 /**
  * Attempts authentication using a managed identity that has been assigned
  * to the deployment environment.  This authentication type works in Azure VMs,
@@ -123,26 +115,43 @@ export class ManagedIdentityCredential implements TokenCredential {
 
   private createAppServiceMsiAuthRequest(
     resource: string,
-    clientId?: string
+    clientId?: string,
+    version?: "2019-08-01" | undefined
   ): RequestPrepareOptions {
     const queryParameters: any = {
       resource,
       "api-version": AppServiceMsiApiVersion
     };
 
-    if (clientId) {
-      queryParameters.clientid = clientId;
-    }
-
-    return {
-      url: getEnvMSIEndpoint(),
-      method: "GET",
-      queryParameters,
-      headers: {
-        Accept: "application/json",
-        "X-IDENTITY-HEADER": getEnvMSISecret()
+    if (version === "2019-08-01") {
+      if (clientId) {
+        queryParameters.client_id = clientId;
       }
-    };
+
+      return {
+        url: process.env.IDENTITY_ENDPOINT,
+        method: "GET",
+        queryParameters,
+        headers: {
+          Accept: "application/json",
+          "X-IDENTITY-HEADER": process.env.IDENTITY_HEADER
+        }
+      };
+    } else {
+      if (clientId) {
+        queryParameters.clientid = clientId;
+      }
+
+      return {
+        url: process.env.MSI_ENDPOINT,
+        method: "GET",
+        queryParameters,
+        headers: {
+          Accept: "application/json",
+          secret: process.env.MSI_SECRET
+        }
+      };
+    }
   }
 
   private createCloudShellMsiAuthRequest(
@@ -158,7 +167,7 @@ export class ManagedIdentityCredential implements TokenCredential {
     }
 
     return {
-      url: getEnvMSIEndpoint(),
+      url: process.env.MSI_ENDPOINT,
       method: "POST",
       body: qs.stringify(body),
       headers: {
@@ -244,18 +253,22 @@ export class ManagedIdentityCredential implements TokenCredential {
       getTokenOptions
     );
 
-    // Environment variable values
-    const msiEndpoint = getEnvMSIEndpoint();
-    const msiSecret = getEnvMSISecret();
-
-    // Environment variable names
-    const envEndpointName = msiEndpoint && (process.env.IDENTITY_ENDPOINT ? "IDENTITY_ENDPOINT" : "MSI_ENDPOINT");
-    const envSecretName = msiSecret && (process.env.IDENTITY_HEADER ? "IDENTITY_HEADER" : "MSI_SECRET");
-
     try {
       // Detect which type of environment we are running in
-      if (msiEndpoint) {
-        if (msiSecret) {
+      if (process.env.IDENTITY_ENDPOINT && process.env.IDENTITY_HEADER) {
+        // Running in App Service 2019-08-01
+        authRequestOptions = this.createAppServiceMsiAuthRequest(resource, clientId, "2019-08-01");
+        expiresInParser = (requestBody: any) => {
+          // Parse a date format like "06/20/2019 02:57:58 +00:00" and
+          // convert it into a JavaScript-formatted date, which is milliseconds since epoch
+          // then convert it to seconds since epoch
+          return Date.parse(requestBody.expires_on) / 1000;
+        };
+        logger.info(
+          `Using the endpoint and the secret coming form the environment variables: IDENTITY_ENDPOINT=${process.env.IDENTITY_ENDPOINT} and IDENTITY_HEADER=[REDACTED].`
+        );
+      } else if (process.env.MSI_ENDPOINT) {
+        if (process.env.MSI_SECRET) {
           // Running in App Service
           authRequestOptions = this.createAppServiceMsiAuthRequest(resource, clientId);
           expiresInParser = (requestBody: any) => {
@@ -264,11 +277,11 @@ export class ManagedIdentityCredential implements TokenCredential {
             return Date.parse(requestBody.expires_on);
           };
           logger.info(
-            `Using the endpoint and the secret coming form the environment variables: ${envEndpointName}=${msiEndpoint} and ${envSecretName}=[REDACTED].`
+            `Using the endpoint and the secret coming form the environment variables: MSI_ENDPOINT=${process.env.MSI_ENDPOINT} and MSI_SECRET=[REDACTED].`
           );
         } else {
           logger.info(
-            `Using the endpoint coming form the environment variable ${envEndpointName}=${msiEndpoint}, and using the cloud shell to proceed with the authentication.`
+            `Using the endpoint coming form the environment variable MSI_ENDPOINT=${process.env.MSI_ENDPOINT}, and using the cloud shell to proceed with the authentication.`
           );
           // Running in Cloud Shell
           authRequestOptions = this.createCloudShellMsiAuthRequest(resource, clientId);
@@ -292,7 +305,7 @@ export class ManagedIdentityCredential implements TokenCredential {
           }
         };
         logger.info(
-          `Using the IMDS endpoint coming form the environment variable ${envEndpointName}=${msiEndpoint}, and using the cloud shell to proceed with the authentication.`
+          `Using the IMDS endpoint coming form the environment variable MSI_ENDPOINT=${process.env.MSI_ENDPOINT}, and using the cloud shell to proceed with the authentication.`
         );
         // Ping the IMDS endpoint to see if it's available
         if (
