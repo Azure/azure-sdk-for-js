@@ -1,6 +1,6 @@
 let nock = require('nock');
 
-module.exports.hash = "707039e1c7cffcbf23d699b5e7ba9f82";
+module.exports.hash = "c48d48c73653528508e5def8772d97fd";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
@@ -11,6 +11,8 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'no-store, no-cache',
   'Pragma',
   'no-cache',
+  'Content-Length',
+  '1321',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
@@ -22,25 +24,23 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  '2c151804-5d5f-4bc4-980a-4969980c1000',
+  '95e64162-659e-457d-b7e6-7a4563871f00',
   'x-ms-ests-server',
-  '2.1.10946.16 - NCUS ProdSlices',
+  '2.1.10946.17 - NCUS ProdSlices',
   'Set-Cookie',
-  'fpc=AgbFhhIoNZ9DgDyQCUF6OsxJ4DFtAQAAAOEdydYOAAAA; expires=Mon, 14-Sep-2020 00:05:54 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=ArER7NstxmVFo5fABfvN2NlJ4DFtAQAAAAz4zdYOAAAA; expires=Thu, 17-Sep-2020 16:25:49 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Sat, 15 Aug 2020 00:05:53 GMT',
-  'Content-Length',
-  '1321'
+  'Tue, 18 Aug 2020 16:25:49 GMT'
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .post('/$schemagroups/azsdk_js_test_group/schemas/azsdk_js_test_000011', "{\"type\":\"record\",\"name\":\"User\",\"namespace\":\"com.azure.schemaregistry.samples\",\"fields\":[{\"name\":\"name\",\"type\":\"string\"},{\"name\":\"favoriteNumber\",\"type\":\"int\"}]}")
+  .get('/$schemagroups/getSchemaById/ffffffffffffffffffffffffffffffff')
   .query(true)
-  .reply(400, "<Error><Code>400</Code><Detail>Invalid schema type for POST request. 'not-valid' is not supported. TrackingId:cde3219b-ad3c-49f9-9b26-b23fa6b3320c_G3, SystemTracker:endpoint:$schemagroups/azsdk_js_test_group/schemas/azsdk_js_test_000011, Timestamp:2020-08-15T00:05:54</Detail></Error>", [
+  .reply(404, "<Error><Code>404</Code><Detail>Schema id ffffffffffffffffffffffffffffffff does not exist. TrackingId:f466c0b8-21b6-463e-8583-db22158a8486_G5, SystemTracker:endpoint:$schemagroups/getSchemaById/ffffffffffffffffffffffffffffffff, Timestamp:2020-08-18T16:25:50</Detail></Error>", [
   'Transfer-Encoding',
   'chunked',
   'Content-Type',
@@ -50,5 +50,5 @@ nock('https://endpoint', {"encodedQueryParams":true})
   'Strict-Transport-Security',
   'max-age=31536000',
   'Date',
-  'Sat, 15 Aug 2020 00:05:54 GMT'
+  'Tue, 18 Aug 2020 16:25:50 GMT'
 ]);

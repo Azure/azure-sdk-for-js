@@ -1,6 +1,6 @@
 let nock = require('nock');
 
-module.exports.hash = "a28f02e0f112e29825ddda22955a8176";
+module.exports.hash = "febe9d20712277d8563fe7b198a96fb2";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
@@ -22,25 +22,25 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  '5c2bcd78-52a0-4632-b90e-8c7d5f010f00',
+  '4382d9bb-b752-45d5-8bbc-2041b6152300',
   'x-ms-ests-server',
-  '2.1.10946.16 - SCUS ProdSlices',
+  '2.1.10946.17 - EUS ProdSlices',
   'Set-Cookie',
-  'fpc=AnRgOHbeji5DkuSs6eGSYOJJ4DFtAQAAAOQdydYOAAAA; expires=Mon, 14-Sep-2020 00:05:57 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AhZNLTzJrYlJuE5QKuFK9qhJ4DFtAQAAAAr4zdYOAAAA; expires=Thu, 17-Sep-2020 16:25:47 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Sat, 15 Aug 2020 00:05:56 GMT',
+  'Tue, 18 Aug 2020 16:25:46 GMT',
   'Content-Length',
   '1321'
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .get('/$schemagroups/getSchemaById/ffffffffffffffffffffffffffffffff')
+  .put('/$schemagroups/azsdk_js_test_group/schemas/azsdk_js_test_000012', "{\"type\":\"record\",\"name\":\"User\",\"namespace\":\"com.azure.schemaregistry.samples\",\"fields\":[{\"name\":\"name\",\"type\":\"string\"},{\"name\":\"favoriteNumber\",\"type\":\"int\"}]}")
   .query(true)
-  .reply(404, "<Error><Code>404</Code><Detail>Schema id ffffffffffffffffffffffffffffffff does not exist. TrackingId:44dfff1d-37e5-4908-bdda-b1813a0fc393_G3, SystemTracker:endpoint:$schemagroups/getSchemaById/ffffffffffffffffffffffffffffffff, Timestamp:2020-08-15T00:05:57</Detail></Error>", [
+  .reply(400, "<Error><Code>400</Code><Detail>Invalid schema type for POST request. 'not-valid' is not supported. TrackingId:9c453307-65dd-4b89-b761-e80c1594520a_G5, SystemTracker:endpoint:$schemagroups/azsdk_js_test_group/schemas/azsdk_js_test_000012, Timestamp:2020-08-18T16:25:47</Detail></Error>", [
   'Transfer-Encoding',
   'chunked',
   'Content-Type',
@@ -50,5 +50,5 @@ nock('https://endpoint', {"encodedQueryParams":true})
   'Strict-Transport-Security',
   'max-age=31536000',
   'Date',
-  'Sat, 15 Aug 2020 00:05:57 GMT'
+  'Tue, 18 Aug 2020 16:25:47 GMT'
 ]);

@@ -11,29 +11,29 @@
     "cache-control": "no-store, no-cache",
     "content-length": "1321",
     "content-type": "application/json; charset=utf-8",
-    "date": "Sat, 15 Aug 2020 00:06:04 GMT",
+    "date": "Tue, 18 Aug 2020 16:25:53 GMT",
     "expires": "-1",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
     "referrer-policy": "strict-origin-when-cross-origin",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.10946.16 - EUS ProdSlices",
-    "x-ms-request-id": "f4e065fb-0fe6-4359-a1e6-5ecaa5150f00"
+    "x-ms-ests-server": "2.1.10946.17 - NCUS ProdSlices",
+    "x-ms-request-id": "17e97856-6184-41b9-9762-80ed64192200"
    }
   },
   {
-   "method": "POST",
-   "url": "https://endpoint/$schemagroups/azsdk_js_test_group/schemas/azsdk_js_test_000011",
+   "method": "PUT",
+   "url": "https://endpoint/$schemagroups/azsdk_js_test_group/schemas/azsdk_js_test_000012",
    "query": {
     "api-version": "2017-04"
    },
    "requestBody": "\"{\\\"type\\\":\\\"record\\\",\\\"name\\\":\\\"User\\\",\\\"namespace\\\":\\\"com.azure.schemaregistry.samples\\\",\\\"fields\\\":[{\\\"name\\\":\\\"name\\\",\\\"type\\\":\\\"string\\\"},{\\\"name\\\":\\\"favoriteNumber\\\",\\\"type\\\":\\\"int\\\"}]}\"",
    "status": 400,
-   "response": "<Error><Code>400</Code><Detail>Invalid schema type for POST request. 'not-valid' is not supported. TrackingId:e17caa83-e63e-42eb-97cc-c114e2dadb7b_G3, SystemTracker:endpoint:$schemagroups/azsdk_js_test_group/schemas/azsdk_js_test_000011, Timestamp:2020-08-15T00:06:05</Detail></Error>",
+   "response": "<Error><Code>400</Code><Detail>Invalid schema type for POST request. 'not-valid' is not supported. TrackingId:7aa09a70-19ba-4a15-80ef-76289f4fabc1_G3, SystemTracker:endpoint:$schemagroups/azsdk_js_test_group/schemas/azsdk_js_test_000012, Timestamp:2020-08-18T16:25:55</Detail></Error>",
    "responseHeaders": {
     "content-type": "application/xml; charset=utf-8",
-    "date": "Sat, 15 Aug 2020 00:06:05 GMT",
+    "date": "Tue, 18 Aug 2020 16:25:55 GMT",
     "server": "Microsoft-HTTPAPI/2.0",
     "strict-transport-security": "max-age=31536000",
     "transfer-encoding": "chunked"
@@ -44,5 +44,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "9d65cde4cc4dc18c9a19555b811c1900"
+ "hash": "6d98f6e4cf5c2d79ff486c979c6f04a6"
 }

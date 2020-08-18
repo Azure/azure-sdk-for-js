@@ -1,6 +1,6 @@
 let nock = require('nock');
 
-module.exports.hash = "cba078cfafb40d142238349ea991487c";
+module.exports.hash = "97bb3ef7d11ff026e400c3bb44bc641b";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
@@ -11,6 +11,8 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'no-store, no-cache',
   'Pragma',
   'no-cache',
+  'Content-Length',
+  '1321',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
@@ -22,25 +24,23 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  'e48323fc-09db-4f13-9989-7257f8352100',
+  'dcee8853-3abc-43e0-b35e-3f221c082100',
   'x-ms-ests-server',
-  '2.1.10946.16 - WUS2 ProdSlices',
+  '2.1.10946.17 - NCUS ProdSlices',
   'Set-Cookie',
-  'fpc=Aqi9N1kRi8NDiWJ4PWkfEypJ4DFtAQAAAN4dydYOAAAA; expires=Mon, 14-Sep-2020 00:05:51 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AlrOX0iy3kZOhCgLQdYEq1pJ4DFtAQAAAAz4zdYOAAAA; expires=Thu, 17-Sep-2020 16:25:48 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Sat, 15 Aug 2020 00:05:51 GMT',
-  'Content-Length',
-  '1321'
+  'Tue, 18 Aug 2020 16:25:48 GMT'
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .put('/$schemagroups/azsdk_js_test_group/schemas/azsdk_js_test_000011', "{\"type\":\"record\",\"name\":\"User\",\"namespace\":\"com.azure.schemaregistry.samples\",\"fields\":[{\"name\":\"name\",\"type\":\"string\"},{\"name\":\"favoriteNumber\",\"type\":\"int\"}]}")
+  .post('/$schemagroups/azsdk_js_test_group/schemas/never-registered', "{\"type\":\"record\",\"name\":\"User\",\"namespace\":\"com.azure.schemaregistry.samples\",\"fields\":[{\"name\":\"name\",\"type\":\"string\"},{\"name\":\"favoriteNumber\",\"type\":\"int\"}]}")
   .query(true)
-  .reply(400, "<Error><Code>400</Code><Detail>Invalid schema type for POST request. 'not-valid' is not supported. TrackingId:33bc1e39-a5eb-4fce-bb85-01b1112d2517_G5, SystemTracker:endpoint:$schemagroups/azsdk_js_test_group/schemas/azsdk_js_test_000011, Timestamp:2020-08-15T00:05:52</Detail></Error>", [
+  .reply(404, "<Error><Code>404</Code><Detail>Schema azsdk_js_test_group/never-registered does not exist. TrackingId:bb8152ec-0d7d-4cdc-91a9-5eb352e34587_G3, SystemTracker:endpoint:$schemagroups/azsdk_js_test_group/schemas/never-registered, Timestamp:2020-08-18T16:25:49</Detail></Error>", [
   'Transfer-Encoding',
   'chunked',
   'Content-Type',
@@ -50,5 +50,5 @@ nock('https://endpoint', {"encodedQueryParams":true})
   'Strict-Transport-Security',
   'max-age=31536000',
   'Date',
-  'Sat, 15 Aug 2020 00:05:52 GMT'
+  'Tue, 18 Aug 2020 16:25:49 GMT'
 ]);
