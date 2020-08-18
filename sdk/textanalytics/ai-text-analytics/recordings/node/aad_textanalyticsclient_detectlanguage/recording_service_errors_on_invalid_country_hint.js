@@ -20,38 +20,38 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'x-ms-request-id',
-  'cb7c5eec-fa33-4de7-8c27-4e1bc618ac00',
+  '1e50f5a0-f810-4131-8798-f5b2db0d2100',
   'x-ms-ests-server',
-  '2.1.10571.11 - WUS2 ProdSlices',
+  '2.1.10946.17 - CHI ProdSlices',
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'Set-Cookie',
-  'fpc=AhTwLH-mXnRIu4OLEgw5wi_0CyfMAQAAAPFTX9YOAAAA; expires=Thu, 25-Jun-2020 18:16:17 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=Ajjtd21fzilBh-EK5JiOgRzIIHRUAQAAAMrkzdYOAAAA; expires=Thu, 17-Sep-2020 15:03:38 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=prod; path=/; SameSite=None; secure; HttpOnly',
   'Set-Cookie',
   'stsservicecookie=ests; path=/; SameSite=None; secure; HttpOnly',
   'Date',
-  'Tue, 26 May 2020 18:16:17 GMT',
+  'Tue, 18 Aug 2020 15:03:38 GMT',
   'Content-Length',
-  '1417'
+  '1241'
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
   .post('/text/analytics/v3.0/languages', {"documents":[{"id":"0","text":"hello","countryHint":"invalidcountry"}]})
-  .reply(200, {"documents":[],"errors":[{"id":"0","error":{"code":"InvalidArgument","message":"Invalid Country Hint.","innererror":{"code":"InvalidCountryHint","message":"Country hint is not valid. Please specify an ISO 3166-1 alpha-2 two letter country code."}}}],"modelVersion":"2019-10-01"}, [
+  .reply(200, {"documents":[],"errors":[{"id":"0","error":{"code":"InvalidArgument","message":"Invalid Country Hint.","innererror":{"code":"InvalidCountryHint","message":"Country hint is not valid. Please specify an ISO 3166-1 alpha-2 two letter country code."}}}],"modelVersion":"2020-07-01"}, [
   'Transfer-Encoding',
   'chunked',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-envoy-upstream-service-time',
-  '1',
+  '1039',
   'apim-request-id',
-  'a0417790-14f0-47fc-89c6-ff8ff41f4cde',
+  '566f0cd4-d735-4a94-bbc1-2aa1fd874f36',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Tue, 26 May 2020 18:16:17 GMT'
+  'Tue, 18 Aug 2020 15:03:39 GMT'
 ]);

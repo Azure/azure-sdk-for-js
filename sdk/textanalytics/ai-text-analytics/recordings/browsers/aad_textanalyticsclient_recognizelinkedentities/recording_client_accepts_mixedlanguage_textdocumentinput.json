@@ -9,17 +9,17 @@
    "response": "{\"token_type\":\"Bearer\",\"expires_in\":3599,\"ext_expires_in\":3599,\"access_token\":\"access_token\"}",
    "responseHeaders": {
     "cache-control": "no-cache, no-store",
-    "content-length": "1417",
+    "content-length": "1247",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 26 May 2020 18:16:28 GMT",
+    "date": "Tue, 18 Aug 2020 15:04:46 GMT",
     "expires": "-1",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
     "referrer-policy": "strict-origin-when-cross-origin",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.10620.9 - WUS2 ProdSlices",
-    "x-ms-request-id": "37c5711e-50d9-437c-86bc-98d223470500"
+    "x-ms-ests-server": "2.1.10946.17 - CHI ProdSlices",
+    "x-ms-request-id": "0b772eef-8100-44f6-8f20-dd5839102000"
    }
   },
   {
@@ -32,14 +32,14 @@
    "responseHeaders": {
     "access-control-allow-origin": "*",
     "access-control-expose-headers": "Operation-Location",
-    "apim-request-id": "ff660494-bfa4-4ecd-82e0-b363c273b4c9",
+    "apim-request-id": "b4a4012a-b639-4546-9342-70d6bcabfd36",
     "content-type": "application/json; charset=utf-8",
     "csp-billing-usage": "CognitiveServices.TextAnalytics.BatchScoring=5",
-    "date": "Tue, 26 May 2020 18:16:28 GMT",
+    "date": "Tue, 18 Aug 2020 15:04:48 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "31"
+    "x-envoy-upstream-service-time": "1010"
    }
   }
  ],

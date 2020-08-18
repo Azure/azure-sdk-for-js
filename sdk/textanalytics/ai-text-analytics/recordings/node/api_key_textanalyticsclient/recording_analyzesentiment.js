@@ -14,13 +14,13 @@ nock('https://endpoint', {"encodedQueryParams":true})
   'csp-billing-usage',
   'CognitiveServices.TextAnalytics.BatchScoring=4',
   'x-envoy-upstream-service-time',
-  '113',
+  '1137',
   'apim-request-id',
-  '47d5888c-bb94-403c-b063-6b083ba70429',
+  '66e4674b-08bf-432e-aced-de59900e9750',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Tue, 26 May 2020 18:16:13 GMT'
+  'Tue, 18 Aug 2020 15:03:17 GMT'
 ]);

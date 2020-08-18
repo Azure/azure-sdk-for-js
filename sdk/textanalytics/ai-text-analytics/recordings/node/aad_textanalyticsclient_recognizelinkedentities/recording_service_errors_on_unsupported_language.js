@@ -20,38 +20,38 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'x-ms-request-id',
-  '92077267-fb62-41dc-90bf-5eb57a5b0600',
+  '0237d1b6-4bfa-4750-bb19-98307fe82500',
   'x-ms-ests-server',
-  '2.1.10620.9 - WUS2 ProdSlices',
+  '2.1.10946.17 - CHI ProdSlices',
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'Set-Cookie',
-  'fpc=AnnlBZXLzGpLm3uPalQ5zqD0CyfMAQAAAPVTX9YOAAAA; expires=Thu, 25-Jun-2020 18:16:22 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=Ao44ndNdmgxCpvzr9yHN3P3IIHRUAQAAAOLkzdYOAAAA; expires=Thu, 17-Sep-2020 15:04:02 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=prod; path=/; SameSite=None; secure; HttpOnly',
   'Set-Cookie',
   'stsservicecookie=ests; path=/; SameSite=None; secure; HttpOnly',
   'Date',
-  'Tue, 26 May 2020 18:16:21 GMT',
+  'Tue, 18 Aug 2020 15:04:02 GMT',
   'Content-Length',
-  '1417'
+  '1247'
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
   .post('/text/analytics/v3.0/entities/linking', {"documents":[{"id":"0","text":"This is some text, but it doesn't matter.","language":"notalanguage"}]})
-  .reply(200, {"documents":[],"errors":[{"id":"0","error":{"code":"InvalidArgument","message":"Invalid Language Code.","innererror":{"code":"UnsupportedLanguageCode","message":"Supplied language not supported. Pass in one of: en,es"}}}],"modelVersion":"2020-02-01"}, [
+  .reply(200, {"documents":[],"errors":[{"id":"0","error":{"code":"InvalidArgument","message":"Invalid Language Code.","innererror":{"code":"UnsupportedLanguageCode","message":"Invalid language code. Supported languages: en,es"}}}],"modelVersion":"2020-02-01"}, [
   'Transfer-Encoding',
   'chunked',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-envoy-upstream-service-time',
-  '2',
+  '932',
   'apim-request-id',
-  '6488bd9f-430d-470c-88d9-f215d6e29c00',
+  '55e0d6a8-b472-425f-9544-9c05e7b8a9b8',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Tue, 26 May 2020 18:16:22 GMT'
+  'Tue, 18 Aug 2020 15:04:03 GMT'
 ]);
