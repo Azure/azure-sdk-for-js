@@ -23,6 +23,18 @@ describe("AbortSignal", () => {
     body: "doesn't matter"
   };
 
+  let closeables: { close(): Promise<void> }[];
+
+  beforeEach(() => {
+    closeables = [];
+  });
+
+  afterEach(async () => {
+    for (const closeable of closeables) {
+      await closeable.close();
+    }
+  });
+
   describe("sender", () => {
     let connectionContext: ReturnType<typeof createConnectionContextForTests>;
 
@@ -32,6 +44,7 @@ describe("AbortSignal", () => {
 
     it("AbortSignal is plumbed through all send operations", async () => {
       const sender = new MessageSender(connectionContext, "fakeEntityPath", {});
+      closeables.push(sender);
 
       let passedInOptions: OperationOptionsBase | undefined;
 
@@ -65,6 +78,7 @@ describe("AbortSignal", () => {
 
     it("_trySend with an already aborted AbortSignal", async () => {
       const sender = new MessageSender(connectionContext, "fakeEntityPath", { timeoutInMs: 1 });
+      closeables.push(sender);
 
       sender["open"] = async () => {
         throw new Error("INIT SHOULD NEVER HAVE BEEN CALLED");
@@ -93,11 +107,13 @@ describe("AbortSignal", () => {
       const sender = new MessageSender(connectionContext, "fakeEntityPath", {
         timeoutInMs: 1
       });
+      closeables.push(sender);
+
       sender["_retryOptions"].timeoutInMs = 1;
       sender["_retryOptions"].maxRetries = 1;
       sender["_retryOptions"].retryDelayInMs = 1;
 
-      sender["_sender"] = {
+      sender["_link"] = {
         credit: 999,
         isOpen: () => false,
         session: {
@@ -137,6 +153,8 @@ describe("AbortSignal", () => {
   describe("MessageSender.open() aborts after...", () => {
     it("...beforeLock", async () => {
       const sender = new MessageSender(createConnectionContextForTests(), "fakeEntityPath", {});
+      closeables.push(sender);
+
       const abortSignal = createCountdownAbortSignal(1);
 
       try {
@@ -152,6 +170,8 @@ describe("AbortSignal", () => {
 
     it("...afterLock", async () => {
       const sender = new MessageSender(createConnectionContextForTests(), "fakeEntityPath", {});
+      closeables.push(sender);
+
       const abortSignal = createCountdownAbortSignal(2);
 
       try {
@@ -176,6 +196,7 @@ describe("AbortSignal", () => {
         "fakeEntityPath",
         {}
       );
+      closeables.push(sender);
 
       sender["_negotiateClaim"] = async () => {
         isAborted = true;
@@ -205,6 +226,7 @@ describe("AbortSignal", () => {
         "fakeEntityPath",
         {}
       );
+      closeables.push(sender);
 
       sender["_negotiateClaim"] = async () => {};
 
@@ -226,6 +248,7 @@ describe("AbortSignal", () => {
         createConnectionContextForTests(),
         "fakeEntityPath"
       );
+      closeables.push(messageReceiver);
 
       const abortSignal = createCountdownAbortSignal(1);
 
@@ -245,6 +268,7 @@ describe("AbortSignal", () => {
         createConnectionContextForTests(),
         "fakeEntityPath"
       );
+      closeables.push(messageReceiver);
 
       let isAborted = false;
       const abortSignal = createAbortSignalForTest(() => isAborted);
@@ -261,7 +285,7 @@ describe("AbortSignal", () => {
         assert.equal(err.name, "AbortError");
       }
 
-      assert.isFalse(messageReceiver.isConnecting);
+      assert.isFalse(messageReceiver["_isConnecting"]);
     });
 
     it("...after createReceiver", async () => {
@@ -274,6 +298,7 @@ describe("AbortSignal", () => {
         }
       });
       const messageReceiver = new StreamingReceiver(fakeContext, "fakeEntityPath");
+      closeables.push(messageReceiver);
 
       messageReceiver["_negotiateClaim"] = async () => {};
 

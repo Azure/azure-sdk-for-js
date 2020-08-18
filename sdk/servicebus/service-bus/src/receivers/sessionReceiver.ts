@@ -153,7 +153,8 @@ export class ServiceBusSessionReceiverImpl<
     const messageSession = await MessageSession.create(context, entityPath, {
       sessionId: sessionOptions.sessionId,
       maxAutoRenewLockDurationInMs: sessionOptions.maxAutoRenewLockDurationInMs,
-      receiveMode: convertToInternalReceiveMode(receiveMode)
+      receiveMode: convertToInternalReceiveMode(receiveMode),
+      abortSignal: sessionOptions.abortSignal
     });
     const sessionReceiver = new ServiceBusSessionReceiverImpl<ReceivedMessageT>(
       messageSession,

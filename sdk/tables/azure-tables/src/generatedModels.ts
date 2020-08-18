@@ -15,8 +15,6 @@ export {
   TableDeleteResponse as DeleteTableResponse,
   TableQueryOperationResponse as ListTablesResponse,
   TableQueryEntitiesWithPartitionAndRowKeyResponse,
-  TableQueryEntitiesResponse,
-  TableInsertEntityResponse as CreateEntityResponse,
   TableDeleteEntityResponse as DeleteEntityResponse,
   TableUpdateEntityResponse as UpdateEntityResponse,
   TableMergeEntityResponse as UpsertEntityResponse,

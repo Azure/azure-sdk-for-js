@@ -10,7 +10,7 @@ export interface MSLink {
 }
 export type Measurements = { [key: string]: number };
 export type TelemetryProcessor = (envelope: Envelope) => boolean | void;
-export type SenderCallback = (err: Error | null, statusCode?: number, result?: string) => void;
+export type SenderResult = { statusCode: number; result: string };
 
 export interface BaseExporter {
   addTelemetryProcessor(processor: TelemetryProcessor): void;
@@ -19,7 +19,7 @@ export interface BaseExporter {
 }
 
 export interface Sender {
-  send(payload: unknown[], callback?: SenderCallback): void;
+  send(payload: unknown[]): Promise<SenderResult>;
   shutdown(): void;
 }
 
