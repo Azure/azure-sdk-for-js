@@ -9,7 +9,11 @@ trigger:
 
 variables:
 
+
+
   NodeVersion: "10.x"
+
+
 
   Agent.Source.Git.ShallowFetchDepth: 20
   skipComponentGovernanceDetection: true
@@ -157,9 +161,7 @@ jobs:
 
     steps:
 
-
       - template: /eng/pipelines/templates/steps/use-node-version.yml
-
 
       - script: |
           node common/scripts/install-run-rush.js install
@@ -174,7 +176,9 @@ jobs:
         displayName: 'Build test assets'
 
 
-      - template: /eng/pipelines/templates/steps/use-node-test-version.yml
+      - template: /eng/pipelines/templates/steps/use-node-version.yml
+        parameters:
+          NodeVersion: $(NodeTestVersion)
 
       - script: |
           node common/scripts/install-run-rush.js unit-test $(rushFlags)
