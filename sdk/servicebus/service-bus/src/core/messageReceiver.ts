@@ -266,33 +266,14 @@ export class MessageReceiver extends LinkEntity<Receiver> {
     return this._context.connection.createReceiver(options);
   }
 
-  protected _deleteFromCache(): void {
-    if (this.receiverType === "sr") {
-      delete this._context.streamingReceivers[this.name];
-    } else if (this.receiverType === "br") {
-      delete this._context.batchingReceivers[this.name];
-    }
-    log.error(
-      "[%s] Deleted the receiver '%s' from the client cache.",
-      this._context.connectionId,
-      this.name
-    );
-  }
-
   /**
-   * Closes the underlying AMQP receiver.
+   * Clears lock renewal timers on all active messages, clears token remewal for current receiver,
+   * removes current MessageReceiver instance from cache, and closes the underlying AMQP receiver.
    * @return {Promise<void>} Promise<void>.
    */
   async close(): Promise<void> {
-    log.receiver(
-      "[%s] Closing the [%s]Receiver for entity '%s'.",
-      this._context.connectionId,
-      this.receiverType,
-      this._entityPath
-    );
     this._clearAllMessageLockRenewTimers();
-    this._deleteFromCache();
-    await this.closeLink("permanently");
+    await super.close();
   }
 
   /**

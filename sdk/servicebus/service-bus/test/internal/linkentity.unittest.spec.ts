@@ -27,7 +27,7 @@ describe("LinkEntity unit tests", () => {
   });
 
   afterEach(async () => {
-    await linkEntity["closeLink"]("permanently");
+    await linkEntity.close();
   });
 
   it("initLink - basic case", async () => {
@@ -40,13 +40,13 @@ describe("LinkEntity unit tests", () => {
 
     // when we close with 'linkonly' it closes the link but the
     // link can be reopened.
-    await linkEntity["closeLink"]("linkonly");
+    await linkEntity["closeLink"]();
     assertLinkEntityClosedTemporarily();
 
     await linkEntity.initLink({});
     assertLinkEntityOpen();
 
-    await linkEntity["closeLink"]("permanently");
+    await linkEntity.close();
     assertLinkEntityClosedPermanently();
 
     linkEntity.initLink({});
@@ -98,7 +98,7 @@ describe("LinkEntity unit tests", () => {
       ++negotiateClaimCalled;
     };
 
-    await linkEntity["closeLink"]("permanently");
+    await linkEntity.close();
     assertLinkEntityClosedPermanently();
 
     await linkEntity.initLink({});
@@ -196,7 +196,7 @@ describe("LinkEntity unit tests", () => {
 
   it("initLink - user closes link while it's initializing", async () => {
     linkEntity["createRheaLink"] = async () => {
-      await linkEntity["closeLink"]("permanently");
+      await linkEntity.close();
       return createRheaReceiverForTests();
     };
 
@@ -216,11 +216,11 @@ describe("LinkEntity unit tests", () => {
   it("initLink - multiple closes don't cause errors", async () => {
     // TODO: there is a possibility of a race condition here. We can address this
     // when we properly lock around init operations that are in progress.
-    await linkEntity["closeLink"]("linkonly");
-    await linkEntity["closeLink"]("linkonly");
+    await linkEntity["closeLink"]();
+    await linkEntity["closeLink"]();
 
-    await linkEntity["closeLink"]("permanently");
-    await linkEntity["closeLink"]("permanently");
+    await linkEntity.close();
+    await linkEntity.close();
   });
 
   it("initLink - get logger", async () => {
