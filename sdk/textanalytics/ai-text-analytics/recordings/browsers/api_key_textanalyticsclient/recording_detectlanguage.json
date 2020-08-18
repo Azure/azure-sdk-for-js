@@ -10,14 +10,14 @@
    "responseHeaders": {
     "access-control-allow-origin": "*",
     "access-control-expose-headers": "Operation-Location,Location",
-    "apim-request-id": "194d23e5-feb9-4b1d-b60a-f599376dd8d7",
+    "apim-request-id": "70faa130-0f04-43eb-884d-c897257979d8",
     "content-type": "application/json; charset=utf-8",
     "csp-billing-usage": "CognitiveServices.TextAnalytics.BatchScoring=1",
-    "date": "Mon, 17 Aug 2020 20:21:18 GMT",
+    "date": "Tue, 18 Aug 2020 15:04:12 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "879"
+    "x-envoy-upstream-service-time": "1460"
    }
   }
  ],
