@@ -24,6 +24,6 @@ export interface Sender {
 }
 
 export interface PersistentStorage {
-  shift(cb: (err: Error | null, value?: unknown[]) => void): void;
-  push(value: unknown[], cb: (err: Error | null, result?: boolean) => void): void;
+  shift(): Promise<unknown>;
+  push(value: unknown[]): Promise<boolean>;
 }

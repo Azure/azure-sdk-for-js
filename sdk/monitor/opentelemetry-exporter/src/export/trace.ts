@@ -12,12 +12,12 @@ export class AzureMonitorTraceExporter extends AzureMonitorBaseExporter implemen
     });
   }
 
-  export(spans: ReadableSpan[], resultCallback: (result: ExportResult) => void): void {
+  async export(spans: ReadableSpan[], resultCallback: (result: ExportResult) => void): Promise<void> {
     this._logger.info(`Exporting ${spans.length} span(s). Converting to envelopes...`);
     const envelopes = spans.map((span) =>
       readableSpanToEnvelope(span, this._options.instrumentationKey, this._logger)
     );
-    this.exportEnvelopes(envelopes, resultCallback);
+    resultCallback(await this.exportEnvelopes(envelopes));
   }
 
   shutdown(): void {
