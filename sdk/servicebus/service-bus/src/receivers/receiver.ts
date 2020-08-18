@@ -134,8 +134,9 @@ export interface ServiceBusReceiver<ReceivedMessageT> {
  * @internal
  * @ignore
  */
-export class ServiceBusReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMessageWithLock>
-  implements ServiceBusReceiver<ReceivedMessageT> {
+export class ServiceBusReceiverImpl<
+  ReceivedMessageT extends ReceivedMessage | ReceivedMessageWithLock
+> implements ServiceBusReceiver<ReceivedMessageT> {
   private _retryOptions: RetryOptions;
   /**
    * @property {boolean} [_isClosed] Denotes if close() was called on this receiver
@@ -285,10 +286,7 @@ export class ServiceBusReceiverImpl<ReceivedMessageT extends ReceivedMessage | R
     }
 
     const receiveMessages = async () => {
-      if (
-        !this._batchingReceiver ||
-        !this._context.batchingReceivers[this._batchingReceiver.name]
-      ) {
+      if (!this._batchingReceiver || !this._context.messageReceivers[this._batchingReceiver.name]) {
         const options: ReceiveOptions = {
           maxConcurrentCalls: 0,
           receiveMode: convertToInternalReceiveMode(this.receiveMode)

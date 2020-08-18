@@ -291,12 +291,9 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
         delete this._context.senders[this.name];
         break;
       }
-      case "br": {
-        delete this._context.batchingReceivers[this.name];
-        break;
-      }
+      case "br":
       case "sr": {
-        delete this._context.streamingReceivers[this.name];
+        delete this._context.messageReceivers[this.name];
         break;
       }
       case "ms": {

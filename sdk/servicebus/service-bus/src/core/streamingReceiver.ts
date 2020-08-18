@@ -711,7 +711,7 @@ export class StreamingReceiver extends MessageReceiver {
       abortSignal: options?.abortSignal
     };
     await retry<void>(config);
-    context.streamingReceivers[sReceiver.name] = sReceiver;
+    context.messageReceivers[sReceiver.name] = sReceiver;
     return sReceiver;
   }
 }
