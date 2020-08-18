@@ -11,8 +11,6 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'no-store, no-cache',
   'Pragma',
   'no-cache',
-  'Content-Length',
-  '1321',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
@@ -24,23 +22,25 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  'dcee8853-3abc-43e0-b35e-3f221c082100',
+  'b2038dc0-7a9e-4e74-bfb5-63eb33ee0400',
   'x-ms-ests-server',
-  '2.1.10946.17 - NCUS ProdSlices',
+  '2.1.10963.12 - NCUS ProdSlices',
   'Set-Cookie',
-  'fpc=AlrOX0iy3kZOhCgLQdYEq1pJ4DFtAQAAAAz4zdYOAAAA; expires=Thu, 17-Sep-2020 16:25:48 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=Am7JbGpV6wdGiTMXGUSMhuVJ4DFtAQAAAGdWztYOAAAA; expires=Thu, 17-Sep-2020 23:08:24 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Tue, 18 Aug 2020 16:25:48 GMT'
+  'Tue, 18 Aug 2020 23:08:24 GMT',
+  'Content-Length',
+  '1321'
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
   .post('/$schemagroups/azsdk_js_test_group/schemas/never-registered', "{\"type\":\"record\",\"name\":\"User\",\"namespace\":\"com.azure.schemaregistry.samples\",\"fields\":[{\"name\":\"name\",\"type\":\"string\"},{\"name\":\"favoriteNumber\",\"type\":\"int\"}]}")
   .query(true)
-  .reply(404, "<Error><Code>404</Code><Detail>Schema azsdk_js_test_group/never-registered does not exist. TrackingId:bb8152ec-0d7d-4cdc-91a9-5eb352e34587_G3, SystemTracker:endpoint:$schemagroups/azsdk_js_test_group/schemas/never-registered, Timestamp:2020-08-18T16:25:49</Detail></Error>", [
+  .reply(404, "<Error><Code>404</Code><Detail>Schema azsdk_js_test_group/never-registered does not exist. TrackingId:9f044d2e-7a34-47cb-be75-588c0b02e43e_G4, SystemTracker:endpoint:$schemagroups/azsdk_js_test_group/schemas/never-registered, Timestamp:2020-08-18T23:08:25</Detail></Error>", [
   'Transfer-Encoding',
   'chunked',
   'Content-Type',
@@ -50,5 +50,5 @@ nock('https://endpoint', {"encodedQueryParams":true})
   'Strict-Transport-Security',
   'max-age=31536000',
   'Date',
-  'Tue, 18 Aug 2020 16:25:49 GMT'
+  'Tue, 18 Aug 2020 23:08:25 GMT'
 ]);

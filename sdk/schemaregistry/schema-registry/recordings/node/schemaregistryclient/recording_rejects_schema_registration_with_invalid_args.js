@@ -11,6 +11,8 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'no-store, no-cache',
   'Pragma',
   'no-cache',
+  'Content-Length',
+  '1321',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
@@ -22,25 +24,23 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  '4382d9bb-b752-45d5-8bbc-2041b6152300',
+  'cd25945f-dd44-45e3-b3ae-cf0dd4c10300',
   'x-ms-ests-server',
-  '2.1.10946.17 - EUS ProdSlices',
+  '2.1.10963.12 - EUS ProdSlices',
   'Set-Cookie',
-  'fpc=AhZNLTzJrYlJuE5QKuFK9qhJ4DFtAQAAAAr4zdYOAAAA; expires=Thu, 17-Sep-2020 16:25:47 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AmLTufw-9ORGsDjZYRrzevBJ4DFtAQAAAGVWztYOAAAA; expires=Thu, 17-Sep-2020 23:08:22 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Tue, 18 Aug 2020 16:25:46 GMT',
-  'Content-Length',
-  '1321'
+  'Tue, 18 Aug 2020 23:08:22 GMT'
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .put('/$schemagroups/azsdk_js_test_group/schemas/azsdk_js_test_000012', "{\"type\":\"record\",\"name\":\"User\",\"namespace\":\"com.azure.schemaregistry.samples\",\"fields\":[{\"name\":\"name\",\"type\":\"string\"},{\"name\":\"favoriteNumber\",\"type\":\"int\"}]}")
+  .put('/$schemagroups/azsdk_js_test_group/schemas/azsdk_js_test_000021', "{\"type\":\"record\",\"name\":\"User\",\"namespace\":\"com.azure.schemaregistry.samples\",\"fields\":[{\"name\":\"name\",\"type\":\"string\"},{\"name\":\"favoriteNumber\",\"type\":\"int\"}]}")
   .query(true)
-  .reply(400, "<Error><Code>400</Code><Detail>Invalid schema type for POST request. 'not-valid' is not supported. TrackingId:9c453307-65dd-4b89-b761-e80c1594520a_G5, SystemTracker:endpoint:$schemagroups/azsdk_js_test_group/schemas/azsdk_js_test_000012, Timestamp:2020-08-18T16:25:47</Detail></Error>", [
+  .reply(400, "<Error><Code>400</Code><Detail>Invalid schema type for POST request. 'not-valid' is not supported. TrackingId:30496f33-7d79-4e0f-83bc-409156c7428e_G0, SystemTracker:endpoint:$schemagroups/azsdk_js_test_group/schemas/azsdk_js_test_000021, Timestamp:2020-08-18T23:08:23</Detail></Error>", [
   'Transfer-Encoding',
   'chunked',
   'Content-Type',
@@ -50,5 +50,5 @@ nock('https://endpoint', {"encodedQueryParams":true})
   'Strict-Transport-Security',
   'max-age=31536000',
   'Date',
-  'Tue, 18 Aug 2020 16:25:47 GMT'
+  'Tue, 18 Aug 2020 23:08:23 GMT'
 ]);
