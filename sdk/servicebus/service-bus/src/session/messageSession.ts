@@ -241,19 +241,6 @@ export class MessageSession extends LinkEntity<Receiver> {
     }
   }
 
-  /**
-   * Deletes the MessageSession from the internal cache.
-   */
-  private _deleteFromCache(): void {
-    delete this._context.messageSessions[this.name];
-    log.error(
-      "[%s] Deleted the receiver '%s' with sessionId '%s' from the client cache.",
-      this._context.connectionId,
-      this.name,
-      this.sessionId
-    );
-  }
-
   protected createRheaLink(
     options: ReceiverOptions,
     _abortSignal?: AbortSignalLike
@@ -570,13 +557,6 @@ export class MessageSession extends LinkEntity<Receiver> {
    */
   async close(): Promise<void> {
     try {
-      log.messageSession(
-        "[%s] Closing the MessageSession '%s' for queue '%s'.",
-        this._context.connectionId,
-        this.sessionId,
-        this.name
-      );
-
       this._isReceivingMessagesForSubscriber = false;
       if (this._sessionLockRenewalTimer) clearTimeout(this._sessionLockRenewalTimer);
       log.messageSession(
@@ -585,10 +565,7 @@ export class MessageSession extends LinkEntity<Receiver> {
         this._context.connectionId
       );
 
-      if (this.link) {
-        this._deleteFromCache();
-        await this.closeLink("permanently");
-      }
+      await super.close();
 
       await this._batchingReceiverLite.close();
     } catch (err) {

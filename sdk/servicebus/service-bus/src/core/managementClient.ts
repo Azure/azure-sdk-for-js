@@ -376,7 +376,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
       // NOTE: management link currently doesn't have a separate concept of "detaching" like
       // the other links do. When we add handling of this (via the onDetached call, like other links)
       // we can change this back to closeLink("permanent").
-      await this.closeLink("linkonly");
+      await this.closeLink();
       log.mgmt("Successfully closed the management session.");
     } catch (err) {
       log.error(
