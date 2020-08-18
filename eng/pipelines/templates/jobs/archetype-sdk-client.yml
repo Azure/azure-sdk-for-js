@@ -15,7 +15,7 @@ parameters:
       NodeTestVersion: "12.x"
       TestType: "node"
     Browser_Linux_Node12:
-      OSVmImage: "ubuntu-18.04"
+      OSVmImage: "windows-2019"
       NodeTestVersion: "12.x"
       TestType: "browser"
 
