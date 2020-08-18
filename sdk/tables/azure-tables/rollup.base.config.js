@@ -6,6 +6,8 @@ import replace from "@rollup/plugin-replace";
 import { terser } from "rollup-plugin-terser";
 import sourcemaps from "rollup-plugin-sourcemaps";
 import viz from "rollup-plugin-visualizer";
+import shim from "rollup-plugin-shim";
+import inject from "@rollup/plugin-inject";
 
 const pkg = require("./package.json");
 const depNames = Object.keys(pkg.dependencies);
@@ -64,6 +66,14 @@ export function browserConfig() {
           "if (isNode)": "if (false)"
         }
       }),
+       // os is not used by the browser bundle, so just shim it
+       shim({
+        dotenv: `export function config() { }`,
+        os: `
+          export const type = 1;
+          export const release = 1;
+        `
+      }),
       nodeResolve({
         mainFields: ["module", "browser"],
         preferBuiltins: false
@@ -73,6 +83,12 @@ export function browserConfig() {
           chai: ["assert"],
           "@opentelemetry/api": ["CanonicalCode", "SpanKind", "TraceFlags"]
         }
+      }),
+      inject({
+        modules: {
+          process: "process"
+        },
+        exclude: ["./**/package.json"]
       }),
       viz({ filename: "dist-browser/browser-stats.html", sourcemap: false })
     ]
@@ -147,6 +163,10 @@ export function browserTestConfig(testMode) {
   baseConfig.input = input;
   baseConfig.plugins.unshift(multiEntry({ exports: false }));
   baseConfig.output.file = `dist-test/${testMode}.index.browser.js`;
+  // mark fs-extra as external
+  baseConfig.external = ["fs-extra"];
+
+  baseConfig.context = "null";
 
   baseConfig.onwarn = (warning) => {
     if (
