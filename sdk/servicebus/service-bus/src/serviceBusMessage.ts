@@ -1084,41 +1084,46 @@ export class ServiceBusMessageImpl implements ReceivedMessageWithLock {
       );
       throw error;
     }
-    const isDeferredMessage = this._context.requestResponseLockedMessages.has(this.lockToken);
-    const receiver =
-      isDeferredMessage || !this.delivery.link
-        ? undefined
-        : this._context.getReceiverFromCache(this.delivery.link.name, this.sessionId);
+    const isDeferredMessage = !this.delivery.link;
+    // In case the message wasn't from a deferred queue, we can verify the remote_settled flag on the delivery
+    //  - If the flag is true, throw an error since the message has been settled (Specifically, with a receive link)
+    //  - If the flag is false, we can't say that the message has not been settled
+    //        since settling with the management link won't update the delivery (In this case, service would throw an error)
+    // For the messages from deferred queue, the corresponding lockToken is removed from the `requestResponseLockedMessages` map
+    //  when the message is settled. If the lockToken is not present in the map, throw an error
+    const isMessageAlreadySettled = isDeferredMessage
+      ? !this._context.requestResponseLockedMessages.has(this.lockToken)
+      : this.delivery.remote_settled;
+    const receiver = isDeferredMessage
+      ? undefined
+      : this._context.getReceiverFromCache(this.delivery.link.name, this.sessionId);
     const associatedLinkName = receiver?.name;
 
-    if (!isDeferredMessage) {
-      // In case the message wasn't from a deferred queue,
-      //   1. We can verify the remote_settled flag on the delivery
-      //      - If the flag is true, throw an error since the message has been settled (Specifically, with a receive link)
-      //      - If the flag is false, we can't say that the message has not been settled
-      //        since settling with the management link won't update the delivery (In this case, service would throw an error)
-      //   2. If the message has a session-id and if the associated receiver link is unavailable,
-      //      then throw an error since we need a lock on the session to settle the message.
-      let error: Error | undefined;
-      if (this.delivery.remote_settled) {
-        error = new Error(`Failed to ${operation} the message as this message is already settled.`);
-      } else if ((!receiver || !receiver.isOpen()) && this.sessionId != undefined) {
-        error = translate({
-          description:
-            `Failed to ${operation} the message as the AMQP link with which the message was ` +
-            `received is no longer alive.`,
-          condition: ErrorNameConditionMapper.SessionLockLostError
-        });
-      }
-      if (error) {
-        log.error(
-          "[%s] An error occurred when settling a message with id '%s': %O",
-          this._context.connectionId,
-          this.messageId,
-          error
-        );
-        throw error;
-      }
+    let error: Error | undefined;
+    if (isMessageAlreadySettled) {
+      error = new Error(`Failed to ${operation} the message as this message is already settled.`);
+    } else if (
+      !isDeferredMessage &&
+      (!receiver || !receiver.isOpen()) &&
+      this.sessionId != undefined
+    ) {
+      // When the message is not from a deferred queue and if the message has a session-id with the associated receiver link
+      // unavailable, throw an error since we need a lock on the session to settle the message.
+      error = translate({
+        description:
+          `Failed to ${operation} the message as the AMQP link with which the message was ` +
+          `received is no longer alive.`,
+        condition: ErrorNameConditionMapper.SessionLockLostError
+      });
+    }
+    if (error) {
+      log.error(
+        "[%s] An error occurred when settling a message with id '%s': %O",
+        this._context.connectionId,
+        this.messageId,
+        error
+      );
+      throw error;
     }
 
     // Message Settlement with managementLink

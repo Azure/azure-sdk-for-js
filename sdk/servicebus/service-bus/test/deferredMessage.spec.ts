@@ -253,7 +253,7 @@ describe("Deferred Messages", () => {
     await completeDeferredMessage(sequenceNumber, 2, testMessages);
   });
 
-  async function settleTwice(expectedErrorMessage: string): Promise<void> {
+  async function settleTwice(): Promise<void> {
     const testMessages = entityNames.usesSessions
       ? TestMessage.getSessionSample()
       : TestMessage.getSample();
@@ -268,7 +268,10 @@ describe("Deferred Messages", () => {
       await deferredMsg.complete();
     } catch (error) {
       errorWasThrown = true;
-      assert.include(error.message, expectedErrorMessage);
+      assert.equal(
+        error.message,
+        "Failed to complete the message as this message is already settled."
+      );
     }
     assert.isTrue(errorWasThrown, "Error was not thrown");
   }
@@ -277,9 +280,7 @@ describe("Deferred Messages", () => {
     noSessionTestClientType + ": Settling a deferred message twice throws an error.",
     async function(): Promise<void> {
       await beforeEachTest(noSessionTestClientType);
-      await settleTwice(
-        "The lock supplied is invalid. Either the lock expired, or the message has already been removed from the queue."
-      );
+      await settleTwice();
     }
   );
 
@@ -287,9 +288,7 @@ describe("Deferred Messages", () => {
     withSessionTestClientType + ": Settling a deferred message twice throws an error.",
     async function(): Promise<void> {
       await beforeEachTest(withSessionTestClientType);
-      await settleTwice(
-        "Failed to complete the message as the AMQP link with which the message was received is no longer alive."
-      );
+      await settleTwice();
     }
   );
 });
