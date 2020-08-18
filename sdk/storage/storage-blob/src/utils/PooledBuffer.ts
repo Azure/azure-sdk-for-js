@@ -1,7 +1,9 @@
 import { BuffersStream } from "./BuffersStream";
 import { Readable } from "stream";
+import {BLOCK_BLOB_MAX_STAGE_BLOCK_BYTES} from "./constants";
 
-const maxBufferLength = require("buffer").constants.MAX_LENGTH;
+// const maxBufferLength = require("buffer").constants.MAX_LENGTH;
+const maxBufferLength = Math.min(require("buffer").constants.MAX_LENGTH, BLOCK_BLOB_MAX_STAGE_BLOCK_BYTES/2);
 
 export class PooledBuffer {
   private buffers: Buffer[] = [];
