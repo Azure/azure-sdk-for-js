@@ -132,6 +132,44 @@ describe("ManagedIdentityCredential", function() {
   //   assert.strictEqual(mockHttpClient.requests.length, 1);
   // });
 
+  it("sends an authorization request correctly in an App Service environment, with the new env variables", async () => {
+    // Trigger App Service behavior by setting environment variables
+    process.env.IDENTITY_ENDPOINT = "https://endpoint";
+    process.env.IDENTITY_HEADER = "secret";
+
+    const authDetails = await getMsiTokenAuthRequest(["https://service/.default"], "client", {
+      authResponse: {
+        status: 200,
+        parsedBody: {
+          token: "token",
+          expires_on: "06/20/2019 02:57:58 +00:00"
+        }
+      }
+    });
+
+    const authRequest = authDetails.requests[0];
+    assert.ok(authRequest.query, "No query string parameters on request");
+    if (authRequest.query) {
+      assert.equal(authRequest.method, "GET");
+      assert.equal(authRequest.query["clientid"], "client");
+      assert.equal(decodeURIComponent(authRequest.query["resource"]), "https://service");
+      assert.ok(
+        authRequest.url.startsWith(process.env.IDENTITY_ENDPOINT),
+        "URL does not start with expected host and path"
+      );
+      assert.equal(authRequest.headers.get("X-IDENTITY-HEADER"), process.env.IDENTITY_HEADER);
+      assert.ok(
+        authRequest.url.indexOf(`api-version=${AppServiceMsiApiVersion}`) > -1,
+        "URL does not have expected version"
+      );
+      if (authDetails.token) {
+        assert.equal(authDetails.token.expiresOnTimestamp, 1560999478000);
+      } else {
+        assert.fail("No token was returned!");
+      }
+    }
+  });
+
   it("sends an authorization request correctly in an App Service environment", async () => {
     // Trigger App Service behavior by setting environment variables
     process.env.MSI_ENDPOINT = "https://endpoint";
@@ -157,7 +195,7 @@ describe("ManagedIdentityCredential", function() {
         authRequest.url.startsWith(process.env.MSI_ENDPOINT),
         "URL does not start with expected host and path"
       );
-      assert.equal(authRequest.headers.get("secret"), process.env.MSI_SECRET);
+      assert.equal(authRequest.headers.get("X-IDENTITY-HEADER"), process.env.MSI_SECRET);
       assert.ok(
         authRequest.url.indexOf(`api-version=${AppServiceMsiApiVersion}`) > -1,
         "URL does not have expected version"
@@ -181,13 +219,34 @@ describe("ManagedIdentityCredential", function() {
     if (authRequest.body) {
       const bodyParams = qs.parse(authRequest.body);
       assert.equal(authRequest.method, "POST");
-      assert.equal(bodyParams.client_id, "client");
+      assert.equal(bodyParams.clientid, "client");
       assert.equal(decodeURIComponent(bodyParams.resource as string), "https://service");
       assert.ok(
         authRequest.url.startsWith(process.env.MSI_ENDPOINT),
         "URL does not start with expected host and path"
       );
-      assert.equal(authRequest.headers.get("secret"), undefined);
+      assert.equal(authRequest.headers.get("X-IDENTITY-HEADER"), undefined);
+    }
+  });
+
+  it("sends an authorization request correctly in an Cloud Shell environment, with the new env variables", async () => {
+    // Trigger Cloud Shell behavior by setting environment variables
+    process.env.MSI_ENDPOINT = "https://endpoint";
+
+    const authDetails = await getMsiTokenAuthRequest(["https://service/.default"], "client");
+    const authRequest = authDetails.requests[0];
+
+    assert.ok(authRequest.body !== undefined, "No body on request");
+    if (authRequest.body) {
+      const bodyParams = qs.parse(authRequest.body);
+      assert.equal(authRequest.method, "POST");
+      assert.equal(bodyParams.clientid, "client");
+      assert.equal(decodeURIComponent(bodyParams.resource as string), "https://service");
+      assert.ok(
+        authRequest.url.startsWith(process.env.MSI_ENDPOINT),
+        "URL does not start with expected host and path"
+      );
+      assert.equal(authRequest.headers.get("X-IDENTITY-HEADER"), undefined);
     }
   });
 
