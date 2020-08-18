@@ -28,20 +28,20 @@ export class ExportConfigurations {
 
   /**
    * Gets a list of Continuous Export configuration of an Application Insights component.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the Application Insights component resource.
    * @param [options] The optional parameters
    * @returns Promise<Models.ExportConfigurationsListResponse>
    */
   list(resourceGroupName: string, resourceName: string, options?: msRest.RequestOptionsBase): Promise<Models.ExportConfigurationsListResponse>;
   /**
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the Application Insights component resource.
    * @param callback The callback
    */
   list(resourceGroupName: string, resourceName: string, callback: msRest.ServiceCallback<Models.ApplicationInsightsComponentExportConfiguration[]>): void;
   /**
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the Application Insights component resource.
    * @param options The optional parameters
    * @param callback The callback
@@ -60,7 +60,7 @@ export class ExportConfigurations {
 
   /**
    * Create a Continuous Export configuration of an Application Insights component.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the Application Insights component resource.
    * @param exportProperties Properties that need to be specified to create a Continuous Export
    * configuration of a Application Insights component.
@@ -69,7 +69,7 @@ export class ExportConfigurations {
    */
   create(resourceGroupName: string, resourceName: string, exportProperties: Models.ApplicationInsightsComponentExportRequest, options?: msRest.RequestOptionsBase): Promise<Models.ExportConfigurationsCreateResponse>;
   /**
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the Application Insights component resource.
    * @param exportProperties Properties that need to be specified to create a Continuous Export
    * configuration of a Application Insights component.
@@ -77,7 +77,7 @@ export class ExportConfigurations {
    */
   create(resourceGroupName: string, resourceName: string, exportProperties: Models.ApplicationInsightsComponentExportRequest, callback: msRest.ServiceCallback<Models.ApplicationInsightsComponentExportConfiguration[]>): void;
   /**
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the Application Insights component resource.
    * @param exportProperties Properties that need to be specified to create a Continuous Export
    * configuration of a Application Insights component.
@@ -99,7 +99,7 @@ export class ExportConfigurations {
 
   /**
    * Delete a Continuous Export configuration of an Application Insights component.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the Application Insights component resource.
    * @param exportId The Continuous Export configuration ID. This is unique within a Application
    * Insights component.
@@ -108,7 +108,7 @@ export class ExportConfigurations {
    */
   deleteMethod(resourceGroupName: string, resourceName: string, exportId: string, options?: msRest.RequestOptionsBase): Promise<Models.ExportConfigurationsDeleteMethodResponse>;
   /**
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the Application Insights component resource.
    * @param exportId The Continuous Export configuration ID. This is unique within a Application
    * Insights component.
@@ -116,7 +116,7 @@ export class ExportConfigurations {
    */
   deleteMethod(resourceGroupName: string, resourceName: string, exportId: string, callback: msRest.ServiceCallback<Models.ApplicationInsightsComponentExportConfiguration>): void;
   /**
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the Application Insights component resource.
    * @param exportId The Continuous Export configuration ID. This is unique within a Application
    * Insights component.
@@ -138,7 +138,7 @@ export class ExportConfigurations {
 
   /**
    * Get the Continuous Export configuration for this export id.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the Application Insights component resource.
    * @param exportId The Continuous Export configuration ID. This is unique within a Application
    * Insights component.
@@ -147,7 +147,7 @@ export class ExportConfigurations {
    */
   get(resourceGroupName: string, resourceName: string, exportId: string, options?: msRest.RequestOptionsBase): Promise<Models.ExportConfigurationsGetResponse>;
   /**
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the Application Insights component resource.
    * @param exportId The Continuous Export configuration ID. This is unique within a Application
    * Insights component.
@@ -155,7 +155,7 @@ export class ExportConfigurations {
    */
   get(resourceGroupName: string, resourceName: string, exportId: string, callback: msRest.ServiceCallback<Models.ApplicationInsightsComponentExportConfiguration>): void;
   /**
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the Application Insights component resource.
    * @param exportId The Continuous Export configuration ID. This is unique within a Application
    * Insights component.
@@ -177,7 +177,7 @@ export class ExportConfigurations {
 
   /**
    * Update the Continuous Export configuration for this export id.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the Application Insights component resource.
    * @param exportId The Continuous Export configuration ID. This is unique within a Application
    * Insights component.
@@ -188,7 +188,7 @@ export class ExportConfigurations {
    */
   update(resourceGroupName: string, resourceName: string, exportId: string, exportProperties: Models.ApplicationInsightsComponentExportRequest, options?: msRest.RequestOptionsBase): Promise<Models.ExportConfigurationsUpdateResponse>;
   /**
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the Application Insights component resource.
    * @param exportId The Continuous Export configuration ID. This is unique within a Application
    * Insights component.
@@ -198,7 +198,7 @@ export class ExportConfigurations {
    */
   update(resourceGroupName: string, resourceName: string, exportId: string, exportProperties: Models.ApplicationInsightsComponentExportRequest, callback: msRest.ServiceCallback<Models.ApplicationInsightsComponentExportConfiguration>): void;
   /**
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the Application Insights component resource.
    * @param exportId The Continuous Export configuration ID. This is unique within a Application
    * Insights component.
@@ -233,7 +233,7 @@ const listOperationSpec: msRest.OperationSpec = {
     Parameters.resourceName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -269,7 +269,7 @@ const createOperationSpec: msRest.OperationSpec = {
     Parameters.resourceName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -313,7 +313,7 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.exportId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -339,7 +339,7 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.exportId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -365,7 +365,7 @@ const updateOperationSpec: msRest.OperationSpec = {
     Parameters.exportId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
