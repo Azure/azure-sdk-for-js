@@ -1,5 +1,8 @@
 # Release History
 
+## 5.0.2 (Unreleased)
+
+
 ## 5.0.1 (2020-08-18)
 
 - Handles REST exceptions with code InvalidDocumentBatch in a way that maintains backward compatability.
