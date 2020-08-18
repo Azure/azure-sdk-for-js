@@ -23,10 +23,10 @@ import {
 import { getTracer } from "@azure/core-tracing";
 import { Span } from "@opentelemetry/api";
 import { logger } from "./log";
-import { parseKeyvaultIdentifier } from "./core/utils";
-import { SDK_VERSION } from "./core/utils/constants";
-import { KeyVaultClient } from "./core/keyVaultClient";
-import { challengeBasedAuthenticationPolicy } from "./core/challengeBasedAuthenticationPolicy";
+import { parseKeyvaultIdentifier } from "./generated/utils";
+import { SDK_VERSION } from "./generated/utils/constants";
+import { KeyVaultClient } from "./generated/keyVaultClient";
+import { challengeBasedAuthenticationPolicy } from "../../keyvault-common/src";
 import { createHash as cryptoCreateHash, createVerify, publicEncrypt } from "crypto";
 import * as constants from "constants";
 
@@ -92,7 +92,7 @@ export class CryptographyClient {
       if (typeof this.key !== "string") {
         switch (algorithm) {
           case "RSA1_5": {
-            if (this.key.kty !== "RSA") {
+            if (this.key.kty !== "RSA" && this.key.kty !== "RSA-HSM") {
               span.end();
               throw new Error("Key type does not match algorithm");
             }
@@ -109,7 +109,7 @@ export class CryptographyClient {
             return { result: encrypted, algorithm, keyID: this.key.kid };
           }
           case "RSA-OAEP": {
-            if (this.key.kty !== "RSA") {
+            if (this.key.kty !== "RSA" && this.key.kty !== "RSA-HSM") {
               span.end();
               throw new Error("Key type does not match algorithm");
             }
@@ -210,7 +210,7 @@ export class CryptographyClient {
       if (typeof this.key !== "string") {
         switch (algorithm) {
           case "RSA1_5": {
-            if (this.key.kty !== "RSA") {
+            if (this.key.kty !== "RSA" && this.key.kty !== "RSA-HSM") {
               span.end();
               throw new Error("Key type does not match algorithm");
             }
@@ -227,7 +227,7 @@ export class CryptographyClient {
             return { result: encrypted, algorithm, keyID: this.getKeyID() };
           }
           case "RSA-OAEP": {
-            if (this.key.kty !== "RSA") {
+            if (this.key.kty !== "RSA" && this.key.kty !== "RSA-HSM") {
               span.end();
               throw new Error("Key type does not match algorithm");
             }
@@ -472,7 +472,7 @@ export class CryptographyClient {
       if (typeof this.key !== "string") {
         switch (algorithm) {
           case "RS256": {
-            if (this.key.kty !== "RSA") {
+            if (this.key.kty !== "RSA" && this.key.kty !== "RSA-HSM") {
               throw new Error("Key type does not match algorithm");
             }
 
@@ -492,7 +492,7 @@ export class CryptographyClient {
             };
           }
           case "RS384": {
-            if (this.key.kty !== "RSA") {
+            if (this.key.kty !== "RSA" && this.key.kty !== "RSA-HSM") {
               throw new Error("Key type does not match algorithm");
             }
 
@@ -512,7 +512,7 @@ export class CryptographyClient {
             };
           }
           case "RS512": {
-            if (this.key.kty !== "RSA") {
+            if (this.key.kty !== "RSA" && this.key.kty !== "RSA-HSM") {
               throw new Error("Key type does not match algorithm");
             }
 
@@ -665,14 +665,14 @@ export class CryptographyClient {
    * // or
    * let client = new CryptographyClient(keyVaultKey, credentials);
    * ```
-   * @param key The key to use during cryptography tasks.
+   * @param key The key to use during cryptography tasks. You can also pass the identifier of the key i.e its url here.
    * @param {TokenCredential} credential An object that implements the `TokenCredential` interface used to authenticate requests to the service. Use the @azure/identity package to create a credential that suits your needs.
    * @param {PipelineOptions} [pipelineOptions={}] Optional. Pipeline options used to configure Key Vault API requests.
    *                                                         Omit this parameter to use the default pipeline configuration.
    * @memberof CryptographyClient
    */
   constructor(
-    key: string | KeyVaultKey, // keyUrl or KeyVaultKey
+    key: string | KeyVaultKey,
     credential: TokenCredential,
     pipelineOptions: CryptographyClientOptions = {}
   ) {
@@ -710,8 +710,7 @@ export class CryptographyClient {
 
     const pipeline = createPipelineFromOptions(internalPipelineOptions, authPolicy);
     this.client = new KeyVaultClient(
-      credential,
-      pipelineOptions.apiVersion || LATEST_API_VERSION,
+      pipelineOptions.serviceVersion || LATEST_API_VERSION,
       pipeline
     );
 

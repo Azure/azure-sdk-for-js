@@ -24,7 +24,7 @@ describe("QueueClient message methods", () => {
 
   afterEach(async function() {
     await queueClient.delete();
-    recorder.stop();
+    await recorder.stop();
   });
 
   it("enqueue, peek, dequeue and clear message with default parameters", async () => {

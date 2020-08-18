@@ -12,17 +12,17 @@ import * as coreHttp from "@azure/core-http";
 import * as Models from "../models";
 import * as Mappers from "../models/documentsMappers";
 import * as Parameters from "../models/parameters";
-import { SearchIndexClientContext } from "../searchIndexClientContext";
+import { SearchClientContext } from "../searchClientContext";
 
 /** Class representing a Documents. */
 export class Documents {
-  private readonly client: SearchIndexClientContext;
+  private readonly client: SearchClientContext;
 
   /**
    * Create a Documents.
-   * @param {SearchIndexClientContext} client Reference to the service client.
+   * @param {SearchClientContext} client Reference to the service client.
    */
-  constructor(client: SearchIndexClientContext) {
+  constructor(client: SearchClientContext) {
     this.client = client;
   }
 

@@ -208,7 +208,7 @@ const listOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion5
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -232,7 +232,7 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.securityContactName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion5
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -256,7 +256,7 @@ const createOperationSpec: msRest.OperationSpec = {
     Parameters.securityContactName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion5
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -287,7 +287,7 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.securityContactName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion5
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -309,7 +309,7 @@ const updateOperationSpec: msRest.OperationSpec = {
     Parameters.securityContactName
   ],
   queryParameters: [
-    Parameters.apiVersion0
+    Parameters.apiVersion5
   ],
   headerParameters: [
     Parameters.acceptLanguage

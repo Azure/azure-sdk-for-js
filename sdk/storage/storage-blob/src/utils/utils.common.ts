@@ -3,14 +3,18 @@
 
 import { AbortSignalLike } from "@azure/abort-controller";
 import { HttpHeaders, isNode, URLBuilder } from "@azure/core-http";
-import { HeaderConstants, URLConstants, DevelopmentConnectionString } from "./constants";
+
+import { BlobQueryCsvTextConfiguration, BlobQueryJsonTextConfiguration } from "../Clients";
+import { QuerySerialization, BlobTags } from "../generated/src/models";
+import { DevelopmentConnectionString, HeaderConstants, URLConstants } from "./constants";
+import { Tags } from "../models";
 
 /**
  * Reserved URL characters must be properly escaped for Storage services like Blob or File.
  *
  * ## URL encode and escape strategy for JS SDKs
  *
- * When customers pass a URL string into XxxClient classes constrcutor, the URL string may already be URL encoded or not.
+ * When customers pass a URL string into XxxClient classes constructor, the URL string may already be URL encoded or not.
  * But before sending to Azure Storage server, the URL must be encoded. However, it's hard for a SDK to guess whether the URL
  * string has been encoded or not. We have 2 potential strategies, and chose strategy two for the XxxClient constructors.
  *
@@ -40,7 +44,7 @@ import { HeaderConstants, URLConstants, DevelopmentConnectionString } from "./co
  *
  * This strategy gives us flexibility to create with any special characters. But "%" will be treated as a special characters, if the URL string
  * is not encoded, there shouldn't a "%" in the URL string, otherwise the URL is not a valid URL.
- * If customer needs to create a blob with "%" in it's blob name, use "%25" insead of "%". Just like above 3rd sample.
+ * If customer needs to create a blob with "%" in it's blob name, use "%25" instead of "%". Just like above 3rd sample.
  * And following URL strings are invalid:
  * - "http://account.blob.core.windows.net/con/b%"
  * - "http://account.blob.core.windows.net/con/b%2"
@@ -202,7 +206,7 @@ export function extractConnectionStringParts(connectionString: string): Connecti
 }
 
 /**
- * Internal escape method implmented Strategy Two mentioned in escapeURL() description.
+ * Internal escape method implemented Strategy Two mentioned in escapeURL() description.
  *
  * @param {string} text
  * @returns {string}
@@ -472,6 +476,8 @@ export function padStart(
   targetLength: number,
   padString: string = " "
 ): string {
+  // TS doesn't know this code needs to run downlevel sometimes.
+  // @ts-expect-error
   if (String.prototype.padStart) {
     return currentString.padStart(targetLength, padString);
   }
@@ -548,5 +554,117 @@ export function getAccountNameFromUrl(url: string): string {
     return accountName;
   } catch (error) {
     throw new Error("Unable to extract accountName with provided information.");
+  }
+}
+
+/**
+ * Convert Tags to encoded string.
+ *
+ * @export
+ * @param {Tags} tags
+ * @returns {string | undefined}
+ */
+export function toBlobTagsString(tags?: Tags): string | undefined {
+  if (tags === undefined) {
+    return undefined;
+  }
+
+  const tagPairs = [];
+  for (const key in tags) {
+    if (tags.hasOwnProperty(key)) {
+      const value = tags[key];
+      tagPairs.push(`${encodeURIComponent(key)}=${encodeURIComponent(value)}`);
+    }
+  }
+
+  return tagPairs.join("&");
+}
+
+/**
+ * Convert Tags type to BlobTags.
+ *
+ * @export
+ * @param {Tags} [tags]
+ * @returns {(BlobTags | undefined)}
+ */
+export function toBlobTags(tags?: Tags): BlobTags | undefined {
+  if (tags === undefined) {
+    return undefined;
+  }
+
+  const res: BlobTags = {
+    blobTagSet: []
+  };
+
+  for (const key in tags) {
+    if (tags.hasOwnProperty(key)) {
+      const value = tags[key];
+      res.blobTagSet.push({
+        key,
+        value
+      });
+    }
+  }
+  return res;
+}
+
+/**
+ * Covert BlobTags to Tags type.
+ *
+ * @export
+ * @param {BlobTags} [tags]
+ * @returns {(Tags | undefined)}
+ */
+export function toTags(tags?: BlobTags): Tags | undefined {
+  if (tags === undefined) {
+    return undefined;
+  }
+
+  const res: Tags = {};
+  for (const blobTag of tags.blobTagSet) {
+    res[blobTag.key] = blobTag.value;
+  }
+  return res;
+}
+
+/**
+ * Convert BlobQueryTextConfiguration to QuerySerialization type.
+ *
+ * @export
+ * @param {(BlobQueryJsonTextConfiguration | BlobQueryCsvTextConfiguration)} [textConfiguration]
+ * @returns {(QuerySerialization | undefined)}
+ */
+export function toQuerySerialization(
+  textConfiguration?: BlobQueryJsonTextConfiguration | BlobQueryCsvTextConfiguration
+): QuerySerialization | undefined {
+  if (textConfiguration === undefined) {
+    return undefined;
+  }
+
+  switch (textConfiguration.kind) {
+    case "csv":
+      return {
+        format: {
+          type: "delimited",
+          delimitedTextConfiguration: {
+            columnSeparator: textConfiguration.columnSeparator || ",",
+            fieldQuote: textConfiguration.fieldQuote || "",
+            recordSeparator: textConfiguration.recordSeparator,
+            escapeChar: textConfiguration.escapeCharacter || "",
+            headersPresent: textConfiguration.hasHeaders || false
+          }
+        }
+      };
+    case "json":
+      return {
+        format: {
+          type: "json",
+          jsonTextConfiguration: {
+            recordSeparator: textConfiguration.recordSeparator
+          }
+        }
+      };
+    default:
+      throw Error("Invalid BlobQueryTextConfiguration.");
   }
 }

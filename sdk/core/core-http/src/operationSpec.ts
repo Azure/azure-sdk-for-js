@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
 import {
   OperationParameter,
@@ -43,6 +43,19 @@ export interface OperationSpec {
    */
   readonly contentType?: string;
 
+  /**
+   * The media type of the request body.
+   * This value can be used to aide in serialization if it is provided.
+   */
+  readonly mediaType?:
+    | "json"
+    | "xml"
+    | "form"
+    | "binary"
+    | "multipart"
+    | "text"
+    | "unknown"
+    | string;
   /**
    * The parameter that will be used to construct the HTTP request's body.
    */

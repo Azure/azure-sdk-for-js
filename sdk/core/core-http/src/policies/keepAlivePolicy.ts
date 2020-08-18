@@ -1,7 +1,12 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
-import { BaseRequestPolicy, RequestPolicy, RequestPolicyOptions } from "./requestPolicy";
+import {
+  BaseRequestPolicy,
+  RequestPolicy,
+  RequestPolicyOptions,
+  RequestPolicyFactory
+} from "./requestPolicy";
 import { WebResourceLike } from "../webResource";
 import { HttpOperationResponse } from "../httpOperationResponse";
 
@@ -21,7 +26,7 @@ export const DefaultKeepAliveOptions: KeepAliveOptions = {
   enable: true
 };
 
-export function keepAlivePolicy(keepAliveOptions?: KeepAliveOptions) {
+export function keepAlivePolicy(keepAliveOptions?: KeepAliveOptions): RequestPolicyFactory {
   return {
     create: (nextPolicy: RequestPolicy, options: RequestPolicyOptions) => {
       return new KeepAlivePolicy(nextPolicy, options, keepAliveOptions || DefaultKeepAliveOptions);

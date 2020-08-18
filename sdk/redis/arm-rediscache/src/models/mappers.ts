@@ -84,6 +84,51 @@ export const RedisLinkedServer: msRest.CompositeMapper = {
   }
 };
 
+export const RedisInstanceDetails: msRest.CompositeMapper = {
+  serializedName: "RedisInstanceDetails",
+  type: {
+    name: "Composite",
+    className: "RedisInstanceDetails",
+    modelProperties: {
+      sslPort: {
+        readOnly: true,
+        serializedName: "sslPort",
+        type: {
+          name: "Number"
+        }
+      },
+      nonSslPort: {
+        readOnly: true,
+        serializedName: "nonSslPort",
+        type: {
+          name: "Number"
+        }
+      },
+      zone: {
+        readOnly: true,
+        serializedName: "zone",
+        type: {
+          name: "String"
+        }
+      },
+      shardId: {
+        readOnly: true,
+        serializedName: "shardId",
+        type: {
+          name: "Number"
+        }
+      },
+      isMaster: {
+        readOnly: true,
+        serializedName: "isMaster",
+        type: {
+          name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
 export const Resource: msRest.CompositeMapper = {
   serializedName: "Resource",
   type: {
@@ -176,6 +221,12 @@ export const RedisCreateParameters: msRest.CompositeMapper = {
         serializedName: "properties.enableNonSslPort",
         type: {
           name: "Boolean"
+        }
+      },
+      replicasPerMaster: {
+        serializedName: "properties.replicasPerMaster",
+        type: {
+          name: "Number"
         }
       },
       tenantSettings: {
@@ -281,6 +332,12 @@ export const RedisUpdateParameters: msRest.CompositeMapper = {
         serializedName: "properties.enableNonSslPort",
         type: {
           name: "Boolean"
+        }
+      },
+      replicasPerMaster: {
+        serializedName: "properties.replicasPerMaster",
+        type: {
+          name: "Number"
         }
       },
       tenantSettings: {
@@ -425,6 +482,12 @@ export const RedisResource: msRest.CompositeMapper = {
           name: "Boolean"
         }
       },
+      replicasPerMaster: {
+        serializedName: "properties.replicasPerMaster",
+        type: {
+          name: "Number"
+        }
+      },
       tenantSettings: {
         serializedName: "properties.tenantSettings",
         type: {
@@ -530,6 +593,19 @@ export const RedisResource: msRest.CompositeMapper = {
           }
         }
       },
+      instances: {
+        readOnly: true,
+        serializedName: "properties.instances",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "RedisInstanceDetails"
+            }
+          }
+        }
+      },
       zones: {
         serializedName: "zones",
         type: {
@@ -573,7 +649,6 @@ export const RedisRebootParameters: msRest.CompositeMapper = {
     className: "RedisRebootParameters",
     modelProperties: {
       rebootType: {
-        required: true,
         serializedName: "rebootType",
         type: {
           name: "String"
@@ -583,6 +658,17 @@ export const RedisRebootParameters: msRest.CompositeMapper = {
         serializedName: "shardId",
         type: {
           name: "Number"
+        }
+      },
+      ports: {
+        serializedName: "ports",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Number"
+            }
+          }
         }
       }
     }

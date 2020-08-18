@@ -24,3 +24,5 @@ export function streamToBuffer() {}
 export function readStreamToLocalFile() {}
 
 export const fsStat = function stat() {};
+
+export const fsCreateReadStream = function createReadStream() {};

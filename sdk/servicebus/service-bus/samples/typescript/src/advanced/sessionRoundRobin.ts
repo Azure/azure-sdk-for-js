@@ -21,7 +21,7 @@ import { AbortController } from "@azure/abort-controller";
 dotenv.config();
 
 const serviceBusConnectionString =
-process.env.SERVICE_BUS_CONNECTION_STRING || "<connection string>";
+  process.env.SERVICE_BUS_CONNECTION_STRING || "<connection string>";
 
 // NOTE: this sample uses a queue but would also work a session enabled subscription.
 const queueName = process.env.QUEUE_NAME || "<queue name>";
@@ -83,7 +83,7 @@ async function receiveFromNextSession(serviceBusClient: ServiceBusClient): Promi
   let sessionReceiver: SessionReceiver<ReceivedMessageWithLock>;
 
   try {
-    sessionReceiver = await serviceBusClient.createSessionReceiver(queueName, "peekLock", {
+    sessionReceiver = await serviceBusClient.createSessionReceiver(queueName, {
       autoRenewLockDurationInMs: sessionIdleTimeoutMs
     });
   } catch (err) {
@@ -136,7 +136,7 @@ async function receiveFromNextSession(serviceBusClient: ServiceBusClient): Promi
 async function roundRobinThroughAvailableSessions(): Promise<void> {
   const serviceBusClient = new ServiceBusClient(serviceBusConnectionString);
 
-  const receiverPromises = [];
+  const receiverPromises: Promise<void>[] = [];
 
   for (let i = 0; i < maxSessionsToProcessSimultaneously; ++i) {
     receiverPromises.push(

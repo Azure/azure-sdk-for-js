@@ -1,8 +1,27 @@
 # Release History
 
-## 1.1.3 (Unreleased)
+## 1.1.7 (Unreleased)
+
+
+## 1.1.6 (2020-08-04)
+
+- Update dependencies `@azure/core-tracing` to version 1.0.0-preview.9 and `@opentelemetry/api` to version 0.10.2 [PR 10393](https://github.com/Azure/azure-sdk-for-js/pull/10393)
+
+## 1.1.5 (2020-08-04)
+
+- The global `fetch()` is no longer overridden by node-fetch. This fixed an issue impacting Electron render process. [PR #9880](https://github.com/Azure/azure-sdk-for-js/pull/9880)
+
+## 1.1.4 (2020-07-02)
+
+- Fix issue with flattened model serialization, where constant properties are being dropped [PR #8658](https://github.com/Azure/azure-sdk-for-js/pull/8658)
+- Switch to use `x-ms-useragent` header key for passing user agent info in browsers [PR #9490](https://github.com/Azure/azure-sdk-for-js/pull/9490)
+- Refactor `ExponentialRetryPolicy` and `SystemErrorRetryPolicy` to share common code [PR #9667](https://github.com/Azure/azure-sdk-for-js/pull/9490)
+
+## 1.1.3 (2020-06-03)
 
 - Fix issue of `SystemErrorRetryPolicy` didn't retry on errors [PR #8803](https://github.com/Azure/azure-sdk-for-js/pull/8803)
+- Add support for serialization of text media type. [PR #8977](https://github.com/Azure/azure-sdk-for-js/pull/8977)
+- Fix issue with URLBuilder incorrectly handling full URL in path. [PR #9245](https://github.com/Azure/azure-sdk-for-js/pull/9245)
 
 ## 1.1.2 (2020-05-07)
 

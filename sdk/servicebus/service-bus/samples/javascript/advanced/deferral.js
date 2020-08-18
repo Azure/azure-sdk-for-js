@@ -3,7 +3,7 @@
   Licensed under the MIT Licence.
 
   **NOTE**: If you are using version 1.1.x or lower, then please use the link below:
-  https://github.com/Azure/azure-sdk-for-js/tree/%40azure/service-bus_1.1.5/sdk/servicebus/service-bus/samples
+  https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/servicebus/service-bus/samples-v1
 
   This sample demonstrates how the defer() function can be used to defer a message for later processing.
 
@@ -32,7 +32,7 @@ async function main() {
 async function sendMessages() {
   const sbClient = new ServiceBusClient(connectionString);
   // createSender() can also be used to create a sender for a topic.
-  const sender = await sbClient.createSender(queueName);
+  const sender = sbClient.createSender(queueName);
 
   const data = [
     { step: 1, title: "Shop" },
@@ -52,7 +52,7 @@ async function sendMessages() {
     promises.push(
       delay(Math.random() * 30).then(async () => {
         try {
-          await sender.send(message);
+          await sender.sendMessages(message);
           console.log("Sent message step:", data[index].step);
         } catch (err) {
           console.log("Error while sending message", err);
@@ -70,7 +70,7 @@ async function receiveMessage() {
   const sbClient = new ServiceBusClient(connectionString);
 
   // If receiving from a subscription you can use the createReceiver(topicName, subscriptionName) overload
-  let receiver = sbClient.createReceiver(queueName, "peekLock");
+  let receiver = sbClient.createReceiver(queueName);
 
   const deferredSteps = new Map();
   let lastProcessedRecipeStep = 0;
@@ -116,12 +116,12 @@ async function receiveMessage() {
     await receiver.close();
     console.log("Total number of deferred messages:", deferredSteps.size);
 
-    receiver = sbClient.createReceiver(queueName, "peekLock");
+    receiver = sbClient.createReceiver(queueName);
     // Now we process the deferred messages
     while (deferredSteps.size > 0) {
       const step = lastProcessedRecipeStep + 1;
       const sequenceNumber = deferredSteps.get(step);
-      const message = await receiver.receiveDeferredMessage(sequenceNumber);
+      const [message] = await receiver.receiveDeferredMessages(sequenceNumber);
       if (message) {
         console.log("Process deferred message:", message.body);
         await message.complete();

@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
 import { assert } from "chai";
-import { fake } from "sinon";
+import { fake, createSandbox } from "sinon";
 import { OperationSpec } from "../../src/operationSpec";
 import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-auth";
 import { RequestPolicy, RequestPolicyOptions } from "../../src/policies/requestPolicy";
@@ -15,6 +15,7 @@ import {
   ExpiringAccessTokenCache,
   TokenRefreshBufferMs
 } from "../../src/credentials/accessTokenCache";
+import { AccessTokenRefresher } from "../../src/credentials/accessTokenRefresher";
 
 describe("BearerTokenAuthenticationPolicy", function() {
   const mockPolicy: RequestPolicy = {
@@ -40,7 +41,10 @@ describe("BearerTokenAuthenticationPolicy", function() {
     await bearerTokenAuthPolicy.sendRequest(request);
 
     assert(
-      fakeGetToken.calledWith(tokenScopes, { abortSignal: undefined, tracingOptions: { spanOptions: undefined } }),
+      fakeGetToken.calledWith(tokenScopes, {
+        abortSignal: undefined,
+        tracingOptions: { spanOptions: undefined }
+      }),
       "fakeGetToken called incorrectly."
     );
     assert.strictEqual(
@@ -58,7 +62,7 @@ describe("BearerTokenAuthenticationPolicy", function() {
     const credentialsToTest: [MockRefreshAzureCredential, number][] = [
       [refreshCred1, 2],
       [refreshCred2, 2],
-      [notRefreshCred1, 1]
+      [notRefreshCred1, 2]
     ];
 
     const request = createRequest();
@@ -70,13 +74,30 @@ describe("BearerTokenAuthenticationPolicy", function() {
     }
   });
 
+  it("tests that AccessTokenRefresher is working", async function() {
+    const now = Date.now();
+    const credentialToTest = new MockRefreshAzureCredential(now);
+    const request = createRequest();
+    const policy = createBearerTokenPolicy("testscope", credentialToTest);
+    await policy.sendRequest(request);
+
+    const sandbox = createSandbox();
+    sandbox.replace(AccessTokenRefresher.prototype, "isReady", () => true);
+    await policy.sendRequest(request);
+    sandbox.restore();
+    assert.strictEqual(credentialToTest.authCount, 2);
+  });
+
   function createRequest(operationSpec?: OperationSpec): WebResource {
     const request = new WebResource();
     request.operationSpec = operationSpec;
     return request;
   }
 
-  function createBearerTokenPolicy(scopes: string | string[], credential: TokenCredential) {
+  function createBearerTokenPolicy(
+    scopes: string | string[],
+    credential: TokenCredential
+  ): BearerTokenAuthenticationPolicy {
     return new BearerTokenAuthenticationPolicy(
       mockPolicy,
       new RequestPolicyOptions(),

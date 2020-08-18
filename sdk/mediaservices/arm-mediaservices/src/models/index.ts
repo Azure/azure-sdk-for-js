@@ -373,6 +373,64 @@ export interface MediaService extends TrackedResource {
 }
 
 /**
+ * An interface representing ListEdgePoliciesInput.
+ */
+export interface ListEdgePoliciesInput {
+  /**
+   * Unique identifier of the edge device.
+   */
+  deviceId?: string;
+}
+
+/**
+ * An interface representing EdgeUsageDataEventHub.
+ */
+export interface EdgeUsageDataEventHub {
+  /**
+   * Name of the Event Hub where usage will be reported.
+   */
+  name?: string;
+  /**
+   * Namespace of the Event Hub where usage will be reported.
+   */
+  namespace?: string;
+  /**
+   * SAS token needed to interact with Event Hub.
+   */
+  token?: string;
+}
+
+/**
+ * An interface representing EdgeUsageDataCollectionPolicy.
+ */
+export interface EdgeUsageDataCollectionPolicy {
+  /**
+   * Usage data collection frequency in ISO 8601 duration format e.g. PT10M , PT5H.
+   */
+  dataCollectionFrequency?: string;
+  /**
+   * Usage data reporting frequency in ISO 8601 duration format e.g. PT10M , PT5H.
+   */
+  dataReportingFrequency?: string;
+  /**
+   * Maximum time for which the functionality of the device will not be hampered for not reporting
+   * the usage data.
+   */
+  maxAllowedUnreportedUsageDuration?: string;
+  /**
+   * Details of Event Hub where the usage will be reported.
+   */
+  eventHubDetails?: EdgeUsageDataEventHub;
+}
+
+/**
+ * An interface representing EdgePolicies.
+ */
+export interface EdgePolicies {
+  usageDataCollectionPolicy?: EdgeUsageDataCollectionPolicy;
+}
+
+/**
  * A Media Services account.
  */
 export interface SubscriptionMediaService extends TrackedResource {
@@ -4397,6 +4455,26 @@ export type MediaservicesUpdateResponse = MediaService & {
        * The response body as parsed JSON or XML
        */
       parsedBody: MediaService;
+    };
+};
+
+/**
+ * Contains response data for the listEdgePolicies operation.
+ */
+export type MediaservicesListEdgePoliciesResponse = EdgePolicies & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: EdgePolicies;
     };
 };
 

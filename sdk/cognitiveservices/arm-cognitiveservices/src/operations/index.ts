@@ -11,3 +11,5 @@
 export * from "./accounts";
 export * from "./resourceSkus";
 export * from "./operations";
+export * from "./privateEndpointConnections";
+export * from "./privateLinkResources";

@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 import assert from "assert";
 import { Agent } from "http";
-import { CosmosClient } from "../../dist-esm";
+import { CosmosClient } from "../../src";
 import { endpoint, masterKey } from "../common/_testConfig";
 import {
   getTestDatabase,
@@ -49,6 +49,9 @@ describe("NodeJS CRUD Tests", function() {
     it("throws on a bad connection string", function() {
       assert.throws(() => new CosmosClient(`bad;Connection=string;`));
     });
+    it("throws on a bad endpoint", function () {
+      assert.throws(() => new CosmosClient({ endpoint: "asda=asda;asada;" }));
+    });
   });
   describe("Validate user passed AbortController.signal", function() {
     it("should throw exception if aborted during the request", async function() {
@@ -81,7 +84,7 @@ describe("NodeJS CRUD Tests", function() {
       try {
         const controller = new AbortController();
         const signal = controller.signal;
-        setTimeout(() => controller.abort(), 5000);
+        setTimeout(() => controller.abort(), 50);
         // Setting maxItemCount = 1 to ensure this query take a long time
         await container.items
           .query("SELECT * from c", { abortSignal: signal, maxItemCount: 1 })
@@ -89,6 +92,17 @@ describe("NodeJS CRUD Tests", function() {
         assert.fail("Must throw");
       } catch (err) {
         assert.equal(err.name, "AbortError", "client should throw exception");
+      }
+    });
+    it("should not abort if abort signal is never called", async function() {
+      // Testing the happy path to prevent this bug https://github.com/Azure/azure-sdk-for-js/issues/9510
+      const client = new CosmosClient({ endpoint, key: masterKey });
+      try {
+        const controller = new AbortController();
+        const signal = controller.signal;
+        await client.getDatabaseAccount({ abortSignal: signal });
+      } catch (err) {
+        assert.fail(err);
       }
     });
   });

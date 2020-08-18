@@ -196,13 +196,13 @@ directive:
       $["x-ms-client-name"] = "queueAnalyticsLogging"
 ```
 
-### Update service version from "2018-03-28" to "2019-07-07"
+### Update service version from "2018-03-28" to "2019-12-12"
 
 ```yaml
 directive:
   - from: swagger-document
     where: $.parameters.ApiVersionParameter
-    transform: $.enum = [ "2019-07-07" ];
+    transform: $.enum = [ "2019-12-12" ];
 ```
 
 ### Rename AccessPolicy start -> startsOn

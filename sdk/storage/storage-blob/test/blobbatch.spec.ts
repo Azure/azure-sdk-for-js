@@ -56,7 +56,7 @@ describe("BlobBatch", () => {
   afterEach(async function() {
     if (!this.currentTest?.isPending()) {
       await containerClient.delete();
-      recorder.stop();
+      await recorder.stop();
     }
   });
 
@@ -563,7 +563,7 @@ describe("BlobBatch", () => {
     assert.ok(exceptionCaught);
   });
 
-  it("BlobBatch should report error when mixing differnt request types in one batch", async () => {
+  it("BlobBatch should report error when mixing different request types in one batch", async () => {
     let batchRequest = new BlobBatch();
 
     let exceptionCaught = false;

@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import assert from "assert";
-import { Constants } from "../../dist-esm";
-import { ContainerDefinition, Database, Container } from "../../dist-esm/client";
-import { ContainerRequest } from "../../dist-esm/client/Container/ContainerRequest";
+import { Constants } from "../../src";
+import { ContainerDefinition, Database, Container } from "../../src/client";
+import { ContainerRequest } from "../../src/client/Container/ContainerRequest";
 import {
   DataType,
   IndexedPath,
@@ -11,9 +11,14 @@ import {
   IndexingPolicy,
   IndexKind
 } from "../../dist-esm/documents";
-import { SpatialType } from "../../dist-esm/documents/IndexingPolicy";
-import { GeospatialType } from "../../dist-esm/documents/GeospatialType";
-import { getTestDatabase, removeAllDatabases, getTestContainer } from "../common/TestHelpers";
+import {
+  getTestDatabase,
+  removeAllDatabases,
+  getTestContainer,
+  assertThrowsAsync
+} from "../common/TestHelpers";
+import { SpatialType } from "../../src/documents/IndexingPolicy";
+import { GeospatialType } from "../../src/documents/GeospatialType";
 
 describe("Containers", function() {
   this.timeout(process.env.MOCHA_TIMEOUT || 10000);
@@ -69,7 +74,6 @@ describe("Containers", function() {
       assert(ranges.length > 0, "container should have at least 1 partition");
 
       // Replacing indexing policy is allowed.
-      containerDef.indexingPolicy.indexingMode = IndexingMode.lazy;
       containerDef.indexingPolicy.spatialIndexes = [
         {
           path: "/region/?",
@@ -82,9 +86,9 @@ describe("Containers", function() {
           }
         }
       ];
+
       containerDef.geospatialConfig.type = GeospatialType.Geometry;
-      const { resource: replacedContainer } = await container.replace(containerDef);
-      assert.equal("lazy", replacedContainer.indexingPolicy.indexingMode);
+      await container.replace(containerDef);
 
       // Replacing partition key is not allowed.
       try {
@@ -200,24 +204,6 @@ describe("Containers", function() {
       );
       await container.delete();
 
-      const lazyContainerDefinition: ContainerDefinition = {
-        id: "lazy container",
-        indexingPolicy: { indexingMode: IndexingMode.lazy }
-      };
-
-      const { resource: lazyContainerDef } = await database.containers.create(
-        lazyContainerDefinition
-      );
-      const lazyContainer = database.container(lazyContainerDef.id);
-
-      assert.equal(
-        lazyContainerDef.indexingPolicy.indexingMode,
-        IndexingMode.lazy,
-        "indexing mode should be lazy"
-      );
-
-      await lazyContainer.delete();
-
       const uniqueKeysContainerDefinition: ContainerDefinition = {
         id: "uniqueKeysContainer",
         uniqueKeyPolicy: { uniqueKeys: [{ paths: ["/foo"] }] }
@@ -311,20 +297,6 @@ describe("Containers", function() {
       );
       checkDefaultIndexingPolicyPaths(containerNoIndexPolicyDef["indexingPolicy"]);
 
-      // create container with partial policy specified.
-      const containerDefinition02: ContainerDefinition = {
-        id: "TestCreateDefaultPolicy02",
-        indexingPolicy: {
-          indexingMode: IndexingMode.lazy,
-          automatic: true
-        }
-      };
-
-      const { resource: containerWithPartialPolicyDef } = await database.containers.create(
-        containerDefinition02
-      );
-      checkDefaultIndexingPolicyPaths((containerWithPartialPolicyDef as any)["indexingPolicy"]);
-
       // create container with default policy.
       const containerDefinition03 = {
         id: "TestCreateDefaultPolicy03",
@@ -398,17 +370,6 @@ describe("Containers", function() {
       });
       assert.notEqual(headers1[Constants.HttpHeaders.IndexTransformationProgress], undefined);
       assert.equal(headers1[Constants.HttpHeaders.LazyIndexingProgress], undefined);
-
-      const lazyContainerDefinition = {
-        id: "lazy_coll",
-        indexingPolicy: { indexingMode: IndexingMode.lazy }
-      };
-      const { headers: headers2 } = await createThenReadcontainer(
-        database,
-        lazyContainerDefinition
-      );
-      assert.notEqual(headers2[Constants.HttpHeaders.IndexTransformationProgress], undefined);
-      assert.notEqual(headers2[Constants.HttpHeaders.LazyIndexingProgress], undefined);
 
       const noneContainerDefinition = {
         id: "none_coll",
@@ -501,5 +462,31 @@ describe("container.readOffer", function() {
       const { resource: readDef } = await container2WithOffer.read();
       assert.equal(offer.resource.offerResourceId, readDef._rid);
     });
+  });
+});
+
+describe("container.create", function() {
+  let database: Database;
+  before(async () => {
+    database = await getTestDatabase("autoscale test");
+  });
+  it("uses autoscale", async function() {
+    const maxThroughput = 50000;
+    const containerRequest: ContainerRequest = {
+      id: "sample",
+      maxThroughput
+    };
+    const { container } = await database.containers.create(containerRequest);
+    const { resource: offer } = await container.readOffer();
+    const settings = offer.content.offerAutopilotSettings;
+    assert.equal(settings.maxThroughput, maxThroughput);
+  });
+  it("throws with maxThroughput and throughput", function() {
+    const containerRequest: ContainerRequest = {
+      id: "sample",
+      throughput: 400,
+      maxThroughput: 400
+    };
+    assertThrowsAsync(() => database.containers.create(containerRequest));
   });
 });

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import assert from "assert";
-import { isResourceValid, parseConnectionString } from "../../dist-esm/common";
+import { isResourceValid, parseConnectionString } from "../../src/common";
 
 describe("Helper methods", function() {
   describe("isResourceValid Unit Tests", function() {

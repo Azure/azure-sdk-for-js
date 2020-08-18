@@ -41,7 +41,7 @@ export interface ConnectionState {
 }
 
 /**
- * Definition of a Resource
+ * Definition of a Resource.
  */
 export interface Resource extends BaseResource {
   /**
@@ -50,12 +50,12 @@ export interface Resource extends BaseResource {
    */
   readonly id?: string;
   /**
-   * Name of the resource
+   * Name of the resource.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly name?: string;
   /**
-   * Type of the resource
+   * Type of the resource.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly type?: string;
@@ -114,59 +114,6 @@ export interface InboundIpRule {
    * 'Allow'
    */
   action?: IpActionType;
-}
-
-/**
- * Describes an EventGrid Resource Sku.
- */
-export interface ResourceSku {
-  /**
-   * The Sku name of the resource. The possible values are: Basic or Premium. Possible values
-   * include: 'Basic', 'Premium'
-   */
-  name?: Sku;
-}
-
-/**
- * The information about the user identity.
- */
-export interface UserIdentityProperties {
-  /**
-   * The principal id of user assigned identity.
-   */
-  principalId?: string;
-  /**
-   * The client id of user assigned identity.
-   */
-  clientId?: string;
-}
-
-/**
- * The identity information for the resource.
- */
-export interface IdentityInfo {
-  /**
-   * The type of managed identity used. The type 'SystemAssigned, UserAssigned' includes both an
-   * implicitly created identity and a set of user-assigned identities. The type 'None' will remove
-   * any identity. Possible values include: 'None', 'SystemAssigned', 'UserAssigned',
-   * 'SystemAssigned, UserAssigned'
-   */
-  type?: IdentityType;
-  /**
-   * The principal ID of resource identity.
-   */
-  principalId?: string;
-  /**
-   * The tenant ID of resource.
-   */
-  tenantId?: string;
-  /**
-   * The list of user identities associated with the resource. The user identity dictionary key
-   * references will be ARM resource ids in the form:
-   * '/subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ManagedIdentity/userAssignedIdentities/{identityName}'.
-   * This property is currently not used and reserved for future usage.
-   */
-  userAssignedIdentities?: { [propertyName: string]: UserIdentityProperties };
 }
 
 /**
@@ -295,14 +242,6 @@ export interface Domain extends TrackedResource {
    * considered only if PublicNetworkAccess is enabled.
    */
   inboundIpRules?: InboundIpRule[];
-  /**
-   * The Sku pricing tier for the domain.
-   */
-  sku?: ResourceSku;
-  /**
-   * Identity information for the resource.
-   */
-  identity?: IdentityInfo;
 }
 
 /**
@@ -325,14 +264,6 @@ export interface DomainUpdateParameters {
    * considered only if PublicNetworkAccess is enabled.
    */
   inboundIpRules?: InboundIpRule[];
-  /**
-   * Identity information for the resource.
-   */
-  identity?: IdentityInfo;
-  /**
-   * The Sku pricing tier for the domain.
-   */
-  sku?: ResourceSku;
 }
 
 /**
@@ -371,34 +302,18 @@ export interface DomainTopic extends Resource {
 }
 
 /**
- * Properties of the source of an event channel.
+ * Contains the possible cases for EventSubscriptionDestination.
  */
-export interface EventChannelSource {
-  /**
-   * The identifier of the resource that's the source of the events.
-   * This represents a unique resource in the partner's resource model.
-   */
-  source?: string;
-}
+export type EventSubscriptionDestinationUnion = EventSubscriptionDestination | WebHookEventSubscriptionDestination | EventHubEventSubscriptionDestination | StorageQueueEventSubscriptionDestination | HybridConnectionEventSubscriptionDestination | ServiceBusQueueEventSubscriptionDestination | ServiceBusTopicEventSubscriptionDestination | AzureFunctionEventSubscriptionDestination;
 
 /**
- * Properties of the destination of an event channel.
+ * Information about the destination for an event subscription.
  */
-export interface EventChannelDestination {
+export interface EventSubscriptionDestination {
   /**
-   * Azure subscription ID of the customer creating the event channel. The partner topic
-   * associated with the event channel will be created under this Azure subscription.
+   * Polymorphic Discriminator
    */
-  azureSubscriptionId?: string;
-  /**
-   * Azure Resource Group of the customer creating the event channel. The partner topic
-   * associated with the event channel will be created under this resource group.
-   */
-  resourceGroup?: string;
-  /**
-   * Name of the partner topic associated with the event channel.
-   */
-  partnerTopicName?: string;
+  endpointType: "EventSubscriptionDestination";
 }
 
 /**
@@ -424,13 +339,66 @@ export interface AdvancedFilter {
 }
 
 /**
- * Filter for the Event Channel.
+ * Filter for the Event Subscription.
  */
-export interface EventChannelFilter {
+export interface EventSubscriptionFilter {
   /**
-   * An array of advanced filters that are used for filtering event channels.
+   * An optional string to filter events for an event subscription based on a resource path prefix.
+   * The format of this depends on the publisher of the events.
+   * Wildcard characters are not supported in this path.
+   */
+  subjectBeginsWith?: string;
+  /**
+   * An optional string to filter events for an event subscription based on a resource path suffix.
+   * Wildcard characters are not supported in this path.
+   */
+  subjectEndsWith?: string;
+  /**
+   * A list of applicable event types that need to be part of the event subscription. If it is
+   * desired to subscribe to all default event types, set the IncludedEventTypes to null.
+   */
+  includedEventTypes?: string[];
+  /**
+   * Specifies if the SubjectBeginsWith and SubjectEndsWith properties of the filter
+   * should be compared in a case sensitive manner. Default value: false.
+   */
+  isSubjectCaseSensitive?: boolean;
+  /**
+   * An array of advanced filters that are used for filtering event subscriptions.
    */
   advancedFilters?: AdvancedFilterUnion[];
+}
+
+/**
+ * Information about the retry policy for an event subscription.
+ */
+export interface RetryPolicy {
+  /**
+   * Maximum number of delivery retry attempts for events.
+   */
+  maxDeliveryAttempts?: number;
+  /**
+   * Time To Live (in minutes) for events.
+   */
+  eventTimeToLiveInMinutes?: number;
+}
+
+/**
+ * Contains the possible cases for DeadLetterDestination.
+ */
+export type DeadLetterDestinationUnion = DeadLetterDestination | StorageBlobDeadLetterDestination;
+
+/**
+ * Information about the dead letter destination for an event subscription. To configure a
+ * deadletter destination, do not directly instantiate an object of this class. Instead,
+ * instantiate an object of a derived class. Currently, StorageBlobDeadLetterDestination is the
+ * only class that derives from this class.
+ */
+export interface DeadLetterDestination {
+  /**
+   * Polymorphic Discriminator
+   */
+  endpointType: "DeadLetterDestination";
 }
 
 /**
@@ -449,6 +417,24 @@ export interface NumberInAdvancedFilter {
    * The set of filter values.
    */
   values?: number[];
+}
+
+/**
+ * Information about the storage blob based dead letter destination.
+ */
+export interface StorageBlobDeadLetterDestination {
+  /**
+   * Polymorphic Discriminator
+   */
+  endpointType: "StorageBlob";
+  /**
+   * The Azure Resource ID of the storage account that is the destination of the deadletter events
+   */
+  resourceId?: string;
+  /**
+   * The name of the Storage blob container that is the destination of the deadletter events
+   */
+  blobContainerName?: string;
 }
 
 /**
@@ -650,196 +636,6 @@ export interface StringContainsAdvancedFilter {
 }
 
 /**
- * Event Channel.
- */
-export interface EventChannel extends Resource {
-  /**
-   * Source of the event channel. This represents a unique resource in the partner's resource
-   * model.
-   */
-  source?: EventChannelSource;
-  /**
-   * Represents the destination of an event channel.
-   */
-  destination?: EventChannelDestination;
-  /**
-   * Provisioning state of the event channel. Possible values include: 'Creating', 'Updating',
-   * 'Deleting', 'Succeeded', 'Canceled', 'Failed'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly provisioningState?: EventChannelProvisioningState;
-  /**
-   * The readiness state of the corresponding partner topic. Possible values include:
-   * 'NotActivatedByUserYet', 'ActivatedByUser', 'DeactivatedByUser', 'DeletedByUser'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly partnerTopicReadinessState?: PartnerTopicReadinessState;
-  /**
-   * Expiration time of the event channel. If this timer expires while the corresponding partner
-   * topic is never activated,
-   * the event channel and corresponding partner topic are deleted.
-   */
-  expirationTimeIfNotActivatedUtc?: Date;
-  /**
-   * Information about the filter for the event channel.
-   */
-  filter?: EventChannelFilter;
-  /**
-   * Friendly description about the topic. This can be set by the publisher/partner to show custom
-   * description for the customer partner topic.
-   * This will be helpful to remove any ambiguity of the origin of creation of the partner topic
-   * for the customer.
-   */
-  partnerTopicFriendlyDescription?: string;
-}
-
-/**
- * Contains the possible cases for EventSubscriptionDestination.
- */
-export type EventSubscriptionDestinationUnion = EventSubscriptionDestination | WebHookEventSubscriptionDestination | EventHubEventSubscriptionDestination | StorageQueueEventSubscriptionDestination | HybridConnectionEventSubscriptionDestination | ServiceBusQueueEventSubscriptionDestination | ServiceBusTopicEventSubscriptionDestination | AzureFunctionEventSubscriptionDestination;
-
-/**
- * Information about the destination for an event subscription.
- */
-export interface EventSubscriptionDestination {
-  /**
-   * Polymorphic Discriminator
-   */
-  endpointType: "EventSubscriptionDestination";
-}
-
-/**
- * The identity information with the event subscription.
- */
-export interface EventSubscriptionIdentity {
-  /**
-   * The type of managed identity used. The type 'SystemAssigned, UserAssigned' includes both an
-   * implicitly created identity and a set of user-assigned identities. The type 'None' will remove
-   * any identity. Possible values include: 'SystemAssigned', 'UserAssigned'
-   */
-  type?: EventSubscriptionIdentityType;
-  /**
-   * The user identity associated with the resource.
-   */
-  userAssignedIdentity?: string;
-}
-
-/**
- * Information about the delivery for an event subscription with resource identity.
- */
-export interface DeliveryWithResourceIdentity {
-  /**
-   * The identity to use when delivering events.
-   */
-  identity?: EventSubscriptionIdentity;
-  /**
-   * Information about the destination where events have to be delivered for the event
-   * subscription.
-   * Uses Azure Event Grid's identity to acquire the authentication tokens being used during
-   * delivery / dead-lettering.
-   */
-  destination?: EventSubscriptionDestinationUnion;
-}
-
-/**
- * Filter for the Event Subscription.
- */
-export interface EventSubscriptionFilter {
-  /**
-   * An optional string to filter events for an event subscription based on a resource path prefix.
-   * The format of this depends on the publisher of the events.
-   * Wildcard characters are not supported in this path.
-   */
-  subjectBeginsWith?: string;
-  /**
-   * An optional string to filter events for an event subscription based on a resource path suffix.
-   * Wildcard characters are not supported in this path.
-   */
-  subjectEndsWith?: string;
-  /**
-   * A list of applicable event types that need to be part of the event subscription. If it is
-   * desired to subscribe to all default event types, set the IncludedEventTypes to null.
-   */
-  includedEventTypes?: string[];
-  /**
-   * Specifies if the SubjectBeginsWith and SubjectEndsWith properties of the filter
-   * should be compared in a case sensitive manner. Default value: false.
-   */
-  isSubjectCaseSensitive?: boolean;
-  /**
-   * An array of advanced filters that are used for filtering event subscriptions.
-   */
-  advancedFilters?: AdvancedFilterUnion[];
-}
-
-/**
- * Information about the retry policy for an event subscription.
- */
-export interface RetryPolicy {
-  /**
-   * Maximum number of delivery retry attempts for events.
-   */
-  maxDeliveryAttempts?: number;
-  /**
-   * Time To Live (in minutes) for events.
-   */
-  eventTimeToLiveInMinutes?: number;
-}
-
-/**
- * Contains the possible cases for DeadLetterDestination.
- */
-export type DeadLetterDestinationUnion = DeadLetterDestination | StorageBlobDeadLetterDestination;
-
-/**
- * Information about the dead letter destination for an event subscription. To configure a
- * deadletter destination, do not directly instantiate an object of this class. Instead,
- * instantiate an object of a derived class. Currently, StorageBlobDeadLetterDestination is the
- * only class that derives from this class.
- */
-export interface DeadLetterDestination {
-  /**
-   * Polymorphic Discriminator
-   */
-  endpointType: "DeadLetterDestination";
-}
-
-/**
- * Information about the deadletter destination with resource identity.
- */
-export interface DeadLetterWithResourceIdentity {
-  /**
-   * The identity to use when dead-lettering events.
-   */
-  identity?: EventSubscriptionIdentity;
-  /**
-   * Information about the destination where events have to be delivered for the event
-   * subscription.
-   * Uses the managed identity setup on the parent resource (namely, topic or domain) to acquire
-   * the authentication tokens being used during delivery / dead-lettering.
-   */
-  deadLetterDestination?: DeadLetterDestinationUnion;
-}
-
-/**
- * Information about the storage blob based dead letter destination.
- */
-export interface StorageBlobDeadLetterDestination {
-  /**
-   * Polymorphic Discriminator
-   */
-  endpointType: "StorageBlob";
-  /**
-   * The Azure Resource ID of the storage account that is the destination of the deadletter events
-   */
-  resourceId?: string;
-  /**
-   * The name of the Storage blob container that is the destination of the deadletter events
-   */
-  blobContainerName?: string;
-}
-
-/**
  * Information about the webhook destination for an event subscription.
  */
 export interface WebHookEventSubscriptionDestination {
@@ -997,17 +793,8 @@ export interface EventSubscription extends Resource {
   /**
    * Information about the destination where events have to be delivered for the event
    * subscription.
-   * Uses Azure Event Grid's identity to acquire the authentication tokens being used during
-   * delivery / dead-lettering.
    */
   destination?: EventSubscriptionDestinationUnion;
-  /**
-   * Information about the destination where events have to be delivered for the event
-   * subscription.
-   * Uses the managed identity setup on the parent resource (namely, topic or domain) to acquire
-   * the authentication tokens being used during delivery / dead-lettering.
-   */
-  deliveryWithResourceIdentity?: DeliveryWithResourceIdentity;
   /**
    * Information about the filter for the event subscription.
    */
@@ -1031,19 +818,9 @@ export interface EventSubscription extends Resource {
    */
   retryPolicy?: RetryPolicy;
   /**
-   * The dead letter destination of the event subscription. Any event that cannot be delivered to
-   * its' destination is sent to the dead letter destination.
-   * Uses Azure Event Grid's identity to acquire the authentication tokens being used during
-   * delivery / dead-lettering.
+   * The DeadLetter destination of the event subscription.
    */
   deadLetterDestination?: DeadLetterDestinationUnion;
-  /**
-   * The dead letter destination of the event subscription. Any event that cannot be delivered to
-   * its' destination is sent to the dead letter destination.
-   * Uses the managed identity setup on the parent resource (namely, topic or domain) to acquire
-   * the authentication tokens being used during delivery / dead-lettering.
-   */
-  deadLetterWithResourceIdentity?: DeadLetterWithResourceIdentity;
 }
 
 /**
@@ -1053,17 +830,8 @@ export interface EventSubscriptionUpdateParameters {
   /**
    * Information about the destination where events have to be delivered for the event
    * subscription.
-   * Uses Azure Event Grid's identity to acquire the authentication tokens being used during
-   * delivery / dead-lettering.
    */
   destination?: EventSubscriptionDestinationUnion;
-  /**
-   * Information about the destination where events have to be delivered for the event
-   * subscription.
-   * Uses the managed identity setup on the parent resource (topic / domain) to acquire the
-   * authentication tokens being used during delivery / dead-lettering.
-   */
-  deliveryWithResourceIdentity?: DeliveryWithResourceIdentity;
   /**
    * Information about the filter for the event subscription.
    */
@@ -1087,19 +855,9 @@ export interface EventSubscriptionUpdateParameters {
    */
   retryPolicy?: RetryPolicy;
   /**
-   * The dead letter destination of the event subscription. Any event that cannot be delivered to
-   * its' destination is sent to the dead letter destination.
-   * Uses Azure Event Grid's identity to acquire the authentication tokens being used during
-   * delivery / dead-lettering.
+   * The DeadLetter destination of the event subscription.
    */
   deadLetterDestination?: DeadLetterDestinationUnion;
-  /**
-   * The dead letter destination of the event subscription. Any event that cannot be delivered to
-   * its' destination is sent to the dead letter destination.
-   * Uses the managed identity setup on the parent resource (topic / domain) to acquire the
-   * authentication tokens being used during delivery / dead-lettering.
-   */
-  deadLetterWithResourceIdentity?: DeadLetterWithResourceIdentity;
 }
 
 /**
@@ -1157,301 +915,6 @@ export interface Operation {
 }
 
 /**
- * EventGrid Partner Namespace.
- */
-export interface PartnerNamespace extends TrackedResource {
-  /**
-   * Provisioning state of the partner namespace. Possible values include: 'Creating', 'Updating',
-   * 'Deleting', 'Succeeded', 'Canceled', 'Failed'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly provisioningState?: PartnerNamespaceProvisioningState;
-  /**
-   * The fully qualified ARM Id of the partner registration that should be associated with this
-   * partner namespace. This takes the following format:
-   * /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.EventGrid/partnerRegistrations/{partnerRegistrationName}.
-   */
-  partnerRegistrationFullyQualifiedId?: string;
-  /**
-   * Endpoint for the partner namespace.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly endpoint?: string;
-}
-
-/**
- * Properties of the PartnerNamespace update.
- */
-export interface PartnerNamespaceUpdateParameters {
-  /**
-   * Tags of the partner namespace.
-   */
-  tags?: { [propertyName: string]: string };
-}
-
-/**
- * Shared access keys of the partner namespace.
- */
-export interface PartnerNamespaceSharedAccessKeys {
-  /**
-   * Shared access key1 for the partner namespace.
-   */
-  key1?: string;
-  /**
-   * Shared access key2 for the partner namespace.
-   */
-  key2?: string;
-}
-
-/**
- * PartnerNamespace regenerate shared access key request.
- */
-export interface PartnerNamespaceRegenerateKeyRequest {
-  /**
-   * Key name to regenerate (key1 or key2).
-   */
-  keyName: string;
-}
-
-/**
- * Information about a partner registration.
- */
-export interface PartnerRegistration extends TrackedResource {
-  /**
-   * Provisioning state of the partner registration. Possible values include: 'Creating',
-   * 'Updating', 'Deleting', 'Succeeded', 'Canceled', 'Failed'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly provisioningState?: PartnerRegistrationProvisioningState;
-  /**
-   * Official name of the partner name. For example: "Contoso".
-   */
-  partnerName?: string;
-  /**
-   * Name of the partner resource type.
-   */
-  partnerResourceTypeName?: string;
-  /**
-   * Display name of the partner resource type.
-   */
-  partnerResourceTypeDisplayName?: string;
-  /**
-   * Short description of the partner resource type. The length of this description should not
-   * exceed 256 characters.
-   */
-  partnerResourceTypeDescription?: string;
-  /**
-   * Long description for the custom scenarios and integration to be displayed in the portal if
-   * needed.
-   * Length of this description should not exceed 2048 characters.
-   */
-  longDescription?: string;
-  /**
-   * The customer service number of the publisher. The expected phone format should start with a
-   * '+' sign
-   * followed by the country code. The remaining digits are then followed. Only digits and spaces
-   * are allowed and its
-   * length cannot exceed 16 digits including country code. Examples of valid phone numbers are: +1
-   * 515 123 4567 and
-   * +966 7 5115 2471. Examples of invalid phone numbers are: +1 (515) 123-4567, 1 515 123 4567 and
-   * +966 121 5115 24 7 551 1234 43
-   */
-  partnerCustomerServiceNumber?: string;
-  /**
-   * The extension of the customer service number of the publisher. Only digits are allowed and
-   * number of digits should not exceed 10.
-   */
-  partnerCustomerServiceExtension?: string;
-  /**
-   * The extension of the customer service URI of the publisher.
-   */
-  customerServiceUri?: string;
-  /**
-   * URI of the partner website that can be used by Azure customers to setup Event Grid
-   * integration on an event source.
-   */
-  setupUri?: string;
-  /**
-   * URI of the logo.
-   */
-  logoUri?: string;
-  /**
-   * Visibility state of the partner registration. Possible values include: 'Hidden',
-   * 'PublicPreview', 'GenerallyAvailable'
-   */
-  visibilityState?: PartnerRegistrationVisibilityState;
-  /**
-   * List of Azure subscription Ids that are authorized to create a partner namespace
-   * associated with this partner registration. This is an optional property. Creating
-   * partner namespaces is always permitted under the same Azure subscription as the one used
-   * for creating the partner registration.
-   */
-  authorizedAzureSubscriptionIds?: string[];
-}
-
-/**
- * Properties of the Partner Registration update.
- */
-export interface PartnerRegistrationUpdateParameters {
-  /**
-   * Tags of the partner registration resource.
-   */
-  tags?: { [propertyName: string]: string };
-  /**
-   * Name of the partner topic type.
-   */
-  partnerTopicTypeName?: string;
-  /**
-   * Display name of the partner topic type.
-   */
-  partnerTopicTypeDisplayName?: string;
-  /**
-   * Description of the partner topic type.
-   */
-  partnerTopicTypeDescription?: string;
-  /**
-   * URI of the partner website that can be used by Azure customers to setup Event Grid
-   * integration on an event source.
-   */
-  setupUri?: string;
-  /**
-   * URI of the partner logo.
-   */
-  logoUri?: string;
-  /**
-   * List of IDs of Azure AD applications that are authorized to create a partner namespace
-   * associated with this partner registration. This is an optional property. Creating
-   * partner namespaces is always permitted under the same Azure subscription as the one used
-   * for creating the partner registration.
-   */
-  authorizedAzureSubscriptionIds?: string[];
-}
-
-/**
- * Event Type for a subject under a topic
- */
-export interface EventType extends Resource {
-  /**
-   * Display name of the event type.
-   */
-  displayName?: string;
-  /**
-   * Description of the event type.
-   */
-  description?: string;
-  /**
-   * Url of the schema for this event type.
-   */
-  schemaUrl?: string;
-  /**
-   * IsInDefaultSet flag of the event type.
-   */
-  isInDefaultSet?: boolean;
-}
-
-/**
- * Result of the List Partner Registration Event Types operation.
- */
-export interface PartnerRegistrationEventTypesListResult {
-  /**
-   * A collection of partner registration event types.
-   */
-  value?: EventType[];
-  /**
-   * A link for the next page of partner registration event types.
-   */
-  nextLink?: string;
-}
-
-/**
- * Properties of the Partner Topic update.
- */
-export interface PartnerTopicUpdateParameters {
-  /**
-   * Tags of the partner topic.
-   */
-  tags?: { [propertyName: string]: string };
-}
-
-/**
- * EventGrid Partner Topic.
- */
-export interface PartnerTopic extends TrackedResource {
-  /**
-   * Source associated with this partner topic. This represents a unique partner resource.
-   */
-  source?: string;
-  /**
-   * Expiration time of the partner topic. If this timer expires while the partner topic is still
-   * never activated,
-   * the partner topic and corresponding event channel are deleted.
-   */
-  expirationTimeIfNotActivatedUtc?: Date;
-  /**
-   * Provisioning state of the partner topic. Possible values include: 'Creating', 'Updating',
-   * 'Deleting', 'Succeeded', 'Canceled', 'Failed'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly provisioningState?: PartnerTopicProvisioningState;
-  /**
-   * Activation state of the partner topic. Possible values include: 'NeverActivated', 'Activated',
-   * 'Deactivated'
-   */
-  activationState?: PartnerTopicActivationState;
-  /**
-   * Friendly description about the topic. This can be set by the publisher/partner to show custom
-   * description for the customer partner topic.
-   * This will be helpful to remove any ambiguity of the origin of creation of the partner topic
-   * for the customer.
-   */
-  partnerTopicFriendlyDescription?: string;
-}
-
-/**
- * Properties of a partner topic type.
- */
-export interface PartnerTopicType extends Resource {
-  /**
-   * Official name of the partner.
-   */
-  partnerName?: string;
-  /**
-   * Name of the partner topic type. This name should be unique among all partner topic types
-   * names.
-   */
-  topicTypeName?: string;
-  /**
-   * Display Name for the partner topic type.
-   */
-  displayName?: string;
-  /**
-   * Description of the partner topic type.
-   */
-  description?: string;
-  /**
-   * URI of the partner website that can be used by Azure customers to setup Event Grid
-   * integration on an event source.
-   */
-  setupUri?: string;
-  /**
-   * Status of whether the customer has authorized a partner to create partner topics
-   * in the customer's subscription. Possible values include: 'NotApplicable', 'NotAuthorized',
-   * 'Authorized'
-   */
-  authorizationState?: PartnerTopicTypeAuthorizationState;
-}
-
-/**
- * Result of the List Partner Topic Types operation.
- */
-export interface PartnerTopicTypesListResult {
-  /**
-   * A collection of partner topic types.
-   */
-  value?: PartnerTopicType[];
-}
-
-/**
  * Information of the private link resource.
  */
 export interface PrivateLinkResource {
@@ -1471,41 +934,6 @@ export interface PrivateLinkResource {
    * Type of the resource
    */
   type?: string;
-}
-
-/**
- * EventGrid System Topic.
- */
-export interface SystemTopic extends TrackedResource {
-  /**
-   * Provisioning state of the system topic. Possible values include: 'Creating', 'Updating',
-   * 'Deleting', 'Succeeded', 'Canceled', 'Failed'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly provisioningState?: ResourceProvisioningState;
-  /**
-   * Source for the system topic.
-   */
-  source?: string;
-  /**
-   * TopicType for the system topic.
-   */
-  topicType?: string;
-  /**
-   * Metric resource id for the system topic.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly metricResourceId?: string;
-}
-
-/**
- * Properties of the System Topic update.
- */
-export interface SystemTopicUpdateParameters {
-  /**
-   * Tags of the system topic.
-   */
-  tags?: { [propertyName: string]: string };
 }
 
 /**
@@ -1553,14 +981,6 @@ export interface Topic extends TrackedResource {
    * considered only if PublicNetworkAccess is enabled.
    */
   inboundIpRules?: InboundIpRule[];
-  /**
-   * The Sku pricing tier for the topic.
-   */
-  sku?: ResourceSku;
-  /**
-   * Identity information for the resource.
-   */
-  identity?: IdentityInfo;
 }
 
 /**
@@ -1571,10 +991,6 @@ export interface TopicUpdateParameters {
    * Tags of the resource.
    */
   tags?: { [propertyName: string]: string };
-  /**
-   * Resource identity information.
-   */
-  identity?: IdentityInfo;
   /**
    * This determines if traffic is allowed over public network. By default it is enabled.
    * You can further restrict to specific IPs by configuring <seealso
@@ -1587,10 +1003,6 @@ export interface TopicUpdateParameters {
    * considered only if PublicNetworkAccess is enabled.
    */
   inboundIpRules?: InboundIpRule[];
-  /**
-   * The Sku pricing tier for the topic.
-   */
-  sku?: ResourceSku;
 }
 
 /**
@@ -1618,18 +1030,25 @@ export interface TopicRegenerateKeyRequest {
 }
 
 /**
- * Event grid Extension Topic. This is used for getting Event Grid related metrics for Azure
- * resources.
+ * Event Type for a subject under a topic
  */
-export interface ExtensionTopic extends Resource {
+export interface EventType extends Resource {
   /**
-   * Description of the extension topic.
+   * Display name of the event type.
+   */
+  displayName?: string;
+  /**
+   * Description of the event type.
    */
   description?: string;
   /**
-   * System topic resource id which is mapped to the source.
+   * Url of the schema for this event type.
    */
-  systemTopic?: string;
+  schemaUrl?: string;
+  /**
+   * IsInDefaultSet flag of the event type.
+   */
+  isInDefaultSet?: boolean;
 }
 
 /**
@@ -1713,27 +1132,6 @@ export interface DomainsListByResourceGroupOptionalParams extends msRest.Request
  * Optional Parameters.
  */
 export interface DomainTopicsListByDomainOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * The query used to filter the search results using OData syntax. Filtering is permitted on the
-   * 'name' property only and with limited number of OData operations. These operations are: the
-   * 'contains' function as well as the following logical operations: not, and, or, eq (for equal),
-   * and ne (for not equal). No arithmetic operations are supported. The following is a valid
-   * filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is
-   * not a valid filter example: $filter=location eq 'westus'.
-   */
-  filter?: string;
-  /**
-   * The number of results to return per page for the list operation. Valid range for top parameter
-   * is 1 to 100. If not specified, the default number of results to be returned is 20 items per
-   * page.
-   */
-  top?: number;
-}
-
-/**
- * Optional Parameters.
- */
-export interface EventChannelsListByPartnerNamespaceOptionalParams extends msRest.RequestOptionsBase {
   /**
    * The query used to filter the search results using OData syntax. Filtering is permitted on the
    * 'name' property only and with limited number of OData operations. These operations are: the
@@ -1964,7 +1362,7 @@ export interface EventSubscriptionsListByDomainTopicOptionalParams extends msRes
 /**
  * Optional Parameters.
  */
-export interface SystemTopicEventSubscriptionsListBySystemTopicOptionalParams extends msRest.RequestOptionsBase {
+export interface TopicsListBySubscriptionOptionalParams extends msRest.RequestOptionsBase {
   /**
    * The query used to filter the search results using OData syntax. Filtering is permitted on the
    * 'name' property only and with limited number of OData operations. These operations are: the
@@ -1985,133 +1383,7 @@ export interface SystemTopicEventSubscriptionsListBySystemTopicOptionalParams ex
 /**
  * Optional Parameters.
  */
-export interface PartnerTopicEventSubscriptionsListByPartnerTopicOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * The query used to filter the search results using OData syntax. Filtering is permitted on the
-   * 'name' property only and with limited number of OData operations. These operations are: the
-   * 'contains' function as well as the following logical operations: not, and, or, eq (for equal),
-   * and ne (for not equal). No arithmetic operations are supported. The following is a valid
-   * filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is
-   * not a valid filter example: $filter=location eq 'westus'.
-   */
-  filter?: string;
-  /**
-   * The number of results to return per page for the list operation. Valid range for top parameter
-   * is 1 to 100. If not specified, the default number of results to be returned is 20 items per
-   * page.
-   */
-  top?: number;
-}
-
-/**
- * Optional Parameters.
- */
-export interface PartnerNamespacesListBySubscriptionOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * The query used to filter the search results using OData syntax. Filtering is permitted on the
-   * 'name' property only and with limited number of OData operations. These operations are: the
-   * 'contains' function as well as the following logical operations: not, and, or, eq (for equal),
-   * and ne (for not equal). No arithmetic operations are supported. The following is a valid
-   * filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is
-   * not a valid filter example: $filter=location eq 'westus'.
-   */
-  filter?: string;
-  /**
-   * The number of results to return per page for the list operation. Valid range for top parameter
-   * is 1 to 100. If not specified, the default number of results to be returned is 20 items per
-   * page.
-   */
-  top?: number;
-}
-
-/**
- * Optional Parameters.
- */
-export interface PartnerNamespacesListByResourceGroupOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * The query used to filter the search results using OData syntax. Filtering is permitted on the
-   * 'name' property only and with limited number of OData operations. These operations are: the
-   * 'contains' function as well as the following logical operations: not, and, or, eq (for equal),
-   * and ne (for not equal). No arithmetic operations are supported. The following is a valid
-   * filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is
-   * not a valid filter example: $filter=location eq 'westus'.
-   */
-  filter?: string;
-  /**
-   * The number of results to return per page for the list operation. Valid range for top parameter
-   * is 1 to 100. If not specified, the default number of results to be returned is 20 items per
-   * page.
-   */
-  top?: number;
-}
-
-/**
- * Optional Parameters.
- */
-export interface PartnerRegistrationsListBySubscriptionOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * The query used to filter the search results using OData syntax. Filtering is permitted on the
-   * 'name' property only and with limited number of OData operations. These operations are: the
-   * 'contains' function as well as the following logical operations: not, and, or, eq (for equal),
-   * and ne (for not equal). No arithmetic operations are supported. The following is a valid
-   * filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is
-   * not a valid filter example: $filter=location eq 'westus'.
-   */
-  filter?: string;
-  /**
-   * The number of results to return per page for the list operation. Valid range for top parameter
-   * is 1 to 100. If not specified, the default number of results to be returned is 20 items per
-   * page.
-   */
-  top?: number;
-}
-
-/**
- * Optional Parameters.
- */
-export interface PartnerRegistrationsListByResourceGroupOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * The query used to filter the search results using OData syntax. Filtering is permitted on the
-   * 'name' property only and with limited number of OData operations. These operations are: the
-   * 'contains' function as well as the following logical operations: not, and, or, eq (for equal),
-   * and ne (for not equal). No arithmetic operations are supported. The following is a valid
-   * filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is
-   * not a valid filter example: $filter=location eq 'westus'.
-   */
-  filter?: string;
-  /**
-   * The number of results to return per page for the list operation. Valid range for top parameter
-   * is 1 to 100. If not specified, the default number of results to be returned is 20 items per
-   * page.
-   */
-  top?: number;
-}
-
-/**
- * Optional Parameters.
- */
-export interface PartnerTopicsListBySubscriptionOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * The query used to filter the search results using OData syntax. Filtering is permitted on the
-   * 'name' property only and with limited number of OData operations. These operations are: the
-   * 'contains' function as well as the following logical operations: not, and, or, eq (for equal),
-   * and ne (for not equal). No arithmetic operations are supported. The following is a valid
-   * filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is
-   * not a valid filter example: $filter=location eq 'westus'.
-   */
-  filter?: string;
-  /**
-   * The number of results to return per page for the list operation. Valid range for top parameter
-   * is 1 to 100. If not specified, the default number of results to be returned is 20 items per
-   * page.
-   */
-  top?: number;
-}
-
-/**
- * Optional Parameters.
- */
-export interface PartnerTopicsListByResourceGroupOptionalParams extends msRest.RequestOptionsBase {
+export interface TopicsListByResourceGroupOptionalParams extends msRest.RequestOptionsBase {
   /**
    * The query used to filter the search results using OData syntax. Filtering is permitted on the
    * 'name' property only and with limited number of OData operations. These operations are: the
@@ -2172,90 +1444,6 @@ export interface PrivateLinkResourcesListByResourceOptionalParams extends msRest
 }
 
 /**
- * Optional Parameters.
- */
-export interface SystemTopicsListBySubscriptionOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * The query used to filter the search results using OData syntax. Filtering is permitted on the
-   * 'name' property only and with limited number of OData operations. These operations are: the
-   * 'contains' function as well as the following logical operations: not, and, or, eq (for equal),
-   * and ne (for not equal). No arithmetic operations are supported. The following is a valid
-   * filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is
-   * not a valid filter example: $filter=location eq 'westus'.
-   */
-  filter?: string;
-  /**
-   * The number of results to return per page for the list operation. Valid range for top parameter
-   * is 1 to 100. If not specified, the default number of results to be returned is 20 items per
-   * page.
-   */
-  top?: number;
-}
-
-/**
- * Optional Parameters.
- */
-export interface SystemTopicsListByResourceGroupOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * The query used to filter the search results using OData syntax. Filtering is permitted on the
-   * 'name' property only and with limited number of OData operations. These operations are: the
-   * 'contains' function as well as the following logical operations: not, and, or, eq (for equal),
-   * and ne (for not equal). No arithmetic operations are supported. The following is a valid
-   * filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is
-   * not a valid filter example: $filter=location eq 'westus'.
-   */
-  filter?: string;
-  /**
-   * The number of results to return per page for the list operation. Valid range for top parameter
-   * is 1 to 100. If not specified, the default number of results to be returned is 20 items per
-   * page.
-   */
-  top?: number;
-}
-
-/**
- * Optional Parameters.
- */
-export interface TopicsListBySubscriptionOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * The query used to filter the search results using OData syntax. Filtering is permitted on the
-   * 'name' property only and with limited number of OData operations. These operations are: the
-   * 'contains' function as well as the following logical operations: not, and, or, eq (for equal),
-   * and ne (for not equal). No arithmetic operations are supported. The following is a valid
-   * filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is
-   * not a valid filter example: $filter=location eq 'westus'.
-   */
-  filter?: string;
-  /**
-   * The number of results to return per page for the list operation. Valid range for top parameter
-   * is 1 to 100. If not specified, the default number of results to be returned is 20 items per
-   * page.
-   */
-  top?: number;
-}
-
-/**
- * Optional Parameters.
- */
-export interface TopicsListByResourceGroupOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * The query used to filter the search results using OData syntax. Filtering is permitted on the
-   * 'name' property only and with limited number of OData operations. These operations are: the
-   * 'contains' function as well as the following logical operations: not, and, or, eq (for equal),
-   * and ne (for not equal). No arithmetic operations are supported. The following is a valid
-   * filter example: $filter=contains(namE, 'PATTERN') and name ne 'PATTERN-1'. The following is
-   * not a valid filter example: $filter=location eq 'westus'.
-   */
-  filter?: string;
-  /**
-   * The number of results to return per page for the list operation. Valid range for top parameter
-   * is 1 to 100. If not specified, the default number of results to be returned is 20 items per
-   * page.
-   */
-  top?: number;
-}
-
-/**
  * An interface representing EventGridManagementClientOptions.
  */
 export interface EventGridManagementClientOptions extends AzureServiceClientOptions {
@@ -2264,36 +1452,24 @@ export interface EventGridManagementClientOptions extends AzureServiceClientOpti
 
 /**
  * @interface
- * Result of the List Domains operation
+ * Result of the List Domains operation.
  * @extends Array<Domain>
  */
 export interface DomainsListResult extends Array<Domain> {
   /**
-   * A link for the next page of domains
+   * A link for the next page of domains.
    */
   nextLink?: string;
 }
 
 /**
  * @interface
- * Result of the List Domain Topics operation
+ * Result of the List Domain Topics operation.
  * @extends Array<DomainTopic>
  */
 export interface DomainTopicsListResult extends Array<DomainTopic> {
   /**
-   * A link for the next page of domain topics
-   */
-  nextLink?: string;
-}
-
-/**
- * @interface
- * Result of the List Event Channels operation
- * @extends Array<EventChannel>
- */
-export interface EventChannelsListResult extends Array<EventChannel> {
-  /**
-   * A link for the next page of event channels
+   * A link for the next page of domain topics.
    */
   nextLink?: string;
 }
@@ -2320,38 +1496,22 @@ export interface OperationsListResult extends Array<Operation> {
 
 /**
  * @interface
- * Result of the List Partner Namespaces operation
- * @extends Array<PartnerNamespace>
+ * Result of the List Topics operation
+ * @extends Array<Topic>
  */
-export interface PartnerNamespacesListResult extends Array<PartnerNamespace> {
+export interface TopicsListResult extends Array<Topic> {
   /**
-   * A link for the next page of partner namespaces.
+   * A link for the next page of topics
    */
   nextLink?: string;
 }
 
 /**
  * @interface
- * Result of the List Partner Registrations operation.
- * @extends Array<PartnerRegistration>
+ * Result of the List Event Types operation
+ * @extends Array<EventType>
  */
-export interface PartnerRegistrationsListResult extends Array<PartnerRegistration> {
-  /**
-   * A link for the next page of partner registrations.
-   */
-  nextLink?: string;
-}
-
-/**
- * @interface
- * Result of the List Partner Topics operation.
- * @extends Array<PartnerTopic>
- */
-export interface PartnerTopicsListResult extends Array<PartnerTopic> {
-  /**
-   * A link for the next page of partner topics.
-   */
-  nextLink?: string;
+export interface EventTypesListResult extends Array<EventType> {
 }
 
 /**
@@ -2376,38 +1536,6 @@ export interface PrivateLinkResourcesListResult extends Array<PrivateLinkResourc
    * A link for the next page of private link resources.
    */
   nextLink?: string;
-}
-
-/**
- * @interface
- * Result of the List System topics operation.
- * @extends Array<SystemTopic>
- */
-export interface SystemTopicsListResult extends Array<SystemTopic> {
-  /**
-   * A link for the next page of topics.
-   */
-  nextLink?: string;
-}
-
-/**
- * @interface
- * Result of the List Topics operation
- * @extends Array<Topic>
- */
-export interface TopicsListResult extends Array<Topic> {
-  /**
-   * A link for the next page of topics
-   */
-  nextLink?: string;
-}
-
-/**
- * @interface
- * Result of the List Event Types operation
- * @extends Array<EventType>
- */
-export interface EventTypesListResult extends Array<EventType> {
 }
 
 /**
@@ -2467,46 +1595,12 @@ export type PublicNetworkAccess = 'Enabled' | 'Disabled';
 export type IpActionType = 'Allow';
 
 /**
- * Defines values for Sku.
- * Possible values include: 'Basic', 'Premium'
- * @readonly
- * @enum {string}
- */
-export type Sku = 'Basic' | 'Premium';
-
-/**
- * Defines values for IdentityType.
- * Possible values include: 'None', 'SystemAssigned', 'UserAssigned', 'SystemAssigned,
- * UserAssigned'
- * @readonly
- * @enum {string}
- */
-export type IdentityType = 'None' | 'SystemAssigned' | 'UserAssigned' | 'SystemAssigned, UserAssigned';
-
-/**
  * Defines values for DomainTopicProvisioningState.
  * Possible values include: 'Creating', 'Updating', 'Deleting', 'Succeeded', 'Canceled', 'Failed'
  * @readonly
  * @enum {string}
  */
 export type DomainTopicProvisioningState = 'Creating' | 'Updating' | 'Deleting' | 'Succeeded' | 'Canceled' | 'Failed';
-
-/**
- * Defines values for EventChannelProvisioningState.
- * Possible values include: 'Creating', 'Updating', 'Deleting', 'Succeeded', 'Canceled', 'Failed'
- * @readonly
- * @enum {string}
- */
-export type EventChannelProvisioningState = 'Creating' | 'Updating' | 'Deleting' | 'Succeeded' | 'Canceled' | 'Failed';
-
-/**
- * Defines values for PartnerTopicReadinessState.
- * Possible values include: 'NotActivatedByUserYet', 'ActivatedByUser', 'DeactivatedByUser',
- * 'DeletedByUser'
- * @readonly
- * @enum {string}
- */
-export type PartnerTopicReadinessState = 'NotActivatedByUserYet' | 'ActivatedByUser' | 'DeactivatedByUser' | 'DeletedByUser';
 
 /**
  * Defines values for EventSubscriptionProvisioningState.
@@ -2518,68 +1612,12 @@ export type PartnerTopicReadinessState = 'NotActivatedByUserYet' | 'ActivatedByU
 export type EventSubscriptionProvisioningState = 'Creating' | 'Updating' | 'Deleting' | 'Succeeded' | 'Canceled' | 'Failed' | 'AwaitingManualAction';
 
 /**
- * Defines values for EventSubscriptionIdentityType.
- * Possible values include: 'SystemAssigned', 'UserAssigned'
- * @readonly
- * @enum {string}
- */
-export type EventSubscriptionIdentityType = 'SystemAssigned' | 'UserAssigned';
-
-/**
  * Defines values for EventDeliverySchema.
  * Possible values include: 'EventGridSchema', 'CustomInputSchema', 'CloudEventSchemaV1_0'
  * @readonly
  * @enum {string}
  */
 export type EventDeliverySchema = 'EventGridSchema' | 'CustomInputSchema' | 'CloudEventSchemaV1_0';
-
-/**
- * Defines values for PartnerNamespaceProvisioningState.
- * Possible values include: 'Creating', 'Updating', 'Deleting', 'Succeeded', 'Canceled', 'Failed'
- * @readonly
- * @enum {string}
- */
-export type PartnerNamespaceProvisioningState = 'Creating' | 'Updating' | 'Deleting' | 'Succeeded' | 'Canceled' | 'Failed';
-
-/**
- * Defines values for PartnerRegistrationProvisioningState.
- * Possible values include: 'Creating', 'Updating', 'Deleting', 'Succeeded', 'Canceled', 'Failed'
- * @readonly
- * @enum {string}
- */
-export type PartnerRegistrationProvisioningState = 'Creating' | 'Updating' | 'Deleting' | 'Succeeded' | 'Canceled' | 'Failed';
-
-/**
- * Defines values for PartnerRegistrationVisibilityState.
- * Possible values include: 'Hidden', 'PublicPreview', 'GenerallyAvailable'
- * @readonly
- * @enum {string}
- */
-export type PartnerRegistrationVisibilityState = 'Hidden' | 'PublicPreview' | 'GenerallyAvailable';
-
-/**
- * Defines values for PartnerTopicProvisioningState.
- * Possible values include: 'Creating', 'Updating', 'Deleting', 'Succeeded', 'Canceled', 'Failed'
- * @readonly
- * @enum {string}
- */
-export type PartnerTopicProvisioningState = 'Creating' | 'Updating' | 'Deleting' | 'Succeeded' | 'Canceled' | 'Failed';
-
-/**
- * Defines values for PartnerTopicActivationState.
- * Possible values include: 'NeverActivated', 'Activated', 'Deactivated'
- * @readonly
- * @enum {string}
- */
-export type PartnerTopicActivationState = 'NeverActivated' | 'Activated' | 'Deactivated';
-
-/**
- * Defines values for PartnerTopicTypeAuthorizationState.
- * Possible values include: 'NotApplicable', 'NotAuthorized', 'Authorized'
- * @readonly
- * @enum {string}
- */
-export type PartnerTopicTypeAuthorizationState = 'NotApplicable' | 'NotAuthorized' | 'Authorized';
 
 /**
  * Defines values for TopicProvisioningState.
@@ -2604,6 +1642,38 @@ export type ResourceRegionType = 'RegionalResource' | 'GlobalResource';
  * @enum {string}
  */
 export type TopicTypeProvisioningState = 'Creating' | 'Updating' | 'Deleting' | 'Succeeded' | 'Canceled' | 'Failed';
+
+/**
+ * Defines values for ParentType.
+ * Possible values include: 'topics', 'domains'
+ * @readonly
+ * @enum {string}
+ */
+export type ParentType = 'topics' | 'domains';
+
+/**
+ * Defines values for ParentType1.
+ * Possible values include: 'topics', 'domains'
+ * @readonly
+ * @enum {string}
+ */
+export type ParentType1 = 'topics' | 'domains';
+
+/**
+ * Defines values for ParentType2.
+ * Possible values include: 'topics', 'domains'
+ * @readonly
+ * @enum {string}
+ */
+export type ParentType2 = 'topics' | 'domains';
+
+/**
+ * Defines values for ParentType3.
+ * Possible values include: 'topics', 'domains'
+ * @readonly
+ * @enum {string}
+ */
+export type ParentType3 = 'topics' | 'domains';
 
 /**
  * Contains response data for the get operation.
@@ -2922,86 +1992,6 @@ export type DomainTopicsListByDomainNextResponse = DomainTopicsListResult & {
        * The response body as parsed JSON or XML
        */
       parsedBody: DomainTopicsListResult;
-    };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type EventChannelsGetResponse = EventChannel & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EventChannel;
-    };
-};
-
-/**
- * Contains response data for the createOrUpdate operation.
- */
-export type EventChannelsCreateOrUpdateResponse = EventChannel & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EventChannel;
-    };
-};
-
-/**
- * Contains response data for the listByPartnerNamespace operation.
- */
-export type EventChannelsListByPartnerNamespaceResponse = EventChannelsListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EventChannelsListResult;
-    };
-};
-
-/**
- * Contains response data for the listByPartnerNamespaceNext operation.
- */
-export type EventChannelsListByPartnerNamespaceNextResponse = EventChannelsListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EventChannelsListResult;
     };
 };
 
@@ -3526,326 +2516,6 @@ export type EventSubscriptionsListByDomainTopicNextResponse = EventSubscriptions
 };
 
 /**
- * Contains response data for the get operation.
- */
-export type SystemTopicEventSubscriptionsGetResponse = EventSubscription & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EventSubscription;
-    };
-};
-
-/**
- * Contains response data for the createOrUpdate operation.
- */
-export type SystemTopicEventSubscriptionsCreateOrUpdateResponse = EventSubscription & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EventSubscription;
-    };
-};
-
-/**
- * Contains response data for the update operation.
- */
-export type SystemTopicEventSubscriptionsUpdateResponse = EventSubscription & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EventSubscription;
-    };
-};
-
-/**
- * Contains response data for the getFullUrl operation.
- */
-export type SystemTopicEventSubscriptionsGetFullUrlResponse = EventSubscriptionFullUrl & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EventSubscriptionFullUrl;
-    };
-};
-
-/**
- * Contains response data for the listBySystemTopic operation.
- */
-export type SystemTopicEventSubscriptionsListBySystemTopicResponse = EventSubscriptionsListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EventSubscriptionsListResult;
-    };
-};
-
-/**
- * Contains response data for the beginCreateOrUpdate operation.
- */
-export type SystemTopicEventSubscriptionsBeginCreateOrUpdateResponse = EventSubscription & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EventSubscription;
-    };
-};
-
-/**
- * Contains response data for the beginUpdate operation.
- */
-export type SystemTopicEventSubscriptionsBeginUpdateResponse = EventSubscription & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EventSubscription;
-    };
-};
-
-/**
- * Contains response data for the listBySystemTopicNext operation.
- */
-export type SystemTopicEventSubscriptionsListBySystemTopicNextResponse = EventSubscriptionsListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EventSubscriptionsListResult;
-    };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type PartnerTopicEventSubscriptionsGetResponse = EventSubscription & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EventSubscription;
-    };
-};
-
-/**
- * Contains response data for the createOrUpdate operation.
- */
-export type PartnerTopicEventSubscriptionsCreateOrUpdateResponse = EventSubscription & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EventSubscription;
-    };
-};
-
-/**
- * Contains response data for the update operation.
- */
-export type PartnerTopicEventSubscriptionsUpdateResponse = EventSubscription & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EventSubscription;
-    };
-};
-
-/**
- * Contains response data for the getFullUrl operation.
- */
-export type PartnerTopicEventSubscriptionsGetFullUrlResponse = EventSubscriptionFullUrl & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EventSubscriptionFullUrl;
-    };
-};
-
-/**
- * Contains response data for the listByPartnerTopic operation.
- */
-export type PartnerTopicEventSubscriptionsListByPartnerTopicResponse = EventSubscriptionsListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EventSubscriptionsListResult;
-    };
-};
-
-/**
- * Contains response data for the beginCreateOrUpdate operation.
- */
-export type PartnerTopicEventSubscriptionsBeginCreateOrUpdateResponse = EventSubscription & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EventSubscription;
-    };
-};
-
-/**
- * Contains response data for the beginUpdate operation.
- */
-export type PartnerTopicEventSubscriptionsBeginUpdateResponse = EventSubscription & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EventSubscription;
-    };
-};
-
-/**
- * Contains response data for the listByPartnerTopicNext operation.
- */
-export type PartnerTopicEventSubscriptionsListByPartnerTopicNextResponse = EventSubscriptionsListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: EventSubscriptionsListResult;
-    };
-};
-
-/**
  * Contains response data for the list operation.
  */
 export type OperationsListResponse = OperationsListResult & {
@@ -3862,886 +2532,6 @@ export type OperationsListResponse = OperationsListResult & {
        * The response body as parsed JSON or XML
        */
       parsedBody: OperationsListResult;
-    };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type PartnerNamespacesGetResponse = PartnerNamespace & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PartnerNamespace;
-    };
-};
-
-/**
- * Contains response data for the createOrUpdate operation.
- */
-export type PartnerNamespacesCreateOrUpdateResponse = PartnerNamespace & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PartnerNamespace;
-    };
-};
-
-/**
- * Contains response data for the update operation.
- */
-export type PartnerNamespacesUpdateResponse = PartnerNamespace & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PartnerNamespace;
-    };
-};
-
-/**
- * Contains response data for the listBySubscription operation.
- */
-export type PartnerNamespacesListBySubscriptionResponse = PartnerNamespacesListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PartnerNamespacesListResult;
-    };
-};
-
-/**
- * Contains response data for the listByResourceGroup operation.
- */
-export type PartnerNamespacesListByResourceGroupResponse = PartnerNamespacesListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PartnerNamespacesListResult;
-    };
-};
-
-/**
- * Contains response data for the listSharedAccessKeys operation.
- */
-export type PartnerNamespacesListSharedAccessKeysResponse = PartnerNamespaceSharedAccessKeys & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PartnerNamespaceSharedAccessKeys;
-    };
-};
-
-/**
- * Contains response data for the regenerateKey operation.
- */
-export type PartnerNamespacesRegenerateKeyResponse = PartnerNamespaceSharedAccessKeys & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PartnerNamespaceSharedAccessKeys;
-    };
-};
-
-/**
- * Contains response data for the beginCreateOrUpdate operation.
- */
-export type PartnerNamespacesBeginCreateOrUpdateResponse = PartnerNamespace & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PartnerNamespace;
-    };
-};
-
-/**
- * Contains response data for the beginUpdate operation.
- */
-export type PartnerNamespacesBeginUpdateResponse = PartnerNamespace & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PartnerNamespace;
-    };
-};
-
-/**
- * Contains response data for the listBySubscriptionNext operation.
- */
-export type PartnerNamespacesListBySubscriptionNextResponse = PartnerNamespacesListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PartnerNamespacesListResult;
-    };
-};
-
-/**
- * Contains response data for the listByResourceGroupNext operation.
- */
-export type PartnerNamespacesListByResourceGroupNextResponse = PartnerNamespacesListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PartnerNamespacesListResult;
-    };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type PartnerRegistrationsGetResponse = PartnerRegistration & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PartnerRegistration;
-    };
-};
-
-/**
- * Contains response data for the createOrUpdate operation.
- */
-export type PartnerRegistrationsCreateOrUpdateResponse = PartnerRegistration & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PartnerRegistration;
-    };
-};
-
-/**
- * Contains response data for the update operation.
- */
-export type PartnerRegistrationsUpdateResponse = PartnerRegistration & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PartnerRegistration;
-    };
-};
-
-/**
- * Contains response data for the listBySubscription operation.
- */
-export type PartnerRegistrationsListBySubscriptionResponse = PartnerRegistrationsListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PartnerRegistrationsListResult;
-    };
-};
-
-/**
- * Contains response data for the listByResourceGroup operation.
- */
-export type PartnerRegistrationsListByResourceGroupResponse = PartnerRegistrationsListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PartnerRegistrationsListResult;
-    };
-};
-
-/**
- * Contains response data for the list operation.
- */
-export type PartnerRegistrationsListResponse = PartnerRegistrationsListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PartnerRegistrationsListResult;
-    };
-};
-
-/**
- * Contains response data for the listBySubscriptionNext operation.
- */
-export type PartnerRegistrationsListBySubscriptionNextResponse = PartnerRegistrationsListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PartnerRegistrationsListResult;
-    };
-};
-
-/**
- * Contains response data for the listByResourceGroupNext operation.
- */
-export type PartnerRegistrationsListByResourceGroupNextResponse = PartnerRegistrationsListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PartnerRegistrationsListResult;
-    };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type PartnerTopicsGetResponse = PartnerTopic & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PartnerTopic;
-    };
-};
-
-/**
- * Contains response data for the update operation.
- */
-export type PartnerTopicsUpdateResponse = PartnerTopic & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PartnerTopic;
-    };
-};
-
-/**
- * Contains response data for the listBySubscription operation.
- */
-export type PartnerTopicsListBySubscriptionResponse = PartnerTopicsListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PartnerTopicsListResult;
-    };
-};
-
-/**
- * Contains response data for the listByResourceGroup operation.
- */
-export type PartnerTopicsListByResourceGroupResponse = PartnerTopicsListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PartnerTopicsListResult;
-    };
-};
-
-/**
- * Contains response data for the activate operation.
- */
-export type PartnerTopicsActivateResponse = PartnerTopic & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PartnerTopic;
-    };
-};
-
-/**
- * Contains response data for the deactivate operation.
- */
-export type PartnerTopicsDeactivateResponse = PartnerTopic & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PartnerTopic;
-    };
-};
-
-/**
- * Contains response data for the listBySubscriptionNext operation.
- */
-export type PartnerTopicsListBySubscriptionNextResponse = PartnerTopicsListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PartnerTopicsListResult;
-    };
-};
-
-/**
- * Contains response data for the listByResourceGroupNext operation.
- */
-export type PartnerTopicsListByResourceGroupNextResponse = PartnerTopicsListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PartnerTopicsListResult;
-    };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type PrivateEndpointConnectionsGetResponse = PrivateEndpointConnection & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateEndpointConnection;
-    };
-};
-
-/**
- * Contains response data for the update operation.
- */
-export type PrivateEndpointConnectionsUpdateResponse = PrivateEndpointConnection & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateEndpointConnection;
-    };
-};
-
-/**
- * Contains response data for the listByResource operation.
- */
-export type PrivateEndpointConnectionsListByResourceResponse = PrivateEndpointConnectionListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateEndpointConnectionListResult;
-    };
-};
-
-/**
- * Contains response data for the beginUpdate operation.
- */
-export type PrivateEndpointConnectionsBeginUpdateResponse = PrivateEndpointConnection & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateEndpointConnection;
-    };
-};
-
-/**
- * Contains response data for the listByResourceNext operation.
- */
-export type PrivateEndpointConnectionsListByResourceNextResponse = PrivateEndpointConnectionListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateEndpointConnectionListResult;
-    };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type PrivateLinkResourcesGetResponse = PrivateLinkResource & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateLinkResource;
-    };
-};
-
-/**
- * Contains response data for the listByResource operation.
- */
-export type PrivateLinkResourcesListByResourceResponse = PrivateLinkResourcesListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateLinkResourcesListResult;
-    };
-};
-
-/**
- * Contains response data for the listByResourceNext operation.
- */
-export type PrivateLinkResourcesListByResourceNextResponse = PrivateLinkResourcesListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PrivateLinkResourcesListResult;
-    };
-};
-
-/**
- * Contains response data for the get operation.
- */
-export type SystemTopicsGetResponse = SystemTopic & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SystemTopic;
-    };
-};
-
-/**
- * Contains response data for the createOrUpdate operation.
- */
-export type SystemTopicsCreateOrUpdateResponse = SystemTopic & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SystemTopic;
-    };
-};
-
-/**
- * Contains response data for the update operation.
- */
-export type SystemTopicsUpdateResponse = SystemTopic & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SystemTopic;
-    };
-};
-
-/**
- * Contains response data for the listBySubscription operation.
- */
-export type SystemTopicsListBySubscriptionResponse = SystemTopicsListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SystemTopicsListResult;
-    };
-};
-
-/**
- * Contains response data for the listByResourceGroup operation.
- */
-export type SystemTopicsListByResourceGroupResponse = SystemTopicsListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SystemTopicsListResult;
-    };
-};
-
-/**
- * Contains response data for the beginCreateOrUpdate operation.
- */
-export type SystemTopicsBeginCreateOrUpdateResponse = SystemTopic & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SystemTopic;
-    };
-};
-
-/**
- * Contains response data for the beginUpdate operation.
- */
-export type SystemTopicsBeginUpdateResponse = SystemTopic & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SystemTopic;
-    };
-};
-
-/**
- * Contains response data for the listBySubscriptionNext operation.
- */
-export type SystemTopicsListBySubscriptionNextResponse = SystemTopicsListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SystemTopicsListResult;
-    };
-};
-
-/**
- * Contains response data for the listByResourceGroupNext operation.
- */
-export type SystemTopicsListByResourceGroupNextResponse = SystemTopicsListResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: SystemTopicsListResult;
     };
 };
 
@@ -4988,7 +2778,7 @@ export type TopicsListByResourceGroupNextResponse = TopicsListResult & {
 /**
  * Contains response data for the get operation.
  */
-export type ExtensionTopicsGetResponse = ExtensionTopic & {
+export type PrivateEndpointConnectionsGetResponse = PrivateEndpointConnection & {
   /**
    * The underlying HTTP response.
    */
@@ -5001,7 +2791,147 @@ export type ExtensionTopicsGetResponse = ExtensionTopic & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: ExtensionTopic;
+      parsedBody: PrivateEndpointConnection;
+    };
+};
+
+/**
+ * Contains response data for the update operation.
+ */
+export type PrivateEndpointConnectionsUpdateResponse = PrivateEndpointConnection & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateEndpointConnection;
+    };
+};
+
+/**
+ * Contains response data for the listByResource operation.
+ */
+export type PrivateEndpointConnectionsListByResourceResponse = PrivateEndpointConnectionListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateEndpointConnectionListResult;
+    };
+};
+
+/**
+ * Contains response data for the beginUpdate operation.
+ */
+export type PrivateEndpointConnectionsBeginUpdateResponse = PrivateEndpointConnection & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateEndpointConnection;
+    };
+};
+
+/**
+ * Contains response data for the listByResourceNext operation.
+ */
+export type PrivateEndpointConnectionsListByResourceNextResponse = PrivateEndpointConnectionListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateEndpointConnectionListResult;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type PrivateLinkResourcesGetResponse = PrivateLinkResource & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateLinkResource;
+    };
+};
+
+/**
+ * Contains response data for the listByResource operation.
+ */
+export type PrivateLinkResourcesListByResourceResponse = PrivateLinkResourcesListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateLinkResourcesListResult;
+    };
+};
+
+/**
+ * Contains response data for the listByResourceNext operation.
+ */
+export type PrivateLinkResourcesListByResourceNextResponse = PrivateLinkResourcesListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateLinkResourcesListResult;
     };
 };
 

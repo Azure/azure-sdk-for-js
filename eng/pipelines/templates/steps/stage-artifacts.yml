@@ -1,0 +1,10 @@
+parameters:
+  SourceFolder: '' # normally ${{parameters.ArtifactName}}
+  TargetFolder: '' # normally ${{artifact.safeName}}
+  PackageName: '' # normally ${{artifact.name}}
+
+steps:
+  - pwsh: |
+      New-Item -Type Directory -Name ${{parameters.TargetFolder}} -Path $(Pipeline.Workspace)
+      Copy-Item $(Pipeline.Workspace)/${{parameters.SourceFolder}}/${{parameters.PackageName}} $(Pipeline.Workspace)/${{parameters.TargetFolder}}
+    displayName: Stage artifacts

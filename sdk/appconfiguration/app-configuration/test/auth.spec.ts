@@ -4,21 +4,19 @@
 import { AppConfigurationClient } from "../src";
 import { startRecorder, getTokenAuthenticationCredential, CredsAndEndpoint } from "./testHelpers";
 import * as assert from "assert";
-import { Recorder, env, isPlaybackMode } from "@azure/test-utils-recorder";
+import { Recorder, isPlaybackMode } from "@azure/test-utils-recorder";
 
 describe("Authentication", () => {
   let credsAndEndpoint: CredsAndEndpoint;
   let recorder: Recorder;
-  let uniqueId: string;
 
   beforeEach(function() {
     recorder = startRecorder(this);
-    uniqueId = recorder.getUniqueName("");
     credsAndEndpoint = getTokenAuthenticationCredential() || this.skip();
   });
 
-  afterEach(function() {
-    recorder.stop();
+  afterEach(async function() {
+    await recorder.stop();
   });
 
   it("invalid connection string gives a decent error message", () => {

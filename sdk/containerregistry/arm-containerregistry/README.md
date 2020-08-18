@@ -15,12 +15,13 @@ npm install @azure/arm-containerregistry
 
 ### How to use
 
-#### nodejs - Authentication, client creation and get registries as an example written in TypeScript.
+#### nodejs - Authentication, client creation and get exportPipelines as an example written in TypeScript.
 
 ##### Install @azure/ms-rest-nodeauth
 
+- Please install minimum version of `"@azure/ms-rest-nodeauth": "^3.0.0"`.
 ```bash
-npm install @azure/ms-rest-nodeauth
+npm install @azure/ms-rest-nodeauth@"^3.0.0"
 ```
 
 ##### Sample code
@@ -36,7 +37,8 @@ msRestNodeAuth.interactiveLogin().then((creds) => {
   const client = new ContainerRegistryManagementClient(creds, subscriptionId);
   const resourceGroupName = "testresourceGroupName";
   const registryName = "testregistryName";
-  client.registries.get(resourceGroupName, registryName).then((result) => {
+  const exportPipelineName = "testexportPipelineName";
+  client.exportPipelines.get(resourceGroupName, registryName, exportPipelineName).then((result) => {
     console.log("The result is:");
     console.log(result);
   });
@@ -45,7 +47,7 @@ msRestNodeAuth.interactiveLogin().then((creds) => {
 });
 ```
 
-#### browser - Authentication, client creation and get registries as an example written in JavaScript.
+#### browser - Authentication, client creation and get exportPipelines as an example written in JavaScript.
 
 ##### Install @azure/ms-rest-browserauth
 
@@ -81,7 +83,8 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
         const client = new Azure.ArmContainerregistry.ContainerRegistryManagementClient(res.creds, subscriptionId);
         const resourceGroupName = "testresourceGroupName";
         const registryName = "testregistryName";
-        client.registries.get(resourceGroupName, registryName).then((result) => {
+        const exportPipelineName = "testexportPipelineName";
+        client.exportPipelines.get(resourceGroupName, registryName, exportPipelineName).then((result) => {
           console.log("The result is:");
           console.log(result);
         }).catch((err) => {
@@ -99,4 +102,4 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
 
 - [Microsoft Azure SDK for Javascript](https://github.com/Azure/azure-sdk-for-js)
 
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fcontainerregistry%2Farm-containerregistry%2FREADME.png)
+![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js/sdk/containerregistry/arm-containerregistry/README.png)

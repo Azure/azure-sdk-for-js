@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
 import "chai/register-should";
 import { should } from "chai";
@@ -74,7 +74,7 @@ describe("proxyAgent", () => {
           port: testCase.port
         };
 
-        const fn = function() {
+        const fn = function(): void {
           createProxyAgent("http://example.com", proxySettings);
         };
         fn.should.not.throw();
@@ -93,7 +93,7 @@ describe("proxyAgent", () => {
           port: testCase.port
         };
 
-        const fn = function() {
+        const fn = function(): void {
           createProxyAgent("http://example.com", proxySettings);
         };
         fn.should.throw(

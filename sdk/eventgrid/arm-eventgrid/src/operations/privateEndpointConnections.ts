@@ -32,33 +32,36 @@ export class PrivateEndpointConnections {
    * @summary Get a specific private endpoint connection.
    * @param resourceGroupName The name of the resource group within the user's subscription.
    * @param parentType The type of the parent resource. This can be either \'topics\' or \'domains\'.
+   * Possible values include: 'topics', 'domains'
    * @param parentName The name of the parent resource (namely, either, the topic name or domain
    * name).
    * @param privateEndpointConnectionName The name of the private endpoint connection connection.
    * @param [options] The optional parameters
    * @returns Promise<Models.PrivateEndpointConnectionsGetResponse>
    */
-  get(resourceGroupName: string, parentType: string, parentName: string, privateEndpointConnectionName: string, options?: msRest.RequestOptionsBase): Promise<Models.PrivateEndpointConnectionsGetResponse>;
+  get(resourceGroupName: string, parentType: Models.ParentType, parentName: string, privateEndpointConnectionName: string, options?: msRest.RequestOptionsBase): Promise<Models.PrivateEndpointConnectionsGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription.
    * @param parentType The type of the parent resource. This can be either \'topics\' or \'domains\'.
+   * Possible values include: 'topics', 'domains'
    * @param parentName The name of the parent resource (namely, either, the topic name or domain
    * name).
    * @param privateEndpointConnectionName The name of the private endpoint connection connection.
    * @param callback The callback
    */
-  get(resourceGroupName: string, parentType: string, parentName: string, privateEndpointConnectionName: string, callback: msRest.ServiceCallback<Models.PrivateEndpointConnection>): void;
+  get(resourceGroupName: string, parentType: Models.ParentType, parentName: string, privateEndpointConnectionName: string, callback: msRest.ServiceCallback<Models.PrivateEndpointConnection>): void;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription.
    * @param parentType The type of the parent resource. This can be either \'topics\' or \'domains\'.
+   * Possible values include: 'topics', 'domains'
    * @param parentName The name of the parent resource (namely, either, the topic name or domain
    * name).
    * @param privateEndpointConnectionName The name of the private endpoint connection connection.
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, parentType: string, parentName: string, privateEndpointConnectionName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PrivateEndpointConnection>): void;
-  get(resourceGroupName: string, parentType: string, parentName: string, privateEndpointConnectionName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PrivateEndpointConnection>, callback?: msRest.ServiceCallback<Models.PrivateEndpointConnection>): Promise<Models.PrivateEndpointConnectionsGetResponse> {
+  get(resourceGroupName: string, parentType: Models.ParentType, parentName: string, privateEndpointConnectionName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PrivateEndpointConnection>): void;
+  get(resourceGroupName: string, parentType: Models.ParentType, parentName: string, privateEndpointConnectionName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PrivateEndpointConnection>, callback?: msRest.ServiceCallback<Models.PrivateEndpointConnection>): Promise<Models.PrivateEndpointConnectionsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -76,6 +79,7 @@ export class PrivateEndpointConnections {
    * @summary Update a specific private endpoint connection.
    * @param resourceGroupName The name of the resource group within the user's subscription.
    * @param parentType The type of the parent resource. This can be either \'topics\' or \'domains\'.
+   * Possible values include: 'topics', 'domains'
    * @param parentName The name of the parent resource (namely, either, the topic name or domain
    * name).
    * @param privateEndpointConnectionName The name of the private endpoint connection connection.
@@ -83,7 +87,7 @@ export class PrivateEndpointConnections {
    * @param [options] The optional parameters
    * @returns Promise<Models.PrivateEndpointConnectionsUpdateResponse>
    */
-  update(resourceGroupName: string, parentType: string, parentName: string, privateEndpointConnectionName: string, privateEndpointConnection: Models.PrivateEndpointConnection, options?: msRest.RequestOptionsBase): Promise<Models.PrivateEndpointConnectionsUpdateResponse> {
+  update(resourceGroupName: string, parentType: Models.ParentType1, parentName: string, privateEndpointConnectionName: string, privateEndpointConnection: Models.PrivateEndpointConnection, options?: msRest.RequestOptionsBase): Promise<Models.PrivateEndpointConnectionsUpdateResponse> {
     return this.beginUpdate(resourceGroupName,parentType,parentName,privateEndpointConnectionName,privateEndpointConnection,options)
       .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.PrivateEndpointConnectionsUpdateResponse>;
   }
@@ -93,13 +97,14 @@ export class PrivateEndpointConnections {
    * @summary Delete a specific private endpoint connection.
    * @param resourceGroupName The name of the resource group within the user's subscription.
    * @param parentType The type of the parent resource. This can be either \'topics\' or \'domains\'.
+   * Possible values include: 'topics', 'domains'
    * @param parentName The name of the parent resource (namely, either, the topic name or domain
    * name).
    * @param privateEndpointConnectionName The name of the private endpoint connection connection.
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, parentType: string, parentName: string, privateEndpointConnectionName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, parentType: Models.ParentType2, parentName: string, privateEndpointConnectionName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
     return this.beginDeleteMethod(resourceGroupName,parentType,parentName,privateEndpointConnectionName,options)
       .then(lroPoller => lroPoller.pollUntilFinished());
   }
@@ -109,30 +114,33 @@ export class PrivateEndpointConnections {
    * @summary Lists all private endpoint connections under a resource.
    * @param resourceGroupName The name of the resource group within the user's subscription.
    * @param parentType The type of the parent resource. This can be either \'topics\' or \'domains\'.
+   * Possible values include: 'topics', 'domains'
    * @param parentName The name of the parent resource (namely, either, the topic name or domain
    * name).
    * @param [options] The optional parameters
    * @returns Promise<Models.PrivateEndpointConnectionsListByResourceResponse>
    */
-  listByResource(resourceGroupName: string, parentType: string, parentName: string, options?: Models.PrivateEndpointConnectionsListByResourceOptionalParams): Promise<Models.PrivateEndpointConnectionsListByResourceResponse>;
+  listByResource(resourceGroupName: string, parentType: Models.ParentType3, parentName: string, options?: Models.PrivateEndpointConnectionsListByResourceOptionalParams): Promise<Models.PrivateEndpointConnectionsListByResourceResponse>;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription.
    * @param parentType The type of the parent resource. This can be either \'topics\' or \'domains\'.
+   * Possible values include: 'topics', 'domains'
    * @param parentName The name of the parent resource (namely, either, the topic name or domain
    * name).
    * @param callback The callback
    */
-  listByResource(resourceGroupName: string, parentType: string, parentName: string, callback: msRest.ServiceCallback<Models.PrivateEndpointConnectionListResult>): void;
+  listByResource(resourceGroupName: string, parentType: Models.ParentType3, parentName: string, callback: msRest.ServiceCallback<Models.PrivateEndpointConnectionListResult>): void;
   /**
    * @param resourceGroupName The name of the resource group within the user's subscription.
    * @param parentType The type of the parent resource. This can be either \'topics\' or \'domains\'.
+   * Possible values include: 'topics', 'domains'
    * @param parentName The name of the parent resource (namely, either, the topic name or domain
    * name).
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResource(resourceGroupName: string, parentType: string, parentName: string, options: Models.PrivateEndpointConnectionsListByResourceOptionalParams, callback: msRest.ServiceCallback<Models.PrivateEndpointConnectionListResult>): void;
-  listByResource(resourceGroupName: string, parentType: string, parentName: string, options?: Models.PrivateEndpointConnectionsListByResourceOptionalParams | msRest.ServiceCallback<Models.PrivateEndpointConnectionListResult>, callback?: msRest.ServiceCallback<Models.PrivateEndpointConnectionListResult>): Promise<Models.PrivateEndpointConnectionsListByResourceResponse> {
+  listByResource(resourceGroupName: string, parentType: Models.ParentType3, parentName: string, options: Models.PrivateEndpointConnectionsListByResourceOptionalParams, callback: msRest.ServiceCallback<Models.PrivateEndpointConnectionListResult>): void;
+  listByResource(resourceGroupName: string, parentType: Models.ParentType3, parentName: string, options?: Models.PrivateEndpointConnectionsListByResourceOptionalParams | msRest.ServiceCallback<Models.PrivateEndpointConnectionListResult>, callback?: msRest.ServiceCallback<Models.PrivateEndpointConnectionListResult>): Promise<Models.PrivateEndpointConnectionsListByResourceResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -149,6 +157,7 @@ export class PrivateEndpointConnections {
    * @summary Update a specific private endpoint connection.
    * @param resourceGroupName The name of the resource group within the user's subscription.
    * @param parentType The type of the parent resource. This can be either \'topics\' or \'domains\'.
+   * Possible values include: 'topics', 'domains'
    * @param parentName The name of the parent resource (namely, either, the topic name or domain
    * name).
    * @param privateEndpointConnectionName The name of the private endpoint connection connection.
@@ -156,7 +165,7 @@ export class PrivateEndpointConnections {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginUpdate(resourceGroupName: string, parentType: string, parentName: string, privateEndpointConnectionName: string, privateEndpointConnection: Models.PrivateEndpointConnection, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginUpdate(resourceGroupName: string, parentType: Models.ParentType1, parentName: string, privateEndpointConnectionName: string, privateEndpointConnection: Models.PrivateEndpointConnection, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -175,13 +184,14 @@ export class PrivateEndpointConnections {
    * @summary Delete a specific private endpoint connection.
    * @param resourceGroupName The name of the resource group within the user's subscription.
    * @param parentType The type of the parent resource. This can be either \'topics\' or \'domains\'.
+   * Possible values include: 'topics', 'domains'
    * @param parentName The name of the parent resource (namely, either, the topic name or domain
    * name).
    * @param privateEndpointConnectionName The name of the private endpoint connection connection.
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginDeleteMethod(resourceGroupName: string, parentType: string, parentName: string, privateEndpointConnectionName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginDeleteMethod(resourceGroupName: string, parentType: Models.ParentType2, parentName: string, privateEndpointConnectionName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,

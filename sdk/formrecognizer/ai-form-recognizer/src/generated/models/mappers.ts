@@ -54,7 +54,7 @@ export const TrainSourceFilter: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
-      includeSubFolders: {
+      includeSubfolders: {
         serializedName: "includeSubFolders",
         type: {
           name: "Boolean"
@@ -153,14 +153,14 @@ export const ModelInfo: coreHttp.CompositeMapper = {
           allowedValues: ["creating", "ready", "invalid"]
         }
       },
-      createdOn: {
+      trainingStartedOn: {
         serializedName: "createdDateTime",
         required: true,
         type: {
           name: "DateTime"
         }
       },
-      lastModified: {
+      trainingCompletedOn: {
         serializedName: "lastUpdatedDateTime",
         required: true,
         type: {
@@ -239,7 +239,7 @@ export const TrainingDocumentInfo: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "TrainingDocumentInfo",
     modelProperties: {
-      documentName: {
+      name: {
         serializedName: "documentName",
         required: true,
         type: {

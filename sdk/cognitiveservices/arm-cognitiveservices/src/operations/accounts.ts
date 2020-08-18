@@ -29,7 +29,7 @@ export class Accounts {
   /**
    * Create Cognitive Services Account. Accounts is a resource group wide resource type. It holds the
    * keys for developer to access intelligent APIs. It's also the resource type for billing.
-   * @param resourceGroupName The name of the resource group within the user's subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of Cognitive Services account.
    * @param account The parameters to provide for the created account.
    * @param [options] The optional parameters
@@ -37,14 +37,14 @@ export class Accounts {
    */
   create(resourceGroupName: string, accountName: string, account: Models.CognitiveServicesAccount, options?: msRest.RequestOptionsBase): Promise<Models.AccountsCreateResponse>;
   /**
-   * @param resourceGroupName The name of the resource group within the user's subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of Cognitive Services account.
    * @param account The parameters to provide for the created account.
    * @param callback The callback
    */
   create(resourceGroupName: string, accountName: string, account: Models.CognitiveServicesAccount, callback: msRest.ServiceCallback<Models.CognitiveServicesAccount>): void;
   /**
-   * @param resourceGroupName The name of the resource group within the user's subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of Cognitive Services account.
    * @param account The parameters to provide for the created account.
    * @param options The optional parameters
@@ -65,7 +65,7 @@ export class Accounts {
 
   /**
    * Updates a Cognitive Services account
-   * @param resourceGroupName The name of the resource group within the user's subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of Cognitive Services account.
    * @param account The parameters to provide for the created account.
    * @param [options] The optional parameters
@@ -73,14 +73,14 @@ export class Accounts {
    */
   update(resourceGroupName: string, accountName: string, account: Models.CognitiveServicesAccount, options?: msRest.RequestOptionsBase): Promise<Models.AccountsUpdateResponse>;
   /**
-   * @param resourceGroupName The name of the resource group within the user's subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of Cognitive Services account.
    * @param account The parameters to provide for the created account.
    * @param callback The callback
    */
   update(resourceGroupName: string, accountName: string, account: Models.CognitiveServicesAccount, callback: msRest.ServiceCallback<Models.CognitiveServicesAccount>): void;
   /**
-   * @param resourceGroupName The name of the resource group within the user's subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of Cognitive Services account.
    * @param account The parameters to provide for the created account.
    * @param options The optional parameters
@@ -101,20 +101,20 @@ export class Accounts {
 
   /**
    * Deletes a Cognitive Services account from the resource group.
-   * @param resourceGroupName The name of the resource group within the user's subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of Cognitive Services account.
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
   deleteMethod(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
   /**
-   * @param resourceGroupName The name of the resource group within the user's subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of Cognitive Services account.
    * @param callback The callback
    */
   deleteMethod(resourceGroupName: string, accountName: string, callback: msRest.ServiceCallback<void>): void;
   /**
-   * @param resourceGroupName The name of the resource group within the user's subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of Cognitive Services account.
    * @param options The optional parameters
    * @param callback The callback
@@ -133,20 +133,20 @@ export class Accounts {
 
   /**
    * Returns a Cognitive Services account specified by the parameters.
-   * @param resourceGroupName The name of the resource group within the user's subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of Cognitive Services account.
    * @param [options] The optional parameters
    * @returns Promise<Models.AccountsGetPropertiesResponse>
    */
   getProperties(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase): Promise<Models.AccountsGetPropertiesResponse>;
   /**
-   * @param resourceGroupName The name of the resource group within the user's subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of Cognitive Services account.
    * @param callback The callback
    */
   getProperties(resourceGroupName: string, accountName: string, callback: msRest.ServiceCallback<Models.CognitiveServicesAccount>): void;
   /**
-   * @param resourceGroupName The name of the resource group within the user's subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of Cognitive Services account.
    * @param options The optional parameters
    * @param callback The callback
@@ -165,18 +165,18 @@ export class Accounts {
 
   /**
    * Returns all the resources of a particular type belonging to a resource group
-   * @param resourceGroupName The name of the resource group within the user's subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param [options] The optional parameters
    * @returns Promise<Models.AccountsListByResourceGroupResponse>
    */
   listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.AccountsListByResourceGroupResponse>;
   /**
-   * @param resourceGroupName The name of the resource group within the user's subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param callback The callback
    */
   listByResourceGroup(resourceGroupName: string, callback: msRest.ServiceCallback<Models.CognitiveServicesAccountListResult>): void;
   /**
-   * @param resourceGroupName The name of the resource group within the user's subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -217,20 +217,20 @@ export class Accounts {
 
   /**
    * Lists the account keys for the specified Cognitive Services account.
-   * @param resourceGroupName The name of the resource group within the user's subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of Cognitive Services account.
    * @param [options] The optional parameters
    * @returns Promise<Models.AccountsListKeysResponse>
    */
   listKeys(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase): Promise<Models.AccountsListKeysResponse>;
   /**
-   * @param resourceGroupName The name of the resource group within the user's subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of Cognitive Services account.
    * @param callback The callback
    */
   listKeys(resourceGroupName: string, accountName: string, callback: msRest.ServiceCallback<Models.CognitiveServicesAccountKeys>): void;
   /**
-   * @param resourceGroupName The name of the resource group within the user's subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of Cognitive Services account.
    * @param options The optional parameters
    * @param callback The callback
@@ -249,7 +249,7 @@ export class Accounts {
 
   /**
    * Regenerates the specified account key for the specified Cognitive Services account.
-   * @param resourceGroupName The name of the resource group within the user's subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of Cognitive Services account.
    * @param keyName key name to generate (Key1|Key2). Possible values include: 'Key1', 'Key2'
    * @param [options] The optional parameters
@@ -257,14 +257,14 @@ export class Accounts {
    */
   regenerateKey(resourceGroupName: string, accountName: string, keyName: Models.KeyName, options?: msRest.RequestOptionsBase): Promise<Models.AccountsRegenerateKeyResponse>;
   /**
-   * @param resourceGroupName The name of the resource group within the user's subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of Cognitive Services account.
    * @param keyName key name to generate (Key1|Key2). Possible values include: 'Key1', 'Key2'
    * @param callback The callback
    */
   regenerateKey(resourceGroupName: string, accountName: string, keyName: Models.KeyName, callback: msRest.ServiceCallback<Models.CognitiveServicesAccountKeys>): void;
   /**
-   * @param resourceGroupName The name of the resource group within the user's subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of Cognitive Services account.
    * @param keyName key name to generate (Key1|Key2). Possible values include: 'Key1', 'Key2'
    * @param options The optional parameters
@@ -285,20 +285,20 @@ export class Accounts {
 
   /**
    * List available SKUs for the requested Cognitive Services account
-   * @param resourceGroupName The name of the resource group within the user's subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of Cognitive Services account.
    * @param [options] The optional parameters
    * @returns Promise<Models.AccountsListSkusResponse>
    */
   listSkus(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase): Promise<Models.AccountsListSkusResponse>;
   /**
-   * @param resourceGroupName The name of the resource group within the user's subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of Cognitive Services account.
    * @param callback The callback
    */
   listSkus(resourceGroupName: string, accountName: string, callback: msRest.ServiceCallback<Models.CognitiveServicesAccountEnumerateSkusResult>): void;
   /**
-   * @param resourceGroupName The name of the resource group within the user's subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of Cognitive Services account.
    * @param options The optional parameters
    * @param callback The callback
@@ -317,20 +317,20 @@ export class Accounts {
 
   /**
    * Get usages for the requested Cognitive Services account
-   * @param resourceGroupName The name of the resource group within the user's subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of Cognitive Services account.
    * @param [options] The optional parameters
    * @returns Promise<Models.AccountsGetUsagesResponse>
    */
   getUsages(resourceGroupName: string, accountName: string, options?: Models.AccountsGetUsagesOptionalParams): Promise<Models.AccountsGetUsagesResponse>;
   /**
-   * @param resourceGroupName The name of the resource group within the user's subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of Cognitive Services account.
    * @param callback The callback
    */
   getUsages(resourceGroupName: string, accountName: string, callback: msRest.ServiceCallback<Models.UsagesResult>): void;
   /**
-   * @param resourceGroupName The name of the resource group within the user's subscription.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of Cognitive Services account.
    * @param options The optional parameters
    * @param callback The callback

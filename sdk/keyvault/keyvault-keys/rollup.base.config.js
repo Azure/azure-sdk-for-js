@@ -8,7 +8,6 @@ import replace from "@rollup/plugin-replace";
 import { terser } from "rollup-plugin-terser";
 import sourcemaps from "rollup-plugin-sourcemaps";
 import shim from "rollup-plugin-shim";
-import json from "@rollup/plugin-json";
 
 /**
  * @type {import('rollup').RollupFileOptions}
@@ -30,10 +29,10 @@ const depNames = Object.keys(pkg.dependencies);
 const production = process.env.NODE_ENV === "production";
 
 export function nodeConfig(test = false) {
-  const externalNodeBuiltins = ["crypto", "fs", "os", "url", "assert"];
+  const externalNodeBuiltins = ["crypto", "fs", "os", "url", "assert", "constants"];
   const additionalExternals = ["keytar"];
   const baseConfig = {
-    input: "dist-esm/src/index.js",
+    input: "dist-esm/keyvault-keys/src/index.js",
     external: depNames.concat(externalNodeBuiltins, additionalExternals),
     output: {
       file: "dist/index.js",
@@ -57,11 +56,8 @@ export function nodeConfig(test = false) {
 
   if (test) {
     // entry point is every test file
-    baseConfig.input = ["dist-esm/test/*.test.js"];
-    baseConfig.plugins.unshift(
-      multiEntry({ exports: false }),
-      json() // This allows us to import/require the package.json file, to get the version and test it against the user agent.
-    );
+    baseConfig.input = ["dist-esm/**/*.spec.js"];
+    baseConfig.plugins.unshift(multiEntry({ exports: false }));
 
     // different output file
     baseConfig.output.file = "dist-test/index.node.js";
@@ -83,7 +79,7 @@ export function nodeConfig(test = false) {
 
 export function browserConfig(test = false) {
   const baseConfig = {
-    input: "dist-esm/src/index.js",
+    input: "dist-esm/keyvault-keys/src/index.js",
     output: {
       file: "dist-browser/azure-keyvault-keys.js",
       banner: banner,
@@ -119,7 +115,7 @@ export function browserConfig(test = false) {
       }),
       cjs({
         namedExports: {
-          assert: ["ok", "equal", "strictEqual"],
+          assert: ["ok", "equal", "strictEqual", "deepEqual"],
           "@opentelemetry/api": ["CanonicalCode", "SpanKind", "TraceFlags"]
         }
       })
@@ -128,11 +124,8 @@ export function browserConfig(test = false) {
 
   baseConfig.external = ["fs-extra", "path", "crypto", "constants"];
   if (test) {
-    baseConfig.input = ["dist-esm/test/*.test.js"];
-    baseConfig.plugins.unshift(
-      multiEntry({ exports: false }),
-      json() // This allows us to import/require the package.json file, to get the version and test it against the user agent.
-    );
+    baseConfig.input = ["dist-esm/**/*.spec.js"];
+    baseConfig.plugins.unshift(multiEntry({ exports: false }));
     baseConfig.output.file = "dist-test/index.browser.js";
     // mark fs-extra as external
     baseConfig.context = "null";

@@ -142,6 +142,13 @@ export const AppPatch: msRest.CompositeMapper = {
           }
         }
       },
+      sku: {
+        serializedName: "sku",
+        type: {
+          name: "Composite",
+          className: "AppSkuInfo"
+        }
+      },
       applicationId: {
         readOnly: true,
         serializedName: "properties.applicationId",

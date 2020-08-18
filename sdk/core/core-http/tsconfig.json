@@ -6,7 +6,6 @@
     "target": "es5",
     "declarationDir": "./types/latest"
   },
-  "compileOnSave": true,
   "exclude": ["node_modules"],
   "include": ["./src/**/*.ts", "./samples/**/*.ts", "./test/**/*.ts"]
 }

@@ -2,12 +2,13 @@
 // Licensed under the MIT license.
 
 import { generate_uuid } from "rhea-promise";
-import { delay, AsyncLock } from "@azure/core-amqp";
+import { AsyncLock, delay } from "@azure/core-amqp";
 import * as log from "../log";
 
 /**
  * Describes a map that ensures, deleting a an entry from the map is concurrency safe.
  * @internal
+ * @ignore
  * @class ConcurrentExpiringMap<TKey>
  */
 export class ConcurrentExpiringMap<TKey> {

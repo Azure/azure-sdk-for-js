@@ -71,7 +71,7 @@ async function RunTest(
   } as ConnectionOptions);
   await connection.open();
 
-  const sender = await connection.createSender({
+  const sender = connection.createSender({
     name: "sender-1",
     target: {
       address: entityPath

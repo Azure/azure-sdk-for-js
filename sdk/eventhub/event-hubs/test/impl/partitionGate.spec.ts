@@ -23,11 +23,4 @@ describe("PartitionGate", () => {
     should.throw(() => gate.add("all"), /Partition already has a subscriber/);
     should.throw(() => gate.add("0"), /Partition already has a subscriber/);
   });
-
-  it("invalid IDs get thrown out", () => {
-    const gate = new PartitionGate();
-
-    should.throw(() => gate.add("allo"), "Invalid partition number allo");
-    should.throw(() => gate.add("woo"), "Invalid partition number woo");
-  });
 });

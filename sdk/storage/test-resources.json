@@ -32,6 +32,17 @@
       "metadata": {
         "description": "The application client secret used to run tests."
       }
+    }, 
+    "enableVersioning": { 
+      "type": "bool",
+      "defaultValue": false
+    },
+    "storageEndpointSuffix": {
+      "type": "string",
+      "defaultValue": "core.windows.net",
+      "metadata": {
+        "description": "Storage endpoint suffix. The default value uses Azure Public Cloud (core.windows.net)"
+      }
     }
   },
   "variables": {
@@ -40,8 +51,7 @@
     "accountName": "[parameters('baseName')]",
     "datalakeAccountName": "[concat('d', parameters('baseName'))]",
     "accountNameTidy": "[toLower(trim(variables('accountName')))]",
-    "blobEndPoint": "[concat('https://',variables('accountNameTidy'),'.blob.core.windows.net/')]",
-    "endpointSuffix": "core.windows.net",
+    "blobEndPoint": "[concat('https://',variables('accountNameTidy'),'.blob.', parameters('storageEndpointSuffix'))]",
     "accountSasProperties": {
       "signedServices": "bfqt",
       "signedPermission": "rwdlacup",
@@ -107,6 +117,7 @@
             "[variables('accountName')]"
           ],
           "properties": {
+            "isVersioningEnabled": "[parameters('enableVersioning')]",
             "cors": {
               "corsRules": [
                 {
@@ -258,7 +269,7 @@
     },
     "STORAGE_CONNECTION_STRING": {
       "type": "string",
-      "value": "[concat('DefaultEndpointsProtocol=https;AccountName=', variables('accountName'), ';AccountKey=', listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('accountName')), variables('storageApiVersion')).keys[0].value, ';EndpointSuffix=', 'core.windows.net')]"
+      "value": "[concat('DefaultEndpointsProtocol=https;AccountName=', variables('accountName'), ';AccountKey=', listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('accountName')), variables('storageApiVersion')).keys[0].value, ';EndpointSuffix=', parameters('storageEndpointSuffix'))]"
     },
     "AZURE_TENANT_ID": {
       "type": "string",

@@ -1,5 +1,7 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
+
+/* eslint-disable no-unused-expressions */
 
 import "chai/register-should";
 
@@ -10,7 +12,7 @@ import { userAgentPolicy } from "../src/policies/userAgentPolicy";
 
 describe("MsRestUserAgentPolicy (browser)", () => {
   describe("for browser", function() {
-    const userAgentHeaderKey = "x-ms-command-name";
+    const userAgentHeaderKey = "x-ms-useragent";
 
     const emptyRequestPolicy: RequestPolicy = {
       sendRequest(request: WebResource): Promise<HttpOperationResponse> {
@@ -60,22 +62,22 @@ describe("MsRestUserAgentPolicy (browser)", () => {
         userAgentHeader.should.be.equal(customUserAgent);
       });
 
-      it("should be space delimited and contain two fields", async () => {
+      it("should be space delimited and contain at least two fields", async () => {
         const userAgent = await getUserAgent();
         const userAgentParts = userAgent.split(" ");
-        userAgentParts.length.should.be.equal(2);
+        userAgentParts.length.should.be.greaterThan(1);
       });
 
       it("should contain runtime information", async () => {
         const userAgent = await getUserAgent();
-        userAgent.should.match(/core-http\/[\d\w\.-]+ .+/);
+        userAgent.should.match(/core-http\/[\d\w.-]+ .+/);
       });
 
       it("should have operating system information at the second place", async () => {
         const userAgent = await getUserAgent();
         const userAgentParts = userAgent.split(" ");
         const osInfo = userAgentParts[1];
-        osInfo.should.match(/OS\/[\w\d\.\-]+/);
+        osInfo.should.match(/OS\/[\w\d.-]+/);
       });
     });
   });

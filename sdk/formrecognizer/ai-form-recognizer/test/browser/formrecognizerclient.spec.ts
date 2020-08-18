@@ -3,21 +3,22 @@
 
 import { assert } from "chai";
 import { DefaultHttpClient, WebResource } from "@azure/core-http";
-import { FormRecognizerClient } from "../../src";
+import { FormRecognizerClient, AzureKeyCredential } from "../../src";
 import { env, Recorder } from "@azure/test-utils-recorder";
-import { createRecordedRecognizerClient } from "../util/recordedClients";
+import { createRecordedRecognizerClient, testEnv } from "../util/recordedClients";
 
 describe("FormRecognizerClient browser only", () => {
   let client: FormRecognizerClient;
   let recorder: Recorder;
+  const apiKey = new AzureKeyCredential(testEnv.FORM_RECOGNIZER_API_KEY);
 
   beforeEach(function() {
-    ({ recorder, client } = createRecordedRecognizerClient(this));
+    ({ recorder, client } = createRecordedRecognizerClient(this, apiKey));
   });
 
-  afterEach(function() {
+  afterEach(async function() {
     if (recorder) {
-      recorder.stop();
+      await recorder.stop();
     }
   });
 
@@ -27,15 +28,9 @@ describe("FormRecognizerClient browser only", () => {
     const url = `${urlParts[0]}/Invoice_1.pdf?${urlParts[1]}`;
 
     const poller = await client.beginRecognizeContentFromUrl(url);
-    await poller.pollUntilDone();
-    const response = poller.getResult();
+    const pages = await poller.pollUntilDone();
 
-    assert.ok(response, "Expect valid response object");
-    assert.equal(response!.status, "succeeded");
-    assert.ok(
-      response!.pages && response!.pages.length > 0,
-      `Expect no-empty pages but got ${response!.pages}`
-    );
+    assert.ok(pages && pages.length > 0, `Expect non-empty pages but got ${pages}`);
   });
 
   it("recognizes receipt from a url", async () => {
@@ -44,17 +39,11 @@ describe("FormRecognizerClient browser only", () => {
     const url = `${urlParts[0]}/contoso-allinone.jpg?${urlParts[1]}`;
 
     const poller = await client.beginRecognizeReceiptsFromUrl(url);
-    await poller.pollUntilDone();
-    const response = poller.getResult();
+    const receipts = await poller.pollUntilDone();
 
-    assert.ok(response, "Expect valid response object");
-    assert.equal(response!.status, "succeeded");
-    assert.ok(
-      response!.receipts && response!.receipts.length > 0,
-      `Expect no-empty pages but got ${response!.receipts}`
-    );
-    const usReceipt = response!.receipts![0];
-    assert.equal(usReceipt.recognizedForm.formType, "prebuilt:receipt");
+    assert.ok(receipts && receipts.length > 0, `Expect no-empty pages but got ${receipts}`);
+    const receipt = receipts![0];
+    assert.equal(receipt.formType, "prebuilt:receipt");
   });
 
   it("recognizes receipt from a Blob", async () => {
@@ -73,16 +62,10 @@ describe("FormRecognizerClient browser only", () => {
 
     assert.ok(data, "Expect valid Blob data to use as input");
     const poller = await client.beginRecognizeReceipts(data!);
-    await poller.pollUntilDone();
-    const response = poller.getResult();
+    const receipts = await poller.pollUntilDone();
 
-    assert.ok(response, "Expect valid response object");
-    assert.equal(response!.status, "succeeded");
-    assert.ok(
-      response!.receipts && response!.receipts.length > 0,
-      `Expect no-empty pages but got ${response!.receipts}`
-    );
-    const usReceipt = response!.receipts![0];
-    assert.equal(usReceipt.recognizedForm.formType, "prebuilt:receipt");
+    assert.ok(receipts && receipts.length > 0, `Expect no-empty pages but got ${receipts}`);
+    const receipt = receipts![0];
+    assert.equal(receipt.formType, "prebuilt:receipt");
   });
 }).timeout(60000);

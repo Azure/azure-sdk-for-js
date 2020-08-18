@@ -1,5 +1,7 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
+
+/* eslint-disable no-unused-expressions */
 
 import { assert } from "chai";
 import "chai/register-should";
@@ -21,6 +23,54 @@ function stringToByteArray(str: string): Uint8Array {
 
 describe("msrest", function() {
   describe("serializeObject", function() {
+    it("should correctly serialize flattened properties", (done) => {
+      const expected = {
+        id: 1,
+        name: "testProduct",
+        details: {
+          max_product_capacity: "Large",
+          max_product_display_name: "MaxDisplayName"
+        }
+      };
+
+      const serialized = Serializer.serialize(
+        Mappers.SimpleProduct,
+        {
+          id: 1,
+          name: "testProduct",
+          maxProductDisplayName: "MaxDisplayName"
+        },
+        "SimpleProduct"
+      );
+
+      assert.deepEqual(serialized, expected);
+      done();
+    });
+
+    it("should correctly serialize flattened properties when flattened constant is defined first", (done) => {
+      const expected = {
+        id: 1,
+        name: "testProduct",
+        details: {
+          max_product_capacity: "Large",
+          max_product_display_name: "MaxDisplayName"
+        }
+      };
+
+      const serialized = Serializer.serialize(
+        Mappers.SimpleProductConstFirst,
+        {
+          id: 1,
+          name: "testProduct",
+          maxProductDisplayName: "MaxDisplayName"
+        },
+        "SimpleProduct"
+      );
+
+      assert.deepEqual(serialized, expected);
+      done();
+    });
+
     it("should correctly serialize a Date Object", function(done) {
       const dateObj = new Date("2015-01-01");
       const dateISO = "2015-01-01T00:00:00.000Z";
@@ -286,9 +336,9 @@ describe("msrest", function() {
         required: false,
         serializedName: "DateTimeRfc1123"
       };
-      const rfc = new Date("Mon, 01 Jan 0001 00:00:00 GMT");
+      const rfc = new Date("Wed, 01 Jan 2020 00:00:00 GMT");
       const serializedDateString = Serializer.serialize(mapper, rfc, "dateTimeObj");
-      serializedDateString.should.equal("Mon, 01 Jan 2001 00:00:00 GMT");
+      serializedDateString.should.equal("Wed, 01 Jan 2020 00:00:00 GMT");
       done();
     });
 

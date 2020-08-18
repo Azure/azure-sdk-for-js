@@ -1,11 +1,11 @@
 let nock = require('nock');
 
-module.exports.hash = "12c34166ed667812098618a322b4f8c2";
+module.exports.hash = "d2824b4cd8ecf65fcf255702ace7ac50";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .post('/certificates/recoverCertificateName-canresumefromastoppedpoller-/create')
+  .post('/certificates/lroRecoverCertificateName-canresumefromastoppedpoller-/create')
   .query(true)
   .reply(401, {"error":{"code":"Unauthorized","message":"Request is missing a Bearer or PoP token."}}, [
   'Cache-Control',
@@ -18,18 +18,16 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'application/json; charset=utf-8',
   'Expires',
   '-1',
-  'Server',
-  'Microsoft-IIS/10.0',
   'WWW-Authenticate',
   'Bearer authorization="https://login.windows.net/azure_tenant_id", resource="https://vault.azure.net"',
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  'f22e007a-62db-456e-8672-8245aa5cf453',
+  '76bf3917-b830-469b-a91f-e3a4687b682b',
   'x-ms-keyvault-service-version',
-  '1.1.0.898',
+  '1.1.8.0',
   'x-ms-keyvault-network-info',
-  'addr=51.143.39.51;act_addr_fam=InterNetwork;',
+  'conn_type=Ipv4;addr=52.183.123.117;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -39,7 +37,7 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Tue, 28 Apr 2020 13:40:16 GMT'
+  'Thu, 02 Jul 2020 18:44:58 GMT'
 ]);
 
 nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
@@ -58,27 +56,27 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'x-ms-request-id',
-  '729088f1-b443-491a-8245-58c2ddc58100',
+  '0a15349b-cc41-4681-9c3d-26bc9b065600',
   'x-ms-ests-server',
-  '2.1.10433.14 - EUS ProdSlices',
+  '2.1.10761.15 - WUS2 ProdSlices',
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'Set-Cookie',
-  'fpc=AizVnulU63hKijsUCVc5krs_aSJHAQAAAEEpOtYOAAAA; expires=Thu, 28-May-2020 13:40:17 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AoGTrmpMKwRMiH6jOqFRnls_aSJHAQAAACoikNYOAAAA; expires=Sat, 01-Aug-2020 18:44:59 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; SameSite=None; secure; HttpOnly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; SameSite=None; secure; HttpOnly',
   'Date',
-  'Tue, 28 Apr 2020 13:40:16 GMT',
+  'Thu, 02 Jul 2020 18:44:58 GMT',
   'Content-Length',
   '1315'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .post('/certificates/recoverCertificateName-canresumefromastoppedpoller-/create', {"policy":{"key_props":{},"secret_props":{},"x509_props":{"subject":"cn=MyCert","sans":{}},"issuer":{"name":"Self"},"attributes":{}},"attributes":{}})
+  .post('/certificates/lroRecoverCertificateName-canresumefromastoppedpoller-/create', {"policy":{"key_props":{},"secret_props":{},"x509_props":{"subject":"cn=MyCert","sans":{}},"issuer":{"name":"Self"},"attributes":{}},"attributes":{}})
   .query(true)
-  .reply(202, {"id":"https://keyvault_name.vault.azure.net/certificates/recoverCertificateName-canresumefromastoppedpoller-/pending","issuer":{"name":"Self"},"csr":"MIICoTCCAYkCAQAwETEPMA0GA1UEAxMGTXlDZXJ0MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAljPFDoiaTbOqKM0prMWq0cnsOy7aSKwMzZdJyaMvPKX7OBzCnL2l2HTZLbs6IxthZhuP+2VbVFkKQgN9pX3IIdFqxqimW6Jy4Lx8Kt9JKXyPYQyJwN73UnZh8cvSMq2ESvVlvAAmi3BGPOGhv4klNyZLHnw7TMEAF2t2ESpE3Ux+nLtsJlslfARbARVlfe8Ks4BE6MmsbRsIaikXZr+/rLniNpThLGc79xt2xleNDzTYbFCeIuDnHy2VS3Vz+VZ7P5QsSHwsG4z5ZbBv3PVPSDths4qWYn09V/A+ET3luXQPIIepvEgfIDceNHrelflbsqZcs1F/A1xr7pzDZsKaWQIDAQABoEswSQYJKoZIhvcNAQkOMTwwOjAOBgNVHQ8BAf8EBAMCBaAwHQYDVR0lBBYwFAYIKwYBBQUHAwEGCCsGAQUFBwMCMAkGA1UdEwQCMAAwDQYJKoZIhvcNAQELBQADggEBAFmpA9/ELGvpkhuEou+sfnVCMZLWF8ogtiksjTa1aAUpdTIzMWdjQbtnJCbug/aaJ0jTlDgWAgj01Upwz3l38QjyytozQJXzoYCZdzo6LAbbKxIXNE53ojcpfMohHds0wmb/Feo838mP4lS2w/ee7T3WMwV6HOn5Te0JbSCfKrRgbEitKUUs9ECRNa93ZBJagb6Sxr2AAnI1xZT3872uSDZib7BwC6JjffrnyXPi8mW5AN9rsKtFOkAKDnMuNiAsv57kkg1jfFp3A0n3jrvbWEbF6Seblb+2M0cSRFEn49sbAKL3nvDqYK+DqMWBCwB8NFYn80oMyaHgPJgdCBgqElY=","cancellation_requested":false,"status":"inProgress","status_details":"Pending certificate created. Certificate request is in progress. This may take some time based on the issuer provider. Please check again later.","request_id":"51c2a834721943a887353be52b3bc382"}, [
+  .reply(202, {"id":"https://keyvault_name.vault.azure.net/certificates/lroRecoverCertificateName-canresumefromastoppedpoller-/pending","issuer":{"name":"Self"},"csr":"MIICoTCCAYkCAQAwETEPMA0GA1UEAxMGTXlDZXJ0MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAtanVyXd8KyD9YJa3TwuJ15orF5D5W6LCT3/I43zyhScfqLAPmwzRuKsCqe+UzFR2ZX0lWwKLSRU0RhWXKjjG4czX4GSCD1Zkpp/CdosR9JG1mUsaI/Dv9HAhtTYCLB1v6cQJZ4WSINCSyGCAjBUi/cTngltm/a/+FzPvnstGrVyuaWmRx2G4WXLGLZPn1gaY/ayfvlU9WR7wOkBvT6L14CXG7cSCsbraE7hIQLdSKb3pn3BWrb+Ta2IdllXhBz3a9gE5XwGAasJGfpClmVAEJ/LVt7Z8T2cmdyyZd3jArBuwJ/gS/sTJvzFe+g3cDhRVXM8w+0hppSepMxTZV4lGSwIDAQABoEswSQYJKoZIhvcNAQkOMTwwOjAOBgNVHQ8BAf8EBAMCBaAwHQYDVR0lBBYwFAYIKwYBBQUHAwEGCCsGAQUFBwMCMAkGA1UdEwQCMAAwDQYJKoZIhvcNAQELBQADggEBAKCjtkoVi6W6/m49lGLcpOnwUutmZNoNFSyrKodsQSYK1rg++/ZwyFB5HyGWWea4XJrJXHo11TG1zw6ONiWjownQmKaT3zlgA58ZMTo7wPDGpRDA5gVqJ7chyQuTEPtVmQpMe8qLk45GtN3Sgjj0ylEmbDGM99/ng8nthVG7KpiQO/YVgUDNf2/0CwrJuQ3AiCzFLygxMSM9hkYeLRO9Rj2E+YKOB3SrqL6XJ9/JEBUTelpgCqTuoiKzxnf4CEzz05wuo2VeMD2VjCxm5VGY8/Bz5X3gNkLCZNnU78s26noh3IVd4IQ6ONTFxY+lkfrNbX75X2IlwvTEazo8RofePlU=","cancellation_requested":false,"status":"inProgress","status_details":"Pending certificate created. Certificate request is in progress. This may take some time based on the issuer provider. Please check again later.","request_id":"f87344b1b2d045a896504533e7cde0c3"}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
@@ -88,19 +86,17 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://keyvault_name.vault.azure.net/certificates/recoverCertificateName-canresumefromastoppedpoller-/pending?api-version=7.1-preview&request_id=51c2a834721943a887353be52b3bc382',
+  'https://keyvault_name.vault.azure.net/certificates/lroRecoverCertificateName-canresumefromastoppedpoller-/pending?api-version=7.1&request_id=f87344b1b2d045a896504533e7cde0c3',
   'Retry-After',
   '10',
-  'Server',
-  'Microsoft-IIS/10.0',
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  '7e8a069a-6e1b-448c-8f38-ba97329c88ab',
+  'fe104177-9c05-407a-aa01-c10bfe465ebd',
   'x-ms-keyvault-service-version',
-  '1.1.0.898',
+  '1.1.8.0',
   'x-ms-keyvault-network-info',
-  'addr=51.143.39.51;act_addr_fam=InterNetwork;',
+  'conn_type=Ipv4;addr=52.183.123.117;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -110,15 +106,15 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Tue, 28 Apr 2020 13:40:17 GMT',
+  'Thu, 02 Jul 2020 18:44:59 GMT',
   'Content-Length',
-  '1343'
+  '1347'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/certificates/recoverCertificateName-canresumefromastoppedpoller-/pending')
+  .get('/certificates/lroRecoverCertificateName-canresumefromastoppedpoller-/pending')
   .query(true)
-  .reply(200, {"id":"https://keyvault_name.vault.azure.net/certificates/recoverCertificateName-canresumefromastoppedpoller-/pending","issuer":{"name":"Self"},"csr":"MIICoTCCAYkCAQAwETEPMA0GA1UEAxMGTXlDZXJ0MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAljPFDoiaTbOqKM0prMWq0cnsOy7aSKwMzZdJyaMvPKX7OBzCnL2l2HTZLbs6IxthZhuP+2VbVFkKQgN9pX3IIdFqxqimW6Jy4Lx8Kt9JKXyPYQyJwN73UnZh8cvSMq2ESvVlvAAmi3BGPOGhv4klNyZLHnw7TMEAF2t2ESpE3Ux+nLtsJlslfARbARVlfe8Ks4BE6MmsbRsIaikXZr+/rLniNpThLGc79xt2xleNDzTYbFCeIuDnHy2VS3Vz+VZ7P5QsSHwsG4z5ZbBv3PVPSDths4qWYn09V/A+ET3luXQPIIepvEgfIDceNHrelflbsqZcs1F/A1xr7pzDZsKaWQIDAQABoEswSQYJKoZIhvcNAQkOMTwwOjAOBgNVHQ8BAf8EBAMCBaAwHQYDVR0lBBYwFAYIKwYBBQUHAwEGCCsGAQUFBwMCMAkGA1UdEwQCMAAwDQYJKoZIhvcNAQELBQADggEBAFmpA9/ELGvpkhuEou+sfnVCMZLWF8ogtiksjTa1aAUpdTIzMWdjQbtnJCbug/aaJ0jTlDgWAgj01Upwz3l38QjyytozQJXzoYCZdzo6LAbbKxIXNE53ojcpfMohHds0wmb/Feo838mP4lS2w/ee7T3WMwV6HOn5Te0JbSCfKrRgbEitKUUs9ECRNa93ZBJagb6Sxr2AAnI1xZT3872uSDZib7BwC6JjffrnyXPi8mW5AN9rsKtFOkAKDnMuNiAsv57kkg1jfFp3A0n3jrvbWEbF6Seblb+2M0cSRFEn49sbAKL3nvDqYK+DqMWBCwB8NFYn80oMyaHgPJgdCBgqElY=","cancellation_requested":false,"status":"inProgress","status_details":"Pending certificate created. Certificate request is in progress. This may take some time based on the issuer provider. Please check again later.","request_id":"51c2a834721943a887353be52b3bc382"}, [
+  .reply(200, {"id":"https://keyvault_name.vault.azure.net/certificates/lroRecoverCertificateName-canresumefromastoppedpoller-/pending","issuer":{"name":"Self"},"csr":"MIICoTCCAYkCAQAwETEPMA0GA1UEAxMGTXlDZXJ0MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAtanVyXd8KyD9YJa3TwuJ15orF5D5W6LCT3/I43zyhScfqLAPmwzRuKsCqe+UzFR2ZX0lWwKLSRU0RhWXKjjG4czX4GSCD1Zkpp/CdosR9JG1mUsaI/Dv9HAhtTYCLB1v6cQJZ4WSINCSyGCAjBUi/cTngltm/a/+FzPvnstGrVyuaWmRx2G4WXLGLZPn1gaY/ayfvlU9WR7wOkBvT6L14CXG7cSCsbraE7hIQLdSKb3pn3BWrb+Ta2IdllXhBz3a9gE5XwGAasJGfpClmVAEJ/LVt7Z8T2cmdyyZd3jArBuwJ/gS/sTJvzFe+g3cDhRVXM8w+0hppSepMxTZV4lGSwIDAQABoEswSQYJKoZIhvcNAQkOMTwwOjAOBgNVHQ8BAf8EBAMCBaAwHQYDVR0lBBYwFAYIKwYBBQUHAwEGCCsGAQUFBwMCMAkGA1UdEwQCMAAwDQYJKoZIhvcNAQELBQADggEBAKCjtkoVi6W6/m49lGLcpOnwUutmZNoNFSyrKodsQSYK1rg++/ZwyFB5HyGWWea4XJrJXHo11TG1zw6ONiWjownQmKaT3zlgA58ZMTo7wPDGpRDA5gVqJ7chyQuTEPtVmQpMe8qLk45GtN3Sgjj0ylEmbDGM99/ng8nthVG7KpiQO/YVgUDNf2/0CwrJuQ3AiCzFLygxMSM9hkYeLRO9Rj2E+YKOB3SrqL6XJ9/JEBUTelpgCqTuoiKzxnf4CEzz05wuo2VeMD2VjCxm5VGY8/Bz5X3gNkLCZNnU78s26noh3IVd4IQ6ONTFxY+lkfrNbX75X2IlwvTEazo8RofePlU=","cancellation_requested":false,"status":"inProgress","status_details":"Pending certificate created. Certificate request is in progress. This may take some time based on the issuer provider. Please check again later.","request_id":"f87344b1b2d045a896504533e7cde0c3"}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
@@ -129,16 +125,14 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   '-1',
   'Retry-After',
   '10',
-  'Server',
-  'Microsoft-IIS/10.0',
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  '26ee8012-2399-4008-a30b-9d6bc47e0d16',
+  '1676b763-26d2-4c90-b197-dadf2dab4272',
   'x-ms-keyvault-service-version',
-  '1.1.0.898',
+  '1.1.8.0',
   'x-ms-keyvault-network-info',
-  'addr=51.143.39.51;act_addr_fam=InterNetwork;',
+  'conn_type=Ipv4;addr=52.183.123.117;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -148,15 +142,15 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Tue, 28 Apr 2020 13:40:17 GMT',
+  'Thu, 02 Jul 2020 18:44:59 GMT',
   'Content-Length',
-  '1343'
+  '1347'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .delete('/certificates/recoverCertificateName-canresumefromastoppedpoller-')
+  .get('/certificates/lroRecoverCertificateName-canresumefromastoppedpoller-/pending')
   .query(true)
-  .reply(200, {"recoveryId":"https://keyvault_name.vault.azure.net/deletedcertificates/recoverCertificateName-canresumefromastoppedpoller-","deletedDate":1588081218,"scheduledPurgeDate":1595857218,"id":"https://keyvault_name.vault.azure.net/certificates/recoverCertificateName-canresumefromastoppedpoller-/a8cf73665c3e450699eaf9593434327d","attributes":{"enabled":false,"nbf":1588080617,"exp":1619617217,"created":1588081217,"updated":1588081217,"recoveryLevel":"Recoverable+Purgeable","recoverableDays":90},"policy":{"id":"https://keyvault_name.vault.azure.net/certificates/recoverCertificateName-canresumefromastoppedpoller-/policy","key_props":{"exportable":true,"kty":"RSA","key_size":2048,"reuse_key":false},"secret_props":{"contentType":"application/x-pkcs12"},"x509_props":{"subject":"cn=MyCert","sans":{},"ekus":["1.3.6.1.5.5.7.3.1","1.3.6.1.5.5.7.3.2"],"key_usage":["digitalSignature","keyEncipherment"],"validity_months":12,"basic_constraints":{"ca":false}},"lifetime_actions":[{"trigger":{"lifetime_percentage":80},"action":{"action_type":"AutoRenew"}}],"issuer":{"name":"Self"},"attributes":{"enabled":true,"created":1588081217,"updated":1588081217}},"pending":{"id":"https://keyvault_name.vault.azure.net/certificates/recoverCertificateName-canresumefromastoppedpoller-/pending"}}, [
+  .reply(200, {"id":"https://keyvault_name.vault.azure.net/certificates/lroRecoverCertificateName-canresumefromastoppedpoller-/pending","issuer":{"name":"Self"},"csr":"MIICoTCCAYkCAQAwETEPMA0GA1UEAxMGTXlDZXJ0MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAtanVyXd8KyD9YJa3TwuJ15orF5D5W6LCT3/I43zyhScfqLAPmwzRuKsCqe+UzFR2ZX0lWwKLSRU0RhWXKjjG4czX4GSCD1Zkpp/CdosR9JG1mUsaI/Dv9HAhtTYCLB1v6cQJZ4WSINCSyGCAjBUi/cTngltm/a/+FzPvnstGrVyuaWmRx2G4WXLGLZPn1gaY/ayfvlU9WR7wOkBvT6L14CXG7cSCsbraE7hIQLdSKb3pn3BWrb+Ta2IdllXhBz3a9gE5XwGAasJGfpClmVAEJ/LVt7Z8T2cmdyyZd3jArBuwJ/gS/sTJvzFe+g3cDhRVXM8w+0hppSepMxTZV4lGSwIDAQABoEswSQYJKoZIhvcNAQkOMTwwOjAOBgNVHQ8BAf8EBAMCBaAwHQYDVR0lBBYwFAYIKwYBBQUHAwEGCCsGAQUFBwMCMAkGA1UdEwQCMAAwDQYJKoZIhvcNAQELBQADggEBAKCjtkoVi6W6/m49lGLcpOnwUutmZNoNFSyrKodsQSYK1rg++/ZwyFB5HyGWWea4XJrJXHo11TG1zw6ONiWjownQmKaT3zlgA58ZMTo7wPDGpRDA5gVqJ7chyQuTEPtVmQpMe8qLk45GtN3Sgjj0ylEmbDGM99/ng8nthVG7KpiQO/YVgUDNf2/0CwrJuQ3AiCzFLygxMSM9hkYeLRO9Rj2E+YKOB3SrqL6XJ9/JEBUTelpgCqTuoiKzxnf4CEzz05wuo2VeMD2VjCxm5VGY8/Bz5X3gNkLCZNnU78s26noh3IVd4IQ6ONTFxY+lkfrNbX75X2IlwvTEazo8RofePlU=","cancellation_requested":false,"status":"inProgress","status_details":"Pending certificate created. Certificate request is in progress. This may take some time based on the issuer provider. Please check again later.","request_id":"f87344b1b2d045a896504533e7cde0c3"}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
@@ -165,16 +159,16 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'application/json; charset=utf-8',
   'Expires',
   '-1',
-  'Server',
-  'Microsoft-IIS/10.0',
+  'Retry-After',
+  '10',
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  'a6909087-20c9-498c-9043-8873002cf9fe',
+  '12c310f5-8c70-4577-ba64-5d25c7dc2a19',
   'x-ms-keyvault-service-version',
-  '1.1.0.898',
+  '1.1.8.0',
   'x-ms-keyvault-network-info',
-  'addr=51.143.39.51;act_addr_fam=InterNetwork;',
+  'conn_type=Ipv4;addr=52.183.123.117;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -184,35 +178,33 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Tue, 28 Apr 2020 13:40:17 GMT',
+  'Thu, 02 Jul 2020 18:44:59 GMT',
   'Content-Length',
-  '1363'
+  '1347'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedcertificates/recoverCertificateName-canresumefromastoppedpoller-')
+  .get('/certificates/lroRecoverCertificateName-canresumefromastoppedpoller-/pending')
   .query(true)
-  .reply(404, {"error":{"code":"CertificateNotFound","message":"Deleted Certificate not found: recoverCertificateName-canresumefromastoppedpoller-"}}, [
+  .reply(200, {"id":"https://keyvault_name.vault.azure.net/certificates/lroRecoverCertificateName-canresumefromastoppedpoller-/pending","issuer":{"name":"Self"},"csr":"MIICoTCCAYkCAQAwETEPMA0GA1UEAxMGTXlDZXJ0MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAtanVyXd8KyD9YJa3TwuJ15orF5D5W6LCT3/I43zyhScfqLAPmwzRuKsCqe+UzFR2ZX0lWwKLSRU0RhWXKjjG4czX4GSCD1Zkpp/CdosR9JG1mUsaI/Dv9HAhtTYCLB1v6cQJZ4WSINCSyGCAjBUi/cTngltm/a/+FzPvnstGrVyuaWmRx2G4WXLGLZPn1gaY/ayfvlU9WR7wOkBvT6L14CXG7cSCsbraE7hIQLdSKb3pn3BWrb+Ta2IdllXhBz3a9gE5XwGAasJGfpClmVAEJ/LVt7Z8T2cmdyyZd3jArBuwJ/gS/sTJvzFe+g3cDhRVXM8w+0hppSepMxTZV4lGSwIDAQABoEswSQYJKoZIhvcNAQkOMTwwOjAOBgNVHQ8BAf8EBAMCBaAwHQYDVR0lBBYwFAYIKwYBBQUHAwEGCCsGAQUFBwMCMAkGA1UdEwQCMAAwDQYJKoZIhvcNAQELBQADggEBAKCjtkoVi6W6/m49lGLcpOnwUutmZNoNFSyrKodsQSYK1rg++/ZwyFB5HyGWWea4XJrJXHo11TG1zw6ONiWjownQmKaT3zlgA58ZMTo7wPDGpRDA5gVqJ7chyQuTEPtVmQpMe8qLk45GtN3Sgjj0ylEmbDGM99/ng8nthVG7KpiQO/YVgUDNf2/0CwrJuQ3AiCzFLygxMSM9hkYeLRO9Rj2E+YKOB3SrqL6XJ9/JEBUTelpgCqTuoiKzxnf4CEzz05wuo2VeMD2VjCxm5VGY8/Bz5X3gNkLCZNnU78s26noh3IVd4IQ6ONTFxY+lkfrNbX75X2IlwvTEazo8RofePlU=","cancellation_requested":false,"status":"inProgress","status_details":"Pending certificate created. Certificate request is in progress. This may take some time based on the issuer provider. Please check again later.","request_id":"f87344b1b2d045a896504533e7cde0c3"}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
-  'Content-Length',
-  '151',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
   '-1',
-  'Server',
-  'Microsoft-IIS/10.0',
+  'Retry-After',
+  '10',
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  'd1171253-68f2-44ca-82ac-818295ea227a',
+  '665e435b-d6b4-4c2c-92c6-7e73b390d95e',
   'x-ms-keyvault-service-version',
-  '1.1.0.898',
+  '1.1.8.0',
   'x-ms-keyvault-network-info',
-  'addr=51.143.39.51;act_addr_fam=InterNetwork;',
+  'conn_type=Ipv4;addr=52.183.123.117;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -222,69 +214,33 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Tue, 28 Apr 2020 13:40:17 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedcertificates/recoverCertificateName-canresumefromastoppedpoller-')
-  .query(true)
-  .reply(404, {"error":{"code":"CertificateNotFound","message":"Deleted Certificate not found: recoverCertificateName-canresumefromastoppedpoller-"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
+  'Thu, 02 Jul 2020 18:45:01 GMT',
   'Content-Length',
-  '151',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Server',
-  'Microsoft-IIS/10.0',
-  'x-ms-keyvault-region',
-  'westus',
-  'x-ms-request-id',
-  '788a78cc-991a-494f-9935-8d0dbe9cee91',
-  'x-ms-keyvault-service-version',
-  '1.1.0.898',
-  'x-ms-keyvault-network-info',
-  'addr=51.143.39.51;act_addr_fam=InterNetwork;',
-  'X-AspNet-Version',
-  '4.0.30319',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Tue, 28 Apr 2020 13:40:18 GMT'
+  '1347'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedcertificates/recoverCertificateName-canresumefromastoppedpoller-')
+  .get('/certificates/lroRecoverCertificateName-canresumefromastoppedpoller-/pending')
   .query(true)
-  .reply(404, {"error":{"code":"CertificateNotFound","message":"Deleted Certificate not found: recoverCertificateName-canresumefromastoppedpoller-"}}, [
+  .reply(200, {"id":"https://keyvault_name.vault.azure.net/certificates/lroRecoverCertificateName-canresumefromastoppedpoller-/pending","issuer":{"name":"Self"},"csr":"MIICoTCCAYkCAQAwETEPMA0GA1UEAxMGTXlDZXJ0MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAtanVyXd8KyD9YJa3TwuJ15orF5D5W6LCT3/I43zyhScfqLAPmwzRuKsCqe+UzFR2ZX0lWwKLSRU0RhWXKjjG4czX4GSCD1Zkpp/CdosR9JG1mUsaI/Dv9HAhtTYCLB1v6cQJZ4WSINCSyGCAjBUi/cTngltm/a/+FzPvnstGrVyuaWmRx2G4WXLGLZPn1gaY/ayfvlU9WR7wOkBvT6L14CXG7cSCsbraE7hIQLdSKb3pn3BWrb+Ta2IdllXhBz3a9gE5XwGAasJGfpClmVAEJ/LVt7Z8T2cmdyyZd3jArBuwJ/gS/sTJvzFe+g3cDhRVXM8w+0hppSepMxTZV4lGSwIDAQABoEswSQYJKoZIhvcNAQkOMTwwOjAOBgNVHQ8BAf8EBAMCBaAwHQYDVR0lBBYwFAYIKwYBBQUHAwEGCCsGAQUFBwMCMAkGA1UdEwQCMAAwDQYJKoZIhvcNAQELBQADggEBAKCjtkoVi6W6/m49lGLcpOnwUutmZNoNFSyrKodsQSYK1rg++/ZwyFB5HyGWWea4XJrJXHo11TG1zw6ONiWjownQmKaT3zlgA58ZMTo7wPDGpRDA5gVqJ7chyQuTEPtVmQpMe8qLk45GtN3Sgjj0ylEmbDGM99/ng8nthVG7KpiQO/YVgUDNf2/0CwrJuQ3AiCzFLygxMSM9hkYeLRO9Rj2E+YKOB3SrqL6XJ9/JEBUTelpgCqTuoiKzxnf4CEzz05wuo2VeMD2VjCxm5VGY8/Bz5X3gNkLCZNnU78s26noh3IVd4IQ6ONTFxY+lkfrNbX75X2IlwvTEazo8RofePlU=","cancellation_requested":false,"status":"inProgress","status_details":"Pending certificate created. Certificate request is in progress. This may take some time based on the issuer provider. Please check again later.","request_id":"f87344b1b2d045a896504533e7cde0c3"}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
-  'Content-Length',
-  '151',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
   '-1',
-  'Server',
-  'Microsoft-IIS/10.0',
+  'Retry-After',
+  '10',
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  '1945e89b-a74b-46dd-a89e-16d06370827c',
+  '2b46b50e-ae93-4736-a70d-06e83bb3bf7b',
   'x-ms-keyvault-service-version',
-  '1.1.0.898',
+  '1.1.8.0',
   'x-ms-keyvault-network-info',
-  'addr=51.143.39.51;act_addr_fam=InterNetwork;',
+  'conn_type=Ipv4;addr=52.183.123.117;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -294,69 +250,33 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Tue, 28 Apr 2020 13:40:20 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedcertificates/recoverCertificateName-canresumefromastoppedpoller-')
-  .query(true)
-  .reply(404, {"error":{"code":"CertificateNotFound","message":"Deleted Certificate not found: recoverCertificateName-canresumefromastoppedpoller-"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
+  'Thu, 02 Jul 2020 18:45:03 GMT',
   'Content-Length',
-  '151',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Server',
-  'Microsoft-IIS/10.0',
-  'x-ms-keyvault-region',
-  'westus',
-  'x-ms-request-id',
-  '36d00e0e-a18b-43fe-aeef-a1acd1ea8c7c',
-  'x-ms-keyvault-service-version',
-  '1.1.0.898',
-  'x-ms-keyvault-network-info',
-  'addr=51.143.39.51;act_addr_fam=InterNetwork;',
-  'X-AspNet-Version',
-  '4.0.30319',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Tue, 28 Apr 2020 13:40:22 GMT'
+  '1347'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedcertificates/recoverCertificateName-canresumefromastoppedpoller-')
+  .get('/certificates/lroRecoverCertificateName-canresumefromastoppedpoller-/pending')
   .query(true)
-  .reply(404, {"error":{"code":"CertificateNotFound","message":"Deleted Certificate not found: recoverCertificateName-canresumefromastoppedpoller-"}}, [
+  .reply(200, {"id":"https://keyvault_name.vault.azure.net/certificates/lroRecoverCertificateName-canresumefromastoppedpoller-/pending","issuer":{"name":"Self"},"csr":"MIICoTCCAYkCAQAwETEPMA0GA1UEAxMGTXlDZXJ0MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAtanVyXd8KyD9YJa3TwuJ15orF5D5W6LCT3/I43zyhScfqLAPmwzRuKsCqe+UzFR2ZX0lWwKLSRU0RhWXKjjG4czX4GSCD1Zkpp/CdosR9JG1mUsaI/Dv9HAhtTYCLB1v6cQJZ4WSINCSyGCAjBUi/cTngltm/a/+FzPvnstGrVyuaWmRx2G4WXLGLZPn1gaY/ayfvlU9WR7wOkBvT6L14CXG7cSCsbraE7hIQLdSKb3pn3BWrb+Ta2IdllXhBz3a9gE5XwGAasJGfpClmVAEJ/LVt7Z8T2cmdyyZd3jArBuwJ/gS/sTJvzFe+g3cDhRVXM8w+0hppSepMxTZV4lGSwIDAQABoEswSQYJKoZIhvcNAQkOMTwwOjAOBgNVHQ8BAf8EBAMCBaAwHQYDVR0lBBYwFAYIKwYBBQUHAwEGCCsGAQUFBwMCMAkGA1UdEwQCMAAwDQYJKoZIhvcNAQELBQADggEBAKCjtkoVi6W6/m49lGLcpOnwUutmZNoNFSyrKodsQSYK1rg++/ZwyFB5HyGWWea4XJrJXHo11TG1zw6ONiWjownQmKaT3zlgA58ZMTo7wPDGpRDA5gVqJ7chyQuTEPtVmQpMe8qLk45GtN3Sgjj0ylEmbDGM99/ng8nthVG7KpiQO/YVgUDNf2/0CwrJuQ3AiCzFLygxMSM9hkYeLRO9Rj2E+YKOB3SrqL6XJ9/JEBUTelpgCqTuoiKzxnf4CEzz05wuo2VeMD2VjCxm5VGY8/Bz5X3gNkLCZNnU78s26noh3IVd4IQ6ONTFxY+lkfrNbX75X2IlwvTEazo8RofePlU=","cancellation_requested":false,"status":"inProgress","status_details":"Pending certificate created. Certificate request is in progress. This may take some time based on the issuer provider. Please check again later.","request_id":"f87344b1b2d045a896504533e7cde0c3"}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
-  'Content-Length',
-  '151',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
   '-1',
-  'Server',
-  'Microsoft-IIS/10.0',
+  'Retry-After',
+  '10',
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  'fa524146-44d6-49b3-a348-2715196b87f1',
+  'e1e02fe7-282c-473d-845f-11a2ac158534',
   'x-ms-keyvault-service-version',
-  '1.1.0.898',
+  '1.1.8.0',
   'x-ms-keyvault-network-info',
-  'addr=51.143.39.51;act_addr_fam=InterNetwork;',
+  'conn_type=Ipv4;addr=52.183.123.117;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -366,69 +286,33 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Tue, 28 Apr 2020 13:40:24 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedcertificates/recoverCertificateName-canresumefromastoppedpoller-')
-  .query(true)
-  .reply(404, {"error":{"code":"CertificateNotFound","message":"Deleted Certificate not found: recoverCertificateName-canresumefromastoppedpoller-"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
+  'Thu, 02 Jul 2020 18:45:05 GMT',
   'Content-Length',
-  '151',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Server',
-  'Microsoft-IIS/10.0',
-  'x-ms-keyvault-region',
-  'westus',
-  'x-ms-request-id',
-  '5b9257b5-9a3f-44ba-aae0-d5597f4fca77',
-  'x-ms-keyvault-service-version',
-  '1.1.0.898',
-  'x-ms-keyvault-network-info',
-  'addr=51.143.39.51;act_addr_fam=InterNetwork;',
-  'X-AspNet-Version',
-  '4.0.30319',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Tue, 28 Apr 2020 13:40:26 GMT'
+  '1347'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedcertificates/recoverCertificateName-canresumefromastoppedpoller-')
+  .get('/certificates/lroRecoverCertificateName-canresumefromastoppedpoller-/pending')
   .query(true)
-  .reply(404, {"error":{"code":"CertificateNotFound","message":"Deleted Certificate not found: recoverCertificateName-canresumefromastoppedpoller-"}}, [
+  .reply(200, {"id":"https://keyvault_name.vault.azure.net/certificates/lroRecoverCertificateName-canresumefromastoppedpoller-/pending","issuer":{"name":"Self"},"csr":"MIICoTCCAYkCAQAwETEPMA0GA1UEAxMGTXlDZXJ0MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAtanVyXd8KyD9YJa3TwuJ15orF5D5W6LCT3/I43zyhScfqLAPmwzRuKsCqe+UzFR2ZX0lWwKLSRU0RhWXKjjG4czX4GSCD1Zkpp/CdosR9JG1mUsaI/Dv9HAhtTYCLB1v6cQJZ4WSINCSyGCAjBUi/cTngltm/a/+FzPvnstGrVyuaWmRx2G4WXLGLZPn1gaY/ayfvlU9WR7wOkBvT6L14CXG7cSCsbraE7hIQLdSKb3pn3BWrb+Ta2IdllXhBz3a9gE5XwGAasJGfpClmVAEJ/LVt7Z8T2cmdyyZd3jArBuwJ/gS/sTJvzFe+g3cDhRVXM8w+0hppSepMxTZV4lGSwIDAQABoEswSQYJKoZIhvcNAQkOMTwwOjAOBgNVHQ8BAf8EBAMCBaAwHQYDVR0lBBYwFAYIKwYBBQUHAwEGCCsGAQUFBwMCMAkGA1UdEwQCMAAwDQYJKoZIhvcNAQELBQADggEBAKCjtkoVi6W6/m49lGLcpOnwUutmZNoNFSyrKodsQSYK1rg++/ZwyFB5HyGWWea4XJrJXHo11TG1zw6ONiWjownQmKaT3zlgA58ZMTo7wPDGpRDA5gVqJ7chyQuTEPtVmQpMe8qLk45GtN3Sgjj0ylEmbDGM99/ng8nthVG7KpiQO/YVgUDNf2/0CwrJuQ3AiCzFLygxMSM9hkYeLRO9Rj2E+YKOB3SrqL6XJ9/JEBUTelpgCqTuoiKzxnf4CEzz05wuo2VeMD2VjCxm5VGY8/Bz5X3gNkLCZNnU78s26noh3IVd4IQ6ONTFxY+lkfrNbX75X2IlwvTEazo8RofePlU=","cancellation_requested":false,"status":"inProgress","status_details":"Pending certificate created. Certificate request is in progress. This may take some time based on the issuer provider. Please check again later.","request_id":"f87344b1b2d045a896504533e7cde0c3"}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
-  'Content-Length',
-  '151',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
   '-1',
-  'Server',
-  'Microsoft-IIS/10.0',
+  'Retry-After',
+  '10',
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  '7ec1460a-15f9-4080-961c-dcd05dff05b1',
+  '41d3ddb5-ae45-47a2-8aca-c8163b10537e',
   'x-ms-keyvault-service-version',
-  '1.1.0.898',
+  '1.1.8.0',
   'x-ms-keyvault-network-info',
-  'addr=51.143.39.51;act_addr_fam=InterNetwork;',
+  'conn_type=Ipv4;addr=52.183.123.117;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -438,69 +322,33 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Tue, 28 Apr 2020 13:40:28 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedcertificates/recoverCertificateName-canresumefromastoppedpoller-')
-  .query(true)
-  .reply(404, {"error":{"code":"CertificateNotFound","message":"Deleted Certificate not found: recoverCertificateName-canresumefromastoppedpoller-"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
+  'Thu, 02 Jul 2020 18:45:07 GMT',
   'Content-Length',
-  '151',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Server',
-  'Microsoft-IIS/10.0',
-  'x-ms-keyvault-region',
-  'westus',
-  'x-ms-request-id',
-  '550f94d9-0db1-4c50-b4c6-d28c144ddd24',
-  'x-ms-keyvault-service-version',
-  '1.1.0.898',
-  'x-ms-keyvault-network-info',
-  'addr=51.143.39.51;act_addr_fam=InterNetwork;',
-  'X-AspNet-Version',
-  '4.0.30319',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Tue, 28 Apr 2020 13:40:30 GMT'
+  '1347'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedcertificates/recoverCertificateName-canresumefromastoppedpoller-')
+  .get('/certificates/lroRecoverCertificateName-canresumefromastoppedpoller-/pending')
   .query(true)
-  .reply(404, {"error":{"code":"CertificateNotFound","message":"Deleted Certificate not found: recoverCertificateName-canresumefromastoppedpoller-"}}, [
+  .reply(200, {"id":"https://keyvault_name.vault.azure.net/certificates/lroRecoverCertificateName-canresumefromastoppedpoller-/pending","issuer":{"name":"Self"},"csr":"MIICoTCCAYkCAQAwETEPMA0GA1UEAxMGTXlDZXJ0MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAtanVyXd8KyD9YJa3TwuJ15orF5D5W6LCT3/I43zyhScfqLAPmwzRuKsCqe+UzFR2ZX0lWwKLSRU0RhWXKjjG4czX4GSCD1Zkpp/CdosR9JG1mUsaI/Dv9HAhtTYCLB1v6cQJZ4WSINCSyGCAjBUi/cTngltm/a/+FzPvnstGrVyuaWmRx2G4WXLGLZPn1gaY/ayfvlU9WR7wOkBvT6L14CXG7cSCsbraE7hIQLdSKb3pn3BWrb+Ta2IdllXhBz3a9gE5XwGAasJGfpClmVAEJ/LVt7Z8T2cmdyyZd3jArBuwJ/gS/sTJvzFe+g3cDhRVXM8w+0hppSepMxTZV4lGSwIDAQABoEswSQYJKoZIhvcNAQkOMTwwOjAOBgNVHQ8BAf8EBAMCBaAwHQYDVR0lBBYwFAYIKwYBBQUHAwEGCCsGAQUFBwMCMAkGA1UdEwQCMAAwDQYJKoZIhvcNAQELBQADggEBAKCjtkoVi6W6/m49lGLcpOnwUutmZNoNFSyrKodsQSYK1rg++/ZwyFB5HyGWWea4XJrJXHo11TG1zw6ONiWjownQmKaT3zlgA58ZMTo7wPDGpRDA5gVqJ7chyQuTEPtVmQpMe8qLk45GtN3Sgjj0ylEmbDGM99/ng8nthVG7KpiQO/YVgUDNf2/0CwrJuQ3AiCzFLygxMSM9hkYeLRO9Rj2E+YKOB3SrqL6XJ9/JEBUTelpgCqTuoiKzxnf4CEzz05wuo2VeMD2VjCxm5VGY8/Bz5X3gNkLCZNnU78s26noh3IVd4IQ6ONTFxY+lkfrNbX75X2IlwvTEazo8RofePlU=","cancellation_requested":false,"status":"inProgress","status_details":"Pending certificate created. Certificate request is in progress. This may take some time based on the issuer provider. Please check again later.","request_id":"f87344b1b2d045a896504533e7cde0c3"}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
-  'Content-Length',
-  '151',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
   '-1',
-  'Server',
-  'Microsoft-IIS/10.0',
+  'Retry-After',
+  '10',
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  '8f086d2f-3baf-483c-ae42-82d2e943f455',
+  '12d3051b-fc4c-4b0c-bbd0-2859ae9d22dd',
   'x-ms-keyvault-service-version',
-  '1.1.0.898',
+  '1.1.8.0',
   'x-ms-keyvault-network-info',
-  'addr=51.143.39.51;act_addr_fam=InterNetwork;',
+  'conn_type=Ipv4;addr=52.183.123.117;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -510,69 +358,33 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Tue, 28 Apr 2020 13:40:32 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedcertificates/recoverCertificateName-canresumefromastoppedpoller-')
-  .query(true)
-  .reply(404, {"error":{"code":"CertificateNotFound","message":"Deleted Certificate not found: recoverCertificateName-canresumefromastoppedpoller-"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
+  'Thu, 02 Jul 2020 18:45:10 GMT',
   'Content-Length',
-  '151',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Server',
-  'Microsoft-IIS/10.0',
-  'x-ms-keyvault-region',
-  'westus',
-  'x-ms-request-id',
-  'c2822b37-da76-408f-8441-832af85601c1',
-  'x-ms-keyvault-service-version',
-  '1.1.0.898',
-  'x-ms-keyvault-network-info',
-  'addr=51.143.39.51;act_addr_fam=InterNetwork;',
-  'X-AspNet-Version',
-  '4.0.30319',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Tue, 28 Apr 2020 13:40:34 GMT'
+  '1347'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedcertificates/recoverCertificateName-canresumefromastoppedpoller-')
+  .get('/certificates/lroRecoverCertificateName-canresumefromastoppedpoller-/pending')
   .query(true)
-  .reply(404, {"error":{"code":"CertificateNotFound","message":"Deleted Certificate not found: recoverCertificateName-canresumefromastoppedpoller-"}}, [
+  .reply(200, {"id":"https://keyvault_name.vault.azure.net/certificates/lroRecoverCertificateName-canresumefromastoppedpoller-/pending","issuer":{"name":"Self"},"csr":"MIICoTCCAYkCAQAwETEPMA0GA1UEAxMGTXlDZXJ0MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAtanVyXd8KyD9YJa3TwuJ15orF5D5W6LCT3/I43zyhScfqLAPmwzRuKsCqe+UzFR2ZX0lWwKLSRU0RhWXKjjG4czX4GSCD1Zkpp/CdosR9JG1mUsaI/Dv9HAhtTYCLB1v6cQJZ4WSINCSyGCAjBUi/cTngltm/a/+FzPvnstGrVyuaWmRx2G4WXLGLZPn1gaY/ayfvlU9WR7wOkBvT6L14CXG7cSCsbraE7hIQLdSKb3pn3BWrb+Ta2IdllXhBz3a9gE5XwGAasJGfpClmVAEJ/LVt7Z8T2cmdyyZd3jArBuwJ/gS/sTJvzFe+g3cDhRVXM8w+0hppSepMxTZV4lGSwIDAQABoEswSQYJKoZIhvcNAQkOMTwwOjAOBgNVHQ8BAf8EBAMCBaAwHQYDVR0lBBYwFAYIKwYBBQUHAwEGCCsGAQUFBwMCMAkGA1UdEwQCMAAwDQYJKoZIhvcNAQELBQADggEBAKCjtkoVi6W6/m49lGLcpOnwUutmZNoNFSyrKodsQSYK1rg++/ZwyFB5HyGWWea4XJrJXHo11TG1zw6ONiWjownQmKaT3zlgA58ZMTo7wPDGpRDA5gVqJ7chyQuTEPtVmQpMe8qLk45GtN3Sgjj0ylEmbDGM99/ng8nthVG7KpiQO/YVgUDNf2/0CwrJuQ3AiCzFLygxMSM9hkYeLRO9Rj2E+YKOB3SrqL6XJ9/JEBUTelpgCqTuoiKzxnf4CEzz05wuo2VeMD2VjCxm5VGY8/Bz5X3gNkLCZNnU78s26noh3IVd4IQ6ONTFxY+lkfrNbX75X2IlwvTEazo8RofePlU=","cancellation_requested":false,"status":"inProgress","status_details":"Pending certificate created. Certificate request is in progress. This may take some time based on the issuer provider. Please check again later.","request_id":"f87344b1b2d045a896504533e7cde0c3"}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
-  'Content-Length',
-  '151',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
   '-1',
-  'Server',
-  'Microsoft-IIS/10.0',
+  'Retry-After',
+  '10',
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  '10b06908-8ecb-4745-a76c-43870d6abf2f',
+  '4aa4b75d-4df8-4d0f-98bd-15e976eab2a7',
   'x-ms-keyvault-service-version',
-  '1.1.0.898',
+  '1.1.8.0',
   'x-ms-keyvault-network-info',
-  'addr=51.143.39.51;act_addr_fam=InterNetwork;',
+  'conn_type=Ipv4;addr=52.183.123.117;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -582,69 +394,33 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Tue, 28 Apr 2020 13:40:37 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedcertificates/recoverCertificateName-canresumefromastoppedpoller-')
-  .query(true)
-  .reply(404, {"error":{"code":"CertificateNotFound","message":"Deleted Certificate not found: recoverCertificateName-canresumefromastoppedpoller-"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
+  'Thu, 02 Jul 2020 18:45:12 GMT',
   'Content-Length',
-  '151',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Server',
-  'Microsoft-IIS/10.0',
-  'x-ms-keyvault-region',
-  'westus',
-  'x-ms-request-id',
-  '1cb61493-03a8-43c5-84df-0b012325daa8',
-  'x-ms-keyvault-service-version',
-  '1.1.0.898',
-  'x-ms-keyvault-network-info',
-  'addr=51.143.39.51;act_addr_fam=InterNetwork;',
-  'X-AspNet-Version',
-  '4.0.30319',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Tue, 28 Apr 2020 13:40:38 GMT'
+  '1347'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedcertificates/recoverCertificateName-canresumefromastoppedpoller-')
+  .get('/certificates/lroRecoverCertificateName-canresumefromastoppedpoller-/pending')
   .query(true)
-  .reply(404, {"error":{"code":"CertificateNotFound","message":"Deleted Certificate not found: recoverCertificateName-canresumefromastoppedpoller-"}}, [
+  .reply(200, {"id":"https://keyvault_name.vault.azure.net/certificates/lroRecoverCertificateName-canresumefromastoppedpoller-/pending","issuer":{"name":"Self"},"csr":"MIICoTCCAYkCAQAwETEPMA0GA1UEAxMGTXlDZXJ0MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAtanVyXd8KyD9YJa3TwuJ15orF5D5W6LCT3/I43zyhScfqLAPmwzRuKsCqe+UzFR2ZX0lWwKLSRU0RhWXKjjG4czX4GSCD1Zkpp/CdosR9JG1mUsaI/Dv9HAhtTYCLB1v6cQJZ4WSINCSyGCAjBUi/cTngltm/a/+FzPvnstGrVyuaWmRx2G4WXLGLZPn1gaY/ayfvlU9WR7wOkBvT6L14CXG7cSCsbraE7hIQLdSKb3pn3BWrb+Ta2IdllXhBz3a9gE5XwGAasJGfpClmVAEJ/LVt7Z8T2cmdyyZd3jArBuwJ/gS/sTJvzFe+g3cDhRVXM8w+0hppSepMxTZV4lGSwIDAQABoEswSQYJKoZIhvcNAQkOMTwwOjAOBgNVHQ8BAf8EBAMCBaAwHQYDVR0lBBYwFAYIKwYBBQUHAwEGCCsGAQUFBwMCMAkGA1UdEwQCMAAwDQYJKoZIhvcNAQELBQADggEBAKCjtkoVi6W6/m49lGLcpOnwUutmZNoNFSyrKodsQSYK1rg++/ZwyFB5HyGWWea4XJrJXHo11TG1zw6ONiWjownQmKaT3zlgA58ZMTo7wPDGpRDA5gVqJ7chyQuTEPtVmQpMe8qLk45GtN3Sgjj0ylEmbDGM99/ng8nthVG7KpiQO/YVgUDNf2/0CwrJuQ3AiCzFLygxMSM9hkYeLRO9Rj2E+YKOB3SrqL6XJ9/JEBUTelpgCqTuoiKzxnf4CEzz05wuo2VeMD2VjCxm5VGY8/Bz5X3gNkLCZNnU78s26noh3IVd4IQ6ONTFxY+lkfrNbX75X2IlwvTEazo8RofePlU=","cancellation_requested":false,"status":"inProgress","status_details":"Pending certificate created. Certificate request is in progress. This may take some time based on the issuer provider. Please check again later.","request_id":"f87344b1b2d045a896504533e7cde0c3"}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
-  'Content-Length',
-  '151',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
   '-1',
-  'Server',
-  'Microsoft-IIS/10.0',
+  'Retry-After',
+  '10',
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  '7566f8da-d953-4d67-bba3-5539a1de9b06',
+  'd64a0af1-24f2-4e62-a7c3-7b0e878b09b8',
   'x-ms-keyvault-service-version',
-  '1.1.0.898',
+  '1.1.8.0',
   'x-ms-keyvault-network-info',
-  'addr=51.143.39.51;act_addr_fam=InterNetwork;',
+  'conn_type=Ipv4;addr=52.183.123.117;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -654,33 +430,33 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Tue, 28 Apr 2020 13:40:40 GMT'
+  'Thu, 02 Jul 2020 18:45:14 GMT',
+  'Content-Length',
+  '1347'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedcertificates/recoverCertificateName-canresumefromastoppedpoller-')
+  .get('/certificates/lroRecoverCertificateName-canresumefromastoppedpoller-/pending')
   .query(true)
-  .reply(404, {"error":{"code":"CertificateNotFound","message":"Deleted Certificate not found: recoverCertificateName-canresumefromastoppedpoller-"}}, [
+  .reply(200, {"id":"https://keyvault_name.vault.azure.net/certificates/lroRecoverCertificateName-canresumefromastoppedpoller-/pending","issuer":{"name":"Self"},"csr":"MIICoTCCAYkCAQAwETEPMA0GA1UEAxMGTXlDZXJ0MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAtanVyXd8KyD9YJa3TwuJ15orF5D5W6LCT3/I43zyhScfqLAPmwzRuKsCqe+UzFR2ZX0lWwKLSRU0RhWXKjjG4czX4GSCD1Zkpp/CdosR9JG1mUsaI/Dv9HAhtTYCLB1v6cQJZ4WSINCSyGCAjBUi/cTngltm/a/+FzPvnstGrVyuaWmRx2G4WXLGLZPn1gaY/ayfvlU9WR7wOkBvT6L14CXG7cSCsbraE7hIQLdSKb3pn3BWrb+Ta2IdllXhBz3a9gE5XwGAasJGfpClmVAEJ/LVt7Z8T2cmdyyZd3jArBuwJ/gS/sTJvzFe+g3cDhRVXM8w+0hppSepMxTZV4lGSwIDAQABoEswSQYJKoZIhvcNAQkOMTwwOjAOBgNVHQ8BAf8EBAMCBaAwHQYDVR0lBBYwFAYIKwYBBQUHAwEGCCsGAQUFBwMCMAkGA1UdEwQCMAAwDQYJKoZIhvcNAQELBQADggEBAKCjtkoVi6W6/m49lGLcpOnwUutmZNoNFSyrKodsQSYK1rg++/ZwyFB5HyGWWea4XJrJXHo11TG1zw6ONiWjownQmKaT3zlgA58ZMTo7wPDGpRDA5gVqJ7chyQuTEPtVmQpMe8qLk45GtN3Sgjj0ylEmbDGM99/ng8nthVG7KpiQO/YVgUDNf2/0CwrJuQ3AiCzFLygxMSM9hkYeLRO9Rj2E+YKOB3SrqL6XJ9/JEBUTelpgCqTuoiKzxnf4CEzz05wuo2VeMD2VjCxm5VGY8/Bz5X3gNkLCZNnU78s26noh3IVd4IQ6ONTFxY+lkfrNbX75X2IlwvTEazo8RofePlU=","cancellation_requested":false,"status":"inProgress","status_details":"Pending certificate created. Certificate request is in progress. This may take some time based on the issuer provider. Please check again later.","request_id":"f87344b1b2d045a896504533e7cde0c3"}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
-  'Content-Length',
-  '151',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
   '-1',
-  'Server',
-  'Microsoft-IIS/10.0',
+  'Retry-After',
+  '10',
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  '164498d9-73f7-4e78-8656-92eb1016445c',
+  '4b4082d7-2e46-4c36-9f8d-e2517ae6685b',
   'x-ms-keyvault-service-version',
-  '1.1.0.898',
+  '1.1.8.0',
   'x-ms-keyvault-network-info',
-  'addr=51.143.39.51;act_addr_fam=InterNetwork;',
+  'conn_type=Ipv4;addr=52.183.123.117;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -690,33 +466,31 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Tue, 28 Apr 2020 13:40:42 GMT'
+  'Thu, 02 Jul 2020 18:45:16 GMT',
+  'Content-Length',
+  '1347'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedcertificates/recoverCertificateName-canresumefromastoppedpoller-')
+  .get('/certificates/lroRecoverCertificateName-canresumefromastoppedpoller-/pending')
   .query(true)
-  .reply(404, {"error":{"code":"CertificateNotFound","message":"Deleted Certificate not found: recoverCertificateName-canresumefromastoppedpoller-"}}, [
+  .reply(200, {"id":"https://keyvault_name.vault.azure.net/certificates/lroRecoverCertificateName-canresumefromastoppedpoller-/pending","issuer":{"name":"Self"},"csr":"MIICoTCCAYkCAQAwETEPMA0GA1UEAxMGTXlDZXJ0MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAtanVyXd8KyD9YJa3TwuJ15orF5D5W6LCT3/I43zyhScfqLAPmwzRuKsCqe+UzFR2ZX0lWwKLSRU0RhWXKjjG4czX4GSCD1Zkpp/CdosR9JG1mUsaI/Dv9HAhtTYCLB1v6cQJZ4WSINCSyGCAjBUi/cTngltm/a/+FzPvnstGrVyuaWmRx2G4WXLGLZPn1gaY/ayfvlU9WR7wOkBvT6L14CXG7cSCsbraE7hIQLdSKb3pn3BWrb+Ta2IdllXhBz3a9gE5XwGAasJGfpClmVAEJ/LVt7Z8T2cmdyyZd3jArBuwJ/gS/sTJvzFe+g3cDhRVXM8w+0hppSepMxTZV4lGSwIDAQABoEswSQYJKoZIhvcNAQkOMTwwOjAOBgNVHQ8BAf8EBAMCBaAwHQYDVR0lBBYwFAYIKwYBBQUHAwEGCCsGAQUFBwMCMAkGA1UdEwQCMAAwDQYJKoZIhvcNAQELBQADggEBAKCjtkoVi6W6/m49lGLcpOnwUutmZNoNFSyrKodsQSYK1rg++/ZwyFB5HyGWWea4XJrJXHo11TG1zw6ONiWjownQmKaT3zlgA58ZMTo7wPDGpRDA5gVqJ7chyQuTEPtVmQpMe8qLk45GtN3Sgjj0ylEmbDGM99/ng8nthVG7KpiQO/YVgUDNf2/0CwrJuQ3AiCzFLygxMSM9hkYeLRO9Rj2E+YKOB3SrqL6XJ9/JEBUTelpgCqTuoiKzxnf4CEzz05wuo2VeMD2VjCxm5VGY8/Bz5X3gNkLCZNnU78s26noh3IVd4IQ6ONTFxY+lkfrNbX75X2IlwvTEazo8RofePlU=","cancellation_requested":false,"status":"completed","target":"https://keyvault_name.vault.azure.net/certificates/lroRecoverCertificateName-canresumefromastoppedpoller-","request_id":"f87344b1b2d045a896504533e7cde0c3"}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
-  'Content-Length',
-  '151',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
   '-1',
-  'Server',
-  'Microsoft-IIS/10.0',
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  'a9b75ed5-1714-45df-a10b-f1ec81d5541a',
+  '45c1bbe3-0272-4d6f-83dc-34d42395cd9f',
   'x-ms-keyvault-service-version',
-  '1.1.0.898',
+  '1.1.8.0',
   'x-ms-keyvault-network-info',
-  'addr=51.143.39.51;act_addr_fam=InterNetwork;',
+  'conn_type=Ipv4;addr=52.183.123.117;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -726,33 +500,31 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Tue, 28 Apr 2020 13:40:44 GMT'
+  'Thu, 02 Jul 2020 18:45:17 GMT',
+  'Content-Length',
+  '1321'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedcertificates/recoverCertificateName-canresumefromastoppedpoller-')
+  .get('/certificates/lroRecoverCertificateName-canresumefromastoppedpoller-/')
   .query(true)
-  .reply(404, {"error":{"code":"CertificateNotFound","message":"Deleted Certificate not found: recoverCertificateName-canresumefromastoppedpoller-"}}, [
+  .reply(200, {"id":"https://keyvault_name.vault.azure.net/certificates/lroRecoverCertificateName-canresumefromastoppedpoller-/e0f93ab7b9d841f08dc43bb0ebc7c75d","kid":"https://keyvault_name.vault.azure.net/keys/lroRecoverCertificateName-canresumefromastoppedpoller-/e0f93ab7b9d841f08dc43bb0ebc7c75d","sid":"https://keyvault_name.vault.azure.net/secrets/lroRecoverCertificateName-canresumefromastoppedpoller-/e0f93ab7b9d841f08dc43bb0ebc7c75d","x5t":"7KQqwtl1LfGcTJE4Cbi9fIjSX-w","cer":"MIIDKDCCAhCgAwIBAgIQSFKhtMLURDuBKk4wb+rxsjANBgkqhkiG9w0BAQsFADARMQ8wDQYDVQQDEwZNeUNlcnQwHhcNMjAwNzAyMTgzNTE2WhcNMjEwNzAyMTg0NTE2WjARMQ8wDQYDVQQDEwZNeUNlcnQwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQC1qdXJd3wrIP1glrdPC4nXmisXkPlbosJPf8jjfPKFJx+osA+bDNG4qwKp75TMVHZlfSVbAotJFTRGFZcqOMbhzNfgZIIPVmSmn8J2ixH0kbWZSxoj8O/0cCG1NgIsHW/pxAlnhZIg0JLIYICMFSL9xOeCW2b9r/4XM++ey0atXK5paZHHYbhZcsYtk+fWBpj9rJ++VT1ZHvA6QG9PovXgJcbtxIKxutoTuEhAt1IpvemfcFatv5NrYh2WVeEHPdr2ATlfAYBqwkZ+kKWZUAQn8tW3tnxPZyZ3LJl3eMCsG7An+BL+xMm/MV76DdwOFFVczzD7SGmlJ6kzFNlXiUZLAgMBAAGjfDB6MA4GA1UdDwEB/wQEAwIFoDAJBgNVHRMEAjAAMB0GA1UdJQQWMBQGCCsGAQUFBwMBBggrBgEFBQcDAjAfBgNVHSMEGDAWgBQ7m30YRyGSNzTldTa6JvrrLte6QjAdBgNVHQ4EFgQUO5t9GEchkjc05XU2uib66y7XukIwDQYJKoZIhvcNAQELBQADggEBAB9GbQupqhdU4bOhoSZ3SIUEk+tAsA25rrHYmJpjpZTZttjPx0mZ8YdbhpSIuRcSdj2IaTzG2C8DZQC+EfN+Gw/O1JIRlwpB+VLBfhwB9rvtbxKP5OEDIGlZhZbMw8N1dorYrkuxcLiEBDU9WQLCO1XmxhlSq0bTjDndOtgH5xDpLIoWYOJyTtcMmvztuYKoZWLtreAp8x+nCnglBr20fjamepqbDgNE5wpRskCbMLj6Dk2H77A+dRlr2R77wu+0nDXJyU8I8iUVm2+bkGag6kSDVFt0h4xZjMB4QrI0u5hqs4LIhTzf9xio2LLjOaOJbZeU2mKegVygmTRVCkp7sE0=","attributes":{"enabled":true,"nbf":1593714916,"exp":1625251516,"created":1593715517,"updated":1593715517,"recoveryLevel":"Recoverable+Purgeable","recoverableDays":90},"policy":{"id":"https://keyvault_name.vault.azure.net/certificates/lroRecoverCertificateName-canresumefromastoppedpoller-/policy","key_props":{"exportable":true,"kty":"RSA","key_size":2048,"reuse_key":false},"secret_props":{"contentType":"application/x-pkcs12"},"x509_props":{"subject":"cn=MyCert","sans":{},"ekus":["1.3.6.1.5.5.7.3.1","1.3.6.1.5.5.7.3.2"],"key_usage":["digitalSignature","keyEncipherment"],"validity_months":12,"basic_constraints":{"ca":false}},"lifetime_actions":[{"trigger":{"lifetime_percentage":80},"action":{"action_type":"AutoRenew"}}],"issuer":{"name":"Self"},"attributes":{"enabled":true,"created":1593715499,"updated":1593715499}},"pending":{"id":"https://keyvault_name.vault.azure.net/certificates/lroRecoverCertificateName-canresumefromastoppedpoller-/pending"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
-  'Content-Length',
-  '151',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
   '-1',
-  'Server',
-  'Microsoft-IIS/10.0',
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  'c4d7c2f7-bb02-4adc-8920-5b5d8be337f7',
+  '8f37c7e4-1245-437b-a777-38d3f831e096',
   'x-ms-keyvault-service-version',
-  '1.1.0.898',
+  '1.1.8.0',
   'x-ms-keyvault-network-info',
-  'addr=51.143.39.51;act_addr_fam=InterNetwork;',
+  'conn_type=Ipv4;addr=52.183.123.117;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -762,33 +534,31 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Tue, 28 Apr 2020 13:40:46 GMT'
+  'Thu, 02 Jul 2020 18:45:18 GMT',
+  'Content-Length',
+  '2625'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedcertificates/recoverCertificateName-canresumefromastoppedpoller-')
+  .delete('/certificates/lroRecoverCertificateName-canresumefromastoppedpoller-')
   .query(true)
-  .reply(404, {"error":{"code":"CertificateNotFound","message":"Deleted Certificate not found: recoverCertificateName-canresumefromastoppedpoller-"}}, [
+  .reply(200, {"recoveryId":"https://keyvault_name.vault.azure.net/deletedcertificates/lroRecoverCertificateName-canresumefromastoppedpoller-","deletedDate":1593715518,"scheduledPurgeDate":1601491518,"id":"https://keyvault_name.vault.azure.net/certificates/lroRecoverCertificateName-canresumefromastoppedpoller-/e0f93ab7b9d841f08dc43bb0ebc7c75d","kid":"https://keyvault_name.vault.azure.net/keys/lroRecoverCertificateName-canresumefromastoppedpoller-/e0f93ab7b9d841f08dc43bb0ebc7c75d","sid":"https://keyvault_name.vault.azure.net/secrets/lroRecoverCertificateName-canresumefromastoppedpoller-/e0f93ab7b9d841f08dc43bb0ebc7c75d","x5t":"7KQqwtl1LfGcTJE4Cbi9fIjSX-w","cer":"MIIDKDCCAhCgAwIBAgIQSFKhtMLURDuBKk4wb+rxsjANBgkqhkiG9w0BAQsFADARMQ8wDQYDVQQDEwZNeUNlcnQwHhcNMjAwNzAyMTgzNTE2WhcNMjEwNzAyMTg0NTE2WjARMQ8wDQYDVQQDEwZNeUNlcnQwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQC1qdXJd3wrIP1glrdPC4nXmisXkPlbosJPf8jjfPKFJx+osA+bDNG4qwKp75TMVHZlfSVbAotJFTRGFZcqOMbhzNfgZIIPVmSmn8J2ixH0kbWZSxoj8O/0cCG1NgIsHW/pxAlnhZIg0JLIYICMFSL9xOeCW2b9r/4XM++ey0atXK5paZHHYbhZcsYtk+fWBpj9rJ++VT1ZHvA6QG9PovXgJcbtxIKxutoTuEhAt1IpvemfcFatv5NrYh2WVeEHPdr2ATlfAYBqwkZ+kKWZUAQn8tW3tnxPZyZ3LJl3eMCsG7An+BL+xMm/MV76DdwOFFVczzD7SGmlJ6kzFNlXiUZLAgMBAAGjfDB6MA4GA1UdDwEB/wQEAwIFoDAJBgNVHRMEAjAAMB0GA1UdJQQWMBQGCCsGAQUFBwMBBggrBgEFBQcDAjAfBgNVHSMEGDAWgBQ7m30YRyGSNzTldTa6JvrrLte6QjAdBgNVHQ4EFgQUO5t9GEchkjc05XU2uib66y7XukIwDQYJKoZIhvcNAQELBQADggEBAB9GbQupqhdU4bOhoSZ3SIUEk+tAsA25rrHYmJpjpZTZttjPx0mZ8YdbhpSIuRcSdj2IaTzG2C8DZQC+EfN+Gw/O1JIRlwpB+VLBfhwB9rvtbxKP5OEDIGlZhZbMw8N1dorYrkuxcLiEBDU9WQLCO1XmxhlSq0bTjDndOtgH5xDpLIoWYOJyTtcMmvztuYKoZWLtreAp8x+nCnglBr20fjamepqbDgNE5wpRskCbMLj6Dk2H77A+dRlr2R77wu+0nDXJyU8I8iUVm2+bkGag6kSDVFt0h4xZjMB4QrI0u5hqs4LIhTzf9xio2LLjOaOJbZeU2mKegVygmTRVCkp7sE0=","attributes":{"enabled":true,"nbf":1593714916,"exp":1625251516,"created":1593715517,"updated":1593715517,"recoveryLevel":"Recoverable+Purgeable","recoverableDays":90},"policy":{"id":"https://keyvault_name.vault.azure.net/certificates/lroRecoverCertificateName-canresumefromastoppedpoller-/policy","key_props":{"exportable":true,"kty":"RSA","key_size":2048,"reuse_key":false},"secret_props":{"contentType":"application/x-pkcs12"},"x509_props":{"subject":"cn=MyCert","sans":{},"ekus":["1.3.6.1.5.5.7.3.1","1.3.6.1.5.5.7.3.2"],"key_usage":["digitalSignature","keyEncipherment"],"validity_months":12,"basic_constraints":{"ca":false}},"lifetime_actions":[{"trigger":{"lifetime_percentage":80},"action":{"action_type":"AutoRenew"}}],"issuer":{"name":"Self"},"attributes":{"enabled":true,"created":1593715499,"updated":1593715499}},"pending":{"id":"https://keyvault_name.vault.azure.net/certificates/lroRecoverCertificateName-canresumefromastoppedpoller-/pending"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
-  'Content-Length',
-  '151',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
   '-1',
-  'Server',
-  'Microsoft-IIS/10.0',
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  'baa30630-ab50-40f6-8ec8-5cdd5b02950d',
+  '1c4e8714-251a-4330-a153-e5facc5d6d7d',
   'x-ms-keyvault-service-version',
-  '1.1.0.898',
+  '1.1.8.0',
   'x-ms-keyvault-network-info',
-  'addr=51.143.39.51;act_addr_fam=InterNetwork;',
+  'conn_type=Ipv4;addr=52.183.123.117;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -798,33 +568,33 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Tue, 28 Apr 2020 13:40:48 GMT'
+  'Thu, 02 Jul 2020 18:45:18 GMT',
+  'Content-Length',
+  '2832'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedcertificates/recoverCertificateName-canresumefromastoppedpoller-')
+  .get('/deletedcertificates/lroRecoverCertificateName-canresumefromastoppedpoller-')
   .query(true)
-  .reply(404, {"error":{"code":"CertificateNotFound","message":"Deleted Certificate not found: recoverCertificateName-canresumefromastoppedpoller-"}}, [
+  .reply(404, {"error":{"code":"CertificateNotFound","message":"Deleted Certificate not found: lroRecoverCertificateName-canresumefromastoppedpoller-"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
   'Content-Length',
-  '151',
+  '155',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
   '-1',
-  'Server',
-  'Microsoft-IIS/10.0',
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  '1182e234-26e7-4564-8148-52b8cdd6fbe6',
+  '23375f43-0ab4-454c-a462-2f26b0806c5a',
   'x-ms-keyvault-service-version',
-  '1.1.0.898',
+  '1.1.8.0',
   'x-ms-keyvault-network-info',
-  'addr=51.143.39.51;act_addr_fam=InterNetwork;',
+  'conn_type=Ipv4;addr=52.183.123.117;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -834,33 +604,31 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Tue, 28 Apr 2020 13:40:50 GMT'
+  'Thu, 02 Jul 2020 18:45:18 GMT'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedcertificates/recoverCertificateName-canresumefromastoppedpoller-')
+  .get('/deletedcertificates/lroRecoverCertificateName-canresumefromastoppedpoller-')
   .query(true)
-  .reply(404, {"error":{"code":"CertificateNotFound","message":"Deleted Certificate not found: recoverCertificateName-canresumefromastoppedpoller-"}}, [
+  .reply(404, {"error":{"code":"CertificateNotFound","message":"Deleted Certificate not found: lroRecoverCertificateName-canresumefromastoppedpoller-"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
   'Content-Length',
-  '151',
+  '155',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
   '-1',
-  'Server',
-  'Microsoft-IIS/10.0',
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  '6ba827f0-d1ae-45ba-afe6-5f6f1ad61548',
+  'ae95656b-a7e2-4513-8f43-36e1cd83d27e',
   'x-ms-keyvault-service-version',
-  '1.1.0.898',
+  '1.1.8.0',
   'x-ms-keyvault-network-info',
-  'addr=51.143.39.51;act_addr_fam=InterNetwork;',
+  'conn_type=Ipv4;addr=52.183.123.117;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -870,33 +638,31 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Tue, 28 Apr 2020 13:40:52 GMT'
+  'Thu, 02 Jul 2020 18:45:18 GMT'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedcertificates/recoverCertificateName-canresumefromastoppedpoller-')
+  .get('/deletedcertificates/lroRecoverCertificateName-canresumefromastoppedpoller-')
   .query(true)
-  .reply(404, {"error":{"code":"CertificateNotFound","message":"Deleted Certificate not found: recoverCertificateName-canresumefromastoppedpoller-"}}, [
+  .reply(404, {"error":{"code":"CertificateNotFound","message":"Deleted Certificate not found: lroRecoverCertificateName-canresumefromastoppedpoller-"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
   'Content-Length',
-  '151',
+  '155',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
   '-1',
-  'Server',
-  'Microsoft-IIS/10.0',
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  'd24a0d15-941b-4990-9cda-1413a387b448',
+  '3473b787-5a93-4f65-a17c-370ba5dc0e4e',
   'x-ms-keyvault-service-version',
-  '1.1.0.898',
+  '1.1.8.0',
   'x-ms-keyvault-network-info',
-  'addr=51.143.39.51;act_addr_fam=InterNetwork;',
+  'conn_type=Ipv4;addr=52.183.123.117;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -906,33 +672,31 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Tue, 28 Apr 2020 13:40:54 GMT'
+  'Thu, 02 Jul 2020 18:45:20 GMT'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedcertificates/recoverCertificateName-canresumefromastoppedpoller-')
+  .get('/deletedcertificates/lroRecoverCertificateName-canresumefromastoppedpoller-')
   .query(true)
-  .reply(404, {"error":{"code":"CertificateNotFound","message":"Deleted Certificate not found: recoverCertificateName-canresumefromastoppedpoller-"}}, [
+  .reply(404, {"error":{"code":"CertificateNotFound","message":"Deleted Certificate not found: lroRecoverCertificateName-canresumefromastoppedpoller-"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
   'Content-Length',
-  '151',
+  '155',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
   '-1',
-  'Server',
-  'Microsoft-IIS/10.0',
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  'd36e7545-91c7-4b19-94ff-969e3ec1b6d3',
+  '985c22e7-244f-4615-9e44-c54ac3184f09',
   'x-ms-keyvault-service-version',
-  '1.1.0.898',
+  '1.1.8.0',
   'x-ms-keyvault-network-info',
-  'addr=51.143.39.51;act_addr_fam=InterNetwork;',
+  'conn_type=Ipv4;addr=52.183.123.117;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -942,33 +706,31 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Tue, 28 Apr 2020 13:40:56 GMT'
+  'Thu, 02 Jul 2020 18:45:22 GMT'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedcertificates/recoverCertificateName-canresumefromastoppedpoller-')
+  .get('/deletedcertificates/lroRecoverCertificateName-canresumefromastoppedpoller-')
   .query(true)
-  .reply(404, {"error":{"code":"CertificateNotFound","message":"Deleted Certificate not found: recoverCertificateName-canresumefromastoppedpoller-"}}, [
+  .reply(404, {"error":{"code":"CertificateNotFound","message":"Deleted Certificate not found: lroRecoverCertificateName-canresumefromastoppedpoller-"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
   'Content-Length',
-  '151',
+  '155',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
   '-1',
-  'Server',
-  'Microsoft-IIS/10.0',
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  'e776ab7b-38d7-4e1a-8fcb-5c758a85dcd7',
+  'ff2bc792-13f1-4e63-952f-1e71493f7c8a',
   'x-ms-keyvault-service-version',
-  '1.1.0.898',
+  '1.1.8.0',
   'x-ms-keyvault-network-info',
-  'addr=51.143.39.51;act_addr_fam=InterNetwork;',
+  'conn_type=Ipv4;addr=52.183.123.117;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -978,33 +740,31 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Tue, 28 Apr 2020 13:40:58 GMT'
+  'Thu, 02 Jul 2020 18:45:24 GMT'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedcertificates/recoverCertificateName-canresumefromastoppedpoller-')
+  .get('/deletedcertificates/lroRecoverCertificateName-canresumefromastoppedpoller-')
   .query(true)
-  .reply(404, {"error":{"code":"CertificateNotFound","message":"Deleted Certificate not found: recoverCertificateName-canresumefromastoppedpoller-"}}, [
+  .reply(404, {"error":{"code":"CertificateNotFound","message":"Deleted Certificate not found: lroRecoverCertificateName-canresumefromastoppedpoller-"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
   'Content-Length',
-  '151',
+  '155',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
   '-1',
-  'Server',
-  'Microsoft-IIS/10.0',
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  '5930dc43-d933-4905-9d47-c040a2efdb77',
+  '8f3868ec-1ab5-47c0-84f8-471ba9170f5e',
   'x-ms-keyvault-service-version',
-  '1.1.0.898',
+  '1.1.8.0',
   'x-ms-keyvault-network-info',
-  'addr=51.143.39.51;act_addr_fam=InterNetwork;',
+  'conn_type=Ipv4;addr=52.183.123.117;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -1014,33 +774,31 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Tue, 28 Apr 2020 13:41:00 GMT'
+  'Thu, 02 Jul 2020 18:45:26 GMT'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedcertificates/recoverCertificateName-canresumefromastoppedpoller-')
+  .get('/deletedcertificates/lroRecoverCertificateName-canresumefromastoppedpoller-')
   .query(true)
-  .reply(404, {"error":{"code":"CertificateNotFound","message":"Deleted Certificate not found: recoverCertificateName-canresumefromastoppedpoller-"}}, [
+  .reply(404, {"error":{"code":"CertificateNotFound","message":"Deleted Certificate not found: lroRecoverCertificateName-canresumefromastoppedpoller-"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
   'Content-Length',
-  '151',
+  '155',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
   '-1',
-  'Server',
-  'Microsoft-IIS/10.0',
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  'cc325c2c-42b8-4a2f-87e6-005f0470e3c1',
+  '82f98ff8-8d48-4e1d-a363-ce251351c5de',
   'x-ms-keyvault-service-version',
-  '1.1.0.898',
+  '1.1.8.0',
   'x-ms-keyvault-network-info',
-  'addr=51.143.39.51;act_addr_fam=InterNetwork;',
+  'conn_type=Ipv4;addr=52.183.123.117;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -1050,33 +808,31 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Tue, 28 Apr 2020 13:41:02 GMT'
+  'Thu, 02 Jul 2020 18:45:28 GMT'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedcertificates/recoverCertificateName-canresumefromastoppedpoller-')
+  .get('/deletedcertificates/lroRecoverCertificateName-canresumefromastoppedpoller-')
   .query(true)
-  .reply(404, {"error":{"code":"CertificateNotFound","message":"Deleted Certificate not found: recoverCertificateName-canresumefromastoppedpoller-"}}, [
+  .reply(404, {"error":{"code":"CertificateNotFound","message":"Deleted Certificate not found: lroRecoverCertificateName-canresumefromastoppedpoller-"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
   'Content-Length',
-  '151',
+  '155',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
   '-1',
-  'Server',
-  'Microsoft-IIS/10.0',
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  '62fb927c-f5b6-4a58-8af9-d95e3a49fc75',
+  'cd13aec9-6cfd-4d71-b53a-5c904926111f',
   'x-ms-keyvault-service-version',
-  '1.1.0.898',
+  '1.1.8.0',
   'x-ms-keyvault-network-info',
-  'addr=51.143.39.51;act_addr_fam=InterNetwork;',
+  'conn_type=Ipv4;addr=52.183.123.117;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -1086,33 +842,31 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Tue, 28 Apr 2020 13:41:04 GMT'
+  'Thu, 02 Jul 2020 18:45:30 GMT'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedcertificates/recoverCertificateName-canresumefromastoppedpoller-')
+  .get('/deletedcertificates/lroRecoverCertificateName-canresumefromastoppedpoller-')
   .query(true)
-  .reply(404, {"error":{"code":"CertificateNotFound","message":"Deleted Certificate not found: recoverCertificateName-canresumefromastoppedpoller-"}}, [
+  .reply(404, {"error":{"code":"CertificateNotFound","message":"Deleted Certificate not found: lroRecoverCertificateName-canresumefromastoppedpoller-"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
   'Content-Length',
-  '151',
+  '155',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
   '-1',
-  'Server',
-  'Microsoft-IIS/10.0',
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  '5473fd7f-4a3d-4a1b-80e7-2d981a9fdec9',
+  '159887a0-e939-4b62-acf4-df7cdf662cd4',
   'x-ms-keyvault-service-version',
-  '1.1.0.898',
+  '1.1.8.0',
   'x-ms-keyvault-network-info',
-  'addr=51.143.39.51;act_addr_fam=InterNetwork;',
+  'conn_type=Ipv4;addr=52.183.123.117;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -1122,33 +876,31 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Tue, 28 Apr 2020 13:41:07 GMT'
+  'Thu, 02 Jul 2020 18:45:32 GMT'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedcertificates/recoverCertificateName-canresumefromastoppedpoller-')
+  .get('/deletedcertificates/lroRecoverCertificateName-canresumefromastoppedpoller-')
   .query(true)
-  .reply(404, {"error":{"code":"CertificateNotFound","message":"Deleted Certificate not found: recoverCertificateName-canresumefromastoppedpoller-"}}, [
+  .reply(404, {"error":{"code":"CertificateNotFound","message":"Deleted Certificate not found: lroRecoverCertificateName-canresumefromastoppedpoller-"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
   'Content-Length',
-  '151',
+  '155',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
   '-1',
-  'Server',
-  'Microsoft-IIS/10.0',
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  '8c319bc5-4b70-4e60-9279-956f4d9b4ee5',
+  'd8224d43-c72b-4ff7-b50b-fc0d991aa63f',
   'x-ms-keyvault-service-version',
-  '1.1.0.898',
+  '1.1.8.0',
   'x-ms-keyvault-network-info',
-  'addr=51.143.39.51;act_addr_fam=InterNetwork;',
+  'conn_type=Ipv4;addr=52.183.123.117;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -1158,33 +910,31 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Tue, 28 Apr 2020 13:41:09 GMT'
+  'Thu, 02 Jul 2020 18:45:34 GMT'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedcertificates/recoverCertificateName-canresumefromastoppedpoller-')
+  .get('/deletedcertificates/lroRecoverCertificateName-canresumefromastoppedpoller-')
   .query(true)
-  .reply(404, {"error":{"code":"CertificateNotFound","message":"Deleted Certificate not found: recoverCertificateName-canresumefromastoppedpoller-"}}, [
+  .reply(404, {"error":{"code":"CertificateNotFound","message":"Deleted Certificate not found: lroRecoverCertificateName-canresumefromastoppedpoller-"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
   'Content-Length',
-  '151',
+  '155',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
   '-1',
-  'Server',
-  'Microsoft-IIS/10.0',
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  '2ff5d2ec-82d4-43f2-8192-a8e8a470e71c',
+  'afdc7eb6-20c3-42de-87a8-e0cb57afc72e',
   'x-ms-keyvault-service-version',
-  '1.1.0.898',
+  '1.1.8.0',
   'x-ms-keyvault-network-info',
-  'addr=51.143.39.51;act_addr_fam=InterNetwork;',
+  'conn_type=Ipv4;addr=52.183.123.117;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -1194,33 +944,31 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Tue, 28 Apr 2020 13:41:11 GMT'
+  'Thu, 02 Jul 2020 18:45:36 GMT'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedcertificates/recoverCertificateName-canresumefromastoppedpoller-')
+  .get('/deletedcertificates/lroRecoverCertificateName-canresumefromastoppedpoller-')
   .query(true)
-  .reply(404, {"error":{"code":"CertificateNotFound","message":"Deleted Certificate not found: recoverCertificateName-canresumefromastoppedpoller-"}}, [
+  .reply(404, {"error":{"code":"CertificateNotFound","message":"Deleted Certificate not found: lroRecoverCertificateName-canresumefromastoppedpoller-"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
   'Content-Length',
-  '151',
+  '155',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
   '-1',
-  'Server',
-  'Microsoft-IIS/10.0',
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  'd4fdba7d-47da-418f-841c-43a4580337d5',
+  '812e071e-f594-458d-b6a5-30f611833291',
   'x-ms-keyvault-service-version',
-  '1.1.0.898',
+  '1.1.8.0',
   'x-ms-keyvault-network-info',
-  'addr=51.143.39.51;act_addr_fam=InterNetwork;',
+  'conn_type=Ipv4;addr=52.183.123.117;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -1230,33 +978,31 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Tue, 28 Apr 2020 13:41:13 GMT'
+  'Thu, 02 Jul 2020 18:45:38 GMT'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedcertificates/recoverCertificateName-canresumefromastoppedpoller-')
+  .get('/deletedcertificates/lroRecoverCertificateName-canresumefromastoppedpoller-')
   .query(true)
-  .reply(404, {"error":{"code":"CertificateNotFound","message":"Deleted Certificate not found: recoverCertificateName-canresumefromastoppedpoller-"}}, [
+  .reply(404, {"error":{"code":"CertificateNotFound","message":"Deleted Certificate not found: lroRecoverCertificateName-canresumefromastoppedpoller-"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
   'Content-Length',
-  '151',
+  '155',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
   '-1',
-  'Server',
-  'Microsoft-IIS/10.0',
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  'e019ad42-3292-4ed2-a4e3-6ca88dd1a4df',
+  'b7fe4405-7bad-4dee-a2c5-8fae818889e6',
   'x-ms-keyvault-service-version',
-  '1.1.0.898',
+  '1.1.8.0',
   'x-ms-keyvault-network-info',
-  'addr=51.143.39.51;act_addr_fam=InterNetwork;',
+  'conn_type=Ipv4;addr=52.183.123.117;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -1266,13 +1012,13 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Tue, 28 Apr 2020 13:41:15 GMT'
+  'Thu, 02 Jul 2020 18:45:40 GMT'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedcertificates/recoverCertificateName-canresumefromastoppedpoller-')
+  .get('/deletedcertificates/lroRecoverCertificateName-canresumefromastoppedpoller-')
   .query(true)
-  .reply(200, {"recoveryId":"https://keyvault_name.vault.azure.net/deletedcertificates/recoverCertificateName-canresumefromastoppedpoller-","deletedDate":1588081218,"scheduledPurgeDate":1595857218,"id":"https://keyvault_name.vault.azure.net/certificates/recoverCertificateName-canresumefromastoppedpoller-/a8cf73665c3e450699eaf9593434327d","attributes":{"enabled":false,"nbf":1588080617,"exp":1619617217,"created":1588081217,"updated":1588081217,"recoveryLevel":"Recoverable+Purgeable","recoverableDays":90},"policy":{"id":"https://keyvault_name.vault.azure.net/certificates/recoverCertificateName-canresumefromastoppedpoller-/policy","key_props":{"exportable":true,"kty":"RSA","key_size":2048,"reuse_key":false},"secret_props":{"contentType":"application/x-pkcs12"},"x509_props":{"subject":"cn=MyCert","sans":{},"ekus":["1.3.6.1.5.5.7.3.1","1.3.6.1.5.5.7.3.2"],"key_usage":["digitalSignature","keyEncipherment"],"validity_months":12,"basic_constraints":{"ca":false}},"lifetime_actions":[{"trigger":{"lifetime_percentage":80},"action":{"action_type":"AutoRenew"}}],"issuer":{"name":"Self"},"attributes":{"enabled":true,"created":1588081217,"updated":1588081217}},"pending":{"id":"https://keyvault_name.vault.azure.net/certificates/recoverCertificateName-canresumefromastoppedpoller-/pending"}}, [
+  .reply(200, {"recoveryId":"https://keyvault_name.vault.azure.net/deletedcertificates/lroRecoverCertificateName-canresumefromastoppedpoller-","deletedDate":1593715518,"scheduledPurgeDate":1601491518,"id":"https://keyvault_name.vault.azure.net/certificates/lroRecoverCertificateName-canresumefromastoppedpoller-/e0f93ab7b9d841f08dc43bb0ebc7c75d","kid":"https://keyvault_name.vault.azure.net/keys/lroRecoverCertificateName-canresumefromastoppedpoller-/e0f93ab7b9d841f08dc43bb0ebc7c75d","sid":"https://keyvault_name.vault.azure.net/secrets/lroRecoverCertificateName-canresumefromastoppedpoller-/e0f93ab7b9d841f08dc43bb0ebc7c75d","x5t":"7KQqwtl1LfGcTJE4Cbi9fIjSX-w","cer":"MIIDKDCCAhCgAwIBAgIQSFKhtMLURDuBKk4wb+rxsjANBgkqhkiG9w0BAQsFADARMQ8wDQYDVQQDEwZNeUNlcnQwHhcNMjAwNzAyMTgzNTE2WhcNMjEwNzAyMTg0NTE2WjARMQ8wDQYDVQQDEwZNeUNlcnQwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQC1qdXJd3wrIP1glrdPC4nXmisXkPlbosJPf8jjfPKFJx+osA+bDNG4qwKp75TMVHZlfSVbAotJFTRGFZcqOMbhzNfgZIIPVmSmn8J2ixH0kbWZSxoj8O/0cCG1NgIsHW/pxAlnhZIg0JLIYICMFSL9xOeCW2b9r/4XM++ey0atXK5paZHHYbhZcsYtk+fWBpj9rJ++VT1ZHvA6QG9PovXgJcbtxIKxutoTuEhAt1IpvemfcFatv5NrYh2WVeEHPdr2ATlfAYBqwkZ+kKWZUAQn8tW3tnxPZyZ3LJl3eMCsG7An+BL+xMm/MV76DdwOFFVczzD7SGmlJ6kzFNlXiUZLAgMBAAGjfDB6MA4GA1UdDwEB/wQEAwIFoDAJBgNVHRMEAjAAMB0GA1UdJQQWMBQGCCsGAQUFBwMBBggrBgEFBQcDAjAfBgNVHSMEGDAWgBQ7m30YRyGSNzTldTa6JvrrLte6QjAdBgNVHQ4EFgQUO5t9GEchkjc05XU2uib66y7XukIwDQYJKoZIhvcNAQELBQADggEBAB9GbQupqhdU4bOhoSZ3SIUEk+tAsA25rrHYmJpjpZTZttjPx0mZ8YdbhpSIuRcSdj2IaTzG2C8DZQC+EfN+Gw/O1JIRlwpB+VLBfhwB9rvtbxKP5OEDIGlZhZbMw8N1dorYrkuxcLiEBDU9WQLCO1XmxhlSq0bTjDndOtgH5xDpLIoWYOJyTtcMmvztuYKoZWLtreAp8x+nCnglBr20fjamepqbDgNE5wpRskCbMLj6Dk2H77A+dRlr2R77wu+0nDXJyU8I8iUVm2+bkGag6kSDVFt0h4xZjMB4QrI0u5hqs4LIhTzf9xio2LLjOaOJbZeU2mKegVygmTRVCkp7sE0=","attributes":{"enabled":true,"nbf":1593714916,"exp":1625251516,"created":1593715517,"updated":1593715517,"recoveryLevel":"Recoverable+Purgeable","recoverableDays":90},"policy":{"id":"https://keyvault_name.vault.azure.net/certificates/lroRecoverCertificateName-canresumefromastoppedpoller-/policy","key_props":{"exportable":true,"kty":"RSA","key_size":2048,"reuse_key":false},"secret_props":{"contentType":"application/x-pkcs12"},"x509_props":{"subject":"cn=MyCert","sans":{},"ekus":["1.3.6.1.5.5.7.3.1","1.3.6.1.5.5.7.3.2"],"key_usage":["digitalSignature","keyEncipherment"],"validity_months":12,"basic_constraints":{"ca":false}},"lifetime_actions":[{"trigger":{"lifetime_percentage":80},"action":{"action_type":"AutoRenew"}}],"issuer":{"name":"Self"},"attributes":{"enabled":true,"created":1593715499,"updated":1593715499}},"pending":{"id":"https://keyvault_name.vault.azure.net/certificates/lroRecoverCertificateName-canresumefromastoppedpoller-/pending"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
@@ -1281,16 +1027,14 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'application/json; charset=utf-8',
   'Expires',
   '-1',
-  'Server',
-  'Microsoft-IIS/10.0',
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  '83178440-dc5d-47f3-8673-f327e8ce0e67',
+  'f1130c12-bab3-4308-a164-c7aec690cb22',
   'x-ms-keyvault-service-version',
-  '1.1.0.898',
+  '1.1.8.0',
   'x-ms-keyvault-network-info',
-  'addr=51.143.39.51;act_addr_fam=InterNetwork;',
+  'conn_type=Ipv4;addr=52.183.123.117;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -1300,35 +1044,33 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Tue, 28 Apr 2020 13:41:17 GMT',
+  'Thu, 02 Jul 2020 18:45:42 GMT',
   'Content-Length',
-  '1363'
+  '2832'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/certificates/recoverCertificateName-canresumefromastoppedpoller-/')
+  .get('/certificates/lroRecoverCertificateName-canresumefromastoppedpoller-/')
   .query(true)
-  .reply(404, {"error":{"code":"CertificateNotFound","message":"Certificate not found: recoverCertificateName-canresumefromastoppedpoller-"}}, [
+  .reply(404, {"error":{"code":"CertificateNotFound","message":"A certificate with (name/id) lroRecoverCertificateName-canresumefromastoppedpoller- was not found in this key vault. If you recently deleted this certificate you may be able to recover it using the correct recovery command. For help resolving this issue, please see https://go.microsoft.com/fwlink/?linkid=2125182"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
   'Content-Length',
-  '143',
+  '383',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
   '-1',
-  'Server',
-  'Microsoft-IIS/10.0',
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  'fdd19044-a9e1-4c85-8a6f-2904e1aa3e23',
+  '7970dd9c-4f92-4b96-b172-fc4de186ab9b',
   'x-ms-keyvault-service-version',
-  '1.1.0.898',
+  '1.1.8.0',
   'x-ms-keyvault-network-info',
-  'addr=51.143.39.51;act_addr_fam=InterNetwork;',
+  'conn_type=Ipv4;addr=52.183.123.117;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -1338,13 +1080,13 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Tue, 28 Apr 2020 13:41:17 GMT'
+  'Thu, 02 Jul 2020 18:45:42 GMT'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .post('/deletedcertificates/recoverCertificateName-canresumefromastoppedpoller-/recover')
+  .post('/deletedcertificates/lroRecoverCertificateName-canresumefromastoppedpoller-/recover')
   .query(true)
-  .reply(200, {"id":"https://keyvault_name.vault.azure.net/certificates/recoverCertificateName-canresumefromastoppedpoller-/a8cf73665c3e450699eaf9593434327d","attributes":{"enabled":false,"nbf":1588080617,"exp":1619617217,"created":1588081217,"updated":1588081217,"recoveryLevel":"Recoverable+Purgeable","recoverableDays":90},"policy":{"id":"https://keyvault_name.vault.azure.net/certificates/recoverCertificateName-canresumefromastoppedpoller-/policy","key_props":{"exportable":true,"kty":"RSA","key_size":2048,"reuse_key":false},"secret_props":{"contentType":"application/x-pkcs12"},"x509_props":{"subject":"cn=MyCert","sans":{},"ekus":["1.3.6.1.5.5.7.3.1","1.3.6.1.5.5.7.3.2"],"key_usage":["digitalSignature","keyEncipherment"],"validity_months":12,"basic_constraints":{"ca":false}},"lifetime_actions":[{"trigger":{"lifetime_percentage":80},"action":{"action_type":"AutoRenew"}}],"issuer":{"name":"Self"},"attributes":{"enabled":true,"created":1588081217,"updated":1588081217}},"pending":{"id":"https://keyvault_name.vault.azure.net/certificates/recoverCertificateName-canresumefromastoppedpoller-/pending"}}, [
+  .reply(200, {"id":"https://keyvault_name.vault.azure.net/certificates/lroRecoverCertificateName-canresumefromastoppedpoller-/e0f93ab7b9d841f08dc43bb0ebc7c75d","kid":"https://keyvault_name.vault.azure.net/keys/lroRecoverCertificateName-canresumefromastoppedpoller-/e0f93ab7b9d841f08dc43bb0ebc7c75d","sid":"https://keyvault_name.vault.azure.net/secrets/lroRecoverCertificateName-canresumefromastoppedpoller-/e0f93ab7b9d841f08dc43bb0ebc7c75d","x5t":"7KQqwtl1LfGcTJE4Cbi9fIjSX-w","cer":"MIIDKDCCAhCgAwIBAgIQSFKhtMLURDuBKk4wb+rxsjANBgkqhkiG9w0BAQsFADARMQ8wDQYDVQQDEwZNeUNlcnQwHhcNMjAwNzAyMTgzNTE2WhcNMjEwNzAyMTg0NTE2WjARMQ8wDQYDVQQDEwZNeUNlcnQwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQC1qdXJd3wrIP1glrdPC4nXmisXkPlbosJPf8jjfPKFJx+osA+bDNG4qwKp75TMVHZlfSVbAotJFTRGFZcqOMbhzNfgZIIPVmSmn8J2ixH0kbWZSxoj8O/0cCG1NgIsHW/pxAlnhZIg0JLIYICMFSL9xOeCW2b9r/4XM++ey0atXK5paZHHYbhZcsYtk+fWBpj9rJ++VT1ZHvA6QG9PovXgJcbtxIKxutoTuEhAt1IpvemfcFatv5NrYh2WVeEHPdr2ATlfAYBqwkZ+kKWZUAQn8tW3tnxPZyZ3LJl3eMCsG7An+BL+xMm/MV76DdwOFFVczzD7SGmlJ6kzFNlXiUZLAgMBAAGjfDB6MA4GA1UdDwEB/wQEAwIFoDAJBgNVHRMEAjAAMB0GA1UdJQQWMBQGCCsGAQUFBwMBBggrBgEFBQcDAjAfBgNVHSMEGDAWgBQ7m30YRyGSNzTldTa6JvrrLte6QjAdBgNVHQ4EFgQUO5t9GEchkjc05XU2uib66y7XukIwDQYJKoZIhvcNAQELBQADggEBAB9GbQupqhdU4bOhoSZ3SIUEk+tAsA25rrHYmJpjpZTZttjPx0mZ8YdbhpSIuRcSdj2IaTzG2C8DZQC+EfN+Gw/O1JIRlwpB+VLBfhwB9rvtbxKP5OEDIGlZhZbMw8N1dorYrkuxcLiEBDU9WQLCO1XmxhlSq0bTjDndOtgH5xDpLIoWYOJyTtcMmvztuYKoZWLtreAp8x+nCnglBr20fjamepqbDgNE5wpRskCbMLj6Dk2H77A+dRlr2R77wu+0nDXJyU8I8iUVm2+bkGag6kSDVFt0h4xZjMB4QrI0u5hqs4LIhTzf9xio2LLjOaOJbZeU2mKegVygmTRVCkp7sE0=","attributes":{"enabled":true,"nbf":1593714916,"exp":1625251516,"created":1593715517,"updated":1593715517,"recoveryLevel":"Recoverable+Purgeable","recoverableDays":90},"policy":{"id":"https://keyvault_name.vault.azure.net/certificates/lroRecoverCertificateName-canresumefromastoppedpoller-/policy","key_props":{"exportable":true,"kty":"RSA","key_size":2048,"reuse_key":false},"secret_props":{"contentType":"application/x-pkcs12"},"x509_props":{"subject":"cn=MyCert","sans":{},"ekus":["1.3.6.1.5.5.7.3.1","1.3.6.1.5.5.7.3.2"],"key_usage":["digitalSignature","keyEncipherment"],"validity_months":12,"basic_constraints":{"ca":false}},"lifetime_actions":[{"trigger":{"lifetime_percentage":80},"action":{"action_type":"AutoRenew"}}],"issuer":{"name":"Self"},"attributes":{"enabled":true,"created":1593715499,"updated":1593715499}},"pending":{"id":"https://keyvault_name.vault.azure.net/certificates/lroRecoverCertificateName-canresumefromastoppedpoller-/pending"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
@@ -1353,16 +1095,14 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'application/json; charset=utf-8',
   'Expires',
   '-1',
-  'Server',
-  'Microsoft-IIS/10.0',
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  '56cfc621-a153-456f-8a01-fe836675b6f3',
+  'd7970fcb-7979-4f95-b793-2112dae4dc71',
   'x-ms-keyvault-service-version',
-  '1.1.0.898',
+  '1.1.8.0',
   'x-ms-keyvault-network-info',
-  'addr=51.143.39.51;act_addr_fam=InterNetwork;',
+  'conn_type=Ipv4;addr=52.183.123.117;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -1372,71 +1112,33 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Tue, 28 Apr 2020 13:41:17 GMT',
-  'Content-Length',
-  '1160'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/certificates/recoverCertificateName-canresumefromastoppedpoller-/')
-  .query(true)
-  .reply(404, {"error":{"code":"CertificateNotFound","message":"Certificate not found: recoverCertificateName-canresumefromastoppedpoller-"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
+  'Thu, 02 Jul 2020 18:45:42 GMT',
   'Content-Length',
-  '143',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Server',
-  'Microsoft-IIS/10.0',
-  'x-ms-keyvault-region',
-  'westus',
-  'x-ms-request-id',
-  '021a9dc7-ba0a-4d34-8a45-87f7f443d857',
-  'x-ms-keyvault-service-version',
-  '1.1.0.898',
-  'x-ms-keyvault-network-info',
-  'addr=51.143.39.51;act_addr_fam=InterNetwork;',
-  'X-AspNet-Version',
-  '4.0.30319',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Tue, 28 Apr 2020 13:41:17 GMT'
+  '2625'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/certificates/recoverCertificateName-canresumefromastoppedpoller-/')
+  .get('/certificates/lroRecoverCertificateName-canresumefromastoppedpoller-/')
   .query(true)
-  .reply(404, {"error":{"code":"CertificateNotFound","message":"Certificate not found: recoverCertificateName-canresumefromastoppedpoller-"}}, [
+  .reply(404, {"error":{"code":"CertificateNotFound","message":"A certificate with (name/id) lroRecoverCertificateName-canresumefromastoppedpoller- was not found in this key vault. If you recently deleted this certificate you may be able to recover it using the correct recovery command. For help resolving this issue, please see https://go.microsoft.com/fwlink/?linkid=2125182"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
   'Content-Length',
-  '143',
+  '383',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
   '-1',
-  'Server',
-  'Microsoft-IIS/10.0',
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  '1fffbb1c-a6dc-4048-9f77-c3e24dd42c8b',
+  '1ea78d47-1179-4398-ab3b-8be5494df44d',
   'x-ms-keyvault-service-version',
-  '1.1.0.898',
+  '1.1.8.0',
   'x-ms-keyvault-network-info',
-  'addr=51.143.39.51;act_addr_fam=InterNetwork;',
+  'conn_type=Ipv4;addr=52.183.123.117;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -1446,33 +1148,31 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Tue, 28 Apr 2020 13:41:17 GMT'
+  'Thu, 02 Jul 2020 18:45:42 GMT'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/certificates/recoverCertificateName-canresumefromastoppedpoller-/')
+  .get('/certificates/lroRecoverCertificateName-canresumefromastoppedpoller-/')
   .query(true)
-  .reply(404, {"error":{"code":"CertificateNotFound","message":"Certificate not found: recoverCertificateName-canresumefromastoppedpoller-"}}, [
+  .reply(404, {"error":{"code":"CertificateNotFound","message":"A certificate with (name/id) lroRecoverCertificateName-canresumefromastoppedpoller- was not found in this key vault. If you recently deleted this certificate you may be able to recover it using the correct recovery command. For help resolving this issue, please see https://go.microsoft.com/fwlink/?linkid=2125182"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
   'Content-Length',
-  '143',
+  '383',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
   '-1',
-  'Server',
-  'Microsoft-IIS/10.0',
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  'd1cfefc6-755d-4c9a-b76a-3e79ce33506c',
+  '38b33387-50bf-40b6-9bb7-cdd75869e834',
   'x-ms-keyvault-service-version',
-  '1.1.0.898',
+  '1.1.8.0',
   'x-ms-keyvault-network-info',
-  'addr=51.143.39.51;act_addr_fam=InterNetwork;',
+  'conn_type=Ipv4;addr=52.183.123.117;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -1482,33 +1182,31 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Tue, 28 Apr 2020 13:41:17 GMT'
+  'Thu, 02 Jul 2020 18:45:42 GMT'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/certificates/recoverCertificateName-canresumefromastoppedpoller-/')
+  .get('/certificates/lroRecoverCertificateName-canresumefromastoppedpoller-/')
   .query(true)
-  .reply(404, {"error":{"code":"CertificateNotFound","message":"Certificate not found: recoverCertificateName-canresumefromastoppedpoller-"}}, [
+  .reply(404, {"error":{"code":"CertificateNotFound","message":"A certificate with (name/id) lroRecoverCertificateName-canresumefromastoppedpoller- was not found in this key vault. If you recently deleted this certificate you may be able to recover it using the correct recovery command. For help resolving this issue, please see https://go.microsoft.com/fwlink/?linkid=2125182"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
   'Content-Length',
-  '143',
+  '383',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
   '-1',
-  'Server',
-  'Microsoft-IIS/10.0',
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  '02edbcf3-4a85-4197-aa5a-5850431cd761',
+  '8678e078-4c85-4747-b563-8acebc2940fe',
   'x-ms-keyvault-service-version',
-  '1.1.0.898',
+  '1.1.8.0',
   'x-ms-keyvault-network-info',
-  'addr=51.143.39.51;act_addr_fam=InterNetwork;',
+  'conn_type=Ipv4;addr=52.183.123.117;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -1518,33 +1216,31 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Tue, 28 Apr 2020 13:41:17 GMT'
+  'Thu, 02 Jul 2020 18:45:42 GMT'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/certificates/recoverCertificateName-canresumefromastoppedpoller-/')
+  .get('/certificates/lroRecoverCertificateName-canresumefromastoppedpoller-/')
   .query(true)
-  .reply(404, {"error":{"code":"CertificateNotFound","message":"Certificate not found: recoverCertificateName-canresumefromastoppedpoller-"}}, [
+  .reply(404, {"error":{"code":"CertificateNotFound","message":"A certificate with (name/id) lroRecoverCertificateName-canresumefromastoppedpoller- was not found in this key vault. If you recently deleted this certificate you may be able to recover it using the correct recovery command. For help resolving this issue, please see https://go.microsoft.com/fwlink/?linkid=2125182"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
   'Content-Length',
-  '143',
+  '383',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
   '-1',
-  'Server',
-  'Microsoft-IIS/10.0',
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  '783032fe-53ff-41cc-a65b-bdd7c96e8a8e',
+  'c8d21887-9b18-49ae-b9ed-f8ea55eb5e9b',
   'x-ms-keyvault-service-version',
-  '1.1.0.898',
+  '1.1.8.0',
   'x-ms-keyvault-network-info',
-  'addr=51.143.39.51;act_addr_fam=InterNetwork;',
+  'conn_type=Ipv4;addr=52.183.123.117;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -1554,33 +1250,31 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Tue, 28 Apr 2020 13:41:19 GMT'
+  'Thu, 02 Jul 2020 18:45:42 GMT'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/certificates/recoverCertificateName-canresumefromastoppedpoller-/')
+  .get('/certificates/lroRecoverCertificateName-canresumefromastoppedpoller-/')
   .query(true)
-  .reply(404, {"error":{"code":"CertificateNotFound","message":"Certificate not found: recoverCertificateName-canresumefromastoppedpoller-"}}, [
+  .reply(404, {"error":{"code":"CertificateNotFound","message":"A certificate with (name/id) lroRecoverCertificateName-canresumefromastoppedpoller- was not found in this key vault. If you recently deleted this certificate you may be able to recover it using the correct recovery command. For help resolving this issue, please see https://go.microsoft.com/fwlink/?linkid=2125182"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
   'Content-Length',
-  '143',
+  '383',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
   '-1',
-  'Server',
-  'Microsoft-IIS/10.0',
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  '26246b7d-f767-450b-846a-c8cfc97a6431',
+  '0cdc739f-4118-4b07-bcea-71f806e8863a',
   'x-ms-keyvault-service-version',
-  '1.1.0.898',
+  '1.1.8.0',
   'x-ms-keyvault-network-info',
-  'addr=51.143.39.51;act_addr_fam=InterNetwork;',
+  'conn_type=Ipv4;addr=52.183.123.117;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -1590,33 +1284,31 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Tue, 28 Apr 2020 13:41:21 GMT'
+  'Thu, 02 Jul 2020 18:45:44 GMT'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/certificates/recoverCertificateName-canresumefromastoppedpoller-/')
+  .get('/certificates/lroRecoverCertificateName-canresumefromastoppedpoller-/')
   .query(true)
-  .reply(404, {"error":{"code":"CertificateNotFound","message":"Certificate not found: recoverCertificateName-canresumefromastoppedpoller-"}}, [
+  .reply(404, {"error":{"code":"CertificateNotFound","message":"A certificate with (name/id) lroRecoverCertificateName-canresumefromastoppedpoller- was not found in this key vault. If you recently deleted this certificate you may be able to recover it using the correct recovery command. For help resolving this issue, please see https://go.microsoft.com/fwlink/?linkid=2125182"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
   'Content-Length',
-  '143',
+  '383',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
   '-1',
-  'Server',
-  'Microsoft-IIS/10.0',
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  'd82a8816-01d5-407a-ac2d-d22e787cf8f0',
+  '13defdfe-6bf4-4dcd-93ed-2bd5baa3c526',
   'x-ms-keyvault-service-version',
-  '1.1.0.898',
+  '1.1.8.0',
   'x-ms-keyvault-network-info',
-  'addr=51.143.39.51;act_addr_fam=InterNetwork;',
+  'conn_type=Ipv4;addr=52.183.123.117;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -1626,33 +1318,31 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Tue, 28 Apr 2020 13:41:23 GMT'
+  'Thu, 02 Jul 2020 18:45:47 GMT'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/certificates/recoverCertificateName-canresumefromastoppedpoller-/')
+  .get('/certificates/lroRecoverCertificateName-canresumefromastoppedpoller-/')
   .query(true)
-  .reply(404, {"error":{"code":"CertificateNotFound","message":"Certificate not found: recoverCertificateName-canresumefromastoppedpoller-"}}, [
+  .reply(404, {"error":{"code":"CertificateNotFound","message":"A certificate with (name/id) lroRecoverCertificateName-canresumefromastoppedpoller- was not found in this key vault. If you recently deleted this certificate you may be able to recover it using the correct recovery command. For help resolving this issue, please see https://go.microsoft.com/fwlink/?linkid=2125182"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
   'Content-Length',
-  '143',
+  '383',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
   '-1',
-  'Server',
-  'Microsoft-IIS/10.0',
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  'fd09578e-3054-4692-b7cc-629af895f0a3',
+  '869930eb-5b4c-4bbc-adfd-335c97541726',
   'x-ms-keyvault-service-version',
-  '1.1.0.898',
+  '1.1.8.0',
   'x-ms-keyvault-network-info',
-  'addr=51.143.39.51;act_addr_fam=InterNetwork;',
+  'conn_type=Ipv4;addr=52.183.123.117;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -1662,33 +1352,31 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Tue, 28 Apr 2020 13:41:25 GMT'
+  'Thu, 02 Jul 2020 18:45:49 GMT'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/certificates/recoverCertificateName-canresumefromastoppedpoller-/')
+  .get('/certificates/lroRecoverCertificateName-canresumefromastoppedpoller-/')
   .query(true)
-  .reply(404, {"error":{"code":"CertificateNotFound","message":"Certificate not found: recoverCertificateName-canresumefromastoppedpoller-"}}, [
+  .reply(404, {"error":{"code":"CertificateNotFound","message":"A certificate with (name/id) lroRecoverCertificateName-canresumefromastoppedpoller- was not found in this key vault. If you recently deleted this certificate you may be able to recover it using the correct recovery command. For help resolving this issue, please see https://go.microsoft.com/fwlink/?linkid=2125182"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
   'Content-Length',
-  '143',
+  '383',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
   '-1',
-  'Server',
-  'Microsoft-IIS/10.0',
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  'faceda69-6e02-40df-a43b-265ee36f4b57',
+  'aee5cf7d-2e5c-4ac6-ad8b-3728aeed5562',
   'x-ms-keyvault-service-version',
-  '1.1.0.898',
+  '1.1.8.0',
   'x-ms-keyvault-network-info',
-  'addr=51.143.39.51;act_addr_fam=InterNetwork;',
+  'conn_type=Ipv4;addr=52.183.123.117;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -1698,33 +1386,31 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Tue, 28 Apr 2020 13:41:27 GMT'
+  'Thu, 02 Jul 2020 18:45:51 GMT'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/certificates/recoverCertificateName-canresumefromastoppedpoller-/')
+  .get('/certificates/lroRecoverCertificateName-canresumefromastoppedpoller-/')
   .query(true)
-  .reply(404, {"error":{"code":"CertificateNotFound","message":"Certificate not found: recoverCertificateName-canresumefromastoppedpoller-"}}, [
+  .reply(404, {"error":{"code":"CertificateNotFound","message":"A certificate with (name/id) lroRecoverCertificateName-canresumefromastoppedpoller- was not found in this key vault. If you recently deleted this certificate you may be able to recover it using the correct recovery command. For help resolving this issue, please see https://go.microsoft.com/fwlink/?linkid=2125182"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
   'Content-Length',
-  '143',
+  '383',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
   '-1',
-  'Server',
-  'Microsoft-IIS/10.0',
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  '0fe67005-91fc-412f-8649-c33ae1384609',
+  '89d79cc3-a9ec-4e2b-9225-0fdd4e05f7f6',
   'x-ms-keyvault-service-version',
-  '1.1.0.898',
+  '1.1.8.0',
   'x-ms-keyvault-network-info',
-  'addr=51.143.39.51;act_addr_fam=InterNetwork;',
+  'conn_type=Ipv4;addr=52.183.123.117;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -1734,33 +1420,31 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Tue, 28 Apr 2020 13:41:29 GMT'
+  'Thu, 02 Jul 2020 18:45:53 GMT'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/certificates/recoverCertificateName-canresumefromastoppedpoller-/')
+  .get('/certificates/lroRecoverCertificateName-canresumefromastoppedpoller-/')
   .query(true)
-  .reply(404, {"error":{"code":"CertificateNotFound","message":"Certificate not found: recoverCertificateName-canresumefromastoppedpoller-"}}, [
+  .reply(404, {"error":{"code":"CertificateNotFound","message":"A certificate with (name/id) lroRecoverCertificateName-canresumefromastoppedpoller- was not found in this key vault. If you recently deleted this certificate you may be able to recover it using the correct recovery command. For help resolving this issue, please see https://go.microsoft.com/fwlink/?linkid=2125182"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
   'Content-Length',
-  '143',
+  '383',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
   '-1',
-  'Server',
-  'Microsoft-IIS/10.0',
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  '0b253e41-a194-4439-bdb1-47f329d0d077',
+  '75f71de0-f957-49be-843b-bf769fdf9ec9',
   'x-ms-keyvault-service-version',
-  '1.1.0.898',
+  '1.1.8.0',
   'x-ms-keyvault-network-info',
-  'addr=51.143.39.51;act_addr_fam=InterNetwork;',
+  'conn_type=Ipv4;addr=52.183.123.117;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -1770,33 +1454,31 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Tue, 28 Apr 2020 13:41:31 GMT'
+  'Thu, 02 Jul 2020 18:45:55 GMT'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/certificates/recoverCertificateName-canresumefromastoppedpoller-/')
+  .get('/certificates/lroRecoverCertificateName-canresumefromastoppedpoller-/')
   .query(true)
-  .reply(404, {"error":{"code":"CertificateNotFound","message":"Certificate not found: recoverCertificateName-canresumefromastoppedpoller-"}}, [
+  .reply(404, {"error":{"code":"CertificateNotFound","message":"A certificate with (name/id) lroRecoverCertificateName-canresumefromastoppedpoller- was not found in this key vault. If you recently deleted this certificate you may be able to recover it using the correct recovery command. For help resolving this issue, please see https://go.microsoft.com/fwlink/?linkid=2125182"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
   'Content-Length',
-  '143',
+  '383',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
   '-1',
-  'Server',
-  'Microsoft-IIS/10.0',
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  '3ab7c6d7-a58d-4d6e-be59-95fba368c773',
+  'f7453119-c8ca-4e6c-a9c2-0e42191482c9',
   'x-ms-keyvault-service-version',
-  '1.1.0.898',
+  '1.1.8.0',
   'x-ms-keyvault-network-info',
-  'addr=51.143.39.51;act_addr_fam=InterNetwork;',
+  'conn_type=Ipv4;addr=52.183.123.117;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -1806,33 +1488,31 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Tue, 28 Apr 2020 13:41:33 GMT'
+  'Thu, 02 Jul 2020 18:45:57 GMT'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/certificates/recoverCertificateName-canresumefromastoppedpoller-/')
+  .get('/certificates/lroRecoverCertificateName-canresumefromastoppedpoller-/')
   .query(true)
-  .reply(404, {"error":{"code":"CertificateNotFound","message":"Certificate not found: recoverCertificateName-canresumefromastoppedpoller-"}}, [
+  .reply(404, {"error":{"code":"CertificateNotFound","message":"A certificate with (name/id) lroRecoverCertificateName-canresumefromastoppedpoller- was not found in this key vault. If you recently deleted this certificate you may be able to recover it using the correct recovery command. For help resolving this issue, please see https://go.microsoft.com/fwlink/?linkid=2125182"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
   'Content-Length',
-  '143',
+  '383',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
   '-1',
-  'Server',
-  'Microsoft-IIS/10.0',
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  'edb76d27-96e1-4670-be90-e3349a38e64c',
+  'f7b323d2-1451-4598-b06b-dcf5446e81d1',
   'x-ms-keyvault-service-version',
-  '1.1.0.898',
+  '1.1.8.0',
   'x-ms-keyvault-network-info',
-  'addr=51.143.39.51;act_addr_fam=InterNetwork;',
+  'conn_type=Ipv4;addr=52.183.123.117;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -1842,33 +1522,31 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Tue, 28 Apr 2020 13:41:35 GMT'
+  'Thu, 02 Jul 2020 18:45:59 GMT'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/certificates/recoverCertificateName-canresumefromastoppedpoller-/')
+  .get('/certificates/lroRecoverCertificateName-canresumefromastoppedpoller-/')
   .query(true)
-  .reply(404, {"error":{"code":"CertificateNotFound","message":"Certificate not found: recoverCertificateName-canresumefromastoppedpoller-"}}, [
+  .reply(404, {"error":{"code":"CertificateNotFound","message":"A certificate with (name/id) lroRecoverCertificateName-canresumefromastoppedpoller- was not found in this key vault. If you recently deleted this certificate you may be able to recover it using the correct recovery command. For help resolving this issue, please see https://go.microsoft.com/fwlink/?linkid=2125182"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
   'Content-Length',
-  '143',
+  '383',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
   '-1',
-  'Server',
-  'Microsoft-IIS/10.0',
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  'b2341708-8c1e-4d77-9deb-3e59e5e248c4',
+  '0b2c433f-fc5f-489a-a34b-f03918cdf1f3',
   'x-ms-keyvault-service-version',
-  '1.1.0.898',
+  '1.1.8.0',
   'x-ms-keyvault-network-info',
-  'addr=51.143.39.51;act_addr_fam=InterNetwork;',
+  'conn_type=Ipv4;addr=52.183.123.117;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -1878,33 +1556,31 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Tue, 28 Apr 2020 13:41:37 GMT'
+  'Thu, 02 Jul 2020 18:46:01 GMT'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/certificates/recoverCertificateName-canresumefromastoppedpoller-/')
+  .get('/certificates/lroRecoverCertificateName-canresumefromastoppedpoller-/')
   .query(true)
-  .reply(404, {"error":{"code":"CertificateNotFound","message":"Certificate not found: recoverCertificateName-canresumefromastoppedpoller-"}}, [
+  .reply(404, {"error":{"code":"CertificateNotFound","message":"A certificate with (name/id) lroRecoverCertificateName-canresumefromastoppedpoller- was not found in this key vault. If you recently deleted this certificate you may be able to recover it using the correct recovery command. For help resolving this issue, please see https://go.microsoft.com/fwlink/?linkid=2125182"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
   'Content-Length',
-  '143',
+  '383',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
   '-1',
-  'Server',
-  'Microsoft-IIS/10.0',
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  'cd745676-b842-43e3-a5c5-5491abb619cd',
+  'daf959b0-b699-4458-bde3-b1209d55ebd7',
   'x-ms-keyvault-service-version',
-  '1.1.0.898',
+  '1.1.8.0',
   'x-ms-keyvault-network-info',
-  'addr=51.143.39.51;act_addr_fam=InterNetwork;',
+  'conn_type=Ipv4;addr=52.183.123.117;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -1914,33 +1590,29 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Tue, 28 Apr 2020 13:41:40 GMT'
+  'Thu, 02 Jul 2020 18:46:03 GMT'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/certificates/recoverCertificateName-canresumefromastoppedpoller-/')
+  .get('/certificates/lroRecoverCertificateName-canresumefromastoppedpoller-/')
   .query(true)
-  .reply(404, {"error":{"code":"CertificateNotFound","message":"Certificate not found: recoverCertificateName-canresumefromastoppedpoller-"}}, [
+  .reply(200, {"id":"https://keyvault_name.vault.azure.net/certificates/lroRecoverCertificateName-canresumefromastoppedpoller-/e0f93ab7b9d841f08dc43bb0ebc7c75d","kid":"https://keyvault_name.vault.azure.net/keys/lroRecoverCertificateName-canresumefromastoppedpoller-/e0f93ab7b9d841f08dc43bb0ebc7c75d","sid":"https://keyvault_name.vault.azure.net/secrets/lroRecoverCertificateName-canresumefromastoppedpoller-/e0f93ab7b9d841f08dc43bb0ebc7c75d","x5t":"7KQqwtl1LfGcTJE4Cbi9fIjSX-w","cer":"MIIDKDCCAhCgAwIBAgIQSFKhtMLURDuBKk4wb+rxsjANBgkqhkiG9w0BAQsFADARMQ8wDQYDVQQDEwZNeUNlcnQwHhcNMjAwNzAyMTgzNTE2WhcNMjEwNzAyMTg0NTE2WjARMQ8wDQYDVQQDEwZNeUNlcnQwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQC1qdXJd3wrIP1glrdPC4nXmisXkPlbosJPf8jjfPKFJx+osA+bDNG4qwKp75TMVHZlfSVbAotJFTRGFZcqOMbhzNfgZIIPVmSmn8J2ixH0kbWZSxoj8O/0cCG1NgIsHW/pxAlnhZIg0JLIYICMFSL9xOeCW2b9r/4XM++ey0atXK5paZHHYbhZcsYtk+fWBpj9rJ++VT1ZHvA6QG9PovXgJcbtxIKxutoTuEhAt1IpvemfcFatv5NrYh2WVeEHPdr2ATlfAYBqwkZ+kKWZUAQn8tW3tnxPZyZ3LJl3eMCsG7An+BL+xMm/MV76DdwOFFVczzD7SGmlJ6kzFNlXiUZLAgMBAAGjfDB6MA4GA1UdDwEB/wQEAwIFoDAJBgNVHRMEAjAAMB0GA1UdJQQWMBQGCCsGAQUFBwMBBggrBgEFBQcDAjAfBgNVHSMEGDAWgBQ7m30YRyGSNzTldTa6JvrrLte6QjAdBgNVHQ4EFgQUO5t9GEchkjc05XU2uib66y7XukIwDQYJKoZIhvcNAQELBQADggEBAB9GbQupqhdU4bOhoSZ3SIUEk+tAsA25rrHYmJpjpZTZttjPx0mZ8YdbhpSIuRcSdj2IaTzG2C8DZQC+EfN+Gw/O1JIRlwpB+VLBfhwB9rvtbxKP5OEDIGlZhZbMw8N1dorYrkuxcLiEBDU9WQLCO1XmxhlSq0bTjDndOtgH5xDpLIoWYOJyTtcMmvztuYKoZWLtreAp8x+nCnglBr20fjamepqbDgNE5wpRskCbMLj6Dk2H77A+dRlr2R77wu+0nDXJyU8I8iUVm2+bkGag6kSDVFt0h4xZjMB4QrI0u5hqs4LIhTzf9xio2LLjOaOJbZeU2mKegVygmTRVCkp7sE0=","attributes":{"enabled":true,"nbf":1593714916,"exp":1625251516,"created":1593715517,"updated":1593715517,"recoveryLevel":"Recoverable+Purgeable","recoverableDays":90},"policy":{"id":"https://keyvault_name.vault.azure.net/certificates/lroRecoverCertificateName-canresumefromastoppedpoller-/policy","key_props":{"exportable":true,"kty":"RSA","key_size":2048,"reuse_key":false},"secret_props":{"contentType":"application/x-pkcs12"},"x509_props":{"subject":"cn=MyCert","sans":{},"ekus":["1.3.6.1.5.5.7.3.1","1.3.6.1.5.5.7.3.2"],"key_usage":["digitalSignature","keyEncipherment"],"validity_months":12,"basic_constraints":{"ca":false}},"lifetime_actions":[{"trigger":{"lifetime_percentage":80},"action":{"action_type":"AutoRenew"}}],"issuer":{"name":"Self"},"attributes":{"enabled":true,"created":1593715499,"updated":1593715499}},"pending":{"id":"https://keyvault_name.vault.azure.net/certificates/lroRecoverCertificateName-canresumefromastoppedpoller-/pending"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
-  'Content-Length',
-  '143',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
   '-1',
-  'Server',
-  'Microsoft-IIS/10.0',
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  '16f8266a-a069-45bf-96f1-10c376995d5b',
+  'a74f97f3-4c58-4328-9784-63d2c70b76ba',
   'x-ms-keyvault-service-version',
-  '1.1.0.898',
+  '1.1.8.0',
   'x-ms-keyvault-network-info',
-  'addr=51.143.39.51;act_addr_fam=InterNetwork;',
+  'conn_type=Ipv4;addr=52.183.123.117;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -1950,69 +1622,31 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Tue, 28 Apr 2020 13:41:42 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/certificates/recoverCertificateName-canresumefromastoppedpoller-/')
-  .query(true)
-  .reply(404, {"error":{"code":"CertificateNotFound","message":"Certificate not found: recoverCertificateName-canresumefromastoppedpoller-"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
+  'Thu, 02 Jul 2020 18:46:06 GMT',
   'Content-Length',
-  '143',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Server',
-  'Microsoft-IIS/10.0',
-  'x-ms-keyvault-region',
-  'westus',
-  'x-ms-request-id',
-  '0d5fb390-d9bb-47e4-a821-747340d9adf3',
-  'x-ms-keyvault-service-version',
-  '1.1.0.898',
-  'x-ms-keyvault-network-info',
-  'addr=51.143.39.51;act_addr_fam=InterNetwork;',
-  'X-AspNet-Version',
-  '4.0.30319',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Tue, 28 Apr 2020 13:41:44 GMT'
+  '2625'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/certificates/recoverCertificateName-canresumefromastoppedpoller-/')
+  .delete('/certificates/lroRecoverCertificateName-canresumefromastoppedpoller-')
   .query(true)
-  .reply(404, {"error":{"code":"CertificateNotFound","message":"Certificate not found: recoverCertificateName-canresumefromastoppedpoller-"}}, [
+  .reply(200, {"recoveryId":"https://keyvault_name.vault.azure.net/deletedcertificates/lroRecoverCertificateName-canresumefromastoppedpoller-","deletedDate":1593715566,"scheduledPurgeDate":1601491566,"id":"https://keyvault_name.vault.azure.net/certificates/lroRecoverCertificateName-canresumefromastoppedpoller-/e0f93ab7b9d841f08dc43bb0ebc7c75d","kid":"https://keyvault_name.vault.azure.net/keys/lroRecoverCertificateName-canresumefromastoppedpoller-/e0f93ab7b9d841f08dc43bb0ebc7c75d","sid":"https://keyvault_name.vault.azure.net/secrets/lroRecoverCertificateName-canresumefromastoppedpoller-/e0f93ab7b9d841f08dc43bb0ebc7c75d","x5t":"7KQqwtl1LfGcTJE4Cbi9fIjSX-w","cer":"MIIDKDCCAhCgAwIBAgIQSFKhtMLURDuBKk4wb+rxsjANBgkqhkiG9w0BAQsFADARMQ8wDQYDVQQDEwZNeUNlcnQwHhcNMjAwNzAyMTgzNTE2WhcNMjEwNzAyMTg0NTE2WjARMQ8wDQYDVQQDEwZNeUNlcnQwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQC1qdXJd3wrIP1glrdPC4nXmisXkPlbosJPf8jjfPKFJx+osA+bDNG4qwKp75TMVHZlfSVbAotJFTRGFZcqOMbhzNfgZIIPVmSmn8J2ixH0kbWZSxoj8O/0cCG1NgIsHW/pxAlnhZIg0JLIYICMFSL9xOeCW2b9r/4XM++ey0atXK5paZHHYbhZcsYtk+fWBpj9rJ++VT1ZHvA6QG9PovXgJcbtxIKxutoTuEhAt1IpvemfcFatv5NrYh2WVeEHPdr2ATlfAYBqwkZ+kKWZUAQn8tW3tnxPZyZ3LJl3eMCsG7An+BL+xMm/MV76DdwOFFVczzD7SGmlJ6kzFNlXiUZLAgMBAAGjfDB6MA4GA1UdDwEB/wQEAwIFoDAJBgNVHRMEAjAAMB0GA1UdJQQWMBQGCCsGAQUFBwMBBggrBgEFBQcDAjAfBgNVHSMEGDAWgBQ7m30YRyGSNzTldTa6JvrrLte6QjAdBgNVHQ4EFgQUO5t9GEchkjc05XU2uib66y7XukIwDQYJKoZIhvcNAQELBQADggEBAB9GbQupqhdU4bOhoSZ3SIUEk+tAsA25rrHYmJpjpZTZttjPx0mZ8YdbhpSIuRcSdj2IaTzG2C8DZQC+EfN+Gw/O1JIRlwpB+VLBfhwB9rvtbxKP5OEDIGlZhZbMw8N1dorYrkuxcLiEBDU9WQLCO1XmxhlSq0bTjDndOtgH5xDpLIoWYOJyTtcMmvztuYKoZWLtreAp8x+nCnglBr20fjamepqbDgNE5wpRskCbMLj6Dk2H77A+dRlr2R77wu+0nDXJyU8I8iUVm2+bkGag6kSDVFt0h4xZjMB4QrI0u5hqs4LIhTzf9xio2LLjOaOJbZeU2mKegVygmTRVCkp7sE0=","attributes":{"enabled":true,"nbf":1593714916,"exp":1625251516,"created":1593715517,"updated":1593715517,"recoveryLevel":"Recoverable+Purgeable","recoverableDays":90},"policy":{"id":"https://keyvault_name.vault.azure.net/certificates/lroRecoverCertificateName-canresumefromastoppedpoller-/policy","key_props":{"exportable":true,"kty":"RSA","key_size":2048,"reuse_key":false},"secret_props":{"contentType":"application/x-pkcs12"},"x509_props":{"subject":"cn=MyCert","sans":{},"ekus":["1.3.6.1.5.5.7.3.1","1.3.6.1.5.5.7.3.2"],"key_usage":["digitalSignature","keyEncipherment"],"validity_months":12,"basic_constraints":{"ca":false}},"lifetime_actions":[{"trigger":{"lifetime_percentage":80},"action":{"action_type":"AutoRenew"}}],"issuer":{"name":"Self"},"attributes":{"enabled":true,"created":1593715499,"updated":1593715499}},"pending":{"id":"https://keyvault_name.vault.azure.net/certificates/lroRecoverCertificateName-canresumefromastoppedpoller-/pending"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
-  'Content-Length',
-  '143',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
   '-1',
-  'Server',
-  'Microsoft-IIS/10.0',
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  'ec23785c-9bb2-494d-b3fd-e7c3b5af1b81',
+  'e0e32bcb-d60c-41c1-87f0-261d2023ec3c',
   'x-ms-keyvault-service-version',
-  '1.1.0.898',
+  '1.1.8.0',
   'x-ms-keyvault-network-info',
-  'addr=51.143.39.51;act_addr_fam=InterNetwork;',
+  'conn_type=Ipv4;addr=52.183.123.117;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -2022,1401 +1656,33 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Tue, 28 Apr 2020 13:41:46 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/certificates/recoverCertificateName-canresumefromastoppedpoller-/')
-  .query(true)
-  .reply(404, {"error":{"code":"CertificateNotFound","message":"Certificate not found: recoverCertificateName-canresumefromastoppedpoller-"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
+  'Thu, 02 Jul 2020 18:46:06 GMT',
   'Content-Length',
-  '143',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Server',
-  'Microsoft-IIS/10.0',
-  'x-ms-keyvault-region',
-  'westus',
-  'x-ms-request-id',
-  'e0efee72-7420-4002-b00e-2965a612b418',
-  'x-ms-keyvault-service-version',
-  '1.1.0.898',
-  'x-ms-keyvault-network-info',
-  'addr=51.143.39.51;act_addr_fam=InterNetwork;',
-  'X-AspNet-Version',
-  '4.0.30319',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Tue, 28 Apr 2020 13:41:48 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/certificates/recoverCertificateName-canresumefromastoppedpoller-/')
-  .query(true)
-  .reply(404, {"error":{"code":"CertificateNotFound","message":"Certificate not found: recoverCertificateName-canresumefromastoppedpoller-"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '143',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Server',
-  'Microsoft-IIS/10.0',
-  'x-ms-keyvault-region',
-  'westus',
-  'x-ms-request-id',
-  'bd6db6f8-f5e9-440d-8b55-893367dbe509',
-  'x-ms-keyvault-service-version',
-  '1.1.0.898',
-  'x-ms-keyvault-network-info',
-  'addr=51.143.39.51;act_addr_fam=InterNetwork;',
-  'X-AspNet-Version',
-  '4.0.30319',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Tue, 28 Apr 2020 13:41:50 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/certificates/recoverCertificateName-canresumefromastoppedpoller-/')
-  .query(true)
-  .reply(404, {"error":{"code":"CertificateNotFound","message":"Certificate not found: recoverCertificateName-canresumefromastoppedpoller-"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '143',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Server',
-  'Microsoft-IIS/10.0',
-  'x-ms-keyvault-region',
-  'westus',
-  'x-ms-request-id',
-  'bec3f42d-010d-4a3b-990f-9f968cd3fcb4',
-  'x-ms-keyvault-service-version',
-  '1.1.0.898',
-  'x-ms-keyvault-network-info',
-  'addr=51.143.39.51;act_addr_fam=InterNetwork;',
-  'X-AspNet-Version',
-  '4.0.30319',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Tue, 28 Apr 2020 13:41:52 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/certificates/recoverCertificateName-canresumefromastoppedpoller-/')
-  .query(true)
-  .reply(404, {"error":{"code":"CertificateNotFound","message":"Certificate not found: recoverCertificateName-canresumefromastoppedpoller-"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '143',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Server',
-  'Microsoft-IIS/10.0',
-  'x-ms-keyvault-region',
-  'westus',
-  'x-ms-request-id',
-  'b00cadf4-b576-4306-a76f-526bacf1b9a3',
-  'x-ms-keyvault-service-version',
-  '1.1.0.898',
-  'x-ms-keyvault-network-info',
-  'addr=51.143.39.51;act_addr_fam=InterNetwork;',
-  'X-AspNet-Version',
-  '4.0.30319',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Tue, 28 Apr 2020 13:41:54 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/certificates/recoverCertificateName-canresumefromastoppedpoller-/')
-  .query(true)
-  .reply(404, {"error":{"code":"CertificateNotFound","message":"Certificate not found: recoverCertificateName-canresumefromastoppedpoller-"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '143',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Server',
-  'Microsoft-IIS/10.0',
-  'x-ms-keyvault-region',
-  'westus',
-  'x-ms-request-id',
-  'f8ff858c-4a12-49ae-99b9-234d7593173c',
-  'x-ms-keyvault-service-version',
-  '1.1.0.898',
-  'x-ms-keyvault-network-info',
-  'addr=51.143.39.51;act_addr_fam=InterNetwork;',
-  'X-AspNet-Version',
-  '4.0.30319',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Tue, 28 Apr 2020 13:41:56 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/certificates/recoverCertificateName-canresumefromastoppedpoller-/')
-  .query(true)
-  .reply(404, {"error":{"code":"CertificateNotFound","message":"Certificate not found: recoverCertificateName-canresumefromastoppedpoller-"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '143',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Server',
-  'Microsoft-IIS/10.0',
-  'x-ms-keyvault-region',
-  'westus',
-  'x-ms-request-id',
-  'a1cab2d5-5f13-443a-8a83-b060f0e16445',
-  'x-ms-keyvault-service-version',
-  '1.1.0.898',
-  'x-ms-keyvault-network-info',
-  'addr=51.143.39.51;act_addr_fam=InterNetwork;',
-  'X-AspNet-Version',
-  '4.0.30319',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Tue, 28 Apr 2020 13:41:58 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/certificates/recoverCertificateName-canresumefromastoppedpoller-/')
-  .query(true)
-  .reply(404, {"error":{"code":"CertificateNotFound","message":"Certificate not found: recoverCertificateName-canresumefromastoppedpoller-"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '143',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Server',
-  'Microsoft-IIS/10.0',
-  'x-ms-keyvault-region',
-  'westus',
-  'x-ms-request-id',
-  '13c4bc23-6b65-4bb8-9c40-fd49f1e6f2d2',
-  'x-ms-keyvault-service-version',
-  '1.1.0.898',
-  'x-ms-keyvault-network-info',
-  'addr=51.143.39.51;act_addr_fam=InterNetwork;',
-  'X-AspNet-Version',
-  '4.0.30319',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Tue, 28 Apr 2020 13:42:00 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/certificates/recoverCertificateName-canresumefromastoppedpoller-/')
-  .query(true)
-  .reply(404, {"error":{"code":"CertificateNotFound","message":"Certificate not found: recoverCertificateName-canresumefromastoppedpoller-"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '143',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Server',
-  'Microsoft-IIS/10.0',
-  'x-ms-keyvault-region',
-  'westus',
-  'x-ms-request-id',
-  'ed7802f9-ee6b-4f5f-abc6-c9ce27075853',
-  'x-ms-keyvault-service-version',
-  '1.1.0.898',
-  'x-ms-keyvault-network-info',
-  'addr=51.143.39.51;act_addr_fam=InterNetwork;',
-  'X-AspNet-Version',
-  '4.0.30319',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Tue, 28 Apr 2020 13:42:03 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/certificates/recoverCertificateName-canresumefromastoppedpoller-/')
-  .query(true)
-  .reply(404, {"error":{"code":"CertificateNotFound","message":"Certificate not found: recoverCertificateName-canresumefromastoppedpoller-"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '143',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Server',
-  'Microsoft-IIS/10.0',
-  'x-ms-keyvault-region',
-  'westus',
-  'x-ms-request-id',
-  'b967e5cd-6a56-4f3f-8795-25bac4544e5e',
-  'x-ms-keyvault-service-version',
-  '1.1.0.898',
-  'x-ms-keyvault-network-info',
-  'addr=51.143.39.51;act_addr_fam=InterNetwork;',
-  'X-AspNet-Version',
-  '4.0.30319',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Tue, 28 Apr 2020 13:42:05 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/certificates/recoverCertificateName-canresumefromastoppedpoller-/')
-  .query(true)
-  .reply(404, {"error":{"code":"CertificateNotFound","message":"Certificate not found: recoverCertificateName-canresumefromastoppedpoller-"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '143',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Server',
-  'Microsoft-IIS/10.0',
-  'x-ms-keyvault-region',
-  'westus',
-  'x-ms-request-id',
-  '9936b7a0-4632-4284-add4-fd4eb9b1f660',
-  'x-ms-keyvault-service-version',
-  '1.1.0.898',
-  'x-ms-keyvault-network-info',
-  'addr=51.143.39.51;act_addr_fam=InterNetwork;',
-  'X-AspNet-Version',
-  '4.0.30319',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Tue, 28 Apr 2020 13:42:07 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/certificates/recoverCertificateName-canresumefromastoppedpoller-/')
-  .query(true)
-  .reply(404, {"error":{"code":"CertificateNotFound","message":"Certificate not found: recoverCertificateName-canresumefromastoppedpoller-"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '143',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Server',
-  'Microsoft-IIS/10.0',
-  'x-ms-keyvault-region',
-  'westus',
-  'x-ms-request-id',
-  'eca02ba0-56e6-49ae-8888-02a8e805cb60',
-  'x-ms-keyvault-service-version',
-  '1.1.0.898',
-  'x-ms-keyvault-network-info',
-  'addr=51.143.39.51;act_addr_fam=InterNetwork;',
-  'X-AspNet-Version',
-  '4.0.30319',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Tue, 28 Apr 2020 13:42:09 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/certificates/recoverCertificateName-canresumefromastoppedpoller-/')
-  .query(true)
-  .reply(404, {"error":{"code":"CertificateNotFound","message":"Certificate not found: recoverCertificateName-canresumefromastoppedpoller-"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '143',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Server',
-  'Microsoft-IIS/10.0',
-  'x-ms-keyvault-region',
-  'westus',
-  'x-ms-request-id',
-  '0db60631-a574-4d5d-80e0-3fbb53c591f3',
-  'x-ms-keyvault-service-version',
-  '1.1.0.898',
-  'x-ms-keyvault-network-info',
-  'addr=51.143.39.51;act_addr_fam=InterNetwork;',
-  'X-AspNet-Version',
-  '4.0.30319',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Tue, 28 Apr 2020 13:42:11 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/certificates/recoverCertificateName-canresumefromastoppedpoller-/')
-  .query(true)
-  .reply(404, {"error":{"code":"CertificateNotFound","message":"Certificate not found: recoverCertificateName-canresumefromastoppedpoller-"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '143',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Server',
-  'Microsoft-IIS/10.0',
-  'x-ms-keyvault-region',
-  'westus',
-  'x-ms-request-id',
-  '56866094-f875-4f2b-a1cc-8be2c47d176e',
-  'x-ms-keyvault-service-version',
-  '1.1.0.898',
-  'x-ms-keyvault-network-info',
-  'addr=51.143.39.51;act_addr_fam=InterNetwork;',
-  'X-AspNet-Version',
-  '4.0.30319',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Tue, 28 Apr 2020 13:42:13 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/certificates/recoverCertificateName-canresumefromastoppedpoller-/')
-  .query(true)
-  .reply(404, {"error":{"code":"CertificateNotFound","message":"Certificate not found: recoverCertificateName-canresumefromastoppedpoller-"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '143',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Server',
-  'Microsoft-IIS/10.0',
-  'x-ms-keyvault-region',
-  'westus',
-  'x-ms-request-id',
-  'c0495a97-49d7-442e-9a6d-aa1b141934d2',
-  'x-ms-keyvault-service-version',
-  '1.1.0.898',
-  'x-ms-keyvault-network-info',
-  'addr=51.143.39.51;act_addr_fam=InterNetwork;',
-  'X-AspNet-Version',
-  '4.0.30319',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Tue, 28 Apr 2020 13:42:15 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/certificates/recoverCertificateName-canresumefromastoppedpoller-/')
-  .query(true)
-  .reply(404, {"error":{"code":"CertificateNotFound","message":"Certificate not found: recoverCertificateName-canresumefromastoppedpoller-"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '143',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Server',
-  'Microsoft-IIS/10.0',
-  'x-ms-keyvault-region',
-  'westus',
-  'x-ms-request-id',
-  'ab58ce24-ef59-4bf9-aa32-0d50d7c98e37',
-  'x-ms-keyvault-service-version',
-  '1.1.0.898',
-  'x-ms-keyvault-network-info',
-  'addr=51.143.39.51;act_addr_fam=InterNetwork;',
-  'X-AspNet-Version',
-  '4.0.30319',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Tue, 28 Apr 2020 13:42:17 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/certificates/recoverCertificateName-canresumefromastoppedpoller-/')
-  .query(true)
-  .reply(404, {"error":{"code":"CertificateNotFound","message":"Certificate not found: recoverCertificateName-canresumefromastoppedpoller-"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '143',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Server',
-  'Microsoft-IIS/10.0',
-  'x-ms-keyvault-region',
-  'westus',
-  'x-ms-request-id',
-  'bffef8d4-e200-47d9-8326-40344a8b890a',
-  'x-ms-keyvault-service-version',
-  '1.1.0.898',
-  'x-ms-keyvault-network-info',
-  'addr=51.143.39.51;act_addr_fam=InterNetwork;',
-  'X-AspNet-Version',
-  '4.0.30319',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Tue, 28 Apr 2020 13:42:19 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/certificates/recoverCertificateName-canresumefromastoppedpoller-/')
-  .query(true)
-  .reply(404, {"error":{"code":"CertificateNotFound","message":"Certificate not found: recoverCertificateName-canresumefromastoppedpoller-"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '143',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Server',
-  'Microsoft-IIS/10.0',
-  'x-ms-keyvault-region',
-  'westus',
-  'x-ms-request-id',
-  '6e1f3100-13f4-4b42-a25c-1b767141858f',
-  'x-ms-keyvault-service-version',
-  '1.1.0.898',
-  'x-ms-keyvault-network-info',
-  'addr=51.143.39.51;act_addr_fam=InterNetwork;',
-  'X-AspNet-Version',
-  '4.0.30319',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Tue, 28 Apr 2020 13:42:21 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/certificates/recoverCertificateName-canresumefromastoppedpoller-/')
-  .query(true)
-  .reply(200, {"id":"https://keyvault_name.vault.azure.net/certificates/recoverCertificateName-canresumefromastoppedpoller-/a8cf73665c3e450699eaf9593434327d","attributes":{"enabled":false,"nbf":1588080617,"exp":1619617217,"created":1588081217,"updated":1588081217,"recoveryLevel":"Recoverable+Purgeable","recoverableDays":90},"policy":{"id":"https://keyvault_name.vault.azure.net/certificates/recoverCertificateName-canresumefromastoppedpoller-/policy","key_props":{"exportable":true,"kty":"RSA","key_size":2048,"reuse_key":false},"secret_props":{"contentType":"application/x-pkcs12"},"x509_props":{"subject":"cn=MyCert","sans":{},"ekus":["1.3.6.1.5.5.7.3.1","1.3.6.1.5.5.7.3.2"],"key_usage":["digitalSignature","keyEncipherment"],"validity_months":12,"basic_constraints":{"ca":false}},"lifetime_actions":[{"trigger":{"lifetime_percentage":80},"action":{"action_type":"AutoRenew"}}],"issuer":{"name":"Self"},"attributes":{"enabled":true,"created":1588081217,"updated":1588081217}},"pending":{"id":"https://keyvault_name.vault.azure.net/certificates/recoverCertificateName-canresumefromastoppedpoller-/pending"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Server',
-  'Microsoft-IIS/10.0',
-  'x-ms-keyvault-region',
-  'westus',
-  'x-ms-request-id',
-  'cfd944ff-fbfc-4abb-b5cb-7dc5fd3fd298',
-  'x-ms-keyvault-service-version',
-  '1.1.0.898',
-  'x-ms-keyvault-network-info',
-  'addr=51.143.39.51;act_addr_fam=InterNetwork;',
-  'X-AspNet-Version',
-  '4.0.30319',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Tue, 28 Apr 2020 13:42:23 GMT',
-  'Content-Length',
-  '1160'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .delete('/certificates/recoverCertificateName-canresumefromastoppedpoller-')
-  .query(true)
-  .reply(200, {"recoveryId":"https://keyvault_name.vault.azure.net/deletedcertificates/recoverCertificateName-canresumefromastoppedpoller-","deletedDate":1588081343,"scheduledPurgeDate":1595857343,"id":"https://keyvault_name.vault.azure.net/certificates/recoverCertificateName-canresumefromastoppedpoller-/a8cf73665c3e450699eaf9593434327d","attributes":{"enabled":false,"nbf":1588080617,"exp":1619617217,"created":1588081217,"updated":1588081217,"recoveryLevel":"Recoverable+Purgeable","recoverableDays":90},"policy":{"id":"https://keyvault_name.vault.azure.net/certificates/recoverCertificateName-canresumefromastoppedpoller-/policy","key_props":{"exportable":true,"kty":"RSA","key_size":2048,"reuse_key":false},"secret_props":{"contentType":"application/x-pkcs12"},"x509_props":{"subject":"cn=MyCert","sans":{},"ekus":["1.3.6.1.5.5.7.3.1","1.3.6.1.5.5.7.3.2"],"key_usage":["digitalSignature","keyEncipherment"],"validity_months":12,"basic_constraints":{"ca":false}},"lifetime_actions":[{"trigger":{"lifetime_percentage":80},"action":{"action_type":"AutoRenew"}}],"issuer":{"name":"Self"},"attributes":{"enabled":true,"created":1588081217,"updated":1588081217}},"pending":{"id":"https://keyvault_name.vault.azure.net/certificates/recoverCertificateName-canresumefromastoppedpoller-/pending"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Server',
-  'Microsoft-IIS/10.0',
-  'x-ms-keyvault-region',
-  'westus',
-  'x-ms-request-id',
-  'f5aabc46-74be-41a7-889b-ac28af1d5f54',
-  'x-ms-keyvault-service-version',
-  '1.1.0.898',
-  'x-ms-keyvault-network-info',
-  'addr=51.143.39.51;act_addr_fam=InterNetwork;',
-  'X-AspNet-Version',
-  '4.0.30319',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Tue, 28 Apr 2020 13:42:23 GMT',
-  'Content-Length',
-  '1363'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedcertificates/recoverCertificateName-canresumefromastoppedpoller-')
-  .query(true)
-  .reply(404, {"error":{"code":"CertificateNotFound","message":"Deleted Certificate not found: recoverCertificateName-canresumefromastoppedpoller-"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '151',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Server',
-  'Microsoft-IIS/10.0',
-  'x-ms-keyvault-region',
-  'westus',
-  'x-ms-request-id',
-  '33c37991-9e53-4b68-b5de-9cb8f0a7106a',
-  'x-ms-keyvault-service-version',
-  '1.1.0.898',
-  'x-ms-keyvault-network-info',
-  'addr=51.143.39.51;act_addr_fam=InterNetwork;',
-  'X-AspNet-Version',
-  '4.0.30319',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Tue, 28 Apr 2020 13:42:23 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedcertificates/recoverCertificateName-canresumefromastoppedpoller-')
-  .query(true)
-  .reply(404, {"error":{"code":"CertificateNotFound","message":"Deleted Certificate not found: recoverCertificateName-canresumefromastoppedpoller-"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '151',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Server',
-  'Microsoft-IIS/10.0',
-  'x-ms-keyvault-region',
-  'westus',
-  'x-ms-request-id',
-  'b56530c2-9ff7-490d-9393-28741509d9dc',
-  'x-ms-keyvault-service-version',
-  '1.1.0.898',
-  'x-ms-keyvault-network-info',
-  'addr=51.143.39.51;act_addr_fam=InterNetwork;',
-  'X-AspNet-Version',
-  '4.0.30319',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Tue, 28 Apr 2020 13:42:23 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedcertificates/recoverCertificateName-canresumefromastoppedpoller-')
-  .query(true)
-  .reply(404, {"error":{"code":"CertificateNotFound","message":"Deleted Certificate not found: recoverCertificateName-canresumefromastoppedpoller-"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '151',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Server',
-  'Microsoft-IIS/10.0',
-  'x-ms-keyvault-region',
-  'westus',
-  'x-ms-request-id',
-  '2c74c6f9-4a12-4e00-9746-a95bf02e674e',
-  'x-ms-keyvault-service-version',
-  '1.1.0.898',
-  'x-ms-keyvault-network-info',
-  'addr=51.143.39.51;act_addr_fam=InterNetwork;',
-  'X-AspNet-Version',
-  '4.0.30319',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Tue, 28 Apr 2020 13:42:25 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedcertificates/recoverCertificateName-canresumefromastoppedpoller-')
-  .query(true)
-  .reply(404, {"error":{"code":"CertificateNotFound","message":"Deleted Certificate not found: recoverCertificateName-canresumefromastoppedpoller-"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '151',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Server',
-  'Microsoft-IIS/10.0',
-  'x-ms-keyvault-region',
-  'westus',
-  'x-ms-request-id',
-  '6487d223-9759-4ad9-932e-3a4d25c68ee8',
-  'x-ms-keyvault-service-version',
-  '1.1.0.898',
-  'x-ms-keyvault-network-info',
-  'addr=51.143.39.51;act_addr_fam=InterNetwork;',
-  'X-AspNet-Version',
-  '4.0.30319',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Tue, 28 Apr 2020 13:42:27 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedcertificates/recoverCertificateName-canresumefromastoppedpoller-')
-  .query(true)
-  .reply(404, {"error":{"code":"CertificateNotFound","message":"Deleted Certificate not found: recoverCertificateName-canresumefromastoppedpoller-"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '151',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Server',
-  'Microsoft-IIS/10.0',
-  'x-ms-keyvault-region',
-  'westus',
-  'x-ms-request-id',
-  '41a1083e-dc0c-47dd-9358-bcb12bbf88bf',
-  'x-ms-keyvault-service-version',
-  '1.1.0.898',
-  'x-ms-keyvault-network-info',
-  'addr=51.143.39.51;act_addr_fam=InterNetwork;',
-  'X-AspNet-Version',
-  '4.0.30319',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Tue, 28 Apr 2020 13:42:29 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedcertificates/recoverCertificateName-canresumefromastoppedpoller-')
-  .query(true)
-  .reply(404, {"error":{"code":"CertificateNotFound","message":"Deleted Certificate not found: recoverCertificateName-canresumefromastoppedpoller-"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '151',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Server',
-  'Microsoft-IIS/10.0',
-  'x-ms-keyvault-region',
-  'westus',
-  'x-ms-request-id',
-  'f96d17e7-2741-4f55-ab05-96f4d1f46d72',
-  'x-ms-keyvault-service-version',
-  '1.1.0.898',
-  'x-ms-keyvault-network-info',
-  'addr=51.143.39.51;act_addr_fam=InterNetwork;',
-  'X-AspNet-Version',
-  '4.0.30319',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Tue, 28 Apr 2020 13:42:31 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedcertificates/recoverCertificateName-canresumefromastoppedpoller-')
-  .query(true)
-  .reply(404, {"error":{"code":"CertificateNotFound","message":"Deleted Certificate not found: recoverCertificateName-canresumefromastoppedpoller-"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '151',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Server',
-  'Microsoft-IIS/10.0',
-  'x-ms-keyvault-region',
-  'westus',
-  'x-ms-request-id',
-  '8899174d-93c6-4dbb-b7f4-49109d2190dc',
-  'x-ms-keyvault-service-version',
-  '1.1.0.898',
-  'x-ms-keyvault-network-info',
-  'addr=51.143.39.51;act_addr_fam=InterNetwork;',
-  'X-AspNet-Version',
-  '4.0.30319',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Tue, 28 Apr 2020 13:42:33 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedcertificates/recoverCertificateName-canresumefromastoppedpoller-')
-  .query(true)
-  .reply(404, {"error":{"code":"CertificateNotFound","message":"Deleted Certificate not found: recoverCertificateName-canresumefromastoppedpoller-"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '151',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Server',
-  'Microsoft-IIS/10.0',
-  'x-ms-keyvault-region',
-  'westus',
-  'x-ms-request-id',
-  '77a3ff77-ff18-434d-8862-a0fe55dbf1a4',
-  'x-ms-keyvault-service-version',
-  '1.1.0.898',
-  'x-ms-keyvault-network-info',
-  'addr=51.143.39.51;act_addr_fam=InterNetwork;',
-  'X-AspNet-Version',
-  '4.0.30319',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Tue, 28 Apr 2020 13:42:36 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedcertificates/recoverCertificateName-canresumefromastoppedpoller-')
-  .query(true)
-  .reply(404, {"error":{"code":"CertificateNotFound","message":"Deleted Certificate not found: recoverCertificateName-canresumefromastoppedpoller-"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '151',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Server',
-  'Microsoft-IIS/10.0',
-  'x-ms-keyvault-region',
-  'westus',
-  'x-ms-request-id',
-  '61a11c10-0ddd-4ea9-a5b2-1a3242e96bff',
-  'x-ms-keyvault-service-version',
-  '1.1.0.898',
-  'x-ms-keyvault-network-info',
-  'addr=51.143.39.51;act_addr_fam=InterNetwork;',
-  'X-AspNet-Version',
-  '4.0.30319',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Tue, 28 Apr 2020 13:42:38 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedcertificates/recoverCertificateName-canresumefromastoppedpoller-')
-  .query(true)
-  .reply(404, {"error":{"code":"CertificateNotFound","message":"Deleted Certificate not found: recoverCertificateName-canresumefromastoppedpoller-"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '151',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Server',
-  'Microsoft-IIS/10.0',
-  'x-ms-keyvault-region',
-  'westus',
-  'x-ms-request-id',
-  'c43baa71-1b22-45f3-95c8-6670b6f0a411',
-  'x-ms-keyvault-service-version',
-  '1.1.0.898',
-  'x-ms-keyvault-network-info',
-  'addr=51.143.39.51;act_addr_fam=InterNetwork;',
-  'X-AspNet-Version',
-  '4.0.30319',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Tue, 28 Apr 2020 13:42:40 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedcertificates/recoverCertificateName-canresumefromastoppedpoller-')
-  .query(true)
-  .reply(404, {"error":{"code":"CertificateNotFound","message":"Deleted Certificate not found: recoverCertificateName-canresumefromastoppedpoller-"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '151',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Server',
-  'Microsoft-IIS/10.0',
-  'x-ms-keyvault-region',
-  'westus',
-  'x-ms-request-id',
-  '13f7aefe-c9c7-46cf-814b-44f3fce9d8af',
-  'x-ms-keyvault-service-version',
-  '1.1.0.898',
-  'x-ms-keyvault-network-info',
-  'addr=51.143.39.51;act_addr_fam=InterNetwork;',
-  'X-AspNet-Version',
-  '4.0.30319',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Tue, 28 Apr 2020 13:42:42 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedcertificates/recoverCertificateName-canresumefromastoppedpoller-')
-  .query(true)
-  .reply(404, {"error":{"code":"CertificateNotFound","message":"Deleted Certificate not found: recoverCertificateName-canresumefromastoppedpoller-"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '151',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Server',
-  'Microsoft-IIS/10.0',
-  'x-ms-keyvault-region',
-  'westus',
-  'x-ms-request-id',
-  '1dbf79d4-f2df-4b41-a35f-ea7a8d6534e8',
-  'x-ms-keyvault-service-version',
-  '1.1.0.898',
-  'x-ms-keyvault-network-info',
-  'addr=51.143.39.51;act_addr_fam=InterNetwork;',
-  'X-AspNet-Version',
-  '4.0.30319',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Tue, 28 Apr 2020 13:42:44 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedcertificates/recoverCertificateName-canresumefromastoppedpoller-')
-  .query(true)
-  .reply(404, {"error":{"code":"CertificateNotFound","message":"Deleted Certificate not found: recoverCertificateName-canresumefromastoppedpoller-"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '151',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Server',
-  'Microsoft-IIS/10.0',
-  'x-ms-keyvault-region',
-  'westus',
-  'x-ms-request-id',
-  'beeb3b82-e3dd-46a1-8eb5-4e4719d9e4b6',
-  'x-ms-keyvault-service-version',
-  '1.1.0.898',
-  'x-ms-keyvault-network-info',
-  'addr=51.143.39.51;act_addr_fam=InterNetwork;',
-  'X-AspNet-Version',
-  '4.0.30319',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Tue, 28 Apr 2020 13:42:46 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedcertificates/recoverCertificateName-canresumefromastoppedpoller-')
-  .query(true)
-  .reply(404, {"error":{"code":"CertificateNotFound","message":"Deleted Certificate not found: recoverCertificateName-canresumefromastoppedpoller-"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '151',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Server',
-  'Microsoft-IIS/10.0',
-  'x-ms-keyvault-region',
-  'westus',
-  'x-ms-request-id',
-  'dfb6ab12-49e2-4a26-bb53-064c005570ff',
-  'x-ms-keyvault-service-version',
-  '1.1.0.898',
-  'x-ms-keyvault-network-info',
-  'addr=51.143.39.51;act_addr_fam=InterNetwork;',
-  'X-AspNet-Version',
-  '4.0.30319',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Tue, 28 Apr 2020 13:42:48 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedcertificates/recoverCertificateName-canresumefromastoppedpoller-')
-  .query(true)
-  .reply(404, {"error":{"code":"CertificateNotFound","message":"Deleted Certificate not found: recoverCertificateName-canresumefromastoppedpoller-"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '151',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Server',
-  'Microsoft-IIS/10.0',
-  'x-ms-keyvault-region',
-  'westus',
-  'x-ms-request-id',
-  '7d85979e-25f5-4bdb-ba2a-8511492397a5',
-  'x-ms-keyvault-service-version',
-  '1.1.0.898',
-  'x-ms-keyvault-network-info',
-  'addr=51.143.39.51;act_addr_fam=InterNetwork;',
-  'X-AspNet-Version',
-  '4.0.30319',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Tue, 28 Apr 2020 13:42:50 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedcertificates/recoverCertificateName-canresumefromastoppedpoller-')
-  .query(true)
-  .reply(404, {"error":{"code":"CertificateNotFound","message":"Deleted Certificate not found: recoverCertificateName-canresumefromastoppedpoller-"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '151',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Server',
-  'Microsoft-IIS/10.0',
-  'x-ms-keyvault-region',
-  'westus',
-  'x-ms-request-id',
-  'decc1027-3d47-435a-aa1b-a83ee02e4483',
-  'x-ms-keyvault-service-version',
-  '1.1.0.898',
-  'x-ms-keyvault-network-info',
-  'addr=51.143.39.51;act_addr_fam=InterNetwork;',
-  'X-AspNet-Version',
-  '4.0.30319',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Tue, 28 Apr 2020 13:42:52 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedcertificates/recoverCertificateName-canresumefromastoppedpoller-')
-  .query(true)
-  .reply(404, {"error":{"code":"CertificateNotFound","message":"Deleted Certificate not found: recoverCertificateName-canresumefromastoppedpoller-"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '151',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Server',
-  'Microsoft-IIS/10.0',
-  'x-ms-keyvault-region',
-  'westus',
-  'x-ms-request-id',
-  '36daed70-5332-44a4-b8de-b1782c2d0c89',
-  'x-ms-keyvault-service-version',
-  '1.1.0.898',
-  'x-ms-keyvault-network-info',
-  'addr=51.143.39.51;act_addr_fam=InterNetwork;',
-  'X-AspNet-Version',
-  '4.0.30319',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Tue, 28 Apr 2020 13:42:54 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedcertificates/recoverCertificateName-canresumefromastoppedpoller-')
-  .query(true)
-  .reply(404, {"error":{"code":"CertificateNotFound","message":"Deleted Certificate not found: recoverCertificateName-canresumefromastoppedpoller-"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '151',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Server',
-  'Microsoft-IIS/10.0',
-  'x-ms-keyvault-region',
-  'westus',
-  'x-ms-request-id',
-  '75ffd3a4-9b31-4f92-a7aa-da29878c5509',
-  'x-ms-keyvault-service-version',
-  '1.1.0.898',
-  'x-ms-keyvault-network-info',
-  'addr=51.143.39.51;act_addr_fam=InterNetwork;',
-  'X-AspNet-Version',
-  '4.0.30319',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Tue, 28 Apr 2020 13:42:56 GMT'
-]);
-
-nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedcertificates/recoverCertificateName-canresumefromastoppedpoller-')
-  .query(true)
-  .reply(404, {"error":{"code":"CertificateNotFound","message":"Deleted Certificate not found: recoverCertificateName-canresumefromastoppedpoller-"}}, [
-  'Cache-Control',
-  'no-cache',
-  'Pragma',
-  'no-cache',
-  'Content-Length',
-  '151',
-  'Content-Type',
-  'application/json; charset=utf-8',
-  'Expires',
-  '-1',
-  'Server',
-  'Microsoft-IIS/10.0',
-  'x-ms-keyvault-region',
-  'westus',
-  'x-ms-request-id',
-  '65f2250e-5a9d-4bb8-821f-fc7dee65a6a7',
-  'x-ms-keyvault-service-version',
-  '1.1.0.898',
-  'x-ms-keyvault-network-info',
-  'addr=51.143.39.51;act_addr_fam=InterNetwork;',
-  'X-AspNet-Version',
-  '4.0.30319',
-  'X-Powered-By',
-  'ASP.NET',
-  'Strict-Transport-Security',
-  'max-age=31536000;includeSubDomains',
-  'X-Content-Type-Options',
-  'nosniff',
-  'Date',
-  'Tue, 28 Apr 2020 13:42:57 GMT'
+  '2832'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedcertificates/recoverCertificateName-canresumefromastoppedpoller-')
+  .get('/deletedcertificates/lroRecoverCertificateName-canresumefromastoppedpoller-')
   .query(true)
-  .reply(404, {"error":{"code":"CertificateNotFound","message":"Deleted Certificate not found: recoverCertificateName-canresumefromastoppedpoller-"}}, [
+  .reply(404, {"error":{"code":"CertificateNotFound","message":"Deleted Certificate not found: lroRecoverCertificateName-canresumefromastoppedpoller-"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
   'Content-Length',
-  '151',
+  '155',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
   '-1',
-  'Server',
-  'Microsoft-IIS/10.0',
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  'c5bbaae9-8fee-49f5-a14b-f1ae1a5a4540',
+  '2c03c0b4-f608-4457-9aed-04d39bc1506f',
   'x-ms-keyvault-service-version',
-  '1.1.0.898',
+  '1.1.8.0',
   'x-ms-keyvault-network-info',
-  'addr=51.143.39.51;act_addr_fam=InterNetwork;',
+  'conn_type=Ipv4;addr=52.183.123.117;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -3426,33 +1692,31 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Tue, 28 Apr 2020 13:42:59 GMT'
+  'Thu, 02 Jul 2020 18:46:06 GMT'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedcertificates/recoverCertificateName-canresumefromastoppedpoller-')
+  .get('/deletedcertificates/lroRecoverCertificateName-canresumefromastoppedpoller-')
   .query(true)
-  .reply(404, {"error":{"code":"CertificateNotFound","message":"Deleted Certificate not found: recoverCertificateName-canresumefromastoppedpoller-"}}, [
+  .reply(404, {"error":{"code":"CertificateNotFound","message":"Deleted Certificate not found: lroRecoverCertificateName-canresumefromastoppedpoller-"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
   'Content-Length',
-  '151',
+  '155',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
   '-1',
-  'Server',
-  'Microsoft-IIS/10.0',
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  '3ff99eb9-7f9f-4d32-9d44-46a38016c325',
+  '020f03da-9c31-45f9-9c23-dfa3f7888896',
   'x-ms-keyvault-service-version',
-  '1.1.0.898',
+  '1.1.8.0',
   'x-ms-keyvault-network-info',
-  'addr=51.143.39.51;act_addr_fam=InterNetwork;',
+  'conn_type=Ipv4;addr=52.183.123.117;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -3462,33 +1726,31 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Tue, 28 Apr 2020 13:43:01 GMT'
+  'Thu, 02 Jul 2020 18:46:06 GMT'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedcertificates/recoverCertificateName-canresumefromastoppedpoller-')
+  .get('/deletedcertificates/lroRecoverCertificateName-canresumefromastoppedpoller-')
   .query(true)
-  .reply(404, {"error":{"code":"CertificateNotFound","message":"Deleted Certificate not found: recoverCertificateName-canresumefromastoppedpoller-"}}, [
+  .reply(404, {"error":{"code":"CertificateNotFound","message":"Deleted Certificate not found: lroRecoverCertificateName-canresumefromastoppedpoller-"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
   'Content-Length',
-  '151',
+  '155',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
   '-1',
-  'Server',
-  'Microsoft-IIS/10.0',
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  '8fb548e5-776b-4bd5-8b02-d0d4fa4aa685',
+  'e4443ffe-4a7b-41b4-9d56-0bc4bdcf19ec',
   'x-ms-keyvault-service-version',
-  '1.1.0.898',
+  '1.1.8.0',
   'x-ms-keyvault-network-info',
-  'addr=51.143.39.51;act_addr_fam=InterNetwork;',
+  'conn_type=Ipv4;addr=52.183.123.117;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -3498,33 +1760,31 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Tue, 28 Apr 2020 13:43:03 GMT'
+  'Thu, 02 Jul 2020 18:46:08 GMT'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedcertificates/recoverCertificateName-canresumefromastoppedpoller-')
+  .get('/deletedcertificates/lroRecoverCertificateName-canresumefromastoppedpoller-')
   .query(true)
-  .reply(404, {"error":{"code":"CertificateNotFound","message":"Deleted Certificate not found: recoverCertificateName-canresumefromastoppedpoller-"}}, [
+  .reply(404, {"error":{"code":"CertificateNotFound","message":"Deleted Certificate not found: lroRecoverCertificateName-canresumefromastoppedpoller-"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
   'Content-Length',
-  '151',
+  '155',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
   '-1',
-  'Server',
-  'Microsoft-IIS/10.0',
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  '30376440-5a70-4117-9b0c-7015405831cd',
+  '47d4fa4d-7b6e-4ff1-a39b-f0b78a98a0b1',
   'x-ms-keyvault-service-version',
-  '1.1.0.898',
+  '1.1.8.0',
   'x-ms-keyvault-network-info',
-  'addr=51.143.39.51;act_addr_fam=InterNetwork;',
+  'conn_type=Ipv4;addr=52.183.123.117;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -3534,33 +1794,31 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Tue, 28 Apr 2020 13:43:06 GMT'
+  'Thu, 02 Jul 2020 18:46:10 GMT'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedcertificates/recoverCertificateName-canresumefromastoppedpoller-')
+  .get('/deletedcertificates/lroRecoverCertificateName-canresumefromastoppedpoller-')
   .query(true)
-  .reply(404, {"error":{"code":"CertificateNotFound","message":"Deleted Certificate not found: recoverCertificateName-canresumefromastoppedpoller-"}}, [
+  .reply(404, {"error":{"code":"CertificateNotFound","message":"Deleted Certificate not found: lroRecoverCertificateName-canresumefromastoppedpoller-"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
   'Content-Length',
-  '151',
+  '155',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
   '-1',
-  'Server',
-  'Microsoft-IIS/10.0',
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  '29f4e9d5-84cf-4602-9fa2-c9dfb6ea855c',
+  '9b94338c-f0b7-4e5e-99e1-e3b4bc6d5ab8',
   'x-ms-keyvault-service-version',
-  '1.1.0.898',
+  '1.1.8.0',
   'x-ms-keyvault-network-info',
-  'addr=51.143.39.51;act_addr_fam=InterNetwork;',
+  'conn_type=Ipv4;addr=52.183.123.117;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -3570,33 +1828,31 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Tue, 28 Apr 2020 13:43:08 GMT'
+  'Thu, 02 Jul 2020 18:46:11 GMT'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedcertificates/recoverCertificateName-canresumefromastoppedpoller-')
+  .get('/deletedcertificates/lroRecoverCertificateName-canresumefromastoppedpoller-')
   .query(true)
-  .reply(404, {"error":{"code":"CertificateNotFound","message":"Deleted Certificate not found: recoverCertificateName-canresumefromastoppedpoller-"}}, [
+  .reply(404, {"error":{"code":"CertificateNotFound","message":"Deleted Certificate not found: lroRecoverCertificateName-canresumefromastoppedpoller-"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
   'Content-Length',
-  '151',
+  '155',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
   '-1',
-  'Server',
-  'Microsoft-IIS/10.0',
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  '7f966f78-b612-4d49-88e7-8d6e87720c2f',
+  'a87510d8-5ec5-4ca6-a152-0498d310160d',
   'x-ms-keyvault-service-version',
-  '1.1.0.898',
+  '1.1.8.0',
   'x-ms-keyvault-network-info',
-  'addr=51.143.39.51;act_addr_fam=InterNetwork;',
+  'conn_type=Ipv4;addr=52.183.123.117;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -3606,33 +1862,31 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Tue, 28 Apr 2020 13:43:10 GMT'
+  'Thu, 02 Jul 2020 18:46:14 GMT'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedcertificates/recoverCertificateName-canresumefromastoppedpoller-')
+  .get('/deletedcertificates/lroRecoverCertificateName-canresumefromastoppedpoller-')
   .query(true)
-  .reply(404, {"error":{"code":"CertificateNotFound","message":"Deleted Certificate not found: recoverCertificateName-canresumefromastoppedpoller-"}}, [
+  .reply(404, {"error":{"code":"CertificateNotFound","message":"Deleted Certificate not found: lroRecoverCertificateName-canresumefromastoppedpoller-"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
   'Content-Length',
-  '151',
+  '155',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
   '-1',
-  'Server',
-  'Microsoft-IIS/10.0',
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  'bbaa2135-4266-4706-9e15-9a42492b288f',
+  'f883b6f7-d5b4-4984-96cb-6e48fa1d85e2',
   'x-ms-keyvault-service-version',
-  '1.1.0.898',
+  '1.1.8.0',
   'x-ms-keyvault-network-info',
-  'addr=51.143.39.51;act_addr_fam=InterNetwork;',
+  'conn_type=Ipv4;addr=52.183.123.117;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -3642,33 +1896,31 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Tue, 28 Apr 2020 13:43:12 GMT'
+  'Thu, 02 Jul 2020 18:46:16 GMT'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedcertificates/recoverCertificateName-canresumefromastoppedpoller-')
+  .get('/deletedcertificates/lroRecoverCertificateName-canresumefromastoppedpoller-')
   .query(true)
-  .reply(404, {"error":{"code":"CertificateNotFound","message":"Deleted Certificate not found: recoverCertificateName-canresumefromastoppedpoller-"}}, [
+  .reply(404, {"error":{"code":"CertificateNotFound","message":"Deleted Certificate not found: lroRecoverCertificateName-canresumefromastoppedpoller-"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
   'Content-Length',
-  '151',
+  '155',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
   '-1',
-  'Server',
-  'Microsoft-IIS/10.0',
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  '3e9c3101-665b-4712-aaed-eec7d273c775',
+  '25609600-5361-4207-b585-876c0799bd34',
   'x-ms-keyvault-service-version',
-  '1.1.0.898',
+  '1.1.8.0',
   'x-ms-keyvault-network-info',
-  'addr=51.143.39.51;act_addr_fam=InterNetwork;',
+  'conn_type=Ipv4;addr=52.183.123.117;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -3678,33 +1930,31 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Tue, 28 Apr 2020 13:43:14 GMT'
+  'Thu, 02 Jul 2020 18:46:17 GMT'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedcertificates/recoverCertificateName-canresumefromastoppedpoller-')
+  .get('/deletedcertificates/lroRecoverCertificateName-canresumefromastoppedpoller-')
   .query(true)
-  .reply(404, {"error":{"code":"CertificateNotFound","message":"Deleted Certificate not found: recoverCertificateName-canresumefromastoppedpoller-"}}, [
+  .reply(404, {"error":{"code":"CertificateNotFound","message":"Deleted Certificate not found: lroRecoverCertificateName-canresumefromastoppedpoller-"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
   'Content-Length',
-  '151',
+  '155',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
   '-1',
-  'Server',
-  'Microsoft-IIS/10.0',
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  '11fe315d-7876-46c1-a8d9-34e259bc0cd6',
+  'b2798ec8-24e8-44ca-8e24-30a8f87cb746',
   'x-ms-keyvault-service-version',
-  '1.1.0.898',
+  '1.1.8.0',
   'x-ms-keyvault-network-info',
-  'addr=51.143.39.51;act_addr_fam=InterNetwork;',
+  'conn_type=Ipv4;addr=52.183.123.117;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -3714,33 +1964,31 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Tue, 28 Apr 2020 13:43:16 GMT'
+  'Thu, 02 Jul 2020 18:46:19 GMT'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedcertificates/recoverCertificateName-canresumefromastoppedpoller-')
+  .get('/deletedcertificates/lroRecoverCertificateName-canresumefromastoppedpoller-')
   .query(true)
-  .reply(404, {"error":{"code":"CertificateNotFound","message":"Deleted Certificate not found: recoverCertificateName-canresumefromastoppedpoller-"}}, [
+  .reply(404, {"error":{"code":"CertificateNotFound","message":"Deleted Certificate not found: lroRecoverCertificateName-canresumefromastoppedpoller-"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
   'Content-Length',
-  '151',
+  '155',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
   '-1',
-  'Server',
-  'Microsoft-IIS/10.0',
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  'bb5896c2-2b68-4d1e-9f27-869a075181d7',
+  '5364ec3f-02af-44e9-a799-4c3b83595849',
   'x-ms-keyvault-service-version',
-  '1.1.0.898',
+  '1.1.8.0',
   'x-ms-keyvault-network-info',
-  'addr=51.143.39.51;act_addr_fam=InterNetwork;',
+  'conn_type=Ipv4;addr=52.183.123.117;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -3750,33 +1998,31 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Tue, 28 Apr 2020 13:43:18 GMT'
+  'Thu, 02 Jul 2020 18:46:22 GMT'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedcertificates/recoverCertificateName-canresumefromastoppedpoller-')
+  .get('/deletedcertificates/lroRecoverCertificateName-canresumefromastoppedpoller-')
   .query(true)
-  .reply(404, {"error":{"code":"CertificateNotFound","message":"Deleted Certificate not found: recoverCertificateName-canresumefromastoppedpoller-"}}, [
+  .reply(404, {"error":{"code":"CertificateNotFound","message":"Deleted Certificate not found: lroRecoverCertificateName-canresumefromastoppedpoller-"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
   'Content-Length',
-  '151',
+  '155',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
   '-1',
-  'Server',
-  'Microsoft-IIS/10.0',
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  'b93dce1c-f005-4ec5-8c00-e5097afe0f36',
+  '57653665-c0fa-4564-b847-8ddd32bcdb8b',
   'x-ms-keyvault-service-version',
-  '1.1.0.898',
+  '1.1.8.0',
   'x-ms-keyvault-network-info',
-  'addr=51.143.39.51;act_addr_fam=InterNetwork;',
+  'conn_type=Ipv4;addr=52.183.123.117;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -3786,33 +2032,31 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Tue, 28 Apr 2020 13:43:20 GMT'
+  'Thu, 02 Jul 2020 18:46:24 GMT'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedcertificates/recoverCertificateName-canresumefromastoppedpoller-')
+  .get('/deletedcertificates/lroRecoverCertificateName-canresumefromastoppedpoller-')
   .query(true)
-  .reply(404, {"error":{"code":"CertificateNotFound","message":"Deleted Certificate not found: recoverCertificateName-canresumefromastoppedpoller-"}}, [
+  .reply(404, {"error":{"code":"CertificateNotFound","message":"Deleted Certificate not found: lroRecoverCertificateName-canresumefromastoppedpoller-"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
   'Content-Length',
-  '151',
+  '155',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
   '-1',
-  'Server',
-  'Microsoft-IIS/10.0',
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  '4c2a64af-58bc-43ab-8d90-bd5dd6f40cfd',
+  '9d580fce-4a9c-4f07-bac9-e851e125f859',
   'x-ms-keyvault-service-version',
-  '1.1.0.898',
+  '1.1.8.0',
   'x-ms-keyvault-network-info',
-  'addr=51.143.39.51;act_addr_fam=InterNetwork;',
+  'conn_type=Ipv4;addr=52.183.123.117;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -3822,33 +2066,31 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Tue, 28 Apr 2020 13:43:22 GMT'
+  'Thu, 02 Jul 2020 18:46:26 GMT'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedcertificates/recoverCertificateName-canresumefromastoppedpoller-')
+  .get('/deletedcertificates/lroRecoverCertificateName-canresumefromastoppedpoller-')
   .query(true)
-  .reply(404, {"error":{"code":"CertificateNotFound","message":"Deleted Certificate not found: recoverCertificateName-canresumefromastoppedpoller-"}}, [
+  .reply(404, {"error":{"code":"CertificateNotFound","message":"Deleted Certificate not found: lroRecoverCertificateName-canresumefromastoppedpoller-"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
   'Content-Length',
-  '151',
+  '155',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
   '-1',
-  'Server',
-  'Microsoft-IIS/10.0',
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  '61cccd32-e6eb-474a-9cd9-4d081ed4e954',
+  'af61a0ea-1cdc-4eee-a81f-b90f8637f5f4',
   'x-ms-keyvault-service-version',
-  '1.1.0.898',
+  '1.1.8.0',
   'x-ms-keyvault-network-info',
-  'addr=51.143.39.51;act_addr_fam=InterNetwork;',
+  'conn_type=Ipv4;addr=52.183.123.117;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -3858,13 +2100,13 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Tue, 28 Apr 2020 13:43:24 GMT'
+  'Thu, 02 Jul 2020 18:46:28 GMT'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .get('/deletedcertificates/recoverCertificateName-canresumefromastoppedpoller-')
+  .get('/deletedcertificates/lroRecoverCertificateName-canresumefromastoppedpoller-')
   .query(true)
-  .reply(200, {"recoveryId":"https://keyvault_name.vault.azure.net/deletedcertificates/recoverCertificateName-canresumefromastoppedpoller-","deletedDate":1588081343,"scheduledPurgeDate":1595857343,"id":"https://keyvault_name.vault.azure.net/certificates/recoverCertificateName-canresumefromastoppedpoller-/a8cf73665c3e450699eaf9593434327d","attributes":{"enabled":false,"nbf":1588080617,"exp":1619617217,"created":1588081217,"updated":1588081217,"recoveryLevel":"Recoverable+Purgeable","recoverableDays":90},"policy":{"id":"https://keyvault_name.vault.azure.net/certificates/recoverCertificateName-canresumefromastoppedpoller-/policy","key_props":{"exportable":true,"kty":"RSA","key_size":2048,"reuse_key":false},"secret_props":{"contentType":"application/x-pkcs12"},"x509_props":{"subject":"cn=MyCert","sans":{},"ekus":["1.3.6.1.5.5.7.3.1","1.3.6.1.5.5.7.3.2"],"key_usage":["digitalSignature","keyEncipherment"],"validity_months":12,"basic_constraints":{"ca":false}},"lifetime_actions":[{"trigger":{"lifetime_percentage":80},"action":{"action_type":"AutoRenew"}}],"issuer":{"name":"Self"},"attributes":{"enabled":true,"created":1588081217,"updated":1588081217}},"pending":{"id":"https://keyvault_name.vault.azure.net/certificates/recoverCertificateName-canresumefromastoppedpoller-/pending"}}, [
+  .reply(200, {"recoveryId":"https://keyvault_name.vault.azure.net/deletedcertificates/lroRecoverCertificateName-canresumefromastoppedpoller-","deletedDate":1593715566,"scheduledPurgeDate":1601491566,"id":"https://keyvault_name.vault.azure.net/certificates/lroRecoverCertificateName-canresumefromastoppedpoller-/e0f93ab7b9d841f08dc43bb0ebc7c75d","kid":"https://keyvault_name.vault.azure.net/keys/lroRecoverCertificateName-canresumefromastoppedpoller-/e0f93ab7b9d841f08dc43bb0ebc7c75d","sid":"https://keyvault_name.vault.azure.net/secrets/lroRecoverCertificateName-canresumefromastoppedpoller-/e0f93ab7b9d841f08dc43bb0ebc7c75d","x5t":"7KQqwtl1LfGcTJE4Cbi9fIjSX-w","cer":"MIIDKDCCAhCgAwIBAgIQSFKhtMLURDuBKk4wb+rxsjANBgkqhkiG9w0BAQsFADARMQ8wDQYDVQQDEwZNeUNlcnQwHhcNMjAwNzAyMTgzNTE2WhcNMjEwNzAyMTg0NTE2WjARMQ8wDQYDVQQDEwZNeUNlcnQwggEiMA0GCSqGSIb3DQEBAQUAA4IBDwAwggEKAoIBAQC1qdXJd3wrIP1glrdPC4nXmisXkPlbosJPf8jjfPKFJx+osA+bDNG4qwKp75TMVHZlfSVbAotJFTRGFZcqOMbhzNfgZIIPVmSmn8J2ixH0kbWZSxoj8O/0cCG1NgIsHW/pxAlnhZIg0JLIYICMFSL9xOeCW2b9r/4XM++ey0atXK5paZHHYbhZcsYtk+fWBpj9rJ++VT1ZHvA6QG9PovXgJcbtxIKxutoTuEhAt1IpvemfcFatv5NrYh2WVeEHPdr2ATlfAYBqwkZ+kKWZUAQn8tW3tnxPZyZ3LJl3eMCsG7An+BL+xMm/MV76DdwOFFVczzD7SGmlJ6kzFNlXiUZLAgMBAAGjfDB6MA4GA1UdDwEB/wQEAwIFoDAJBgNVHRMEAjAAMB0GA1UdJQQWMBQGCCsGAQUFBwMBBggrBgEFBQcDAjAfBgNVHSMEGDAWgBQ7m30YRyGSNzTldTa6JvrrLte6QjAdBgNVHQ4EFgQUO5t9GEchkjc05XU2uib66y7XukIwDQYJKoZIhvcNAQELBQADggEBAB9GbQupqhdU4bOhoSZ3SIUEk+tAsA25rrHYmJpjpZTZttjPx0mZ8YdbhpSIuRcSdj2IaTzG2C8DZQC+EfN+Gw/O1JIRlwpB+VLBfhwB9rvtbxKP5OEDIGlZhZbMw8N1dorYrkuxcLiEBDU9WQLCO1XmxhlSq0bTjDndOtgH5xDpLIoWYOJyTtcMmvztuYKoZWLtreAp8x+nCnglBr20fjamepqbDgNE5wpRskCbMLj6Dk2H77A+dRlr2R77wu+0nDXJyU8I8iUVm2+bkGag6kSDVFt0h4xZjMB4QrI0u5hqs4LIhTzf9xio2LLjOaOJbZeU2mKegVygmTRVCkp7sE0=","attributes":{"enabled":true,"nbf":1593714916,"exp":1625251516,"created":1593715517,"updated":1593715517,"recoveryLevel":"Recoverable+Purgeable","recoverableDays":90},"policy":{"id":"https://keyvault_name.vault.azure.net/certificates/lroRecoverCertificateName-canresumefromastoppedpoller-/policy","key_props":{"exportable":true,"kty":"RSA","key_size":2048,"reuse_key":false},"secret_props":{"contentType":"application/x-pkcs12"},"x509_props":{"subject":"cn=MyCert","sans":{},"ekus":["1.3.6.1.5.5.7.3.1","1.3.6.1.5.5.7.3.2"],"key_usage":["digitalSignature","keyEncipherment"],"validity_months":12,"basic_constraints":{"ca":false}},"lifetime_actions":[{"trigger":{"lifetime_percentage":80},"action":{"action_type":"AutoRenew"}}],"issuer":{"name":"Self"},"attributes":{"enabled":true,"created":1593715499,"updated":1593715499}},"pending":{"id":"https://keyvault_name.vault.azure.net/certificates/lroRecoverCertificateName-canresumefromastoppedpoller-/pending"}}, [
   'Cache-Control',
   'no-cache',
   'Pragma',
@@ -3873,16 +2115,14 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'application/json; charset=utf-8',
   'Expires',
   '-1',
-  'Server',
-  'Microsoft-IIS/10.0',
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  '9cad2d95-18c1-4376-85af-7132b4de8623',
+  '6b039289-1a18-4e26-9de4-63bf87f157c6',
   'x-ms-keyvault-service-version',
-  '1.1.0.898',
+  '1.1.8.0',
   'x-ms-keyvault-network-info',
-  'addr=51.143.39.51;act_addr_fam=InterNetwork;',
+  'conn_type=Ipv4;addr=52.183.123.117;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -3892,13 +2132,13 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Tue, 28 Apr 2020 13:43:26 GMT',
+  'Thu, 02 Jul 2020 18:46:30 GMT',
   'Content-Length',
-  '1363'
+  '2832'
 ]);
 
 nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
-  .delete('/deletedcertificates/recoverCertificateName-canresumefromastoppedpoller-')
+  .delete('/deletedcertificates/lroRecoverCertificateName-canresumefromastoppedpoller-')
   .query(true)
   .reply(204, "", [
   'Cache-Control',
@@ -3907,16 +2147,14 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'no-cache',
   'Expires',
   '-1',
-  'Server',
-  'Microsoft-IIS/10.0',
   'x-ms-keyvault-region',
   'westus',
   'x-ms-request-id',
-  'ae3bdd5e-1347-4c7e-a659-8ab52aa3d468',
+  '5c68f723-d208-4fb3-b77a-68226d552691',
   'x-ms-keyvault-service-version',
-  '1.1.0.898',
+  '1.1.8.0',
   'x-ms-keyvault-network-info',
-  'addr=51.143.39.51;act_addr_fam=InterNetwork;',
+  'conn_type=Ipv4;addr=52.183.123.117;act_addr_fam=InterNetwork;',
   'X-AspNet-Version',
   '4.0.30319',
   'X-Powered-By',
@@ -3926,5 +2164,5 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'Date',
-  'Tue, 28 Apr 2020 13:43:26 GMT'
+  'Thu, 02 Jul 2020 18:46:30 GMT'
 ]);

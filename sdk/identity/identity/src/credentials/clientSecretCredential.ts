@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
 import qs from "qs";
 import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-http";
@@ -7,6 +7,9 @@ import { TokenCredentialOptions, IdentityClient } from "../client/identityClient
 import { createSpan } from "../util/tracing";
 import { AuthenticationErrorName } from "../client/errors";
 import { CanonicalCode } from "@opentelemetry/api";
+import { credentialLogger, formatSuccess } from "../util/logging";
+
+const logger = credentialLogger("ClientSecretCredential");
 
 /**
  * Enables authentication to Azure Active Directory using a client secret
@@ -81,6 +84,7 @@ export class ClientSecretCredential implements TokenCredential {
       });
 
       const tokenResponse = await this.identityClient.sendTokenRequest(webResource);
+      logger.getToken.info(formatSuccess(scopes));
       return (tokenResponse && tokenResponse.accessToken) || null;
     } catch (err) {
       const code =
@@ -91,6 +95,7 @@ export class ClientSecretCredential implements TokenCredential {
         code,
         message: err.message
       });
+      logger.getToken.info(err);
       throw err;
     } finally {
       span.end();

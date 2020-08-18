@@ -7,7 +7,7 @@ import {
   QueryPreparationTimes,
   RuntimeExecutionTimes,
   TimeSpan
-} from "../../dist-esm/queryMetrics";
+} from "../../src/queryMetrics";
 
 describe("QueryMetrics", function() {
   // Properties

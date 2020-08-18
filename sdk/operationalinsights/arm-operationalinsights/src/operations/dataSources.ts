@@ -28,8 +28,8 @@ export class DataSources {
 
   /**
    * Create or update a data source.
-   * @param resourceGroupName The name of the resource group to get. The name is case insensitive.
-   * @param workspaceName Name of the Log Analytics Workspace that will contain the datasource
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName The name of the workspace.
    * @param dataSourceName The name of the datasource resource.
    * @param parameters The parameters required to create or update a datasource.
    * @param [options] The optional parameters
@@ -37,16 +37,16 @@ export class DataSources {
    */
   createOrUpdate(resourceGroupName: string, workspaceName: string, dataSourceName: string, parameters: Models.DataSource, options?: msRest.RequestOptionsBase): Promise<Models.DataSourcesCreateOrUpdateResponse>;
   /**
-   * @param resourceGroupName The name of the resource group to get. The name is case insensitive.
-   * @param workspaceName Name of the Log Analytics Workspace that will contain the datasource
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName The name of the workspace.
    * @param dataSourceName The name of the datasource resource.
    * @param parameters The parameters required to create or update a datasource.
    * @param callback The callback
    */
   createOrUpdate(resourceGroupName: string, workspaceName: string, dataSourceName: string, parameters: Models.DataSource, callback: msRest.ServiceCallback<Models.DataSource>): void;
   /**
-   * @param resourceGroupName The name of the resource group to get. The name is case insensitive.
-   * @param workspaceName Name of the Log Analytics Workspace that will contain the datasource
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName The name of the workspace.
    * @param dataSourceName The name of the datasource resource.
    * @param parameters The parameters required to create or update a datasource.
    * @param options The optional parameters
@@ -68,23 +68,23 @@ export class DataSources {
 
   /**
    * Deletes a data source instance.
-   * @param resourceGroupName The name of the resource group to get. The name is case insensitive.
-   * @param workspaceName Name of the Log Analytics Workspace that contains the datasource.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName The name of the workspace.
    * @param dataSourceName Name of the datasource.
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
   deleteMethod(resourceGroupName: string, workspaceName: string, dataSourceName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
   /**
-   * @param resourceGroupName The name of the resource group to get. The name is case insensitive.
-   * @param workspaceName Name of the Log Analytics Workspace that contains the datasource.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName The name of the workspace.
    * @param dataSourceName Name of the datasource.
    * @param callback The callback
    */
   deleteMethod(resourceGroupName: string, workspaceName: string, dataSourceName: string, callback: msRest.ServiceCallback<void>): void;
   /**
-   * @param resourceGroupName The name of the resource group to get. The name is case insensitive.
-   * @param workspaceName Name of the Log Analytics Workspace that contains the datasource.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName The name of the workspace.
    * @param dataSourceName Name of the datasource.
    * @param options The optional parameters
    * @param callback The callback
@@ -104,23 +104,23 @@ export class DataSources {
 
   /**
    * Gets a datasource instance.
-   * @param resourceGroupName The name of the resource group to get. The name is case insensitive.
-   * @param workspaceName Name of the Log Analytics Workspace that contains the datasource.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName The name of the workspace.
    * @param dataSourceName Name of the datasource
    * @param [options] The optional parameters
    * @returns Promise<Models.DataSourcesGetResponse>
    */
   get(resourceGroupName: string, workspaceName: string, dataSourceName: string, options?: msRest.RequestOptionsBase): Promise<Models.DataSourcesGetResponse>;
   /**
-   * @param resourceGroupName The name of the resource group to get. The name is case insensitive.
-   * @param workspaceName Name of the Log Analytics Workspace that contains the datasource.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName The name of the workspace.
    * @param dataSourceName Name of the datasource
    * @param callback The callback
    */
   get(resourceGroupName: string, workspaceName: string, dataSourceName: string, callback: msRest.ServiceCallback<Models.DataSource>): void;
   /**
-   * @param resourceGroupName The name of the resource group to get. The name is case insensitive.
-   * @param workspaceName Name of the Log Analytics Workspace that contains the datasource.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName The name of the workspace.
    * @param dataSourceName Name of the datasource
    * @param options The optional parameters
    * @param callback The callback
@@ -140,23 +140,23 @@ export class DataSources {
 
   /**
    * Gets the first page of data source instances in a workspace with the link to the next page.
-   * @param resourceGroupName The name of the resource group to get. The name is case insensitive.
-   * @param workspaceName The workspace that contains the data sources.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName The name of the workspace.
    * @param filter The filter to apply on the operation.
    * @param [options] The optional parameters
    * @returns Promise<Models.DataSourcesListByWorkspaceResponse>
    */
   listByWorkspace(resourceGroupName: string, workspaceName: string, filter: string, options?: Models.DataSourcesListByWorkspaceOptionalParams): Promise<Models.DataSourcesListByWorkspaceResponse>;
   /**
-   * @param resourceGroupName The name of the resource group to get. The name is case insensitive.
-   * @param workspaceName The workspace that contains the data sources.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName The name of the workspace.
    * @param filter The filter to apply on the operation.
    * @param callback The callback
    */
   listByWorkspace(resourceGroupName: string, workspaceName: string, filter: string, callback: msRest.ServiceCallback<Models.DataSourceListResult>): void;
   /**
-   * @param resourceGroupName The name of the resource group to get. The name is case insensitive.
-   * @param workspaceName The workspace that contains the data sources.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param workspaceName The name of the workspace.
    * @param filter The filter to apply on the operation.
    * @param options The optional parameters
    * @param callback The callback
@@ -209,8 +209,8 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path: "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/dataSources/{dataSourceName}",
   urlParameters: [
-    Parameters.resourceGroupName0,
-    Parameters.workspaceName0,
+    Parameters.resourceGroupName,
+    Parameters.workspaceName,
     Parameters.dataSourceName,
     Parameters.subscriptionId
   ],
@@ -245,8 +245,8 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
   path: "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/dataSources/{dataSourceName}",
   urlParameters: [
-    Parameters.resourceGroupName0,
-    Parameters.workspaceName0,
+    Parameters.resourceGroupName,
+    Parameters.workspaceName,
     Parameters.dataSourceName,
     Parameters.subscriptionId
   ],
@@ -270,8 +270,8 @@ const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/dataSources/{dataSourceName}",
   urlParameters: [
-    Parameters.resourceGroupName0,
-    Parameters.workspaceName0,
+    Parameters.resourceGroupName,
+    Parameters.workspaceName,
     Parameters.dataSourceName,
     Parameters.subscriptionId
   ],
@@ -296,8 +296,8 @@ const listByWorkspaceOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourcegroups/{resourceGroupName}/providers/Microsoft.OperationalInsights/workspaces/{workspaceName}/dataSources",
   urlParameters: [
-    Parameters.resourceGroupName0,
-    Parameters.workspaceName0,
+    Parameters.resourceGroupName,
+    Parameters.workspaceName,
     Parameters.subscriptionId
   ],
   queryParameters: [

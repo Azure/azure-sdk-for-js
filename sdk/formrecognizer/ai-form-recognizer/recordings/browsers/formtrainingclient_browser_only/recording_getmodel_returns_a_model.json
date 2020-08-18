@@ -2,21 +2,21 @@
  "recordings": [
   {
    "method": "GET",
-   "url": "https://endpoint/formrecognizer/v2.0-preview/custom/models/ea88b32f-7643-4333-ba9e-d8b5751f8a29",
+   "url": "https://endpoint/formrecognizer/v2.0/custom/models/8255f236-413f-4ea3-ba3a-b5a945b1ca62",
    "query": {
     "includeKeys": "true"
    },
    "requestBody": null,
    "status": 200,
-   "response": "{\"modelInfo\":{\"modelId\":\"ea88b32f-7643-4333-ba9e-d8b5751f8a29\",\"status\":\"ready\",\"createdDateTime\":\"2020-05-02T19:34:17Z\",\"lastUpdatedDateTime\":\"2020-05-02T19:34:25Z\"},\"keys\":{\"clusters\":{\"0\":[\"Additional Notes:\",\"Address:\",\"Address:\",\"Company Name:\",\"Company Phone:\",\"Dated As:\",\"Email:\",\"Hero Limited\",\"Name:\",\"Phone:\",\"Phone:\",\"Purchase Order\",\"Purchase Order\",\"Purchase Order #:\",\"SUBTOTAL\",\"Seattle, WA 93849 Phone:\",\"Shipped From\",\"Shipped To\",\"TAX\",\"TOTAL\",\"Vendor Name:\",\"Website:\"]}},\"trainResult\":{\"trainingDocuments\":[{\"documentName\":\"Form_1.jpg\",\"pages\":1,\"errors\":[],\"status\":\"succeeded\"},{\"documentName\":\"Form_2.jpg\",\"pages\":1,\"errors\":[],\"status\":\"succeeded\"},{\"documentName\":\"Form_3.jpg\",\"pages\":1,\"errors\":[],\"status\":\"succeeded\"},{\"documentName\":\"Form_4.jpg\",\"pages\":1,\"errors\":[],\"status\":\"succeeded\"},{\"documentName\":\"Form_5.jpg\",\"pages\":1,\"errors\":[],\"status\":\"succeeded\"},{\"documentName\":\"subfolder/Form_6.jpg\",\"pages\":1,\"errors\":[],\"status\":\"succeeded\"}],\"errors\":[]}}",
+   "response": "{\"modelInfo\":{\"modelId\":\"8255f236-413f-4ea3-ba3a-b5a945b1ca62\",\"status\":\"ready\",\"createdDateTime\":\"2020-08-05T23:31:58Z\",\"lastUpdatedDateTime\":\"2020-08-05T23:32:07Z\"},\"keys\":{\"clusters\":{\"0\":[\"Additional Notes:\",\"Address:\",\"Company Name:\",\"Company Phone:\",\"Dated As:\",\"Details\",\"Email:\",\"Hero Limited\",\"Name:\",\"Phone:\",\"Purchase Order\",\"Purchase Order #:\",\"Quantity\",\"SUBTOTAL\",\"Seattle, WA 93849 Phone:\",\"Shipped From\",\"Shipped To\",\"TAX\",\"TOTAL\",\"Total\",\"Unit Price\",\"Vendor Name:\",\"Website:\"]}},\"trainResult\":{\"trainingDocuments\":[{\"documentName\":\"Form_1.jpg\",\"pages\":1,\"errors\":[],\"status\":\"succeeded\"},{\"documentName\":\"Form_2.jpg\",\"pages\":1,\"errors\":[],\"status\":\"succeeded\"},{\"documentName\":\"Form_3.jpg\",\"pages\":1,\"errors\":[],\"status\":\"succeeded\"},{\"documentName\":\"Form_4.jpg\",\"pages\":1,\"errors\":[],\"status\":\"succeeded\"},{\"documentName\":\"Form_5.jpg\",\"pages\":1,\"errors\":[],\"status\":\"succeeded\"},{\"documentName\":\"subfolder/Form_6.jpg\",\"pages\":1,\"errors\":[],\"status\":\"succeeded\"}],\"errors\":[]}}",
    "responseHeaders": {
-    "apim-request-id": "118e2426-7ae6-406c-b514-59cf3b7c8264",
+    "apim-request-id": "12714a96-6656-421c-9c0b-12b1d6f67606",
     "content-type": "application/json; charset=utf-8",
-    "date": "Sat, 02 May 2020 19:34:39 GMT",
+    "date": "Wed, 05 Aug 2020 23:32:19 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "45"
+    "x-envoy-upstream-service-time": "21"
    }
   }
  ],
@@ -24,5 +24,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "75c1c315add74c3820b5e0ab7db1a662"
+ "hash": "3f9508530995869595e4e3bb4d34b615"
 }

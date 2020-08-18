@@ -246,6 +246,53 @@ export const Deployment: msRest.CompositeMapper = {
           name: "Composite",
           className: "DeploymentProperties"
         }
+      },
+      tags: {
+        serializedName: "tags",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const ScopedDeployment: msRest.CompositeMapper = {
+  serializedName: "ScopedDeployment",
+  type: {
+    name: "Composite",
+    className: "ScopedDeployment",
+    modelProperties: {
+      location: {
+        required: true,
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      },
+      properties: {
+        required: true,
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "DeploymentProperties"
+        }
+      },
+      tags: {
+        serializedName: "tags",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "String"
+            }
+          }
+        }
       }
     }
   }
@@ -410,11 +457,43 @@ export const ErrorResponse: msRest.CompositeMapper = {
   }
 };
 
-export const AliasPathType: msRest.CompositeMapper = {
-  serializedName: "AliasPathType",
+export const AliasPattern: msRest.CompositeMapper = {
+  serializedName: "AliasPattern",
   type: {
     name: "Composite",
-    className: "AliasPathType",
+    className: "AliasPattern",
+    modelProperties: {
+      phrase: {
+        serializedName: "phrase",
+        type: {
+          name: "String"
+        }
+      },
+      variable: {
+        serializedName: "variable",
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        serializedName: "type",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "NotSpecified",
+            "Extract"
+          ]
+        }
+      }
+    }
+  }
+};
+
+export const AliasPath: msRest.CompositeMapper = {
+  serializedName: "AliasPath",
+  type: {
+    name: "Composite",
+    className: "AliasPath",
     modelProperties: {
       path: {
         serializedName: "path",
@@ -432,16 +511,23 @@ export const AliasPathType: msRest.CompositeMapper = {
             }
           }
         }
+      },
+      pattern: {
+        serializedName: "pattern",
+        type: {
+          name: "Composite",
+          className: "AliasPattern"
+        }
       }
     }
   }
 };
 
-export const AliasType: msRest.CompositeMapper = {
-  serializedName: "AliasType",
+export const Alias: msRest.CompositeMapper = {
+  serializedName: "Alias",
   type: {
     name: "Composite",
-    className: "AliasType",
+    className: "Alias",
     modelProperties: {
       name: {
         serializedName: "name",
@@ -456,9 +542,33 @@ export const AliasType: msRest.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "AliasPathType"
+              className: "AliasPath"
             }
           }
+        }
+      },
+      type: {
+        serializedName: "type",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "NotSpecified",
+            "PlainText",
+            "Mask"
+          ]
+        }
+      },
+      defaultPath: {
+        serializedName: "defaultPath",
+        type: {
+          name: "String"
+        }
+      },
+      defaultPattern: {
+        serializedName: "defaultPattern",
+        type: {
+          name: "Composite",
+          className: "AliasPattern"
         }
       }
     }
@@ -495,7 +605,7 @@ export const ProviderResourceType: msRest.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "AliasType"
+              className: "Alias"
             }
           }
         }
@@ -683,6 +793,23 @@ export const OnErrorDeploymentExtended: msRest.CompositeMapper = {
   }
 };
 
+export const ResourceReference: msRest.CompositeMapper = {
+  serializedName: "ResourceReference",
+  type: {
+    name: "Composite",
+    className: "ResourceReference",
+    modelProperties: {
+      id: {
+        readOnly: true,
+        serializedName: "id",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const DeploymentPropertiesExtended: msRest.CompositeMapper = {
   serializedName: "DeploymentPropertiesExtended",
   type: {
@@ -718,12 +845,14 @@ export const DeploymentPropertiesExtended: msRest.CompositeMapper = {
         }
       },
       outputs: {
+        readOnly: true,
         serializedName: "outputs",
         type: {
           name: "Object"
         }
       },
       providers: {
+        readOnly: true,
         serializedName: "providers",
         type: {
           name: "Sequence",
@@ -736,6 +865,7 @@ export const DeploymentPropertiesExtended: msRest.CompositeMapper = {
         }
       },
       dependencies: {
+        readOnly: true,
         serializedName: "dependencies",
         type: {
           name: "Sequence",
@@ -747,13 +877,8 @@ export const DeploymentPropertiesExtended: msRest.CompositeMapper = {
           }
         }
       },
-      template: {
-        serializedName: "template",
-        type: {
-          name: "Object"
-        }
-      },
       templateLink: {
+        readOnly: true,
         serializedName: "templateLink",
         type: {
           name: "Composite",
@@ -761,12 +886,14 @@ export const DeploymentPropertiesExtended: msRest.CompositeMapper = {
         }
       },
       parameters: {
+        readOnly: true,
         serializedName: "parameters",
         type: {
           name: "Object"
         }
       },
       parametersLink: {
+        readOnly: true,
         serializedName: "parametersLink",
         type: {
           name: "Composite",
@@ -774,6 +901,7 @@ export const DeploymentPropertiesExtended: msRest.CompositeMapper = {
         }
       },
       mode: {
+        readOnly: true,
         serializedName: "mode",
         type: {
           name: "Enum",
@@ -784,6 +912,7 @@ export const DeploymentPropertiesExtended: msRest.CompositeMapper = {
         }
       },
       debugSetting: {
+        readOnly: true,
         serializedName: "debugSetting",
         type: {
           name: "Composite",
@@ -791,10 +920,52 @@ export const DeploymentPropertiesExtended: msRest.CompositeMapper = {
         }
       },
       onErrorDeployment: {
+        readOnly: true,
         serializedName: "onErrorDeployment",
         type: {
           name: "Composite",
           className: "OnErrorDeploymentExtended"
+        }
+      },
+      templateHash: {
+        readOnly: true,
+        serializedName: "templateHash",
+        type: {
+          name: "String"
+        }
+      },
+      outputResources: {
+        readOnly: true,
+        serializedName: "outputResources",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ResourceReference"
+            }
+          }
+        }
+      },
+      validatedResources: {
+        readOnly: true,
+        serializedName: "validatedResources",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ResourceReference"
+            }
+          }
+        }
+      },
+      error: {
+        readOnly: true,
+        serializedName: "error",
+        type: {
+          name: "Composite",
+          className: "ErrorResponse"
         }
       }
     }
@@ -808,6 +979,7 @@ export const DeploymentValidateResult: msRest.CompositeMapper = {
     className: "DeploymentValidateResult",
     modelProperties: {
       error: {
+        readOnly: true,
         serializedName: "error",
         type: {
           name: "Composite",
@@ -863,6 +1035,17 @@ export const DeploymentExtended: msRest.CompositeMapper = {
         type: {
           name: "Composite",
           className: "DeploymentPropertiesExtended"
+        }
+      },
+      tags: {
+        serializedName: "tags",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "String"
+            }
+          }
         }
       }
     }
@@ -1122,6 +1305,38 @@ export const GenericResource: msRest.CompositeMapper = {
         type: {
           name: "Composite",
           className: "Identity"
+        }
+      }
+    }
+  }
+};
+
+export const GenericResourceExpanded: msRest.CompositeMapper = {
+  serializedName: "GenericResourceExpanded",
+  type: {
+    name: "Composite",
+    className: "GenericResourceExpanded",
+    modelProperties: {
+      ...GenericResource.type.modelProperties,
+      createdTime: {
+        readOnly: true,
+        serializedName: "createdTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      changedTime: {
+        readOnly: true,
+        serializedName: "changedTime",
+        type: {
+          name: "DateTime"
+        }
+      },
+      provisioningState: {
+        readOnly: true,
+        serializedName: "provisioningState",
+        type: {
+          name: "String"
         }
       }
     }
@@ -1445,6 +1660,25 @@ export const DeploymentOperationProperties: msRest.CompositeMapper = {
     name: "Composite",
     className: "DeploymentOperationProperties",
     modelProperties: {
+      provisioningOperation: {
+        readOnly: true,
+        serializedName: "provisioningOperation",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "NotSpecified",
+            "Create",
+            "Delete",
+            "Waiting",
+            "AzureAsyncOperationWaiting",
+            "ResourceCacheWaiting",
+            "Action",
+            "Read",
+            "EvaluateDeploymentOutput",
+            "DeploymentCleanup"
+          ]
+        }
+      },
       provisioningState: {
         readOnly: true,
         serializedName: "provisioningState",
@@ -1849,6 +2083,89 @@ export const WhatIfOperationResult: msRest.CompositeMapper = {
   }
 };
 
+export const Tags: msRest.CompositeMapper = {
+  serializedName: "Tags",
+  type: {
+    name: "Composite",
+    className: "Tags",
+    modelProperties: {
+      tags: {
+        serializedName: "tags",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const TagsPatchResource: msRest.CompositeMapper = {
+  serializedName: "TagsPatchResource",
+  type: {
+    name: "Composite",
+    className: "TagsPatchResource",
+    modelProperties: {
+      operation: {
+        serializedName: "operation",
+        type: {
+          name: "String"
+        }
+      },
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "Tags"
+        }
+      }
+    }
+  }
+};
+
+export const TagsResource: msRest.CompositeMapper = {
+  serializedName: "TagsResource",
+  type: {
+    name: "Composite",
+    className: "TagsResource",
+    modelProperties: {
+      id: {
+        readOnly: true,
+        serializedName: "id",
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        readOnly: true,
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        readOnly: true,
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      },
+      properties: {
+        required: true,
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "Tags"
+        }
+      }
+    }
+  }
+};
+
 export const DeploymentsWhatIfAtSubscriptionScopeHeaders: msRest.CompositeMapper = {
   serializedName: "deployments-whatifatsubscriptionscope-headers",
   type: {
@@ -1992,7 +2309,7 @@ export const ResourceListResult: msRest.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "GenericResource"
+              className: "GenericResourceExpanded"
             }
           }
         }

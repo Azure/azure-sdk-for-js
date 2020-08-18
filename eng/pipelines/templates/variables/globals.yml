@@ -1,6 +1,6 @@
 variables:
   DocWardenVersion: '0.5.0'
-  NodeVersion: "10.x"
+  NodeVersion: "12.x"
   OSVmImage: "ubuntu-18.04"
   Agent.Source.Git.ShallowFetchDepth: 20
   skipComponentGovernanceDetection: true

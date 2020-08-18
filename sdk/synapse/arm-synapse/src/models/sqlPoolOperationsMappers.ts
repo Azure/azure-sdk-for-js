@@ -43,6 +43,7 @@ export {
   MetadataSyncConfig,
   PrivateEndpoint,
   PrivateEndpointConnection,
+  PrivateLinkHub,
   PrivateLinkResource,
   PrivateLinkResourceProperties,
   PrivateLinkServiceConnectionState,

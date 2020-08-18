@@ -9,42 +9,41 @@
    "response": "{\"token_type\":\"Bearer\",\"expires_in\":3599,\"ext_expires_in\":3599,\"access_token\":\"access_token\"}",
    "responseHeaders": {
     "cache-control": "no-cache, no-store",
-    "content-length": "1417",
+    "content-length": "1500",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 05 Feb 2020 23:51:00 GMT",
+    "date": "Fri, 14 Aug 2020 17:49:50 GMT",
     "expires": "-1",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
     "referrer-policy": "strict-origin-when-cross-origin",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.9987.14 - SAN ProdSlices",
-    "x-ms-request-id": "914780c5-e0af-48b9-a267-88c940bf1d00"
+    "x-ms-ests-server": "2.1.10946.15 - WUS2 ProdSlices",
+    "x-ms-request-id": "5d8f0dfe-fcf5-4829-8d1a-c108212a2900"
    }
   },
   {
    "method": "POST",
-   "url": "https://endpoint/text/analytics/v3.0-preview.1/languages",
+   "url": "https://endpoint/text/analytics/v3.1-preview.1/languages",
    "query": {},
    "requestBody": "{\"documents\":[{\"id\":\"1\",\"text\":\"I had a wonderful trip to Seattle last week and even visited the Space Needle 2 times!\"},{\"id\":\"2\",\"text\":\"Unfortunately, it rained during my entire trip to Seattle. I didn't even get to visit the Space Needle\"},{\"id\":\"3\",\"text\":\"I went to see a movie on Saturday and it was perfectly average, nothing more or less than I expected.\"},{\"id\":\"4\",\"text\":\"I didn't like the last book I read at all.\"},{\"id\":\"5\",\"text\":\"Los caminos que llevan hasta Monte Rainier son espectaculares y hermosos.\",\"countryHint\":\"mx\"},{\"id\":\"6\",\"text\":\"La carretera estaba atascada. Había mucho tráfico el día de ayer.\",\"countryHint\":\"mx\"}]}",
    "status": 200,
-   "response": "{\"documents\":[{\"id\":\"1\",\"detectedLanguages\":[{\"name\":\"English\",\"iso6391Name\":\"en\",\"score\":1.0}]},{\"id\":\"2\",\"detectedLanguages\":[{\"name\":\"English\",\"iso6391Name\":\"en\",\"score\":1.0}]},{\"id\":\"3\",\"detectedLanguages\":[{\"name\":\"English\",\"iso6391Name\":\"en\",\"score\":1.0}]},{\"id\":\"4\",\"detectedLanguages\":[{\"name\":\"English\",\"iso6391Name\":\"en\",\"score\":1.0}]},{\"id\":\"5\",\"detectedLanguages\":[{\"name\":\"Spanish\",\"iso6391Name\":\"es\",\"score\":1.0}]},{\"id\":\"6\",\"detectedLanguages\":[{\"name\":\"Spanish\",\"iso6391Name\":\"es\",\"score\":1.0}]}],\"errors\":[],\"modelVersion\":\"2019-10-01\"}",
+   "response": "{\"documents\":[{\"id\":\"1\",\"detectedLanguage\":{\"name\":\"English\",\"iso6391Name\":\"en\",\"confidenceScore\":0.99},\"warnings\":[]},{\"id\":\"2\",\"detectedLanguage\":{\"name\":\"English\",\"iso6391Name\":\"en\",\"confidenceScore\":0.99},\"warnings\":[]},{\"id\":\"3\",\"detectedLanguage\":{\"name\":\"English\",\"iso6391Name\":\"en\",\"confidenceScore\":1.0},\"warnings\":[]},{\"id\":\"4\",\"detectedLanguage\":{\"name\":\"English\",\"iso6391Name\":\"en\",\"confidenceScore\":0.69},\"warnings\":[]},{\"id\":\"5\",\"detectedLanguage\":{\"name\":\"Spanish\",\"iso6391Name\":\"es\",\"confidenceScore\":1.0},\"warnings\":[]},{\"id\":\"6\",\"detectedLanguage\":{\"name\":\"Spanish\",\"iso6391Name\":\"es\",\"confidenceScore\":1.0},\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}",
    "responseHeaders": {
-    "access-control-allow-origin": "*",
-    "access-control-expose-headers": "Operation-Location",
-    "apim-request-id": "f474a64d-6bca-4307-8070-a8c423e35630",
+    "apim-request-id": "f890bd36-3966-4e0e-a307-bd0a461a2879",
     "content-type": "application/json; charset=utf-8",
     "csp-billing-usage": "CognitiveServices.TextAnalytics.BatchScoring=6",
-    "date": "Wed, 05 Feb 2020 23:51:00 GMT",
+    "date": "Fri, 14 Aug 2020 17:49:52 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "7"
+    "x-envoy-upstream-service-time": "890"
    }
   }
  ],
  "uniqueTestInfo": {
   "uniqueName": {},
   "newDate": {}
- }
+ },
+ "hash": "1ff3a46a729f9d9cfa5a1309e3ddd636"
 }

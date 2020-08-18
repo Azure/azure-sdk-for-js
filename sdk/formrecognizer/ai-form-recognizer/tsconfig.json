@@ -9,8 +9,7 @@
     "types",
     "temp",
     "browser",
-    "dist",
-    "dist-esm",
+    "dist*",
     "./samples/**/*.ts",
     "./dom-shims.d.ts"
   ]

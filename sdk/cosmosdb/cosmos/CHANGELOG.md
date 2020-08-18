@@ -1,8 +1,96 @@
 # Release History
 
-## 3.7.0 (Unreleased)
+## 3.9.0 (2020-08-13)
+
+- FEATURE: Adds support for autoscale parameters on container and database create methods
+
+Note that `maxThroughput` cannot be passed with `throughput`.
+
+```js
+// correct
+const containerDefinition = {
+  id: "sample container",
+  indexingPolicy: { indexingMode: IndexingMode.consistent },
+  maxThroughput: 500,
+  autoUpgradePolicy: {
+    throughputPolicy: {
+      incrementPercent: 15
+    }
+  }
+};
+database.container.create(containerDefinition)
+
+// incorrect
+const containerDefinition = {
+  id: "sample container",
+  indexingPolicy: { indexingMode: IndexingMode.consistent },
+  throughput: 500, // do not specify throughput with maxThroughput
+  maxThroughput: 500
+  autoUpgradePolicy: {
+    throughputPolicy: {
+      incrementPercent: 15
+    }
+  }
+};
+database.container.create(containerDefinition)
+```
+
+## 3.8.2 (2020-08-12)
+
+- BUGFIX: Fix checkURL function for Node 8
+
+## 3.8.1 (2020-08-12)
+
+- BUGFIX: Adds separate URL module for browser/node.
+
+## 3.8.0 (2020-08-10)
+
+- FEATURE: Throws when initializing ClientContext with an invalid endpoint
+- FEATURE: Changes JSONArray type internal from Array to ArrayLike to avoid requiring type coercion for immutable data
+- FEATURE: Adds bulk request to container.items. Allows aggregate bulk request for up to 100 operations on items with the types: Create, Upsert, Read, Replace, Delete
+
+```js
+// up to 100 operations
+const operations: OperationInput[] = [
+  {
+    operationType: "Create",
+    resourceBody: { id: "doc1", name: "sample", key: "A" },
+  },
+  {
+    operationType: "Upsert",
+    resourceBody: { id: "doc2", name: "other", key: "A" },
+  },
+  {
+    operationType: "Read",
+    id: "readItemId",
+    partitionKey: "key",
+  },
+];
+
+await database.container.items.bulk(operations);
+```
+
+## 3.7.4 (2020-06-30)
+
+- BUGFIX: Properly escape ASCII "DEL" character in partition key header
+
+## 3.7.3 (2020-06-29)
+
+- BUGFIX: Cannot create item with automatic id generation and a container partitioned on ID (#9734)
+
+## 3.7.2 (2020-06-16)
+
+- BUGFIX: Internal abort signal incorrectly triggered when user passes a custom abort signal. See #9510 for details.
+
+## 3.7.1 (2020-06-12)
+
+- BUGFIX: Typo in globalCrypto.js causing errors in IE browser
+- BUGFIX: Resource tokens not matching for item delete operations (#9110)
+
+## 3.7.0 (2020-06-08)
 
 - BUGFIX: Support crypto functions in Internet Explorer browser
+- BUGFIX: Incorrect key casing in object returned by `setAuthorizationHeader`
 - FEATURE: Adds `readOffer` methods to container and database
 - FEATURE: Allows string value `partitionKey` parameter when creating containers
 
@@ -28,7 +116,8 @@ const containerDefinition = {
 database.container.create(containerDefinition);
 ```
 
-## 3.6.3 (2020-4-08)
+## 3.6.3 (2020-04-08)
+>>>>>>> master
 
 - FEATURE: Add `partitionKey` to `FeedOptions` for scoping a query to a single partition key value
 
@@ -49,24 +138,24 @@ container.items.query('SELECT * from c WHERE c.yourPartitionKey = "foo"').fetchA
 
 Based on customer feedback, we identified scenarios where it still makes sense to support passing the partition key via `FeedOptions` and have decided to restore the behavior.
 
-## 3.6.2 (2020-2-20)
+## 3.6.2 (2020-02-20)
 
 - BUG FIX: Support signing in web workers where this === self
 
-## 3.6.1 (2020-2-11)
+## 3.6.1 (2020-02-11)
 
 - BUG FIX: Normalize location names when selecting endpoint. Allows passing of normalized endpoint names
 
-## 3.6.0 (2020-2-10)
+## 3.6.0 (2020-02-10)
 
 - FEATURE: Add support for spatial indexing, bounding boxes, and geospatial configuration
 - BUG FIX: Fix bug when passing forceQueryPlan to QueryIterator for non-item resources (#7333)
 
-## 3.5.4 (2020-1-28)
+## 3.5.4 (2020-01-28)
 
 - BUG FIX: Return parsed number instead of string for request charge
 
-## 3.5.3 (2020-1-06)
+## 3.5.3 (2020-01-06)
 
 - BUG FIX: maxDegreeOfParallelism was defaulting to 1 and should default to the number of partitions of the collection
 - BUG FIX: maxItemCount was defaulting to 10 and should default to undefined
@@ -177,7 +266,7 @@ Fixes broken session tokens in the browser. Cosmos uses file system friendly bas
   - User cancelable requests
 - Update to the latest Cosmos REST API version where [all containers have unlimited scale](https://docs.microsoft.com/en-us/azure/cosmos-db/migrate-containers-partitioned-to-nonpartitioned)
 - Make it easier to use Cosmos from the browser
-- Better align with the new [Azure JS SDK guidlines](https://azuresdkspecs.z5.web.core.windows.net/TypeScriptSpec.html)
+- Better align with the new [Azure JS SDK guidlines](https://azure.github.io/azure-sdk/typescript_introduction.html)
 
 ### Migration Guide for Breaking Changes
 
@@ -193,14 +282,14 @@ Constructor options have been simplified:
 const client = new CosmosClient({
   endpoint: "https://your-database.cosmos.azure.com",
   auth: {
-    masterKey: "your-primary-key"
-  }
+    masterKey: "your-primary-key",
+  },
 });
 
 // v3
 const client = new CosmosClient({
   endpoint: "https://your-database.cosmos.azure.com",
-  key: "your-primary-key"
+  key: "your-primary-key",
 });
 ```
 

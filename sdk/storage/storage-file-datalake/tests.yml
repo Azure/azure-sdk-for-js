@@ -1,15 +1,7 @@
 trigger: none
-resources:
-  repositories:
-    - repository: azure-sdk-build-tools
-      type: git
-      name: internal/azure-sdk-build-tools
-    - repository: azure-sdk-tools
-      type: github
-      name: Azure/azure-sdk-tools
-      endpoint: azure
-jobs:
-  - template: ../../../eng/pipelines/templates/jobs/archetype-sdk-integration.yml
-    parameters:
-      PackageName: "@azure/storage-file-datalake"
-      TestSamples: false
+
+extends:
+  template: ../../../eng/pipelines/templates/jobs/archetype-sdk-integration.yml
+  parameters:
+    PackageName: "@azure/storage-file-datalake"
+    TestSamples: false

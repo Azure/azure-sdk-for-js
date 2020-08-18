@@ -180,9 +180,9 @@ const createOrUpdateOperationSpec: coreHttp.OperationSpec = {
     Parameters.apiVersion
   ],
   headerParameters: [
-    Parameters.prefer,
     Parameters.ifMatch,
-    Parameters.ifNoneMatch
+    Parameters.ifNoneMatch,
+    Parameters.prefer
   ],
   requestBody: {
     parameterPath: "synonymMap",

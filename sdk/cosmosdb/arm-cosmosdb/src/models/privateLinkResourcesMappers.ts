@@ -7,8 +7,11 @@
  */
 
 export {
+  ApiProperties,
   ARMProxyResource,
   ARMResourceProperties,
+  AutoscaleSettings,
+  AutoscaleSettingsResource,
   AutoUpgradePolicyResource,
   AzureEntityResource,
   BaseResource,
@@ -32,6 +35,7 @@ export {
   ConflictResolutionPolicy,
   ConsistencyPolicy,
   ContainerPartitionKey,
+  CorsPolicy,
   CreateUpdateOptions,
   DatabaseAccountCreateUpdateParameters,
   DatabaseAccountGetResults,
@@ -50,6 +54,7 @@ export {
   IncludedPath,
   Indexes,
   IndexingPolicy,
+  IpAddressOrRange,
   Location,
   MongoDBCollectionCreateUpdateParameters,
   MongoDBCollectionGetPropertiesOptions,
@@ -72,7 +77,6 @@ export {
   PrivateLinkResource,
   PrivateLinkResourceListResult,
   PrivateLinkServiceConnectionStateProperty,
-  ProvisionedThroughputSettingsResource,
   ProxyResource,
   Resource,
   SpatialSpec,

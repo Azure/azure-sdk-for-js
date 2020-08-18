@@ -16,3 +16,4 @@ export * from "./extensions";
 export * from "./scriptActions";
 export * from "./scriptExecutionHistory";
 export * from "./operations";
+export * from "./virtualMachines";

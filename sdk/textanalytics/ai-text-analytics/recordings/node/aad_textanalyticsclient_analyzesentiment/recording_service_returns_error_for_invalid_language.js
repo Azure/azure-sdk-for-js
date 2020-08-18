@@ -1,5 +1,7 @@
 let nock = require('nock');
 
+module.exports.hash = "12e2b3b67f3a691671585c0eef389371";
+
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
 nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
@@ -18,38 +20,38 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'x-ms-request-id',
-  '182c1c08-935c-465a-96df-e9c940059600',
+  '28dd02d4-22ed-4668-916e-431e58522a00',
   'x-ms-ests-server',
-  '2.1.9987.14 - SAN ProdSlices',
+  '2.1.10946.15 - SCUS ProdSlices',
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'Set-Cookie',
-  'fpc=AsZDUUqF_glNimNhKtg1vnD0CyfMAQAAAP-cztUOAAAA; expires=Sat, 07-Mar-2020 23:49:19 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AoBTSI51C1RCshCvUPjW4Pz0CyfMAQAAAHHFyNYOAAAA; expires=Sun, 13-Sep-2020 17:48:33 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
-  'x-ms-gateway-slice=corp; path=/; SameSite=None; secure; HttpOnly',
+  'x-ms-gateway-slice=estsfd; path=/; SameSite=None; secure; HttpOnly',
   'Set-Cookie',
-  'stsservicecookie=estscorp; path=/; SameSite=None; secure; HttpOnly',
+  'stsservicecookie=estsfd; path=/; SameSite=None; secure; HttpOnly',
   'Date',
-  'Thu, 06 Feb 2020 23:49:18 GMT',
+  'Fri, 14 Aug 2020 17:48:33 GMT',
   'Content-Length',
-  '1417'
+  '1500'
 ]);
 
-nock('https://endpoint:443', {"encodedQueryParams":true})
-  .post('/text/analytics/v3.0-preview.1/sentiment', {"documents":[{"id":"0","text":"Hello world!","language":"notalanguage"}]})
-  .reply(200, {"documents":[],"errors":[{"id":"0","error":{"code":"InvalidArgument","message":"Invalid Language Code.","innerError":{"code":"UnsupportedLanguageCode","message":"Supplied language not supported. Pass in one of: de,en,es,fr,it,ja,ko,nl,pt-PT,zh-Hans,zh-Hant"}}}],"modelVersion":"2019-10-01"}, [
+nock('https://endpoint', {"encodedQueryParams":true})
+  .post('/text/analytics/v3.1-preview.1/sentiment', {"documents":[{"id":"0","text":"Hello world!","language":"notalanguage"}]})
+  .reply(200, {"documents":[],"errors":[{"id":"0","error":{"code":"InvalidArgument","message":"Invalid Language Code.","innererror":{"code":"UnsupportedLanguageCode","message":"Invalid language code. Supported languages: de,en,es,fr,it,ja,ko,nl,pt-PT,zh-Hans,zh-Hant"}}}],"modelVersion":"2020-04-01"}, [
   'Transfer-Encoding',
   'chunked',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-envoy-upstream-service-time',
-  '3',
+  '814',
   'apim-request-id',
-  '55dee208-f7a2-490a-ba08-7626b278637e',
+  '595b7f75-25b4-42d2-b56a-bb93a84aa557',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Thu, 06 Feb 2020 23:49:19 GMT'
+  'Fri, 14 Aug 2020 17:48:34 GMT'
 ]);

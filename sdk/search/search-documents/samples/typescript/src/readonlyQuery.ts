@@ -1,15 +1,10 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
 /**
  * Performs a query over a public dataset
  */
-import {
-  SearchIndexClient,
-  AzureKeyCredential,
-  odata,
-  GeographyPoint
-} from "@azure/search-documents";
+import { SearchClient, AzureKeyCredential, odata, GeographyPoint } from "@azure/search-documents";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
@@ -54,21 +49,20 @@ export async function main() {
   const indexName = "hotels";
 
   const credential = new AzureKeyCredential(apiKey);
-  const client = new SearchIndexClient<Hotel>(endpoint, indexName, credential);
+  const client = new SearchClient<Hotel>(endpoint, indexName, credential);
 
-  const count = await client.countDocuments();
+  const count = await client.getDocumentsCount();
   console.log(`${count} documents in index ${client.indexName}`);
 
   const state = "FL";
   const country = "USA";
-  const searchResults = await client.search({
-    searchText: "WiFi",
+  const searchResults = await client.search("WiFi", {
     filter: odata`Address/StateProvince eq ${state} and Address/Country eq ${country}`,
     orderBy: ["Rating desc"],
     select: ["HotelId", "HotelName", "Rating"]
   });
   for await (const result of searchResults.results) {
-    console.log(`${result.HotelName}: ${result.Rating} stars`);
+    console.log(`${result.document.HotelName}: ${result.document.Rating} stars`);
   }
 }
 

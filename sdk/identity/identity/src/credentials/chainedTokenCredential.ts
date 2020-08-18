@@ -1,16 +1,25 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
 import { AccessToken, TokenCredential, GetTokenOptions } from "@azure/core-http";
-import { AggregateAuthenticationError } from "../client/errors";
+import { AggregateAuthenticationError, CredentialUnavailable } from "../client/errors";
 import { createSpan } from "../util/tracing";
 import { CanonicalCode } from "@opentelemetry/api";
+import { credentialLogger, formatSuccess, formatError } from "../util/logging";
+
+const logger = credentialLogger("ChainedTokenCredential");
 
 /**
  * Enables multiple `TokenCredential` implementations to be tried in order
  * until one of the getToken methods returns an access token.
  */
 export class ChainedTokenCredential implements TokenCredential {
+  /**
+   * The message to use when the chained token fails to get a token
+   */
+  protected UnavailableMessage =
+    "ChainedTokenCredential => failed to retrieve a token from the included credentials";
+
   private _sources: TokenCredential[] = [];
 
   /**
@@ -52,7 +61,12 @@ export class ChainedTokenCredential implements TokenCredential {
       try {
         token = await this._sources[i].getToken(scopes, newOptions);
       } catch (err) {
-        errors.push(err);
+        if (err instanceof CredentialUnavailable) {
+          errors.push(err);
+        } else {
+          logger.getToken.info(formatError(err));
+          throw err;
+        }
       }
     }
 
@@ -62,11 +76,13 @@ export class ChainedTokenCredential implements TokenCredential {
         code: CanonicalCode.UNAUTHENTICATED,
         message: err.message
       });
+      logger.getToken.info(formatError(err));
       throw err;
     }
 
     span.end();
 
+    logger.getToken.info(formatSuccess(scopes));
     return token;
   }
 }

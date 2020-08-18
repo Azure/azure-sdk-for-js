@@ -12,6 +12,7 @@ import * as Models from "./models";
 import * as Mappers from "./models/mappers";
 import { GeneratedClientContext } from "./generatedClientContext";
 import {
+  GeneratedClientOptionalParams,
   TrainRequest,
   GeneratedClientTrainCustomModelAsyncResponse,
   GeneratedClientGetCustomModelOptionalParams,
@@ -41,17 +42,12 @@ import {
 class GeneratedClient extends GeneratedClientContext {
   /**
    * Initializes a new instance of the GeneratedClient class.
-   * @param credentials Subscription credentials which uniquely identify client subscription.
    * @param endpoint Supported Cognitive Services endpoints (protocol and hostname, for example:
    *                 https://westus2.api.cognitive.microsoft.com).
    * @param options The parameter options
    */
-  constructor(
-    credentials: coreHttp.TokenCredential | coreHttp.ServiceClientCredentials,
-    endpoint: string,
-    options?: Models.GeneratedClientOptionalParams
-  ) {
-    super(credentials, endpoint, options);
+  constructor(endpoint: string, options?: GeneratedClientOptionalParams) {
+    super(endpoint, options);
   }
 
   /**
@@ -532,6 +528,7 @@ const trainCustomModelAsyncOperationSpec: coreHttp.OperationSpec = {
   requestBody: Parameters.trainRequest,
   urlParameters: [Parameters.endpoint],
   headerParameters: [Parameters.contentType],
+  mediaType: "json",
   serializer
 };
 const getCustomModelOperationSpec: coreHttp.OperationSpec = {
@@ -576,6 +573,7 @@ const analyzeWithCustomModel$binaryOperationSpec: coreHttp.OperationSpec = {
   queryParameters: [Parameters.includeTextDetails],
   urlParameters: [Parameters.endpoint, Parameters.modelId],
   headerParameters: [Parameters.contentType1],
+  mediaType: "binary",
   serializer
 };
 const analyzeWithCustomModel$jsonOperationSpec: coreHttp.OperationSpec = {
@@ -593,6 +591,7 @@ const analyzeWithCustomModel$jsonOperationSpec: coreHttp.OperationSpec = {
   queryParameters: [Parameters.includeTextDetails],
   urlParameters: [Parameters.endpoint, Parameters.modelId],
   headerParameters: [Parameters.contentType2],
+  mediaType: "json",
   serializer
 };
 const getAnalyzeFormResultOperationSpec: coreHttp.OperationSpec = {
@@ -623,6 +622,7 @@ const copyCustomModelOperationSpec: coreHttp.OperationSpec = {
   requestBody: Parameters.copyRequest,
   urlParameters: [Parameters.endpoint, Parameters.modelId],
   headerParameters: [Parameters.contentType],
+  mediaType: "json",
   serializer
 };
 const getCustomModelCopyResultOperationSpec: coreHttp.OperationSpec = {
@@ -636,11 +636,7 @@ const getCustomModelCopyResultOperationSpec: coreHttp.OperationSpec = {
       bodyMapper: Mappers.ErrorResponse
     }
   },
-  urlParameters: [
-    Parameters.endpoint,
-    Parameters.modelId,
-    Parameters.resultId1
-  ],
+  urlParameters: [Parameters.endpoint, Parameters.modelId, Parameters.resultId],
   serializer
 };
 const generateModelCopyAuthorizationOperationSpec: coreHttp.OperationSpec = {
@@ -674,6 +670,7 @@ const analyzeReceiptAsync$binaryOperationSpec: coreHttp.OperationSpec = {
   queryParameters: [Parameters.includeTextDetails],
   urlParameters: [Parameters.endpoint],
   headerParameters: [Parameters.contentType1],
+  mediaType: "binary",
   serializer
 };
 const analyzeReceiptAsync$jsonOperationSpec: coreHttp.OperationSpec = {
@@ -691,6 +688,7 @@ const analyzeReceiptAsync$jsonOperationSpec: coreHttp.OperationSpec = {
   queryParameters: [Parameters.includeTextDetails],
   urlParameters: [Parameters.endpoint],
   headerParameters: [Parameters.contentType2],
+  mediaType: "json",
   serializer
 };
 const getAnalyzeReceiptResultOperationSpec: coreHttp.OperationSpec = {
@@ -721,6 +719,7 @@ const analyzeLayoutAsync$binaryOperationSpec: coreHttp.OperationSpec = {
   requestBody: Parameters.fileStream,
   urlParameters: [Parameters.endpoint],
   headerParameters: [Parameters.contentType1],
+  mediaType: "binary",
   serializer
 };
 const analyzeLayoutAsync$jsonOperationSpec: coreHttp.OperationSpec = {
@@ -737,6 +736,7 @@ const analyzeLayoutAsync$jsonOperationSpec: coreHttp.OperationSpec = {
   requestBody: Parameters.fileStream1,
   urlParameters: [Parameters.endpoint],
   headerParameters: [Parameters.contentType2],
+  mediaType: "json",
   serializer
 };
 const getAnalyzeLayoutResultOperationSpec: coreHttp.OperationSpec = {

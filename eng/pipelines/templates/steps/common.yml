@@ -8,11 +8,4 @@ steps:
 
   - template: /eng/common/pipelines/templates/steps/verify-agent-os.yml
 
-  - task: NodeTool@0
-    inputs:
-      versionSpec: "$(NodeVersion)"
-    displayName: "Use NodeJS $(NodeVersion)"
-
-  - script: |
-      npm --version
-    displayName: NPM version
+  - template: use-node-version.yml

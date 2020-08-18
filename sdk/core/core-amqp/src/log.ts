@@ -1,5 +1,5 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
 import { createClientLogger } from "@azure/logger";
 
@@ -14,7 +14,7 @@ export const logger = createClientLogger("core-amqp");
  * @param error Error containing a stack trace.
  * @ignore
  */
-export function logErrorStackTrace(error: any) {
+export function logErrorStackTrace(error: any): void {
   if (error && error.stack) {
     logger.verbose(error.stack);
   }

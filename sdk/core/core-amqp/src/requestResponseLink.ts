@@ -1,23 +1,24 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
-import { AbortSignalLike, AbortError } from "@azure/abort-controller";
+import { AbortError, AbortSignalLike } from "@azure/abort-controller";
 import { Constants } from "./util/constants";
 import {
-  Session,
-  Connection,
-  Sender,
-  Receiver,
-  Message as AmqpMessage,
-  EventContext,
   AmqpError,
-  SenderOptions,
-  ReceiverOptions,
+  Message as AmqpMessage,
+  Connection,
+  EventContext,
+  Receiver,
   ReceiverEvents,
-  ReqResLink
+  ReceiverOptions,
+  ReqResLink,
+  Sender,
+  SenderOptions,
+  Session,
+  generate_uuid
 } from "rhea-promise";
-import { translate, ConditionStatusMapper } from "./errors";
-import { logger, logErrorStackTrace } from "./log";
+import { ConditionStatusMapper, translate } from "./errors";
+import { logErrorStackTrace, logger } from "./log";
 
 /**
  * Describes the options that can be specified while sending a request.
@@ -84,8 +85,14 @@ export class RequestResponseLink implements ReqResLink {
 
     const aborter: AbortSignalLike | undefined = options.abortSignal;
 
+    // If message_id is not already set on the request, set it to a unique value
+    // This helps in determining the right response for current request among multiple incoming messages
+    if (!request.message_id) {
+      request.message_id = generate_uuid();
+    }
+
     return new Promise<AmqpMessage>((resolve: any, reject: any) => {
-      let waitTimer: any;
+      let waitTimer: any = null;
       let timeOver: boolean = false;
       type NormalizedInfo = {
         statusCode: number;
@@ -93,7 +100,7 @@ export class RequestResponseLink implements ReqResLink {
         errorCondition: string;
       };
 
-      const rejectOnAbort = () => {
+      const rejectOnAbort = (): void => {
         const address = this.receiver.address || "address";
         const requestName = options.requestName;
         const desc: string =
@@ -108,7 +115,7 @@ export class RequestResponseLink implements ReqResLink {
         reject(error);
       };
 
-      const onAbort = () => {
+      const onAbort = (): void => {
         // remove the event listener as this will be registered next time someone makes a request.
         this.receiver.removeListener(ReceiverEvents.message, messageCallback);
         // safe to clear the timeout if it hasn't already occurred.
@@ -140,7 +147,7 @@ export class RequestResponseLink implements ReqResLink {
         };
       };
 
-      const messageCallback = (context: EventContext) => {
+      const messageCallback = (context: EventContext): void => {
         if (aborter) {
           aborter.removeEventListener("abort", onAbort);
         }
@@ -152,12 +159,9 @@ export class RequestResponseLink implements ReqResLink {
           request.to || "$management",
           context.message
         );
-        if (
-          request.message_id !== responseCorrelationId &&
-          request.correlation_id !== responseCorrelationId
-        ) {
+        if (request.message_id !== responseCorrelationId) {
           // do not remove message listener.
-          // parallel requests listen on the same receiver, so continue waiting until respose that matches
+          // parallel requests listen on the same receiver, so continue waiting until response that matches
           // request via correlationId is found.
           logger.verbose(
             "[%s] request-messageId | '%s' != '%s' | response-correlationId. " +
@@ -171,10 +175,10 @@ export class RequestResponseLink implements ReqResLink {
 
         // remove the event listeners as they will be registered next time when someone makes a request.
         this.receiver.removeListener(ReceiverEvents.message, messageCallback);
+        if (!timeOver) {
+          clearTimeout(waitTimer);
+        }
         if (info.statusCode > 199 && info.statusCode < 300) {
-          if (!timeOver) {
-            clearTimeout(waitTimer);
-          }
           logger.verbose(
             "[%s] request-messageId | '%s' == '%s' | response-correlationId.",
             this.connection.id,
@@ -190,13 +194,13 @@ export class RequestResponseLink implements ReqResLink {
             description: info.statusDescription
           };
           const error = translate(e);
-          logger.warning(error);
+          logger.warning(`${error?.name}: ${error?.message}`);
           logErrorStackTrace(error);
           return reject(error);
         }
       };
 
-      const actionAfterTimeout = () => {
+      const actionAfterTimeout = (): void => {
         timeOver = true;
         this.receiver.removeListener(ReceiverEvents.message, messageCallback);
         if (aborter) {
@@ -219,7 +223,7 @@ export class RequestResponseLink implements ReqResLink {
       logger.verbose(
         "[%s] %s request sent: %O",
         this.connection.id,
-        request.to || "$managment",
+        request.to || "$management",
         request
       );
       this.sender.send(request);
@@ -231,8 +235,8 @@ export class RequestResponseLink implements ReqResLink {
    * @returns {Promise<void>} Promise<void>
    */
   async close(): Promise<void> {
-    await this.sender.close();
-    await this.receiver.close();
+    await this.sender.close({ closeSession: false });
+    await this.receiver.close({ closeSession: false });
     await this.session.close();
   }
 

@@ -1,5 +1,5 @@
-// Copyright (c) Microsoft. All rights reserved.
-// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
 import * as chai from "chai";
 const should = chai.should();
@@ -100,7 +100,7 @@ describe("Errors", function() {
     ].forEach(function(mapping) {
       it("translates " + mapping.from + " into " + mapping.to, function() {
         const err: any = new AMQPError(mapping.from, mapping.message);
-        const translatedError = <Errors.MessagingError>Errors.translate(err);
+        const translatedError = Errors.translate(err) as Errors.MessagingError;
         // <unknown> won't have a code since it has no matching condition
         if (translatedError.code) {
           translatedError.code.should.equal(mapping.to);
@@ -109,6 +109,7 @@ describe("Errors", function() {
         if (
           translatedError.code === "ServerBusyError" ||
           translatedError.code === "MessagingError" ||
+          // eslint-disable-next-line eqeqeq
           translatedError.code == undefined
         ) {
           translatedError.retryable.should.equal(true);
@@ -153,7 +154,7 @@ describe("Errors", function() {
       it(
         "SystemError from node.js  with code: '" + mapping.code + "' to a MessagingError",
         function() {
-          const translatedError = <Errors.MessagingError>Errors.translate(mapping as any);
+          const translatedError = Errors.translate(mapping as any) as Errors.MessagingError;
           translatedError.name.should.equal("MessagingError");
           translatedError.code!.should.equal(mapping.code);
           if (["ECONNRESET", "ECONNREFUSED", "EBUSY"].indexOf(mapping.code) !== -1) {

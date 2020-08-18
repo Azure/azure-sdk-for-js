@@ -74,13 +74,7 @@ export function nodeConfig({ test = false, production = false } = {}) {
     baseConfig.output.file = "test-dist/index.js";
 
     // mark assert as external
-    baseConfig.external.push(
-      "assert",
-      "fs",
-      "path",
-      "@azure/arm-servicebus",
-      "@azure/ms-rest-nodeauth"
-    );
+    baseConfig.external.push("assert", "fs", "path", "@azure/identity");
 
     baseConfig.onwarn = ignoreKnownWarnings;
 
@@ -126,11 +120,6 @@ export function browserConfig(test = false) {
         net: `export default {}`,
         tls: `export default {}`,
         dotenv: `export function config() { }`,
-        os: `
-          export function arch() { return "javascript" }
-          export function type() { return "Browser" }
-          export function release() { typeof navigator === 'undefined' ? '' : navigator.appVersion }
-        `,
         path: `export default {}`,
         dns: `export function resolve() { }`,
         glob: `export default {}`

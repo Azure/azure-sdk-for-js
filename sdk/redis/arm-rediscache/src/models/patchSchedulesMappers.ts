@@ -12,6 +12,7 @@ export {
   ProxyResource,
   RedisAccessKeys,
   RedisFirewallRule,
+  RedisInstanceDetails,
   RedisLinkedServer,
   RedisLinkedServerWithProperties,
   RedisPatchSchedule,

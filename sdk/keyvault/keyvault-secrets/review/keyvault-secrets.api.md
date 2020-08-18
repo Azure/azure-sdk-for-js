@@ -36,7 +36,7 @@ export interface DeletedSecret {
 }
 
 // @public
-export type DeletionRecoveryLevel = "Purgeable" | "Recoverable+Purgeable" | "Recoverable" | "Recoverable+ProtectedSubscription" | "CustomizedRecoverable+Purgeable" | "CustomizedRecoverable" | "CustomizedRecoverable+ProtectedSubscription";
+export type DeletionRecoveryLevel = 'Purgeable' | 'Recoverable+Purgeable' | 'Recoverable' | 'Recoverable+ProtectedSubscription' | 'CustomizedRecoverable+Purgeable' | 'CustomizedRecoverable' | 'CustomizedRecoverable+ProtectedSubscription';
 
 // @public
 export interface GetDeletedSecretOptions extends coreHttp.OperationOptions {
@@ -107,7 +107,7 @@ export class SecretClient {
 
 // @public
 export interface SecretClientOptions extends coreHttp.PipelineOptions {
-    apiVersion?: "7.0" | "7.1-preview";
+    serviceVersion?: "7.0" | "7.1";
 }
 
 // @public

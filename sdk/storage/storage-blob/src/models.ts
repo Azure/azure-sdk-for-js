@@ -12,6 +12,11 @@ import {
 import { EncryptionAlgorithmAES25 } from "./utils/constants";
 
 /**
+ * Blob tags.
+ */
+export type Tags = Record<string, string>;
+
+/**
  * A map of name-value pairs to associate with the resource.
  */
 export interface Metadata {
@@ -46,7 +51,7 @@ export interface AppendBlobRequestConditions
  */
 export enum BlockBlobTier {
   /**
-   * Optmized for storing data that is accessed frequently.
+   * Optimized for storing data that is accessed frequently.
    */
   Hot = "Hot",
   /**
@@ -63,7 +68,7 @@ export enum BlockBlobTier {
 /**
  * Specifies the page blob tier to set the blob to. This is only applicable to page blobs on premium storage accounts.
  * Please see {@link https://docs.microsoft.com/azure/storage/storage-premium-storage#scalability-and-performance-targets|here}
- * for detailed information on the corresponding IOPS and throughtput per PageBlobTier.
+ * for detailed information on the corresponding IOPS and throughput per PageBlobTier.
  */
 export enum PremiumPageBlobTier {
   /**

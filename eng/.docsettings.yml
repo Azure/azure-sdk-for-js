@@ -7,12 +7,14 @@ omitted_paths:
   - sdk/identity/identity/test/manual-integration/*
   - sdk/test-utils/perfstress/README.md
   - sdk/keyvault/*/test/README.md
+  - sdk/keyvault/keyvault-common/*
   - sdk/appconfiguration/*/test/README.md
   - sdk/eventhub/*/test/README.md
   - sdk/search/*/test/README.md
   - sdk/servicebus/*/test/README.md
   - sdk/servicebus/service-bus/samples-v1/*
   - sdk/storage/*/test/README.md
+  - sdk/storage/storage-internal-avro/*
   - sdk/textanalytics/*/test/README.md
   - sdk/**/samples/*
   - sdk/**/swagger/*
@@ -30,73 +32,97 @@ required_readme_sections:
   - ^Contributing$
 
 known_presence_issues:
-  - ['CHANGELOG.md','#1583']
-  - ['sdk/applicationinsights/applicationinsights-query/CHANGELOG.md','#1583']
-  - ['sdk/batch/batch/CHANGELOG.md','#1583']
-  - ['sdk/eventgrid/eventgrid/CHANGELOG.md','#1583']
-  - ['sdk/eventhub/testhub/CHANGELOG.md','#1583']
-  - ['sdk/graphrbac/graph/CHANGELOG.md','#1583']
-  - ['sdk/operationalinsights/loganalytics/CHANGELOG.md','#1583']
-  - ['sdk/servicefabric/servicefabric/CHANGELOG.md','#1583']
-  - ['sdk/storage/storage-datalake/CHANGELOG.md','#1583']
-  - ['sdk/template/template/CHANGELOG.md','#1583']
-  - ['sdk/test-utils/recorder/CHANGELOG.md','#1583']
-  - ['sdk/test-utils/perfstress/CHANGELOG.md','#1583']
+  - ["CHANGELOG.md", "#1583"]
+  - ["sdk/applicationinsights/applicationinsights-query/CHANGELOG.md", "#1583"]
+  - ["sdk/batch/batch/CHANGELOG.md", "#1583"]
+  - ["sdk/eventgrid/eventgrid/CHANGELOG.md", "#1583"]
+  - ["sdk/eventhub/testhub/CHANGELOG.md", "#1583"]
+  - ["sdk/graphrbac/graph/CHANGELOG.md", "#1583"]
+  - ["sdk/operationalinsights/loganalytics/CHANGELOG.md", "#1583"]
+  - ["sdk/servicefabric/servicefabric/CHANGELOG.md", "#1583"]
+  - ["sdk/storage/storage-datalake/CHANGELOG.md", "#1583"]
+  - ["sdk/template/template/CHANGELOG.md", "#1583"]
+  - ["sdk/test-utils/recorder/CHANGELOG.md", "#1583"]
+  - ["sdk/test-utils/perfstress/CHANGELOG.md", "#1583"]
 
 known_content_issues:
-  - ["README.md", "#1583"]
-  - ["sdk/appconfiguration/app-configuration/README.md", "#1583"]
-  - ["sdk/applicationinsights/applicationinsights-query/README.md", "#1583"]
-  - ["sdk/batch/batch/README.md", "#1583"]
-  - ["sdk/cognitiveservices/cognitiveservices-anomalydetector/README.md", "#1583",]
-  - ["sdk/cognitiveservices/cognitiveservices-autosuggest/README.md", "#1583"]
-  - ["sdk/cognitiveservices/cognitiveservices-computervision/README.md", "#1583"]
-  - ["sdk/cognitiveservices/cognitiveservices-contentmoderator/README.md", "#1583"]
-  - ["sdk/cognitiveservices/cognitiveservices-customimagesearch/README.md", "#1583"]
-  - ["sdk/cognitiveservices/cognitiveservices-customsearch/README.md", "#1583"]
-  - ["sdk/cognitiveservices/cognitiveservices-customvision-prediction/README.md", "#1583"]
-  - ["sdk/cognitiveservices/cognitiveservices-customvision-training/README.md", "#1583"]
-  - ["sdk/cognitiveservices/cognitiveservices-entitysearch/README.md", "#1583"]
-  - ["sdk/cognitiveservices/cognitiveservices-face/README.md", "#1583"]
-  - ["sdk/cognitiveservices/cognitiveservices-imagesearch/README.md", "#1583"]
-  - ["sdk/cognitiveservices/cognitiveservices-localsearch/README.md", "#1583"]
-  - ["sdk/cognitiveservices/cognitiveservices-luis-authoring/README.md", "#1583"]
-  - ["sdk/cognitiveservices/cognitiveservices-luis-runtime/README.md", "#1583"]
-  - ["sdk/cognitiveservices/cognitiveservices-newssearch/README.md", "#1583"]
-  - ["sdk/cognitiveservices/cognitiveservices-qnamaker/README.md", "#1583"]
-  - ["sdk/cognitiveservices/cognitiveservices-spellcheck/README.md", "#1583"]
-  - ["sdk/cognitiveservices/cognitiveservices-textanalytics/README.md", "#1583"]
-  - ["sdk/cognitiveservices/cognitiveservices-videosearch/README.md", "#1583"]
-  - ["sdk/cognitiveservices/cognitiveservices-visualsearch/README.md", "#1583"]
-  - ["sdk/cognitiveservices/cognitiveservices-websearch/README.md", "#1583"]
-  - ["sdk/core/abort-controller/README.md", "#1583"]
-  - ["sdk/core/core-auth/README.md", "#1583"]
-  - ["sdk/core/core-tracing/README.md", "#1583"]
-  - ["sdk/core/logger/README.md", "#1583"]
-  - ["sdk/cosmosdb/cosmos/README.md", "#1583"]
-  - ["sdk/cosmosdb/cosmos/test/readme.md", "#1583"]
-  - ["sdk/eventgrid/eventgrid/README.md", "#1583"]
-  - ["sdk/eventhub/event-hubs/README.md", "#1583"]
-  - ["sdk/eventhub/eventhubs-checkpointstore-blob/README.md", "#1583"]
-  - ["sdk/eventhub/event-processor-host/README.md", "#1583"]
-  - ["sdk/eventhub/README.md", "#1583"]
-  - ["sdk/eventhub/testhub/README.md", "#1583"]
-  - ["sdk/graphrbac/graph/README.md", "#1583"]
-  - ["sdk/keyvault/README.md", "#1583"]
-  - ["sdk/operationalinsights/loganalytics/README.md", "#1583"]
-  - ["sdk/servicebus/service-bus/README.md", "#1583"]
-  - ["sdk/servicebus/service-bus/test/README.md", "#1583"]
-  - ["sdk/servicefabric/servicefabric/README.md", "#1583"]
-  - ["sdk/storage/README.md", "#1583"]
-  - ["sdk/storage/storage-blob/test/README.md", "#1583"]
-  - ["sdk/storage/storage-datalake/README.md", "#1583"]
-  - ["sdk/storage/storage-file-datalake/test/README.md", "#1583"]
-  - ["sdk/storage/storage-file-share/test/README.md", "#1583"]
-  - ["sdk/storage/storage-queue/test/README.md", "#1583"]
-  - ["sdk/synapse/synapse/README.md", "#1583"]
-  - ["sdk/template/template/README.md", "#1583"]
-  - ["sdk/test-utils/recorder/README.md", "#1583"]
-  - ['sdk/test-utils/perfstress/CHANGELOG.md','#1583']
+  - ["README.md",  "#1583"]
+  - ["sdk/appconfiguration/app-configuration/README.md",  "#1583"]
+  - ["sdk/applicationinsights/applicationinsights-query/README.md",  "#1583"]
+  - ["sdk/batch/batch/README.md",  "#1583"]
+  - [
+      "sdk/cognitiveservices/cognitiveservices-anomalydetector/README.md",
+       "#1583",
+    ]
+  - ["sdk/cognitiveservices/cognitiveservices-autosuggest/README.md",  "#1583"]
+  - [
+      "sdk/cognitiveservices/cognitiveservices-computervision/README.md",
+       "#1583",
+    ]
+  - [
+      "sdk/cognitiveservices/cognitiveservices-contentmoderator/README.md",
+       "#1583",
+    ]
+  - [
+      "sdk/cognitiveservices/cognitiveservices-customimagesearch/README.md",
+       "#1583",
+    ]
+  - ["sdk/cognitiveservices/cognitiveservices-customsearch/README.md",  "#1583"]
+  - [
+      "sdk/cognitiveservices/cognitiveservices-customvision-prediction/README.md",
+       "#1583",
+    ]
+  - [
+      "sdk/cognitiveservices/cognitiveservices-customvision-training/README.md",
+       "#1583",
+    ]
+  - ["sdk/cognitiveservices/cognitiveservices-entitysearch/README.md",  "#1583"]
+  - ["sdk/cognitiveservices/cognitiveservices-face/README.md",  "#1583"]
+  - ["sdk/cognitiveservices/cognitiveservices-imagesearch/README.md",  "#1583"]
+  - ["sdk/cognitiveservices/cognitiveservices-localsearch/README.md",  "#1583"]
+  - [
+      "sdk/cognitiveservices/cognitiveservices-luis-authoring/README.md",
+       "#1583",
+    ]
+  - ["sdk/cognitiveservices/cognitiveservices-luis-runtime/README.md",  "#1583"]
+  - ["sdk/cognitiveservices/cognitiveservices-newssearch/README.md",  "#1583"]
+  - ["sdk/cognitiveservices/cognitiveservices-qnamaker/README.md",  "#1583"]
+  - ["sdk/cognitiveservices/cognitiveservices-spellcheck/README.md",  "#1583"]
+  - [
+      "sdk/cognitiveservices/cognitiveservices-textanalytics/README.md",
+       "#1583",
+    ]
+  - ["sdk/cognitiveservices/cognitiveservices-videosearch/README.md",  "#1583"]
+  - ["sdk/cognitiveservices/cognitiveservices-visualsearch/README.md",  "#1583"]
+  - ["sdk/cognitiveservices/cognitiveservices-websearch/README.md",  "#1583"]
+  - ["sdk/core/abort-controller/README.md",  "#1583"]
+  - ["sdk/core/core-auth/README.md",  "#1583"]
+  - ["sdk/core/core-tracing/README.md",  "#1583"]
+  - ["sdk/core/logger/README.md",  "#1583"]
+  - ["sdk/cosmosdb/cosmos/README.md",  "#1583"]
+  - ["sdk/cosmosdb/cosmos/test/readme.md",  "#1583"]
+  - ["sdk/eventgrid/eventgrid/README.md",  "#1583"]
+  - ["sdk/eventhub/event-hubs/README.md",  "#1583"]
+  - ["sdk/eventhub/eventhubs-checkpointstore-blob/README.md",  "#1583"]
+  - ["sdk/eventhub/event-processor-host/README.md",  "#1583"]
+  - ["sdk/eventhub/README.md",  "#1583"]
+  - ["sdk/eventhub/testhub/README.md",  "#1583"]
+  - ["sdk/graphrbac/graph/README.md",  "#1583"]
+  - ["sdk/keyvault/README.md",  "#1583"]
+  - ["sdk/operationalinsights/loganalytics/README.md",  "#1583"]
+  - ["sdk/servicebus/service-bus/README.md",  "#1583"]
+  - ["sdk/servicebus/service-bus/test/README.md",  "#1583"]
+  - ["sdk/servicefabric/servicefabric/README.md",  "#1583"]
+  - ["sdk/storage/README.md",  "#1583"]
+  - ["sdk/storage/storage-blob/test/README.md",  "#1583"]
+  - ["sdk/storage/storage-datalake/README.md",  "#1583"]
+  - ["sdk/storage/storage-file-datalake/test/README.md",  "#1583"]
+  - ["sdk/storage/storage-file-share/test/README.md",  "#1583"]
+  - ["sdk/storage/storage-queue/test/README.md",  "#1583"]
+  - ["sdk/synapse/synapse/README.md",  "#1583"]
+  - ["sdk/template/template/README.md",  "#1583"]
+  - ["sdk/test-utils/recorder/README.md",  "#1583"]
+  - ["sdk/test-utils/perfstress/CHANGELOG.md", "#1583"]
 
 package_indexing_exclusion_list:
   - "@azure/template"
