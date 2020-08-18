@@ -8,7 +8,6 @@ trigger:
   - master
 
 variables:
-  skipComponentGovernanceDetection: true
   NodeVersion: "12.x"
   Agent.Source.Git.ShallowFetchDepth: 20
   skipComponentGovernanceDetection: true
