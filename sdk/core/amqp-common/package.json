@@ -1,7 +1,8 @@
 {
   "name": "@azure/amqp-common",
   "sdk-type": "client",
-  "version": "1.0.0-preview.15",
+  "version": "1.0.0-preview.16",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/%40azure/amqp-common_1.0.0-preview.16/sdk/core/amqp-common",
   "description": "Common library for amqp based azure sdks like @azure/event-hubs.",
   "author": "Microsoft Corporation",
   "license": "MIT",
@@ -113,7 +114,6 @@
     "unit-test:node": "cross-env TS_NODE_FILES=true TS_NODE_COMPILER_OPTIONS=\"{\\\"module\\\":\\\"commonjs\\\"}\" mocha -r ts-node/register -t 50000 ./test/**/*.spec.ts",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser"
   },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/%40azure/amqp-common_1.0.0-preview.5/sdk/core/amqp-common",
   "repository": {
     "type": "git",
     "url": "https://github.com/azure/azure-sdk-for-js.git"

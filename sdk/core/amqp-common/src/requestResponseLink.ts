@@ -136,8 +136,6 @@ export class RequestResponseLink implements ReqResLink {
         };
 
         const messageCallback = (context: EventContext) => {
-          // remove the event listener as this will be registered next time when someone makes a request.
-          this.receiver.removeListener(ReceiverEvents.message, messageCallback);
           const info = getCodeDescriptionAndError(
             context.message!.application_properties
           );
@@ -148,30 +146,37 @@ export class RequestResponseLink implements ReqResLink {
             request.to || "$management",
             context.message
           );
+
+          if (request.message_id !== responseCorrelationId && request.correlation_id !== responseCorrelationId) {
+            // do not remove message listener.
+            // parallel requests listen on the same receiver, so continue waiting until respose that matches
+            // request via correlationId is found.
+            log.error(
+              "[%s] request-messageId | '%s' != '%s' | response-correlationId. " +
+              "Hence dropping this response and waiting for the next one.",
+              this.connection.id,
+              request.message_id,
+              responseCorrelationId
+            );
+            return;
+          }
+
+          // remove the event listeners as they will be registered next time when someone makes a request.
+          this.receiver.removeListener(ReceiverEvents.message, messageCallback);
+
+          if (!timeOver) {
+            clearTimeout(waitTimer);
+          }
+
           if (info.statusCode > 199 && info.statusCode < 300) {
-            if (
-              request.message_id === responseCorrelationId ||
-              request.correlation_id === responseCorrelationId
-            ) {
-              if (!timeOver) {
-                clearTimeout(waitTimer);
-              }
-              log.reqres(
-                "[%s] request-messageId | '%s' == '%s' | response-correlationId.",
-                this.connection.id,
-                request.message_id,
-                responseCorrelationId
-              );
-              return resolve(context.message);
-            } else {
-              log.error(
-                "[%s] request-messageId | '%s' != '%s' | response-correlationId. " +
-                  "Hence dropping this response and waiting for the next one.",
-                this.connection.id,
-                request.message_id,
-                responseCorrelationId
-              );
-            }
+            log.reqres(
+              "[%s] request-messageId | '%s' == '%s' | response-correlationId.",
+              this.connection.id,
+              request.message_id,
+              responseCorrelationId
+            );
+
+            return resolve(context.message);
           } else {
             const condition =
               info.errorCondition ||
@@ -192,8 +197,7 @@ export class RequestResponseLink implements ReqResLink {
           this.receiver.removeListener(ReceiverEvents.message, messageCallback);
           const address = this.receiver.address || "address";
           const desc: string =
-            `The request with message_id "${
-              request.message_id
+            `The request with message_id "${request.message_id
             }" to "${address}" ` +
             `endpoint timed out. Please try again later.`;
           const e: AmqpError = {
