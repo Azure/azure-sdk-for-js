@@ -7,7 +7,16 @@
  */
 
 export {
+  BaseResource,
+  CanceledSubscriptionId,
+  EnabledSubscriptionId,
   ErrorResponse,
-  SubscriptionOperation,
-  SubscriptionOperationListResult
+  ErrorResponseBody,
+  PutAliasListResult,
+  PutAliasRequest,
+  PutAliasRequestProperties,
+  PutAliasResponse,
+  PutAliasResponseProperties,
+  RenamedSubscriptionId,
+  SubscriptionName
 } from "../models/mappers";
