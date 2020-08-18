@@ -4,4 +4,3 @@ variables:
   OSVmImage: "ubuntu-18.04"
   Agent.Source.Git.ShallowFetchDepth: 20
   skipComponentGovernanceDetection: true
-  coalesceResultFilter: $[ coalesce(variables['packageGlobFilter'], '**') ]

@@ -57,8 +57,7 @@ jobs:
         inputs:
           sourceFolder: sdk
           contents: |
-            **/$(coalesceResultFilter)/*.tgz
-            **/$(coalesceResultFilter)/browser/*.zip
+            **/**/*.tgz
           targetFolder: $(Build.ArtifactStagingDirectory)
           flattenFolders: true
         displayName: "Copy packages"
@@ -122,49 +121,51 @@ jobs:
         Linux_Node8:
           OSName: "Linux"
           OSVmImage: "ubuntu-16.04"
-          NodeTestVersion: "8.x"
+          NodeVersion: "8.x"
         Linux_Node10:
           OSName: "Linux"
           OSVmImage: "ubuntu-16.04"
-          NodeTestVersion: "10.x"
+          NodeVersion: "10.x"
         Linux_Node12:
           OSName: "Linux"
           OSVmImage: "ubuntu-16.04"
-          NodeTestVersion: "12.x"
+          NodeVersion: "12.x"
         macOS_Node8:
           OSName: "macOS"
           OSVmImage: "macOS-10.15"
-          NodeTestVersion: "8.x"
+          NodeVersion: "8.x"
         macOS_Node10:
           OSName: "macOS"
           OSVmImage: "macOS-10.15"
-          NodeTestVersion: "10.x"
+          NodeVersion: "10.x"
         macOS_Node12:
           OSName: "macOS"
           OSVmImage: "macOS-10.15"
-          NodeTestVersion: "12.x"
+          NodeVersion: "12.x"
         Windows_Node8:
           OSName: "Windows"
           OSVmImage: "vs2017-win2016"
-          NodeTestVersion: "8.x"
+          NodeVersion: "8.x"
         Windows_Node10:
           OSName: "Windows"
           OSVmImage: "vs2017-win2016"
-          NodeTestVersion: "10.x"
+          NodeVersion: "10.x"
         Windows_Node12:
           OSName: "Windows"
           OSVmImage: "vs2017-win2016"
-          NodeTestVersion: "12.x"
+          NodeVersion: "12.x"
 
     pool:
       vmImage: "$(OSVmImage)"
 
     variables:
       GeneratedPackageTargets: $[dependencies.Prepare.outputs['SelectPackages.GeneratedPackageTargets']]
-      - template: ../variables/globals.yml
 
     steps:
-      - template: ../steps/common.yml
+      - task: NodeTool@0
+        inputs:
+          versionSpec: "$(NodeVersion)"
+        displayName: "Install Node.js $(NodeVersion)"
 
       - script: |
           node common/scripts/install-run-rush.js install
@@ -176,9 +177,6 @@ jobs:
       - script: |
           node common/scripts/install-run-rush.js build:test --verbose $(GeneratedPackageTargets)
         displayName: "Build test assets"
-
-      - template: ../steps/use-node-test-version.yml
-
       - script: |
           node common/scripts/install-run-rush.js unit-test --verbose $(GeneratedPackageTargets)
         displayName: "Test libraries"
@@ -186,6 +184,6 @@ jobs:
       - task: PublishTestResults@2
         inputs:
           testResultsFiles: "**/test-results.xml"
-          testRunTitle: "$(OSName) Node $(NodeTestVersion)"
+          testRunTitle: "$(OSName) Node $(NodeVersion)"
         condition: succeededOrFailed()
         displayName: "Publish test results"
