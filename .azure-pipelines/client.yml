@@ -8,7 +8,9 @@ trigger:
   - master
 
 variables:
+
   NodeVersion: "10.x"
+
   Agent.Source.Git.ShallowFetchDepth: 20
   skipComponentGovernanceDetection: true
 
@@ -155,7 +157,9 @@ jobs:
 
     steps:
 
-      - template: /eng/common/pipelines/templates/steps/use-node-version.yml
+
+      - template: /eng/pipelines/templates/steps/use-node-version.yml
+
 
       - script: |
           node common/scripts/install-run-rush.js install
