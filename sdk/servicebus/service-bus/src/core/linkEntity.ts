@@ -157,7 +157,7 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
   private _logger: typeof log.error;
 
   /**
-   * Indicates that _closeLink("permanently") has been called on this link and
+   * Indicates that close() has been called on this link and
    * that it should not be allowed to reopen.
    */
   private _wasClosedPermanently: boolean = false;
@@ -262,11 +262,54 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
 
       this._logger(`${this._logPrefix} Link has been created.`);
     } catch (err) {
-      await this.closeLink("linkonly");
+      await this.closeLink();
       throw err;
     } finally {
       this._isConnecting = false;
     }
+  }
+
+  /**
+   * Clears token remewal for current link, removes current LinkEntity instance from cache,
+   * and closes the underlying AMQP link.
+   * Once closed, this instance of LinkEntity is not meant to be re-used.
+   */
+  async close(): Promise<void> {
+    // Set the flag to indicate that this instance of LinkEntity is not meant to be re-used.
+    this._wasClosedPermanently = true;
+
+    log.error(
+      "[%s] Closing the %s for entity '%s'.",
+      this._context.connectionId,
+      this._type,
+      this.address
+    );
+
+    // Remove the underlying AMQP link from the cache
+    switch (this._linkType) {
+      case "s": {
+        delete this._context.senders[this.name];
+        break;
+      }
+      case "br":
+      case "sr": {
+        delete this._context.messageReceivers[this.name];
+        break;
+      }
+      case "ms": {
+        delete this._context.messageSessions[this.name];
+        break;
+      }
+    }
+
+    log.error(
+      "[%s] Deleted the %s '%s' from the client cache.",
+      this._context.connectionId,
+      this._type,
+      this.name
+    );
+
+    await this.closeLink();
   }
 
   /**
@@ -280,18 +323,9 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
   /**
    * Closes the internally held rhea link, stops the token renewal timer and sets
    * the this._link field to undefined.
-   *
-   * @param mode Indicates the original caller.
-   * - "permanently" closes the link permanently, setting _wasClosed to true which
-   * prevents it from being reinitializing.
-   * - "linkonly" closes the link but does not permanently close the LinkEntity. It can be reinitialized.
    */
-  protected async closeLink(mode: "permanently" | "linkonly"): Promise<void> {
-    if (mode === "permanently") {
-      this._wasClosedPermanently = true;
-    }
-
-    this._logger(`${this._logPrefix} closeLink(${mode}) called`);
+  protected async closeLink(): Promise<void> {
+    this._logger(`${this._logPrefix} closeLink() called`);
 
     clearTimeout(this._tokenRenewalTimer as NodeJS.Timer);
     this._tokenRenewalTimer = undefined;
@@ -305,7 +339,7 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
         // remove them from the internal map.
         await link.close();
 
-        this._logger(`${this._logPrefix} closed: ${mode}.`);
+        this._logger(`${this._logPrefix} closed.`);
       } catch (err) {
         log.error(`${this._logPrefix} An error occurred while closing the link.: %O`, err);
       }

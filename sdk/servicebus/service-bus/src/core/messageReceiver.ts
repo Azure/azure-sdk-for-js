@@ -262,15 +262,6 @@ export abstract class MessageReceiver extends LinkEntity<Receiver> {
     return this._context.connection.createReceiver(options);
   }
 
-  protected _deleteFromCache(): void {
-    delete this._context.messageReceivers[this.name];
-    log.error(
-      "[%s] Deleted the receiver '%s' from the client cache.",
-      this._context.connectionId,
-      this.name
-    );
-  }
-
   /**
    * React to receiver being detached due to given error.
    * You may want to set up retries to recover the broken link and/or report error to user.
@@ -281,19 +272,13 @@ export abstract class MessageReceiver extends LinkEntity<Receiver> {
   abstract async onDetached(error?: AmqpError | Error, causedByDisconnect?: boolean): Promise<void>;
 
   /**
-   * Closes the underlying AMQP receiver.
+   * Clears lock renewal timers on all active messages, clears token remewal for current receiver,
+   * removes current MessageReceiver instance from cache, and closes the underlying AMQP receiver.
    * @return {Promise<void>} Promise<void>.
    */
   async close(): Promise<void> {
-    log.receiver(
-      "[%s] Closing the [%s]Receiver for entity '%s'.",
-      this._context.connectionId,
-      this.receiverType,
-      this._entityPath
-    );
     this._clearAllMessageLockRenewTimers();
-    this._deleteFromCache();
-    await this.closeLink("permanently");
+    await super.close();
   }
 
   /**

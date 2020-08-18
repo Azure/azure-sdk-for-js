@@ -201,16 +201,6 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
     };
   }
 
-  private _deleteFromCache(): void {
-    delete this._context.senders[this.name];
-    log.error(
-      "[%s] Deleted the sender '%s' with address '%s' from the client cache.",
-      this._context.connectionId,
-      this.name,
-      this.address
-    );
-  }
-
   private _createSenderOptions(timeoutInMs: number, newName?: boolean): AwaitableSenderOptions {
     if (newName) this.name = getUniqueName(this._entityPath);
     const srOptions: AwaitableSenderOptions = {
@@ -425,7 +415,7 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
     try {
       // Clears the token renewal timer. Closes the link and its session if they are open.
       // Removes the link and its session if they are present in rhea's cache.
-      await this.closeLink("linkonly");
+      await this.closeLink();
 
       // We should attempt to reopen only when the sender(sdk) did not initiate the close
       let shouldReopen = false;
@@ -501,20 +491,6 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
         err
       );
     }
-  }
-
-  /**
-   * Deletes the sender from the context. Clears the token renewal timer. Closes the sender link.
-   * @return {Promise<void>} Promise<void>
-   */
-  async close(): Promise<void> {
-    log.sender(
-      "[%s] Closing the Sender for the entity '%s'.",
-      this._context.connectionId,
-      this._entityPath
-    );
-    this._deleteFromCache();
-    await this.closeLink("permanently");
   }
 
   /**
