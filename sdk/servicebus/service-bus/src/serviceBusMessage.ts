@@ -1085,9 +1085,10 @@ export class ServiceBusMessageImpl implements ReceivedMessageWithLock {
       throw error;
     }
     const isDeferredMessage = this._context.requestResponseLockedMessages.has(this.lockToken);
-    const receiver = isDeferredMessage
-      ? undefined
-      : this._context.getReceiverFromCache(this.delivery.link.name, this.sessionId);
+    const receiver =
+      isDeferredMessage || !this.delivery.link
+        ? undefined
+        : this._context.getReceiverFromCache(this.delivery.link.name, this.sessionId);
     const associatedLinkName = receiver?.name;
 
     if (!isDeferredMessage) {

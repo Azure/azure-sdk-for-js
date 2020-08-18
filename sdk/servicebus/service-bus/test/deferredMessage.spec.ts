@@ -17,6 +17,7 @@ import {
 import { ServiceBusReceiver } from "../src/receivers/receiver";
 import { ServiceBusSender } from "../src/sender";
 import { ReceivedMessageWithLock } from "../src/serviceBusMessage";
+const assert = chai.assert;
 
 describe("Deferred Messages", () => {
   let serviceBusClient: ReturnType<typeof createServiceBusClientForTests>;
@@ -252,7 +253,7 @@ describe("Deferred Messages", () => {
     await completeDeferredMessage(sequenceNumber, 2, testMessages);
   });
 
-  async function settleTwice(): Promise<void> {
+  async function settleTwice(expectedErrorMessage: string): Promise<void> {
     const testMessages = entityNames.usesSessions
       ? TestMessage.getSessionSample()
       : TestMessage.getSample();
@@ -262,22 +263,33 @@ describe("Deferred Messages", () => {
       throw "Sequence Number can not be null";
     }
     await deferredMsg.complete();
-    await deferredMsg.complete();
+    let errorWasThrown = false;
+    try {
+      await deferredMsg.complete();
+    } catch (error) {
+      errorWasThrown = true;
+      assert.include(error.message, expectedErrorMessage);
+    }
+    assert.isTrue(errorWasThrown, "Error was not thrown");
   }
-  
-  it.only(
+
+  it(
     noSessionTestClientType + ": Settling a deferred message twice throws an error.",
     async function(): Promise<void> {
       await beforeEachTest(noSessionTestClientType);
-      await settleTwice();
+      await settleTwice(
+        "The lock supplied is invalid. Either the lock expired, or the message has already been removed from the queue."
+      );
     }
   );
 
-  it.only(
+  it(
     withSessionTestClientType + ": Settling a deferred message twice throws an error.",
     async function(): Promise<void> {
       await beforeEachTest(withSessionTestClientType);
-      await settleTwice();
+      await settleTwice(
+        "Failed to complete the message as the AMQP link with which the message was received is no longer alive."
+      );
     }
   );
 });
