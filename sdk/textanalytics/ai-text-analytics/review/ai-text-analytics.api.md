@@ -36,7 +36,8 @@ export interface AnalyzeSentimentSuccessResult extends TextAnalyticsSuccessResul
 
 // @public
 export interface AspectSentiment {
-    confidenceScores: SentimentConfidenceScores;
+    // Warning: (ae-forgotten-export) The symbol "AspectConfidenceScoreLabel" needs to be exported by the entry point index.d.ts
+    confidenceScores: AspectConfidenceScoreLabel;
     sentiment: SentenceAspectSentiment;
     text: string;
 }
@@ -147,7 +148,7 @@ export interface MinedOpinion {
 
 // @public
 export interface OpinionSentiment {
-    confidenceScores: SentimentConfidenceScores;
+    confidenceScores: AspectConfidenceScoreLabel;
     isNegated: boolean;
     sentiment: SentenceOpinionSentiment;
     text: string;

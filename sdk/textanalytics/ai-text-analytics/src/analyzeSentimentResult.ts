@@ -17,7 +17,10 @@ import {
   GeneratedClientSentimentResponse,
   SentenceAspect,
   AspectRelation,
-  SentenceOpinion, SentenceAspectSentiment, SentenceOpinionSentiment
+  SentenceOpinion,
+  SentenceAspectSentiment,
+  SentenceOpinionSentiment,
+  AspectConfidenceScoreLabel
 } from "./generated/models";
 import { findOpinionIndex, OpinionIndex } from "./util";
 
@@ -84,7 +87,7 @@ export interface AspectSentiment {
    * 'positive' and 'negative' labels. It's score for 'neutral' will always be
    * 0.
    */
-  confidenceScores: SentimentConfidenceScores;
+  confidenceScores: AspectConfidenceScoreLabel;
   /**
    * The predicted Sentiment for the aspect. Possible values include 'positive',
    * 'mixed', and 'negative'.
@@ -107,7 +110,7 @@ export interface OpinionSentiment {
    * 'positive' and 'negative' labels. It's score for 'neutral' will always be
    * 0.
    */
-  confidenceScores: SentimentConfidenceScores;
+  confidenceScores: AspectConfidenceScoreLabel;
   /**
    * Whether the opinion is negated. For example, in "The food is not good", the
    * opinion "good" is negated.
@@ -188,22 +191,20 @@ function convertGeneratedSentenceSentiment(
     confidenceScores: sentence.confidenceScores,
     sentiment: sentence.sentiment,
     text: sentence.text,
-    minedOpinions: sentence.aspects ?
-      sentence.aspects.map(
-        (aspect: SentenceAspect): MinedOpinion => ({
-          aspect: {
-            confidenceScores: {
-              ...(aspect.confidenceScores as SentimentConfidenceScores),
-              neutral: 0
+    minedOpinions: sentence.aspects
+      ? sentence.aspects.map(
+          (aspect: SentenceAspect): MinedOpinion => ({
+            aspect: {
+              confidenceScores: aspect.confidenceScores,
+              sentiment: aspect.sentiment,
+              text: aspect.text
             },
-            sentiment: aspect.sentiment,
-            text: aspect.text
-          },
-          opinions: aspect.relations
-            .filter((relation) => relation.relationType === "opinion")
-            .map((relation) => convertAspectRelationToOpinionSentiment(relation, response))
-        })
-      ) : []
+            opinions: aspect.relations
+              .filter((relation) => relation.relationType === "opinion")
+              .map((relation) => convertAspectRelationToOpinionSentiment(relation, response))
+          })
+        )
+      : []
   };
 }
 
@@ -216,13 +217,8 @@ function convertGeneratedSentenceSentiment(
  * @returns The user-friendly opinion sentiment object.
  */
 function convertSentenceOpinionToOpinionSentiment(opinion: SentenceOpinion): OpinionSentiment {
-  const opinionConfidenceScore: SentimentConfidenceScores = {
-    positive: opinion.confidenceScores.positive,
-    negative: opinion.confidenceScores.negative,
-    neutral: 0
-  };
   return {
-    confidenceScores: opinionConfidenceScore,
+    confidenceScores: opinion.confidenceScores,
     isNegated: opinion.isNegated,
     sentiment: opinion.sentiment,
     text: opinion.text
