@@ -9,17 +9,17 @@
    "response": "{\"token_type\":\"Bearer\",\"expires_in\":3599,\"ext_expires_in\":3599,\"access_token\":\"access_token\"}",
    "responseHeaders": {
     "cache-control": "no-cache, no-store",
-    "content-length": "1417",
+    "content-length": "1500",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 11 Aug 2020 14:18:56 GMT",
+    "date": "Fri, 14 Aug 2020 17:49:43 GMT",
     "expires": "-1",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
     "referrer-policy": "strict-origin-when-cross-origin",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.10922.14 - CHI ProdSlices",
-    "x-ms-request-id": "b0ff5c73-16c5-4267-931b-eae8ef52df00"
+    "x-ms-ests-server": "2.1.10946.15 - WUS2 ProdSlices",
+    "x-ms-request-id": "5d8f0dfe-fcf5-4829-8d1a-c108d2282900"
    }
   },
   {
@@ -32,14 +32,14 @@
    "status": 200,
    "response": "{\"documents\":[{\"id\":\"0\",\"sentiment\":\"negative\",\"confidenceScores\":{\"positive\":0.0,\"neutral\":0.0,\"negative\":1.0},\"sentences\":[{\"sentiment\":\"negative\",\"confidenceScores\":{\"positive\":0.0,\"neutral\":0.0,\"negative\":1.0},\"offset\":0,\"length\":32,\"text\":\"The food and service is not good\",\"aspects\":[{\"sentiment\":\"negative\",\"confidenceScores\":{\"positive\":0.01,\"negative\":0.99},\"offset\":4,\"length\":4,\"text\":\"food\",\"relations\":[{\"relationType\":\"opinion\",\"ref\":\"#/documents/0/sentences/0/opinions/0\"}]},{\"sentiment\":\"negative\",\"confidenceScores\":{\"positive\":0.01,\"negative\":0.99},\"offset\":13,\"length\":7,\"text\":\"service\",\"relations\":[{\"relationType\":\"opinion\",\"ref\":\"#/documents/0/sentences/0/opinions/0\"}]}],\"opinions\":[{\"sentiment\":\"negative\",\"confidenceScores\":{\"positive\":0.01,\"negative\":0.99},\"offset\":28,\"length\":4,\"text\":\"good\",\"isNegated\":true}]}],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-04-01\"}",
    "responseHeaders": {
-    "apim-request-id": "ecd230d6-a7ab-4d92-a2fb-92daa41fb9b9",
+    "apim-request-id": "404631dd-3988-4bdc-be93-8e7d96b90bc9",
     "content-type": "application/json; charset=utf-8",
     "csp-billing-usage": "CognitiveServices.TextAnalytics.BatchScoring=1",
-    "date": "Tue, 11 Aug 2020 14:18:56 GMT",
+    "date": "Fri, 14 Aug 2020 17:49:43 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "108"
+    "x-envoy-upstream-service-time": "851"
    }
   }
  ],
@@ -47,5 +47,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "861fa13e6f06117f10c53feecc900a92"
+ "hash": "06a3662cd64a31123e04bc97240b5465"
 }

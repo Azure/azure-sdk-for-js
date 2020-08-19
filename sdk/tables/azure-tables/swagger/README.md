@@ -17,5 +17,21 @@ input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/4a8cd09
 add-credentials: false
 override-client-name: GeneratedClient
 use-extension:
-  "@autorest/typescript": "6.0.0-dev.20200715.2"
+  "@autorest/typescript": "6.0.0-dev.20200817.1"
+```
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.GeoReplication
+    transform: >
+      $["description"] = "Geo-Replication information for the Secondary Storage Service";
+```
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.Metrics
+    transform: >
+      $["description"] = "A summary of request statistics grouped by API";
 ```

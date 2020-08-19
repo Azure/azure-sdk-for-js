@@ -11,16 +11,20 @@ const assert = chai.assert;
 
 import { ConnectionContext } from "../../src/connectionContext";
 import { BatchingReceiver } from "../../src/core/batchingReceiver";
-import { MessageReceiver, ReceiverType } from "../../src/core/messageReceiver";
-import { InternalMessageHandlers } from "../../src/models";
-import { ReceiverImpl } from "../../src/receivers/receiver";
+import { StreamingReceiver } from "../../src/core/streamingReceiver";
+import { ServiceBusReceiverImpl } from "../../src/receivers/receiver";
 import { createConnectionContextForTests } from "./unittestUtils";
+import { InternalMessageHandlers } from "../../src/models";
 
 describe("Receiver unit tests", () => {
   describe("init() and close() interactions", () => {
     function fakeContext(): ConnectionContext {
       return ({
-        config: {}
+        config: {},
+        connection: {
+          id: "connection-id"
+        },
+        messageReceivers: {}
       } as unknown) as ConnectionContext;
     }
 
@@ -32,7 +36,7 @@ describe("Receiver unit tests", () => {
         initWasCalled = true;
         // ie, pretend that somebody called close() and the
         // call happened between .init().then()
-        batchingReceiver["_receiver"] = undefined;
+        batchingReceiver["_link"] = undefined;
       };
 
       // make an init() happen internally.
@@ -43,15 +47,9 @@ describe("Receiver unit tests", () => {
     });
 
     it("message receiver init() bails out early if object is closed()", async () => {
-      const messageReceiver2 = new MessageReceiver(
-        fakeContext(),
-        "fakeEntityPath",
-        ReceiverType.streaming
-      );
+      const messageReceiver2 = new StreamingReceiver(fakeContext(), "fakeEntityPath");
 
-      // so our object basically looks like an unopened receiver
-      messageReceiver2["isOpen"] = () => false;
-      messageReceiver2["isConnecting"] = false;
+      await messageReceiver2.close();
 
       // close() the object. Closed objects should not be able to be reopened.
       await messageReceiver2.close();
@@ -76,7 +74,7 @@ describe("Receiver unit tests", () => {
       let receiverWasDrained = false;
       let closeWasCalled = false;
 
-      const receiverImpl = new ReceiverImpl<any>(
+      const receiverImpl = new ServiceBusReceiverImpl<any>(
         createConnectionContextForTests({
           onCreateReceiverCalled: (receiver) => {
             receiver.addListener(ReceiverEvents.receiverDrained, () => {
@@ -114,7 +112,7 @@ describe("Receiver unit tests", () => {
     });
 
     it("can't subscribe while another subscribe is active", async () => {
-      const receiverImpl = new ReceiverImpl(
+      const receiverImpl = new ServiceBusReceiverImpl(
         createConnectionContextForTests(),
         "fakeEntityPath",
         "peekLock"
@@ -145,7 +143,7 @@ describe("Receiver unit tests", () => {
     it("can re-subscribe after previous subscription is closed", async () => {
       let closeWasCalled = false;
 
-      const receiverImpl = new ReceiverImpl(
+      const receiverImpl = new ServiceBusReceiverImpl(
         createConnectionContextForTests({
           onCreateReceiverCalled: (receiver) => {
             (receiver as any).close = () => {
@@ -181,7 +179,7 @@ describe("Receiver unit tests", () => {
     });
 
     it("can re-subscribe after previous subscription is aborted", async () => {
-      const receiverImpl = new ReceiverImpl(
+      const receiverImpl = new ServiceBusReceiverImpl(
         createConnectionContextForTests(),
         "fakeEntityPath",
         "peekLock"
@@ -214,7 +212,7 @@ describe("Receiver unit tests", () => {
 
     async function subscribeAndWaitForInitialize<
       T extends ReceivedMessage | ReceivedMessageWithLock
-    >(receiver: ReceiverImpl<T>): Promise<ReturnType<typeof receiver["subscribe"]>> {
+    >(receiver: ServiceBusReceiverImpl<T>): Promise<ReturnType<typeof receiver["subscribe"]>> {
       const sub = await new Promise<{
         close(): Promise<void>;
       }>((resolve, reject) => {

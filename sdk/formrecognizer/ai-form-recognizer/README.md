@@ -118,8 +118,8 @@ const client = new FormRecognizerClient("<endpoint>", new DefaultAzureCredential
 ### FormTrainingClient
 `FormTrainingClient` provides operations for:
 
-- Training custom models to recognize all fields and values found in your custom forms. A `CustomFormModel` is returned indicating the form types the model will recognize, and the fields it will extract for each form type. See the [service's documents][fr-train-without-labels] for a more detailed explanation.
-- Training custom models to recognize specific fields and values you specify by labeling your custom forms. A `CustomFormModel` is returned indicating the fields the model will extract, as well as the estimated accuracy for each field. See the [service's documents][fr-train-with-labels] for a more detailed explanation.
+- Training custom models to recognize all fields and values found in your custom forms. A `CustomFormModel` is returned indicating the form types the model will recognize, and the fields it will extract for each form type. See the [service's documentation on unlabeled model training][fr-train-without-labels] for a more detailed explanation of creating a training data set.
+- Training custom models to recognize specific fields and values you specify by labeling your custom forms. A `CustomFormModel` is returned indicating the fields the model will extract, as well as the estimated accuracy for each field. See the [service's documentation on labeled model training][fr-train-with-labels] for a more detailed explanation of applying labels to a training data set.
 - Managing models created in your account.
 - Copying a custom model from one Form Recognizer resource to another.
 
@@ -129,7 +129,7 @@ Please note that models can also be trained using a graphical user interface suc
 Long-running operations are operations which consist of an initial request sent to the service to start an operation,followed by polling the service at intervals to determine whether the operation has completed or failed, and if it has succeeded, to get the result.
 
 Methods that train models or extract values from forms are modeled as long-running operations.  The client exposes a `begin<operation-name>` method that returns an `Promise<PollerLike>`.  Callers should wait for the operation to complete by calling `pollUntilDone()` on the poller returned from the `begin<operation-name>` method.  Sample code snippets are provided
-to illustrate using long-running operations [below](#Examples).
+to illustrate using long-running operations [below](#examples).
 
 ## Examples
 The following section provides several JavaScript code snippets illustrating common patterns used in the Form Recognizer client libraries.
@@ -284,7 +284,7 @@ async function main() {
   // Training document information
   if (model.trainingDocuments) {
     for (const doc of model.trainingDocuments) {
-      console.log(`Document name: ${doc.documentName}`);
+      console.log(`Document name: ${doc.name}`);
       console.log(`Document status: ${doc.status}`);
       console.log(`Document page count: ${doc.pageCount}`);
       console.log(`Document errors: ${doc.errors}`);
@@ -296,6 +296,8 @@ main().catch((err) => {
   console.error("The sample encountered an error:", err);
 });
 ```
+
+For information on creating a labeled training data set, see the documentation for the [using the sample labeling tool][quickstart_labeling] and the [labeled model training sample][labeled_sample].
 
 ### Recognize forms using a custom model
 
@@ -424,6 +426,8 @@ If you'd like to contribute to this library, please read the [contributing guide
 [register_aad_app]: https://docs.microsoft.com/azure/cognitive-services/authentication#assign-a-role-to-a-service-principal
 [defaultazurecredential]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/identity/identity#defaultazurecredential
 [quickstart_training]: https://docs.microsoft.com/azure/cognitive-services/form-recognizer/quickstarts/curl-train-extract#train-a-form-recognizer-model
+[quickstart_labeling]: https://docs.microsoft.com/azure/cognitive-services/form-recognizer/quickstarts/label-tool
+[labeled_sample]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/formrecognizer/ai-form-recognizer/samples/typescript/src/trainLabeledModel.ts
 [multi_and_single_service]: https://docs.microsoft.com/azure/cognitive-services/cognitive-services-apis-create-account?tabs=multiservice%2Cwindows
 [azure_portal_create_FR_resource]: https://ms.portal.azure.com/#create/Microsoft.CognitiveServicesFormRecognizer
 [azure_cli_create_FR_resource]: https://docs.microsoft.com/azure/cognitive-services/cognitive-services-apis-create-account-cli?tabs=windows

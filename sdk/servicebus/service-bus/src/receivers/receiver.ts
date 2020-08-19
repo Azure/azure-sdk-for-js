@@ -33,7 +33,7 @@ import "@azure/core-asynciterator-polyfill";
 /**
  * A receiver that does not handle sessions.
  */
-export interface Receiver<ReceivedMessageT> {
+export interface ServiceBusReceiver<ReceivedMessageT> {
   /**
    * Streams messages to message handlers.
    * @param handlers A handler that gets called for messages and errors.
@@ -134,8 +134,9 @@ export interface Receiver<ReceivedMessageT> {
  * @internal
  * @ignore
  */
-export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMessageWithLock>
-  implements Receiver<ReceivedMessageT> {
+export class ServiceBusReceiverImpl<
+  ReceivedMessageT extends ReceivedMessage | ReceivedMessageWithLock
+> implements ServiceBusReceiver<ReceivedMessageT> {
   private _retryOptions: RetryOptions;
   /**
    * @property {boolean} [_isClosed] Denotes if close() was called on this receiver
@@ -285,10 +286,7 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
     }
 
     const receiveMessages = async () => {
-      if (
-        !this._batchingReceiver ||
-        !this._context.batchingReceivers[this._batchingReceiver.name]
-      ) {
+      if (!this._batchingReceiver || !this._context.messageReceivers[this._batchingReceiver.name]) {
         const options: ReceiveOptions = {
           maxConcurrentCalls: 0,
           receiveMode: convertToInternalReceiveMode(this.receiveMode)

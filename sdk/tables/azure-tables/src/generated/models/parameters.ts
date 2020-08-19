@@ -7,14 +7,26 @@
  */
 
 import {
-  OperationURLParameter,
   OperationParameter,
+  OperationURLParameter,
   OperationQueryParameter
 } from "@azure/core-http";
 import {
   TableProperties as TablePropertiesMapper,
   TableServiceProperties as TableServicePropertiesMapper
 } from "../models/mappers";
+
+export const accept: OperationParameter = {
+  parameterPath: "accept",
+  mapper: {
+    defaultValue: "application/json;odata=minimalmetadata",
+    isConstant: true,
+    serializedName: "Accept",
+    type: {
+      name: "String"
+    }
+  }
+};
 
 export const url: OperationURLParameter = {
   parameterPath: "url",
@@ -137,11 +149,35 @@ export const tableProperties: OperationParameter = {
   mapper: TablePropertiesMapper
 };
 
+export const accept1: OperationParameter = {
+  parameterPath: "accept",
+  mapper: {
+    defaultValue: "application/json;odata=minimalmetadata",
+    isConstant: true,
+    serializedName: "Accept",
+    type: {
+      name: "String"
+    }
+  }
+};
+
 export const responsePreference: OperationParameter = {
   parameterPath: ["options", "responsePreference"],
   mapper: {
     serializedName: "Prefer",
     xmlName: "Prefer",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const accept2: OperationParameter = {
+  parameterPath: "accept",
+  mapper: {
+    defaultValue: "application/json",
+    isConstant: true,
+    serializedName: "Accept",
     type: {
       name: "String"
     }
@@ -242,6 +278,18 @@ export const tableEntityProperties: OperationParameter = {
   }
 };
 
+export const accept3: OperationParameter = {
+  parameterPath: "accept",
+  mapper: {
+    defaultValue: "application/json",
+    isConstant: true,
+    serializedName: "Accept",
+    type: {
+      name: "String"
+    }
+  }
+};
+
 export const ifMatch: OperationParameter = {
   parameterPath: ["options", "ifMatch"],
   mapper: {
@@ -259,6 +307,18 @@ export const ifMatch1: OperationParameter = {
     serializedName: "If-Match",
     required: true,
     xmlName: "If-Match",
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const accept4: OperationParameter = {
+  parameterPath: "accept",
+  mapper: {
+    defaultValue: "application/xml",
+    isConstant: true,
+    serializedName: "Accept",
     type: {
       name: "String"
     }
@@ -299,6 +359,18 @@ export const tableAcl: OperationParameter = {
     type: {
       name: "Sequence",
       element: { type: { name: "Composite", className: "SignedIdentifier" } }
+    }
+  }
+};
+
+export const accept5: OperationParameter = {
+  parameterPath: "accept",
+  mapper: {
+    defaultValue: "application/xml",
+    isConstant: true,
+    serializedName: "Accept",
+    type: {
+      name: "String"
     }
   }
 };

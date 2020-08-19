@@ -155,6 +155,10 @@ export interface OpinionSentiment {
 }
 
 // @public
+export interface PiiEntity extends Entity {
+}
+
+// @public
 export type RecognizeCategorizedEntitiesErrorResult = TextAnalyticsErrorResult;
 
 // @public
@@ -192,6 +196,26 @@ export interface RecognizeLinkedEntitiesResultArray extends Array<RecognizeLinke
 // @public
 export interface RecognizeLinkedEntitiesSuccessResult extends TextAnalyticsSuccessResult {
     readonly entities: LinkedEntity[];
+}
+
+// @public
+export type RecognizePiiEntitiesErrorResult = TextAnalyticsErrorResult;
+
+// @public
+export type RecognizePiiEntitiesOptions = TextAnalyticsOperationOptions;
+
+// @public
+export type RecognizePiiEntitiesResult = RecognizePiiEntitiesSuccessResult | RecognizePiiEntitiesErrorResult;
+
+// @public
+export interface RecognizePiiEntitiesResultArray extends Array<RecognizePiiEntitiesResult> {
+    modelVersion: string;
+    statistics?: TextDocumentBatchStatistics;
+}
+
+// @public
+export interface RecognizePiiEntitiesSuccessResult extends TextAnalyticsSuccessResult {
+    readonly entities: PiiEntity[];
 }
 
 // @public
@@ -237,6 +261,8 @@ export class TextAnalyticsClient {
     recognizeEntities(documents: TextDocumentInput[], options?: RecognizeCategorizedEntitiesOptions): Promise<RecognizeCategorizedEntitiesResultArray>;
     recognizeLinkedEntities(documents: string[], language?: string, options?: RecognizeLinkedEntitiesOptions): Promise<RecognizeLinkedEntitiesResultArray>;
     recognizeLinkedEntities(documents: TextDocumentInput[], options?: RecognizeLinkedEntitiesOptions): Promise<RecognizeLinkedEntitiesResultArray>;
+    recognizePiiEntities(inputs: string[], language?: string, options?: RecognizePiiEntitiesOptions): Promise<RecognizePiiEntitiesResultArray>;
+    recognizePiiEntities(inputs: TextDocumentInput[], options?: RecognizePiiEntitiesOptions): Promise<RecognizePiiEntitiesResultArray>;
 }
 
 // @public

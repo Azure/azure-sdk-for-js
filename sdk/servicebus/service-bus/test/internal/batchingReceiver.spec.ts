@@ -14,8 +14,7 @@ import {
   getRemainingWaitTimeInMsFn,
   BatchingReceiverLite
 } from "../../src/core/batchingReceiver";
-import { createConnectionContextForTests, defer } from "./unittestUtils";
-import { ReceiverImpl } from "../../src/receivers/receiver";
+import { defer, createConnectionContextForTests } from "./unittestUtils";
 import { createAbortSignalForTest } from "../utils/abortSignalTestUtils";
 import { AbortController, AbortSignalLike } from "@azure/abort-controller";
 import { ServiceBusMessageImpl, InternalReceiveMode } from "../../src/serviceBusMessage";
@@ -30,14 +29,27 @@ import {
 import { StandardAbortMessage } from "../../src/util/utils";
 import { OnAmqpEventAsPromise } from "../../src/core/messageReceiver";
 import { ConnectionContext } from "../../src/connectionContext";
+import { ServiceBusReceiverImpl } from "../../src/receivers/receiver";
 
 describe("BatchingReceiver unit tests", () => {
+  let closeables: { close(): Promise<void> }[];
+
+  beforeEach(() => {
+    closeables = [];
+  });
+
+  afterEach(async () => {
+    for (const closeable of closeables) {
+      await closeable.close();
+    }
+  });
+
   describe("AbortSignal", () => {
     // establish that the abortSignal does get properly sent down. Now the rest of the tests
     // will test at the BatchingReceiver level.
-    it("is plumbed into BatchingReceiver from ReceiverImpl", async () => {
+    it("is plumbed into BatchingReceiver from ServiceBusReceiverImpl", async () => {
       const origAbortSignal = createAbortSignalForTest();
-      const receiver = new ReceiverImpl(
+      const receiver = new ServiceBusReceiverImpl(
         createConnectionContextForTests(),
         "fakeEntityPath",
         "peekLock"
@@ -90,6 +102,7 @@ describe("BatchingReceiver unit tests", () => {
       const receiver = new BatchingReceiver(createConnectionContextForTests(), "fakeEntityPath", {
         receiveMode: InternalReceiveMode.peekLock
       });
+      closeables.push(receiver);
 
       const listeners = new Set<string>();
       const callsDoneAfterAbort: string[] = [];
@@ -97,7 +110,7 @@ describe("BatchingReceiver unit tests", () => {
       receiver["_init"] = async () => {
         // just enough of a Receiver to validate that cleanup actions
         // are being run on abort.
-        receiver["_receiver"] = ({
+        receiver["_link"] = ({
           connection: {
             id: "connection id"
           },
@@ -175,6 +188,7 @@ describe("BatchingReceiver unit tests", () => {
             receiveMode: lockMode
           }
         );
+        closeables.push(receiver);
 
         const { receiveIsReady, emitter, remainingRegisteredListeners } = setupBatchingReceiver(
           receiver
@@ -207,6 +221,7 @@ describe("BatchingReceiver unit tests", () => {
             receiveMode: lockMode
           }
         );
+        closeables.push(receiver);
 
         const { receiveIsReady, remainingRegisteredListeners } = setupBatchingReceiver(receiver);
 
@@ -237,6 +252,7 @@ describe("BatchingReceiver unit tests", () => {
               receiveMode: lockMode
             }
           );
+          closeables.push(receiver);
 
           const { receiveIsReady, emitter, remainingRegisteredListeners } = setupBatchingReceiver(
             receiver
@@ -287,6 +303,7 @@ describe("BatchingReceiver unit tests", () => {
               receiveMode: lockMode
             }
           );
+          closeables.push(receiver);
 
           const { receiveIsReady, emitter, remainingRegisteredListeners } = setupBatchingReceiver(
             receiver
@@ -342,6 +359,7 @@ describe("BatchingReceiver unit tests", () => {
               receiveMode: lockMode
             }
           );
+          closeables.push(receiver);
 
           const { receiveIsReady, emitter, remainingRegisteredListeners } = setupBatchingReceiver(
             receiver
@@ -404,7 +422,7 @@ describe("BatchingReceiver unit tests", () => {
           receiveIsReady
         } = createFakeReceiver();
 
-        batchingReceiver["_receiver"] = fakeRheaReceiver;
+        batchingReceiver["_link"] = fakeRheaReceiver;
 
         batchingReceiver["_batchingReceiverLite"]["_createServiceBusMessage"] = (eventContext) => {
           return {

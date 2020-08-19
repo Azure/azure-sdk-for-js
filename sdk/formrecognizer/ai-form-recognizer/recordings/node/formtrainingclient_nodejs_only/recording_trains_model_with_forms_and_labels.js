@@ -1,6 +1,6 @@
 let nock = require('nock');
 
-module.exports.hash = "f08a83b9a4189cd7575f03281a35f23a";
+module.exports.hash = "a181fcf800995552f3b6ecc4ec38773d";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
@@ -10,75 +10,95 @@ nock('https://endpoint:443', {"encodedQueryParams":true})
   'Content-Length',
   '0',
   'Location',
-  'https://endpoint/formrecognizer/v2.0/custom/models/718c523f-7326-4425-b496-acd0504c2327',
+  'https://endpoint/formrecognizer/v2.0/custom/models/4ec054a8-15f0-41bb-aa8f-051646530b13',
   'x-envoy-upstream-service-time',
-  '46',
+  '227',
   'apim-request-id',
-  '45a2b48b-49ca-4db2-80b6-6bb9c6868ecd',
+  '91d61c85-e8cc-42c4-8cfa-fc9562c9a472',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Wed, 05 Aug 2020 23:29:18 GMT'
+  'Tue, 18 Aug 2020 18:47:06 GMT'
 ]);
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .get('/formrecognizer/v2.0/custom/models/718c523f-7326-4425-b496-acd0504c2327')
+  .get('/formrecognizer/v2.0/custom/models/4ec054a8-15f0-41bb-aa8f-051646530b13')
   .query(true)
-  .reply(200, {"modelInfo":{"modelId":"718c523f-7326-4425-b496-acd0504c2327","status":"creating","createdDateTime":"2020-08-05T23:29:18Z","lastUpdatedDateTime":"2020-08-05T23:29:18Z"}}, [
+  .reply(200, {"modelInfo":{"modelId":"4ec054a8-15f0-41bb-aa8f-051646530b13","status":"creating","createdDateTime":"2020-08-18T18:47:06Z","lastUpdatedDateTime":"2020-08-18T18:47:06Z"}}, [
   'Transfer-Encoding',
   'chunked',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-envoy-upstream-service-time',
-  '15',
+  '16',
   'apim-request-id',
-  'f7a19f17-65ec-4498-b698-7fec94937785',
+  'db06cac7-2063-4afd-9bd4-4bea151314f0',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Wed, 05 Aug 2020 23:29:18 GMT'
+  'Tue, 18 Aug 2020 18:47:06 GMT'
 ]);
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .get('/formrecognizer/v2.0/custom/models/718c523f-7326-4425-b496-acd0504c2327')
+  .get('/formrecognizer/v2.0/custom/models/4ec054a8-15f0-41bb-aa8f-051646530b13')
   .query(true)
-  .reply(200, {"modelInfo":{"modelId":"718c523f-7326-4425-b496-acd0504c2327","status":"creating","createdDateTime":"2020-08-05T23:29:18Z","lastUpdatedDateTime":"2020-08-05T23:29:18Z"}}, [
+  .reply(200, {"modelInfo":{"modelId":"4ec054a8-15f0-41bb-aa8f-051646530b13","status":"creating","createdDateTime":"2020-08-18T18:47:06Z","lastUpdatedDateTime":"2020-08-18T18:47:06Z"}}, [
   'Transfer-Encoding',
   'chunked',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-envoy-upstream-service-time',
-  '15',
+  '19',
   'apim-request-id',
-  '2dceeb61-3f04-407b-b506-e3e062557779',
+  '06829c22-9457-41b9-b1d5-cd75c13fcbd4',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Wed, 05 Aug 2020 23:29:18 GMT'
+  'Tue, 18 Aug 2020 18:47:06 GMT'
 ]);
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .get('/formrecognizer/v2.0/custom/models/718c523f-7326-4425-b496-acd0504c2327')
+  .get('/formrecognizer/v2.0/custom/models/4ec054a8-15f0-41bb-aa8f-051646530b13')
   .query(true)
-  .reply(200, {"modelInfo":{"modelId":"718c523f-7326-4425-b496-acd0504c2327","status":"ready","createdDateTime":"2020-08-05T23:29:18Z","lastUpdatedDateTime":"2020-08-05T23:29:18Z"},"trainResult":{"averageModelAccuracy":0.973,"trainingDocuments":[{"documentName":"Form_1.jpg","pages":1,"status":"succeeded"},{"documentName":"Form_2.jpg","pages":1,"status":"succeeded"},{"documentName":"Form_3.jpg","pages":1,"status":"succeeded"},{"documentName":"Form_4.jpg","pages":1,"status":"succeeded"},{"documentName":"Form_5.jpg","pages":1,"status":"succeeded"}],"fields":[{"fieldName":"CompanyAddress","accuracy":0.8},{"fieldName":"CompanyName","accuracy":1},{"fieldName":"CompanyPhoneNumber","accuracy":1},{"fieldName":"DatedAs","accuracy":1},{"fieldName":"Email","accuracy":0.8},{"fieldName":"Merchant","accuracy":1},{"fieldName":"PhoneNumber","accuracy":1},{"fieldName":"PurchaseOrderNumber","accuracy":1},{"fieldName":"Quantity","accuracy":1},{"fieldName":"Signature","accuracy":1},{"fieldName":"Subtotal","accuracy":1},{"fieldName":"Tax","accuracy":1},{"fieldName":"Total","accuracy":1},{"fieldName":"VendorName","accuracy":1},{"fieldName":"Website","accuracy":1}],"errors":[]}}, [
+  .reply(200, {"modelInfo":{"modelId":"4ec054a8-15f0-41bb-aa8f-051646530b13","status":"creating","createdDateTime":"2020-08-18T18:47:06Z","lastUpdatedDateTime":"2020-08-18T18:47:06Z"}}, [
   'Transfer-Encoding',
   'chunked',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-envoy-upstream-service-time',
-  '29',
+  '39',
   'apim-request-id',
-  '51e8de29-edb1-4982-b1a6-91c7a4d71bc9',
+  '3cf7dac6-10c5-40a5-b876-29c1e13f36b6',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Wed, 05 Aug 2020 23:29:24 GMT'
+  'Tue, 18 Aug 2020 18:47:11 GMT'
+]);
+
+nock('https://endpoint:443', {"encodedQueryParams":true})
+  .get('/formrecognizer/v2.0/custom/models/4ec054a8-15f0-41bb-aa8f-051646530b13')
+  .query(true)
+  .reply(200, {"modelInfo":{"modelId":"4ec054a8-15f0-41bb-aa8f-051646530b13","status":"ready","createdDateTime":"2020-08-18T18:47:06Z","lastUpdatedDateTime":"2020-08-18T18:47:12Z"},"trainResult":{"averageModelAccuracy":0.96,"trainingDocuments":[{"documentName":"Form_1.jpg","pages":1,"status":"succeeded"},{"documentName":"Form_2.jpg","pages":1,"status":"succeeded"},{"documentName":"Form_3.jpg","pages":1,"status":"succeeded"},{"documentName":"Form_4.jpg","pages":1,"status":"succeeded"},{"documentName":"Form_5.jpg","pages":1,"status":"succeeded"}],"fields":[{"fieldName":"CompanyAddress","accuracy":0.8},{"fieldName":"CompanyName","accuracy":1},{"fieldName":"CompanyPhoneNumber","accuracy":1},{"fieldName":"DatedAs","accuracy":1},{"fieldName":"Email","accuracy":0.8},{"fieldName":"Merchant","accuracy":1},{"fieldName":"PhoneNumber","accuracy":1},{"fieldName":"PurchaseOrderNumber","accuracy":1},{"fieldName":"Quantity","accuracy":1},{"fieldName":"Signature","accuracy":0.8},{"fieldName":"Subtotal","accuracy":1},{"fieldName":"Tax","accuracy":1},{"fieldName":"Total","accuracy":1},{"fieldName":"VendorName","accuracy":1},{"fieldName":"Website","accuracy":1}],"errors":[]}}, [
+  'Transfer-Encoding',
+  'chunked',
+  'Content-Type',
+  'application/json; charset=utf-8',
+  'x-envoy-upstream-service-time',
+  '33',
+  'apim-request-id',
+  '7f6c4c98-2041-44b8-a3e6-a7ea4ed078b5',
+  'Strict-Transport-Security',
+  'max-age=31536000; includeSubDomains; preload',
+  'x-content-type-options',
+  'nosniff',
+  'Date',
+  'Tue, 18 Aug 2020 18:47:16 GMT'
 ]);

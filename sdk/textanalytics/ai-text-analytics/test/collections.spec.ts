@@ -9,6 +9,7 @@ import { makeExtractKeyPhrasesResultArray } from "../src/extractKeyPhrasesResult
 import { makeRecognizeLinkedEntitiesResultArray } from "../src/recognizeLinkedEntitiesResultArray";
 import { makeRecognizeCategorizedEntitiesResultArray } from "../src/recognizeCategorizedEntitiesResultArray";
 import { DetectLanguageInput, TextDocumentInput } from "../src/generated/models";
+import { makeRecognizePiiEntitiesResultArray } from "../src/recognizePiiEntitiesResultArray";
 
 describe("SentimentResultArray", () => {
   it("merges items in order", () => {
@@ -304,9 +305,69 @@ describe("RecognizeLinkedEntitiesResultArray", () => {
       ],
       ""
     );
-
     const inputOrder = input.map((item) => item.id);
     const outputOrder = result.map((item) => item.id);
     assert.deepEqual(inputOrder, outputOrder);
+  });
+
+  describe("RecognizePiiEntitiesResultArray", () => {
+    it("merges items in order", () => {
+      const input: TextDocumentInput[] = [
+        {
+          id: "A",
+          text: "test"
+        },
+        {
+          id: "B",
+          text: "test2"
+        },
+        {
+          id: "C",
+          text: "test3"
+        }
+      ];
+      const result = makeRecognizePiiEntitiesResultArray(input, {
+        documents: [
+          {
+            id: "A",
+            entities: [
+              {
+                text: "(555) 555-5555",
+                category: "US Phone Number",
+                confidenceScore: 0.9989
+              }
+            ],
+            warnings: []
+          },
+          {
+            id: "C",
+            entities: [
+              {
+                text: "1234 Default Ln.",
+                category: "US Address",
+                subCategory: "",
+                confidenceScore: 0.8
+              }
+            ],
+            warnings: []
+          }
+        ],
+        errors: [
+          {
+            id: "B",
+            error: {
+              code: "InternalServerError",
+              message: "test error"
+            }
+          }
+        ],
+        modelVersion: "",
+        _response: {} as any
+      });
+
+      const inputOrder = input.map((item) => item.id);
+      const outputOrder = result.map((item) => item.id);
+      assert.deepEqual(inputOrder, outputOrder);
+    });
   });
 });

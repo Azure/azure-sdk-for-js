@@ -2,29 +2,120 @@
 // Licensed under the MIT license.
 
 import {
-  TableQueryEntitiesWithPartitionAndRowKeyResponse,
-  TableQueryEntitiesResponse
+  TableQueryEntitiesWithPartitionAndRowKeyHeaders,
+  TableQueryEntitiesHeaders,
+  TableResponseProperties,
+  TableQueryResponse,
+  TableQueryHeaders,
+  TableInsertEntityHeaders
 } from "./generated/models";
-import { OperationOptions } from "@azure/core-http";
+import { OperationOptions, HttpResponse } from "@azure/core-http";
+
+/**
+ * Contains response data for the createEntity operation.
+ */
+export type CreateTableEntityResponse<T extends object> = TableEntity<T> & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: HttpResponse & {
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: { [propertyName: string]: any };
+    /**
+     * The parsed HTTP response headers.
+     */
+    parsedHeaders: TableInsertEntityHeaders;
+  };
+};
+
+/**
+ * Contains response data for the listTable operation.
+ */
+export type ListTableItemsResponse = Array<TableResponseProperties> & {
+  /**
+   * This header contains the continuation token value.
+   */
+  nextTableName?: string;
+  /**
+   * The underlying HTTP response.
+   */
+  _response: HttpResponse & {
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: TableQueryResponse;
+    /**
+     * The parsed HTTP response headers.
+     */
+    parsedHeaders: TableQueryHeaders;
+  };
+};
 
 /**
  * Contains response data for the getEntity operation.
  */
-export type ListEntitiesResponse<T> = Omit<TableQueryEntitiesResponse, "value"> & {
+export type ListEntitiesResponse<T extends object> = Array<TableEntity<T>> & {
   /**
-   * List of table entities.
+   * Contains the continuation token value for partition key.
    */
-  value?: T[];
+  nextPartitionKey?: string;
+  /**
+   * Contains the continuation token value for row key.
+   */
+  nextextRowKey?: string;
+  /**
+   * The underlying HTTP response.
+   */
+  _response: HttpResponse & {
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: { value?: { [key: string]: any } };
+    /**
+     * The parsed HTTP response headers.
+     */
+    parsedHeaders: TableQueryEntitiesHeaders;
+  };
 };
 
 /**
  * Contains response data for the listEntities operation.
  */
-export type GetEntityResponse<T> = TableQueryEntitiesWithPartitionAndRowKeyResponse & {
+export type GetTableEntityResponse<T extends object> = TableEntity<T> & {
   /**
-   * The table entity object.
+   * The underlying HTTP response.
    */
-  value?: T;
+  _response: HttpResponse & {
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: { [propertyName: string]: any };
+    /**
+     * The parsed HTTP response headers.
+     */
+    parsedHeaders: TableQueryEntitiesWithPartitionAndRowKeyHeaders;
+  };
 };
 
 /**
@@ -223,7 +314,7 @@ export type UpsertTableEntityOptions = OperationOptions & {
 /**
  * A set of key-value pairs representing the table entity.
  */
-export interface Entity {
+export type TableEntity<T extends object> = T & {
   /**
    * The PartitionKey property of the entity.
    */
@@ -232,11 +323,7 @@ export interface Entity {
    * The RowKey property of the entity.
    */
   RowKey: string;
-  /**
-   * Any custom properties of the entity.
-   */
-  [propertyName: string]: any;
-}
+};
 
 /**
  * Supported EDM Types by Azure Tables.

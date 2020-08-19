@@ -14,15 +14,15 @@ import {
   getRandomTestClientTypeWithSessions,
   getRandomTestClientTypeWithNoSessions
 } from "./utils/testutils2";
-import { Receiver } from "../src/receivers/receiver";
-import { Sender } from "../src/sender";
+import { ServiceBusReceiver } from "../src/receivers/receiver";
+import { ServiceBusSender } from "../src/sender";
 import { ReceivedMessageWithLock } from "../src/serviceBusMessage";
 
 describe("Deferred Messages", () => {
   let serviceBusClient: ReturnType<typeof createServiceBusClientForTests>;
-  let sender: Sender;
-  let receiver: Receiver<ReceivedMessageWithLock>;
-  let deadLetterReceiver: Receiver<ReceivedMessageWithLock>;
+  let sender: ServiceBusSender;
+  let receiver: ServiceBusReceiver<ReceivedMessageWithLock>;
+  let deadLetterReceiver: ServiceBusReceiver<ReceivedMessageWithLock>;
 
   let entityNames: EntityName;
   const noSessionTestClientType = getRandomTestClientTypeWithNoSessions();

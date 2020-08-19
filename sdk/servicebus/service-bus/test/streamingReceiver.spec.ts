@@ -14,8 +14,8 @@ import {
   ReceivedMessageWithLock,
   ServiceBusMessageImpl
 } from "../src/serviceBusMessage";
-import { Receiver } from "../src/receivers/receiver";
-import { Sender } from "../src/sender";
+import { ServiceBusReceiver } from "../src/receivers/receiver";
+import { ServiceBusSender } from "../src/sender";
 import {
   EntityName,
   ServiceBusClientForTests,
@@ -44,9 +44,9 @@ async function processError(err: Error): Promise<void> {
 
 describe("Streaming Receiver Tests", () => {
   let serviceBusClient: ServiceBusClientForTests;
-  let sender: Sender;
-  let receiver: Receiver<ReceivedMessageWithLock> | Receiver<ReceivedMessage>;
-  let deadLetterReceiver: Receiver<ReceivedMessageWithLock>;
+  let sender: ServiceBusSender;
+  let receiver: ServiceBusReceiver<ReceivedMessageWithLock> | ServiceBusReceiver<ReceivedMessage>;
+  let deadLetterReceiver: ServiceBusReceiver<ReceivedMessageWithLock>;
   let entityNames: EntityName;
 
   before(() => {
@@ -650,7 +650,7 @@ describe("Streaming Receiver Tests", () => {
 
       should.equal(msgsCheck, true, `Expected 1, received ${receivedMsgs.length} messages.`);
       should.equal(
-        !!(receiver as any)._context.streamingReceivers[streamingReceiverName!],
+        !!(receiver as any)._context.messageReceivers[streamingReceiverName!],
         true,
         "Expected streaming receiver not to be cached."
       );
@@ -925,8 +925,8 @@ describe("Streaming Receiver Tests", () => {
 
 describe(testClientType + ": Streaming - onDetached", function(): void {
   let serviceBusClient: ServiceBusClientForTests;
-  let sender: Sender;
-  let receiver: Receiver<ReceivedMessageWithLock> | Receiver<ReceivedMessage>;
+  let sender: ServiceBusSender;
+  let receiver: ServiceBusReceiver<ReceivedMessageWithLock> | ServiceBusReceiver<ReceivedMessage>;
 
   before(() => {
     serviceBusClient = createServiceBusClientForTests();
@@ -1110,8 +1110,8 @@ describe(testClientType + ": Streaming - onDetached", function(): void {
 
 describe(testClientType + ": Streaming - disconnects", function(): void {
   let serviceBusClient: ServiceBusClientForTests;
-  let sender: Sender;
-  let receiver: Receiver<ReceivedMessageWithLock> | Receiver<ReceivedMessage>;
+  let sender: ServiceBusSender;
+  let receiver: ServiceBusReceiver<ReceivedMessageWithLock> | ServiceBusReceiver<ReceivedMessage>;
 
   before(() => {
     serviceBusClient = createServiceBusClientForTests();
@@ -1208,15 +1208,15 @@ describe(testClientType + ": Streaming - disconnects", function(): void {
 });
 
 export function singleMessagePromise(
-  receiver: Receiver<ReceivedMessageWithLock>
+  receiver: ServiceBusReceiver<ReceivedMessageWithLock>
 ): Promise<{
-  subscriber: ReturnType<Receiver<unknown>["subscribe"]>;
+  subscriber: ReturnType<ServiceBusReceiver<unknown>["subscribe"]>;
   messages: ReceivedMessageWithLock[];
 }> {
   const messages: ReceivedMessageWithLock[] = [];
 
   return new Promise<{
-    subscriber: ReturnType<Receiver<unknown>["subscribe"]>;
+    subscriber: ReturnType<ServiceBusReceiver<unknown>["subscribe"]>;
     messages: ReceivedMessageWithLock[];
   }>((resolve, reject) => {
     const subscriber = receiver.subscribe(

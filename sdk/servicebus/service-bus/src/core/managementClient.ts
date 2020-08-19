@@ -32,7 +32,7 @@ import {
   getMessagePropertyTypeMismatchError,
   toAmqpMessage
 } from "../serviceBusMessage";
-import { LinkEntity } from "./linkEntity";
+import { LinkEntity, RequestResponseLinkOptions } from "./linkEntity";
 import * as log from "../log";
 import { InternalReceiveMode, fromAmqpMessage } from "../serviceBusMessage";
 import { toBuffer } from "../util/utils";
@@ -188,7 +188,7 @@ export interface ManagementClientOptions {
  * Describes the ServiceBus Management Client that talks
  * to the $management endpoint over AMQP connection.
  */
-export class ManagementClient extends LinkEntity {
+export class ManagementClient extends LinkEntity<RequestResponseLink> {
   readonly managementLock: string = `${Constants.managementRequestKey}-${generate_uuid()}`;
   /**
    * @property {string} entityPath - The name/path of the entity (queue/topic/subscription name)
@@ -199,10 +199,6 @@ export class ManagementClient extends LinkEntity {
    * @property {string} replyTo The reply to Guid for the management client.
    */
   replyTo: string = generate_uuid();
-  /**
-   * @property $management sender, receiver on the same session.
-   */
-  private _mgmtReqResLink?: RequestResponseLink;
   /**
    * @property _lastPeekedSequenceNumber Provides the sequence number of the last peeked message.
    */
@@ -216,7 +212,7 @@ export class ManagementClient extends LinkEntity {
    * "$management" client.
    */
   constructor(context: ConnectionContext, entityPath: string, options?: ManagementClientOptions) {
-    super(`${entityPath}/$management`, context, {
+    super(`${entityPath}/$management`, context, "m", {
       address: options && options.address ? options.address : Constants.management,
       audience:
         options && options.audience
@@ -230,54 +226,38 @@ export class ManagementClient extends LinkEntity {
   private async _init(): Promise<void> {
     throwErrorIfConnectionClosed(this._context);
     try {
-      if (!this._isMgmtRequestResponseLinkOpen()) {
-        await this._negotiateClaim();
-        const rxopt: ReceiverOptions = {
-          source: { address: this.address },
-          name: this.replyTo,
-          target: { address: this.replyTo },
-          onSessionError: (context: EventContext) => {
-            const id = context.connection.options.id;
-            const ehError = translate(context.session!.error!);
-            log.error(
-              "[%s] An error occurred on the session for request/response links for " +
-                "$management: %O",
-              id,
-              ehError
-            );
-          }
-        };
-        const sropt: SenderOptions = { target: { address: this.address } };
-        log.mgmt(
-          "[%s] Creating sender/receiver links on a session for $management endpoint with " +
-            "srOpts: %o, receiverOpts: %O.",
-          this._context.connectionId,
-          sropt,
-          rxopt
-        );
-        this._mgmtReqResLink = await RequestResponseLink.create(
-          this._context.connection,
-          sropt,
-          rxopt
-        );
-        this._mgmtReqResLink!.sender.on(SenderEvents.senderError, (context: EventContext) => {
+      const rxopt: ReceiverOptions = {
+        source: { address: this.address },
+        name: this.replyTo,
+        target: { address: this.replyTo },
+        onSessionError: (context: EventContext) => {
           const id = context.connection.options.id;
-          const ehError = translate(context.sender!.error!);
-          log.error("[%s] An error occurred on the $management sender link.. %O", id, ehError);
-        });
-        this._mgmtReqResLink!.receiver.on(ReceiverEvents.receiverError, (context: EventContext) => {
-          const id = context.connection.options.id;
-          const ehError = translate(context.receiver!.error!);
-          log.error("[%s] An error occurred on the $management receiver link.. %O", id, ehError);
-        });
-        log.mgmt(
-          "[%s] Created sender '%s' and receiver '%s' links for $management endpoint.",
-          this._context.connectionId,
-          this._mgmtReqResLink!.sender.name,
-          this._mgmtReqResLink!.receiver.name
-        );
-        this._ensureTokenRenewal();
-      }
+          const ehError = translate(context.session!.error!);
+          log.error(
+            "[%s] An error occurred on the session for request/response links for " +
+              "$management: %O",
+            id,
+            ehError
+          );
+        }
+      };
+      const sropt: SenderOptions = { target: { address: this.address } };
+
+      await this.initLink({
+        senderOptions: sropt,
+        receiverOptions: rxopt
+      });
+
+      this.link!.sender.on(SenderEvents.senderError, (context: EventContext) => {
+        const id = context.connection.options.id;
+        const ehError = translate(context.sender!.error!);
+        log.error("[%s] An error occurred on the $management sender link.. %O", id, ehError);
+      });
+      this.link!.receiver.on(ReceiverEvents.receiverError, (context: EventContext) => {
+        const id = context.connection.options.id;
+        const ehError = translate(context.receiver!.error!);
+        log.error("[%s] An error occurred on the $management receiver link.. %O", id, ehError);
+      });
     } catch (err) {
       err = translate(err);
       log.error(
@@ -289,8 +269,12 @@ export class ManagementClient extends LinkEntity {
     }
   }
 
-  private _isMgmtRequestResponseLinkOpen(): boolean {
-    return this._mgmtReqResLink! && this._mgmtReqResLink!.isOpen();
+  protected createRheaLink(options: RequestResponseLinkOptions): Promise<RequestResponseLink> {
+    return RequestResponseLink.create(
+      this._context.connection,
+      options.senderOptions,
+      options.receiverOptions
+    );
   }
 
   /**
@@ -309,7 +293,7 @@ export class ManagementClient extends LinkEntity {
     const retryTimeoutInMs =
       sendRequestOptions.timeoutInMs ?? Constants.defaultOperationTimeoutInMs;
     const initOperationStartTime = Date.now();
-    if (!this._isMgmtRequestResponseLinkOpen()) {
+    if (!this.isOpen()) {
       const rejectOnAbort = () => {
         const requestName = sendRequestOptions.requestName;
         const desc: string =
@@ -365,7 +349,7 @@ export class ManagementClient extends LinkEntity {
 
     try {
       if (!request.message_id) request.message_id = generate_uuid();
-      return await this._mgmtReqResLink!.sendRequest(request, sendRequestOptions);
+      return await this.link!.sendRequest(request, sendRequestOptions);
     } catch (err) {
       err = translate(err);
       log.warning(
@@ -388,13 +372,12 @@ export class ManagementClient extends LinkEntity {
     try {
       // Always clear the timeout, as the isOpen check may report
       // false without ever having cleared the timeout otherwise.
-      clearTimeout(this._tokenRenewalTimer as NodeJS.Timer);
-      if (this._isMgmtRequestResponseLinkOpen()) {
-        const mgmtLink = this._mgmtReqResLink;
-        this._mgmtReqResLink = undefined;
-        await mgmtLink!.close();
-        log.mgmt("Successfully closed the management session.");
-      }
+
+      // NOTE: management link currently doesn't have a separate concept of "detaching" like
+      // the other links do. When we add handling of this (via the onDetached call, like other links)
+      // we can change this back to closeLink("permanent").
+      await this.closeLink();
+      log.mgmt("Successfully closed the management session.");
     } catch (err) {
       log.error(
         "[%s] An error occurred while closing the management session: %O.",
@@ -1152,7 +1135,7 @@ export class ManagementClient extends LinkEntity {
         return [];
       }
 
-      // Reference: https://docs.microsoft.com/en-us/azure/service-bus-messaging/service-bus-amqp-request-response#response-11
+      // Reference: https://docs.microsoft.com/azure/service-bus-messaging/service-bus-amqp-request-response#response-11
       const result: { "rule-description": Typed }[] = response.body.rules || [];
       const rules: RuleDescription[] = [];
       result.forEach((x) => {

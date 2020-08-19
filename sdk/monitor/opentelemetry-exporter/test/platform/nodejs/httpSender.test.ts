@@ -27,37 +27,28 @@ describe("HttpSender", () => {
 
   describe("#send()", () => {
     const envelope = new Envelope();
-    it("should send a valid envelope", (done) => {
+    it("should send a valid envelope", async () => {
       const sender = new HttpSender();
       scope.reply(200, JSON.stringify(successfulBreezeResponse(1)));
-      sender.send([envelope], (err, statusCode, result) => {
-        assert.strictEqual(err, null);
-        assert.strictEqual(statusCode, 200);
-        assert.deepStrictEqual(JSON.parse(result!), successfulBreezeResponse(1));
-        done();
-      });
+      const { result, statusCode } = await sender.send([envelope]);
+      assert.strictEqual(statusCode, 200);
+      assert.deepStrictEqual(JSON.parse(result), successfulBreezeResponse(1));
     });
 
-    it("should send an invalid non-retriable envelope", (done) => {
+    it("should send an invalid non-retriable envelope", async () => {
       const sender = new HttpSender();
       scope.reply(403, JSON.stringify(failedBreezeResponse(2, 403)));
-      sender.send([envelope, envelope], (err, statusCode, result) => {
-        assert.strictEqual(err, null);
-        assert.strictEqual(statusCode, 403);
-        assert.deepStrictEqual(JSON.parse(result!), failedBreezeResponse(2, 403));
-        done();
-      });
+      const { result, statusCode } = await sender.send([envelope, envelope]);
+      assert.strictEqual(statusCode, 403);
+      assert.deepStrictEqual(JSON.parse(result), failedBreezeResponse(2, 403));
     });
 
-    it("should send a partially retriable envelope", (done) => {
+    it("should send a partially retriable envelope", async () => {
       const sender = new HttpSender();
       scope.reply(206, JSON.stringify(partialBreezeResponse([200, 408, 408])));
-      sender.send([envelope, envelope], (err, statusCode, result) => {
-        assert.strictEqual(err, null);
-        assert.strictEqual(statusCode, 206);
-        assert.deepStrictEqual(JSON.parse(result!), partialBreezeResponse([200, 408, 408]));
-        done();
-      });
+      const { result, statusCode } = await sender.send([envelope, envelope]);
+      assert.strictEqual(statusCode, 206);
+      assert.deepStrictEqual(JSON.parse(result!), partialBreezeResponse([200, 408, 408]));
     });
   });
 });
