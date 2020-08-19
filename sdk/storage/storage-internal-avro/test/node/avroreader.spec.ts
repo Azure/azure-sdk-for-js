@@ -3,7 +3,7 @@ import * as assert from "assert";
 import { AvroReader, AvroReadableFromStream } from "../../src";
 import { arraysEqual } from "../../src/utils/utils.common";
 import { AbortController } from "@azure/abort-controller";
-const { Readable } = require("stream");
+import { Readable } from "stream";
 
 type Action = (o: Object | null) => void;
 class TestCase {
