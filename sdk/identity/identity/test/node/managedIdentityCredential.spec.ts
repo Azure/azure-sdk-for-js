@@ -144,7 +144,7 @@ describe("ManagedIdentityCredential", function() {
         status: 200,
         parsedBody: {
           token: "token",
-          expires_on: "06/20/2019 02:57:58 +00:00"
+          expires_on: "1560999478"
         }
       }
     });

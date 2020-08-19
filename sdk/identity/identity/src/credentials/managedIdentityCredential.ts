@@ -259,10 +259,8 @@ export class ManagedIdentityCredential implements TokenCredential {
         // Running in App Service 2019-08-01
         authRequestOptions = this.createAppServiceMsiAuthRequest(resource, clientId, "2019-08-01");
         expiresInParser = (requestBody: any) => {
-          // Parse a date format like "06/20/2019 02:57:58 +00:00" and
-          // convert it into a JavaScript-formatted date, which is milliseconds since epoch
-          // then convert it to seconds since epoch
-          return Date.parse(requestBody.expires_on) / 1000;
+          // Parses a string representation of the seconds since epoch into a number value
+          return Number(requestBody.expires_on);
         };
         logger.info(
           `Using the endpoint and the secret coming form the environment variables: IDENTITY_ENDPOINT=${process.env.IDENTITY_ENDPOINT} and IDENTITY_HEADER=[REDACTED].`
