@@ -1,5 +1,8 @@
 # Release History
 
+## 1.1.10 (Unreleased)
+
+
 ## 1.1.9 (2020-08-19)
 
 - Fixes [bug 10641](https://github.com/Azure/azure-sdk-for-js/issues/10641) where parallel requests
