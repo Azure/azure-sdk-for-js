@@ -149,6 +149,8 @@ Recognize name/value pairs and table data from forms. These models are trained w
 ```javascript
 const { FormRecognizerClient, AzureKeyCredential } = require("@azure/ai-form-recognizer");
 
+const fs = require("fs");
+
 async function main() {
   const endpoint = "<cognitive services endpoint>";
   const apiKey = "<api key>";
@@ -202,6 +204,7 @@ Recognize text and table structures, along with their bounding box, from documen
 
 ```javascript
 const { FormRecognizerClient, AzureKeyCredential } = require("@azure/ai-form-recognizer");
+
 const fs = require("fs");
 
 async function main() {
@@ -242,6 +245,7 @@ Recognize data from USA sales receipts using the pre-built model. A list of rece
 
 ```javascript
 const { FormRecognizerClient, AzureKeyCredential } = require("@azure/ai-form-recognizer");
+
 const fs = require("fs");
 
 async function main() {
