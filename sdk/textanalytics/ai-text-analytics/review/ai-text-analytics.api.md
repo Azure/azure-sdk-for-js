@@ -35,8 +35,15 @@ export interface AnalyzeSentimentSuccessResult extends TextAnalyticsSuccessResul
 }
 
 // @public
+export interface AspectConfidenceScoreLabel {
+    // (undocumented)
+    negative: number;
+    // (undocumented)
+    positive: number;
+}
+
+// @public
 export interface AspectSentiment {
-    // Warning: (ae-forgotten-export) The symbol "AspectConfidenceScoreLabel" needs to be exported by the entry point index.d.ts
     confidenceScores: AspectConfidenceScoreLabel;
     sentiment: SentenceAspectSentiment;
     text: string;
