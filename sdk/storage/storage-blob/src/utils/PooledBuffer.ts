@@ -24,7 +24,10 @@ export class PooledBuffer {
     // allocate
     const bufferNum = Math.ceil(capacity / maxBufferLength);
     for (let i = 0; i < bufferNum; i++) {
-      const len = i === bufferNum - 1 ? capacity % maxBufferLength : maxBufferLength;
+      let len = i === bufferNum - 1 ? capacity % maxBufferLength : maxBufferLength;
+      if (len === 0) {
+        len = maxBufferLength;
+      }
       this.buffers.push(Buffer.allocUnsafe(len));
     }
 
