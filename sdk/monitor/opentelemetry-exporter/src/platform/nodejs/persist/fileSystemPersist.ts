@@ -98,19 +98,21 @@ export class FileSystemPersist implements PersistentStorage {
       await confirmDirExists(directory);
     } catch (error) {
       this._logger.warn(`Error while checking/creating directory: `, error && error.message);
-      throw error;
-    }
-
-    const size = await getShallowDirectorySize(directory);
-    if (size < 0) {
-      this._logger.warn(
-        `Error while checking directory size: returned size is less than 0: size=${size}`
-      );
       return false;
     }
-    if (size > this.maxBytesOnDisk) {
+
+    try {
+      const size = await getShallowDirectorySize(directory);
+      if (size > this.maxBytesOnDisk) {
+        this._logger.warn(
+          `Not saving data due to max size limit being met. Directory size in bytes is: ${size}`
+        );
+        return false;
+      }
+    } catch (error) {
       this._logger.warn(
-        `Not saving data due to max size limit being met. Directory size in bytes is: ${size}`
+        `Error while checking size of persistence directory: `,
+        error && error.message
       );
       return false;
     }
