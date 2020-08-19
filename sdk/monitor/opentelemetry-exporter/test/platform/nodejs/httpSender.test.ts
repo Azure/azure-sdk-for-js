@@ -48,7 +48,7 @@ describe("HttpSender", () => {
       scope.reply(206, JSON.stringify(partialBreezeResponse([200, 408, 408])));
       const { result, statusCode } = await sender.send([envelope, envelope]);
       assert.strictEqual(statusCode, 206);
-      assert.deepStrictEqual(JSON.parse(result!), partialBreezeResponse([200, 408, 408]));
+      assert.deepStrictEqual(JSON.parse(result), partialBreezeResponse([200, 408, 408]));
     });
   });
 });
