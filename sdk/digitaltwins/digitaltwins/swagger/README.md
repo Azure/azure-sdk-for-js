@@ -9,7 +9,6 @@ typescript:
   description: Digitaltwins Client
 use-extension:
   "@autorest/typescript": "6.0.0-dev.20200727.1"
-azure-arm: true
 generate-metadata: false
 add-credentials: true
 license-header: MICROSOFT_MIT_NO_VERSION

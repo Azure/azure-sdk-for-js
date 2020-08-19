@@ -4,6 +4,7 @@
 export { DigitalTwinsClient } from "./digitalTwinsClient";
 
 export {
+  AzureDigitalTwinsAPIOptionalParams,
   DigitalTwinsAddHeaders,
   DigitalTwinsAddResponse,
   DigitalTwinsGetByIdResponse,

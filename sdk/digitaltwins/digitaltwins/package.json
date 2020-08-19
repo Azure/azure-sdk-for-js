@@ -63,7 +63,6 @@
     "url": "https://github.com/azure/azure-sdk-for-js/issues"
   },
   "dependencies": {
-    "@azure/core-arm": "~1.0.0-preview.7",
     "@azure/core-http": "^1.1.4",
     "@azure/core-paging": "^1.1.1",
     "@azure/identity": "^1.1.0-preview",

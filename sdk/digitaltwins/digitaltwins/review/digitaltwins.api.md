@@ -13,6 +13,13 @@ import { RestResponse } from '@azure/core-http';
 import { TokenCredential } from '@azure/core-http';
 
 // @public
+export interface AzureDigitalTwinsAPIOptionalParams extends coreHttp.ServiceClientOptions {
+    $host?: string;
+    apiVersion?: string;
+    endpoint?: string;
+}
+
+// @public
 export interface DigitalTwinModelsAddOptionalParams extends coreHttp.OperationOptions {
     models?: any[];
 }
@@ -90,7 +97,6 @@ export type DigitalTwinsAddResponse = DigitalTwinsAddHeaders & {
 
 // @public
 export class DigitalTwinsClient {
-    // Warning: (ae-forgotten-export) The symbol "AzureDigitalTwinsAPIOptionalParams" needs to be exported by the entry point index.d.ts
     constructor(endpoint: string, credential: TokenCredential, options?: AzureDigitalTwinsAPIOptionalParams);
     createModels(models: any[], options?: OperationOptions): Promise<DigitalTwinModelsAddResponse>;
     decomissionModel(modelId: string, updateModel: any[], options?: OperationOptions): Promise<RestResponse>;

@@ -437,13 +437,9 @@ export class DigitalTwinsClient {
     digitalTwinId: string,
     options: RequestOptionsBase
   ): AsyncIterableIterator<IncomingRelationship> {
-    const f = {};
-
-    for await (const page of this.listIncomingRelationshipsPage(digitalTwinId, options, f)) {
+    for await (const page of this.listIncomingRelationshipsPage(digitalTwinId, options, {})) {
       const value = page.value || [];
-      for (const item of value) {
-        yield item;
-      }
+      yield* value;
     }
   }
 

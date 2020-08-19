@@ -23,7 +23,7 @@ The samples project demonstrates the following:
 ## Creating the digital twins client
 
 To create a new digital twins client, you need the endpoint to an Azure Digital Twin instance and credentials.
-In the sample below, you can set `AdtEndpoint`, `TenantId`, `ClientId`, and `ClientSecret` as environment variables.
+For the samples below, the `AZURE_URL`, `AZURE_TENANT_ID`, `AZURE_CLIENT_ID`, and `AZURE_CLIENT_SECRET` environment variables have to be set.
 The client requires an instance of [TokenCredential](https://docs.microsoft.com/en-us/dotnet/api/azure.core.tokencredential?view=azure-dotnet) or [ServiceClientCredentials](https://docs.microsoft.com/en-us/dotnet/api/microsoft.rest.serviceclientcredentials?view=azure-dotnet).
 In this samples, we illustrate how to use one derived class: [DefaultAzureCredentials](https://docs.microsoft.com/en-us/dotnet/api/azure.identity.defaultazurecredential?view=azure-dotnet).
 
