@@ -2,7 +2,10 @@ import { BuffersStream } from "./BuffersStream";
 import { Readable } from "stream";
 import { BLOCK_BLOB_MAX_STAGE_BLOCK_BYTES } from "./constants";
 
-const maxBufferLength = Math.min(require("buffer").constants.MAX_LENGTH, BLOCK_BLOB_MAX_STAGE_BLOCK_BYTES);
+const maxBufferLength = Math.min(
+  require("buffer").constants.MAX_LENGTH,
+  BLOCK_BLOB_MAX_STAGE_BLOCK_BYTES
+);
 
 export class PooledBuffer {
   private buffers: Buffer[] = [];
@@ -27,6 +30,7 @@ export class PooledBuffer {
       if (len === 0) {
         len = maxBufferLength;
       }
+      console.log("Memory Usage:", process.memoryUsage());
       this.buffers.push(Buffer.allocUnsafe(len));
     }
 
