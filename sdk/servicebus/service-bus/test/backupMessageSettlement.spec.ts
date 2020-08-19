@@ -5,8 +5,8 @@ import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
 import { ServiceBusMessage } from "../src";
 import { TestClientType, TestMessage } from "./utils/testUtils";
-import { Receiver } from "../src/receivers/receiver";
-import { Sender } from "../src/sender";
+import { ServiceBusReceiver } from "../src/receivers/receiver";
+import { ServiceBusSender } from "../src/sender";
 import {
   EntityName,
   ServiceBusClientForTests,
@@ -26,9 +26,9 @@ const withSessionTestClientType = getRandomTestClientTypeWithSessions();
 describe("Message settlement After Receiver is Closed - Through ManagementLink", () => {
   let serviceBusClient: ServiceBusClientForTests;
 
-  let sender: Sender;
-  let receiver: Receiver<ReceivedMessageWithLock>;
-  let deadLetterReceiver: Receiver<ReceivedMessageWithLock>;
+  let sender: ServiceBusSender;
+  let receiver: ServiceBusReceiver<ReceivedMessageWithLock>;
+  let deadLetterReceiver: ServiceBusReceiver<ReceivedMessageWithLock>;
   let entityNames: EntityName;
 
   before(() => {

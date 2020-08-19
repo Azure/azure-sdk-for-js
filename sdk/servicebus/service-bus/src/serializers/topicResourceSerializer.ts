@@ -32,7 +32,7 @@ import {
  */
 export function buildTopicOptions(topic: CreateTopicOptions): InternalTopicOptions {
   return {
-    DefaultMessageTimeToLive: topic.defaultMessageTtl,
+    DefaultMessageTimeToLive: topic.defaultMessageTimeToLive,
     MaxSizeInMegabytes: getStringOrUndefined(topic.maxSizeInMegabytes),
     RequiresDuplicateDetection: getStringOrUndefined(topic.requiresDuplicateDetection),
     DuplicateDetectionHistoryTimeWindow: topic.duplicateDetectionHistoryTimeWindow,
@@ -65,9 +65,9 @@ export function buildTopic(rawTopic: any): TopicProperties {
       "enableBatchedOperations"
     ),
 
-    defaultMessageTtl: getString(
+    defaultMessageTimeToLive: getString(
       rawTopic[Constants.DEFAULT_MESSAGE_TIME_TO_LIVE],
-      "defaultMessageTtl"
+      "defaultMessageTimeToLive"
     ),
     autoDeleteOnIdle: rawTopic[Constants.AUTO_DELETE_ON_IDLE],
 
@@ -102,7 +102,7 @@ export function buildTopicRuntimeProperties(rawTopic: any): TopicRuntimeProperti
     createdAt: getDate(rawTopic[Constants.CREATED_AT], "createdAt"),
     scheduledMessageCount: getMessageCountDetails(rawTopic[Constants.COUNT_DETAILS])
       .scheduledMessageCount,
-    updatedAt: getDate(rawTopic[Constants.UPDATED_AT], "updatedAt"),
+    modifiedAt: getDate(rawTopic[Constants.UPDATED_AT], "modifiedAt"),
     accessedAt: getDate(rawTopic[Constants.ACCESSED_AT], "accessedAt")
   };
 }
@@ -122,7 +122,7 @@ export interface CreateTopicOptions extends OperationOptions {
    *
    * More on ISO-8601 duration format: https://en.wikipedia.org/wiki/ISO_8601#Durations
    */
-  defaultMessageTtl?: string;
+  defaultMessageTimeToLive?: string;
 
   /**
    * Specifies the maximum topic size in megabytes. Any attempt to enqueue a message
@@ -215,7 +215,7 @@ export interface TopicProperties {
    *
    * More on ISO-8601 duration format: https://en.wikipedia.org/wiki/ISO_8601#Durations
    */
-  defaultMessageTtl: string;
+  defaultMessageTimeToLive: string;
 
   /**
    * Specifies the maximum topic size in megabytes. Any attempt to enqueue a message
@@ -406,7 +406,7 @@ export interface TopicRuntimeProperties {
   /**
    * Updated at timestamp
    */
-  updatedAt: Date;
+  modifiedAt: Date;
 
   /**
    * Accessed at timestamp
@@ -416,7 +416,7 @@ export interface TopicRuntimeProperties {
 
 /**
  * @internal
- * @ignore 
+ * @ignore
  * TopicResourceSerializer for serializing / deserializing Topic entities
  */
 export class TopicResourceSerializer implements AtomXmlSerializer {

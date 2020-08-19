@@ -22,18 +22,18 @@ export {
   CreateSessionReceiverOptions,
   GetMessageIteratorOptions,
   MessageHandlerOptions,
+  MessageHandlerOptionsBase,
   MessageHandlers,
   PeekMessagesOptions,
   ReceiveMessagesOptions,
   ReceiveMode,
-  SenderOpenOptions,
-  SubscribeOptions,
-  WaitTimeOptions
+  SessionSubscribeOptions,
+  SubscribeOptions
 } from "./models";
 export { OperationOptionsBase } from "./modelsToBeSharedWithEventHubs";
-export { Receiver } from "./receivers/receiver";
-export { SessionReceiver } from "./receivers/sessionReceiver";
-export { Sender } from "./sender";
+export { ServiceBusReceiver } from "./receivers/receiver";
+export { ServiceBusSessionReceiver } from "./receivers/sessionReceiver";
+export { ServiceBusSender } from "./sender";
 export { NamespaceProperties } from "./serializers/namespaceResourceSerializer";
 export {
   CreateQueueOptions,
@@ -64,7 +64,6 @@ export {
   Response,
   RuleResponse,
   ServiceBusManagementClient,
-  ServiceBusManagementClientOptions,
   SubscriptionResponse,
   SubscriptionRuntimePropertiesResponse,
   TopicResponse,
@@ -78,5 +77,4 @@ export {
   ServiceBusMessage
 } from "./serviceBusMessage";
 export { ServiceBusMessageBatch } from "./serviceBusMessageBatch";
-export { SessionMessageHandlerOptions, SessionReceiverOptions } from "./session/messageSession";
 export { AuthorizationRule, EntityStatus } from "./util/utils";
