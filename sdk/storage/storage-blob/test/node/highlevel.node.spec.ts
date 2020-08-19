@@ -356,7 +356,7 @@ describe("Highlevel", () => {
       try {
         // abort as it may take too long, will cover the data integrity validation with manual large scale tests
         await blockBlobClient.uploadStream(rs, BLOCK_BLOB_MAX_STAGE_BLOCK_BYTES, undefined, {
-          abortSignal: AbortController.timeout(timeoutForLargeFileUploadingTest / 2)
+          abortSignal: AbortController.timeout(timeoutForLargeFileUploadingTest/10)
         });
       } catch (err) {
         assert.equal(err.name, "AbortError");
