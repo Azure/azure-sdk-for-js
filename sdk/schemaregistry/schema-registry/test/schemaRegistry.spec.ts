@@ -18,7 +18,7 @@ import {
 chaiUse(chaiPromises);
 
 const schema: SchemaDescription = {
-  name: "azsdk_js_test_000021",
+  name: "azsdk_js_test_000022",
   group: "azsdk_js_test_group",
   serializationType: "avro",
   content: JSON.stringify({

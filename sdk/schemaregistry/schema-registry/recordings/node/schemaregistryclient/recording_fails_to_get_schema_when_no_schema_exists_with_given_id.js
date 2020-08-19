@@ -24,23 +24,23 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  'f0e4ffbd-ac72-4832-bf1c-86d2993b0400',
+  '12dcda7c-4ec0-448a-ae62-10860f191f00',
   'x-ms-ests-server',
   '2.1.10963.12 - NCUS ProdSlices',
   'Set-Cookie',
-  'fpc=AntmugwFMINImIc15jUK9V5J4DFtAQAAAGlWztYOAAAA; expires=Thu, 17-Sep-2020 23:08:25 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AljzUBQibbZDpdvcYAtfgRpJ4DFtAQAAAPE0z9YOAAAA; expires=Fri, 18-Sep-2020 14:57:53 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=estsfd; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=estsfd; path=/; secure; samesite=none; httponly',
   'Date',
-  'Tue, 18 Aug 2020 23:08:25 GMT'
+  'Wed, 19 Aug 2020 14:57:53 GMT'
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
   .get('/$schemagroups/getSchemaById/ffffffffffffffffffffffffffffffff')
   .query(true)
-  .reply(404, "<Error><Code>404</Code><Detail>Schema id ffffffffffffffffffffffffffffffff does not exist. TrackingId:85311351-f3ce-443b-9d82-da8d132f310f_G0, SystemTracker:endpoint:$schemagroups/getSchemaById/ffffffffffffffffffffffffffffffff, Timestamp:2020-08-18T23:08:26</Detail></Error>", [
+  .reply(404, "<Error><Code>404</Code><Detail>Schema id ffffffffffffffffffffffffffffffff does not exist. TrackingId:bf402ba9-f61e-4782-8413-bedb1ae87af8_G4, SystemTracker:endpoint:$schemagroups/getSchemaById/ffffffffffffffffffffffffffffffff, Timestamp:2020-08-19T14:57:54</Detail></Error>", [
   'Transfer-Encoding',
   'chunked',
   'Content-Type',
@@ -50,5 +50,5 @@ nock('https://endpoint', {"encodedQueryParams":true})
   'Strict-Transport-Security',
   'max-age=31536000',
   'Date',
-  'Tue, 18 Aug 2020 23:08:26 GMT'
+  'Wed, 19 Aug 2020 14:57:54 GMT'
 ]);
