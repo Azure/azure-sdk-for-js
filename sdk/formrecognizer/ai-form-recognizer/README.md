@@ -125,6 +125,8 @@ const client = new FormRecognizerClient("<endpoint>", new DefaultAzureCredential
 
 Please note that models can also be trained using a graphical user interface such as the [Form Recognizer Labeling Tool][fr-labeling-tool].
 
+Sample code snippets that illustrate the use of `FormTrainingClient` can be found [below](#train-a-model).
+
 ### Long-Running Operations
 Long-running operations are operations which consist of an initial request sent to the service to start an operation,followed by polling the service at intervals to determine whether the operation has completed or failed, and if it has succeeded, to get the result.
 
@@ -194,7 +196,7 @@ main().catch((err) => {
 Alternatively, a form URL can be used to recognize custom forms using the `beginRecognizeCustomFormsFromUrl` method. Methods
 with a `FromUrl` suffix that use URLs instead of streams exist for all of the recognition methods.
 
-### Recognize content
+### Recognize Content
 
 Recognize text and table structures, along with their bounding box, from documents
 
@@ -234,7 +236,7 @@ main().catch((err) => {
 });
 ```
 
-### Recognize receipts
+### Recognize Receipts
 
 Recognize data from USA sales receipts using the pre-built model. A list of receipt fields recognized by the service can be found [here](https://aka.ms/azsdk/formrecognizer/receiptfields).
 
@@ -296,7 +298,7 @@ main().catch((err) => {
 });
 ```
 
-### Train model
+### Train a Model
 
 Train a machine-learned model on your own form type. The resulting model will be able to recognize values from the types of forms it was trained on. Provide a container SAS url to your Azure Storage Blob container where you're storing the training documents. See details on setting this up in the [service quickstart documentation][quickstart_training]. This sample creates and trains a custom model without using labels.
 
@@ -352,7 +354,7 @@ main().catch((err) => {
 
 For information on creating a labeled training data set, see the documentation for the [using the sample labeling tool][quickstart_labeling] and the [labeled model training sample][labeled_sample].
 
-### Listing all models
+### Listing All Models
 
 Listing custom models in the current cognitive service account. This sample shows several ways to iterate through the result.
 
