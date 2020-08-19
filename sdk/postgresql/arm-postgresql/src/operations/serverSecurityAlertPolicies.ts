@@ -29,23 +29,20 @@ export class ServerSecurityAlertPolicies {
 
   /**
    * Get a server's security alert policy.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can
-   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serverName The name of the server.
    * @param [options] The optional parameters
    * @returns Promise<Models.ServerSecurityAlertPoliciesGetResponse>
    */
   get(resourceGroupName: string, serverName: string, options?: msRest.RequestOptionsBase): Promise<Models.ServerSecurityAlertPoliciesGetResponse>;
   /**
-   * @param resourceGroupName The name of the resource group that contains the resource. You can
-   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serverName The name of the server.
    * @param callback The callback
    */
   get(resourceGroupName: string, serverName: string, callback: msRest.ServiceCallback<Models.ServerSecurityAlertPolicy>): void;
   /**
-   * @param resourceGroupName The name of the resource group that contains the resource. You can
-   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serverName The name of the server.
    * @param options The optional parameters
    * @param callback The callback
@@ -64,8 +61,7 @@ export class ServerSecurityAlertPolicies {
 
   /**
    * Creates or updates a threat detection policy.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can
-   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serverName The name of the server.
    * @param parameters The server security alert policy.
    * @param [options] The optional parameters
@@ -77,9 +73,40 @@ export class ServerSecurityAlertPolicies {
   }
 
   /**
+   * Get the server's threat detection policies.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serverName The name of the server.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.ServerSecurityAlertPoliciesListByServerResponse>
+   */
+  listByServer(resourceGroupName: string, serverName: string, options?: msRest.RequestOptionsBase): Promise<Models.ServerSecurityAlertPoliciesListByServerResponse>;
+  /**
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serverName The name of the server.
+   * @param callback The callback
+   */
+  listByServer(resourceGroupName: string, serverName: string, callback: msRest.ServiceCallback<Models.LogicalServerSecurityAlertPolicyListResult>): void;
+  /**
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serverName The name of the server.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  listByServer(resourceGroupName: string, serverName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.LogicalServerSecurityAlertPolicyListResult>): void;
+  listByServer(resourceGroupName: string, serverName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LogicalServerSecurityAlertPolicyListResult>, callback?: msRest.ServiceCallback<Models.LogicalServerSecurityAlertPolicyListResult>): Promise<Models.ServerSecurityAlertPoliciesListByServerResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        serverName,
+        options
+      },
+      listByServerOperationSpec,
+      callback) as Promise<Models.ServerSecurityAlertPoliciesListByServerResponse>;
+  }
+
+  /**
    * Creates or updates a threat detection policy.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can
-   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serverName The name of the server.
    * @param parameters The server security alert policy.
    * @param [options] The optional parameters
@@ -96,6 +123,34 @@ export class ServerSecurityAlertPolicies {
       beginCreateOrUpdateOperationSpec,
       options);
   }
+
+  /**
+   * Get the server's threat detection policies.
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.ServerSecurityAlertPoliciesListByServerNextResponse>
+   */
+  listByServerNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ServerSecurityAlertPoliciesListByServerNextResponse>;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param callback The callback
+   */
+  listByServerNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.LogicalServerSecurityAlertPolicyListResult>): void;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  listByServerNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.LogicalServerSecurityAlertPolicyListResult>): void;
+  listByServerNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.LogicalServerSecurityAlertPolicyListResult>, callback?: msRest.ServiceCallback<Models.LogicalServerSecurityAlertPolicyListResult>): Promise<Models.ServerSecurityAlertPoliciesListByServerNextResponse> {
+    return this.client.sendOperationRequest(
+      {
+        nextPageLink,
+        options
+      },
+      listByServerNextOperationSpec,
+      callback) as Promise<Models.ServerSecurityAlertPoliciesListByServerNextResponse>;
+  }
 }
 
 // Operation Specifications
@@ -110,7 +165,7 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion2
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -118,6 +173,31 @@ const getOperationSpec: msRest.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.ServerSecurityAlertPolicy
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const listByServerOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforPostgreSQL/servers/{serverName}/securityAlertPolicies",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.serverName,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion2
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.LogicalServerSecurityAlertPolicyListResult
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -136,7 +216,7 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion2
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -153,6 +233,27 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ServerSecurityAlertPolicy
     },
     202: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const listByServerNextOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  baseUrl: "https://management.azure.com",
+  path: "{nextLink}",
+  urlParameters: [
+    Parameters.nextPageLink
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.LogicalServerSecurityAlertPolicyListResult
+    },
     default: {
       bodyMapper: Mappers.CloudError
     }
