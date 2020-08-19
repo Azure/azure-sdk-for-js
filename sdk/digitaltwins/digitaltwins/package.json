@@ -66,6 +66,7 @@
     "@azure/core-http": "^1.1.4",
     "@azure/core-paging": "^1.1.1",
     "@azure/identity": "^1.1.0-preview",
+    "@azure/logger": "^1.0.0",
     "@opentelemetry/api": "^0.6.1",
     "tslib": "^2.0.0"
   },

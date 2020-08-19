@@ -11,6 +11,7 @@ import {
   RestResponse,
   RequestOptionsBase,
   OperationOptions,
+  InternalPipelineOptions,
   bearerTokenAuthenticationPolicy,
   createPipelineFromOptions,
   generateUuid
@@ -53,6 +54,9 @@ import {
   QueryQueryTwinsResponse,
   QuerySpecification
 } from "./generated/models";
+import { logger } from "./logger";
+
+export const SDK_VERSION: string = "1.0.0-preview.1";
 
 /**
  * Client for Azure IoT DigitalTwins API.
@@ -64,8 +68,6 @@ export class DigitalTwinsClient {
    * A reference to the auto-generated AzureDigitalTwinsAPI
    */
   private readonly client: GeneratedClient;
-
-  // private readonly client!: AzureDigitalTwinsAPI;
 
   /**
    * Creates an instance of AzureDigitalTwinsAPI.
@@ -92,9 +94,35 @@ export class DigitalTwinsClient {
       credential,
       "https://digitaltwins.azure.net/.default"
     );
+
+    const { ...pipelineOptions } = options;
+
+    const libInfo = `azsdk-js-digitaltwins/${SDK_VERSION}`;
+    if (!pipelineOptions.endpoint) {
+      pipelineOptions.endpoint = endpoint;
+    }
+    if (!pipelineOptions.userAgentHeaderName) {
+      pipelineOptions.userAgentHeaderName = libInfo;
+    }
+    if (pipelineOptions.userAgent) {
+      pipelineOptions.userAgent = "";
+    }
+
+    const internalPipelineOptions: InternalPipelineOptions = {
+      ...pipelineOptions,
+      ...{
+        loggingOptions: {
+          logger: logger.info,
+          allowedHeaderNames: ["x-ms-request-id"]
+        }
+      }
+    };
+
+    const pipeline = createPipelineFromOptions(internalPipelineOptions, authPolicy);
+
     this.client = new GeneratedClient(credential, {
       ...{ endpoint },
-      ...createPipelineFromOptions({}, authPolicy),
+      ...pipeline,
       ...options
     });
   }
