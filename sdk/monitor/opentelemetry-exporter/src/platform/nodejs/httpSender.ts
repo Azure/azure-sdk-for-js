@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import * as zlib from "zlib";
 import { Logger } from "@opentelemetry/api";
 import { ConsoleLogger, LogLevel } from "@opentelemetry/core";

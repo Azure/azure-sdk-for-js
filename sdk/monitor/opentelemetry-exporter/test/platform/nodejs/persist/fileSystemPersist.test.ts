@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import * as assert from "assert";
 import * as fs from "fs";
 import * as os from "os";
@@ -14,7 +17,7 @@ const unlinkAsync = promisify(fs.unlink);
 const instrumentationKey = "abc";
 const tempDir = path.join(os.tmpdir(), `${FileSystemPersist.TEMPDIR_PREFIX}${instrumentationKey}`);
 
-const deleteFolderRecursive = (dirPath: string) => {
+const deleteFolderRecursive = (dirPath: string): void => {
   if (fs.existsSync(dirPath)) {
     fs.readdirSync(dirPath).forEach((file) => {
       const curPath = `${dirPath}/${file}`;
@@ -30,7 +33,7 @@ const deleteFolderRecursive = (dirPath: string) => {
   }
 };
 
-const assertFirstFile = async (tempDir: string, expectation: unknown) => {
+const assertFirstFile = async (tempDir: string, expectation: unknown) : Promise<void>=> {
   // Assert that tempDir is a directory
   const stats = await statAsync(tempDir);
   assert.strictEqual(stats.isDirectory(), true);
@@ -87,7 +90,9 @@ describe("FileSystemPersist", () => {
   describe("#shift()", () => {
     it("should not crash if folder does not exist", () => {
       const persister = new FileSystemPersist({ instrumentationKey });
-      assert.doesNotThrow(async () => await persister.shift());
+      assert.doesNotThrow(async () => {
+        await persister.shift();
+      });
     });
 
     it("should not crash if file does not exist", () => {

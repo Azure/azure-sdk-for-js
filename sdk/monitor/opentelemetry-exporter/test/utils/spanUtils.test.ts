@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { Span, BasicTracerProvider } from "@opentelemetry/tracing";
 import { SpanKind, CanonicalCode } from "@opentelemetry/api";
 import * as assert from "assert";

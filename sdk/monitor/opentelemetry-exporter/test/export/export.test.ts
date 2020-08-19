@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 /* eslint-disable no-param-reassign */
 /* eslint-disable dot-notation */
 import * as assert from "assert";
