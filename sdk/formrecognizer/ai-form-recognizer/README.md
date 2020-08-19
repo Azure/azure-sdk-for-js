@@ -140,61 +140,49 @@ The following section provides several JavaScript code snippets illustrating com
 * [Recognize forms using a custom model](#recognize-forms-using-a-custom-model)
 * [Listing all models](#listing-all-models)
 
-### Recognize receipts
+### Recognize Forms Using a Custom Model
 
-Recognize data from sales receipts using the pre-built model.
+Recognize name/value pairs and table data from forms. These models are trained with your own data, so they're tailored to your forms. A custom model should only be used with forms of the same document structure as those used to train the model.
 
 ```javascript
 const { FormRecognizerClient, AzureKeyCredential } = require("@azure/ai-form-recognizer");
-const fs = require("fs");
 
 async function main() {
   const endpoint = "<cognitive services endpoint>";
   const apiKey = "<api key>";
-  const path = "<path to your receipt document>"; // pdf/jpeg/png/tiff formats
+  const modelId = "<model id>";
+  const path = "<path to a form document>";
 
   const readStream = fs.createReadStream(path);
 
   const client = new FormRecognizerClient(endpoint, new AzureKeyCredential(apiKey));
-  const poller = await client.beginRecognizeReceipts(readStream, "image/jpeg", {
+  const poller = await client.beginRecognizeCustomForms(modelId, readStream, "application/pdf", {
     onProgress: (state) => { console.log(`status: ${state.status}`); }
   });
+  const forms = await poller.pollUntilDone();
 
-  const receipts = await poller.pollUntilDone();
-
-  if (!receipts || receipts.length <= 0) {
-    throw new Error("Expecting at lease one receipt in analysis result");
-  }
-
-  const receipt = receipts[0];
-  console.log("First receipt:");
-  // For a list of fields that are contained in the response, please refer to the "Supported fields" section at the following link: https://aka.ms/azsdk/formrecognizer/receiptfields
-  const receiptTypeField = receipt.fields["ReceiptType"];
-  if (receiptTypeField.valueType === "string") {
-    console.log(`  Receipt Type: '${receiptTypeField.value || "<missing>"}', with confidence of ${receiptTypeField.confidence}`);
-  }
-  const merchantNameField = receipt.fields["MerchantName"];
-  if (merchantNameField.valueType === "string") {
-    console.log(`  Merchant Name: '${merchantNameField.value || "<missing>"}', with confidence of ${merchantNameField.confidence}`);
-  }
-  const transactionDate = receipt.fields["TransactionDate"];
-  if (transactionDate.valueType === "date") {
-    console.log(`  Transaction Date: '${transactionDate.value || "<missing>"}', with confidence of ${transactionDate.confidence}`);
-  }
-  const itemsField = receipt.fields["Items"];
-  if (itemsField.valueType === "array") {
-    for (const itemField of itemsField.value || []) {
-      if (itemField.valueType === "object") {
-        const itemNameField = itemField.value["Name"];
-        if (itemNameField.valueType === "string") {
-          console.log(`    Item Name: '${itemNameField.value || "<missing>"}', with confidence of ${itemNameField.confidence}`);
+  console.log("Forms:");
+  for (const form of forms || []) {
+    console.log(`${form.formType}, page range: ${form.pageRange}`);
+    console.log("Pages:");
+    for (const page of form.pages || []) {
+      console.log(`Page number: ${page.pageNumber}`);
+      console.log("Tables");
+      for (const table of page.tables || []) {
+        for (const cell of table.cells) {
+          console.log(`cell (${cell.rowIndex},${cell.columnIndex}) ${cell.text}`);
         }
       }
     }
-  }
-  const totalField = receipt.fields["Total"];
-  if (totalField.valueType === "number") {
-    console.log(`  Total: '${totalField.value || "<missing>"}', with confidence of ${totalField.confidence}`);
+
+    console.log("Fields:");
+    for (const fieldName in form.fields) {
+      // each field is of type FormField
+      const field = form.fields[fieldName];
+      console.log(
+        `Field ${fieldName} has value '${field.value}' with a confidence score of ${field.confidence}`
+      );
+    }
   }
 }
 
@@ -202,6 +190,9 @@ main().catch((err) => {
   console.error("The sample encountered an error:", err);
 });
 ```
+
+Alternatively, a form URL can be used to recognize custom forms using the `beginRecognizeCustomFormsFromUrl` method. Methods
+with a `FromUrl` suffix that use URLs instead of streams exist for all of the recognition methods.
 
 ### Recognize content
 
@@ -235,6 +226,68 @@ async function main() {
         console.log(`cell [${cell.rowIndex},${cell.columnIndex}] has text ${cell.text}`);
       }
     }
+  }
+}
+
+main().catch((err) => {
+  console.error("The sample encountered an error:", err);
+});
+```
+
+### Recognize receipts
+
+Recognize data from USA sales receipts using the pre-built model. A list of receipt fields recognized by the service can be found [here](https://aka.ms/azsdk/formrecognizer/receiptfields).
+
+```javascript
+const { FormRecognizerClient, AzureKeyCredential } = require("@azure/ai-form-recognizer");
+const fs = require("fs");
+
+async function main() {
+  const endpoint = "<cognitive services endpoint>";
+  const apiKey = "<api key>";
+  const path = "<path to your receipt document>"; // pdf/jpeg/png/tiff formats
+
+  const readStream = fs.createReadStream(path);
+
+  const client = new FormRecognizerClient(endpoint, new AzureKeyCredential(apiKey));
+  const poller = await client.beginRecognizeReceipts(readStream, "image/jpeg", {
+    onProgress: (state) => { console.log(`status: ${state.status}`); }
+  });
+
+  const receipts = await poller.pollUntilDone();
+
+  if (!receipts || receipts.length <= 0) {
+    throw new Error("Expecting at lease one receipt in analysis result");
+  }
+
+  const receipt = receipts[0];
+  console.log("First receipt:");
+  const receiptTypeField = receipt.fields["ReceiptType"];
+  if (receiptTypeField.valueType === "string") {
+    console.log(`  Receipt Type: '${receiptTypeField.value || "<missing>"}', with confidence of ${receiptTypeField.confidence}`);
+  }
+  const merchantNameField = receipt.fields["MerchantName"];
+  if (merchantNameField.valueType === "string") {
+    console.log(`  Merchant Name: '${merchantNameField.value || "<missing>"}', with confidence of ${merchantNameField.confidence}`);
+  }
+  const transactionDate = receipt.fields["TransactionDate"];
+  if (transactionDate.valueType === "date") {
+    console.log(`  Transaction Date: '${transactionDate.value || "<missing>"}', with confidence of ${transactionDate.confidence}`);
+  }
+  const itemsField = receipt.fields["Items"];
+  if (itemsField.valueType === "array") {
+    for (const itemField of itemsField.value || []) {
+      if (itemField.valueType === "object") {
+        const itemNameField = itemField.value["Name"];
+        if (itemNameField.valueType === "string") {
+          console.log(`    Item Name: '${itemNameField.value || "<missing>"}', with confidence of ${itemNameField.confidence}`);
+        }
+      }
+    }
+  }
+  const totalField = receipt.fields["Total"];
+  if (totalField.valueType === "number") {
+    console.log(`  Total: '${totalField.value || "<missing>"}', with confidence of ${totalField.confidence}`);
   }
 }
 
@@ -298,55 +351,6 @@ main().catch((err) => {
 ```
 
 For information on creating a labeled training data set, see the documentation for the [using the sample labeling tool][quickstart_labeling] and the [labeled model training sample][labeled_sample].
-
-### Recognize forms using a custom model
-
-```javascript
-const { FormRecognizerClient, AzureKeyCredential } = require("@azure/ai-form-recognizer");
-
-async function main() {
-  const endpoint = "<cognitive services endpoint>";
-  const apiKey = "<api key>";
-  const modelId = "<model id>";
-  const path = "<path to a form document>";
-
-  const readStream = fs.createReadStream(path);
-
-  const client = new FormRecognizerClient(endpoint, new AzureKeyCredential(apiKey));
-  const poller = await client.beginRecognizeCustomForms(modelId, readStream, "application/pdf", {
-    onProgress: (state) => { console.log(`status: ${state.status}`); }
-  });
-  const forms = await poller.pollUntilDone();
-
-  console.log("Forms:");
-  for (const form of forms || []) {
-    console.log(`${form.formType}, page range: ${form.pageRange}`);
-    console.log("Pages:");
-    for (const page of form.pages || []) {
-      console.log(`Page number: ${page.pageNumber}`);
-      console.log("Tables");
-      for (const table of page.tables || []) {
-        for (const cell of table.cells) {
-          console.log(`cell (${cell.rowIndex},${cell.columnIndex}) ${cell.text}`);
-        }
-      }
-    }
-
-    console.log("Fields:");
-    for (const fieldName in form.fields) {
-      // each field is of type FormField
-      const field = form.fields[fieldName];
-      console.log(
-        `Field ${fieldName} has value '${field.value}' with a confidence score of ${field.confidence}`
-      );
-    }
-  }
-}
-
-main().catch((err) => {
-  console.error("The sample encountered an error:", err);
-});
-```
 
 ### Listing all models
 
