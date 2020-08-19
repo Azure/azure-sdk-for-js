@@ -99,7 +99,7 @@ export interface Edm<T extends EdmTypes> {
 // @public
 export type EdmTypes = "Binary" | "Boolean" | "DateTime" | "Double" | "Guid" | "Int32" | "Int64" | "String";
 
-// @public (undocumented)
+// @public
 export interface GeoReplication {
     lastSyncTime: Date;
     status: GeoReplicationStatusType;
@@ -230,7 +230,7 @@ export interface Logging {
     write: boolean;
 }
 
-// @public (undocumented)
+// @public
 export interface Metrics {
     enabled: boolean;
     includeAPIs?: boolean;

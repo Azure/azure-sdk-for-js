@@ -200,6 +200,9 @@ export interface RetentionPolicy {
   days?: number;
 }
 
+/**
+ * A summary of request statistics grouped by API
+ */
 export interface Metrics {
   /**
    * The version of Analytics to configure.
@@ -255,6 +258,9 @@ export interface TableServiceStats {
   geoReplication?: GeoReplication;
 }
 
+/**
+ * Geo-Replication information for the Secondary Storage Service
+ */
 export interface GeoReplication {
   /**
    * The status of the secondary location.
