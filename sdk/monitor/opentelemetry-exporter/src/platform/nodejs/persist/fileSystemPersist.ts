@@ -79,7 +79,7 @@ export class FileSystemPersist implements PersistentStorage {
       }
       return null;
     } catch (e) {
-      if (((e as unknown) as { code: string }).code === "ENOENT") {
+      if (e.code === "ENOENT") {
         // File does not exist -- return null instead of throwing
         return null;
       } else {
