@@ -574,6 +574,23 @@ export const TableQueryHeaders: coreHttp.CompositeMapper = {
   }
 };
 
+export const TableQueryExceptionHeaders: coreHttp.CompositeMapper = {
+  serializedName: "Table_queryExceptionHeaders",
+  type: {
+    name: "Composite",
+    className: "TableQueryExceptionHeaders",
+    modelProperties: {
+      errorCode: {
+        serializedName: "x-ms-error-code",
+        xmlName: "x-ms-error-code",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const TableCreateHeaders: coreHttp.CompositeMapper = {
   serializedName: "Table_createHeaders",
   type: {
@@ -619,6 +636,23 @@ export const TableCreateHeaders: coreHttp.CompositeMapper = {
   }
 };
 
+export const TableCreateExceptionHeaders: coreHttp.CompositeMapper = {
+  serializedName: "Table_createExceptionHeaders",
+  type: {
+    name: "Composite",
+    className: "TableCreateExceptionHeaders",
+    modelProperties: {
+      errorCode: {
+        serializedName: "x-ms-error-code",
+        xmlName: "x-ms-error-code",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const TableDeleteHeaders: coreHttp.CompositeMapper = {
   serializedName: "Table_deleteHeaders",
   type: {
@@ -651,6 +685,23 @@ export const TableDeleteHeaders: coreHttp.CompositeMapper = {
         xmlName: "date",
         type: {
           name: "DateTimeRfc1123"
+        }
+      }
+    }
+  }
+};
+
+export const TableDeleteExceptionHeaders: coreHttp.CompositeMapper = {
+  serializedName: "Table_deleteExceptionHeaders",
+  type: {
+    name: "Composite",
+    className: "TableDeleteExceptionHeaders",
+    modelProperties: {
+      errorCode: {
+        serializedName: "x-ms-error-code",
+        xmlName: "x-ms-error-code",
+        type: {
+          name: "String"
         }
       }
     }
@@ -701,6 +752,23 @@ export const TableQueryEntitiesHeaders: coreHttp.CompositeMapper = {
       xMsContinuationNextRowKey: {
         serializedName: "x-ms-continuation-nextrowkey",
         xmlName: "x-ms-continuation-nextrowkey",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const TableQueryEntitiesExceptionHeaders: coreHttp.CompositeMapper = {
+  serializedName: "Table_queryEntitiesExceptionHeaders",
+  type: {
+    name: "Composite",
+    className: "TableQueryEntitiesExceptionHeaders",
+    modelProperties: {
+      errorCode: {
+        serializedName: "x-ms-error-code",
+        xmlName: "x-ms-error-code",
         type: {
           name: "String"
         }
@@ -768,6 +836,23 @@ export const TableQueryEntitiesWithPartitionAndRowKeyHeaders: coreHttp.Composite
   }
 };
 
+export const TableQueryEntitiesWithPartitionAndRowKeyExceptionHeaders: coreHttp.CompositeMapper = {
+  serializedName: "Table_queryEntitiesWithPartitionAndRowKeyExceptionHeaders",
+  type: {
+    name: "Composite",
+    className: "TableQueryEntitiesWithPartitionAndRowKeyExceptionHeaders",
+    modelProperties: {
+      errorCode: {
+        serializedName: "x-ms-error-code",
+        xmlName: "x-ms-error-code",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const TableUpdateEntityHeaders: coreHttp.CompositeMapper = {
   serializedName: "Table_updateEntityHeaders",
   type: {
@@ -805,6 +890,23 @@ export const TableUpdateEntityHeaders: coreHttp.CompositeMapper = {
       eTag: {
         serializedName: "etag",
         xmlName: "etag",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const TableUpdateEntityExceptionHeaders: coreHttp.CompositeMapper = {
+  serializedName: "Table_updateEntityExceptionHeaders",
+  type: {
+    name: "Composite",
+    className: "TableUpdateEntityExceptionHeaders",
+    modelProperties: {
+      errorCode: {
+        serializedName: "x-ms-error-code",
+        xmlName: "x-ms-error-code",
         type: {
           name: "String"
         }
@@ -858,6 +960,23 @@ export const TableMergeEntityHeaders: coreHttp.CompositeMapper = {
   }
 };
 
+export const TableMergeEntityExceptionHeaders: coreHttp.CompositeMapper = {
+  serializedName: "Table_mergeEntityExceptionHeaders",
+  type: {
+    name: "Composite",
+    className: "TableMergeEntityExceptionHeaders",
+    modelProperties: {
+      errorCode: {
+        serializedName: "x-ms-error-code",
+        xmlName: "x-ms-error-code",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const TableDeleteEntityHeaders: coreHttp.CompositeMapper = {
   serializedName: "Table_deleteEntityHeaders",
   type: {
@@ -890,6 +1009,23 @@ export const TableDeleteEntityHeaders: coreHttp.CompositeMapper = {
         xmlName: "date",
         type: {
           name: "DateTimeRfc1123"
+        }
+      }
+    }
+  }
+};
+
+export const TableDeleteEntityExceptionHeaders: coreHttp.CompositeMapper = {
+  serializedName: "Table_deleteEntityExceptionHeaders",
+  type: {
+    name: "Composite",
+    className: "TableDeleteEntityExceptionHeaders",
+    modelProperties: {
+      errorCode: {
+        serializedName: "x-ms-error-code",
+        xmlName: "x-ms-error-code",
+        type: {
+          name: "String"
         }
       }
     }
@@ -955,6 +1091,23 @@ export const TableInsertEntityHeaders: coreHttp.CompositeMapper = {
   }
 };
 
+export const TableInsertEntityExceptionHeaders: coreHttp.CompositeMapper = {
+  serializedName: "Table_insertEntityExceptionHeaders",
+  type: {
+    name: "Composite",
+    className: "TableInsertEntityExceptionHeaders",
+    modelProperties: {
+      errorCode: {
+        serializedName: "x-ms-error-code",
+        xmlName: "x-ms-error-code",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const TableGetAccessPolicyHeaders: coreHttp.CompositeMapper = {
   serializedName: "Table_getAccessPolicyHeaders",
   type: {
@@ -987,6 +1140,23 @@ export const TableGetAccessPolicyHeaders: coreHttp.CompositeMapper = {
         xmlName: "date",
         type: {
           name: "DateTimeRfc1123"
+        }
+      }
+    }
+  }
+};
+
+export const TableGetAccessPolicyExceptionHeaders: coreHttp.CompositeMapper = {
+  serializedName: "Table_getAccessPolicyExceptionHeaders",
+  type: {
+    name: "Composite",
+    className: "TableGetAccessPolicyExceptionHeaders",
+    modelProperties: {
+      errorCode: {
+        serializedName: "x-ms-error-code",
+        xmlName: "x-ms-error-code",
+        type: {
+          name: "String"
         }
       }
     }
@@ -1031,6 +1201,23 @@ export const TableSetAccessPolicyHeaders: coreHttp.CompositeMapper = {
   }
 };
 
+export const TableSetAccessPolicyExceptionHeaders: coreHttp.CompositeMapper = {
+  serializedName: "Table_setAccessPolicyExceptionHeaders",
+  type: {
+    name: "Composite",
+    className: "TableSetAccessPolicyExceptionHeaders",
+    modelProperties: {
+      errorCode: {
+        serializedName: "x-ms-error-code",
+        xmlName: "x-ms-error-code",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const ServiceSetPropertiesHeaders: coreHttp.CompositeMapper = {
   serializedName: "Service_setPropertiesHeaders",
   type: {
@@ -1062,6 +1249,23 @@ export const ServiceSetPropertiesHeaders: coreHttp.CompositeMapper = {
   }
 };
 
+export const ServiceSetPropertiesExceptionHeaders: coreHttp.CompositeMapper = {
+  serializedName: "Service_setPropertiesExceptionHeaders",
+  type: {
+    name: "Composite",
+    className: "ServiceSetPropertiesExceptionHeaders",
+    modelProperties: {
+      errorCode: {
+        serializedName: "x-ms-error-code",
+        xmlName: "x-ms-error-code",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const ServiceGetPropertiesHeaders: coreHttp.CompositeMapper = {
   serializedName: "Service_getPropertiesHeaders",
   type: {
@@ -1085,6 +1289,23 @@ export const ServiceGetPropertiesHeaders: coreHttp.CompositeMapper = {
       version: {
         serializedName: "x-ms-version",
         xmlName: "x-ms-version",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ServiceGetPropertiesExceptionHeaders: coreHttp.CompositeMapper = {
+  serializedName: "Service_getPropertiesExceptionHeaders",
+  type: {
+    name: "Composite",
+    className: "ServiceGetPropertiesExceptionHeaders",
+    modelProperties: {
+      errorCode: {
+        serializedName: "x-ms-error-code",
+        xmlName: "x-ms-error-code",
         type: {
           name: "String"
         }
@@ -1125,6 +1346,23 @@ export const ServiceGetStatisticsHeaders: coreHttp.CompositeMapper = {
         xmlName: "date",
         type: {
           name: "DateTimeRfc1123"
+        }
+      }
+    }
+  }
+};
+
+export const ServiceGetStatisticsExceptionHeaders: coreHttp.CompositeMapper = {
+  serializedName: "Service_getStatisticsExceptionHeaders",
+  type: {
+    name: "Composite",
+    className: "ServiceGetStatisticsExceptionHeaders",
+    modelProperties: {
+      errorCode: {
+        serializedName: "x-ms-error-code",
+        xmlName: "x-ms-error-code",
+        type: {
+          name: "String"
         }
       }
     }

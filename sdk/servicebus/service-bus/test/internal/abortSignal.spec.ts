@@ -10,7 +10,7 @@ import { MessageSender } from "../../src/core/messageSender";
 import { OperationOptionsBase } from "../../src/modelsToBeSharedWithEventHubs";
 import { AwaitableSender, delay, ReceiverOptions } from "rhea-promise";
 import { ServiceBusMessageBatchImpl } from "../../src/serviceBusMessageBatch";
-import { MessageReceiver } from "../../src/core/messageReceiver";
+import { StreamingReceiver } from "../../src/core/streamingReceiver";
 import {
   createAbortSignalForTest,
   createCountdownAbortSignal
@@ -244,10 +244,9 @@ describe("AbortSignal", () => {
 
   describe("MessageReceiver.open() aborts after...", () => {
     it("...before first async call", async () => {
-      const messageReceiver = new MessageReceiver(
+      const messageReceiver = new StreamingReceiver(
         createConnectionContextForTests(),
-        "fakeEntityPath",
-        "sr"
+        "fakeEntityPath"
       );
       closeables.push(messageReceiver);
 
@@ -265,10 +264,9 @@ describe("AbortSignal", () => {
     });
 
     it("...after negotiateClaim", async () => {
-      const messageReceiver = new MessageReceiver(
+      const messageReceiver = new StreamingReceiver(
         createConnectionContextForTests(),
-        "fakeEntityPath",
-        "sr"
+        "fakeEntityPath"
       );
       closeables.push(messageReceiver);
 
@@ -299,7 +297,7 @@ describe("AbortSignal", () => {
           isAborted = true;
         }
       });
-      const messageReceiver = new MessageReceiver(fakeContext, "fakeEntityPath", "sr");
+      const messageReceiver = new StreamingReceiver(fakeContext, "fakeEntityPath");
       closeables.push(messageReceiver);
 
       messageReceiver["_negotiateClaim"] = async () => {};

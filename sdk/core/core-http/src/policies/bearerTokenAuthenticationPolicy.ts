@@ -112,6 +112,7 @@ export class BearerTokenAuthenticationPolicy extends BaseRequestPolicy {
       // Waiting for the next refresh only if the cache is unable to retrieve the access token,
       // which means that it has expired, or it has never been set.
       accessToken = await this.tokenRefresher.refresh(options);
+      this.tokenCache.setCachedToken(accessToken);
     } else {
       // If we still have a cached access token,
       // And any other time related conditionals have been reached based on the tokenRefresher class,

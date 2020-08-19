@@ -84,7 +84,7 @@ export interface ServiceBusSessionReceiver<
 
   /**
    * Gets the state of the Session. For more on session states, see
-   * {@link https://docs.microsoft.com/en-us/azure/service-bus-messaging/message-sessions#message-session-state Session State}
+   * {@link https://docs.microsoft.com/azure/service-bus-messaging/message-sessions#message-session-state Session State}
    * @param options - Options bag to pass an abort signal or tracing options.
    * @returns {Promise<any>} The state of that session
    * @throws Error if the underlying connection or receiver is closed.
@@ -94,7 +94,7 @@ export interface ServiceBusSessionReceiver<
 
   /**
    * Sets the state on the Session. For more on session states, see
-   * {@link https://docs.microsoft.com/en-us/azure/service-bus-messaging/message-sessions#message-session-state Session State}
+   * {@link https://docs.microsoft.com/azure/service-bus-messaging/message-sessions#message-session-state Session State}
    * @param state The state that needs to be set.
    * @param options - Options bag to pass an abort signal or tracing options.
    * @throws Error if the underlying connection or receiver is closed.
@@ -257,7 +257,7 @@ export class ServiceBusSessionReceiverImpl<
 
   /**
    * Sets the state on the Session. For more on session states, see
-   * {@link https://docs.microsoft.com/en-us/azure/service-bus-messaging/message-sessions#message-session-state Session State}
+   * {@link https://docs.microsoft.com/azure/service-bus-messaging/message-sessions#message-session-state Session State}
    * @param state The state that needs to be set.
    * @param options - Options bag to pass an abort signal or tracing options.
    * @throws Error if the underlying connection or receiver is closed.
@@ -289,7 +289,7 @@ export class ServiceBusSessionReceiverImpl<
 
   /**
    * Gets the state of the Session. For more on session states, see
-   * {@link https://docs.microsoft.com/en-us/azure/service-bus-messaging/message-sessions#message-session-state Session State}
+   * {@link https://docs.microsoft.com/azure/service-bus-messaging/message-sessions#message-session-state Session State}
    * @param options - Options bag to pass an abort signal or tracing options.
    * @returns Promise<any> The state of that session
    * @throws Error if the underlying connection or receiver is closed.

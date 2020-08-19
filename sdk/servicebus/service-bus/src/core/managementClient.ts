@@ -376,7 +376,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
       // NOTE: management link currently doesn't have a separate concept of "detaching" like
       // the other links do. When we add handling of this (via the onDetached call, like other links)
       // we can change this back to closeLink("permanent").
-      await this.closeLink("linkonly");
+      await this.closeLink();
       log.mgmt("Successfully closed the management session.");
     } catch (err) {
       log.error(
@@ -1135,7 +1135,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
         return [];
       }
 
-      // Reference: https://docs.microsoft.com/en-us/azure/service-bus-messaging/service-bus-amqp-request-response#response-11
+      // Reference: https://docs.microsoft.com/azure/service-bus-messaging/service-bus-amqp-request-response#response-11
       const result: { "rule-description": Typed }[] = response.body.rules || [];
       const rules: RuleDescription[] = [];
       result.forEach((x) => {

@@ -67,7 +67,7 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [authenticationmethods]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/textanalytics/ai-text-analytics/samples/javascript/authenticationMethods.js
 [detectlanguages]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/textanalytics/ai-text-analytics/samples/javascript/detectLanguage.js
 [extractkeyphrases]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/textanalytics/ai-text-analytics/samples/javascript/extractKeyPhrases.js
-[recognizepii]: https://github.com/deyaaeldeen/azure-sdk-for-js/blob/textanalytics-pii/sdk/textanalytics/ai-text-analytics/samples/javascript/recognizePii.js
+[recognizepii]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/textanalytics/ai-text-analytics/samples/javascript/recognizePii.js
 [recognizelinkedentities]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/textanalytics/ai-text-analytics/samples/javascript/recognizeLinkedEntities.js
 [recognizeentities]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/textanalytics/ai-text-analytics/samples/javascript/recognizeEntities.js
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/ai-text-analytics

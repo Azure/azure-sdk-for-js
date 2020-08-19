@@ -82,7 +82,7 @@ export class BatchingReceiver extends MessageReceiver {
    * @returns {Promise<void>} Promise<void>.
    */
   async onDetached(connectionError?: AmqpError | Error): Promise<void> {
-    await this.closeLink("linkonly");
+    await this.closeLink();
 
     if (connectionError == null) {
       connectionError = new Error(
@@ -142,7 +142,7 @@ export class BatchingReceiver extends MessageReceiver {
   ): BatchingReceiver {
     throwErrorIfConnectionClosed(context);
     const bReceiver = new BatchingReceiver(context, entityPath, options);
-    context.batchingReceivers[bReceiver.name] = bReceiver;
+    context.messageReceivers[bReceiver.name] = bReceiver;
     return bReceiver;
   }
 }
