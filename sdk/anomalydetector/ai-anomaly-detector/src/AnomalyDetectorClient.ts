@@ -28,6 +28,9 @@ import { logger } from "./logger";
 import { createSpan } from "./tracing";
 import { CanonicalCode } from "@opentelemetry/api";
 
+/**
+ * Client class for interacting with Azure Anomaly Detector service.
+ */
 export class AnomalyDetectorClient {
   /**
    * Url to an Azure Anomaly Detector service endpoint

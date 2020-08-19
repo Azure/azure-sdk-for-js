@@ -11,5 +11,12 @@ export interface AnomalyDetectorClientOptions extends PipelineOptions {}
 export {
   GeneratedClientChangePointDetectResponse as AnomalyDetectorClientChangePointDetectResponse,
   GeneratedClientEntireDetectResponse as AnomalyDetectorClientEntireDetectResponse,
-  GeneratedClientLastDetectResponse as AnomalyDetectorClientLastDetectResponse
+  GeneratedClientLastDetectResponse as AnomalyDetectorClientLastDetectResponse,
+  LastDetectResponse,
+  ChangePointDetectResponse,
+  Granularity,
+  Request,
+  EntireDetectResponse,
+  ChangePointDetectRequest,
+  Point
 } from "./generated/models";

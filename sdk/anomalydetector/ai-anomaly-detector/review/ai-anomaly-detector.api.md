@@ -5,14 +5,46 @@
 ```ts
 
 import * as coreHttp from '@azure/core-http';
+import { KeyCredential } from '@azure/core-auth';
+import { OperationOptions } from '@azure/core-http';
+import { PipelineOptions } from '@azure/core-http';
+import { TokenCredential } from '@azure/identity';
 
 // @public
-export type AnomalyDetectorErrorCodes = "InvalidCustomInterval" | "BadArgument" | "InvalidGranularity" | "InvalidPeriod" | "InvalidModelArgument" | "InvalidSeries" | "InvalidJsonFormat" | "RequiredGranularity" | "RequiredSeries" | string;
+export class AnomalyDetectorClient {
+    constructor(endpointUrl: string, credential: TokenCredential | KeyCredential, options?: AnomalyDetectorClientOptions);
+    changePointDetect(body: ChangePointDetectRequest, options?: OperationOptions): Promise<AnomalyDetectorClientChangePointDetectResponse>;
+    readonly endpointUrl: string;
+    entireDetect(body: Request, options?: OperationOptions): Promise<AnomalyDetectorClientEntireDetectResponse>;
+    lastDetect(body: Request, options?: OperationOptions): Promise<AnomalyDetectorClientLastDetectResponse>;
+}
 
 // @public
-export interface APIError {
-    code?: AnomalyDetectorErrorCodes;
-    message?: string;
+export type AnomalyDetectorClientChangePointDetectResponse = ChangePointDetectResponse & {
+    _response: coreHttp.HttpResponse & {
+        bodyAsText: string;
+        parsedBody: ChangePointDetectResponse;
+    };
+};
+
+// @public
+export type AnomalyDetectorClientEntireDetectResponse = EntireDetectResponse & {
+    _response: coreHttp.HttpResponse & {
+        bodyAsText: string;
+        parsedBody: EntireDetectResponse;
+    };
+};
+
+// @public
+export type AnomalyDetectorClientLastDetectResponse = LastDetectResponse & {
+    _response: coreHttp.HttpResponse & {
+        bodyAsText: string;
+        parsedBody: LastDetectResponse;
+    };
+};
+
+// @public
+export interface AnomalyDetectorClientOptions extends PipelineOptions {
 }
 
 // @public (undocumented)
@@ -41,50 +73,6 @@ export interface EntireDetectResponse {
     lowerMargins: number[];
     period: number;
     upperMargins: number[];
-}
-
-// @public (undocumented)
-export class GeneratedClient extends GeneratedClientContext {
-    constructor(endpoint: string, options?: GeneratedClientOptionalParams);
-    changePointDetect(body: ChangePointDetectRequest, options?: coreHttp.OperationOptions): Promise<GeneratedClientChangePointDetectResponse>;
-    entireDetect(body: Request, options?: coreHttp.OperationOptions): Promise<GeneratedClientEntireDetectResponse>;
-    lastDetect(body: Request, options?: coreHttp.OperationOptions): Promise<GeneratedClientLastDetectResponse>;
-}
-
-// @public
-export type GeneratedClientChangePointDetectResponse = ChangePointDetectResponse & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: ChangePointDetectResponse;
-    };
-};
-
-// @public (undocumented)
-export class GeneratedClientContext extends coreHttp.ServiceClient {
-    constructor(endpoint: string, options?: GeneratedClientOptionalParams);
-    // (undocumented)
-    endpoint: string;
-}
-
-// @public
-export type GeneratedClientEntireDetectResponse = EntireDetectResponse & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: EntireDetectResponse;
-    };
-};
-
-// @public
-export type GeneratedClientLastDetectResponse = LastDetectResponse & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: LastDetectResponse;
-    };
-};
-
-// @public
-export interface GeneratedClientOptionalParams extends coreHttp.ServiceClientOptions {
-    endpoint?: string;
 }
 
 // @public
