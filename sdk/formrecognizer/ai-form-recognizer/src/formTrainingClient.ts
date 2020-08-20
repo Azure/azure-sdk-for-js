@@ -521,7 +521,7 @@ export class FormTrainingClient {
    * model will be copied to) credentials, and the output can be passed as the `target` parameter to the
    * `beginCopyModel` method of a source client.
    *
-   * The required `resourceId` and `resourceRegion` of an Azure Form Recognizer resource can be found in the Azure Portal, under the "Properties" section of your Cognitive Services resource (under the "Resource Management" header).
+   * The required `resourceId` and `resourceRegion` are properties of an Azure Form Recognizer resource and their values can be found in the Azure Portal.
    *
    * @param {string} resourceId Id of the Azure Form Recognizer resource where a custom model will be copied to
    * @param {string} resourceRegion Location of the Azure Form Recognizer resource, must be a valid region name supported by Azure Cognitive Services. See https://aka.ms/azsdk/cognitiveservices/regionalavailability for information about the regional availability of Azure Cognitive Services.

@@ -136,11 +136,11 @@ to illustrate using long-running operations [below](#examples).
 ## Examples
 The following section provides several JavaScript code snippets illustrating common patterns used in the Form Recognizer client libraries.
 
-* [Recognize receipts](#recognize-receipts)
-* [Recognize content](#recognize-content)
-* [Train model](#train-model)
-* [Recognize forms using a custom model](#recognize-forms-using-a-custom-model)
-* [Listing all models](#listing-all-models)
+* [Recognize Forms Using a Custom Model](#recognize-forms-using-a-custom-model)
+* [Recognize Content](#recognize-content)
+* [Recognize Receipts](#recognize-receipts)
+* [Train a Model](#train-a-model)
+* [Listing All Models](#listing-all-models)
 
 ### Recognize Forms Using a Custom Model
 
