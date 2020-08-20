@@ -121,7 +121,7 @@ export class ChangeFeed {
       return false;
     }
 
-    return this._currentSegment.finalized && this._currentSegment.dateTime < this._end!;
+    return this._currentSegment.dateTime < this._end!;
   }
 
   public async getChange(): Promise<BlobChangeFeedEvent | undefined> {

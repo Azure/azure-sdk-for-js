@@ -45,7 +45,6 @@ describe("Shard", async () => {
     const segment = await segmentFactory.create(containerClientStub, manifestPath);
     assert.ok(segment.hasNext());
     assert.equal(segment.dateTime.getTime(), dateTime.getTime());
-    assert.ok(segment.finalized);
 
     // round robin
     for (let i = 0; i < shardCount * 2 + 1; i++) {
@@ -86,7 +85,6 @@ describe("Shard", async () => {
     } as any);
     assert.ok(segment.hasNext());
     assert.equal(segment.dateTime.getTime(), dateTime.getTime());
-    assert.ok(segment.finalized);
     assert.equal(segment.getCursor().shardIndex, shardIndex);
 
     const event = await segment.getChange();

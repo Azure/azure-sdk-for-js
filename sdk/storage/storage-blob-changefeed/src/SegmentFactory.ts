@@ -3,7 +3,7 @@
 
 import { ShardFactory } from "./ShardFactory";
 import { ContainerClient } from "@azure/storage-blob";
-import { CHANGE_FEED_STATUS_FINALIZED, CHANGE_FEED_CONTAINER_NAME } from "./utils/constants";
+import { CHANGE_FEED_CONTAINER_NAME } from "./utils/constants";
 import { Shard } from "./Shard";
 import { Segment } from "./Segment";
 import { SegmentCursor } from "./models/ChangeFeedCursor";
@@ -40,22 +40,18 @@ export class SegmentFactory {
     const blobContent: string = await bodyToString(blobDownloadRes);
 
     const segmentManifest = JSON.parse(blobContent) as SegmentManifest;
-    const finalized = segmentManifest.status === CHANGE_FEED_STATUS_FINALIZED;
 
-    if (finalized) {
-      let i = 0;
-
-      const containerPrefixLength = CHANGE_FEED_CONTAINER_NAME.length + 1; // "$blobchangefeed/"
-      for (const shardPath of segmentManifest.chunkFilePaths) {
-        const shard: Shard = await this._shardFactory.create(
-          containerClient,
-          shardPath.substring(containerPrefixLength),
-          cursor?.shardCursors[i++]
-        );
-        shards.push(shard);
-      }
+    let i = 0;
+    const containerPrefixLength = CHANGE_FEED_CONTAINER_NAME.length + 1; // "$blobchangefeed/"
+    for (const shardPath of segmentManifest.chunkFilePaths) {
+      const shard: Shard = await this._shardFactory.create(
+        containerClient,
+        shardPath.substring(containerPrefixLength),
+        cursor?.shardCursors[i++]
+      );
+      shards.push(shard);
     }
-
-    return new Segment(shards, shardIndex, dateTime, finalized);
+    
+    return new Segment(shards, shardIndex, dateTime);
   }
 }

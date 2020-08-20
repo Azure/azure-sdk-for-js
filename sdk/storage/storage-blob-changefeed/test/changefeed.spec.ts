@@ -10,7 +10,8 @@ import { hashString, getURI } from "../src/utils/utils.common";
 
 describe("Change Feed", async () => {
   const manifestFilePath = path.join("test", "resources", "ChangeFeedManifest.json");
-  const lastConsumable = new Date("2020-05-04T19:10:00.000Z");
+  const manifestFilePath2 = path.join("test", "resources", "ChangeFeedManifest2.json");
+  const lastConsumable = new Date("2020-05-04T19:00:00.000Z");
   const segmentCount = 5;
   const yearPaths = [
     { kind: "prefix", name: "idx/segments/1601/" },
@@ -38,6 +39,7 @@ describe("Change Feed", async () => {
   let containerClientStub: sinon.SinonStubbedInstance<ContainerClient>;
   let segmentStubs: sinon.SinonStubbedInstance<Segment>[];
   let changeFeedFactory: ChangeFeedFactory;
+  let blobClientStub: sinon.SinonStubbedInstance<BlobClient>
 
   async function* fakeList(items: any[]) {
     for (const item of items) {
@@ -57,7 +59,7 @@ describe("Change Feed", async () => {
   beforeEach(async () => {
     serviceClientStub = sinon.createStubInstance(BlobServiceClient);
     containerClientStub = sinon.createStubInstance(ContainerClient);
-    const blobClientStub = sinon.createStubInstance(BlobClient);
+    blobClientStub = sinon.createStubInstance(BlobClient);
     segmentFactoryStub = sinon.createStubInstance(SegmentFactory);
     changeFeedFactory = new ChangeFeedFactory(segmentFactoryStub as any);
 
@@ -90,7 +92,6 @@ describe("Change Feed", async () => {
     }
     for (let i = 0; i < segmentCount; i++) {
       sinon.stub(segmentStubs[i], "dateTime").value(segmentTimes[i]);
-      sinon.stub(segmentStubs[i], "finalized").value(i < segmentCount - 1);
       segmentStubs[i].hasNext.returns(true);
       segmentStubs[i].getChange.resolves(i as any);
     }
@@ -169,7 +170,7 @@ describe("Change Feed", async () => {
     const event3 = await changeFeed.getChange();
     assert.equal(event3, 3);
 
-    // stop when segment not finalized
+    // stop when segment time is no less than lastConsumable
     segmentStubs[3].hasNext.returns(false);
     segmentStubs[3].getChange.resolves(undefined);
     const event4 = await changeFeed.getChange();
@@ -237,13 +238,17 @@ describe("Change Feed", async () => {
     const event = await changeFeed.getChange();
     assert.equal(event, 3);
 
-    // finalized changed
-    sinon.stub(segmentStubs[4], "finalized").value(true);
+    // lastConsumable changed
+    blobClientStub.download.callsFake(() => {
+      return new Promise((resolve) => {
+        resolve({ readableStreamBody: fs.createReadStream(manifestFilePath2) } as any);
+      });
+    });
     segmentStubs[3].hasNext.returns(false);
     segmentStubs[3].getChange.resolves(undefined);
     const changeFeed3 = await changeFeedFactory.create(serviceClientStub as any, continuation);
     assert.ok(changeFeed3.hasNext());
-    const event2 = await changeFeed.getChange();
+    const event2 = await changeFeed3.getChange();
     assert.equal(event2, 4);
   });
 });

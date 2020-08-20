@@ -14,11 +14,6 @@ export class Segment {
 
   private _shardIndex: number;
 
-  private _finalized: boolean;
-  public get finalized(): boolean {
-    return this._finalized;
-  }
-
   // Assuming the dateTime of segments is rounded to hour. If not, our logic for fetching
   // change events between a time range would be incorrect.
   private _dateTime: Date;
@@ -26,11 +21,10 @@ export class Segment {
     return this._dateTime;
   }
 
-  constructor(shards: Shard[], shardIndex: number, dateTime: Date, finalized: boolean) {
+  constructor(shards: Shard[], shardIndex: number, dateTime: Date) {
     this._shards = shards;
     this._shardIndex = shardIndex;
     this._dateTime = dateTime;
-    this._finalized = finalized;
 
     // TODO: add polyfill for Array.prototype.fill for IE11
     this._shardDone = Array(shards.length).fill(false);
