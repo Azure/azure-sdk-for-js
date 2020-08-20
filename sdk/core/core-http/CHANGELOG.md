@@ -2,10 +2,12 @@
 
 ## 1.1.7 (Unreleased)
 
-
 ## 1.1.6 (2020-08-04)
 
 - Update dependencies `@azure/core-tracing` to version 1.0.0-preview.9 and `@opentelemetry/api` to version 0.10.2 [PR 10393](https://github.com/Azure/azure-sdk-for-js/pull/10393)
+- `BearerTokenAuthenticationPolicy` constructor signature has been updated to accommodate the token refresher appropriately. The signature for `bearerTokenAuthenticationPolicy` method doesn't change.
+  [PR 10393](https://github.com/Azure/azure-sdk-for-js/pull/10728)
+  Note: It is expected that the users depending on `BearerTokenAuthenticationPolicy` do so indirectly through `bearerTokenAuthenticationPolicy` method that is exported.
 
 ## 1.1.5 (2020-08-04)
 
