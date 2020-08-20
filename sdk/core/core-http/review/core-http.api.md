@@ -24,6 +24,14 @@ export interface AccessTokenCache {
 }
 
 // @public
+export class AccessTokenRefresher {
+    constructor(credential: TokenCredential, scopes: string | string[], requiredMillisecondsBeforeNewRefresh?: number);
+    // (undocumented)
+    isReady(): boolean;
+    refresh(options: GetTokenOptions): Promise<AccessToken | undefined>;
+    }
+
+// @public
 export interface ApiKeyCredentialOptions {
     inHeader?: {
         [x: string]: any;
@@ -100,7 +108,7 @@ export class BasicAuthenticationCredentials implements ServiceClientCredentials 
 
 // @public
 export class BearerTokenAuthenticationPolicy extends BaseRequestPolicy {
-    constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptions, credential: TokenCredential, scopes: string | string[], tokenCache: AccessTokenCache);
+    constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptions, tokenCache: AccessTokenCache, tokenRefresher: AccessTokenRefresher);
     sendRequest(webResource: WebResourceLike): Promise<HttpOperationResponse>;
     }
 
