@@ -36,7 +36,6 @@ export class AccessTokenRefresher {
     this.promise = undefined;
     return token || undefined;
   }
-  
   /**
    * Requests a new token if we're not currently waiting for a new token.
    * Returns null if the required time between each call hasn't been reached.
