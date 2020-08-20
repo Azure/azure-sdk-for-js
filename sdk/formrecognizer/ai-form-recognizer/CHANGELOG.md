@@ -1,5 +1,8 @@
 # Release History
 
+## 3.0.1 (Unreleased)
+
+
 ## 3.0.0 (2020-08-20)
 
 - This release marks the general availability of the `@azure/ai-form-recognizer` package.
