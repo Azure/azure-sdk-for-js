@@ -30,7 +30,6 @@ export class PooledBuffer {
       if (len === 0) {
         len = maxBufferLength;
       }
-      console.log("Memory Usage:", process.memoryUsage());
       this.buffers.push(Buffer.allocUnsafe(len));
     }
 
