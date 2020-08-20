@@ -101,7 +101,6 @@ export = {
                   });
                   return;
             }
-          
           }
         } as Rule.RuleListener)
       : {};
