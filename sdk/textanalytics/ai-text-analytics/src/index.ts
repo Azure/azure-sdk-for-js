@@ -83,5 +83,6 @@ export {
   TextAnalyticsWarning,
   SentenceAspectSentiment,
   SentenceOpinionSentiment,
-  AspectConfidenceScoreLabel
+  AspectConfidenceScoreLabel,
+  SentenceOpinion
 } from "./generated/models";

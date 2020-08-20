@@ -153,8 +153,6 @@ export interface MinedOpinion {
     opinions: OpinionSentiment[];
 }
 
-// Warning: (ae-forgotten-export) The symbol "SentenceOpinion" needs to be exported by the entry point index.d.ts
-//
 // @public
 export interface OpinionSentiment extends SentenceOpinion {
 }
@@ -225,6 +223,14 @@ export interface RecognizePiiEntitiesSuccessResult extends TextAnalyticsSuccessR
 
 // @public
 export type SentenceAspectSentiment = "positive" | "mixed" | "negative";
+
+// @public (undocumented)
+export interface SentenceOpinion {
+    confidenceScores: AspectConfidenceScoreLabel;
+    isNegated: boolean;
+    sentiment: SentenceOpinionSentiment;
+    text: string;
+}
 
 // @public
 export type SentenceOpinionSentiment = "positive" | "mixed" | "negative";
