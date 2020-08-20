@@ -54,8 +54,6 @@ const timeBetweenRefreshAttemptsInMs = 30000;
  *
  */
 export class BearerTokenAuthenticationPolicy extends BaseRequestPolicy {
-  // private tokenRefresher: AccessTokenRefresher;
-
   /**
    * Creates a new BearerTokenAuthenticationPolicy object.
    *
