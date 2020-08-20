@@ -217,11 +217,31 @@ export class NockRecorder extends BaseRecorder {
     // Matching with 200 status code since only they have the responses with hex encoding
     // TODO: Confirm the above or add any other status codes to match if required
     // TODO: Replace only if the content-type is not text/plain
-    const matches = fixture.match(/\.reply\(200, "(.*)", .*/);
-    if (matches && isHex(matches[1])) {
-      fixture = fixture.replace(`"${matches[1]}"`, `Buffer.from("${matches[1]}", "hex")`);
+    if (this.isContentType(fixture, ["avro/binary"])) {
+      const matches = fixture.match(/\.reply\(200, "(.*)", .*/);
+      if (matches && isHex(matches[1])) {
+        fixture = fixture.replace(`"${matches[1]}"`, `Buffer.from("${matches[1]}", "hex")`);
+      }
     }
     return fixture;
+  }
+
+  /**
+   * Returns true if the content-type in the `fixture` matches with
+   * any of the strings provided in the expected content types.
+   *
+   * @private
+   * @param {string} fixture
+   * @param {string} expectedContentTypes
+   * @returns {boolean}
+   */
+  private isContentType(fixture: string, expectedContentTypes: string[]): boolean {
+    for (const contentType of expectedContentTypes) {
+      if (fixture.replace(/(\r\n|\n|\r)/gm, "").includes(`'Content-Type',  '${contentType}',`)) {
+        return true;
+      }
+    }
+    return false;
   }
 }
 
