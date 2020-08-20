@@ -217,4 +217,16 @@ describe("NodeJS utils", () => {
       mockRequire.stopAll();
     });
   });
+
+  describe("decodeHexEncodingIfExistsInNockFixture", () => {
+    it("", () => {
+      // TODO : Add tests
+    });
+  });
+
+  describe("isContentType", () => {
+    it("", () => {
+      // TODO : Add tests
+    });
+  });
 });
