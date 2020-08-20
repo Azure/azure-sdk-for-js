@@ -48,6 +48,7 @@ export function nodeConfig() {
 export function browserConfig() {
   const baseConfig = {
     input: input,
+    external: ["fs-extra", "nock", "path"],
     output: {
       file: "dist-browser/azure-tables.js",
       format: "umd",
@@ -66,13 +67,18 @@ export function browserConfig() {
           "if (isNode)": "if (false)"
         }
       }),
-       // os is not used by the browser bundle, so just shim it
-       shim({
+      // os is not used by the browser bundle, so just shim it
+      shim({
+        fs: `export default {}`,
+        path: `export function join() {}`,
+        stream: `export default {}`,
         dotenv: `export function config() { }`,
         os: `
-          export const type = 1;
-          export const release = 1;
-        `
+          export function arch() { return "javascript" }
+          export function type() { return "Browser" }
+          export function release() { typeof navigator === 'undefined' ? '' : navigator.appVersion }
+        `,
+        constants: `export default {}`
       }),
       nodeResolve({
         mainFields: ["module", "browser"],

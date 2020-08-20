@@ -153,7 +153,7 @@ export class TableClient {
   public createEntity<T extends object>(
     entity: TableEntity<T>,
     options?: CreateTableEntityOptions
-  ): Promise<CreateTableEntityResponse<T>> {
+  ): Promise<CreateTableEntityResponse> {
     return this.client.createEntity(this.tableName, entity, options);
   }
 

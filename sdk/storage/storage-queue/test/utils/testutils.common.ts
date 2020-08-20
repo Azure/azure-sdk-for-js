@@ -25,10 +25,12 @@ export const recorderEnvSetup: RecorderEnvironmentSetup = {
     // Array of callback functions can be provided to customize the generated recordings in record mode
     // `sig` param of SAS Token is being filtered here
     (recording: string): string =>
-      recording.replace(
-        new RegExp(env.ACCOUNT_SAS.match("(.*)&sig=(.*)")[2], "g"),
-        `${mockAccountKey}`
-      )
+      env.ACCOUNT_SAS
+        ? recording.replace(
+            new RegExp(env.ACCOUNT_SAS.match("(.*)&sig=(.*)")[2], "g"),
+            `${mockAccountKey}`
+          )
+        : recording
   ],
   // SAS token may contain sensitive information
   queryParametersToSkip: [

@@ -19,7 +19,8 @@ import {
   CreateTableOptions,
   GetTableEntityOptions,
   ListTableItemsResponse,
-  CreateTableEntityResponse
+  CreateTableEntityResponse,
+  CreateTableItemResponse
 } from "./models";
 import {
   TableServiceClientOptions,
@@ -30,7 +31,6 @@ import {
   SetPropertiesOptions,
   ServiceProperties,
   SetPropertiesResponse,
-  CreateTableResponse,
   DeleteTableOptions,
   DeleteTableResponse,
   DeleteEntityResponse,
@@ -168,11 +168,16 @@ export class TableServiceClient {
    * @param tableName The name of the table.
    * @param options The options parameters.
    */
-  public createTable(
+  public async createTable(
     tableName: string,
     options?: CreateTableOptions
-  ): Promise<CreateTableResponse> {
-    return this.table.create({ tableName }, { ...options, responsePreference: "return-content" });
+  ): Promise<CreateTableItemResponse> {
+    const { _response } = await this.table.create(
+      { tableName },
+      { ...options, responsePreference: "return-content" }
+    );
+
+    return { _response };
   }
 
   /**
@@ -262,17 +267,16 @@ export class TableServiceClient {
     tableName: string,
     entity: TableEntity<T>,
     options?: CreateTableEntityOptions
-  ): Promise<CreateTableEntityResponse<T>> {
+  ): Promise<CreateTableEntityResponse> {
     const { queryOptions, ...createTableEntity } = options || {};
     const { _response } = await this.table.insertEntity(tableName, {
       ...createTableEntity,
       queryOptions: this.convertQueryOptions(queryOptions || {}),
-      tableEntityProperties: serialize(entity)
+      tableEntityProperties: serialize(entity),
+      responsePreference: "return-no-content"
     });
 
-    const createdEntity = deserialize<TableEntity<T>>(_response.parsedBody);
-
-    return { _response, ...createdEntity };
+    return { _response };
   }
 
   /**

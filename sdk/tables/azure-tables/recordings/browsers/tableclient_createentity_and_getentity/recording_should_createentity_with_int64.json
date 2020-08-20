@@ -1,0 +1,49 @@
+{
+ "recordings": [
+  {
+   "method": "POST",
+   "url": "https://joherediteststorage.table.core.windows.net/integration",
+   "query": {},
+   "requestBody": "{\"PartitionKey\":\"P4__browser\",\"RowKey\":\"R4\",\"testField\":\"12345543221\",\"testField@odata.type\":\"Edm.Int64\"}",
+   "status": 204,
+   "response": "",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "0",
+    "dataserviceid": "https://joherediteststorage.table.core.windows.net/integration(PartitionKey='P4__browser',RowKey='R4')",
+    "date": "Thu, 20 Aug 2020 19:14:44 GMT",
+    "etag": "W/\"datetime'2020-08-20T19%3A14%3A44.619457Z'\"",
+    "location": "https://joherediteststorage.table.core.windows.net/integration(PartitionKey='P4__browser',RowKey='R4')",
+    "preference-applied": "return-no-content",
+    "server": "Windows-Azure-Table/1.0 Microsoft-HTTPAPI/2.0",
+    "x-content-type-options": "nosniff",
+    "x-ms-request-id": "1a226855-4002-013f-3626-77a55d000000",
+    "x-ms-version": "2019-02-02"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://joherediteststorage.table.core.windows.net/integration(PartitionKey='P4__browser',RowKey='R4')",
+   "query": {},
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"odata.metadata\":\"https://joherediteststorage.table.core.windows.net/$metadata#integration/@Element\",\"odata.etag\":\"W/\\\"datetime'2020-08-20T19%3A14%3A44.619457Z'\\\"\",\"PartitionKey\":\"P4__browser\",\"RowKey\":\"R4\",\"Timestamp\":\"2020-08-20T19:14:44.619457Z\",\"testField@odata.type\":\"Edm.Int64\",\"testField\":\"12345543221\"}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-type": "application/json;odata=minimalmetadata;streaming=true;charset=utf-8",
+    "date": "Thu, 20 Aug 2020 19:14:44 GMT",
+    "etag": "W/\"datetime'2020-08-20T19%3A14%3A44.619457Z'\"",
+    "server": "Windows-Azure-Table/1.0 Microsoft-HTTPAPI/2.0",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-ms-request-id": "1a226863-4002-013f-4426-77a55d000000",
+    "x-ms-version": "2019-02-02"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {},
+  "newDate": {}
+ },
+ "hash": "7e7a713ee33ce458a53de57269ba6389"
+}

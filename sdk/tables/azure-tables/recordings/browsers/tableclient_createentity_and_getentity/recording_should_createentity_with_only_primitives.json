@@ -1,0 +1,49 @@
+{
+ "recordings": [
+  {
+   "method": "POST",
+   "url": "https://joherediteststorage.table.core.windows.net/integration",
+   "query": {},
+   "requestBody": "{\"PartitionKey\":\"P2__browser\",\"RowKey\":\"R1\",\"testField\":\"testEntity\"}",
+   "status": 204,
+   "response": "",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-length": "0",
+    "dataserviceid": "https://joherediteststorage.table.core.windows.net/integration(PartitionKey='P2__browser',RowKey='R1')",
+    "date": "Thu, 20 Aug 2020 19:14:44 GMT",
+    "etag": "W/\"datetime'2020-08-20T19%3A14%3A44.3022273Z'\"",
+    "location": "https://joherediteststorage.table.core.windows.net/integration(PartitionKey='P2__browser',RowKey='R1')",
+    "preference-applied": "return-no-content",
+    "server": "Windows-Azure-Table/1.0 Microsoft-HTTPAPI/2.0",
+    "x-content-type-options": "nosniff",
+    "x-ms-request-id": "1a22679e-4002-013f-0e26-77a55d000000",
+    "x-ms-version": "2019-02-02"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://joherediteststorage.table.core.windows.net/integration(PartitionKey='P2__browser',RowKey='R1')",
+   "query": {},
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"odata.metadata\":\"https://joherediteststorage.table.core.windows.net/$metadata#integration/@Element\",\"odata.etag\":\"W/\\\"datetime'2020-08-20T19%3A14%3A44.3022273Z'\\\"\",\"PartitionKey\":\"P2__browser\",\"RowKey\":\"R1\",\"Timestamp\":\"2020-08-20T19:14:44.3022273Z\",\"testField\":\"testEntity\"}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-type": "application/json;odata=minimalmetadata;streaming=true;charset=utf-8",
+    "date": "Thu, 20 Aug 2020 19:14:44 GMT",
+    "etag": "W/\"datetime'2020-08-20T19%3A14%3A44.3022273Z'\"",
+    "server": "Windows-Azure-Table/1.0 Microsoft-HTTPAPI/2.0",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-ms-request-id": "1a2267b9-4002-013f-2726-77a55d000000",
+    "x-ms-version": "2019-02-02"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {},
+  "newDate": {}
+ },
+ "hash": "a52888ca37f85d24a7afd351ee95f4e8"
+}

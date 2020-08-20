@@ -7,14 +7,40 @@ import {
   TableResponseProperties,
   TableQueryResponse,
   TableQueryHeaders,
-  TableInsertEntityHeaders
+  TableInsertEntityHeaders,
+  TableResponse,
+  TableCreateHeaders
 } from "./generated/models";
 import { OperationOptions, HttpResponse } from "@azure/core-http";
 
 /**
+ * Contains response data for the createTable operation.
+ */
+export type CreateTableItemResponse = {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: HttpResponse & {
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: TableResponse;
+    /**
+     * The parsed HTTP response headers.
+     */
+    parsedHeaders: TableCreateHeaders;
+  };
+};
+
+/**
  * Contains response data for the createEntity operation.
  */
-export type CreateTableEntityResponse<T extends object> = TableEntity<T> & {
+export type CreateTableEntityResponse = {
   /**
    * The underlying HTTP response.
    */

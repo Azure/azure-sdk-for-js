@@ -38,13 +38,22 @@ export type CreateTableEntityOptions = OperationOptions & {
 };
 
 // @public
-export type CreateTableEntityResponse<T extends object> = TableEntity<T> & {
+export type CreateTableEntityResponse = {
     _response: HttpResponse & {
         bodyAsText: string;
         parsedBody: {
             [propertyName: string]: any;
         };
         parsedHeaders: TableInsertEntityHeaders;
+    };
+};
+
+// @public
+export type CreateTableItemResponse = {
+    _response: HttpResponse & {
+        bodyAsText: string;
+        parsedBody: TableResponse;
+        parsedHeaders: TableCreateHeaders;
     };
 };
 
@@ -320,7 +329,7 @@ export interface SignedIdentifier {
 export class TableClient {
     constructor(url: string, tableName: string, credential: TablesSharedKeyCredential, options?: TableServiceClientOptions);
     constructor(url: string, tableName: string, options?: TableServiceClientOptions);
-    createEntity<T extends object>(entity: TableEntity<T>, options?: CreateTableEntityOptions): Promise<CreateTableEntityResponse<T>>;
+    createEntity<T extends object>(entity: TableEntity<T>, options?: CreateTableEntityOptions): Promise<CreateTableEntityResponse>;
     delete(options?: DeleteTableOptions): Promise<DeleteTableResponse>;
     deleteEntity(partitionKey: string, rowKey: string, options?: DeleteTableEntityOptions): Promise<DeleteEntityResponse>;
     static fromConnectionString(connectionString: string, tableName: string, options?: TableServiceClientOptions): TableClient;
@@ -499,8 +508,8 @@ export interface TableResponseProperties {
 export class TableServiceClient {
     constructor(url: string, credential: TablesSharedKeyCredential, options?: TableServiceClientOptions);
     constructor(url: string, options?: TableServiceClientOptions);
-    createEntity<T extends object>(tableName: string, entity: TableEntity<T>, options?: CreateTableEntityOptions): Promise<CreateTableEntityResponse<T>>;
-    createTable(tableName: string, options?: CreateTableOptions): Promise<CreateTableResponse>;
+    createEntity<T extends object>(tableName: string, entity: TableEntity<T>, options?: CreateTableEntityOptions): Promise<CreateTableEntityResponse>;
+    createTable(tableName: string, options?: CreateTableOptions): Promise<CreateTableItemResponse>;
     deleteEntity(tableName: string, partitionKey: string, rowKey: string, options?: DeleteTableEntityOptions): Promise<DeleteEntityResponse>;
     deleteTable(tableName: string, options?: DeleteTableOptions): Promise<DeleteTableResponse>;
     static fromConnectionString(connectionString: string, options?: TableServiceClientOptions): TableServiceClient;
