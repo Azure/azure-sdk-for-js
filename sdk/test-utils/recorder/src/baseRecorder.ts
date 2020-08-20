@@ -185,7 +185,7 @@ export class NockRecorder extends BaseRecorder {
       for (const fixture of fixtures) {
         // We're not matching query string parameters because they may contain sensitive information, and Nock does not allow us to customize it easily
         let updatedFixture = fixture.toString().replace(/\.query\(.*\)/, ".query(true)");
-        updatedFixture = this.decodeHexEncodingIfExists(updatedFixture);
+        updatedFixture = this.decodeHexEncodingIfExistsInNockFixture(updatedFixture);
         file.write(this.filterSecrets(updatedFixture) + "\n");
       }
 
@@ -211,7 +211,7 @@ export class NockRecorder extends BaseRecorder {
    * @returns
    * @memberof NockRecorder
    */
-  private decodeHexEncodingIfExists(fixture: string) {
+  private decodeHexEncodingIfExistsInNockFixture(fixture: string) {
     // TODO: Add tests for decodeHexEncoding
     // Decode "hex" strings in the response if any
     // Matching with 200 status code since only they have the responses with hex encoding
