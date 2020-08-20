@@ -14,7 +14,9 @@ import { TokenCredential } from '@azure/core-auth';
 export type AnalyzeSentimentErrorResult = TextAnalyticsErrorResult;
 
 // @public
-export type AnalyzeSentimentOptions = TextAnalyticsOperationOptions;
+export interface AnalyzeSentimentOptions extends TextAnalyticsOperationOptions {
+    includeOpinionMining?: boolean;
+}
 
 // @public
 export type AnalyzeSentimentResult = AnalyzeSentimentSuccessResult | AnalyzeSentimentErrorResult;
@@ -30,6 +32,13 @@ export interface AnalyzeSentimentSuccessResult extends TextAnalyticsSuccessResul
     confidenceScores: SentimentConfidenceScores;
     sentences: SentenceSentiment[];
     sentiment: DocumentSentimentLabel;
+}
+
+// @public
+export interface AspectSentiment {
+    confidenceScores: SentimentConfidenceScores;
+    sentiment: DocumentSentimentLabel;
+    text: string;
 }
 
 export { AzureKeyCredential }
@@ -75,7 +84,7 @@ export interface DetectLanguageSuccessResult extends TextAnalyticsSuccessResult 
 }
 
 // @public
-export type DocumentSentimentLabel = 'positive' | 'neutral' | 'negative' | 'mixed';
+export type DocumentSentimentLabel = "positive" | "neutral" | "negative" | "mixed";
 
 // @public
 export interface Entity {
@@ -89,7 +98,7 @@ export interface Entity {
 export type ErrorCode = ErrorCodeValue | InnerErrorCodeValue;
 
 // @public
-export type ErrorCodeValue = 'InvalidRequest' | 'InvalidArgument' | 'InternalServerError' | 'ServiceUnavailable';
+export type ErrorCodeValue = "InvalidRequest" | "InvalidArgument" | "InternalServerError" | "ServiceUnavailable";
 
 // @public
 export type ExtractKeyPhrasesErrorResult = TextAnalyticsErrorResult;
@@ -112,7 +121,7 @@ export interface ExtractKeyPhrasesSuccessResult extends TextAnalyticsSuccessResu
 }
 
 // @public
-export type InnerErrorCodeValue = 'InvalidParameterValue' | 'InvalidRequestBodyFormat' | 'EmptyRequest' | 'MissingInputRecords' | 'InvalidDocument' | 'ModelVersionIncorrect' | 'InvalidDocumentBatch' | 'UnsupportedLanguageCode' | 'InvalidCountryHint';
+export type InnerErrorCodeValue = "InvalidParameterValue" | "InvalidRequestBodyFormat" | "EmptyRequest" | "MissingInputRecords" | "InvalidDocument" | "ModelVersionIncorrect" | "InvalidDocumentBatch" | "UnsupportedLanguageCode" | "InvalidCountryHint";
 
 // @public
 export interface LinkedEntity {
@@ -128,6 +137,24 @@ export interface LinkedEntity {
 export interface Match {
     confidenceScore: number;
     text: string;
+}
+
+// @public
+export interface MinedOpinion {
+    aspect: AspectSentiment;
+    opinions: OpinionSentiment[];
+}
+
+// @public
+export interface OpinionSentiment {
+    confidenceScores: SentimentConfidenceScores;
+    isNegated: boolean;
+    sentiment: DocumentSentimentLabel;
+    text: string;
+}
+
+// @public
+export interface PiiEntity extends Entity {
 }
 
 // @public
@@ -171,14 +198,35 @@ export interface RecognizeLinkedEntitiesSuccessResult extends TextAnalyticsSucce
 }
 
 // @public
-export interface SentenceSentiment {
-    confidenceScores: SentimentConfidenceScores;
-    sentiment: SentenceSentimentLabel;
-    text?: string;
+export type RecognizePiiEntitiesErrorResult = TextAnalyticsErrorResult;
+
+// @public
+export type RecognizePiiEntitiesOptions = TextAnalyticsOperationOptions;
+
+// @public
+export type RecognizePiiEntitiesResult = RecognizePiiEntitiesSuccessResult | RecognizePiiEntitiesErrorResult;
+
+// @public
+export interface RecognizePiiEntitiesResultArray extends Array<RecognizePiiEntitiesResult> {
+    modelVersion: string;
+    statistics?: TextDocumentBatchStatistics;
 }
 
 // @public
-export type SentenceSentimentLabel = 'positive' | 'neutral' | 'negative';
+export interface RecognizePiiEntitiesSuccessResult extends TextAnalyticsSuccessResult {
+    readonly entities: PiiEntity[];
+}
+
+// @public
+export interface SentenceSentiment {
+    confidenceScores: SentimentConfidenceScores;
+    minedOpinions?: MinedOpinion[];
+    sentiment: SentenceSentimentLabel;
+    text: string;
+}
+
+// @public
+export type SentenceSentimentLabel = "positive" | "neutral" | "negative";
 
 // @public
 export interface SentimentConfidenceScores {
@@ -206,6 +254,8 @@ export class TextAnalyticsClient {
     recognizeEntities(documents: TextDocumentInput[], options?: RecognizeCategorizedEntitiesOptions): Promise<RecognizeCategorizedEntitiesResultArray>;
     recognizeLinkedEntities(documents: string[], language?: string, options?: RecognizeLinkedEntitiesOptions): Promise<RecognizeLinkedEntitiesResultArray>;
     recognizeLinkedEntities(documents: TextDocumentInput[], options?: RecognizeLinkedEntitiesOptions): Promise<RecognizeLinkedEntitiesResultArray>;
+    recognizePiiEntities(inputs: string[], language?: string, options?: RecognizePiiEntitiesOptions): Promise<RecognizePiiEntitiesResultArray>;
+    recognizePiiEntities(inputs: TextDocumentInput[], options?: RecognizePiiEntitiesOptions): Promise<RecognizePiiEntitiesResultArray>;
 }
 
 // @public
@@ -272,7 +322,7 @@ export interface TextDocumentStatistics {
 }
 
 // @public
-export type WarningCode = 'LongWordsInDocument' | 'DocumentTruncated';
+export type WarningCode = "LongWordsInDocument" | "DocumentTruncated";
 
 
 // (No @packageDocumentation comment for this package)

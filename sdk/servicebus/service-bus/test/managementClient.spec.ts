@@ -3,7 +3,7 @@
 
 import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
-import { ReceivedMessageWithLock, Receiver, Sender, delay } from "../src";
+import { ReceivedMessageWithLock, ServiceBusSender, ServiceBusReceiver } from "../src";
 import { TestClientType, TestMessage } from "./utils/testUtils";
 import { ServiceBusClientForTests, createServiceBusClientForTests } from "./utils/testutils2";
 chai.should();
@@ -11,8 +11,8 @@ chai.use(chaiAsPromised);
 
 describe("ManagementClient - disconnects", function(): void {
   let serviceBusClient: ServiceBusClientForTests;
-  let sender: Sender;
-  let receiver: Receiver<ReceivedMessageWithLock>;
+  let sender: ServiceBusSender;
+  let receiver: ServiceBusReceiver<ReceivedMessageWithLock>;
 
   async function beforeEachTest(entityType: TestClientType): Promise<void> {
     const entityNames = await serviceBusClient.test.createTestEntities(entityType);
@@ -46,12 +46,12 @@ describe("ManagementClient - disconnects", function(): void {
     await sender.sendMessages(TestMessage.getSample());
 
     let peekedMessageCount = 0;
-    let messages = await receiver.peekMessages({ maxMessageCount: 1 });
+    let messages = await receiver.peekMessages(1);
     peekedMessageCount += messages.length;
 
     peekedMessageCount.should.equal(1, "Unexpected number of peeked messages.");
 
-    const connectionContext = (receiver as any)["_context"].namespace;
+    const connectionContext = (receiver as any)["_context"];
     const refreshConnection = connectionContext.refreshConnection;
     let refreshConnectionCalled = 0;
     connectionContext.refreshConnection = function(...args: any) {
@@ -62,12 +62,8 @@ describe("ManagementClient - disconnects", function(): void {
     // Simulate a disconnect being called with a non-retryable error.
     connectionContext.connection["_connection"].idle();
 
-    // Allow rhea to clear internal setTimeouts (since we're triggering idle manually).
-    // Otherwise, it will get into a bad internal state with uncaught exceptions.
-    await delay(2000);
-
     // peek additional messages
-    messages = await receiver.peekMessages({ maxMessageCount: 1 });
+    messages = await receiver.peekMessages(1);
     peekedMessageCount += messages.length;
     peekedMessageCount.should.equal(2, "Unexpected number of peeked messages.");
 
@@ -88,7 +84,7 @@ describe("ManagementClient - disconnects", function(): void {
 
     deliveryIds.length.should.equal(1, "Unexpected number of scheduled messages.");
 
-    const connectionContext = (receiver as any)["_context"].namespace;
+    const connectionContext = (receiver as any)["_context"];
     const refreshConnection = connectionContext.refreshConnection;
     let refreshConnectionCalled = 0;
     connectionContext.refreshConnection = function(...args: any) {
@@ -98,10 +94,6 @@ describe("ManagementClient - disconnects", function(): void {
 
     // Simulate a disconnect being called with a non-retryable error.
     connectionContext.connection["_connection"].idle();
-
-    // Allow rhea to clear internal setTimeouts (since we're triggering idle manually).
-    // Otherwise, it will get into a bad internal state with uncaught exceptions.
-    await delay(2000);
 
     // peek additional messages
     const [deliveryId] = await sender.scheduleMessages(

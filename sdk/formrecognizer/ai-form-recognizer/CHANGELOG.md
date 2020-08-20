@@ -1,7 +1,32 @@
 # Release History
 
-## 1.0.0-preview.4 (Unreleased)
+## 3.0.0 (2020-08-20)
 
+- This release marks the general availability of the `@azure/ai-form-recognizer` package.
+
+## 3.0.0-preview.1 (2020-08-11)
+
+- Changed the package version to 3.0.0-preview.1 to reduce confusion with older versions of the Azure Form Recognizer SDKs.
+- Changed the name of the `options` bag parameter of `beginRecognizeReceipts` and `beginRecognizeReceiptsFromUrl` to `BeginRecognizeReceiptsOptions`.
+- Switched to using the generally-available 2.0 service endpoint rather than 2.0-preview.
+- Added a `pageNumber` property to the `FormTable` and `FormTableCell` types indicating the number of the page where the table/cell appeared within the input document.
+- [Breaking] Renamed the `includeSubFolders` property of the `TrainSourceFilter` type to `includeSubfolders`.
+- [Breaking] Renamed the `documentName` property of the `TrainingDocumentInfo` type to just `name`.
+- [Breaking] Removed the `containingLine` property of the `FormWord` type.
+- Made the `rowSpan`, `columnSpan`, `isHeader`, and `isFooter` properties of the `FormTableCell` type non-optional to reflect that they have default values.
+- [Breaking] Renamed `CustomFormField` to `CustomFormModelField` for similarity to other language SDKs.
+- [Breaking] Removed the redundant `expirationDateTimeTicks` property from the `CopyAuthorization` type, as the `expiresOn` property exists.
+- [Breaking] Moved the optional `contentType` parameter of the `FormRecognizerClient` recognition methods (`recognizeContent`, `recognizeCustomForms`, `recognizeReceipts`, and their URL-based variants) to the associated options bag for these methods.
+- [Breaking] Removed exports of several internal types, including most internal poller operation states and some unused types. All client poller implementations now return a smaller subset of fields.
+
+## 1.0.0-preview.4 (2020-07-07)
+
+- [Breaking] Replace `RecognizedReceiptArray` with the more generic `RecognizedFormArray` in the Poller response type returned by `beginRecognizeReceipts` and `beginRecognizeReceiptsFromUrl`.
+- Added an `expiresOn` property to the `CopyAuthorization` type containing the time that the Copy Authorization will expire encoded as a JavaScript `Date` type.
+- [Breaking] Rename the `textContent` field of the `FieldData` and `FormTableCell` types to `fieldElements` to mirror the change in its type.
+- [Breaking] Rename the `FormField` type's `labelText` and `valueText` fields to `labelData` and `valueData` respectively, to mirror the change of their type to `FieldData`;
+- [Breaking] Rename the `includeTextContent` request option to `includeFieldElements` to mirror the change to `FieldData` and `FormElement`.
+- [Breaking] Rename `FieldText` to `FieldData` and `FormContent` to `FormElement` to reflect that fields may contain more than textual information.
 - [Breaking] Rename `includeTextDetails` to `includeTextContent` in custom form and receipt recognition options to be consistent with other languages.
 - [Breaking] Rename properties `requestedOn` to `trainingStartedOn` and `completedOn` to `trainingCompletedOn` in `CustomFormModel` and `CustomFormModelInfo` types.
 

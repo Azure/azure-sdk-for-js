@@ -43,7 +43,7 @@ describe("AppendBlobClient Node.js only", () => {
 
   afterEach(async function() {
     await containerClient.delete();
-    recorder.stop();
+    await recorder.stop();
   });
 
   it("can be created with a url and a credential", async () => {

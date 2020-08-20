@@ -6,10 +6,11 @@
  * See recognizeForm.ts to recognize forms using a custom model.
  */
 
-import { FormTrainingClient, AzureKeyCredential, BeginTrainingPollState } from "@azure/ai-form-recognizer";
+import { FormTrainingClient, AzureKeyCredential } from "@azure/ai-form-recognizer";
 
 // Load the .env file if it exists
-require("dotenv").config();
+import * as dotenv from "dotenv";
+dotenv.config();
 
 export async function main() {
   // You will need to set these environment variables or edit the following values
@@ -22,7 +23,7 @@ export async function main() {
   const trainingClient = new FormTrainingClient(endpoint, new AzureKeyCredential(apiKey));
 
   const poller = await trainingClient.beginTraining(containerSasUrl, false, {
-    onProgress: (state: BeginTrainingPollState) => {
+    onProgress: (state) => {
       console.log(`training status: ${state.status}`);
     }
   });
@@ -41,8 +42,7 @@ export async function main() {
     for (const submodel of model.submodels) {
       // since the training data is unlabeled, we are unable to return the accuracy of this model
       console.log("We have recognized the following fields");
-      for (const key in submodel.fields) {
-        const field = submodel.fields[key];
+      for (const [_, field] of Object.entries(submodel.fields)) {
         console.log(`The model found field '${field.name}'`);
       }
     }
@@ -50,10 +50,14 @@ export async function main() {
   // Training document information
   if (model.trainingDocuments) {
     for (const doc of model.trainingDocuments) {
-      console.log(`Document name: ${doc.documentName}`);
+      console.log(`Document name: ${doc.name}`);
       console.log(`Document status: ${doc.status}`);
       console.log(`Document page count: ${doc.pageCount}`);
-      console.log(`Document errors: ${(doc.errors).map(e => `error code ${e.code} '${e.message}'`).join("\n")}`);
+      console.log(
+        `Document errors: ${doc.errors
+          .map((e) => `error code ${e.code} '${e.message}'`)
+          .join("\n")}`
+      );
     }
   }
 }

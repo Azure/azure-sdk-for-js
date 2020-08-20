@@ -56,7 +56,7 @@ describe("BlobBatch", () => {
   afterEach(async function() {
     if (!this.currentTest?.isPending()) {
       await containerClient.delete();
-      recorder.stop();
+      await recorder.stop();
     }
   });
 

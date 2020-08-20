@@ -13,7 +13,7 @@ import * as msRest from "@azure/ms-rest-js";
 import * as msRestAzure from "@azure/ms-rest-azure-js";
 
 const packageName = "@azure/arm-containerservice";
-const packageVersion = "11.0.0";
+const packageVersion = "11.1.0";
 
 export class ContainerServiceClientContext extends msRestAzure.AzureServiceClient {
   credentials: msRest.ServiceClientCredentials;
@@ -37,7 +37,7 @@ export class ContainerServiceClientContext extends msRestAzure.AzureServiceClien
     if (!options) {
       options = {};
     }
-    if (!options.userAgent) {
+    if(!options.userAgent) {
       const defaultUserAgent = msRestAzure.getDefaultUserAgentValue();
       options.userAgent = `${packageName}/${packageVersion} ${defaultUserAgent}`;
     }
@@ -51,10 +51,10 @@ export class ContainerServiceClientContext extends msRestAzure.AzureServiceClien
     this.credentials = credentials;
     this.subscriptionId = subscriptionId;
 
-    if (options.acceptLanguage !== null && options.acceptLanguage !== undefined) {
+    if(options.acceptLanguage !== null && options.acceptLanguage !== undefined) {
       this.acceptLanguage = options.acceptLanguage;
     }
-    if (options.longRunningOperationRetryTimeout !== null && options.longRunningOperationRetryTimeout !== undefined) {
+    if(options.longRunningOperationRetryTimeout !== null && options.longRunningOperationRetryTimeout !== undefined) {
       this.longRunningOperationRetryTimeout = options.longRunningOperationRetryTimeout;
     }
   }

@@ -450,7 +450,7 @@ const listHandlesOperationSpec: coreHttp.OperationSpec = {
     Parameters.maxResults,
     Parameters.timeoutInSeconds,
     Parameters.shareSnapshot,
-    Parameters.comp7
+    Parameters.comp8
   ],
   headerParameters: [
     Parameters.recursive,
@@ -480,7 +480,7 @@ const forceCloseHandlesOperationSpec: coreHttp.OperationSpec = {
     Parameters.timeoutInSeconds,
     Parameters.marker,
     Parameters.shareSnapshot,
-    Parameters.comp8
+    Parameters.comp9
   ],
   headerParameters: [
     Parameters.handleId,

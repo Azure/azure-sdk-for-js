@@ -14,7 +14,8 @@ import { env, Recorder } from "@azure/test-utils-recorder";
 import {
   createRecordedTrainingClient,
   createRecordedRecognizerClient,
-  testEnv
+  testEnv,
+  testPollingOptions
 } from "../util/recordedClients";
 
 let unlabeledModelId: string | undefined;
@@ -33,14 +34,14 @@ describe("FormTrainingClient browser only", () => {
     );
   });
 
-  afterEach(function() {
+  afterEach(async function() {
     if (recorder) {
-      recorder.stop();
+      await recorder.stop();
     }
   });
 
   const expectedDocumentInfo: TrainingDocumentInfo = {
-    documentName: "Form_1.jpg",
+    name: "Form_1.jpg",
     errors: [],
     pageCount: 1,
     status: "succeeded"
@@ -49,7 +50,7 @@ describe("FormTrainingClient browser only", () => {
   it("trains model with forms and no labels", async () => {
     const containerSasUrl = env.FORM_RECOGNIZER_TRAINING_CONTAINER_SAS_URL;
     assert.ok(containerSasUrl, "Expect valid container sas url");
-    const poller = await trainingClient.beginTraining(containerSasUrl, false);
+    const poller = await trainingClient.beginTraining(containerSasUrl, false, testPollingOptions);
     const response = await poller.pollUntilDone();
 
     assert.ok(response, "Expecting valid response");
@@ -58,7 +59,10 @@ describe("FormTrainingClient browser only", () => {
     // save the id for recognition tests
     unlabeledModelId = response!.modelId;
 
-    assert.ok(response!.submodels && response!.submodels.length > 0, "Expected non empty sub model list");
+    assert.ok(
+      response!.submodels && response!.submodels.length > 0,
+      "Expected non empty sub model list"
+    );
     const model = response!.submodels![0];
     assert.equal(model.formType, "form-0");
     assert.equal(model.accuracy, undefined);
@@ -71,24 +75,23 @@ describe("FormTrainingClient browser only", () => {
     const containerSasUrl = env.FORM_RECOGNIZER_TRAINING_CONTAINER_SAS_URL;
     assert.ok(containerSasUrl, "Expect valid container sas url");
 
-    const poller = await trainingClient.beginTraining(containerSasUrl, true);
+    const poller = await trainingClient.beginTraining(containerSasUrl, true, testPollingOptions);
     const response = await poller.pollUntilDone();
 
     assert.ok(response, "Expecting valid response");
     assert.ok(response!.status === "ready", "Expecting status to be 'ready'");
     assert.ok(response!.modelId);
 
-    assert.ok(response!.submodels && response!.submodels.length > 0, "Expected non empty sub model list");
+    assert.ok(
+      response!.submodels && response!.submodels.length > 0,
+      "Expected non empty sub model list"
+    );
     const model = response!.submodels![0];
     assert.equal(model.formType, `form-${response!.modelId}`);
-    assert.equal(model.accuracy, 0.973);
     assert.ok(model.fields["Signature"], "Expecting field with name 'Signature' to be valid");
 
     // TODO: why training with labels is missing `errors` array?
-    assert.deepStrictEqual(
-      response?.trainingDocuments![0].documentName,
-      expectedDocumentInfo.documentName
-    );
+    assert.deepStrictEqual(response?.trainingDocuments![0].name, expectedDocumentInfo.name);
   });
 
   it("trains model with forms and no labels including sub folders", async () => {
@@ -96,7 +99,8 @@ describe("FormTrainingClient browser only", () => {
     assert.ok(containerSasUrl, "Expect valid container sas url");
 
     const poller = await trainingClient.beginTraining(containerSasUrl, false, {
-      includeSubFolders: true
+      includeSubfolders: true,
+      ...testPollingOptions
     });
     const response = await poller.pollUntilDone();
 
@@ -117,7 +121,8 @@ describe("FormTrainingClient browser only", () => {
     assert.ok(containerSasUrl, "Expect valid container sas url");
 
     const poller = await trainingClient.beginTraining(containerSasUrl, false, {
-      prefix: "Form_"
+      prefix: "Form_",
+      ...testPollingOptions
     });
     const response = await poller.pollUntilDone();
 
@@ -208,9 +213,9 @@ describe("FormRecognizerClient custom form recognition browser only", () => {
     ({ recorder, client: recognizerClient } = createRecordedRecognizerClient(this, apiKey));
   });
 
-  afterEach(function() {
+  afterEach(async function() {
     if (recorder) {
-      recorder.stop();
+      await recorder.stop();
     }
   });
   it("recognizes form url unlabeled model", async () => {
@@ -219,13 +224,14 @@ describe("FormRecognizerClient custom form recognition browser only", () => {
     const url = `${urlParts[0]}/Form_1.jpg?${urlParts[1]}`;
 
     assert.ok(unlabeledModelId, "Expecting valid model id from training without labels");
-    const poller = await recognizerClient.beginRecognizeCustomFormsFromUrl(unlabeledModelId!, url);
+    const poller = await recognizerClient.beginRecognizeCustomFormsFromUrl(
+      unlabeledModelId!,
+      url,
+      testPollingOptions
+    );
     const forms = await poller.pollUntilDone();
 
-    assert.ok(
-      forms && forms.length > 0,
-      `Expect no-empty pages but got ${forms}`
-    );
+    assert.ok(forms && forms.length > 0, `Expect no-empty pages but got ${forms}`);
     const form = forms![0];
     assert.equal(form.formType, "form-0");
     assert.deepStrictEqual(form.pageRange, {
@@ -254,13 +260,14 @@ describe("FormRecognizerClient custom form recognition browser only", () => {
 
     assert.ok(unlabeledModelId, "Expecting valid model id from training without labels");
     assert.ok(data, "Expect valid Blob data to use as input");
-    const poller = await recognizerClient.beginRecognizeCustomForms(unlabeledModelId!, data!);
+    const poller = await recognizerClient.beginRecognizeCustomForms(
+      unlabeledModelId!,
+      data!,
+      testPollingOptions
+    );
     const forms = await poller.pollUntilDone();
 
-    assert.ok(
-      forms && forms.length > 0,
-      `Expect no-empty pages but got ${forms}`
-    );
+    assert.ok(forms && forms.length > 0, `Expect no-empty pages but got ${forms}`);
     const form = forms![0];
     assert.equal(form.formType, "form-0");
     assert.deepStrictEqual(form.pageRange, {

@@ -1,9 +1,9 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
 import qs from "qs";
 import assert from "assert";
-import { ManagedIdentityCredential, AuthenticationError, CredentialUnavailable } from "../../src";
+import { ManagedIdentityCredential, AuthenticationError } from "../../src";
 import {
   ImdsEndpoint,
   ImdsApiVersion,

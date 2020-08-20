@@ -12,31 +12,25 @@ import {
   ReadResult as ReadResultModel,
   TextLine as TextLineModel,
   GeneratedClientGetAnalyzeFormResultResponse as GetAnalyzeFormResultResponse,
-  GeneratedClientGetAnalyzeLayoutResultResponse as GetAnalyzeLayoutResultResponse,
   GeneratedClientGetAnalyzeReceiptResultResponse as GetAnalyzeReceiptResultResponse,
+  GeneratedClientGetAnalyzeLayoutResultResponse as GetAnalyzeLayoutResultResponse,
   GeneratedClientGetCustomModelResponse as GetCustomModelResponse
 } from "./generated/models";
 
 import {
   FormPage,
   FormLine,
-  FormContent,
-  FormTableRow,
+  FormElement,
   FormTable,
   RecognizedForm,
-  FieldText,
+  FieldData,
   FormField,
   Point2D,
   FormModelResponse,
-  CustomFormField,
-  CustomFormSubmodel,
-  RecognizedReceipt
+  CustomFormModelField,
+  CustomFormSubmodel
 } from "./models";
-import {
-  RecognizeFormResultResponse,
-  RecognizeContentResultResponse,
-  RecognizeReceiptResultResponse
-} from "./internalModels";
+import { RecognizeFormResultResponse, RecognizeContentResultResponse } from "./internalModels";
 
 export function toBoundingBox(original: number[]): Point2D[] {
   return [
@@ -63,9 +57,6 @@ export function toTextLine(original: TextLineModel, pageNumber: number): FormLin
       };
     })
   };
-  line.words = line.words.map((w) => {
-    return { ...w, containingLine: line };
-  });
 
   return line;
 }
@@ -84,7 +75,7 @@ export function toFormPage(original: ReadResultModel): FormPage {
 // Note: might need to support other element types in future, e.g., checkbox
 const textPattern = /\/readResults\/(\d+)\/lines\/(\d+)(?:\/words\/(\d+))?/;
 
-export function toFormContent(element: string, readResults: FormPage[]): FormContent {
+export function toFormContent(element: string, readResults: FormPage[]): FormElement {
   const result = textPattern.exec(element);
   if (!result || !result[0] || !result[1] || !result[2]) {
     throw new Error(`Unexpected element reference encountered: ${element}`);
@@ -100,16 +91,16 @@ export function toFormContent(element: string, readResults: FormPage[]): FormCon
   }
 }
 
-export function toFieldText(
+export function toFieldData(
   pageNumber: number,
   original: KeyValueElementModel,
   readResults?: FormPage[]
-): FieldText {
+): FieldData {
   return {
     pageNumber,
     text: original.text,
     boundingBox: original.boundingBox ? toBoundingBox(original.boundingBox) : undefined,
-    textContent: original.elements?.map((element) => toFormContent(element, readResults!))
+    fieldElements: original.elements?.map((element) => toFormContent(element, readResults!))
   };
 }
 
@@ -121,36 +112,35 @@ export function toFormFieldFromKeyValuePairModel(
   return {
     name: original.label,
     confidence: original.confidence || 1,
-    labelText: toFieldText(pageNumber, original.key, readResults),
-    valueText: toFieldText(pageNumber, original.value, readResults),
+    labelData: toFieldData(pageNumber, original.key, readResults),
+    valueData: toFieldData(pageNumber, original.value, readResults),
     value: original.value.text,
     valueType: "string"
   };
 }
 
-export function toFormTable(original: DataTableModel, readResults?: FormPage[]): FormTable {
-  const rows: FormTableRow[] = [];
-  for (let i = 0; i < original.rows; i++) {
-    rows.push({ cells: [] });
-  }
-  for (const cell of original.cells) {
-    rows[cell.rowIndex].cells.push({
-      boundingBox: toBoundingBox(cell.boundingBox),
-      columnIndex: cell.columnIndex,
-      columnSpan: cell.columnSpan || 1,
-      confidence: cell.confidence,
-      textContent: cell.elements?.map((element) => toFormContent(element, readResults!)),
-      isFooter: cell.isFooter || false,
-      isHeader: cell.isHeader || false,
-      rowIndex: cell.rowIndex,
-      rowSpan: cell.rowSpan || 1,
-      text: cell.text
-    });
-  }
+export function toFormTable(
+  original: DataTableModel,
+  readResults: FormPage[],
+  pageNumber: number
+): FormTable {
   return {
     rowCount: original.rows,
     columnCount: original.columns,
-    rows: rows
+    cells: original.cells.map((cell) => ({
+      boundingBox: toBoundingBox(cell.boundingBox),
+      columnIndex: cell.columnIndex,
+      fieldElements: cell.elements?.map((element) => toFormContent(element, readResults)),
+      rowIndex: cell.rowIndex,
+      columnSpan: cell.columnSpan ?? 1,
+      rowSpan: cell.rowSpan ?? 1,
+      isHeader: cell.isHeader ?? false,
+      isFooter: cell.isFooter ?? false,
+      confidence: cell.confidence ?? 1,
+      text: cell.text,
+      pageNumber
+    })),
+    pageNumber
   };
 }
 
@@ -168,7 +158,9 @@ export function toFormPages(
     if (readResult) {
       const pageResult = pageMap.get(pageNumber);
       if (pageResult) {
-        readResult.tables = pageResult.tables?.map((table) => toFormTable(table, transformed));
+        readResult.tables = pageResult.tables?.map((table) =>
+          toFormTable(table, transformed!, pageNumber)
+        );
         result.push(readResult);
       }
     }
@@ -217,7 +209,13 @@ export function toFormFieldFromFieldValueModel(
   key: string,
   readResults: FormPage[]
 ): FormField {
-  let value: string | Date | number | FormField[] | { [propertyName: string] : FormField} | undefined;
+  let value:
+    | string
+    | Date
+    | number
+    | FormField[]
+    | { [propertyName: string]: FormField }
+    | undefined;
   switch (original.type) {
     case "string":
       value = original.valueString;
@@ -238,20 +236,24 @@ export function toFormFieldFromFieldValueModel(
       value = original.valuePhoneNumber;
       break;
     case "array":
-      value = original.valueArray?.map((fieldValueModel) => toFormFieldFromFieldValueModel(fieldValueModel, key, readResults));
+      value = original.valueArray?.map((fieldValueModel) =>
+        toFormFieldFromFieldValueModel(fieldValueModel, key, readResults)
+      );
       break;
     case "object":
-      value = original.valueObject ? toFieldsFromFieldValue(original.valueObject, readResults) : undefined;
+      value = original.valueObject
+        ? toFieldsFromFieldValue(original.valueObject, readResults)
+        : undefined;
       break;
   }
   return {
-    confidence: original.confidence,
+    confidence: original.confidence || 1,
     name: key,
-    valueText: {
-      pageNumber: original.pageNumber || 0,
+    valueData: {
+      pageNumber: original.pageNumber ?? 0,
       text: original.text,
       boundingBox: original.boundingBox ? toBoundingBox(original.boundingBox) : undefined,
-      textContent: original.elements?.map((element) => toFormContent(element, readResults))
+      fieldElements: original.elements?.map((element) => toFormContent(element, readResults))
     },
     valueType: original.type,
     value
@@ -299,7 +301,7 @@ export function toFormFromPageResult(original: PageResultModel, pages: FormPage[
   return {
     formType: `form-${original.clusterId}`,
     pageRange: { firstPageNumber: original.pageNumber, lastPageNumber: original.pageNumber },
-    pages,
+    pages: pages.filter((p) => p.pageNumber === original.pageNumber),
     fields: original.keyValuePairs
       ? toFieldsFromKeyValuePairs(original.pageNumber, original.keyValuePairs, pages)
       : {}
@@ -311,7 +313,9 @@ export function toRecognizedForm(original: DocumentResultModel, pages: FormPage[
     formType: original.docType,
     pageRange: { firstPageNumber: original.pageRange[0], lastPageNumber: original.pageRange[1] },
     fields: toFieldsFromFieldValue(original.fields, pages),
-    pages
+    pages: pages.filter(
+      (p) => original.pageRange[0] <= p.pageNumber && p.pageNumber <= original.pageRange[1]
+    )
   };
 }
 
@@ -348,20 +352,9 @@ export function toRecognizeContentResultResponse(
   }
 }
 
-function toRecognizedReceipt(result: DocumentResultModel, pages: FormPage[]): RecognizedReceipt {
-  if (result.docType !== "prebuilt:receipt") {
-    throw new RangeError("The document type is not 'prebuilt:receipt'");
-  }
-
-  const recognizedForm = toRecognizedForm(result, pages);
-  return {
-    recognizedForm
-  };
-}
-
-export function toReceiptResultResponse(
+export function toRecognizeFormResultResponseFromReceipt(
   original: GetAnalyzeReceiptResultResponse
-): RecognizeReceiptResultResponse {
+): RecognizeFormResultResponse {
   const common = {
     status: original.status,
     createdOn: original.createdOn,
@@ -381,11 +374,16 @@ export function toReceiptResultResponse(
   return {
     ...common,
     version: original.analyzeResult!.version,
-    receipts: original
+    forms: original
       .analyzeResult!.documentResults!.filter((d) => {
         return !!d.fields;
       })
-      .map((d) => toRecognizedReceipt(d, pages))
+      .map((d) => {
+        if (d.docType !== "prebuilt:receipt") {
+          throw new RangeError("The document type is not 'prebuilt:receipt'");
+        }
+        return toRecognizedForm(d, pages);
+      })
   };
 }
 
@@ -403,7 +401,7 @@ export function toFormModelResponse(response: GetCustomModelResponse): FormModel
 
   if (response.trainResult?.averageModelAccuracy || response.trainResult?.fields) {
     // training with forms and labels, populate from trainingResult.fields
-    const fields: { [propertyName: string]: CustomFormField } = {};
+    const fields: Record<string, CustomFormModelField> = {};
     for (const f of response.trainResult.fields!) {
       fields[f.fieldName] = { name: f.fieldName, accuracy: f.accuracy, label: null };
     }
@@ -422,7 +420,7 @@ export function toFormModelResponse(response: GetCustomModelResponse): FormModel
     const submodels: CustomFormSubmodel[] = [];
     for (const clusterKey in response.keys.clusters) {
       const cluster = response.keys.clusters[clusterKey];
-      const fields: { [propertyName: string]: CustomFormField } = {};
+      const fields: Record<string, CustomFormModelField> = {};
 
       for (let i = 0; i < cluster.length; i++) {
         fields[`field-${i}`] = { name: `field-${i}`, label: cluster[i] };

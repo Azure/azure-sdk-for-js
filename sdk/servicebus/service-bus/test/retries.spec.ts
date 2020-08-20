@@ -5,20 +5,26 @@ import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
 const should = chai.should();
-import { ReceivedMessageWithLock, Receiver, SessionReceiver } from "../src";
+import { ReceivedMessageWithLock } from "../src";
 import { TestClientType, TestMessage } from "./utils/testUtils";
 import { ServiceBusClientForTests, createServiceBusClientForTests } from "./utils/testutils2";
-import { Sender, SenderImpl } from "../src/sender";
+import { ServiceBusSender, ServiceBusSenderImpl } from "../src/sender";
 import { MessagingError } from "@azure/core-amqp";
 import Long from "long";
 import { BatchingReceiver } from "../src/core/batchingReceiver";
 import { delay } from "rhea-promise";
+import {
+  ServiceBusSessionReceiverImpl,
+  ServiceBusSessionReceiver
+} from "../src/receivers/sessionReceiver";
+import { ServiceBusReceiver, ServiceBusReceiverImpl } from "../src/receivers/receiver";
 
 describe("Retries - ManagementClient", () => {
-  let sender: Sender;
-  let receiver: Receiver<ReceivedMessageWithLock> | SessionReceiver<ReceivedMessageWithLock>;
+  let sender: ServiceBusSender;
+  let receiver:
+    | ServiceBusReceiver<ReceivedMessageWithLock>
+    | ServiceBusSessionReceiver<ReceivedMessageWithLock>;
   let serviceBusClient: ServiceBusClientForTests;
-  // let subscriptionRuleManager: SubscriptionRuleManager;
   const defaultMaxRetries = 2;
   let numberOfTimesManagementClientInvoked: number;
 
@@ -44,15 +50,11 @@ describe("Retries - ManagementClient", () => {
       serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
     );
     receiver = await serviceBusClient.test.getPeekLockReceiver(entityNames);
-    // subscriptionRuleManager = serviceBusClient.test.addToCleanup(
-    //   serviceBusClient.getSubscriptionRuleManager(entityNames.topic!, entityNames.subscription!)
-    // );
   }
 
   async function afterEachTest(): Promise<void> {
     await sender.close();
     await receiver.close();
-    // await subscriptionRuleManager.close();
   }
 
   function mockManagementClientToThrowError() {
@@ -60,8 +62,15 @@ describe("Retries - ManagementClient", () => {
       numberOfTimesManagementClientInvoked++;
       throw new MessagingError("Hello there, I'm an error");
     };
-    (sender as any)._context.managementClient._makeManagementRequest = fakeFunction;
-    (receiver as any)._context.managementClient._makeManagementRequest = fakeFunction;
+    const senderMgmtClient = serviceBusClient["_connectionContext"].getManagementClient(
+      sender.entityPath
+    );
+    const receiverMgmtClient = serviceBusClient["_connectionContext"].getManagementClient(
+      receiver.entityPath
+    );
+
+    senderMgmtClient["_makeManagementRequest"] = fakeFunction;
+    receiverMgmtClient["_makeManagementRequest"] = fakeFunction;
   }
 
   async function mockManagementClientAndVerifyRetries(func: Function) {
@@ -123,23 +132,23 @@ describe("Retries - ManagementClient", () => {
 
     it("Unpartitioned Queue: peek", async function(): Promise<void> {
       await mockManagementClientAndVerifyRetries(async () => {
-        await receiver.peekMessages();
+        await receiver.peekMessages(1);
       });
     });
 
     it("Unpartitioned Queue: peekBySequenceNumber", async function(): Promise<void> {
       await mockManagementClientAndVerifyRetries(async () => {
-        await receiver.peekMessages({ fromSequenceNumber: new Long(0) });
+        await receiver.peekMessages(1, { fromSequenceNumber: new Long(0) });
       });
     });
   });
 
   describe("Session Receiver Retries", () => {
-    let sessionReceiver: SessionReceiver<ReceivedMessageWithLock>;
+    let sessionReceiver: ServiceBusSessionReceiver<ReceivedMessageWithLock>;
     beforeEach(async () => {
       numberOfTimesManagementClientInvoked = 0;
       await beforeEachTest(TestClientType.UnpartitionedQueueWithSessions);
-      sessionReceiver = receiver as SessionReceiver<ReceivedMessageWithLock>;
+      sessionReceiver = receiver as ServiceBusSessionReceiver<ReceivedMessageWithLock>;
     });
     afterEach(async () => {
       await afterEachTest();
@@ -147,13 +156,13 @@ describe("Retries - ManagementClient", () => {
 
     it("Unpartitioned Queue with Sessions: peek", async function(): Promise<void> {
       await mockManagementClientAndVerifyRetries(async () => {
-        await sessionReceiver.peekMessages();
+        await sessionReceiver.peekMessages(1);
       });
     });
 
     it("Unpartitioned Queue with Sessions: peekBySequenceNumber", async function(): Promise<void> {
       await mockManagementClientAndVerifyRetries(async () => {
-        await sessionReceiver.peekMessages({ fromSequenceNumber: new Long(0) });
+        await sessionReceiver.peekMessages(1, { fromSequenceNumber: new Long(0) });
       });
     });
 
@@ -173,49 +182,20 @@ describe("Retries - ManagementClient", () => {
 
     it("Unpartitioned Queue with Sessions: setState", async function(): Promise<void> {
       await mockManagementClientAndVerifyRetries(async () => {
-        await sessionReceiver.setState("random-state");
+        await sessionReceiver.setSessionState("random-state");
       });
     });
 
     it("Unpartitioned Queue with Sessions: getState", async function(): Promise<void> {
       await mockManagementClientAndVerifyRetries(async () => {
-        await sessionReceiver.getState();
+        await sessionReceiver.getSessionState();
       });
     });
   });
-
-  // describe("SubscriptionRuleManager Retries", function(): void {
-  //   beforeEach(async () => {
-  //     numberOfTimesManagementClientInvoked = 0;
-  //     await beforeEachTest(TestClientType.UnpartitionedSubscription);
-  //   });
-
-  //   afterEach(async () => {
-  //     await afterEachTest();
-  //   });
-
-  //   it("Unpartitioned Subscription: getRules", async function(): Promise<void> {
-  //     await mockManagementClientAndVerifyRetries(async () => {
-  //       await subscriptionRuleManager.getRules();
-  //     });
-  //   });
-
-  //   it("Unpartitioned Subscription: addRule", async function(): Promise<void> {
-  //     await mockManagementClientAndVerifyRetries(async () => {
-  //       await subscriptionRuleManager.addRule("new-rule", "1=2");
-  //     });
-  //   });
-
-  //   it("Unpartitioned Subscription: removeRule", async function(): Promise<void> {
-  //     await mockManagementClientAndVerifyRetries(async () => {
-  //       await subscriptionRuleManager.removeRule("new-rule");
-  //     });
-  //   });
-  // });
 });
 
 describe("Retries - MessageSender", () => {
-  let sender: Sender;
+  let sender: ServiceBusSender;
   let serviceBusClient: ServiceBusClientForTests;
   const defaultMaxRetries = 2;
   let numberOfTimesInitInvoked: number;
@@ -252,8 +232,8 @@ describe("Retries - MessageSender", () => {
       throw new MessagingError("Hello there, I'm an error");
     };
 
-    (sender as SenderImpl)["_sender"]["isOpen"] = () => false;
-    (sender as SenderImpl)["_sender"]["open"] = fakeFunction;
+    (sender as ServiceBusSenderImpl)["_sender"]["isOpen"] = () => false;
+    (sender as ServiceBusSenderImpl)["_sender"]["open"] = fakeFunction;
   }
 
   async function mockInitAndVerifyRetries(func: Function) {
@@ -329,7 +309,7 @@ describe("Retries - MessageSender", () => {
 });
 
 describe("Retries - Receive methods", () => {
-  let receiver: Receiver<ReceivedMessageWithLock>;
+  let receiver: ServiceBusReceiver<ReceivedMessageWithLock>;
   let serviceBusClient: ServiceBusClientForTests;
   const defaultMaxRetries = 2;
   let numberOfTimesTried: number;
@@ -363,12 +343,24 @@ describe("Retries - Receive methods", () => {
       numberOfTimesTried++;
       throw new MessagingError("Hello there, I'm an error");
     };
-    // Mocking batchingReceiver.receive to throw the error and fail
-    const batchingReceiver = BatchingReceiver.create((receiver as any)._context);
-    batchingReceiver.isOpen = () => true;
-    batchingReceiver.receive = fakeFunction;
-    // Mocking session creation to throw the error and fail
-    (receiver as any)._createMessageSessionIfDoesntExist = fakeFunction;
+
+    if (receiver instanceof ServiceBusSessionReceiverImpl) {
+      // Mocking `_messageSession.receiveMessages()` to throw the error and fail
+      (receiver as ServiceBusSessionReceiverImpl<ReceivedMessageWithLock>)[
+        "_messageSession"
+      ].receiveMessages = fakeFunction;
+    } else {
+      // Mocking batchingReceiver.receive to throw the error and fail
+      const batchingReceiver = BatchingReceiver.create(
+        (receiver as any)._context,
+        "dummyEntityPath"
+      );
+      batchingReceiver.isOpen = () => true;
+      batchingReceiver.receive = fakeFunction;
+      (receiver as ServiceBusReceiverImpl<ReceivedMessageWithLock>)[
+        "_batchingReceiver"
+      ] = batchingReceiver;
+    }
   }
 
   async function mockReceiveAndVerifyRetries(func: Function) {
@@ -422,8 +414,10 @@ describe("Retries - Receive methods", () => {
 });
 
 describe("Retries - onDetached", () => {
-  let sender: Sender;
-  let receiver: Receiver<ReceivedMessageWithLock> | SessionReceiver<ReceivedMessageWithLock>;
+  let sender: ServiceBusSender;
+  let receiver:
+    | ServiceBusReceiver<ReceivedMessageWithLock>
+    | ServiceBusSessionReceiver<ReceivedMessageWithLock>;
   let serviceBusClient: ServiceBusClientForTests;
   const defaultMaxRetries = 2;
   let numberOfTimesOnDetachedInvoked: number;
@@ -488,19 +482,21 @@ describe("Retries - onDetached", () => {
         async processError() {}
       });
       await delay(2000);
-      (receiver as any)._context.streamingReceiver._init = fakeFunction;
-      await (receiver as any)._context.streamingReceiver.onDetached(
-        new MessagingError("Hello there, I'm an error")
-      );
+
+      const streamingReceiver = (receiver as ServiceBusReceiverImpl<any>)["_streamingReceiver"]!;
+      should.exist(streamingReceiver);
+
+      streamingReceiver["init"] = fakeFunction;
+      await streamingReceiver.onDetached(new MessagingError("Hello there, I'm an error"));
     });
   });
 
   it("Unpartitioned Queue: sender", async function(): Promise<void> {
     await beforeEachTest(TestClientType.UnpartitionedQueue);
     await mockOnDetachedAndVerifyRetries(async () => {
-      (sender as SenderImpl)["_sender"]["open"] = fakeFunction;
+      (sender as ServiceBusSenderImpl)["_sender"]["open"] = fakeFunction;
 
-      await (sender as SenderImpl)["_sender"].onDetached(
+      await (sender as ServiceBusSenderImpl)["_sender"].onDetached(
         new MessagingError("Hello there, I'm an error")
       );
     });

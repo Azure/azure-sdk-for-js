@@ -33,7 +33,8 @@ export const action0: coreHttp.OperationQueryParameter = {
         "append",
         "flush",
         "setProperties",
-        "setAccessControl"
+        "setAccessControl",
+        "setAccessControlRecursive"
       ]
     }
   }
@@ -72,13 +73,25 @@ export const action3: coreHttp.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "action",
-    defaultValue: 'flush',
+    defaultValue: 'setAccessControlRecursive',
     type: {
       name: "String"
     }
   }
 };
 export const action4: coreHttp.OperationQueryParameter = {
+  parameterPath: "action",
+  mapper: {
+    required: true,
+    isConstant: true,
+    serializedName: "action",
+    defaultValue: 'flush',
+    type: {
+      name: "String"
+    }
+  }
+};
+export const action5: coreHttp.OperationQueryParameter = {
   parameterPath: "action",
   mapper: {
     required: true,
@@ -112,6 +125,18 @@ export const close: coreHttp.OperationQueryParameter = {
     serializedName: "close",
     type: {
       name: "Boolean"
+    }
+  }
+};
+export const comp: coreHttp.OperationQueryParameter = {
+  parameterPath: "comp",
+  mapper: {
+    required: true,
+    isConstant: true,
+    serializedName: "comp",
+    defaultValue: 'expiry',
+    type: {
+      name: "String"
     }
   }
 };
@@ -207,6 +232,28 @@ export const continuation: coreHttp.OperationQueryParameter = {
     }
   }
 };
+export const expiresOn: coreHttp.OperationParameter = {
+  parameterPath: [
+    "options",
+    "expiresOn"
+  ],
+  mapper: {
+    serializedName: "x-ms-expiry-time",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const expiryOptions: coreHttp.OperationParameter = {
+  parameterPath: "expiryOptions",
+  mapper: {
+    required: true,
+    serializedName: "x-ms-expiry-option",
+    type: {
+      name: "String"
+    }
+  }
+};
 export const group: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
@@ -284,6 +331,21 @@ export const leaseId: coreHttp.OperationParameter = {
     }
   }
 };
+export const maxRecords: coreHttp.OperationQueryParameter = {
+  parameterPath: [
+    "options",
+    "maxRecords"
+  ],
+  mapper: {
+    serializedName: "maxRecords",
+    constraints: {
+      InclusiveMinimum: 1
+    },
+    type: {
+      name: "Number"
+    }
+  }
+};
 export const maxResults: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
@@ -299,7 +361,7 @@ export const maxResults: coreHttp.OperationQueryParameter = {
     }
   }
 };
-export const mode: coreHttp.OperationQueryParameter = {
+export const mode0: coreHttp.OperationQueryParameter = {
   parameterPath: [
     "options",
     "mode"
@@ -311,6 +373,21 @@ export const mode: coreHttp.OperationQueryParameter = {
       allowedValues: [
         "legacy",
         "posix"
+      ]
+    }
+  }
+};
+export const mode1: coreHttp.OperationQueryParameter = {
+  parameterPath: "mode",
+  mapper: {
+    required: true,
+    serializedName: "mode",
+    type: {
+      name: "Enum",
+      allowedValues: [
+        "set",
+        "modify",
+        "remove"
       ]
     }
   }
@@ -643,7 +720,7 @@ export const version: coreHttp.OperationParameter = {
     required: true,
     isConstant: true,
     serializedName: "x-ms-version",
-    defaultValue: '2019-07-07',
+    defaultValue: '2019-12-12',
     type: {
       name: "String"
     }

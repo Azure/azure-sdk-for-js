@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { parseKeyvaultIdentifier } from "./core/utils";
+import { parseKeyvaultIdentifier } from "./generated/utils";
 
 /**
  * Valid collection names for Key Vault Certificate identifiers.

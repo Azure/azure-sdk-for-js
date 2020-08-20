@@ -7,7 +7,7 @@ Azure Key Vault Secrets management allows you to securely store and
 tightly control access to tokens, passwords, certificates, API keys,
 and other secrets.
 
-Use the client library for Azure Key Vault Secrets in your Node.js application to
+Use the client library for Azure Key Vault Secrets in your Node.js application to:
 
 - Get, set and delete secrets.
 - Update a secret and it's attributes.
@@ -17,7 +17,9 @@ Use the client library for Azure Key Vault Secrets in your Node.js application t
 - Get all secrets.
 - Get all deleted secrets.
 
-[Source code](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-secrets) | [Package (npm)](https://www.npmjs.com/package/@azure/keyvault-secrets) | [API Reference Documentation](https://docs.microsoft.com/javascript/api/@azure/keyvault-secrets) | [Product documentation](https://azure.microsoft.com/en-us/services/key-vault/) | [Samples](./samples)
+> Note: This package cannot be used in the browser due to Azure Key Vault service limitations.
+
+[Source code](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-secrets) | [Package (npm)](https://www.npmjs.com/package/@azure/keyvault-secrets) | [API Reference Documentation](https://docs.microsoft.com/javascript/api/@azure/keyvault-secrets) | [Product documentation](https://azure.microsoft.com/en-us/services/key-vault/) | [Samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-secrets/samples)
 
 ## Getting started
 
@@ -108,7 +110,7 @@ Use the [Azure Cloud Shell](https://shell.azure.com/bash) snippet below to creat
 
 ## Authenticating with Azure Active Directory
 
-The Key Vault service relies on Azure Active Directory to authenticate requests to its APIs. The [`@azure/identity`](https://www.npmjs.com/package/@azure/identity) package provides a variety of credential types that your application can use to do this. The [README for `@azure/identity`](/sdk/identity/identity/README.md) provides more details and samples to get you started.
+The Key Vault service relies on Azure Active Directory to authenticate requests to its APIs. The [`@azure/identity`](https://www.npmjs.com/package/@azure/identity) package provides a variety of credential types that your application can use to do this. The [README for `@azure/identity`](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/identity/identity/README.md) provides more details and samples to get you started.
 
 Here's a quick example. First, import `DefaultAzureCredential` and `SecretClient`:
 
@@ -139,7 +141,7 @@ const client = new SecretClient(url, credential);
 
 ## Specifying the Azure Key Vault service API version
 
-By default, this package uses the latest Azure Key Vault service version which is `7.1-preview`. The only other version that is supported is `7.0`. You can change the service version being used by setting the option `apiVersion` in the client constructor as shown below:
+By default, this package uses the latest Azure Key Vault service version which is `7.1`. The only other version that is supported is `7.0`. You can change the service version being used by setting the option `serviceVersion` in the client constructor as shown below:
 
 ```typescript
 const { DefaultAzureCredential } = require("@azure/identity");
@@ -150,9 +152,9 @@ const credential = new DefaultAzureCredential();
 const vaultName = "<YOUR KEYVAULT NAME>";
 const url = `https://${vaultName}.vault.azure.net`;
 
-// Change the Azure Key Vault service API version being used via the `apiVersion` option
+// Change the Azure Key Vault service API version being used via the `serviceVersion` option
 const client = new SecretClient(url, credential, {
-  apiVersion: "7.0"
+  serviceVersion: "7.0"
 });
 ```
 

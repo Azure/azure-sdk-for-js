@@ -15,7 +15,7 @@ The session state keeps track of the cart items accordingly.
 
 Setup: To run this sample, you would need session enabled Queue/Subscription.
 
-See https://docs.microsoft.com/en-us/azure/service-bus-messaging/message-sessions#message-session-state
+See https://docs.microsoft.com/azure/service-bus-messaging/message-sessions#message-session-state
 to learn about session state.
 */
 

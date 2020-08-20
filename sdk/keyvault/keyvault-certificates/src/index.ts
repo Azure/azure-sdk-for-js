@@ -136,9 +136,9 @@ import {
   CertificateAttributes,
   Contacts as CoreContacts,
   IssuerBundle
-} from "./core/models";
-import { KeyVaultClient } from "./core/keyVaultClient";
-import { SDK_VERSION } from "./core/utils/constants";
+} from "./generated/models";
+import { KeyVaultClient } from "./generated/keyVaultClient";
+import { SDK_VERSION } from "./generated/utils/constants";
 import "@azure/core-paging";
 import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
 import { challengeBasedAuthenticationPolicy } from "../../keyvault-common/src";
@@ -478,7 +478,10 @@ export class CertificateClient {
     };
 
     const pipeline = createPipelineFromOptions(internalPipelineOptions, authPolicy);
-    this.client = new KeyVaultClient(pipelineOptions.apiVersion || LATEST_API_VERSION, pipeline);
+    this.client = new KeyVaultClient(
+      pipelineOptions.serviceVersion || LATEST_API_VERSION,
+      pipeline
+    );
   }
 
   private async *listPropertiesOfCertificatesPage(

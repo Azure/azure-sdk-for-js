@@ -75,7 +75,13 @@ Next, get the code:
 
 If you have previously worked in this repo using the `npm` workflow, the first time you switch to using Rush you should commit or stash any untracked files and then get back to a clean state by running `rush reset-workspace` before proceeding any further. This will get rid of any latent package-lock files, as well as your existing (incompatible) node_modules directories. You can then proceed down the path outlined below.
 
-### Warnings for VSCode users
+### Using Visual Studio Code
+
+#### Debugging
+
+Debugging Node.js code in VSCode is [well documented](https://code.visualstudio.com/docs/nodejs/nodejs-debugging). However, starting from version 1.45.1, VSCode can automatically debug Node.js code in most cases without having to write custom `launch.json` files for that purpose and this is true for our SDKs code as well. A demonstration of that feature can be found in the [release notes](https://code.visualstudio.com/updates/v1_45#_automatic-debug-configurations).
+
+#### Warnings
 
 Visual Studio Code has a feature which will automatically fetch and install @types packages for you, using the standard npm package manager. This will cause problems with your node_modules directory, since Rush uses PNPM which lays out this directory quite differently. It's highly recommended that you ensure "Typescript: Disable Automatic Type Acquisition" is checked in your VSCode Workspace Settings (or ensure `typescript.disableAutomaticTypeAcquisition` is present in your .vscode/settings.json file).
 
@@ -218,7 +224,7 @@ Generally speaking, the following commands are roughly equivalent:
 
 ## Onboarding a new library
 
-To add a new library to the repo, update `rush.json` in the root of the repo and add a new entry to the `projects` array at the bottom of the file. The package name must be the full name of the package as specified in its package.json. Your new library must follow our [repository structure](https://github.com/Azure/azure-sdk/blob/master/docs/engineering-system/repo-structure.md) (specifically, it must be located at `sdk/<servicename>/<packagename>`) and your library's package.json must contain the required scripts as documented [above](#other-npm-scripts). Once the library is added, run `rush update` to install and link dependencies. If your new library has introduced a dependency version conflict, this command will fail. See [above](#resolving-dependency-version-conflicts) to learn how to resolve dependency version conflicts.
+To add a new library to the repo, update `rush.json` in the root of the repo and add a new entry to the `projects` array at the bottom of the file. The package name must be the full name of the package as specified in its package.json. Your new library must follow our [repository structure](https://github.com/Azure/azure-sdk/blob/master/docs/policies/repostructure.md) (specifically, it must be located at `sdk/<servicename>/<packagename>`) and your library's package.json must contain the required scripts as documented [above](#other-npm-scripts). Once the library is added, run `rush update` to install and link dependencies. If your new library has introduced a dependency version conflict, this command will fail. See [above](#resolving-dependency-version-conflicts) to learn how to resolve dependency version conflicts.
 
 Rush assumes that anything printed to `STDERR` is a warning. Your package scripts should avoid writing to `STDERR` unless emitting warnings or errors, since this will cause Rush to flag them as warnings during the execution of your build or script command. If your library uses a tool that can't be configured this way, you can still append `2>&1` to the command which will redirect all output to `STDOUT`. You won't see warnings show up, but Rush will still consider the command to have failed as long as it returns a nonzero exit code.
 
@@ -250,3 +256,13 @@ nodeResolve({
   preferBuiltins: false
 }),
 ```
+
+### Package Versioning
+
+For information about packages are versioned and tagged see [Javascript Releases](https://azure.github.io/azure-sdk/policies_releases.html#javascript)
+
+### Dev Packages
+
+The daily dev build for JS are published directly to [npmjs.com](https://npmjs.com) under the dev tag. These are published daily whenever there is a change in the package. You can test them by downloading or taking a dependency the "dev" tagged version of the package, or pinning to particular dev version.
+
+The daily dev packages are considered volatile and taking dependencies on a dev package should be considered a temporary arrangement.

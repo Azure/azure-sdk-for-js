@@ -9,7 +9,8 @@
 import { FormTrainingClient, AzureKeyCredential } from "@azure/ai-form-recognizer";
 
 // Load the .env file if it exists
-require("dotenv").config();
+import * as dotenv from "dotenv";
+dotenv.config();
 
 export async function main() {
   // You will need to set these environment variables or edit the following values
@@ -20,26 +21,22 @@ export async function main() {
 
   // using `for await` syntax:
   const result = client.listCustomModels();
-  let i = 0;
   for await (const model of result) {
-    console.log(`model ${i++}:`);
-    console.log(model);
+    console.log("- Model:", model.modelId);
   }
 
   // using `iter.next()`
-  i = 1;
   let iter = client.listCustomModels();
   let modelItem = await iter.next();
   while (!modelItem.done) {
-    console.log(`model ${i++}: ${modelItem.value.modelId}`);
+    console.log("- Model:", modelItem.value.modelId);
     modelItem = await iter.next();
   }
 
   // using `byPage()`
-  i = 1;
   for await (const response of client.listCustomModels().byPage()) {
     for (const modelInfo of response.modelList!) {
-      console.log(`model ${i++}: ${modelInfo.modelId}`);
+      console.log("- Model:", modelInfo.modelId);
     }
   }
 }

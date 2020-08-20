@@ -113,9 +113,9 @@ export class Endpoints {
 
   /**
    * Updates an existing CDN endpoint with the specified endpoint name under the specified
-   * subscription, resource group and profile. Only tags and Origin HostHeader can be updated after
-   * creating an endpoint. To update origins, use the Update Origin operation. To update custom
-   * domains, use the Update Custom Domain operation.
+   * subscription, resource group and profile. Only tags can be updated after creating an endpoint.
+   * To update origins, use the Update Origin operation. To update origin groups, use the Update
+   * Origin group operation. To update custom domains, use the Update Custom Domain operation.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param profileName Name of the CDN profile which is unique within the resource group.
    * @param endpointName Name of the endpoint under the profile which is unique globally.
@@ -299,9 +299,9 @@ export class Endpoints {
 
   /**
    * Updates an existing CDN endpoint with the specified endpoint name under the specified
-   * subscription, resource group and profile. Only tags and Origin HostHeader can be updated after
-   * creating an endpoint. To update origins, use the Update Origin operation. To update custom
-   * domains, use the Update Custom Domain operation.
+   * subscription, resource group and profile. Only tags can be updated after creating an endpoint.
+   * To update origins, use the Update Origin operation. To update origin groups, use the Update
+   * Origin group operation. To update custom domains, use the Update Custom Domain operation.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param profileName Name of the CDN profile which is unique within the resource group.
    * @param endpointName Name of the endpoint under the profile which is unique globally.
