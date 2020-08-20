@@ -217,9 +217,9 @@ export class NockRecorder extends BaseRecorder {
     // Matching with 200 status code since only they have the responses with hex encoding
     // TODO: Confirm the above or add any other status codes to match if required
     // TODO: Replace only if the content-type is not text/plain
-    const matches = fixture.match(/\.reply\(200, (.*), .*/);
+    const matches = fixture.match(/\.reply\(200, "(.*)", .*/);
     if (matches && isHex(matches[1])) {
-      fixture = fixture.replace(matches[1], `Buffer.from(${matches[1]}, "hex")`);
+      fixture = fixture.replace(`"${matches[1]}"`, `Buffer.from("${matches[1]}", "hex")`);
     }
     return fixture;
   }
