@@ -26,14 +26,21 @@ export function bearerTokenAuthenticationPolicy(
   scopes: string | string[]
 ): RequestPolicyFactory {
   const tokenCache: AccessTokenCache = new ExpiringAccessTokenCache();
+  const tokenRefresher = new AccessTokenRefresher(
+    credential,
+    scopes,
+    timeBetweenRefreshAttemptsInMs
+  );
+
   return {
     create: (nextPolicy: RequestPolicy, options: RequestPolicyOptions) => {
       return new BearerTokenAuthenticationPolicy(
         nextPolicy,
         options,
-        credential,
-        scopes,
-        tokenCache
+        // credential,
+        // scopes,
+        tokenCache,
+        tokenRefresher
       );
     }
   };
@@ -54,7 +61,7 @@ const timeBetweenRefreshAttemptsInMs = 30000;
  *
  */
 export class BearerTokenAuthenticationPolicy extends BaseRequestPolicy {
-  private tokenRefresher: AccessTokenRefresher;
+  // private tokenRefresher: AccessTokenRefresher;
 
   /**
    * Creates a new BearerTokenAuthenticationPolicy object.
@@ -68,16 +75,17 @@ export class BearerTokenAuthenticationPolicy extends BaseRequestPolicy {
   constructor(
     nextPolicy: RequestPolicy,
     options: RequestPolicyOptions,
-    private credential: TokenCredential,
-    private scopes: string | string[],
-    private tokenCache: AccessTokenCache
+    // private credential: TokenCredential,
+    // private scopes: string | string[],
+    private tokenCache: AccessTokenCache,
+    private tokenRefresher: AccessTokenRefresher
   ) {
     super(nextPolicy, options);
-    this.tokenRefresher = new AccessTokenRefresher(
-      this.credential,
-      this.scopes,
-      timeBetweenRefreshAttemptsInMs
-    );
+    // this.tokenRefresher = new AccessTokenRefresher(
+    //   this.credential,
+    //   this.scopes,
+    //   timeBetweenRefreshAttemptsInMs
+    // );
   }
 
   /**
@@ -102,7 +110,7 @@ export class BearerTokenAuthenticationPolicy extends BaseRequestPolicy {
   private async updateTokenIfNeeded(options: GetTokenOptions): Promise<void> {
     if (this.tokenRefresher.isReady()) {
       const accessToken = await this.tokenRefresher.refresh(options);
-      console.log("refresh happened!!");
+      console.log(this.tokenRefresher.id, " refresh happened!!");
       this.tokenCache.setCachedToken(accessToken);
     }
   }

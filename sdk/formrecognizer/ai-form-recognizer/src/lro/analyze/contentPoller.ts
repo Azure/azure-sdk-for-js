@@ -136,10 +136,13 @@ function makeBeginRecognizePollOperation(
     },
 
     async update(options = {}): Promise<BeginRecognizeContentPollerOperation> {
+      console.log("poller-update() is called");
       const state = this.state;
       const { client, source, contentType, analyzeOptions } = state;
 
       if (!state.isStarted) {
+        console.log("poller-update() - isStarted = false");
+
         if (!source) {
           throw new Error("Expect a valid 'source'");
         }
@@ -161,6 +164,8 @@ function makeBeginRecognizePollOperation(
 
       state.status = response.status;
       if (!state.isCompleted) {
+        console.log("poller-update() - isCompleted = false");
+
         if (typeof options.fireProgress === "function") {
           options.fireProgress(state);
         }
