@@ -1,5 +1,9 @@
 # Release History
 
+## 4.1.1 (Unreleased)
+
+- Added `parseKeyVaultSecretsIdentifier` and `ParsedKeyVaultSecretsIdentifier` to help with parsing the unique identifiers of Key Vault Secrets.
+
 ## 4.1.0 (2020-08-12)
 
 4.1.0 had changes both relative to the last GA release, `4.0.4`, and the last preview release, `4.1.0-preview.1`.
@@ -19,7 +23,6 @@
 ## 4.0.4 (2020-06-01)
 
 - Fixed [bug 9005](https://github.com/Azure/azure-sdk-for-js/issues/9005), which caused parallel requests to throw if one of them needed to authenticate.
-- Added `parseKeyVaultSecretsIdentifier` and `ParsedKeyVaultSecretsIdentifier` to help with parsing the unique identifiers of Key Vault Secrets.
 
 ## 4.0.3 (2020-05-13)
 
