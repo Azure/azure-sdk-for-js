@@ -16,6 +16,12 @@ export class AccessTokenRefresher {
     private requiredMillisecondsBeforeNewRefresh: number = 30000
   ) {}
 
+  /**
+   * Returns true if the required milliseconds(defaulted to 30000) have been passed signifying
+   * that we are ready for a new refresh.
+   *
+   * @returns {boolean}
+   */
   public isReady(): boolean {
     // We're only ready for a new refresh if the required milliseconds have passed.
     return (
@@ -36,6 +42,7 @@ export class AccessTokenRefresher {
     this.promise = undefined;
     return token || undefined;
   }
+
   /**
    * Requests a new token if we're not currently waiting for a new token.
    * Returns null if the required time between each call hasn't been reached.
