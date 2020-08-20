@@ -93,6 +93,13 @@ export = {
                   });
                   return;
                 }
+                break;
+                default:
+                  context.report({
+                    node: nodeValue,
+                    message: "impossible"
+                  });
+                  return;
             }
           
           }
