@@ -33,6 +33,7 @@ describe("FormTrainingClient NodeJS only", () => {
   const apiKey = new AzureKeyCredential(testEnv.FORM_RECOGNIZER_API_KEY);
 
   beforeEach(function() {
+    // eslint-disable-next-line no-invalid-this
     ({ recorder, client: trainingClient } = createRecordedTrainingClient(this, apiKey));
   });
 
@@ -155,7 +156,8 @@ describe("FormTrainingClient NodeJS only", () => {
 
   it("listModels() iterates models in this account", async () => {
     let count = 0;
-    for await (const _model of trainingClient.listCustomModels()) {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    for await (const _ of trainingClient.listCustomModels()) {
       count++;
       if (count > 30) {
         break; // work around issue https://github.com/Azure/azure-sdk-for-js/issues/8353
@@ -173,6 +175,7 @@ describe("FormTrainingClient NodeJS only", () => {
 
   it("getModel() returns a model", async function() {
     if (!modelIdToDelete) {
+      // eslint-disable-next-line no-invalid-this
       this.skip();
     }
 
@@ -187,6 +190,7 @@ describe("FormTrainingClient NodeJS only", () => {
 
   it("deleteModels() removes a model from this account", async function() {
     if (!modelIdToDelete) {
+      // eslint-disable-next-line no-invalid-this
       this.skip();
     }
 
@@ -236,6 +240,7 @@ describe("FormRecognizerClient form recognition NodeJS", () => {
   const apiKey = new AzureKeyCredential(testEnv.FORM_RECOGNIZER_API_KEY);
 
   beforeEach(function() {
+    // eslint-disable-next-line no-invalid-this
     ({ recorder, client: recognizerClient } = createRecordedRecognizerClient(this, apiKey));
   });
 
@@ -356,6 +361,7 @@ describe("[AAD] FormTrainingClient NodeJS only", () => {
   let recorder: Recorder;
 
   beforeEach(function() {
+    // eslint-disable-next-line no-invalid-this
     ({ recorder, client: trainingClient } = createRecordedTrainingClient(this));
   });
 

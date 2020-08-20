@@ -110,6 +110,7 @@ describe("utils NodeJS only", () => {
     bufferStream.end(data);
 
     try {
+      // eslint-disable-next-line no-unused-expressions
       (await streamToBuffer(bufferStream, 2 * 1024 * 1024)) as Buffer;
       throw new Error("An error should have been thrown");
     } catch (err) {
