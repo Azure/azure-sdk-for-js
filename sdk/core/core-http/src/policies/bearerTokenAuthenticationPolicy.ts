@@ -34,14 +34,7 @@ export function bearerTokenAuthenticationPolicy(
 
   return {
     create: (nextPolicy: RequestPolicy, options: RequestPolicyOptions) => {
-      return new BearerTokenAuthenticationPolicy(
-        nextPolicy,
-        options,
-        // credential,
-        // scopes,
-        tokenCache,
-        tokenRefresher
-      );
+      return new BearerTokenAuthenticationPolicy(nextPolicy, options, tokenCache, tokenRefresher);
     }
   };
 }
@@ -75,17 +68,10 @@ export class BearerTokenAuthenticationPolicy extends BaseRequestPolicy {
   constructor(
     nextPolicy: RequestPolicy,
     options: RequestPolicyOptions,
-    // private credential: TokenCredential,
-    // private scopes: string | string[],
     private tokenCache: AccessTokenCache,
     private tokenRefresher: AccessTokenRefresher
   ) {
     super(nextPolicy, options);
-    // this.tokenRefresher = new AccessTokenRefresher(
-    //   this.credential,
-    //   this.scopes,
-    //   timeBetweenRefreshAttemptsInMs
-    // );
   }
 
   /**
@@ -110,7 +96,6 @@ export class BearerTokenAuthenticationPolicy extends BaseRequestPolicy {
   private async updateTokenIfNeeded(options: GetTokenOptions): Promise<void> {
     if (this.tokenRefresher.isReady()) {
       const accessToken = await this.tokenRefresher.refresh(options);
-      console.log(this.tokenRefresher.id, " refresh happened!!");
       this.tokenCache.setCachedToken(accessToken);
     }
   }
@@ -126,7 +111,6 @@ export class BearerTokenAuthenticationPolicy extends BaseRequestPolicy {
       // If we still have a cached access token,
       // And any other time related conditionals have been reached based on the tokenRefresher class,
       // then attempt to refresh without waiting.
-      console.log("updateTokenIfNeeded is called");
       this.updateTokenIfNeeded(options);
     }
 
