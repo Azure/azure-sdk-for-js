@@ -138,7 +138,8 @@ async function run() {
     label: "optional-label"
   });
 
-  let retrievedSetting = await client.getConfigurationSetting("testkey", {
+  let retrievedSetting = await client.getConfigurationSetting({
+    key: "testkey",
     label: "optional-label"
   });
 
@@ -170,7 +171,7 @@ This module's tests are a mixture of live and unit tests, which require you to h
 1. `rush update`
 2. `rush build -t @azure/app-configuration`
 3. Create a .env file with these contents in the `sdk\appconfiguration\app-configuration` folder:
-   `AZ_CONFIG_CONNECTION=connection string for your App Configuration instance`
+   `APPCONFIG_CONNECTION_STRING=connection string for your App Configuration instance`
 4. `cd sdk\appconfiguration\app-configuration`
 5. `npm run test`.
 

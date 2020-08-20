@@ -5,6 +5,7 @@
 ```ts
 
 import { AccessToken } from '@azure/core-http';
+import { AzureLogger } from '@azure/logger';
 import { GetTokenOptions } from '@azure/core-http';
 import { PipelineOptions } from '@azure/core-http';
 import { TokenCredential } from '@azure/core-http';
@@ -13,7 +14,7 @@ export { AccessToken }
 
 // @public
 export class AggregateAuthenticationError extends Error {
-    constructor(errors: any[], errMsg?: string);
+    constructor(errors: any[], errorMessage?: string);
     errors: any[];
 }
 
@@ -38,8 +39,15 @@ export class AuthorizationCodeCredential implements TokenCredential {
     }
 
 // @public
+export enum AzureAuthorityHosts {
+    AzureChina = "https://login.chinacloudapi.cn",
+    AzureGermany = "https://login.microsoftonline.de",
+    AzureGovernment = "https://login.microsoftonline.us",
+    AzurePublicCloud = "https://login.microsoftonline.com"
+}
+
+// @public
 export class AzureCliCredential implements TokenCredential {
-    constructor();
     protected getAzureCliAccessToken(resource: string): Promise<unknown>;
     getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken | null>;
 }
@@ -72,7 +80,13 @@ export class CredentialUnavailable extends Error {
 
 // @public
 export class DefaultAzureCredential extends ChainedTokenCredential {
-    constructor(tokenCredentialOptions?: TokenCredentialOptions);
+    constructor(tokenCredentialOptions?: DefaultAzureCredentialOptions);
+}
+
+// @public
+export interface DefaultAzureCredentialOptions extends TokenCredentialOptions {
+    managedIdentityClientId?: string;
+    tenantId?: string;
 }
 
 // @public
@@ -128,19 +142,7 @@ export interface InteractiveBrowserCredentialOptions extends TokenCredentialOpti
 }
 
 // @public
-export enum KnownAuthorityHosts {
-    // (undocumented)
-    AzureChina = "https://login.chinacloudapi.cn",
-    // (undocumented)
-    AzureGermany = "https://login.microsoftonline.de",
-    // (undocumented)
-    AzureGovernment = "https://login.microsoftonline.us",
-    // (undocumented)
-    AzurePublicCloud = "https://login.microsoftonline.com"
-}
-
-// @public
-export const logger: import("@azure/logger").AzureLogger;
+export const logger: AzureLogger;
 
 // @public
 export class ManagedIdentityCredential implements TokenCredential {
@@ -163,10 +165,15 @@ export class UsernamePasswordCredential implements TokenCredential {
     }
 
 // @public
-export class VSCodeCredential implements TokenCredential {
-    constructor(options?: TokenCredentialOptions);
+export class VisualStudioCodeCredential implements TokenCredential {
+    constructor(options?: VisualStudioCodeCredentialOptions);
     getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken | null>;
     }
+
+// @public
+export interface VisualStudioCodeCredentialOptions extends TokenCredentialOptions {
+    tenantId?: string;
+}
 
 
 // (No @packageDocumentation comment for this package)

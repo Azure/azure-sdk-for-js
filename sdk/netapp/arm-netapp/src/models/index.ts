@@ -207,6 +207,11 @@ export interface ActiveDirectory {
    * The Active Directory site the service will limit Domain Controller discovery to
    */
   site?: string;
+  /**
+   * Users to be added to the Built-in Backup Operator active directory group. A list of unique
+   * usernames without domain specifier
+   */
+  backupOperators?: string[];
 }
 
 /**
@@ -394,11 +399,11 @@ export interface ExportPolicyRule {
    */
   cifs?: boolean;
   /**
-   * Allows NFSv3 protocol
+   * Allows NFSv3 protocol. Enable only for NFSv3 type volumes
    */
   nfsv3?: boolean;
   /**
-   * Allows NFSv4.1 protocol
+   * Allows NFSv4.1 protocol. Enable only for NFSv4.1 type volumes
    */
   nfsv41?: boolean;
   /**
@@ -420,32 +425,9 @@ export interface VolumePropertiesExportPolicy {
 }
 
 /**
- * Mount Target
+ * Mount target properties
  */
-export interface MountTarget {
-  /**
-   * Resource location
-   */
-  location: string;
-  /**
-   * Resource Id
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly id?: string;
-  /**
-   * Resource name
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly name?: string;
-  /**
-   * Resource type
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly type?: string;
-  /**
-   * Resource tags
-   */
-  tags?: { [propertyName: string]: string };
+export interface MountTargetProperties {
   /**
    * mountTargetId. UUID v4 used to identify the MountTarget
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -514,6 +496,16 @@ export interface ReplicationObject {
 }
 
 /**
+ * Volume Snapshot Properties
+ */
+export interface VolumeSnapshotProperties {
+  /**
+   * Snapshot Policy ResourceId
+   */
+  snapshotPolicyId?: string;
+}
+
+/**
  * DataProtection type volumes include an object containing details of the replication
  * @summary DataProtection
  */
@@ -522,6 +514,10 @@ export interface VolumePropertiesDataProtection {
    * Replication. Replication properties
    */
   replication?: ReplicationObject;
+  /**
+   * Snapshot. Snapshot properties.
+   */
+  snapshot?: VolumeSnapshotProperties;
 }
 
 /**
@@ -602,7 +598,7 @@ export interface Volume extends BaseResource {
   /**
    * mountTargets. List of mount targets
    */
-  mountTargets?: MountTarget[];
+  mountTargets?: MountTargetProperties[];
   /**
    * What type of volume is this
    */
@@ -616,6 +612,11 @@ export interface Volume extends BaseResource {
    * Restoring
    */
   isRestoring?: boolean;
+  /**
+   * If enabled (true) the volume will contain a read-only .snapshot directory which provides
+   * access to each of the volume's snapshots (default to true).
+   */
+  snapshotDirectoryVisible?: boolean;
 }
 
 /**
@@ -700,6 +701,73 @@ export interface VolumePatch extends BaseResource {
 }
 
 /**
+ * Mount Target
+ */
+export interface MountTarget {
+  /**
+   * Resource location
+   */
+  location: string;
+  /**
+   * Resource Id
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly id?: string;
+  /**
+   * Resource name
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly name?: string;
+  /**
+   * Resource type
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: string;
+  /**
+   * Resource tags
+   */
+  tags?: { [propertyName: string]: string };
+  /**
+   * mountTargetId. UUID v4 used to identify the MountTarget
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly mountTargetId?: string;
+  /**
+   * fileSystemId. UUID v4 used to identify the MountTarget
+   */
+  fileSystemId: string;
+  /**
+   * ipAddress. The mount target's IPv4 address
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly ipAddress?: string;
+  /**
+   * subnet. The subnet
+   */
+  subnet?: string;
+  /**
+   * startIp. The start of IPv4 address range to use when creating a new mount target
+   */
+  startIp?: string;
+  /**
+   * endIp. The end of IPv4 address range to use when creating a new mount target
+   */
+  endIp?: string;
+  /**
+   * gateway. The gateway of the IPv4 address range to use when creating a new mount target
+   */
+  gateway?: string;
+  /**
+   * netmask. The netmask of the IPv4 address range to use when creating a new mount target
+   */
+  netmask?: string;
+  /**
+   * smbServerFQDN. The SMB server's Fully Qualified Domain Name, FQDN
+   */
+  smbServerFqdn?: string;
+}
+
+/**
  * Snapshot of a Volume
  */
 export interface Snapshot extends BaseResource {
@@ -727,10 +795,6 @@ export interface Snapshot extends BaseResource {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly snapshotId?: string;
-  /**
-   * fileSystemId. UUID v4 used to identify the FileSystem
-   */
-  fileSystemId?: string;
   /**
    * name. The creation date of the snapshot
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -801,26 +865,6 @@ export interface VolumesBeginAuthorizeReplicationOptionalParams extends msRest.R
    * Resource id of the remote volume
    */
   remoteVolumeResourceId?: string;
-}
-
-/**
- * Optional Parameters.
- */
-export interface SnapshotsCreateOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * fileSystemId UUID v4 used to identify the FileSystem
-   */
-  fileSystemId?: string;
-}
-
-/**
- * Optional Parameters.
- */
-export interface SnapshotsBeginCreateOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * fileSystemId UUID v4 used to identify the FileSystem
-   */
-  fileSystemId?: string;
 }
 
 /**
@@ -1074,6 +1118,26 @@ export type AccountsUpdateResponse = NetAppAccount & {
  * Contains response data for the beginCreateOrUpdate operation.
  */
 export type AccountsBeginCreateOrUpdateResponse = NetAppAccount & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: NetAppAccount;
+    };
+};
+
+/**
+ * Contains response data for the beginUpdate operation.
+ */
+export type AccountsBeginUpdateResponse = NetAppAccount & {
   /**
    * The underlying HTTP response.
    */

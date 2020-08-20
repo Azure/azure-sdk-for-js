@@ -20,11 +20,11 @@ npm install @azure/cognitiveservices-customvision-prediction
 ##### Sample code
 The following sample predicts and classifies the given image based on your custom vision training. To know more, refer to the [Azure Documentation on Custom Vision Services](https://docs.microsoft.com/en-us/azure/cognitive-services/custom-vision-service/home).
 
-```typescript
-import { PredictionAPIClient } from "@azure/cognitiveservices-customvision-prediction";
-import { CognitiveServicesCredentials } from "@azure/ms-rest-azure-js";
+```javascript
+const { PredictionAPIClient } = require("@azure/cognitiveservices-customvision-prediction");
+const { ApiKeyCredentials } = require("@azure/ms-rest-js");
 
-async function main(): Promise<void> {
+async function main() {
   const customVisionPredictionKey =
     process.env["customVisionPredictionKey"] || "<customVisionPredictionKey>";
   const customVisionPredictionEndPoint =
@@ -32,8 +32,8 @@ async function main(): Promise<void> {
     "<customVisionPredictionEndPoint>";
   const projectId = process.env["projectId"] || "<projectId>";
 
-  const cognitiveServiceCredentials = new CognitiveServicesCredentials(customVisionPredictionKey);
-  const client = new PredictionAPIClient(cognitiveServiceCredentials, customVisionPredictionEndPoint);
+  const credentials = new ApiKeyCredentials({ inHeader: {"Prediction-key": customVisionPredictionKey } });
+  const client = new PredictionAPIClient(credentials, customVisionPredictionEndPoint);
 
   const imageURL =
     "https://www.atlantatrails.com/wp-content/uploads/2019/02/north-georgia-waterfalls-1024x683.jpg";

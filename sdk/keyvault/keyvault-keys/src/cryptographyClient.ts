@@ -23,9 +23,9 @@ import {
 import { getTracer } from "@azure/core-tracing";
 import { Span } from "@opentelemetry/api";
 import { logger } from "./log";
-import { parseKeyvaultIdentifier } from "./core/utils";
-import { SDK_VERSION } from "./core/utils/constants";
-import { KeyVaultClient } from "./core/keyVaultClient";
+import { parseKeyvaultIdentifier } from "./generated/utils";
+import { SDK_VERSION } from "./generated/utils/constants";
+import { KeyVaultClient } from "./generated/keyVaultClient";
 import { challengeBasedAuthenticationPolicy } from "../../keyvault-common/src";
 import { createHash as cryptoCreateHash, createVerify, publicEncrypt } from "crypto";
 import * as constants from "constants";
@@ -92,7 +92,7 @@ export class CryptographyClient {
       if (typeof this.key !== "string") {
         switch (algorithm) {
           case "RSA1_5": {
-            if (this.key.kty !== "RSA") {
+            if (this.key.kty !== "RSA" && this.key.kty !== "RSA-HSM") {
               span.end();
               throw new Error("Key type does not match algorithm");
             }
@@ -109,7 +109,7 @@ export class CryptographyClient {
             return { result: encrypted, algorithm, keyID: this.key.kid };
           }
           case "RSA-OAEP": {
-            if (this.key.kty !== "RSA") {
+            if (this.key.kty !== "RSA" && this.key.kty !== "RSA-HSM") {
               span.end();
               throw new Error("Key type does not match algorithm");
             }
@@ -210,7 +210,7 @@ export class CryptographyClient {
       if (typeof this.key !== "string") {
         switch (algorithm) {
           case "RSA1_5": {
-            if (this.key.kty !== "RSA") {
+            if (this.key.kty !== "RSA" && this.key.kty !== "RSA-HSM") {
               span.end();
               throw new Error("Key type does not match algorithm");
             }
@@ -227,7 +227,7 @@ export class CryptographyClient {
             return { result: encrypted, algorithm, keyID: this.getKeyID() };
           }
           case "RSA-OAEP": {
-            if (this.key.kty !== "RSA") {
+            if (this.key.kty !== "RSA" && this.key.kty !== "RSA-HSM") {
               span.end();
               throw new Error("Key type does not match algorithm");
             }
@@ -472,7 +472,7 @@ export class CryptographyClient {
       if (typeof this.key !== "string") {
         switch (algorithm) {
           case "RS256": {
-            if (this.key.kty !== "RSA") {
+            if (this.key.kty !== "RSA" && this.key.kty !== "RSA-HSM") {
               throw new Error("Key type does not match algorithm");
             }
 
@@ -492,7 +492,7 @@ export class CryptographyClient {
             };
           }
           case "RS384": {
-            if (this.key.kty !== "RSA") {
+            if (this.key.kty !== "RSA" && this.key.kty !== "RSA-HSM") {
               throw new Error("Key type does not match algorithm");
             }
 
@@ -512,7 +512,7 @@ export class CryptographyClient {
             };
           }
           case "RS512": {
-            if (this.key.kty !== "RSA") {
+            if (this.key.kty !== "RSA" && this.key.kty !== "RSA-HSM") {
               throw new Error("Key type does not match algorithm");
             }
 
@@ -710,7 +710,7 @@ export class CryptographyClient {
 
     const pipeline = createPipelineFromOptions(internalPipelineOptions, authPolicy);
     this.client = new KeyVaultClient(
-      pipelineOptions.apiVersion || LATEST_API_VERSION,
+      pipelineOptions.serviceVersion || LATEST_API_VERSION,
       pipeline
     );
 

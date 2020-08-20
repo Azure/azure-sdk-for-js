@@ -314,6 +314,17 @@ export const ActiveDirectory: msRest.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      backupOperators: {
+        serializedName: "backupOperators",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
       }
     }
   }
@@ -681,54 +692,15 @@ export const VolumePropertiesExportPolicy: msRest.CompositeMapper = {
   }
 };
 
-export const MountTarget: msRest.CompositeMapper = {
-  serializedName: "mountTarget",
+export const MountTargetProperties: msRest.CompositeMapper = {
+  serializedName: "mountTargetProperties",
   type: {
     name: "Composite",
-    className: "MountTarget",
+    className: "MountTargetProperties",
     modelProperties: {
-      location: {
-        required: true,
-        serializedName: "location",
-        type: {
-          name: "String"
-        }
-      },
-      id: {
-        readOnly: true,
-        serializedName: "id",
-        type: {
-          name: "String"
-        }
-      },
-      name: {
-        readOnly: true,
-        serializedName: "name",
-        type: {
-          name: "String"
-        }
-      },
-      type: {
-        readOnly: true,
-        serializedName: "type",
-        type: {
-          name: "String"
-        }
-      },
-      tags: {
-        serializedName: "tags",
-        type: {
-          name: "Dictionary",
-          value: {
-            type: {
-              name: "String"
-            }
-          }
-        }
-      },
       mountTargetId: {
         readOnly: true,
-        serializedName: "properties.mountTargetId",
+        serializedName: "mountTargetId",
         constraints: {
           MaxLength: 36,
           MinLength: 36,
@@ -740,7 +712,7 @@ export const MountTarget: msRest.CompositeMapper = {
       },
       fileSystemId: {
         required: true,
-        serializedName: "properties.fileSystemId",
+        serializedName: "fileSystemId",
         constraints: {
           MaxLength: 36,
           MinLength: 36,
@@ -752,43 +724,43 @@ export const MountTarget: msRest.CompositeMapper = {
       },
       ipAddress: {
         readOnly: true,
-        serializedName: "properties.ipAddress",
+        serializedName: "ipAddress",
         type: {
           name: "String"
         }
       },
       subnet: {
-        serializedName: "properties.subnet",
+        serializedName: "subnet",
         type: {
           name: "String"
         }
       },
       startIp: {
-        serializedName: "properties.startIp",
+        serializedName: "startIp",
         type: {
           name: "String"
         }
       },
       endIp: {
-        serializedName: "properties.endIp",
+        serializedName: "endIp",
         type: {
           name: "String"
         }
       },
       gateway: {
-        serializedName: "properties.gateway",
+        serializedName: "gateway",
         type: {
           name: "String"
         }
       },
       netmask: {
-        serializedName: "properties.netmask",
+        serializedName: "netmask",
         type: {
           name: "String"
         }
       },
       smbServerFqdn: {
-        serializedName: "properties.smbServerFqdn",
+        serializedName: "smbServerFqdn",
         type: {
           name: "String"
         }
@@ -839,6 +811,22 @@ export const ReplicationObject: msRest.CompositeMapper = {
   }
 };
 
+export const VolumeSnapshotProperties: msRest.CompositeMapper = {
+  serializedName: "volumeSnapshotProperties",
+  type: {
+    name: "Composite",
+    className: "VolumeSnapshotProperties",
+    modelProperties: {
+      snapshotPolicyId: {
+        serializedName: "snapshotPolicyId",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const VolumePropertiesDataProtection: msRest.CompositeMapper = {
   serializedName: "volumeProperties_dataProtection",
   type: {
@@ -850,6 +838,13 @@ export const VolumePropertiesDataProtection: msRest.CompositeMapper = {
         type: {
           name: "Composite",
           className: "ReplicationObject"
+        }
+      },
+      snapshot: {
+        serializedName: "snapshot",
+        type: {
+          name: "Composite",
+          className: "VolumeSnapshotProperties"
         }
       }
     }
@@ -1006,7 +1001,7 @@ export const Volume: msRest.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "MountTarget"
+              className: "MountTargetProperties"
             }
           }
         }
@@ -1026,6 +1021,12 @@ export const Volume: msRest.CompositeMapper = {
       },
       isRestoring: {
         serializedName: "properties.isRestoring",
+        type: {
+          name: "Boolean"
+        }
+      },
+      snapshotDirectoryVisible: {
+        serializedName: "properties.snapshotDirectoryVisible",
         type: {
           name: "Boolean"
         }
@@ -1169,6 +1170,122 @@ export const VolumePatch: msRest.CompositeMapper = {
   }
 };
 
+export const MountTarget: msRest.CompositeMapper = {
+  serializedName: "mountTarget",
+  type: {
+    name: "Composite",
+    className: "MountTarget",
+    modelProperties: {
+      location: {
+        required: true,
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      },
+      id: {
+        readOnly: true,
+        serializedName: "id",
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        readOnly: true,
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      type: {
+        readOnly: true,
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      },
+      tags: {
+        serializedName: "tags",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      mountTargetId: {
+        readOnly: true,
+        serializedName: "properties.mountTargetId",
+        constraints: {
+          MaxLength: 36,
+          MinLength: 36,
+          Pattern: /^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$/
+        },
+        type: {
+          name: "String"
+        }
+      },
+      fileSystemId: {
+        required: true,
+        serializedName: "properties.fileSystemId",
+        constraints: {
+          MaxLength: 36,
+          MinLength: 36,
+          Pattern: /^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$/
+        },
+        type: {
+          name: "String"
+        }
+      },
+      ipAddress: {
+        readOnly: true,
+        serializedName: "properties.ipAddress",
+        type: {
+          name: "String"
+        }
+      },
+      subnet: {
+        serializedName: "properties.subnet",
+        type: {
+          name: "String"
+        }
+      },
+      startIp: {
+        serializedName: "properties.startIp",
+        type: {
+          name: "String"
+        }
+      },
+      endIp: {
+        serializedName: "properties.endIp",
+        type: {
+          name: "String"
+        }
+      },
+      gateway: {
+        serializedName: "properties.gateway",
+        type: {
+          name: "String"
+        }
+      },
+      netmask: {
+        serializedName: "properties.netmask",
+        type: {
+          name: "String"
+        }
+      },
+      smbServerFqdn: {
+        serializedName: "properties.smbServerFqdn",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const Snapshot: msRest.CompositeMapper = {
   serializedName: "snapshot",
   type: {
@@ -1206,17 +1323,6 @@ export const Snapshot: msRest.CompositeMapper = {
       snapshotId: {
         readOnly: true,
         serializedName: "properties.snapshotId",
-        constraints: {
-          MaxLength: 36,
-          MinLength: 36,
-          Pattern: /^[a-fA-F0-9]{8}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{4}-[a-fA-F0-9]{12}$/
-        },
-        type: {
-          name: "String"
-        }
-      },
-      fileSystemId: {
-        serializedName: "properties.fileSystemId",
         constraints: {
           MaxLength: 36,
           MinLength: 36,

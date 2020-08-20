@@ -1,15 +1,19 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
 import { AccessToken, TokenCredential, GetTokenOptions } from "@azure/core-http";
 import { TokenCredentialOptions } from "../client/identityClient";
 import { ClientSecretCredential } from "./clientSecretCredential";
 import { createSpan } from "../util/tracing";
-import { AuthenticationError, AuthenticationErrorName, CredentialUnavailable } from "../client/errors";
+import {
+  AuthenticationError,
+  AuthenticationErrorName,
+  CredentialUnavailable
+} from "../client/errors";
 import { CanonicalCode } from "@opentelemetry/api";
-import { logger } from "../util/logging";
 import { ClientCertificateCredential } from "./clientCertificateCredential";
 import { UsernamePasswordCredential } from "./usernamePasswordCredential";
+import { credentialLogger, processEnvVars, formatSuccess, formatError } from "../util/logging";
 
 /**
  * Contains the list of all supported environment variable names so that an
@@ -27,6 +31,8 @@ export const AllSupportedEnvironmentVariables = [
   "AZURE_PASSWORD"
 ];
 
+const logger = credentialLogger("EnvironmentCredential");
+
 /**
  * Enables authentication to Azure Active Directory using client secret
  * details configured in the following environment variables:
@@ -40,7 +46,6 @@ export const AllSupportedEnvironmentVariables = [
  * documentation of that class for more details.
  */
 export class EnvironmentCredential implements TokenCredential {
-  private _environmentVarsMissing: string[] = [];
   private _credential?: TokenCredential = undefined;
   /**
    * Creates an instance of the EnvironmentCredential class and reads
@@ -52,9 +57,9 @@ export class EnvironmentCredential implements TokenCredential {
    */
   constructor(options?: TokenCredentialOptions) {
     // Keep track of any missing environment variables for error details
-    this._environmentVarsMissing = AllSupportedEnvironmentVariables.filter(
-      (v) => process.env[v] === undefined
-    );
+
+    const assigned = processEnvVars(AllSupportedEnvironmentVariables).assigned.join(", ");
+    logger.info(`Found the following environment variables: ${assigned}`);
 
     const tenantId = process.env.AZURE_TENANT_ID,
       clientId = process.env.AZURE_CLIENT_ID,
@@ -62,7 +67,7 @@ export class EnvironmentCredential implements TokenCredential {
 
     if (tenantId && clientId && clientSecret) {
       logger.info(
-        `EnvironmentCredential: loaded with tenant ID: ${tenantId}, clientId: ${clientId}`
+        `Invoking ClientSecretCredential with tenant ID: ${tenantId}, clientId: ${clientId} and clientSecret: [REDACTED]`
       );
       this._credential = new ClientSecretCredential(tenantId, clientId, clientSecret, options);
       return;
@@ -71,7 +76,7 @@ export class EnvironmentCredential implements TokenCredential {
     const certificatePath = process.env.AZURE_CLIENT_CERTIFICATE_PATH;
     if (tenantId && clientId && certificatePath) {
       logger.info(
-        `EnvironmentCredential: loaded with tenant ID: ${tenantId}, clientId: ${clientId}, certificatePath: ${certificatePath}`
+        `Invoking ClientCertificateCredential with tenant ID: ${tenantId}, clientId: ${clientId} and certificatePath: ${certificatePath}`
       );
       this._credential = new ClientCertificateCredential(
         tenantId,
@@ -86,7 +91,7 @@ export class EnvironmentCredential implements TokenCredential {
     const password = process.env.AZURE_PASSWORD;
     if (tenantId && clientId && username && password) {
       logger.info(
-        `EnvironmentCredential: loaded with tenant ID: ${tenantId}, clientId: ${clientId}, username: ${username}`
+        `Invoking UsernamePasswordCredential with tenant ID: ${tenantId}, clientId: ${clientId} and username: ${username}`
       );
       this._credential = new UsernamePasswordCredential(
         tenantId,
@@ -115,7 +120,9 @@ export class EnvironmentCredential implements TokenCredential {
     const { span, options: newOptions } = createSpan("EnvironmentCredential-getToken", options);
     if (this._credential) {
       try {
-        return await this._credential.getToken(scopes, newOptions);
+        const result = await this._credential.getToken(scopes, newOptions);
+        logger.getToken.info(formatSuccess(scopes));
+        return result;
       } catch (err) {
         const code =
           err.name === AuthenticationErrorName
@@ -125,13 +132,15 @@ export class EnvironmentCredential implements TokenCredential {
           code,
           message: err.message
         });
-        throw new AuthenticationError(400, {
+        const authenticationError = new AuthenticationError(400, {
           error: "EnvironmentCredential authentication failed.",
           error_description: err.message
             .toString()
             .split("More details:")
             .join("")
         });
+        logger.getToken.info(formatError(authenticationError));
+        throw authenticationError;
       } finally {
         span.end();
       }
@@ -141,6 +150,10 @@ export class EnvironmentCredential implements TokenCredential {
     // the user knows the credential was not configured appropriately
     span.setStatus({ code: CanonicalCode.UNAUTHENTICATED });
     span.end();
-    throw new CredentialUnavailable("EnvironmentCredential is unavailable. Environment variables are not fully configured.");
+    const error = new CredentialUnavailable(
+      "EnvironmentCredential is unavailable. Environment variables are not fully configured."
+    );
+    logger.getToken.info(formatError(error));
+    throw error;
   }
 }

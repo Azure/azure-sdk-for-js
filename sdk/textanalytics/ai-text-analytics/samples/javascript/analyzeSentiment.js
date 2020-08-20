@@ -18,7 +18,7 @@ const apiKey = process.env["TEXT_ANALYTICS_API_KEY"] || "<api key>";
 
 const documents = [
   "I had the best day of my life.",
-  "This was a waste of my time. The speaker put me to sleep.",
+  "This was a waste of my time. The speaker put me to sleep."
 ];
 
 async function main() {

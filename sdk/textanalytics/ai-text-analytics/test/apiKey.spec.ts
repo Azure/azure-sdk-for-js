@@ -24,9 +24,11 @@ describe("[API Key] TextAnalyticsClient", function() {
 
   const apiKey = new AzureKeyCredential(testEnv.TEXT_ANALYTICS_API_KEY);
 
+  // eslint-disable-next-line no-invalid-this
   this.timeout(10000);
 
   beforeEach(function() {
+    // eslint-disable-next-line no-invalid-this
     ({ client, recorder } = createRecordedClient(this, apiKey));
   });
 
@@ -64,6 +66,14 @@ describe("[API Key] TextAnalyticsClient", function() {
 
   it("#recognizeLinkedEntities", async () => {
     const results = await client.recognizeLinkedEntities(["the Roman god Mars"]);
+    assert.equal(results.length, 1);
+    assertAllSuccess(results);
+  });
+
+  it("#recognizePiiEntities", async () => {
+    const results = await client.recognizePiiEntities([
+      "Your social-security number is 078-05-1120."
+    ]);
     assert.equal(results.length, 1);
     assertAllSuccess(results);
   });

@@ -88,7 +88,7 @@ export type RequestBodyType =
 /**
  * Metadata about a request being made by the pipeline.
  */
-export interface PipelineRequest {
+export interface PipelineRequest<AdditionalInfo = any> {
   /**
    * The URL to make the request to.
    */
@@ -121,6 +121,12 @@ export interface PipelineRequest {
    * A unique identifier for the request. Used for logging and tracing.
    */
   requestId: string;
+
+  /**
+   * Any additional information on the request that
+   * is policy or client specific.
+   */
+  additionalInfo?: AdditionalInfo;
 
   /**
    * The HTTP body content (if any)

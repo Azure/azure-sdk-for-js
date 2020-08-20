@@ -6,6 +6,7 @@ extends:
     PackageName: "@azure/ai-form-recognizer"
     ResourceServiceDirectory: formrecognizer
     TestSamples: false
+    ResourceGroupLocation: westus2
     EnvVars:
       AZURE_CLIENT_ID: $(aad-azure-sdk-test-client-id)
       AZURE_TENANT_ID: $(aad-azure-sdk-test-tenant-id)

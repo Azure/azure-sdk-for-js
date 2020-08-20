@@ -1,0 +1,8 @@
+{
+  "plugins": ["@azure/azure-sdk"],
+  "extends": ["plugin:@azure/azure-sdk/azure-sdk-base"],
+  "ignorePatterns": ["src/core"],
+  "rules": {
+    "@azure/azure-sdk/ts-naming-options": "warn"
+  }
+}

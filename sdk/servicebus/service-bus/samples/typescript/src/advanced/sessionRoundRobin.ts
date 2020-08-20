@@ -83,7 +83,7 @@ async function receiveFromNextSession(serviceBusClient: ServiceBusClient): Promi
   let sessionReceiver: SessionReceiver<ReceivedMessageWithLock>;
 
   try {
-    sessionReceiver = await serviceBusClient.createSessionReceiver(queueName, "peekLock", {
+    sessionReceiver = await serviceBusClient.createSessionReceiver(queueName, {
       autoRenewLockDurationInMs: sessionIdleTimeoutMs
     });
   } catch (err) {
@@ -136,7 +136,7 @@ async function receiveFromNextSession(serviceBusClient: ServiceBusClient): Promi
 async function roundRobinThroughAvailableSessions(): Promise<void> {
   const serviceBusClient = new ServiceBusClient(serviceBusConnectionString);
 
-  const receiverPromises = [];
+  const receiverPromises: Promise<void>[] = [];
 
   for (let i = 0; i < maxSessionsToProcessSimultaneously; ++i) {
     receiverPromises.push(

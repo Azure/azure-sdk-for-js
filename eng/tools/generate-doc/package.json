@@ -12,7 +12,7 @@
     "fs-extra": "^8.1.0",
     "js-yaml": "^3.13.1",
     "nunjucks": "^3.2.0",
-    "typedoc": "^0.16.9",
+    "typedoc": "0.18.0",
     "yargs": "^11.1.0",
     "p-limit": "^2.2.1"
   }

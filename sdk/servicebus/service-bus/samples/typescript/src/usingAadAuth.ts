@@ -4,7 +4,7 @@
 
   **NOTE**: This sample uses the preview of the next version of the @azure/service-bus package.
   For samples using the current stable version of the package, please use the link below:
-  https://github.com/Azure/azure-sdk-for-js/tree/%40azure/service-bus_1.1.5/sdk/servicebus/service-bus/samples
+  https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/servicebus/service-bus/samples-v1
   
   This sample demonstrates how to create a namespace using AAD token credentials
   obtained from using Service Principal Secrets.
@@ -14,7 +14,7 @@
     region. AAD Role Based Access Control is not supported in other regions yet.
 
     Register a new application in AAD and assign the "Azure Service Bus Data Owner" role to it
-     - See https://docs.microsoft.com/en-us/azure/active-directory/develop/quickstart-register-app 
+     - See https://docs.microsoft.com/azure/active-directory/develop/quickstart-register-app 
        to register a new application in the Azure Active Directory.
      - Note down the CLIENT_ID and TENANT_ID from the above step.
      - In the "Certificates & Secrets" tab, create a secret and note that down.
