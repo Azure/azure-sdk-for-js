@@ -3,7 +3,12 @@ import { Recorder } from "@azure/test-utils-recorder";
 import { AnomalyDetectorClient } from "../src/AnomalyDetectorClient";
 import { AzureKeyCredential } from "@azure/core-auth";
 import { createRecordedAnomalyDetectorClient, testEnv } from "./utils/recordedClients";
-import { testPointSeries1, expectedEntireResult, testTrendPointseries } from "./testData";
+import {
+  testPointSeries1,
+  expectedEntireResult,
+  testTrendPointseries,
+  changeExpectedResult
+} from "./testData";
 import { LastDetectResponse, ChangePointDetectResponse } from "../src";
 
 describe("AnomalyDetectorClient", () => {
@@ -42,8 +47,8 @@ describe("AnomalyDetectorClient", () => {
     assert.deepEqual(result, expected);
   });
 
-  it.skip("should get result for changePointDetect", async () => {
+  it("should get result for changePointDetect", async () => {
     const result: ChangePointDetectResponse = await client.changePointDetect(testTrendPointseries);
-    assert.deepEqual(result, {} as any);
+    assert.deepEqual(result, changeExpectedResult);
   });
 });

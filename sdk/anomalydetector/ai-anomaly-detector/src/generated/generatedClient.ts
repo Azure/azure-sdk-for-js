@@ -130,7 +130,7 @@ const lastDetectOperationSpec: coreHttp.OperationSpec = {
   serializer
 };
 const changePointDetectOperationSpec: coreHttp.OperationSpec = {
-  path: "/timeseries/changePoint/detect",
+  path: "/timeseries/changepoint/detect",
   httpMethod: "POST",
   responses: {
     200: {
