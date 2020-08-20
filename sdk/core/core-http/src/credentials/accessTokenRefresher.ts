@@ -18,6 +18,10 @@ export class AccessTokenRefresher {
 
   public isReady(): boolean {
     // We're only ready for a new refresh if the required milliseconds have passed.
+    console.log(
+      !this.lastCalled,
+      Date.now() - this.lastCalled > this.requiredMillisecondsBeforeNewRefresh
+    );
     return (
       !this.lastCalled || Date.now() - this.lastCalled > this.requiredMillisecondsBeforeNewRefresh
     );

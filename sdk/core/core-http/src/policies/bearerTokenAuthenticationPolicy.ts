@@ -102,6 +102,7 @@ export class BearerTokenAuthenticationPolicy extends BaseRequestPolicy {
   private async updateTokenIfNeeded(options: GetTokenOptions): Promise<void> {
     if (this.tokenRefresher.isReady()) {
       const accessToken = await this.tokenRefresher.refresh(options);
+      console.log("refresh happened!!");
       this.tokenCache.setCachedToken(accessToken);
     }
   }
@@ -117,6 +118,7 @@ export class BearerTokenAuthenticationPolicy extends BaseRequestPolicy {
       // If we still have a cached access token,
       // And any other time related conditionals have been reached based on the tokenRefresher class,
       // then attempt to refresh without waiting.
+      console.log("updateTokenIfNeeded is called");
       this.updateTokenIfNeeded(options);
     }
 
