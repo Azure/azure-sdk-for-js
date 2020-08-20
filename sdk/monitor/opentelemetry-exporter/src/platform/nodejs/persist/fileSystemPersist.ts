@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import * as fs from "fs";
 import * as os from "os";
 import * as path from "path";
@@ -37,7 +40,7 @@ export class FileSystemPersist implements PersistentStorage {
 
   async push(value: unknown[]): Promise<boolean> {
     this._logger.debug("Pushing value to persistent storage", value.toString());
-    return await this._storeToDisk(JSON.stringify(value));
+    return this._storeToDisk(JSON.stringify(value));
   }
 
   async shift(): Promise<unknown> {

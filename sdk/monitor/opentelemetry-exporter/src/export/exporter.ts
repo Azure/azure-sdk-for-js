@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { Logger } from "@opentelemetry/api";
 import { ConsoleLogger, LogLevel, ExportResult } from "@opentelemetry/core";
 import { Envelope } from "../Declarations/Contracts";
@@ -105,7 +108,7 @@ export abstract class AzureMonitorBaseExporter implements BaseExporter {
     } catch (senderErr) {
       // Request failed -- always retry
       this._logger.error(senderErr.message);
-      return await this._persist(envelopes);
+      return this._persist(envelopes);
     }
   }
 
@@ -113,11 +116,11 @@ export abstract class AzureMonitorBaseExporter implements BaseExporter {
     this._telemetryProcessors.push(processor);
   }
 
-  clearTelemetryProcessors() {
+  clearTelemetryProcessors(): void {
     this._telemetryProcessors = [];
   }
 
-  shutdown() {
+  shutdown(): void {
     this._sender.shutdown();
   }
 
@@ -141,7 +144,7 @@ export abstract class AzureMonitorBaseExporter implements BaseExporter {
     return filteredEnvelopes;
   }
 
-  private async _sendFirstPersistedFile() {
+  private async _sendFirstPersistedFile(): Promise<void> {
     try {
       const envelopes = (await this._persister.shift()) as Envelope[];
       this._sender.send(envelopes);
