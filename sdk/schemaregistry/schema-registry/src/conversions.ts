@@ -1,13 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { SchemaResponse, SchemaIdResponse } from "./models";
+import { SchemaId, Schema } from "./models";
 
 import {
   SchemaGetByIdResponse,
   SchemaRegisterResponse,
   SchemaQueryIdByContentResponse
 } from "./generated/models";
+import { HttpOperationResponse } from "@azure/core-http";
 
 /**
  * Union of generated client's responses that return schema content.
@@ -25,11 +26,16 @@ type GeneratedSchemaIdResponse = SchemaRegisterResponse | SchemaQueryIdByContent
 type GeneratedResponse = GeneratedSchemaResponse | GeneratedSchemaIdResponse;
 
 /**
+ * Underlying HTTP response.
+ */
+type Response = { _response: HttpOperationResponse };
+
+/**
  * Converts generated client's reponse to IdentifiedSchemaResponse.
  *
  * @internal
  */
-export function convertSchemaResponse(response: GeneratedSchemaResponse): SchemaResponse {
+export function convertSchemaResponse(response: GeneratedSchemaResponse): Schema & Response {
   return {
     ...convertResponse(response),
     content: response.body
@@ -41,7 +47,7 @@ export function convertSchemaResponse(response: GeneratedSchemaResponse): Schema
  *
  * @internal
  */
-export function convertSchemaIdResponse(response: GeneratedSchemaIdResponse): SchemaIdResponse {
+export function convertSchemaIdResponse(response: GeneratedSchemaIdResponse): SchemaId & Response {
   return {
     ...convertResponse(response),
     // `!` here because server is required to return this on success, but that
@@ -53,7 +59,7 @@ export function convertSchemaIdResponse(response: GeneratedSchemaIdResponse): Sc
 /**
  * Converts common portion of all generated client responses.
  */
-function convertResponse(response: GeneratedResponse): SchemaIdResponse {
+function convertResponse(response: GeneratedResponse): SchemaId & Response {
   return {
     _response: response._response,
     // `!`s here because server is required to return these on success, but that

@@ -1,15 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PipelineOptions, OperationOptions, HttpOperationResponse } from "@azure/core-http";
-
-/**
- * Schema definition.
- */
-export interface SchemaDefinition {
-  /** String representation of schema. */
-  content: string;
-}
+import { PipelineOptions, OperationOptions } from "@azure/core-http";
 
 /**
  * Identifies a Schema by its unique ID, version, and location.
@@ -29,14 +21,9 @@ export interface SchemaId {
 }
 
 /**
- * Schema definition with its unique ID, version, and location.
- */
-export interface Schema extends SchemaDefinition, SchemaId {}
-
-/**
  * Schema definition with its group, name, and serialization type.
  */
-export interface SchemaDescription extends SchemaDefinition {
+export interface SchemaDescription {
   /** Schema group under which schema is or should be registered. */
   group: string;
 
@@ -48,25 +35,18 @@ export interface SchemaDescription extends SchemaDefinition {
    * Currently only 'avro' is supported, but this is subject to change.
    */
   serializationType: string;
+
+  /** String representation of schema. */
+  content: string;
 }
 
 /**
- * Provides access to underlying HTTP response.
+ * Schema definition with its unique ID, version, and location.
  */
-export interface Response {
-  /** The underlying HTTP reponse. */
-  _response: HttpOperationResponse;
+export interface Schema extends SchemaId {
+  /** String representation of schema. */
+  content: string;
 }
-
-/**
- * Schema with underlying HTTP response.
- */
-export interface SchemaResponse extends Schema, Response {}
-
-/**
- * SchemaId with underlying HTTP reponse.
- */
-export interface SchemaIdResponse extends SchemaId, Response {}
 
 /**
  * Options for SchemaRegistrationClient.
