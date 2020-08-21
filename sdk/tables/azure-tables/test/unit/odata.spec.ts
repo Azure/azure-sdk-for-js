@@ -1,4 +1,7 @@
-import { odata } from "../src";
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
+import { odata } from "../../src";
 import { assert } from "chai";
 
 describe("odata", () => {

@@ -26,8 +26,8 @@
     "execute:samples": "echo skipped",
     "extract-api": "tsc -p . && api-extractor run --local",
     "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
-    "integration-test:browser": "echo skipped",
-    "integration-test:node": "echo skipped",
+    "integration-test:browser": "karma start --single-run --testMode=integration",
+    "integration-test:node": "mocha --reporter ../../../common/tools/mocha-multi-reporter.js dist-test/integration.index.node.js",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "lint:fix": "eslint package.json api-extractor.json src test --ext .ts --fix --fix-type [problem,suggestion]",
     "lint": "eslint package.json api-extractor.json src test --ext .ts -f html -o tables-lintReport.html || exit 0",
@@ -36,8 +36,8 @@
     "test:browser": "npm run build:test && npm run unit-test:browser && npm run integration-test:browser",
     "test:node": "npm run build:test && npm run unit-test:node && npm run integration-test:node",
     "test": "npm run build:test && npm run unit-test && npm run integration-test",
-    "unit-test:browser": "karma start --single-run",
-    "unit-test:node": "mocha --reporter ../../../common/tools/mocha-multi-reporter.js dist-test/index.node.js",
+    "unit-test:browser": "karma start --single-run --testMode=unit",
+    "unit-test:node": "mocha --reporter ../../../common/tools/mocha-multi-reporter.js dist-test/unit.index.node.js",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser"
   },
   "files": [
@@ -120,6 +120,10 @@
     "rollup-plugin-terser": "^5.1.1",
     "rollup-plugin-visualizer": "^4.0.4",
     "typescript": "~3.9.3",
-    "util": "^0.12.1"
+    "util": "^0.12.1",
+    "dotenv": "^8.2.0",
+    "@azure/test-utils-recorder": "^1.0.0",
+    "rollup-plugin-shim": "^1.0.0",
+    "@rollup/plugin-inject": "^4.0.0"
   }
 }

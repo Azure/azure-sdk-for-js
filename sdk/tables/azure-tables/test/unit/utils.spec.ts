@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { extractConnectionStringParts, ConnectionString } from "../src/utils/connectionString";
-import { base64Encode, base64Decode } from "../src/utils/bufferSerializer";
+import { extractConnectionStringParts, ConnectionString } from "../../src/utils/connectionString";
+import { base64Encode, base64Decode } from "../../src/utils/bufferSerializer";
 import { isNode } from "@azure/core-http";
 import { assert } from "chai";
 

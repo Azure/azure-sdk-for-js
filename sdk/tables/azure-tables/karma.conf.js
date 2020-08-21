@@ -1,7 +1,24 @@
 // https://github.com/karma-runner/karma-chrome-launcher
 process.env.CHROME_BIN = require("puppeteer").executablePath();
+require("dotenv").config();
+const {
+  jsonRecordingFilterFunction,
+  isPlaybackMode,
+  isSoftRecordMode,
+  isRecordMode
+} = require("@azure/test-utils-recorder");
+
+const testModes = ["unit", "integration"];
 
 module.exports = function(config) {
+  const testMode = config["testMode"];
+
+  if (!testModes.includes(testMode)) {
+    throw new Error(
+      "Unsuported test mode, make sure to pass the test mode to karma --testMode=[unit|integration]"
+    );
+  }
+
   config.set({
     // base path that will be used to resolve all patterns (eg. files, exclude)
     basePath: "./",
@@ -20,7 +37,9 @@ module.exports = function(config) {
       "karma-env-preprocessor",
       "karma-coverage",
       "karma-remap-istanbul",
-      "karma-junit-reporter"
+      "karma-junit-reporter",
+      "karma-json-preprocessor",
+      "karma-json-to-file-reporter"
     ],
 
     // list of files / patterns to load in the browser
@@ -28,9 +47,14 @@ module.exports = function(config) {
       // Uncomment the cdn link below for the polyfill service to support IE11 missing features
       // Promise,String.prototype.startsWith,String.prototype.endsWith,String.prototype.repeat,String.prototype.includes,Array.prototype.includes,Object.keys
       // "https://cdn.polyfill.io/v2/polyfill.js?features=Symbol,Promise,String.prototype.startsWith,String.prototype.endsWith,String.prototype.repeat,String.prototype.includes,Array.prototype.includes,Object.keys|always",
-      "dist-test/index.browser.js",
-      { pattern: "dist-test/index.browser.js.map", type: "html", included: false, served: true }
-    ],
+      `dist-test/${testMode}.index.browser.js`,
+      {
+        pattern: `dist-test/${testMode}.index.browser.js.map`,
+        type: "html",
+        included: false,
+        served: true
+      }
+    ].concat(isPlaybackMode() || isSoftRecordMode() ? ["recordings/browsers/**/*.json"] : []),
 
     // list of files / patterns to exclude
     exclude: [],
@@ -39,20 +63,27 @@ module.exports = function(config) {
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
       "**/*.js": ["env"],
+      "recordings/browsers/**/*.json": ["json"],
       // IMPORTANT: COMMENT following line if you want to debug in your browsers!!
       // Preprocess source file to calculate code coverage, however this will make source file unreadable
-      "dist-test/index.js": ["coverage"]
+      [`dist-test/${testMode}.index.browser.js`]: ["coverage"]
     },
 
     // inject following environment values into browser testing with window.__env__
     // environment values MUST be exported or set with same console running "karma start"
     // https://www.npmjs.com/package/karma-env-preprocessor
-    envPreprocessor: ["ACCOUNT_NAME", "ACCOUNT_SAS"],
+    envPreprocessor: [
+      "ACCOUNT_NAME",
+      "ACCOUNT_KEY",
+      "ACCOUNT_SAS",
+      "TEST_MODE",
+      "STORAGE_CONNECTION_STRING"
+    ],
 
     // test results reporter to use
     // possible values: 'dots', 'progress'
     // available reporters: https://npmjs.org/browse/keyword/karma-reporter
-    reporters: ["mocha", "coverage", "karma-remap-istanbul", "junit"],
+    reporters: ["mocha", "coverage", "junit", "json-to-file"],
 
     coverageReporter: {
       // specify a common output directory
@@ -78,6 +109,11 @@ module.exports = function(config) {
       nameFormatter: undefined, // function (browser, result) to customize the name attribute in xml testcase element
       classNameFormatter: undefined, // function (browser, result) to customize the classname attribute in xml testcase element
       properties: {} // key value pair of properties to add to the <properties> section of the report
+    },
+
+    jsonToFileReporter: {
+      filter: jsonRecordingFilterFunction,
+      outputPath: "."
     },
 
     // web server port
@@ -109,6 +145,9 @@ module.exports = function(config) {
     browserNoActivityTimeout: 600000,
     browserDisconnectTimeout: 10000,
     browserDisconnectTolerance: 3,
+    browserConsoleLogOptions: {
+      terminal: !isRecordMode()
+    },
 
     client: {
       mocha: {
@@ -116,6 +155,7 @@ module.exports = function(config) {
         reporter: "html",
         timeout: "600000"
       }
-    }
+    },
+    args: config.testMode ? ["--testMode"] : []
   });
 };
