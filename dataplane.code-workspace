@@ -126,7 +126,7 @@
     },
     {
       "name": "tables",
-      "path": "sdk\\tables\\data-tables"
+      "path": "sdk\\tables\\azure-data-tables"
     },
     {
       "name": "text analytics",

@@ -7,7 +7,7 @@ Use the client library to:
 - Create/Delete Tables
 - Query/Create/Read/Update/Delete Entities
 
-[Source code](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/tables/data-tables/) | [Package (NPM)](https://www.npmjs.com/package/@azure/data-tables) | [API reference documentation](https://aka.ms/js-docs) | [Product documentation](https://docs.microsoft.com/en-us/azure/storage/tables/table-storage-overview/) | [Samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/tables/data-tables/samples/)
+[Source code](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/tables/azure-data-tables/) | [Package (NPM)](https://www.npmjs.com/package/@azure/azure-data-tables) | [API reference documentation](https://aka.ms/js-docs) | [Product documentation](https://docs.microsoft.com/en-us/azure/storage/tables/table-storage-overview/) | [Samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/tables/azure-data-tables/samples/)
 
 ## Getting started
 

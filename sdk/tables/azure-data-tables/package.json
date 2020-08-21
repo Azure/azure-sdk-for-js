@@ -69,7 +69,7 @@
       ]
     }
   },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/tables/data-tables/",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/tables/azure-data-tables/",
   "sideEffects": false,
   "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
   "private": true,
