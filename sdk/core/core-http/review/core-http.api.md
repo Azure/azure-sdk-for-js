@@ -74,19 +74,6 @@ export interface BaseMapper {
 }
 
 // @public (undocumented)
-export abstract class BaseRequestPolicy implements RequestPolicy {
-    protected constructor(_nextPolicy: RequestPolicy, _options: RequestPolicyOptionsLike);
-    log(logLevel: HttpPipelineLogLevel, message: string): void;
-    // (undocumented)
-    readonly _nextPolicy: RequestPolicy;
-    // (undocumented)
-    readonly _options: RequestPolicyOptionsLike;
-    // (undocumented)
-    abstract sendRequest(webResource: WebResourceLike): Promise<HttpOperationResponse>;
-    shouldLog(logLevel: HttpPipelineLogLevel): boolean;
-}
-
-// @public (undocumented)
 export class BasicAuthenticationCredentials implements ServiceClientCredentials {
     constructor(userName: string, password: string, authorizationScheme?: string);
     // (undocumented)
@@ -97,12 +84,6 @@ export class BasicAuthenticationCredentials implements ServiceClientCredentials 
     // (undocumented)
     userName: string;
 }
-
-// @public
-export class BearerTokenAuthenticationPolicy extends BaseRequestPolicy {
-    constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptions, credential: TokenCredential, scopes: string | string[], tokenCache: AccessTokenCache);
-    sendRequest(webResource: WebResourceLike): Promise<HttpOperationResponse>;
-    }
 
 // @public
 export function bearerTokenAuthenticationPolicy(credential: TokenCredential, scopes: string | string[]): RequestPolicyFactory;
@@ -213,12 +194,6 @@ export interface DictionaryMapperType {
     name: "Dictionary";
     // (undocumented)
     value: Mapper;
-}
-
-// @public
-export class DisableResponseDecompressionPolicy extends BaseRequestPolicy {
-    constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptions);
-    sendRequest(request: WebResource): Promise<HttpOperationResponse>;
 }
 
 // @public
@@ -373,12 +348,6 @@ export function isValidUuid(uuid: string): boolean;
 export interface KeepAliveOptions {
     // (undocumented)
     enable: boolean;
-}
-
-// @public
-export class KeepAlivePolicy extends BaseRequestPolicy {
-    constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptions, keepAliveOptions: KeepAliveOptions);
-    sendRequest(request: WebResourceLike): Promise<HttpOperationResponse>;
 }
 
 // @public (undocumented)
