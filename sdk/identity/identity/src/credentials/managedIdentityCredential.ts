@@ -152,7 +152,9 @@ export class ManagedIdentityCredential implements TokenCredential {
         }
       };
     } else {
-      throw new Error(`Unsupported version ${version}. The supported versions are "2019-08-01" and "2017-09-01"`)
+      throw new Error(
+        `Unsupported version ${version}. The supported versions are "2019-08-01" and "2017-09-01"`
+      );
     }
   }
 
@@ -270,7 +272,11 @@ export class ManagedIdentityCredential implements TokenCredential {
       } else if (process.env.MSI_ENDPOINT) {
         if (process.env.MSI_SECRET) {
           // Running in App Service
-          authRequestOptions = this.createAppServiceMsiAuthRequest(resource, clientId, "2017-09-01");
+          authRequestOptions = this.createAppServiceMsiAuthRequest(
+            resource,
+            clientId,
+            "2017-09-01"
+          );
           expiresInParser = (requestBody: any) => {
             // Parse a date format like "06/20/2019 02:57:58 +00:00" and
             // convert it into a JavaScript-formatted date
