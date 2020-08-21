@@ -3,7 +3,7 @@
 
 import { assert } from "chai";
 
-import { Edm } from "../../src/";
+import { Edm } from "../../src";
 import { serialize, deserialize } from "../../src/serialization";
 
 interface Entity {

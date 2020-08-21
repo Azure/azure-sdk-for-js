@@ -1,22 +1,21 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { TableServiceClient, TableClient } from "@azure/tables";
+const { TableServiceClient, TableClient } = require("@azure/data-tables");
 
 // Load the .env file if it exists
-import * as dotenv from "dotenv";
+const dotenv = require("dotenv");
 dotenv.config();
 
 const connectionString = process.env["ACCOUNT_CONNECTION_STRING"] || "";
 // const connectionString = process.env["SAS_CONNECTION_STRING"] || "";
+
 async function listTables() {
   const client = TableServiceClient.fromConnectionString(connectionString);
 
   const tables = await client.listTables();
 
-  for (let table of tables) {
-    console.log(table);
-  }
+  console.log(tables.value);
 }
 
 async function listEntities() {
@@ -24,9 +23,7 @@ async function listEntities() {
 
   const entities = await client.listEntities();
 
-  for (let entity of entities) {
-    console.log(entity);
-  }
+  console.log(entities.value);
 }
 
 async function main() {

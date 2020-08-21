@@ -6,7 +6,7 @@
 
 ```yaml
 v3: true
-package-name: "@azure/tables"
+package-name: "@azure/data-tables"
 title: TablesClient
 description: Tables Client
 generate-metadata: false

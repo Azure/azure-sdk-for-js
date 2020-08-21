@@ -9,7 +9,7 @@
 import * as coreHttp from "@azure/core-http";
 import { GeneratedClientOptionalParams } from "./models";
 
-const packageName = "@azure/tables";
+const packageName = "@azure/data-tables";
 const packageVersion = "1.0.0-preview.1";
 
 export class GeneratedClientContext extends coreHttp.ServiceClient {

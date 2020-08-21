@@ -1,14 +1,10 @@
 {
-  "name": "azure-tables-samples-ts",
+  "name": "azure-data-tables-samples-js",
   "private": true,
   "version": "0.1.0",
-  "description": "Azure Tables client library samples for TypeScript",
+  "description": "Azure Tables client library samples for Javascript",
   "engine": {
     "node": ">=8.0.0"
-  },
-  "scripts": {
-    "build": "tsc",
-    "prebuild": "rimraf dist/"
   },
   "repository": {
     "type": "git",
@@ -18,8 +14,7 @@
     "Azure",
     "Storage",
     "Tables",
-    "Node.js",
-    "TypeScript"
+    "Node.js"
   ],
   "author": "Microsoft Corporation",
   "license": "MIT",
@@ -29,12 +24,10 @@
   "homepage": "https://github.com/Azure/azure-sdk-for-js#readme",
   "sideEffects": false,
   "dependencies": {
-    "@azure/tables": "../..",
+    "@azure/data-tables": "../..",
     "dotenv": "^8.2.0"
   },
   "devDependencies": {
-    "@types/node": "^8.0.0",
-    "rimraf": "^3.0.0",
-    "typescript": "~3.6.4"
+    "@types/node": "^8.0.0"
   }
 }

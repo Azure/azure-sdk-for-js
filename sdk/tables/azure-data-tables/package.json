@@ -1,5 +1,5 @@
 {
-  "name": "@azure/tables",
+  "name": "@azure/data-tables",
   "version": "1.0.0-preview.1",
   "description": "An isomorphic client library for the Azure Tables service.",
   "sdk-type": "client",
@@ -69,7 +69,7 @@
       ]
     }
   },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/tables/azure-tables/",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/tables/azure-data-tables/",
   "sideEffects": false,
   "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
   "private": true,

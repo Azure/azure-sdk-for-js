@@ -1,10 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-const { TableServiceClient, TableClient } = require("@azure/tables");
+import { TableServiceClient, TableClient } from "@azure/data-tables";
 
 // Load the .env file if it exists
-const dotenv = require("dotenv");
+import * as dotenv from "dotenv";
 dotenv.config();
 
 const accountSas = process.env["ACCOUNT_SAS"] || "";
