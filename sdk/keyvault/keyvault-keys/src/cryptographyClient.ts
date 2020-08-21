@@ -51,6 +51,25 @@ import {
 import { KeyBundle } from "./generated/models";
 import { parseKeyVaultKeysIdentifier } from "./identifier";
 
+export async function checkKeyValidity(
+  getLocalCryptographyClient: () => Promise<LocalCryptographyClient> | undefined,
+  keyBundle: KeyBundle | undefined,
+  getKeyID: () => string
+) {
+  await getLocalCryptographyClient();
+  const attributes = keyBundle?.attributes || {};
+  const { notBefore, expires } = attributes;
+  const now = new Date();
+
+  if (notBefore && now < notBefore) {
+    throw new Error(`Key ${getKeyID()} can't be used before ${notBefore.toISOString()}`);
+  }
+
+  if (expires && now > expires) {
+    throw new Error(`Key ${getKeyID()} expired at ${expires.toISOString()}`);
+  }
+}
+
 /**
  * A client used to perform cryptographic operations with Azure Key Vault keys.
  */
@@ -710,18 +729,7 @@ export class CryptographyClient {
    * by comparing the current date with the bundle's notBefore and expires values.
    */
   private async checkKeyValidity(): Promise<void> {
-    await this.getLocalCryptographyClient();
-    const attributes = this.keyBundle?.attributes || {};
-    const { notBefore, expires } = attributes;
-    const now = new Date();
-
-    if (notBefore && now < notBefore) {
-      throw new Error(`Key ${this.getKeyID()} can't be used before ${notBefore}`);
-    }
-
-    if (expires && now < expires) {
-      throw new Error(`Key ${this.getKeyID()} expired at ${expires}`);
-    }
+    return checkKeyValidity(this.getLocalCryptographyClient, this.keyBundle, this.getKeyID);
   }
 }
 
