@@ -364,8 +364,13 @@ export interface Cluster extends TrackedResource {
   enablePurge?: boolean;
   /**
    * List of the cluster's language extensions.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  languageExtensions?: LanguageExtensionsList;
+  readonly languageExtensions?: LanguageExtensionsList;
+  /**
+   * A boolean value that indicates if double encryption is enabled. Default value: false.
+   */
+  enableDoubleEncryption?: boolean;
 }
 
 /**
@@ -445,8 +450,13 @@ export interface ClusterUpdate extends Resource {
   enablePurge?: boolean;
   /**
    * List of the cluster's language extensions.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  languageExtensions?: LanguageExtensionsList;
+  readonly languageExtensions?: LanguageExtensionsList;
+  /**
+   * A boolean value that indicates if double encryption is enabled. Default value: false.
+   */
+  enableDoubleEncryption?: boolean;
 }
 
 /**
@@ -577,7 +587,7 @@ export interface ReadWriteDatabase {
    * Indicates whether the database is followed.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly isFollowed?: string;
+  readonly isFollowed?: boolean;
 }
 
 /**
@@ -910,7 +920,7 @@ export interface EventHubDataConnection {
   /**
    * The data format of the message. Optionally the data format can be added to each message.
    * Possible values include: 'MULTIJSON', 'JSON', 'CSV', 'TSV', 'SCSV', 'SOHSV', 'PSV', 'TXT',
-   * 'RAW', 'SINGLEJSON', 'AVRO', 'TSVE', 'PARQUET', 'ORC'
+   * 'RAW', 'SINGLEJSON', 'AVRO', 'TSVE', 'PARQUET', 'ORC', 'APACHEAVRO', 'W3CLOGFILE'
    */
   dataFormat?: EventHubDataFormat;
   /**
@@ -973,7 +983,7 @@ export interface IotHubDataConnection {
   /**
    * The data format of the message. Optionally the data format can be added to each message.
    * Possible values include: 'MULTIJSON', 'JSON', 'CSV', 'TSV', 'SCSV', 'SOHSV', 'PSV', 'TXT',
-   * 'RAW', 'SINGLEJSON', 'AVRO', 'TSVE', 'PARQUET', 'ORC'
+   * 'RAW', 'SINGLEJSON', 'AVRO', 'TSVE', 'PARQUET', 'ORC', 'APACHEAVRO', 'W3CLOGFILE'
    */
   dataFormat?: IotHubDataFormat;
   /**
@@ -1031,7 +1041,7 @@ export interface EventGridDataConnection {
    * The table where the data should be ingested. Optionally the table information can be added to
    * each message.
    */
-  tableName: string;
+  tableName?: string;
   /**
    * The mapping rule to be used to ingest the data. Optionally the mapping information can be
    * added to each message.
@@ -1040,9 +1050,19 @@ export interface EventGridDataConnection {
   /**
    * The data format of the message. Optionally the data format can be added to each message.
    * Possible values include: 'MULTIJSON', 'JSON', 'CSV', 'TSV', 'SCSV', 'SOHSV', 'PSV', 'TXT',
-   * 'RAW', 'SINGLEJSON', 'AVRO', 'TSVE', 'PARQUET', 'ORC'
+   * 'RAW', 'SINGLEJSON', 'AVRO', 'TSVE', 'PARQUET', 'ORC', 'APACHEAVRO', 'W3CLOGFILE'
    */
-  dataFormat: EventGridDataFormat;
+  dataFormat?: EventGridDataFormat;
+  /**
+   * A Boolean value that, if set to true, indicates that ingestion should ignore the first record
+   * of every file
+   */
+  ignoreFirstRecord?: boolean;
+  /**
+   * The name of blob storage event type to process. Possible values include:
+   * 'Microsoft.Storage.BlobCreated', 'Microsoft.Storage.BlobRenamed'
+   */
+  blobStorageEventType?: BlobStorageEventType;
 }
 
 /**
@@ -1371,11 +1391,11 @@ export type PrincipalsModificationKind = 'Union' | 'Replace' | 'None';
 /**
  * Defines values for EventHubDataFormat.
  * Possible values include: 'MULTIJSON', 'JSON', 'CSV', 'TSV', 'SCSV', 'SOHSV', 'PSV', 'TXT',
- * 'RAW', 'SINGLEJSON', 'AVRO', 'TSVE', 'PARQUET', 'ORC'
+ * 'RAW', 'SINGLEJSON', 'AVRO', 'TSVE', 'PARQUET', 'ORC', 'APACHEAVRO', 'W3CLOGFILE'
  * @readonly
  * @enum {string}
  */
-export type EventHubDataFormat = 'MULTIJSON' | 'JSON' | 'CSV' | 'TSV' | 'SCSV' | 'SOHSV' | 'PSV' | 'TXT' | 'RAW' | 'SINGLEJSON' | 'AVRO' | 'TSVE' | 'PARQUET' | 'ORC';
+export type EventHubDataFormat = 'MULTIJSON' | 'JSON' | 'CSV' | 'TSV' | 'SCSV' | 'SOHSV' | 'PSV' | 'TXT' | 'RAW' | 'SINGLEJSON' | 'AVRO' | 'TSVE' | 'PARQUET' | 'ORC' | 'APACHEAVRO' | 'W3CLOGFILE';
 
 /**
  * Defines values for Compression.
@@ -1388,20 +1408,28 @@ export type Compression = 'None' | 'GZip';
 /**
  * Defines values for IotHubDataFormat.
  * Possible values include: 'MULTIJSON', 'JSON', 'CSV', 'TSV', 'SCSV', 'SOHSV', 'PSV', 'TXT',
- * 'RAW', 'SINGLEJSON', 'AVRO', 'TSVE', 'PARQUET', 'ORC'
+ * 'RAW', 'SINGLEJSON', 'AVRO', 'TSVE', 'PARQUET', 'ORC', 'APACHEAVRO', 'W3CLOGFILE'
  * @readonly
  * @enum {string}
  */
-export type IotHubDataFormat = 'MULTIJSON' | 'JSON' | 'CSV' | 'TSV' | 'SCSV' | 'SOHSV' | 'PSV' | 'TXT' | 'RAW' | 'SINGLEJSON' | 'AVRO' | 'TSVE' | 'PARQUET' | 'ORC';
+export type IotHubDataFormat = 'MULTIJSON' | 'JSON' | 'CSV' | 'TSV' | 'SCSV' | 'SOHSV' | 'PSV' | 'TXT' | 'RAW' | 'SINGLEJSON' | 'AVRO' | 'TSVE' | 'PARQUET' | 'ORC' | 'APACHEAVRO' | 'W3CLOGFILE';
 
 /**
  * Defines values for EventGridDataFormat.
  * Possible values include: 'MULTIJSON', 'JSON', 'CSV', 'TSV', 'SCSV', 'SOHSV', 'PSV', 'TXT',
- * 'RAW', 'SINGLEJSON', 'AVRO', 'TSVE', 'PARQUET', 'ORC'
+ * 'RAW', 'SINGLEJSON', 'AVRO', 'TSVE', 'PARQUET', 'ORC', 'APACHEAVRO', 'W3CLOGFILE'
  * @readonly
  * @enum {string}
  */
-export type EventGridDataFormat = 'MULTIJSON' | 'JSON' | 'CSV' | 'TSV' | 'SCSV' | 'SOHSV' | 'PSV' | 'TXT' | 'RAW' | 'SINGLEJSON' | 'AVRO' | 'TSVE' | 'PARQUET' | 'ORC';
+export type EventGridDataFormat = 'MULTIJSON' | 'JSON' | 'CSV' | 'TSV' | 'SCSV' | 'SOHSV' | 'PSV' | 'TXT' | 'RAW' | 'SINGLEJSON' | 'AVRO' | 'TSVE' | 'PARQUET' | 'ORC' | 'APACHEAVRO' | 'W3CLOGFILE';
+
+/**
+ * Defines values for BlobStorageEventType.
+ * Possible values include: 'Microsoft.Storage.BlobCreated', 'Microsoft.Storage.BlobRenamed'
+ * @readonly
+ * @enum {string}
+ */
+export type BlobStorageEventType = 'Microsoft.Storage.BlobCreated' | 'Microsoft.Storage.BlobRenamed';
 
 /**
  * Defines values for IdentityType.
@@ -2337,6 +2365,26 @@ export type DataConnectionsUpdateResponse = DataConnectionUnion & {
        * The response body as parsed JSON or XML
        */
       parsedBody: DataConnectionUnion;
+    };
+};
+
+/**
+ * Contains response data for the beginDataConnectionValidationMethod operation.
+ */
+export type DataConnectionsBeginDataConnectionValidationMethodResponse = DataConnectionValidationListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: DataConnectionValidationListResult;
     };
 };
 

@@ -14,9 +14,8 @@ import { getTracer } from "@azure/core-tracing";
 import { Span } from "@opentelemetry/api";
 
 import { logger } from "./log";
-import { parseKeyvaultIdentifier } from "./core/utils";
-import { SDK_VERSION } from "./core/utils/constants";
-import { KeyVaultClient } from "./core/keyVaultClient";
+import { SDK_VERSION } from "./generated/utils/constants";
+import { KeyVaultClient } from "./generated/keyVaultClient";
 import { challengeBasedAuthenticationPolicy } from "../../keyvault-common/src";
 
 import {
@@ -49,7 +48,8 @@ import {
   VerifyResult,
   EncryptResult
 } from "./cryptographyClientModels";
-import { KeyBundle } from "./core/models";
+import { KeyBundle } from "./generated/models";
+import { parseKeyVaultKeysIdentifier } from "./identifier";
 
 /**
  * A client used to perform cryptographic operations with Azure Key Vault keys.
@@ -614,15 +614,18 @@ export class CryptographyClient {
     };
 
     const pipeline = createPipelineFromOptions(internalPipelineOptions, authPolicy);
-    this.client = new KeyVaultClient(pipelineOptions.apiVersion || LATEST_API_VERSION, pipeline);
+    this.client = new KeyVaultClient(
+      pipelineOptions.serviceVersion || LATEST_API_VERSION,
+      pipeline
+    );
 
     let parsed;
     if (typeof key === "string") {
       this.key = key;
-      parsed = parseKeyvaultIdentifier("keys", this.key);
+      parsed = parseKeyVaultKeysIdentifier(this.key);
     } else if (key.key) {
       this.key = key.key;
-      parsed = parseKeyvaultIdentifier("keys", this.key.kid!);
+      parsed = parseKeyVaultKeysIdentifier(this.key.kid!);
     } else {
       throw new Error(
         "The provided key is malformed as it does not have a value for the `key` property."

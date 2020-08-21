@@ -49,6 +49,10 @@
       "path": "sdk\\core\\core-tracing"
     },
     {
+      "name": "core-xml",
+      "path": "sdk\\core\\core-xml"
+    },
+    {
       "name": "cosmos",
       "path": "sdk\\cosmosdb\\cosmos"
     },
@@ -103,6 +107,10 @@
     {
       "name": "storage-blob",
       "path": "sdk\\storage\\storage-blob"
+    },
+    {
+      "name": "storage-blob-changefeed",
+      "path": "sdk\\storage\\storage-blob-changefeed"
     },
     {
       "name": "storage-file-datalake",

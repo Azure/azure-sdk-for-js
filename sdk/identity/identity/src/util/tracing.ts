@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
 import { GetTokenOptions } from "@azure/core-http";
 import { getTracer, OperationTracingOptions } from "@azure/core-tracing";

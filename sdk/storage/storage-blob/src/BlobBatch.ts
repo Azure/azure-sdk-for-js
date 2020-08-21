@@ -330,13 +330,13 @@ export class BlobBatch {
           credential: credential
         },
         async () => {
-          await new BlobClient(
-            url,
-            this.batchRequest.createPipeline(credential)
-          ).setAccessTier(tier, {
-            ...options,
-            tracingOptions: { ...options!.tracingOptions, spanOptions }
-          });
+          await new BlobClient(url, this.batchRequest.createPipeline(credential)).setAccessTier(
+            tier,
+            {
+              ...options,
+              tracingOptions: { ...options!.tracingOptions, spanOptions }
+            }
+          );
         }
       );
     } catch (e) {

@@ -1,0 +1,25 @@
+{
+  "extends": "../../../tsconfig.package",
+  "compilerOptions": {
+    "importHelpers": false,
+    "allowUnreachableCode": false,
+    "allowUnusedLabels": false,
+    "declaration": true,
+    "forceConsistentCasingInFileNames": true,
+    "module": "commonjs",
+    "noEmitOnError": true,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitReturns": true,
+    "noUnusedLocals": true,
+    "pretty": true,
+    "sourceMap": true,
+    "strict": true,
+    "strictNullChecks": true,
+    "target": "es5",
+    "incremental": true,
+    "outDir": "dist-esm",
+    "declarationDir": "types",
+    "lib": []
+  },
+  "include": ["src/**/*.ts", "test/**/*.ts"]
+}

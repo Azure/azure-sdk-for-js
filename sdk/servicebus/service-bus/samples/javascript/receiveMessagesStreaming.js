@@ -3,7 +3,7 @@
   Licensed under the MIT Licence.
 
   **NOTE**: If you are using version 1.1.x or lower, then please use the link below:
-  https://github.com/Azure/azure-sdk-for-js/tree/%40azure/service-bus_1.1.5/sdk/servicebus/service-bus/samples
+  https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/servicebus/service-bus/samples-v1
 
   This sample demonstrates how the receive() function can be used to receive Service Bus messages
   in a stream.
@@ -23,7 +23,7 @@ async function main() {
   // - If receiving from a subscription you can use the createReceiver(topic, subscription) overload
   // instead.
   // - See session.ts for how to receive using sessions.
-  const receiver = sbClient.createReceiver(queueName, "peekLock");
+  const receiver = sbClient.createReceiver(queueName);
 
   const processMessage = async (brokeredMessage) => {
     console.log(`Received message: ${brokeredMessage.body}`);

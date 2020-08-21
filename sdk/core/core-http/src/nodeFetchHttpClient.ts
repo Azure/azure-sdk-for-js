@@ -4,22 +4,17 @@
 import * as tough from "tough-cookie";
 import * as http from "http";
 import * as https from "https";
-import "node-fetch";
+import node_fetch from "node-fetch";
 
-import { FetchHttpClient, CommonRequestInfo } from "./fetchHttpClient";
+import {
+  FetchHttpClient,
+  CommonRequestInfo,
+  CommonRequestInit,
+  CommonResponse
+} from "./fetchHttpClient";
 import { HttpOperationResponse } from "./httpOperationResponse";
 import { WebResourceLike } from "./webResource";
 import { createProxyAgent, ProxyAgent, isUrlHttps } from "./proxyAgent";
-
-interface GlobalWithFetch extends NodeJS.Global {
-  fetch: typeof import("node-fetch")["default"];
-}
-
-const globalWithFetch = global as GlobalWithFetch;
-if (typeof globalWithFetch.fetch !== "function") {
-  const fetch = require("node-fetch").default;
-  globalWithFetch.fetch = fetch;
-}
 
 interface AgentCache {
   httpAgent?: http.Agent;
@@ -87,8 +82,9 @@ export class NodeFetchHttpClient extends FetchHttpClient {
     }
   }
 
-  async fetch(input: CommonRequestInfo, init?: RequestInit): Promise<Response> {
-    return fetch(input, init);
+  // eslint-disable-next-line @azure/azure-sdk/ts-apisurface-standardized-verbs
+  async fetch(input: CommonRequestInfo, init?: CommonRequestInit): Promise<CommonResponse> {
+    return (node_fetch(input, init) as unknown) as Promise<CommonResponse>;
   }
 
   async prepareRequest(httpRequest: WebResourceLike): Promise<Partial<RequestInit>> {
@@ -119,7 +115,7 @@ export class NodeFetchHttpClient extends FetchHttpClient {
   async processRequest(operationResponse: HttpOperationResponse): Promise<void> {
     if (this.cookieJar) {
       const setCookieHeader = operationResponse.headers.get("Set-Cookie");
-      if (setCookieHeader != undefined) {
+      if (setCookieHeader !== undefined) {
         await new Promise((resolve, reject) => {
           this.cookieJar!.setCookie(
             setCookieHeader,

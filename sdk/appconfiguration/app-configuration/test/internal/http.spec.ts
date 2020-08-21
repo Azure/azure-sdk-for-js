@@ -45,16 +45,14 @@ describe("http request related tests", function() {
           ),
           `Using a custom user agent`
         );
-      })
+      });
 
       describe("without user prefix", () => {
         const prefix = getUserAgentPrefix(undefined);
 
         chai.assert.match(
           prefix,
-          new RegExp(
-            `^azsdk-js-app-configuration\/${packageVersion}+ core-http\/[^ ]+.+$`
-          ),
+          new RegExp(`^azsdk-js-app-configuration\/${packageVersion}+ core-http\/[^ ]+.+$`),
           `Using the default user agent`
         );
       });
@@ -108,8 +106,8 @@ describe("http request related tests", function() {
       client = createAppConfigurationClientForTests() || this.skip();
     });
 
-    afterEach(function() {
-      recorder.stop();
+    afterEach(async function() {
+      await recorder.stop();
     });
 
     it("custom client request ID", async () => {

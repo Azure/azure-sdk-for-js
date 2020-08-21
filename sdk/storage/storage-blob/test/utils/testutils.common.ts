@@ -24,7 +24,9 @@ export const recorderEnvSetup: RecorderEnvironmentSetup = {
     MD_ACCOUNT_NAME: `${mockMDAccountName}`,
     MD_ACCOUNT_KEY: `${mockAccountKey}`,
     MD_ACCOUNT_SAS: `${mockAccountKey}`,
-    MD_STORAGE_CONNECTION_STRING: `DefaultEndpointsProtocol=https;AccountName=${mockMDAccountName};AccountKey=${mockAccountKey};EndpointSuffix=core.windows.net`
+    MD_STORAGE_CONNECTION_STRING: `DefaultEndpointsProtocol=https;AccountName=${mockMDAccountName};AccountKey=${mockAccountKey};EndpointSuffix=core.windows.net`,
+    ENCRYPTION_SCOPE_1: "antjoscope1",
+    ENCRYPTION_SCOPE_2: "antjoscope2"
   },
   customizationsOnRecordings: [
     // Used in record mode
@@ -133,4 +135,17 @@ export function isSuperSet(m1?: BlobMetadata, m2?: BlobMetadata): boolean {
   }
 
   return true;
+}
+
+/**
+ * Sleep for seconds.
+ *
+ * @export
+ * @param {number} seconds
+ * @returns {Promise<void>}
+ */
+export function sleep(seconds: number): Promise<void> {
+  return new Promise((resolve) => {
+    setTimeout(resolve, seconds * 1000);
+  });
 }

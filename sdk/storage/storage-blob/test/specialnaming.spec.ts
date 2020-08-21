@@ -24,7 +24,7 @@ describe("Special Naming Tests", () => {
 
   afterEach(async function() {
     await containerClient.delete();
-    recorder.stop();
+    await recorder.stop();
   });
 
   it("Should work with special container and blob names with spaces", async () => {

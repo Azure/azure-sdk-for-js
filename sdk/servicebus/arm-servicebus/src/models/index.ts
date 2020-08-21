@@ -662,11 +662,9 @@ export interface SqlFilter {
   sqlExpression?: string;
   /**
    * This property is reserved for future use. An integer value showing the compatibility level,
-   * currently hard-coded to 20.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**.
-   * Default value: 20.
+   * currently hard-coded to 20. Default value: 20.
    */
-  readonly compatibilityLevel?: number;
+  compatibilityLevel?: number;
   /**
    * Value that indicates whether the rule action requires preprocessing. Default value: true.
    */
@@ -1088,6 +1086,19 @@ export interface SBAuthorizationRuleListResult extends Array<SBAuthorizationRule
   /**
    * Link to the next set of results. Not empty if Value contains incomplete list of Authorization
    * Rules.
+   */
+  nextLink?: string;
+}
+
+/**
+ * @interface
+ * The response of the List NetworkRuleSet operation.
+ * @extends Array<NetworkRuleSet>
+ */
+export interface NetworkRuleSetListResult extends Array<NetworkRuleSet> {
+  /**
+   * Link to the next set of results. Not empty if Value contains incomplete list of
+   * NetworkRuleSet.
    */
   nextLink?: string;
 }
@@ -1602,6 +1613,26 @@ export type NamespacesGetNetworkRuleSetResponse = NetworkRuleSet & {
 };
 
 /**
+ * Contains response data for the listNetworkRuleSets operation.
+ */
+export type NamespacesListNetworkRuleSetsResponse = NetworkRuleSetListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: NetworkRuleSetListResult;
+    };
+};
+
+/**
  * Contains response data for the beginCreateOrUpdate operation.
  */
 export type NamespacesBeginCreateOrUpdateResponse = SBNamespace & {
@@ -1678,6 +1709,26 @@ export type NamespacesListAuthorizationRulesNextResponse = SBAuthorizationRuleLi
        * The response body as parsed JSON or XML
        */
       parsedBody: SBAuthorizationRuleListResult;
+    };
+};
+
+/**
+ * Contains response data for the listNetworkRuleSetsNext operation.
+ */
+export type NamespacesListNetworkRuleSetsNextResponse = NetworkRuleSetListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: NetworkRuleSetListResult;
     };
 };
 

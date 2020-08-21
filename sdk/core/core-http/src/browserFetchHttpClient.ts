@@ -1,7 +1,12 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { FetchHttpClient, CommonRequestInfo } from "./fetchHttpClient";
+import {
+  FetchHttpClient,
+  CommonRequestInfo,
+  CommonResponse,
+  CommonRequestInit
+} from "./fetchHttpClient";
 import { HttpOperationResponse } from "./httpOperationResponse";
 import { WebResourceLike } from "./webResource";
 
@@ -14,7 +19,8 @@ export class BrowserFetchHttpClient extends FetchHttpClient {
     return Promise.resolve();
   }
 
-  fetch(input: CommonRequestInfo, init?: RequestInit): Promise<Response> {
+  // eslint-disable-next-line @azure/azure-sdk/ts-apisurface-standardized-verbs
+  fetch(input: CommonRequestInfo, init?: CommonRequestInit): Promise<CommonResponse> {
     return fetch(input, init);
   }
 }

@@ -1,2 +1,0 @@
-# Ignoring the core files since they're auto-generated. Eventually, the auto-generated code will be on par with our current eslint rules, but in the mean time we should ignore them.
-src/core

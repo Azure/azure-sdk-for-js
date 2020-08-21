@@ -9,7 +9,8 @@ import {
   parseXML,
   stringifyXML,
   stripRequest,
-  stripResponse
+  stripResponse,
+  RequestPrepareOptions
 } from "@azure/core-http";
 
 import * as Constants from "./constants";
@@ -17,6 +18,7 @@ import * as log from "../log";
 import { Buffer } from "buffer";
 
 import { parseURL } from "./parseUrl";
+import { OperationOptions } from "@azure/core-http";
 
 /**
  * @internal
@@ -39,7 +41,8 @@ export interface AtomXmlSerializer {
 export async function executeAtomXmlOperation(
   serviceBusAtomManagementClient: ServiceClient,
   webResource: WebResource,
-  serializer: AtomXmlSerializer
+  serializer: AtomXmlSerializer,
+  operationOptions: OperationOptions
 ): Promise<HttpOperationResponse> {
   if (webResource.body) {
     const content: object = serializer.serialize(webResource.body);
@@ -52,6 +55,17 @@ export async function executeAtomXmlOperation(
 
   log.httpAtomXml(`Executing ATOM based HTTP request: ${webResource.body}`);
 
+  const reqPrepareOptions: RequestPrepareOptions = {
+    ...webResource,
+    headers: operationOptions.requestOptions?.customHeaders,
+    onUploadProgress: operationOptions.requestOptions?.onUploadProgress,
+    onDownloadProgress: operationOptions.requestOptions?.onDownloadProgress,
+    abortSignal: operationOptions.abortSignal,
+    spanOptions: operationOptions.tracingOptions?.spanOptions,
+    disableJsonStringifyOnBody: true
+  };
+  webResource = webResource.prepare(reqPrepareOptions);
+  webResource.timeout = operationOptions.requestOptions?.timeout || 0;
   const response: HttpOperationResponse = await serviceBusAtomManagementClient.sendRequest(
     webResource
   );
@@ -239,11 +253,32 @@ function parseEntryResult(entry: any): object | undefined {
 /**
  * @internal
  * @ignore
+ * Utility to help parse link info from the given `feed` result
+ * @param feedLink
+ */
+function parseLinkInfo(
+  feedLink: { [Constants.XML_METADATA_MARKER]: { rel: string; href: string } }[],
+  relationship: "self" | "next"
+): string | undefined {
+  if (!feedLink || !Array.isArray(feedLink)) {
+    return undefined;
+  }
+  for (const linkInfo of feedLink) {
+    if (linkInfo[Constants.XML_METADATA_MARKER].rel === relationship) {
+      return linkInfo[Constants.XML_METADATA_MARKER].href;
+    }
+  }
+  return undefined;
+}
+
+/**
+ * @internal
+ * @ignore
  * Utility to help parse given `feed` result
  * @param feed
  */
-function parseFeedResult(feed: any): object[] {
-  const result = [];
+function parseFeedResult(feed: any): object[] & { nextLink?: string } {
+  const result: object[] & { nextLink?: string } = [];
   if (typeof feed === "object" && feed != null && feed.entry) {
     if (Array.isArray(feed.entry)) {
       feed.entry.forEach((entry: any) => {
@@ -258,6 +293,7 @@ function parseFeedResult(feed: any): object[] {
         result.push(parsedEntryResult);
       }
     }
+    result.nextLink = parseLinkInfo(feed.link, "next");
   }
   return result;
 }

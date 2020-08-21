@@ -3,7 +3,7 @@
 
 import GeographyPoint from "./geographyPoint";
 
-const ISO8601DateRegex = /\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d{3})?Z/i;
+const ISO8601DateRegex = /^\d{4}-\d{2}-\d{2}T\d{2}:\d{2}:\d{2}(\.\d{3})?Z$/i;
 const GeoJSONPointTypeName = "Point";
 const WorldGeodeticSystem1984 = "EPSG:4326"; // See https://epsg.io/4326
 

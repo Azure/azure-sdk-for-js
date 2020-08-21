@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import * as coreHttp from "@azure/core-http";
-import { DeletionRecoveryLevel } from "./core/models";
+import { DeletionRecoveryLevel } from "./generated/models";
 import { KeyCurveName } from "./cryptographyClientModels";
 
 /**
@@ -59,7 +59,7 @@ export interface KeyClientInterface {
 /**
  * The latest supported Key Vault service API version
  */
-export const LATEST_API_VERSION = "7.1-preview";
+export const LATEST_API_VERSION = "7.1";
 
 /**
  * The optional parameters accepted by the KeyVault's KeyClient
@@ -68,7 +68,7 @@ export interface KeyClientOptions extends coreHttp.PipelineOptions {
   /**
    * The accepted versions of the KeyVault's service API.
    */
-  apiVersion?: "7.0" | "7.1-preview";
+  serviceVersion?: "7.0" | "7.1";
 }
 
 /**

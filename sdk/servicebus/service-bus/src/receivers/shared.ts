@@ -1,8 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { GetMessageIteratorOptions } from "../models";
-import { Receiver } from "./receiver";
+import { MessageHandlers } from "../models";
+import { ServiceBusReceiver } from "./receiver";
+import * as log from "../log";
+import { OperationOptionsBase } from "../modelsToBeSharedWithEventHubs";
 
 /**
  * @internal
@@ -25,8 +27,8 @@ export function assertValidMessageHandlers(handlers: any) {
  * @ignore
  */
 export async function* getMessageIterator<ReceivedMessageT>(
-  receiver: Receiver<ReceivedMessageT>,
-  options?: GetMessageIteratorOptions
+  receiver: ServiceBusReceiver<ReceivedMessageT>,
+  options?: OperationOptionsBase
 ): AsyncIterableIterator<ReceivedMessageT> {
   while (true) {
     const messages = await receiver.receiveMessages(1, options);
@@ -42,4 +44,21 @@ export async function* getMessageIterator<ReceivedMessageT>(
 
     yield messages[0];
   }
+}
+
+/**
+ * @internal
+ * @ignore
+ */
+export function wrapProcessErrorHandler(
+  handlers: Pick<MessageHandlers<unknown>, "processError">,
+  logError: (formatter: any, ...args: any[]) => void = log.error
+): MessageHandlers<unknown>["processError"] {
+  return async (err: Error) => {
+    try {
+      await handlers.processError(err);
+    } catch (err) {
+      logError(`An error was thrown from the user's processError handler: ${err}`);
+    }
+  };
 }

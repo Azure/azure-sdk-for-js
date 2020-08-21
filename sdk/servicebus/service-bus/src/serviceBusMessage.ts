@@ -5,7 +5,7 @@ import Long from "long";
 import { Delivery, DeliveryAnnotations, MessageAnnotations, uuid_to_string } from "rhea-promise";
 import { AmqpMessage, Constants, ErrorNameConditionMapper, translate } from "@azure/core-amqp";
 import * as log from "./log";
-import { ClientEntityContext } from "./clientEntityContext";
+import { ConnectionContext } from "./connectionContext";
 import { reorderLockToken } from "./util/utils";
 import { getErrorMessageNotSupportedInReceiveAndDeleteMode } from "./util/errors";
 import { Buffer } from "buffer";
@@ -18,7 +18,7 @@ import { DispositionStatusOptions } from "./core/managementClient";
  * @ignore
  * @enum {number}
  */
-export enum ReceiveMode {
+export enum InternalReceiveMode {
   /**
    * Once a message is received in this mode, the receiver has a lock on the message for a
    * particular duration. If the message is not settled by this time, it lands back on Service Bus
@@ -34,6 +34,7 @@ export enum ReceiveMode {
 
 /**
  * @internal
+ * @ignore
  */
 export enum DispositionType {
   complete = "complete",
@@ -44,6 +45,7 @@ export enum DispositionType {
 
 /**
  * @internal
+ * @ignore
  * Describes the delivery annotations for Service Bus.
  */
 export interface ServiceBusDeliveryAnnotations extends DeliveryAnnotations {
@@ -71,6 +73,7 @@ export interface ServiceBusDeliveryAnnotations extends DeliveryAnnotations {
 
 /**
  * @internal
+ * @ignore
  * Describes the message annotations for Service Bus.
  */
 export interface ServiceBusMessageAnnotations extends MessageAnnotations {
@@ -219,11 +222,12 @@ export interface ServiceBusMessage {
    * @property The application specific properties which can be
    * used for custom message metadata.
    */
-  userProperties?: { [key: string]: any };
+  properties?: { [key: string]: any };
 }
 
 /**
  * @internal
+ * @ignore
  * Gets the error message for when a property on given message is not of expected type
  */
 export function getMessagePropertyTypeMismatchError(msg: ServiceBusMessage): Error | undefined {
@@ -281,6 +285,7 @@ export function getMessagePropertyTypeMismatchError(msg: ServiceBusMessage): Err
 
 /**
  * @internal
+ * @ignore
  * Converts given ServiceBusMessage to AmqpMessage
  */
 export function toAmqpMessage(msg: ServiceBusMessage): AmqpMessage {
@@ -288,8 +293,8 @@ export function toAmqpMessage(msg: ServiceBusMessage): AmqpMessage {
     body: msg.body,
     message_annotations: {}
   };
-  if (msg.userProperties != null) {
-    amqpMsg.application_properties = msg.userProperties;
+  if (msg.properties != null) {
+    amqpMsg.application_properties = msg.properties;
   }
   if (msg.contentType != null) {
     amqpMsg.content_type = msg.contentType;
@@ -362,6 +367,16 @@ export function toAmqpMessage(msg: ServiceBusMessage): AmqpMessage {
  * @class ReceivedMessage
  */
 export interface ReceivedMessage extends ServiceBusMessage {
+  /**
+   * @property The reason for deadlettering the message.
+   * @readonly
+   */
+  readonly deadLetterReason?: string;
+  /**
+   * @property The error description for deadlettering the message.
+   * @readonly
+   */
+  readonly deadLetterErrorDescription?: string;
   /**
    * @property The lock token is a reference to the lock that is being held by the broker in
    * `ReceiveMode.PeekLock` mode. Locks are used internally settle messages as explained in the
@@ -556,8 +571,9 @@ export interface ReceivedMessageWithLock extends ReceivedMessage {
 }
 
 /**
+ * @internal
  * @ignore
- * Converts given AmqpMessage to ReceivedMessageInfo
+ * Converts given AmqpMessage to ReceivedMessage
  */
 export function fromAmqpMessage(
   msg: AmqpMessage,
@@ -574,7 +590,7 @@ export function fromAmqpMessage(
   };
 
   if (msg.application_properties != null) {
-    sbmsg.userProperties = msg.application_properties;
+    sbmsg.properties = msg.application_properties;
   }
   if (msg.content_type != null) {
     sbmsg.contentType = msg.content_type;
@@ -661,7 +677,9 @@ export function fromAmqpMessage(
           )
         : undefined,
     ...sbmsg,
-    ...props
+    ...props,
+    deadLetterReason: sbmsg.properties?.DeadLetterReason,
+    deadLetterErrorDescription: sbmsg.properties?.DeadLetterErrorDescription
   };
 
   log.message("AmqpMessage to ReceivedSBMessage: %O", rcvdsbmsg);
@@ -692,7 +710,7 @@ export class ServiceBusMessageImpl implements ReceivedMessageWithLock {
   /**
    * @property The application specific properties.
    */
-  userProperties?: { [key: string]: any };
+  properties?: { [key: string]: any };
   /**
    * @property The message identifier is an
    * application-defined value that uniquely identifies the message and its payload. The identifier
@@ -858,31 +876,42 @@ export class ServiceBusMessageImpl implements ReceivedMessageWithLock {
    */
   readonly _amqpMessage: AmqpMessage;
   /**
+   * @property The reason for deadlettering the message.
+   * @readonly
+   */
+  readonly deadLetterReason?: string;
+  /**
+   * @property The error description for deadlettering the message.
+   * @readonly
+   */
+  readonly deadLetterErrorDescription?: string;
+  /**
    * @property Boolean denoting if the message has already been settled.
    * @readonly
    */
   public get isSettled(): boolean {
     return this.delivery.remote_settled;
   }
-  /**
-   * @property {ClientEntityContext} _context The client entity context.
-   * @readonly
-   */
-  private readonly _context: ClientEntityContext;
 
   /**
    * @internal
    */
   constructor(
-    context: ClientEntityContext,
+    private readonly _context: ConnectionContext,
+    private readonly _entityPath: string,
     msg: AmqpMessage,
     delivery: Delivery,
-    shouldReorderLockToken: boolean
+    shouldReorderLockToken: boolean,
+    receiveMode: InternalReceiveMode
   ) {
     Object.assign(this, fromAmqpMessage(msg, delivery, shouldReorderLockToken));
-    this._context = context;
+    // Lock on a message is applicable only in peekLock mode, but the service sets
+    // the lock token even in receiveAndDelete mode if the entity in question is partitioned.
+    if (receiveMode === InternalReceiveMode.receiveAndDelete) {
+      this.lockToken = undefined;
+    }
     if (msg.body) {
-      this.body = this._context.namespace.dataTransformer.decode(msg.body);
+      this.body = this._context.dataTransformer.decode(msg.body);
     }
     this._amqpMessage = msg;
     this.delivery = delivery;
@@ -894,7 +923,7 @@ export class ServiceBusMessageImpl implements ReceivedMessageWithLock {
   async complete(): Promise<void> {
     log.message(
       "[%s] Completing the message with id '%s'.",
-      this._context.namespace.connectionId,
+      this._context.connectionId,
       this.messageId
     );
     return this.settleMessage(DispositionType.complete);
@@ -907,7 +936,7 @@ export class ServiceBusMessageImpl implements ReceivedMessageWithLock {
     // TODO: Figure out a mechanism to convert specified properties to message_annotations.
     log.message(
       "[%s] Abandoning the message with id '%s'.",
-      this._context.namespace.connectionId,
+      this._context.connectionId,
       this.messageId
     );
     return this.settleMessage(DispositionType.abandon, {
@@ -921,7 +950,7 @@ export class ServiceBusMessageImpl implements ReceivedMessageWithLock {
   async defer(propertiesToModify?: { [key: string]: any }): Promise<void> {
     log.message(
       "[%s] Deferring the message with id '%s'.",
-      this._context.namespace.connectionId,
+      this._context.connectionId,
       this.messageId
     );
     return this.settleMessage(DispositionType.defer, {
@@ -935,7 +964,7 @@ export class ServiceBusMessageImpl implements ReceivedMessageWithLock {
   async deadLetter(propertiesToModify?: DeadLetterOptions & { [key: string]: any }): Promise<void> {
     log.message(
       "[%s] Deadlettering the message with id '%s'.",
-      this._context.namespace.connectionId,
+      this._context.connectionId,
       this.messageId
     );
 
@@ -968,38 +997,37 @@ export class ServiceBusMessageImpl implements ReceivedMessageWithLock {
    * @throws MessagingError if the service returns an error while renewing message lock.
    */
   async renewLock(): Promise<Date> {
+    let associatedLinkName: string | undefined;
     let error: Error | undefined;
     if (this.sessionId) {
       error = translate({
         description: `Invalid operation on the message, message lock doesn't exist when dealing with sessions`,
         condition: ErrorNameConditionMapper.InvalidOperationError
       });
-    } else if (!this._context.requestResponseLockedMessages.has(this.lockToken!)) {
-      // In case the message wasn't from a deferred queue,
-      //   1. We have the access to the receiver which can be used to throw error in case of the ReceiveAndDelete mode
-      //   2. We can additionally verify the remote_settled flag on the delivery
-      //      - If the flag is true, throw an error since the message has been settled (Specifically, with a receive link)
-      //      - If the flag is false, we can't say that the message has not been settled
-      //        since settling with the management link won't update the delivery (In this case, service would throw an error)
-      const receiver = this._context.getReceiver(this.delivery.link.name, this.sessionId);
-      if (receiver && receiver.receiveMode !== ReceiveMode.peekLock) {
-        error = new Error(
-          getErrorMessageNotSupportedInReceiveAndDeleteMode(`renew the lock on the message`)
-        );
-      } else if (this.delivery.remote_settled) {
-        error = new Error(`Failed to renew the lock as this message is already settled.`);
-      }
+    } else if (!this.lockToken) {
+      error = new Error(
+        getErrorMessageNotSupportedInReceiveAndDeleteMode(`renew the lock on the message`)
+      );
+    } else if (this.delivery.remote_settled) {
+      error = new Error(`Failed to renew the lock as this message is already settled.`);
     }
     if (error) {
       log.error(
         "[%s] An error occurred when renewing the lock on the message with id '%s': %O",
-        this._context.namespace.connectionId,
+        this._context.connectionId,
         this.messageId,
         error
       );
       throw error;
     }
-    this.lockedUntilUtc = await this._context.managementClient!.renewLock(this.lockToken!);
+
+    if (this.delivery.link) {
+      const associatedReceiver = this._context.getReceiverFromCache(this.delivery.link.name);
+      associatedLinkName = associatedReceiver?.name;
+    }
+    this.lockedUntilUtc = await this._context
+      .getManagementClient(this._entityPath)
+      .renewLock(this.lockToken!, { associatedLinkName });
     return this.lockedUntilUtc;
   }
 
@@ -1022,7 +1050,7 @@ export class ServiceBusMessageImpl implements ReceivedMessageWithLock {
       sessionId: this.sessionId,
       timeToLive: this.timeToLive,
       to: this.to,
-      userProperties: this.userProperties,
+      properties: this.properties,
       viaPartitionKey: this.viaPartitionKey
     };
 
@@ -1044,26 +1072,34 @@ export class ServiceBusMessageImpl implements ReceivedMessageWithLock {
     operation: DispositionType,
     options?: DispositionStatusOptions
   ): Promise<void> {
-    const isDeferredMessage = this._context.requestResponseLockedMessages.has(this.lockToken!);
+    if (!this.lockToken) {
+      const error = new Error(
+        getErrorMessageNotSupportedInReceiveAndDeleteMode(`${operation} the message`)
+      );
+      log.error(
+        "[%s] An error occurred when settling a message with id '%s': %O",
+        this._context.connectionId,
+        this.messageId,
+        error
+      );
+      throw error;
+    }
+    const isDeferredMessage = this._context.requestResponseLockedMessages.has(this.lockToken);
     const receiver = isDeferredMessage
       ? undefined
-      : this._context.getReceiver(this.delivery.link.name, this.sessionId);
+      : this._context.getReceiverFromCache(this.delivery.link.name, this.sessionId);
+    const associatedLinkName = receiver?.name;
 
     if (!isDeferredMessage) {
       // In case the message wasn't from a deferred queue,
-      //   1. We have the access to the receiver which can be used to throw error in case of the ReceiveAndDelete mode
-      //   2. We can additionally verify the remote_settled flag on the delivery
+      //   1. We can verify the remote_settled flag on the delivery
       //      - If the flag is true, throw an error since the message has been settled (Specifically, with a receive link)
       //      - If the flag is false, we can't say that the message has not been settled
       //        since settling with the management link won't update the delivery (In this case, service would throw an error)
-      //   3. If the message has a session-id and if the associated receiver link is unavailable,
+      //   2. If the message has a session-id and if the associated receiver link is unavailable,
       //      then throw an error since we need a lock on the session to settle the message.
       let error: Error | undefined;
-      if (receiver && receiver.receiveMode !== ReceiveMode.peekLock) {
-        error = new Error(
-          getErrorMessageNotSupportedInReceiveAndDeleteMode(`${operation} the message`)
-        );
-      } else if (this.delivery.remote_settled) {
+      if (this.delivery.remote_settled) {
         error = new Error(`Failed to ${operation} the message as this message is already settled.`);
       } else if ((!receiver || !receiver.isOpen()) && this.sessionId != undefined) {
         error = translate({
@@ -1076,7 +1112,7 @@ export class ServiceBusMessageImpl implements ReceivedMessageWithLock {
       if (error) {
         log.error(
           "[%s] An error occurred when settling a message with id '%s': %O",
-          this._context.namespace.connectionId,
+          this._context.connectionId,
           this.messageId,
           error
         );
@@ -1088,13 +1124,16 @@ export class ServiceBusMessageImpl implements ReceivedMessageWithLock {
     // 1. If the received message is deferred as such messages can only be settled using managementLink
     // 2. If the associated receiver link is not available. This does not apply to messages from sessions as we need a lock on the session to do so.
     if (isDeferredMessage || ((!receiver || !receiver.isOpen()) && this.sessionId == undefined)) {
-      await this._context.managementClient!.updateDispositionStatus(this.lockToken!, operation, {
-        ...options,
-        sessionId: this.sessionId
-      });
+      await this._context
+        .getManagementClient(this._entityPath)
+        .updateDispositionStatus(this.lockToken, operation, {
+          ...options,
+          associatedLinkName,
+          sessionId: this.sessionId
+        });
       if (isDeferredMessage) {
         // Remove the message from the internal map of deferred messages
-        this._context.requestResponseLockedMessages.delete(this.lockToken!);
+        this._context.requestResponseLockedMessages.delete(this.lockToken);
       }
       return;
     }

@@ -1,15 +1,3 @@
-resources:
-  repositories:
-    - repository: azure-sdk-tools
-      type: github
-      name: azure/azure-sdk-tools
-      endpoint: azure
-      ref: refs/tags/azure-sdk-tools_20200618.1
-    - repository: azure-sdk-build-tools
-      type: git
-      name: internal/azure-sdk-build-tools
-      ref: refs/tags/azure-sdk-build-tools_20200618.4
-
 parameters:
 - name: Artifacts
   type: object
@@ -20,12 +8,19 @@ parameters:
 - name: RunUnitTests
   type: boolean
   default: false
+- name: TargetDocRepoOwner
+  type: string
+  default: MicrosoftDocs
+- name: TargetDocRepoName
+  type: string
+  default: azure-docs-sdk-node
 
 stages:
   - stage: Build
     jobs:
       - template: ../jobs/archetype-sdk-client.yml
         parameters:
+          Artifacts: ${{parameters.Artifacts}}
           ServiceDirectory: ${{ parameters.ServiceDirectory }}
           RunUnitTests: ${{ parameters.RunUnitTests }}
 
@@ -47,9 +42,11 @@ stages:
 
   # The Prerelease and Release stages are conditioned on whether we are building a pull request and the branch.
   - ${{if and(ne(variables['Build.Reason'], 'PullRequest'), eq(variables['System.TeamProject'], 'internal'))}}:
-    - template: pipelines/stages/archetype-js-release.yml@azure-sdk-build-tools
+    - template: archetype-js-release.yml
       parameters:
         DependsOn: Build
         ServiceDirectory: ${{parameters.ServiceDirectory}}
         Artifacts: ${{parameters.Artifacts}}
         ArtifactName: packages
+        TargetDocRepoOwner: ${{ parameters.TargetDocRepoOwner }}
+        TargetDocRepoName: ${{ parameters.TargetDocRepoName }}

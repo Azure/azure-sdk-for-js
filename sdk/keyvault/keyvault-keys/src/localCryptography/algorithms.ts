@@ -55,7 +55,7 @@ export const assertions: Record<"keyOps" | "rsa" | "nodeOnly", LocalAssertion> =
    * Validates that the key type is "RSA". For operations on RSA keys.
    */
   rsa(key?: JsonWebKey): void {
-    if (key && key.kty! !== "RSA") {
+    if (key && key.kty! !== "RSA" && key.kty! !== "RSA-HSM") {
       throw new Error("Key type does not match the algorithm RSA");
     }
   },

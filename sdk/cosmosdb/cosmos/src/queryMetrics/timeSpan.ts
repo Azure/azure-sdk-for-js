@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 // Ported this implementation to javascript:
 // https://referencesource.microsoft.com/#mscorlib/system/timespan.cs,83e476c1ae112117
 /** @hidden */

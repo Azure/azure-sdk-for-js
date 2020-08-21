@@ -1,6 +1,9 @@
 # Release History
 
-## 1.1.0 (Unreleased)
+## 1.1.1 (Unreleased)
+
+
+## 1.1.0 (2020-07-07)
 
 - Adding browser support for the latest versions of Chrome, Edge and Firefox.
 

@@ -168,9 +168,11 @@ export function createPipelineFromOptions(pipelineOptions: InternalPipelineOptio
 // @public (undocumented)
 export class DefaultHttpClient extends FetchHttpClient {
     // Warning: (ae-forgotten-export) The symbol "CommonRequestInfo" needs to be exported by the entry point coreHttp.d.ts
+    // Warning: (ae-forgotten-export) The symbol "CommonRequestInit" needs to be exported by the entry point coreHttp.d.ts
+    // Warning: (ae-forgotten-export) The symbol "CommonResponse" needs to be exported by the entry point coreHttp.d.ts
     //
     // (undocumented)
-    fetch(input: CommonRequestInfo, init?: RequestInit): Promise<Response>;
+    fetch(input: CommonRequestInfo, init?: CommonRequestInit): Promise<CommonResponse>;
     // (undocumented)
     prepareRequest(httpRequest: WebResourceLike): Promise<Partial<RequestInit>>;
     // (undocumented)
@@ -220,9 +222,7 @@ export class DisableResponseDecompressionPolicy extends BaseRequestPolicy {
 }
 
 // @public
-export function disableResponseDecompressionPolicy(): {
-    create: (nextPolicy: RequestPolicy, options: RequestPolicyOptions) => DisableResponseDecompressionPolicy;
-};
+export function disableResponseDecompressionPolicy(): RequestPolicyFactory;
 
 // @public
 export function encodeUri(uri: string): string;
@@ -382,9 +382,7 @@ export class KeepAlivePolicy extends BaseRequestPolicy {
 }
 
 // @public (undocumented)
-export function keepAlivePolicy(keepAliveOptions?: KeepAliveOptions): {
-    create: (nextPolicy: RequestPolicy, options: RequestPolicyOptions) => KeepAlivePolicy;
-};
+export function keepAlivePolicy(keepAliveOptions?: KeepAliveOptions): RequestPolicyFactory;
 
 // @public (undocumented)
 export function logPolicy(loggingOptions?: LogPolicyOptions): RequestPolicyFactory;

@@ -19,11 +19,12 @@ Use the @azure/search-documents client library to:
 - Create and manage analyzers for advanced text analysis or multi-lingual content.
 - Optimize results through scoring profiles to factor in business logic or freshness.
 
-[Source code](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/search/search/) |
+[Source code](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/search/search-documents/) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/search-documents) |
 [API reference documentation](https://aka.ms/azsdk/js/search/docs) |
 [REST API documentation](https://docs.microsoft.com/rest/api/searchservice/) |
-[Product documentation](https://docs.microsoft.com/azure/search/)
+[Product documentation](https://docs.microsoft.com/azure/search/) |
+[Samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/search/search-documents/samples)
 
 ## Getting started
 
@@ -108,7 +109,7 @@ async function main() {
   // Let's get the top 5 jobs related to Microsoft
   const searchResults = await client.search("Microsoft", { top: 5 });
   for await (const result of searchResults.results) {
-    console.log(`${result.business_title}\n${result.job_description}\n`);
+    console.log(`${result.document.business_title}\n${result.document.job_description}\n`);
   }
 }
 
@@ -153,6 +154,16 @@ Typically you will only wish to [show a subset of search results](https://docs.m
 **Note**: Data types are converted based on value, not the field type in the index schema. This means that if you have an ISO8601 Date string (e.g. "2020-03-06T18:48:27.896Z") as the value of a field, it will be converted to a Date regardless of how you stored it in your schema.
 
 ## Examples
+
+The following examples demonstrate the basics - please [check out our samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/search/search-documents/samples) for much more.
+
+* [Creating an index](#create-an-index)
+* [Retrieving a specific document from your index](#retrieve-a-specific-document-from-an-index)
+* [Adding documents to your index](#adding-documents-into-an-index)
+* [Perform a search on documents](#perform-a-search-on-documents)
+  * [Querying with TypeScript](#querying-with-typescript)
+  * [Querying with OData filters](#querying-with-odata-filters)
+  * [Querying with facets](#querying-with-facets)
 
 ### Create an Index
 
@@ -334,9 +345,9 @@ async function main() {
   });
 
   for await (const result of searchResults.results) {
-    // result has HotelId, HotelName, and Rating.
-    // Trying to access result.Description would emit a TS error.
-    console.log(result.HotelName);
+    // result.document has HotelId, HotelName, and Rating.
+    // Trying to access result.document.Description would emit a TS error.
+    console.log(result.document.HotelName);
   }
 }
 
@@ -427,7 +438,7 @@ export AZURE_LOG_LEVEL=verbose*
 For more detailed instructions on how to enable logs, you can look at the [@azure/logger package docs](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/core/logger).
 
 ## Next steps
-* [Go further with search-documents and our samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/search/search/samples)
+* [Go further with search-documents and our samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/search/search-documents/samples)
 * [Watch a demo or deep dive video](https://azure.microsoft.com/resources/videos/index/?services=search)
 * [Read more about the Azure Cognitive Search service](https://docs.microsoft.com/azure/search/search-what-is-azure-search)
 

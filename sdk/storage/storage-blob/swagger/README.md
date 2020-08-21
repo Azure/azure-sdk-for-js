@@ -12,7 +12,7 @@ enable-xml: true
 generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../src/generated
-input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/storage-dataplane-preview/specification/storage/data-plane/Microsoft.BlobStorage/preview/2019-07-07/blob.json
+input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/storage-dataplane-preview/specification/storage/data-plane/Microsoft.BlobStorage/preview/2019-12-12/blob.json
 model-date-time-as-string: true
 optional-response-headers: true
 ```
@@ -394,5 +394,19 @@ directive:
 
 ```
 
+### Use string union instead of string for RehydratePriority in getProperties
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $["x-ms-paths"]["/{containerName}/{blob}"]["head"]["responses"]["200"]["headers"]["x-ms-rehydrate-priority"]
+    transform: >
+      $["description"] = "If an object is in rehydrate pending state then this header is returned with priority of rehydrate.";
+      $["enum"] =  ["High", "Standard"];
+      $["x-ms-enum"] =  {};
+      $["x-ms-enum"]["name"] = "RehydratePriority";
+      $["x-ms-enum"]["modelAsString"] = true;      
+
+```
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fstorage%2Fstorage-blob%2Fswagger%2FREADME.png)

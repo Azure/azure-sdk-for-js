@@ -11,7 +11,7 @@ const illegalResourceIdCharacters = new RegExp("[/\\\\?#]");
 export function jsonStringifyAndEscapeNonASCII(arg: any) {
   // TODO: better way for this? Not sure.
   // escapes non-ASCII characters as \uXXXX
-  return JSON.stringify(arg).replace(/[\u0080-\uFFFF]/g, (m) => {
+  return JSON.stringify(arg).replace(/[\u007F-\uFFFF]/g, (m) => {
     return "\\u" + ("0000" + m.charCodeAt(0).toString(16)).slice(-4);
   });
 }

@@ -3,7 +3,7 @@
   Licensed under the MIT Licence.
 
   **NOTE**: If you are using version 1.1.x or lower, then please use the link below:
-  https://github.com/Azure/azure-sdk-for-js/tree/%40azure/service-bus_1.1.5/sdk/servicebus/service-bus/samples
+  https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/servicebus/service-bus/samples-v1
 
   This sample demonstrates usage of SessionState.
 
@@ -18,7 +18,7 @@
 
   Setup: To run this sample, you would need session enabled Queue/Subscription.
 
-  See https://docs.microsoft.com/en-us/azure/service-bus-messaging/message-sessions#message-session-state
+  See https://docs.microsoft.com/azure/service-bus-messaging/message-sessions#message-session-state
   to learn about session state.
 */
 const { ServiceBusClient } = require("@azure/service-bus");
@@ -72,7 +72,7 @@ async function runScenario() {
 }
 async function getSessionState(sessionId) {
   // If receiving from a subscription you can use the createSessionReceiver(topic, subscription) overload
-  const sessionReceiver = await sbClient.createSessionReceiver(userEventsQueueName, "peekLock", {
+  const sessionReceiver = await sbClient.createSessionReceiver(userEventsQueueName, {
     sessionId: sessionId
   });
   const sessionState = await sessionReceiver.getState();
@@ -99,7 +99,7 @@ async function sendMessagesForSession(shoppingEvents, sessionId) {
 }
 async function processMessageFromSession(sessionId) {
   // If receiving from a subscription you can use the createSessionReceiver(topic, subscription) overload
-  const sessionReceiver = await sbClient.createSessionReceiver(userEventsQueueName, "peekLock", {
+  const sessionReceiver = await sbClient.createSessionReceiver(userEventsQueueName, {
     sessionId
   });
 

@@ -218,6 +218,38 @@ class TrainingAPIClient extends TrainingAPIClientContext {
   }
 
   /**
+   * @summary Get artifact content from blob storage, based on artifact relative path in the blob.
+   * @param projectId The project id.
+   * @param path The relative path for artifact.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.GetArtifactResponse>
+   */
+  getArtifact(projectId: string, path: string, options?: msRest.RequestOptionsBase): Promise<Models.GetArtifactResponse>;
+  /**
+   * @param projectId The project id.
+   * @param path The relative path for artifact.
+   * @param callback The callback
+   */
+  getArtifact(projectId: string, path: string, callback: msRest.ServiceCallback<void>): void;
+  /**
+   * @param projectId The project id.
+   * @param path The relative path for artifact.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  getArtifact(projectId: string, path: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
+  getArtifact(projectId: string, path: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<Models.GetArtifactResponse> {
+    return this.sendOperationRequest(
+      {
+        projectId,
+        path,
+        options
+      },
+      getArtifactOperationSpec,
+      callback) as Promise<Models.GetArtifactResponse>;
+  }
+
+  /**
    * @summary Exports a project.
    * @param projectId The project id of the project to export.
    * @param [options] The optional parameters
@@ -246,9 +278,46 @@ class TrainingAPIClient extends TrainingAPIClientContext {
   }
 
   /**
+   * This API supports batching and range selection. By default it will only return first 50 images
+   * matching images.
+   * Use the {take} and {skip} parameters to control how many images to return in a given batch.
+   * The filtering is on an and/or relationship. For example, if the provided tag ids are for the
+   * "Dog" and
+   * "Cat" tags, then only images tagged with Dog and/or Cat will be returned
+   * @summary Get images for a given project iteration or workspace.
+   * @param projectId The project id.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.GetImagesResponse>
+   */
+  getImages(projectId: string, options?: Models.TrainingAPIClientGetImagesOptionalParams): Promise<Models.GetImagesResponse>;
+  /**
+   * @param projectId The project id.
+   * @param callback The callback
+   */
+  getImages(projectId: string, callback: msRest.ServiceCallback<Models.Image[]>): void;
+  /**
+   * @param projectId The project id.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  getImages(projectId: string, options: Models.TrainingAPIClientGetImagesOptionalParams, callback: msRest.ServiceCallback<Models.Image[]>): void;
+  getImages(projectId: string, options?: Models.TrainingAPIClientGetImagesOptionalParams | msRest.ServiceCallback<Models.Image[]>, callback?: msRest.ServiceCallback<Models.Image[]>): Promise<Models.GetImagesResponse> {
+    return this.sendOperationRequest(
+      {
+        projectId,
+        options
+      },
+      getImagesOperationSpec,
+      callback) as Promise<Models.GetImagesResponse>;
+  }
+
+  /**
    * This API accepts body content as multipart/form-data and application/octet-stream. When using
    * multipart
-   * multiple image files can be sent at once, with a maximum of 64 files
+   * multiple image files can be sent at once, with a maximum of 64 files.
+   * If all images are successful created, 200(OK) status code will be returned.
+   * Otherwise, 207 (Multi-Status) status code will be returned and detail status for each image will
+   * be listed in the response payload.
    * @summary Add the provided images to the set of training images.
    * @param projectId The project id.
    * @param imageData Binary image data. Supported formats are JPEG, GIF, PNG, and BMP. Supports
@@ -346,8 +415,42 @@ class TrainingAPIClient extends TrainingAPIClientContext {
   }
 
   /**
+   * The filtering is on an and/or relationship. For example, if the provided tag ids are for the
+   * "Dog" and
+   * "Cat" tags, then only images tagged with Dog and/or Cat will be returned
+   * @summary Get the number of images.
+   * @param projectId The project id.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.GetImageCountResponse>
+   */
+  getImageCount(projectId: string, options?: Models.TrainingAPIClientGetImageCountOptionalParams): Promise<Models.GetImageCountResponse>;
+  /**
+   * @param projectId The project id.
+   * @param callback The callback
+   */
+  getImageCount(projectId: string, callback: msRest.ServiceCallback<number>): void;
+  /**
+   * @param projectId The project id.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  getImageCount(projectId: string, options: Models.TrainingAPIClientGetImageCountOptionalParams, callback: msRest.ServiceCallback<number>): void;
+  getImageCount(projectId: string, options?: Models.TrainingAPIClientGetImageCountOptionalParams | msRest.ServiceCallback<number>, callback?: msRest.ServiceCallback<number>): Promise<Models.GetImageCountResponse> {
+    return this.sendOperationRequest(
+      {
+        projectId,
+        options
+      },
+      getImageCountOperationSpec,
+      callback) as Promise<Models.GetImageCountResponse>;
+  }
+
+  /**
    * This API accepts a batch of files, and optionally tags, to create images. There is a limit of 64
    * images and 20 tags.
+   * If all images are successful created, 200(OK) status code will be returned.
+   * Otherwise, 207 (Multi-Status) status code will be returned and detail status for each image will
+   * be listed in the response payload.
    * @summary Add the provided batch of images to the set of training images.
    * @param projectId The project id.
    * @param batch The batch of image files to add. Limited to 64 images and 20 tags per batch.
@@ -411,24 +514,68 @@ class TrainingAPIClient extends TrainingAPIClientContext {
   }
 
   /**
+   * This API accepts a batch of image Ids, and metadata, to update images. There is a limit of 64
+   * images.
+   * @summary Update metadata of images.
+   * @param projectId The project id.
+   * @param imageIds The list of image ids to update. Limited to 64.
+   * @param metadata The metadata to be updated to the specified images. Limited to 50 key-value
+   * pairs per image. The length of key is limited to 256. The length of value is limited to 512.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.UpdateImageMetadataResponse>
+   */
+  updateImageMetadata(projectId: string, imageIds: string[], metadata: { [propertyName: string]: string }, options?: msRest.RequestOptionsBase): Promise<Models.UpdateImageMetadataResponse>;
+  /**
+   * @param projectId The project id.
+   * @param imageIds The list of image ids to update. Limited to 64.
+   * @param metadata The metadata to be updated to the specified images. Limited to 50 key-value
+   * pairs per image. The length of key is limited to 256. The length of value is limited to 512.
+   * @param callback The callback
+   */
+  updateImageMetadata(projectId: string, imageIds: string[], metadata: { [propertyName: string]: string }, callback: msRest.ServiceCallback<Models.ImageMetadataUpdateSummary>): void;
+  /**
+   * @param projectId The project id.
+   * @param imageIds The list of image ids to update. Limited to 64.
+   * @param metadata The metadata to be updated to the specified images. Limited to 50 key-value
+   * pairs per image. The length of key is limited to 256. The length of value is limited to 512.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  updateImageMetadata(projectId: string, imageIds: string[], metadata: { [propertyName: string]: string }, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ImageMetadataUpdateSummary>): void;
+  updateImageMetadata(projectId: string, imageIds: string[], metadata: { [propertyName: string]: string }, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ImageMetadataUpdateSummary>, callback?: msRest.ServiceCallback<Models.ImageMetadataUpdateSummary>): Promise<Models.UpdateImageMetadataResponse> {
+    return this.sendOperationRequest(
+      {
+        projectId,
+        imageIds,
+        metadata,
+        options
+      },
+      updateImageMetadataOperationSpec,
+      callback) as Promise<Models.UpdateImageMetadataResponse>;
+  }
+
+  /**
    * This API creates a batch of images from predicted images specified. There is a limit of 64
    * images and 20 tags.
+   * If all images are successful created, 200(OK) status code will be returned.
+   * Otherwise, 207 (Multi-Status) status code will be returned and detail status for each image will
+   * be listed in the response payload.
    * @summary Add the specified predicted images to the set of training images.
    * @param projectId The project id.
-   * @param batch Image and tag ids. Limited to 64 images and 20 tags per batch.
+   * @param batch Image, tag ids, and metadata. Limited to 64 images and 20 tags per batch.
    * @param [options] The optional parameters
    * @returns Promise<Models.CreateImagesFromPredictionsResponse>
    */
   createImagesFromPredictions(projectId: string, batch: Models.ImageIdCreateBatch, options?: msRest.RequestOptionsBase): Promise<Models.CreateImagesFromPredictionsResponse>;
   /**
    * @param projectId The project id.
-   * @param batch Image and tag ids. Limited to 64 images and 20 tags per batch.
+   * @param batch Image, tag ids, and metadata. Limited to 64 images and 20 tags per batch.
    * @param callback The callback
    */
   createImagesFromPredictions(projectId: string, batch: Models.ImageIdCreateBatch, callback: msRest.ServiceCallback<Models.ImageCreateSummary>): void;
   /**
    * @param projectId The project id.
-   * @param batch Image and tag ids. Limited to 64 images and 20 tags per batch.
+   * @param batch Image, tag ids, and metadata. Limited to 64 images and 20 tags per batch.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -448,6 +595,9 @@ class TrainingAPIClient extends TrainingAPIClientContext {
    * This API accepts a batch of image regions, and optionally tags, to update existing images with
    * region information.
    * There is a limit of 64 entries in the batch.
+   * If all regions are successful created, 200(OK) status code will be returned.
+   * Otherwise, 207 (Multi-Status) status code will be returned and detail status for each region
+   * will be listed in the response payload.
    * @summary Create a set of image regions.
    * @param projectId The project id.
    * @param batch Batch of image regions which include a tag and bounding box. Limited to 64.
@@ -787,22 +937,25 @@ class TrainingAPIClient extends TrainingAPIClientContext {
   /**
    * This API accepts a batch of urls, and optionally tags, to create images. There is a limit of 64
    * images and 20 tags.
+   * If all images are successful created, 200(OK) status code will be returned.
+   * Otherwise, 207 (Multi-Status) status code will be returned and detail status for each image will
+   * be listed in the response payload.
    * @summary Add the provided images urls to the set of training images.
    * @param projectId The project id.
-   * @param batch Image urls and tag ids. Limited to 64 images and 20 tags per batch.
+   * @param batch Image urls, tag ids, and metadata. Limited to 64 images and 20 tags per batch.
    * @param [options] The optional parameters
    * @returns Promise<Models.CreateImagesFromUrlsResponse>
    */
   createImagesFromUrls(projectId: string, batch: Models.ImageUrlCreateBatch, options?: msRest.RequestOptionsBase): Promise<Models.CreateImagesFromUrlsResponse>;
   /**
    * @param projectId The project id.
-   * @param batch Image urls and tag ids. Limited to 64 images and 20 tags per batch.
+   * @param batch Image urls, tag ids, and metadata. Limited to 64 images and 20 tags per batch.
    * @param callback The callback
    */
   createImagesFromUrls(projectId: string, batch: Models.ImageUrlCreateBatch, callback: msRest.ServiceCallback<Models.ImageCreateSummary>): void;
   /**
    * @param projectId The project id.
-   * @param batch Image urls and tag ids. Limited to 64 images and 20 tags per batch.
+   * @param batch Image urls, tag ids, and metadata. Limited to 64 images and 20 tags per batch.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -1133,7 +1286,7 @@ class TrainingAPIClient extends TrainingAPIClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.PublishIterationResponse>
    */
-  publishIteration(projectId: string, iterationId: string, publishName: string, predictionId: string, options?: msRest.RequestOptionsBase): Promise<Models.PublishIterationResponse>;
+  publishIteration(projectId: string, iterationId: string, publishName: string, predictionId: string, options?: Models.TrainingAPIClientPublishIterationOptionalParams): Promise<Models.PublishIterationResponse>;
   /**
    * @param projectId The project id.
    * @param iterationId The iteration id.
@@ -1150,8 +1303,8 @@ class TrainingAPIClient extends TrainingAPIClientContext {
    * @param options The optional parameters
    * @param callback The callback
    */
-  publishIteration(projectId: string, iterationId: string, publishName: string, predictionId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<boolean>): void;
-  publishIteration(projectId: string, iterationId: string, publishName: string, predictionId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<boolean>, callback?: msRest.ServiceCallback<boolean>): Promise<Models.PublishIterationResponse> {
+  publishIteration(projectId: string, iterationId: string, publishName: string, predictionId: string, options: Models.TrainingAPIClientPublishIterationOptionalParams, callback: msRest.ServiceCallback<boolean>): void;
+  publishIteration(projectId: string, iterationId: string, publishName: string, predictionId: string, options?: Models.TrainingAPIClientPublishIterationOptionalParams | msRest.ServiceCallback<boolean>, callback?: msRest.ServiceCallback<boolean>): Promise<Models.PublishIterationResponse> {
     return this.sendOperationRequest(
       {
         projectId,
@@ -1564,7 +1717,7 @@ class TrainingAPIClient extends TrainingAPIClientContext {
    * @param [options] The optional parameters
    * @returns Promise<Models.ImportProjectResponse>
    */
-  importProject(token: string, options?: msRest.RequestOptionsBase): Promise<Models.ImportProjectResponse>;
+  importProject(token: string, options?: Models.TrainingAPIClientImportProjectOptionalParams): Promise<Models.ImportProjectResponse>;
   /**
    * @param token Token generated from the export project call.
    * @param callback The callback
@@ -1575,8 +1728,8 @@ class TrainingAPIClient extends TrainingAPIClientContext {
    * @param options The optional parameters
    * @param callback The callback
    */
-  importProject(token: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.Project>): void;
-  importProject(token: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.Project>, callback?: msRest.ServiceCallback<Models.Project>): Promise<Models.ImportProjectResponse> {
+  importProject(token: string, options: Models.TrainingAPIClientImportProjectOptionalParams, callback: msRest.ServiceCallback<Models.Project>): void;
+  importProject(token: string, options?: Models.TrainingAPIClientImportProjectOptionalParams | msRest.ServiceCallback<Models.Project>, callback?: msRest.ServiceCallback<Models.Project>): Promise<Models.ImportProjectResponse> {
     return this.sendOperationRequest(
       {
         token,
@@ -1670,7 +1823,7 @@ const createProjectOperationSpec: msRest.OperationSpec = {
     Parameters.endpoint
   ],
   queryParameters: [
-    Parameters.name,
+    Parameters.name0,
     Parameters.description,
     Parameters.domainId1,
     Parameters.classificationType,
@@ -1746,6 +1899,30 @@ const updateProjectOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
+const getArtifactOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "projects/{projectId}/artifacts",
+  urlParameters: [
+    Parameters.endpoint,
+    Parameters.projectId
+  ],
+  queryParameters: [
+    Parameters.path
+  ],
+  responses: {
+    200: {
+      bodyMapper: {
+        serializedName: "parsedResponse",
+        type: {
+          name: "Stream"
+        }
+      }
+    },
+    default: {}
+  },
+  serializer
+};
+
 const exportProjectOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "projects/{projectId}/export",
@@ -1756,6 +1933,44 @@ const exportProjectOperationSpec: msRest.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.ProjectExport
+    },
+    default: {
+      bodyMapper: Mappers.CustomVisionError
+    }
+  },
+  serializer
+};
+
+const getImagesOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "projects/{projectId}/images",
+  urlParameters: [
+    Parameters.endpoint,
+    Parameters.projectId
+  ],
+  queryParameters: [
+    Parameters.iterationId0,
+    Parameters.tagIds0,
+    Parameters.taggingStatus,
+    Parameters.filter,
+    Parameters.orderBy,
+    Parameters.take,
+    Parameters.skip
+  ],
+  responses: {
+    200: {
+      bodyMapper: {
+        serializedName: "parsedResponse",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "Image"
+            }
+          }
+        }
+      }
     },
     default: {
       bodyMapper: Mappers.CustomVisionError
@@ -1780,6 +1995,9 @@ const createImagesFromDataOperationSpec: msRest.OperationSpec = {
   contentType: "multipart/form-data",
   responses: {
     200: {
+      bodyMapper: Mappers.ImageCreateSummary
+    },
+    207: {
       bodyMapper: Mappers.ImageCreateSummary
     },
     default: {
@@ -1830,6 +2048,35 @@ const getImageRegionProposalsOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
+const getImageCountOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "projects/{projectId}/images/count",
+  urlParameters: [
+    Parameters.endpoint,
+    Parameters.projectId
+  ],
+  queryParameters: [
+    Parameters.iterationId0,
+    Parameters.taggingStatus,
+    Parameters.filter,
+    Parameters.tagIds1
+  ],
+  responses: {
+    200: {
+      bodyMapper: {
+        serializedName: "parsedResponse",
+        type: {
+          name: "Number"
+        }
+      }
+    },
+    default: {
+      bodyMapper: Mappers.CustomVisionError
+    }
+  },
+  serializer
+};
+
 const createImagesFromFilesOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "projects/{projectId}/images/files",
@@ -1846,6 +2093,9 @@ const createImagesFromFilesOperationSpec: msRest.OperationSpec = {
   },
   responses: {
     200: {
+      bodyMapper: Mappers.ImageCreateSummary
+    },
+    207: {
       bodyMapper: Mappers.ImageCreateSummary
     },
     default: {
@@ -1888,6 +2138,45 @@ const getImagesByIdsOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
+const updateImageMetadataOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "projects/{projectId}/images/metadata",
+  urlParameters: [
+    Parameters.endpoint,
+    Parameters.projectId
+  ],
+  queryParameters: [
+    Parameters.imageIds1
+  ],
+  requestBody: {
+    parameterPath: "metadata",
+    mapper: {
+      required: true,
+      serializedName: "metadata",
+      type: {
+        name: "Dictionary",
+        value: {
+          type: {
+            name: "String"
+          }
+        }
+      }
+    }
+  },
+  responses: {
+    200: {
+      bodyMapper: Mappers.ImageMetadataUpdateSummary
+    },
+    207: {
+      bodyMapper: Mappers.ImageMetadataUpdateSummary
+    },
+    default: {
+      bodyMapper: Mappers.CustomVisionError
+    }
+  },
+  serializer
+};
+
 const createImagesFromPredictionsOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "projects/{projectId}/images/predictions",
@@ -1904,6 +2193,9 @@ const createImagesFromPredictionsOperationSpec: msRest.OperationSpec = {
   },
   responses: {
     200: {
+      bodyMapper: Mappers.ImageCreateSummary
+    },
+    207: {
       bodyMapper: Mappers.ImageCreateSummary
     },
     default: {
@@ -1929,6 +2221,9 @@ const createImageRegionsOperationSpec: msRest.OperationSpec = {
   },
   responses: {
     200: {
+      bodyMapper: Mappers.ImageRegionCreateSummary
+    },
+    207: {
       bodyMapper: Mappers.ImageRegionCreateSummary
     },
     default: {
@@ -2119,7 +2414,7 @@ const deleteImageTagsOperationSpec: msRest.OperationSpec = {
     Parameters.projectId
   ],
   queryParameters: [
-    Parameters.imageIds1,
+    Parameters.imageIds2,
     Parameters.tagIds2
   ],
   responses: {
@@ -2208,6 +2503,9 @@ const createImagesFromUrlsOperationSpec: msRest.OperationSpec = {
   },
   responses: {
     200: {
+      bodyMapper: Mappers.ImageCreateSummary
+    },
+    207: {
       bodyMapper: Mappers.ImageCreateSummary
     },
     default: {
@@ -2457,7 +2755,8 @@ const publishIterationOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.publishName,
-    Parameters.predictionId
+    Parameters.predictionId,
+    Parameters.overwrite
   ],
   responses: {
     200: {
@@ -2631,7 +2930,7 @@ const createTagOperationSpec: msRest.OperationSpec = {
     Parameters.projectId
   ],
   queryParameters: [
-    Parameters.name,
+    Parameters.name0,
     Parameters.description,
     Parameters.type
   ],
@@ -2720,7 +3019,7 @@ const suggestTagsAndRegionsOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.iterationId1,
-    Parameters.imageIds1
+    Parameters.imageIds2
   ],
   responses: {
     200: {
@@ -2782,7 +3081,8 @@ const importProjectOperationSpec: msRest.OperationSpec = {
     Parameters.endpoint
   ],
   queryParameters: [
-    Parameters.token
+    Parameters.token,
+    Parameters.name1
   ],
   responses: {
     200: {

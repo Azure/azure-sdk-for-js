@@ -193,6 +193,12 @@ export class LinkEntity {
     if (!this._tokenTimeoutInMs) {
       return;
     }
+    // Clear the existing token renewal timer.
+    // This scenario can happen if the connection goes down and is brought back up
+    // before the `nextRenewalTimeout` was reached.
+    if (this._tokenRenewalTimer) {
+      clearTimeout(this._tokenRenewalTimer);
+    }
     this._tokenRenewalTimer = setTimeout(async () => {
       try {
         await this._negotiateClaim(true);

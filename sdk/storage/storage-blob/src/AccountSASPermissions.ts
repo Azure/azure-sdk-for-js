@@ -36,6 +36,9 @@ export class AccountSASPermissions {
         case "d":
           accountSASPermissions.delete = true;
           break;
+        case "x":
+          accountSASPermissions.deleteVersion = true;
+          break;
         case "l":
           accountSASPermissions.list = true;
           break;
@@ -50,6 +53,12 @@ export class AccountSASPermissions {
           break;
         case "p":
           accountSASPermissions.process = true;
+          break;
+        case "t":
+          accountSASPermissions.tag = true;
+          break;
+        case "f":
+          accountSASPermissions.filter = true;
           break;
         default:
           throw new RangeError(`Invalid permission character: ${c}`);
@@ -82,6 +91,14 @@ export class AccountSASPermissions {
    * @memberof AccountSASPermissions
    */
   public delete: boolean = false;
+
+  /**
+   * Permission to delete versions granted.
+   *
+   * @type {boolean}
+   * @memberof AccountSASPermissions
+   */
+  public deleteVersion: boolean = false;
 
   /**
    * Permission to list blob containers, blobs, shares, directories, and files granted.
@@ -124,6 +141,22 @@ export class AccountSASPermissions {
   public process: boolean = false;
 
   /**
+   * Specfies Tag access granted.
+   *
+   * @type {boolean}
+   * @memberof AccountSASPermissions
+   */
+  public tag: boolean = false;
+
+  /**
+   * Permission to filter blobs.
+   *
+   * @type {boolean}
+   * @memberof AccountSASPermissions
+   */
+  public filter: boolean = false;
+
+  /**
    * Produces the SAS permissions string for an Azure Storage account.
    * Call this method to set AccountSASSignatureValues Permissions field.
    *
@@ -148,6 +181,15 @@ export class AccountSASPermissions {
     }
     if (this.delete) {
       permissions.push("d");
+    }
+    if (this.deleteVersion) {
+      permissions.push("x");
+    }
+    if (this.filter) {
+      permissions.push("f");
+    }
+    if (this.tag) {
+      permissions.push("t");
     }
     if (this.list) {
       permissions.push("l");

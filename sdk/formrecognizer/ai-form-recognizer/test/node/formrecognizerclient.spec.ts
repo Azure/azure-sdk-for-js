@@ -6,7 +6,11 @@ import fs from "fs-extra";
 import path from "path";
 
 import { FormRecognizerClient, AzureKeyCredential } from "../../src";
-import { createRecordedRecognizerClient, testEnv } from "../util/recordedClients";
+import {
+  createRecordedRecognizerClient,
+  testEnv,
+  testPollingOptions
+} from "../util/recordedClients";
 import { env, Recorder } from "@azure/test-utils-recorder";
 
 describe("FormRecognizerClient NodeJS only", () => {
@@ -19,7 +23,7 @@ describe("FormRecognizerClient NodeJS only", () => {
     ({ recorder, client } = createRecordedRecognizerClient(this, apiKey));
   });
 
-  afterEach(function() {
+  afterEach(async function() {
     if (recorder) {
       recorder.stop();
     }
@@ -29,13 +33,13 @@ describe("FormRecognizerClient NodeJS only", () => {
     const filePath = path.join(ASSET_PATH, "forms", "Invoice_1.pdf");
     const stream = fs.createReadStream(filePath);
 
-    const poller = await client.beginRecognizeContent(stream, "application/pdf");
+    const poller = await client.beginRecognizeContent(stream, {
+      contentType: "application/pdf",
+      ...testPollingOptions
+    });
     const pages = await poller.pollUntilDone();
 
-    assert.ok(
-      pages && pages.length > 0,
-      `Expect no-empty pages but got ${pages}`
-    );
+    assert.ok(pages && pages.length > 0, `Expect no-empty pages but got ${pages}`);
 
     //TODO: verify table rows column cells etc.
   });
@@ -44,52 +48,49 @@ describe("FormRecognizerClient NodeJS only", () => {
     const filePath = path.join(ASSET_PATH, "receipt", "contoso-receipt.png");
     const stream = fs.createReadStream(filePath);
 
-    const poller = await client.beginRecognizeContent(stream, "image/png");
+    const poller = await client.beginRecognizeContent(stream, {
+      contentType: "image/png",
+      ...testPollingOptions
+    });
     const pages = await poller.pollUntilDone();
 
-    assert.ok(
-      pages && pages.length > 0,
-      `Expect no-empty pages but got ${pages}`
-    );
+    assert.ok(pages && pages.length > 0, `Expect no-empty pages but got ${pages}`);
   });
 
   it("recognizes content from a jpeg file stream", async () => {
     const filePath = path.join(ASSET_PATH, "forms", "Form_1.jpg");
     const stream = fs.createReadStream(filePath);
 
-    const poller = await client.beginRecognizeContent(stream, "image/jpeg");
+    const poller = await client.beginRecognizeContent(stream, {
+      contentType: "image/jpeg",
+      ...testPollingOptions
+    });
     const pages = await poller.pollUntilDone();
 
-    assert.ok(
-      pages && pages.length > 0,
-      `Expect no-empty pages but got ${pages}`
-    );
+    assert.ok(pages && pages.length > 0, `Expect no-empty pages but got ${pages}`);
   });
 
   it("recognizes content from a tiff file stream", async () => {
     const filePath = path.join(ASSET_PATH, "forms", "Invoice_1.tiff");
     const stream = fs.createReadStream(filePath);
 
-    const poller = await client.beginRecognizeContent(stream, "image/tiff");
+    const poller = await client.beginRecognizeContent(stream, {
+      contentType: "image/tiff",
+      ...testPollingOptions
+    });
     const pages = await poller.pollUntilDone();
 
-    assert.ok(
-      pages && pages.length > 0,
-      `Expect no-empty pages but got ${pages}`
-    );
+    assert.ok(pages && pages.length > 0, `Expect no-empty pages but got ${pages}`);
   });
 
   it("recognizes content from a pdf file stream without passing content type", async () => {
     const filePath = path.join(ASSET_PATH, "forms", "Invoice_1.pdf");
     const stream = fs.createReadStream(filePath);
 
-    const poller = await client.beginRecognizeContent(stream);
+    const poller = await client.beginRecognizeContent(stream, testPollingOptions);
     const pages = await poller.pollUntilDone();
 
-    assert.ok(
-      pages && pages.length > 0,
-      `Expect no-empty pages but got ${pages}`
-    );
+    assert.ok(pages && pages.length > 0, `Expect no-empty pages but got ${pages}`);
   });
 
   it("recognizes content from a url", async () => {
@@ -97,51 +98,48 @@ describe("FormRecognizerClient NodeJS only", () => {
     const urlParts = testingContainerUrl.split("?");
     const url = `${urlParts[0]}/Invoice_1.pdf?${urlParts[1]}`;
 
-    const poller = await client.beginRecognizeContentFromUrl(url);
+    const poller = await client.beginRecognizeContentFromUrl(url, testPollingOptions);
     const pages = await poller.pollUntilDone();
 
-    assert.ok(
-      pages && pages.length > 0,
-      `Expect no-empty pages but got ${pages}`
-    );
+    assert.ok(pages && pages.length > 0, `Expect no-empty pages but got ${pages}`);
   });
 
   it("recognizes receipt from a png file stream", async () => {
     const filePath = path.join(ASSET_PATH, "receipt", "contoso-receipt.png");
     const stream = fs.createReadStream(filePath);
 
-    const poller = await client.beginRecognizeReceipts(stream, "image/png");
+    const poller = await client.beginRecognizeReceipts(stream, {
+      contentType: "image/png",
+      ...testPollingOptions
+    });
     const receipts = await poller.pollUntilDone();
 
-    assert.ok(
-      receipts && receipts.length > 0,
-      `Expect no-empty pages but got ${receipts}`
-    );
+    assert.ok(receipts && receipts.length > 0, `Expect no-empty pages but got ${receipts}`);
     const receipt = receipts![0];
-    assert.equal(receipt.recognizedForm.formType, "prebuilt:receipt");
-    assert.equal(receipt.recognizedForm.fields["ReceiptType"].valueType, "string");
-    assert.equal(receipt.recognizedForm.fields["ReceiptType"].value as string, "Itemized");
-    assert.ok(receipt.recognizedForm.fields["Tax"], "Expecting valid 'Tax' field");
-    assert.equal(receipt.recognizedForm.fields["Tax"].valueType, "number");
-    assert.equal(receipt.recognizedForm.fields["Tax"].name, "Tax");
-    assert.ok(receipt.recognizedForm.fields["Total"], "Expecting valid 'Total' field");
-    assert.equal(receipt.recognizedForm.fields["Total"].valueType, "number");
-    assert.equal(receipt.recognizedForm.fields["Total"].value as number, 1203.39);
+    assert.equal(receipt.formType, "prebuilt:receipt");
+    assert.equal(receipt.fields["ReceiptType"].valueType, "string");
+    assert.equal(receipt.fields["ReceiptType"].value as string, "Itemized");
+    assert.ok(receipt.fields["Tax"], "Expecting valid 'Tax' field");
+    assert.equal(receipt.fields["Tax"].valueType, "number");
+    assert.equal(receipt.fields["Tax"].name, "Tax");
+    assert.ok(receipt.fields["Total"], "Expecting valid 'Total' field");
+    assert.equal(receipt.fields["Total"].valueType, "number");
+    assert.equal(receipt.fields["Total"].value as number, 1203.39);
   });
 
   it("recognizes receipt from a jpeg file stream", async () => {
     const filePath = path.join(ASSET_PATH, "receipt", "contoso-allinone.jpg");
     const stream = fs.createReadStream(filePath);
 
-    const poller = await client.beginRecognizeReceipts(stream, "image/jpeg");
+    const poller = await client.beginRecognizeReceipts(stream, {
+      contentType: "image/jpeg",
+      ...testPollingOptions
+    });
     const receipts = await poller.pollUntilDone();
 
-    assert.ok(
-      receipts && receipts.length > 0,
-      `Expect no-empty pages but got ${receipts}`
-    );
+    assert.ok(receipts && receipts.length > 0, `Expect no-empty pages but got ${receipts}`);
     const receipt = receipts![0];
-    assert.equal(receipt.recognizedForm.formType, "prebuilt:receipt");
+    assert.equal(receipt.formType, "prebuilt:receipt");
   });
 
   it("recognizes receipt from a url", async () => {
@@ -149,32 +147,28 @@ describe("FormRecognizerClient NodeJS only", () => {
     const urlParts = testingContainerUrl.split("?");
     const url = `${urlParts[0]}/contoso-allinone.jpg?${urlParts[1]}`;
 
-    const poller = await client.beginRecognizeReceiptsFromUrl(url);
+    const poller = await client.beginRecognizeReceiptsFromUrl(url, testPollingOptions);
     const receipts = await poller.pollUntilDone();
 
-    assert.ok(
-      receipts && receipts.length > 0,
-      `Expect no-empty pages but got ${receipts}`
-    );
+    assert.ok(receipts && receipts.length > 0, `Expect no-empty pages but got ${receipts}`);
     const receipt = receipts![0];
-    assert.equal(receipt.recognizedForm.formType, "prebuilt:receipt");
+    assert.equal(receipt.formType, "prebuilt:receipt");
   });
 
   it("recognizes multi-page receipt with blank page", async () => {
     const filePath = path.join(ASSET_PATH, "receipt", "multipage_invoice1.pdf");
     const stream = fs.createReadStream(filePath);
 
-    const poller = await client.beginRecognizeReceipts(stream, "application/pdf", {
-      includeTextContent: true
+    const poller = await client.beginRecognizeReceipts(stream, {
+      contentType: "application/pdf",
+      includeFieldElements: true,
+      ...testPollingOptions
     });
     const receipts = await poller.pollUntilDone();
 
-    assert.ok(
-      receipts && receipts.length > 0,
-      `Expect no-empty pages but got ${receipts}`
-    );
+    assert.ok(receipts && receipts.length > 0, `Expect no-empty pages but got ${receipts}`);
     const receipt = receipts![0];
-    assert.equal(receipt.recognizedForm.formType, "prebuilt:receipt");
+    assert.equal(receipt.formType, "prebuilt:receipt");
   });
 }).timeout(60000);
 
@@ -187,7 +181,7 @@ describe("[AAD] FormRecognizerClient NodeJS only", () => {
     ({ recorder, client } = createRecordedRecognizerClient(this));
   });
 
-  afterEach(function() {
+  afterEach(async function() {
     if (recorder) {
       recorder.stop();
     }
@@ -197,13 +191,13 @@ describe("[AAD] FormRecognizerClient NodeJS only", () => {
     const filePath = path.join(ASSET_PATH, "forms", "Invoice_1.pdf");
     const stream = fs.createReadStream(filePath);
 
-    const poller = await client.beginRecognizeContent(stream, "application/pdf");
+    const poller = await client.beginRecognizeContent(stream, {
+      contentType: "application/pdf",
+      ...testPollingOptions
+    });
     const pages = await poller.pollUntilDone();
 
-    assert.ok(
-      pages && pages.length > 0,
-      `Expect no-empty pages but got ${pages}`
-    );
+    assert.ok(pages && pages.length > 0, `Expect no-empty pages but got ${pages}`);
 
     //TODO: verify table rows column cells etc.
   });
@@ -213,13 +207,10 @@ describe("[AAD] FormRecognizerClient NodeJS only", () => {
     const urlParts = testingContainerUrl.split("?");
     const url = `${urlParts[0]}/Invoice_1.pdf?${urlParts[1]}`;
 
-    const poller = await client.beginRecognizeContentFromUrl(url);
+    const poller = await client.beginRecognizeContentFromUrl(url, testPollingOptions);
     const pages = await poller.pollUntilDone();
 
-    assert.ok(
-      pages && pages.length > 0,
-      `Expect no-empty pages but got ${pages}`
-    );
+    assert.ok(pages && pages.length > 0, `Expect no-empty pages but got ${pages}`);
   });
 
   it("recognizes receipt from a url", async () => {
@@ -227,14 +218,11 @@ describe("[AAD] FormRecognizerClient NodeJS only", () => {
     const urlParts = testingContainerUrl.split("?");
     const url = `${urlParts[0]}/contoso-allinone.jpg?${urlParts[1]}`;
 
-    const poller = await client.beginRecognizeReceiptsFromUrl(url);
+    const poller = await client.beginRecognizeReceiptsFromUrl(url, testPollingOptions);
     const receipts = await poller.pollUntilDone();
 
-    assert.ok(
-      receipts && receipts.length > 0,
-      `Expect no-empty pages but got ${receipts}`
-    );
+    assert.ok(receipts && receipts.length > 0, `Expect no-empty pages but got ${receipts}`);
     const receipt = receipts![0];
-    assert.equal(receipt.recognizedForm.formType, "prebuilt:receipt");
+    assert.equal(receipt.formType, "prebuilt:receipt");
   });
 }).timeout(60000);

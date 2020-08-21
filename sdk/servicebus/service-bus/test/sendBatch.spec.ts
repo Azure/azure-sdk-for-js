@@ -10,16 +10,20 @@ import { TestClientType } from "./utils/testUtils";
 import {
   EntityName,
   ServiceBusClientForTests,
-  createServiceBusClientForTests
+  createServiceBusClientForTests,
+  getRandomTestClientTypeWithSessions,
+  getRandomTestClientTypeWithNoSessions
 } from "./utils/testutils2";
-import { Sender } from "../src/sender";
+import { ServiceBusSender } from "../src/sender";
 import { ConditionErrorNameMapper } from "@azure/core-amqp";
 
 describe("Send Batch", () => {
-  let sender: Sender;
+  let sender: ServiceBusSender;
   let serviceBusClient: ServiceBusClientForTests;
 
   let entityNames: EntityName;
+  let noSessionTestClientType = getRandomTestClientTypeWithNoSessions();
+  let withSessionTestClientType = getRandomTestClientTypeWithSessions();
 
   before(() => {
     serviceBusClient = createServiceBusClientForTests();
@@ -85,43 +89,13 @@ describe("Send Batch", () => {
       );
     }
 
-    it("Partitioned Queue: SendBatch", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.PartitionedQueue);
+    it(`${noSessionTestClientType}: SendBatch`, async function(): Promise<void> {
+      await beforeEachTest(noSessionTestClientType);
       await testSendBatch(false);
     });
 
-    it("Partitioned Topic: SendBatch", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.PartitionedSubscription);
-      await testSendBatch(false);
-    });
-
-    it("Unpartitioned Queue: SendBatch", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.UnpartitionedQueue);
-      await testSendBatch(false);
-    });
-
-    it("Unpartitioned Topic: SendBatch", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.UnpartitionedSubscription);
-      await testSendBatch(false);
-    });
-
-    it("Partitioned Queue with Sessions: SendBatch", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.PartitionedQueueWithSessions);
-      await testSendBatch(true);
-    });
-
-    it("Partitioned Topic with Sessions: SendBatch", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.PartitionedSubscriptionWithSessions);
-      await testSendBatch(true);
-    });
-
-    it("Unpartitioned Queue with Sessions: SendBatch", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.UnpartitionedQueueWithSessions);
-      await testSendBatch(true);
-    });
-
-    it("Unpartitioned Topic with Sessions: SendBatch", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.UnpartitionedSubscriptionWithSessions);
+    it(`${withSessionTestClientType}: SendBatch`, async function(): Promise<void> {
+      await beforeEachTest(withSessionTestClientType);
       await testSendBatch(true);
     });
   });
@@ -137,7 +111,8 @@ describe("Send Batch", () => {
         messagesToSend.push({
           body: Buffer.alloc(2000),
           messageId: `message ${i}`,
-          sessionId: useSessions ? `someSession ${i}` : undefined
+          sessionId: useSessions ? `someSession ${i}` : undefined,
+          partitionKey: useSessions ? `someSession ${i}` : undefined
         });
       }
       return messagesToSend;
@@ -246,43 +221,13 @@ describe("Send Batch", () => {
       );
     }
 
-    it("Partitioned Queue: SendBatch", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.PartitionedQueue);
+    it(`${noSessionTestClientType}: SendBatch`, async function(): Promise<void> {
+      await beforeEachTest(noSessionTestClientType);
       await testSendBatch(false);
     });
 
-    it("Partitioned Topic: SendBatch", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.PartitionedSubscription);
-      await testSendBatch(false);
-    });
-
-    it("Unpartitioned Queue: SendBatch", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.UnpartitionedQueue);
-      await testSendBatch(false);
-    });
-
-    it("Unpartitioned Topic: SendBatch", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.UnpartitionedSubscription);
-      await testSendBatch(false);
-    });
-
-    it("Partitioned Queue with Sessions: SendBatch", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.PartitionedQueueWithSessions);
-      await testSendBatch(true);
-    });
-
-    it("Partitioned Topic with Sessions: SendBatch", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.PartitionedSubscriptionWithSessions);
-      await testSendBatch(true);
-    });
-
-    it("Unpartitioned Queue with Sessions: SendBatch", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.UnpartitionedQueueWithSessions);
-      await testSendBatch(true);
-    });
-
-    it("Unpartitioned Topic with Sessions: SendBatch", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.UnpartitionedSubscriptionWithSessions);
+    it(`${withSessionTestClientType}: SendBatch`, async function(): Promise<void> {
+      await beforeEachTest(withSessionTestClientType);
       await testSendBatch(true);
     });
   });
@@ -325,43 +270,13 @@ describe("Send Batch", () => {
       );
     }
 
-    it("Partitioned Queue: SendBatch", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.PartitionedQueue);
+    it(`${noSessionTestClientType}: SendBatch`, async function(): Promise<void> {
+      await beforeEachTest(noSessionTestClientType);
       await testSendBatch(false);
     });
 
-    it("Partitioned Topic: SendBatch", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.PartitionedSubscription);
-      await testSendBatch(false);
-    });
-
-    it("Unpartitioned Queue: SendBatch", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.UnpartitionedQueue);
-      await testSendBatch(false);
-    });
-
-    it("Unpartitioned Topic: SendBatch", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.UnpartitionedSubscription);
-      await testSendBatch(false);
-    });
-
-    it("Partitioned Queue with Sessions: SendBatch", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.PartitionedQueueWithSessions);
-      await testSendBatch(true);
-    });
-
-    it("Partitioned Topic with Sessions: SendBatch", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.PartitionedSubscriptionWithSessions);
-      await testSendBatch(true);
-    });
-
-    it("Unpartitioned Queue with Sessions: SendBatch", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.UnpartitionedQueueWithSessions);
-      await testSendBatch(true);
-    });
-
-    it("Unpartitioned Topic with Sessions: SendBatch", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.UnpartitionedSubscriptionWithSessions);
+    it(`${withSessionTestClientType}: SendBatch`, async function(): Promise<void> {
+      await beforeEachTest(withSessionTestClientType);
       await testSendBatch(true);
     });
   });
@@ -423,43 +338,13 @@ describe("Send Batch", () => {
       );
     }
 
-    it("Partitioned Queue: SendBatch", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.PartitionedQueue);
+    it(`${noSessionTestClientType}: SendBatch`, async function(): Promise<void> {
+      await beforeEachTest(noSessionTestClientType);
       await testSendBatch(false);
     });
 
-    it("Partitioned Topic: SendBatch", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.PartitionedSubscription);
-      await testSendBatch(false);
-    });
-
-    it("Unpartitioned Queue: SendBatch", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.UnpartitionedQueue);
-      await testSendBatch(false);
-    });
-
-    it("Unpartitioned Topic: SendBatch", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.UnpartitionedSubscription);
-      await testSendBatch(false);
-    });
-
-    it("Partitioned Queue with Sessions: SendBatch", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.PartitionedQueueWithSessions);
-      await testSendBatch(true);
-    });
-
-    it("Partitioned Topic with Sessions: SendBatch", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.PartitionedSubscriptionWithSessions);
-      await testSendBatch(true);
-    });
-
-    it("Unpartitioned Queue with Sessions: SendBatch", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.UnpartitionedQueueWithSessions);
-      await testSendBatch(true);
-    });
-
-    it("Unpartitioned Topic with Sessions: SendBatch", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.UnpartitionedSubscriptionWithSessions);
+    it(`${withSessionTestClientType}: SendBatch`, async function(): Promise<void> {
+      await beforeEachTest(withSessionTestClientType);
       await testSendBatch(true);
     });
   });
@@ -530,43 +415,13 @@ describe("Send Batch", () => {
       ]);
     }
 
-    it("Partitioned Queue: SendBatch", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.PartitionedQueue);
+    it(`${noSessionTestClientType}: SendBatch`, async function(): Promise<void> {
+      await beforeEachTest(noSessionTestClientType);
       await testSendBatch(false, 5000);
     });
 
-    it("Partitioned Topic: SendBatch", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.PartitionedSubscription);
-      await testSendBatch(false, 5000);
-    });
-
-    it("Unpartitioned Queue: SendBatch", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.UnpartitionedQueue);
-      await testSendBatch(false, 5000);
-    });
-
-    it("Unpartitioned Topic: SendBatch", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.UnpartitionedSubscription);
-      await testSendBatch(false, 5000);
-    });
-
-    it("Partitioned Queue with Sessions: SendBatch", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.PartitionedQueueWithSessions);
-      await testSendBatch(true, 5000);
-    });
-
-    it("Partitioned Topic with Sessions: SendBatch", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.PartitionedSubscriptionWithSessions);
-      await testSendBatch(true, 5000);
-    });
-
-    it("Unpartitioned Queue with Sessions: SendBatch", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.UnpartitionedQueueWithSessions);
-      await testSendBatch(true, 5000);
-    });
-
-    it("Unpartitioned Topic with Sessions: SendBatch", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.UnpartitionedSubscriptionWithSessions);
+    it(`${withSessionTestClientType}: SendBatch`, async function(): Promise<void> {
+      await beforeEachTest(withSessionTestClientType);
       await testSendBatch(true, 5000);
     });
   });
@@ -596,43 +451,13 @@ describe("Send Batch", () => {
       );
     }
 
-    it("Partitioned Queue: SendBatch", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.PartitionedQueue);
+    it(`${noSessionTestClientType}: SendBatch`, async function(): Promise<void> {
+      await beforeEachTest(noSessionTestClientType);
       await testSendBatch(maxSizeInBytes);
     });
 
-    it("Partitioned Topic: SendBatch", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.PartitionedSubscription);
-      await testSendBatch(maxSizeInBytes);
-    });
-
-    it("Unpartitioned Queue: SendBatch", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.UnpartitionedQueue);
-      await testSendBatch(maxSizeInBytes);
-    });
-
-    it("Unpartitioned Topic: SendBatch", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.UnpartitionedSubscription);
-      await testSendBatch(maxSizeInBytes);
-    });
-
-    it("Partitioned Queue with Sessions: SendBatch", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.PartitionedQueueWithSessions);
-      await testSendBatch(maxSizeInBytes);
-    });
-
-    it("Partitioned Topic with Sessions: SendBatch", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.PartitionedSubscriptionWithSessions);
-      await testSendBatch(maxSizeInBytes);
-    });
-
-    it("Unpartitioned Queue with Sessions: SendBatch", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.UnpartitionedQueueWithSessions);
-      await testSendBatch(maxSizeInBytes);
-    });
-
-    it("Unpartitioned Topic with Sessions: SendBatch", async function(): Promise<void> {
-      await beforeEachTest(TestClientType.UnpartitionedSubscriptionWithSessions);
+    it(`${withSessionTestClientType}: SendBatch`, async function(): Promise<void> {
+      await beforeEachTest(withSessionTestClientType);
       await testSendBatch(maxSizeInBytes);
     });
   });

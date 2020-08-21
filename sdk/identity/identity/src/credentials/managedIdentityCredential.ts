@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
 import qs from "qs";
 import {
@@ -11,14 +11,19 @@ import {
 } from "@azure/core-http";
 import { IdentityClient, TokenCredentialOptions } from "../client/identityClient";
 import { createSpan } from "../util/tracing";
-import { AuthenticationErrorName, AuthenticationError, CredentialUnavailable } from "../client/errors";
+import {
+  AuthenticationErrorName,
+  AuthenticationError,
+  CredentialUnavailable
+} from "../client/errors";
 import { CanonicalCode } from "@opentelemetry/api";
-import { logger } from "../util/logging";
+import { credentialLogger, formatSuccess, formatError } from "../util/logging";
 
 const DefaultScopeSuffix = "/.default";
 export const ImdsEndpoint = "http://169.254.169.254/metadata/identity/oauth2/token";
 export const ImdsApiVersion = "2018-02-01";
 export const AppServiceMsiApiVersion = "2017-09-01";
+const logger = credentialLogger("ManagedIdentityCredential");
 
 /**
  * Attempts authentication using a managed identity that has been assigned
@@ -70,7 +75,9 @@ export class ManagedIdentityCredential implements TokenCredential {
     let scope = "";
     if (Array.isArray(scopes)) {
       if (scopes.length !== 1) {
-        throw new Error("To convert to a resource string the specified array must be exactly length 1");
+        throw new Error(
+          "To convert to a resource string the specified array must be exactly length 1"
+        );
       }
 
       scope = scopes[0];
@@ -182,7 +189,7 @@ export class ManagedIdentityCredential implements TokenCredential {
       webResource.timeout = (options.requestOptions && options.requestOptions.timeout) || 500;
 
       try {
-        logger.info(`ManagedIdentityCredential: pinging IMDS endpoint`);
+        logger.info(`Pinging IMDS endpoint`);
         await this.identityClient.sendRequest(webResource);
       } catch (err) {
         if (
@@ -190,7 +197,7 @@ export class ManagedIdentityCredential implements TokenCredential {
           err.name === "AbortError"
         ) {
           // Either request failed or IMDS endpoint isn't available
-          logger.info(`ManagedIdentityCredential: IMDS endpoint unavailable`);
+          logger.info(`IMDS endpoint unavailable`);
           span.setStatus({
             code: CanonicalCode.UNAVAILABLE,
             message: err.message
@@ -200,10 +207,10 @@ export class ManagedIdentityCredential implements TokenCredential {
       }
 
       // If we received any response, the endpoint is available
-      logger.info(`ManagedIdentityCredential: IMDS endpoint is available`);
+      logger.info(`IMDS endpoint is available`);
       return true;
     } catch (err) {
-      logger.warning(`ManagedIdentityCredential: error when accessing IMDS endpoint: ${err}`);
+      logger.info(formatError(`Error when accessing IMDS endpoint: ${err.message}`));
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
         message: err.message
@@ -240,7 +247,13 @@ export class ManagedIdentityCredential implements TokenCredential {
             // convert it into a JavaScript-formatted date
             return Date.parse(requestBody.expires_on);
           };
+          logger.info(
+            `Using the endpoint and the secret coming form the environment variables: MSI_ENDPOINT=${process.env.MSI_ENDPOINT} and MSI_SECRET=[REDACTED].`
+          );
         } else {
+          logger.info(
+            `Using the endpoint coming form the environment variable MSI_ENDPOINT=${process.env.MSI_ENDPOINT}, and using the cloud shell to proceed with the authentication.`
+          );
           // Running in Cloud Shell
           authRequestOptions = this.createCloudShellMsiAuthRequest(resource, clientId);
         }
@@ -249,15 +262,22 @@ export class ManagedIdentityCredential implements TokenCredential {
           if (requestBody.expires_on) {
             // Use the expires_on timestamp if it's available
             const expires = +requestBody.expires_on * 1000;
-            logger.info(`ManagedIdentityCredential: IMDS using expires_on: ${expires} (original value: ${requestBody.expires_on})`);
+            logger.info(
+              `IMDS using expires_on: ${expires} (original value: ${requestBody.expires_on})`
+            );
             return expires;
           } else {
             // If these aren't possible, use expires_in and calculate a timestamp
             const expires = Date.now() + requestBody.expires_in * 1000;
-            logger.info(`ManagedIdentityCredential: IMDS using expires_in: ${expires} (original value: ${requestBody.expires_in})`);
+            logger.info(
+              `IMDS using expires_in: ${expires} (original value: ${requestBody.expires_in})`
+            );
             return expires;
           }
         };
+        logger.info(
+          `Using the IMDS endpoint coming form the environment variable MSI_ENDPOINT=${process.env.MSI_ENDPOINT}, and using the cloud shell to proceed with the authentication.`
+        );
         // Ping the IMDS endpoint to see if it's available
         if (
           !checkIfImdsEndpointAvailable ||
@@ -335,8 +355,13 @@ export class ManagedIdentityCredential implements TokenCredential {
         // requests.
         this.isEndpointUnavailable = result === null;
       } else {
-        throw new CredentialUnavailable("The managed identity endpoint is not currently available");
+        const error = new CredentialUnavailable(
+          "The managed identity endpoint is not currently available"
+        );
+        logger.getToken.info(formatError(error));
+        throw error;
       }
+      logger.getToken.info(formatSuccess(scopes));
       return result;
     } catch (err) {
       span.setStatus({
@@ -344,8 +369,13 @@ export class ManagedIdentityCredential implements TokenCredential {
         message: err.message
       });
 
-      if (err.code == "ENETUNREACH") {
-        throw new CredentialUnavailable("ManagedIdentityCredential is unavailable. No managed identity endpoint found.");
+      if (err.code === "ENETUNREACH") {
+        const error = new CredentialUnavailable(
+          "ManagedIdentityCredential is unavailable. No managed identity endpoint found."
+        );
+
+        logger.getToken.info(formatError(error));
+        throw error;
       }
       throw new AuthenticationError(400, {
         error: "ManagedIdentityCredential authentication failed.",
@@ -353,7 +383,12 @@ export class ManagedIdentityCredential implements TokenCredential {
       });
     } finally {
       if (this.isEndpointUnavailable) {
-        throw new CredentialUnavailable("ManagedIdentityCredential is unavailable. No managed identity endpoint found.");
+        const error = new CredentialUnavailable(
+          "ManagedIdentityCredential is unavailable. No managed identity endpoint found."
+        );
+        logger.getToken.info(formatError(error));
+        // eslint-disable-next-line no-unsafe-finally
+        throw error;
       }
       span.end();
     }

@@ -2,8 +2,9 @@
 // Licensed under the MIT license.
 import { assert } from "chai";
 import { ExpiringAccessTokenCache } from "../src/credentials/accessTokenCache";
+import { AccessToken } from "../src/coreHttp";
 
-function mockToken(expirationDeltaMs: number) {
+function mockToken(expirationDeltaMs: number): AccessToken {
   return {
     token: "token",
     expiresOnTimestamp: Date.now() + expirationDeltaMs

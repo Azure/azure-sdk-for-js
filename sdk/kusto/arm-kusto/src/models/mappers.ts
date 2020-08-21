@@ -607,10 +607,18 @@ export const Cluster: msRest.CompositeMapper = {
         }
       },
       languageExtensions: {
+        readOnly: true,
         serializedName: "properties.languageExtensions",
         type: {
           name: "Composite",
           className: "LanguageExtensionsList"
+        }
+      },
+      enableDoubleEncryption: {
+        serializedName: "properties.enableDoubleEncryption",
+        defaultValue: false,
+        type: {
+          name: "Boolean"
         }
       }
     }
@@ -744,10 +752,18 @@ export const ClusterUpdate: msRest.CompositeMapper = {
         }
       },
       languageExtensions: {
+        readOnly: true,
         serializedName: "properties.languageExtensions",
         type: {
           name: "Composite",
           className: "LanguageExtensionsList"
+        }
+      },
+      enableDoubleEncryption: {
+        serializedName: "properties.enableDoubleEncryption",
+        defaultValue: false,
+        type: {
+          name: "Boolean"
         }
       }
     }
@@ -830,7 +846,7 @@ export const Database: msRest.CompositeMapper = {
       serializedName: "kind",
       clientName: "kind"
     },
-    uberParent: "BaseResource",
+    uberParent: "Database",
     className: "Database",
     modelProperties: {
       ...ProxyResource.type.modelProperties,
@@ -855,6 +871,8 @@ export const ReadWriteDatabase: msRest.CompositeMapper = {
   serializedName: "ReadWrite",
   type: {
     name: "Composite",
+    polymorphicDiscriminator: Database.type.polymorphicDiscriminator,
+    uberParent: "Database",
     className: "ReadWriteDatabase",
     modelProperties: {
       ...Database.type.modelProperties,
@@ -888,7 +906,7 @@ export const ReadWriteDatabase: msRest.CompositeMapper = {
         readOnly: true,
         serializedName: "properties.isFollowed",
         type: {
-          name: "String"
+          name: "Boolean"
         }
       }
     }
@@ -899,6 +917,8 @@ export const ReadOnlyFollowingDatabase: msRest.CompositeMapper = {
   serializedName: "ReadOnlyFollowing",
   type: {
     name: "Composite",
+    polymorphicDiscriminator: Database.type.polymorphicDiscriminator,
+    uberParent: "Database",
     className: "ReadOnlyFollowingDatabase",
     modelProperties: {
       ...Database.type.modelProperties,
@@ -1167,7 +1187,7 @@ export const DataConnection: msRest.CompositeMapper = {
       serializedName: "kind",
       clientName: "kind"
     },
-    uberParent: "BaseResource",
+    uberParent: "DataConnection",
     className: "DataConnection",
     modelProperties: {
       ...ProxyResource.type.modelProperties,
@@ -1274,6 +1294,8 @@ export const EventHubDataConnection: msRest.CompositeMapper = {
   serializedName: "EventHub",
   type: {
     name: "Composite",
+    polymorphicDiscriminator: DataConnection.type.polymorphicDiscriminator,
+    uberParent: "DataConnection",
     className: "EventHubDataConnection",
     modelProperties: {
       ...DataConnection.type.modelProperties,
@@ -1334,6 +1356,8 @@ export const IotHubDataConnection: msRest.CompositeMapper = {
   serializedName: "IotHub",
   type: {
     name: "Composite",
+    polymorphicDiscriminator: DataConnection.type.polymorphicDiscriminator,
+    uberParent: "DataConnection",
     className: "IotHubDataConnection",
     modelProperties: {
       ...DataConnection.type.modelProperties,
@@ -1395,6 +1419,8 @@ export const EventGridDataConnection: msRest.CompositeMapper = {
   serializedName: "EventGrid",
   type: {
     name: "Composite",
+    polymorphicDiscriminator: DataConnection.type.polymorphicDiscriminator,
+    uberParent: "DataConnection",
     className: "EventGridDataConnection",
     modelProperties: {
       ...DataConnection.type.modelProperties,
@@ -1420,7 +1446,6 @@ export const EventGridDataConnection: msRest.CompositeMapper = {
         }
       },
       tableName: {
-        required: true,
         serializedName: "properties.tableName",
         type: {
           name: "String"
@@ -1433,8 +1458,19 @@ export const EventGridDataConnection: msRest.CompositeMapper = {
         }
       },
       dataFormat: {
-        required: true,
         serializedName: "properties.dataFormat",
+        type: {
+          name: "String"
+        }
+      },
+      ignoreFirstRecord: {
+        serializedName: "properties.ignoreFirstRecord",
+        type: {
+          name: "Boolean"
+        }
+      },
+      blobStorageEventType: {
+        serializedName: "properties.blobStorageEventType",
         type: {
           name: "String"
         }
@@ -1990,12 +2026,12 @@ export const OperationListResult: msRest.CompositeMapper = {
 };
 
 export const discriminators = {
-  'BaseResource.Database' : Database,
-  'BaseResource.ReadWrite' : ReadWriteDatabase,
-  'BaseResource.ReadOnlyFollowing' : ReadOnlyFollowingDatabase,
-  'BaseResource.DataConnection' : DataConnection,
-  'BaseResource.EventHub' : EventHubDataConnection,
-  'BaseResource.IotHub' : IotHubDataConnection,
-  'BaseResource.EventGrid' : EventGridDataConnection
+  'Database' : Database,
+  'Database.ReadWrite' : ReadWriteDatabase,
+  'Database.ReadOnlyFollowing' : ReadOnlyFollowingDatabase,
+  'DataConnection' : DataConnection,
+  'DataConnection.EventHub' : EventHubDataConnection,
+  'DataConnection.IotHub' : IotHubDataConnection,
+  'DataConnection.EventGrid' : EventGridDataConnection
 
 };

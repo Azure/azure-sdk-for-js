@@ -1,6 +1,8 @@
-/// <reference lib="esnext.asynciterable" />
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
+
+/// <reference lib="esnext.asynciterable" />
+
 import { ClientContext } from "./ClientContext";
 import { getPathFromLink, ResourceType, StatusCodes } from "./common";
 import {
@@ -11,7 +13,7 @@ import {
   getInitialHeader,
   mergeHeaders,
   PipelinedQueryExecutionContext,
-  SqlQuerySpec
+  SqlQuerySpec,
 } from "./queryExecutionContext";
 import { Response } from "./request";
 import { ErrorResponse, PartitionedQueryExecutionInfo } from "./request/ErrorResponse";
@@ -242,7 +244,7 @@ export class QueryIterator<T> {
   }
 
   private needsQueryPlan(error: any): error is ErrorResponse {
-    return error.code === StatusCodes.BadRequest;
+    return error.code === StatusCodes.BadRequest && this.resourceType === ResourceType.item;
   }
 
   private initPromise: Promise<void>;

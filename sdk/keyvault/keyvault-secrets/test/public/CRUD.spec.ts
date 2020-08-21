@@ -28,7 +28,7 @@ describe("Secret client - create, read, update and delete operations", () => {
   });
 
   afterEach(async function() {
-    recorder.stop();
+    await recorder.stop();
   });
 
   // The tests follow

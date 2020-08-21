@@ -88,6 +88,10 @@ export interface AppPatch {
    */
   tags?: { [propertyName: string]: string };
   /**
+   * A valid instance SKU.
+   */
+  sku?: AppSkuInfo;
+  /**
    * The ID of the application.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
