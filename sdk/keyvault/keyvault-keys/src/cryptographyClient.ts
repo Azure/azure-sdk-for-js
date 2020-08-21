@@ -54,7 +54,7 @@ import { parseKeyVaultKeysIdentifier } from "./identifier";
 export async function checkKeyValidity(
   getLocalCryptographyClient: () => Promise<LocalCryptographyClient> | undefined,
   keyBundle: KeyBundle | undefined,
-  getKeyID: () => string
+  getKeyID: () => string | undefined
 ) {
   await getLocalCryptographyClient();
   const attributes = keyBundle?.attributes || {};
