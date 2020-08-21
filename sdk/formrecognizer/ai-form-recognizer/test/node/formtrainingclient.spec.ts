@@ -155,15 +155,9 @@ describe("FormTrainingClient NodeJS only", () => {
   });
 
   it("listModels() iterates models in this account", async () => {
-    let count = 0;
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    for await (const _ of trainingClient.listCustomModels()) {
-      count++;
-      if (count > 30) {
-        break; // work around issue https://github.com/Azure/azure-sdk-for-js/issues/8353
-      }
+    for await (const validModel of trainingClient.listCustomModels()) {
+      assert.ok(validModel.modelId, `Expecting a model but got ${validModel.modelId}`);
     }
-    assert.ok(count > 0, `Expecting models in account but got ${count}`);
   });
 
   it("listModels() allows getting next model info", async () => {
