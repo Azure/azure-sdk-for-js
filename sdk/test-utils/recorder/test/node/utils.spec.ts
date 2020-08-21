@@ -220,8 +220,66 @@ describe("NodeJS utils", () => {
   });
 
   describe("decodeHexEncodingIfExistsInNockFixture", () => {
-    it("", () => {
-      // TODO : Add tests
+    [
+      {
+        name: `Hex encoding decodes for "avro/binary" content type`,
+        input: `nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParams":true})
+  .post('/path', "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><QueryRequest><Expression>select * from BlobStorage</Expression></QueryRequest>")
+  .query(true)
+  .reply(200, "4f626a0131c2", [
+  'Transfer-Encoding',
+  'chunked',
+  'Content-Type',
+  'avro/binary',
+  'Last-Modified',
+  'Thu, 20 Aug 2020 09:22:11 GMT',
+]);`,
+        output: `nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParams":true})
+  .post('/path', "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><QueryRequest><Expression>select * from BlobStorage</Expression></QueryRequest>")
+  .query(true)
+  .reply(200, Buffer.from("4f626a0131c2", "hex"), [
+  'Transfer-Encoding',
+  'chunked',
+  'Content-Type',
+  'avro/binary',
+  'Last-Modified',
+  'Thu, 20 Aug 2020 09:22:11 GMT',
+]);`
+      },
+      {
+        name: `Hex encoding is not decoded for "something/else" content type`,
+        input: `nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParams":true})
+  .post('/path', "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><QueryRequest><Expression>select * from BlobStorage</Expression></QueryRequest>")
+  .query(true)
+  .reply(200, "4f626a0131c2", [
+  'Transfer-Encoding',
+  'chunked',
+  'Content-Type',
+  'something/else',
+  'Last-Modified',
+  'Thu, 20 Aug 2020 09:22:11 GMT',
+]);`,
+        output: `nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParams":true})
+  .post('/path', "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><QueryRequest><Expression>select * from BlobStorage</Expression></QueryRequest>")
+  .query(true)
+  .reply(200, "4f626a0131c2", [
+  'Transfer-Encoding',
+  'chunked',
+  'Content-Type',
+  'something/else',
+  'Last-Modified',
+  'Thu, 20 Aug 2020 09:22:11 GMT',
+]);`
+      }
+    ].forEach((test) => {
+      it(test.name, () => {
+        const recorder = new NockRecorder("", "", "");
+        chai.assert.equal(
+          recorder["decodeHexEncodingIfExistsInNockFixture"](test.input),
+          test.output,
+          `Unexpected output`
+        );
+      });
     });
   });
 
