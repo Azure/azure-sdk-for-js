@@ -33,7 +33,6 @@ export class SegmentFactory {
   ): Promise<Segment> {
     const shards: Shard[] = [];
     const dateTime: Date = parseDateFromSegmentPath(manifestPath);
-    const shardIndex = cursor?.shardIndex || 0;
 
     const blobClient = containerClient.getBlobClient(manifestPath);
     const blobDownloadRes = await blobClient.download();
@@ -41,17 +40,27 @@ export class SegmentFactory {
 
     const segmentManifest = JSON.parse(blobContent) as SegmentManifest;
 
-    let i = 0;
     const containerPrefixLength = CHANGE_FEED_CONTAINER_NAME.length + 1; // "$blobchangefeed/"
     for (const shardPath of segmentManifest.chunkFilePaths) {
+      const shardPathSubStr = shardPath.substring(containerPrefixLength);
+      const shardCursor = cursor?.ShardCursors.find(x => x.CurrentChunkPath.startsWith(shardPathSubStr));
       const shard: Shard = await this._shardFactory.create(
         containerClient,
-        shardPath.substring(containerPrefixLength),
-        cursor?.shardCursors[i++]
+        shardPathSubStr,
+        shardCursor
       );
-      shards.push(shard);
+      if (shard.hasNext()) {
+        shards.push(shard);
+      }
     }
     
-    return new Segment(shards, shardIndex, dateTime);
+    let shardIndex = 0;
+    if (cursor?.CurrentShardPath) {
+      shardIndex = shards.findIndex(s => s.shardPath === cursor?.CurrentShardPath);
+      if (shardIndex === -1) {
+        shardIndex = 0;
+      }
+    }
+    return new Segment(shards, shardIndex, dateTime, manifestPath);
   }
 }

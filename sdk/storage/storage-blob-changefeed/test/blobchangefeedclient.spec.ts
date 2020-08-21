@@ -7,6 +7,8 @@ import { BlobChangeFeedClient, BlobChangeFeedEvent, BlobChangeFeedEventPage } fr
 import * as dotenv from "dotenv";
 dotenv.config();
 
+const timeoutForLargeFileUploadingTest = 20 * 60 * 1000;
+
 describe("BlobChangeFeedClient", async () => {
   let recorder: any;
   let changeFeedClient: BlobChangeFeedClient;
@@ -36,7 +38,7 @@ describe("BlobChangeFeedClient", async () => {
         assert.ok(event.data.blobType);
       }
     }
-  });
+  }).timeout(timeoutForLargeFileUploadingTest);
 
   it("next(): with start and end time", async () => {
     let i = 0;

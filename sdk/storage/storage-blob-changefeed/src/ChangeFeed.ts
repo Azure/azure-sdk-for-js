@@ -6,7 +6,7 @@ import { Segment } from "./Segment";
 import { SegmentFactory } from "./SegmentFactory";
 import { BlobChangeFeedEvent } from "./models/BlobChangeFeedEvent";
 import { ChangeFeedCursor } from "./models/ChangeFeedCursor";
-import { getURI, hashString, getSegmentsInYear, minDate } from "./utils/utils.common";
+import { getSegmentsInYear, minDate, getHost } from "./utils/utils.common";
 
 export class ChangeFeed {
   /**
@@ -139,10 +139,10 @@ export class ChangeFeed {
     }
 
     return {
-      cursorVersion: 1,
-      urlHash: hashString(getURI(this._containerClient!.url)),
-      endTime: this._endTime?.toJSON(),
-      currentSegmentCursor: this._currentSegment!.getCursor()
+      CursorVersion: 1,
+      UrlHost: getHost(this._containerClient!.url),
+      EndTime: this._endTime?.toJSON(),
+      CurrentSegmentCursor: this._currentSegment!.getCursor()
     };
   }
 }

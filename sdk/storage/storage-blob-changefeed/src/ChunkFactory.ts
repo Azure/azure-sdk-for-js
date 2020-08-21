@@ -41,6 +41,6 @@ export class ChunkFactory {
       avroReader = this._avroReaderFactory.create(dataStream);
     }
 
-    return new Chunk(avroReader, blockOffset, eventIndex);
+    return new Chunk(avroReader, blockOffset, eventIndex, chunkPath);
   }
 }

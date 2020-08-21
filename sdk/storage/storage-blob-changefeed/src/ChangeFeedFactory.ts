@@ -8,11 +8,11 @@ import { CHANGE_FEED_CONTAINER_NAME, CHANGE_FEED_META_SEGMENT_PATH } from "./uti
 import {
   ceilToNearestHour,
   floorToNearestHour,
-  getURI,
-  hashString,
   getYearsPaths,
   getSegmentsInYear,
-  minDate
+  minDate,
+  getHost,
+  parseDateFromSegmentPath
 } from "./utils/utils.common";
 import { bodyToString } from "./utils/utils.node";
 import { SegmentFactory } from "./SegmentFactory";
@@ -42,8 +42,11 @@ export class ChangeFeedFactory {
   }
 
   private static validateCursor(containerClient: ContainerClient, cursor: ChangeFeedCursor): void {
-    if (hashString(getURI(containerClient.url)) !== cursor.urlHash) {
-      throw new Error("Cursor URL does not match container URL.");
+    if (getHost(containerClient.url) !== cursor.UrlHost) {
+      throw new Error("Cursor URL host does not match container URL host.");
+    }
+    if (cursor.CursorVersion !== 1) {
+      throw new Error("Unsupported cursor version.");
     }
   }
 
@@ -59,11 +62,8 @@ export class ChangeFeedFactory {
     if (continuationToken) {
       cursor = JSON.parse(continuationToken);
       ChangeFeedFactory.validateCursor(containerClient, cursor!);
-      // startTime passed in is ignored
-      startTime = new Date(cursor!.currentSegmentCursor.segmentTime);
-      if (cursor!.endTime) {
-        endTime = new Date(cursor!.endTime!);
-      }
+      startTime = parseDateFromSegmentPath(cursor?.CurrentSegmentCursor.SegmentPath!);
+      endTime = new Date(cursor!.EndTime!);
     }
     // Round start and end time if we are not using the cursor.
     else {
@@ -119,7 +119,7 @@ export class ChangeFeedFactory {
     const currentSegment: Segment = await this._segmentFactory.create(
       containerClient,
       segments.shift()!,
-      cursor?.currentSegmentCursor
+      cursor?.CurrentSegmentCursor
     );
 
     return new ChangeFeed(

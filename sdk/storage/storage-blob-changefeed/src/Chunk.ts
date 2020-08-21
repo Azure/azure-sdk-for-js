@@ -18,7 +18,7 @@ export class Chunk {
     return this._eventIndex;
   }
 
-  constructor(avroReader: AvroReader, blockOffset: number, eventIndex: number) {
+  constructor(avroReader: AvroReader, blockOffset: number, eventIndex: number, public readonly chunkPath: string) {
     this._avroReader = avroReader;
     this._blockOffset = blockOffset;
     this._eventIndex = eventIndex;

@@ -6,7 +6,7 @@ import { BlobServiceClient, ContainerClient, BlobClient } from "@azure/storage-b
 import { SegmentFactory } from "../src/SegmentFactory";
 import { Segment } from "../src/Segment";
 import { ChangeFeedFactory } from "../src/ChangeFeedFactory";
-import { hashString, getURI } from "../src/utils/utils.common";
+import { getHost } from "../src/utils/utils.common";
 
 describe("Change Feed", async () => {
   const manifestFilePath = path.join("test", "resources", "ChangeFeedManifest.json");
@@ -225,12 +225,12 @@ describe("Change Feed", async () => {
     const containerUri = "https://account.blob.core.windows.net/$blobchangefeed";
     (containerClientStub as any).url = containerUri;
     const cursor = changeFeed.getCursor();
-    assert.deepStrictEqual(cursor.urlHash, hashString(getURI(containerUri)));
+    assert.deepStrictEqual(cursor.UrlHost, getHost(containerUri));
 
     segmentStubs[3].getCursor.returns({
-      shardCursors: [],
-      shardIndex: 0,
-      segmentTime: new Date(Date.UTC(2020, 2, 2, 20)).toJSON()
+      ShardCursors: [],
+      SegmentPath:"idx/segments/2020/02/2/2000/meta.json",
+      CurrentShardPath: ""
     });
     const continuation = JSON.stringify(changeFeed.getCursor());
     const changeFeed2 = await changeFeedFactory.create(serviceClientStub as any, continuation);

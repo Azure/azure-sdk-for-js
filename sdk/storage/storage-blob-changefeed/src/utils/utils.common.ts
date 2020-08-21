@@ -21,6 +21,18 @@ export function floorToNearestHour(date: Date | undefined): Date | undefined {
 }
 
 /**
+ * Get host from an URL string.
+ *
+ * @export
+ * @param {string} url Source URL string
+ * @returns {(string | undefined)}
+ */
+export function getHost(url: string): string {
+  const urlParsed = URLBuilder.parse(url);
+  return `${urlParsed.getHost()}`;
+}
+
+/**
  * Get URI from an URL string.
  *
  * @export

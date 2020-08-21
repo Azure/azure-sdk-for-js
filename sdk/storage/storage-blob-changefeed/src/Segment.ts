@@ -21,7 +21,7 @@ export class Segment {
     return this._dateTime;
   }
 
-  constructor(shards: Shard[], shardIndex: number, dateTime: Date) {
+  constructor(shards: Shard[], shardIndex: number, dateTime: Date, private readonly _manifestPath: string) {
     this._shards = shards;
     this._shardIndex = shardIndex;
     this._dateTime = dateTime;
@@ -63,13 +63,16 @@ export class Segment {
   public getCursor(): SegmentCursor {
     const shardCursors: ShardCursor[] = [];
     for (const shard of this._shards) {
-      shardCursors.push(shard.getCursor());
+      const shardCursor = shard.getCursor();
+      if (shardCursor) {
+        shardCursors.push(shardCursor);
+      }
     }
 
     return {
-      shardCursors,
-      shardIndex: this._shardIndex,
-      segmentTime: this._dateTime.toJSON()
+      SegmentPath: this._manifestPath,
+      ShardCursors: shardCursors,
+      CurrentShardPath: this._shards[this._shardIndex].shardPath
     };
   }
 }
