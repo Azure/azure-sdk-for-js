@@ -38,7 +38,7 @@ export type CreateTableEntityOptions = OperationOptions & {
 };
 
 // @public
-export interface CreateTableEntityResponse {
+export type CreateTableEntityResponse = TableInsertEntityHeaders & {
     _response: HttpResponse & {
         bodyAsText: string;
         parsedBody: {
@@ -46,16 +46,16 @@ export interface CreateTableEntityResponse {
         };
         parsedHeaders: TableInsertEntityHeaders;
     };
-}
+};
 
 // @public
-export interface CreateTableItemResponse {
+export type CreateTableItemResponse = TableCreateHeaders & {
     _response: HttpResponse & {
         bodyAsText: string;
         parsedBody: TableResponse;
         parsedHeaders: TableCreateHeaders;
     };
-}
+};
 
 // @public
 export type CreateTableOptions = OperationOptions & {
@@ -64,27 +64,18 @@ export type CreateTableOptions = OperationOptions & {
 };
 
 // @public
-export type CreateTableResponse = TableCreateHeaders & TableResponse & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: TableResponse;
-        parsedHeaders: TableCreateHeaders;
-    };
-};
-
-// @public
-export type DeleteEntityResponse = TableDeleteEntityHeaders & {
-    _response: coreHttp.HttpResponse & {
-        parsedHeaders: TableDeleteEntityHeaders;
-    };
-};
-
-// @public
 export type DeleteTableEntityOptions = OperationOptions & {
     queryOptions?: TableEntityQueryOptions;
     requestId?: string;
     timeout?: number;
     etag?: string;
+};
+
+// @public
+export type DeleteTableEntityResponse = TableDeleteEntityHeaders & {
+    _response: coreHttp.HttpResponse & {
+        parsedHeaders: TableDeleteEntityHeaders;
+    };
 };
 
 // @public
@@ -251,12 +242,6 @@ export interface Metrics {
 export function odata(strings: TemplateStringsArray, ...values: unknown[]): string;
 
 // @public
-export type OdataMetadataFormat = "application/json;odata=nometadata" | "application/json;odata=minimalmetadata" | "application/json;odata=fullmetadata" | string;
-
-// @public
-export type ResponseFormat = "return-no-content" | "return-content" | string;
-
-// @public
 export interface RetentionPolicy {
     days?: number;
     enabled: boolean;
@@ -331,7 +316,7 @@ export class TableClient {
     constructor(url: string, tableName: string, options?: TableServiceClientOptions);
     createEntity<T extends object>(entity: TableEntity<T>, options?: CreateTableEntityOptions): Promise<CreateTableEntityResponse>;
     delete(options?: DeleteTableOptions): Promise<DeleteTableResponse>;
-    deleteEntity(partitionKey: string, rowKey: string, options?: DeleteTableEntityOptions): Promise<DeleteEntityResponse>;
+    deleteEntity(partitionKey: string, rowKey: string, options?: DeleteTableEntityOptions): Promise<DeleteTableEntityResponse>;
     static fromConnectionString(connectionString: string, tableName: string, options?: TableServiceClientOptions): TableClient;
     getAccessPolicy(options?: GetAccessPolicyOptions): Promise<GetAccessPolicyResponse>;
     getEntity<T extends object>(partitionKey: string, rowKey: string, options?: GetTableEntityOptions): Promise<GetTableEntityResponse<T>>;
@@ -510,7 +495,7 @@ export class TableServiceClient {
     constructor(url: string, options?: TableServiceClientOptions);
     createEntity<T extends object>(tableName: string, entity: TableEntity<T>, options?: CreateTableEntityOptions): Promise<CreateTableEntityResponse>;
     createTable(tableName: string, options?: CreateTableOptions): Promise<CreateTableItemResponse>;
-    deleteEntity(tableName: string, partitionKey: string, rowKey: string, options?: DeleteTableEntityOptions): Promise<DeleteEntityResponse>;
+    deleteEntity(tableName: string, partitionKey: string, rowKey: string, options?: DeleteTableEntityOptions): Promise<DeleteTableEntityResponse>;
     deleteTable(tableName: string, options?: DeleteTableOptions): Promise<DeleteTableResponse>;
     static fromConnectionString(connectionString: string, options?: TableServiceClientOptions): TableServiceClient;
     getAccessPolicy(tableName: string, options?: GetAccessPolicyOptions): Promise<GetAccessPolicyResponse>;

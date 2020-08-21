@@ -16,7 +16,7 @@ import { OperationOptions, HttpResponse } from "@azure/core-http";
 /**
  * Contains response data for the createTable operation.
  */
-export interface CreateTableItemResponse {
+export type CreateTableItemResponse = TableCreateHeaders & {
   /**
    * The underlying HTTP response.
    */
@@ -35,12 +35,12 @@ export interface CreateTableItemResponse {
      */
     parsedHeaders: TableCreateHeaders;
   };
-}
+};
 
 /**
  * Contains response data for the createEntity operation.
  */
-export interface CreateTableEntityResponse {
+export type CreateTableEntityResponse = TableInsertEntityHeaders & {
   /**
    * The underlying HTTP response.
    */
@@ -59,7 +59,7 @@ export interface CreateTableEntityResponse {
      */
     parsedHeaders: TableInsertEntityHeaders;
   };
-}
+};
 
 /**
  * Contains response data for the listTable operation.

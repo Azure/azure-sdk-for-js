@@ -33,7 +33,7 @@ import {
   SetPropertiesResponse,
   DeleteTableOptions,
   DeleteTableResponse,
-  DeleteEntityResponse,
+  DeleteTableEntityResponse,
   UpdateEntityResponse,
   UpsertEntityResponse,
   GetAccessPolicyOptions,
@@ -168,16 +168,11 @@ export class TableServiceClient {
    * @param tableName The name of the table.
    * @param options The options parameters.
    */
-  public async createTable(
+  public createTable(
     tableName: string,
     options?: CreateTableOptions
   ): Promise<CreateTableItemResponse> {
-    const { _response } = await this.table.create(
-      { tableName },
-      { ...options, responsePreference: "return-content" }
-    );
-
-    return { _response };
+    return this.table.create({ tableName }, { ...options, responsePreference: "return-content" });
   }
 
   /**
@@ -263,20 +258,18 @@ export class TableServiceClient {
    * @param entity The properties for the table entity.
    * @param options The options parameters.
    */
-  public async createEntity<T extends object>(
+  public createEntity<T extends object>(
     tableName: string,
     entity: TableEntity<T>,
     options?: CreateTableEntityOptions
   ): Promise<CreateTableEntityResponse> {
     const { queryOptions, ...createTableEntity } = options || {};
-    const { _response } = await this.table.insertEntity(tableName, {
+    return this.table.insertEntity(tableName, {
       ...createTableEntity,
       queryOptions: this.convertQueryOptions(queryOptions || {}),
       tableEntityProperties: serialize(entity),
       responsePreference: "return-no-content"
     });
-
-    return { _response };
   }
 
   /**
@@ -291,7 +284,7 @@ export class TableServiceClient {
     partitionKey: string,
     rowKey: string,
     options?: DeleteTableEntityOptions
-  ): Promise<DeleteEntityResponse> {
+  ): Promise<DeleteTableEntityResponse> {
     const { etag = "*", queryOptions, ...rest } = options || {};
     const deleteOptions: TableDeleteEntityOptionalParams = {
       ...rest,

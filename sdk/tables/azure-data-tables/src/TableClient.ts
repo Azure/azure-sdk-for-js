@@ -19,13 +19,13 @@ import {
   TableServiceClientOptions as TableClientOptions,
   DeleteTableOptions,
   DeleteTableResponse,
-  DeleteEntityResponse,
   UpdateEntityResponse,
   UpsertEntityResponse,
   GetAccessPolicyOptions,
   GetAccessPolicyResponse,
   SetAccessPolicyResponse,
-  SetAccessPolicyOptions
+  SetAccessPolicyOptions,
+  DeleteTableEntityResponse
 } from "./generatedModels";
 import { getClientParamsFromConnectionString } from "./utils/connectionString";
 import { TablesSharedKeyCredential } from "./TablesSharedKeyCredential";
@@ -167,7 +167,7 @@ export class TableClient {
     partitionKey: string,
     rowKey: string,
     options?: DeleteTableEntityOptions
-  ): Promise<DeleteEntityResponse> {
+  ): Promise<DeleteTableEntityResponse> {
     return this.client.deleteEntity(this.tableName, partitionKey, rowKey, options);
   }
 
