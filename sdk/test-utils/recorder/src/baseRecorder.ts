@@ -64,6 +64,12 @@ export abstract class BaseRecorder {
     queryParametersToSkip: []
   };
   protected hash: string;
+  private defaultCustomizationsOnRecordings = !isBrowser()
+    ? [
+        // Decodes "hex" strings in the response from the recorded fixture if any exists.
+        decodeHexEncodingIfExistsInNockFixture
+      ]
+    : [];
 
   constructor(
     platform: "node" | "browsers",
@@ -93,12 +99,12 @@ export abstract class BaseRecorder {
     const recordingFilterMethod =
       typeof content === "string" ? filterSecretsFromStrings : filterSecretsRecursivelyFromJSON;
 
-    // Decodes "hex" strings in the response from the recorded fixture if any exists.
-    const defaultCustomizations = !isBrowser() ? [decodeHexEncodingIfExistsInNockFixture] : [];
     return recordingFilterMethod(
       content,
       this.environmentSetup.replaceableVariables,
-      defaultCustomizations.concat(this.environmentSetup.customizationsOnRecordings)
+      this.defaultCustomizationsOnRecordings.concat(
+        this.environmentSetup.customizationsOnRecordings
+      )
     );
   }
 
