@@ -63,6 +63,10 @@ export function checkKeyValidity(
   const { notBefore, expires } = attributes;
   const now = new Date();
 
+  if (!keyId) {
+    throw new Error("The ID of the key is missing");
+  }
+
   if (notBefore && now < notBefore) {
     throw new Error(`Key ${keyId} can't be used before ${notBefore.toISOString()}`);
   }
