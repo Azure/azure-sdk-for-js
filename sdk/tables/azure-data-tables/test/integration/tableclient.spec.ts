@@ -191,5 +191,23 @@ describe("TableClient", () => {
       assert.equal(result.RowKey, testEntity.RowKey);
       assert.deepEqual(result.testField, testDate);
     });
+
+    it("should createEntity with primitive int and float", async () => {
+      type TestType = { integerNumber: number; floatingPointNumber: number };
+      const testEntity: TableEntity<TestType> = {
+        PartitionKey: `P8_${suffix}`,
+        RowKey: "R8",
+        integerNumber: 3,
+        floatingPointNumber: 3.14
+      };
+      const createResult = await client.createEntity(testEntity, {});
+      const result = await client.getEntity<TestType>(testEntity.PartitionKey, testEntity.RowKey);
+
+      assert.equal(createResult._response.status, 204);
+      assert.equal(result.PartitionKey, testEntity.PartitionKey);
+      assert.equal(result.RowKey, testEntity.RowKey);
+      assert.equal(result.integerNumber, 3);
+      assert.equal(result.floatingPointNumber, 3.14);
+    });
   });
 });
