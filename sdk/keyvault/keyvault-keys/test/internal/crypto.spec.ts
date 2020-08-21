@@ -16,10 +16,13 @@ describe("CryptographyClient, internal tests", () => {
     let error: Error | undefined = undefined;
     try {
       await checkKeyValidity(getLocalCryptographyClient, keyBundle, getKeyId);
-    } catch(e) {
+    } catch (e) {
       error = e;
     }
-    assert.equal(error?.message, `Key 1 can't be used before ${keyBundle.attributes.notBefore.toISOString()}`);
+    assert.equal(
+      error?.message,
+      `Key 1 can't be used before ${keyBundle.attributes.notBefore.toISOString()}`
+    );
   });
 
   it("Checking that the key's expires is respected", async function() {
@@ -33,7 +36,7 @@ describe("CryptographyClient, internal tests", () => {
     let error: Error | undefined = undefined;
     try {
       await checkKeyValidity(getLocalCryptographyClient, keyBundle, getKeyId);
-    } catch(e) {
+    } catch (e) {
       error = e;
     }
     assert.equal(error?.message, `Key 1 expired at ${keyBundle.attributes.expires.toISOString()}`);
