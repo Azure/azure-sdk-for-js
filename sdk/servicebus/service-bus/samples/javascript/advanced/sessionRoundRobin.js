@@ -34,14 +34,14 @@ async function sessionAccepted(sessionId) {
   console.log(`[${sessionId}] will start processing...`);
 }
 
-// Called by the SessionReceiver when a message is received.
-// This is passed as part of the handlers when calling `SessionReceiver.subscribe()`.
+// Called by the ServiceBusSessionReceiver when a message is received.
+// This is passed as part of the handlers when calling `ServiceBusSessionReceiver.subscribe()`.
 async function processMessage(msg) {
   console.log(`[${msg.sessionId}] received message with body ${msg.body}`);
 }
 
-// Called by the SessionReceiver when an error occurs.
-// This will be called in the handlers we pass in `SessionReceiver.subscribe()`
+// Called by the ServiceBusSessionReceiver when an error occurs.
+// This will be called in the handlers we pass in `ServiceBusSessionReceiver.subscribe()`
 // and by the sample when we encounter an error opening a session.
 async function processError(err, sessionId) {
   if (sessionId) {
@@ -74,11 +74,11 @@ function createRefreshableTimer(timeoutMs, resolve) {
 
 // Queries Service Bus for the next available session and processes it.
 async function receiveFromNextSession(serviceBusClient) {
-  let sessionReceiver;
+  let ServiceBusSessionReceiver;
 
   try {
-    sessionReceiver = await serviceBusClient.createSessionReceiver(queueName, {
-      autoRenewLockDurationInMs: sessionIdleTimeoutMs
+    ServiceBusSessionReceiver = await serviceBusClient.createSessionReceiver(queueName, {
+      maxAutoRenewLockDurationInMs: sessionIdleTimeoutMs
     });
   } catch (err) {
     if (err.code === "SessionCannotBeLockedError" || err.code === "OperationTimeoutError") {
@@ -91,13 +91,13 @@ async function receiveFromNextSession(serviceBusClient) {
     return;
   }
 
-  await sessionAccepted(sessionReceiver.sessionId);
+  await sessionAccepted(ServiceBusSessionReceiver.sessionId);
 
   const sessionFullyRead = new Promise((resolveSessionAsFullyRead, rejectSessionWithError) => {
     const refreshTimer = createRefreshableTimer(sessionIdleTimeoutMs, resolveSessionAsFullyRead);
     refreshTimer();
 
-    sessionReceiver.subscribe(
+    ServiceBusSessionReceiver.subscribe(
       {
         async processMessage(msg) {
           refreshTimer();
@@ -115,12 +115,12 @@ async function receiveFromNextSession(serviceBusClient) {
 
   try {
     await sessionFullyRead;
-    await sessionClosed("idle_timeout", sessionReceiver.sessionId);
+    await sessionClosed("idle_timeout", ServiceBusSessionReceiver.sessionId);
   } catch (err) {
-    await processError(err, sessionReceiver.sessionId);
-    await sessionClosed("error", sessionReceiver.sessionId);
+    await processError(err, ServiceBusSessionReceiver.sessionId);
+    await sessionClosed("error", ServiceBusSessionReceiver.sessionId);
   } finally {
-    await sessionReceiver.close();
+    await ServiceBusSessionReceiver.close();
   }
 }
 
