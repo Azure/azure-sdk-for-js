@@ -2,10 +2,10 @@
 
 ## 1.1.7 (Unreleased)
 
-
 ## 1.1.6 (2020-08-04)
 
 - Update dependencies `@azure/core-tracing` to version 1.0.0-preview.9 and `@opentelemetry/api` to version 0.10.2 [PR 10393](https://github.com/Azure/azure-sdk-for-js/pull/10393)
+- Fixed a bug in `BearerTokenAuthenticationPolicy` where a helper class was being instantiated on each request. [PR 10728](https://github.com/Azure/azure-sdk-for-js/pull/10728)
 
 ## 1.1.5 (2020-08-04)
 
