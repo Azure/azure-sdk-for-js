@@ -74,6 +74,19 @@ export interface BaseMapper {
 }
 
 // @public (undocumented)
+export abstract class BaseRequestPolicy implements RequestPolicy {
+    protected constructor(_nextPolicy: RequestPolicy, _options: RequestPolicyOptionsLike);
+    log(logLevel: HttpPipelineLogLevel, message: string): void;
+    // (undocumented)
+    readonly _nextPolicy: RequestPolicy;
+    // (undocumented)
+    readonly _options: RequestPolicyOptionsLike;
+    // (undocumented)
+    abstract sendRequest(webResource: WebResourceLike): Promise<HttpOperationResponse>;
+    shouldLog(logLevel: HttpPipelineLogLevel): boolean;
+}
+
+// @public (undocumented)
 export class BasicAuthenticationCredentials implements ServiceClientCredentials {
     constructor(userName: string, password: string, authorizationScheme?: string);
     // (undocumented)

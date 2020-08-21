@@ -49,6 +49,7 @@ export { Constants } from "./util/constants";
 export { bearerTokenAuthenticationPolicy } from "./policies/bearerTokenAuthenticationPolicy";
 export { LogPolicyOptions, logPolicy } from "./policies/logPolicy";
 export {
+  BaseRequestPolicy,
   RequestPolicy,
   RequestPolicyFactory,
   RequestPolicyOptions,
