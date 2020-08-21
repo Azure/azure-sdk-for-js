@@ -328,7 +328,7 @@ export namespace ConnectionContext {
         // Call onDetached() on sender so that it can decide whether to reconnect or not
         for (const senderName of Object.keys(connectionContext.senders)) {
           const sender = connectionContext.senders[senderName];
-          if (sender && !sender.isConnecting) {
+          if (sender) {
             log.error(
               "[%s] calling detached on sender '%s'.",
               connectionContext.connection.id,
@@ -351,7 +351,7 @@ export namespace ConnectionContext {
         // and streaming receivers can decide whether to reconnect or not.
         for (const receiverName of Object.keys(connectionContext.messageReceivers)) {
           const receiver = connectionContext.messageReceivers[receiverName];
-          if (receiver && !receiver.isConnecting) {
+          if (receiver) {
             log.error(
               "[%s] calling detached on %s receiver '%s'.",
               connectionContext.connection.id,

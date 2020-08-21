@@ -155,6 +155,10 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
    */
   private _logPrefix: string;
 
+  protected get logPrefix(): string {
+    return this._logPrefix;
+  }
+
   private _logger: typeof log.error;
 
   /**
@@ -199,13 +203,6 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
     const result: boolean = this._link ? this._link.isOpen() : false;
     log.error(`${this._logPrefix} is open? ${result}`);
     return result;
-  }
-
-  /**
-   * Indicates that a link initialization is in process.
-   */
-  get isConnecting(): boolean {
-    return defaultLock.isBusy(this._lockToken);
   }
 
   /**

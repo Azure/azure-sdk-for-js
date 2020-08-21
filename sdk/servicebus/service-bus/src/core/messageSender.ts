@@ -114,26 +114,26 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
         );
       }
       if (sender && !sender.isItselfClosed()) {
-        if (!this.isConnecting) {
-          log.error(
-            "[%s] 'sender_close' event occurred on the sender '%s' with address '%s' " +
-              "and the sdk did not initiate this. The sender is not reconnecting. Hence, calling " +
-              "detached from the _onAmqpClose() handler.",
-            this._context.connectionId,
-            this.name,
-            this.address
-          );
-          await this.onDetached(senderError);
-        } else {
-          log.error(
-            "[%s] 'sender_close' event occurred on the sender '%s' with address '%s' " +
-              "and the sdk did not initiate this. Moreover the sender is already re-connecting. " +
-              "Hence not calling detached from the _onAmqpClose() handler.",
-            this._context.connectionId,
-            this.name,
-            this.address
-          );
-        }
+        // if (!this.isConnecting) {
+        //   log.error(
+        //     "[%s] 'sender_close' event occurred on the sender '%s' with address '%s' " +
+        //       "and the sdk did not initiate this. The sender is not reconnecting. Hence, calling " +
+        //       "detached from the _onAmqpClose() handler.",
+        //     this._context.connectionId,
+        //     this.name,
+        //     this.address
+        //   );
+        await this.onDetached(senderError);
+        // } else {
+        //   log.error(
+        //     "[%s] 'sender_close' event occurred on the sender '%s' with address '%s' " +
+        //       "and the sdk did not initiate this. Moreover the sender is already re-connecting. " +
+        //       "Hence not calling detached from the _onAmqpClose() handler.",
+        //     this._context.connectionId,
+        //     this.name,
+        //     this.address
+        //   );
+        // }
       } else {
         log.error(
           "[%s] 'sender_close' event occurred on the sender '%s' with address '%s' " +
@@ -160,26 +160,7 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
         );
       }
       if (sender && !sender.isSessionItselfClosed()) {
-        if (!this.isConnecting) {
-          log.error(
-            "[%s] 'session_close' event occurred on the session of sender '%s' with " +
-              "address '%s' and the sdk did not initiate this. Hence calling detached from the " +
-              "_onSessionClose() handler.",
-            this._context.connectionId,
-            this.name,
-            this.address
-          );
-          await this.onDetached(sessionError);
-        } else {
-          log.error(
-            "[%s] 'session_close' event occurred on the session of sender '%s' with " +
-              "address '%s' and the sdk did not initiate this. Moreover the sender is already " +
-              "re-connecting. Hence not calling detached from the _onSessionClose() handler.",
-            this._context.connectionId,
-            this.name,
-            this.address
-          );
-        }
+        await this.onDetached(sessionError);
       } else {
         log.error(
           "[%s] 'session_close' event occurred on the session of sender '%s' with address " +
@@ -394,6 +375,8 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
    */
   async onDetached(senderError?: AmqpError | Error): Promise<void> {
     try {
+      log.error(`${this.logPrefix} Detaching.`);
+
       // Clears the token renewal timer. Closes the link and its session if they are open.
       // Removes the link and its session if they are present in rhea's cache.
       await this.closeLink();

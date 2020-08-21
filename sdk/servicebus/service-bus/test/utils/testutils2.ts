@@ -26,6 +26,8 @@ import {
   ReceivedMessageWithLock,
   ServiceBusMessage
 } from "../../src/serviceBusMessage";
+import { defaultLock } from "@azure/core-amqp";
+import { LinkEntity } from "../../src/core/linkEntity";
 
 dotenv.config();
 const env = getEnvVars();
@@ -527,4 +529,8 @@ export async function testPeekMsgsLength(
     expectedPeekLength,
     "Unexpected number of msgs found when peeking"
   );
+}
+
+export function isLinkLocked(linkEntity: LinkEntity<any>): boolean {
+  return defaultLock.isBusy(linkEntity["_lockToken"]);
 }

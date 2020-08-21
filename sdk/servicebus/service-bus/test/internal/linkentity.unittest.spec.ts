@@ -8,6 +8,7 @@ import chaiAsPromised from "chai-as-promised";
 import { Receiver, ReceiverOptions } from "rhea-promise";
 import { LinkEntity } from "../../src/core/linkEntity";
 import * as log from "../../src/log";
+import { isLinkLocked } from "../utils/testutils2";
 import { createConnectionContextForTests, createRheaReceiverForTests } from "./unittestUtils";
 chai.use(chaiAsPromised);
 const assert = chai.assert;
@@ -64,7 +65,7 @@ describe("LinkEntity unit tests", () => {
 
       // this will just resolve immediately because
       // we're already connecting.
-      assert.isTrue(linkEntity.isConnecting);
+      assert.isTrue(isLinkLocked(linkEntity));
 
       // these promises will NOT resolve - initLink() and close/closeLink()
       // coordinate using a lock.
