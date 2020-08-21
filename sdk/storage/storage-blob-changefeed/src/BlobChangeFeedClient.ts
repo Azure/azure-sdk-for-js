@@ -7,11 +7,7 @@ import { BlobChangeFeedEvent } from "./models/BlobChangeFeedEvent";
 import { ChangeFeedFactory } from "./ChangeFeedFactory";
 import { ChangeFeed } from "./ChangeFeed";
 import { CHANGE_FEED_MAX_PAGE_SIZE } from "./utils/constants";
-
-export interface BlobChangeFeedListChangesOptions {
-  start?: Date;
-  end?: Date;
-}
+import { BlobChangeFeedListChangesOptions } from './models/models';
 
 export class BlobChangeFeedEventPage {
   public events: BlobChangeFeedEvent[];
@@ -45,8 +41,7 @@ export class BlobChangeFeedClient {
     const changeFeed: ChangeFeed = await this._changeFeedFactory.create(
       this._blobServiceClient,
       undefined,
-      options.start,
-      options.end
+      options
     );
 
     while (changeFeed.hasNext()) {
@@ -68,8 +63,7 @@ export class BlobChangeFeedClient {
     const changeFeed: ChangeFeed = await this._changeFeedFactory.create(
       this._blobServiceClient,
       continuationToken,
-      options.start,
-      options.end
+      options
     );
 
     if (!maxPageSize || maxPageSize > CHANGE_FEED_MAX_PAGE_SIZE) {
@@ -78,7 +72,9 @@ export class BlobChangeFeedClient {
     while (changeFeed.hasNext()) {
       const eventPage = new BlobChangeFeedEventPage();
       while (changeFeed.hasNext() && eventPage.events.length < maxPageSize) {
-        const event = await changeFeed.getChange();
+        const event = await changeFeed.getChange({
+          abortSignal: options.abortSignal
+        });
         if (event) {
           eventPage.events.push(event);
         }

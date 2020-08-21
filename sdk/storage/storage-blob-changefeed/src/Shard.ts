@@ -1,11 +1,29 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { ContainerClient } from "@azure/storage-blob";
+import { ContainerClient, CommonOptions } from "@azure/storage-blob";
 import { ChunkFactory } from "./ChunkFactory";
 import { Chunk } from "./Chunk";
 import { BlobChangeFeedEvent } from "./models/BlobChangeFeedEvent";
 import { ShardCursor } from "./models/ChangeFeedCursor";
+import { AbortSignalLike } from '@azure/core-http';
+
+/**
+ * Options to configure {@link Shard.getChange} operation.
+ *
+ * @export
+ * @interface ShardGetChangeOptions
+ */
+export interface ShardGetChangeOptions extends CommonOptions {
+  /**
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
+   *
+   * @type {AbortSignalLike}
+   * @memberof ShardGetChangeOptions
+   */
+  abortSignal?: AbortSignalLike;
+}
 
 export class Shard {
   private readonly _containerClient: ContainerClient;
@@ -33,7 +51,7 @@ export class Shard {
     return this._chunks.length > 0 || (this._currentChunk!== undefined && this._currentChunk.hasNext());
   }
 
-  public async getChange(): Promise<BlobChangeFeedEvent | undefined> {
+  public async getChange(options: ShardGetChangeOptions = {}): Promise<BlobChangeFeedEvent | undefined> {
     let event: BlobChangeFeedEvent | undefined = undefined;
     while (event === undefined && this.hasNext()) {
       event = await this._currentChunk!.getChange();
@@ -42,7 +60,10 @@ export class Shard {
       if (!this._currentChunk!.hasNext() && this._chunks.length > 0) {
         this._currentChunk = await this._chunkFactory.create(
           this._containerClient,
-          this._chunks.shift()!
+          this._chunks.shift()!,
+          undefined,
+          undefined,
+          { abortSignal: options.abortSignal }
         );
       }
     }

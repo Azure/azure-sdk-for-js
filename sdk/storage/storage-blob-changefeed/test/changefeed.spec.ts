@@ -117,7 +117,9 @@ describe("Change Feed", async () => {
     const changeFeed = await changeFeedFactory.create(
       serviceClientStub as any,
       undefined,
-      new Date(Date.UTC(2020, 0))
+      {
+        start: new Date(Date.UTC(2020, 0))
+      }
     );
     assert.ok(!changeFeed.hasNext());
   });
@@ -138,7 +140,7 @@ describe("Change Feed", async () => {
     const changeFeed = await changeFeedFactory.create(
       serviceClientStub as any,
       undefined,
-      new Date(Date.UTC(2019, 5))
+      { start: new Date(Date.UTC(2019, 5)) }
     );
     assert.ok(!changeFeed.hasNext());
   });
@@ -147,7 +149,7 @@ describe("Change Feed", async () => {
     const changeFeed = await changeFeedFactory.create(
       serviceClientStub as any,
       undefined,
-      new Date(Date.UTC(2019, 0))
+      { start: new Date(Date.UTC(2019, 0)) }
     );
     assert.ok(changeFeed.hasNext());
 
@@ -183,8 +185,10 @@ describe("Change Feed", async () => {
     const changeFeed = await changeFeedFactory.create(
       serviceClientStub as any,
       undefined,
-      new Date(Date.UTC(2019, 2, 2, 21)),
-      new Date(Date.UTC(2019, 3, 3, 22))
+      {
+        start: new Date(Date.UTC(2019, 2, 2, 21)),
+        end: new Date(Date.UTC(2019, 3, 3, 22))
+      }
     );
     assert.ok(!changeFeed.hasNext());
 
@@ -192,8 +196,10 @@ describe("Change Feed", async () => {
     const changeFeed2 = await changeFeedFactory.create(
       serviceClientStub as any,
       undefined,
-      new Date(Date.UTC(2019, 3, 3, 22)),
-      new Date(Date.UTC(2019, 4, 3, 22))
+      {
+        start: new Date(Date.UTC(2019, 3, 3, 22)),
+        end: new Date(Date.UTC(2019, 4, 3, 22))
+      }
     );
     assert.ok(changeFeed2.hasNext());
     const event = await changeFeed2.getChange();
@@ -208,8 +214,10 @@ describe("Change Feed", async () => {
     const changeFeed3 = await changeFeedFactory.create(
       serviceClientStub as any,
       undefined,
-      lastConsumable,
-      new Date(lastConsumable.getTime() + 1)
+      {
+        start: lastConsumable,
+        end: new Date(lastConsumable.getTime() + 1)
+      }
     );
     assert.ok(!changeFeed3.hasNext());
   });
@@ -218,7 +226,9 @@ describe("Change Feed", async () => {
     const changeFeed = await changeFeedFactory.create(
       serviceClientStub as any,
       undefined,
-      new Date(Date.UTC(2020, 2, 2, 20))
+      {
+        start: new Date(Date.UTC(2020, 2, 2, 20))
+      }
     );
     assert.ok(changeFeed.hasNext());
 

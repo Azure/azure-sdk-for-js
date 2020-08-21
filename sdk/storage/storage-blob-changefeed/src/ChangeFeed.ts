@@ -1,12 +1,30 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { ContainerClient } from "@azure/storage-blob";
+import { ContainerClient, CommonOptions } from "@azure/storage-blob";
 import { Segment } from "./Segment";
 import { SegmentFactory } from "./SegmentFactory";
 import { BlobChangeFeedEvent } from "./models/BlobChangeFeedEvent";
 import { ChangeFeedCursor } from "./models/ChangeFeedCursor";
 import { getSegmentsInYear, minDate, getHost } from "./utils/utils.common";
+import { AbortSignalLike } from '@azure/core-http';
+
+/**
+ * Options to configure {@link ChangeFeed.getChange} operation.
+ *
+ * @export
+ * @interface ChangeFeedGetChangeOptions
+ */
+export interface ChangeFeedGetChangeOptions extends CommonOptions {
+  /**
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
+   *
+   * @type {AbortSignalLike}
+   * @memberof ChangeFeedGetChangeOptions
+   */
+  abortSignal?: AbortSignalLike;
+}
 
 export class ChangeFeed {
   /**
@@ -69,7 +87,7 @@ export class ChangeFeed {
     }
   }
 
-  private async advanceSegmentIfNecessary(): Promise<void> {
+  private async advanceSegmentIfNecessary(options: ChangeFeedGetChangeOptions = {}): Promise<void> {
     if (!this._currentSegment) {
       throw new Error("Empty Change Feed shouldn't call this function.");
     }
@@ -83,7 +101,9 @@ export class ChangeFeed {
     if (this._segments.length > 0) {
       this._currentSegment = await this._segmentFactory!.create(
         this._containerClient!,
-        this._segments.shift()!
+        this._segments.shift()!,
+        undefined,
+        { abortSignal: options.abortSignal}
       );
     }
     // If _segments is empty, refill it
@@ -93,13 +113,16 @@ export class ChangeFeed {
         this._containerClient!,
         year!,
         this._startTime,
-        this._end
+        this._end,
+        { abortSignal: options.abortSignal}
       );
 
       if (this._segments.length > 0) {
         this._currentSegment = await this._segmentFactory!.create(
           this._containerClient!,
-          this._segments.shift()!
+          this._segments.shift()!,
+          undefined,
+          { abortSignal: options.abortSignal}
         );
       } else {
         this._currentSegment = undefined;
@@ -124,11 +147,13 @@ export class ChangeFeed {
     return this._currentSegment.dateTime < this._end!;
   }
 
-  public async getChange(): Promise<BlobChangeFeedEvent | undefined> {
+  public async getChange(options: ChangeFeedGetChangeOptions = {}): Promise<BlobChangeFeedEvent | undefined> {
     let event: BlobChangeFeedEvent | undefined = undefined;
     while (event === undefined && this.hasNext()) {
-      event = await this._currentSegment!.getChange();
-      await this.advanceSegmentIfNecessary();
+      event = await this._currentSegment!.getChange({
+        abortSignal: options.abortSignal
+      });
+      await this.advanceSegmentIfNecessary({ abortSignal: options.abortSignal });
     }
     return event;
   }

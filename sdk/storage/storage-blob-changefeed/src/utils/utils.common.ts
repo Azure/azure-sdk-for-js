@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { URLBuilder } from "@azure/core-http";
-import { ContainerClient } from "@azure/storage-blob";
+import { URLBuilder, AbortSignalLike } from "@azure/core-http";
+import { ContainerClient, CommonOptions } from "@azure/storage-blob";
 import { CHANGE_FEED_SEGMENT_PREFIX, CHANGE_FEED_INITIALIZATION_SEGMENT } from "./constants";
 
 const millisecondsInAnHour = 60 * 60 * 1000;
@@ -54,9 +54,27 @@ export function hashString(str: string): number {
   return hash;
 }
 
-export async function getYearsPaths(containerClient: ContainerClient): Promise<number[]> {
+/**
+ * Options to configure {@link getYearsPaths} operation.
+ *
+ * @export
+ * @interface GetYearsPathsOptions
+ */
+export interface GetYearsPathsOptions extends CommonOptions {
+  /**
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
+   *
+   * @type {AbortSignalLike}
+   * @memberof GetYearsPathsOptions
+   */
+  abortSignal?: AbortSignalLike;
+}
+
+export async function getYearsPaths(containerClient: ContainerClient, options: GetYearsPathsOptions = {}): Promise<number[]> {
   const years: number[] = [];
   for await (const item of containerClient.listBlobsByHierarchy("/", {
+    abortSignal: options.abortSignal,
     prefix: CHANGE_FEED_SEGMENT_PREFIX
   })) {
     // TODO: add String.prototype.includes polyfill for IE11
@@ -68,11 +86,29 @@ export async function getYearsPaths(containerClient: ContainerClient): Promise<n
   return years.sort((a, b) => a - b);
 }
 
+/**
+ * Options to configure {@link getSegmentsInYear} operation.
+ *
+ * @export
+ * @interface GetSegmentsInYearOptions
+ */
+export interface GetSegmentsInYearOptions extends CommonOptions {
+  /**
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
+   *
+   * @type {AbortSignalLike}
+   * @memberof GetSegmentsInYearOptions
+   */
+  abortSignal?: AbortSignalLike;
+}
+
 export async function getSegmentsInYear(
   containerClient: ContainerClient,
   year: number,
   startTime?: Date,
-  endTime?: Date
+  endTime?: Date,
+  options: GetSegmentsInYearOptions = {}
 ): Promise<string[]> {
   const segments: string[] = [];
   const yearBeginTime = new Date(Date.UTC(year, 0));
@@ -81,7 +117,7 @@ export async function getSegmentsInYear(
   }
 
   const prefix = `${CHANGE_FEED_SEGMENT_PREFIX}${year}/`;
-  for await (const item of containerClient.listBlobsFlat({ prefix })) {
+  for await (const item of containerClient.listBlobsFlat({ prefix, abortSignal: options.abortSignal })) {
     const segmentTime = parseDateFromSegmentPath(item.name);
     if ((startTime && segmentTime < startTime) || (endTime && segmentTime >= endTime)) {
       continue;

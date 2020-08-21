@@ -4,6 +4,25 @@
 import { BlobChangeFeedEvent } from "./models/BlobChangeFeedEvent";
 import { Shard } from "./Shard";
 import { SegmentCursor, ShardCursor } from "./models/ChangeFeedCursor";
+import { CommonOptions } from '@azure/storage-blob';
+import { AbortSignalLike } from '@azure/core-http';
+
+/**
+ * Options to configure {@link Segment.getChange} operation.
+ *
+ * @export
+ * @interface SegmentGetChangeOptions
+ */
+export interface SegmentGetChangeOptions extends CommonOptions {
+  /**
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
+   *
+   * @type {AbortSignalLike}
+   * @memberof SegmentGetChangeOptions
+   */
+  abortSignal?: AbortSignalLike;
+}
 
 export class Segment {
   private readonly _shards: Shard[];
@@ -35,7 +54,7 @@ export class Segment {
     return this._shards.length > this._shardDoneCount;
   }
 
-  public async getChange(): Promise<BlobChangeFeedEvent | undefined> {
+  public async getChange(options: SegmentGetChangeOptions = {}): Promise<BlobChangeFeedEvent | undefined> {
     if (this._shardIndex >= this._shards.length || this._shardIndex < 0) {
       throw new Error("shardIndex invalid.");
     }
@@ -48,7 +67,7 @@ export class Segment {
       }
 
       const currentShard = this._shards[this._shardIndex];
-      event = await currentShard.getChange();
+      event = await currentShard.getChange({ abortSignal: options.abortSignal });
 
       if (!currentShard.hasNext()) {
         this._shardDone[this._shardIndex] = true;

@@ -20,6 +20,7 @@ import { ShardFactory } from "./ShardFactory";
 import { ChunkFactory } from "./ChunkFactory";
 import { AvroReaderFactory } from "./AvroReaderFactory";
 import { Segment } from "./Segment";
+import { BlobChangeFeedListChangesOptions } from './models/models';
 
 interface MetaSegments {
   version?: number;
@@ -53,8 +54,7 @@ export class ChangeFeedFactory {
   public async create(
     blobServiceClient: BlobServiceClient,
     continuationToken?: string,
-    startTime?: Date,
-    endTime?: Date
+    options: BlobChangeFeedListChangesOptions = {}
   ): Promise<ChangeFeed> {
     const containerClient = blobServiceClient.getContainerClient(CHANGE_FEED_CONTAINER_NAME);
     let cursor: ChangeFeedCursor | undefined = undefined;
@@ -62,40 +62,46 @@ export class ChangeFeedFactory {
     if (continuationToken) {
       cursor = JSON.parse(continuationToken);
       ChangeFeedFactory.validateCursor(containerClient, cursor!);
-      startTime = parseDateFromSegmentPath(cursor?.CurrentSegmentCursor.SegmentPath!);
-      endTime = new Date(cursor!.EndTime!);
+      options.start = parseDateFromSegmentPath(cursor?.CurrentSegmentCursor.SegmentPath!);
+      options.end = new Date(cursor!.EndTime!);
     }
     // Round start and end time if we are not using the cursor.
     else {
-      startTime = floorToNearestHour(startTime);
-      endTime = ceilToNearestHour(endTime);
+      options.start = floorToNearestHour(options.start);
+      options.end = ceilToNearestHour(options.end);
     }
 
     // Check if Change Feed has been enabled for this account.
-    const changeFeedContainerExists = await containerClient.exists();
+    const changeFeedContainerExists = await containerClient.exists({
+      abortSignal: options.abortSignal
+    });
     if (!changeFeedContainerExists) {
       throw new Error(
         "Change Feed hasn't been enabled on this account, or is currently being enabled."
       );
     }
 
-    if (startTime && endTime && startTime >= endTime) {
+    if (options.start && options.end && options.start >= options.end) {
       return new ChangeFeed();
     }
 
     // Get last consumable.
     const blobClient = containerClient.getBlobClient(CHANGE_FEED_META_SEGMENT_PATH);
-    const blobDownloadRes = await blobClient.download();
+    const blobDownloadRes = await blobClient.download(undefined, undefined, {
+      abortSignal: options.abortSignal
+    });
     const lastConsumable = new Date(
       (JSON.parse(await bodyToString(blobDownloadRes)) as MetaSegments).lastConsumable
     );
 
     // Get year paths
-    const years: number[] = await getYearsPaths(containerClient);
+    const years: number[] = await getYearsPaths(containerClient, {
+      abortSignal: options.abortSignal
+    });
 
     // Dequeue any years that occur before start time.
-    if (startTime) {
-      const startYear = startTime.getUTCFullYear();
+    if (options.start) {
+      const startYear = options.start.getUTCFullYear();
       while (years.length > 0 && years[0] < startYear) {
         years.shift();
       }
@@ -109,8 +115,11 @@ export class ChangeFeedFactory {
       segments = await getSegmentsInYear(
         containerClient,
         years.shift()!,
-        startTime,
-        minDate(lastConsumable, endTime)
+        options.start,
+        minDate(lastConsumable, options.end),
+        {
+          abortSignal: options.abortSignal
+        }
       );
     }
     if (segments.length === 0) {
@@ -119,7 +128,10 @@ export class ChangeFeedFactory {
     const currentSegment: Segment = await this._segmentFactory.create(
       containerClient,
       segments.shift()!,
-      cursor?.CurrentSegmentCursor
+      cursor?.CurrentSegmentCursor,
+      {
+        abortSignal: options.abortSignal
+      }
     );
 
     return new ChangeFeed(
@@ -129,8 +141,8 @@ export class ChangeFeedFactory {
       segments,
       currentSegment,
       lastConsumable,
-      startTime,
-      endTime
+      options.start,
+      options.end
     );
   }
 }

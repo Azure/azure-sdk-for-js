@@ -4,12 +4,16 @@
 
 ```ts
 
+import { AbortSignalLike } from '@azure/core-http';
 import { BlobServiceClient } from '@azure/storage-blob';
+import { CommonOptions } from '@azure/storage-blob';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 
 // @public (undocumented)
 export class BlobChangeFeedClient {
     constructor(blobServiceClient: BlobServiceClient);
+    // Warning: (ae-forgotten-export) The symbol "BlobChangeFeedListChangesOptions" needs to be exported by the entry point index.d.ts
+    //
     // (undocumented)
     listChanges(options?: BlobChangeFeedListChangesOptions): PagedAsyncIterableIterator<BlobChangeFeedEvent, BlobChangeFeedEventPage>;
 }
@@ -67,14 +71,6 @@ export class BlobChangeFeedEventPage {
 
 // @public (undocumented)
 export type BlobChangeFeedEventType = "UnspecifiedEventType" | "BlobCreated" | "BlobDeleted" | "BlobPropertiesUpdated" | "BlobSnapshotCreated" | "Control" | "BlobTierChanged" | "BlobAsyncOperationInitiated" | "BlobMetadataUpdated";
-
-// @public (undocumented)
-export interface BlobChangeFeedListChangesOptions {
-    // (undocumented)
-    end?: Date;
-    // (undocumented)
-    start?: Date;
-}
 
 // @public (undocumented)
 export type BlobType = "BlockBlob" | "AppendBlob" | "PageBlob";

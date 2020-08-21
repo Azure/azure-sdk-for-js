@@ -2,13 +2,14 @@
 // Licensed under the MIT license.
 
 import { ShardFactory } from "./ShardFactory";
-import { ContainerClient } from "@azure/storage-blob";
+import { ContainerClient, CommonOptions } from "@azure/storage-blob";
 import { CHANGE_FEED_CONTAINER_NAME } from "./utils/constants";
 import { Shard } from "./Shard";
 import { Segment } from "./Segment";
 import { SegmentCursor } from "./models/ChangeFeedCursor";
 import { bodyToString } from "./utils/utils.node";
 import { parseDateFromSegmentPath } from "./utils/utils.common";
+import { AbortSignalLike } from '@azure/core-http';
 
 export interface SegmentManifest {
   version?: number;
@@ -17,6 +18,23 @@ export interface SegmentManifest {
   status: string;
   config?: any;
   chunkFilePaths: string[];
+}
+
+/**
+ * Options to configure {@link SegmentFactory.create} operation.
+ *
+ * @export
+ * @interface CreateSegmentOptions
+ */
+export interface CreateSegmentOptions extends CommonOptions {
+  /**
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
+   *
+   * @type {AbortSignalLike}
+   * @memberof CreateSegmentOptions
+   */
+  abortSignal?: AbortSignalLike;
 }
 
 export class SegmentFactory {
@@ -29,13 +47,16 @@ export class SegmentFactory {
   public async create(
     containerClient: ContainerClient,
     manifestPath: string,
-    cursor?: SegmentCursor
+    cursor?: SegmentCursor,
+    options: CreateSegmentOptions = {}
   ): Promise<Segment> {
     const shards: Shard[] = [];
     const dateTime: Date = parseDateFromSegmentPath(manifestPath);
 
     const blobClient = containerClient.getBlobClient(manifestPath);
-    const blobDownloadRes = await blobClient.download();
+    const blobDownloadRes = await blobClient.download(undefined, undefined, {
+      abortSignal: options.abortSignal
+    });
     const blobContent: string = await bodyToString(blobDownloadRes);
 
     const segmentManifest = JSON.parse(blobContent) as SegmentManifest;
@@ -47,7 +68,8 @@ export class SegmentFactory {
       const shard: Shard = await this._shardFactory.create(
         containerClient,
         shardPathSubStr,
-        shardCursor
+        shardCursor,
+        { abortSignal: options.abortSignal }
       );
       if (shard.hasNext()) {
         shards.push(shard);

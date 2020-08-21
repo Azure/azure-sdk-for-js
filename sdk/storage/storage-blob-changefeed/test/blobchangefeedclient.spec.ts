@@ -111,6 +111,10 @@ describe("BlobChangeFeedClient", async () => {
       assert.ok(lastEvent.eventTime < endRounded);
     }
   });
+
+  it.only("could abort", async () => {
+
+  });
 });
 
 describe("BlobChangeFeedClient: Change Feed not configured", async () => {

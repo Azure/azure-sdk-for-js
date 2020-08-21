@@ -4,8 +4,27 @@
 import { ChunkFactory } from "./ChunkFactory";
 import { ShardCursor } from "./models/ChangeFeedCursor";
 import { Shard } from "./Shard";
-import { ContainerClient } from "@azure/storage-blob";
+import { ContainerClient, CommonOptions } from "@azure/storage-blob";
 import { Chunk } from './Chunk';
+import { AbortSignalLike } from '@azure/core-http';
+
+
+/**
+ * Options to configure {@link ShardFactory.create} operation.
+ *
+ * @export
+ * @interface CreateShardOptions
+ */
+export interface CreateShardOptions extends CommonOptions {
+  /**
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
+   *
+   * @type {AbortSignalLike}
+   * @memberof CreateShardOptions
+   */
+  abortSignal?: AbortSignalLike;
+}
 
 export class ShardFactory {
   private readonly _chunkFactory: ChunkFactory;
@@ -17,13 +36,14 @@ export class ShardFactory {
   public async create(
     containerClient: ContainerClient,
     shardPath: string,
-    shardCursor?: ShardCursor
+    shardCursor?: ShardCursor,
+    options: CreateShardOptions = {}
   ): Promise<Shard> {
     const chunks: string[] = [];
     const blockOffset: number = shardCursor?.BlockOffset || 0;
     const eventIndex: number = shardCursor?.EventIndex || 0;
 
-    for await (const blobItem of containerClient.listBlobsFlat({ prefix: shardPath })) {
+    for await (const blobItem of containerClient.listBlobsFlat({ prefix: shardPath, abortSignal: options.abortSignal})) {
       chunks.push(blobItem.name);
     }
 
@@ -57,7 +77,8 @@ export class ShardFactory {
         containerClient,
         chunks.shift()!,
         blockOffset,
-        eventIndex
+        eventIndex,
+        { abortSignal: options.abortSignal }
       );
     }
 
