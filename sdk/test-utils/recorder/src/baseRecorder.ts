@@ -193,7 +193,7 @@ export class NockRecorder extends BaseRecorder {
       // Saving the recording to the file
       for (const fixture of fixtures) {
         // We're not matching query string parameters because they may contain sensitive information, and Nock does not allow us to customize it easily
-        let updatedFixture = fixture.toString().replace(/\.query\(.*\)/, ".query(true)");
+        const updatedFixture = fixture.toString().replace(/\.query\(.*\)/, ".query(true)");
         file.write(this.filterSecrets(updatedFixture) + "\n");
       }
 
