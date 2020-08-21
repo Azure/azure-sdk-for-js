@@ -548,7 +548,7 @@ export function isContentTypeInNockFixture(
 export function decodeHexEncodingIfExistsInNockFixture(fixture: string): string {
   // Matching with 200 status code since only they have the responses with hex encoding
   // Replaces only if the content-type is binary(Currently, "avro/binary" is considered)
-  if (!isBrowser() && isContentTypeInNockFixture(fixture, Binary_Content_Types)) {
+  if (!isBrowser() && isContentTypeInNockFixture(fixture, binaryContentTypes)) {
     const matches = fixture.match(/\.reply\(200, "(.*)", .*/);
     if (matches && isHex(matches[1])) {
       fixture = fixture.replace(`"${matches[1]}"`, `Buffer.from("${matches[1]}", "hex")`);
@@ -561,4 +561,4 @@ export function decodeHexEncodingIfExistsInNockFixture(fixture: string): string 
  * List of binary content types.
  * Currently, "avro/binary" is the only one present.
  */
-export const Binary_Content_Types = ["avro/binary"];
+export const binaryContentTypes = ["avro/binary"];
