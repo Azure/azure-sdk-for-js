@@ -10,7 +10,6 @@ typescript:
 use-extension:
   "@autorest/typescript": "6.0.0-dev.20200727.1"
 generate-metadata: false
-add-credentials: true
 license-header: MICROSOFT_MIT_NO_VERSION
 input-file: https://github.com/Azure/azure-rest-api-specs/blob/master/specification/digitaltwins/data-plane/Microsoft.DigitalTwins/preview/2020-05-31-preview/digitaltwins.json
 output-folder: ../
@@ -30,4 +29,16 @@ directive:
     where: $.paths.*.*.responses.*.headers
     transform: >
       if ($["ETag"]) { $["etag"] = $["ETag"]; delete $["ETag"]; }
+```
+
+### Replace dtTimestamp with timestamp
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.paths..parameters[*]
+    transform: >
+      if ($.name === "dt-timestamp") {
+        $["x-ms-client-name"] = "timestamp";
+      }
 ```

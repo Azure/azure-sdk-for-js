@@ -618,7 +618,7 @@ const sendTelemetryOperationSpec: coreHttp.OperationSpec = {
   headerParameters: [
     Parameters.contentType,
     Parameters.dtId,
-    Parameters.dtTimestamp
+    Parameters.timestamp
   ],
   mediaType: "json",
   serializer
@@ -638,7 +638,7 @@ const sendComponentTelemetryOperationSpec: coreHttp.OperationSpec = {
   headerParameters: [
     Parameters.contentType,
     Parameters.dtId,
-    Parameters.dtTimestamp
+    Parameters.timestamp
   ],
   mediaType: "json",
   serializer

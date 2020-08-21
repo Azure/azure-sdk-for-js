@@ -513,7 +513,7 @@ export class DigitalTwinsClient {
     options: OperationOptions = {}
   ): Promise<RestResponse> {
     const digitalTwinsSendTelemetryOptionalParams: DigitalTwinsSendTelemetryOptionalParams = options;
-    digitalTwinsSendTelemetryOptionalParams.dtTimestamp = new Date().getTime().toString();
+    digitalTwinsSendTelemetryOptionalParams.timestamp = new Date().getTime().toString();
     if (!messageId) {
       messageId = generateUuid();
     }
@@ -543,7 +543,7 @@ export class DigitalTwinsClient {
     options: OperationOptions = {}
   ): Promise<RestResponse> {
     const digitalTwinsSendComponentTelemetryOptionalParams: DigitalTwinsSendComponentTelemetryOptionalParams = options;
-    digitalTwinsSendComponentTelemetryOptionalParams.dtTimestamp = new Date().getTime().toString();
+    digitalTwinsSendComponentTelemetryOptionalParams.timestamp = new Date().getTime().toString();
     if (!messageId) {
       messageId = generateUuid();
     }

@@ -744,7 +744,7 @@ export interface DigitalTwinsSendTelemetryOptionalParams
   /**
    * An RFC 3339 timestamp that identifies the time the telemetry was measured.
    */
-  dtTimestamp?: string;
+  timestamp?: string;
 }
 
 /**
@@ -755,7 +755,7 @@ export interface DigitalTwinsSendComponentTelemetryOptionalParams
   /**
    * An RFC 3339 timestamp that identifies the time the telemetry was measured.
    */
-  dtTimestamp?: string;
+  timestamp?: string;
 }
 
 /**

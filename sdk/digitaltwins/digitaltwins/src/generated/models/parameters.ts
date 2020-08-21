@@ -262,8 +262,8 @@ export const dtId: OperationParameter = {
   }
 };
 
-export const dtTimestamp: OperationParameter = {
-  parameterPath: ["options", "dtTimestamp"],
+export const timestamp: OperationParameter = {
+  parameterPath: ["options", "timestamp"],
   mapper: {
     serializedName: "dt-timestamp",
     type: {

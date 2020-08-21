@@ -182,12 +182,12 @@ export type DigitalTwinsListRelationshipsResponse = RelationshipCollection & {
 
 // @public
 export interface DigitalTwinsSendComponentTelemetryOptionalParams extends coreHttp.OperationOptions {
-    dtTimestamp?: string;
+    timestamp?: string;
 }
 
 // @public
 export interface DigitalTwinsSendTelemetryOptionalParams extends coreHttp.OperationOptions {
-    dtTimestamp?: string;
+    timestamp?: string;
 }
 
 // @public
