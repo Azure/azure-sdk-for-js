@@ -821,12 +821,6 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
           false,
           receiveMode
         );
-        if (message.lockToken && message.lockedUntilUtc) {
-          this._context.requestResponseLockedMessages.set(
-            message.lockToken,
-            message.lockedUntilUtc
-          );
-        }
         messageList.push(message);
       }
       return messageList;
