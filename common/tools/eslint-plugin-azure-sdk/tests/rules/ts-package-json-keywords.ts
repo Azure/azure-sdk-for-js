@@ -288,7 +288,7 @@ ruleTester.run("ts-package-json-keywords", rule, {
       filename: "package.json",
       errors: [
         {
-          message: "keywords does not contain Azure"
+          message: "keywords does not contain azure"
         },
         {
           message: "keywords does not contain cloud"
@@ -297,12 +297,12 @@ ruleTester.run("ts-package-json-keywords", rule, {
       output: '{"keywords": ["azure"]}'
     },
     {
-      // Azure missing
+      // azure missing
       code: '{"keywords": ["cloud"]}',
       filename: "package.json",
       errors: [
         {
-          message: "keywords does not contain Azure"
+          message: "keywords does not contain azure"
         }
       ],
       output: '{"keywords": ["cloud", "azure"]}'
@@ -316,7 +316,7 @@ ruleTester.run("ts-package-json-keywords", rule, {
           message: "keywords does not contain cloud"
         }
       ],
-      output: '{"keywords": ["Azure", "cloud"]}'
+      output: '{"keywords": ["azure", "cloud"]}'
     },
     {
       // example file with keywords not containing azure or cloud
