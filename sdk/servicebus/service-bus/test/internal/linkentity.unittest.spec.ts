@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import { AbortSignalLike } from "@azure/abort-controller";
+import { delay } from "@azure/core-amqp";
 import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
 import { Receiver, ReceiverOptions } from "rhea-promise";
@@ -20,7 +21,7 @@ describe("LinkEntity unit tests", () => {
 
   let linkEntity: LinkEntity<Receiver>;
 
-  beforeEach(() => {
+  beforeEach(function() {
     linkEntity = new LinkForTests("some initial name", createConnectionContextForTests(), "sr", {
       address: "my-address"
     });
@@ -53,15 +54,29 @@ describe("LinkEntity unit tests", () => {
     assertLinkEntityClosedPermanently();
   });
 
-  it("initLink - multiple simultaneous initLink calls are ignored", async () => {
+  it("initLink - multiple simultaneous initLink calls obey the lock", async () => {
     let timesCalled = 0;
+
+    const innerPromises: Promise<void>[] = [];
 
     linkEntity["_negotiateClaim"] = async () => {
       ++timesCalled;
 
       // this will just resolve immediately because
       // we're already connecting.
-      await linkEntity.initLink({});
+      assert.isTrue(linkEntity.isConnecting);
+
+      // these promises will NOT resolve - initLink() and close/closeLink()
+      // coordinate using a lock.
+      innerPromises.push(linkEntity.initLink({}));
+      innerPromises.push(linkEntity.close());
+
+      const ret = await Promise.race([...innerPromises, delay(50, undefined, undefined, 101)]);
+      assert.equal(
+        ret,
+        101,
+        "The delay promise always resolves first since the other two calls are blocked by the lock"
+      );
     };
 
     await linkEntity.initLink({});
@@ -71,6 +86,8 @@ describe("LinkEntity unit tests", () => {
       1,
       "Only one negotiateClaim call should make it through since the others were turned away because of the isConnecting field"
     );
+
+    await Promise.all(innerPromises);
   });
 
   it("initLink - early exit when link is already open", async () => {
@@ -192,25 +209,6 @@ describe("LinkEntity unit tests", () => {
 
     // we also update the log prefix
     assert.equal(linkEntity["_logPrefix"], "[connection-id|sr:some new name|a:my-address]");
-  });
-
-  it("initLink - user closes link while it's initializing", async () => {
-    linkEntity["createRheaLink"] = async () => {
-      await linkEntity.close();
-      return createRheaReceiverForTests();
-    };
-
-    try {
-      await linkEntity.initLink({
-        name: "some new name"
-      });
-      assert.fail("Should have thrown");
-    } catch (err) {
-      assert.equal(err.name, "AbortError");
-    }
-
-    assert.equal(linkEntity["_logPrefix"], "[connection-id|sr:some new name|a:my-address]");
-    assertLinkEntityClosedPermanently();
   });
 
   it("initLink - multiple closes don't cause errors", async () => {

@@ -9,7 +9,6 @@ import {
   EventContext,
   OnAmqpEvent,
   message as RheaMessageUtil,
-  generate_uuid,
   messageProperties
 } from "rhea-promise";
 import {
@@ -20,7 +19,6 @@ import {
   RetryConfig,
   RetryOperationType,
   RetryOptions,
-  defaultLock,
   delay,
   retry,
   translate
@@ -46,12 +44,6 @@ import { AbortError, AbortSignalLike } from "@azure/abort-controller";
  * @class MessageSender
  */
 export class MessageSender extends LinkEntity<AwaitableSender> {
-  /**
-   * @property {string} openLock The unique lock name per connection that is used to acquire the
-   * lock for establishing a sender link by an entity on that connection.
-   * @readonly
-   */
-  readonly openLock: string = `sender-${generate_uuid()}`;
   /**
    * @property {OnAmqpEvent} _onAmqpError The handler function to handle errors that happen on the
    * underlying sender.
@@ -374,36 +366,25 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
 
     checkAborted();
 
-    if (this.isOpen()) {
-      return;
-    }
-
-    log.sender(
-      "Acquiring lock %s for initializing the session, sender and possibly the connection.",
-      this.openLock
-    );
-
-    return defaultLock.acquire(this.openLock, async () => {
-      try {
-        if (!options) {
-          options = this._createSenderOptions(Constants.defaultOperationTimeoutInMs);
-        }
-        await this.initLink(options, abortSignal);
-      } catch (err) {
-        err = translate(err);
-        log.error(
-          "[%s] An error occurred while creating the sender %s",
-          this._context.connectionId,
-          this.name,
-          err
-        );
-        // Fix the unhelpful error messages for the OperationTimeoutError that comes from `rhea-promise`.
-        if ((err as MessagingError).code === "OperationTimeoutError") {
-          err.message = "Failed to create a sender within allocated time and retry attempts.";
-        }
-        throw err;
+    try {
+      if (!options) {
+        options = this._createSenderOptions(Constants.defaultOperationTimeoutInMs);
       }
-    });
+      await this.initLink(options, abortSignal);
+    } catch (err) {
+      err = translate(err);
+      log.error(
+        "[%s] An error occurred while creating the sender %s",
+        this._context.connectionId,
+        this.name,
+        err
+      );
+      // Fix the unhelpful error messages for the OperationTimeoutError that comes from `rhea-promise`.
+      if ((err as MessagingError).code === "OperationTimeoutError") {
+        err.message = "Failed to create a sender within allocated time and retry attempts.";
+      }
+      throw err;
+    }
   }
 
   /**

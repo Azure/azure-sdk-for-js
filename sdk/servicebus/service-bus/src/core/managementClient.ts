@@ -20,7 +20,6 @@ import {
   MessagingError,
   RequestResponseLink,
   SendRequestOptions,
-  defaultLock,
   translate
 } from "@azure/core-amqp";
 import { ConnectionContext } from "../connectionContext";
@@ -189,7 +188,6 @@ export interface ManagementClientOptions {
  * to the $management endpoint over AMQP connection.
  */
 export class ManagementClient extends LinkEntity<RequestResponseLink> {
-  readonly managementLock: string = `${Constants.managementRequestKey}-${generate_uuid()}`;
   /**
    * @property {string} entityPath - The name/path of the entity (queue/topic/subscription name)
    * for which the management request needs to be made.
@@ -333,9 +331,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
       );
 
       try {
-        await defaultLock.acquire(this.managementLock, () => {
-          return this._init();
-        });
+        await this._init();
       } catch (err) {
         throw err;
       } finally {

@@ -285,7 +285,7 @@ describe("AbortSignal", () => {
         assert.equal(err.name, "AbortError");
       }
 
-      assert.isFalse(messageReceiver["_isConnecting"]);
+      assert.isFalse(messageReceiver.isConnecting);
     });
 
     it("...after createReceiver", async () => {
