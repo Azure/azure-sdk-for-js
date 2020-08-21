@@ -7,7 +7,12 @@
  */
 
 export {
-  CloudError,
-  SubscriptionCreationResult,
-  SubscriptionOperationGetHeaders
+  BaseResource,
+  ErrorResponse,
+  ErrorResponseBody,
+  PutAliasListResult,
+  PutAliasRequest,
+  PutAliasRequestProperties,
+  PutAliasResponse,
+  PutAliasResponseProperties
 } from "../models/mappers";
