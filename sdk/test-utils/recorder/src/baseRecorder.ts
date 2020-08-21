@@ -16,7 +16,7 @@ import {
   generateTestRecordingFilePath,
   nodeRequireRecordingIfExists,
   windowLens,
-  isHex
+  decodeHexEncodingIfExistsInNockFixture
 } from "./utils";
 import { customConsoleLog } from "./customConsoleLog";
 
@@ -92,10 +92,13 @@ export abstract class BaseRecorder {
   protected filterSecrets(content: any): any {
     const recordingFilterMethod =
       typeof content === "string" ? filterSecretsFromStrings : filterSecretsRecursivelyFromJSON;
+
+    // Decodes "hex" strings in the response from the recorded fixture if any exists.
+    const defaultCustomizations = !isBrowser() ? [decodeHexEncodingIfExistsInNockFixture] : [];
     return recordingFilterMethod(
       content,
       this.environmentSetup.replaceableVariables,
-      this.environmentSetup.customizationsOnRecordings
+      defaultCustomizations.concat(this.environmentSetup.customizationsOnRecordings)
     );
   }
 
@@ -185,7 +188,6 @@ export class NockRecorder extends BaseRecorder {
       for (const fixture of fixtures) {
         // We're not matching query string parameters because they may contain sensitive information, and Nock does not allow us to customize it easily
         let updatedFixture = fixture.toString().replace(/\.query\(.*\)/, ".query(true)");
-        updatedFixture = this.decodeHexEncodingIfExistsInNockFixture(updatedFixture);
         file.write(this.filterSecrets(updatedFixture) + "\n");
       }
 
@@ -198,50 +200,6 @@ export class NockRecorder extends BaseRecorder {
       nock.cleanAll();
       nock.enableNetConnect();
     }
-  }
-
-  /**
-   * Decodes "hex" strings in the response from the recorded fixture if any exists
-   * For example, the following part of the recording would be updated
-   * from `.reply(200, "4f626a01", [`
-   * to   `.reply(200, Buffer.from("4f626a01", "hex"), [`
-   *
-   * @private
-   * @param {string} fixture
-   * @returns
-   * @memberof NockRecorder
-   */
-  private decodeHexEncodingIfExistsInNockFixture(fixture: string) {
-    // TODO: Add tests for decodeHexEncoding
-    // Decode "hex" strings in the response if any
-    // Matching with 200 status code since only they have the responses with hex encoding
-    // TODO: Confirm the above or add any other status codes to match if required
-    // TODO: Replace only if the content-type is not text/plain
-    if (this.isContentType(fixture, ["avro/binary"])) {
-      const matches = fixture.match(/\.reply\(200, "(.*)", .*/);
-      if (matches && isHex(matches[1])) {
-        fixture = fixture.replace(`"${matches[1]}"`, `Buffer.from("${matches[1]}", "hex")`);
-      }
-    }
-    return fixture;
-  }
-
-  /**
-   * Returns true if the content-type in the `fixture` matches with
-   * any of the strings provided in the expected content types.
-   *
-   * @private
-   * @param {string} fixture
-   * @param {string} expectedContentTypes
-   * @returns {boolean}
-   */
-  private isContentType(fixture: string, expectedContentTypes: string[]): boolean {
-    for (const contentType of expectedContentTypes) {
-      if (fixture.replace(/(\r\n|\n|\r|\s)/gm, "").includes(`'Content-Type','${contentType}'`)) {
-        return true;
-      }
-    }
-    return false;
   }
 }
 

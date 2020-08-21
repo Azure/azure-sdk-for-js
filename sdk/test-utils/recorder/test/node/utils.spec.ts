@@ -3,10 +3,11 @@ import {
   nodeRequireRecordingIfExists,
   isBrowser,
   findRecordingsFolderPath,
-  testHasChanged
+  testHasChanged,
+  isContentTypeInNockFixture,
+  decodeHexEncodingIfExistsInNockFixture
 } from "../../src/utils";
 import chai from "chai";
-import { NockRecorder } from "../../src/baseRecorder";
 const { expect } = chai;
 
 describe("NodeJS utils", () => {
@@ -273,9 +274,8 @@ describe("NodeJS utils", () => {
       }
     ].forEach((test) => {
       it(test.name, () => {
-        const recorder = new NockRecorder("", "", "");
         chai.assert.equal(
-          recorder["decodeHexEncodingIfExistsInNockFixture"](test.input),
+          decodeHexEncodingIfExistsInNockFixture(test.input),
           test.output,
           `Unexpected output`
         );
@@ -283,7 +283,7 @@ describe("NodeJS utils", () => {
     });
   });
 
-  describe("isContentType", () => {
+  describe("isContentTypeInNockFixture", () => {
     [
       {
         name: `"avro/binary" matches`,
@@ -335,9 +335,8 @@ describe("NodeJS utils", () => {
       }
     ].forEach((test) => {
       it(test.name, () => {
-        const recorder = new NockRecorder("", "", "");
         chai.assert.equal(
-          recorder["isContentType"](test.input, test.expectedContentTypes),
+          isContentTypeInNockFixture(test.input, test.expectedContentTypes),
           test.output,
           `Unexpected result - content types ${test.expectedContentTypes} ${
             test.output ? "do not match" : "matched"
