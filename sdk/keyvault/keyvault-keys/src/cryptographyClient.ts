@@ -26,9 +26,19 @@ import { logger } from "./log";
 import { SDK_VERSION } from "./generated/utils/constants";
 import { KeyVaultClient } from "./generated/keyVaultClient";
 import { challengeBasedAuthenticationPolicy } from "../../keyvault-common/src";
-import { createHash as cryptoCreateHash, createVerify, publicEncrypt } from "crypto";
-import * as constants from "constants";
 import { parseKeyVaultKeysIdentifier } from "./identifier";
+
+let crypto: any;
+if (isNode) {
+  crypto = require("crypto");
+}
+const { createVerify, publicEncrypt } = crypto;
+const cryptoCreateHash = crypto.createHash;
+
+let constants: any;
+if (isNode) {
+  constants = require("constants");
+}
 
 /**
  * A client used to perform cryptographic operations with Azure Key Vault keys.
