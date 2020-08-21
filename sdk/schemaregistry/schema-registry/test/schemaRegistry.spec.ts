@@ -51,6 +51,11 @@ function assertIsValidSchemaId(schemaId: SchemaId) {
   assert.isNotNull(schemaId.version);
 }
 
+// `any` because _response is deliberately withheld from the typing
+function assertStatus(response: any, status: number) {
+  assert.equal(response._response.status, status);
+}
+
 describe("SchemaRegistryClient", function() {
   let recorder: Recorder;
   let client: SchemaRegistryClient;
@@ -95,7 +100,7 @@ describe("SchemaRegistryClient", function() {
     recorder.skip("node", "https://github.com/Azure/azure-sdk-for-js/issues/10659");
 
     const registered = await client.registerSchema(schema);
-    assert.equal(registered._response.status, 200);
+    assertStatus(registered, 200);
     assert.isNotNull(registered.id);
     assert.isNotNull(registered.version);
     assert.isNotNull(registered.location);
@@ -106,7 +111,7 @@ describe("SchemaRegistryClient", function() {
       ...schema,
       content: schema.content.replace("name", "fullName")
     });
-    assert.equal(changed._response.status, 200);
+    assertStatus(changed, 200);
     assert.notEqual(changed.version, registered.version);
     assert.notEqual(changed.id, registered.id);
     assert.notEqual(changed.location, registered.location);
@@ -129,11 +134,11 @@ describe("SchemaRegistryClient", function() {
     recorder.skip("node", "https://github.com/Azure/azure-sdk-for-js/issues/10659");
 
     const registered = await client.registerSchema(schema);
-    assert.equal(registered._response.status, 200);
+    assertStatus(registered, 200);
     assertIsValidSchemaId(registered);
 
     const found = await client.getSchemaId(schema);
-    assert.equal(found._response.status, 200);
+    assertStatus(found, 200);
     assertIsValidSchemaId(found);
 
     // NOTE: IDs may differ here as we could get a different version with same content.
@@ -151,11 +156,11 @@ describe("SchemaRegistryClient", function() {
     recorder.skip("node", "https://github.com/Azure/azure-sdk-for-js/issues/10659");
 
     const registered = await client.registerSchema(schema);
-    assert.equal(registered._response.status, 200);
+    assertStatus(registered, 200);
     assertIsValidSchemaId(registered);
 
     const found = await client.getSchemaById(registered.id);
-    assert.equal(found._response.status, 200);
+    assertStatus(found, 200);
     assertIsValidSchemaId(found);
 
     assert.equal(found.content, schema.content);

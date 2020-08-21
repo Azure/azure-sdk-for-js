@@ -11,10 +11,10 @@ import {
   GetSchemaByIdOptions,
   GetSchemaIdOptions,
   SchemaDescription,
-  SchemaIdResponse,
-  SchemaResponse,
   SchemaRegistryClientOptions,
-  RegisterSchemaOptions
+  RegisterSchemaOptions,
+  SchemaId,
+  Schema
 } from "./models";
 
 /**
@@ -58,7 +58,7 @@ export class SchemaRegistryClient {
   async registerSchema(
     schema: SchemaDescription,
     options?: RegisterSchemaOptions
-  ): Promise<SchemaIdResponse> {
+  ): Promise<SchemaId> {
     const response = await this.client.schema.register(
       schema.group,
       schema.name,
@@ -79,10 +79,7 @@ export class SchemaRegistryClient {
    * @param schema Schema to match.
    * @return Matched schema's ID.
    */
-  async getSchemaId(
-    schema: SchemaDescription,
-    options?: GetSchemaIdOptions
-  ): Promise<SchemaIdResponse> {
+  async getSchemaId(schema: SchemaDescription, options?: GetSchemaIdOptions): Promise<SchemaId> {
     const response = await this.client.schema.queryIdByContent(
       schema.group,
       schema.name,
@@ -102,7 +99,7 @@ export class SchemaRegistryClient {
    * @param id Unique schema ID.
    * @return Schema with given ID.
    */
-  async getSchemaById(id: string, options?: GetSchemaByIdOptions): Promise<SchemaResponse> {
+  async getSchemaById(id: string, options?: GetSchemaByIdOptions): Promise<Schema> {
     const response = await this.client.schema.getById(id, options);
     return convertSchemaResponse(response);
   }
