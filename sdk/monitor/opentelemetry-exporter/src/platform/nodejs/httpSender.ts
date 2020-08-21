@@ -1,67 +1,54 @@
-import * as http from "http";
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import * as zlib from "zlib";
 import { Logger } from "@opentelemetry/api";
 import { ConsoleLogger, LogLevel } from "@opentelemetry/core";
-import { Sender, SenderCallback } from "../../types";
+import { Sender, SenderResult } from "../../types";
 import { Envelope } from "../../Declarations/Contracts";
 import { DEFAULT_SENDER_OPTIONS, NodejsPlatformConfig } from "../types";
-import { makeRequest } from "./utils/httpUtils";
+import { promisify } from "util";
+import { DefaultHttpClient, HttpClient, HttpHeaders, WebResource } from "@azure/core-http";
+
+const gzipAsync = promisify<zlib.InputType, Buffer>(zlib.gzip);
 
 export class HttpSender implements Sender {
   private readonly _logger: Logger;
 
+  private readonly _httpClient: HttpClient;
+
   constructor(private _options: NodejsPlatformConfig = DEFAULT_SENDER_OPTIONS) {
     this._logger = _options.logger || new ConsoleLogger(LogLevel.ERROR);
+    this._httpClient = new DefaultHttpClient();
   }
 
-  send(envelopes: Envelope[], callback: SenderCallback = () => {}): void {
+  async send(envelopes: Envelope[]): Promise<SenderResult> {
     const endpointUrl = `${this._options.endpointUrl}/v2/track`;
     const payload = Buffer.from(JSON.stringify(envelopes));
 
-    // todo: investigate specifying an agent here: https://nodejs.org/api/http.html#http_class_http_agent
-    const options = {
-      method: "POST",
-      withCredentials: false,
-      headers: <{ [key: string]: string }>{
-        "Content-Type": "application/x-json-stream",
-      },
-    };
+    const headers = new HttpHeaders({ "Content-Type": "application/x-json-stream" });
 
-    zlib.gzip(payload, (err, buffer) => {
-      let dataToSend = buffer;
-      if (err) {
-        this._logger.warn(`Failed to gzip payload: ${err.message}. Sending payload uncompressed`);
-        dataToSend = payload; // something went wrong so send without gzip
-        options.headers["Content-Length"] = payload.length.toString();
-      } else {
-        options.headers["Content-Encoding"] = "gzip";
-        options.headers["Content-Length"] = String(buffer.length);
-      }
+    let dataToSend: Buffer;
+    try {
+      dataToSend = await gzipAsync(payload);
+      headers.set("Content-Encoding", "gzip");
+    } catch (err) {
+      this._logger.warn(`Failed to gzip payload: ${err.message}. Sending payload uncompressed`);
+      dataToSend = payload; // something went wrong so send without gzip
+    }
+    headers.set("Content-Length", dataToSend.length);
 
-      this._logger.debug(`HTTPS Options:`, options);
-
-      const requestCallback = (res: http.IncomingMessage) => {
-        res.setEncoding("utf-8");
-
-        // returns empty if the data is accepted
-        let responseString = "";
-        res.on("data", (data: string) => {
-          responseString += data;
-        });
-
-        res.on("end", () => {
-          this._logger.info(`Azure HTTP response: ${responseString}`);
-          callback(null, res.statusCode, responseString);
-        });
-      };
-
-      const req = makeRequest(this._options, endpointUrl, options, requestCallback);
-
-      req.on("error", callback);
-
-      req.write(dataToSend);
-      req.end();
-    });
+    const options = new WebResource(
+      endpointUrl,
+      "POST",
+      dataToSend,
+      undefined,
+      headers,
+      undefined,
+      false // withCredentials: false
+    );
+    const res = await this._httpClient.sendRequest(options);
+    return { statusCode: res.status, result: res.bodyAsText || "" };
   }
 
   shutdown(): void {

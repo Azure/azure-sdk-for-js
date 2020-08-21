@@ -8,6 +8,7 @@ import * as log from "../log";
 /**
  * Describes a map that ensures, deleting a an entry from the map is concurrency safe.
  * @internal
+ * @ignore
  * @class ConcurrentExpiringMap<TKey>
  */
 export class ConcurrentExpiringMap<TKey> {

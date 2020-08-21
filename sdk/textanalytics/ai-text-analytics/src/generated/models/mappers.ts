@@ -938,6 +938,141 @@ export const SentenceSentiment: coreHttp.CompositeMapper = {
           name: "Composite",
           className: "SentimentConfidenceScores"
         }
+      },
+      aspects: {
+        serializedName: "aspects",
+        type: {
+          name: "Sequence",
+          element: { type: { name: "Composite", className: "SentenceAspect" } }
+        }
+      },
+      opinions: {
+        serializedName: "opinions",
+        type: {
+          name: "Sequence",
+          element: { type: { name: "Composite", className: "SentenceOpinion" } }
+        }
+      }
+    }
+  }
+};
+
+export const SentenceAspect: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SentenceAspect",
+    modelProperties: {
+      sentiment: {
+        serializedName: "sentiment",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      confidenceScores: {
+        serializedName: "confidenceScores",
+        type: {
+          name: "Composite",
+          className: "AspectConfidenceScoreLabel"
+        }
+      },
+      text: {
+        serializedName: "text",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      relations: {
+        serializedName: "relations",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: { type: { name: "Composite", className: "AspectRelation" } }
+        }
+      }
+    }
+  }
+};
+
+export const AspectConfidenceScoreLabel: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AspectConfidenceScoreLabel",
+    modelProperties: {
+      positive: {
+        serializedName: "positive",
+        required: true,
+        type: {
+          name: "Number"
+        }
+      },
+      negative: {
+        serializedName: "negative",
+        required: true,
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const AspectRelation: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "AspectRelation",
+    modelProperties: {
+      relationType: {
+        serializedName: "relationType",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      ref: {
+        serializedName: "ref",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const SentenceOpinion: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "SentenceOpinion",
+    modelProperties: {
+      sentiment: {
+        serializedName: "sentiment",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      confidenceScores: {
+        serializedName: "confidenceScores",
+        type: {
+          name: "Composite",
+          className: "AspectConfidenceScoreLabel"
+        }
+      },
+      text: {
+        serializedName: "text",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      isNegated: {
+        serializedName: "isNegated",
+        required: true,
+        type: {
+          name: "Boolean"
+        }
       }
     }
   }

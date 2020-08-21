@@ -8,7 +8,7 @@
   
   This sample demonstrates how the ServiceBusManagementClient can be used to list the entities of a service bus namespace.
 
-  See https://docs.microsoft.com/en-us/rest/api/servicebus/resource-provider-apis to learn more.
+  See https://docs.microsoft.com/rest/api/servicebus/resource-provider-apis to learn more.
 */
 
 import { ServiceBusManagementClient } from "@azure/service-bus";

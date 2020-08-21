@@ -280,6 +280,10 @@ const queryOperationSpec: coreHttp.OperationSpec = {
     200: {
       bodyMapper: Mappers.TableQueryResponse,
       headersMapper: Mappers.TableQueryHeaders
+    },
+    default: {
+      bodyMapper: Mappers.TableServiceError,
+      headersMapper: Mappers.TableQueryExceptionHeaders
     }
   },
   queryParameters: [
@@ -291,6 +295,7 @@ const queryOperationSpec: coreHttp.OperationSpec = {
   ],
   urlParameters: [Parameters.url],
   headerParameters: [
+    Parameters.accept,
     Parameters.version,
     Parameters.requestId,
     Parameters.dataServiceVersion
@@ -310,7 +315,7 @@ const createOperationSpec: coreHttp.OperationSpec = {
     },
     default: {
       bodyMapper: Mappers.TableServiceError,
-      headersMapper: Mappers.TableCreateHeaders
+      headersMapper: Mappers.TableCreateExceptionHeaders
     }
   },
   requestBody: Parameters.tableProperties,
@@ -321,6 +326,7 @@ const createOperationSpec: coreHttp.OperationSpec = {
     Parameters.requestId,
     Parameters.dataServiceVersion,
     Parameters.contentType,
+    Parameters.accept1,
     Parameters.responsePreference
   ],
   mediaType: "json",
@@ -335,11 +341,15 @@ const deleteOperationSpec: coreHttp.OperationSpec = {
     },
     default: {
       bodyMapper: Mappers.TableServiceError,
-      headersMapper: Mappers.TableDeleteHeaders
+      headersMapper: Mappers.TableDeleteExceptionHeaders
     }
   },
   urlParameters: [Parameters.url, Parameters.table],
-  headerParameters: [Parameters.version, Parameters.requestId],
+  headerParameters: [
+    Parameters.version,
+    Parameters.requestId,
+    Parameters.accept2
+  ],
   serializer
 };
 const queryEntitiesOperationSpec: coreHttp.OperationSpec = {
@@ -352,7 +362,7 @@ const queryEntitiesOperationSpec: coreHttp.OperationSpec = {
     },
     default: {
       bodyMapper: Mappers.TableServiceError,
-      headersMapper: Mappers.TableQueryEntitiesHeaders
+      headersMapper: Mappers.TableQueryEntitiesExceptionHeaders
     }
   },
   queryParameters: [
@@ -366,6 +376,7 @@ const queryEntitiesOperationSpec: coreHttp.OperationSpec = {
   ],
   urlParameters: [Parameters.url, Parameters.table],
   headerParameters: [
+    Parameters.accept,
     Parameters.version,
     Parameters.requestId,
     Parameters.dataServiceVersion
@@ -377,12 +388,15 @@ const queryEntitiesWithPartitionAndRowKeyOperationSpec: coreHttp.OperationSpec =
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: Mappers.TableEntityQueryResponse,
+      bodyMapper: {
+        type: { name: "Dictionary", value: { type: { name: "any" } } }
+      },
       headersMapper: Mappers.TableQueryEntitiesWithPartitionAndRowKeyHeaders
     },
     default: {
       bodyMapper: Mappers.TableServiceError,
-      headersMapper: Mappers.TableQueryEntitiesWithPartitionAndRowKeyHeaders
+      headersMapper:
+        Mappers.TableQueryEntitiesWithPartitionAndRowKeyExceptionHeaders
     }
   },
   queryParameters: [
@@ -398,6 +412,7 @@ const queryEntitiesWithPartitionAndRowKeyOperationSpec: coreHttp.OperationSpec =
     Parameters.rowKey
   ],
   headerParameters: [
+    Parameters.accept,
     Parameters.version,
     Parameters.requestId,
     Parameters.dataServiceVersion
@@ -413,7 +428,7 @@ const updateEntityOperationSpec: coreHttp.OperationSpec = {
     },
     default: {
       bodyMapper: Mappers.TableServiceError,
-      headersMapper: Mappers.TableUpdateEntityHeaders
+      headersMapper: Mappers.TableUpdateEntityExceptionHeaders
     }
   },
   requestBody: Parameters.tableEntityProperties,
@@ -429,6 +444,7 @@ const updateEntityOperationSpec: coreHttp.OperationSpec = {
     Parameters.requestId,
     Parameters.dataServiceVersion,
     Parameters.contentType1,
+    Parameters.accept3,
     Parameters.ifMatch
   ],
   mediaType: "json",
@@ -443,7 +459,7 @@ const mergeEntityOperationSpec: coreHttp.OperationSpec = {
     },
     default: {
       bodyMapper: Mappers.TableServiceError,
-      headersMapper: Mappers.TableMergeEntityHeaders
+      headersMapper: Mappers.TableMergeEntityExceptionHeaders
     }
   },
   requestBody: Parameters.tableEntityProperties,
@@ -459,6 +475,7 @@ const mergeEntityOperationSpec: coreHttp.OperationSpec = {
     Parameters.requestId,
     Parameters.dataServiceVersion,
     Parameters.contentType1,
+    Parameters.accept3,
     Parameters.ifMatch
   ],
   mediaType: "json",
@@ -473,7 +490,7 @@ const deleteEntityOperationSpec: coreHttp.OperationSpec = {
     },
     default: {
       bodyMapper: Mappers.TableServiceError,
-      headersMapper: Mappers.TableDeleteEntityHeaders
+      headersMapper: Mappers.TableDeleteEntityExceptionHeaders
     }
   },
   queryParameters: [Parameters.format, Parameters.timeout],
@@ -484,6 +501,7 @@ const deleteEntityOperationSpec: coreHttp.OperationSpec = {
     Parameters.rowKey
   ],
   headerParameters: [
+    Parameters.accept,
     Parameters.version,
     Parameters.requestId,
     Parameters.dataServiceVersion,
@@ -506,7 +524,7 @@ const insertEntityOperationSpec: coreHttp.OperationSpec = {
     },
     default: {
       bodyMapper: Mappers.TableServiceError,
-      headersMapper: Mappers.TableInsertEntityHeaders
+      headersMapper: Mappers.TableInsertEntityExceptionHeaders
     }
   },
   requestBody: Parameters.tableEntityProperties,
@@ -517,6 +535,7 @@ const insertEntityOperationSpec: coreHttp.OperationSpec = {
     Parameters.requestId,
     Parameters.dataServiceVersion,
     Parameters.contentType,
+    Parameters.accept1,
     Parameters.responsePreference
   ],
   mediaType: "json",
@@ -543,12 +562,16 @@ const getAccessPolicyOperationSpec: coreHttp.OperationSpec = {
     },
     default: {
       bodyMapper: Mappers.TableServiceError,
-      headersMapper: Mappers.TableGetAccessPolicyHeaders
+      headersMapper: Mappers.TableGetAccessPolicyExceptionHeaders
     }
   },
   queryParameters: [Parameters.timeout, Parameters.comp],
   urlParameters: [Parameters.url, Parameters.table],
-  headerParameters: [Parameters.version, Parameters.requestId],
+  headerParameters: [
+    Parameters.version,
+    Parameters.requestId,
+    Parameters.accept4
+  ],
   isXML: true,
   serializer: xmlSerializer
 };
@@ -561,7 +584,7 @@ const setAccessPolicyOperationSpec: coreHttp.OperationSpec = {
     },
     default: {
       bodyMapper: Mappers.TableServiceError,
-      headersMapper: Mappers.TableSetAccessPolicyHeaders
+      headersMapper: Mappers.TableSetAccessPolicyExceptionHeaders
     }
   },
   requestBody: Parameters.tableAcl,
@@ -570,7 +593,8 @@ const setAccessPolicyOperationSpec: coreHttp.OperationSpec = {
   headerParameters: [
     Parameters.version,
     Parameters.requestId,
-    Parameters.contentType2
+    Parameters.contentType2,
+    Parameters.accept5
   ],
   isXML: true,
   contentType: "application/xml; charset=utf-8",

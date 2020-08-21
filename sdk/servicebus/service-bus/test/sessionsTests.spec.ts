@@ -9,8 +9,8 @@ chai.use(chaiAsPromised);
 import { ReceivedMessage, delay } from "../src";
 
 import { TestClientType, TestMessage, checkWithTimeout, isMessagingError } from "./utils/testUtils";
-import { Sender } from "../src/sender";
-import { SessionReceiver } from "../src/receivers/sessionReceiver";
+import { ServiceBusSender } from "../src/sender";
+import { ServiceBusSessionReceiver } from "../src/receivers/sessionReceiver";
 import {
   EntityName,
   ServiceBusClientForTests,
@@ -31,8 +31,8 @@ async function processError(err: Error): Promise<void> {
 
 describe("session tests", () => {
   let serviceBusClient: ServiceBusClientForTests;
-  let sender: Sender;
-  let receiver: SessionReceiver<ReceivedMessageWithLock>;
+  let sender: ServiceBusSender;
+  let receiver: ServiceBusSessionReceiver<ReceivedMessageWithLock>;
   let testClientType = getRandomTestClientTypeWithSessions();
 
   async function beforeEachTest(sessionId?: string): Promise<void> {
@@ -224,10 +224,10 @@ describe("session tests", () => {
         "SessionId is different than expected"
       );
 
-      let testState = await receiver.getState();
+      let testState = await receiver.getSessionState();
       should.equal(!!testState, false, "SessionState is different than expected");
-      await receiver.setState("new_state");
-      testState = await receiver.getState();
+      await receiver.setSessionState("new_state");
+      testState = await receiver.getSessionState();
       should.equal(testState, "new_state", "SessionState is different than expected");
 
       await receiver.close();
@@ -253,10 +253,10 @@ describe("session tests", () => {
         "SessionId is different than expected"
       );
 
-      testState = await receiver.getState();
+      testState = await receiver.getSessionState();
       should.equal(testState, "new_state", "SessionState is different than expected");
 
-      await receiver.setState(""); // clearing the session-state
+      await receiver.setSessionState(""); // clearing the session-state
       await msgs[0].complete();
       await testPeekMsgsLength(receiver, 0);
     });
@@ -266,7 +266,7 @@ describe("session tests", () => {
       const controller = new AbortController();
       setTimeout(() => controller.abort(), 1);
       try {
-        await receiver.getState({ abortSignal: controller.signal });
+        await receiver.getSessionState({ abortSignal: controller.signal });
         throw new Error(`Test failure`);
       } catch (err) {
         err.message.should.equal("The getState operation has been cancelled by the user.");
@@ -278,7 +278,7 @@ describe("session tests", () => {
       const controller = new AbortController();
       setTimeout(() => controller.abort(), 1);
       try {
-        await receiver.setState("why", { abortSignal: controller.signal });
+        await receiver.setSessionState("why", { abortSignal: controller.signal });
         throw new Error(`Test failure`);
       } catch (err) {
         err.message.should.equal("The setState operation has been cancelled by the user.");
@@ -337,7 +337,7 @@ describe.skip("SessionReceiver - disconnects", function(): void {
     const entityName = await beforeEachTest(TestClientType.UnpartitionedQueueWithSessions);
     const receiver = await serviceBusClient.createSessionReceiver(entityName.queue!, {
       sessionId: testMessage.sessionId,
-      autoRenewLockDurationInMs: 10000 // Lower this value so that test can complete in time.
+      maxAutoRenewLockDurationInMs: 10000 // Lower this value so that test can complete in time.
     });
     const sender = serviceBusClient.createSender(entityName.queue!);
     // Send a message so we can be sure when the receiver is open and active.
@@ -387,7 +387,7 @@ describe.skip("SessionReceiver - disconnects", function(): void {
     settledMessageCount.should.equal(1, "Unexpected number of settled messages.");
     receivedErrors.length.should.equal(0, "Encountered an unexpected number of errors.");
 
-    const connectionContext = (receiver as any)["_context"].namespace;
+    const connectionContext = (receiver as any)["_context"];
     const refreshConnection = connectionContext.refreshConnection;
     let refreshConnectionCalled = 0;
     connectionContext.refreshConnection = function(...args: any) {
@@ -396,7 +396,7 @@ describe.skip("SessionReceiver - disconnects", function(): void {
     };
 
     // Simulate a disconnect being called with a non-retryable error.
-    (receiver as any)["_context"].namespace.connection["_connection"].idle();
+    (receiver as any)["_context"].connection["_connection"].idle();
 
     // send a second message to trigger the message handler again.
     await sender.sendMessages(TestMessage.getSessionSample());

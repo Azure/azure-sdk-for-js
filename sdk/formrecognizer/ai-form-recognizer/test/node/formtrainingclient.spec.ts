@@ -11,7 +11,8 @@ dotenv.config();
 import {
   createRecordedTrainingClient,
   createRecordedRecognizerClient,
-  testEnv
+  testEnv,
+  testPollingOptions
 } from "../util/recordedClients";
 import {
   FormRecognizerClient,
@@ -51,7 +52,7 @@ describe("FormTrainingClient NodeJS only", () => {
   it("trains model with forms and no labels", async () => {
     const containerSasUrl = env.FORM_RECOGNIZER_TRAINING_CONTAINER_SAS_URL;
     assert.ok(containerSasUrl, "Expect valid container sas url");
-    const poller = await trainingClient.beginTraining(containerSasUrl, false);
+    const poller = await trainingClient.beginTraining(containerSasUrl, false, testPollingOptions);
     const response = await poller.pollUntilDone();
 
     assert.ok(response, "Expecting valid response");
@@ -76,7 +77,7 @@ describe("FormTrainingClient NodeJS only", () => {
     const containerSasUrl = env.FORM_RECOGNIZER_TRAINING_CONTAINER_SAS_URL;
     assert.ok(containerSasUrl, "Expect valid container sas url");
 
-    const poller = await trainingClient.beginTraining(containerSasUrl, true);
+    const poller = await trainingClient.beginTraining(containerSasUrl, true, testPollingOptions);
     const response = await poller.pollUntilDone();
 
     assert.ok(response, "Expecting valid response");
@@ -91,7 +92,6 @@ describe("FormTrainingClient NodeJS only", () => {
     );
     const model = response!.submodels![0];
     assert.equal(model.formType, `form-${response!.modelId}`);
-    assert.equal(model.accuracy, 0.973);
     assert.ok(model.fields["Signature"], "Expecting field with name 'Signature' to be valid");
 
     // TODO: why training with labels is missing `errors` array?
@@ -103,7 +103,8 @@ describe("FormTrainingClient NodeJS only", () => {
     assert.ok(containerSasUrl, "Expect valid container sas url");
 
     const poller = await trainingClient.beginTraining(containerSasUrl, false, {
-      includeSubfolders: true
+      includeSubfolders: true,
+      ...testPollingOptions
     });
     const response = await poller.pollUntilDone();
 
@@ -124,7 +125,8 @@ describe("FormTrainingClient NodeJS only", () => {
     assert.ok(containerSasUrl, "Expect valid container sas url");
 
     const poller = await trainingClient.beginTraining(containerSasUrl, false, {
-      prefix: "Form_"
+      prefix: "Form_",
+      ...testPollingOptions
     });
     const response = await poller.pollUntilDone();
 
@@ -209,10 +211,15 @@ describe("FormTrainingClient NodeJS only", () => {
     // for testing purpose, copy into the same resource
     const resourceId = env.FORM_RECOGNIZER_TARGET_RESOURCE_ID;
     const resourceRegion = env.FORM_RECOGNIZER_TARGET_RESOURCE_REGION;
+
     const targetAuth = await trainingClient.getCopyAuthorization(resourceId, resourceRegion);
 
-    assert.ok(labeledModelId, "Expecting valide model id in source");
-    const poller = await trainingClient.beginCopyModel(labeledModelId!, targetAuth);
+    assert.ok(labeledModelId, "Expecting valid model id in source");
+    const poller = await trainingClient.beginCopyModel(
+      labeledModelId!,
+      targetAuth,
+      testPollingOptions
+    );
     const result = await poller.pollUntilDone();
 
     assert.ok(result, "Expecting valid copy result");
@@ -244,7 +251,8 @@ describe("FormRecognizerClient form recognition NodeJS", () => {
 
     assert.ok(unlabeledModelId, "Expecting valid model id from training without labels");
     const poller = await recognizerClient.beginRecognizeCustomForms(unlabeledModelId!, stream, {
-      contentType: "image/jpeg"
+      contentType: "image/jpeg",
+      ...testPollingOptions
     });
     const forms = await poller.pollUntilDone();
 
@@ -267,7 +275,11 @@ describe("FormRecognizerClient form recognition NodeJS", () => {
     const url = `${urlParts[0]}/Form_1.jpg?${urlParts[1]}`;
 
     assert.ok(unlabeledModelId, "Expecting valid model id from training without labels");
-    const poller = await recognizerClient.beginRecognizeCustomFormsFromUrl(unlabeledModelId!, url);
+    const poller = await recognizerClient.beginRecognizeCustomFormsFromUrl(
+      unlabeledModelId!,
+      url,
+      testPollingOptions
+    );
     const forms = await poller.pollUntilDone();
 
     assert.ok(forms && forms.length > 0, `Expect no-empty pages but got ${forms}`);
@@ -289,7 +301,8 @@ describe("FormRecognizerClient form recognition NodeJS", () => {
 
     assert.ok(unlabeledModelId, "Expecting valid model id from training without labels");
     const poller = await recognizerClient.beginRecognizeCustomForms(labeledModelId!, stream, {
-      contentType: "image/jpeg"
+      contentType: "image/jpeg",
+      ...testPollingOptions
     });
     const forms = await poller.pollUntilDone();
 
@@ -314,7 +327,11 @@ describe("FormRecognizerClient form recognition NodeJS", () => {
     const stream = fs.createReadStream(filePath);
 
     assert.ok(labeledModelId, "Expecting valid model id from training without labels");
-    const poller = await recognizerClient.beginRecognizeCustomForms(labeledModelId!, stream);
+    const poller = await recognizerClient.beginRecognizeCustomForms(
+      labeledModelId!,
+      stream,
+      testPollingOptions
+    );
     const forms = await poller.pollUntilDone();
 
     assert.ok(forms && forms.length > 0, `Expect no-empty pages but got ${forms}`);
@@ -331,51 +348,6 @@ describe("FormRecognizerClient form recognition NodeJS", () => {
     assert.ok(form.fields["CompanyPhoneNumber"]);
     assert.ok(form.fields["CompanyName"]);
     assert.ok(form.fields["Signature"]);
-  });
-
-  it("handles missing fields", async () => {
-    const filePath = path.join(ASSET_PATH, "forms", "Invoice_1.pdf");
-    const stream = fs.createReadStream(filePath);
-
-    assert.ok(labeledModelId, "Expecting valid model id from training without labels");
-    const poller = await recognizerClient.beginRecognizeCustomForms(labeledModelId!, stream);
-    const forms = await poller.pollUntilDone();
-
-    assert.ok(forms && forms.length > 0, `Expect no-empty pages but got ${forms}`);
-    const form = forms![0];
-    assert.equal(form.formType, "custom:form");
-    assert.deepStrictEqual(form.pageRange, {
-      firstPageNumber: 1,
-      lastPageNumber: 1
-    });
-    assert.ok(form.pages.length > 0, "Expecting at least one page in the first recognized form");
-    assert.ok(form.fields);
-    assert.ok(form.fields["Merchant"], "Expecting valid 'Merchant' field");
-    assert.equal(
-      form.fields["Merchant"].confidence,
-      undefined,
-      "Expecting 'Merchant' field has undefined confidence"
-    );
-    assert.equal(
-      form.fields["Merchant"].labelData,
-      undefined,
-      "Expecting 'Merchant' field has undefined labelData"
-    );
-    assert.equal(
-      form.fields["Merchant"].value,
-      undefined,
-      "Expecting 'Merchant' field has undefined value"
-    );
-    assert.equal(
-      form.fields["Merchant"].valueData,
-      undefined,
-      "Expecting 'Merchant' field has undefined valueData"
-    );
-    assert.equal(
-      form.fields["Merchant"].valueType,
-      undefined,
-      "Expecting 'Merchant' field has undefined valueType"
-    );
   });
 }).timeout(60000);
 

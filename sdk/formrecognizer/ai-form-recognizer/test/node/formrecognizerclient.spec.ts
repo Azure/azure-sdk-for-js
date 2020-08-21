@@ -6,7 +6,11 @@ import fs from "fs-extra";
 import path from "path";
 
 import { FormRecognizerClient, AzureKeyCredential } from "../../src";
-import { createRecordedRecognizerClient, testEnv } from "../util/recordedClients";
+import {
+  createRecordedRecognizerClient,
+  testEnv,
+  testPollingOptions
+} from "../util/recordedClients";
 import { env, Recorder } from "@azure/test-utils-recorder";
 
 describe("FormRecognizerClient NodeJS only", () => {
@@ -30,7 +34,8 @@ describe("FormRecognizerClient NodeJS only", () => {
     const stream = fs.createReadStream(filePath);
 
     const poller = await client.beginRecognizeContent(stream, {
-      contentType: "application/pdf"
+      contentType: "application/pdf",
+      ...testPollingOptions
     });
     const pages = await poller.pollUntilDone();
 
@@ -43,7 +48,10 @@ describe("FormRecognizerClient NodeJS only", () => {
     const filePath = path.join(ASSET_PATH, "receipt", "contoso-receipt.png");
     const stream = fs.createReadStream(filePath);
 
-    const poller = await client.beginRecognizeContent(stream, { contentType: "image/png" });
+    const poller = await client.beginRecognizeContent(stream, {
+      contentType: "image/png",
+      ...testPollingOptions
+    });
     const pages = await poller.pollUntilDone();
 
     assert.ok(pages && pages.length > 0, `Expect no-empty pages but got ${pages}`);
@@ -53,7 +61,10 @@ describe("FormRecognizerClient NodeJS only", () => {
     const filePath = path.join(ASSET_PATH, "forms", "Form_1.jpg");
     const stream = fs.createReadStream(filePath);
 
-    const poller = await client.beginRecognizeContent(stream, { contentType: "image/jpeg" });
+    const poller = await client.beginRecognizeContent(stream, {
+      contentType: "image/jpeg",
+      ...testPollingOptions
+    });
     const pages = await poller.pollUntilDone();
 
     assert.ok(pages && pages.length > 0, `Expect no-empty pages but got ${pages}`);
@@ -63,7 +74,10 @@ describe("FormRecognizerClient NodeJS only", () => {
     const filePath = path.join(ASSET_PATH, "forms", "Invoice_1.tiff");
     const stream = fs.createReadStream(filePath);
 
-    const poller = await client.beginRecognizeContent(stream, { contentType: "image/tiff" });
+    const poller = await client.beginRecognizeContent(stream, {
+      contentType: "image/tiff",
+      ...testPollingOptions
+    });
     const pages = await poller.pollUntilDone();
 
     assert.ok(pages && pages.length > 0, `Expect no-empty pages but got ${pages}`);
@@ -73,7 +87,7 @@ describe("FormRecognizerClient NodeJS only", () => {
     const filePath = path.join(ASSET_PATH, "forms", "Invoice_1.pdf");
     const stream = fs.createReadStream(filePath);
 
-    const poller = await client.beginRecognizeContent(stream);
+    const poller = await client.beginRecognizeContent(stream, testPollingOptions);
     const pages = await poller.pollUntilDone();
 
     assert.ok(pages && pages.length > 0, `Expect no-empty pages but got ${pages}`);
@@ -84,7 +98,7 @@ describe("FormRecognizerClient NodeJS only", () => {
     const urlParts = testingContainerUrl.split("?");
     const url = `${urlParts[0]}/Invoice_1.pdf?${urlParts[1]}`;
 
-    const poller = await client.beginRecognizeContentFromUrl(url);
+    const poller = await client.beginRecognizeContentFromUrl(url, testPollingOptions);
     const pages = await poller.pollUntilDone();
 
     assert.ok(pages && pages.length > 0, `Expect no-empty pages but got ${pages}`);
@@ -94,7 +108,10 @@ describe("FormRecognizerClient NodeJS only", () => {
     const filePath = path.join(ASSET_PATH, "receipt", "contoso-receipt.png");
     const stream = fs.createReadStream(filePath);
 
-    const poller = await client.beginRecognizeReceipts(stream, { contentType: "image/png" });
+    const poller = await client.beginRecognizeReceipts(stream, {
+      contentType: "image/png",
+      ...testPollingOptions
+    });
     const receipts = await poller.pollUntilDone();
 
     assert.ok(receipts && receipts.length > 0, `Expect no-empty pages but got ${receipts}`);
@@ -114,7 +131,10 @@ describe("FormRecognizerClient NodeJS only", () => {
     const filePath = path.join(ASSET_PATH, "receipt", "contoso-allinone.jpg");
     const stream = fs.createReadStream(filePath);
 
-    const poller = await client.beginRecognizeReceipts(stream, { contentType: "image/jpeg" });
+    const poller = await client.beginRecognizeReceipts(stream, {
+      contentType: "image/jpeg",
+      ...testPollingOptions
+    });
     const receipts = await poller.pollUntilDone();
 
     assert.ok(receipts && receipts.length > 0, `Expect no-empty pages but got ${receipts}`);
@@ -127,7 +147,7 @@ describe("FormRecognizerClient NodeJS only", () => {
     const urlParts = testingContainerUrl.split("?");
     const url = `${urlParts[0]}/contoso-allinone.jpg?${urlParts[1]}`;
 
-    const poller = await client.beginRecognizeReceiptsFromUrl(url);
+    const poller = await client.beginRecognizeReceiptsFromUrl(url, testPollingOptions);
     const receipts = await poller.pollUntilDone();
 
     assert.ok(receipts && receipts.length > 0, `Expect no-empty pages but got ${receipts}`);
@@ -141,7 +161,8 @@ describe("FormRecognizerClient NodeJS only", () => {
 
     const poller = await client.beginRecognizeReceipts(stream, {
       contentType: "application/pdf",
-      includeFieldElements: true
+      includeFieldElements: true,
+      ...testPollingOptions
     });
     const receipts = await poller.pollUntilDone();
 
@@ -170,7 +191,10 @@ describe("[AAD] FormRecognizerClient NodeJS only", () => {
     const filePath = path.join(ASSET_PATH, "forms", "Invoice_1.pdf");
     const stream = fs.createReadStream(filePath);
 
-    const poller = await client.beginRecognizeContent(stream, { contentType: "application/pdf" });
+    const poller = await client.beginRecognizeContent(stream, {
+      contentType: "application/pdf",
+      ...testPollingOptions
+    });
     const pages = await poller.pollUntilDone();
 
     assert.ok(pages && pages.length > 0, `Expect no-empty pages but got ${pages}`);
@@ -183,7 +207,7 @@ describe("[AAD] FormRecognizerClient NodeJS only", () => {
     const urlParts = testingContainerUrl.split("?");
     const url = `${urlParts[0]}/Invoice_1.pdf?${urlParts[1]}`;
 
-    const poller = await client.beginRecognizeContentFromUrl(url);
+    const poller = await client.beginRecognizeContentFromUrl(url, testPollingOptions);
     const pages = await poller.pollUntilDone();
 
     assert.ok(pages && pages.length > 0, `Expect no-empty pages but got ${pages}`);
@@ -194,7 +218,7 @@ describe("[AAD] FormRecognizerClient NodeJS only", () => {
     const urlParts = testingContainerUrl.split("?");
     const url = `${urlParts[0]}/contoso-allinone.jpg?${urlParts[1]}`;
 
-    const poller = await client.beginRecognizeReceiptsFromUrl(url);
+    const poller = await client.beginRecognizeReceiptsFromUrl(url, testPollingOptions);
     const receipts = await poller.pollUntilDone();
 
     assert.ok(receipts && receipts.length > 0, `Expect no-empty pages but got ${receipts}`);

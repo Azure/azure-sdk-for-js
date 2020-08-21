@@ -4,7 +4,9 @@
       "tryExtensions": [".ts"]
     }
   },
+  "plugins": ["@azure/azure-sdk"],
   "extends": [
+    "plugin:@azure/azure-sdk/azure-sdk-base",
     "plugin:node/recommended",
     "plugin:@typescript-eslint/recommended-requiring-type-checking",
     "prettier/@typescript-eslint"

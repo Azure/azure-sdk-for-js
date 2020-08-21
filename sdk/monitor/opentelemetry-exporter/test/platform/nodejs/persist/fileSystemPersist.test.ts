@@ -1,11 +1,23 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import * as assert from "assert";
 import * as fs from "fs";
 import * as os from "os";
 import * as path from "path";
 import { FileSystemPersist } from "../../../../src/platform/nodejs/persist/fileSystemPersist";
 import { Envelope } from "../../../../src/Declarations/Contracts";
+import { promisify } from "util";
 
-const deleteFolderRecursive = (dirPath: string) => {
+const statAsync = promisify(fs.stat);
+const readdirAsync = promisify(fs.readdir);
+const readFileAsync = promisify(fs.readFile);
+const unlinkAsync = promisify(fs.unlink);
+
+const instrumentationKey = "abc";
+const tempDir = path.join(os.tmpdir(), `${FileSystemPersist.TEMPDIR_PREFIX}${instrumentationKey}`);
+
+const deleteFolderRecursive = (dirPath: string): void => {
   if (fs.existsSync(dirPath)) {
     fs.readdirSync(dirPath).forEach((file) => {
       const curPath = `${dirPath}/${file}`;
@@ -21,52 +33,27 @@ const deleteFolderRecursive = (dirPath: string) => {
   }
 };
 
-const assertFirstFile = (tempDir: string, expectation: unknown, done: Mocha.Done) => {
-  fs.stat(tempDir, (statErr: Error | null, stats: fs.Stats) => {
-    if (statErr) {
-      done(statErr);
-    }
-    if (stats.isDirectory()) {
-      fs.readdir(tempDir, (error, origFiles) => {
-        if (!error) {
-          const files = origFiles.filter((f) => path.basename(f).includes(".ai.json"));
-          if (files.length > 0) {
-            const firstFile = files[0];
-            const filePath = path.join(tempDir, firstFile);
-            fs.readFile(filePath, (readFileErr, payload) => {
-              assert.deepStrictEqual(
-                JSON.parse(payload.toString()),
-                JSON.parse(JSON.stringify(expectation))
-              );
-              if (!readFileErr) {
-                // delete the file first to prevent double sending
-                fs.unlink(filePath, (unlinkError) => {
-                  if (!unlinkError) {
-                    done();
-                  } else {
-                    done(unlinkError);
-                  }
-                });
-              } else {
-                done(readFileErr);
-              }
-            });
-          }
-        } else {
-          done(error);
-        }
-      });
-    }
-  });
+const assertFirstFile = async (tempDir: string, expectation: unknown) : Promise<void>=> {
+  // Assert that tempDir is a directory
+  const stats = await statAsync(tempDir);
+  assert.strictEqual(stats.isDirectory(), true);
+
+  // Read the first file in tempDir
+  const origFiles = await readdirAsync(tempDir);
+  const files = origFiles.filter((f) => path.basename(f).includes(".ai.json"));
+  assert.ok(files.length > 0);
+
+  // Assert file matches expectation
+  const firstFile = files[0];
+  const filePath = path.join(tempDir, firstFile);
+  const payload = await readFileAsync(filePath);
+  assert.deepStrictEqual(JSON.parse(payload.toString()), JSON.parse(JSON.stringify(expectation)));
+
+  // Cleanup
+  await unlinkAsync(filePath);
 };
 
 describe("FileSystemPersist", () => {
-  const instrumentationKey = "abc";
-  const tempDir = path.join(
-    os.tmpdir(),
-    `${FileSystemPersist.TEMPDIR_PREFIX}${instrumentationKey}`
-  );
-
   beforeEach(() => {
     deleteFolderRecursive(tempDir);
   });
@@ -85,67 +72,54 @@ describe("FileSystemPersist", () => {
   });
 
   describe("#push()", () => {
-    it("should store to disk the value provided", (done) => {
+    it("should store to disk the value provided", async () => {
       const persister = new FileSystemPersist({ instrumentationKey });
       const envelopes = [new Envelope()];
-      persister.push(envelopes, (err, success) => {
-        assert.strictEqual(err, null);
-        assert.strictEqual(success, true);
+      const success = await persister.push(envelopes);
+      assert.strictEqual(success, true);
 
-        /**
-         * Note: parse(stringify(envelopes)) is because we are storing an Envelope class instance.
-         * When writing a class instance to file, it does not store class constructors,
-         * functions, etc. So we are asserting on a serialized "object" here.
-         * */
-        assertFirstFile(tempDir, JSON.parse(JSON.stringify(envelopes)), done);
-      });
+      /**
+       * Note: parse(stringify(envelopes)) is because we are storing an Envelope class instance.
+       * When writing a class instance to file, it does not store class constructors,
+       * functions, etc. So we are asserting on a serialized "object" here.
+       * */
+      await assertFirstFile(tempDir, JSON.parse(JSON.stringify(envelopes)));
     });
   });
 
   describe("#shift()", () => {
-    it("should not crash if folder does not exist", (done) => {
+    it("should not crash if folder does not exist", () => {
       const persister = new FileSystemPersist({ instrumentationKey });
-      persister.shift((err) => {
-        assert.strictEqual(err, null);
-        done();
+      assert.doesNotThrow(async () => {
+        await persister.shift();
       });
     });
 
-    it("should not crash if file does not exist", (done) => {
+    it("should not crash if file does not exist", () => {
       const persister = new FileSystemPersist({ instrumentationKey });
-      fs.mkdir(tempDir, () => {
-        persister.shift((err) => {
-          assert.strictEqual(err, null);
-          done();
-        });
+      const mkdirAsync = promisify(fs.mkdir);
+      assert.doesNotThrow(async () => {
+        await mkdirAsync(tempDir);
+        await persister.shift();
       });
     });
 
-    it("should get the first file on disk and return it", (done) => {
+    it("should get the first file on disk and return it", async () => {
+      const sleep = promisify(setTimeout);
       const persister = new FileSystemPersist({ instrumentationKey });
 
       const firstBatch = [{ batch: "first" }];
       const secondBatch = [{ batch: "second" }];
-      persister.push(firstBatch, (err1, success1) => {
-        assert.strictEqual(err1, null);
-        assert.strictEqual(success1, true);
-        setTimeout(() => {
-          // wait 1 ms so that we don't overwrite previous file
-          persister.push(secondBatch, (err2, success2) => {
-            assert.strictEqual(err2, null);
-            assert.strictEqual(success2, true);
-            persister.shift((errRead1, value1) => {
-              assert.strictEqual(errRead1, null);
-              assert.deepStrictEqual(value1, firstBatch);
-              persister.shift((errRead2, value2) => {
-                assert.strictEqual(errRead2, null);
-                assert.deepStrictEqual(value2, secondBatch);
-                done();
-              });
-            });
-          });
-        }, 1);
-      });
+      const success1 = await persister.push(firstBatch);
+      assert.strictEqual(success1, true);
+      // wait 1 ms so that we don't overwrite previous file
+      await sleep(1);
+      const success2 = await persister.push(secondBatch);
+      assert.strictEqual(success2, true);
+      const value1 = await persister.shift();
+      assert.deepStrictEqual(value1, firstBatch);
+      const value2 = await persister.shift();
+      assert.deepStrictEqual(value2, secondBatch);
     });
   });
 });

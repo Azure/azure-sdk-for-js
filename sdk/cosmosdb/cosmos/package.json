@@ -1,6 +1,6 @@
 {
   "name": "@azure/cosmos",
-  "version": "3.8.0",
+  "version": "3.9.0",
   "description": "Microsoft Azure Cosmos DB Service Node.js SDK for SQL API",
   "sdk-type": "client",
   "keywords": [
@@ -22,7 +22,8 @@
     "./dist-esm/utils/atob.js": "./dist-esm/utils/atob.browser.js",
     "./dist-esm/utils/digest.js": "./dist-esm/utils/digest.browser.js",
     "./dist-esm/utils/hmac.js": "./dist-esm/utils/hmac.browser.js",
-    "./dist-esm/utils/user-agent.js": "./dist-esm/utils/user-agent.browser.js"
+    "./dist-esm/utils/user-agent.js": "./dist-esm/utils/user-agent.browser.js",
+    "./dist-esm/utils/url.js": "./dist-esm/utils/url.browser.js"
   },
   "files": [
     "changelog.md",

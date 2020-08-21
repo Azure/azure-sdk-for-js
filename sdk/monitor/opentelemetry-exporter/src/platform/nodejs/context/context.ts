@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import * as os from "os";
 import * as fs from "fs";
 import * as path from "path";
@@ -47,17 +50,17 @@ export class Context {
      * relative to `Context.ROOT_PATH`
      * @default `../../`
      */
-    private _appPrefix = "../../../",
+    private _appPrefix = "../../../"
   ) {
     this.keys = new Contracts.ContextTagKeys();
-    this.tags = <{ [key: string]: string }>{};
+    this.tags = {} as { [key: string]: string };
 
     this._loadApplicationContext();
     this._loadDeviceContext();
     this._loadInternalContext();
   }
 
-  private _loadApplicationContext() {
+  private _loadApplicationContext(): void {
     if (Object.keys(Context.appVersion).length === 0) {
       // note: this should return the host package.json
       let packageJson: PackageJson | null = null;
@@ -66,13 +69,13 @@ export class Context {
         Context.JS_NODE_PREFIX,
         this._appPrefix,
         Context.ROOT_PATH,
-        "./package.json",
+        "./package.json"
       );
       const packageJsonPathTsNode = path.resolve(
         __dirname,
         this._appPrefix,
         Context.ROOT_PATH,
-        "./package.json",
+        "./package.json"
       );
 
       Context.appVersion[packageJsonPath] = "unknown";
@@ -95,7 +98,7 @@ export class Context {
     }
   }
 
-  private _loadDeviceContext() {
+  private _loadDeviceContext(): void {
     this.tags[this.keys.deviceId] = "";
     this.tags[this.keys.cloudRoleInstance] = os && os.hostname();
     this.tags[this.keys.deviceOSVersion] = os && `${os.type()} ${os.release()}`;
@@ -106,7 +109,7 @@ export class Context {
     this.tags["ai.device.osPlatform"] = os && os.platform();
   }
 
-  private _loadInternalContext() {
+  private _loadInternalContext(): void {
     if (!Context.sdkVersion) {
       let packageJson: { version: string } | null = null;
       const { node } = process.versions;
@@ -118,13 +121,13 @@ export class Context {
         Context.JS_NODE_PREFIX,
         this._exporterPrefix,
         Context.ROOT_PATH,
-        "./package.json",
+        "./package.json"
       );
       const packageJsonPathTsNode = path.resolve(
         __dirname,
         this._exporterPrefix,
         Context.ROOT_PATH,
-        "./package.json",
+        "./package.json"
       );
 
       Context.sdkVersion = "unknown";

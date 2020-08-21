@@ -1,13 +1,16 @@
+import path from "path";
 import nodeResolve from "@rollup/plugin-node-resolve";
 import multiEntry from "@rollup/plugin-multi-entry";
 import cjs from "@rollup/plugin-commonjs";
 import replace from "@rollup/plugin-replace";
+import shim from "rollup-plugin-shim";
 import { terser } from "rollup-plugin-terser";
 import sourcemaps from "rollup-plugin-sourcemaps";
 import viz from "rollup-plugin-visualizer";
 
 const pkg = require("./package.json");
 const depNames = Object.keys(pkg.dependencies);
+const devDepNames = Object.keys(pkg.devDependencies);
 const input = "dist-esm/src/index.js";
 const production = process.env.NODE_ENV === "production";
 
@@ -39,8 +42,8 @@ export function nodeConfig(test = false) {
     // different output file
     baseConfig.output.file = "dist-test/index.node.js";
 
-    // mark assert as external
-    baseConfig.external.push("assert");
+    // mark devdeps as external
+    baseConfig.external.push(...devDepNames);
 
     // Disable tree-shaking of test code.  In rollup-plugin-node-resolve@5.0.0, rollup started respecting
     // the "sideEffects" field in package.json.  Since our package.json sets "sideEffects=false", this also
@@ -53,17 +56,18 @@ export function nodeConfig(test = false) {
   return baseConfig;
 }
 
-export function browserConfig(test = false) {
+export function browserConfig(test = false, production = false) {
   const baseConfig = {
     input: input,
     output: {
       file: "dist-browser/azure-schema-registry.js",
       format: "umd",
-      name: "ExampleClient",
+      name: "Azure.SchemaRegistry",
       sourcemap: true,
       globals: { "@azure/core-http": "Azure.Core.HTTP" }
     },
     preserveSymlinks: false,
+    external: ["fs-extra"],
     plugins: [
       sourcemaps(),
       replace({
@@ -73,12 +77,20 @@ export function browserConfig(test = false) {
         // any code guarded by if (isNode) { ... }
         "if (isNode)": "if (false)"
       }),
+      shim({
+        constants: `export default {}`,
+        fs: `export default {}`,
+        os: `export default {}`,
+        dotenv: `export function config() { }`,
+        path: `export default {}`
+      }),
       nodeResolve({
         mainFields: ["module", "browser"],
         preferBuiltins: false
       }),
       cjs({
         namedExports: {
+          chai: ["assert", "expect", "use"],
           "@opentelemetry/api": ["CanonicalCode", "SpanKind", "TraceFlags"]
         }
       }),
@@ -92,10 +104,25 @@ export function browserConfig(test = false) {
     baseConfig.plugins.unshift(multiEntry({ exports: false }));
     baseConfig.output.file = "dist-test/index.browser.js";
 
+    baseConfig.onwarn = (warning) => {
+      if (
+        warning.code === "CIRCULAR_DEPENDENCY" &&
+        warning.importer.indexOf(path.normalize("node_modules/chai/lib") === 0)
+      ) {
+        // Chai contains circular references, but they are not fatal and can be ignored.
+        return;
+      }
+
+      console.error(`(!) ${warning.message}`);
+    };
+
     // Disable tree-shaking of test code.  In rollup-plugin-node-resolve@5.0.0, rollup started respecting
     // the "sideEffects" field in package.json.  Since our package.json sets "sideEffects=false", this also
     // applies to test code, which causes all tests to be removed by tree-shaking.
     baseConfig.treeshake = false;
+  } else if (production) {
+    baseConfig.output.file = "dist-browser/azure-schema-registry.min.js";
+    baseConfig.plugins.push(terser());
   }
 
   return baseConfig;

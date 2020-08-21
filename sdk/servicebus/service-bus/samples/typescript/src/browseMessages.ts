@@ -8,7 +8,7 @@
   
   This sample demonstrates how the peekMessages() function can be used to browse a Service Bus message.
 
-  See https://docs.microsoft.com/en-us/azure/service-bus-messaging/message-browsing to learn
+  See https://docs.microsoft.com/azure/service-bus-messaging/message-browsing to learn
   about message browsing.
 
   Setup: Please run "sendMessages.ts" sample before running this to populate the queue/topic

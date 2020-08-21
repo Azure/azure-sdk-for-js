@@ -84,7 +84,7 @@ export class NodeFetchHttpClient extends FetchHttpClient {
 
   // eslint-disable-next-line @azure/azure-sdk/ts-apisurface-standardized-verbs
   async fetch(input: CommonRequestInfo, init?: CommonRequestInit): Promise<CommonResponse> {
-    return node_fetch(input, init) as unknown as Promise<CommonResponse>;
+    return (node_fetch(input, init) as unknown) as Promise<CommonResponse>;
   }
 
   async prepareRequest(httpRequest: WebResourceLike): Promise<Partial<RequestInit>> {

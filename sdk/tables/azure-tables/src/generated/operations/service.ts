@@ -100,13 +100,18 @@ const setPropertiesOperationSpec: coreHttp.OperationSpec = {
     },
     default: {
       bodyMapper: Mappers.TableServiceError,
-      headersMapper: Mappers.ServiceSetPropertiesHeaders
+      headersMapper: Mappers.ServiceSetPropertiesExceptionHeaders
     }
   },
   requestBody: Parameters.tableServiceProperties,
   queryParameters: [Parameters.timeout, Parameters.restype, Parameters.comp1],
   urlParameters: [Parameters.url],
-  headerParameters: [Parameters.version, Parameters.requestId, Parameters.contentType2],
+  headerParameters: [
+    Parameters.version,
+    Parameters.requestId,
+    Parameters.contentType2,
+    Parameters.accept5
+  ],
   isXML: true,
   contentType: "application/xml; charset=utf-8",
   mediaType: "xml",
@@ -122,12 +127,16 @@ const getPropertiesOperationSpec: coreHttp.OperationSpec = {
     },
     default: {
       bodyMapper: Mappers.TableServiceError,
-      headersMapper: Mappers.ServiceGetPropertiesHeaders
+      headersMapper: Mappers.ServiceGetPropertiesExceptionHeaders
     }
   },
   queryParameters: [Parameters.timeout, Parameters.restype, Parameters.comp1],
   urlParameters: [Parameters.url],
-  headerParameters: [Parameters.version, Parameters.requestId],
+  headerParameters: [
+    Parameters.version,
+    Parameters.requestId,
+    Parameters.accept4
+  ],
   isXML: true,
   serializer: xmlSerializer
 };
@@ -141,12 +150,16 @@ const getStatisticsOperationSpec: coreHttp.OperationSpec = {
     },
     default: {
       bodyMapper: Mappers.TableServiceError,
-      headersMapper: Mappers.ServiceGetStatisticsHeaders
+      headersMapper: Mappers.ServiceGetStatisticsExceptionHeaders
     }
   },
   queryParameters: [Parameters.timeout, Parameters.restype, Parameters.comp2],
   urlParameters: [Parameters.url],
-  headerParameters: [Parameters.version, Parameters.requestId],
+  headerParameters: [
+    Parameters.version,
+    Parameters.requestId,
+    Parameters.accept4
+  ],
   isXML: true,
   serializer: xmlSerializer
 };

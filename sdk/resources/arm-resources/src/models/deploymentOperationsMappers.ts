@@ -14,5 +14,6 @@ export {
   ErrorAdditionalInfo,
   ErrorResponse,
   HttpMessage,
+  StatusMessage,
   TargetResource
 } from "../models/mappers";

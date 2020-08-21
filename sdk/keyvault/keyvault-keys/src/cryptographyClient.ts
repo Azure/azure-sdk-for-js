@@ -23,12 +23,12 @@ import {
 import { getTracer } from "@azure/core-tracing";
 import { Span } from "@opentelemetry/api";
 import { logger } from "./log";
-import { parseKeyvaultIdentifier } from "./generated/utils";
 import { SDK_VERSION } from "./generated/utils/constants";
 import { KeyVaultClient } from "./generated/keyVaultClient";
 import { challengeBasedAuthenticationPolicy } from "../../keyvault-common/src";
 import { createHash as cryptoCreateHash, createVerify, publicEncrypt } from "crypto";
 import * as constants from "constants";
+import { parseKeyVaultKeysIdentifier } from "./identifier";
 
 /**
  * A client used to perform cryptographic operations with Azure Key Vault keys.
@@ -709,16 +709,19 @@ export class CryptographyClient {
     };
 
     const pipeline = createPipelineFromOptions(internalPipelineOptions, authPolicy);
-    this.client = new KeyVaultClient(pipelineOptions.serviceVersion || LATEST_API_VERSION, pipeline);
+    this.client = new KeyVaultClient(
+      pipelineOptions.serviceVersion || LATEST_API_VERSION,
+      pipeline
+    );
 
     let parsed;
     if (typeof key === "string") {
       this.key = key;
-      parsed = parseKeyvaultIdentifier("keys", this.key);
+      parsed = parseKeyVaultKeysIdentifier(this.key);
       this.hasTriedToGetKey = false;
     } else if (key.key) {
       this.key = key.key;
-      parsed = parseKeyvaultIdentifier("keys", this.key.kid!);
+      parsed = parseKeyVaultKeysIdentifier(this.key.kid!);
       this.hasTriedToGetKey = true;
     } else {
       throw new Error(

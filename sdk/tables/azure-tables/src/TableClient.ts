@@ -3,30 +3,29 @@
 
 import { TableServiceClient } from "./TableServiceClient";
 import {
-  Entity,
-  ListEntitiesOptions,
-  CreateEntityOptions,
-  UpdateEntityOptions,
-  MergeEntityOptions,
-  SetAccessPolicyOptions
+  TableEntity,
+  ListTableEntitiesOptions,
+  GetTableEntityResponse,
+  ListEntitiesResponse,
+  CreateTableEntityOptions,
+  UpdateTableEntityOptions,
+  UpsertTableEntityOptions,
+  DeleteTableEntityOptions,
+  GetTableEntityOptions,
+  UpdateMode,
+  CreateTableEntityResponse
 } from "./models";
 import {
   TableServiceClientOptions as TableClientOptions,
   DeleteTableOptions,
   DeleteTableResponse,
-  QueryOptions,
-  GetEntityOptions,
-  GetEntityResponse,
-  ListEntitiesResponse,
-  CreateEntityResponse,
-  DeleteEntityOptions,
   DeleteEntityResponse,
   UpdateEntityResponse,
-  MergeEntityResponse,
+  UpsertEntityResponse,
   GetAccessPolicyOptions,
   GetAccessPolicyResponse,
-  SignedIdentifier,
-  SetAccessPolicyResponse
+  SetAccessPolicyResponse,
+  SetAccessPolicyOptions
 } from "./generatedModels";
 import { getClientParamsFromConnectionString } from "./utils/connectionString";
 import { TablesSharedKeyCredential } from "./TablesSharedKeyCredential";
@@ -127,12 +126,12 @@ export class TableClient {
    * @param rowKey The row key of the entity.
    * @param options The options parameters.
    */
-  getEntity(
+  public getEntity<T extends object>(
     partitionKey: string,
     rowKey: string,
-    options?: GetEntityOptions
-  ): Promise<GetEntityResponse> {
-    return this.client.getEntity(this.tableName, partitionKey, rowKey, options);
+    options?: GetTableEntityOptions
+  ): Promise<GetTableEntityResponse<T>> {
+    return this.client.getEntity<T>(this.tableName, partitionKey, rowKey, options);
   }
 
   /**
@@ -140,12 +139,10 @@ export class TableClient {
    * @param query The OData query parameters.
    * @param options The options parameters.
    */
-  listEntities(
-    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-    query?: QueryOptions,
-    options?: ListEntitiesOptions
-  ): Promise<ListEntitiesResponse> {
-    return this.client.listEntities(this.tableName, query, options);
+  public listEntities<T extends object>(
+    options?: ListTableEntitiesOptions
+  ): Promise<ListEntitiesResponse<T>> {
+    return this.client.listEntities<T>(this.tableName, options);
   }
 
   /**
@@ -153,7 +150,10 @@ export class TableClient {
    * @param entity The properties for the table entity.
    * @param options The options parameters.
    */
-  createEntity(entity?: Entity, options?: CreateEntityOptions): Promise<CreateEntityResponse> {
+  public createEntity<T extends object>(
+    entity: TableEntity<T>,
+    options?: CreateTableEntityOptions
+  ): Promise<CreateTableEntityResponse<T>> {
     return this.client.createEntity(this.tableName, entity, options);
   }
 
@@ -161,46 +161,47 @@ export class TableClient {
    * Deletes the specified entity in the table.
    * @param partitionKey The partition key of the entity.
    * @param rowKey The row key of the entity.
-   * @param ifMatch Match condition for an entity to be deleted. If specified and a matching entity is
-   *                not found, an error will be raised. To force an unconditional delete, set to the wildcard character
-   *                (*).
    * @param options The options parameters.
    */
-  deleteEntity(
+  public deleteEntity(
     partitionKey: string,
     rowKey: string,
-    ifMatch: string,
-    options?: DeleteEntityOptions
+    options?: DeleteTableEntityOptions
   ): Promise<DeleteEntityResponse> {
-    return this.client.deleteEntity(this.tableName, partitionKey, rowKey, ifMatch, options);
+    return this.client.deleteEntity(this.tableName, partitionKey, rowKey, options);
   }
 
   /**
-   * Update entity in the table.
-   * @param entity The properties of the updated entity.
-   * @param ifMatch Match condition for an entity to be updated. If specified and a matching entity is not found, an error will be raised. To force an unconditional update, set to the wildcard character (*). If not specified, an insert will be performed when no existing entity is found to update and a replace will be performed if an existing entity is found.
+   * Update an entity in the table.
+   * @param entity The properties of the entity to be updated.
+   * @param mode The different modes for updating the entity:
+   *             - Merge: Updates an entity by updating the entity's properties without replacing the existing entity.
+   *             - Replace: Updates an existing entity by replacing the entire entity.
    * @param options The options parameters.
    */
-  updateEntity(
-    entity: Entity,
-    ifMatch?: string,
-    options?: UpdateEntityOptions
+  public updateEntity<T extends object>(
+    entity: TableEntity<T>,
+    mode: UpdateMode,
+    options?: UpdateTableEntityOptions
   ): Promise<UpdateEntityResponse> {
-    return this.client.updateEntity(this.tableName, entity, ifMatch, options);
+    return this.client.updateEntity(this.tableName, entity, mode, options);
   }
 
   /**
-   * Merge entity in the table.
-   * @param entity The properties of the merged entity
-   * @param ifMatch Match condition for an entity to be updated. If specified and a matching entity is not found, an error will be raised. To force an unconditional update, set to the wildcard character (*). If not specified, an insert will be performed when no existing entity is found to update and a merge will be performed if an existing entity is found.
+   * Upsert an entity in the table.
+   * @param tableName The name of the table.
+   * @param entity The properties for the table entity.
+   * @param mode The different modes for updating the entity:
+   *             - Merge: Updates an entity by updating the entity's properties without replacing the existing entity.
+   *             - Replace: Updates an existing entity by replacing the entire entity.
    * @param options The options parameters.
    */
-  mergeEntity(
-    entity: Entity,
-    ifMatch?: string,
-    options?: MergeEntityOptions
-  ): Promise<MergeEntityResponse> {
-    return this.client.mergeEntity(this.tableName, entity, ifMatch, options);
+  public upsertEntity<T extends object>(
+    entity: TableEntity<T>,
+    mode: UpdateMode,
+    options?: UpsertTableEntityOptions
+  ): Promise<UpsertEntityResponse> {
+    return this.client.upsertEntity(this.tableName, entity, mode, options);
   }
 
   /**
@@ -208,7 +209,7 @@ export class TableClient {
    * Shared Access Signatures.
    * @param options The options parameters.
    */
-  getAccessPolicy(options?: GetAccessPolicyOptions): Promise<GetAccessPolicyResponse> {
+  public getAccessPolicy(options?: GetAccessPolicyOptions): Promise<GetAccessPolicyResponse> {
     return this.client.getAccessPolicy(this.tableName, options);
   }
 
@@ -217,11 +218,8 @@ export class TableClient {
    * @param acl The Access Control List for the table.
    * @param options The options parameters.
    */
-  setAccessPolicy(
-    acl?: SignedIdentifier[],
-    options?: SetAccessPolicyOptions
-  ): Promise<SetAccessPolicyResponse> {
-    return this.client.setAccessPolicy(this.tableName, acl, options);
+  public setAccessPolicy(options?: SetAccessPolicyOptions): Promise<SetAccessPolicyResponse> {
+    return this.client.setAccessPolicy(this.tableName, options);
   }
 
   /**
