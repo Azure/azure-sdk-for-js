@@ -3,11 +3,10 @@
 
 import * as assert from "assert";
 import { isNode } from "@azure/core-http";
-import { env, Recorder, delay, isRecordMode, isPlaybackMode } from "@azure/test-utils-recorder";
-
 import { KeyClient } from "../../src";
 import { assertThrowsAbortError } from "../utils/utils.common";
 import { testPollerProperties } from "../utils/recorderUtils";
+import { env, Recorder, isRecordMode, isPlaybackMode } from "@azure/test-utils-recorder";
 import { authenticate } from "../utils/testAuthentication";
 import TestClient from "../utils/testClient";
 
@@ -108,20 +107,20 @@ describe("Keys client - restore keys and recover backups", () => {
       const keyName = testClient.formatName(`${keyPrefix}-${this!.test!.title}-${keySuffix}`);
       await client.createKey(keyName, "RSA");
       const backup = await client.backupKey(keyName);
-      await testClient.flushKey(keyName);
-      // eslint-disable-next-line no-constant-condition
-      while (true) {
-        try {
-          await client.restoreKeyBackup(backup as Uint8Array);
-          break;
-        } catch (e) {
-          console.log("Can't restore the key since it's not fully deleted:", e.message);
-          console.log("Retrying in one second...");
-          await delay(1000);
-        }
-      }
-      const getResult = await client.getKey(keyName);
-      assert.equal(getResult.name, keyName, "Unexpected key name in result from getKey().");
+      const deletePoller = await client.beginDeleteKey(keyName, testPollerProperties);
+      await deletePoller.pollUntilDone();
+      await client.purgeDeletedKey(keyName);
+
+      // One would normally do this, but this can't immediately happen after the resource is purged:
+      // await client.restoreKeyBackup(backup as Uint8Array);
+
+      // This test implementation of a restore poller only applies for backups that have been recently deleted.
+      // Backups might not be ready to be restored in an unknown amount of time.
+      // If this is useful to you, please open an issue at: https://github.com/Azure/azure-sdk-for-js/issues
+      const restorePoller = await testClient.beginRestoreKeyBackup(backup as Uint8Array);
+      const restoredKey = await restorePoller.pollUntilDone();
+
+      assert.equal(restoredKey.name, keyName);
       await testClient.flushKey(keyName);
     });
   }

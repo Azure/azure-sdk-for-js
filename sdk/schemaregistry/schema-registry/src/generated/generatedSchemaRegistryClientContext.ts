@@ -7,29 +7,25 @@
  */
 
 import * as coreHttp from "@azure/core-http";
-import { SchemaRegistryClientOptionalParams } from "./models";
+import { GeneratedSchemaRegistryClientOptionalParams } from "./models";
 
 const packageName = "@azure/schema-registry";
 const packageVersion = "1.0.0-preview.1";
 
-export class SchemaRegistryClientContext extends coreHttp.ServiceClient {
+export class GeneratedSchemaRegistryClientContext extends coreHttp.ServiceClient {
   endpoint: string;
+  apiVersion: string;
 
   /**
-   * Initializes a new instance of the SchemaRegistryClientContext class.
-   * @param credentials Subscription credentials which uniquely identify client subscription.
+   * Initializes a new instance of the GeneratedSchemaRegistryClientContext class.
    * @param endpoint The Schema Registry service endpoint, for example
-   *                 https://mynamespace.servicebus.windows.net.
+   *                 my-namespace.servicebus.windows.net.
    * @param options The parameter options
    */
   constructor(
-    credentials: coreHttp.TokenCredential | coreHttp.ServiceClientCredentials,
     endpoint: string,
-    options?: SchemaRegistryClientOptionalParams
+    options?: GeneratedSchemaRegistryClientOptionalParams
   ) {
-    if (credentials === undefined) {
-      throw new Error("'credentials' cannot be null");
-    }
     if (endpoint === undefined) {
       throw new Error("'endpoint' cannot be null");
     }
@@ -44,13 +40,16 @@ export class SchemaRegistryClientContext extends coreHttp.ServiceClient {
       options.userAgent = `${packageName}/${packageVersion} ${defaultUserAgent}`;
     }
 
-    super(credentials, options);
+    super(undefined, options);
 
     this.requestContentType = "application/json; charset=utf-8";
 
-    this.baseUri = options.endpoint || "{endpoint}/$schemagroups";
+    this.baseUri = options.endpoint || "https://{endpoint}";
 
     // Parameter assignments
     this.endpoint = endpoint;
+
+    // Assigning values to Constant parameters
+    this.apiVersion = options.apiVersion || "2018-01-01-preview";
   }
 }

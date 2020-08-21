@@ -24,6 +24,13 @@ export interface AccessTokenCache {
 }
 
 // @public
+export class AccessTokenRefresher {
+    constructor(credential: TokenCredential, scopes: string | string[], requiredMillisecondsBeforeNewRefresh?: number);
+    isReady(): boolean;
+    refresh(options: GetTokenOptions): Promise<AccessToken | undefined>;
+    }
+
+// @public
 export interface ApiKeyCredentialOptions {
     inHeader?: {
         [x: string]: any;

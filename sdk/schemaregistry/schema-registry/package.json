@@ -42,6 +42,22 @@
     "README.md",
     "LICENSE"
   ],
+  "//metadata": {
+    "constantPaths": [
+      {
+        "path": "src/generated/generatedSchemaRegistryClientContext.ts",
+        "prefix": "packageVersion"
+      },
+      {
+        "path": "src/constants.ts",
+        "prefix": "SDK_VERSION"
+      },
+      {
+        "path": "swagger/README.md",
+        "prefix": "package-version"
+      }
+    ]
+  },
   "repository": {
     "type": "git",
     "url": "https://github.com/Azure/azure-sdk-for-js.git",
@@ -62,20 +78,29 @@
   "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
   "dependencies": {
     "@azure/core-http": "^1.1.6",
+    "@azure/logger": "^1.0.0",
+    "@opentelemetry/api": "^0.10.2",
     "tslib": "^2.0.0"
   },
   "devDependencies": {
+    "@azure/dev-tool": "^1.0.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
+    "@azure/identity": "^1.1.0",
+    "@azure/test-utils-recorder": "^1.0.0",
     "@microsoft/api-extractor": "7.7.11",
     "@rollup/plugin-commonjs": "11.0.2",
     "@rollup/plugin-json": "^4.0.0",
     "@rollup/plugin-multi-entry": "^3.0.0",
     "@rollup/plugin-node-resolve": "^8.0.0",
     "@rollup/plugin-replace": "^2.2.0",
+    "@types/chai": "^4.1.6",
+    "@types/chai-as-promised": "^7.1.0",
     "@types/mocha": "^7.0.2",
     "@types/node": "^8.0.0",
     "@typescript-eslint/eslint-plugin": "^2.0.0",
     "@typescript-eslint/parser": "^2.0.0",
+    "chai": "^4.2.0",
+    "chai-as-promised": "^7.1.1",
     "cross-env": "^7.0.2",
     "dotenv": "^8.2.0",
     "eslint": "^6.1.0",
@@ -90,6 +115,8 @@
     "karma-env-preprocessor": "^0.1.1",
     "karma-firefox-launcher": "^1.1.0",
     "karma-ie-launcher": "^1.0.0",
+    "karma-json-preprocessor": "^0.3.3",
+    "karma-json-to-file-reporter": "^1.0.1",
     "karma-junit-reporter": "^2.0.1",
     "karma-mocha": "^2.0.1",
     "karma-mocha-reporter": "^2.2.5",
@@ -104,6 +131,7 @@
     "rollup-plugin-sourcemaps": "^0.4.2",
     "rollup-plugin-terser": "^5.1.1",
     "rollup-plugin-visualizer": "^4.0.4",
+    "source-map-support": "^0.5.9",
     "typescript": "~3.9.3"
   }
 }

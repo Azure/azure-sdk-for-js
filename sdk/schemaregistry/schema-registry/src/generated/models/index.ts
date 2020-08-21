@@ -29,7 +29,7 @@ export interface SchemaGetByIdHeaders {
   /**
    * Serialization type for the schema being stored.
    */
-  xSerialization?: string;
+  xSchemaType?: string;
   /**
    * References specific schema in registry namespace.
    */
@@ -45,9 +45,9 @@ export interface SchemaGetByIdHeaders {
 }
 
 /**
- * Defines headers for Schema_getIdByContent operation.
+ * Defines headers for Schema_queryIdByContent operation.
  */
-export interface SchemaGetIdByContentHeaders {
+export interface SchemaQueryIdByContentHeaders {
   /**
    * URL location of schema, identified by schema group, schema name, and version.
    */
@@ -55,7 +55,7 @@ export interface SchemaGetIdByContentHeaders {
   /**
    * Serialization type for the schema being stored.
    */
-  xSerialization?: string;
+  xSchemaType?: string;
   /**
    * References specific schema in registry namespace.
    */
@@ -81,7 +81,7 @@ export interface SchemaRegisterHeaders {
   /**
    * Serialization type for the schema being registered.
    */
-  xSerialization?: string;
+  xSchemaType?: string;
   /**
    * References specific schema in registry namespace.
    */
@@ -95,6 +95,11 @@ export interface SchemaRegisterHeaders {
    */
   xSchemaVersion?: number;
 }
+
+/**
+ * Defines values for SerializationType.
+ */
+export type SerializationType = "avro";
 
 /**
  * Contains response data for the getById operation.
@@ -126,9 +131,9 @@ export type SchemaGetByIdResponse = SchemaGetByIdHeaders & {
 };
 
 /**
- * Contains response data for the getIdByContent operation.
+ * Contains response data for the queryIdByContent operation.
  */
-export type SchemaGetIdByContentResponse = SchemaGetIdByContentHeaders &
+export type SchemaQueryIdByContentResponse = SchemaQueryIdByContentHeaders &
   SchemaId & {
     /**
      * The underlying HTTP response.
@@ -146,7 +151,7 @@ export type SchemaGetIdByContentResponse = SchemaGetIdByContentHeaders &
       /**
        * The parsed HTTP response headers.
        */
-      parsedHeaders: SchemaGetIdByContentHeaders;
+      parsedHeaders: SchemaQueryIdByContentHeaders;
     };
   };
 
@@ -178,8 +183,12 @@ export type SchemaRegisterResponse = SchemaRegisterHeaders &
 /**
  * Optional parameters.
  */
-export interface SchemaRegistryClientOptionalParams
+export interface GeneratedSchemaRegistryClientOptionalParams
   extends coreHttp.ServiceClientOptions {
+  /**
+   * Api Version
+   */
+  apiVersion?: string;
   /**
    * Overrides client endpoint.
    */
