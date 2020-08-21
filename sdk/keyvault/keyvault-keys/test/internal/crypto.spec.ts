@@ -6,16 +6,14 @@ import { checkKeyValidity } from "../../src/cryptographyClient";
 
 describe("CryptographyClient, internal tests", () => {
   it("Checking that the key's notBefore is respected", async function() {
-    const getLocalCryptographyClient = () => undefined;
     const keyBundle = {
       attributes: {
         notBefore: new Date(Date.now() + 60 * 1000 * 60 * 24) // Now + 24h
       }
     };
-    const getKeyId = () => "1";
     let error: Error | undefined = undefined;
     try {
-      await checkKeyValidity(getLocalCryptographyClient, keyBundle, getKeyId);
+      await checkKeyValidity("1", keyBundle);
     } catch (e) {
       error = e;
     }
@@ -26,16 +24,14 @@ describe("CryptographyClient, internal tests", () => {
   });
 
   it("Checking that the key's expires is respected", async function() {
-    const getLocalCryptographyClient = () => undefined;
     const keyBundle = {
       attributes: {
         expires: new Date(Date.now() - 60 * 1000 * 60 * 24) // Now - 24h
       }
     };
-    const getKeyId = () => "1";
     let error: Error | undefined = undefined;
     try {
-      await checkKeyValidity(getLocalCryptographyClient, keyBundle, getKeyId);
+      await checkKeyValidity("1", keyBundle);
     } catch (e) {
       error = e;
     }

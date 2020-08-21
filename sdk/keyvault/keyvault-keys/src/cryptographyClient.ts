@@ -51,22 +51,24 @@ import {
 import { KeyBundle } from "./generated/models";
 import { parseKeyVaultKeysIdentifier } from "./identifier";
 
-export async function checkKeyValidity(
-  getLocalCryptographyClient: () => Promise<LocalCryptographyClient> | undefined,
-  keyBundle: KeyBundle | undefined,
-  getKeyID: () => string | undefined
+/**
+ * Checks whether a key can be used at that specific moment,
+ * by comparing the current date with the bundle's notBefore and expires values.
+ */
+export function checkKeyValidity(
+  keyId?: string,
+  keyBundle?: KeyBundle
 ) {
-  await getLocalCryptographyClient();
   const attributes = keyBundle?.attributes || {};
   const { notBefore, expires } = attributes;
   const now = new Date();
 
   if (notBefore && now < notBefore) {
-    throw new Error(`Key ${getKeyID()} can't be used before ${notBefore.toISOString()}`);
+    throw new Error(`Key ${keyId} can't be used before ${notBefore.toISOString()}`);
   }
 
   if (expires && now > expires) {
-    throw new Error(`Key ${getKeyID()} expired at ${expires.toISOString()}`);
+    throw new Error(`Key ${keyId} expired at ${expires.toISOString()}`);
   }
 }
 
@@ -129,7 +131,8 @@ export class CryptographyClient {
     const span = this.createSpan("encrypt", requestOptions);
 
     await this.checkPermissions("encrypt");
-    await this.checkKeyValidity();
+    await this.getLocalCryptographyClient();
+    checkKeyValidity(this.getKeyID(), this.keyBundle);
 
     if (localCryptographyClient && isLocallySupported(algorithm)) {
       try {
@@ -183,7 +186,8 @@ export class CryptographyClient {
     const span = this.createSpan("decrypt", requestOptions);
 
     await this.checkPermissions("decrypt");
-    await this.checkKeyValidity();
+    await this.getLocalCryptographyClient();
+    checkKeyValidity(this.getKeyID(), this.keyBundle);
 
     // Default to the service
 
@@ -226,7 +230,8 @@ export class CryptographyClient {
     const span = this.createSpan("decrypt", requestOptions);
 
     await this.checkPermissions("wrapKey");
-    await this.checkKeyValidity();
+    await this.getLocalCryptographyClient();
+    checkKeyValidity(this.getKeyID(), this.keyBundle);
 
     if (localCryptographyClient && isLocallySupported(algorithm)) {
       try {
@@ -279,7 +284,8 @@ export class CryptographyClient {
     const span = this.createSpan("unwrapKey", requestOptions);
 
     await this.checkPermissions("unwrapKey");
-    await this.checkKeyValidity();
+    await this.getLocalCryptographyClient();
+    checkKeyValidity(this.getKeyID(), this.keyBundle);
 
     // Default to the service
 
@@ -321,7 +327,8 @@ export class CryptographyClient {
     const span = this.createSpan("sign", requestOptions);
 
     await this.checkPermissions("sign");
-    await this.checkKeyValidity();
+    await this.getLocalCryptographyClient();
+    checkKeyValidity(this.getKeyID(), this.keyBundle);
 
     let result;
     try {
@@ -363,7 +370,8 @@ export class CryptographyClient {
     const span = this.createSpan("verify", requestOptions);
 
     await this.checkPermissions("verify");
-    await this.checkKeyValidity();
+    await this.getLocalCryptographyClient();
+    checkKeyValidity(this.getKeyID(), this.keyBundle);
 
     let response;
     try {
@@ -404,7 +412,8 @@ export class CryptographyClient {
     const span = this.createSpan("unwrapKey", requestOptions);
 
     await this.checkPermissions("sign");
-    await this.checkKeyValidity();
+    await this.getLocalCryptographyClient();
+    checkKeyValidity(this.getKeyID(), this.keyBundle);
 
     if (!isLocallySupported(algorithm)) {
       throw new Error(`Unsupported algorithm ${algorithm}`);
@@ -460,7 +469,8 @@ export class CryptographyClient {
     const span = this.createSpan("decrypt", requestOptions);
 
     await this.checkPermissions("verify");
-    await this.checkKeyValidity();
+    await this.getLocalCryptographyClient();
+    checkKeyValidity(this.getKeyID(), this.keyBundle);
 
     if (!isLocallySupported(algorithm)) {
       throw new Error(`Unsupported algorithm ${algorithm}`);
@@ -722,14 +732,6 @@ export class CryptographyClient {
     if (typeof this.key !== "string" && this.key.keyOps && !this.key.keyOps.includes(operation)) {
       throw new Error(`Operation ${operation} is not supported on key ${this.getKeyID()}`);
     }
-  }
-
-  /**
-   * Checks whether a key can be used at that specific moment,
-   * by comparing the current date with the bundle's notBefore and expires values.
-   */
-  private async checkKeyValidity(): Promise<void> {
-    return checkKeyValidity(this.getLocalCryptographyClient, this.keyBundle, this.getKeyID);
   }
 }
 
