@@ -55,10 +55,7 @@ import { parseKeyVaultKeysIdentifier } from "./identifier";
  * Checks whether a key can be used at that specific moment,
  * by comparing the current date with the bundle's notBefore and expires values.
  */
-export function checkKeyValidity(
-  keyId?: string,
-  keyBundle?: KeyBundle
-) {
+export function checkKeyValidity(keyId?: string, keyBundle?: KeyBundle) {
   const attributes = keyBundle?.attributes || {};
   const { notBefore, expires } = attributes;
   const now = new Date();
