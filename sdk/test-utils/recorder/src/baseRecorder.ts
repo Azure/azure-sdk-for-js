@@ -237,7 +237,7 @@ export class NockRecorder extends BaseRecorder {
    */
   private isContentType(fixture: string, expectedContentTypes: string[]): boolean {
     for (const contentType of expectedContentTypes) {
-      if (fixture.replace(/(\r\n|\n|\r)/gm, "").includes(`'Content-Type',  '${contentType}',`)) {
+      if (fixture.replace(/(\r\n|\n|\r|\s)/gm, "").includes(`'Content-Type','${contentType}'`)) {
         return true;
       }
     }
