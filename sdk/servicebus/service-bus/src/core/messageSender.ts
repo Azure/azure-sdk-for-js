@@ -30,12 +30,12 @@ import {
 } from "../serviceBusMessage";
 import { ConnectionContext } from "../connectionContext";
 import { LinkEntity } from "./linkEntity";
-import { getUniqueName, waitForTimeoutOrAbortOrResolve, StandardAbortMessage } from "../util/utils";
+import { getUniqueName, waitForTimeoutOrAbortOrResolve } from "../util/utils";
 import { throwErrorIfConnectionClosed } from "../util/errors";
 import { ServiceBusMessageBatch, ServiceBusMessageBatchImpl } from "../serviceBusMessageBatch";
 import { CreateBatchOptions } from "../models";
 import { OperationOptionsBase } from "../modelsToBeSharedWithEventHubs";
-import { AbortError, AbortSignalLike } from "@azure/abort-controller";
+import { AbortSignalLike } from "@azure/abort-controller";
 
 /**
  * @internal
@@ -114,26 +114,7 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
         );
       }
       if (sender && !sender.isItselfClosed()) {
-        // if (!this.isConnecting) {
-        //   log.error(
-        //     "[%s] 'sender_close' event occurred on the sender '%s' with address '%s' " +
-        //       "and the sdk did not initiate this. The sender is not reconnecting. Hence, calling " +
-        //       "detached from the _onAmqpClose() handler.",
-        //     this._context.connectionId,
-        //     this.name,
-        //     this.address
-        //   );
         await this.onDetached(senderError);
-        // } else {
-        //   log.error(
-        //     "[%s] 'sender_close' event occurred on the sender '%s' with address '%s' " +
-        //       "and the sdk did not initiate this. Moreover the sender is already re-connecting. " +
-        //       "Hence not calling detached from the _onAmqpClose() handler.",
-        //     this._context.connectionId,
-        //     this.name,
-        //     this.address
-        //   );
-        // }
       } else {
         log.error(
           "[%s] 'sender_close' event occurred on the sender '%s' with address '%s' " +
@@ -339,14 +320,6 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
     options?: AwaitableSenderOptions,
     abortSignal?: AbortSignalLike
   ): Promise<void> {
-    const checkAborted = (): void => {
-      if (abortSignal?.aborted) {
-        throw new AbortError(StandardAbortMessage);
-      }
-    };
-
-    checkAborted();
-
     try {
       if (!options) {
         options = this._createSenderOptions(Constants.defaultOperationTimeoutInMs);
