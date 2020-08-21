@@ -55,9 +55,6 @@ export interface KeyVaultSecret {
 }
 
 // @public
-export type KeyVaultSecretsIdentifierCollectionName = "secrets" | "deletedsecrets";
-
-// @public
 export interface ListDeletedSecretsOptions extends coreHttp.OperationOptions {
 }
 
@@ -78,9 +75,8 @@ export { PageSettings }
 
 // @public
 export interface ParsedKeyVaultSecretsIdentifier {
-    collection: KeyVaultSecretsIdentifierCollectionName;
-    id: string;
     name: string;
+    sourceId: string;
     vaultUrl: string;
     version?: string;
 }

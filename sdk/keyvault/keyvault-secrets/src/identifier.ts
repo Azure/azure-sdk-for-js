@@ -4,23 +4,13 @@
 import { parseKeyvaultIdentifier } from "./generated/utils";
 
 /**
- * Valid collection names for Key Vault Secret identifiers.
- */
-export type KeyVaultSecretsIdentifierCollectionName = "secrets" | "deletedsecrets";
-
-/**
  * Represents a Key Vault Secrets identifier and its parsed contents.
  */
 export interface ParsedKeyVaultSecretsIdentifier {
   /**
-   * The type of resource under Key Vault that this identifier is referring to.
-   */
-  collection: KeyVaultSecretsIdentifierCollectionName;
-
-  /**
    * The originally received identifier.
    */
-  id: string;
+  sourceId: string;
 
   /**
    * The Key Vault Secret unique identifier (an URl).
@@ -43,17 +33,10 @@ export interface ParsedKeyVaultSecretsIdentifier {
  */
 export function parseKeyVaultSecretsIdentifier(id: string): ParsedKeyVaultSecretsIdentifier {
   const urlParts = id.split("/");
-  const collection: KeyVaultSecretsIdentifierCollectionName = urlParts[3] as KeyVaultSecretsIdentifierCollectionName;
-
-  const collections: KeyVaultSecretsIdentifierCollectionName[] = ["secrets", "deletedsecrets"];
-
-  if (!collections.includes(collection)) {
-    throw new Error(`The only collections allowed are: ${collections.join(", ")}`);
-  }
+  const collection = urlParts[3];
 
   return {
-    collection,
-    id,
+    sourceId: id,
     ...parseKeyvaultIdentifier(collection, id)
   };
 }

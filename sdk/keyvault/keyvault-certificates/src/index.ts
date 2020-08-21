@@ -153,8 +153,7 @@ import { RecoverDeletedCertificateState } from "./lro/recover/operation";
 import { parseCertificateBytes } from "./utils";
 import {
   parseKeyVaultCertificatesIdentifier,
-  ParsedKeyVaultCertificatesIdentifier,
-  KeyVaultCertificatesIdentifierCollectionName
+  ParsedKeyVaultCertificatesIdentifier
 } from "./identifier";
 
 export {
@@ -169,7 +168,6 @@ export {
   KeyVaultCertificate,
   KeyVaultCertificateWithPolicy,
   parseKeyVaultCertificatesIdentifier,
-  KeyVaultCertificatesIdentifierCollectionName,
   BackupCertificateOptions,
   CertificateContentType,
   CertificateProperties,

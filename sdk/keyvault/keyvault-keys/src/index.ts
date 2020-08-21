@@ -96,11 +96,7 @@ import {
   WrapResult
 } from "./cryptographyClient";
 
-import {
-  parseKeyVaultKeysIdentifier,
-  ParsedKeyVaultKeysIdentifier,
-  KeyVaultKeysIdentifierCollectionName
-} from "./identifier";
+import { parseKeyVaultKeysIdentifier, ParsedKeyVaultKeysIdentifier } from "./identifier";
 
 export {
   CryptographyClientOptions,
@@ -139,7 +135,6 @@ export {
   PageSettings,
   PagedAsyncIterableIterator,
   ParsedKeyVaultKeysIdentifier,
-  KeyVaultKeysIdentifierCollectionName,
   PipelineOptions,
   PollOperationState,
   PollerLike,

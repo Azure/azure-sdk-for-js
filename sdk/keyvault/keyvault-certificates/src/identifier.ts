@@ -4,23 +4,13 @@
 import { parseKeyvaultIdentifier } from "./generated/utils";
 
 /**
- * Valid collection names for Key Vault Certificate identifiers.
- */
-export type KeyVaultCertificatesIdentifierCollectionName = "certificates" | "deletedcertificates";
-
-/**
  * Represents a Key Vault identifier and its parsed contents.
  */
 export interface ParsedKeyVaultCertificatesIdentifier {
   /**
-   * The type of resource under Key Vault that this identifier is referring to.
-   */
-  collection: KeyVaultCertificatesIdentifierCollectionName;
-
-  /**
    * The originally received identifier.
    */
-  id: string;
+  sourceId: string;
 
   /**
    * The Key Vault Certificate unique identifier (a URL).
@@ -45,20 +35,10 @@ export function parseKeyVaultCertificatesIdentifier(
   id: string
 ): ParsedKeyVaultCertificatesIdentifier {
   const urlParts = id.split("/");
-  const collection: KeyVaultCertificatesIdentifierCollectionName = urlParts[3] as KeyVaultCertificatesIdentifierCollectionName;
-
-  const collections: KeyVaultCertificatesIdentifierCollectionName[] = [
-    "certificates",
-    "deletedcertificates"
-  ];
-
-  if (!collections.includes(collection)) {
-    throw new Error(`The only collections allowed are: ${collections.join(", ")}`);
-  }
+  const collection = urlParts[3];
 
   return {
-    collection,
-    id,
+    sourceId: id,
     ...parseKeyvaultIdentifier(collection, id)
   };
 }

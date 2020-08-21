@@ -10,9 +10,8 @@ describe("Key Vault Keys Identifier", () => {
     const identifier = parseKeyVaultKeysIdentifier(uri);
 
     assert.deepEqual(identifier, {
-      id: "https://keyvault-name.vault.azure.net/keys/key-name/pending",
+      sourceId: "https://keyvault-name.vault.azure.net/keys/key-name/pending",
       vaultUrl: "https://keyvault-name.vault.azure.net",
-      collection: "keys",
       version: "pending",
       name: "key-name"
     });
@@ -23,9 +22,8 @@ describe("Key Vault Keys Identifier", () => {
     const identifier = parseKeyVaultKeysIdentifier(uri);
 
     assert.deepEqual(identifier, {
-      id: "https://keyvault-name.vault.azure.net/keys/key-name/version",
+      sourceId: "https://keyvault-name.vault.azure.net/keys/key-name/version",
       vaultUrl: "https://keyvault-name.vault.azure.net",
-      collection: "keys",
       version: "version",
       name: "key-name"
     });
@@ -36,16 +34,10 @@ describe("Key Vault Keys Identifier", () => {
     const identifier = parseKeyVaultKeysIdentifier(uri);
 
     assert.deepEqual(identifier, {
-      id: "https://keyvault-name.vault.azure.net/deletedkeys/deleted-key",
+      sourceId: "https://keyvault-name.vault.azure.net/deletedkeys/deleted-key",
       vaultUrl: "https://keyvault-name.vault.azure.net",
-      collection: "deletedkeys",
       name: "deleted-key",
       version: undefined
     });
-  });
-
-  it("It throws if an invalid collection is specified", async function() {
-    const uri = "https://keyvault-name.vault.azure.net/bad-name/bad-name";
-    assert.throws(() => parseKeyVaultKeysIdentifier(uri));
   });
 });

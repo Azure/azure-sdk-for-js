@@ -222,9 +222,6 @@ export interface KeyVaultKey {
 }
 
 // @public
-export type KeyVaultKeysIdentifierCollectionName = "keys" | "deletedkeys";
-
-// @public
 export type KeyWrapAlgorithm = "RSA-OAEP" | "RSA-OAEP-256" | "RSA1_5";
 
 // @public
@@ -248,9 +245,8 @@ export { PageSettings }
 
 // @public
 export interface ParsedKeyVaultKeysIdentifier {
-    collection: KeyVaultKeysIdentifierCollectionName;
-    id: string;
     name: string;
+    sourceId: string;
     vaultUrl: string;
     version?: string;
 }

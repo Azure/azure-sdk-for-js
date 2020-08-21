@@ -328,9 +328,6 @@ export interface KeyVaultCertificate {
 }
 
 // @public
-export type KeyVaultCertificatesIdentifierCollectionName = "certificates" | "deletedcertificates";
-
-// @public
 export interface KeyVaultCertificateWithPolicy extends KeyVaultCertificate {
     readonly policy?: CertificatePolicy;
 }
@@ -369,9 +366,8 @@ export type MergeCertificateOptions = coreHttp.OperationOptions;
 
 // @public
 export interface ParsedKeyVaultCertificatesIdentifier {
-    collection: KeyVaultCertificatesIdentifierCollectionName;
-    id: string;
     name: string;
+    sourceId: string;
     vaultUrl: string;
     version?: string;
 }
