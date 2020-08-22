@@ -54,6 +54,7 @@ const managementRule2 = EntityNames.MANAGEMENT_RULE_2;
 
 const newManagementEntity1 = EntityNames.MANAGEMENT_NEW_ENTITY_1;
 const newManagementEntity2 = EntityNames.MANAGEMENT_NEW_ENTITY_2;
+type AccessRights = ("Manage" | "Send" | "Listen")[];
 
 describe("Atom management - Namespace", function(): void {
   it("Get namespace properties", async () => {
@@ -1536,9 +1537,7 @@ describe("Atom management - Authentication", function(): void {
         {
           claimType: "SharedAccessKey",
           claimValue: "None",
-          rights: {
-            accessRights: ["Manage", "Send", "Listen"]
-          },
+          accessRights: ["Manage", "Send", "Listen"] as AccessRights,
           keyName: "allClaims_v2",
           primaryKey: "pNSRzKKm2vfdbCuTXMa9gOMHD66NwCTxJi4KWJX/TDc=",
           secondaryKey: "UreXLPWiP6Murmsq2HYiIXs23qAvWa36ZOL3gb9rXLs="
@@ -1546,9 +1545,7 @@ describe("Atom management - Authentication", function(): void {
         {
           claimType: "SharedAccessKey",
           claimValue: "None",
-          rights: {
-            accessRights: ["Manage", "Send", "Listen"]
-          },
+          accessRights: ["Manage", "Send", "Listen"] as AccessRights,
           keyName: "allClaims_v3",
           primaryKey: "pNSRzKKm2vfdbCuTXMa9gOMHD66NwCTxJi4KWJX/TDc=",
           secondaryKey: "UreXLPWiP6Murmsq2HYiIXs23qAvWa36ZOL3gb9rXLs="
@@ -1572,9 +1569,7 @@ describe("Atom management - Authentication", function(): void {
         {
           claimType: "SharedAccessKey",
           claimValue: "None",
-          rights: {
-            accessRights: ["Manage", "Send", "Listen"]
-          },
+          accessRights: ["Manage", "Send", "Listen"] as AccessRights,
           keyName: "allClaims_v2",
           primaryKey: "pNSRzKKm2vfdbCuTXMa9gOMHD66NwCTxJi4KWJX/TDc=",
           secondaryKey: "UreXLPWiP6Murmsq2HYiIXs23qAvWa36ZOL3gb9rXLs="
@@ -1582,9 +1577,7 @@ describe("Atom management - Authentication", function(): void {
         {
           claimType: "SharedAccessKey",
           claimValue: "None",
-          rights: {
-            accessRights: ["Manage", "Send", "Listen"]
-          },
+          accessRights: ["Manage", "Send", "Listen"] as AccessRights,
           keyName: "allClaims_v3",
           primaryKey: "pNSRzKKm2vfdbCuTXMa9gOMHD66NwCTxJi4KWJX/TDc=",
           secondaryKey: "UreXLPWiP6Murmsq2HYiIXs23qAvWa36ZOL3gb9rXLs="
@@ -1858,9 +1851,7 @@ describe("Atom management - Authentication", function(): void {
         {
           claimType: "SharedAccessKey",
           claimValue: "None",
-          rights: {
-            accessRights: ["Send"]
-          },
+          accessRights: ["Send"] as AccessRights,
           keyName: "allClaims_v2",
           primaryKey: "pNSRzKKm2vfdbCuTXMa9gOMHD66NwCTxJi4KWJX/TDc=",
           secondaryKey: "UreXLPWiP6Murmsq2HYiIXs23qAvWa36ZOL3gb9rXLs="
@@ -1868,9 +1859,7 @@ describe("Atom management - Authentication", function(): void {
         {
           claimType: "SharedAccessKey",
           claimValue: "None",
-          rights: {
-            accessRights: ["Listen"]
-          },
+          accessRights: ["Listen"] as AccessRights,
           keyName: "allClaims_v3",
           primaryKey: "pNSRzKKm2vfdbCuTXMa9gOMHD66NwCTxJi4KWJX/TDc=",
           secondaryKey: "UreXLPWiP6Murmsq2HYiIXs23qAvWa36ZOL3gb9rXLs="
@@ -1892,9 +1881,7 @@ describe("Atom management - Authentication", function(): void {
         {
           claimType: "SharedAccessKey",
           claimValue: "None",
-          rights: {
-            accessRights: ["Send"]
-          },
+          accessRights: ["Send"] as AccessRights,
           keyName: "allClaims_v2",
           primaryKey: "pNSRzKKm2vfdbCuTXMa9gOMHD66NwCTxJi4KWJX/TDc=",
           secondaryKey: "UreXLPWiP6Murmsq2HYiIXs23qAvWa36ZOL3gb9rXLs="
@@ -1902,9 +1889,7 @@ describe("Atom management - Authentication", function(): void {
         {
           claimType: "SharedAccessKey",
           claimValue: "None",
-          rights: {
-            accessRights: ["Listen"]
-          },
+          accessRights: ["Listen"] as AccessRights,
           keyName: "allClaims_v3",
           primaryKey: "pNSRzKKm2vfdbCuTXMa9gOMHD66NwCTxJi4KWJX/TDc=",
           secondaryKey: "UreXLPWiP6Murmsq2HYiIXs23qAvWa36ZOL3gb9rXLs="
@@ -1938,9 +1923,7 @@ describe("Atom management - Authentication", function(): void {
           {
             claimType: "SharedAccessKey",
             claimValue: "None",
-            rights: {
-              accessRights: ["Manage", "Send", "Listen"]
-            },
+            accessRights: ["Manage", "Send", "Listen"],
             keyName: "allClaims_v2",
             primaryKey: "pNSRzKKm2vfdbCuTXMa9gOMHD66NwCTxJi4KWJX/TDc=",
             secondaryKey: "UreXLPWiP6Murmsq2HYiIXs23qAvWa36ZOL3gb9rXLs="
@@ -1948,9 +1931,7 @@ describe("Atom management - Authentication", function(): void {
           {
             claimType: "SharedAccessKey",
             claimValue: "None",
-            rights: {
-              accessRights: ["Manage", "Send", "Listen"]
-            },
+            accessRights: ["Manage", "Send", "Listen"],
             keyName: "allClaims_v3",
             primaryKey: "pNSRzKKm2vfdbCuTXMa9gOMHD66NwCTxJi4KWJX/TDc=",
             secondaryKey: "UreXLPWiP6Murmsq2HYiIXs23qAvWa36ZOL3gb9rXLs="
@@ -2008,9 +1989,7 @@ describe("Atom management - Authentication", function(): void {
         {
           claimType: "SharedAccessKey",
           claimValue: "None",
-          rights: {
-            accessRights: ["Manage", "Send", "Listen"]
-          },
+          accessRights: ["Manage", "Send", "Listen"] as AccessRights,
           keyName: "allClaims_v2",
           primaryKey: "pNSRzKKm2vfdbCuTXMa9gOMHD66NwCTxJi4KWJX/TDc=",
           secondaryKey: "UreXLPWiP6Murmsq2HYiIXs23qAvWa36ZOL3gb9rXLs="
@@ -2018,9 +1997,7 @@ describe("Atom management - Authentication", function(): void {
         {
           claimType: "SharedAccessKey",
           claimValue: "None",
-          rights: {
-            accessRights: ["Manage", "Send", "Listen"]
-          },
+          accessRights: ["Manage", "Send", "Listen"] as AccessRights,
           keyName: "allClaims_v3",
           primaryKey: "pNSRzKKm2vfdbCuTXMa9gOMHD66NwCTxJi4KWJX/TDc=",
           secondaryKey: "UreXLPWiP6Murmsq2HYiIXs23qAvWa36ZOL3gb9rXLs="
@@ -2438,9 +2415,7 @@ async function createEntity(
           {
             claimType: "SharedAccessKey",
             claimValue: "None",
-            rights: {
-              accessRights: ["Manage", "Send", "Listen"]
-            },
+            accessRights: ["Manage", "Send", "Listen"],
             keyName: "allClaims_v1",
             primaryKey: "pNSRzKKm2vfdbCuTXMa9gOMHD66NwCTxJi4KWJX/TDc=",
             secondaryKey: "UreXLPWiP6Murmsq2HYiIXs23qAvWa36ZOL3gb9rXLs="
@@ -2673,9 +2648,7 @@ async function updateEntity(
           {
             claimType: "SharedAccessKey",
             claimValue: "None",
-            rights: {
-              accessRights: ["Manage", "Send", "Listen"]
-            },
+            accessRights: ["Manage", "Send", "Listen"],
             keyName: "allClaims_v1",
             primaryKey: "pNSRzKKm2vfdbCuTXMa9gOMHD66NwCTxJi4KWJX/TDc=",
             secondaryKey: "UreXLPWiP6Murmsq2HYiIXs23qAvWa36ZOL3gb9rXLs="
