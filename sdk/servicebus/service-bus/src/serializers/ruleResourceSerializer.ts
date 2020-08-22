@@ -133,12 +133,7 @@ export interface RuleProperties {
 /**
  * Represents all possible fields on SqlAction
  */
-export type SqlRuleAction = SqlRuleFilter;
-
-/**
- * Represents all possible fields on SqlRuleFilter
- */
-export interface SqlRuleFilter {
+export type SqlRuleAction = {
   /**
    * SQL expression to use.
    */
@@ -147,7 +142,33 @@ export interface SqlRuleFilter {
   /**
    * SQL parameters to the expression
    */
-  sqlParameters?: SqlParameter[];
+  sqlParameters?: { [key: string]: "string" | "number" | "boolean" };
+
+  /**
+   * This property is reserved for future use. An integer value showing the
+   * compatibility level, currently hard-coded to 20.
+   */
+  compatibilityLevel?: number;
+
+  /**
+   * Boolean value indicating whether the SQL filter expression requires preprocessing
+   */
+  requiresPreprocessing?: boolean;
+};
+
+/**
+ * Represents all possible fields on SqlRuleFilter
+ */
+export interface SqlRuleFilter {
+  /**
+   * SQL expression to use.
+   */
+  sqlExpression: string;
+
+  /**
+   * SQL parameters to the expression
+   */
+  sqlParameters?: { [key: string]: "string" | "number" | "boolean" };
 
   /**
    * This property is reserved for future use. An integer value showing the
@@ -280,15 +301,6 @@ const TypeMapForResponseDeserialization: Record<string, string> = {
 };
 
 /**
- * Represents type of SQL `Parameter` in ATOM based management operations
- */
-export type SqlParameter = {
-  key: string;
-  value: string | number;
-  type: string;
-};
-
-/**
  * @internal
  * @ignore
  * Internal representation of key-value pair
@@ -321,7 +333,9 @@ const keyValuePairXMLTag = "KeyValueOfstringanyType";
  * or undefined if not passed in.
  * @param value
  */
-function getSqlParametersOrUndefined(value: any): SqlParameter[] | undefined {
+function getSqlParametersOrUndefined(
+  value: any
+): { [key: string]: "string" | "number" | "boolean" } | undefined {
   const parameters: SqlParameter[] = [];
 
   // Ignore special case as Service Bus treats "" as a valid value for SQL parameters
