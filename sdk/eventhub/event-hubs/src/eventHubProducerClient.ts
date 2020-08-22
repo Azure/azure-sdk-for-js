@@ -144,7 +144,7 @@ export class EventHubProducerClient {
   /**
    * Creates an instance of `EventDataBatch` to which one can add events until the maximum supported size is reached.
    * The batch can be passed to the {@link sendBatch} method of the `EventHubProducerClient` to be sent to Azure Event Hubs.
-   * 
+   *
    * Example usage:
    * ```ts
    * const client = new EventHubProducerClient(connectionString);
@@ -161,7 +161,7 @@ export class EventHubProducerClient {
    *  }
    * }
    * ```
-   * 
+   *
    * @param options  Configures the behavior of the batch.
    * - `partitionKey`  : A value that is hashed and used by the Azure Event Hubs service to determine the partition to which
    * the events need to be sent.
@@ -218,7 +218,7 @@ export class EventHubProducerClient {
    * const client = new EventHubProducerClient(connectionString);
    * await client.sendBatch(messages);
    * ```
-   * 
+   *
    * @param batch An array of {@link EventData}.
    * @param options A set of options that can be specified to influence the way in which
    * events are sent to the associated Event Hub.
@@ -234,7 +234,7 @@ export class EventHubProducerClient {
   async sendBatch(batch: EventData[], options?: SendBatchOptions): Promise<void>;
   /**
    * Sends a batch of events to the associated Event Hub.
-   * 
+   *
    * Example usage:
    * ```ts
    * const client = new EventHubProducerClient(connectionString);
