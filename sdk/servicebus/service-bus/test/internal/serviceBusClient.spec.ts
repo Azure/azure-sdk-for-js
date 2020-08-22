@@ -80,13 +80,14 @@ describe("serviceBusClient unit tests", () => {
     });
 
     it("failures", () => {
+      const badReceiveMode = "WOW THIS ISN'T A RECEIVE MODE";
       assert.throws(
         () =>
           extractReceiverArguments("topic", "subscription", {
             ...sessionReceiverOptions,
-            receiveMode: "WOW THIS ISN'T A RECEIVE MODE" as "peekLock"
+            receiveMode: badReceiveMode as "peekLock"
           }),
-        /Invalid receiveMode provided/
+        `Invalid receiveMode '${badReceiveMode}' provided. Valid values are 'peekLock' and 'receiveAndDelete'`
       );
     });
   });
