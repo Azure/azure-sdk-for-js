@@ -100,7 +100,7 @@ export type ListEntitiesResponse<T extends object> = Array<TableEntity<T>> & {
   /**
    * Contains the continuation token value for row key.
    */
-  nextextRowKey?: string;
+  nextRowKey?: string;
   /**
    * The underlying HTTP response.
    */
@@ -199,10 +199,6 @@ export interface TableQueryOptions {
  * OData Query options to limit the set of entities returned.
  */
 export interface TableEntityQueryOptions {
-  /**
-   * Maximum number of records to return.
-   */
-  top?: number;
   /**
    * OData filter expression.
    */

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { TableClient, TableEntity, Edm } from "../../src";
+import { TableClient, TableEntity, Edm, odata } from "../../src";
 import { assert } from "chai";
 import { record, Recorder } from "@azure/test-utils-recorder";
 import { recordedEnvironmentSetup, createTableClient } from "./utils/recordedClient";
@@ -12,18 +12,17 @@ describe("TableClient", () => {
   let recorder: Recorder;
   const suffix = isNode ? "_node" : "_browser";
 
-  beforeEach(function() {
-    // eslint-disable-next-line no-invalid-this
-    recorder = record(this, recordedEnvironmentSetup);
-    const tableName = "integration";
-    client = createTableClient(tableName);
-  });
-
-  afterEach(async function() {
-    await recorder.stop();
-  });
-
   describe("createEntity and getEntity", () => {
+    beforeEach(function() {
+      // eslint-disable-next-line no-invalid-this
+      recorder = record(this, recordedEnvironmentSetup);
+      const tableName = "integration";
+      client = createTableClient(tableName);
+    });
+
+    afterEach(async function() {
+      await recorder.stop();
+    });
     it("should createEntity with only primitives", async () => {
       type TestType = { testField: string };
       const testEntity: TableEntity<TestType> = {
@@ -31,7 +30,7 @@ describe("TableClient", () => {
         RowKey: "R1",
         testField: "testEntity"
       };
-      const createResult = await client.createEntity(testEntity, {});
+      const createResult = await client.createEntity(testEntity);
       const result = await client.getEntity<TestType>(testEntity.PartitionKey, testEntity.RowKey);
 
       assert.equal(createResult._response.status, 204);
@@ -48,7 +47,7 @@ describe("TableClient", () => {
         RowKey: "R2",
         testField: testDate
       };
-      const createResult = await client.createEntity(testEntity, {});
+      const createResult = await client.createEntity(testEntity);
       const result = await client.getEntity<TestType>(testEntity.PartitionKey, testEntity.RowKey);
 
       assert.equal(createResult._response.status, 204);
@@ -71,7 +70,7 @@ describe("TableClient", () => {
         RowKey: "R3",
         testField: testGuid
       };
-      const createResult = await client.createEntity(testEntity, {});
+      const createResult = await client.createEntity(testEntity);
       const result = await client.getEntity<TestType>(testEntity.PartitionKey, testEntity.RowKey);
 
       assert.equal(createResult._response.status, 204);
@@ -93,7 +92,7 @@ describe("TableClient", () => {
         RowKey: "R4",
         testField: testInt64
       };
-      const createResult = await client.createEntity(testEntity, {});
+      const createResult = await client.createEntity(testEntity);
       const result = await client.getEntity<TestType>(testEntity.PartitionKey, testEntity.RowKey);
 
       assert.equal(createResult._response.status, 204);
@@ -119,7 +118,7 @@ describe("TableClient", () => {
         RowKey: "R5",
         testField: testInt32
       };
-      const createResult = await client.createEntity(testEntity, {});
+      const createResult = await client.createEntity(testEntity);
       const result = await client.getEntity<ResponseType>(
         testEntity.PartitionKey,
         testEntity.RowKey
@@ -151,7 +150,7 @@ describe("TableClient", () => {
         RowKey: "R6",
         testField: testBoolean
       };
-      const createResult = await client.createEntity(testEntity, {});
+      const createResult = await client.createEntity(testEntity);
       const result = await client.getEntity<ResponseType>(
         testEntity.PartitionKey,
         testEntity.RowKey
@@ -208,6 +207,98 @@ describe("TableClient", () => {
       assert.equal(result.RowKey, testEntity.RowKey);
       assert.equal(result.integerNumber, 3);
       assert.equal(result.floatingPointNumber, 3.14);
+    });
+  });
+
+  describe("listEntities", () => {
+    beforeEach(function() {
+      // eslint-disable-next-line no-invalid-this
+      recorder = record(this, recordedEnvironmentSetup);
+      const tableName = "list";
+      client = createTableClient(tableName);
+    });
+
+    afterEach(async function() {
+      await recorder.stop();
+    });
+
+    type StringEntity = { foo: string };
+    type NumberEntity = { foo: number };
+    type DateEntity = { foo: Date };
+    type BooleanEntity = { foo: Boolean };
+    type Int64Entity = { foo: Edm<"Int64"> };
+    type Int32Entity = { foo: Edm<"Int32"> };
+    type BinaryEntity = { foo: Uint8Array };
+    type TestEntity =
+      | TableEntity<StringEntity>
+      | TableEntity<NumberEntity>
+      | TableEntity<DateEntity>
+      | TableEntity<BooleanEntity>
+      | TableEntity<Int64Entity>
+      | TableEntity<Int32Entity>
+      | TableEntity<BinaryEntity>;
+
+    it("should list all", async function() {
+      const totalItems = 7000;
+      const entities = await client.listEntities<TestEntity>();
+      let all: TestEntity[] = [];
+      for await (let entity of entities) {
+        all.push(entity);
+      }
+
+      assert.lengthOf(all, totalItems);
+    });
+
+    it("should list by page", async function() {
+      const totalItems = 7000;
+      const maxPageSize = 500;
+      const entities = await client.listEntities<TestEntity>();
+      let all: TestEntity[] = [];
+      let i = 0;
+      for await (let entity of entities.byPage({
+        maxPageSize
+      })) {
+        i++;
+        all = [...all, ...entity];
+      }
+
+      assert.lengthOf(all, 7000);
+      assert.equal(i, totalItems / maxPageSize);
+    });
+
+    it("should list with filter", async function() {
+      const barItems = 1000;
+      const strValue = "testEntity";
+      const entities = await client.listEntities<TableEntity<StringEntity>>({
+        queryOptions: { filter: odata`foo eq ${strValue}` }
+      });
+      let all: TableEntity<StringEntity>[] = [];
+      for await (let entity of entities) {
+        all = [...all, entity];
+      }
+
+      assert.lengthOf(all, barItems);
+    });
+
+    it("should list binary with filter", async function() {
+      const strValue = "binary1";
+      const entities = await client.listEntities<TableEntity<BinaryEntity>>({
+        queryOptions: { filter: odata`RowKey eq ${strValue}` }
+      });
+      let all: TableEntity<BinaryEntity>[] = [];
+      for await (let entity of entities) {
+        all = [...all, entity];
+      }
+
+      assert.lengthOf(all, 1);
+
+      if (isNode) {
+        assert.deepEqual(all[0].foo, Buffer.from("Bar"));
+      }
+
+      if (!isNode) {
+        assert.deepEqual(String.fromCharCode(...all[0].foo), "Bar");
+      }
     });
   });
 });

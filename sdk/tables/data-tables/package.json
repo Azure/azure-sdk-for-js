@@ -72,9 +72,9 @@
   "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/tables/data-tables/",
   "sideEffects": false,
   "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
-  "private": true,
   "dependencies": {
     "@azure/core-http": "^1.1.6",
+    "@azure/core-paging": "^1.1.1",
     "@opentelemetry/api": "^0.10.2",
     "tslib": "^2.0.0"
   },

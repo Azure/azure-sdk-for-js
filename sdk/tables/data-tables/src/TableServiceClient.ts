@@ -5,21 +5,9 @@ import { GeneratedClient } from "./generated/generatedClient";
 import { Service } from "./generated/operations";
 import { Table } from "./generated/operations";
 import {
-  TableEntity,
   ListTablesOptions,
-  ListTableEntitiesOptions,
-  GetTableEntityResponse,
-  ListEntitiesResponse,
-  CreateTableEntityOptions,
-  UpdateTableEntityOptions,
-  UpsertTableEntityOptions,
-  UpdateMode,
-  TableEntityQueryOptions,
-  DeleteTableEntityOptions,
   CreateTableOptions,
-  GetTableEntityOptions,
   ListTableItemsResponse,
-  CreateTableEntityResponse,
   CreateTableItemResponse
 } from "./models";
 import {
@@ -33,21 +21,13 @@ import {
   SetPropertiesResponse,
   DeleteTableOptions,
   DeleteTableResponse,
-  DeleteTableEntityResponse,
-  UpdateEntityResponse,
-  UpsertEntityResponse,
   GetAccessPolicyOptions,
   GetAccessPolicyResponse,
   SetAccessPolicyResponse,
   SetAccessPolicyOptions
 } from "./generatedModels";
-import {
-  QueryOptions as GeneratedQueryOptions,
-  TableDeleteEntityOptionalParams
-} from "./generated/models";
 import { getClientParamsFromConnectionString } from "./utils/connectionString";
 import { TablesSharedKeyCredential } from "./TablesSharedKeyCredential";
-import { serialize, deserialize, deserializeObjectsArray } from "./serialization";
 
 /**
  * A TableServiceClient represents a Client to the Azure Tables service allowing you
@@ -202,174 +182,6 @@ export class TableServiceClient {
   }
 
   /**
-   * Returns a single entity in a table.
-   * @param tableName The name of the table.
-   * @param partitionKey The partition key of the entity.
-   * @param rowKey The row key of the entity.
-   * @param options The options parameters.
-   */
-  public async getEntity<T extends object>(
-    tableName: string,
-    partitionKey: string,
-    rowKey: string,
-    options?: GetTableEntityOptions
-  ): Promise<GetTableEntityResponse<T>> {
-    const { queryOptions, ...getEntityOptions } = options || {};
-    const { _response } = await this.table.queryEntitiesWithPartitionAndRowKey(
-      tableName,
-      partitionKey,
-      rowKey,
-      { ...getEntityOptions, queryOptions: this.convertQueryOptions(queryOptions || {}) }
-    );
-    const tableEntity = deserialize<TableEntity<T>>(_response.parsedBody);
-    return { ...tableEntity, _response };
-  }
-
-  /**
-   * Queries entities in a table.
-   * @param tableName The name of the table.
-   * @param options The options parameters.
-   */
-  public async listEntities<T extends object>(
-    tableName: string,
-    options?: ListTableEntitiesOptions
-  ): Promise<ListEntitiesResponse<T>> {
-    const queryOptions = this.convertQueryOptions(options?.queryOptions || {});
-    const {
-      _response,
-      xMsContinuationNextPartitionKey: nextPartitionKey,
-      xMsContinuationNextRowKey: nextRowKey,
-      value
-    } = await this.table.queryEntities(tableName, {
-      ...options,
-      queryOptions
-    });
-    const tableEntities = deserializeObjectsArray<TableEntity<T>>(value || []);
-    return Object.assign([...tableEntities], {
-      _response,
-      nextPartitionKey,
-      nextRowKey
-    });
-  }
-
-  /**
-   * Insert entity in a table.
-   * @param tableName The name of the table.
-   * @param entity The properties for the table entity.
-   * @param options The options parameters.
-   */
-  public createEntity<T extends object>(
-    tableName: string,
-    entity: TableEntity<T>,
-    options?: CreateTableEntityOptions
-  ): Promise<CreateTableEntityResponse> {
-    const { queryOptions, ...createTableEntity } = options || {};
-    return this.table.insertEntity(tableName, {
-      ...createTableEntity,
-      queryOptions: this.convertQueryOptions(queryOptions || {}),
-      tableEntityProperties: serialize(entity),
-      responsePreference: "return-no-content"
-    });
-  }
-
-  /**
-   * Deletes the specified entity in a table.
-   * @param tableName The name of the table.
-   * @param partitionKey The partition key of the entity.
-   * @param rowKey The row key of the entity.
-   * @param options The options parameters.
-   */
-  public deleteEntity(
-    tableName: string,
-    partitionKey: string,
-    rowKey: string,
-    options?: DeleteTableEntityOptions
-  ): Promise<DeleteTableEntityResponse> {
-    const { etag = "*", queryOptions, ...rest } = options || {};
-    const deleteOptions: TableDeleteEntityOptionalParams = {
-      ...rest,
-      queryOptions: this.convertQueryOptions(queryOptions || {})
-    };
-    return this.table.deleteEntity(tableName, partitionKey, rowKey, etag, deleteOptions);
-  }
-
-  /**
-   * Update an entity in a table.
-   * @param tableName The name of the table.
-   * @param entity The properties of the entity to be updated.
-   * @param mode The different modes for updating the entity:
-   *             - Merge: Updates an entity by updating the entity's properties without replacing the existing entity.
-   *             - Replace: Updates an existing entity by replacing the entire entity.
-   * @param options The options parameters.
-   */
-  public updateEntity<T extends object>(
-    tableName: string,
-    entity: TableEntity<T>,
-    mode: UpdateMode,
-    options?: UpdateTableEntityOptions
-  ): Promise<UpdateEntityResponse> {
-    if (!entity.PartitionKey || !entity.RowKey) {
-      throw new Error("PartitionKey and RowKey must be defined");
-    }
-
-    const { etag = "*", ...updateOptions } = options || {};
-    if (mode === "Merge") {
-      return this.table.mergeEntity(tableName, entity.PartitionKey, entity.RowKey, {
-        tableEntityProperties: entity,
-        ifMatch: etag,
-        ...updateOptions
-      });
-    }
-    if (mode === "Replace") {
-      return this.table.updateEntity(tableName, entity.PartitionKey, entity.RowKey, {
-        tableEntityProperties: entity,
-        ifMatch: etag,
-        ...updateOptions
-      });
-    }
-
-    throw new Error(`Unexpected value for update mode: ${mode}`);
-  }
-
-  /**
-   * Upsert an entity in a table.
-   * @param tableName The name of the table.
-   * @param entity The properties for the table entity.
-   * @param mode The different modes for updating the entity:
-   *             - Merge: Updates an entity by updating the entity's properties without replacing the existing entity.
-   *             - Replace: Updates an existing entity by replacing the entire entity.
-   * @param options The options parameters.
-   */
-  public upsertEntity<T extends object>(
-    tableName: string,
-    entity: TableEntity<T>,
-    mode: UpdateMode,
-    options?: UpsertTableEntityOptions
-  ): Promise<UpsertEntityResponse> {
-    if (!entity.PartitionKey || !entity.RowKey) {
-      throw new Error("PartitionKey and RowKey must be defined");
-    }
-
-    const { queryOptions, etag = "*", ...upsertOptions } = options || {};
-    if (mode === "Merge") {
-      return this.table.mergeEntity(tableName, entity.PartitionKey, entity.RowKey, {
-        tableEntityProperties: entity,
-        queryOptions: this.convertQueryOptions(queryOptions || {}),
-        ...upsertOptions
-      });
-    }
-
-    if (mode === "Replace") {
-      return this.table.updateEntity(tableName, entity.PartitionKey, entity.RowKey, {
-        tableEntityProperties: entity,
-        queryOptions: this.convertQueryOptions(queryOptions || {}),
-        ...upsertOptions
-      });
-    }
-    throw new Error(`Unexpected value for update mode: ${mode}`);
-  }
-
-  /**
    * Retrieves details about any stored access policies specified on the table that may be used with
    * Shared Access Signatures.
    * @param tableName The name of the table.
@@ -393,15 +205,6 @@ export class TableServiceClient {
     options?: SetAccessPolicyOptions
   ): Promise<SetAccessPolicyResponse> {
     return this.table.setAccessPolicy(tableName, options);
-  }
-
-  private convertQueryOptions(query: TableEntityQueryOptions): GeneratedQueryOptions {
-    const { select, ...queryOptions } = query;
-    const mappedQuery: GeneratedQueryOptions = { ...queryOptions };
-    if (select) {
-      mappedQuery.select = select.join(",");
-    }
-    return mappedQuery;
   }
 
   /**

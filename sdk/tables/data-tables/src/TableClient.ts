@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { TableServiceClient } from "./TableServiceClient";
 import {
   TableEntity,
   ListTableEntitiesOptions,
@@ -13,7 +12,8 @@ import {
   DeleteTableEntityOptions,
   GetTableEntityOptions,
   UpdateMode,
-  CreateTableEntityResponse
+  CreateTableEntityResponse,
+  TableEntityQueryOptions
 } from "./models";
 import {
   TableServiceClientOptions as TableClientOptions,
@@ -21,21 +21,22 @@ import {
   DeleteTableResponse,
   UpdateEntityResponse,
   UpsertEntityResponse,
-  GetAccessPolicyOptions,
-  GetAccessPolicyResponse,
-  SetAccessPolicyResponse,
-  SetAccessPolicyOptions,
   DeleteTableEntityResponse
 } from "./generatedModels";
+import { QueryOptions as GeneratedQueryOptions } from "./generated/models";
 import { getClientParamsFromConnectionString } from "./utils/connectionString";
 import { TablesSharedKeyCredential } from "./TablesSharedKeyCredential";
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { GeneratedClient, TableDeleteEntityOptionalParams } from "./generated";
+import { deserialize, deserializeObjectsArray, serialize } from "./serialization";
+import { Table } from "./generated/operations";
 
 /**
  * A TableClient represents a Client to the Azure Tables service allowing you
  * to perform operations on a single table.
  */
 export class TableClient {
-  private client: TableServiceClient;
+  private table: Table;
   /**
    * Name of the table to perform operations on.
    */
@@ -103,12 +104,23 @@ export class TableClient {
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options?: TableClientOptions
   ) {
-    if (credentialOrOptions instanceof TablesSharedKeyCredential) {
-      this.client = new TableServiceClient(url, credentialOrOptions, options);
-    } else {
-      this.client = new TableServiceClient(url, credentialOrOptions);
+    const credential =
+      credentialOrOptions instanceof TablesSharedKeyCredential ? credentialOrOptions : undefined;
+    const clientOptions =
+      (!(credentialOrOptions instanceof TablesSharedKeyCredential)
+        ? credentialOrOptions
+        : options) || {};
+
+    if (credential) {
+      clientOptions.requestPolicyFactories = (defaultFactories) => [
+        ...defaultFactories,
+        credential
+      ];
     }
+
     this.tableName = tableName;
+    const { table } = new GeneratedClient(url, clientOptions);
+    this.table = table;
   }
 
   /**
@@ -117,7 +129,7 @@ export class TableClient {
    */
   // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
   delete(options?: DeleteTableOptions): Promise<DeleteTableResponse> {
-    return this.client.deleteTable(this.tableName, options);
+    return this.table.delete(this.tableName, options);
   }
 
   /**
@@ -126,23 +138,121 @@ export class TableClient {
    * @param rowKey The row key of the entity.
    * @param options The options parameters.
    */
-  public getEntity<T extends object>(
+  public async getEntity<T extends object>(
     partitionKey: string,
     rowKey: string,
     options?: GetTableEntityOptions
   ): Promise<GetTableEntityResponse<T>> {
-    return this.client.getEntity<T>(this.tableName, partitionKey, rowKey, options);
+    const { queryOptions, ...getEntityOptions } = options || {};
+    const { _response } = await this.table.queryEntitiesWithPartitionAndRowKey(
+      this.tableName,
+      partitionKey,
+      rowKey,
+      { ...getEntityOptions, queryOptions: this.convertQueryOptions(queryOptions || {}) }
+    );
+    const tableEntity = deserialize<TableEntity<T>>(_response.parsedBody);
+    return { ...tableEntity, _response };
   }
 
   /**
-   * Queries entities in the table.
-   * @param query The OData query parameters.
+   * Queries entities in a table.
+   * @param tableName The name of the table.
    * @param options The options parameters.
    */
-  public listEntities<T extends object>(
+  public async listEntities<T extends object>(
+    options?: ListTableEntitiesOptions
+  ): Promise<PagedAsyncIterableIterator<T, ListEntitiesResponse<T>>> {
+    const page = await this._listEntities<T>(this.tableName, options);
+
+    return this.listEntitiesResults<T>(page, this.tableName, options);
+  }
+
+  private listEntitiesResults<T extends object>(
+    firstPage: ListEntitiesResponse<T>,
+    tableName: string,
+    options?: ListTableEntitiesOptions
+  ): PagedAsyncIterableIterator<T, ListEntitiesResponse<T>> {
+    const iter = this.listEntitiesAll<T>(firstPage, tableName, options);
+
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings) => {
+        const pageOptions = {
+          ...options,
+          queryOptions: { ...options?.queryOptions, top: settings?.maxPageSize }
+        };
+        return this.listEntitiesPage(tableName, pageOptions);
+      }
+    };
+  }
+
+  private async *listEntitiesAll<T extends object>(
+    firstPage: ListEntitiesResponse<T>,
+    tableName: string,
+    options?: ListTableEntitiesOptions
+  ): AsyncIterableIterator<T> {
+    const { nextPartitionKey, nextRowKey } = firstPage;
+    yield* firstPage;
+    if (nextRowKey && nextPartitionKey) {
+      const optionsWithContinuation: ListTableEntitiesOptions = {
+        ...options,
+        nextPartitionKey,
+        nextRowKey
+      };
+      for await (const page of this.listEntitiesPage<T>(tableName, optionsWithContinuation)) {
+        yield* page;
+      }
+    }
+  }
+
+  private async *listEntitiesPage<T extends object>(
+    tableName: string,
+    options?: ListTableEntitiesOptions & {
+      queryOptions?: TableEntityQueryOptions & { top?: number };
+    }
+  ): AsyncIterableIterator<ListEntitiesResponse<T>> {
+    let result = await this._listEntities<T>(tableName, options);
+
+    yield result;
+
+    while (result.nextPartitionKey && result.nextRowKey) {
+      const optionsWithContinuation: ListTableEntitiesOptions = {
+        ...options,
+        nextPartitionKey: result.nextPartitionKey,
+        nextRowKey: result.nextRowKey
+      };
+      result = await this._listEntities(tableName, optionsWithContinuation);
+      yield result;
+    }
+  }
+
+  private async _listEntities<T extends object>(
+    tableName: string,
     options?: ListTableEntitiesOptions
   ): Promise<ListEntitiesResponse<T>> {
-    return this.client.listEntities<T>(this.tableName, options);
+    const queryOptions = this.convertQueryOptions(options?.queryOptions || {});
+    const {
+      xMsContinuationNextPartitionKey: nextPartitionKey,
+      xMsContinuationNextRowKey: nextRowKey,
+      value,
+      _response
+    } = await this.table.queryEntities(tableName, {
+      ...options,
+      queryOptions
+    });
+
+    const tableEntities = deserializeObjectsArray<TableEntity<T>>(value || []);
+
+    return Object.assign([...tableEntities], {
+      _response,
+      nextPartitionKey,
+      nextRowKey
+    });
   }
 
   /**
@@ -150,11 +260,19 @@ export class TableClient {
    * @param entity The properties for the table entity.
    * @param options The options parameters.
    */
-  public createEntity<T extends object>(
+  public async createEntity<T extends object>(
     entity: TableEntity<T>,
     options?: CreateTableEntityOptions
   ): Promise<CreateTableEntityResponse> {
-    return this.client.createEntity(this.tableName, entity, options);
+    const { queryOptions, ...createTableEntity } = options || {};
+    const { _response } = await this.table.insertEntity(this.tableName, {
+      ...createTableEntity,
+      queryOptions: this.convertQueryOptions(queryOptions || {}),
+      tableEntityProperties: serialize(entity),
+      responsePreference: "return-no-content"
+    });
+
+    return { _response };
   }
 
   /**
@@ -163,12 +281,17 @@ export class TableClient {
    * @param rowKey The row key of the entity.
    * @param options The options parameters.
    */
-  public deleteEntity(
+  public async deleteEntity(
     partitionKey: string,
     rowKey: string,
     options?: DeleteTableEntityOptions
   ): Promise<DeleteTableEntityResponse> {
-    return this.client.deleteEntity(this.tableName, partitionKey, rowKey, options);
+    const { etag = "*", queryOptions, ...rest } = options || {};
+    const deleteOptions: TableDeleteEntityOptionalParams = {
+      ...rest,
+      queryOptions: this.convertQueryOptions(queryOptions || {})
+    };
+    return this.table.deleteEntity(this.tableName, partitionKey, rowKey, etag, deleteOptions);
   }
 
   /**
@@ -184,7 +307,27 @@ export class TableClient {
     mode: UpdateMode,
     options?: UpdateTableEntityOptions
   ): Promise<UpdateEntityResponse> {
-    return this.client.updateEntity(this.tableName, entity, mode, options);
+    if (!entity.PartitionKey || !entity.RowKey) {
+      throw new Error("PartitionKey and RowKey must be defined");
+    }
+
+    const { etag = "*", ...updateOptions } = options || {};
+    if (mode === "Merge") {
+      return this.table.mergeEntity(this.tableName, entity.PartitionKey, entity.RowKey, {
+        tableEntityProperties: serialize(entity),
+        ifMatch: etag,
+        ...updateOptions
+      });
+    }
+    if (mode === "Replace") {
+      return this.table.updateEntity(this.tableName, entity.PartitionKey, entity.RowKey, {
+        tableEntityProperties: serialize(entity),
+        ifMatch: etag,
+        ...updateOptions
+      });
+    }
+
+    throw new Error(`Unexpected value for update mode: ${mode}`);
   }
 
   /**
@@ -201,25 +344,36 @@ export class TableClient {
     mode: UpdateMode,
     options?: UpsertTableEntityOptions
   ): Promise<UpsertEntityResponse> {
-    return this.client.upsertEntity(this.tableName, entity, mode, options);
+    if (!entity.PartitionKey || !entity.RowKey) {
+      throw new Error("PartitionKey and RowKey must be defined");
+    }
+
+    const { queryOptions, etag = "*", ...upsertOptions } = options || {};
+    if (mode === "Merge") {
+      return this.table.mergeEntity(this.tableName, entity.PartitionKey, entity.RowKey, {
+        tableEntityProperties: serialize(entity),
+        queryOptions: this.convertQueryOptions(queryOptions || {}),
+        ...upsertOptions
+      });
+    }
+
+    if (mode === "Replace") {
+      return this.table.updateEntity(this.tableName, entity.PartitionKey, entity.RowKey, {
+        tableEntityProperties: serialize(entity),
+        queryOptions: this.convertQueryOptions(queryOptions || {}),
+        ...upsertOptions
+      });
+    }
+    throw new Error(`Unexpected value for update mode: ${mode}`);
   }
 
-  /**
-   * Retrieves details about any stored access policies specified on the table that may be used with
-   * Shared Access Signatures.
-   * @param options The options parameters.
-   */
-  public getAccessPolicy(options?: GetAccessPolicyOptions): Promise<GetAccessPolicyResponse> {
-    return this.client.getAccessPolicy(this.tableName, options);
-  }
-
-  /**
-   * Sets stored access policies for the table that may be used with Shared Access Signatures.
-   * @param acl The Access Control List for the table.
-   * @param options The options parameters.
-   */
-  public setAccessPolicy(options?: SetAccessPolicyOptions): Promise<SetAccessPolicyResponse> {
-    return this.client.setAccessPolicy(this.tableName, options);
+  private convertQueryOptions(query: TableEntityQueryOptions): GeneratedQueryOptions {
+    const { select, ...queryOptions } = query;
+    const mappedQuery: GeneratedQueryOptions = { ...queryOptions };
+    if (select) {
+      mappedQuery.select = select.join(",");
+    }
+    return mappedQuery;
   }
 
   /**
