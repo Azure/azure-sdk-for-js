@@ -2197,7 +2197,7 @@ export class BlobClient extends StorageClient {
         const pathComponents = parsedUrl.getPath()!.match("/([^/]*)(/(.*))?");
         containerName = pathComponents![1];
         blobName = pathComponents![3];
-      } else if (isIpEndpointStyle(parsedUrl.getHost()! + (parsedUrl.getPort() == undefined ? '' : ':' + parsedUrl.getPort()))) {
+      } else if (isIpEndpointStyle(parsedUrl)) {
         // IPv4/IPv6 address hosts... Example - http://192.0.0.10:10001/devstoreaccount1/containername/blob
         // Single word domain without a [dot] in the endpoint... Example - http://localhost:10001/devstoreaccount1/containername/blob
         // .getPath() -> /devstoreaccount1/containername/blob
