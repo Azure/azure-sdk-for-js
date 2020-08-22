@@ -9,4 +9,8 @@
  */
 
 export * from "./vaults";
+export * from "./privateEndpointConnections";
+export * from "./privateLinkResources";
 export * from "./operations";
+export * from "./secrets";
+export * from "./managedHsms";

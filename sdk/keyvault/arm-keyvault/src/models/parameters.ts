@@ -64,6 +64,29 @@ export const location: msRest.OperationURLParameter = {
     }
   }
 };
+export const name0: msRest.OperationURLParameter = {
+  parameterPath: "name",
+  mapper: {
+    required: true,
+    serializedName: "name",
+    constraints: {
+      Pattern: /^[a-zA-Z0-9]{3,24}$/
+    },
+    type: {
+      name: "String"
+    }
+  }
+};
+export const name1: msRest.OperationURLParameter = {
+  parameterPath: "name",
+  mapper: {
+    required: true,
+    serializedName: "name",
+    type: {
+      name: "String"
+    }
+  }
+};
 export const nextPageLink: msRest.OperationURLParameter = {
   parameterPath: "nextPageLink",
   mapper: {
@@ -90,11 +113,44 @@ export const operationKind: msRest.OperationURLParameter = {
     }
   }
 };
+export const privateEndpointConnectionName: msRest.OperationURLParameter = {
+  parameterPath: "privateEndpointConnectionName",
+  mapper: {
+    required: true,
+    serializedName: "privateEndpointConnectionName",
+    type: {
+      name: "String"
+    }
+  }
+};
 export const resourceGroupName: msRest.OperationURLParameter = {
   parameterPath: "resourceGroupName",
   mapper: {
     required: true,
     serializedName: "resourceGroupName",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const secretName0: msRest.OperationURLParameter = {
+  parameterPath: "secretName",
+  mapper: {
+    required: true,
+    serializedName: "secretName",
+    constraints: {
+      Pattern: /^[a-zA-Z0-9-]{1,127}$/
+    },
+    type: {
+      name: "String"
+    }
+  }
+};
+export const secretName1: msRest.OperationURLParameter = {
+  parameterPath: "secretName",
+  mapper: {
+    required: true,
+    serializedName: "secretName",
     type: {
       name: "String"
     }
