@@ -26,9 +26,7 @@ import { WebSocketOptions } from '@azure/core-amqp';
 export type AuthorizationRule = {
     claimType: string;
     claimValue: string;
-    rights: {
-        accessRights?: string[];
-    };
+    accessRights?: ("Manage" | "Send" | "Listen")[];
     keyName: string;
     primaryKey?: string;
     secondaryKey?: string;
