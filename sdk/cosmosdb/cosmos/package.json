@@ -64,7 +64,7 @@
     "integration-test:node": "mocha -r test/mocha.env.ts -r ts-node/register -r esm -r dotenv/config -r ./test/common/setup.ts \"./test/**/*.spec.ts\" --timeout 100000",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "lint:fix": "eslint package.json src test samples --ext .ts --fix --fix-type [problem,suggestion]",
-    "lint": "eslint package.json src test samples --ext .ts -f html -o cosmos-lintReport.html || exit 0",
+    "lint": "eslint package.json src test samples --ext .ts",
     "pack": "npm pack 2>&1",
     "prebuild": "npm run clean",
     "test:browser": "npm run unit-test:browser && npm run integration-test:browser",
