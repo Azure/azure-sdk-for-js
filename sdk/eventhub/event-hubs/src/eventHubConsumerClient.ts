@@ -410,6 +410,17 @@ export class EventHubConsumerClient {
    * partitions such that the load is balanced amongst them.
    *
    * Call close() on the returned object to stop receiving events.
+   * 
+   * Example usage:
+   * ```ts
+   * const client = new EventHubConsumerClient(consumerGroup, connectionString, eventHubName);
+   * const subscription = client.subscribe(
+   *  {
+   *    processEvents: (events, context) => { console.log("Received event count: ", events.length) },
+   *    processError: (err, context) => { console.log("Error: ", err) }
+   *  },
+   *  { startPosition: earliestEventPosition }
+   * ```
    *
    * @param handlers Handlers for the lifecycle of the subscription - subscription initialization
    *                 per partition, receiving events, handling errors and the closing
@@ -423,6 +434,18 @@ export class EventHubConsumerClient {
   /**
    * Subscribe to events from a single partition.
    * Call close() on the returned object to stop receiving events.
+   * 
+   * Example usage:
+   * ```ts
+   * const client = new EventHubConsumerClient(consumerGroup, connectionString, eventHubName);
+   * const subscription = client.subscribe(
+   *  partitionId, 
+   *  {
+   *    processEvents: (events, context) => { console.log("Received event count: ", events.length) },
+   *    processError: (err, context) => { console.log("Error: ", err) }
+   *  },
+   *  { startPosition: earliestEventPosition }
+   * ```
    *
    * @param partitionId The id of the partition to subscribe to.
    * @param handlers Handlers for the lifecycle of the subscription - subscription initialization
