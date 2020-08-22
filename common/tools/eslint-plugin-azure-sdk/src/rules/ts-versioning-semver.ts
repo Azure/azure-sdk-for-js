@@ -42,29 +42,64 @@ export = {
             const version = nodeValue.value as string;
 
             // check for violations specific to semver
-            if (!/^((0|[1-9](\d*))\.){2}(0|[1-9](\d*))(-|$)/.test(version)) {
+            const versionMatch = version.match(/^(0|[1-9]\d*)\.(?:0|[1-9]\d*)\.(?:0|[1-9]\d*)(?:-(.+)|$)/);
+            if (versionMatch === null) {
               context.report({
                 node: nodeValue,
                 message: "version is not in semver"
               });
               return;
             }
-            // check that if preview is in proper syntax if provided
-            if (
-              !/^((0|[1-9](\d*))\.){2}(0|[1-9](\d*))(-preview\.(0|([1-9](\d*))))?$/.test(version)
-            ) {
-              context.report({
-                node: nodeValue,
-                message: "preview format is not x.y.z-preview.i"
-              });
-            }
 
-            // check if major version is 0
-            if (/^0\./.test(version)) {
+            const majorVersionNumber = versionMatch[1];
+            if (majorVersionNumber === "0") {
               context.report({
                 node: nodeValue,
                 message: "major version should not be set to 0"
               });
+            }
+            
+            // check that if preview or dev is in proper syntax if provided
+            const secondPart = versionMatch[2];
+            if (secondPart === undefined) {
+              return;
+            }
+            const devOrPreviewVer = secondPart.match(/^(dev|preview)(.*)/);
+            if (devOrPreviewVer === null) {
+              context.report({
+                node: nodeValue,
+                message: `unrecognized version syntax: ${secondPart}`
+              });
+              return;
+            }
+
+            const devOrPreviewVerKeyword = devOrPreviewVer[1];
+            const devOrPreviewVerNumber = devOrPreviewVer[2];
+            switch(devOrPreviewVerKeyword) {
+              case 'preview':
+                if (!/^\.(:?0|(?:[1-9]\d*))$/.test(devOrPreviewVerNumber)) {
+                  context.report({
+                    node: nodeValue,
+                    message: "preview format is not x.y.z-preview.i"
+                  });
+                  return;
+                }
+                break;
+              case 'dev':
+                if (!/^\.[2-9]\d\d\d[0-1]\d[0-3]\d\.(:?0|(?:[1-9]\d*))$/.test(devOrPreviewVerNumber)) {
+                  context.report({
+                    node: nodeValue,
+                    message: "dev format is not x.y.z-dev.<date>.i"
+                  });
+                  return;
+                }
+                break;
+                default:
+                  context.report({
+                    node: nodeValue,
+                    message: "impossible"
+                  });
+                  return;
             }
           }
         } as Rule.RuleListener)

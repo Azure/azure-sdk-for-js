@@ -38,7 +38,9 @@ export interface CorrelationRuleFilter {
     correlationId?: string;
     label?: string;
     messageId?: string;
-    properties?: any;
+    properties?: {
+        [key: string]: "string" | "number" | "boolean";
+    };
     replyTo?: string;
     replyToSessionId?: string;
     sessionId?: string;
