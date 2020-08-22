@@ -514,7 +514,7 @@
     },
     {
       "packageName": "@azure/data-tables",
-      "projectFolder": "sdk/tables/azure-data-tables",
+      "projectFolder": "sdk/tables/data-tables",
       "versionPolicyName": "client"
     },
     {

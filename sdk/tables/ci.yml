@@ -26,7 +26,7 @@ extends:
   parameters:
     ServiceDirectory: tables
     Artifacts:
-      - name: azure-data-tables
+      - name: data-tables
         safeName: azuretables
         options:
           skipPublishDevFeed: true

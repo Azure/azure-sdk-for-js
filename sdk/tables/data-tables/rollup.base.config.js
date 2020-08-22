@@ -50,7 +50,7 @@ export function browserConfig() {
     input: input,
     external: ["fs-extra", "nock", "path"],
     output: {
-      file: "dist-browser/azure-data-tables.js",
+      file: "dist-browser/data-tables.js",
       format: "umd",
       name: "Azure.Tables",
       sourcemap: true
