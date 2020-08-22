@@ -516,7 +516,8 @@ export class FormRecognizerClient {
    * const readStream = fs.createReadStream(path);
    *
    * const client = new FormRecognizerClient(endpoint, new AzureKeyCredential(apiKey));
-   * const poller = await client.beginRecognizeReceipts(readStream, "image/jpeg", {
+   * const poller = await client.beginRecognizeReceipts(readStream, {
+   *   contentType: "image/jpeg",
    *   onProgress: (state) => { console.log(`status: ${state.status}`); }
    * });
    *
