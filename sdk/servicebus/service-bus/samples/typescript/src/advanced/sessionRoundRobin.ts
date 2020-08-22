@@ -80,10 +80,10 @@ function createRefreshableTimer(timeoutMs: number, resolve: Function): () => voi
 
 // Queries Service Bus for the next available session and processes it.
 async function receiveFromNextSession(serviceBusClient: ServiceBusClient): Promise<void> {
-  let serviceBusSessionReceiver: ServiceBusSessionReceiver<ReceivedMessageWithLock>;
+  let sessionReceiver: ServiceBusSessionReceiver<ReceivedMessageWithLock>;
 
   try {
-    serviceBusSessionReceiver = await serviceBusClient.createSessionReceiver(queueName, {
+    sessionReceiver = await serviceBusClient.createSessionReceiver(queueName, {
       maxAutoRenewLockDurationInMs: sessionIdleTimeoutMs
     });
   } catch (err) {
@@ -100,13 +100,13 @@ async function receiveFromNextSession(serviceBusClient: ServiceBusClient): Promi
     return;
   }
 
-  await sessionAccepted(serviceBusSessionReceiver.sessionId);
+  await sessionAccepted(sessionReceiver.sessionId);
 
   const sessionFullyRead = new Promise((resolveSessionAsFullyRead, rejectSessionWithError) => {
     const refreshTimer = createRefreshableTimer(sessionIdleTimeoutMs, resolveSessionAsFullyRead);
     refreshTimer();
 
-    serviceBusSessionReceiver.subscribe(
+    sessionReceiver.subscribe(
       {
         async processMessage(msg) {
           refreshTimer();
@@ -124,12 +124,12 @@ async function receiveFromNextSession(serviceBusClient: ServiceBusClient): Promi
 
   try {
     await sessionFullyRead;
-    await sessionClosed("idle_timeout", serviceBusSessionReceiver.sessionId);
+    await sessionClosed("idle_timeout", sessionReceiver.sessionId);
   } catch (err) {
-    await processError(err, serviceBusSessionReceiver.sessionId);
-    await sessionClosed("error", serviceBusSessionReceiver.sessionId);
+    await processError(err, sessionReceiver.sessionId);
+    await sessionClosed("error", sessionReceiver.sessionId);
   } finally {
-    await serviceBusSessionReceiver.close();
+    await sessionReceiver.close();
   }
 }
 
