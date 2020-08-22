@@ -30,16 +30,16 @@ module.exports = function(config) {
       "karma-env-preprocessor",
       "karma-coverage",
       "karma-remap-istanbul",
-      "karma-sourcemap-loader",
       "karma-junit-reporter",
       "karma-json-to-file-reporter",
       "karma-json-preprocessor"
     ],
 
     // list of files / patterns to load in the browser
-    files: ["test-browser/index.browser.js"].concat(
-      isPlaybackMode() || isSoftRecordMode() ? ["recordings/browsers/**/*.json"] : []
-    ),
+    files: [
+      "test-browser/index.js",
+      { pattern: "test-browser/index.js.map", type: "html", included: false, served: true }
+    ].concat(isPlaybackMode() || isSoftRecordMode() ? ["recordings/browsers/**/*.json"] : []),
 
     // list of files / patterns to exclude
     exclude: [],
@@ -47,11 +47,11 @@ module.exports = function(config) {
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
-      "**/*.js": ["env", "sourcemap"],
+      "**/*.js": ["env"],
       "recordings/browsers/**/*.json": ["json"],
       // IMPORTANT: COMMENT following line if you want to debug in your browsers!!
       // Preprocess source file to calculate code coverage, however this will make source file unreadable
-      "dist-test/index.browser.js": ["coverage"]
+      "test-browser/index.js": ["coverage"]
     },
 
     envPreprocessor: [

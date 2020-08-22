@@ -125,32 +125,9 @@ export class Accounts {
    * @param [options] The optional parameters
    * @returns Promise<Models.AccountsUpdateResponse>
    */
-  update(body: Models.NetAppAccountPatch, resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase): Promise<Models.AccountsUpdateResponse>;
-  /**
-   * @param body NetApp Account object supplied in the body of the operation.
-   * @param resourceGroupName The name of the resource group.
-   * @param accountName The name of the NetApp account
-   * @param callback The callback
-   */
-  update(body: Models.NetAppAccountPatch, resourceGroupName: string, accountName: string, callback: msRest.ServiceCallback<Models.NetAppAccount>): void;
-  /**
-   * @param body NetApp Account object supplied in the body of the operation.
-   * @param resourceGroupName The name of the resource group.
-   * @param accountName The name of the NetApp account
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  update(body: Models.NetAppAccountPatch, resourceGroupName: string, accountName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.NetAppAccount>): void;
-  update(body: Models.NetAppAccountPatch, resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.NetAppAccount>, callback?: msRest.ServiceCallback<Models.NetAppAccount>): Promise<Models.AccountsUpdateResponse> {
-    return this.client.sendOperationRequest(
-      {
-        body,
-        resourceGroupName,
-        accountName,
-        options
-      },
-      updateOperationSpec,
-      callback) as Promise<Models.AccountsUpdateResponse>;
+  update(body: Models.NetAppAccountPatch, resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase): Promise<Models.AccountsUpdateResponse> {
+    return this.beginUpdate(body,resourceGroupName,accountName,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.AccountsUpdateResponse>;
   }
 
   /**
@@ -190,6 +167,27 @@ export class Accounts {
         options
       },
       beginDeleteMethodOperationSpec,
+      options);
+  }
+
+  /**
+   * Patch the specified NetApp account
+   * @summary Update a NetApp account
+   * @param body NetApp Account object supplied in the body of the operation.
+   * @param resourceGroupName The name of the resource group.
+   * @param accountName The name of the NetApp account
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginUpdate(body: Models.NetAppAccountPatch, resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        body,
+        resourceGroupName,
+        accountName,
+        options
+      },
+      beginUpdateOperationSpec,
       options);
   }
 }
@@ -238,39 +236,6 @@ const getOperationSpec: msRest.OperationSpec = {
     200: {
       bodyMapper: Mappers.NetAppAccount
     },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  serializer
-};
-
-const updateOperationSpec: msRest.OperationSpec = {
-  httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.accountName
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  requestBody: {
-    parameterPath: "body",
-    mapper: {
-      ...Mappers.NetAppAccountPatch,
-      required: true
-    }
-  },
-  responses: {
-    200: {
-      bodyMapper: Mappers.NetAppAccount
-    },
-    202: {},
     default: {
       bodyMapper: Mappers.CloudError
     }
@@ -331,6 +296,42 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   responses: {
     202: {},
     204: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const beginUpdateOperationSpec: msRest.OperationSpec = {
+  httpMethod: "PATCH",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "body",
+    mapper: {
+      ...Mappers.NetAppAccountPatch,
+      required: true
+    }
+  },
+  responses: {
+    200: {
+      bodyMapper: Mappers.NetAppAccount
+    },
+    201: {
+      bodyMapper: Mappers.NetAppAccount
+    },
+    202: {},
     default: {
       bodyMapper: Mappers.CloudError
     }

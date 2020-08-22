@@ -689,9 +689,7 @@ const exportLuFormatOperationSpec: msRest.OperationSpec = {
         }
       }
     },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
+    default: {}
   },
   serializer
 };

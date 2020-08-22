@@ -4,14 +4,14 @@
 
   **NOTE**: This sample uses the preview of the next version of the @azure/service-bus package.
   For samples using the current stable version of the package, please use the link below:
-  https://github.com/Azure/azure-sdk-for-js/tree/%40azure/service-bus_1.1.5/sdk/servicebus/service-bus/samples
+  https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/servicebus/service-bus/samples-v1
   
   This sample demonstrates how to send/receive messages to/from session enabled queues/subscriptions
   in Service Bus.
 
   Setup: To run this sample, you would need session enabled Queue/Subscription.
 
-  See https://docs.microsoft.com/en-us/azure/service-bus-messaging/message-sessions to learn about
+  See https://docs.microsoft.com/azure/service-bus-messaging/message-sessions to learn about
   sessions in Service Bus.
 */
 
@@ -64,7 +64,7 @@ export async function main() {
 
 async function sendMessage(sbClient: ServiceBusClient, scientist: any, sessionId: string) {
   // createSender() also works with topics
-  const sender = await sbClient.createSender(queueName);
+  const sender = sbClient.createSender(queueName);
 
   const message = {
     body: `${scientist.firstName} ${scientist.lastName}`,
@@ -73,14 +73,14 @@ async function sendMessage(sbClient: ServiceBusClient, scientist: any, sessionId
   };
 
   console.log(`Sending message: "${message.body}" to "${sessionId}"`);
-  await sender.send(message);
+  await sender.sendMessages(message);
 
   await sender.close();
 }
 
 async function receiveMessages(sbClient: ServiceBusClient, sessionId: string) {
   // If receiving from a subscription you can use the createSessionReceiver(topic, subscription) overload
-  const receiver = await sbClient.createSessionReceiver(queueName, "peekLock", {
+  const receiver = await sbClient.createSessionReceiver(queueName, {
     sessionId: sessionId
   });
 

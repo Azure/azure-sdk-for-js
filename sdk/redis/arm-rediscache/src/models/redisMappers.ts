@@ -18,6 +18,7 @@ export {
   RedisCreateParameters,
   RedisFirewallRule,
   RedisForceRebootResponse,
+  RedisInstanceDetails,
   RedisLinkedServer,
   RedisLinkedServerWithProperties,
   RedisListResult,

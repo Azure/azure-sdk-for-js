@@ -257,18 +257,19 @@ async function main() {
   // In this sample, we use the position of earliest available event to start from
   // Other common options to configure would be `maxBatchSize` and `maxWaitTimeInSeconds`
   const subscriptionOptions = {
-    startPosition: earliestEventPosition,
+    startPosition: earliestEventPosition
   };
 
-  const subscription = client.subscribe({
-    processEvents: (events, context) => {
-      // event processing code goes here
+  const subscription = client.subscribe(
+    {
+      processEvents: (events, context) => {
+        // event processing code goes here
+      },
+      processError: (err, context) => {
+        // error reporting/handling code here
+      }
     },
-    processError: (err, context) => {
-      // error reporting/handling code here
-    }
-  },
-  subscriptionOptions
+    subscriptionOptions
   );
 
   // Wait for a few seconds to receive events before closing
@@ -316,8 +317,8 @@ async function main() {
   );
 
   const subscription = consumerClient.subscribe({
-    processEvents: (events, context) => {
-      // event processing code goes here 
+    processEvents: async (events, context) => {
+      // event processing code goes here
 
       // Mark the last event in the batch as processed, so that when the program is restarted
       // or when the partition is picked up by another process, it can start from the next event
@@ -331,7 +332,7 @@ async function main() {
   // Wait for a few seconds to receive events before closing
   setTimeout(async () => {
     await subscription.close();
-    await client.close();
+    await consumerClient.close();
     console.log(`Exiting sample`);
   }, 3 * 1000);
 }
@@ -353,7 +354,7 @@ The `subscribe` method takes callbacks to process events as they are received fr
 To stop receiving events, you can call `close()` on the object returned by the `subscribe()` method.
 
 ```javascript
-const { EventHubConsumerClient } = require("@azure/event-hubs");
+const { EventHubConsumerClient, earliestEventPosition } = require("@azure/event-hubs");
 
 async function main() {
   const client = new EventHubConsumerClient(
@@ -366,18 +367,20 @@ async function main() {
   // In this sample, we use the position of earliest available event to start from
   // Other common options to configure would be `maxBatchSize` and `maxWaitTimeInSeconds`
   const subscriptionOptions = {
-    startPosition: earliestEventPosition,
+    startPosition: earliestEventPosition
   };
 
-  const subscription = client.subscribe(partitionIds[0], {
-    processEvents: (events, context) => {
-      // event processing code goes here
+  const subscription = client.subscribe(
+    partitionIds[0],
+    {
+      processEvents: (events, context) => {
+        // event processing code goes here
+      },
+      processError: (err, context) => {
+        // error reporting/handling code here
+      }
     },
-    processError: (err, context) => {
-      // error reporting/handling code here
-    }
-  },
-  subscriptionOptions
+    subscriptionOptions
   );
 
   // Wait for a few seconds to receive events before closing
@@ -399,7 +402,7 @@ hence sending events is not possible.
 
 - Please notice that the connection string needs to be for an
   [Event Hub-compatible endpoint](https://docs.microsoft.com/en-us/azure/iot-hub/iot-hub-devguide-messages-read-builtin)
-  e.g. "Endpoint=sb://my-iothub-namespace-[uid].servicebus.windows.net/;SharedAccessKeyName=my-SA-name;SharedAccessKey=my-SA-key;EntityPath=my-iot-hub-name"
+  (e.g. "Endpoint=sb://my-iothub-namespace-[uid].servicebus.windows.net/;SharedAccessKeyName=my-SA-name;SharedAccessKey=my-SA-key;EntityPath=my-iot-hub-name")
 
 ```javascript
 const { EventHubConsumerClient } = require("@azure/event-hubs");

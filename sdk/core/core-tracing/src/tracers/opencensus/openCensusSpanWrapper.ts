@@ -1,5 +1,6 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { SpanContext, Span, SpanOptions, Attributes, Status, TraceFlags } from "@opentelemetry/api";
 import { OpenCensusTraceStateWrapper } from "./openCensusTraceStateWrapper";
 import { OpenCensusTracerWrapper } from "./openCensusTracerWrapper";
@@ -24,7 +25,7 @@ export class OpenCensusSpanWrapper implements Span {
   /**
    * The underlying OpenCensus Span
    */
-  public getWrappedSpan() {
+  public getWrappedSpan(): OpenCensusSpan {
     return this._span;
   }
 

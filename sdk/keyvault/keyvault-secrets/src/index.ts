@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 /* eslint @typescript-eslint/member-ordering: 0 */
+/// <reference lib="esnext.asynciterable" />
 
 import {
   TokenCredential,
@@ -31,10 +32,10 @@ import {
   GetDeletedSecretResponse,
   BackupSecretResponse,
   RestoreSecretResponse
-} from "./core/models";
-import { KeyVaultClient } from "./core/keyVaultClient";
-import { SDK_VERSION } from "./core/utils/constants";
-import { challengeBasedAuthenticationPolicy } from "./core/challengeBasedAuthenticationPolicy";
+} from "./generated/models";
+import { KeyVaultClient } from "./generated/keyVaultClient";
+import { SDK_VERSION } from "./generated/utils/constants";
+import { challengeBasedAuthenticationPolicy } from "../../keyvault-common/src";
 
 import { DeleteSecretPoller } from "./lro/delete/poller";
 import { RecoverDeletedSecretPoller } from "./lro/recover/poller";
@@ -62,7 +63,11 @@ import {
   SecretClientOptions,
   LATEST_API_VERSION
 } from "./secretsModels";
-import { parseKeyvaultIdentifier as parseKeyvaultEntityIdentifier } from "./core/utils";
+import {
+  parseKeyVaultSecretsIdentifier,
+  ParsedKeyVaultSecretsIdentifier,
+  KeyVaultSecretsIdentifierCollectionName
+} from "./identifier";
 
 export {
   SecretClientOptions,
@@ -79,9 +84,12 @@ export {
   ListDeletedSecretsOptions,
   PagedAsyncIterableIterator,
   PageSettings,
+  ParsedKeyVaultSecretsIdentifier,
+  KeyVaultSecretsIdentifierCollectionName,
   PollerLike,
   PollOperationState,
   KeyVaultSecret,
+  parseKeyVaultSecretsIdentifier,
   SecretProperties,
   SecretPollerOptions,
   BeginDeleteSecretOptions,
@@ -183,8 +191,7 @@ export class SecretClient {
 
     const pipeline = createPipelineFromOptions(internalPipelineOptions, authPolicy);
     this.client = new KeyVaultClient(
-      credential,
-      pipelineOptions.apiVersion || LATEST_API_VERSION,
+      pipelineOptions.serviceVersion || LATEST_API_VERSION,
       pipeline
     );
   }
@@ -945,7 +952,7 @@ export class SecretClient {
   private getSecretFromSecretBundle(bundle: SecretBundle | DeletedSecretBundle): KeyVaultSecret {
     const secretBundle = bundle as SecretBundle;
     const deletedSecretBundle = bundle as DeletedSecretBundle;
-    const parsedId = parseKeyvaultEntityIdentifier("secrets", secretBundle.id);
+    const parsedId = parseKeyVaultSecretsIdentifier(secretBundle.id!);
 
     const attributes = secretBundle.attributes;
     delete secretBundle.attributes;
@@ -954,7 +961,6 @@ export class SecretClient {
       value: secretBundle.value,
       name: parsedId.name,
       properties: {
-        vaultUrl: parsedId.vaultUrl,
         expiresOn: (attributes as any).expires,
         createdOn: (attributes as any).created,
         updatedOn: (attributes as any).updated,

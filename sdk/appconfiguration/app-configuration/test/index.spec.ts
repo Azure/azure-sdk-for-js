@@ -13,7 +13,7 @@ import {
 } from "./testHelpers";
 import { AppConfigurationClient, ConfigurationSetting } from "../src";
 import { delay } from "@azure/core-http";
-import { Recorder, isPlaybackMode } from "@azure/test-utils-recorder";
+import { Recorder } from "@azure/test-utils-recorder";
 
 describe("AppConfigurationClient", () => {
   let client: AppConfigurationClient;
@@ -24,8 +24,8 @@ describe("AppConfigurationClient", () => {
     client = createAppConfigurationClientForTests() || this.skip();
   });
 
-  afterEach(function() {
-    recorder.stop();
+  afterEach(async function() {
+    await recorder.stop();
   });
 
   describe("simple usages", () => {
@@ -210,7 +210,7 @@ describe("AppConfigurationClient", () => {
       );
 
       // delete configuration
-      const deletedSetting = await client.deleteConfigurationSetting(
+      await client.deleteConfigurationSetting(
         {
           key,
           label
@@ -401,7 +401,7 @@ describe("AppConfigurationClient", () => {
         car: "caz"
       };
       const contentType = "application/json";
-      const result = await client.addConfigurationSetting({ key, label, value, contentType, tags });
+      await client.addConfigurationSetting({ key, label, value, contentType, tags });
       await assertThrowsAbortError(async () => {
         await client.getConfigurationSetting({ key, label }, { requestOptions: { timeout: 1 } });
       });
@@ -491,7 +491,7 @@ describe("AppConfigurationClient", () => {
     });
 
     it("undefined doesn't throw and will just return everything", async () => {
-      const settingsIterator = await client.listConfigurationSettings();
+      const settingsIterator = client.listConfigurationSettings();
       await settingsIterator.next();
     });
 
@@ -659,7 +659,7 @@ describe("AppConfigurationClient", () => {
       // this number is arbitrarily chosen to match the size of a page + 1
       const expectedNumberOfLabels = 200;
 
-      const addSettingPromises = [];
+      let addSettingPromises = [];
 
       for (let i = 0; i < expectedNumberOfLabels; i++) {
         addSettingPromises.push(
@@ -669,11 +669,16 @@ describe("AppConfigurationClient", () => {
             label: i.toString()
           })
         );
+
+        if (i !== 0 && i % 10 === 0) {
+          await Promise.all(addSettingPromises);
+          addSettingPromises = [];
+        }
       }
 
       await Promise.all(addSettingPromises);
 
-      let listResult = await client.listConfigurationSettings({
+      let listResult = client.listConfigurationSettings({
         keyFilter: key
       });
 
@@ -728,7 +733,7 @@ describe("AppConfigurationClient", () => {
     });
 
     it("exact match on label", async () => {
-      const revisionsWithLabelIterator = await client.listRevisions({ labelFilter: labelA });
+      const revisionsWithLabelIterator = client.listRevisions({ labelFilter: labelA });
       const revisions = await toSortedArray(revisionsWithLabelIterator);
 
       assertEqualSettings(
@@ -741,7 +746,7 @@ describe("AppConfigurationClient", () => {
     });
 
     it("label wildcards", async () => {
-      const revisionsWithLabelIterator = await client.listRevisions({
+      const revisionsWithLabelIterator = client.listRevisions({
         labelFilter: labelA.substring(0, labelA.length - 1) + "*"
       });
       const revisions = await toSortedArray(revisionsWithLabelIterator);
@@ -756,7 +761,7 @@ describe("AppConfigurationClient", () => {
     });
 
     it("exact match on key", async () => {
-      const revisionsWithKeyIterator = await client.listRevisions({ keyFilter: key });
+      const revisionsWithKeyIterator = client.listRevisions({ keyFilter: key });
       const revisions = await toSortedArray(revisionsWithKeyIterator);
 
       assertEqualSettings(
@@ -771,7 +776,7 @@ describe("AppConfigurationClient", () => {
     });
 
     it("key wildcards", async () => {
-      const revisionsWithKeyIterator = await client.listRevisions({
+      const revisionsWithKeyIterator = client.listRevisions({
         keyFilter: key.substring(0, key.length - 1) + "*"
       });
       const revisions = await toSortedArray(revisionsWithKeyIterator);
@@ -1054,8 +1059,8 @@ describe("AppConfigurationClient", () => {
       const label = "test";
       const value = "foo";
       await assertThrowsAbortError(async () => {
-        const result = await client.setConfigurationSetting(
-          { key, label, value: "foo" },
+        await client.setConfigurationSetting(
+          { key, label, value: value },
           {
             requestOptions: {
               timeout: 1

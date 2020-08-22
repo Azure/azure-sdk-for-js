@@ -44,7 +44,7 @@ describe("PageBlobClient Node.js only", () => {
 
   afterEach(async function() {
     await containerClient.delete();
-    recorder.stop();
+    await recorder.stop();
   });
 
   it("startCopyIncremental", async () => {
@@ -61,8 +61,8 @@ describe("PageBlobClient Node.js only", () => {
     const destPageBlobClient = containerClient.getPageBlobClient(recorder.getUniqueName("page"));
 
     await containerClient.setAccessPolicy("container");
-
-    await delay(5 * 1000);
+    // Container cache may take up to 30 seconds to take effect.
+    await delay(30 * 1000);
 
     let copySource = pageBlobClient.withSnapshot(snapshotResult.snapshot!).url;
     let copyResponse = await destPageBlobClient.startCopyIncremental(copySource);
@@ -76,7 +76,7 @@ describe("PageBlobClient Node.js only", () => {
         case "success":
           return;
         case "aborted":
-          throw new Error("Copy unexcepted aborted.");
+          throw new Error("Copy unexpected aborted.");
         case "pending":
           await delay(3000);
           copyResponse = await destPageBlobClient.getProperties();

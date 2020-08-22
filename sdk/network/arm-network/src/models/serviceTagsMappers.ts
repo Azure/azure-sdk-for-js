@@ -12,4 +12,4 @@ export {
   ServiceTagInformation,
   ServiceTagInformationPropertiesFormat,
   ServiceTagsListResult
-} from "../models/mappers";
+} from "./mappers";

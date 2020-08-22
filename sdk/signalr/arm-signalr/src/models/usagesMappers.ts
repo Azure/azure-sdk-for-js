@@ -7,7 +7,8 @@
  */
 
 export {
-  CloudError,
+  ErrorResponse,
+  ErrorResponseBody,
   SignalRUsage,
   SignalRUsageList,
   SignalRUsageName

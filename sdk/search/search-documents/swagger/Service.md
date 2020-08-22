@@ -10,8 +10,8 @@ generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../
 source-code-folder-path: ./src/generated/service
-input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/master/specification/search/data-plane/Azure.Search/preview/2019-05-06-preview/searchservice.json
-add-credentials: true
+input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/master/specification/search/data-plane/Azure.Search/preview/2020-06-30/searchservice.json
+add-credentials: false
 use-extension:
   "@microsoft.azure/autorest.typescript": "5.0.1"
 ```
@@ -72,8 +72,44 @@ directive:
 ```yaml
 directive:
   - from: swagger-document
-    where: $.definitions.DataType
+    where: $.definitions.SearchFieldDataType
     transform: >
+      if ($["x-ms-enum"].values.length === 8) {
+        const newValues = $["x-ms-enum"].values.slice(0);
+        newValues.push({
+          "value": "Collection(Edm.String)",
+          "name": "Collection(Edm.String)"
+        });
+        newValues.push({
+          "value": "Collection(Edm.Int32)",
+          "name": "Collection(Edm.Int32)"
+        });
+        newValues.push({
+          "value": "Collection(Edm.Int64)",
+          "name": "Collection(Edm.Int64)"
+        });
+        newValues.push({
+          "value": "Collection(Edm.Double)",
+          "name": "Collection(Edm.Double)"
+        });
+        newValues.push({
+          "value": "Collection(Edm.Boolean)",
+          "name": "Collection(Edm.Boolean)"
+        });
+        newValues.push({
+          "value": "Collection(Edm.DateTimeOffset)",
+          "name": "Collection(Edm.DateTimeOffset)"
+        });
+        newValues.push({
+          "value": "Collection(Edm.GeographyPoint)",
+          "name": "Collection(Edm.GeographyPoint)"
+        });
+        newValues.push({
+          "value": "Collection(Edm.ComplexType)",
+          "name": "Collection(Edm.ComplexType)"
+        });
+        $["x-ms-enum"].values = newValues;
+      }
       if ($.enum.length === 8) {
         const newValues = $.enum.slice(0);
         for (let value of $.enum) {
@@ -82,7 +118,6 @@ directive:
         $.enum = newValues;
       }
 ```
-
 ### Make AnalyzerName a string
 
 ```yaml

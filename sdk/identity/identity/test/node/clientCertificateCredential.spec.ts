@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
 import qs from "qs";
 import jws from "jws";
@@ -65,7 +65,7 @@ describe("ClientCertificateCredential", function() {
       );
 
       const queryParams = qs.parse(authRequest.body);
-      const jwtToken = jws.decode(queryParams.client_assertion);
+      const jwtToken = jws.decode(queryParams.client_assertion as string);
 
       assert.strictEqual(jwtToken.header.x5t, (credential as any).certificateX5t);
       assert.strictEqual(jwtToken.payload.iss, clientId);

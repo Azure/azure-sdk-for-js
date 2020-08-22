@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
 export const Constants = {
   /**
@@ -7,7 +7,7 @@ export const Constants = {
    * @const
    * @type {string}
    */
-  coreHttpVersion: "1.1.2",
+  coreHttpVersion: "1.1.7",
 
   /**
    * Specifies HTTP.

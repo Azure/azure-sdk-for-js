@@ -7,7 +7,12 @@ import {
   TextAnalyticsErrorResult,
   makeTextAnalyticsErrorResult
 } from "./textAnalyticsResult";
-import { Entity, TextDocumentStatistics, TextAnalyticsError } from "./generated/models";
+import {
+  Entity,
+  TextDocumentStatistics,
+  TextAnalyticsError,
+  TextAnalyticsWarning
+} from "./generated/models";
 
 /**
  * An entity from text analysis with information about its categorical
@@ -41,10 +46,11 @@ export type RecognizeCategorizedEntitiesErrorResult = TextAnalyticsErrorResult;
 export function makeRecognizeCategorizedEntitiesResult(
   id: string,
   entities: CategorizedEntity[],
+  warnings: TextAnalyticsWarning[],
   statistics?: TextDocumentStatistics
 ): RecognizeCategorizedEntitiesSuccessResult {
   return {
-    ...makeTextAnalyticsSuccessResult(id, statistics),
+    ...makeTextAnalyticsSuccessResult(id, warnings, statistics),
     entities
   };
 }

@@ -50,8 +50,7 @@ export interface CreateRsaKeyOptions extends CreateKeyOptions {
 
 // @public
 export class CryptographyClient {
-    constructor(key: string | KeyVaultKey, // keyUrl or KeyVaultKey
-    credential: TokenCredential, pipelineOptions?: CryptographyClientOptions);
+    constructor(key: string | KeyVaultKey, credential: TokenCredential, pipelineOptions?: CryptographyClientOptions);
     decrypt(algorithm: EncryptionAlgorithm, ciphertext: Uint8Array, options?: DecryptOptions): Promise<DecryptResult>;
     encrypt(algorithm: EncryptionAlgorithm, plaintext: Uint8Array, options?: EncryptOptions): Promise<EncryptResult>;
     sign(algorithm: SignatureAlgorithm, digest: Uint8Array, options?: SignOptions): Promise<SignResult>;
@@ -97,7 +96,7 @@ export interface DeletedKey {
 }
 
 // @public
-export type DeletionRecoveryLevel = "Purgeable" | "Recoverable+Purgeable" | "Recoverable" | "Recoverable+ProtectedSubscription" | "CustomizedRecoverable+Purgeable" | "CustomizedRecoverable" | "CustomizedRecoverable+ProtectedSubscription";
+export type DeletionRecoveryLevel = 'Purgeable' | 'Recoverable+Purgeable' | 'Recoverable' | 'Recoverable+ProtectedSubscription' | 'CustomizedRecoverable+Purgeable' | 'CustomizedRecoverable' | 'CustomizedRecoverable+ProtectedSubscription';
 
 // @public
 export type EncryptionAlgorithm = "RSA-OAEP" | "RSA-OAEP-256" | "RSA1_5";
@@ -176,7 +175,7 @@ export class KeyClient {
 
 // @public
 export interface KeyClientOptions extends coreHttp.PipelineOptions {
-    apiVersion?: "7.0" | "7.1-preview";
+    serviceVersion?: "7.0" | "7.1";
 }
 
 // @public
@@ -223,6 +222,9 @@ export interface KeyVaultKey {
 }
 
 // @public
+export type KeyVaultKeysIdentifierCollectionName = "keys" | "deletedkeys";
+
+// @public
 export type KeyWrapAlgorithm = "RSA-OAEP" | "RSA-OAEP-256" | "RSA1_5";
 
 // @public
@@ -243,6 +245,18 @@ export const logger: import("@azure/logger").AzureLogger;
 export { PagedAsyncIterableIterator }
 
 export { PageSettings }
+
+// @public
+export interface ParsedKeyVaultKeysIdentifier {
+    collection: KeyVaultKeysIdentifierCollectionName;
+    id: string;
+    name: string;
+    vaultUrl: string;
+    version?: string;
+}
+
+// @public
+export function parseKeyVaultKeysIdentifier(id: string): ParsedKeyVaultKeysIdentifier;
 
 export { PipelineOptions }
 

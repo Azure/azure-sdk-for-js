@@ -8,7 +8,7 @@ import {
 } from "../src/utils/utils.common";
 import { record, Recorder } from "@azure/test-utils-recorder";
 import { recorderEnvSetup } from "./utils";
-dotenv.config({ path: "../.env" });
+dotenv.config();
 
 describe("Utility Helpers", () => {
   let recorder: Recorder;
@@ -36,8 +36,8 @@ describe("Utility Helpers", () => {
     recorder = record(this, recorderEnvSetup);
   });
 
-  afterEach(function() {
-    recorder.stop();
+  afterEach(async function() {
+    await recorder.stop();
   });
 
   it("sanitizeURL redacts SAS token", () => {

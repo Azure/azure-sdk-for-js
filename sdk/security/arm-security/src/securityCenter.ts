@@ -17,23 +17,43 @@ import { SecurityCenterContext } from "./securityCenterContext";
 
 class SecurityCenter extends SecurityCenterContext {
   // Operation groups
+  complianceResults: operations.ComplianceResults;
   pricings: operations.Pricings;
-  securityContacts: operations.SecurityContacts;
-  workspaceSettings: operations.WorkspaceSettings;
+  alerts: operations.Alerts;
+  settings: operations.Settings;
+  advancedThreatProtection: operations.AdvancedThreatProtection;
+  deviceSecurityGroups: operations.DeviceSecurityGroups;
+  iotSecuritySolution: operations.IotSecuritySolution;
+  iotSecuritySolutionAnalytics: operations.IotSecuritySolutionAnalytics;
+  iotSecuritySolutionsAnalyticsAggregatedAlert: operations.IotSecuritySolutionsAnalyticsAggregatedAlert;
+  iotSecuritySolutionsAnalyticsRecommendation: operations.IotSecuritySolutionsAnalyticsRecommendation;
+  locations: operations.Locations;
+  operations: operations.Operations;
+  tasks: operations.Tasks;
   autoProvisioningSettings: operations.AutoProvisioningSettings;
   compliances: operations.Compliances;
-  advancedThreatProtection: operations.AdvancedThreatProtection;
-  settings: operations.Settings;
   informationProtectionPolicies: operations.InformationProtectionPolicies;
-  operations: operations.Operations;
-  locations: operations.Locations;
-  tasks: operations.Tasks;
-  alerts: operations.Alerts;
-  discoveredSecuritySolutions: operations.DiscoveredSecuritySolutions;
-  jitNetworkAccessPolicies: operations.JitNetworkAccessPolicies;
-  externalSecuritySolutions: operations.ExternalSecuritySolutions;
-  topology: operations.Topology;
+  securityContacts: operations.SecurityContacts;
+  workspaceSettings: operations.WorkspaceSettings;
+  regulatoryComplianceStandards: operations.RegulatoryComplianceStandards;
+  regulatoryComplianceControls: operations.RegulatoryComplianceControls;
+  regulatoryComplianceAssessments: operations.RegulatoryComplianceAssessments;
+  serverVulnerabilityAssessment: operations.ServerVulnerabilityAssessmentOperations;
+  subAssessments: operations.SubAssessments;
+  automations: operations.Automations;
+  alertsSuppressionRules: operations.AlertsSuppressionRules;
+  assessmentsMetadata: operations.AssessmentsMetadata;
+  assessments: operations.Assessments;
+  adaptiveApplicationControls: operations.AdaptiveApplicationControls;
+  adaptiveNetworkHardenings: operations.AdaptiveNetworkHardenings;
   allowedConnections: operations.AllowedConnections;
+  topology: operations.Topology;
+  jitNetworkAccessPolicies: operations.JitNetworkAccessPolicies;
+  discoveredSecuritySolutions: operations.DiscoveredSecuritySolutions;
+  externalSecuritySolutions: operations.ExternalSecuritySolutions;
+  secureScores: operations.SecureScores;
+  secureScoreControls: operations.SecureScoreControls;
+  secureScoreControlDefinitions: operations.SecureScoreControlDefinitions;
 
   /**
    * Initializes a new instance of the SecurityCenter class.
@@ -45,23 +65,43 @@ class SecurityCenter extends SecurityCenterContext {
    */
   constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, ascLocation: string, options?: Models.SecurityCenterOptions) {
     super(credentials, subscriptionId, ascLocation, options);
+    this.complianceResults = new operations.ComplianceResults(this);
     this.pricings = new operations.Pricings(this);
-    this.securityContacts = new operations.SecurityContacts(this);
-    this.workspaceSettings = new operations.WorkspaceSettings(this);
+    this.alerts = new operations.Alerts(this);
+    this.settings = new operations.Settings(this);
+    this.advancedThreatProtection = new operations.AdvancedThreatProtection(this);
+    this.deviceSecurityGroups = new operations.DeviceSecurityGroups(this);
+    this.iotSecuritySolution = new operations.IotSecuritySolution(this);
+    this.iotSecuritySolutionAnalytics = new operations.IotSecuritySolutionAnalytics(this);
+    this.iotSecuritySolutionsAnalyticsAggregatedAlert = new operations.IotSecuritySolutionsAnalyticsAggregatedAlert(this);
+    this.iotSecuritySolutionsAnalyticsRecommendation = new operations.IotSecuritySolutionsAnalyticsRecommendation(this);
+    this.locations = new operations.Locations(this);
+    this.operations = new operations.Operations(this);
+    this.tasks = new operations.Tasks(this);
     this.autoProvisioningSettings = new operations.AutoProvisioningSettings(this);
     this.compliances = new operations.Compliances(this);
-    this.advancedThreatProtection = new operations.AdvancedThreatProtection(this);
-    this.settings = new operations.Settings(this);
     this.informationProtectionPolicies = new operations.InformationProtectionPolicies(this);
-    this.operations = new operations.Operations(this);
-    this.locations = new operations.Locations(this);
-    this.tasks = new operations.Tasks(this);
-    this.alerts = new operations.Alerts(this);
-    this.discoveredSecuritySolutions = new operations.DiscoveredSecuritySolutions(this);
-    this.jitNetworkAccessPolicies = new operations.JitNetworkAccessPolicies(this);
-    this.externalSecuritySolutions = new operations.ExternalSecuritySolutions(this);
-    this.topology = new operations.Topology(this);
+    this.securityContacts = new operations.SecurityContacts(this);
+    this.workspaceSettings = new operations.WorkspaceSettings(this);
+    this.regulatoryComplianceStandards = new operations.RegulatoryComplianceStandards(this);
+    this.regulatoryComplianceControls = new operations.RegulatoryComplianceControls(this);
+    this.regulatoryComplianceAssessments = new operations.RegulatoryComplianceAssessments(this);
+    this.serverVulnerabilityAssessment = new operations.ServerVulnerabilityAssessmentOperations(this);
+    this.subAssessments = new operations.SubAssessments(this);
+    this.automations = new operations.Automations(this);
+    this.alertsSuppressionRules = new operations.AlertsSuppressionRules(this);
+    this.assessmentsMetadata = new operations.AssessmentsMetadata(this);
+    this.assessments = new operations.Assessments(this);
+    this.adaptiveApplicationControls = new operations.AdaptiveApplicationControls(this);
+    this.adaptiveNetworkHardenings = new operations.AdaptiveNetworkHardenings(this);
     this.allowedConnections = new operations.AllowedConnections(this);
+    this.topology = new operations.Topology(this);
+    this.jitNetworkAccessPolicies = new operations.JitNetworkAccessPolicies(this);
+    this.discoveredSecuritySolutions = new operations.DiscoveredSecuritySolutions(this);
+    this.externalSecuritySolutions = new operations.ExternalSecuritySolutions(this);
+    this.secureScores = new operations.SecureScores(this);
+    this.secureScoreControls = new operations.SecureScoreControls(this);
+    this.secureScoreControlDefinitions = new operations.SecureScoreControlDefinitions(this);
   }
 }
 

@@ -82,7 +82,8 @@ export class Caches {
   /**
    * Schedules a Cache for deletion.
    * @param resourceGroupName Target resource group.
-   * @param cacheName Name of Cache.
+   * @param cacheName Name of Cache. Length of name must be not greater than 80 and chars must be in
+   * list of [-0-9a-zA-Z_] char class.
    * @param [options] The optional parameters
    * @returns Promise<Models.CachesDeleteMethodResponse>
    */
@@ -94,20 +95,23 @@ export class Caches {
   /**
    * Returns a Cache.
    * @param resourceGroupName Target resource group.
-   * @param cacheName Name of Cache.
+   * @param cacheName Name of Cache. Length of name must be not greater than 80 and chars must be in
+   * list of [-0-9a-zA-Z_] char class.
    * @param [options] The optional parameters
    * @returns Promise<Models.CachesGetResponse>
    */
   get(resourceGroupName: string, cacheName: string, options?: msRest.RequestOptionsBase): Promise<Models.CachesGetResponse>;
   /**
    * @param resourceGroupName Target resource group.
-   * @param cacheName Name of Cache.
+   * @param cacheName Name of Cache. Length of name must be not greater than 80 and chars must be in
+   * list of [-0-9a-zA-Z_] char class.
    * @param callback The callback
    */
   get(resourceGroupName: string, cacheName: string, callback: msRest.ServiceCallback<Models.Cache>): void;
   /**
    * @param resourceGroupName Target resource group.
-   * @param cacheName Name of Cache.
+   * @param cacheName Name of Cache. Length of name must be not greater than 80 and chars must be in
+   * list of [-0-9a-zA-Z_] char class.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -126,7 +130,8 @@ export class Caches {
   /**
    * Create or update a Cache.
    * @param resourceGroupName Target resource group.
-   * @param cacheName Name of Cache.
+   * @param cacheName Name of Cache. Length of name must be not greater than 80 and chars must be in
+   * list of [-0-9a-zA-Z_] char class.
    * @param [options] The optional parameters
    * @returns Promise<Models.CachesCreateOrUpdateResponse>
    */
@@ -138,20 +143,23 @@ export class Caches {
   /**
    * Update a Cache instance.
    * @param resourceGroupName Target resource group.
-   * @param cacheName Name of Cache.
+   * @param cacheName Name of Cache. Length of name must be not greater than 80 and chars must be in
+   * list of [-0-9a-zA-Z_] char class.
    * @param [options] The optional parameters
    * @returns Promise<Models.CachesUpdateResponse>
    */
   update(resourceGroupName: string, cacheName: string, options?: Models.CachesUpdateOptionalParams): Promise<Models.CachesUpdateResponse>;
   /**
    * @param resourceGroupName Target resource group.
-   * @param cacheName Name of Cache.
+   * @param cacheName Name of Cache. Length of name must be not greater than 80 and chars must be in
+   * list of [-0-9a-zA-Z_] char class.
    * @param callback The callback
    */
   update(resourceGroupName: string, cacheName: string, callback: msRest.ServiceCallback<Models.Cache>): void;
   /**
    * @param resourceGroupName Target resource group.
-   * @param cacheName Name of Cache.
+   * @param cacheName Name of Cache. Length of name must be not greater than 80 and chars must be in
+   * list of [-0-9a-zA-Z_] char class.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -171,7 +179,8 @@ export class Caches {
    * Tells a Cache to write all dirty data to the Storage Target(s). During the flush, clients will
    * see errors returned until the flush is complete.
    * @param resourceGroupName Target resource group.
-   * @param cacheName Name of Cache.
+   * @param cacheName Name of Cache. Length of name must be not greater than 80 and chars must be in
+   * list of [-0-9a-zA-Z_] char class.
    * @param [options] The optional parameters
    * @returns Promise<Models.CachesFlushResponse>
    */
@@ -183,7 +192,8 @@ export class Caches {
   /**
    * Tells a Stopped state Cache to transition to Active state.
    * @param resourceGroupName Target resource group.
-   * @param cacheName Name of Cache.
+   * @param cacheName Name of Cache. Length of name must be not greater than 80 and chars must be in
+   * list of [-0-9a-zA-Z_] char class.
    * @param [options] The optional parameters
    * @returns Promise<Models.CachesStartResponse>
    */
@@ -195,7 +205,8 @@ export class Caches {
   /**
    * Tells an Active Cache to transition to Stopped state.
    * @param resourceGroupName Target resource group.
-   * @param cacheName Name of Cache.
+   * @param cacheName Name of Cache. Length of name must be not greater than 80 and chars must be in
+   * list of [-0-9a-zA-Z_] char class.
    * @param [options] The optional parameters
    * @returns Promise<Models.CachesStopResponse>
    */
@@ -208,7 +219,8 @@ export class Caches {
    * Upgrade a Cache's firmware if a new version is available. Otherwise, this operation has no
    * effect.
    * @param resourceGroupName Target resource group.
-   * @param cacheName Name of Cache.
+   * @param cacheName Name of Cache. Length of name must be not greater than 80 and chars must be in
+   * list of [-0-9a-zA-Z_] char class.
    * @param [options] The optional parameters
    * @returns Promise<Models.CachesUpgradeFirmwareResponse>
    */
@@ -220,7 +232,8 @@ export class Caches {
   /**
    * Schedules a Cache for deletion.
    * @param resourceGroupName Target resource group.
-   * @param cacheName Name of Cache.
+   * @param cacheName Name of Cache. Length of name must be not greater than 80 and chars must be in
+   * list of [-0-9a-zA-Z_] char class.
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
@@ -238,7 +251,8 @@ export class Caches {
   /**
    * Create or update a Cache.
    * @param resourceGroupName Target resource group.
-   * @param cacheName Name of Cache.
+   * @param cacheName Name of Cache. Length of name must be not greater than 80 and chars must be in
+   * list of [-0-9a-zA-Z_] char class.
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
@@ -257,7 +271,8 @@ export class Caches {
    * Tells a Cache to write all dirty data to the Storage Target(s). During the flush, clients will
    * see errors returned until the flush is complete.
    * @param resourceGroupName Target resource group.
-   * @param cacheName Name of Cache.
+   * @param cacheName Name of Cache. Length of name must be not greater than 80 and chars must be in
+   * list of [-0-9a-zA-Z_] char class.
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
@@ -275,7 +290,8 @@ export class Caches {
   /**
    * Tells a Stopped state Cache to transition to Active state.
    * @param resourceGroupName Target resource group.
-   * @param cacheName Name of Cache.
+   * @param cacheName Name of Cache. Length of name must be not greater than 80 and chars must be in
+   * list of [-0-9a-zA-Z_] char class.
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
@@ -293,7 +309,8 @@ export class Caches {
   /**
    * Tells an Active Cache to transition to Stopped state.
    * @param resourceGroupName Target resource group.
-   * @param cacheName Name of Cache.
+   * @param cacheName Name of Cache. Length of name must be not greater than 80 and chars must be in
+   * list of [-0-9a-zA-Z_] char class.
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
@@ -312,7 +329,8 @@ export class Caches {
    * Upgrade a Cache's firmware if a new version is available. Otherwise, this operation has no
    * effect.
    * @param resourceGroupName Target resource group.
-   * @param cacheName Name of Cache.
+   * @param cacheName Name of Cache. Length of name must be not greater than 80 and chars must be in
+   * list of [-0-9a-zA-Z_] char class.
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */

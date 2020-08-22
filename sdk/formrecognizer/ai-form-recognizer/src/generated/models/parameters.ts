@@ -6,15 +6,35 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreHttp from "@azure/core-http";
-import * as Mappers from "../models/mappers";
+import {
+  OperationParameter,
+  OperationURLParameter,
+  OperationQueryParameter
+} from "@azure/core-http";
+import {
+  TrainRequest as TrainRequestMapper,
+  SourcePath as SourcePathMapper,
+  CopyRequest as CopyRequestMapper
+} from "../models/mappers";
 
-export const trainRequest: coreHttp.OperationParameter = {
-  parameterPath: "trainRequest",
-  mapper: Mappers.TrainRequest
+export const contentType: OperationParameter = {
+  parameterPath: ["options", "contentType"],
+  mapper: {
+    defaultValue: "application/json",
+    isConstant: true,
+    serializedName: "Content-Type",
+    type: {
+      name: "String"
+    }
+  }
 };
 
-export const endpoint: coreHttp.OperationURLParameter = {
+export const trainRequest: OperationParameter = {
+  parameterPath: "trainRequest",
+  mapper: TrainRequestMapper
+};
+
+export const endpoint: OperationURLParameter = {
   parameterPath: "endpoint",
   mapper: {
     serializedName: "endpoint",
@@ -26,7 +46,7 @@ export const endpoint: coreHttp.OperationURLParameter = {
   skipEncoding: true
 };
 
-export const modelId: coreHttp.OperationURLParameter = {
+export const modelId: OperationURLParameter = {
   parameterPath: "modelId",
   mapper: {
     serializedName: "modelId",
@@ -37,7 +57,7 @@ export const modelId: coreHttp.OperationURLParameter = {
   }
 };
 
-export const includeKeys: coreHttp.OperationQueryParameter = {
+export const includeKeys: OperationQueryParameter = {
   parameterPath: ["options", "includeKeys"],
   mapper: {
     serializedName: "includeKeys",
@@ -47,10 +67,11 @@ export const includeKeys: coreHttp.OperationQueryParameter = {
   }
 };
 
-export const contentType: coreHttp.OperationParameter = {
-  parameterPath: ["options", "contentType"],
+export const contentType1: OperationParameter = {
+  parameterPath: "contentType",
   mapper: {
     serializedName: "Content-Type",
+    required: true,
     type: {
       name: "Enum",
       allowedValues: [
@@ -63,22 +84,35 @@ export const contentType: coreHttp.OperationParameter = {
   }
 };
 
-export const fileStream: coreHttp.OperationParameter = {
-  parameterPath: ["options", "fileStream"],
+export const fileStream: OperationParameter = {
+  parameterPath: "fileStream",
   mapper: {
     serializedName: "fileStream",
+    required: true,
     type: {
       name: "Stream"
     }
   }
 };
 
-export const fileStream1: coreHttp.OperationParameter = {
-  parameterPath: ["options", "fileStream"],
-  mapper: Mappers.SourcePath
+export const contentType2: OperationParameter = {
+  parameterPath: "contentType",
+  mapper: {
+    defaultValue: "application/json",
+    isConstant: true,
+    serializedName: "Content-Type",
+    type: {
+      name: "String"
+    }
+  }
 };
 
-export const includeTextDetails: coreHttp.OperationQueryParameter = {
+export const fileStream1: OperationParameter = {
+  parameterPath: ["options", "fileStream"],
+  mapper: SourcePathMapper
+};
+
+export const includeTextDetails: OperationQueryParameter = {
   parameterPath: ["options", "includeTextDetails"],
   mapper: {
     serializedName: "includeTextDetails",
@@ -88,7 +122,7 @@ export const includeTextDetails: coreHttp.OperationQueryParameter = {
   }
 };
 
-export const resultId: coreHttp.OperationURLParameter = {
+export const resultId: OperationURLParameter = {
   parameterPath: "resultId",
   mapper: {
     serializedName: "resultId",
@@ -99,31 +133,36 @@ export const resultId: coreHttp.OperationURLParameter = {
   }
 };
 
-export const op: coreHttp.OperationQueryParameter = {
+export const copyRequest: OperationParameter = {
+  parameterPath: "copyRequest",
+  mapper: CopyRequestMapper
+};
+
+export const op: OperationQueryParameter = {
   parameterPath: "op",
   mapper: {
     defaultValue: "full",
-    serializedName: "op",
     isConstant: true,
+    serializedName: "op",
     type: {
       name: "String"
     }
   }
 };
 
-export const op1: coreHttp.OperationQueryParameter = {
+export const op1: OperationQueryParameter = {
   parameterPath: "op",
   mapper: {
     defaultValue: "summary",
-    serializedName: "op",
     isConstant: true,
+    serializedName: "op",
     type: {
       name: "String"
     }
   }
 };
 
-export const nextLink: coreHttp.OperationURLParameter = {
+export const nextLink: OperationURLParameter = {
   parameterPath: "nextLink",
   mapper: {
     serializedName: "nextLink",

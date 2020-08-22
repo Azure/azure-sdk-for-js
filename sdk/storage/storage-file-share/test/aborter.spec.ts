@@ -5,7 +5,7 @@ import { getBSU, recorderEnvSetup } from "./utils";
 import { record, Recorder } from "@azure/test-utils-recorder";
 import * as dotenv from "dotenv";
 import { ShareClient } from "../src";
-dotenv.config({ path: "../.env" });
+dotenv.config();
 
 // tslint:disable:no-empty
 describe("Aborter", () => {
@@ -21,8 +21,8 @@ describe("Aborter", () => {
     shareClient = serviceClient.getShareClient(shareName);
   });
 
-  afterEach(function() {
-    recorder.stop();
+  afterEach(async function() {
+    await recorder.stop();
   });
 
   it("Should abort after aborter timeout", async () => {

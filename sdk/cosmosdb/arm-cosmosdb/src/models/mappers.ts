@@ -12,6 +12,22 @@ import * as msRest from "@azure/ms-rest-js";
 export const CloudError = CloudErrorMapper;
 export const BaseResource = BaseResourceMapper;
 
+export const IpAddressOrRange: msRest.CompositeMapper = {
+  serializedName: "IpAddressOrRange",
+  type: {
+    name: "Composite",
+    className: "IpAddressOrRange",
+    modelProperties: {
+      ipAddressOrRange: {
+        serializedName: "ipAddressOrRange",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const ConsistencyPolicy: msRest.CompositeMapper = {
   serializedName: "ConsistencyPolicy",
   type: {
@@ -205,15 +221,15 @@ export const PrivateLinkServiceConnectionStateProperty: msRest.CompositeMapper =
           name: "String"
         }
       },
-      description: {
-        serializedName: "description",
+      actionsRequired: {
+        readOnly: true,
+        serializedName: "actionsRequired",
         type: {
           name: "String"
         }
       },
-      actionsRequired: {
-        readOnly: true,
-        serializedName: "actionsRequired",
+      description: {
+        serializedName: "description",
         type: {
           name: "String"
         }
@@ -295,6 +311,67 @@ export const PrivateEndpointConnection: msRest.CompositeMapper = {
         serializedName: "properties.provisioningState",
         type: {
           name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ApiProperties: msRest.CompositeMapper = {
+  serializedName: "ApiProperties",
+  type: {
+    name: "Composite",
+    className: "ApiProperties",
+    modelProperties: {
+      serverVersion: {
+        serializedName: "serverVersion",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const CorsPolicy: msRest.CompositeMapper = {
+  serializedName: "CorsPolicy",
+  type: {
+    name: "Composite",
+    className: "CorsPolicy",
+    modelProperties: {
+      allowedOrigins: {
+        required: true,
+        serializedName: "allowedOrigins",
+        type: {
+          name: "String"
+        }
+      },
+      allowedMethods: {
+        serializedName: "allowedMethods",
+        type: {
+          name: "String"
+        }
+      },
+      allowedHeaders: {
+        serializedName: "allowedHeaders",
+        type: {
+          name: "String"
+        }
+      },
+      exposedHeaders: {
+        serializedName: "exposedHeaders",
+        type: {
+          name: "String"
+        }
+      },
+      maxAgeInSeconds: {
+        serializedName: "maxAgeInSeconds",
+        constraints: {
+          InclusiveMaximum: 2147483647,
+          InclusiveMinimum: 1
+        },
+        type: {
+          name: "Number"
         }
       }
     }
@@ -386,10 +463,16 @@ export const DatabaseAccountGetResults: msRest.CompositeMapper = {
           ]
         }
       },
-      ipRangeFilter: {
-        serializedName: "properties.ipRangeFilter",
+      ipRules: {
+        serializedName: "properties.ipRules",
         type: {
-          name: "String"
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "IpAddressOrRange"
+            }
+          }
         }
       },
       isVirtualNetworkFilterEnabled: {
@@ -488,6 +571,7 @@ export const DatabaseAccountGetResults: msRest.CompositeMapper = {
         }
       },
       privateEndpointConnections: {
+        readOnly: true,
         serializedName: "properties.privateEndpointConnections",
         type: {
           name: "Sequence",
@@ -533,6 +617,37 @@ export const DatabaseAccountGetResults: msRest.CompositeMapper = {
         serializedName: "properties.publicNetworkAccess",
         type: {
           name: "String"
+        }
+      },
+      enableFreeTier: {
+        serializedName: "properties.enableFreeTier",
+        type: {
+          name: "Boolean"
+        }
+      },
+      apiProperties: {
+        serializedName: "properties.apiProperties",
+        type: {
+          name: "Composite",
+          className: "ApiProperties"
+        }
+      },
+      enableAnalyticalStorage: {
+        serializedName: "properties.enableAnalyticalStorage",
+        type: {
+          name: "Boolean"
+        }
+      },
+      cors: {
+        serializedName: "properties.cors",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "CorsPolicy"
+            }
+          }
         }
       }
     }
@@ -599,6 +714,13 @@ export const OptionsResource: msRest.CompositeMapper = {
         serializedName: "throughput",
         type: {
           name: "Number"
+        }
+      },
+      autoscaleSettings: {
+        serializedName: "autoscaleSettings",
+        type: {
+          name: "Composite",
+          className: "AutoscaleSettings"
         }
       }
     }
@@ -995,6 +1117,12 @@ export const SqlContainerGetPropertiesResource: msRest.CompositeMapper = {
         type: {
           name: "Composite",
           className: "ConflictResolutionPolicy"
+        }
+      },
+      analyticalStorageTtl: {
+        serializedName: "analyticalStorageTtl",
+        type: {
+          name: "Number"
         }
       },
       _rid: {
@@ -1433,6 +1561,12 @@ export const MongoDBCollectionGetPropertiesResource: msRest.CompositeMapper = {
           }
         }
       },
+      analyticalStorageTtl: {
+        serializedName: "analyticalStorageTtl",
+        type: {
+          name: "Number"
+        }
+      },
       _rid: {
         readOnly: true,
         serializedName: "_rid",
@@ -1772,6 +1906,12 @@ export const CassandraTableGetPropertiesResource: msRest.CompositeMapper = {
         type: {
           name: "Composite",
           className: "CassandraSchema"
+        }
+      },
+      analyticalStorageTtl: {
+        serializedName: "analyticalStorageTtl",
+        type: {
+          name: "Number"
         }
       },
       _rid: {
@@ -2180,11 +2320,11 @@ export const AutoUpgradePolicyResource: msRest.CompositeMapper = {
   }
 };
 
-export const ProvisionedThroughputSettingsResource: msRest.CompositeMapper = {
-  serializedName: "ProvisionedThroughputSettingsResource",
+export const AutoscaleSettingsResource: msRest.CompositeMapper = {
+  serializedName: "AutoscaleSettingsResource",
   type: {
     name: "Composite",
-    className: "ProvisionedThroughputSettingsResource",
+    className: "AutoscaleSettingsResource",
     modelProperties: {
       maxThroughput: {
         required: true,
@@ -2223,11 +2363,11 @@ export const ThroughputSettingsGetPropertiesResource: msRest.CompositeMapper = {
           name: "Number"
         }
       },
-      provisionedThroughputSettings: {
-        serializedName: "provisionedThroughputSettings",
+      autoscaleSettings: {
+        serializedName: "autoscaleSettings",
         type: {
           name: "Composite",
-          className: "ProvisionedThroughputSettingsResource"
+          className: "AutoscaleSettingsResource"
         }
       },
       minimumThroughput: {
@@ -2330,10 +2470,16 @@ export const DatabaseAccountCreateUpdateParameters: msRest.CompositeMapper = {
           name: "String"
         }
       },
-      ipRangeFilter: {
-        serializedName: "properties.ipRangeFilter",
+      ipRules: {
+        serializedName: "properties.ipRules",
         type: {
-          name: "String"
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "IpAddressOrRange"
+            }
+          }
         }
       },
       isVirtualNetworkFilterEnabled: {
@@ -2406,6 +2552,37 @@ export const DatabaseAccountCreateUpdateParameters: msRest.CompositeMapper = {
         serializedName: "properties.publicNetworkAccess",
         type: {
           name: "String"
+        }
+      },
+      enableFreeTier: {
+        serializedName: "properties.enableFreeTier",
+        type: {
+          name: "Boolean"
+        }
+      },
+      apiProperties: {
+        serializedName: "properties.apiProperties",
+        type: {
+          name: "Composite",
+          className: "ApiProperties"
+        }
+      },
+      enableAnalyticalStorage: {
+        serializedName: "properties.enableAnalyticalStorage",
+        type: {
+          name: "Boolean"
+        }
+      },
+      cors: {
+        serializedName: "properties.cors",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "CorsPolicy"
+            }
+          }
         }
       }
     }
@@ -2454,10 +2631,16 @@ export const DatabaseAccountUpdateParameters: msRest.CompositeMapper = {
           }
         }
       },
-      ipRangeFilter: {
-        serializedName: "properties.ipRangeFilter",
+      ipRules: {
+        serializedName: "properties.ipRules",
         type: {
-          name: "String"
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "IpAddressOrRange"
+            }
+          }
         }
       },
       isVirtualNetworkFilterEnabled: {
@@ -2530,6 +2713,37 @@ export const DatabaseAccountUpdateParameters: msRest.CompositeMapper = {
         serializedName: "properties.publicNetworkAccess",
         type: {
           name: "String"
+        }
+      },
+      enableFreeTier: {
+        serializedName: "properties.enableFreeTier",
+        type: {
+          name: "Boolean"
+        }
+      },
+      apiProperties: {
+        serializedName: "properties.apiProperties",
+        type: {
+          name: "Composite",
+          className: "ApiProperties"
+        }
+      },
+      enableAnalyticalStorage: {
+        serializedName: "properties.enableAnalyticalStorage",
+        type: {
+          name: "Boolean"
+        }
+      },
+      cors: {
+        serializedName: "properties.cors",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "CorsPolicy"
+            }
+          }
         }
       }
     }
@@ -2660,11 +2874,11 @@ export const ThroughputSettingsResource: msRest.CompositeMapper = {
           name: "Number"
         }
       },
-      provisionedThroughputSettings: {
-        serializedName: "provisionedThroughputSettings",
+      autoscaleSettings: {
+        serializedName: "autoscaleSettings",
         type: {
           name: "Composite",
-          className: "ProvisionedThroughputSettingsResource"
+          className: "AutoscaleSettingsResource"
         }
       },
       minimumThroughput: {
@@ -2721,6 +2935,22 @@ export const SqlDatabaseResource: msRest.CompositeMapper = {
   }
 };
 
+export const AutoscaleSettings: msRest.CompositeMapper = {
+  serializedName: "AutoscaleSettings",
+  type: {
+    name: "Composite",
+    className: "AutoscaleSettings",
+    modelProperties: {
+      maxThroughput: {
+        serializedName: "maxThroughput",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
 export const CreateUpdateOptions: msRest.CompositeMapper = {
   serializedName: "CreateUpdateOptions",
   type: {
@@ -2730,13 +2960,15 @@ export const CreateUpdateOptions: msRest.CompositeMapper = {
       throughput: {
         serializedName: "throughput",
         type: {
-          name: "String"
+          name: "Number"
         }
-      }
-    },
-    additionalProperties: {
-      type: {
-        name: "String"
+      },
+      autoscaleSettings: {
+        serializedName: "autoscaleSettings",
+        type: {
+          name: "Composite",
+          className: "AutoscaleSettings"
+        }
       }
     }
   }
@@ -2762,12 +2994,7 @@ export const SqlDatabaseCreateUpdateParameters: msRest.CompositeMapper = {
         serializedName: "properties.options",
         type: {
           name: "Composite",
-          className: "CreateUpdateOptions",
-          additionalProperties: {
-            type: {
-              name: "String"
-            }
-          }
+          className: "CreateUpdateOptions"
         }
       }
     }
@@ -2820,6 +3047,12 @@ export const SqlContainerResource: msRest.CompositeMapper = {
           name: "Composite",
           className: "ConflictResolutionPolicy"
         }
+      },
+      analyticalStorageTtl: {
+        serializedName: "analyticalStorageTtl",
+        type: {
+          name: "Number"
+        }
       }
     }
   }
@@ -2845,12 +3078,7 @@ export const SqlContainerCreateUpdateParameters: msRest.CompositeMapper = {
         serializedName: "properties.options",
         type: {
           name: "Composite",
-          className: "CreateUpdateOptions",
-          additionalProperties: {
-            type: {
-              name: "String"
-            }
-          }
+          className: "CreateUpdateOptions"
         }
       }
     }
@@ -2900,12 +3128,7 @@ export const SqlStoredProcedureCreateUpdateParameters: msRest.CompositeMapper = 
         serializedName: "properties.options",
         type: {
           name: "Composite",
-          className: "CreateUpdateOptions",
-          additionalProperties: {
-            type: {
-              name: "String"
-            }
-          }
+          className: "CreateUpdateOptions"
         }
       }
     }
@@ -2955,12 +3178,7 @@ export const SqlUserDefinedFunctionCreateUpdateParameters: msRest.CompositeMappe
         serializedName: "properties.options",
         type: {
           name: "Composite",
-          className: "CreateUpdateOptions",
-          additionalProperties: {
-            type: {
-              name: "String"
-            }
-          }
+          className: "CreateUpdateOptions"
         }
       }
     }
@@ -3022,12 +3240,7 @@ export const SqlTriggerCreateUpdateParameters: msRest.CompositeMapper = {
         serializedName: "properties.options",
         type: {
           name: "Composite",
-          className: "CreateUpdateOptions",
-          additionalProperties: {
-            type: {
-              name: "String"
-            }
-          }
+          className: "CreateUpdateOptions"
         }
       }
     }
@@ -3071,12 +3284,7 @@ export const MongoDBDatabaseCreateUpdateParameters: msRest.CompositeMapper = {
         serializedName: "properties.options",
         type: {
           name: "Composite",
-          className: "CreateUpdateOptions",
-          additionalProperties: {
-            type: {
-              name: "String"
-            }
-          }
+          className: "CreateUpdateOptions"
         }
       }
     }
@@ -3118,6 +3326,12 @@ export const MongoDBCollectionResource: msRest.CompositeMapper = {
             }
           }
         }
+      },
+      analyticalStorageTtl: {
+        serializedName: "analyticalStorageTtl",
+        type: {
+          name: "Number"
+        }
       }
     }
   }
@@ -3143,12 +3357,7 @@ export const MongoDBCollectionCreateUpdateParameters: msRest.CompositeMapper = {
         serializedName: "properties.options",
         type: {
           name: "Composite",
-          className: "CreateUpdateOptions",
-          additionalProperties: {
-            type: {
-              name: "String"
-            }
-          }
+          className: "CreateUpdateOptions"
         }
       }
     }
@@ -3192,12 +3401,7 @@ export const TableCreateUpdateParameters: msRest.CompositeMapper = {
         serializedName: "properties.options",
         type: {
           name: "Composite",
-          className: "CreateUpdateOptions",
-          additionalProperties: {
-            type: {
-              name: "String"
-            }
-          }
+          className: "CreateUpdateOptions"
         }
       }
     }
@@ -3241,12 +3445,7 @@ export const CassandraKeyspaceCreateUpdateParameters: msRest.CompositeMapper = {
         serializedName: "properties.options",
         type: {
           name: "Composite",
-          className: "CreateUpdateOptions",
-          additionalProperties: {
-            type: {
-              name: "String"
-            }
-          }
+          className: "CreateUpdateOptions"
         }
       }
     }
@@ -3278,6 +3477,12 @@ export const CassandraTableResource: msRest.CompositeMapper = {
           name: "Composite",
           className: "CassandraSchema"
         }
+      },
+      analyticalStorageTtl: {
+        serializedName: "analyticalStorageTtl",
+        type: {
+          name: "Number"
+        }
       }
     }
   }
@@ -3303,12 +3508,7 @@ export const CassandraTableCreateUpdateParameters: msRest.CompositeMapper = {
         serializedName: "properties.options",
         type: {
           name: "Composite",
-          className: "CreateUpdateOptions",
-          additionalProperties: {
-            type: {
-              name: "String"
-            }
-          }
+          className: "CreateUpdateOptions"
         }
       }
     }
@@ -3352,12 +3552,7 @@ export const GremlinDatabaseCreateUpdateParameters: msRest.CompositeMapper = {
         serializedName: "properties.options",
         type: {
           name: "Composite",
-          className: "CreateUpdateOptions",
-          additionalProperties: {
-            type: {
-              name: "String"
-            }
-          }
+          className: "CreateUpdateOptions"
         }
       }
     }
@@ -3435,12 +3630,7 @@ export const GremlinGraphCreateUpdateParameters: msRest.CompositeMapper = {
         serializedName: "properties.options",
         type: {
           name: "Composite",
-          className: "CreateUpdateOptions",
-          additionalProperties: {
-            type: {
-              name: "String"
-            }
-          }
+          className: "CreateUpdateOptions"
         }
       }
     }

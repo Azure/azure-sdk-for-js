@@ -1,7 +1,10 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
+
+/* eslint-disable no-unused-expressions */
 
 import { assert, AssertionError } from "chai";
+import * as sinon from "sinon";
 import { AbortController } from "@azure/abort-controller";
 import "chai/register-should";
 
@@ -9,6 +12,7 @@ import { DefaultHttpClient } from "../src/defaultHttpClient";
 import { RestError } from "../src/restError";
 import { WebResource, TransferProgressEvent } from "../src/webResource";
 import { getHttpMock, HttpMockFacade } from "./mockHttp";
+import { CommonResponse } from "../src/fetchHttpClient";
 
 describe("defaultHttpClient", function() {
   function sleep(ms: number): Promise<void> {
@@ -23,6 +27,19 @@ describe("defaultHttpClient", function() {
   afterEach(() => httpMock.teardown());
   after(() => httpMock.teardown());
 
+  function getMockedHttpClient(): DefaultHttpClient {
+    const httpClient = new DefaultHttpClient();
+    const fetchMock = httpMock.getFetch();
+    if (fetchMock) {
+      sinon.stub(httpClient, "fetch").callsFake(async (input, init) => {
+        const response = await fetchMock(input, init);
+        return (response as unknown) as CommonResponse;
+      });
+    }
+
+    return httpClient;
+  }
+
   it("should return a response instead of throwing for awaited 404", async function() {
     const resourceUrl = "/nonexistent";
 
@@ -31,7 +48,7 @@ describe("defaultHttpClient", function() {
     });
 
     const request = new WebResource(resourceUrl, "GET");
-    const httpClient = new DefaultHttpClient();
+    const httpClient = getMockedHttpClient();
 
     const response = await httpClient.sendRequest(request);
     response.status.should.equal(404);
@@ -56,7 +73,8 @@ describe("defaultHttpClient", function() {
       undefined,
       controller.signal
     );
-    const client = new DefaultHttpClient();
+    const client = getMockedHttpClient();
+
     const promise = client.sendRequest(request);
     controller.abort();
     try {
@@ -88,7 +106,8 @@ describe("defaultHttpClient", function() {
       controller.signal
     );
     controller.abort();
-    const client = new DefaultHttpClient();
+    const client = getMockedHttpClient();
+
     const promise = client.sendRequest(request);
     try {
       await promise;
@@ -130,7 +149,8 @@ describe("defaultHttpClient", function() {
         controller.signal
       )
     ];
-    const client = new DefaultHttpClient();
+    const client = getMockedHttpClient();
+
     const promises = requests.map((r) => client.sendRequest(r));
     controller.abort();
     // Ensure each promise is individually rejected
@@ -146,7 +166,7 @@ describe("defaultHttpClient", function() {
 
   describe("should report upload and download progress", () => {
     type Notified = { notified: boolean };
-    const listener = (operationStatus: Notified, ev: TransferProgressEvent) => {
+    const listener = (operationStatus: Notified, ev: TransferProgressEvent): void => {
       operationStatus.notified = true;
       if (typeof ProgressEvent !== "undefined") {
         ev.should.not.be.instanceof(ProgressEvent);
@@ -155,6 +175,8 @@ describe("defaultHttpClient", function() {
     };
 
     it("for simple bodies", async function() {
+      const body = "Very large string to upload";
+
       httpMock.post("/fileupload", async (_url, _method, _body) => {
         return {
           status: 251,
@@ -166,7 +188,6 @@ describe("defaultHttpClient", function() {
       const upload: Notified = { notified: false };
       const download: Notified = { notified: false };
 
-      const body = "Very large string to upload";
       const request = new WebResource(
         "/fileupload",
         "POST",
@@ -181,7 +202,8 @@ describe("defaultHttpClient", function() {
         (ev) => listener(download, ev)
       );
 
-      const client = new DefaultHttpClient();
+      const client = getMockedHttpClient();
+
       const response = await client.sendRequest(request);
       response.should.exist;
       response.status.should.equal(251);
@@ -204,7 +226,8 @@ describe("defaultHttpClient", function() {
       undefined,
       100
     );
-    const client = new DefaultHttpClient();
+    const client = getMockedHttpClient();
+
     try {
       await client.sendRequest(request);
       throw new Error("request did not fail as expected");
@@ -215,10 +238,12 @@ describe("defaultHttpClient", function() {
 
   it("should give a graceful error for nonexistent hosts", async function() {
     // Increase timeout to give the request time to fail
+    // eslint-disable-next-line no-invalid-this
     this.timeout(10000);
     const requestUrl = "http://fake.domain";
-    httpMock.passThrough();
     const request = new WebResource(requestUrl, "GET");
+    httpMock.passThrough();
+    // restoring unstubbed fetch behavior, so not passing the local mock
     const client = new DefaultHttpClient();
     try {
       await client.sendRequest(request);
@@ -245,7 +270,8 @@ describe("defaultHttpClient", function() {
     });
 
     const request = new WebResource(requestUrl, "PUT");
-    const client = new DefaultHttpClient();
+    const client = getMockedHttpClient();
+
     const response = await client.sendRequest(request);
     response.status.should.equal(200, response.bodyAsText!);
   });

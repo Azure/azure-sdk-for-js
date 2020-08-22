@@ -7,6 +7,8 @@
 // This file makes more sense if ordered based on how meaningful are some methods in relation to others.
 /* eslint-disable @typescript-eslint/member-ordering */
 
+/// <reference lib="esnext.asynciterable" />
+
 import {
   TokenCredential,
   isTokenCredential,
@@ -134,14 +136,12 @@ import {
   CertificateAttributes,
   Contacts as CoreContacts,
   IssuerBundle
-} from "./core/models";
-import { KeyVaultClient } from "./core/keyVaultClient";
-import { SDK_VERSION } from "./core/utils/constants";
-import { parseKeyvaultIdentifier as parseKeyvaultEntityIdentifier } from "./core/utils";
+} from "./generated/models";
+import { KeyVaultClient } from "./generated/keyVaultClient";
+import { SDK_VERSION } from "./generated/utils/constants";
 import "@azure/core-paging";
 import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
-import { challengeBasedAuthenticationPolicy } from "./core/challengeBasedAuthenticationPolicy";
-
+import { challengeBasedAuthenticationPolicy } from "../../keyvault-common/src";
 import { CreateCertificatePoller } from "./lro/create/poller";
 import { CertificateOperationPoller } from "./lro/operation/poller";
 import { DeleteCertificatePoller } from "./lro/delete/poller";
@@ -151,6 +151,11 @@ import { DeleteCertificateState } from "./lro/delete/operation";
 import { CreateCertificateState } from "./lro/create/operation";
 import { RecoverDeletedCertificateState } from "./lro/recover/operation";
 import { parseCertificateBytes } from "./utils";
+import {
+  parseKeyVaultCertificatesIdentifier,
+  ParsedKeyVaultCertificatesIdentifier,
+  KeyVaultCertificatesIdentifierCollectionName
+} from "./identifier";
 
 export {
   CertificateClientOptions,
@@ -163,6 +168,8 @@ export {
   BeginRecoverDeletedCertificateOptions,
   KeyVaultCertificate,
   KeyVaultCertificateWithPolicy,
+  parseKeyVaultCertificatesIdentifier,
+  KeyVaultCertificatesIdentifierCollectionName,
   BackupCertificateOptions,
   CertificateContentType,
   CertificateProperties,
@@ -176,6 +183,7 @@ export {
   CertificateTags,
   CreateCertificateOptions,
   CertificatePollerOptions,
+  ParsedKeyVaultCertificatesIdentifier,
   PollerLike,
   CreateCertificateState,
   DeleteCertificateState,
@@ -232,7 +240,10 @@ export {
 /**
  * Deprecated KeyVault copy of core-lro's PollerLike.
  */
-export type KVPollerLike<TState extends PollOperationState<TResult>, TResult> = PollerLike<TState, TResult>;
+export type KVPollerLike<TState extends PollOperationState<TResult>, TResult> = PollerLike<
+  TState,
+  TResult
+>;
 
 function toCoreAttributes(properties: CertificateProperties): CoreCertificateAttributes {
   return {
@@ -365,7 +376,7 @@ function toPublicPolicy(policy: CoreCertificatePolicy = {}): CertificatePolicy {
 }
 
 function toPublicIssuer(issuer: IssuerBundle = {}): CertificateIssuer {
-  const parsedId = parseKeyvaultEntityIdentifier("certificates", issuer.id);
+  const parsedId = parseKeyVaultCertificatesIdentifier(issuer.id!);
   const attributes: IssuerAttributes = issuer.attributes || {};
 
   const publicIssuer: CertificateIssuer = {
@@ -468,8 +479,7 @@ export class CertificateClient {
 
     const pipeline = createPipelineFromOptions(internalPipelineOptions, authPolicy);
     this.client = new KeyVaultClient(
-      credential,
-      pipelineOptions.apiVersion || LATEST_API_VERSION,
+      pipelineOptions.serviceVersion || LATEST_API_VERSION,
       pipeline
     );
   }
@@ -486,7 +496,7 @@ export class CertificateClient {
       const currentSetResponse = await this.client.getCertificates(this.vaultUrl, optionsComplete);
       continuationState.continuationToken = currentSetResponse.nextLink;
       if (currentSetResponse.value) {
-        yield currentSetResponse.value.map(this.getPropertiesFromCertificateBundle);
+        yield currentSetResponse.value.map(this.getPropertiesFromCertificateBundle, this);
       }
     }
     while (continuationState.continuationToken) {
@@ -496,7 +506,7 @@ export class CertificateClient {
       );
       continuationState.continuationToken = currentSetResponse.nextLink;
       if (currentSetResponse.value) {
-        yield currentSetResponse.value.map(this.getPropertiesFromCertificateBundle);
+        yield currentSetResponse.value.map(this.getPropertiesFromCertificateBundle, this);
       } else {
         break;
       }
@@ -578,7 +588,7 @@ export class CertificateClient {
       );
       continuationState.continuationToken = currentSetResponse.nextLink;
       if (currentSetResponse.value) {
-        yield currentSetResponse.value.map(this.getPropertiesFromCertificateBundle);
+        yield currentSetResponse.value.map(this.getPropertiesFromCertificateBundle, this);
       }
     }
     while (continuationState.continuationToken) {
@@ -589,7 +599,7 @@ export class CertificateClient {
       );
       continuationState.continuationToken = currentSetResponse.nextLink;
       if (currentSetResponse.value) {
-        yield currentSetResponse.value.map(this.getPropertiesFromCertificateBundle);
+        yield currentSetResponse.value.map(this.getPropertiesFromCertificateBundle, this);
       } else {
         break;
       }
@@ -1434,12 +1444,10 @@ export class CertificateClient {
     let result: UpdateCertificateResponse;
 
     try {
-      result = await this.client.updateCertificate(
-        this.vaultUrl,
-        certificateName,
-        version,
-        this.setParentSpan(span, requestOptions)
-      );
+      result = await this.client.updateCertificate(this.vaultUrl, certificateName, version, {
+        ...this.setParentSpan(span, requestOptions),
+        certificateAttributes: toCoreAttributes(options)
+      });
     } finally {
       span.end();
     }
@@ -1717,7 +1725,7 @@ export class CertificateClient {
       );
       continuationState.continuationToken = currentSetResponse.nextLink;
       if (currentSetResponse.value) {
-        yield currentSetResponse.value.map(this.getDeletedCertificateFromItem);
+        yield currentSetResponse.value.map(this.getDeletedCertificateFromItem, this);
       }
     }
     while (continuationState.continuationToken) {
@@ -1727,7 +1735,7 @@ export class CertificateClient {
       );
       continuationState.continuationToken = currentSetResponse.nextLink;
       if (currentSetResponse.value) {
-        yield currentSetResponse.value.map(this.getDeletedCertificateFromItem);
+        yield currentSetResponse.value.map(this.getDeletedCertificateFromItem, this);
       } else {
         break;
       }
@@ -2008,7 +2016,7 @@ export class CertificateClient {
   private getPropertiesFromCertificateBundle(
     certificateBundle: CertificateBundle
   ): CertificateProperties {
-    const parsedId = parseKeyvaultEntityIdentifier("certificates", certificateBundle.id);
+    const parsedId = parseKeyVaultCertificatesIdentifier(certificateBundle.id!);
     const attributes: CertificateAttributes = certificateBundle.attributes || {};
 
     const abstractProperties: CertificateProperties = {
@@ -2066,7 +2074,7 @@ export class CertificateClient {
   private getCertificateFromCertificateBundle(
     certificateBundle: CertificateBundle
   ): KeyVaultCertificate {
-    const parsedId = parseKeyvaultEntityIdentifier("certificates", certificateBundle.id);
+    const parsedId = parseKeyVaultCertificatesIdentifier(certificateBundle.id!);
 
     const attributes: CertificateAttributes = certificateBundle.attributes || {};
 
@@ -2098,7 +2106,7 @@ export class CertificateClient {
   private getCertificateWithPolicyFromCertificateBundle(
     certificateBundle: CertificateBundle
   ): KeyVaultCertificateWithPolicy {
-    const parsedId = parseKeyvaultEntityIdentifier("certificates", certificateBundle.id);
+    const parsedId = parseKeyVaultCertificatesIdentifier(certificateBundle.id!);
 
     const attributes: CertificateAttributes = certificateBundle.attributes || {};
     const policy = toPublicPolicy(certificateBundle.policy || {});
@@ -2145,12 +2153,11 @@ export class CertificateClient {
   }
 
   private getDeletedCertificateFromItem(item: DeletedCertificateItem): DeletedCertificate {
-    const parsedId = parseKeyvaultEntityIdentifier("certificates", item.id);
+    const parsedId = parseKeyVaultCertificatesIdentifier(item.id!);
 
     const attributes: any = item.attributes || {};
 
     const abstractProperties: any = {
-      name: parsedId.name,
       createdOn: attributes.created,
       updatedOn: attributes.updated,
       expiresOn: attributes.expires,

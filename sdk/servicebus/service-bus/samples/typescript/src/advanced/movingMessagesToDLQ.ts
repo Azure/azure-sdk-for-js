@@ -4,11 +4,11 @@
 
   **NOTE**: This sample uses the preview of the next version of the @azure/service-bus package.
   For samples using the current stable version of the package, please use the link below:
-  https://github.com/Azure/azure-sdk-for-js/tree/%40azure/service-bus_1.1.5/sdk/servicebus/service-bus/samples
+  https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/servicebus/service-bus/samples-v1
   
   This sample demonstrates scenarios as to how a Service Bus message can be explicitly moved to
   the DLQ. For other implicit ways when Service Bus messages get moved to DLQ, refer to -
-  https://docs.microsoft.com/en-us/azure/service-bus-messaging/service-bus-dead-letter-queues
+  https://docs.microsoft.com/azure/service-bus-messaging/service-bus-dead-letter-queues
 
   Run processMessagesInDLQ example after this to see how the messages in DLQ can be reprocessed.
 */
@@ -37,7 +37,7 @@ export async function main() {
 
 async function sendMessage() {
   // createSender() can also be used to create a sender for a topic.
-  const sender = await sbClient.createSender(queueName);
+  const sender = sbClient.createSender(queueName);
 
   const message = {
     body: {
@@ -47,15 +47,15 @@ async function sendMessage() {
     contentType: "application/json",
     label: "Recipe"
   };
-  await sender.send(message);
+  await sender.sendMessages(message);
   await sender.close();
 }
 
 async function receiveMessage() {
   // If receiving from a subscription you can use the createReceiver(topic, subscription) overload
-  const receiver = sbClient.createReceiver(queueName, "peekLock");
+  const receiver = sbClient.createReceiver(queueName);
 
-  const messages = await receiver.receiveBatch(1);
+  const messages = await receiver.receiveMessages(1);
 
   if (messages.length) {
     console.log(

@@ -9,41 +9,40 @@
    "response": "{\"token_type\":\"Bearer\",\"expires_in\":3599,\"ext_expires_in\":3599,\"access_token\":\"access_token\"}",
    "responseHeaders": {
     "cache-control": "no-cache, no-store",
-    "content-length": "1417",
+    "content-length": "1500",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 06 Feb 2020 23:49:22 GMT",
+    "date": "Fri, 14 Aug 2020 17:49:38 GMT",
     "expires": "-1",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
     "referrer-policy": "strict-origin-when-cross-origin",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.9987.16 - WST ProdSlices",
-    "x-ms-request-id": "7dcad05a-7d99-4eb8-b7ce-d8dae3823500"
+    "x-ms-ests-server": "2.1.10946.15 - NCUS ProdSlices",
+    "x-ms-request-id": "4e088a4f-8233-4e44-8b06-74f18dc52700"
    }
   },
   {
    "method": "POST",
-   "url": "https://endpoint/text/analytics/v3.0-preview.1/sentiment",
+   "url": "https://endpoint/text/analytics/v3.1-preview.1/sentiment",
    "query": {},
    "requestBody": "{\"documents\":[{\"id\":\"0\",\"text\":\"Hello world!\",\"language\":\"notalanguage\"}]}",
    "status": 200,
-   "response": "{\"documents\":[],\"errors\":[{\"id\":\"0\",\"error\":{\"code\":\"InvalidArgument\",\"message\":\"Invalid Language Code.\",\"innerError\":{\"code\":\"UnsupportedLanguageCode\",\"message\":\"Supplied language not supported. Pass in one of: de,en,es,fr,it,ja,ko,nl,pt-PT,zh-Hans,zh-Hant\"}}}],\"modelVersion\":\"2019-10-01\"}",
+   "response": "{\"documents\":[],\"errors\":[{\"id\":\"0\",\"error\":{\"code\":\"InvalidArgument\",\"message\":\"Invalid Language Code.\",\"innererror\":{\"code\":\"UnsupportedLanguageCode\",\"message\":\"Invalid language code. Supported languages: de,en,es,fr,it,ja,ko,nl,pt-PT,zh-Hans,zh-Hant\"}}}],\"modelVersion\":\"2020-04-01\"}",
    "responseHeaders": {
-    "access-control-allow-origin": "*",
-    "access-control-expose-headers": "Operation-Location",
-    "apim-request-id": "70cc3528-2802-4b0f-87d5-d056e6413f96",
+    "apim-request-id": "044c9343-2ee7-4786-aea0-4b38018ba0b0",
     "content-type": "application/json; charset=utf-8",
-    "date": "Thu, 06 Feb 2020 23:49:23 GMT",
+    "date": "Fri, 14 Aug 2020 17:49:39 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "4"
+    "x-envoy-upstream-service-time": "876"
    }
   }
  ],
  "uniqueTestInfo": {
   "uniqueName": {},
   "newDate": {}
- }
+ },
+ "hash": "7adc0332b21b4048254bbc4785ef4fdb"
 }

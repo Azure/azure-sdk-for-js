@@ -102,7 +102,7 @@ describe("The recorder's public API, on NodeJS", () => {
 
     // Cleaning everything before we continue verifying the results.
     server.close();
-    recorder.stop();
+    await recorder.stop();
 
     // The recorder takes some time to finish writing the output file.
     // It's not a second, but we're being pessimists.
@@ -148,7 +148,7 @@ describe("The recorder's public API, on NodeJS", () => {
     // The playback code served the appropriate response based on the recordings.
     expect(response).to.equal(expectedHttpResponse);
 
-    recorder.stop();
+    await recorder.stop();
   });
 
   it("soft-record should re-record a simple outdated test", async function() {
@@ -193,7 +193,7 @@ describe("The recorder's public API, on NodeJS", () => {
 
     // Cleaning everything before we continue verifying the results.
     server.close();
-    recorder.stop();
+    await recorder.stop();
 
     // The recorder takes some time to finish writing the output file.
     // It's not a second, but we're being pessimists.

@@ -20,6 +20,9 @@ import { Scripts } from "../Script/Scripts";
 import { ContainerDefinition } from "./ContainerDefinition";
 import { ContainerResponse } from "./ContainerResponse";
 import { PartitionKeyRange } from "./PartitionKeyRange";
+import { Offer, OfferDefinition } from "../Offer";
+import { OfferResponse } from "../Offer/OfferResponse";
+import { Resource } from "../Resource";
 
 /**
  * Operations for reading, replacing, or deleting a specific, existing container by id.
@@ -204,6 +207,28 @@ export class Container {
       headers,
       statusCode
     );
+  }
+
+  /**
+   * Gets offer on container. If none exists, returns an OfferResponse with undefined.
+   * @param options
+   */
+  public async readOffer(options: RequestOptions = {}): Promise<OfferResponse> {
+    const { resource: container } = await this.read();
+    const path = "/offers";
+    const url = container._self;
+    const response = await this.clientContext.queryFeed<OfferDefinition & Resource[]>({
+      path,
+      resourceId: "",
+      resourceType: ResourceType.offer,
+      query: `SELECT * from root where root.resource = "${url}"`,
+      resultFn: (result) => result.Offers,
+      options
+    });
+    const offer = response.result[0]
+      ? new Offer(this.database.client, response.result[0].id, this.clientContext)
+      : undefined;
+    return new OfferResponse(response.result[0], response.headers, response.code, offer);
   }
 
   public async getQueryPlan(

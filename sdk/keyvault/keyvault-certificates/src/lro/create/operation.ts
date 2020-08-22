@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { AbortSignalLike } from "@azure/abort-controller";
+import { AbortSignalLike, AbortSignal } from "@azure/abort-controller";
 import { PollOperationState, PollOperation } from "@azure/core-lro";
 import { RequestOptionsBase } from "@azure/core-http";
 import {
@@ -10,7 +10,7 @@ import {
   CertificatePolicy,
   CertificateClientInterface
 } from "../../certificatesModels";
-import { CertificateOperation } from "../../core/models";
+import { CertificateOperation } from "../../generated/models";
 
 /**
  * The public representation of the CreateCertificatePoller operation state.

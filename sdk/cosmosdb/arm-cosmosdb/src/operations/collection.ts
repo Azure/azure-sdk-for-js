@@ -29,7 +29,7 @@ export class Collection {
   /**
    * Retrieves the metrics determined by the given filter for the given database account and
    * collection.
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param databaseRid Cosmos DB database rid.
    * @param collectionRid Cosmos DB collection rid.
@@ -41,7 +41,7 @@ export class Collection {
    */
   listMetrics(resourceGroupName: string, accountName: string, databaseRid: string, collectionRid: string, filter: string, options?: msRest.RequestOptionsBase): Promise<Models.CollectionListMetricsResponse>;
   /**
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param databaseRid Cosmos DB database rid.
    * @param collectionRid Cosmos DB collection rid.
@@ -52,7 +52,7 @@ export class Collection {
    */
   listMetrics(resourceGroupName: string, accountName: string, databaseRid: string, collectionRid: string, filter: string, callback: msRest.ServiceCallback<Models.MetricListResult>): void;
   /**
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param databaseRid Cosmos DB database rid.
    * @param collectionRid Cosmos DB collection rid.
@@ -79,7 +79,7 @@ export class Collection {
 
   /**
    * Retrieves the usages (most recent storage data) for the given collection.
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param databaseRid Cosmos DB database rid.
    * @param collectionRid Cosmos DB collection rid.
@@ -88,7 +88,7 @@ export class Collection {
    */
   listUsages(resourceGroupName: string, accountName: string, databaseRid: string, collectionRid: string, options?: Models.CollectionListUsagesOptionalParams): Promise<Models.CollectionListUsagesResponse>;
   /**
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param databaseRid Cosmos DB database rid.
    * @param collectionRid Cosmos DB collection rid.
@@ -96,7 +96,7 @@ export class Collection {
    */
   listUsages(resourceGroupName: string, accountName: string, databaseRid: string, collectionRid: string, callback: msRest.ServiceCallback<Models.UsagesResult>): void;
   /**
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param databaseRid Cosmos DB database rid.
    * @param collectionRid Cosmos DB collection rid.
@@ -119,7 +119,7 @@ export class Collection {
 
   /**
    * Retrieves metric definitions for the given collection.
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param databaseRid Cosmos DB database rid.
    * @param collectionRid Cosmos DB collection rid.
@@ -128,7 +128,7 @@ export class Collection {
    */
   listMetricDefinitions(resourceGroupName: string, accountName: string, databaseRid: string, collectionRid: string, options?: msRest.RequestOptionsBase): Promise<Models.CollectionListMetricDefinitionsResponse>;
   /**
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param databaseRid Cosmos DB database rid.
    * @param collectionRid Cosmos DB collection rid.
@@ -136,7 +136,7 @@ export class Collection {
    */
   listMetricDefinitions(resourceGroupName: string, accountName: string, databaseRid: string, collectionRid: string, callback: msRest.ServiceCallback<Models.MetricDefinitionsListResult>): void;
   /**
-   * @param resourceGroupName Name of an Azure resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName Cosmos DB database account name.
    * @param databaseRid Cosmos DB database rid.
    * @param collectionRid Cosmos DB collection rid.
@@ -164,7 +164,7 @@ const listMetricsOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/databases/{databaseRid}/collections/{collectionRid}/metrics",
   urlParameters: [
-    Parameters.subscriptionId0,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.databaseRid,
@@ -192,7 +192,7 @@ const listUsagesOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/databases/{databaseRid}/collections/{collectionRid}/usages",
   urlParameters: [
-    Parameters.subscriptionId0,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.databaseRid,
@@ -220,7 +220,7 @@ const listMetricDefinitionsOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DocumentDB/databaseAccounts/{accountName}/databases/{databaseRid}/collections/{collectionRid}/metricDefinitions",
   urlParameters: [
-    Parameters.subscriptionId0,
+    Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.accountName,
     Parameters.databaseRid,

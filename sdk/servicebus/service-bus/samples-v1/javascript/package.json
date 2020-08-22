@@ -1,0 +1,44 @@
+{
+  "name": "azure-service-bus-samples-js",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Azure Service Bus client library samples for JavaScript",
+  "engine": {
+    "node": ">=8.0.0"
+  },
+  "scripts": {
+    "build": "tsc",
+    "prebuild": "rimraf dist/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js.git"
+  },
+  "keywords": [
+    "Azure",
+    "Service Bus",
+    "Node.js",
+    "TypeScript"
+  ],
+  "author": "Microsoft Corporation",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
+  "homepage": "https://github.com/Azure/azure-sdk-for-js#readme",
+  "sideEffects": false,
+  "dependencies": {
+    "@azure/abort-controller": "latest",
+    "@azure/ms-rest-nodeauth": "^3.0.0",
+    "@azure/service-bus": "^1.1.9",
+    "dotenv": "^8.2.0",
+    "https-proxy-agent": "^5.0.0",
+    "ws": "^7.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^8.0.0",
+    "@types/ws": "^6.0.0",
+    "rimraf": "^3.0.0",
+    "typescript": "~3.6.4"
+  }
+}

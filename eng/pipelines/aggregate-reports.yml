@@ -1,3 +1,13 @@
+trigger: none
+
+pr:
+  branches:
+    include:
+      - master
+  paths:
+    include:
+      - eng/pipelines/aggregate-reports.yml
+
 jobs:
 - job: 'ValidateDependencies'
 
@@ -9,6 +19,10 @@ jobs:
     displayName: 'Use Node 10.x'
     inputs:
       versionSpec: 10.x
+
+  - template: ../common/pipelines/templates/steps/verify-links.yml
+    parameters:
+      Directory: ""
 
   - script: 'npm ci'
     workingDirectory: '$(Build.SourcesDirectory)/eng/tools/analyze-deps'
@@ -32,3 +46,10 @@ jobs:
       storage: azuresdkartifacts
       containerName: 'azure-sdk-for-js'
       blobPrefix: dependencies
+
+  - task: PowerShell@2
+    displayName: "Verify Repository Resource Refs"
+    inputs:
+      pwsh: true
+      workingDirectory: $(Build.SourcesDirectory)
+      filePath: eng/common/scripts/Verify-Resource-Ref.ps1

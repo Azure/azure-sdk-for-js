@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { getTraceParentHeader, extractSpanContextFromTraceParentHeader } from "@azure/core-tracing";
+import { extractSpanContextFromTraceParentHeader, getTraceParentHeader } from "@azure/core-tracing";
 import { Span, SpanContext } from "@opentelemetry/api";
 import { EventData } from "../eventData";
 

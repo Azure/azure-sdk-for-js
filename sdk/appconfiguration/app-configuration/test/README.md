@@ -6,12 +6,12 @@ You can use existing Azure resources for the live tests, or generate new ones by
 
 The Azure resource that is used by the tests in this project is:
 
-- An [Azure App Configuration](https://docs.microsoft.com/en-us/azure/azure-app-configuration/overview). Your Azure application needs to be assigned as the **owner** of this Azure Key Vault. The steps are provided [below](#AAD-based-authentication).
+- An [Azure App Configuration](https://docs.microsoft.com/en-us/azure/azure-app-configuration/overview). Your Azure application needs to be assigned as the **owner** of this Azure App Configuration resource. The steps are provided [below](#AAD-based-authentication).
 
 To run the live tests, you will also need to set the below environment variables:
 
 - `TEST_MODE`: Should have `live` assigned.
-- `AZ_CONFIG_CONNECTION`: The connection string of your Azure App Configuration account.
+- `APPCONFIG_CONNECTION_STRING`: The connection string of your Azure App Configuration account.
 - `AZ_CONFIG_ENDPOINT`: The endpoint of your Azure App Configuration account.
 - `AZURE_CLIENT_ID`: The client ID of an Azure Active Directory application.
 - `AZURE_CLIENT_SECRET`: The client secret of an Azure Active Directory application.

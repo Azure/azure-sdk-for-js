@@ -51,7 +51,7 @@ export class Alerts {
   }
 
   /**
-   * List all the alerts alerts that are associated with the resource group
+   * List all the alerts that are associated with the resource group
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
    * @param [options] The optional parameters
@@ -204,77 +204,126 @@ export class Alerts {
   /**
    * Update the alert's state
    * @param alertName Name of the alert object
-   * @param alertUpdateActionType Type of the action to do on the alert. Possible values include:
-   * 'Dismiss', 'Reactivate'
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  updateSubscriptionLevelAlertState(alertName: string, alertUpdateActionType: Models.AlertUpdateActionType, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  updateSubscriptionLevelAlertStateToDismiss(alertName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
   /**
    * @param alertName Name of the alert object
-   * @param alertUpdateActionType Type of the action to do on the alert. Possible values include:
-   * 'Dismiss', 'Reactivate'
    * @param callback The callback
    */
-  updateSubscriptionLevelAlertState(alertName: string, alertUpdateActionType: Models.AlertUpdateActionType, callback: msRest.ServiceCallback<void>): void;
+  updateSubscriptionLevelAlertStateToDismiss(alertName: string, callback: msRest.ServiceCallback<void>): void;
   /**
    * @param alertName Name of the alert object
-   * @param alertUpdateActionType Type of the action to do on the alert. Possible values include:
-   * 'Dismiss', 'Reactivate'
    * @param options The optional parameters
    * @param callback The callback
    */
-  updateSubscriptionLevelAlertState(alertName: string, alertUpdateActionType: Models.AlertUpdateActionType, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  updateSubscriptionLevelAlertState(alertName: string, alertUpdateActionType: Models.AlertUpdateActionType, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  updateSubscriptionLevelAlertStateToDismiss(alertName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
+  updateSubscriptionLevelAlertStateToDismiss(alertName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         alertName,
-        alertUpdateActionType,
         options
       },
-      updateSubscriptionLevelAlertStateOperationSpec,
+      updateSubscriptionLevelAlertStateToDismissOperationSpec,
       callback);
   }
 
   /**
    * Update the alert's state
    * @param alertName Name of the alert object
-   * @param alertUpdateActionType Type of the action to do on the alert. Possible values include:
-   * 'Dismiss', 'Reactivate'
+   * @param [options] The optional parameters
+   * @returns Promise<msRest.RestResponse>
+   */
+  updateSubscriptionLevelAlertStateToReactivate(alertName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  /**
+   * @param alertName Name of the alert object
+   * @param callback The callback
+   */
+  updateSubscriptionLevelAlertStateToReactivate(alertName: string, callback: msRest.ServiceCallback<void>): void;
+  /**
+   * @param alertName Name of the alert object
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  updateSubscriptionLevelAlertStateToReactivate(alertName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
+  updateSubscriptionLevelAlertStateToReactivate(alertName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+    return this.client.sendOperationRequest(
+      {
+        alertName,
+        options
+      },
+      updateSubscriptionLevelAlertStateToReactivateOperationSpec,
+      callback);
+  }
+
+  /**
+   * Update the alert's state
+   * @param alertName Name of the alert object
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  updateResourceGroupLevelAlertState(alertName: string, alertUpdateActionType: Models.AlertUpdateActionType1, resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  updateResourceGroupLevelAlertStateToDismiss(alertName: string, resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
   /**
    * @param alertName Name of the alert object
-   * @param alertUpdateActionType Type of the action to do on the alert. Possible values include:
-   * 'Dismiss', 'Reactivate'
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
    * @param callback The callback
    */
-  updateResourceGroupLevelAlertState(alertName: string, alertUpdateActionType: Models.AlertUpdateActionType1, resourceGroupName: string, callback: msRest.ServiceCallback<void>): void;
+  updateResourceGroupLevelAlertStateToDismiss(alertName: string, resourceGroupName: string, callback: msRest.ServiceCallback<void>): void;
   /**
    * @param alertName Name of the alert object
-   * @param alertUpdateActionType Type of the action to do on the alert. Possible values include:
-   * 'Dismiss', 'Reactivate'
    * @param resourceGroupName The name of the resource group within the user's subscription. The name
    * is case insensitive.
    * @param options The optional parameters
    * @param callback The callback
    */
-  updateResourceGroupLevelAlertState(alertName: string, alertUpdateActionType: Models.AlertUpdateActionType1, resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  updateResourceGroupLevelAlertState(alertName: string, alertUpdateActionType: Models.AlertUpdateActionType1, resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  updateResourceGroupLevelAlertStateToDismiss(alertName: string, resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
+  updateResourceGroupLevelAlertStateToDismiss(alertName: string, resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         alertName,
-        alertUpdateActionType,
         resourceGroupName,
         options
       },
-      updateResourceGroupLevelAlertStateOperationSpec,
+      updateResourceGroupLevelAlertStateToDismissOperationSpec,
+      callback);
+  }
+
+  /**
+   * Update the alert's state
+   * @param alertName Name of the alert object
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name
+   * is case insensitive.
+   * @param [options] The optional parameters
+   * @returns Promise<msRest.RestResponse>
+   */
+  updateResourceGroupLevelAlertStateToReactivate(alertName: string, resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  /**
+   * @param alertName Name of the alert object
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name
+   * is case insensitive.
+   * @param callback The callback
+   */
+  updateResourceGroupLevelAlertStateToReactivate(alertName: string, resourceGroupName: string, callback: msRest.ServiceCallback<void>): void;
+  /**
+   * @param alertName Name of the alert object
+   * @param resourceGroupName The name of the resource group within the user's subscription. The name
+   * is case insensitive.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  updateResourceGroupLevelAlertStateToReactivate(alertName: string, resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
+  updateResourceGroupLevelAlertStateToReactivate(alertName: string, resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+    return this.client.sendOperationRequest(
+      {
+        alertName,
+        resourceGroupName,
+        options
+      },
+      updateResourceGroupLevelAlertStateToReactivateOperationSpec,
       callback);
   }
 
@@ -307,7 +356,7 @@ export class Alerts {
   }
 
   /**
-   * List all the alerts alerts that are associated with the resource group
+   * List all the alerts that are associated with the resource group
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
    * @returns Promise<Models.AlertsListByResourceGroupNextResponse>
@@ -402,10 +451,11 @@ const listOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion1,
+    Parameters.apiVersion2,
     Parameters.filter,
     Parameters.select,
-    Parameters.expand
+    Parameters.expand,
+    Parameters.autoDismissRuleName
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -429,10 +479,11 @@ const listByResourceGroupOperationSpec: msRest.OperationSpec = {
     Parameters.resourceGroupName
   ],
   queryParameters: [
-    Parameters.apiVersion1,
+    Parameters.apiVersion2,
     Parameters.filter,
     Parameters.select,
-    Parameters.expand
+    Parameters.expand,
+    Parameters.autoDismissRuleName
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -456,10 +507,11 @@ const listSubscriptionLevelAlertsByRegionOperationSpec: msRest.OperationSpec = {
     Parameters.ascLocation
   ],
   queryParameters: [
-    Parameters.apiVersion1,
+    Parameters.apiVersion2,
     Parameters.filter,
     Parameters.select,
-    Parameters.expand
+    Parameters.expand,
+    Parameters.autoDismissRuleName
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -484,10 +536,11 @@ const listResourceGroupLevelAlertsByRegionOperationSpec: msRest.OperationSpec = 
     Parameters.resourceGroupName
   ],
   queryParameters: [
-    Parameters.apiVersion1,
+    Parameters.apiVersion2,
     Parameters.filter,
     Parameters.select,
-    Parameters.expand
+    Parameters.expand,
+    Parameters.autoDismissRuleName
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -512,7 +565,7 @@ const getSubscriptionLevelAlertOperationSpec: msRest.OperationSpec = {
     Parameters.alertName
   ],
   queryParameters: [
-    Parameters.apiVersion1
+    Parameters.apiVersion2
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -538,7 +591,7 @@ const getResourceGroupLevelAlertsOperationSpec: msRest.OperationSpec = {
     Parameters.resourceGroupName
   ],
   queryParameters: [
-    Parameters.apiVersion1
+    Parameters.apiVersion2
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -554,17 +607,16 @@ const getResourceGroupLevelAlertsOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const updateSubscriptionLevelAlertStateOperationSpec: msRest.OperationSpec = {
+const updateSubscriptionLevelAlertStateToDismissOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.Security/locations/{ascLocation}/alerts/{alertName}/{alertUpdateActionType}",
+  path: "subscriptions/{subscriptionId}/providers/Microsoft.Security/locations/{ascLocation}/alerts/{alertName}/dismiss",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.ascLocation,
-    Parameters.alertName,
-    Parameters.alertUpdateActionType
+    Parameters.alertName
   ],
   queryParameters: [
-    Parameters.apiVersion1
+    Parameters.apiVersion2
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -578,18 +630,64 @@ const updateSubscriptionLevelAlertStateOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const updateResourceGroupLevelAlertStateOperationSpec: msRest.OperationSpec = {
+const updateSubscriptionLevelAlertStateToReactivateOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/locations/{ascLocation}/alerts/{alertName}/{alertUpdateActionType}",
+  path: "subscriptions/{subscriptionId}/providers/Microsoft.Security/locations/{ascLocation}/alerts/{alertName}/reactivate",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.ascLocation,
+    Parameters.alertName
+  ],
+  queryParameters: [
+    Parameters.apiVersion2
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    204: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const updateResourceGroupLevelAlertStateToDismissOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/locations/{ascLocation}/alerts/{alertName}/dismiss",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.ascLocation,
     Parameters.alertName,
-    Parameters.alertUpdateActionType,
     Parameters.resourceGroupName
   ],
   queryParameters: [
-    Parameters.apiVersion1
+    Parameters.apiVersion2
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    204: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const updateResourceGroupLevelAlertStateToReactivateOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Security/locations/{ascLocation}/alerts/{alertName}/reactivate",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.ascLocation,
+    Parameters.alertName,
+    Parameters.resourceGroupName
+  ],
+  queryParameters: [
+    Parameters.apiVersion2
   ],
   headerParameters: [
     Parameters.acceptLanguage

@@ -4,10 +4,9 @@
 import { isPlaybackMode } from "@azure/test-utils-recorder";
 import { isNode } from "@azure/core-http";
 import * as dotenv from "dotenv";
-import * as path from "path";
 
 if (isNode) {
-  dotenv.config({ path: path.resolve(__dirname, "../../.env") });
+  dotenv.config();
 }
 
 export function uniqueString(): string {

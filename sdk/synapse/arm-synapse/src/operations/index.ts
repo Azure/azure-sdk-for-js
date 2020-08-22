@@ -45,3 +45,4 @@ export * from "./integrationRuntimeMonitoringDataOperations";
 export * from "./integrationRuntimeStatusOperations";
 export * from "./privateLinkResources";
 export * from "./privateEndpointConnections";
+export * from "./privateLinkHubs";

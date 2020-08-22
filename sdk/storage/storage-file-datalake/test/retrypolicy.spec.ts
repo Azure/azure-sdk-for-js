@@ -9,7 +9,7 @@ import { getDataLakeServiceClient, recorderEnvSetup } from "./utils";
 import { InjectorPolicyFactory } from "./utils/InjectorPolicyFactory";
 import { record, Recorder } from "@azure/test-utils-recorder";
 
-dotenv.config({ path: "../.env" });
+dotenv.config();
 
 describe("RetryPolicy", () => {
   let fileSystemName: string;
@@ -27,7 +27,7 @@ describe("RetryPolicy", () => {
 
   afterEach(async function() {
     await dataLakeFileSystemClient.delete();
-    recorder.stop();
+    await recorder.stop();
   });
 
   it("Retry Policy should work when first request fails with 500", async () => {
@@ -37,6 +37,7 @@ describe("RetryPolicy", () => {
         injectCounter++;
         return new RestError("Server Internal Error", "ServerInternalError", 500);
       }
+      return;
     });
     const factories = (dataLakeFileSystemClient as any).pipeline.factories.slice(); // clone factories array
     factories.push(injector);
@@ -64,6 +65,7 @@ describe("RetryPolicy", () => {
         injectCounter++;
         return new RestError("Server Internal Error", "ServerInternalError", 500);
       }
+      return;
     });
 
     const factories = (dataLakeFileSystemClient as any).pipeline.factories.slice(); // clone factories array
@@ -131,6 +133,7 @@ describe("RetryPolicy", () => {
       if (injectCounter++ < 1) {
         return new RestError("Server Internal Error", "ServerInternalError", 500);
       }
+      return;
     });
 
     const url = serviceClient.url;

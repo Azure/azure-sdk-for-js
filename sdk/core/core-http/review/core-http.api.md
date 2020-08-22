@@ -24,6 +24,13 @@ export interface AccessTokenCache {
 }
 
 // @public
+export class AccessTokenRefresher {
+    constructor(credential: TokenCredential, scopes: string | string[], requiredMillisecondsBeforeNewRefresh?: number);
+    isReady(): boolean;
+    refresh(options: GetTokenOptions): Promise<AccessToken | undefined>;
+    }
+
+// @public
 export interface ApiKeyCredentialOptions {
     inHeader?: {
         [x: string]: any;
@@ -99,12 +106,6 @@ export class BasicAuthenticationCredentials implements ServiceClientCredentials 
 }
 
 // @public
-export class BearerTokenAuthenticationPolicy extends BaseRequestPolicy {
-    constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptions, credential: TokenCredential, scopes: string | string[], tokenCache: AccessTokenCache);
-    sendRequest(webResource: WebResourceLike): Promise<HttpOperationResponse>;
-    }
-
-// @public
 export function bearerTokenAuthenticationPolicy(credential: TokenCredential, scopes: string | string[]): RequestPolicyFactory;
 
 // @public (undocumented)
@@ -168,9 +169,11 @@ export function createPipelineFromOptions(pipelineOptions: InternalPipelineOptio
 // @public (undocumented)
 export class DefaultHttpClient extends FetchHttpClient {
     // Warning: (ae-forgotten-export) The symbol "CommonRequestInfo" needs to be exported by the entry point coreHttp.d.ts
+    // Warning: (ae-forgotten-export) The symbol "CommonRequestInit" needs to be exported by the entry point coreHttp.d.ts
+    // Warning: (ae-forgotten-export) The symbol "CommonResponse" needs to be exported by the entry point coreHttp.d.ts
     //
     // (undocumented)
-    fetch(input: CommonRequestInfo, init?: RequestInit): Promise<Response>;
+    fetch(input: CommonRequestInfo, init?: CommonRequestInit): Promise<CommonResponse>;
     // (undocumented)
     prepareRequest(httpRequest: WebResourceLike): Promise<Partial<RequestInit>>;
     // (undocumented)
@@ -214,15 +217,7 @@ export interface DictionaryMapperType {
 }
 
 // @public
-export class DisableResponseDecompressionPolicy extends BaseRequestPolicy {
-    constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptions);
-    sendRequest(request: WebResource): Promise<HttpOperationResponse>;
-}
-
-// @public
-export function disableResponseDecompressionPolicy(): {
-    create: (nextPolicy: RequestPolicy, options: RequestPolicyOptions) => DisableResponseDecompressionPolicy;
-};
+export function disableResponseDecompressionPolicy(): RequestPolicyFactory;
 
 // @public
 export function encodeUri(uri: string): string;
@@ -375,16 +370,8 @@ export interface KeepAliveOptions {
     enable: boolean;
 }
 
-// @public
-export class KeepAlivePolicy extends BaseRequestPolicy {
-    constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptions, keepAliveOptions: KeepAliveOptions);
-    sendRequest(request: WebResourceLike): Promise<HttpOperationResponse>;
-}
-
 // @public (undocumented)
-export function keepAlivePolicy(keepAliveOptions?: KeepAliveOptions): {
-    create: (nextPolicy: RequestPolicy, options: RequestPolicyOptions) => KeepAlivePolicy;
-};
+export function keepAlivePolicy(keepAliveOptions?: KeepAliveOptions): RequestPolicyFactory;
 
 // @public (undocumented)
 export function logPolicy(loggingOptions?: LogPolicyOptions): RequestPolicyFactory;
@@ -501,6 +488,7 @@ export interface OperationSpec {
     readonly headerParameters?: ReadonlyArray<OperationParameter>;
     readonly httpMethod: HttpMethods;
     readonly isXML?: boolean;
+    readonly mediaType?: "json" | "xml" | "form" | "binary" | "multipart" | "text" | "unknown" | string;
     readonly path?: string;
     readonly queryParameters?: ReadonlyArray<OperationQueryParameter>;
     readonly requestBody?: OperationParameter;
@@ -571,10 +559,8 @@ export function proxyPolicy(proxySettings?: ProxySettings): RequestPolicyFactory
 
 // @public
 export interface ProxySettings {
-    // (undocumented)
     host: string;
     password?: string;
-    // (undocumented)
     port: number;
     username?: string;
 }

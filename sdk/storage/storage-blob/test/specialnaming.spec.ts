@@ -5,7 +5,7 @@ import { appendToURLPath } from "../src/utils/utils.common";
 import { record, Recorder } from "@azure/test-utils-recorder";
 import * as dotenv from "dotenv";
 import { ContainerClient } from "../src";
-dotenv.config({ path: "../.env" });
+dotenv.config();
 
 describe("Special Naming Tests", () => {
   let containerName: string;
@@ -24,7 +24,7 @@ describe("Special Naming Tests", () => {
 
   afterEach(async function() {
     await containerClient.delete();
-    recorder.stop();
+    await recorder.stop();
   });
 
   it("Should work with special container and blob names with spaces", async () => {

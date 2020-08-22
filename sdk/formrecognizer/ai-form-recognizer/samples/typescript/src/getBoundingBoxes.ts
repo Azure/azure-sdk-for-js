@@ -7,53 +7,49 @@
  */
 
 import { FormRecognizerClient, AzureKeyCredential } from "@azure/ai-form-recognizer";
+
 import * as fs from "fs";
+import * as path from "path";
 
 // Load the .env file if it exists
-require("dotenv").config();
+import * as dotenv from "dotenv";
+dotenv.config();
 
 export async function main() {
   // You will need to set these environment variables or edit the following values
   const endpoint = process.env["FORM_RECOGNIZER_ENDPOINT"] || "<cognitive services endpoint>";
   const apiKey = process.env["FORM_RECOGNIZER_API_KEY"] || "<api key>";
   const modelId = process.env["CUSTOM_MODEL_ID"] || "<custom model id>";
-  // The form you are recognizing must be of the same type as the forms the custom model was trained on
-  const path = "../assets/Invoice_6.pdf";
 
-  if (!fs.existsSync(path)) {
-    throw new Error(`Expecting file ${path} exists`);
+  // The form you are recognizing must be of the same type as the forms the custom model was trained on
+  const fileName = path.join(__dirname, "../assets/Invoice_6.pdf");
+
+  if (!fs.existsSync(fileName)) {
+    throw new Error(`Expecting file ${fileName} exists`);
   }
 
-  const readStream = fs.createReadStream(path);
+  const readStream = fs.createReadStream(fileName);
 
   const client = new FormRecognizerClient(endpoint, new AzureKeyCredential(apiKey));
-  const poller = await client.beginRecognizeForms(modelId, readStream, "application/pdf", {
+  const poller = await client.beginRecognizeCustomForms(modelId, readStream, {
+    contentType: "application/pdf",
     onProgress: (state) => {
       console.log(`status: ${state.status}`);
     }
   });
-  await poller.pollUntilDone();
-  const response = poller.getResult();
+  const forms = await poller.pollUntilDone();
 
-  if (!response) {
-    throw new Error("Expecting valid response!");
-  }
-
-  console.log(response.status);
-  console.log("Forms:");
-  let i = 0;
-  for (const form of response.forms || []) {
-    console.log(`  Form #${i++} has type ${form.formType}`);
+  for (const form of forms || []) {
+    console.log(`- Form has type ${form.formType}`);
     console.log("  Fields:");
-    for (const fieldName in form.fields) {
+    for (const [fieldName, field] of Object.entries(form.fields)) {
       // each field is of type FormField
-      const field = form.fields[fieldName];
       const boundingBox =
-        field.valueText && field.valueText.boundingBox
-          ? field.valueText.boundingBox.map((p) => `[${p.x},${p.y}]`).join(", ")
+        field.valueData && field.valueData.boundingBox
+          ? field.valueData.boundingBox.map((p) => `[${p.x},${p.y}]`).join(", ")
           : "N/A";
       console.log(
-        `    Field ${fieldName} has value '${field.value}' with a confidence score of ${field.confidence} within bounding box ${boundingBox}`
+        `    Field '${fieldName}' has value '${field.value}' with a confidence score of ${field.confidence} within bounding box ${boundingBox}`
       );
     }
     console.log("  Pages:");
@@ -63,25 +59,20 @@ export async function main() {
       );
       console.log("    Tables");
       for (const table of page.tables || []) {
-        for (const row of table.rows) {
-          for (const cell of row.cells) {
-            console.log(
-              `      Cell[${cell.rowIndex},${cell.columnIndex}] has text ${cell.text} with confidence ${cell.confidence} based on the following words:`
-            );
-            for (const element of cell.textContent || []) {
-              const boundingBox = element.boundingBox
-                ? element.boundingBox.map((p) => `[$.2d{p.x},${p.y}]`).join(", ")
-                : "N/A";
-              console.log(`        '${element.text}' within bounding box ${boundingBox}`);
-            }
+        for (const cell of table.cells) {
+          console.log(
+            `      Cell[${cell.rowIndex},${cell.columnIndex}] has text ${cell.text} with confidence ${cell.confidence} based on the following words:`
+          );
+          for (const element of cell.fieldElements || []) {
+            const boundingBox = element.boundingBox
+              ? element.boundingBox.map((p) => `[$.2d{p.x},${p.y}]`).join(", ")
+              : "N/A";
+            console.log(`        '${element.text}' within bounding box ${boundingBox}`);
           }
         }
       }
     }
   }
-
-  console.log("Errors:");
-  console.log(response.errors);
 }
 
 main().catch((err) => {

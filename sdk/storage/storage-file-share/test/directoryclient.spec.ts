@@ -9,7 +9,7 @@ import { TestTracer, setTracer, SpanGraph } from "@azure/core-tracing";
 import { URLBuilder } from "@azure/core-http";
 import { MockPolicyFactory } from "./utils/MockPolicyFactory";
 import { Pipeline } from "../src/Pipeline";
-dotenv.config({ path: "../.env" });
+dotenv.config();
 
 describe("DirectoryClient", () => {
   let shareName: string;
@@ -51,7 +51,7 @@ describe("DirectoryClient", () => {
 
   afterEach(async function() {
     await shareClient.delete();
-    recorder.stop();
+    await recorder.stop();
   });
 
   it("setMetadata", async () => {
@@ -150,6 +150,35 @@ describe("DirectoryClient", () => {
     assert.ok(result.fileChangeOn!);
     assert.ok(result.fileId!);
     assert.ok(result.fileParentId!);
+  });
+
+  it("createIfNotExists", async () => {
+    const res = await dirClient.createIfNotExists();
+    assert.ok(!res.succeeded);
+    assert.equal(res.errorCode, "ResourceAlreadyExists");
+
+    const dirClient2 = shareClient.getDirectoryClient(recorder.getUniqueName(dirName));
+    const res2 = await dirClient2.createIfNotExists();
+    assert.ok(res2.succeeded);
+
+    await dirClient2.delete();
+  });
+
+  it("deleteIfExists", async () => {
+    const dirClient2 = shareClient.getDirectoryClient(recorder.getUniqueName(dirName));
+    const res = await dirClient2.deleteIfExists();
+    assert.ok(!res.succeeded);
+    assert.equal(res.errorCode, "ResourceNotFound");
+
+    await dirClient2.create();
+    const res2 = await dirClient2.deleteIfExists();
+    assert.ok(res2.succeeded);
+  });
+
+  it("exists", async () => {
+    assert.ok(await dirClient.exists());
+    const dirClient2 = shareClient.getDirectoryClient(recorder.getUniqueName(dirName));
+    assert.ok(!(await dirClient2.exists()));
   });
 
   it("setProperties with default parameters", async () => {
@@ -449,7 +478,7 @@ describe("DirectoryClient", () => {
       subFileClients.push(subFileClient);
     }
 
-    const iter = await rootDirClient.listFilesAndDirectories({ prefix });
+    const iter = rootDirClient.listFilesAndDirectories({ prefix });
     let entity = (await iter.next()).value;
     assert.ok(entity.name.startsWith(prefix));
     if (entity.kind == "file") {

@@ -222,7 +222,8 @@ export default {
     }),
     cjs({
       namedExports: {
-        events: ["EventEmitter"]
+        events: ["EventEmitter"],
+        "@opentelemetry/api": ["CanonicalCode", "SpanKind", "TraceFlags"]
       }
     }),
     json()
@@ -235,7 +236,7 @@ The above configuration may need to change based on which SDK packages your code
 We also need to install the plugins we referenced in the above file:
 
 ```
-npm install --save-dev rollup-plugin-node-resolve @rollup/plugin-commonjs @rollup/plugin-json rollup-plugin-shim
+npm install --save-dev @rollup/plugin-node-resolve @rollup/plugin-commonjs @rollup/plugin-json rollup-plugin-shim
 ```
 
 Now that we have our config file and necessary plugins installed, we can run rollup:

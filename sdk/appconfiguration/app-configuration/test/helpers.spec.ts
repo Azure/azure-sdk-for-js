@@ -260,7 +260,7 @@ describe("helper methods", () => {
           return this;
         },
         validateRequestProperties: () => {},
-        prepare: function(options) {
+        prepare: function() {
           return this;
         }
       },

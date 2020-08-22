@@ -3,10 +3,10 @@
 import {
   FetchFunctionCallback,
   DefaultQueryExecutionContext
-} from "../../dist-esm/queryExecutionContext";
-import { FeedOptions } from "../../dist-esm";
+} from "../../src/queryExecutionContext";
+import { FeedOptions } from "../../src";
 import assert from "assert";
-import { sleep } from "../../dist-esm/common";
+import { sleep } from "../../src/common";
 
 describe("defaultQueryExecutionContext", function() {
   it("should not buffer items if bufferItems is false", async function() {

@@ -53,7 +53,7 @@ describe("negative", function(): void {
       const onMessage: OnReceivedMessage = (context: PartitionContext, data: EventData) => {
         debug(">>> [%s] Rx message from '%s': '%O'", hostName, context.partitionId, data);
       };
-      const onError: OnReceivedError = err => {
+      const onError: OnReceivedError = (err) => {
         debug("An error occurred while receiving the message: %O", err);
         throw err;
       };
@@ -73,7 +73,7 @@ describe("negative", function(): void {
       .then(() => {
         done();
       })
-      .catch(err => {
+      .catch((err) => {
         done(err);
       });
   });
@@ -92,7 +92,7 @@ describe("negative", function(): void {
     const onMessage: OnReceivedMessage = (context: PartitionContext, data: EventData) => {
       debug(">>> [%s] Rx message from '%s': '%O'", hostName, context.partitionId, data);
     };
-    const onError: OnReceivedError = err => {
+    const onError: OnReceivedError = (err) => {
       debug("An error occurred while receiving the message: %O", err);
       throw err;
     };
@@ -101,7 +101,7 @@ describe("negative", function(): void {
       .then(() => {
         return Promise.reject(new Error("This statement should not have executed."));
       })
-      .catch(err => {
+      .catch((err) => {
         debug(">>>>>>> %s", err.action);
         err.action.should.equal("Getting PartitionIds");
         done();
@@ -122,7 +122,7 @@ describe("negative", function(): void {
     const onMessage: OnReceivedMessage = (context: PartitionContext, data: EventData) => {
       debug(">>> [%s] Rx message from '%s': '%O'", hostName, context.partitionId, data);
     };
-    const onError: OnReceivedError = err => {
+    const onError: OnReceivedError = (err) => {
       debug("An error occurred while receiving the message: %O", err);
       throw err;
     };
@@ -131,7 +131,7 @@ describe("negative", function(): void {
       .then(() => {
         return Promise.reject(new Error("This statement should not have executed."));
       })
-      .catch(err => {
+      .catch((err) => {
         debug(">>>>>>> %s", err.action);
         err.action.should.equal("Getting PartitionIds");
         done();

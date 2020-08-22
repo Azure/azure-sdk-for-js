@@ -918,7 +918,7 @@ const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "{scope}/providers/Microsoft.EventGrid/eventSubscriptions/{eventSubscriptionName}",
   urlParameters: [
-    Parameters.scope0,
+    Parameters.scope,
     Parameters.eventSubscriptionName
   ],
   queryParameters: [
@@ -942,7 +942,7 @@ const getFullUrlOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "{scope}/providers/Microsoft.EventGrid/eventSubscriptions/{eventSubscriptionName}/getFullUrl",
   urlParameters: [
-    Parameters.scope0,
+    Parameters.scope,
     Parameters.eventSubscriptionName
   ],
   queryParameters: [
@@ -1235,7 +1235,7 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path: "{scope}/providers/Microsoft.EventGrid/eventSubscriptions/{eventSubscriptionName}",
   urlParameters: [
-    Parameters.scope0,
+    Parameters.scope,
     Parameters.eventSubscriptionName
   ],
   queryParameters: [
@@ -1266,7 +1266,7 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
   path: "{scope}/providers/Microsoft.EventGrid/eventSubscriptions/{eventSubscriptionName}",
   urlParameters: [
-    Parameters.scope0,
+    Parameters.scope,
     Parameters.eventSubscriptionName
   ],
   queryParameters: [
@@ -1290,7 +1290,7 @@ const beginUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
   path: "{scope}/providers/Microsoft.EventGrid/eventSubscriptions/{eventSubscriptionName}",
   urlParameters: [
-    Parameters.scope0,
+    Parameters.scope,
     Parameters.eventSubscriptionName
   ],
   queryParameters: [

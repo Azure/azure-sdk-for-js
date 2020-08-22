@@ -85,7 +85,7 @@ export interface ErrorResponse {
 export interface ComplianceStatus {
   /**
    * The compliance state of the configuration. Possible values include: 'Pending', 'Compliant',
-   * 'Noncompliant'
+   * 'Noncompliant', 'Installed', 'Failed'
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly complianceState?: ComplianceState;
@@ -247,11 +247,11 @@ export interface ResourceProviderOperationList extends Array<ResourceProviderOpe
 
 /**
  * Defines values for ComplianceState.
- * Possible values include: 'Pending', 'Compliant', 'Noncompliant'
+ * Possible values include: 'Pending', 'Compliant', 'Noncompliant', 'Installed', 'Failed'
  * @readonly
  * @enum {string}
  */
-export type ComplianceState = 'Pending' | 'Compliant' | 'Noncompliant';
+export type ComplianceState = 'Pending' | 'Compliant' | 'Noncompliant' | 'Installed' | 'Failed';
 
 /**
  * Defines values for MessageLevel.

@@ -214,6 +214,32 @@ export interface ErrorResponse {
 }
 
 /**
+ * Health Details for backup items.
+ */
+export interface HealthDetails {
+  /**
+   * Health Code
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly code?: number;
+  /**
+   * Health Title
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly title?: string;
+  /**
+   * Health Message
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly message?: string;
+  /**
+   * Health Recommended Actions
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly recommendations?: string[];
+}
+
+/**
  * Additional information about Azure File Share backup item.
  */
 export interface AzureFileshareProtectedItemExtendedInfo {
@@ -393,10 +419,15 @@ export interface AzureFileshareProtectedItem {
    */
   protectionState?: ProtectionState;
   /**
-   * backups running status for this backup item. Possible values include: 'Passed',
-   * 'ActionRequired', 'ActionSuggested', 'Invalid'
+   * Health status of protected item. Possible values include: 'Passed', 'ActionRequired',
+   * 'ActionSuggested', 'Healthy', 'TransientDegraded', 'PersistentDegraded', 'TransientUnhealthy',
+   * 'PersistentUnhealthy', 'Invalid'
    */
   healthStatus?: HealthStatus;
+  /**
+   * Health details on this backup item.
+   */
+  healthDetails?: HealthDetails[];
   /**
    * Last backup operation status. Possible values: Healthy, Unhealthy.
    */
@@ -782,7 +813,8 @@ export interface AzureIaaSVMProtectedItem {
   protectionState?: ProtectionState;
   /**
    * Health status of protected item. Possible values include: 'Passed', 'ActionRequired',
-   * 'ActionSuggested', 'Invalid'
+   * 'ActionSuggested', 'Healthy', 'TransientDegraded', 'PersistentDegraded', 'TransientUnhealthy',
+   * 'PersistentUnhealthy', 'Invalid'
    */
   healthStatus?: HealthStatus;
   /**
@@ -892,7 +924,8 @@ export interface AzureIaaSClassicComputeVMProtectedItem {
   protectionState?: ProtectionState;
   /**
    * Health status of protected item. Possible values include: 'Passed', 'ActionRequired',
-   * 'ActionSuggested', 'Invalid'
+   * 'ActionSuggested', 'Healthy', 'TransientDegraded', 'PersistentDegraded', 'TransientUnhealthy',
+   * 'PersistentUnhealthy', 'Invalid'
    */
   healthStatus?: HealthStatus;
   /**
@@ -1002,7 +1035,8 @@ export interface AzureIaaSComputeVMProtectedItem {
   protectionState?: ProtectionState;
   /**
    * Health status of protected item. Possible values include: 'Passed', 'ActionRequired',
-   * 'ActionSuggested', 'Invalid'
+   * 'ActionSuggested', 'Healthy', 'TransientDegraded', 'PersistentDegraded', 'TransientUnhealthy',
+   * 'PersistentUnhealthy', 'Invalid'
    */
   healthStatus?: HealthStatus;
   /**
@@ -1057,27 +1091,7 @@ export interface AzureIaaSVMErrorInfo {
 /**
  * Azure IaaS VM workload-specific Health Details.
  */
-export interface AzureIaaSVMHealthDetails {
-  /**
-   * Health Code
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly code?: number;
-  /**
-   * Health Title
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly title?: string;
-  /**
-   * Health Message
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly message?: string;
-  /**
-   * Health Recommended Actions
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly recommendations?: string[];
+export interface AzureIaaSVMHealthDetails extends HealthDetails {
 }
 
 /**
@@ -1723,6 +1737,16 @@ export interface AzureVmWorkloadProtectedItem {
    */
   protectedItemHealthStatus?: ProtectedItemHealthStatus;
   /**
+   * Health status of protected item. Possible values include: 'Passed', 'ActionRequired',
+   * 'ActionSuggested', 'Healthy', 'TransientDegraded', 'PersistentDegraded', 'TransientUnhealthy',
+   * 'PersistentUnhealthy', 'Invalid'
+   */
+  healthStatus?: HealthStatus;
+  /**
+   * Health details on this backup item.
+   */
+  healthDetails?: HealthDetails[];
+  /**
    * Additional information for this backup item.
    */
   extendedInfo?: AzureVmWorkloadProtectedItemExtendedInfo;
@@ -1840,6 +1864,16 @@ export interface AzureVmWorkloadSAPAseDatabaseProtectedItem {
    * include: 'Invalid', 'Healthy', 'Unhealthy', 'NotReachable', 'IRPending'
    */
   protectedItemHealthStatus?: ProtectedItemHealthStatus;
+  /**
+   * Health status of protected item. Possible values include: 'Passed', 'ActionRequired',
+   * 'ActionSuggested', 'Healthy', 'TransientDegraded', 'PersistentDegraded', 'TransientUnhealthy',
+   * 'PersistentUnhealthy', 'Invalid'
+   */
+  healthStatus?: HealthStatus;
+  /**
+   * Health details on this backup item.
+   */
+  healthDetails?: HealthDetails[];
   /**
    * Additional information for this backup item.
    */
@@ -1959,6 +1993,16 @@ export interface AzureVmWorkloadSAPHanaDatabaseProtectedItem {
    */
   protectedItemHealthStatus?: ProtectedItemHealthStatus;
   /**
+   * Health status of protected item. Possible values include: 'Passed', 'ActionRequired',
+   * 'ActionSuggested', 'Healthy', 'TransientDegraded', 'PersistentDegraded', 'TransientUnhealthy',
+   * 'PersistentUnhealthy', 'Invalid'
+   */
+  healthStatus?: HealthStatus;
+  /**
+   * Health details on this backup item.
+   */
+  healthDetails?: HealthDetails[];
+  /**
    * Additional information for this backup item.
    */
   extendedInfo?: AzureVmWorkloadProtectedItemExtendedInfo;
@@ -2076,6 +2120,16 @@ export interface AzureVmWorkloadSQLDatabaseProtectedItem {
    * include: 'Invalid', 'Healthy', 'Unhealthy', 'NotReachable', 'IRPending'
    */
   protectedItemHealthStatus?: ProtectedItemHealthStatus;
+  /**
+   * Health status of protected item. Possible values include: 'Passed', 'ActionRequired',
+   * 'ActionSuggested', 'Healthy', 'TransientDegraded', 'PersistentDegraded', 'TransientUnhealthy',
+   * 'PersistentUnhealthy', 'Invalid'
+   */
+  healthStatus?: HealthStatus;
+  /**
+   * Health details on this backup item.
+   */
+  healthDetails?: HealthDetails[];
   /**
    * Additional information for this backup item.
    */
@@ -7613,41 +7667,41 @@ export interface RecoveryServicesBackupClientOptions extends AzureServiceClientO
 /**
  * @interface
  * List of RecoveryPoint resources
- * @extends Array<RecoveryPointResource>
+ * @extends Array<RecoveryPointResource>, ResourceList
  */
-export interface RecoveryPointResourceList extends Array<RecoveryPointResource> {
+export interface RecoveryPointResourceList extends Array<RecoveryPointResource>, ResourceList {
 }
 
 /**
  * @interface
  * List of ProtectionPolicy resources
- * @extends Array<ProtectionPolicyResource>
+ * @extends Array<ProtectionPolicyResource>, ResourceList
  */
-export interface ProtectionPolicyResourceList extends Array<ProtectionPolicyResource> {
+export interface ProtectionPolicyResourceList extends Array<ProtectionPolicyResource>, ResourceList {
 }
 
 /**
  * @interface
  * List of Job resources
- * @extends Array<JobResource>
+ * @extends Array<JobResource>, ResourceList
  */
-export interface JobResourceList extends Array<JobResource> {
+export interface JobResourceList extends Array<JobResource>, ResourceList {
 }
 
 /**
  * @interface
  * List of ProtectedItem resources
- * @extends Array<ProtectedItemResource>
+ * @extends Array<ProtectedItemResource>, ResourceList
  */
-export interface ProtectedItemResourceList extends Array<ProtectedItemResource> {
+export interface ProtectedItemResourceList extends Array<ProtectedItemResource>, ResourceList {
 }
 
 /**
  * @interface
  * List of ProtectionIntent resources
- * @extends Array<ProtectionIntentResource>
+ * @extends Array<ProtectionIntentResource>, ResourceList
  */
-export interface ProtectionIntentResourceList extends Array<ProtectionIntentResource> {
+export interface ProtectionIntentResourceList extends Array<ProtectionIntentResource>, ResourceList {
 }
 
 /**
@@ -7661,41 +7715,41 @@ export interface BackupManagementUsageList extends Array<BackupManagementUsage> 
 /**
  * @interface
  * List of BackupEngineBase resources
- * @extends Array<BackupEngineBaseResource>
+ * @extends Array<BackupEngineBaseResource>, ResourceList
  */
-export interface BackupEngineBaseResourceList extends Array<BackupEngineBaseResource> {
+export interface BackupEngineBaseResourceList extends Array<BackupEngineBaseResource>, ResourceList {
 }
 
 /**
  * @interface
  * List of ProtectableContainer resources
- * @extends Array<ProtectableContainerResource>
+ * @extends Array<ProtectableContainerResource>, ResourceList
  */
-export interface ProtectableContainerResourceList extends Array<ProtectableContainerResource> {
+export interface ProtectableContainerResourceList extends Array<ProtectableContainerResource>, ResourceList {
 }
 
 /**
  * @interface
  * List of WorkloadItem resources
- * @extends Array<WorkloadItemResource>
+ * @extends Array<WorkloadItemResource>, ResourceList
  */
-export interface WorkloadItemResourceList extends Array<WorkloadItemResource> {
+export interface WorkloadItemResourceList extends Array<WorkloadItemResource>, ResourceList {
 }
 
 /**
  * @interface
  * List of WorkloadProtectableItem resources
- * @extends Array<WorkloadProtectableItemResource>
+ * @extends Array<WorkloadProtectableItemResource>, ResourceList
  */
-export interface WorkloadProtectableItemResourceList extends Array<WorkloadProtectableItemResource> {
+export interface WorkloadProtectableItemResourceList extends Array<WorkloadProtectableItemResource>, ResourceList {
 }
 
 /**
  * @interface
  * List of ProtectionContainer resources
- * @extends Array<ProtectionContainerResource>
+ * @extends Array<ProtectionContainerResource>, ResourceList
  */
-export interface ProtectionContainerResourceList extends Array<ProtectionContainerResource> {
+export interface ProtectionContainerResourceList extends Array<ProtectionContainerResource>, ResourceList {
 }
 
 /**
@@ -7745,11 +7799,13 @@ export type ProtectionState = 'Invalid' | 'IRPending' | 'Protected' | 'Protectio
 
 /**
  * Defines values for HealthStatus.
- * Possible values include: 'Passed', 'ActionRequired', 'ActionSuggested', 'Invalid'
+ * Possible values include: 'Passed', 'ActionRequired', 'ActionSuggested', 'Healthy',
+ * 'TransientDegraded', 'PersistentDegraded', 'TransientUnhealthy', 'PersistentUnhealthy',
+ * 'Invalid'
  * @readonly
  * @enum {string}
  */
-export type HealthStatus = 'Passed' | 'ActionRequired' | 'ActionSuggested' | 'Invalid';
+export type HealthStatus = 'Passed' | 'ActionRequired' | 'ActionSuggested' | 'Healthy' | 'TransientDegraded' | 'PersistentDegraded' | 'TransientUnhealthy' | 'PersistentUnhealthy' | 'Invalid';
 
 /**
  * Defines values for RecoveryType.

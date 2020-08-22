@@ -10,6 +10,97 @@
 import * as msRest from "@azure/ms-rest-js";
 
 /**
+ * Bounding box that defines a region of an image.
+ */
+export interface BoundingBox {
+  /**
+   * Coordinate of the left boundary.
+   */
+  left: number;
+  /**
+   * Coordinate of the top boundary.
+   */
+  top: number;
+  /**
+   * Width.
+   */
+  width: number;
+  /**
+   * Height.
+   */
+  height: number;
+}
+
+/**
+ * An interface representing CustomVisionError.
+ */
+export interface CustomVisionError {
+  /**
+   * The error code. Possible values include: 'NoError', 'BadRequest',
+   * 'BadRequestExceededBatchSize', 'BadRequestNotSupported', 'BadRequestInvalidIds',
+   * 'BadRequestProjectName', 'BadRequestProjectNameNotUnique', 'BadRequestProjectDescription',
+   * 'BadRequestProjectUnknownDomain', 'BadRequestProjectUnknownClassification',
+   * 'BadRequestProjectUnsupportedDomainTypeChange', 'BadRequestProjectUnsupportedExportPlatform',
+   * 'BadRequestProjectImagePreprocessingSettings', 'BadRequestProjectDuplicated',
+   * 'BadRequestIterationName', 'BadRequestIterationNameNotUnique',
+   * 'BadRequestIterationDescription', 'BadRequestIterationIsNotTrained',
+   * 'BadRequestIterationValidationFailed', 'BadRequestWorkspaceCannotBeModified',
+   * 'BadRequestWorkspaceNotDeletable', 'BadRequestTagName', 'BadRequestTagNameNotUnique',
+   * 'BadRequestTagDescription', 'BadRequestTagType', 'BadRequestMultipleNegativeTag',
+   * 'BadRequestMultipleGeneralProductTag', 'BadRequestImageTags', 'BadRequestImageRegions',
+   * 'BadRequestNegativeAndRegularTagOnSameImage', 'BadRequestUnsupportedDomain',
+   * 'BadRequestRequiredParamIsNull', 'BadRequestIterationIsPublished',
+   * 'BadRequestInvalidPublishName', 'BadRequestInvalidPublishTarget', 'BadRequestUnpublishFailed',
+   * 'BadRequestIterationNotPublished', 'BadRequestSubscriptionApi',
+   * 'BadRequestExceedProjectLimit', 'BadRequestExceedIterationPerProjectLimit',
+   * 'BadRequestExceedTagPerProjectLimit', 'BadRequestExceedTagPerImageLimit',
+   * 'BadRequestExceededQuota', 'BadRequestCannotMigrateProjectWithName',
+   * 'BadRequestNotLimitedTrial', 'BadRequestImageBatch', 'BadRequestImageStream',
+   * 'BadRequestImageUrl', 'BadRequestImageFormat', 'BadRequestImageSizeBytes',
+   * 'BadRequestImageDimensions', 'BadRequestImageExceededCount', 'BadRequestTrainingNotNeeded',
+   * 'BadRequestTrainingNotNeededButTrainingPipelineUpdated', 'BadRequestTrainingValidationFailed',
+   * 'BadRequestClassificationTrainingValidationFailed',
+   * 'BadRequestMultiClassClassificationTrainingValidationFailed',
+   * 'BadRequestMultiLabelClassificationTrainingValidationFailed',
+   * 'BadRequestDetectionTrainingValidationFailed', 'BadRequestTrainingAlreadyInProgress',
+   * 'BadRequestDetectionTrainingNotAllowNegativeTag', 'BadRequestInvalidEmailAddress',
+   * 'BadRequestDomainNotSupportedForAdvancedTraining',
+   * 'BadRequestExportPlatformNotSupportedForAdvancedTraining',
+   * 'BadRequestReservedBudgetInHoursNotEnoughForAdvancedTraining',
+   * 'BadRequestExportValidationFailed', 'BadRequestExportAlreadyInProgress',
+   * 'BadRequestPredictionIdsMissing', 'BadRequestPredictionIdsExceededCount',
+   * 'BadRequestPredictionTagsExceededCount', 'BadRequestPredictionResultsExceededCount',
+   * 'BadRequestPredictionInvalidApplicationName', 'BadRequestPredictionInvalidQueryParameters',
+   * 'BadRequestInvalidImportToken', 'BadRequestExportWhileTraining', 'BadRequestImageMetadataKey',
+   * 'BadRequestImageMetadataValue', 'BadRequestOperationNotSupported',
+   * 'BadRequestInvalidArtifactUri', 'BadRequestCustomerManagedKeyRevoked', 'BadRequestInvalid',
+   * 'UnsupportedMediaType', 'Forbidden', 'ForbiddenUser', 'ForbiddenUserResource',
+   * 'ForbiddenUserSignupDisabled', 'ForbiddenUserSignupAllowanceExceeded',
+   * 'ForbiddenUserDoesNotExist', 'ForbiddenUserDisabled', 'ForbiddenUserInsufficientCapability',
+   * 'ForbiddenDRModeEnabled', 'ForbiddenInvalid', 'NotFound', 'NotFoundProject',
+   * 'NotFoundProjectDefaultIteration', 'NotFoundIteration', 'NotFoundIterationPerformance',
+   * 'NotFoundTag', 'NotFoundImage', 'NotFoundDomain', 'NotFoundApimSubscription',
+   * 'NotFoundInvalid', 'Conflict', 'ConflictInvalid', 'ErrorUnknown', 'ErrorIterationCopyFailed',
+   * 'ErrorPreparePerformanceMigrationFailed', 'ErrorProjectInvalidWorkspace',
+   * 'ErrorProjectInvalidPipelineConfiguration', 'ErrorProjectInvalidDomain',
+   * 'ErrorProjectTrainingRequestFailed', 'ErrorProjectImportRequestFailed',
+   * 'ErrorProjectExportRequestFailed', 'ErrorFeaturizationServiceUnavailable',
+   * 'ErrorFeaturizationQueueTimeout', 'ErrorFeaturizationInvalidFeaturizer',
+   * 'ErrorFeaturizationAugmentationUnavailable', 'ErrorFeaturizationUnrecognizedJob',
+   * 'ErrorFeaturizationAugmentationError', 'ErrorExporterInvalidPlatform',
+   * 'ErrorExporterInvalidFeaturizer', 'ErrorExporterInvalidClassifier',
+   * 'ErrorPredictionServiceUnavailable', 'ErrorPredictionModelNotFound',
+   * 'ErrorPredictionModelNotCached', 'ErrorPrediction', 'ErrorPredictionStorage',
+   * 'ErrorRegionProposal', 'ErrorUnknownBaseModel', 'ErrorInvalid'
+   */
+  code: CustomVisionErrorCodes;
+  /**
+   * A message explaining the error reported by the service.
+   */
+  message: string;
+}
+
+/**
  * An interface representing Domain.
  */
 export interface Domain {
@@ -37,36 +128,422 @@ export interface Domain {
 }
 
 /**
- * Entry associating a tag to an image.
+ * An interface representing ExportModel.
  */
-export interface ImageTagCreateEntry {
+export interface ExportModel {
+  /**
+   * Platform of the export. Possible values include: 'CoreML', 'TensorFlow', 'DockerFile', 'ONNX',
+   * 'VAIDK'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly platform?: ExportPlatform;
+  /**
+   * Status of the export. Possible values include: 'Exporting', 'Failed', 'Done'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly status?: ExportStatus;
+  /**
+   * URI used to download the model. If VNET feature is enabled this will be a relative path to be
+   * used with GetArtifact, otherwise this will be an absolute URI to the resource.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly downloadUri?: string;
+  /**
+   * Flavor of the export. These are specializations of the export platform.
+   * Docker platform has valid flavors: Linux, Windows, ARM.
+   * Tensorflow platform has valid flavors: TensorFlowNormal, TensorFlowLite.
+   * ONNX platform has valid flavors: ONNX10, ONNX12. Possible values include: 'Linux', 'Windows',
+   * 'ONNX10', 'ONNX12', 'ARM', 'TensorFlowNormal', 'TensorFlowLite'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly flavor?: ExportFlavor;
+  /**
+   * Indicates an updated version of the export package is available and should be re-exported for
+   * the latest changes.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly newerVersionAvailable?: boolean;
+}
+
+/**
+ * An interface representing ImageTag.
+ */
+export interface ImageTag {
+  /**
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly tagId?: string;
+  /**
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly tagName?: string;
+  /**
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly created?: Date;
+}
+
+/**
+ * An interface representing ImageRegion.
+ */
+export interface ImageRegion {
+  /**
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly regionId?: string;
+  /**
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly tagName?: string;
+  /**
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly created?: Date;
+  /**
+   * Id of the tag associated with this region.
+   */
+  tagId: string;
+  /**
+   * Coordinate of the left boundary.
+   */
+  left: number;
+  /**
+   * Coordinate of the top boundary.
+   */
+  top: number;
+  /**
+   * Width.
+   */
+  width: number;
+  /**
+   * Height.
+   */
+  height: number;
+}
+
+/**
+ * Image model to be sent as JSON.
+ */
+export interface Image {
+  /**
+   * Id of the image.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly id?: string;
+  /**
+   * Date the image was created.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly created?: Date;
+  /**
+   * Width of the image.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly width?: number;
+  /**
+   * Height of the image.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly height?: number;
+  /**
+   * The URI to the (resized) image used for training. If VNET feature is enabled this will be a
+   * relative path to be used with GetArtifact, otherwise this will be an absolute URI to the
+   * resource.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly resizedImageUri?: string;
+  /**
+   * The URI to the thumbnail of the original image. If VNET feature is enabled this will be a
+   * relative path to be used with GetArtifact, otherwise this will be an absolute URI to the
+   * resource.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly thumbnailUri?: string;
+  /**
+   * The URI to the original uploaded image. If VNET feature is enabled this will be a relative
+   * path to be used with GetArtifact, otherwise this will be an absolute URI to the resource.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly originalImageUri?: string;
+  /**
+   * Tags associated with this image.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly tags?: ImageTag[];
+  /**
+   * Regions associated with this image.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly regions?: ImageRegion[];
+  /**
+   * Metadata associated with this image.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly metadata?: { [propertyName: string]: string };
+}
+
+/**
+ * An interface representing ImageCreateResult.
+ */
+export interface ImageCreateResult {
+  /**
+   * Source URL of the image.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly sourceUrl?: string;
+  /**
+   * Status of the image creation. Possible values include: 'OK', 'OKDuplicate', 'ErrorSource',
+   * 'ErrorImageFormat', 'ErrorImageSize', 'ErrorStorage', 'ErrorLimitExceed',
+   * 'ErrorTagLimitExceed', 'ErrorRegionLimitExceed', 'ErrorUnknown',
+   * 'ErrorNegativeAndRegularTagOnSameImage'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly status?: ImageCreateStatus;
+  /**
+   * The image.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly image?: Image;
+}
+
+/**
+ * An interface representing ImageCreateSummary.
+ */
+export interface ImageCreateSummary {
+  /**
+   * True if all of the images in the batch were created successfully, otherwise false.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly isBatchSuccessful?: boolean;
+  /**
+   * List of the image creation results.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly images?: ImageCreateResult[];
+}
+
+/**
+ * An interface representing Region.
+ */
+export interface Region {
+  /**
+   * Id of the tag associated with this region.
+   */
+  tagId: string;
+  /**
+   * Coordinate of the left boundary.
+   */
+  left: number;
+  /**
+   * Coordinate of the top boundary.
+   */
+  top: number;
+  /**
+   * Width.
+   */
+  width: number;
+  /**
+   * Height.
+   */
+  height: number;
+}
+
+/**
+ * An interface representing ImageFileCreateEntry.
+ */
+export interface ImageFileCreateEntry {
+  name?: string;
+  contents?: Uint8Array;
+  tagIds?: string[];
+  regions?: Region[];
+}
+
+/**
+ * An interface representing ImageFileCreateBatch.
+ */
+export interface ImageFileCreateBatch {
+  images?: ImageFileCreateEntry[];
+  tagIds?: string[];
+  /**
+   * The metadata of image. Limited to 50 key-value pairs per image. The length of key is limited
+   * to 256. The length of value is limited to 512.
+   */
+  metadata?: { [propertyName: string]: string };
+}
+
+/**
+ * An interface representing ImageIdCreateEntry.
+ */
+export interface ImageIdCreateEntry {
+  /**
+   * Id of the image.
+   */
+  id?: string;
+  tagIds?: string[];
+  regions?: Region[];
+}
+
+/**
+ * An interface representing ImageIdCreateBatch.
+ */
+export interface ImageIdCreateBatch {
+  images?: ImageIdCreateEntry[];
+  tagIds?: string[];
+  /**
+   * The metadata of image. Limited to 50 key-value pairs per image. The length of key is limited
+   * to 256. The length of value is limited to 512.
+   */
+  metadata?: { [propertyName: string]: string };
+}
+
+/**
+ * Entry associating a metadata to an image.
+ */
+export interface ImageMetadataUpdateEntry {
   /**
    * Id of the image.
    */
   imageId?: string;
   /**
-   * Id of the tag.
+   * Status of the metadata update. Possible values include: 'OK', 'ErrorImageNotFound',
+   * 'ErrorLimitExceed', 'ErrorUnknown'
    */
-  tagId?: string;
-}
-
-/**
- * Batch of image tags.
- */
-export interface ImageTagCreateBatch {
+  status?: ImageMetadataUpdateStatus;
   /**
-   * Image Tag entries to include in this batch.
+   * Metadata of the image.
    */
-  tags?: ImageTagCreateEntry[];
+  metadata?: { [propertyName: string]: string };
 }
 
 /**
- * An interface representing ImageTagCreateSummary.
+ * An interface representing ImageMetadataUpdateSummary.
  */
-export interface ImageTagCreateSummary {
-  created?: ImageTagCreateEntry[];
-  duplicated?: ImageTagCreateEntry[];
-  exceeded?: ImageTagCreateEntry[];
+export interface ImageMetadataUpdateSummary {
+  /**
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly isBatchSuccessful?: boolean;
+  /**
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly images?: ImageMetadataUpdateEntry[];
+}
+
+/**
+ * Prediction result.
+ */
+export interface Prediction {
+  /**
+   * Probability of the tag.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly probability?: number;
+  /**
+   * Id of the predicted tag.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly tagId?: string;
+  /**
+   * Name of the predicted tag.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly tagName?: string;
+  /**
+   * Bounding box of the prediction.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly boundingBox?: BoundingBox;
+  /**
+   * Type of the predicted tag. Possible values include: 'Regular', 'Negative', 'GeneralProduct'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly tagType?: TagType;
+}
+
+/**
+ * Image performance model.
+ */
+export interface ImagePerformance {
+  /**
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly predictions?: Prediction[];
+  /**
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly id?: string;
+  /**
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly created?: Date;
+  /**
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly width?: number;
+  /**
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly height?: number;
+  /**
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly imageUri?: string;
+  /**
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly thumbnailUri?: string;
+  /**
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly tags?: ImageTag[];
+  /**
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly regions?: ImageRegion[];
+}
+
+/**
+ * Result of an image prediction request.
+ */
+export interface ImagePrediction {
+  /**
+   * Prediction Id.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly id?: string;
+  /**
+   * Project Id.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly project?: string;
+  /**
+   * Iteration Id.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly iteration?: string;
+  /**
+   * Date this prediction was created.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly created?: Date;
+  /**
+   * List of predictions.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly predictions?: Prediction[];
+}
+
+/**
+ * Represents image preprocessing settings used by image augmentation.
+ */
+export interface ImageProcessingSettings {
+  /**
+   * Gets or sets enabled image transforms. The key corresponds to the transform name. If value is
+   * set to true, then correspondent transform is enabled. Otherwise this transform will not be
+   * used.
+   * Augmentation will be uniformly distributed among enabled transforms.
+   */
+  augmentationMethods?: { [propertyName: string]: boolean };
 }
 
 /**
@@ -158,259 +635,6 @@ export interface ImageRegionCreateSummary {
 }
 
 /**
- * An interface representing ImageTag.
- */
-export interface ImageTag {
-  /**
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly tagId?: string;
-  /**
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly tagName?: string;
-  /**
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly created?: Date;
-}
-
-/**
- * An interface representing ImageRegion.
- */
-export interface ImageRegion {
-  /**
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly regionId?: string;
-  /**
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly tagName?: string;
-  /**
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly created?: Date;
-  /**
-   * Id of the tag associated with this region.
-   */
-  tagId: string;
-  /**
-   * Coordinate of the left boundary.
-   */
-  left: number;
-  /**
-   * Coordinate of the top boundary.
-   */
-  top: number;
-  /**
-   * Width.
-   */
-  width: number;
-  /**
-   * Height.
-   */
-  height: number;
-}
-
-/**
- * Image model to be sent as JSON.
- */
-export interface Image {
-  /**
-   * Id of the image.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly id?: string;
-  /**
-   * Date the image was created.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly created?: Date;
-  /**
-   * Width of the image.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly width?: number;
-  /**
-   * Height of the image.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly height?: number;
-  /**
-   * The URI to the (resized) image used for training.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly resizedImageUri?: string;
-  /**
-   * The URI to the thumbnail of the original image.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly thumbnailUri?: string;
-  /**
-   * The URI to the original uploaded image.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly originalImageUri?: string;
-  /**
-   * Tags associated with this image.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly tags?: ImageTag[];
-  /**
-   * Regions associated with this image.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly regions?: ImageRegion[];
-}
-
-/**
- * An interface representing ImageCreateResult.
- */
-export interface ImageCreateResult {
-  /**
-   * Source URL of the image.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly sourceUrl?: string;
-  /**
-   * Status of the image creation. Possible values include: 'OK', 'OKDuplicate', 'ErrorSource',
-   * 'ErrorImageFormat', 'ErrorImageSize', 'ErrorStorage', 'ErrorLimitExceed',
-   * 'ErrorTagLimitExceed', 'ErrorRegionLimitExceed', 'ErrorUnknown',
-   * 'ErrorNegativeAndRegularTagOnSameImage'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly status?: ImageCreateStatus;
-  /**
-   * The image.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly image?: Image;
-}
-
-/**
- * An interface representing ImageCreateSummary.
- */
-export interface ImageCreateSummary {
-  /**
-   * True if all of the images in the batch were created successfully, otherwise false.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly isBatchSuccessful?: boolean;
-  /**
-   * List of the image creation results.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly images?: ImageCreateResult[];
-}
-
-/**
- * An interface representing Region.
- */
-export interface Region {
-  /**
-   * Id of the tag associated with this region.
-   */
-  tagId: string;
-  /**
-   * Coordinate of the left boundary.
-   */
-  left: number;
-  /**
-   * Coordinate of the top boundary.
-   */
-  top: number;
-  /**
-   * Width.
-   */
-  width: number;
-  /**
-   * Height.
-   */
-  height: number;
-}
-
-/**
- * An interface representing ImageFileCreateEntry.
- */
-export interface ImageFileCreateEntry {
-  name?: string;
-  contents?: Uint8Array;
-  tagIds?: string[];
-  regions?: Region[];
-}
-
-/**
- * An interface representing ImageFileCreateBatch.
- */
-export interface ImageFileCreateBatch {
-  images?: ImageFileCreateEntry[];
-  tagIds?: string[];
-}
-
-/**
- * An interface representing ImageUrlCreateEntry.
- */
-export interface ImageUrlCreateEntry {
-  /**
-   * Url of the image.
-   */
-  url: string;
-  tagIds?: string[];
-  regions?: Region[];
-}
-
-/**
- * An interface representing ImageUrlCreateBatch.
- */
-export interface ImageUrlCreateBatch {
-  images?: ImageUrlCreateEntry[];
-  tagIds?: string[];
-}
-
-/**
- * An interface representing ImageIdCreateEntry.
- */
-export interface ImageIdCreateEntry {
-  /**
-   * Id of the image.
-   */
-  id?: string;
-  tagIds?: string[];
-  regions?: Region[];
-}
-
-/**
- * An interface representing ImageIdCreateBatch.
- */
-export interface ImageIdCreateBatch {
-  images?: ImageIdCreateEntry[];
-  tagIds?: string[];
-}
-
-/**
- * Bounding box that defines a region of an image.
- */
-export interface BoundingBox {
-  /**
-   * Coordinate of the left boundary.
-   */
-  left: number;
-  /**
-   * Coordinate of the top boundary.
-   */
-  top: number;
-  /**
-   * Width.
-   */
-  width: number;
-  /**
-   * Height.
-   */
-  height: number;
-}
-
-/**
  * An interface representing RegionProposal.
  */
 export interface RegionProposal {
@@ -443,6 +667,39 @@ export interface ImageRegionProposal {
 }
 
 /**
+ * Entry associating a tag to an image.
+ */
+export interface ImageTagCreateEntry {
+  /**
+   * Id of the image.
+   */
+  imageId?: string;
+  /**
+   * Id of the tag.
+   */
+  tagId?: string;
+}
+
+/**
+ * Batch of image tags.
+ */
+export interface ImageTagCreateBatch {
+  /**
+   * Image Tag entries to include in this batch.
+   */
+  tags?: ImageTagCreateEntry[];
+}
+
+/**
+ * An interface representing ImageTagCreateSummary.
+ */
+export interface ImageTagCreateSummary {
+  created?: ImageTagCreateEntry[];
+  duplicated?: ImageTagCreateEntry[];
+  exceeded?: ImageTagCreateEntry[];
+}
+
+/**
  * Image url.
  */
 export interface ImageUrl {
@@ -453,161 +710,114 @@ export interface ImageUrl {
 }
 
 /**
- * Prediction result.
+ * An interface representing ImageUrlCreateEntry.
  */
-export interface Prediction {
+export interface ImageUrlCreateEntry {
   /**
-   * Probability of the tag.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * Url of the image.
    */
-  readonly probability?: number;
-  /**
-   * Id of the predicted tag.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly tagId?: string;
-  /**
-   * Name of the predicted tag.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly tagName?: string;
-  /**
-   * Bounding box of the prediction.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly boundingBox?: BoundingBox;
+  url: string;
+  tagIds?: string[];
+  regions?: Region[];
 }
 
 /**
- * Result of an image prediction request.
+ * An interface representing ImageUrlCreateBatch.
  */
-export interface ImagePrediction {
+export interface ImageUrlCreateBatch {
+  images?: ImageUrlCreateEntry[];
+  tagIds?: string[];
   /**
-   * Prediction Id.
+   * The metadata of image. Limited to 50 key-value pairs per image. The length of key is limited
+   * to 256. The length of value is limited to 512.
+   */
+  metadata?: { [propertyName: string]: string };
+}
+
+/**
+ * Iteration model to be sent over JSON.
+ */
+export interface Iteration {
+  /**
+   * Gets the id of the iteration.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly id?: string;
   /**
-   * Project Id.
+   * Gets or sets the name of the iteration.
+   */
+  name: string;
+  /**
+   * Gets the current iteration status.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly project?: string;
+  readonly status?: string;
   /**
-   * Iteration Id.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly iteration?: string;
-  /**
-   * Date this prediction was created.
+   * Gets the time this iteration was completed.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly created?: Date;
   /**
-   * List of predictions.
+   * Gets the time this iteration was last modified.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly predictions?: Prediction[];
-}
-
-/**
- * An interface representing PredictionQueryTag.
- */
-export interface PredictionQueryTag {
+  readonly lastModified?: Date;
   /**
+   * Gets the time this iteration was last modified.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly id?: string;
+  readonly trainedAt?: Date;
   /**
+   * Gets the project id of the iteration.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly minThreshold?: number;
+  readonly projectId?: string;
   /**
+   * Whether the iteration can be exported to another format for download.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly maxThreshold?: number;
-}
-
-/**
- * An interface representing PredictionQueryToken.
- */
-export interface PredictionQueryToken {
-  session?: string;
-  continuation?: string;
-  maxCount?: number;
+  readonly exportable?: boolean;
   /**
-   * Possible values include: 'Newest', 'Oldest', 'Suggested'
-   */
-  orderBy?: OrderBy;
-  tags?: PredictionQueryTag[];
-  iterationId?: string;
-  startTime?: Date;
-  endTime?: Date;
-  application?: string;
-}
-
-/**
- * result of an image classification request.
- */
-export interface StoredImagePrediction {
-  /**
-   * The URI to the (resized) prediction image.
+   * A set of platforms this iteration can export to.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly resizedImageUri?: string;
+  readonly exportableTo?: string[];
   /**
-   * The URI to the thumbnail of the original prediction image.
+   * Get or sets a guid of the domain the iteration has been trained on.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly thumbnailUri?: string;
+  readonly domainId?: string;
   /**
-   * The URI to the original prediction image.
+   * Gets the classification type of the project. Possible values include: 'Multiclass',
+   * 'Multilabel'
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly originalImageUri?: string;
+  readonly classificationType?: Classifier;
   /**
-   * Domain used for the prediction.
+   * Gets the training type of the iteration. Possible values include: 'Regular', 'Advanced'
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly domain?: string;
+  readonly trainingType?: TrainingType;
   /**
-   * Prediction Id.
+   * Gets the reserved advanced training budget for the iteration.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly id?: string;
+  readonly reservedBudgetInHours?: number;
   /**
-   * Project Id.
+   * Gets the training time for the iteration.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly project?: string;
+  readonly trainingTimeInMinutes?: number;
   /**
-   * Iteration Id.
+   * Name of the published model.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly iteration?: string;
+  readonly publishName?: string;
   /**
-   * Date this prediction was created.
+   * Resource Provider Id this iteration was originally published to.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly created?: Date;
-  /**
-   * List of predictions.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly predictions?: Prediction[];
-}
-
-/**
- * An interface representing PredictionQueryResult.
- */
-export interface PredictionQueryResult {
-  /**
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly token?: PredictionQueryToken;
-  /**
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly results?: StoredImagePrediction[];
+  readonly originalPublishResourceId?: string;
 }
 
 /**
@@ -686,45 +896,100 @@ export interface IterationPerformance {
 }
 
 /**
- * Image performance model.
+ * An interface representing PredictionQueryTag.
  */
-export interface ImagePerformance {
+export interface PredictionQueryTag {
+  id?: string;
+  minThreshold?: number;
+  maxThreshold?: number;
+}
+
+/**
+ * An interface representing PredictionQueryToken.
+ */
+export interface PredictionQueryToken {
+  session?: string;
+  continuation?: string;
+  maxCount?: number;
   /**
+   * Possible values include: 'Newest', 'Oldest', 'Suggested'
+   */
+  orderBy?: OrderBy;
+  tags?: PredictionQueryTag[];
+  iterationId?: string;
+  startTime?: Date;
+  endTime?: Date;
+  application?: string;
+}
+
+/**
+ * Result of an image prediction request.
+ */
+export interface StoredImagePrediction {
+  /**
+   * The URI to the (resized) prediction image. If VNET feature is enabled this will be a relative
+   * path to be used with GetArtifact, otherwise this will be an absolute URI to the resource.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly predictions?: Prediction[];
+  readonly resizedImageUri?: string;
   /**
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly id?: string;
-  /**
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly created?: Date;
-  /**
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly width?: number;
-  /**
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly height?: number;
-  /**
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly imageUri?: string;
-  /**
+   * The URI to the thumbnail of the original prediction image. If VNET feature is enabled this
+   * will be a relative path to be used with GetArtifact, otherwise this will be an absolute URI to
+   * the resource.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly thumbnailUri?: string;
   /**
+   * The URI to the original prediction image. If VNET feature is enabled this will be a relative
+   * path to be used with GetArtifact, otherwise this will be an absolute URI to the resource.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly tags?: ImageTag[];
+  readonly originalImageUri?: string;
   /**
+   * Domain used for the prediction.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly regions?: ImageRegion[];
+  readonly domain?: string;
+  /**
+   * Prediction Id.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly id?: string;
+  /**
+   * Project Id.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly project?: string;
+  /**
+   * Iteration Id.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly iteration?: string;
+  /**
+   * Date this prediction was created.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly created?: Date;
+  /**
+   * List of predictions.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly predictions?: Prediction[];
+}
+
+/**
+ * Query result of the prediction images that were sent to your prediction endpoint.
+ */
+export interface PredictionQueryResult {
+  /**
+   * Prediction Query Token.
+   */
+  token?: PredictionQueryToken;
+  /**
+   * Result of an image prediction request.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly results?: StoredImagePrediction[];
 }
 
 /**
@@ -744,6 +1009,20 @@ export interface ProjectSettings {
    * A list of ExportPlatform that the trained model should be able to support.
    */
   targetExportPlatforms?: string[];
+  /**
+   * Indicates if negative set is being used.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly useNegativeSet?: boolean;
+  /**
+   * Detection parameters in use, if any.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly detectionParameters?: string;
+  /**
+   * Gets or sets image preprocessing settings.
+   */
+  imageProcessingSettings?: ImageProcessingSettings;
 }
 
 /**
@@ -778,129 +1057,217 @@ export interface Project {
    */
   readonly lastModified?: Date;
   /**
-   * Gets the thumbnail url representing the image.
+   * Gets the thumbnail url representing the image. If VNET feature is enabled this will be a
+   * relative path to be used with GetArtifact, otherwise this will be an absolute URI to the
+   * resource.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly thumbnailUri?: string;
   /**
-   * Gets if the DR mode is on.
+   * Gets if the Disaster Recovery (DR) mode is on, indicating the project is temporarily
+   * read-only.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly drModeEnabled?: boolean;
+  /**
+   * Gets the status of the project. Possible values include: 'Succeeded', 'Importing', 'Failed'
+   */
+  status?: ProjectStatus;
 }
 
 /**
- * Iteration model to be sent over JSON.
+ * Represents information about a project export.
  */
-export interface Iteration {
+export interface ProjectExport {
   /**
-   * Gets the id of the iteration.
+   * Count of iterations that will be exported.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly iterationCount?: number;
+  /**
+   * Count of images that will be exported.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly imageCount?: number;
+  /**
+   * Count of tags that will be exported.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly tagCount?: number;
+  /**
+   * Count of regions that will be exported.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly regionCount?: number;
+  /**
+   * Estimated time this project will take to import, can change based on network connectivity and
+   * load between
+   * source and destination regions.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly estimatedImportTimeInMS?: number;
+  /**
+   * Opaque token that should be passed to ImportProject to perform the import. This token grants
+   * access to import this
+   * project to all that have the token.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly token?: string;
+}
+
+/**
+ * Result of a suggested tags and regions request of the untagged image.
+ */
+export interface StoredSuggestedTagAndRegion {
+  /**
+   * Width of the resized image.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly width?: number;
+  /**
+   * Height of the resized image.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly height?: number;
+  /**
+   * The URI to the (resized) prediction image. If VNET feature is enabled this will be a relative
+   * path to be used with GetArtifact, otherwise this will be an absolute URI to the resource.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly resizedImageUri?: string;
+  /**
+   * The URI to the thumbnail of the original prediction image. If VNET feature is enabled this
+   * will be a relative path to be used with GetArtifact, otherwise this will be an absolute URI to
+   * the resource.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly thumbnailUri?: string;
+  /**
+   * The URI to the original prediction image. If VNET feature is enabled this will be a relative
+   * path to be used with GetArtifact, otherwise this will be an absolute URI to the resource.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly originalImageUri?: string;
+  /**
+   * Domain used for the prediction.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly domain?: string;
+  /**
+   * Prediction Id.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly id?: string;
   /**
-   * Gets or sets the name of the iteration.
-   */
-  name: string;
-  /**
-   * Gets the current iteration status.
+   * Project Id.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly status?: string;
+  readonly project?: string;
   /**
-   * Gets the time this iteration was completed.
+   * Iteration Id.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly iteration?: string;
+  /**
+   * Date this prediction was created.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly created?: Date;
   /**
-   * Gets the time this iteration was last modified.
+   * List of predictions.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly lastModified?: Date;
+  readonly predictions?: Prediction[];
   /**
-   * Gets the time this iteration was last modified.
+   * Uncertainty (entropy) of suggested tags or regions per image.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly trainedAt?: Date;
-  /**
-   * Gets the project id of the iteration.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly projectId?: string;
-  /**
-   * Whether the iteration can be exported to another format for download.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly exportable?: boolean;
-  /**
-   * A set of platforms this iteration can export to.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly exportableTo?: string[];
-  /**
-   * Get or sets a guid of the domain the iteration has been trained on.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly domainId?: string;
-  /**
-   * Gets the classification type of the project. Possible values include: 'Multiclass',
-   * 'Multilabel'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly classificationType?: Classifier;
-  /**
-   * Gets the training type of the iteration. Possible values include: 'Regular', 'Advanced'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly trainingType?: TrainingType;
-  /**
-   * Gets the reserved advanced training budget for the iteration.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly reservedBudgetInHours?: number;
-  /**
-   * Name of the published model.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly publishName?: string;
-  /**
-   * Resource Provider Id this iteration was originally published to.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly originalPublishResourceId?: string;
+  readonly predictionUncertainty?: number;
 }
 
 /**
- * An interface representing ExportModel.
+ * Result of a suggested tags and regions request.
  */
-export interface ExportModel {
+export interface SuggestedTagAndRegion {
   /**
-   * Platform of the export. Possible values include: 'CoreML', 'TensorFlow', 'DockerFile', 'ONNX',
-   * 'VAIDK'
+   * Prediction Id.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly platform?: ExportPlatform;
+  readonly id?: string;
   /**
-   * Status of the export. Possible values include: 'Exporting', 'Failed', 'Done'
+   * Project Id.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly status?: ExportStatus;
+  readonly project?: string;
   /**
-   * URI used to download the model.
+   * Iteration Id.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly downloadUri?: string;
+  readonly iteration?: string;
   /**
-   * Flavor of the export. Possible values include: 'Linux', 'Windows', 'ONNX10', 'ONNX12', 'ARM'
+   * Date this prediction was created.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly flavor?: ExportFlavor;
+  readonly created?: Date;
   /**
-   * Indicates an updated version of the export package is available and should be re-exported for
-   * the latest changes.
+   * List of predictions.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly newerVersionAvailable?: boolean;
+  readonly predictions?: Prediction[];
+  /**
+   * Uncertainty (entropy) of suggested tags or regions per image.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly predictionUncertainty?: number;
+}
+
+/**
+ * Contains properties we need to fetch suggested tags for. For the first call, Session and
+ * continuation set to null.
+ * Then on subsequent calls, uses the session/continuation from the previous
+ * SuggestedTagAndRegionQuery result to fetch additional results.
+ */
+export interface SuggestedTagAndRegionQueryToken {
+  /**
+   * Existing TagIds in project to filter suggested tags on.
+   */
+  tagIds?: string[];
+  /**
+   * Confidence threshold to filter suggested tags on.
+   */
+  threshold?: number;
+  /**
+   * SessionId for database query. Initially set to null but later used to paginate.
+   */
+  session?: string;
+  /**
+   * Continuation Id for database pagination. Initially null but later used to paginate.
+   */
+  continuation?: string;
+  /**
+   * Maximum number of results you want to be returned in the response.
+   */
+  maxCount?: number;
+  /**
+   * OrderBy. Ordering mechanism for your results. Possible values include: 'UncertaintyAscending',
+   * 'UncertaintyDescending'
+   */
+  sortBy?: SortBy;
+}
+
+/**
+ * The array of result images and token containing session and continuation Ids for the next query.
+ */
+export interface SuggestedTagAndRegionQuery {
+  /**
+   * Contains properties we need to fetch suggested tags for.
+   */
+  token?: SuggestedTagAndRegionQueryToken;
+  /**
+   * Result of a suggested tags and regions request of the untagged image.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly results?: StoredSuggestedTagAndRegion[];
 }
 
 /**
@@ -921,7 +1288,8 @@ export interface Tag {
    */
   description: string;
   /**
-   * Gets or sets the type of the tag. Possible values include: 'Regular', 'Negative'
+   * Gets or sets the type of the tag. Possible values include: 'Regular', 'Negative',
+   * 'GeneralProduct'
    */
   type: TagType;
   /**
@@ -932,232 +1300,28 @@ export interface Tag {
 }
 
 /**
- * An interface representing CustomVisionError.
+ * Model that query for counting of images whose suggested tags match given tags and their
+ * probability are greater than or equal to the given threshold.
  */
-export interface CustomVisionError {
+export interface TagFilter {
   /**
-   * The error code. Possible values include: 'NoError', 'BadRequest',
-   * 'BadRequestExceededBatchSize', 'BadRequestNotSupported', 'BadRequestInvalidIds',
-   * 'BadRequestProjectName', 'BadRequestProjectNameNotUnique', 'BadRequestProjectDescription',
-   * 'BadRequestProjectUnknownDomain', 'BadRequestProjectUnknownClassification',
-   * 'BadRequestProjectUnsupportedDomainTypeChange', 'BadRequestProjectUnsupportedExportPlatform',
-   * 'BadRequestIterationName', 'BadRequestIterationNameNotUnique',
-   * 'BadRequestIterationDescription', 'BadRequestIterationIsNotTrained',
-   * 'BadRequestWorkspaceCannotBeModified', 'BadRequestWorkspaceNotDeletable', 'BadRequestTagName',
-   * 'BadRequestTagNameNotUnique', 'BadRequestTagDescription', 'BadRequestTagType',
-   * 'BadRequestMultipleNegativeTag', 'BadRequestImageTags', 'BadRequestImageRegions',
-   * 'BadRequestNegativeAndRegularTagOnSameImage', 'BadRequestRequiredParamIsNull',
-   * 'BadRequestIterationIsPublished', 'BadRequestInvalidPublishName',
-   * 'BadRequestInvalidPublishTarget', 'BadRequestUnpublishFailed',
-   * 'BadRequestIterationNotPublished', 'BadRequestSubscriptionApi',
-   * 'BadRequestExceedProjectLimit', 'BadRequestExceedIterationPerProjectLimit',
-   * 'BadRequestExceedTagPerProjectLimit', 'BadRequestExceedTagPerImageLimit',
-   * 'BadRequestExceededQuota', 'BadRequestCannotMigrateProjectWithName',
-   * 'BadRequestNotLimitedTrial', 'BadRequestImageBatch', 'BadRequestImageStream',
-   * 'BadRequestImageUrl', 'BadRequestImageFormat', 'BadRequestImageSizeBytes',
-   * 'BadRequestImageExceededCount', 'BadRequestTrainingNotNeeded',
-   * 'BadRequestTrainingNotNeededButTrainingPipelineUpdated', 'BadRequestTrainingValidationFailed',
-   * 'BadRequestClassificationTrainingValidationFailed',
-   * 'BadRequestMultiClassClassificationTrainingValidationFailed',
-   * 'BadRequestMultiLabelClassificationTrainingValidationFailed',
-   * 'BadRequestDetectionTrainingValidationFailed', 'BadRequestTrainingAlreadyInProgress',
-   * 'BadRequestDetectionTrainingNotAllowNegativeTag', 'BadRequestInvalidEmailAddress',
-   * 'BadRequestDomainNotSupportedForAdvancedTraining',
-   * 'BadRequestExportPlatformNotSupportedForAdvancedTraining',
-   * 'BadRequestReservedBudgetInHoursNotEnoughForAdvancedTraining',
-   * 'BadRequestExportValidationFailed', 'BadRequestExportAlreadyInProgress',
-   * 'BadRequestPredictionIdsMissing', 'BadRequestPredictionIdsExceededCount',
-   * 'BadRequestPredictionTagsExceededCount', 'BadRequestPredictionResultsExceededCount',
-   * 'BadRequestPredictionInvalidApplicationName', 'BadRequestPredictionInvalidQueryParameters',
-   * 'BadRequestInvalid', 'UnsupportedMediaType', 'Forbidden', 'ForbiddenUser',
-   * 'ForbiddenUserResource', 'ForbiddenUserSignupDisabled',
-   * 'ForbiddenUserSignupAllowanceExceeded', 'ForbiddenUserDoesNotExist', 'ForbiddenUserDisabled',
-   * 'ForbiddenUserInsufficientCapability', 'ForbiddenDRModeEnabled', 'ForbiddenInvalid',
-   * 'NotFound', 'NotFoundProject', 'NotFoundProjectDefaultIteration', 'NotFoundIteration',
-   * 'NotFoundIterationPerformance', 'NotFoundTag', 'NotFoundImage', 'NotFoundDomain',
-   * 'NotFoundApimSubscription', 'NotFoundInvalid', 'Conflict', 'ConflictInvalid', 'ErrorUnknown',
-   * 'ErrorProjectInvalidWorkspace', 'ErrorProjectInvalidPipelineConfiguration',
-   * 'ErrorProjectInvalidDomain', 'ErrorProjectTrainingRequestFailed',
-   * 'ErrorProjectExportRequestFailed', 'ErrorFeaturizationServiceUnavailable',
-   * 'ErrorFeaturizationQueueTimeout', 'ErrorFeaturizationInvalidFeaturizer',
-   * 'ErrorFeaturizationAugmentationUnavailable', 'ErrorFeaturizationUnrecognizedJob',
-   * 'ErrorFeaturizationAugmentationError', 'ErrorExporterInvalidPlatform',
-   * 'ErrorExporterInvalidFeaturizer', 'ErrorExporterInvalidClassifier',
-   * 'ErrorPredictionServiceUnavailable', 'ErrorPredictionModelNotFound',
-   * 'ErrorPredictionModelNotCached', 'ErrorPrediction', 'ErrorPredictionStorage',
-   * 'ErrorRegionProposal', 'ErrorInvalid'
-   */
-  code: CustomVisionErrorCodes;
-  /**
-   * A message explaining the error reported by the service.
-   */
-  message: string;
-}
-
-/**
- * Optional Parameters.
- */
-export interface TrainingAPIClientGetTaggedImageCountOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * The iteration id. Defaults to workspace.
-   */
-  iterationId?: string;
-  /**
-   * A list of tags ids to filter the images to count. Defaults to all tags when null.
-   */
-  tagIds?: string[];
-}
-
-/**
- * Optional Parameters.
- */
-export interface TrainingAPIClientGetUntaggedImageCountOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * The iteration id. Defaults to workspace.
-   */
-  iterationId?: string;
-}
-
-/**
- * Optional Parameters.
- */
-export interface TrainingAPIClientGetTaggedImagesOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * The iteration id. Defaults to workspace.
-   */
-  iterationId?: string;
-  /**
-   * A list of tags ids to filter the images. Defaults to all tagged images when null. Limited to
-   * 20.
+   * Existing TagIds in project to get suggested tags count for.
    */
   tagIds?: string[];
   /**
-   * The ordering. Defaults to newest. Possible values include: 'Newest', 'Oldest'
-   */
-  orderBy?: OrderBy1;
-  /**
-   * Maximum number of images to return. Defaults to 50, limited to 256. Default value: 50.
-   */
-  take?: number;
-  /**
-   * Number of images to skip before beginning the image batch. Defaults to 0. Default value: 0.
-   */
-  skip?: number;
-}
-
-/**
- * Optional Parameters.
- */
-export interface TrainingAPIClientGetUntaggedImagesOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * The iteration id. Defaults to workspace.
-   */
-  iterationId?: string;
-  /**
-   * The ordering. Defaults to newest. Possible values include: 'Newest', 'Oldest'
-   */
-  orderBy?: OrderBy2;
-  /**
-   * Maximum number of images to return. Defaults to 50, limited to 256. Default value: 50.
-   */
-  take?: number;
-  /**
-   * Number of images to skip before beginning the image batch. Defaults to 0. Default value: 0.
-   */
-  skip?: number;
-}
-
-/**
- * Optional Parameters.
- */
-export interface TrainingAPIClientGetImagesByIdsOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * The list of image ids to retrieve. Limited to 256.
-   */
-  imageIds?: string[];
-  /**
-   * The iteration id. Defaults to workspace.
-   */
-  iterationId?: string;
-}
-
-/**
- * Optional Parameters.
- */
-export interface TrainingAPIClientCreateImagesFromDataOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * The tags ids with which to tag each image. Limited to 20.
-   */
-  tagIds?: string[];
-}
-
-/**
- * Optional Parameters.
- */
-export interface TrainingAPIClientQuickTestImageUrlOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * Optional. Specifies the id of a particular iteration to evaluate against.
-   * The default iteration for the project will be used when not specified.
-   */
-  iterationId?: string;
-}
-
-/**
- * Optional Parameters.
- */
-export interface TrainingAPIClientQuickTestImageOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * Optional. Specifies the id of a particular iteration to evaluate against.
-   * The default iteration for the project will be used when not specified.
-   */
-  iterationId?: string;
-}
-
-/**
- * Optional Parameters.
- */
-export interface TrainingAPIClientGetIterationPerformanceOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * The threshold used to determine true predictions.
+   * Confidence threshold to filter suggested tags on.
    */
   threshold?: number;
-  /**
-   * If applicable, the bounding box overlap threshold used to determine true predictions.
-   */
-  overlapThreshold?: number;
 }
 
 /**
- * Optional Parameters.
+ * Parameters used for training.
  */
-export interface TrainingAPIClientGetImagePerformancesOptionalParams extends msRest.RequestOptionsBase {
+export interface TrainingParameters {
   /**
-   * A list of tags ids to filter the images. Defaults to all tagged images when null. Limited to
-   * 20.
+   * List of tags selected for this training session, other tags in the project will be ignored.
    */
-  tagIds?: string[];
-  /**
-   * The ordering. Defaults to newest. Possible values include: 'Newest', 'Oldest'
-   */
-  orderBy?: OrderBy3;
-  /**
-   * Maximum number of images to return. Defaults to 50, limited to 256. Default value: 50.
-   */
-  take?: number;
-  /**
-   * Number of images to skip before beginning the image batch. Defaults to 0. Default value: 0.
-   */
-  skip?: number;
-}
-
-/**
- * Optional Parameters.
- */
-export interface TrainingAPIClientGetImagePerformanceCountOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * A list of tags ids to filter the images to count. Defaults to all tags when null.
-   */
-  tagIds?: string[];
+  selectedTags?: string[];
 }
 
 /**
@@ -1186,25 +1350,185 @@ export interface TrainingAPIClientCreateProjectOptionalParams extends msRest.Req
 /**
  * Optional Parameters.
  */
-export interface TrainingAPIClientTrainProjectOptionalParams extends msRest.RequestOptionsBase {
+export interface TrainingAPIClientGetImagesOptionalParams extends msRest.RequestOptionsBase {
   /**
-   * The type of training to use to train the project (default: Regular). Possible values include:
-   * 'Regular', 'Advanced'
+   * The iteration id. Defaults to workspace.
    */
-  trainingType?: TrainingType1;
+  iterationId?: string;
   /**
-   * The number of hours reserved as budget for training (if applicable). Default value: 0.
+   * A list of tags ids to filter the images. Defaults to all tagged images when null. Limited to
+   * 20.
    */
-  reservedBudgetInHours?: number;
+  tagIds?: string[];
   /**
-   * Whether to force train even if dataset and configuration does not change (default: false).
-   * Default value: false.
+   * The tagging status filter. It can be 'All', 'Tagged', or 'Untagged'. Defaults to 'All'.
+   * Possible values include: 'All', 'Tagged', 'Untagged'
    */
-  forceTrain?: boolean;
+  taggingStatus?: TaggingStatus;
   /**
-   * The email address to send notification to when training finishes (default: null).
+   * An expression to filter the images against image metadata. Only images where the expression
+   * evaluates to true are included in the response.
+   * The expression supports eq (Equal), ne (Not equal), and (Logical and), or (Logical or)
+   * operators.
+   * Here is an example, metadata=key1 eq 'value1' and key2 ne 'value2'.
    */
-  notificationEmailAddress?: string;
+  filter?: string;
+  /**
+   * The ordering. Defaults to newest. Possible values include: 'Newest', 'Oldest'
+   */
+  orderBy?: OrderBy1;
+  /**
+   * Maximum number of images to return. Defaults to 50, limited to 256. Default value: 50.
+   */
+  take?: number;
+  /**
+   * Number of images to skip before beginning the image batch. Defaults to 0. Default value: 0.
+   */
+  skip?: number;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface TrainingAPIClientCreateImagesFromDataOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * The tags ids with which to tag each image. Limited to 20.
+   */
+  tagIds?: string[];
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface TrainingAPIClientDeleteImagesOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * Ids of the images to be deleted. Limited to 256 images per batch.
+   */
+  imageIds?: string[];
+  /**
+   * Flag to specify delete all images, specify this flag or a list of images. Using this flag will
+   * return a 202 response to indicate the images are being deleted.
+   */
+  allImages?: boolean;
+  /**
+   * Removes these images from all iterations, not just the current workspace. Using this flag will
+   * return a 202 response to indicate the images are being deleted.
+   */
+  allIterations?: boolean;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface TrainingAPIClientGetImageCountOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * The iteration id. Defaults to workspace.
+   */
+  iterationId?: string;
+  /**
+   * The tagging status filter. It can be 'All', 'Tagged', or 'Untagged'. Defaults to 'All'.
+   * Possible values include: 'All', 'Tagged', 'Untagged'
+   */
+  taggingStatus?: TaggingStatus1;
+  /**
+   * An expression to filter the images against image metadata. Only images where the expression
+   * evaluates to true are included in the response.
+   * The expression supports eq (Equal), ne (Not equal), and (Logical and), or (Logical or)
+   * operators.
+   * Here is an example, metadata=key1 eq 'value1' and key2 ne 'value2'.
+   */
+  filter?: string;
+  /**
+   * A list of tags ids to filter the images to count. Defaults to all tags when null.
+   */
+  tagIds?: string[];
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface TrainingAPIClientGetImagesByIdsOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * The list of image ids to retrieve. Limited to 256.
+   */
+  imageIds?: string[];
+  /**
+   * The iteration id. Defaults to workspace.
+   */
+  iterationId?: string;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface TrainingAPIClientGetTaggedImagesOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * The iteration id. Defaults to workspace.
+   */
+  iterationId?: string;
+  /**
+   * A list of tags ids to filter the images. Defaults to all tagged images when null. Limited to
+   * 20.
+   */
+  tagIds?: string[];
+  /**
+   * The ordering. Defaults to newest. Possible values include: 'Newest', 'Oldest'
+   */
+  orderBy?: OrderBy2;
+  /**
+   * Maximum number of images to return. Defaults to 50, limited to 256. Default value: 50.
+   */
+  take?: number;
+  /**
+   * Number of images to skip before beginning the image batch. Defaults to 0. Default value: 0.
+   */
+  skip?: number;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface TrainingAPIClientGetTaggedImageCountOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * The iteration id. Defaults to workspace.
+   */
+  iterationId?: string;
+  /**
+   * A list of tags ids to filter the images to count. Defaults to all tags when null.
+   */
+  tagIds?: string[];
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface TrainingAPIClientGetUntaggedImagesOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * The iteration id. Defaults to workspace.
+   */
+  iterationId?: string;
+  /**
+   * The ordering. Defaults to newest. Possible values include: 'Newest', 'Oldest'
+   */
+  orderBy?: OrderBy3;
+  /**
+   * Maximum number of images to return. Defaults to 50, limited to 256. Default value: 50.
+   */
+  take?: number;
+  /**
+   * Number of images to skip before beginning the image batch. Defaults to 0. Default value: 0.
+   */
+  skip?: number;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface TrainingAPIClientGetUntaggedImageCountOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * The iteration id. Defaults to workspace.
+   */
+  iterationId?: string;
 }
 
 /**
@@ -1213,7 +1537,7 @@ export interface TrainingAPIClientTrainProjectOptionalParams extends msRest.Requ
 export interface TrainingAPIClientExportIterationOptionalParams extends msRest.RequestOptionsBase {
   /**
    * The flavor of the target platform. Possible values include: 'Linux', 'Windows', 'ONNX10',
-   * 'ONNX12', 'ARM'
+   * 'ONNX12', 'ARM', 'TensorFlowNormal', 'TensorFlowLite'
    */
   flavor?: Flavor;
 }
@@ -1221,11 +1545,90 @@ export interface TrainingAPIClientExportIterationOptionalParams extends msRest.R
 /**
  * Optional Parameters.
  */
-export interface TrainingAPIClientGetTagOptionalParams extends msRest.RequestOptionsBase {
+export interface TrainingAPIClientGetIterationPerformanceOptionalParams extends msRest.RequestOptionsBase {
   /**
-   * The iteration to retrieve this tag from. Optional, defaults to current training set.
+   * The threshold used to determine true predictions.
+   */
+  threshold?: number;
+  /**
+   * If applicable, the bounding box overlap threshold used to determine true predictions.
+   */
+  overlapThreshold?: number;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface TrainingAPIClientGetImagePerformancesOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * A list of tags ids to filter the images. Defaults to all tagged images when null. Limited to
+   * 20.
+   */
+  tagIds?: string[];
+  /**
+   * The ordering. Defaults to newest. Possible values include: 'Newest', 'Oldest'
+   */
+  orderBy?: OrderBy4;
+  /**
+   * Maximum number of images to return. Defaults to 50, limited to 256. Default value: 50.
+   */
+  take?: number;
+  /**
+   * Number of images to skip before beginning the image batch. Defaults to 0. Default value: 0.
+   */
+  skip?: number;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface TrainingAPIClientGetImagePerformanceCountOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * A list of tags ids to filter the images to count. Defaults to all tags when null.
+   */
+  tagIds?: string[];
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface TrainingAPIClientPublishIterationOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * Whether to overwrite the published model with the given name (default: false).
+   */
+  overwrite?: boolean;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface TrainingAPIClientQuickTestImageOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * Optional. Specifies the id of a particular iteration to evaluate against.
+   * The default iteration for the project will be used when not specified.
    */
   iterationId?: string;
+  /**
+   * Optional. Specifies whether or not to store the result of this prediction. The default is
+   * true, to store. Default value: true.
+   */
+  store?: boolean;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface TrainingAPIClientQuickTestImageUrlOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * Optional. Specifies the id of a particular iteration to evaluate against.
+   * The default iteration for the project will be used when not specified.
+   */
+  iterationId?: string;
+  /**
+   * Optional. Specifies whether or not to store the result of this prediction. The default is
+   * true, to store. Default value: true.
+   */
+  store?: boolean;
 }
 
 /**
@@ -1247,10 +1650,120 @@ export interface TrainingAPIClientCreateTagOptionalParams extends msRest.Request
    */
   description?: string;
   /**
-   * Optional type for the tag. Possible values include: 'Regular', 'Negative'
+   * Optional type for the tag. Possible values include: 'Regular', 'Negative', 'GeneralProduct'
    */
   type?: Type;
 }
+
+/**
+ * Optional Parameters.
+ */
+export interface TrainingAPIClientGetTagOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * The iteration to retrieve this tag from. Optional, defaults to current training set.
+   */
+  iterationId?: string;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface TrainingAPIClientTrainProjectOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * The type of training to use to train the project (default: Regular). Possible values include:
+   * 'Regular', 'Advanced'
+   */
+  trainingType?: TrainingType1;
+  /**
+   * The number of hours reserved as budget for training (if applicable). Default value: 0.
+   */
+  reservedBudgetInHours?: number;
+  /**
+   * Whether to force train even if dataset and configuration does not change (default: false).
+   * Default value: false.
+   */
+  forceTrain?: boolean;
+  /**
+   * The email address to send notification to when training finishes (default: null).
+   */
+  notificationEmailAddress?: string;
+  /**
+   * Additional training parameters passed in to control how the project is trained.
+   */
+  trainingParameters?: TrainingParameters;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface TrainingAPIClientImportProjectOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * Optional, name of the project to use instead of auto-generated name.
+   */
+  name?: string;
+}
+
+/**
+ * Defines values for CustomVisionErrorCodes.
+ * Possible values include: 'NoError', 'BadRequest', 'BadRequestExceededBatchSize',
+ * 'BadRequestNotSupported', 'BadRequestInvalidIds', 'BadRequestProjectName',
+ * 'BadRequestProjectNameNotUnique', 'BadRequestProjectDescription',
+ * 'BadRequestProjectUnknownDomain', 'BadRequestProjectUnknownClassification',
+ * 'BadRequestProjectUnsupportedDomainTypeChange', 'BadRequestProjectUnsupportedExportPlatform',
+ * 'BadRequestProjectImagePreprocessingSettings', 'BadRequestProjectDuplicated',
+ * 'BadRequestIterationName', 'BadRequestIterationNameNotUnique', 'BadRequestIterationDescription',
+ * 'BadRequestIterationIsNotTrained', 'BadRequestIterationValidationFailed',
+ * 'BadRequestWorkspaceCannotBeModified', 'BadRequestWorkspaceNotDeletable', 'BadRequestTagName',
+ * 'BadRequestTagNameNotUnique', 'BadRequestTagDescription', 'BadRequestTagType',
+ * 'BadRequestMultipleNegativeTag', 'BadRequestMultipleGeneralProductTag', 'BadRequestImageTags',
+ * 'BadRequestImageRegions', 'BadRequestNegativeAndRegularTagOnSameImage',
+ * 'BadRequestUnsupportedDomain', 'BadRequestRequiredParamIsNull',
+ * 'BadRequestIterationIsPublished', 'BadRequestInvalidPublishName',
+ * 'BadRequestInvalidPublishTarget', 'BadRequestUnpublishFailed',
+ * 'BadRequestIterationNotPublished', 'BadRequestSubscriptionApi', 'BadRequestExceedProjectLimit',
+ * 'BadRequestExceedIterationPerProjectLimit', 'BadRequestExceedTagPerProjectLimit',
+ * 'BadRequestExceedTagPerImageLimit', 'BadRequestExceededQuota',
+ * 'BadRequestCannotMigrateProjectWithName', 'BadRequestNotLimitedTrial', 'BadRequestImageBatch',
+ * 'BadRequestImageStream', 'BadRequestImageUrl', 'BadRequestImageFormat',
+ * 'BadRequestImageSizeBytes', 'BadRequestImageDimensions', 'BadRequestImageExceededCount',
+ * 'BadRequestTrainingNotNeeded', 'BadRequestTrainingNotNeededButTrainingPipelineUpdated',
+ * 'BadRequestTrainingValidationFailed', 'BadRequestClassificationTrainingValidationFailed',
+ * 'BadRequestMultiClassClassificationTrainingValidationFailed',
+ * 'BadRequestMultiLabelClassificationTrainingValidationFailed',
+ * 'BadRequestDetectionTrainingValidationFailed', 'BadRequestTrainingAlreadyInProgress',
+ * 'BadRequestDetectionTrainingNotAllowNegativeTag', 'BadRequestInvalidEmailAddress',
+ * 'BadRequestDomainNotSupportedForAdvancedTraining',
+ * 'BadRequestExportPlatformNotSupportedForAdvancedTraining',
+ * 'BadRequestReservedBudgetInHoursNotEnoughForAdvancedTraining',
+ * 'BadRequestExportValidationFailed', 'BadRequestExportAlreadyInProgress',
+ * 'BadRequestPredictionIdsMissing', 'BadRequestPredictionIdsExceededCount',
+ * 'BadRequestPredictionTagsExceededCount', 'BadRequestPredictionResultsExceededCount',
+ * 'BadRequestPredictionInvalidApplicationName', 'BadRequestPredictionInvalidQueryParameters',
+ * 'BadRequestInvalidImportToken', 'BadRequestExportWhileTraining', 'BadRequestImageMetadataKey',
+ * 'BadRequestImageMetadataValue', 'BadRequestOperationNotSupported',
+ * 'BadRequestInvalidArtifactUri', 'BadRequestCustomerManagedKeyRevoked', 'BadRequestInvalid',
+ * 'UnsupportedMediaType', 'Forbidden', 'ForbiddenUser', 'ForbiddenUserResource',
+ * 'ForbiddenUserSignupDisabled', 'ForbiddenUserSignupAllowanceExceeded',
+ * 'ForbiddenUserDoesNotExist', 'ForbiddenUserDisabled', 'ForbiddenUserInsufficientCapability',
+ * 'ForbiddenDRModeEnabled', 'ForbiddenInvalid', 'NotFound', 'NotFoundProject',
+ * 'NotFoundProjectDefaultIteration', 'NotFoundIteration', 'NotFoundIterationPerformance',
+ * 'NotFoundTag', 'NotFoundImage', 'NotFoundDomain', 'NotFoundApimSubscription', 'NotFoundInvalid',
+ * 'Conflict', 'ConflictInvalid', 'ErrorUnknown', 'ErrorIterationCopyFailed',
+ * 'ErrorPreparePerformanceMigrationFailed', 'ErrorProjectInvalidWorkspace',
+ * 'ErrorProjectInvalidPipelineConfiguration', 'ErrorProjectInvalidDomain',
+ * 'ErrorProjectTrainingRequestFailed', 'ErrorProjectImportRequestFailed',
+ * 'ErrorProjectExportRequestFailed', 'ErrorFeaturizationServiceUnavailable',
+ * 'ErrorFeaturizationQueueTimeout', 'ErrorFeaturizationInvalidFeaturizer',
+ * 'ErrorFeaturizationAugmentationUnavailable', 'ErrorFeaturizationUnrecognizedJob',
+ * 'ErrorFeaturizationAugmentationError', 'ErrorExporterInvalidPlatform',
+ * 'ErrorExporterInvalidFeaturizer', 'ErrorExporterInvalidClassifier',
+ * 'ErrorPredictionServiceUnavailable', 'ErrorPredictionModelNotFound',
+ * 'ErrorPredictionModelNotCached', 'ErrorPrediction', 'ErrorPredictionStorage',
+ * 'ErrorRegionProposal', 'ErrorUnknownBaseModel', 'ErrorInvalid'
+ * @readonly
+ * @enum {string}
+ */
+export type CustomVisionErrorCodes = 'NoError' | 'BadRequest' | 'BadRequestExceededBatchSize' | 'BadRequestNotSupported' | 'BadRequestInvalidIds' | 'BadRequestProjectName' | 'BadRequestProjectNameNotUnique' | 'BadRequestProjectDescription' | 'BadRequestProjectUnknownDomain' | 'BadRequestProjectUnknownClassification' | 'BadRequestProjectUnsupportedDomainTypeChange' | 'BadRequestProjectUnsupportedExportPlatform' | 'BadRequestProjectImagePreprocessingSettings' | 'BadRequestProjectDuplicated' | 'BadRequestIterationName' | 'BadRequestIterationNameNotUnique' | 'BadRequestIterationDescription' | 'BadRequestIterationIsNotTrained' | 'BadRequestIterationValidationFailed' | 'BadRequestWorkspaceCannotBeModified' | 'BadRequestWorkspaceNotDeletable' | 'BadRequestTagName' | 'BadRequestTagNameNotUnique' | 'BadRequestTagDescription' | 'BadRequestTagType' | 'BadRequestMultipleNegativeTag' | 'BadRequestMultipleGeneralProductTag' | 'BadRequestImageTags' | 'BadRequestImageRegions' | 'BadRequestNegativeAndRegularTagOnSameImage' | 'BadRequestUnsupportedDomain' | 'BadRequestRequiredParamIsNull' | 'BadRequestIterationIsPublished' | 'BadRequestInvalidPublishName' | 'BadRequestInvalidPublishTarget' | 'BadRequestUnpublishFailed' | 'BadRequestIterationNotPublished' | 'BadRequestSubscriptionApi' | 'BadRequestExceedProjectLimit' | 'BadRequestExceedIterationPerProjectLimit' | 'BadRequestExceedTagPerProjectLimit' | 'BadRequestExceedTagPerImageLimit' | 'BadRequestExceededQuota' | 'BadRequestCannotMigrateProjectWithName' | 'BadRequestNotLimitedTrial' | 'BadRequestImageBatch' | 'BadRequestImageStream' | 'BadRequestImageUrl' | 'BadRequestImageFormat' | 'BadRequestImageSizeBytes' | 'BadRequestImageDimensions' | 'BadRequestImageExceededCount' | 'BadRequestTrainingNotNeeded' | 'BadRequestTrainingNotNeededButTrainingPipelineUpdated' | 'BadRequestTrainingValidationFailed' | 'BadRequestClassificationTrainingValidationFailed' | 'BadRequestMultiClassClassificationTrainingValidationFailed' | 'BadRequestMultiLabelClassificationTrainingValidationFailed' | 'BadRequestDetectionTrainingValidationFailed' | 'BadRequestTrainingAlreadyInProgress' | 'BadRequestDetectionTrainingNotAllowNegativeTag' | 'BadRequestInvalidEmailAddress' | 'BadRequestDomainNotSupportedForAdvancedTraining' | 'BadRequestExportPlatformNotSupportedForAdvancedTraining' | 'BadRequestReservedBudgetInHoursNotEnoughForAdvancedTraining' | 'BadRequestExportValidationFailed' | 'BadRequestExportAlreadyInProgress' | 'BadRequestPredictionIdsMissing' | 'BadRequestPredictionIdsExceededCount' | 'BadRequestPredictionTagsExceededCount' | 'BadRequestPredictionResultsExceededCount' | 'BadRequestPredictionInvalidApplicationName' | 'BadRequestPredictionInvalidQueryParameters' | 'BadRequestInvalidImportToken' | 'BadRequestExportWhileTraining' | 'BadRequestImageMetadataKey' | 'BadRequestImageMetadataValue' | 'BadRequestOperationNotSupported' | 'BadRequestInvalidArtifactUri' | 'BadRequestCustomerManagedKeyRevoked' | 'BadRequestInvalid' | 'UnsupportedMediaType' | 'Forbidden' | 'ForbiddenUser' | 'ForbiddenUserResource' | 'ForbiddenUserSignupDisabled' | 'ForbiddenUserSignupAllowanceExceeded' | 'ForbiddenUserDoesNotExist' | 'ForbiddenUserDisabled' | 'ForbiddenUserInsufficientCapability' | 'ForbiddenDRModeEnabled' | 'ForbiddenInvalid' | 'NotFound' | 'NotFoundProject' | 'NotFoundProjectDefaultIteration' | 'NotFoundIteration' | 'NotFoundIterationPerformance' | 'NotFoundTag' | 'NotFoundImage' | 'NotFoundDomain' | 'NotFoundApimSubscription' | 'NotFoundInvalid' | 'Conflict' | 'ConflictInvalid' | 'ErrorUnknown' | 'ErrorIterationCopyFailed' | 'ErrorPreparePerformanceMigrationFailed' | 'ErrorProjectInvalidWorkspace' | 'ErrorProjectInvalidPipelineConfiguration' | 'ErrorProjectInvalidDomain' | 'ErrorProjectTrainingRequestFailed' | 'ErrorProjectImportRequestFailed' | 'ErrorProjectExportRequestFailed' | 'ErrorFeaturizationServiceUnavailable' | 'ErrorFeaturizationQueueTimeout' | 'ErrorFeaturizationInvalidFeaturizer' | 'ErrorFeaturizationAugmentationUnavailable' | 'ErrorFeaturizationUnrecognizedJob' | 'ErrorFeaturizationAugmentationError' | 'ErrorExporterInvalidPlatform' | 'ErrorExporterInvalidFeaturizer' | 'ErrorExporterInvalidClassifier' | 'ErrorPredictionServiceUnavailable' | 'ErrorPredictionModelNotFound' | 'ErrorPredictionModelNotCached' | 'ErrorPrediction' | 'ErrorPredictionStorage' | 'ErrorRegionProposal' | 'ErrorUnknownBaseModel' | 'ErrorInvalid';
 
 /**
  * Defines values for DomainType.
@@ -1259,40 +1772,6 @@ export interface TrainingAPIClientCreateTagOptionalParams extends msRest.Request
  * @enum {string}
  */
 export type DomainType = 'Classification' | 'ObjectDetection';
-
-/**
- * Defines values for ImageCreateStatus.
- * Possible values include: 'OK', 'OKDuplicate', 'ErrorSource', 'ErrorImageFormat',
- * 'ErrorImageSize', 'ErrorStorage', 'ErrorLimitExceed', 'ErrorTagLimitExceed',
- * 'ErrorRegionLimitExceed', 'ErrorUnknown', 'ErrorNegativeAndRegularTagOnSameImage'
- * @readonly
- * @enum {string}
- */
-export type ImageCreateStatus = 'OK' | 'OKDuplicate' | 'ErrorSource' | 'ErrorImageFormat' | 'ErrorImageSize' | 'ErrorStorage' | 'ErrorLimitExceed' | 'ErrorTagLimitExceed' | 'ErrorRegionLimitExceed' | 'ErrorUnknown' | 'ErrorNegativeAndRegularTagOnSameImage';
-
-/**
- * Defines values for OrderBy.
- * Possible values include: 'Newest', 'Oldest', 'Suggested'
- * @readonly
- * @enum {string}
- */
-export type OrderBy = 'Newest' | 'Oldest' | 'Suggested';
-
-/**
- * Defines values for Classifier.
- * Possible values include: 'Multiclass', 'Multilabel'
- * @readonly
- * @enum {string}
- */
-export type Classifier = 'Multiclass' | 'Multilabel';
-
-/**
- * Defines values for TrainingType.
- * Possible values include: 'Regular', 'Advanced'
- * @readonly
- * @enum {string}
- */
-export type TrainingType = 'Regular' | 'Advanced';
 
 /**
  * Defines values for ExportPlatform.
@@ -1312,73 +1791,94 @@ export type ExportStatus = 'Exporting' | 'Failed' | 'Done';
 
 /**
  * Defines values for ExportFlavor.
- * Possible values include: 'Linux', 'Windows', 'ONNX10', 'ONNX12', 'ARM'
+ * Possible values include: 'Linux', 'Windows', 'ONNX10', 'ONNX12', 'ARM', 'TensorFlowNormal',
+ * 'TensorFlowLite'
  * @readonly
  * @enum {string}
  */
-export type ExportFlavor = 'Linux' | 'Windows' | 'ONNX10' | 'ONNX12' | 'ARM';
+export type ExportFlavor = 'Linux' | 'Windows' | 'ONNX10' | 'ONNX12' | 'ARM' | 'TensorFlowNormal' | 'TensorFlowLite';
+
+/**
+ * Defines values for ImageCreateStatus.
+ * Possible values include: 'OK', 'OKDuplicate', 'ErrorSource', 'ErrorImageFormat',
+ * 'ErrorImageSize', 'ErrorStorage', 'ErrorLimitExceed', 'ErrorTagLimitExceed',
+ * 'ErrorRegionLimitExceed', 'ErrorUnknown', 'ErrorNegativeAndRegularTagOnSameImage'
+ * @readonly
+ * @enum {string}
+ */
+export type ImageCreateStatus = 'OK' | 'OKDuplicate' | 'ErrorSource' | 'ErrorImageFormat' | 'ErrorImageSize' | 'ErrorStorage' | 'ErrorLimitExceed' | 'ErrorTagLimitExceed' | 'ErrorRegionLimitExceed' | 'ErrorUnknown' | 'ErrorNegativeAndRegularTagOnSameImage';
+
+/**
+ * Defines values for ImageMetadataUpdateStatus.
+ * Possible values include: 'OK', 'ErrorImageNotFound', 'ErrorLimitExceed', 'ErrorUnknown'
+ * @readonly
+ * @enum {string}
+ */
+export type ImageMetadataUpdateStatus = 'OK' | 'ErrorImageNotFound' | 'ErrorLimitExceed' | 'ErrorUnknown';
 
 /**
  * Defines values for TagType.
- * Possible values include: 'Regular', 'Negative'
+ * Possible values include: 'Regular', 'Negative', 'GeneralProduct'
  * @readonly
  * @enum {string}
  */
-export type TagType = 'Regular' | 'Negative';
+export type TagType = 'Regular' | 'Negative' | 'GeneralProduct';
 
 /**
- * Defines values for CustomVisionErrorCodes.
- * Possible values include: 'NoError', 'BadRequest', 'BadRequestExceededBatchSize',
- * 'BadRequestNotSupported', 'BadRequestInvalidIds', 'BadRequestProjectName',
- * 'BadRequestProjectNameNotUnique', 'BadRequestProjectDescription',
- * 'BadRequestProjectUnknownDomain', 'BadRequestProjectUnknownClassification',
- * 'BadRequestProjectUnsupportedDomainTypeChange', 'BadRequestProjectUnsupportedExportPlatform',
- * 'BadRequestIterationName', 'BadRequestIterationNameNotUnique', 'BadRequestIterationDescription',
- * 'BadRequestIterationIsNotTrained', 'BadRequestWorkspaceCannotBeModified',
- * 'BadRequestWorkspaceNotDeletable', 'BadRequestTagName', 'BadRequestTagNameNotUnique',
- * 'BadRequestTagDescription', 'BadRequestTagType', 'BadRequestMultipleNegativeTag',
- * 'BadRequestImageTags', 'BadRequestImageRegions', 'BadRequestNegativeAndRegularTagOnSameImage',
- * 'BadRequestRequiredParamIsNull', 'BadRequestIterationIsPublished',
- * 'BadRequestInvalidPublishName', 'BadRequestInvalidPublishTarget', 'BadRequestUnpublishFailed',
- * 'BadRequestIterationNotPublished', 'BadRequestSubscriptionApi', 'BadRequestExceedProjectLimit',
- * 'BadRequestExceedIterationPerProjectLimit', 'BadRequestExceedTagPerProjectLimit',
- * 'BadRequestExceedTagPerImageLimit', 'BadRequestExceededQuota',
- * 'BadRequestCannotMigrateProjectWithName', 'BadRequestNotLimitedTrial', 'BadRequestImageBatch',
- * 'BadRequestImageStream', 'BadRequestImageUrl', 'BadRequestImageFormat',
- * 'BadRequestImageSizeBytes', 'BadRequestImageExceededCount', 'BadRequestTrainingNotNeeded',
- * 'BadRequestTrainingNotNeededButTrainingPipelineUpdated', 'BadRequestTrainingValidationFailed',
- * 'BadRequestClassificationTrainingValidationFailed',
- * 'BadRequestMultiClassClassificationTrainingValidationFailed',
- * 'BadRequestMultiLabelClassificationTrainingValidationFailed',
- * 'BadRequestDetectionTrainingValidationFailed', 'BadRequestTrainingAlreadyInProgress',
- * 'BadRequestDetectionTrainingNotAllowNegativeTag', 'BadRequestInvalidEmailAddress',
- * 'BadRequestDomainNotSupportedForAdvancedTraining',
- * 'BadRequestExportPlatformNotSupportedForAdvancedTraining',
- * 'BadRequestReservedBudgetInHoursNotEnoughForAdvancedTraining',
- * 'BadRequestExportValidationFailed', 'BadRequestExportAlreadyInProgress',
- * 'BadRequestPredictionIdsMissing', 'BadRequestPredictionIdsExceededCount',
- * 'BadRequestPredictionTagsExceededCount', 'BadRequestPredictionResultsExceededCount',
- * 'BadRequestPredictionInvalidApplicationName', 'BadRequestPredictionInvalidQueryParameters',
- * 'BadRequestInvalid', 'UnsupportedMediaType', 'Forbidden', 'ForbiddenUser',
- * 'ForbiddenUserResource', 'ForbiddenUserSignupDisabled', 'ForbiddenUserSignupAllowanceExceeded',
- * 'ForbiddenUserDoesNotExist', 'ForbiddenUserDisabled', 'ForbiddenUserInsufficientCapability',
- * 'ForbiddenDRModeEnabled', 'ForbiddenInvalid', 'NotFound', 'NotFoundProject',
- * 'NotFoundProjectDefaultIteration', 'NotFoundIteration', 'NotFoundIterationPerformance',
- * 'NotFoundTag', 'NotFoundImage', 'NotFoundDomain', 'NotFoundApimSubscription', 'NotFoundInvalid',
- * 'Conflict', 'ConflictInvalid', 'ErrorUnknown', 'ErrorProjectInvalidWorkspace',
- * 'ErrorProjectInvalidPipelineConfiguration', 'ErrorProjectInvalidDomain',
- * 'ErrorProjectTrainingRequestFailed', 'ErrorProjectExportRequestFailed',
- * 'ErrorFeaturizationServiceUnavailable', 'ErrorFeaturizationQueueTimeout',
- * 'ErrorFeaturizationInvalidFeaturizer', 'ErrorFeaturizationAugmentationUnavailable',
- * 'ErrorFeaturizationUnrecognizedJob', 'ErrorFeaturizationAugmentationError',
- * 'ErrorExporterInvalidPlatform', 'ErrorExporterInvalidFeaturizer',
- * 'ErrorExporterInvalidClassifier', 'ErrorPredictionServiceUnavailable',
- * 'ErrorPredictionModelNotFound', 'ErrorPredictionModelNotCached', 'ErrorPrediction',
- * 'ErrorPredictionStorage', 'ErrorRegionProposal', 'ErrorInvalid'
+ * Defines values for Classifier.
+ * Possible values include: 'Multiclass', 'Multilabel'
  * @readonly
  * @enum {string}
  */
-export type CustomVisionErrorCodes = 'NoError' | 'BadRequest' | 'BadRequestExceededBatchSize' | 'BadRequestNotSupported' | 'BadRequestInvalidIds' | 'BadRequestProjectName' | 'BadRequestProjectNameNotUnique' | 'BadRequestProjectDescription' | 'BadRequestProjectUnknownDomain' | 'BadRequestProjectUnknownClassification' | 'BadRequestProjectUnsupportedDomainTypeChange' | 'BadRequestProjectUnsupportedExportPlatform' | 'BadRequestIterationName' | 'BadRequestIterationNameNotUnique' | 'BadRequestIterationDescription' | 'BadRequestIterationIsNotTrained' | 'BadRequestWorkspaceCannotBeModified' | 'BadRequestWorkspaceNotDeletable' | 'BadRequestTagName' | 'BadRequestTagNameNotUnique' | 'BadRequestTagDescription' | 'BadRequestTagType' | 'BadRequestMultipleNegativeTag' | 'BadRequestImageTags' | 'BadRequestImageRegions' | 'BadRequestNegativeAndRegularTagOnSameImage' | 'BadRequestRequiredParamIsNull' | 'BadRequestIterationIsPublished' | 'BadRequestInvalidPublishName' | 'BadRequestInvalidPublishTarget' | 'BadRequestUnpublishFailed' | 'BadRequestIterationNotPublished' | 'BadRequestSubscriptionApi' | 'BadRequestExceedProjectLimit' | 'BadRequestExceedIterationPerProjectLimit' | 'BadRequestExceedTagPerProjectLimit' | 'BadRequestExceedTagPerImageLimit' | 'BadRequestExceededQuota' | 'BadRequestCannotMigrateProjectWithName' | 'BadRequestNotLimitedTrial' | 'BadRequestImageBatch' | 'BadRequestImageStream' | 'BadRequestImageUrl' | 'BadRequestImageFormat' | 'BadRequestImageSizeBytes' | 'BadRequestImageExceededCount' | 'BadRequestTrainingNotNeeded' | 'BadRequestTrainingNotNeededButTrainingPipelineUpdated' | 'BadRequestTrainingValidationFailed' | 'BadRequestClassificationTrainingValidationFailed' | 'BadRequestMultiClassClassificationTrainingValidationFailed' | 'BadRequestMultiLabelClassificationTrainingValidationFailed' | 'BadRequestDetectionTrainingValidationFailed' | 'BadRequestTrainingAlreadyInProgress' | 'BadRequestDetectionTrainingNotAllowNegativeTag' | 'BadRequestInvalidEmailAddress' | 'BadRequestDomainNotSupportedForAdvancedTraining' | 'BadRequestExportPlatformNotSupportedForAdvancedTraining' | 'BadRequestReservedBudgetInHoursNotEnoughForAdvancedTraining' | 'BadRequestExportValidationFailed' | 'BadRequestExportAlreadyInProgress' | 'BadRequestPredictionIdsMissing' | 'BadRequestPredictionIdsExceededCount' | 'BadRequestPredictionTagsExceededCount' | 'BadRequestPredictionResultsExceededCount' | 'BadRequestPredictionInvalidApplicationName' | 'BadRequestPredictionInvalidQueryParameters' | 'BadRequestInvalid' | 'UnsupportedMediaType' | 'Forbidden' | 'ForbiddenUser' | 'ForbiddenUserResource' | 'ForbiddenUserSignupDisabled' | 'ForbiddenUserSignupAllowanceExceeded' | 'ForbiddenUserDoesNotExist' | 'ForbiddenUserDisabled' | 'ForbiddenUserInsufficientCapability' | 'ForbiddenDRModeEnabled' | 'ForbiddenInvalid' | 'NotFound' | 'NotFoundProject' | 'NotFoundProjectDefaultIteration' | 'NotFoundIteration' | 'NotFoundIterationPerformance' | 'NotFoundTag' | 'NotFoundImage' | 'NotFoundDomain' | 'NotFoundApimSubscription' | 'NotFoundInvalid' | 'Conflict' | 'ConflictInvalid' | 'ErrorUnknown' | 'ErrorProjectInvalidWorkspace' | 'ErrorProjectInvalidPipelineConfiguration' | 'ErrorProjectInvalidDomain' | 'ErrorProjectTrainingRequestFailed' | 'ErrorProjectExportRequestFailed' | 'ErrorFeaturizationServiceUnavailable' | 'ErrorFeaturizationQueueTimeout' | 'ErrorFeaturizationInvalidFeaturizer' | 'ErrorFeaturizationAugmentationUnavailable' | 'ErrorFeaturizationUnrecognizedJob' | 'ErrorFeaturizationAugmentationError' | 'ErrorExporterInvalidPlatform' | 'ErrorExporterInvalidFeaturizer' | 'ErrorExporterInvalidClassifier' | 'ErrorPredictionServiceUnavailable' | 'ErrorPredictionModelNotFound' | 'ErrorPredictionModelNotCached' | 'ErrorPrediction' | 'ErrorPredictionStorage' | 'ErrorRegionProposal' | 'ErrorInvalid';
+export type Classifier = 'Multiclass' | 'Multilabel';
+
+/**
+ * Defines values for TrainingType.
+ * Possible values include: 'Regular', 'Advanced'
+ * @readonly
+ * @enum {string}
+ */
+export type TrainingType = 'Regular' | 'Advanced';
+
+/**
+ * Defines values for OrderBy.
+ * Possible values include: 'Newest', 'Oldest', 'Suggested'
+ * @readonly
+ * @enum {string}
+ */
+export type OrderBy = 'Newest' | 'Oldest' | 'Suggested';
+
+/**
+ * Defines values for ProjectStatus.
+ * Possible values include: 'Succeeded', 'Importing', 'Failed'
+ * @readonly
+ * @enum {string}
+ */
+export type ProjectStatus = 'Succeeded' | 'Importing' | 'Failed';
+
+/**
+ * Defines values for SortBy.
+ * Possible values include: 'UncertaintyAscending', 'UncertaintyDescending'
+ * @readonly
+ * @enum {string}
+ */
+export type SortBy = 'UncertaintyAscending' | 'UncertaintyDescending';
+
+/**
+ * Defines values for ClassificationType.
+ * Possible values include: 'Multiclass', 'Multilabel'
+ * @readonly
+ * @enum {string}
+ */
+export type ClassificationType = 'Multiclass' | 'Multilabel';
+
+/**
+ * Defines values for TaggingStatus.
+ * Possible values include: 'All', 'Tagged', 'Untagged'
+ * @readonly
+ * @enum {string}
+ */
+export type TaggingStatus = 'All' | 'Tagged' | 'Untagged';
 
 /**
  * Defines values for OrderBy1.
@@ -1387,6 +1887,14 @@ export type CustomVisionErrorCodes = 'NoError' | 'BadRequest' | 'BadRequestExcee
  * @enum {string}
  */
 export type OrderBy1 = 'Newest' | 'Oldest';
+
+/**
+ * Defines values for TaggingStatus1.
+ * Possible values include: 'All', 'Tagged', 'Untagged'
+ * @readonly
+ * @enum {string}
+ */
+export type TaggingStatus1 = 'All' | 'Tagged' | 'Untagged';
 
 /**
  * Defines values for OrderBy2.
@@ -1405,12 +1913,29 @@ export type OrderBy2 = 'Newest' | 'Oldest';
 export type OrderBy3 = 'Newest' | 'Oldest';
 
 /**
- * Defines values for ClassificationType.
- * Possible values include: 'Multiclass', 'Multilabel'
+ * Defines values for Flavor.
+ * Possible values include: 'Linux', 'Windows', 'ONNX10', 'ONNX12', 'ARM', 'TensorFlowNormal',
+ * 'TensorFlowLite'
  * @readonly
  * @enum {string}
  */
-export type ClassificationType = 'Multiclass' | 'Multilabel';
+export type Flavor = 'Linux' | 'Windows' | 'ONNX10' | 'ONNX12' | 'ARM' | 'TensorFlowNormal' | 'TensorFlowLite';
+
+/**
+ * Defines values for OrderBy4.
+ * Possible values include: 'Newest', 'Oldest'
+ * @readonly
+ * @enum {string}
+ */
+export type OrderBy4 = 'Newest' | 'Oldest';
+
+/**
+ * Defines values for Type.
+ * Possible values include: 'Regular', 'Negative', 'GeneralProduct'
+ * @readonly
+ * @enum {string}
+ */
+export type Type = 'Regular' | 'Negative' | 'GeneralProduct';
 
 /**
  * Defines values for TrainingType1.
@@ -1419,22 +1944,6 @@ export type ClassificationType = 'Multiclass' | 'Multilabel';
  * @enum {string}
  */
 export type TrainingType1 = 'Regular' | 'Advanced';
-
-/**
- * Defines values for Flavor.
- * Possible values include: 'Linux', 'Windows', 'ONNX10', 'ONNX12', 'ARM'
- * @readonly
- * @enum {string}
- */
-export type Flavor = 'Linux' | 'Windows' | 'ONNX10' | 'ONNX12' | 'ARM';
-
-/**
- * Defines values for Type.
- * Possible values include: 'Regular', 'Negative'
- * @readonly
- * @enum {string}
- */
-export type Type = 'Regular' | 'Negative';
 
 /**
  * Defines values for Platform.
@@ -1481,381 +1990,6 @@ export type GetDomainResponse = Domain & {
        * The response body as parsed JSON or XML
        */
       parsedBody: Domain;
-    };
-};
-
-/**
- * Contains response data for the getTaggedImageCount operation.
- */
-export type GetTaggedImageCountResponse = {
-  /**
-   * The parsed response body.
-   */
-  body: number;
-
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: number;
-    };
-};
-
-/**
- * Contains response data for the getUntaggedImageCount operation.
- */
-export type GetUntaggedImageCountResponse = {
-  /**
-   * The parsed response body.
-   */
-  body: number;
-
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: number;
-    };
-};
-
-/**
- * Contains response data for the createImageTags operation.
- */
-export type CreateImageTagsResponse = ImageTagCreateSummary & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ImageTagCreateSummary;
-    };
-};
-
-/**
- * Contains response data for the createImageRegions operation.
- */
-export type CreateImageRegionsResponse = ImageRegionCreateSummary & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ImageRegionCreateSummary;
-    };
-};
-
-/**
- * Contains response data for the getTaggedImages operation.
- */
-export type GetTaggedImagesResponse = Array<Image> & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Image[];
-    };
-};
-
-/**
- * Contains response data for the getUntaggedImages operation.
- */
-export type GetUntaggedImagesResponse = Array<Image> & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Image[];
-    };
-};
-
-/**
- * Contains response data for the getImagesByIds operation.
- */
-export type GetImagesByIdsResponse = Array<Image> & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: Image[];
-    };
-};
-
-/**
- * Contains response data for the createImagesFromData operation.
- */
-export type CreateImagesFromDataResponse = ImageCreateSummary & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ImageCreateSummary;
-    };
-};
-
-/**
- * Contains response data for the createImagesFromFiles operation.
- */
-export type CreateImagesFromFilesResponse = ImageCreateSummary & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ImageCreateSummary;
-    };
-};
-
-/**
- * Contains response data for the createImagesFromUrls operation.
- */
-export type CreateImagesFromUrlsResponse = ImageCreateSummary & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ImageCreateSummary;
-    };
-};
-
-/**
- * Contains response data for the createImagesFromPredictions operation.
- */
-export type CreateImagesFromPredictionsResponse = ImageCreateSummary & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ImageCreateSummary;
-    };
-};
-
-/**
- * Contains response data for the getImageRegionProposals operation.
- */
-export type GetImageRegionProposalsResponse = ImageRegionProposal & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ImageRegionProposal;
-    };
-};
-
-/**
- * Contains response data for the quickTestImageUrl operation.
- */
-export type QuickTestImageUrlResponse = ImagePrediction & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ImagePrediction;
-    };
-};
-
-/**
- * Contains response data for the quickTestImage operation.
- */
-export type QuickTestImageResponse = ImagePrediction & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ImagePrediction;
-    };
-};
-
-/**
- * Contains response data for the queryPredictions operation.
- */
-export type QueryPredictionsResponse = PredictionQueryResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: PredictionQueryResult;
-    };
-};
-
-/**
- * Contains response data for the getIterationPerformance operation.
- */
-export type GetIterationPerformanceResponse = IterationPerformance & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: IterationPerformance;
-    };
-};
-
-/**
- * Contains response data for the getImagePerformances operation.
- */
-export type GetImagePerformancesResponse = Array<ImagePerformance> & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: ImagePerformance[];
-    };
-};
-
-/**
- * Contains response data for the getImagePerformanceCount operation.
- */
-export type GetImagePerformanceCountResponse = {
-  /**
-   * The parsed response body.
-   */
-  body: number;
-
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: number;
     };
 };
 
@@ -1940,9 +2074,35 @@ export type UpdateProjectResponse = Project & {
 };
 
 /**
- * Contains response data for the trainProject operation.
+ * Contains response data for the getArtifact operation.
  */
-export type TrainProjectResponse = Iteration & {
+export type GetArtifactResponse = {
+  /**
+   * BROWSER ONLY
+   *
+   * The response body as a browser Blob.
+   * Always undefined in node.js.
+   */
+  blobBody?: Promise<Blob>;
+
+  /**
+   * NODEJS ONLY
+   *
+   * The response body as a node.js Readable stream.
+   * Always undefined in the browser.
+   */
+  readableStreamBody?: NodeJS.ReadableStream;
+
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse;
+};
+
+/**
+ * Contains response data for the exportProject operation.
+ */
+export type ExportProjectResponse = ProjectExport & {
   /**
    * The underlying HTTP response.
    */
@@ -1955,7 +2115,367 @@ export type TrainProjectResponse = Iteration & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: Iteration;
+      parsedBody: ProjectExport;
+    };
+};
+
+/**
+ * Contains response data for the getImages operation.
+ */
+export type GetImagesResponse = Array<Image> & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Image[];
+    };
+};
+
+/**
+ * Contains response data for the createImagesFromData operation.
+ */
+export type CreateImagesFromDataResponse = ImageCreateSummary & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ImageCreateSummary;
+    };
+};
+
+/**
+ * Contains response data for the getImageRegionProposals operation.
+ */
+export type GetImageRegionProposalsResponse = ImageRegionProposal & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ImageRegionProposal;
+    };
+};
+
+/**
+ * Contains response data for the getImageCount operation.
+ */
+export type GetImageCountResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: number;
+
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: number;
+    };
+};
+
+/**
+ * Contains response data for the createImagesFromFiles operation.
+ */
+export type CreateImagesFromFilesResponse = ImageCreateSummary & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ImageCreateSummary;
+    };
+};
+
+/**
+ * Contains response data for the getImagesByIds operation.
+ */
+export type GetImagesByIdsResponse = Array<Image> & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Image[];
+    };
+};
+
+/**
+ * Contains response data for the updateImageMetadata operation.
+ */
+export type UpdateImageMetadataResponse = ImageMetadataUpdateSummary & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ImageMetadataUpdateSummary;
+    };
+};
+
+/**
+ * Contains response data for the createImagesFromPredictions operation.
+ */
+export type CreateImagesFromPredictionsResponse = ImageCreateSummary & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ImageCreateSummary;
+    };
+};
+
+/**
+ * Contains response data for the createImageRegions operation.
+ */
+export type CreateImageRegionsResponse = ImageRegionCreateSummary & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ImageRegionCreateSummary;
+    };
+};
+
+/**
+ * Contains response data for the querySuggestedImages operation.
+ */
+export type QuerySuggestedImagesResponse = SuggestedTagAndRegionQuery & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SuggestedTagAndRegionQuery;
+    };
+};
+
+/**
+ * Contains response data for the querySuggestedImageCount operation.
+ */
+export type QuerySuggestedImageCountResponse = {
+  /**
+   * The response body properties.
+   */
+  [propertyName: string]: number;
+} & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: { [propertyName: string]: number };
+    };
+};
+
+/**
+ * Contains response data for the getTaggedImages operation.
+ */
+export type GetTaggedImagesResponse = Array<Image> & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Image[];
+    };
+};
+
+/**
+ * Contains response data for the getTaggedImageCount operation.
+ */
+export type GetTaggedImageCountResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: number;
+
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: number;
+    };
+};
+
+/**
+ * Contains response data for the createImageTags operation.
+ */
+export type CreateImageTagsResponse = ImageTagCreateSummary & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ImageTagCreateSummary;
+    };
+};
+
+/**
+ * Contains response data for the getUntaggedImages operation.
+ */
+export type GetUntaggedImagesResponse = Array<Image> & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Image[];
+    };
+};
+
+/**
+ * Contains response data for the getUntaggedImageCount operation.
+ */
+export type GetUntaggedImageCountResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: number;
+
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: number;
+    };
+};
+
+/**
+ * Contains response data for the createImagesFromUrls operation.
+ */
+export type CreateImagesFromUrlsResponse = ImageCreateSummary & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ImageCreateSummary;
     };
 };
 
@@ -2020,31 +2540,6 @@ export type UpdateIterationResponse = Iteration & {
 };
 
 /**
- * Contains response data for the publishIteration operation.
- */
-export type PublishIterationResponse = {
-  /**
-   * The parsed response body.
-   */
-  body: boolean;
-
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: boolean;
-    };
-};
-
-/**
  * Contains response data for the getExports operation.
  */
 export type GetExportsResponse = Array<ExportModel> & {
@@ -2081,6 +2576,196 @@ export type ExportIterationResponse = ExportModel & {
        * The response body as parsed JSON or XML
        */
       parsedBody: ExportModel;
+    };
+};
+
+/**
+ * Contains response data for the getIterationPerformance operation.
+ */
+export type GetIterationPerformanceResponse = IterationPerformance & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: IterationPerformance;
+    };
+};
+
+/**
+ * Contains response data for the getImagePerformances operation.
+ */
+export type GetImagePerformancesResponse = Array<ImagePerformance> & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ImagePerformance[];
+    };
+};
+
+/**
+ * Contains response data for the getImagePerformanceCount operation.
+ */
+export type GetImagePerformanceCountResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: number;
+
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: number;
+    };
+};
+
+/**
+ * Contains response data for the publishIteration operation.
+ */
+export type PublishIterationResponse = {
+  /**
+   * The parsed response body.
+   */
+  body: boolean;
+
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: boolean;
+    };
+};
+
+/**
+ * Contains response data for the queryPredictions operation.
+ */
+export type QueryPredictionsResponse = PredictionQueryResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PredictionQueryResult;
+    };
+};
+
+/**
+ * Contains response data for the quickTestImage operation.
+ */
+export type QuickTestImageResponse = ImagePrediction & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ImagePrediction;
+    };
+};
+
+/**
+ * Contains response data for the quickTestImageUrl operation.
+ */
+export type QuickTestImageUrlResponse = ImagePrediction & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ImagePrediction;
+    };
+};
+
+/**
+ * Contains response data for the getTags operation.
+ */
+export type GetTagsResponse = Array<Tag> & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Tag[];
+    };
+};
+
+/**
+ * Contains response data for the createTag operation.
+ */
+export type CreateTagResponse = Tag & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Tag;
     };
 };
 
@@ -2125,9 +2810,9 @@ export type UpdateTagResponse = Tag & {
 };
 
 /**
- * Contains response data for the getTags operation.
+ * Contains response data for the suggestTagsAndRegions operation.
  */
-export type GetTagsResponse = Array<Tag> & {
+export type SuggestTagsAndRegionsResponse = Array<SuggestedTagAndRegion> & {
   /**
    * The underlying HTTP response.
    */
@@ -2140,14 +2825,14 @@ export type GetTagsResponse = Array<Tag> & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: Tag[];
+      parsedBody: SuggestedTagAndRegion[];
     };
 };
 
 /**
- * Contains response data for the createTag operation.
+ * Contains response data for the trainProject operation.
  */
-export type CreateTagResponse = Tag & {
+export type TrainProjectResponse = Iteration & {
   /**
    * The underlying HTTP response.
    */
@@ -2160,6 +2845,26 @@ export type CreateTagResponse = Tag & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: Tag;
+      parsedBody: Iteration;
+    };
+};
+
+/**
+ * Contains response data for the importProject operation.
+ */
+export type ImportProjectResponse = Project & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: Project;
     };
 };

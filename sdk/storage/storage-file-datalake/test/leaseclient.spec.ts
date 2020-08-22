@@ -5,7 +5,7 @@ import * as dotenv from "dotenv";
 import { DataLakeFileClient, DataLakeDirectoryClient, DataLakeFileSystemClient } from "../src";
 import { getDataLakeServiceClient, recorderEnvSetup } from "./utils";
 
-dotenv.config({ path: "../.env" });
+dotenv.config();
 
 describe("LeaseClient from FileSystem", () => {
   let fileSystemName: string;
@@ -23,7 +23,7 @@ describe("LeaseClient from FileSystem", () => {
 
   afterEach(async function() {
     await fileSystemClient.delete();
-    recorder.stop();
+    await recorder.stop();
   });
 
   it("acquireLease", async () => {
@@ -158,7 +158,7 @@ describe("LeaseClient from File", () => {
 
   afterEach(async function() {
     await fileSystemClient.delete();
-    recorder.stop();
+    await recorder.stop();
   });
 
   it("acquireLease", async () => {
@@ -281,7 +281,7 @@ describe("LeaseClient from Directory", () => {
 
   afterEach(async function() {
     await fileSystemClient.delete();
-    recorder.stop();
+    await recorder.stop();
   });
 
   it("acquireLease", async () => {

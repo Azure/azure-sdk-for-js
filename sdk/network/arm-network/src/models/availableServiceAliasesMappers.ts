@@ -11,4 +11,4 @@ export {
   AvailableServiceAlias,
   AvailableServiceAliasesResult,
   CloudError
-} from "../models/mappers";
+} from "./mappers";

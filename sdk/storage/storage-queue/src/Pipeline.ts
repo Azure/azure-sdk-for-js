@@ -205,7 +205,7 @@ export function newPipeline(
   ];
 
   if (isNode) {
-    // ProxyPolicy is only avaiable in Node.js runtime, not in browsers
+    // ProxyPolicy is only available in Node.js runtime, not in browsers
     factories.push(proxyPolicy(pipelineOptions.proxyOptions));
   }
   factories.push(

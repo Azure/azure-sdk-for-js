@@ -5,7 +5,7 @@ import * as dotenv from "dotenv";
 import { DataLakeServiceClient, ServiceListFileSystemsSegmentResponse } from "../src";
 import { getDataLakeServiceClient, getTokenDataLakeServiceClient, recorderEnvSetup } from "./utils";
 
-dotenv.config({ path: "../.env" });
+dotenv.config();
 
 describe("DataLakeServiceClient", () => {
   let recorder: Recorder;
@@ -15,7 +15,7 @@ describe("DataLakeServiceClient", () => {
   });
 
   afterEach(async function() {
-    recorder.stop();
+    await recorder.stop();
   });
 
   it("ListFileSystems with default parameters", async () => {
@@ -166,7 +166,7 @@ describe("DataLakeServiceClient", () => {
     await fileSystemClient1.create({ metadata: { key: "val" } });
     await fileSystemClient2.create({ metadata: { key: "val" } });
 
-    const iterator = await serviceClient.listFileSystems({
+    const iterator = serviceClient.listFileSystems({
       includeMetadata: true,
       prefix: fileSystemNamePrefix
     });

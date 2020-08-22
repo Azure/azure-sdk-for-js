@@ -8,7 +8,7 @@ import { appendToURLPath } from "../src/utils/utils.common";
 import { getDataLakeServiceClient, recorderEnvSetup } from "./utils";
 
 // import { appendToURLPath } from "../src/utils/utils.common";
-dotenv.config({ path: "../.env" });
+dotenv.config();
 
 describe("Special Naming Tests", () => {
   let fileSystemName: string;
@@ -26,7 +26,7 @@ describe("Special Naming Tests", () => {
 
   afterEach(async function() {
     await fileSystemClient.delete();
-    recorder.stop();
+    await recorder.stop();
   });
 
   it("Should work with special container and blob names with spaces", async () => {

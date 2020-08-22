@@ -1,16 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import assert from "assert";
-import {
-  CosmosClient,
-  Constants,
-  Container,
-  PluginConfig,
-  CosmosClientOptions
-} from "../../dist-esm";
+import { CosmosClient, Constants, Container, PluginConfig, CosmosClientOptions } from "../../src";
 import { removeAllDatabases, getTestContainer } from "../common/TestHelpers";
 import { endpoint, masterKey } from "../common/_testConfig";
-import { ResourceType, HTTPMethod, StatusCodes } from "../../dist-esm/common";
+import { ResourceType, HTTPMethod, StatusCodes } from "../../src/common";
 
 const plugins: PluginConfig[] = [
   {

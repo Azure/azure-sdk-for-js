@@ -28,7 +28,7 @@ export class DeploymentOperations {
 
   /**
    * Gets a deployments operation.
-   * @param scope The scope of a deployment.
+   * @param scope The resource scope.
    * @param deploymentName The name of the deployment.
    * @param operationId The ID of the operation to get.
    * @param [options] The optional parameters
@@ -36,14 +36,14 @@ export class DeploymentOperations {
    */
   getAtScope(scope: string, deploymentName: string, operationId: string, options?: msRest.RequestOptionsBase): Promise<Models.DeploymentOperationsGetAtScopeResponse>;
   /**
-   * @param scope The scope of a deployment.
+   * @param scope The resource scope.
    * @param deploymentName The name of the deployment.
    * @param operationId The ID of the operation to get.
    * @param callback The callback
    */
   getAtScope(scope: string, deploymentName: string, operationId: string, callback: msRest.ServiceCallback<Models.DeploymentOperation>): void;
   /**
-   * @param scope The scope of a deployment.
+   * @param scope The resource scope.
    * @param deploymentName The name of the deployment.
    * @param operationId The ID of the operation to get.
    * @param options The optional parameters
@@ -64,20 +64,20 @@ export class DeploymentOperations {
 
   /**
    * Gets all deployments operations for a deployment.
-   * @param scope The scope of a deployment.
+   * @param scope The resource scope.
    * @param deploymentName The name of the deployment.
    * @param [options] The optional parameters
    * @returns Promise<Models.DeploymentOperationsListAtScopeResponse>
    */
   listAtScope(scope: string, deploymentName: string, options?: Models.DeploymentOperationsListAtScopeOptionalParams): Promise<Models.DeploymentOperationsListAtScopeResponse>;
   /**
-   * @param scope The scope of a deployment.
+   * @param scope The resource scope.
    * @param deploymentName The name of the deployment.
    * @param callback The callback
    */
   listAtScope(scope: string, deploymentName: string, callback: msRest.ServiceCallback<Models.DeploymentOperationsListResult>): void;
   /**
-   * @param scope The scope of a deployment.
+   * @param scope The resource scope.
    * @param deploymentName The name of the deployment.
    * @param options The optional parameters
    * @param callback The callback

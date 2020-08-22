@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import chai from "chai";
-import { ServiceBusMessage, delay, MessagingError, ReceivedMessage } from "../../src";
+import { MessagingError, ReceivedMessage, ServiceBusMessage, delay } from "../../src";
 import * as dotenv from "dotenv";
 dotenv.config();
 
@@ -22,7 +22,7 @@ export class TestMessage {
       to: `to ${randomNumber}`,
       replyTo: `reply to ${randomNumber}`,
       scheduledEnqueueTimeUtc: new Date(),
-      userProperties: {
+      properties: {
         propOne: 1,
         propTwo: "two",
         propThree: true
@@ -35,7 +35,7 @@ export class TestMessage {
     return {
       body: `message body ${randomNumber}`,
       messageId: `message id ${randomNumber}`,
-      partitionKey: `partition key ${randomNumber}`,
+      partitionKey: TestMessage.sessionId,
       contentType: `content type ${randomNumber}`,
       correlationId: `correlation id ${randomNumber}`,
       timeToLive: 60 * 60 * 24,
@@ -43,7 +43,7 @@ export class TestMessage {
       to: `to ${randomNumber}`,
       replyTo: `reply to ${randomNumber}`,
       scheduledEnqueueTimeUtc: new Date(),
-      userProperties: {
+      properties: {
         propOne: 1,
         propTwo: "two",
         propThree: true
@@ -63,13 +63,13 @@ export class TestMessage {
     useSessions?: boolean,
     usePartitions?: boolean
   ): void {
-    if (sent.userProperties) {
-      if (!received.userProperties) {
+    if (sent.properties) {
+      if (!received.properties) {
         chai.assert.fail("Received message doesnt have any user properties");
         return;
       }
-      const expectedUserProperties = sent.userProperties;
-      const receivedUserProperties = received.userProperties;
+      const expectedUserProperties = sent.properties;
+      const receivedUserProperties = received.properties;
       Object.keys(expectedUserProperties).forEach((key) => {
         chai.assert.equal(
           receivedUserProperties[key],
@@ -125,21 +125,18 @@ export class TestMessage {
 }
 
 export enum TestClientType {
-  PartitionedQueue,
-  PartitionedTopic,
-  PartitionedSubscription,
-  UnpartitionedQueue,
-  UnpartitionedTopic,
-  UnpartitionedSubscription,
-  PartitionedQueueWithSessions,
-  PartitionedTopicWithSessions,
-  PartitionedSubscriptionWithSessions,
-  UnpartitionedQueueWithSessions,
-  UnpartitionedTopicWithSessions,
-  UnpartitionedSubscriptionWithSessions,
-  TopicFilterTestTopic,
-  TopicFilterTestDefaultSubscription,
-  TopicFilterTestSubscription
+  PartitionedQueue = "PartitionedQueue",
+  PartitionedTopic = "PartitionedTopic",
+  PartitionedSubscription = "PartitionedSubscription",
+  UnpartitionedQueue = "UnpartitionedQueue",
+  UnpartitionedTopic = "UnpartitionedTopic",
+  UnpartitionedSubscription = "UnpartitionedSubscription",
+  PartitionedQueueWithSessions = "PartitionedQueueWithSessions",
+  PartitionedTopicWithSessions = "PartitionedTopicWithSessions",
+  PartitionedSubscriptionWithSessions = "PartitionedSubscriptionWithSessions",
+  UnpartitionedQueueWithSessions = "UnpartitionedQueueWithSessions",
+  UnpartitionedTopicWithSessions = "UnpartitionedTopicWithSessions",
+  UnpartitionedSubscriptionWithSessions = "UnpartitionedSubscriptionWithSessions"
 }
 
 /**

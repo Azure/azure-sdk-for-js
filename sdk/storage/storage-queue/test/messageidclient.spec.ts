@@ -5,7 +5,7 @@ import { record, delay, Recorder } from "@azure/test-utils-recorder";
 import * as dotenv from "dotenv";
 import { extractConnectionStringParts } from "../src/utils/utils.common";
 import { recorderEnvSetup } from "./utils/index.browser";
-dotenv.config({ path: "../.env" });
+dotenv.config();
 
 describe("QueueClient messageId methods", () => {
   let queueName: string;
@@ -24,7 +24,7 @@ describe("QueueClient messageId methods", () => {
 
   afterEach(async function() {
     await queueClient.delete();
-    recorder.stop();
+    await recorder.stop();
   });
 
   it("update and delete empty message with default parameters", async () => {

@@ -40,7 +40,7 @@
     "build:test": "npm run clean && tsc -p tsconfig.json",
     "clean": "rimraf dist/",
     "format": "prettier --write \"./**/*.{ts,json,md}\"",
-    "format:check": "prettier --check \"./**/*.{ts,json,md}\"",
+    "check-format": "prettier --check \"./**/*.{ts,json,md}\"",
     "lint": "eslint src tests --ext .ts",
     "pack": "npm pack 2>&1",
     "prebuild": "npm run clean",
@@ -49,7 +49,7 @@
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "unit-test:node": "mocha --require source-map-support/register --timeout 10000 --full-trace --recursive dist/tests",
     "unit-test:browser": "echo skipped",
-    "unit-test": "unit-test:node && unit-test:browser",
+    "unit-test": "npm run unit-test:node && npm run unit-test:browser",
     "test": "npm run clean && npm run build:test && npm run unit-test"
   },
   "engines": {
@@ -66,8 +66,8 @@
   "dependencies": {
     "eslint-config-prettier": "^6.0.0",
     "glob": "^7.1.2",
-    "typescript": "~3.7.5",
-    "tslib": "^1.10.0"
+    "typescript": "~3.9.3",
+    "tslib": "^2.0.0"
   },
   "devDependencies": {
     "@types/bluebird": "^3.5.27",

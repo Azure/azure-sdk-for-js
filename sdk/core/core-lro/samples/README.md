@@ -73,7 +73,7 @@ A guide on how to write them follows.
 
 The `update` method defines how to request the remote service for updates on the status of the long running operation.
 
-It optionally receives an object with an `abortSignal` property, from [@azure/abort-controller](../abort-controller)'s `AbortSignalLike`.
+It optionally receives an object with an `abortSignal` property, from [@azure/abort-controller](../../abort-controller)'s `AbortSignalLike`.
 
 A more advanced use allows passing in a `fireProgress` function, which, if called, is responsible for triggering the
 poller's `onProgress` callbacks.
@@ -112,7 +112,7 @@ async function update(
 
 The operation's `cancel` method should attempt to cancel the pending operation, if it's allowed by the remote service. Otherwise, it should throw.
 
-It only optionally receives an object with an `abortSignal` property, from [@azure/abort-controller](../abort-controller)'s `AbortSignalLike`.
+It only optionally receives an object with an `abortSignal` property, from [@azure/abort-controller](../../abort-controller)'s `AbortSignalLike`.
 
 It returns a promise that should be resolved with an updated version of the poller's operation.
 

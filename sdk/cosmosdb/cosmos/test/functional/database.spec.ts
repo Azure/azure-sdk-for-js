@@ -1,9 +1,15 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 import assert from "assert";
-import { CosmosClient, DatabaseDefinition } from "../../dist-esm";
+import { CosmosClient, DatabaseDefinition, Database } from "../../src/index";
 import { endpoint, masterKey } from "../common/_testConfig";
-import { addEntropy, removeAllDatabases } from "../common/TestHelpers";
+import {
+  addEntropy,
+  removeAllDatabases,
+  getTestDatabase,
+  assertThrowsAsync
+} from "../common/TestHelpers";
+import { DatabaseRequest } from "../../dist-esm/client/Database/DatabaseRequest";
 
 const client = new CosmosClient({ endpoint, key: masterKey });
 
@@ -133,5 +139,49 @@ describe("NodeJS CRUD Tests", function() {
         assert.equal("Id contains illegal chars.", err.message);
       }
     });
+  });
+});
+
+describe("database.readOffer", function() {
+  describe("without offer", async function() {
+    let offerlessDatabase: Database;
+    before(async function() {
+      offerlessDatabase = await getTestDatabase("has offer db1");
+    });
+    it("returns undefined resource", async function() {
+      const offer: any = await offerlessDatabase.readOffer();
+      assert.equal(offer.resource, undefined);
+    });
+  });
+  describe("has offer", function() {
+    let offerDatabase: Database;
+    before(async function() {
+      offerDatabase = await getTestDatabase("has offer db2", undefined, { throughput: 500 });
+    });
+    it("returns offer", async function() {
+      const offer: any = await offerDatabase.readOffer();
+      assert.equal(offer.resource.offerVersion, "V2");
+    });
+  });
+});
+
+describe("database.create", function() {
+  it("uses autoscale", async function() {
+    const maxThroughput = 50000;
+    const databaseRequest: DatabaseRequest = {
+      maxThroughput
+    };
+    const database = await getTestDatabase("autoscale db", undefined, databaseRequest);
+    const { resource: offer } = await database.readOffer();
+    console.log({ offer: offer.content });
+    const settings = offer.content.offerAutopilotSettings;
+    assert.equal(settings.maxThroughput, maxThroughput);
+  });
+  it("throws with maxThroughput and throughput", function() {
+    const databaseRequest: DatabaseRequest = {
+      throughput: 400,
+      maxThroughput: 4000
+    };
+    assertThrowsAsync(() => getTestDatabase("autoscale db", undefined, databaseRequest));
   });
 });

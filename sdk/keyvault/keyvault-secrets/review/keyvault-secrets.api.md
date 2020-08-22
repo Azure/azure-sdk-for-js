@@ -36,7 +36,7 @@ export interface DeletedSecret {
 }
 
 // @public
-export type DeletionRecoveryLevel = "Purgeable" | "Recoverable+Purgeable" | "Recoverable" | "Recoverable+ProtectedSubscription" | "CustomizedRecoverable+Purgeable" | "CustomizedRecoverable" | "CustomizedRecoverable+ProtectedSubscription";
+export type DeletionRecoveryLevel = 'Purgeable' | 'Recoverable+Purgeable' | 'Recoverable' | 'Recoverable+ProtectedSubscription' | 'CustomizedRecoverable+Purgeable' | 'CustomizedRecoverable' | 'CustomizedRecoverable+ProtectedSubscription';
 
 // @public
 export interface GetDeletedSecretOptions extends coreHttp.OperationOptions {
@@ -53,6 +53,9 @@ export interface KeyVaultSecret {
     properties: SecretProperties;
     value?: string;
 }
+
+// @public
+export type KeyVaultSecretsIdentifierCollectionName = "secrets" | "deletedsecrets";
 
 // @public
 export interface ListDeletedSecretsOptions extends coreHttp.OperationOptions {
@@ -72,6 +75,18 @@ export const logger: import("@azure/logger").AzureLogger;
 export { PagedAsyncIterableIterator }
 
 export { PageSettings }
+
+// @public
+export interface ParsedKeyVaultSecretsIdentifier {
+    collection: KeyVaultSecretsIdentifierCollectionName;
+    id: string;
+    name: string;
+    vaultUrl: string;
+    version?: string;
+}
+
+// @public
+export function parseKeyVaultSecretsIdentifier(id: string): ParsedKeyVaultSecretsIdentifier;
 
 export { PipelineOptions }
 
@@ -107,7 +122,7 @@ export class SecretClient {
 
 // @public
 export interface SecretClientOptions extends coreHttp.PipelineOptions {
-    apiVersion?: "7.0" | "7.1-preview";
+    serviceVersion?: "7.0" | "7.1";
 }
 
 // @public

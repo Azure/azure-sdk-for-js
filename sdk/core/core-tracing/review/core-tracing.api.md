@@ -114,7 +114,7 @@ export interface SpanOptions {
 
 // @public
 export class TestSpan extends NoOpSpan {
-    constructor(parentTracer: TestTracer, name: string, context: OTSpanContext, kind: SpanKind, parentSpanId?: string, startTime?: TimeInput);
+    constructor(parentTracer: Tracer, name: string, context: OTSpanContext, kind: SpanKind, parentSpanId?: string, startTime?: TimeInput);
     readonly attributes: Attributes;
     context(): OTSpanContext;
     end(_endTime?: number): void;

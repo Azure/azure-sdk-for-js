@@ -7,8 +7,11 @@
  */
 
 export {
+  ApiProperties,
   ARMProxyResource,
   ARMResourceProperties,
+  AutoscaleSettings,
+  AutoscaleSettingsResource,
   AutoUpgradePolicyResource,
   AzureEntityResource,
   BaseResource,
@@ -32,6 +35,7 @@ export {
   ConflictResolutionPolicy,
   ConsistencyPolicy,
   ContainerPartitionKey,
+  CorsPolicy,
   CreateUpdateOptions,
   DatabaseAccountConnectionString,
   DatabaseAccountCreateUpdateParameters,
@@ -59,6 +63,7 @@ export {
   IncludedPath,
   Indexes,
   IndexingPolicy,
+  IpAddressOrRange,
   Location,
   Metric,
   MetricAvailability,
@@ -90,7 +95,6 @@ export {
   PrivateEndpointProperty,
   PrivateLinkResource,
   PrivateLinkServiceConnectionStateProperty,
-  ProvisionedThroughputSettingsResource,
   ProxyResource,
   RegionForOnlineOffline,
   Resource,

@@ -35,13 +35,13 @@ export class SpatialAnchorsAccounts {
   /**
    * @param callback The callback
    */
-  listBySubscription(callback: msRest.ServiceCallback<Models.SpatialAnchorsAccountList>): void;
+  listBySubscription(callback: msRest.ServiceCallback<Models.SpatialAnchorsAccountPage>): void;
   /**
    * @param options The optional parameters
    * @param callback The callback
    */
-  listBySubscription(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SpatialAnchorsAccountList>): void;
-  listBySubscription(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SpatialAnchorsAccountList>, callback?: msRest.ServiceCallback<Models.SpatialAnchorsAccountList>): Promise<Models.SpatialAnchorsAccountsListBySubscriptionResponse> {
+  listBySubscription(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SpatialAnchorsAccountPage>): void;
+  listBySubscription(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SpatialAnchorsAccountPage>, callback?: msRest.ServiceCallback<Models.SpatialAnchorsAccountPage>): Promise<Models.SpatialAnchorsAccountsListBySubscriptionResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -61,14 +61,14 @@ export class SpatialAnchorsAccounts {
    * @param resourceGroupName Name of an Azure resource group.
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, callback: msRest.ServiceCallback<Models.SpatialAnchorsAccountList>): void;
+  listByResourceGroup(resourceGroupName: string, callback: msRest.ServiceCallback<Models.SpatialAnchorsAccountPage>): void;
   /**
    * @param resourceGroupName Name of an Azure resource group.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroup(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SpatialAnchorsAccountList>): void;
-  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SpatialAnchorsAccountList>, callback?: msRest.ServiceCallback<Models.SpatialAnchorsAccountList>): Promise<Models.SpatialAnchorsAccountsListByResourceGroupResponse> {
+  listByResourceGroup(resourceGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SpatialAnchorsAccountPage>): void;
+  listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SpatialAnchorsAccountPage>, callback?: msRest.ServiceCallback<Models.SpatialAnchorsAccountPage>): Promise<Models.SpatialAnchorsAccountsListByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
@@ -81,29 +81,29 @@ export class SpatialAnchorsAccounts {
   /**
    * Delete a Spatial Anchors Account.
    * @param resourceGroupName Name of an Azure resource group.
-   * @param spatialAnchorsAccountName Name of an Mixed Reality Spatial Anchors Account.
+   * @param accountName Name of an Mixed Reality Account.
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  deleteMethod(resourceGroupName: string, spatialAnchorsAccountName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  deleteMethod(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
   /**
    * @param resourceGroupName Name of an Azure resource group.
-   * @param spatialAnchorsAccountName Name of an Mixed Reality Spatial Anchors Account.
+   * @param accountName Name of an Mixed Reality Account.
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, spatialAnchorsAccountName: string, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(resourceGroupName: string, accountName: string, callback: msRest.ServiceCallback<void>): void;
   /**
    * @param resourceGroupName Name of an Azure resource group.
-   * @param spatialAnchorsAccountName Name of an Mixed Reality Spatial Anchors Account.
+   * @param accountName Name of an Mixed Reality Account.
    * @param options The optional parameters
    * @param callback The callback
    */
-  deleteMethod(resourceGroupName: string, spatialAnchorsAccountName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, spatialAnchorsAccountName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  deleteMethod(resourceGroupName: string, accountName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
-        spatialAnchorsAccountName,
+        accountName,
         options
       },
       deleteMethodOperationSpec,
@@ -113,29 +113,29 @@ export class SpatialAnchorsAccounts {
   /**
    * Retrieve a Spatial Anchors Account.
    * @param resourceGroupName Name of an Azure resource group.
-   * @param spatialAnchorsAccountName Name of an Mixed Reality Spatial Anchors Account.
+   * @param accountName Name of an Mixed Reality Account.
    * @param [options] The optional parameters
    * @returns Promise<Models.SpatialAnchorsAccountsGetResponse>
    */
-  get(resourceGroupName: string, spatialAnchorsAccountName: string, options?: msRest.RequestOptionsBase): Promise<Models.SpatialAnchorsAccountsGetResponse>;
+  get(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase): Promise<Models.SpatialAnchorsAccountsGetResponse>;
   /**
    * @param resourceGroupName Name of an Azure resource group.
-   * @param spatialAnchorsAccountName Name of an Mixed Reality Spatial Anchors Account.
+   * @param accountName Name of an Mixed Reality Account.
    * @param callback The callback
    */
-  get(resourceGroupName: string, spatialAnchorsAccountName: string, callback: msRest.ServiceCallback<Models.SpatialAnchorsAccount>): void;
+  get(resourceGroupName: string, accountName: string, callback: msRest.ServiceCallback<Models.SpatialAnchorsAccount>): void;
   /**
    * @param resourceGroupName Name of an Azure resource group.
-   * @param spatialAnchorsAccountName Name of an Mixed Reality Spatial Anchors Account.
+   * @param accountName Name of an Mixed Reality Account.
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(resourceGroupName: string, spatialAnchorsAccountName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SpatialAnchorsAccount>): void;
-  get(resourceGroupName: string, spatialAnchorsAccountName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SpatialAnchorsAccount>, callback?: msRest.ServiceCallback<Models.SpatialAnchorsAccount>): Promise<Models.SpatialAnchorsAccountsGetResponse> {
+  get(resourceGroupName: string, accountName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SpatialAnchorsAccount>): void;
+  get(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SpatialAnchorsAccount>, callback?: msRest.ServiceCallback<Models.SpatialAnchorsAccount>): Promise<Models.SpatialAnchorsAccountsGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
-        spatialAnchorsAccountName,
+        accountName,
         options
       },
       getOperationSpec,
@@ -145,32 +145,32 @@ export class SpatialAnchorsAccounts {
   /**
    * Updating a Spatial Anchors Account
    * @param resourceGroupName Name of an Azure resource group.
-   * @param spatialAnchorsAccountName Name of an Mixed Reality Spatial Anchors Account.
+   * @param accountName Name of an Mixed Reality Account.
    * @param spatialAnchorsAccount Spatial Anchors Account parameter.
    * @param [options] The optional parameters
    * @returns Promise<Models.SpatialAnchorsAccountsUpdateResponse>
    */
-  update(resourceGroupName: string, spatialAnchorsAccountName: string, spatialAnchorsAccount: Models.SpatialAnchorsAccount, options?: msRest.RequestOptionsBase): Promise<Models.SpatialAnchorsAccountsUpdateResponse>;
+  update(resourceGroupName: string, accountName: string, spatialAnchorsAccount: Models.SpatialAnchorsAccount, options?: msRest.RequestOptionsBase): Promise<Models.SpatialAnchorsAccountsUpdateResponse>;
   /**
    * @param resourceGroupName Name of an Azure resource group.
-   * @param spatialAnchorsAccountName Name of an Mixed Reality Spatial Anchors Account.
+   * @param accountName Name of an Mixed Reality Account.
    * @param spatialAnchorsAccount Spatial Anchors Account parameter.
    * @param callback The callback
    */
-  update(resourceGroupName: string, spatialAnchorsAccountName: string, spatialAnchorsAccount: Models.SpatialAnchorsAccount, callback: msRest.ServiceCallback<Models.SpatialAnchorsAccount>): void;
+  update(resourceGroupName: string, accountName: string, spatialAnchorsAccount: Models.SpatialAnchorsAccount, callback: msRest.ServiceCallback<Models.SpatialAnchorsAccount>): void;
   /**
    * @param resourceGroupName Name of an Azure resource group.
-   * @param spatialAnchorsAccountName Name of an Mixed Reality Spatial Anchors Account.
+   * @param accountName Name of an Mixed Reality Account.
    * @param spatialAnchorsAccount Spatial Anchors Account parameter.
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(resourceGroupName: string, spatialAnchorsAccountName: string, spatialAnchorsAccount: Models.SpatialAnchorsAccount, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SpatialAnchorsAccount>): void;
-  update(resourceGroupName: string, spatialAnchorsAccountName: string, spatialAnchorsAccount: Models.SpatialAnchorsAccount, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SpatialAnchorsAccount>, callback?: msRest.ServiceCallback<Models.SpatialAnchorsAccount>): Promise<Models.SpatialAnchorsAccountsUpdateResponse> {
+  update(resourceGroupName: string, accountName: string, spatialAnchorsAccount: Models.SpatialAnchorsAccount, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SpatialAnchorsAccount>): void;
+  update(resourceGroupName: string, accountName: string, spatialAnchorsAccount: Models.SpatialAnchorsAccount, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SpatialAnchorsAccount>, callback?: msRest.ServiceCallback<Models.SpatialAnchorsAccount>): Promise<Models.SpatialAnchorsAccountsUpdateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
-        spatialAnchorsAccountName,
+        accountName,
         spatialAnchorsAccount,
         options
       },
@@ -181,32 +181,32 @@ export class SpatialAnchorsAccounts {
   /**
    * Creating or Updating a Spatial Anchors Account.
    * @param resourceGroupName Name of an Azure resource group.
-   * @param spatialAnchorsAccountName Name of an Mixed Reality Spatial Anchors Account.
+   * @param accountName Name of an Mixed Reality Account.
    * @param spatialAnchorsAccount Spatial Anchors Account parameter.
    * @param [options] The optional parameters
    * @returns Promise<Models.SpatialAnchorsAccountsCreateResponse>
    */
-  create(resourceGroupName: string, spatialAnchorsAccountName: string, spatialAnchorsAccount: Models.SpatialAnchorsAccount, options?: msRest.RequestOptionsBase): Promise<Models.SpatialAnchorsAccountsCreateResponse>;
+  create(resourceGroupName: string, accountName: string, spatialAnchorsAccount: Models.SpatialAnchorsAccount, options?: msRest.RequestOptionsBase): Promise<Models.SpatialAnchorsAccountsCreateResponse>;
   /**
    * @param resourceGroupName Name of an Azure resource group.
-   * @param spatialAnchorsAccountName Name of an Mixed Reality Spatial Anchors Account.
+   * @param accountName Name of an Mixed Reality Account.
    * @param spatialAnchorsAccount Spatial Anchors Account parameter.
    * @param callback The callback
    */
-  create(resourceGroupName: string, spatialAnchorsAccountName: string, spatialAnchorsAccount: Models.SpatialAnchorsAccount, callback: msRest.ServiceCallback<Models.SpatialAnchorsAccount>): void;
+  create(resourceGroupName: string, accountName: string, spatialAnchorsAccount: Models.SpatialAnchorsAccount, callback: msRest.ServiceCallback<Models.SpatialAnchorsAccount>): void;
   /**
    * @param resourceGroupName Name of an Azure resource group.
-   * @param spatialAnchorsAccountName Name of an Mixed Reality Spatial Anchors Account.
+   * @param accountName Name of an Mixed Reality Account.
    * @param spatialAnchorsAccount Spatial Anchors Account parameter.
    * @param options The optional parameters
    * @param callback The callback
    */
-  create(resourceGroupName: string, spatialAnchorsAccountName: string, spatialAnchorsAccount: Models.SpatialAnchorsAccount, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SpatialAnchorsAccount>): void;
-  create(resourceGroupName: string, spatialAnchorsAccountName: string, spatialAnchorsAccount: Models.SpatialAnchorsAccount, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SpatialAnchorsAccount>, callback?: msRest.ServiceCallback<Models.SpatialAnchorsAccount>): Promise<Models.SpatialAnchorsAccountsCreateResponse> {
+  create(resourceGroupName: string, accountName: string, spatialAnchorsAccount: Models.SpatialAnchorsAccount, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SpatialAnchorsAccount>): void;
+  create(resourceGroupName: string, accountName: string, spatialAnchorsAccount: Models.SpatialAnchorsAccount, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SpatialAnchorsAccount>, callback?: msRest.ServiceCallback<Models.SpatialAnchorsAccount>): Promise<Models.SpatialAnchorsAccountsCreateResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
-        spatialAnchorsAccountName,
+        accountName,
         spatialAnchorsAccount,
         options
       },
@@ -215,67 +215,67 @@ export class SpatialAnchorsAccounts {
   }
 
   /**
-   * Get Both of the 2 Keys of a Spatial Anchors Account
+   * List Both of the 2 Keys of a Spatial Anchors Account
    * @param resourceGroupName Name of an Azure resource group.
-   * @param spatialAnchorsAccountName Name of an Mixed Reality Spatial Anchors Account.
+   * @param accountName Name of an Mixed Reality Account.
    * @param [options] The optional parameters
-   * @returns Promise<Models.SpatialAnchorsAccountsGetKeysResponse>
+   * @returns Promise<Models.SpatialAnchorsAccountsListKeysResponse>
    */
-  getKeys(resourceGroupName: string, spatialAnchorsAccountName: string, options?: msRest.RequestOptionsBase): Promise<Models.SpatialAnchorsAccountsGetKeysResponse>;
+  listKeys(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase): Promise<Models.SpatialAnchorsAccountsListKeysResponse>;
   /**
    * @param resourceGroupName Name of an Azure resource group.
-   * @param spatialAnchorsAccountName Name of an Mixed Reality Spatial Anchors Account.
+   * @param accountName Name of an Mixed Reality Account.
    * @param callback The callback
    */
-  getKeys(resourceGroupName: string, spatialAnchorsAccountName: string, callback: msRest.ServiceCallback<Models.SpatialAnchorsAccountKeys>): void;
+  listKeys(resourceGroupName: string, accountName: string, callback: msRest.ServiceCallback<Models.AccountKeys>): void;
   /**
    * @param resourceGroupName Name of an Azure resource group.
-   * @param spatialAnchorsAccountName Name of an Mixed Reality Spatial Anchors Account.
+   * @param accountName Name of an Mixed Reality Account.
    * @param options The optional parameters
    * @param callback The callback
    */
-  getKeys(resourceGroupName: string, spatialAnchorsAccountName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SpatialAnchorsAccountKeys>): void;
-  getKeys(resourceGroupName: string, spatialAnchorsAccountName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SpatialAnchorsAccountKeys>, callback?: msRest.ServiceCallback<Models.SpatialAnchorsAccountKeys>): Promise<Models.SpatialAnchorsAccountsGetKeysResponse> {
+  listKeys(resourceGroupName: string, accountName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AccountKeys>): void;
+  listKeys(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AccountKeys>, callback?: msRest.ServiceCallback<Models.AccountKeys>): Promise<Models.SpatialAnchorsAccountsListKeysResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
-        spatialAnchorsAccountName,
+        accountName,
         options
       },
-      getKeysOperationSpec,
-      callback) as Promise<Models.SpatialAnchorsAccountsGetKeysResponse>;
+      listKeysOperationSpec,
+      callback) as Promise<Models.SpatialAnchorsAccountsListKeysResponse>;
   }
 
   /**
-   * Regenerate 1 Key of a Spatial Anchors Account
+   * Regenerate specified Key of a Spatial Anchors Account
    * @param resourceGroupName Name of an Azure resource group.
-   * @param spatialAnchorsAccountName Name of an Mixed Reality Spatial Anchors Account.
-   * @param spatialAnchorsAccountKeyRegenerate Specifying which key to be regenerated.
+   * @param accountName Name of an Mixed Reality Account.
+   * @param regenerate Required information for key regeneration.
    * @param [options] The optional parameters
    * @returns Promise<Models.SpatialAnchorsAccountsRegenerateKeysResponse>
    */
-  regenerateKeys(resourceGroupName: string, spatialAnchorsAccountName: string, spatialAnchorsAccountKeyRegenerate: Models.SpatialAnchorsAccountKeyRegenerateRequest, options?: msRest.RequestOptionsBase): Promise<Models.SpatialAnchorsAccountsRegenerateKeysResponse>;
+  regenerateKeys(resourceGroupName: string, accountName: string, regenerate: Models.AccountKeyRegenerateRequest, options?: msRest.RequestOptionsBase): Promise<Models.SpatialAnchorsAccountsRegenerateKeysResponse>;
   /**
    * @param resourceGroupName Name of an Azure resource group.
-   * @param spatialAnchorsAccountName Name of an Mixed Reality Spatial Anchors Account.
-   * @param spatialAnchorsAccountKeyRegenerate Specifying which key to be regenerated.
+   * @param accountName Name of an Mixed Reality Account.
+   * @param regenerate Required information for key regeneration.
    * @param callback The callback
    */
-  regenerateKeys(resourceGroupName: string, spatialAnchorsAccountName: string, spatialAnchorsAccountKeyRegenerate: Models.SpatialAnchorsAccountKeyRegenerateRequest, callback: msRest.ServiceCallback<Models.SpatialAnchorsAccountKeys>): void;
+  regenerateKeys(resourceGroupName: string, accountName: string, regenerate: Models.AccountKeyRegenerateRequest, callback: msRest.ServiceCallback<Models.AccountKeys>): void;
   /**
    * @param resourceGroupName Name of an Azure resource group.
-   * @param spatialAnchorsAccountName Name of an Mixed Reality Spatial Anchors Account.
-   * @param spatialAnchorsAccountKeyRegenerate Specifying which key to be regenerated.
+   * @param accountName Name of an Mixed Reality Account.
+   * @param regenerate Required information for key regeneration.
    * @param options The optional parameters
    * @param callback The callback
    */
-  regenerateKeys(resourceGroupName: string, spatialAnchorsAccountName: string, spatialAnchorsAccountKeyRegenerate: Models.SpatialAnchorsAccountKeyRegenerateRequest, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SpatialAnchorsAccountKeys>): void;
-  regenerateKeys(resourceGroupName: string, spatialAnchorsAccountName: string, spatialAnchorsAccountKeyRegenerate: Models.SpatialAnchorsAccountKeyRegenerateRequest, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SpatialAnchorsAccountKeys>, callback?: msRest.ServiceCallback<Models.SpatialAnchorsAccountKeys>): Promise<Models.SpatialAnchorsAccountsRegenerateKeysResponse> {
+  regenerateKeys(resourceGroupName: string, accountName: string, regenerate: Models.AccountKeyRegenerateRequest, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AccountKeys>): void;
+  regenerateKeys(resourceGroupName: string, accountName: string, regenerate: Models.AccountKeyRegenerateRequest, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AccountKeys>, callback?: msRest.ServiceCallback<Models.AccountKeys>): Promise<Models.SpatialAnchorsAccountsRegenerateKeysResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
-        spatialAnchorsAccountName,
-        spatialAnchorsAccountKeyRegenerate,
+        accountName,
+        regenerate,
         options
       },
       regenerateKeysOperationSpec,
@@ -293,14 +293,14 @@ export class SpatialAnchorsAccounts {
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listBySubscriptionNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.SpatialAnchorsAccountList>): void;
+  listBySubscriptionNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.SpatialAnchorsAccountPage>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listBySubscriptionNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SpatialAnchorsAccountList>): void;
-  listBySubscriptionNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SpatialAnchorsAccountList>, callback?: msRest.ServiceCallback<Models.SpatialAnchorsAccountList>): Promise<Models.SpatialAnchorsAccountsListBySubscriptionNextResponse> {
+  listBySubscriptionNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SpatialAnchorsAccountPage>): void;
+  listBySubscriptionNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SpatialAnchorsAccountPage>, callback?: msRest.ServiceCallback<Models.SpatialAnchorsAccountPage>): Promise<Models.SpatialAnchorsAccountsListBySubscriptionNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -321,14 +321,14 @@ export class SpatialAnchorsAccounts {
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.SpatialAnchorsAccountList>): void;
+  listByResourceGroupNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.SpatialAnchorsAccountPage>): void;
   /**
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SpatialAnchorsAccountList>): void;
-  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SpatialAnchorsAccountList>, callback?: msRest.ServiceCallback<Models.SpatialAnchorsAccountList>): Promise<Models.SpatialAnchorsAccountsListByResourceGroupNextResponse> {
+  listByResourceGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SpatialAnchorsAccountPage>): void;
+  listByResourceGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SpatialAnchorsAccountPage>, callback?: msRest.ServiceCallback<Models.SpatialAnchorsAccountPage>): Promise<Models.SpatialAnchorsAccountsListByResourceGroupNextResponse> {
     return this.client.sendOperationRequest(
       {
         nextPageLink,
@@ -348,17 +348,17 @@ const listBySubscriptionOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
   ],
   responses: {
     200: {
-      bodyMapper: Mappers.SpatialAnchorsAccountList
+      bodyMapper: Mappers.SpatialAnchorsAccountPage
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.CloudError
     }
   },
   serializer
@@ -372,17 +372,17 @@ const listByResourceGroupOperationSpec: msRest.OperationSpec = {
     Parameters.resourceGroupName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
   ],
   responses: {
     200: {
-      bodyMapper: Mappers.SpatialAnchorsAccountList
+      bodyMapper: Mappers.SpatialAnchorsAccountPage
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.CloudError
     }
   },
   serializer
@@ -390,14 +390,14 @@ const listByResourceGroupOperationSpec: msRest.OperationSpec = {
 
 const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MixedReality/spatialAnchorsAccounts/{spatialAnchorsAccountName}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MixedReality/spatialAnchorsAccounts/{accountName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.spatialAnchorsAccountName
+    Parameters.accountName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -406,7 +406,7 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
     200: {},
     204: {},
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.CloudError
     }
   },
   serializer
@@ -414,14 +414,14 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
 
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MixedReality/spatialAnchorsAccounts/{spatialAnchorsAccountName}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MixedReality/spatialAnchorsAccounts/{accountName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.spatialAnchorsAccountName
+    Parameters.accountName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -431,7 +431,7 @@ const getOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.SpatialAnchorsAccount
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.CloudError
     }
   },
   serializer
@@ -439,14 +439,14 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const updateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MixedReality/spatialAnchorsAccounts/{spatialAnchorsAccountName}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MixedReality/spatialAnchorsAccounts/{accountName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.spatialAnchorsAccountName
+    Parameters.accountName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -463,7 +463,7 @@ const updateOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.SpatialAnchorsAccount
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.CloudError
     }
   },
   serializer
@@ -471,14 +471,14 @@ const updateOperationSpec: msRest.OperationSpec = {
 
 const createOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MixedReality/spatialAnchorsAccounts/{spatialAnchorsAccountName}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MixedReality/spatialAnchorsAccounts/{accountName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.spatialAnchorsAccountName
+    Parameters.accountName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -498,32 +498,32 @@ const createOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.SpatialAnchorsAccount
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.CloudError
     }
   },
   serializer
 };
 
-const getKeysOperationSpec: msRest.OperationSpec = {
-  httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MixedReality/spatialAnchorsAccounts/{spatialAnchorsAccountName}/keys",
+const listKeysOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MixedReality/spatialAnchorsAccounts/{accountName}/listKeys",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.spatialAnchorsAccountName
+    Parameters.accountName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
   ],
   responses: {
     200: {
-      bodyMapper: Mappers.SpatialAnchorsAccountKeys
+      bodyMapper: Mappers.AccountKeys
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.CloudError
     }
   },
   serializer
@@ -531,31 +531,31 @@ const getKeysOperationSpec: msRest.OperationSpec = {
 
 const regenerateKeysOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MixedReality/spatialAnchorsAccounts/{spatialAnchorsAccountName}/keys",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.MixedReality/spatialAnchorsAccounts/{accountName}/regenerateKeys",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
-    Parameters.spatialAnchorsAccountName
+    Parameters.accountName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
   ],
   requestBody: {
-    parameterPath: "spatialAnchorsAccountKeyRegenerate",
+    parameterPath: "regenerate",
     mapper: {
-      ...Mappers.SpatialAnchorsAccountKeyRegenerateRequest,
+      ...Mappers.AccountKeyRegenerateRequest,
       required: true
     }
   },
   responses: {
     200: {
-      bodyMapper: Mappers.SpatialAnchorsAccountKeys
+      bodyMapper: Mappers.AccountKeys
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.CloudError
     }
   },
   serializer
@@ -573,10 +573,10 @@ const listBySubscriptionNextOperationSpec: msRest.OperationSpec = {
   ],
   responses: {
     200: {
-      bodyMapper: Mappers.SpatialAnchorsAccountList
+      bodyMapper: Mappers.SpatialAnchorsAccountPage
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.CloudError
     }
   },
   serializer
@@ -594,10 +594,10 @@ const listByResourceGroupNextOperationSpec: msRest.OperationSpec = {
   ],
   responses: {
     200: {
-      bodyMapper: Mappers.SpatialAnchorsAccountList
+      bodyMapper: Mappers.SpatialAnchorsAccountPage
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.CloudError
     }
   },
   serializer

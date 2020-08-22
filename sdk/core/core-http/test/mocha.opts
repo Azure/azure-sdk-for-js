@@ -1,6 +1,0 @@
---require ts-node/register
---timeout 50000
---reporter ../../../common/tools/mocha-multi-reporter.js
---colors
---exclude test/**/*.browser.ts
-test/**/*.ts

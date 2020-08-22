@@ -44,18 +44,14 @@ async function main() {
 
   // Since both of Alpha and Beta will attempt to update at the same time
   // they'll have to coordinate this. This is when they use the etag.
+
   // For our example we'll have Beta update first
-  const betaUpdatedSetting = await client.setConfigurationSetting(
-    {
-      key: key,
-      value: "Beta has updated the value"
-    },
-    {
-      // onlyIfUnchanged allows Beta to say "only update the setting if the _current_ etag matches my etag"
-      // which is true for Beta since nobody has modified it since Beta got it.
-      onlyIfUnchanged: true
-    }
-  );
+  betaSetting.value = "Beta has updated the value";
+  const betaUpdatedSetting = await client.setConfigurationSetting(betaSetting, {
+    // onlyIfUnchanged allows Beta to say "only update the setting if the _current_ etag matches my etag"
+    // which is true for Beta since nobody has modified it since Beta got it.
+    onlyIfUnchanged: true
+  });
 
   console.log(`Beta has updated the setting. The setting's etag is now ${betaUpdatedSetting.etag}`);
 
@@ -66,21 +62,16 @@ async function main() {
   );
 
   try {
-    await client.setConfigurationSetting(
-      {
-        key: key,
-        value: "Alpha is attempting to update the value but will fail"
-      },
-      {
-        // in this case Alpha's etag is out of date - there's no way to update it
-        // without retrieving the setting again. This allows Alpha a chance to
-        // potentially incorporate Beta's update into their own _or_ to just overwrite
-        // it.
-        //
-        // the 'catch' below will now incorporate the update
-        onlyIfUnchanged: true
-      }
-    );
+    alphaSetting.value = "Alpha is attempting to update the value but will fail";
+    await client.setConfigurationSetting(alphaSetting, {
+      // in this case Alpha's etag is out of date - there's no way to update it
+      // without retrieving the setting again. This allows Alpha a chance to
+      // potentially incorporate Beta's update into their own _or_ to just overwrite
+      // it.
+      //
+      // the 'catch' below will now incorporate the update
+      onlyIfUnchanged: true
+    });
   } catch (err) {
     if (err.statusCode === 412) {
       // precondition failed
@@ -106,11 +97,17 @@ async function main() {
   const finalSetting = await client.getConfigurationSetting({ key: key });
   console.log(`Final value with Alpha and Beta's updates: ${finalSetting.value}`);
 
+  if (
+    finalSetting.value !== "Beta has updated the value and Alpha has updated the setting as well"
+  ) {
+    throw new Error("SAMPLE FAILURE: Setting was not properly updated");
+  }
+
   await cleanupSampleValues([key], client);
 }
 
 async function cleanupSampleValues(keys, client) {
-  const existingSettings = await client.listConfigurationSettings({
+  const existingSettings = client.listConfigurationSettings({
     keyFilter: keys.join(",")
   });
 

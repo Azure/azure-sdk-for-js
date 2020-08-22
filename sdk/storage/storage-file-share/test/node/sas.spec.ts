@@ -28,8 +28,8 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     serviceClient = getBSU();
   });
 
-  afterEach(function() {
-    recorder.stop();
+  afterEach(async function() {
+    await recorder.stop();
   });
 
   it("generateAccountSASQueryParameters should work", async () => {

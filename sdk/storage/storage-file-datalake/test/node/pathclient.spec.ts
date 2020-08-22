@@ -11,7 +11,7 @@ import {
 import { PathPermissions } from "../../src/models";
 import { getDataLakeServiceClient, recorderEnvSetup } from "../utils";
 
-dotenv.config({ path: "../.env" });
+dotenv.config();
 
 describe("DataLakePathClient Node.js only", () => {
   let fileSystemName: string;
@@ -38,7 +38,7 @@ describe("DataLakePathClient Node.js only", () => {
 
   afterEach(async function() {
     await fileSystemClient.delete();
-    recorder.stop();
+    await recorder.stop();
   });
 
   it("setAccessControl", async () => {

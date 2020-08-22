@@ -6,7 +6,7 @@ If you would like to know more about Azure Key Vault, you may want to review: [W
 Azure Key Vault Key management allows you to create and control 
 encryption keys that encrypt your data.
 
-Use the client library for Azure Key Vault Keys in your Node.js application to
+Use the client library for Azure Key Vault Keys in your Node.js application to:
 
 - Create keys using elliptic curve or RSA encryption, optionally backed by Hardware Security Modules (HSM).
 - Import, Delete, and Update keys.
@@ -14,7 +14,7 @@ Use the client library for Azure Key Vault Keys in your Node.js application to
 - Recover a deleted key and restore a backed up key.
 - Get the versions of a key.
 
-Using the cryptography client available in this library you also have access to
+Using the cryptography client available in this library you also have access to:
 
 - Encrypting
 - Decrypting
@@ -22,6 +22,8 @@ Using the cryptography client available in this library you also have access to
 - Verifying
 - Wrapping keys
 - Unwrapping keys
+
+> Note: This package cannot be used in the browser due to Azure Key Vault service limitations.
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-keys) | [Package (npm)](https://www.npmjs.com/package/@azure/keyvault-keys) | [API Reference Documentation](https://docs.microsoft.com/javascript/api/@azure/keyvault-keys) | [Product documentation](https://azure.microsoft.com/en-us/services/key-vault/) | [Samples](./samples)
 
@@ -119,7 +121,7 @@ Use the [Azure Cloud Shell](https://shell.azure.com/bash) snippet below to creat
 
 ## Authenticating with Azure Active Directory
 
-The Key Vault service relies on Azure Active Directory to authenticate requests to its APIs. The [`@azure/identity`](https://www.npmjs.com/package/@azure/identity) package provides a variety of credential types that your application can use to do this. The [README for `@azure/identity`](/sdk/identity/identity/README.md) provides more details and samples to get you started.
+The Key Vault service relies on Azure Active Directory to authenticate requests to its APIs. The [`@azure/identity`](https://www.npmjs.com/package/@azure/identity) package provides a variety of credential types that your application can use to do this. The [README for `@azure/identity`](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/identity/identity/README.md) provides more details and samples to get you started.
 
 Here's a quick example. First, import `DefaultAzureCredential` and `KeyClient`:
 
@@ -146,6 +148,25 @@ const url = `https://${vaultName}.vault.azure.net`;
 
 // Lastly, create our keys client and connect to the service
 const client = new KeyClient(url, credential);
+```
+
+## Specifying the Azure Key Vault service API version
+
+By default, this package uses the latest Azure Key Vault service version which is `7.1`. The only other version that is supported is `7.0`. You can change the service version being used by setting the option `serviceVersion` in the client constructor as shown below:
+
+```typescript
+const { DefaultAzureCredential } = require("@azure/identity");
+const { KeyClient } = require("@azure/keyvault-keys");
+
+const credential = new DefaultAzureCredential();
+
+const vaultName = "<YOUR KEYVAULT NAME>";
+const url = `https://${vaultName}.vault.azure.net`;
+
+// Change the Azure Key Vault service API version being used via the `serviceVersion` option
+const client = new KeyClient(url, credential, {
+  serviceVersion: "7.0"
+});
 ```
 
 ## Examples
@@ -218,8 +239,8 @@ const keyName = "MyKeyName";
 async function main() {
   const latestKey = await client.getKey(keyName);
   console.log(`Latest version of the key ${keyName}: `, latestKey);
-  const specificKey = await client.getKey(keyName, { version: latestKey.version! });
-  console.log(`The key ${keyName} at the version ${latestKey.version!}: `, specificKey);
+  const specificKey = await client.getKey(keyName, { version: latestKey.properties.version! });
+  console.log(`The key ${keyName} at the version ${latestKey.properties.version!}: `, specificKey);
 }
 
 main();
@@ -532,10 +553,11 @@ const keysClient = new KeyClient(url, credential);
 async function main() {
   // Create or retrieve a key from the keyvault
   let myKey = await keysClient.createKey("MyKey", "RSA");
-
-// Lastly, create our cryptography client and connect to the service
-// This example uses the URL that is part of the key we created (called key ID)
-const cryptographyClient = new CryptographyClient(myKey.id, credential);
+  
+  // Lastly, create our cryptography client and connect to the service
+  // This example uses the URL that is part of the key we created (called key ID)
+  const cryptographyClient = new CryptographyClient(myKey.id, credential);
+}
 ```
 
 ### Encrypt
@@ -614,12 +636,12 @@ async function main() {
   const cryptographyClient = new CryptographyClient(myKey.id, credential);
 
   const signatureValue = "MySignature";
-  let hash = crypto.createHash("sha256");
+  let hash = createHash("sha256");
 
   let digest = hash.update(signatureValue).digest();
   console.log("digest: ", digest);
 
-  const signResult = await cryptographyClient.sign("RS256", digest);
+  const signResult = await cryptographyClient.signData("RS256", digest);
   console.log("sign result: ", signResult.result);
 }
 
@@ -645,7 +667,7 @@ async function main() {
   let myKey = await keysClient.createKey("MyKey", "RSA");
   const cryptographyClient = new CryptographyClient(myKey.id, credential);
 
-  const signResult = await cryptographyClient.sign("RS256", Buffer.from("My Message"));
+  const signResult = await cryptographyClient.signData("RS256", Buffer.from("My Message"));
   console.log("sign result: ", signResult.result);
 }
 
@@ -675,7 +697,7 @@ async function main() {
   hash.update("My Message");
   const digest = hash.digest();
 
-  const signResult = await cryptographyClient.sign("RS256", digest);
+  const signResult = await cryptographyClient.signData("RS256", digest);
   console.log("sign result: ", signResult.result);
 
   const verifyResult = await cryptographyClient.verify("RS256", digest, signResult.result);
@@ -706,7 +728,7 @@ async function main() {
 
   const buffer = Buffer.from("My Message");
 
-  const signResult = await cryptographyClient.sign("RS256", buffer);
+  const signResult = await cryptographyClient.signData("RS256", buffer);
   console.log("sign result: ", signResult.result);
 
   const verifyResult = await cryptographyClient.verifyData("RS256", buffer, signResult.result);

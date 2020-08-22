@@ -28,7 +28,8 @@ module.exports = function(config) {
       // Uncomment the cdn link below for the polyfill service to support IE11 missing features
       // Promise,String.prototype.startsWith,String.prototype.endsWith,String.prototype.repeat,String.prototype.includes,Array.prototype.includes,Object.keys
       // "https://cdn.polyfill.io/v2/polyfill.js?features=Symbol,Promise,String.prototype.startsWith,String.prototype.endsWith,String.prototype.repeat,String.prototype.includes,Array.prototype.includes,Object.keys|always",
-      "dist-test/index.browser.js"
+      "dist-test/index.browser.js",
+      { pattern: "dist-test/index.browser.js.map", type: "html", included: false, served: true }
     ],
 
     // list of files / patterns to exclude
@@ -40,7 +41,7 @@ module.exports = function(config) {
       "**/*.js": ["env"],
       // IMPORTANT: COMMENT following line if you want to debug in your browsers!!
       // Preprocess source file to calculate code coverage, however this will make source file unreadable
-      "test-browser/index.js": ["coverage"]
+      "dist-test/index.browser.js": ["coverage"]
     },
 
     // inject following environment values into browser testing with window.__env__

@@ -3,7 +3,7 @@ import { getBSU, getConnectionStringFromEnvironment, recorderEnvSetup } from "..
 import * as dotenv from "dotenv";
 import { ShareServiceClient, newPipeline, StorageSharedKeyCredential } from "../../src";
 import { record, Recorder } from "@azure/test-utils-recorder";
-dotenv.config({ path: "../.env" });
+dotenv.config();
 
 describe("FileServiceClient Node.js only", () => {
   let recorder: Recorder;
@@ -13,7 +13,7 @@ describe("FileServiceClient Node.js only", () => {
   });
 
   afterEach(async function() {
-    recorder.stop();
+    await recorder.stop();
   });
 
   it("can be created with a url and a credential", async () => {

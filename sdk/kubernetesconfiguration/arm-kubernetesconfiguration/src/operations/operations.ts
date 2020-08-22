@@ -28,26 +28,22 @@ export class Operations {
 
   /**
    * List all the available operations the KubernetesConfiguration resource provider supports.
-   * @param apiVersion The API version to be used with the HTTP request.
    * @param [options] The optional parameters
    * @returns Promise<Models.OperationsListResponse>
    */
-  list(apiVersion: string, options?: msRest.RequestOptionsBase): Promise<Models.OperationsListResponse>;
+  list(options?: msRest.RequestOptionsBase): Promise<Models.OperationsListResponse>;
   /**
-   * @param apiVersion The API version to be used with the HTTP request.
    * @param callback The callback
    */
-  list(apiVersion: string, callback: msRest.ServiceCallback<Models.ResourceProviderOperationList>): void;
+  list(callback: msRest.ServiceCallback<Models.ResourceProviderOperationList>): void;
   /**
-   * @param apiVersion The API version to be used with the HTTP request.
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(apiVersion: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ResourceProviderOperationList>): void;
-  list(apiVersion: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ResourceProviderOperationList>, callback?: msRest.ServiceCallback<Models.ResourceProviderOperationList>): Promise<Models.OperationsListResponse> {
+  list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ResourceProviderOperationList>): void;
+  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ResourceProviderOperationList>, callback?: msRest.ServiceCallback<Models.ResourceProviderOperationList>): Promise<Models.OperationsListResponse> {
     return this.client.sendOperationRequest(
       {
-        apiVersion,
         options
       },
       listOperationSpec,

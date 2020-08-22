@@ -40,8 +40,7 @@ msRestNodeAuth.interactiveLogin().then((creds) => {
   const clusterResourceName = "managedClusters";
   const clusterName = "testclusterName";
   const sourceControlConfigurationName = "testsourceControlConfigurationName";
-  const apiVersion = "testapiVersion";
-  client.sourceControlConfigurations.get(resourceGroupName, clusterRp, clusterResourceName, clusterName, sourceControlConfigurationName, apiVersion).then((result) => {
+  client.sourceControlConfigurations.get(resourceGroupName, clusterRp, clusterResourceName, clusterName, sourceControlConfigurationName).then((result) => {
     console.log("The result is:");
     console.log(result);
   });
@@ -89,8 +88,7 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
         const clusterResourceName = "managedClusters";
         const clusterName = "testclusterName";
         const sourceControlConfigurationName = "testsourceControlConfigurationName";
-        const apiVersion = "testapiVersion";
-        client.sourceControlConfigurations.get(resourceGroupName, clusterRp, clusterResourceName, clusterName, sourceControlConfigurationName, apiVersion).then((result) => {
+        client.sourceControlConfigurations.get(resourceGroupName, clusterRp, clusterResourceName, clusterName, sourceControlConfigurationName).then((result) => {
           console.log("The result is:");
           console.log(result);
         }).catch((err) => {

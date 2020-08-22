@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
 import qs from "qs";
 import { createSpan } from "../util/tracing";
@@ -7,6 +7,9 @@ import { AuthenticationErrorName } from "../client/errors";
 import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-http";
 import { IdentityClient, TokenResponse, TokenCredentialOptions } from "../client/identityClient";
 import { CanonicalCode } from "@opentelemetry/api";
+import { credentialLogger, formatSuccess, formatError } from "../util/logging";
+
+const logger = credentialLogger("AuthorizationCodeCredential");
 
 /**
  * Enables authentication to Azure Active Directory using an authorization code
@@ -22,7 +25,6 @@ export class AuthorizationCodeCredential implements TokenCredential {
   private clientSecret: string | undefined;
   private authorizationCode: string;
   private redirectUri: string;
-
   private lastTokenResponse: TokenResponse | null = null;
 
   /**
@@ -179,6 +181,7 @@ export class AuthorizationCodeCredential implements TokenCredential {
       }
 
       this.lastTokenResponse = tokenResponse;
+      logger.getToken.info(formatSuccess(scopes));
       return (tokenResponse && tokenResponse.accessToken) || null;
     } catch (err) {
       const code =
@@ -189,6 +192,7 @@ export class AuthorizationCodeCredential implements TokenCredential {
         code,
         message: err.message
       });
+      logger.getToken.info(formatError(err));
       throw err;
     } finally {
       span.end();

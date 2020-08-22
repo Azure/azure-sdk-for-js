@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { Container, ContainerDefinition } from "../../../dist-esm/client";
+import { Container, ContainerDefinition } from "../../../src/client";
 import { bulkInsertItems, getTestContainer, removeAllDatabases } from "../../common/TestHelpers";
 import snapshot from "snap-shot-it";
 import assert from "assert";

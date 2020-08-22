@@ -1,5 +1,7 @@
 let nock = require('nock');
 
+module.exports.hash = "904cbbd4332b47bcfd8b095dc3f81670";
+
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
 nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
@@ -18,40 +20,40 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'X-Content-Type-Options',
   'nosniff',
   'x-ms-request-id',
-  '73e53a21-494e-4cd3-9781-87206f671a00',
+  '0d5ba18a-4102-4ec8-99d5-e85994252800',
   'x-ms-ests-server',
-  '2.1.9987.14 - SAN ProdSlices',
+  '2.1.10946.15 - WUS2 ProdSlices',
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'Set-Cookie',
-  'fpc=AuIrWI54soxJrPmCo9b8UI70CyfMAQAAAJVDzdUOAAAA; expires=Fri, 06-Mar-2020 23:15:34 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=Aq5TzDtilStHmHjNyDIa3sz0CyfMAQAAAIrFyNYOAAAA; expires=Sun, 13-Sep-2020 17:48:59 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
-  'x-ms-gateway-slice=corp; path=/; SameSite=None; secure; HttpOnly',
+  'x-ms-gateway-slice=estsfd; path=/; SameSite=None; secure; HttpOnly',
   'Set-Cookie',
-  'stsservicecookie=estscorp; path=/; SameSite=None; secure; HttpOnly',
+  'stsservicecookie=estsfd; path=/; SameSite=None; secure; HttpOnly',
   'Date',
-  'Wed, 05 Feb 2020 23:15:33 GMT',
+  'Fri, 14 Aug 2020 17:48:58 GMT',
   'Content-Length',
-  '1417'
+  '1500'
 ]);
 
-nock('https://endpoint:443', {"encodedQueryParams":true})
-  .post('/text/analytics/v3.0-preview.1/entities/recognition/general', {"documents":[{"id":"1","text":"I had a wonderful trip to Seattle last week and even visited the Space Needle 2 times!","language":"en"},{"id":"2","text":"Unfortunately, it rained during my entire trip to Seattle. I didn't even get to visit the Space Needle","language":"en"},{"id":"3","text":"I went to see a movie on Saturday and it was perfectly average, nothing more or less than I expected.","language":"en"},{"id":"4","text":"I didn't like the last book I read at all.","language":"en"},{"id":"5","text":"Los caminos que llevan hasta Monte Rainier son espectaculares y hermosos.","language":"es"},{"id":"6","text":"La carretera estaba atascada. Había mucho tráfico el día de ayer.","language":"es"}]})
-  .reply(200, {"documents":[{"id":"1","entities":[{"text":"Seattle","type":"Location","offset":26,"length":7,"score":0.8207470774650574},{"text":"last week","type":"DateTime","subtype":"DateRange","offset":34,"length":9,"score":0.8},{"text":"Space Needle","type":"Organization","offset":65,"length":12,"score":0.9418386816978455},{"text":"2","type":"Quantity","subtype":"Number","offset":78,"length":1,"score":0.8}]},{"id":"2","entities":[{"text":"Seattle","type":"Location","offset":50,"length":7,"score":0.9375514388084412},{"text":"Space Needle","type":"Organization","offset":90,"length":12,"score":0.7905220985412598}]},{"id":"3","entities":[{"text":"Saturday","type":"DateTime","subtype":"Date","offset":25,"length":8,"score":0.8}]},{"id":"4","entities":[]},{"id":"5","entities":[]},{"id":"6","entities":[{"text":"el día","type":"DateTime","subtype":"Date","offset":50,"length":6,"score":0.8},{"text":"ayer","type":"DateTime","subtype":"Date","offset":60,"length":4,"score":0.8}]}],"errors":[],"modelVersion":"2019-10-01"}, [
+nock('https://endpoint', {"encodedQueryParams":true})
+  .post('/text/analytics/v3.1-preview.1/entities/recognition/general', {"documents":[{"id":"1","text":"I had a wonderful trip to Seattle last week and even visited the Space Needle 2 times!","language":"en"},{"id":"2","text":"Unfortunately, it rained during my entire trip to Seattle. I didn't even get to visit the Space Needle","language":"en"},{"id":"3","text":"I went to see a movie on Saturday and it was perfectly average, nothing more or less than I expected.","language":"en"},{"id":"4","text":"Los caminos que llevan hasta Monte Rainier son espectaculares y hermosos.","language":"es"},{"id":"5","text":"La carretera estaba atascada. Había mucho tráfico el día de ayer.","language":"es"}]})
+  .reply(200, {"documents":[{"id":"1","entities":[{"text":"Seattle","category":"Location","subcategory":"GPE","offset":26,"length":7,"confidenceScore":0.75},{"text":"last week","category":"DateTime","subcategory":"DateRange","offset":34,"length":9,"confidenceScore":0.8},{"text":"2","category":"Quantity","subcategory":"Number","offset":78,"length":1,"confidenceScore":0.8}],"warnings":[]},{"id":"2","entities":[{"text":"Seattle","category":"Location","subcategory":"GPE","offset":50,"length":7,"confidenceScore":0.74}],"warnings":[]},{"id":"3","entities":[{"text":"Saturday","category":"DateTime","subcategory":"Date","offset":25,"length":8,"confidenceScore":0.8}],"warnings":[]},{"id":"4","entities":[{"text":"Monte Rainier","category":"Location","offset":29,"length":13,"confidenceScore":0.7}],"warnings":[]},{"id":"5","entities":[{"text":"ayer","category":"DateTime","subcategory":"Date","offset":60,"length":4,"confidenceScore":0.8}],"warnings":[]}],"errors":[],"modelVersion":"2020-04-01"}, [
   'Transfer-Encoding',
   'chunked',
   'Content-Type',
   'application/json; charset=utf-8',
   'csp-billing-usage',
-  'CognitiveServices.TextAnalytics.BatchScoring=6',
+  'CognitiveServices.TextAnalytics.BatchScoring=5',
   'x-envoy-upstream-service-time',
-  '5036',
+  '922',
   'apim-request-id',
-  '834ec67e-7573-4dc5-823e-292b458350b7',
+  '7b94a432-4bd0-43e4-8c29-c6a518aece4e',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Wed, 05 Feb 2020 23:15:39 GMT'
+  'Fri, 14 Aug 2020 17:48:59 GMT'
 ]);

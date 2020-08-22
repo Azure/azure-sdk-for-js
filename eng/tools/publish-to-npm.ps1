@@ -6,7 +6,8 @@ param (
   $registry,
   $npmToken,
   $filterArg="",
-  $basicDeployment=$false
+  $basicDeployment=$false,
+  $devopsFeed=$false
 )
 
 function replaceText($oldText,$newText,$filePath){
@@ -96,9 +97,22 @@ try {
     }
 
     if(!$basicDeployment) {
+       if($registry -eq 'https://registry.npmjs.org/'){
         Write-Host "Choosing AuthToken Deployment"
         $env:NPM_TOKEN=$npmToken
         npm config set $regAuth`:_authToken=`$`{NPM_TOKEN`}
+       }
+       else{
+          Write-Host "Choosing Private Devops Feed Deployment"
+          $npmReg = $regAuth.replace("registry/","");
+          $env:NPM_TOKEN=$npmToken
+          npm config set $regAuth`:username=azure-sdk
+          npm config set $regAuth`:_password=`$`{NPM_TOKEN`}
+          npm config set $regAuth`:email=not_set
+          npm config set $npmReg`:username=azure-sdk
+          npm config set $npmReg`:_password=`$`{NPM_TOKEN`}
+          npm config set $npmReg`:email=not_set
+       }
     }
     else {
         Write-Host "Choosing BasicAuth Deployment"

@@ -26,18 +26,18 @@ npm install @azure/ms-rest-azure-js
 ##### Sample code
 The following sample detects the facial features on the given image. To know more, refer to the [Azure Documentation on Face APIs](https://docs.microsoft.com/en-us/azure/cognitive-services/face/overview)
 
-```typescript
-import { FaceClient, FaceModels } from "@azure/cognitiveservices-face";
-import { CognitiveServicesCredentials } from "@azure/ms-rest-azure-js";
+```javascript
+const { FaceClient, FaceModels } = require("@azure/cognitiveservices-face");
+const { CognitiveServicesCredentials } = require("@azure/ms-rest-azure-js");
 
-async function main(): Promise<void> {
+async function main() {
   const faceKey = process.env["faceKey"] || "<faceKey>";
   const faceEndPoint = process.env["faceEndPoint"] || "<faceEndPoint>";
   const cognitiveServiceCredentials = new CognitiveServicesCredentials(faceKey);
   const client = new FaceClient(cognitiveServiceCredentials, faceEndPoint);
   const url =
     "https://pbs.twimg.com/profile_images/3354326900/3a5168f2b45c07d0965098be1a4e3007.jpeg";
-  const options: FaceModels.FaceDetectWithUrlOptionalParams = {
+  const options = {
     returnFaceLandmarks: true
   };
   client.face

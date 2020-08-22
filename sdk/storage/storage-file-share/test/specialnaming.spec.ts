@@ -6,7 +6,7 @@ import { ShareDirectoryClient } from "../src/ShareDirectoryClient";
 import { record, Recorder } from "@azure/test-utils-recorder";
 import * as dotenv from "dotenv";
 import { ShareClient } from "../src";
-dotenv.config({ path: "../.env" });
+dotenv.config();
 
 describe("Special Naming Tests", () => {
   let shareName: string;
@@ -29,21 +29,21 @@ describe("Special Naming Tests", () => {
     await shareClient.create();
     await directoryClient.create();
 
-    recorder.stop();
+    await recorder.stop();
   });
 
   after(async function() {
     recorder = record(this, recorderEnvSetup);
     await shareClient.delete();
-    recorder.stop();
+    await recorder.stop();
   });
 
   beforeEach(function() {
     recorder = record(this, recorderEnvSetup);
   });
 
-  afterEach(function() {
-    recorder.stop();
+  afterEach(async function() {
+    await recorder.stop();
   });
 
   it("Should work with special container and file names with spaces", async () => {

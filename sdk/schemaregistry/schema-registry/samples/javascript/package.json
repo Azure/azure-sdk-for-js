@@ -1,0 +1,31 @@
+{
+  "name": "azure-schema-registry-samples-js",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Azure schema-registry client library samples for JavaScript",
+  "engine": {
+    "node": ">=8.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js.git",
+    "directory": "sdk/schema-registry/schema-registry"
+  },
+  "keywords": [
+    "Azure",
+    "Node.js",
+    "JavaScript"
+  ],
+  "author": "Microsoft Corporation",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/schema-registry/schema-registry",
+  "sideEffects": false,
+  "dependencies": {
+    "@azure/identity": "latest",
+    "@azure/schema-registry":  "latest",
+    "dotenv": "^8.2.0"
+  }
+}

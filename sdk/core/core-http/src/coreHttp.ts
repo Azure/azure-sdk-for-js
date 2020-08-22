@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
+/* eslint-disable-next-line @typescript-eslint/triple-slash-reference */
 /// <reference path="../dom-shim.d.ts" />
 
 export {
@@ -45,10 +46,7 @@ export {
 export { PipelineOptions, InternalPipelineOptions } from "./pipelineOptions";
 export { QueryCollectionFormat } from "./queryCollectionFormat";
 export { Constants } from "./util/constants";
-export {
-  BearerTokenAuthenticationPolicy,
-  bearerTokenAuthenticationPolicy
-} from "./policies/bearerTokenAuthenticationPolicy";
+export { bearerTokenAuthenticationPolicy } from "./policies/bearerTokenAuthenticationPolicy";
 export { LogPolicyOptions, logPolicy } from "./policies/logPolicy";
 export {
   BaseRequestPolicy,
@@ -63,10 +61,8 @@ export { systemErrorRetryPolicy } from "./policies/systemErrorRetryPolicy";
 export { throttlingRetryPolicy } from "./policies/throttlingRetryPolicy";
 export { getDefaultProxySettings, proxyPolicy } from "./policies/proxyPolicy";
 export { redirectPolicy, RedirectOptions } from "./policies/redirectPolicy";
-export { keepAlivePolicy, KeepAlivePolicy, KeepAliveOptions } from "./policies/keepAlivePolicy";
-export {
-  DisableResponseDecompressionPolicy,
-  disableResponseDecompressionPolicy } from "./policies/disableResponseDecompressionPolicy";
+export { keepAlivePolicy, KeepAliveOptions } from "./policies/keepAlivePolicy";
+export { disableResponseDecompressionPolicy } from "./policies/disableResponseDecompressionPolicy";
 export { signingPolicy } from "./policies/signingPolicy";
 export {
   userAgentPolicy,
@@ -74,7 +70,12 @@ export {
   UserAgentOptions,
   TelemetryInfo
 } from "./policies/userAgentPolicy";
-export { deserializationPolicy, DeserializationOptions, deserializeResponseBody, DeserializationContentTypes } from "./policies/deserializationPolicy";
+export {
+  deserializationPolicy,
+  DeserializationOptions,
+  deserializeResponseBody,
+  DeserializationContentTypes
+} from "./policies/deserializationPolicy";
 export { tracingPolicy, TracingPolicyOptions } from "./policies/tracingPolicy";
 export {
   MapperType,
@@ -116,6 +117,7 @@ export { AbortSignalLike } from "@azure/abort-controller";
 // Credentials
 export { TokenCredential, GetTokenOptions, AccessToken, isTokenCredential } from "@azure/core-auth";
 export { AccessTokenCache, ExpiringAccessTokenCache } from "./credentials/accessTokenCache";
+export { AccessTokenRefresher } from "./credentials/accessTokenRefresher";
 export { BasicAuthenticationCredentials } from "./credentials/basicAuthenticationCredentials";
 export { ApiKeyCredentials, ApiKeyCredentialOptions } from "./credentials/apiKeyCredentials";
 export { ServiceClientCredentials } from "./credentials/serviceClientCredentials";

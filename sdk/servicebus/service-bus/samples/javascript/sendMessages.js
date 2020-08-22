@@ -3,12 +3,12 @@
   Licensed under the MIT Licence.
 
   **NOTE**: If you are using version 1.1.x or lower, then please use the link below:
-  https://github.com/Azure/azure-sdk-for-js/tree/%40azure/service-bus_1.1.5/sdk/servicebus/service-bus/samples
+  https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/servicebus/service-bus/samples-v1
   
-  This sample demonstrates how the send() function can be used to send messages to Service Bus
+  This sample demonstrates how the sendMessages() method can be used to send messages to Service Bus
   Queue/Topic.
 
-  See https://docs.microsoft.com/en-us/azure/service-bus-messaging/service-bus-queues-topics-subscriptions
+  See https://docs.microsoft.com/azure/service-bus-messaging/service-bus-queues-topics-subscriptions
   to learn about Queues, Topics and Subscriptions.
 */
 
@@ -37,7 +37,7 @@ async function main() {
   const sbClient = new ServiceBusClient(connectionString);
 
   // createSender() can also be used to create a sender for a topic.
-  const sender = await sbClient.createSender(queueName);
+  const sender = sbClient.createSender(queueName);
 
   try {
     for (let index = 0; index < listOfScientists.length; index++) {
@@ -48,7 +48,7 @@ async function main() {
       };
 
       console.log(`Sending message: ${message.body} - ${message.label}`);
-      await sender.send(message);
+      await sender.sendMessages(message);
     }
 
     await sender.close();

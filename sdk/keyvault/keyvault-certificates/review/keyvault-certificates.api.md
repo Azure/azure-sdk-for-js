@@ -12,7 +12,7 @@ import { PollOperationState } from '@azure/core-lro';
 import { TokenCredential } from '@azure/core-http';
 
 // @public
-export type ActionType = "EmailContacts" | "AutoRenew";
+export type ActionType = 'EmailContacts' | 'AutoRenew';
 
 // @public
 export interface AdministratorContact {
@@ -80,7 +80,7 @@ export class CertificateClient {
 
 // @public
 export interface CertificateClientOptions extends coreHttp.PipelineOptions {
-    apiVersion?: "7.0" | "7.1-preview";
+    serviceVersion?: "7.0" | "7.1";
 }
 
 // @public
@@ -246,7 +246,7 @@ export interface DeletedCertificate extends KeyVaultCertificateWithPolicy {
 export type DeleteIssuerOptions = coreHttp.OperationOptions;
 
 // @public
-export type DeletionRecoveryLevel = "Purgeable" | "Recoverable+Purgeable" | "Recoverable" | "Recoverable+ProtectedSubscription" | "CustomizedRecoverable+Purgeable" | "CustomizedRecoverable" | "CustomizedRecoverable+ProtectedSubscription";
+export type DeletionRecoveryLevel = 'Purgeable' | 'Recoverable+Purgeable' | 'Recoverable' | 'Recoverable+ProtectedSubscription' | 'CustomizedRecoverable+Purgeable' | 'CustomizedRecoverable' | 'CustomizedRecoverable+ProtectedSubscription';
 
 // @public
 export interface ErrorModel {
@@ -315,7 +315,7 @@ export interface IssuerProperties {
 }
 
 // @public
-export type KeyUsageType = "digitalSignature" | "nonRepudiation" | "keyEncipherment" | "dataEncipherment" | "keyAgreement" | "keyCertSign" | "cRLSign" | "encipherOnly" | "decipherOnly";
+export type KeyUsageType = 'digitalSignature' | 'nonRepudiation' | 'keyEncipherment' | 'dataEncipherment' | 'keyAgreement' | 'keyCertSign' | 'cRLSign' | 'encipherOnly' | 'decipherOnly';
 
 // @public
 export interface KeyVaultCertificate {
@@ -326,6 +326,9 @@ export interface KeyVaultCertificate {
     properties: CertificateProperties;
     readonly secretId?: string;
 }
+
+// @public
+export type KeyVaultCertificatesIdentifierCollectionName = "certificates" | "deletedcertificates";
 
 // @public
 export interface KeyVaultCertificateWithPolicy extends KeyVaultCertificate {
@@ -363,6 +366,18 @@ export const logger: import("@azure/logger").AzureLogger;
 
 // @public
 export type MergeCertificateOptions = coreHttp.OperationOptions;
+
+// @public
+export interface ParsedKeyVaultCertificatesIdentifier {
+    collection: KeyVaultCertificatesIdentifierCollectionName;
+    id: string;
+    name: string;
+    vaultUrl: string;
+    version?: string;
+}
+
+// @public
+export function parseKeyVaultCertificatesIdentifier(id: string): ParsedKeyVaultCertificatesIdentifier;
 
 export { PipelineOptions }
 

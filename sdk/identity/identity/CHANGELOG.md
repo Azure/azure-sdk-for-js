@@ -1,7 +1,37 @@
 # Release History
 
+## 1.1.0 (2020-08-11)
+
+### Changes since 1.0.*
+
+- With 1.1.0, new developer credentials are now available: `VisualStudioCodeCredential` and `AzureCliCredential`.
+  - `VisualStudioCodeCredential` allows developers to log into Azure using the credentials available after logging in through the Azure Account extension in Visual Studio Code.
+  - `AzureCliCredential` allows developers to log into Azure using the login credentials after an "az login" call.
+- Both `VisualStudioCodeCredential` and `AzureCliCredential` may be used directly or indirectly as part of `DefaultAzureCredential`.
+- Added the ability to configure the Managed Identity with a user-assigned client ID via a new option available in the `DefaultAzureCredential` constructor options: `managedIdentityClientId`.
+- Made a list of known authorities is now available via a new top-level constant: `AzureAuthorityHosts`.
+- Introduced the `CredentialUnavailable` error, which allows developers to differentiate between a credential not being available and an error happening during authentication.
+
+### Changes since the latest 1.1-preview
+
+- Renamed the `VSCodeCredential` to `VisualStudioCodeCredential`, and its options parameter from `VSCodeCredentialOptions` to `VisualStudioCodeCredentialOptions`.
+- Tenant information is now loaded from the Visual Studio Code settings file when the `VisualStudioCodeCredential` is used.
+- Added `managedIdentityClientId` to optionally pass in a user-assigned client ID for the `ManagedIdentityCredential`.
+
+## 1.1.0-preview.5 (2020-07-22)
+
+- Make the keytar dependency optional, allowing for building and running on platforms not supported by keytar [PR #10142](https://github.com/Azure/azure-sdk-for-js/pull/10142)
+- DefaultAzureCredential and VSCodeCredential can now take a tenant id as part of the options object
+- KnownAuthorityHosts has been renamed to AzureAuthorityHosts
+
+## 1.1.0-preview.4 (2020-06-09)
+
+- Switch to using CredentialUnavailable to differentiate from expected and unexpected errors during DefaultAzureCredential startup. [PR #8172](https://github.com/Azure/azure-sdk-for-js/pull/8127)
+- Make all developer credentials public as well as the list used by DefaultAzureCredential [PR #9274](https://github.com/Azure/azure-sdk-for-js/pull/9274)
+
 ## 1.1.0-preview.3 (2020-05-05)
-- Add ability to read AZURE_AUTHORITY_HOST from environment ([PR  #8226](https://github.com/Azure/azure-sdk-for-js/pull/8226) [PR #8343](https://github.com/Azure/azure-sdk-for-js/pull/8343))
+
+- Add ability to read AZURE_AUTHORITY_HOST from environment ([PR #8226](https://github.com/Azure/azure-sdk-for-js/pull/8226) [PR #8343](https://github.com/Azure/azure-sdk-for-js/pull/8343))
 - Update to OpenTelemetry 0.6 ([PR #7998](https://github.com/Azure/azure-sdk-for-js/pull/7998))
 - Set expires_on at a higher precedence for IMDS ([PR #8591](https://github.com/Azure/azure-sdk-for-js/pull/8591))
 
@@ -47,7 +77,7 @@
 
 ## 1.0.0-preview.4 (2019-10-07)
 
-- Introduced the [`AuthorizationCodeCredential`](https://azure.github.io/azure-sdk-for-js/identity/classes/authorizationcodecredential.html) for performing the [authorization code flow](https://docs.microsoft.com/en-us/azure/active-directory/develop/v2-oauth2-auth-code-flow) with AAD ([PR #5356](https://github.com/Azure/azure-sdk-for-js/pull/5356))
+- Introduced the `AuthorizationCodeCredential` for performing the [authorization code flow](https://docs.microsoft.com/en-us/azure/active-directory/develop/v2-oauth2-auth-code-flow) with AAD ([PR #5356](https://github.com/Azure/azure-sdk-for-js/pull/5356))
 - Fixed an issue preventing the `ManagedIdentityCredential` from working inside of Azure Function Apps ([PR #5144](https://github.com/Azure/azure-sdk-for-js/pull/5144))
 - Added tracing to `IdentityClient` and credential implementations ([PR #5283](https://github.com/Azure/azure-sdk-for-js/pull/5283))
 - Improved the exception message for `AggregateAuthenticationError` so that errors thrown from `DefaultAzureCredential` are now more actionable ([PR #5409](https://github.com/Azure/azure-sdk-for-js/pull/5409))
@@ -60,22 +90,22 @@
 ## 1.0.0-preview.2 (2019-08-05)
 
 - Introduced the following credential types:
-  - [`DeviceCodeCredential`](https://azure.github.io/azure-sdk-for-js/identity/classes/devicecodecredential.html)
-  - [`InteractiveBrowserCredential`](https://azure.github.io/azure-sdk-for-js/identity/classes/interactivebrowsercredential.html)
-  - [`UsernamePasswordCredential`](https://azure.github.io/azure-sdk-for-js/identity/classes/usernamepasswordcredential.html)
+  - `DeviceCodeCredential`.
+  - `InteractiveBrowserCredential`.
+  - `UsernamePasswordCredential`.
 - This library can now be used in the browser! The following credential types supported in browser builds:
-  - `ClientSecretCredential`
-  - `UsernamePasswordCredential`
-  - `InteractiveBrowserCredential`
+  - `ClientSecretCredential`.
+  - `UsernamePasswordCredential`.
+  - `InteractiveBrowserCredential`.
 
 ## 1.0.0-preview.1 (2019-06-27)
 
-For release notes and more information please visit https://aka.ms/azure-sdk-preview1-js
+For release notes and more information please visit https://aka.ms/azsdk/releases/july2019preview
 
 - Introduced the following credential types:
-  - [`DefaultAzureCredential`](https://azure.github.io/azure-sdk-for-js/identity/classes/defaultazurecredential.html)
-  - [`EnvironmentCredential`](https://azure.github.io/azure-sdk-for-js/identity/classes/environmentcredential.html)
-  - [`ManagedIdentityCredential`](https://azure.github.io/azure-sdk-for-js/identity/classes/managedidentitycredential.html)
-  - [`ClientSecretCredential`](https://azure.github.io/azure-sdk-for-js/identity/classes/clientsecretcredential.html)
-  - [`ClientCertificateCredential`](https://azure.github.io/azure-sdk-for-js/identity/classes/clientcertificatecredential.html)
-  - [`ChainedTokenCredential`](https://azure.github.io/azure-sdk-for-js/identity/classes/chainedtokencredential.html)
+  - `DefaultAzureCredential`.
+  - `EnvironmentCredential`.
+  - `ManagedIdentityCredential`.
+  - `ClientSecretCredential`.
+  - `ClientCertificateCredential`.
+  - `ChainedTokenCredential`.

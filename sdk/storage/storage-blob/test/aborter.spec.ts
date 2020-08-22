@@ -5,7 +5,7 @@ import { ContainerClient } from "../src";
 import { getBSU, recorderEnvSetup } from "./utils";
 import { record, Recorder } from "@azure/test-utils-recorder";
 import * as dotenv from "dotenv";
-dotenv.config({ path: "../.env" });
+dotenv.config();
 
 // tslint:disable:no-empty
 describe("Aborter", () => {
@@ -21,8 +21,8 @@ describe("Aborter", () => {
     containerClient = blobServiceClient.getContainerClient(containerName);
   });
 
-  afterEach(function() {
-    recorder.stop();
+  afterEach(async function() {
+    await recorder.stop();
   });
 
   it("Should abort after aborter timeout", async () => {

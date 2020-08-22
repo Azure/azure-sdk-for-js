@@ -3,7 +3,7 @@
 import { logSampleHeader, handleError, finish, logStep } from "./Shared/handleError";
 import { CosmosClient } from "../dist";
 import { endpoint, key, database as databaseId, container as containerId } from "./Shared/config";
-import uuid from "uuid/v4";
+import { v4 as uuid } from "uuid";
 
 logSampleHeader("Bulk Update Using Stored Procedures");
 // Only to make TypeScript happy

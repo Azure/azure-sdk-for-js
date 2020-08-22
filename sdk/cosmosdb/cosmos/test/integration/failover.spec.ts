@@ -1,6 +1,6 @@
 ﻿// Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
-import { CosmosClient, PluginOn, CosmosClientOptions, PluginConfig } from "../../dist-esm";
+import { CosmosClient, PluginOn, CosmosClientOptions, PluginConfig } from "../../src";
 import { masterKey } from "../common/_testConfig";
 import assert from "assert";
 

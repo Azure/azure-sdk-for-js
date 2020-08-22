@@ -7,7 +7,7 @@ import { getBSU, recorderEnvSetup } from "./utils";
 import { InjectorPolicyFactory } from "./utils/InjectorPolicyFactory";
 import { record, Recorder } from "@azure/test-utils-recorder";
 
-dotenv.config({ path: "../.env" });
+dotenv.config();
 
 describe("RetryPolicy", () => {
   let shareName: string;
@@ -25,7 +25,7 @@ describe("RetryPolicy", () => {
 
   afterEach(async function() {
     await shareClient.delete();
-    recorder.stop();
+    await recorder.stop();
   });
 
   it("Retry Policy should work when first request fails with 500", async () => {
@@ -35,6 +35,7 @@ describe("RetryPolicy", () => {
         injectCounter++;
         return new RestError("Server Internal Error", "ServerInternalError", 500);
       }
+      return;
     });
     const factories = (shareClient as any).pipeline.factories.slice(); // clone factories array
     factories.push(injector);
@@ -59,6 +60,7 @@ describe("RetryPolicy", () => {
         injectCounter++;
         return new RestError("Server Internal Error", "ServerInternalError", 500);
       }
+      return;
     });
 
     const factories = (shareClient as any).pipeline.factories.slice(); // clone factories array

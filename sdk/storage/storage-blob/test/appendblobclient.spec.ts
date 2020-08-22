@@ -9,7 +9,7 @@ import {
 import { record } from "@azure/test-utils-recorder";
 import * as dotenv from "dotenv";
 import { AppendBlobClient, ContainerClient } from "../src";
-dotenv.config({ path: "../.env" });
+dotenv.config();
 
 describe("AppendBlobClient", () => {
   let containerName: string;
@@ -31,7 +31,7 @@ describe("AppendBlobClient", () => {
 
   afterEach(async function() {
     await containerClient.delete();
-    recorder.stop();
+    await recorder.stop();
   });
 
   it("create with default parameters", async () => {
@@ -62,6 +62,16 @@ describe("AppendBlobClient", () => {
     assert.equal(properties.contentType, options.blobHTTPHeaders.blobContentType);
     assert.equal(properties.metadata!.key1, options.metadata.key1);
     assert.equal(properties.metadata!.key2, options.metadata.key2);
+  });
+
+  it("createIfNotExists", async () => {
+    const res = await appendBlobClient.createIfNotExists();
+    assert.ok(res.succeeded);
+    assert.ok(res.etag);
+
+    const res2 = await appendBlobClient.createIfNotExists();
+    assert.ok(!res2.succeeded);
+    assert.equal(res2.errorCode, "BlobAlreadyExists");
   });
 
   it("appendBlock", async () => {

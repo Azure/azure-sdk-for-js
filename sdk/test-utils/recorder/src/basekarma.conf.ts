@@ -53,6 +53,5 @@ export const jsonRecordingFilterFunction = function(browserRecordingJsonObject: 
     } else {
       console.log(browserRecordingJsonObject);
     }
-    return false;
   }
 };

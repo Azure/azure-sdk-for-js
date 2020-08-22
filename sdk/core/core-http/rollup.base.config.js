@@ -18,17 +18,15 @@ export function nodeConfig(test = false) {
   const baseConfig = {
     input: input,
     external: depNames.concat(externalNodeBuiltins),
-    output: { file: "./dist/coreHttp.node.js", format: "cjs", sourcemap: true },
+    output: { file: "./dist/index.js", format: "cjs", sourcemap: true },
     preserveSymlinks: false,
     plugins: [
       sourcemaps(),
       replace({
         delimiters: ["", ""],
-        values: {
-          // replace dynamic checks with if (true) since this is for node only.
-          // Allows rollup's dead code elimination to be more aggressive.
-          "if (isNode)": "if (true)"
-        }
+        // replace dynamic checks with if (true) since this is for node only.
+        // Allows rollup's dead code elimination to be more aggressive.
+        "if (isNode)": "if (true)"
       }),
       nodeResolve({ preferBuiltins: true }),
       cjs()
@@ -62,7 +60,7 @@ export function browserConfig(test = false, production = false) {
     input: input,
     external: [],
     output: {
-      file: "./dist/coreHttp.browser.js",
+      file: "./dist/index.browser.js",
       format: "umd",
       name: "Azure.Core.HTTP",
       sourcemap: true
@@ -72,12 +70,10 @@ export function browserConfig(test = false, production = false) {
       sourcemaps(),
       replace({
         delimiters: ["", ""],
-        values: {
-          // replace dynamic checks with if (false) since this is for
-          // browser only. Rollup's dead code elimination will remove
-          // any code guarded by if (isNode) { ... }
-          "if (isNode)": "if (false)"
-        }
+        // replace dynamic checks with if (false) since this is for
+        // browser only. Rollup's dead code elimination will remove
+        // any code guarded by if (isNode) { ... }
+        "if (isNode)": "if (false)"
       }),
       nodeResolve({
         mainFields: ["module", "browser"],
@@ -118,7 +114,7 @@ export function browserConfig(test = false, production = false) {
     // applies to test code, which causes all tests to be removed by tree-shaking.
     baseConfig.treeshake = false;
   } else if (production) {
-    baseConfig.output.file = "./dist/coreHttp.browser.min.js";
+    baseConfig.output.file = "./dist/index.browser.min.js";
     baseConfig.plugins.push(terser());
   }
 

@@ -7,7 +7,12 @@ import {
   TextAnalyticsErrorResult,
   makeTextAnalyticsErrorResult
 } from "./textAnalyticsResult";
-import { DetectedLanguage, TextDocumentStatistics, TextAnalyticsError } from "./generated/models";
+import {
+  DetectedLanguage,
+  TextDocumentStatistics,
+  TextAnalyticsError,
+  TextAnalyticsWarning
+} from "./generated/models";
 
 /**
  * The result of the detect language operation on a single document.
@@ -32,12 +37,13 @@ export type DetectLanguageErrorResult = TextAnalyticsErrorResult;
 
 export function makeDetectLanguageResult(
   id: string,
-  detectedLanguages: DetectedLanguage[],
+  detectedLanguage: DetectedLanguage,
+  warnings: TextAnalyticsWarning[],
   statistics?: TextDocumentStatistics
 ): DetectLanguageSuccessResult {
   return {
-    ...makeTextAnalyticsSuccessResult(id, statistics),
-    primaryLanguage: primaryLanguage(detectedLanguages)
+    ...makeTextAnalyticsSuccessResult(id, warnings, statistics),
+    primaryLanguage: detectedLanguage
   };
 }
 
@@ -46,11 +52,4 @@ export function makeDetectLanguageErrorResult(
   error: TextAnalyticsError
 ): DetectLanguageErrorResult {
   return makeTextAnalyticsErrorResult(id, error);
-}
-
-function primaryLanguage(languages: DetectedLanguage[]): DetectedLanguage {
-  const sorted = languages.slice(0).sort((a, b) => {
-    return a.score - b.score;
-  });
-  return sorted[0];
 }
