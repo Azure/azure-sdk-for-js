@@ -1,6 +1,8 @@
 import { JSONObject } from "../queryExecutionContext";
 import { extractPartitionKey } from "../extractPartitionKey";
 import { PartitionKeyDefinition } from "../documents";
+import { RequestOptions } from '..';
+import { v4 as uuid } from "uuid";
 
 export type Operation =
   | CreateOperation
@@ -36,10 +38,19 @@ export interface OperationBase {
   ifNoneMatch?: string;
 }
 
+export enum BulkOperationType {
+  Create = 'Create',
+  Upsert = 'Upsert',
+  Read = 'Read',
+  Delete = 'Delete',
+  Replace = 'Replace'
+}
+
 export interface OperationInput {
   partitionKey?: string | number | null | {} | undefined;
   ifMatch?: string;
   ifNoneMatch?: string;
+  operationType: BulkOperationType;
   resourceBody?: JSONObject;
 }
 
@@ -48,25 +59,25 @@ export type OperationWithItem = OperationBase & {
 };
 
 export type CreateOperation = OperationWithItem & {
-  operationType: "Create";
+  operationType: BulkOperationType.Create;
 };
 
 export type UpsertOperation = OperationWithItem & {
-  operationType: "Upsert";
+  operationType: BulkOperationType.Upsert;
 };
 
 export type ReadOperation = OperationBase & {
-  operationType: "Read";
+  operationType: BulkOperationType.Read;
   id: string;
 };
 
 export type DeleteOperation = OperationBase & {
-  operationType: "Delete";
+  operationType: BulkOperationType.Delete;
   id: string;
 };
 
 export type ReplaceOperation = OperationWithItem & {
-  operationType: "Replace";
+  operationType: BulkOperationType.Replace;
   id: string;
 };
 
@@ -88,7 +99,12 @@ export function getPartitionKeyToHash(operation: Operation, partitionProperty: s
   return toHashKey;
 }
 
-export function addPKToOperation(operation: OperationInput, definition: PartitionKeyDefinition) {
+export function decorateOperation(operation: OperationInput, definition: PartitionKeyDefinition, options: RequestOptions = {}) {
+  if (operation.operationType === BulkOperationType.Create) {
+    if ((operation.resourceBody.id === undefined || operation.resourceBody.id === "") && !options.disableAutomaticIdGeneration) {
+      operation.resourceBody.id = uuid();
+    }
+  }
   if (operation.partitionKey) {
     const extracted = extractPartitionKey(operation, { paths: ["/partitionKey"] });
     return { ...operation, partitionKey: JSON.stringify(extracted) };

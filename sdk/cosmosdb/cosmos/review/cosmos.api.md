@@ -503,7 +503,7 @@ export interface CosmosHeaders {
 
 // @public (undocumented)
 export type CreateOperation = OperationWithItem & {
-    operationType: "Create";
+    operationType: BulkOperationType.Create;
 };
 
 // @public
@@ -600,7 +600,7 @@ export const DEFAULT_PARTITION_KEY_PATH: "/_partitionKey";
 
 // @public (undocumented)
 export type DeleteOperation = OperationBase & {
-    operationType: "Delete";
+    operationType: BulkOperationType.Delete;
     id: string;
 };
 
@@ -925,6 +925,8 @@ export interface OperationInput {
     // (undocumented)
     ifNoneMatch?: string;
     // (undocumented)
+    operationType: BulkOperationType;
+    // (undocumented)
     partitionKey?: string | number | null | {} | undefined;
     // (undocumented)
     resourceBody?: JSONObject;
@@ -1227,13 +1229,13 @@ export interface QueryRange {
 
 // @public (undocumented)
 export type ReadOperation = OperationBase & {
-    operationType: "Read";
+    operationType: BulkOperationType.Read;
     id: string;
 };
 
 // @public (undocumented)
 export type ReplaceOperation = OperationWithItem & {
-    operationType: "Replace";
+    operationType: BulkOperationType.Replace;
     id: string;
 };
 
@@ -1697,7 +1699,7 @@ export interface UniqueKeyPolicy {
 
 // @public (undocumented)
 export type UpsertOperation = OperationWithItem & {
-    operationType: "Upsert";
+    operationType: BulkOperationType.Upsert;
 };
 
 // @public
@@ -1780,6 +1782,10 @@ export class Users {
     upsert(body: UserDefinition, options?: RequestOptions): Promise<UserResponse>;
 }
 
+
+// Warnings were encountered during analysis:
+//
+// src/utils/batch.ts:62:3 - (ae-forgotten-export) The symbol "BulkOperationType" needs to be exported by the entry point index.d.ts
 
 // (No @packageDocumentation comment for this package)
 
