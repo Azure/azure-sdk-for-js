@@ -21,6 +21,20 @@ export interface Agent {
 // @public (undocumented)
 export type AggregateType = "Average" | "Count" | "Max" | "Min" | "Sum";
 
+// @public (undocumented)
+export enum BulkOperationType {
+    // (undocumented)
+    Create = "Create",
+    // (undocumented)
+    Delete = "Delete",
+    // (undocumented)
+    Read = "Read",
+    // (undocumented)
+    Replace = "Replace",
+    // (undocumented)
+    Upsert = "Upsert"
+}
+
 // @public
 export class ChangeFeedIterator<T> {
     fetchNext(): Promise<ChangeFeedResponse<Array<T & Resource>>>;
@@ -1782,10 +1796,6 @@ export class Users {
     upsert(body: UserDefinition, options?: RequestOptions): Promise<UserResponse>;
 }
 
-
-// Warnings were encountered during analysis:
-//
-// src/utils/batch.ts:62:3 - (ae-forgotten-export) The symbol "BulkOperationType" needs to be exported by the entry point index.d.ts
 
 // (No @packageDocumentation comment for this package)
 
