@@ -7,7 +7,7 @@ export function isBrowser(): boolean {
 
 const mockAccountName = "fakestorageaccount";
 const mockAccountKey = "aaaaa";
-const mockSDAccoutName = "sd-fakestorageaccount";
+const mockSDAccountName = "sd-fakestorageaccount";
 export const recorderEnvSetup: RecorderEnvironmentSetup = {
          replaceableVariables: {
            // Used in record and playback modes
@@ -20,10 +20,10 @@ export const recorderEnvSetup: RecorderEnvironmentSetup = {
            // Comment following line to skip user delegation key/SAS related cases in record and play
            // which depends on this environment variable
            ACCOUNT_TOKEN: `${mockAccountKey}`,
-           SOFT_DELETE_ACCOUNT_NAME: `${mockSDAccoutName}`,
+           SOFT_DELETE_ACCOUNT_NAME: `${mockSDAccountName}`,
            SOFT_DELETE_ACCOUNT_KEY: `${mockAccountKey}`,
            SOFT_DELETE_ACCOUNT_SAS: `${mockAccountKey}`,
-           SOFT_DELETE_STORAGE_CONNECTION_STRING: `DefaultEndpointsProtocol=https;AccountName=${mockSDAccoutName};AccountKey=${mockAccountKey};EndpointSuffix=core.windows.net`
+           SOFT_DELETE_STORAGE_CONNECTION_STRING: `DefaultEndpointsProtocol=https;AccountName=${mockSDAccountName};AccountKey=${mockAccountKey};EndpointSuffix=core.windows.net`
          },
          customizationsOnRecordings: [
            // Used in record mode

@@ -399,7 +399,7 @@ export class ShareClient extends StorageClient {
    * @type {Share}
    * @memberof ShareClient
    */
-  protected context: Share;
+  private context: Share;
 
   private _name: string;
 
