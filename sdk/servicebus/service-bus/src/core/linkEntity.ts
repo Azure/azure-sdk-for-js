@@ -190,7 +190,7 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
     this.address = options.address || "";
     this.audience = options.audience || "";
     this.name = getUniqueName(name);
-    this._logPrefix = `[${context.connectionId}|${this._linkType}:${this.name}|a:${this.address}]`;
+    this._logPrefix = `[${context.connectionId}|${this._linkType}:${this.name}]`;
 
     this._logger = LinkEntity.getLogger(this._linkType);
   }
@@ -212,7 +212,7 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
    * @returns A Promise that resolves when the link has been properly initialized
    */
   initLink(options: LinkOptionsT<LinkT>, abortSignal?: AbortSignalLike): Promise<void> {
-    log.error("Acquiring lock token %s.", this._lockToken);
+    log.error(`${this._logPrefix} Acquiring lock token ${this._lockToken} for initializing link`);
     return defaultLock.acquire(this._lockToken, () => this._initLinkImpl(options, abortSignal));
   }
 
@@ -231,7 +231,7 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
 
     if (options.name) {
       this.name = options.name;
-      this._logPrefix = `[${connectionId}|${this._linkType}:${this.name}|a:${this.address}]`;
+      this._logPrefix = `[${connectionId}|${this._linkType}:${this.name}]`;
     }
 
     if (this._wasClosedPermanently) {
@@ -320,7 +320,7 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
    * the this._link field to undefined.
    */
   protected closeLink(): Promise<void> {
-    log.error("Acquiring lock token %s.", this._lockToken);
+    log.error(`${this._logPrefix} Acquiring lock token ${this._lockToken} for closing link`);
     return defaultLock.acquire(this._lockToken, () => this.closeLinkImpl());
   }
 

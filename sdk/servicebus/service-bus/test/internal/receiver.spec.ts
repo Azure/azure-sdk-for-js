@@ -3,7 +3,7 @@
 
 import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
-import { ReceiverEvents, ReceiverOptions } from "rhea-promise";
+import { Receiver, ReceiverEvents, ReceiverOptions } from "rhea-promise";
 import { AbortSignalLike } from "../../../../core/abort-controller/types/src/aborter";
 import { ReceivedMessage, ReceivedMessageWithLock } from "../../src";
 chai.use(chaiAsPromised);
@@ -72,18 +72,16 @@ describe("Receiver unit tests", () => {
   describe("subscribe()", () => {
     it("subscribe and subscription.close()", async () => {
       let receiverWasDrained = false;
-      let closeWasCalled = false;
+
+      let createdRheaReceiver: Receiver | undefined;
 
       const receiverImpl = new ServiceBusReceiverImpl<any>(
         createConnectionContextForTests({
           onCreateReceiverCalled: (receiver) => {
+            createdRheaReceiver = receiver;
             receiver.addListener(ReceiverEvents.receiverDrained, () => {
               receiverWasDrained = true;
             });
-
-            (receiver as any).close = () => {
-              closeWasCalled = true;
-            };
           }
         }),
         "fakeEntityPath",
@@ -98,7 +96,7 @@ describe("Receiver unit tests", () => {
       // closing a subscription doesn't close out the receiver created for it.
       // this allows the user a chance to resolve any outstanding messages.
       assert.isFalse(
-        closeWasCalled,
+        createdRheaReceiver?.isClosed(),
         "sanity check, subscription.close() does not close the receiver"
       );
       assert.isTrue(
@@ -108,7 +106,7 @@ describe("Receiver unit tests", () => {
 
       await receiverImpl.close();
       // rhea receiver is finally closed when the overall Receiver class is closed.
-      assert.isTrue(closeWasCalled, "receiver should note that we closed");
+      assert.isTrue(createdRheaReceiver?.isClosed(), "receiver should note that we closed");
     });
 
     it("can't subscribe while another subscribe is active", async () => {

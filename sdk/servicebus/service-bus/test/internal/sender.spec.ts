@@ -6,7 +6,9 @@ import { ServiceBusMessageBatchImpl } from "../../src/serviceBusMessageBatch";
 import { ConnectionContext } from "../../src/connectionContext";
 import { ServiceBusMessage } from "../../src";
 import { isServiceBusMessageBatch, ServiceBusSenderImpl } from "../../src/sender";
-import { DefaultDataTransformer } from "@azure/core-amqp";
+import { createConnectionContextForTests, retryableErrorForTests } from "./unittestUtils";
+import { MessageSender } from "../../src/core/messageSender";
+import sinon from "sinon";
 
 const assert = chai.assert;
 
@@ -87,25 +89,78 @@ describe("sender unit tests", () => {
       }
     });
   });
+
+  describe("onDetached", () => {
+    let sender: MessageSender;
+
+    beforeEach(async () => {
+      sender = new MessageSender(createConnectionContextForTests(), "entity-path", {});
+      await sender.open();
+      assert.isTrue(sender.isOpen());
+    });
+
+    afterEach(async () => {
+      await sender.close();
+    });
+
+    [retryableErrorForTests, undefined].forEach((err) => {
+      it(`onDetached (error: ${err}) and succeeds in opening link`, async () => {
+        const closeLinkSpy = sinon.spy(sender as any, "closeLink");
+
+        await sender.onDetached(err);
+
+        assert.isTrue(closeLinkSpy.called, "We closed the link before reopening it in detach");
+        assert.isTrue(sender.isOpen(), "connection should be open after detaching");
+      });
+
+      it(`onDetached (error: ${err}) but fails to open the link`, async () => {
+        const closeLinkSpy = sinon.spy(sender as any, "closeLink");
+
+        const openStub = sinon.stub(sender, "open");
+        // throw a non-retryable error when they try to open the link.
+        openStub.throwsException(new Error("Short circuit the retries (not needed for this test)"));
+
+        await sender.onDetached(err);
+
+        assert.isTrue(closeLinkSpy.called, "should have closed even on the failed attempt");
+        assert.isTrue(openStub.called, "open was attempted");
+        assert.isFalse(
+          sender.isOpen(),
+          "connection should not reestablish even after retries (open purposefully threw exceptions)"
+        );
+      });
+    });
+
+    it(`onDetached (with non-retryable error) does not try to open link`, async () => {
+      const closeLinkSpy = sinon.spy(sender as any, "closeLink");
+      const openSpy = sinon.spy(sender, "open");
+
+      await sender.onDetached(new Error("non-retryable error"));
+
+      assert.isTrue(closeLinkSpy.called, "We closed the link before reopening it in detach");
+      assert.isFalse(
+        openSpy.called,
+        "We should not have tried to open the link when the detach error is not retryable"
+      );
+    });
+
+    it("onDetached on a permanently closed sender", async () => {
+      await sender.close();
+      assert.isFalse(sender.isOpen(), "sender is permanently closed");
+
+      const openSpy = sinon.spy(sender, "open");
+
+      await sender.onDetached(retryableErrorForTests);
+
+      assert.isFalse(
+        openSpy.called,
+        "if a link is permanently closed we should not attempt to open it"
+      );
+
+      assert.isFalse(
+        sender.isOpen(),
+        "connection should not open after detaching since it was permanently closed"
+      );
+    });
+  });
 });
-
-function createConnectionContextForTests(): ConnectionContext & { initWasCalled: boolean } {
-  let initWasCalled = false;
-
-  const fakeConnectionContext = {
-    config: { endpoint: "my.service.bus" },
-    connectionId: "connection-id",
-    dataTransformer: new DefaultDataTransformer(),
-    cbsSession: {
-      cbsLock: "cbs-lock",
-      async init() {
-        initWasCalled = true;
-      }
-    },
-    senders: {},
-    managementClients: {},
-    initWasCalled
-  };
-
-  return (fakeConnectionContext as any) as ReturnType<typeof createConnectionContextForTests>;
-}

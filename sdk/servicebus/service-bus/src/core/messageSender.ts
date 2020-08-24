@@ -435,7 +435,7 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
    * @return {boolean} boolean
    */
   isOpen(): boolean {
-    const result: boolean = this.link! && this.link!.isOpen();
+    const result: boolean = this.link == null ? false : this.link.isOpen();
     log.error(
       "[%s] Sender '%s' with address '%s' is open? -> %s",
       this._context.connectionId,
