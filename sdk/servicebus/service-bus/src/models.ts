@@ -42,6 +42,8 @@ export type ReceiveMode = "peekLock" | "receiveAndDelete";
 
 /**
  * Represents the sub queue that is applicable for any queue or subscription.
+ * Valid values are "deadLetter" and "transferDeadLetter". To learn more about dead letter queues,
+ * see https://docs.microsoft.com/azure/service-bus-messaging/service-bus-dead-letter-queues
  */
 export type SubQueue = "deadLetter" | "transferDeadLetter";
 
@@ -74,6 +76,8 @@ export interface CreateReceiverOptions<ReceiveModeT extends ReceiveMode> {
   receiveMode?: ReceiveModeT;
   /**
    * Represents the sub queue that is applicable for any queue or subscription.
+   * Valid values are "deadLetter" and "transferDeadLetter". To learn more about dead letter queues,
+   * see https://docs.microsoft.com/azure/service-bus-messaging/service-bus-dead-letter-queues
    */
   subQueue?: SubQueue;
 }
