@@ -66,7 +66,7 @@ export class ClientCertificateCredential implements TokenCredential {
 
     const certificatePattern = /(-+BEGIN CERTIFICATE-+)(\n\r?|\r\n?)([A-Za-z0-9+/\n\r]+=*)(\n\r?|\r\n?)(-+END CERTIFICATE-+)/g;
 
-    let publicKeys: string[] = [];
+    const publicKeys: string[] = [];
 
     // Match all possible certificates, in the order they are in the file. These will form the chain that is used for x5c
     let match;
@@ -77,7 +77,7 @@ export class ClientCertificateCredential implements TokenCredential {
       }
     } while (match);
 
-    if (publicKeys.length == 0) {
+    if (publicKeys.length === 0) {
       const error = new Error(
         "The file at the specified path does not contain a PEM-encoded certificate."
       );
