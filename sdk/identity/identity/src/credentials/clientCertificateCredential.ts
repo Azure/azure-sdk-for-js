@@ -64,10 +64,20 @@ export class ClientCertificateCredential implements TokenCredential {
     this.clientId = clientId;
     this.certificateString = readFileSync(certificatePath, "utf8");
 
-    const certificatePattern = /(-+BEGIN CERTIFICATE-+)(\n\r?|\r\n?)([A-Za-z0-9+/\n\r]+=*)(\n\r?|\r\n?)(-+END CERTIFICATE-+)/;
-    const matchCert = this.certificateString.match(certificatePattern);
-    const publicKey = matchCert ? matchCert[3] : "";
-    if (!publicKey) {
+    const certificatePattern = /(-+BEGIN CERTIFICATE-+)(\n\r?|\r\n?)([A-Za-z0-9+/\n\r]+=*)(\n\r?|\r\n?)(-+END CERTIFICATE-+)/g;
+
+    let publicKeys: string[] = [];
+
+    // Match all possible certificates, in the order they are in the file. These will form the chain that is used for x5c
+    let match;
+    do {
+      match = certificatePattern.exec(this.certificateString);
+      if (match) {
+        publicKeys.push(match[3]);
+      }
+    } while (match);
+
+    if (publicKeys.length == 0) {
       const error = new Error(
         "The file at the specified path does not contain a PEM-encoded certificate."
       );
@@ -76,13 +86,13 @@ export class ClientCertificateCredential implements TokenCredential {
     }
 
     this.certificateThumbprint = createHash("sha1")
-      .update(Buffer.from(publicKey, "base64"))
+      .update(Buffer.from(publicKeys[0], "base64"))
       .digest("hex")
       .toUpperCase();
 
     this.certificateX5t = Buffer.from(this.certificateThumbprint, "hex").toString("base64");
     if (options && options.includeX5c) {
-      this.certificateX5c = [publicKey];
+      this.certificateX5c = publicKeys;
     }
   }
 
