@@ -61,7 +61,7 @@ export function checkKeyValidity(keyId?: string, keyBundle?: KeyBundle) {
   const now = new Date();
 
   if (!keyId) {
-    throw new Error("The ID of the key is missing");
+    throw new Error("Only local cryptography operations can be performed on JsonWebKeys without kid");
   }
 
   if (notBefore && now < notBefore) {
