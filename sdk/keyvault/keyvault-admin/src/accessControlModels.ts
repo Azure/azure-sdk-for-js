@@ -48,15 +48,24 @@ export interface RoleAssignmentProperties {
 }
 
 /**
+ * A scope of the role assignment. We currently only support "/" and "/keys".
+ */
+export type RoleAssignmentScope = "/" | "/keys";
+
+/**
  * Role assignment properties with the scope property.
  */
 export interface RoleAssignmentPropertiesWithScope extends RoleAssignmentProperties {
   /**
    * The role assignment scope.
    */
-  scope?: string;
+  scope?: RoleAssignmentScope;
 }
 
+/**
+ * An interface representing the optional parameters that can be
+ * passed to {@link createRoleAssignment}
+ */
 export interface CreateRoleAssignmentOptions extends coreHttp.OperationOptions {
   /**
    * The properties of the role assignment
@@ -64,3 +73,8 @@ export interface CreateRoleAssignmentOptions extends coreHttp.OperationOptions {
   properties?: RoleAssignmentProperties
 }
 
+/**
+ * An interface representing the optional parameters that can be
+ * passed to {@link deleteRoleAssignment}
+ */
+export interface DeleteRoleAssignmentOptions extends coreHttp.OperationOptions {}

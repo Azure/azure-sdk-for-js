@@ -2,14 +2,14 @@
 // Licensed under the MIT license.
 /// <reference lib="esnext.asynciterable" />
 
-import { CreateRoleAssignmentOptions, KeyVaultRoleAssignment, AccessControlClientOptions } from "./accessControlModels";
+import { CreateRoleAssignmentOptions, KeyVaultRoleAssignment, AccessControlClientOptions, RoleAssignmentScope, DeleteRoleAssignmentOptions } from "./accessControlModels";
 import { operationOptionsToRequestOptionsBase, TokenCredential, isTokenCredential, signingPolicy, createPipelineFromOptions } from '@azure/core-http';
 import { SDK_VERSION, LATEST_API_VERSION } from './constants';
 import { challengeBasedAuthenticationPolicy } from "../../keyvault-common/src";
 import { logger } from "./log";
 import { KeyVaultClient } from './generated/keyVaultClient';
 import { createSpan, setParentSpan } from './tracing';
-import { RoleAssignmentsCreateResponse } from './generated/models';
+import { RoleAssignmentsCreateResponse, RoleAssignmentsDeleteResponse } from './generated/models';
 import { mappings } from './mappings';
 
 export class AccessControlClient {
@@ -94,16 +94,16 @@ export class AccessControlClient {
    *
    * Example usage:
    * ```ts
-   * let client = new AccessControlClient(url, credentials);
-   * let result = await client.createRoleAssignment("MyKey", "EC");
+   * const client = new AccessControlClient(url, credentials);
+   * const result = await client.createRoleAssignment("/", "295c179b-9ad3-4117-99cd-b1aa66cf4517");
    * ```
    * @summary Creates a new key, stores it, then returns key parameters and properties to the client.
-   * @param {string} scope The scope of the role assignment.
-   * @param {string} name The name of the role assignment.
+   * @param {RoleAssignmentScope} scope The scope of the role assignment.
+   * @param {string} name The name of the role assignment. Must be a UUID.
    * @param {CreateRoleAssignmentOptions} [options] The optional parameters.
    */
   public async createRoleAssignment(
-    scope: string,
+    scope: RoleAssignmentScope,
     name: string,
     options?: CreateRoleAssignmentOptions
   ): Promise<KeyVaultRoleAssignment> {
@@ -132,7 +132,45 @@ export class AccessControlClient {
     return mappings.roleAssignment.generatedToPublic(response);
   }
 
-  public async deleteRoleAssignment(): Promise<KeyVaultRoleAssignment> {}
+  /**
+   * This method deletes role assignments previously created in an Azure Key Vault.
+   *
+   * Example usage:
+   * ```ts
+   * const client = new AccessControlClient(url, credentials);
+   * await client.createKey("MyKey", "EC");
+   * const roleAssignment = await client.createRoleAssignment("/", "295c179b-9ad3-4117-99cd-b1aa66cf4517");
+   * const deletedRoleAssignment = const await client.deleteRoleAssignment(roleAssignment.properties.scope, roleAssignment.name);
+   * console.log(deletedRoleAssignment);
+   * ```
+   * @summary Deletes a key from a specified key vault.
+   * @param {string} scope The scope of the role assignment.
+   * @param {string} name The name of the role assignment.
+   * @param {DeleteRoleAssignmentOptions} [options] The optional parameters.
+   */
+  public async deleteRoleAssignment(
+    scope: RoleAssignmentScope,
+    name: string,
+    options?: DeleteRoleAssignmentOptions
+  ): Promise<KeyVaultRoleAssignment> {
+    const requestOptions = operationOptionsToRequestOptionsBase(options || {});
+    const span = createSpan("deleteRoleAssignment", requestOptions);
+
+    let response: RoleAssignmentsDeleteResponse;
+    try {
+      response = await this.client.roleAssignments.delete(
+        this.vaultUrl,
+        scope,
+        name,
+        setParentSpan(span, requestOptions)
+      );
+    } finally {
+      span.end();
+    }
+
+    return mappings.roleAssignment.generatedToPublic(response);
+  }
+
   public async getRoleAssignment(): Promise<KeyVaultRoleAssignment> {}
   public async listRoleAssignments(): PagedAsyncIterableIterator<KeyVaultRoleAssignment> {}
   public async listRoleDefinitions(): PagedAsyncIterableIterator<KeyVaultRoleAssignment> {}
