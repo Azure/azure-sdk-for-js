@@ -143,6 +143,12 @@ export interface CreateRoleAssignmentOptions extends coreHttp.OperationOptions {
 export interface DeleteRoleAssignmentOptions extends coreHttp.OperationOptions {}
 
 /**
+ * An interface representing the optional parameters that can be
+ * passed to {@link getRoleAssignment}
+ */
+export interface GetRoleAssignmentOptions extends coreHttp.OperationOptions {}
+
+/**
  * An interface representing optional parameters passed to {@link listRoleAssignments}.
  */
 export interface ListRoleAssignmentsOptions extends coreHttp.OperationOptions {}

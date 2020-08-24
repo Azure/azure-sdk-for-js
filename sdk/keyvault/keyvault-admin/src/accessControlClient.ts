@@ -26,7 +26,8 @@ import {
   DeleteRoleAssignmentOptions,
   ListRoleAssignmentsOptions,
   ListRoleDefinitionsOptions,
-  KeyVaultRoleDefinition
+  KeyVaultRoleDefinition,
+  GetRoleAssignmentOptions
 } from "./accessControlModels";
 import { SDK_VERSION, LATEST_API_VERSION } from "./constants";
 import { KeyVaultClient } from "./generated/keyVaultClient";
@@ -210,7 +211,7 @@ export class AccessControlClient {
   public async getRoleAssignment(
     scope: RoleAssignmentScope,
     name: string,
-    options?: DeleteRoleAssignmentOptions
+    options?: GetRoleAssignmentOptions
   ): Promise<KeyVaultRoleAssignment> {
     const requestOptions = operationOptionsToRequestOptionsBase(options || {});
     const span = createSpan("deleteRoleAssignment", requestOptions);
