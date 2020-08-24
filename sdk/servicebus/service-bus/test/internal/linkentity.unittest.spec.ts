@@ -6,6 +6,7 @@ import { delay } from "@azure/core-amqp";
 import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
 import { Receiver, ReceiverOptions } from "rhea-promise";
+import sinon from "sinon";
 import { LinkEntity } from "../../src/core/linkEntity";
 import * as log from "../../src/log";
 import { isLinkLocked } from "../utils/testutils2";
@@ -110,18 +111,14 @@ describe("LinkEntity unit tests", () => {
     await linkEntity.initLink({});
     assert.exists(linkEntity["_tokenRenewalTimer"], "the tokenrenewal timer should have been set");
 
-    let negotiateClaimCalled = 0;
-
-    linkEntity["_negotiateClaim"] = async () => {
-      ++negotiateClaimCalled;
-    };
+    const negotiateClaimSpy = sinon.spy(linkEntity as any, "_negotiateClaim");
 
     await linkEntity.close();
     assertLinkEntityClosedPermanently();
 
     await linkEntity.initLink({});
     assert.isFalse(linkEntity.isOpen(), "Link was closed and will remain closed");
-    assert.equal(negotiateClaimCalled, 0, "We shouldn't attempt to reopen the link.");
+    assert.isFalse(negotiateClaimSpy.called, "We shouldn't attempt to reopen the link.");
   });
 
   it("initLink - error handling", async () => {
