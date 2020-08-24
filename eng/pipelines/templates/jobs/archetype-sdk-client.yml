@@ -18,6 +18,7 @@ parameters:
       OSVmImage: "ubuntu-18.04"
       NodeTestVersion: "12.x"
       TestType: "browser"
+  RunESLint: false
 
 jobs:
   - job: "Build"
