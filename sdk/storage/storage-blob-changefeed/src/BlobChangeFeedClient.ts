@@ -1,13 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { BlobServiceClient } from "@azure/storage-blob";
+import { BlobServiceClient, StoragePipelineOptions, StorageSharedKeyCredential, AnonymousCredential, Pipeline } from "@azure/storage-blob";
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { BlobChangeFeedEvent } from "./models/BlobChangeFeedEvent";
 import { ChangeFeedFactory } from "./ChangeFeedFactory";
 import { ChangeFeed } from "./ChangeFeed";
-import { CHANGE_FEED_MAX_PAGE_SIZE } from "./utils/constants";
+import { CHANGE_FEED_MAX_PAGE_SIZE, SDK_VERSION } from "./utils/constants";
 import { BlobChangeFeedListChangesOptions } from './models/models';
+import { TokenCredential } from '@azure/core-http';
 
 export class BlobChangeFeedEventPage {
   public events: BlobChangeFeedEvent[];
@@ -17,6 +18,13 @@ export class BlobChangeFeedEventPage {
     this.events = [];
     this.continuationToken = "";
   }
+}
+
+export function newPipeline(
+  credential: StorageSharedKeyCredential | AnonymousCredential | TokenCredential,
+  pipelineOptions: StoragePipelineOptions = {}
+): Pipeline {
+  return newPipeline(credential, BlobChangeFeedClient.appendUserAgentPrefix(pipelineOptions));
 }
 
 export class BlobChangeFeedClient {
@@ -30,9 +38,52 @@ export class BlobChangeFeedClient {
   private _blobServiceClient: BlobServiceClient;
   private _changeFeedFactory: ChangeFeedFactory;
 
-  public constructor(blobServiceClient: BlobServiceClient) {
-    this._blobServiceClient = blobServiceClient;
+  public static appendUserAgentPrefix(options?: StoragePipelineOptions): StoragePipelineOptions {
+    if (!options) {
+      options = {};
+    }
+    if (options.userAgentOptions === undefined) {
+      options.userAgentOptions = {}
+    }
+
+    if (options.userAgentOptions.userAgentPrefix === undefined) {
+      options.userAgentOptions.userAgentPrefix = "";
+    } else if (options.userAgentOptions.userAgentPrefix !== "") {
+      // two spaces to work around as the TelemetryPolicyFactory in blob removes the first space now.
+      options.userAgentOptions.userAgentPrefix += "  "
+    }
+    options.userAgentOptions.userAgentPrefix += `changefeed-js/${SDK_VERSION}`;
+    return options;
+  }
+
+  public static fromConnectionString(connectionString: string, options?: StoragePipelineOptions) : BlobChangeFeedClient {
+    const blobServiceClient = BlobServiceClient.fromConnectionString(connectionString, options);
+    return new BlobChangeFeedClient(blobServiceClient.url, blobServiceClient.credential, this.appendUserAgentPrefix(options));
+  }
+  
+  constructor(
+    url: string,
+    credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential,
+    options?: StoragePipelineOptions
+  );
+  constructor(url: string, pipeline: Pipeline);
+  constructor(
+    urlOrClient: string,
+    credentialOrPipeline?:
+      | StorageSharedKeyCredential
+      | AnonymousCredential
+      | TokenCredential
+      | Pipeline,
+    options?: StoragePipelineOptions
+  ) {
     this._changeFeedFactory = new ChangeFeedFactory();
+
+    if (credentialOrPipeline instanceof Pipeline) {
+      this._blobServiceClient = new BlobServiceClient(urlOrClient, credentialOrPipeline);
+    }
+    else {
+      this._blobServiceClient = new BlobServiceClient(urlOrClient, credentialOrPipeline, BlobChangeFeedClient.appendUserAgentPrefix(options));
+    }
   }
 
   private async *getChange(

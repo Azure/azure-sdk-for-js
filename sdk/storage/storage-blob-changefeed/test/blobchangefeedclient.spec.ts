@@ -1,11 +1,12 @@
 import * as assert from "assert";
 import { record } from "@azure/test-utils-recorder";
-import { BlobServiceClient } from "@azure/storage-blob";
-import { getBSU, recorderEnvSetup } from "./utils";
+import { recorderEnvSetup, getBlobChangeFeedClient } from "./utils";
 import { BlobChangeFeedClient, BlobChangeFeedEvent, BlobChangeFeedEventPage } from "../src";
 import { AbortController } from "@azure/abort-controller";
 
 import * as dotenv from "dotenv";
+import { Pipeline } from '@azure/storage-blob';
+import { SDK_VERSION } from '../src/utils/constants';
 dotenv.config();
 
 const timeoutForLargeFileUploadingTest = 20 * 60 * 1000;
@@ -13,7 +14,6 @@ const timeoutForLargeFileUploadingTest = 20 * 60 * 1000;
 describe("BlobChangeFeedClient", async () => {
   let recorder: any;
   let changeFeedClient: BlobChangeFeedClient;
-  let blobServiceClient: BlobServiceClient;
 
   before(async function() {
     if (process.env.CHANGE_FEED_ENABLED !== "1") {
@@ -23,8 +23,7 @@ describe("BlobChangeFeedClient", async () => {
 
   beforeEach(async function() {
     recorder = record(this, recorderEnvSetup);
-    blobServiceClient = getBSU();
-    changeFeedClient = new BlobChangeFeedClient(blobServiceClient);
+    changeFeedClient = getBlobChangeFeedClient();
   });
 
   afterEach(async function() {
@@ -123,12 +122,35 @@ describe("BlobChangeFeedClient", async () => {
       assert.equal(err.name, "AbortError");
     }
   });
+
+  function fetchTelemetryString(pipeline: Pipeline): string {
+    for (const factory of pipeline.factories) {
+      if ((factory as any).telemetryString) {
+        return (factory as any).telemetryString;
+      }
+    }
+    return "";
+  }
+
+  it("user agent set correctly", async () => {
+    const blobServiceClient = (changeFeedClient as any)._blobServiceClient;
+    const telemetryString = fetchTelemetryString(blobServiceClient.pipeline);
+    assert.ok(telemetryString.startsWith(`changefeed-js/${SDK_VERSION}`));
+
+    const userAgentPrefix = "test/1";
+    const changeFeedClient2 = new BlobChangeFeedClient(blobServiceClient.url, blobServiceClient.credential,{
+      userAgentOptions: { userAgentPrefix }
+    });
+    const blobServiceClient2 = (changeFeedClient2 as any)._blobServiceClient;
+    const telemetryString2 = fetchTelemetryString(blobServiceClient2.pipeline);
+    assert.ok(telemetryString2.startsWith(`${userAgentPrefix} changefeed-js/${SDK_VERSION}`));
+  });
+
 });
 
 describe("BlobChangeFeedClient: Change Feed not configured", async () => {
   let recorder: any;
   let changeFeedClient: BlobChangeFeedClient;
-  let blobServiceClient: BlobServiceClient;
 
   before(async function() {
     if (process.env.CHANGE_FEED_ENABLED === "1") {
@@ -138,8 +160,7 @@ describe("BlobChangeFeedClient: Change Feed not configured", async () => {
 
   beforeEach(async function() {
     recorder = record(this, recorderEnvSetup);
-    blobServiceClient = getBSU();
-    changeFeedClient = new BlobChangeFeedClient(blobServiceClient);
+    changeFeedClient = getBlobChangeFeedClient();
   });
 
   afterEach(async function() {

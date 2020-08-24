@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { BlobServiceClient, StorageSharedKeyCredential } from "@azure/storage-blob";
+import { StorageSharedKeyCredential } from "@azure/storage-blob";
 import { BlobChangeFeedClient, BlobChangeFeedEvent } from "../../src";
 
 // Load the .env file if it exists
@@ -19,13 +19,12 @@ export async function main() {
   // Use StorageSharedKeyCredential with storage account and account key
   // StorageSharedKeyCredential is only available in Node.js runtime, not in browsers
   const sharedKeyCredential = new StorageSharedKeyCredential(account, accountKey);
-  const blobServiceClient = new BlobServiceClient(
+  const changeFeedClient = new BlobChangeFeedClient(
     // When using AnonymousCredential, following url should include a valid SAS or support public access
     `https://${account}.blob.core.windows.net`,
     sharedKeyCredential
   );
 
-  const changeFeedClient = new BlobChangeFeedClient(blobServiceClient);
   let changeFeedEvents: BlobChangeFeedEvent[] = [];
   const firstPage = await changeFeedClient.listChanges().byPage({ maxPageSize: 10 }).next();
   for (const event of firstPage.value.events) {

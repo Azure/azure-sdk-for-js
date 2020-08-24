@@ -53,10 +53,10 @@ This library offers a client you can use to fetch the change events.
 
 ### Initialize the change feed client
 
-The `BlobChangeFeedClient` requires a `BlobServiceClient` to initialize. Refer to [storage-blob](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-blob#create-the-blob-service-client) for how to create the blob service client. Here is an example using `StorageSharedKeyCredential`.
+The `BlobChangeFeedClient` requires almost the same parameters as `BlobServiceClient` to initialize. Refer to [storage-blob](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-blob#create-the-blob-service-client) for how to create the blob service client. Here is an example using `StorageSharedKeyCredential`.
 
 ```javascript
-const { BlobServiceClient, StorageSharedKeyCredential } = require("@azure/storage-blob");
+const { StorageSharedKeyCredential } = require("@azure/storage-blob");
 const { BlobChangeFeedClient } = require("@azure/storage-blob-changefeed");
 
 // Enter your storage account name and shared key
@@ -65,12 +65,11 @@ const accountKey = "<accountkey>";
 // Use StorageSharedKeyCredential with storage account and account key
 // StorageSharedKeyCredential is only available in Node.js runtime, not in browsers
 const sharedKeyCredential = new StorageSharedKeyCredential(account, accountKey);
-const blobServiceClient = new BlobServiceClient(
+const changeFeedClient = new BlobChangeFeedClient(
+  // When using AnonymousCredential, following url should include a valid SAS or support public access
   `https://${account}.blob.core.windows.net`,
   sharedKeyCredential
 );
-
-const changeFeedClient = new BlobChangeFeedClient(blobServiceClient);
 ```
 
 ### Reading all events in the Change Feed
