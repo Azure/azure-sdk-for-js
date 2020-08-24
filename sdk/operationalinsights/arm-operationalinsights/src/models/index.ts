@@ -269,7 +269,8 @@ export interface LinkedService extends ProxyResource {
  */
 export interface LinkedStorageAccountsResource extends ProxyResource {
   /**
-   * Linked storage accounts type. Possible values include: 'CustomLogs', 'AzureWatson'
+   * Linked storage accounts type. Possible values include: 'CustomLogs', 'AzureWatson', 'Query',
+   * 'Alerts'
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly dataSourceType?: DataSourceType;
@@ -472,7 +473,7 @@ export interface WorkspaceSku {
  */
 export interface WorkspaceCapping {
   /**
-   * The workspace daily quota for ingestion. -1 means unlimited.
+   * The workspace daily quota for ingestion.
    */
   dailyQuotaGb?: number;
   /**
@@ -521,8 +522,7 @@ export interface Workspace extends TrackedResource {
    */
   sku?: WorkspaceSku;
   /**
-   * The workspace data retention in days. -1 means Unlimited retention for the Unlimited Sku. 730
-   * days is the maximum allowed for all other Skus.
+   * The workspace data retention in days, between 30 and 730.
    */
   retentionInDays?: number;
   /**
@@ -569,8 +569,7 @@ export interface WorkspacePatch extends AzureEntityResource {
    */
   sku?: WorkspaceSku;
   /**
-   * The workspace data retention in days. -1 means Unlimited retention for the Unlimited Sku. 730
-   * days is the maximum allowed for all other Skus.
+   * The workspace data retention in days, between 30 and 730.
    */
   retentionInDays?: number;
   /**
@@ -1318,11 +1317,11 @@ export type LinkedServiceEntityStatus = 'Succeeded' | 'Deleting' | 'Provisioning
 
 /**
  * Defines values for DataSourceType.
- * Possible values include: 'CustomLogs', 'AzureWatson'
+ * Possible values include: 'CustomLogs', 'AzureWatson', 'Query', 'Alerts'
  * @readonly
  * @enum {string}
  */
-export type DataSourceType = 'CustomLogs' | 'AzureWatson';
+export type DataSourceType = 'CustomLogs' | 'AzureWatson' | 'Query' | 'Alerts';
 
 /**
  * Defines values for WorkspaceSkuNameEnum.
