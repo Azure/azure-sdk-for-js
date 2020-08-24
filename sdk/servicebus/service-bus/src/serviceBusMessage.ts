@@ -189,12 +189,6 @@ export interface ServiceBusMessage {
    */
   timeToLive?: number;
   /**
-   * @property The application specific label. This property enables the
-   * application to indicate the purpose of the message to the receiver in a standardized. fashion,
-   * similar to an email subject line. The mapped AMQP property is "subject".
-   */
-  label?: string;
-  /**
    * @property The "to" address. This property is reserved for future use in routing
    * scenarios and presently ignored by the broker itself. Applications can use this value in
    * rule-driven {@link https://docs.microsoft.com/azure/service-bus-messaging/service-bus-auto-forwarding auto-forward chaining}
@@ -218,6 +212,18 @@ export interface ServiceBusMessage {
    * but the actual sending time depends on the queue's workload and its state.
    */
   scheduledEnqueueTimeUtc?: Date;
+  absoluteExpiryTime?: Date;
+  contentEncoding?: string;
+  creationTime?: Date;
+  deliveryAnnotations?: DeliveryAnnotations;
+  durable?: boolean;
+  footer?: any;
+  groupId?: string;
+  groupSequence?: number;
+  messageAnnotations?: { [key: string]: any };
+  priority?: number;
+  replyToGroupId?: string;
+  subject?: string;
   /**
    * @property The application specific properties which can be
    * used for custom message metadata.
@@ -235,8 +241,8 @@ export function getMessagePropertyTypeMismatchError(msg: ServiceBusMessage): Err
     return new TypeError("The property 'contentType' on the message must be of type 'string'");
   }
 
-  if (msg.label != null && typeof msg.label !== "string") {
-    return new TypeError("The property 'label' on the message must be of type 'string'");
+  if (msg.subject != null && typeof msg.subject !== "string") {
+    return new TypeError("The property 'subject' on the message must be of type 'string'");
   }
 
   if (msg.to != null && typeof msg.to !== "string") {
@@ -313,8 +319,8 @@ export function toAmqpMessage(msg: ServiceBusMessage): AmqpMessage {
   if (msg.to != null) {
     amqpMsg.to = msg.to;
   }
-  if (msg.label != null) {
-    amqpMsg.subject = msg.label;
+  if (msg.subject != null) {
+    amqpMsg.subject = msg.subject;
   }
   if (msg.messageId != null) {
     if (typeof msg.messageId === "string" && msg.messageId.length > Constants.maxMessageIdLength) {
@@ -608,7 +614,7 @@ export function fromAmqpMessage(
     sbmsg.timeToLive = msg.ttl;
   }
   if (msg.subject != null) {
-    sbmsg.label = msg.subject;
+    sbmsg.subject = msg.subject;
   }
   if (msg.message_id != null) {
     sbmsg.messageId = msg.message_id;
@@ -778,12 +784,6 @@ export class ServiceBusMessageImpl implements ReceivedMessageWithLock {
    */
   timeToLive?: number;
   /**
-   * @property The application specific label. This property enables the
-   * application to indicate the purpose of the message to the receiver in a standardized. fashion,
-   * similar to an email subject line. The mapped AMQP property is "subject".
-   */
-  label?: string;
-  /**
    * @property The "to" address. This property is reserved for future use in routing
    * scenarios and presently ignored by the broker itself. Applications can use this value in
    * rule-driven {@link https://docs.microsoft.com/azure/service-bus-messaging/service-bus-auto-forwarding auto-forward chaining}
@@ -889,6 +889,19 @@ export class ServiceBusMessageImpl implements ReceivedMessageWithLock {
    * @property Boolean denoting if the message has already been settled.
    * @readonly
    */
+
+  absoluteExpiryTime?: Date;
+  contentEncoding?: string;
+  creationTime?: Date;
+  deliveryAnnotations?: DeliveryAnnotations;
+  durable?: boolean;
+  footer?: any;
+  groupId?: string;
+  groupSequence?: number;
+  messageAnnotations?: { [key: string]: any };
+  priority?: number;
+  replyToGroupId?: string;
+  subject?: string;
   public get isSettled(): boolean {
     return this.delivery.remote_settled;
   }
@@ -1041,7 +1054,7 @@ export class ServiceBusMessageImpl implements ReceivedMessageWithLock {
       body: this.body,
       contentType: this.contentType,
       correlationId: this.correlationId,
-      label: this.label,
+      subject: this.subject,
       messageId: this.messageId,
       partitionKey: this.partitionKey,
       replyTo: this.replyTo,

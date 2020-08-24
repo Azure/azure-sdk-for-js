@@ -7,6 +7,7 @@
 import { AmqpMessage } from '@azure/core-amqp';
 import { delay } from '@azure/core-amqp';
 import { Delivery } from 'rhea-promise';
+import { DeliveryAnnotations } from 'rhea-promise';
 import { HttpOperationResponse } from '@azure/core-http';
 import Long from 'long';
 import { MessagingError } from '@azure/core-amqp';
@@ -348,19 +349,44 @@ export class ServiceBusManagementClient extends ServiceClient {
 
 // @public
 export interface ServiceBusMessage {
+    // (undocumented)
+    absoluteExpiryTime?: Date;
     body: any;
+    // (undocumented)
+    contentEncoding?: string;
     contentType?: string;
     correlationId?: string | number | Buffer;
-    label?: string;
+    // (undocumented)
+    creationTime?: Date;
+    // (undocumented)
+    deliveryAnnotations?: DeliveryAnnotations;
+    // (undocumented)
+    durable?: boolean;
+    // (undocumented)
+    footer?: any;
+    // (undocumented)
+    groupId?: string;
+    // (undocumented)
+    groupSequence?: number;
+    // (undocumented)
+    messageAnnotations?: {
+        [key: string]: any;
+    };
     messageId?: string | number | Buffer;
     partitionKey?: string;
+    // (undocumented)
+    priority?: number;
     properties?: {
         [key: string]: any;
     };
     replyTo?: string;
+    // (undocumented)
+    replyToGroupId?: string;
     replyToSessionId?: string;
     scheduledEnqueueTimeUtc?: Date;
     sessionId?: string;
+    // (undocumented)
+    subject?: string;
     timeToLive?: number;
     to?: string;
     viaPartitionKey?: string;

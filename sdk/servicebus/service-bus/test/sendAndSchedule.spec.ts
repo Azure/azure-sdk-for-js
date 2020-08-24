@@ -398,9 +398,9 @@ describe("ServiceBusMessage validations", function(): void {
       title: "contenType is of invalid type"
     },
     {
-      message: { body: "", label: 1 as any },
-      expectedErrorMessage: "The property 'label' on the message must be of type 'string'",
-      title: "label is of invalid type"
+      message: { body: "", subject: 1 as any },
+      expectedErrorMessage: "The property 'subject' on the message must be of type 'string'",
+      title: "subject is of invalid type"
     },
     {
       message: { body: "", to: 1 as any },
