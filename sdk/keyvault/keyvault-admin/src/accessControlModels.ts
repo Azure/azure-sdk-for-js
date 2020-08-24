@@ -38,31 +38,23 @@ export interface KeyVaultRoleAssignment {
  */
 export interface RoleAssignmentProperties {
   /**
-   * The role assignment scope.
-   */
-  scope?: string;
-  /**
    * The role definition ID used in the role assignment.
    */
-  roleDefinitionId: string;
+  roleDefinitionId?: string;
   /**
    * The principal ID assigned to the role. This maps to the ID inside the Active Directory. It can point to a user, service principal, or security group.
    */
-  principalId: string;
+  principalId?: string;
 }
 
 /**
- * Role assignment properties.
+ * Role assignment properties with the scope property.
  */
-export interface RoleAssignmentPropertiesWithScope {
+export interface RoleAssignmentPropertiesWithScope extends RoleAssignmentProperties {
   /**
-   * The role definition ID used in the role assignment.
+   * The role assignment scope.
    */
-  roleDefinitionId: string;
-  /**
-   * The principal ID assigned to the role. This maps to the ID inside the Active Directory. It can point to a user, service principal, or security group.
-   */
-  principalId: string;
+  scope?: string;
 }
 
 export interface CreateRoleAssignmentOptions extends coreHttp.OperationOptions {

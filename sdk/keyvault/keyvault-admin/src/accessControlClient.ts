@@ -1,9 +1,16 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+/// <reference lib="esnext.asynciterable" />
+
 import { CreateRoleAssignmentOptions, KeyVaultRoleAssignment, AccessControlClientOptions } from "./accessControlModels";
 import { operationOptionsToRequestOptionsBase, TokenCredential, isTokenCredential, signingPolicy, createPipelineFromOptions } from '@azure/core-http';
 import { SDK_VERSION, LATEST_API_VERSION } from './constants';
 import { challengeBasedAuthenticationPolicy } from "../../keyvault-common/src";
 import { logger } from "./log";
 import { KeyVaultClient } from './generated/keyVaultClient';
+import { createSpan, setParentSpan } from './tracing';
+import { RoleAssignmentsCreateResponse } from './generated/models';
+import { mappings } from './mappings';
 
 export class AccessControlClient {
   /**
@@ -84,34 +91,32 @@ export class AccessControlClient {
 
   public async createRoleAssignment(
     scope: string,
+    name: string,
     options?: CreateRoleAssignmentOptions
   ): Promise<KeyVaultRoleAssignment> {
-    const requestOptions = operationOptionsToRequestOptionsBase(options);
-    const { enabled, notBefore, expiresOn: expires, ...remainingOptions } = requestOptions;
-    const unflattenedOptions = {
-      ...remainingOptions,
-      keyAttributes: {
-        enabled,
-        notBefore,
-        expires
-      }
-    };
+    const requestOptions = operationOptionsToRequestOptionsBase(options || {});
+    const { roleDefinitionId, principalId, ...remainingOptions } = requestOptions;
+    const span = createSpan("createRoleAssignment", remainingOptions);
 
-    const span = this.createSpan("createKey", unflattenedOptions);
-
-    let response: CreateKeyResponse;
-
+    let response: RoleAssignmentsCreateResponse;
     try {
-      response = await this.client.createKey(
+      response = await this.client.roleAssignments.create(
         this.vaultUrl,
+        scope,
         name,
-        keyType,
-        this.setParentSpan(span, unflattenedOptions)
+        {
+          properties: {
+            roleDefinitionId,
+            principalId    
+          }
+        },
+        setParentSpan(span, remainingOptions)
       );
     } finally {
       span.end();
     }
-    return this.getKeyFromKeyBundle(response);
+
+    return mappings.roleAssignment.generatedToPublic(response);
   }
 
   public async deleteRoleAssignment(): Promise<KeyVaultRoleAssignment> {}
