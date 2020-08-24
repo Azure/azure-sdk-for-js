@@ -1,0 +1,49 @@
+{
+  "recordings": [
+    {
+      "method": "POST",
+      "url": "https://joherediteststorage.table.core.windows.net/integration",
+      "query": {},
+      "requestBody": "{\"PartitionKey\":\"P4__browser\",\"RowKey\":\"R4\",\"testField\":\"12345543221\",\"testField@odata.type\":\"Edm.Int64\"}",
+      "status": 204,
+      "response": "",
+      "responseHeaders": {
+        "cache-control": "no-cache",
+        "content-length": "0",
+        "dataserviceid": "https://joherediteststorage.table.core.windows.net/integration(PartitionKey='P4__browser',RowKey='R4')",
+        "date": "Fri, 21 Aug 2020 14:06:37 GMT",
+        "etag": "W/\"datetime'2020-08-21T14%3A06%3A38.146924Z'\"",
+        "location": "https://joherediteststorage.table.core.windows.net/integration(PartitionKey='P4__browser',RowKey='R4')",
+        "preference-applied": "return-no-content",
+        "server": "Windows-Azure-Table/1.0 Microsoft-HTTPAPI/2.0",
+        "x-content-type-options": "nosniff",
+        "x-ms-request-id": "fad42a96-b002-00cb-02c4-77c6e4000000",
+        "x-ms-version": "2019-02-02"
+      }
+    },
+    {
+      "method": "GET",
+      "url": "https://joherediteststorage.table.core.windows.net/integration(PartitionKey='P4__browser',RowKey='R4')",
+      "query": {},
+      "requestBody": null,
+      "status": 200,
+      "response": "{\"odata.metadata\":\"https://joherediteststorage.table.core.windows.net/$metadata#integration/@Element\",\"odata.etag\":\"W/\\\"datetime'2020-08-21T14%3A06%3A38.146924Z'\\\"\",\"PartitionKey\":\"P4__browser\",\"RowKey\":\"R4\",\"Timestamp\":\"2020-08-21T14:06:38.146924Z\",\"testField@odata.type\":\"Edm.Int64\",\"testField\":\"12345543221\"}",
+      "responseHeaders": {
+        "cache-control": "no-cache",
+        "content-type": "application/json;odata=minimalmetadata;streaming=true;charset=utf-8",
+        "date": "Fri, 21 Aug 2020 14:06:37 GMT",
+        "etag": "W/\"datetime'2020-08-21T14%3A06%3A38.146924Z'\"",
+        "server": "Windows-Azure-Table/1.0 Microsoft-HTTPAPI/2.0",
+        "transfer-encoding": "chunked",
+        "x-content-type-options": "nosniff",
+        "x-ms-request-id": "fad42aa9-b002-00cb-13c4-77c6e4000000",
+        "x-ms-version": "2019-02-02"
+      }
+    }
+  ],
+  "uniqueTestInfo": {
+    "uniqueName": {},
+    "newDate": {}
+  },
+  "hash": "1421486c8ddc9bab74e228cd9a38e26e"
+}

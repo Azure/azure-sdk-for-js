@@ -125,7 +125,7 @@ export interface CorrelationRuleFilter {
   /**
    * Value to be matched with the user properties of the incoming message.
    */
-  properties?: any;
+  properties?: { [key: string]: "string" | "number" | "boolean" };
 }
 
 /**
