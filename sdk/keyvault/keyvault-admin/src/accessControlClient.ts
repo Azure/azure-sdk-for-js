@@ -90,14 +90,14 @@ export class AccessControlClient {
   }
 
   /**
-   * This method creates a role assignment in an Azure Key Vault.
+   * Creates a role assignment in an Azure Key Vault.
    *
    * Example usage:
    * ```ts
    * const client = new AccessControlClient(url, credentials);
    * const result = await client.createRoleAssignment("/", "295c179b-9ad3-4117-99cd-b1aa66cf4517");
    * ```
-   * @summary Creates a new key, stores it, then returns key parameters and properties to the client.
+   * @summary Creates a new role assignment.
    * @param {RoleAssignmentScope} scope The scope of the role assignment.
    * @param {string} name The name of the role assignment. Must be a UUID.
    * @param {CreateRoleAssignmentOptions} [options] The optional parameters.
@@ -133,17 +133,16 @@ export class AccessControlClient {
   }
 
   /**
-   * This method deletes role assignments previously created in an Azure Key Vault.
+   * Deletes role assignments previously created in an Azure Key Vault.
    *
    * Example usage:
    * ```ts
    * const client = new AccessControlClient(url, credentials);
-   * await client.createKey("MyKey", "EC");
    * const roleAssignment = await client.createRoleAssignment("/", "295c179b-9ad3-4117-99cd-b1aa66cf4517");
    * const deletedRoleAssignment = const await client.deleteRoleAssignment(roleAssignment.properties.scope, roleAssignment.name);
    * console.log(deletedRoleAssignment);
    * ```
-   * @summary Deletes a key from a specified key vault.
+   * @summary Deletes an existing role assignment.
    * @param {string} scope The scope of the role assignment.
    * @param {string} name The name of the role assignment.
    * @param {DeleteRoleAssignmentOptions} [options] The optional parameters.
@@ -171,7 +170,44 @@ export class AccessControlClient {
     return mappings.roleAssignment.generatedToPublic(response);
   }
 
-  public async getRoleAssignment(): Promise<KeyVaultRoleAssignment> {}
+  /**
+   * Gets a role assignments previously created in an Azure Key Vault.
+   *
+   * Example usage:
+   * ```ts
+   * const client = new AccessControlClient(url, credentials);
+   * let roleAssignment = await client.createRoleAssignment("/", "295c179b-9ad3-4117-99cd-b1aa66cf4517");
+   * roleAssignment = const await client.getRoleAssignment(roleAssignment.properties.scope, roleAssignment.name);
+   * console.log(roleAssignment);
+   * ```
+   * @summary Gets an existing role assignment.
+   * @param {string} scope The scope of the role assignment.
+   * @param {string} name The name of the role assignment.
+   * @param {DeleteRoleAssignmentOptions} [options] The optional parameters.
+   */
+  public async getRoleAssignment(
+    scope: RoleAssignmentScope,
+    name: string,
+    options?: DeleteRoleAssignmentOptions
+  ): Promise<KeyVaultRoleAssignment> {
+    const requestOptions = operationOptionsToRequestOptionsBase(options || {});
+    const span = createSpan("deleteRoleAssignment", requestOptions);
+
+    let response: RoleAssignmentsDeleteResponse;
+    try {
+      response = await this.client.roleAssignments.get(
+        this.vaultUrl,
+        scope,
+        name,
+        setParentSpan(span, requestOptions)
+      );
+    } finally {
+      span.end();
+    }
+
+    return mappings.roleAssignment.generatedToPublic(response);    
+  }
+
   public async listRoleAssignments(): PagedAsyncIterableIterator<KeyVaultRoleAssignment> {}
   public async listRoleDefinitions(): PagedAsyncIterableIterator<KeyVaultRoleAssignment> {}
 }
