@@ -57,10 +57,6 @@
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "lint:fix": "eslint package.json api-extractor.json src test --ext .ts --fix --fix-type [problem,suggestion]",
     "lint": "eslint package.json api-extractor.json src test --ext .ts",
-<<<<<<< HEAD
-=======
-    "lint:terminal": "eslint package.json api-extractor.json src test --ext .ts",
->>>>>>> 0d365c758... Enable ESLint only for identity, keyvault and textanalytics
     "pack": "npm pack 2>&1",
     "prebuild": "npm run clean",
     "regenerate": "npx autorest swagger/README.md --typescript",
