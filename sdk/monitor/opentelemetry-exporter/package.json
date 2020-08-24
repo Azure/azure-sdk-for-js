@@ -46,7 +46,15 @@
     "type": "git",
     "url": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/monitor/opentelemetry-exporter"
   },
-"prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
+  "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
+  "//metadata": {
+    "constantPaths": [
+      {
+        "path": "src/util/constants/applicationinsights.ts",
+        "prefix": "packageVersion"
+      }
+    ]
+  },
   "devDependencies": {
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@types/mocha": "^7.0.2",
