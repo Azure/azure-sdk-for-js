@@ -7,7 +7,9 @@
  */
 
 export {
+  CanceledSubscriptionId,
+  EnabledSubscriptionId,
   ErrorResponse,
-  SubscriptionOperation,
-  SubscriptionOperationListResult
+  RenamedSubscriptionId,
+  SubscriptionName
 } from "../models/mappers";
