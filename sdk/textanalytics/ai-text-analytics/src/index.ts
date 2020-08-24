@@ -44,6 +44,7 @@ export {
   OpinionSentiment
 } from "./analyzeSentimentResult";
 export { AnalyzeSentimentResultArray } from "./analyzeSentimentResultArray";
+export { AnalyzeSentimentResultResponse } from "./analyzeSentimentResultResponse";
 export {
   ExtractKeyPhrasesResult,
   ExtractKeyPhrasesErrorResult,
@@ -84,5 +85,14 @@ export {
   SentenceAspectSentiment,
   SentenceOpinionSentiment,
   AspectConfidenceScoreLabel,
-  SentenceOpinion
+  SentenceOpinion,
+  SentimentResponse,
+  DocumentSentiment,
+  DocumentError,
+  SentenceSentiment as GeneratedSentenceSentiment,
+  TextAnalyticsError as GeneratedTextAnalyticsError,
+  SentenceAspect,
+  InnerError,
+  AspectRelation,
+  AspectRelationType
 } from "./generated/models";

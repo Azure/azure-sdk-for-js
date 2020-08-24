@@ -30,7 +30,6 @@ import {
 } from "./recognizeCategorizedEntitiesResultArray";
 import {
   AnalyzeSentimentResultArray,
-  makeAnalyzeSentimentResultArray
 } from "./analyzeSentimentResultArray";
 import {
   makeExtractKeyPhrasesResultArray,
@@ -47,6 +46,7 @@ import {
 import { createSpan } from "./tracing";
 import { CanonicalCode } from "@opentelemetry/api";
 import { createTextAnalyticsAzureKeyCredentialPolicy } from "./azureKeyCredentialPolicy";
+import { AnalyzeSentimentResultResponse, toAnalyzeSentimentResultResponse } from './analyzeSentimentResultResponse';
 
 const DEFAULT_COGNITIVE_SCOPE = "https://cognitiveservices.azure.com/.default";
 
@@ -431,12 +431,12 @@ export class TextAnalyticsClient {
   public async analyzeSentiment(
     documents: TextDocumentInput[],
     options?: AnalyzeSentimentOptions
-  ): Promise<AnalyzeSentimentResultArray>;
+  ): Promise<AnalyzeSentimentResultResponse>;
   public async analyzeSentiment(
     documents: string[] | TextDocumentInput[],
     languageOrOptions?: string | AnalyzeSentimentOptions,
     options?: AnalyzeSentimentOptions
-  ): Promise<AnalyzeSentimentResultArray> {
+  ): Promise<AnalyzeSentimentResultResponse> {
     let realOptions: GeneratedClientSentimentOptionalParams;
     let realInputs: TextDocumentInput[];
 
@@ -474,7 +474,7 @@ export class TextAnalyticsClient {
         operationOptionsToRequestOptionsBase(finalOptions)
       );
 
-      return makeAnalyzeSentimentResultArray(realInputs, result);
+      return toAnalyzeSentimentResultResponse(realInputs, result);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,

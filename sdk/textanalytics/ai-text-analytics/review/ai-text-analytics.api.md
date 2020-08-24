@@ -5,6 +5,7 @@
 ```ts
 
 import { AzureKeyCredential } from '@azure/core-auth';
+import * as coreHttp from '@azure/core-http';
 import { KeyCredential } from '@azure/core-auth';
 import { OperationOptions } from '@azure/core-http';
 import { PipelineOptions } from '@azure/core-http';
@@ -28,6 +29,14 @@ export interface AnalyzeSentimentResultArray extends Array<AnalyzeSentimentResul
 }
 
 // @public
+export type AnalyzeSentimentResultResponse = AnalyzeSentimentResultArray & {
+    _response: coreHttp.HttpResponse & {
+        bodyAsText: string;
+        parsedBody: SentimentResponse;
+    };
+};
+
+// @public
 export interface AnalyzeSentimentSuccessResult extends TextAnalyticsSuccessResult {
     confidenceScores: SentimentConfidenceScores;
     sentences: SentenceSentiment[];
@@ -41,6 +50,15 @@ export interface AspectConfidenceScoreLabel {
     // (undocumented)
     positive: number;
 }
+
+// @public (undocumented)
+export interface AspectRelation {
+    ref: string;
+    relationType: AspectRelationType;
+}
+
+// @public
+export type AspectRelationType = "opinion" | "aspect";
 
 // @public
 export interface AspectSentiment {
@@ -91,6 +109,22 @@ export interface DetectLanguageSuccessResult extends TextAnalyticsSuccessResult 
     readonly primaryLanguage: DetectedLanguage;
 }
 
+// @public (undocumented)
+export interface DocumentError {
+    error: GeneratedTextAnalyticsError;
+    id: string;
+}
+
+// @public (undocumented)
+export interface DocumentSentiment {
+    confidenceScores: SentimentConfidenceScores;
+    id: string;
+    sentenceSentiments: GeneratedSentenceSentiment[];
+    sentiment: DocumentSentimentLabel;
+    statistics?: TextDocumentStatistics;
+    warnings: TextAnalyticsWarning[];
+}
+
 // @public
 export type DocumentSentimentLabel = "positive" | "neutral" | "negative" | "mixed";
 
@@ -126,6 +160,35 @@ export interface ExtractKeyPhrasesResultArray extends Array<ExtractKeyPhrasesRes
 // @public
 export interface ExtractKeyPhrasesSuccessResult extends TextAnalyticsSuccessResult {
     keyPhrases: string[];
+}
+
+// @public
+export interface GeneratedSentenceSentiment {
+    aspects?: SentenceAspect[];
+    confidenceScores: SentimentConfidenceScores;
+    opinions?: SentenceOpinion[];
+    sentiment: SentenceSentimentLabel;
+    text: string;
+}
+
+// @public (undocumented)
+export interface GeneratedTextAnalyticsError {
+    code: ErrorCodeValue;
+    details?: GeneratedTextAnalyticsError[];
+    innerError?: InnerError;
+    message: string;
+    target?: string;
+}
+
+// @public (undocumented)
+export interface InnerError {
+    code: InnerErrorCodeValue;
+    details?: {
+        [propertyName: string]: string;
+    };
+    innerError?: InnerError;
+    message: string;
+    target?: string;
 }
 
 // @public
@@ -221,6 +284,14 @@ export interface RecognizePiiEntitiesSuccessResult extends TextAnalyticsSuccessR
     readonly entities: PiiEntity[];
 }
 
+// @public (undocumented)
+export interface SentenceAspect {
+    confidenceScores: AspectConfidenceScoreLabel;
+    relations: AspectRelation[];
+    sentiment: SentenceAspectSentiment;
+    text: string;
+}
+
 // @public
 export type SentenceAspectSentiment = "positive" | "mixed" | "negative";
 
@@ -256,11 +327,19 @@ export interface SentimentConfidenceScores {
     positive: number;
 }
 
+// @public (undocumented)
+export interface SentimentResponse {
+    documents: DocumentSentiment[];
+    errors: DocumentError[];
+    modelVersion: string;
+    statistics?: TextDocumentBatchStatistics;
+}
+
 // @public
 export class TextAnalyticsClient {
     constructor(endpointUrl: string, credential: TokenCredential | KeyCredential, options?: TextAnalyticsClientOptions);
     analyzeSentiment(documents: string[], language?: string, options?: AnalyzeSentimentOptions): Promise<AnalyzeSentimentResultArray>;
-    analyzeSentiment(documents: TextDocumentInput[], options?: AnalyzeSentimentOptions): Promise<AnalyzeSentimentResultArray>;
+    analyzeSentiment(documents: TextDocumentInput[], options?: AnalyzeSentimentOptions): Promise<AnalyzeSentimentResultResponse>;
     defaultCountryHint: string;
     defaultLanguage: string;
     detectLanguage(documents: string[], countryHint?: string, options?: DetectLanguageOptions): Promise<DetectLanguageResultArray>;
