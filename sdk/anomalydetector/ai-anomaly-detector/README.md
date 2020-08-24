@@ -4,8 +4,8 @@
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/anomalydetector/ai-anomaly-detector/) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/ai-anomaly-detector) |
-[API reference documentation](https://docs.microsoft.com/en-us/azure/cognitive-services/anomaly-detector/) |
-[Product documentation](https://docs.microsoft.com/azure/cognitive-services/anomaly-detector/) |
+[API reference documentation](https://aka.ms/azsdk/net/docs/ref/anomalydetector) |
+[Product documentation](https://docs.microsoft.com/en-us/azure/cognitive-services/anomaly-detector/) |[Samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/anomalydetector/ai-anomaly-detector/samples)
 [Samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/anomalydetector/ai-anomaly-detector/samples)
 
 ## Getting started
@@ -114,18 +114,3 @@ For more information see the [Code of Conduct FAQ](https://opensource.microsoft.
 contact [opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional questions or comments.
 
 If you'd like to contribute to this library, please read the [contributing guide](https://github.com/Azure/azure-sdk-for-js/blob/master/CONTRIBUTING.md) to learn more about how to build and test the code.
-
-## Related projects
-
-- [Microsoft Azure SDK for Javascript](https://github.com/Azure/azure-sdk-for-js)
-
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fanomalydetector%2Fai-anomaly-detector%2FREADME.png)
-
-[azure_cli]: https://docs.microsoft.com/cli/azure
-[azure_sub]: https://azure.microsoft.com/free/
-[cognitive_resource]: https://docs.microsoft.com/en-us/azure/cognitive-services/cognitive-services-apis-create-account
-[azure_portal]: https://portal.azure.com
-[azure_identity]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/identity/identity
-[cognitive_auth]: https://docs.microsoft.com/azure/cognitive-services/authentication
-[register_aad_app]: https://docs.microsoft.com/azure/cognitive-services/authentication#assign-a-role-to-a-service-principal
-[defaultazurecredential]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/identity/identity#defaultazurecredential
