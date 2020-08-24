@@ -19,7 +19,7 @@
     "./dist-esm/src/utils/utils.node.js": "./dist-esm/src/utils/utils.browser.js"
   },
   "types": "./types/ai-form-recognizer.d.ts",
-  "homepage": "https://github.com/azure/azure-sdk-for-js/tree/master/sdk/formrecognizer/ai-form-recognizer",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/textanalytics/ai-text-analytics/README.md",
   "repository": "github:Azure/azure-sdk-for-js",
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
@@ -44,13 +44,16 @@
       }
     ]
   },
+  "engines": {
+    "node": ">=8.0.0"
+  },
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build:browser": "tsc -p . && cross-env ONLY_BROWSER=true rollup -c 2>&1",
     "build:node": "tsc -p . && cross-env ONLY_NODE=true rollup -c 2>&1",
     "build:samples": "dev-tool samples prep && cd dist-samples && tsc -p .",
     "build:test": "tsc -p . && rollup -c rollup.test.config.js 2>&1",
-    "build": "tsc -p . && rollup -c 2>&1 && api-extractor run --local",
+    "build": "tsc -p . && rollup -c 2>&1 && npm run lint && api-extractor run --local",
     "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf dist dist-esm dist-browser dist-test test-browser temp types *.tgz *.log",
     "execute:samples": "npm run build:samples && dev-tool samples run samples/javascript/ && dev-tool samples run dist-samples/typescript/dist/dist-samples/typescript/src/",
@@ -60,7 +63,7 @@
     "integration-test:node": "nyc mocha -r esm --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --full-trace -t 300000  dist-esm/test/*.spec.js dist-esm/test/node/*.spec.js",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "lint:fix": "eslint package.json api-extractor.json src test --ext .ts --fix --fix-type [problem,suggestion]",
-    "lint": "eslint package.json api-extractor.json src test --ext .ts -f html -o formrecognizer-lintReport.html || exit 0",
+    "lint": "eslint package.json api-extractor.json src test --ext .ts || exit 0",
     "pack": "npm pack 2>&1",
     "prebuild": "npm run clean",
     "test:browser": "npm run build:test && npm run unit-test:browser && npm run integration-test:browser",

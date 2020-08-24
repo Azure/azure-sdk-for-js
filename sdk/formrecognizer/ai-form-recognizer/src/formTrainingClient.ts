@@ -677,6 +677,7 @@ export class FormTrainingClient {
  * @private
  */
 async function trainCustomModelInternal(
+  // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
   client: GeneratedClient,
   source: string,
   useLabelFile?: boolean,

@@ -17,6 +17,7 @@ describe("FormRecognizerClient browser only", () => {
   const apiKey = new AzureKeyCredential(testEnv.FORM_RECOGNIZER_API_KEY);
 
   beforeEach(function() {
+    // eslint-disable-next-line no-invalid-this
     ({ recorder, client } = createRecordedRecognizerClient(this, apiKey));
   });
 
