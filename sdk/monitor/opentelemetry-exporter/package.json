@@ -6,6 +6,7 @@
   "main": "dist-esm/src/index.js",
   "module": "dist-esm/src/index.js",
   "types": "types/src/index.d.ts",
+  "sdk-type": "client",
   "scripts": {
     "clean": "rimraf dist-esm types dist",
     "build:browser": "echo skipped",
