@@ -126,7 +126,7 @@
     },
     {
       "name": "tables",
-      "path": "sdk\\tables\\azure-tables"
+      "path": "sdk\\tables\\data-tables"
     },
     {
       "name": "text analytics",
@@ -173,12 +173,9 @@
       "**/*.d.ts": true,
       "**/test-browser/*": true
     },
-    "typescript.tsdk": "core-http\\node_modules\\typescript\\lib",
+    "typescript.tsdk": "core-http\\node_modules\\typescript\\lib"
   },
   "extensions": {
-    "recommendations": [
-      "dbaeumer.vscode-eslint",
-      "esbenp.prettier-vscode"
-    ]
+    "recommendations": ["dbaeumer.vscode-eslint", "esbenp.prettier-vscode"]
   }
 }

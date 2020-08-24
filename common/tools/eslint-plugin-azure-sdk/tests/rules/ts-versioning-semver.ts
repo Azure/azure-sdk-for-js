@@ -295,6 +295,18 @@ ruleTester.run("ts-versioning-semver", rule, {
       filename: "package.json"
     },
     {
+      code: '{"version": "1.1.10-dev.20200728.0"}',
+      filename: "package.json"
+    },
+    {
+      code: '{"version": "1.1.10-dev.20210128.1"}',
+      filename: "package.json"
+    },
+    {
+      code: '{"version": "1.1.10-dev.20200728.10"}',
+      filename: "package.json"
+    },
+    {
       // a full example package.json (taken from https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/eventhub/event-hubs/package.json with "scripts" removed for testing purposes)
       code: examplePackageGood,
       filename: "package.json"
@@ -396,7 +408,7 @@ ruleTester.run("ts-versioning-semver", rule, {
       filename: "package.json",
       errors: [
         {
-          message: "preview format is not x.y.z-preview.i"
+          message: "unrecognized version syntax: Preview-1"
         }
       ]
     },
@@ -427,6 +439,52 @@ ruleTester.run("ts-versioning-semver", rule, {
         }
       ]
     },
+    // dev violations
+    {
+      code: '{"version": "1.0.0-Dev-1"}',
+      filename: "package.json",
+      errors: [
+        {
+          message: "unrecognized version syntax: Dev-1"
+        }
+      ]
+    },
+    {
+      code: '{"version": "1.0.0-dev-1"}',
+      filename: "package.json",
+      errors: [
+        {
+          message: "dev format is not x.y.z-dev.<date>.i"
+        }
+      ]
+    },
+    {
+      code: '{"version": "1.0.0-dev1"}',
+      filename: "package.json",
+      errors: [
+        {
+          message: "dev format is not x.y.z-dev.<date>.i"
+        }
+      ]
+    },
+    {
+      code: '{"version": "1.0.0-dev.01"}',
+      filename: "package.json",
+      errors: [
+        {
+          message: "dev format is not x.y.z-dev.<date>.i"
+        }
+      ]
+    },
+    {
+      code: '{"version": "1.0.0-dev.2.1"}',
+      filename: "package.json",
+      errors: [
+        {
+          message: "dev format is not x.y.z-dev.<date>.i"
+        }
+      ]
+    },
     // major version 0 violations
     {
       code: '{"version": "0.1.0"}',
@@ -443,10 +501,10 @@ ruleTester.run("ts-versioning-semver", rule, {
       filename: "package.json",
       errors: [
         {
-          message: "preview format is not x.y.z-preview.i"
+          message: "major version should not be set to 0"
         },
         {
-          message: "major version should not be set to 0"
+          message: "preview format is not x.y.z-preview.i"
         }
       ]
     },
