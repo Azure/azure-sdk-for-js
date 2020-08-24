@@ -1,10 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-export { DigitalTwinsClient } from "./digitalTwinsClient";
+export { DigitalTwinsClient, DigitalTwinsClientOptions } from "./digitalTwinsClient";
 
 export {
-  AzureDigitalTwinsAPIOptionalParams,
   DigitalTwinsAddHeaders,
   DigitalTwinsAddResponse,
   DigitalTwinsGetByIdResponse,

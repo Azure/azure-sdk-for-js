@@ -11,6 +11,7 @@ import {
   RestResponse,
   RequestOptionsBase,
   OperationOptions,
+  ServiceClientOptions,
   InternalPipelineOptions,
   bearerTokenAuthenticationPolicy,
   createPipelineFromOptions,
@@ -58,6 +59,15 @@ import { logger } from "./logger";
 
 export const SDK_VERSION: string = "1.0.0-preview.1";
 
+export interface DigitalTwinsClientOptions extends ServiceClientOptions {
+  /**
+   * Api Version
+   */
+  apiVersion?: string;
+}
+
+const DEFAULT_DIGITALTWINS_SCOPE = "https://digitaltwins.azure.net/.default";
+
 /**
  * Client for Azure IoT DigitalTwins API.
  */
@@ -81,26 +91,23 @@ export class DigitalTwinsClient {
    *   new DefaultAzureCredential();
    * );
    * ```
-   * @param {string} endpoint The endpoint of the service. If options parameter is given than this value will be ignored.
+   * @param {string} endpointUrl The endpoint URL of the service.
    * @param {TokenCredential} credential Used to authenticate requests to the service.
    * @param {AzureDigitalTwinsAPI} [options] Used to configure the service client.
    */
   constructor(
-    endpoint: string,
+    endpointUrl: string,
     credential: TokenCredential,
-    options: AzureDigitalTwinsAPIOptionalParams = {}
+    options: DigitalTwinsClientOptions = {}
   ) {
-    const authPolicy = bearerTokenAuthenticationPolicy(
-      credential,
-      "https://digitaltwins.azure.net/.default"
-    );
-
-    const { ...pipelineOptions } = options;
-
+    const authPolicy = bearerTokenAuthenticationPolicy(credential, DEFAULT_DIGITALTWINS_SCOPE);
     const libInfo = `azsdk-js-digitaltwins/${SDK_VERSION}`;
-    if (!pipelineOptions.endpoint) {
-      pipelineOptions.endpoint = endpoint;
-    }
+
+    const {
+      endpoint = endpointUrl,
+      ...pipelineOptions
+    }: AzureDigitalTwinsAPIOptionalParams = options;
+
     if (!pipelineOptions.userAgentHeaderName) {
       pipelineOptions.userAgentHeaderName = libInfo;
     }

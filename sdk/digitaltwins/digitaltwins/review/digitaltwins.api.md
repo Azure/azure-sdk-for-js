@@ -10,14 +10,8 @@ import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { PageSettings } from '@azure/core-paging';
 import { RequestOptionsBase } from '@azure/core-http';
 import { RestResponse } from '@azure/core-http';
+import { ServiceClientOptions } from '@azure/core-http';
 import { TokenCredential } from '@azure/core-http';
-
-// @public
-export interface AzureDigitalTwinsAPIOptionalParams extends coreHttp.ServiceClientOptions {
-    $host?: string;
-    apiVersion?: string;
-    endpoint?: string;
-}
 
 // @public
 export interface DigitalTwinModelsAddOptionalParams extends coreHttp.OperationOptions {
@@ -97,7 +91,7 @@ export type DigitalTwinsAddResponse = DigitalTwinsAddHeaders & {
 
 // @public
 export class DigitalTwinsClient {
-    constructor(endpoint: string, credential: TokenCredential, options?: AzureDigitalTwinsAPIOptionalParams);
+    constructor(endpointUrl: string, credential: TokenCredential, options?: DigitalTwinsClientOptions);
     createModels(models: any[], options?: OperationOptions): Promise<DigitalTwinModelsAddResponse>;
     decomissionModel(modelId: string, updateModel: any[], options?: OperationOptions): Promise<RestResponse>;
     deleteDigitalTwin(digitalTwinId: string, etag?: string, options?: OperationOptions): Promise<RestResponse>;
@@ -122,6 +116,11 @@ export class DigitalTwinsClient {
     upsertDigitalTwin(digitalTwinId: string, digitalTwinJson: string, options?: OperationOptions): Promise<DigitalTwinsAddResponse>;
     upsertEventRoute(eventRouteId: string, endpointId: string, filter?: string, options?: OperationOptions): Promise<RestResponse>;
     upsertRelationship(digitalTwinId: string, relationshipId: string, relationship: any, options?: OperationOptions): Promise<DigitalTwinsAddRelationshipResponse>;
+}
+
+// @public (undocumented)
+export interface DigitalTwinsClientOptions extends ServiceClientOptions {
+    apiVersion?: string;
 }
 
 // @public
