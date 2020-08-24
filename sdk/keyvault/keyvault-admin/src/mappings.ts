@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { RoleAssignment } from './generated/models';
-import { KeyVaultRoleAssignment } from './accessControlModels';
+import { RoleAssignment, RoleDefinition } from './generated/models';
+import { KeyVaultRoleAssignment, KeyVaultRoleDefinition, RoleAssignmentScope } from './accessControlModels';
 
 export const mappings = {
   roleAssignment: {
@@ -14,8 +14,32 @@ export const mappings = {
         name,
         type,
         properties: {
-          scope, roleDefinitionId, principalId
+          scope: scope as RoleAssignmentScope, roleDefinitionId, principalId
         }
+      }
+    }
+  },
+  roleDefinition: {
+    generatedToPublic(roleDefinition: RoleDefinition): KeyVaultRoleDefinition {
+      const {
+        id,
+        name,
+        type,
+        roleName,
+        description,
+        roleType,
+        permissions,
+        assignableScopes        
+      } = roleDefinition;
+      return {
+        id,
+        name,
+        type,
+        roleName,
+        description,
+        roleType,
+        permissions,
+        assignableScopes        
       }      
     }
   }

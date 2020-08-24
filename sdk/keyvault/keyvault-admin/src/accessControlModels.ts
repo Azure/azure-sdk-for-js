@@ -14,6 +14,9 @@ export interface AccessControlClientOptions extends coreHttp.PipelineOptions {
   serviceVersion?: SUPPORTED_API_VERSIONS;
 }
 
+/**
+ * A Key Vault role assignment.
+ */
 export interface KeyVaultRoleAssignment {
   /**
    * The role assignment ID.
@@ -31,6 +34,66 @@ export interface KeyVaultRoleAssignment {
    * Role assignment properties.
    */
   properties?: RoleAssignmentPropertiesWithScope;
+}
+
+/**
+ * Role definition permissions.
+ */
+export interface RoleDefinitionPermission {
+  /**
+   * Allowed actions.
+   */
+  actions?: string[];
+  /**
+   * Denied actions.
+   */
+  notActions?: string[];
+  /**
+   * Allowed Data actions.
+   */
+  dataActions?: string[];
+  /**
+   * Denied Data actions.
+   */
+  notDataActions?: string[];
+}
+
+/**
+ * A Key Vault role definition.
+ */
+export interface KeyVaultRoleDefinition {
+  /**
+   * The role definition ID.
+   */
+  readonly id?: string;
+  /**
+   * The role definition name.
+   */
+  readonly name?: string;
+  /**
+   * The role definition type.
+   */
+  readonly type?: string;
+  /**
+   * The role name.
+   */
+  roleName?: string;
+  /**
+   * The role definition description.
+   */
+  description?: string;
+  /**
+   * The role type.
+   */
+  roleType?: string;
+  /**
+   * Role definition permissions.
+   */
+  permissions?: RoleDefinitionPermission[];
+  /**
+   * Role definition assignable scopes.
+   */
+  assignableScopes?: string[];
 }
 
 /**
@@ -82,4 +145,19 @@ export interface DeleteRoleAssignmentOptions extends coreHttp.OperationOptions {
 /**
  * An interface representing optional parameters passed to {@link listRoleAssignments}.
  */
-export interface ListRoleAssignmentsOptions extends coreHttp.OperationOptions {}
+export interface ListRoleAssignmentsOptions extends coreHttp.OperationOptions {
+  /**
+   * The filter to apply on the operation. Use $filter=atScope() to return all role assignments at or above the scope. Use $filter=principalId eq {id} to return all role assignments at, above or below the scope for the specified principal.
+   */
+  filter?: string;
+}
+
+/**
+ * An interface representing optional parameters passed to {@link listRoleDefinitions}.
+ */
+export interface ListRoleDefinitionsOptions extends coreHttp.OperationOptions {
+  /**
+   * The filter to apply on the operation. Use atScopeAndBelow filter to search below the given scope as well.
+   */
+  filter?: string;
+}

@@ -8,7 +8,7 @@ import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
 import { challengeBasedAuthenticationPolicy } from "../../keyvault-common/src";
 import { RoleAssignmentsCreateResponse, RoleAssignmentsDeleteResponse, RoleAssignmentsListForScopeOptionalParams } from './generated/models';
 
-import { CreateRoleAssignmentOptions, KeyVaultRoleAssignment, AccessControlClientOptions, RoleAssignmentScope, DeleteRoleAssignmentOptions, ListRoleAssignmentsOptions } from "./accessControlModels";
+import { CreateRoleAssignmentOptions, KeyVaultRoleAssignment, AccessControlClientOptions, RoleAssignmentScope, DeleteRoleAssignmentOptions, ListRoleAssignmentsOptions, ListRoleDefinitionsOptions, KeyVaultRoleDefinition } from "./accessControlModels";
 import { SDK_VERSION, LATEST_API_VERSION } from './constants';
 import { KeyVaultClient } from './generated/keyVaultClient';
 import { createSpan, setParentSpan } from './tracing';
@@ -311,5 +311,103 @@ export class AccessControlClient {
     };    
   }
 
-  public listRoleDefinitions(): PagedAsyncIterableIterator<KeyVaultRoleDefinition> {}
+  /**
+   * @internal
+   * @ignore
+   * Deals with the pagination of {@link listRoleDefinitions}.
+   * @param {string} scope The scope of the role definition.
+   * @param {PageSettings} continuationState An object that indicates the position of the paginated request.
+   * @param {ListRoleAssignmentsOptions} [options] Common options for the iterative endpoints.
+   */
+  private async *listRoleDefinitionsPage(
+    scope: RoleAssignmentScope,
+    continuationState: PageSettings,
+    options?: ListRoleDefinitionsOptions
+  ): AsyncIterableIterator<KeyVaultRoleDefinition[]> {
+    if (continuationState.continuationToken == null) {
+      const optionsComplete: RoleAssignmentsListForScopeOptionalParams = {
+        // Not supported!
+        // maxresults: continuationState.maxPageSize,
+        ...options
+      };
+      const currentSetResponse = await this.client.roleDefinitions.list(this.vaultUrl, scope, optionsComplete);
+      continuationState.continuationToken = currentSetResponse.nextLink;
+      if (currentSetResponse.value) {
+        yield currentSetResponse.value.map(mappings.roleDefinition.generatedToPublic, this);
+      }
+    }
+    while (continuationState.continuationToken) {
+      const currentSetResponse = await this.client.roleDefinitions.listNext(
+        this.vaultUrl, scope, 
+        continuationState.continuationToken,
+        options
+      );
+      continuationState.continuationToken = currentSetResponse.nextLink;
+      if (currentSetResponse.value) {
+        yield currentSetResponse.value.map(mappings.roleAssignment.generatedToPublic, this);
+      } else {
+        break;
+      }
+    }
+  }
+
+  /**
+   * @internal
+   * @ignore
+   * Deals with the iteration of all the available results of {@link listRoleDefinitions}.
+   * @param {string} scope The scope of the role definition.
+   * @param {ListRoleDefinitionsOptions} [options] Common options for the iterative endpoints.
+   */
+  private async *listRoleDefinitionsAll(
+    scope: RoleAssignmentScope,
+    options?: ListRoleDefinitionsOptions
+  ): AsyncIterableIterator<KeyVaultRoleDefinition> {
+    const f = {};
+
+    for await (const page of this.listRoleDefinitionsPage(scope, f, options)) {
+      for (const item of page) {
+        yield item;
+      }
+    }
+  }
+
+  /**
+   * Iterates over all of the available role definitions in an Azure Key Vault.
+   *
+   * Example usage:
+   * ```ts
+   * let client = new AccessControlClient(url, credentials);
+   * for await (const roleDefinitions of client.listRoleDefinitions("/")) {
+   *   console.log("Role definition: ", roleDefinitions);
+   * }
+   * ```
+   * @summary Lists all of the role definition in a given scope.
+   * @param {string} scope The scope of the role definition.
+   * @param {ListRoleDefinitionsOptions} [options] The optional parameters.
+   */
+  public listRoleDefinitions(
+    scope: RoleAssignmentScope,
+    options: ListRoleDefinitionsOptions = {}
+  ): PagedAsyncIterableIterator<KeyVaultRoleDefinition> {
+    const requestOptions = operationOptionsToRequestOptionsBase(options);
+    const span = createSpan("listRoleDefinitions", requestOptions);
+    const updatedOptions: ListRoleDefinitionsOptions = {
+      ...requestOptions,
+      ...setParentSpan(span, requestOptions)
+    };
+
+    const iter = this.listRoleDefinitionsAll(scope, updatedOptions);
+
+    span.end();
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings: PageSettings = {}) =>
+        this.listRoleDefinitionsPage(scope, settings, updatedOptions)
+    };
+  }
 }
