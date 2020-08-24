@@ -2,17 +2,36 @@
 // Licensed under the MIT license.
 /// <reference lib="esnext.asynciterable" />
 
-import { operationOptionsToRequestOptionsBase, TokenCredential, isTokenCredential, signingPolicy, createPipelineFromOptions } from '@azure/core-http';
+import {
+  operationOptionsToRequestOptionsBase,
+  TokenCredential,
+  isTokenCredential,
+  signingPolicy,
+  createPipelineFromOptions
+} from "@azure/core-http";
 import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
 
 import { challengeBasedAuthenticationPolicy } from "../../keyvault-common/src";
-import { RoleAssignmentsCreateResponse, RoleAssignmentsDeleteResponse, RoleAssignmentsListForScopeOptionalParams } from './generated/models';
+import {
+  RoleAssignmentsCreateResponse,
+  RoleAssignmentsDeleteResponse,
+  RoleAssignmentsListForScopeOptionalParams
+} from "./generated/models";
 
-import { CreateRoleAssignmentOptions, KeyVaultRoleAssignment, AccessControlClientOptions, RoleAssignmentScope, DeleteRoleAssignmentOptions, ListRoleAssignmentsOptions, ListRoleDefinitionsOptions, KeyVaultRoleDefinition } from "./accessControlModels";
-import { SDK_VERSION, LATEST_API_VERSION } from './constants';
-import { KeyVaultClient } from './generated/keyVaultClient';
-import { createSpan, setParentSpan } from './tracing';
-import { mappings } from './mappings';
+import {
+  CreateRoleAssignmentOptions,
+  KeyVaultRoleAssignment,
+  AccessControlClientOptions,
+  RoleAssignmentScope,
+  DeleteRoleAssignmentOptions,
+  ListRoleAssignmentsOptions,
+  ListRoleDefinitionsOptions,
+  KeyVaultRoleDefinition
+} from "./accessControlModels";
+import { SDK_VERSION, LATEST_API_VERSION } from "./constants";
+import { KeyVaultClient } from "./generated/keyVaultClient";
+import { createSpan, setParentSpan } from "./tracing";
+import { mappings } from "./mappings";
 import { logger } from "./log";
 
 export class AccessControlClient {
@@ -123,7 +142,7 @@ export class AccessControlClient {
         {
           properties: {
             roleDefinitionId,
-            principalId    
+            principalId
           }
         },
         setParentSpan(span, remainingOptions)
@@ -208,7 +227,7 @@ export class AccessControlClient {
       span.end();
     }
 
-    return mappings.roleAssignment.generatedToPublic(response);    
+    return mappings.roleAssignment.generatedToPublic(response);
   }
 
   /**
@@ -230,7 +249,11 @@ export class AccessControlClient {
         // maxresults: continuationState.maxPageSize,
         ...options
       };
-      const currentSetResponse = await this.client.roleAssignments.listForScope(this.vaultUrl, scope, optionsComplete);
+      const currentSetResponse = await this.client.roleAssignments.listForScope(
+        this.vaultUrl,
+        scope,
+        optionsComplete
+      );
       continuationState.continuationToken = currentSetResponse.nextLink;
       if (currentSetResponse.value) {
         yield currentSetResponse.value.map(mappings.roleAssignment.generatedToPublic, this);
@@ -238,7 +261,8 @@ export class AccessControlClient {
     }
     while (continuationState.continuationToken) {
       const currentSetResponse = await this.client.roleAssignments.listForScopeNext(
-        this.vaultUrl, scope, 
+        this.vaultUrl,
+        scope,
         continuationState.continuationToken,
         options
       );
@@ -308,7 +332,7 @@ export class AccessControlClient {
       },
       byPage: (settings: PageSettings = {}) =>
         this.listRoleAssignmentsPage(scope, settings, updatedOptions)
-    };    
+    };
   }
 
   /**
@@ -330,7 +354,11 @@ export class AccessControlClient {
         // maxresults: continuationState.maxPageSize,
         ...options
       };
-      const currentSetResponse = await this.client.roleDefinitions.list(this.vaultUrl, scope, optionsComplete);
+      const currentSetResponse = await this.client.roleDefinitions.list(
+        this.vaultUrl,
+        scope,
+        optionsComplete
+      );
       continuationState.continuationToken = currentSetResponse.nextLink;
       if (currentSetResponse.value) {
         yield currentSetResponse.value.map(mappings.roleDefinition.generatedToPublic, this);
@@ -338,7 +366,8 @@ export class AccessControlClient {
     }
     while (continuationState.continuationToken) {
       const currentSetResponse = await this.client.roleDefinitions.listNext(
-        this.vaultUrl, scope, 
+        this.vaultUrl,
+        scope,
         continuationState.continuationToken,
         options
       );

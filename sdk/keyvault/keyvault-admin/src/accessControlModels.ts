@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import * as coreHttp from "@azure/core-http";
-import { SUPPORTED_API_VERSIONS } from './constants';
+import { SUPPORTED_API_VERSIONS } from "./constants";
 
 /**
  * The optional parameters accepted by the Key Vault's AccessControlClient
@@ -133,7 +133,7 @@ export interface CreateRoleAssignmentOptions extends coreHttp.OperationOptions {
   /**
    * The properties of the role assignment
    */
-  properties?: RoleAssignmentProperties
+  properties?: RoleAssignmentProperties;
 }
 
 /**

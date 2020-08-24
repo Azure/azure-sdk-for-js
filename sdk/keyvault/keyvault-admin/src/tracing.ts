@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { getTracer } from "@azure/core-tracing";
-import { RequestOptionsBase } from '@azure/core-http';
+import { RequestOptionsBase } from "@azure/core-http";
 import { Span } from "@opentelemetry/api";
 
 /**
