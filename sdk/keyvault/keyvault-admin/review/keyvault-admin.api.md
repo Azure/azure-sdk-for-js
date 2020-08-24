@@ -13,7 +13,7 @@ export class AccessControlClient {
     constructor(vaultUrl: string, credential: TokenCredential, pipelineOptions?: AccessControlClientOptions);
     createRoleAssignment(scope: RoleAssignmentScope, name: string, options?: CreateRoleAssignmentOptions): Promise<KeyVaultRoleAssignment>;
     deleteRoleAssignment(scope: RoleAssignmentScope, name: string, options?: DeleteRoleAssignmentOptions): Promise<KeyVaultRoleAssignment>;
-    getRoleAssignment(scope: RoleAssignmentScope, name: string, options?: DeleteRoleAssignmentOptions): Promise<KeyVaultRoleAssignment>;
+    getRoleAssignment(scope: RoleAssignmentScope, name: string, options?: GetRoleAssignmentOptions): Promise<KeyVaultRoleAssignment>;
     listRoleAssignments(scope: RoleAssignmentScope, options?: ListRoleAssignmentsOptions): PagedAsyncIterableIterator<KeyVaultRoleAssignment>;
     listRoleDefinitions(scope: RoleAssignmentScope, options?: ListRoleDefinitionsOptions): PagedAsyncIterableIterator<KeyVaultRoleDefinition>;
     readonly vaultUrl: string;
@@ -31,6 +31,10 @@ export interface CreateRoleAssignmentOptions extends coreHttp.OperationOptions {
 
 // @public
 export interface DeleteRoleAssignmentOptions extends coreHttp.OperationOptions {
+}
+
+// @public
+export interface GetRoleAssignmentOptions extends coreHttp.OperationOptions {
 }
 
 // @public
