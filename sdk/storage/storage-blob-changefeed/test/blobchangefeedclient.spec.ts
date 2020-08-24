@@ -3,6 +3,7 @@ import { record } from "@azure/test-utils-recorder";
 import { BlobServiceClient } from "@azure/storage-blob";
 import { getBSU, recorderEnvSetup } from "./utils";
 import { BlobChangeFeedClient, BlobChangeFeedEvent, BlobChangeFeedEventPage } from "../src";
+import { AbortController } from "@azure/abort-controller";
 
 import * as dotenv from "dotenv";
 dotenv.config();
@@ -112,8 +113,15 @@ describe("BlobChangeFeedClient", async () => {
     }
   });
 
-  it.only("could abort", async () => {
-
+  it("could abort", async () => {
+    const maxPageSize = 2;
+    const iter = changeFeedClient.listChanges({abortSignal: AbortController.timeout(1)}).byPage({ maxPageSize });
+    try {
+      await iter.next();
+      assert.fail("Should have been aborted.");
+    } catch (err) {
+      assert.equal(err.name, "AbortError");
+    }
   });
 });
 
