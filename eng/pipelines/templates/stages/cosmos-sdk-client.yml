@@ -14,6 +14,9 @@ parameters:
 - name: TargetDocRepoName
   type: string
   default: azure-docs-sdk-node
+- name: RunESLint
+  type: boolean
+  default: false
 
 stages:
   - stage: Build
@@ -23,6 +26,7 @@ stages:
           Artifacts: ${{parameters.Artifacts}}
           ServiceDirectory: ${{ parameters.ServiceDirectory }}
           RunUnitTests: ${{ parameters.RunUnitTests }}
+          RunESLint: ${{parameters.RunESLint}}
 
       - template: ../jobs/archetype-sdk-integration.yml
         parameters:

@@ -28,3 +28,4 @@ extends:
     Artifacts:
       - name: azure-identity
         safeName: azureidentity
+    RunESLint: true

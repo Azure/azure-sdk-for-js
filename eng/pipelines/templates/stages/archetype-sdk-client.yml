@@ -17,6 +17,9 @@ parameters:
 - name: RunUnitTests
   type: boolean
   default: true
+- name: RunESLint
+  type: boolean
+  default: false
 
 stages:
 - stage: Build
@@ -26,6 +29,7 @@ stages:
       ServiceDirectory: ${{parameters.ServiceDirectory}}
       Artifacts: ${{parameters.Artifacts}}
       RunUnitTests: ${{parameters.RunUnitTests}}
+      RunESLint: ${{parameters.RunESLint}}
 
 # The Prerelease and Release stages are conditioned on whether we are building a pull request and the branch.
 - ${{if and(ne(variables['Build.Reason'], 'PullRequest'), eq(variables['System.TeamProject'], 'internal'), eq(parameters.IncludeRelease,true))}}:
