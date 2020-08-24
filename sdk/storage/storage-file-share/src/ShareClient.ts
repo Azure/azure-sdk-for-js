@@ -1220,4 +1220,33 @@ export class ShareClient extends StorageClient {
       span.end();
     }
   }
+
+  /**
+   * Gets the Security Descriptor Definition Language (SDDL) for a given file permission key
+   * which indicates a security descriptor.
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/get-permission
+   *
+   * @param {ShareGetPermissionOptions} [options] Options to Share Create Permission operation.
+   * @param filePermissionKey File permission key which indicates the security descriptor of the permission.
+   */
+  public async getPermission(
+    filePermissionKey: string,
+    options: ShareGetPermissionOptions = {}
+  ): Promise<ShareGetPermissionResponse> {
+    const { span, spanOptions } = createSpan("ShareClient-getPermission", options.tracingOptions);
+    try {
+      return await this.context.getPermission(filePermissionKey, {
+        aborterSignal: options.abortSignal,
+        spanOptions
+      });
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
 }

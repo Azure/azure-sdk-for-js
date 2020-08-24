@@ -2,6 +2,7 @@
 
 ## 12.2.0 (Unreleased)
 
+- Added share soft delete support. Added `undeleteShare` to `ShareServiceClient`. `listShares` now can return deleted shares. Note: share soft delete only take effect on accounts with share soft delete feature enabled.
 
 ## 12.2.0-preview.1 (2020.07)
 
