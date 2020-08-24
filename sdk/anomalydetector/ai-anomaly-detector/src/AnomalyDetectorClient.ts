@@ -106,7 +106,7 @@ export class AnomalyDetectorClient {
    *             the request.
    * @param options The options parameters.
    */
-  public entireDetect(
+  public detectEntireSeries(
     body: Request,
     options?: OperationOptions
   ): Promise<AnomalyDetectorClientEntireDetectResponse> {
@@ -117,7 +117,7 @@ export class AnomalyDetectorClient {
     );
 
     try {
-      return this.client.entireDetect(body, finalOptions);
+      return this.client.detectEntireSeries(body, finalOptions);
     } catch (error) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -137,7 +137,7 @@ export class AnomalyDetectorClient {
    *             the request.
    * @param options The options parameters.
    */
-  public lastDetect(
+  public detectLastPoint(
     body: Request,
     options?: OperationOptions
   ): Promise<AnomalyDetectorClientLastDetectResponse> {
@@ -148,7 +148,7 @@ export class AnomalyDetectorClient {
     );
 
     try {
-      return this.client.lastDetect(body, finalOptions);
+      return this.client.detectLastPoint(body, finalOptions);
     } catch (error) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -166,7 +166,7 @@ export class AnomalyDetectorClient {
    *             in the request if needed.
    * @param options The options parameters.
    */
-  changePointDetect(
+  detectChangePoint(
     body: ChangePointDetectRequest,
     options?: OperationOptions
   ): Promise<AnomalyDetectorClientChangePointDetectResponse> {
@@ -177,7 +177,7 @@ export class AnomalyDetectorClient {
     );
 
     try {
-      return this.client.changePointDetect(body, finalOptions);
+      return this.client.detectChangePoint(body, finalOptions);
     } catch (error) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,

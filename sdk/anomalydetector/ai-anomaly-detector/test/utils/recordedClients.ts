@@ -12,11 +12,6 @@ import { AzureKeyCredential } from "@azure/core-auth";
 
 dotenv.config();
 
-export interface RecordedTrainingClient {
-  client: AnomalyDetectorClient;
-  recorder: Recorder;
-}
-
 export interface RecordedRecognizerClient {
   client: AnomalyDetectorClient;
   recorder: Recorder;
@@ -27,13 +22,7 @@ const replaceableVariables: { [k: string]: string } = {
   AZURE_CLIENT_SECRET: "azure_client_secret",
   AZURE_TENANT_ID: "azure_tenant_id",
   ANOMALY_DETECTOR_API_KEY: "api_key",
-  ANOMALY_DETECTOR_ENDPOINT: "https://endpoint/",
-  ANOMALY_DETECTOR_TRAINING_CONTAINER_SAS_URL: "https://storageaccount/trainingdata?sastoken",
-  ANOMALY_DETECTOR_TESTING_CONTAINER_SAS_URL: "https://storageaccount/testingdata?sastoken",
-  ANOMALY_DETECTOR_TARGET_RESOURCE_REGION: "westus2",
-  // fake resource id
-  ANOMALY_DETECTOR_TARGET_RESOURCE_ID:
-    "/subscriptions/e1367d46-77d4-4f57-8cfe-348edbdc84a3/resourceGroups/jstests/providers/Microsoft.CognitiveServices/accounts/jstests-fr"
+  ANOMALY_DETECTOR_ENDPOINT: "https://endpoint/"
 };
 
 export const testEnv = new Proxy(replaceableVariables, {

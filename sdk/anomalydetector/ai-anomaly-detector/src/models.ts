@@ -9,9 +9,9 @@ import { PipelineOptions } from "@azure/core-http";
 export interface AnomalyDetectorClientOptions extends PipelineOptions {}
 
 export {
-  GeneratedClientChangePointDetectResponse as AnomalyDetectorClientChangePointDetectResponse,
-  GeneratedClientEntireDetectResponse as AnomalyDetectorClientEntireDetectResponse,
-  GeneratedClientLastDetectResponse as AnomalyDetectorClientLastDetectResponse,
+  GeneratedClientDetectChangePointResponse as AnomalyDetectorClientChangePointDetectResponse,
+  GeneratedClientDetectEntireSeriesResponse as AnomalyDetectorClientEntireDetectResponse,
+  GeneratedClientDetectLastPointResponse as AnomalyDetectorClientLastDetectResponse,
   LastDetectResponse,
   ChangePointDetectResponse,
   Granularity,

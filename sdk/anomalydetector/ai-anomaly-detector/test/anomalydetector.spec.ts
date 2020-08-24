@@ -27,7 +27,7 @@ describe("AnomalyDetectorClient", () => {
   });
 
   it("should get result for entireDetect", async () => {
-    const result = await client.entireDetect(testPointSeries1);
+    const result = await client.detectEntireSeries(testPointSeries1);
     assert.deepEqual(result, expectedEntireResult);
   });
 
@@ -43,12 +43,12 @@ describe("AnomalyDetectorClient", () => {
       upperMargin: 40.47829008465612
     };
 
-    const result = await client.lastDetect(testPointSeries1);
+    const result = await client.detectLastPoint(testPointSeries1);
     assert.deepEqual(result, expected);
   });
 
   it("should get result for changePointDetect", async () => {
-    const result: ChangePointDetectResponse = await client.changePointDetect(testTrendPointseries);
+    const result: ChangePointDetectResponse = await client.detectChangePoint(testTrendPointseries);
     assert.deepEqual(result, changeExpectedResult);
   });
 });

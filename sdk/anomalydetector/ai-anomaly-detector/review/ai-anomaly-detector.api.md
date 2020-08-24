@@ -13,10 +13,10 @@ import { TokenCredential } from '@azure/identity';
 // @public
 export class AnomalyDetectorClient {
     constructor(endpointUrl: string, credential: TokenCredential | KeyCredential, options?: AnomalyDetectorClientOptions);
-    changePointDetect(body: ChangePointDetectRequest, options?: OperationOptions): Promise<AnomalyDetectorClientChangePointDetectResponse>;
+    detectChangePoint(body: ChangePointDetectRequest, options?: OperationOptions): Promise<AnomalyDetectorClientChangePointDetectResponse>;
+    detectEntireSeries(body: Request, options?: OperationOptions): Promise<AnomalyDetectorClientEntireDetectResponse>;
+    detectLastPoint(body: Request, options?: OperationOptions): Promise<AnomalyDetectorClientLastDetectResponse>;
     readonly endpointUrl: string;
-    entireDetect(body: Request, options?: OperationOptions): Promise<AnomalyDetectorClientEntireDetectResponse>;
-    lastDetect(body: Request, options?: OperationOptions): Promise<AnomalyDetectorClientLastDetectResponse>;
 }
 
 // @public

@@ -13,10 +13,10 @@ import { GeneratedClientContext } from "./generatedClientContext";
 import {
   GeneratedClientOptionalParams,
   Request,
-  GeneratedClientEntireDetectResponse,
-  GeneratedClientLastDetectResponse,
+  GeneratedClientDetectEntireSeriesResponse,
+  GeneratedClientDetectLastPointResponse,
   ChangePointDetectRequest,
-  GeneratedClientChangePointDetectResponse
+  GeneratedClientDetectChangePointResponse
 } from "./models";
 
 export class GeneratedClient extends GeneratedClientContext {
@@ -38,17 +38,17 @@ export class GeneratedClient extends GeneratedClientContext {
    *             the request.
    * @param options The options parameters.
    */
-  entireDetect(
+  detectEntireSeries(
     body: Request,
     options?: coreHttp.OperationOptions
-  ): Promise<GeneratedClientEntireDetectResponse> {
+  ): Promise<GeneratedClientDetectEntireSeriesResponse> {
     const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
       options || {}
     );
     return this.sendOperationRequest(
       { body, options: operationOptions },
-      entireDetectOperationSpec
-    ) as Promise<GeneratedClientEntireDetectResponse>;
+      detectEntireSeriesOperationSpec
+    ) as Promise<GeneratedClientDetectEntireSeriesResponse>;
   }
 
   /**
@@ -59,17 +59,17 @@ export class GeneratedClient extends GeneratedClientContext {
    *             the request.
    * @param options The options parameters.
    */
-  lastDetect(
+  detectLastPoint(
     body: Request,
     options?: coreHttp.OperationOptions
-  ): Promise<GeneratedClientLastDetectResponse> {
+  ): Promise<GeneratedClientDetectLastPointResponse> {
     const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
       options || {}
     );
     return this.sendOperationRequest(
       { body, options: operationOptions },
-      lastDetectOperationSpec
-    ) as Promise<GeneratedClientLastDetectResponse>;
+      detectLastPointOperationSpec
+    ) as Promise<GeneratedClientDetectLastPointResponse>;
   }
 
   /**
@@ -78,24 +78,24 @@ export class GeneratedClient extends GeneratedClientContext {
    *             in the request if needed.
    * @param options The options parameters.
    */
-  changePointDetect(
+  detectChangePoint(
     body: ChangePointDetectRequest,
     options?: coreHttp.OperationOptions
-  ): Promise<GeneratedClientChangePointDetectResponse> {
+  ): Promise<GeneratedClientDetectChangePointResponse> {
     const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
       options || {}
     );
     return this.sendOperationRequest(
       { body, options: operationOptions },
-      changePointDetectOperationSpec
-    ) as Promise<GeneratedClientChangePointDetectResponse>;
+      detectChangePointOperationSpec
+    ) as Promise<GeneratedClientDetectChangePointResponse>;
   }
 }
 // Operation Specifications
 
 const serializer = new coreHttp.Serializer(Mappers, /* isXml */ false);
 
-const entireDetectOperationSpec: coreHttp.OperationSpec = {
+const detectEntireSeriesOperationSpec: coreHttp.OperationSpec = {
   path: "/timeseries/entire/detect",
   httpMethod: "POST",
   responses: {
@@ -112,7 +112,7 @@ const entireDetectOperationSpec: coreHttp.OperationSpec = {
   mediaType: "json",
   serializer
 };
-const lastDetectOperationSpec: coreHttp.OperationSpec = {
+const detectLastPointOperationSpec: coreHttp.OperationSpec = {
   path: "/timeseries/last/detect",
   httpMethod: "POST",
   responses: {
@@ -129,7 +129,7 @@ const lastDetectOperationSpec: coreHttp.OperationSpec = {
   mediaType: "json",
   serializer
 };
-const changePointDetectOperationSpec: coreHttp.OperationSpec = {
+const detectChangePointOperationSpec: coreHttp.OperationSpec = {
   path: "/timeseries/changepoint/detect",
   httpMethod: "POST",
   responses: {

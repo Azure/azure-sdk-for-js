@@ -195,9 +195,9 @@ export type Granularity =
   | "secondly";
 
 /**
- * Contains response data for the entireDetect operation.
+ * Contains response data for the detectEntireSeries operation.
  */
-export type GeneratedClientEntireDetectResponse = EntireDetectResponse & {
+export type GeneratedClientDetectEntireSeriesResponse = EntireDetectResponse & {
   /**
    * The underlying HTTP response.
    */
@@ -215,9 +215,9 @@ export type GeneratedClientEntireDetectResponse = EntireDetectResponse & {
 };
 
 /**
- * Contains response data for the lastDetect operation.
+ * Contains response data for the detectLastPoint operation.
  */
-export type GeneratedClientLastDetectResponse = LastDetectResponse & {
+export type GeneratedClientDetectLastPointResponse = LastDetectResponse & {
   /**
    * The underlying HTTP response.
    */
@@ -235,9 +235,9 @@ export type GeneratedClientLastDetectResponse = LastDetectResponse & {
 };
 
 /**
- * Contains response data for the changePointDetect operation.
+ * Contains response data for the detectChangePoint operation.
  */
-export type GeneratedClientChangePointDetectResponse = ChangePointDetectResponse & {
+export type GeneratedClientDetectChangePointResponse = ChangePointDetectResponse & {
   /**
    * The underlying HTTP response.
    */
