@@ -8,6 +8,10 @@
 [Product documentation](https://docs.microsoft.com/en-us/azure/cognitive-services/anomaly-detector/) |[Samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/anomalydetector/ai-anomaly-detector/samples)
 [Samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/anomalydetector/ai-anomaly-detector/samples)
 
+## Key concepts
+
+Coming soon
+
 ## Getting started
 
 ### Currently supported environments
@@ -80,6 +84,10 @@ const { DefaultAzureCredential } = require("@azure/identity");
 
 const client = new AnomalyDetectorClient("<endpoint>", new DefaultAzureCredential());
 ```
+
+## Examples
+
+Coming soon
 
 ## Troubleshooting
 
