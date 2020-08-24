@@ -12,14 +12,14 @@ import {
   createServiceBusClientForTests,
   getRandomTestClientTypeWithNoSessions
 } from "./utils/testutils2";
-import { Receiver } from "../src/receivers/receiver";
-import { Sender } from "../src/sender";
+import { ServiceBusReceiver } from "../src/receivers/receiver";
+import { ServiceBusSender } from "../src/sender";
 import { ReceivedMessageWithLock } from "../src/serviceBusMessage";
 
 describe("Message Lock Renewal", () => {
   let serviceBusClient: ServiceBusClientForTests;
-  let sender: Sender;
-  let receiver: Receiver<ReceivedMessageWithLock>;
+  let sender: ServiceBusSender;
+  let receiver: ServiceBusReceiver<ReceivedMessageWithLock>;
 
   const testClientType = getRandomTestClientTypeWithNoSessions();
 
@@ -123,8 +123,8 @@ describe("Message Lock Renewal", () => {
    * Test renewLock() after receiving a message using Batch Receiver
    */
   async function testBatchReceiverManualLockRenewalHappyCase(
-    sender: Sender,
-    receiver: Receiver<ReceivedMessageWithLock>
+    sender: ServiceBusSender,
+    receiver: ServiceBusReceiver<ReceivedMessageWithLock>
   ): Promise<void> {
     const testMessage = TestMessage.getSample();
     await sender.sendMessages(testMessage);
@@ -171,8 +171,8 @@ describe("Message Lock Renewal", () => {
    * Test settling of message from Batch Receiver fails after message lock expires
    */
   async function testBatchReceiverManualLockRenewalErrorOnLockExpiry(
-    sender: Sender,
-    receiver: Receiver<ReceivedMessageWithLock>
+    sender: ServiceBusSender,
+    receiver: ServiceBusReceiver<ReceivedMessageWithLock>
   ): Promise<void> {
     const testMessage = TestMessage.getSample();
     await sender.sendMessages(testMessage);
@@ -204,8 +204,8 @@ describe("Message Lock Renewal", () => {
    * Test renewLock() after receiving a message using Streaming Receiver with autoLockRenewal disabled
    */
   async function testStreamingReceiverManualLockRenewalHappyCase(
-    sender: Sender,
-    receiver: Receiver<ReceivedMessageWithLock>
+    sender: ServiceBusSender,
+    receiver: ServiceBusReceiver<ReceivedMessageWithLock>
   ): Promise<void> {
     let numOfMessagesReceived = 0;
     const testMessage = TestMessage.getSample();
@@ -260,7 +260,7 @@ describe("Message Lock Renewal", () => {
       { processMessage, processError },
       {
         autoComplete: false,
-        maxMessageAutoRenewLockDurationInMs: 0
+        maxAutoRenewLockDurationInMs: 0
       }
     );
     await delay(10000);
@@ -280,8 +280,8 @@ describe("Message Lock Renewal", () => {
   }
 
   async function testAutoLockRenewalConfigBehavior(
-    sender: Sender,
-    receiver: Receiver<ReceivedMessageWithLock>,
+    sender: ServiceBusSender,
+    receiver: ServiceBusReceiver<ReceivedMessageWithLock>,
     options: AutoLockRenewalTestOptions
   ): Promise<void> {
     let numOfMessagesReceived = 0;
@@ -320,7 +320,7 @@ describe("Message Lock Renewal", () => {
       { processMessage, processError },
       {
         autoComplete: false,
-        maxMessageAutoRenewLockDurationInMs: options.maxAutoRenewDurationInMs
+        maxAutoRenewLockDurationInMs: options.maxAutoRenewDurationInMs
       }
     );
     await delay(options.delayBeforeAttemptingToCompleteMessageInSeconds * 1000 + 10000);

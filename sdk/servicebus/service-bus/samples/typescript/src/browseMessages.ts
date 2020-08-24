@@ -8,7 +8,7 @@
   
   This sample demonstrates how the peekMessages() function can be used to browse a Service Bus message.
 
-  See https://docs.microsoft.com/en-us/azure/service-bus-messaging/message-browsing to learn
+  See https://docs.microsoft.com/azure/service-bus-messaging/message-browsing to learn
   about message browsing.
 
   Setup: Please run "sendMessages.ts" sample before running this to populate the queue/topic
@@ -28,9 +28,7 @@ export async function main() {
   const sbClient = new ServiceBusClient(connectionString);
 
   // If receiving from a subscription you can use the createReceiver(topic, subscription) overload
-  // Since browsing messages doesn't take a lock on the message, the receive mode passed to getReceiver
-  // is irrelevant to this sample code.
-  const queueReceiver = sbClient.createReceiver(queueName, "receiveAndDelete");
+  const queueReceiver = sbClient.createReceiver(queueName);
 
   try {
     for (let i = 0; i < 20; i++) {

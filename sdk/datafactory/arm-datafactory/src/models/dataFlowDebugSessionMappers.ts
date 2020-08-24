@@ -18,6 +18,7 @@ export {
   AmazonS3Location,
   AvroDataset,
   AvroFormat,
+  AzPowerShellSetup,
   AzureBatchLinkedService,
   AzureBlobDataset,
   AzureBlobFSDataset,

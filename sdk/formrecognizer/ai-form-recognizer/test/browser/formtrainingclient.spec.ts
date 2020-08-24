@@ -14,7 +14,8 @@ import { env, Recorder } from "@azure/test-utils-recorder";
 import {
   createRecordedTrainingClient,
   createRecordedRecognizerClient,
-  testEnv
+  testEnv,
+  testPollingOptions
 } from "../util/recordedClients";
 
 let unlabeledModelId: string | undefined;
@@ -26,6 +27,7 @@ describe("FormTrainingClient browser only", () => {
   const apiKey = new AzureKeyCredential(testEnv.FORM_RECOGNIZER_API_KEY);
 
   beforeEach(function() {
+    // eslint-disable-next-line no-invalid-this
     ({ recorder, client: trainingClient } = createRecordedTrainingClient(this, apiKey));
     trainingClient = new FormTrainingClient(
       env.FORM_RECOGNIZER_ENDPOINT,
@@ -49,7 +51,7 @@ describe("FormTrainingClient browser only", () => {
   it("trains model with forms and no labels", async () => {
     const containerSasUrl = env.FORM_RECOGNIZER_TRAINING_CONTAINER_SAS_URL;
     assert.ok(containerSasUrl, "Expect valid container sas url");
-    const poller = await trainingClient.beginTraining(containerSasUrl, false);
+    const poller = await trainingClient.beginTraining(containerSasUrl, false, testPollingOptions);
     const response = await poller.pollUntilDone();
 
     assert.ok(response, "Expecting valid response");
@@ -74,7 +76,7 @@ describe("FormTrainingClient browser only", () => {
     const containerSasUrl = env.FORM_RECOGNIZER_TRAINING_CONTAINER_SAS_URL;
     assert.ok(containerSasUrl, "Expect valid container sas url");
 
-    const poller = await trainingClient.beginTraining(containerSasUrl, true);
+    const poller = await trainingClient.beginTraining(containerSasUrl, true, testPollingOptions);
     const response = await poller.pollUntilDone();
 
     assert.ok(response, "Expecting valid response");
@@ -87,7 +89,6 @@ describe("FormTrainingClient browser only", () => {
     );
     const model = response!.submodels![0];
     assert.equal(model.formType, `form-${response!.modelId}`);
-    assert.equal(model.accuracy, 0.973);
     assert.ok(model.fields["Signature"], "Expecting field with name 'Signature' to be valid");
 
     // TODO: why training with labels is missing `errors` array?
@@ -99,7 +100,8 @@ describe("FormTrainingClient browser only", () => {
     assert.ok(containerSasUrl, "Expect valid container sas url");
 
     const poller = await trainingClient.beginTraining(containerSasUrl, false, {
-      includeSubfolders: true
+      includeSubfolders: true,
+      ...testPollingOptions
     });
     const response = await poller.pollUntilDone();
 
@@ -120,7 +122,8 @@ describe("FormTrainingClient browser only", () => {
     assert.ok(containerSasUrl, "Expect valid container sas url");
 
     const poller = await trainingClient.beginTraining(containerSasUrl, false, {
-      prefix: "Form_"
+      prefix: "Form_",
+      ...testPollingOptions
     });
     const response = await poller.pollUntilDone();
 
@@ -148,14 +151,9 @@ describe("FormTrainingClient browser only", () => {
   });
 
   it("listModels() iterates models in this account", async () => {
-    let count = 0;
-    for await (const _model of trainingClient.listCustomModels()) {
-      count++;
-      if (count > 30) {
-        break; // work around issue https://github.com/Azure/azure-sdk-for-js/issues/8353
-      }
+    for await (const validModel of trainingClient.listCustomModels()) {
+      assert.ok(validModel.modelId, `Expecting a model but got ${validModel.modelId}`);
     }
-    assert.ok(count > 0, `Expecting models in account but got ${count}`);
   });
 
   it("listModels() allows getting next model info", async () => {
@@ -167,6 +165,7 @@ describe("FormTrainingClient browser only", () => {
 
   it("getModel() returns a model", async function() {
     if (!modelIdToDelete) {
+      // eslint-disable-next-line no-invalid-this
       this.skip();
     }
 
@@ -181,6 +180,7 @@ describe("FormTrainingClient browser only", () => {
 
   it("deleteModels() removes a model from this account", async function() {
     if (!modelIdToDelete) {
+      // eslint-disable-next-line no-invalid-this
       this.skip();
     }
 
@@ -208,6 +208,7 @@ describe("FormRecognizerClient custom form recognition browser only", () => {
   const apiKey = new AzureKeyCredential(testEnv.FORM_RECOGNIZER_API_KEY);
 
   beforeEach(function() {
+    // eslint-disable-next-line no-invalid-this
     ({ recorder, client: recognizerClient } = createRecordedRecognizerClient(this, apiKey));
   });
 
@@ -222,7 +223,11 @@ describe("FormRecognizerClient custom form recognition browser only", () => {
     const url = `${urlParts[0]}/Form_1.jpg?${urlParts[1]}`;
 
     assert.ok(unlabeledModelId, "Expecting valid model id from training without labels");
-    const poller = await recognizerClient.beginRecognizeCustomFormsFromUrl(unlabeledModelId!, url);
+    const poller = await recognizerClient.beginRecognizeCustomFormsFromUrl(
+      unlabeledModelId!,
+      url,
+      testPollingOptions
+    );
     const forms = await poller.pollUntilDone();
 
     assert.ok(forms && forms.length > 0, `Expect no-empty pages but got ${forms}`);
@@ -254,7 +259,11 @@ describe("FormRecognizerClient custom form recognition browser only", () => {
 
     assert.ok(unlabeledModelId, "Expecting valid model id from training without labels");
     assert.ok(data, "Expect valid Blob data to use as input");
-    const poller = await recognizerClient.beginRecognizeCustomForms(unlabeledModelId!, data!);
+    const poller = await recognizerClient.beginRecognizeCustomForms(
+      unlabeledModelId!,
+      data!,
+      testPollingOptions
+    );
     const forms = await poller.pollUntilDone();
 
     assert.ok(forms && forms.length > 0, `Expect no-empty pages but got ${forms}`);

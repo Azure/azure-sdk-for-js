@@ -433,6 +433,10 @@ export interface DiskEncryptionProperties {
    * Resource ID of Managed Identity that is used to access the key vault.
    */
   msiResourceId?: string;
+  /**
+   * Indicates whether or not resource disk encryption is enabled. Default value: false.
+   */
+  encryptionAtHost?: boolean;
 }
 
 /**

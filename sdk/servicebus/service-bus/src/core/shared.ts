@@ -17,14 +17,14 @@ export interface DeferredPromiseAndTimer {
 
 /**
  * This is the shared onSettled handler for all of the receiver implementations.
- * 
+ *
  * The sequence is basically:
  * 1. User calls `await <ServiceBusMessage instance>.complete()`     (or other settlement methods)
  * 2. This creates a `Promise` that gets stored in the _deliveryDispositionMap
  * 3. When the service acknowledges the settlement this method gets called for that message.
  * 4. We resolve() the promise from the _deliveryDispositionMap.
  * 5. User's code after the settlement continues.
- * 
+ *
  * @internal
  * @ignore
  */

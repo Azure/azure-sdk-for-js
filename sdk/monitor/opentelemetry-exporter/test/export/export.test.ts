@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 /* eslint-disable no-param-reassign */
 /* eslint-disable dot-notation */
 import * as assert from "assert";
@@ -53,76 +56,65 @@ describe("#AzureMonitorBaseExporter", () => {
         nock.cleanAll();
       });
 
-      it("should persist retriable failed telemetry", (done) => {
+      it("should persist retriable failed telemetry", async () => {
         const exporter = new TestExporter();
         const response = failedBreezeResponse(1, 408);
         scope.reply(408, JSON.stringify(response));
-        exporter.exportEnvelopes([envelope], (result) => {
-          assert.strictEqual(result, ExportResult.FAILED_RETRYABLE);
-          exporter["_persister"].shift((err, persistedEnvelopes) => {
-            assert.strictEqual(err, null);
-            assert.strictEqual(persistedEnvelopes?.length, 1);
-            if (!persistedEnvelopes) {
-              assert.ok(false);
-            } else {
-              assert.deepStrictEqual(persistedEnvelopes[0], toObject(envelope));
-            }
-            done();
-          });
-        });
+
+        const result = await exporter.exportEnvelopes([envelope]);
+        assert.strictEqual(result, ExportResult.FAILED_RETRYABLE);
+
+        const persistedEnvelopes = (await exporter["_persister"].shift()) as Envelope[];
+        assert.strictEqual(persistedEnvelopes?.length, 1);
+        assert.deepStrictEqual(persistedEnvelopes[0], toObject(envelope));
       });
 
-      it("should persist partial retriable failed telemetry", (done) => {
+      it("should persist partial retriable failed telemetry", async () => {
         const exporter = new TestExporter();
         const response = partialBreezeResponse([200, 408, 408]);
         scope.reply(206, JSON.stringify(response));
-        exporter.exportEnvelopes([envelope, envelope, envelope], (result) => {
-          assert.strictEqual(result, ExportResult.FAILED_RETRYABLE);
-          exporter["_persister"].shift((err, persistedEnvelopes) => {
-            assert.strictEqual(err, null);
-            assert.strictEqual(persistedEnvelopes?.length, 2);
-            done();
-          });
-        });
+
+        const result = await exporter.exportEnvelopes([envelope, envelope, envelope]);
+        assert.strictEqual(result, ExportResult.FAILED_RETRYABLE);
+
+        const persistedEnvelopes = (await exporter["_persister"].shift()) as Envelope[];
+        assert.strictEqual(persistedEnvelopes?.length, 2);
       });
 
-      it("should not persist non-retriable failed telemetry", (done) => {
+      it("should not persist non-retriable failed telemetry", async () => {
         const exporter = new TestExporter();
         const response = failedBreezeResponse(1, 400);
         scope.reply(400, JSON.stringify(response));
-        exporter.exportEnvelopes([envelope], (result) => {
-          assert.strictEqual(result, ExportResult.FAILED_NOT_RETRYABLE);
-          exporter["_persister"].shift((err, persistedEnvelopes) => {
-            assert.strictEqual(err, null);
-            assert.strictEqual(persistedEnvelopes, undefined);
-            done();
-          });
-        });
+
+        const result = await exporter.exportEnvelopes([envelope]);
+        assert.strictEqual(result, ExportResult.FAILED_NOT_RETRYABLE);
+
+        const persistedEnvelopes = await exporter["_persister"].shift();
+        assert.strictEqual(persistedEnvelopes, null);
       });
 
-      it("should start retry timer when telemetry is successfully sent", (done) => {
+      it("should start retry timer when telemetry is successfully sent", async () => {
         const exporter = new TestExporter();
         const response = successfulBreezeResponse(1);
         scope.reply(200, JSON.stringify(response));
-        exporter.exportEnvelopes([envelope], (result) => {
-          assert.strictEqual(result, ExportResult.SUCCESS);
-          assert.notEqual(exporter["_retryTimer"], null);
-          clearTimeout(exporter["_retryTimer"]!);
-          exporter["_retryTimer"] = null;
-          done();
-        });
+
+        const result = await exporter.exportEnvelopes([envelope]);
+        assert.strictEqual(result, ExportResult.SUCCESS);
+        assert.notStrictEqual(exporter["_retryTimer"], null);
+
+        clearTimeout(exporter["_retryTimer"]!);
+        exporter["_retryTimer"] = null;
       });
 
-      it("should not start a retry timer when one already exists", (done) => {
+      it("should not start a retry timer when one already exists", async () => {
         const exporter = new TestExporter();
         exporter["_retryTimer"] = ("foo" as unknown) as NodeJS.Timer;
         const response = successfulBreezeResponse(1);
         scope.reply(200, JSON.stringify(response));
-        exporter.exportEnvelopes([envelope], (result) => {
-          assert.strictEqual(result, ExportResult.SUCCESS);
-          assert.strictEqual(exporter["_retryTimer"], "foo");
-          done();
-        });
+
+        const result = await exporter.exportEnvelopes([envelope]);
+        assert.strictEqual(result, ExportResult.SUCCESS);
+        assert.strictEqual(exporter["_retryTimer"], "foo");
       });
     });
   });

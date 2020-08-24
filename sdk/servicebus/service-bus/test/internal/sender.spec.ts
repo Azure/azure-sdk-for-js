@@ -3,26 +3,34 @@
 
 import chai from "chai";
 import { ServiceBusMessageBatchImpl } from "../../src/serviceBusMessageBatch";
-import { ClientEntityContext } from "../../src/clientEntityContext";
+import { ConnectionContext } from "../../src/connectionContext";
 import { ServiceBusMessage } from "../../src";
-import { isServiceBusMessageBatch, SenderImpl } from "../../src/sender";
+import { isServiceBusMessageBatch, ServiceBusSenderImpl } from "../../src/sender";
 import { DefaultDataTransformer } from "@azure/core-amqp";
+
 const assert = chai.assert;
 
-describe("sender unit tests", () => {
+describe("Sender helper unit tests", () => {
   it("isServiceBusMessageBatch", () => {
     assert.isTrue(
-      isServiceBusMessageBatch(new ServiceBusMessageBatchImpl({} as ClientEntityContext, 100))
+      isServiceBusMessageBatch(new ServiceBusMessageBatchImpl({} as ConnectionContext, 100))
     );
 
     assert.isFalse(isServiceBusMessageBatch(undefined));
     assert.isFalse(isServiceBusMessageBatch((4 as any) as ServiceBusMessage));
     assert.isFalse(isServiceBusMessageBatch(({} as any) as ServiceBusMessage));
   });
+});
+
+describe("sender unit tests", () => {
+  const fakeContext = createConnectionContextForTests();
+  const sender = new ServiceBusSenderImpl(fakeContext, "fakeEntityPath");
+  sender["_sender"].createBatch = async () => {
+    return new ServiceBusMessageBatchImpl(fakeContext, 100);
+  };
 
   ["hello", {}, 123, null, undefined, ["hello"]].forEach((invalidValue) => {
     it(`don't allow Sender.sendMessages(${invalidValue})`, async () => {
-      const sender = new SenderImpl(createClientEntityContextForTests());
       let expectedErrorMsg =
         "Provided value for 'messages' must be of type ServiceBusMessage, ServiceBusMessageBatch or an array of type ServiceBusMessage.";
       if (invalidValue === null || invalidValue === undefined) {
@@ -42,7 +50,6 @@ describe("sender unit tests", () => {
 
   ["hello", {}, null, undefined].forEach((invalidValue) => {
     it(`don't allow tryAdd(${invalidValue})`, async () => {
-      const sender = new SenderImpl(createClientEntityContextForTests());
       const batch = await sender.createBatch();
       let expectedErrorMsg = "Provided value for 'message' must be of type ServiceBusMessage.";
       if (invalidValue === null || invalidValue === undefined) {
@@ -62,7 +69,6 @@ describe("sender unit tests", () => {
 
   ["hello", {}, null, undefined, ["hello"]].forEach((invalidValue) => {
     it(`don't allow Sender.scheduleMessages(${invalidValue})`, async () => {
-      const sender = new SenderImpl(createClientEntityContextForTests());
       let expectedErrorMsg =
         "Provided value for 'messages' must be of type ServiceBusMessage or an array of type ServiceBusMessage.";
       if (invalidValue === null || invalidValue === undefined) {
@@ -83,30 +89,23 @@ describe("sender unit tests", () => {
   });
 });
 
-function createClientEntityContextForTests(): ClientEntityContext & { initWasCalled: boolean } {
+function createConnectionContextForTests(): ConnectionContext & { initWasCalled: boolean } {
   let initWasCalled = false;
 
-  const fakeClientEntityContext = {
-    entityPath: "queue",
-    sender: {
-      credit: 999,
-      createBatch: () => {
-        return new ServiceBusMessageBatchImpl(fakeClientEntityContext as any, 100);
+  const fakeConnectionContext = {
+    config: { endpoint: "my.service.bus" },
+    connectionId: "connection-id",
+    dataTransformer: new DefaultDataTransformer(),
+    cbsSession: {
+      cbsLock: "cbs-lock",
+      async init() {
+        initWasCalled = true;
       }
     },
-    namespace: {
-      config: { endpoint: "my.service.bus" },
-      connectionId: "connection-id",
-      dataTransformer: new DefaultDataTransformer(),
-      cbsSession: {
-        cbsLock: "cbs-lock",
-        async init() {
-          initWasCalled = true;
-        }
-      }
-    },
+    senders: {},
+    managementClients: {},
     initWasCalled
   };
 
-  return (fakeClientEntityContext as any) as ReturnType<typeof createClientEntityContextForTests>;
+  return (fakeConnectionContext as any) as ReturnType<typeof createConnectionContextForTests>;
 }

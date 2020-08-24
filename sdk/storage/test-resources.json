@@ -51,6 +51,7 @@
     "accountName": "[parameters('baseName')]",
     "datalakeAccountName": "[concat('d', parameters('baseName'))]",
     "accountNameTidy": "[toLower(trim(variables('accountName')))]",
+    "datalakeaccountNameTidy": "[toLower(trim(variables('datalakeAccountName')))]",
     "blobEndPoint": "[concat('https://',variables('accountNameTidy'),'.blob.', parameters('storageEndpointSuffix'))]",
     "accountSasProperties": {
       "signedServices": "bfqt",
@@ -255,10 +256,6 @@
       "type": "string",
       "value": "[variables('accountName')]"
     },
-    "STORAGE_DATALAKE_ACCOUNT_NAME": {
-      "type": "string",
-      "value": "[variables('datalakeAccountName')]"
-    },
     "ACCOUNT_KEY": {
       "type": "string",
       "value": "[listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('accountName')), variables('storageApiVersion')).keys[0].value]"
@@ -282,6 +279,18 @@
     "AZURE_CLIENT_SECRET": {
       "type": "string",
       "value": "[parameters('testApplicationSecret')]"
+    },
+    "DFS_ACCOUNT_NAME": {
+      "type": "string",
+      "value": "[variables('dataLakeAccountName')]"
+    },
+    "DFS_ACCOUNT_KEY": {
+      "type": "string",
+      "value": "[listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('dataLakeAccountName')), variables('storageApiVersion')).keys[0].value]"
+    },
+    "DFS_ACCOUNT_SAS": {
+      "type": "string",
+      "value": "[concat('?', listAccountSas(variables('datalakeaccountNameTidy'), variables('storageApiVersion'), variables('accountSasProperties')).accountSasToken)]"
     }
   }
 }

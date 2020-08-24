@@ -28,7 +28,7 @@ export interface NamespaceProperties {
   /**
    * The last time at which the namespace was modified.
    */
-  updatedAt: Date;
+  modifiedAt: Date;
   /**
    * Name of the namespace.
    */
@@ -57,7 +57,7 @@ export function buildNamespace(rawNamespace: any): NamespaceProperties {
   return {
     createdAt: getDate(rawNamespace["CreatedTime"], "createdAt"),
     messagingSku: messagingSku,
-    updatedAt: getDate(rawNamespace["ModifiedTime"], "updatedAt"),
+    modifiedAt: getDate(rawNamespace["ModifiedTime"], "modifiedAt"),
     name: getString(rawNamespace["Name"], "name"),
     namespaceType: getString(rawNamespace["NamespaceType"], "namespaceType"),
     messagingUnits:
