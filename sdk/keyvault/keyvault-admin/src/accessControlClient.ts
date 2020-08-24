@@ -2,15 +2,18 @@
 // Licensed under the MIT license.
 /// <reference lib="esnext.asynciterable" />
 
-import { CreateRoleAssignmentOptions, KeyVaultRoleAssignment, AccessControlClientOptions, RoleAssignmentScope, DeleteRoleAssignmentOptions } from "./accessControlModels";
 import { operationOptionsToRequestOptionsBase, TokenCredential, isTokenCredential, signingPolicy, createPipelineFromOptions } from '@azure/core-http';
-import { SDK_VERSION, LATEST_API_VERSION } from './constants';
+import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
+
 import { challengeBasedAuthenticationPolicy } from "../../keyvault-common/src";
-import { logger } from "./log";
+import { RoleAssignmentsCreateResponse, RoleAssignmentsDeleteResponse, RoleAssignmentsListForScopeOptionalParams } from './generated/models';
+
+import { CreateRoleAssignmentOptions, KeyVaultRoleAssignment, AccessControlClientOptions, RoleAssignmentScope, DeleteRoleAssignmentOptions, ListRoleAssignmentsOptions } from "./accessControlModels";
+import { SDK_VERSION, LATEST_API_VERSION } from './constants';
 import { KeyVaultClient } from './generated/keyVaultClient';
 import { createSpan, setParentSpan } from './tracing';
-import { RoleAssignmentsCreateResponse, RoleAssignmentsDeleteResponse } from './generated/models';
 import { mappings } from './mappings';
+import { logger } from "./log";
 
 export class AccessControlClient {
   /**
@@ -208,6 +211,105 @@ export class AccessControlClient {
     return mappings.roleAssignment.generatedToPublic(response);    
   }
 
-  public async listRoleAssignments(): PagedAsyncIterableIterator<KeyVaultRoleAssignment> {}
-  public async listRoleDefinitions(): PagedAsyncIterableIterator<KeyVaultRoleAssignment> {}
+  /**
+   * @internal
+   * @ignore
+   * Deals with the pagination of {@link listRoleAssignments}.
+   * @param {string} scope The scope of the role assignments.
+   * @param {PageSettings} continuationState An object that indicates the position of the paginated request.
+   * @param {ListRoleAssignmentsOptions} [options] Common options for the iterative endpoints.
+   */
+  private async *listRoleAssignmentsPage(
+    scope: RoleAssignmentScope,
+    continuationState: PageSettings,
+    options?: ListRoleAssignmentsOptions
+  ): AsyncIterableIterator<KeyVaultRoleAssignment[]> {
+    if (continuationState.continuationToken == null) {
+      const optionsComplete: RoleAssignmentsListForScopeOptionalParams = {
+        // Not supported!
+        // maxresults: continuationState.maxPageSize,
+        ...options
+      };
+      const currentSetResponse = await this.client.roleAssignments.listForScope(this.vaultUrl, scope, optionsComplete);
+      continuationState.continuationToken = currentSetResponse.nextLink;
+      if (currentSetResponse.value) {
+        yield currentSetResponse.value.map(mappings.roleAssignment.generatedToPublic, this);
+      }
+    }
+    while (continuationState.continuationToken) {
+      const currentSetResponse = await this.client.roleAssignments.listForScopeNext(
+        this.vaultUrl, scope, 
+        continuationState.continuationToken,
+        options
+      );
+      continuationState.continuationToken = currentSetResponse.nextLink;
+      if (currentSetResponse.value) {
+        yield currentSetResponse.value.map(mappings.roleAssignment.generatedToPublic, this);
+      } else {
+        break;
+      }
+    }
+  }
+
+  /**
+   * @internal
+   * @ignore
+   * Deals with the iteration of all the available results of {@link listRoleAssignments}.
+   * @param {string} scope The scope of the role assignments.
+   * @param {ListRoleAssignmentsOptions} [options] Common options for the iterative endpoints.
+   */
+  private async *listRoleAssignmentsAll(
+    scope: RoleAssignmentScope,
+    options?: ListRoleAssignmentsOptions
+  ): AsyncIterableIterator<KeyVaultRoleAssignment> {
+    const f = {};
+
+    for await (const page of this.listRoleAssignmentsPage(scope, f, options)) {
+      for (const item of page) {
+        yield item;
+      }
+    }
+  }
+
+  /**
+   * Iterates over all of the available role assignments in an Azure Key Vault.
+   *
+   * Example usage:
+   * ```ts
+   * let client = new AccessControlClient(url, credentials);
+   * for await (const roleAssignment of client.listRoleAssignments("/")) {
+   *   console.log("Role assignment: ", roleAssignment);
+   * }
+   * ```
+   * @summary Lists all of the role assignments in a given scope.
+   * @param {string} scope The scope of the role assignments.
+   * @param {ListPropertiesOfKeysOptions} [options] The optional parameters.
+   */
+  public listRoleAssignments(
+    scope: RoleAssignmentScope,
+    options: ListRoleAssignmentsOptions = {}
+  ): PagedAsyncIterableIterator<KeyVaultRoleAssignment> {
+    const requestOptions = operationOptionsToRequestOptionsBase(options);
+    const span = createSpan("listRoleAssignments", requestOptions);
+    const updatedOptions: ListRoleAssignmentsOptions = {
+      ...requestOptions,
+      ...setParentSpan(span, requestOptions)
+    };
+
+    const iter = this.listRoleAssignmentsAll(scope, updatedOptions);
+
+    span.end();
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings: PageSettings = {}) =>
+        this.listRoleAssignmentsPage(scope, settings, updatedOptions)
+    };    
+  }
+
+  public listRoleDefinitions(): PagedAsyncIterableIterator<KeyVaultRoleDefinition> {}
 }
