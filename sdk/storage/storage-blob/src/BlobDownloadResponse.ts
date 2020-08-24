@@ -1,19 +1,21 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
-
 import { HttpResponse, isNode } from "@azure/core-http";
 
 import {
+  BlobDownloadHeaders,
   BlobType,
   CopyStatusType,
   LeaseDurationType,
   LeaseStateType,
   LeaseStatusType,
-  BlobDownloadHeaders
 } from "./generatedModels";
-import { Metadata, BlobDownloadResponseParsed, ObjectReplicationPolicy } from "./models";
-import { RetriableReadableStreamOptions } from "./utils/RetriableReadableStream";
-import { ReadableStreamGetter, RetriableReadableStream } from "./utils/RetriableReadableStream";
+import { BlobDownloadResponseParsed, Metadata, ObjectReplicationPolicy } from "./models";
+import {
+  ReadableStreamGetter,
+  RetriableReadableStream,
+  RetriableReadableStreamOptions,
+} from "./utils/RetriableReadableStream";
 
 /**
  * ONLY AVAILABLE IN NODE.JS RUNTIME.
@@ -490,6 +492,17 @@ export class BlobDownloadResponse implements BlobDownloadResponseParsed {
    */
   public get objectReplicationSourceProperties(): ObjectReplicationPolicy[] | undefined {
     return this.originalResponse.objectReplicationSourceProperties;
+  }
+
+  /**
+   * If this blob has been sealed.
+   *
+   * @readonly
+   * @type {(boolean | undefined)}
+   * @memberof BlobDownloadResponse
+   */
+  public get isSealed(): boolean | undefined {
+    return this.originalResponse.isSealed;
   }
 
   /**
