@@ -145,19 +145,9 @@ export interface DeleteRoleAssignmentOptions extends coreHttp.OperationOptions {
 /**
  * An interface representing optional parameters passed to {@link listRoleAssignments}.
  */
-export interface ListRoleAssignmentsOptions extends coreHttp.OperationOptions {
-  /**
-   * The filter to apply on the operation. Use $filter=atScope() to return all role assignments at or above the scope. Use $filter=principalId eq {id} to return all role assignments at, above or below the scope for the specified principal.
-   */
-  filter?: string;
-}
+export interface ListRoleAssignmentsOptions extends coreHttp.OperationOptions {}
 
 /**
  * An interface representing optional parameters passed to {@link listRoleDefinitions}.
  */
-export interface ListRoleDefinitionsOptions extends coreHttp.OperationOptions {
-  /**
-   * The filter to apply on the operation. Use atScopeAndBelow filter to search below the given scope as well.
-   */
-  filter?: string;
-}
+export interface ListRoleDefinitionsOptions extends coreHttp.OperationOptions {}

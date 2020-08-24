@@ -58,12 +58,10 @@ export const LATEST_API_VERSION = "7.1";
 
 // @public
 export interface ListRoleAssignmentsOptions extends coreHttp.OperationOptions {
-    filter?: string;
 }
 
 // @public
 export interface ListRoleDefinitionsOptions extends coreHttp.OperationOptions {
-    filter?: string;
 }
 
 // @public
