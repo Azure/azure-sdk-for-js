@@ -89,6 +89,19 @@ export class AccessControlClient {
     });
   }
 
+  /**
+   * This method creates a role assignment in an Azure Key Vault.
+   *
+   * Example usage:
+   * ```ts
+   * let client = new AccessControlClient(url, credentials);
+   * let result = await client.createRoleAssignment("MyKey", "EC");
+   * ```
+   * @summary Creates a new key, stores it, then returns key parameters and properties to the client.
+   * @param {string} scope The scope of the role assignment.
+   * @param {string} name The name of the role assignment.
+   * @param {CreateRoleAssignmentOptions} [options] The optional parameters.
+   */
   public async createRoleAssignment(
     scope: string,
     name: string,
