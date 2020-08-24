@@ -10,6 +10,7 @@ typescript:
 use-extension:
   "@autorest/typescript": "6.0.0-dev.20200727.1"
 generate-metadata: false
+add-credentials: false
 license-header: MICROSOFT_MIT_NO_VERSION
 input-file: https://github.com/Azure/azure-rest-api-specs/blob/master/specification/digitaltwins/data-plane/Microsoft.DigitalTwins/preview/2020-05-31-preview/digitaltwins.json
 output-folder: ../

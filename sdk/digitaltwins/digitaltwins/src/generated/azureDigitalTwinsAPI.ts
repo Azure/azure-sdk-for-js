@@ -6,7 +6,6 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import * as coreHttp from "@azure/core-http";
 import * as operations from "./operations";
 import * as Models from "./models";
 import * as Mappers from "./models/mappers";
@@ -16,14 +15,10 @@ import { AzureDigitalTwinsAPIOptionalParams } from "./models";
 class AzureDigitalTwinsAPI extends AzureDigitalTwinsAPIContext {
   /**
    * Initializes a new instance of the AzureDigitalTwinsAPI class.
-   * @param credentials Subscription credentials which uniquely identify client subscription.
    * @param options The parameter options
    */
-  constructor(
-    credentials: coreHttp.TokenCredential | coreHttp.ServiceClientCredentials,
-    options?: AzureDigitalTwinsAPIOptionalParams
-  ) {
-    super(credentials, options);
+  constructor(options?: AzureDigitalTwinsAPIOptionalParams) {
+    super(options);
     this.digitalTwinModels = new operations.DigitalTwinModels(this);
     this.query = new operations.Query(this);
     this.digitalTwins = new operations.DigitalTwins(this);

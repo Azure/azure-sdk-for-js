@@ -120,7 +120,7 @@ export class DigitalTwinsClient {
 
     const pipeline = createPipelineFromOptions(internalPipelineOptions, authPolicy);
 
-    this.client = new GeneratedClient(credential, {
+    this.client = new GeneratedClient({
       ...{ endpoint },
       ...pipeline,
       ...options
