@@ -38,7 +38,12 @@ async function main() {
   // - AZURE_CLIENT_SECRET: The client secret for the registered application
   const credential = new DefaultAzureCredential();
   const url = process.env["KEYVAULT_URI"] || "<keyvault-url>";
-  const client = new SecretClient(url, credential);
+
+  const client = new SecretClient(url, credential, {
+    // The KEY_VAULT_API_VERSION environment variable is used by our CI pipelines to run the samples and check their validity automatically.
+    // The serviceVersion is an optional parameter that allows users to specify a Key Vault service API version.
+    serviceVersion: process.env.KEY_VAULT_API_VERSION
+  });
 
   const uniqueString = new Date().getTime();
   const secretName = `secret${uniqueString}`;

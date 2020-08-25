@@ -19,7 +19,11 @@ async function main() {
   const url = process.env["KEYVAULT_URI"] || "<keyvault-url>";
   const credential = new DefaultAzureCredential();
 
-  const client = new CertificateClient(url, credential);
+  const client = new CertificateClient(url, credential, {
+    // The KEY_VAULT_API_VERSION environment variable is used by our CI pipelines to run the samples and check their validity automatically.
+    // The serviceVersion is an optional parameter that allows users to specify a Key Vault service API version.
+    serviceVersion: process.env.KEY_VAULT_API_VERSION
+  });
 
   const uniqueString = new Date().getTime();
   const certificateName = `cert${uniqueString}`;
