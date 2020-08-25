@@ -34,7 +34,8 @@ export function toExtractKeyPhrasesResultResponse(
     input: TextDocumentInput[],
     response: GeneratedClientKeyPhrasesResponse
 ): ExtractKeyPhraseseResultResponse {
-    return Object.assign(makeExtractKeyPhrasesResultArray(input, response), {
-        _response: response._response
+    return Object.defineProperty(makeExtractKeyPhrasesResultArray(input, response), "_response", {
+      value: response._response,
+      enumerable: false
     });
 }

@@ -34,7 +34,12 @@ export function toRecognizePiiEntitiesResultResponse(
     input: TextDocumentInput[],
     response: GeneratedClientEntitiesRecognitionPiiResponse
 ): RecognizePiiEntitiesResultResponse {
-    return Object.assign(makeRecognizePiiEntitiesResultArray(input, response), {
-        _response: response._response
-    });
+    return Object.defineProperty(
+      makeRecognizePiiEntitiesResultArray(input, response),
+      "_response",
+      {
+        value: response._response,
+        enumerable: false
+      }
+    );
 }

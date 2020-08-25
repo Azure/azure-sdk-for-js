@@ -34,7 +34,12 @@ export function toRecognizeCategorizedEntitiesResultResponse(
     input: TextDocumentInput[],
     response: GeneratedClientEntitiesRecognitionGeneralResponse
 ): RecognizeCategorizedEntitieseResultResponse {
-    return Object.assign(makeRecognizeCategorizedEntitiesResultArray(input, response), {
-        _response: response._response
-    });
+    return Object.defineProperty(
+      makeRecognizeCategorizedEntitiesResultArray(input, response),
+      "_response",
+      {
+        value: response._response,
+        enumerable: false
+      }
+    );
 }

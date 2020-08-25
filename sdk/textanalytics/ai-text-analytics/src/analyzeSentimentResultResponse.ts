@@ -34,7 +34,8 @@ export function toAnalyzeSentimentResultResponse(
     input: TextDocumentInput[],
     response: GeneratedClientSentimentResponse
 ): AnalyzeSentimentResultResponse {
-    return Object.assign(makeAnalyzeSentimentResultArray(input, response), {
-        _response: response._response
+    return Object.defineProperty(makeAnalyzeSentimentResultArray(input, response), "_response", {
+      value: response._response,
+      enumerable: false
     });
 }

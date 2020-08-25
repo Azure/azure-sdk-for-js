@@ -34,7 +34,12 @@ export function toRecognizeLinkedEntitiesResultResponse(
     input: TextDocumentInput[],
     response: GeneratedClientEntitiesLinkingResponse
 ): RecognizeLinkedEntitiesResultResponse {
-    return Object.assign(makeRecognizeLinkedEntitiesResultArray(input, response), {
-        _response: response._response
-    });
+    return Object.defineProperty(
+      makeRecognizeLinkedEntitiesResultArray(input, response),
+      "_response",
+      {
+        value: response._response,
+        enumerable: false
+      }
+    );
 }

@@ -34,7 +34,8 @@ export function toDetectLanguageResultResponse(
     input: TextDocumentInput[],
     response: GeneratedClientLanguagesResponse
 ): DetectLanguageResultResponse {
-    return Object.assign(makeDetectLanguageResultArray(input, response), {
-        _response: response._response
+    return Object.defineProperty(makeDetectLanguageResultArray(input, response), "_response", {
+      value: response._response,
+      enumerable: false
     });
 }
