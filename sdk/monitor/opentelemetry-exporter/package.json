@@ -25,7 +25,8 @@
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "report": "c8 report --reporter=json",
     "test-opentelemetry-versions": "node test-opentelemetry-versions.js 2>&1",
-    "prepare": "npm run build"
+    "prepare": "npm run build",
+    "pack": "npm pack 2>&1"
   },
   "engines": {
     "node": ">=8.3.0"
@@ -46,7 +47,7 @@
     "type": "git",
     "url": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/monitor/opentelemetry-exporter"
   },
-"prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
+  "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
   "devDependencies": {
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@types/mocha": "^7.0.2",
