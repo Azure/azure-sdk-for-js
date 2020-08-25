@@ -17,4 +17,5 @@ export * from "./certificates";
 export * from "./customDomains";
 export * from "./deployments";
 export * from "./operations";
+export * from "./runtimeVersions";
 export * from "./skus";
