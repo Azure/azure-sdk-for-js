@@ -35,10 +35,18 @@ import {
   RecognizeCategorizedEntitieseResultResponse, 
   toRecognizeCategorizedEntitiesResultResponse 
 } from './recognizeCategorizedEntitiesResultResponse';
-import { ExtractKeyPhraseseResultResponse, RecognizeLinkedEntitiesResultResponse } from '.';
-import { toExtractKeyPhrasesResultResponse } from './extractKeyPhrasesResultResponse';
-import { RecognizePiiEntitiesResultResponse, toRecognizePiiEntitiesResultResponse } from './recognizePiiEntitiesResultResponse';
-import { toRecognizeLinkedEntitiesResultResponse } from './recognizeLinkedEntitiesResultResponse';
+import {
+  ExtractKeyPhraseseResultResponse,
+  toExtractKeyPhrasesResultResponse
+} from "./extractKeyPhrasesResultResponse";
+import {
+  RecognizePiiEntitiesResultResponse,
+  toRecognizePiiEntitiesResultResponse
+} from "./recognizePiiEntitiesResultResponse";
+import {
+  RecognizeLinkedEntitiesResultResponse,
+  toRecognizeLinkedEntitiesResultResponse
+} from "./recognizeLinkedEntitiesResultResponse";
 
 const DEFAULT_COGNITIVE_SCOPE = "https://cognitiveservices.azure.com/.default";
 
