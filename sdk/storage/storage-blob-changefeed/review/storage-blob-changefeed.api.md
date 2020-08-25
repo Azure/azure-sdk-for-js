@@ -5,13 +5,22 @@
 ```ts
 
 import { AbortSignalLike } from '@azure/core-http';
-import { BlobServiceClient } from '@azure/storage-blob';
+import { AnonymousCredential } from '@azure/storage-blob';
 import { CommonOptions } from '@azure/storage-blob';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
+import { Pipeline } from '@azure/storage-blob';
+import { StoragePipelineOptions } from '@azure/storage-blob';
+import { StorageSharedKeyCredential } from '@azure/storage-blob';
+import { TokenCredential } from '@azure/core-http';
 
 // @public (undocumented)
 export class BlobChangeFeedClient {
-    constructor(blobServiceClient: BlobServiceClient);
+    constructor(url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions);
+    constructor(url: string, pipeline: Pipeline);
+    // (undocumented)
+    static appendUserAgentPrefix(options?: StoragePipelineOptions): StoragePipelineOptions;
+    // (undocumented)
+    static fromConnectionString(connectionString: string, options?: StoragePipelineOptions): BlobChangeFeedClient;
     // Warning: (ae-forgotten-export) The symbol "BlobChangeFeedListChangesOptions" needs to be exported by the entry point index.d.ts
     //
     // (undocumented)
@@ -74,6 +83,9 @@ export type BlobChangeFeedEventType = "UnspecifiedEventType" | "BlobCreated" | "
 
 // @public (undocumented)
 export type BlobType = "BlockBlob" | "AppendBlob" | "PageBlob";
+
+// @public (undocumented)
+export function newPipeline(credential: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, pipelineOptions?: StoragePipelineOptions): Pipeline;
 
 
 // (No @packageDocumentation comment for this package)

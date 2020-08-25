@@ -4,6 +4,8 @@
 import { URLBuilder, AbortSignalLike } from "@azure/core-http";
 import { ContainerClient, CommonOptions } from "@azure/storage-blob";
 import { CHANGE_FEED_SEGMENT_PREFIX, CHANGE_FEED_INITIALIZATION_SEGMENT } from "./constants";
+import { createSpan } from "./tracing";
+import { CanonicalCode } from "@opentelemetry/api";
 
 const millisecondsInAnHour = 60 * 60 * 1000;
 export function ceilToNearestHour(date: Date | undefined): Date | undefined {
@@ -71,19 +73,34 @@ export interface GetYearsPathsOptions extends CommonOptions {
   abortSignal?: AbortSignalLike;
 }
 
-export async function getYearsPaths(containerClient: ContainerClient, options: GetYearsPathsOptions = {}): Promise<number[]> {
-  const years: number[] = [];
-  for await (const item of containerClient.listBlobsByHierarchy("/", {
-    abortSignal: options.abortSignal,
-    prefix: CHANGE_FEED_SEGMENT_PREFIX
-  })) {
-    // TODO: add String.prototype.includes polyfill for IE11
-    if (item.kind === "prefix" && !item.name.includes(CHANGE_FEED_INITIALIZATION_SEGMENT)) {
-      const yearStr = item.name.slice(CHANGE_FEED_SEGMENT_PREFIX.length, -1);
-      years.push(parseInt(yearStr));
+export async function getYearsPaths(
+  containerClient: ContainerClient,
+  options: GetYearsPathsOptions = {}
+): Promise<number[]> {
+  const { span, spanOptions } = createSpan("getYearsPaths", options.tracingOptions);
+  try {
+    const years: number[] = [];
+    for await (const item of containerClient.listBlobsByHierarchy("/", {
+      abortSignal: options.abortSignal,
+      tracingOptions: { ...options.tracingOptions, spanOptions },
+      prefix: CHANGE_FEED_SEGMENT_PREFIX
+    })) {
+      // TODO: add String.prototype.includes polyfill for IE11
+      if (item.kind === "prefix" && !item.name.includes(CHANGE_FEED_INITIALIZATION_SEGMENT)) {
+        const yearStr = item.name.slice(CHANGE_FEED_SEGMENT_PREFIX.length, -1);
+        years.push(parseInt(yearStr));
+      }
     }
+    return years.sort((a, b) => a - b);
+  } catch (e) {
+    span.setStatus({
+      code: CanonicalCode.UNKNOWN,
+      message: e.message
+    });
+    throw e;
+  } finally {
+    span.end();
   }
-  return years.sort((a, b) => a - b);
 }
 
 /**
@@ -110,21 +127,37 @@ export async function getSegmentsInYear(
   endTime?: Date,
   options: GetSegmentsInYearOptions = {}
 ): Promise<string[]> {
-  const segments: string[] = [];
-  const yearBeginTime = new Date(Date.UTC(year, 0));
-  if (endTime && yearBeginTime >= endTime) {
-    return segments;
-  }
+  const { span, spanOptions } = createSpan("getSegmentsInYear", options.tracingOptions);
 
-  const prefix = `${CHANGE_FEED_SEGMENT_PREFIX}${year}/`;
-  for await (const item of containerClient.listBlobsFlat({ prefix, abortSignal: options.abortSignal })) {
-    const segmentTime = parseDateFromSegmentPath(item.name);
-    if ((startTime && segmentTime < startTime) || (endTime && segmentTime >= endTime)) {
-      continue;
+  try {
+    const segments: string[] = [];
+    const yearBeginTime = new Date(Date.UTC(year, 0));
+    if (endTime && yearBeginTime >= endTime) {
+      return segments;
     }
-    segments.push(item.name);
+
+    const prefix = `${CHANGE_FEED_SEGMENT_PREFIX}${year}/`;
+    for await (const item of containerClient.listBlobsFlat({
+      prefix,
+      abortSignal: options.abortSignal,
+      tracingOptions: { ...options.tracingOptions, spanOptions }
+    })) {
+      const segmentTime = parseDateFromSegmentPath(item.name);
+      if ((startTime && segmentTime < startTime) || (endTime && segmentTime >= endTime)) {
+        continue;
+      }
+      segments.push(item.name);
+    }
+    return segments;
+  } catch (e) {
+    span.setStatus({
+      code: CanonicalCode.UNKNOWN,
+      message: e.message
+    });
+    throw e;
+  } finally {
+    span.end();
   }
-  return segments;
 }
 
 export function parseDateFromSegmentPath(segmentPath: string): Date {

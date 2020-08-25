@@ -1,14 +1,20 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { BlobServiceClient, StoragePipelineOptions, StorageSharedKeyCredential, AnonymousCredential, Pipeline } from "@azure/storage-blob";
+import {
+  BlobServiceClient,
+  StoragePipelineOptions,
+  StorageSharedKeyCredential,
+  AnonymousCredential,
+  Pipeline
+} from "@azure/storage-blob";
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { BlobChangeFeedEvent } from "./models/BlobChangeFeedEvent";
 import { ChangeFeedFactory } from "./ChangeFeedFactory";
 import { ChangeFeed } from "./ChangeFeed";
 import { CHANGE_FEED_MAX_PAGE_SIZE, SDK_VERSION } from "./utils/constants";
-import { BlobChangeFeedListChangesOptions } from './models/models';
-import { TokenCredential } from '@azure/core-http';
+import { BlobChangeFeedListChangesOptions } from "./models/models";
+import { TokenCredential } from "@azure/core-http";
 
 export class BlobChangeFeedEventPage {
   public events: BlobChangeFeedEvent[];
@@ -43,24 +49,31 @@ export class BlobChangeFeedClient {
       options = {};
     }
     if (options.userAgentOptions === undefined) {
-      options.userAgentOptions = {}
+      options.userAgentOptions = {};
     }
 
     if (options.userAgentOptions.userAgentPrefix === undefined) {
       options.userAgentOptions.userAgentPrefix = "";
     } else if (options.userAgentOptions.userAgentPrefix !== "") {
       // two spaces to work around as the TelemetryPolicyFactory in blob removes the first space now.
-      options.userAgentOptions.userAgentPrefix += "  "
+      options.userAgentOptions.userAgentPrefix += "  ";
     }
     options.userAgentOptions.userAgentPrefix += `changefeed-js/${SDK_VERSION}`;
     return options;
   }
 
-  public static fromConnectionString(connectionString: string, options?: StoragePipelineOptions) : BlobChangeFeedClient {
+  public static fromConnectionString(
+    connectionString: string,
+    options?: StoragePipelineOptions
+  ): BlobChangeFeedClient {
     const blobServiceClient = BlobServiceClient.fromConnectionString(connectionString, options);
-    return new BlobChangeFeedClient(blobServiceClient.url, blobServiceClient.credential, this.appendUserAgentPrefix(options));
+    return new BlobChangeFeedClient(
+      blobServiceClient.url,
+      blobServiceClient.credential,
+      this.appendUserAgentPrefix(options)
+    );
   }
-  
+
   constructor(
     url: string,
     credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential,
@@ -80,9 +93,12 @@ export class BlobChangeFeedClient {
 
     if (credentialOrPipeline instanceof Pipeline) {
       this._blobServiceClient = new BlobServiceClient(urlOrClient, credentialOrPipeline);
-    }
-    else {
-      this._blobServiceClient = new BlobServiceClient(urlOrClient, credentialOrPipeline, BlobChangeFeedClient.appendUserAgentPrefix(options));
+    } else {
+      this._blobServiceClient = new BlobServiceClient(
+        urlOrClient,
+        credentialOrPipeline,
+        BlobChangeFeedClient.appendUserAgentPrefix(options)
+      );
     }
   }
 
@@ -96,7 +112,10 @@ export class BlobChangeFeedClient {
     );
 
     while (changeFeed.hasNext()) {
-      const event = await changeFeed.getChange();
+      const event = await changeFeed.getChange({
+        abortSignal: options.abortSignal,
+        tracingOptions: options.tracingOptions
+      });
       if (event) {
         yield event;
       } else {
@@ -124,7 +143,8 @@ export class BlobChangeFeedClient {
       const eventPage = new BlobChangeFeedEventPage();
       while (changeFeed.hasNext() && eventPage.events.length < maxPageSize) {
         const event = await changeFeed.getChange({
-          abortSignal: options.abortSignal
+          abortSignal: options.abortSignal,
+          tracingOptions: options.tracingOptions
         });
         if (event) {
           eventPage.events.push(event);

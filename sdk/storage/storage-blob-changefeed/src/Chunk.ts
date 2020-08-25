@@ -3,9 +3,9 @@
 
 import { AvroReader } from "../../storage-internal-avro/src";
 import { BlobChangeFeedEvent } from "./models/BlobChangeFeedEvent";
-import { CommonOptions } from '@azure/storage-blob';
-import { AbortSignalLike } from '@azure/core-http';
-import { AvroParseOptions } from '../../storage-internal-avro/src/AvroReader';
+import { CommonOptions } from "@azure/storage-blob";
+import { AbortSignalLike } from "@azure/core-http";
+import { AvroParseOptions } from "../../storage-internal-avro/src/AvroReader";
 
 /**
  * Options to configure {@link Chunk.getChange} operation.
@@ -38,7 +38,13 @@ export class Chunk {
     return this._eventIndex;
   }
 
-  constructor(avroReader: AvroReader, blockOffset: number, eventIndex: number, public readonly chunkPath: string, avroOptions: AvroParseOptions = {}) {
+  constructor(
+    avroReader: AvroReader,
+    blockOffset: number,
+    eventIndex: number,
+    public readonly chunkPath: string,
+    avroOptions: AvroParseOptions = {}
+  ) {
     this._avroReader = avroReader;
     this._blockOffset = blockOffset;
     this._eventIndex = eventIndex;

@@ -4,8 +4,10 @@
 import { BlobChangeFeedEvent } from "./models/BlobChangeFeedEvent";
 import { Shard } from "./Shard";
 import { SegmentCursor, ShardCursor } from "./models/ChangeFeedCursor";
-import { CommonOptions } from '@azure/storage-blob';
-import { AbortSignalLike } from '@azure/core-http';
+import { CommonOptions } from "@azure/storage-blob";
+import { AbortSignalLike } from "@azure/core-http";
+import { createSpan } from "./utils/tracing";
+import { CanonicalCode } from "@opentelemetry/api";
 
 /**
  * Options to configure {@link Segment.getChange} operation.
@@ -40,7 +42,12 @@ export class Segment {
     return this._dateTime;
   }
 
-  constructor(shards: Shard[], shardIndex: number, dateTime: Date, private readonly _manifestPath: string) {
+  constructor(
+    shards: Shard[],
+    shardIndex: number,
+    dateTime: Date,
+    private readonly _manifestPath: string
+  ) {
     this._shards = shards;
     this._shardIndex = shardIndex;
     this._dateTime = dateTime;
@@ -54,29 +61,46 @@ export class Segment {
     return this._shards.length > this._shardDoneCount;
   }
 
-  public async getChange(options: SegmentGetChangeOptions = {}): Promise<BlobChangeFeedEvent | undefined> {
-    if (this._shardIndex >= this._shards.length || this._shardIndex < 0) {
-      throw new Error("shardIndex invalid.");
-    }
+  public async getChange(
+    options: SegmentGetChangeOptions = {}
+  ): Promise<BlobChangeFeedEvent | undefined> {
+    const { span, spanOptions } = createSpan("Segment-getChange", options.tracingOptions);
 
-    let event: BlobChangeFeedEvent | undefined = undefined;
-    while (event === undefined && this.hasNext()) {
-      if (this._shardDone[this._shardIndex]) {
-        this._shardIndex = (this._shardIndex + 1) % this._shards.length; // find next available shard
-        continue;
+    try {
+      if (this._shardIndex >= this._shards.length || this._shardIndex < 0) {
+        throw new Error("shardIndex invalid.");
       }
 
-      const currentShard = this._shards[this._shardIndex];
-      event = await currentShard.getChange({ abortSignal: options.abortSignal });
+      let event: BlobChangeFeedEvent | undefined = undefined;
+      while (event === undefined && this.hasNext()) {
+        if (this._shardDone[this._shardIndex]) {
+          this._shardIndex = (this._shardIndex + 1) % this._shards.length; // find next available shard
+          continue;
+        }
 
-      if (!currentShard.hasNext()) {
-        this._shardDone[this._shardIndex] = true;
-        this._shardDoneCount++;
+        const currentShard = this._shards[this._shardIndex];
+        event = await currentShard.getChange({
+          abortSignal: options.abortSignal,
+          tracingOptions: { ...options.tracingOptions, spanOptions }
+        });
+
+        if (!currentShard.hasNext()) {
+          this._shardDone[this._shardIndex] = true;
+          this._shardDoneCount++;
+        }
+        // Round robin with shards
+        this._shardIndex = (this._shardIndex + 1) % this._shards.length;
       }
-      // Round robin with shards
-      this._shardIndex = (this._shardIndex + 1) % this._shards.length;
+      return event;
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
     }
-    return event;
   }
 
   public getCursor(): SegmentCursor {

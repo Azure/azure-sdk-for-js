@@ -3,10 +3,11 @@ import { record } from "@azure/test-utils-recorder";
 import { recorderEnvSetup, getBlobChangeFeedClient } from "./utils";
 import { BlobChangeFeedClient, BlobChangeFeedEvent, BlobChangeFeedEventPage } from "../src";
 import { AbortController } from "@azure/abort-controller";
+import { TestTracer, setTracer } from "@azure/core-tracing";
+import { Pipeline } from "@azure/storage-blob";
+import { SDK_VERSION } from "../src/utils/constants";
 
 import * as dotenv from "dotenv";
-import { Pipeline } from '@azure/storage-blob';
-import { SDK_VERSION } from '../src/utils/constants';
 dotenv.config();
 
 const timeoutForLargeFileUploadingTest = 20 * 60 * 1000;
@@ -114,7 +115,9 @@ describe("BlobChangeFeedClient", async () => {
 
   it("could abort", async () => {
     const maxPageSize = 2;
-    const iter = changeFeedClient.listChanges({abortSignal: AbortController.timeout(1)}).byPage({ maxPageSize });
+    const iter = changeFeedClient
+      .listChanges({ abortSignal: AbortController.timeout(1) })
+      .byPage({ maxPageSize });
     try {
       await iter.next();
       assert.fail("Should have been aborted.");
@@ -138,14 +141,33 @@ describe("BlobChangeFeedClient", async () => {
     assert.ok(telemetryString.startsWith(`changefeed-js/${SDK_VERSION}`));
 
     const userAgentPrefix = "test/1";
-    const changeFeedClient2 = new BlobChangeFeedClient(blobServiceClient.url, blobServiceClient.credential,{
-      userAgentOptions: { userAgentPrefix }
-    });
+    const changeFeedClient2 = new BlobChangeFeedClient(
+      blobServiceClient.url,
+      blobServiceClient.credential,
+      {
+        userAgentOptions: { userAgentPrefix }
+      }
+    );
     const blobServiceClient2 = (changeFeedClient2 as any)._blobServiceClient;
     const telemetryString2 = fetchTelemetryString(blobServiceClient2.pipeline);
     assert.ok(telemetryString2.startsWith(`${userAgentPrefix} changefeed-js/${SDK_VERSION}`));
   });
 
+  it("tracing", async () => {
+    const tracer = new TestTracer();
+    setTracer(tracer);
+    const rootSpan = tracer.startSpan("root");
+
+    const pageIter = changeFeedClient.listChanges({
+      tracingOptions: { spanOptions: { parent: rootSpan.context() } }
+    });
+    await pageIter.next();
+
+    rootSpan.end();
+    const rootSpans = tracer.getRootSpans();
+    assert.strictEqual(rootSpans.length, 1, "Should only have one root span.");
+    assert.strictEqual(rootSpan, rootSpans[0], "The root span should match what was passed in.");
+  });
 });
 
 describe("BlobChangeFeedClient: Change Feed not configured", async () => {

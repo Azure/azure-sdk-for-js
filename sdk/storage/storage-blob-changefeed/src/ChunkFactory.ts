@@ -6,7 +6,9 @@ import { ContainerClient, CommonOptions } from "@azure/storage-blob";
 import { Chunk } from "./Chunk";
 import { AvroReader } from "../../storage-internal-avro/src";
 import { bodyToAvroReadable } from "./utils/utils.node";
-import { AbortSignalLike } from '@azure/core-http';
+import { AbortSignalLike } from "@azure/core-http";
+import { CanonicalCode } from "@opentelemetry/api";
+import { createSpan } from "./utils/tracing";
 
 /**
  * Options to configure {@link ChunkFactory.create} operation.
@@ -39,31 +41,46 @@ export class ChunkFactory {
     eventIndex?: number,
     options: CreateChunkOptions = {}
   ): Promise<Chunk> {
-    const blobClient = containerClient.getBlobClient(chunkPath);
-    blockOffset = blockOffset || 0;
-    eventIndex = eventIndex || 0;
+    const { span, spanOptions } = createSpan("ChunkFactory-create", options.tracingOptions);
+    try {
+      const blobClient = containerClient.getBlobClient(chunkPath);
+      blockOffset = blockOffset || 0;
+      eventIndex = eventIndex || 0;
 
-    const downloadRes = await blobClient.download(blockOffset, undefined, {
-      abortSignal: options.abortSignal
-    });
+      const downloadRes = await blobClient.download(blockOffset, undefined, {
+        abortSignal: options.abortSignal,
+        tracingOptions: { ...options.tracingOptions, spanOptions }
+      });
 
-    const dataStream = bodyToAvroReadable(downloadRes);
-    let avroReader: AvroReader;
-    if (blockOffset !== 0) {
-      const headerDownloadRes = await blobClient.download(0, undefined, {
+      const dataStream = bodyToAvroReadable(downloadRes);
+      let avroReader: AvroReader;
+      if (blockOffset !== 0) {
+        const headerDownloadRes = await blobClient.download(0, undefined, {
+          abortSignal: options.abortSignal,
+          tracingOptions: { ...options.tracingOptions, spanOptions }
+        });
+        const headerStream = bodyToAvroReadable(headerDownloadRes);
+        avroReader = this._avroReaderFactory.create(
+          dataStream,
+          headerStream,
+          blockOffset,
+          eventIndex
+        );
+      } else {
+        avroReader = this._avroReaderFactory.create(dataStream);
+      }
+
+      return new Chunk(avroReader, blockOffset, eventIndex, chunkPath, {
         abortSignal: options.abortSignal
       });
-      const headerStream = bodyToAvroReadable(headerDownloadRes);
-      avroReader = this._avroReaderFactory.create(
-        dataStream,
-        headerStream,
-        blockOffset,
-        eventIndex
-      );
-    } else {
-      avroReader = this._avroReaderFactory.create(dataStream);
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
     }
-
-    return new Chunk(avroReader, blockOffset, eventIndex, chunkPath, {abortSignal: options.abortSignal});
   }
 }

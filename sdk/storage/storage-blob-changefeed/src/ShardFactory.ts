@@ -5,9 +5,10 @@ import { ChunkFactory } from "./ChunkFactory";
 import { ShardCursor } from "./models/ChangeFeedCursor";
 import { Shard } from "./Shard";
 import { ContainerClient, CommonOptions } from "@azure/storage-blob";
-import { Chunk } from './Chunk';
-import { AbortSignalLike } from '@azure/core-http';
-
+import { Chunk } from "./Chunk";
+import { AbortSignalLike } from "@azure/core-http";
+import { CanonicalCode } from "@opentelemetry/api";
+import { createSpan } from "./utils/tracing";
 
 /**
  * Options to configure {@link ShardFactory.create} operation.
@@ -39,49 +40,66 @@ export class ShardFactory {
     shardCursor?: ShardCursor,
     options: CreateShardOptions = {}
   ): Promise<Shard> {
-    const chunks: string[] = [];
-    const blockOffset: number = shardCursor?.BlockOffset || 0;
-    const eventIndex: number = shardCursor?.EventIndex || 0;
+    const { span, spanOptions } = createSpan("ShardFactory-create", options.tracingOptions);
+    try {
+      const chunks: string[] = [];
+      const blockOffset: number = shardCursor?.BlockOffset || 0;
+      const eventIndex: number = shardCursor?.EventIndex || 0;
 
-    for await (const blobItem of containerClient.listBlobsFlat({ prefix: shardPath, abortSignal: options.abortSignal})) {
-      chunks.push(blobItem.name);
-    }
+      for await (const blobItem of containerClient.listBlobsFlat({
+        prefix: shardPath,
+        abortSignal: options.abortSignal,
+        tracingOptions: { ...options.tracingOptions, spanOptions }
+      })) {
+        chunks.push(blobItem.name);
+      }
 
-    const currentChunkPath = shardCursor?.CurrentChunkPath;
-    let chunkIndex = -1;
-    let currentChunk: Chunk | undefined = undefined;
-    // Chunks can be empty right after hour flips.
-    if (chunks.length !== 0) {
-      // Fast forward to current Chunk
-      if (currentChunkPath)
-      {
-        for (let i = 0; i < chunks.length; i++) {
-          if (chunks[i] === currentChunkPath) {
-            chunkIndex = i;
-            break;
+      const currentChunkPath = shardCursor?.CurrentChunkPath;
+      let chunkIndex = -1;
+      let currentChunk: Chunk | undefined = undefined;
+      // Chunks can be empty right after hour flips.
+      if (chunks.length !== 0) {
+        // Fast forward to current Chunk
+        if (currentChunkPath) {
+          for (let i = 0; i < chunks.length; i++) {
+            if (chunks[i] === currentChunkPath) {
+              chunkIndex = i;
+              break;
+            }
           }
+          if (chunkIndex === -1) {
+            throw new Error(`Chunk ${currentChunkPath} not found.`);
+          }
+        } else {
+          chunkIndex = 0;
         }
-        if (chunkIndex === -1) {
-          throw new Error(`Chunk ${currentChunkPath} not found.`);
-        }
-      } else {
-        chunkIndex = 0;
-      }
-      
-      // Fast forward to current Chunk.
-      if (chunkIndex > 0) {
-        chunks.splice(0, chunkIndex);
-      }
-  
-      currentChunk = await this._chunkFactory.create(
-        containerClient,
-        chunks.shift()!,
-        blockOffset,
-        eventIndex,
-        { abortSignal: options.abortSignal }
-      );
-    }
 
-    return new Shard(containerClient, this._chunkFactory, chunks, currentChunk, shardPath);
+        // Fast forward to current Chunk.
+        if (chunkIndex > 0) {
+          chunks.splice(0, chunkIndex);
+        }
+
+        currentChunk = await this._chunkFactory.create(
+          containerClient,
+          chunks.shift()!,
+          blockOffset,
+          eventIndex,
+          {
+            abortSignal: options.abortSignal,
+            tracingOptions: { ...options.tracingOptions, spanOptions }
+          }
+        );
+      }
+
+      return new Shard(containerClient, this._chunkFactory, chunks, currentChunk, shardPath);
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 }

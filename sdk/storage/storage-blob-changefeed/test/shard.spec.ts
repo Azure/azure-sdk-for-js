@@ -41,9 +41,16 @@ describe("Shard", async () => {
     // build shard correctly
     const shardPathWithoutContainer = shardPath.substr("$blobchangefeed/".length);
     const shardFactory = new ShardFactory(chunkFactoryStub as any);
-    const shard = await shardFactory.create(containerClientSub as any, shardPathWithoutContainer, shardCursor);
+    const shard = await shardFactory.create(
+      containerClientSub as any,
+      shardPathWithoutContainer,
+      shardCursor
+    );
     assert.ok(
-      chunkFactoryStub.create.calledWith(containerClientSub, `${shardPathWithoutContainer}0000${chunkIndex}.avro`)
+      chunkFactoryStub.create.calledWith(
+        containerClientSub,
+        `${shardPathWithoutContainer}0000${chunkIndex}.avro`
+      )
     );
 
     // shift to next chunk when currentChunk is done
@@ -52,7 +59,7 @@ describe("Shard", async () => {
     nextChunkStub.hasNext.returns(true);
     const event = { id: "a" };
     nextChunkStub.getChange.resolves(event as any);
-    (nextChunkStub as any).chunkPath = `log/00/2019/02/22/1810/0000${chunkIndex+1}.avro`;
+    (nextChunkStub as any).chunkPath = `log/00/2019/02/22/1810/0000${chunkIndex + 1}.avro`;
     chunkFactoryStub.create.returns(nextChunkStub);
 
     const change = await shard.getChange();
@@ -71,7 +78,7 @@ describe("Shard", async () => {
     nextChunkStub.getChange.resolves(undefined);
     const lastChunkStub = sinon.createStubInstance(Chunk);
     lastChunkStub.hasNext.returns(false);
-    (lastChunkStub as any).chunkPath = `log/00/2019/02/22/1810/0000${chunkIndex+2}.avro`;
+    (lastChunkStub as any).chunkPath = `log/00/2019/02/22/1810/0000${chunkIndex + 2}.avro`;
     chunkFactoryStub.create.returns(lastChunkStub);
 
     const change2 = await shard.getChange();
