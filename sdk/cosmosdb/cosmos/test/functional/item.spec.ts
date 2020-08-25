@@ -13,6 +13,7 @@ import {
   getTestDatabase,
   removeAllDatabases,
   replaceOrUpsertItem,
+  addEntropy,
   getTestContainer
 } from "../common/TestHelpers";
 
@@ -218,5 +219,187 @@ describe("Item CRUD", function() {
     const container = await getTestContainer("db1", undefined, { partitionKey: "/id" });
     const { resource } = await container.items.create({});
     assert.ok(resource.id);
+  });
+});
+
+describe("bulk item operations", function() {
+  describe("with v1 container", function() {
+    let container: Container;
+    let readItemId: string;
+    let replaceItemId: string;
+    let deleteItemId: string;
+    before(async function() {
+      container = await getTestContainer("bulk container", undefined, {
+        partitionKey: {
+          paths: ["/key"],
+          version: undefined
+        },
+        throughput: 25100
+      });
+      readItemId = addEntropy("item1");
+      await container.items.create({
+        id: readItemId,
+        key: "A",
+        class: "2010"
+      });
+      deleteItemId = addEntropy("item2");
+      await container.items.create({
+        id: deleteItemId,
+        key: "A",
+        class: "2010"
+      });
+      replaceItemId = addEntropy("item3");
+      await container.items.create({
+        id: replaceItemId,
+        key: 5,
+        class: "2010"
+      });
+    });
+    it("handles create, upsert, replace, delete", async function() {
+      const operations = [
+        {
+          operationType: "Create",
+          resourceBody: { id: addEntropy("doc1"), name: "sample", key: "A" }
+        },
+        {
+          operationType: "Upsert",
+          partitionKey: "A",
+          resourceBody: { id: addEntropy("doc2"), name: "other", key: "A" }
+        },
+        {
+          operationType: "Read",
+          id: readItemId,
+          partitionKey: "A"
+        },
+        {
+          operationType: "Delete",
+          id: deleteItemId,
+          partitionKey: "A"
+        },
+        {
+          operationType: "Replace",
+          partitionKey: 5,
+          id: replaceItemId,
+          resourceBody: { id: replaceItemId, name: "nice", key: 5 }
+        }
+      ];
+      const response = await container.items.bulk(operations);
+      // Create
+      assert.equal(response[0].resourceBody.name, "sample");
+      assert.equal(response[0].statusCode, 201);
+      // Upsert
+      assert.equal(response[1].resourceBody.name, "other");
+      assert.equal(response[1].statusCode, 201);
+      // Read
+      assert.equal(response[2].resourceBody.class, "2010");
+      assert.equal(response[2].statusCode, 200);
+      // Delete
+      assert.equal(response[3].statusCode, 204);
+      // Replace
+      assert.equal(response[4].resourceBody.name, "nice");
+      assert.equal(response[4].statusCode, 200);
+    });
+  });
+  describe("with v2 container", function() {
+    let v2Container: Container;
+    let readItemId: string;
+    let replaceItemId: string;
+    let deleteItemId: string;
+    before(async function() {
+      v2Container = await getTestContainer("bulk container v2", undefined, {
+        partitionKey: {
+          paths: ["/key"],
+          version: 2
+        },
+        throughput: 25100
+      });
+      readItemId = addEntropy("item1");
+      await v2Container.items.create({
+        id: readItemId,
+        key: true,
+        class: "2010"
+      });
+      deleteItemId = addEntropy("item2");
+      await v2Container.items.create({
+        id: deleteItemId,
+        key: {},
+        class: "2011"
+      });
+      replaceItemId = addEntropy("item3");
+      await v2Container.items.create({
+        id: replaceItemId,
+        key: 5,
+        class: "2012"
+      });
+    });
+    it("handles create, upsert, replace, delete", async function() {
+      const operations = [
+        {
+          operationType: "Create",
+          partitionKey: "A",
+          resourceBody: { id: addEntropy("doc1"), name: "sample", key: "A" }
+        },
+        {
+          operationType: "Upsert",
+          partitionKey: "U",
+          resourceBody: { id: addEntropy("doc2"), name: "other", key: "U" }
+        },
+        {
+          operationType: "Read",
+          id: readItemId,
+          partitionKey: true
+        },
+        {
+          operationType: "Delete",
+          id: deleteItemId,
+          partitionKey: {}
+        },
+        {
+          operationType: "Replace",
+          partitionKey: 5,
+          id: replaceItemId,
+          resourceBody: { id: replaceItemId, name: "nice", key: 5 }
+        }
+      ];
+      const response = await v2Container.items.bulk(operations);
+      // Create
+      assert.equal(response[0].resourceBody.name, "sample");
+      assert.equal(response[0].statusCode, 201);
+      // Upsert
+      assert.equal(response[1].resourceBody.name, "other");
+      assert.equal(response[1].statusCode, 201);
+      // Read
+      assert.equal(response[2].resourceBody.class, "2010");
+      assert.equal(response[2].statusCode, 200);
+      // Delete
+      assert.equal(response[3].statusCode, 204);
+      // Replace
+      assert.equal(response[4].resourceBody.name, "nice");
+      assert.equal(response[4].statusCode, 200);
+    });
+    it("respects order", async function() {
+      readItemId = addEntropy("item1");
+      await v2Container.items.create({
+        id: readItemId,
+        key: "A",
+        class: "2010"
+      });
+      const operations = [
+        {
+          operationType: "Delete",
+          id: readItemId,
+          partitionKey: "A"
+        },
+        {
+          operationType: "Read",
+          id: readItemId,
+          partitionKey: "A"
+        }
+      ];
+      const response = await v2Container.items.bulk(operations);
+      assert.equal(response[0].statusCode, 204);
+      // Delete occurs first, so the read returns a 404
+      assert.equal(response[1].statusCode, 404);
+    });
   });
 });

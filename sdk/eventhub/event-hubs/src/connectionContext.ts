@@ -184,8 +184,8 @@ export namespace ConnectionContext {
     };
     connectionContext.managementSession = new ManagementClient(connectionContext, mOptions);
 
-    let waitForDisconnectResolve: () => void;
-    let waitForDisconnectPromise: Promise<void> | undefined;
+    let waitForConnectionRefreshResolve: () => void;
+    let waitForConnectionRefreshPromise: Promise<void> | undefined;
 
     Object.assign<ConnectionContext, ConnectionContextMethods>(connectionContext, {
       isConnectionClosing() {
@@ -201,11 +201,9 @@ export namespace ConnectionContext {
           // Wait for the disconnected event that indicates the underlying socket has closed.
           await this.waitForDisconnectedEvent();
         }
-        // Check if the connection is currently in the process of disconnecting.
-        if (waitForDisconnectPromise) {
-          // Wait for the connection to be reset.
-          await this.waitForConnectionReset();
-        }
+
+        // Wait for the connection to be reset.
+        await this.waitForConnectionReset();
       },
       waitForDisconnectedEvent() {
         return new Promise((resolve) => {
@@ -218,8 +216,9 @@ export namespace ConnectionContext {
         });
       },
       waitForConnectionReset() {
-        if (waitForDisconnectPromise) {
-          return waitForDisconnectPromise;
+        // Check if the connection is currently in the process of disconnecting.
+        if (waitForConnectionRefreshPromise) {
+          return waitForConnectionRefreshPromise;
         }
         return Promise.resolve();
       },
@@ -266,11 +265,11 @@ export namespace ConnectionContext {
     };
 
     const onDisconnected: OnAmqpEvent = async (context: EventContext) => {
-      if (waitForDisconnectPromise) {
+      if (waitForConnectionRefreshPromise) {
         return;
       }
-      waitForDisconnectPromise = new Promise((resolve) => {
-        waitForDisconnectResolve = resolve;
+      waitForConnectionRefreshPromise = new Promise((resolve) => {
+        waitForConnectionRefreshResolve = resolve;
       });
 
       logger.verbose(
@@ -337,8 +336,8 @@ export namespace ConnectionContext {
       }
 
       await refreshConnection(connectionContext);
-      waitForDisconnectResolve();
-      waitForDisconnectPromise = undefined;
+      waitForConnectionRefreshResolve();
+      waitForConnectionRefreshPromise = undefined;
     };
 
     const protocolError: OnAmqpEvent = async (context: EventContext) => {

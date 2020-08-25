@@ -36,7 +36,7 @@ describe("ContainerClient", () => {
 
   afterEach(async function() {
     await containerClient.delete();
-    recorder.stop();
+    await recorder.stop();
   });
 
   it("setMetadata", async () => {
@@ -826,5 +826,11 @@ describe("ContainerClient - Verify Name Properties", () => {
 
   it("verify endpoint without dots", async () => {
     verifyNameProperties(`https://localhost:80/${accountName}/${containerName}`);
+  });
+
+  it("verify custom endpoint without valid accountName", async () => {
+    const newClient = new ContainerClient(`https://customdomain.com/${containerName}`);
+    assert.equal(newClient.accountName, "", "Account name is not the same as expected.");
+    assert.equal(newClient.containerName, containerName, "Container name is not the same as the one provided.");
   });
 });

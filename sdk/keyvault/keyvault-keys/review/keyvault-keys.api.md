@@ -175,7 +175,7 @@ export class KeyClient {
 
 // @public
 export interface KeyClientOptions extends coreHttp.PipelineOptions {
-    apiVersion?: "7.0" | "7.1-preview";
+    serviceVersion?: "7.0" | "7.1";
 }
 
 // @public
@@ -222,6 +222,9 @@ export interface KeyVaultKey {
 }
 
 // @public
+export type KeyVaultKeysIdentifierCollectionName = "keys" | "deletedkeys";
+
+// @public
 export type KeyWrapAlgorithm = "RSA-OAEP" | "RSA-OAEP-256" | "RSA1_5";
 
 // @public
@@ -242,6 +245,18 @@ export const logger: import("@azure/logger").AzureLogger;
 export { PagedAsyncIterableIterator }
 
 export { PageSettings }
+
+// @public
+export interface ParsedKeyVaultKeysIdentifier {
+    collection: KeyVaultKeysIdentifierCollectionName;
+    id: string;
+    name: string;
+    vaultUrl: string;
+    version?: string;
+}
+
+// @public
+export function parseKeyVaultKeysIdentifier(id: string): ParsedKeyVaultKeysIdentifier;
 
 export { PipelineOptions }
 

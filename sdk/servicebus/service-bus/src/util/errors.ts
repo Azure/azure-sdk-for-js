@@ -7,6 +7,7 @@ import { ConnectionContext } from "../connectionContext";
 
 /**
  * @internal
+ * @ignore
  * Logs and throws Error if the current AMQP connection is closed.
  * @param context The ConnectionContext associated with the current AMQP connection.
  */
@@ -21,48 +22,40 @@ export function throwErrorIfConnectionClosed(context: ConnectionContext): void {
 
 /**
  * @internal
+ * @ignore
  * Gets the error message when a sender is used when its already closed
  * @param entityPath Value of the `entityPath` property on the client which denotes its name
  */
 export function getSenderClosedErrorMsg(entityPath: string): string {
   return (
     `The sender for "${entityPath}" has been closed and can no longer be used. ` +
-    `Please create a new sender using the "getSender" method on the ServiceBusClient.`
+    `Please create a new sender using the "createSender" method on the ServiceBusClient.`
   );
 }
 
 /**
  * @internal
+ * @ignore
  * Gets the error message when a receiver is used when its already closed
  * @param entityPath Value of the `entityPath` property on the client which denotes its name
- * @param isClientClosed Denotes if the close() was called on the client that created the sender
  * @param sessionId If using session receiver, then the id of the session
  */
-export function getReceiverClosedErrorMsg(
-  entityPath: string,
-  isClientClosed: boolean,
-  sessionId?: string
-): string {
-  if (isClientClosed) {
-    return (
-      `The client for "${entityPath}" has been closed. The receiver created by it can no longer be used. ` +
-      `Please create a new client using an instance of ServiceBusClient.`
-    );
-  }
+export function getReceiverClosedErrorMsg(entityPath: string, sessionId?: string): string {
   if (sessionId == undefined) {
     return (
       `The receiver for "${entityPath}" has been closed and can no longer be used. ` +
-      `Please create a new receiver using the "getReceiver" method on the ServiceBusClient.`
+      `Please create a new receiver using the "createReceiver" method on the ServiceBusClient.`
     );
   }
   return (
     `The receiver for session "${sessionId}" in "${entityPath}" has been closed and can no ` +
-    `longer be used. Please create a new receiver using the "getSessionReceiver" method on the ServiceBusClient.`
+    `longer be used. Please create a new receiver using the "createSessionReceiver" method on the ServiceBusClient.`
   );
 }
 
 /**
  * @internal
+ * @ignore
  * @param entityPath Value of the `entityPath` property on the client which denotes its name
  * @param sessionId If using session receiver, then the id of the session
  */
@@ -75,6 +68,7 @@ export function getAlreadyReceivingErrorMsg(entityPath: string, sessionId?: stri
 
 /**
  * @internal
+ * @ignore
  * Logs and Throws TypeError if given parameter is undefined or null
  * @param connectionId Id of the underlying AMQP connection used for logging
  * @param parameterName Name of the parameter to check
@@ -94,6 +88,7 @@ export function throwTypeErrorIfParameterMissing(
 
 /**
  * @internal
+ * @ignore
  * Logs and Throws TypeError if given parameter is not of expected type
  * @param connectionId Id of the underlying AMQP connection used for logging
  * @param parameterName Name of the parameter to type check
@@ -117,6 +112,7 @@ export function throwTypeErrorIfParameterTypeMismatch(
 
 /**
  * @internal
+ * @ignore
  * Logs and Throws TypeError if given parameter is not of type `Long` or an array of type `Long`
  * @param connectionId Id of the underlying AMQP connection used for logging
  * @param parameterName Name of the parameter to type check
@@ -140,6 +136,7 @@ export function throwTypeErrorIfParameterNotLong(
 
 /**
  * @internal
+ * @ignore
  * Logs and Throws TypeError if given parameter is not an array of type `Long`
  * @param connectionId Id of the underlying AMQP connection used for logging
  * @param parameterName Name of the parameter to type check
@@ -160,6 +157,7 @@ export function throwTypeErrorIfParameterNotLongArray(
 
 /**
  * @internal
+ * @ignore
  * Logs and Throws TypeError if given parameter is an empty string
  * @param connectionId Id of the underlying AMQP connection used for logging
  * @param parameterName Name of the parameter to type check
@@ -180,6 +178,7 @@ export function throwTypeErrorIfParameterIsEmptyString(
 
 /**
  * @internal
+ * @ignore
  * Gets error message for when an operation is not supported in ReceiveAndDelete mode
  * @param failedToDo A string to add to the placeholder in the error message. Denotes the action
  * that is not supported in ReceiveAndDelete mode

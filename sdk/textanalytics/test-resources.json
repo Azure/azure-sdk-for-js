@@ -14,17 +14,23 @@
       "metadata": {
         "description": "The AAD Client ID of the test application service principal."
       }
+    },
+    "cognitiveServicesEndpointSuffix": {
+      "type": "string",
+      "defaultValue": "cognitiveservices.azure.com"
     }
   },
   "variables": {
-    "taRoleId": "[concat('/subscriptions/', subscription().subscriptionId, '/providers/Microsoft.Authorization/roleDefinitions/a97b65f3-24c7-4388-baec-2e87135dc908')]"
+    "taRoleId": "[concat('/subscriptions/', subscription().subscriptionId, '/providers/Microsoft.Authorization/roleDefinitions/a97b65f3-24c7-4388-baec-2e87135dc908')]",
+    "accountName": "[format('textanalytics-{0}', parameters('baseName'))]"
   },
-  "resources": [
-    {
-      "type": "Microsoft.Authorization/roleAssignments",
+  "resources": [{
+      "type": "Microsoft.CognitiveServices/accounts/providers/roleAssignments",
       "apiVersion": "2018-09-01-preview",
-      "name": "[guid(concat(variables('taRoleId'), parameters('baseName')))]",
-      "dependsOn": ["[parameters('baseName')]"],
+      "name": "[format('{0}/Microsoft.Authorization/{1}', variables('accountName'), guid(variables('accountName')))]",
+      "dependsOn": [
+        "[resourceId('Microsoft.CognitiveServices/accounts', variables('accountName'))]"
+      ],
       "properties": {
         "principalId": "[parameters('testApplicationOid')]",
         "roleDefinitionId": "[variables('taRoleId')]"
@@ -32,7 +38,7 @@
     },
     {
       "type": "Microsoft.CognitiveServices/accounts",
-      "name": "[parameters('baseName')]",
+      "name": "[variables('accountName')]",
       "apiVersion": "2017-04-18",
       "sku": {
         "name": "S"
@@ -40,22 +46,22 @@
       "kind": "TextAnalytics",
       "location": "[resourceGroup().location]",
       "properties": {
-        "customSubDomainName": "[parameters('baseName')]"
+        "customSubDomainName": "[variables('accountName')]"
       }
     }
   ],
   "outputs": {
     "TEXT_ANALYTICS_API_KEY": {
       "type": "string",
-      "value": "[listKeys(resourceId('Microsoft.CognitiveServices/accounts', parameters('baseName')), '2017-04-18').key1]"
+      "value": "[listKeys(resourceId('Microsoft.CognitiveServices/accounts', variables('accountName')), '2017-04-18').key1]"
     },
     "TEXT_ANALYTICS_API_KEY_ALT": {
       "type": "string",
-      "value": "[listKeys(resourceId('Microsoft.CognitiveServices/accounts', parameters('baseName')), '2017-04-18').key2]"
+      "value": "[listKeys(resourceId('Microsoft.CognitiveServices/accounts', variables('accountName')), '2017-04-18').key2]"
     },
     "ENDPOINT": {
       "type": "string",
-      "value": "[concat('https://', parameters('baseName'), '.cognitiveservices.azure.com/')]"
+      "value": "[concat('https://', variables('accountName'), '.', parameters('cognitiveServicesEndpointSuffix'), '/')]"
     }
   }
 }

@@ -36,6 +36,13 @@
     "enableVersioning": { 
       "type": "bool",
       "defaultValue": false
+    },
+    "storageEndpointSuffix": {
+      "type": "string",
+      "defaultValue": "core.windows.net",
+      "metadata": {
+        "description": "Storage endpoint suffix. The default value uses Azure Public Cloud (core.windows.net)"
+      }
     }
   },
   "variables": {
@@ -44,8 +51,8 @@
     "accountName": "[parameters('baseName')]",
     "datalakeAccountName": "[concat('d', parameters('baseName'))]",
     "accountNameTidy": "[toLower(trim(variables('accountName')))]",
-    "blobEndPoint": "[concat('https://',variables('accountNameTidy'),'.blob.core.windows.net/')]",
-    "endpointSuffix": "core.windows.net",
+    "datalakeaccountNameTidy": "[toLower(trim(variables('datalakeAccountName')))]",
+    "blobEndPoint": "[concat('https://',variables('accountNameTidy'),'.blob.', parameters('storageEndpointSuffix'))]",
     "accountSasProperties": {
       "signedServices": "bfqt",
       "signedPermission": "rwdlacup",
@@ -249,10 +256,6 @@
       "type": "string",
       "value": "[variables('accountName')]"
     },
-    "STORAGE_DATALAKE_ACCOUNT_NAME": {
-      "type": "string",
-      "value": "[variables('datalakeAccountName')]"
-    },
     "ACCOUNT_KEY": {
       "type": "string",
       "value": "[listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('accountName')), variables('storageApiVersion')).keys[0].value]"
@@ -263,7 +266,7 @@
     },
     "STORAGE_CONNECTION_STRING": {
       "type": "string",
-      "value": "[concat('DefaultEndpointsProtocol=https;AccountName=', variables('accountName'), ';AccountKey=', listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('accountName')), variables('storageApiVersion')).keys[0].value, ';EndpointSuffix=', 'core.windows.net')]"
+      "value": "[concat('DefaultEndpointsProtocol=https;AccountName=', variables('accountName'), ';AccountKey=', listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('accountName')), variables('storageApiVersion')).keys[0].value, ';EndpointSuffix=', parameters('storageEndpointSuffix'))]"
     },
     "AZURE_TENANT_ID": {
       "type": "string",
@@ -276,6 +279,18 @@
     "AZURE_CLIENT_SECRET": {
       "type": "string",
       "value": "[parameters('testApplicationSecret')]"
+    },
+    "DFS_ACCOUNT_NAME": {
+      "type": "string",
+      "value": "[variables('dataLakeAccountName')]"
+    },
+    "DFS_ACCOUNT_KEY": {
+      "type": "string",
+      "value": "[listKeys(resourceId('Microsoft.Storage/storageAccounts', variables('dataLakeAccountName')), variables('storageApiVersion')).keys[0].value]"
+    },
+    "DFS_ACCOUNT_SAS": {
+      "type": "string",
+      "value": "[concat('?', listAccountSas(variables('datalakeaccountNameTidy'), variables('storageApiVersion'), variables('accountSasProperties')).accountSasToken)]"
     }
   }
 }

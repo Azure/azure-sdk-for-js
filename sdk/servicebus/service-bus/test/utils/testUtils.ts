@@ -35,7 +35,7 @@ export class TestMessage {
     return {
       body: `message body ${randomNumber}`,
       messageId: `message id ${randomNumber}`,
-      partitionKey: `partition key ${randomNumber}`,
+      partitionKey: TestMessage.sessionId,
       contentType: `content type ${randomNumber}`,
       correlationId: `correlation id ${randomNumber}`,
       timeToLive: 60 * 60 * 24,
@@ -125,21 +125,18 @@ export class TestMessage {
 }
 
 export enum TestClientType {
-  PartitionedQueue,
-  PartitionedTopic,
-  PartitionedSubscription,
-  UnpartitionedQueue,
-  UnpartitionedTopic,
-  UnpartitionedSubscription,
-  PartitionedQueueWithSessions,
-  PartitionedTopicWithSessions,
-  PartitionedSubscriptionWithSessions,
-  UnpartitionedQueueWithSessions,
-  UnpartitionedTopicWithSessions,
-  UnpartitionedSubscriptionWithSessions,
-  TopicFilterTestTopic,
-  TopicFilterTestDefaultSubscription,
-  TopicFilterTestSubscription
+  PartitionedQueue = "PartitionedQueue",
+  PartitionedTopic = "PartitionedTopic",
+  PartitionedSubscription = "PartitionedSubscription",
+  UnpartitionedQueue = "UnpartitionedQueue",
+  UnpartitionedTopic = "UnpartitionedTopic",
+  UnpartitionedSubscription = "UnpartitionedSubscription",
+  PartitionedQueueWithSessions = "PartitionedQueueWithSessions",
+  PartitionedTopicWithSessions = "PartitionedTopicWithSessions",
+  PartitionedSubscriptionWithSessions = "PartitionedSubscriptionWithSessions",
+  UnpartitionedQueueWithSessions = "UnpartitionedQueueWithSessions",
+  UnpartitionedTopicWithSessions = "UnpartitionedTopicWithSessions",
+  UnpartitionedSubscriptionWithSessions = "UnpartitionedSubscriptionWithSessions"
 }
 
 /**

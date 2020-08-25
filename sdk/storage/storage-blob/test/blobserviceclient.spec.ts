@@ -23,7 +23,7 @@ describe("BlobServiceClient", () => {
   });
 
   afterEach(async function() {
-    recorder.stop();
+    await recorder.stop();
   });
 
   it("ListContainers with default parameters", async () => {
@@ -536,5 +536,10 @@ describe("BlobServiceClient", () => {
     assert.deepStrictEqual(blobsWithTag2.length, 3);
 
     await containerClient.delete();
+  });
+
+  it("verify custom endpoint without valid accountName", async () => {
+    const newClient = new BlobServiceClient(`https://customdomain.com`);
+    assert.equal(newClient.accountName, "", "Account name is not the same as expected.");
   });
 });

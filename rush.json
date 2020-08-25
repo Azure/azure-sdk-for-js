@@ -398,9 +398,24 @@
       "versionPolicyName": "core"
     },
     {
+      "packageName": "@azure/core-xml",
+      "projectFolder": "sdk/core/core-xml",
+      "versionPolicyName": "core"
+    },
+    {
       "packageName": "@azure/cosmos",
       "projectFolder": "sdk/cosmosdb/cosmos",
       "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/monitor-opentelemetry-exporter",
+      "projectFolder": "sdk/monitor/opentelemetry-exporter",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/dev-tool",
+      "projectFolder": "common/tools/dev-tool",
+      "versionPolicyName": "utility"
     },
     {
       "packageName": "@azure/event-hubs",
@@ -458,6 +473,11 @@
       "versionPolicyName": "core"
     },
     {
+      "packageName": "@azure/schema-registry",
+      "projectFolder": "sdk/schemaregistry/schema-registry",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure/service-bus",
       "projectFolder": "sdk/servicebus/service-bus",
       "versionPolicyName": "client"
@@ -493,8 +513,8 @@
       "versionPolicyName": "client"
     },
     {
-      "packageName": "@azure/tables",
-      "projectFolder": "sdk/tables/azure-tables",
+      "packageName": "@azure/data-tables",
+      "projectFolder": "sdk/tables/data-tables",
       "versionPolicyName": "client"
     },
     {

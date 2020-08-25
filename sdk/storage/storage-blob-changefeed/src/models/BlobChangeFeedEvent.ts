@@ -1,6 +1,15 @@
 // https://msazure.visualstudio.com/One/_git/Storage-XStore?path=%2Fsrc%2FXTable%2FNotifications%2Flib%2FBlobChangeEventv4.json&version=GBmaster
 
-export type BlobChangeFeedEventType = "UnspecifiedEventType" | "BlobCreated" | "BlobDeleted" | "BlobPropertiesUpdated" | "BlobSnapshotCreated" | "Control" | "BlobTierChanged" | "BlobAsyncOperationInitiated" | "BlobMetadataUpdated";
+export type BlobChangeFeedEventType =
+  | "UnspecifiedEventType"
+  | "BlobCreated"
+  | "BlobDeleted"
+  | "BlobPropertiesUpdated"
+  | "BlobSnapshotCreated"
+  | "Control"
+  | "BlobTierChanged"
+  | "BlobAsyncOperationInitiated"
+  | "BlobMetadataUpdated";
 
 export interface BlobChangeFeedEvent {
   topic: string;

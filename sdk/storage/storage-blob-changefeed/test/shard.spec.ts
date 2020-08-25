@@ -42,10 +42,7 @@ describe("Shard", async () => {
     const shardFactory = new ShardFactory(chunkFactoryStub as any);
     const shard = await shardFactory.create(containerClientSub as any, shardPath, shardCursor);
     assert.ok(
-      chunkFactoryStub.create.calledWith(
-        containerClientSub,
-        `${shardPath}000${chunkIndex}.avro`
-      )
+      chunkFactoryStub.create.calledWith(containerClientSub, `${shardPath}000${chunkIndex}.avro`)
     );
     const cursor = shard.getCursor();
     assert.deepStrictEqual(cursor.chunkIndex, shardCursor.chunkIndex);

@@ -14,7 +14,9 @@ describe("serviceBusClient unit tests", () => {
   // we pass.
   // So if we add other options types there's no need to generate a whole
   // new set of tests for it. :)
-  const sessionReceiverOptions: CreateSessionReceiverOptions = {
+  const sessionReceiverOptions:
+    | CreateSessionReceiverOptions<"peekLock">
+    | CreateSessionReceiverOptions<"receiveAndDelete"> = {
     sessionId: "session-id"
   };
 
@@ -23,11 +25,11 @@ describe("serviceBusClient unit tests", () => {
     // any options
     allLockModes.forEach((lockMode) => {
       it(`queue, no options, ${lockMode}`, () => {
-        const result = extractReceiverArguments("queue", lockMode, undefined, undefined);
+        const result = extractReceiverArguments("queue", { receiveMode: lockMode });
         assert.deepEqual(result, {
           entityPath: "queue",
           receiveMode: lockMode,
-          options: undefined
+          options: {}
         });
       });
     });
@@ -36,12 +38,10 @@ describe("serviceBusClient unit tests", () => {
     // any options
     allLockModes.forEach((lockMode) => {
       it(`queue, with options, ${lockMode}`, () => {
-        const result = extractReceiverArguments(
-          "queue",
-          lockMode,
-          sessionReceiverOptions,
-          undefined
-        );
+        const result = extractReceiverArguments("queue", {
+          ...sessionReceiverOptions,
+          receiveMode: lockMode
+        });
         assert.deepEqual(result, {
           entityPath: "queue",
           receiveMode: lockMode,
@@ -53,12 +53,12 @@ describe("serviceBusClient unit tests", () => {
     // basically, simulating getSessionReceiver which does take options (although this method just returns them verbatim with no interpretation)
     allLockModes.forEach((lockMode) => {
       it(`topic and subscription, no options, ${lockMode}`, () => {
-        const result = extractReceiverArguments("topic", "subscription", lockMode, undefined);
+        const result = extractReceiverArguments("topic", "subscription", { receiveMode: lockMode });
 
         assert.deepEqual(result, {
           entityPath: "topic/Subscriptions/subscription",
           receiveMode: lockMode,
-          options: undefined
+          options: {}
         });
       });
     });
@@ -66,12 +66,10 @@ describe("serviceBusClient unit tests", () => {
     // basically, simulating getSessionReceiver which does take options (although this method just returns them verbatim with no interpretation)
     allLockModes.forEach((lockMode) => {
       it(`topic and subscription, with options, ${lockMode}`, () => {
-        const result = extractReceiverArguments(
-          "topic",
-          "subscription",
-          lockMode,
-          sessionReceiverOptions
-        );
+        const result = extractReceiverArguments("topic", "subscription", {
+          ...sessionReceiverOptions,
+          receiveMode: lockMode
+        });
 
         assert.deepEqual(result, {
           entityPath: "topic/Subscriptions/subscription",
@@ -84,12 +82,10 @@ describe("serviceBusClient unit tests", () => {
     it("failures", () => {
       assert.throws(
         () =>
-          extractReceiverArguments(
-            "topic",
-            "subscription",
-            "WOW THIS ISN'T A RECEIVE MODE" as "peekLock",
-            sessionReceiverOptions
-          ),
+          extractReceiverArguments("topic", "subscription", {
+            ...sessionReceiverOptions,
+            receiveMode: "WOW THIS ISN'T A RECEIVE MODE" as "peekLock"
+          }),
         /Invalid receiveMode provided/
       );
     });

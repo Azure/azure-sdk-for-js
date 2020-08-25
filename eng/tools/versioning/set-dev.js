@@ -21,6 +21,7 @@ let argv = require("yargs")
 
 const process = require("process");
 const semver = require("semver");
+const path = require("path");
 const packageUtils = require("eng-package-utils");
 
 const commitChanges = async (rushPackages, package) => {
@@ -117,7 +118,6 @@ const updateInternalDependencyVersions = (rushPackages, package, buildId) => {
 };
 
 const makeDependencySectionConsistentForPackage = (rushPackages, dependencySection, depName) => {
-  console.log("Inside make dep");
   if (dependencySection && dependencySection[depName]) {
     depVersionRange = dependencySection[depName];
 
@@ -168,12 +168,42 @@ const updateOtherProjectDependencySections = (rushPackages, package, depName) =>
   return rushPackages;
 };
 
+/*
+Check rush common-versions for the exact version to replace dev tags for - if that version is present 
+in common-versions - then update common-versions adding the dev version as an exception
+*/
+const updateCommonVersions = async (repoRoot, commonVersionsConfig, package, searchVersion) => {
+  var allowedAlternativeVersions = commonVersionsConfig["allowedAlternativeVersions"];
+  const parsedSearchVersion = semver.parse(searchVersion);
+
+  if (allowedAlternativeVersions[package]) {
+    for (var version of allowedAlternativeVersions[package]) {
+      const parsedPackageVersion = semver.minVersion(version);
+      if (parsedPackageVersion.major == parsedSearchVersion.major &&
+        parsedPackageVersion.minor == parsedSearchVersion.minor &&
+        parsedPackageVersion.patch == parsedSearchVersion.patch) {
+        var devVersionRange = "^" + parsedSearchVersion.major + "." + parsedSearchVersion.minor + "." + parsedSearchVersion.patch + "-dev";
+        allowedAlternativeVersions[package].push(devVersionRange);
+        break;
+      }
+    }
+  }
+
+  var newConfig = commonVersionsConfig;
+  newConfig["allowedAlternativeVersions"] = allowedAlternativeVersions;
+  const commonVersionsPath = path.resolve(path.join(repoRoot, "/common/config/rush/common-versions.json"));
+  console.log("updated common versions config =");
+  console.log(newConfig);
+  await packageUtils.writePackageJson(commonVersionsPath, newConfig);
+}
+
 async function main(argv) {
   const buildId = argv["build-id"];
   const repoRoot = argv["repo-root"];
   const service = argv["service"];
 
   var rushPackages = await packageUtils.getRushPackageJsons(repoRoot);
+  const commonVersionsConfig = await packageUtils.getRushCommonVersions(repoRoot);
 
   let targetPackages = [];
   for (const package of Object.keys(rushPackages)) {
@@ -196,6 +226,7 @@ async function main(argv) {
     console.log(package);
     rushPackages = updatePackageVersion(rushPackages, package, buildId);
     rushPackages = updateInternalDependencyVersions(rushPackages, package, buildId);
+    await updateCommonVersions(repoRoot, commonVersionsConfig, package, rushPackages[package].json.version);
     console.log(rushPackages[package].newVer);
   }
 

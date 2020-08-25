@@ -55,7 +55,7 @@ describe("BlobClient Node.js only", () => {
 
   afterEach(async function() {
     await containerClient.delete();
-    recorder.stop();
+    await recorder.stop();
   });
 
   it("download with with default parameters", async () => {
@@ -349,7 +349,6 @@ describe("BlobClient Node.js only", () => {
   });
 
   it("query should work", async function() {
-    recorder.skip(undefined, "TODO: figure out why quick query do not work with recording");
     const csvContent = "100,200,300,400\n150,250,350,450\n";
     await blockBlobClient.upload(csvContent, csvContent.length);
 

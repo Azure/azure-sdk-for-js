@@ -17,7 +17,19 @@ interface FetchError extends Error {
   type?: string;
 }
 
-export type CommonRequestInfo = Request | string;
+export type CommonRequestInfo = string; // We only ever call fetch() on string urls.
+
+export type CommonRequestInit = Omit<RequestInit, "body" | "headers" | "signal"> & {
+  body?: any;
+  headers?: any;
+  signal?: any;
+};
+
+export type CommonResponse = Omit<Response, "body" | "trailer" | "formData"> & {
+  body: any;
+  trailer: any;
+  formData: any;
+};
 
 export class ReportTransform extends Transform {
   private loadedBytes: number = 0;
@@ -134,7 +146,7 @@ export abstract class FetchHttpClient implements HttpClient {
     };
 
     try {
-      const response: Response = await this.fetch(httpRequest.url, requestInit);
+      const response: CommonResponse = await this.fetch(httpRequest.url, requestInit);
 
       const headers = parseHeaders(response.headers);
       const operationResponse: HttpOperationResponse = {
@@ -191,7 +203,7 @@ export abstract class FetchHttpClient implements HttpClient {
 
   abstract async prepareRequest(httpRequest: WebResourceLike): Promise<Partial<RequestInit>>;
   abstract async processRequest(operationResponse: HttpOperationResponse): Promise<void>;
-  abstract async fetch(input: CommonRequestInfo, init?: RequestInit): Promise<Response>;
+  abstract async fetch(input: CommonRequestInfo, init?: CommonRequestInit): Promise<CommonResponse>;
 }
 
 function isReadableStream(body: any): body is Readable {

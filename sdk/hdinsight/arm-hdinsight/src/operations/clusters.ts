@@ -162,6 +162,19 @@ export class Clusters {
   }
 
   /**
+   * Updates the Autoscale Configuration for HDInsight cluster.
+   * @param resourceGroupName The name of the resource group.
+   * @param clusterName The name of the cluster.
+   * @param parameters The parameters for the update autoscale configuration operation.
+   * @param [options] The optional parameters
+   * @returns Promise<msRest.RestResponse>
+   */
+  updateAutoScaleConfiguration(resourceGroupName: string, clusterName: string, parameters: Models.AutoscaleConfigurationUpdateParameter, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+    return this.beginUpdateAutoScaleConfiguration(resourceGroupName,clusterName,parameters,options)
+      .then(lroPoller => lroPoller.pollUntilFinished());
+  }
+
+  /**
    * Lists all the HDInsight clusters under the subscription.
    * @param [options] The optional parameters
    * @returns Promise<Models.ClustersListResponse>
@@ -311,6 +324,26 @@ export class Clusters {
         options
       },
       beginResizeOperationSpec,
+      options);
+  }
+
+  /**
+   * Updates the Autoscale Configuration for HDInsight cluster.
+   * @param resourceGroupName The name of the resource group.
+   * @param clusterName The name of the cluster.
+   * @param parameters The parameters for the update autoscale configuration operation.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginUpdateAutoScaleConfiguration(resourceGroupName: string, clusterName: string, parameters: Models.AutoscaleConfigurationUpdateParameter, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        clusterName,
+        parameters,
+        options
+      },
+      beginUpdateAutoScaleConfigurationOperationSpec,
       options);
   }
 
@@ -637,6 +670,38 @@ const beginResizeOperationSpec: msRest.OperationSpec = {
     parameterPath: "parameters",
     mapper: {
       ...Mappers.ClusterResizeParameters,
+      required: true
+    }
+  },
+  responses: {
+    200: {},
+    202: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  serializer
+};
+
+const beginUpdateAutoScaleConfigurationOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.HDInsight/clusters/{clusterName}/roles/{roleName}/autoscale",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.clusterName,
+    Parameters.roleName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "parameters",
+    mapper: {
+      ...Mappers.AutoscaleConfigurationUpdateParameter,
       required: true
     }
   },

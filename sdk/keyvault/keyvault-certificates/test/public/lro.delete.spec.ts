@@ -26,7 +26,7 @@ describe("Certificates client - lro - delete", () => {
   });
 
   afterEach(async function() {
-    recorder.stop();
+    await recorder.stop();
   });
 
   // The tests follow
@@ -102,5 +102,4 @@ describe("Certificates client - lro - delete", () => {
 
     await testClient.purgeCertificate(certificateName);
   });
-
 });

@@ -13,9 +13,11 @@ const { FormRecognizerClient, AzureKeyCredential } = require("@azure/ai-form-rec
 const { DefaultAzureCredential } = require("@azure/identity");
 
 const fs = require("fs");
+const path = require("path");
 
 // Load the .env file if it exists
-require("dotenv").config();
+const dotenv = require("dotenv");
+dotenv.config();
 
 // You will need to set this environment variables or edit the following values
 const endpoint = process.env["FORM_RECOGNIZER_ENDPOINT"] || "<cognitive services endpoint>";
@@ -58,7 +60,7 @@ async function useApiKey() {
  * for content recognition and print its output.
  */
 async function recognizeContentWithClient(client) {
-  const fileName = "assets/Invoice_6.pdf";
+  const fileName = path.join(__dirname, "./assets/Invoice_6.pdf");
 
   if (!fs.existsSync(fileName)) {
     throw new Error(`Expecting file ${fileName} exists`);
@@ -78,10 +80,8 @@ async function recognizeContentWithClient(client) {
       `Page ${page.pageNumber}: width ${page.width} and height ${page.height} with unit ${page.unit}`
     );
     for (const table of page.tables) {
-      for (const row of table.rows) {
-        for (const cell of row.cells) {
-          console.log(`cell [${cell.rowIndex},${cell.columnIndex}] has text ${cell.text}`);
-        }
+      for (const cell of table.cells) {
+        console.log(`cell [${cell.rowIndex},${cell.columnIndex}] has text ${cell.text}`);
       }
     }
   }

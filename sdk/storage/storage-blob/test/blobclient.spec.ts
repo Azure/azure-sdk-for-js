@@ -16,7 +16,8 @@ import {
   BlockBlobClient,
   ContainerClient,
   BlockBlobTier,
-  BlobServiceClient
+  BlobServiceClient,
+  RehydratePriority
 } from "../src";
 import { Test_CPK_INFO } from "./utils/constants";
 dotenv.config();
@@ -47,7 +48,7 @@ describe("BlobClient", () => {
   afterEach(async function() {
     if (!this.currentTest?.isPending()) {
       await containerClient.delete();
-      recorder.stop();
+      await recorder.stop();
     }
   });
 
@@ -774,6 +775,34 @@ describe("BlobClient", () => {
     }
     assert.ok(exceptionCaught);
   });
+
+  async function checkRehydratePriority(rehydratePriority: RehydratePriority) {
+    await blobClient.setAccessTier("Archive");
+    await blobClient.setAccessTier("Hot", { rehydratePriority });
+
+    const res = await blobClient.getProperties();
+    assert.equal(res.rehydratePriority, rehydratePriority);
+
+    for await (const item of containerClient.listBlobsFlat()) {
+      if (item.name === blobName) {
+        assert.equal(item.properties.rehydratePriority, rehydratePriority);
+      }
+    }
+
+    for await (const item of containerClient.listBlobsByHierarchy("/")) {
+      if (item.kind === "blob" && item.name === blobName) {
+        assert.equal(item.properties.rehydratePriority, rehydratePriority);
+      }
+    }
+  }
+
+  it("getProperties and listBlob RehydratePriority = High", async () => {
+    await checkRehydratePriority("High");
+  });
+
+  it("getProperties and listBlob RehydratePriority = Standard", async () => {
+    await checkRehydratePriority("Standard");
+  });
 });
 
 describe("BlobClient - Verify Name Properties", () => {
@@ -814,5 +843,12 @@ describe("BlobClient - Verify Name Properties", () => {
 
   it("verify endpoint without dots", async () => {
     verifyNameProperties(`https://localhost:80/${accountName}/${containerName}/${blobName}`);
+  });
+
+  it("verify custom endpoint without valid accountName", async () => {
+    const newClient = new BlobClient(`https://customdomain.com/${containerName}/${blobName}`);
+    assert.equal(newClient.accountName, "", "Account name is not the same as expected.");
+    assert.equal(newClient.containerName, containerName, "Container name is not the same as the one provided.");
+    assert.equal(newClient.name, blobName, "Blob name is not the same as the one provided.");
   });
 });

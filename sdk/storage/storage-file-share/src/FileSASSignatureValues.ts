@@ -160,7 +160,8 @@ export function generateFileSASQueryParameters(
 ): SASQueryParameters {
   if (
     !fileSASSignatureValues.identifier &&
-    !fileSASSignatureValues.permissions && !fileSASSignatureValues.expiresOn
+    !fileSASSignatureValues.permissions &&
+    !fileSASSignatureValues.expiresOn
   ) {
     throw new RangeError(
       "Must provide 'permissions' and 'expiresOn' for File SAS generation when 'identifier' is not provided."

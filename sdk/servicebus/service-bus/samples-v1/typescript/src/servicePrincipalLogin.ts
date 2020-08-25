@@ -10,7 +10,7 @@
     region. AAD Role Based Access Control is not supported in other regions yet.
 
     Register a new application in AAD and assign the "Azure Service Bus Data Owner" role to it
-     - See https://docs.microsoft.com/en-us/azure/active-directory/develop/quickstart-register-app 
+     - See https://docs.microsoft.com/azure/active-directory/develop/quickstart-register-app 
        to register a new application in the Azure Active Directory.
      - Note down the CLIENT_ID and TENANT_ID from the above step.
      - In the "Certificates & Secrets" tab, create a secret and note that down.
@@ -30,9 +30,9 @@ const serviceBusEndpoint =
   process.env.SERVICE_BUS_ENDPOINT || "<your-servicebus-namespace>.servicebus.windows.net";
 
 // Define CLIENT_ID, TENANT_ID and SECRET of your AAD application here
-const clientId = process.env.AZURE_TENANT_ID || "<azure tenant id>";
+const clientId = process.env.AZURE_CLIENT_ID || "<azure client id>";
 const clientSecret = process.env.AZURE_CLIENT_SECRET || "<azure client secret>";
-const tenantId = process.env.AZURE_CLIENT_ID || "<azure client id>";
+const tenantId = process.env.AZURE_TENANT_ID || "<azure tenant id>";
 
 export async function main() {
   const tokenCreds = await loginWithServicePrincipalSecret(clientId, clientSecret, tenantId, {

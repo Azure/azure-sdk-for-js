@@ -6,12 +6,12 @@ const should = chai.should();
 
 import { createServiceBusClientForTests } from "./utils/testutils2";
 import { TestClientType, TestMessage } from "./utils/testUtils";
-import { ReceivedMessage, ReceivedMessageWithLock, Receiver } from "../src";
+import { ReceivedMessage, ReceivedMessageWithLock, ServiceBusReceiver } from "../src";
 
 describe("dead lettering", () => {
   let serviceBusClient: ReturnType<typeof createServiceBusClientForTests>;
-  let deadLetterReceiver: Receiver<ReceivedMessage>;
-  let receiver: Receiver<ReceivedMessageWithLock>;
+  let deadLetterReceiver: ServiceBusReceiver<ReceivedMessage>;
+  let receiver: ServiceBusReceiver<ReceivedMessageWithLock>;
   let receivedMessage: ReceivedMessageWithLock;
 
   before(() => {
@@ -41,14 +41,14 @@ describe("dead lettering", () => {
 
     deadLetterReceiver = serviceBusClient.test.addToCleanup(
       // receiveAndDelete since I don't care about further settlement after it's been dead lettered!
-      serviceBusClient.createDeadLetterReceiver(entityNames.queue, "receiveAndDelete")
+      serviceBusClient.createDeadLetterReceiver(entityNames.queue, {
+        receiveMode: "receiveAndDelete"
+      })
     );
 
     receiver = await serviceBusClient.test.getPeekLockReceiver(entityNames);
 
-    const receivedMessages = await receiver.receiveMessages(1, {
-      maxWaitTimeInMs: 1000
-    });
+    const receivedMessages = await receiver.receiveMessages(1);
 
     if (receivedMessages.length == 0) {
       throw new Error("No messages were received");
@@ -153,8 +153,8 @@ describe("dead lettering", () => {
     const deadLetterMessages = await deadLetterReceiver.receiveMessages(1);
     should.exist(deadLetterMessages[0]);
 
-    const reason = deadLetterMessages[0]!.properties!["DeadLetterReason"];
-    const description = deadLetterMessages[0]!.properties!["DeadLetterErrorDescription"];
+    const reason = deadLetterMessages[0].deadLetterReason;
+    const description = deadLetterMessages[0].deadLetterErrorDescription;
     const customProperty = deadLetterMessages[0]!.properties!["customProperty"];
 
     should.equal(reason, expected.reason);
@@ -165,7 +165,7 @@ describe("dead lettering", () => {
 
 describe("abandoning", () => {
   let serviceBusClient: ReturnType<typeof createServiceBusClientForTests>;
-  let receiver: Receiver<ReceivedMessageWithLock>;
+  let receiver: ServiceBusReceiver<ReceivedMessageWithLock>;
   let receivedMessage: ReceivedMessageWithLock;
 
   before(() => {
@@ -195,9 +195,7 @@ describe("abandoning", () => {
 
     receiver = await serviceBusClient.test.getPeekLockReceiver(entityNames);
 
-    const receivedMessages = await receiver.receiveMessages(1, {
-      maxWaitTimeInMs: 1000
-    });
+    const receivedMessages = await receiver.receiveMessages(1);
 
     if (receivedMessages.length == 0) {
       throw new Error("No messages were received");
@@ -290,7 +288,7 @@ describe("abandoning", () => {
 
 describe("deferring", () => {
   let serviceBusClient: ReturnType<typeof createServiceBusClientForTests>;
-  let receiver: Receiver<ReceivedMessageWithLock>;
+  let receiver: ServiceBusReceiver<ReceivedMessageWithLock>;
   let receivedMessage: ReceivedMessageWithLock;
 
   before(() => {
@@ -320,9 +318,7 @@ describe("deferring", () => {
 
     receiver = await serviceBusClient.test.getPeekLockReceiver(entityNames);
 
-    const receivedMessages = await receiver.receiveMessages(1, {
-      maxWaitTimeInMs: 1000
-    });
+    const receivedMessages = await receiver.receiveMessages(1);
 
     if (receivedMessages.length == 0) {
       throw new Error("No messages were received");

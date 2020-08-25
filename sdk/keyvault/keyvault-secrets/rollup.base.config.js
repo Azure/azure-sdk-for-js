@@ -8,7 +8,6 @@ import replace from "@rollup/plugin-replace";
 import { terser } from "rollup-plugin-terser";
 import sourcemaps from "rollup-plugin-sourcemaps";
 import shim from "rollup-plugin-shim";
-import json from "@rollup/plugin-json";
 
 /**
  * @type {import('rollup').RollupFileOptions}
@@ -58,10 +57,7 @@ export function nodeConfig(test = false) {
   if (test) {
     // entry point is every test file
     baseConfig.input = ["dist-esm/**/*.spec.js"];
-    baseConfig.plugins.unshift(
-      multiEntry({ exports: false }),
-      json() // This allows us to import/require the package.json file, to get the version and test it against the user agent.
-    );
+    baseConfig.plugins.unshift(multiEntry({ exports: false }));
 
     // different output file
     baseConfig.output.file = "dist-test/index.node.js";
@@ -119,7 +115,7 @@ export function browserConfig(test = false) {
       }),
       cjs({
         namedExports: {
-          assert: ["ok", "equal", "strictEqual", "deepEqual"],
+          assert: ["ok", "equal", "strictEqual", "deepEqual", "throws"],
           "@opentelemetry/api": ["CanonicalCode", "SpanKind", "TraceFlags"]
         }
       })
@@ -128,10 +124,7 @@ export function browserConfig(test = false) {
 
   if (test) {
     baseConfig.input = ["dist-esm/**/*.spec.js"];
-    baseConfig.plugins.unshift(
-      multiEntry({ exports: false }),
-      json() // This allows us to import/require the package.json file, to get the version and test it against the user agent.
-    );
+    baseConfig.plugins.unshift(multiEntry({ exports: false }));
     baseConfig.output.file = "dist-test/index.browser.js";
     // mark fs-extra as external
     baseConfig.external = ["fs-extra", "path"];
