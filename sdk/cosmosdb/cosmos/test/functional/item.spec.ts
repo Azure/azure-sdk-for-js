@@ -255,6 +255,7 @@ describe("bulk item operations", function() {
         class: "2010"
       });
     });
+    after(async () => { await container.database.delete() })
     it("handles create, upsert, replace, delete", async function() {
       const operations = [
         {
@@ -332,6 +333,7 @@ describe("bulk item operations", function() {
         class: "2012"
       });
     });
+    after(async () => { await v2Container.database.delete() })
     it("handles create, upsert, replace, delete", async function() {
       const operations = [
         {
