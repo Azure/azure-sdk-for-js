@@ -7,7 +7,7 @@ import {
   AnomalyDetectorClientLastDetectResponse,
   AnomalyDetectorClientChangePointDetectResponse
 } from "./models";
-import { GeneratedClient, Request, ChangePointDetectRequest } from "./generated";
+import { GeneratedClient, DetectRequest, ChangePointDetectRequest } from "./generated";
 import { TokenCredential } from "@azure/identity";
 import { KeyCredential } from "@azure/core-auth";
 import {
@@ -107,7 +107,7 @@ export class AnomalyDetectorClient {
    * @param options The options parameters.
    */
   public detectEntireSeries(
-    body: Request,
+    body: DetectRequest,
     options?: OperationOptions
   ): Promise<AnomalyDetectorClientEntireDetectResponse> {
     const realOptions = options || {};
@@ -138,7 +138,7 @@ export class AnomalyDetectorClient {
    * @param options The options parameters.
    */
   public detectLastPoint(
-    body: Request,
+    body: DetectRequest,
     options?: OperationOptions
   ): Promise<AnomalyDetectorClientLastDetectResponse> {
     const realOptions = options || {};

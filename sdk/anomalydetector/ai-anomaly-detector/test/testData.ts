@@ -1,6 +1,11 @@
-import { Granularity, Request, EntireDetectResponse, ChangePointDetectRequest } from "../src";
+import {
+  TimeGranularity,
+  DetectRequest,
+  EntireDetectResponse,
+  ChangePointDetectRequest
+} from "../src";
 
-const granularity: Granularity = "monthly";
+const granularity: TimeGranularity = "monthly";
 
 export const testTrendPointseries: ChangePointDetectRequest = {
   series: [
@@ -252,7 +257,7 @@ export const testTrendPointseries: ChangePointDetectRequest = {
   period: 0
 };
 
-export const testPointSeries1: Request = {
+export const testPointSeries1: DetectRequest = {
   series: [
     {
       timestamp: new Date("1972-01-01T00:00:00Z"),

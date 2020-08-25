@@ -8,17 +8,17 @@
 
 import * as coreHttp from "@azure/core-http";
 
-export const Request: coreHttp.CompositeMapper = {
+export const DetectRequest: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "Request",
+    className: "DetectRequest",
     modelProperties: {
       series: {
         serializedName: "series",
         required: true,
         type: {
           name: "Sequence",
-          element: { type: { name: "Composite", className: "Point" } }
+          element: { type: { name: "Composite", className: "TimeSeriesPoint" } }
         }
       },
       granularity: {
@@ -65,10 +65,10 @@ export const Request: coreHttp.CompositeMapper = {
   }
 };
 
-export const Point: coreHttp.CompositeMapper = {
+export const TimeSeriesPoint: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "Point",
+    className: "TimeSeriesPoint",
     modelProperties: {
       timestamp: {
         serializedName: "timestamp",
@@ -248,7 +248,7 @@ export const ChangePointDetectRequest: coreHttp.CompositeMapper = {
         required: true,
         type: {
           name: "Sequence",
-          element: { type: { name: "Composite", className: "Point" } }
+          element: { type: { name: "Composite", className: "TimeSeriesPoint" } }
         }
       },
       granularity: {

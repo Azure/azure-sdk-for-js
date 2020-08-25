@@ -14,8 +14,8 @@ import { TokenCredential } from '@azure/identity';
 export class AnomalyDetectorClient {
     constructor(endpointUrl: string, credential: TokenCredential | KeyCredential, options?: AnomalyDetectorClientOptions);
     detectChangePoint(body: ChangePointDetectRequest, options?: OperationOptions): Promise<AnomalyDetectorClientChangePointDetectResponse>;
-    detectEntireSeries(body: Request, options?: OperationOptions): Promise<AnomalyDetectorClientEntireDetectResponse>;
-    detectLastPoint(body: Request, options?: OperationOptions): Promise<AnomalyDetectorClientLastDetectResponse>;
+    detectEntireSeries(body: DetectRequest, options?: OperationOptions): Promise<AnomalyDetectorClientEntireDetectResponse>;
+    detectLastPoint(body: DetectRequest, options?: OperationOptions): Promise<AnomalyDetectorClientLastDetectResponse>;
     readonly endpointUrl: string;
 }
 
@@ -50,9 +50,9 @@ export interface AnomalyDetectorClientOptions extends PipelineOptions {
 // @public (undocumented)
 export interface ChangePointDetectRequest {
     customInterval?: number;
-    granularity: Granularity;
+    granularity: TimeGranularity;
     period?: number;
-    series: Point[];
+    series: TimeSeriesPoint[];
     stableTrendWindow?: number;
     threshold?: number;
 }
@@ -62,6 +62,16 @@ export interface ChangePointDetectResponse {
     confidenceScores: number[];
     isChangePoint: boolean[];
     period: number;
+}
+
+// @public (undocumented)
+export interface DetectRequest {
+    customInterval?: number;
+    granularity: TimeGranularity;
+    maxAnomalyRatio?: number;
+    period?: number;
+    sensitivity?: number;
+    series: TimeSeriesPoint[];
 }
 
 // @public (undocumented)
@@ -75,9 +85,6 @@ export interface EntireDetectResponse {
     upperMargins: number[];
 }
 
-// @public
-export type Granularity = "yearly" | "monthly" | "weekly" | "daily" | "hourly" | "minutely" | "secondly";
-
 // @public (undocumented)
 export interface LastDetectResponse {
     expectedValue: number;
@@ -90,20 +97,13 @@ export interface LastDetectResponse {
     upperMargin: number;
 }
 
-// @public (undocumented)
-export interface Point {
-    timestamp: Date;
-    value: number;
-}
+// @public
+export type TimeGranularity = "yearly" | "monthly" | "weekly" | "daily" | "hourly" | "minutely" | "secondly";
 
 // @public (undocumented)
-export interface Request {
-    customInterval?: number;
-    granularity: Granularity;
-    maxAnomalyRatio?: number;
-    period?: number;
-    sensitivity?: number;
-    series: Point[];
+export interface TimeSeriesPoint {
+    timestamp: Date;
+    value: number;
 }
 
 

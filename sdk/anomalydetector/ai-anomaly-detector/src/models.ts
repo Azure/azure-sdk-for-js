@@ -14,9 +14,9 @@ export {
   GeneratedClientDetectLastPointResponse as AnomalyDetectorClientLastDetectResponse,
   LastDetectResponse,
   ChangePointDetectResponse,
-  Granularity,
-  Request,
+  TimeGranularity,
+  DetectRequest,
   EntireDetectResponse,
   ChangePointDetectRequest,
-  Point
+  TimeSeriesPoint
 } from "./generated/models";

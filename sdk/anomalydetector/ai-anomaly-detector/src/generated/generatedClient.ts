@@ -12,7 +12,7 @@ import * as Mappers from "./models/mappers";
 import { GeneratedClientContext } from "./generatedClientContext";
 import {
   GeneratedClientOptionalParams,
-  Request,
+  DetectRequest,
   GeneratedClientDetectEntireSeriesResponse,
   GeneratedClientDetectLastPointResponse,
   ChangePointDetectRequest,
@@ -39,7 +39,7 @@ export class GeneratedClient extends GeneratedClientContext {
    * @param options The options parameters.
    */
   detectEntireSeries(
-    body: Request,
+    body: DetectRequest,
     options?: coreHttp.OperationOptions
   ): Promise<GeneratedClientDetectEntireSeriesResponse> {
     const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
@@ -60,7 +60,7 @@ export class GeneratedClient extends GeneratedClientContext {
    * @param options The options parameters.
    */
   detectLastPoint(
-    body: Request,
+    body: DetectRequest,
     options?: coreHttp.OperationOptions
   ): Promise<GeneratedClientDetectLastPointResponse> {
     const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(

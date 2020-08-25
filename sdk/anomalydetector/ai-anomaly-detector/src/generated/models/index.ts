@@ -8,15 +8,15 @@
 
 import * as coreHttp from "@azure/core-http";
 
-export interface Request {
+export interface DetectRequest {
   /**
    * Time series data points. Points should be sorted by timestamp in ascending order to match the anomaly detection result. If the data is not sorted correctly or there is duplicated timestamp, the API will not work. In such case, an error message will be returned.
    */
-  series: Point[];
+  series: TimeSeriesPoint[];
   /**
    * Can only be one of yearly, monthly, weekly, daily, hourly, minutely or secondly. Granularity is used for verify whether input series is valid.
    */
-  granularity: Granularity;
+  granularity: TimeGranularity;
   /**
    * Custom Interval is used to set non-standard time interval, for example, if the series is 5 minutes, request can be set as {"granularity":"minutely", "customInterval":5}.
    */
@@ -35,7 +35,7 @@ export interface Request {
   sensitivity?: number;
 }
 
-export interface Point {
+export interface TimeSeriesPoint {
   /**
    * Timestamp of a data point (ISO8601 format).
    */
@@ -130,11 +130,11 @@ export interface ChangePointDetectRequest {
   /**
    * Time series data points. Points should be sorted by timestamp in ascending order to match the change point detection result.
    */
-  series: Point[];
+  series: TimeSeriesPoint[];
   /**
    * Can only be one of yearly, monthly, weekly, daily, hourly, minutely or secondly. Granularity is used for verify whether input series is valid.
    */
-  granularity: Granularity;
+  granularity: TimeGranularity;
   /**
    * Custom Interval is used to set non-standard time interval, for example, if the series is 5 minutes, request can be set as {"granularity":"minutely", "customInterval":5}.
    */
@@ -183,9 +183,9 @@ export type AnomalyDetectorErrorCodes =
   | "RequiredSeries"
   | string;
 /**
- * Defines values for Granularity.
+ * Defines values for TimeGranularity.
  */
-export type Granularity =
+export type TimeGranularity =
   | "yearly"
   | "monthly"
   | "weekly"
