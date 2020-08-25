@@ -23,11 +23,11 @@ export type AggregateType = "Average" | "Count" | "Max" | "Min" | "Sum";
 
 // @public (undocumented)
 export const BulkOperationType: {
-    Create: string;
-    Upsert: string;
-    Read: string;
-    Delete: string;
-    Replace: string;
+    readonly Create: "Create";
+    readonly Upsert: "Upsert";
+    readonly Read: "Read";
+    readonly Delete: "Delete";
+    readonly Replace: "Replace";
 };
 
 // @public
@@ -512,7 +512,7 @@ export interface CosmosHeaders {
 
 // @public (undocumented)
 export type CreateOperation = OperationWithItem & {
-    operationType: keyof typeof BulkOperationType.Create;
+    operationType: OperationType_2.Create;
 };
 
 // @public
@@ -609,7 +609,7 @@ export const DEFAULT_PARTITION_KEY_PATH: "/_partitionKey";
 
 // @public (undocumented)
 export type DeleteOperation = OperationBase & {
-    operationType: 'Delete';
+    operationType: OperationType_2.Delete;
     id: string;
 };
 
@@ -934,7 +934,7 @@ export interface OperationInput {
     // (undocumented)
     ifNoneMatch?: string;
     // (undocumented)
-    operationType: string;
+    operationType: keyof typeof BulkOperationType;
     // (undocumented)
     partitionKey?: string | number | null | {} | undefined;
     // (undocumented)
@@ -1238,13 +1238,13 @@ export interface QueryRange {
 
 // @public (undocumented)
 export type ReadOperation = OperationBase & {
-    operationType: 'Read';
+    operationType: OperationType_2.Read;
     id: string;
 };
 
 // @public (undocumented)
 export type ReplaceOperation = OperationWithItem & {
-    operationType: 'Replace';
+    operationType: OperationType_2.Replace;
     id: string;
 };
 
@@ -1708,7 +1708,7 @@ export interface UniqueKeyPolicy {
 
 // @public (undocumented)
 export type UpsertOperation = OperationWithItem & {
-    operationType: 'Create';
+    operationType: OperationType_2.Upsert;
 };
 
 // @public
@@ -1791,6 +1791,10 @@ export class Users {
     upsert(body: UserDefinition, options?: RequestOptions): Promise<UserResponse>;
 }
 
+
+// Warnings were encountered during analysis:
+//
+// src/utils/batch.ts:70:3 - (ae-forgotten-export) The symbol "OperationType" needs to be exported by the entry point index.d.ts
 
 // (No @packageDocumentation comment for this package)
 

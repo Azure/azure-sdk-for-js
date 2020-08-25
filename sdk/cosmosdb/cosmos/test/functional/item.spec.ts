@@ -16,7 +16,7 @@ import {
   addEntropy,
   getTestContainer
 } from "../common/TestHelpers";
-import { BulkOperationType } from '../../src/utils/batch';
+import { BulkOperationType } from "../../src/utils/batch";
 
 /**
  * @ignore
@@ -420,7 +420,7 @@ describe("bulk item operations", function() {
         }
       ];
       const response = await v2Container.items.bulk(operations);
-      assert.equal(response[1].statusCode, 424)
+      assert.equal(response[1].statusCode, 424);
     });
     it("autogenerates IDs for Create operations", async function() {
       const operations = [
@@ -433,7 +433,7 @@ describe("bulk item operations", function() {
         }
       ];
       const response = await v2Container.items.bulk(operations);
-      assert.equal(response[0].statusCode, 201)
+      assert.equal(response[0].statusCode, 201);
     });
   });
 });
