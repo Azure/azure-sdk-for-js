@@ -35,6 +35,7 @@ export {
   RecognizePiiEntitiesSuccessResult
 } from "./recognizePiiEntitiesResult";
 export { RecognizePiiEntitiesResultArray } from "./recognizePiiEntitiesResultArray";
+export { RecognizePiiEntitiesResultResponse } from "./recognizePiiEntitiesResultResponse";
 export { RecognizeCategorizedEntitiesResultArray } from "./recognizeCategorizedEntitiesResultArray";
 export {
   AnalyzeSentimentResult,

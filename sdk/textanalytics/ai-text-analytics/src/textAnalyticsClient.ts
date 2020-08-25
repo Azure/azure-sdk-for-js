@@ -20,14 +20,6 @@ import {
   GeneratedClientSentimentOptionalParams,
   TextDocumentInput
 } from "./generated/models";
-import { AnalyzeSentimentResultArray } from "./analyzeSentimentResultArray";
-import {
-  ExtractKeyPhrasesResultArray
-} from "./extractKeyPhrasesResultArray";
-import {
-  RecognizePiiEntitiesResultArray,
-  makeRecognizePiiEntitiesResultArray
-} from "./recognizePiiEntitiesResultArray";
 import {
   RecognizeLinkedEntitiesResultArray,
   makeRecognizeLinkedEntitiesResultArray
@@ -49,6 +41,7 @@ import {
 } from './recognizeCategorizedEntitiesResultResponse';
 import { ExtractKeyPhraseseResultResponse } from '.';
 import { toExtractKeyPhrasesResultResponse } from './extractKeyPhrasesResultResponse';
+import { RecognizePiiEntitiesResultResponse, toRecognizePiiEntitiesResultResponse } from './recognizePiiEntitiesResultResponse';
 
 const DEFAULT_COGNITIVE_SCOPE = "https://cognitiveservices.azure.com/.default";
 
@@ -408,7 +401,7 @@ export class TextAnalyticsClient {
     documents: string[],
     language?: string,
     options?: AnalyzeSentimentOptions
-  ): Promise<AnalyzeSentimentResultArray>;
+  ): Promise<AnalyzeSentimentResultResponse>;
   /**
    * Runs a predictive model to identify the positive, negative or neutral, or mixed
    * sentiment contained in the input documents, as well as scores indicating
@@ -571,7 +564,7 @@ export class TextAnalyticsClient {
     inputs: string[],
     language?: string,
     options?: RecognizePiiEntitiesOptions
-  ): Promise<RecognizePiiEntitiesResultArray>;
+  ): Promise<RecognizePiiEntitiesResultResponse>;
   /**
    * Runs a predictive model to identify a collection of entities containing
    * personally identifiable information found in the passed-in input documents,
@@ -585,12 +578,12 @@ export class TextAnalyticsClient {
   public async recognizePiiEntities(
     inputs: TextDocumentInput[],
     options?: RecognizePiiEntitiesOptions
-  ): Promise<RecognizePiiEntitiesResultArray>;
+  ): Promise<RecognizePiiEntitiesResultResponse>;
   public async recognizePiiEntities(
     inputs: string[] | TextDocumentInput[],
     languageOrOptions?: string | RecognizePiiEntitiesOptions,
     options?: RecognizePiiEntitiesOptions
-  ): Promise<RecognizePiiEntitiesResultArray> {
+  ): Promise<RecognizePiiEntitiesResultResponse> {
     let realOptions: RecognizePiiEntitiesOptions;
     let realInputs: TextDocumentInput[];
 
@@ -616,10 +609,7 @@ export class TextAnalyticsClient {
         operationOptionsToRequestOptionsBase(finalOptions)
       );
 
-      return makeRecognizePiiEntitiesResultArray(
-        realInputs,
-        result
-      );
+      return toRecognizePiiEntitiesResultResponse(realInputs, result);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
