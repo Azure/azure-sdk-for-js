@@ -38,19 +38,19 @@ export interface OperationBase {
   ifNoneMatch?: string;
 }
 
-export enum BulkOperationType {
-  Create = 'Create',
-  Upsert = 'Upsert',
-  Read = 'Read',
-  Delete = 'Delete',
-  Replace = 'Replace'
+export const BulkOperationType = {
+  Create: 'Create',
+  Upsert: 'Upsert',
+  Read: 'Read',
+  Delete: 'Delete',
+  Replace: 'Replace'
 }
 
 export interface OperationInput {
   partitionKey?: string | number | null | {} | undefined;
   ifMatch?: string;
   ifNoneMatch?: string;
-  operationType: BulkOperationType;
+  operationType: string;
   resourceBody?: JSONObject;
 }
 
@@ -59,25 +59,25 @@ export type OperationWithItem = OperationBase & {
 };
 
 export type CreateOperation = OperationWithItem & {
-  operationType: BulkOperationType.Create;
+  operationType: keyof typeof BulkOperationType.Create;
 };
 
 export type UpsertOperation = OperationWithItem & {
-  operationType: BulkOperationType.Upsert;
+  operationType: 'Create';
 };
 
 export type ReadOperation = OperationBase & {
-  operationType: BulkOperationType.Read;
+  operationType: 'Read';
   id: string;
 };
 
 export type DeleteOperation = OperationBase & {
-  operationType: BulkOperationType.Delete;
+  operationType: 'Delete';
   id: string;
 };
 
 export type ReplaceOperation = OperationWithItem & {
-  operationType: BulkOperationType.Replace;
+  operationType: 'Replace';
   id: string;
 };
 
@@ -99,7 +99,7 @@ export function getPartitionKeyToHash(operation: Operation, partitionProperty: s
   return toHashKey;
 }
 
-export function decorateOperation(operation: OperationInput, definition: PartitionKeyDefinition, options: RequestOptions = {}) {
+export function decorateOperation(operation: OperationInput, definition: PartitionKeyDefinition, options: RequestOptions = {}): Operation {
   if (operation.operationType === BulkOperationType.Create) {
     if ((operation.resourceBody.id === undefined || operation.resourceBody.id === "") && !options.disableAutomaticIdGeneration) {
       operation.resourceBody.id = uuid();
@@ -107,10 +107,10 @@ export function decorateOperation(operation: OperationInput, definition: Partiti
   }
   if (operation.partitionKey) {
     const extracted = extractPartitionKey(operation, { paths: ["/partitionKey"] });
-    return { ...operation, partitionKey: JSON.stringify(extracted) };
+    return { ...operation, partitionKey: JSON.stringify(extracted) } as Operation;
   } else if (operation.resourceBody) {
     const pk = extractPartitionKey(operation.resourceBody, definition);
-    return { ...operation, partitionKey: JSON.stringify(pk) };
+    return { ...operation, partitionKey: JSON.stringify(pk) } as Operation;
   }
-  return operation;
+  return operation as Operation;
 }
