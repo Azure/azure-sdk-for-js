@@ -67,6 +67,7 @@ function convertResponse(response: GeneratedResponse): SchemaId & Response {
     location: response.location!,
     locationById: response.xSchemaIdLocation!,
     id: response.xSchemaId!,
-    version: response.xSchemaVersion!
+    version: response.xSchemaVersion!,
+    serializationType: response.xSchemaType!
   };
 }

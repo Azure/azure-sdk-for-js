@@ -80,6 +80,10 @@ export function browserConfig(test = false, production = false) {
       shim({
         constants: `export default {}`,
         fs: `export default {}`,
+        stream: `export default {}`,
+        buffer: `export default {}`,
+        zlib: `export default {}`,
+        process: `export default {}`,
         os: `export default {}`,
         dotenv: `export function config() { }`,
         path: `export default {}`

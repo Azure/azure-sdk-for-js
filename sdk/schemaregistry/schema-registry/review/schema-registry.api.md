@@ -38,15 +38,26 @@ export interface SchemaId {
     id: string;
     location: string;
     locationById: string;
+    serializationType: string;
     version: number;
 }
 
 // @public
-export class SchemaRegistryClient {
-    constructor(endpoint: string, credential: TokenCredential, options?: SchemaRegistryClientOptions);
-    readonly endpoint: string;
+export interface SchemaRegistry {
     getSchemaById(id: string, options?: GetSchemaByIdOptions): Promise<Schema>;
     getSchemaId(schema: SchemaDescription, options?: GetSchemaIdOptions): Promise<SchemaId>;
+    registerSchema(schema: SchemaDescription, options?: RegisterSchemaOptions): Promise<SchemaId>;
+}
+
+// @public
+export class SchemaRegistryClient implements SchemaRegistry {
+    constructor(endpoint: string, credential: TokenCredential, options?: SchemaRegistryClientOptions);
+    readonly endpoint: string;
+    // (undocumented)
+    getSchemaById(id: string, options?: GetSchemaByIdOptions): Promise<Schema>;
+    // (undocumented)
+    getSchemaId(schema: SchemaDescription, options?: GetSchemaIdOptions): Promise<SchemaId>;
+    // (undocumented)
     registerSchema(schema: SchemaDescription, options?: RegisterSchemaOptions): Promise<SchemaId>;
 }
 

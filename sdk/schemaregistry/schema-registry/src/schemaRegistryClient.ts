@@ -12,6 +12,7 @@ import {
   GetSchemaIdOptions,
   SchemaDescription,
   SchemaRegistryClientOptions,
+  SchemaRegistry,
   RegisterSchemaOptions,
   SchemaId,
   Schema
@@ -20,7 +21,7 @@ import {
 /**
  * Client for Azure Schema Registry service.
  */
-export class SchemaRegistryClient {
+export class SchemaRegistryClient implements SchemaRegistry {
   /** The Schema Registry service endpoint URL. */
   readonly endpoint: string;
 
@@ -45,16 +46,7 @@ export class SchemaRegistryClient {
     this.client = new GeneratedSchemaRegistryClient(endpoint, { ...pipeline, endpoint });
   }
 
-  /**
-   * Registers a schema.
-   *
-   * If schema of specified name does not exist in the specified group, a schema
-   * is created at version 1. If schema of specified name exists already in
-   * specified group, schema is created at latest version + 1.
-   *
-   * @param schema Schema to register.
-   * @return Registered schema's ID.
-   */
+  /** @inheritdoc */
   async registerSchema(
     schema: SchemaDescription,
     options?: RegisterSchemaOptions
@@ -72,13 +64,7 @@ export class SchemaRegistryClient {
     return convertSchemaIdResponse(response);
   }
 
-  /**
-   * Gets the identity of an existing schema with matching name, group, type,
-   * and content.
-   *
-   * @param schema Schema to match.
-   * @return Matched schema's ID.
-   */
+  /** @inheritdoc */
   async getSchemaId(schema: SchemaDescription, options?: GetSchemaIdOptions): Promise<SchemaId> {
     const response = await this.client.schema.queryIdByContent(
       schema.group,
@@ -93,12 +79,7 @@ export class SchemaRegistryClient {
     return convertSchemaIdResponse(response);
   }
 
-  /**
-   * Gets an existing schema by ID.
-   *
-   * @param id Unique schema ID.
-   * @return Schema with given ID.
-   */
+  /** @inheritdoc */
   async getSchemaById(id: string, options?: GetSchemaByIdOptions): Promise<Schema> {
     const response = await this.client.schema.getById(id, options);
     return convertSchemaResponse(response);
