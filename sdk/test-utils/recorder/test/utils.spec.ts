@@ -6,7 +6,8 @@ import {
   filterSecretsFromStrings,
   env,
   filterSecretsRecursivelyFromJSON,
-  generateTestRecordingFilePath
+  generateTestRecordingFilePath,
+  isHex
 } from "../src/utils";
 import chai from "chai";
 import { setEnvironmentVariables } from "../src/baseRecorder";
@@ -443,6 +444,19 @@ ultramarine.com/url/PUBLIC
       expect(result).to.equal(
         `${platform}/utils_generatetestrecordingfilepath/recording_should_generate_a_properly_formatted_path_on_platform_browsers.json`
       );
+    });
+  });
+
+  describe("isHex", () => {
+    ["abc", "1ab", "2b"].forEach((val) => {
+      it(`isHex(${val}) returns true`, () => {
+        expect(isHex(val)).to.equal(true, `Valid hex didn't match - ${val}`);
+      });
+    });
+    ["abct", ""].forEach((val) => {
+      it(`isHex(${val}) returns false`, () => {
+        expect(isHex(val as string)).to.equal(false, `Invalid hex matches - ${val}`);
+      });
     });
   });
 });
