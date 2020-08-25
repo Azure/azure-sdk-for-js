@@ -40,11 +40,11 @@ describe("Utility Helpers", () => {
     );
   }
 
-  beforeEach(async function() {
+  beforeEach(async function () {
     recorder = record(this, recorderEnvSetup);
   });
 
-  afterEach(async function() {
+  afterEach(async function () {
     await recorder.stop();
   });
 
@@ -98,7 +98,7 @@ describe("Utility Helpers", () => {
     );
   });
 
-  it.only("extractConnectionStringParts parses sas connection string with custom domain", async () => {
+  it("extractConnectionStringParts parses sas connection string with custom domain", async () => {
     const sasConnectionString = `FileEndpoint=${customDomainFileEndpoint};
     SharedAccessSignature=${sharedAccessSignature}`;
     const connectionStringParts = extractConnectionStringParts(sasConnectionString);
@@ -119,7 +119,7 @@ describe("Utility Helpers", () => {
     );
   });
 
-  it.only("isIpEndpointStyle", async () => {
+  it("isIpEndpointStyle", async () => {
     assert.equal(
       isIpEndpointStyle(
         URLBuilder.parse("https://192.0.0.10:1900/accountName/containerName/blobName")
