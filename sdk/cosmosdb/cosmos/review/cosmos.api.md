@@ -21,6 +21,15 @@ export interface Agent {
 // @public (undocumented)
 export type AggregateType = "Average" | "Count" | "Max" | "Min" | "Sum";
 
+// @public (undocumented)
+export const BulkOperationType: {
+    readonly Create: "Create";
+    readonly Upsert: "Upsert";
+    readonly Read: "Read";
+    readonly Delete: "Delete";
+    readonly Replace: "Replace";
+};
+
 // @public
 export class ChangeFeedIterator<T> {
     fetchNext(): Promise<ChangeFeedResponse<Array<T & Resource>>>;
@@ -328,6 +337,7 @@ export const Constants: {
         MaxResourceQuota: string;
         OfferType: string;
         OfferThroughput: string;
+        AutoscaleSettings: string;
         DisableRUPerMinuteUsage: string;
         IsRUPerMinuteUsed: string;
         OfferIsRUPerMinuteThroughputEnabled: string;
@@ -431,6 +441,14 @@ export interface ContainerDefinition {
 // @public (undocumented)
 export interface ContainerRequest extends VerboseOmit<ContainerDefinition, "partitionKey"> {
     // (undocumented)
+    autoUpgradePolicy?: {
+        throughputPolicy: {
+            incrementPercent: number;
+        };
+    };
+    // (undocumented)
+    maxThroughput?: number;
+    // (undocumented)
     partitionKey?: string | PartitionKeyDefinition;
     // (undocumented)
     throughput?: number;
@@ -494,7 +512,7 @@ export interface CosmosHeaders {
 
 // @public (undocumented)
 export type CreateOperation = OperationWithItem & {
-    operationType: "Create";
+    operationType: typeof BulkOperationType.Create;
 };
 
 // @public
@@ -547,6 +565,14 @@ export interface DatabaseDefinition {
 
 // @public (undocumented)
 export interface DatabaseRequest extends DatabaseDefinition {
+    // (undocumented)
+    autoUpgradePolicy?: {
+        throughputPolicy: {
+            incrementPercent: number;
+        };
+    };
+    // (undocumented)
+    maxThroughput?: number;
     throughput?: number;
 }
 
@@ -583,7 +609,7 @@ export const DEFAULT_PARTITION_KEY_PATH: "/_partitionKey";
 
 // @public (undocumented)
 export type DeleteOperation = OperationBase & {
-    operationType: "Delete";
+    operationType: typeof BulkOperationType.Delete;
     id: string;
 };
 
@@ -849,6 +875,16 @@ export interface OfferDefinition {
     content?: {
         offerThroughput: number;
         offerIsRUPerMinuteThroughputEnabled: boolean;
+        offerMinimumThroughputParameters?: {
+            maxThroughputEverProvisioned: number;
+            maxConsumedStorageEverInKB: number;
+        };
+        offerAutopilotSettings?: {
+            tier: number;
+            maximumTierThroughput: number;
+            autoUpgrade: boolean;
+            maxThroughput: number;
+        };
     };
     // (undocumented)
     id?: string;
@@ -897,6 +933,8 @@ export interface OperationInput {
     ifMatch?: string;
     // (undocumented)
     ifNoneMatch?: string;
+    // (undocumented)
+    operationType: keyof typeof BulkOperationType;
     // (undocumented)
     partitionKey?: string | number | null | {} | undefined;
     // (undocumented)
@@ -1200,13 +1238,13 @@ export interface QueryRange {
 
 // @public (undocumented)
 export type ReadOperation = OperationBase & {
-    operationType: "Read";
+    operationType: typeof BulkOperationType.Read;
     id: string;
 };
 
 // @public (undocumented)
 export type ReplaceOperation = OperationWithItem & {
-    operationType: "Replace";
+    operationType: typeof BulkOperationType.Replace;
     id: string;
 };
 
@@ -1670,7 +1708,7 @@ export interface UniqueKeyPolicy {
 
 // @public (undocumented)
 export type UpsertOperation = OperationWithItem & {
-    operationType: "Upsert";
+    operationType: typeof BulkOperationType.Upsert;
 };
 
 // @public

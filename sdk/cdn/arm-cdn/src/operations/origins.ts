@@ -104,6 +104,21 @@ export class Origins {
   }
 
   /**
+   * Creates a new origin within the specified endpoint.
+   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param profileName Name of the CDN profile which is unique within the resource group.
+   * @param endpointName Name of the endpoint under the profile which is unique globally.
+   * @param originName Name of the origin that is unique within the endpoint.
+   * @param origin Origin properties
+   * @param [options] The optional parameters
+   * @returns Promise<Models.OriginsCreateResponse>
+   */
+  create(resourceGroupName: string, profileName: string, endpointName: string, originName: string, origin: Models.Origin, options?: msRest.RequestOptionsBase): Promise<Models.OriginsCreateResponse> {
+    return this.beginCreate(resourceGroupName,profileName,endpointName,originName,origin,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.OriginsCreateResponse>;
+  }
+
+  /**
    * Updates an existing origin within an endpoint.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param profileName Name of the CDN profile which is unique within the resource group.
@@ -116,6 +131,44 @@ export class Origins {
   update(resourceGroupName: string, profileName: string, endpointName: string, originName: string, originUpdateProperties: Models.OriginUpdateParameters, options?: msRest.RequestOptionsBase): Promise<Models.OriginsUpdateResponse> {
     return this.beginUpdate(resourceGroupName,profileName,endpointName,originName,originUpdateProperties,options)
       .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.OriginsUpdateResponse>;
+  }
+
+  /**
+   * Deletes an existing origin within an endpoint.
+   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param profileName Name of the CDN profile which is unique within the resource group.
+   * @param endpointName Name of the endpoint under the profile which is unique globally.
+   * @param originName Name of the origin which is unique within the endpoint.
+   * @param [options] The optional parameters
+   * @returns Promise<msRest.RestResponse>
+   */
+  deleteMethod(resourceGroupName: string, profileName: string, endpointName: string, originName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+    return this.beginDeleteMethod(resourceGroupName,profileName,endpointName,originName,options)
+      .then(lroPoller => lroPoller.pollUntilFinished());
+  }
+
+  /**
+   * Creates a new origin within the specified endpoint.
+   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param profileName Name of the CDN profile which is unique within the resource group.
+   * @param endpointName Name of the endpoint under the profile which is unique globally.
+   * @param originName Name of the origin that is unique within the endpoint.
+   * @param origin Origin properties
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginCreate(resourceGroupName: string, profileName: string, endpointName: string, originName: string, origin: Models.Origin, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        profileName,
+        endpointName,
+        originName,
+        origin,
+        options
+      },
+      beginCreateOperationSpec,
+      options);
   }
 
   /**
@@ -139,6 +192,28 @@ export class Origins {
         options
       },
       beginUpdateOperationSpec,
+      options);
+  }
+
+  /**
+   * Deletes an existing origin within an endpoint.
+   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param profileName Name of the CDN profile which is unique within the resource group.
+   * @param endpointName Name of the endpoint under the profile which is unique globally.
+   * @param originName Name of the origin which is unique within the endpoint.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginDeleteMethod(resourceGroupName: string, profileName: string, endpointName: string, originName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        profileName,
+        endpointName,
+        originName,
+        options
+      },
+      beginDeleteMethodOperationSpec,
       options);
   }
 
@@ -226,6 +301,46 @@ const getOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
+const beginCreateOperationSpec: msRest.OperationSpec = {
+  httpMethod: "PUT",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/endpoints/{endpointName}/origins/{originName}",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.profileName,
+    Parameters.endpointName,
+    Parameters.originName,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "origin",
+    mapper: {
+      ...Mappers.Origin,
+      required: true
+    }
+  },
+  responses: {
+    200: {
+      bodyMapper: Mappers.Origin
+    },
+    201: {
+      bodyMapper: Mappers.Origin
+    },
+    202: {
+      bodyMapper: Mappers.Origin
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  serializer
+};
+
 const beginUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/endpoints/{endpointName}/origins/{originName}",
@@ -256,6 +371,32 @@ const beginUpdateOperationSpec: msRest.OperationSpec = {
     202: {
       bodyMapper: Mappers.Origin
     },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  serializer
+};
+
+const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
+  httpMethod: "DELETE",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Cdn/profiles/{profileName}/endpoints/{endpointName}/origins/{originName}",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.profileName,
+    Parameters.endpointName,
+    Parameters.originName,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    202: {},
+    204: {},
     default: {
       bodyMapper: Mappers.ErrorResponse
     }

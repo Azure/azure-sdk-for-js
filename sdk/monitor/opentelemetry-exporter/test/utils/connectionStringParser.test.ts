@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import * as assert from "assert";
 import * as Constants from "../../src/Declarations/Constants";
 import { ConnectionStringParser } from "../../src/utils/connectionStringParser";
@@ -44,9 +47,9 @@ describe("ConnectionStringParser", () => {
       const result = ConnectionStringParser.parse(options.connectionString);
 
       if (options.expectedAuthorization)
-        assert.deepEqual(result.authorization, options.expectedAuthorization);
+        {assert.deepEqual(result.authorization, options.expectedAuthorization);}
       if (options.expectedInstrumentationKey)
-        assert.deepEqual(result.instrumentationkey, options.expectedInstrumentationKey);
+        {assert.deepEqual(result.instrumentationkey, options.expectedInstrumentationKey);}
       assert.deepEqual(result.ingestionendpoint, options.expectedBreezeEndpoint);
       assert.deepEqual(result.liveendpoint, options.expectedLiveMetricsEndpoint);
     };

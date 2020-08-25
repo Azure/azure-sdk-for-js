@@ -32,7 +32,7 @@ export function buildSubscriptionOptions(
   return {
     LockDuration: subscription.lockDuration,
     RequiresSession: getStringOrUndefined(subscription.requiresSession),
-    DefaultMessageTimeToLive: getStringOrUndefined(subscription.defaultMessageTtl),
+    DefaultMessageTimeToLive: getStringOrUndefined(subscription.defaultMessageTimeToLive),
     DeadLetteringOnMessageExpiration: getStringOrUndefined(
       subscription.deadLetteringOnMessageExpiration
     ),
@@ -70,9 +70,9 @@ export function buildSubscription(rawSubscription: any): SubscriptionProperties 
       "enableBatchedOperations"
     ),
 
-    defaultMessageTtl: getString(
+    defaultMessageTimeToLive: getString(
       rawSubscription[Constants.DEFAULT_MESSAGE_TIME_TO_LIVE],
-      "defaultMessageTtl"
+      "defaultMessageTimeToLive"
     ),
     autoDeleteOnIdle: getString(rawSubscription[Constants.AUTO_DELETE_ON_IDLE], "autoDeleteOnIdle"),
 
@@ -115,7 +115,7 @@ export function buildSubscriptionRuntimeProperties(
     transferDeadLetterMessageCount: messageCountDetails.transferDeadLetterMessageCount,
     transferMessageCount: messageCountDetails.transferMessageCount,
     createdAt: getDate(rawSubscription[Constants.CREATED_AT], "createdAt"),
-    updatedAt: getDate(rawSubscription[Constants.UPDATED_AT], "updatedAt"),
+    modifiedAt: getDate(rawSubscription[Constants.UPDATED_AT], "modifiedAt"),
     accessedAt: getDate(rawSubscription[Constants.ACCESSED_AT], "accessedAt")
   };
 }
@@ -150,7 +150,7 @@ export interface CreateSubscriptionOptions extends OperationOptions {
    *
    * More on ISO-8601 duration format: https://en.wikipedia.org/wiki/ISO_8601#Durations
    */
-  defaultMessageTtl?: string;
+  defaultMessageTimeToLive?: string;
 
   /**
    * If it is enabled and a message expires, the Service Bus moves the message from
@@ -264,7 +264,7 @@ export interface SubscriptionProperties {
    *
    * More on ISO-8601 duration format: https://en.wikipedia.org/wiki/ISO_8601#Durations
    */
-  defaultMessageTtl: string;
+  defaultMessageTimeToLive: string;
 
   /**
    * If it is enabled and a message expires, the Service Bus moves the message from
@@ -486,7 +486,7 @@ export interface SubscriptionRuntimeProperties {
   /**
    * Updated at timestamp
    */
-  updatedAt: Date;
+  modifiedAt: Date;
 
   /**
    * Accessed at timestamp

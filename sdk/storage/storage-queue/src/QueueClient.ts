@@ -38,6 +38,7 @@ import { StorageClient, CommonOptions } from "./StorageClient";
 import {
   appendToURLPath,
   extractConnectionStringParts,
+  isIpEndpointStyle,
   truncatedISO8061Date,
   getStorageClientContext
 } from "./utils/utils.common";
@@ -1313,11 +1314,15 @@ export class QueueClient extends StorageClient {
         // "https://myaccount.queue.core.windows.net/queuename".
         // .getPath() -> /queuename
         queueName = parsedUrl.getPath()!.split("/")[1];
-      } else {
+      } else if (isIpEndpointStyle(parsedUrl)) {
         // IPv4/IPv6 address hosts... Example - http://192.0.0.10:10001/devstoreaccount1/queuename
         // Single word domain without a [dot] in the endpoint... Example - http://localhost:10001/devstoreaccount1/queuename
         // .getPath() -> /devstoreaccount1/queuename
         queueName = parsedUrl.getPath()!.split("/")[2];
+      } else {
+        // "https://customdomain.com/queuename".
+        // .getPath() -> /queuename
+        queueName = parsedUrl.getPath()!.split("/")[1];
       }
 
       if (!queueName) {

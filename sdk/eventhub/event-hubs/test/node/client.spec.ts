@@ -10,6 +10,7 @@ chai.use(chaiString);
 import { EnvVarKeys, getEnvVars } from "../utils/testUtils";
 import { EnvironmentCredential, TokenCredential } from "@azure/identity";
 import { EventHubProducerClient, EventHubConsumerClient } from "../../src";
+import { getTracer, setTracer, TestTracer } from "@azure/core-tracing";
 const env = getEnvVars();
 
 describe("Create clients using Azure Identity", function(): void {
@@ -66,5 +67,45 @@ describe("Create clients using Azure Identity", function(): void {
     should.equal(hubInfo.name, client.eventHubName);
 
     await client.close();
+  });
+
+  describe("tracing", () => {
+    const tracer = new TestTracer();
+    const origTracer = getTracer();
+
+    before(() => {
+      setTracer(tracer);
+    });
+
+    after(() => {
+      setTracer(origTracer);
+    });
+
+    it("getEventHubProperties() creates a span with a peer.address attribute as the FQNS", async () => {
+      const client = new EventHubConsumerClient(
+        EventHubConsumerClient.defaultConsumerGroupName,
+        endpoint,
+        env.EVENTHUB_NAME,
+        credential
+      );
+      should.equal(client.fullyQualifiedNamespace, endpoint);
+
+      // Extra check involving actual call to the service to ensure this works
+      const hubInfo = await client.getEventHubProperties();
+      should.equal(hubInfo.name, client.eventHubName);
+
+      await client.close();
+
+      const spans = tracer
+        .getKnownSpans()
+        .filter((s) => s.name === "Azure.EventHubs.getEventHubProperties");
+
+      spans.length.should.equal(1);
+      spans[0].attributes.should.deep.equal({
+        "az.namespace": "Microsoft.EventHub",
+        "message_bus.destination": client.eventHubName,
+        "peer.address": client.fullyQualifiedNamespace
+      });
+    });
   });
 });

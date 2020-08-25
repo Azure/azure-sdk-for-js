@@ -34,14 +34,14 @@ async function sessionAccepted(sessionId) {
   console.log(`[${sessionId}] will start processing...`);
 }
 
-// Called by the SessionReceiver when a message is received.
-// This is passed as part of the handlers when calling `SessionReceiver.subscribe()`.
+// Called by the ServiceBusSessionReceiver when a message is received.
+// This is passed as part of the handlers when calling `ServiceBusSessionReceiver.subscribe()`.
 async function processMessage(msg) {
   console.log(`[${msg.sessionId}] received message with body ${msg.body}`);
 }
 
-// Called by the SessionReceiver when an error occurs.
-// This will be called in the handlers we pass in `SessionReceiver.subscribe()`
+// Called by the ServiceBusSessionReceiver when an error occurs.
+// This will be called in the handlers we pass in `ServiceBusSessionReceiver.subscribe()`
 // and by the sample when we encounter an error opening a session.
 async function processError(err, sessionId) {
   if (sessionId) {
@@ -78,7 +78,7 @@ async function receiveFromNextSession(serviceBusClient) {
 
   try {
     sessionReceiver = await serviceBusClient.createSessionReceiver(queueName, {
-      autoRenewLockDurationInMs: sessionIdleTimeoutMs
+      maxAutoRenewLockDurationInMs: sessionIdleTimeoutMs
     });
   } catch (err) {
     if (err.code === "SessionCannotBeLockedError" || err.code === "OperationTimeoutError") {

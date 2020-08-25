@@ -14,7 +14,8 @@ export {
   ReadOperation,
   OperationBase,
   OperationWithItem,
-  OperationInput
+  OperationInput,
+  BulkOperationType
 } from "./utils/batch";
 export {
   ConnectionMode,
@@ -39,6 +40,8 @@ export {
   UserDefinedFunctionType
 } from "./documents";
 
+export { UniqueKeyPolicy, UniqueKey } from "./client/Container/UniqueKeyPolicy";
+export { ContainerRequest } from "./client/Container/ContainerRequest";
 export { Constants, OperationType, ResourceType, HTTPMethod } from "./common";
 export { RetryOptions } from "./retry";
 export * from "./request";

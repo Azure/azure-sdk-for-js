@@ -298,6 +298,10 @@ type RawKeyValuePair = {
   Value: any;
 };
 
+/**
+ * @internal
+ * @ignore
+ */
 interface InternalRawKeyValuePairs {
   KeyValueOfstringanyType: RawKeyValuePair[];
 }

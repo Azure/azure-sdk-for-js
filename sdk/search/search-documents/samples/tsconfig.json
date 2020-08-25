@@ -5,6 +5,6 @@
     "outDir": "typescript/dist",
     "lib": ["DOM", "ES6"]
   },
-  "include": ["typescript/src/**.ts"],
+  "include": ["typescript/src/**.ts", "typescript/src/**/**.ts"],
   "exclude": ["typescript/*.json", "**/node_modules/", "../node_modules", "../typings"]
 }

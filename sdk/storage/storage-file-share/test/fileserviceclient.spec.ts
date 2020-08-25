@@ -1,19 +1,24 @@
 import * as assert from "assert";
 
-import { getBSU, getSASConnectionStringFromEnvironment, recorderEnvSetup } from "./utils";
+import {
+  getBSU,
+  getSASConnectionStringFromEnvironment,
+  recorderEnvSetup,
+  getSoftDeleteBSU
+} from "./utils";
 import { record, delay, Recorder } from "@azure/test-utils-recorder";
 import * as dotenv from "dotenv";
-import { ShareServiceClient } from "../src";
+import { ShareServiceClient, ShareItem } from "../src";
 dotenv.config();
 
 describe("FileServiceClient", () => {
   let recorder: Recorder;
 
-  beforeEach(function() {
+  beforeEach(function () {
     recorder = record(this, recorderEnvSetup);
   });
 
-  afterEach(async function() {
+  afterEach(async function () {
     await recorder.stop();
   });
 
@@ -379,5 +384,86 @@ describe("FileServiceClient", () => {
 
     assert.ok(typeof result.requestId);
     assert.ok(result.requestId!.length > 0);
+  });
+});
+
+
+describe("FileServiceClient", () => {
+  let recorder: Recorder;
+  let serviceClient: ShareServiceClient;
+
+  beforeEach(function () {
+    recorder = record(this, recorderEnvSetup);
+
+    try {
+      serviceClient = getSoftDeleteBSU();
+    } catch (error) {
+      this.skip();
+    }
+  });
+
+  afterEach(async function () {
+    await recorder.stop();
+  });
+
+  it("ListShares with deleted share", async function () {
+    const shareClient = serviceClient.getShareClient(recorder.getUniqueName("share"));
+    await shareClient.create();
+    await shareClient.delete();
+
+    let found = false;
+    for await (const share of serviceClient.listShares({ includeDeleted: true })) {
+      if (share.name == shareClient.name) {
+        found = true;
+        assert.ok(share.version);
+        assert.ok(share.deleted);
+      }
+    }
+    assert.ok(found);
+  });
+
+  it("Undelete share positive", async function () {
+    const shareClient = serviceClient.getShareClient(recorder.getUniqueName("share"));
+    await shareClient.create();
+    await shareClient.delete();
+
+    let found = false;
+    let shareDeleted: ShareItem | undefined;
+    for await (const share of serviceClient.listShares({ includeDeleted: true })) {
+      if (share.name == shareClient.name) {
+        found = true;
+        assert.ok(share.version);
+        assert.ok(share.deleted);
+        assert.ok(share.properties.deletedTime);
+        assert.ok(share.properties.remainingRetentionDays);
+
+        shareDeleted = share;
+      }
+    }
+    assert.ok(found);
+    assert.ok(shareDeleted);
+
+    // Await share to be deleted.
+    await delay(30 * 1000);
+
+    const restoredShareClient = await serviceClient.undeleteShare(
+      shareDeleted!.name,
+      shareDeleted!.version!
+    );
+    await restoredShareClient.getProperties();
+
+    await restoredShareClient.delete();
+  });
+
+  it("Undelete share negative", async function () {
+    const shareClient = serviceClient.getShareClient(recorder.getUniqueName("share"));
+    const invalidVersion = "01D60F8BB59A4652";
+
+    try {
+      await serviceClient.undeleteShare(shareClient.name, invalidVersion);
+      assert.fail("Expecting an error in undelete share with invalid version.");
+    } catch (error) {
+      assert.ok((error.statusCode as number) === 404);
+    }
   });
 });
