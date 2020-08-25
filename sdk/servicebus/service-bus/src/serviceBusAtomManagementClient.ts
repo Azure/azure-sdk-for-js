@@ -365,11 +365,16 @@ export class ServiceBusManagementClient extends ServiceBusManagementClientIntern
     queueName: string,
     options?: QueueDescription & OperationOptions
   ): Promise<QueueDescription> {
-    const content: object = this.queueResourceSerializer.serialize(
-      buildQueueOptions(options || ({} as any))
+    // const content: object = this.queueResourceSerializer.serialize(
+    //   buildQueueOptions(options || ({} as any))
+    // );
+    const response = await this.entity.putQueue(
+      queueName,
+      { content: { type: "application/xml", queueDescription: options } },
+      options
     );
-    const response = await this.entity.put(queueName, content, options);
-    console.log(response.body);
+
+    console.log(response);
     return {};
   }
 
@@ -786,7 +791,7 @@ export class ServiceBusManagementClient extends ServiceBusManagementClientIntern
   }
 
   async deleteQueue2(queueName: string, operationOptions?: OperationOptions): Promise<Response> {
-    return { _response: (await this.entity.delete(queueName, operationOptions))._response };
+    return { _response: (await this.entity.deleteQueue(queueName, operationOptions))._response };
   }
 
   /**
