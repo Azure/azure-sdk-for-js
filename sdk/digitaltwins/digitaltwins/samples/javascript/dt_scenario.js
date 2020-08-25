@@ -75,15 +75,15 @@ async function main() {
   const serviceClient = new DigitalTwinsClient(url, credential);
 
   // Create models
-  // const newModels = [wifi, room, floor, building];
-  // const createdModels = await serviceClient.createModels(newModels);
-  // console.log(createdModels);
+  const newModels = [wifi, room, floor, building];
+  const createdModels = await serviceClient.createModels(newModels);
+  console.log(createdModels);
 
-  // // List models
-  // const models = serviceClient.listModels();
-  // for await (const model of models) {
-  //   console.log(`Model: ${model}`);
-  // }
+  // List models
+  const models = serviceClient.listModels();
+  for await (const model of models) {
+    console.log(`Model: ${model}`);
+  }
 
   // Create digital twins
   const buildingTwinId = "BuildingTwin";
