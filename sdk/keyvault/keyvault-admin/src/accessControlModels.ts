@@ -111,9 +111,10 @@ export interface RoleAssignmentProperties {
 }
 
 /**
- * A scope of the role assignment. We currently only support "/" and "/keys".
+ * A scope of the role assignment.
+ * The valid scopes are "/", "/keys" any a specific resource Id.
  */
-export type RoleAssignmentScope = "/" | "/keys";
+export type RoleAssignmentScope = "/" | "/keys" | string;
 
 /**
  * Role assignment properties with the scope property.

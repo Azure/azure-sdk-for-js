@@ -80,7 +80,7 @@ export interface RoleAssignmentPropertiesWithScope extends RoleAssignmentPropert
 }
 
 // @public
-export type RoleAssignmentScope = "/" | "/keys";
+export type RoleAssignmentScope = "/" | "/keys" | string;
 
 // @public
 export interface RoleDefinitionPermission {
