@@ -8,138 +8,33 @@
 
 import * as coreHttp from "@azure/core-http";
 
-export const ServiceBusManagementError: coreHttp.CompositeMapper = {
-  serializedName: "ServiceBusManagementError",
-  type: {
-    name: "Composite",
-    className: "ServiceBusManagementError",
-    modelProperties: {
-      code: {
-        serializedName: "code",
-        xmlName: "Code",
-        type: {
-          name: "Number"
-        }
-      },
-      detail: {
-        serializedName: "detail",
-        xmlName: "Detail",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const NamespacePropertiesEntry: coreHttp.CompositeMapper = {
-  serializedName: "NamespacePropertiesEntry",
+export const CreateTopicBody: coreHttp.CompositeMapper = {
+  serializedName: "CreateTopicBody",
   xmlName: "entry",
   type: {
     name: "Composite",
-    className: "NamespacePropertiesEntry",
+    className: "CreateTopicBody",
     modelProperties: {
-      id: {
-        serializedName: "id",
-        xmlName: "id",
-        type: {
-          name: "String"
-        }
-      },
-      title: {
-        serializedName: "title",
-        xmlName: "title",
-        type: {
-          name: "any"
-        }
-      },
-      updated: {
-        serializedName: "updated",
-        xmlName: "updated",
-        type: {
-          name: "DateTime"
-        }
-      },
-      author: {
-        serializedName: "author",
-        xmlName: "author",
-        type: {
-          name: "Composite",
-          className: "ResponseAuthor"
-        }
-      },
-      link: {
-        serializedName: "link",
-        xmlName: "link",
-        type: {
-          name: "Composite",
-          className: "ResponseLink"
-        }
-      },
       content: {
         serializedName: "content",
         xmlName: "content",
         type: {
           name: "Composite",
-          className: "NamespacePropertiesEntryContent"
+          className: "CreateTopicBodyContent"
         }
       }
     }
   }
 };
 
-export const ResponseAuthor: coreHttp.CompositeMapper = {
-  serializedName: "ResponseAuthor",
-  xmlName: "author",
+export const CreateTopicBodyContent: coreHttp.CompositeMapper = {
+  serializedName: "CreateTopicBodyContent",
   type: {
     name: "Composite",
-    className: "ResponseAuthor",
-    modelProperties: {
-      name: {
-        serializedName: "name",
-        xmlName: "name",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const ResponseLink: coreHttp.CompositeMapper = {
-  serializedName: "ResponseLink",
-  xmlName: "link",
-  type: {
-    name: "Composite",
-    className: "ResponseLink",
-    modelProperties: {
-      href: {
-        serializedName: "href",
-        xmlName: "href",
-        xmlIsAttribute: true,
-        type: {
-          name: "String"
-        }
-      },
-      rel: {
-        serializedName: "rel",
-        xmlName: "rel",
-        xmlIsAttribute: true,
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const NamespacePropertiesEntryContent: coreHttp.CompositeMapper = {
-  serializedName: "NamespacePropertiesEntryContent",
-  type: {
-    name: "Composite",
-    className: "NamespacePropertiesEntryContent",
+    className: "CreateTopicBodyContent",
     modelProperties: {
       type: {
+        defaultValue: "application/xml",
         serializedName: "type",
         xmlName: "type",
         xmlIsAttribute: true,
@@ -147,70 +42,181 @@ export const NamespacePropertiesEntryContent: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
-      namespaceProperties: {
-        serializedName: "NamespaceProperties",
-        xmlName: "NamespaceInfo",
+      topicDescription: {
+        serializedName: "topicDescription",
+        xmlName: "TopicDescription",
         type: {
           name: "Composite",
-          className: "NamespaceProperties"
+          className: "TopicDescription"
         }
       }
     }
   }
 };
 
-export const NamespaceProperties: coreHttp.CompositeMapper = {
-  serializedName: "NamespaceProperties",
-  xmlName: "NamespaceInfo",
+export const TopicDescription: coreHttp.CompositeMapper = {
+  serializedName: "TopicDescription",
+  xmlName: "TopicDescription",
   type: {
     name: "Composite",
-    className: "NamespaceProperties",
+    className: "TopicDescription",
     modelProperties: {
-      alias: {
-        serializedName: "alias",
-        xmlName: "Alias",
+      defaultMessageTimeToLive: {
+        serializedName: "defaultMessageTimeToLive",
+        xmlName: "DefaultMessageTimeToLive",
         type: {
-          name: "String"
+          name: "TimeSpan"
         }
       },
-      createdTime: {
-        serializedName: "createdTime",
-        xmlName: "CreatedTime",
-        type: {
-          name: "DateTime"
-        }
-      },
-      messagingSku: {
-        serializedName: "messagingSku",
-        xmlName: "MessagingSKU",
-        type: {
-          name: "String"
-        }
-      },
-      messagingUnits: {
-        serializedName: "messagingUnits",
-        xmlName: "MessagingUnits",
+      maxSizeInMegabytes: {
+        serializedName: "maxSizeInMegabytes",
+        xmlName: "MaxSizeInMegabytes",
         type: {
           name: "Number"
         }
       },
-      modifiedTime: {
-        serializedName: "modifiedTime",
-        xmlName: "ModifiedTime",
+      requiresDuplicateDetection: {
+        serializedName: "requiresDuplicateDetection",
+        xmlName: "RequiresDuplicateDetection",
         type: {
-          name: "DateTime"
+          name: "Boolean"
         }
       },
-      name: {
-        serializedName: "name",
-        xmlName: "Name",
+      duplicateDetectionHistoryTimeWindow: {
+        serializedName: "duplicateDetectionHistoryTimeWindow",
+        xmlName: "DuplicateDetectionHistoryTimeWindow",
+        type: {
+          name: "TimeSpan"
+        }
+      },
+      enableBatchedOperations: {
+        serializedName: "enableBatchedOperations",
+        xmlName: "EnableBatchedOperations",
+        type: {
+          name: "Boolean"
+        }
+      },
+      sizeInBytes: {
+        serializedName: "sizeInBytes",
+        xmlName: "SizeInBytes",
+        type: {
+          name: "Number"
+        }
+      },
+      filteringMessagesBeforePublishing: {
+        serializedName: "filteringMessagesBeforePublishing",
+        xmlName: "FilteringMessagesBeforePublishing",
+        type: {
+          name: "Boolean"
+        }
+      },
+      isAnonymousAccessible: {
+        serializedName: "isAnonymousAccessible",
+        xmlName: "IsAnonymousAccessible",
+        type: {
+          name: "Boolean"
+        }
+      },
+      authorizationRules: {
+        serializedName: "authorizationRules",
+        xmlName: "AuthorizationRules",
+        xmlIsWrapped: true,
+        xmlElementName: "AuthorizationRule",
+        type: {
+          name: "Sequence",
+          element: {
+            type: { name: "Composite", className: "AuthorizationRule" }
+          }
+        }
+      },
+      status: {
+        serializedName: "status",
+        xmlName: "Status",
         type: {
           name: "String"
         }
       },
-      namespaceType: {
-        serializedName: "namespaceType",
-        xmlName: "NamespaceType",
+      createdAt: {
+        serializedName: "createdAt",
+        xmlName: "CreatedAt",
+        type: {
+          name: "DateTime"
+        }
+      },
+      updatedAt: {
+        serializedName: "updatedAt",
+        xmlName: "UpdatedAt",
+        type: {
+          name: "DateTime"
+        }
+      },
+      accessedAt: {
+        serializedName: "accessedAt",
+        xmlName: "AccessedAt",
+        type: {
+          name: "DateTime"
+        }
+      },
+      supportOrdering: {
+        serializedName: "supportOrdering",
+        xmlName: "SupportOrdering",
+        type: {
+          name: "Boolean"
+        }
+      },
+      messageCountDetails: {
+        serializedName: "messageCountDetails",
+        xmlName: "CountDetails",
+        type: {
+          name: "Composite",
+          className: "MessageCountDetails"
+        }
+      },
+      subscriptionCount: {
+        serializedName: "subscriptionCount",
+        xmlName: "SubscriptionCount",
+        type: {
+          name: "Number"
+        }
+      },
+      autoDeleteOnIdle: {
+        serializedName: "autoDeleteOnIdle",
+        xmlName: "AutoDeleteOnIdle",
+        type: {
+          name: "TimeSpan"
+        }
+      },
+      enablePartitioning: {
+        serializedName: "enablePartitioning",
+        xmlName: "EnablePartitioning",
+        type: {
+          name: "Boolean"
+        }
+      },
+      entityAvailabilityStatus: {
+        serializedName: "entityAvailabilityStatus",
+        xmlName: "EntityAvailabilityStatus",
+        type: {
+          name: "String"
+        }
+      },
+      enableSubscriptionPartitioning: {
+        serializedName: "enableSubscriptionPartitioning",
+        xmlName: "EnableSubscriptionPartitioning",
+        type: {
+          name: "Boolean"
+        }
+      },
+      enableExpress: {
+        serializedName: "enableExpress",
+        xmlName: "EnableExpress",
+        type: {
+          name: "Boolean"
+        }
+      },
+      userMetadata: {
+        serializedName: "userMetadata",
+        xmlName: "UserMetadata",
         type: {
           name: "String"
         }
@@ -289,6 +295,76 @@ export const AuthorizationRule: coreHttp.CompositeMapper = {
       secondaryKey: {
         serializedName: "secondaryKey",
         xmlName: "SecondaryKey",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const MessageCountDetails: coreHttp.CompositeMapper = {
+  serializedName: "MessageCountDetails",
+  xmlName: "CountDetails",
+  type: {
+    name: "Composite",
+    className: "MessageCountDetails",
+    modelProperties: {
+      activeMessageCount: {
+        serializedName: "activeMessageCount",
+        xmlName: "ActiveMessageCount",
+        type: {
+          name: "Number"
+        }
+      },
+      deadLetterMessageCount: {
+        serializedName: "deadLetterMessageCount",
+        xmlName: "DeadLetterMessageCount",
+        type: {
+          name: "Number"
+        }
+      },
+      scheduledMessageCount: {
+        serializedName: "scheduledMessageCount",
+        xmlName: "ScheduledMessageCount",
+        type: {
+          name: "Number"
+        }
+      },
+      transferDeadLetterMessageCount: {
+        serializedName: "transferDeadLetterMessageCount",
+        xmlName: "TransferDeadLetterMessageCount",
+        type: {
+          name: "Number"
+        }
+      },
+      transferMessageCount: {
+        serializedName: "transferMessageCount",
+        xmlName: "TransferMessageCount",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const ServiceBusManagementError: coreHttp.CompositeMapper = {
+  serializedName: "ServiceBusManagementError",
+  type: {
+    name: "Composite",
+    className: "ServiceBusManagementError",
+    modelProperties: {
+      code: {
+        serializedName: "code",
+        xmlName: "Code",
+        type: {
+          name: "Number"
+        }
+      },
+      detail: {
+        serializedName: "detail",
+        xmlName: "Detail",
         type: {
           name: "String"
         }
@@ -542,79 +618,114 @@ export const QueueDescription: coreHttp.CompositeMapper = {
   }
 };
 
-export const MessageCountDetails: coreHttp.CompositeMapper = {
-  serializedName: "MessageCountDetails",
-  xmlName: "CountDetails",
-  type: {
-    name: "Composite",
-    className: "MessageCountDetails",
-    modelProperties: {
-      activeMessageCount: {
-        serializedName: "activeMessageCount",
-        xmlName: "ActiveMessageCount",
-        type: {
-          name: "Number"
-        }
-      },
-      deadLetterMessageCount: {
-        serializedName: "deadLetterMessageCount",
-        xmlName: "DeadLetterMessageCount",
-        type: {
-          name: "Number"
-        }
-      },
-      scheduledMessageCount: {
-        serializedName: "scheduledMessageCount",
-        xmlName: "ScheduledMessageCount",
-        type: {
-          name: "Number"
-        }
-      },
-      transferDeadLetterMessageCount: {
-        serializedName: "transferDeadLetterMessageCount",
-        xmlName: "TransferDeadLetterMessageCount",
-        type: {
-          name: "Number"
-        }
-      },
-      transferMessageCount: {
-        serializedName: "transferMessageCount",
-        xmlName: "TransferMessageCount",
-        type: {
-          name: "Number"
-        }
-      }
-    }
-  }
-};
-
-export const CreateTopicBody: coreHttp.CompositeMapper = {
-  serializedName: "CreateTopicBody",
+export const NamespacePropertiesEntry: coreHttp.CompositeMapper = {
+  serializedName: "NamespacePropertiesEntry",
   xmlName: "entry",
   type: {
     name: "Composite",
-    className: "CreateTopicBody",
+    className: "NamespacePropertiesEntry",
     modelProperties: {
+      id: {
+        serializedName: "id",
+        xmlName: "id",
+        type: {
+          name: "String"
+        }
+      },
+      title: {
+        serializedName: "title",
+        xmlName: "title",
+        type: {
+          name: "any"
+        }
+      },
+      updated: {
+        serializedName: "updated",
+        xmlName: "updated",
+        type: {
+          name: "DateTime"
+        }
+      },
+      author: {
+        serializedName: "author",
+        xmlName: "author",
+        type: {
+          name: "Composite",
+          className: "ResponseAuthor"
+        }
+      },
+      link: {
+        serializedName: "link",
+        xmlName: "link",
+        type: {
+          name: "Composite",
+          className: "ResponseLink"
+        }
+      },
       content: {
         serializedName: "content",
         xmlName: "content",
         type: {
           name: "Composite",
-          className: "CreateTopicBodyContent"
+          className: "NamespacePropertiesEntryContent"
         }
       }
     }
   }
 };
 
-export const CreateTopicBodyContent: coreHttp.CompositeMapper = {
-  serializedName: "CreateTopicBodyContent",
+export const ResponseAuthor: coreHttp.CompositeMapper = {
+  serializedName: "ResponseAuthor",
+  xmlName: "author",
   type: {
     name: "Composite",
-    className: "CreateTopicBodyContent",
+    className: "ResponseAuthor",
+    modelProperties: {
+      name: {
+        serializedName: "name",
+        xmlName: "name",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ResponseLink: coreHttp.CompositeMapper = {
+  serializedName: "ResponseLink",
+  xmlName: "link",
+  type: {
+    name: "Composite",
+    className: "ResponseLink",
+    modelProperties: {
+      href: {
+        serializedName: "href",
+        xmlName: "href",
+        xmlIsAttribute: true,
+        type: {
+          name: "String"
+        }
+      },
+      rel: {
+        serializedName: "rel",
+        xmlName: "rel",
+        xmlIsAttribute: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const NamespacePropertiesEntryContent: coreHttp.CompositeMapper = {
+  serializedName: "NamespacePropertiesEntryContent",
+  type: {
+    name: "Composite",
+    className: "NamespacePropertiesEntryContent",
     modelProperties: {
       type: {
-        defaultValue: "application/xml",
         serializedName: "type",
         xmlName: "type",
         xmlIsAttribute: true,
@@ -622,181 +733,70 @@ export const CreateTopicBodyContent: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
-      topicDescription: {
-        serializedName: "topicDescription",
-        xmlName: "TopicDescription",
+      namespaceProperties: {
+        serializedName: "NamespaceProperties",
+        xmlName: "NamespaceInfo",
         type: {
           name: "Composite",
-          className: "TopicDescription"
+          className: "NamespaceProperties"
         }
       }
     }
   }
 };
 
-export const TopicDescription: coreHttp.CompositeMapper = {
-  serializedName: "TopicDescription",
-  xmlName: "TopicDescription",
+export const NamespaceProperties: coreHttp.CompositeMapper = {
+  serializedName: "NamespaceProperties",
+  xmlName: "NamespaceInfo",
   type: {
     name: "Composite",
-    className: "TopicDescription",
+    className: "NamespaceProperties",
     modelProperties: {
-      defaultMessageTimeToLive: {
-        serializedName: "defaultMessageTimeToLive",
-        xmlName: "DefaultMessageTimeToLive",
-        type: {
-          name: "TimeSpan"
-        }
-      },
-      maxSizeInMegabytes: {
-        serializedName: "maxSizeInMegabytes",
-        xmlName: "MaxSizeInMegabytes",
-        type: {
-          name: "Number"
-        }
-      },
-      requiresDuplicateDetection: {
-        serializedName: "requiresDuplicateDetection",
-        xmlName: "RequiresDuplicateDetection",
-        type: {
-          name: "Boolean"
-        }
-      },
-      duplicateDetectionHistoryTimeWindow: {
-        serializedName: "duplicateDetectionHistoryTimeWindow",
-        xmlName: "DuplicateDetectionHistoryTimeWindow",
-        type: {
-          name: "TimeSpan"
-        }
-      },
-      enableBatchedOperations: {
-        serializedName: "enableBatchedOperations",
-        xmlName: "EnableBatchedOperations",
-        type: {
-          name: "Boolean"
-        }
-      },
-      sizeInBytes: {
-        serializedName: "sizeInBytes",
-        xmlName: "SizeInBytes",
-        type: {
-          name: "Number"
-        }
-      },
-      filteringMessagesBeforePublishing: {
-        serializedName: "filteringMessagesBeforePublishing",
-        xmlName: "FilteringMessagesBeforePublishing",
-        type: {
-          name: "Boolean"
-        }
-      },
-      isAnonymousAccessible: {
-        serializedName: "isAnonymousAccessible",
-        xmlName: "IsAnonymousAccessible",
-        type: {
-          name: "Boolean"
-        }
-      },
-      authorizationRules: {
-        serializedName: "authorizationRules",
-        xmlName: "AuthorizationRules",
-        xmlIsWrapped: true,
-        xmlElementName: "AuthorizationRule",
-        type: {
-          name: "Sequence",
-          element: {
-            type: { name: "Composite", className: "AuthorizationRule" }
-          }
-        }
-      },
-      status: {
-        serializedName: "status",
-        xmlName: "Status",
+      alias: {
+        serializedName: "alias",
+        xmlName: "Alias",
         type: {
           name: "String"
         }
       },
-      createdAt: {
-        serializedName: "createdAt",
-        xmlName: "CreatedAt",
+      createdTime: {
+        serializedName: "createdTime",
+        xmlName: "CreatedTime",
         type: {
           name: "DateTime"
         }
       },
-      updatedAt: {
-        serializedName: "updatedAt",
-        xmlName: "UpdatedAt",
-        type: {
-          name: "DateTime"
-        }
-      },
-      accessedAt: {
-        serializedName: "accessedAt",
-        xmlName: "AccessedAt",
-        type: {
-          name: "DateTime"
-        }
-      },
-      supportOrdering: {
-        serializedName: "supportOrdering",
-        xmlName: "SupportOrdering",
-        type: {
-          name: "Boolean"
-        }
-      },
-      messageCountDetails: {
-        serializedName: "messageCountDetails",
-        xmlName: "CountDetails",
-        type: {
-          name: "Composite",
-          className: "MessageCountDetails"
-        }
-      },
-      subscriptionCount: {
-        serializedName: "subscriptionCount",
-        xmlName: "SubscriptionCount",
-        type: {
-          name: "Number"
-        }
-      },
-      autoDeleteOnIdle: {
-        serializedName: "autoDeleteOnIdle",
-        xmlName: "AutoDeleteOnIdle",
-        type: {
-          name: "TimeSpan"
-        }
-      },
-      enablePartitioning: {
-        serializedName: "enablePartitioning",
-        xmlName: "EnablePartitioning",
-        type: {
-          name: "Boolean"
-        }
-      },
-      entityAvailabilityStatus: {
-        serializedName: "entityAvailabilityStatus",
-        xmlName: "EntityAvailabilityStatus",
+      messagingSku: {
+        serializedName: "messagingSku",
+        xmlName: "MessagingSKU",
         type: {
           name: "String"
         }
       },
-      enableSubscriptionPartitioning: {
-        serializedName: "enableSubscriptionPartitioning",
-        xmlName: "EnableSubscriptionPartitioning",
+      messagingUnits: {
+        serializedName: "messagingUnits",
+        xmlName: "MessagingUnits",
         type: {
-          name: "Boolean"
+          name: "Number"
         }
       },
-      enableExpress: {
-        serializedName: "enableExpress",
-        xmlName: "EnableExpress",
+      modifiedTime: {
+        serializedName: "modifiedTime",
+        xmlName: "ModifiedTime",
         type: {
-          name: "Boolean"
+          name: "DateTime"
         }
       },
-      userMetadata: {
-        serializedName: "userMetadata",
-        xmlName: "UserMetadata",
+      name: {
+        serializedName: "name",
+        xmlName: "Name",
+        type: {
+          name: "String"
+        }
+      },
+      namespaceType: {
+        serializedName: "namespaceType",
+        xmlName: "NamespaceType",
         type: {
           name: "String"
         }
@@ -1929,11 +1929,11 @@ export const FalseFilter: coreHttp.CompositeMapper = {
   }
 };
 
-export const EntityGetHeaders: coreHttp.CompositeMapper = {
-  serializedName: "Entity_getHeaders",
+export const EntityGetTopicHeaders: coreHttp.CompositeMapper = {
+  serializedName: "Entity_getTopicHeaders",
   type: {
     name: "Composite",
-    className: "EntityGetHeaders",
+    className: "EntityGetTopicHeaders",
     modelProperties: {
       xMsRequestId: {
         constraints: {
@@ -1958,11 +1958,11 @@ export const EntityGetHeaders: coreHttp.CompositeMapper = {
   }
 };
 
-export const EntityPutHeaders: coreHttp.CompositeMapper = {
-  serializedName: "Entity_putHeaders",
+export const EntityPutTopicHeaders: coreHttp.CompositeMapper = {
+  serializedName: "Entity_putTopicHeaders",
   type: {
     name: "Composite",
-    className: "EntityPutHeaders",
+    className: "EntityPutTopicHeaders",
     modelProperties: {
       xMsRequestId: {
         constraints: {
@@ -1987,11 +1987,98 @@ export const EntityPutHeaders: coreHttp.CompositeMapper = {
   }
 };
 
-export const EntityDeleteHeaders: coreHttp.CompositeMapper = {
-  serializedName: "Entity_deleteHeaders",
+export const EntityDeleteTopicHeaders: coreHttp.CompositeMapper = {
+  serializedName: "Entity_deleteTopicHeaders",
   type: {
     name: "Composite",
-    className: "EntityDeleteHeaders",
+    className: "EntityDeleteTopicHeaders",
+    modelProperties: {
+      xMsRequestId: {
+        constraints: {
+          Pattern: new RegExp(
+            "^[{(]?[0-9a-f]{8}[-]?([0-9a-f]{4}[-]?){3}[0-9a-f]{12}[)}]?$"
+          )
+        },
+        serializedName: "x-ms-request-id",
+        xmlName: "x-ms-request-id",
+        type: {
+          name: "String"
+        }
+      },
+      xMsVersion: {
+        serializedName: "x-ms-version",
+        xmlName: "x-ms-version",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const EntityGetQueueHeaders: coreHttp.CompositeMapper = {
+  serializedName: "Entity_getQueueHeaders",
+  type: {
+    name: "Composite",
+    className: "EntityGetQueueHeaders",
+    modelProperties: {
+      xMsRequestId: {
+        constraints: {
+          Pattern: new RegExp(
+            "^[{(]?[0-9a-f]{8}[-]?([0-9a-f]{4}[-]?){3}[0-9a-f]{12}[)}]?$"
+          )
+        },
+        serializedName: "x-ms-request-id",
+        xmlName: "x-ms-request-id",
+        type: {
+          name: "String"
+        }
+      },
+      xMsVersion: {
+        serializedName: "x-ms-version",
+        xmlName: "x-ms-version",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const EntityPutQueueHeaders: coreHttp.CompositeMapper = {
+  serializedName: "Entity_putQueueHeaders",
+  type: {
+    name: "Composite",
+    className: "EntityPutQueueHeaders",
+    modelProperties: {
+      xMsRequestId: {
+        constraints: {
+          Pattern: new RegExp(
+            "^[{(]?[0-9a-f]{8}[-]?([0-9a-f]{4}[-]?){3}[0-9a-f]{12}[)}]?$"
+          )
+        },
+        serializedName: "x-ms-request-id",
+        xmlName: "x-ms-request-id",
+        type: {
+          name: "String"
+        }
+      },
+      xMsVersion: {
+        serializedName: "x-ms-version",
+        xmlName: "x-ms-version",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const EntityDeleteQueueHeaders: coreHttp.CompositeMapper = {
+  serializedName: "Entity_deleteQueueHeaders",
+  type: {
+    name: "Composite",
+    className: "EntityDeleteQueueHeaders",
     modelProperties: {
       xMsRequestId: {
         constraints: {

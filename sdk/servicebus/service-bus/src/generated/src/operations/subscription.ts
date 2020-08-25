@@ -134,7 +134,7 @@ const putOperationSpec: coreHttp.OperationSpec = {
       headersMapper: Mappers.SubscriptionPutHeaders
     }
   },
-  requestBody: Parameters.requestBody,
+  requestBody: Parameters.requestBody2,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [
     Parameters.endpoint,

@@ -13,119 +13,121 @@ export type RuleActionUnion = RuleAction | SqlRuleAction | EmptyRuleAction;
 export type SqlFilterUnion = SqlFilter | TrueFilter | FalseFilter;
 
 /**
- * The error response from Service Bus.
+ * The request body for creating a topic.
  */
-export interface ServiceBusManagementError {
+export interface CreateTopicBody {
   /**
-   * The service error code.
+   * TopicDescription for the new topic.
    */
-  code?: number;
-  /**
-   * The service error message.
-   */
-  detail?: string;
+  content?: CreateTopicBodyContent;
 }
 
 /**
- * Represents an entry in the feed when querying namespace info
+ * TopicDescription for the new topic.
  */
-export interface NamespacePropertiesEntry {
+export interface CreateTopicBodyContent {
   /**
-   * The URL of the GET request
-   */
-  id?: string;
-  /**
-   * The name of the namespace.
-   */
-  title?: any;
-  /**
-   * The timestamp for when this namespace was last updated
-   */
-  updated?: Date;
-  /**
-   * The author that created this resource
-   */
-  author?: ResponseAuthor;
-  /**
-   * The URL for the HTTP request
-   */
-  link?: ResponseLink;
-  /**
-   * Information about the namespace.
-   */
-  content?: NamespacePropertiesEntryContent;
-}
-
-/**
- * The author that created this resource
- */
-export interface ResponseAuthor {
-  /**
-   * The Service Bus namespace
-   */
-  name?: string;
-}
-
-/**
- * The URL for the HTTP request
- */
-export interface ResponseLink {
-  /**
-   * The URL of the GET request
-   */
-  href?: string;
-  /**
-   * What the link href is relative to
-   */
-  rel?: string;
-}
-
-/**
- * Information about the namespace.
- */
-export interface NamespacePropertiesEntryContent {
-  /**
-   * Type of content in namespace info response
+   * MIME type of content.
    */
   type?: string;
   /**
-   * The metadata related to a Service Bus namespace.
+   * Topic information to create.
    */
-  namespaceProperties?: NamespaceProperties;
+  topicDescription?: TopicDescription;
 }
 
 /**
- * The metadata related to a Service Bus namespace.
+ * Description of a Service Bus topic resource.
  */
-export interface NamespaceProperties {
+export interface TopicDescription {
   /**
-   * Alias for the geo-disaster recovery Service Bus namespace.
+   * ISO 8601 default message timespan to live value. This is the duration after which the message expires, starting from when the message is sent to Service Bus. This is the default value used when TimeToLive is not set on a message itself.
    */
-  alias?: string;
+  defaultMessageTimeToLive?: string;
   /**
-   * The exact time the namespace was created.
+   * The maximum size of the topic in megabytes, which is the size of memory allocated for the topic.
    */
-  createdTime?: Date;
+  maxSizeInMegabytes?: number;
   /**
-   * The SKU for the messaging entity.
+   * A value indicating if this topic requires duplicate detection.
    */
-  messagingSku?: MessagingSku;
+  requiresDuplicateDetection?: boolean;
   /**
-   * The number of messaging units allocated to the namespace.
+   * ISO 8601 timeSpan structure that defines the duration of the duplicate detection history. The default value is 10 minutes.
    */
-  messagingUnits?: number;
+  duplicateDetectionHistoryTimeWindow?: string;
   /**
-   * The exact time the namespace was last modified.
+   * Value that indicates whether server-side batched operations are enabled.
    */
-  modifiedTime?: Date;
+  enableBatchedOperations?: boolean;
   /**
-   * Name of the namespace
+   * The size of the topic, in bytes.
    */
-  name?: string;
+  sizeInBytes?: number;
   /**
-   * The type of entities the namespace can contain.
+   * Filter messages before publishing.
    */
-  namespaceType?: NamespaceType;
+  filteringMessagesBeforePublishing?: boolean;
+  /**
+   * A value indicating if the resource can be accessed without authorization.
+   */
+  isAnonymousAccessible?: boolean;
+  /**
+   * Authorization rules for resource.
+   */
+  authorizationRules?: AuthorizationRule[];
+  /**
+   * Status of a Service Bus resource
+   */
+  status?: EntityStatus;
+  /**
+   * The exact time the topic was created.
+   */
+  createdAt?: Date;
+  /**
+   * The exact time a message was updated in the topic.
+   */
+  updatedAt?: Date;
+  /**
+   * Last time a message was sent, or the last time there was a receive request to this topic.
+   */
+  accessedAt?: Date;
+  /**
+   * A value that indicates whether the topic supports ordering.
+   */
+  supportOrdering?: boolean;
+  /**
+   * Details about the message counts in entity.
+   */
+  messageCountDetails?: MessageCountDetails;
+  /**
+   * The number of subscriptions in the topic.
+   */
+  subscriptionCount?: number;
+  /**
+   * ISO 8601 timeSpan idle interval after which the topic is automatically deleted. The minimum duration is 5 minutes.
+   */
+  autoDeleteOnIdle?: string;
+  /**
+   * A value that indicates whether the topic is to be partitioned across multiple message brokers.
+   */
+  enablePartitioning?: boolean;
+  /**
+   * Availability status of the entity
+   */
+  entityAvailabilityStatus?: EntityAvailabilityStatus;
+  /**
+   * A value that indicates whether the topic's subscription is to be partitioned.
+   */
+  enableSubscriptionPartitioning?: boolean;
+  /**
+   * A value that indicates whether Express Entities are enabled. An express topic holds a message in memory temporarily before writing it to persistent storage.
+   */
+  enableExpress?: boolean;
+  /**
+   * Metadata associated with the topic.
+   */
+  userMetadata?: string;
 }
 
 /**
@@ -168,6 +170,46 @@ export interface AuthorizationRule {
    * The primary key of the authorization rule
    */
   secondaryKey?: string;
+}
+
+/**
+ * Details about the message counts in entity.
+ */
+export interface MessageCountDetails {
+  /**
+   * Number of active messages in the queue, topic, or subscription.
+   */
+  activeMessageCount?: number;
+  /**
+   * Number of messages that are dead lettered.
+   */
+  deadLetterMessageCount?: number;
+  /**
+   * Number of scheduled messages.
+   */
+  scheduledMessageCount?: number;
+  /**
+   * Number of messages transferred into dead letters.
+   */
+  transferDeadLetterMessageCount?: number;
+  /**
+   * Number of messages transferred to another queue, topic, or subscription.
+   */
+  transferMessageCount?: number;
+}
+
+/**
+ * The error response from Service Bus.
+ */
+export interface ServiceBusManagementError {
+  /**
+   * The service error code.
+   */
+  code?: number;
+  /**
+   * The service error message.
+   */
+  detail?: string;
 }
 
 /**
@@ -305,147 +347,105 @@ export interface QueueDescription {
 }
 
 /**
- * Details about the message counts in entity.
+ * Represents an entry in the feed when querying namespace info
  */
-export interface MessageCountDetails {
+export interface NamespacePropertiesEntry {
   /**
-   * Number of active messages in the queue, topic, or subscription.
+   * The URL of the GET request
    */
-  activeMessageCount?: number;
+  id?: string;
   /**
-   * Number of messages that are dead lettered.
+   * The name of the namespace.
    */
-  deadLetterMessageCount?: number;
+  title?: any;
   /**
-   * Number of scheduled messages.
+   * The timestamp for when this namespace was last updated
    */
-  scheduledMessageCount?: number;
+  updated?: Date;
   /**
-   * Number of messages transferred into dead letters.
+   * The author that created this resource
    */
-  transferDeadLetterMessageCount?: number;
+  author?: ResponseAuthor;
   /**
-   * Number of messages transferred to another queue, topic, or subscription.
+   * The URL for the HTTP request
    */
-  transferMessageCount?: number;
+  link?: ResponseLink;
+  /**
+   * Information about the namespace.
+   */
+  content?: NamespacePropertiesEntryContent;
 }
 
 /**
- * The request body for creating a topic.
+ * The author that created this resource
  */
-export interface CreateTopicBody {
+export interface ResponseAuthor {
   /**
-   * TopicDescription for the new topic.
+   * The Service Bus namespace
    */
-  content?: CreateTopicBodyContent;
+  name?: string;
 }
 
 /**
- * TopicDescription for the new topic.
+ * The URL for the HTTP request
  */
-export interface CreateTopicBodyContent {
+export interface ResponseLink {
   /**
-   * MIME type of content.
+   * The URL of the GET request
+   */
+  href?: string;
+  /**
+   * What the link href is relative to
+   */
+  rel?: string;
+}
+
+/**
+ * Information about the namespace.
+ */
+export interface NamespacePropertiesEntryContent {
+  /**
+   * Type of content in namespace info response
    */
   type?: string;
   /**
-   * Topic information to create.
+   * The metadata related to a Service Bus namespace.
    */
-  topicDescription?: TopicDescription;
+  namespaceProperties?: NamespaceProperties;
 }
 
 /**
- * Description of a Service Bus topic resource.
+ * The metadata related to a Service Bus namespace.
  */
-export interface TopicDescription {
+export interface NamespaceProperties {
   /**
-   * ISO 8601 default message timespan to live value. This is the duration after which the message expires, starting from when the message is sent to Service Bus. This is the default value used when TimeToLive is not set on a message itself.
+   * Alias for the geo-disaster recovery Service Bus namespace.
    */
-  defaultMessageTimeToLive?: string;
+  alias?: string;
   /**
-   * The maximum size of the topic in megabytes, which is the size of memory allocated for the topic.
+   * The exact time the namespace was created.
    */
-  maxSizeInMegabytes?: number;
+  createdTime?: Date;
   /**
-   * A value indicating if this topic requires duplicate detection.
+   * The SKU for the messaging entity.
    */
-  requiresDuplicateDetection?: boolean;
+  messagingSku?: MessagingSku;
   /**
-   * ISO 8601 timeSpan structure that defines the duration of the duplicate detection history. The default value is 10 minutes.
+   * The number of messaging units allocated to the namespace.
    */
-  duplicateDetectionHistoryTimeWindow?: string;
+  messagingUnits?: number;
   /**
-   * Value that indicates whether server-side batched operations are enabled.
+   * The exact time the namespace was last modified.
    */
-  enableBatchedOperations?: boolean;
+  modifiedTime?: Date;
   /**
-   * The size of the topic, in bytes.
+   * Name of the namespace
    */
-  sizeInBytes?: number;
+  name?: string;
   /**
-   * Filter messages before publishing.
+   * The type of entities the namespace can contain.
    */
-  filteringMessagesBeforePublishing?: boolean;
-  /**
-   * A value indicating if the resource can be accessed without authorization.
-   */
-  isAnonymousAccessible?: boolean;
-  /**
-   * Authorization rules for resource.
-   */
-  authorizationRules?: AuthorizationRule[];
-  /**
-   * Status of a Service Bus resource
-   */
-  status?: EntityStatus;
-  /**
-   * The exact time the topic was created.
-   */
-  createdAt?: Date;
-  /**
-   * The exact time a message was updated in the topic.
-   */
-  updatedAt?: Date;
-  /**
-   * Last time a message was sent, or the last time there was a receive request to this topic.
-   */
-  accessedAt?: Date;
-  /**
-   * A value that indicates whether the topic supports ordering.
-   */
-  supportOrdering?: boolean;
-  /**
-   * Details about the message counts in entity.
-   */
-  messageCountDetails?: MessageCountDetails;
-  /**
-   * The number of subscriptions in the topic.
-   */
-  subscriptionCount?: number;
-  /**
-   * ISO 8601 timeSpan idle interval after which the topic is automatically deleted. The minimum duration is 5 minutes.
-   */
-  autoDeleteOnIdle?: string;
-  /**
-   * A value that indicates whether the topic is to be partitioned across multiple message brokers.
-   */
-  enablePartitioning?: boolean;
-  /**
-   * Availability status of the entity
-   */
-  entityAvailabilityStatus?: EntityAvailabilityStatus;
-  /**
-   * A value that indicates whether the topic's subscription is to be partitioned.
-   */
-  enableSubscriptionPartitioning?: boolean;
-  /**
-   * A value that indicates whether Express Entities are enabled. An express topic holds a message in memory temporarily before writing it to persistent storage.
-   */
-  enableExpress?: boolean;
-  /**
-   * Metadata associated with the topic.
-   */
-  userMetadata?: string;
+  namespaceType?: NamespaceType;
 }
 
 /**
@@ -932,9 +932,9 @@ export type TrueFilter = SqlFilter & {};
 export type FalseFilter = SqlFilter & {};
 
 /**
- * Defines headers for Entity_get operation.
+ * Defines headers for Entity_getTopic operation.
  */
-export interface EntityGetHeaders {
+export interface EntityGetTopicHeaders {
   /**
    * A server-generated UUID recorded in the analytics logs for troubleshooting and correlation.
    */
@@ -946,9 +946,9 @@ export interface EntityGetHeaders {
 }
 
 /**
- * Defines headers for Entity_put operation.
+ * Defines headers for Entity_putTopic operation.
  */
-export interface EntityPutHeaders {
+export interface EntityPutTopicHeaders {
   /**
    * A server-generated UUID recorded in the analytics logs for troubleshooting and correlation.
    */
@@ -960,9 +960,51 @@ export interface EntityPutHeaders {
 }
 
 /**
- * Defines headers for Entity_delete operation.
+ * Defines headers for Entity_deleteTopic operation.
  */
-export interface EntityDeleteHeaders {
+export interface EntityDeleteTopicHeaders {
+  /**
+   * A server-generated UUID recorded in the analytics logs for troubleshooting and correlation.
+   */
+  xMsRequestId?: string;
+  /**
+   * The version of the REST protocol used to process the request.
+   */
+  xMsVersion?: string;
+}
+
+/**
+ * Defines headers for Entity_getQueue operation.
+ */
+export interface EntityGetQueueHeaders {
+  /**
+   * A server-generated UUID recorded in the analytics logs for troubleshooting and correlation.
+   */
+  xMsRequestId?: string;
+  /**
+   * The version of the REST protocol used to process the request.
+   */
+  xMsVersion?: string;
+}
+
+/**
+ * Defines headers for Entity_putQueue operation.
+ */
+export interface EntityPutQueueHeaders {
+  /**
+   * A server-generated UUID recorded in the analytics logs for troubleshooting and correlation.
+   */
+  xMsRequestId?: string;
+  /**
+   * The version of the REST protocol used to process the request.
+   */
+  xMsVersion?: string;
+}
+
+/**
+ * Defines headers for Entity_deleteQueue operation.
+ */
+export interface EntityDeleteQueueHeaders {
   /**
    * A server-generated UUID recorded in the analytics logs for troubleshooting and correlation.
    */
@@ -1114,19 +1156,6 @@ export interface NamespaceGetHeaders {
 }
 
 /**
- * Defines values for MessagingSku.
- */
-export type MessagingSku = "Basic" | "Standard" | "Premium";
-/**
- * Defines values for NamespaceType.
- */
-export type NamespaceType =
-  | "Messaging"
-  | "NotificationHub"
-  | "Mixed"
-  | "EventHub"
-  | "Relay";
-/**
  * Defines values for EntityStatus.
  */
 export type EntityStatus =
@@ -1149,6 +1178,19 @@ export type EntityAvailabilityStatus =
   | "Restoring"
   | "Unknown";
 /**
+ * Defines values for MessagingSku.
+ */
+export type MessagingSku = "Basic" | "Standard" | "Premium";
+/**
+ * Defines values for NamespaceType.
+ */
+export type NamespaceType =
+  | "Messaging"
+  | "NotificationHub"
+  | "Mixed"
+  | "EventHub"
+  | "Relay";
+/**
  * Defines values for AccessRights.
  */
 export type AccessRights = "Manage" | "Send" | "Listen";
@@ -1156,7 +1198,8 @@ export type AccessRights = "Manage" | "Send" | "Listen";
 /**
  * Optional parameters.
  */
-export interface EntityGetOptionalParams extends coreHttp.OperationOptions {
+export interface EntityGetTopicOptionalParams
+  extends coreHttp.OperationOptions {
   /**
    * A query parameter that sets enrich to true or false.
    */
@@ -1164,14 +1207,9 @@ export interface EntityGetOptionalParams extends coreHttp.OperationOptions {
 }
 
 /**
- * Contains response data for the get operation.
+ * Contains response data for the getTopic operation.
  */
-export type EntityGetResponse = {
-  /**
-   * The parsed response body.
-   */
-  body: any;
-
+export type EntityGetTopicResponse = CreateTopicBody & {
   /**
    * The underlying HTTP response.
    */
@@ -1184,14 +1222,15 @@ export type EntityGetResponse = {
     /**
      * The response body as parsed JSON or XML
      */
-    parsedBody: any;
+    parsedBody: CreateTopicBody;
   };
 };
 
 /**
  * Optional parameters.
  */
-export interface EntityPutOptionalParams extends coreHttp.OperationOptions {
+export interface EntityPutTopicOptionalParams
+  extends coreHttp.OperationOptions {
   /**
    * Match condition for an entity to be updated. If specified and a matching entity is not found, an error will be raised. To force an unconditional update, set to the wildcard character (*). If not specified, an insert will be performed when no existing entity is found to update and a replace will be performed if an existing entity is found.
    */
@@ -1199,9 +1238,9 @@ export interface EntityPutOptionalParams extends coreHttp.OperationOptions {
 }
 
 /**
- * Contains response data for the put operation.
+ * Contains response data for the putTopic operation.
  */
-export type EntityPutResponse = {
+export type EntityPutTopicResponse = {
   /**
    * The parsed response body.
    */
@@ -1224,9 +1263,71 @@ export type EntityPutResponse = {
 };
 
 /**
- * Contains response data for the delete operation.
+ * Contains response data for the deleteTopic operation.
  */
-export type EntityDeleteResponse = {
+export type EntityDeleteTopicResponse = CreateTopicBody & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: CreateTopicBody;
+  };
+};
+
+/**
+ * Optional parameters.
+ */
+export interface EntityGetQueueOptionalParams
+  extends coreHttp.OperationOptions {
+  /**
+   * A query parameter that sets enrich to true or false.
+   */
+  enrich?: boolean;
+}
+
+/**
+ * Contains response data for the getQueue operation.
+ */
+export type EntityGetQueueResponse = CreateQueueBody & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: CreateQueueBody;
+  };
+};
+
+/**
+ * Optional parameters.
+ */
+export interface EntityPutQueueOptionalParams
+  extends coreHttp.OperationOptions {
+  /**
+   * Match condition for an entity to be updated. If specified and a matching entity is not found, an error will be raised. To force an unconditional update, set to the wildcard character (*). If not specified, an insert will be performed when no existing entity is found to update and a replace will be performed if an existing entity is found.
+   */
+  ifMatch?: string;
+}
+
+/**
+ * Contains response data for the putQueue operation.
+ */
+export type EntityPutQueueResponse = {
   /**
    * The parsed response body.
    */
@@ -1245,6 +1346,26 @@ export type EntityDeleteResponse = {
      * The response body as parsed JSON or XML
      */
     parsedBody: any;
+  };
+};
+
+/**
+ * Contains response data for the deleteQueue operation.
+ */
+export type EntityDeleteQueueResponse = CreateQueueBody & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
+    /**
+     * The response body as text (string format)
+     */
+    bodyAsText: string;
+
+    /**
+     * The response body as parsed JSON or XML
+     */
+    parsedBody: CreateQueueBody;
   };
 };
 

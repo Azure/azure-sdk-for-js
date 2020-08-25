@@ -11,11 +11,18 @@ import * as Mappers from "../models/mappers";
 import * as Parameters from "../models/parameters";
 import { ServiceBusManagementClientInternal } from "../serviceBusManagementClientInternal";
 import {
-  EntityGetOptionalParams,
-  EntityGetResponse,
-  EntityPutOptionalParams,
-  EntityPutResponse,
-  EntityDeleteResponse
+  EntityGetTopicOptionalParams,
+  EntityGetTopicResponse,
+  CreateTopicBody,
+  EntityPutTopicOptionalParams,
+  EntityPutTopicResponse,
+  EntityDeleteTopicResponse,
+  EntityGetQueueOptionalParams,
+  EntityGetQueueResponse,
+  CreateQueueBody,
+  EntityPutQueueOptionalParams,
+  EntityPutQueueResponse,
+  EntityDeleteQueueResponse
 } from "../models";
 
 /**
@@ -33,84 +40,140 @@ export class Entity {
   }
 
   /**
-   * Get the details about the Queue or Topic with the given entityName.
-   * @param entityName The name of the queue or topic relative to the Service Bus namespace.
+   * Get the details about the Queue or Topic with the given topicName.
+   * @param topicName The name of the queue or topic relative to the Service Bus namespace.
    * @param options The options parameters.
    */
-  get(
-    entityName: string,
-    options?: EntityGetOptionalParams
-  ): Promise<EntityGetResponse> {
+  getTopic(
+    topicName: string,
+    options?: EntityGetTopicOptionalParams
+  ): Promise<EntityGetTopicResponse> {
     const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
       options || {}
     );
     return this.client.sendOperationRequest(
-      { entityName, options: operationOptions },
-      getOperationSpec
-    ) as Promise<EntityGetResponse>;
+      { topicName, options: operationOptions },
+      getTopicOperationSpec
+    ) as Promise<EntityGetTopicResponse>;
   }
 
   /**
-   * Create or update a queue or topic at the provided entityName
-   * @param entityName The name of the queue or topic relative to the Service Bus namespace.
-   * @param requestBody Parameters required to make or edit a queue or topic.
+   * Create or update a topic at the provided topicName
+   * @param topicName The name of the queue or topic relative to the Service Bus namespace.
+   * @param requestBody Parameters required to make or edit a topic.
    * @param options The options parameters.
    */
-  put(
-    entityName: string,
-    requestBody: any,
-    options?: EntityPutOptionalParams
-  ): Promise<EntityPutResponse> {
+  putTopic(
+    topicName: string,
+    requestBody: CreateTopicBody,
+    options?: EntityPutTopicOptionalParams
+  ): Promise<EntityPutTopicResponse> {
     const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
       options || {}
     );
     return this.client.sendOperationRequest(
-      { entityName, requestBody, options: operationOptions },
-      putOperationSpec
-    ) as Promise<EntityPutResponse>;
+      { topicName, requestBody, options: operationOptions },
+      putTopicOperationSpec
+    ) as Promise<EntityPutTopicResponse>;
   }
 
   /**
-   * Delete the Queue or Topic with the given entityName.
-   * @param entityName The name of the queue or topic relative to the Service Bus namespace.
+   * Delete the Topic with the given topicName.
+   * @param topicName The name of the queue or topic relative to the Service Bus namespace.
    * @param options The options parameters.
    */
-  delete(
-    entityName: string,
+  deleteTopic(
+    topicName: string,
     options?: coreHttp.OperationOptions
-  ): Promise<EntityDeleteResponse> {
+  ): Promise<EntityDeleteTopicResponse> {
     const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
       options || {}
     );
     return this.client.sendOperationRequest(
-      { entityName, options: operationOptions },
-      deleteOperationSpec
-    ) as Promise<EntityDeleteResponse>;
+      { topicName, options: operationOptions },
+      deleteTopicOperationSpec
+    ) as Promise<EntityDeleteTopicResponse>;
+  }
+
+  /**
+   * Get the details about the Queue with the given queueName.
+   * @param queueName The name of the queue or topic relative to the Service Bus namespace.
+   * @param options The options parameters.
+   */
+  getQueue(
+    queueName: string,
+    options?: EntityGetQueueOptionalParams
+  ): Promise<EntityGetQueueResponse> {
+    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
+      options || {}
+    );
+    return this.client.sendOperationRequest(
+      { queueName, options: operationOptions },
+      getQueueOperationSpec
+    ) as Promise<EntityGetQueueResponse>;
+  }
+
+  /**
+   * Create or update a queue at the provided queueName
+   * @param queueName The name of the queue or topic relative to the Service Bus namespace.
+   * @param requestBody Parameters required to make or edit a queue.
+   * @param options The options parameters.
+   */
+  putQueue(
+    queueName: string,
+    requestBody: CreateQueueBody,
+    options?: EntityPutQueueOptionalParams
+  ): Promise<EntityPutQueueResponse> {
+    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
+      options || {}
+    );
+    return this.client.sendOperationRequest(
+      { queueName, requestBody, options: operationOptions },
+      putQueueOperationSpec
+    ) as Promise<EntityPutQueueResponse>;
+  }
+
+  /**
+   * Delete the Queue with the given queueName.
+   * @param queueName The name of the queue or topic relative to the Service Bus namespace.
+   * @param options The options parameters.
+   */
+  deleteQueue(
+    queueName: string,
+    options?: coreHttp.OperationOptions
+  ): Promise<EntityDeleteQueueResponse> {
+    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
+      options || {}
+    );
+    return this.client.sendOperationRequest(
+      { queueName, options: operationOptions },
+      deleteQueueOperationSpec
+    ) as Promise<EntityDeleteQueueResponse>;
   }
 }
 // Operation Specifications
 
 const xmlSerializer = new coreHttp.Serializer(Mappers, /* isXml */ true);
 
-const getOperationSpec: coreHttp.OperationSpec = {
-  path: "/{entityName}",
+const getTopicOperationSpec: coreHttp.OperationSpec = {
+  path: "/{topicName}",
   httpMethod: "GET",
   responses: {
     200: {
-      bodyMapper: { type: { name: "any" }, serializedName: "any" }
+      bodyMapper: Mappers.CreateTopicBody
     },
     default: {
       bodyMapper: Mappers.ServiceBusManagementError,
-      headersMapper: Mappers.EntityGetHeaders
+      headersMapper: Mappers.EntityGetTopicHeaders
     }
   },
   queryParameters: [Parameters.enrich, Parameters.apiVersion],
-  urlParameters: [Parameters.endpoint, Parameters.entityName],
+  urlParameters: [Parameters.endpoint, Parameters.topicName],
   isXML: true,
   serializer: xmlSerializer
 };
-const putOperationSpec: coreHttp.OperationSpec = {
-  path: "/{entityName}",
+const putTopicOperationSpec: coreHttp.OperationSpec = {
+  path: "/{topicName}",
   httpMethod: "PUT",
   responses: {
     200: {
@@ -121,32 +184,90 @@ const putOperationSpec: coreHttp.OperationSpec = {
     },
     default: {
       bodyMapper: Mappers.ServiceBusManagementError,
-      headersMapper: Mappers.EntityPutHeaders
+      headersMapper: Mappers.EntityPutTopicHeaders
     }
   },
   requestBody: Parameters.requestBody,
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.endpoint, Parameters.entityName],
+  urlParameters: [Parameters.endpoint, Parameters.topicName],
   headerParameters: [Parameters.contentType, Parameters.ifMatch],
   isXML: true,
   contentType: "application/xml; charset=utf-8",
   mediaType: "xml",
   serializer: xmlSerializer
 };
-const deleteOperationSpec: coreHttp.OperationSpec = {
-  path: "/{entityName}",
+const deleteTopicOperationSpec: coreHttp.OperationSpec = {
+  path: "/{topicName}",
   httpMethod: "DELETE",
+  responses: {
+    200: {
+      bodyMapper: Mappers.CreateTopicBody
+    },
+    default: {
+      bodyMapper: Mappers.ServiceBusManagementError,
+      headersMapper: Mappers.EntityDeleteTopicHeaders
+    }
+  },
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.endpoint, Parameters.topicName],
+  isXML: true,
+  serializer: xmlSerializer
+};
+const getQueueOperationSpec: coreHttp.OperationSpec = {
+  path: "/{queueName}",
+  httpMethod: "GET",
+  responses: {
+    200: {
+      bodyMapper: Mappers.CreateQueueBody
+    },
+    default: {
+      bodyMapper: Mappers.ServiceBusManagementError,
+      headersMapper: Mappers.EntityGetQueueHeaders
+    }
+  },
+  queryParameters: [Parameters.enrich, Parameters.apiVersion],
+  urlParameters: [Parameters.endpoint, Parameters.queueName],
+  isXML: true,
+  serializer: xmlSerializer
+};
+const putQueueOperationSpec: coreHttp.OperationSpec = {
+  path: "/{queueName}",
+  httpMethod: "PUT",
   responses: {
     200: {
       bodyMapper: { type: { name: "any" }, serializedName: "any" }
     },
+    201: {
+      bodyMapper: { type: { name: "any" }, serializedName: "any" }
+    },
     default: {
       bodyMapper: Mappers.ServiceBusManagementError,
-      headersMapper: Mappers.EntityDeleteHeaders
+      headersMapper: Mappers.EntityPutQueueHeaders
+    }
+  },
+  requestBody: Parameters.requestBody1,
+  queryParameters: [Parameters.apiVersion],
+  urlParameters: [Parameters.endpoint, Parameters.queueName],
+  headerParameters: [Parameters.contentType, Parameters.ifMatch],
+  isXML: true,
+  contentType: "application/xml; charset=utf-8",
+  mediaType: "xml",
+  serializer: xmlSerializer
+};
+const deleteQueueOperationSpec: coreHttp.OperationSpec = {
+  path: "/{queueName}",
+  httpMethod: "DELETE",
+  responses: {
+    200: {
+      bodyMapper: Mappers.CreateQueueBody
+    },
+    default: {
+      bodyMapper: Mappers.ServiceBusManagementError,
+      headersMapper: Mappers.EntityDeleteQueueHeaders
     }
   },
   queryParameters: [Parameters.apiVersion],
-  urlParameters: [Parameters.endpoint, Parameters.entityName],
+  urlParameters: [Parameters.endpoint, Parameters.queueName],
   isXML: true,
   serializer: xmlSerializer
 };

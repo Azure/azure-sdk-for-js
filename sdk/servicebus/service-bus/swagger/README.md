@@ -13,7 +13,7 @@ enable-xml: true
 generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../src/generated
-input-file: ./servicebus-swagger.json
+input-file: ./servicebus-swagger-jose.json
 model-date-time-as-string: true
 optional-response-headers: true
 ```

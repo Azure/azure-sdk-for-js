@@ -11,6 +11,10 @@ import {
   OperationQueryParameter,
   OperationParameter
 } from "@azure/core-http";
+import {
+  CreateTopicBody as CreateTopicBodyMapper,
+  CreateQueueBody as CreateQueueBodyMapper
+} from "../models/mappers";
 
 export const endpoint: OperationURLParameter = {
   parameterPath: "endpoint",
@@ -25,15 +29,15 @@ export const endpoint: OperationURLParameter = {
   skipEncoding: true
 };
 
-export const entityName: OperationURLParameter = {
-  parameterPath: "entityName",
+export const topicName: OperationURLParameter = {
+  parameterPath: "topicName",
   mapper: {
     constraints: {
       MinLength: 1
     },
-    serializedName: "entityName",
+    serializedName: "topicName",
     required: true,
-    xmlName: "entityName",
+    xmlName: "topicName",
     type: {
       name: "String"
     }
@@ -54,7 +58,7 @@ export const enrich: OperationQueryParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2017-04",
+    defaultValue: "2017_04",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -77,14 +81,7 @@ export const contentType: OperationParameter = {
 
 export const requestBody: OperationParameter = {
   parameterPath: "requestBody",
-  mapper: {
-    serializedName: "requestBody",
-    required: true,
-    xmlName: "requestBody",
-    type: {
-      name: "any"
-    }
-  }
+  mapper: CreateTopicBodyMapper
 };
 
 export const ifMatch: OperationParameter = {
@@ -98,19 +95,24 @@ export const ifMatch: OperationParameter = {
   }
 };
 
-export const topicName: OperationURLParameter = {
-  parameterPath: "topicName",
+export const queueName: OperationURLParameter = {
+  parameterPath: "queueName",
   mapper: {
     constraints: {
       MinLength: 1
     },
-    serializedName: "topicName",
+    serializedName: "queueName",
     required: true,
-    xmlName: "topicName",
+    xmlName: "queueName",
     type: {
       name: "String"
     }
   }
+};
+
+export const requestBody1: OperationParameter = {
+  parameterPath: "requestBody",
+  mapper: CreateQueueBodyMapper
 };
 
 export const skip: OperationQueryParameter = {
@@ -162,6 +164,18 @@ export const entityType: OperationURLParameter = {
     xmlName: "entityType",
     type: {
       name: "String"
+    }
+  }
+};
+
+export const requestBody2: OperationParameter = {
+  parameterPath: "requestBody",
+  mapper: {
+    serializedName: "requestBody",
+    required: true,
+    xmlName: "requestBody",
+    type: {
+      name: "any"
     }
   }
 };
