@@ -443,6 +443,11 @@ export async function deleteDataSourceConnections(client: SearchIndexerClient): 
 
 // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
 export async function createSkillsets(client: SearchIndexerClient): Promise<void> {
+  const skillSets = await client.listSkillsets();
+  for (let skillSet of skillSets) {
+    await client.deleteSkillset(skillSet);
+  }
+
   for (let i = 1; i <= 4; i++) {
     await client.createSkillset({
       name: `my-azureblob-skillset-${i}`,
@@ -518,6 +523,11 @@ export async function deleteSkillsets(client: SearchIndexerClient): Promise<void
 
 // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
 export async function createIndexers(client: SearchIndexerClient): Promise<void> {
+  const indexers = await client.listIndexers();
+  for (let indexer of indexers) {
+    await client.deleteIndexer(indexer);
+  }
+
   for (let i = 1; i <= 5; i++) {
     await client.createIndexer({
       name: `my-azure-indexer-${i}`,
@@ -536,6 +546,11 @@ export async function deleteIndexers(client: SearchIndexerClient): Promise<void>
 }
 
 export async function createSynonymMaps(client: SearchIndexClient): Promise<void> {
+  const synonymMaps = await client.listSynonymMaps();
+  for (let synonymMap of synonymMaps) {
+    await client.deleteSynonymMap(synonymMap);
+  }
+
   for (let i = 1; i <= 4; i++) {
     await client.createSynonymMap({
       name: `my-azure-synonymmap-${i}`,
