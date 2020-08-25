@@ -130,12 +130,7 @@ export interface RoleAssignmentPropertiesWithScope extends RoleAssignmentPropert
  * An interface representing the optional parameters that can be
  * passed to {@link createRoleAssignment}
  */
-export interface CreateRoleAssignmentOptions extends coreHttp.OperationOptions {
-  /**
-   * The properties of the role assignment
-   */
-  properties?: RoleAssignmentProperties;
-}
+export interface CreateRoleAssignmentOptions extends coreHttp.OperationOptions {}
 
 /**
  * An interface representing the optional parameters that can be

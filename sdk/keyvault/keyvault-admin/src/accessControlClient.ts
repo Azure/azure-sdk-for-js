@@ -35,7 +35,7 @@ import { createSpan, setParentSpan } from "./tracing";
 import { mappings } from "./mappings";
 import { logger } from "./log";
 
-export class AccessControlClient {
+export class KeyVaultAccessControlClient {
   /**
    * The base URL to the vault
    */
@@ -53,18 +53,18 @@ export class AccessControlClient {
    *
    * Example usage:
    * ```ts
-   * import { AccessControlClient } from "@azure/keyvault-admin";
+   * import { KeyVaultAccessControlClient } from "@azure/keyvault-admin";
    * import { DefaultAzureCredential } from "@azure/identity";
    *
    * let vaultUrl = `https://<MY KEYVAULT HERE>.vault.azure.net`;
    * let credentials = new DefaultAzureCredential();
    *
-   * let client = new AccessControlClient(vaultUrl, credentials);
+   * let client = new KeyVaultAccessControlClient(vaultUrl, credentials);
    * ```
    * @param {string} vaultUrl the URL of the Key Vault. It should have this shape: https://${your-key-vault-name}.vault.azure.net
    * @param {TokenCredential} credential An object that implements the `TokenCredential` interface used to authenticate requests to the service. Use the @azure/identity package to create a credential that suits your needs.
    * @param {AccessControlClientOptions} [pipelineOptions] Pipeline options used to configure Key Vault API requests. Omit this parameter to use the default pipeline configuration.
-   * @memberof AccessControlClient
+   * @memberof KeyVaultAccessControlClient
    */
   constructor(
     vaultUrl: string,
@@ -117,22 +117,33 @@ export class AccessControlClient {
    *
    * Example usage:
    * ```ts
-   * const client = new AccessControlClient(url, credentials);
-   * const result = await client.createRoleAssignment("/", "295c179b-9ad3-4117-99cd-b1aa66cf4517");
+   * const client = new KeyVaultAccessControlClient(url, credentials);
+   * const roleDefinition = await client.listRoleDefinitions("/").next();
+   * const principalId = "4871f6a6-374f-4b6b-8b0c-f5d84db823f6";
+   * const result = await client.createRoleAssignment("/", "295c179b-9ad3-4117-99cd-b1aa66cf4517", roleDefinition, principalId);
    * ```
    * @summary Creates a new role assignment.
    * @param {RoleAssignmentScope} scope The scope of the role assignment.
    * @param {string} name The name of the role assignment. Must be a UUID.
+   * @param {string} roleDefinitionId The role definition ID used in the role assignment.
+   * @param {string} principalId The principal ID assigned to the role. This maps to the ID inside the Active Directory. It can point to a user, service principal, or security group.
    * @param {CreateRoleAssignmentOptions} [options] The optional parameters.
    */
   public async createRoleAssignment(
     scope: RoleAssignmentScope,
     name: string,
+    roleDefinitionId: string,
+    principalId: string,
     options?: CreateRoleAssignmentOptions
   ): Promise<KeyVaultRoleAssignment> {
     const requestOptions = operationOptionsToRequestOptionsBase(options || {});
-    const { roleDefinitionId, principalId, ...remainingOptions } = requestOptions;
-    const span = createSpan("createRoleAssignment", remainingOptions);
+    const span = createSpan("createRoleAssignment", requestOptions);
+
+    if (!(scope && name && roleDefinitionId && principalId)) {
+      throw new Error(
+        "createRoleAssignment requires non-empty strings for the parameters: scope, name, roleDefinitionId and principalId."
+      );
+    }
 
     let response: RoleAssignmentsCreateResponse;
     try {
@@ -146,7 +157,7 @@ export class AccessControlClient {
             principalId
           }
         },
-        setParentSpan(span, remainingOptions)
+        setParentSpan(span, requestOptions)
       );
     } finally {
       span.end();
@@ -160,7 +171,7 @@ export class AccessControlClient {
    *
    * Example usage:
    * ```ts
-   * const client = new AccessControlClient(url, credentials);
+   * const client = new KeyVaultAccessControlClient(url, credentials);
    * const roleAssignment = await client.createRoleAssignment("/", "295c179b-9ad3-4117-99cd-b1aa66cf4517");
    * const deletedRoleAssignment = const await client.deleteRoleAssignment(roleAssignment.properties.scope, roleAssignment.name);
    * console.log(deletedRoleAssignment);
@@ -198,7 +209,7 @@ export class AccessControlClient {
    *
    * Example usage:
    * ```ts
-   * const client = new AccessControlClient(url, credentials);
+   * const client = new KeyVaultAccessControlClient(url, credentials);
    * let roleAssignment = await client.createRoleAssignment("/", "295c179b-9ad3-4117-99cd-b1aa66cf4517");
    * roleAssignment = const await client.getRoleAssignment(roleAssignment.properties.scope, roleAssignment.name);
    * console.log(roleAssignment);
@@ -301,7 +312,7 @@ export class AccessControlClient {
    *
    * Example usage:
    * ```ts
-   * let client = new AccessControlClient(url, credentials);
+   * let client = new KeyVaultAccessControlClient(url, credentials);
    * for await (const roleAssignment of client.listRoleAssignments("/")) {
    *   console.log("Role assignment: ", roleAssignment);
    * }
@@ -406,7 +417,7 @@ export class AccessControlClient {
    *
    * Example usage:
    * ```ts
-   * let client = new AccessControlClient(url, credentials);
+   * let client = new KeyVaultAccessControlClient(url, credentials);
    * for await (const roleDefinitions of client.listRoleDefinitions("/")) {
    *   console.log("Role definition: ", roleDefinitions);
    * }

@@ -8,17 +8,6 @@ import * as coreHttp from '@azure/core-http';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { TokenCredential } from '@azure/core-http';
 
-// @public (undocumented)
-export class AccessControlClient {
-    constructor(vaultUrl: string, credential: TokenCredential, pipelineOptions?: AccessControlClientOptions);
-    createRoleAssignment(scope: RoleAssignmentScope, name: string, options?: CreateRoleAssignmentOptions): Promise<KeyVaultRoleAssignment>;
-    deleteRoleAssignment(scope: RoleAssignmentScope, name: string, options?: DeleteRoleAssignmentOptions): Promise<KeyVaultRoleAssignment>;
-    getRoleAssignment(scope: RoleAssignmentScope, name: string, options?: GetRoleAssignmentOptions): Promise<KeyVaultRoleAssignment>;
-    listRoleAssignments(scope: RoleAssignmentScope, options?: ListRoleAssignmentsOptions): PagedAsyncIterableIterator<KeyVaultRoleAssignment>;
-    listRoleDefinitions(scope: RoleAssignmentScope, options?: ListRoleDefinitionsOptions): PagedAsyncIterableIterator<KeyVaultRoleDefinition>;
-    readonly vaultUrl: string;
-}
-
 // @public
 export interface AccessControlClientOptions extends coreHttp.PipelineOptions {
     serviceVersion?: SUPPORTED_API_VERSIONS;
@@ -26,7 +15,6 @@ export interface AccessControlClientOptions extends coreHttp.PipelineOptions {
 
 // @public
 export interface CreateRoleAssignmentOptions extends coreHttp.OperationOptions {
-    properties?: RoleAssignmentProperties;
 }
 
 // @public
@@ -35,6 +23,17 @@ export interface DeleteRoleAssignmentOptions extends coreHttp.OperationOptions {
 
 // @public
 export interface GetRoleAssignmentOptions extends coreHttp.OperationOptions {
+}
+
+// @public (undocumented)
+export class KeyVaultAccessControlClient {
+    constructor(vaultUrl: string, credential: TokenCredential, pipelineOptions?: AccessControlClientOptions);
+    createRoleAssignment(scope: RoleAssignmentScope, name: string, roleDefinitionId: string, principalId: string, options?: CreateRoleAssignmentOptions): Promise<KeyVaultRoleAssignment>;
+    deleteRoleAssignment(scope: RoleAssignmentScope, name: string, options?: DeleteRoleAssignmentOptions): Promise<KeyVaultRoleAssignment>;
+    getRoleAssignment(scope: RoleAssignmentScope, name: string, options?: GetRoleAssignmentOptions): Promise<KeyVaultRoleAssignment>;
+    listRoleAssignments(scope: RoleAssignmentScope, options?: ListRoleAssignmentsOptions): PagedAsyncIterableIterator<KeyVaultRoleAssignment>;
+    listRoleDefinitions(scope: RoleAssignmentScope, options?: ListRoleDefinitionsOptions): PagedAsyncIterableIterator<KeyVaultRoleDefinition>;
+    readonly vaultUrl: string;
 }
 
 // @public
