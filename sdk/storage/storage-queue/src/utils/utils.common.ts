@@ -239,7 +239,7 @@ export function extractConnectionStringParts(connectionString: string): Connecti
     // SAS connection string
 
     let accountSas = getValueInConnString(connectionString, "SharedAccessSignature");
-    let accountName = getValueInConnString(connectionString, "AccountName");
+    let accountName = getAccountNameFromUrl(blobEndpoint);
     if (!queueEndpoint) {
       throw new Error("Invalid QueueEndpoint in the provided SAS Connection String");
     } else if (!accountSas) {

@@ -15,7 +15,7 @@ describe("Utility Helpers", () => {
   const endpointSuffix = "core.windows.net";
   const accountName = "myaccount";
   const blobEndpoint = `${protocol}://${accountName}.blob.${endpointSuffix}`;
-  const customDomainBlobEndpoint = `${protocol}://customdomain.com`; 
+  const customDomainBlobEndpoint = `${protocol}://customdomain.com`;
   const sharedAccessSignature = "sasToken";
 
   function verifySASConnectionString(sasConnectionString: string) {
@@ -29,6 +29,11 @@ describe("Utility Helpers", () => {
       blobEndpoint,
       connectionStringParts.url,
       "extractConnectionStringParts().url is different than expected."
+    );
+    assert.equal(
+      accountName,
+      connectionStringParts.accountName,
+      "extractConnectionStringParts().accountName is different than expected."
     );
   }
 
@@ -98,28 +103,6 @@ describe("Utility Helpers", () => {
     );
     assert.equal(
       '',
-      connectionStringParts.accountName,
-      "extractConnectionStringParts().accountName is different than expected."
-    );
-  });
-
-  it("extractConnectionStringParts parses sas connection string with custom domain", async () => {
-    const sasConnectionString = `BlobEndpoint=${customDomainBlobEndpoint};
-    SharedAccessSignature=${sharedAccessSignature};
-    AccountName=${accountName}`
-    const connectionStringParts = extractConnectionStringParts(sasConnectionString);
-    assert.equal(
-      "SASConnString",
-      connectionStringParts.kind,
-      "extractConnectionStringParts().kind is different than expected."
-    );
-    assert.equal(
-      customDomainBlobEndpoint,
-      connectionStringParts.url,
-      "extractConnectionStringParts().url is different than expected."
-    );
-    assert.equal(
-      accountName,
       connectionStringParts.accountName,
       "extractConnectionStringParts().accountName is different than expected."
     );

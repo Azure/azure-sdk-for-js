@@ -161,7 +161,7 @@ export function extractConnectionStringParts(connectionString: string): Connecti
   } else {
     // SAS connection string
     let accountSas = getValueInConnString(connectionString, "SharedAccessSignature");
-    let accountName = getValueInConnString(connectionString, "AccountName");
+    let accountName = getAccountNameFromUrl(blobEndpoint);
     if (!fileEndpoint) {
       throw new Error("Invalid FileEndpoint in the provided SAS Connection String");
     } else if (!accountSas) {
