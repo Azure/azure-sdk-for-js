@@ -112,10 +112,11 @@ import {
   ETagNone
 } from "./utils/constants";
 import {
-  setURLParameter,
-  extractConnectionStringParts,
   appendToURLPath,
+  extractConnectionStringParts,
   generateBlockID,
+  isIpEndpointStyle,
+  setURLParameter,
   toBlobTagsString,
   toQuerySerialization,
   truncatedISO8061Date,
@@ -2196,13 +2197,19 @@ export class BlobClient extends StorageClient {
         const pathComponents = parsedUrl.getPath()!.match("/([^/]*)(/(.*))?");
         containerName = pathComponents![1];
         blobName = pathComponents![3];
-      } else {
+      } else if (isIpEndpointStyle(parsedUrl)) {
         // IPv4/IPv6 address hosts... Example - http://192.0.0.10:10001/devstoreaccount1/containername/blob
         // Single word domain without a [dot] in the endpoint... Example - http://localhost:10001/devstoreaccount1/containername/blob
         // .getPath() -> /devstoreaccount1/containername/blob
         const pathComponents = parsedUrl.getPath()!.match("/([^/]*)/([^/]*)(/(.*))?");
         containerName = pathComponents![2];
         blobName = pathComponents![4];
+      } else {
+        // "https://customdomain.com/containername/blob".
+        // .getPath() -> /containername/blob
+        const pathComponents = parsedUrl.getPath()!.match("/([^/]*)(/(.*))?");
+        containerName = pathComponents![1];
+        blobName = pathComponents![3];
       }
 
       // decode the encoded blobName, containerName - to get all the special characters that might be present in them
@@ -7910,13 +7917,18 @@ export class ContainerClient extends StorageClient {
 
       if (parsedUrl.getHost()!.split(".")[1] === "blob") {
         // "https://myaccount.blob.core.windows.net/containername".
+        // "https://customdomain.com/containername".
         // .getPath() -> /containername
         containerName = parsedUrl.getPath()!.split("/")[1];
-      } else {
+      } else if (isIpEndpointStyle(parsedUrl)) {
         // IPv4/IPv6 address hosts... Example - http://192.0.0.10:10001/devstoreaccount1/containername
         // Single word domain without a [dot] in the endpoint... Example - http://localhost:10001/devstoreaccount1/containername
         // .getPath() -> /devstoreaccount1/containername
         containerName = parsedUrl.getPath()!.split("/")[2];
+      } else {
+        // "https://customdomain.com/containername".
+        // .getPath() -> /containername
+        containerName = parsedUrl.getPath()!.split("/")[1];
       }
 
       // decode the encoded containerName - to get all the special characters that might be present in it
