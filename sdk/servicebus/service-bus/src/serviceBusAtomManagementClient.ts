@@ -365,12 +365,19 @@ export class ServiceBusManagementClient extends ServiceBusManagementClientIntern
     queueName: string,
     options?: QueueDescription & OperationOptions
   ): Promise<QueueDescription> {
-    // const content: object = this.queueResourceSerializer.serialize(
-    //   buildQueueOptions(options || ({} as any))
-    // );
     const response = await this.entity.putQueue(
       queueName,
-      { content: { type: "application/xml", queueDescription: options } },
+      {
+        updated: new Date(),
+        content: {
+          type: "application/xml",
+          queueDescription: {
+            ...options,
+            xmlns: "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
+            xmlnsI: "http://www.w3.org/2001/XMLSchema-instance"
+          }
+        }
+      },
       options
     );
 

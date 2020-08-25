@@ -17,6 +17,10 @@ export type SqlFilterUnion = SqlFilter | TrueFilter | FalseFilter;
  */
 export interface CreateTopicBody {
   /**
+   * The timestamp for when this topic was last updated
+   */
+  updated?: Date;
+  /**
    * TopicDescription for the new topic.
    */
   content?: CreateTopicBodyContent;
@@ -218,6 +222,10 @@ export interface ServiceBusManagementError {
  * The request body for creating a queue.
  */
 export interface CreateQueueBody {
+  /**
+   * The timestamp for when this queue was last updated
+   */
+  updated?: Date;
   /**
    * QueueDescription for the new queue.
    */

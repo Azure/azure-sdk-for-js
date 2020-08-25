@@ -192,6 +192,14 @@
         "namespace": "http://www.w3.org/2005/Atom"
       },
       "properties": {
+        "updated": {
+          "description": "The timestamp for when this queue was last updated",
+          "type": "string",
+          "format": "date-time",
+          "xml": {
+            "namespace": "http://www.w3.org/2005/Atom"
+          }
+        },
         "content": {
           "description": "QueueDescription for the new queue.",
           "type": "object",
@@ -223,6 +231,14 @@
         "namespace": "http://www.w3.org/2005/Atom"
       },
       "properties": {
+        "updated": {
+          "description": "The timestamp for when this topic was last updated",
+          "type": "string",
+          "format": "date-time",
+          "xml": {
+            "namespace": "http://www.w3.org/2005/Atom"
+          }
+        },
         "content": {
           "description": "TopicDescription for the new topic.",
           "type": "object",
