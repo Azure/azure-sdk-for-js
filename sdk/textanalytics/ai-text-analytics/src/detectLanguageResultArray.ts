@@ -3,9 +3,7 @@
 
 import {
   TextDocumentBatchStatistics,
-  DocumentLanguage,
-  DocumentError,
-  DetectLanguageInput
+  DetectLanguageInput, GeneratedClientLanguagesResponse
 } from "./generated/models";
 import {
   DetectLanguageResult,
@@ -34,11 +32,9 @@ export interface DetectLanguageResultArray extends Array<DetectLanguageResult> {
 
 export function makeDetectLanguageResultArray(
   input: DetectLanguageInput[],
-  documents: DocumentLanguage[],
-  errors: DocumentError[],
-  modelVersion: string,
-  statistics?: TextDocumentBatchStatistics
+  response: GeneratedClientLanguagesResponse
 ): DetectLanguageResultArray {
+  const { documents, errors, modelVersion, statistics } = response;
   const unsortedResult = documents
     .map(
       (document): DetectLanguageResult => {

@@ -20,6 +20,7 @@ export {
   DetectLanguageSuccessResult
 } from "./detectLanguageResult";
 export { DetectLanguageResultArray } from "./detectLanguageResultArray";
+export { DetectLanguageResultResponse } from "./detectLanguageResultResponse";
 export {
   CategorizedEntity,
   RecognizeCategorizedEntitiesResult,
@@ -94,5 +95,7 @@ export {
   SentenceAspect,
   InnerError,
   AspectRelation,
-  AspectRelationType
+  AspectRelationType,
+  LanguageResult,
+  DocumentLanguage
 } from "./generated/models";

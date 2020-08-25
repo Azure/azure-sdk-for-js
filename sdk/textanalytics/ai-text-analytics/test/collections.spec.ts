@@ -89,36 +89,39 @@ describe("DetectLanguageResultArray", () => {
     ];
     const result = makeDetectLanguageResultArray(
       input,
-      [
-        {
-          id: "A",
-          detectedLanguage: {
-            name: "English",
-            iso6391Name: "en",
-            confidenceScore: 1
+      {
+        documents: [
+          {
+            id: "A",
+            detectedLanguage: {
+              name: "English",
+              iso6391Name: "en",
+              confidenceScore: 1
+            },
+            warnings: []
           },
-          warnings: []
-        },
-        {
-          id: "C",
-          detectedLanguage: {
-            name: "French",
-            iso6391Name: "fr",
-            confidenceScore: 1
-          },
-          warnings: []
-        }
-      ],
-      [
-        {
-          id: "B",
-          error: {
-            code: "InternalServerError",
-            message: "test error"
+          {
+            id: "C",
+            detectedLanguage: {
+              name: "French",
+              iso6391Name: "fr",
+              confidenceScore: 1
+            },
+            warnings: []
           }
-        }
-      ],
-      ""
+        ],
+        errors: [
+          {
+            id: "B",
+            error: {
+              code: "InternalServerError",
+              message: "test error"
+            }
+          }
+        ],
+        modelVersion: "",
+        _response: {} as any
+      }
     );
 
     const inputOrder = input.map((item) => item.id);

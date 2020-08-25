@@ -21,10 +21,6 @@ import {
   TextDocumentInput
 } from "./generated/models";
 import {
-  DetectLanguageResultArray,
-  makeDetectLanguageResultArray
-} from "./detectLanguageResultArray";
-import {
   RecognizeCategorizedEntitiesResultArray,
   makeRecognizeCategorizedEntitiesResultArray
 } from "./recognizeCategorizedEntitiesResultArray";
@@ -46,7 +42,14 @@ import {
 import { createSpan } from "./tracing";
 import { CanonicalCode } from "@opentelemetry/api";
 import { createTextAnalyticsAzureKeyCredentialPolicy } from "./azureKeyCredentialPolicy";
-import { AnalyzeSentimentResultResponse, toAnalyzeSentimentResultResponse } from './analyzeSentimentResultResponse';
+import { 
+  AnalyzeSentimentResultResponse, 
+  toAnalyzeSentimentResultResponse 
+} from './analyzeSentimentResultResponse';
+import { 
+  DetectLanguageResultResponse, 
+  toDetectLanguageResultResponse 
+} from './detectLanguageResultResponse';
 
 const DEFAULT_COGNITIVE_SCOPE = "https://cognitiveservices.azure.com/.default";
 
@@ -223,7 +226,7 @@ export class TextAnalyticsClient {
     documents: string[],
     countryHint?: string,
     options?: DetectLanguageOptions
-  ): Promise<DetectLanguageResultArray>;
+  ): Promise<DetectLanguageResultResponse>;
   /**
    * Runs a predictive model to determine the language that the passed-in
    * input document are written in, and returns, for each one, the detected
@@ -236,12 +239,12 @@ export class TextAnalyticsClient {
   public async detectLanguage(
     documents: DetectLanguageInput[],
     options?: DetectLanguageOptions
-  ): Promise<DetectLanguageResultArray>;
+  ): Promise<DetectLanguageResultResponse>;
   public async detectLanguage(
     documents: string[] | DetectLanguageInput[],
     countryHintOrOptions?: string | DetectLanguageOptions,
     options?: DetectLanguageOptions
-  ): Promise<DetectLanguageResultArray> {
+  ): Promise<DetectLanguageResultResponse> {
     let realOptions: DetectLanguageOptions;
     let realInputs: DetectLanguageInput[];
 
@@ -275,13 +278,7 @@ export class TextAnalyticsClient {
         operationOptionsToRequestOptionsBase(finalOptions)
       );
 
-      return makeDetectLanguageResultArray(
-        realInputs,
-        result.documents,
-        result.errors,
-        result.modelVersion,
-        result.statistics
-      );
+      return toDetectLanguageResultResponse(realInputs, result);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,

@@ -105,6 +105,14 @@ export interface DetectLanguageResultArray extends Array<DetectLanguageResult> {
 }
 
 // @public
+export type DetectLanguageResultResponse = DetectLanguageResultArray & {
+    _response: coreHttp.HttpResponse & {
+        bodyAsText: string;
+        parsedBody: LanguageResult;
+    };
+};
+
+// @public
 export interface DetectLanguageSuccessResult extends TextAnalyticsSuccessResult {
     readonly primaryLanguage: DetectedLanguage;
 }
@@ -113,6 +121,14 @@ export interface DetectLanguageSuccessResult extends TextAnalyticsSuccessResult 
 export interface DocumentError {
     error: GeneratedTextAnalyticsError;
     id: string;
+}
+
+// @public (undocumented)
+export interface DocumentLanguage {
+    detectedLanguage: DetectedLanguage;
+    id: string;
+    statistics?: TextDocumentStatistics;
+    warnings: TextAnalyticsWarning[];
 }
 
 // @public (undocumented)
@@ -193,6 +209,14 @@ export interface InnerError {
 
 // @public
 export type InnerErrorCodeValue = "InvalidParameterValue" | "InvalidRequestBodyFormat" | "EmptyRequest" | "MissingInputRecords" | "InvalidDocument" | "ModelVersionIncorrect" | "InvalidDocumentBatch" | "UnsupportedLanguageCode" | "InvalidCountryHint";
+
+// @public (undocumented)
+export interface LanguageResult {
+    documents: DocumentLanguage[];
+    errors: DocumentError[];
+    modelVersion: string;
+    statistics?: TextDocumentBatchStatistics;
+}
 
 // @public
 export interface LinkedEntity {
@@ -342,8 +366,8 @@ export class TextAnalyticsClient {
     analyzeSentiment(documents: TextDocumentInput[], options?: AnalyzeSentimentOptions): Promise<AnalyzeSentimentResultResponse>;
     defaultCountryHint: string;
     defaultLanguage: string;
-    detectLanguage(documents: string[], countryHint?: string, options?: DetectLanguageOptions): Promise<DetectLanguageResultArray>;
-    detectLanguage(documents: DetectLanguageInput[], options?: DetectLanguageOptions): Promise<DetectLanguageResultArray>;
+    detectLanguage(documents: string[], countryHint?: string, options?: DetectLanguageOptions): Promise<DetectLanguageResultResponse>;
+    detectLanguage(documents: DetectLanguageInput[], options?: DetectLanguageOptions): Promise<DetectLanguageResultResponse>;
     readonly endpointUrl: string;
     extractKeyPhrases(documents: string[], language?: string, options?: ExtractKeyPhrasesOptions): Promise<ExtractKeyPhrasesResultArray>;
     extractKeyPhrases(documents: TextDocumentInput[], options?: ExtractKeyPhrasesOptions): Promise<ExtractKeyPhrasesResultArray>;
