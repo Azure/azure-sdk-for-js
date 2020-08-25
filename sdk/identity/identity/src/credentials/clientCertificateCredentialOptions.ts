@@ -9,7 +9,7 @@ import { TokenCredentialOptions } from "../client/identityClient";
 export interface ClientCertificateCredentialOptions extends TokenCredentialOptions {
 
   /**
-   * Option to include x5c header for SubjectName and Issuer name authorization
+   * Option to include x5c header for SubjectName and Issuer name authorization.
    * Set this option to send base64 encoded public certificate in the client assertion header as an x5c claim
    */
   includeX5c?: boolean;

@@ -117,11 +117,21 @@ export class ClientCertificateCredential implements TokenCredential {
     try {
       const tokenId = uuidV4();
       const audienceUrl = `${this.identityClient.authorityHost}/${this.tenantId}/oauth2/v2.0/token`;
-      const header: jws.Header = {
-        typ: "JWT",
-        alg: "RS256",
-        x5t: this.certificateX5t,
-        x5c: this.certificateX5c
+      let header: jws.Header;
+      
+      if (this.certificateX5c) {
+        header = {
+          typ: "JWT",
+          alg: "RS256",
+          x5t: this.certificateX5t,
+          x5c: this.certificateX5c
+        };
+      } else {
+        header = {
+          typ: "JWT",
+          alg: "RS256",
+          x5t: this.certificateX5t,
+        };        
       };
 
       const payload = {
