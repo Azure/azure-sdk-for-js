@@ -262,7 +262,7 @@ describe("Receiver unit tests", () => {
         await iter.next();
         assert.fail("Should have thrown");
       } catch (err) {
-        assert.equal("AbortError", err.name);
+        assert.equal(err.name, "AbortError");
       }
 
       await impl.close();

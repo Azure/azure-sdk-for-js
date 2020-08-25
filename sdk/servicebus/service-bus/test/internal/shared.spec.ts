@@ -44,7 +44,7 @@ describe("shared", () => {
 
     const receiver: Pick<ServiceBusReceiver<any>, "receiveMessages"> = {
       receiveMessages: async (maxMessageCount, _options) => {
-        assert.equal(maxMessageCount, maxMessageCount);
+        assert.equal(maxMessageCount, 1);
 
         const m = messages.shift();
 
