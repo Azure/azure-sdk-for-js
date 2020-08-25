@@ -118,7 +118,7 @@ export class ClientCertificateCredential implements TokenCredential {
       const tokenId = uuidV4();
       const audienceUrl = `${this.identityClient.authorityHost}/${this.tenantId}/oauth2/v2.0/token`;
       let header: jws.Header;
-      
+
       if (this.certificateX5c) {
         header = {
           typ: "JWT",
@@ -130,8 +130,8 @@ export class ClientCertificateCredential implements TokenCredential {
         header = {
           typ: "JWT",
           alg: "RS256",
-          x5t: this.certificateX5t,
-        };        
+          x5t: this.certificateX5t
+        };
       };
 
       const payload = {
