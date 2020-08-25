@@ -308,7 +308,7 @@ export class AccessControlClient {
    * ```
    * @summary Lists all of the role assignments in a given scope.
    * @param {string} scope The scope of the role assignments.
-   * @param {ListPropertiesOfKeysOptions} [options] The optional parameters.
+   * @param {ListRoleAssignmentsOptions} [options] The optional parameters.
    */
   public listRoleAssignments(
     scope: RoleAssignmentScope,
