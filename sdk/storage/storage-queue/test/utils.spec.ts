@@ -40,11 +40,11 @@ describe("Utility Helpers", () => {
     );
   }
 
-  beforeEach(async function () {
+  beforeEach(async function() {
     recorder = record(this, recorderEnvSetup);
   });
 
-  afterEach(async function () {
+  afterEach(async function() {
     await recorder.stop();
   });
 
@@ -100,7 +100,7 @@ describe("Utility Helpers", () => {
 
   it("extractConnectionStringParts parses sas connection string with custom domain", async () => {
     const sasConnectionString = `QueueEndpoint=${customDomainQueueEndpoint};
-    SharedAccessSignature=${sharedAccessSignature}`
+    SharedAccessSignature=${sharedAccessSignature}`;
     const connectionStringParts = extractConnectionStringParts(sasConnectionString);
     assert.equal(
       "SASConnString",
@@ -113,7 +113,7 @@ describe("Utility Helpers", () => {
       "extractConnectionStringParts().url is different than expected."
     );
     assert.equal(
-      '',
+      "",
       connectionStringParts.accountName,
       "extractConnectionStringParts().accountName is different than expected."
     );
