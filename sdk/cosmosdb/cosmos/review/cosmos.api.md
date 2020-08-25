@@ -22,18 +22,13 @@ export interface Agent {
 export type AggregateType = "Average" | "Count" | "Max" | "Min" | "Sum";
 
 // @public (undocumented)
-export enum BulkOperationType {
-    // (undocumented)
-    Create = "Create",
-    // (undocumented)
-    Delete = "Delete",
-    // (undocumented)
-    Read = "Read",
-    // (undocumented)
-    Replace = "Replace",
-    // (undocumented)
-    Upsert = "Upsert"
-}
+export const BulkOperationType: {
+    Create: string;
+    Upsert: string;
+    Read: string;
+    Delete: string;
+    Replace: string;
+};
 
 // @public
 export class ChangeFeedIterator<T> {
@@ -517,7 +512,7 @@ export interface CosmosHeaders {
 
 // @public (undocumented)
 export type CreateOperation = OperationWithItem & {
-    operationType: BulkOperationType.Create;
+    operationType: keyof typeof BulkOperationType.Create;
 };
 
 // @public
@@ -614,7 +609,7 @@ export const DEFAULT_PARTITION_KEY_PATH: "/_partitionKey";
 
 // @public (undocumented)
 export type DeleteOperation = OperationBase & {
-    operationType: BulkOperationType.Delete;
+    operationType: 'Delete';
     id: string;
 };
 
@@ -939,7 +934,7 @@ export interface OperationInput {
     // (undocumented)
     ifNoneMatch?: string;
     // (undocumented)
-    operationType: BulkOperationType;
+    operationType: string;
     // (undocumented)
     partitionKey?: string | number | null | {} | undefined;
     // (undocumented)
@@ -1243,13 +1238,13 @@ export interface QueryRange {
 
 // @public (undocumented)
 export type ReadOperation = OperationBase & {
-    operationType: BulkOperationType.Read;
+    operationType: 'Read';
     id: string;
 };
 
 // @public (undocumented)
 export type ReplaceOperation = OperationWithItem & {
-    operationType: BulkOperationType.Replace;
+    operationType: 'Replace';
     id: string;
 };
 
@@ -1713,7 +1708,7 @@ export interface UniqueKeyPolicy {
 
 // @public (undocumented)
 export type UpsertOperation = OperationWithItem & {
-    operationType: BulkOperationType.Upsert;
+    operationType: 'Create';
 };
 
 // @public
