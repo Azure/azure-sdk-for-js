@@ -22,7 +22,6 @@ import {
 } from "./generated/models";
 import { AnalyzeSentimentResultArray } from "./analyzeSentimentResultArray";
 import {
-  makeExtractKeyPhrasesResultArray,
   ExtractKeyPhrasesResultArray
 } from "./extractKeyPhrasesResultArray";
 import {
@@ -48,6 +47,8 @@ import {
   RecognizeCategorizedEntitieseResultResponse, 
   toRecognizeCategorizedEntitiesResultResponse 
 } from './recognizeCategorizedEntitiesResultResponse';
+import { ExtractKeyPhraseseResultResponse } from '.';
+import { toExtractKeyPhrasesResultResponse } from './extractKeyPhrasesResultResponse';
 
 const DEFAULT_COGNITIVE_SCOPE = "https://cognitiveservices.azure.com/.default";
 
@@ -492,7 +493,7 @@ export class TextAnalyticsClient {
     documents: string[],
     language?: string,
     options?: ExtractKeyPhrasesOptions
-  ): Promise<ExtractKeyPhrasesResultArray>;
+  ): Promise<ExtractKeyPhraseseResultResponse>;
   /**
    * Runs a model to identify a collection of significant phrases
    * found in the passed-in input documents.
@@ -504,12 +505,12 @@ export class TextAnalyticsClient {
   public async extractKeyPhrases(
     documents: TextDocumentInput[],
     options?: ExtractKeyPhrasesOptions
-  ): Promise<ExtractKeyPhrasesResultArray>;
+  ): Promise<ExtractKeyPhraseseResultResponse>;
   public async extractKeyPhrases(
     documents: string[] | TextDocumentInput[],
     languageOrOptions?: string | ExtractKeyPhrasesOptions,
     options?: ExtractKeyPhrasesOptions
-  ): Promise<ExtractKeyPhrasesResultArray> {
+  ): Promise<ExtractKeyPhraseseResultResponse> {
     let realOptions: ExtractKeyPhrasesOptions;
     let realInputs: TextDocumentInput[];
 
@@ -539,13 +540,7 @@ export class TextAnalyticsClient {
         operationOptionsToRequestOptionsBase(finalOptions)
       );
 
-      return makeExtractKeyPhrasesResultArray(
-        realInputs,
-        result.documents,
-        result.errors,
-        result.modelVersion,
-        result.statistics
-      );
+      return toExtractKeyPhrasesResultResponse(realInputs, result);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,

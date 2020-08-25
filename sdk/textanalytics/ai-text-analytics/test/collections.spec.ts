@@ -148,28 +148,31 @@ describe("ExtractKeyPhrasesResultArray", () => {
     ];
     const result = makeExtractKeyPhrasesResultArray(
       input,
-      [
-        {
-          id: "A",
-          keyPhrases: ["test", "test2"],
-          warnings: []
-        },
-        {
-          id: "C",
-          keyPhrases: ["awesome"],
-          warnings: []
-        }
-      ],
-      [
-        {
-          id: "B",
-          error: {
-            code: "InternalServerError",
-            message: "test error"
+      {
+        documents: [
+          {
+            id: "A",
+            keyPhrases: ["test", "test2"],
+            warnings: []
+          },
+          {
+            id: "C",
+            keyPhrases: ["awesome"],
+            warnings: []
           }
-        }
-      ],
-      ""
+        ],
+        errors: [
+          {
+            id: "B",
+            error: {
+              code: "InternalServerError",
+              message: "test error"
+            }
+          }
+        ],
+        modelVersion: "",
+        _response: {} as any
+      }
     );
 
     const inputOrder = input.map((item) => item.id);

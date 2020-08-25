@@ -53,6 +53,7 @@ export {
   ExtractKeyPhrasesSuccessResult
 } from "./extractKeyPhrasesResult";
 export { ExtractKeyPhrasesResultArray } from "./extractKeyPhrasesResultArray";
+export { ExtractKeyPhraseseResultResponse } from "./extractKeyPhrasesResultResponse";
 export {
   RecognizeLinkedEntitiesResult,
   RecognizeLinkedEntitiesErrorResult,
@@ -100,5 +101,7 @@ export {
   LanguageResult,
   DocumentLanguage,
   EntitiesResult,
-  DocumentEntities
+  DocumentEntities,
+  KeyPhraseResult,
+  DocumentKeyPhrases
 } from "./generated/models";

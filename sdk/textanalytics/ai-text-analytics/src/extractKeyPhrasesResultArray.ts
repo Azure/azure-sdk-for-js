@@ -3,9 +3,7 @@
 
 import {
   TextDocumentBatchStatistics,
-  DocumentError,
-  DocumentKeyPhrases,
-  TextDocumentInput
+  TextDocumentInput, GeneratedClientKeyPhrasesResponse
 } from "./generated/models";
 import {
   ExtractKeyPhrasesResult,
@@ -34,11 +32,9 @@ export interface ExtractKeyPhrasesResultArray extends Array<ExtractKeyPhrasesRes
 
 export function makeExtractKeyPhrasesResultArray(
   input: TextDocumentInput[],
-  documents: DocumentKeyPhrases[],
-  errors: DocumentError[],
-  modelVersion: string,
-  statistics?: TextDocumentBatchStatistics
+  response: GeneratedClientKeyPhrasesResponse
 ): ExtractKeyPhrasesResultArray {
+  const { documents, errors, statistics, modelVersion } = response;
   const unsortedResult = documents
     .map(
       (document): ExtractKeyPhrasesResult => {

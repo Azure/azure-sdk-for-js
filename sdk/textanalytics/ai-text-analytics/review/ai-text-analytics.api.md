@@ -132,6 +132,14 @@ export interface DocumentError {
 }
 
 // @public (undocumented)
+export interface DocumentKeyPhrases {
+    id: string;
+    keyPhrases: string[];
+    statistics?: TextDocumentStatistics;
+    warnings: TextAnalyticsWarning[];
+}
+
+// @public (undocumented)
 export interface DocumentLanguage {
     detectedLanguage: DetectedLanguage;
     id: string;
@@ -173,6 +181,14 @@ export type ErrorCode = ErrorCodeValue | InnerErrorCodeValue;
 
 // @public
 export type ErrorCodeValue = "InvalidRequest" | "InvalidArgument" | "InternalServerError" | "ServiceUnavailable";
+
+// @public
+export type ExtractKeyPhraseseResultResponse = ExtractKeyPhrasesResultArray & {
+    _response: coreHttp.HttpResponse & {
+        bodyAsText: string;
+        parsedBody: KeyPhraseResult;
+    };
+};
 
 // @public
 export type ExtractKeyPhrasesErrorResult = TextAnalyticsErrorResult;
@@ -225,6 +241,14 @@ export interface InnerError {
 
 // @public
 export type InnerErrorCodeValue = "InvalidParameterValue" | "InvalidRequestBodyFormat" | "EmptyRequest" | "MissingInputRecords" | "InvalidDocument" | "ModelVersionIncorrect" | "InvalidDocumentBatch" | "UnsupportedLanguageCode" | "InvalidCountryHint";
+
+// @public (undocumented)
+export interface KeyPhraseResult {
+    documents: DocumentKeyPhrases[];
+    errors: DocumentError[];
+    modelVersion: string;
+    statistics?: TextDocumentBatchStatistics;
+}
 
 // @public (undocumented)
 export interface LanguageResult {
@@ -394,7 +418,7 @@ export class TextAnalyticsClient {
     detectLanguage(documents: DetectLanguageInput[], options?: DetectLanguageOptions): Promise<DetectLanguageResultResponse>;
     readonly endpointUrl: string;
     extractKeyPhrases(documents: string[], language?: string, options?: ExtractKeyPhrasesOptions): Promise<ExtractKeyPhrasesResultArray>;
-    extractKeyPhrases(documents: TextDocumentInput[], options?: ExtractKeyPhrasesOptions): Promise<ExtractKeyPhrasesResultArray>;
+    extractKeyPhrases(documents: TextDocumentInput[], options?: ExtractKeyPhrasesOptions): Promise<ExtractKeyPhraseseResultResponse>;
     recognizeEntities(documents: string[], language?: string, options?: RecognizeCategorizedEntitiesOptions): Promise<RecognizeCategorizedEntitieseResultResponse>;
     recognizeEntities(documents: TextDocumentInput[], options?: RecognizeCategorizedEntitiesOptions): Promise<RecognizeCategorizedEntitieseResultResponse>;
     recognizeLinkedEntities(documents: string[], language?: string, options?: RecognizeLinkedEntitiesOptions): Promise<RecognizeLinkedEntitiesResultArray>;
