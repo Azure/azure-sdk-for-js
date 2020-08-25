@@ -18,7 +18,10 @@ import { KeyVaultManagementClientContext } from "./keyVaultManagementClientConte
 class KeyVaultManagementClient extends KeyVaultManagementClientContext {
   // Operation groups
   vaults: operations.Vaults;
+  privateEndpointConnections: operations.PrivateEndpointConnections;
+  privateLinkResources: operations.PrivateLinkResources;
   operations: operations.Operations;
+  managedHsms: operations.ManagedHsms;
 
   /**
    * Initializes a new instance of the KeyVaultManagementClient class.
@@ -30,7 +33,10 @@ class KeyVaultManagementClient extends KeyVaultManagementClientContext {
   constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.KeyVaultManagementClientOptions) {
     super(credentials, subscriptionId, options);
     this.vaults = new operations.Vaults(this);
+    this.privateEndpointConnections = new operations.PrivateEndpointConnections(this);
+    this.privateLinkResources = new operations.PrivateLinkResources(this);
     this.operations = new operations.Operations(this);
+    this.managedHsms = new operations.ManagedHsms(this);
   }
 }
 
