@@ -421,23 +421,6 @@ export async function populateIndex(client: SearchClient<Hotel>): Promise<void> 
 
 // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
 export async function createDataSourceConnections(client: SearchIndexerClient): Promise<void> {
-  const testCaseNames: string[] = ["my-data-source-1", "my-data-source-2"];
-  const dataSourceConnectionNames: string[] = await client.listDataSourceConnectionsNames();
-  const unCommonElements: string[] = dataSourceConnectionNames.filter(
-    (element) => !testCaseNames.includes(element)
-  );
-  if (unCommonElements.length > 0) {
-    // There are datasource connections which are already existing in this subscription.
-    // We do not want to delete them by accident. So, we are returning without further
-    // action. The test cases will fail. Please do not use a subscription which already
-    // has datasource connections for testing.
-    return;
-  }
-
-  for (let dataSourceConnectionName of dataSourceConnectionNames) {
-    await client.deleteDataSourceConnection(dataSourceConnectionName);
-  }
-
   const connectionString:string = "AccountEndpoint=https://hotels-docbb.documents.azure.com:443/;AccountKey=4UPsNZyFAjgZ1tzHPGZaxS09XcwLrIawbXBWk6IixcxJoSePTcjBn0mi53XiKWu8MaUgowUhIovOv7kjksqAug==;Database=SampleData";
   for (let i = 1; i <= 2; i++) {
     await client.createDataSourceConnection({
@@ -460,54 +443,69 @@ export async function deleteDataSourceConnections(client: SearchIndexerClient): 
 
 // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
 export async function createSkillsets(client: SearchIndexerClient): Promise<void> {
-  const testCaseNames: string[] = ["my-azureblob-skillset-1", "my-azureblob-skillset-2"];
-  const skillSetNames: string[] = await client.listSkillsetsNames();
-  const unCommonElements: string[] = skillSetNames.filter(
-    (element) => !testCaseNames.includes(element)
-  );
-  if (unCommonElements.length > 0) {
-    // There are skillsets which are already existing in this subscription.
-    // We do not want to delete them by accident. So, we are returning without further
-    // action. The test cases will fail. Please do not use a subscription which already
-    // has skillsets for testing.
-    return;
-  }
-
-  for (let skillSet of skillSetNames) {
-    await client.deleteSkillset(skillSet);
-  }
-
-  for (let i = 1; i <= 2; i++) {
-    await client.createSkillset({
-      name: `my-azureblob-skillset-${i}`,
-      description: `Skillset description`,
-      skills: [
-        {
-          odatatype: "#Microsoft.Skills.Text.EntityRecognitionSkill",
-          inputs: [
-            {
-              name: "text",
-              source: "/document/merged_content"
-            },
-            {
-              name: "languageCode",
-              source: "/document/language"
-            }
-          ],
-          outputs: [
-            {
-              name: "persons",
-              targetName: "people"
-            },
-            {
-              name: "locations",
-              targetName: "locations"
-            }
-          ]
-        }
-      ]
-    });
-  }
+  await client.createSkillset({
+    name: `my-azureblob-skillset-1`,
+    description: `Skillset description`,
+    skills: [
+      {
+        odatatype: "#Microsoft.Skills.Text.EntityRecognitionSkill",
+        inputs: [
+          {
+            name: "text",
+            source: "/document/merged_content"
+          },
+          {
+            name: "languageCode",
+            source: "/document/language"
+          }
+        ],
+        outputs: [
+          {
+            name: "persons",
+            targetName: "people"
+          },
+          {
+            name: "organizations",
+            targetName: "organizations"
+          },
+          {
+            name: "locations",
+            targetName: "locations"
+          }
+        ]
+      }
+    ]
+  });
+  
+  await client.createSkillset({
+    name: `my-azureblob-skillset-2`,
+    description: `Skillset description`,
+    skills: [
+      {
+        odatatype: "#Microsoft.Skills.Text.EntityRecognitionSkill",
+        inputs: [
+          {
+            name: "text",
+            source: "/document/merged_content"
+          },
+          {
+            name: "languageCode",
+            source: "/document/language"
+          }
+        ],
+        outputs: [
+          {
+            name: "persons",
+            targetName: "people"
+          },
+          {
+            name: "locations",
+            targetName: "locations"
+          }
+        ]
+      }
+    ]
+  });;
 }
 
 // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
@@ -519,23 +517,6 @@ export async function deleteSkillsets(client: SearchIndexerClient): Promise<void
 
 // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
 export async function createIndexers(client: SearchIndexerClient): Promise<void> {
-  const testCaseNames: string[] = ["my-azure-indexer-1", "my-azure-indexer-2"];
-  const indexerNames: string[] = await client.listIndexersNames();
-  const unCommonElements: string[] = indexerNames.filter(
-    (element) => !testCaseNames.includes(element)
-  );
-  if (unCommonElements.length > 0) {
-    // There are indexers which are already existing in this subscription.
-    // We do not want to delete them by accident. So, we are returning without further
-    // action. The test cases will fail. Please do not use a subscription which already
-    // has indexers for testing.
-    return;
-  }
-
-  for (let indexer of indexerNames) {
-    await client.deleteIndexer(indexer);
-  }
-
   for (let i = 1; i <= 2; i++) {
     await client.createIndexer({
       name: `my-azure-indexer-${i}`,
@@ -554,23 +535,6 @@ export async function deleteIndexers(client: SearchIndexerClient): Promise<void>
 }
 
 export async function createSynonymMaps(client: SearchIndexClient): Promise<void> {
-  const testCaseNames: string[] = ["my-azure-synonymmap-1", "my-azure-synonymmap-2"];
-  const synonymMapNames: string[] = await client.listSynonymMapsNames();
-  const unCommonElements: string[] = synonymMapNames.filter(
-    (element) => !testCaseNames.includes(element)
-  );
-  if (unCommonElements.length > 0) {
-    // There are synonym maps which are already existing in this subscription.
-    // We do not want to delete them by accident. So, we are returning without further
-    // action. The test cases will fail. Please do not use a subscription which already
-    // has synonym maps for testing.
-    return;
-  }
-
-  for (let synonymMap of synonymMapNames) {
-    await client.deleteSynonymMap(synonymMap);
-  }
-
   for (let i = 1; i <= 2; i++) {
     await client.createSynonymMap({
       name: `my-azure-synonymmap-${i}`,
