@@ -7,7 +7,6 @@
 import { AmqpMessage } from '@azure/core-amqp';
 import { delay } from '@azure/core-amqp';
 import { Delivery } from 'rhea-promise';
-import { DeliveryAnnotations } from 'rhea-promise';
 import { HttpOperationResponse } from '@azure/core-http';
 import Long from 'long';
 import { MessagingError } from '@azure/core-amqp';
@@ -359,7 +358,9 @@ export interface ServiceBusMessage {
     // (undocumented)
     creationTime?: Date;
     // (undocumented)
-    deliveryAnnotations?: DeliveryAnnotations;
+    deliveryAnnotations?: {
+        [key: string]: any;
+    };
     // (undocumented)
     durable?: boolean;
     // (undocumented)
