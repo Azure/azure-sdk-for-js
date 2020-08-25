@@ -7,7 +7,7 @@
   "main": "dt_scenario.js",
   "dependencies": {
     "@azure/digitaltwins": "file:../..",
-    "@azure/core-http": "^1.1.1",
-    "@azure/identity": "^1.0.3"
+    "@azure/core-http": "^1.1.6",
+    "@azure/identity": "^1.1.0"
   }
 }

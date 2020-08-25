@@ -5,6 +5,16 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "type": "node",
+      "request": "launch",
+      "name": "Run unit tests",
+      "program": "${workspaceFolder}/node_modules/mocha/bin/_mocha",
+      "args": ["--timeout", "999999", "--colors", "${workspaceFolder}/dist-test/index.node.js"],
+      "cwd": "${workspaceFolder}",
+      "internalConsoleOptions": "openOnSessionStart",
+      "skipFiles": ["<node_internals>/**/async_hooks.js", "<node_internals>/**/*.js"]
+    },
+    {
       "name": "Debug unit test",
       "request": "launch",
       "runtimeArgs": ["run-script", "test:node"],
