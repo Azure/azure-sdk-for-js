@@ -250,21 +250,6 @@ export interface ReceiveMessagesOptions extends OperationOptionsBase {
 export type ReceiveMode = "peekLock" | "receiveAndDelete";
 
 // @public
-export interface Receiver<ReceivedMessageT> {
-    close(): Promise<void>;
-    entityPath: string;
-    getMessageIterator(options?: GetMessageIteratorOptions): AsyncIterableIterator<ReceivedMessageT>;
-    isClosed: boolean;
-    peekMessages(maxMessageCount: number, options?: PeekMessagesOptions): Promise<ReceivedMessage[]>;
-    receiveDeferredMessages(sequenceNumbers: Long | Long[], options?: OperationOptionsBase): Promise<ReceivedMessageT[]>;
-    receiveMessages(maxMessageCount: number, options?: ReceiveMessagesOptions): Promise<ReceivedMessageT[]>;
-    receiveMode: "peekLock" | "receiveAndDelete";
-    subscribe(handlers: MessageHandlers<ReceivedMessageT>, options?: SubscribeOptions): {
-        close(): Promise<void>;
-    };
-}
-
-// @public
 export type Response<T> = T & {
     _response: HttpOperationResponse;
 };
@@ -276,23 +261,6 @@ export interface RuleProperties {
     action: SqlRuleAction;
     filter: SqlRuleFilter | CorrelationRuleFilter;
     readonly name: string;
-}
-
-// @public
-export interface Sender {
-    cancelScheduledMessages(sequenceNumbers: Long | Long[], options?: OperationOptionsBase): Promise<void>;
-    close(): Promise<void>;
-    createBatch(options?: CreateBatchOptions): Promise<ServiceBusMessageBatch>;
-    entityPath: string;
-    isClosed: boolean;
-    open(options?: SenderOpenOptions): Promise<void>;
-    scheduleMessages(scheduledEnqueueTimeUtc: Date, messages: ServiceBusMessage | ServiceBusMessage[], options?: OperationOptionsBase): Promise<Long[]>;
-    sendMessages(messages: ServiceBusMessage | ServiceBusMessage[] | ServiceBusMessageBatch, options?: OperationOptionsBase): Promise<void>;
-}
-
-// @public
-export interface SenderOpenOptions {
-    abortSignal?: AbortSignalLike;
 }
 
 // @public
@@ -325,8 +293,8 @@ export interface ServiceBusClientOptions {
 
 // @public
 export class ServiceBusManagementClient extends ServiceClient {
-    constructor(connectionString: string, options?: ServiceBusManagementClientOptions);
-    constructor(fullyQualifiedNamespace: string, credential: TokenCredential, options?: ServiceBusManagementClientOptions);
+    constructor(connectionString: string, options?: PipelineOptions);
+    constructor(fullyQualifiedNamespace: string, credential: TokenCredential, options?: PipelineOptions);
     createQueue(queueName: string, options?: CreateQueueOptions): Promise<Response<QueueProperties>>;
     createRule(topicName: string, subscriptionName: string, ruleName: string, ruleFilter: SqlRuleFilter | CorrelationRuleFilter, operationOptions?: OperationOptions): Promise<Response<RuleProperties>>;
     createRule(topicName: string, subscriptionName: string, ruleName: string, ruleFilter: SqlRuleFilter | CorrelationRuleFilter, ruleAction: SqlRuleAction, operationOptions?: OperationOptions): Promise<Response<RuleProperties>>;
@@ -517,11 +485,6 @@ export interface TopicRuntimeProperties {
     scheduledMessageCount: number;
     sizeInBytes?: number;
     subscriptionCount?: number;
-}
-
-// @public
-export interface WaitTimeOptions {
-    maxWaitTimeInMs: number;
 }
 
 export { WebSocketImpl }
