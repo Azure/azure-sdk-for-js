@@ -244,7 +244,7 @@ export { PagedAsyncIterableIterator }
 export { PageSettings }
 
 // @public
-export interface ParsedKeyVaultKeysIdentifier {
+export interface ParsedKeyVaultKeyId {
     name: string;
     sourceId: string;
     vaultUrl: string;
@@ -252,7 +252,7 @@ export interface ParsedKeyVaultKeysIdentifier {
 }
 
 // @public
-export function parseKeyVaultKeysIdentifier(id: string): ParsedKeyVaultKeysIdentifier;
+export function parseKeyVaultKeyId(id: string): ParsedKeyVaultKeyId;
 
 export { PipelineOptions }
 
