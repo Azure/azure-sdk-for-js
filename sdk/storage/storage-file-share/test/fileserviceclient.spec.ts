@@ -406,7 +406,7 @@ describe("FileServiceClient", () => {
     await recorder.stop();
   });
 
-  it.only("ListShares with deleted share", async function () {
+  it("ListShares with deleted share", async function () {
     const shareClient = serviceClient.getShareClient(recorder.getUniqueName("share"));
     await shareClient.create();
     await shareClient.delete();
