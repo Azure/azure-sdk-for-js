@@ -20,10 +20,6 @@ import {
   GeneratedClientSentimentOptionalParams,
   TextDocumentInput
 } from "./generated/models";
-import {
-  RecognizeLinkedEntitiesResultArray,
-  makeRecognizeLinkedEntitiesResultArray
-} from "./recognizeLinkedEntitiesResultArray";
 import { createSpan } from "./tracing";
 import { CanonicalCode } from "@opentelemetry/api";
 import { createTextAnalyticsAzureKeyCredentialPolicy } from "./azureKeyCredentialPolicy";
@@ -39,9 +35,10 @@ import {
   RecognizeCategorizedEntitieseResultResponse, 
   toRecognizeCategorizedEntitiesResultResponse 
 } from './recognizeCategorizedEntitiesResultResponse';
-import { ExtractKeyPhraseseResultResponse } from '.';
+import { ExtractKeyPhraseseResultResponse, RecognizeLinkedEntitiesResultResponse } from '.';
 import { toExtractKeyPhrasesResultResponse } from './extractKeyPhrasesResultResponse';
 import { RecognizePiiEntitiesResultResponse, toRecognizePiiEntitiesResultResponse } from './recognizePiiEntitiesResultResponse';
+import { toRecognizeLinkedEntitiesResultResponse } from './recognizeLinkedEntitiesResultResponse';
 
 const DEFAULT_COGNITIVE_SCOPE = "https://cognitiveservices.azure.com/.default";
 
@@ -639,7 +636,7 @@ export class TextAnalyticsClient {
     documents: string[],
     language?: string,
     options?: RecognizeLinkedEntitiesOptions
-  ): Promise<RecognizeLinkedEntitiesResultArray>;
+  ): Promise<RecognizeLinkedEntitiesResultResponse>;
   /**
    * Runs a predictive model to identify a collection of entities
    * found in the passed-in input documents, and include information linking the
@@ -652,12 +649,12 @@ export class TextAnalyticsClient {
   public async recognizeLinkedEntities(
     documents: TextDocumentInput[],
     options?: RecognizeLinkedEntitiesOptions
-  ): Promise<RecognizeLinkedEntitiesResultArray>;
+  ): Promise<RecognizeLinkedEntitiesResultResponse>;
   public async recognizeLinkedEntities(
     documents: string[] | TextDocumentInput[],
     languageOrOptions?: string | RecognizeLinkedEntitiesOptions,
     options?: RecognizeLinkedEntitiesOptions
-  ): Promise<RecognizeLinkedEntitiesResultArray> {
+  ): Promise<RecognizeLinkedEntitiesResultResponse> {
     let realOptions: RecognizeLinkedEntitiesOptions;
     let realInputs: TextDocumentInput[];
 
@@ -687,13 +684,7 @@ export class TextAnalyticsClient {
         operationOptionsToRequestOptionsBase(finalOptions)
       );
 
-      return makeRecognizeLinkedEntitiesResultArray(
-        realInputs,
-        result.documents,
-        result.errors,
-        result.modelVersion,
-        result.statistics
-      );
+      return toRecognizeLinkedEntitiesResultResponse(realInputs, result);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,

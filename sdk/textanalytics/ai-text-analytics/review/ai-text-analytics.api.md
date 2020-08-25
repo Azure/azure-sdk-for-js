@@ -148,6 +148,14 @@ export interface DocumentLanguage {
 }
 
 // @public (undocumented)
+export interface DocumentLinkedEntities {
+    entities: LinkedEntity[];
+    id: string;
+    statistics?: TextDocumentStatistics;
+    warnings: TextAnalyticsWarning[];
+}
+
+// @public (undocumented)
 export interface DocumentSentiment {
     confidenceScores: SentimentConfidenceScores;
     id: string;
@@ -174,6 +182,14 @@ export interface Entity {
     confidenceScore: number;
     subCategory?: string;
     text: string;
+}
+
+// @public (undocumented)
+export interface EntityLinkingResult {
+    documents: DocumentLinkedEntities[];
+    errors: DocumentError[];
+    modelVersion: string;
+    statistics?: TextDocumentBatchStatistics;
 }
 
 // @public
@@ -332,6 +348,14 @@ export interface RecognizeLinkedEntitiesResultArray extends Array<RecognizeLinke
 }
 
 // @public
+export type RecognizeLinkedEntitiesResultResponse = RecognizeLinkedEntitiesResultArray & {
+    _response: coreHttp.HttpResponse & {
+        bodyAsText: string;
+        parsedBody: EntityLinkingResult;
+    };
+};
+
+// @public
 export interface RecognizeLinkedEntitiesSuccessResult extends TextAnalyticsSuccessResult {
     readonly entities: LinkedEntity[];
 }
@@ -429,8 +453,8 @@ export class TextAnalyticsClient {
     extractKeyPhrases(documents: TextDocumentInput[], options?: ExtractKeyPhrasesOptions): Promise<ExtractKeyPhraseseResultResponse>;
     recognizeEntities(documents: string[], language?: string, options?: RecognizeCategorizedEntitiesOptions): Promise<RecognizeCategorizedEntitieseResultResponse>;
     recognizeEntities(documents: TextDocumentInput[], options?: RecognizeCategorizedEntitiesOptions): Promise<RecognizeCategorizedEntitieseResultResponse>;
-    recognizeLinkedEntities(documents: string[], language?: string, options?: RecognizeLinkedEntitiesOptions): Promise<RecognizeLinkedEntitiesResultArray>;
-    recognizeLinkedEntities(documents: TextDocumentInput[], options?: RecognizeLinkedEntitiesOptions): Promise<RecognizeLinkedEntitiesResultArray>;
+    recognizeLinkedEntities(documents: string[], language?: string, options?: RecognizeLinkedEntitiesOptions): Promise<RecognizeLinkedEntitiesResultResponse>;
+    recognizeLinkedEntities(documents: TextDocumentInput[], options?: RecognizeLinkedEntitiesOptions): Promise<RecognizeLinkedEntitiesResultResponse>;
     recognizePiiEntities(inputs: string[], language?: string, options?: RecognizePiiEntitiesOptions): Promise<RecognizePiiEntitiesResultResponse>;
     recognizePiiEntities(inputs: TextDocumentInput[], options?: RecognizePiiEntitiesOptions): Promise<RecognizePiiEntitiesResultResponse>;
 }

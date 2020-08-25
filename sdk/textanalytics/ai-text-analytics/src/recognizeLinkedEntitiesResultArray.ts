@@ -3,9 +3,8 @@
 
 import {
   TextDocumentBatchStatistics,
-  DocumentError,
-  DocumentLinkedEntities,
-  TextDocumentInput
+  TextDocumentInput, 
+  GeneratedClientEntitiesLinkingResponse
 } from "./generated/models";
 import {
   RecognizeLinkedEntitiesResult,
@@ -34,11 +33,9 @@ export interface RecognizeLinkedEntitiesResultArray extends Array<RecognizeLinke
 
 export function makeRecognizeLinkedEntitiesResultArray(
   input: TextDocumentInput[],
-  documents: DocumentLinkedEntities[],
-  errors: DocumentError[],
-  modelVersion: string,
-  statistics?: TextDocumentBatchStatistics
+  response: GeneratedClientEntitiesLinkingResponse
 ): RecognizeLinkedEntitiesResultArray {
+  const { documents, errors, statistics, modelVersion } = response;
   const unsortedResult = documents
     .map(
       (document): RecognizeLinkedEntitiesResult => {

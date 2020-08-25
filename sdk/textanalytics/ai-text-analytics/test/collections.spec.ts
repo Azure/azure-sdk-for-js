@@ -263,56 +263,59 @@ describe("RecognizeLinkedEntitiesResultArray", () => {
     ];
     const result = makeRecognizeLinkedEntitiesResultArray(
       input,
-      [
-        {
-          id: "A",
-          entities: [
-            {
-              name: "Seattle",
-              matches: [
-                {
-                  text: "Seattle",
-                  confidenceScore: 0.15046201222847677
-                }
-              ],
-              language: "en",
-              dataSourceEntityId: "Seattle",
-              url: "https://en.wikipedia.org/wiki/Seattle",
-              dataSource: "Wikipedia"
-            }
-          ],
-          warnings: []
-        },
-        {
-          id: "C",
-          entities: [
-            {
-              name: "Microsoft",
-              matches: [
-                {
-                  text: "Microsoft",
-                  confidenceScore: 0.1869365971673207
-                }
-              ],
-              language: "en",
-              dataSourceEntityId: "Microsoft",
-              url: "https://en.wikipedia.org/wiki/Microsoft",
-              dataSource: "Wikipedia"
-            }
-          ],
-          warnings: []
-        }
-      ],
-      [
-        {
-          id: "B",
-          error: {
-            code: "InternalServerError",
-            message: "test error"
+      {
+        documents: [
+          {
+            id: "A",
+            entities: [
+              {
+                name: "Seattle",
+                matches: [
+                  {
+                    text: "Seattle",
+                    confidenceScore: 0.15046201222847677
+                  }
+                ],
+                language: "en",
+                dataSourceEntityId: "Seattle",
+                url: "https://en.wikipedia.org/wiki/Seattle",
+                dataSource: "Wikipedia"
+              }
+            ],
+            warnings: []
+          },
+          {
+            id: "C",
+            entities: [
+              {
+                name: "Microsoft",
+                matches: [
+                  {
+                    text: "Microsoft",
+                    confidenceScore: 0.1869365971673207
+                  }
+                ],
+                language: "en",
+                dataSourceEntityId: "Microsoft",
+                url: "https://en.wikipedia.org/wiki/Microsoft",
+                dataSource: "Wikipedia"
+              }
+            ],
+            warnings: []
           }
-        }
-      ],
-      ""
+        ],
+        errors: [
+          {
+            id: "B",
+            error: {
+              code: "InternalServerError",
+              message: "test error"
+            }
+          }
+        ],
+        modelVersion: "",
+        _response: {} as any
+      }
     );
     const inputOrder = input.map((item) => item.id);
     const outputOrder = result.map((item) => item.id);

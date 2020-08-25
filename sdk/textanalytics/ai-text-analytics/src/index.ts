@@ -61,6 +61,7 @@ export {
   RecognizeLinkedEntitiesSuccessResult
 } from "./recognizeLinkedEntitiesResult";
 export { RecognizeLinkedEntitiesResultArray } from "./recognizeLinkedEntitiesResultArray";
+export { RecognizeLinkedEntitiesResultResponse } from "./recognizeLinkedEntitiesResultResponse";
 export {
   TextAnalyticsResult,
   ErrorCode,
@@ -104,5 +105,7 @@ export {
   EntitiesResult,
   DocumentEntities,
   KeyPhraseResult,
-  DocumentKeyPhrases
+  DocumentKeyPhrases,
+  EntityLinkingResult,
+  DocumentLinkedEntities
 } from "./generated/models";
