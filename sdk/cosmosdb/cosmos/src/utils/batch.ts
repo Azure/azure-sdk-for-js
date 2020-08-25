@@ -46,14 +46,6 @@ export const BulkOperationType = {
   Replace: "Replace"
 } as const;
 
-enum OperationType {
-  Create = "Create",
-  Upsert = "Upsert",
-  Read = "Read",
-  Delete = "Delete",
-  Replace = "Replace"
-}
-
 export interface OperationInput {
   partitionKey?: string | number | null | {} | undefined;
   ifMatch?: string;
@@ -67,25 +59,25 @@ export type OperationWithItem = OperationBase & {
 };
 
 export type CreateOperation = OperationWithItem & {
-  operationType: OperationType.Create;
+  operationType: typeof BulkOperationType.Create;
 };
 
 export type UpsertOperation = OperationWithItem & {
-  operationType: OperationType.Upsert;
+  operationType: typeof BulkOperationType.Upsert;
 };
 
 export type ReadOperation = OperationBase & {
-  operationType: OperationType.Read;
+  operationType: typeof BulkOperationType.Read;
   id: string;
 };
 
 export type DeleteOperation = OperationBase & {
-  operationType: OperationType.Delete;
+  operationType: typeof BulkOperationType.Delete;
   id: string;
 };
 
 export type ReplaceOperation = OperationWithItem & {
-  operationType: OperationType.Replace;
+  operationType: typeof BulkOperationType.Replace;
   id: string;
 };
 
