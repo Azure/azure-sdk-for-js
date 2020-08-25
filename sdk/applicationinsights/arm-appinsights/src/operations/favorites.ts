@@ -28,20 +28,20 @@ export class Favorites {
 
   /**
    * Gets a list of favorites defined within an Application Insights component.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the Application Insights component resource.
    * @param [options] The optional parameters
    * @returns Promise<Models.FavoritesListResponse>
    */
   list(resourceGroupName: string, resourceName: string, options?: Models.FavoritesListOptionalParams): Promise<Models.FavoritesListResponse>;
   /**
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the Application Insights component resource.
    * @param callback The callback
    */
   list(resourceGroupName: string, resourceName: string, callback: msRest.ServiceCallback<Models.ApplicationInsightsComponentFavorite[]>): void;
   /**
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the Application Insights component resource.
    * @param options The optional parameters
    * @param callback The callback
@@ -60,7 +60,7 @@ export class Favorites {
 
   /**
    * Get a single favorite by its FavoriteId, defined within an Application Insights component.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the Application Insights component resource.
    * @param favoriteId The Id of a specific favorite defined in the Application Insights component
    * @param [options] The optional parameters
@@ -68,14 +68,14 @@ export class Favorites {
    */
   get(resourceGroupName: string, resourceName: string, favoriteId: string, options?: msRest.RequestOptionsBase): Promise<Models.FavoritesGetResponse>;
   /**
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the Application Insights component resource.
    * @param favoriteId The Id of a specific favorite defined in the Application Insights component
    * @param callback The callback
    */
   get(resourceGroupName: string, resourceName: string, favoriteId: string, callback: msRest.ServiceCallback<Models.ApplicationInsightsComponentFavorite>): void;
   /**
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the Application Insights component resource.
    * @param favoriteId The Id of a specific favorite defined in the Application Insights component
    * @param options The optional parameters
@@ -96,7 +96,7 @@ export class Favorites {
 
   /**
    * Adds a new favorites to an Application Insights component.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the Application Insights component resource.
    * @param favoriteId The Id of a specific favorite defined in the Application Insights component
    * @param favoriteProperties Properties that need to be specified to create a new favorite and add
@@ -106,7 +106,7 @@ export class Favorites {
    */
   add(resourceGroupName: string, resourceName: string, favoriteId: string, favoriteProperties: Models.ApplicationInsightsComponentFavorite, options?: msRest.RequestOptionsBase): Promise<Models.FavoritesAddResponse>;
   /**
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the Application Insights component resource.
    * @param favoriteId The Id of a specific favorite defined in the Application Insights component
    * @param favoriteProperties Properties that need to be specified to create a new favorite and add
@@ -115,7 +115,7 @@ export class Favorites {
    */
   add(resourceGroupName: string, resourceName: string, favoriteId: string, favoriteProperties: Models.ApplicationInsightsComponentFavorite, callback: msRest.ServiceCallback<Models.ApplicationInsightsComponentFavorite>): void;
   /**
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the Application Insights component resource.
    * @param favoriteId The Id of a specific favorite defined in the Application Insights component
    * @param favoriteProperties Properties that need to be specified to create a new favorite and add
@@ -139,7 +139,7 @@ export class Favorites {
 
   /**
    * Updates a favorite that has already been added to an Application Insights component.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the Application Insights component resource.
    * @param favoriteId The Id of a specific favorite defined in the Application Insights component
    * @param favoriteProperties Properties that need to be specified to update the existing favorite.
@@ -148,7 +148,7 @@ export class Favorites {
    */
   update(resourceGroupName: string, resourceName: string, favoriteId: string, favoriteProperties: Models.ApplicationInsightsComponentFavorite, options?: msRest.RequestOptionsBase): Promise<Models.FavoritesUpdateResponse>;
   /**
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the Application Insights component resource.
    * @param favoriteId The Id of a specific favorite defined in the Application Insights component
    * @param favoriteProperties Properties that need to be specified to update the existing favorite.
@@ -156,7 +156,7 @@ export class Favorites {
    */
   update(resourceGroupName: string, resourceName: string, favoriteId: string, favoriteProperties: Models.ApplicationInsightsComponentFavorite, callback: msRest.ServiceCallback<Models.ApplicationInsightsComponentFavorite>): void;
   /**
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the Application Insights component resource.
    * @param favoriteId The Id of a specific favorite defined in the Application Insights component
    * @param favoriteProperties Properties that need to be specified to update the existing favorite.
@@ -179,7 +179,7 @@ export class Favorites {
 
   /**
    * Remove a favorite that is associated to an Application Insights component.
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the Application Insights component resource.
    * @param favoriteId The Id of a specific favorite defined in the Application Insights component
    * @param [options] The optional parameters
@@ -187,14 +187,14 @@ export class Favorites {
    */
   deleteMethod(resourceGroupName: string, resourceName: string, favoriteId: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
   /**
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the Application Insights component resource.
    * @param favoriteId The Id of a specific favorite defined in the Application Insights component
    * @param callback The callback
    */
   deleteMethod(resourceGroupName: string, resourceName: string, favoriteId: string, callback: msRest.ServiceCallback<void>): void;
   /**
-   * @param resourceGroupName The name of the resource group.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param resourceName The name of the Application Insights component resource.
    * @param favoriteId The Id of a specific favorite defined in the Application Insights component
    * @param options The optional parameters
@@ -225,7 +225,7 @@ const listOperationSpec: msRest.OperationSpec = {
     Parameters.resourceName
   ],
   queryParameters: [
-    Parameters.apiVersion,
+    Parameters.apiVersion0,
     Parameters.favoriteType,
     Parameters.sourceType,
     Parameters.canFetchContent,
@@ -266,7 +266,7 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.favoriteId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -292,7 +292,7 @@ const addOperationSpec: msRest.OperationSpec = {
     Parameters.favoriteId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -325,7 +325,7 @@ const updateOperationSpec: msRest.OperationSpec = {
     Parameters.favoriteId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -358,7 +358,7 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.favoriteId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
