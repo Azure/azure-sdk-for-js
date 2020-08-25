@@ -537,4 +537,9 @@ describe("BlobServiceClient", () => {
 
     await containerClient.delete();
   });
+
+  it("verify custom endpoint without valid accountName", async () => {
+    const newClient = new BlobServiceClient(`https://customdomain.com`);
+    assert.equal(newClient.accountName, "", "Account name is not the same as expected.");
+  });
 });

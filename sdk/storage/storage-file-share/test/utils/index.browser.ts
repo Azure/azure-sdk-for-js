@@ -43,6 +43,12 @@ export function getAlternateBSU(): ShareServiceClient {
   return getGenericBSU("SECONDARY_", "-secondary");
 }
 
+
+export function getSoftDeleteBSU(): ShareServiceClient {
+  return getGenericBSU("SOFT_DELETE_");
+}
+
+
 /**
  * Read body from downloading operation methods to string.
  * Work on both Node.js and browser environment.

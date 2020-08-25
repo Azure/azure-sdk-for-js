@@ -631,7 +631,6 @@ const getOperationSpec: msRest.OperationSpec = {
     200: {
       bodyMapper: Mappers.DatabaseAccountGetResults
     },
-    404: {},
     default: {
       bodyMapper: Mappers.CloudError
     }

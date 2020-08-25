@@ -1,6 +1,6 @@
 # ts-package-json-keywords
 
-Requires `keywords` in `package.json` to include `"Azure"` and `"cloud"`.
+Requires `keywords` in `package.json` to include `"azure"` and `"cloud"`.
 
 This rule is fixable using the `--fix` option.
 
@@ -10,13 +10,13 @@ This rule is fixable using the `--fix` option.
 
 ```json
 {
-  "keywords": ["Azure", "cloud"]
+  "keywords": ["azure", "cloud"]
 }
 ```
 
 ```json
 {
-  "keywords": ["Azure", "cloud", "sdk"]
+  "keywords": ["azure", "cloud", "sdk"]
 }
 ```
 
@@ -24,7 +24,7 @@ This rule is fixable using the `--fix` option.
 
 ```json
 {
-  "keywords": ["Azure"]
+  "keywords": ["azure"]
 }
 ```
 

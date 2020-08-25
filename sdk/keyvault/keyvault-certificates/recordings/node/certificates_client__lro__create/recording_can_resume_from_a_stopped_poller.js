@@ -86,7 +86,7 @@ nock('https://keyvault_name.vault.azure.net:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'Location',
-  'https://keyvault_name.vault.azure.net/certificates/lroCreateCertificateName-canresumefromastoppedpoller-/pending?api-version=7.1-preview&request_id=128814597ff849cbbeaedb49a3ae79de',
+  'https://keyvault_name.vault.azure.net/certificates/lroCreateCertificateName-canresumefromastoppedpoller-/pending?api-version=7.1&request_id=128814597ff849cbbeaedb49a3ae79de',
   'Retry-After',
   '10',
   'x-ms-keyvault-region',

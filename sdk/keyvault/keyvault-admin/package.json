@@ -9,7 +9,7 @@
   "repository": "github:Azure/azure-sdk-for-js",
   "keywords": [
     "node",
-    "Azure",
+    "azure",
     "cloud",
     "typescript",
     "browser",
@@ -47,13 +47,13 @@
     "build:nodebrowser": "rollup -c 2>&1",
     "build:test": "echo skipped",
     "build": "npm run extract-api && npm run build:es6 && npm run build:nodebrowser",
-    "check-format": "prettier --list-different --config ../../.prettierrc.json \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
+    "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf dist dist-esm dist-test types *.tgz *.log dist-browser statistics.html coverage && rimraf src/**/*.js && rimraf test/**/*.js",
     "execute:js-samples": "echo skipped",
     "execute:ts-samples": "echo skipped",
     "execute:samples": "npm run build:samples && npm run execute:js-samples && npm run execute:ts-samples",
     "extract-api": "echo skipped",
-    "format": "prettier --write --config ../../.prettierrc.json \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
+    "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "integration-test:browser": "echo skipped",
     "integration-test:node": "echo skipped",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
@@ -72,9 +72,9 @@
   },
   "sideEffects": false,
   "dependencies": {
-    "@azure/core-http": "^1.1.4",
-    "@azure/core-tracing": "1.0.0-preview.8",
-    "@opentelemetry/api": "^0.6.1",
+    "@azure/core-http": "^1.1.6",
+    "@azure/core-tracing": "1.0.0-preview.9",
+    "@opentelemetry/api": "^0.10.2",
     "tslib": "^2.0.0"
   },
   "devDependencies": {

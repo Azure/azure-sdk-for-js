@@ -4,7 +4,7 @@
    "method": "PUT",
    "url": "https://keyvault_name.vault.azure.net/certificates/contacts",
    "query": {
-    "api-version": "7.1-preview"
+    "api-version": "7.1"
    },
    "requestBody": "",
    "status": 401,
@@ -54,7 +54,7 @@
    "method": "PUT",
    "url": "https://keyvault_name.vault.azure.net/certificates/contacts",
    "query": {
-    "api-version": "7.1-preview"
+    "api-version": "7.1"
    },
    "requestBody": "{\"contacts\":[{\"email\":\"a@a.com\",\"name\":\"a\",\"phone\":\"111111111111\"},{\"email\":\"b@b.com\",\"name\":\"b\",\"phone\":\"222222222222\"}]}",
    "status": 200,
@@ -81,7 +81,7 @@
    "method": "GET",
    "url": "https://keyvault_name.vault.azure.net/certificates/contacts",
    "query": {
-    "api-version": "7.1-preview"
+    "api-version": "7.1"
    },
    "requestBody": null,
    "status": 200,
@@ -108,7 +108,7 @@
    "method": "DELETE",
    "url": "https://keyvault_name.vault.azure.net/certificates/contacts",
    "query": {
-    "api-version": "7.1-preview"
+    "api-version": "7.1"
    },
    "requestBody": null,
    "status": 200,
@@ -135,7 +135,7 @@
    "method": "GET",
    "url": "https://keyvault_name.vault.azure.net/certificates/contacts",
    "query": {
-    "api-version": "7.1-preview"
+    "api-version": "7.1"
    },
    "requestBody": null,
    "status": 404,

@@ -66,10 +66,7 @@ export default {
     "@typescript-eslint/interface-name-prefix": ["error", "never"],
     "@typescript-eslint/no-namespace": "off",
     "@typescript-eslint/no-non-null-assertion": "off",
-    "@typescript-eslint/no-unused-vars": [
-      "warn",
-      { "argsIgnorePattern": "^_" }
-    ],
+    "@typescript-eslint/no-unused-vars": ["warn", { argsIgnorePattern: "^_" }],
     "@typescript-eslint/no-useless-constructor": "error",
     "@typescript-eslint/no-use-before-define": "off",
     "@typescript-eslint/no-var-requires": "off",

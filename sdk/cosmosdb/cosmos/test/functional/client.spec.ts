@@ -8,21 +8,21 @@ import {
   getTestDatabase,
   getTestContainer,
   generateDocuments,
-  bulkInsertItems,
+  bulkInsertItems
 } from "../common/TestHelpers";
 import AbortController from "node-abort-controller";
 
-describe("NodeJS CRUD Tests", function () {
+describe("NodeJS CRUD Tests", function() {
   this.timeout(process.env.MOCHA_TIMEOUT || 20000);
 
-  describe("Validate client request timeout", function () {
-    it("timeout occurs within expected timeframe", async function () {
+  describe("Validate client request timeout", function() {
+    it("timeout occurs within expected timeframe", async function() {
       // making timeout 1 ms to make sure it will throw
       // (create database request takes 10ms-15ms to finish on emulator)
       const client = new CosmosClient({
         endpoint,
         key: masterKey,
-        connectionPolicy: { requestTimeout: 1 },
+        connectionPolicy: { requestTimeout: 1 }
       });
       // create database
       try {
@@ -34,24 +34,27 @@ describe("NodeJS CRUD Tests", function () {
     });
   });
 
-  describe("Constructor", function () {
-    it("Accepts node Agent", function () {
+  describe("Constructor", function() {
+    it("Accepts node Agent", function() {
       const client = new CosmosClient({
         endpoint: "https://faaaaaake.com",
-        agent: new Agent(),
+        agent: new Agent()
       });
       assert.ok(client !== undefined, "client shouldn't be undefined if it succeeded");
     });
-    it("Accepts a connection string", function () {
+    it("Accepts a connection string", function() {
       const client = new CosmosClient(`AccountEndpoint=${endpoint};AccountKey=${masterKey};`);
       assert.ok(client !== undefined, "client shouldn't be undefined if it succeeded");
     });
-    it("throws on a bad connection string", function () {
+    it("throws on a bad connection string", function() {
       assert.throws(() => new CosmosClient(`bad;Connection=string;`));
     });
+    it("throws on a bad endpoint", function () {
+      assert.throws(() => new CosmosClient({ endpoint: "asda=asda;asada;" }));
+    });
   });
-  describe("Validate user passed AbortController.signal", function () {
-    it("should throw exception if aborted during the request", async function () {
+  describe("Validate user passed AbortController.signal", function() {
+    it("should throw exception if aborted during the request", async function() {
       const client = new CosmosClient({ endpoint, key: masterKey });
       try {
         const controller = new AbortController();
@@ -63,7 +66,7 @@ describe("NodeJS CRUD Tests", function () {
         assert.equal(err.name, "AbortError", "client should throw exception");
       }
     });
-    it("should throw exception if passed an already aborted signal", async function () {
+    it("should throw exception if passed an already aborted signal", async function() {
       const client = new CosmosClient({ endpoint, key: masterKey });
       try {
         const controller = new AbortController();
@@ -75,7 +78,7 @@ describe("NodeJS CRUD Tests", function () {
         assert.equal(err.name, "AbortError", "client should throw exception");
       }
     });
-    it("should abort a query", async function () {
+    it("should abort a query", async function() {
       const container = await getTestContainer("abort query");
       await bulkInsertItems(container, generateDocuments(20));
       try {
@@ -91,7 +94,7 @@ describe("NodeJS CRUD Tests", function () {
         assert.equal(err.name, "AbortError", "client should throw exception");
       }
     });
-    it("should not abort if abort signal is never called", async function () {
+    it("should not abort if abort signal is never called", async function() {
       // Testing the happy path to prevent this bug https://github.com/Azure/azure-sdk-for-js/issues/9510
       const client = new CosmosClient({ endpoint, key: masterKey });
       try {

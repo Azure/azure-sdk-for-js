@@ -21,10 +21,13 @@ class CdnManagementClient extends CdnManagementClientContext {
   profiles: operations.Profiles;
   endpoints: operations.Endpoints;
   origins: operations.Origins;
+  originGroups: operations.OriginGroups;
   customDomains: operations.CustomDomains;
   resourceUsage: operations.ResourceUsageOperations;
   operations: operations.Operations;
   edgeNodes: operations.EdgeNodes;
+  policies: operations.Policies;
+  managedRuleSets: operations.ManagedRuleSets;
 
   /**
    * Initializes a new instance of the CdnManagementClient class.
@@ -37,10 +40,13 @@ class CdnManagementClient extends CdnManagementClientContext {
     this.profiles = new operations.Profiles(this);
     this.endpoints = new operations.Endpoints(this);
     this.origins = new operations.Origins(this);
+    this.originGroups = new operations.OriginGroups(this);
     this.customDomains = new operations.CustomDomains(this);
     this.resourceUsage = new operations.ResourceUsageOperations(this);
     this.operations = new operations.Operations(this);
     this.edgeNodes = new operations.EdgeNodes(this);
+    this.policies = new operations.Policies(this);
+    this.managedRuleSets = new operations.ManagedRuleSets(this);
   }
 
   /**

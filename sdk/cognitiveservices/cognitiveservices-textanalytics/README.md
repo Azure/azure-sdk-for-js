@@ -26,14 +26,11 @@ npm install @azure/ms-rest-azure-js
 ##### Sample code
 The following sample detects the langauge in the provided text. In addition, it provides data such as Characters count, transaction count, etc. To know more, refer to the [Azure Documentation on Text Analytics](https://docs.microsoft.com/en-us/azure/cognitive-services/text-analytics/overview)
 
-```typescript
-import {
-  TextAnalyticsClient,
-  TextAnalyticsModels
-} from "@azure/cognitiveservices-textanalytics";
-import { CognitiveServicesCredentials } from "@azure/ms-rest-azure-js";
+```javascript
+const { TextAnalyticsClient } = require("@azure/cognitiveservices-textanalytics");
+const { CognitiveServicesCredentials } = require("@azure/ms-rest-azure-js");
 
-async function main(): Promise<void> {
+async function main() {
   const textAnalyticsKey =
     process.env["textAnalyticsKey"] || "<textAnalyticsKey>";
   const textAnalyticsEndPoint =
@@ -45,7 +42,7 @@ async function main(): Promise<void> {
     cognitiveServiceCredentials,
     textAnalyticsEndPoint
   );
-  const options: TextAnalyticsModels.TextAnalyticsClientDetectLanguageOptionalParams = {
+  const options = {
     showStats: true,
     languageBatchInput: {
       documents: [
@@ -64,17 +61,17 @@ async function main(): Promise<void> {
     .detectLanguage(options)
     .then(result => {
       console.log("The result is:");
-      result.documents!.forEach(document => {
+      result.documents.forEach(document => {
         console.log(`Id: ${document.id}`);
         console.log("Detected Languages:");
-        document.detectedLanguages!.forEach(dl => {
+        document.detectedLanguages.forEach(dl => {
           console.log(dl.name);
         });
         console.log(
-          `Characters Count: ${document.statistics!.charactersCount}`
+          `Characters Count: ${document.statistics.charactersCount}`
         );
         console.log(
-          `Transactions Count: ${document.statistics!.transactionsCount}`
+          `Transactions Count: ${document.statistics.transactionsCount}`
         );
       });
     })

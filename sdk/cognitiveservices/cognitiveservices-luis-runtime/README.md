@@ -25,9 +25,9 @@ npm install @azure/ms-rest-azure-js
 
 ##### Sample code
 
-```typescript
-import { CognitiveServicesCredentials } from "@azure/ms-rest-azure-js";
-import { LUISRuntimeClient } from "@azure/cognitiveservices-luis-runtime";
+```javascript
+const { CognitiveServicesCredentials } = require("@azure/ms-rest-azure-js");
+const { LUISRuntimeClient } = require("@azure/cognitiveservices-luis-runtime");
 
 let authoringKey = process.env["luis-authoring-key"];
 const creds = new CognitiveServicesCredentials(authoringKey);

@@ -55,6 +55,13 @@ jobs:
         condition: and(succeeded(),ne(variables['SetDevVersion'],'true'))
         displayName: "Install dependencies"
 
+      - template: /eng/common/pipelines/templates/steps/replace-relative-links.yml
+        parameters:
+          TargetFolder: $(Build.SourcesDirectory)/sdk/$(folder)
+          RootFolder: $(Build.SourcesDirectory)
+          BuildSHA: $(Build.SourceVersion)
+          RepoId: "Azure/azure-sdk-for-js"
+
       # Option "-p max" ensures parallelism is set to the number of cores on all platforms, which improves build times.
       # The default on Windows is "cores - 1" (microsoft/rushstack#436).
       - script: |

@@ -9,10 +9,15 @@ const apiKey = process.env.SEARCH_API_KEY || "";
 
 async function main() {
   console.log(`Running Reset Indexer Sample....`);
-
+  if (!endpoint || !apiKey) {
+    console.log("Make sure to set valid values for endpoint and apiKey with proper authorization.");
+    return;
+  }
   const client = new SearchIndexerClient(endpoint, new AzureKeyCredential(apiKey));
   console.log(`Reset Indexer my-azure-indexer-1`);
   await client.resetIndexer("my-azure-indexer-1");
 }
 
-main();
+main().catch((err) => {
+  console.error("The sample encountered an error:", err);
+});

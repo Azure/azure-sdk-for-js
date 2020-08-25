@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { HttpOperationResponse } from "@azure/core-http";
+import { HttpOperationResponse, OperationOptions } from "@azure/core-http";
 import {
   AtomXmlSerializer,
   deserializeAtomXmlResponse,
@@ -18,7 +18,8 @@ import {
   getRawAuthorizationRules,
   getString,
   getStringOrUndefined,
-  getDate
+  getDate,
+  getMessageCountDetails
 } from "../util/utils";
 
 /**
@@ -29,9 +30,9 @@ import {
  * converts values to string and ensures the right order as expected by the service
  * @param topic
  */
-export function buildTopicOptions(topic: TopicProperties): InternalTopicOptions {
+export function buildTopicOptions(topic: CreateTopicOptions): InternalTopicOptions {
   return {
-    DefaultMessageTimeToLive: topic.defaultMessageTtl,
+    DefaultMessageTimeToLive: topic.defaultMessageTimeToLive,
     MaxSizeInMegabytes: getStringOrUndefined(topic.maxSizeInMegabytes),
     RequiresDuplicateDetection: getStringOrUndefined(topic.requiresDuplicateDetection),
     DuplicateDetectionHistoryTimeWindow: topic.duplicateDetectionHistoryTimeWindow,
@@ -64,11 +65,11 @@ export function buildTopic(rawTopic: any): TopicProperties {
       "enableBatchedOperations"
     ),
 
-    defaultMessageTtl: getString(
+    defaultMessageTimeToLive: getString(
       rawTopic[Constants.DEFAULT_MESSAGE_TIME_TO_LIVE],
-      "defaultMessageTtl"
+      "defaultMessageTimeToLive"
     ),
-    autoDeleteOnIdle: getStringOrUndefined(rawTopic[Constants.AUTO_DELETE_ON_IDLE]),
+    autoDeleteOnIdle: rawTopic[Constants.AUTO_DELETE_ON_IDLE],
 
     requiresDuplicateDetection: getBoolean(
       rawTopic[Constants.REQUIRES_DUPLICATE_DETECTION],
@@ -99,7 +100,9 @@ export function buildTopicRuntimeProperties(rawTopic: any): TopicRuntimeProperti
     sizeInBytes: getIntegerOrUndefined(rawTopic[Constants.SIZE_IN_BYTES]),
     subscriptionCount: getIntegerOrUndefined(rawTopic[Constants.SUBSCRIPTION_COUNT]),
     createdAt: getDate(rawTopic[Constants.CREATED_AT], "createdAt"),
-    updatedAt: getDate(rawTopic[Constants.UPDATED_AT], "updatedAt"),
+    scheduledMessageCount: getMessageCountDetails(rawTopic[Constants.COUNT_DETAILS])
+      .scheduledMessageCount,
+    modifiedAt: getDate(rawTopic[Constants.UPDATED_AT], "modifiedAt"),
     accessedAt: getDate(rawTopic[Constants.ACCESSED_AT], "accessedAt")
   };
 }
@@ -107,12 +110,7 @@ export function buildTopicRuntimeProperties(rawTopic: any): TopicRuntimeProperti
 /**
  * Represents settable options on a topic
  */
-export interface TopicProperties {
-  /**
-   * Name of the topic
-   */
-  name: string;
-
+export interface CreateTopicOptions extends OperationOptions {
   /**
    * Determines how long a message lives in the associated subscriptions.
    * Subscriptions inherit the TTL from the topic unless they are created explicitly
@@ -124,7 +122,7 @@ export interface TopicProperties {
    *
    * More on ISO-8601 duration format: https://en.wikipedia.org/wiki/ISO_8601#Durations
    */
-  defaultMessageTtl?: string;
+  defaultMessageTimeToLive?: string;
 
   /**
    * Specifies the maximum topic size in megabytes. Any attempt to enqueue a message
@@ -192,6 +190,99 @@ export interface TopicProperties {
    * Specifies whether the topic should be partitioned
    */
   enablePartitioning?: boolean;
+}
+
+/**
+ * Represents the input for updateTopic.
+ *
+ * @export
+ * @interface TopicProperties
+ */
+export interface TopicProperties {
+  /**
+   * Name of the topic
+   */
+  readonly name: string;
+
+  /**
+   * Determines how long a message lives in the associated subscriptions.
+   * Subscriptions inherit the TTL from the topic unless they are created explicitly
+   * with a smaller TTL. Based on whether dead-lettering is enabled, a message whose
+   * TTL has expired will either be moved to the subscription’s associated dead-letter
+   * sub-queue or will be permanently deleted.
+   * This is to be specified in ISO-8601 duration format
+   * such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
+   *
+   * More on ISO-8601 duration format: https://en.wikipedia.org/wiki/ISO_8601#Durations
+   */
+  defaultMessageTimeToLive: string;
+
+  /**
+   * Specifies the maximum topic size in megabytes. Any attempt to enqueue a message
+   * that will cause the topic to exceed this value will fail. All messages that are
+   * stored in the topic or any of its subscriptions count towards this value.
+   * Multiple copies of a message that reside in one or multiple subscriptions count
+   * as a single messages. For example, if message m exists once in subscription s1
+   * and twice in subscription s2, m is counted as a single message.
+   */
+  maxSizeInMegabytes: number;
+
+  /**
+   * If enabled, the topic will detect duplicate messages within the time span
+   * specified by the DuplicateDetectionHistoryTimeWindow property.
+   * Settable only at topic creation time.
+   */
+  readonly requiresDuplicateDetection: boolean;
+
+  /**
+   * Specifies the time span during which the Service Bus will detect message duplication.
+   * This is to be specified in ISO-8601 duration format
+   * such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
+   *
+   * More on ISO-8601 duration format: https://en.wikipedia.org/wiki/ISO_8601#Durations
+   */
+  duplicateDetectionHistoryTimeWindow: string;
+
+  /**
+   * Specifies if batched operations should be allowed.
+   */
+  enableBatchedOperations: boolean;
+
+  /**
+   * Authorization rules on the topic
+   */
+  authorizationRules?: AuthorizationRule[];
+
+  /**
+   * Status of the messaging entity.
+   */
+  status: EntityStatus;
+
+  /**
+   * The user provided metadata information associated with the topic.
+   * Used to specify textual content such as tags, labels, etc.
+   * Value must not exceed 1024 bytes encoded in utf-8.
+   */
+  userMetadata: string;
+
+  /**
+   * Specifies whether the topic supports message ordering.
+   */
+  supportOrdering: boolean;
+
+  /**
+   * Max idle time before entity is deleted.
+   * This is to be specified in ISO-8601 duration format
+   * such as "PT1M" for 1 minute, "PT5S" for 5 seconds.
+   *
+   * More on ISO-8601 duration format: https://en.wikipedia.org/wiki/ISO_8601#Durations
+   */
+  autoDeleteOnIdle: string;
+
+  /**
+   * Specifies whether the topic should be partitioned
+   */
+  readonly enablePartitioning: boolean;
 }
 
 /**
@@ -303,6 +394,11 @@ export interface TopicRuntimeProperties {
   subscriptionCount?: number;
 
   /**
+   * The number of scheduled messages.
+   */
+  scheduledMessageCount: number;
+
+  /**
    * Created at timestamp
    */
   createdAt: Date;
@@ -310,7 +406,7 @@ export interface TopicRuntimeProperties {
   /**
    * Updated at timestamp
    */
-  updatedAt: Date;
+  modifiedAt: Date;
 
   /**
    * Accessed at timestamp
@@ -320,7 +416,8 @@ export interface TopicRuntimeProperties {
 
 /**
  * @internal
- * @ignore TopicResourceSerializer for serializing / deserializing Topic entities
+ * @ignore
+ * TopicResourceSerializer for serializing / deserializing Topic entities
  */
 export class TopicResourceSerializer implements AtomXmlSerializer {
   serialize(resource: InternalTopicOptions): object {

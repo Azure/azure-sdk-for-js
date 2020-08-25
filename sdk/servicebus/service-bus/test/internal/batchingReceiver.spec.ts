@@ -9,29 +9,51 @@ const assert = chai.assert;
 import * as sinon from "sinon";
 import { EventEmitter } from "events";
 
-import { BatchingReceiver } from "../../src/core/batchingReceiver";
-import { createClientEntityContextForTests, defer } from "./unittestUtils";
-import { ReceiverImpl } from "../../src/receivers/receiver";
+import {
+  BatchingReceiver,
+  getRemainingWaitTimeInMsFn,
+  BatchingReceiverLite
+} from "../../src/core/batchingReceiver";
+import { defer, createConnectionContextForTests } from "./unittestUtils";
 import { createAbortSignalForTest } from "../utils/abortSignalTestUtils";
 import { AbortController, AbortSignalLike } from "@azure/abort-controller";
-import { ServiceBusMessageImpl, ReceiveMode } from "../../src/serviceBusMessage";
+import { ServiceBusMessageImpl, InternalReceiveMode } from "../../src/serviceBusMessage";
 import {
   Receiver as RheaReceiver,
   ReceiverEvents,
   SessionEvents,
   EventContext,
-  Message as RheaMessage
+  Message as RheaMessage,
+  Receiver
 } from "rhea-promise";
 import { StandardAbortMessage } from "../../src/util/utils";
 import { OnAmqpEventAsPromise } from "../../src/core/messageReceiver";
+import { ConnectionContext } from "../../src/connectionContext";
+import { ServiceBusReceiverImpl } from "../../src/receivers/receiver";
 
 describe("BatchingReceiver unit tests", () => {
+  let closeables: { close(): Promise<void> }[];
+
+  beforeEach(() => {
+    closeables = [];
+  });
+
+  afterEach(async () => {
+    for (const closeable of closeables) {
+      await closeable.close();
+    }
+  });
+
   describe("AbortSignal", () => {
     // establish that the abortSignal does get properly sent down. Now the rest of the tests
     // will test at the BatchingReceiver level.
-    it("is plumbed into BatchingReceiver from ReceiverImpl", async () => {
+    it("is plumbed into BatchingReceiver from ServiceBusReceiverImpl", async () => {
       const origAbortSignal = createAbortSignalForTest();
-      const receiver = new ReceiverImpl(createClientEntityContextForTests(), "peekLock");
+      const receiver = new ServiceBusReceiverImpl(
+        createConnectionContextForTests(),
+        "fakeEntityPath",
+        "peekLock"
+      );
       let wasCalled = false;
 
       receiver["_createBatchingReceiver"] = () => {
@@ -61,8 +83,8 @@ describe("BatchingReceiver unit tests", () => {
       const abortController = new AbortController();
       abortController.abort();
 
-      const receiver = new BatchingReceiver(createClientEntityContextForTests(), {
-        receiveMode: ReceiveMode.peekLock
+      const receiver = new BatchingReceiver(createConnectionContextForTests(), "fakeEntityPath", {
+        receiveMode: InternalReceiveMode.peekLock
       });
 
       try {
@@ -77,23 +99,33 @@ describe("BatchingReceiver unit tests", () => {
     it("abortSignal while receive is in process", async () => {
       const abortController = new AbortController();
 
-      const receiver = new BatchingReceiver(createClientEntityContextForTests(), {
-        receiveMode: ReceiveMode.peekLock
+      const receiver = new BatchingReceiver(createConnectionContextForTests(), "fakeEntityPath", {
+        receiveMode: InternalReceiveMode.peekLock
       });
+      closeables.push(receiver);
 
-      const listenersBeingRemoved: string[] = [];
+      const listeners = new Set<string>();
       const callsDoneAfterAbort: string[] = [];
 
       receiver["_init"] = async () => {
         // just enough of a Receiver to validate that cleanup actions
         // are being run on abort.
-        receiver["_receiver"] = ({
+        receiver["_link"] = ({
+          connection: {
+            id: "connection id"
+          },
           removeListener: (eventType: ReceiverEvents) => {
-            listenersBeingRemoved.push(eventType.toString());
+            listeners.add(eventType.toString());
+          },
+          once: (eventType: ReceiverEvents) => {
+            // we definitely shouldn't be registering any new handlers if we've aborted.
+            callsDoneAfterAbort.push(eventType);
+            listeners.add(eventType);
           },
           on: (eventType: ReceiverEvents) => {
             // we definitely shouldn't be registering any new handlers if we've aborted.
             callsDoneAfterAbort.push(eventType);
+            listeners.add(eventType);
           },
           addCredit: () => {
             // we definitely shouldn't be adding credits if we know we've aborted.
@@ -101,7 +133,12 @@ describe("BatchingReceiver unit tests", () => {
           },
           session: {
             removeListener: (eventType: SessionEvents) => {
-              listenersBeingRemoved.push(eventType.toString());
+              listeners.add(eventType.toString());
+            },
+            once: (eventType: SessionEvents) => {
+              // we definitely shouldn't be registering any new handlers if we've aborted.
+              callsDoneAfterAbort.push(eventType);
+              listeners.add(eventType);
             }
           }
         } as any) as RheaReceiver;
@@ -118,12 +155,7 @@ describe("BatchingReceiver unit tests", () => {
       }
 
       // order here isn't important, it just happens to be the order we call in `cleanupBeforeReject`
-      assert.deepEqual(listenersBeingRemoved, [
-        "receiver_error",
-        "message",
-        "session_error",
-        "receiver_drained"
-      ]);
+      assert.isEmpty(listeners);
       assert.isEmpty(callsDoneAfterAbort);
     });
   });
@@ -134,8 +166,8 @@ describe("BatchingReceiver unit tests", () => {
    * 2. We've waited 'max wait time'
    * 3. We've received 1 message and _now_ have exceeded 'max wait time past first message'
    */
-  [ReceiveMode.peekLock, ReceiveMode.receiveAndDelete].forEach((lockMode) => {
-    describe(`${ReceiveMode[lockMode]} receive, exit paths`, () => {
+  [InternalReceiveMode.peekLock, InternalReceiveMode.receiveAndDelete].forEach((lockMode) => {
+    describe(`${InternalReceiveMode[lockMode]} receive, exit paths`, () => {
       const bigTimeout = 60 * 1000;
       const littleTimeout = 30 * 1000;
       let clock: ReturnType<typeof sinon.useFakeTimers>;
@@ -149,11 +181,18 @@ describe("BatchingReceiver unit tests", () => {
       });
 
       it("1. We received 'max messages'", async () => {
-        const receiver = new BatchingReceiver(createClientEntityContextForTests(), {
-          receiveMode: lockMode
-        });
+        const receiver = new BatchingReceiver(
+          createConnectionContextForTests(),
+          "dummyEntityPath",
+          {
+            receiveMode: lockMode
+          }
+        );
+        closeables.push(receiver);
 
-        const { receiveIsReady, emitter } = setupFakeReceiver(receiver);
+        const { receiveIsReady, emitter, remainingRegisteredListeners } = setupBatchingReceiver(
+          receiver
+        );
 
         const receivePromise = receiver.receive(1, bigTimeout, bigTimeout);
         await receiveIsReady;
@@ -168,39 +207,56 @@ describe("BatchingReceiver unit tests", () => {
           messages.map((m) => m.body),
           ["the message"]
         );
+
+        assert.isEmpty(remainingRegisteredListeners);
       }).timeout(5 * 1000);
 
       // in the new world the overall timeout firing means we've received _no_ messages
       // because otherwise it'd be one of the others.
       it("2. We've waited 'max wait time'", async () => {
-        const receiver = new BatchingReceiver(createClientEntityContextForTests(), {
-          receiveMode: lockMode
-        });
+        const receiver = new BatchingReceiver(
+          createConnectionContextForTests(),
+          "dummyEntityPath",
+          {
+            receiveMode: lockMode
+          }
+        );
+        closeables.push(receiver);
 
-        const { receiveIsReady } = setupFakeReceiver(receiver);
+        const { receiveIsReady, remainingRegisteredListeners } = setupBatchingReceiver(receiver);
 
         const receivePromise = receiver.receive(1, littleTimeout, bigTimeout);
+
+        await receiveIsReady;
 
         // force the overall timeout to fire
         clock.tick(littleTimeout);
 
-        await receiveIsReady;
         const messages = await receivePromise;
         assert.isEmpty(messages);
+
+        assert.isEmpty(remainingRegisteredListeners);
       }).timeout(5 * 1000);
 
       // TODO: there's a bug that needs some more investigation where receiveAndDelete loses messages if we're
       // too aggressive about returning early. In that case we just revert to using the older behavior of waiting for
       // the duration of time given (or max messages) with no idle timer.
       // When we eliminate that bug we can remove this check.
-      (lockMode === ReceiveMode.peekLock ? it : it.skip)(
+      (lockMode === InternalReceiveMode.peekLock ? it : it.skip)(
         `3a. (with idle timeout) We've received 1 message and _now_ have exceeded 'max wait time past first message'`,
         async () => {
-          const receiver = new BatchingReceiver(createClientEntityContextForTests(), {
-            receiveMode: lockMode
-          });
+          const receiver = new BatchingReceiver(
+            createConnectionContextForTests(),
+            "dummyEntityPath",
+            {
+              receiveMode: lockMode
+            }
+          );
+          closeables.push(receiver);
 
-          const { receiveIsReady, emitter } = setupFakeReceiver(receiver);
+          const { receiveIsReady, emitter, remainingRegisteredListeners } = setupBatchingReceiver(
+            receiver
+          );
 
           const receivePromise = receiver.receive(3, bigTimeout, littleTimeout);
           await receiveIsReady;
@@ -228,6 +284,8 @@ describe("BatchingReceiver unit tests", () => {
             messages.map((m) => m.body),
             ["the first message", "the second message"]
           );
+
+          assert.isEmpty(remainingRegisteredListeners);
         }
       ).timeout(5 * 1000);
 
@@ -235,14 +293,21 @@ describe("BatchingReceiver unit tests", () => {
       // too aggressive about returning early. In that case we just revert to using the older behavior of waiting for
       // the duration of time given (or max messages) with no idle timer.
       // When we eliminate that bug we can remove this test in favor of the idle timeout test above.
-      (lockMode === ReceiveMode.receiveAndDelete ? it : it.skip)(
+      (lockMode === InternalReceiveMode.receiveAndDelete ? it : it.skip)(
         `3b. (without idle timeout)`,
         async () => {
-          const receiver = new BatchingReceiver(createClientEntityContextForTests(), {
-            receiveMode: lockMode
-          });
+          const receiver = new BatchingReceiver(
+            createConnectionContextForTests(),
+            "dummyEntityPath",
+            {
+              receiveMode: lockMode
+            }
+          );
+          closeables.push(receiver);
 
-          const { receiveIsReady, emitter } = setupFakeReceiver(receiver);
+          const { receiveIsReady, emitter, remainingRegisteredListeners } = setupBatchingReceiver(
+            receiver
+          );
 
           const receivePromise = receiver.receive(3, bigTimeout, littleTimeout);
           await receiveIsReady;
@@ -275,6 +340,8 @@ describe("BatchingReceiver unit tests", () => {
             messages.map((m) => m.body),
             ["the first message", "the second message"]
           );
+
+          assert.isEmpty(remainingRegisteredListeners);
         }
       ).timeout(5 * 1000);
 
@@ -282,20 +349,27 @@ describe("BatchingReceiver unit tests", () => {
       // too aggressive about returning early. In that case we just revert to using the older behavior of waiting for
       // the duration of time given (or max messages) with no idle timer.
       // When we eliminate that bug we can enable this test for all modes.
-      (lockMode === ReceiveMode.peekLock ? it : it.skip)(
+      (lockMode === InternalReceiveMode.peekLock ? it : it.skip)(
         "4. sanity check that we're using getRemainingWaitTimeInMs",
         async () => {
-          const receiver = new BatchingReceiver(createClientEntityContextForTests(), {
-            receiveMode: lockMode
-          });
+          const receiver = new BatchingReceiver(
+            createConnectionContextForTests(),
+            "dummyEntityPath",
+            {
+              receiveMode: lockMode
+            }
+          );
+          closeables.push(receiver);
 
-          const { receiveIsReady, emitter } = setupFakeReceiver(receiver);
+          const { receiveIsReady, emitter, remainingRegisteredListeners } = setupBatchingReceiver(
+            receiver
+          );
 
           let wasCalled = false;
 
           const arbitraryAmountOfTimeInMs = 40;
 
-          receiver["_getRemainingWaitTimeInMsFn"] = (
+          receiver["_batchingReceiverLite"]["_getRemainingWaitTimeInMsFn"] = (
             maxWaitTimeInMs: number,
             maxTimeAfterFirstMessageMs: number
           ) => {
@@ -329,59 +403,28 @@ describe("BatchingReceiver unit tests", () => {
           assert.equal(messages.length, 1);
 
           assert.isTrue(wasCalled);
-        }
-      ).timeout(5 * 1000);
 
-      function setupFakeReceiver(
+          assert.isEmpty(remainingRegisteredListeners);
+        }
+      );
+
+      function setupBatchingReceiver(
         batchingReceiver: BatchingReceiver
       ): {
         receiveIsReady: Promise<void>;
         emitter: EventEmitter;
+        remainingRegisteredListeners: Set<string>;
       } {
-        const emitter = new EventEmitter();
-        const { promise: receiveIsReady, resolve: resolvePromiseIsReady } = defer<void>();
-        let credits = 0;
+        const {
+          fakeRheaReceiver,
+          emitter,
+          remainingRegisteredListeners,
+          receiveIsReady
+        } = createFakeReceiver();
 
-        const fakeRheaReceiver = {
-          on(evt: ReceiverEvents, handler: OnAmqpEventAsPromise) {
-            emitter.on(evt, handler);
+        batchingReceiver["_link"] = fakeRheaReceiver;
 
-            if (evt === ReceiverEvents.message) {
-              --credits;
-            }
-          },
-          removeListener(evt: ReceiverEvents, handler: OnAmqpEventAsPromise) {
-            emitter.removeListener(evt, handler);
-          },
-          session: {
-            on(evt: SessionEvents, handler: OnAmqpEventAsPromise) {
-              emitter.on(evt, handler);
-
-              // this also happens to be the final thing the Promise does
-              // as part of it's initialization.
-              resolvePromiseIsReady();
-            },
-            removeListener(evt: SessionEvents, handler: OnAmqpEventAsPromise) {
-              emitter.removeListener(evt, handler);
-            }
-          },
-          isOpen: () => true,
-          addCredit: (_credits: number) => {
-            if (_credits === 1 && fakeRheaReceiver.drain === true) {
-              // special case - if we're draining we should initiate a drain
-              emitter.emit(ReceiverEvents.receiverDrained, undefined);
-            } else {
-              credits += _credits;
-            }
-          },
-          get credit() {
-            return credits;
-          }
-        } as RheaReceiver;
-
-        batchingReceiver["_receiver"] = fakeRheaReceiver;
-
-        batchingReceiver["_getServiceBusMessage"] = (eventContext) => {
+        batchingReceiver["_batchingReceiverLite"]["_createServiceBusMessage"] = (eventContext) => {
           return {
             body: eventContext.message?.body
           } as ServiceBusMessageImpl;
@@ -389,11 +432,82 @@ describe("BatchingReceiver unit tests", () => {
 
         return {
           receiveIsReady,
-          emitter
+          emitter,
+          remainingRegisteredListeners
         };
       }
     });
   });
+
+  function createFakeReceiver(): {
+    receiveIsReady: Promise<void>;
+    emitter: EventEmitter;
+    remainingRegisteredListeners: Set<string>;
+    fakeRheaReceiver: Receiver;
+  } {
+    const emitter = new EventEmitter();
+    const { promise: receiveIsReady, resolve: resolvePromiseIsReady } = defer<void>();
+    let credits = 0;
+
+    const remainingRegisteredListeners = new Set<string>();
+
+    const fakeRheaReceiver = {
+      on(evt: ReceiverEvents, handler: OnAmqpEventAsPromise) {
+        emitter.on(evt, handler);
+
+        if (evt === ReceiverEvents.message) {
+          --credits;
+        }
+
+        assert.isFalse(remainingRegisteredListeners.has(evt.toString()));
+        remainingRegisteredListeners.add(evt.toString());
+      },
+      removeListener(evt: ReceiverEvents, handler: OnAmqpEventAsPromise) {
+        remainingRegisteredListeners.delete(evt.toString());
+        emitter.removeListener(evt, handler);
+      },
+      session: {
+        on(evt: SessionEvents, handler: OnAmqpEventAsPromise) {
+          emitter.on(evt, handler);
+
+          if (evt === SessionEvents.sessionClose) {
+            // this also happens to be the final thing the Promise does
+            // as part of it's initialization.
+            resolvePromiseIsReady();
+          }
+
+          assert.isFalse(remainingRegisteredListeners.has(evt.toString()));
+          remainingRegisteredListeners.add(evt.toString());
+        },
+        removeListener(evt: SessionEvents, handler: OnAmqpEventAsPromise) {
+          remainingRegisteredListeners.delete(evt.toString());
+          emitter.removeListener(evt, handler);
+        }
+      },
+      isOpen: () => true,
+      addCredit: (_credits: number) => {
+        if (_credits === 1 && fakeRheaReceiver.drain === true) {
+          // special case - if we're draining we should initiate a drain
+          emitter.emit(ReceiverEvents.receiverDrained, undefined);
+        } else {
+          credits += _credits;
+        }
+      },
+      get credit() {
+        return credits;
+      },
+      connection: {
+        id: "connection-id"
+      }
+    } as RheaReceiver;
+
+    return {
+      receiveIsReady,
+      emitter,
+      remainingRegisteredListeners,
+      fakeRheaReceiver
+    };
+  }
 
   describe("getRemainingWaitTimeInMs", () => {
     let clock: ReturnType<typeof sinon.useFakeTimers>;
@@ -407,29 +521,130 @@ describe("BatchingReceiver unit tests", () => {
     });
 
     it("tests", () => {
-      const receiver = new BatchingReceiver(createClientEntityContextForTests(), {
-        receiveMode: ReceiveMode.peekLock
-      });
-
-      let fn = receiver["_getRemainingWaitTimeInMsFn"](10, 2);
+      let fn = getRemainingWaitTimeInMsFn(10, 2);
       // 1ms has elapsed so we're comparing 9ms vs 2ms
       clock.tick(1);
       assert.equal(2, fn());
 
-      fn = receiver["_getRemainingWaitTimeInMsFn"](10, 2);
+      fn = getRemainingWaitTimeInMsFn(10, 2);
       // 9ms has elapsed so we're comparing 1ms vs 2ms
       clock.tick(9);
       assert.equal(1, fn());
 
-      fn = receiver["_getRemainingWaitTimeInMsFn"](10, 2);
+      fn = getRemainingWaitTimeInMsFn(10, 2);
       // 8ms has elapsed so we're comparing 2ms vs 2ms
       clock.tick(8);
       assert.equal(2, fn());
 
-      fn = receiver["_getRemainingWaitTimeInMsFn"](10, 2);
+      fn = getRemainingWaitTimeInMsFn(10, 2);
       // 11ms has elapsed so we're comparing -1ms vs 2ms (we'll just treat that as "don't wait, just return what you have")
       clock.tick(11);
       assert.equal(0, fn());
+    });
+  });
+
+  describe("BatchingReceiverLite", () => {
+    let clock: ReturnType<typeof sinon.useFakeTimers>;
+
+    beforeEach(() => {
+      clock = sinon.useFakeTimers();
+    });
+
+    afterEach(() => {
+      clock.restore();
+    });
+
+    it("isReceivingMessages is properly set and unset when receiving operations run", async () => {
+      const { fakeRheaReceiver, receiveIsReady } = createFakeReceiver();
+
+      const receiver = new BatchingReceiverLite(
+        {} as ConnectionContext,
+        "fakeEntityPath",
+        async () => {
+          return fakeRheaReceiver;
+        },
+        InternalReceiveMode.peekLock
+      );
+
+      assert.isFalse(receiver.isReceivingMessages);
+
+      const prm = receiver.receiveMessages({
+        maxMessageCount: 1,
+        maxTimeAfterFirstMessageInMs: 1,
+        maxWaitTimeInMs: 1
+      });
+
+      assert.isTrue(receiver.isReceivingMessages);
+
+      await receiveIsReady;
+      await clock.tick(1);
+
+      await prm;
+      assert.isFalse(receiver.isReceivingMessages);
+    });
+
+    it("batchingReceiverLite.close(actual-error) - throws the error from the current receiverMessages() call", async () => {
+      const { fakeRheaReceiver, receiveIsReady } = createFakeReceiver();
+
+      const receiver = new BatchingReceiverLite(
+        {} as ConnectionContext,
+        "fakeEntityPath",
+        async () => {
+          return fakeRheaReceiver;
+        },
+        InternalReceiveMode.peekLock
+      );
+
+      assert.notExists(receiver["_closeHandler"]);
+
+      const receiveMessagesPromise = receiver.receiveMessages({
+        maxMessageCount: 1,
+        maxTimeAfterFirstMessageInMs: 1,
+        maxWaitTimeInMs: 1
+      });
+
+      await receiveIsReady;
+      assert.exists(receiver["_closeHandler"]);
+
+      await receiver.close(new Error("actual error"));
+
+      try {
+        await receiveMessagesPromise;
+        assert.fail("Test should have thrown");
+      } catch (err) {
+        assert.equal(err.message, "actual error");
+      }
+    });
+
+    it("batchingReceiverLite.close() (ie, no error) just shuts down the current operation with no error", async () => {
+      const { fakeRheaReceiver, receiveIsReady } = createFakeReceiver();
+
+      const receiver = new BatchingReceiverLite(
+        {} as ConnectionContext,
+        "fakeEntityPath",
+        async () => {
+          return fakeRheaReceiver;
+        },
+        InternalReceiveMode.peekLock
+      );
+
+      assert.notExists(receiver["_closeHandler"]);
+
+      const receiveMessagesPromise = receiver.receiveMessages({
+        maxMessageCount: 1,
+        maxTimeAfterFirstMessageInMs: 1,
+        maxWaitTimeInMs: 1
+      });
+
+      await receiveIsReady;
+      assert.exists(receiver["_closeHandler"]);
+
+      await receiver.close();
+
+      const results = await receiveMessagesPromise;
+
+      // TODO: let's have a few messages in here.
+      assert.isEmpty(results);
     });
   });
 });

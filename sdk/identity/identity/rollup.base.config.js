@@ -12,7 +12,7 @@ const input = "dist-esm/src/index.js";
 const production = process.env.NODE_ENV === "production";
 
 export function nodeConfig(test = false) {
-  const externalNodeBuiltins = ["crypto", "events", "fs", "child_process"];
+  const externalNodeBuiltins = ["crypto", "events", "fs", "os", "path", "child_process"];
   const baseConfig = {
     input: input,
     external: depNames.concat(externalNodeBuiltins),

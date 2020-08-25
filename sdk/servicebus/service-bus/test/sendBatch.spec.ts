@@ -14,11 +14,11 @@ import {
   getRandomTestClientTypeWithSessions,
   getRandomTestClientTypeWithNoSessions
 } from "./utils/testutils2";
-import { Sender } from "../src/sender";
+import { ServiceBusSender } from "../src/sender";
 import { ConditionErrorNameMapper } from "@azure/core-amqp";
 
 describe("Send Batch", () => {
-  let sender: Sender;
+  let sender: ServiceBusSender;
   let serviceBusClient: ServiceBusClientForTests;
 
   let entityNames: EntityName;
@@ -111,7 +111,8 @@ describe("Send Batch", () => {
         messagesToSend.push({
           body: Buffer.alloc(2000),
           messageId: `message ${i}`,
-          sessionId: useSessions ? `someSession ${i}` : undefined
+          sessionId: useSessions ? `someSession ${i}` : undefined,
+          partitionKey: useSessions ? `someSession ${i}` : undefined
         });
       }
       return messagesToSend;

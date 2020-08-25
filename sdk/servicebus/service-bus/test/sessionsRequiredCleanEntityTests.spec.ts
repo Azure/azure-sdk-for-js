@@ -8,8 +8,8 @@ import {
   testPeekMsgsLength,
   getRandomTestClientTypeWithSessions
 } from "./utils/testutils2";
-import { Sender } from "../src/sender";
-import { ServiceBusMessage, SessionReceiver } from "../src";
+import { ServiceBusSender } from "../src/sender";
+import { ServiceBusMessage, ServiceBusSessionReceiver } from "../src";
 import { TestMessage } from "./utils/testUtils";
 import { ReceivedMessageWithLock } from "../src/serviceBusMessage";
 const should = chai.should();
@@ -22,8 +22,8 @@ const should = chai.should();
 // but it'll allow them to be reliable.
 describe("sessions tests -  requires completely clean entity for each test", () => {
   let serviceBusClient: ServiceBusClientForTests;
-  let sender: Sender;
-  let receiver: SessionReceiver<ReceivedMessageWithLock>;
+  let sender: ServiceBusSender;
+  let receiver: ServiceBusSessionReceiver<ReceivedMessageWithLock>;
 
   let testClientType = getRandomTestClientTypeWithSessions();
 

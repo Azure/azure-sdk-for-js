@@ -24,19 +24,16 @@ export async function main() {
 
   const changeFeedClient = new BlobChangeFeedClient(blobServiceClient);
   let changeFeedEvents: BlobChangeFeedEvent[] = [];
-  const firstPage = await changeFeedClient
-    .listChanges()
-    .byPage({ maxPageSize: 10 })
-    .next();
-  for (const event of firstPage) {
+  const firstPage = await changeFeedClient.listChanges().byPage({ maxPageSize: 10 }).next();
+  for (const event of firstPage.value.events) {
     changeFeedEvents.push(event);
   }
 
   // Resume iterating from the pervious position with the continuationToken.
   for await (const eventPage of changeFeedClient
     .listChanges()
-    .byPage({ continuationToken: firstPage.continuationToken })) {
-    for (const event of eventPage) {
+    .byPage({ continuationToken: firstPage.value.continuationToken })) {
+    for (const event of eventPage.events) {
       changeFeedEvents.push(event);
     }
   }

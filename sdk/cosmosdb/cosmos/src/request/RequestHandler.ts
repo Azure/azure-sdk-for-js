@@ -62,7 +62,7 @@ async function httpRequest(requestContext: RequestContext) {
         return parsedUrl.protocol === "http" ? defaultHttpAgent : defaultHttpsAgent;
       },
       signal,
-      body: requestContext.body,
+      body: requestContext.body
     } as RequestInit);
   } catch (error) {
     if (error.name === "AbortError") {
@@ -119,7 +119,7 @@ async function httpRequest(requestContext: RequestContext) {
       Object.defineProperty(errorResponse, "retryAfterInMilliseconds", {
         get: () => {
           return errorResponse.retryAfterInMs;
-        },
+        }
       });
     }
 
@@ -129,7 +129,7 @@ async function httpRequest(requestContext: RequestContext) {
     headers,
     result,
     code: response.status,
-    substatus,
+    substatus
   };
 }
 
@@ -147,6 +147,6 @@ export async function request<T>(requestContext: RequestContext): Promise<Cosmos
 
   return RetryUtility.execute({
     requestContext,
-    executeRequest,
+    executeRequest
   });
 }

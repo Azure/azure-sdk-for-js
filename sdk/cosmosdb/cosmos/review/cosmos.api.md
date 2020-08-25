@@ -54,6 +54,14 @@ export class ChangeFeedResponse<T> {
 export class ClientContext {
     constructor(cosmosClientOptions: CosmosClientOptions, globalEndpointManager: GlobalEndpointManager);
     // (undocumented)
+    bulk<T>({ body, path, resourceId, partitionKeyRangeId, options }: {
+        body: T;
+        path: string;
+        partitionKeyRangeId: string;
+        resourceId: string;
+        options?: RequestOptions;
+    }): Promise<Response<any>>;
+    // (undocumented)
     clearSessionToken(path: string): void;
     // (undocumented)
     create<T, U = T>({ body, path, resourceType, resourceId, options, partitionKey }: {
@@ -320,6 +328,7 @@ export const Constants: {
         MaxResourceQuota: string;
         OfferType: string;
         OfferThroughput: string;
+        AutoscaleSettings: string;
         DisableRUPerMinuteUsage: string;
         IsRUPerMinuteUsed: string;
         OfferIsRUPerMinuteThroughputEnabled: string;
@@ -330,6 +339,9 @@ export const Constants: {
         EnableScriptLogging: string;
         ScriptLogResults: string;
         ALLOW_MULTIPLE_WRITES: string;
+        IsBatchRequest: string;
+        IsBatchAtomic: string;
+        ForceRefresh: string;
     };
     WritableLocations: string;
     ReadableLocations: string;
@@ -420,6 +432,14 @@ export interface ContainerDefinition {
 // @public (undocumented)
 export interface ContainerRequest extends VerboseOmit<ContainerDefinition, "partitionKey"> {
     // (undocumented)
+    autoUpgradePolicy?: {
+        throughputPolicy: {
+            incrementPercent: number;
+        };
+    };
+    // (undocumented)
+    maxThroughput?: number;
+    // (undocumented)
     partitionKey?: string | PartitionKeyDefinition;
     // (undocumented)
     throughput?: number;
@@ -481,6 +501,11 @@ export interface CosmosHeaders {
     [key: string]: any;
 }
 
+// @public (undocumented)
+export type CreateOperation = OperationWithItem & {
+    operationType: "Create";
+};
+
 // @public
 export class Database {
     constructor(client: CosmosClient, id: string, clientContext: ClientContext);
@@ -531,6 +556,14 @@ export interface DatabaseDefinition {
 
 // @public (undocumented)
 export interface DatabaseRequest extends DatabaseDefinition {
+    // (undocumented)
+    autoUpgradePolicy?: {
+        throughputPolicy: {
+            incrementPercent: number;
+        };
+    };
+    // (undocumented)
+    maxThroughput?: number;
     throughput?: number;
 }
 
@@ -564,6 +597,12 @@ export enum DataType {
 
 // @public (undocumented)
 export const DEFAULT_PARTITION_KEY_PATH: "/_partitionKey";
+
+// @public (undocumented)
+export type DeleteOperation = OperationBase & {
+    operationType: "Delete";
+    id: string;
+};
 
 // @public (undocumented)
 export interface ErrorBody {
@@ -759,6 +798,7 @@ export class ItemResponse<T extends ItemDefinition> extends ResourceResponse<T &
 // @public
 export class Items {
     constructor(container: Container, clientContext: ClientContext);
+    bulk(operations: OperationInput[], options?: RequestOptions): Promise<OperationResponse[]>;
     changeFeed(partitionKey: string | number | boolean, changeFeedOptions?: ChangeFeedOptions): ChangeFeedIterator<any>;
     changeFeed(changeFeedOptions?: ChangeFeedOptions): ChangeFeedIterator<any>;
     changeFeed<T>(partitionKey: string | number | boolean, changeFeedOptions?: ChangeFeedOptions): ChangeFeedIterator<T>;
@@ -783,7 +823,7 @@ export class Items {
 }
 
 // @public (undocumented)
-export interface JSONArray extends Array<JSONValue> {
+export interface JSONArray extends ArrayLike<JSONValue> {
 }
 
 // @public (undocumented)
@@ -826,6 +866,16 @@ export interface OfferDefinition {
     content?: {
         offerThroughput: number;
         offerIsRUPerMinuteThroughputEnabled: boolean;
+        offerMinimumThroughputParameters?: {
+            maxThroughputEverProvisioned: number;
+            maxConsumedStorageEverInKB: number;
+        };
+        offerAutopilotSettings?: {
+            tier: number;
+            maximumTierThroughput: number;
+            autoUpgrade: boolean;
+            maxThroughput: number;
+        };
     };
     // (undocumented)
     id?: string;
@@ -856,7 +906,46 @@ export class Offers {
 }
 
 // @public (undocumented)
+export type Operation = CreateOperation | UpsertOperation | ReadOperation | DeleteOperation | ReplaceOperation;
+
+// @public (undocumented)
+export interface OperationBase {
+    // (undocumented)
+    ifMatch?: string;
+    // (undocumented)
+    ifNoneMatch?: string;
+    // (undocumented)
+    partitionKey?: string;
+}
+
+// @public (undocumented)
+export interface OperationInput {
+    // (undocumented)
+    ifMatch?: string;
+    // (undocumented)
+    ifNoneMatch?: string;
+    // (undocumented)
+    partitionKey?: string | number | null | {} | undefined;
+    // (undocumented)
+    resourceBody?: JSONObject;
+}
+
+// @public (undocumented)
+export interface OperationResponse {
+    // (undocumented)
+    eTag?: string;
+    // (undocumented)
+    requestCharge: number;
+    // (undocumented)
+    resourceBody?: JSONObject;
+    // (undocumented)
+    statusCode: number;
+}
+
+// @public (undocumented)
 export enum OperationType {
+    // (undocumented)
+    Batch = "batch",
     // (undocumented)
     Create = "create",
     // (undocumented)
@@ -872,6 +961,11 @@ export enum OperationType {
     // (undocumented)
     Upsert = "upsert"
 }
+
+// @public (undocumented)
+export type OperationWithItem = OperationBase & {
+    resourceBody: JSONObject;
+};
 
 // @public (undocumented)
 export interface PartitionedQueryExecutionInfo {
@@ -1130,6 +1224,18 @@ export interface QueryRange {
     // (undocumented)
     min: string;
 }
+
+// @public (undocumented)
+export type ReadOperation = OperationBase & {
+    operationType: "Read";
+    id: string;
+};
+
+// @public (undocumented)
+export type ReplaceOperation = OperationWithItem & {
+    operationType: "Replace";
+    id: string;
+};
 
 // @public (undocumented)
 export interface RequestContext {
@@ -1588,6 +1694,11 @@ export interface UniqueKeyPolicy {
     // (undocumented)
     uniqueKeys: UniqueKey[];
 }
+
+// @public (undocumented)
+export type UpsertOperation = OperationWithItem & {
+    operationType: "Upsert";
+};
 
 // @public
 export class User {

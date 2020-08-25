@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
 import * as msal from "msal";
 import { AccessToken, TokenCredential, GetTokenOptions } from "@azure/core-http";

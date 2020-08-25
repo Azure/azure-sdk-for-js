@@ -18,7 +18,7 @@
 
   Setup: To run this sample, you would need session enabled Queue/Subscription.
 
-  See https://docs.microsoft.com/en-us/azure/service-bus-messaging/message-sessions#message-session-state
+  See https://docs.microsoft.com/azure/service-bus-messaging/message-sessions#message-session-state
   to learn about session state.
 */
 const { ServiceBusClient } = require("@azure/service-bus");
@@ -72,7 +72,7 @@ async function runScenario() {
 }
 async function getSessionState(sessionId) {
   // If receiving from a subscription you can use the createSessionReceiver(topic, subscription) overload
-  const sessionReceiver = await sbClient.createSessionReceiver(userEventsQueueName, "peekLock", {
+  const sessionReceiver = await sbClient.createSessionReceiver(userEventsQueueName, {
     sessionId: sessionId
   });
   const sessionState = await sessionReceiver.getState();
@@ -99,7 +99,7 @@ async function sendMessagesForSession(shoppingEvents, sessionId) {
 }
 async function processMessageFromSession(sessionId) {
   // If receiving from a subscription you can use the createSessionReceiver(topic, subscription) overload
-  const sessionReceiver = await sbClient.createSessionReceiver(userEventsQueueName, "peekLock", {
+  const sessionReceiver = await sbClient.createSessionReceiver(userEventsQueueName, {
     sessionId
   });
 
@@ -124,9 +124,7 @@ async function processMessageFromSession(sessionId) {
     }
 
     console.log(
-      `Received message: Customer '${sessionReceiver.sessionId}': '${messages[0].body.event_name} ${
-        messages[0].body.event_details
-      }'`
+      `Received message: Customer '${sessionReceiver.sessionId}': '${messages[0].body.event_name} ${messages[0].body.event_details}'`
     );
     await messages[0].complete();
   } else {
