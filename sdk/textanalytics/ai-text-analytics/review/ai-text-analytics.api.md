@@ -118,6 +118,14 @@ export interface DetectLanguageSuccessResult extends TextAnalyticsSuccessResult 
 }
 
 // @public (undocumented)
+export interface DocumentEntities {
+    entities: Entity[];
+    id: string;
+    statistics?: TextDocumentStatistics;
+    warnings: TextAnalyticsWarning[];
+}
+
+// @public (undocumented)
 export interface DocumentError {
     error: GeneratedTextAnalyticsError;
     id: string;
@@ -143,6 +151,14 @@ export interface DocumentSentiment {
 
 // @public
 export type DocumentSentimentLabel = "positive" | "neutral" | "negative" | "mixed";
+
+// @public (undocumented)
+export interface EntitiesResult {
+    documents: DocumentEntities[];
+    errors: DocumentError[];
+    modelVersion: string;
+    statistics?: TextDocumentBatchStatistics;
+}
 
 // @public
 export interface Entity {
@@ -247,6 +263,14 @@ export interface OpinionSentiment extends SentenceOpinion {
 // @public
 export interface PiiEntity extends Entity {
 }
+
+// @public
+export type RecognizeCategorizedEntitieseResultResponse = RecognizeCategorizedEntitiesResultArray & {
+    _response: coreHttp.HttpResponse & {
+        bodyAsText: string;
+        parsedBody: EntitiesResult;
+    };
+};
 
 // @public
 export type RecognizeCategorizedEntitiesErrorResult = TextAnalyticsErrorResult;
@@ -371,8 +395,8 @@ export class TextAnalyticsClient {
     readonly endpointUrl: string;
     extractKeyPhrases(documents: string[], language?: string, options?: ExtractKeyPhrasesOptions): Promise<ExtractKeyPhrasesResultArray>;
     extractKeyPhrases(documents: TextDocumentInput[], options?: ExtractKeyPhrasesOptions): Promise<ExtractKeyPhrasesResultArray>;
-    recognizeEntities(documents: string[], language?: string, options?: RecognizeCategorizedEntitiesOptions): Promise<RecognizeCategorizedEntitiesResultArray>;
-    recognizeEntities(documents: TextDocumentInput[], options?: RecognizeCategorizedEntitiesOptions): Promise<RecognizeCategorizedEntitiesResultArray>;
+    recognizeEntities(documents: string[], language?: string, options?: RecognizeCategorizedEntitiesOptions): Promise<RecognizeCategorizedEntitieseResultResponse>;
+    recognizeEntities(documents: TextDocumentInput[], options?: RecognizeCategorizedEntitiesOptions): Promise<RecognizeCategorizedEntitieseResultResponse>;
     recognizeLinkedEntities(documents: string[], language?: string, options?: RecognizeLinkedEntitiesOptions): Promise<RecognizeLinkedEntitiesResultArray>;
     recognizeLinkedEntities(documents: TextDocumentInput[], options?: RecognizeLinkedEntitiesOptions): Promise<RecognizeLinkedEntitiesResultArray>;
     recognizePiiEntities(inputs: string[], language?: string, options?: RecognizePiiEntitiesOptions): Promise<RecognizePiiEntitiesResultArray>;

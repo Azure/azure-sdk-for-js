@@ -196,41 +196,44 @@ describe("RecognizeCategorizedEntitiesResultArray", () => {
     ];
     const result = makeRecognizeCategorizedEntitiesResultArray(
       input,
-      [
-        {
-          id: "A",
-          entities: [
-            {
-              text: "Microsoft",
-              category: "Organization",
-              confidenceScore: 0.9989
-            }
-          ],
-          warnings: []
-        },
-        {
-          id: "C",
-          entities: [
-            {
-              text: "last week",
-              category: "DateTime",
-              subCategory: "DateRange",
-              confidenceScore: 0.8
-            }
-          ],
-          warnings: []
-        }
-      ],
-      [
-        {
-          id: "B",
-          error: {
-            code: "InternalServerError",
-            message: "test error"
+      {
+        documents: [
+          {
+            id: "A",
+            entities: [
+              {
+                text: "Microsoft",
+                category: "Organization",
+                confidenceScore: 0.9989
+              }
+            ],
+            warnings: []
+          },
+          {
+            id: "C",
+            entities: [
+              {
+                text: "last week",
+                category: "DateTime",
+                subCategory: "DateRange",
+                confidenceScore: 0.8
+              }
+            ],
+            warnings: []
           }
-        }
-      ],
-      ""
+        ],
+        errors: [
+          {
+            id: "B",
+            error: {
+              code: "InternalServerError",
+              message: "test error"
+            }
+          }
+        ],
+        modelVersion: "",
+        _response: {} as any
+      }
     );
 
     const inputOrder = input.map((item) => item.id);

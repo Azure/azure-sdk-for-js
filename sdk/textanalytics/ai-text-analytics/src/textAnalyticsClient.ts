@@ -20,13 +20,7 @@ import {
   GeneratedClientSentimentOptionalParams,
   TextDocumentInput
 } from "./generated/models";
-import {
-  RecognizeCategorizedEntitiesResultArray,
-  makeRecognizeCategorizedEntitiesResultArray
-} from "./recognizeCategorizedEntitiesResultArray";
-import {
-  AnalyzeSentimentResultArray,
-} from "./analyzeSentimentResultArray";
+import { AnalyzeSentimentResultArray } from "./analyzeSentimentResultArray";
 import {
   makeExtractKeyPhrasesResultArray,
   ExtractKeyPhrasesResultArray
@@ -50,6 +44,10 @@ import {
   DetectLanguageResultResponse, 
   toDetectLanguageResultResponse 
 } from './detectLanguageResultResponse';
+import { 
+  RecognizeCategorizedEntitieseResultResponse, 
+  toRecognizeCategorizedEntitiesResultResponse 
+} from './recognizeCategorizedEntitiesResultResponse';
 
 const DEFAULT_COGNITIVE_SCOPE = "https://cognitiveservices.azure.com/.default";
 
@@ -311,7 +309,7 @@ export class TextAnalyticsClient {
     language?: string,
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options?: RecognizeCategorizedEntitiesOptions
-  ): Promise<RecognizeCategorizedEntitiesResultArray>;
+  ): Promise<RecognizeCategorizedEntitieseResultResponse>;
   /**
    * Runs a predictive model to identify a collection of named entities
    * in the passed-in input documents, and categorize those entities into types
@@ -327,13 +325,13 @@ export class TextAnalyticsClient {
     documents: TextDocumentInput[],
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options?: RecognizeCategorizedEntitiesOptions
-  ): Promise<RecognizeCategorizedEntitiesResultArray>;
+  ): Promise<RecognizeCategorizedEntitieseResultResponse>;
   public async recognizeEntities(
     documents: string[] | TextDocumentInput[],
     languageOrOptions?: string | RecognizeCategorizedEntitiesOptions,
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options?: RecognizeCategorizedEntitiesOptions
-  ): Promise<RecognizeCategorizedEntitiesResultArray> {
+  ): Promise<RecognizeCategorizedEntitieseResultResponse> {
     let realOptions: RecognizeCategorizedEntitiesOptions;
     let realInputs: TextDocumentInput[];
 
@@ -363,13 +361,7 @@ export class TextAnalyticsClient {
         operationOptionsToRequestOptionsBase(finalOptions)
       );
 
-      return makeRecognizeCategorizedEntitiesResultArray(
-        realInputs,
-        result.documents,
-        result.errors,
-        result.modelVersion,
-        result.statistics
-      );
+      return toRecognizeCategorizedEntitiesResultResponse(realInputs, result);
     } catch (e) {
       let backwardCompatibleException;
       /**

@@ -27,6 +27,7 @@ export {
   RecognizeCategorizedEntitiesErrorResult,
   RecognizeCategorizedEntitiesSuccessResult
 } from "./recognizeCategorizedEntitiesResult";
+export { RecognizeCategorizedEntitieseResultResponse } from "./recognizeCategorizedEntitiesResultResponse";
 export {
   PiiEntity,
   RecognizePiiEntitiesResult,
@@ -97,5 +98,7 @@ export {
   AspectRelation,
   AspectRelationType,
   LanguageResult,
-  DocumentLanguage
+  DocumentLanguage,
+  EntitiesResult,
+  DocumentEntities
 } from "./generated/models";

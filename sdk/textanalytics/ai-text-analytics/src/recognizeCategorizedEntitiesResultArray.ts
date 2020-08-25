@@ -3,9 +3,7 @@
 
 import {
   TextDocumentBatchStatistics,
-  DocumentError,
-  DocumentEntities,
-  TextDocumentInput
+  TextDocumentInput, GeneratedClientEntitiesRecognitionGeneralResponse
 } from "./generated/models";
 import {
   RecognizeCategorizedEntitiesResult,
@@ -35,11 +33,9 @@ export interface RecognizeCategorizedEntitiesResultArray
 
 export function makeRecognizeCategorizedEntitiesResultArray(
   input: TextDocumentInput[],
-  documents: DocumentEntities[],
-  errors: DocumentError[],
-  modelVersion: string,
-  statistics?: TextDocumentBatchStatistics
+  response: GeneratedClientEntitiesRecognitionGeneralResponse
 ): RecognizeCategorizedEntitiesResultArray {
+  const { documents, errors, modelVersion, statistics } = response;
   const unsortedResult = documents
     .map(
       (document): RecognizeCategorizedEntitiesResult => {
