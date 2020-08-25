@@ -171,7 +171,7 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
    * A lock token that ensures that opening and closing this
    * link properly cooperate.
    */
-  private _lockToken: string = generate_uuid();
+  private _openLock: string = generate_uuid();
 
   /**
    * Creates a new ClientEntity instance.
@@ -212,8 +212,8 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
    * @returns A Promise that resolves when the link has been properly initialized
    */
   initLink(options: LinkOptionsT<LinkT>, abortSignal?: AbortSignalLike): Promise<void> {
-    log.error(`${this._logPrefix} Acquiring lock token ${this._lockToken} for initializing link`);
-    return defaultLock.acquire(this._lockToken, () => this._initLinkImpl(options, abortSignal));
+    log.error(`${this._logPrefix} Acquiring lock token ${this._openLock} for initializing link`);
+    return defaultLock.acquire(this._openLock, () => this._initLinkImpl(options, abortSignal));
   }
 
   private async _initLinkImpl(
@@ -320,8 +320,8 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
    * the this._link field to undefined.
    */
   protected closeLink(): Promise<void> {
-    log.error(`${this._logPrefix} Acquiring lock token ${this._lockToken} for closing link`);
-    return defaultLock.acquire(this._lockToken, () => this.closeLinkImpl());
+    log.error(`${this._logPrefix} Acquiring lock token ${this._openLock} for closing link`);
+    return defaultLock.acquire(this._openLock, () => this.closeLinkImpl());
   }
 
   private async closeLinkImpl(): Promise<void> {

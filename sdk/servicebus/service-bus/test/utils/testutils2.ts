@@ -532,5 +532,5 @@ export async function testPeekMsgsLength(
 }
 
 export function isLinkLocked(linkEntity: LinkEntity<any>): boolean {
-  return defaultLock.isBusy(linkEntity["_lockToken"]);
+  return defaultLock.isBusy(linkEntity["_openLock"]);
 }
