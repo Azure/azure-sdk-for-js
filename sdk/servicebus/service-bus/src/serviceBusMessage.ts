@@ -215,7 +215,7 @@ export interface ServiceBusMessage {
   absoluteExpiryTime?: Date;
   contentEncoding?: string;
   creationTime?: Date;
-  deliveryAnnotations?: DeliveryAnnotations;
+  deliveryAnnotations?: { [key: string]: any };
   durable?: boolean;
   footer?: any;
   groupId?: string;
