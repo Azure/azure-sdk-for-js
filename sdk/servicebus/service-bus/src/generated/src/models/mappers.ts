@@ -15,6 +15,15 @@ export const CreateTopicBody: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "CreateTopicBody",
     modelProperties: {
+      xmlns: {
+        defaultValue: "http://www.w3.org/2005/Atom",
+        serializedName: "xmlns",
+        xmlName: "xmlns",
+        xmlIsAttribute: true,
+        type: {
+          name: "String"
+        }
+      },
       updated: {
         serializedName: "updated",
         xmlName: "updated",
@@ -406,6 +415,15 @@ export const CreateQueueBody: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "CreateQueueBody",
     modelProperties: {
+      xmlns: {
+        defaultValue: "http://www.w3.org/2005/Atom",
+        serializedName: "xmlns",
+        xmlName: "xmlns",
+        xmlIsAttribute: true,
+        type: {
+          name: "String"
+        }
+      },
       updated: {
         serializedName: "updated",
         xmlName: "updated",

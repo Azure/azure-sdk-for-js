@@ -16,6 +16,7 @@ export type SqlFilterUnion = SqlFilter | TrueFilter | FalseFilter;
  * The request body for creating a topic.
  */
 export interface CreateTopicBody {
+  xmlns?: string;
   /**
    * The timestamp for when this topic was last updated
    */
@@ -222,6 +223,7 @@ export interface ServiceBusManagementError {
  * The request body for creating a queue.
  */
 export interface CreateQueueBody {
+  xmlns?: string;
   /**
    * The timestamp for when this queue was last updated
    */
