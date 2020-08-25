@@ -1,9 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
-
 /// <reference lib="esnext.asynciterable" />
 
 import {
@@ -11,16 +8,15 @@ import {
   RestResponse,
   RequestOptionsBase,
   OperationOptions,
-  ServiceClientOptions,
   InternalPipelineOptions,
   bearerTokenAuthenticationPolicy,
   createPipelineFromOptions,
-  generateUuid
+  generateUuid,
+  PipelineOptions
 } from "@azure/core-http";
 import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
 import { AzureDigitalTwinsAPI as GeneratedClient } from "./generated/azureDigitalTwinsAPI";
 import {
-  AzureDigitalTwinsAPIOptionalParams,
   DigitalTwinsGetByIdResponse,
   DigitalTwinsAddResponse,
   DigitalTwinsUpdateOptionalParams,
@@ -59,7 +55,7 @@ import { logger } from "./logger";
 
 export const SDK_VERSION: string = "1.0.0-preview.1";
 
-export interface DigitalTwinsClientOptions extends ServiceClientOptions {
+export interface DigitalTwinsClientOptions extends PipelineOptions {
   /**
    * Api Version
    */
@@ -91,9 +87,9 @@ export class DigitalTwinsClient {
    *   new DefaultAzureCredential();
    * );
    * ```
-   * @param {string} endpointUrl The endpoint URL of the service.
-   * @param {TokenCredential} credential Used to authenticate requests to the service.
-   * @param {AzureDigitalTwinsAPI} [options] Used to configure the service client.
+   * @param endpointUrl The endpoint URL of the service.
+   * @param credential Used to authenticate requests to the service.
+   * @param options Used to configure the service client.
    */
   constructor(
     endpointUrl: string,
@@ -103,16 +99,14 @@ export class DigitalTwinsClient {
     const authPolicy = bearerTokenAuthenticationPolicy(credential, DEFAULT_DIGITALTWINS_SCOPE);
     const libInfo = `azsdk-js-digitaltwins/${SDK_VERSION}`;
 
-    const {
-      endpoint = endpointUrl,
-      ...pipelineOptions
-    }: AzureDigitalTwinsAPIOptionalParams = options;
-
-    if (!pipelineOptions.userAgentHeaderName) {
-      pipelineOptions.userAgentHeaderName = libInfo;
+    const { apiVersion, ...pipelineOptions } = options;
+    if (!pipelineOptions.userAgentOptions) {
+      pipelineOptions.userAgentOptions = {};
     }
-    if (pipelineOptions.userAgent) {
-      pipelineOptions.userAgent = "";
+    if (pipelineOptions.userAgentOptions.userAgentPrefix) {
+      pipelineOptions.userAgentOptions.userAgentPrefix = `${pipelineOptions.userAgentOptions.userAgentPrefix} ${libInfo}`;
+    } else {
+      pipelineOptions.userAgentOptions.userAgentPrefix = libInfo;
     }
 
     const internalPipelineOptions: InternalPipelineOptions = {
@@ -128,9 +122,9 @@ export class DigitalTwinsClient {
     const pipeline = createPipelineFromOptions(internalPipelineOptions, authPolicy);
 
     this.client = new GeneratedClient({
-      ...{ endpoint },
-      ...pipeline,
-      ...options
+      endpoint: endpointUrl,
+      apiVersion,
+      ...pipeline
     });
   }
 
@@ -911,7 +905,7 @@ export class DigitalTwinsClient {
    * @returns The pageable list of query results.
    */
   public queryTwins(query?: string): PagedAsyncIterableIterator<any, QueryQueryTwinsResponse> {
-    const querySpecification = <QuerySpecification>{};
+    const querySpecification: QuerySpecification = {};
     querySpecification.query = query;
 
     const iter = this.queryTwinsAll(querySpecification);

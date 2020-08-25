@@ -8,9 +8,9 @@ import * as coreHttp from '@azure/core-http';
 import { OperationOptions } from '@azure/core-http';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { PageSettings } from '@azure/core-paging';
+import { PipelineOptions } from '@azure/core-http';
 import { RequestOptionsBase } from '@azure/core-http';
 import { RestResponse } from '@azure/core-http';
-import { ServiceClientOptions } from '@azure/core-http';
 import { TokenCredential } from '@azure/core-http';
 
 // @public
@@ -119,7 +119,7 @@ export class DigitalTwinsClient {
 }
 
 // @public (undocumented)
-export interface DigitalTwinsClientOptions extends ServiceClientOptions {
+export interface DigitalTwinsClientOptions extends PipelineOptions {
     apiVersion?: string;
 }
 
