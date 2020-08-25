@@ -17,6 +17,7 @@ parameters:
   GHTeamReviewersVariable: ''
   # Multiple labels seperated by comma, e.g. "bug, APIView"
   PRLabels: ''
+  PRDataArtifactPath: 'not-specified'
 
 steps:
 
