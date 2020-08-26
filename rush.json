@@ -513,8 +513,8 @@
       "versionPolicyName": "client"
     },
     {
-      "packageName": "@azure/tables",
-      "projectFolder": "sdk/tables/azure-tables",
+      "packageName": "@azure/data-tables",
+      "projectFolder": "sdk/tables/data-tables",
       "versionPolicyName": "client"
     },
     {

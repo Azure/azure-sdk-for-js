@@ -100,7 +100,7 @@ async function runScenario() {
 
 async function getSessionState(sessionId) {
   // If receiving from a Subscription, use `createSubscriptionClient` instead of `createQueueClient`
-  const queueClient = sbClient.createQueueClient(userEventsQueueName);
+  const queueClient = sbClient.createQueueClient(queueName);
 
   const sessionReceiver = queueClient.createReceiver(ReceiveMode.peekLock, {
     sessionId: sessionId
@@ -120,7 +120,7 @@ async function getSessionState(sessionId) {
 
 async function sendMessagesForSession(shoppingEvents, sessionId) {
   // If sending to a Topic, use `createTopicClient` instead of `createQueueClient`
-  const queueClient = sbClient.createQueueClient(userEventsQueueName);
+  const queueClient = sbClient.createQueueClient(queueName);
   const sender = queueClient.createSender();
 
   for (let index = 0; index < shoppingEvents.length; index++) {
@@ -136,7 +136,7 @@ async function sendMessagesForSession(shoppingEvents, sessionId) {
 
 async function processMessageFromSession(sessionId) {
   // If receiving from a Subscription, use `createSubscriptionClient` instead of `createQueueClient`
-  const queueClient = sbClient.createQueueClient(userEventsQueueName);
+  const queueClient = sbClient.createQueueClient(queueName);
 
   const sessionReceiver = queueClient.createReceiver(ReceiveMode.peekLock, {
     sessionId: sessionId

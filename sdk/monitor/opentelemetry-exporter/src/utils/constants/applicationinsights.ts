@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 export const AI_OPERATION_ID = "ai.operation.id";
 export const AI_OPERATION_PARENT_ID = "ai.operation.parentId";
 export const AI_OPERATION_NAME = "ai.operation.name";

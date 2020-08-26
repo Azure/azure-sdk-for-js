@@ -21,6 +21,15 @@ export interface Agent {
 // @public (undocumented)
 export type AggregateType = "Average" | "Count" | "Max" | "Min" | "Sum";
 
+// @public (undocumented)
+export const BulkOperationType: {
+    readonly Create: "Create";
+    readonly Upsert: "Upsert";
+    readonly Read: "Read";
+    readonly Delete: "Delete";
+    readonly Replace: "Replace";
+};
+
 // @public
 export class ChangeFeedIterator<T> {
     fetchNext(): Promise<ChangeFeedResponse<Array<T & Resource>>>;
@@ -503,7 +512,7 @@ export interface CosmosHeaders {
 
 // @public (undocumented)
 export type CreateOperation = OperationWithItem & {
-    operationType: "Create";
+    operationType: typeof BulkOperationType.Create;
 };
 
 // @public
@@ -600,7 +609,7 @@ export const DEFAULT_PARTITION_KEY_PATH: "/_partitionKey";
 
 // @public (undocumented)
 export type DeleteOperation = OperationBase & {
-    operationType: "Delete";
+    operationType: typeof BulkOperationType.Delete;
     id: string;
 };
 
@@ -925,6 +934,8 @@ export interface OperationInput {
     // (undocumented)
     ifNoneMatch?: string;
     // (undocumented)
+    operationType: keyof typeof BulkOperationType;
+    // (undocumented)
     partitionKey?: string | number | null | {} | undefined;
     // (undocumented)
     resourceBody?: JSONObject;
@@ -1227,13 +1238,13 @@ export interface QueryRange {
 
 // @public (undocumented)
 export type ReadOperation = OperationBase & {
-    operationType: "Read";
+    operationType: typeof BulkOperationType.Read;
     id: string;
 };
 
 // @public (undocumented)
 export type ReplaceOperation = OperationWithItem & {
-    operationType: "Replace";
+    operationType: typeof BulkOperationType.Replace;
     id: string;
 };
 
@@ -1697,7 +1708,7 @@ export interface UniqueKeyPolicy {
 
 // @public (undocumented)
 export type UpsertOperation = OperationWithItem & {
-    operationType: "Upsert";
+    operationType: typeof BulkOperationType.Upsert;
 };
 
 // @public

@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import * as http from "http";
 import * as https from "https";
 import { DEFAULT_EXPORTER_CONFIG, AzureExporterConfig } from "../config";

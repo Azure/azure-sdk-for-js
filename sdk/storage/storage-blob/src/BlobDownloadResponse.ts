@@ -4,7 +4,6 @@
 import { HttpResponse, isNode } from "@azure/core-http";
 
 import {
-  BlobDownloadResponseModel,
   BlobType,
   CopyStatusType,
   LeaseDurationType,
@@ -12,14 +11,14 @@ import {
   LeaseStatusType,
   BlobDownloadHeaders
 } from "./generatedModels";
-import { Metadata } from "./models";
+import { Metadata, BlobDownloadResponseParsed, ObjectReplicationPolicy } from "./models";
 import { RetriableReadableStreamOptions } from "./utils/RetriableReadableStream";
 import { ReadableStreamGetter, RetriableReadableStream } from "./utils/RetriableReadableStream";
 
 /**
  * ONLY AVAILABLE IN NODE.JS RUNTIME.
  *
- * BlobDownloadResponse implements BlobDownloadResponseModel interface, and in Node.js runtime it will
+ * BlobDownloadResponse implements BlobDownloadResponseParsed interface, and in Node.js runtime it will
  * automatically retry when internal read stream unexpected ends. (This kind of unexpected ends cannot
  * trigger retries defined in pipeline retry policy.)
  *
@@ -28,9 +27,9 @@ import { ReadableStreamGetter, RetriableReadableStream } from "./utils/Retriable
  *
  * @export
  * @class BlobDownloadResponse
- * @implements {BlobDownloadResponseModel}
+ * @implements {BlobDownloadResponseParsed}
  */
-export class BlobDownloadResponse implements BlobDownloadResponseModel {
+export class BlobDownloadResponse implements BlobDownloadResponseParsed {
   /**
    * Indicates that the service supports
    * requests for partial file content.
@@ -472,6 +471,28 @@ export class BlobDownloadResponse implements BlobDownloadResponseModel {
   }
 
   /**
+   * Object Replication Policy Id of the destination blob.
+   *
+   * @readonly
+   * @type {(string| undefined)}
+   * @memberof BlobDownloadResponse
+   */
+  public get objectReplicationDestinationPolicyId(): string | undefined {
+    return this.originalResponse.objectReplicationDestinationPolicyId;
+  }
+
+  /**
+   * Parsed Object Replication Policy Id, Rule Id(s) and status of the source blob.
+   *
+   * @readonly
+   * @type {(ObjectReplicationPolicy[] | undefined)}
+   * @memberof BlobDownloadResponse
+   */
+  public get objectReplicationSourceProperties(): ObjectReplicationPolicy[] | undefined {
+    return this.originalResponse.objectReplicationSourceProperties;
+  }
+
+  /**
    * The response body as a browser Blob.
    * Always undefined in node.js.
    *
@@ -509,13 +530,13 @@ export class BlobDownloadResponse implements BlobDownloadResponseModel {
     return this.originalResponse._response;
   }
 
-  private originalResponse: BlobDownloadResponseModel;
+  private originalResponse: BlobDownloadResponseParsed;
   private blobDownloadStream?: RetriableReadableStream;
 
   /**
    * Creates an instance of BlobDownloadResponse.
    *
-   * @param {BlobDownloadResponseModel} originalResponse
+   * @param {BlobDownloadResponseParsed} originalResponse
    * @param {ReadableStreamGetter} getter
    * @param {number} offset
    * @param {number} count
@@ -523,7 +544,7 @@ export class BlobDownloadResponse implements BlobDownloadResponseModel {
    * @memberof BlobDownloadResponse
    */
   public constructor(
-    originalResponse: BlobDownloadResponseModel,
+    originalResponse: BlobDownloadResponseParsed,
     getter: ReadableStreamGetter,
     offset: number,
     count: number,

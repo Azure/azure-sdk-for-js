@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { ExportResult } from "@opentelemetry/core";
 import { Envelope } from "./Declarations/Contracts";
 
@@ -15,7 +18,7 @@ export type SenderResult = { statusCode: number; result: string };
 export interface BaseExporter {
   addTelemetryProcessor(processor: TelemetryProcessor): void;
   clearTelemetryProcessors(): void;
-  exportEnvelopes(envelopes: Envelope[], resultCallback: (result: ExportResult) => void): void;
+  exportEnvelopes(envelopes: Envelope[]): Promise<ExportResult>;
 }
 
 export interface Sender {
@@ -24,6 +27,6 @@ export interface Sender {
 }
 
 export interface PersistentStorage {
-  shift(cb: (err: Error | null, value?: unknown[]) => void): void;
-  push(value: unknown[], cb: (err: Error | null, result?: boolean) => void): void;
+  shift(): Promise<unknown>;
+  push(value: unknown[]): Promise<boolean>;
 }
