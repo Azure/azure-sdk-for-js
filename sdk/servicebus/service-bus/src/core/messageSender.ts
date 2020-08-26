@@ -211,80 +211,85 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
             return reject(err);
           }
         }
-        const timeTakenByInit = Date.now() - initStartTime;
 
-        log.sender(
-          "[%s] Sender '%s', credit: %d available: %d",
-          this._context.connectionId,
-          this.name,
-          this.link!.credit,
-          this.link!.session.outgoing.available()
-        );
-
-        if (!this.link!.sendable()) {
-          log.sender(
-            "[%s] Sender '%s', waiting for 1 second for sender to become sendable",
-            this._context.connectionId,
-            this.name
-          );
-
-          await delay(1000);
+        try {
+          const timeTakenByInit = Date.now() - initStartTime;
 
           log.sender(
-            "[%s] Sender '%s' after waiting for a second, credit: %d available: %d",
+            "[%s] Sender '%s', credit: %d available: %d",
             this._context.connectionId,
             this.name,
-            this.link!.credit,
-            this.link!.session.outgoing.available()
+            this.link?.credit,
+            this.link?.session?.outgoing?.available()
           );
-        }
-        if (this.link!.sendable()) {
-          if (timeoutInMs <= timeTakenByInit) {
-            const desc: string =
-              `[${this._context.connectionId}] Sender "${this.name}" ` +
-              `with address "${this.address}", was not able to send the message right now, due ` +
-              `to operation timeout.`;
-            log.error(desc);
-            const e: AmqpError = {
-              condition: ErrorNameConditionMapper.ServiceUnavailableError,
-              description: desc
-            };
-            return reject(translate(e));
-          }
-          try {
-            this.link!.sendTimeoutInSeconds = (timeoutInMs - timeTakenByInit) / 1000;
-            const delivery = await this.link!.send(
-              encodedMessage,
-              undefined,
-              sendBatch ? 0x80013700 : 0
-            );
+
+          if (!this.link?.sendable()) {
             log.sender(
-              "[%s] Sender '%s', sent message with delivery id: %d",
+              "[%s] Sender '%s', waiting for 1 second for sender to become sendable",
+              this._context.connectionId,
+              this.name
+            );
+
+            await delay(1000);
+
+            log.sender(
+              "[%s] Sender '%s' after waiting for a second, credit: %d available: %d",
               this._context.connectionId,
               this.name,
-              delivery.id
+              this.link?.credit,
+              this.link?.session?.outgoing?.available()
             );
-            return resolve();
-          } catch (error) {
-            error = translate(error.innerError || error);
-            log.error(
-              "[%s] An error occurred while sending the message",
-              this._context.connectionId,
-              error
-            );
-            return reject(error);
           }
-        } else {
-          // let us retry to send the message after some time.
-          const msg =
-            `[${this._context.connectionId}] Sender "${this.name}", ` +
-            `cannot send the message right now. Please try later.`;
-          log.error(msg);
-          const amqpError: AmqpError = {
-            condition: ErrorNameConditionMapper.SenderBusyError,
-            description: msg
-          };
-          reject(translate(amqpError));
+          if (this.link?.sendable()) {
+            if (timeoutInMs <= timeTakenByInit) {
+              const desc: string =
+                `[${this._context.connectionId}] Sender "${this.name}" ` +
+                `with address "${this.address}", was not able to send the message right now, due ` +
+                `to operation timeout.`;
+              log.error(desc);
+              const e: AmqpError = {
+                condition: ErrorNameConditionMapper.ServiceUnavailableError,
+                description: desc
+              };
+              return reject(translate(e));
+            }
+            try {
+              this.link.sendTimeoutInSeconds = (timeoutInMs - timeTakenByInit) / 1000;
+              const delivery = await this.link!.send(
+                encodedMessage,
+                undefined,
+                sendBatch ? 0x80013700 : 0
+              );
+              log.sender(
+                "[%s] Sender '%s', sent message with delivery id: %d",
+                this._context.connectionId,
+                this.name,
+                delivery.id
+              );
+              return resolve();
+            } catch (error) {
+              error = translate(error.innerError || error);
+              log.error(
+                "[%s] An error occurred while sending the message",
+                this._context.connectionId,
+                error
+              );
+              return reject(error);
+            }
+          } else {
+            // let us retry to send the message after some time.
+            const msg =
+              `[${this._context.connectionId}] Sender "${this.name}", ` +
+              `cannot send the message right now. Please try later.`;
+            log.error(msg);
+            const amqpError: AmqpError = {
+              condition: ErrorNameConditionMapper.SenderBusyError,
+              description: msg
+            };
+            reject(translate(amqpError));
+          }
+        } catch (err) {
+          reject(err);
         }
       });
 
