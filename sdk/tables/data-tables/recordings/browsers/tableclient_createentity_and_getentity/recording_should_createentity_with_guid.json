@@ -1,0 +1,49 @@
+{
+  "recordings": [
+    {
+      "method": "POST",
+      "url": "https://joherediteststorage.table.core.windows.net/integration",
+      "query": {},
+      "requestBody": "{\"PartitionKey\":\"P3__browser\",\"RowKey\":\"R3\",\"testField\":\"cf8ef051-1b7d-4e93-a1e5-a3944d7e441c\",\"testField@odata.type\":\"Edm.Guid\"}",
+      "status": 204,
+      "response": "",
+      "responseHeaders": {
+        "cache-control": "no-cache",
+        "content-length": "0",
+        "dataserviceid": "https://joherediteststorage.table.core.windows.net/integration(PartitionKey='P3__browser',RowKey='R3')",
+        "date": "Fri, 21 Aug 2020 14:06:37 GMT",
+        "etag": "W/\"datetime'2020-08-21T14%3A06%3A38.0438498Z'\"",
+        "location": "https://joherediteststorage.table.core.windows.net/integration(PartitionKey='P3__browser',RowKey='R3')",
+        "preference-applied": "return-no-content",
+        "server": "Windows-Azure-Table/1.0 Microsoft-HTTPAPI/2.0",
+        "x-content-type-options": "nosniff",
+        "x-ms-request-id": "fad42a62-b002-00cb-56c4-77c6e4000000",
+        "x-ms-version": "2019-02-02"
+      }
+    },
+    {
+      "method": "GET",
+      "url": "https://joherediteststorage.table.core.windows.net/integration(PartitionKey='P3__browser',RowKey='R3')",
+      "query": {},
+      "requestBody": null,
+      "status": 200,
+      "response": "{\"odata.metadata\":\"https://joherediteststorage.table.core.windows.net/$metadata#integration/@Element\",\"odata.etag\":\"W/\\\"datetime'2020-08-21T14%3A06%3A38.0438498Z'\\\"\",\"PartitionKey\":\"P3__browser\",\"RowKey\":\"R3\",\"Timestamp\":\"2020-08-21T14:06:38.0438498Z\",\"testField@odata.type\":\"Edm.Guid\",\"testField\":\"cf8ef051-1b7d-4e93-a1e5-a3944d7e441c\"}",
+      "responseHeaders": {
+        "cache-control": "no-cache",
+        "content-type": "application/json;odata=minimalmetadata;streaming=true;charset=utf-8",
+        "date": "Fri, 21 Aug 2020 14:06:37 GMT",
+        "etag": "W/\"datetime'2020-08-21T14%3A06%3A38.0438498Z'\"",
+        "server": "Windows-Azure-Table/1.0 Microsoft-HTTPAPI/2.0",
+        "transfer-encoding": "chunked",
+        "x-content-type-options": "nosniff",
+        "x-ms-request-id": "fad42a89-b002-00cb-77c4-77c6e4000000",
+        "x-ms-version": "2019-02-02"
+      }
+    }
+  ],
+  "uniqueTestInfo": {
+    "uniqueName": {},
+    "newDate": {}
+  },
+  "hash": "315fc55599f60a7ac3402c6b58e1afcb"
+}

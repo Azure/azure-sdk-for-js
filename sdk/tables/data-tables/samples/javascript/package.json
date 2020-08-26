@@ -1,0 +1,33 @@
+{
+  "name": "data-tables-samples-js",
+  "private": true,
+  "version": "0.1.0",
+  "description": "Azure Tables client library samples for Javascript",
+  "engine": {
+    "node": ">=8.0.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Azure/azure-sdk-for-js.git"
+  },
+  "keywords": [
+    "Azure",
+    "Storage",
+    "Tables",
+    "Node.js"
+  ],
+  "author": "Microsoft Corporation",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
+  },
+  "homepage": "https://github.com/Azure/azure-sdk-for-js#readme",
+  "sideEffects": false,
+  "dependencies": {
+    "@azure/data-tables": "../..",
+    "dotenv": "^8.2.0"
+  },
+  "devDependencies": {
+    "@types/node": "^8.0.0"
+  }
+}

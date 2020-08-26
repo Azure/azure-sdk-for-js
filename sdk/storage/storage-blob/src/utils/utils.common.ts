@@ -186,7 +186,7 @@ export function extractConnectionStringParts(connectionString: string): Connecti
       url: blobEndpoint,
       accountName,
       accountKey,
-      proxyUri
+      proxyUri,
     };
   } else {
     // SAS connection string
@@ -197,8 +197,6 @@ export function extractConnectionStringParts(connectionString: string): Connecti
       throw new Error("Invalid BlobEndpoint in the provided SAS Connection String");
     } else if (!accountSas) {
       throw new Error("Invalid SharedAccessSignature in the provided SAS Connection String");
-    } else if (!accountName) {
-      throw new Error("Invalid AccountName in the provided SAS Connection String");
     }
 
     return { kind: "SASConnString", url: blobEndpoint, accountName, accountSas };
@@ -541,20 +539,33 @@ export function getAccountNameFromUrl(url: string): string {
     if (parsedUrl.getHost()!.split(".")[1] === "blob") {
       // `${defaultEndpointsProtocol}://${accountName}.blob.${endpointSuffix}`;
       accountName = parsedUrl.getHost()!.split(".")[0];
-    } else {
+    } else if (isIpEndpointStyle(parsedUrl)) {
       // IPv4/IPv6 address hosts... Example - http://192.0.0.10:10001/devstoreaccount1/
       // Single word domain without a [dot] in the endpoint... Example - http://localhost:10001/devstoreaccount1/
       // .getPath() -> /devstoreaccount1/
       accountName = parsedUrl.getPath()!.split("/")[1];
-    }
-
-    if (!accountName) {
-      throw new Error("Provided accountName is invalid.");
+    } else {
+      // Custom domain case: "https://customdomain.com/containername/blob".
+      accountName = '';
     }
     return accountName;
   } catch (error) {
     throw new Error("Unable to extract accountName with provided information.");
   }
+}
+
+export function isIpEndpointStyle(parsedUrl: URLBuilder): boolean {
+  if (parsedUrl.getHost() == undefined) {
+    return false;
+  }
+
+  const host = parsedUrl.getHost()! + (parsedUrl.getPort() == undefined ? '' : ':' + parsedUrl.getPort());
+
+  // Case 1: Ipv6, use a broad regex to find out candidates whose host contains two ':'.
+  // Case 2: localhost(:port), use broad regex to match port part.
+  // Case 3: Ipv4, use broad regex which just check if host contains Ipv4.
+  // For valid host please refer to https://man7.org/linux/man-pages/man7/hostname.7.html.
+  return /^.*:.*:.*$|^localhost(:[0-9]+)?$|^(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])(\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])){3}(:[0-9]+)?$/.test(host);
 }
 
 /**

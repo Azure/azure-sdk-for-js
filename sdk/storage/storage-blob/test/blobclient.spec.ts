@@ -844,4 +844,11 @@ describe("BlobClient - Verify Name Properties", () => {
   it("verify endpoint without dots", async () => {
     verifyNameProperties(`https://localhost:80/${accountName}/${containerName}/${blobName}`);
   });
+
+  it("verify custom endpoint without valid accountName", async () => {
+    const newClient = new BlobClient(`https://customdomain.com/${containerName}/${blobName}`);
+    assert.equal(newClient.accountName, "", "Account name is not the same as expected.");
+    assert.equal(newClient.containerName, containerName, "Container name is not the same as the one provided.");
+    assert.equal(newClient.name, blobName, "Blob name is not the same as the one provided.");
+  });
 });

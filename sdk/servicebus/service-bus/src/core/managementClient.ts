@@ -124,7 +124,7 @@ export interface CorrelationRuleFilter {
   /**
    * Value to be matched with the user properties of the incoming message.
    */
-  properties?: any;
+  properties?: { [key: string]: "string" | "number" | "boolean" };
 }
 
 /**
@@ -793,12 +793,6 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
           false,
           receiveMode
         );
-        if (message.lockToken && message.lockedUntilUtc) {
-          this._context.requestResponseLockedMessages.set(
-            message.lockToken,
-            message.lockedUntilUtc
-          );
-        }
         messageList.push(message);
       }
       return messageList;
