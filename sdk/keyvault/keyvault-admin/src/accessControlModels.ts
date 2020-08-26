@@ -37,9 +37,9 @@ export interface KeyVaultRoleAssignment {
 }
 
 /**
- * Role definition permissions.
+ * VaA list of Key Vault permissions.
  */
-export interface RoleDefinitionPermission {
+export interface KeyVaultPermission {
   /**
    * Allowed actions.
    */
@@ -87,9 +87,9 @@ export interface KeyVaultRoleDefinition {
    */
   roleType?: string;
   /**
-   * Role definition permissions.
+   * A list of Key Vault permissions.
    */
-  permissions?: RoleDefinitionPermission[];
+  permissions?: KeyVaultPermission[];
   /**
    * Role definition assignable scopes.
    */

@@ -28,12 +28,20 @@ export interface GetRoleAssignmentOptions extends coreHttp.OperationOptions {
 // @public (undocumented)
 export class KeyVaultAccessControlClient {
     constructor(vaultUrl: string, credential: TokenCredential, pipelineOptions?: AccessControlClientOptions);
-    createRoleAssignment(scope: RoleAssignmentScope, name: string, roleDefinitionId: string, principalId: string, options?: CreateRoleAssignmentOptions): Promise<KeyVaultRoleAssignment>;
-    deleteRoleAssignment(scope: RoleAssignmentScope, name: string, options?: DeleteRoleAssignmentOptions): Promise<KeyVaultRoleAssignment>;
-    getRoleAssignment(scope: RoleAssignmentScope, name: string, options?: GetRoleAssignmentOptions): Promise<KeyVaultRoleAssignment>;
-    listRoleAssignments(scope: RoleAssignmentScope, options?: ListRoleAssignmentsOptions): PagedAsyncIterableIterator<KeyVaultRoleAssignment>;
-    listRoleDefinitions(scope: RoleAssignmentScope, options?: ListRoleDefinitionsOptions): PagedAsyncIterableIterator<KeyVaultRoleDefinition>;
+    createRoleAssignment(roleScope: RoleAssignmentScope, name: string, roleDefinitionId: string, principalId: string, options?: CreateRoleAssignmentOptions): Promise<KeyVaultRoleAssignment>;
+    deleteRoleAssignment(roleScope: RoleAssignmentScope, name: string, options?: DeleteRoleAssignmentOptions): Promise<KeyVaultRoleAssignment>;
+    getRoleAssignment(roleScope: RoleAssignmentScope, name: string, options?: GetRoleAssignmentOptions): Promise<KeyVaultRoleAssignment>;
+    listRoleAssignments(roleScope: RoleAssignmentScope, options?: ListRoleAssignmentsOptions): PagedAsyncIterableIterator<KeyVaultRoleAssignment>;
+    listRoleDefinitions(roleScope: RoleAssignmentScope, options?: ListRoleDefinitionsOptions): PagedAsyncIterableIterator<KeyVaultRoleDefinition>;
     readonly vaultUrl: string;
+}
+
+// @public
+export interface KeyVaultPermission {
+    actions?: string[];
+    dataActions?: string[];
+    notActions?: string[];
+    notDataActions?: string[];
 }
 
 // @public
@@ -50,7 +58,7 @@ export interface KeyVaultRoleDefinition {
     description?: string;
     readonly id?: string;
     readonly name?: string;
-    permissions?: RoleDefinitionPermission[];
+    permissions?: KeyVaultPermission[];
     roleName?: string;
     roleType?: string;
     readonly type?: string;
@@ -80,14 +88,6 @@ export interface RoleAssignmentPropertiesWithScope extends RoleAssignmentPropert
 
 // @public
 export type RoleAssignmentScope = "/" | "/keys" | string;
-
-// @public
-export interface RoleDefinitionPermission {
-    actions?: string[];
-    dataActions?: string[];
-    notActions?: string[];
-    notDataActions?: string[];
-}
 
 // @public
 export const SDK_VERSION: string;
