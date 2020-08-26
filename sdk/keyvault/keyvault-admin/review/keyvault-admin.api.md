@@ -25,7 +25,7 @@ export interface DeleteRoleAssignmentOptions extends coreHttp.OperationOptions {
 export interface GetRoleAssignmentOptions extends coreHttp.OperationOptions {
 }
 
-// @public (undocumented)
+// @public
 export class KeyVaultAccessControlClient {
     constructor(vaultUrl: string, credential: TokenCredential, pipelineOptions?: AccessControlClientOptions);
     createRoleAssignment(roleScope: RoleAssignmentScope, name: string, roleDefinitionId: string, principalId: string, options?: CreateRoleAssignmentOptions): Promise<KeyVaultRoleAssignment>;

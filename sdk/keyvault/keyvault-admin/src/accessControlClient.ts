@@ -35,6 +35,11 @@ import { createSpan, setParentSpan } from "./tracing";
 import { mappings } from "./mappings";
 import { logger } from "./log";
 
+/**
+ * The KeyVaultAccessControlClient provides methods to manage
+ * access control and role assignments in any given Azure Key Vault instance.
+ * The client supports creating, retrieving and deleting roles.
+ */
 export class KeyVaultAccessControlClient {
   /**
    * The base URL to the vault
