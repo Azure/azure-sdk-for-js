@@ -120,7 +120,7 @@ export class ReplicationvCenters {
    * The operation to update a registered vCenter.
    * @summary Update vCenter operation.
    * @param fabricName Fabric name.
-   * @param vCenterName vCeneter name
+   * @param vCenterName vCenter name
    * @param updateVCenterRequest The input to the update vCenter operation.
    * @param [options] The optional parameters
    * @returns Promise<Models.ReplicationvCentersUpdateResponse>
@@ -199,7 +199,7 @@ export class ReplicationvCenters {
    * The operation to update a registered vCenter.
    * @summary Update vCenter operation.
    * @param fabricName Fabric name.
-   * @param vCenterName vCeneter name
+   * @param vCenterName vCenter name
    * @param updateVCenterRequest The input to the update vCenter operation.
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
