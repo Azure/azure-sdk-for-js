@@ -231,7 +231,7 @@ describe("Retries - MessageSender", () => {
       numberOfTimesInitInvoked++;
       throw new MessagingError("Hello there, I'm an error");
     };
-
+    (sender as ServiceBusSenderImpl)["_createMessageSenderIfNotOpen"] = () => {};
     (sender as ServiceBusSenderImpl)["_sender"]["isOpen"] = () => false;
     (sender as ServiceBusSenderImpl)["_sender"]["open"] = fakeFunction;
   }
