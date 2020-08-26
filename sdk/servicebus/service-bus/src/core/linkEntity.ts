@@ -235,8 +235,7 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
     }
 
     if (this._wasClosedPermanently) {
-      log.error(`${this._logPrefix} Link has been closed. Not reopening.`);
-      return;
+      throw new Error(`${this._logPrefix} Link has been permanently closed. Not reopening.`);
     }
 
     if (this.isOpen()) {
@@ -259,6 +258,7 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
 
       this._logger(`${this._logPrefix} Link has been created.`);
     } catch (err) {
+      log.error(`${this._logPrefix} Error thrown when creating the link:`, err);
       await this.closeLinkImpl();
       throw err;
     }
@@ -325,7 +325,7 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
   }
 
   private async closeLinkImpl(): Promise<void> {
-    this._logger(`${this._logPrefix} closeLink() called`);
+    this._logger(`${this._logPrefix} closeLinkImpl() called`);
 
     clearTimeout(this._tokenRenewalTimer as NodeJS.Timer);
     this._tokenRenewalTimer = undefined;
