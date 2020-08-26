@@ -483,6 +483,26 @@ describe("BlobClient", () => {
     }
   });
 
+  it("setAccessTier with snapshot", async () => {
+    const resp = await blockBlobClient.createSnapshot();
+    const blockBlobClientWithSnapshot = blockBlobClient.withSnapshot(resp.snapshot!);
+
+    await blockBlobClientWithSnapshot.setAccessTier("Cool");
+
+    const properties = await blockBlobClientWithSnapshot.getProperties();
+    assert.equal(properties.accessTier!.toLowerCase(), "cool");
+  });
+
+  it("setAccessTier with versioning", async () => {
+    const resp = await blockBlobClient.setMetadata({ a: "a" });
+    const blockBlobClientWithVersion = blockBlobClient.withVersion(resp.versionId!);
+
+    await blockBlobClientWithVersion.setAccessTier("Cool");
+
+    const properties = await blockBlobClientWithVersion.getProperties();
+    assert.equal(properties.accessTier!.toLowerCase(), "cool");
+  });
+
   it("can be created with a sas connection string", async () => {
     const newClient = new BlobClient(
       getSASConnectionStringFromEnvironment(),
