@@ -17,7 +17,7 @@ input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/master/
 add-credentials: false
 use-extension:
   "@autorest/typescript": "6.0.0-dev.20200817.1"
-package-version: "3.0.0-preview1"
+package-version: "3.0.0-preview.1"
 ```
 
 ```yaml
