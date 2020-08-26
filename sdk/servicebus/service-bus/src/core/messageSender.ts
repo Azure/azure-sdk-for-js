@@ -113,7 +113,7 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
       const senderError = context.sender && context.sender.error;
       log.error(
         "[%s] 'sender_close' event occurred on the sender '%s' with address '%s'. " +
-          "Value for isItselfClosed on the receiver is: '%s' " +
+          "Value for isItselfClosed on the sender is: '%s' " +
           "Value for isConnecting on the session is: '%s'.",
         this._context.connectionId,
         this.name,
