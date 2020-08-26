@@ -5,9 +5,11 @@ import {
   AnomalyDetectorClientOptions,
   AnomalyDetectorClientDetectEntireResponse,
   AnomalyDetectorClientDetectChangePointResponse,
-  AnomalyDetectorClientDetectLastPointResponse
+  AnomalyDetectorClientDetectLastPointResponse,
+  DetectChangePointRequest,
+  DetectRequest
 } from "./models";
-import { GeneratedClient, DetectRequest, DetectChangePointRequest } from "./generated";
+import { GeneratedClient } from "./generated";
 import { TokenCredential } from "@azure/identity";
 import { KeyCredential } from "@azure/core-auth";
 import {

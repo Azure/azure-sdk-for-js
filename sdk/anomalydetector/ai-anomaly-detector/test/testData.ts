@@ -5,7 +5,7 @@ import {
   DetectEntireResponse
 } from "../src";
 
-const granularity: TimeGranularity = "monthly";
+const granularity: TimeGranularity = TimeGranularity.monthly;
 
 export const testTrendPointseries: DetectChangePointRequest = {
   series: [
@@ -250,7 +250,7 @@ export const testTrendPointseries: DetectChangePointRequest = {
       timestamp: new Date("2019-03-01T00:00:00Z")
     }
   ],
-  granularity: "daily",
+  granularity: TimeGranularity.daily,
   customInterval: 1,
   stableTrendWindow: 5,
   threshold: 0.9,

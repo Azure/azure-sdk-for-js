@@ -97,11 +97,8 @@ export interface DetectRequest {
     series: TimeSeriesPoint[];
 }
 
-// @public
-export type TimeGranularity = "yearly" | "monthly" | "weekly" | "daily" | "hourly" | "minutely" | "secondly";
-
 // @public (undocumented)
-export enum TimeGranularityEnum {
+export enum TimeGranularity {
     daily = "daily",
     hourly = "hourly",
     monthly = "monthly",
