@@ -9,7 +9,6 @@ import {
   ReceiverOptions
 } from "rhea-promise";
 import { DefaultDataTransformer, AccessToken } from "@azure/core-amqp";
-import { ConcurrentExpiringMap } from "../../src/util/concurrentExpiringMap";
 import { EventEmitter } from "events";
 import { getUniqueName } from "../../src/util/utils";
 
@@ -38,7 +37,6 @@ export function createConnectionContextForTests(options?: {
     managementClients: {},
     config: { endpoint: "my.service.bus" },
     connectionId: "connection-id",
-    requestResponseLockedMessages: new ConcurrentExpiringMap<string>(),
     connection: {
       id: "connection-id",
 

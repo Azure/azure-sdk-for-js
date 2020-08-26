@@ -39,8 +39,7 @@ import {
   BlobCreateSnapshotResponse,
   BlobDeleteResponse,
   BlobDownloadOptionalParams,
-  BlobDownloadResponseModel,
-  BlobGetPropertiesResponse,
+  BlobGetPropertiesResponseModel,
   BlobHTTPHeaders,
   BlobPrefix,
   BlobSetHTTPHeadersResponse,
@@ -86,7 +85,8 @@ import {
   ContainerListBlobFlatSegmentHeaders,
   BlobProperties,
   ContainerListBlobHierarchySegmentHeaders,
-  ListBlobsHierarchySegmentResponseModel
+  ListBlobsHierarchySegmentResponseModel,
+  BlobDownloadResponseModel
 } from "./generatedModels";
 import {
   AppendBlobRequestConditions,
@@ -97,7 +97,9 @@ import {
   Tags,
   PageBlobRequestConditions,
   PremiumPageBlobTier,
-  toAccessTier
+  toAccessTier,
+  ObjectReplicationPolicy,
+  BlobDownloadResponseParsed
 } from "./models";
 import { newPipeline, StoragePipelineOptions, Pipeline } from "./Pipeline";
 import {
@@ -112,15 +114,17 @@ import {
   ETagNone
 } from "./utils/constants";
 import {
-  setURLParameter,
-  extractConnectionStringParts,
   appendToURLPath,
+  extractConnectionStringParts,
   generateBlockID,
+  isIpEndpointStyle,
+  setURLParameter,
   toBlobTagsString,
   toQuerySerialization,
   truncatedISO8061Date,
   toBlobTags,
-  toTags
+  toTags,
+  parseObjectReplicationRecord
 } from "./utils/utils.common";
 import {
   fsStat,
@@ -959,6 +963,30 @@ export interface BlobDeleteIfExistsResponse extends BlobDeleteResponse {
 }
 
 /**
+ * Contains response data for the {@link BlobClient.getProperties} operation.
+ *
+ * @export
+ * @interface BlobGetPropertiesResponse
+ */
+export interface BlobGetPropertiesResponse extends BlobGetPropertiesResponseModel {
+  /**
+   * Parsed Object Replication Policy Id, Rule Id(s) and status of the source blob.
+   *
+   * @type {ObjectReplicationPolicy[]}
+   * @memberof BlobGetPropertiesResponse
+   */
+  objectReplicationSourceProperties?: ObjectReplicationPolicy[];
+
+  /**
+   * Object Replication Policy Id of the destination blob.
+   *
+   * @type {string}
+   * @memberof BlobGetPropertiesResponse
+   */
+  objectReplicationDestinationPolicyId?: string;
+}
+
+/**
  * A BlobClient represents a URL to an Azure Storage blob; the blob may be a block blob,
  * append blob, or page blob.
  *
@@ -1218,7 +1246,7 @@ export class BlobClient extends StorageClient {
    * @param {number} [offset] From which position of the blob to download, >= 0
    * @param {number} [count] How much data to be downloaded, > 0. Will download to the end when undefined
    * @param {BlobDownloadOptions} [options] Optional options to Blob Download operation.
-   * @returns {Promise<BlobDownloadResponseModel>}
+   * @returns {Promise<BlobDownloadResponseParsed>}
    * @memberof BlobClient
    *
    * Example usage (Node.js):
@@ -1270,7 +1298,7 @@ export class BlobClient extends StorageClient {
     offset: number = 0,
     count?: number,
     options: BlobDownloadOptions = {}
-  ): Promise<BlobDownloadResponseModel> {
+  ): Promise<BlobDownloadResponseParsed> {
     options.conditions = options.conditions || {};
     options.conditions = options.conditions || {};
     ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
@@ -1291,9 +1319,15 @@ export class BlobClient extends StorageClient {
         spanOptions
       });
 
+      const wrappedRes = {
+        ...res,
+        _response: res._response, // _response is made non-enumerable
+        objectReplicationDestinationPolicyId: res.objectReplicationPolicyId,
+        objectReplicationSourceProperties: parseObjectReplicationRecord(res.objectReplicationRules)
+      };
       // Return browser response immediately
       if (!isNode) {
-        return res;
+        return wrappedRes;
       }
 
       // We support retrying when download stream unexpected ends in Node.js runtime
@@ -1315,7 +1349,7 @@ export class BlobClient extends StorageClient {
       }
 
       return new BlobDownloadResponse(
-        res,
+        wrappedRes,
         async (start: number): Promise<NodeJS.ReadableStream> => {
           const updatedOptions: BlobDownloadOptionalParams = {
             leaseAccessConditions: options.conditions,
@@ -1432,13 +1466,20 @@ export class BlobClient extends StorageClient {
     try {
       options.conditions = options.conditions || {};
       ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
-      return await this.blobContext.getProperties({
+      const res = await this.blobContext.getProperties({
         abortSignal: options.abortSignal,
         leaseAccessConditions: options.conditions,
         modifiedAccessConditions: options.conditions,
         cpkInfo: options.customerProvidedKey,
         spanOptions
       });
+
+      return {
+        ...res,
+        _response: res._response, // _response is made non-enumerable
+        objectReplicationDestinationPolicyId: res.objectReplicationPolicyId,
+        objectReplicationSourceProperties: parseObjectReplicationRecord(res.objectReplicationRules)
+      };
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -1505,7 +1546,8 @@ export class BlobClient extends StorageClient {
       });
       return {
         succeeded: true,
-        ...res
+        ...res,
+        _response: res._response // _response is made non-enumerable
       };
     } catch (e) {
       if (e.details?.errorCode === "BlobNotFound") {
@@ -1685,6 +1727,7 @@ export class BlobClient extends StorageClient {
       });
       const wrappedResponse: BlobGetTagsResponse = {
         ...response,
+        _response: response._response, // _response is made non-enumerable
         tags: toTags({ blobTagSet: response.blobTagSet }) || {}
       };
       return wrappedResponse;
@@ -2137,7 +2180,7 @@ export class BlobClient extends StorageClient {
    * @param {number} [offset] From which position of the block blob to download.
    * @param {number} [count] How much data to be downloaded. Will download to the end when passing undefined.
    * @param {BlobDownloadOptions} [options] Options to Blob download options.
-   * @returns {Promise<BlobDownloadResponseModel>} The response data for blob download operation,
+   * @returns {Promise<BlobDownloadResponseParsed>} The response data for blob download operation,
    *                                                 but with readableStreamBody set to undefined since its
    *                                                 content is already read and written into a local file
    *                                                 at the specified path.
@@ -2148,7 +2191,7 @@ export class BlobClient extends StorageClient {
     offset: number = 0,
     count?: number,
     options: BlobDownloadOptions = {}
-  ): Promise<BlobDownloadResponseModel> {
+  ): Promise<BlobDownloadResponseParsed> {
     const { span, spanOptions } = createSpan("BlobClient-downloadToFile", options.tracingOptions);
     try {
       const response = await this.download(offset, count, {
@@ -2196,13 +2239,19 @@ export class BlobClient extends StorageClient {
         const pathComponents = parsedUrl.getPath()!.match("/([^/]*)(/(.*))?");
         containerName = pathComponents![1];
         blobName = pathComponents![3];
-      } else {
+      } else if (isIpEndpointStyle(parsedUrl)) {
         // IPv4/IPv6 address hosts... Example - http://192.0.0.10:10001/devstoreaccount1/containername/blob
         // Single word domain without a [dot] in the endpoint... Example - http://localhost:10001/devstoreaccount1/containername/blob
         // .getPath() -> /devstoreaccount1/containername/blob
         const pathComponents = parsedUrl.getPath()!.match("/([^/]*)/([^/]*)(/(.*))?");
         containerName = pathComponents![2];
         blobName = pathComponents![4];
+      } else {
+        // "https://customdomain.com/containername/blob".
+        // .getPath() -> /containername/blob
+        const pathComponents = parsedUrl.getPath()!.match("/([^/]*)(/(.*))?");
+        containerName = pathComponents![1];
+        blobName = pathComponents![3];
       }
 
       // decode the encoded blobName, containerName - to get all the special characters that might be present in them
@@ -2794,7 +2843,8 @@ export class AppendBlobClient extends BlobClient {
       });
       return {
         succeeded: true,
-        ...res
+        ...res,
+        _response: res._response // _response is made non-enumerable
       };
     } catch (e) {
       if (e.details?.errorCode === "BlobAlreadyExists") {
@@ -5276,7 +5326,8 @@ export class PageBlobClient extends BlobClient {
       });
       return {
         succeeded: true,
-        ...res
+        ...res,
+        _response: res._response // _response is made non-enumerable
       };
     } catch (e) {
       if (e.details?.errorCode === "BlobAlreadyExists") {
@@ -6494,7 +6545,7 @@ export interface BlobItem {
   properties: BlobProperties;
   metadata?: { [propertyName: string]: string };
   tags?: Tags;
-  objectReplicationMetadata?: { [propertyName: string]: string };
+  objectReplicationSourceProperties?: ObjectReplicationPolicy[];
 }
 
 /**
@@ -6844,7 +6895,8 @@ export class ContainerClient extends StorageClient {
       });
       return {
         succeeded: true,
-        ...res
+        ...res,
+        _response: res._response // _response is made non-enumerable
       };
     } catch (e) {
       if (e.details?.errorCode === "ContainerAlreadyExists") {
@@ -7080,7 +7132,8 @@ export class ContainerClient extends StorageClient {
       });
       return {
         succeeded: true,
-        ...res
+        ...res,
+        _response: res._response // _response is made non-enumerable
       };
     } catch (e) {
       if (e.details?.errorCode === "ContainerNotFound") {
@@ -7425,19 +7478,23 @@ export class ContainerClient extends StorageClient {
       options.tracingOptions
     );
     try {
-      const resposne = await this.containerContext.listBlobFlatSegment({
+      const response = await this.containerContext.listBlobFlatSegment({
         marker,
         ...options,
         spanOptions
       });
       const wrappedResponse: ContainerListBlobFlatSegmentResponse = {
-        ...resposne,
+        ...response,
+        _response: response._response, // _response is made non-enumerable
         segment: {
-          ...resposne.segment,
-          blobItems: resposne.segment.blobItems.map((blobItemInteral) => {
+          ...response.segment,
+          blobItems: response.segment.blobItems.map((blobItemInteral) => {
             const blobItem: BlobItem = {
               ...blobItemInteral,
-              tags: toTags(blobItemInteral.blobTags)
+              tags: toTags(blobItemInteral.blobTags),
+              objectReplicationSourceProperties: parseObjectReplicationRecord(
+                blobItemInteral.objectReplicationMetadata
+              )
             };
             return blobItem;
           })
@@ -7478,19 +7535,23 @@ export class ContainerClient extends StorageClient {
       options.tracingOptions
     );
     try {
-      const resposne = await this.containerContext.listBlobHierarchySegment(delimiter, {
+      const response = await this.containerContext.listBlobHierarchySegment(delimiter, {
         marker,
         ...options,
         spanOptions
       });
       const wrappedResponse: ContainerListBlobHierarchySegmentResponse = {
-        ...resposne,
+        ...response,
+        _response: response._response, // _response is made non-enumerable
         segment: {
-          ...resposne.segment,
-          blobItems: resposne.segment.blobItems.map((blobItemInteral) => {
+          ...response.segment,
+          blobItems: response.segment.blobItems.map((blobItemInteral) => {
             const blobItem: BlobItem = {
               ...blobItemInteral,
-              tags: toTags(blobItemInteral.blobTags)
+              tags: toTags(blobItemInteral.blobTags),
+              objectReplicationSourceProperties: parseObjectReplicationRecord(
+                blobItemInteral.objectReplicationMetadata
+              )
             };
             return blobItem;
           })
@@ -7910,13 +7971,18 @@ export class ContainerClient extends StorageClient {
 
       if (parsedUrl.getHost()!.split(".")[1] === "blob") {
         // "https://myaccount.blob.core.windows.net/containername".
+        // "https://customdomain.com/containername".
         // .getPath() -> /containername
         containerName = parsedUrl.getPath()!.split("/")[1];
-      } else {
+      } else if (isIpEndpointStyle(parsedUrl)) {
         // IPv4/IPv6 address hosts... Example - http://192.0.0.10:10001/devstoreaccount1/containername
         // Single word domain without a [dot] in the endpoint... Example - http://localhost:10001/devstoreaccount1/containername
         // .getPath() -> /devstoreaccount1/containername
         containerName = parsedUrl.getPath()!.split("/")[2];
+      } else {
+        // "https://customdomain.com/containername".
+        // .getPath() -> /containername
+        containerName = parsedUrl.getPath()!.split("/")[1];
       }
 
       // decode the encoded containerName - to get all the special characters that might be present in it

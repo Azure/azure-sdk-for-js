@@ -65,7 +65,9 @@ module.exports = function(config) {
       "MD_ACCOUNT_NAME",
       "MD_ACCOUNT_SAS",
       "ENCRYPTION_SCOPE_1",
-      "ENCRYPTION_SCOPE_2"
+      "ENCRYPTION_SCOPE_2",
+      "ORS_DEST_ACCOUNT_NAME",
+      "ORS_DEST_ACCOUNT_SAS"
     ],
 
     // test results reporter to use

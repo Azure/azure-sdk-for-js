@@ -8,6 +8,7 @@ export const testPollerProperties = {
 
 const mockAccountName = "fakestorageaccount";
 const mockMDAccountName = "md-fakestorageaccount";
+const mockAccountName1 = "fakestorageaccount1";
 const mockAccountKey = "aaaaa";
 export const recorderEnvSetup: RecorderEnvironmentSetup = {
   replaceableVariables: {
@@ -26,7 +27,11 @@ export const recorderEnvSetup: RecorderEnvironmentSetup = {
     MD_ACCOUNT_SAS: `${mockAccountKey}`,
     MD_STORAGE_CONNECTION_STRING: `DefaultEndpointsProtocol=https;AccountName=${mockMDAccountName};AccountKey=${mockAccountKey};EndpointSuffix=core.windows.net`,
     ENCRYPTION_SCOPE_1: "antjoscope1",
-    ENCRYPTION_SCOPE_2: "antjoscope2"
+    ENCRYPTION_SCOPE_2: "antjoscope2",
+    ORS_DEST_ACCOUNT_NAME: `${mockAccountName1}`,
+    ORS_DEST_ACCOUNT_KEY: `${mockAccountKey}`,
+    ORS_DEST_ACCOUNT_SAS: `${mockAccountKey}`,
+    ORS_DEST_STORAGE_CONNECTION_STRING: `DefaultEndpointsProtocol=https;AccountName=${mockAccountName1};AccountKey=${mockAccountKey};EndpointSuffix=core.windows.net`
   },
   customizationsOnRecordings: [
     // Used in record mode
