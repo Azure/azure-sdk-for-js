@@ -54,7 +54,7 @@ export class KeyVaultAccessControlClient {
   private readonly client: KeyVaultClient;
 
   /**
-   * Creates an instance of KeyClient.
+   * Creates an instance of the KeyVaultAccessControlClient.
    *
    * Example usage:
    * ```ts
