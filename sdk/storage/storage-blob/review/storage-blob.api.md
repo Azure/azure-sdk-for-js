@@ -887,6 +887,7 @@ export interface BlobQueryCsvTextConfiguration extends BlobQueryTextConfiguratio
     fieldQuote?: string;
     hasHeaders?: boolean;
     kind: "csv";
+    recordSeparator: string;
 }
 
 // @public
@@ -942,6 +943,7 @@ export interface BlobQueryHeaders {
 // @public
 export interface BlobQueryJsonTextConfiguration extends BlobQueryTextConfiguration {
     kind: "json";
+    recordSeparator: string;
 }
 
 // @public
@@ -955,7 +957,6 @@ export type BlobQueryResponseModel = BlobQueryHeaders & {
 
 // @public
 export interface BlobQueryTextConfiguration {
-    recordSeparator: string;
 }
 
 // @public

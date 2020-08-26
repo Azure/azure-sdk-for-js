@@ -3167,15 +3167,7 @@ export interface BlobQueryError {
  * @export
  * @interface BlobQueryTextConfiguration
  */
-export interface BlobQueryTextConfiguration {
-  /**
-   * Record separator.
-   *
-   * @type {string}
-   * @memberof BlobQueryTextConfiguration
-   */
-  recordSeparator: string;
-}
+export interface BlobQueryTextConfiguration {}
 
 /**
  * Options to query blob with JSON format.
@@ -3184,6 +3176,13 @@ export interface BlobQueryTextConfiguration {
  * @interface BlobQueryJsonTextConfiguration
  */
 export interface BlobQueryJsonTextConfiguration extends BlobQueryTextConfiguration {
+  /**
+   * Record separator.
+   *
+   * @type {string}
+   * @memberof BlobQueryJsonTextConfiguration
+   */
+  recordSeparator: string;
   /**
    * Query for a JSON format blob.
    *
@@ -3200,6 +3199,13 @@ export interface BlobQueryJsonTextConfiguration extends BlobQueryTextConfigurati
  * @interface BlobQueryCsvTextConfiguration
  */
 export interface BlobQueryCsvTextConfiguration extends BlobQueryTextConfiguration {
+  /**
+   * Record separator.
+   *
+   * @type {string}
+   * @memberof BlobQueryCsvTextConfiguration
+   */
+  recordSeparator: string;
   /**
    * Query for a CSV format blob.
    *
