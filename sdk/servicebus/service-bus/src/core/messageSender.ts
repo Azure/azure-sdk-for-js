@@ -105,7 +105,7 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
       const senderError = context.sender && context.sender.error;
 
       log.error(
-        `${this.logPrefix} 'onAmqpClose' event occurred. The associated error is: %O`,
+        `${this.logPrefix} 'sender_close' event occurred. The associated error is: %O`,
         senderError
       );
 
