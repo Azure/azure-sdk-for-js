@@ -20,6 +20,7 @@ describe("FormRecognizerClient NodeJS only", () => {
   const apiKey = new AzureKeyCredential(testEnv.FORM_RECOGNIZER_API_KEY);
 
   beforeEach(function() {
+    // eslint-disable-next-line no-invalid-this
     ({ recorder, client } = createRecordedRecognizerClient(this, apiKey));
   });
 
@@ -41,7 +42,7 @@ describe("FormRecognizerClient NodeJS only", () => {
 
     assert.ok(pages && pages.length > 0, `Expect no-empty pages but got ${pages}`);
 
-    //TODO: verify table rows column cells etc.
+    // TODO: verify table rows column cells etc.
   });
 
   it("recognizes content from a png file stream", async () => {
@@ -178,6 +179,7 @@ describe("[AAD] FormRecognizerClient NodeJS only", () => {
   let recorder: Recorder;
 
   beforeEach(function() {
+    // eslint-disable-next-line no-invalid-this
     ({ recorder, client } = createRecordedRecognizerClient(this));
   });
 
@@ -199,7 +201,7 @@ describe("[AAD] FormRecognizerClient NodeJS only", () => {
 
     assert.ok(pages && pages.length > 0, `Expect no-empty pages but got ${pages}`);
 
-    //TODO: verify table rows column cells etc.
+    // TODO: verify table rows column cells etc.
   });
 
   it("recognizes content from a url", async () => {

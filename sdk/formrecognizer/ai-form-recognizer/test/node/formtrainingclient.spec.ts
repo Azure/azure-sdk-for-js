@@ -33,6 +33,7 @@ describe("FormTrainingClient NodeJS only", () => {
   const apiKey = new AzureKeyCredential(testEnv.FORM_RECOGNIZER_API_KEY);
 
   beforeEach(function() {
+    // eslint-disable-next-line no-invalid-this
     ({ recorder, client: trainingClient } = createRecordedTrainingClient(this, apiKey));
   });
 
@@ -154,14 +155,9 @@ describe("FormTrainingClient NodeJS only", () => {
   });
 
   it("listModels() iterates models in this account", async () => {
-    let count = 0;
-    for await (const _model of trainingClient.listCustomModels()) {
-      count++;
-      if (count > 30) {
-        break; // work around issue https://github.com/Azure/azure-sdk-for-js/issues/8353
-      }
+    for await (const validModel of trainingClient.listCustomModels()) {
+      assert.ok(validModel.modelId, `Expecting a model but got ${validModel.modelId}`);
     }
-    assert.ok(count > 0, `Expecting models in account but got ${count}`);
   });
 
   it("listModels() allows getting next model info", async () => {
@@ -173,6 +169,7 @@ describe("FormTrainingClient NodeJS only", () => {
 
   it("getModel() returns a model", async function() {
     if (!modelIdToDelete) {
+      // eslint-disable-next-line no-invalid-this
       this.skip();
     }
 
@@ -187,6 +184,7 @@ describe("FormTrainingClient NodeJS only", () => {
 
   it("deleteModels() removes a model from this account", async function() {
     if (!modelIdToDelete) {
+      // eslint-disable-next-line no-invalid-this
       this.skip();
     }
 
@@ -236,6 +234,7 @@ describe("FormRecognizerClient form recognition NodeJS", () => {
   const apiKey = new AzureKeyCredential(testEnv.FORM_RECOGNIZER_API_KEY);
 
   beforeEach(function() {
+    // eslint-disable-next-line no-invalid-this
     ({ recorder, client: recognizerClient } = createRecordedRecognizerClient(this, apiKey));
   });
 
@@ -356,6 +355,7 @@ describe("[AAD] FormTrainingClient NodeJS only", () => {
   let recorder: Recorder;
 
   beforeEach(function() {
+    // eslint-disable-next-line no-invalid-this
     ({ recorder, client: trainingClient } = createRecordedTrainingClient(this));
   });
 

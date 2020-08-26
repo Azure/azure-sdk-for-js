@@ -1,5 +1,10 @@
 # Release History
 
+## 3.9.1 (Unreleased)
+
+- FEATURE: Bulk requests with `Create` operations will now autogenerate IDs if they are not present.
+- FEATURE: The `BulkOperationType` enum now exists and can be used when making bulk requests.
+
 ## 3.9.0 (2020-08-13)
 
 - FEATURE: Adds support for autoscale parameters on container and database create methods

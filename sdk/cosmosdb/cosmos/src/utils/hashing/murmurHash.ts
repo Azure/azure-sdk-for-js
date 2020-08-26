@@ -422,11 +422,11 @@ function x64Hash128(bytes: Buffer, seed?: number) {
   for (let i = 0; i < blocks; i = i + 16) {
     k1 = [
       bytes[i + 4] | (bytes[i + 5] << 8) | (bytes[i + 6] << 16) | (bytes[i + 7] << 24),
-      bytes[i] | (bytes[i + 1] << 8) | (bytes[i + 2] << 16) | (bytes[i + 3] << 24),
+      bytes[i] | (bytes[i + 1] << 8) | (bytes[i + 2] << 16) | (bytes[i + 3] << 24)
     ];
     k2 = [
       bytes[i + 12] | (bytes[i + 13] << 8) | (bytes[i + 14] << 16) | (bytes[i + 15] << 24),
-      bytes[i + 8] | (bytes[i + 9] << 8) | (bytes[i + 10] << 16) | (bytes[i + 11] << 24),
+      bytes[i + 8] | (bytes[i + 9] << 8) | (bytes[i + 10] << 16) | (bytes[i + 11] << 24)
     ];
 
     k1 = _x64Multiply(k1, c1);
@@ -550,10 +550,10 @@ export default {
   version: "3.0.0",
   x86: {
     hash32: x86Hash32,
-    hash128: x86Hash128,
+    hash128: x86Hash128
   },
   x64: {
-    hash128: x64Hash128,
+    hash128: x64Hash128
   },
-  inputValidation: true,
+  inputValidation: true
 };

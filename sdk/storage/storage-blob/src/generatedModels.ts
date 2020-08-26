@@ -22,7 +22,7 @@ export {
   BlobDeleteResponse,
   BlobDownloadOptionalParams,
   BlobGetPropertiesHeaders,
-  BlobGetPropertiesResponse,
+  BlobGetPropertiesResponse as BlobGetPropertiesResponseModel,
   BlobPropertiesInternal as BlobProperties,
   BlobUndeleteResponse,
   BlobHTTPHeaders,
