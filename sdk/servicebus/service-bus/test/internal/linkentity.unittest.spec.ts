@@ -9,7 +9,7 @@ import { Receiver, ReceiverOptions } from "rhea-promise";
 import sinon from "sinon";
 import { LinkEntity } from "../../src/core/linkEntity";
 import * as log from "../../src/log";
-import { isLinkLocked } from "../utils/testutils2";
+import { isLinkLocked } from "../utils/misc";
 import { createConnectionContextForTests, createRheaReceiverForTests } from "./unittestUtils";
 chai.use(chaiAsPromised);
 const assert = chai.assert;

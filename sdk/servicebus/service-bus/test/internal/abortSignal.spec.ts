@@ -17,7 +17,7 @@ import {
 } from "../utils/abortSignalTestUtils";
 import { createConnectionContextForTests } from "./unittestUtils";
 import { StandardAbortMessage } from "../../src/util/utils";
-import { isLinkLocked } from "../utils/testutils2";
+import { isLinkLocked } from "../utils/misc";
 
 describe("AbortSignal", () => {
   const testMessageThatDoesntMatter = {

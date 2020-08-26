@@ -26,8 +26,6 @@ import {
   ReceivedMessageWithLock,
   ServiceBusMessage
 } from "../../src/serviceBusMessage";
-import { defaultLock } from "@azure/core-amqp";
-import { LinkEntity } from "../../src/core/linkEntity";
 
 dotenv.config();
 const env = getEnvVars();
@@ -511,7 +509,7 @@ export async function drainReceiveAndDeleteReceiver(
 function connectionString() {
   if (env[EnvVarNames.SERVICEBUS_CONNECTION_STRING] == null) {
     throw new Error(
-      `No service bus connection string defined in ${EnvVarNames.SERVICEBUS_CONNECTION_STRING}`
+      `No service bus connection string defined in ${EnvVarNames.SERVICEBUS_CONNECTION_STRING}. If you're in a unit test you should not be depending on the deployed environment!`
     );
   }
 
@@ -529,8 +527,4 @@ export async function testPeekMsgsLength(
     expectedPeekLength,
     "Unexpected number of msgs found when peeking"
   );
-}
-
-export function isLinkLocked(linkEntity: LinkEntity<any>): boolean {
-  return defaultLock.isBusy(linkEntity["_openLock"]);
 }
