@@ -96,7 +96,7 @@ import {
   WrapResult
 } from "./cryptographyClient";
 
-import { parseKeyVaultKeyId, ParsedKeyVaultKeyId } from "./identifier";
+import { parseKeyId, ParsedKeyId } from "./identifier";
 
 export {
   CryptographyClientOptions,
@@ -122,7 +122,7 @@ export {
   KeyOperation,
   KeyType,
   KeyPollerOptions,
-  parseKeyVaultKeyId,
+  parseKeyId,
   BeginDeleteKeyOptions,
   BeginRecoverDeletedKeyOptions,
   KeyProperties,
@@ -134,7 +134,7 @@ export {
   ListDeletedKeysOptions,
   PageSettings,
   PagedAsyncIterableIterator,
-  ParsedKeyVaultKeyId,
+  ParsedKeyId,
   PipelineOptions,
   PollOperationState,
   PollerLike,
@@ -1131,7 +1131,7 @@ export class KeyClient {
     const keyBundle = bundle as KeyBundle;
     const deletedKeyBundle = bundle as DeletedKeyBundle;
 
-    const parsedId = parseKeyVaultKeyId(keyBundle.key!.kid!);
+    const parsedId = parseKeyId(keyBundle.key!.kid!);
 
     const attributes: any = keyBundle.attributes || {};
     delete keyBundle.attributes;
@@ -1180,7 +1180,7 @@ export class KeyClient {
    * Shapes the exposed {@link DeletedKey} based on a received KeyItem.
    */
   private getDeletedKeyFromKeyItem(keyItem: KeyItem): DeletedKey {
-    const parsedId = parseKeyVaultKeyId(keyItem.kid!);
+    const parsedId = parseKeyId(keyItem.kid!);
 
     const attributes = keyItem.attributes || {};
 
@@ -1223,7 +1223,7 @@ export class KeyClient {
    * Shapes the exposed {@link KeyProperties} based on a received KeyItem.
    */
   private getKeyPropertiesFromKeyItem(keyItem: KeyItem): KeyProperties {
-    const parsedId = parseKeyVaultKeyId(keyItem.kid!);
+    const parsedId = parseKeyId(keyItem.kid!);
 
     const attributes = keyItem.attributes || {};
 

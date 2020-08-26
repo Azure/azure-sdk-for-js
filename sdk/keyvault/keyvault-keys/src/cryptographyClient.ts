@@ -28,7 +28,7 @@ import { KeyVaultClient } from "./generated/keyVaultClient";
 import { challengeBasedAuthenticationPolicy } from "../../keyvault-common/src";
 import { createHash as cryptoCreateHash, createVerify, publicEncrypt } from "crypto";
 import * as constants from "constants";
-import { parseKeyVaultKeyId } from "./identifier";
+import { parseKeyId } from "./identifier";
 
 /**
  * A client used to perform cryptographic operations with Azure Key Vault keys.
@@ -717,11 +717,11 @@ export class CryptographyClient {
     let parsed;
     if (typeof key === "string") {
       this.key = key;
-      parsed = parseKeyVaultKeyId(this.key);
+      parsed = parseKeyId(this.key);
       this.hasTriedToGetKey = false;
     } else if (key.key) {
       this.key = key.key;
-      parsed = parseKeyVaultKeyId(this.key.kid!);
+      parsed = parseKeyId(this.key.kid!);
       this.hasTriedToGetKey = true;
     } else {
       throw new Error(

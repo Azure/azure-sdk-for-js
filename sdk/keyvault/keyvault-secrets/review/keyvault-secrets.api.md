@@ -74,7 +74,7 @@ export { PagedAsyncIterableIterator }
 export { PageSettings }
 
 // @public
-export interface ParsedKeyVaultSecretId {
+export interface ParsedSecretId {
     name: string;
     sourceId: string;
     vaultUrl: string;
@@ -82,7 +82,7 @@ export interface ParsedKeyVaultSecretId {
 }
 
 // @public
-export function parseKeyVaultSecretId(id: string): ParsedKeyVaultSecretId;
+export function parseSecretId(id: string): ParsedSecretId;
 
 export { PipelineOptions }
 

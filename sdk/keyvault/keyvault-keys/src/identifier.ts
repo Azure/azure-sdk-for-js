@@ -6,7 +6,7 @@ import { parseKeyvaultIdentifier } from "./generated/utils";
 /**
  * Represents a Key Vault Key Id and its parsed contents.
  */
-export interface ParsedKeyVaultKeyId {
+export interface ParsedKeyId {
   /**
    * The originally received Id.
    */
@@ -29,9 +29,9 @@ export interface ParsedKeyVaultKeyId {
 }
 
 /**
- * Parses the string Id from a Key Vault Key into the ParsedKeyVaultKeyId type.
+ * Parses the string Id from a Key Vault Key into the ParsedKeyId type.
  */
-export function parseKeyVaultKeyId(id: string): ParsedKeyVaultKeyId {
+export function parseKeyId(id: string): ParsedKeyId {
   const urlParts = id.split("/");
   const collection = urlParts[3];
 

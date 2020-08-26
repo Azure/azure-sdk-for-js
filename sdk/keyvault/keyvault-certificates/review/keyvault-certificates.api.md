@@ -365,15 +365,15 @@ export const logger: import("@azure/logger").AzureLogger;
 export type MergeCertificateOptions = coreHttp.OperationOptions;
 
 // @public
-export interface ParsedKeyVaultCertificateId {
+export function parseCertificateId(id: string): ParsedCertificateId;
+
+// @public
+export interface ParsedCertificateId {
     name: string;
     sourceId: string;
     vaultUrl: string;
     version?: string;
 }
-
-// @public
-export function parseKeyVaultCertificateId(id: string): ParsedKeyVaultCertificateId;
 
 export { PipelineOptions }
 
