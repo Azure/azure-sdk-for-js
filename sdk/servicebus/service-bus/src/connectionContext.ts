@@ -322,12 +322,12 @@ export namespace ConnectionContext {
           const sender = connectionContext.senders[senderName];
           if (sender && !sender.isConnecting) {
             log.error(
-              "[%s] calling close on sender '%s'.",
+              "[%s] calling detached on sender '%s'.",
               connectionContext.connection.id,
               sender.name
             );
             detachCalls.push(
-              sender.onDetached().catch((err) => {
+              sender.onDetached(connectionError || contextError).catch((err) => {
                 log.error(
                   "[%s] An error occurred while calling onDetached() the sender '%s': %O.",
                   connectionContext.connection.id,

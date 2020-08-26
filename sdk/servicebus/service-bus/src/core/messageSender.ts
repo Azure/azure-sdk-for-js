@@ -110,6 +110,7 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
 
     this._onAmqpClose = async (context: EventContext) => {
       const sender = this.link || context.sender!;
+      const senderError = context.sender && context.sender.error;
       log.error(
         "[%s] 'sender_close' event occurred on the sender '%s' with address '%s'. " +
           "Value for isItselfClosed on the receiver is: '%s' " +
@@ -121,8 +122,8 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
         this.isConnecting
       );
       if (sender && !this.isConnecting) {
-        // Call close to clean up timers & other resources
-        await sender.close().catch((err) => {
+        // Call onDetached to clean up timers & other resources
+        await this.onDetached(senderError).catch((err) => {
           log.error(
             "[%s] Error when closing sender [%s] after 'sender_close' event: %O",
             this._context.connectionId,
@@ -135,6 +136,7 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
 
     this._onSessionClose = async (context: EventContext) => {
       const sender = this.link || context.sender!;
+      const sessionError = context.session && context.session.error;
       log.error(
         "[%s] 'session_close' event occurred on the session of sender '%s' with address '%s'. " +
           "Value for isSessionItselfClosed on the session is: '%s' " +
@@ -146,8 +148,8 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
         this.isConnecting
       );
       if (sender && !this.isConnecting) {
-        // Call close to clean up timers & other resources
-        await sender.close().catch((err) => {
+        // Call onDetached to clean up timers & other resources
+        await this.onDetached(sessionError).catch((err) => {
           log.error(
             "[%s] Error when closing sender [%s] after 'session_close' event: %O",
             this._context.connectionId,
@@ -365,9 +367,19 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
 
   /**
    * To be called when connection is disconnected.
+   * @param {AmqpError | Error} [senderError] The sender error if any.
    * @returns {Promise<void>} Promise<void>.
    */
-  async onDetached(): Promise<void> {
+  async onDetached(senderError?: AmqpError | Error): Promise<void> {
+    if (senderError) {
+      log.error(
+        "[%s] Closing the rhea link on the Sender '%s' with address " + "'%s': %O",
+        this._context.connectionId,
+        this.name,
+        this.address,
+        senderError
+      );
+    }
     try {
       // Clears the token renewal timer. Closes the link and its session if they are open.
       // Removes the link and its session if they are present in rhea's cache.
