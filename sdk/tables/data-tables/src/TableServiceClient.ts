@@ -5,10 +5,11 @@ import { GeneratedClient } from "./generated/generatedClient";
 import { Service } from "./generated/operations";
 import { Table } from "./generated/operations";
 import {
-  ListTablesOptions,
+  ListTableItemsOptions,
   CreateTableOptions,
   ListTableItemsResponse,
-  CreateTableItemResponse
+  CreateTableItemResponse,
+  TableQueryOptions
 } from "./models";
 import {
   TableServiceClientOptions,
@@ -24,10 +25,12 @@ import {
   GetAccessPolicyOptions,
   GetAccessPolicyResponse,
   SetAccessPolicyResponse,
-  SetAccessPolicyOptions
+  SetAccessPolicyOptions,
+  TableResponseProperties
 } from "./generatedModels";
 import { getClientParamsFromConnectionString } from "./utils/connectionString";
 import { TablesSharedKeyCredential } from "./TablesSharedKeyCredential";
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
 
 /**
  * A TableServiceClient represents a Client to the Azure Tables service allowing you
@@ -171,7 +174,71 @@ export class TableServiceClient {
    * Queries tables under the given account.
    * @param options The options parameters.
    */
-  public async listTables(options?: ListTablesOptions): Promise<ListTableItemsResponse> {
+  public async listTables(
+    options?: ListTableItemsOptions
+  ): Promise<PagedAsyncIterableIterator<TableResponseProperties, ListTableItemsResponse>> {
+    const page = await this._listTables(options);
+    return this.listTablesResults(page, options);
+  }
+
+  private listTablesResults(
+    firstPage: ListTableItemsResponse,
+    options?: ListTableItemsOptions
+  ): PagedAsyncIterableIterator<TableResponseProperties, ListTableItemsResponse> {
+    const iter = this.listTablesAll(firstPage, options);
+
+    return {
+      next() {
+        return iter.next();
+      },
+      [Symbol.asyncIterator]() {
+        return this;
+      },
+      byPage: (settings) => {
+        const pageOptions = {
+          ...options,
+          queryOptions: { top: settings?.maxPageSize }
+        };
+        return this.listTablesPage(pageOptions);
+      }
+    };
+  }
+
+  private async *listTablesAll(
+    firstPage: ListTableItemsResponse,
+    options?: ListTableItemsOptions
+  ): AsyncIterableIterator<TableResponseProperties> {
+    const { nextTableName } = firstPage;
+    yield* firstPage;
+    if (nextTableName) {
+      const optionsWithContinuation: ListTableItemsOptions = {
+        ...options,
+        nextTableName
+      };
+      for await (const page of this.listTablesPage(optionsWithContinuation)) {
+        yield* page;
+      }
+    }
+  }
+
+  private async *listTablesPage(
+    options?: InternalListTablesOptions
+  ): AsyncIterableIterator<ListTableItemsResponse> {
+    let result = await this._listTables(options);
+
+    yield result;
+
+    while (result.nextTableName) {
+      const optionsWithContinuation: ListTableItemsOptions = {
+        ...options,
+        nextTableName: result.nextTableName
+      };
+      result = await this._listTables(optionsWithContinuation);
+      yield result;
+    }
+  }
+
+  private async _listTables(options?: InternalListTablesOptions): Promise<ListTableItemsResponse> {
     const {
       _response,
       xMsContinuationNextTableName: nextTableName,
@@ -232,3 +299,7 @@ export class TableServiceClient {
     return new TableServiceClient(url, clientOptions);
   }
 }
+
+type InternalListTablesOptions = ListTableItemsOptions & {
+  queryOptions?: TableQueryOptions & { top?: number };
+};

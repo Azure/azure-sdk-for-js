@@ -212,9 +212,7 @@ export class TableClient {
 
   private async *listEntitiesPage<T extends object>(
     tableName: string,
-    options?: ListTableEntitiesOptions & {
-      queryOptions?: TableEntityQueryOptions & { top?: number };
-    }
+    options?: InternalListTableEntitiesOptions
   ): AsyncIterableIterator<ListEntitiesResponse<T>> {
     let result = await this._listEntities<T>(tableName, options);
 
@@ -402,3 +400,7 @@ export class TableClient {
     return new TableClient(url, tableName, clientOptions);
   }
 }
+
+type InternalListTableEntitiesOptions = ListTableEntitiesOptions & {
+  queryOptions?: TableEntityQueryOptions & { top?: number };
+};

@@ -197,25 +197,15 @@ export interface ListTableEntitiesOptions {
 }
 
 // @public
-export type ListTableItemsResponse = Array<TableResponseProperties> & {
+export interface ListTableItemsOptions {
     nextTableName?: string;
-    _response: HttpResponse & {
-        bodyAsText: string;
-        parsedBody: TableQueryResponse;
-        parsedHeaders: TableQueryHeaders;
-    };
-};
-
-// @public
-export interface ListTablesOptions {
-    nextTableName?: string;
-    queryOptions?: TableQueryOptions;
     requestId?: string;
 }
 
 // @public
-export type ListTablesResponse = TableQueryHeaders & TableQueryResponse & {
-    _response: coreHttp.HttpResponse & {
+export type ListTableItemsResponse = Array<TableResponseProperties> & {
+    nextTableName?: string;
+    _response: HttpResponse & {
         bodyAsText: string;
         parsedBody: TableQueryResponse;
         parsedHeaders: TableQueryHeaders;
@@ -465,7 +455,6 @@ export interface TableQueryHeaders {
 // @public
 export interface TableQueryOptions {
     filter?: string;
-    top?: number;
 }
 
 // @public
@@ -497,7 +486,7 @@ export class TableServiceClient {
     getAccessPolicy(tableName: string, options?: GetAccessPolicyOptions): Promise<GetAccessPolicyResponse>;
     getProperties(options?: GetPropertiesOptions): Promise<GetPropertiesResponse>;
     getStatistics(options?: GetStatisticsOptions): Promise<GetStatisticsResponse>;
-    listTables(options?: ListTablesOptions): Promise<ListTableItemsResponse>;
+    listTables(options?: ListTableItemsOptions): Promise<PagedAsyncIterableIterator<TableResponseProperties, ListTableItemsResponse>>;
     setAccessPolicy(tableName: string, options?: SetAccessPolicyOptions): Promise<SetAccessPolicyResponse>;
     setProperties(properties: ServiceProperties, options?: SetPropertiesOptions): Promise<SetPropertiesResponse>;
     }

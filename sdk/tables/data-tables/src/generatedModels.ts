@@ -12,7 +12,6 @@ export {
   ServiceSetPropertiesResponse as SetPropertiesResponse,
   TableDeleteOptionalParams as DeleteTableOptions,
   TableDeleteResponse as DeleteTableResponse,
-  TableQueryOperationResponse as ListTablesResponse,
   TableQueryEntitiesWithPartitionAndRowKeyResponse,
   TableDeleteEntityResponse as DeleteTableEntityResponse,
   TableUpdateEntityResponse as UpdateEntityResponse,
