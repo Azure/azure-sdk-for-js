@@ -11,6 +11,7 @@ import {
 } from "../../src/index";
 import { Hotel } from "./interfaces";
 import { delay } from "@azure/core-http";
+import { assert } from "chai";
 
 export const WAIT_TIME = 2000;
 
@@ -431,7 +432,7 @@ export async function createDataSourceConnections(client: SearchIndexerClient): 
     // We do not want to delete them by accident. So, we are returning without further
     // action. The test cases will fail. Please do not use a subscription which already
     // has datasource connections for testing.
-    return;
+    assert.fail("Subscription has other datasource connections not related to this testing.");
   }
 
   for (let dataSourceConnectionName of dataSourceConnectionNames) {
@@ -470,7 +471,7 @@ export async function createSkillsets(client: SearchIndexerClient): Promise<void
     // We do not want to delete them by accident. So, we are returning without further
     // action. The test cases will fail. Please do not use a subscription which already
     // has skillsets for testing.
-    return;
+    assert.fail("Subscription has other skillsets not related to this testing.");
   }
 
   for (let skillSet of skillSetNames) {
@@ -529,7 +530,7 @@ export async function createIndexers(client: SearchIndexerClient): Promise<void>
     // We do not want to delete them by accident. So, we are returning without further
     // action. The test cases will fail. Please do not use a subscription which already
     // has indexers for testing.
-    return;
+    assert.fail("Subscription has other indexers not related to this testing.");
   }
 
   for (let indexer of indexerNames) {
@@ -564,7 +565,7 @@ export async function createSynonymMaps(client: SearchIndexClient): Promise<void
     // We do not want to delete them by accident. So, we are returning without further
     // action. The test cases will fail. Please do not use a subscription which already
     // has synonym maps for testing.
-    return;
+    assert.fail("Subscription has other synonymmaps not related to this testing.");
   }
 
   for (let synonymMap of synonymMapNames) {
