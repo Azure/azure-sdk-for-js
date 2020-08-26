@@ -168,7 +168,7 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
   private _wasClosedPermanently: boolean = false;
 
   /**
-   * A lock token that ensures that opening and closing this
+   * A lock that ensures that opening and closing this
    * link properly cooperate.
    */
   private _openLock: string = generate_uuid();
