@@ -751,6 +751,16 @@ export interface ResourceSku {
 }
 
 /**
+ * A list of private endpoint connections
+ */
+export interface PrivateEndpointConnectionListResult {
+  /**
+   * Array of private endpoint connections
+   */
+  value?: PrivateEndpointConnection[];
+}
+
+/**
  * Properties of a private link resource.
  */
 export interface PrivateLinkResourceProperties {
@@ -1315,6 +1325,26 @@ export type CheckDomainAvailabilityResponse = CheckDomainAvailabilityResult & {
        * The response body as parsed JSON or XML
        */
       parsedBody: CheckDomainAvailabilityResult;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type PrivateEndpointConnectionsListResponse = PrivateEndpointConnectionListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateEndpointConnectionListResult;
     };
 };
 

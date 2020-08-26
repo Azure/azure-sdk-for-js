@@ -1252,6 +1252,28 @@ export const ResourceSku: msRest.CompositeMapper = {
   }
 };
 
+export const PrivateEndpointConnectionListResult: msRest.CompositeMapper = {
+  serializedName: "PrivateEndpointConnectionListResult",
+  type: {
+    name: "Composite",
+    className: "PrivateEndpointConnectionListResult",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "PrivateEndpointConnection"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const PrivateLinkResourceProperties: msRest.CompositeMapper = {
   serializedName: "PrivateLinkResourceProperties",
   type: {
