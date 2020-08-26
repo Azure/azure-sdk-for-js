@@ -2316,10 +2316,6 @@ export interface BlobCopyFromURLOptionalParams extends coreHttp.RequestOptionsBa
    */
   blobTagsString?: string;
   /**
-   * Overrides the sealed state of the destination blob.  Service version 2019-12-12 and newer.
-   */
-  sealBlob?: boolean;
-  /**
    * Additional parameters for the operation
    */
   sourceModifiedAccessConditions?: SourceModifiedAccessConditions;
@@ -2390,6 +2386,10 @@ export interface BlobSetTierOptionalParams extends coreHttp.RequestOptionsBase {
    * Additional parameters for the operation
    */
   leaseAccessConditions?: LeaseAccessConditions;
+  /**
+   * Additional parameters for the operation
+   */
+  modifiedAccessConditions?: ModifiedAccessConditions;
 }
 
 /**
