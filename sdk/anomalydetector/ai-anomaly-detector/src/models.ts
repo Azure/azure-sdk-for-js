@@ -8,6 +8,37 @@ import { PipelineOptions } from "@azure/core-http";
  */
 export interface AnomalyDetectorClientOptions extends PipelineOptions {}
 
+export enum TimeGranularityEnum {
+  /**
+   * Yearly time granularity
+   */
+  yearly = "yearly",
+  /**
+   * Monthly time granularity
+   */
+  monthly = "monthly",
+  /**
+   * Weekly time granularity
+   */
+  weekly = "weekly",
+  /**
+   * Daily time granularity
+   */
+  daily = "daily",
+  /**
+   * Hourly time granularity
+   */
+  hourly = "hourly",
+  /**
+   * Per minute time granularity
+   */
+  perMinute = "minutely",
+  /**
+   * Per second time granularity
+   */
+  perSecond = "secondly"
+}
+
 export {
   GeneratedClientDetectChangePointResponse as AnomalyDetectorClientChangePointDetectResponse,
   GeneratedClientDetectEntireSeriesResponse as AnomalyDetectorClientEntireDetectResponse,

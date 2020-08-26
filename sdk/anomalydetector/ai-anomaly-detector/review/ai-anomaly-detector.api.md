@@ -101,6 +101,17 @@ export interface LastDetectResponse {
 export type TimeGranularity = "yearly" | "monthly" | "weekly" | "daily" | "hourly" | "minutely" | "secondly";
 
 // @public (undocumented)
+export enum TimeGranularityEnum {
+    daily = "daily",
+    hourly = "hourly",
+    monthly = "monthly",
+    perMinute = "minutely",
+    perSecond = "secondly",
+    weekly = "weekly",
+    yearly = "yearly"
+}
+
+// @public (undocumented)
 export interface TimeSeriesPoint {
     timestamp: Date;
     value: number;
