@@ -103,16 +103,12 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
     this._onAmqpClose = async (context: EventContext) => {
       const sender = this.link || context.sender!;
       const senderError = context.sender && context.sender.error;
-      if (senderError) {
-        log.error(
-          "[%s] 'sender_close' event occurred for sender '%s' with address '%s'. " +
-            "The associated error is: %O",
-          this._context.connectionId,
-          this.name,
-          this.address,
-          senderError
-        );
-      }
+
+      log.error(
+        `${this.logPrefix} 'onAmqpClose' event occurred. The associated error is: %O`,
+        senderError
+      );
+
       if (sender && !sender.isItselfClosed()) {
         await this.onDetached(senderError);
       } else {
@@ -130,16 +126,12 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
     this._onSessionClose = async (context: EventContext) => {
       const sender = this.link || context.sender!;
       const sessionError = context.session && context.session.error;
-      if (sessionError) {
-        log.error(
-          "[%s] 'session_close' event occurred for sender '%s' with address '%s'. " +
-            "The associated error is: %O",
-          this._context.connectionId,
-          this.name,
-          this.address,
-          sessionError
-        );
-      }
+
+      log.error(
+        `${this.logPrefix} 'onSessionClose' event occurred. The associated error is: %O`,
+        sessionError
+      );
+
       if (sender && !sender.isSessionItselfClosed()) {
         await this.onDetached(sessionError);
       } else {
@@ -348,7 +340,7 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
    */
   async onDetached(senderError?: AmqpError | Error): Promise<void> {
     try {
-      log.error(`${this.logPrefix} Detaching.`);
+      log.error(`${this.logPrefix} Detaching with error: `, senderError);
 
       // Clears the token renewal timer. Closes the link and its session if they are open.
       // Removes the link and its session if they are present in rhea's cache.

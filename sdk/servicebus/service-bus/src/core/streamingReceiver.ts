@@ -121,16 +121,12 @@ export class StreamingReceiver extends MessageReceiver {
       const connectionId = this._context.connectionId;
       const receiverError = context.receiver && context.receiver.error;
       const receiver = this.link || context.receiver!;
-      if (receiverError) {
-        log.error(
-          "[%s] 'receiver_close' event occurred for receiver '%s' with address '%s'. " +
-            "The associated error is: %O",
-          connectionId,
-          this.name,
-          this.address,
-          receiverError
-        );
-      }
+
+      log.error(
+        `${this.logPrefix} 'onAmqpClose' event occurred. The associated error is: %O`,
+        receiverError
+      );
+
       this._clearAllMessageLockRenewTimers();
       if (receiver && !receiver.isItselfClosed()) {
         await this.onDetached(receiverError);
@@ -150,16 +146,12 @@ export class StreamingReceiver extends MessageReceiver {
       const connectionId = this._context.connectionId;
       const receiver = this.link || context.receiver!;
       const sessionError = context.session && context.session.error;
-      if (sessionError) {
-        log.error(
-          "[%s] 'session_close' event occurred for receiver '%s' with address '%s'. " +
-            "The associated error is: %O",
-          connectionId,
-          this.name,
-          this.address,
-          sessionError
-        );
-      }
+
+      log.error(
+        `${this.logPrefix} 'onSessionClose' event occurred. The associated error is: %O`,
+        sessionError
+      );
+
       this._clearAllMessageLockRenewTimers();
       if (receiver && !receiver.isSessionItselfClosed()) {
         await this.onDetached(sessionError);
