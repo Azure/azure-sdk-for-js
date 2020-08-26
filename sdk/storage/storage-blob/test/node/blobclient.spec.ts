@@ -1,6 +1,6 @@
 import * as assert from "assert";
 import * as dotenv from "dotenv";
-import { readFileSync, unlinkSync } from "fs";
+import { readFileSync, unlinkSync, existsSync, mkdirSync } from "fs";
 import { join } from "path";
 
 import { AbortController } from "@azure/abort-controller";
@@ -55,6 +55,14 @@ describe("BlobClient Node.js only", () => {
 
   afterEach(async function() {
     await containerClient.delete();
+    await recorder.stop();
+  });
+
+  before(async function() {
+    recorder = record(this, recorderEnvSetup);
+    if (!existsSync(tempFolderPath)) {
+      mkdirSync(tempFolderPath);
+    }
     await recorder.stop();
   });
 
@@ -357,7 +365,6 @@ describe("BlobClient Node.js only", () => {
   });
 
   it("query should work with access conditions", async function() {
-    recorder.skip(undefined, "TODO: figure out why quick query do not work with recording");
     const csvContent = "100,200,300,400\n150,250,350,450\n";
     const uploadResponse = await blockBlobClient.upload(csvContent, csvContent.length);
 
@@ -373,7 +380,6 @@ describe("BlobClient Node.js only", () => {
   });
 
   it("query should not work with access conditions ifModifiedSince", async function() {
-    recorder.skip(undefined, "TODO: figure out why quick query do not work with recording");
     const csvContent = "100,200,300,400\n150,250,350,450\n";
     await blockBlobClient.upload(csvContent, csvContent.length);
 
@@ -391,7 +397,6 @@ describe("BlobClient Node.js only", () => {
   });
 
   it("query should not work with access conditions leaseId", async function() {
-    recorder.skip(undefined, "TODO: figure out why quick query do not work with recording");
     const csvContent = "100,200,300,400\n150,250,350,450\n";
     await blockBlobClient.upload(csvContent, csvContent.length);
 
@@ -409,7 +414,6 @@ describe("BlobClient Node.js only", () => {
   });
 
   it("query should work with snapshot", async function() {
-    recorder.skip(undefined, "TODO: figure out why quick query do not work with recording");
     const csvContent = "100,200,300,400\n150,250,350,450\n";
     await blockBlobClient.upload(csvContent, csvContent.length);
     const snapshotResponse = await blockBlobClient.createSnapshot();
@@ -420,7 +424,6 @@ describe("BlobClient Node.js only", () => {
   });
 
   it("query should work with where conditionals", async function() {
-    recorder.skip(undefined, "TODO: figure out why quick query do not work with recording");
     const csvContent = "100,200,300,400\n150,250,350,450\n";
     await blockBlobClient.upload(csvContent, csvContent.length);
 
@@ -429,7 +432,6 @@ describe("BlobClient Node.js only", () => {
   });
 
   it("query should work with empty results", async function() {
-    recorder.skip(undefined, "TODO: figure out why quick query do not work with recording");
     const csvContent = "100,200,300,400\n150,250,350,450\n";
     await blockBlobClient.upload(csvContent, csvContent.length);
 
@@ -439,7 +441,6 @@ describe("BlobClient Node.js only", () => {
   });
 
   it("query should work with blob properties", async function() {
-    recorder.skip(undefined, "TODO: figure out why quick query do not work with recording");
     const csvContent = "100,200,300,400\n150,250,350,450\n";
     await blockBlobClient.upload(csvContent, csvContent.length);
 
@@ -457,7 +458,6 @@ describe("BlobClient Node.js only", () => {
   });
 
   it("query should work with large file", async function() {
-    recorder.skip(undefined, "TODO: figure out why quick query do not work with recording");
     recorder.skip("node", "Temp file - recorder doesn't support saving the file");
     const csvContentUnit = "100,200,300,400\n150,250,350,450\n";
     const tempFileLarge = await createRandomLocalFile(
@@ -482,7 +482,6 @@ describe("BlobClient Node.js only", () => {
   });
 
   it("query should work with aborter", async function() {
-    recorder.skip(undefined, "TODO: figure out why quick query do not work with recording");
     recorder.skip("node", "Temp file - recorder doesn't support saving the file");
     const csvContentUnit = "100,200,300,400\n150,250,350,450\n";
     const tempFileLarge = await createRandomLocalFile(
@@ -506,7 +505,6 @@ describe("BlobClient Node.js only", () => {
     try {
       await readStreamToLocalFileWithLogs(response.readableStreamBody!, downloadedFile);
     } catch (error) {
-      // TODO: Avor reader should abort reading from internal stream
       assert.deepStrictEqual(error.name, "AbortError");
       unlinkSync(downloadedFile);
       unlinkSync(tempFileLarge);
@@ -519,7 +517,6 @@ describe("BlobClient Node.js only", () => {
   });
 
   it("query should work with progress event", async function() {
-    recorder.skip(undefined, "TODO: figure out why quick query do not work with recording");
     const csvContent = "100,200,300,400\n150,250,350,450\n";
     await blockBlobClient.upload(csvContent, csvContent.length);
 
@@ -540,7 +537,6 @@ describe("BlobClient Node.js only", () => {
   });
 
   it("query should work with fatal error event", async function() {
-    recorder.skip(undefined, "TODO: figure out why quick query do not work with recording");
     const csvContent = "100,200,300,400\n150,250,350,450\n";
     await blockBlobClient.upload(csvContent, csvContent.length);
 
@@ -553,9 +549,10 @@ describe("BlobClient Node.js only", () => {
         assert.deepStrictEqual(err.isFatal, true);
         assert.deepStrictEqual(err.name, "ParseError");
         assert.deepStrictEqual(err.position, 0);
-        assert.deepStrictEqual(
-          err.description,
-          "Unexpected token ',' at [byte: 3]. Expecting tokens '{', or '['."
+        assert.ok(
+          err.description.startsWith(
+            "Unexpected token ',' at [byte: 3]. Expecting tokens '{', or '['."
+          )
         );
         return;
       }
@@ -564,7 +561,6 @@ describe("BlobClient Node.js only", () => {
   });
 
   it("query should work with non fatal error event", async function() {
-    recorder.skip(undefined, "TODO: figure out why quick query do not work with recording");
     const csvContent = "100,hello,300,400\n150,250,350,450\n";
     await blockBlobClient.upload(csvContent, csvContent.length);
 
@@ -581,7 +577,6 @@ describe("BlobClient Node.js only", () => {
   });
 
   it("query should work with CSV input and output configurations", async function() {
-    recorder.skip(undefined, "TODO: figure out why quick query do not work with recording");
     const csvContent = "100.200.300.400!150.250.350.450!180.280.380.480!";
     await blockBlobClient.upload(csvContent, csvContent.length);
 
@@ -607,7 +602,6 @@ describe("BlobClient Node.js only", () => {
   });
 
   it("query should work with JSON input and output configurations", async function() {
-    recorder.skip(undefined, "TODO: figure out why quick query do not work with recording");
     const recordSeparator = "\n";
     const jsonContent =
       [
