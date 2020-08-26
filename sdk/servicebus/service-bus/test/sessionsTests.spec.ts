@@ -269,7 +269,7 @@ describe("session tests", () => {
         await receiver.getSessionState({ abortSignal: controller.signal });
         throw new Error(`Test failure`);
       } catch (err) {
-        err.message.should.equal("The getState operation has been cancelled by the user.");
+        err.message.should.equal("The operation was aborted.");
       }
     });
 
@@ -281,7 +281,7 @@ describe("session tests", () => {
         await receiver.setSessionState("why", { abortSignal: controller.signal });
         throw new Error(`Test failure`);
       } catch (err) {
-        err.message.should.equal("The setState operation has been cancelled by the user.");
+        err.message.should.equal("The operation was aborted.");
       }
     });
 
@@ -293,7 +293,7 @@ describe("session tests", () => {
         await receiver.renewSessionLock({ abortSignal: controller.signal });
         throw new Error(`Test failure`);
       } catch (err) {
-        err.message.should.equal("The renewSessionLock operation has been cancelled by the user.");
+        err.message.should.equal("The operation was aborted.");
       }
     });
 
@@ -307,9 +307,7 @@ describe("session tests", () => {
         await receiver.receiveDeferredMessages([Long.ZERO], { abortSignal: controller.signal });
         throw new Error(`Test failure`);
       } catch (err) {
-        err.message.should.equal(
-          "The receiveDeferredMessages operation has been cancelled by the user."
-        );
+        err.message.should.equal("The operation was aborted.");
       }
     });
   });
