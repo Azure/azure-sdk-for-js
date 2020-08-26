@@ -166,12 +166,6 @@ export class ServiceBusSenderImpl implements ServiceBusSender {
     }
   }
 
-  private _createMessageSenderIfNotOpen(): void {
-    if (!this._sender.isOpen()) {
-      this._sender = MessageSender.create(this._context, this._entityPath, this._retryOptions);
-    }
-  }
-
   public get isClosed(): boolean {
     return this._isClosed || this._context.wasConnectionCloseCalled;
   }
@@ -182,7 +176,6 @@ export class ServiceBusSenderImpl implements ServiceBusSender {
   ): Promise<void> {
     this._throwIfSenderOrConnectionClosed();
     throwTypeErrorIfParameterMissing(this._context.connectionId, "messages", messages);
-    this._createMessageSenderIfNotOpen();
     const invalidTypeErrMsg =
       "Provided value for 'messages' must be of type ServiceBusMessage, ServiceBusMessageBatch or an array of type ServiceBusMessage.";
 
@@ -214,7 +207,6 @@ export class ServiceBusSenderImpl implements ServiceBusSender {
 
   async createBatch(options?: CreateBatchOptions): Promise<ServiceBusMessageBatch> {
     this._throwIfSenderOrConnectionClosed();
-    this._createMessageSenderIfNotOpen();
     return this._sender.createBatch(options);
   }
 

@@ -317,7 +317,7 @@ export namespace ConnectionContext {
 
         const detachCalls: Promise<void>[] = [];
 
-        // Call close() on sender if it is not connecting
+        // Call onDetached() on sender if it is not connecting
         for (const senderName of Object.keys(connectionContext.senders)) {
           const sender = connectionContext.senders[senderName];
           if (sender && !sender.isConnecting) {
@@ -327,9 +327,9 @@ export namespace ConnectionContext {
               sender.name
             );
             detachCalls.push(
-              sender.close().catch((err) => {
+              sender.onDetached().catch((err) => {
                 log.error(
-                  "[%s] An error occurred while calling close() the sender '%s': %O.",
+                  "[%s] An error occurred while calling onDetached() the sender '%s': %O.",
                   connectionContext.connection.id,
                   sender.name,
                   err

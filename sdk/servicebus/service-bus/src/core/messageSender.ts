@@ -364,6 +364,27 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
   }
 
   /**
+   * To be called when connection is disconnected.
+   * @returns {Promise<void>} Promise<void>.
+   */
+  async onDetached(): Promise<void> {
+    try {
+      // Clears the token renewal timer. Closes the link and its session if they are open.
+      // Removes the link and its session if they are present in rhea's cache.
+      await this.closeLink();
+    } catch (err) {
+      log.error(
+        "[%s] An error occurred while processing detached() of Sender '%s' with address " +
+          "'%s': %O",
+        this._context.connectionId,
+        this.name,
+        this.address,
+        err
+      );
+    }
+  }
+
+  /**
    * Determines whether the AMQP sender link is open. If open then returns true else returns false.
    * @return {boolean} boolean
    */
