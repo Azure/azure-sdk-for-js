@@ -148,7 +148,7 @@ export class StreamingReceiver extends MessageReceiver {
       const sessionError = context.session && context.session.error;
 
       log.error(
-        `${this.logPrefix} 'onSessionClose' event occurred. The associated error is: %O`,
+        `${this.logPrefix} 'session_close' event occurred. The associated error is: %O`,
         sessionError
       );
 
