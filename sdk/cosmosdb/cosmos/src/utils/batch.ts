@@ -54,7 +54,7 @@ export type OperationInput =
   | DeleteOperationInput
   | ReplaceOperationInput;
 
-interface CreateOperationInput {
+export interface CreateOperationInput {
   partitionKey?: string | number | null | {} | undefined;
   ifMatch?: string;
   ifNoneMatch?: string;
@@ -62,7 +62,7 @@ interface CreateOperationInput {
   resourceBody: JSONObject;
 }
 
-interface UpsertOperationInput {
+export interface UpsertOperationInput {
   partitionKey?: string | number | null | {} | undefined;
   ifMatch?: string;
   ifNoneMatch?: string;
@@ -70,19 +70,19 @@ interface UpsertOperationInput {
   resourceBody: JSONObject;
 }
 
-interface ReadOperationInput {
+export interface ReadOperationInput {
   partitionKey?: string | number | null | {} | undefined;
   operationType: typeof BulkOperationType.Read;
   id: string;
 }
 
-interface DeleteOperationInput {
+export interface DeleteOperationInput {
   partitionKey?: string | number | null | {} | undefined;
   operationType: typeof BulkOperationType.Delete;
   id: string;
 }
 
-interface ReplaceOperationInput {
+export interface ReplaceOperationInput {
   partitionKey?: string | number | null | {} | undefined;
   ifMatch?: string;
   ifNoneMatch?: string;

@@ -1,7 +1,8 @@
 # Release History
 
-## 3.9.1 (Unreleased)
+## 3.9.1 (2020-08-26)
 
+- BUGFIX: Fixes `OperationInput` type to be more accurate based on `OperationType`.
 - FEATURE: Bulk requests with `Create` operations will now autogenerate IDs if they are not present.
 - FEATURE: The `BulkOperationType` enum now exists and can be used when making bulk requests.
 
