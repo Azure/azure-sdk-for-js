@@ -166,6 +166,10 @@ describe("AppendBlobClient", () => {
 
     const response = await appendBlobClient.download(0);
     assert.deepStrictEqual(response.isSealed, true);
+
+    for await (const item of containerClient.listBlobsFlat() ) {
+      assert.ok(item.properties.isSealed);
+    }
   });
 
   it("Copy seal blob", async () => {

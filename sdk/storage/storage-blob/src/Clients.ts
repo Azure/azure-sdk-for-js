@@ -91,7 +91,8 @@ import {
   ObjectReplicationPolicy,
   PageBlobRequestConditions,
   PremiumPageBlobTier,
-  toAccessTier,
+  Tags,
+  toAccessTier
 } from "./models";
 import {
   PageBlobGetPageRangesDiffResponse,
@@ -130,7 +131,6 @@ import {
   toBlobTags,
   toBlobTagsString,
   toQuerySerialization,
-  toTags,
   toTags,
   truncatedISO8061Date,
 } from "./utils/utils.common";
