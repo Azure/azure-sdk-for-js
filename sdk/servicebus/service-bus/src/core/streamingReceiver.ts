@@ -123,7 +123,7 @@ export class StreamingReceiver extends MessageReceiver {
       const receiver = this.link || context.receiver!;
 
       log.error(
-        `${this.logPrefix} 'onAmqpClose' event occurred. The associated error is: %O`,
+        `${this.logPrefix} 'receiver_close' event occurred. The associated error is: %O`,
         receiverError
       );
 
