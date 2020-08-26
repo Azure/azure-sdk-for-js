@@ -1,4 +1,5 @@
 parameters:
+  Artifacts: []
   ServiceDirectory: not-specified
 
 steps:
