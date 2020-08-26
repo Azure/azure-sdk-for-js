@@ -366,7 +366,8 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
   }
 
   /**
-   * To be called when connection is disconnected.
+   * Closes the rhea link.
+   * To be called when connection is disconnected, onAmqpClose and onSessionClose events.
    * @param {AmqpError | Error} [senderError] The sender error if any.
    * @returns {Promise<void>} Promise<void>.
    */
