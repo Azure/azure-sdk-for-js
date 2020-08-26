@@ -3,11 +3,11 @@
 
 import {
   AnomalyDetectorClientOptions,
-  AnomalyDetectorClientEntireDetectResponse,
-  AnomalyDetectorClientLastDetectResponse,
-  AnomalyDetectorClientChangePointDetectResponse
+  AnomalyDetectorClientDetectEntireResponse,
+  AnomalyDetectorClientDetectChangePointResponse,
+  AnomalyDetectorClientDetectLastPointResponse
 } from "./models";
-import { GeneratedClient, DetectRequest, ChangePointDetectRequest } from "./generated";
+import { GeneratedClient, DetectRequest, DetectChangePointRequest } from "./generated";
 import { TokenCredential } from "@azure/identity";
 import { KeyCredential } from "@azure/core-auth";
 import {
@@ -109,7 +109,7 @@ export class AnomalyDetectorClient {
   public detectEntireSeries(
     body: DetectRequest,
     options?: OperationOptions
-  ): Promise<AnomalyDetectorClientEntireDetectResponse> {
+  ): Promise<AnomalyDetectorClientDetectEntireResponse> {
     const realOptions = options || {};
     const { span, updatedOptions: finalOptions } = createSpan(
       "anomalyDetectorClient-entireDetect",
@@ -140,7 +140,7 @@ export class AnomalyDetectorClient {
   public detectLastPoint(
     body: DetectRequest,
     options?: OperationOptions
-  ): Promise<AnomalyDetectorClientLastDetectResponse> {
+  ): Promise<AnomalyDetectorClientDetectLastPointResponse> {
     const realOptions = options || {};
     const { span, updatedOptions: finalOptions } = createSpan(
       "anomalyDetectorClient-lastDetect",
@@ -167,9 +167,9 @@ export class AnomalyDetectorClient {
    * @param options The options parameters.
    */
   detectChangePoint(
-    body: ChangePointDetectRequest,
+    body: DetectChangePointRequest,
     options?: OperationOptions
-  ): Promise<AnomalyDetectorClientChangePointDetectResponse> {
+  ): Promise<AnomalyDetectorClientDetectChangePointResponse> {
     const realOptions = options || {};
     const { span, updatedOptions: finalOptions } = createSpan(
       "anomalyDetectorClient-changePointDetect",

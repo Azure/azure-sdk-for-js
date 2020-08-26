@@ -88,10 +88,10 @@ export const TimeSeriesPoint: coreHttp.CompositeMapper = {
   }
 };
 
-export const EntireDetectResponse: coreHttp.CompositeMapper = {
+export const DetectEntireResponse: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "EntireDetectResponse",
+    className: "DetectEntireResponse",
     modelProperties: {
       period: {
         serializedName: "period",
@@ -152,10 +152,10 @@ export const EntireDetectResponse: coreHttp.CompositeMapper = {
   }
 };
 
-export const APIError: coreHttp.CompositeMapper = {
+export const AnomalyDetectorError: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "APIError",
+    className: "AnomalyDetectorError",
     modelProperties: {
       code: {
         serializedName: "code",
@@ -173,10 +173,10 @@ export const APIError: coreHttp.CompositeMapper = {
   }
 };
 
-export const LastDetectResponse: coreHttp.CompositeMapper = {
+export const DetectLastPointResponse: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "LastDetectResponse",
+    className: "DetectLastPointResponse",
     modelProperties: {
       period: {
         serializedName: "period",
@@ -238,10 +238,10 @@ export const LastDetectResponse: coreHttp.CompositeMapper = {
   }
 };
 
-export const ChangePointDetectRequest: coreHttp.CompositeMapper = {
+export const DetectChangePointRequest: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "ChangePointDetectRequest",
+    className: "DetectChangePointRequest",
     modelProperties: {
       series: {
         serializedName: "series",
@@ -295,10 +295,10 @@ export const ChangePointDetectRequest: coreHttp.CompositeMapper = {
   }
 };
 
-export const ChangePointDetectResponse: coreHttp.CompositeMapper = {
+export const DetectChangePointResponse: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "ChangePointDetectResponse",
+    className: "DetectChangePointResponse",
     modelProperties: {
       period: {
         serializedName: "period",

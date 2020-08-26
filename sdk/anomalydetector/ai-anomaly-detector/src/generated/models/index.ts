@@ -46,7 +46,7 @@ export interface TimeSeriesPoint {
   value: number;
 }
 
-export interface EntireDetectResponse {
+export interface DetectEntireResponse {
   /**
    * Frequency extracted from the series, zero means no recurrent pattern has been found.
    */
@@ -80,7 +80,7 @@ export interface EntireDetectResponse {
 /**
  * Error information returned by the API.
  */
-export interface APIError {
+export interface AnomalyDetectorError {
   /**
    * The error code.
    */
@@ -91,7 +91,7 @@ export interface APIError {
   message?: string;
 }
 
-export interface LastDetectResponse {
+export interface DetectLastPointResponse {
   /**
    * Frequency extracted from the series, zero means no recurrent pattern has been found.
    */
@@ -126,7 +126,7 @@ export interface LastDetectResponse {
   isPositiveAnomaly: boolean;
 }
 
-export interface ChangePointDetectRequest {
+export interface DetectChangePointRequest {
   /**
    * Time series data points. Points should be sorted by timestamp in ascending order to match the change point detection result.
    */
@@ -153,7 +153,7 @@ export interface ChangePointDetectRequest {
   threshold?: number;
 }
 
-export interface ChangePointDetectResponse {
+export interface DetectChangePointResponse {
   /**
    * Frequency extracted from the series, zero means no recurrent pattern has been found.
    */
@@ -197,7 +197,7 @@ export type TimeGranularity =
 /**
  * Contains response data for the detectEntireSeries operation.
  */
-export type GeneratedClientDetectEntireSeriesResponse = EntireDetectResponse & {
+export type GeneratedClientDetectEntireSeriesResponse = DetectEntireResponse & {
   /**
    * The underlying HTTP response.
    */
@@ -210,14 +210,14 @@ export type GeneratedClientDetectEntireSeriesResponse = EntireDetectResponse & {
     /**
      * The response body as parsed JSON or XML
      */
-    parsedBody: EntireDetectResponse;
+    parsedBody: DetectEntireResponse;
   };
 };
 
 /**
  * Contains response data for the detectLastPoint operation.
  */
-export type GeneratedClientDetectLastPointResponse = LastDetectResponse & {
+export type GeneratedClientDetectLastPointResponse = DetectLastPointResponse & {
   /**
    * The underlying HTTP response.
    */
@@ -230,14 +230,14 @@ export type GeneratedClientDetectLastPointResponse = LastDetectResponse & {
     /**
      * The response body as parsed JSON or XML
      */
-    parsedBody: LastDetectResponse;
+    parsedBody: DetectLastPointResponse;
   };
 };
 
 /**
  * Contains response data for the detectChangePoint operation.
  */
-export type GeneratedClientDetectChangePointResponse = ChangePointDetectResponse & {
+export type GeneratedClientDetectChangePointResponse = DetectChangePointResponse & {
   /**
    * The underlying HTTP response.
    */
@@ -250,7 +250,7 @@ export type GeneratedClientDetectChangePointResponse = ChangePointDetectResponse
     /**
      * The response body as parsed JSON or XML
      */
-    parsedBody: ChangePointDetectResponse;
+    parsedBody: DetectChangePointResponse;
   };
 };
 

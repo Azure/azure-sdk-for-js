@@ -40,14 +40,14 @@ export enum TimeGranularityEnum {
 }
 
 export {
-  GeneratedClientDetectChangePointResponse as AnomalyDetectorClientChangePointDetectResponse,
-  GeneratedClientDetectEntireSeriesResponse as AnomalyDetectorClientEntireDetectResponse,
-  GeneratedClientDetectLastPointResponse as AnomalyDetectorClientLastDetectResponse,
-  LastDetectResponse,
-  ChangePointDetectResponse,
+  GeneratedClientDetectChangePointResponse as AnomalyDetectorClientDetectChangePointResponse,
+  GeneratedClientDetectEntireSeriesResponse as AnomalyDetectorClientDetectEntireResponse,
+  GeneratedClientDetectLastPointResponse as AnomalyDetectorClientDetectLastPointResponse,
+  DetectLastPointResponse,
+  DetectChangePointResponse,
   TimeGranularity,
   DetectRequest,
-  EntireDetectResponse,
-  ChangePointDetectRequest,
+  DetectEntireResponse,
+  DetectChangePointRequest,
   TimeSeriesPoint
 } from "./generated/models";

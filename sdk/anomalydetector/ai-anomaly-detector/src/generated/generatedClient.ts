@@ -15,7 +15,7 @@ import {
   DetectRequest,
   GeneratedClientDetectEntireSeriesResponse,
   GeneratedClientDetectLastPointResponse,
-  ChangePointDetectRequest,
+  DetectChangePointRequest,
   GeneratedClientDetectChangePointResponse
 } from "./models";
 
@@ -79,7 +79,7 @@ export class GeneratedClient extends GeneratedClientContext {
    * @param options The options parameters.
    */
   detectChangePoint(
-    body: ChangePointDetectRequest,
+    body: DetectChangePointRequest,
     options?: coreHttp.OperationOptions
   ): Promise<GeneratedClientDetectChangePointResponse> {
     const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
@@ -100,10 +100,10 @@ const detectEntireSeriesOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.EntireDetectResponse
+      bodyMapper: Mappers.DetectEntireResponse
     },
     default: {
-      bodyMapper: Mappers.APIError
+      bodyMapper: Mappers.AnomalyDetectorError
     }
   },
   requestBody: Parameters.body,
@@ -117,10 +117,10 @@ const detectLastPointOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.LastDetectResponse
+      bodyMapper: Mappers.DetectLastPointResponse
     },
     default: {
-      bodyMapper: Mappers.APIError
+      bodyMapper: Mappers.AnomalyDetectorError
     }
   },
   requestBody: Parameters.body,
@@ -134,10 +134,10 @@ const detectChangePointOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "POST",
   responses: {
     200: {
-      bodyMapper: Mappers.ChangePointDetectResponse
+      bodyMapper: Mappers.DetectChangePointResponse
     },
     default: {
-      bodyMapper: Mappers.APIError
+      bodyMapper: Mappers.AnomalyDetectorError
     }
   },
   requestBody: Parameters.body1,

@@ -9,7 +9,7 @@ import {
   testTrendPointseries,
   changeExpectedResult
 } from "./testData";
-import { LastDetectResponse, ChangePointDetectResponse } from "../src";
+import { DetectLastPointResponse, DetectChangePointResponse } from "../src";
 
 describe("AnomalyDetectorClient", () => {
   let client: AnomalyDetectorClient;
@@ -32,7 +32,7 @@ describe("AnomalyDetectorClient", () => {
   });
 
   it("should get result for  lastDetect", async () => {
-    const expected: LastDetectResponse = {
+    const expected: DetectLastPointResponse = {
       expectedValue: 809.5658016931228,
       isAnomaly: false,
       isNegativeAnomaly: false,
@@ -48,7 +48,7 @@ describe("AnomalyDetectorClient", () => {
   });
 
   it("should get result for changePointDetect", async () => {
-    const result: ChangePointDetectResponse = await client.detectChangePoint(testTrendPointseries);
+    const result: DetectChangePointResponse = await client.detectChangePoint(testTrendPointseries);
     assert.deepEqual(result, changeExpectedResult);
   });
 });

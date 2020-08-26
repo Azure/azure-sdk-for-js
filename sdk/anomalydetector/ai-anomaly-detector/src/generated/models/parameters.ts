@@ -9,7 +9,7 @@
 import { OperationParameter, OperationURLParameter } from "@azure/core-http";
 import {
   DetectRequest as DetectRequestMapper,
-  ChangePointDetectRequest as ChangePointDetectRequestMapper
+  DetectChangePointRequest as DetectChangePointRequestMapper
 } from "../models/mappers";
 
 export const contentType: OperationParameter = {
@@ -55,5 +55,5 @@ export const endpoint: OperationURLParameter = {
 
 export const body1: OperationParameter = {
   parameterPath: "body",
-  mapper: ChangePointDetectRequestMapper
+  mapper: DetectChangePointRequestMapper
 };

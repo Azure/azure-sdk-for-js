@@ -1,13 +1,13 @@
 import {
   TimeGranularity,
   DetectRequest,
-  EntireDetectResponse,
-  ChangePointDetectRequest
+  DetectChangePointRequest,
+  DetectEntireResponse
 } from "../src";
 
 const granularity: TimeGranularity = "monthly";
 
-export const testTrendPointseries: ChangePointDetectRequest = {
+export const testTrendPointseries: DetectChangePointRequest = {
   series: [
     {
       value: 116168307,
@@ -457,7 +457,7 @@ export const testPointSeries1: DetectRequest = {
   granularity
 };
 
-export const expectedEntireResult: EntireDetectResponse = {
+export const expectedEntireResult: DetectEntireResponse = {
   period: 12,
   expectedValues: [
     827.7940908243968,

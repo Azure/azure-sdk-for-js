@@ -13,33 +13,33 @@ import { TokenCredential } from '@azure/identity';
 // @public
 export class AnomalyDetectorClient {
     constructor(endpointUrl: string, credential: TokenCredential | KeyCredential, options?: AnomalyDetectorClientOptions);
-    detectChangePoint(body: ChangePointDetectRequest, options?: OperationOptions): Promise<AnomalyDetectorClientChangePointDetectResponse>;
-    detectEntireSeries(body: DetectRequest, options?: OperationOptions): Promise<AnomalyDetectorClientEntireDetectResponse>;
-    detectLastPoint(body: DetectRequest, options?: OperationOptions): Promise<AnomalyDetectorClientLastDetectResponse>;
+    detectChangePoint(body: DetectChangePointRequest, options?: OperationOptions): Promise<AnomalyDetectorClientDetectChangePointResponse>;
+    detectEntireSeries(body: DetectRequest, options?: OperationOptions): Promise<AnomalyDetectorClientDetectEntireResponse>;
+    detectLastPoint(body: DetectRequest, options?: OperationOptions): Promise<AnomalyDetectorClientDetectLastPointResponse>;
     readonly endpointUrl: string;
 }
 
 // @public
-export type AnomalyDetectorClientChangePointDetectResponse = ChangePointDetectResponse & {
+export type AnomalyDetectorClientDetectChangePointResponse = DetectChangePointResponse & {
     _response: coreHttp.HttpResponse & {
         bodyAsText: string;
-        parsedBody: ChangePointDetectResponse;
+        parsedBody: DetectChangePointResponse;
     };
 };
 
 // @public
-export type AnomalyDetectorClientEntireDetectResponse = EntireDetectResponse & {
+export type AnomalyDetectorClientDetectEntireResponse = DetectEntireResponse & {
     _response: coreHttp.HttpResponse & {
         bodyAsText: string;
-        parsedBody: EntireDetectResponse;
+        parsedBody: DetectEntireResponse;
     };
 };
 
 // @public
-export type AnomalyDetectorClientLastDetectResponse = LastDetectResponse & {
+export type AnomalyDetectorClientDetectLastPointResponse = DetectLastPointResponse & {
     _response: coreHttp.HttpResponse & {
         bodyAsText: string;
-        parsedBody: LastDetectResponse;
+        parsedBody: DetectLastPointResponse;
     };
 };
 
@@ -48,7 +48,7 @@ export interface AnomalyDetectorClientOptions extends PipelineOptions {
 }
 
 // @public (undocumented)
-export interface ChangePointDetectRequest {
+export interface DetectChangePointRequest {
     customInterval?: number;
     granularity: TimeGranularity;
     period?: number;
@@ -58,24 +58,14 @@ export interface ChangePointDetectRequest {
 }
 
 // @public (undocumented)
-export interface ChangePointDetectResponse {
+export interface DetectChangePointResponse {
     confidenceScores: number[];
     isChangePoint: boolean[];
     period: number;
 }
 
 // @public (undocumented)
-export interface DetectRequest {
-    customInterval?: number;
-    granularity: TimeGranularity;
-    maxAnomalyRatio?: number;
-    period?: number;
-    sensitivity?: number;
-    series: TimeSeriesPoint[];
-}
-
-// @public (undocumented)
-export interface EntireDetectResponse {
+export interface DetectEntireResponse {
     expectedValues: number[];
     isAnomaly: boolean[];
     isNegativeAnomaly: boolean[];
@@ -86,7 +76,7 @@ export interface EntireDetectResponse {
 }
 
 // @public (undocumented)
-export interface LastDetectResponse {
+export interface DetectLastPointResponse {
     expectedValue: number;
     isAnomaly: boolean;
     isNegativeAnomaly: boolean;
@@ -95,6 +85,16 @@ export interface LastDetectResponse {
     period: number;
     suggestedWindow: number;
     upperMargin: number;
+}
+
+// @public (undocumented)
+export interface DetectRequest {
+    customInterval?: number;
+    granularity: TimeGranularity;
+    maxAnomalyRatio?: number;
+    period?: number;
+    sensitivity?: number;
+    series: TimeSeriesPoint[];
 }
 
 // @public
