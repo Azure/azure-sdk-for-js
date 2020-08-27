@@ -25,7 +25,7 @@ import {
   UpsertEntityResponse,
   DeleteTableEntityResponse
 } from "./generatedModels";
-import { QueryOptions as GeneratedQueryOptions, TableServiceError } from "./generated/models";
+import { QueryOptions as GeneratedQueryOptions } from "./generated/models";
 import { getClientParamsFromConnectionString } from "./utils/connectionString";
 import { TablesSharedKeyCredential } from "./TablesSharedKeyCredential";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
