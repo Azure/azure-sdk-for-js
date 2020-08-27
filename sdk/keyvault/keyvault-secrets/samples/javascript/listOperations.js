@@ -16,8 +16,10 @@ async function main() {
   const url = process.env["KEYVAULT_URI"] || "<keyvault-url>";
 
   const client = new SecretClient(url, credential, {
-    // The KEYVAULT_API_VERSION environment variable is used by our CI pipelines to run the samples and check their validity automatically.
-    // The serviceVersion is an optional parameter that allows users to specify a Key Vault service API version.
+    // KEYVAULT_API_VERSION is an option environment variable that can be used to override
+    // the default API version that the Azure SDK uses to communicate with a service.
+    // Set this environment variable if you want to run these samples in an environment
+    // that requires a different API version.
     serviceVersion: process.env.KEYVAULT_API_VERSION
   });
 
