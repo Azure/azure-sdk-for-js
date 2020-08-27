@@ -55,8 +55,8 @@ ts-node sample.ts
 
 ## Outline
 
-- Iterate through the entire Change Feed between a start and end date [basic.js][basic.js][basic.ts][basic.ts]
-- Resuming a previous iteration of a Change Feed using the continuation token [resume.js][resume.js][resume.ts][resume.ts]
+- Iterate through the entire Change Feed between a start and end date [basic.js][basic.js], [basic.ts][basic.ts]
+- Resuming a previous iteration of a Change Feed using the continuation token [resume.js][resume.js], [resume.ts][resume.ts]
 
 [basic.js]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-blob-changefeed/samples/javascript/basic.js
 [resume.js]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-blob-changefeed/samples/javascript/resume.js
