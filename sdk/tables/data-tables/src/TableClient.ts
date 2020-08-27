@@ -13,7 +13,9 @@ import {
   GetTableEntityOptions,
   UpdateMode,
   CreateTableEntityResponse,
-  TableEntityQueryOptions
+  TableEntityQueryOptions,
+  CreateTableOptions,
+  CreateTableItemResponse
 } from "./models";
 import {
   TableServiceClientOptions as TableClientOptions,
@@ -23,7 +25,7 @@ import {
   UpsertEntityResponse,
   DeleteTableEntityResponse
 } from "./generatedModels";
-import { QueryOptions as GeneratedQueryOptions } from "./generated/models";
+import { QueryOptions as GeneratedQueryOptions, TableServiceError } from "./generated/models";
 import { getClientParamsFromConnectionString } from "./utils/connectionString";
 import { TablesSharedKeyCredential } from "./TablesSharedKeyCredential";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
@@ -128,8 +130,17 @@ export class TableClient {
    * @param options The options parameters.
    */
   // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-  delete(options?: DeleteTableOptions): Promise<DeleteTableResponse> {
+  public delete(options?: DeleteTableOptions): Promise<DeleteTableResponse> {
     return this.table.delete(this.tableName, options);
+  }
+
+  /**
+   *  Creates the current table it it doesn't exist
+   * @param options The options parameters.
+   */
+  // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
+  public create(options?: CreateTableOptions): Promise<CreateTableItemResponse> {
+      return this.table.create({ tableName: this.tableName }, options);
   }
 
   /**
