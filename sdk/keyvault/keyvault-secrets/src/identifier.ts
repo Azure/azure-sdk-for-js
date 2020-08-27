@@ -8,7 +8,7 @@ import { parseKeyvaultIdentifier } from "./generated/utils";
  */
 export interface ParsedSecretId {
   /**
-   * The originally received Id.
+   * The source ID that was parsed.
    */
   sourceId: string;
 
