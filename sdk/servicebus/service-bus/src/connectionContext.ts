@@ -177,6 +177,7 @@ export namespace ConnectionContext {
         // This can happen when the idle timeout has been reached but
         // the underlying socket is waiting to be destroyed.
         if (this.isConnectionClosing()) {
+          log.error(`[${this.connectionId}] Connection is closing, waiting for disconnected event`);
           // Wait for the disconnected event that indicates the underlying socket has closed.
           await this.waitForDisconnectedEvent();
         }
@@ -198,8 +199,13 @@ export namespace ConnectionContext {
       waitForConnectionReset() {
         // Check if the connection is currently in the process of disconnecting.
         if (waitForConnectionRefreshPromise) {
+          log.error(`[${this.connectionId}] Waiting for connection reset`);
           return waitForConnectionRefreshPromise;
         }
+
+        log.error(
+          `[${this.connectionId}] Connection not waiting to be reset. Resolving immediately.`
+        );
         return Promise.resolve();
       },
       getReceiverFromCache(
@@ -260,6 +266,7 @@ export namespace ConnectionContext {
       if (waitForConnectionRefreshPromise) {
         return;
       }
+
       waitForConnectionRefreshPromise = new Promise((resolve) => {
         waitForConnectionRefreshResolve = resolve;
       });

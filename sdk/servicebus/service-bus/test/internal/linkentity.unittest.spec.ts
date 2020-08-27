@@ -2,11 +2,11 @@
 // Licensed under the MIT license.
 
 import { AbortSignalLike } from "@azure/abort-controller";
-import { delay } from "@azure/core-amqp";
 import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
 import { Receiver, ReceiverOptions } from "rhea-promise";
 import sinon from "sinon";
+import { ConnectionContext } from "../../src/connectionContext";
 import { LinkEntity } from "../../src/core/linkEntity";
 import * as log from "../../src/log";
 import { isLinkLocked } from "../utils/misc";
@@ -22,9 +22,11 @@ describe("LinkEntity unit tests", () => {
   }
 
   let linkEntity: LinkEntity<Receiver>;
+  let connectionContext: ConnectionContext;
 
   beforeEach(function() {
-    linkEntity = new LinkForTests("some initial name", createConnectionContextForTests(), "sr", {
+    connectionContext = createConnectionContextForTests();
+    linkEntity = new LinkForTests("some initial name", connectionContext, "sr", {
       address: "my-address"
     });
   });
@@ -52,7 +54,12 @@ describe("LinkEntity unit tests", () => {
     await linkEntity.close();
     assertLinkEntityClosedPermanently();
 
-    linkEntity.initLink({});
+    try {
+      await linkEntity.initLink({});
+      assert.fail("Should have thrown");
+    } catch (err) {
+      assert.equal(err.message, "Link has been permanently closed. Not reopening.");
+    }
     assertLinkEntityClosedPermanently();
   });
 
@@ -67,18 +74,6 @@ describe("LinkEntity unit tests", () => {
       // this will just resolve immediately because
       // we're already connecting.
       assert.isTrue(isLinkLocked(linkEntity));
-
-      // these promises will NOT resolve - initLink() and close/closeLink()
-      // coordinate using a lock.
-      innerPromises.push(linkEntity.initLink({}));
-      innerPromises.push(linkEntity["closeLink"]());
-
-      const ret = await Promise.race([...innerPromises, delay(50, undefined, undefined, 101)]);
-      assert.equal(
-        ret,
-        101,
-        "The delay promise always resolves first since the other two calls are blocked by the lock"
-      );
     };
 
     await linkEntity.initLink({});
@@ -90,6 +85,29 @@ describe("LinkEntity unit tests", () => {
     );
 
     await Promise.all(innerPromises);
+  });
+
+  it("initLink - connection is restarting causes initLink to throw", async () => {
+    connectionContext["isConnectionClosing"] = () => true;
+
+    try {
+      await linkEntity.initLink({});
+      assert.fail("Should have thrown");
+    } catch (err) {
+      assert.equal(err.message, "Connection was closing, aborting negotiateClaim.");
+    }
+  });
+
+  it("initLink - connection is not ready causes initLink to block", async () => {
+    connectionContext["readyToOpenLink"] = async () => {
+      // should be safe for readyToOpenLink to close the link object
+      // without this it's possible for us to deadlock.
+      await linkEntity["closeLink"]();
+    };
+
+    assert.isFalse(linkEntity.isOpen());
+    await linkEntity.initLink({});
+    assert.isTrue(linkEntity.isOpen());
   });
 
   it("initLink - early exit when link is already open", async () => {

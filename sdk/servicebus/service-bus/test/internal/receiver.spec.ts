@@ -8,7 +8,6 @@ import { ReceivedMessage, ReceivedMessageWithLock } from "../../src";
 chai.use(chaiAsPromised);
 const assert = chai.assert;
 
-import { ConnectionContext } from "../../src/connectionContext";
 import { BatchingReceiver } from "../../src/core/batchingReceiver";
 import { StreamingReceiver } from "../../src/core/streamingReceiver";
 import { ServiceBusReceiverImpl } from "../../src/receivers/receiver";
@@ -21,18 +20,11 @@ import { Constants } from "@azure/core-amqp";
 
 describe("Receiver unit tests", () => {
   describe("init() and close() interactions", () => {
-    function fakeContext(): ConnectionContext {
-      return ({
-        config: {},
-        connection: {
-          id: "connection-id"
-        },
-        messageReceivers: {}
-      } as unknown) as ConnectionContext;
-    }
-
     it("close() called just after init() but before the next step", async () => {
-      const batchingReceiver = new BatchingReceiver(fakeContext(), "fakeEntityPath");
+      const batchingReceiver = new BatchingReceiver(
+        createConnectionContextForTests(),
+        "fakeEntityPath"
+      );
 
       let initWasCalled = false;
       batchingReceiver["_init"] = async () => {
@@ -50,7 +42,10 @@ describe("Receiver unit tests", () => {
     });
 
     it("message receiver init() bails out early if object is closed()", async () => {
-      const messageReceiver2 = new StreamingReceiver(fakeContext(), "fakeEntityPath");
+      const messageReceiver2 = new StreamingReceiver(
+        createConnectionContextForTests(),
+        "fakeEntityPath"
+      );
 
       await messageReceiver2.close();
 

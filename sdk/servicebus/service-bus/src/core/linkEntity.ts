@@ -212,12 +212,17 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
    * @returns A Promise that resolves when the link has been properly initialized
    */
   async initLink(options: LinkOptionsT<LinkT>, abortSignal?: AbortSignalLike): Promise<void> {
-    log.error(`${this._logPrefix} Acquiring lock token ${this._openLock} for initializing link`);
-
     // we'll check that the connection isn't in the process of recycling (and if so, wait for it to complete)
+    log.error(`${this._logPrefix} Checking if connection is ready`);
     await this._context.readyToOpenLink();
 
-    return defaultLock.acquire(this._openLock, () => this._initLinkImpl(options, abortSignal));
+    log.error(
+      `${this._logPrefix} Attempting to acquire lock token ${this._openLock} for initializing link`
+    );
+    return defaultLock.acquire(this._openLock, () => {
+      log.error(`${this._logPrefix} Lock ${this._openLock} acquired for initializing link`);
+      return this._initLinkImpl(options, abortSignal);
+    });
   }
 
   private async _initLinkImpl(
@@ -325,8 +330,13 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
    * the this._link field to undefined.
    */
   protected closeLink(): Promise<void> {
-    log.error(`${this._logPrefix} Acquiring lock token ${this._openLock} for closing link`);
-    return defaultLock.acquire(this._openLock, () => this.closeLinkImpl());
+    log.error(
+      `${this._logPrefix} Attempting to acquire lock token ${this._openLock} for closing link`
+    );
+    return defaultLock.acquire(this._openLock, () => {
+      log.error(`${this._logPrefix} Lock ${this._openLock} acquired for closing link`);
+      return this.closeLinkImpl();
+    });
   }
 
   private async closeLinkImpl(): Promise<void> {
@@ -399,9 +409,12 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
    * @return {Promise<void>} Promise<void>
    */
   private async _negotiateClaim(setTokenRenewal?: boolean): Promise<void> {
+    log.error(`${this._logPrefix} negotiateclaim() has been called`);
+
     // Wait for the connectionContext to be ready to open the link.
     if (this._context.isConnectionClosing()) {
-      throw new Error("Connection is starting to close, not negotiating claim.");
+      log.error(`${this._logPrefix} connection is closing, aborting negotiateClaim`);
+      throw new Error("Connection was closing, aborting negotiateClaim.");
     }
 
     // Acquire the lock and establish a cbs session if it does not exist on the connection.
