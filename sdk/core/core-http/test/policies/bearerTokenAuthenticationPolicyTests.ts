@@ -101,9 +101,8 @@ describe("BearerTokenAuthenticationPolicy", function() {
     return new BearerTokenAuthenticationPolicy(
       mockPolicy,
       new RequestPolicyOptions(),
-      credential,
-      scopes,
-      new ExpiringAccessTokenCache()
+      new ExpiringAccessTokenCache(),
+      new AccessTokenRefresher(credential, scopes)
     );
   }
 });
