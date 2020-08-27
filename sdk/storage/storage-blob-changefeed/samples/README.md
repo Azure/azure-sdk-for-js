@@ -33,7 +33,7 @@ Copy the sample to your samples folder and use `node` to run it.
 node sample.js
 ```
 
-## Typescript sample
+## TypeScript sample
 
 If you don't have Typescript installed, then use `npm` to install it first.
 
