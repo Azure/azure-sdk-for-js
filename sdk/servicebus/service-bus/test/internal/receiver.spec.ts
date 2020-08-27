@@ -66,9 +66,13 @@ describe("Receiver unit tests", () => {
         );
       };
 
-      await messageReceiver2["_init"]({} as ReceiverOptions);
-
-      assert.isFalse(negotiateClaimWasCalled);
+      try {
+        await messageReceiver2["_init"]({} as ReceiverOptions);
+        assert.fail("Should throw");
+      } catch (err) {
+        assert.equal("Link has been permanently closed. Not reopening.", err.message);
+        assert.isFalse(negotiateClaimWasCalled);
+      }
     });
   });
 

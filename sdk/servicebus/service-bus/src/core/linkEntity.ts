@@ -235,7 +235,8 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
     }
 
     if (this._wasClosedPermanently) {
-      throw new Error(`${this._logPrefix} Link has been permanently closed. Not reopening.`);
+      log.error(`${this._logPrefix} Link has been permanently closed. Not reopening.`);
+      throw new Error(`Link has been permanently closed. Not reopening.`);
     }
 
     if (this.isOpen()) {

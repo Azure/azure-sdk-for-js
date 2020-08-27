@@ -71,7 +71,7 @@ describe("LinkEntity unit tests", () => {
       // these promises will NOT resolve - initLink() and close/closeLink()
       // coordinate using a lock.
       innerPromises.push(linkEntity.initLink({}));
-      innerPromises.push(linkEntity.close());
+      innerPromises.push(linkEntity["closeLink"]());
 
       const ret = await Promise.race([...innerPromises, delay(50, undefined, undefined, 101)]);
       assert.equal(
@@ -116,9 +116,14 @@ describe("LinkEntity unit tests", () => {
     await linkEntity.close();
     assertLinkEntityClosedPermanently();
 
-    await linkEntity.initLink({});
-    assert.isFalse(linkEntity.isOpen(), "Link was closed and will remain closed");
-    assert.isFalse(negotiateClaimSpy.called, "We shouldn't attempt to reopen the link.");
+    try {
+      await linkEntity.initLink({});
+      assert.fail("Should throw");
+    } catch (err) {
+      assert.equal("Link has been permanently closed. Not reopening.", err.message);
+      assert.isFalse(linkEntity.isOpen(), "Link was closed and will remain closed");
+      assert.isFalse(negotiateClaimSpy.called, "We shouldn't attempt to reopen the link.");
+    }
   });
 
   it("initLink - error handling", async () => {
