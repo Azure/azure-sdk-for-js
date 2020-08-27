@@ -469,19 +469,43 @@ describe("BlobClient", () => {
   it("setAccessTier set default to cool", async () => {
     await blockBlobClient.setAccessTier("Cool");
     const properties = await blockBlobClient.getProperties();
-    assert.equal(properties.accessTier!.toLowerCase(), "cool");
+    assert.ok(properties.accessTier);
+    assert.equal(properties.accessTier!, "Cool");
   });
 
   it("setAccessTier set archive to hot", async () => {
     await blockBlobClient.setAccessTier("Archive");
     let properties = await blockBlobClient.getProperties();
-    assert.equal(properties.accessTier!.toLowerCase(), "archive");
+    assert.ok(properties.accessTier);
+    assert.equal(properties.accessTier!, "Archive");
 
     await blockBlobClient.setAccessTier("Hot");
     properties = await blockBlobClient.getProperties();
     if (properties.archiveStatus) {
       assert.equal(properties.archiveStatus.toLowerCase(), "rehydrate-pending-to-hot");
     }
+  });
+
+  it("setAccessTier with snapshot", async () => {
+    const resp = await blockBlobClient.createSnapshot();
+    const blockBlobClientWithSnapshot = blockBlobClient.withSnapshot(resp.snapshot!);
+
+    await blockBlobClientWithSnapshot.setAccessTier("Cool");
+
+    const properties = await blockBlobClientWithSnapshot.getProperties();
+    assert.ok(properties.accessTier);
+    assert.equal(properties.accessTier!, "Cool");
+  });
+
+  it("setAccessTier with versioning", async () => {
+    const resp = await blockBlobClient.setMetadata({ a: "a" });
+    const blockBlobClientWithVersion = blockBlobClient.withVersion(resp.versionId!);
+
+    await blockBlobClientWithVersion.setAccessTier("Cool");
+
+    const properties = await blockBlobClientWithVersion.getProperties();
+    assert.ok(properties.accessTier);
+    assert.equal(properties.accessTier!, "Cool");
   });
 
   it("can be created with a sas connection string", async () => {
