@@ -91,7 +91,12 @@ export class AvroParser {
         zigZagEncoded += (byte & 0x7f) * significanceInFloat;
         significanceInFloat *= 128; // 2 ** 7
       } while (byte & 0x80);
-      return (zigZagEncoded % 2 ? -(zigZagEncoded + 1) : zigZagEncoded) / 2;
+
+      const res = (zigZagEncoded % 2 ? -(zigZagEncoded + 1) : zigZagEncoded) / 2;
+      if (res < Number.MIN_SAFE_INTEGER || res > Number.MAX_SAFE_INTEGER) {
+        throw new Error("Integer overflow.");
+      }
+      return res;
     }
 
     return (zigZagEncoded >> 1) ^ -(zigZagEncoded & 1);
