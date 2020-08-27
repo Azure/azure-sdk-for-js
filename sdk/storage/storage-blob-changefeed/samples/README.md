@@ -8,7 +8,7 @@ Copy the sample file you want to a folder of your choice and run the following c
 npm install @azure/storage-blob-changefeed
 ```
 
-Or, in case you have cloned the repo and want to utilize the published npm package instead of src code, run the following commands in the `samples` folder to initialize an npm project and to install the storage-blob-changefeed package.
+Or, in case you have cloned the repo and want to utilize the published npm package instead of source code, run the following commands in the `samples` folder to initialize an npm project and to install the storage-blob-changefeed package.
 
 ```bash
 npm init -y
