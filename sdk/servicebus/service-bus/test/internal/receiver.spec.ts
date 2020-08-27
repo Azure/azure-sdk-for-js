@@ -4,7 +4,6 @@
 import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
 import { ReceiverEvents, ReceiverOptions } from "rhea-promise";
-import { AbortSignalLike } from "../../../../core/abort-controller/types/src/aborter";
 import { ReceivedMessage, ReceivedMessageWithLock } from "../../src";
 chai.use(chaiAsPromised);
 const assert = chai.assert;
@@ -15,6 +14,10 @@ import { StreamingReceiver } from "../../src/core/streamingReceiver";
 import { ServiceBusReceiverImpl } from "../../src/receivers/receiver";
 import { createConnectionContextForTests } from "./unittestUtils";
 import { InternalMessageHandlers } from "../../src/models";
+import { createAbortSignalForTest } from "../utils/abortSignalTestUtils";
+import { AbortSignalLike } from "@azure/abort-controller";
+import { ServiceBusSessionReceiverImpl } from "../../src/receivers/sessionReceiver";
+import { Constants } from "@azure/core-amqp";
 
 describe("Receiver unit tests", () => {
   describe("init() and close() interactions", () => {
@@ -239,5 +242,66 @@ describe("Receiver unit tests", () => {
 
       return sub;
     }
+  });
+
+  describe("getMessageIterator", () => {
+    it("abortSignal is passed through (receiver)", async () => {
+      const impl = new ServiceBusReceiverImpl(
+        createConnectionContextForTests(),
+        "entity path",
+        "peekLock"
+      );
+
+      const abortSignal = createAbortSignalForTest(true);
+
+      try {
+        const iter = impl.getMessageIterator({
+          abortSignal
+        });
+
+        await iter.next();
+        assert.fail("Should have thrown");
+      } catch (err) {
+        assert.equal(err.name, "AbortError");
+      }
+
+      await impl.close();
+    });
+
+    it("abortSignal is passed through (session receiver)", async () => {
+      const impl = await ServiceBusSessionReceiverImpl.createInitializedSessionReceiver(
+        createConnectionContextForTests({
+          onCreateReceiverCalled: (receiver) => {
+            (receiver as any).source = {
+              filter: {
+                [Constants.sessionFilterName]: "hello"
+              }
+            };
+
+            (receiver as any).properties = {
+              ["com.microsoft:locked-until-utc"]: Date.now()
+            };
+          }
+        }),
+        "entity path",
+        "peekLock",
+        {}
+      );
+
+      const abortSignal = createAbortSignalForTest(true);
+
+      try {
+        const iter = impl.getMessageIterator({
+          abortSignal
+        });
+
+        await iter.next();
+        assert.fail("Should have thrown");
+      } catch (err) {
+        assert.equal("AbortError", err.name);
+      }
+
+      await impl.close();
+    });
   });
 });

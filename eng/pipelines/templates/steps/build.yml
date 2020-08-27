@@ -1,0 +1,81 @@
+parameters:
+  Artifacts: []
+  ServiceDirectory: not-specified
+
+steps:
+  - pwsh: |
+      $folder = "${{parameters.ServiceDirectory}}"
+      if ($folder -eq "*") { $folder = "" }
+      echo "##vso[task.setvariable variable=folder]$folder"
+    displayName: "Set folder variable for readme links"
+
+  - template: /eng/common/pipelines/templates/steps/daily-dev-build-variable.yml
+
+  - script: |
+      npm install ./eng/tools/versioning
+      node eng/tools/versioning/set-dev.js --build-id "$(Build.BuildNumber)" --repo-root "$(Build.SourcesDirectory)" --service "$(folder)"
+      node common/scripts/install-run-rush.js update
+    condition: and(succeeded(),eq(variables['SetDevVersion'],'true'))
+    displayName: "Update package versions for dev build"
+
+  - script: |
+      node common/scripts/install-run-rush.js install
+    condition: and(succeeded(),ne(variables['SetDevVersion'],'true'))
+    displayName: "Install dependencies"
+
+  - template: /eng/common/pipelines/templates/steps/replace-relative-links.yml
+    parameters:
+      TargetFolder: $(Build.SourcesDirectory)/sdk/$(folder)
+      RootFolder: $(Build.SourcesDirectory)
+      BuildSHA: $(Build.SourceVersion)
+      RepoId: "Azure/azure-sdk-for-js"
+
+  # Option "-p max" ensures parallelism is set to the number of cores on all platforms, which improves build times.
+  # The default on Windows is "cores - 1" (microsoft/rushstack#436).
+  - script: |
+      node eng/tools/rush-runner.js build "${{parameters.ServiceDirectory}}" --verbose -p max
+    displayName: "Build libraries"
+
+  - pwsh: |
+      eng/tools/check-api-warning.ps1 
+    displayName: "Check api extractor output changes"
+
+  - script: |
+      node eng/tools/rush-runner.js pack "${{parameters.ServiceDirectory}}" --verbose
+    displayName: "Pack libraries"
+
+  # Unlink node_modules folders to significantly improve performance of subsequent tasks
+  # which need to walk the directory tree (and are hardcoded to follow symlinks).
+  - script: |
+      node eng/tools/rush-runner.js unlink
+    displayName: "Unlink dependencies"
+
+  # It's important for performance to pass "sdk" as "sourceFolder" rather than as a prefix in "contents".
+  # The task first enumerates all files under "sourceFolder", then matches them against the "contents" pattern.
+  - task: CopyFiles@2
+    inputs:
+      sourceFolder: sdk
+      contents: |
+        **/$(coalesceResultFilter)/*.tgz
+        **/$(coalesceResultFilter)/browser/*.zip
+      targetFolder: $(Build.ArtifactStagingDirectory)
+      flattenFolders: true
+    displayName: "Copy packages"
+
+  - task: PublishPipelineArtifact@1
+    condition: succeededOrFailed()
+    displayName: "Publish artifacts"
+    inputs:
+      artifactName: packages
+      path: $(Build.ArtifactStagingDirectory)
+
+  - template: ../steps/generate-doc.yml
+    parameters:
+      ServiceDirectory: ${{parameters.ServiceDirectory}}
+
+  - task: PublishPipelineArtifact@1
+    condition: succeededOrFailed()
+    displayName: "Publish artifacts"
+    inputs:
+      artifactName: documentation
+      path: $(Build.ArtifactStagingDirectory)/Documentation

@@ -1,14 +1,10 @@
+import { record, Recorder } from "@azure/test-utils-recorder";
 import * as assert from "assert";
-
-import {
-  bodyToString,
-  getBSU,
-  getSASConnectionStringFromEnvironment,
-  recorderEnvSetup
-} from "./utils";
-import { record } from "@azure/test-utils-recorder";
 import * as dotenv from "dotenv";
+
 import { AppendBlobClient, ContainerClient } from "../src";
+import { bodyToString, getBSU, getSASConnectionStringFromEnvironment, recorderEnvSetup } from "./utils";
+
 dotenv.config();
 
 describe("AppendBlobClient", () => {
@@ -17,7 +13,7 @@ describe("AppendBlobClient", () => {
   let blobName: string;
   let appendBlobClient: AppendBlobClient;
 
-  let recorder: any;
+  let recorder: Recorder;
 
   beforeEach(async function() {
     recorder = record(this, recorderEnvSetup);
@@ -159,5 +155,51 @@ describe("AppendBlobClient", () => {
     }
 
     assert.ok(exceptionCaught);
+  });
+  
+  it("Seal append blob", async () => {
+    await appendBlobClient.create();
+    await appendBlobClient.seal();
+
+    const properties = await appendBlobClient.getProperties();
+    assert.deepStrictEqual(properties.isSealed, true);
+
+    const response = await appendBlobClient.download(0);
+    assert.deepStrictEqual(response.isSealed, true);
+
+    for await (const item of containerClient.listBlobsFlat() ) {
+      assert.ok(item.properties.isSealed);
+    }
+  });
+
+  it("Copy seal blob", async () => {
+    await appendBlobClient.create();
+    await appendBlobClient.seal();
+
+    let destBlobClient = containerClient.getAppendBlobClient(recorder.getUniqueName("copiedblob1"));
+    await (
+      await destBlobClient.beginCopyFromURL(appendBlobClient.url, {
+        sealBlob: false
+      })
+    ).pollUntilDone();
+    let properties = await destBlobClient.getProperties();
+    assert.deepStrictEqual(properties.isSealed, undefined);
+
+    destBlobClient = containerClient.getAppendBlobClient(recorder.getUniqueName("copiedblob2"));
+    await (
+      await destBlobClient.beginCopyFromURL(appendBlobClient.url, {
+      })
+    ).pollUntilDone();
+    properties = await destBlobClient.getProperties();
+    assert.deepStrictEqual(properties.isSealed, true);
+
+    destBlobClient = containerClient.getAppendBlobClient(recorder.getUniqueName("copiedblob3"));
+    await (
+      await destBlobClient.beginCopyFromURL(appendBlobClient.url, {
+        sealBlob: true
+      })
+    ).pollUntilDone();
+     properties = await destBlobClient.getProperties();
+    assert.deepStrictEqual(properties.isSealed, true);
   });
 });

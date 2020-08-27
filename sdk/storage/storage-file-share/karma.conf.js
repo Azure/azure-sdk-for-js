@@ -57,7 +57,13 @@ module.exports = function(config) {
     // inject following environment values into browser testing with window.__env__
     // environment values MUST be exported or set with same console running "karma start"
     // https://www.npmjs.com/package/karma-env-preprocessor
-    envPreprocessor: ["ACCOUNT_NAME", "ACCOUNT_SAS", "TEST_MODE"],
+    envPreprocessor: [
+      "ACCOUNT_NAME",
+      "ACCOUNT_SAS",
+      "SOFT_DELETE_ACCOUNT_NAME",
+      "SOFT_DELETE_ACCOUNT_SAS",
+      "TEST_MODE"
+    ],
 
     // test results reporter to use
     // possible values: 'dots', 'progress'
