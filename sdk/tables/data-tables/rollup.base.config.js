@@ -53,10 +53,7 @@ export function browserConfig() {
       file: "dist-browser/data-tables.js",
       format: "umd",
       name: "Azure.Tables",
-      sourcemap: true,
-      globals: {
-        "@azure/core-http": "Azure.Core.HTTP"
-      }
+      sourcemap: true
     },
     preserveSymlinks: false,
     plugins: [
@@ -173,15 +170,13 @@ export function browserTestConfig(testMode) {
   baseConfig.plugins.unshift(multiEntry({ exports: false }));
   baseConfig.output.file = `dist-test/${testMode}.index.browser.js`;
 
-  baseConfig.external.unshift(...["process"]);
+  // mark fs-extra as external
+  baseConfig.external = ["fs-extra", "process"];
 
   baseConfig.output.globals = {
     ...baseConfig.output.globals,
-    nock: "nock",
-    fs: "fs-extra",
     "fs-extra": "fs",
-    process: "process",
-    path: "path"
+    process: "process"
   };
 
   baseConfig.context = "null";

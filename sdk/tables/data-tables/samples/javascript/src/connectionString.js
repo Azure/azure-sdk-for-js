@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-const { TableServiceClient, TableClient } = require("@azure/data-tables");
+const { TableServiceClient, TableClient } = require("../../../");
 
 // Load the .env file if it exists
 const dotenv = require("dotenv");
@@ -13,17 +13,23 @@ const connectionString = process.env["ACCOUNT_CONNECTION_STRING"] || "";
 async function listTables() {
   const client = TableServiceClient.fromConnectionString(connectionString);
 
-  const tables = await client.listTables();
+  const tables = client.listTables();
 
-  console.log(tables.value);
+  for await (let table of tables) {
+    console.log(table);
+    // {TableName: "TestTable"}
+  }
 }
 
 async function listEntities() {
   const client = TableClient.fromConnectionString(connectionString, "test1");
 
-  const entities = await client.listEntities();
+  const entities = client.listEntities();
 
-  console.log(entities.value);
+  for await (const entity of entities) {
+    console.log(entity);
+    // {PartitionKey: "P1", RowKey: "R1", foo: "Bar"}
+  }
 }
 
 async function main() {
