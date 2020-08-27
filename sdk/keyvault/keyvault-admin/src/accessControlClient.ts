@@ -222,7 +222,7 @@ export class KeyVaultAccessControlClient {
    * @summary Gets an existing role assignment.
    * @param {string} roleScope The scope of the role assignment.
    * @param {string} name The name of the role assignment.
-   * @param {DeleteRoleAssignmentOptions} [options] The optional parameters.
+   * @param {GetRoleAssignmentOptions} [options] The optional parameters.
    */
   public async getRoleAssignment(
     roleScope: RoleAssignmentScope,
@@ -230,7 +230,7 @@ export class KeyVaultAccessControlClient {
     options?: GetRoleAssignmentOptions
   ): Promise<KeyVaultRoleAssignment> {
     const requestOptions = operationOptionsToRequestOptionsBase(options || {});
-    const span = createSpan("deleteRoleAssignment", requestOptions);
+    const span = createSpan("getRoleAssignment", requestOptions);
 
     let response: RoleAssignmentsDeleteResponse;
     try {
