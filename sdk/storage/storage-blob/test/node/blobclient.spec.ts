@@ -59,11 +59,9 @@ describe("BlobClient Node.js only", () => {
   });
 
   before(async function() {
-    recorder = record(this, recorderEnvSetup);
     if (!existsSync(tempFolderPath)) {
       mkdirSync(tempFolderPath);
     }
-    await recorder.stop();
   });
 
   it("download with with default parameters", async () => {
