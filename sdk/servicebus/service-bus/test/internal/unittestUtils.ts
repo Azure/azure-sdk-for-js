@@ -27,11 +27,16 @@ import { Link } from "rhea-promise/typings/lib/link";
 export function createConnectionContextForTests(options?: {
   onCreateAwaitableSenderCalled?: () => void;
   onCreateReceiverCalled?: (receiver: RheaReceiver) => void;
-}): ConnectionContext & { initWasCalled: boolean } {
+}): ConnectionContext & {
+  initWasCalled: boolean;
+} {
   let initWasCalled = false;
 
   const fakeConnectionContext = {
     async readyToOpenLink(): Promise<void> {},
+    isConnectionClosing(): boolean {
+      return false;
+    },
     messageReceivers: {},
     senders: {},
     messageSessions: {},
