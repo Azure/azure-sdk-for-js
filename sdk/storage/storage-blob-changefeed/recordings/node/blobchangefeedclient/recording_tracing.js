@@ -17,9 +17,9 @@ nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParam
   'Server',
   'Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  '067e140c-501e-004a-183a-7cdcd0000000',
+  '52f76e60-301e-0063-7f43-7ce2a4000000',
   'x-ms-client-request-id',
-  '65795f25-0502-4df6-bd66-49f095204843',
+  'a959efaf-0a65-4808-972f-09e41b5d62b9',
   'x-ms-version',
   '2019-12-12',
   'x-ms-lease-status',
@@ -35,7 +35,9 @@ nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParam
   'x-ms-deny-encryption-scope-override',
   'false',
   'Date',
-  'Thu, 27 Aug 2020 06:19:57 GMT'
+  'Thu, 27 Aug 2020 07:28:15 GMT',
+  'Connection',
+  'close'
 ]);
 
 nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParams":true})
@@ -56,9 +58,9 @@ nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParam
   'Server',
   'Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  '067e1454-501e-004a-593a-7cdcd0000000',
+  '0b8aeba1-d01e-0009-4d43-7c3a8c000000',
   'x-ms-client-request-id',
-  '1fdc3a46-b83a-44fc-930b-34e79565f71a',
+  '907b8632-8caa-4a1e-86e4-bc0c73f166ea',
   'x-ms-version',
   '2019-12-12',
   'x-ms-creation-time',
@@ -72,7 +74,9 @@ nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParam
   'x-ms-server-encrypted',
   'true',
   'Date',
-  'Thu, 27 Aug 2020 06:19:57 GMT'
+  'Thu, 27 Aug 2020 07:28:16 GMT',
+  'Connection',
+  'close'
 ]);
 
 nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParams":true})
@@ -86,13 +90,15 @@ nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParam
   'Server',
   'Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  '067e148f-501e-004a-0e3a-7cdcd0000000',
+  '1a67e197-401e-0069-4a43-7c4613000000',
   'x-ms-client-request-id',
-  'c81e9a62-0397-48f5-b984-4cacdb8e2980',
+  '63e4ed96-12da-4a4f-8970-ba6ab32e96cd',
   'x-ms-version',
   '2019-12-12',
   'Date',
-  'Thu, 27 Aug 2020 06:19:57 GMT'
+  'Thu, 27 Aug 2020 07:28:17 GMT',
+  'Connection',
+  'close'
 ]);
 
 nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParams":true})
@@ -106,13 +112,15 @@ nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParam
   'Server',
   'Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  '067e14c6-501e-004a-3f3a-7cdcd0000000',
+  '2601921f-601e-00a5-6743-7c2925000000',
   'x-ms-client-request-id',
-  '74a763c1-4e8f-4fff-8db6-6fc6928d6859',
+  'dd4ff58a-e8bd-43c0-9b5c-2d493c821196',
   'x-ms-version',
   '2019-12-12',
   'Date',
-  'Thu, 27 Aug 2020 06:19:57 GMT'
+  'Thu, 27 Aug 2020 07:28:18 GMT',
+  'Connection',
+  'close'
 ]);
 
 nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParams":true})
@@ -133,9 +141,9 @@ nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParam
   'Server',
   'Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  '067e1563-501e-004a-423a-7cdcd0000000',
+  '442c5151-901e-00a1-6443-7ca422000000',
   'x-ms-client-request-id',
-  'aaab531e-a129-4793-8a39-41720c0d3d11',
+  'd89c6b03-2cba-4f17-941f-9ecea6163ac8',
   'x-ms-version',
   '2019-12-12',
   'x-ms-creation-time',
@@ -149,7 +157,9 @@ nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParam
   'x-ms-server-encrypted',
   'true',
   'Date',
-  'Thu, 27 Aug 2020 06:19:58 GMT'
+  'Thu, 27 Aug 2020 07:28:19 GMT',
+  'Connection',
+  'close'
 ]);
 
 nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParams":true})
@@ -163,11 +173,13 @@ nock('https://fakestorageaccount.blob.core.windows.net:443', {"encodedQueryParam
   'Server',
   'Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  '067e15b2-501e-004a-0c3a-7cdcd0000000',
+  '7e10fb70-001e-008c-4743-7c1751000000',
   'x-ms-client-request-id',
-  'fe0dc666-0a8e-4013-b78c-f50a7f4119fc',
+  '6f268a71-8e6c-4f8f-8727-aa29504d2192',
   'x-ms-version',
   '2019-12-12',
   'Date',
-  'Thu, 27 Aug 2020 06:19:58 GMT'
+  'Thu, 27 Aug 2020 07:28:20 GMT',
+  'Connection',
+  'close'
 ]);

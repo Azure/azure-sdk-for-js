@@ -62,7 +62,7 @@ describe("BlobChangeFeedClient", async () => {
     }
   });
 
-  it.only("byPage()", async () => {
+  it("byPage()", async () => {
     const maxPageSize = 2;
     const iter = changeFeedClient.listChanges().byPage({ maxPageSize });
     const nextPage = await iter.next();
@@ -153,7 +153,7 @@ describe("BlobChangeFeedClient", async () => {
     assert.ok(telemetryString2.startsWith(`${userAgentPrefix} changefeed-js/${SDK_VERSION}`));
   });
 
-  it("tracing", async () => {
+  it.only("tracing", async () => {
     const tracer = new TestTracer();
     setTracer(tracer);
     const rootSpan = tracer.startSpan("root");
