@@ -28,5 +28,5 @@ extends:
   parameters:
     ServiceDirectory: anomalydetector
     Artifacts:
-      - name: ai-anomaly-detector
+      - name: azure-ai-anomaly-detector
         safeName: aianomalydetector
