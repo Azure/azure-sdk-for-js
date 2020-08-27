@@ -35,7 +35,7 @@ node sample.js
 
 ## TypeScript sample
 
-If you don't have Typescript installed, then use `npm` to install it first.
+If you don't have TypeScript installed, then use `npm` to install it first.
 
 ```bash
 npm install -g typescript
