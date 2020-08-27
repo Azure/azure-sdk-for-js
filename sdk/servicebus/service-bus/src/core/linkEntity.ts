@@ -211,8 +211,12 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
    *
    * @returns A Promise that resolves when the link has been properly initialized
    */
-  initLink(options: LinkOptionsT<LinkT>, abortSignal?: AbortSignalLike): Promise<void> {
+  async initLink(options: LinkOptionsT<LinkT>, abortSignal?: AbortSignalLike): Promise<void> {
     log.error(`${this._logPrefix} Acquiring lock token ${this._openLock} for initializing link`);
+
+    // we'll check that the connection isn't in the process of recycling (and if so, wait for it to complete)
+    await this._context.readyToOpenLink();
+
     return defaultLock.acquire(this._openLock, () => this._initLinkImpl(options, abortSignal));
   }
 
@@ -396,7 +400,10 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
    */
   private async _negotiateClaim(setTokenRenewal?: boolean): Promise<void> {
     // Wait for the connectionContext to be ready to open the link.
-    await this._context.readyToOpenLink();
+    if (this._context.isConnectionClosing()) {
+      throw new Error("Connection is starting to close, not negotiating claim.");
+    }
+
     // Acquire the lock and establish a cbs session if it does not exist on the connection.
     // Although node.js is single threaded, we need a locking mechanism to ensure that a
     // race condition does not happen while creating a shared resource (in this case the

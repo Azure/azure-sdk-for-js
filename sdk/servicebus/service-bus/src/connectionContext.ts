@@ -73,6 +73,10 @@ export interface ConnectionContext extends ConnectionContextBase {
    * Creates one if none exists in the cache
    */
   getManagementClient(entityPath: string): ManagementClient;
+  /**
+   * Whether the connection is closing.
+   */
+  isConnectionClosing(): boolean;
 }
 
 /**
