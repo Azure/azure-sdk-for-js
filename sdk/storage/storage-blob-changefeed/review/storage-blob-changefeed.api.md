@@ -85,7 +85,7 @@ export type BlobChangeFeedEventType = "UnspecifiedEventType" | "BlobCreated" | "
 export type BlobType = "BlockBlob" | "AppendBlob" | "PageBlob";
 
 // @public (undocumented)
-export function newPipeline(credential: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, pipelineOptions?: StoragePipelineOptions): Pipeline;
+export function newPipeline(credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, pipelineOptions?: StoragePipelineOptions): Pipeline;
 
 
 // (No @packageDocumentation comment for this package)

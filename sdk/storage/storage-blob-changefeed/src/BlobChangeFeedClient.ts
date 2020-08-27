@@ -27,7 +27,7 @@ export class BlobChangeFeedEventPage {
 }
 
 export function newPipeline(
-  credential: StorageSharedKeyCredential | AnonymousCredential | TokenCredential,
+  credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential,
   pipelineOptions: StoragePipelineOptions = {}
 ): Pipeline {
   return newPipeline(credential, BlobChangeFeedClient.appendUserAgentPrefix(pipelineOptions));
