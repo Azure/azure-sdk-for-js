@@ -48,8 +48,19 @@ export interface KeyVaultPermission {
 export interface KeyVaultRoleAssignment {
     readonly id?: string;
     readonly name?: string;
-    properties?: RoleAssignmentPropertiesWithScope;
+    properties?: KeyVaultRoleAssignmentPropertiesWithScope;
     readonly type?: string;
+}
+
+// @public
+export interface KeyVaultRoleAssignmentProperties {
+    principalId?: string;
+    roleDefinitionId?: string;
+}
+
+// @public
+export interface KeyVaultRoleAssignmentPropertiesWithScope extends KeyVaultRoleAssignmentProperties {
+    scope?: RoleAssignmentScope;
 }
 
 // @public
@@ -73,17 +84,6 @@ export interface ListRoleAssignmentsOptions extends coreHttp.OperationOptions {
 
 // @public
 export interface ListRoleDefinitionsOptions extends coreHttp.OperationOptions {
-}
-
-// @public
-export interface RoleAssignmentProperties {
-    principalId?: string;
-    roleDefinitionId?: string;
-}
-
-// @public
-export interface RoleAssignmentPropertiesWithScope extends RoleAssignmentProperties {
-    scope?: RoleAssignmentScope;
 }
 
 // @public

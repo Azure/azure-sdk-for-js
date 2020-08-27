@@ -33,7 +33,7 @@ export interface KeyVaultRoleAssignment {
   /**
    * Role assignment properties.
    */
-  properties?: RoleAssignmentPropertiesWithScope;
+  properties?: KeyVaultRoleAssignmentPropertiesWithScope;
 }
 
 /**
@@ -99,7 +99,7 @@ export interface KeyVaultRoleDefinition {
 /**
  * Role assignment properties.
  */
-export interface RoleAssignmentProperties {
+export interface KeyVaultRoleAssignmentProperties {
   /**
    * The role definition ID used in the role assignment.
    */
@@ -119,7 +119,8 @@ export type RoleAssignmentScope = "/" | "/keys" | string;
 /**
  * Role assignment properties with the scope property.
  */
-export interface RoleAssignmentPropertiesWithScope extends RoleAssignmentProperties {
+export interface KeyVaultRoleAssignmentPropertiesWithScope
+  extends KeyVaultRoleAssignmentProperties {
   /**
    * The role assignment scope.
    */
