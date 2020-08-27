@@ -62,7 +62,7 @@ describe("BlobChangeFeedClient", async () => {
     }
   });
 
-  it("byPage()", async () => {
+  it.only("byPage()", async () => {
     const maxPageSize = 2;
     const iter = changeFeedClient.listChanges().byPage({ maxPageSize });
     const nextPage = await iter.next();
