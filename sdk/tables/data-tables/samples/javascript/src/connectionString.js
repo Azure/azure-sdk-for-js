@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-const { TableServiceClient, TableClient } = require("../../../");
+const { TableServiceClient, TableClient } = require("@azure/data-tables");
 
 // Load the .env file if it exists
 const dotenv = require("dotenv");

@@ -260,19 +260,17 @@ export class TableClient {
    * @param entity The properties for the table entity.
    * @param options The options parameters.
    */
-  public async createEntity<T extends object>(
+  public createEntity<T extends object>(
     entity: TableEntity<T>,
     options?: CreateTableEntityOptions
   ): Promise<CreateTableEntityResponse> {
     const { queryOptions, ...createTableEntity } = options || {};
-    const { _response } = await this.table.insertEntity(this.tableName, {
+    return this.table.insertEntity(this.tableName, {
       ...createTableEntity,
       queryOptions: this.convertQueryOptions(queryOptions || {}),
       tableEntityProperties: serialize(entity),
       responsePreference: "return-no-content"
     });
-
-    return { _response };
   }
 
   /**
@@ -281,7 +279,7 @@ export class TableClient {
    * @param rowKey The row key of the entity.
    * @param options The options parameters.
    */
-  public async deleteEntity(
+  public deleteEntity(
     partitionKey: string,
     rowKey: string,
     options?: DeleteTableEntityOptions
