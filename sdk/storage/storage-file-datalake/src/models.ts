@@ -1029,7 +1029,7 @@ export interface FileQueryCsvTextConfiguration extends FileQueryTextConfiguratio
  */
 export interface FileQueryError {
   /**
-   * Whether error is fatal. Fatal error will stop query.
+   * Whether the error is fatal or not. A fatal error will stop the query.
    *
    * @type {boolean}
    * @memberof FileQueryError
