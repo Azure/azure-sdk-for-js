@@ -41,7 +41,7 @@ If you don't have TypeScript installed, then use `npm` to install it first.
 npm install -g typescript
 ```
 
-One way to run Typescript samples is to use `ts-node`. To install `ts-node`, run the below in your sample folder
+One way to run TypeScript samples is to use `ts-node`. To install `ts-node`, run the below in your sample folder
 
 ```bash
 npm install -g ts-node
