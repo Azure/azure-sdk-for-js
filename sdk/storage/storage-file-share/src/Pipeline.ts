@@ -35,6 +35,7 @@ import {
   StorageFileLoggingAllowedQueryParameters
 } from "./utils/constants";
 import { getCachedDefaultHttpClient } from "./utils/cache";
+import { AnonymousCredential } from "./credentials/AnonymousCredential";
 
 // Export following interfaces and types for customers who want to implement their
 // own RequestPolicy or HTTPClient
@@ -177,9 +178,13 @@ export interface StoragePipelineOptions {
  * @memberof Pipeline
  */
 export function newPipeline(
-  credential: Credential,
+  credential?: Credential,
   pipelineOptions: StoragePipelineOptions = {}
 ): Pipeline {
+  if (credential === undefined) {
+    credential = new AnonymousCredential();
+  }
+
   // Order is important. Closer to the API at the top & closer to the network at the bottom.
   // The credential's policy factory must appear close to the wire so it can sign any
   // changes made by other factories (like UniqueRequestIDPolicyFactory)
