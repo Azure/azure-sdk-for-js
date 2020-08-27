@@ -55,7 +55,12 @@ ts-node sample.ts
 
 ## Outline
 
-- Iterate through the entire Change Feed between a start and end date [basic.ts](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-blob-changefeed/samples/typescript/basic.ts)
-- Resuming a previous iteration of a Change Feed using the continuation token [resume.ts](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-blob-changefeed/samples/typescript/resume.ts)
+- Iterate through the entire Change Feed between a start and end date [basic.js][basic.js][basic.ts][basic.ts]
+- Resuming a previous iteration of a Change Feed using the continuation token [resume.js][resume.js][resume.ts][resume.ts]
+
+[basic.js]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-blob-changefeed/samples/javascript/basic.js
+[resume.js]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-blob-changefeed/samples/javascript/resume.js
+[basic.ts]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-blob-changefeed/samples/typescript/src/basic.ts
+[resume.ts]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-blob-changefeed/samples/typescript/src/resume.ts
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fstorage%2Fstorage-blob-changefeed%2Fsamples%2FREADME.png)

@@ -3,3 +3,4 @@
 
 export * from "./BlobChangeFeedClient";
 export * from "./models/BlobChangeFeedEvent";
+export * from "./models/models";

@@ -207,7 +207,7 @@ export class ChangeFeed {
 
     return {
       CursorVersion: 1,
-      UrlHost: getHost(this._containerClient!.url),
+      UrlHost: getHost(this._containerClient!.url)!,
       EndTime: this._endTime?.toJSON(),
       CurrentSegmentCursor: this._currentSegment!.getCursor()
     };

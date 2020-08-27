@@ -21,8 +21,6 @@ export class BlobChangeFeedClient {
     static appendUserAgentPrefix(options?: StoragePipelineOptions): StoragePipelineOptions;
     // (undocumented)
     static fromConnectionString(connectionString: string, options?: StoragePipelineOptions): BlobChangeFeedClient;
-    // Warning: (ae-forgotten-export) The symbol "BlobChangeFeedListChangesOptions" needs to be exported by the entry point index.d.ts
-    //
     // (undocumented)
     listChanges(options?: BlobChangeFeedListChangesOptions): PagedAsyncIterableIterator<BlobChangeFeedEvent, BlobChangeFeedEventPage>;
 }
@@ -80,6 +78,15 @@ export class BlobChangeFeedEventPage {
 
 // @public (undocumented)
 export type BlobChangeFeedEventType = "UnspecifiedEventType" | "BlobCreated" | "BlobDeleted" | "BlobPropertiesUpdated" | "BlobSnapshotCreated" | "Control" | "BlobTierChanged" | "BlobAsyncOperationInitiated" | "BlobMetadataUpdated";
+
+// @public
+export interface BlobChangeFeedListChangesOptions extends CommonOptions {
+    abortSignal?: AbortSignalLike;
+    // (undocumented)
+    end?: Date;
+    // (undocumented)
+    start?: Date;
+}
 
 // @public (undocumented)
 export type BlobType = "BlockBlob" | "AppendBlob" | "PageBlob";
