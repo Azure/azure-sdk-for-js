@@ -270,6 +270,7 @@ describe("session tests", () => {
         throw new Error(`Test failure`);
       } catch (err) {
         err.message.should.equal("The operation was aborted.");
+        err.name.should.equal("AbortError");
       }
     });
 
@@ -282,6 +283,7 @@ describe("session tests", () => {
         throw new Error(`Test failure`);
       } catch (err) {
         err.message.should.equal("The operation was aborted.");
+        err.name.should.equal("AbortError");
       }
     });
 
@@ -294,6 +296,7 @@ describe("session tests", () => {
         throw new Error(`Test failure`);
       } catch (err) {
         err.message.should.equal("The operation was aborted.");
+        err.name.should.equal("AbortError");
       }
     });
 
@@ -308,6 +311,7 @@ describe("session tests", () => {
         throw new Error(`Test failure`);
       } catch (err) {
         err.message.should.equal("The operation was aborted.");
+        err.name.should.equal("AbortError");
       }
     });
   });
