@@ -5,14 +5,17 @@ import { Attributes, HrTime, SpanContext, SpanKind } from "@opentelemetry/api";
 import { NoopLogger, timeInputToHrTime } from "@opentelemetry/core";
 import { BasicTracerProvider, Span } from "@opentelemetry/tracing";
 import * as assert from "assert";
-import { Envelope } from "../../src/Declarations/Contracts";
-import { ENQUEUED_TIME, TIME_SINCE_ENQUEUED } from "../../src/utils/constants/applicationinsights";
+import { Envelope } from "../../../src/Declarations/Contracts";
+import {
+  ENQUEUED_TIME,
+  TIME_SINCE_ENQUEUED
+} from "../../../src/utils/constants/applicationinsights";
 import {
   AzNamespace,
   MessageBusDestination,
   MicrosoftEventHub
-} from "../../src/utils/constants/span/azAttributes";
-import { parseEventHubSpan } from "../../src/utils/eventhub";
+} from "../../../src/utils/constants/span/azAttributes";
+import { parseEventHubSpan } from "../../../src/utils/eventhub";
 
 const tracer = new BasicTracerProvider({
   logger: new NoopLogger()

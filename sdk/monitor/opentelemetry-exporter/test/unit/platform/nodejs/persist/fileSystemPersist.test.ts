@@ -5,8 +5,8 @@ import * as assert from "assert";
 import * as fs from "fs";
 import * as os from "os";
 import * as path from "path";
-import { FileSystemPersist } from "../../../../src/platform/nodejs/persist/fileSystemPersist";
-import { Envelope } from "../../../../src/Declarations/Contracts";
+import { FileSystemPersist } from "../../../../../src/platform/nodejs/persist/fileSystemPersist";
+import { Envelope } from "../../../../../src/Declarations/Contracts";
 import { promisify } from "util";
 
 const statAsync = promisify(fs.stat);
@@ -33,7 +33,7 @@ const deleteFolderRecursive = (dirPath: string): void => {
   }
 };
 
-const assertFirstFile = async (tempDir: string, expectation: unknown) : Promise<void>=> {
+const assertFirstFile = async (tempDir: string, expectation: unknown): Promise<void> => {
   // Assert that tempDir is a directory
   const stats = await statAsync(tempDir);
   assert.strictEqual(stats.isDirectory(), true);

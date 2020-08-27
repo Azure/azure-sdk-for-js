@@ -1,20 +1,18 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-/* eslint-disable no-param-reassign */
-/* eslint-disable dot-notation */
 import * as assert from "assert";
 import { ExportResult } from "@opentelemetry/core";
-import { AzureMonitorBaseExporter } from "../../src/export/exporter";
-import { TelemetryProcessor } from "../../src/types";
-import { Envelope } from "../../src/Declarations/Contracts";
-import { DEFAULT_BREEZE_ENDPOINT } from "../../src/Declarations/Constants";
+import { AzureMonitorBaseExporter } from "../../../src/export/exporter";
+import { TelemetryProcessor } from "../../../src/types";
+import { Envelope } from "../../../src/Declarations/Contracts";
+import { DEFAULT_BREEZE_ENDPOINT } from "../../../src/Declarations/Constants";
 import {
   failedBreezeResponse,
   partialBreezeResponse,
   successfulBreezeResponse
 } from "../breezeTestUtils";
-import { FileSystemPersist } from "../../src/platform";
+import { FileSystemPersist } from "../../../src/platform";
 import nock = require("nock");
 
 function toObject<T>(obj: T): T {

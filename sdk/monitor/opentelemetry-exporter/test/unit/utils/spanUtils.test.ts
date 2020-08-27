@@ -6,14 +6,14 @@ import { SpanKind, CanonicalCode } from "@opentelemetry/api";
 import * as assert from "assert";
 import { NoopLogger, hrTimeToMilliseconds } from "@opentelemetry/core";
 
-import { Tags, Properties, Measurements } from "../../src/types";
-import { RequestData, RemoteDependencyData, Envelope } from "../../src/Declarations/Contracts";
-import * as http from "../../src/utils/constants/span/httpAttributes";
-import * as grpc from "../../src/utils/constants/span/grpcAttributes";
-import * as ai from "../../src/utils/constants/applicationinsights";
-import { Context, getInstance } from "../../src/platform";
-import { msToTimeSpan } from "../../src/utils/breezeUtils";
-import { readableSpanToEnvelope } from "../../src/utils/spanUtils";
+import { Tags, Properties, Measurements } from "../../../src/types";
+import { RequestData, RemoteDependencyData, Envelope } from "../../../src/Declarations/Contracts";
+import * as http from "../../../src/utils/constants/span/httpAttributes";
+import * as grpc from "../../../src/utils/constants/span/grpcAttributes";
+import * as ai from "../../../src/utils/constants/applicationinsights";
+import { Context, getInstance } from "../../../src/platform";
+import { msToTimeSpan } from "../../../src/utils/breezeUtils";
+import { readableSpanToEnvelope } from "../../../src/utils/spanUtils";
 
 const context = getInstance(undefined, "./", "../../");
 

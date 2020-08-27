@@ -2,9 +2,9 @@
 // Licensed under the MIT license.
 
 import * as assert from "assert";
-import { HttpSender } from "../../../src/platform/nodejs/httpSender";
-import { Envelope } from "../../../src/Declarations/Contracts";
-import { DEFAULT_BREEZE_ENDPOINT } from "../../../src/Declarations/Constants";
+import { HttpSender } from "../../../../src/platform/nodejs/httpSender";
+import { Envelope } from "../../../../src/Declarations/Contracts";
+import { DEFAULT_BREEZE_ENDPOINT } from "../../../../src/Declarations/Constants";
 import {
   successfulBreezeResponse,
   failedBreezeResponse,
