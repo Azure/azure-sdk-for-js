@@ -310,7 +310,7 @@ export class TableClient {
     deleteEntity(partitionKey: string, rowKey: string, options?: DeleteTableEntityOptions): Promise<DeleteTableEntityResponse>;
     static fromConnectionString(connectionString: string, tableName: string, options?: TableServiceClientOptions): TableClient;
     getEntity<T extends object>(partitionKey: string, rowKey: string, options?: GetTableEntityOptions): Promise<GetTableEntityResponse<T>>;
-    listEntities<T extends object>(options?: ListTableEntitiesOptions): Promise<PagedAsyncIterableIterator<T, ListEntitiesResponse<T>>>;
+    listEntities<T extends object>(options?: ListTableEntitiesOptions): PagedAsyncIterableIterator<T, ListEntitiesResponse<T>>;
     readonly tableName: string;
     updateEntity<T extends object>(entity: TableEntity<T>, mode: UpdateMode, options?: UpdateTableEntityOptions): Promise<UpdateEntityResponse>;
     upsertEntity<T extends object>(entity: TableEntity<T>, mode: UpdateMode, options?: UpsertTableEntityOptions): Promise<UpsertEntityResponse>;
@@ -486,7 +486,7 @@ export class TableServiceClient {
     getAccessPolicy(tableName: string, options?: GetAccessPolicyOptions): Promise<GetAccessPolicyResponse>;
     getProperties(options?: GetPropertiesOptions): Promise<GetPropertiesResponse>;
     getStatistics(options?: GetStatisticsOptions): Promise<GetStatisticsResponse>;
-    listTables(options?: ListTableItemsOptions): Promise<PagedAsyncIterableIterator<TableResponseProperties, ListTableItemsResponse>>;
+    listTables(options?: ListTableItemsOptions): PagedAsyncIterableIterator<TableResponseProperties, ListTableItemsResponse>;
     setAccessPolicy(tableName: string, options?: SetAccessPolicyOptions): Promise<SetAccessPolicyResponse>;
     setProperties(properties: ServiceProperties, options?: SetPropertiesOptions): Promise<SetPropertiesResponse>;
     }
