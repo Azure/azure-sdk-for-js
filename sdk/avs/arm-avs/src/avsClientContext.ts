@@ -13,7 +13,7 @@ import * as msRest from "@azure/ms-rest-js";
 import * as msRestAzure from "@azure/ms-rest-azure-js";
 
 const packageName = "@azure/arm-avs";
-const packageVersion = "1.0.0rc1";
+const packageVersion = "1.0.0";
 
 export class AvsClientContext extends msRestAzure.AzureServiceClient {
   credentials: msRest.ServiceClientCredentials;
