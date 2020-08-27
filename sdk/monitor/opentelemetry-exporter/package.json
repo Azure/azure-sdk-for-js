@@ -18,7 +18,7 @@
     "test:node": "npm run unit-test:node",
     "test:browser": "npm run unit-test:browser",
     "unit-test:browser": "echo skipped",
-    "unit-test:node": "c8 ts-mocha -p ./tsconfig.json 'test/**/*.test.ts'",
+    "unit-test:node": "c8 ts-mocha -p ./tsconfig.json 'test/unit/**/*.test.ts'",
     "unit-test:node:no-timeout": "echo skipped",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser",
     "integration-test:browser": "echo skipped",
