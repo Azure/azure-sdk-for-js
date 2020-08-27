@@ -134,7 +134,7 @@ export class Serializer {
         payload = serializeBasicTypes(mapperType, objectName, object);
       } else if (mapperType.match(/^Enum$/i) !== null) {
         const enumMapper: EnumMapper = mapper as EnumMapper;
-        payload = serializeEnumType(objectName, enumMapper.type.allowedValues, object);
+        payload = serializeEnumType(objectName, enumMapper, object);
       } else if (
         mapperType.match(/^(Date|DateTime|TimeSpan|DateTimeRfc1123|UnixTime)$/i) !== null
       ) {
@@ -355,7 +355,9 @@ function serializeBasicTypes(typeName: string, objectName: string, value: any): 
   return value;
 }
 
-function serializeEnumType(objectName: string, allowedValues: Array<any>, value: any): any {
+function serializeEnumType(objectName: string, mapper: EnumMapper, value: any): any {
+  const allowedValues: Array<any> = mapper.type.allowedValues;
+
   if (!allowedValues) {
     throw new Error(
       `Please provide a set of allowedValues to validate ${objectName} as an Enum Type.`
@@ -374,6 +376,10 @@ function serializeEnumType(objectName: string, allowedValues: Array<any>, value:
       )}.`
     );
   }
+  if (mapper.type.mappingTranslator) {
+    return mapper.type.mappingTranslator(value);
+  }
+
   return value;
 }
 
@@ -957,6 +963,7 @@ export interface DictionaryMapperType {
 export interface EnumMapperType {
   name: "Enum";
   allowedValues: any[];
+  mappingTranslator?: Function;
 }
 
 export interface BaseMapper {

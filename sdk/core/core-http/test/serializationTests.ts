@@ -275,6 +275,59 @@ describe("msrest", function() {
       }
     });
 
+    it("should correctly serialize an Enum with Mapper", function(done) {
+      const mapper: msRest.EnumMapper = {
+        serializedName: "include",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "Yearly",
+            "Monthly",
+            "Weekly",
+            "Daily",
+            "Hourly",
+            "PerMinute",
+            "PerSecond"
+          ],
+          mappingTranslator: function(value: any) {
+            switch (value) {
+              case "Yearly":
+                return "yearly";
+              case "Monthly":
+                return "monthly";
+              case "Weekly":
+                return "weekly";
+              case "Daily":
+                return "daily";
+              case "Hourly":
+                return "hourly";
+              case "PerMinute":
+                return "minutely";
+              case "PerSecond":
+                return "secondly";
+            }
+            return value;
+          }
+        }
+      };
+
+      let serializedObject = Serializer.serialize(mapper, "Yearly", "enumBody");
+      serializedObject.should.equal("yearly");
+      serializedObject = Serializer.serialize(mapper, "Monthly", "enumBody");
+      serializedObject.should.equal("monthly");
+      serializedObject = Serializer.serialize(mapper, "Weekly", "enumBody");
+      serializedObject.should.equal("weekly");
+      serializedObject = Serializer.serialize(mapper, "Daily", "enumBody");
+      serializedObject.should.equal("daily");
+      serializedObject = Serializer.serialize(mapper, "Hourly", "enumBody");
+      serializedObject.should.equal("hourly");
+      serializedObject = Serializer.serialize(mapper, "PerMinute", "enumBody");
+      serializedObject.should.equal("minutely");
+      serializedObject = Serializer.serialize(mapper, "PerSecond", "enumBody");
+      serializedObject.should.equal("secondly");
+      done();
+    });
+
     it("should correctly serialize a ByteArray Object", function(done) {
       const mapper: msRest.Mapper = {
         type: { name: "ByteArray" },
