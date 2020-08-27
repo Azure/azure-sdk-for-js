@@ -515,6 +515,20 @@ export type CreateOperation = OperationWithItem & {
     operationType: typeof BulkOperationType.Create;
 };
 
+// @public (undocumented)
+export interface CreateOperationInput {
+    // (undocumented)
+    ifMatch?: string;
+    // (undocumented)
+    ifNoneMatch?: string;
+    // (undocumented)
+    operationType: typeof BulkOperationType.Create;
+    // (undocumented)
+    partitionKey?: string | number | null | {} | undefined;
+    // (undocumented)
+    resourceBody: JSONObject;
+}
+
 // @public
 export class Database {
     constructor(client: CosmosClient, id: string, clientContext: ClientContext);
@@ -612,6 +626,16 @@ export type DeleteOperation = OperationBase & {
     operationType: typeof BulkOperationType.Delete;
     id: string;
 };
+
+// @public (undocumented)
+export interface DeleteOperationInput {
+    // (undocumented)
+    id: string;
+    // (undocumented)
+    operationType: typeof BulkOperationType.Delete;
+    // (undocumented)
+    partitionKey?: string | number | null | {} | undefined;
+}
 
 // @public (undocumented)
 export interface ErrorBody {
@@ -928,18 +952,7 @@ export interface OperationBase {
 }
 
 // @public (undocumented)
-export interface OperationInput {
-    // (undocumented)
-    ifMatch?: string;
-    // (undocumented)
-    ifNoneMatch?: string;
-    // (undocumented)
-    operationType: keyof typeof BulkOperationType;
-    // (undocumented)
-    partitionKey?: string | number | null | {} | undefined;
-    // (undocumented)
-    resourceBody?: JSONObject;
-}
+export type OperationInput = CreateOperationInput | UpsertOperationInput | ReadOperationInput | DeleteOperationInput | ReplaceOperationInput;
 
 // @public (undocumented)
 export interface OperationResponse {
@@ -1243,10 +1256,34 @@ export type ReadOperation = OperationBase & {
 };
 
 // @public (undocumented)
+export interface ReadOperationInput {
+    // (undocumented)
+    id: string;
+    // (undocumented)
+    operationType: typeof BulkOperationType.Read;
+    // (undocumented)
+    partitionKey?: string | number | null | {} | undefined;
+}
+
+// @public (undocumented)
 export type ReplaceOperation = OperationWithItem & {
     operationType: typeof BulkOperationType.Replace;
     id: string;
 };
+
+// @public (undocumented)
+export interface ReplaceOperationInput {
+    // (undocumented)
+    ifMatch?: string;
+    // (undocumented)
+    ifNoneMatch?: string;
+    // (undocumented)
+    operationType: typeof BulkOperationType.Replace;
+    // (undocumented)
+    partitionKey?: string | number | null | {} | undefined;
+    // (undocumented)
+    resourceBody: JSONObject;
+}
 
 // @public (undocumented)
 export interface RequestContext {
@@ -1710,6 +1747,20 @@ export interface UniqueKeyPolicy {
 export type UpsertOperation = OperationWithItem & {
     operationType: typeof BulkOperationType.Upsert;
 };
+
+// @public (undocumented)
+export interface UpsertOperationInput {
+    // (undocumented)
+    ifMatch?: string;
+    // (undocumented)
+    ifNoneMatch?: string;
+    // (undocumented)
+    operationType: typeof BulkOperationType.Upsert;
+    // (undocumented)
+    partitionKey?: string | number | null | {} | undefined;
+    // (undocumented)
+    resourceBody: JSONObject;
+}
 
 // @public
 export class User {

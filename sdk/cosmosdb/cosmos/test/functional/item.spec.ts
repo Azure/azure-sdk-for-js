@@ -16,7 +16,7 @@ import {
   addEntropy,
   getTestContainer
 } from "../common/TestHelpers";
-import { BulkOperationType } from "../../src/utils/batch";
+import { BulkOperationType, OperationInput } from "../../src/utils/batch";
 
 /**
  * @ignore
@@ -436,6 +436,29 @@ describe("bulk item operations", function() {
       ];
       const response = await v2Container.items.bulk(operations);
       assert.equal(response[0].statusCode, 201);
+    });
+  });
+  describe("v2 single partition container", async function() {
+    let container: Container;
+    let deleteItemId: string;
+    before(async function() {
+      container = await getTestContainer("bulk container");
+      deleteItemId = addEntropy("item2");
+      await container.items.create({
+        id: deleteItemId,
+        key: "A",
+        class: "2010"
+      });
+    });
+    it("deletes an item with default partition", async function() {
+      const operation: OperationInput = {
+        operationType: BulkOperationType.Delete,
+        partitionKey: {},
+        id: deleteItemId
+      };
+
+      const deleteResponse = await container.items.bulk([operation]);
+      assert.equal(deleteResponse[0].statusCode, 204)
     });
   });
 });
