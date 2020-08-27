@@ -21,10 +21,7 @@ export interface PagedAsyncIterableIterator<T, PageT = T[], PageSettingsT = Page
   /**
    * @member {Promise} [next] The next method, part of the iteration protocol
    */
-  next(): Promise<{
-    done?: boolean;
-    value: T;
-  }>;
+  next(): Promise<IteratorResult<T, T>>;
   /**
    * @member {Symbol} [asyncIterator] The connection to the async iterator, part of the iteration protocol
    */

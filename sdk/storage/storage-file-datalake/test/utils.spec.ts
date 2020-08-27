@@ -30,6 +30,11 @@ describe("Utility Helpers", () => {
       connectionStringParts.url,
       "extractConnectionStringParts().url is different than expected."
     );
+    assert.equal(
+      accountName,
+      connectionStringParts.accountName,
+      "extractConnectionStringParts().accountName is different than expected."
+    );
   }
 
   beforeEach(function() {

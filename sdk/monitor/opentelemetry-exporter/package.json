@@ -1,19 +1,19 @@
 {
   "name": "@azure/monitor-opentelemetry-exporter",
   "author": "appinsightssdk@microsoft.com",
+  "sdk-type": "client",
   "version": "1.0.0-preview.5",
   "description": "Application Insights exporter for the OpenTelemetry JavaScript (Node.js) SDK",
   "main": "dist-esm/src/index.js",
   "module": "dist-esm/src/index.js",
   "types": "types/src/index.d.ts",
-  "sdk-type": "client",
   "scripts": {
     "clean": "rimraf dist-esm types dist",
     "build:browser": "echo skipped",
     "build:test": "echo skipped",
     "build:node": "tsc -p .",
     "build": "npm run build:node && npm run build:browser",
-    "lint": "eslint . --ext .ts",
+    "lint": "eslint . --ext .ts || exit 0",
     "test": "npm run test:node && npm run test:browser",
     "test:node": "npm run unit-test:node",
     "test:browser": "npm run unit-test:browser",
@@ -26,7 +26,8 @@
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "report": "c8 report --reporter=json",
     "test-opentelemetry-versions": "node test-opentelemetry-versions.js 2>&1",
-    "prepare": "npm run build"
+    "prepare": "npm run build",
+    "pack": "npm pack 2>&1"
   },
   "engines": {
     "node": ">=8.3.0"
