@@ -61,7 +61,9 @@ export function checkKeyValidity(keyId?: string, keyBundle?: KeyBundle) {
   const now = new Date();
 
   if (!keyId) {
-    throw new Error("Only local cryptography operations can be performed on JsonWebKeys without kid");
+    throw new Error(
+      "Only local cryptography operations can be performed on JsonWebKeys without kid"
+    );
   }
 
   if (notBefore && now < notBefore) {
@@ -570,7 +572,7 @@ export class CryptographyClient {
   /**
    * Returns a promise that resolves once the Local Cryptography Client is available.
    */
-  public getLocalCryptographyClient(): Promise<LocalCryptographyClient> | undefined {
+  private getLocalCryptographyClient(): Promise<LocalCryptographyClient> | undefined {
     if (!this._localCryptographyClientPromise) {
       this._localCryptographyClientPromise = this.configureLocalCryptographyClient();
     }
