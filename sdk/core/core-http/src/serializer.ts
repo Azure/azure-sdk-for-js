@@ -213,7 +213,7 @@ export class Serializer {
         } else {
           payload = responseBody;
         }
-      } else if (mapperType.match(/^(String|Enum|Object|Stream|Uuid|TimeSpan|any)$/i) !== null) {
+      } else if (mapperType.match(/^(String|Object|Stream|Uuid|TimeSpan|any)$/i) !== null) {
         payload = responseBody;
       } else if (mapperType.match(/^(Date|DateTime|DateTimeRfc1123)$/i) !== null) {
         payload = new Date(responseBody);
@@ -232,6 +232,8 @@ export class Serializer {
           responseBody,
           objectName
         );
+      } else if (mapperType.match(/^Enum/i) !== null) {
+        payload = deserializeEnumType(mapper as EnumMapper, responseBody);
       }
     }
 
@@ -376,8 +378,8 @@ function serializeEnumType(objectName: string, mapper: EnumMapper, value: any): 
       )}.`
     );
   }
-  if (mapper.type.mappingTranslator) {
-    return mapper.type.mappingTranslator(value);
+  if (mapper.type.serializingMapper) {
+    return mapper.type.serializingMapper(value);
   }
 
   return value;
@@ -822,6 +824,13 @@ function deserializeDictionaryType(
   return responseBody;
 }
 
+function deserializeEnumType(mapper: EnumMapper, responseBody: any) {
+  if (mapper.type.deSerializingMapper) {
+    return mapper.type.deSerializingMapper(responseBody);
+  }
+  return responseBody;
+}
+
 function deserializeSequenceType(
   serializer: Serializer,
   mapper: SequenceMapper,
@@ -963,7 +972,8 @@ export interface DictionaryMapperType {
 export interface EnumMapperType {
   name: "Enum";
   allowedValues: any[];
-  mappingTranslator?: Function;
+  serializingMapper?: Function;
+  deSerializingMapper?: Function;
 }
 
 export interface BaseMapper {

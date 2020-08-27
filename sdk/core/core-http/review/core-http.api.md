@@ -233,9 +233,11 @@ export interface EnumMapperType {
     // (undocumented)
     allowedValues: any[];
     // (undocumented)
-    mappingTranslator?: Function;
+    deSerializingMapper?: Function;
     // (undocumented)
     name: "Enum";
+    // (undocumented)
+    serializingMapper?: Function;
 }
 
 // @public

@@ -289,7 +289,7 @@ describe("msrest", function() {
             "PerMinute",
             "PerSecond"
           ],
-          mappingTranslator: function(value: any) {
+          serializingMapper: function(value: any) {
             switch (value) {
               case "Yearly":
                 return "yearly";
@@ -325,6 +325,59 @@ describe("msrest", function() {
       serializedObject.should.equal("minutely");
       serializedObject = Serializer.serialize(mapper, "PerSecond", "enumBody");
       serializedObject.should.equal("secondly");
+      done();
+    });
+
+    it("should correctly deserialize an Enum with Mapper", function(done) {
+      const mapper: msRest.EnumMapper = {
+        serializedName: "include",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "Yearly",
+            "Monthly",
+            "Weekly",
+            "Daily",
+            "Hourly",
+            "PerMinute",
+            "PerSecond"
+          ],
+          deSerializingMapper: function(value: any) {
+            switch (value) {
+              case "yearly":
+                return "Yearly";
+              case "monthly":
+                return "Monthly";
+              case "weekly":
+                return "Weekly";
+              case "daily":
+                return "Daily";
+              case "hourly":
+                return "Hourly";
+              case "minutely":
+                return "PerMinute";
+              case "secondly":
+                return "PerSecond";
+            }
+            return value;
+          }
+        }
+      };
+
+      let deSerializedObject = Serializer.deserialize(mapper, "yearly", "enumBody");
+      deSerializedObject.should.equal("Yearly");
+      deSerializedObject = Serializer.deserialize(mapper, "monthly", "enumBody");
+      deSerializedObject.should.equal("Monthly");
+      deSerializedObject = Serializer.deserialize(mapper, "weekly", "enumBody");
+      deSerializedObject.should.equal("Weekly");
+      deSerializedObject = Serializer.deserialize(mapper, "daily", "enumBody");
+      deSerializedObject.should.equal("Daily");
+      deSerializedObject = Serializer.deserialize(mapper, "hourly", "enumBody");
+      deSerializedObject.should.equal("Hourly");
+      deSerializedObject = Serializer.deserialize(mapper, "minutely", "enumBody");
+      deSerializedObject.should.equal("PerMinute");
+      deSerializedObject = Serializer.deserialize(mapper, "secondly", "enumBody");
+      deSerializedObject.should.equal("PerSecond");
       done();
     });
 
