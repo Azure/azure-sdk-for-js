@@ -1,5 +1,5 @@
 import * as assert from "assert";
-import { record } from "@azure/test-utils-recorder";
+import { record, isPlaybackMode } from "@azure/test-utils-recorder";
 import { recorderEnvSetup, getBlobChangeFeedClient } from "./utils";
 import { BlobChangeFeedClient, BlobChangeFeedEvent, BlobChangeFeedEventPage } from "../src";
 import { AbortController } from "@azure/abort-controller";
@@ -17,7 +17,7 @@ describe("BlobChangeFeedClient", async () => {
   let changeFeedClient: BlobChangeFeedClient;
 
   before(async function() {
-    if (process.env.CHANGE_FEED_ENABLED !== "1") {
+    if (process.env.CHANGE_FEED_ENABLED !== "1" && !isPlaybackMode()) {
       this.skip();
     }
   });
@@ -176,7 +176,7 @@ describe("BlobChangeFeedClient: Change Feed not configured", async () => {
   let changeFeedClient: BlobChangeFeedClient;
 
   before(async function() {
-    if (process.env.CHANGE_FEED_ENABLED === "1") {
+    if (process.env.CHANGE_FEED_ENABLED === "1" && !isPlaybackMode()) {
       this.skip();
     }
   });

@@ -70,10 +70,10 @@ describe("Change Feed", async () => {
       .withArgs("/")
       .callsFake(() => fakeList(yearPaths) as any);
     containerClientStub.listBlobsFlat
-      .withArgs({ prefix: "idx/segments/2019/" })
+      .withArgs(sinon.match({ prefix: "idx/segments/2019/" }))
       .callsFake(() => fakeList(segmentsIn2019) as any);
     containerClientStub.listBlobsFlat
-      .withArgs({ prefix: "idx/segments/2020/" })
+      .withArgs(sinon.match({ prefix: "idx/segments/2020/" }))
       .callsFake(() => fakeList(segmentsIn2020) as any);
     // TODO: rewrite for browser
     blobClientStub.download.callsFake(() => {
