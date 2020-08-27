@@ -10,8 +10,7 @@ import {
   DetectRequest
 } from "./models";
 import { GeneratedClient } from "./generated";
-import { TokenCredential } from "@azure/identity";
-import { KeyCredential } from "@azure/core-auth";
+import { KeyCredential, TokenCredential } from "@azure/core-auth";
 import {
   SDK_VERSION,
   DEFAULT_COGNITIVE_SCOPE,
@@ -37,7 +36,7 @@ export class AnomalyDetectorClient {
   /**
    * Url to an Azure Anomaly Detector service endpoint
    */
-  public readonly endpointUrl: string;
+  private readonly endpointUrl: string;
 
   /**
    * @internal

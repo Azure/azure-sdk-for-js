@@ -59,6 +59,40 @@ async function main() {
   const result = await client.entireDetect(testData);
 
   console.log(result);
+
+  // {
+  //   period: 12,
+  //   expectedValues: [
+  //     827.7940908243968,
+  //     798.9133774671927,
+  //     888.6058431807189,
+  //     900.5606407986661,
+  //     962.8389426378304,
+  //     933.2591606306954,
+  //     891.0784104799666
+  //   ],
+  //   upperMargins: [
+  //     41.389704541219885,
+  //     39.94566887335964,
+  //     44.43029215903596,
+  //     45.02803203993335,
+  //     48.14194713189147,
+  //     46.6629580315348,
+  //     44.553920523998386
+  //   ],
+  //   lowerMargins: [
+  //     41.389704541219885,
+  //     38.91337746719273,
+  //     44.43029215903596,
+  //     45.02803203993335,
+  //     48.14194713189147,
+  //     46.6629580315348,
+  //     44.553920523998386
+  //   ],
+  //   isAnomaly: [false, false, false, false, false, false, false],
+  //   isNegativeAnomaly: [false, false, false, false, false, false, false],
+  //   isPositiveAnomaly: [false, false, false, false, false, false, false]
+  // };
 }
 
 main().catch((err) => {

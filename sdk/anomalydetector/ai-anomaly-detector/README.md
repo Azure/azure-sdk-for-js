@@ -10,7 +10,7 @@
 
 ## Key concepts
 
-Coming soon
+Coming soon (#10865)
 
 ## Getting started
 
@@ -87,7 +87,7 @@ const client = new AnomalyDetectorClient("<endpoint>", new DefaultAzureCredentia
 
 ## Examples
 
-Coming soon
+Coming soon (#10865)
 
 ## Troubleshooting
 

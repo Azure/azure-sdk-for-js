@@ -8,7 +8,7 @@ import * as coreHttp from '@azure/core-http';
 import { KeyCredential } from '@azure/core-auth';
 import { OperationOptions } from '@azure/core-http';
 import { PipelineOptions } from '@azure/core-http';
-import { TokenCredential } from '@azure/identity';
+import { TokenCredential } from '@azure/core-auth';
 
 // @public
 export class AnomalyDetectorClient {
@@ -16,8 +16,7 @@ export class AnomalyDetectorClient {
     detectChangePoint(body: DetectChangePointRequest, options?: OperationOptions): Promise<AnomalyDetectorClientDetectChangePointResponse>;
     detectEntireSeries(body: DetectRequest, options?: OperationOptions): Promise<AnomalyDetectorClientDetectEntireResponse>;
     detectLastPoint(body: DetectRequest, options?: OperationOptions): Promise<AnomalyDetectorClientDetectLastPointResponse>;
-    readonly endpointUrl: string;
-}
+    }
 
 // @public
 export type AnomalyDetectorClientDetectChangePointResponse = DetectChangePointResponse & {

@@ -45,10 +45,6 @@ class AnomalyDetectorAzureKeyCredentialPolicy extends BaseRequestPolicy {
   }
 
   public async sendRequest(webResource: WebResourceLike): Promise<HttpOperationResponse> {
-    if (!webResource) {
-      throw new Error("webResource cannot be null or undefined");
-    }
-
     webResource.headers.set(API_KEY_HEADER_NAME, this.credential.key);
     return this._nextPolicy.sendRequest(webResource);
   }

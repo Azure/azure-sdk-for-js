@@ -67,11 +67,11 @@
     "@azure/logger": "^1.0.0",
     "@opentelemetry/api": "^0.10.2",
     "tslib": "^2.0.0",
-    "@azure/identity": "^1.1.0",
     "@azure/core-tracing": "1.0.0-preview.9"
   },
   "devDependencies": {
     "@azure/dev-tool": "^1.0.0",
+    "@azure/identity": "^1.1.0",
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@microsoft/api-extractor": "7.7.11",
     "@rollup/plugin-commonjs": "11.0.2",
@@ -120,5 +120,17 @@
   },
   "//smokeTestConfiguration": {
     "skipFolder": true
+  },
+  "//metadata": {
+    "constantPaths": [
+      {
+        "path": "src/generated/generatedClientContext.ts",
+        "prefix": "packageVersion"
+      },
+      {
+        "path": "src/constants.ts",
+        "prefix": "SDK_VERSION"
+      }
+    ]
   }
 }
