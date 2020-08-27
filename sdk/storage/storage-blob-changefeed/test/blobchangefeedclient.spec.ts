@@ -153,7 +153,8 @@ describe("BlobChangeFeedClient", async () => {
     assert.ok(telemetryString2.startsWith(`${userAgentPrefix} changefeed-js/${SDK_VERSION}`));
   });
 
-  it.only("tracing", async () => {
+  it("tracing", async () => {
+    recorder.skip(undefined, "recorder issue not understood. #10009");
     const tracer = new TestTracer();
     setTracer(tracer);
     const rootSpan = tracer.startSpan("root");
