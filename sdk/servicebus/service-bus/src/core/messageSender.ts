@@ -112,14 +112,12 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
       const sender = this.link || context.sender!;
       const senderError = context.sender && context.sender.error;
       log.error(
-        "[%s] 'sender_close' event occurred on the sender '%s' with address '%s'. " +
-          "Value for isItselfClosed on the receiver is: '%s' " +
-          "Value for isConnecting on the session is: '%s'.",
+        "[%s] 'sender_close' event occurred on the sender '%s' with address '%s'. ",
+        "The associated error is: %O",
         this._context.connectionId,
         this.name,
         this.address,
-        sender ? sender.isItselfClosed().toString() : undefined,
-        this.isConnecting
+        senderError
       );
       if (sender && !this.isConnecting) {
         // Call onDetached to clean up timers & other resources
@@ -138,14 +136,12 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
       const sender = this.link || context.sender!;
       const sessionError = context.session && context.session.error;
       log.error(
-        "[%s] 'session_close' event occurred on the session of sender '%s' with address '%s'. " +
-          "Value for isSessionItselfClosed on the session is: '%s' " +
-          "Value for isConnecting on the session is: '%s'.",
+        "[%s] 'session_close' event occurred on the session of sender '%s' with address '%s'. ",
+        "The associated error is: %O",
         this._context.connectionId,
         this.name,
         this.address,
-        sender ? sender.isSessionItselfClosed().toString() : undefined,
-        this.isConnecting
+        sessionError
       );
       if (sender && !this.isConnecting) {
         // Call onDetached to clean up timers & other resources
