@@ -333,6 +333,11 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure/ai-anomaly-detector",
+      "projectFolder": "sdk/anomalydetector/ai-anomaly-detector",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure/ai-form-recognizer",
       "projectFolder": "sdk/formrecognizer/ai-form-recognizer",
       "versionPolicyName": "client"

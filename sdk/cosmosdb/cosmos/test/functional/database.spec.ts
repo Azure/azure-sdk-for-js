@@ -131,7 +131,7 @@ describe("NodeJS CRUD Tests", function() {
     });
 
     it("nativeAPI should fail on contains '#'", async function() {
-      // Id shoudn't contain "#".
+      // Id shouldn't contain "#".
       try {
         await client.databases.create({ id: "id_with_illegal#_char" });
         assert.fail("Must throw if id contains illegal characters");

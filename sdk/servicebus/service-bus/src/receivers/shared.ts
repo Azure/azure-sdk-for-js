@@ -27,17 +27,12 @@ export function assertValidMessageHandlers(handlers: any) {
  * @ignore
  */
 export async function* getMessageIterator<ReceivedMessageT>(
-  receiver: ServiceBusReceiver<ReceivedMessageT>,
+  receiver: Pick<ServiceBusReceiver<ReceivedMessageT>, "receiveMessages">,
   options?: OperationOptionsBase
 ): AsyncIterableIterator<ReceivedMessageT> {
   while (true) {
     const messages = await receiver.receiveMessages(1, options);
 
-    // In EventHubs we've had a concept of "punctuation" (thanks @jsquire) that
-    // allows the user, when working in a model like this, to get a periodic "no message
-    // arrived in this window of time" notification.
-    //
-    // TODO: do we want this same behavior for ServiceBus?
     if (messages.length === 0) {
       continue;
     }
