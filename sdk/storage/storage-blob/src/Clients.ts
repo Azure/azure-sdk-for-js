@@ -10,7 +10,7 @@ import {
   isTokenCredential,
   TokenCredential,
   TransferProgressEvent,
-  URLBuilder,
+  URLBuilder
 } from "@azure/core-http";
 import { PollerLike, PollOperationState } from "@azure/core-lro";
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
@@ -21,7 +21,13 @@ import { BlobDownloadResponse } from "./BlobDownloadResponse";
 import { BlobQueryResponse } from "./BlobQueryResponse";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
-import { AppendBlob, Blob as StorageBlob, BlockBlob, Container, PageBlob } from "./generated/src/operations";
+import {
+  AppendBlob,
+  Blob as StorageBlob,
+  BlockBlob,
+  Container,
+  PageBlob
+} from "./generated/src/operations";
 import { StorageClientContext } from "./generated/src/storageClient";
 import {
   AppendBlobAppendBlockFromUrlResponse,
@@ -79,7 +85,7 @@ import {
   PublicAccessType,
   RehydratePriority,
   SequenceNumberActionType,
-  SignedIdentifierModel,
+  SignedIdentifierModel
 } from "./generatedModels";
 import {
   AppendBlobRequestConditions,
@@ -97,13 +103,13 @@ import {
 import {
   PageBlobGetPageRangesDiffResponse,
   PageBlobGetPageRangesResponse,
-  rangeResponseFromModel,
+  rangeResponseFromModel
 } from "./PageBlobRangeResponse";
 import { newPipeline, Pipeline, StoragePipelineOptions } from "./Pipeline";
 import {
   BlobBeginCopyFromUrlPoller,
   BlobBeginCopyFromUrlPollState,
-  CopyPollerBlobClient,
+  CopyPollerBlobClient
 } from "./pollers/BlobStartCopyFromUrlPoller";
 import { Range, rangeToString } from "./Range";
 import { CommonOptions, StorageClient } from "./StorageClient";
@@ -118,7 +124,7 @@ import {
   DEFAULT_MAX_DOWNLOAD_RETRY_REQUESTS,
   ETagAny,
   ETagNone,
-  URLConstants,
+  URLConstants
 } from "./utils/constants";
 import { createSpan } from "./utils/tracing";
 import {
@@ -132,10 +138,14 @@ import {
   toBlobTagsString,
   toQuerySerialization,
   toTags,
-  truncatedISO8061Date,
+  truncatedISO8061Date
 } from "./utils/utils.common";
-import { fsCreateReadStream, fsStat, readStreamToLocalFile, streamToBuffer } from "./utils/utils.node";
-
+import {
+  fsCreateReadStream,
+  fsStat,
+  readStreamToLocalFile,
+  streamToBuffer
+} from "./utils/utils.node";
 
 /**
  * Options to configure the {@link BlobClient.beginCopyFromURL} operation.
@@ -2434,7 +2444,7 @@ export interface AppendBlobCreateIfNotExistsOptions extends CommonOptions {
 }
 
 /**
- * Options to configure {@link AppendBlobClient.seal} operation. 
+ * Options to configure {@link AppendBlobClient.seal} operation.
  *
  * @export
  * @interface AppendBlobSealOptions
@@ -2897,16 +2907,10 @@ export class AppendBlobClient extends BlobClient {
    * @returns {Promise<AppendBlobAppendBlockResponse>}
    * @memberof AppendBlobClient
    */
-  public async seal(
-    options: AppendBlobSealOptions = {}
-  ): Promise<AppendBlobAppendBlockResponse> {
-    const { span, spanOptions } = createSpan(
-      "AppendBlobClient-seal",
-      options.tracingOptions
-    );
+  public async seal(options: AppendBlobSealOptions = {}): Promise<AppendBlobAppendBlockResponse> {
+    const { span, spanOptions } = createSpan("AppendBlobClient-seal", options.tracingOptions);
     options.conditions = options.conditions || {};
     try {
-
       return await this.appendBlobContext.seal({
         abortSignal: options.abortSignal,
         appendPositionAccessConditions: options.conditions,
@@ -3598,6 +3602,15 @@ export interface BlockBlobUploadStreamOptions extends CommonOptions {
    * @memberof BlockBlobUploadStreamOptions
    */
   tags?: Tags;
+
+  /**
+   * Access tier.
+   * More Details - https://docs.microsoft.com/en-us/azure/storage/blobs/storage-blob-storage-tiers
+   *
+   * @type {BlockBlobTier | string}
+   * @memberof BlockBlobUploadStreamOptions
+   */
+  tier?: BlockBlobTier | string;
 }
 /**
  * Option interface for {@link BlockBlobClient.uploadFile} and {@link BlockBlobClient.uploadSeekableStream}.
@@ -3692,6 +3705,15 @@ export interface BlockBlobParallelUploadOptions extends CommonOptions {
    * @memberof BlockBlobParallelUploadOptions
    */
   tags?: Tags;
+
+  /**
+   * Access tier.
+   * More Details - https://docs.microsoft.com/en-us/azure/storage/blobs/storage-blob-storage-tiers
+   *
+   * @type {BlockBlobTier | string}
+   * @memberof BlockBlobParallelUploadOptions
+   */
+  tier?: BlockBlobTier | string;
 }
 
 /**

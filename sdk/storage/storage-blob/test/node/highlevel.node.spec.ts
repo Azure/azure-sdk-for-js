@@ -688,4 +688,25 @@ describe("Highlevel", () => {
       assert.notEqual(err.message, "Test failure.");
     }
   });
+
+  it("set tier while upload", async () => {
+    recorder.skip("node", "Temp file - recorder doesn't support saving the file");
+    // single upload
+    await blockBlobClient.uploadFile(tempFileSmall, {
+      tier: "Hot",
+      maxSingleShotSize: 256 * 1024 * 1024
+    });
+    assert.equal((await blockBlobClient.getProperties()).accessTier, "Hot");
+
+    await blockBlobClient.uploadFile(tempFileSmall, {
+      tier: "Cool",
+      maxSingleShotSize: 4 * 1024 * 1024
+    });
+    assert.equal((await blockBlobClient.getProperties()).accessTier, "Cool");
+
+    await blockBlobClient.uploadStream(fs.createReadStream(tempFileSmall), undefined, undefined, {
+      tier: "Hot"
+    });
+    assert.equal((await blockBlobClient.getProperties()).accessTier, "Hot");
+  });
 });
