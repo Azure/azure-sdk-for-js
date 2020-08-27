@@ -83,7 +83,6 @@ export class AvroParser {
 
     if (haveMoreByte) {
       // Switch to float arithmetic
-      // FIXME: this only works when zigZagEncoded is no more than Number.MAX_SAFE_INTEGER (2**53 - 1)
       zigZagEncoded = zigZagEncoded;
       significanceInFloat = 268435456; // 2 ** 28.
       do {
@@ -176,7 +175,7 @@ export class AvroParser {
       (global as any).TextDecoder = require("util").TextDecoder;
     }
 
-    // FIXME: need TextDecoder polyfill for IE
+    // FUTURE: need TextDecoder polyfill for IE
     let utf8decoder = new TextDecoder();
     return utf8decoder.decode(u8arr);
   }
@@ -187,7 +186,7 @@ export class AvroParser {
     options: AvroParserReadOptions = {}
   ): Promise<KeyValuePair<T>> {
     const key = await AvroParser.readString(stream, options);
-    // FIXME: what about readFixed which need a length as parameter.
+    // FUTURE: this won't work with readFixed which need a length as the parameter. We don't support readFixed now.
     const value = await readItemMethod(stream, options);
     return { key, value };
   }
@@ -288,7 +287,6 @@ export abstract class AvroType {
   }
 
   private static fromStringSchema(schema: string): AvroType {
-    // FIXME: simpler way to tell if schema is of type AvroPrimitive?
     switch (schema) {
       case AvroPrimitive.NULL:
       case AvroPrimitive.BOOLEAN:
@@ -461,7 +459,6 @@ class AvroRecordType extends AvroType {
 
   public async read(stream: AvroReadable, options: AvroParserReadOptions = {}): Promise<Object> {
     let record: Record<string, Object | null> = {};
-    //  FIXME: what for?
     record["$schema"] = this._name;
     for (const key in this._fields) {
       if (this._fields.hasOwnProperty(key)) {
