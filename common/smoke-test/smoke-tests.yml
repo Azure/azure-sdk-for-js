@@ -6,30 +6,37 @@ jobs:
           OSVmImage: "ubuntu-18.04"
           SubscriptionConfiguration: $(sub-config-azure-cloud-test-resources)
           ArmTemplateParameters: $(AzureCloudArmTemplateParameters)
+          KEYVAULT_API_VERSION: 7.0
         Windows (AzureCloud):
           OSVmImage: "windows-2019"
           SubscriptionConfiguration: $(sub-config-azure-cloud-test-resources)
           ArmTemplateParameters: $(AzureCloudArmTemplateParameters)
+          KEYVAULT_API_VERSION: 7.0
         Mac (AzureCloud):
           OSVmImage: "macOS-10.14"
           SubscriptionConfiguration: $(sub-config-azure-cloud-test-resources)
           ArmTemplateParameters: $(AzureCloudArmTemplateParameters)
+          KEYVAULT_API_VERSION: 7.0
         Linux (AzureUSGovernment):
           OSVmImage: "ubuntu-18.04"
           SubscriptionConfiguration: $(sub-config-gov-test-resources)
           ArmTemplateParameters: $(AzureUSGovernmentArmTemplateParameters)
+          KEYVAULT_API_VERSION: 7.0
         Windows (AzureUSGovernment):
           OSVmImage: "windows-2019"
           SubscriptionConfiguration: $(sub-config-gov-test-resources)
           ArmTemplateParameters: $(AzureUSGovernmentArmTemplateParameters)
+          KEYVAULT_API_VERSION: 7.0
         Linux (AzureChinaCloud):
           OSVmImage: "ubuntu-18.04"
           SubscriptionConfiguration: $(sub-config-cn-test-resources)
           ArmTemplateParameters: $(AzureChinaCloudArmTemplateParameters)
+          KEYVAULT_API_VERSION: 7.0
         Windows (AzureChinaCloud):
           OSVmImage: "windows-2019"
           SubscriptionConfiguration: $(sub-config-cn-test-resources)
           ArmTemplateParameters: $(AzureChinaCloudArmTemplateParameters)
+          KEYVAULT_API_VERSION: 7.0
 
     pool:
       vmImage: $(OSVmImage)
