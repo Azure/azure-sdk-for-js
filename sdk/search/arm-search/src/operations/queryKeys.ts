@@ -31,8 +31,8 @@ export class QueryKeys {
    * per service.
    * @param resourceGroupName The name of the resource group within the current subscription. You can
    * obtain this value from the Azure Resource Manager API or the portal.
-   * @param searchServiceName The name of the Azure Search service associated with the specified
-   * resource group.
+   * @param searchServiceName The name of the Azure Cognitive Search service associated with the
+   * specified resource group.
    * @param name The name of the new query API key.
    * @param [options] The optional parameters
    * @returns Promise<Models.QueryKeysCreateResponse>
@@ -41,8 +41,8 @@ export class QueryKeys {
   /**
    * @param resourceGroupName The name of the resource group within the current subscription. You can
    * obtain this value from the Azure Resource Manager API or the portal.
-   * @param searchServiceName The name of the Azure Search service associated with the specified
-   * resource group.
+   * @param searchServiceName The name of the Azure Cognitive Search service associated with the
+   * specified resource group.
    * @param name The name of the new query API key.
    * @param callback The callback
    */
@@ -50,8 +50,8 @@ export class QueryKeys {
   /**
    * @param resourceGroupName The name of the resource group within the current subscription. You can
    * obtain this value from the Azure Resource Manager API or the portal.
-   * @param searchServiceName The name of the Azure Search service associated with the specified
-   * resource group.
+   * @param searchServiceName The name of the Azure Cognitive Search service associated with the
+   * specified resource group.
    * @param name The name of the new query API key.
    * @param options The optional parameters
    * @param callback The callback
@@ -70,11 +70,11 @@ export class QueryKeys {
   }
 
   /**
-   * Returns the list of query API keys for the given Azure Search service.
+   * Returns the list of query API keys for the given Azure Cognitive Search service.
    * @param resourceGroupName The name of the resource group within the current subscription. You can
    * obtain this value from the Azure Resource Manager API or the portal.
-   * @param searchServiceName The name of the Azure Search service associated with the specified
-   * resource group.
+   * @param searchServiceName The name of the Azure Cognitive Search service associated with the
+   * specified resource group.
    * @param [options] The optional parameters
    * @returns Promise<Models.QueryKeysListBySearchServiceResponse>
    */
@@ -82,16 +82,16 @@ export class QueryKeys {
   /**
    * @param resourceGroupName The name of the resource group within the current subscription. You can
    * obtain this value from the Azure Resource Manager API or the portal.
-   * @param searchServiceName The name of the Azure Search service associated with the specified
-   * resource group.
+   * @param searchServiceName The name of the Azure Cognitive Search service associated with the
+   * specified resource group.
    * @param callback The callback
    */
   listBySearchService(resourceGroupName: string, searchServiceName: string, callback: msRest.ServiceCallback<Models.ListQueryKeysResult>): void;
   /**
    * @param resourceGroupName The name of the resource group within the current subscription. You can
    * obtain this value from the Azure Resource Manager API or the portal.
-   * @param searchServiceName The name of the Azure Search service associated with the specified
-   * resource group.
+   * @param searchServiceName The name of the Azure Cognitive Search service associated with the
+   * specified resource group.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -112,8 +112,8 @@ export class QueryKeys {
    * for regenerating a query key is to delete and then recreate it.
    * @param resourceGroupName The name of the resource group within the current subscription. You can
    * obtain this value from the Azure Resource Manager API or the portal.
-   * @param searchServiceName The name of the Azure Search service associated with the specified
-   * resource group.
+   * @param searchServiceName The name of the Azure Cognitive Search service associated with the
+   * specified resource group.
    * @param key The query key to be deleted. Query keys are identified by value, not by name.
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
@@ -122,8 +122,8 @@ export class QueryKeys {
   /**
    * @param resourceGroupName The name of the resource group within the current subscription. You can
    * obtain this value from the Azure Resource Manager API or the portal.
-   * @param searchServiceName The name of the Azure Search service associated with the specified
-   * resource group.
+   * @param searchServiceName The name of the Azure Cognitive Search service associated with the
+   * specified resource group.
    * @param key The query key to be deleted. Query keys are identified by value, not by name.
    * @param callback The callback
    */
@@ -131,8 +131,8 @@ export class QueryKeys {
   /**
    * @param resourceGroupName The name of the resource group within the current subscription. You can
    * obtain this value from the Azure Resource Manager API or the portal.
-   * @param searchServiceName The name of the Azure Search service associated with the specified
-   * resource group.
+   * @param searchServiceName The name of the Azure Cognitive Search service associated with the
+   * specified resource group.
    * @param key The query key to be deleted. Query keys are identified by value, not by name.
    * @param options The optional parameters
    * @param callback The callback
@@ -148,6 +148,34 @@ export class QueryKeys {
       },
       deleteMethodOperationSpec,
       callback);
+  }
+
+  /**
+   * Returns the list of query API keys for the given Azure Cognitive Search service.
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.QueryKeysListBySearchServiceNextResponse>
+   */
+  listBySearchServiceNext(nextPageLink: string, options?: Models.QueryKeysListBySearchServiceNextOptionalParams): Promise<Models.QueryKeysListBySearchServiceNextResponse>;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param callback The callback
+   */
+  listBySearchServiceNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ListQueryKeysResult>): void;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  listBySearchServiceNext(nextPageLink: string, options: Models.QueryKeysListBySearchServiceNextOptionalParams, callback: msRest.ServiceCallback<Models.ListQueryKeysResult>): void;
+  listBySearchServiceNext(nextPageLink: string, options?: Models.QueryKeysListBySearchServiceNextOptionalParams | msRest.ServiceCallback<Models.ListQueryKeysResult>, callback?: msRest.ServiceCallback<Models.ListQueryKeysResult>): Promise<Models.QueryKeysListBySearchServiceNextResponse> {
+    return this.client.sendOperationRequest(
+      {
+        nextPageLink,
+        options
+      },
+      listBySearchServiceNextOperationSpec,
+      callback) as Promise<Models.QueryKeysListBySearchServiceNextResponse>;
   }
 }
 
@@ -181,7 +209,7 @@ const createOperationSpec: msRest.OperationSpec = {
 };
 
 const listBySearchServiceOperationSpec: msRest.OperationSpec = {
-  httpMethod: "GET",
+  httpMethod: "POST",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Search/searchServices/{searchServiceName}/listQueryKeys",
   urlParameters: [
     Parameters.resourceGroupName,
@@ -226,6 +254,28 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
     200: {},
     204: {},
     404: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const listBySearchServiceNextOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  baseUrl: "https://management.azure.com",
+  path: "{nextLink}",
+  urlParameters: [
+    Parameters.nextPageLink
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage,
+    Parameters.clientRequestId
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.ListQueryKeysResult
+    },
     default: {
       bodyMapper: Mappers.CloudError
     }
