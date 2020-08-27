@@ -159,20 +159,11 @@ export class TableClient {
    * @param tableName The name of the table.
    * @param options The options parameters.
    */
-  public async listEntities<T extends object>(
-    options?: ListTableEntitiesOptions
-  ): Promise<PagedAsyncIterableIterator<T, ListEntitiesResponse<T>>> {
-    const page = await this._listEntities<T>(this.tableName, options);
-
-    return this.listEntitiesResults<T>(page, this.tableName, options);
-  }
-
-  private listEntitiesResults<T extends object>(
-    firstPage: ListEntitiesResponse<T>,
-    tableName: string,
+  public listEntities<T extends object>(
     options?: ListTableEntitiesOptions
   ): PagedAsyncIterableIterator<T, ListEntitiesResponse<T>> {
-    const iter = this.listEntitiesAll<T>(firstPage, tableName, options);
+    const tableName = this.tableName;
+    const iter = this.listEntitiesAll<T>(tableName, options);
 
     return {
       next() {
@@ -192,10 +183,10 @@ export class TableClient {
   }
 
   private async *listEntitiesAll<T extends object>(
-    firstPage: ListEntitiesResponse<T>,
     tableName: string,
     options?: ListTableEntitiesOptions
   ): AsyncIterableIterator<T> {
+    const firstPage = await this._listEntities<T>(tableName, options);
     const { nextPartitionKey, nextRowKey } = firstPage;
     yield* firstPage;
     if (nextRowKey && nextPartitionKey) {

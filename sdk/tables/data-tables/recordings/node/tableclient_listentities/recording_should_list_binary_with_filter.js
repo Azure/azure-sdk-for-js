@@ -17,7 +17,7 @@ nock('https://joherediteststorage.table.core.windows.net:443', {"encodedQueryPar
   'Server',
   'Windows-Azure-Table/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  'f0cfbf69-d002-0071-24ee-7726ed000000',
+  'b4913c38-9002-00d7-2da0-7c1ef3000000',
   'x-ms-version',
   '2019-02-02',
   'X-Content-Type-Options',
@@ -27,7 +27,7 @@ nock('https://joherediteststorage.table.core.windows.net:443', {"encodedQueryPar
   'Access-Control-Allow-Origin',
   '*',
   'Date',
-  'Fri, 21 Aug 2020 19:10:05 GMT',
+  'Thu, 27 Aug 2020 18:30:36 GMT',
   'Connection',
   'close'
 ]);

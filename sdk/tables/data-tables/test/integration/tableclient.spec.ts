@@ -240,19 +240,19 @@ describe("TableClient", () => {
 
     it("should list all", async function() {
       const totalItems = 7000;
-      const entities = await client.listEntities<TestEntity>();
+      const entities = client.listEntities<TestEntity>();
       let all: TestEntity[] = [];
       for await (let entity of entities) {
         all.push(entity);
       }
 
       assert.lengthOf(all, totalItems);
-    });
+    }).timeout(60000);
 
     it("should list by page", async function() {
       const totalItems = 7000;
       const maxPageSize = 500;
-      const entities = await client.listEntities<TestEntity>();
+      const entities = client.listEntities<TestEntity>();
       let all: TestEntity[] = [];
       let i = 0;
       for await (let entity of entities.byPage({
@@ -264,12 +264,12 @@ describe("TableClient", () => {
 
       assert.lengthOf(all, 7000);
       assert.equal(i, totalItems / maxPageSize);
-    });
+    }).timeout(60000);
 
     it("should list with filter", async function() {
       const barItems = 1000;
       const strValue = "testEntity";
-      const entities = await client.listEntities<TableEntity<StringEntity>>({
+      const entities = client.listEntities<TableEntity<StringEntity>>({
         queryOptions: { filter: odata`foo eq ${strValue}` }
       });
       let all: TableEntity<StringEntity>[] = [];
@@ -282,7 +282,7 @@ describe("TableClient", () => {
 
     it("should list binary with filter", async function() {
       const strValue = "binary1";
-      const entities = await client.listEntities<TableEntity<BinaryEntity>>({
+      const entities = client.listEntities<TableEntity<BinaryEntity>>({
         queryOptions: { filter: odata`RowKey eq ${strValue}` }
       });
       let all: TableEntity<BinaryEntity>[] = [];

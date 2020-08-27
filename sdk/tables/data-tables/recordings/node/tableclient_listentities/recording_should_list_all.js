@@ -17,7 +17,7 @@ nock('https://joherediteststorage.table.core.windows.net:443', {"encodedQueryPar
   'Server',
   'Windows-Azure-Table/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  '2f0c8585-2002-006f-74ee-77fc00000000',
+  'f85c95a8-2002-002b-2ba0-7c206c000000',
   'x-ms-version',
   '2019-02-02',
   'X-Content-Type-Options',
@@ -31,7 +31,7 @@ nock('https://joherediteststorage.table.core.windows.net:443', {"encodedQueryPar
   'Access-Control-Allow-Origin',
   '*',
   'Date',
-  'Fri, 21 Aug 2020 19:09:59 GMT',
+  'Thu, 27 Aug 2020 18:30:31 GMT',
   'Connection',
   'close'
 ]);
@@ -49,7 +49,7 @@ nock('https://joherediteststorage.table.core.windows.net:443', {"encodedQueryPar
   'Server',
   'Windows-Azure-Table/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  'db4161a4-7002-007c-69ee-77c9e1000000',
+  'b77ced2a-f002-0000-78a0-7c54d4000000',
   'x-ms-version',
   '2019-02-02',
   'X-Content-Type-Options',
@@ -63,7 +63,7 @@ nock('https://joherediteststorage.table.core.windows.net:443', {"encodedQueryPar
   'Access-Control-Allow-Origin',
   '*',
   'Date',
-  'Fri, 21 Aug 2020 19:10:00 GMT',
+  'Thu, 27 Aug 2020 18:30:30 GMT',
   'Connection',
   'close'
 ]);
@@ -81,7 +81,7 @@ nock('https://joherediteststorage.table.core.windows.net:443', {"encodedQueryPar
   'Server',
   'Windows-Azure-Table/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  'a64fb33b-4002-0074-45ee-77d292000000',
+  'afbabe09-4002-0074-19a0-7cd292000000',
   'x-ms-version',
   '2019-02-02',
   'X-Content-Type-Options',
@@ -95,7 +95,7 @@ nock('https://joherediteststorage.table.core.windows.net:443', {"encodedQueryPar
   'Access-Control-Allow-Origin',
   '*',
   'Date',
-  'Fri, 21 Aug 2020 19:10:00 GMT',
+  'Thu, 27 Aug 2020 18:30:31 GMT',
   'Connection',
   'close'
 ]);
@@ -113,7 +113,7 @@ nock('https://joherediteststorage.table.core.windows.net:443', {"encodedQueryPar
   'Server',
   'Windows-Azure-Table/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  'fae3ef8e-3002-00d1-14ee-77e98b000000',
+  '17c7d47e-d002-0071-0da0-7c26ed000000',
   'x-ms-version',
   '2019-02-02',
   'X-Content-Type-Options',
@@ -127,7 +127,7 @@ nock('https://joherediteststorage.table.core.windows.net:443', {"encodedQueryPar
   'Access-Control-Allow-Origin',
   '*',
   'Date',
-  'Fri, 21 Aug 2020 19:10:00 GMT',
+  'Thu, 27 Aug 2020 18:30:31 GMT',
   'Connection',
   'close'
 ]);
@@ -145,7 +145,7 @@ nock('https://joherediteststorage.table.core.windows.net:443', {"encodedQueryPar
   'Server',
   'Windows-Azure-Table/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  '1669453a-1002-0001-04ee-775529000000',
+  'c80f8b93-f002-00aa-06a0-7c823b000000',
   'x-ms-version',
   '2019-02-02',
   'X-Content-Type-Options',
@@ -159,7 +159,7 @@ nock('https://joherediteststorage.table.core.windows.net:443', {"encodedQueryPar
   'Access-Control-Allow-Origin',
   '*',
   'Date',
-  'Fri, 21 Aug 2020 19:10:00 GMT',
+  'Thu, 27 Aug 2020 18:30:32 GMT',
   'Connection',
   'close'
 ]);
@@ -177,7 +177,7 @@ nock('https://joherediteststorage.table.core.windows.net:443', {"encodedQueryPar
   'Server',
   'Windows-Azure-Table/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  'd369ceab-b002-00e9-3fee-77a8d2000000',
+  'c072e413-b002-00e2-08a0-7cb0a6000000',
   'x-ms-version',
   '2019-02-02',
   'X-Content-Type-Options',
@@ -191,7 +191,7 @@ nock('https://joherediteststorage.table.core.windows.net:443', {"encodedQueryPar
   'Access-Control-Allow-Origin',
   '*',
   'Date',
-  'Fri, 21 Aug 2020 19:10:01 GMT',
+  'Thu, 27 Aug 2020 18:30:32 GMT',
   'Connection',
   'close'
 ]);
@@ -209,7 +209,7 @@ nock('https://joherediteststorage.table.core.windows.net:443', {"encodedQueryPar
   'Server',
   'Windows-Azure-Table/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  'd805567f-6002-0005-07ee-77a0ab000000',
+  '006ea422-2002-00a3-1fa0-7c98b5000000',
   'x-ms-version',
   '2019-02-02',
   'X-Content-Type-Options',
@@ -219,7 +219,7 @@ nock('https://joherediteststorage.table.core.windows.net:443', {"encodedQueryPar
   'Access-Control-Allow-Origin',
   '*',
   'Date',
-  'Fri, 21 Aug 2020 19:10:01 GMT',
+  'Thu, 27 Aug 2020 18:30:32 GMT',
   'Connection',
   'close'
 ]);

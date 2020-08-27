@@ -1,16 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-// TODO: Add tests for the TableServiceClient operations #9910
-// Copyright (c) Microsoft Corporation.
-// Licensed under the MIT license.
-
 import { TableResponseProperties, TableServiceClient } from "../../src";
 import { record, Recorder } from "@azure/test-utils-recorder";
 import { recordedEnvironmentSetup, createTableServiceClient } from "./utils/recordedClient";
 import { isNode } from "@azure/core-http";
 import { assert } from "chai";
-import { TableProperties } from "../../src/generated";
 
 describe("TableServiceClient", () => {
   let client: TableServiceClient;
@@ -27,22 +22,13 @@ describe("TableServiceClient", () => {
     await recorder.stop();
   });
 
-  // describe.only("PopulateTestTables", () => {
-  //   it("create tables", async function() {
-  //     for (let i = 0; i < 3000; i++) {
-  //       const tableName = `testTable${i}${suffix}`;
-  //       client.createTable(tableName);
-  //     }
-  //   }).timeout("60000");
-  // });
-
   describe("Create and get table", () => {
     it("should create new table", async () => {
       const tableName = `testTable${suffix}`;
       const createResult = await client.createTable(tableName);
-      const result = await client.listTables();
+      const result = client.listTables();
       let hasTable = false;
-      for await (let table of result) {
+      for await (const table of result) {
         if (table.tableName === tableName) {
           hasTable = true;
           break;
@@ -54,33 +40,30 @@ describe("TableServiceClient", () => {
     });
   });
 
-  describe.only("listTables", () => {
+  describe("listTables", () => {
     it("should list all", async () => {
-      const totalItems = 3000;
-      const entities = await client.listTables();
-      let all: TableResponseProperties[] = [];
-      for await (let entity of entities) {
+      const totalItems = 3553;
+      const entities = client.listTables();
+      const all: TableResponseProperties[] = [];
+      for await (const entity of entities) {
         all.push(entity);
       }
 
-      assert.isTrue(all.length >= totalItems);
-    });
+      assert.equal(all.length, totalItems);
+    }).timeout(60000);
 
     it("should list by page", async function() {
-      const totalItems = 3000;
       const maxPageSize = 500;
-      const entities = await client.listTables();
-      let all: TableProperties[] = [];
-      let i = 0;
-      for await (let entity of entities.byPage({
+      const entities = client.listTables();
+      let totalItems = 0;
+      for await (const page of entities.byPage({
         maxPageSize
       })) {
-        i++;
-        all = [...all, ...entity];
+        totalItems += page.length;
+        assert.isTrue(page.length <= 500);
       }
 
-      assert.isTrue(all.length >= totalItems);
-      assert.isTrue(i >= all.length / maxPageSize);
+      assert.equal(totalItems, 3553);
     });
   });
 });

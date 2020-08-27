@@ -174,18 +174,10 @@ export class TableServiceClient {
    * Queries tables under the given account.
    * @param options The options parameters.
    */
-  public async listTables(
-    options?: ListTableItemsOptions
-  ): Promise<PagedAsyncIterableIterator<TableResponseProperties, ListTableItemsResponse>> {
-    const page = await this._listTables(options);
-    return this.listTablesResults(page, options);
-  }
-
-  private listTablesResults(
-    firstPage: ListTableItemsResponse,
+  public listTables(
     options?: ListTableItemsOptions
   ): PagedAsyncIterableIterator<TableResponseProperties, ListTableItemsResponse> {
-    const iter = this.listTablesAll(firstPage, options);
+    const iter = this.listTablesAll(options);
 
     return {
       next() {
@@ -205,9 +197,9 @@ export class TableServiceClient {
   }
 
   private async *listTablesAll(
-    firstPage: ListTableItemsResponse,
     options?: ListTableItemsOptions
   ): AsyncIterableIterator<TableResponseProperties> {
+    const firstPage = await this._listTables(options);
     const { nextTableName } = firstPage;
     yield* firstPage;
     if (nextTableName) {
