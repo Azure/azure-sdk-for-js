@@ -2,14 +2,11 @@
 // Licensed under the MIT license.
 
 import { StorageSharedKeyCredential } from "@azure/storage-blob";
-import { BlobChangeFeedClient, BlobChangeFeedEvent } from "../../src";
+import { BlobChangeFeedClient, BlobChangeFeedEvent } from "@azure/storage-blob-changefeed";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
-console.log(dotenv.config());
-
-import { setLogLevel } from "@azure/logger";
-setLogLevel("info");
+dotenv.config();
 
 export async function main() {
   // Enter your storage account name and shared key
@@ -26,7 +23,10 @@ export async function main() {
   );
 
   let changeFeedEvents: BlobChangeFeedEvent[] = [];
-  const firstPage = await changeFeedClient.listChanges().byPage({ maxPageSize: 10 }).next();
+  const firstPage = await changeFeedClient
+    .listChanges()
+    .byPage({ maxPageSize: 10 })
+    .next();
   for (const event of firstPage.value.events) {
     changeFeedEvents.push(event);
   }
