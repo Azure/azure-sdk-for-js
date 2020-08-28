@@ -74,7 +74,9 @@ export interface ConnectionContext extends ConnectionContextBase {
    */
   getManagementClient(entityPath: string): ManagementClient;
   /**
-   * Whether the connection is closing.
+   * Indicates whether the connection is in the process of closing.
+   * When this returns `true`, a `disconnected` event will be received
+   * after the connection is closed.
    */
   isConnectionClosing(): boolean;
 }
@@ -86,13 +88,6 @@ export interface ConnectionContext extends ConnectionContextBase {
  * @internal
  */
 export interface ConnectionContextInternalMembers extends ConnectionContext {
-  /**
-   * Indicates whether the connection is in the process of closing.
-   * When this returns `true`, a `disconnected` event will be received
-   * after the connection is closed.
-   *
-   */
-  isConnectionClosing(): boolean;
   /**
    * Resolves once the context's connection emits a `disconnected` event.
    */
