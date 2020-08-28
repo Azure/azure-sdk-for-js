@@ -259,6 +259,7 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
       await this._negotiateClaim();
 
       checkAborted();
+      this.checkIfConnectionReady();
 
       this._logger(`${this._logPrefix} Creating with options %O`, options);
       this._link = await this.createRheaLink(options);
@@ -412,12 +413,7 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
     log.error(`${this._logPrefix} negotiateclaim() has been called`);
 
     // Wait for the connectionContext to be ready to open the link.
-    if (this._context.isConnectionClosing()) {
-      log.error(`${this._logPrefix} Connection is reopening, aborting negotiateClaim.`);
-      const err = new MessagingError("Connection is reopening, aborting negotiateClaim.");
-      err.retryable = true;
-      throw err;
-    }
+    this.checkIfConnectionReady();
 
     // Acquire the lock and establish a cbs session if it does not exist on the connection.
     // Although node.js is single threaded, we need a locking mechanism to ensure that a
@@ -432,7 +428,8 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
       this.name,
       this.address
     );
-    await defaultLock.acquire(this._context.cbsSession.cbsLock, () => {
+    await defaultLock.acquire(this._context.cbsSession.cbsLock, async () => {
+      this.checkIfConnectionReady();
       return this._context.cbsSession.init();
     });
     let tokenObject: AccessToken;
@@ -470,6 +467,7 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
       throw new Error("Token cannot be null");
     }
     await defaultLock.acquire(this._context.negotiateClaimLock, () => {
+      this.checkIfConnectionReady();
       return this._context.cbsSession.negotiateClaim(this.audience, tokenObject, tokenType);
     });
     this._logger(
@@ -482,6 +480,22 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
     if (setTokenRenewal) {
       this._ensureTokenRenewal();
     }
+  }
+
+  /**
+   * Checks to see if the connection is in a "reopening" state. If it is
+   * we need to _not_ use it otherwise we'll trigger some race conditions
+   * within rhea (for instance, errors about _process not being defined).
+   */
+  private checkIfConnectionReady() {
+    if (!this._context.isConnectionClosing()) {
+      return;
+    }
+
+    log.error(`${this._logPrefix} Connection is reopening, aborting link initialization.`);
+    const err = new MessagingError("Connection is reopening, aborting link initialization.");
+    err.retryable = true;
+    throw err;
   }
 
   /**
