@@ -10,7 +10,6 @@ import {
 } from "../util/atomXmlHelper";
 import * as Constants from "../util/constants";
 import {
-  getBooleanOrUndefined,
   getIntegerOrUndefined,
   getString,
   getStringOrUndefined,
