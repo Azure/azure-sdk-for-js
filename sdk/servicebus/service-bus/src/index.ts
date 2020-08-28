@@ -58,7 +58,7 @@ export {
 } from "./serializers/topicResourceSerializer";
 export {
   EntitiesResponse,
-  Response,
+  WithResponse,
   ServiceBusManagementClient
 } from "./serviceBusAtomManagementClient";
 export { ServiceBusClient } from "./serviceBusClient";
