@@ -8,6 +8,7 @@ __Note:__ This SDK targets Azure Text Analytics service API version 3.0.
 - Sentiment Analysis
 - Key Phrase Extraction
 - Named Entity Recognition
+- Recognition of Personally Identifiable Information
 - Linked Entity Recognition
 
 Use the client library to:
@@ -239,6 +240,36 @@ async function main() {
 main();
 ```
 
+### Recognize PII Entities
+
+There is a separate endpoint and operation for recognizing Personally Identifiable Information (PII) in text such as Social Security Numbers, bank account information, credit card numbers, etc. Its usage is very similar to the standard entity recognition above:
+
+```javascript
+const { TextAnalyticsClient, TextAnalyticsApiKeyCredential } = require("@azure/ai-text-analytics");
+const client = new TextAnalyticsClient(
+  "<endpoint>",
+  new TextAnalyticsApiKeyCredential("<API key>")
+);
+const documents = [
+  "The employee's SSN is 555-55-5555.",
+  "The employee's phone number is (555) 555-5555."
+];
+async function main() {
+  const results = await client.recognizePiiEntities(documents, "en");
+  for (const result of results) {
+    if (result.error === undefined) {
+      console.log(" -- Recognized PII entities for input", result.id, "--");
+      for (const entity of result.entities) {
+        console.log(entity.text, ":", entity.category, "(Score:", entity.score, ")");
+      }
+    } else {
+      console.error("Encountered an error:", result.error);
+    }
+  }
+}
+main();
+```
+
 ### Recognize Linked Entities
 
 A "Linked" entity is one that exists in a knowledge base (such as Wikipedia). The `recognizeLinkedEntities` operation can disambiguate entities by determining which entry in a knowledge base they likely refer to (for example, in a piece of text, does the word "Mars" refer to the planet, or to the Roman god of war). Linked entities contain associated URLs to the knowledge base that provides the definition of the entity.
@@ -388,4 +419,3 @@ If you'd like to contribute to this library, please read the [contributing guide
 [register_aad_app]: https://docs.microsoft.com/azure/cognitive-services/authentication#assign-a-role-to-a-service-principal
 [defaultazurecredential]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/identity/identity#defaultazurecredential
 [data_limits]: https://docs.microsoft.com/azure/cognitive-services/text-analytics/overview#data-limits
-

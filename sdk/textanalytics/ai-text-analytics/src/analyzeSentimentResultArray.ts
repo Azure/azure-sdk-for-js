@@ -3,9 +3,8 @@
 
 import {
   TextDocumentBatchStatistics,
-  DocumentError,
-  DocumentSentiment,
-  TextDocumentInput
+  TextDocumentInput,
+  GeneratedClientSentimentResponse
 } from "./generated/models";
 import {
   AnalyzeSentimentResult,
@@ -34,22 +33,13 @@ export interface AnalyzeSentimentResultArray extends Array<AnalyzeSentimentResul
 
 export function makeAnalyzeSentimentResultArray(
   input: TextDocumentInput[],
-  documents: DocumentSentiment[],
-  errors: DocumentError[],
-  modelVersion: string,
-  statistics?: TextDocumentBatchStatistics
+  response: GeneratedClientSentimentResponse
 ): AnalyzeSentimentResultArray {
+  const { documents, errors, modelVersion, statistics } = response;
   const unsortedResult = documents
     .map(
       (document): AnalyzeSentimentResult => {
-        return makeAnalyzeSentimentResult(
-          document.id,
-          document.sentiment,
-          document.confidenceScores,
-          document.sentenceSentiments,
-          document.warnings,
-          document.statistics
-        );
+        return makeAnalyzeSentimentResult(document, response);
       }
     )
     .concat(

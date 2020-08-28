@@ -6,7 +6,11 @@
  * Changes may cause incorrect behavior and will be lost if the code is regenerated.
  */
 
-import { OperationURLParameter, OperationParameter } from "@azure/core-http";
+import {
+  OperationURLParameter,
+  OperationQueryParameter,
+  OperationParameter
+} from "@azure/core-http";
 
 export const endpoint: OperationURLParameter = {
   parameterPath: "endpoint",
@@ -25,6 +29,20 @@ export const schemaId: OperationURLParameter = {
   mapper: {
     serializedName: "schema-id",
     required: true,
+    type: {
+      name: "String"
+    }
+  }
+};
+
+export const apiVersion: OperationQueryParameter = {
+  parameterPath: "apiVersion",
+  mapper: {
+    // TODO: Manually patched for now due to https://github.com/Azure/azure-rest-api-specs/pull/10220#discussion_r469588293
+    // defaultValue: "2018-01-01-preview",
+    defaultValue: "2017-04",
+    isConstant: true,
+    serializedName: "api-version",
     type: {
       name: "String"
     }
@@ -76,10 +94,10 @@ export const schemaName: OperationURLParameter = {
   }
 };
 
-export const serializationType: OperationParameter = {
-  parameterPath: "serializationType",
+export const xSchemaType: OperationParameter = {
+  parameterPath: "xSchemaType",
   mapper: {
-    serializedName: "serialization-type",
+    serializedName: "X-Schema-Type",
     required: true,
     type: {
       name: "String"

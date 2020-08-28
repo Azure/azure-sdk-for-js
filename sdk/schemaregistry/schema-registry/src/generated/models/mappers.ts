@@ -34,8 +34,8 @@ export const SchemaGetByIdHeaders: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
-      xSerialization: {
-        serializedName: "x-serialization",
+      xSchemaType: {
+        serializedName: "x-schema-type",
         type: {
           name: "String"
         }
@@ -62,10 +62,10 @@ export const SchemaGetByIdHeaders: coreHttp.CompositeMapper = {
   }
 };
 
-export const SchemaGetIdByContentHeaders: coreHttp.CompositeMapper = {
+export const SchemaQueryIdByContentHeaders: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "SchemaGetIdByContentHeaders",
+    className: "SchemaQueryIdByContentHeaders",
     modelProperties: {
       location: {
         serializedName: "location",
@@ -73,8 +73,8 @@ export const SchemaGetIdByContentHeaders: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
-      xSerialization: {
-        serializedName: "x-serialization",
+      xSchemaType: {
+        serializedName: "x-schema-type",
         type: {
           name: "String"
         }
@@ -112,8 +112,8 @@ export const SchemaRegisterHeaders: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
-      xSerialization: {
-        serializedName: "x-serialization",
+      xSchemaType: {
+        serializedName: "x-schema-type",
         type: {
           name: "String"
         }

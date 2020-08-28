@@ -61,7 +61,7 @@ describe("Atom management - Namespace", function(): void {
     assert.deepEqualExcluding(
       namespaceProperties,
       { messagingSku: "Standard", namespaceType: "Messaging", messagingUnits: undefined } as any,
-      ["_response", "createdAt", "updatedAt", "name"]
+      ["_response", "createdAt", "modifiedAt", "name"]
     );
   });
 
@@ -609,7 +609,7 @@ describe("Atom management - Authentication", function(): void {
       assert.deepEqualExcluding(response, testCase.output, [
         "_response",
         "createdAt",
-        "updatedAt",
+        "modifiedAt",
         "accessedAt"
       ]);
     });
@@ -743,7 +743,7 @@ describe("Atom management - Authentication", function(): void {
     it(`Gets runtime info for existing ${testCase.entityType} entities(multiple) successfully`, async () => {
       const response = await getEntitiesRuntimeProperties(testCase.entityType, managementTopic1);
       const name = testCase.entityType === EntityType.SUBSCRIPTION ? "subscriptionName" : "name";
-      const paramsToExclude = ["createdAt", "accessedAt", "updatedAt"];
+      const paramsToExclude = ["createdAt", "accessedAt", "modifiedAt"];
       for (const info of response) {
         if (info[name] == testCase[1].alwaysBeExistingEntity) {
           assert.deepEqualExcluding(info, testCase[1].output, paramsToExclude);
@@ -767,6 +767,10 @@ describe("Atom management - Authentication", function(): void {
   {
     entityType: EntityType.SUBSCRIPTION,
     alwaysBeExistingEntity: managementSubscription1
+  },
+  {
+    entityType: EntityType.RULE,
+    alwaysBeExistingEntity: managementRule1
   }
 ].forEach((testCase) => {
   describe(`Atom management - "${testCase.entityType}" exists`, function(): void {
@@ -785,6 +789,17 @@ describe("Atom management - Authentication", function(): void {
           await recreateSubscription(managementTopic1, managementSubscription1);
           break;
 
+        case EntityType.RULE:
+          await recreateTopic(managementTopic1);
+          await recreateSubscription(managementTopic1, managementSubscription1);
+          await serviceBusAtomManagementClient.createRule(
+            managementTopic1,
+            managementSubscription1,
+            managementRule1,
+            { sqlExpression: "1=2" }
+          );
+          break;
+
         default:
           throw new Error("TestError: Unrecognized EntityType");
       }
@@ -798,6 +813,7 @@ describe("Atom management - Authentication", function(): void {
 
         case EntityType.TOPIC:
         case EntityType.SUBSCRIPTION:
+        case EntityType.RULE:
           await deleteEntity(EntityType.TOPIC, managementTopic1);
           break;
 
@@ -808,7 +824,12 @@ describe("Atom management - Authentication", function(): void {
 
     it(`Returns true for an existing ${testCase.entityType} entity`, async () => {
       should.equal(
-        await entityExists(testCase.entityType, testCase.alwaysBeExistingEntity, managementTopic1),
+        await entityExists(
+          testCase.entityType,
+          testCase.alwaysBeExistingEntity,
+          managementTopic1,
+          managementSubscription1
+        ),
         true,
         "Returned `false` for an existing entity"
       );
@@ -816,7 +837,12 @@ describe("Atom management - Authentication", function(): void {
 
     it(`Returns false for a non-existing ${testCase.entityType} entity`, async () => {
       should.equal(
-        await entityExists(testCase.entityType, "non-existing-entity-name", managementTopic1),
+        await entityExists(
+          testCase.entityType,
+          "non-existing-entity-name",
+          managementTopic1,
+          managementSubscription1
+        ),
         false,
         "Returned `true` for a non-existing entity"
       );
@@ -1224,7 +1250,7 @@ describe("Atom management - Authentication", function(): void {
     output: {
       authorizationRules: undefined,
       autoDeleteOnIdle: "P10675199DT2H48M5.4775807S",
-      defaultMessageTtl: "P10675199DT2H48M5.4775807S",
+      defaultMessageTimeToLive: "P10675199DT2H48M5.4775807S",
       duplicateDetectionHistoryTimeWindow: "PT10M",
       enableBatchedOperations: true,
       enablePartitioning: false,
@@ -1240,7 +1266,7 @@ describe("Atom management - Authentication", function(): void {
     testCaseTitle: "all properties",
     input: {
       requiresDuplicateDetection: true,
-      defaultMessageTtl: "P2D",
+      defaultMessageTimeToLive: "P2D",
       deadLetteringOnMessageExpiration: true,
       duplicateDetectionHistoryTimeWindow: "PT1M",
       enableBatchedOperations: false,
@@ -1250,7 +1276,7 @@ describe("Atom management - Authentication", function(): void {
       userMetadata: "test metadata"
     },
     output: {
-      defaultMessageTtl: "P2D",
+      defaultMessageTimeToLive: "P2D",
       duplicateDetectionHistoryTimeWindow: "PT1M",
       status: "SendDisabled",
       enableBatchedOperations: false,
@@ -1284,7 +1310,7 @@ describe("Atom management - Authentication", function(): void {
       assert.deepEqualExcluding(response, testCase.output, [
         "_response",
         "createdAt",
-        "updatedAt",
+        "modifiedAt",
         "accessedAt"
       ]);
     });
@@ -1300,7 +1326,7 @@ describe("Atom management - Authentication", function(): void {
       autoDeleteOnIdle: "P10675199DT2H48M5.4775807S",
       deadLetteringOnMessageExpiration: false,
       deadLetteringOnFilterEvaluationExceptions: true,
-      defaultMessageTtl: "P10675199DT2H48M5.4775807S",
+      defaultMessageTimeToLive: "P10675199DT2H48M5.4775807S",
       forwardDeadLetteredMessagesTo: undefined,
       enableBatchedOperations: true,
       forwardTo: undefined,
@@ -1318,7 +1344,7 @@ describe("Atom management - Authentication", function(): void {
     input: {
       lockDuration: "PT5M",
       maxDeliveryCount: 20,
-      defaultMessageTtl: "P2D",
+      defaultMessageTimeToLive: "P2D",
       autoDeleteOnIdle: "PT1H",
       deadLetteringOnFilterEvaluationExceptions: false,
       deadLetteringOnMessageExpiration: true,
@@ -1330,7 +1356,7 @@ describe("Atom management - Authentication", function(): void {
     output: {
       lockDuration: "PT5M",
       maxDeliveryCount: 20,
-      defaultMessageTtl: "P2D",
+      defaultMessageTimeToLive: "P2D",
       autoDeleteOnIdle: "PT1H",
       deadLetteringOnFilterEvaluationExceptions: false,
       deadLetteringOnMessageExpiration: true,
@@ -1376,7 +1402,7 @@ describe("Atom management - Authentication", function(): void {
       assert.deepEqualExcluding(response, testCase.output, [
         "_response",
         "createdAt",
-        "updatedAt",
+        "modifiedAt",
         "accessedAt"
       ]);
     });
@@ -1393,7 +1419,7 @@ describe("Atom management - Authentication", function(): void {
     output: {
       lockDuration: "PT1M",
       maxDeliveryCount: 10,
-      defaultMessageTtl: "P10675199DT2H48M5.4775807S",
+      defaultMessageTimeToLive: "P10675199DT2H48M5.4775807S",
       deadLetteringOnFilterEvaluationExceptions: true,
       deadLetteringOnMessageExpiration: false,
       enableBatchedOperations: true,
@@ -1478,7 +1504,7 @@ describe("Atom management - Authentication", function(): void {
       authorizationRules: undefined,
       autoDeleteOnIdle: "P10675199DT2H48M5.4775807S",
       deadLetteringOnMessageExpiration: false,
-      defaultMessageTtl: "P10675199DT2H48M5.4775807S",
+      defaultMessageTimeToLive: "P10675199DT2H48M5.4775807S",
       duplicateDetectionHistoryTimeWindow: "PT10M",
       enableBatchedOperations: true,
       enablePartitioning: false,
@@ -1500,7 +1526,7 @@ describe("Atom management - Authentication", function(): void {
       lockDuration: "PT45S",
       requiresDuplicateDetection: true,
       requiresSession: true,
-      defaultMessageTtl: "P2D",
+      defaultMessageTimeToLive: "P2D",
       deadLetteringOnMessageExpiration: true,
       duplicateDetectionHistoryTimeWindow: "PT1M",
       maxDeliveryCount: 8,
@@ -1535,7 +1561,7 @@ describe("Atom management - Authentication", function(): void {
     output: {
       duplicateDetectionHistoryTimeWindow: "PT1M",
       lockDuration: "PT45S",
-      defaultMessageTtl: "P2D",
+      defaultMessageTimeToLive: "P2D",
       deadLetteringOnMessageExpiration: true,
       enableBatchedOperations: false,
       maxDeliveryCount: 8,
@@ -1596,7 +1622,7 @@ describe("Atom management - Authentication", function(): void {
       assert.deepEqualExcluding(response, testCase.output, [
         "_response",
         "createdAt",
-        "updatedAt",
+        "modifiedAt",
         "accessedAt"
       ]);
     });
@@ -1665,15 +1691,11 @@ describe("Atom management - Authentication", function(): void {
     output: {
       filter: {
         sqlExpression: "1=1",
-        requiresPreprocessing: undefined,
-        sqlParameters: undefined,
-        compatibilityLevel: 20
+        sqlParameters: undefined
       },
       action: {
         sqlExpression: undefined,
-        requiresPreprocessing: undefined,
-        sqlParameters: undefined,
-        compatibilityLevel: undefined
+        sqlParameters: undefined
       },
       name: managementRule1
     }
@@ -1696,21 +1718,49 @@ describe("Atom management - Authentication", function(): void {
         sqlParameters: [
           { key: "@intParam", value: 1, type: "int" },
           { key: "@stringParam", value: "b", type: "string" }
-        ],
-        requiresPreprocessing: false,
-        compatibilityLevel: 20
+        ]
       },
       action: {
         sqlExpression: "SET a='b'",
-        requiresPreprocessing: false,
-        sqlParameters: undefined,
-        compatibilityLevel: 20
+        sqlParameters: undefined
       },
       name: managementRule1
     }
   },
   {
-    testCaseTitle: "Correlation Filter rule options",
+    testCaseTitle: "Correlation Filter rule options with a single property",
+    input: {
+      filter: {
+        correlationId: "abcd",
+        properties: {
+          randomState: "WA"
+        }
+      },
+      action: { sqlExpression: "SET sys.label='GREEN'" }
+    },
+    output: {
+      filter: {
+        correlationId: "abcd",
+        contentType: "",
+        label: "",
+        messageId: "",
+        replyTo: "",
+        replyToSessionId: "",
+        sessionId: "",
+        to: "",
+        properties: {
+          randomState: "WA"
+        }
+      },
+      action: {
+        sqlExpression: "SET sys.label='GREEN'",
+        sqlParameters: undefined
+      },
+      name: managementRule1
+    }
+  },
+  {
+    testCaseTitle: "Correlation Filter rule options with multiple properties",
     input: {
       filter: {
         correlationId: "abcd",
@@ -1742,9 +1792,7 @@ describe("Atom management - Authentication", function(): void {
       },
       action: {
         sqlExpression: "SET sys.label='GREEN'",
-        requiresPreprocessing: false,
-        sqlParameters: undefined,
-        compatibilityLevel: 20
+        sqlParameters: undefined
       },
       name: managementRule1
     }
@@ -1775,7 +1823,7 @@ describe("Atom management - Authentication", function(): void {
       assert.deepEqualExcluding(response, testCase.output, [
         "_response",
         "createdAt",
-        "updatedAt",
+        "modifiedAt",
         "accessedAt"
       ]);
     });
@@ -1788,7 +1836,7 @@ describe("Atom management - Authentication", function(): void {
     testCaseTitle: "all properties except forwardTo, forwardDeadLetteredMessagesTo",
     input: {
       lockDuration: "PT50S",
-      defaultMessageTtl: "P1D",
+      defaultMessageTimeToLive: "P1D",
       deadLetteringOnMessageExpiration: true,
       duplicateDetectionHistoryTimeWindow: "PT2M",
       maxDeliveryCount: 5,
@@ -1823,7 +1871,7 @@ describe("Atom management - Authentication", function(): void {
     output: {
       duplicateDetectionHistoryTimeWindow: "PT2M",
       lockDuration: "PT50S",
-      defaultMessageTtl: "P1D",
+      defaultMessageTimeToLive: "P1D",
       deadLetteringOnMessageExpiration: true,
       enableBatchedOperations: false,
       requiresDuplicateDetection: true,
@@ -1868,7 +1916,7 @@ describe("Atom management - Authentication", function(): void {
         lockDuration: "PT45S",
         requiresDuplicateDetection: true,
         requiresSession: true,
-        defaultMessageTtl: "P2D",
+        defaultMessageTimeToLive: "P2D",
         deadLetteringOnMessageExpiration: true,
         duplicateDetectionHistoryTimeWindow: "PT1M",
         maxDeliveryCount: 8,
@@ -1918,7 +1966,7 @@ describe("Atom management - Authentication", function(): void {
         assert.deepEqualExcluding(response, testCase.output, [
           "_response",
           "createdAt",
-          "updatedAt",
+          "modifiedAt",
           "accessedAt"
         ]);
       } catch (err) {
@@ -1938,7 +1986,7 @@ describe("Atom management - Authentication", function(): void {
     output: {
       duplicateDetectionHistoryTimeWindow: "PT1M",
       lockDuration: "PT45S",
-      defaultMessageTtl: "P2D",
+      defaultMessageTimeToLive: "P2D",
       deadLetteringOnMessageExpiration: true,
       enableBatchedOperations: false,
 
@@ -2044,7 +2092,7 @@ describe("Atom management - Authentication", function(): void {
       status: "SendDisabled" as EntityStatus,
       userMetadata: "test metadata",
       requiresDuplicateDetection: false,
-      defaultMessageTtl: "P1D",
+      defaultMessageTimeToLive: "P1D",
       duplicateDetectionHistoryTimeWindow: "PT2M",
       autoDeleteOnIdle: "PT2H",
       supportOrdering: true,
@@ -2052,7 +2100,7 @@ describe("Atom management - Authentication", function(): void {
     },
     output: {
       requiresDuplicateDetection: false,
-      defaultMessageTtl: "P1D",
+      defaultMessageTimeToLive: "P1D",
       duplicateDetectionHistoryTimeWindow: "PT2M",
       autoDeleteOnIdle: "PT2H",
       supportOrdering: true,
@@ -2089,7 +2137,7 @@ describe("Atom management - Authentication", function(): void {
         assert.deepEqualExcluding(response, testCase.output, [
           "_response",
           "createdAt",
-          "updatedAt",
+          "modifiedAt",
           "accessedAt"
         ]);
       } catch (err) {
@@ -2106,7 +2154,7 @@ describe("Atom management - Authentication", function(): void {
     input: {
       lockDuration: "PT3M",
       maxDeliveryCount: 10,
-      defaultMessageTtl: "P1D",
+      defaultMessageTimeToLive: "P1D",
       autoDeleteOnIdle: "P10675199DT2H48M5.4775807S",
       deadLetteringOnFilterEvaluationExceptions: true,
       deadLetteringOnMessageExpiration: false,
@@ -2118,7 +2166,7 @@ describe("Atom management - Authentication", function(): void {
     output: {
       lockDuration: "PT3M",
       maxDeliveryCount: 10,
-      defaultMessageTtl: "P1D",
+      defaultMessageTimeToLive: "P1D",
       autoDeleteOnIdle: "P10675199DT2H48M5.4775807S",
       deadLetteringOnFilterEvaluationExceptions: true,
       deadLetteringOnMessageExpiration: false,
@@ -2159,7 +2207,7 @@ describe("Atom management - Authentication", function(): void {
         assert.deepEqualExcluding(response, testCase.output, [
           "_response",
           "createdAt",
-          "updatedAt",
+          "modifiedAt",
           "accessedAt"
         ]);
       } catch (err) {
@@ -2245,15 +2293,11 @@ describe("Atom management - Authentication", function(): void {
     output: {
       filter: {
         sqlExpression: "stringValue = @stringParam",
-        sqlParameters: [{ key: "@stringParam", value: "b", type: "string" }],
-        requiresPreprocessing: false,
-        compatibilityLevel: 20
+        sqlParameters: [{ key: "@stringParam", value: "b", type: "string" }]
       },
       action: {
         sqlExpression: "SET a='c'",
-        requiresPreprocessing: false,
-        sqlParameters: undefined,
-        compatibilityLevel: 20
+        sqlParameters: undefined
       },
 
       name: managementRule1
@@ -2281,9 +2325,7 @@ describe("Atom management - Authentication", function(): void {
       },
       action: {
         sqlExpression: "SET sys.label='RED'",
-        requiresPreprocessing: false,
-        sqlParameters: undefined,
-        compatibilityLevel: 20
+        sqlParameters: undefined
       },
 
       name: managementRule1
@@ -2323,7 +2365,7 @@ describe("Atom management - Authentication", function(): void {
         assert.deepEqualExcluding(response, testCase.output, [
           "_response",
           "createdAt",
-          "updatedAt",
+          "modifiedAt",
           "accessedAt"
         ]);
       } catch (err) {
@@ -2557,7 +2599,8 @@ async function getEntitiesRuntimeProperties(
 async function entityExists(
   testEntityType: EntityType,
   entityPath: string,
-  topicPath?: string
+  topicPath?: string,
+  subscriptionPath?: string
 ): Promise<any> {
   switch (testEntityType) {
     case EntityType.QUEUE:
@@ -2577,6 +2620,18 @@ async function entityExists(
         entityPath
       );
       return subscriptionResponse;
+    case EntityType.RULE:
+      if (!topicPath || !subscriptionPath) {
+        throw new Error(
+          "TestError: topic path and subscription path must be passed when invoking tests on rules"
+        );
+      }
+      const ruleResponse = await serviceBusAtomManagementClient.ruleExists(
+        topicPath,
+        subscriptionPath,
+        entityPath
+      );
+      return ruleResponse;
   }
   throw new Error("TestError: Unrecognized EntityType");
 }

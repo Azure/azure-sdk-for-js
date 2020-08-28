@@ -1,0 +1,9 @@
+parameters:
+  PackagePath: "sdk/monitor/opentelemetry-exporter/"
+
+steps:
+  - bash: |
+      node ../../../common/scripts/install-run-rushx.js test-opentelemetry-versions --verbose
+    condition: succeededOrFailed()
+    displayName: "Test OpenTelemetry Versions - Monitor"
+    workingDirectory: "${{parameters.PackagePath}}"

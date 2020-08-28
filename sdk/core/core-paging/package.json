@@ -17,9 +17,17 @@
     "clientruntime"
   ],
   "main": "./dist-esm/index.js",
-  "types": "./types/corePaging.d.ts",
+  "types": "./types/latest/corePaging.d.ts",
+  "typesVersions": {
+    "<3.6": {
+      "types/latest/*": [
+        "types/3.1/*"
+      ]
+    }
+  },
   "files": [
-    "types/*.d.ts",
+    "types/latest/corePaging.d.ts",
+    "types/3.1",
     "dist-esm/**/*.js",
     "LICENSE",
     "README.md"

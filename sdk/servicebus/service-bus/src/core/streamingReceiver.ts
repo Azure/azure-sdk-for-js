@@ -7,13 +7,11 @@ import {
   OnError,
   OnMessage,
   ReceiveOptions,
-  ReceiverHandlers,
-  ReceiverType
+  ReceiverHandlers
 } from "./messageReceiver";
+import { ConnectionContext } from "../connectionContext";
 
 import { ReceiverHelper } from "./receiverHelper";
-
-import { ClientEntityContext } from "../clientEntityContext";
 
 import { throwErrorIfConnectionClosed } from "../util/errors";
 import {
@@ -34,6 +32,7 @@ import { AbortSignalLike } from "@azure/abort-controller";
 
 /**
  * @internal
+ * @ignore
  * Describes the streaming receiver where the user can receive the message
  * by providing handler functions.
  * @class StreamingReceiver
@@ -92,26 +91,36 @@ export class StreamingReceiver extends MessageReceiver {
   protected _onAmqpMessage: OnAmqpEventAsPromise;
 
   /**
+   * Whether we are currently registered for receiving messages.
+   */
+  public get isReceivingMessages(): boolean {
+    // for the streaming receiver so long as we can receive messages then we
+    // _are_ receiving messages - there's no in-between state like there is
+    // with BatchingReceiver.
+    return this._receiverHelper.canReceiveMessages();
+  }
+
+  /**
    * Instantiate a new Streaming receiver for receiving messages with handlers.
    *
    * @constructor
    * @param {ClientEntityContext} context                      The client entity context.
    * @param {ReceiveOptions} [options]                         Options for how you'd like to connect.
    */
-  constructor(context: ClientEntityContext, options?: ReceiveOptions) {
-    super(context, ReceiverType.streaming, options);
+  constructor(context: ConnectionContext, entityPath: string, options?: ReceiveOptions) {
+    super(context, entityPath, "sr", options);
 
     if (typeof options?.maxConcurrentCalls === "number" && options?.maxConcurrentCalls > 0) {
       this.maxConcurrentCalls = options.maxConcurrentCalls;
     }
 
     this._retryOptions = options?.retryOptions || {};
-    this._receiverHelper = new ReceiverHelper(() => this._receiver);
+    this._receiverHelper = new ReceiverHelper(() => this.link);
 
     this._onAmqpClose = async (context: EventContext) => {
-      const connectionId = this._context.namespace.connectionId;
+      const connectionId = this._context.connectionId;
       const receiverError = context.receiver && context.receiver.error;
-      const receiver = this._receiver || context.receiver!;
+      const receiver = this.link || context.receiver!;
       if (receiverError) {
         log.error(
           "[%s] 'receiver_close' event occurred for receiver '%s' with address '%s'. " +
@@ -157,8 +166,8 @@ export class StreamingReceiver extends MessageReceiver {
     };
 
     this._onSessionClose = async (context: EventContext) => {
-      const connectionId = this._context.namespace.connectionId;
-      const receiver = this._receiver || context.receiver!;
+      const connectionId = this._context.connectionId;
+      const receiver = this.link || context.receiver!;
       const sessionError = context.session && context.session.error;
       if (sessionError) {
         log.error(
@@ -205,8 +214,8 @@ export class StreamingReceiver extends MessageReceiver {
     };
 
     this._onAmqpError = (context: EventContext) => {
-      const connectionId = this._context.namespace.connectionId;
-      const receiver = this._receiver || context.receiver!;
+      const connectionId = this._context.connectionId;
+      const receiver = this.link || context.receiver!;
       const receiverError = context.receiver && context.receiver.error;
       if (receiverError) {
         const sbError = translate(receiverError) as MessagingError;
@@ -242,8 +251,8 @@ export class StreamingReceiver extends MessageReceiver {
     };
 
     this._onSessionError = (context: EventContext) => {
-      const connectionId = this._context.namespace.connectionId;
-      const receiver = this._receiver || context.receiver!;
+      const connectionId = this._context.connectionId;
+      const receiver = this.link || context.receiver!;
       const sessionError = context.session && context.session.error;
       if (sessionError) {
         const sbError = translate(sessionError) as MessagingError;
@@ -269,20 +278,21 @@ export class StreamingReceiver extends MessageReceiver {
       // cannot settle the message.
       if (
         this.receiveMode === InternalReceiveMode.peekLock &&
-        (!this._receiver || !this._receiver.isOpen())
+        (!this.link || !this.link.isOpen())
       ) {
         log.error(
           "[%s] Not calling the user's message handler for the current message " +
             "as the receiver '%s' is closed",
-          this._context.namespace.connectionId,
+          this._context.connectionId,
           this.name
         );
         return;
       }
 
-      const connectionId = this._context.namespace.connectionId;
+      const connectionId = this._context.connectionId;
       const bMessage: ServiceBusMessageImpl = new ServiceBusMessageImpl(
         this._context,
+        this._entityPath,
         context.message!,
         context.delivery!,
         true,
@@ -343,9 +353,9 @@ export class StreamingReceiver extends MessageReceiver {
                       connectionId,
                       bMessage.messageId
                     );
-                    bMessage.lockedUntilUtc = await this._context.managementClient!.renewLock(
-                      lockToken
-                    );
+                    bMessage.lockedUntilUtc = await this._context
+                      .getManagementClient(this._entityPath)
+                      .renewLock(lockToken, { associatedLinkName: this.name });
                     log.receiver(
                       "[%s] Successfully renewed the lock for message with id '%s'.",
                       connectionId,
@@ -458,7 +468,7 @@ export class StreamingReceiver extends MessageReceiver {
         !bMessage.delivery.remote_settled
       ) {
         try {
-          log[this.receiverType](
+          log.streaming(
             "[%s] Auto completing the message with id '%s' on " + "the receiver '%s'.",
             connectionId,
             bMessage.messageId,
@@ -500,13 +510,18 @@ export class StreamingReceiver extends MessageReceiver {
     };
   }
 
-  stopReceivingMessages(): Promise<void> {
-    return this._receiverHelper.stopReceivingMessages();
+  async stopReceivingMessages(): Promise<void> {
+    await this._receiverHelper.suspend();
   }
 
-  init(useNewName: boolean, abortSignal?: AbortSignalLike): Promise<void> {
+  async init(useNewName: boolean, abortSignal?: AbortSignalLike): Promise<void> {
     const options = this._createReceiverOptions(useNewName, this._getHandlers());
-    return super._init(options, abortSignal);
+    await this._init(options, abortSignal);
+
+    // this might seem odd but in reality this entire class is like one big function call that
+    // results in a receive(). Once we're being initialized we should consider ourselves the
+    // "owner" of the receiver and that it's now being locked into being the actual receiver.
+    this._receiverHelper.resume();
   }
 
   /**
@@ -515,8 +530,8 @@ export class StreamingReceiver extends MessageReceiver {
    * @param {OnMessage} onMessage The message handler to receive servicebus messages.
    * @param {OnError} onError The error handler to receive an error that occurs while receivin messages.
    */
-  receive(onMessage: OnMessage, onError: OnError): void {
-    throwErrorIfConnectionClosed(this._context.namespace);
+  subscribe(onMessage: OnMessage, onError: OnError): void {
+    throwErrorIfConnectionClosed(this._context);
 
     this._onMessage = onMessage;
     this._onError = onError;
@@ -531,11 +546,11 @@ export class StreamingReceiver extends MessageReceiver {
    * @returns {Promise<void>} Promise<void>.
    */
   async onDetached(receiverError?: AmqpError | Error, causedByDisconnect?: boolean): Promise<void> {
-    const connectionId = this._context.namespace.connectionId;
+    const connectionId = this._context.connectionId;
 
     // User explicitly called `close` on the receiver, so link is already closed
     // and we can exit early.
-    if (this.wasCloseInitiated) {
+    if (this.wasClosedPermanently) {
       return;
     }
 
@@ -555,21 +570,11 @@ export class StreamingReceiver extends MessageReceiver {
     }
 
     this._isDetaching = true;
+
     try {
       // Clears the token renewal timer. Closes the link and its session if they are open.
       // Removes the link and its session if they are present in rhea's cache.
-      await this._closeLink(this._receiver);
-
-      if (this.receiverType === ReceiverType.batching) {
-        log.error(
-          "[%s] Receiver '%s' with address '%s' is a Batching Receiver, so we will not be " +
-            "re-establishing the receiver link.",
-          connectionId,
-          this.name,
-          this.address
-        );
-        return;
-      }
+      await this.closeLink();
 
       const translatedError = receiverError ? translate(receiverError) : receiverError;
 
@@ -622,27 +627,14 @@ export class StreamingReceiver extends MessageReceiver {
             // provide a new name to the link while re-connecting it. This ensures that
             // the service does not send an error stating that the link is still open.
             true
-          ).then(async () => {
-            if (this.wasCloseInitiated) {
-              log.error(
-                "[%s] close() method of Receiver '%s' with address '%s' was called. " +
-                  "by the time the receiver finished getting created. Hence, disallowing messages from being received. ",
-                connectionId,
-                this.name,
-                this.address
-              );
-              await this.close();
-            } else {
-              if (this._receiver && this.receiverType === ReceiverType.streaming) {
-                this._receiverHelper.addCredit(this.maxConcurrentCalls);
-              }
-            }
+          ).then(() => {
+            this._receiverHelper.addCredit(this.maxConcurrentCalls);
             return;
           }),
         connectionId: connectionId,
         operationType: RetryOperationType.receiverLink,
         retryOptions: this._retryOptions,
-        connectionHost: this._context.namespace.config.host
+        connectionHost: this._context.config.host
       };
       // Attempt to reconnect. If a non-retryable error is encountered,
       // retry will throw and the error will surface to the user's error handler.
@@ -683,47 +675,43 @@ export class StreamingReceiver extends MessageReceiver {
     }
   }
 
-  /**
-   * Creates a streaming receiver.
-   * @static
-   *
-   * @param {ClientEntityContext} context    The connection context.
-   * @param {ReceiveOptions} [options]     Receive options.
-   * @return {Promise<StreamingReceiver>} A promise that resolves with an instance of StreamingReceiver.
-   */
   static async create(
-    context: ClientEntityContext,
+    context: ConnectionContext,
+    entityPath: string,
     options?: ReceiveOptions &
       Pick<OperationOptionsBase, "abortSignal"> & {
-        _createStreamingReceiver?: (
-          context: ClientEntityContext,
+        _createStreamingReceiverStubForTests?: (
+          context: ConnectionContext,
           options?: ReceiveOptions
         ) => StreamingReceiver;
+        cachedStreamingReceiver?: StreamingReceiver;
       }
   ): Promise<StreamingReceiver> {
-    throwErrorIfConnectionClosed(context.namespace);
+    throwErrorIfConnectionClosed(context);
     if (!options) options = {};
     if (options.autoComplete == null) options.autoComplete = true;
 
     let sReceiver: StreamingReceiver;
 
-    if (options?._createStreamingReceiver) {
-      sReceiver = options._createStreamingReceiver(context, options);
+    if (options.cachedStreamingReceiver) {
+      sReceiver = options.cachedStreamingReceiver;
+    } else if (options?._createStreamingReceiverStubForTests) {
+      sReceiver = options._createStreamingReceiverStubForTests(context, options);
     } else {
-      sReceiver = new StreamingReceiver(context, options);
+      sReceiver = new StreamingReceiver(context, entityPath, options);
     }
 
     const config: RetryConfig<void> = {
       operation: () => {
         return sReceiver.init(false, options?.abortSignal);
       },
-      connectionId: context.namespace.connectionId,
+      connectionId: context.connectionId,
       operationType: RetryOperationType.receiveMessage,
       retryOptions: options.retryOptions,
       abortSignal: options?.abortSignal
     };
     await retry<void>(config);
-    context.streamingReceiver = sReceiver;
+    context.messageReceivers[sReceiver.name] = sReceiver;
     return sReceiver;
   }
 }
