@@ -169,10 +169,9 @@ export class LazyLoadingBlobStream extends Readable {
         code: CanonicalCode.UNKNOWN,
         message: e.message
       });
-      throw e;
+      this.emit("error", e);
     } finally {
       span.end();
     }
   }
 }
-
