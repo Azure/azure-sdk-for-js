@@ -137,6 +137,10 @@
       "path": "sdk\\textanalytics\\ai-text-analytics"
     },
     {
+      "name": "monitor",
+      "path": "sdk/monitor/opentelemetry-exporter"
+    },
+    {
       "name": "test recorder",
       "path": "sdk\\test-utils\\recorder"
     },
