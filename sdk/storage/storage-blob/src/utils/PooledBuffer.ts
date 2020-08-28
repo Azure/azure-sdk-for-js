@@ -1,23 +1,87 @@
+// Copyright (c) Microsoft Corporation. All rights reserved.
+// Licensed under the MIT License.
+
 import { BuffersStream } from "./BuffersStream";
 import { Readable } from "stream";
 import { BLOCK_BLOB_MAX_STAGE_BLOCK_BYTES } from "./constants";
 
+/**
+ * maxBufferLength is max size of each buffer in the pooled buffers.
+ */
 const maxBufferLength = Math.min(
+  // Can't use import as Typescript doesn't recognize "buffer".
   require("buffer").constants.MAX_LENGTH,
   BLOCK_BLOB_MAX_STAGE_BLOCK_BYTES
 );
 
+/**
+ * This class provides a buffer container which conceptually has no hard size limit.
+ * It accepts a capacity, an array of input buffers and the total length of input data.
+ * It will allocate an internal "buffer" of the capacity and fill the data in the input buffers
+ * into the internal "buffer" serially with respect to the total length.
+ * Then by calling PooledBuffer.getReadableStream(), you can get a readable stream
+ * assembled from all the data in the internal "buffer".
+ *
+ * @export
+ * @class BufferScheduler
+ */
 export class PooledBuffer {
+  /**
+   * Internal buffers used to keep the data.
+   * Each buffer has a length of the maxBufferLength except last one.
+   *
+   * @private
+   * @type {Buffer[]}
+   * @memberof PooledBuffer
+   */
   private buffers: Buffer[] = [];
 
+  /**
+   * The total size of internal buffers.
+   *
+   * @private
+   * @type {number}
+   * @memberof PooledBuffer
+   */
   private readonly capacity: number;
 
+  /**
+   * The total size of data contained in internal buffers.
+   *
+   * @private
+   * @type {number}
+   * @memberof PooledBuffer
+   */
   private _size: number;
+
+  /**
+   * The size of the data contained in the pooled buffers.
+   */
   public get size(): number {
     return this._size;
   }
 
+  /**
+   * Creates an instance of PooledBuffer with given capacity.
+   * Internal buffers are allocated but contains no data.
+   * Users may call the {@link PooledBuffer.fill} method to fill this
+   * pooled buffer with data.
+   *
+   * @param {number} capacity Total capacity of the internal buffers
+   * @memberof PooledBuffer
+   */
   constructor(capacity: number);
+
+  /**
+   * Creates an instance of PooledBuffer with given capacity.
+   * Internal buffers are allocated and filled with data in the input buffers serially
+   * with respect to the total length.
+   *
+   * @param {number} capacity Total capacity of the internal buffers
+   * @param {Buffer[]} buffers Input buffers containing the data to be filled in the pooled buffer
+   * @param {number} totalLength Total length of the data to be filled in.
+   * @memberof PooledBuffer
+   */
   constructor(capacity: number, buffers: Buffer[], totalLength: number);
   constructor(capacity: number, buffers?: Buffer[], totalLength?: number) {
     this.capacity = capacity;
@@ -38,6 +102,16 @@ export class PooledBuffer {
     }
   }
 
+  /**
+   * Fill the internal buffers with data in the input buffers serially
+   * with respect to the total length and the total capacity of the internal buffers.
+   *
+   * @param {Buffer[]} buffers Input buffers containing the data to be filled in the pooled buffer
+   * @param {number} totalLength Total length of the data to be filled in.
+   *
+   * @returns {void}
+   * @memberof PooledBuffer
+   */
   public fill(buffers: Buffer[], totalLength: number) {
     this._size = Math.min(this.capacity, totalLength);
 
@@ -71,6 +145,12 @@ export class PooledBuffer {
     }
   }
 
+  /**
+   * Get the readable stream assembled from all the data in the internal buffers.
+   *
+   * @returns {Readable}
+   * @memberof PooledBuffer
+   */
   public getReadableStream(): Readable {
     return new BuffersStream(this.buffers, this.size);
   }
