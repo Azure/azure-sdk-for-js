@@ -138,17 +138,6 @@ export type SqlRuleAction = {
    * SQL parameters to the expression
    */
   sqlParameters?: { [key: string]: "string" | "number" | "boolean" };
-
-  /**
-   * This property is reserved for future use. An integer value showing the
-   * compatibility level, currently hard-coded to 20.
-   */
-  compatibilityLevel?: number;
-
-  /**
-   * Boolean value indicating whether the SQL filter expression requires preprocessing
-   */
-  requiresPreprocessing?: boolean;
 };
 
 /**
