@@ -66,6 +66,7 @@ describe("Receiver unit tests", () => {
         assert.fail("Should throw");
       } catch (err) {
         assert.equal("Link has been permanently closed. Not reopening.", err.message);
+        assert.equal(err.name, "AbortError");
         assert.isFalse(negotiateClaimWasCalled);
       }
     });

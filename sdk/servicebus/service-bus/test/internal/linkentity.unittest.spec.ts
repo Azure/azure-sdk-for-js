@@ -59,6 +59,7 @@ describe("LinkEntity unit tests", () => {
       assert.fail("Should have thrown");
     } catch (err) {
       assert.equal(err.message, "Link has been permanently closed. Not reopening.");
+      assert.equal(err.name, "AbortError");
     }
     assertLinkEntityClosedPermanently();
   });
