@@ -141,8 +141,9 @@ export type SqlRuleAction = {
 export interface SqlRuleFilter {
   /**
    * SQL expression to use.
+   * Defaults to creating a true filter if none specified
    */
-  sqlExpression: string;
+  sqlExpression?: string;
 
   /**
    * SQL parameters to the expression
