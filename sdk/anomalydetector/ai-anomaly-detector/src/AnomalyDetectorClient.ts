@@ -64,6 +64,7 @@ export class AnomalyDetectorClient {
   constructor(
     endpointUrl: string,
     credential: TokenCredential | KeyCredential,
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options?: AnomalyDetectorClientOptions
   ) {
     this.endpointUrl = endpointUrl;
