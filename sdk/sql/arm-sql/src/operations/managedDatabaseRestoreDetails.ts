@@ -28,8 +28,7 @@ export class ManagedDatabaseRestoreDetails {
 
   /**
    * Gets managed database restore details.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can
-   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param managedInstanceName The name of the managed instance.
    * @param databaseName The name of the database.
    * @param [options] The optional parameters
@@ -37,16 +36,14 @@ export class ManagedDatabaseRestoreDetails {
    */
   get(resourceGroupName: string, managedInstanceName: string, databaseName: string, options?: msRest.RequestOptionsBase): Promise<Models.ManagedDatabaseRestoreDetailsGetResponse>;
   /**
-   * @param resourceGroupName The name of the resource group that contains the resource. You can
-   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param managedInstanceName The name of the managed instance.
    * @param databaseName The name of the database.
    * @param callback The callback
    */
   get(resourceGroupName: string, managedInstanceName: string, databaseName: string, callback: msRest.ServiceCallback<Models.ManagedDatabaseRestoreDetailsResult>): void;
   /**
-   * @param resourceGroupName The name of the resource group that contains the resource. You can
-   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param managedInstanceName The name of the managed instance.
    * @param databaseName The name of the database.
    * @param options The optional parameters
@@ -72,14 +69,14 @@ const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/databases/{databaseName}/restoreDetails/{restoreDetailsName}",
   urlParameters: [
-    Parameters.resourceGroupName,
+    Parameters.resourceGroupName1,
     Parameters.managedInstanceName,
     Parameters.databaseName,
     Parameters.restoreDetailsName,
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion3
+    Parameters.apiVersion8
   ],
   headerParameters: [
     Parameters.acceptLanguage
