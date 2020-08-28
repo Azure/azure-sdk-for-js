@@ -23,6 +23,7 @@ import { Segment } from "./Segment";
 import { BlobChangeFeedListChangesOptions } from "./models/models";
 import { createSpan } from "./utils/tracing";
 import { CanonicalCode } from "@opentelemetry/api";
+import { LazyLoadingBlobStreamFactory } from "./LazyLoadingBlobStreamFactory";
 
 interface MetaSegments {
   version?: number;
@@ -39,7 +40,9 @@ export class ChangeFeedFactory {
       this._segmentFactory = segmentFactory;
     } else {
       this._segmentFactory = new SegmentFactory(
-        new ShardFactory(new ChunkFactory(new AvroReaderFactory()))
+        new ShardFactory(
+          new ChunkFactory(new AvroReaderFactory(), new LazyLoadingBlobStreamFactory())
+        )
       );
     }
   }

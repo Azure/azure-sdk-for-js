@@ -5,10 +5,10 @@ import { AvroReaderFactory } from "./AvroReaderFactory";
 import { ContainerClient, CommonOptions } from "@azure/storage-blob";
 import { Chunk } from "./Chunk";
 import { AvroReader } from "../../storage-internal-avro/src";
-import { bodyToAvroReadable } from "./utils/utils.node";
+import { streamToAvroReadable } from "./utils/utils.node";
 import { AbortSignalLike } from "@azure/core-http";
-import { CanonicalCode } from "@opentelemetry/api";
-import { createSpan } from "./utils/tracing";
+import { LazyLoadingBlobStreamFactory } from "./LazyLoadingBlobStreamFactory";
+import { CHANGE_FEED_CHUNK_BLOCK_DOWNLOAD_SIZE } from "./utils/constants";
 
 /**
  * Options to configure {@link ChunkFactory.create} operation.
@@ -29,9 +29,14 @@ export interface CreateChunkOptions extends CommonOptions {
 
 export class ChunkFactory {
   private readonly _avroReaderFactory: AvroReaderFactory;
+  private readonly _lazyLoadingBlobStreamFactory: LazyLoadingBlobStreamFactory;
 
-  constructor(avroReaderFactory: AvroReaderFactory) {
+  constructor(
+    avroReaderFactory: AvroReaderFactory,
+    lazyLoadingBlobStreamFactory: LazyLoadingBlobStreamFactory
+  ) {
     this._avroReaderFactory = avroReaderFactory;
+    this._lazyLoadingBlobStreamFactory = lazyLoadingBlobStreamFactory;
   }
 
   public async create(
@@ -41,46 +46,41 @@ export class ChunkFactory {
     eventIndex?: number,
     options: CreateChunkOptions = {}
   ): Promise<Chunk> {
-    const { span, spanOptions } = createSpan("ChunkFactory-create", options.tracingOptions);
-    try {
-      const blobClient = containerClient.getBlobClient(chunkPath);
-      blockOffset = blockOffset || 0;
-      eventIndex = eventIndex || 0;
+    const blobClient = containerClient.getBlobClient(chunkPath);
+    blockOffset = blockOffset || 0;
+    eventIndex = eventIndex || 0;
 
-      const downloadRes = await blobClient.download(blockOffset, undefined, {
-        abortSignal: options.abortSignal,
-        tracingOptions: { ...options.tracingOptions, spanOptions }
-      });
+    const dataStream = streamToAvroReadable(
+      this._lazyLoadingBlobStreamFactory.create(
+        blobClient,
+        blockOffset,
+        CHANGE_FEED_CHUNK_BLOCK_DOWNLOAD_SIZE,
+        options
+      )
+    );
 
-      const dataStream = bodyToAvroReadable(downloadRes);
-      let avroReader: AvroReader;
-      if (blockOffset !== 0) {
-        const headerDownloadRes = await blobClient.download(0, undefined, {
-          abortSignal: options.abortSignal,
-          tracingOptions: { ...options.tracingOptions, spanOptions }
-        });
-        const headerStream = bodyToAvroReadable(headerDownloadRes);
-        avroReader = this._avroReaderFactory.create(
-          dataStream,
-          headerStream,
-          blockOffset,
-          eventIndex
-        );
-      } else {
-        avroReader = this._avroReaderFactory.create(dataStream);
-      }
-
-      return new Chunk(avroReader, blockOffset, eventIndex, chunkPath, {
-        abortSignal: options.abortSignal
-      });
-    } catch (e) {
-      span.setStatus({
-        code: CanonicalCode.UNKNOWN,
-        message: e.message
-      });
-      throw e;
-    } finally {
-      span.end();
+    let avroReader: AvroReader;
+    if (blockOffset !== 0) {
+      const headerStream = streamToAvroReadable(
+        this._lazyLoadingBlobStreamFactory.create(
+          blobClient,
+          0,
+          CHANGE_FEED_CHUNK_BLOCK_DOWNLOAD_SIZE,
+          options
+        )
+      );
+      avroReader = this._avroReaderFactory.create(
+        dataStream,
+        headerStream,
+        blockOffset,
+        eventIndex
+      );
+    } else {
+      avroReader = this._avroReaderFactory.create(dataStream);
     }
+
+    return new Chunk(avroReader, blockOffset, eventIndex, chunkPath, {
+      abortSignal: options.abortSignal
+    });
   }
 }
