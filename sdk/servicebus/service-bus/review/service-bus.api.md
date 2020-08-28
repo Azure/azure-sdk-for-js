@@ -418,19 +418,19 @@ export interface SessionSubscribeOptions extends OperationOptionsBase, MessageHa
 }
 
 // @public
-export type SqlParameter = {
-    key: string;
-    value: string | number;
-    type: string;
+export type SqlRuleAction = {
+    sqlExpression?: string;
+    sqlParameters?: {
+        [key: string]: string | number | boolean;
+    };
 };
-
-// @public
-export type SqlRuleAction = SqlRuleFilter;
 
 // @public
 export interface SqlRuleFilter {
     sqlExpression?: string;
-    sqlParameters?: SqlParameter[];
+    sqlParameters?: {
+        [key: string]: string | number | boolean;
+    };
 }
 
 // @public

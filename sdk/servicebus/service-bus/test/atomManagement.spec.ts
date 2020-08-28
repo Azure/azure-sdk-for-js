@@ -1583,13 +1583,11 @@ describe("Atom management - Authentication", function(): void {
           secondaryKey: "UreXLPWiP6Murmsq2HYiIXs23qAvWa36ZOL3gb9rXLs="
         }
       ],
-
       enablePartitioning: true,
       maxSizeInMegabytes: 16384,
       forwardDeadLetteredMessagesTo: undefined,
       forwardTo: undefined,
       userMetadata: "test metadata",
-
       status: "ReceiveDisabled",
       name: managementQueue1
     }
@@ -2422,10 +2420,7 @@ async function createEntity(
       ruleOptions = {
         filter: {
           sqlExpression: "stringValue = @stringParam AND intValue = @intParam",
-          sqlParameters: [
-            { key: "@intParam", value: 1, type: "int" },
-            { key: "@stringParam", value: "b", type: "string" }
-          ]
+          sqlParameters: { "@intParam": 1, "@stringParam": "b" }
         },
         action: { sqlExpression: "SET a='b'" }
       };
@@ -2655,10 +2650,10 @@ async function updateEntity(
       ruleOptions = {
         filter: {
           sqlExpression: "stringValue = @stringParam AND intValue = @intParam",
-          sqlParameters: [
-            { key: "@intParam", value: 1, type: "int" },
-            { key: "@stringParam", value: "b", type: "string" }
-          ]
+          sqlParameters: {
+            "@intParam": 1,
+            "@stringParam": "b"
+          }
         },
         action: { sqlExpression: "SET a='b'" }
       };

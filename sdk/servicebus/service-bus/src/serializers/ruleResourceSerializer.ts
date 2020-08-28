@@ -132,7 +132,7 @@ export type SqlRuleAction = {
   /**
    * SQL parameters to the expression
    */
-  sqlParameters?: { [key: string]: "string" | "number" | "boolean" };
+  sqlParameters?: { [key: string]: string | number | boolean };
 };
 
 /**
@@ -148,7 +148,7 @@ export interface SqlRuleFilter {
   /**
    * SQL parameters to the expression
    */
-  sqlParameters?: { [key: string]: "string" | "number" | "boolean" };
+  sqlParameters?: { [key: string]: string | number | boolean };
 }
 
 /**
