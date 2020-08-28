@@ -154,7 +154,7 @@ describe("BlobChangeFeedClient", async () => {
   });
 
   it("tracing", async () => {
-    recorder.skip(undefined, "recorder issue not understood. #10009");
+    // recorder.skip(undefined, "recorder issue not understood. #10009");
     const tracer = new TestTracer();
     setTracer(tracer);
     const rootSpan = tracer.startSpan("root");

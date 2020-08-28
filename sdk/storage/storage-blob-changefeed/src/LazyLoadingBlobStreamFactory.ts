@@ -14,3 +14,4 @@ export class LazyLoadingBlobStreamFactory {
     return new LazyLoadingBlobStream(blobClient, offset, blockSize, options);
   }
 }
+
