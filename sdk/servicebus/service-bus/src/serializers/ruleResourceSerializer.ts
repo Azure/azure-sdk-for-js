@@ -121,7 +121,7 @@ export interface RuleProperties {
 }
 
 /**
- * Represents all possible fields on SqlAction
+ * Represents all possible fields on SqlRuleAction
  */
 export type SqlRuleAction = {
   /**
