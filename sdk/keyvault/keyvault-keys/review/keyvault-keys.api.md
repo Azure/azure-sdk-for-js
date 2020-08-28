@@ -240,6 +240,18 @@ export interface ListPropertiesOfKeyVersionsOptions extends coreHttp.OperationOp
 }
 
 // @public
+export class LocalCryptographyClient {
+    constructor(key: JsonWebKey);
+    encrypt(algorithm: LocalSupportedAlgorithmName, plaintext: Uint8Array): Promise<EncryptResult>;
+    key: JsonWebKey;
+    verifyData(algorithm: LocalSupportedAlgorithmName, data: Uint8Array, signature: Uint8Array): Promise<VerifyResult>;
+    wrapKey(algorithm: LocalSupportedAlgorithmName, key: Uint8Array): Promise<WrapResult>;
+}
+
+// @public
+export type LocalSupportedAlgorithmName = "RSA1_5" | "RSA-OAEP" | "PS256" | "RS256" | "PS384" | "RS384" | "PS512" | "RS512";
+
+// @public
 export const logger: import("@azure/logger").AzureLogger;
 
 export { PagedAsyncIterableIterator }

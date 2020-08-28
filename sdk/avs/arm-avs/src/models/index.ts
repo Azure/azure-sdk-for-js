@@ -19,7 +19,7 @@ export interface Trial {
    * Trial status. Possible values include: 'TrialAvailable', 'TrialUsed', 'TrialDisabled'
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly status?: Status;
+  readonly status?: TrialStatus;
   /**
    * Number of trial hosts available
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -38,8 +38,9 @@ export interface Quota {
   readonly hostsRemaining?: { [propertyName: string]: number };
   /**
    * Host quota is active for current subscription. Possible values include: 'Enabled', 'Disabled'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  quotaEnabled?: QuotaEnabled;
+  readonly quotaEnabled?: QuotaEnabled;
 }
 
 /**
@@ -78,27 +79,50 @@ export interface TrackedResource extends Resource {
 }
 
 /**
- * Api error.
+ * The resource management error additional info.
  */
-export interface ApiErrorBase {
+export interface ErrorAdditionalInfo {
   /**
-   * Error code
+   * The additional info type.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  code?: string;
+  readonly type?: string;
   /**
-   * Error message
+   * The additional info.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  message?: string;
+  readonly info?: any;
 }
 
 /**
- * API error response
+ * The resource management error response.
  */
-export interface ApiError {
+export interface ErrorResponse {
   /**
-   * An error returned by the API
+   * The error code.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  error?: ApiErrorBase;
+  readonly code?: string;
+  /**
+   * The error message.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly message?: string;
+  /**
+   * The error target.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly target?: string;
+  /**
+   * The error details.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly details?: ErrorResponse[];
+  /**
+   * The error additional info.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly additionalInfo?: ErrorAdditionalInfo[];
 }
 
 /**
@@ -144,23 +168,25 @@ export interface Operation {
 }
 
 /**
- * Authorization for an ExpressRoute
+ * ExpressRoute Circuit Authorization
  */
-export interface ExpressRouteAuthorization {
+export interface ExpressRouteAuthorization extends Resource {
   /**
-   * The name of the ExpressRoute
-   */
-  name?: string;
-  /**
-   * The ID of the ExpressRoute
+   * The state of the  ExpressRoute Circuit Authorization provisioning. Possible values include:
+   * 'Succeeded', 'Failed', 'Updating'
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly id?: string;
+  readonly provisioningState?: ExpressRouteAuthorizationProvisioningState;
   /**
-   * The key of the ExpressRoute
+   * The ID of the ExpressRoute Circuit Authorization
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly key?: string;
+  readonly expressRouteAuthorizationId?: string;
+  /**
+   * The key of the ExpressRoute Circuit Authorization
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly expressRouteAuthorizationKey?: string;
 }
 
 /**
@@ -178,16 +204,12 @@ export interface Circuit {
    */
   readonly secondarySubnet?: string;
   /**
-   * Identifier of the ExpressRoute (Microsoft Colo only)
+   * Identifier of the ExpressRoute Circuit (Microsoft Colo only)
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly expressRouteID?: string;
   /**
-   * Authorizations for the ExpressRoute (Microsoft Colo only)
-   */
-  authorizations?: ExpressRouteAuthorization[];
-  /**
-   * ExpressRoute private peering identifier
+   * ExpressRoute Circuit private peering identifier
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly expressRoutePrivatePeeringID?: string;
@@ -207,6 +229,11 @@ export interface Endpoints {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly vcsa?: string;
+  /**
+   * Endpoint for the HCX Cloud Manager
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly hcxCloudManager?: string;
 }
 
 /**
@@ -269,53 +296,17 @@ export interface Sku {
 }
 
 /**
- * The properties of a default cluster
+ * A private cloud resource
  */
-export interface DefaultClusterProperties {
+export interface PrivateCloud extends TrackedResource {
   /**
-   * The identity
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * The private cloud SKU
    */
-  readonly clusterId?: number;
-  /**
-   * The cluster size
-   */
-  clusterSize?: number;
-  /**
-   * The hosts
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly hosts?: string[];
-}
-
-/**
- * The properties of a private cloud resource
- */
-export interface PrivateCloudProperties {
-  /**
-   * The provisioning state. Possible values include: 'Succeeded', 'Failed', 'Cancelled',
-   * 'Pending', 'Building', 'Updating'
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly provisioningState?: PrivateCloudProvisioningState;
-  /**
-   * An ExpressRoute Circuit
-   */
-  circuit?: Circuit;
+  sku: Sku;
   /**
    * The default cluster used for management
    */
-  cluster?: DefaultClusterProperties;
-  /**
-   * The clusters
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly clusters?: string[];
-  /**
-   * The endpoints
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly endpoints?: Endpoints;
+  managementCluster?: ManagementCluster;
   /**
    * Connectivity to internet is enabled or disabled. Possible values include: 'Enabled',
    * 'Disabled'
@@ -326,11 +317,26 @@ export interface PrivateCloudProperties {
    */
   identitySources?: IdentitySource[];
   /**
+   * The provisioning state. Possible values include: 'Succeeded', 'Failed', 'Cancelled',
+   * 'Pending', 'Building', 'Deleting', 'Updating'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly provisioningState?: PrivateCloudProvisioningState;
+  /**
+   * An ExpressRoute Circuit
+   */
+  circuit?: Circuit;
+  /**
+   * The endpoints
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly endpoints?: Endpoints;
+  /**
    * The block of addresses should be unique across VNet in your subscription as well as
    * on-premise. Make sure the CIDR format is conformed to (A.B.C.D/X) where A,B,C,D are between 0
    * and 255, and X is between 0 and 22
    */
-  networkBlock?: string;
+  networkBlock: string;
   /**
    * Network used to access vCenter Server and NSX-T Manager
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -367,29 +373,52 @@ export interface PrivateCloudProperties {
 }
 
 /**
- * A private cloud resource
+ * The properties of a cluster that may be updated
  */
-export interface PrivateCloud extends TrackedResource {
+export interface ClusterUpdateProperties {
   /**
-   * The private cloud SKU
+   * The cluster size
    */
-  sku?: Sku;
-  /**
-   * The properties of a private cloud resource
-   */
-  properties?: PrivateCloudProperties;
+  clusterSize?: number;
 }
 
 /**
- * The properties of a cluster
+ * The properties of a default cluster
  */
-export interface ClusterProperties extends DefaultClusterProperties {
+export interface ManagementCluster extends ClusterUpdateProperties {
   /**
-   * The state of the cluster provisioning. Possible values include: 'Succeeded', 'Failed',
-   * 'Cancelled', 'Updating'
+   * The identity
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly provisioningState?: ClusterProvisioningState;
+  readonly clusterId?: number;
+  /**
+   * The hosts
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly hosts?: string[];
+}
+
+/**
+ * An update to a private cloud resource
+ */
+export interface PrivateCloudUpdate {
+  /**
+   * Resource tags.
+   */
+  tags?: { [propertyName: string]: string };
+  /**
+   * The default cluster used for management
+   */
+  managementCluster?: ManagementCluster;
+  /**
+   * Connectivity to internet is enabled or disabled. Possible values include: 'Enabled',
+   * 'Disabled'
+   */
+  internet?: InternetEnum;
+  /**
+   * vCenter Single Sign On Identity Sources
+   */
+  identitySources?: IdentitySource[];
 }
 
 /**
@@ -397,9 +426,39 @@ export interface ClusterProperties extends DefaultClusterProperties {
  */
 export interface Cluster extends Resource {
   /**
-   * The properties of a cluster resource
+   * The cluster SKU
    */
-  properties?: ClusterProperties;
+  sku: Sku;
+  /**
+   * The cluster size
+   */
+  clusterSize?: number;
+  /**
+   * The identity
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly clusterId?: number;
+  /**
+   * The hosts
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly hosts?: string[];
+  /**
+   * The state of the cluster provisioning. Possible values include: 'Succeeded', 'Failed',
+   * 'Cancelled', 'Deleting', 'Updating'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly provisioningState?: ClusterProvisioningState;
+}
+
+/**
+ * An update of a cluster resource
+ */
+export interface ClusterUpdate {
+  /**
+   * The cluster size
+   */
+  clusterSize?: number;
 }
 
 /**
@@ -429,13 +488,20 @@ export interface AdminCredentials {
 }
 
 /**
- * Optional Parameters.
+ * An HCX Enterprise Site resource
  */
-export interface ClustersCreateOrUpdateOptionalParams extends msRest.RequestOptionsBase {
+export interface HcxEnterpriseSite extends Resource {
   /**
-   * The properties of a cluster resource
+   * The activation key
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  properties?: ClusterProperties;
+  readonly activationKey?: string;
+  /**
+   * The status of the HCX Enterprise Site. Possible values include: 'Available', 'Consumed',
+   * 'Deactivated', 'Deleted'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly status?: HcxEnterpriseSiteStatus;
 }
 
 /**
@@ -443,19 +509,9 @@ export interface ClustersCreateOrUpdateOptionalParams extends msRest.RequestOpti
  */
 export interface ClustersUpdateOptionalParams extends msRest.RequestOptionsBase {
   /**
-   * The properties of a cluster resource
+   * The cluster size
    */
-  properties?: ClusterProperties;
-}
-
-/**
- * Optional Parameters.
- */
-export interface ClustersBeginCreateOrUpdateOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * The properties of a cluster resource
-   */
-  properties?: ClusterProperties;
+  clusterSize?: number;
 }
 
 /**
@@ -463,9 +519,9 @@ export interface ClustersBeginCreateOrUpdateOptionalParams extends msRest.Reques
  */
 export interface ClustersBeginUpdateOptionalParams extends msRest.RequestOptionsBase {
   /**
-   * The properties of a cluster resource
+   * The cluster size
    */
-  properties?: ClusterProperties;
+  clusterSize?: number;
 }
 
 /**
@@ -515,12 +571,54 @@ export interface ClusterList extends Array<Cluster> {
 }
 
 /**
+ * @interface
+ * A paged list of HCX Enterprise Sites
+ * @extends Array<HcxEnterpriseSite>
+ */
+export interface HcxEnterpriseSiteList extends Array<HcxEnterpriseSite> {
+  /**
+   * URL to get the next page if any
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
+ * @interface
+ * A paged list of ExpressRoute Circuit Authorizations
+ * @extends Array<ExpressRouteAuthorization>
+ */
+export interface ExpressRouteAuthorizationList extends Array<ExpressRouteAuthorization> {
+  /**
+   * URL to get the next page if any
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly nextLink?: string;
+}
+
+/**
+ * Defines values for TrialStatus.
+ * Possible values include: 'TrialAvailable', 'TrialUsed', 'TrialDisabled'
+ * @readonly
+ * @enum {string}
+ */
+export type TrialStatus = 'TrialAvailable' | 'TrialUsed' | 'TrialDisabled';
+
+/**
  * Defines values for QuotaEnabled.
  * Possible values include: 'Enabled', 'Disabled'
  * @readonly
  * @enum {string}
  */
 export type QuotaEnabled = 'Enabled' | 'Disabled';
+
+/**
+ * Defines values for ExpressRouteAuthorizationProvisioningState.
+ * Possible values include: 'Succeeded', 'Failed', 'Updating'
+ * @readonly
+ * @enum {string}
+ */
+export type ExpressRouteAuthorizationProvisioningState = 'Succeeded' | 'Failed' | 'Updating';
 
 /**
  * Defines values for SslEnum.
@@ -532,11 +630,12 @@ export type SslEnum = 'Enabled' | 'Disabled';
 
 /**
  * Defines values for PrivateCloudProvisioningState.
- * Possible values include: 'Succeeded', 'Failed', 'Cancelled', 'Pending', 'Building', 'Updating'
+ * Possible values include: 'Succeeded', 'Failed', 'Cancelled', 'Pending', 'Building', 'Deleting',
+ * 'Updating'
  * @readonly
  * @enum {string}
  */
-export type PrivateCloudProvisioningState = 'Succeeded' | 'Failed' | 'Cancelled' | 'Pending' | 'Building' | 'Updating';
+export type PrivateCloudProvisioningState = 'Succeeded' | 'Failed' | 'Cancelled' | 'Pending' | 'Building' | 'Deleting' | 'Updating';
 
 /**
  * Defines values for InternetEnum.
@@ -548,19 +647,19 @@ export type InternetEnum = 'Enabled' | 'Disabled';
 
 /**
  * Defines values for ClusterProvisioningState.
- * Possible values include: 'Succeeded', 'Failed', 'Cancelled', 'Updating'
+ * Possible values include: 'Succeeded', 'Failed', 'Cancelled', 'Deleting', 'Updating'
  * @readonly
  * @enum {string}
  */
-export type ClusterProvisioningState = 'Succeeded' | 'Failed' | 'Cancelled' | 'Updating';
+export type ClusterProvisioningState = 'Succeeded' | 'Failed' | 'Cancelled' | 'Deleting' | 'Updating';
 
 /**
- * Defines values for Status.
- * Possible values include: 'TrialAvailable', 'TrialUsed', 'TrialDisabled'
+ * Defines values for HcxEnterpriseSiteStatus.
+ * Possible values include: 'Available', 'Consumed', 'Deactivated', 'Deleted'
  * @readonly
  * @enum {string}
  */
-export type Status = 'TrialAvailable' | 'TrialUsed' | 'TrialDisabled';
+export type HcxEnterpriseSiteStatus = 'Available' | 'Consumed' | 'Deactivated' | 'Deleted';
 
 /**
  * Contains response data for the list operation.
@@ -979,5 +1078,185 @@ export type ClustersListNextResponse = ClusterList & {
        * The response body as parsed JSON or XML
        */
       parsedBody: ClusterList;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type HcxEnterpriseSitesListResponse = HcxEnterpriseSiteList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: HcxEnterpriseSiteList;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type HcxEnterpriseSitesGetResponse = HcxEnterpriseSite & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: HcxEnterpriseSite;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type HcxEnterpriseSitesCreateOrUpdateResponse = HcxEnterpriseSite & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: HcxEnterpriseSite;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type HcxEnterpriseSitesListNextResponse = HcxEnterpriseSiteList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: HcxEnterpriseSiteList;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type AuthorizationsListResponse = ExpressRouteAuthorizationList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ExpressRouteAuthorizationList;
+    };
+};
+
+/**
+ * Contains response data for the get operation.
+ */
+export type AuthorizationsGetResponse = ExpressRouteAuthorization & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ExpressRouteAuthorization;
+    };
+};
+
+/**
+ * Contains response data for the createOrUpdate operation.
+ */
+export type AuthorizationsCreateOrUpdateResponse = ExpressRouteAuthorization & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ExpressRouteAuthorization;
+    };
+};
+
+/**
+ * Contains response data for the beginCreateOrUpdate operation.
+ */
+export type AuthorizationsBeginCreateOrUpdateResponse = ExpressRouteAuthorization & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ExpressRouteAuthorization;
+    };
+};
+
+/**
+ * Contains response data for the listNext operation.
+ */
+export type AuthorizationsListNextResponse = ExpressRouteAuthorizationList & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: ExpressRouteAuthorizationList;
     };
 };

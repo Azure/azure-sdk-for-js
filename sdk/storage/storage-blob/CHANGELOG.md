@@ -3,7 +3,9 @@
 ## 12.2.0 (Unreleased)
 
 - Added RehydratePriority to BlobProperties and BlobItemProperties.
+- Added support for Object Replication Service.
 - Added custom domain support.
+- Supported Append Blob Seal.
 
 ## 12.2.0-preview.1 (2020.07)
 

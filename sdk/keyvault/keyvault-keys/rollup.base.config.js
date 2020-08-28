@@ -29,7 +29,7 @@ const depNames = Object.keys(pkg.dependencies);
 const production = process.env.NODE_ENV === "production";
 
 export function nodeConfig(test = false) {
-  const externalNodeBuiltins = ["crypto", "fs", "os", "url", "assert", "constants"];
+  const externalNodeBuiltins = ["crypto", "fs", "os", "url", "assert", "chai", "constants"];
   const additionalExternals = ["keytar"];
   const baseConfig = {
     input: "dist-esm/keyvault-keys/src/index.js",
@@ -62,7 +62,7 @@ export function nodeConfig(test = false) {
     // different output file
     baseConfig.output.file = "dist-test/index.node.js";
 
-    baseConfig.external.push("assert", "fs", "path");
+    baseConfig.external.push("assert", "fs", "path", "chai");
 
     baseConfig.context = "null";
 
@@ -115,6 +115,7 @@ export function browserConfig(test = false) {
       }),
       cjs({
         namedExports: {
+          chai: ["assert"],
           assert: ["ok", "equal", "strictEqual", "deepEqual", "throws"],
           "@opentelemetry/api": ["CanonicalCode", "SpanKind", "TraceFlags"]
         }

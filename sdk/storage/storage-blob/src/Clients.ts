@@ -1,8 +1,5 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
-
-import { Readable } from "stream";
-
 import { AbortSignalLike } from "@azure/abort-controller";
 import {
   generateUuid,
@@ -13,22 +10,18 @@ import {
   isTokenCredential,
   TokenCredential,
   TransferProgressEvent,
-  URLBuilder
+  URLBuilder,
 } from "@azure/core-http";
 import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { CanonicalCode } from "@opentelemetry/api";
+import { Readable } from "stream";
 
 import { BlobDownloadResponse } from "./BlobDownloadResponse";
 import { BlobQueryResponse } from "./BlobQueryResponse";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
-import {
-  AppendBlob,
-  Blob as StorageBlob,
-  BlockBlob,
-  Container,
-  PageBlob
-} from "./generated/src/operations";
+import { AppendBlob, Blob as StorageBlob, BlockBlob, Container, PageBlob } from "./generated/src/operations";
 import { StorageClientContext } from "./generated/src/storageClient";
 import {
   AppendBlobAppendBlockFromUrlResponse,
@@ -40,14 +33,17 @@ import {
   BlobDeleteResponse,
   BlobDownloadOptionalParams,
   BlobDownloadResponseModel,
-  BlobGetPropertiesResponse,
+  BlobGetPropertiesResponseModel,
+  BlobGetTagsHeaders,
   BlobHTTPHeaders,
   BlobPrefix,
+  BlobProperties,
   BlobSetHTTPHeadersResponse,
   BlobSetMetadataResponse,
   BlobSetTagsResponse,
   BlobSetTierResponse,
   BlobStartCopyFromURLResponse,
+  BlobTags,
   BlobUndeleteResponse,
   BlockBlobCommitBlockListResponse,
   BlockBlobGetBlockListResponse,
@@ -62,11 +58,15 @@ import {
   ContainerEncryptionScope,
   ContainerGetAccessPolicyHeaders,
   ContainerGetPropertiesResponse,
+  ContainerListBlobFlatSegmentHeaders,
+  ContainerListBlobHierarchySegmentHeaders,
   ContainerSetAccessPolicyResponse,
   ContainerSetMetadataResponse,
   CpkInfo,
   DeleteSnapshotsOptionType,
   LeaseAccessConditions,
+  ListBlobsFlatSegmentResponseModel,
+  ListBlobsHierarchySegmentResponseModel,
   ListBlobsIncludeItem,
   ModifiedAccessConditions,
   PageBlobClearPagesResponse,
@@ -80,71 +80,62 @@ import {
   RehydratePriority,
   SequenceNumberActionType,
   SignedIdentifierModel,
-  BlobGetTagsHeaders,
-  BlobTags,
-  ListBlobsFlatSegmentResponseModel,
-  ContainerListBlobFlatSegmentHeaders,
-  BlobProperties,
-  ContainerListBlobHierarchySegmentHeaders,
-  ListBlobsHierarchySegmentResponseModel
 } from "./generatedModels";
 import {
   AppendBlobRequestConditions,
+  BlobDownloadResponseParsed,
   BlobRequestConditions,
   BlockBlobTier,
   ensureCpkIfSpecified,
   Metadata,
-  Tags,
+  ObjectReplicationPolicy,
   PageBlobRequestConditions,
   PremiumPageBlobTier,
+  Tags,
   toAccessTier
 } from "./models";
-import { newPipeline, StoragePipelineOptions, Pipeline } from "./Pipeline";
 import {
-  DEFAULT_MAX_DOWNLOAD_RETRY_REQUESTS,
-  URLConstants,
-  DEFAULT_BLOB_DOWNLOAD_BLOCK_BYTES,
-  DEFAULT_BLOCK_BUFFER_SIZE_BYTES,
+  PageBlobGetPageRangesDiffResponse,
+  PageBlobGetPageRangesResponse,
+  rangeResponseFromModel,
+} from "./PageBlobRangeResponse";
+import { newPipeline, Pipeline, StoragePipelineOptions } from "./Pipeline";
+import {
+  BlobBeginCopyFromUrlPoller,
+  BlobBeginCopyFromUrlPollState,
+  CopyPollerBlobClient,
+} from "./pollers/BlobStartCopyFromUrlPoller";
+import { Range, rangeToString } from "./Range";
+import { CommonOptions, StorageClient } from "./StorageClient";
+import { Batch } from "./utils/Batch";
+import { BufferScheduler } from "./utils/BufferScheduler";
+import {
+  BLOCK_BLOB_MAX_BLOCKS,
   BLOCK_BLOB_MAX_STAGE_BLOCK_BYTES,
   BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES,
-  BLOCK_BLOB_MAX_BLOCKS,
+  DEFAULT_BLOB_DOWNLOAD_BLOCK_BYTES,
+  DEFAULT_BLOCK_BUFFER_SIZE_BYTES,
+  DEFAULT_MAX_DOWNLOAD_RETRY_REQUESTS,
   ETagAny,
-  ETagNone
+  ETagNone,
+  URLConstants,
 } from "./utils/constants";
+import { createSpan } from "./utils/tracing";
 import {
   appendToURLPath,
   extractConnectionStringParts,
   generateBlockID,
   isIpEndpointStyle,
+  parseObjectReplicationRecord,
   setURLParameter,
+  toBlobTags,
   toBlobTagsString,
   toQuerySerialization,
+  toTags,
   truncatedISO8061Date,
-  toBlobTags,
-  toTags
 } from "./utils/utils.common";
-import {
-  fsStat,
-  readStreamToLocalFile,
-  streamToBuffer,
-  fsCreateReadStream
-} from "./utils/utils.node";
-import { Batch } from "./utils/Batch";
-import { createSpan } from "./utils/tracing";
-import { CommonOptions, StorageClient } from "./StorageClient";
-import { Range, rangeToString } from "./Range";
-import { BufferScheduler } from "./utils/BufferScheduler";
-import {
-  PageBlobGetPageRangesDiffResponse,
-  PageBlobGetPageRangesResponse,
-  rangeResponseFromModel
-} from "./PageBlobRangeResponse";
-import {
-  BlobBeginCopyFromUrlPoller,
-  BlobBeginCopyFromUrlPollState,
-  CopyPollerBlobClient
-} from "./pollers/BlobStartCopyFromUrlPoller";
-import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
+import { fsCreateReadStream, fsStat, readStreamToLocalFile, streamToBuffer } from "./utils/utils.node";
+
 
 /**
  * Options to configure the {@link BlobClient.beginCopyFromURL} operation.
@@ -755,6 +746,13 @@ export interface BlobStartCopyFromURLOptions extends CommonOptions {
    * @memberof BlobStartCopyFromURLOptions
    */
   tags?: Tags;
+  /**
+   * Overrides the sealed state of the destination blob. Default true.
+   *
+   * @type {boolean}
+   * @memberof BlobStartCopyFromURLOptions
+   */
+  sealBlob?: boolean;
 }
 
 /**
@@ -957,6 +955,30 @@ export interface BlobDeleteIfExistsResponse extends BlobDeleteResponse {
    * @memberof BlobDeleteIfExistsResponse
    */
   succeeded: boolean;
+}
+
+/**
+ * Contains response data for the {@link BlobClient.getProperties} operation.
+ *
+ * @export
+ * @interface BlobGetPropertiesResponse
+ */
+export interface BlobGetPropertiesResponse extends BlobGetPropertiesResponseModel {
+  /**
+   * Parsed Object Replication Policy Id, Rule Id(s) and status of the source blob.
+   *
+   * @type {ObjectReplicationPolicy[]}
+   * @memberof BlobGetPropertiesResponse
+   */
+  objectReplicationSourceProperties?: ObjectReplicationPolicy[];
+
+  /**
+   * Object Replication Policy Id of the destination blob.
+   *
+   * @type {string}
+   * @memberof BlobGetPropertiesResponse
+   */
+  objectReplicationDestinationPolicyId?: string;
 }
 
 /**
@@ -1219,7 +1241,7 @@ export class BlobClient extends StorageClient {
    * @param {number} [offset] From which position of the blob to download, >= 0
    * @param {number} [count] How much data to be downloaded, > 0. Will download to the end when undefined
    * @param {BlobDownloadOptions} [options] Optional options to Blob Download operation.
-   * @returns {Promise<BlobDownloadResponseModel>}
+   * @returns {Promise<BlobDownloadResponseParsed>}
    * @memberof BlobClient
    *
    * Example usage (Node.js):
@@ -1271,7 +1293,7 @@ export class BlobClient extends StorageClient {
     offset: number = 0,
     count?: number,
     options: BlobDownloadOptions = {}
-  ): Promise<BlobDownloadResponseModel> {
+  ): Promise<BlobDownloadResponseParsed> {
     options.conditions = options.conditions || {};
     options.conditions = options.conditions || {};
     ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
@@ -1292,9 +1314,15 @@ export class BlobClient extends StorageClient {
         spanOptions
       });
 
+      const wrappedRes = {
+        ...res,
+        _response: res._response, // _response is made non-enumerable
+        objectReplicationDestinationPolicyId: res.objectReplicationPolicyId,
+        objectReplicationSourceProperties: parseObjectReplicationRecord(res.objectReplicationRules)
+      };
       // Return browser response immediately
       if (!isNode) {
-        return res;
+        return wrappedRes;
       }
 
       // We support retrying when download stream unexpected ends in Node.js runtime
@@ -1316,7 +1344,7 @@ export class BlobClient extends StorageClient {
       }
 
       return new BlobDownloadResponse(
-        res,
+        wrappedRes,
         async (start: number): Promise<NodeJS.ReadableStream> => {
           const updatedOptions: BlobDownloadOptionalParams = {
             leaseAccessConditions: options.conditions,
@@ -1433,13 +1461,20 @@ export class BlobClient extends StorageClient {
     try {
       options.conditions = options.conditions || {};
       ensureCpkIfSpecified(options.customerProvidedKey, this.isHttps);
-      return await this.blobContext.getProperties({
+      const res = await this.blobContext.getProperties({
         abortSignal: options.abortSignal,
         leaseAccessConditions: options.conditions,
         modifiedAccessConditions: options.conditions,
         cpkInfo: options.customerProvidedKey,
         spanOptions
       });
+
+      return {
+        ...res,
+        _response: res._response, // _response is made non-enumerable
+        objectReplicationDestinationPolicyId: res.objectReplicationPolicyId,
+        objectReplicationSourceProperties: parseObjectReplicationRecord(res.objectReplicationRules)
+      };
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -1506,7 +1541,8 @@ export class BlobClient extends StorageClient {
       });
       return {
         succeeded: true,
-        ...res
+        ...res,
+        _response: res._response // _response is made non-enumerable
       };
     } catch (e) {
       if (e.details?.errorCode === "BlobNotFound") {
@@ -1686,6 +1722,7 @@ export class BlobClient extends StorageClient {
       });
       const wrappedResponse: BlobGetTagsResponse = {
         ...response,
+        _response: response._response, // _response is made non-enumerable
         tags: toTags({ blobTagSet: response.blobTagSet }) || {}
       };
       return wrappedResponse;
@@ -2138,7 +2175,7 @@ export class BlobClient extends StorageClient {
    * @param {number} [offset] From which position of the block blob to download.
    * @param {number} [count] How much data to be downloaded. Will download to the end when passing undefined.
    * @param {BlobDownloadOptions} [options] Options to Blob download options.
-   * @returns {Promise<BlobDownloadResponseModel>} The response data for blob download operation,
+   * @returns {Promise<BlobDownloadResponseParsed>} The response data for blob download operation,
    *                                                 but with readableStreamBody set to undefined since its
    *                                                 content is already read and written into a local file
    *                                                 at the specified path.
@@ -2149,7 +2186,7 @@ export class BlobClient extends StorageClient {
     offset: number = 0,
     count?: number,
     options: BlobDownloadOptions = {}
-  ): Promise<BlobDownloadResponseModel> {
+  ): Promise<BlobDownloadResponseParsed> {
     const { span, spanOptions } = createSpan("BlobClient-downloadToFile", options.tracingOptions);
     try {
       const response = await this.download(offset, count, {
@@ -2270,6 +2307,7 @@ export class BlobClient extends StorageClient {
         rehydratePriority: options.rehydratePriority,
         tier: toAccessTier(options.tier),
         blobTagsString: toBlobTagsString(options.tags),
+        sealBlob: options.sealBlob,
         spanOptions
       });
     } catch (e) {
@@ -2393,6 +2431,31 @@ export interface AppendBlobCreateIfNotExistsOptions extends CommonOptions {
    * @memberof AppendBlobCreateIfNotExistsOptions
    */
   encryptionScope?: string;
+}
+
+/**
+ * Options to configure {@link AppendBlobClient.seal} operation. 
+ *
+ * @export
+ * @interface AppendBlobSealOptions
+ * @extends {CommonOptions}
+ */
+export interface AppendBlobSealOptions extends CommonOptions {
+  /**
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
+   *
+   * @type {AbortSignalLike}
+   * @memberof AppendBlobAppendBlockOptions
+   */
+  abortSignal?: AbortSignalLike;
+  /**
+   * Conditions to meet.
+   *
+   * @type {AppendBlobRequestConditions}
+   * @memberof AppendBlobAppendBlockOptions
+   */
+  conditions?: AppendBlobRequestConditions;
 }
 
 /**
@@ -2801,7 +2864,8 @@ export class AppendBlobClient extends BlobClient {
       });
       return {
         succeeded: true,
-        ...res
+        ...res,
+        _response: res._response // _response is made non-enumerable
       };
     } catch (e) {
       if (e.details?.errorCode === "BlobAlreadyExists") {
@@ -2816,6 +2880,41 @@ export class AppendBlobClient extends BlobClient {
         };
       }
 
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Seals the append blob, making it read only.
+   *
+   * @param {AppendBlobSealOptions} [options={}]
+   * @returns {Promise<AppendBlobAppendBlockResponse>}
+   * @memberof AppendBlobClient
+   */
+  public async seal(
+    options: AppendBlobSealOptions = {}
+  ): Promise<AppendBlobAppendBlockResponse> {
+    const { span, spanOptions } = createSpan(
+      "AppendBlobClient-seal",
+      options.tracingOptions
+    );
+    options.conditions = options.conditions || {};
+    try {
+
+      return await this.appendBlobContext.seal({
+        abortSignal: options.abortSignal,
+        appendPositionAccessConditions: options.conditions,
+        leaseAccessConditions: options.conditions,
+        modifiedAccessConditions: options.conditions,
+        spanOptions
+      });
+    } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
         message: e.message
@@ -5283,7 +5382,8 @@ export class PageBlobClient extends BlobClient {
       });
       return {
         succeeded: true,
-        ...res
+        ...res,
+        _response: res._response // _response is made non-enumerable
       };
     } catch (e) {
       if (e.details?.errorCode === "BlobAlreadyExists") {
@@ -6501,7 +6601,7 @@ export interface BlobItem {
   properties: BlobProperties;
   metadata?: { [propertyName: string]: string };
   tags?: Tags;
-  objectReplicationMetadata?: { [propertyName: string]: string };
+  objectReplicationSourceProperties?: ObjectReplicationPolicy[];
 }
 
 /**
@@ -6851,7 +6951,8 @@ export class ContainerClient extends StorageClient {
       });
       return {
         succeeded: true,
-        ...res
+        ...res,
+        _response: res._response // _response is made non-enumerable
       };
     } catch (e) {
       if (e.details?.errorCode === "ContainerAlreadyExists") {
@@ -7087,7 +7188,8 @@ export class ContainerClient extends StorageClient {
       });
       return {
         succeeded: true,
-        ...res
+        ...res,
+        _response: res._response // _response is made non-enumerable
       };
     } catch (e) {
       if (e.details?.errorCode === "ContainerNotFound") {
@@ -7432,19 +7534,23 @@ export class ContainerClient extends StorageClient {
       options.tracingOptions
     );
     try {
-      const resposne = await this.containerContext.listBlobFlatSegment({
+      const response = await this.containerContext.listBlobFlatSegment({
         marker,
         ...options,
         spanOptions
       });
       const wrappedResponse: ContainerListBlobFlatSegmentResponse = {
-        ...resposne,
+        ...response,
+        _response: response._response, // _response is made non-enumerable
         segment: {
-          ...resposne.segment,
-          blobItems: resposne.segment.blobItems.map((blobItemInteral) => {
+          ...response.segment,
+          blobItems: response.segment.blobItems.map((blobItemInteral) => {
             const blobItem: BlobItem = {
               ...blobItemInteral,
-              tags: toTags(blobItemInteral.blobTags)
+              tags: toTags(blobItemInteral.blobTags),
+              objectReplicationSourceProperties: parseObjectReplicationRecord(
+                blobItemInteral.objectReplicationMetadata
+              )
             };
             return blobItem;
           })
@@ -7485,19 +7591,23 @@ export class ContainerClient extends StorageClient {
       options.tracingOptions
     );
     try {
-      const resposne = await this.containerContext.listBlobHierarchySegment(delimiter, {
+      const response = await this.containerContext.listBlobHierarchySegment(delimiter, {
         marker,
         ...options,
         spanOptions
       });
       const wrappedResponse: ContainerListBlobHierarchySegmentResponse = {
-        ...resposne,
+        ...response,
+        _response: response._response, // _response is made non-enumerable
         segment: {
-          ...resposne.segment,
-          blobItems: resposne.segment.blobItems.map((blobItemInteral) => {
+          ...response.segment,
+          blobItems: response.segment.blobItems.map((blobItemInteral) => {
             const blobItem: BlobItem = {
               ...blobItemInteral,
-              tags: toTags(blobItemInteral.blobTags)
+              tags: toTags(blobItemInteral.blobTags),
+              objectReplicationSourceProperties: parseObjectReplicationRecord(
+                blobItemInteral.objectReplicationMetadata
+              )
             };
             return blobItem;
           })

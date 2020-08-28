@@ -1,0 +1,49 @@
+{
+ "recordings": [
+  {
+   "method": "GET",
+   "url": "https://fakestorageaccount.blob.core.windows.net/orssrc",
+   "query": {
+    "restype": "container",
+    "comp": "list"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "<?xml version=\"1.0\" encoding=\"utf-8\"?><EnumerationResults ServiceEndpoint=\"https://fakestorageaccount.blob.core.windows.net/\" ContainerName=\"orssrc\"><Blobs><Blob><Name>orsBlob</Name><VersionId>2020-07-08T09:08:09.1762696Z</VersionId><IsCurrentVersion>true</IsCurrentVersion><Properties><Creation-Time>Wed, 08 Jul 2020 09:08:09 GMT</Creation-Time><Last-Modified>Wed, 08 Jul 2020 09:08:09 GMT</Last-Modified><Etag>0x8D8231E6F08A0F8</Etag><Content-Length>11</Content-Length><Content-Type>application/octet-stream</Content-Type><Content-Encoding /><Content-Language /><Content-CRC64 /><Content-MD5>XrY7u+Ae7tCTyyK7j1rNww==</Content-MD5><Cache-Control /><Content-Disposition /><BlobType>BlockBlob</BlobType><AccessTier>Hot</AccessTier><AccessTierInferred>true</AccessTierInferred><LeaseStatus>unlocked</LeaseStatus><LeaseState>available</LeaseState><ServerEncrypted>true</ServerEncrypted></Properties><OrMetadata><or-003ca702-58ab-4405-8f52-cb92316babde_9a53f315-d56b-44f6-a3e8-1d62c1b7089b>complete</or-003ca702-58ab-4405-8f52-cb92316babde_9a53f315-d56b-44f6-a3e8-1d62c1b7089b><or-d685bc41-c8ab-4ea5-889c-2503f02954d8_671e9447-be18-4632-9eea-a1a29cdae759>complete</or-d685bc41-c8ab-4ea5-889c-2503f02954d8_671e9447-be18-4632-9eea-a1a29cdae759></OrMetadata></Blob></Blobs><NextMarker /></EnumerationResults>",
+   "responseHeaders": {
+    "content-type": "application/xml",
+    "date": "Fri, 17 Jul 2020 05:44:09 GMT",
+    "server": "Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0",
+    "transfer-encoding": "chunked",
+    "x-ms-client-request-id": "ab325532-b3b1-49b0-ba14-7333e9890f6f",
+    "x-ms-request-id": "790a45af-f01e-0025-75fd-5b8cd5000000",
+    "x-ms-version": "2019-12-12"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://fakestorageaccount1.blob.core.windows.net/orsdst",
+   "query": {
+    "restype": "container",
+    "comp": "list"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "<?xml version=\"1.0\" encoding=\"utf-8\"?><EnumerationResults ServiceEndpoint=\"https://fakestorageaccount1.blob.core.windows.net/\" ContainerName=\"orsdst\"><Blobs><Blob><Name>orsBlob</Name><VersionId>2020-07-08T09:09:13.7010084Z</VersionId><IsCurrentVersion>true</IsCurrentVersion><Properties><Creation-Time>Wed, 08 Jul 2020 09:09:13 GMT</Creation-Time><Last-Modified>Wed, 08 Jul 2020 09:09:13 GMT</Last-Modified><Etag>0x8D8231E9580072D</Etag><Content-Length>11</Content-Length><Content-Type>application/octet-stream</Content-Type><Content-Encoding /><Content-Language /><Content-CRC64>vo7q9sPVKY0=</Content-CRC64><Content-MD5>XrY7u+Ae7tCTyyK7j1rNww==</Content-MD5><Cache-Control /><Content-Disposition /><BlobType>BlockBlob</BlobType><AccessTier>Hot</AccessTier><AccessTierInferred>true</AccessTierInferred><LeaseStatus>unlocked</LeaseStatus><LeaseState>available</LeaseState><ServerEncrypted>true</ServerEncrypted></Properties><OrMetadata /></Blob></Blobs><NextMarker /></EnumerationResults>",
+   "responseHeaders": {
+    "content-type": "application/xml",
+    "date": "Fri, 17 Jul 2020 05:44:10 GMT",
+    "server": "Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0",
+    "transfer-encoding": "chunked",
+    "x-ms-client-request-id": "e4df1149-cd7f-469d-a751-a069179860ee",
+    "x-ms-request-id": "bb6c95b5-901e-0041-7ffd-5b7d4d000000",
+    "x-ms-version": "2019-12-12"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {},
+  "newDate": {}
+ },
+ "hash": "476859c502ff93328028a79d53247d58"
+}

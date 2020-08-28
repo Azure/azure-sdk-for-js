@@ -76,32 +76,31 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
     this._retryOptions = retryOptions;
     this._onAmqpError = (context: EventContext) => {
       const senderError = context.sender && context.sender.error;
-      if (senderError) {
-        const err = translate(senderError);
-        log.error(
-          "[%s] An error occurred for sender '%s': %O.",
-          this._context.connectionId,
-          this.name,
-          err
-        );
-      }
+      log.error(
+        "[%s] 'sender_error' event occurred on the sender '%s' with address '%s'. " +
+          "The associated error is: %O",
+        this._context.connectionId,
+        this.name,
+        this.address,
+        senderError
+      );
+      // TODO: Consider rejecting promise in trySendBatch() or createBatch()
     };
 
     this._onSessionError = (context: EventContext) => {
       const sessionError = context.session && context.session.error;
-      if (sessionError) {
-        const err = translate(sessionError);
-        log.error(
-          "[%s] An error occurred on the session of sender '%s': %O.",
-          this._context.connectionId,
-          this.name,
-          err
-        );
-      }
+      log.error(
+        "[%s] 'session_error' event occurred on the session of sender '%s' with address '%s'. " +
+          "The associated error is: %O",
+        this._context.connectionId,
+        this.name,
+        this.address,
+        sessionError
+      );
+      // TODO: Consider rejecting promise in trySendBatch() or createBatch()
     };
 
     this._onAmqpClose = async (context: EventContext) => {
-      const sender = this.link || context.sender!;
       const senderError = context.sender && context.sender.error;
 
       log.error(
@@ -109,22 +108,15 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
         senderError
       );
 
-      if (sender && !sender.isItselfClosed()) {
-        await this.onDetached(senderError);
-      } else {
+      await this.onDetached().catch((err) => {
         log.error(
-          "[%s] 'sender_close' event occurred on the sender '%s' with address '%s' " +
-            "because the sdk initiated it. Hence not calling detached from the _onAmqpClose" +
-            "() handler.",
-          this._context.connectionId,
-          this.name,
-          this.address
+          `${this.logPrefix} error when closing sender after 'sender_close' event: %O`,
+          err
         );
-      }
+      });
     };
 
     this._onSessionClose = async (context: EventContext) => {
-      const sender = this.link || context.sender!;
       const sessionError = context.session && context.session.error;
 
       log.error(
@@ -132,18 +124,12 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
         sessionError
       );
 
-      if (sender && !sender.isSessionItselfClosed()) {
-        await this.onDetached(sessionError);
-      } else {
+      await this.onDetached().catch((err) => {
         log.error(
-          "[%s] 'session_close' event occurred on the session of sender '%s' with address " +
-            "'%s' because the sdk initiated it. Hence not calling detached from the _onSessionClose" +
-            "() handler.",
-          this._context.connectionId,
-          this.name,
-          this.address
+          `${this.logPrefix} error when closing sender after 'session_close' event: %O`,
+          err
         );
-      }
+      });
     };
   }
 
@@ -339,92 +325,14 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
   }
 
   /**
-   * Will reconnect the sender link if necessary.
-   * @param {AmqpError | Error} [senderError] The sender error if any.
+   * Closes the rhea link.
+   * To be called when connection is disconnected, onAmqpClose and onSessionClose events.
    * @returns {Promise<void>} Promise<void>.
    */
-  async onDetached(senderError?: AmqpError | Error): Promise<void> {
-    try {
-      log.error(`${this.logPrefix} Detaching with error: `, senderError);
-
-      // Clears the token renewal timer. Closes the link and its session if they are open.
-      // Removes the link and its session if they are present in rhea's cache.
-      await this.closeLink();
-
-      // We should attempt to reopen only when the sender(sdk) did not initiate the close
-      let shouldReopen = false;
-      if (senderError && !this.wasClosedPermanently) {
-        const translatedError = translate(senderError) as MessagingError;
-        if (translatedError.retryable) {
-          shouldReopen = true;
-          log.error(
-            "[%s] close() method of Sender '%s' with address '%s' was not called. There " +
-              "was an accompanying error an it is retryable. This is a candidate for re-establishing " +
-              "the sender link.",
-            this._context.connectionId,
-            this.name,
-            this.address
-          );
-        } else {
-          log.error(
-            "[%s] close() method of Sender '%s' with address '%s' was not called. There " +
-              "was an accompanying error and it is NOT retryable. Hence NOT re-establishing " +
-              "the sender link.",
-            this._context.connectionId,
-            this.name,
-            this.address
-          );
-        }
-      } else if (!this.wasClosedPermanently) {
-        shouldReopen = true;
-        log.error(
-          "[%s] close() method of Sender '%s' with address '%s' was not called. There " +
-            "was no accompanying error as well. This is a candidate for re-establishing " +
-            "the sender link.",
-          this._context.connectionId,
-          this.name,
-          this.address
-        );
-      } else {
-        const state: any = {
-          wasClosedPermanently: this.wasClosedPermanently,
-          senderError: senderError,
-          _sender: this.link
-        };
-        log.error(
-          "[%s] Something went wrong. State of sender '%s' with address '%s' is: %O",
-          this._context.connectionId,
-          this.name,
-          this.address,
-          state
-        );
-      }
-      if (shouldReopen) {
-        const senderOptions = this._createSenderOptions(
-          Constants.defaultOperationTimeoutInMs,
-          true
-        );
-        // shall retry as per the provided retryOptions if the error is a retryable error
-        // else bail out when the error is not retryable or the operation succeeds.
-        const config: RetryConfig<void> = {
-          operation: () => this.open(senderOptions),
-          connectionId: this._context.connectionId!,
-          operationType: RetryOperationType.senderLink,
-          retryOptions: this._retryOptions,
-          connectionHost: this._context.config.host
-        };
-        return await retry<void>(config);
-      }
-    } catch (err) {
-      log.error(
-        "[%s] An error occurred while processing detached() of Sender '%s' with address " +
-          "'%s': %O",
-        this._context.connectionId,
-        this.name,
-        this.address,
-        err
-      );
-    }
+  async onDetached(): Promise<void> {
+    // Clears the token renewal timer. Closes the link and its session if they are open.
+    // Removes the link and its session if they are present in rhea's cache.
+    await this.closeLink();
   }
 
   /**
