@@ -1696,20 +1696,14 @@ describe("Atom management - Authentication", function(): void {
     input: {
       filter: {
         sqlExpression: "stringValue = @stringParam AND intValue = @intParam",
-        sqlParameters: [
-          { key: "@intParam", value: 1, type: "int" },
-          { key: "@stringParam", value: "b", type: "string" }
-        ]
+        sqlParameters: { "@intParam": 1, "@stringParam": "b" }
       },
       action: { sqlExpression: "SET a='b'" }
     },
     output: {
       filter: {
         sqlExpression: "stringValue = @stringParam AND intValue = @intParam",
-        sqlParameters: [
-          { key: "@intParam", value: 1, type: "int" },
-          { key: "@stringParam", value: "b", type: "string" }
-        ]
+        sqlParameters: { "@intParam": 1, "@stringParam": "b" }
       },
       action: {
         sqlExpression: "SET a='b'",
@@ -2261,14 +2255,14 @@ describe("Atom management - Authentication", function(): void {
     input: {
       filter: {
         sqlExpression: "stringValue = @stringParam",
-        sqlParameters: [{ key: "@stringParam", value: "b", type: "string" }]
+        sqlParameters: { "@stringParam": "b" }
       },
       action: { sqlExpression: "SET a='c'" }
     },
     output: {
       filter: {
         sqlExpression: "stringValue = @stringParam",
-        sqlParameters: [{ key: "@stringParam", value: "b", type: "string" }]
+        sqlParameters: { "@stringParam": "b" }
       },
       action: {
         sqlExpression: "SET a='c'",
