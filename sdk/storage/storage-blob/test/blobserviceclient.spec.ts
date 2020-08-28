@@ -542,4 +542,23 @@ describe("BlobServiceClient", () => {
     const newClient = new BlobServiceClient(`https://customdomain.com`);
     assert.equal(newClient.accountName, "", "Account name is not the same as expected.");
   });
+
+  it("setProperties for static website", async () => {
+    const errorDocument404Path = "error/404.html";
+    const defaultIndexDocumentPath = "index.html";
+
+    const blobServiceClient = getBSU();
+    await blobServiceClient.setProperties({
+      staticWebsite: {
+        enabled: true,
+        errorDocument404Path,
+        defaultIndexDocumentPath
+      }
+    });
+
+    const staticWebsite = (await blobServiceClient.getProperties()).staticWebsite;
+    assert.ok(staticWebsite?.enabled);
+    assert.equal(staticWebsite?.errorDocument404Path, errorDocument404Path);
+    assert.equal(staticWebsite?.defaultIndexDocumentPath, defaultIndexDocumentPath);
+  });
 });

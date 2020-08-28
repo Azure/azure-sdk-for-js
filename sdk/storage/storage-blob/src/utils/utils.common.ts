@@ -7,7 +7,12 @@ import { HttpHeaders, isNode, URLBuilder } from "@azure/core-http";
 import { BlobQueryCsvTextConfiguration, BlobQueryJsonTextConfiguration } from "../Clients";
 import { QuerySerialization, BlobTags } from "../generated/src/models";
 import { DevelopmentConnectionString, HeaderConstants, URLConstants } from "./constants";
-import { Tags } from "../models";
+import {
+  Tags,
+  ObjectReplicationPolicy,
+  ObjectReplicationRule,
+  ObjectReplicationStatus
+} from "../models";
 
 /**
  * Reserved URL characters must be properly escaped for Storage services like Blob or File.
@@ -678,4 +683,41 @@ export function toQuerySerialization(
     default:
       throw Error("Invalid BlobQueryTextConfiguration.");
   }
+}
+
+export function parseObjectReplicationRecord(
+  objectReplicationRecord?: Record<string, string>
+): ObjectReplicationPolicy[] | undefined {
+  if (!objectReplicationRecord) {
+    return undefined;
+  }
+
+  if ("policy-id" in objectReplicationRecord) {
+    // If the dictionary contains a key with policy id, we are not required to do any parsing since
+    // the policy id should already be stored in the ObjectReplicationDestinationPolicyId.
+    return undefined;
+  }
+
+  let orProperties: ObjectReplicationPolicy[] = [];
+  for (const key in objectReplicationRecord) {
+    const ids = key.split("_");
+    const policyPrefix = "or-";
+    if (ids[0].startsWith(policyPrefix)) {
+      ids[0] = ids[0].substring(policyPrefix.length);
+    }
+    const rule: ObjectReplicationRule = {
+      ruleId: ids[1],
+      replicationStatus: objectReplicationRecord[key] as ObjectReplicationStatus
+    };
+    const policyIndex = orProperties.findIndex((policy) => policy.policyId === ids[0]);
+    if (policyIndex > -1) {
+      orProperties[policyIndex].rules.push(rule);
+    } else {
+      orProperties.push({
+        policyId: ids[0],
+        rules: [rule]
+      });
+    }
+  }
+  return orProperties;
 }

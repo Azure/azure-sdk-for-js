@@ -1,6 +1,6 @@
 import * as assert from "assert";
 import * as dotenv from "dotenv";
-
+import * as fs from "fs";
 import { AbortController } from "@azure/abort-controller";
 import { isNode, URLBuilder, URLQuery } from "@azure/core-http";
 import { TestTracer, setTracer, SpanGraph } from "@azure/core-tracing";
@@ -8,9 +8,10 @@ import {
   bodyToString,
   getBSU,
   getSASConnectionStringFromEnvironment,
-  recorderEnvSetup
+  recorderEnvSetup,
+  getGenericBSU
 } from "./utils";
-import { record, delay } from "@azure/test-utils-recorder";
+import { record, delay, isLiveMode } from "@azure/test-utils-recorder";
 import {
   BlobClient,
   BlockBlobClient,
@@ -468,19 +469,43 @@ describe("BlobClient", () => {
   it("setAccessTier set default to cool", async () => {
     await blockBlobClient.setAccessTier("Cool");
     const properties = await blockBlobClient.getProperties();
-    assert.equal(properties.accessTier!.toLowerCase(), "cool");
+    assert.ok(properties.accessTier);
+    assert.equal(properties.accessTier!, "Cool");
   });
 
   it("setAccessTier set archive to hot", async () => {
     await blockBlobClient.setAccessTier("Archive");
     let properties = await blockBlobClient.getProperties();
-    assert.equal(properties.accessTier!.toLowerCase(), "archive");
+    assert.ok(properties.accessTier);
+    assert.equal(properties.accessTier!, "Archive");
 
     await blockBlobClient.setAccessTier("Hot");
     properties = await blockBlobClient.getProperties();
     if (properties.archiveStatus) {
       assert.equal(properties.archiveStatus.toLowerCase(), "rehydrate-pending-to-hot");
     }
+  });
+
+  it("setAccessTier with snapshot", async () => {
+    const resp = await blockBlobClient.createSnapshot();
+    const blockBlobClientWithSnapshot = blockBlobClient.withSnapshot(resp.snapshot!);
+
+    await blockBlobClientWithSnapshot.setAccessTier("Cool");
+
+    const properties = await blockBlobClientWithSnapshot.getProperties();
+    assert.ok(properties.accessTier);
+    assert.equal(properties.accessTier!, "Cool");
+  });
+
+  it("setAccessTier with versioning", async () => {
+    const resp = await blockBlobClient.setMetadata({ a: "a" });
+    const blockBlobClientWithVersion = blockBlobClient.withVersion(resp.versionId!);
+
+    await blockBlobClientWithVersion.setAccessTier("Cool");
+
+    const properties = await blockBlobClientWithVersion.getProperties();
+    assert.ok(properties.accessTier);
+    assert.equal(properties.accessTier!, "Cool");
   });
 
   it("can be created with a sas connection string", async () => {
@@ -850,5 +875,135 @@ describe("BlobClient - Verify Name Properties", () => {
     assert.equal(newClient.accountName, "", "Account name is not the same as expected.");
     assert.equal(newClient.containerName, containerName, "Container name is not the same as the one provided.");
     assert.equal(newClient.name, blobName, "Blob name is not the same as the one provided.");
+  });
+});
+
+describe("BlobClient - Object Replication", () => {
+  const srcContainerName = "orssrc";
+  const destContainerName = "orsdst";
+  const blobName = "orsBlob";
+
+  let srcBlobServiceClient: BlobServiceClient;
+  let destBlobServiceClient: BlobServiceClient;
+  let srcContainerClient: ContainerClient;
+  let destContainerClient: ContainerClient;
+  let srcBlobClient: BlobClient;
+  let destBlobClient: BlobClient;
+  let recorder: any;
+
+  const expectedObjectReplicateSourceProperties = [
+    {
+      policyId: "003ca702-58ab-4405-8f52-cb92316babde",
+      rules: [
+        {
+          ruleId: "9a53f315-d56b-44f6-a3e8-1d62c1b7089b",
+          replicationStatus: "complete"
+        }
+      ]
+    },
+    {
+      policyId: "d685bc41-c8ab-4ea5-889c-2503f02954d8",
+      rules: [
+        {
+          ruleId: "671e9447-be18-4632-9eea-a1a29cdae759",
+          replicationStatus: "complete"
+        }
+      ]
+    }
+  ];
+
+  before(async function() {
+    if (isLiveMode()) {
+      this.skip();
+    }
+  });
+
+  beforeEach(async function() {
+    recorder = record(this, recorderEnvSetup);
+    srcBlobServiceClient = getGenericBSU("");
+    destBlobServiceClient = getGenericBSU("ORS_DEST_");
+    srcContainerClient = srcBlobServiceClient.getContainerClient(srcContainerName);
+    destContainerClient = destBlobServiceClient.getContainerClient(destContainerName);
+    srcBlobClient = srcContainerClient.getBlobClient(blobName);
+    destBlobClient = destContainerClient.getBlobClient(blobName);
+  });
+
+  afterEach(async function() {
+    await recorder.stop();
+  });
+
+  it("source blob get properties", async () => {
+    const getRes = await srcBlobClient.getProperties();
+    assert.deepStrictEqual(
+      getRes.objectReplicationSourceProperties,
+      expectedObjectReplicateSourceProperties
+    );
+    assert.equal(getRes.objectReplicationDestinationPolicyId, undefined);
+  });
+
+  it("destination blob get properties", async () => {
+    const getRes = await destBlobClient.getProperties();
+    assert.equal(getRes.objectReplicationSourceProperties, undefined);
+    assert.equal(
+      getRes.objectReplicationDestinationPolicyId,
+      "d685bc41-c8ab-4ea5-889c-2503f02954d8"
+    );
+  });
+
+  it("listBlob", async () => {
+    for await (const blobItem of srcContainerClient.listBlobsFlat()) {
+      if (blobItem.name === blobName) {
+        assert.deepStrictEqual(
+          blobItem.objectReplicationSourceProperties,
+          expectedObjectReplicateSourceProperties
+        );
+      }
+    }
+
+    for await (const blobItem of destContainerClient.listBlobsFlat()) {
+      if (blobItem.name === blobName) {
+        assert.equal(blobItem.objectReplicationSourceProperties, undefined);
+      }
+    }
+  });
+
+  it("download blob", async () => {
+    const srcRes = await srcBlobClient.download();
+    assert.equal(srcRes.objectReplicationDestinationPolicyId, undefined);
+    assert.deepStrictEqual(
+      srcRes.objectReplicationSourceProperties,
+      expectedObjectReplicateSourceProperties
+    );
+
+    const destRes = await destBlobClient.download();
+    assert.equal(
+      destRes.objectReplicationDestinationPolicyId,
+      "d685bc41-c8ab-4ea5-889c-2503f02954d8"
+    );
+    assert.equal(destRes.objectReplicationSourceProperties, undefined);
+  });
+
+  it("download to file", async function() {
+    if (!isNode) {
+      this.skip();
+    }
+    recorder.skip("node", "Temp file - recorder doesn't support saving the file");
+    const srcDownloadedFilePath = recorder.getUniqueName("srcdownloadedfile");
+    const srcRes = await srcBlobClient.downloadToFile(srcDownloadedFilePath);
+    assert.equal(srcRes.objectReplicationDestinationPolicyId, undefined);
+    assert.deepStrictEqual(
+      srcRes.objectReplicationSourceProperties,
+      expectedObjectReplicateSourceProperties
+    );
+    fs.unlinkSync(srcDownloadedFilePath);
+
+    const dstDownloadedFilePath = recorder.getUniqueName("dstdownloadedfile");
+    const destRes = await destBlobClient.downloadToFile(dstDownloadedFilePath);
+    assert.equal(
+      destRes.objectReplicationDestinationPolicyId,
+      "d685bc41-c8ab-4ea5-889c-2503f02954d8"
+    );
+    assert.equal(destRes.objectReplicationSourceProperties, undefined);
+    fs.unlinkSync(dstDownloadedFilePath);
   });
 });

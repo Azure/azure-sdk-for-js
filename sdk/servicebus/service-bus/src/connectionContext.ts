@@ -317,7 +317,7 @@ export namespace ConnectionContext {
 
         const detachCalls: Promise<void>[] = [];
 
-        // Call onDetached() on sender so that it can decide whether to reconnect or not
+        // Call onDetached() on sender so that it can gracefully shutdown
         for (const senderName of Object.keys(connectionContext.senders)) {
           const sender = connectionContext.senders[senderName];
           if (sender && !sender.isConnecting) {

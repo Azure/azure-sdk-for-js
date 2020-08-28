@@ -1691,15 +1691,11 @@ describe("Atom management - Authentication", function(): void {
     output: {
       filter: {
         sqlExpression: "1=1",
-        requiresPreprocessing: undefined,
-        sqlParameters: undefined,
-        compatibilityLevel: 20
+        sqlParameters: undefined
       },
       action: {
         sqlExpression: undefined,
-        requiresPreprocessing: undefined,
-        sqlParameters: undefined,
-        compatibilityLevel: undefined
+        sqlParameters: undefined
       },
       name: managementRule1
     }
@@ -1722,15 +1718,11 @@ describe("Atom management - Authentication", function(): void {
         sqlParameters: [
           { key: "@intParam", value: 1, type: "int" },
           { key: "@stringParam", value: "b", type: "string" }
-        ],
-        requiresPreprocessing: false,
-        compatibilityLevel: 20
+        ]
       },
       action: {
         sqlExpression: "SET a='b'",
-        requiresPreprocessing: false,
-        sqlParameters: undefined,
-        compatibilityLevel: 20
+        sqlParameters: undefined
       },
       name: managementRule1
     }
@@ -1762,9 +1754,7 @@ describe("Atom management - Authentication", function(): void {
       },
       action: {
         sqlExpression: "SET sys.label='GREEN'",
-        requiresPreprocessing: false,
-        sqlParameters: undefined,
-        compatibilityLevel: 20
+        sqlParameters: undefined
       },
       name: managementRule1
     }
@@ -1802,9 +1792,7 @@ describe("Atom management - Authentication", function(): void {
       },
       action: {
         sqlExpression: "SET sys.label='GREEN'",
-        requiresPreprocessing: false,
-        sqlParameters: undefined,
-        compatibilityLevel: 20
+        sqlParameters: undefined
       },
       name: managementRule1
     }
@@ -2305,15 +2293,11 @@ describe("Atom management - Authentication", function(): void {
     output: {
       filter: {
         sqlExpression: "stringValue = @stringParam",
-        sqlParameters: [{ key: "@stringParam", value: "b", type: "string" }],
-        requiresPreprocessing: false,
-        compatibilityLevel: 20
+        sqlParameters: [{ key: "@stringParam", value: "b", type: "string" }]
       },
       action: {
         sqlExpression: "SET a='c'",
-        requiresPreprocessing: false,
-        sqlParameters: undefined,
-        compatibilityLevel: 20
+        sqlParameters: undefined
       },
 
       name: managementRule1
@@ -2341,9 +2325,7 @@ describe("Atom management - Authentication", function(): void {
       },
       action: {
         sqlExpression: "SET sys.label='RED'",
-        requiresPreprocessing: false,
-        sqlParameters: undefined,
-        compatibilityLevel: 20
+        sqlParameters: undefined
       },
 
       name: managementRule1
