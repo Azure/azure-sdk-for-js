@@ -378,8 +378,8 @@ function serializeEnumType(objectName: string, mapper: EnumMapper, value: any): 
       )}.`
     );
   }
-  if (mapper.type.serializingMapper) {
-    return mapper.type.serializingMapper(value);
+  if (mapper.type.enumMap) {
+    return mapper.type.enumMap[value];
   }
 
   return value;
@@ -825,9 +825,10 @@ function deserializeDictionaryType(
 }
 
 function deserializeEnumType(mapper: EnumMapper, responseBody: any) {
-  if (mapper.type.deSerializingMapper) {
-    return mapper.type.deSerializingMapper(responseBody);
+  if (mapper.type.enumMap) {
+    return Object.keys(mapper.type.enumMap).find((k) => mapper.type.enumMap![k] === responseBody);
   }
+
   return responseBody;
 }
 
@@ -972,8 +973,7 @@ export interface DictionaryMapperType {
 export interface EnumMapperType {
   name: "Enum";
   allowedValues: any[];
-  serializingMapper?: Function;
-  deSerializingMapper?: Function;
+  enumMap?: { [name: string]: any };
 }
 
 export interface BaseMapper {

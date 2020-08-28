@@ -289,24 +289,14 @@ describe("msrest", function() {
             "PerMinute",
             "PerSecond"
           ],
-          serializingMapper: function(value: any) {
-            switch (value) {
-              case "Yearly":
-                return "yearly";
-              case "Monthly":
-                return "monthly";
-              case "Weekly":
-                return "weekly";
-              case "Daily":
-                return "daily";
-              case "Hourly":
-                return "hourly";
-              case "PerMinute":
-                return "minutely";
-              case "PerSecond":
-                return "secondly";
-            }
-            return value;
+          enumMap: {
+            Yearly: "yearly",
+            Monthly: "monthly",
+            Weekly: "weekly",
+            Daily: "daily",
+            Hourly: "hourly",
+            PerMinute: "minutely",
+            PerSecond: "secondly"
           }
         }
       };
@@ -342,24 +332,14 @@ describe("msrest", function() {
             "PerMinute",
             "PerSecond"
           ],
-          deSerializingMapper: function(value: any) {
-            switch (value) {
-              case "yearly":
-                return "Yearly";
-              case "monthly":
-                return "Monthly";
-              case "weekly":
-                return "Weekly";
-              case "daily":
-                return "Daily";
-              case "hourly":
-                return "Hourly";
-              case "minutely":
-                return "PerMinute";
-              case "secondly":
-                return "PerSecond";
-            }
-            return value;
+          enumMap: {
+            Yearly: "yearly",
+            Monthly: "monthly",
+            Weekly: "weekly",
+            Daily: "daily",
+            Hourly: "hourly",
+            PerMinute: "minutely",
+            PerSecond: "secondly"
           }
         }
       };
