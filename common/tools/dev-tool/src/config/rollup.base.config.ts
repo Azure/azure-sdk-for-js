@@ -1,65 +1,118 @@
+import type { RollupOptions, RollupWarning, WarningHandler } from "rollup";
+
 import nodeResolve from "@rollup/plugin-node-resolve";
 import cjs from "@rollup/plugin-commonjs";
-import replace from "@rollup/plugin-replace";
 import { terser } from "rollup-plugin-terser";
 import sourcemaps from "rollup-plugin-sourcemaps";
+import multiEntry from "@rollup/plugin-multi-entry";
+import json from "@rollup/plugin-json";
+import nodeBuiltinsPlugin from "rollup-plugin-node-builtins";
+import nodeGlobals from "rollup-plugin-node-globals";
 
-const input = "dist-esm/src/index.js";
-const production = process.env.NODE_ENV === "production";
+import nodeBuiltins from "builtin-modules";
 
-const nodeBuiltins = [
-  "assert",
-  "buffer",
-  "child_process",
-  "cluster",
-  "crypto",
-  "dgram",
-  "dns",
-  "events",
-  "fs",
-  "http",
-  "https",
-  "net",
-  "os",
-  "path",
-  "querystring",
-  "readline",
-  "stream",
-  "string_decoder",
-  "timers",
-  "tls",
-  "tty",
-  "url",
-  "util",
-  "vm",
-  "zlib"
+const IS_PRODUCTION = process.env.NODE_ENV === "IS_PRODUCTION";
+
+interface PackageJson {
+  name: string;
+  dependencies: Record<string, string>;
+  devDependencies: Record<string, string>;
+}
+
+// #region Warning Handler
+
+function ignoreNiseSinonEvalWarnings(warning: RollupWarning): boolean {
+  return warning.code === "EVAL" && (
+    warning.id?.includes("node_modules/nise") ||
+    warning.id?.includes("node_modules/sinon")) === true;
+}
+
+function ignoreChaiCircularDependencyWarnings(warning: RollupWarning): boolean {
+  return warning.code === "CIRCULAR_DEPENDENCY" &&
+      warning.importer?.includes("node_modules/chai") === true;
+}
+
+const warningInhibitors : Array<(warning: RollupWarning) => boolean> = [
+  ignoreChaiCircularDependencyWarnings,
+  ignoreNiseSinonEvalWarnings
 ];
 
-export function config(pkg: any) {
-  const baseConfig = {
-    input: input,
-    external: [...Object.keys(pkg.dependencies), ...nodeBuiltins],
-    output: { file: "dist/index.js", format: "cjs", sourcemap: true },
+/**
+ * Construct a warning handler for the shared rollup configuration
+ * that ignores certain warnings that are not relevant to testing.
+ */
+function makeOnWarnForTesting() : (warning: RollupWarning, warn: WarningHandler) => void {
+  return (warning, warn) => {
+    // If every inhibitor returns false (i.e. no inhibitors), then show the warning
+    if (warningInhibitors.every((inhib) => !inhib(warning))) {
+      warn(warning);
+    }
+  }
+}
+
+// #endregion
+
+function makeBrowserTestConfig() {
+  const config : RollupOptions = {
+    input: ["dist-esm/test/{,!(node)/**/}*.spec.js"],
+    output: {
+      file: `dist-test/index.browser.js`,
+      format: "umd",
+      sourcemap: true,
+      globals: { "fs-extra": "undefined" }
+    },
     preserveSymlinks: false,
+    // fs-extra must be marked as external in order to avoid an initialization error
+    external: ["fs-extra"],
     plugins: [
-      sourcemaps(),
-      replace({
-        delimiters: ["", ""],
-        // replace dynamic checks with if (true) since this is for node only.
-        // Allows rollup's dead code elimination to be more aggressive.
-        "if (isNode)": "if (true)"
+      multiEntry({ exports: false }),
+      nodeResolve({
+        mainFields: ["module", "browser"],
+        preferBuiltins: true
       }),
-      nodeResolve({ preferBuiltins: true }),
-      cjs()
-    ]
+      cjs({
+        namedExports: {
+          "chai": ["assert", "use"],
+          "@opentelemetry/api": ["CanonicalCode", "SpanKind", "TraceFlags"]
+        }
+      }),
+      json(),
+      sourcemaps(),
+      nodeGlobals(),
+      nodeBuiltinsPlugin()
+      //viz({ filename: "dist-test/browser-stats.html", sourcemap: true })
+    ],
+    onwarn: makeOnWarnForTesting(),
+    // Disable tree-shaking of test code.  In rollup-plugin-node-resolve@5.0.0, rollup started respecting
+    // the "sideEffects" field in package.json.  Since our package.json sets "sideEffects=false", this also
+    // applies to test code, which causes all tests to be removed by tree-shaking.
+    treeshake: false
   };
 
-  if (production) {
+  // (config.external as string[]).push(...Object.keys(pkg.devDependencies));
+
+  return config;
+}
+
+export function makeConfig(pkg: PackageJson)  {
+  const baseConfig = {
+    input: "dist-esm/src/index.js",
+    external: [...nodeBuiltins, ...Object.keys(pkg.dependencies), ...Object.keys(pkg.devDependencies)],
+    output: { file: "dist/index.js", format: "cjs", sourcemap: true },
+    preserveSymlinks: false,
+    plugins: [sourcemaps(), nodeResolve(), cjs()]
+  }
+
+  if (IS_PRODUCTION) {
     baseConfig.plugins.push(terser());
   }
 
-  return baseConfig;
-}
+  const config : RollupOptions[] = [baseConfig as RollupOptions];
 
-export default config;
+  if (!IS_PRODUCTION) {
+    config.push(makeBrowserTestConfig());
+  }
+
+  return config;
+}
 

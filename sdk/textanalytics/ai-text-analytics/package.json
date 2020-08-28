@@ -51,7 +51,7 @@
     "build:browser": "tsc -p . && cross-env ONLY_BROWSER=true rollup -c 2>&1",
     "build:node": "tsc -p . && cross-env ONLY_NODE=true rollup -c 2>&1",
     "build:samples": "dev-tool samples prep && cd dist-samples && tsc -p .",
-    "build:test": "tsc -p . && rollup -c rollup.test.config.js 2>&1",
+    "build:test": "tsc -p . && rollup -c 2>&1",
     "build": "tsc -p . && rollup -c 2>&1 && api-extractor run --local",
     "build:debug": "tsc -p . && rollup -c 2>&1 && api-extractor run --local",
     "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
@@ -60,7 +60,7 @@
     "extract-api": "tsc -p . && api-extractor run --local",
     "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "integration-test:browser": "karma start --single-run",
-    "integration-test:node": "nyc mocha -r esm --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 5000000 --full-trace dist-esm/test/**/*.spec.js",
+    "integration-test:node": "nyc mocha -r esm --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 5000000 --full-trace dist-esm/test/{,!(browser)/**/}*.spec.js",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "lint:fix": "eslint \"src/**/*.ts\" --fix --fix-type [problem,suggestion]",
     "lint": "eslint package.json api-extractor.json src test --ext .ts",
@@ -70,7 +70,7 @@
     "test:node": "npm run clean && npm run build:test && npm run unit-test:node",
     "test": "npm run clean && npm run build:test && npm run unit-test",
     "unit-test:browser": "karma start --single-run",
-    "unit-test:node": "env TS_NODE_COMPILER_OPTIONS='{\"module\":\"commonjs\"}' mocha --require ts-node/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 1200000 --full-trace test/**/*.spec.ts",
+    "unit-test:node": "mocha -r esm --require ts-node/register --reporter ../../../common/tools/mocha-multi-reporter.js --timeout 1200000 --full-trace \"test/{,!(browser)/**/}*.spec.ts\"",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser"
   },
   "sideEffects": false,
@@ -136,6 +136,8 @@
     "sinon": "^9.0.2",
     "source-map-support": "^0.5.9",
     "typescript": "~3.9.3",
-    "ts-node": "^8.3.0"
+    "ts-node": "^8.3.0",
+    "karma-source-map-support": "~1.4.0",
+    "karma-sourcemap-loader": "^0.3.7"
   }
 }

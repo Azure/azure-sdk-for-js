@@ -11,14 +11,11 @@ import {
   RecorderEnvironmentSetup,
   isPlaybackMode
 } from "@azure/test-utils-recorder";
-import { isNode } from "@azure/core-http";
 
 import { AzureKeyCredential, FormTrainingClient, FormRecognizerClient } from "../../src/index";
 import { ClientSecretCredential } from "@azure/identity";
 
-if (isNode) {
-  dotenv.config();
-}
+dotenv.config();
 
 export interface RecordedTrainingClient {
   client: FormTrainingClient;

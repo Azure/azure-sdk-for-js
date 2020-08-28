@@ -6,13 +6,10 @@ import * as dotenv from "dotenv";
 
 import { env, Recorder, record, RecorderEnvironmentSetup } from "@azure/test-utils-recorder";
 import { TokenCredential, ClientSecretCredential } from "@azure/identity";
-import { isNode } from "@azure/core-http";
 
 import { AzureKeyCredential, TextAnalyticsClient } from "../../src/index";
 
-if (isNode) {
-  dotenv.config();
-}
+dotenv.config();
 
 export interface RecordedClient {
   client: TextAnalyticsClient;
