@@ -12,7 +12,7 @@ import { OperationOptions } from '@azure/core-http';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { RequestPolicy } from '@azure/core-http';
 import { RequestPolicyFactory } from '@azure/core-http';
-import { RequestPolicyOptions } from '@azure/core-http';
+import { RequestPolicyOptionsLike } from '@azure/core-http';
 import { WebResource } from '@azure/core-http';
 
 // @public
@@ -516,12 +516,12 @@ export class TablesSharedKeyCredential implements RequestPolicyFactory {
     constructor(accountName: string, accountKey: string);
     readonly accountName: string;
     computeHMACSHA256(stringToSign: string): string;
-    create(nextPolicy: RequestPolicy, options: RequestPolicyOptions): TablesSharedKeyCredentialPolicy;
+    create(nextPolicy: RequestPolicy, options: RequestPolicyOptionsLike): TablesSharedKeyCredentialPolicy;
 }
 
 // @public
 export class TablesSharedKeyCredentialPolicy extends BaseRequestPolicy {
-    constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptions, factory: TablesSharedKeyCredential);
+    constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptionsLike, factory: TablesSharedKeyCredential);
     sendRequest(request: WebResource): Promise<HttpOperationResponse>;
     protected signRequest(request: WebResource): WebResource;
 }

@@ -175,6 +175,7 @@ export class TableServiceClient {
    * @param options The options parameters.
    */
   public listTables(
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options?: ListTableItemsOptions
   ): PagedAsyncIterableIterator<TableResponseProperties, ListTableItemsResponse> {
     const iter = this.listTablesAll(options);

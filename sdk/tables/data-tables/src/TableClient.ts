@@ -152,6 +152,7 @@ export class TableClient {
   public async getEntity<T extends object>(
     partitionKey: string,
     rowKey: string,
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options?: GetTableEntityOptions
   ): Promise<GetTableEntityResponse<T>> {
     const { queryOptions, ...getEntityOptions } = options || {};
@@ -175,6 +176,7 @@ export class TableClient {
    * @param options The options parameters.
    */
   public listEntities<T extends object>(
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options?: ListTableEntitiesOptions
   ): PagedAsyncIterableIterator<T, ListEntitiesResponse<T>> {
     const tableName = this.tableName;
@@ -270,6 +272,7 @@ export class TableClient {
    */
   public createEntity<T extends object>(
     entity: TableEntity<T>,
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options?: CreateTableEntityOptions
   ): Promise<CreateTableEntityResponse> {
     const { queryOptions, ...createTableEntity } = options || {};
@@ -290,6 +293,7 @@ export class TableClient {
   public deleteEntity(
     partitionKey: string,
     rowKey: string,
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options?: DeleteTableEntityOptions
   ): Promise<DeleteTableEntityResponse> {
     const { etag = "*", queryOptions, ...rest } = options || {};
@@ -311,6 +315,7 @@ export class TableClient {
   public updateEntity<T extends object>(
     entity: TableEntity<T>,
     mode: UpdateMode,
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options?: UpdateTableEntityOptions
   ): Promise<UpdateEntityResponse> {
     if (!entity.PartitionKey || !entity.RowKey) {
@@ -348,6 +353,7 @@ export class TableClient {
   public upsertEntity<T extends object>(
     entity: TableEntity<T>,
     mode: UpdateMode,
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options?: UpsertTableEntityOptions
   ): Promise<UpsertEntityResponse> {
     if (!entity.PartitionKey || !entity.RowKey) {
@@ -359,7 +365,8 @@ export class TableClient {
       return this.table.mergeEntity(this.tableName, entity.PartitionKey, entity.RowKey, {
         tableEntityProperties: serialize(entity),
         queryOptions: this.convertQueryOptions(queryOptions || {}),
-        ...upsertOptions
+        ...upsertOptions,
+        ifMatch: etag
       });
     }
 
@@ -367,7 +374,8 @@ export class TableClient {
       return this.table.updateEntity(this.tableName, entity.PartitionKey, entity.RowKey, {
         tableEntityProperties: serialize(entity),
         queryOptions: this.convertQueryOptions(queryOptions || {}),
-        ...upsertOptions
+        ...upsertOptions,
+        ifMatch: etag
       });
     }
     throw new Error(`Unexpected value for update mode: ${mode}`);

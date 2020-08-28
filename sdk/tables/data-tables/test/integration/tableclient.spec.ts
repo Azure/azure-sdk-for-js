@@ -236,7 +236,7 @@ describe("TableClient", () => {
     type StringEntity = { foo: string };
     type NumberEntity = { foo: number };
     type DateEntity = { foo: Date };
-    type BooleanEntity = { foo: Boolean };
+    type BooleanEntity = { foo: boolean };
     type Int64Entity = { foo: Edm<"Int64"> };
     type Int32Entity = { foo: Edm<"Int32"> };
     type BinaryEntity = { foo: Uint8Array };
@@ -252,8 +252,8 @@ describe("TableClient", () => {
     it("should list all", async function() {
       const totalItems = 7000;
       const entities = client.listEntities<TestEntity>();
-      let all: TestEntity[] = [];
-      for await (let entity of entities) {
+      const all: TestEntity[] = [];
+      for await (const entity of entities) {
         all.push(entity);
       }
 
@@ -266,7 +266,7 @@ describe("TableClient", () => {
       const entities = client.listEntities<TestEntity>();
       let all: TestEntity[] = [];
       let i = 0;
-      for await (let entity of entities.byPage({
+      for await (const entity of entities.byPage({
         maxPageSize
       })) {
         i++;
@@ -284,7 +284,7 @@ describe("TableClient", () => {
         queryOptions: { filter: odata`foo eq ${strValue}` }
       });
       let all: TableEntity<StringEntity>[] = [];
-      for await (let entity of entities) {
+      for await (const entity of entities) {
         all = [...all, entity];
       }
 
@@ -297,7 +297,7 @@ describe("TableClient", () => {
         queryOptions: { filter: odata`RowKey eq ${strValue}` }
       });
       let all: TableEntity<BinaryEntity>[] = [];
-      for await (let entity of entities) {
+      for await (const entity of entities) {
         all = [...all, entity];
       }
 
