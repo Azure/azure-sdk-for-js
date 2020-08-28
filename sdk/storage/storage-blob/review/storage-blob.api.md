@@ -183,6 +183,7 @@ export class AppendBlobClient extends BlobClient {
     appendBlockFromURL(sourceURL: string, sourceOffset: number, count: number, options?: AppendBlobAppendBlockFromURLOptions): Promise<AppendBlobAppendBlockFromUrlResponse>;
     create(options?: AppendBlobCreateOptions): Promise<AppendBlobCreateResponse>;
     createIfNotExists(options?: AppendBlobCreateIfNotExistsOptions): Promise<AppendBlobCreateIfNotExistsResponse>;
+    seal(options?: AppendBlobSealOptions): Promise<AppendBlobAppendBlockResponse>;
     withSnapshot(snapshot: string): AppendBlobClient;
 }
 
@@ -237,6 +238,12 @@ export type AppendBlobCreateResponse = AppendBlobCreateHeaders & {
 
 // @public
 export interface AppendBlobRequestConditions extends BlobRequestConditions, AppendPositionAccessConditions {
+}
+
+// @public
+export interface AppendBlobSealOptions extends CommonOptions {
+    abortSignal?: AbortSignalLike;
+    conditions?: AppendBlobRequestConditions;
 }
 
 // @public
@@ -382,10 +389,10 @@ export class BlobClient extends StorageClient {
     createSnapshot(options?: BlobCreateSnapshotOptions): Promise<BlobCreateSnapshotResponse>;
     delete(options?: BlobDeleteOptions): Promise<BlobDeleteResponse>;
     deleteIfExists(options?: BlobDeleteOptions): Promise<BlobDeleteIfExistsResponse>;
-    download(offset?: number, count?: number, options?: BlobDownloadOptions): Promise<BlobDownloadResponseModel>;
+    download(offset?: number, count?: number, options?: BlobDownloadOptions): Promise<BlobDownloadResponseParsed>;
     downloadToBuffer(offset?: number, count?: number, options?: BlobDownloadToBufferOptions): Promise<Buffer>;
     downloadToBuffer(buffer: Buffer, offset?: number, count?: number, options?: BlobDownloadToBufferOptions): Promise<Buffer>;
-    downloadToFile(filePath: string, offset?: number, count?: number, options?: BlobDownloadOptions): Promise<BlobDownloadResponseModel>;
+    downloadToFile(filePath: string, offset?: number, count?: number, options?: BlobDownloadOptions): Promise<BlobDownloadResponseParsed>;
     exists(options?: BlobExistsOptions): Promise<boolean>;
     getAppendBlobClient(): AppendBlobClient;
     getBlobLeaseClient(proposeLeaseId?: string): BlobLeaseClient;
@@ -575,6 +582,12 @@ export type BlobDownloadResponseModel = BlobDownloadHeaders & {
 };
 
 // @public
+export interface BlobDownloadResponseParsed extends BlobDownloadResponseModel {
+    objectReplicationDestinationPolicyId?: string;
+    objectReplicationSourceProperties?: ObjectReplicationPolicy[];
+}
+
+// @public
 export interface BlobDownloadToBufferOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
     blockSize?: number;
@@ -669,7 +682,13 @@ export interface BlobGetPropertiesOptions extends CommonOptions {
 }
 
 // @public
-export type BlobGetPropertiesResponse = BlobGetPropertiesHeaders & {
+export interface BlobGetPropertiesResponse extends BlobGetPropertiesResponseModel {
+    objectReplicationDestinationPolicyId?: string;
+    objectReplicationSourceProperties?: ObjectReplicationPolicy[];
+}
+
+// @public
+export type BlobGetPropertiesResponseModel = BlobGetPropertiesHeaders & {
     _response: coreHttp.HttpResponse & {
         parsedHeaders: BlobGetPropertiesHeaders;
     };
@@ -740,9 +759,7 @@ export interface BlobItem {
     // (undocumented)
     name: string;
     // (undocumented)
-    objectReplicationMetadata?: {
-        [propertyName: string]: string;
-    };
+    objectReplicationSourceProperties?: ObjectReplicationPolicy[];
     // (undocumented)
     properties: BlobProperties;
     // (undocumented)
@@ -1157,6 +1174,7 @@ export interface BlobStartCopyFromURLOptions extends CommonOptions {
     conditions?: BlobRequestConditions;
     metadata?: Metadata;
     rehydratePriority?: RehydratePriority;
+    sealBlob?: boolean;
     sourceConditions?: ModifiedAccessConditions;
     tags?: Tags;
     tier?: BlockBlobTier | PremiumPageBlobTier | string;
@@ -2119,6 +2137,21 @@ export interface ModifiedAccessConditions {
 
 // @public
 export function newPipeline(credential: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, pipelineOptions?: StoragePipelineOptions): Pipeline;
+
+// @public
+export interface ObjectReplicationPolicy {
+    policyId: string;
+    rules: ObjectReplicationRule[];
+}
+
+// @public
+export interface ObjectReplicationRule {
+    replicationStatus: ObjectReplicationStatus;
+    ruleId: string;
+}
+
+// @public
+export type ObjectReplicationStatus = "complete" | "failed";
 
 // @public
 export interface PageBlobClearPagesHeaders {

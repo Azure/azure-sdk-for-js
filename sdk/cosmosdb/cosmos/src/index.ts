@@ -15,7 +15,12 @@ export {
   OperationBase,
   OperationWithItem,
   OperationInput,
-  BulkOperationType
+  BulkOperationType,
+  CreateOperationInput,
+  UpsertOperationInput,
+  ReplaceOperationInput,
+  ReadOperationInput,
+  DeleteOperationInput
 } from "./utils/batch";
 export {
   ConnectionMode,

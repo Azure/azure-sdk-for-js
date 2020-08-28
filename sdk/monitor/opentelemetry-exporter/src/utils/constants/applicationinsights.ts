@@ -8,3 +8,4 @@ export const MS_LINKS = "_MS.links";
 export const INPROC = "InProc";
 export const ENQUEUED_TIME = "enqueuedTime";
 export const TIME_SINCE_ENQUEUED = "timeSinceEnqueued";
+export const packageVersion = "1.0.0-preview.5";
