@@ -55,7 +55,7 @@ const managementRule2 = EntityNames.MANAGEMENT_RULE_2;
 const newManagementEntity1 = EntityNames.MANAGEMENT_NEW_ENTITY_1;
 const newManagementEntity2 = EntityNames.MANAGEMENT_NEW_ENTITY_2;
 
-describe("Atom management - Namespace", function (): void {
+describe("Atom management - Namespace", function(): void {
   it("Get namespace properties", async () => {
     const namespaceProperties = await serviceBusAtomManagementClient.getNamespaceProperties();
     assert.deepEqualExcluding(
@@ -74,7 +74,7 @@ describe("Atom management - Namespace", function (): void {
   });
 });
 
-describe("Listing methods - PagedAsyncIterableIterator", function (): void {
+describe("Listing methods - PagedAsyncIterableIterator", function(): void {
   const baseName = "random";
   const queueNames: string[] = [];
   const topicNames: string[] = [];
@@ -263,7 +263,7 @@ describe("Listing methods - PagedAsyncIterableIterator", function (): void {
   });
 });
 
-describe("Atom management - Authentication", function (): void {
+describe("Atom management - Authentication", function(): void {
   if (isNode) {
     it("Token credential - DefaultAzureCredential from `@azure/identity`", async () => {
       const endpoint = (parseConnectionString(env[EnvVarNames.SERVICEBUS_CONNECTION_STRING]) as any)
@@ -322,7 +322,7 @@ describe("Atom management - Authentication", function (): void {
 
 [EntityType.QUEUE, EntityType.TOPIC, EntityType.SUBSCRIPTION, EntityType.RULE].forEach(
   (entityType) => {
-    describe(`Atom management - List on "${entityType}" entities`, function (): void {
+    describe(`Atom management - List on "${entityType}" entities`, function(): void {
       beforeEach(async () => {
         switch (entityType) {
           case EntityType.QUEUE:
@@ -455,7 +455,7 @@ describe("Atom management - Authentication", function (): void {
     alwaysBeExistingEntity: managementRule1
   }
 ].forEach((testCase) => {
-  describe(`Atom management - Get on "${testCase.entityType}" entities`, function (): void {
+  describe(`Atom management - Get on "${testCase.entityType}" entities`, function(): void {
     beforeEach(async () => {
       switch (testCase.entityType) {
         case EntityType.QUEUE:
@@ -558,7 +558,7 @@ describe("Atom management - Authentication", function (): void {
     }
   }
 ].forEach((testCase) => {
-  describe(`Atom management - Get runtime info on "${testCase.entityType}" entity`, function (): void {
+  describe(`Atom management - Get runtime info on "${testCase.entityType}" entity`, function(): void {
     beforeEach(async () => {
       switch (testCase.entityType) {
         case EntityType.QUEUE:
@@ -695,7 +695,7 @@ describe("Atom management - Authentication", function (): void {
     }
   }
 ].forEach((testCase) => {
-  describe(`Atom management - Get runtime info on "${testCase.entityType}" entities`, function (): void {
+  describe(`Atom management - Get runtime info on "${testCase.entityType}" entities`, function(): void {
     beforeEach(async () => {
       switch (testCase.entityType) {
         case EntityType.QUEUE:
@@ -773,7 +773,7 @@ describe("Atom management - Authentication", function (): void {
     alwaysBeExistingEntity: managementRule1
   }
 ].forEach((testCase) => {
-  describe(`Atom management - "${testCase.entityType}" exists`, function (): void {
+  describe(`Atom management - "${testCase.entityType}" exists`, function(): void {
     beforeEach(async () => {
       switch (testCase.entityType) {
         case EntityType.QUEUE:
@@ -868,7 +868,7 @@ describe("Atom management - Authentication", function (): void {
     alwaysBeExistingEntity: managementRule1
   }
 ].forEach((testCase) => {
-  describe(`Atom management - Update on "${testCase.entityType}" entities`, function (): void {
+  describe(`Atom management - Update on "${testCase.entityType}" entities`, function(): void {
     beforeEach(async () => {
       switch (testCase.entityType) {
         case EntityType.QUEUE:
@@ -934,7 +934,7 @@ describe("Atom management - Authentication", function (): void {
 
 [EntityType.QUEUE, EntityType.TOPIC, EntityType.SUBSCRIPTION, EntityType.RULE].forEach(
   (entityType) => {
-    describe(`Atom management - Delete on "${entityType}" entities`, function (): void {
+    describe(`Atom management - Delete on "${entityType}" entities`, function(): void {
       beforeEach(async () => {
         switch (entityType) {
           case EntityType.QUEUE:
@@ -1010,7 +1010,7 @@ describe("Atom management - Authentication", function (): void {
     alwaysBeExistingEntity: managementRule1
   }
 ].forEach((testCase) => {
-  describe(`Atom management - Create on "${testCase.entityType}" entities`, function (): void {
+  describe(`Atom management - Create on "${testCase.entityType}" entities`, function(): void {
     beforeEach(async () => {
       switch (testCase.entityType) {
         case EntityType.QUEUE:
@@ -1075,9 +1075,9 @@ describe("Atom management - Authentication", function (): void {
       should.equal(error.code, "MessageEntityAlreadyExistsError", `Unexpected error code found.`);
       should.equal(
         error.message.startsWith("The messaging entity") ||
-        error.message.startsWith("Entity") ||
-        error.message.startsWith("SubCode") ||
-        error.message.startsWith("No service"),
+          error.message.startsWith("Entity") ||
+          error.message.startsWith("SubCode") ||
+          error.message.startsWith("No service"),
         true,
         `Unexpected error message found.`
       );
@@ -1087,7 +1087,7 @@ describe("Atom management - Authentication", function (): void {
 
 [EntityType.QUEUE, EntityType.TOPIC, EntityType.SUBSCRIPTION, EntityType.RULE].forEach(
   (entityType) => {
-    describe(`Atom management - CRUD on non-existent entities for type "${entityType}"`, function (): void {
+    describe(`Atom management - CRUD on non-existent entities for type "${entityType}"`, function(): void {
       beforeEach(async () => {
         switch (entityType) {
           case EntityType.QUEUE:
@@ -1156,9 +1156,9 @@ describe("Atom management - Authentication", function (): void {
         should.equal(error.code, "MessageEntityNotFoundError", `Unexpected error code found.`);
         should.equal(
           error.message.startsWith("The messaging entity") ||
-          error.message.startsWith("Entity") ||
-          error.message.startsWith("SubCode") ||
-          error.message.startsWith("No service"),
+            error.message.startsWith("Entity") ||
+            error.message.startsWith("SubCode") ||
+            error.message.startsWith("No service"),
           true,
           `Unexpected error message found.`
         );
@@ -1175,9 +1175,9 @@ describe("Atom management - Authentication", function (): void {
         should.equal(error.code, "MessageEntityNotFoundError", `Unexpected error code found.`);
         should.equal(
           error.message.startsWith("The messaging entity") ||
-          error.message.startsWith("Entity") ||
-          error.message.startsWith("SubCode") ||
-          error.message.startsWith("No service"),
+            error.message.startsWith("Entity") ||
+            error.message.startsWith("SubCode") ||
+            error.message.startsWith("No service"),
           true,
           `Unexpected error message found.`
         );
@@ -1231,9 +1231,9 @@ describe("Atom management - Authentication", function (): void {
         should.equal(error.code, "MessageEntityNotFoundError", `Unexpected error code found.`);
         should.equal(
           error.message.startsWith("The messaging entity") ||
-          error.message.startsWith("Entity") ||
-          error.message.startsWith("SubCode") ||
-          error.message.startsWith("No service"),
+            error.message.startsWith("Entity") ||
+            error.message.startsWith("SubCode") ||
+            error.message.startsWith("No service"),
           true,
           `Unexpected error message found.`
         );
@@ -1291,7 +1291,7 @@ describe("Atom management - Authentication", function (): void {
     }
   }
 ].forEach((testCase) => {
-  describe(`createTopic() using different variations to the input parameter "topicOptions"`, function (): void {
+  describe(`createTopic() using different variations to the input parameter "topicOptions"`, function(): void {
     afterEach(async () => {
       await deleteEntity(EntityType.TOPIC, managementTopic1);
     });
@@ -1373,7 +1373,7 @@ describe("Atom management - Authentication", function (): void {
     }
   }
 ].forEach((testCase) => {
-  describe(`createSubscription() using different variations to the input parameter "subscriptionOptions"`, function (): void {
+  describe(`createSubscription() using different variations to the input parameter "subscriptionOptions"`, function(): void {
     beforeEach(async () => {
       await createEntity(EntityType.TOPIC, managementTopic1);
     });
@@ -1457,7 +1457,7 @@ describe("Atom management - Authentication", function (): void {
     }
   }
 ].forEach((testCase) => {
-  describe(`createSubscription() using different variations to message forwarding related parameters in "subscriptionOptions"`, function (): void {
+  describe(`createSubscription() using different variations to message forwarding related parameters in "subscriptionOptions"`, function(): void {
     beforeEach(async () => {
       await recreateQueue(managementQueue1);
       await recreateTopic(managementTopic1);
@@ -1602,7 +1602,7 @@ describe("Atom management - Authentication", function (): void {
     }
   }
 ].forEach((testCase) => {
-  describe(`createQueue() using different variations to the input parameter "queueOptions"`, function (): void {
+  describe(`createQueue() using different variations to the input parameter "queueOptions"`, function(): void {
     afterEach(async () => {
       await deleteEntity(EntityType.QUEUE, managementQueue1);
     });
@@ -1653,7 +1653,7 @@ describe("Atom management - Authentication", function (): void {
     }
   }
 ].forEach((testCase) => {
-  describe(`createQueue() using different variations to message forwarding related parameters in "queueOptions"`, function (): void {
+  describe(`createQueue() using different variations to message forwarding related parameters in "queueOptions"`, function(): void {
     beforeEach(async () => {
       await createEntity(EntityType.TOPIC, managementTopic1);
     });
@@ -1798,7 +1798,7 @@ describe("Atom management - Authentication", function (): void {
     }
   }
 ].forEach((testCase) => {
-  describe(`createRule() using different variations to the input parameter "ruleOptions"`, function (): void {
+  describe(`createRule() using different variations to the input parameter "ruleOptions"`, function(): void {
     beforeEach(async () => {
       await recreateTopic(managementTopic1);
       await recreateSubscription(managementTopic1, managementSubscription1);
@@ -1910,7 +1910,7 @@ describe("Atom management - Authentication", function (): void {
     }
   }
 ].forEach((testCase) => {
-  describe(`updateQueue() using different variations to the input parameter "queueOptions"`, function (): void {
+  describe(`updateQueue() using different variations to the input parameter "queueOptions"`, function(): void {
     beforeEach(async () => {
       await recreateQueue(managementQueue1, {
         lockDuration: "PT45S",
@@ -2049,7 +2049,7 @@ describe("Atom management - Authentication", function (): void {
     }
   }
 ].forEach((testCase) => {
-  describe(`updateQueue() using different variations to message forwarding related parameters in "queueOptions"`, function (): void {
+  describe(`updateQueue() using different variations to message forwarding related parameters in "queueOptions"`, function(): void {
     beforeEach(async () => {
       await recreateTopic(managementTopic1);
       await recreateQueue(managementQueue1);
@@ -2114,7 +2114,7 @@ describe("Atom management - Authentication", function (): void {
     }
   }
 ].forEach((testCase) => {
-  describe(`updateTopic() using different variations to the input parameter "topicOptions"`, function (): void {
+  describe(`updateTopic() using different variations to the input parameter "topicOptions"`, function(): void {
     beforeEach(async () => {
       await recreateTopic(managementTopic1);
     });
@@ -2181,7 +2181,7 @@ describe("Atom management - Authentication", function (): void {
     }
   }
 ].forEach((testCase) => {
-  describe(`updateSubscription() using different variations to the input parameter "subscriptionOptions"`, function (): void {
+  describe(`updateSubscription() using different variations to the input parameter "subscriptionOptions"`, function(): void {
     beforeEach(async () => {
       await recreateTopic(managementTopic1);
       await recreateSubscription(managementTopic1, managementSubscription1);
@@ -2241,7 +2241,7 @@ describe("Atom management - Authentication", function (): void {
     }
   }
 ].forEach((testCase) => {
-  describe(`updateSubscription() using different variations to message forwarding related parameters in "subscriptionOptions"`, function (): void {
+  describe(`updateSubscription() using different variations to message forwarding related parameters in "subscriptionOptions"`, function(): void {
     beforeEach(async () => {
       await recreateQueue(managementQueue1);
       await recreateTopic(managementTopic1);
@@ -2332,7 +2332,7 @@ describe("Atom management - Authentication", function (): void {
     }
   }
 ].forEach((testCase) => {
-  describe(`updateRule() using different variations to the input parameter "ruleOptions"`, function (): void {
+  describe(`updateRule() using different variations to the input parameter "ruleOptions"`, function(): void {
     beforeEach(async () => {
       await recreateTopic(managementTopic1);
       await recreateSubscription(managementTopic1, managementSubscription1);
