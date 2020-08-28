@@ -549,7 +549,7 @@ export function decodeHexEncodingIfExistsInNockFixture(fixture: string): string 
   // Replaces only if the content-type is binary(Currently, "avro/binary" is considered)
   if (!isBrowser() && isContentTypeInNockFixture(fixture, binaryContentTypes)) {
     // Matching with 200-206 status codes (Successful codes)
-    const matches = fixture.match(/\.reply\((200|201|202|303|204|205|206), "(.*)", .*/);
+    const matches = fixture.match(/\.reply\((200|201|202|203|204|205|206), "(.*)", .*/);
     if (matches && isHex(matches[2])) {
       fixture = fixture.replace(`"${matches[2]}"`, `Buffer.from("${matches[2]}", "hex")`);
     }
