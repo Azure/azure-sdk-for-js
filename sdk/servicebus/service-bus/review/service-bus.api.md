@@ -429,8 +429,6 @@ export type SqlRuleAction = SqlRuleFilter;
 
 // @public
 export interface SqlRuleFilter {
-    compatibilityLevel?: number;
-    requiresPreprocessing?: boolean;
     sqlExpression?: string;
     sqlParameters?: SqlParameter[];
 }

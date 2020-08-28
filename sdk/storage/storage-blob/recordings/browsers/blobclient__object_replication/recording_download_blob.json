@@ -1,0 +1,73 @@
+{
+ "recordings": [
+  {
+   "method": "GET",
+   "url": "https://fakestorageaccount.blob.core.windows.net/orssrc/orsBlob",
+   "query": {},
+   "requestBody": null,
+   "status": 200,
+   "response": "hello world",
+   "responseHeaders": {
+    "accept-ranges": "bytes",
+    "content-length": "11",
+    "content-md5": "XrY7u+Ae7tCTyyK7j1rNww==",
+    "content-type": "application/octet-stream",
+    "date": "Fri, 17 Jul 2020 05:44:10 GMT",
+    "etag": "\"0x8D8231E6F08A0F8\"",
+    "last-modified": "Wed, 08 Jul 2020 09:08:09 GMT",
+    "server": "Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0",
+    "x-ms-blob-type": "BlockBlob",
+    "x-ms-client-request-id": "a673e307-d02d-4cf9-8abd-a51917a4fd77",
+    "x-ms-creation-time": "Wed, 08 Jul 2020 09:08:09 GMT",
+    "x-ms-is-current-version": "true",
+    "x-ms-lease-state": "available",
+    "x-ms-lease-status": "unlocked",
+    "x-ms-or-003ca702-58ab-4405-8f52-cb92316babde_9a53f315-d56b-44f6-a3e8-1d62c1b7089b": "complete",
+    "x-ms-or-d685bc41-c8ab-4ea5-889c-2503f02954d8_671e9447-be18-4632-9eea-a1a29cdae759": "complete",
+    "x-ms-request-id": "790a461a-f01e-0025-4efd-5b8cd5000000",
+    "x-ms-server-encrypted": "true",
+    "x-ms-version": "2019-12-12",
+    "x-ms-version-id": "2020-07-08T09:08:09.1762696Z"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://fakestorageaccount1.blob.core.windows.net/orsdst/orsBlob",
+   "query": {},
+   "requestBody": null,
+   "status": 200,
+   "response": "hello world",
+   "responseHeaders": {
+    "accept-ranges": "bytes",
+    "content-length": "11",
+    "content-md5": "XrY7u+Ae7tCTyyK7j1rNww==",
+    "content-type": "application/octet-stream",
+    "date": "Fri, 17 Jul 2020 05:44:11 GMT",
+    "etag": "\"0x8D8231E9580072D\"",
+    "last-modified": "Wed, 08 Jul 2020 09:09:13 GMT",
+    "server": "Windows-Azure-Blob/1.0 Microsoft-HTTPAPI/2.0",
+    "x-ms-blob-type": "BlockBlob",
+    "x-ms-client-request-id": "243dd7dd-1ad8-4c82-a0d7-8b08ee3d6845",
+    "x-ms-copy-completion-time": "Wed, 08 Jul 2020 09:09:13 GMT",
+    "x-ms-copy-id": "c0db52ea-d934-4655-a139-039db3cc6d04",
+    "x-ms-copy-progress": "11/11",
+    "x-ms-copy-source": "https://fakestorageaccount.blob.core.windows.net/orssrc/orsBlob?versionid=2020-07-08T09:08:09.1762696Z&sv=2015-04-05&ss=b&srt=sco&sp=rwdlacup&se=2020-07-09T07%3A56%3A40.3939857Z&spr=https",
+    "x-ms-copy-status": "success",
+    "x-ms-creation-time": "Wed, 08 Jul 2020 09:09:13 GMT",
+    "x-ms-is-current-version": "true",
+    "x-ms-lease-state": "available",
+    "x-ms-lease-status": "unlocked",
+    "x-ms-or-policy-id": "d685bc41-c8ab-4ea5-889c-2503f02954d8",
+    "x-ms-request-id": "bb6c9624-901e-0041-59fd-5b7d4d000000",
+    "x-ms-server-encrypted": "true",
+    "x-ms-version": "2019-12-12",
+    "x-ms-version-id": "2020-07-08T09:09:13.7010084Z"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {},
+  "newDate": {}
+ },
+ "hash": "a6797f62f2bc1267106dd4dad9b5aa28"
+}

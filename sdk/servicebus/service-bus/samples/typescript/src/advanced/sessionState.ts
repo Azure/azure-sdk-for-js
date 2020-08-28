@@ -88,7 +88,7 @@ async function getSessionState(sessionId: string) {
     sessionId: sessionId
   });
 
-  const sessionState = await sessionReceiver.getState();
+  const sessionState = await sessionReceiver.getSessionState();
   if (sessionState) {
     // Get list of items
     console.log(`\nItems in cart for ${sessionId}: ${sessionState}\n`);
@@ -129,16 +129,16 @@ async function processMessageFromSession(sessionId: string) {
     // Update sessionState
     if (messages[0].body.event_name === "Checkout") {
       // Clear cart if customer exits, else retain items.
-      await sessionReceiver.setState(JSON.stringify([]));
+      await sessionReceiver.setSessionState(JSON.stringify([]));
     } else if (messages[0].body.event_name === "Add Item") {
       // Update cart if customer adds items and store it in session state.
-      const currentSessionState = await sessionReceiver.getState();
+      const currentSessionState = await sessionReceiver.getSessionState();
       let newSessionState: string[] = [];
       if (currentSessionState) {
         newSessionState = JSON.parse(currentSessionState);
       }
       newSessionState.push(messages[0].body.event_details);
-      await sessionReceiver.setState(JSON.stringify(newSessionState));
+      await sessionReceiver.setSessionState(JSON.stringify(newSessionState));
     }
 
     console.log(

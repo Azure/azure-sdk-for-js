@@ -270,7 +270,7 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
   }
 
   /**
-   * Clears token remewal for current link, removes current LinkEntity instance from cache,
+   * Clears token renewal for current link, removes current LinkEntity instance from cache,
    * and closes the underlying AMQP link.
    * Once closed, this instance of LinkEntity is not meant to be re-used.
    */

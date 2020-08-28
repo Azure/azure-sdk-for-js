@@ -1,0 +1,49 @@
+{
+  "recordings": [
+    {
+      "method": "POST",
+      "url": "https://joherediteststorage.table.core.windows.net/integration",
+      "query": {},
+      "requestBody": "{\"PartitionKey\":\"P5__browser\",\"RowKey\":\"R5\",\"testField\":123,\"testField@odata.type\":\"Edm.Int32\"}",
+      "status": 204,
+      "response": "",
+      "responseHeaders": {
+        "cache-control": "no-cache",
+        "content-length": "0",
+        "dataserviceid": "https://joherediteststorage.table.core.windows.net/integration(PartitionKey='P5__browser',RowKey='R5')",
+        "date": "Fri, 21 Aug 2020 14:06:38 GMT",
+        "etag": "W/\"datetime'2020-08-21T14%3A06%3A38.2399901Z'\"",
+        "location": "https://joherediteststorage.table.core.windows.net/integration(PartitionKey='P5__browser',RowKey='R5')",
+        "preference-applied": "return-no-content",
+        "server": "Windows-Azure-Table/1.0 Microsoft-HTTPAPI/2.0",
+        "x-content-type-options": "nosniff",
+        "x-ms-request-id": "fad42ab4-b002-00cb-1ec4-77c6e4000000",
+        "x-ms-version": "2019-02-02"
+      }
+    },
+    {
+      "method": "GET",
+      "url": "https://joherediteststorage.table.core.windows.net/integration(PartitionKey='P5__browser',RowKey='R5')",
+      "query": {},
+      "requestBody": null,
+      "status": 200,
+      "response": "{\"odata.metadata\":\"https://joherediteststorage.table.core.windows.net/$metadata#integration/@Element\",\"odata.etag\":\"W/\\\"datetime'2020-08-21T14%3A06%3A38.2399901Z'\\\"\",\"PartitionKey\":\"P5__browser\",\"RowKey\":\"R5\",\"Timestamp\":\"2020-08-21T14:06:38.2399901Z\",\"testField\":123}",
+      "responseHeaders": {
+        "cache-control": "no-cache",
+        "content-type": "application/json;odata=minimalmetadata;streaming=true;charset=utf-8",
+        "date": "Fri, 21 Aug 2020 14:06:38 GMT",
+        "etag": "W/\"datetime'2020-08-21T14%3A06%3A38.2399901Z'\"",
+        "server": "Windows-Azure-Table/1.0 Microsoft-HTTPAPI/2.0",
+        "transfer-encoding": "chunked",
+        "x-content-type-options": "nosniff",
+        "x-ms-request-id": "fad42ac8-b002-00cb-31c4-77c6e4000000",
+        "x-ms-version": "2019-02-02"
+      }
+    }
+  ],
+  "uniqueTestInfo": {
+    "uniqueName": {},
+    "newDate": {}
+  },
+  "hash": "e955ffe6d0ff9ff8e5553812d8b1a177"
+}

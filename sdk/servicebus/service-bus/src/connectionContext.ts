@@ -16,7 +16,6 @@ import { ServiceBusClientOptions } from "./constructorHelpers";
 import { Connection, ConnectionEvents, EventContext, OnAmqpEvent } from "rhea-promise";
 import { MessageSender } from "./core/messageSender";
 import { MessageSession } from "./session/messageSession";
-import { ConcurrentExpiringMap } from "./util/concurrentExpiringMap";
 import { MessageReceiver } from "./core/messageReceiver";
 import { ManagementClient } from "./core/managementClient";
 import { formatUserAgentPrefix } from "./util/utils";
@@ -43,12 +42,6 @@ export interface ConnectionContext extends ConnectionContextBase {
    * with receiver name as key.
    */
   messageSessions: { [name: string]: MessageSession };
-  /**
-   * @property A map of unsettled, unexpired deferred messages. When a message settlement request comes
-   * through, this map is used to determine if the message should be settled using the receiver link or
-   * the management link.
-   */
-  requestResponseLockedMessages: ConcurrentExpiringMap<string>;
   /**
    * @property A map of ManagementClient instances for operations over the $management link
    * with key as the entity path.
@@ -164,7 +157,6 @@ export namespace ConnectionContext {
     connectionContext.senders = {};
     connectionContext.messageReceivers = {};
     connectionContext.messageSessions = {};
-    connectionContext.requestResponseLockedMessages = new ConcurrentExpiringMap();
     connectionContext.managementClients = {};
 
     let waitForConnectionRefreshResolve: () => void;
@@ -325,7 +317,7 @@ export namespace ConnectionContext {
 
         const detachCalls: Promise<void>[] = [];
 
-        // Call onDetached() on sender so that it can decide whether to reconnect or not
+        // Call onDetached() on sender so that it can gracefully shutdown
         for (const senderName of Object.keys(connectionContext.senders)) {
           const sender = connectionContext.senders[senderName];
           if (sender && !sender.isConnecting) {
@@ -495,9 +487,6 @@ export namespace ConnectionContext {
         for (const entityPath of Object.keys(context.managementClients)) {
           await context.managementClients[entityPath].close();
         }
-
-        // Make sure that we clear the map of deferred messages
-        context.requestResponseLockedMessages.clear();
 
         await context.cbsSession.close();
 
