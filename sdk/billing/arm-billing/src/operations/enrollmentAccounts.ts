@@ -61,14 +61,14 @@ export class EnrollmentAccounts {
    * @param name Enrollment Account name.
    * @param callback The callback
    */
-  get(name: string, callback: msRest.ServiceCallback<Models.EnrollmentAccount>): void;
+  get(name: string, callback: msRest.ServiceCallback<Models.EnrollmentAccountSummary>): void;
   /**
    * @param name Enrollment Account name.
    * @param options The optional parameters
    * @param callback The callback
    */
-  get(name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EnrollmentAccount>): void;
-  get(name: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EnrollmentAccount>, callback?: msRest.ServiceCallback<Models.EnrollmentAccount>): Promise<Models.EnrollmentAccountsGetResponse> {
+  get(name: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.EnrollmentAccountSummary>): void;
+  get(name: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.EnrollmentAccountSummary>, callback?: msRest.ServiceCallback<Models.EnrollmentAccountSummary>): Promise<Models.EnrollmentAccountsGetResponse> {
     return this.client.sendOperationRequest(
       {
         name,
@@ -113,7 +113,7 @@ const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "providers/Microsoft.Billing/enrollmentAccounts",
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion1
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -136,14 +136,14 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.name
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion1
   ],
   headerParameters: [
     Parameters.acceptLanguage
   ],
   responses: {
     200: {
-      bodyMapper: Mappers.EnrollmentAccount
+      bodyMapper: Mappers.EnrollmentAccountSummary
     },
     default: {
       bodyMapper: Mappers.ErrorResponse

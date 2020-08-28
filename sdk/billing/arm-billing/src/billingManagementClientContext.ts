@@ -13,25 +13,29 @@ import * as msRest from "@azure/ms-rest-js";
 import * as msRestAzure from "@azure/ms-rest-azure-js";
 
 const packageName = "@azure/arm-billing";
-const packageVersion = "0.1.0";
+const packageVersion = "2.2.0";
 
 export class BillingManagementClientContext extends msRestAzure.AzureServiceClient {
   credentials: msRest.ServiceClientCredentials;
-  apiVersion?: string;
   subscriptionId: string;
+  subscriptionId1: string;
 
   /**
    * Initializes a new instance of the BillingManagementClient class.
    * @param credentials Credentials needed for the client to connect to Azure.
-   * @param subscriptionId Azure Subscription ID.
+   * @param subscriptionId The ID that uniquely identifies an Azure subscription.
+   * @param subscriptionId1 Azure Subscription ID.
    * @param [options] The parameter options
    */
-  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.BillingManagementClientOptions) {
+  constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, subscriptionId1: string, options?: Models.BillingManagementClientOptions) {
     if (credentials == undefined) {
       throw new Error('\'credentials\' cannot be null.');
     }
     if (subscriptionId == undefined) {
       throw new Error('\'subscriptionId\' cannot be null.');
+    }
+    if (subscriptionId1 == undefined) {
+      throw new Error('\'subscriptionId1\' cannot be null.');
     }
 
     if (!options) {
@@ -44,13 +48,13 @@ export class BillingManagementClientContext extends msRestAzure.AzureServiceClie
 
     super(credentials, options);
 
-    this.apiVersion = '2018-03-01-preview';
     this.acceptLanguage = 'en-US';
     this.longRunningOperationRetryTimeout = 30;
     this.baseUri = options.baseUri || this.baseUri || "https://management.azure.com";
     this.requestContentType = "application/json; charset=utf-8";
     this.credentials = credentials;
     this.subscriptionId = subscriptionId;
+    this.subscriptionId1 = subscriptionId1;
 
     if(options.acceptLanguage !== null && options.acceptLanguage !== undefined) {
       this.acceptLanguage = options.acceptLanguage;
