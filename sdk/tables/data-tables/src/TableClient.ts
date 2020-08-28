@@ -140,7 +140,7 @@ export class TableClient {
    */
   // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
   public create(options?: CreateTableOptions): Promise<CreateTableItemResponse> {
-      return this.table.create({ tableName: this.tableName }, options);
+    return this.table.create({ tableName: this.tableName }, options);
   }
 
   /**
@@ -162,7 +162,11 @@ export class TableClient {
       { ...getEntityOptions, queryOptions: this.convertQueryOptions(queryOptions || {}) }
     );
     const tableEntity = deserialize<TableEntity<T>>(_response.parsedBody);
-    return { ...tableEntity, _response };
+
+    return Object.defineProperty({ ...tableEntity }, "_response", {
+      enumerable: false,
+      value: _response
+    });
   }
 
   /**
@@ -248,10 +252,14 @@ export class TableClient {
 
     const tableEntities = deserializeObjectsArray<TableEntity<T>>(value || []);
 
-    return Object.assign([...tableEntities], {
-      _response,
+    const resultArray = Object.assign([...tableEntities], {
       nextPartitionKey,
       nextRowKey
+    });
+
+    return Object.defineProperty(resultArray, "_response", {
+      enumerable: false,
+      value: _response
     });
   }
 
