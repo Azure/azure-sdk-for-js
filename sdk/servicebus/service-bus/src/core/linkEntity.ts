@@ -7,7 +7,8 @@ import {
   SharedKeyCredential,
   TokenType,
   defaultLock,
-  RequestResponseLink
+  RequestResponseLink,
+  MessagingError
 } from "@azure/core-amqp";
 import { ConnectionContext } from "../connectionContext";
 import * as log from "../log";
@@ -412,8 +413,10 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
 
     // Wait for the connectionContext to be ready to open the link.
     if (this._context.isConnectionClosing()) {
-      log.error(`${this._logPrefix} connection is closing, aborting negotiateClaim`);
-      throw new Error("Connection was closing, aborting negotiateClaim.");
+      log.error(`${this._logPrefix} Connection is reopening, aborting negotiateClaim.`);
+      const err = new MessagingError("Connection is reopening, aborting negotiateClaim.");
+      err.retryable = true;
+      throw err;
     }
 
     // Acquire the lock and establish a cbs session if it does not exist on the connection.

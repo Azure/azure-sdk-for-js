@@ -95,7 +95,12 @@ describe("LinkEntity unit tests", () => {
       await linkEntity.initLink({});
       assert.fail("Should have thrown");
     } catch (err) {
-      assert.equal(err.message, "Connection was closing, aborting negotiateClaim.");
+      assert.equal(err.message, "Connection is reopening, aborting negotiateClaim.");
+      assert.equal(err.name, "MessagingError");
+      assert.isTrue(
+        err.retryable,
+        "Exception thrown when the connection is closing should be retryable"
+      );
     }
   });
 
