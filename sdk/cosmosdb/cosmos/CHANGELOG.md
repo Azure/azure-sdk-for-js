@@ -2,8 +2,7 @@
 
 ## 3.9.2 (Unreleased)
 
-
-## 3.9.1 (2020-08-26)
+## 3.9.1 (2020-08-28)
 
 - BUGFIX: Fixes `OperationInput` type to be more accurate based on `OperationType`.
 - FEATURE: Bulk requests with `Create` operations will now autogenerate IDs if they are not present.
@@ -126,7 +125,6 @@ database.container.create(containerDefinition);
 ```
 
 ## 3.6.3 (2020-04-08)
->>>>>>> master
 
 - FEATURE: Add `partitionKey` to `FeedOptions` for scoping a query to a single partition key value
 
