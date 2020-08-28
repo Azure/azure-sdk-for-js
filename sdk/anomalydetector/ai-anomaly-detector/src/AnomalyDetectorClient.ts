@@ -64,6 +64,7 @@ export class AnomalyDetectorClient {
   constructor(
     endpointUrl: string,
     credential: TokenCredential | KeyCredential,
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options?: AnomalyDetectorClientOptions
   ) {
     this.endpointUrl = endpointUrl;
@@ -109,6 +110,7 @@ export class AnomalyDetectorClient {
    */
   public detectEntireSeries(
     body: DetectRequest,
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options?: OperationOptions
   ): Promise<AnomalyDetectorClientDetectEntireResponse> {
     const realOptions = options || {};
@@ -140,6 +142,7 @@ export class AnomalyDetectorClient {
    */
   public detectLastPoint(
     body: DetectRequest,
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options?: OperationOptions
   ): Promise<AnomalyDetectorClientDetectLastPointResponse> {
     const realOptions = options || {};
@@ -169,6 +172,7 @@ export class AnomalyDetectorClient {
    */
   detectChangePoint(
     body: DetectChangePointRequest,
+    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options?: OperationOptions
   ): Promise<AnomalyDetectorClientDetectChangePointResponse> {
     const realOptions = options || {};
