@@ -1,10 +1,10 @@
 $Language = "javascript"
-$Lang = "js"
+$LanguageShort = "js"
 $PackageRepository = "NPM"
 $packagePattern = "*.tgz"
 $MetadataUri = "https://raw.githubusercontent.com/Azure/azure-sdk/master/_data/releases/latest/js-packages.csv"
 
-function Get-javascript-PackageInfoFromRepo ($pkgPath, $serviceName, $pkgName)
+function Get-javascript-PackageInfoFromRepo ($pkgPath, $serviceDirectory, $pkgName)
 {
   $projectPath = Join-Path $pkgPath "package.json"
   if (Test-Path $projectPath)
@@ -13,7 +13,7 @@ function Get-javascript-PackageInfoFromRepo ($pkgPath, $serviceName, $pkgName)
     $jsStylePkgName = $pkgName.replace("azure-", "@azure/")
     if ($projectJson.name -eq "$jsStylePkgName")
     {
-      return [PackageProps]::new($projectJson.name, $projectJson.version, $pkgPath, $serviceName)
+      return [PackageProps]::new($projectJson.name, $projectJson.version, $pkgPath, $serviceDirectory)
     }
   }
   return $null
@@ -23,15 +23,17 @@ function Get-javascript-PackageInfoFromRepo ($pkgPath, $serviceName, $pkgName)
 function IsNPMPackageVersionPublished ($pkgId, $pkgVersion)
 {
   $npmVersions = (npm show $pkgId versions)
-  if ($LastExitCode -ne 0) {
+  if ($LastExitCode -ne 0)
+  {
     npm ping
-    if ($LastExitCode -eq 0) {
+    if ($LastExitCode -eq 0)
+    {
       return $False
     }
     Write-Host "Could not find a deployed version of $pkgId, and NPM connectivity check failed."
     exit(1)
   }
-  $npmVersionList = $npmVersions.split(",") | % { return $_.replace("[", "").replace("]", "").Trim() }
+  $npmVersionList = $npmVersions.split(",") | ForEach-Object { return $_.replace("[", "").replace("]", "").Trim() }
   return $npmVersionList.Contains($pkgVersion)
 }
 
@@ -44,7 +46,8 @@ function Get-javascript-PackageInfoFromPackageFile ($pkg, $workingDirectory)
   $readmeContent = ""
 
   New-Item -ItemType Directory -Force -Path $workFolder
-  cd $workFolder
+  Set-Location $workFolder
+
   tar -xzf $pkg
 
   $packageJSON = ResolvePkgJson -workFolder $workFolder | Get-Content | ConvertFrom-Json
@@ -52,17 +55,19 @@ function Get-javascript-PackageInfoFromPackageFile ($pkg, $workingDirectory)
   $pkgVersion = $packageJSON.version
 
   $changeLogLoc = @(Get-ChildItem -Path $workFolder -Recurse -Include "CHANGELOG.md")[0]
-  if ($changeLogLoc) {
+  if ($changeLogLoc)
+  {
     $releaseNotes = Get-ChangeLogEntryAsString -ChangeLogLocation $changeLogLoc -VersionString $pkgVersion
   }
 
   $readmeContentLoc = @(Get-ChildItem -Path $workFolder -Recurse -Include "README.md") | Select-Object -Last 1
-  if ($readmeContentLoc) {
+  if ($readmeContentLoc)
+  {
     $readmeContent = Get-Content -Raw $readmeContentLoc
   }
 
-  cd $origFolder
-  Remove-Item $workFolder -Force  -Recurse -ErrorAction SilentlyContinue
+  Set-Location $origFolder
+  Remove-Item $workFolder -Force -Recurse -ErrorAction SilentlyContinue
 
   $resultObj = New-Object PSObject -Property @{
     PackageId      = $pkgId
@@ -71,13 +76,14 @@ function Get-javascript-PackageInfoFromPackageFile ($pkg, $workingDirectory)
     ReleaseNotes   = $releaseNotes
     ReadmeContent  = $readmeContent
   }
+
   return $resultObj
 }
 
 # Stage and Upload Docs to blob Storage
 function Publish-javascript-GithubIODocs ()
 {
-  $PublishedDocs = Get-ChildItem "$($DocLocation)/documentation" | Where-Object -FilterScript {$_.Name.EndsWith(".zip")}
+  $PublishedDocs = Get-ChildItem "$($DocLocation)/documentation" | Where-Object -FilterScript { $_.Name.EndsWith(".zip") }
 
   foreach ($Item in $PublishedDocs) 
   {
@@ -86,7 +92,7 @@ function Publish-javascript-GithubIODocs ()
     Expand-Archive -Force -Path "$($DocLocation)/documentation/$($Item.Name)" -DestinationPath "$($DocLocation)/documentation/$($Item.BaseName)"
     $dirList = Get-ChildItem "$($DocLocation)/documentation/$($Item.BaseName)/$($Item.BaseName)" -Attributes Directory
 
-    if($dirList.Length -eq 1)
+    if ($dirList.Length -eq 1)
     {
       $DocVersion = $dirList[0].Name
       Write-Host "Uploading Doc for $($PkgName) Version:- $($DocVersion)..."
