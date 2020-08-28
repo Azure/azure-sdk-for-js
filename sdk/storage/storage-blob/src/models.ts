@@ -7,7 +7,8 @@ import {
   SequenceNumberAccessConditions,
   AppendPositionAccessConditions,
   AccessTier,
-  CpkInfo
+  CpkInfo,
+  BlobDownloadResponseModel
 } from "./generatedModels";
 import { EncryptionAlgorithmAES25 } from "./utils/constants";
 
@@ -135,4 +136,80 @@ export function ensureCpkIfSpecified(cpk: CpkInfo | undefined, isHttps: boolean)
   if (cpk && !cpk.encryptionAlgorithm) {
     cpk.encryptionAlgorithm = EncryptionAlgorithmAES25;
   }
+}
+
+/**
+ * Specifies the Replication Status of a blob. This is used when a storage account has
+ * Object Replication Policy(s) applied. See {@link ObjectReplicationPolicy} and {@link ObjectReplicationRule}.
+ */
+export type ObjectReplicationStatus = "complete" | "failed";
+
+/**
+ * Contains the Object Replication Rule ID and {@link ObjectReplicationStatus} of a blob.
+ * There can be more than one {@link ObjectReplicationRule} under a {@link ObjectReplicationPolicy}.
+ */
+export interface ObjectReplicationRule {
+  /**
+   * The Object Replication Rule ID.
+   *
+   * @type {string}
+   * @memberof ObjectReplicationRule
+   */
+  ruleId: string;
+
+  /**
+   * The Replication Status
+   *
+   * @type {ObjectReplicationStatus}
+   * @memberof ObjectReplicationRule
+   */
+  replicationStatus: ObjectReplicationStatus;
+}
+
+/**
+ * Contains Object Replication Policy ID and the respective list of {@link ObjectReplicationRule}.
+ * This is used when retrieving the Object Replication Properties on the source blob. The policy id for the
+ * destination blob is set in ObjectReplicationDestinationPolicyId of the respective method responses
+ * (e.g. {@link BlobProperties.ObjectReplicationDestinationPolicyId}.
+ */
+export interface ObjectReplicationPolicy {
+  /**
+   * The Object Replication Policy ID.
+   *
+   * @type {string}
+   * @memberof ObjectReplicationPolicy
+   */
+  policyId: string;
+
+  /**
+   * The Rule ID(s) and respective Replication Status(s) that are under the Policy ID.
+   *
+   * @type {string}
+   * @memberof ObjectReplicationPolicy
+   */
+  rules: ObjectReplicationRule[];
+}
+
+/**
+ * Contains response data for the {@link BlobClient.download} operation.
+ *
+ * @export
+ * @interface BlobDownloadResponseParsed
+ */
+export interface BlobDownloadResponseParsed extends BlobDownloadResponseModel {
+  /**
+   * Parsed Object Replication Policy Id, Rule Id(s) and status of the source blob.
+   *
+   * @type {ObjectReplicationPolicy[]}
+   * @memberof BlobDownloadResponseParsed
+   */
+  objectReplicationSourceProperties?: ObjectReplicationPolicy[];
+
+  /**
+   * Object Replication Policy Id of the destination blob.
+   *
+   * @type {string}
+   * @memberof BlobDownloadResponseParsed
+   */
+  objectReplicationDestinationPolicyId?: string;
 }

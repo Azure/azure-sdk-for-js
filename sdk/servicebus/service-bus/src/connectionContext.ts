@@ -15,10 +15,7 @@ import {
 import { ServiceBusClientOptions } from "./constructorHelpers";
 import { Connection, ConnectionEvents, EventContext, OnAmqpEvent } from "rhea-promise";
 import { MessageSender } from "./core/messageSender";
-import { BatchingReceiver } from "./core/batchingReceiver";
-import { StreamingReceiver } from "./core/streamingReceiver";
 import { MessageSession } from "./session/messageSession";
-import { ConcurrentExpiringMap } from "./util/concurrentExpiringMap";
 import { MessageReceiver } from "./core/messageReceiver";
 import { ManagementClient } from "./core/managementClient";
 import { formatUserAgentPrefix } from "./util/utils";
@@ -36,26 +33,15 @@ export interface ConnectionContext extends ConnectionContextBase {
    */
   senders: { [name: string]: MessageSender };
   /**
-   * @property A map of active Service Bus receivers used to receive messages in pull mode
+   * @property A map of active Service Bus receivers for non session enabled queues/subscriptions
    * with receiver name as key.
    */
-  batchingReceivers: { [name: string]: BatchingReceiver };
-  /**
-   * @property A map of active Service Bus receivers used to receive messages in push mode
-   * with receiver name as key.
-   */
-  streamingReceivers: { [name: string]: StreamingReceiver };
+  messageReceivers: { [name: string]: MessageReceiver };
   /**
    * @property A map of active Service Bus receivers for session enabled queues/subscriptions
    * with receiver name as key.
    */
   messageSessions: { [name: string]: MessageSession };
-  /**
-   * @property A map of unsettled, unexpired deferred messages. When a message settlement request comes
-   * through, this map is used to determine if the message should be settled using the receiver link or
-   * the management link.
-   */
-  requestResponseLockedMessages: ConcurrentExpiringMap<string>;
   /**
    * @property A map of ManagementClient instances for operations over the $management link
    * with key as the entity path.
@@ -169,10 +155,8 @@ export namespace ConnectionContext {
     // Let us create the base context and then add ServiceBus specific ConnectionContext properties.
     const connectionContext = ConnectionContextBase.create(parameters) as ConnectionContext;
     connectionContext.senders = {};
-    connectionContext.batchingReceivers = {};
-    connectionContext.streamingReceivers = {};
+    connectionContext.messageReceivers = {};
     connectionContext.messageSessions = {};
-    connectionContext.requestResponseLockedMessages = new ConcurrentExpiringMap();
     connectionContext.managementClients = {};
 
     let waitForConnectionRefreshResolve: () => void;
@@ -222,12 +206,8 @@ export namespace ConnectionContext {
           return this.messageSessions[receiverName];
         }
 
-        if (this.streamingReceivers[receiverName]) {
-          return this.streamingReceivers[receiverName];
-        }
-
-        if (this.batchingReceivers[receiverName]) {
-          return this.batchingReceivers[receiverName];
+        if (this.messageReceivers[receiverName]) {
+          return this.messageReceivers[receiverName];
         }
 
         let existingReceivers = "";
@@ -240,9 +220,7 @@ export namespace ConnectionContext {
           }
         } else {
           existingReceivers +=
-            (existingReceivers ? ", " : "") + Object.keys(this.streamingReceivers).join(",");
-          existingReceivers +=
-            (existingReceivers ? ", " : "") + Object.keys(this.batchingReceivers).join(",");
+            (existingReceivers ? ", " : "") + Object.keys(this.messageReceivers).join(",");
         }
 
         log.error(
@@ -307,8 +285,7 @@ export namespace ConnectionContext {
         wasConnectionCloseCalled: connectionContext.wasConnectionCloseCalled,
         numSenders: Object.keys(connectionContext.senders).length,
         numReceivers:
-          Object.keys(connectionContext.batchingReceivers).length +
-          Object.keys(connectionContext.streamingReceivers).length +
+          Object.keys(connectionContext.messageReceivers).length +
           Object.keys(connectionContext.messageSessions).length
       };
 
@@ -340,7 +317,7 @@ export namespace ConnectionContext {
 
         const detachCalls: Promise<void>[] = [];
 
-        // Call onDetached() on sender so that it can decide whether to reconnect or not
+        // Call onDetached() on sender so that it can gracefully shutdown
         for (const senderName of Object.keys(connectionContext.senders)) {
           const sender = connectionContext.senders[senderName];
           if (sender && !sender.isConnecting) {
@@ -362,46 +339,27 @@ export namespace ConnectionContext {
           }
         }
 
-        // Call onDetached() on batchingReceiver so that it can gracefully close any ongoing batch operation.
-        for (const batchingReceiverName of Object.keys(connectionContext.batchingReceivers)) {
-          const batchingReceiver = connectionContext.batchingReceivers[batchingReceiverName];
-          if (batchingReceiver && !batchingReceiver.isConnecting) {
+        // Call onDetached() on receivers so that batching receivers it can gracefully close any ongoing batch operation
+        // and streaming receivers can decide whether to reconnect or not.
+        for (const receiverName of Object.keys(connectionContext.messageReceivers)) {
+          const receiver = connectionContext.messageReceivers[receiverName];
+          if (receiver && !receiver.isConnecting) {
             log.error(
-              "[%s] calling detached on batching receiver '%s'.",
+              "[%s] calling detached on %s receiver '%s'.",
               connectionContext.connection.id,
-              batchingReceiver.name
-            );
-            detachCalls.push(
-              batchingReceiver.onDetached(connectionError || contextError).catch((err) => {
-                log.error(
-                  "[%s] An error occurred while calling onDetached() on the batching receiver '%s': %O.",
-                  connectionContext.connection.id,
-                  batchingReceiver.name,
-                  err
-                );
-              })
-            );
-          }
-        }
-
-        // Call onDetached() on streamingReceiver so that it can decide whether to reconnect or not
-        for (const streamingReceiverName of Object.keys(connectionContext.streamingReceivers)) {
-          const streamingReceiver = connectionContext.streamingReceivers[streamingReceiverName];
-          if (streamingReceiver && !streamingReceiver.isConnecting) {
-            log.error(
-              "[%s] calling detached on streaming receiver '%s'.",
-              connectionContext.connection.id,
-              streamingReceiver.name
+              receiver.receiverType,
+              receiver.name
             );
             const causedByDisconnect = true;
             detachCalls.push(
-              streamingReceiver
+              receiver
                 .onDetached(connectionError || contextError, causedByDisconnect)
                 .catch((err) => {
                   log.error(
-                    "[%s] An error occurred while calling onDetached() on the streaming receiver '%s': %O.",
+                    "[%s] An error occurred while calling onDetached() on the %s receiver '%s': %O.",
                     connectionContext.connection.id,
-                    streamingReceiver.name,
+                    receiver.receiverType,
+                    receiver.name,
                     err
                   );
                 })
@@ -515,17 +473,12 @@ export namespace ConnectionContext {
           await context.senders[senderName].close();
         }
 
-        // Close batching receiver
-        for (const batchingReceiverName of Object.keys(context.batchingReceivers)) {
-          await context.batchingReceivers[batchingReceiverName].close();
+        // Close all MessageReceiver instances
+        for (const receiverName of Object.keys(context.messageReceivers)) {
+          await context.messageReceivers[receiverName].close();
         }
 
-        // Close streaming receiver
-        for (const streamingReceiverName of Object.keys(context.streamingReceivers)) {
-          await context.streamingReceivers[streamingReceiverName].close();
-        }
-
-        // Close all the MessageSessions.
+        // Close all MessageSession instances
         for (const messageSessionName of Object.keys(context.messageSessions)) {
           await context.messageSessions[messageSessionName].close();
         }
@@ -534,9 +487,6 @@ export namespace ConnectionContext {
         for (const entityPath of Object.keys(context.managementClients)) {
           await context.managementClients[entityPath].close();
         }
-
-        // Make sure that we clear the map of deferred messages
-        context.requestResponseLockedMessages.clear();
 
         await context.cbsSession.close();
 

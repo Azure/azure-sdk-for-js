@@ -111,7 +111,8 @@ describe("Send Batch", () => {
         messagesToSend.push({
           body: Buffer.alloc(2000),
           messageId: `message ${i}`,
-          sessionId: useSessions ? `someSession ${i}` : undefined
+          sessionId: useSessions ? `someSession ${i}` : undefined,
+          partitionKey: useSessions ? `someSession ${i}` : undefined
         });
       }
       return messagesToSend;

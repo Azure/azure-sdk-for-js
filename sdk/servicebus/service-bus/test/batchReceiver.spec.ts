@@ -975,17 +975,17 @@ describe("Batching Receiver", () => {
       // tick of the event loop; after the handler has been attached.
       setTimeout(() => {
         // remove `receiver_drained` event
-        batchingReceiver["_receiver"]!.removeAllListeners(ReceiverEvents.receiverDrained);
+        batchingReceiver["link"]!.removeAllListeners(ReceiverEvents.receiverDrained);
       }, 0);
 
       // We want to simulate a disconnect once the batching receiver is draining.
       // We can detect when the receiver enters a draining state when `addCredit` is
       // called while `drain` is set to true.
       let didRequestDrain = false;
-      const addCredit = batchingReceiver["_receiver"]!.addCredit;
-      batchingReceiver["_receiver"]!.addCredit = function(credits) {
+      const addCredit = batchingReceiver["link"]!.addCredit;
+      batchingReceiver["link"]!.addCredit = function(credits) {
         addCredit.call(this, credits);
-        if (batchingReceiver["_receiver"]!.drain) {
+        if (batchingReceiver["link"]!.drain) {
           didRequestDrain = true;
           // Simulate a disconnect being called with a non-retryable error.
           receiverContext.connection["_connection"].idle();
@@ -1040,18 +1040,18 @@ describe("Batching Receiver", () => {
       // tick of the event loop; after the handler has been attached.
       setTimeout(() => {
         // remove `receiver_drained` event
-        batchingReceiver["_receiver"]!.removeAllListeners(ReceiverEvents.receiverDrained);
+        batchingReceiver["link"]!.removeAllListeners(ReceiverEvents.receiverDrained);
       }, 0);
 
       // We want to simulate a disconnect once the batching receiver is draining.
       // We can detect when the receiver enters a draining state when `addCredit` is
       // called while `drain` is set to true.
       let didRequestDrain = false;
-      const addCredit = batchingReceiver["_receiver"]!.addCredit;
-      batchingReceiver["_receiver"]!.addCredit = function(credits) {
+      const addCredit = batchingReceiver["link"]!.addCredit;
+      batchingReceiver["link"]!.addCredit = function(credits) {
         didRequestDrain = true;
         addCredit.call(this, credits);
-        if (batchingReceiver["_receiver"]!.drain) {
+        if (batchingReceiver["link"]!.drain) {
           // Simulate a disconnect being called with a non-retryable error.
           receiverContext.connection["_connection"].idle();
         }
@@ -1102,7 +1102,7 @@ describe("Batching Receiver", () => {
       await sender.sendMessages(TestMessage.getSample());
 
       // Simulate a disconnect after a message has been received.
-      batchingReceiver["_receiver"]!.once("message", function() {
+      batchingReceiver["link"]!.once("message", function() {
         setTimeout(() => {
           // Simulate a disconnect being called with a non-retryable error.
           receiverContext.connection["_connection"].idle();

@@ -45,13 +45,13 @@ describe("SearchIndexClient", function() {
   describe("#synonymmaps", function() {
     it("gets the list of synonymmaps", async function(){
       const synonymMaps = await indexClient.listSynonymMaps();
-      assert.isAtLeast(synonymMaps.length, 4);
+      assert.isAtLeast(synonymMaps.length, 2);
     });
 
     it("gets the list of synonymmaps names", async function(){
       const synonymMapNames = await indexClient.listSynonymMapsNames();
-      assert.isAtLeast(synonymMapNames.length, 4);
-      for (let i = 1; i <= 4; i++) {
+      assert.isAtLeast(synonymMapNames.length, 2);
+      for (let i = 1; i <= 2; i++) {
         assert.include(synonymMapNames, `my-azure-synonymmap-${i}`);
       }
     });
@@ -76,14 +76,14 @@ describe("SearchIndexClient", function() {
     });
 
     it("creates the synonymmap object using createOrUpdateSynonymMap", async function(){
-      let synonymMap:SynonymMap = {
-        name: `my-azure-synonymmap-5`,
+      let synonymMap: SynonymMap = {
+        name: `my-azure-synonymmap-3`,
         synonyms: ["United States, United States of America => USA", "Washington, Wash. => WA"]
       };
       await indexClient.createOrUpdateSynonymMap(synonymMap);
       try {
-        synonymMap = await indexClient.getSynonymMap("my-azure-synonymmap-5");
-        assert.equal(synonymMap.name, "my-azure-synonymmap-5");
+        synonymMap = await indexClient.getSynonymMap("my-azure-synonymmap-3");
+        assert.equal(synonymMap.name, "my-azure-synonymmap-3");
         assert.equal(synonymMap.synonyms.length, 2);
         const synonyms = ["United States, United States of America => USA", "Washington, Wash. => WA"];
         assert.include(synonyms, synonymMap.synonyms[0]);

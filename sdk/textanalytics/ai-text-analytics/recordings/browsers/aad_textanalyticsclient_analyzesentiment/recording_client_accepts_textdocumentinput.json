@@ -9,17 +9,17 @@
    "response": "{\"token_type\":\"Bearer\",\"expires_in\":3599,\"ext_expires_in\":3599,\"access_token\":\"access_token\"}",
    "responseHeaders": {
     "cache-control": "no-cache, no-store",
-    "content-length": "1417",
+    "content-length": "1500",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 11 Aug 2020 14:18:56 GMT",
+    "date": "Fri, 14 Aug 2020 17:49:41 GMT",
     "expires": "-1",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
     "referrer-policy": "strict-origin-when-cross-origin",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.10922.14 - CHI ProdSlices",
-    "x-ms-request-id": "1a88cac8-8263-4577-96ed-56bf923fe400"
+    "x-ms-ests-server": "2.1.10946.15 - EUS ProdSlices",
+    "x-ms-request-id": "3204cdb1-d32f-468f-a2f2-643f59a12a00"
    }
   },
   {
@@ -30,14 +30,14 @@
    "status": 200,
    "response": "{\"documents\":[{\"id\":\"1\",\"sentiment\":\"positive\",\"confidenceScores\":{\"positive\":0.99,\"neutral\":0.01,\"negative\":0.0},\"sentences\":[{\"sentiment\":\"positive\",\"confidenceScores\":{\"positive\":0.99,\"neutral\":0.01,\"negative\":0.0},\"offset\":0,\"length\":86,\"text\":\"I had a wonderful trip to Seattle last week and even visited the Space Needle 2 times!\"}],\"warnings\":[]},{\"id\":\"2\",\"sentiment\":\"negative\",\"confidenceScores\":{\"positive\":0.0,\"neutral\":0.0,\"negative\":1.0},\"sentences\":[{\"sentiment\":\"negative\",\"confidenceScores\":{\"positive\":0.0,\"neutral\":0.0,\"negative\":1.0},\"offset\":0,\"length\":58,\"text\":\"Unfortunately, it rained during my entire trip to Seattle.\"},{\"sentiment\":\"neutral\",\"confidenceScores\":{\"positive\":0.01,\"neutral\":0.7,\"negative\":0.29},\"offset\":59,\"length\":43,\"text\":\"I didn't even get to visit the Space Needle\"}],\"warnings\":[]},{\"id\":\"3\",\"sentiment\":\"positive\",\"confidenceScores\":{\"positive\":1.0,\"neutral\":0.0,\"negative\":0.0},\"sentences\":[{\"sentiment\":\"positive\",\"confidenceScores\":{\"positive\":1.0,\"neutral\":0.0,\"negative\":0.0},\"offset\":0,\"length\":101,\"text\":\"I went to see a movie on Saturday and it was perfectly average, nothing more or less than I expected.\"}],\"warnings\":[]},{\"id\":\"4\",\"sentiment\":\"negative\",\"confidenceScores\":{\"positive\":0.01,\"neutral\":0.03,\"negative\":0.96},\"sentences\":[{\"sentiment\":\"negative\",\"confidenceScores\":{\"positive\":0.01,\"neutral\":0.03,\"negative\":0.96},\"offset\":0,\"length\":42,\"text\":\"I didn't like the last book I read at all.\"}],\"warnings\":[]},{\"id\":\"5\",\"sentiment\":\"positive\",\"confidenceScores\":{\"positive\":0.89,\"neutral\":0.08,\"negative\":0.03},\"sentences\":[{\"sentiment\":\"positive\",\"confidenceScores\":{\"positive\":0.89,\"neutral\":0.08,\"negative\":0.03},\"offset\":0,\"length\":73,\"text\":\"Los caminos que llevan hasta Monte Rainier son espectaculares y hermosos.\"}],\"warnings\":[]},{\"id\":\"6\",\"sentiment\":\"negative\",\"confidenceScores\":{\"positive\":0.11,\"neutral\":0.29,\"negative\":0.6},\"sentences\":[{\"sentiment\":\"negative\",\"confidenceScores\":{\"positive\":0.11,\"neutral\":0.29,\"negative\":0.6},\"offset\":0,\"length\":29,\"text\":\"La carretera estaba atascada.\"},{\"sentiment\":\"neutral\",\"confidenceScores\":{\"positive\":0.09,\"neutral\":0.58,\"negative\":0.33},\"offset\":30,\"length\":35,\"text\":\"Había mucho tráfico el día de ayer.\"}],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-04-01\"}",
    "responseHeaders": {
-    "apim-request-id": "1b09f2db-133f-4fd8-b8cb-49c304881926",
+    "apim-request-id": "63a604ec-3dd4-4d1a-83ec-78614fd440ac",
     "content-type": "application/json; charset=utf-8",
     "csp-billing-usage": "CognitiveServices.TextAnalytics.BatchScoring=6",
-    "date": "Tue, 11 Aug 2020 14:18:55 GMT",
+    "date": "Fri, 14 Aug 2020 17:49:41 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "125"
+    "x-envoy-upstream-service-time": "918"
    }
   }
  ],

@@ -1084,7 +1084,7 @@ export class ServiceBusMessageImpl implements ReceivedMessageWithLock {
       );
       throw error;
     }
-    const isDeferredMessage = this._context.requestResponseLockedMessages.has(this.lockToken);
+    const isDeferredMessage = !this.delivery.link;
     const receiver = isDeferredMessage
       ? undefined
       : this._context.getReceiverFromCache(this.delivery.link.name, this.sessionId);
@@ -1131,10 +1131,6 @@ export class ServiceBusMessageImpl implements ReceivedMessageWithLock {
           associatedLinkName,
           sessionId: this.sessionId
         });
-      if (isDeferredMessage) {
-        // Remove the message from the internal map of deferred messages
-        this._context.requestResponseLockedMessages.delete(this.lockToken);
-      }
       return;
     }
 
