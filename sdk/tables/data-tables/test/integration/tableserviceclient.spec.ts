@@ -7,6 +7,16 @@ import { recordedEnvironmentSetup, createTableServiceClient } from "./utils/reco
 import { isNode } from "@azure/core-http";
 import { assert } from "chai";
 
+/**
+ * NOTE: For running this tests with a TEST_MODE different to "playback", you will need to make
+ * sure that the storage account these tests are run against meets the following requirements
+ *
+ * 1) Have a CORS rule to allow connections from browser tests
+ * 2) Create 3553 tables so that list tests can be run. Alternatively you can create as many tables
+ *    as you need but will need to update the expected values in the test below.
+ *
+ * With Issue #10918 we'll have ARM templates that should make running live tests locally much easier
+ */
 describe("TableServiceClient", () => {
   let client: TableServiceClient;
   let recorder: Recorder;
