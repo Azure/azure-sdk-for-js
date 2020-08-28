@@ -1,6 +1,6 @@
 # Release History
 
-## 3.9.1 (2020-08-26)
+## 3.9.1 (2020-08-28)
 
 - BUGFIX: Fixes `OperationInput` type to be more accurate based on `OperationType`.
 - FEATURE: Bulk requests with `Create` operations will now autogenerate IDs if they are not present.
