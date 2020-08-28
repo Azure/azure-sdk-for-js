@@ -7957,6 +7957,10 @@ export class ContainerClient extends StorageClient {
     ({ kind: "prefix" } & BlobPrefix) | ({ kind: "blob" } & BlobItem),
     ContainerListBlobHierarchySegmentResponse
   > {
+    if (delimiter === "") {
+      throw new RangeError("delimiter should contain one or more characters");
+    }
+
     const include: ListBlobsIncludeItem[] = [];
     if (options.includeCopy) {
       include.push("copy");
