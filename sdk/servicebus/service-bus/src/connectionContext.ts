@@ -327,7 +327,7 @@ export namespace ConnectionContext {
               sender.name
             );
             detachCalls.push(
-              sender.onDetached(connectionError || contextError).catch((err) => {
+              sender.onDetached().catch((err) => {
                 log.error(
                   "[%s] An error occurred while calling onDetached() the sender '%s': %O.",
                   connectionContext.connection.id,

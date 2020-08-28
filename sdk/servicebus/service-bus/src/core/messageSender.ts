@@ -121,7 +121,7 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
       );
       if (sender && !this.isConnecting) {
         // Call onDetached to clean up timers & other resources
-        await this.onDetached(senderError).catch((err) => {
+        await this.onDetached().catch((err) => {
           log.error(
             "[%s] Error when closing sender [%s] after 'sender_close' event: %O",
             this._context.connectionId,
@@ -145,7 +145,7 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
       );
       if (sender && !this.isConnecting) {
         // Call onDetached to clean up timers & other resources
-        await this.onDetached(sessionError).catch((err) => {
+        await this.onDetached().catch((err) => {
           log.error(
             "[%s] Error when closing sender [%s] after 'session_close' event: %O",
             this._context.connectionId,
@@ -364,33 +364,12 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
   /**
    * Closes the rhea link.
    * To be called when connection is disconnected, onAmqpClose and onSessionClose events.
-   * @param {AmqpError | Error} [senderError] The sender error if any.
    * @returns {Promise<void>} Promise<void>.
    */
-  async onDetached(senderError?: AmqpError | Error): Promise<void> {
-    if (senderError) {
-      log.error(
-        "[%s] Closing the rhea link on the Sender '%s' with address " + "'%s': %O",
-        this._context.connectionId,
-        this.name,
-        this.address,
-        senderError
-      );
-    }
-    try {
-      // Clears the token renewal timer. Closes the link and its session if they are open.
-      // Removes the link and its session if they are present in rhea's cache.
-      await this.closeLink();
-    } catch (err) {
-      log.error(
-        "[%s] An error occurred while processing detached() of Sender '%s' with address " +
-          "'%s': %O",
-        this._context.connectionId,
-        this.name,
-        this.address,
-        err
-      );
-    }
+  async onDetached(): Promise<void> {
+    // Clears the token renewal timer. Closes the link and its session if they are open.
+    // Removes the link and its session if they are present in rhea's cache.
+    await this.closeLink();
   }
 
   /**
