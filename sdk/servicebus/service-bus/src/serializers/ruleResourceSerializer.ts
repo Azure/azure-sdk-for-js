@@ -377,7 +377,7 @@ export function buildInternalRawKeyValuePairs(
       type = TypeMapForRequestSerialization.boolean;
     } else {
       throw new TypeError(
-        `Unsupported type for the value in the ${attribute} {${key}:${JSON.stringify(value)}}`
+        `Unsupported type for the value in the ${attribute} for the key '${key}'`
       );
     }
 
