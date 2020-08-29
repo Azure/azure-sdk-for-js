@@ -11,7 +11,7 @@ import nodeGlobals from "rollup-plugin-node-globals";
 
 import nodeBuiltins from "builtin-modules";
 
-const IS_PRODUCTION = process.env.NODE_ENV === "IS_PRODUCTION";
+const IS_PRODUCTION = process.env.NODE_ENV === "production";
 
 interface PackageJson {
   name: string;
