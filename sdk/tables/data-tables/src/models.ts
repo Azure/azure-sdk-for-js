@@ -100,7 +100,7 @@ export type ListEntitiesResponse<T extends object> = Array<TableEntity<T>> & {
   /**
    * Contains the continuation token value for row key.
    */
-  nextextRowKey?: string;
+  nextRowKey?: string;
   /**
    * The underlying HTTP response.
    */
@@ -186,10 +186,6 @@ export type CreateTableOptions = OperationOptions & {
  */
 export interface TableQueryOptions {
   /**
-   * Maximum number of records to return.
-   */
-  top?: number;
-  /**
    * OData filter expression.
    */
   filter?: string;
@@ -199,10 +195,6 @@ export interface TableQueryOptions {
  * OData Query options to limit the set of entities returned.
  */
 export interface TableEntityQueryOptions {
-  /**
-   * Maximum number of records to return.
-   */
-  top?: number;
   /**
    * OData filter expression.
    */
@@ -216,11 +208,7 @@ export interface TableEntityQueryOptions {
 /**
  * List tables optional parameters.
  */
-export interface ListTablesOptions {
-  /**
-   * Query options group
-   */
-  queryOptions?: TableQueryOptions;
+export interface ListTableItemsOptions {
   /**
    * Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when analytics logging is enabled.
    */

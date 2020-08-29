@@ -169,8 +169,15 @@ export function browserTestConfig(testMode) {
   baseConfig.input = input;
   baseConfig.plugins.unshift(multiEntry({ exports: false }));
   baseConfig.output.file = `dist-test/${testMode}.index.browser.js`;
+
   // mark fs-extra as external
-  baseConfig.external = ["fs-extra"];
+  baseConfig.external = ["fs-extra", "process"];
+
+  baseConfig.output.globals = {
+    ...baseConfig.output.globals,
+    "fs-extra": "fs",
+    process: "process"
+  };
 
   baseConfig.context = "null";
 

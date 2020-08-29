@@ -74,8 +74,8 @@ export function extractConnectionStringParts(connectionString: string): Connecti
 }
 
 function getSASConnectionString(connectionString: string, tableEndpoint: string): ConnectionString {
-  let accountName = getAccountNameFromUrl(tableEndpoint);
-  let accountSas = getValueInConnString(connectionString, "SharedAccessSignature");
+  const accountName = getAccountNameFromUrl(tableEndpoint);
+  const accountSas = getValueInConnString(connectionString, "SharedAccessSignature");
   if (!tableEndpoint) {
     throw new Error("Invalid TableEndpoint in the provided SAS Connection String");
   } else if (!accountSas) {
@@ -142,7 +142,7 @@ function getValueInConnString(
     | "DefaultEndpointsProtocol"
     | "EndpointSuffix"
     | "SharedAccessSignature"
-) {
+): string {
   const elements = connectionString.split(";");
   for (const element of elements) {
     if (element.trim().startsWith(argument)) {

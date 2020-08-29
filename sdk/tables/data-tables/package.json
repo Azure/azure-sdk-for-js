@@ -11,7 +11,7 @@
     "./dist-esm/src/utils/url.js": "./dist-esm/src/utils/url.browser.js",
     "./dist-esm/src/utils/bufferSerializer.js": "./dist-esm/src/utils/bufferSerializer.browser.js"
   },
-  "types": "types/latest/tables.d.ts",
+  "types": "types/latest/data-tables.d.ts",
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build:autorest": "autorest ./swagger/README.md --typescript --package-version=1.0.0-preview.1 --version=3.0.6267 --v3=true",
@@ -30,7 +30,7 @@
     "integration-test:node": "mocha --reporter ../../../common/tools/mocha-multi-reporter.js dist-test/integration.index.node.js",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "lint:fix": "eslint package.json api-extractor.json src test --ext .ts --fix --fix-type [problem,suggestion]",
-    "lint": "eslint package.json api-extractor.json src test --ext .ts -f html -o tables-lintReport.html || exit 0",
+    "lint": "eslint package.json api-extractor.json src test --ext .ts",
     "pack": "npm pack 2>&1",
     "prebuild": "npm run clean",
     "test:browser": "npm run build:test && npm run unit-test:browser && npm run integration-test:browser",
@@ -72,9 +72,9 @@
   "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/tables/data-tables/",
   "sideEffects": false,
   "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
-  "private": true,
   "dependencies": {
     "@azure/core-http": "^1.1.6",
+    "@azure/core-paging": "^1.1.1",
     "@opentelemetry/api": "^0.10.2",
     "tslib": "^2.0.0"
   },
