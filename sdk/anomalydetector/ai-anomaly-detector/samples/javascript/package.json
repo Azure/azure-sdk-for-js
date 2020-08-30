@@ -6,6 +6,11 @@
   "engine": {
     "node": ">=8.0.0"
   },
+  "scripts": {
+    "entire_detect": "node ./src/sample_detect_entire_series_anomaly.js",
+    "last_detect": "node ./src/sample_detect_last_point_anomaly.js",
+    "change_point_detect": "node ./src/sample_detect_change_point.js"
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Azure/azure-sdk-for-js.git",
@@ -24,8 +29,8 @@
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/anomalydetector/ai-anomaly-detector",
   "sideEffects": false,
   "dependencies": {
-    "@azure/ai-anomaly-detector": "../..",
-    "@azure/identity": "latest",
+    "@azure/ai-anomaly-detector": "^3.0.0-preview.1",
+    "csv-parse": "^4.4.0",
     "dotenv": "^8.2.0"
   }
 }
