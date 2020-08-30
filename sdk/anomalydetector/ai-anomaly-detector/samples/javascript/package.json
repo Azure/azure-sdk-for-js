@@ -7,9 +7,9 @@
     "node": ">=8.0.0"
   },
   "scripts": {
-    "entire_detect": "node ./src/sample_detect_entire_series_anomaly.js",
-    "last_detect": "node ./src/sample_detect_last_point_anomaly.js",
-    "change_point_detect": "node ./src/sample_detect_change_point.js"
+    "entire_detect": "node ./sample_detect_entire_series_anomaly.js",
+    "last_detect": "node ./sample_detect_last_point_anomaly.js",
+    "change_point_detect": "node ./sample_detect_change_point.js"
   },
   "repository": {
     "type": "git",
