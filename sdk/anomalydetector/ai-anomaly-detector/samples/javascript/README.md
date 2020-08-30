@@ -48,10 +48,10 @@ node sample_detect_entire_series_anomaly.js
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[detectentireseriesanomaly]: https://github.com/guinao/azure-sdk-for-js/tree/master/sdk/anomalydetector/ai-anomaly-detector/samples/javascript/sample_detect_entire_series_anomaly.js
-[detectlastpointanomaly]: https://github.com/guinao/azure-sdk-for-js/tree/master/sdk/anomalydetector/ai-anomaly-detector/samples/javascript/sample_detect_last_point_anomaly.js
-[detectchangepoint]: https://github.com/guinao/azure-sdk-for-js/tree/master/sdk/anomalydetector/ai-anomaly-detector/samples/javascript/sample_detect_change_point.js
+[detectentireseriesanomaly]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/anomalydetector/ai-anomaly-detector/samples/javascript/sample_detect_entire_series_anomaly.js
+[detectlastpointanomaly]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/anomalydetector/ai-anomaly-detector/samples/javascript/sample_detect_last_point_anomaly.js
+[detectchangepoint]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/anomalydetector/ai-anomaly-detector/samples/javascript/sample_detect_change_point.js
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/ai-anomaly-detector
 [azcogsvc]: https://docs.microsoft.com/azure/cognitive-services/cognitive-services-apis-create-account
 [freesub]: https://azure.microsoft.com/free/
-[package]: https://github.com/guinao/azure-sdk-for-js/tree/master/sdk/anomalydetector/ai-anomaly-detector/README.md
+[package]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/anomalydetector/ai-anomaly-detector/README.md
