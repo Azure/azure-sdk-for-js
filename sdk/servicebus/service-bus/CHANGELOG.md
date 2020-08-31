@@ -2,6 +2,7 @@
 
 ## 7.0.0-preview.6 (Unreleased)
 
+### Breaking Changes
 - Renames
   - Property `defaultMessageTtl` -> `defaultMessageTimeToLive`(Wherever applicable)
   - `maxMessageAutoRenewLockDurationInMs` -> `maxAutoRenewLockDurationInMs`
