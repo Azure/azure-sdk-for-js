@@ -343,13 +343,13 @@ export interface CreateConnectionContextBaseParameters {
 // @public
 export interface DataTransformer {
     decode: (body: any) => any;
-    encode: (body: any) => any;
+    encode: (body: any, bodyType?: "data" | "value" | "sequence") => any;
 }
 
 // @public
 export class DefaultDataTransformer implements DataTransformer {
     decode(body: any): any;
-    encode(body: any): any;
+    encode(body: any, bodyType?: "data" | "value" | "sequence"): any;
 }
 
 // @public

@@ -15,7 +15,7 @@ export interface DataTransformer {
    * @property {Function} encode A function that takes the body property from an EventData object
    * and returns an encoded body (some form of AMQP type).
    */
-  encode: (body: any) => any;
+  encode: (body: any, bodyType?: "data" | "value" | "sequence") => any;
   /**
    * @property {Function} decode A function that takes the body property from an AMQP message
    * and returns the decoded message body. If it cannot decode the body then it returns the body
@@ -29,19 +29,32 @@ export interface DataTransformer {
  */
 export class DefaultDataTransformer implements DataTransformer {
   /**
-   * A function that takes the body property from an EventData object
+   * A function that takes the body property from an EventData object or from a ServiceBusMessage
    * and returns an encoded body (some form of AMQP type).
    *
    * @param {*} body The AMQP message body
-   * @return {DataSection} encodedBody - The encoded AMQP message body as an AMQP Data type
-   * (data section in rhea terms). Section object with following properties:
+   * @return encodedBody - The encoded AMQP message body as an AMQP Section.
+   * (data-section or value-section or sequence-section in rhea terms).
+   * Returned data section is an object with following properties:
    * - typecode: 117 (0x75)
    * - content: The given AMQP message body as a Buffer.
    * - multiple: true | undefined.
    */
-  encode(body: any): any {
+  encode(body: any, bodyType?: "data" | "value" | "sequence"): any {
     let result: any;
-    if (isBuffer(body)) {
+    if (bodyType === "value") {
+      result = (message as any).value_section(body);
+      // TODO: Expose value_section from "rhea" similar to the data_section and sequence_section
+    } else if (bodyType === "sequence") {
+      result = message.sequence_section(body);
+      // TODO: figure out when to pick message.sequence_sections()
+      // TODO: figure out when to pick message.data_sections()
+      // AMQP Spec: Page 75
+      // The body consists of either:
+      //   one or more data sections,
+      //   one or more amqp-sequence sections,
+      //   or a single amqp-value section.
+    } else if (isBuffer(body)) {
       result = message.data_section(body);
     } else {
       // string, undefined, null, boolean, array, object, number should end up here
