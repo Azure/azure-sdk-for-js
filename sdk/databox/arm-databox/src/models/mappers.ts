@@ -87,9 +87,9 @@ export const AccountCredentialDetails: msRest.CompositeMapper = {
           name: "String"
         }
       },
-      dataDestinationType: {
+      dataAccountType: {
         readOnly: true,
-        serializedName: "dataDestinationType",
+        serializedName: "dataAccountType",
         type: {
           name: "Enum",
           allowedValues: [
@@ -116,6 +116,28 @@ export const AccountCredentialDetails: msRest.CompositeMapper = {
               className: "ShareCredentialDetails"
             }
           }
+        }
+      }
+    }
+  }
+};
+
+export const AdditionalErrorInfo: msRest.CompositeMapper = {
+  serializedName: "AdditionalErrorInfo",
+  type: {
+    name: "Composite",
+    className: "AdditionalErrorInfo",
+    modelProperties: {
+      type: {
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      },
+      info: {
+        serializedName: "info",
+        type: {
+          name: "Object"
         }
       }
     }
@@ -211,7 +233,7 @@ export const AddressValidationOutput: msRest.CompositeMapper = {
         serializedName: "properties.error",
         type: {
           name: "Composite",
-          className: "ErrorModel"
+          className: "CloudError"
         }
       },
       validationType: {
@@ -244,6 +266,90 @@ export const AddressValidationOutput: msRest.CompositeMapper = {
               className: "ShippingAddress"
             }
           }
+        }
+      }
+    }
+  }
+};
+
+export const Details: msRest.CompositeMapper = {
+  serializedName: "Details",
+  type: {
+    name: "Composite",
+    className: "Details",
+    modelProperties: {
+      code: {
+        required: true,
+        serializedName: "code",
+        type: {
+          name: "String"
+        }
+      },
+      message: {
+        required: true,
+        serializedName: "message",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ErrorDetail: msRest.CompositeMapper = {
+  serializedName: "ErrorDetail",
+  type: {
+    name: "Composite",
+    className: "ErrorDetail",
+    modelProperties: {
+      code: {
+        required: true,
+        serializedName: "code",
+        type: {
+          name: "String"
+        }
+      },
+      message: {
+        required: true,
+        serializedName: "message",
+        type: {
+          name: "String"
+        }
+      },
+      details: {
+        serializedName: "details",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "Details"
+            }
+          }
+        }
+      },
+      target: {
+        serializedName: "target",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ApiError: msRest.CompositeMapper = {
+  serializedName: "ApiError",
+  type: {
+    name: "Composite",
+    className: "ApiError",
+    modelProperties: {
+      error: {
+        required: true,
+        serializedName: "error",
+        type: {
+          name: "Composite",
+          className: "ErrorDetail"
         }
       }
     }
@@ -313,11 +419,13 @@ export const AvailableSkuRequest: msRest.CompositeMapper = {
     modelProperties: {
       transferType: {
         required: true,
-        isConstant: true,
         serializedName: "transferType",
-        defaultValue: 'ImportToAzure',
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: [
+            "ImportToAzure",
+            "ExportFromAzure"
+          ]
         }
       },
       country: {
@@ -388,15 +496,15 @@ export const Sku: msRest.CompositeMapper = {
   }
 };
 
-export const DestinationToServiceLocationMap: msRest.CompositeMapper = {
-  serializedName: "DestinationToServiceLocationMap",
+export const DataLocationToServiceLocationMap: msRest.CompositeMapper = {
+  serializedName: "DataLocationToServiceLocationMap",
   type: {
     name: "Composite",
-    className: "DestinationToServiceLocationMap",
+    className: "DataLocationToServiceLocationMap",
     modelProperties: {
-      destinationLocation: {
+      dataLocation: {
         readOnly: true,
-        serializedName: "destinationLocation",
+        serializedName: "dataLocation",
         type: {
           name: "String"
         }
@@ -455,6 +563,13 @@ export const SkuCost: msRest.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      multiplier: {
+        readOnly: true,
+        serializedName: "multiplier",
+        type: {
+          name: "Number"
+        }
       }
     }
   }
@@ -481,15 +596,15 @@ export const SkuInformation: msRest.CompositeMapper = {
           name: "Boolean"
         }
       },
-      destinationToServiceLocationMap: {
+      dataLocationToServiceLocationMap: {
         readOnly: true,
-        serializedName: "properties.destinationToServiceLocationMap",
+        serializedName: "properties.dataLocationToServiceLocationMap",
         type: {
           name: "Sequence",
           element: {
             type: {
               name: "Composite",
-              className: "DestinationToServiceLocationMap"
+              className: "DataLocationToServiceLocationMap"
             }
           }
         }
@@ -554,6 +669,92 @@ export const SkuInformation: msRest.CompositeMapper = {
         serializedName: "properties.requiredFeature",
         type: {
           name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AzureFileFilterDetails: msRest.CompositeMapper = {
+  serializedName: "AzureFileFilterDetails",
+  type: {
+    name: "Composite",
+    className: "AzureFileFilterDetails",
+    modelProperties: {
+      filePrefixList: {
+        serializedName: "filePrefixList",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      filePathList: {
+        serializedName: "filePathList",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      fileShareList: {
+        serializedName: "fileShareList",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const BlobFilterDetails: msRest.CompositeMapper = {
+  serializedName: "BlobFilterDetails",
+  type: {
+    name: "Composite",
+    className: "BlobFilterDetails",
+    modelProperties: {
+      blobPrefixList: {
+        serializedName: "blobPrefixList",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      blobPathList: {
+        serializedName: "blobPathList",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      containerList: {
+        serializedName: "containerList",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
         }
       }
     }
@@ -704,9 +905,20 @@ export const CopyProgress: msRest.CompositeMapper = {
           name: "String"
         }
       },
-      dataDestinationType: {
+      transferType: {
         readOnly: true,
-        serializedName: "dataDestinationType",
+        serializedName: "transferType",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "ImportToAzure",
+            "ExportFromAzure"
+          ]
+        }
+      },
+      dataAccountType: {
+        readOnly: true,
+        serializedName: "dataAccountType",
         type: {
           name: "Enum",
           allowedValues: [
@@ -722,9 +934,9 @@ export const CopyProgress: msRest.CompositeMapper = {
           name: "String"
         }
       },
-      bytesSentToCloud: {
+      bytesProcessed: {
         readOnly: true,
-        serializedName: "bytesSentToCloud",
+        serializedName: "bytesProcessed",
         type: {
           name: "Number"
         }
@@ -777,7 +989,76 @@ export const CopyProgress: msRest.CompositeMapper = {
         type: {
           name: "Number"
         }
+      },
+      directoriesErroredOut: {
+        readOnly: true,
+        serializedName: "directoriesErroredOut",
+        type: {
+          name: "Number"
+        }
+      },
+      invalidDirectoriesProcessed: {
+        readOnly: true,
+        serializedName: "invalidDirectoriesProcessed",
+        type: {
+          name: "Number"
+        }
+      },
+      isEnumerationInProgress: {
+        readOnly: true,
+        serializedName: "isEnumerationInProgress",
+        type: {
+          name: "Boolean"
+        }
       }
+    }
+  }
+};
+
+export const ValidationRequest: msRest.CompositeMapper = {
+  serializedName: "ValidationRequest",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: {
+      serializedName: "validationCategory",
+      clientName: "validationCategory"
+    },
+    uberParent: "ValidationRequest",
+    className: "ValidationRequest",
+    modelProperties: {
+      individualRequestDetails: {
+        required: true,
+        serializedName: "individualRequestDetails",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ValidationInputRequest"
+            }
+          }
+        }
+      },
+      validationCategory: {
+        required: true,
+        serializedName: "validationCategory",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const CreateJobValidations: msRest.CompositeMapper = {
+  serializedName: "JobCreationValidation",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: ValidationRequest.type.polymorphicDiscriminator,
+    uberParent: "ValidationRequest",
+    className: "CreateJobValidations",
+    modelProperties: {
+      ...ValidationRequest.type.modelProperties
     }
   }
 };
@@ -845,7 +1126,7 @@ export const ValidationInputResponse: msRest.CompositeMapper = {
         serializedName: "error",
         type: {
           name: "Composite",
-          className: "ErrorModel"
+          className: "CloudError"
         }
       },
       validationType: {
@@ -884,6 +1165,34 @@ export const CreateOrderLimitForSubscriptionValidationResponseProperties: msRest
   }
 };
 
+export const DataAccountDetails: msRest.CompositeMapper = {
+  serializedName: "DataAccountDetails",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: {
+      serializedName: "dataAccountType",
+      clientName: "dataAccountType"
+    },
+    uberParent: "DataAccountDetails",
+    className: "DataAccountDetails",
+    modelProperties: {
+      sharePassword: {
+        serializedName: "sharePassword",
+        type: {
+          name: "String"
+        }
+      },
+      dataAccountType: {
+        required: true,
+        serializedName: "dataAccountType",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const DataBoxAccountCopyLogDetails: msRest.CompositeMapper = {
   serializedName: "DataBox",
   type: {
@@ -903,6 +1212,13 @@ export const DataBoxAccountCopyLogDetails: msRest.CompositeMapper = {
       copyLogLink: {
         readOnly: true,
         serializedName: "copyLogLink",
+        type: {
+          name: "String"
+        }
+      },
+      copyVerboseLogLink: {
+        readOnly: true,
+        serializedName: "copyVerboseLogLink",
         type: {
           name: "String"
         }
@@ -1007,12 +1323,6 @@ export const JobDetails: msRest.CompositeMapper = {
     uberParent: "JobDetails",
     className: "JobDetails",
     modelProperties: {
-      expectedDataSizeInTerabytes: {
-        serializedName: "expectedDataSizeInTerabytes",
-        type: {
-          name: "Number"
-        }
-      },
       jobStages: {
         readOnly: true,
         serializedName: "jobStages",
@@ -1035,7 +1345,6 @@ export const JobDetails: msRest.CompositeMapper = {
         }
       },
       shippingAddress: {
-        required: true,
         serializedName: "shippingAddress",
         type: {
           name: "Composite",
@@ -1058,28 +1367,26 @@ export const JobDetails: msRest.CompositeMapper = {
           className: "PackageShippingDetails"
         }
       },
-      destinationAccountDetails: {
-        required: true,
-        serializedName: "destinationAccountDetails",
+      dataImportDetails: {
+        serializedName: "dataImportDetails",
         type: {
           name: "Sequence",
           element: {
             type: {
               name: "Composite",
-              className: "DestinationAccountDetails"
+              className: "DataImportDetails"
             }
           }
         }
       },
-      errorDetails: {
-        readOnly: true,
-        serializedName: "errorDetails",
+      dataExportDetails: {
+        serializedName: "dataExportDetails",
         type: {
           name: "Sequence",
           element: {
             type: {
               name: "Composite",
-              className: "JobErrorDetails"
+              className: "DataExportDetails"
             }
           }
         }
@@ -1116,6 +1423,20 @@ export const JobDetails: msRest.CompositeMapper = {
         serializedName: "chainOfCustodySasKey",
         type: {
           name: "String"
+        }
+      },
+      keyEncryptionKey: {
+        readOnly: true,
+        serializedName: "keyEncryptionKey",
+        type: {
+          name: "Composite",
+          className: "KeyEncryptionKey"
+        }
+      },
+      expectedDataSizeInTerabytes: {
+        serializedName: "expectedDataSizeInTerabytes",
+        type: {
+          name: "Number"
         }
       },
       jobDetailsType: {
@@ -1220,10 +1541,19 @@ export const JobSecrets: msRest.CompositeMapper = {
     className: "JobSecrets",
     modelProperties: {
       dcAccessSecurityCode: {
+        readOnly: true,
         serializedName: "dcAccessSecurityCode",
         type: {
           name: "Composite",
           className: "DcAccessSecurityCode"
+        }
+      },
+      error: {
+        readOnly: true,
+        serializedName: "error",
+        type: {
+          name: "Composite",
+          className: "CloudError"
         }
       },
       jobSecretsType: {
@@ -1296,6 +1626,18 @@ export const DataBoxHeavyAccountCopyLogDetails: msRest.CompositeMapper = {
       copyLogLink: {
         readOnly: true,
         serializedName: "copyLogLink",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      copyVerboseLogLink: {
+        readOnly: true,
+        serializedName: "copyVerboseLogLink",
         type: {
           name: "Sequence",
           element: {
@@ -1556,6 +1898,12 @@ export const ScheduleAvailabilityRequest: msRest.CompositeMapper = {
           name: "String"
         }
       },
+      country: {
+        serializedName: "country",
+        type: {
+          name: "String"
+        }
+      },
       skuName: {
         required: true,
         serializedName: "skuName",
@@ -1580,32 +1928,26 @@ export const DataBoxScheduleAvailabilityRequest: msRest.CompositeMapper = {
   }
 };
 
-export const DestinationAccountDetails: msRest.CompositeMapper = {
-  serializedName: "DestinationAccountDetails",
+export const FilterFileDetails: msRest.CompositeMapper = {
+  serializedName: "FilterFileDetails",
   type: {
     name: "Composite",
-    polymorphicDiscriminator: {
-      serializedName: "dataDestinationType",
-      clientName: "dataDestinationType"
-    },
-    uberParent: "DestinationAccountDetails",
-    className: "DestinationAccountDetails",
+    className: "FilterFileDetails",
     modelProperties: {
-      accountId: {
-        serializedName: "accountId",
-        type: {
-          name: "String"
-        }
-      },
-      sharePassword: {
-        serializedName: "sharePassword",
-        type: {
-          name: "String"
-        }
-      },
-      dataDestinationType: {
+      filterFileType: {
         required: true,
-        serializedName: "dataDestinationType",
+        serializedName: "filterFileType",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "AzureBlob",
+            "AzureFile"
+          ]
+        }
+      },
+      filterFilePath: {
+        required: true,
+        serializedName: "filterFilePath",
         type: {
           name: "String"
         }
@@ -1614,46 +1956,276 @@ export const DestinationAccountDetails: msRest.CompositeMapper = {
   }
 };
 
-export const DataDestinationDetailsValidationRequest: msRest.CompositeMapper = {
-  serializedName: "ValidateDataDestinationDetails",
+export const TransferFilterDetails: msRest.CompositeMapper = {
+  serializedName: "TransferFilterDetails",
   type: {
     name: "Composite",
-    polymorphicDiscriminator: ValidationInputRequest.type.polymorphicDiscriminator,
-    uberParent: "ValidationInputRequest",
-    className: "DataDestinationDetailsValidationRequest",
+    className: "TransferFilterDetails",
     modelProperties: {
-      ...ValidationInputRequest.type.modelProperties,
-      destinationAccountDetails: {
+      dataAccountType: {
         required: true,
-        serializedName: "destinationAccountDetails",
+        serializedName: "dataAccountType",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "StorageAccount",
+            "ManagedDisk"
+          ]
+        }
+      },
+      blobFilterDetails: {
+        serializedName: "blobFilterDetails",
+        type: {
+          name: "Composite",
+          className: "BlobFilterDetails"
+        }
+      },
+      azureFileFilterDetails: {
+        serializedName: "azureFileFilterDetails",
+        type: {
+          name: "Composite",
+          className: "AzureFileFilterDetails"
+        }
+      },
+      filterFileDetails: {
+        serializedName: "filterFileDetails",
         type: {
           name: "Sequence",
           element: {
             type: {
               name: "Composite",
-              className: "DestinationAccountDetails"
+              className: "FilterFileDetails"
             }
           }
-        }
-      },
-      location: {
-        required: true,
-        serializedName: "location",
-        type: {
-          name: "String"
         }
       }
     }
   }
 };
 
-export const DataDestinationDetailsValidationResponseProperties: msRest.CompositeMapper = {
-  serializedName: "ValidateDataDestinationDetails",
+export const TransferConfigurationTransferFilterDetails: msRest.CompositeMapper = {
+  serializedName: "TransferConfiguration_transferFilterDetails",
+  type: {
+    name: "Composite",
+    className: "TransferConfigurationTransferFilterDetails",
+    modelProperties: {
+      include: {
+        serializedName: "include",
+        type: {
+          name: "Composite",
+          className: "TransferFilterDetails"
+        }
+      }
+    }
+  }
+};
+
+export const TransferAllDetails: msRest.CompositeMapper = {
+  serializedName: "TransferAllDetails",
+  type: {
+    name: "Composite",
+    className: "TransferAllDetails",
+    modelProperties: {
+      dataAccountType: {
+        required: true,
+        serializedName: "dataAccountType",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "StorageAccount",
+            "ManagedDisk"
+          ]
+        }
+      },
+      transferAllBlobs: {
+        serializedName: "transferAllBlobs",
+        type: {
+          name: "Boolean"
+        }
+      },
+      transferAllFiles: {
+        serializedName: "transferAllFiles",
+        type: {
+          name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
+export const TransferConfigurationTransferAllDetails: msRest.CompositeMapper = {
+  serializedName: "TransferConfiguration_transferAllDetails",
+  type: {
+    name: "Composite",
+    className: "TransferConfigurationTransferAllDetails",
+    modelProperties: {
+      include: {
+        serializedName: "include",
+        type: {
+          name: "Composite",
+          className: "TransferAllDetails"
+        }
+      }
+    }
+  }
+};
+
+export const TransferConfiguration: msRest.CompositeMapper = {
+  serializedName: "TransferConfiguration",
+  type: {
+    name: "Composite",
+    className: "TransferConfiguration",
+    modelProperties: {
+      transferConfigurationType: {
+        required: true,
+        serializedName: "transferConfigurationType",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "TransferAll",
+            "TransferUsingFilter"
+          ]
+        }
+      },
+      transferFilterDetails: {
+        serializedName: "transferFilterDetails",
+        type: {
+          name: "Composite",
+          className: "TransferConfigurationTransferFilterDetails"
+        }
+      },
+      transferAllDetails: {
+        serializedName: "transferAllDetails",
+        type: {
+          name: "Composite",
+          className: "TransferConfigurationTransferAllDetails"
+        }
+      }
+    }
+  }
+};
+
+export const DataExportDetails: msRest.CompositeMapper = {
+  serializedName: "DataExportDetails",
+  type: {
+    name: "Composite",
+    className: "DataExportDetails",
+    modelProperties: {
+      transferConfiguration: {
+        required: true,
+        serializedName: "transferConfiguration",
+        type: {
+          name: "Composite",
+          className: "TransferConfiguration"
+        }
+      },
+      logCollectionLevel: {
+        serializedName: "logCollectionLevel",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "Error",
+            "Verbose"
+          ]
+        }
+      },
+      accountDetails: {
+        required: true,
+        serializedName: "accountDetails",
+        type: {
+          name: "Composite",
+          className: "DataAccountDetails"
+        }
+      }
+    }
+  }
+};
+
+export const DataImportDetails: msRest.CompositeMapper = {
+  serializedName: "DataImportDetails",
+  type: {
+    name: "Composite",
+    className: "DataImportDetails",
+    modelProperties: {
+      accountDetails: {
+        required: true,
+        serializedName: "accountDetails",
+        type: {
+          name: "Composite",
+          className: "DataAccountDetails"
+        }
+      }
+    }
+  }
+};
+
+export const DataTransferDetailsValidationRequest: msRest.CompositeMapper = {
+  serializedName: "ValidateDataTransferDetails",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: ValidationInputRequest.type.polymorphicDiscriminator,
+    uberParent: "ValidationInputRequest",
+    className: "DataTransferDetailsValidationRequest",
+    modelProperties: {
+      ...ValidationInputRequest.type.modelProperties,
+      dataExportDetails: {
+        serializedName: "dataExportDetails",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "DataExportDetails"
+            }
+          }
+        }
+      },
+      dataImportDetails: {
+        serializedName: "dataImportDetails",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "DataImportDetails"
+            }
+          }
+        }
+      },
+      deviceType: {
+        required: true,
+        serializedName: "deviceType",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "DataBox",
+            "DataBoxDisk",
+            "DataBoxHeavy"
+          ]
+        }
+      },
+      transferType: {
+        required: true,
+        serializedName: "transferType",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "ImportToAzure",
+            "ExportFromAzure"
+          ]
+        }
+      }
+    }
+  }
+};
+
+export const DataTransferDetailsValidationResponseProperties: msRest.CompositeMapper = {
+  serializedName: "ValidateDataTransferDetails",
   type: {
     name: "Composite",
     polymorphicDiscriminator: ValidationInputResponse.type.polymorphicDiscriminator,
     uberParent: "ValidationInputResponse",
-    className: "DataDestinationDetailsValidationResponseProperties",
+    className: "DataTransferDetailsValidationResponseProperties",
     modelProperties: {
       ...ValidationInputResponse.type.modelProperties,
       status: {
@@ -1678,61 +2250,14 @@ export const DcAccessSecurityCode: msRest.CompositeMapper = {
     name: "Composite",
     className: "DcAccessSecurityCode",
     modelProperties: {
-      forwardDcAccessCode: {
-        serializedName: "forwardDcAccessCode",
-        type: {
-          name: "String"
-        }
-      },
       reverseDcAccessCode: {
         serializedName: "reverseDcAccessCode",
         type: {
           name: "String"
         }
-      }
-    }
-  }
-};
-
-export const DestinationManagedDiskDetails: msRest.CompositeMapper = {
-  serializedName: "ManagedDisk",
-  type: {
-    name: "Composite",
-    polymorphicDiscriminator: DestinationAccountDetails.type.polymorphicDiscriminator,
-    uberParent: "DestinationAccountDetails",
-    className: "DestinationManagedDiskDetails",
-    modelProperties: {
-      ...DestinationAccountDetails.type.modelProperties,
-      resourceGroupId: {
-        required: true,
-        serializedName: "resourceGroupId",
-        type: {
-          name: "String"
-        }
       },
-      stagingStorageAccountId: {
-        required: true,
-        serializedName: "stagingStorageAccountId",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const DestinationStorageAccountDetails: msRest.CompositeMapper = {
-  serializedName: "StorageAccount",
-  type: {
-    name: "Composite",
-    polymorphicDiscriminator: DestinationAccountDetails.type.polymorphicDiscriminator,
-    uberParent: "DestinationAccountDetails",
-    className: "DestinationStorageAccountDetails",
-    modelProperties: {
-      ...DestinationAccountDetails.type.modelProperties,
-      storageAccountId: {
-        required: true,
-        serializedName: "storageAccountId",
+      forwardDcAccessCode: {
+        serializedName: "forwardDcAccessCode",
         type: {
           name: "String"
         }
@@ -1755,30 +2280,6 @@ export const DiskScheduleAvailabilityRequest: msRest.CompositeMapper = {
         serializedName: "expectedDataSizeInTerabytes",
         type: {
           name: "Number"
-        }
-      }
-    }
-  }
-};
-
-export const ErrorModel: msRest.CompositeMapper = {
-  serializedName: "Error",
-  type: {
-    name: "Composite",
-    className: "ErrorModel",
-    modelProperties: {
-      code: {
-        readOnly: true,
-        serializedName: "code",
-        type: {
-          name: "String"
-        }
-      },
-      message: {
-        readOnly: true,
-        serializedName: "message",
-        type: {
-          name: "String"
         }
       }
     }
@@ -1808,44 +2309,6 @@ export const JobDeliveryInfo: msRest.CompositeMapper = {
         serializedName: "scheduledDateTime",
         type: {
           name: "DateTime"
-        }
-      }
-    }
-  }
-};
-
-export const JobErrorDetails: msRest.CompositeMapper = {
-  serializedName: "JobErrorDetails",
-  type: {
-    name: "Composite",
-    className: "JobErrorDetails",
-    modelProperties: {
-      errorMessage: {
-        readOnly: true,
-        serializedName: "errorMessage",
-        type: {
-          name: "String"
-        }
-      },
-      errorCode: {
-        readOnly: true,
-        serializedName: "errorCode",
-        type: {
-          name: "Number"
-        }
-      },
-      recommendedAction: {
-        readOnly: true,
-        serializedName: "recommendedAction",
-        type: {
-          name: "String"
-        }
-      },
-      exceptionMessage: {
-        readOnly: true,
-        serializedName: "exceptionMessage",
-        type: {
-          name: "String"
         }
       }
     }
@@ -1902,7 +2365,9 @@ export const JobStages: msRest.CompositeMapper = {
             "Failed",
             "Cancelled",
             "Cancelling",
-            "SucceededWithErrors"
+            "SucceededWithErrors",
+            "WaitingForCustomerAction",
+            "SucceededWithWarnings"
           ]
         }
       },
@@ -1918,19 +2383,6 @@ export const JobStages: msRest.CompositeMapper = {
         serializedName: "jobStageDetails",
         type: {
           name: "Object"
-        }
-      },
-      errorDetails: {
-        readOnly: true,
-        serializedName: "errorDetails",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "JobErrorDetails"
-            }
-          }
         }
       }
     }
@@ -2017,6 +2469,39 @@ export const Preferences: msRest.CompositeMapper = {
   }
 };
 
+export const KeyEncryptionKey: msRest.CompositeMapper = {
+  serializedName: "KeyEncryptionKey",
+  type: {
+    name: "Composite",
+    className: "KeyEncryptionKey",
+    modelProperties: {
+      kekType: {
+        required: true,
+        serializedName: "kekType",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "MicrosoftManaged",
+            "CustomerManaged"
+          ]
+        }
+      },
+      kekUrl: {
+        serializedName: "kekUrl",
+        type: {
+          name: "String"
+        }
+      },
+      kekVaultResourceID: {
+        serializedName: "kekVaultResourceID",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const Resource: msRest.CompositeMapper = {
   serializedName: "Resource",
   type: {
@@ -2048,6 +2533,13 @@ export const Resource: msRest.CompositeMapper = {
           name: "Composite",
           className: "Sku"
         }
+      },
+      identity: {
+        serializedName: "identity",
+        type: {
+          name: "Composite",
+          className: "ResourceIdentity"
+        }
       }
     }
   }
@@ -2060,6 +2552,17 @@ export const JobResource: msRest.CompositeMapper = {
     className: "JobResource",
     modelProperties: {
       ...Resource.type.modelProperties,
+      transferType: {
+        required: true,
+        serializedName: "properties.transferType",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "ImportToAzure",
+            "ExportFromAzure"
+          ]
+        }
+      },
       isCancellable: {
         readOnly: true,
         serializedName: "properties.isCancellable",
@@ -2077,6 +2580,13 @@ export const JobResource: msRest.CompositeMapper = {
       isShippingAddressEditable: {
         readOnly: true,
         serializedName: "properties.isShippingAddressEditable",
+        type: {
+          name: "Boolean"
+        }
+      },
+      isPrepareToShipEnabled: {
+        readOnly: true,
+        serializedName: "properties.isPrepareToShipEnabled",
         type: {
           name: "Boolean"
         }
@@ -2118,7 +2628,7 @@ export const JobResource: msRest.CompositeMapper = {
         serializedName: "properties.error",
         type: {
           name: "Composite",
-          className: "ErrorModel"
+          className: "CloudError"
         }
       },
       details: {
@@ -2203,6 +2713,43 @@ export const UpdateJobDetails: msRest.CompositeMapper = {
           name: "Composite",
           className: "ShippingAddress"
         }
+      },
+      keyEncryptionKey: {
+        serializedName: "keyEncryptionKey",
+        type: {
+          name: "Composite",
+          className: "KeyEncryptionKey"
+        }
+      }
+    }
+  }
+};
+
+export const ResourceIdentity: msRest.CompositeMapper = {
+  serializedName: "ResourceIdentity",
+  type: {
+    name: "Composite",
+    className: "ResourceIdentity",
+    modelProperties: {
+      type: {
+        serializedName: "type",
+        type: {
+          name: "String"
+        }
+      },
+      principalId: {
+        readOnly: true,
+        serializedName: "principalId",
+        type: {
+          name: "String"
+        }
+      },
+      tenantId: {
+        readOnly: true,
+        serializedName: "tenantId",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -2221,18 +2768,6 @@ export const JobResourceUpdateParameter: msRest.CompositeMapper = {
           className: "UpdateJobDetails"
         }
       },
-      destinationAccountDetails: {
-        serializedName: "properties.destinationAccountDetails",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "DestinationAccountDetails"
-            }
-          }
-        }
-      },
       tags: {
         serializedName: "tags",
         type: {
@@ -2242,6 +2777,40 @@ export const JobResourceUpdateParameter: msRest.CompositeMapper = {
               name: "String"
             }
           }
+        }
+      },
+      identity: {
+        serializedName: "identity",
+        type: {
+          name: "Composite",
+          className: "ResourceIdentity"
+        }
+      }
+    }
+  }
+};
+
+export const ManagedDiskDetails: msRest.CompositeMapper = {
+  serializedName: "ManagedDisk",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: DataAccountDetails.type.polymorphicDiscriminator,
+    uberParent: "DataAccountDetails",
+    className: "ManagedDiskDetails",
+    modelProperties: {
+      ...DataAccountDetails.type.modelProperties,
+      resourceGroupId: {
+        required: true,
+        serializedName: "resourceGroupId",
+        type: {
+          name: "String"
+        }
+      },
+      stagingStorageAccountId: {
+        required: true,
+        serializedName: "stagingStorageAccountId",
+        type: {
+          name: "String"
         }
       }
     }
@@ -2315,6 +2884,12 @@ export const Operation: msRest.CompositeMapper = {
         serializedName: "origin",
         type: {
           name: "String"
+        }
+      },
+      isDataAction: {
+        serializedName: "isDataAction",
+        type: {
+          name: "Boolean"
         }
       }
     }
@@ -2593,11 +3168,13 @@ export const SkuAvailabilityValidationRequest: msRest.CompositeMapper = {
       },
       transferType: {
         required: true,
-        isConstant: true,
         serializedName: "transferType",
-        defaultValue: 'ImportToAzure',
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: [
+            "ImportToAzure",
+            "ExportFromAzure"
+          ]
         }
       },
       country: {
@@ -2637,6 +3214,26 @@ export const SkuAvailabilityValidationResponseProperties: msRest.CompositeMapper
             "Invalid",
             "Skipped"
           ]
+        }
+      }
+    }
+  }
+};
+
+export const StorageAccountDetails: msRest.CompositeMapper = {
+  serializedName: "StorageAccount",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: DataAccountDetails.type.polymorphicDiscriminator,
+    uberParent: "DataAccountDetails",
+    className: "StorageAccountDetails",
+    modelProperties: {
+      ...DataAccountDetails.type.modelProperties,
+      storageAccountId: {
+        required: true,
+        serializedName: "storageAccountId",
+        type: {
+          name: "String"
         }
       }
     }
@@ -2742,54 +3339,6 @@ export const ValidateAddress: msRest.CompositeMapper = {
           className: "TransportPreferences"
         }
       }
-    }
-  }
-};
-
-export const ValidationRequest: msRest.CompositeMapper = {
-  serializedName: "ValidationRequest",
-  type: {
-    name: "Composite",
-    polymorphicDiscriminator: {
-      serializedName: "validationCategory",
-      clientName: "validationCategory"
-    },
-    uberParent: "ValidationRequest",
-    className: "ValidationRequest",
-    modelProperties: {
-      individualRequestDetails: {
-        required: true,
-        serializedName: "individualRequestDetails",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "ValidationInputRequest"
-            }
-          }
-        }
-      },
-      validationCategory: {
-        required: true,
-        serializedName: "validationCategory",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const CreateJobValidations: msRest.CompositeMapper = {
-  serializedName: "JobCreationValidation",
-  type: {
-    name: "Composite",
-    polymorphicDiscriminator: ValidationRequest.type.polymorphicDiscriminator,
-    uberParent: "ValidationRequest",
-    className: "CreateJobValidations",
-    modelProperties: {
-      ...ValidationRequest.type.modelProperties
     }
   }
 };
@@ -2939,8 +3488,10 @@ export const AvailableSkusResult: msRest.CompositeMapper = {
 
 export const discriminators = {
   'CopyLogDetails' : CopyLogDetails,
+  'ValidationRequest.JobCreationValidation' : CreateJobValidations,
   'ValidationInputRequest.ValidateCreateOrderLimit' : CreateOrderLimitForSubscriptionValidationRequest,
   'ValidationInputResponse.ValidateCreateOrderLimit' : CreateOrderLimitForSubscriptionValidationResponseProperties,
+  'DataAccountDetails' : DataAccountDetails,
   'CopyLogDetails.DataBox' : DataBoxAccountCopyLogDetails,
   'CopyLogDetails.DataBoxDisk' : DataBoxDiskCopyLogDetails,
   'JobDetails.DataBoxDisk' : DataBoxDiskJobDetails,
@@ -2951,26 +3502,24 @@ export const discriminators = {
   'JobDetails.DataBox' : DataBoxJobDetails,
   'JobSecrets.DataBox' : DataboxJobSecrets,
   'ScheduleAvailabilityRequest.DataBox' : DataBoxScheduleAvailabilityRequest,
-  'DestinationAccountDetails' : DestinationAccountDetails,
-  'ValidationInputRequest.ValidateDataDestinationDetails' : DataDestinationDetailsValidationRequest,
-  'ValidationInputResponse.ValidateDataDestinationDetails' : DataDestinationDetailsValidationResponseProperties,
-  'DestinationAccountDetails.ManagedDisk' : DestinationManagedDiskDetails,
-  'DestinationAccountDetails.StorageAccount' : DestinationStorageAccountDetails,
+  'ValidationInputRequest.ValidateDataTransferDetails' : DataTransferDetailsValidationRequest,
+  'ValidationInputResponse.ValidateDataTransferDetails' : DataTransferDetailsValidationResponseProperties,
   'ScheduleAvailabilityRequest.DataBoxDisk' : DiskScheduleAvailabilityRequest,
   'ScheduleAvailabilityRequest.DataBoxHeavy' : HeavyScheduleAvailabilityRequest,
   'JobDetails' : JobDetails,
   'JobSecrets' : JobSecrets,
+  'DataAccountDetails.ManagedDisk' : ManagedDiskDetails,
   'ValidationInputRequest.ValidatePreferences' : PreferencesValidationRequest,
   'ValidationInputResponse.ValidatePreferences' : PreferencesValidationResponseProperties,
   'ScheduleAvailabilityRequest' : ScheduleAvailabilityRequest,
   'ValidationInputRequest.ValidateSkuAvailability' : SkuAvailabilityValidationRequest,
   'ValidationInputResponse.ValidateSkuAvailability' : SkuAvailabilityValidationResponseProperties,
+  'DataAccountDetails.StorageAccount' : StorageAccountDetails,
   'ValidationInputRequest.ValidateSubscriptionIsAllowedToCreateJob' : SubscriptionIsAllowedToCreateJobValidationRequest,
   'ValidationInputResponse.ValidateSubscriptionIsAllowedToCreateJob' : SubscriptionIsAllowedToCreateJobValidationResponseProperties,
   'ValidationInputRequest.ValidateAddress' : ValidateAddress,
   'ValidationInputRequest' : ValidationInputRequest,
   'ValidationInputResponse' : ValidationInputResponse,
-  'ValidationRequest' : ValidationRequest,
-  'ValidationRequest.JobCreationValidation' : CreateJobValidations
+  'ValidationRequest' : ValidationRequest
 
 };

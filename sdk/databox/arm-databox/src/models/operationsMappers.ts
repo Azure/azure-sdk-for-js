@@ -8,7 +8,9 @@
 
 export {
   discriminators,
-  CloudError,
+  ApiError,
+  Details,
+  ErrorDetail,
   Operation,
   OperationDisplay,
   OperationList

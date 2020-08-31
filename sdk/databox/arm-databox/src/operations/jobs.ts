@@ -408,7 +408,7 @@ const listOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.JobResourceList
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ApiError
     }
   },
   serializer
@@ -433,7 +433,7 @@ const listByResourceGroupOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.JobResourceList
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ApiError
     }
   },
   serializer
@@ -459,7 +459,7 @@ const getOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.JobResource
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ApiError
     }
   },
   serializer
@@ -491,7 +491,7 @@ const bookShipmentPickUpOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ShipmentPickUpResponse
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ApiError
     }
   },
   serializer
@@ -523,7 +523,7 @@ const cancelOperationSpec: msRest.OperationSpec = {
   responses: {
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ApiError
     }
   },
   serializer
@@ -548,7 +548,7 @@ const listCredentialsOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.UnencryptedCredentialsList
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ApiError
     }
   },
   serializer
@@ -581,7 +581,7 @@ const beginCreateOperationSpec: msRest.OperationSpec = {
     },
     202: {},
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ApiError
     }
   },
   serializer
@@ -602,10 +602,11 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.acceptLanguage
   ],
   responses: {
+    200: {},
     202: {},
     204: {},
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ApiError
     }
   },
   serializer
@@ -639,7 +640,7 @@ const beginUpdateOperationSpec: msRest.OperationSpec = {
     },
     202: {},
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ApiError
     }
   },
   serializer
@@ -660,7 +661,7 @@ const listNextOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.JobResourceList
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ApiError
     }
   },
   serializer
@@ -681,7 +682,7 @@ const listByResourceGroupNextOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.JobResourceList
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ApiError
     }
   },
   serializer

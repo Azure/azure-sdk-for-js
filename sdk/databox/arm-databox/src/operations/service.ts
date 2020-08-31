@@ -27,38 +27,6 @@ export class Service {
   }
 
   /**
-   * This method provides the list of available skus for the given subscription and location.
-   * @param location The location of the resource
-   * @param availableSkuRequest Filters for showing the available skus.
-   * @param [options] The optional parameters
-   * @returns Promise<Models.ServiceListAvailableSkusResponse>
-   */
-  listAvailableSkus(location: string, availableSkuRequest: Models.AvailableSkuRequest, options?: msRest.RequestOptionsBase): Promise<Models.ServiceListAvailableSkusResponse>;
-  /**
-   * @param location The location of the resource
-   * @param availableSkuRequest Filters for showing the available skus.
-   * @param callback The callback
-   */
-  listAvailableSkus(location: string, availableSkuRequest: Models.AvailableSkuRequest, callback: msRest.ServiceCallback<Models.AvailableSkusResult>): void;
-  /**
-   * @param location The location of the resource
-   * @param availableSkuRequest Filters for showing the available skus.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  listAvailableSkus(location: string, availableSkuRequest: Models.AvailableSkuRequest, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AvailableSkusResult>): void;
-  listAvailableSkus(location: string, availableSkuRequest: Models.AvailableSkuRequest, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AvailableSkusResult>, callback?: msRest.ServiceCallback<Models.AvailableSkusResult>): Promise<Models.ServiceListAvailableSkusResponse> {
-    return this.client.sendOperationRequest(
-      {
-        location,
-        availableSkuRequest,
-        options
-      },
-      listAvailableSkusOperationSpec,
-      callback) as Promise<Models.ServiceListAvailableSkusResponse>;
-  }
-
-  /**
    * This method provides the list of available skus for the given subscription, resource group and
    * location.
    * @param resourceGroupName The Resource Group Name
@@ -96,7 +64,7 @@ export class Service {
   }
 
   /**
-   * [DEPRECATED NOTICE: This operation will soon be removed] This method validates the customer
+   * [DEPRECATED NOTICE: This operation will soon be removed]. This method validates the customer
    * shipping address and provide alternate addresses if any.
    * @param location The location of the resource
    * @param validateAddress Shipping address of the customer.
@@ -200,7 +168,7 @@ export class Service {
   }
 
   /**
-   * This API provides configuration details specific to given region/location.
+   * This API provides configuration details specific to given region/location at Subscription level.
    * @param location The location of the resource
    * @param [options] The optional parameters
    * @returns Promise<Models.ServiceRegionConfigurationResponse>
@@ -228,31 +196,36 @@ export class Service {
   }
 
   /**
-   * This method provides the list of available skus for the given subscription and location.
-   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * This API provides configuration details specific to given region/location at Resource group
+   * level.
+   * @param resourceGroupName The Resource Group Name
+   * @param location The location of the resource
    * @param [options] The optional parameters
-   * @returns Promise<Models.ServiceListAvailableSkusNextResponse>
+   * @returns Promise<Models.ServiceRegionConfigurationByResourceGroupResponse>
    */
-  listAvailableSkusNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.ServiceListAvailableSkusNextResponse>;
+  regionConfigurationByResourceGroup(resourceGroupName: string, location: string, options?: Models.ServiceRegionConfigurationByResourceGroupOptionalParams): Promise<Models.ServiceRegionConfigurationByResourceGroupResponse>;
   /**
-   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param resourceGroupName The Resource Group Name
+   * @param location The location of the resource
    * @param callback The callback
    */
-  listAvailableSkusNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.AvailableSkusResult>): void;
+  regionConfigurationByResourceGroup(resourceGroupName: string, location: string, callback: msRest.ServiceCallback<Models.RegionConfigurationResponse>): void;
   /**
-   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param resourceGroupName The Resource Group Name
+   * @param location The location of the resource
    * @param options The optional parameters
    * @param callback The callback
    */
-  listAvailableSkusNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.AvailableSkusResult>): void;
-  listAvailableSkusNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.AvailableSkusResult>, callback?: msRest.ServiceCallback<Models.AvailableSkusResult>): Promise<Models.ServiceListAvailableSkusNextResponse> {
+  regionConfigurationByResourceGroup(resourceGroupName: string, location: string, options: Models.ServiceRegionConfigurationByResourceGroupOptionalParams, callback: msRest.ServiceCallback<Models.RegionConfigurationResponse>): void;
+  regionConfigurationByResourceGroup(resourceGroupName: string, location: string, options?: Models.ServiceRegionConfigurationByResourceGroupOptionalParams | msRest.ServiceCallback<Models.RegionConfigurationResponse>, callback?: msRest.ServiceCallback<Models.RegionConfigurationResponse>): Promise<Models.ServiceRegionConfigurationByResourceGroupResponse> {
     return this.client.sendOperationRequest(
       {
-        nextPageLink,
+        resourceGroupName,
+        location,
         options
       },
-      listAvailableSkusNextOperationSpec,
-      callback) as Promise<Models.ServiceListAvailableSkusNextResponse>;
+      regionConfigurationByResourceGroupOperationSpec,
+      callback) as Promise<Models.ServiceRegionConfigurationByResourceGroupResponse>;
   }
 
   /**
@@ -287,37 +260,6 @@ export class Service {
 
 // Operation Specifications
 const serializer = new msRest.Serializer(Mappers);
-const listAvailableSkusOperationSpec: msRest.OperationSpec = {
-  httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.DataBox/locations/{location}/availableSkus",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.location
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  requestBody: {
-    parameterPath: "availableSkuRequest",
-    mapper: {
-      ...Mappers.AvailableSkuRequest,
-      required: true
-    }
-  },
-  responses: {
-    200: {
-      bodyMapper: Mappers.AvailableSkusResult
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  serializer
-};
-
 const listAvailableSkusByResourceGroupOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBox/locations/{location}/availableSkus",
@@ -344,7 +286,7 @@ const listAvailableSkusByResourceGroupOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.AvailableSkusResult
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ApiError
     }
   },
   serializer
@@ -375,7 +317,7 @@ const validateAddressMethodOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.AddressValidationOutput
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ApiError
     }
   },
   serializer
@@ -407,7 +349,7 @@ const validateInputsByResourceGroupOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ValidationResponse
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ApiError
     }
   },
   serializer
@@ -438,7 +380,7 @@ const validateInputsOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.ValidationResponse
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ApiError
     }
   },
   serializer
@@ -478,28 +420,48 @@ const regionConfigurationOperationSpec: msRest.OperationSpec = {
       bodyMapper: Mappers.RegionConfigurationResponse
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ApiError
     }
   },
   serializer
 };
 
-const listAvailableSkusNextOperationSpec: msRest.OperationSpec = {
+const regionConfigurationByResourceGroupOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  baseUrl: "https://management.azure.com",
-  path: "{nextLink}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DataBox/locations/{location}/regionConfiguration",
   urlParameters: [
-    Parameters.nextPageLink
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.location
+  ],
+  queryParameters: [
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
   ],
+  requestBody: {
+    parameterPath: {
+      scheduleAvailabilityRequest: [
+        "options",
+        "scheduleAvailabilityRequest"
+      ],
+      transportAvailabilityRequest: [
+        "options",
+        "transportAvailabilityRequest"
+      ]
+    },
+    mapper: {
+      ...Mappers.RegionConfigurationRequest,
+      required: true
+    }
+  },
   responses: {
     200: {
-      bodyMapper: Mappers.AvailableSkusResult
+      bodyMapper: Mappers.RegionConfigurationResponse
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ApiError
     }
   },
   serializer
@@ -520,7 +482,7 @@ const listAvailableSkusByResourceGroupNextOperationSpec: msRest.OperationSpec = 
       bodyMapper: Mappers.AvailableSkusResult
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.ApiError
     }
   },
   serializer

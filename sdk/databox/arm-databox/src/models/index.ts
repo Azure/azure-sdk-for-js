@@ -53,10 +53,10 @@ export interface AccountCredentialDetails {
    */
   readonly accountName?: string;
   /**
-   * Data Destination Type. Possible values include: 'StorageAccount', 'ManagedDisk'
+   * Type of the account. Possible values include: 'StorageAccount', 'ManagedDisk'
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly dataDestinationType?: DataDestinationType;
+  readonly dataAccountType?: DataAccountType;
   /**
    * Connection string of the account endpoint to use the account as a storage endpoint on the
    * device.
@@ -68,6 +68,20 @@ export interface AccountCredentialDetails {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly shareCredentialDetails?: ShareCredentialDetails[];
+}
+
+/**
+ * Additional error info.
+ */
+export interface AdditionalErrorInfo {
+  /**
+   * Additional error type.
+   */
+  type?: string;
+  /**
+   * Additional error info.
+   */
+  info?: any;
 }
 
 /**
@@ -124,7 +138,7 @@ export interface AddressValidationOutput {
    * Error code and message of validation response.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly error?: ErrorModel;
+  readonly error?: CloudError;
   /**
    * Polymorphic Discriminator
    */
@@ -139,6 +153,31 @@ export interface AddressValidationOutput {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly alternateAddresses?: ShippingAddress[];
+}
+
+/**
+ * An interface representing Details.
+ */
+export interface Details {
+  code: string;
+  message: string;
+}
+
+/**
+ * An interface representing ErrorDetail.
+ */
+export interface ErrorDetail {
+  code: string;
+  message: string;
+  details?: Details[];
+  target?: string;
+}
+
+/**
+ * An interface representing ApiError.
+ */
+export interface ApiError {
+  error: ErrorDetail;
 }
 
 /**
@@ -183,6 +222,10 @@ export interface ArmBaseObject {
  */
 export interface AvailableSkuRequest {
   /**
+   * Type of the transfer. Possible values include: 'ImportToAzure', 'ExportFromAzure'
+   */
+  transferType: TransferType;
+  /**
    * ISO country code. Country for hardware shipment. For codes check:
    * https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2#Officially_assigned_code_elements
    */
@@ -217,14 +260,14 @@ export interface Sku {
 }
 
 /**
- * Map of destination location to service location.
+ * Map of data location to service location
  */
-export interface DestinationToServiceLocationMap {
+export interface DataLocationToServiceLocationMap {
   /**
-   * Location of the destination.
+   * Location of the data.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly destinationLocation?: string;
+  readonly dataLocation?: string;
   /**
    * Location of the service.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -262,6 +305,12 @@ export interface SkuCost {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly meterType?: string;
+  /**
+   * Multiplier specifies the region specific value to be multiplied with 1$ guid. Eg: Our new
+   * regions will be using 1$ shipping guid with appropriate multiplier specific to region.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly multiplier?: number;
 }
 
 /**
@@ -279,10 +328,10 @@ export interface SkuInformation {
    */
   readonly enabled?: boolean;
   /**
-   * The map of destination location to service location.
+   * The map of data location to service location.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly destinationToServiceLocationMap?: DestinationToServiceLocationMap[];
+  readonly dataLocationToServiceLocationMap?: DataLocationToServiceLocationMap[];
   /**
    * Capacity of the Sku.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -314,6 +363,42 @@ export interface SkuInformation {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly requiredFeature?: string;
+}
+
+/**
+ * Filter details to transfer Azure files
+ */
+export interface AzureFileFilterDetails {
+  /**
+   * Prefix list of the Azure files to be transferred.
+   */
+  filePrefixList?: string[];
+  /**
+   * List of full path of the files to be transferred.
+   */
+  filePathList?: string[];
+  /**
+   * List of file shares to be transferred.
+   */
+  fileShareList?: string[];
+}
+
+/**
+ * Filter details to transfer Azure Blobs
+ */
+export interface BlobFilterDetails {
+  /**
+   * Prefix list of the Azure blobs to be transferred.
+   */
+  blobPrefixList?: string[];
+  /**
+   * List of full path of the blobs to be transferred.
+   */
+  blobPathList?: string[];
+  /**
+   * List of blob containers to be transferred.
+   */
+  containerList?: string[];
 }
 
 /**
@@ -391,37 +476,43 @@ export interface CopyLogDetails {
  */
 export interface CopyProgress {
   /**
-   * Name of the storage account where the data needs to be uploaded.
+   * Name of the storage account. This will be empty for data account types other than storage
+   * account.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly storageAccountName?: string;
   /**
-   * Data Destination Type. Possible values include: 'StorageAccount', 'ManagedDisk'
+   * Transfer type of data. Possible values include: 'ImportToAzure', 'ExportFromAzure'
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly dataDestinationType?: DataDestinationType;
+  readonly transferType?: TransferType;
+  /**
+   * Data Account Type. Possible values include: 'StorageAccount', 'ManagedDisk'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly dataAccountType?: DataAccountType;
   /**
    * Id of the account where the data needs to be uploaded.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly accountId?: string;
   /**
-   * Amount of data uploaded by the job as of now.
+   * To indicate bytes transferred.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly bytesSentToCloud?: number;
+  readonly bytesProcessed?: number;
   /**
    * Total amount of data to be processed by the job.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly totalBytesToProcess?: number;
   /**
-   * Number of files processed by the job as of now.
+   * Number of files processed
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly filesProcessed?: number;
   /**
-   * Total number of files to be processed by the job.
+   * Total files to process
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly totalFilesToProcess?: number;
@@ -448,12 +539,61 @@ export interface CopyProgress {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly filesErroredOut?: number;
+  /**
+   * To indicate directories errored out in the job.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly directoriesErroredOut?: number;
+  /**
+   * To indicate directories renamed
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly invalidDirectoriesProcessed?: number;
+  /**
+   * To indicate if enumeration of data is in progress.
+   * Until this is true, the TotalBytesToProcess may not be valid.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly isEnumerationInProgress?: boolean;
+}
+
+/**
+ * Contains the possible cases for ValidationRequest.
+ */
+export type ValidationRequestUnion = ValidationRequest | CreateJobValidations;
+
+/**
+ * Minimum request requirement of any validation category.
+ */
+export interface ValidationRequest {
+  /**
+   * Polymorphic Discriminator
+   */
+  validationCategory: "ValidationRequest";
+  /**
+   * List of request details contain validationType and its request as key and value respectively.
+   */
+  individualRequestDetails: ValidationInputRequestUnion[];
+}
+
+/**
+ * It does all pre-job creation validations.
+ */
+export interface CreateJobValidations {
+  /**
+   * Polymorphic Discriminator
+   */
+  validationCategory: "JobCreationValidation";
+  /**
+   * List of request details contain validationType and its request as key and value respectively.
+   */
+  individualRequestDetails: ValidationInputRequestUnion[];
 }
 
 /**
  * Contains the possible cases for ValidationInputRequest.
  */
-export type ValidationInputRequestUnion = ValidationInputRequest | CreateOrderLimitForSubscriptionValidationRequest | DataDestinationDetailsValidationRequest | PreferencesValidationRequest | SkuAvailabilityValidationRequest | SubscriptionIsAllowedToCreateJobValidationRequest | ValidateAddress;
+export type ValidationInputRequestUnion = ValidationInputRequest | CreateOrderLimitForSubscriptionValidationRequest | DataTransferDetailsValidationRequest | PreferencesValidationRequest | SkuAvailabilityValidationRequest | SubscriptionIsAllowedToCreateJobValidationRequest | ValidateAddress;
 
 /**
  * Minimum fields that must be present in any type of validation request.
@@ -483,7 +623,7 @@ export interface CreateOrderLimitForSubscriptionValidationRequest {
 /**
  * Contains the possible cases for ValidationInputResponse.
  */
-export type ValidationInputResponseUnion = ValidationInputResponse | CreateOrderLimitForSubscriptionValidationResponseProperties | DataDestinationDetailsValidationResponseProperties | PreferencesValidationResponseProperties | SkuAvailabilityValidationResponseProperties | SubscriptionIsAllowedToCreateJobValidationResponseProperties;
+export type ValidationInputResponseUnion = ValidationInputResponse | CreateOrderLimitForSubscriptionValidationResponseProperties | DataTransferDetailsValidationResponseProperties | PreferencesValidationResponseProperties | SkuAvailabilityValidationResponseProperties | SubscriptionIsAllowedToCreateJobValidationResponseProperties;
 
 /**
  * Minimum properties that should be present in each individual validation response.
@@ -497,7 +637,7 @@ export interface ValidationInputResponse {
    * Error code and message of validation response.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly error?: ErrorModel;
+  readonly error?: CloudError;
 }
 
 /**
@@ -512,12 +652,36 @@ export interface CreateOrderLimitForSubscriptionValidationResponseProperties {
    * Error code and message of validation response.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly error?: ErrorModel;
+  readonly error?: CloudError;
   /**
    * Create order limit validation status. Possible values include: 'Valid', 'Invalid', 'Skipped'
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly status?: ValidationStatus;
+}
+
+/**
+ * Contains the possible cases for DataAccountDetails.
+ */
+export type DataAccountDetailsUnion = DataAccountDetails | ManagedDiskDetails | StorageAccountDetails;
+
+/**
+ * Account details of the data to be transferred
+ */
+export interface DataAccountDetails {
+  /**
+   * Polymorphic Discriminator
+   */
+  dataAccountType: "DataAccountDetails";
+  /**
+   * Password for all the shares to be created on the device. Should not be passed for
+   * TransferType:ExportFromAzure jobs. If this is not passed, the service will generate password
+   * itself. This will not be returned in Get Call. Password Requirements :  Password must be
+   * minimum of 12 and maximum of 64 characters. Password must have at least one uppercase
+   * alphabet, one number and one special character. Password cannot have the following characters
+   * : IilLoO0 Password can have only alphabets, numbers and these characters : @#\-$%^!+=;:_()]+
+   */
+  sharePassword?: string;
 }
 
 /**
@@ -529,7 +693,7 @@ export interface DataBoxAccountCopyLogDetails {
    */
   copyLogDetailsType: "DataBox";
   /**
-   * Destination account name.
+   * Account name.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly accountName?: string;
@@ -538,6 +702,11 @@ export interface DataBoxAccountCopyLogDetails {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly copyLogLink?: string;
+  /**
+   * Link for copy verbose logs. This will be set only when LogCollectionLevel is set to Verbose.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly copyVerboseLogLink?: string;
 }
 
 /**
@@ -607,10 +776,6 @@ export interface JobDetails {
    */
   jobDetailsType: "JobDetails";
   /**
-   * The expected size of the data, which needs to be transferred in this job, in terabytes.
-   */
-  expectedDataSizeInTerabytes?: number;
-  /**
    * List of stages that run in the job.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
@@ -622,7 +787,7 @@ export interface JobDetails {
   /**
    * Shipping address of the customer.
    */
-  shippingAddress: ShippingAddress;
+  shippingAddress?: ShippingAddress;
   /**
    * Delivery package shipping details.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -634,14 +799,13 @@ export interface JobDetails {
    */
   readonly returnPackage?: PackageShippingDetails;
   /**
-   * Destination account details.
+   * Details of the data to be imported into azure.
    */
-  destinationAccountDetails: DestinationAccountDetailsUnion[];
+  dataImportDetails?: DataImportDetails[];
   /**
-   * Error details for failure. This is optional.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * Details of the data to be exported from azure.
    */
-  readonly errorDetails?: JobErrorDetails[];
+  dataExportDetails?: DataExportDetails[];
   /**
    * Preferences for the order.
    */
@@ -661,6 +825,15 @@ export interface JobDetails {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly chainOfCustodySasKey?: string;
+  /**
+   * Details about which key encryption type is being used.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly keyEncryptionKey?: KeyEncryptionKey;
+  /**
+   * The expected size of the data, which needs to be transferred in this job, in terabytes.
+   */
+  expectedDataSizeInTerabytes?: number;
 }
 
 /**
@@ -672,10 +845,6 @@ export interface DataBoxDiskJobDetails {
    */
   jobDetailsType: "DataBoxDisk";
   /**
-   * The expected size of the data, which needs to be transferred in this job, in terabytes.
-   */
-  expectedDataSizeInTerabytes?: number;
-  /**
    * List of stages that run in the job.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
@@ -687,7 +856,7 @@ export interface DataBoxDiskJobDetails {
   /**
    * Shipping address of the customer.
    */
-  shippingAddress: ShippingAddress;
+  shippingAddress?: ShippingAddress;
   /**
    * Delivery package shipping details.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -699,14 +868,13 @@ export interface DataBoxDiskJobDetails {
    */
   readonly returnPackage?: PackageShippingDetails;
   /**
-   * Destination account details.
+   * Details of the data to be imported into azure.
    */
-  destinationAccountDetails: DestinationAccountDetailsUnion[];
+  dataImportDetails?: DataImportDetails[];
   /**
-   * Error details for failure. This is optional.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * Details of the data to be exported from azure.
    */
-  readonly errorDetails?: JobErrorDetails[];
+  dataExportDetails?: DataExportDetails[];
   /**
    * Preferences for the order.
    */
@@ -726,6 +894,15 @@ export interface DataBoxDiskJobDetails {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly chainOfCustodySasKey?: string;
+  /**
+   * Details about which key encryption type is being used.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly keyEncryptionKey?: KeyEncryptionKey;
+  /**
+   * The expected size of the data, which needs to be transferred in this job, in terabytes.
+   */
+  expectedDataSizeInTerabytes?: number;
   /**
    * User preference on what size disks are needed for the job. The map is from the disk size in TB
    * to the count. Eg. {2,5} means 5 disks of 2 TB size. Key is string but will be checked against
@@ -780,8 +957,14 @@ export interface JobSecrets {
   jobSecretsType: "JobSecrets";
   /**
    * Dc Access Security Code for Customer Managed Shipping
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  dcAccessSecurityCode?: DcAccessSecurityCode;
+  readonly dcAccessSecurityCode?: DcAccessSecurityCode;
+  /**
+   * Error while fetching the secrets.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly error?: CloudError;
 }
 
 /**
@@ -794,8 +977,14 @@ export interface DataBoxDiskJobSecrets {
   jobSecretsType: "DataBoxDisk";
   /**
    * Dc Access Security Code for Customer Managed Shipping
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  dcAccessSecurityCode?: DcAccessSecurityCode;
+  readonly dcAccessSecurityCode?: DcAccessSecurityCode;
+  /**
+   * Error while fetching the secrets.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly error?: CloudError;
   /**
    * Contains the list of secrets object for that device.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -822,7 +1011,7 @@ export interface DataBoxHeavyAccountCopyLogDetails {
    */
   copyLogDetailsType: "DataBoxHeavy";
   /**
-   * Destination account name.
+   * Account name.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly accountName?: string;
@@ -831,6 +1020,12 @@ export interface DataBoxHeavyAccountCopyLogDetails {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly copyLogLink?: string[];
+  /**
+   * Link for copy verbose logs. This will be set only when the LogCollectionLevel is set to
+   * verbose.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly copyVerboseLogLink?: string[];
 }
 
 /**
@@ -841,10 +1036,6 @@ export interface DataBoxHeavyJobDetails {
    * Polymorphic Discriminator
    */
   jobDetailsType: "DataBoxHeavy";
-  /**
-   * The expected size of the data, which needs to be transferred in this job, in terabytes.
-   */
-  expectedDataSizeInTerabytes?: number;
   /**
    * List of stages that run in the job.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -857,7 +1048,7 @@ export interface DataBoxHeavyJobDetails {
   /**
    * Shipping address of the customer.
    */
-  shippingAddress: ShippingAddress;
+  shippingAddress?: ShippingAddress;
   /**
    * Delivery package shipping details.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -869,14 +1060,13 @@ export interface DataBoxHeavyJobDetails {
    */
   readonly returnPackage?: PackageShippingDetails;
   /**
-   * Destination account details.
+   * Details of the data to be imported into azure.
    */
-  destinationAccountDetails: DestinationAccountDetailsUnion[];
+  dataImportDetails?: DataImportDetails[];
   /**
-   * Error details for failure. This is optional.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * Details of the data to be exported from azure.
    */
-  readonly errorDetails?: JobErrorDetails[];
+  dataExportDetails?: DataExportDetails[];
   /**
    * Preferences for the order.
    */
@@ -897,12 +1087,26 @@ export interface DataBoxHeavyJobDetails {
    */
   readonly chainOfCustodySasKey?: string;
   /**
+   * Details about which key encryption type is being used.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly keyEncryptionKey?: KeyEncryptionKey;
+  /**
+   * The expected size of the data, which needs to be transferred in this job, in terabytes.
+   */
+  expectedDataSizeInTerabytes?: number;
+  /**
    * Copy progress per account.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly copyProgress?: CopyProgress[];
   /**
-   * Set Device password for unlocking Databox Heavy
+   * Set Device password for unlocking Databox Heavy. Should not be passed for
+   * TransferType:ExportFromAzure jobs. If this is not passed, the service will generate password
+   * itself. This will not be returned in Get Call. Password Requirements :  Password must be
+   * minimum of 12 and maximum of 64 characters. Password must have at least one uppercase
+   * alphabet, one number and one special character. Password cannot have the following characters
+   * : IilLoO0 Password can have only alphabets, numbers and these characters : @#\-$%^!+=;:_()]+
    */
   devicePassword?: string;
 }
@@ -948,8 +1152,14 @@ export interface DataBoxHeavyJobSecrets {
   jobSecretsType: "DataBoxHeavy";
   /**
    * Dc Access Security Code for Customer Managed Shipping
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  dcAccessSecurityCode?: DcAccessSecurityCode;
+  readonly dcAccessSecurityCode?: DcAccessSecurityCode;
+  /**
+   * Error while fetching the secrets.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly error?: CloudError;
   /**
    * Contains the list of secret objects for a databox heavy job.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -966,10 +1176,6 @@ export interface DataBoxJobDetails {
    */
   jobDetailsType: "DataBox";
   /**
-   * The expected size of the data, which needs to be transferred in this job, in terabytes.
-   */
-  expectedDataSizeInTerabytes?: number;
-  /**
    * List of stages that run in the job.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
@@ -981,7 +1187,7 @@ export interface DataBoxJobDetails {
   /**
    * Shipping address of the customer.
    */
-  shippingAddress: ShippingAddress;
+  shippingAddress?: ShippingAddress;
   /**
    * Delivery package shipping details.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -993,14 +1199,13 @@ export interface DataBoxJobDetails {
    */
   readonly returnPackage?: PackageShippingDetails;
   /**
-   * Destination account details.
+   * Details of the data to be imported into azure.
    */
-  destinationAccountDetails: DestinationAccountDetailsUnion[];
+  dataImportDetails?: DataImportDetails[];
   /**
-   * Error details for failure. This is optional.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   * Details of the data to be exported from azure.
    */
-  readonly errorDetails?: JobErrorDetails[];
+  dataExportDetails?: DataExportDetails[];
   /**
    * Preferences for the order.
    */
@@ -1021,12 +1226,26 @@ export interface DataBoxJobDetails {
    */
   readonly chainOfCustodySasKey?: string;
   /**
+   * Details about which key encryption type is being used.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly keyEncryptionKey?: KeyEncryptionKey;
+  /**
+   * The expected size of the data, which needs to be transferred in this job, in terabytes.
+   */
+  expectedDataSizeInTerabytes?: number;
+  /**
    * Copy progress per storage account.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly copyProgress?: CopyProgress[];
   /**
-   * Set Device password for unlocking Databox
+   * Set Device password for unlocking Databox. Should not be passed for
+   * TransferType:ExportFromAzure jobs. If this is not passed, the service will generate password
+   * itself. This will not be returned in Get Call. Password Requirements :  Password must be
+   * minimum of 12 and maximum of 64 characters. Password must have at least one uppercase
+   * alphabet, one number and one special character. Password cannot have the following characters
+   * : IilLoO0 Password can have only alphabets, numbers and these characters : @#\-$%^!+=;:_()]+
    */
   devicePassword?: string;
 }
@@ -1072,8 +1291,14 @@ export interface DataboxJobSecrets {
   jobSecretsType: "DataBox";
   /**
    * Dc Access Security Code for Customer Managed Shipping
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  dcAccessSecurityCode?: DcAccessSecurityCode;
+  readonly dcAccessSecurityCode?: DcAccessSecurityCode;
+  /**
+   * Error while fetching the secrets.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly error?: CloudError;
   /**
    * Contains the list of secret objects for a job.
    */
@@ -1094,11 +1319,14 @@ export interface ScheduleAvailabilityRequest {
    */
   skuName: "ScheduleAvailabilityRequest";
   /**
-   * Location for data transfer.
-   * For locations check:
+   * Location for data transfer. For locations check:
    * https://management.azure.com/subscriptions/SUBSCRIPTIONID/locations?api-version=2018-01-01
    */
   storageLocation: string;
+  /**
+   * Country in which storage location should be supported.
+   */
+  country?: string;
 }
 
 /**
@@ -1110,69 +1338,182 @@ export interface DataBoxScheduleAvailabilityRequest {
    */
   skuName: "DataBox";
   /**
-   * Location for data transfer.
-   * For locations check:
+   * Location for data transfer. For locations check:
    * https://management.azure.com/subscriptions/SUBSCRIPTIONID/locations?api-version=2018-01-01
    */
   storageLocation: string;
+  /**
+   * Country in which storage location should be supported.
+   */
+  country?: string;
 }
 
 /**
- * Contains the possible cases for DestinationAccountDetails.
+ * Details of the filter files to be used for data transfer.
  */
-export type DestinationAccountDetailsUnion = DestinationAccountDetails | DestinationManagedDiskDetails | DestinationStorageAccountDetails;
-
-/**
- * Details of the destination storage accounts.
- */
-export interface DestinationAccountDetails {
+export interface FilterFileDetails {
   /**
-   * Polymorphic Discriminator
+   * Type of the filter file. Possible values include: 'AzureBlob', 'AzureFile'
    */
-  dataDestinationType: "DestinationAccountDetails";
+  filterFileType: FilterFileType;
   /**
-   * Arm Id of the destination where the data has to be moved.
+   * Path of the file that contains the details of all items to transfer.
    */
-  accountId?: string;
-  /**
-   * Share password to be shared by all shares in SA.
-   */
-  sharePassword?: string;
+  filterFilePath: string;
 }
 
 /**
- * Request to validate data destination details.
+ * Details of the filtering the transfer of data.
  */
-export interface DataDestinationDetailsValidationRequest {
+export interface TransferFilterDetails {
   /**
-   * Polymorphic Discriminator
+   * Type of the account of data. Possible values include: 'StorageAccount', 'ManagedDisk'
    */
-  validationType: "ValidateDataDestinationDetails";
+  dataAccountType: DataAccountType;
   /**
-   * Destination account details list.
+   * Filter details to transfer blobs.
    */
-  destinationAccountDetails: DestinationAccountDetailsUnion[];
+  blobFilterDetails?: BlobFilterDetails;
   /**
-   * Location of stamp or geo.
+   * Filter details to transfer Azure files.
    */
-  location: string;
+  azureFileFilterDetails?: AzureFileFilterDetails;
+  /**
+   * Details of the filter files to be used for data transfer.
+   */
+  filterFileDetails?: FilterFileDetails[];
 }
 
 /**
- * Properties of data destination details validation response.
+ * Map of filter type and the details to filter. This field is required only if the
+ * TransferConfigurationType is given as TransferUsingFilter.
  */
-export interface DataDestinationDetailsValidationResponseProperties {
+export interface TransferConfigurationTransferFilterDetails {
+  /**
+   * Details of the filtering the transfer of data.
+   */
+  include?: TransferFilterDetails;
+}
+
+/**
+ * Details to transfer all data.
+ */
+export interface TransferAllDetails {
+  /**
+   * Type of the account of data. Possible values include: 'StorageAccount', 'ManagedDisk'
+   */
+  dataAccountType: DataAccountType;
+  /**
+   * To indicate if all Azure blobs have to be transferred
+   */
+  transferAllBlobs?: boolean;
+  /**
+   * To indicate if all Azure Files have to be transferred
+   */
+  transferAllFiles?: boolean;
+}
+
+/**
+ * Map of filter type and the details to transfer all data. This field is required only if the
+ * TransferConfigurationType is given as TransferAll
+ */
+export interface TransferConfigurationTransferAllDetails {
+  /**
+   * Details to transfer all data.
+   */
+  include?: TransferAllDetails;
+}
+
+/**
+ * Configuration for defining the transfer of data.
+ */
+export interface TransferConfiguration {
+  /**
+   * Type of the configuration for transfer. Possible values include: 'TransferAll',
+   * 'TransferUsingFilter'
+   */
+  transferConfigurationType: TransferConfigurationType;
+  /**
+   * Map of filter type and the details to filter. This field is required only if the
+   * TransferConfigurationType is given as TransferUsingFilter.
+   */
+  transferFilterDetails?: TransferConfigurationTransferFilterDetails;
+  /**
+   * Map of filter type and the details to transfer all data. This field is required only if the
+   * TransferConfigurationType is given as TransferAll
+   */
+  transferAllDetails?: TransferConfigurationTransferAllDetails;
+}
+
+/**
+ * Details of the data to be used for exporting data from azure.
+ */
+export interface DataExportDetails {
+  /**
+   * Configuration for the data transfer.
+   */
+  transferConfiguration: TransferConfiguration;
+  /**
+   * Level of the logs to be collected. Possible values include: 'Error', 'Verbose'
+   */
+  logCollectionLevel?: LogCollectionLevel;
+  /**
+   * Account details of the data to be transferred
+   */
+  accountDetails: DataAccountDetailsUnion;
+}
+
+/**
+ * Details of the data to be used for importing data to azure.
+ */
+export interface DataImportDetails {
+  /**
+   * Account details of the data to be transferred
+   */
+  accountDetails: DataAccountDetailsUnion;
+}
+
+/**
+ * Request to validate export and import data details.
+ */
+export interface DataTransferDetailsValidationRequest {
   /**
    * Polymorphic Discriminator
    */
-  validationType: "ValidateDataDestinationDetails";
+  validationType: "ValidateDataTransferDetails";
+  /**
+   * List of DataTransfer details to be used to export data from azure.
+   */
+  dataExportDetails?: DataExportDetails[];
+  /**
+   * List of DataTransfer details to be used to import data to azure.
+   */
+  dataImportDetails?: DataImportDetails[];
+  /**
+   * Device type. Possible values include: 'DataBox', 'DataBoxDisk', 'DataBoxHeavy'
+   */
+  deviceType: SkuName;
+  /**
+   * Type of the transfer. Possible values include: 'ImportToAzure', 'ExportFromAzure'
+   */
+  transferType: TransferType;
+}
+
+/**
+ * Properties of data transfer details validation response.
+ */
+export interface DataTransferDetailsValidationResponseProperties {
+  /**
+   * Polymorphic Discriminator
+   */
+  validationType: "ValidateDataTransferDetails";
   /**
    * Error code and message of validation response.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly error?: ErrorModel;
+  readonly error?: CloudError;
   /**
-   * Data destination details validation status. Possible values include: 'Valid', 'Invalid',
+   * Data transfer details validation status. Possible values include: 'Valid', 'Invalid',
    * 'Skipped'
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
@@ -1180,65 +1521,17 @@ export interface DataDestinationDetailsValidationResponseProperties {
 }
 
 /**
- * Dc Access Security code for device.
+ * Dc access security code
  */
 export interface DcAccessSecurityCode {
   /**
-   * Dc Access Code for dispatching from DC.
-   */
-  forwardDcAccessCode?: string;
-  /**
-   * Dc Access code for dropping off at DC.
+   * Reverse Dc access security code.
    */
   reverseDcAccessCode?: string;
-}
-
-/**
- * Details for the destination compute disks.
- */
-export interface DestinationManagedDiskDetails {
   /**
-   * Polymorphic Discriminator
+   * Forward Dc access security code.
    */
-  dataDestinationType: "ManagedDisk";
-  /**
-   * Arm Id of the destination where the data has to be moved.
-   */
-  accountId?: string;
-  /**
-   * Share password to be shared by all shares in SA.
-   */
-  sharePassword?: string;
-  /**
-   * Destination Resource Group Id where the Compute disks should be created.
-   */
-  resourceGroupId: string;
-  /**
-   * Arm Id of the storage account that can be used to copy the vhd for staging.
-   */
-  stagingStorageAccountId: string;
-}
-
-/**
- * Details for the destination storage account.
- */
-export interface DestinationStorageAccountDetails {
-  /**
-   * Polymorphic Discriminator
-   */
-  dataDestinationType: "StorageAccount";
-  /**
-   * Arm Id of the destination where the data has to be moved.
-   */
-  accountId?: string;
-  /**
-   * Share password to be shared by all shares in SA.
-   */
-  sharePassword?: string;
-  /**
-   * Destination Storage Account Arm Id.
-   */
-  storageAccountId: string;
+  forwardDcAccessCode?: string;
 }
 
 /**
@@ -1250,31 +1543,18 @@ export interface DiskScheduleAvailabilityRequest {
    */
   skuName: "DataBoxDisk";
   /**
-   * Location for data transfer.
-   * For locations check:
+   * Location for data transfer. For locations check:
    * https://management.azure.com/subscriptions/SUBSCRIPTIONID/locations?api-version=2018-01-01
    */
   storageLocation: string;
   /**
+   * Country in which storage location should be supported.
+   */
+  country?: string;
+  /**
    * The expected size of the data, which needs to be transferred in this job, in terabytes.
    */
   expectedDataSizeInTerabytes: number;
-}
-
-/**
- * Top level error for the job.
- */
-export interface ErrorModel {
-  /**
-   * Error code that can be used to programmatically identify the error.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly code?: string;
-  /**
-   * Describes the error in detail and provides debugging information.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly message?: string;
 }
 
 /**
@@ -1286,11 +1566,14 @@ export interface HeavyScheduleAvailabilityRequest {
    */
   skuName: "DataBoxHeavy";
   /**
-   * Location for data transfer.
-   * For locations check:
+   * Location for data transfer. For locations check:
    * https://management.azure.com/subscriptions/SUBSCRIPTIONID/locations?api-version=2018-01-01
    */
   storageLocation: string;
+  /**
+   * Country in which storage location should be supported.
+   */
+  country?: string;
 }
 
 /**
@@ -1301,32 +1584,6 @@ export interface JobDeliveryInfo {
    * Scheduled date time.
    */
   scheduledDateTime?: Date;
-}
-
-/**
- * Job Error Details for providing the information and recommended action.
- */
-export interface JobErrorDetails {
-  /**
-   * Message for the error.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly errorMessage?: string;
-  /**
-   * Code for the error.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly errorCode?: number;
-  /**
-   * Recommended action for the error.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly recommendedAction?: string;
-  /**
-   * Contains the non localized exception message
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly exceptionMessage?: string;
 }
 
 /**
@@ -1349,7 +1606,8 @@ export interface JobStages {
   readonly displayName?: string;
   /**
    * Status of the job stage. Possible values include: 'None', 'InProgress', 'Succeeded', 'Failed',
-   * 'Cancelled', 'Cancelling', 'SucceededWithErrors'
+   * 'Cancelled', 'Cancelling', 'SucceededWithErrors', 'WaitingForCustomerAction',
+   * 'SucceededWithWarnings'
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly stageStatus?: StageStatus;
@@ -1363,11 +1621,6 @@ export interface JobStages {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly jobStageDetails?: any;
-  /**
-   * Error details for the stage.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly errorDetails?: JobErrorDetails[];
 }
 
 /**
@@ -1407,13 +1660,32 @@ export interface TransportPreferences {
  */
 export interface Preferences {
   /**
-   * Preferred Data Center Region.
+   * Preferred data center region.
    */
   preferredDataCenterRegion?: string[];
   /**
    * Preferences related to the shipment logistics of the sku.
    */
   transportPreferences?: TransportPreferences;
+}
+
+/**
+ * Encryption key containing details about key to encrypt different keys.
+ */
+export interface KeyEncryptionKey {
+  /**
+   * Type of encryption key used for key encryption. Possible values include: 'MicrosoftManaged',
+   * 'CustomerManaged'
+   */
+  kekType: KekType;
+  /**
+   * Key encryption key. It is required in case of Customer managed KekType.
+   */
+  kekUrl?: string;
+  /**
+   * Kek vault resource id. It is required in case of Customer managed KekType.
+   */
+  kekVaultResourceID?: string;
 }
 
 /**
@@ -1435,12 +1707,20 @@ export interface Resource extends BaseResource {
    * The sku type.
    */
   sku: Sku;
+  /**
+   * Msi identity of the resource
+   */
+  identity?: ResourceIdentity;
 }
 
 /**
  * Job Resource.
  */
 export interface JobResource extends Resource {
+  /**
+   * Type of the data transfer. Possible values include: 'ImportToAzure', 'ExportFromAzure'
+   */
+  transferType: TransferType;
   /**
    * Describes whether the job is cancellable or not.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -1456,6 +1736,11 @@ export interface JobResource extends Resource {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly isShippingAddressEditable?: boolean;
+  /**
+   * Is Prepare To Ship Enabled on this job
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly isPrepareToShipEnabled?: boolean;
   /**
    * Name of the stage which is in progress. Possible values include: 'DeviceOrdered',
    * 'DevicePrepared', 'Dispatched', 'Delivered', 'PickedUp', 'AtAzureDC', 'DataCopy', 'Completed',
@@ -1474,7 +1759,7 @@ export interface JobResource extends Resource {
    * Top level error for the job.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly error?: ErrorModel;
+  readonly error?: CloudError;
   /**
    * Details of a job run. This field will only be sent for expand details filter.
    */
@@ -1526,6 +1811,30 @@ export interface UpdateJobDetails {
    * Shipping address of the customer.
    */
   shippingAddress?: ShippingAddress;
+  /**
+   * Key encryption key for the job.
+   */
+  keyEncryptionKey?: KeyEncryptionKey;
+}
+
+/**
+ * Msi identity details of the resource
+ */
+export interface ResourceIdentity {
+  /**
+   * Identity type
+   */
+  type?: string;
+  /**
+   * Service Principal Id backing the Msi
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly principalId?: string;
+  /**
+   * Home Tenant Id
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly tenantId?: string;
 }
 
 /**
@@ -1537,14 +1846,41 @@ export interface JobResourceUpdateParameter {
    */
   details?: UpdateJobDetails;
   /**
-   * Destination account details.
-   */
-  destinationAccountDetails?: DestinationAccountDetailsUnion[];
-  /**
    * The list of key value pairs that describe the resource. These tags can be used in viewing and
    * grouping this resource (across resource groups).
    */
   tags?: { [propertyName: string]: string };
+  /**
+   * Msi identity of the resource
+   */
+  identity?: ResourceIdentity;
+}
+
+/**
+ * Details of the managed disks.
+ */
+export interface ManagedDiskDetails {
+  /**
+   * Polymorphic Discriminator
+   */
+  dataAccountType: "ManagedDisk";
+  /**
+   * Password for all the shares to be created on the device. Should not be passed for
+   * TransferType:ExportFromAzure jobs. If this is not passed, the service will generate password
+   * itself. This will not be returned in Get Call. Password Requirements :  Password must be
+   * minimum of 12 and maximum of 64 characters. Password must have at least one uppercase
+   * alphabet, one number and one special character. Password cannot have the following characters
+   * : IilLoO0 Password can have only alphabets, numbers and these characters : @#\-$%^!+=;:_()]+
+   */
+  sharePassword?: string;
+  /**
+   * Resource Group Id of the compute disks.
+   */
+  resourceGroupId: string;
+  /**
+   * Resource Id of the storage account that can be used to copy the vhd for staging.
+   */
+  stagingStorageAccountId: string;
 }
 
 /**
@@ -1594,6 +1930,10 @@ export interface Operation {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly origin?: string;
+  /**
+   * Indicates whether the operation is a data action
+   */
+  isDataAction?: boolean;
 }
 
 /**
@@ -1605,7 +1945,7 @@ export interface PreferencesValidationRequest {
    */
   validationType: "ValidatePreferences";
   /**
-   * Preference requested with respect to transport type and data center
+   * Preference of transport and data center.
    */
   preference?: Preferences;
   /**
@@ -1627,7 +1967,7 @@ export interface PreferencesValidationResponseProperties {
    * Error code and message of validation response.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly error?: ErrorModel;
+  readonly error?: CloudError;
   /**
    * Validation status of requested data center and transport. Possible values include: 'Valid',
    * 'Invalid', 'Skipped'
@@ -1661,7 +2001,7 @@ export interface RegionConfigurationRequest {
 }
 
 /**
- * Schedule availability response for given sku in a region.
+ * Schedule availability for given sku in a region.
  */
 export interface ScheduleAvailabilityResponse {
   /**
@@ -1760,6 +2100,10 @@ export interface SkuAvailabilityValidationRequest {
    */
   deviceType: SkuName;
   /**
+   * Type of the transfer. Possible values include: 'ImportToAzure', 'ExportFromAzure'
+   */
+  transferType: TransferType;
+  /**
    * ISO country code. Country for hardware shipment. For codes check:
    * https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2#Officially_assigned_code_elements
    */
@@ -1783,12 +2127,35 @@ export interface SkuAvailabilityValidationResponseProperties {
    * Error code and message of validation response.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly error?: ErrorModel;
+  readonly error?: CloudError;
   /**
    * Sku availability validation status. Possible values include: 'Valid', 'Invalid', 'Skipped'
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly status?: ValidationStatus;
+}
+
+/**
+ * Details for the storage account.
+ */
+export interface StorageAccountDetails {
+  /**
+   * Polymorphic Discriminator
+   */
+  dataAccountType: "StorageAccount";
+  /**
+   * Password for all the shares to be created on the device. Should not be passed for
+   * TransferType:ExportFromAzure jobs. If this is not passed, the service will generate password
+   * itself. This will not be returned in Get Call. Password Requirements :  Password must be
+   * minimum of 12 and maximum of 64 characters. Password must have at least one uppercase
+   * alphabet, one number and one special character. Password cannot have the following characters
+   * : IilLoO0 Password can have only alphabets, numbers and these characters : @#\-$%^!+=;:_()]+
+   */
+  sharePassword?: string;
+  /**
+   * Storage Account Resource Id.
+   */
+  storageAccountId: string;
 }
 
 /**
@@ -1813,7 +2180,7 @@ export interface SubscriptionIsAllowedToCreateJobValidationResponseProperties {
    * Error code and message of validation response.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly error?: ErrorModel;
+  readonly error?: CloudError;
   /**
    * Validation status of subscription permission to create job. Possible values include: 'Valid',
    * 'Invalid', 'Skipped'
@@ -1859,39 +2226,6 @@ export interface ValidateAddress {
    * Preferences related to the shipment logistics of the sku.
    */
   transportPreferences?: TransportPreferences;
-}
-
-/**
- * Contains the possible cases for ValidationRequest.
- */
-export type ValidationRequestUnion = ValidationRequest | CreateJobValidations;
-
-/**
- * Input request for all pre job creation validation.
- */
-export interface ValidationRequest {
-  /**
-   * Polymorphic Discriminator
-   */
-  validationCategory: "ValidationRequest";
-  /**
-   * List of request details contain validationType and its request as key and value respectively.
-   */
-  individualRequestDetails: ValidationInputRequestUnion[];
-}
-
-/**
- * It does all pre-job creation validations.
- */
-export interface CreateJobValidations {
-  /**
-   * Polymorphic Discriminator
-   */
-  validationCategory: "JobCreationValidation";
-  /**
-   * List of request details contain validationType and its request as key and value respectively.
-   */
-  individualRequestDetails: ValidationInputRequestUnion[];
 }
 
 /**
@@ -1979,6 +2313,20 @@ export interface ServiceRegionConfigurationOptionalParams extends msRest.Request
 }
 
 /**
+ * Optional Parameters.
+ */
+export interface ServiceRegionConfigurationByResourceGroupOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * Request body to get the availability for scheduling orders.
+   */
+  scheduleAvailabilityRequest?: ScheduleAvailabilityRequestUnion;
+  /**
+   * Request body to get the transport availability for given sku.
+   */
+  transportAvailabilityRequest?: TransportAvailabilityRequest;
+}
+
+/**
  * An interface representing DataBoxManagementClientOptions.
  */
 export interface DataBoxManagementClientOptions extends AzureServiceClientOptions {
@@ -2034,12 +2382,12 @@ export interface AvailableSkusResult extends Array<SkuInformation> {
 }
 
 /**
- * Defines values for DataDestinationType.
+ * Defines values for DataAccountType.
  * Possible values include: 'StorageAccount', 'ManagedDisk'
  * @readonly
  * @enum {string}
  */
-export type DataDestinationType = 'StorageAccount' | 'ManagedDisk';
+export type DataAccountType = 'StorageAccount' | 'ManagedDisk';
 
 /**
  * Defines values for ShareDestinationFormatType.
@@ -2073,6 +2421,14 @@ export type AddressValidationStatus = 'Valid' | 'Invalid' | 'Ambiguous';
  * @enum {string}
  */
 export type AddressType = 'None' | 'Residential' | 'Commercial';
+
+/**
+ * Defines values for TransferType.
+ * Possible values include: 'ImportToAzure', 'ExportFromAzure'
+ * @readonly
+ * @enum {string}
+ */
+export type TransferType = 'ImportToAzure' | 'ExportFromAzure';
 
 /**
  * Defines values for SkuName.
@@ -2119,6 +2475,30 @@ export type ValidationStatus = 'Valid' | 'Invalid' | 'Skipped';
 export type CopyStatus = 'NotStarted' | 'InProgress' | 'Completed' | 'CompletedWithErrors' | 'Failed' | 'NotReturned' | 'HardwareError' | 'DeviceFormatted' | 'DeviceMetadataModified' | 'StorageAccountNotAccessible' | 'UnsupportedData';
 
 /**
+ * Defines values for TransferConfigurationType.
+ * Possible values include: 'TransferAll', 'TransferUsingFilter'
+ * @readonly
+ * @enum {string}
+ */
+export type TransferConfigurationType = 'TransferAll' | 'TransferUsingFilter';
+
+/**
+ * Defines values for FilterFileType.
+ * Possible values include: 'AzureBlob', 'AzureFile'
+ * @readonly
+ * @enum {string}
+ */
+export type FilterFileType = 'AzureBlob' | 'AzureFile';
+
+/**
+ * Defines values for LogCollectionLevel.
+ * Possible values include: 'Error', 'Verbose'
+ * @readonly
+ * @enum {string}
+ */
+export type LogCollectionLevel = 'Error' | 'Verbose';
+
+/**
  * Defines values for StageName.
  * Possible values include: 'DeviceOrdered', 'DevicePrepared', 'Dispatched', 'Delivered',
  * 'PickedUp', 'AtAzureDC', 'DataCopy', 'Completed', 'CompletedWithErrors', 'Cancelled',
@@ -2132,11 +2512,11 @@ export type StageName = 'DeviceOrdered' | 'DevicePrepared' | 'Dispatched' | 'Del
 /**
  * Defines values for StageStatus.
  * Possible values include: 'None', 'InProgress', 'Succeeded', 'Failed', 'Cancelled', 'Cancelling',
- * 'SucceededWithErrors'
+ * 'SucceededWithErrors', 'WaitingForCustomerAction', 'SucceededWithWarnings'
  * @readonly
  * @enum {string}
  */
-export type StageStatus = 'None' | 'InProgress' | 'Succeeded' | 'Failed' | 'Cancelled' | 'Cancelling' | 'SucceededWithErrors';
+export type StageStatus = 'None' | 'InProgress' | 'Succeeded' | 'Failed' | 'Cancelled' | 'Cancelling' | 'SucceededWithErrors' | 'WaitingForCustomerAction' | 'SucceededWithWarnings';
 
 /**
  * Defines values for TransportShipmentTypes.
@@ -2145,6 +2525,14 @@ export type StageStatus = 'None' | 'InProgress' | 'Succeeded' | 'Failed' | 'Canc
  * @enum {string}
  */
 export type TransportShipmentTypes = 'CustomerManaged' | 'MicrosoftManaged';
+
+/**
+ * Defines values for KekType.
+ * Possible values include: 'MicrosoftManaged', 'CustomerManaged'
+ * @readonly
+ * @enum {string}
+ */
+export type KekType = 'MicrosoftManaged' | 'CustomerManaged';
 
 /**
  * Defines values for JobDeliveryType.
@@ -2424,26 +2812,6 @@ export type JobsListByResourceGroupNextResponse = JobResourceList & {
 };
 
 /**
- * Contains response data for the listAvailableSkus operation.
- */
-export type ServiceListAvailableSkusResponse = AvailableSkusResult & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AvailableSkusResult;
-    };
-};
-
-/**
  * Contains response data for the listAvailableSkusByResourceGroup operation.
  */
 export type ServiceListAvailableSkusByResourceGroupResponse = AvailableSkusResult & {
@@ -2544,9 +2912,9 @@ export type ServiceRegionConfigurationResponse = RegionConfigurationResponse & {
 };
 
 /**
- * Contains response data for the listAvailableSkusNext operation.
+ * Contains response data for the regionConfigurationByResourceGroup operation.
  */
-export type ServiceListAvailableSkusNextResponse = AvailableSkusResult & {
+export type ServiceRegionConfigurationByResourceGroupResponse = RegionConfigurationResponse & {
   /**
    * The underlying HTTP response.
    */
@@ -2559,7 +2927,7 @@ export type ServiceListAvailableSkusNextResponse = AvailableSkusResult & {
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: AvailableSkusResult;
+      parsedBody: RegionConfigurationResponse;
     };
 };
 
