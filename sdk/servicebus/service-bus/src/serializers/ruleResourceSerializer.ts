@@ -146,7 +146,7 @@ export interface SqlRuleFilter {
   sqlExpression?: string;
 
   /**
-   * SQL parameters to the expression
+   * SQL parameters to the SQL expression in the rule filter.
    */
   sqlParameters?: { [key: string]: string | number | boolean };
 }
