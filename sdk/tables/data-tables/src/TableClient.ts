@@ -16,7 +16,7 @@ import {
   TableEntityQueryOptions,
   CreateTableOptions,
   CreateTableItemResponse,
-  TableServiceClientOptions
+  TableServiceClientOptions as TableClientOptions
 } from "./models";
 import {
   DeleteTableOptions,
@@ -56,7 +56,7 @@ export class TableClient {
    *                     "https://myaccount.table.core.windows.net".
    * @param {string} tableName the name of the table
    * @param {TablesSharedKeyCredential} credential  TablesSharedKeyCredential used to authenticate requests. Only Supported for Browsers
-   * @param {TableServiceClientOptions} options Optional. Options to configure the HTTP pipeline.
+   * @param {TableClientOptions} options Optional. Options to configure the HTTP pipeline.
    *
    * Example using an account name/key:
    *
@@ -77,7 +77,7 @@ export class TableClient {
     tableName: string,
     credential: TablesSharedKeyCredential,
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-    options?: TableServiceClientOptions
+    options?: TableClientOptions
   );
   /**
    * Creates an instance of TableClient.
@@ -86,7 +86,7 @@ export class TableClient {
    *                     "https://myaccount.table.core.windows.net". You can append a SAS,
    *                      such as "https://myaccount.table.core.windows.net?sasString".
    * @param {string} tableName the name of the table
-   * @param {TableServiceClientOptions} options Optional. Options to configure the HTTP pipeline.
+   * @param {TableClientOptions} options Optional. Options to configure the HTTP pipeline.
    *
    * Example appending a SAS token:
    *
@@ -103,13 +103,13 @@ export class TableClient {
    */
 
   // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-  constructor(url: string, tableName: string, options?: TableServiceClientOptions);
+  constructor(url: string, tableName: string, options?: TableClientOptions);
   constructor(
     url: string,
     tableName: string,
-    credentialOrOptions?: TablesSharedKeyCredential | TableServiceClientOptions,
+    credentialOrOptions?: TablesSharedKeyCredential | TableClientOptions,
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-    options: TableServiceClientOptions = {}
+    options: TableClientOptions = {}
   ) {
     const credential =
       credentialOrOptions instanceof TablesSharedKeyCredential ? credentialOrOptions : undefined;
@@ -493,14 +493,14 @@ export class TableClient {
    *                                  `DefaultEndpointsProtocol=https;AccountName=myaccount;AccountKey=accountKey;EndpointSuffix=core.windows.net`
    *                                  SAS connection string example -
    *                                  `BlobEndpoint=https://myaccount.table.core.windows.net/;QueueEndpoint=https://myaccount.queue.core.windows.net/;FileEndpoint=https://myaccount.file.core.windows.net/;TableEndpoint=https://myaccount.table.core.windows.net/;SharedAccessSignature=sasString`
-   * @param {TableServiceClientOptions} [options] Options to configure the HTTP pipeline.
+   * @param {TableClientOptions} [options] Options to configure the HTTP pipeline.
    * @returns {TableClient} A new TableClient from the given connection string.
    */
   public static fromConnectionString(
     connectionString: string,
     tableName: string,
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-    options?: TableServiceClientOptions
+    options?: TableClientOptions
   ): TableClient {
     const { url, options: clientOptions } = getClientParamsFromConnectionString(
       connectionString,
