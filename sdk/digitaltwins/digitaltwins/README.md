@@ -1,6 +1,6 @@
 # Azure Azure DigitalTwins client library for JavaScript
 
-This package contains an isomorphic SDK for Azure DigitalTwins API.
+This package contains an isomorphic SDK for Azure DigitalTwins API to provide access to the Azure Digital Twins service for managing twins, models, relationships, etc.
 
 ## Getting started
 
@@ -37,7 +37,6 @@ import {
   AzureDigitalTwinsAPIMappers
 } from "@azure/digitaltwins";
 const subscriptionId = process.env["AZURE_SUBSCRIPTION_ID"];
-
 msRestNodeAuth
   .interactiveLogin()
   .then((creds) => {
@@ -51,17 +50,17 @@ msRestNodeAuth
         console.log("The result is:");
         console.log(result);
       });
-  })
+  }
   .catch((err) => {
     console.error(err);
-  });
+  })
 ```
 
 #### browser - Authentication, client creation and list digitalTwinModels as an example written in JavaScript.
 
 ##### Install @azure/ms-rest-browserauth
 
-```bash
+```ba
 npm install @azure/ms-rest-browserauth
 ```
 
@@ -109,13 +108,12 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
     </script>
   </head>
   <body></body>
-</html>
+</html
 ```
 
 ## Key concepts
 
 Azure Digital Twins Preview is an Azure IoT service that creates comprehensive models of the physical environment. It can create spatial intelligence graphs to model the relationships and interactions between people, spaces, and devices.
-
 You can learn more about Azure Digital Twins by visiting [Azure Digital Twins Documentation](https://docs.microsoft.com/en-us/azure/digital-twins/)
 
 ## Examples
@@ -151,5 +149,4 @@ If you'd like to contribute to this library, please read the [contributing guide
 ## Related projects
 
 - [Microsoft Azure SDK for Javascript](https://github.com/Azure/azure-sdk-for-js)
-
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js/sdk/README.png)
+  ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js/sdk/README.png)
