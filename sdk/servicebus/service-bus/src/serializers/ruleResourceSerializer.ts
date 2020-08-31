@@ -125,12 +125,12 @@ export interface RuleProperties {
  */
 export type SqlRuleAction = {
   /**
-   * SQL expression to use.
+   * SQL expression to use in the rule action.
    */
   sqlExpression?: string;
 
   /**
-   * SQL parameters to the expression
+   * SQL parameters to the SQL expression in the rule action.
    */
   sqlParameters?: { [key: string]: string | number | boolean };
 };
@@ -140,13 +140,13 @@ export type SqlRuleAction = {
  */
 export interface SqlRuleFilter {
   /**
-   * SQL expression to use.
+   * SQL expression to use in the rule filter.
    * Defaults to creating a true filter if none specified
    */
   sqlExpression?: string;
 
   /**
-   * SQL parameters to the expression
+   * SQL parameters to the SQL expression in the rule filter.
    */
   sqlParameters?: { [key: string]: string | number | boolean };
 }
