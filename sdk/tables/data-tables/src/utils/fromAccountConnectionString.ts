@@ -11,6 +11,7 @@ import { TablesSharedKeyCredential } from "../TablesSharedKeyCredential";
  * @param extractedCreds parsed connection string
  * @param options TablesServiceClient options
  */
+// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 export function fromAccountConnectionString(
   extractedCreds: ConnectionString,
   options?: TableServiceClientOptions

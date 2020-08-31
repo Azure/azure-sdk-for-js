@@ -9,9 +9,10 @@ import * as coreHttp from '@azure/core-http';
 import { HttpOperationResponse } from '@azure/core-http';
 import { HttpResponse } from '@azure/core-http';
 import { OperationOptions } from '@azure/core-http';
+import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { RequestPolicy } from '@azure/core-http';
 import { RequestPolicyFactory } from '@azure/core-http';
-import { RequestPolicyOptions } from '@azure/core-http';
+import { RequestPolicyOptionsLike } from '@azure/core-http';
 import { WebResource } from '@azure/core-http';
 
 // @public
@@ -174,7 +175,7 @@ export type GetTableEntityResponse<T extends object> = TableEntity<T> & {
 // @public
 export type ListEntitiesResponse<T extends object> = Array<TableEntity<T>> & {
     nextPartitionKey?: string;
-    nextextRowKey?: string;
+    nextRowKey?: string;
     _response: HttpResponse & {
         bodyAsText: string;
         parsedBody: {
@@ -196,25 +197,15 @@ export interface ListTableEntitiesOptions {
 }
 
 // @public
-export type ListTableItemsResponse = Array<TableResponseProperties> & {
+export interface ListTableItemsOptions {
     nextTableName?: string;
-    _response: HttpResponse & {
-        bodyAsText: string;
-        parsedBody: TableQueryResponse;
-        parsedHeaders: TableQueryHeaders;
-    };
-};
-
-// @public
-export interface ListTablesOptions {
-    nextTableName?: string;
-    queryOptions?: TableQueryOptions;
     requestId?: string;
 }
 
 // @public
-export type ListTablesResponse = TableQueryHeaders & TableQueryResponse & {
-    _response: coreHttp.HttpResponse & {
+export type ListTableItemsResponse = Array<TableResponseProperties> & {
+    nextTableName?: string;
+    _response: HttpResponse & {
         bodyAsText: string;
         parsedBody: TableQueryResponse;
         parsedHeaders: TableQueryHeaders;
@@ -314,14 +305,13 @@ export interface SignedIdentifier {
 export class TableClient {
     constructor(url: string, tableName: string, credential: TablesSharedKeyCredential, options?: TableServiceClientOptions);
     constructor(url: string, tableName: string, options?: TableServiceClientOptions);
+    create(options?: CreateTableOptions): Promise<CreateTableItemResponse>;
     createEntity<T extends object>(entity: TableEntity<T>, options?: CreateTableEntityOptions): Promise<CreateTableEntityResponse>;
     delete(options?: DeleteTableOptions): Promise<DeleteTableResponse>;
     deleteEntity(partitionKey: string, rowKey: string, options?: DeleteTableEntityOptions): Promise<DeleteTableEntityResponse>;
     static fromConnectionString(connectionString: string, tableName: string, options?: TableServiceClientOptions): TableClient;
-    getAccessPolicy(options?: GetAccessPolicyOptions): Promise<GetAccessPolicyResponse>;
     getEntity<T extends object>(partitionKey: string, rowKey: string, options?: GetTableEntityOptions): Promise<GetTableEntityResponse<T>>;
-    listEntities<T extends object>(options?: ListTableEntitiesOptions): Promise<ListEntitiesResponse<T>>;
-    setAccessPolicy(options?: SetAccessPolicyOptions): Promise<SetAccessPolicyResponse>;
+    listEntities<T extends object>(options?: ListTableEntitiesOptions): PagedAsyncIterableIterator<T, ListEntitiesResponse<T>>;
     readonly tableName: string;
     updateEntity<T extends object>(entity: TableEntity<T>, mode: UpdateMode, options?: UpdateTableEntityOptions): Promise<UpdateEntityResponse>;
     upsertEntity<T extends object>(entity: TableEntity<T>, mode: UpdateMode, options?: UpsertTableEntityOptions): Promise<UpsertEntityResponse>;
@@ -371,7 +361,6 @@ export type TableEntity<T extends object> = T & {
 export interface TableEntityQueryOptions {
     filter?: string;
     select?: string[];
-    top?: number;
 }
 
 // @public
@@ -467,7 +456,6 @@ export interface TableQueryHeaders {
 // @public
 export interface TableQueryOptions {
     filter?: string;
-    top?: number;
 }
 
 // @public
@@ -493,22 +481,16 @@ export interface TableResponseProperties {
 export class TableServiceClient {
     constructor(url: string, credential: TablesSharedKeyCredential, options?: TableServiceClientOptions);
     constructor(url: string, options?: TableServiceClientOptions);
-    createEntity<T extends object>(tableName: string, entity: TableEntity<T>, options?: CreateTableEntityOptions): Promise<CreateTableEntityResponse>;
     createTable(tableName: string, options?: CreateTableOptions): Promise<CreateTableItemResponse>;
-    deleteEntity(tableName: string, partitionKey: string, rowKey: string, options?: DeleteTableEntityOptions): Promise<DeleteTableEntityResponse>;
     deleteTable(tableName: string, options?: DeleteTableOptions): Promise<DeleteTableResponse>;
     static fromConnectionString(connectionString: string, options?: TableServiceClientOptions): TableServiceClient;
     getAccessPolicy(tableName: string, options?: GetAccessPolicyOptions): Promise<GetAccessPolicyResponse>;
-    getEntity<T extends object>(tableName: string, partitionKey: string, rowKey: string, options?: GetTableEntityOptions): Promise<GetTableEntityResponse<T>>;
     getProperties(options?: GetPropertiesOptions): Promise<GetPropertiesResponse>;
     getStatistics(options?: GetStatisticsOptions): Promise<GetStatisticsResponse>;
-    listEntities<T extends object>(tableName: string, options?: ListTableEntitiesOptions): Promise<ListEntitiesResponse<T>>;
-    listTables(options?: ListTablesOptions): Promise<ListTableItemsResponse>;
+    listTables(options?: ListTableItemsOptions): PagedAsyncIterableIterator<TableResponseProperties, ListTableItemsResponse>;
     setAccessPolicy(tableName: string, options?: SetAccessPolicyOptions): Promise<SetAccessPolicyResponse>;
     setProperties(properties: ServiceProperties, options?: SetPropertiesOptions): Promise<SetPropertiesResponse>;
-    updateEntity<T extends object>(tableName: string, entity: TableEntity<T>, mode: UpdateMode, options?: UpdateTableEntityOptions): Promise<UpdateEntityResponse>;
-    upsertEntity<T extends object>(tableName: string, entity: TableEntity<T>, mode: UpdateMode, options?: UpsertTableEntityOptions): Promise<UpsertEntityResponse>;
-}
+    }
 
 // @public
 export interface TableServiceClientOptions extends coreHttp.ServiceClientOptions {
@@ -534,12 +516,12 @@ export class TablesSharedKeyCredential implements RequestPolicyFactory {
     constructor(accountName: string, accountKey: string);
     readonly accountName: string;
     computeHMACSHA256(stringToSign: string): string;
-    create(nextPolicy: RequestPolicy, options: RequestPolicyOptions): TablesSharedKeyCredentialPolicy;
+    create(nextPolicy: RequestPolicy, options: RequestPolicyOptionsLike): TablesSharedKeyCredentialPolicy;
 }
 
 // @public
 export class TablesSharedKeyCredentialPolicy extends BaseRequestPolicy {
-    constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptions, factory: TablesSharedKeyCredential);
+    constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptionsLike, factory: TablesSharedKeyCredential);
     sendRequest(request: WebResource): Promise<HttpOperationResponse>;
     protected signRequest(request: WebResource): WebResource;
 }
