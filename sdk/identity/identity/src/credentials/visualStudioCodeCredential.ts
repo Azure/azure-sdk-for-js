@@ -88,6 +88,9 @@ export class VisualStudioCodeCredential implements TokenCredential {
     } else {
       this.tenantId = CommonTenantId;
     }
+    if (this.tenantId === "adfs") {
+      throw new CredentialUnavailable("The VisualStudioCodeCredential is not supported in Sovereign Clouds")
+    }
   }
 
   /**
