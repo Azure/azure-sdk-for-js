@@ -29,6 +29,14 @@ const unsupportedTenantIds: Record<string, string> = {
   adfs: "The VisualStudioCodeCredential is not supported against ADFS tenant / authorities."
 };
 
+function checkUnsupportedTenant(tenantId: string): void {
+  // If the Tenant ID isn't supported, we throw.
+  const unsupportedTenantError = unsupportedTenantIds[tenantId];
+  if (unsupportedTenantError) {
+    throw new CredentialUnavailable(unsupportedTenantError);
+  }
+}
+
 /**
  * Attempts to load the tenant from the VSCode configurations of the current OS.
  * If it fails at any point, returns undefined.
@@ -93,12 +101,7 @@ export class VisualStudioCodeCredential implements TokenCredential {
     } else {
       this.tenantId = CommonTenantId;
     }
-
-    // If the Tenant ID isn't supported, we throw.
-    const unsupportedTenantError = unsupportedTenantIds[this.tenantId];
-    if (unsupportedTenantError) {
-      throw new CredentialUnavailable(unsupportedTenantError);
-    }
+    checkUnsupportedTenant(this.tenantId);
   }
 
   /**
@@ -110,6 +113,7 @@ export class VisualStudioCodeCredential implements TokenCredential {
     if (settingsTenant) {
       this.tenantId = settingsTenant;
     }
+    checkUnsupportedTenant(this.tenantId);
   }
 
   /**
