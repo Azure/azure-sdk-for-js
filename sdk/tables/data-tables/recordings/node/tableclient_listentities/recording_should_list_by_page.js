@@ -1,6 +1,6 @@
 let nock = require('nock');
 
-module.exports.hash = "c2cbd8c0aa26ae8a565bdb2c12919ffc";
+module.exports.hash = "6fdf58ad5bac45948caff8b17868b26c";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
@@ -17,7 +17,9 @@ nock('https://joherediteststorage.table.core.windows.net:443', {"encodedQueryPar
   'Server',
   'Windows-Azure-Table/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  '276f616c-4002-013f-20a0-7ca55d000000',
+  'f0a18e7f-1002-0127-1aa8-7d88c8000000',
+  'x-ms-client-request-id',
+  'f8576b21-2fd7-47db-8e7c-13cd0ff15320',
   'x-ms-version',
   '2019-02-02',
   'X-Content-Type-Options',
@@ -27,13 +29,11 @@ nock('https://joherediteststorage.table.core.windows.net:443', {"encodedQueryPar
   'x-ms-continuation-NextRowKey',
   '1!12!aW50MzIxNjI-',
   'Access-Control-Expose-Headers',
-  'x-ms-request-id,Server,x-ms-version,X-Content-Type-Options,Cache-Control,x-ms-continuation-NextPartitionKey,x-ms-continuation-NextRowKey,Content-Type,Content-Length,Date,Transfer-Encoding',
+  'x-ms-request-id,x-ms-client-request-id,Server,x-ms-version,X-Content-Type-Options,Cache-Control,x-ms-continuation-NextPartitionKey,x-ms-continuation-NextRowKey,Content-Type,Content-Length,Date,Transfer-Encoding',
   'Access-Control-Allow-Origin',
   '*',
   'Date',
-  'Thu, 27 Aug 2020 18:30:32 GMT',
-  'Connection',
-  'close'
+  'Sat, 29 Aug 2020 02:04:43 GMT'
 ]);
 
 nock('https://joherediteststorage.table.core.windows.net:443', {"encodedQueryParams":true})
@@ -49,7 +49,9 @@ nock('https://joherediteststorage.table.core.windows.net:443', {"encodedQueryPar
   'Server',
   'Windows-Azure-Table/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  'c957e475-7002-013c-57a0-7ca65a000000',
+  'f0a18e93-1002-0127-2ba8-7d88c8000000',
+  'x-ms-client-request-id',
+  '5046356d-e97e-42b1-a29e-032a070a602d',
   'x-ms-version',
   '2019-02-02',
   'X-Content-Type-Options',
@@ -59,13 +61,11 @@ nock('https://joherediteststorage.table.core.windows.net:443', {"encodedQueryPar
   'x-ms-continuation-NextRowKey',
   '1!12!c3RyaW5nMjI2',
   'Access-Control-Expose-Headers',
-  'x-ms-request-id,Server,x-ms-version,X-Content-Type-Options,Cache-Control,x-ms-continuation-NextPartitionKey,x-ms-continuation-NextRowKey,Content-Type,Content-Length,Date,Transfer-Encoding',
+  'x-ms-request-id,x-ms-client-request-id,Server,x-ms-version,X-Content-Type-Options,Cache-Control,x-ms-continuation-NextPartitionKey,x-ms-continuation-NextRowKey,Content-Type,Content-Length,Date,Transfer-Encoding',
   'Access-Control-Allow-Origin',
   '*',
   'Date',
-  'Thu, 27 Aug 2020 18:30:33 GMT',
-  'Connection',
-  'close'
+  'Sat, 29 Aug 2020 02:04:43 GMT'
 ]);
 
 nock('https://joherediteststorage.table.core.windows.net:443', {"encodedQueryParams":true})
@@ -81,7 +81,9 @@ nock('https://joherediteststorage.table.core.windows.net:443', {"encodedQueryPar
   'Server',
   'Windows-Azure-Table/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  '63698c60-b002-000c-80a0-7cba25000000',
+  'f0a18eb2-1002-0127-44a8-7d88c8000000',
+  'x-ms-client-request-id',
+  'cb914597-950c-47b7-96a0-a6666d3c39e0',
   'x-ms-version',
   '2019-02-02',
   'X-Content-Type-Options',
@@ -91,13 +93,11 @@ nock('https://joherediteststorage.table.core.windows.net:443', {"encodedQueryPar
   'x-ms-continuation-NextRowKey',
   '1!12!ZGF0ZTI5MQ--',
   'Access-Control-Expose-Headers',
-  'x-ms-request-id,Server,x-ms-version,X-Content-Type-Options,Cache-Control,x-ms-continuation-NextPartitionKey,x-ms-continuation-NextRowKey,Content-Type,Content-Length,Date,Transfer-Encoding',
+  'x-ms-request-id,x-ms-client-request-id,Server,x-ms-version,X-Content-Type-Options,Cache-Control,x-ms-continuation-NextPartitionKey,x-ms-continuation-NextRowKey,Content-Type,Content-Length,Date,Transfer-Encoding',
   'Access-Control-Allow-Origin',
   '*',
   'Date',
-  'Thu, 27 Aug 2020 18:30:32 GMT',
-  'Connection',
-  'close'
+  'Sat, 29 Aug 2020 02:04:43 GMT'
 ]);
 
 nock('https://joherediteststorage.table.core.windows.net:443', {"encodedQueryParams":true})
@@ -113,7 +113,9 @@ nock('https://joherediteststorage.table.core.windows.net:443', {"encodedQueryPar
   'Server',
   'Windows-Azure-Table/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  '9d66cba6-f002-00e5-37a0-7c4623000000',
+  'f0a18ecb-1002-0127-5ba8-7d88c8000000',
+  'x-ms-client-request-id',
+  '482031e4-7855-4d28-80bb-da5a2ebb219b',
   'x-ms-version',
   '2019-02-02',
   'X-Content-Type-Options',
@@ -123,13 +125,11 @@ nock('https://joherediteststorage.table.core.windows.net:443', {"encodedQueryPar
   'x-ms-continuation-NextRowKey',
   '1!12!bnVtYmVyMzU1',
   'Access-Control-Expose-Headers',
-  'x-ms-request-id,Server,x-ms-version,X-Content-Type-Options,Cache-Control,x-ms-continuation-NextPartitionKey,x-ms-continuation-NextRowKey,Content-Type,Content-Length,Date,Transfer-Encoding',
+  'x-ms-request-id,x-ms-client-request-id,Server,x-ms-version,X-Content-Type-Options,Cache-Control,x-ms-continuation-NextPartitionKey,x-ms-continuation-NextRowKey,Content-Type,Content-Length,Date,Transfer-Encoding',
   'Access-Control-Allow-Origin',
   '*',
   'Date',
-  'Thu, 27 Aug 2020 18:30:34 GMT',
-  'Connection',
-  'close'
+  'Sat, 29 Aug 2020 02:04:43 GMT'
 ]);
 
 nock('https://joherediteststorage.table.core.windows.net:443', {"encodedQueryParams":true})
@@ -145,7 +145,9 @@ nock('https://joherediteststorage.table.core.windows.net:443', {"encodedQueryPar
   'Server',
   'Windows-Azure-Table/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  'ce9fcf81-5002-0042-04a0-7c7fc0000000',
+  'f0a18ed6-1002-0127-65a8-7d88c8000000',
+  'x-ms-client-request-id',
+  'b8f8c0da-9af8-4783-831f-80d13e8b9e27',
   'x-ms-version',
   '2019-02-02',
   'X-Content-Type-Options',
@@ -155,13 +157,11 @@ nock('https://joherediteststorage.table.core.windows.net:443', {"encodedQueryPar
   'x-ms-continuation-NextRowKey',
   '1!12!Ym9vbGVhbjQy',
   'Access-Control-Expose-Headers',
-  'x-ms-request-id,Server,x-ms-version,X-Content-Type-Options,Cache-Control,x-ms-continuation-NextPartitionKey,x-ms-continuation-NextRowKey,Content-Type,Content-Length,Date,Transfer-Encoding',
+  'x-ms-request-id,x-ms-client-request-id,Server,x-ms-version,X-Content-Type-Options,Cache-Control,x-ms-continuation-NextPartitionKey,x-ms-continuation-NextRowKey,Content-Type,Content-Length,Date,Transfer-Encoding',
   'Access-Control-Allow-Origin',
   '*',
   'Date',
-  'Thu, 27 Aug 2020 18:30:33 GMT',
-  'Connection',
-  'close'
+  'Sat, 29 Aug 2020 02:04:43 GMT'
 ]);
 
 nock('https://joherediteststorage.table.core.windows.net:443', {"encodedQueryParams":true})
@@ -177,7 +177,9 @@ nock('https://joherediteststorage.table.core.windows.net:443', {"encodedQueryPar
   'Server',
   'Windows-Azure-Table/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  '7831f03b-d002-00f2-62a0-7c8640000000',
+  'f0a18ee3-1002-0127-71a8-7d88c8000000',
+  'x-ms-client-request-id',
+  '55d3674b-d703-41de-973c-c9120115ef2e',
   'x-ms-version',
   '2019-02-02',
   'X-Content-Type-Options',
@@ -187,13 +189,11 @@ nock('https://joherediteststorage.table.core.windows.net:443', {"encodedQueryPar
   'x-ms-continuation-NextRowKey',
   '1!12!aW50NjQ0ODQ-',
   'Access-Control-Expose-Headers',
-  'x-ms-request-id,Server,x-ms-version,X-Content-Type-Options,Cache-Control,x-ms-continuation-NextPartitionKey,x-ms-continuation-NextRowKey,Content-Type,Content-Length,Date,Transfer-Encoding',
+  'x-ms-request-id,x-ms-client-request-id,Server,x-ms-version,X-Content-Type-Options,Cache-Control,x-ms-continuation-NextPartitionKey,x-ms-continuation-NextRowKey,Content-Type,Content-Length,Date,Transfer-Encoding',
   'Access-Control-Allow-Origin',
   '*',
   'Date',
-  'Thu, 27 Aug 2020 18:30:34 GMT',
-  'Connection',
-  'close'
+  'Sat, 29 Aug 2020 02:04:43 GMT'
 ]);
 
 nock('https://joherediteststorage.table.core.windows.net:443', {"encodedQueryParams":true})
@@ -209,7 +209,9 @@ nock('https://joherediteststorage.table.core.windows.net:443', {"encodedQueryPar
   'Server',
   'Windows-Azure-Table/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  'bedeb131-1002-00ef-03a0-7c5faa000000',
+  'f0a18ef6-1002-0127-01a8-7d88c8000000',
+  'x-ms-client-request-id',
+  'b3ccd694-8453-40c1-b23e-738621e596b8',
   'x-ms-version',
   '2019-02-02',
   'X-Content-Type-Options',
@@ -219,13 +221,11 @@ nock('https://joherediteststorage.table.core.windows.net:443', {"encodedQueryPar
   'x-ms-continuation-NextRowKey',
   '1!12!YmluYXJ5NTQ5',
   'Access-Control-Expose-Headers',
-  'x-ms-request-id,Server,x-ms-version,X-Content-Type-Options,Cache-Control,x-ms-continuation-NextPartitionKey,x-ms-continuation-NextRowKey,Content-Type,Content-Length,Date,Transfer-Encoding',
+  'x-ms-request-id,x-ms-client-request-id,Server,x-ms-version,X-Content-Type-Options,Cache-Control,x-ms-continuation-NextPartitionKey,x-ms-continuation-NextRowKey,Content-Type,Content-Length,Date,Transfer-Encoding',
   'Access-Control-Allow-Origin',
   '*',
   'Date',
-  'Thu, 27 Aug 2020 18:30:34 GMT',
-  'Connection',
-  'close'
+  'Sat, 29 Aug 2020 02:04:43 GMT'
 ]);
 
 nock('https://joherediteststorage.table.core.windows.net:443', {"encodedQueryParams":true})
@@ -241,7 +241,9 @@ nock('https://joherediteststorage.table.core.windows.net:443', {"encodedQueryPar
   'Server',
   'Windows-Azure-Table/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  '0c12c6e7-7002-00ff-5fa0-7c694c000000',
+  'f0a18f0e-1002-0127-15a8-7d88c8000000',
+  'x-ms-client-request-id',
+  'af9401b9-3ae6-4770-a4d5-99cb9643d4bc',
   'x-ms-version',
   '2019-02-02',
   'X-Content-Type-Options',
@@ -251,13 +253,11 @@ nock('https://joherediteststorage.table.core.windows.net:443', {"encodedQueryPar
   'x-ms-continuation-NextRowKey',
   '1!12!aW50MzI2MTI-',
   'Access-Control-Expose-Headers',
-  'x-ms-request-id,Server,x-ms-version,X-Content-Type-Options,Cache-Control,x-ms-continuation-NextPartitionKey,x-ms-continuation-NextRowKey,Content-Type,Content-Length,Date,Transfer-Encoding',
+  'x-ms-request-id,x-ms-client-request-id,Server,x-ms-version,X-Content-Type-Options,Cache-Control,x-ms-continuation-NextPartitionKey,x-ms-continuation-NextRowKey,Content-Type,Content-Length,Date,Transfer-Encoding',
   'Access-Control-Allow-Origin',
   '*',
   'Date',
-  'Thu, 27 Aug 2020 18:30:34 GMT',
-  'Connection',
-  'close'
+  'Sat, 29 Aug 2020 02:04:43 GMT'
 ]);
 
 nock('https://joherediteststorage.table.core.windows.net:443', {"encodedQueryParams":true})
@@ -273,7 +273,9 @@ nock('https://joherediteststorage.table.core.windows.net:443', {"encodedQueryPar
   'Server',
   'Windows-Azure-Table/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  '0a512d52-0002-0138-7ea0-7c53d8000000',
+  'f0a18f19-1002-0127-1ea8-7d88c8000000',
+  'x-ms-client-request-id',
+  '8b92abef-5f3e-4c83-b48c-d441325eb535',
   'x-ms-version',
   '2019-02-02',
   'X-Content-Type-Options',
@@ -283,13 +285,11 @@ nock('https://joherediteststorage.table.core.windows.net:443', {"encodedQueryPar
   'x-ms-continuation-NextRowKey',
   '1!12!c3RyaW5nNjc3',
   'Access-Control-Expose-Headers',
-  'x-ms-request-id,Server,x-ms-version,X-Content-Type-Options,Cache-Control,x-ms-continuation-NextPartitionKey,x-ms-continuation-NextRowKey,Content-Type,Content-Length,Date,Transfer-Encoding',
+  'x-ms-request-id,x-ms-client-request-id,Server,x-ms-version,X-Content-Type-Options,Cache-Control,x-ms-continuation-NextPartitionKey,x-ms-continuation-NextRowKey,Content-Type,Content-Length,Date,Transfer-Encoding',
   'Access-Control-Allow-Origin',
   '*',
   'Date',
-  'Thu, 27 Aug 2020 18:30:34 GMT',
-  'Connection',
-  'close'
+  'Sat, 29 Aug 2020 02:04:43 GMT'
 ]);
 
 nock('https://joherediteststorage.table.core.windows.net:443', {"encodedQueryParams":true})
@@ -305,7 +305,9 @@ nock('https://joherediteststorage.table.core.windows.net:443', {"encodedQueryPar
   'Server',
   'Windows-Azure-Table/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  '27545e93-6002-00af-48a0-7c7644000000',
+  'f0a18f2a-1002-0127-27a8-7d88c8000000',
+  'x-ms-client-request-id',
+  '006a07cf-409c-4574-8393-45834204fbe5',
   'x-ms-version',
   '2019-02-02',
   'X-Content-Type-Options',
@@ -315,13 +317,11 @@ nock('https://joherediteststorage.table.core.windows.net:443', {"encodedQueryPar
   'x-ms-continuation-NextRowKey',
   '1!12!ZGF0ZTc0MQ--',
   'Access-Control-Expose-Headers',
-  'x-ms-request-id,Server,x-ms-version,X-Content-Type-Options,Cache-Control,x-ms-continuation-NextPartitionKey,x-ms-continuation-NextRowKey,Content-Type,Content-Length,Date,Transfer-Encoding',
+  'x-ms-request-id,x-ms-client-request-id,Server,x-ms-version,X-Content-Type-Options,Cache-Control,x-ms-continuation-NextPartitionKey,x-ms-continuation-NextRowKey,Content-Type,Content-Length,Date,Transfer-Encoding',
   'Access-Control-Allow-Origin',
   '*',
   'Date',
-  'Thu, 27 Aug 2020 18:30:35 GMT',
-  'Connection',
-  'close'
+  'Sat, 29 Aug 2020 02:04:43 GMT'
 ]);
 
 nock('https://joherediteststorage.table.core.windows.net:443', {"encodedQueryParams":true})
@@ -337,7 +337,9 @@ nock('https://joherediteststorage.table.core.windows.net:443', {"encodedQueryPar
   'Server',
   'Windows-Azure-Table/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  'c1169f65-3002-0070-1ea0-7c2710000000',
+  'f0a18f3e-1002-0127-34a8-7d88c8000000',
+  'x-ms-client-request-id',
+  '3c453453-ed88-4bdc-9884-8cb2725f464c',
   'x-ms-version',
   '2019-02-02',
   'X-Content-Type-Options',
@@ -347,13 +349,11 @@ nock('https://joherediteststorage.table.core.windows.net:443', {"encodedQueryPar
   'x-ms-continuation-NextRowKey',
   '1!12!bnVtYmVyODA1',
   'Access-Control-Expose-Headers',
-  'x-ms-request-id,Server,x-ms-version,X-Content-Type-Options,Cache-Control,x-ms-continuation-NextPartitionKey,x-ms-continuation-NextRowKey,Content-Type,Content-Length,Date,Transfer-Encoding',
+  'x-ms-request-id,x-ms-client-request-id,Server,x-ms-version,X-Content-Type-Options,Cache-Control,x-ms-continuation-NextPartitionKey,x-ms-continuation-NextRowKey,Content-Type,Content-Length,Date,Transfer-Encoding',
   'Access-Control-Allow-Origin',
   '*',
   'Date',
-  'Thu, 27 Aug 2020 18:30:34 GMT',
-  'Connection',
-  'close'
+  'Sat, 29 Aug 2020 02:04:43 GMT'
 ]);
 
 nock('https://joherediteststorage.table.core.windows.net:443', {"encodedQueryParams":true})
@@ -369,7 +369,9 @@ nock('https://joherediteststorage.table.core.windows.net:443', {"encodedQueryPar
   'Server',
   'Windows-Azure-Table/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  'b8d72549-3002-0095-15a0-7c35e7000000',
+  'f0a18f59-1002-0127-4aa8-7d88c8000000',
+  'x-ms-client-request-id',
+  '015671bb-ba4d-401b-8f96-82e8ad0ba162',
   'x-ms-version',
   '2019-02-02',
   'X-Content-Type-Options',
@@ -379,13 +381,11 @@ nock('https://joherediteststorage.table.core.windows.net:443', {"encodedQueryPar
   'x-ms-continuation-NextRowKey',
   '1!16!Ym9vbGVhbjg3MA--',
   'Access-Control-Expose-Headers',
-  'x-ms-request-id,Server,x-ms-version,X-Content-Type-Options,Cache-Control,x-ms-continuation-NextPartitionKey,x-ms-continuation-NextRowKey,Content-Type,Content-Length,Date,Transfer-Encoding',
+  'x-ms-request-id,x-ms-client-request-id,Server,x-ms-version,X-Content-Type-Options,Cache-Control,x-ms-continuation-NextPartitionKey,x-ms-continuation-NextRowKey,Content-Type,Content-Length,Date,Transfer-Encoding',
   'Access-Control-Allow-Origin',
   '*',
   'Date',
-  'Thu, 27 Aug 2020 18:30:35 GMT',
-  'Connection',
-  'close'
+  'Sat, 29 Aug 2020 02:04:43 GMT'
 ]);
 
 nock('https://joherediteststorage.table.core.windows.net:443', {"encodedQueryParams":true})
@@ -401,7 +401,9 @@ nock('https://joherediteststorage.table.core.windows.net:443', {"encodedQueryPar
   'Server',
   'Windows-Azure-Table/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  'ad7e2b4e-7002-0055-0da0-7cbfa3000000',
+  'f0a18f74-1002-0127-62a8-7d88c8000000',
+  'x-ms-client-request-id',
+  '50f1c05d-4934-44e6-9b99-6b615446f30c',
   'x-ms-version',
   '2019-02-02',
   'X-Content-Type-Options',
@@ -411,13 +413,11 @@ nock('https://joherediteststorage.table.core.windows.net:443', {"encodedQueryPar
   'x-ms-continuation-NextRowKey',
   '1!12!aW50NjQ5MzQ-',
   'Access-Control-Expose-Headers',
-  'x-ms-request-id,Server,x-ms-version,X-Content-Type-Options,Cache-Control,x-ms-continuation-NextPartitionKey,x-ms-continuation-NextRowKey,Content-Type,Content-Length,Date,Transfer-Encoding',
+  'x-ms-request-id,x-ms-client-request-id,Server,x-ms-version,X-Content-Type-Options,Cache-Control,x-ms-continuation-NextPartitionKey,x-ms-continuation-NextRowKey,Content-Type,Content-Length,Date,Transfer-Encoding',
   'Access-Control-Allow-Origin',
   '*',
   'Date',
-  'Thu, 27 Aug 2020 18:30:36 GMT',
-  'Connection',
-  'close'
+  'Sat, 29 Aug 2020 02:04:44 GMT'
 ]);
 
 nock('https://joherediteststorage.table.core.windows.net:443', {"encodedQueryParams":true})
@@ -433,17 +433,17 @@ nock('https://joherediteststorage.table.core.windows.net:443', {"encodedQueryPar
   'Server',
   'Windows-Azure-Table/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  '5d578570-5002-00ca-7ea0-7cc719000000',
+  'f0a18f86-1002-0127-73a8-7d88c8000000',
+  'x-ms-client-request-id',
+  'dc2effd8-40c3-4e39-a9b2-0191232a9c3b',
   'x-ms-version',
   '2019-02-02',
   'X-Content-Type-Options',
   'nosniff',
   'Access-Control-Expose-Headers',
-  'x-ms-request-id,Server,x-ms-version,X-Content-Type-Options,Cache-Control,Content-Type,Content-Length,Date,Transfer-Encoding',
+  'x-ms-request-id,x-ms-client-request-id,Server,x-ms-version,X-Content-Type-Options,Cache-Control,Content-Type,Content-Length,Date,Transfer-Encoding',
   'Access-Control-Allow-Origin',
   '*',
   'Date',
-  'Thu, 27 Aug 2020 18:30:35 GMT',
-  'Connection',
-  'close'
+  'Sat, 29 Aug 2020 02:04:44 GMT'
 ]);

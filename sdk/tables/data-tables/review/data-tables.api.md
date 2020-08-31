@@ -10,6 +10,7 @@ import { HttpOperationResponse } from '@azure/core-http';
 import { HttpResponse } from '@azure/core-http';
 import { OperationOptions } from '@azure/core-http';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
+import { PipelineOptions } from '@azure/core-http';
 import { RequestPolicy } from '@azure/core-http';
 import { RequestPolicyFactory } from '@azure/core-http';
 import { RequestPolicyOptionsLike } from '@azure/core-http';
@@ -188,19 +189,19 @@ export type ListEntitiesResponse<T extends object> = Array<TableEntity<T>> & {
 };
 
 // @public
-export interface ListTableEntitiesOptions {
-    nextPartitionKey?: string;
-    nextRowKey?: string;
+export type ListTableEntitiesOptions = OperationOptions & {
     queryOptions?: TableEntityQueryOptions;
     requestId?: string;
     timeout?: number;
-}
+    nextPartitionKey?: string;
+    nextRowKey?: string;
+};
 
 // @public
-export interface ListTableItemsOptions {
-    nextTableName?: string;
+export type ListTableItemsOptions = OperationOptions & {
     requestId?: string;
-}
+    nextTableName?: string;
+};
 
 // @public
 export type ListTableItemsResponse = Array<TableResponseProperties> & {
@@ -493,10 +494,10 @@ export class TableServiceClient {
     }
 
 // @public
-export interface TableServiceClientOptions extends coreHttp.ServiceClientOptions {
+export type TableServiceClientOptions = PipelineOptions & {
     endpoint?: string;
     version?: string;
-}
+};
 
 // @public
 export interface TableServiceStats {
