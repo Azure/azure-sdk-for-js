@@ -30,35 +30,12 @@ export const apiVersion: msRest.OperationQueryParameter = {
     }
   }
 };
-export const filter0: msRest.OperationQueryParameter = {
+export const filter: msRest.OperationQueryParameter = {
   parameterPath: [
     "options",
     "filter"
   ],
   mapper: {
-    serializedName: "$filter",
-    type: {
-      name: "String"
-    }
-  },
-  skipEncoding: true
-};
-export const filter1: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "filter"
-  ],
-  mapper: {
-    serializedName: "$filter",
-    type: {
-      name: "String"
-    }
-  }
-};
-export const filter2: msRest.OperationQueryParameter = {
-  parameterPath: "filter",
-  mapper: {
-    required: true,
     serializedName: "$filter",
     type: {
       name: "String"
@@ -203,6 +180,22 @@ export const subscriptionId: msRest.OperationURLParameter = {
     serializedName: "subscriptionId",
     type: {
       name: "String"
+    }
+  }
+};
+export const top: msRest.OperationQueryParameter = {
+  parameterPath: [
+    "options",
+    "top"
+  ],
+  mapper: {
+    serializedName: "$top",
+    constraints: {
+      InclusiveMaximum: 1000,
+      InclusiveMinimum: 1
+    },
+    type: {
+      name: "Number"
     }
   }
 };

@@ -253,12 +253,21 @@ export class PolicyDefinitions {
   }
 
   /**
-   * This operation retrieves a list of all the policy definitions in a given subscription.
+   * This operation retrieves a list of all the policy definitions in a given subscription that match
+   * the optional given $filter. Valid values for $filter are: 'atExactScope()', 'policyType -eq
+   * {value}' or 'category eq '{value}''. If $filter is not provided, the unfiltered list includes
+   * all policy definitions associated with the subscription, including those that apply directly or
+   * from management groups that contain the given subscription. If $filter=atExactScope() is
+   * provided, the returned list only includes all policy definitions that at the given subscription.
+   * If $filter='policyType -eq {value}' is provided, the returned list only includes all policy
+   * definitions whose type match the {value}. Possible policyType values are NotSpecified, BuiltIn,
+   * Custom, and Static. If $filter='category -eq {value}' is provided, the returned list only
+   * includes all policy definitions whose category match the {value}.
    * @summary Retrieves policy definitions in a subscription
    * @param [options] The optional parameters
    * @returns Promise<Models.PolicyDefinitionsListResponse>
    */
-  list(options?: msRest.RequestOptionsBase): Promise<Models.PolicyDefinitionsListResponse>;
+  list(options?: Models.PolicyDefinitionsListOptionalParams): Promise<Models.PolicyDefinitionsListResponse>;
   /**
    * @param callback The callback
    */
@@ -267,8 +276,8 @@ export class PolicyDefinitions {
    * @param options The optional parameters
    * @param callback The callback
    */
-  list(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PolicyDefinitionListResult>): void;
-  list(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PolicyDefinitionListResult>, callback?: msRest.ServiceCallback<Models.PolicyDefinitionListResult>): Promise<Models.PolicyDefinitionsListResponse> {
+  list(options: Models.PolicyDefinitionsListOptionalParams, callback: msRest.ServiceCallback<Models.PolicyDefinitionListResult>): void;
+  list(options?: Models.PolicyDefinitionsListOptionalParams | msRest.ServiceCallback<Models.PolicyDefinitionListResult>, callback?: msRest.ServiceCallback<Models.PolicyDefinitionListResult>): Promise<Models.PolicyDefinitionsListResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -278,12 +287,16 @@ export class PolicyDefinitions {
   }
 
   /**
-   * This operation retrieves a list of all the built-in policy definitions.
+   * This operation retrieves a list of all the built-in policy definitions that match the optional
+   * given $filter. If $filter='policyType -eq {value}' is provided, the returned list only includes
+   * all built-in policy definitions whose type match the {value}. Possible policyType values are
+   * NotSpecified, BuiltIn, Custom, and Static. If $filter='category -eq {value}' is provided, the
+   * returned list only includes all built-in policy definitions whose category match the {value}.
    * @summary Retrieve built-in policy definitions
    * @param [options] The optional parameters
    * @returns Promise<Models.PolicyDefinitionsListBuiltInResponse>
    */
-  listBuiltIn(options?: msRest.RequestOptionsBase): Promise<Models.PolicyDefinitionsListBuiltInResponse>;
+  listBuiltIn(options?: Models.PolicyDefinitionsListBuiltInOptionalParams): Promise<Models.PolicyDefinitionsListBuiltInResponse>;
   /**
    * @param callback The callback
    */
@@ -292,8 +305,8 @@ export class PolicyDefinitions {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listBuiltIn(options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PolicyDefinitionListResult>): void;
-  listBuiltIn(options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PolicyDefinitionListResult>, callback?: msRest.ServiceCallback<Models.PolicyDefinitionListResult>): Promise<Models.PolicyDefinitionsListBuiltInResponse> {
+  listBuiltIn(options: Models.PolicyDefinitionsListBuiltInOptionalParams, callback: msRest.ServiceCallback<Models.PolicyDefinitionListResult>): void;
+  listBuiltIn(options?: Models.PolicyDefinitionsListBuiltInOptionalParams | msRest.ServiceCallback<Models.PolicyDefinitionListResult>, callback?: msRest.ServiceCallback<Models.PolicyDefinitionListResult>): Promise<Models.PolicyDefinitionsListBuiltInResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -303,13 +316,23 @@ export class PolicyDefinitions {
   }
 
   /**
-   * This operation retrieves a list of all the policy definitions in a given management group.
+   * This operation retrieves a list of all the policy definitions in a given management group that
+   * match the optional given $filter. Valid values for $filter are: 'atExactScope()', 'policyType
+   * -eq {value}' or 'category eq '{value}''. If $filter is not provided, the unfiltered list
+   * includes all policy definitions associated with the management group, including those that apply
+   * directly or from management groups that contain the given management group. If
+   * $filter=atExactScope() is provided, the returned list only includes all policy definitions that
+   * at the given management group. If $filter='policyType -eq {value}' is provided, the returned
+   * list only includes all policy definitions whose type match the {value}. Possible policyType
+   * values are NotSpecified, BuiltIn, Custom, and Static. If $filter='category -eq {value}' is
+   * provided, the returned list only includes all policy definitions whose category match the
+   * {value}.
    * @summary Retrieve policy definitions in a management group
    * @param managementGroupId The ID of the management group.
    * @param [options] The optional parameters
    * @returns Promise<Models.PolicyDefinitionsListByManagementGroupResponse>
    */
-  listByManagementGroup(managementGroupId: string, options?: msRest.RequestOptionsBase): Promise<Models.PolicyDefinitionsListByManagementGroupResponse>;
+  listByManagementGroup(managementGroupId: string, options?: Models.PolicyDefinitionsListByManagementGroupOptionalParams): Promise<Models.PolicyDefinitionsListByManagementGroupResponse>;
   /**
    * @param managementGroupId The ID of the management group.
    * @param callback The callback
@@ -320,8 +343,8 @@ export class PolicyDefinitions {
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByManagementGroup(managementGroupId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PolicyDefinitionListResult>): void;
-  listByManagementGroup(managementGroupId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PolicyDefinitionListResult>, callback?: msRest.ServiceCallback<Models.PolicyDefinitionListResult>): Promise<Models.PolicyDefinitionsListByManagementGroupResponse> {
+  listByManagementGroup(managementGroupId: string, options: Models.PolicyDefinitionsListByManagementGroupOptionalParams, callback: msRest.ServiceCallback<Models.PolicyDefinitionListResult>): void;
+  listByManagementGroup(managementGroupId: string, options?: Models.PolicyDefinitionsListByManagementGroupOptionalParams | msRest.ServiceCallback<Models.PolicyDefinitionListResult>, callback?: msRest.ServiceCallback<Models.PolicyDefinitionListResult>): Promise<Models.PolicyDefinitionsListByManagementGroupResponse> {
     return this.client.sendOperationRequest(
       {
         managementGroupId,
@@ -332,7 +355,16 @@ export class PolicyDefinitions {
   }
 
   /**
-   * This operation retrieves a list of all the policy definitions in a given subscription.
+   * This operation retrieves a list of all the policy definitions in a given subscription that match
+   * the optional given $filter. Valid values for $filter are: 'atExactScope()', 'policyType -eq
+   * {value}' or 'category eq '{value}''. If $filter is not provided, the unfiltered list includes
+   * all policy definitions associated with the subscription, including those that apply directly or
+   * from management groups that contain the given subscription. If $filter=atExactScope() is
+   * provided, the returned list only includes all policy definitions that at the given subscription.
+   * If $filter='policyType -eq {value}' is provided, the returned list only includes all policy
+   * definitions whose type match the {value}. Possible policyType values are NotSpecified, BuiltIn,
+   * Custom, and Static. If $filter='category -eq {value}' is provided, the returned list only
+   * includes all policy definitions whose category match the {value}.
    * @summary Retrieves policy definitions in a subscription
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
@@ -361,7 +393,11 @@ export class PolicyDefinitions {
   }
 
   /**
-   * This operation retrieves a list of all the built-in policy definitions.
+   * This operation retrieves a list of all the built-in policy definitions that match the optional
+   * given $filter. If $filter='policyType -eq {value}' is provided, the returned list only includes
+   * all built-in policy definitions whose type match the {value}. Possible policyType values are
+   * NotSpecified, BuiltIn, Custom, and Static. If $filter='category -eq {value}' is provided, the
+   * returned list only includes all built-in policy definitions whose category match the {value}.
    * @summary Retrieve built-in policy definitions
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
@@ -390,7 +426,17 @@ export class PolicyDefinitions {
   }
 
   /**
-   * This operation retrieves a list of all the policy definitions in a given management group.
+   * This operation retrieves a list of all the policy definitions in a given management group that
+   * match the optional given $filter. Valid values for $filter are: 'atExactScope()', 'policyType
+   * -eq {value}' or 'category eq '{value}''. If $filter is not provided, the unfiltered list
+   * includes all policy definitions associated with the management group, including those that apply
+   * directly or from management groups that contain the given management group. If
+   * $filter=atExactScope() is provided, the returned list only includes all policy definitions that
+   * at the given management group. If $filter='policyType -eq {value}' is provided, the returned
+   * list only includes all policy definitions whose type match the {value}. Possible policyType
+   * values are NotSpecified, BuiltIn, Custom, and Static. If $filter='category -eq {value}' is
+   * provided, the returned list only includes all policy definitions whose category match the
+   * {value}.
    * @summary Retrieve policy definitions in a management group
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
@@ -524,7 +570,7 @@ const getBuiltInOperationSpec: msRest.OperationSpec = {
 
 const createOrUpdateAtManagementGroupOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "providers/Microsoft.Management/managementgroups/{managementGroupId}/providers/Microsoft.Authorization/policyDefinitions/{policyDefinitionName}",
+  path: "providers/Microsoft.Management/managementGroups/{managementGroupId}/providers/Microsoft.Authorization/policyDefinitions/{policyDefinitionName}",
   urlParameters: [
     Parameters.policyDefinitionName,
     Parameters.managementGroupId
@@ -555,7 +601,7 @@ const createOrUpdateAtManagementGroupOperationSpec: msRest.OperationSpec = {
 
 const deleteAtManagementGroupOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "providers/Microsoft.Management/managementgroups/{managementGroupId}/providers/Microsoft.Authorization/policyDefinitions/{policyDefinitionName}",
+  path: "providers/Microsoft.Management/managementGroups/{managementGroupId}/providers/Microsoft.Authorization/policyDefinitions/{policyDefinitionName}",
   urlParameters: [
     Parameters.policyDefinitionName,
     Parameters.managementGroupId
@@ -578,7 +624,7 @@ const deleteAtManagementGroupOperationSpec: msRest.OperationSpec = {
 
 const getAtManagementGroupOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "providers/Microsoft.Management/managementgroups/{managementGroupId}/providers/Microsoft.Authorization/policyDefinitions/{policyDefinitionName}",
+  path: "providers/Microsoft.Management/managementGroups/{managementGroupId}/providers/Microsoft.Authorization/policyDefinitions/{policyDefinitionName}",
   urlParameters: [
     Parameters.policyDefinitionName,
     Parameters.managementGroupId
@@ -607,7 +653,9 @@ const listOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion,
+    Parameters.filter,
+    Parameters.top
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -627,7 +675,9 @@ const listBuiltInOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "providers/Microsoft.Authorization/policyDefinitions",
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion,
+    Parameters.filter,
+    Parameters.top
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -645,12 +695,14 @@ const listBuiltInOperationSpec: msRest.OperationSpec = {
 
 const listByManagementGroupOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "providers/Microsoft.Management/managementgroups/{managementGroupId}/providers/Microsoft.Authorization/policyDefinitions",
+  path: "providers/Microsoft.Management/managementGroups/{managementGroupId}/providers/Microsoft.Authorization/policyDefinitions",
   urlParameters: [
     Parameters.managementGroupId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion,
+    Parameters.filter,
+    Parameters.top
   ],
   headerParameters: [
     Parameters.acceptLanguage

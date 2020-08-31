@@ -28,9 +28,9 @@ export interface ErrorAdditionalInfo {
 }
 
 /**
- * The resource management error response.
+ * The error object.
  */
-export interface ErrorResponse {
+export interface CloudErrorError {
   /**
    * The error code.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -50,12 +50,22 @@ export interface ErrorResponse {
    * The error details.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly details?: ErrorResponse[];
+  readonly details?: CloudError[];
   /**
    * The error additional info.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly additionalInfo?: ErrorAdditionalInfo[];
+}
+
+/**
+ * The resource management error response.
+ */
+export interface CloudError {
+  /**
+   * The error object.
+   */
+  error?: CloudErrorError;
 }
 
 /**
@@ -368,10 +378,21 @@ export interface PolicySetDefinition extends BaseResource {
  */
 export interface PolicyAssignmentsListForResourceGroupOptionalParams extends msRest.RequestOptionsBase {
   /**
-   * The filter to apply on the operation. Valid values for $filter are: 'atScope()' or
-   * 'policyDefinitionId eq '{value}''. If $filter is not provided, no filtering is performed.
+   * The filter to apply on the operation. Valid values for $filter are: 'atScope()',
+   * 'atExactScope()' or 'policyDefinitionId eq '{value}''. If $filter is not provided, no
+   * filtering is performed. If $filter=atScope() is provided, the returned list only includes all
+   * policy assignments that apply to the scope, which is everything in the unfiltered list except
+   * those applied to sub scopes contained within the given scope. If $filter=atExactScope() is
+   * provided, the returned list only includes all policy assignments that at the given scope. If
+   * $filter=policyDefinitionId eq '{value}' is provided, the returned list includes all policy
+   * assignments of the policy definition whose id is {value}.
    */
   filter?: string;
+  /**
+   * Maximum number of records to return. When the $top filter is not provided, it will return 500
+   * records.
+   */
+  top?: number;
 }
 
 /**
@@ -379,10 +400,43 @@ export interface PolicyAssignmentsListForResourceGroupOptionalParams extends msR
  */
 export interface PolicyAssignmentsListForResourceOptionalParams extends msRest.RequestOptionsBase {
   /**
-   * The filter to apply on the operation. Valid values for $filter are: 'atScope()' or
-   * 'policyDefinitionId eq '{value}''. If $filter is not provided, no filtering is performed.
+   * The filter to apply on the operation. Valid values for $filter are: 'atScope()',
+   * 'atExactScope()' or 'policyDefinitionId eq '{value}''. If $filter is not provided, no
+   * filtering is performed. If $filter=atScope() is provided, the returned list only includes all
+   * policy assignments that apply to the scope, which is everything in the unfiltered list except
+   * those applied to sub scopes contained within the given scope. If $filter=atExactScope() is
+   * provided, the returned list only includes all policy assignments that at the given scope. If
+   * $filter=policyDefinitionId eq '{value}' is provided, the returned list includes all policy
+   * assignments of the policy definition whose id is {value}.
    */
   filter?: string;
+  /**
+   * Maximum number of records to return. When the $top filter is not provided, it will return 500
+   * records.
+   */
+  top?: number;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface PolicyAssignmentsListForManagementGroupOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * The filter to apply on the operation. Valid values for $filter are: 'atScope()',
+   * 'atExactScope()' or 'policyDefinitionId eq '{value}''. If $filter is not provided, no
+   * filtering is performed. If $filter=atScope() is provided, the returned list only includes all
+   * policy assignments that apply to the scope, which is everything in the unfiltered list except
+   * those applied to sub scopes contained within the given scope. If $filter=atExactScope() is
+   * provided, the returned list only includes all policy assignments that at the given scope. If
+   * $filter=policyDefinitionId eq '{value}' is provided, the returned list includes all policy
+   * assignments of the policy definition whose id is {value}.
+   */
+  filter?: string;
+  /**
+   * Maximum number of records to return. When the $top filter is not provided, it will return 500
+   * records.
+   */
+  top?: number;
 }
 
 /**
@@ -390,10 +444,153 @@ export interface PolicyAssignmentsListForResourceOptionalParams extends msRest.R
  */
 export interface PolicyAssignmentsListOptionalParams extends msRest.RequestOptionsBase {
   /**
-   * The filter to apply on the operation. Valid values for $filter are: 'atScope()' or
-   * 'policyDefinitionId eq '{value}''. If $filter is not provided, no filtering is performed.
+   * The filter to apply on the operation. Valid values for $filter are: 'atScope()',
+   * 'atExactScope()' or 'policyDefinitionId eq '{value}''. If $filter is not provided, no
+   * filtering is performed. If $filter=atScope() is provided, the returned list only includes all
+   * policy assignments that apply to the scope, which is everything in the unfiltered list except
+   * those applied to sub scopes contained within the given scope. If $filter=atExactScope() is
+   * provided, the returned list only includes all policy assignments that at the given scope. If
+   * $filter=policyDefinitionId eq '{value}' is provided, the returned list includes all policy
+   * assignments of the policy definition whose id is {value}.
    */
   filter?: string;
+  /**
+   * Maximum number of records to return. When the $top filter is not provided, it will return 500
+   * records.
+   */
+  top?: number;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface PolicyDefinitionsListOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * The filter to apply on the operation. Valid values for $filter are: 'atExactScope()',
+   * 'policyType -eq {value}' or 'category eq '{value}''. If $filter is not provided, no filtering
+   * is performed. If $filter=atExactScope() is provided, the returned list only includes all
+   * policy definitions that at the given scope. If $filter='policyType -eq {value}' is provided,
+   * the returned list only includes all policy definitions whose type match the {value}. Possible
+   * policyType values are NotSpecified, BuiltIn, Custom, and Static. If $filter='category -eq
+   * {value}' is provided, the returned list only includes all policy definitions whose category
+   * match the {value}.
+   */
+  filter?: string;
+  /**
+   * Maximum number of records to return. When the $top filter is not provided, it will return 500
+   * records.
+   */
+  top?: number;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface PolicyDefinitionsListBuiltInOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * The filter to apply on the operation. Valid values for $filter are: 'atExactScope()',
+   * 'policyType -eq {value}' or 'category eq '{value}''. If $filter is not provided, no filtering
+   * is performed. If $filter=atExactScope() is provided, the returned list only includes all
+   * policy definitions that at the given scope. If $filter='policyType -eq {value}' is provided,
+   * the returned list only includes all policy definitions whose type match the {value}. Possible
+   * policyType values are NotSpecified, BuiltIn, Custom, and Static. If $filter='category -eq
+   * {value}' is provided, the returned list only includes all policy definitions whose category
+   * match the {value}.
+   */
+  filter?: string;
+  /**
+   * Maximum number of records to return. When the $top filter is not provided, it will return 500
+   * records.
+   */
+  top?: number;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface PolicyDefinitionsListByManagementGroupOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * The filter to apply on the operation. Valid values for $filter are: 'atExactScope()',
+   * 'policyType -eq {value}' or 'category eq '{value}''. If $filter is not provided, no filtering
+   * is performed. If $filter=atExactScope() is provided, the returned list only includes all
+   * policy definitions that at the given scope. If $filter='policyType -eq {value}' is provided,
+   * the returned list only includes all policy definitions whose type match the {value}. Possible
+   * policyType values are NotSpecified, BuiltIn, Custom, and Static. If $filter='category -eq
+   * {value}' is provided, the returned list only includes all policy definitions whose category
+   * match the {value}.
+   */
+  filter?: string;
+  /**
+   * Maximum number of records to return. When the $top filter is not provided, it will return 500
+   * records.
+   */
+  top?: number;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface PolicySetDefinitionsListOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * The filter to apply on the operation. Valid values for $filter are: 'atExactScope()',
+   * 'policyType -eq {value}' or 'category eq '{value}''. If $filter is not provided, no filtering
+   * is performed. If $filter=atExactScope() is provided, the returned list only includes all
+   * policy set definitions that at the given scope. If $filter='policyType -eq {value}' is
+   * provided, the returned list only includes all policy set definitions whose type match the
+   * {value}. Possible policyType values are NotSpecified, BuiltIn, Custom, and Static. If
+   * $filter='category -eq {value}' is provided, the returned list only includes all policy set
+   * definitions whose category match the {value}.
+   */
+  filter?: string;
+  /**
+   * Maximum number of records to return. When the $top filter is not provided, it will return 500
+   * records.
+   */
+  top?: number;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface PolicySetDefinitionsListBuiltInOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * The filter to apply on the operation. Valid values for $filter are: 'atExactScope()',
+   * 'policyType -eq {value}' or 'category eq '{value}''. If $filter is not provided, no filtering
+   * is performed. If $filter=atExactScope() is provided, the returned list only includes all
+   * policy set definitions that at the given scope. If $filter='policyType -eq {value}' is
+   * provided, the returned list only includes all policy set definitions whose type match the
+   * {value}. Possible policyType values are NotSpecified, BuiltIn, Custom, and Static. If
+   * $filter='category -eq {value}' is provided, the returned list only includes all policy set
+   * definitions whose category match the {value}.
+   */
+  filter?: string;
+  /**
+   * Maximum number of records to return. When the $top filter is not provided, it will return 500
+   * records.
+   */
+  top?: number;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface PolicySetDefinitionsListByManagementGroupOptionalParams extends msRest.RequestOptionsBase {
+  /**
+   * The filter to apply on the operation. Valid values for $filter are: 'atExactScope()',
+   * 'policyType -eq {value}' or 'category eq '{value}''. If $filter is not provided, no filtering
+   * is performed. If $filter=atExactScope() is provided, the returned list only includes all
+   * policy set definitions that at the given scope. If $filter='policyType -eq {value}' is
+   * provided, the returned list only includes all policy set definitions whose type match the
+   * {value}. Possible policyType values are NotSpecified, BuiltIn, Custom, and Static. If
+   * $filter='category -eq {value}' is provided, the returned list only includes all policy set
+   * definitions whose category match the {value}.
+   */
+  filter?: string;
+  /**
+   * Maximum number of records to return. When the $top filter is not provided, it will return 500
+   * records.
+   */
+  top?: number;
 }
 
 /**

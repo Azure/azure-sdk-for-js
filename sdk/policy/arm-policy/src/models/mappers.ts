@@ -36,11 +36,11 @@ export const ErrorAdditionalInfo: msRest.CompositeMapper = {
   }
 };
 
-export const ErrorResponse: msRest.CompositeMapper = {
-  serializedName: "ErrorResponse",
+export const CloudErrorError: msRest.CompositeMapper = {
+  serializedName: "CloudError_error",
   type: {
     name: "Composite",
-    className: "ErrorResponse",
+    className: "CloudErrorError",
     modelProperties: {
       code: {
         readOnly: true,
@@ -71,7 +71,7 @@ export const ErrorResponse: msRest.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "ErrorResponse"
+              className: "CloudError"
             }
           }
         }
@@ -87,6 +87,23 @@ export const ErrorResponse: msRest.CompositeMapper = {
               className: "ErrorAdditionalInfo"
             }
           }
+        }
+      }
+    }
+  }
+};
+
+export const CloudError: msRest.CompositeMapper = {
+  serializedName: "CloudError",
+  type: {
+    name: "Composite",
+    className: "CloudError",
+    modelProperties: {
+      error: {
+        serializedName: "error",
+        type: {
+          name: "Composite",
+          className: "CloudErrorError"
         }
       }
     }

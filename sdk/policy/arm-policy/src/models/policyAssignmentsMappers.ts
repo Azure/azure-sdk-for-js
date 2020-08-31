@@ -9,8 +9,8 @@
 export {
   BaseResource,
   CloudError,
+  CloudErrorError,
   ErrorAdditionalInfo,
-  ErrorResponse,
   Identity,
   ParameterDefinitionsValue,
   ParameterDefinitionsValueMetadata,
