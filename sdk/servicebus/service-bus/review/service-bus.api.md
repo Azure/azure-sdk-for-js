@@ -40,7 +40,9 @@ export interface CorrelationRuleFilter {
     correlationId?: string;
     label?: string;
     messageId?: string;
-    properties?: any;
+    properties?: {
+        [key: string]: "string" | "number" | "boolean";
+    };
     replyTo?: string;
     replyToSessionId?: string;
     sessionId?: string;
@@ -353,7 +355,7 @@ export interface ServiceBusMessage {
     messageId?: string | number | Buffer;
     partitionKey?: string;
     properties?: {
-        [key: string]: any;
+        [key: string]: number | boolean | string | Date;
     };
     replyTo?: string;
     replyToSessionId?: string;
@@ -429,8 +431,6 @@ export type SqlRuleAction = SqlRuleFilter;
 
 // @public
 export interface SqlRuleFilter {
-    compatibilityLevel?: number;
-    requiresPreprocessing?: boolean;
     sqlExpression?: string;
     sqlParameters?: SqlParameter[];
 }

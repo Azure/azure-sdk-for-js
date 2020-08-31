@@ -60,7 +60,7 @@ async function useApiKey() {
  * for content recognition and print its output.
  */
 async function recognizeContentWithClient(client) {
-  const fileName = path.join(__dirname, "./assets/Invoice_6.pdf");
+  const fileName = path.join(__dirname, "./assets/Form_1.jpg");
 
   if (!fs.existsSync(fileName)) {
     throw new Error(`Expecting file ${fileName} exists`);

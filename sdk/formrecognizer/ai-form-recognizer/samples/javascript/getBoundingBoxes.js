@@ -22,7 +22,7 @@ async function main() {
   const modelId = process.env["CUSTOM_MODEL_ID"] || "<custom model id>";
 
   // The form you are recognizing must be of the same type as the forms the custom model was trained on
-  const fileName = path.join(__dirname, "./assets/Invoice_6.pdf");
+  const fileName = path.join(__dirname, "./assets/Form_1.jpg");
 
   if (!fs.existsSync(fileName)) {
     throw new Error(`Expecting file ${fileName} exists`);
@@ -32,7 +32,7 @@ async function main() {
 
   const client = new FormRecognizerClient(endpoint, new AzureKeyCredential(apiKey));
   const poller = await client.beginRecognizeCustomForms(modelId, readStream, {
-    contentType: "application/pdf",
+    contentType: "image/jpeg",
     onProgress: (state) => {
       console.log(`status: ${state.status}`);
     }

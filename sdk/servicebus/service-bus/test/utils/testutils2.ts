@@ -509,7 +509,7 @@ export async function drainReceiveAndDeleteReceiver(
 function connectionString() {
   if (env[EnvVarNames.SERVICEBUS_CONNECTION_STRING] == null) {
     throw new Error(
-      `No service bus connection string defined in ${EnvVarNames.SERVICEBUS_CONNECTION_STRING}`
+      `No service bus connection string defined in ${EnvVarNames.SERVICEBUS_CONNECTION_STRING}. If you're in a unit test you should not be depending on the deployed environment!`
     );
   }
 
