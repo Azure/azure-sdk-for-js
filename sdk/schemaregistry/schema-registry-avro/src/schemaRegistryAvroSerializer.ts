@@ -199,9 +199,6 @@ export class SchemaRegistryAvroSerializer {
       return cached;
     }
 
-    // REVIEW: normalize string here? It was my understanding that the schema
-    //         registry service was supposed to do that, but apparently it
-    //         does not at this time.
     const avroType = avro.Type.forSchema(JSON.parse(schema));
     if (!avroType.name) {
       throw new Error("Schema must have a name.");
