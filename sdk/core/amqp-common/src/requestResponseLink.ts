@@ -195,7 +195,7 @@ export class RequestResponseLink implements ReqResLink {
         const actionAfterTimeout = () => {
           timeOver = true;
           this.receiver.removeListener(ReceiverEvents.message, messageCallback);
-          const address = this.receiver.address || "address";
+          const address = this.receiver.source && this.receiver.source.address || "address";
           const desc: string =
             `The request with message_id "${request.message_id
             }" to "${address}" ` +
