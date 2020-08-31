@@ -1,4 +1,4 @@
-# Azure Schema Registry Avro serializer library for JavaScript
+# Azure Schema Registry Avro serializer client library for JavaScript
 
 (Coming soon)
 

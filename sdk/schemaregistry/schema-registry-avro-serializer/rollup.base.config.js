@@ -7,6 +7,7 @@ import shim from "rollup-plugin-shim";
 import sourcemaps from "rollup-plugin-sourcemaps";
 import { terser } from "rollup-plugin-terser";
 import viz from "rollup-plugin-visualizer";
+import inject from "@rollup/plugin-inject";
 
 const pkg = require("./package.json");
 const depNames = Object.keys(pkg.dependencies);
@@ -15,7 +16,7 @@ const input = "dist-esm/src/index.js";
 const production = process.env.NODE_ENV === "production";
 
 export function nodeConfig(test = false) {
-  const externalNodeBuiltins = [];
+  const externalNodeBuiltins = ["fs", "util", "stream", "zlib", "crypto", "path", "events"];
   const baseConfig = {
     input: input,
     external: depNames.concat(externalNodeBuiltins),
@@ -67,7 +68,7 @@ export function browserConfig(test = false, production = false) {
       globals: { "@azure/core-http": "Azure.Core.HTTP" }
     },
     preserveSymlinks: false,
-    external: ["fs-extra"],
+    external: [],
     plugins: [
       sourcemaps(),
       replace({
@@ -78,14 +79,11 @@ export function browserConfig(test = false, production = false) {
         "if (isNode)": "if (false)"
       }),
       shim({
-        constants: `export default {}`,
         fs: `export default {}`,
         stream: `export default {}`,
-        buffer: `export default {}`,
         zlib: `export default {}`,
-        process: `export default {}`,
+        crypto: `export default {}`,
         os: `export default {}`,
-        dotenv: `export function config() { }`,
         path: `export default {}`
       }),
       nodeResolve({
@@ -97,6 +95,13 @@ export function browserConfig(test = false, production = false) {
           chai: ["assert", "expect", "use"],
           "@opentelemetry/api": ["CanonicalCode", "SpanKind", "TraceFlags"]
         }
+      }),
+      inject({
+        modules: {
+          Buffer: ["buffer", "Buffer"],
+          process: "process"
+        },
+        exclude: ["./**/package.json"]
       }),
       viz({ filename: "dist-browser/browser-stats.html", sourcemap: false })
     ]
