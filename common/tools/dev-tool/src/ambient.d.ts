@@ -1,3 +1,13 @@
+// Copyright (c) Microsoft Corporation
+// Licensed under the MIT license.
+
+/**
+ * Some delcarations for plugins that have missing/old declarations in
+ * NPM.
+ */
+
+// #region rollup
+
 type Plugin = import("rollup").Plugin;
 
 declare module "rollup-plugin-sourcemaps" {
@@ -18,3 +28,5 @@ declare module "@rollup/plugin-multi-entry" {
   }
   export default function(opts: MultiEntryOptions): Plugin;
 }
+
+// #endregion

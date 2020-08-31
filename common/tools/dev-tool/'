@@ -41,7 +41,6 @@
     "typescript": "~3.9.3"
   },
   "devDependencies": {
-    "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@rollup/plugin-commonjs": "11.0.2",
     "@rollup/plugin-json": "^4.0.0",
     "@rollup/plugin-multi-entry": "^3.0.0",

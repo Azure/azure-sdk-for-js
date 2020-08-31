@@ -32,7 +32,7 @@ function ignoreChaiCircularDependencyWarnings(warning: RollupWarning): boolean {
       warning.importer?.includes("node_modules/chai") === true;
 }
 
-const warningInhibitors : Array<(warning: RollupWarning) => boolean> = [
+const warningInhibitors: Array<(warning: RollupWarning) => boolean> = [
   ignoreChaiCircularDependencyWarnings,
   ignoreNiseSinonEvalWarnings
 ];
@@ -41,7 +41,7 @@ const warningInhibitors : Array<(warning: RollupWarning) => boolean> = [
  * Construct a warning handler for the shared rollup configuration
  * that ignores certain warnings that are not relevant to testing.
  */
-function makeOnWarnForTesting() : (warning: RollupWarning, warn: WarningHandler) => void {
+function makeOnWarnForTesting(): (warning: RollupWarning, warn: WarningHandler) => void {
   return (warning, warn) => {
     // If every inhibitor returns false (i.e. no inhibitors), then show the warning
     if (warningInhibitors.every((inhib) => !inhib(warning))) {
@@ -53,7 +53,7 @@ function makeOnWarnForTesting() : (warning: RollupWarning, warn: WarningHandler)
 // #endregion
 
 function makeBrowserTestConfig() {
-  const config : RollupOptions = {
+  const config: RollupOptions = {
     input: ["dist-esm/test/{,!(node)/**/}*.spec.js"],
     output: {
       file: `dist-test/index.browser.js`,
@@ -107,7 +107,7 @@ export function makeConfig(pkg: PackageJson)  {
     baseConfig.plugins.push(terser());
   }
 
-  const config : RollupOptions[] = [baseConfig as RollupOptions];
+  const config: RollupOptions[] = [baseConfig as RollupOptions];
 
   if (!IS_PRODUCTION) {
     config.push(makeBrowserTestConfig());

@@ -833,6 +833,27 @@ packages:
     dev: false
     resolution:
       integrity: sha512-yy7HuzQhj0dhGpD8RLXSZWEkLsV9ibvxvi6EiJ3bkqLAO1RGo0WbkWQiwpRlSFymTJRz0d3k5LM3kkx8ArDbLw==
+  /@types/rollup-plugin-node-builtins/2.1.1:
+    dependencies:
+      '@types/node': 10.17.28
+      rollup: 0.63.5
+    dev: false
+    resolution:
+      integrity: sha512-1LlOG2TMdv2fP+OVkqUk1mdGwEPfWBLv9BlGu8dkaSiJtMMkCY0C4FAa70m2+BipmtTYs5N9JAef2aCzatNp0w==
+  /@types/rollup-plugin-node-globals/1.4.0:
+    dependencies:
+      '@types/node': 10.17.28
+      rollup: 0.63.5
+    dev: false
+    resolution:
+      integrity: sha512-C/M+PCe+Up1nrdo8PTa2tGr6ppOVLWkKni2haYU55kWDBybwMupptV9MeghQLzu262aKsuWdzMjsfduSZt6A2w==
+  /@types/rollup-plugin-sourcemaps/0.4.2:
+    dependencies:
+      '@types/node': 10.17.28
+      rollup: 0.63.5
+    dev: false
+    resolution:
+      integrity: sha512-dqF1rMFy4O8yNlQYwYPos5Cfav0f6M7PLH8B33gsslQ0zA9MX1jMGokwNuJ3Z3EXAzsKF/xAWNHpFmELcgYJww==
   /@types/semaphore/1.1.0:
     dev: false
     resolution:
@@ -7089,6 +7110,14 @@ packages:
     dev: false
     resolution:
       integrity: sha512-EEp9NhnUkwY8aif6bxgovPHMoMoNr2FulJziTndpt5H9RdwC47GSGuII9XxpSdzVGM0GWrNPHV6ie1LTNJPaLQ==
+  /rollup/0.63.5:
+    dependencies:
+      '@types/estree': 0.0.39
+      '@types/node': 10.17.28
+    dev: false
+    hasBin: true
+    resolution:
+      integrity: sha512-dFf8LpUNzIj3oE0vCvobX6rqOzHzLBoblyFp+3znPbjiSmSvOoK2kMKx+Fv9jYduG1rvcCfCveSgEaQHjWRF6g==
   /rollup/1.32.1:
     dependencies:
       '@types/estree': 0.0.45
@@ -9651,6 +9680,9 @@ packages:
       '@types/mocha': 7.0.2
       '@types/node': 8.10.62
       '@types/prettier': 2.0.2
+      '@types/rollup-plugin-node-builtins': 2.1.1
+      '@types/rollup-plugin-node-globals': 1.4.0
+      '@types/rollup-plugin-sourcemaps': 0.4.2
       '@typescript-eslint/eslint-plugin': 2.34.0_5004700905763c91177aaa7d1d0d56ac
       '@typescript-eslint/parser': 2.34.0_eslint@6.8.0+typescript@3.9.7
       builtin-modules: 3.1.0
@@ -9675,7 +9707,7 @@ packages:
     dev: false
     name: '@rush-temp/dev-tool'
     resolution:
-      integrity: sha512-pftZ+vXsYtZ0uAZsoqXFVWp1Ec7Y2lRHIJkZnt9wW1xZEtZrOO1OIte3wd1LdgJS8kuoZHvvMPQ1vwC0zkr/1g==
+      integrity: sha512-HUkqxPpUiiW3gWjDF3okxgY8g1Q+xvLN6w2+sOpgsjqzwtjjTD0In/boDpptCeoNcHlKA0St/PYRzKps7l8FOg==
       tarball: 'file:projects/dev-tool.tgz'
     version: 0.0.0
   'file:projects/eslint-plugin-azure-sdk.tgz':
