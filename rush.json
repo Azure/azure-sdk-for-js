@@ -483,8 +483,8 @@
       "versionPolicyName": "client"
     },
     {
-      "packageName": "@azure/schema-registry-avro-serializer",
-      "projectFolder": "sdk/schemaregistry/schema-registry-avro-serializer",
+      "packageName": "@azure/schema-registry-avro",
+      "projectFolder": "sdk/schemaregistry/schema-registry-avro",
       "versionPolicyName": "client"
     },
     {

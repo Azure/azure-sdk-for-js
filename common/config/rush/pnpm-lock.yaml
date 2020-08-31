@@ -31,7 +31,7 @@ dependencies:
   '@rush-temp/logger': 'file:projects/logger.tgz'
   '@rush-temp/monitor-opentelemetry-exporter': 'file:projects/monitor-opentelemetry-exporter.tgz'
   '@rush-temp/schema-registry': 'file:projects/schema-registry.tgz'
-  '@rush-temp/schema-registry-avro-serializer': 'file:projects/schema-registry-avro-serializer.tgz'
+  '@rush-temp/schema-registry-avro': 'file:projects/schema-registry-avro.tgz'
   '@rush-temp/search-documents': 'file:projects/search-documents.tgz'
   '@rush-temp/service-bus': 'file:projects/service-bus.tgz'
   '@rush-temp/storage-blob': 'file:projects/storage-blob.tgz'
@@ -9530,7 +9530,7 @@ packages:
       integrity: sha512-kB8QkxRBXMVS7MqhxcglEHcDWPb8KW4fL3X2ly3FZMDqz/QnpL7iSWhEo3ogux8Ieaer2v15o1V0KQJDtDGVNw==
       tarball: 'file:projects/monitor-opentelemetry-exporter.tgz'
     version: 0.0.0
-  'file:projects/schema-registry-avro-serializer.tgz':
+  'file:projects/schema-registry-avro.tgz':
     dependencies:
       '@microsoft/api-extractor': 7.7.11
       '@opentelemetry/api': 0.10.2
@@ -9582,10 +9582,10 @@ packages:
       tslib: 2.0.0
       typescript: 3.9.6
     dev: false
-    name: '@rush-temp/schema-registry-avro-serializer'
+    name: '@rush-temp/schema-registry-avro'
     resolution:
       integrity: sha512-d+DzyYydlIv3Nqh3XPVfT8Z8ZmW65Zo8PTFFs6qEVZ1hb3YHfkb3HWr97p29vlH6spF8ktNyXdjnfdISspCKWQ==
-      tarball: 'file:projects/schema-registry-avro-serializer.tgz'
+      tarball: 'file:projects/schema-registry-avro.tgz'
     version: 0.0.0
   'file:projects/schema-registry.tgz':
     dependencies:
@@ -10354,7 +10354,7 @@ specifiers:
   '@rush-temp/logger': 'file:./projects/logger.tgz'
   '@rush-temp/monitor-opentelemetry-exporter': 'file:./projects/monitor-opentelemetry-exporter.tgz'
   '@rush-temp/schema-registry': 'file:./projects/schema-registry.tgz'
-  '@rush-temp/schema-registry-avro-serializer': 'file:./projects/schema-registry-avro-serializer.tgz'
+  '@rush-temp/schema-registry-avro': 'file:./projects/schema-registry-avro.tgz'
   '@rush-temp/search-documents': 'file:./projects/search-documents.tgz'
   '@rush-temp/service-bus': 'file:./projects/service-bus.tgz'
   '@rush-temp/storage-blob': 'file:./projects/storage-blob.tgz'

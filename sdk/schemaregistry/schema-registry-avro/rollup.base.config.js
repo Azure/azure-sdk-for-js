@@ -61,7 +61,7 @@ export function browserConfig(test = false, production = false) {
   const baseConfig = {
     input: input,
     output: {
-      file: "dist-browser/azure-schema-registry-avro-serializer.js",
+      file: "dist-browser/azure-schema-registry-avro.js",
       format: "umd",
       name: "Azure.SchemaRegistryAvroSerializer",
       sourcemap: true,
@@ -130,7 +130,7 @@ export function browserConfig(test = false, production = false) {
     // applies to test code, which causes all tests to be removed by tree-shaking.
     baseConfig.treeshake = false;
   } else if (production) {
-    baseConfig.output.file = "dist-browser/azure-schema-registry-avro-serializer.min.js";
+    baseConfig.output.file = "dist-browser/azure-schema-registry-avro.min.js";
     baseConfig.plugins.push(terser());
   }
 
