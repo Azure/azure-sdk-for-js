@@ -125,7 +125,7 @@ export interface RuleProperties {
  */
 export type SqlRuleAction = {
   /**
-   * SQL expression to use.
+   * SQL expression to use in the rule action.
    */
   sqlExpression?: string;
 
