@@ -226,6 +226,46 @@ export interface ServiceBusMessage {
 }
 
 /**
+ * Describes the AmqpAnnotatedMessage.
+ * Message of this type can be sent using `sendMessages` API similar to the `ServiceBusMessage`.
+ * This is also exposed as part of the ReceivedMessage(`amqpAnnotatedMessage` property).
+ */
+export interface AmqpAnnotatedMessage {
+  header?: AmqpMessageHeader;
+  footer?: { [key: string]: any };
+  messageAnnotations?: { [key: string]: any };
+  deliveryAnnotations?: { [key: string]: any };
+  applicationProperties?: { [key: string]: any };
+  properties?: AmqpMessageProperties;
+  bodyType: "data" | "value" | "sequence";
+  body: any;
+}
+
+export interface AmqpMessageHeader {
+  firstAcquirer?: boolean;
+  deliveryCount?: number;
+  timeToLive?: number;
+  durable?: boolean;
+  priority?: number;
+}
+
+export interface AmqpMessageProperties {
+  messageId?: string | number | Buffer;
+  to?: string;
+  correlationId?: string | number | Buffer;
+  contentType?: string;
+  contentEncoding?: string;
+  absoluteExpiryTime?: Date;
+  creationTime?: number;
+  groupId?: string;
+  groupSequence?: number;
+  replyTo?: string;
+  replyToGroupId?: string;
+  subject?: string;
+  userId?: string;
+}
+
+/**
  * @internal
  * @ignore
  * Gets the error message for when a property on given message is not of expected type
@@ -446,6 +486,7 @@ export interface ReceivedMessage extends ServiceBusMessage {
    * @readonly
    */
   readonly _amqpMessage: AmqpMessage;
+  amqpAnnotatedMessage?: AmqpAnnotatedMessage;
 }
 
 /**
@@ -691,7 +732,22 @@ export function fromAmqpMessage(
  * @ignore
  */
 export function isServiceBusMessage(possible: any): possible is ServiceBusMessage {
-  return possible != null && typeof possible === "object" && "body" in possible;
+  return (
+    possible != null &&
+    typeof possible === "object" &&
+    "body" in possible &&
+    !("bodyType" in possible)
+  );
+}
+
+/**
+ * @internal
+ * @ignore
+ */
+export function isAmqpAnnotatedMessage(possible: any): possible is AmqpAnnotatedMessage {
+  return (
+    possible != null && typeof possible === "object" && "body" in possible && "bodyType" in possible
+  );
 }
 
 /**
