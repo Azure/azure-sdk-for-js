@@ -2686,6 +2686,29 @@ export const ExposureControlRequest: msRest.CompositeMapper = {
   }
 };
 
+export const ExposureControlBatchRequest: msRest.CompositeMapper = {
+  serializedName: "ExposureControlBatchRequest",
+  type: {
+    name: "Composite",
+    className: "ExposureControlBatchRequest",
+    modelProperties: {
+      exposureControlRequests: {
+        required: true,
+        serializedName: "exposureControlRequests",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ExposureControlRequest"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const ExposureControlResponse: msRest.CompositeMapper = {
   serializedName: "ExposureControlResponse",
   type: {
@@ -2704,6 +2727,29 @@ export const ExposureControlResponse: msRest.CompositeMapper = {
         serializedName: "value",
         type: {
           name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ExposureControlBatchResponse: msRest.CompositeMapper = {
+  serializedName: "ExposureControlBatchResponse",
+  type: {
+    name: "Composite",
+    className: "ExposureControlBatchResponse",
+    modelProperties: {
+      exposureControlResponses: {
+        required: true,
+        serializedName: "exposureControlResponses",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ExposureControlResponse"
+            }
+          }
         }
       }
     }
@@ -3272,6 +3318,173 @@ export const DataFlowReference: msRest.CompositeMapper = {
     additionalProperties: {
       type: {
         name: "Object"
+      }
+    }
+  }
+};
+
+export const ConnectionStateProperties: msRest.CompositeMapper = {
+  serializedName: "ConnectionStateProperties",
+  type: {
+    name: "Composite",
+    className: "ConnectionStateProperties",
+    modelProperties: {
+      actionsRequired: {
+        readOnly: true,
+        serializedName: "actionsRequired",
+        type: {
+          name: "String"
+        }
+      },
+      description: {
+        readOnly: true,
+        serializedName: "description",
+        type: {
+          name: "String"
+        }
+      },
+      status: {
+        readOnly: true,
+        serializedName: "status",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ManagedPrivateEndpoint: msRest.CompositeMapper = {
+  serializedName: "ManagedPrivateEndpoint",
+  type: {
+    name: "Composite",
+    className: "ManagedPrivateEndpoint",
+    modelProperties: {
+      connectionState: {
+        serializedName: "connectionState",
+        type: {
+          name: "Composite",
+          className: "ConnectionStateProperties"
+        }
+      },
+      fqdns: {
+        serializedName: "fqdns",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      groupId: {
+        serializedName: "groupId",
+        type: {
+          name: "String"
+        }
+      },
+      isReserved: {
+        readOnly: true,
+        serializedName: "isReserved",
+        type: {
+          name: "Boolean"
+        }
+      },
+      privateLinkResourceId: {
+        serializedName: "privateLinkResourceId",
+        type: {
+          name: "String"
+        }
+      },
+      provisioningState: {
+        readOnly: true,
+        serializedName: "provisioningState",
+        type: {
+          name: "String"
+        }
+      }
+    },
+    additionalProperties: {
+      type: {
+        name: "Object"
+      }
+    }
+  }
+};
+
+export const ManagedPrivateEndpointResource: msRest.CompositeMapper = {
+  serializedName: "ManagedPrivateEndpointResource",
+  type: {
+    name: "Composite",
+    className: "ManagedPrivateEndpointResource",
+    modelProperties: {
+      ...SubResource.type.modelProperties,
+      properties: {
+        required: true,
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "ManagedPrivateEndpoint",
+          additionalProperties: {
+            type: {
+              name: "Object"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const ManagedVirtualNetwork: msRest.CompositeMapper = {
+  serializedName: "ManagedVirtualNetwork",
+  type: {
+    name: "Composite",
+    className: "ManagedVirtualNetwork",
+    modelProperties: {
+      vNetId: {
+        readOnly: true,
+        serializedName: "vNetId",
+        type: {
+          name: "String"
+        }
+      },
+      alias: {
+        readOnly: true,
+        serializedName: "alias",
+        type: {
+          name: "String"
+        }
+      }
+    },
+    additionalProperties: {
+      type: {
+        name: "Object"
+      }
+    }
+  }
+};
+
+export const ManagedVirtualNetworkResource: msRest.CompositeMapper = {
+  serializedName: "ManagedVirtualNetworkResource",
+  type: {
+    name: "Composite",
+    className: "ManagedVirtualNetworkResource",
+    modelProperties: {
+      ...SubResource.type.modelProperties,
+      properties: {
+        required: true,
+        serializedName: "properties",
+        type: {
+          name: "Composite",
+          className: "ManagedVirtualNetwork",
+          additionalProperties: {
+            type: {
+              name: "Object"
+            }
+          }
+        }
       }
     }
   }
@@ -10245,6 +10458,40 @@ export const DatasetCompression: msRest.CompositeMapper = {
   }
 };
 
+export const DatasetTarGZipCompression: msRest.CompositeMapper = {
+  serializedName: "TarGZip",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: DatasetCompression.type.polymorphicDiscriminator,
+    uberParent: "DatasetCompression",
+    className: "DatasetTarGZipCompression",
+    modelProperties: {
+      ...DatasetCompression.type.modelProperties,
+      level: {
+        serializedName: "level",
+        type: {
+          name: "Object"
+        }
+      }
+    },
+    additionalProperties: DatasetCompression.type.additionalProperties
+  }
+};
+
+export const DatasetTarCompression: msRest.CompositeMapper = {
+  serializedName: "Tar",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: DatasetCompression.type.polymorphicDiscriminator,
+    uberParent: "DatasetCompression",
+    className: "DatasetTarCompression",
+    modelProperties: {
+      ...DatasetCompression.type.modelProperties
+    },
+    additionalProperties: DatasetCompression.type.additionalProperties
+  }
+};
+
 export const DatasetZipDeflateCompression: msRest.CompositeMapper = {
   serializedName: "ZipDeflate",
   type: {
@@ -13731,6 +13978,46 @@ export const CompressionReadSettings: msRest.CompositeMapper = {
   }
 };
 
+export const TarGZipReadSettings: msRest.CompositeMapper = {
+  serializedName: "TarGZipReadSettings",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: CompressionReadSettings.type.polymorphicDiscriminator,
+    uberParent: "CompressionReadSettings",
+    className: "TarGZipReadSettings",
+    modelProperties: {
+      ...CompressionReadSettings.type.modelProperties,
+      preserveCompressionFileNameAsFolder: {
+        serializedName: "preserveCompressionFileNameAsFolder",
+        type: {
+          name: "Object"
+        }
+      }
+    },
+    additionalProperties: CompressionReadSettings.type.additionalProperties
+  }
+};
+
+export const TarReadSettings: msRest.CompositeMapper = {
+  serializedName: "TarReadSettings",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: CompressionReadSettings.type.polymorphicDiscriminator,
+    uberParent: "CompressionReadSettings",
+    className: "TarReadSettings",
+    modelProperties: {
+      ...CompressionReadSettings.type.modelProperties,
+      preserveCompressionFileNameAsFolder: {
+        serializedName: "preserveCompressionFileNameAsFolder",
+        type: {
+          name: "Object"
+        }
+      }
+    },
+    additionalProperties: CompressionReadSettings.type.additionalProperties
+  }
+};
+
 export const ZipDeflateReadSettings: msRest.CompositeMapper = {
   serializedName: "ZipDeflateReadSettings",
   type: {
@@ -13827,6 +14114,18 @@ export const XmlReadSettings: msRest.CompositeMapper = {
       },
       validationMode: {
         serializedName: "validationMode",
+        type: {
+          name: "Object"
+        }
+      },
+      detectDataType: {
+        serializedName: "detectDataType",
+        type: {
+          name: "Object"
+        }
+      },
+      namespaces: {
+        serializedName: "namespaces",
         type: {
           name: "Object"
         }
@@ -14025,6 +14324,12 @@ export const HdfsReadSettings: msRest.CompositeMapper = {
         type: {
           name: "Composite",
           className: "DistcpSettings"
+        }
+      },
+      deleteFilesAfterCompletion: {
+        serializedName: "deleteFilesAfterCompletion",
+        type: {
+          name: "Object"
         }
       }
     },
@@ -15934,6 +16239,12 @@ export const CosmosDbSqlApiSource: msRest.CompositeMapper = {
       },
       preferredRegions: {
         serializedName: "preferredRegions",
+        type: {
+          name: "Object"
+        }
+      },
+      detectDatetime: {
+        serializedName: "detectDatetime",
         type: {
           name: "Object"
         }
@@ -18126,6 +18437,18 @@ export const LogStorageSettings: msRest.CompositeMapper = {
         type: {
           name: "Object"
         }
+      },
+      logLevel: {
+        serializedName: "logLevel",
+        type: {
+          name: "Object"
+        }
+      },
+      enableReliableLogging: {
+        serializedName: "enableReliableLogging",
+        type: {
+          name: "Object"
+        }
       }
     },
     additionalProperties: {
@@ -20261,6 +20584,20 @@ export const StoreWriteSettings: msRest.CompositeMapper = {
         name: "Object"
       }
     }
+  }
+};
+
+export const AzureFileStorageWriteSettings: msRest.CompositeMapper = {
+  serializedName: "AzureFileStorageWriteSettings",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: StoreWriteSettings.type.polymorphicDiscriminator,
+    uberParent: "StoreWriteSettings",
+    className: "AzureFileStorageWriteSettings",
+    modelProperties: {
+      ...StoreWriteSettings.type.modelProperties
+    },
+    additionalProperties: StoreWriteSettings.type.additionalProperties
   }
 };
 
@@ -23575,6 +23912,64 @@ export const QueryDataFlowDebugSessionsResponse: msRest.CompositeMapper = {
   }
 };
 
+export const ManagedVirtualNetworkListResponse: msRest.CompositeMapper = {
+  serializedName: "ManagedVirtualNetworkListResponse",
+  type: {
+    name: "Composite",
+    className: "ManagedVirtualNetworkListResponse",
+    modelProperties: {
+      value: {
+        required: true,
+        serializedName: "",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ManagedVirtualNetworkResource"
+            }
+          }
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ManagedPrivateEndpointListResponse: msRest.CompositeMapper = {
+  serializedName: "managedPrivateEndpointListResponse",
+  type: {
+    name: "Composite",
+    className: "ManagedPrivateEndpointListResponse",
+    modelProperties: {
+      value: {
+        required: true,
+        serializedName: "",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ManagedPrivateEndpointResource"
+            }
+          }
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const discriminators = {
   'SecretBase.SecureString' : SecureString,
   'SecretBase.AzureKeyVaultSecret' : AzureKeyVaultSecretReference,
@@ -23727,6 +24122,8 @@ export const discriminators = {
   'Dataset.ConcurObject' : ConcurObjectDataset,
   'Dataset.AzurePostgreSqlTable' : AzurePostgreSqlTableDataset,
   'Dataset.AmazonMWSObject' : AmazonMWSObjectDataset,
+  'DatasetCompression.TarGZip' : DatasetTarGZipCompression,
+  'DatasetCompression.Tar' : DatasetTarCompression,
   'DatasetCompression.ZipDeflate' : DatasetZipDeflateCompression,
   'DatasetCompression.Deflate' : DatasetDeflateCompression,
   'DatasetCompression.GZip' : DatasetGZipCompression,
@@ -23824,6 +24221,8 @@ export const discriminators = {
   'Activity.AzureMLExecutePipeline' : AzureMLExecutePipelineActivity,
   'Activity.AzureMLUpdateResource' : AzureMLUpdateResourceActivity,
   'Activity.AzureMLBatchExecution' : AzureMLBatchExecutionActivity,
+  'CompressionReadSettings.TarGZipReadSettings' : TarGZipReadSettings,
+  'CompressionReadSettings.TarReadSettings' : TarReadSettings,
   'CompressionReadSettings.ZipDeflateReadSettings' : ZipDeflateReadSettings,
   'CompressionReadSettings' : CompressionReadSettings,
   'FormatReadSettings.BinaryReadSettings' : BinaryReadSettings,
@@ -23976,6 +24375,7 @@ export const discriminators = {
   'CopySink.DocumentDbCollectionSink' : DocumentDbCollectionSink,
   'CopySink.FileSystemSink' : FileSystemSink,
   'CopySink.BlobSink' : BlobSink,
+  'StoreWriteSettings.AzureFileStorageWriteSettings' : AzureFileStorageWriteSettings,
   'StoreWriteSettings.FileServerWriteSettings' : FileServerWriteSettings,
   'StoreWriteSettings.AzureDataLakeStoreWriteSettings' : AzureDataLakeStoreWriteSettings,
   'StoreWriteSettings.AzureBlobFSWriteSettings' : AzureBlobFSWriteSettings,
