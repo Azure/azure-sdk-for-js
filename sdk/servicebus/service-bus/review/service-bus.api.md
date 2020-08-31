@@ -355,7 +355,7 @@ export interface ServiceBusMessage {
     messageId?: string | number | Buffer;
     partitionKey?: string;
     properties?: {
-        [key: string]: any;
+        [key: string]: number | boolean | string | Date;
     };
     replyTo?: string;
     replyToSessionId?: string;

@@ -222,7 +222,7 @@ export interface ServiceBusMessage {
    * @property The application specific properties which can be
    * used for custom message metadata.
    */
-  properties?: { [key: string]: any };
+  properties?: { [key: string]: number | boolean | string | Date };
 }
 
 /**
