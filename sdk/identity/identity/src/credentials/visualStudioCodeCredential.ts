@@ -24,6 +24,11 @@ const AzureAccountClientId = "aebc6443-996d-45c2-90f0-388ff96faa56"; // VSC: 'ae
 const VSCodeUserName = "VS Code Azure";
 const logger = credentialLogger("VisualStudioCodeCredential");
 
+// Map of unsupported Tenant IDs and the errors we will be throwing.
+const unsupportedTenantIds: Record<string, string> = {
+  adfs: "The VisualStudioCodeCredential is not supported against ADFS tenant / authorities."
+};
+
 /**
  * Attempts to load the tenant from the VSCode configurations of the current OS.
  * If it fails at any point, returns undefined.
@@ -88,8 +93,11 @@ export class VisualStudioCodeCredential implements TokenCredential {
     } else {
       this.tenantId = CommonTenantId;
     }
-    if (this.tenantId === "adfs") {
-      throw new CredentialUnavailable("The VisualStudioCodeCredential is not supported in Sovereign Clouds")
+
+    // If the Tenant ID isn't supported, we throw.
+    const unsupportedTenantError = unsupportedTenantIds[this.tenantId];
+    if (unsupportedTenantError) {
+      throw new CredentialUnavailable(unsupportedTenantError);
     }
   }
 
