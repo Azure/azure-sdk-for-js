@@ -226,6 +226,10 @@ export interface QueueRuntimePropertiesResponse extends QueueRuntimeProperties, 
 
 // @public
 export interface ReceivedMessage extends ServiceBusMessage {
+    // Warning: (ae-forgotten-export) The symbol "AmqpAnnotatedMessage" needs to be exported by the entry point index.d.ts
+    //
+    // (undocumented)
+    amqpAnnotatedMessage?: AmqpAnnotatedMessage;
     readonly _amqpMessage: AmqpMessage;
     readonly deadLetterErrorDescription?: string;
     readonly deadLetterReason?: string;
@@ -373,7 +377,7 @@ export interface ServiceBusMessageBatch {
     _generateMessage(): Buffer;
     readonly maxSizeInBytes: number;
     readonly sizeInBytes: number;
-    tryAdd(message: ServiceBusMessage): boolean;
+    tryAdd(message: ServiceBusMessage | AmqpAnnotatedMessage): boolean;
 }
 
 // @public
@@ -400,7 +404,7 @@ export interface ServiceBusSender {
     isClosed: boolean;
     open(options?: OperationOptionsBase): Promise<void>;
     scheduleMessages(scheduledEnqueueTimeUtc: Date, messages: ServiceBusMessage | ServiceBusMessage[], options?: OperationOptionsBase): Promise<Long[]>;
-    sendMessages(messages: ServiceBusMessage | ServiceBusMessage[] | ServiceBusMessageBatch, options?: OperationOptionsBase): Promise<void>;
+    sendMessages(messages: ServiceBusMessage | ServiceBusMessage[] | ServiceBusMessageBatch | AmqpAnnotatedMessage | AmqpAnnotatedMessage[], options?: OperationOptionsBase): Promise<void>;
 }
 
 // @public
