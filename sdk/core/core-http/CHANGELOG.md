@@ -1,6 +1,6 @@
 # Release History
 
-## 1.1.7 (Unreleased)
+## 1.1.7 (2020-09-02)
 
 - Fixed a bug in `BearerTokenAuthenticationPolicy` where a helper class was being instantiated on each request. [PR 10728](https://github.com/Azure/azure-sdk-for-js/pull/10728)
 - Un-export the `{...}Policy` classes that were meant to be internal to `@azure/core-http`. [PR 10738](https://github.com/Azure/azure-sdk-for-js/pull/10738)
