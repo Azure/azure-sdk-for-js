@@ -2,8 +2,7 @@
 // Licensed under the MIT license.
 
 import qs from "qs";
-import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-http";
-import { delay } from "@azure/core-http";
+import { TokenCredential, GetTokenOptions, AccessToken, delay } from "@azure/core-http";
 import { IdentityClient, TokenResponse, TokenCredentialOptions } from "../client/identityClient";
 import { AuthenticationError, AuthenticationErrorName } from "../client/errors";
 import { createSpan } from "../util/tracing";
