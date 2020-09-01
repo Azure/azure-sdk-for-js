@@ -31,10 +31,17 @@ $corsRules = (@{
       'MERGE',
       'POST',
       'OPTIONS',
-      'PUT');
+      'PUT',
+      'PATCH');
     ExposedHeaders  = @('*');
   })
 
 Set-AzStorageCORSRule -ServiceType 'Queue' -CorsRules $corsRules -Context $context
 
 Write-Verbose "CORS rule set for $storageAccountName"
+
+
+$datalakeStorageAccountName = $DeploymentOutputs['DFS_ACCOUNT_NAME']
+$context = New-AzStorageContext -StorageAccountName $datalakeStorageAccountName
+Set-AzStorageCORSRule -ServiceType 'Blob' -CorsRules $corsRules -Context $context
+Write-Verbose "CORS rule set for $datalakeStorageAccountName"

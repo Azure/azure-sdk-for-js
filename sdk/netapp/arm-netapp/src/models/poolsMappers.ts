@@ -23,5 +23,6 @@ export {
   VolumePatch,
   VolumePatchPropertiesExportPolicy,
   VolumePropertiesDataProtection,
-  VolumePropertiesExportPolicy
+  VolumePropertiesExportPolicy,
+  VolumeSnapshotProperties
 } from "../models/mappers";

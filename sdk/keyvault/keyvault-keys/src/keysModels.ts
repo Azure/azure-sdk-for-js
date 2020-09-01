@@ -3,22 +3,7 @@
 
 import * as coreHttp from "@azure/core-http";
 import { DeletionRecoveryLevel } from "./generated/models";
-
-/**
- * Defines values for EncryptionAlgorithm.
- * Possible values include: 'RSA-OAEP', 'RSA-OAEP-256', 'RSA1_5'
- * @readonly
- * @enum {string}
- */
-export type EncryptionAlgorithm = "RSA-OAEP" | "RSA-OAEP-256" | "RSA1_5";
-
-/**
- * Defines values for KeyCurveName.
- * Possible values include: 'P-256', 'P-384', 'P-521', 'P-256K'
- * @readonly
- * @enum {string}
- */
-export type KeyCurveName = "P-256" | "P-384" | "P-521" | "P-256K";
+import { KeyCurveName } from "./cryptographyClientModels";
 
 /**
  * Defines values for KeyOperation.
@@ -72,7 +57,7 @@ export interface KeyClientInterface {
 }
 
 /**
- * The latest supported KeyVault service API version
+ * The latest supported Key Vault service API version
  */
 export const LATEST_API_VERSION = "7.1";
 
@@ -166,7 +151,7 @@ export interface JsonWebKey {
 }
 
 /**
- * An interface representing a KeyVault Key, with its name, value and {@link KeyProperties}.
+ * An interface representing a Key Vault Key, with its name, value and {@link KeyProperties}.
  */
 export interface KeyVaultKey {
   /**
@@ -265,7 +250,7 @@ export interface KeyProperties {
 }
 
 /**
- * An interface representing a deleted KeyVault Key.
+ * An interface representing a deleted Key Vault Key.
  */
 export interface DeletedKey {
   /**

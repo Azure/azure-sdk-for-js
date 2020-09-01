@@ -739,6 +739,13 @@ export const DiskEncryptionProperties: msRest.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      encryptionAtHost: {
+        serializedName: "encryptionAtHost",
+        defaultValue: false,
+        type: {
+          name: "Boolean"
+        }
       }
     }
   }

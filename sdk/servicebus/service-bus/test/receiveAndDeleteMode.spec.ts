@@ -6,12 +6,12 @@ const should = chai.should();
 const expect = chai.expect;
 import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
-import { ReceivedMessage, Receiver, ServiceBusMessage } from "../src";
+import { ReceivedMessage, ServiceBusMessage, ServiceBusReceiver } from "../src";
 
 import { TestClientType, TestMessage, checkWithTimeout } from "./utils/testUtils";
 
 import { getErrorMessageNotSupportedInReceiveAndDeleteMode } from "../src/util/errors";
-import { Sender } from "../src/sender";
+import { ServiceBusSender } from "../src/sender";
 import {
   EntityName,
   ServiceBusClientForTests,
@@ -27,8 +27,8 @@ const noSessionTestClientType = getRandomTestClientTypeWithNoSessions();
 const withSessionTestClientType = getRandomTestClientTypeWithSessions();
 
 describe("receive and delete", () => {
-  let sender: Sender;
-  let receiver: Receiver<ReceivedMessage>;
+  let sender: ServiceBusSender;
+  let receiver: ServiceBusReceiver<ReceivedMessage>;
   let serviceBusClient: ServiceBusClientForTests;
   let entityName: EntityName;
 

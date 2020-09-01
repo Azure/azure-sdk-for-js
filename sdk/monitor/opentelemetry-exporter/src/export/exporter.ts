@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { Logger } from "@opentelemetry/api";
 import { ConsoleLogger, LogLevel, ExportResult } from "@opentelemetry/core";
 import { Envelope } from "../Declarations/Contracts";
@@ -30,7 +33,7 @@ export abstract class AzureMonitorBaseExporter implements BaseExporter {
     this._options = {
       ...DEFAULT_EXPORTER_CONFIG,
       ..._options,
-      instrumentationKey,
+      instrumentationKey
     };
 
     if (connectionString) {
@@ -39,7 +42,7 @@ export abstract class AzureMonitorBaseExporter implements BaseExporter {
         ...DEFAULT_EXPORTER_CONFIG,
         // Overwrite options with connection string results, if any
         instrumentationKey: parsedConnectionString.instrumentationkey || instrumentationKey,
-        endpointUrl: parsedConnectionString.ingestionendpoint || _options.endpointUrl!,
+        endpointUrl: parsedConnectionString.ingestionendpoint || _options.endpointUrl!
       };
     }
 
@@ -58,22 +61,22 @@ export abstract class AzureMonitorBaseExporter implements BaseExporter {
     this._logger.debug("AzureMonitorTraceExporter was successfully setup");
   }
 
-  exportEnvelopes(payload: Envelope[], resultCallback: (result: ExportResult) => void): void {
+  private async _persist(envelopes: unknown[]): Promise<ExportResult> {
+    try {
+      const success = await this._persister.push(envelopes);
+      return success ? ExportResult.FAILED_RETRYABLE : ExportResult.FAILED_NOT_RETRYABLE;
+    } catch (e) {
+      return ExportResult.FAILED_NOT_RETRYABLE;
+    }
+  }
+
+  async exportEnvelopes(payload: Envelope[]): Promise<ExportResult> {
     const envelopes = this._applyTelemetryProcessors(payload);
     this._logger.info(`Exporting ${envelopes.length} envelope(s)`);
-    this._sender.send(envelopes, (err, statusCode, resultString) => {
-      const persistCb = (persistErr: Error | null, persistSuccess?: boolean) => {
-        if (persistErr || !persistSuccess) {
-          return resultCallback(ExportResult.FAILED_NOT_RETRYABLE);
-        }
-        return resultCallback(ExportResult.FAILED_RETRYABLE);
-      };
 
-      if (err) {
-        // Request failed -- always retry
-        this._logger.error(err.message);
-        this._persister.push(envelopes, persistCb);
-      } else if (statusCode === 200) {
+    try {
+      const { result, statusCode } = await this._sender.send(envelopes);
+      if (statusCode === 200) {
         // Success -- @todo: start retry timer
         if (!this._retryTimer) {
           this._retryTimer = setTimeout(() => {
@@ -82,38 +85,42 @@ export abstract class AzureMonitorBaseExporter implements BaseExporter {
           }, this._options.batchSendRetryIntervalMs);
           this._retryTimer.unref();
         }
-        resultCallback(ExportResult.SUCCESS);
+        return ExportResult.SUCCESS;
       } else if (statusCode && isRetriable(statusCode)) {
         // Failed -- persist failed data
-        if (resultString) {
-          this._logger.info(resultString);
-          const breezeResponse = JSON.parse(resultString) as BreezeResponse;
+        if (result) {
+          this._logger.info(result);
+          const breezeResponse = JSON.parse(result) as BreezeResponse;
           const filteredEnvelopes = breezeResponse.errors.reduce(
             (acc, v) => [...acc, envelopes[v.index]],
             [] as Envelope[]
           );
           // calls resultCallback(ExportResult) based on result of persister.push
-          this._persister.push(filteredEnvelopes, persistCb);
+          return await this._persist(filteredEnvelopes);
         } else {
           // calls resultCallback(ExportResult) based on result of persister.push
-          this._persister.push(envelopes, persistCb);
+          return await this._persist(envelopes);
         }
       } else {
         // Failed -- not retriable
-        resultCallback(ExportResult.FAILED_NOT_RETRYABLE);
+        return ExportResult.FAILED_NOT_RETRYABLE;
       }
-    });
+    } catch (senderErr) {
+      // Request failed -- always retry
+      this._logger.error(senderErr.message);
+      return this._persist(envelopes);
+    }
   }
 
   addTelemetryProcessor(processor: TelemetryProcessor): void {
     this._telemetryProcessors.push(processor);
   }
 
-  clearTelemetryProcessors() {
+  clearTelemetryProcessors(): void {
     this._telemetryProcessors = [];
   }
 
-  shutdown() {
+  shutdown(): void {
     this._sender.shutdown();
   }
 
@@ -137,13 +144,12 @@ export abstract class AzureMonitorBaseExporter implements BaseExporter {
     return filteredEnvelopes;
   }
 
-  private _sendFirstPersistedFile() {
-    this._persister.shift((err, envelopes) => {
-      if (err) {
-        this._logger.warn(`Failed to fetch persisted file`, err);
-      } else if (envelopes) {
-        this._sender.send(envelopes);
-      }
-    });
+  private async _sendFirstPersistedFile(): Promise<void> {
+    try {
+      const envelopes = (await this._persister.shift()) as Envelope[];
+      this._sender.send(envelopes);
+    } catch (err) {
+      this._logger.warn(`Failed to fetch persisted file`, err);
+    }
   }
 }
