@@ -42,6 +42,7 @@ export class AvroReadableFromStream extends AvroReadable {
     if (chunk) {
       this._position += chunk.length;
       // chunk.length maybe less than desired size if the stream ends.
+      console.log(this._position, size, chunk);
       return this.toUint8Array(chunk);
     } else {
       // register callback to wait for enough data to read
@@ -63,6 +64,7 @@ export class AvroReadableFromStream extends AvroReadable {
             this._position += chunk.length;
             cleanUp();
             // chunk.length maybe less than desired size if the stream ends.
+            console.log(this._position, size, chunk);
             resolve(this.toUint8Array(chunk));
           }
         };
