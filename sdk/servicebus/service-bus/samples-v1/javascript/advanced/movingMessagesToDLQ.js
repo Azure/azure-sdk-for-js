@@ -4,7 +4,7 @@ Licensed under the MIT Licence.
 
 This sample demonstrates scenarios as to how a Service Bus message can be explicitly moved to
 the DLQ. For other implicit ways when Service Bus messages get moved to DLQ, refer to -
-https://docs.microsoft.com/en-us/azure/service-bus-messaging/service-bus-dead-letter-queues
+https://docs.microsoft.com/azure/service-bus-messaging/service-bus-dead-letter-queues
 
 Run processMessagesInDLQ example after this to see how the messages in DLQ can be reprocessed.
 */

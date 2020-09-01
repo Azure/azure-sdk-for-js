@@ -18,22 +18,28 @@ export { ServiceBusClientOptions } from "./constructorHelpers";
 export { CorrelationRuleFilter } from "./core/managementClient";
 export {
   CreateBatchOptions,
+  CreateReceiverOptions,
   CreateSessionReceiverOptions,
   GetMessageIteratorOptions,
   MessageHandlerOptions,
+  MessageHandlerOptionsBase,
   MessageHandlers,
   PeekMessagesOptions,
   ReceiveMessagesOptions,
-  SenderOpenOptions,
-  SubscribeOptions,
-  WaitTimeOptions
+  ReceiveMode,
+  SessionSubscribeOptions,
+  SubscribeOptions
 } from "./models";
 export { OperationOptionsBase } from "./modelsToBeSharedWithEventHubs";
-export { Receiver } from "./receivers/receiver";
-export { SessionReceiver } from "./receivers/sessionReceiver";
-export { Sender } from "./sender";
+export { ServiceBusReceiver } from "./receivers/receiver";
+export { ServiceBusSessionReceiver } from "./receivers/sessionReceiver";
+export { ServiceBusSender } from "./sender";
 export { NamespaceProperties } from "./serializers/namespaceResourceSerializer";
-export { QueueProperties, QueueRuntimeProperties } from "./serializers/queueResourceSerializer";
+export {
+  CreateQueueOptions,
+  QueueProperties,
+  QueueRuntimeProperties
+} from "./serializers/queueResourceSerializer";
 export {
   RuleProperties,
   SqlParameter,
@@ -41,20 +47,23 @@ export {
   SqlRuleFilter
 } from "./serializers/ruleResourceSerializer";
 export {
+  CreateSubscriptionOptions,
   SubscriptionProperties,
   SubscriptionRuntimeProperties
 } from "./serializers/subscriptionResourceSerializer";
-export { TopicProperties, TopicRuntimeProperties } from "./serializers/topicResourceSerializer";
+export {
+  CreateTopicOptions,
+  TopicProperties,
+  TopicRuntimeProperties
+} from "./serializers/topicResourceSerializer";
 export {
   EntitiesResponse,
-  ListRequestOptions,
   NamespacePropertiesResponse,
   QueueResponse,
   QueueRuntimePropertiesResponse,
   Response,
   RuleResponse,
   ServiceBusManagementClient,
-  ServiceBusManagementClientOptions,
   SubscriptionResponse,
   SubscriptionRuntimePropertiesResponse,
   TopicResponse,
@@ -68,5 +77,4 @@ export {
   ServiceBusMessage
 } from "./serviceBusMessage";
 export { ServiceBusMessageBatch } from "./serviceBusMessageBatch";
-export { SessionMessageHandlerOptions, SessionReceiverOptions } from "./session/messageSession";
-export { AuthorizationRule, EntityStatus, MessageCountDetails } from "./util/utils";
+export { AuthorizationRule, EntityStatus } from "./util/utils";

@@ -1,7 +1,11 @@
 # Release History
 
-## 1.0.0-preview.9 (Unreleased)
+## 1.0.0-preview.10 (Unreleased)
 
+
+## 1.0.0-preview.9 (2020-08-04)
+
+- Update `@opentelemetry/api` to version 0.10.2 [PR 10393](https://github.com/Azure/azure-sdk-for-js/pull/10393)
 
 ## 1.0.0-preview.8 (2020-04-28)
 

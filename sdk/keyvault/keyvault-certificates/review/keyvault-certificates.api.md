@@ -80,7 +80,7 @@ export class CertificateClient {
 
 // @public
 export interface CertificateClientOptions extends coreHttp.PipelineOptions {
-    apiVersion?: "7.0" | "7.1-preview";
+    serviceVersion?: "7.0" | "7.1";
 }
 
 // @public
@@ -328,6 +328,9 @@ export interface KeyVaultCertificate {
 }
 
 // @public
+export type KeyVaultCertificatesIdentifierCollectionName = "certificates" | "deletedcertificates";
+
+// @public
 export interface KeyVaultCertificateWithPolicy extends KeyVaultCertificate {
     readonly policy?: CertificatePolicy;
 }
@@ -363,6 +366,18 @@ export const logger: import("@azure/logger").AzureLogger;
 
 // @public
 export type MergeCertificateOptions = coreHttp.OperationOptions;
+
+// @public
+export interface ParsedKeyVaultCertificatesIdentifier {
+    collection: KeyVaultCertificatesIdentifierCollectionName;
+    id: string;
+    name: string;
+    vaultUrl: string;
+    version?: string;
+}
+
+// @public
+export function parseKeyVaultCertificatesIdentifier(id: string): ParsedKeyVaultCertificatesIdentifier;
 
 export { PipelineOptions }
 

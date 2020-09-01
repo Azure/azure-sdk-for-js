@@ -333,6 +333,11 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure/ai-anomaly-detector",
+      "projectFolder": "sdk/anomalydetector/ai-anomaly-detector",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure/ai-form-recognizer",
       "projectFolder": "sdk/formrecognizer/ai-form-recognizer",
       "versionPolicyName": "client"
@@ -398,8 +403,18 @@
       "versionPolicyName": "core"
     },
     {
+      "packageName": "@azure/core-xml",
+      "projectFolder": "sdk/core/core-xml",
+      "versionPolicyName": "core"
+    },
+    {
       "packageName": "@azure/cosmos",
       "projectFolder": "sdk/cosmosdb/cosmos",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/monitor-opentelemetry-exporter",
+      "projectFolder": "sdk/monitor/opentelemetry-exporter",
       "versionPolicyName": "client"
     },
     {
@@ -463,6 +478,11 @@
       "versionPolicyName": "core"
     },
     {
+      "packageName": "@azure/schema-registry",
+      "projectFolder": "sdk/schemaregistry/schema-registry",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure/service-bus",
       "projectFolder": "sdk/servicebus/service-bus",
       "versionPolicyName": "client"
@@ -498,8 +518,8 @@
       "versionPolicyName": "client"
     },
     {
-      "packageName": "@azure/tables",
-      "projectFolder": "sdk/tables/azure-tables",
+      "packageName": "@azure/data-tables",
+      "projectFolder": "sdk/tables/data-tables",
       "versionPolicyName": "client"
     },
     {

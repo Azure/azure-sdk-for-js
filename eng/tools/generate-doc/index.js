@@ -40,46 +40,33 @@ const getChecks = async (dir, checks) => {
 };
 
 //Old Method Index
-const generateOldIndex = serviceList => {
+const generateOldIndex = (serviceList) => {
   console.log("generateIndexWithTemplate=" + generateIndexWithTemplate);
   if (generateIndexWithTemplate) {
     var renderedIndex = nunjucks.render("template.html", {
-      serviceList: serviceList
+      serviceList: serviceList,
     });
 
     var dest = process.cwd() + "/docGen/index.html";
-    fs.writeFile(dest, renderedIndex, function(err, result) {
-      if (err)
-        console.log(
-          "error in writing the generated html to docGen/index.html",
-          err
-        );
+    fs.writeFile(dest, renderedIndex, function (err, result) {
+      if (err) console.log("error in writing the generated html to docGen/index.html", err);
       console.log("Generated html written to docGen/index.html");
     });
 
     console.log("serviceList length = " + serviceList.length);
     if (serviceList.length > 0) {
       /* Copy from pathToAssets to docGen/assets */
-      pathToAssets =
-        process.cwd() + "/docGen/" + serviceList[0].packageList[0] + "/assets";
+      pathToAssets = process.cwd() + "/docGen/" + serviceList[0].packageList[0] + "/assets";
       var assetsDest = process.cwd() + "/docGen/assets/";
-      fs.copy(pathToAssets, assetsDest, err => {
-        if (err)
-          return console.error(
-            "error copying the assets folder to docGen/assets/",
-            err
-          );
+      fs.copy(pathToAssets, assetsDest, (err) => {
+        if (err) return console.error("error copying the assets folder to docGen/assets/", err);
         console.log("assets folder copied to docGen!");
       });
     }
   }
 };
 
-const executeTypedoc = async (
-  exclusionList,
-  inclusionList,
-  generateIndexWithTemplate
-) => {
+const executeTypedoc = async (exclusionList, inclusionList, generateIndexWithTemplate) => {
   console.log("inside executeTypedoc");
   let docOutputFolder = "--out ./dist/docs ./src";
   console.log("process.cwd = " + process.cwd());
@@ -111,7 +98,7 @@ const executeTypedoc = async (
             srcPresent: false,
             typedocPresent: false,
             isClient: false,
-            version: "0"
+            version: "0",
           };
           eachPackagePath = path.join(eachServicePath, eachPackage);
           pathToAssets = eachPackagePath + "/assets";
@@ -137,11 +124,7 @@ const executeTypedoc = async (
                 if (checks.srcPresent) {
                   if (argv.docGenOutput === "dg") {
                     docOutputFolder =
-                      "--out ../../../docGen/" +
-                      eachPackage +
-                      "/" +
-                      checks.version +
-                      " ./src";
+                      "--out ../../../docGen/" + eachPackage + "/" + checks.version + " ./src";
                   }
 
                   let typedocProcess;
@@ -149,13 +132,13 @@ const executeTypedoc = async (
                   commandRun.push("typedoc");
                   commandRun.push({
                     cwd: eachPackagePath,
-                    shell: true
+                    shell: true,
                   });
                   if (checks.typedocPresent) {
                     commandRun.push([
                       docOutputFolder,
                       '--theme "../../../eng/tools/generate-doc/theme/default"',
-                      "--ignoreCompilerErrors"
+                      "--ignoreCompilerErrors",
                     ]);
                   } else {
                     commandRun.push([
@@ -165,7 +148,7 @@ const executeTypedoc = async (
                       '--exclude "node_modules/**/*"',
                       "--ignoreCompilerErrors",
                       "--mode file",
-                      docOutputFolder
+                      docOutputFolder,
                     ]);
                   }
                   commandList.push(commandRun);
@@ -174,47 +157,7 @@ const executeTypedoc = async (
                     indexPackageList.push(eachPackage);
                   }
                 } else {
-                  if (
-                    eachPackage === "core-http" ||
-                    eachPackage === "core-tracing"
-                  ) {
-                    if (argv.docGenOutput === "dg") {
-                      docOutputFolder =
-                        "--out ../../../docGen/" +
-                        eachPackage +
-                        "/" +
-                        checks.version +
-                        " ./lib";
-                    }
-
-                    let typedocProcess;
-                    let commandRun = [];
-                    commandRun.push("typedoc");
-                    commandRun.push({
-                      cwd: eachPackagePath,
-                      shell: true
-                    });
-
-                    commandRun.push([
-                      '--theme "../../../eng/tools/generate-doc/theme/default"',
-                      "--excludePrivate",
-                      "--excludeNotExported",
-                      '--exclude "node_modules/**/*"',
-                      "--ignoreCompilerErrors",
-                      "--mode file",
-                      docOutputFolder
-                    ]);
-
-                    commandList.push(commandRun);
-                    if (generateIndexWithTemplate) {
-                      /* Adding package to packageList for the template index generation */
-                      indexPackageList.push(eachPackage);
-                    }
-                  } else {
-                    console.log(
-                      "...SKIPPING Since src folder could not be found....."
-                    );
-                  }
+                  console.log("...SKIPPING Since src folder could not be found.....");
                 }
               } else {
                 //console.log("...SKIPPING Since package is either not sdkType client");
@@ -239,25 +182,15 @@ const executeTypedoc = async (
     const promise = limit(
       () =>
         new Promise(async (res, rej) => {
-          let typedocProcess = childProcess.spawn(
-            commandRun[0],
-            commandRun[2],
-            commandRun[1]
-          );
+          let typedocProcess = childProcess.spawn(commandRun[0], commandRun[2], commandRun[1]);
           let stdOut = "";
           let stdErr = "";
-          typedocProcess.on("close", code => {
+          typedocProcess.on("close", (code) => {
             res({ code, stdOut, stdErr });
           });
 
-          typedocProcess.stdout.on(
-            "data",
-            data => (stdOut = stdOut + data.toString())
-          );
-          typedocProcess.stderr.on(
-            "data",
-            data => (stdErr = stdErr + data.toString())
-          );
+          typedocProcess.stdout.on("data", (data) => (stdOut = stdOut + data.toString()));
+          typedocProcess.stderr.on("data", (data) => (stdErr = stdErr + data.toString()));
         })
     );
     plimitPromises.push(promise);
@@ -291,38 +224,37 @@ var argv = require("yargs")
       choices: ["dg", "local"],
       describe:
         "If value = dg, generate the docs in root/docGen folder, else generated under dist/docs/ of local package",
-      demandOption: true
+      demandOption: true,
     },
     includeMode: {
       alias: "i",
       type: "string",
-      describe:
-        "select whether there is inclusion mode, exclusion mode or neither",
+      describe: "select whether there is inclusion mode, exclusion mode or neither",
       choices: ["inc", "exc", "none"],
-      demandOption: true
+      demandOption: true,
     },
     include: {
       alias: "inc",
       type: "array",
       describe:
-        "inclusion list of packages for which the docs should be generated. The index template html is not created in this mode."
+        "inclusion list of packages for which the docs should be generated. The index template html is not created in this mode.",
     },
     exclude: {
       alias: "exc",
       type: "array",
       describe:
-        "exclusion list for packages for which the docs should be NOT generated.These packages will be added to index template html generated."
+        "exclusion list for packages for which the docs should be NOT generated.These packages will be added to index template html generated.",
     },
     clientOnly: {
       type: "boolean",
       default: false,
-      demandOption: true
+      demandOption: true,
     },
     oldIndex: {
       type: "boolean",
       default: false,
-      demandOption: true
-    }
+      demandOption: true,
+    },
   })
   .demandOption(
     ["docGenOutput", "includeMode", "clientOnly"],
@@ -351,9 +283,7 @@ if (argv.includeMode === "inc") {
   if (argv.include !== undefined) {
     inclusionList = argv.include;
     if (inclusionList.includes("not-specified")) {
-      console.error(
-        `One or more value to the input package list is "not-specified"`
-      );
+      console.error(`One or more value to the input package list is "not-specified"`);
       process.exit(1);
     }
   } else {

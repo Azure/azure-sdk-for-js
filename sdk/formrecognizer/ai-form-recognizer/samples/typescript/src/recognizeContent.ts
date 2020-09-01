@@ -18,7 +18,7 @@ export async function main() {
   // You will need to set these environment variables or edit the following values
   const endpoint = process.env["FORM_RECOGNIZER_ENDPOINT"] || "<cognitive services endpoint>";
   const apiKey = process.env["FORM_RECOGNIZER_API_KEY"] || "<api key>";
-  const fileName = path.join(__dirname, "../assets/Invoice_6.pdf");
+  const fileName = path.join(__dirname, "../assets/Form_1.jpg");
 
   if (!fs.existsSync(fileName)) {
     throw new Error(`Expecting file ${fileName} exists`);
@@ -39,10 +39,8 @@ export async function main() {
       `Page ${page.pageNumber}: width ${page.width} and height ${page.height} with unit ${page.unit}`
     );
     for (const table of page.tables!) {
-      for (const row of table.rows) {
-        for (const cell of row.cells) {
-          console.log(`cell [${cell.rowIndex},${cell.columnIndex}] has text ${cell.text}`);
-        }
+      for (const cell of table.cells) {
+        console.log(`cell [${cell.rowIndex},${cell.columnIndex}] has text ${cell.text}`);
       }
     }
   }

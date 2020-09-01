@@ -1,7 +1,17 @@
 # Release History
 
-## 1.1.5 (Unreleased)
+## 1.1.7 (Unreleased)
 
+- Fixed a bug in `BearerTokenAuthenticationPolicy` where a helper class was being instantiated on each request. [PR 10728](https://github.com/Azure/azure-sdk-for-js/pull/10728)
+- Un-export the `{...}Policy` classes that were meant to be internal to `@azure/core-http`. [PR 10738](https://github.com/Azure/azure-sdk-for-js/pull/10738)
+
+## 1.1.6 (2020-08-04)
+
+- Update dependencies `@azure/core-tracing` to version 1.0.0-preview.9 and `@opentelemetry/api` to version 0.10.2 [PR 10393](https://github.com/Azure/azure-sdk-for-js/pull/10393)
+
+## 1.1.5 (2020-08-04)
+
+- The global `fetch()` is no longer overridden by node-fetch. This fixed an issue impacting Electron render process. [PR #9880](https://github.com/Azure/azure-sdk-for-js/pull/9880)
 
 ## 1.1.4 (2020-07-02)
 

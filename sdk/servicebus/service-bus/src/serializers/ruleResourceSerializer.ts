@@ -10,7 +10,6 @@ import {
 } from "../util/atomXmlHelper";
 import * as Constants from "../util/constants";
 import {
-  getBooleanOrUndefined,
   getIntegerOrUndefined,
   getString,
   getStringOrUndefined,
@@ -28,7 +27,7 @@ export function buildRule(rawRule: any): RuleProperties {
   return {
     name: getString(rawRule["RuleName"], "ruleName"),
     filter: getTopicFilter(rawRule["Filter"]),
-    action: getRuleActionOrUndefined(rawRule["Action"])
+    action: getRuleAction(rawRule["Action"])
   };
 }
 
@@ -45,9 +44,7 @@ function getTopicFilter(value: any): SqlRuleFilter | CorrelationRuleFilter {
   if (value["SqlExpression"] != undefined) {
     result = {
       sqlExpression: value["SqlExpression"],
-      sqlParameters: getSqlParametersOrUndefined(value["Parameters"]),
-      compatibilityLevel: getIntegerOrUndefined(value["CompatibilityLevel"]),
-      requiresPreprocessing: getBooleanOrUndefined(value["RequiresPreprocessing"])
+      sqlParameters: getSqlParametersOrUndefined(value["Parameters"])
     };
   } else {
     result = {
@@ -68,27 +65,22 @@ function getTopicFilter(value: any): SqlRuleFilter | CorrelationRuleFilter {
 /**
  * @internal
  * @ignore
- * Helper utility to retrieve rule `action` value from given input,
- * or undefined if not passed in.
+ * Helper utility to retrieve rule `action` value from given input.
  * @param value
  */
-function getRuleActionOrUndefined(value: any): SqlRuleAction | undefined {
-  if (value == undefined) {
-    return undefined;
-  } else {
-    return {
-      sqlExpression: value["SqlExpression"],
-      sqlParameters: getSqlParametersOrUndefined(value["Parameters"]),
-      compatibilityLevel: getIntegerOrUndefined(value["CompatibilityLevel"]),
-      requiresPreprocessing: getBooleanOrUndefined(value["RequiresPreprocessing"])
-    };
-  }
+function getRuleAction(value: any): SqlRuleAction {
+  return {
+    sqlExpression: value["SqlExpression"],
+    sqlParameters: getSqlParametersOrUndefined(value["Parameters"])
+  };
 }
 
 /**
- * Represents all attributes of a rule entity
+ * Represents the options to create a rule for a subscription.
+ * @internal
+ * @ignore
  */
-export interface RuleProperties {
+export interface CreateRuleOptions {
   /**
    * Name of the rule
    */
@@ -110,6 +102,30 @@ export interface RuleProperties {
 }
 
 /**
+ * Represents all the attributes of a rule.
+ */
+export interface RuleProperties {
+  /**
+   * Name of the rule
+   */
+  readonly name: string;
+
+  /**
+   * Defines the filter expression that the rule evaluates. For `SqlRuleFilter` input,
+   * the expression string is interpreted as a SQL92 expression which must
+   * evaluate to True or False. Only one between a `CorrelationRuleFilter` or
+   * a `SqlRuleFilter` can be defined.
+   */
+  filter: SqlRuleFilter | CorrelationRuleFilter;
+
+  /**
+   * The SQL like expression that can be executed on the message should the
+   * associated filter apply.
+   */
+  action: SqlRuleAction;
+}
+
+/**
  * Represents all possible fields on SqlAction
  */
 export type SqlRuleAction = SqlRuleFilter;
@@ -127,17 +143,6 @@ export interface SqlRuleFilter {
    * SQL parameters to the expression
    */
   sqlParameters?: SqlParameter[];
-
-  /**
-   * This property is reserved for future use. An integer value showing the
-   * compatibility level, currently hard-coded to 20.
-   */
-  compatibilityLevel?: number;
-
-  /**
-   * Boolean value indicating whether the SQL filter expression requires preprocessing
-   */
-  requiresPreprocessing?: boolean;
 }
 
 /**
@@ -156,8 +161,7 @@ export class RuleResourceSerializer implements AtomXmlSerializer {
     if (rule.filter == undefined) {
       // Defaults to creating a true filter if none specified
       resource.Filter = {
-        SqlExpression: "1=1",
-        CompatibilityLevel: 20
+        SqlExpression: "1=1"
       };
       resource.Filter[Constants.XML_METADATA_MARKER] = {
         "p4:type": "SqlFilter",
@@ -168,9 +172,7 @@ export class RuleResourceSerializer implements AtomXmlSerializer {
         const sqlFilter: SqlRuleFilter = rule.filter as SqlRuleFilter;
         resource.Filter = {
           SqlExpression: sqlFilter.sqlExpression,
-          Parameters: getRawSqlParameters(sqlFilter.sqlParameters),
-          CompatibilityLevel: 20,
-          RequiresPreprocessing: getStringOrUndefined(sqlFilter.requiresPreprocessing)
+          Parameters: getRawSqlParameters(sqlFilter.sqlParameters)
         };
         resource.Filter[Constants.XML_METADATA_MARKER] = {
           "p4:type": "SqlFilter",
@@ -207,9 +209,7 @@ export class RuleResourceSerializer implements AtomXmlSerializer {
     } else {
       resource.Action = {
         SqlExpression: rule.action.sqlExpression,
-        Parameters: getRawSqlParameters(rule.action.sqlParameters),
-        CompatibilityLevel: 20,
-        RequiresPreprocessing: getStringOrUndefined(rule.action.requiresPreprocessing)
+        Parameters: getRawSqlParameters(rule.action.sqlParameters)
       };
       resource.Action[Constants.XML_METADATA_MARKER] = {
         "p4:type": "SqlRuleAction",
@@ -223,6 +223,14 @@ export class RuleResourceSerializer implements AtomXmlSerializer {
   async deserialize(response: HttpOperationResponse): Promise<HttpOperationResponse> {
     return deserializeAtomXmlResponse(["TopicName", "SubscriptionName", "RuleName"], response);
   }
+}
+
+/**
+ * @internal
+ * @ignore
+ */
+export function isSqlRuleAction(action: any): action is SqlRuleAction {
+  return action != null && typeof action === "object" && "sqlExpression" in action;
 }
 
 /**
@@ -269,6 +277,10 @@ type RawKeyValuePair = {
   Value: any;
 };
 
+/**
+ * @internal
+ * @ignore
+ */
 interface InternalRawKeyValuePairs {
   KeyValueOfstringanyType: RawKeyValuePair[];
 }
@@ -323,10 +335,19 @@ function getUserPropertiesOrUndefined(value: any): { [key: string]: any } | unde
     return undefined;
   }
   const properties: any = {};
-  const rawProperties = value[keyValuePairXMLTag];
+  let rawProperties;
+  if (!Array.isArray(value[keyValuePairXMLTag]) && value[keyValuePairXMLTag]?.Key) {
+    // When a single property is present,
+    //    value["KeyValueOfstringanyType"] = { Key: <key>, Value: [Object] }
+    // When multiple properties are present,
+    //    value["KeyValueOfstringanyType"] = [ { Key: <key-1>, Value: [Object] }, { Key: <key-2>, Value: [Object] } ]
+    // For consistency, wrapping `value["KeyValueOfstringanyType"]` as an array for the "single property" case.
+    rawProperties = [value[keyValuePairXMLTag]];
+  } else {
+    rawProperties = value[keyValuePairXMLTag];
+  }
   if (Array.isArray(rawProperties)) {
     for (const rawProperty of rawProperties) {
-      properties[rawProperty.Key] = rawProperty.Value["_"];
       if (rawProperty.Value["$"]["i:type"] === TypeMapForResponseDeserialization.number) {
         properties[rawProperty.Key] = Number(rawProperty.Value["_"]);
       } else if (rawProperty.Value["$"]["i:type"] === TypeMapForResponseDeserialization.string) {

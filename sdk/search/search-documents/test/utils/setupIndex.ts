@@ -4,12 +4,15 @@
 import {
   SearchClient,
   SearchIndexClient,
+  SearchIndexerClient,
   GeographyPoint,
   SearchIndex,
   KnownAnalyzerNames
 } from "../../src/index";
 import { Hotel } from "./interfaces";
 import { delay } from "@azure/core-http";
+
+export const WAIT_TIME = 2000;
 
 // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
 export async function createIndex(client: SearchIndexClient, name: string): Promise<void> {
@@ -79,7 +82,7 @@ export async function createIndex(client: SearchIndexClient, name: string): Prom
         facetable: true
       },
       {
-        type: "Edm.Int32",
+        type: "Edm.Double",
         name: "rating",
         filterable: true,
         sortable: true,
@@ -414,4 +417,176 @@ export async function populateIndex(client: SearchClient<Hotel>): Promise<void> 
     await delay(2000);
     count = await client.getDocumentsCount();
   }
+}
+
+// eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
+export async function createDataSourceConnections(client: SearchIndexerClient): Promise<void> {
+  const connectionString:string = "AccountEndpoint=https://hotels-docbb.documents.azure.com:443/;AccountKey=4UPsNZyFAjgZ1tzHPGZaxS09XcwLrIawbXBWk6IixcxJoSePTcjBn0mi53XiKWu8MaUgowUhIovOv7kjksqAug==;Database=SampleData";
+  for (let i = 1; i <= 2; i++) {
+    await client.createDataSourceConnection({
+      name: `my-data-source-${i}`,
+      type: "cosmosdb",
+      container: {
+        name: "hotels"
+      },
+      connectionString: connectionString
+    });
+  }
+}
+
+// eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
+export async function deleteDataSourceConnections(client: SearchIndexerClient): Promise<void> {
+  for (let i = 1; i <= 2; i++) {
+    await client.deleteDataSourceConnection(`my-data-source-${i}`);
+  }
+}
+
+// eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
+export async function createSkillsets(client: SearchIndexerClient): Promise<void> {
+  await client.createSkillset({
+    name: `my-azureblob-skillset-1`,
+    description: `Skillset description`,
+    skills: [
+      {
+        odatatype: "#Microsoft.Skills.Text.EntityRecognitionSkill",
+        inputs: [
+          {
+            name: "text",
+            source: "/document/merged_content"
+          },
+          {
+            name: "languageCode",
+            source: "/document/language"
+          }
+        ],
+        outputs: [
+          {
+            name: "persons",
+            targetName: "people"
+          },
+          {
+            name: "organizations",
+            targetName: "organizations"
+          },
+          {
+            name: "locations",
+            targetName: "locations"
+          }
+        ]
+      }
+    ]
+  });
+  
+  await client.createSkillset({
+    name: `my-azureblob-skillset-2`,
+    description: `Skillset description`,
+    skills: [
+      {
+        odatatype: "#Microsoft.Skills.Text.EntityRecognitionSkill",
+        inputs: [
+          {
+            name: "text",
+            source: "/document/merged_content"
+          },
+          {
+            name: "languageCode",
+            source: "/document/language"
+          }
+        ],
+        outputs: [
+          {
+            name: "persons",
+            targetName: "people"
+          },
+          {
+            name: "locations",
+            targetName: "locations"
+          }
+        ]
+      }
+    ]
+  });;
+}
+
+// eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
+export async function deleteSkillsets(client: SearchIndexerClient): Promise<void> {
+  for (let i = 1; i <= 2; i++) {
+    await client.deleteSkillset(`my-azureblob-skillset-${i}`);
+  }
+}
+
+// eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
+export async function createIndexers(client: SearchIndexerClient): Promise<void> {
+  for (let i = 1; i <= 2; i++) {
+    await client.createIndexer({
+      name: `my-azure-indexer-${i}`,
+      description: "Description for Sample Indexer",
+      dataSourceName: "my-data-source-1",
+      targetIndexName: "hotel-live-test2",
+      isDisabled: false
+    });
+  }
+}
+
+export async function deleteIndexers(client: SearchIndexerClient): Promise<void> {
+  for (let i = 1; i <= 2; i++) {
+    await client.deleteIndexer(`my-azure-indexer-${i}`);
+  }
+}
+
+export async function createSynonymMaps(client: SearchIndexClient): Promise<void> {
+  for (let i = 1; i <= 2; i++) {
+    await client.createSynonymMap({
+      name: `my-azure-synonymmap-${i}`,
+      synonyms: ["United States, United States of America => USA", "Washington, Wash. => WA"]
+    });
+  }
+}
+
+export async function deleteSynonymMaps(client: SearchIndexClient): Promise<void> {
+  for (let i = 1; i <= 2; i++) {
+    await client.deleteSynonymMap(`my-azure-synonymmap-${i}`);
+  }
+}
+
+export async function createSimpleIndex(client: SearchIndexClient, name: string): Promise<void> {
+  let index: SearchIndex = {
+    name,
+    fields: [
+      {
+        type: "Edm.String",
+        name: "id",
+        key: true
+      },
+      {
+        type: "Edm.Double",
+        name: "awesomenessLevel",
+        sortable: true,
+        filterable: true,
+        facetable: true
+      },
+      {
+        type: "Edm.String",
+        name: "description",
+        searchable: true
+      },
+      {
+        type: "Edm.ComplexType",
+        name: "details",
+        fields: [
+          {
+            type: "Collection(Edm.String)",
+            name: "tags",
+            searchable: true
+          }
+        ]
+      },
+      {
+        type: "Edm.Int32",
+        name: "hiddenWeight",
+        hidden: true
+      }
+    ]
+  };
+  await client.createIndex(index);
 }

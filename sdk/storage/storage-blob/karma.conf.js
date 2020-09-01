@@ -38,7 +38,7 @@ module.exports = function(config) {
       // Promise,String.prototype.startsWith,String.prototype.endsWith,String.prototype.repeat,String.prototype.includes,Array.prototype.includes,Object.assign,Object.keys,Symbol.iterator
       "https://cdn.polyfill.io/v2/polyfill.js?features=Symbol,Promise,String.prototype.startsWith,String.prototype.endsWith,String.prototype.repeat,String.prototype.includes,Array.prototype.includes,Object.assign,Object.keys|always,Symbol.iterator",
       "dist-test/index.browser.js",
-      { pattern: "dist-test/index.browser.js.map", type: "html", included: false, served: true },
+      { pattern: "dist-test/index.browser.js.map", type: "html", included: false, served: true }
     ].concat(isPlaybackMode() || isSoftRecordMode() ? ["recordings/browsers/**/*.json"] : []),
 
     // list of files / patterns to exclude
@@ -65,7 +65,9 @@ module.exports = function(config) {
       "MD_ACCOUNT_NAME",
       "MD_ACCOUNT_SAS",
       "ENCRYPTION_SCOPE_1",
-      "ENCRYPTION_SCOPE_2"
+      "ENCRYPTION_SCOPE_2",
+      "ORS_DEST_ACCOUNT_NAME",
+      "ORS_DEST_ACCOUNT_SAS"
     ],
 
     // test results reporter to use

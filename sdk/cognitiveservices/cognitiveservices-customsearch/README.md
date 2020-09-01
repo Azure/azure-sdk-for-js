@@ -26,14 +26,11 @@ npm install @azure/ms-rest-azure-js
 ##### Sample code
 The following sample performs a search for given query on a custom configuration. The custom configuration can be setup using the Custom search portal. To know more, refer to the [Azure Documentation Bing Custom Search](https://docs.microsoft.com/en-us/azure/cognitive-services/bing-custom-search/)
 
-```typescript
-import {
-  CustomSearchClient,
-  CustomSearchModels
-} from "@azure/cognitiveservices-customsearch";
-import { CognitiveServicesCredentials } from "@azure/ms-rest-azure-js";
+```javascript
+const { CustomSearchClient } = require("@azure/cognitiveservices-customsearch");
+const { CognitiveServicesCredentials } = require("@azure/ms-rest-azure-js");
 
-async function main(): Promise<void> {
+async function main() {
   const customSearchKey = process.env["customSearchKey"] || "<customSearchKey>";
   const customSearchEndPoint =
     process.env["customSearchEndPoint"] || "<customSearchEndPoint>";
@@ -45,7 +42,7 @@ async function main(): Promise<void> {
     endpoint: customSearchEndPoint
   });
   const query = "World Peace";
-  const options: CustomSearchModels.CustomInstanceSearchOptionalParams = {
+  const options = {
     count: 10,
     safeSearch: "Moderate"
   };

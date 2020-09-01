@@ -2,7 +2,7 @@
 // Licensed under the MIT License.
 
 import { CheckpointStore, PartitionOwnership, Checkpoint } from "@azure/event-hubs";
-import { ContainerClient, Metadata, RestError } from "@azure/storage-blob";
+import { ContainerClient, Metadata, RestError, BlobSetMetadataResponse } from "@azure/storage-blob";
 import { logger, logErrorStackTrace } from "./log";
 import { throwTypeErrorIfParameterMissing } from "./util/error";
 
@@ -253,21 +253,38 @@ export class BlobCheckpointStore implements CheckpointStore {
     blobName: string,
     metadata: OwnershipMetadata | CheckpointMetadata,
     etag: string | undefined
-  ) {
-    const blobClient = this._containerClient.getBlobClient(blobName);
+  ): Promise<BlobSetMetadataResponse> {
+    const blockBlobClient = this._containerClient.getBlobClient(blobName).getBlockBlobClient();
 
+    // When we have an etag, we know the blob existed.
+    // If we encounter an error we should fail.
     if (etag) {
-      return blobClient.setMetadata(metadata as Metadata, {
+      return blockBlobClient.setMetadata(metadata as Metadata, {
         conditions: {
           ifMatch: etag
         }
       });
     } else {
-      const blockBlobClient = blobClient.getBlockBlobClient();
+      try {
+        // Attempt to set metadata, and fallback to upload if the blob doesn't already exist.
+        // This avoids poor performance in storage accounts with soft-delete or blob versioning enabled.
+        // https://github.com/Azure/azure-sdk-for-js/issues/10132
+        return await blockBlobClient.setMetadata(metadata as Metadata);
+      } catch (err) {
+        // Check if the error is `BlobNotFound` and fallback to `upload` if it is.
+        if (err?.name !== "RestError") {
+          throw err;
+        }
+        const errorDetails = (err as RestError).details as { [field: string]: string } | undefined;
+        const errorCode = errorDetails?.errorCode;
+        if (!errorCode || errorCode !== "BlobNotFound") {
+          throw err;
+        }
 
-      return blockBlobClient.upload("", 0, {
-        metadata: metadata as Metadata
-      });
+        return blockBlobClient.upload("", 0, {
+          metadata: metadata as Metadata
+        });
+      }
     }
   }
 }

@@ -18,7 +18,7 @@
 
   Setup: To run this sample, you would need session enabled Queue/Subscription.
 
-  See https://docs.microsoft.com/en-us/azure/service-bus-messaging/message-sessions#message-session-state
+  See https://docs.microsoft.com/azure/service-bus-messaging/message-sessions#message-session-state
   to learn about session state.
 */
 const { ServiceBusClient } = require("@azure/service-bus");
@@ -72,10 +72,10 @@ async function runScenario() {
 }
 async function getSessionState(sessionId) {
   // If receiving from a subscription you can use the createSessionReceiver(topic, subscription) overload
-  const sessionReceiver = await sbClient.createSessionReceiver(userEventsQueueName, "peekLock", {
+  const sessionReceiver = await sbClient.createSessionReceiver(userEventsQueueName, {
     sessionId: sessionId
   });
-  const sessionState = await sessionReceiver.getState();
+  const sessionState = await sessionReceiver.getSessionState();
   if (sessionState) {
     // Get list of items
     console.log(`\nItems in cart for ${sessionId}: ${sessionState}\n`);
@@ -99,7 +99,7 @@ async function sendMessagesForSession(shoppingEvents, sessionId) {
 }
 async function processMessageFromSession(sessionId) {
   // If receiving from a subscription you can use the createSessionReceiver(topic, subscription) overload
-  const sessionReceiver = await sbClient.createSessionReceiver(userEventsQueueName, "peekLock", {
+  const sessionReceiver = await sbClient.createSessionReceiver(userEventsQueueName, {
     sessionId
   });
 
@@ -111,22 +111,20 @@ async function processMessageFromSession(sessionId) {
     // Update sessionState
     if (messages[0].body.event_name === "Checkout") {
       // Clear cart if customer exits, else retain items.
-      await sessionReceiver.setState(JSON.stringify([]));
+      await sessionReceiver.setSessionState(JSON.stringify([]));
     } else if (messages[0].body.event_name === "Add Item") {
       // Update cart if customer adds items and store it in session state.
-      const currentSessionState = await sessionReceiver.getState();
+      const currentSessionState = await sessionReceiver.getSessionState();
       let newSessionState = [];
       if (currentSessionState) {
         newSessionState = JSON.parse(currentSessionState);
       }
       newSessionState.push(messages[0].body.event_details);
-      await sessionReceiver.setState(JSON.stringify(newSessionState));
+      await sessionReceiver.setSessionState(JSON.stringify(newSessionState));
     }
 
     console.log(
-      `Received message: Customer '${sessionReceiver.sessionId}': '${messages[0].body.event_name} ${
-        messages[0].body.event_details
-      }'`
+      `Received message: Customer '${sessionReceiver.sessionId}': '${messages[0].body.event_name} ${messages[0].body.event_details}'`
     );
     await messages[0].complete();
   } else {

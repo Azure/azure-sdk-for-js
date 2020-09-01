@@ -28,7 +28,8 @@ import { GeneratedClient } from "./generated/generatedClient";
 import {
   GeneratedClientGetCustomModelCopyResultResponse as GetCustomModelCopyResultResponseModel,
   GeneratedClientCopyCustomModelResponse as CopyCustomModelResponseModel,
-  GeneratedClientTrainCustomModelAsyncResponse
+  GeneratedClientTrainCustomModelAsyncResponse,
+  CopyAuthorizationResult
 } from "./generated/models";
 import { TrainPollerClient, BeginTrainingPoller } from "./lro/train/poller";
 import { PollOperationState, PollerLike } from "@azure/core-lro";
@@ -39,7 +40,6 @@ import {
   CustomFormModel,
   CustomFormModelInfo,
   CopyAuthorization,
-  CopyAuthorizationResultModel,
   ListCustomModelsResponse,
   OperationStatus,
   ModelStatus
@@ -110,7 +110,7 @@ export type BeginCopyModelOptions = FormRecognizerOperationOptions & {
  */
 export type TrainingFileFilter = FormRecognizerOperationOptions & {
   prefix?: string;
-  includeSubFolders?: boolean;
+  includeSubfolders?: boolean;
 };
 
 /**
@@ -515,10 +515,16 @@ export class FormTrainingClient {
   }
 
   /**
-   * Generates authorization for copying a custom model into this Azure Form Recognizer resource.
+   * Generate an authorization for copying a custom model into this Azure Form Recognizer resource.
+   *
+   * This method should be called on a client that is authenticated using the target resource (where the
+   * model will be copied to) credentials, and the output can be passed as the `target` parameter to the
+   * `beginCopyModel` method of a source client.
+   *
+   * The required `resourceId` and `resourceRegion` are properties of an Azure Form Recognizer resource and their values can be found in the Azure Portal.
    *
    * @param {string} resourceId Id of the Azure Form Recognizer resource where a custom model will be copied to
-   * @param {string} resourceRegion Location of the Azure Form Recognizer resource
+   * @param {string} resourceRegion Location of the Azure Form Recognizer resource, must be a valid region name supported by Azure Cognitive Services. See https://aka.ms/azsdk/cognitiveservices/regionalavailability for information about the regional availability of Azure Cognitive Services.
    * @param {GetCopyAuthorizationOptions} [options={}] Options to get copy authorization operation
    * @returns {Promise<CopyAuthorization>} The authorization to copy a custom model
    */
@@ -533,14 +539,15 @@ export class FormTrainingClient {
     );
 
     try {
-      const response = await this.client.generateModelCopyAuthorization(
+      const response = (await this.client.generateModelCopyAuthorization(
         operationOptionsToRequestOptionsBase(finalOptions)
-      );
+      )) as CopyAuthorizationResult;
       return {
         resourceId: resourceId,
         resourceRegion: resourceRegion,
         expiresOn: new Date(response.expirationDateTimeTicks * 1000), // Convert to ms
-        ...(response as CopyAuthorizationResultModel)
+        modelId: response.modelId,
+        accessToken: response.accessToken
       };
     } catch (e) {
       span.setStatus({
@@ -619,7 +626,11 @@ export class FormTrainingClient {
         {
           targetResourceId: copyAuthorization.resourceId,
           targetResourceRegion: copyAuthorization.resourceRegion,
-          copyAuthorization: copyAuthorization
+          copyAuthorization: {
+            modelId: copyAuthorization.modelId,
+            accessToken: copyAuthorization.accessToken,
+            expirationDateTimeTicks: copyAuthorization.expiresOn.getTime() / 1000
+          }
         },
         operationOptionsToRequestOptionsBase(finalOptions)
       );
@@ -666,6 +677,7 @@ export class FormTrainingClient {
  * @private
  */
 async function trainCustomModelInternal(
+  // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
   client: GeneratedClient,
   source: string,
   useLabelFile?: boolean,
@@ -678,16 +690,15 @@ async function trainCustomModelInternal(
   );
 
   try {
-    const requestBody = {
-      source: source,
-      sourceFilter: {
-        prefix: realOptions.prefix,
-        includeSubFolders: realOptions.includeSubFolders
-      },
-      useLabelFile
-    };
     return await client.trainCustomModelAsync(
-      requestBody,
+      {
+        source: source,
+        sourceFilter: {
+          prefix: realOptions.prefix,
+          includeSubfolders: realOptions.includeSubfolders
+        },
+        useLabelFile
+      },
       operationOptionsToRequestOptionsBase(finalOptions)
     );
   } catch (e) {

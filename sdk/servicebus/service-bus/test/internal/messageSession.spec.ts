@@ -4,17 +4,18 @@
 import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
 import { MessageSession } from "../../src/session/messageSession";
-import { createClientEntityContextForTests, defer } from "./unittestUtils";
+import { createConnectionContextForTests, defer } from "./unittestUtils";
 import sinon from "sinon";
 import { EventEmitter } from "events";
 import {
   ReceiverEvents,
   Receiver as RheaReceiver,
   EventContext,
-  Message as RheaMessage
+  Message as RheaMessage,
+  SessionEvents
 } from "rhea-promise";
 import { OnAmqpEventAsPromise } from "../../src/core/messageReceiver";
-import { ServiceBusMessageImpl, ReceiveMode } from "../../src/serviceBusMessage";
+import { ServiceBusMessageImpl, InternalReceiveMode } from "../../src/serviceBusMessage";
 
 chai.use(chaiAsPromised);
 const assert = chai.assert;
@@ -31,8 +32,8 @@ describe("Message session unit tests", () => {
       clock.restore();
     });
 
-    [ReceiveMode.peekLock, ReceiveMode.receiveAndDelete].forEach((lockMode) => {
-      describe(`${ReceiveMode[lockMode]} receive, exit paths`, () => {
+    [InternalReceiveMode.peekLock, InternalReceiveMode.receiveAndDelete].forEach((lockMode) => {
+      describe(`${InternalReceiveMode[lockMode]} receive, exit paths`, () => {
         const bigTimeout = 60 * 1000;
         const littleTimeout = 30 * 1000;
         let clock: ReturnType<typeof sinon.useFakeTimers>;
@@ -46,9 +47,13 @@ describe("Message session unit tests", () => {
         });
 
         it("1. We received 'max messages'", async () => {
-          const receiver = new MessageSession(createClientEntityContextForTests(), {
-            receiveMode: lockMode
-          });
+          const receiver = new MessageSession(
+            createConnectionContextForTests(),
+            "dummyEntityPath",
+            {
+              receiveMode: lockMode
+            }
+          );
 
           const { receiveIsReady, emitter } = setupFakeReceiver(receiver as any);
 
@@ -70,18 +75,23 @@ describe("Message session unit tests", () => {
         // in the new world the overall timeout firing means we've received _no_ messages
         // because otherwise it'd be one of the others.
         it("2. We've waited 'max wait time'", async () => {
-          const receiver = new MessageSession(createClientEntityContextForTests(), {
-            receiveMode: lockMode
-          });
+          const receiver = new MessageSession(
+            createConnectionContextForTests(),
+            "dummyEntityPath",
+            {
+              receiveMode: lockMode
+            }
+          );
 
           const { receiveIsReady } = setupFakeReceiver(receiver);
 
           const receivePromise = receiver.receiveMessages(1, littleTimeout, bigTimeout);
 
+          await receiveIsReady;
+
           // force the overall timeout to fire
           clock.tick(littleTimeout);
 
-          await receiveIsReady;
           const messages = await receivePromise;
           assert.isEmpty(messages);
         }).timeout(5 * 1000);
@@ -90,12 +100,16 @@ describe("Message session unit tests", () => {
         // too aggressive about returning early. In that case we just revert to using the older behavior of waiting for
         // the duration of time given (or max messages) with no idle timer.
         // When we eliminate that bug we can remove this check.
-        (lockMode === ReceiveMode.peekLock ? it : it.skip)(
+        (lockMode === InternalReceiveMode.peekLock ? it : it.skip)(
           `3a. (with idle timeout) We've received 1 message and _now_ have exceeded 'max wait time past first message'`,
           async () => {
-            const receiver = new MessageSession(createClientEntityContextForTests(), {
-              receiveMode: lockMode
-            });
+            const receiver = new MessageSession(
+              createConnectionContextForTests(),
+              "dummyEntityPath",
+              {
+                receiveMode: lockMode
+              }
+            );
 
             const { receiveIsReady, emitter } = setupFakeReceiver(receiver);
 
@@ -132,12 +146,16 @@ describe("Message session unit tests", () => {
         // too aggressive about returning early. In that case we just revert to using the older behavior of waiting for
         // the duration of time given (or max messages) with no idle timer.
         // When we eliminate that bug we can remove this test in favor of the idle timeout test above.
-        (lockMode === ReceiveMode.receiveAndDelete ? it : it.skip)(
+        (lockMode === InternalReceiveMode.receiveAndDelete ? it : it.skip)(
           `3b. (without idle timeout)`,
           async () => {
-            const receiver = new MessageSession(createClientEntityContextForTests(), {
-              receiveMode: lockMode
-            });
+            const receiver = new MessageSession(
+              createConnectionContextForTests(),
+              "dummyEntityPath",
+              {
+                receiveMode: lockMode
+              }
+            );
 
             const { receiveIsReady, emitter } = setupFakeReceiver(receiver);
 
@@ -179,12 +197,16 @@ describe("Message session unit tests", () => {
         // too aggressive about returning early. In that case we just revert to using the older behavior of waiting for
         // the duration of time given (or max messages) with no idle timer.
         // When we eliminate that bug we can enable this test for all modes.
-        (lockMode === ReceiveMode.peekLock ? it : it.skip)(
+        (lockMode === InternalReceiveMode.peekLock ? it : it.skip)(
           "4. sanity check that we're using getRemainingWaitTimeInMs",
           async () => {
-            const receiver = new MessageSession(createClientEntityContextForTests(), {
-              receiveMode: lockMode
-            });
+            const receiver = new MessageSession(
+              createConnectionContextForTests(),
+              "dummyEntityPath",
+              {
+                receiveMode: lockMode
+              }
+            );
 
             const { receiveIsReady, emitter } = setupFakeReceiver(receiver);
 
@@ -192,7 +214,7 @@ describe("Message session unit tests", () => {
 
             const arbitraryAmountOfTimeInMs = 40;
 
-            receiver["_getRemainingWaitTimeInMsFn"] = (
+            receiver["_batchingReceiverLite"]["_getRemainingWaitTimeInMsFn"] = (
               maxWaitTimeInMs: number,
               maxTimeAfterFirstMessageMs: number
             ) => {
@@ -232,31 +254,50 @@ describe("Message session unit tests", () => {
     });
 
     function setupFakeReceiver(
-      messageSession: MessageSession
+      batchingReceiver: MessageSession
     ): {
       receiveIsReady: Promise<void>;
       emitter: EventEmitter;
+      remainingRegisteredListeners: Set<string>;
     } {
       const emitter = new EventEmitter();
       const { promise: receiveIsReady, resolve: resolvePromiseIsReady } = defer<void>();
       let credits = 0;
 
+      const remainingRegisteredListeners = new Set<string>();
+
       const fakeRheaReceiver = {
         on(evt: ReceiverEvents, handler: OnAmqpEventAsPromise) {
           emitter.on(evt, handler);
 
-          if (evt === ReceiverEvents.receiverDrained) {
-            // this also happens to be the final thing the Promise does
-            // as part of it's initialization.
-            resolvePromiseIsReady();
-          }
-
           if (evt === ReceiverEvents.message) {
             --credits;
           }
+
+          assert.isFalse(remainingRegisteredListeners.has(evt.toString()));
+          remainingRegisteredListeners.add(evt.toString());
         },
         removeListener(evt: ReceiverEvents, handler: OnAmqpEventAsPromise) {
+          remainingRegisteredListeners.delete(evt.toString());
           emitter.removeListener(evt, handler);
+        },
+        session: {
+          on(evt: SessionEvents, handler: OnAmqpEventAsPromise) {
+            emitter.on(evt, handler);
+
+            if (evt === SessionEvents.sessionClose) {
+              // this also happens to be the final thing the Promise does
+              // as part of it's initialization.
+              resolvePromiseIsReady();
+            }
+
+            assert.isFalse(remainingRegisteredListeners.has(evt.toString()));
+            remainingRegisteredListeners.add(evt.toString());
+          },
+          removeListener(evt: SessionEvents, handler: OnAmqpEventAsPromise) {
+            remainingRegisteredListeners.delete(evt.toString());
+            emitter.removeListener(evt, handler);
+          }
         },
         isOpen: () => true,
         addCredit: (_credits: number) => {
@@ -269,12 +310,15 @@ describe("Message session unit tests", () => {
         },
         get credit() {
           return credits;
+        },
+        connection: {
+          id: "connection-id"
         }
       } as RheaReceiver;
 
-      messageSession["_receiver"] = fakeRheaReceiver;
+      batchingReceiver["_link"] = fakeRheaReceiver;
 
-      messageSession["_getServiceBusMessage"] = (eventContext) => {
+      batchingReceiver["_batchingReceiverLite"]["_createServiceBusMessage"] = (eventContext) => {
         return {
           body: eventContext.message?.body
         } as ServiceBusMessageImpl;
@@ -282,7 +326,8 @@ describe("Message session unit tests", () => {
 
       return {
         receiveIsReady,
-        emitter
+        emitter,
+        remainingRegisteredListeners
       };
     }
   });

@@ -55,6 +55,7 @@ export const Quota: msRest.CompositeMapper = {
         }
       },
       quotaEnabled: {
+        readOnly: true,
         serializedName: "quotaEnabled",
         type: {
           name: "String"
@@ -123,39 +124,81 @@ export const TrackedResource: msRest.CompositeMapper = {
   }
 };
 
-export const ApiErrorBase: msRest.CompositeMapper = {
-  serializedName: "ApiErrorBase",
+export const ErrorAdditionalInfo: msRest.CompositeMapper = {
+  serializedName: "ErrorAdditionalInfo",
   type: {
     name: "Composite",
-    className: "ApiErrorBase",
+    className: "ErrorAdditionalInfo",
     modelProperties: {
-      code: {
-        serializedName: "code",
+      type: {
+        readOnly: true,
+        serializedName: "type",
         type: {
           name: "String"
         }
       },
-      message: {
-        serializedName: "message",
+      info: {
+        readOnly: true,
+        serializedName: "info",
         type: {
-          name: "String"
+          name: "Object"
         }
       }
     }
   }
 };
 
-export const ApiError: msRest.CompositeMapper = {
-  serializedName: "ApiError",
+export const ErrorResponse: msRest.CompositeMapper = {
+  serializedName: "ErrorResponse",
   type: {
     name: "Composite",
-    className: "ApiError",
+    className: "ErrorResponse",
     modelProperties: {
-      error: {
-        serializedName: "error",
+      code: {
+        readOnly: true,
+        serializedName: "code",
         type: {
-          name: "Composite",
-          className: "ApiErrorBase"
+          name: "String"
+        }
+      },
+      message: {
+        readOnly: true,
+        serializedName: "message",
+        type: {
+          name: "String"
+        }
+      },
+      target: {
+        readOnly: true,
+        serializedName: "target",
+        type: {
+          name: "String"
+        }
+      },
+      details: {
+        readOnly: true,
+        serializedName: "details",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ErrorResponse"
+            }
+          }
+        }
+      },
+      additionalInfo: {
+        readOnly: true,
+        serializedName: "additionalInfo",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ErrorAdditionalInfo"
+            }
+          }
         }
       }
     }
@@ -231,22 +274,24 @@ export const ExpressRouteAuthorization: msRest.CompositeMapper = {
     name: "Composite",
     className: "ExpressRouteAuthorization",
     modelProperties: {
-      name: {
-        serializedName: "name",
+      ...Resource.type.modelProperties,
+      provisioningState: {
+        readOnly: true,
+        serializedName: "properties.provisioningState",
         type: {
           name: "String"
         }
       },
-      id: {
+      expressRouteAuthorizationId: {
         readOnly: true,
-        serializedName: "id",
+        serializedName: "properties.expressRouteAuthorizationId",
         type: {
           name: "String"
         }
       },
-      key: {
+      expressRouteAuthorizationKey: {
         readOnly: true,
-        serializedName: "key",
+        serializedName: "properties.expressRouteAuthorizationKey",
         type: {
           name: "String"
         }
@@ -282,18 +327,6 @@ export const Circuit: msRest.CompositeMapper = {
           name: "String"
         }
       },
-      authorizations: {
-        serializedName: "authorizations",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "ExpressRouteAuthorization"
-            }
-          }
-        }
-      },
       expressRoutePrivatePeeringID: {
         readOnly: true,
         serializedName: "expressRoutePrivatePeeringID",
@@ -321,6 +354,13 @@ export const Endpoints: msRest.CompositeMapper = {
       vcsa: {
         readOnly: true,
         serializedName: "vcsa",
+        type: {
+          name: "String"
+        }
+      },
+      hcxCloudManager: {
+        readOnly: true,
+        serializedName: "hcxCloudManager",
         type: {
           name: "String"
         }
@@ -416,21 +456,152 @@ export const Sku: msRest.CompositeMapper = {
   }
 };
 
-export const DefaultClusterProperties: msRest.CompositeMapper = {
-  serializedName: "DefaultClusterProperties",
+export const PrivateCloud: msRest.CompositeMapper = {
+  serializedName: "PrivateCloud",
   type: {
     name: "Composite",
-    className: "DefaultClusterProperties",
+    className: "PrivateCloud",
     modelProperties: {
-      clusterId: {
+      ...TrackedResource.type.modelProperties,
+      sku: {
+        required: true,
+        serializedName: "sku",
+        type: {
+          name: "Composite",
+          className: "Sku"
+        }
+      },
+      managementCluster: {
+        serializedName: "properties.managementCluster",
+        type: {
+          name: "Composite",
+          className: "ManagementCluster"
+        }
+      },
+      internet: {
+        serializedName: "properties.internet",
+        type: {
+          name: "String"
+        }
+      },
+      identitySources: {
+        serializedName: "properties.identitySources",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "IdentitySource"
+            }
+          }
+        }
+      },
+      provisioningState: {
         readOnly: true,
-        serializedName: "clusterId",
+        serializedName: "properties.provisioningState",
+        type: {
+          name: "String"
+        }
+      },
+      circuit: {
+        serializedName: "properties.circuit",
+        type: {
+          name: "Composite",
+          className: "Circuit"
+        }
+      },
+      endpoints: {
+        readOnly: true,
+        serializedName: "properties.endpoints",
+        type: {
+          name: "Composite",
+          className: "Endpoints"
+        }
+      },
+      networkBlock: {
+        required: true,
+        serializedName: "properties.networkBlock",
+        type: {
+          name: "String"
+        }
+      },
+      managementNetwork: {
+        readOnly: true,
+        serializedName: "properties.managementNetwork",
+        type: {
+          name: "String"
+        }
+      },
+      provisioningNetwork: {
+        readOnly: true,
+        serializedName: "properties.provisioningNetwork",
+        type: {
+          name: "String"
+        }
+      },
+      vmotionNetwork: {
+        readOnly: true,
+        serializedName: "properties.vmotionNetwork",
+        type: {
+          name: "String"
+        }
+      },
+      vcenterPassword: {
+        serializedName: "properties.vcenterPassword",
+        type: {
+          name: "String"
+        }
+      },
+      nsxtPassword: {
+        serializedName: "properties.nsxtPassword",
+        type: {
+          name: "String"
+        }
+      },
+      vcenterCertificateThumbprint: {
+        readOnly: true,
+        serializedName: "properties.vcenterCertificateThumbprint",
+        type: {
+          name: "String"
+        }
+      },
+      nsxtCertificateThumbprint: {
+        readOnly: true,
+        serializedName: "properties.nsxtCertificateThumbprint",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ClusterUpdateProperties: msRest.CompositeMapper = {
+  serializedName: "ClusterUpdateProperties",
+  type: {
+    name: "Composite",
+    className: "ClusterUpdateProperties",
+    modelProperties: {
+      clusterSize: {
+        serializedName: "clusterSize",
         type: {
           name: "Number"
         }
-      },
-      clusterSize: {
-        serializedName: "clusterSize",
+      }
+    }
+  }
+};
+
+export const ManagementCluster: msRest.CompositeMapper = {
+  serializedName: "ManagementCluster",
+  type: {
+    name: "Composite",
+    className: "ManagementCluster",
+    modelProperties: {
+      ...ClusterUpdateProperties.type.modelProperties,
+      clusterId: {
+        readOnly: true,
+        serializedName: "clusterId",
         type: {
           name: "Number"
         }
@@ -451,61 +622,38 @@ export const DefaultClusterProperties: msRest.CompositeMapper = {
   }
 };
 
-export const PrivateCloudProperties: msRest.CompositeMapper = {
-  serializedName: "PrivateCloudProperties",
+export const PrivateCloudUpdate: msRest.CompositeMapper = {
+  serializedName: "PrivateCloudUpdate",
   type: {
     name: "Composite",
-    className: "PrivateCloudProperties",
+    className: "PrivateCloudUpdate",
     modelProperties: {
-      provisioningState: {
-        readOnly: true,
-        serializedName: "provisioningState",
+      tags: {
+        serializedName: "tags",
         type: {
-          name: "String"
-        }
-      },
-      circuit: {
-        serializedName: "circuit",
-        type: {
-          name: "Composite",
-          className: "Circuit"
-        }
-      },
-      cluster: {
-        serializedName: "cluster",
-        type: {
-          name: "Composite",
-          className: "DefaultClusterProperties"
-        }
-      },
-      clusters: {
-        readOnly: true,
-        serializedName: "clusters",
-        type: {
-          name: "Sequence",
-          element: {
+          name: "Dictionary",
+          value: {
             type: {
               name: "String"
             }
           }
         }
       },
-      endpoints: {
-        readOnly: true,
-        serializedName: "endpoints",
+      managementCluster: {
+        serializedName: "properties.managementCluster",
         type: {
           name: "Composite",
-          className: "Endpoints"
+          className: "ManagementCluster"
         }
       },
       internet: {
-        serializedName: "internet",
+        serializedName: "properties.internet",
         type: {
           name: "String"
         }
       },
       identitySources: {
-        serializedName: "identitySources",
+        serializedName: "properties.identitySources",
         type: {
           name: "Sequence",
           element: {
@@ -514,102 +662,6 @@ export const PrivateCloudProperties: msRest.CompositeMapper = {
               className: "IdentitySource"
             }
           }
-        }
-      },
-      networkBlock: {
-        serializedName: "networkBlock",
-        type: {
-          name: "String"
-        }
-      },
-      managementNetwork: {
-        readOnly: true,
-        serializedName: "managementNetwork",
-        type: {
-          name: "String"
-        }
-      },
-      provisioningNetwork: {
-        readOnly: true,
-        serializedName: "provisioningNetwork",
-        type: {
-          name: "String"
-        }
-      },
-      vmotionNetwork: {
-        readOnly: true,
-        serializedName: "vmotionNetwork",
-        type: {
-          name: "String"
-        }
-      },
-      vcenterPassword: {
-        serializedName: "vcenterPassword",
-        type: {
-          name: "String"
-        }
-      },
-      nsxtPassword: {
-        serializedName: "nsxtPassword",
-        type: {
-          name: "String"
-        }
-      },
-      vcenterCertificateThumbprint: {
-        readOnly: true,
-        serializedName: "vcenterCertificateThumbprint",
-        type: {
-          name: "String"
-        }
-      },
-      nsxtCertificateThumbprint: {
-        readOnly: true,
-        serializedName: "nsxtCertificateThumbprint",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const PrivateCloud: msRest.CompositeMapper = {
-  serializedName: "PrivateCloud",
-  type: {
-    name: "Composite",
-    className: "PrivateCloud",
-    modelProperties: {
-      ...TrackedResource.type.modelProperties,
-      sku: {
-        serializedName: "sku",
-        type: {
-          name: "Composite",
-          className: "Sku"
-        }
-      },
-      properties: {
-        serializedName: "properties",
-        type: {
-          name: "Composite",
-          className: "PrivateCloudProperties"
-        }
-      }
-    }
-  }
-};
-
-export const ClusterProperties: msRest.CompositeMapper = {
-  serializedName: "ClusterProperties",
-  type: {
-    name: "Composite",
-    className: "ClusterProperties",
-    modelProperties: {
-      ...DefaultClusterProperties.type.modelProperties,
-      provisioningState: {
-        readOnly: true,
-        serializedName: "provisioningState",
-        type: {
-          name: "String"
         }
       }
     }
@@ -623,11 +675,60 @@ export const Cluster: msRest.CompositeMapper = {
     className: "Cluster",
     modelProperties: {
       ...Resource.type.modelProperties,
-      properties: {
-        serializedName: "properties",
+      sku: {
+        required: true,
+        serializedName: "sku",
         type: {
           name: "Composite",
-          className: "ClusterProperties"
+          className: "Sku"
+        }
+      },
+      clusterSize: {
+        serializedName: "properties.clusterSize",
+        type: {
+          name: "Number"
+        }
+      },
+      clusterId: {
+        readOnly: true,
+        serializedName: "properties.clusterId",
+        type: {
+          name: "Number"
+        }
+      },
+      hosts: {
+        readOnly: true,
+        serializedName: "properties.hosts",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      provisioningState: {
+        readOnly: true,
+        serializedName: "properties.provisioningState",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ClusterUpdate: msRest.CompositeMapper = {
+  serializedName: "ClusterUpdate",
+  type: {
+    name: "Composite",
+    className: "ClusterUpdate",
+    modelProperties: {
+      clusterSize: {
+        serializedName: "properties.clusterSize",
+        type: {
+          name: "Number"
         }
       }
     }
@@ -664,6 +765,31 @@ export const AdminCredentials: msRest.CompositeMapper = {
       vcenterPassword: {
         readOnly: true,
         serializedName: "vcenterPassword",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const HcxEnterpriseSite: msRest.CompositeMapper = {
+  serializedName: "HcxEnterpriseSite",
+  type: {
+    name: "Composite",
+    className: "HcxEnterpriseSite",
+    modelProperties: {
+      ...Resource.type.modelProperties,
+      activationKey: {
+        readOnly: true,
+        serializedName: "properties.activationKey",
+        type: {
+          name: "String"
+        }
+      },
+      status: {
+        readOnly: true,
+        serializedName: "properties.status",
         type: {
           name: "String"
         }
@@ -747,6 +873,66 @@ export const ClusterList: msRest.CompositeMapper = {
             type: {
               name: "Composite",
               className: "Cluster"
+            }
+          }
+        }
+      },
+      nextLink: {
+        readOnly: true,
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const HcxEnterpriseSiteList: msRest.CompositeMapper = {
+  serializedName: "HcxEnterpriseSiteList",
+  type: {
+    name: "Composite",
+    className: "HcxEnterpriseSiteList",
+    modelProperties: {
+      value: {
+        readOnly: true,
+        serializedName: "",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "HcxEnterpriseSite"
+            }
+          }
+        }
+      },
+      nextLink: {
+        readOnly: true,
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ExpressRouteAuthorizationList: msRest.CompositeMapper = {
+  serializedName: "ExpressRouteAuthorizationList",
+  type: {
+    name: "Composite",
+    className: "ExpressRouteAuthorizationList",
+    modelProperties: {
+      value: {
+        readOnly: true,
+        serializedName: "",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ExpressRouteAuthorization"
             }
           }
         }

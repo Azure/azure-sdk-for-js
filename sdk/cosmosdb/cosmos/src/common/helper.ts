@@ -24,7 +24,7 @@ export function parseLink(resourcePath: string) {
     /* for DatabaseAccount case, both type and objectBody will be undefined. */
     return {
       type: undefined,
-      objectBody: undefined,
+      objectBody: undefined
     };
   }
 
@@ -64,8 +64,8 @@ export function parseLink(resourcePath: string) {
     type,
     objectBody: {
       id,
-      self: resourcePath,
-    },
+      self: resourcePath
+    }
   };
 
   return result;
@@ -93,7 +93,10 @@ export function sleep(time: number): Promise<void> {
  * @ignore
  */
 export function getContainerLink(link: string) {
-  return link.split("/").slice(0, 4).join("/");
+  return link
+    .split("/")
+    .slice(0, 4)
+    .join("/");
 }
 
 /**
@@ -308,7 +311,7 @@ export function parseConnectionString(connectionString: string): CosmosClientOpt
   }
   return {
     endpoint: AccountEndpoint,
-    key: AccountKey,
+    key: AccountKey
   };
 }
 

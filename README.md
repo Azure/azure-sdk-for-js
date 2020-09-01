@@ -33,7 +33,7 @@ Libraries which enable you to provision specific resources. They are responsible
 ## Need help?
 
 - For detailed documentation visit our [Azure SDK for JavaScript documentation](https://aka.ms/js-docs)
-- File an issue via [Github Issues](https://github.com/Azure/azure-sdk-for-js/issues)
+- File an issue via [GitHub Issues](https://github.com/Azure/azure-sdk-for-js/issues)
 - Check [previous questions](https://stackoverflow.com/questions/tagged/azure-sdk-js) or ask new ones on StackOverflow using `azure-sdk-js` tag.
 
 ### Reporting security issues and security bugs
