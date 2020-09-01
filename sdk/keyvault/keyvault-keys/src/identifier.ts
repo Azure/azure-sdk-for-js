@@ -8,7 +8,10 @@ import { parseKeyvaultIdentifier } from "./generated/utils";
  */
 export interface KeyVaultKeyId {
   /**
-   * The source ID that was parsed.
+   * The complete representation of the Key Vault Key Id. An example could be:
+   *
+   *   https://<keyvault-name>.vault.azure.net/keys/<key-name>/<unique-version-id>
+   *
    */
   sourceId: string;
 
