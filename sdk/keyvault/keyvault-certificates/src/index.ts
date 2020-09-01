@@ -178,7 +178,7 @@ export {
   CertificateTags,
   CreateCertificateOptions,
   CertificatePollerOptions,
-  KeyVaultCertificateId as ParsedCertificateId,
+  KeyVaultCertificateId,
   PollerLike,
   CreateCertificateState,
   DeleteCertificateState,
