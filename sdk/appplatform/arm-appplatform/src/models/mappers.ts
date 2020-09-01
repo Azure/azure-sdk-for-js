@@ -1181,6 +1181,12 @@ export const DeploymentSettings: msRest.CompositeMapper = {
           name: "String"
         }
       },
+      netCoreMainEntryPath: {
+        serializedName: "netCoreMainEntryPath",
+        type: {
+          name: "String"
+        }
+      },
       environmentVariables: {
         serializedName: "environmentVariables",
         type: {
@@ -1232,6 +1238,13 @@ export const DeploymentInstance: msRest.CompositeMapper = {
       discoveryStatus: {
         readOnly: true,
         serializedName: "discoveryStatus",
+        type: {
+          name: "String"
+        }
+      },
+      startTime: {
+        readOnly: true,
+        serializedName: "startTime",
         type: {
           name: "String"
         }
@@ -1880,6 +1893,57 @@ export const ResourceSku: msRest.CompositeMapper = {
             type: {
               name: "Composite",
               className: "ResourceSkuRestrictions"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const SupportedRuntimeVersion1: msRest.CompositeMapper = {
+  serializedName: "SupportedRuntimeVersion",
+  type: {
+    name: "Composite",
+    className: "SupportedRuntimeVersion1",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "String"
+        }
+      },
+      platform: {
+        serializedName: "platform",
+        type: {
+          name: "String"
+        }
+      },
+      version: {
+        serializedName: "version",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AvailableRuntimeVersions: msRest.CompositeMapper = {
+  serializedName: "AvailableRuntimeVersions",
+  type: {
+    name: "Composite",
+    className: "AvailableRuntimeVersions",
+    modelProperties: {
+      value: {
+        readOnly: true,
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "SupportedRuntimeVersion1"
             }
           }
         }

@@ -693,7 +693,7 @@ export interface CustomDomainValidateResult {
  */
 export interface UserSourceInfo {
   /**
-   * Type of the source uploaded. Possible values include: 'Jar', 'Source'
+   * Type of the source uploaded. Possible values include: 'Jar', 'NetCoreZip', 'Source'
    */
   type?: UserSourceType;
   /**
@@ -731,11 +731,15 @@ export interface DeploymentSettings {
    */
   jvmOptions?: string;
   /**
+   * The path to the .NET executable relative to zip root
+   */
+  netCoreMainEntryPath?: string;
+  /**
    * Collection of environment variables
    */
   environmentVariables?: { [propertyName: string]: string };
   /**
-   * Runtime version. Possible values include: 'Java_8', 'Java_11'
+   * Runtime version. Possible values include: 'Java_8', 'Java_11', 'NetCore_31'
    */
   runtimeVersion?: RuntimeVersion;
 }
@@ -764,6 +768,11 @@ export interface DeploymentInstance {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly discoveryStatus?: string;
+  /**
+   * Start time of the deployment instance
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly startTime?: string;
 }
 
 /**
@@ -1132,6 +1141,37 @@ export interface ResourceSku {
 }
 
 /**
+ * Supported deployment runtime version descriptor.
+ */
+export interface SupportedRuntimeVersion1 {
+  /**
+   * The raw value which could be passed to deployment CRUD operations. Possible values include:
+   * 'Java_8', 'Java_11', 'NetCore_31'
+   */
+  value?: SupportedRuntimeVersion;
+  /**
+   * The platform of this runtime version (possible values: "Java" or ".NET"). Possible values
+   * include: 'Java', '.NET Core'
+   */
+  platform?: SupportedRuntimePlatform;
+  /**
+   * The detailed version (major.minor) of the platform.
+   */
+  version?: string;
+}
+
+/**
+ * An interface representing AvailableRuntimeVersions.
+ */
+export interface AvailableRuntimeVersions {
+  /**
+   * A list of all supported runtime versions.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly value?: SupportedRuntimeVersion1[];
+}
+
+/**
  * Optional Parameters.
  */
 export interface AppsGetOptionalParams extends msRest.RequestOptionsBase {
@@ -1321,19 +1361,19 @@ export type AppResourceProvisioningState = 'Succeeded' | 'Failed' | 'Creating' |
 
 /**
  * Defines values for UserSourceType.
- * Possible values include: 'Jar', 'Source'
+ * Possible values include: 'Jar', 'NetCoreZip', 'Source'
  * @readonly
  * @enum {string}
  */
-export type UserSourceType = 'Jar' | 'Source';
+export type UserSourceType = 'Jar' | 'NetCoreZip' | 'Source';
 
 /**
  * Defines values for RuntimeVersion.
- * Possible values include: 'Java_8', 'Java_11'
+ * Possible values include: 'Java_8', 'Java_11', 'NetCore_31'
  * @readonly
  * @enum {string}
  */
-export type RuntimeVersion = 'Java_8' | 'Java_11';
+export type RuntimeVersion = 'Java_8' | 'Java_11' | 'NetCore_31';
 
 /**
  * Defines values for DeploymentResourceProvisioningState.
@@ -1375,6 +1415,22 @@ export type ResourceSkuRestrictionsType = 'Location' | 'Zone';
  * @enum {string}
  */
 export type ResourceSkuRestrictionsReasonCode = 'QuotaId' | 'NotAvailableForSubscription';
+
+/**
+ * Defines values for SupportedRuntimeVersion.
+ * Possible values include: 'Java_8', 'Java_11', 'NetCore_31'
+ * @readonly
+ * @enum {string}
+ */
+export type SupportedRuntimeVersion = 'Java_8' | 'Java_11' | 'NetCore_31';
+
+/**
+ * Defines values for SupportedRuntimePlatform.
+ * Possible values include: 'Java', '.NET Core'
+ * @readonly
+ * @enum {string}
+ */
+export type SupportedRuntimePlatform = 'Java' | '.NET Core';
 
 /**
  * Contains response data for the get operation.
@@ -2633,6 +2689,26 @@ export type OperationsListNextResponse = AvailableOperations & {
        * The response body as parsed JSON or XML
        */
       parsedBody: AvailableOperations;
+    };
+};
+
+/**
+ * Contains response data for the listRuntimeVersions operation.
+ */
+export type RuntimeVersionsListRuntimeVersionsResponse = AvailableRuntimeVersions & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: AvailableRuntimeVersions;
     };
 };
 

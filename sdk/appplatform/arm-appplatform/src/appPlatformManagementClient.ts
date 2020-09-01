@@ -26,6 +26,7 @@ class AppPlatformManagementClient extends AppPlatformManagementClientContext {
   customDomains: operations.CustomDomains;
   deployments: operations.Deployments;
   operations: operations.Operations;
+  runtimeVersions: operations.RuntimeVersions;
   skus: operations.Skus;
 
   /**
@@ -46,6 +47,7 @@ class AppPlatformManagementClient extends AppPlatformManagementClientContext {
     this.customDomains = new operations.CustomDomains(this);
     this.deployments = new operations.Deployments(this);
     this.operations = new operations.Operations(this);
+    this.runtimeVersions = new operations.RuntimeVersions(this);
     this.skus = new operations.Skus(this);
   }
 }
