@@ -183,8 +183,7 @@ export const TextAnalyticsWarning: coreHttp.CompositeMapper = {
         serializedName: "code",
         required: true,
         type: {
-          name: "Enum",
-          allowedValues: ["LongWordsInDocument", "DocumentTruncated"]
+          name: "String"
         }
       },
       message: {
@@ -253,13 +252,7 @@ export const TextAnalyticsError: coreHttp.CompositeMapper = {
         serializedName: "code",
         required: true,
         type: {
-          name: "Enum",
-          allowedValues: [
-            "InvalidRequest",
-            "InvalidArgument",
-            "InternalServerError",
-            "ServiceUnavailable"
-          ]
+          name: "String"
         }
       },
       message: {
@@ -304,18 +297,7 @@ export const InnerError: coreHttp.CompositeMapper = {
         serializedName: "code",
         required: true,
         type: {
-          name: "Enum",
-          allowedValues: [
-            "InvalidParameterValue",
-            "InvalidRequestBodyFormat",
-            "EmptyRequest",
-            "MissingInputRecords",
-            "InvalidDocument",
-            "ModelVersionIncorrect",
-            "InvalidDocumentBatch",
-            "UnsupportedLanguageCode",
-            "InvalidCountryHint"
-          ]
+          name: "String"
         }
       },
       message: {
@@ -380,6 +362,22 @@ export const TextDocumentBatchStatistics: coreHttp.CompositeMapper = {
         required: true,
         type: {
           name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const ErrorResponse: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "ErrorResponse",
+    modelProperties: {
+      error: {
+        serializedName: "error",
+        type: {
+          name: "Composite",
+          className: "TextAnalyticsError"
         }
       }
     }
@@ -966,7 +964,8 @@ export const SentenceAspect: coreHttp.CompositeMapper = {
         serializedName: "sentiment",
         required: true,
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: ["positive", "mixed", "negative"]
         }
       },
       confidenceScores: {
@@ -1027,7 +1026,8 @@ export const AspectRelation: coreHttp.CompositeMapper = {
         serializedName: "relationType",
         required: true,
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: ["opinion", "aspect"]
         }
       },
       ref: {
@@ -1050,7 +1050,8 @@ export const SentenceOpinion: coreHttp.CompositeMapper = {
         serializedName: "sentiment",
         required: true,
         type: {
-          name: "String"
+          name: "Enum",
+          allowedValues: ["positive", "mixed", "negative"]
         }
       },
       confidenceScores: {

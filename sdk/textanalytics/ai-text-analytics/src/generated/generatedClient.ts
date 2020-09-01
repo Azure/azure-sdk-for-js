@@ -107,8 +107,7 @@ class GeneratedClient extends GeneratedClientContext {
    * The API returns a list of strings denoting the key phrases in the input text. See the <a
    * href="https://aka.ms/talangs">Supported languages in Text Analytics API</a> for the list of enabled
    * languages.
-   * @param input Collection of documents to analyze. Documents can now contain a language field to
-   *              indicate the text language
+   * @param input Collection of documents to analyze.
    * @param options The options parameters.
    */
   keyPhrases(
@@ -129,7 +128,7 @@ class GeneratedClient extends GeneratedClientContext {
    * indicate 100% certainty that the identified language is true. See the <a
    * href="https://aka.ms/talangs">Supported languages in Text Analytics API</a> for the list of enabled
    * languages.
-   * @param input Collection of documents to analyze.
+   * @param input Collection of documents to analyze for language endpoint.
    * @param options The options parameters.
    */
   languages(
@@ -177,11 +176,15 @@ const entitiesRecognitionGeneralOperationSpec: coreHttp.OperationSpec = {
       bodyMapper: Mappers.EntitiesResult
     },
     default: {
-      bodyMapper: Mappers.TextAnalyticsError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   requestBody: Parameters.input,
-  queryParameters: [Parameters.modelVersion, Parameters.includeStatistics],
+  queryParameters: [
+    Parameters.modelVersion,
+    Parameters.includeStatistics,
+    Parameters.stringIndexType
+  ],
   urlParameters: [Parameters.endpoint],
   headerParameters: [Parameters.contentType],
   mediaType: "json",
@@ -195,13 +198,14 @@ const entitiesRecognitionPiiOperationSpec: coreHttp.OperationSpec = {
       bodyMapper: Mappers.EntitiesResult
     },
     default: {
-      bodyMapper: Mappers.TextAnalyticsError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   requestBody: Parameters.input,
   queryParameters: [
     Parameters.modelVersion,
     Parameters.includeStatistics,
+    Parameters.stringIndexType,
     Parameters.domain
   ],
   urlParameters: [Parameters.endpoint],
@@ -217,11 +221,15 @@ const entitiesLinkingOperationSpec: coreHttp.OperationSpec = {
       bodyMapper: Mappers.EntityLinkingResult
     },
     default: {
-      bodyMapper: Mappers.TextAnalyticsError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   requestBody: Parameters.input,
-  queryParameters: [Parameters.modelVersion, Parameters.includeStatistics],
+  queryParameters: [
+    Parameters.modelVersion,
+    Parameters.includeStatistics,
+    Parameters.stringIndexType
+  ],
   urlParameters: [Parameters.endpoint],
   headerParameters: [Parameters.contentType],
   mediaType: "json",
@@ -235,7 +243,7 @@ const keyPhrasesOperationSpec: coreHttp.OperationSpec = {
       bodyMapper: Mappers.KeyPhraseResult
     },
     default: {
-      bodyMapper: Mappers.TextAnalyticsError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   requestBody: Parameters.input,
@@ -253,7 +261,7 @@ const languagesOperationSpec: coreHttp.OperationSpec = {
       bodyMapper: Mappers.LanguageResult
     },
     default: {
-      bodyMapper: Mappers.TextAnalyticsError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   requestBody: Parameters.input1,
@@ -271,13 +279,14 @@ const sentimentOperationSpec: coreHttp.OperationSpec = {
       bodyMapper: Mappers.SentimentResponse
     },
     default: {
-      bodyMapper: Mappers.TextAnalyticsError
+      bodyMapper: Mappers.ErrorResponse
     }
   },
   requestBody: Parameters.input,
   queryParameters: [
     Parameters.modelVersion,
     Parameters.includeStatistics,
+    Parameters.stringIndexType,
     Parameters.opinionMining
   ],
   urlParameters: [Parameters.endpoint],

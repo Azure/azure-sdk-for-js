@@ -203,6 +203,13 @@ export interface TextDocumentBatchStatistics {
   transactionCount: number;
 }
 
+export interface ErrorResponse {
+  /**
+   * Document Error.
+   */
+  error: TextAnalyticsError;
+}
+
 export interface EntityLinkingResult {
   /**
    * Response by document
@@ -480,7 +487,7 @@ export interface SentenceAspect {
   /**
    * Aspect level sentiment for the aspect in the sentence.
    */
-  sentiment: SentenceAspectSentiment;
+  sentiment: TokenSentimentValue;
   /**
    * Aspect level sentiment confidence scores for the aspect in the sentence.
    */
@@ -518,7 +525,7 @@ export interface SentenceOpinion {
   /**
    * Opinion level sentiment for the aspect in the sentence.
    */
-  sentiment: SentenceOpinionSentiment;
+  sentiment: TokenSentimentValue;
   /**
    * Opinion level sentiment confidence scores for the aspect in the sentence.
    */
@@ -534,17 +541,12 @@ export interface SentenceOpinion {
 }
 
 /**
- * Defines values for SentenceAspectSentiment.
+ * Defines values for StringIndexType.
  */
-export type SentenceAspectSentiment = "positive" | "mixed" | "negative";
-/**
- * Defines values for AspectRelationType.
- */
-export type AspectRelationType = "opinion" | "aspect";
-/**
- * Defines values for SentenceOpinionSentiment.
- */
-export type SentenceOpinionSentiment = "positive" | "mixed" | "negative";
+export type StringIndexType =
+  | "TextElements_v8"
+  | "UnicodeCodePoint"
+  | "Utf16CodeUnit";
 /**
  * Defines values for WarningCode.
  */
@@ -582,6 +584,14 @@ export type DocumentSentimentLabel =
  * Defines values for SentenceSentimentLabel.
  */
 export type SentenceSentimentLabel = "positive" | "neutral" | "negative";
+/**
+ * Defines values for TokenSentimentValue.
+ */
+export type TokenSentimentValue = "positive" | "mixed" | "negative";
+/**
+ * Defines values for AspectRelationType.
+ */
+export type AspectRelationType = "opinion" | "aspect";
 
 /**
  * Optional parameters.
@@ -593,9 +603,13 @@ export interface GeneratedClientEntitiesRecognitionGeneralOptionalParams
    */
   modelVersion?: string;
   /**
-   * (Optional) if set to true, response will contain input and document level statistics.
+   * (Optional) if set to true, response will contain request and document level statistics.
    */
   includeStatistics?: boolean;
+  /**
+   * (Optional) Specifies the method used to interpret string offsets.  Defaults to Text Elements (Graphemes) according to Unicode v8.0.0. For additional information see https://aka.ms/text-analytics-offsets
+   */
+  stringIndexType?: StringIndexType;
 }
 
 /**
@@ -628,9 +642,13 @@ export interface GeneratedClientEntitiesRecognitionPiiOptionalParams
    */
   modelVersion?: string;
   /**
-   * (Optional) if set to true, response will contain input and document level statistics.
+   * (Optional) if set to true, response will contain request and document level statistics.
    */
   includeStatistics?: boolean;
+  /**
+   * (Optional) Specifies the method used to interpret string offsets.  Defaults to Text Elements (Graphemes) according to Unicode v8.0.0. For additional information see https://aka.ms/text-analytics-offsets
+   */
+  stringIndexType?: StringIndexType;
   /**
    * (Optional) if set to 'PHI', response will contain only PHI entities.
    */
@@ -667,9 +685,13 @@ export interface GeneratedClientEntitiesLinkingOptionalParams
    */
   modelVersion?: string;
   /**
-   * (Optional) if set to true, response will contain input and document level statistics.
+   * (Optional) if set to true, response will contain request and document level statistics.
    */
   includeStatistics?: boolean;
+  /**
+   * (Optional) Specifies the method used to interpret string offsets.  Defaults to Text Elements (Graphemes) according to Unicode v8.0.0. For additional information see https://aka.ms/text-analytics-offsets
+   */
+  stringIndexType?: StringIndexType;
 }
 
 /**
@@ -702,7 +724,7 @@ export interface GeneratedClientKeyPhrasesOptionalParams
    */
   modelVersion?: string;
   /**
-   * (Optional) if set to true, response will contain input and document level statistics.
+   * (Optional) if set to true, response will contain request and document level statistics.
    */
   includeStatistics?: boolean;
 }
@@ -737,7 +759,7 @@ export interface GeneratedClientLanguagesOptionalParams
    */
   modelVersion?: string;
   /**
-   * (Optional) if set to true, response will contain input and document level statistics.
+   * (Optional) if set to true, response will contain request and document level statistics.
    */
   includeStatistics?: boolean;
 }
@@ -772,9 +794,13 @@ export interface GeneratedClientSentimentOptionalParams
    */
   modelVersion?: string;
   /**
-   * (Optional) if set to true, response will contain input and document level statistics.
+   * (Optional) if set to true, response will contain request and document level statistics.
    */
   includeStatistics?: boolean;
+  /**
+   * (Optional) Specifies the method used to interpret string offsets.  Defaults to Text Elements (Graphemes) according to Unicode v8.0.0. For additional information see https://aka.ms/text-analytics-offsets
+   */
+  stringIndexType?: StringIndexType;
   /**
    * (Optional) if set to true, response will contain input and document level statistics including aspect-based sentiment analysis results.
    */
