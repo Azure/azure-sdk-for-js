@@ -302,7 +302,7 @@ export class BufferScheduler {
    * than blockSize when data in unresolvedDataArray is less than bufferSize.
    *
    * @private
-   * @returns {ArrayBufferWithView}
+   * @returns {PooledBuffer}
    * @memberof BufferScheduler
    */
   private shiftBufferFromUnresolvedDataArray(buffer?: PooledBuffer): PooledBuffer {

@@ -105,6 +105,7 @@ export class PooledBuffer {
   /**
    * Fill the internal buffers with data in the input buffers serially
    * with respect to the total length and the total capacity of the internal buffers.
+   * Data copied will be shift out of the input buffers.
    *
    * @param {Buffer[]} buffers Input buffers containing the data to be filled in the pooled buffer
    * @param {number} totalLength Total length of the data to be filled in.
