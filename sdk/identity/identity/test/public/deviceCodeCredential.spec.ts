@@ -12,11 +12,25 @@ import {
   createDelayController,
   DelayController
 } from "../authTestUtils";
-import { AuthenticationError, OAuthErrorResponse } from "../../src/client/errors";
-import {
-  DeviceCodeCredential,
-  DeviceCodeResponse
-} from "../../src/credentials/deviceCodeCredential";
+import { AuthenticationError, DeviceCodeCredential } from "../../src";
+
+interface DeviceCodeResponse {
+  device_code: string;
+  user_code: string;
+  verification_uri: string;
+  expires_in: number;
+  interval: number;
+  message: string;
+}
+
+interface OAuthErrorResponse {
+  error: string;
+  error_description: string;
+  error_codes?: number[];
+  timestamp?: string;
+  trace_id?: string;
+  correlation_id?: string;
+}
 
 const deviceCodeResponse: DeviceCodeResponse = {
   interval: 1,
