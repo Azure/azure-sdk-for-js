@@ -4,7 +4,7 @@
 import Long from "long";
 import * as log from "./log";
 import { MessageSender } from "./core/messageSender";
-import { ServiceBusMessage, isServiceBusMessage } from "./serviceBusMessage";
+import { ServiceBusMessage, isServiceBusMessage, AmqpAnnotatedMessage, isAmqpAnnotatedMessage } from "./serviceBusMessage";
 import { ConnectionContext } from "./connectionContext";
 import {
   getSenderClosedErrorMsg,
@@ -47,7 +47,12 @@ export interface ServiceBusSender {
    * @throws MessagingError if the service returns an error while sending messages to the service.
    */
   sendMessages(
-    messages: ServiceBusMessage | ServiceBusMessage[] | ServiceBusMessageBatch,
+    messages:
+      | ServiceBusMessage
+      | ServiceBusMessage[]
+      | ServiceBusMessageBatch
+      | AmqpAnnotatedMessage
+      | AmqpAnnotatedMessage[],
     options?: OperationOptionsBase
   ): Promise<void>;
 
@@ -171,7 +176,12 @@ export class ServiceBusSenderImpl implements ServiceBusSender {
   }
 
   async sendMessages(
-    messages: ServiceBusMessage | ServiceBusMessage[] | ServiceBusMessageBatch,
+    messages:
+      | ServiceBusMessage
+      | ServiceBusMessage[]
+      | ServiceBusMessageBatch
+      | AmqpAnnotatedMessage
+      | AmqpAnnotatedMessage[],
     options?: OperationOptionsBase
   ): Promise<void> {
     this._throwIfSenderOrConnectionClosed();
@@ -183,7 +193,7 @@ export class ServiceBusSenderImpl implements ServiceBusSender {
       const batch = await this.createBatch(options);
 
       for (const message of messages) {
-        if (!isServiceBusMessage(message)) {
+        if (!isServiceBusMessage(message) && !isAmqpAnnotatedMessage(message)) {
           throw new TypeError(invalidTypeErrMsg);
         }
         if (!batch.tryAdd(message)) {
@@ -199,7 +209,7 @@ export class ServiceBusSenderImpl implements ServiceBusSender {
       return this._sender.sendBatch(batch, options);
     } else if (isServiceBusMessageBatch(messages)) {
       return this._sender.sendBatch(messages, options);
-    } else if (isServiceBusMessage(messages)) {
+    } else if (isServiceBusMessage(messages) || isAmqpAnnotatedMessage(messages)) {
       return this._sender.send(messages, options);
     }
     throw new TypeError(invalidTypeErrMsg);

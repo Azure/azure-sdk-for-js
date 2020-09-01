@@ -26,7 +26,9 @@ import {
 import {
   ServiceBusMessage,
   getMessagePropertyTypeMismatchError,
-  toAmqpMessage
+  toAmqpMessage,
+  AmqpAnnotatedMessage,
+  isAmqpAnnotatedMessage
 } from "../serviceBusMessage";
 import { ConnectionContext } from "../connectionContext";
 import { LinkEntity } from "./linkEntity";
@@ -357,11 +359,17 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
    * @param {ServiceBusMessage} data Message to send.  Will be sent as UTF8-encoded JSON string.
    * @returns {Promise<void>}
    */
-  async send(data: ServiceBusMessage, options?: OperationOptionsBase): Promise<void> {
+  async send(
+    data: ServiceBusMessage | AmqpAnnotatedMessage,
+    options?: OperationOptionsBase
+  ): Promise<void> {
     throwErrorIfConnectionClosed(this._context);
     try {
       const amqpMessage = toAmqpMessage(data);
-      amqpMessage.body = this._context.dataTransformer.encode(data.body);
+      amqpMessage.body = this._context.dataTransformer.encode(
+        data.body,
+        isAmqpAnnotatedMessage(data) ? data.bodyType : undefined
+      );
 
       // TODO: this body of logic is really similar to what's in sendMessages. Unify what we can.
       let encodedMessage;
@@ -406,7 +414,7 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
    * @return {Promise<void>}
    */
   async sendMessages(
-    inputMessages: ServiceBusMessage[],
+    inputMessages: ServiceBusMessage[] | AmqpAnnotatedMessage[],
     options?: OperationOptionsBase
   ): Promise<void> {
     throwErrorIfConnectionClosed(this._context);
@@ -424,14 +432,18 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
       const encodedMessages = [];
       // Convert Message to AmqpMessage.
       for (let i = 0; i < inputMessages.length; i++) {
-        const amqpMessage = toAmqpMessage(inputMessages[i]);
-        amqpMessage.body = this._context.dataTransformer.encode(inputMessages[i].body);
+        const inputMessage = inputMessages[i];
+        const amqpMessage = toAmqpMessage(inputMessage);
+        amqpMessage.body = this._context.dataTransformer.encode(
+          inputMessages[i].body,
+          isAmqpAnnotatedMessage(inputMessage) ? inputMessage.bodyType : undefined
+        );
         amqpMessages[i] = amqpMessage;
         try {
           encodedMessages[i] = RheaMessageUtil.encode(amqpMessage);
         } catch (error) {
           if (error instanceof TypeError || error.name === "TypeError") {
-            throw getMessagePropertyTypeMismatchError(inputMessages[i]) || error;
+            throw getMessagePropertyTypeMismatchError(inputMessage) || error;
           }
           throw error;
         }

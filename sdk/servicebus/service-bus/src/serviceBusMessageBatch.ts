@@ -1,7 +1,13 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { ServiceBusMessage, toAmqpMessage, isServiceBusMessage } from "./serviceBusMessage";
+import {
+  ServiceBusMessage,
+  toAmqpMessage,
+  isServiceBusMessage,
+  AmqpAnnotatedMessage,
+  isAmqpAnnotatedMessage
+} from "./serviceBusMessage";
 import { throwTypeErrorIfParameterMissing } from "./util/errors";
 import { ConnectionContext } from "./connectionContext";
 import {
@@ -65,7 +71,7 @@ export interface ServiceBusMessageBatch {
    * @param message  An individual service bus message.
    * @returns A boolean value indicating if the message has been added to the batch or not.
    */
-  tryAdd(message: ServiceBusMessage): boolean;
+  tryAdd(message: ServiceBusMessage | AmqpAnnotatedMessage): boolean;
 
   /**
    * The AMQP message containing encoded events that were added to the batch.
@@ -210,7 +216,7 @@ export class ServiceBusMessageBatchImpl implements ServiceBusMessageBatch {
    * @param message  An individual service bus message.
    * @returns A boolean value indicating if the message has been added to the batch or not.
    */
-  public tryAdd(message: ServiceBusMessage): boolean {
+  public tryAdd(message: ServiceBusMessage | AmqpAnnotatedMessage): boolean {
     throwTypeErrorIfParameterMissing(this._context.connectionId, "message", message);
     if (!isServiceBusMessage(message)) {
       throw new TypeError("Provided value for 'message' must be of type ServiceBusMessage.");
@@ -218,7 +224,10 @@ export class ServiceBusMessageBatchImpl implements ServiceBusMessageBatch {
 
     // Convert ServiceBusMessage to AmqpMessage.
     const amqpMessage = toAmqpMessage(message);
-    amqpMessage.body = this._context.dataTransformer.encode(message.body);
+    amqpMessage.body = this._context.dataTransformer.encode(
+      message.body,
+      isAmqpAnnotatedMessage(message) ? message.bodyType : undefined
+    );
     const encodedMessage = RheaMessageUtil.encode(amqpMessage);
 
     let currentSize = this._sizeInBytes;

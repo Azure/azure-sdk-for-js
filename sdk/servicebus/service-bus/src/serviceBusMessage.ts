@@ -270,55 +270,63 @@ export interface AmqpMessageProperties {
  * @ignore
  * Gets the error message for when a property on given message is not of expected type
  */
-export function getMessagePropertyTypeMismatchError(msg: ServiceBusMessage): Error | undefined {
-  if (msg.contentType != null && typeof msg.contentType !== "string") {
-    return new TypeError("The property 'contentType' on the message must be of type 'string'");
-  }
+export function getMessagePropertyTypeMismatchError(
+  msg: ServiceBusMessage | AmqpAnnotatedMessage
+): Error | undefined {
+  if (isServiceBusMessage(msg)) {
+    if (msg.contentType != null && typeof msg.contentType !== "string") {
+      return new TypeError("The property 'contentType' on the message must be of type 'string'");
+    }
 
-  if (msg.label != null && typeof msg.label !== "string") {
-    return new TypeError("The property 'label' on the message must be of type 'string'");
-  }
+    if (msg.label != null && typeof msg.label !== "string") {
+      return new TypeError("The property 'label' on the message must be of type 'string'");
+    }
 
-  if (msg.to != null && typeof msg.to !== "string") {
-    return new TypeError("The property 'to' on the message must be of type 'string'");
-  }
+    if (msg.to != null && typeof msg.to !== "string") {
+      return new TypeError("The property 'to' on the message must be of type 'string'");
+    }
 
-  if (msg.replyTo != null && typeof msg.replyTo !== "string") {
-    return new TypeError("The property 'replyTo' on the message must be of type 'string'");
-  }
+    if (msg.replyTo != null && typeof msg.replyTo !== "string") {
+      return new TypeError("The property 'replyTo' on the message must be of type 'string'");
+    }
 
-  if (msg.replyToSessionId != null && typeof msg.replyToSessionId !== "string") {
-    return new TypeError("The property 'replyToSessionId' on the message must be of type 'string'");
-  }
+    if (msg.replyToSessionId != null && typeof msg.replyToSessionId !== "string") {
+      return new TypeError(
+        "The property 'replyToSessionId' on the message must be of type 'string'"
+      );
+    }
 
-  if (msg.timeToLive != null && typeof msg.timeToLive !== "number") {
-    return new TypeError("The property 'timeToLive' on the message must be of type 'number'");
-  }
+    if (msg.timeToLive != null && typeof msg.timeToLive !== "number") {
+      return new TypeError("The property 'timeToLive' on the message must be of type 'number'");
+    }
 
-  if (msg.sessionId != null && typeof msg.sessionId !== "string") {
-    return new TypeError("The property 'sessionId' on the message must be of type 'string'");
-  }
+    if (msg.sessionId != null && typeof msg.sessionId !== "string") {
+      return new TypeError("The property 'sessionId' on the message must be of type 'string'");
+    }
 
-  if (
-    msg.messageId != null &&
-    typeof msg.messageId !== "string" &&
-    typeof msg.messageId !== "number" &&
-    !Buffer.isBuffer(msg.messageId)
-  ) {
-    return new TypeError(
-      "The property 'messageId' on the message must be of type string, number or Buffer"
-    );
-  }
+    if (
+      msg.messageId != null &&
+      typeof msg.messageId !== "string" &&
+      typeof msg.messageId !== "number" &&
+      !Buffer.isBuffer(msg.messageId)
+    ) {
+      return new TypeError(
+        "The property 'messageId' on the message must be of type string, number or Buffer"
+      );
+    }
 
-  if (
-    msg.correlationId != null &&
-    typeof msg.correlationId !== "string" &&
-    typeof msg.correlationId !== "number" &&
-    !Buffer.isBuffer(msg.correlationId)
-  ) {
-    return new TypeError(
-      "The property 'correlationId' on the message must be of type string, number or Buffer"
-    );
+    if (
+      msg.correlationId != null &&
+      typeof msg.correlationId !== "string" &&
+      typeof msg.correlationId !== "number" &&
+      !Buffer.isBuffer(msg.correlationId)
+    ) {
+      return new TypeError(
+        "The property 'correlationId' on the message must be of type string, number or Buffer"
+      );
+    }
+  } else {
+    // TODO: validate props on AMQPAnnotatedMessage
   }
   return;
 }
@@ -328,77 +336,105 @@ export function getMessagePropertyTypeMismatchError(msg: ServiceBusMessage): Err
  * @ignore
  * Converts given ServiceBusMessage to AmqpMessage
  */
-export function toAmqpMessage(msg: ServiceBusMessage): AmqpMessage {
+export function toAmqpMessage(msg: ServiceBusMessage | AmqpAnnotatedMessage): AmqpMessage {
   const amqpMsg: AmqpMessage = {
     body: msg.body,
     message_annotations: {}
   };
-  if (msg.properties != null) {
-    amqpMsg.application_properties = msg.properties;
-  }
-  if (msg.contentType != null) {
-    amqpMsg.content_type = msg.contentType;
-  }
-  if (msg.sessionId != null) {
-    if (msg.sessionId.length > Constants.maxSessionIdLength) {
-      throw new Error(
-        "Length of 'sessionId' property on the message cannot be greater than 128 characters."
-      );
+  if (isServiceBusMessage(msg)) {
+    if (msg.properties != null) {
+      amqpMsg.application_properties = msg.properties;
     }
-    amqpMsg.group_id = msg.sessionId;
-  }
-  if (msg.replyTo != null) {
-    amqpMsg.reply_to = msg.replyTo;
-  }
-  if (msg.to != null) {
-    amqpMsg.to = msg.to;
-  }
-  if (msg.label != null) {
-    amqpMsg.subject = msg.label;
-  }
-  if (msg.messageId != null) {
-    if (typeof msg.messageId === "string" && msg.messageId.length > Constants.maxMessageIdLength) {
-      throw new Error(
-        "Length of 'messageId' property on the message cannot be greater than 128 characters."
-      );
+    if (msg.contentType != null) {
+      amqpMsg.content_type = msg.contentType;
     }
-    amqpMsg.message_id = msg.messageId;
-  }
-  if (msg.correlationId != null) {
-    amqpMsg.correlation_id = msg.correlationId;
-  }
-  if (msg.replyToSessionId != null) {
-    amqpMsg.reply_to_group_id = msg.replyToSessionId;
-  }
-  if (msg.timeToLive != null && msg.timeToLive !== Constants.maxDurationValue) {
-    amqpMsg.ttl = msg.timeToLive;
-    amqpMsg.creation_time = Date.now();
-    if (Constants.maxAbsoluteExpiryTime - amqpMsg.creation_time > amqpMsg.ttl) {
-      amqpMsg.absolute_expiry_time = amqpMsg.creation_time + amqpMsg.ttl;
-    } else {
-      amqpMsg.absolute_expiry_time = Constants.maxAbsoluteExpiryTime;
+    if (msg.sessionId != null) {
+      if (msg.sessionId.length > Constants.maxSessionIdLength) {
+        throw new Error(
+          "Length of 'sessionId' property on the message cannot be greater than 128 characters."
+        );
+      }
+      amqpMsg.group_id = msg.sessionId;
+    }
+    if (msg.replyTo != null) {
+      amqpMsg.reply_to = msg.replyTo;
+    }
+    if (msg.to != null) {
+      amqpMsg.to = msg.to;
+    }
+    if (msg.label != null) {
+      amqpMsg.subject = msg.label;
+    }
+    if (msg.messageId != null) {
+      if (
+        typeof msg.messageId === "string" &&
+        msg.messageId.length > Constants.maxMessageIdLength
+      ) {
+        throw new Error(
+          "Length of 'messageId' property on the message cannot be greater than 128 characters."
+        );
+      }
+      amqpMsg.message_id = msg.messageId;
+    }
+    if (msg.correlationId != null) {
+      amqpMsg.correlation_id = msg.correlationId;
+    }
+    if (msg.replyToSessionId != null) {
+      amqpMsg.reply_to_group_id = msg.replyToSessionId;
+    }
+    if (msg.timeToLive != null && msg.timeToLive !== Constants.maxDurationValue) {
+      amqpMsg.ttl = msg.timeToLive;
+      amqpMsg.creation_time = Date.now();
+      if (Constants.maxAbsoluteExpiryTime - amqpMsg.creation_time > amqpMsg.ttl) {
+        amqpMsg.absolute_expiry_time = amqpMsg.creation_time + amqpMsg.ttl;
+      } else {
+        amqpMsg.absolute_expiry_time = Constants.maxAbsoluteExpiryTime;
+      }
+    }
+    if (msg.partitionKey != null) {
+      if (msg.partitionKey.length > Constants.maxPartitionKeyLength) {
+        throw new Error(
+          "Length of 'partitionKey' property on the message cannot be greater than 128 characters."
+        );
+      }
+      amqpMsg.message_annotations![Constants.partitionKey] = msg.partitionKey;
+    }
+    if (msg.viaPartitionKey != null) {
+      if (msg.viaPartitionKey.length > Constants.maxPartitionKeyLength) {
+        throw new Error(
+          "Length of 'viaPartitionKey' property on the message cannot be greater than 128 characters."
+        );
+      }
+      amqpMsg.message_annotations![Constants.viaPartitionKey] = msg.viaPartitionKey;
+    }
+    if (msg.scheduledEnqueueTimeUtc != null) {
+      amqpMsg.message_annotations![Constants.scheduledEnqueueTime] = msg.scheduledEnqueueTimeUtc;
+    }
+    log.message("SBMessage to AmqpMessage: %O", amqpMsg);
+  } else if (isAmqpAnnotatedMessage(msg)) {
+    // TODO: populate AMQPAnnotatedMessage in amqpMsg
+    // interface AmqpAnnotatedMessage {
+    //   header?: AmqpMessageHeader;
+    //   footer?: { [key: string]: any };
+    //   messageAnnotations?: { [key: string]: any };
+    //   deliveryAnnotations?: { [key: string]: any };
+    //   applicationProperties?: { [key: string]: any };
+    //   properties?: AmqpMessageProperties;
+    //   bodyType: "data" | "value" | "sequence";
+    //   body: any;
+    // }
+    if (msg.applicationProperties != null) {
+      amqpMsg.application_properties = msg.applicationProperties;
+    }
+
+    if (msg.messageAnnotations != null) {
+      amqpMsg.message_annotations = msg.messageAnnotations;
+    }
+
+    if (msg.deliveryAnnotations != null) {
+      amqpMsg.delivery_annotations = msg.deliveryAnnotations;
     }
   }
-  if (msg.partitionKey != null) {
-    if (msg.partitionKey.length > Constants.maxPartitionKeyLength) {
-      throw new Error(
-        "Length of 'partitionKey' property on the message cannot be greater than 128 characters."
-      );
-    }
-    amqpMsg.message_annotations![Constants.partitionKey] = msg.partitionKey;
-  }
-  if (msg.viaPartitionKey != null) {
-    if (msg.viaPartitionKey.length > Constants.maxPartitionKeyLength) {
-      throw new Error(
-        "Length of 'viaPartitionKey' property on the message cannot be greater than 128 characters."
-      );
-    }
-    amqpMsg.message_annotations![Constants.viaPartitionKey] = msg.viaPartitionKey;
-  }
-  if (msg.scheduledEnqueueTimeUtc != null) {
-    amqpMsg.message_annotations![Constants.scheduledEnqueueTime] = msg.scheduledEnqueueTimeUtc;
-  }
-  log.message("SBMessage to AmqpMessage: %O", amqpMsg);
   return amqpMsg;
 }
 
