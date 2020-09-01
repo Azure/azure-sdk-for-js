@@ -337,11 +337,11 @@ export type TableEntity<T extends object> = T & {
   /**
    * The PartitionKey property of the entity.
    */
-  PartitionKey: string;
+  partitionKey: string;
   /**
    * The RowKey property of the entity.
    */
-  RowKey: string;
+  rowKey: string;
 };
 
 /**
