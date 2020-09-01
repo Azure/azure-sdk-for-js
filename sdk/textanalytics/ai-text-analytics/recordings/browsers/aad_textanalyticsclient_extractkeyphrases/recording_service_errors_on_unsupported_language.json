@@ -8,18 +8,18 @@
    "status": 200,
    "response": "{\"token_type\":\"Bearer\",\"expires_in\":3599,\"ext_expires_in\":3599,\"access_token\":\"access_token\"}",
    "responseHeaders": {
-    "cache-control": "no-cache, no-store",
-    "content-length": "1500",
+    "cache-control": "no-store, no-cache",
+    "content-length": "1329",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 14 Aug 2020 17:50:00 GMT",
+    "date": "Tue, 01 Sep 2020 19:45:43 GMT",
     "expires": "-1",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
     "referrer-policy": "strict-origin-when-cross-origin",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.10946.15 - WUS2 ProdSlices",
-    "x-ms-request-id": "13430878-5a71-4819-b6b7-816b3fb32a00"
+    "x-ms-ests-server": "2.1.10985.18 - CHI ProdSlices",
+    "x-ms-request-id": "1bc1dd60-7994-45ba-aad5-b2fd39720200"
    }
   },
   {
@@ -30,13 +30,13 @@
    "status": 200,
    "response": "{\"documents\":[],\"errors\":[{\"id\":\"0\",\"error\":{\"code\":\"InvalidArgument\",\"message\":\"Invalid Language Code.\",\"innererror\":{\"code\":\"UnsupportedLanguageCode\",\"message\":\"Invalid language code. Supported languages: af,bg,ca,da,de,el,en,es,et,fi,fr,hr,hu,id,it,ja,ko,lv,nl,no,pl,pt-BR,pt-PT,ro,ru,sk,sl,sv,tr\"}}}],\"modelVersion\":\"2020-07-01\"}",
    "responseHeaders": {
-    "apim-request-id": "6f5c73f5-2c19-42bc-b53c-ac79d497d082",
+    "apim-request-id": "25ab643e-d52e-458a-ac77-ddaaabafb2c9",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 14 Aug 2020 17:50:01 GMT",
+    "date": "Tue, 01 Sep 2020 19:45:43 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "894"
+    "x-envoy-upstream-service-time": "3"
    }
   }
  ],
