@@ -40,23 +40,22 @@ async function main() {
   }
 
   // get change point detect results
-  client.detectChangePoint(request).then((result) => {
-    if(result.isChangePoint.some(function(e){return e === true;})){
-      console.log("Change points were detected from the series at index:");
-      result.isChangePoint.forEach(function(e, i){
-        if(e === true) console.log(i);
-      });
-    }else{
-      console.log("There is no change point detected from the series.");
-    }
-  }).catch((err) => {
-    if(err.body !== undefined){
-      console.error("Error code: " + err.body.code);
-      console.error("Error message: " + err.body.message);
-    }else{
-      console.error(err);
-    }
-  });
+  const result = await client.detectChangePoint(request);
+
+  if(result.isChangePoint.some(function(changePoint){return changePoint === true;})){
+    console.log("Change points were detected from the series at index:");
+    result.isChangePoint.forEach(function(changePoint, index){
+      if(changePoint === true) {
+        console.log(index);
+      }
+    });
+  }else{
+    console.log("There is no change point detected from the series.");
+  }
+  // output:
+  // Change points were detected from the series at index:
+  // 20
+  // 27
 }
 
 main().catch((err) => {

@@ -40,23 +40,34 @@ async function main() {
   }
 
   // get entire detect result
-  client.detectEntireSeries(request).then((result) => {
-    if(result.isAnomaly.some(function(e){return e === true;})){
-      console.log("Anomalies were detected from the series at index:");
-      result.isAnomaly.forEach(function(e, i){
-        if(e === true) console.log(i);
-      });
-    }else{
-      console.log("There is no anomaly detected from the series.");
-    }
-  }).catch((err) => {
-    if(err.body !== undefined){
-      console.error("Error code: " + err.body.code);
-      console.error("Error message: " + err.body.message);
-    }else{
-      console.error(err);
-    }
-  });
+  const result = await client.detectEntireSeries(request);
+
+  if(result.isAnomaly.some(function(anomaly){return anomaly === true;})){
+    console.log("Anomalies were detected from the series at index:");
+    result.isAnomaly.forEach(function(anomaly, index){
+      if(anomaly === true){
+        console.log(index);
+      }
+    });
+  }else{
+    console.log("There is no anomaly detected from the series.");
+  }
+  // output:
+  // Anomalies were detected from the series at index:
+  // 3
+  // 18
+  // 21
+  // 22
+  // 23
+  // 24
+  // 25
+  // 28
+  // 29
+  // 30
+  // 31
+  // 32
+  // 35
+  // 44
 }
 
 main().catch((err) => {

@@ -40,20 +40,15 @@ async function main() {
   }
 
   // get last detect result
-  client.detectLastPoint(request).then((result) => {
-    if(result.isAnomaly){
-      console.log("The latest point is detected as anomaly.");
-    }else{
-      console.log("The latest point is not detected as anomaly.");
-    }
-  }).catch((err) => {
-    if(err.body !== undefined){
-      console.error("Error code: " + err.body.code);
-      console.error("Error message: " + err.body.message);
-    }else{
-      console.error(err);
-    }
-  });
+  const result = client.detectLastPoint(request);
+
+  if(result.isAnomaly){
+    console.log("The latest point is detected as anomaly.");
+  }else{
+    console.log("The latest point is not detected as anomaly.");
+  }
+  // output:
+  // The latest point is not detected as anomaly.
 }
 
 main().catch((err) => {
