@@ -137,10 +137,7 @@ export const select: msRest.OperationQueryParameter = {
   }
 };
 export const skip: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "skip"
-  ],
+  parameterPath: "skip",
   mapper: {
     serializedName: "$skip",
     type: {
@@ -149,10 +146,7 @@ export const skip: msRest.OperationQueryParameter = {
   }
 };
 export const skiptoken: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "skiptoken"
-  ],
+  parameterPath: "skiptoken",
   mapper: {
     serializedName: "$skiptoken",
     type: {
@@ -171,10 +165,7 @@ export const subscriptionId: msRest.OperationURLParameter = {
   }
 };
 export const top: msRest.OperationQueryParameter = {
-  parameterPath: [
-    "options",
-    "top"
-  ],
+  parameterPath: "top",
   mapper: {
     serializedName: "$top",
     type: {
