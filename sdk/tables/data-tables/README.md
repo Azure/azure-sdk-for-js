@@ -75,6 +75,10 @@ For example, you can create following CORS settings for debugging. But please cu
 
 - `TableClient` - Client that provides functions to interact at an entity level such as create, list and delete entities within a table.
 
+- `Table` - Tables store data as collections of entities.
+
+- `Entity` - Entities are similar to rows. An entity has a primary key and a set of properties. A property is a name, typed-value pair, similar to a column.
+
 Common uses of the Table service include:
 
 - Storing TBs of structured data capable of serving web scale applications
