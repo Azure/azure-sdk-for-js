@@ -235,7 +235,6 @@ export interface AmqpAnnotatedMessage {
   deliveryAnnotations?: { [key: string]: any };
   applicationProperties?: { [key: string]: any };
   properties?: AmqpMessageProperties;
-  bodyType: "data" | "value" | "sequence";
   body: any;
 }
 
