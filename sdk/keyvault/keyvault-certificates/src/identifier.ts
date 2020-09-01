@@ -16,7 +16,7 @@ export interface KeyVaultCertificateId {
   sourceId: string;
 
   /**
-   * The Key Vault Certificate unique Id (a URL).
+   * The URL of the Azure Key Vault. Part of the Certificate Id.
    */
   vaultUrl: string;
 
