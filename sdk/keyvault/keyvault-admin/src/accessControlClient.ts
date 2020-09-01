@@ -306,9 +306,7 @@ export class KeyVaultAccessControlClient {
     const f = {};
 
     for await (const page of this.listRoleAssignmentsPage(roleScope, f, options)) {
-      for (const item of page) {
-        yield item;
-      }
+      yield* page;
     }
   }
 
