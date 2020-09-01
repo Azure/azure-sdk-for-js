@@ -300,7 +300,7 @@ export class FormRecognizerClient {
    * const pages = await poller.pollUntilDone();
    * ```
    * @summary Recognizes content/layout information from a url to a form document
-   * @param {string} formUrl Url to an accessible form document. Supported document types include PDF, JPEG, PNG, and TIFF.
+   * @param {string} formUrl Url to a form document that is accessible from the service. Must be a valid, encoded URL to one of the following supported document types: PDF, JPEG, PNG, and TIFF.
    * @param {BeginRecognizeContentOptions} [options] Options to start content recognition operation
    */
   public async beginRecognizeContentFromUrl(
@@ -428,7 +428,7 @@ export class FormRecognizerClient {
    * ```
    * @summary Recognizes form information from a url to a form document using a custom form model.
    * @param {string} modelId Id of the custom form model to use
-   * @param {string} formUrl Url to an accessible form document. Supported document types include PDF, JPEG, PNG, and TIFF.
+   * @param {string} formUrl Url to a form document that is accessible from the service. Must be a valid, encoded URL to one of the following supported document types: PDF, JPEG, PNG, and TIFF.
    * @param {BeginRecognizeFormsOptions} [options] Options to start the form recognition operation
    */
   public async beginRecognizeCustomFormsFromUrl(
@@ -516,7 +516,8 @@ export class FormRecognizerClient {
    * const readStream = fs.createReadStream(path);
    *
    * const client = new FormRecognizerClient(endpoint, new AzureKeyCredential(apiKey));
-   * const poller = await client.beginRecognizeReceipts(readStream, "image/jpeg", {
+   * const poller = await client.beginRecognizeReceipts(readStream, {
+   *   contentType: "image/jpeg",
    *   onProgress: (state) => { console.log(`status: ${state.status}`); }
    * });
    *
@@ -635,7 +636,7 @@ export class FormRecognizerClient {
    * }
    * ```
    * @summary Recognizes receipt information from a given accessible url to input document
-   * @param {string} receiptUrl Url to an accesssible receipt document. Supported document types include PDF, JPEG, PNG, and TIFF.
+   * @param {string} receiptUrl Url to a receipt document that is accessible from the service. Must be a valid, encoded URL to one of the following supported document types: PDF, JPEG, PNG, and TIFF.
    * @param {BeginRecognizeFormsOptions} [options] Options to start receipt recognition operation
    */
   public async beginRecognizeReceiptsFromUrl(
@@ -698,6 +699,7 @@ export class FormRecognizerClient {
  * @internal
  */
 async function recognizeLayoutInternal(
+  // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
   client: GeneratedClient,
   body: FormRecognizerRequestBody | string,
   contentType?: FormContentType,
@@ -736,6 +738,7 @@ async function recognizeLayoutInternal(
  * @internal
  */
 async function recognizeCustomFormInternal(
+  // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
   client: GeneratedClient,
   body: FormRecognizerRequestBody | string,
   contentType?: FormContentType,
@@ -777,6 +780,7 @@ async function recognizeCustomFormInternal(
  * @internal
  */
 async function recognizeReceiptInternal(
+  // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
   client: GeneratedClient,
   body: FormRecognizerRequestBody | string,
   contentType?: FormContentType,

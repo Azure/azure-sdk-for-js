@@ -13,7 +13,7 @@ import * as msRest from "@azure/ms-rest-js";
 import * as msRestAzure from "@azure/ms-rest-azure-js";
 
 const packageName = "@azure/arm-automation";
-const packageVersion = "0.1.0";
+const packageVersion = "10.0.0";
 
 export class AutomationClientContext extends msRestAzure.AzureServiceClient {
   credentials: msRest.ServiceClientCredentials;

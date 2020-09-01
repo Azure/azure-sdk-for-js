@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { Logger } from "@opentelemetry/api";
 import { DEFAULT_BREEZE_ENDPOINT } from "./Declarations/Constants";
 

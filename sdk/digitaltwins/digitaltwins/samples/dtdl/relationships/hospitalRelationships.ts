@@ -1,0 +1,27 @@
+﻿exports.hospitalRelationships = [
+  {
+    $relationshipId: "BuildingHasFloor",
+    $sourceId: "BuildingTwin",
+    $relationshipName: "has",
+    $targetId: "FloorTwin",
+    isAccessRestricted: false
+  },
+  {
+    $relationshipId: "BuildingIsEquippedWithHVAC",
+    $sourceId: "BuildingTwin",
+    $relationshipName: "isEquippedWith",
+    $targetId: "HVACTwin"
+  },
+  {
+    $relationshipId: "HVACCoolsFloor",
+    $sourceId: "HVACTwin",
+    $relationshipName: "controlsTemperature",
+    $targetId: "FloorTwin"
+  },
+  {
+    $relationshipId: "FloorContainsRoom",
+    $sourceId: "FloorTwin",
+    $relationshipName: "contains",
+    $targetId: "RoomTwin"
+  }
+];

@@ -8,7 +8,7 @@
   This sample demonstrates how the sendMessages() method can be used to send messages to Service Bus
   Queue/Topic.
 
-  See https://docs.microsoft.com/en-us/azure/service-bus-messaging/service-bus-queues-topics-subscriptions
+  See https://docs.microsoft.com/azure/service-bus-messaging/service-bus-queues-topics-subscriptions
   to learn about Queues, Topics and Subscriptions.
 */
 

@@ -69,7 +69,7 @@ async function main() {
         console.log(`  - Sentence sentiment: ${sentiment}`);
         console.log("    Confidence scores:", confidenceScores);
         console.log("    Mined opinions");
-        for (const { aspect, opinions } of minedOpinions!) {
+        for (const { aspect, opinions } of minedOpinions) {
           console.log(`      - Aspect text: ${aspect.text}`);
           console.log(`        Aspect sentiment: ${aspect.sentiment}`);
           console.log("        Aspect confidence scores:", aspect.confidenceScores);

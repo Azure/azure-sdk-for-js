@@ -1,71 +1,51 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import * as fs from "fs";
 import * as path from "path";
+import { promisify } from "util";
 
-export const getShallowDirectorySize = (
-  directory: string,
-  callback: (err: Error | null, size: number) => void,
-): void => {
-  // Get the directory listing
-  fs.readdir(directory, (err, files) => {
-    if (err) {
-      callback(err, -1);
-      return;
-    }
-
-    if (files.length === 0) {
-      callback(null, 0);
-      return;
-    }
-
-    let error: Error | null = null;
-    let totalSize = 0;
-    let count = 0;
-
-    // Query all file sizes
-    files.forEach((file) => {
-      fs.stat(path.join(directory, file), (statErr, fileStats) => {
-        count += 1;
-
-        if (statErr) {
-          error = statErr;
-        } else if (fileStats.isFile()) {
-          totalSize += fileStats.size;
-        }
-
-        if (count === files.length) {
-          // Did we get an error?
-          if (error) {
-            callback(error, -1);
-          } else {
-            callback(error, totalSize);
-          }
-        }
-      });
-    });
-  });
-};
+const readdirAsync = promisify(fs.readdir);
+const statAsync = promisify(fs.stat);
+const lstatAsync = promisify(fs.lstat);
+const mkdirAsync = promisify(fs.mkdir);
 
 /**
  * Computes the size (in bytes) of all files in a directory at the root level. Asynchronously.
  */
-export const confirmDirExists = (
-  directory: string,
-  callback: (err: Error | null) => void,
-): void => {
-  fs.lstat(directory, (err, stats) => {
+export const getShallowDirectorySize = async (directory: string): Promise<number> => {
+  // Get the directory listing
+  const files = await readdirAsync(directory);
+
+  let totalSize = 0;
+
+  // Query all file sizes
+  for (const file of files) {
+    const fileStats = await statAsync(path.join(directory, file));
+    if (fileStats.isFile()) {
+      totalSize += fileStats.size;
+    }
+  }
+
+  return totalSize;
+};
+
+export const confirmDirExists = async (directory: string): Promise<void> => {
+  try {
+    const stats = await lstatAsync(directory);
+    if (!stats.isDirectory()) {
+      throw new Error("Path existed but was not a directory");
+    }
+  } catch (err) {
     if (err && err.code === "ENOENT") {
-      fs.mkdir(directory, (mkdirErr) => {
+      try {
+        await mkdirAsync(directory);
+      } catch (mkdirErr) {
         if (mkdirErr && mkdirErr.code !== "EEXIST") {
           // Handle race condition by ignoring EEXIST
-          callback(mkdirErr);
-        } else {
-          callback(null);
+          throw mkdirErr;
         }
-      });
-    } else if (!err && stats.isDirectory()) {
-      callback(null);
-    } else {
-      callback(err || new Error("Path existed but was not a directory"));
+      }
     }
-  });
+  }
 };

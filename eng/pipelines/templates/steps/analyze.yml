@@ -1,0 +1,85 @@
+parameters:
+  Artifacts: []
+  ServiceDirectory: not-specified
+
+steps:
+  - task: PublishPipelineArtifact@1
+    condition: succeededOrFailed()
+    displayName: "Publish Report Artifacts"
+    inputs:
+      artifactName: package-diffs
+      path: $(Build.ArtifactStagingDirectory)
+
+  - script: |
+      pip install setuptools wheel
+      pip install doc-warden==$(DocWardenVersion)
+      ward scan -d $(Build.SourcesDirectory) -c $(Build.SourcesDirectory)/eng/.docsettings.yml
+    displayName: "Verify Readmes"
+
+  - template: /eng/common/pipelines/templates/steps/verify-path-length.yml
+    parameters:
+      SourceDirectory: $(Build.SourcesDirectory)
+
+  - template: ../../../common/pipelines/templates/steps/verify-links.yml
+    parameters:
+      Directory: sdk/${{ parameters.ServiceDirectory }}
+
+  - script: |
+      npm ci
+    workingDirectory: $(System.DefaultWorkingDirectory)/eng/tools/analyze-deps
+    displayName: "Install tool dependencies"
+
+  - script: |
+      node index.js --verbose --dump "$(Build.ArtifactStagingDirectory)/data.js" --out "$(Build.ArtifactStagingDirectory)/dependencies.html"
+    workingDirectory: $(System.DefaultWorkingDirectory)/eng/tools/analyze-deps
+    displayName: "Analyze library dependencies"
+
+  - script: |
+      node common/scripts/install-run-rush.js install
+    displayName: "Install library dependencies"
+
+  - pwsh: |
+      node common/scripts/install-run-rush.js build -t @azure/eslint-plugin-azure-sdk
+      node eng/tools/rush-runner.js lint "${{parameters.ServiceDirectory}}"
+    displayName: "Build ESLint Plugin and Lint Libraries"
+
+  - script: |
+      node eng/tools/rush-runner.js audit "${{parameters.ServiceDirectory}}"
+    condition: and(succeeded(), eq(variables['RunNpmAudit'], 'true'))
+    displayName: "Audit libraries"
+
+  - ${{ each artifact in parameters.Artifacts }}:
+    - template: /eng/common/pipelines/templates/steps/verify-changelog.yml
+      parameters:
+        PackageName: ${{artifact.name}}
+        ServiceName: ${{parameters.ServiceDirectory}}
+        ForRelease: false
+
+  - task: ms.vss-governance-buildtask.governance-build-task-component-detection.ComponentGovernanceComponentDetection@0
+    # ComponentGovernance is currently unable to run on pull requests of public projects. Running on non-PR
+    # builds should be sufficient.
+    condition: and(succeededOrFailed(), ne(variables['Build.Reason'], 'PullRequest'))
+    displayName: "Component Detection"
+
+    # Unlink node_modules folders to significantly improve performance of subsequent tasks
+    # which need to walk the directory tree (and are hardcoded to follow symlinks).
+  - script: |
+      node eng/tools/rush-runner.js unlink
+    displayName: "Unlink dependencies"
+
+    # It's important for performance to pass "sdk" as "sourceFolder" rather than as a prefix in "contents".
+    # The task first enumerates all files under "sourceFolder", then matches them against the "contents" pattern.
+  - task: CopyFiles@2
+    inputs:
+      sourceFolder: sdk
+      contents: "**/**/*lintReport.html"
+      targetFolder: $(Build.ArtifactStagingDirectory)
+      flattenFolders: true
+    displayName: "Copy lint reports"
+
+  - task: PublishPipelineArtifact@1
+    condition: succeededOrFailed()
+    displayName: "Publish Report Artifacts"
+    inputs:
+      artifactName: reports
+      path: $(Build.ArtifactStagingDirectory)

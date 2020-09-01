@@ -10,7 +10,6 @@ import {
 } from "../util/atomXmlHelper";
 import * as Constants from "../util/constants";
 import {
-  getBooleanOrUndefined,
   getIntegerOrUndefined,
   getString,
   getStringOrUndefined,
@@ -45,9 +44,7 @@ function getTopicFilter(value: any): SqlRuleFilter | CorrelationRuleFilter {
   if (value["SqlExpression"] != undefined) {
     result = {
       sqlExpression: value["SqlExpression"],
-      sqlParameters: getSqlParametersOrUndefined(value["Parameters"]),
-      compatibilityLevel: getIntegerOrUndefined(value["CompatibilityLevel"]),
-      requiresPreprocessing: getBooleanOrUndefined(value["RequiresPreprocessing"])
+      sqlParameters: getSqlParametersOrUndefined(value["Parameters"])
     };
   } else {
     result = {
@@ -74,9 +71,7 @@ function getTopicFilter(value: any): SqlRuleFilter | CorrelationRuleFilter {
 function getRuleAction(value: any): SqlRuleAction {
   return {
     sqlExpression: value["SqlExpression"],
-    sqlParameters: getSqlParametersOrUndefined(value["Parameters"]),
-    compatibilityLevel: getIntegerOrUndefined(value["CompatibilityLevel"]),
-    requiresPreprocessing: getBooleanOrUndefined(value["RequiresPreprocessing"])
+    sqlParameters: getSqlParametersOrUndefined(value["Parameters"])
   };
 }
 
@@ -148,17 +143,6 @@ export interface SqlRuleFilter {
    * SQL parameters to the expression
    */
   sqlParameters?: SqlParameter[];
-
-  /**
-   * This property is reserved for future use. An integer value showing the
-   * compatibility level, currently hard-coded to 20.
-   */
-  compatibilityLevel?: number;
-
-  /**
-   * Boolean value indicating whether the SQL filter expression requires preprocessing
-   */
-  requiresPreprocessing?: boolean;
 }
 
 /**
@@ -177,8 +161,7 @@ export class RuleResourceSerializer implements AtomXmlSerializer {
     if (rule.filter == undefined) {
       // Defaults to creating a true filter if none specified
       resource.Filter = {
-        SqlExpression: "1=1",
-        CompatibilityLevel: 20
+        SqlExpression: "1=1"
       };
       resource.Filter[Constants.XML_METADATA_MARKER] = {
         "p4:type": "SqlFilter",
@@ -189,9 +172,7 @@ export class RuleResourceSerializer implements AtomXmlSerializer {
         const sqlFilter: SqlRuleFilter = rule.filter as SqlRuleFilter;
         resource.Filter = {
           SqlExpression: sqlFilter.sqlExpression,
-          Parameters: getRawSqlParameters(sqlFilter.sqlParameters),
-          CompatibilityLevel: 20,
-          RequiresPreprocessing: getStringOrUndefined(sqlFilter.requiresPreprocessing)
+          Parameters: getRawSqlParameters(sqlFilter.sqlParameters)
         };
         resource.Filter[Constants.XML_METADATA_MARKER] = {
           "p4:type": "SqlFilter",
@@ -228,9 +209,7 @@ export class RuleResourceSerializer implements AtomXmlSerializer {
     } else {
       resource.Action = {
         SqlExpression: rule.action.sqlExpression,
-        Parameters: getRawSqlParameters(rule.action.sqlParameters),
-        CompatibilityLevel: 20,
-        RequiresPreprocessing: getStringOrUndefined(rule.action.requiresPreprocessing)
+        Parameters: getRawSqlParameters(rule.action.sqlParameters)
       };
       resource.Action[Constants.XML_METADATA_MARKER] = {
         "p4:type": "SqlRuleAction",

@@ -24,6 +24,13 @@ export interface AccessTokenCache {
 }
 
 // @public
+export class AccessTokenRefresher {
+    constructor(credential: TokenCredential, scopes: string | string[], requiredMillisecondsBeforeNewRefresh?: number);
+    isReady(): boolean;
+    refresh(options: GetTokenOptions): Promise<AccessToken | undefined>;
+    }
+
+// @public
 export interface ApiKeyCredentialOptions {
     inHeader?: {
         [x: string]: any;
@@ -97,12 +104,6 @@ export class BasicAuthenticationCredentials implements ServiceClientCredentials 
     // (undocumented)
     userName: string;
 }
-
-// @public
-export class BearerTokenAuthenticationPolicy extends BaseRequestPolicy {
-    constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptions, credential: TokenCredential, scopes: string | string[], tokenCache: AccessTokenCache);
-    sendRequest(webResource: WebResourceLike): Promise<HttpOperationResponse>;
-    }
 
 // @public
 export function bearerTokenAuthenticationPolicy(credential: TokenCredential, scopes: string | string[]): RequestPolicyFactory;
@@ -213,12 +214,6 @@ export interface DictionaryMapperType {
     name: "Dictionary";
     // (undocumented)
     value: Mapper;
-}
-
-// @public
-export class DisableResponseDecompressionPolicy extends BaseRequestPolicy {
-    constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptions);
-    sendRequest(request: WebResource): Promise<HttpOperationResponse>;
 }
 
 // @public
@@ -373,12 +368,6 @@ export function isValidUuid(uuid: string): boolean;
 export interface KeepAliveOptions {
     // (undocumented)
     enable: boolean;
-}
-
-// @public
-export class KeepAlivePolicy extends BaseRequestPolicy {
-    constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptions, keepAliveOptions: KeepAliveOptions);
-    sendRequest(request: WebResourceLike): Promise<HttpOperationResponse>;
 }
 
 // @public (undocumented)

@@ -2,6 +2,7 @@
 
 ## 4.1.1 (Unreleased)
 
+- Added `parseKeyVaultCertificatesIdentifier` and `ParsedKeyVaultCertificatesIdentifier` to help with parsing the unique identifiers of Key Vault Certificates.
 
 ## 4.1.0 (2020-08-12)
 

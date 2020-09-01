@@ -1,0 +1,49 @@
+{
+  "recordings": [
+    {
+      "method": "POST",
+      "url": "https://joherediteststorage.table.core.windows.net/integration",
+      "query": {},
+      "requestBody": "{\"PartitionKey\":\"P8__browser\",\"RowKey\":\"R8\",\"integerNumber\":3,\"floatingPointNumber\":3.14}",
+      "status": 204,
+      "response": "",
+      "responseHeaders": {
+        "cache-control": "no-cache",
+        "content-length": "0",
+        "dataserviceid": "https://joherediteststorage.table.core.windows.net/integration(PartitionKey='P8__browser',RowKey='R8')",
+        "date": "Fri, 21 Aug 2020 19:53:37 GMT",
+        "etag": "W/\"datetime'2020-08-21T19%3A53%3A37.9584838Z'\"",
+        "location": "https://joherediteststorage.table.core.windows.net/integration(PartitionKey='P8__browser',RowKey='R8')",
+        "preference-applied": "return-no-content",
+        "server": "Windows-Azure-Table/1.0 Microsoft-HTTPAPI/2.0",
+        "x-content-type-options": "nosniff",
+        "x-ms-request-id": "faf58106-3002-00d1-1bf4-77e98b000000",
+        "x-ms-version": "2019-02-02"
+      }
+    },
+    {
+      "method": "GET",
+      "url": "https://joherediteststorage.table.core.windows.net/integration(PartitionKey='P8__browser',RowKey='R8')",
+      "query": {},
+      "requestBody": null,
+      "status": 200,
+      "response": "{\"odata.metadata\":\"https://joherediteststorage.table.core.windows.net/$metadata#integration/@Element\",\"odata.etag\":\"W/\\\"datetime'2020-08-21T19%3A53%3A37.9584838Z'\\\"\",\"PartitionKey\":\"P8__browser\",\"RowKey\":\"R8\",\"Timestamp\":\"2020-08-21T19:53:37.9584838Z\",\"integerNumber\":3,\"floatingPointNumber\":3.14}",
+      "responseHeaders": {
+        "cache-control": "no-cache",
+        "content-type": "application/json;odata=minimalmetadata;streaming=true;charset=utf-8",
+        "date": "Fri, 21 Aug 2020 19:53:37 GMT",
+        "etag": "W/\"datetime'2020-08-21T19%3A53%3A37.9584838Z'\"",
+        "server": "Windows-Azure-Table/1.0 Microsoft-HTTPAPI/2.0",
+        "transfer-encoding": "chunked",
+        "x-content-type-options": "nosniff",
+        "x-ms-request-id": "faf58139-3002-00d1-46f4-77e98b000000",
+        "x-ms-version": "2019-02-02"
+      }
+    }
+  ],
+  "uniqueTestInfo": {
+    "uniqueName": {},
+    "newDate": {}
+  },
+  "hash": "74075525efae62d0d7eabb6417df3e4a"
+}

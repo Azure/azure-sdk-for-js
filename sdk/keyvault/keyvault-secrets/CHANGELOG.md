@@ -2,6 +2,7 @@
 
 ## 4.1.1 (Unreleased)
 
+- Added `parseKeyVaultSecretsIdentifier` and `ParsedKeyVaultSecretsIdentifier` to help with parsing the unique identifiers of Key Vault Secrets.
 
 ## 4.1.0 (2020-08-12)
 
