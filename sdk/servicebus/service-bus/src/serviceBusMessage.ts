@@ -3,7 +3,14 @@
 
 import Long from "long";
 import { Delivery, DeliveryAnnotations, MessageAnnotations, uuid_to_string } from "rhea-promise";
-import { AmqpMessage, Constants, ErrorNameConditionMapper, translate } from "@azure/core-amqp";
+import {
+  AmqpMessage,
+  Constants,
+  ErrorNameConditionMapper,
+  MessageHeader,
+  MessageProperties,
+  translate
+} from "@azure/core-amqp";
 import * as log from "./log";
 import { ConnectionContext } from "./connectionContext";
 import { reorderLockToken } from "./util/utils";
@@ -252,7 +259,7 @@ export interface AmqpMessageProperties {
   correlationId?: string | number | Buffer;
   contentType?: string;
   contentEncoding?: string;
-  absoluteExpiryTime?: Date;
+  absoluteExpiryTime?: number;
   creationTime?: number;
   groupId?: string;
   groupSequence?: number;
@@ -483,6 +490,11 @@ export interface ReceivedMessage extends ServiceBusMessage {
    * @readonly
    */
   readonly _amqpMessage: AmqpMessage;
+  /**
+   * @property {AmqpMessage} _amqpMessage The underlying raw amqp message.
+   * @readonly
+   */
+  readonly _amqpAnnotatedMessage: AmqpAnnotatedMessage;
 }
 
 /**
@@ -698,6 +710,7 @@ export function fromAmqpMessage(
   }
 
   const rcvdsbmsg: ReceivedMessage = {
+    _amqpAnnotatedMessage: toAmqpAnnotatedMessage(msg),
     _amqpMessage: msg,
     _delivery: delivery,
     deliveryCount: msg.delivery_count,
@@ -721,6 +734,26 @@ export function fromAmqpMessage(
 
   log.message("AmqpMessage to ReceivedSBMessage: %O", rcvdsbmsg);
   return rcvdsbmsg;
+}
+
+/**
+ * Takes AmqpMessage(type from "rhea") and returns it in the AmqpAnnotatedMessage format.
+ *
+ * @export
+ * @param {AmqpMessage} msg
+ * @returns {AmqpAnnotatedMessage}
+ */
+export function toAmqpAnnotatedMessage(msg: AmqpMessage): AmqpAnnotatedMessage {
+  const messageHeader = MessageHeader.fromAmqpMessageHeader(msg);
+  return {
+    header: { ...messageHeader, timeToLive: messageHeader.ttl },
+    footer: (msg as any).footer,
+    messageAnnotations: msg.message_annotations,
+    deliveryAnnotations: msg.delivery_annotations,
+    applicationProperties: msg.application_properties,
+    properties: MessageProperties.fromAmqpMessageProperties(msg),
+    body: msg.body
+  };
 }
 
 /**
@@ -913,6 +946,11 @@ export class ServiceBusMessageImpl implements ReceivedMessageWithLock {
    */
   readonly _amqpMessage: AmqpMessage;
   /**
+   * @property {AmqpMessage} _amqpAnnotatedMessage The underlying raw amqp annotated message.
+   * @readonly
+   */
+  readonly _amqpAnnotatedMessage: AmqpAnnotatedMessage;
+  /**
    * @property The reason for deadlettering the message.
    * @readonly
    */
@@ -951,6 +989,7 @@ export class ServiceBusMessageImpl implements ReceivedMessageWithLock {
       this.body = this._context.dataTransformer.decode(msg.body);
     }
     this._amqpMessage = msg;
+    this._amqpAnnotatedMessage = toAmqpAnnotatedMessage(msg);
     this.delivery = delivery;
   }
 
