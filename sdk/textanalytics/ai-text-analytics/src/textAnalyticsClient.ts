@@ -383,8 +383,8 @@ export class TextAnalyticsClient {
        * earlier versions were throwing an exception that included the inner
        * code only.
        */
-      const innerCode = e.response?.parsedBody?.error?.innererror?.code;
-      const innerMessage = e.response?.parsedBody?.error?.innererror?.message;
+      const innerCode = e.response?.parsedBody?.error?.innerError?.code;
+      const innerMessage = e.response?.parsedBody?.error?.innerError?.message;
       if (innerCode === "InvalidDocumentBatch") {
         backwardCompatibleException = new RestError(innerMessage, innerCode, e.statusCode);
       } else {
