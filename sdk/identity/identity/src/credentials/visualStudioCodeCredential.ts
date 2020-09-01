@@ -26,7 +26,7 @@ const logger = credentialLogger("VisualStudioCodeCredential");
 
 // Map of unsupported Tenant IDs and the errors we will be throwing.
 const unsupportedTenantIds: Record<string, string> = {
-  adfs: "The VisualStudioCodeCredential is not supported against ADFS tenant / authorities."
+  adfs: "The VisualStudioCodeCredential does not support authentication with ADFS tenants."
 };
 
 function checkUnsupportedTenant(tenantId: string): void {
