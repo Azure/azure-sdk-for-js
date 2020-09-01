@@ -4,7 +4,7 @@
 import { parseKeyvaultIdentifier } from "./generated/utils";
 
 /**
- * Represents a Key Vault Certificate Id and its parsed contents.
+ * Represents different components of a Key Vault Certificate Id.
  */
 export interface KeyVaultCertificateId {
   /**
