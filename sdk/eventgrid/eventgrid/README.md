@@ -26,7 +26,7 @@ Use the client library to:
 - An [Azure subscription][azure_sub].
 - An existing [Event Grid][event_grid] Topic or Domain. If you need to create the resource, you can use the [Azure Portal][azure_portal] or [Azure CLI][azure_cli].
 
-If you use the Azure CLI, replace `<your-resource-group-name>` and `<your-resource-name>` with your own unique names and `<location>` with an
+If you use the Azure CLI, replace `<your-resource-group-name>` and `<your-resource-name>` with your own unique names:
 
 #### Create an Event Grid Topic
 
@@ -60,7 +60,7 @@ az eventgrid topic show --name <your-resource-name> --resource-group <your-resou
 
 #### Using an Access Key
 
-Use the [Azure Portal][azure_portal] to browse to your Event Grid resource and retrieve an Acess Key, or use the [Azure CLI][azure_cli] snippet below:
+Use the [Azure Portal][azure_portal] to browse to your Event Grid resource and retrieve an Access Key, or use the [Azure CLI][azure_cli] snippet below:
 
 ```bash
 az eventgrid topic key list --resource-group <your-resource-group-name> --name <your-event-grid-topic-name>
@@ -71,7 +71,7 @@ Once you have an API key and endpoint, you can use the `AzureKeyCredential` clas
 ```js
 const { EventGridPublisherClient, AzureKeyCredential } = require("@azure/eventgrid");
 
-const client = new EventGridPublisherClient("<endpoint>", new AzureKeyCredential("<API key>"));
+const client = new EventGridPublisherClient("<endpoint>", new AzureKeyCredential("<Access Key>"));
 ```
 
 #### Using a SAS Token
@@ -123,7 +123,7 @@ Using the wrong method will result in an error from the service and your events 
 
 ### EventGridConsumer
 
-Events delivered to consumers by Event Grid are delivered as JSON. Depending on the type of consumer being delivered to, the Event Grid service may deliver one or more events as part of a single payload. While these events may be decoded using normal JavaScript methods like `JSON.parse`, this library offers a helper type for deserializing events, called `EventGridConsumer`.
+Events delivered to consumers by Event Grid are delivered as JSON. Depending on the type of consumer being delivered to, the Event Grid service may deliver one or more events as part of a single payload. While these events may be deserialized using normal JavaScript methods like `JSON.parse`, this library offers a helper type for deserializing events, called `EventGridConsumer`.
 
 Compared with using `JSON.parse` directly, `EventGridConsumer` does some additional conversions while deserializng events:
 
@@ -157,7 +157,7 @@ await client.sendEvents([
 
 ### Publish a Custom Event to a Topic in an Event Grid Domain
 
-Publishing events to an Event Grid Domain is similar to publish to an Event Grid Topic, except that when using the Event Grid schema for events, you must include the `topic` property. When publishing events in the Cloud Events 1.0 schema, the required `source` property is used as the name of the topic in the domain to publish to
+Publishing events to an Event Grid Domain is similar to publish to an Event Grid Topic, except that when using the Event Grid schema for events, you must include the `topic` property. When publishing events in the Cloud Events 1.0 schema, the required `source` property is used as the name of the topic in the domain to publish to:
 
 ```js
 const { EventGridPublisherClient, AzureKeyCredential } = require("@azure/eventgrid");
