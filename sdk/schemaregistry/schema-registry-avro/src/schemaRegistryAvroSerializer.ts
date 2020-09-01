@@ -100,11 +100,10 @@ export class SchemaRegistryAvroSerializer {
 
   // REVIEW: signature.
   //
-  // - Better to serialize into a stream? I aborted that for now as I have much
-  //   to learn about streams and avsc to accomplish that efficiently, and I
-  //   wanted to do the simplest thing that could possibly work first to make
-  //   sure there were no blockers in our dependencies. I also wanted to/ get
-  //   feedback on what the API shape should be before diving into that.
+  // - Better to serialize into a stream? I aborted that for now as I wanted to
+  //   do the simplest thing that could possibly work first to make sure there
+  //   were no blockers in our dependencies. I also wanted to get feedback on
+  //   what the API shape should be before diving into that.
   //
   // - This type should ultimately be able to implement a core ObjectSerializer
   //   interface. Do we know what that would look like? Maybe it takes `any` as
@@ -112,8 +111,8 @@ export class SchemaRegistryAvroSerializer {
   //   format-specific schema string?
   //
   //   The C#/Java approach of passing Type and assuming every serializer can
-  //   get its schema by reflecting on the type does not work for JavaScript.
-  //   We need to support arbitrary objects that match a schema.
+  //   get its schema by reflecting on the type does not work for JavaScript. We
+  //   need to support arbitrary objects that match a schema.
   //
   //   Maybe each format expects a different property on this arg so that you
   //   could at least pass enough info for multiple formats, and then your call
