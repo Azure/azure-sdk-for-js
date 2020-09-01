@@ -45,7 +45,7 @@ export interface AspectConfidenceScoreLabel {
 // @public
 export interface AspectSentiment {
     confidenceScores: AspectConfidenceScoreLabel;
-    sentiment: SentenceAspectSentiment;
+    sentiment: TokenSentimentValue;
     text: string;
 }
 
@@ -221,19 +221,13 @@ export interface RecognizePiiEntitiesSuccessResult extends TextAnalyticsSuccessR
     readonly entities: PiiEntity[];
 }
 
-// @public
-export type SentenceAspectSentiment = "positive" | "mixed" | "negative";
-
 // @public (undocumented)
 export interface SentenceOpinion {
     confidenceScores: AspectConfidenceScoreLabel;
     isNegated: boolean;
-    sentiment: SentenceOpinionSentiment;
+    sentiment: TokenSentimentValue;
     text: string;
 }
-
-// @public
-export type SentenceOpinionSentiment = "positive" | "mixed" | "negative";
 
 // @public
 export interface SentenceSentiment {
@@ -338,6 +332,9 @@ export interface TextDocumentStatistics {
     characterCount: number;
     transactionCount: number;
 }
+
+// @public
+export type TokenSentimentValue = "positive" | "mixed" | "negative";
 
 // @public
 export type WarningCode = "LongWordsInDocument" | "DocumentTruncated";

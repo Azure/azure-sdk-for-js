@@ -18,7 +18,7 @@ import {
   SentenceAspect,
   AspectRelation,
   SentenceOpinion,
-  SentenceAspectSentiment,
+  TokenSentimentValue as SentenceAspectSentiment,
   AspectConfidenceScoreLabel
 } from "./generated/models";
 import { findOpinionIndex, OpinionIndex } from "./util";

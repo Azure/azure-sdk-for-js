@@ -100,11 +100,9 @@ directive:
 ```yaml
 directive:
   - from: swagger-document
-    where: $.paths..parameters[*]
+    where: $.parameters.ShowStats
     transform: >
-      if ($.name === "showStats") {
-        $["x-ms-client-name"] = "includeStatistics";
-      }
+      $["name"] = "includeStatistics";
   - from: swagger-document
     where: $.definitions[*]
     transform: >
