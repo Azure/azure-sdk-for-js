@@ -2,14 +2,14 @@
 // Licensed under the MIT license.
 
 import assert from "assert";
-import { assertRejects } from "./authTestUtils";
+import { assertRejects } from "../authTestUtils";
 import {
   ChainedTokenCredential,
   TokenCredential,
   AccessToken,
   AggregateAuthenticationError,
   CredentialUnavailable
-} from "../src";
+} from "../../src";
 
 function mockCredential(returnPromise: Promise<AccessToken | null>): TokenCredential {
   return {

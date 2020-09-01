@@ -2,8 +2,8 @@
 // Licensed under the MIT license.
 
 import assert from "assert";
-import { UsernamePasswordCredential } from "../src";
-import { MockAuthHttpClient } from "./authTestUtils";
+import { UsernamePasswordCredential } from "../../src";
+import { MockAuthHttpClient } from "../authTestUtils";
 
 describe("UsernamePasswordCredential", function() {
   it("sends an authorization request with the given username and password", async () => {

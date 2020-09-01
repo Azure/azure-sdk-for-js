@@ -52,7 +52,7 @@ export function browserConfig() {
     output: {
       file: "dist-browser/data-tables.js",
       format: "umd",
-      name: "Azure.Tables",
+      name: "Azure.Data.Tables",
       sourcemap: true
     },
     preserveSymlinks: false,
