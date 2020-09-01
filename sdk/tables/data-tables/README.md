@@ -177,33 +177,6 @@ async function main() {
 main();
 ```
 
-Alternatively without `for-await-of`:
-
-```javascript
-const { TableServiceCLient, TableSharedKeyCredential } = require("@azure/data-tables");
-
-const account = "<account>";
-const accountKey = "<accountkey>";
-
-const credential = new TableSharedKeyCredential(account, accountKey);
-const serviceClient = new TableServiceCLient(
-  `https://${account}.table.core.windows.net`,
-  credential
-);
-
-async function main() {
-  let tablesIter = serviceClient.listTables();
-  let i = 1;
-  let tablesItem = await tablesIter.next();
-  while (!tablesItem.done) {
-    console.log(`Table ${i++}: ${tablesItem.value.name}`);
-    tablesItem = await tablesIter.next();
-  }
-}
-
-main();
-```
-
 ### Create a new table
 
 ```javascript
@@ -292,35 +265,6 @@ async function main() {
   for await (const entity of entitiesIter) {
     console.log(`Entity${i}: ${entity}`);
     i++;
-  }
-}
-
-main();
-```
-
-Alternatively without `for-await-of`:
-
-```javascript
-const { TableClient, TableSharedKeyCredential } = require("@azure/data-tables");
-
-const account = "<account>";
-const accountKey = "<accountkey>";
-const tableName = "<tableName>"
-
-const credential = new TableSharedKeyCredential(account, accountKey);
-const client = new TableClient(
-  `https://${account}.table.core.windows.net`,
-  tableName,
-  credential
-);
-
-async function main() {
-  let entitiesIter = client.listTables();
-  let i = 1;
-  let entityItem = await entitiesIter.next();
-  while (!entityItem.done) {
-    console.log(`Entity ${i++}: ${entityItem.value}`);
-    entityItem = await entitiesIter.next();
   }
 }
 
