@@ -1,16 +1,15 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
-
 import { BlobSASPermissions } from "./BlobSASPermissions";
+import { UserDelegationKey } from "./BlobServiceClient";
 import { ContainerSASPermissions } from "./ContainerSASPermissions";
 import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
-import { SasIPRange, ipRangeToString } from "./SasIPRange";
-import { SASProtocol } from "./SASQueryParameters";
-import { SASQueryParameters } from "./SASQueryParameters";
 import { UserDelegationKeyCredential } from "./credentials/UserDelegationKeyCredential";
-import { UserDelegationKey } from "./BlobServiceClient";
+import { ipRangeToString, SasIPRange } from "./SasIPRange";
+import { SASProtocol, SASQueryParameters } from "./SASQueryParameters";
 import { SERVICE_VERSION } from "./utils/constants";
 import { truncatedISO8061Date } from "./utils/utils.common";
+
 
 /**
  * ONLY AVAILABLE IN NODE.JS RUNTIME.
@@ -176,8 +175,8 @@ export interface BlobSASSignatureValues {
  * const containerSAS = generateBlobSASQueryParameters({
  *     containerName, // Required
  *     permissions: ContainerSASPermissions.parse("racwdl"), // Required
- *     startsOn: new Date(), // Required
- *     expiresOn: new Date(new Date().valueOf() + 86400), // Optional. Date type
+ *     startsOn: new Date(), // Optional
+ *     expiresOn: new Date(new Date().valueOf() + 86400), // Required. Date type
  *     ipRange: { start: "0.0.0.0", end: "255.255.255.255" }, // Optional
  *     protocol: SASProtocol.HttpsAndHttp, // Optional
  *     version: "2016-05-31" // Optional
@@ -220,8 +219,8 @@ export interface BlobSASSignatureValues {
  *     containerName, // Required
  *     blobName, // Required
  *     permissions: BlobSASPermissions.parse("racwd"), // Required
- *     startsOn: new Date(), // Required
- *     expiresOn: new Date(new Date().valueOf() + 86400), // Optional. Date type
+ *     startsOn: new Date(), // Optional
+ *     expiresOn: new Date(new Date().valueOf() + 86400), // Required. Date type
  *     cacheControl: "cache-control-override", // Optional
  *     contentDisposition: "content-disposition-override", // Optional
  *     contentEncoding: "content-encoding-override", // Optional
@@ -259,8 +258,8 @@ export function generateBlobSASQueryParameters(
  * const containerSAS = generateBlobSASQueryParameters({
  *     containerName, // Required
  *     permissions: ContainerSASPermissions.parse("racwdl"), // Required
- *     startsOn, // Required. Date type
- *     expiresOn, // Optional. Date type
+ *     startsOn, // Optional. Date type
+ *     expiresOn, // Required. Date type
  *     ipRange: { start: "0.0.0.0", end: "255.255.255.255" }, // Optional
  *     protocol: SASProtocol.HttpsAndHttp, // Optional
  *     version: "2018-11-09" // Must >= 2018-11-09 to generate user delegation SAS
