@@ -19,7 +19,7 @@ import { Lease } from '@azure/storage-blob';
 import { LeaseAccessConditions } from '@azure/storage-blob';
 import { LeaseOperationOptions } from '@azure/storage-blob';
 import { LeaseOperationResponse } from '@azure/storage-blob';
-import { ModifiedAccessConditions } from '@azure/storage-blob';
+import { ModifiedAccessConditions as ModifiedAccessConditions_2 } from '@azure/storage-blob';
 import { OperationTracingOptions } from '@azure/core-tracing';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { Pipeline as Pipeline_2 } from '@azure/storage-blob';
@@ -812,6 +812,9 @@ export interface Metadata {
     // (undocumented)
     [propertyName: string]: string;
 }
+
+// @public (undocumented)
+export type ModifiedAccessConditions = Omit<ModifiedAccessConditions_2, "ifTags">;
 
 // @public
 export function newPipeline(credential: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, pipelineOptions?: StoragePipelineOptions): Pipeline;

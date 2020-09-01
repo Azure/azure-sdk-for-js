@@ -6,6 +6,7 @@
 - Added support for Object Replication Service.
 - Added custom domain support.
 - Supported Append Blob Seal.
+- Supported tags conditional operations.
 
 ## 12.2.0-preview.1 (2020.07)
 

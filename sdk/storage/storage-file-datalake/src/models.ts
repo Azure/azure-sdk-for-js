@@ -4,9 +4,10 @@ import { AbortSignalLike } from "@azure/abort-controller";
 import { HttpResponse, TransferProgressEvent } from "@azure/core-http";
 import {
   LeaseAccessConditions,
-  ModifiedAccessConditions,
+  ModifiedAccessConditions as ModifiedAccessConditionsModel,
   UserDelegationKeyModel
 } from "@azure/storage-blob";
+export type ModifiedAccessConditions = Omit<ModifiedAccessConditionsModel, "ifTags">;
 
 import {
   PathCreateResponse,
