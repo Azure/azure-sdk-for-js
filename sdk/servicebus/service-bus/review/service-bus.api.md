@@ -226,6 +226,8 @@ export interface QueueRuntimePropertiesResponse extends QueueRuntimeProperties, 
 
 // @public
 export interface ReceivedMessage extends ServiceBusMessage {
+    // Warning: (ae-forgotten-export) The symbol "AmqpAnnotatedMessage" needs to be exported by the entry point index.d.ts
+    readonly _amqpAnnotatedMessage: AmqpAnnotatedMessage;
     readonly _amqpMessage: AmqpMessage;
     readonly deadLetterErrorDescription?: string;
     readonly deadLetterReason?: string;
