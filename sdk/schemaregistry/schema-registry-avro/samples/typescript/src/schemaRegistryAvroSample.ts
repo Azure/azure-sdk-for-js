@@ -3,6 +3,7 @@
 
 import { DefaultAzureCredential } from "@azure/identity";
 import { SchemaRegistryClient, SchemaDescription } from "@azure/schema-registry";
+import { SchemaRegistryAvroSerializer } from "@azure/schema-registry-avro";
 
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
@@ -28,31 +29,38 @@ const schemaObject = {
     }
   ]
 };
+const schema = JSON.stringify(schemaObject);
 
 // Description of the schema for registration
 const schemaDescription: SchemaDescription = {
   name: `${schemaObject.namespace}.${schemaObject.name}`,
   group,
   serializationType: "avro",
-  content: JSON.stringify(schemaObject)
+  content: schema
 };
 
 export async function main() {
   // Create a new client
   const client = new SchemaRegistryClient(endpoint, new DefaultAzureCredential());
 
-  // Register a schema and get back its ID.
-  const registered = await client.registerSchema(schemaDescription);
-  console.log(`Registered schema with ID=${registered.id}`);
+  // Register the schema. This would generally have been done somewhere else.
+  // You can also skip this step and let serialize automatically register schemas
+  // using autoRegisterSchemas=true, but that is NOT recommended in production.
+  await client.registerSchema(schemaDescription);
 
-  // Get ID for exisiting schema by its description.
-  // Note that this would throw if it had not been previously registered.
-  const found = await client.getSchemaId(schemaDescription);
-  console.log(`Got schema ID=${found.id}`);
+  // Create a new serializer backed by the client
+  const serializer = new SchemaRegistryAvroSerializer(client, group);
 
-  // Get content of existing schema by its ID
-  const foundSchema = await client.getSchemaById(registered.id);
-  console.log(`Got schema content=${foundSchema.content}`);
+  // serialize an object that matches the schema
+  const value = { firstName: "Jane", lastName: "Doe" };
+  const buffer = await serializer.serialize(value, schema);
+  console.log("Serialized:");
+  console.log(buffer);
+
+  // deserialize the result back to an object
+  const deserializedValue = await serializer.deserialize(buffer);
+  console.log("Deserialized:");
+  console.log(JSON.stringify(deserializedValue));
 }
 
 main().catch((err) => {

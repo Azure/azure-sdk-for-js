@@ -6,21 +6,21 @@ languages:
   - typescript
 products:
   - azure
-  - azure-schema-registry
-urlFragment: schema-registry-typescript
+  - azure-schema-registry-avro
+urlFragment: schema-registry-avro-typescript
 --- -->
 
-# Azure Schema Registry client library samples for TypeScript
+# Azure Schema Registry Avro serializer library samples for TypeScript
 
 These sample programs show how to use the TypeScript client libraries for Azure schema-registry in some common scenarios.
 
-| **File Name**                                   | **Description**        |
-| ----------------------------------------------- | ---------------------- |
-| [schemaRegistrySample.ts][schemaregistrysample] | schema-registry sample |
+| **File Name**                                   | **Description**             |
+| ----------------------------------------------- | --------------------------- |
+| [schemaRegistrySample.ts][schemaregistrysample] | schema-registry-avro sample |
 
 ## Prerequisites
 
-The samples are compatible with Node.js >= 10.0.0.
+The samples are compatible with Node.js >= 8.0.0.
 
 Before running the samples in Node, they must be compiled to JavaScript using the TypeScript compiler. For more information on TypeScript, see the [TypeScript documentation][typescript]. Install the TypeScript compiler using
 
@@ -53,7 +53,7 @@ npm run build
 4. Run whichever samples you like (note that some samples may require additional setup, see the table above):
 
 ```bash
-node dist/schemaRegistrySample.js
+node dist/schemaRegistryAvroSample.js
 ```
 
 Alternatively, run a single sample with the correct environment variables set (step 3 is not required if you do this), for example (cross-platform):
@@ -66,7 +66,7 @@ npx cross-env SCHEMA_REGISTRY_ENDPOINT="<endpoint>" AZURE_TENANT_ID="<tenant id>
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[schemaregistrysample]: ./src/schemaRegistrySample.ts
+[schemaregistrysample]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/schemaregistry/schema-registry-avro/samples/typescript/src/schemaRegistryAvroSample.ts
 [apiref]: https://docs.microsoft.com/javascript/api
 [freesub]: https://azure.microsoft.com/free/
 [package]: ../../README.md
