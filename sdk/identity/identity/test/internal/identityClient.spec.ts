@@ -2,8 +2,7 @@
 // Licensed under the MIT license.
 
 import assert from "assert";
-import { assertRejects } from "../authTestUtils";
-import { MockAuthHttpClient } from "../authTestUtils";
+import { assertRejects, MockAuthHttpClient  } from "../authTestUtils";
 import { AuthenticationError, ClientSecretCredential } from "../../src";
 import { IdentityClient } from "../../src/client/identityClient";
 import { setLogLevel, AzureLogger, getLogLevel, AzureLogLevel } from "@azure/logger";
