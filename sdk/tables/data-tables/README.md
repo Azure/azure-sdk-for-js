@@ -40,6 +40,8 @@ npm install @azure/data-tables
 
 Azure Tables supports several ways to authenticate. In order to interact with the Azure Tables service you'll need to create an instance of a Tables client - `TableServiceClient` or `TableClient` for example. See [samples for creating the `TableServiceClient`](#create-the-table-service-client) to learn more about authentication.
 
+Note: Azure Tables doesn't support Azure Active Directory (AAD)
+
 - [Service client with Shared Key](#with-tablessharedkeycredential)
 - [Service client with Shared access signatures](#with-sas-token)
 - [Table client with Shared Key](#tableclient-with-tablessharedkeycredential)
