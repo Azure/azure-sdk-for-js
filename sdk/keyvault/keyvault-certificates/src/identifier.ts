@@ -29,7 +29,22 @@ export interface KeyVaultCertificateId {
 }
 
 /**
- * Parses the string Id from a Key Vault Certificate into the KeyVaultCertificateId type.
+ * Parses the given Key Vault Certificate Id.
+ * Key Vault Ids come in the shape of URIs, for example
+ * a KeyVaultCertificate will have an `id` property, with a value similar to the following one:
+ *
+ *   https://<keyvault-name>.vault.azure.net/certificates/<certificate-name>/<unique-version-id>
+ *
+ * This URI can be parsed into segments using this function. The previous example would result in:
+ *
+ *   {
+ *      sourceId: "https://<keyvault-name>.vault.azure.net/certificates/<certificate-name>/<unique-version-id>",
+ *      vaultUrl: "https://<keyvault-name>.vault.azure.net",
+ *      version: "<unique-version-id>",
+ *      name: "<certificate-name>"
+ *   }
+ *
+ * @param {string} id The Id of the Key Vault Certificate.
  */
 export function parseKeyVaultCertificateId(id: string): KeyVaultCertificateId {
   const urlParts = id.split("/");

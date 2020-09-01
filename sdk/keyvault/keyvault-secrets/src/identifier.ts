@@ -29,7 +29,22 @@ export interface KeyVaultSecretId {
 }
 
 /**
- * Parses the string Id from a Key Vault Secret into the KeyVaultSecretId type.
+ * Parses the given Key Vault Secret Id.
+ * Key Vault Ids come in the shape of URIs, for example
+ * a KeyVaultSecret will have an `id` property, with a value similar to the following one:
+ *
+ *   https://<keyvault-name>.vault.azure.net/secrets/<secret-name>/<unique-version-id>
+ *
+ * This URI can be parsed into segments using this function. The previous example would result in:
+ *
+ *   {
+ *      sourceId: "https://<keyvault-name>.vault.azure.net/secrets/<secret-name>/<unique-version-id>",
+ *      vaultUrl: "https://<keyvault-name>.vault.azure.net",
+ *      version: "<unique-version-id>",
+ *      name: "<secret-name>"
+ *   }
+ *
+ * @param {string} id The Id of the Key Vault Secret.
  */
 export function parseKeyVaultSecretId(id: string): KeyVaultSecretId {
   const urlParts = id.split("/");
