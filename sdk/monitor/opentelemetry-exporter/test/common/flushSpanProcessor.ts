@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { ReadableSpan, SpanExporter, SpanProcessor } from "@opentelemetry/tracing";
 
 /**
@@ -14,13 +17,13 @@ export class FlushSpanProcessor implements SpanProcessor {
     });
   }
 
-  onStart(span: ReadableSpan): void {
+  onStart(): void {
     // no op
   }
   onEnd(span: ReadableSpan): void {
     this._spans.push(span);
   }
-  shutdown(callback: () => void): void {
+  shutdown(): void {
     // no op
   }
 }

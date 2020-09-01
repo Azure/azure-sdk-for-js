@@ -9,6 +9,7 @@ import { Envelope, RemoteDependencyData, RequestData } from "../../../src/Declar
 import { msToTimeSpan } from "../../../src/utils/breezeUtils";
 import { CanonicalCode } from "@opentelemetry/api";
 import { FlushSpanProcessor } from "../flushSpanProcessor";
+import { delay } from "@azure/core-http";
 
 const COMMON_ENVELOPE_PARAMS: Partial<Envelope> = {
   iKey: process.env.APPINSIGHTS_INSTRUMENTATIONKEY || "ikey",
@@ -55,11 +56,12 @@ export class BasicScenario implements Scenario {
         }
       });
 
-      await tracer.withSpan(child1, async () => {
+      tracer.withSpan(child1, () => {
         child1.setStatus({ code: CanonicalCode.OK });
         child1.end(100);
       });
 
+      await delay(0);
       child2.setStatus({ code: CanonicalCode.OK });
       child2.end(100);
 

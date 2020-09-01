@@ -34,14 +34,19 @@ describe("Trace Exporter Scenarios", () => {
     });
 
     it("should work", (done) => {
-      scenario.run().then(() => {
-        // promisify doesn't work on this, so use callbacks/done for now
-        scenario.flush(() => {
-          assertExpectation(ingest, scenario.expectation);
-          assertCount(ingest, scenario.expectation);
-          done();
+      scenario
+        .run()
+        .then(() => {
+          // promisify doesn't work on this, so use callbacks/done for now
+          return scenario.flush(() => {
+            assertExpectation(ingest, scenario.expectation);
+            assertCount(ingest, scenario.expectation);
+            done();
+          });
+        })
+        .catch((e) => {
+          throw e;
         });
-      });
     });
   });
 });
