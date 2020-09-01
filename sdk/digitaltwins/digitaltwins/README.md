@@ -60,7 +60,7 @@ msRestNodeAuth
 
 ##### Install @azure/ms-rest-browserauth
 
-```ba
+```bash
 npm install @azure/ms-rest-browserauth
 ```
 
@@ -128,8 +128,6 @@ directory for detailed examples on how to use this library.
 
 You can set the following environment variable to get the debug logging output when using this library.
 
-- Getting debug logs from the Azure Text Analytics client library
-
 ```bash
 export AZURE_LOG_LEVEL=verbose
 ```
@@ -149,4 +147,4 @@ If you'd like to contribute to this library, please read the [contributing guide
 ## Related projects
 
 - [Microsoft Azure SDK for Javascript](https://github.com/Azure/azure-sdk-for-js)
-  ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js/sdk/README.png)
+  ![Impressions](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/digitaltwins/digitaltwins/README.md)
