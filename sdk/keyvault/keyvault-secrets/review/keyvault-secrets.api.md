@@ -55,6 +55,14 @@ export interface KeyVaultSecret {
 }
 
 // @public
+export interface KeyVaultSecretId {
+    name: string;
+    sourceId: string;
+    vaultUrl: string;
+    version?: string;
+}
+
+// @public
 export interface ListDeletedSecretsOptions extends coreHttp.OperationOptions {
 }
 
@@ -74,15 +82,7 @@ export { PagedAsyncIterableIterator }
 export { PageSettings }
 
 // @public
-export interface ParsedSecretId {
-    name: string;
-    sourceId: string;
-    vaultUrl: string;
-    version?: string;
-}
-
-// @public
-export function parseSecretId(id: string): ParsedSecretId;
+export function parseKeyVaultSecretId(id: string): KeyVaultSecretId;
 
 export { PipelineOptions }
 

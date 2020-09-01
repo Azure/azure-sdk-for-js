@@ -222,6 +222,14 @@ export interface KeyVaultKey {
 }
 
 // @public
+export interface KeyVaultKeyId {
+    name: string;
+    sourceId: string;
+    vaultUrl: string;
+    version?: string;
+}
+
+// @public
 export type KeyWrapAlgorithm = "RSA-OAEP" | "RSA-OAEP-256" | "RSA1_5";
 
 // @public
@@ -256,15 +264,7 @@ export { PagedAsyncIterableIterator }
 export { PageSettings }
 
 // @public
-export interface ParsedKeyId {
-    name: string;
-    sourceId: string;
-    vaultUrl: string;
-    version?: string;
-}
-
-// @public
-export function parseKeyId(id: string): ParsedKeyId;
+export function parseKeyVaultKeyId(id: string): KeyVaultKeyId;
 
 export { PipelineOptions }
 

@@ -102,7 +102,7 @@ import {
 } from "./cryptographyClientModels";
 import { LocalSupportedAlgorithmName } from "./localCryptography/algorithms";
 
-import { parseKeyId, ParsedKeyId } from "./identifier";
+import { parseKeyVaultKeyId, KeyVaultKeyId } from "./identifier";
 
 export {
   CryptographyClientOptions,
@@ -128,7 +128,7 @@ export {
   KeyOperation,
   KeyType,
   KeyPollerOptions,
-  parseKeyId,
+  parseKeyVaultKeyId,
   BeginDeleteKeyOptions,
   BeginRecoverDeletedKeyOptions,
   KeyProperties,
@@ -142,7 +142,7 @@ export {
   LocalSupportedAlgorithmName,
   PageSettings,
   PagedAsyncIterableIterator,
-  ParsedKeyId,
+  KeyVaultKeyId,
   PipelineOptions,
   PollOperationState,
   PollerLike,
@@ -1139,7 +1139,7 @@ export class KeyClient {
     const keyBundle = bundle as KeyBundle;
     const deletedKeyBundle = bundle as DeletedKeyBundle;
 
-    const parsedId = parseKeyId(keyBundle.key!.kid!);
+    const parsedId = parseKeyVaultKeyId(keyBundle.key!.kid!);
 
     const attributes: any = keyBundle.attributes || {};
     delete keyBundle.attributes;
@@ -1188,7 +1188,7 @@ export class KeyClient {
    * Shapes the exposed {@link DeletedKey} based on a received KeyItem.
    */
   private getDeletedKeyFromKeyItem(keyItem: KeyItem): DeletedKey {
-    const parsedId = parseKeyId(keyItem.kid!);
+    const parsedId = parseKeyVaultKeyId(keyItem.kid!);
 
     const attributes = keyItem.attributes || {};
 
@@ -1231,7 +1231,7 @@ export class KeyClient {
    * Shapes the exposed {@link KeyProperties} based on a received KeyItem.
    */
   private getKeyPropertiesFromKeyItem(keyItem: KeyItem): KeyProperties {
-    const parsedId = parseKeyId(keyItem.kid!);
+    const parsedId = parseKeyVaultKeyId(keyItem.kid!);
 
     const attributes = keyItem.attributes || {};
 

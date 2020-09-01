@@ -63,7 +63,7 @@ import {
   SecretClientOptions,
   LATEST_API_VERSION
 } from "./secretsModels";
-import { parseSecretId, ParsedSecretId } from "./identifier";
+import { parseKeyVaultSecretId, KeyVaultSecretId } from "./identifier";
 
 export {
   SecretClientOptions,
@@ -80,11 +80,11 @@ export {
   ListDeletedSecretsOptions,
   PagedAsyncIterableIterator,
   PageSettings,
-  ParsedSecretId,
+  KeyVaultSecretId,
   PollerLike,
   PollOperationState,
   KeyVaultSecret,
-  parseSecretId,
+  parseKeyVaultSecretId,
   SecretProperties,
   SecretPollerOptions,
   BeginDeleteSecretOptions,
@@ -947,7 +947,7 @@ export class SecretClient {
   private getSecretFromSecretBundle(bundle: SecretBundle | DeletedSecretBundle): KeyVaultSecret {
     const secretBundle = bundle as SecretBundle;
     const deletedSecretBundle = bundle as DeletedSecretBundle;
-    const parsedId = parseSecretId(secretBundle.id!);
+    const parsedId = parseKeyVaultSecretId(secretBundle.id!);
 
     const attributes = secretBundle.attributes;
     delete secretBundle.attributes;
