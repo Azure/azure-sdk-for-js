@@ -22,7 +22,10 @@ Azure Cosmos DB provides a Table API for applications that are written for Azure
 
 ### Prerequisites
 
-Currently supported environments: Node.js version 8.x.x or higher
+Currently supported environments:
+
+- Node.js version 8.x.x or higher
+- Latest versions of Safari, Chrome, Edge and Firefox
 
 You must have an [Azure subscription](https://azure.microsoft.com/free/) and a [Storage Account](https://docs.microsoft.com/en-us/azure/storage/tables/table-storage-quickstart-portal)  or an [Azure CosmosDB database](https://docs.microsoft.com/en-us/azure/cosmos-db/create-cosmosdb-resources-portal) to use this package.
 
@@ -178,7 +181,7 @@ main();
 
 #### Create a new table
 
-You can lcreate a table through a `TableServiceClient` instance calling the `createTable` function. This function takes the name of the table to create as a parameter.
+You can create a table through a `TableServiceClient` instance calling the `createTable` function. This function takes the name of the table to create as a parameter.
 
 ```javascript
 const { TableServiceClient, TablesSharedKeyCredential } = require("@azure/data-tables");
