@@ -18,7 +18,6 @@ const packageVersion = "1.2.1";
 export class KeyVaultManagementClientContext extends msRestAzure.AzureServiceClient {
   credentials: msRest.ServiceClientCredentials;
   subscriptionId: string;
-  apiVersion?: string;
 
   /**
    * Initializes a new instance of the KeyVaultManagementClient class.
@@ -45,7 +44,6 @@ export class KeyVaultManagementClientContext extends msRestAzure.AzureServiceCli
 
     super(credentials, options);
 
-    this.apiVersion = '2018-02-14';
     this.acceptLanguage = 'en-US';
     this.longRunningOperationRetryTimeout = 30;
     this.baseUri = options.baseUri || this.baseUri || "https://management.azure.com";

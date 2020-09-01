@@ -24,7 +24,9 @@ export const apiVersion0: msRest.OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
     required: true,
+    isConstant: true,
     serializedName: "api-version",
+    defaultValue: '2019-09-01',
     type: {
       name: "String"
     }
@@ -37,6 +39,18 @@ export const apiVersion1: msRest.OperationQueryParameter = {
     isConstant: true,
     serializedName: "api-version",
     defaultValue: '2015-11-01',
+    type: {
+      name: "String"
+    }
+  }
+};
+export const apiVersion2: msRest.OperationQueryParameter = {
+  parameterPath: "apiVersion",
+  mapper: {
+    required: true,
+    isConstant: true,
+    serializedName: "api-version",
+    defaultValue: '2020-04-01-preview',
     type: {
       name: "String"
     }
@@ -59,6 +73,29 @@ export const location: msRest.OperationURLParameter = {
   mapper: {
     required: true,
     serializedName: "location",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const name0: msRest.OperationURLParameter = {
+  parameterPath: "name",
+  mapper: {
+    required: true,
+    serializedName: "name",
+    constraints: {
+      Pattern: /^[a-zA-Z0-9]{3,24}$/
+    },
+    type: {
+      name: "String"
+    }
+  }
+};
+export const name1: msRest.OperationURLParameter = {
+  parameterPath: "name",
+  mapper: {
+    required: true,
+    serializedName: "name",
     type: {
       name: "String"
     }
@@ -87,6 +124,16 @@ export const operationKind: msRest.OperationURLParameter = {
         "replace",
         "remove"
       ]
+    }
+  }
+};
+export const privateEndpointConnectionName: msRest.OperationURLParameter = {
+  parameterPath: "privateEndpointConnectionName",
+  mapper: {
+    required: true,
+    serializedName: "privateEndpointConnectionName",
+    type: {
+      name: "String"
     }
   }
 };
