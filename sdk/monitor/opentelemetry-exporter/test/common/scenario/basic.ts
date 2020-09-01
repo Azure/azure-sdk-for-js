@@ -2,28 +2,28 @@
 // Licensed under the MIT license.
 
 import * as opentelemetry from "@opentelemetry/api";
-import { BasicTracerProvider, SimpleSpanProcessor } from "@opentelemetry/tracing";
+import { BasicTracerProvider } from "@opentelemetry/tracing";
 import { AzureMonitorTraceExporter } from "../../../src";
 import { Expectation, Scenario } from "./types";
-import { promisify } from "util";
 import { Envelope, RemoteDependencyData, RequestData } from "../../../src/Declarations/Contracts";
 import { msToTimeSpan } from "../../../src/utils/breezeUtils";
 import { CanonicalCode } from "@opentelemetry/api";
-
-const sleep = promisify(setTimeout);
+import { FlushSpanProcessor } from "../flushSpanProcessor";
 
 const COMMON_ENVELOPE_PARAMS: Partial<Envelope> = {
   iKey: process.env.APPINSIGHTS_INSTRUMENTATIONKEY || "ikey",
   sampleRate: 100
 };
 
+const exporter = new AzureMonitorTraceExporter({
+  instrumentationKey: COMMON_ENVELOPE_PARAMS.iKey
+});
+const processor = new FlushSpanProcessor(exporter);
+
 export class BasicScenario implements Scenario {
   prepare(): void {
     const provider = new BasicTracerProvider();
-    const exporter = new AzureMonitorTraceExporter({
-      instrumentationKey: COMMON_ENVELOPE_PARAMS.iKey
-    });
-    provider.addSpanProcessor(new SimpleSpanProcessor(exporter));
+    provider.addSpanProcessor(processor);
     opentelemetry.trace.setGlobalTracerProvider(provider);
   }
 
@@ -56,7 +56,6 @@ export class BasicScenario implements Scenario {
       });
 
       await tracer.withSpan(child1, async () => {
-        await sleep(0);
         child1.setStatus({ code: CanonicalCode.OK });
         child1.end(100);
       });
@@ -64,7 +63,6 @@ export class BasicScenario implements Scenario {
       child2.setStatus({ code: CanonicalCode.OK });
       child2.end(100);
 
-      await sleep(0);
       root.setStatus({ code: CanonicalCode.OK });
       root.end(600);
     });
@@ -72,6 +70,10 @@ export class BasicScenario implements Scenario {
 
   cleanup(): void {
     opentelemetry.trace.disable();
+  }
+
+  flush(callback: () => void): void {
+    processor.forceFlush(callback);
   }
 
   expectation: Expectation[] = [

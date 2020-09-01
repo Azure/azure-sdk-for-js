@@ -8,9 +8,6 @@ import nock from "nock";
 import { successfulBreezeResponse } from "../unit/breezeTestUtils";
 import { Envelope } from "../../src/Declarations/Contracts";
 import { gunzipSync } from "zlib";
-import { promisify } from "util";
-
-const sleep = promisify(setTimeout);
 
 describe("Trace Exporter Scenarios", () => {
   describe(BasicScenario.prototype.constructor.name, () => {
@@ -36,12 +33,15 @@ describe("Trace Exporter Scenarios", () => {
       ingest = [];
     });
 
-    it("should work", async () => {
-      await scenario.run();
-      // Wait a bit for exporter to export everything
-      await sleep(1000);
-      assertExpectation(ingest, scenario.expectation);
-      assertCount(ingest, scenario.expectation);
+    it("should work", (done) => {
+      scenario.run().then(() => {
+        // promisify doesn't work on this, so use callbacks/done for now
+        scenario.flush(() => {
+          assertExpectation(ingest, scenario.expectation);
+          assertCount(ingest, scenario.expectation);
+          done();
+        });
+      });
     });
   });
 });

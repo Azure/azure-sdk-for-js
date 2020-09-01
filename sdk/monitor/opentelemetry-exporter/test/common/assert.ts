@@ -73,7 +73,7 @@ export const assertExpectation = (actual: Envelope[], expectations: Expectation[
       (e) => e.data!.baseData!.name === expectation.data!.baseData!.name
     );
     if (envelope.length !== 1) {
-      assert.ok(false, `asserExpection: could not find exported envelope: ${expectation.name}`);
+      assert.ok(false, `assertExpectation: could not find exported envelope: ${expectation.name}`);
       return;
     }
 
