@@ -9,7 +9,7 @@ module.exports = function(config) {
 
     // frameworks to use
     // available frameworks: https://npmjs.org/browse/keyword/karma-adapter
-    frameworks: ["mocha", "karma-typescript"],
+    frameworks: ["mocha"],
 
     plugins: [
       "karma-mocha",
@@ -21,12 +21,14 @@ module.exports = function(config) {
       "karma-env-preprocessor",
       "karma-coverage",
       "karma-remap-istanbul",
-      "karma-junit-reporter",
-      "karma-typescript"
+      "karma-junit-reporter"
     ],
 
     // list of files / patterns to load in the browser
-    files: ["test/**/*.ts"],
+    files: [
+      "dist-test/index.browser.js",
+      { pattern: "dist-test/index.browser.js.map", type: "html", included: false, served: true }
+    ],
 
     // list of files / patterns to exclude
     exclude: [],
@@ -34,20 +36,10 @@ module.exports = function(config) {
     // preprocess matching files before serving them to the browser
     // available preprocessors: https://npmjs.org/browse/keyword/karma-preprocessor
     preprocessors: {
-      "**/*.ts": "karma-typescript",
       "**/*.js": ["env"]
       // IMPORTANT: COMMENT following line if you want to debug in your browsers!!
       // Preprocess source file to calculate code coverage, however this will make source file unreadable
       // "dist-test/index.js": ["coverage"]
-    },
-
-    karmaTypescriptConfig: {
-      compilerOptions: {
-        module: "commonjs",
-        sourceMap: true,
-        target: "ES5",
-        esModuleInterop: true
-      }
     },
 
     envPreprocessor: [
