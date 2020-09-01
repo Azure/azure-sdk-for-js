@@ -61,6 +61,9 @@
 # PRLabel: %Tables
 /sdk/tables/ @mahdiva @joheredi
 
+# PRLabel: %EngSys
+/sdk/template/ @Azure/azure-sdk-eng
+
 /sdk/test-utils/ @HarshaNalluru @sadasant
 
 # PRLabel: %Cognitive - Text Analytics
