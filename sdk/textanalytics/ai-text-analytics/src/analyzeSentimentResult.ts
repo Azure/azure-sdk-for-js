@@ -65,13 +65,11 @@ export interface SentenceSentiment {
    */
   confidenceScores: SentimentConfidenceScores;
   /**
-   * The sentence text offset from the start of the document. The unit of
-   * distance used is UTF-16 code units.
+   * The sentence text offset from the start of the document.
    */
   offset: number;
   /**
-   * The length of the sentence text. The unit of distance used is UTF-16 code
-   * units.
+   * The length of the sentence text.
    */
   length: number;
   /**
@@ -107,13 +105,11 @@ export interface AspectSentiment {
    */
   text: string;
   /**
-   * The aspect text offset from the start of the sentence. The unit of distance
-   * used is UTF-16 code units.
+   * The aspect text offset from the start of the sentence.
    */
   offset: number;
   /**
-   * The length of the aspect text. The unit of distance used is UTF-16 code
-   * units.
+   * The length of the aspect text.
    */
   length: number;
 }
