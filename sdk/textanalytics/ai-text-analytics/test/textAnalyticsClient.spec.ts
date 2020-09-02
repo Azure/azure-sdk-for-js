@@ -605,12 +605,93 @@ describe("[AAD] TextAnalyticsClient", function() {
   });
 
   describe("#String encoding", () => {
-    it("client throws on empty list", async () => {
+    it("emoji", async () => {
       const [result] = await client.recognizePiiEntities([
         { id: "0", text: "👩 SSN: 859-98-0987", language: "en" }
       ]);
       if (!result.error) {
-        assert.equal(result.entities[0].offset, 7);
+        assert.equal(result.entities[0].offset, 8);
+        assert.equal(result.entities[0].length, 11);
+      }
+    });
+
+    it("emoji with skin tone modifier", async () => {
+      const [result] = await client.recognizePiiEntities([
+        { id: "0", text: "👩🏻 SSN: 859-98-0987", language: "en" }
+      ]);
+      if (!result.error) {
+        assert.equal(result.entities[0].offset, 10);
+        assert.equal(result.entities[0].length, 11);
+      }
+    });
+
+    it("family emoji", async () => {
+      const [result] = await client.recognizePiiEntities([
+        { id: "0", text: "👩‍👩‍👧‍👧 SSN: 859-98-0987", language: "en" }
+      ]);
+      if (!result.error) {
+        assert.equal(result.entities[0].offset, 17);
+        assert.equal(result.entities[0].length, 11);
+      }
+    });
+
+    it("family emoji wit skin tone modifier", async () => {
+      const [result] = await client.recognizePiiEntities([
+        { id: "0", text: "👩🏻‍👩🏽‍👧🏾‍👦🏿 SSN: 859-98-0987", language: "en" }
+      ]);
+      if (!result.error) {
+        assert.equal(result.entities[0].offset, 25);
+        assert.equal(result.entities[0].length, 11);
+      }
+    });
+
+    it("diacritics nfc", async () => {
+      const [result] = await client.recognizePiiEntities([
+        { id: "0", text: "año SSN: 859-98-0987", language: "en" }
+      ]);
+      if (!result.error) {
+        assert.equal(result.entities[0].offset, 9);
+        assert.equal(result.entities[0].length, 11);
+      }
+    });
+
+    it("diacritics nfd", async () => {
+      const [result] = await client.recognizePiiEntities([
+        { id: "0", text: "año SSN: 859-98-0987", language: "en" }
+      ]);
+      if (!result.error) {
+        assert.equal(result.entities[0].offset, 10);
+        assert.equal(result.entities[0].length, 11);
+      }
+    });
+
+    it("korean nfc", async () => {
+      const [result] = await client.recognizePiiEntities([
+        { id: "0", text: "아가 SSN: 859-98-0987", language: "en" }
+      ]);
+      if (!result.error) {
+        assert.equal(result.entities[0].offset, 8);
+        assert.equal(result.entities[0].length, 11);
+      }
+    });
+
+    it("korean nfd", async () => {
+      const [result] = await client.recognizePiiEntities([
+        { id: "0", text: "아가 SSN: 859-98-0987", language: "en" }
+      ]);
+      if (!result.error) {
+        assert.equal(result.entities[0].offset, 8);
+        assert.equal(result.entities[0].length, 11);
+      }
+    });
+
+    it("zalgo", async () => {
+      const [result] = await client.recognizePiiEntities([
+        { id: "0", text: "ơ̵̧̧̢̳̘̘͕͔͕̭̟̙͎͈̞͔̈̇̒̃͋̇̅͛̋͛̎́͑̄̐̂̎͗͝m̵͍͉̗̄̏͌̂̑̽̕͝͠g̵̢̡̢̡̨̡̧̛͉̞̯̠̤̣͕̟̫̫̼̰͓̦͖̣̣͎̋͒̈́̓̒̈̍̌̓̅͑̒̓̅̅͒̿̏́͗̀̇͛̏̀̈́̀̊̾̀̔͜͠͝ͅ SSN: 859-98-0987", language: "en" }
+      ]);
+      if (!result.error) {
+        assert.equal(result.entities[0].offset, 121);
+        assert.equal(result.entities[0].length, 11);
       }
     });
   });
