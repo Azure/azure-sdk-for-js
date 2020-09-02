@@ -17,7 +17,7 @@ export interface KeyVaultSecretId {
   sourceId: string;
 
   /**
-   * The URL of the Azure Key Vault. Part of the Secret Id.
+   * The URL of the Azure Key Vault instance to which the Secret belongs.
    */
   vaultUrl: string;
 
