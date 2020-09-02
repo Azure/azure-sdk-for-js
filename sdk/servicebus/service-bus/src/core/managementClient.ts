@@ -20,7 +20,6 @@ import {
   MessagingError,
   RequestResponseLink,
   SendRequestOptions,
-  defaultLock,
   translate
 } from "@azure/core-amqp";
 import { ConnectionContext } from "../connectionContext";
@@ -47,7 +46,7 @@ import { Typed } from "rhea-promise";
 import { max32BitNumber } from "../util/constants";
 import { Buffer } from "buffer";
 import { OperationOptionsBase } from "./../modelsToBeSharedWithEventHubs";
-import { AbortError } from "@azure/abort-controller";
+import { AbortSignalLike } from "@azure/abort-controller";
 
 /**
  * @internal
@@ -189,7 +188,6 @@ export interface ManagementClientOptions {
  * to the $management endpoint over AMQP connection.
  */
 export class ManagementClient extends LinkEntity<RequestResponseLink> {
-  readonly managementLock: string = `${Constants.managementRequestKey}-${generate_uuid()}`;
   /**
    * @property {string} entityPath - The name/path of the entity (queue/topic/subscription name)
    * for which the management request needs to be made.
@@ -223,7 +221,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
     this.entityPath = entityPath;
   }
 
-  private async _init(): Promise<void> {
+  private async _init(abortSignal?: AbortSignalLike): Promise<void> {
     throwErrorIfConnectionClosed(this._context);
     try {
       const rxopt: ReceiverOptions = {
@@ -243,10 +241,13 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
       };
       const sropt: SenderOptions = { target: { address: this.address } };
 
-      await this.initLink({
-        senderOptions: sropt,
-        receiverOptions: rxopt
-      });
+      await this.initLink(
+        {
+          senderOptions: sropt,
+          receiverOptions: rxopt
+        },
+        abortSignal
+      );
 
       this.link!.sender.on(SenderEvents.senderError, (context: EventContext) => {
         const id = context.connection.options.id;
@@ -293,55 +294,26 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
     const retryTimeoutInMs =
       sendRequestOptions.timeoutInMs ?? Constants.defaultOperationTimeoutInMs;
     const initOperationStartTime = Date.now();
-    if (!this.isOpen()) {
-      const rejectOnAbort = () => {
-        const requestName = sendRequestOptions.requestName;
-        const desc: string =
-          `[${this._context.connectionId}] The request "${requestName}" ` +
-          `to has been cancelled by the user.`;
-        log.error(desc);
-        const error = new AbortError(
-          `The ${requestName ? requestName + " " : ""}operation has been cancelled by the user.`
-        );
-
-        throw error;
+    const actionAfterTimeout = () => {
+      const desc: string = `The request with message_id "${request.message_id}" timed out. Please try again later.`;
+      const e: Error = {
+        name: "OperationTimeoutError",
+        message: desc
       };
 
-      if (sendRequestOptions.abortSignal) {
-        if (sendRequestOptions.abortSignal.aborted) {
-          return rejectOnAbort();
-        }
-        // TODO: init() should respect the abort signal as well.
-        // See https://github.com/Azure/azure-sdk-for-js/issues/4422
-      }
+      throw e;
+    };
 
-      const actionAfterTimeout = () => {
-        const desc: string = `The request with message_id "${request.message_id}" timed out. Please try again later.`;
-        const e: Error = {
-          name: "OperationTimeoutError",
-          message: desc
-        };
+    const waitTimer = setTimeout(actionAfterTimeout, retryTimeoutInMs);
 
-        throw e;
-      };
+    log.mgmt("[%s] Acquiring lock to get the management req res link.", this._context.connectionId);
 
-      const waitTimer = setTimeout(actionAfterTimeout, retryTimeoutInMs);
-
-      log.mgmt(
-        "[%s] Acquiring lock to get the management req res link.",
-        this._context.connectionId
-      );
-
-      try {
-        await defaultLock.acquire(this.managementLock, () => {
-          return this._init();
-        });
-      } catch (err) {
-        throw err;
-      } finally {
-        clearTimeout(waitTimer);
-      }
+    try {
+      await this._init(sendRequestOptions?.abortSignal);
+    } finally {
+      clearTimeout(waitTimer);
     }
+
     // time taken by the init operation
     const timeTakenByInit = Date.now() - initOperationStartTime;
     // Left over time

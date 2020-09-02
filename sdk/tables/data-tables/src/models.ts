@@ -11,7 +11,12 @@ import {
   TableResponse,
   TableCreateHeaders
 } from "./generated/models";
-import { OperationOptions, HttpResponse } from "@azure/core-http";
+import { OperationOptions, HttpResponse, PipelineOptions } from "@azure/core-http";
+
+/**
+ * Client options used to configure Tables Api requests
+ */
+export type TableServiceClientOptions = PipelineOptions & { endpoint?: string; version?: string };
 
 /**
  * Contains response data for the createTable operation.
@@ -100,7 +105,7 @@ export type ListEntitiesResponse<T extends object> = Array<TableEntity<T>> & {
   /**
    * Contains the continuation token value for row key.
    */
-  nextextRowKey?: string;
+  nextRowKey?: string;
   /**
    * The underlying HTTP response.
    */
@@ -186,10 +191,6 @@ export type CreateTableOptions = OperationOptions & {
  */
 export interface TableQueryOptions {
   /**
-   * Maximum number of records to return.
-   */
-  top?: number;
-  /**
    * OData filter expression.
    */
   filter?: string;
@@ -199,10 +200,6 @@ export interface TableQueryOptions {
  * OData Query options to limit the set of entities returned.
  */
 export interface TableEntityQueryOptions {
-  /**
-   * Maximum number of records to return.
-   */
-  top?: number;
   /**
    * OData filter expression.
    */
@@ -216,11 +213,7 @@ export interface TableEntityQueryOptions {
 /**
  * List tables optional parameters.
  */
-export interface ListTablesOptions {
-  /**
-   * Query options group
-   */
-  queryOptions?: TableQueryOptions;
+export type ListTableItemsOptions = OperationOptions & {
   /**
    * Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when analytics logging is enabled.
    */
@@ -229,12 +222,12 @@ export interface ListTablesOptions {
    * A table query continuation token from a previous call.
    */
   nextTableName?: string;
-}
+};
 
 /**
  * List entities optional parameters.
  */
-export interface ListTableEntitiesOptions {
+export type ListTableEntitiesOptions = OperationOptions & {
   /**
    * Query options group
    */
@@ -255,7 +248,7 @@ export interface ListTableEntitiesOptions {
    * An entity query continuation token from a previous call.
    */
   nextRowKey?: string;
-}
+};
 
 /**
  * GetEntity optional parameters.
