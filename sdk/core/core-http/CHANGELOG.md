@@ -2,7 +2,7 @@
 
 ## 1.1.7 (2020-09-02)
 
-- Fixed a bug in `BearerTokenAuthenticationPolicy` where a helper class was being instantiated on each request. [PR 10728](https://github.com/Azure/azure-sdk-for-js/pull/10728)
+- `BearerTokenAuthenticationPolicy` now starts trying to refresh the token 30 seconds before the token expires. It will only try to refresh said token on each request when refreshing is not in progress. In the mean time, requests will use the existing token. [PR 10085](https://github.com/Azure/azure-sdk-for-js/pull/10085)
 - Un-export the `{...}Policy` classes that were meant to be internal to `@azure/core-http`. [PR 10738](https://github.com/Azure/azure-sdk-for-js/pull/10738)
 
 ## 1.1.6 (2020-08-04)
