@@ -159,7 +159,7 @@ export interface TextAnalyticsError {
   /**
    * Inner error contains more specific information.
    */
-  innerError?: InnerError;
+  innererror?: InnerError;
   /**
    * Details about specific errors that led to this reported error.
    */
@@ -186,7 +186,7 @@ export interface InnerError {
   /**
    * Inner error contains more specific information.
    */
-  innerError?: InnerError;
+  innererror?: InnerError;
 }
 
 /**

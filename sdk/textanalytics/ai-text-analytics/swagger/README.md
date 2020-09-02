@@ -163,14 +163,6 @@ directive:
     where: $.definitions.Entity.properties.subcategory
     transform: >
       $["x-ms-client-name"] = "subCategory";
-  - from: swagger-document
-    where: $.definitions.TextAnalyticsError.properties.innererror
-    transform: >
-      $["x-ms-client-name"] = "innerError";
-  - from: swagger-document
-    where: $.definitions.InnerError.properties.innererror
-    transform: >
-      $["x-ms-client-name"] = "innerError";
 ```
 
 ### WarningCodeValue => WarningCode

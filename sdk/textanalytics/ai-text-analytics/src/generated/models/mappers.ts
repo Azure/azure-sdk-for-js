@@ -282,7 +282,7 @@ export const TextAnalyticsError: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
-      innerError: {
+      innererror: {
         serializedName: "innererror",
         type: {
           name: "Composite",
@@ -334,7 +334,7 @@ export const InnerError: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
-      innerError: {
+      innererror: {
         serializedName: "innererror",
         type: {
           name: "Composite",
