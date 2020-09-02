@@ -14,13 +14,13 @@ export const mappings = {
       const { id, name, type, properties } = roleAssignment;
       const { scope, roleDefinitionId, principalId } = properties || {};
       return {
-        id,
-        name,
-        type,
+        id: id!,
+        name: name!,
+        type: type!,
         properties: {
           scope: scope as RoleAssignmentScope,
-          roleDefinitionId,
-          principalId
+          roleDefinitionId: roleDefinitionId!,
+          principalId: principalId!
         }
       };
     }
@@ -38,14 +38,14 @@ export const mappings = {
         assignableScopes
       } = roleDefinition;
       return {
-        id,
-        name,
-        type,
-        roleName,
-        description,
-        roleType,
-        permissions,
-        assignableScopes
+        id: id!,
+        name: name!,
+        type: type!,
+        roleName: roleName!,
+        description: description!,
+        roleType: roleType!,
+        permissions: permissions!,
+        assignableScopes: assignableScopes!
       };
     }
   }

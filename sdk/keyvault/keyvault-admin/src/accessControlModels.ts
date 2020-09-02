@@ -21,19 +21,19 @@ export interface KeyVaultRoleAssignment {
   /**
    * The role assignment ID.
    */
-  readonly id?: string;
+  readonly id: string;
   /**
    * The role assignment name.
    */
-  readonly name?: string;
+  readonly name: string;
   /**
    * The role assignment type.
    */
-  readonly type?: string;
+  readonly type: string;
   /**
    * Role assignment properties.
    */
-  properties?: KeyVaultRoleAssignmentPropertiesWithScope;
+  properties: KeyVaultRoleAssignmentPropertiesWithScope;
 }
 
 /**
@@ -65,35 +65,35 @@ export interface KeyVaultRoleDefinition {
   /**
    * The role definition ID.
    */
-  readonly id?: string;
+  readonly id: string;
   /**
    * The role definition name.
    */
-  readonly name?: string;
+  readonly name: string;
   /**
    * The role definition type.
    */
-  readonly type?: string;
+  readonly type: string;
   /**
    * The role name.
    */
-  roleName?: string;
+  roleName: string;
   /**
    * The role definition description.
    */
-  description?: string;
+  description: string;
   /**
    * The role type.
    */
-  roleType?: string;
+  roleType: string;
   /**
    * A list of Key Vault permissions.
    */
-  permissions?: KeyVaultPermission[];
+  permissions: KeyVaultPermission[];
   /**
    * Role definition assignable scopes.
    */
-  assignableScopes?: string[];
+  assignableScopes: string[];
 }
 
 /**
@@ -127,11 +127,11 @@ export interface KeyVaultRoleAssignmentPropertiesWithScope {
   /**
    * The role definition ID.
    */
-  roleDefinitionId?: string;
+  roleDefinitionId: string;
   /**
    * The principal ID.
    */
-  principalId?: string;
+  principalId: string;
 }
 
 /**

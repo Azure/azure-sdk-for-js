@@ -12,6 +12,7 @@ import {
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 
 import { challengeBasedAuthenticationPolicy } from "../../keyvault-common/src";
+import { KeyVaultClient } from "./generated/keyVaultClient";
 import {
   RoleAssignmentsCreateResponse,
   RoleAssignmentsDeleteResponse,
@@ -31,8 +32,8 @@ import {
   ListRoleDefinitionsPageSettings,
   ListRoleAssignmentsPageSettings
 } from "./accessControlModels";
+
 import { SDK_VERSION, LATEST_API_VERSION } from "./constants";
-import { KeyVaultClient } from "./generated/keyVaultClient";
 import { createSpan, setParentSpan } from "./tracing";
 import { mappings } from "./mappings";
 import { logger } from "./log";
@@ -379,7 +380,7 @@ export class KeyVaultAccessControlClient {
       );
       continuationState.continuationToken = currentSetResponse.nextLink;
       if (currentSetResponse.value) {
-        yield currentSetResponse.value.map(mappings.roleAssignment.generatedToPublic, this);
+        yield currentSetResponse.value.map(mappings.roleDefinition.generatedToPublic, this);
       } else {
         break;
       }

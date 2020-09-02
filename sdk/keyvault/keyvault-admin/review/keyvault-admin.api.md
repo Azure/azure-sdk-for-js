@@ -46,10 +46,10 @@ export interface KeyVaultPermission {
 
 // @public
 export interface KeyVaultRoleAssignment {
-    readonly id?: string;
-    readonly name?: string;
-    properties?: KeyVaultRoleAssignmentPropertiesWithScope;
-    readonly type?: string;
+    readonly id: string;
+    readonly name: string;
+    properties: KeyVaultRoleAssignmentPropertiesWithScope;
+    readonly type: string;
 }
 
 // @public
@@ -60,21 +60,21 @@ export interface KeyVaultRoleAssignmentProperties {
 
 // @public
 export interface KeyVaultRoleAssignmentPropertiesWithScope {
-    principalId?: string;
-    roleDefinitionId?: string;
+    principalId: string;
+    roleDefinitionId: string;
     scope?: RoleAssignmentScope;
 }
 
 // @public
 export interface KeyVaultRoleDefinition {
-    assignableScopes?: string[];
-    description?: string;
-    readonly id?: string;
-    readonly name?: string;
-    permissions?: KeyVaultPermission[];
-    roleName?: string;
-    roleType?: string;
-    readonly type?: string;
+    assignableScopes: string[];
+    description: string;
+    readonly id: string;
+    readonly name: string;
+    permissions: KeyVaultPermission[];
+    roleName: string;
+    roleType: string;
+    readonly type: string;
 }
 
 // @public
