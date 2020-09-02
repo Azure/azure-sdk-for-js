@@ -58,7 +58,7 @@ It provides an opportunity to override default behavior including:
 ### Create models
 
 Let's create models using the code below. You need to pass in `any[]` containing list of json models.
-Check out sample models [here](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/digitaltwins/digitaltwins/samples/DTDL/Models).
+Check out sample models [here](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/digitaltwins/digitaltwins/samples/dtdl/models).
 
 ```JavaScript Snippet:dt_models_lifecycle.js
 const newModels = [temporaryComponent, temporaryModel];
@@ -177,7 +177,7 @@ console.log(`Updated component: ${component}`);
 
 ### Create digital twin relationships
 
-`upsertRelationship` creates a relationship on a digital twin provided with Id of a digital twin, name of relationship such as "contains", Id of an relationship such as "FloorContainsRoom" and an application/json relationship to be created. Must contain property with key "\$targetId" to specify the target of the relationship. Sample payloads for relationships can be found [here](https://github.com/Azure/azure-sdk-for-js/blob/digitaltwins/sdk/digitaltwins/digitaltwins/samples/dtdl/relationships/hospitalRelationships.ts "RelationshipExamples").
+`upsertRelationship` creates a relationship on a digital twin provided with Id of a digital twin, name of relationship such as "contains", Id of an relationship such as "FloorContainsRoom" and an application/json relationship to be created. Must contain property with key "\$targetId" to specify the target of the relationship. Sample payloads for relationships can be found [here](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/digitaltwins/digitaltwins/samples/dtdl/relationships/hospitalRelationships.ts "RelationshipExamples").
 
 ```JavaScript Snippet:dt_scenario
 const hospitalRelationships = [
