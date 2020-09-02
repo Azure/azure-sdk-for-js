@@ -26,9 +26,7 @@ import { WebSocketOptions } from '@azure/core-amqp';
 export type AuthorizationRule = {
     claimType: string;
     claimValue: string;
-    rights: {
-        accessRights?: string[];
-    };
+    accessRights?: ("Manage" | "Send" | "Listen")[];
     keyName: string;
     primaryKey?: string;
     secondaryKey?: string;
@@ -41,7 +39,7 @@ export interface CorrelationRuleFilter {
     label?: string;
     messageId?: string;
     properties?: {
-        [key: string]: "string" | "number" | "boolean";
+        [key: string]: string | number | boolean;
     };
     replyTo?: string;
     replyToSessionId?: string;
@@ -420,19 +418,19 @@ export interface SessionSubscribeOptions extends OperationOptionsBase, MessageHa
 }
 
 // @public
-export type SqlParameter = {
-    key: string;
-    value: string | number;
-    type: string;
+export type SqlRuleAction = {
+    sqlExpression?: string;
+    sqlParameters?: {
+        [key: string]: string | number | boolean;
+    };
 };
-
-// @public
-export type SqlRuleAction = SqlRuleFilter;
 
 // @public
 export interface SqlRuleFilter {
     sqlExpression?: string;
-    sqlParameters?: SqlParameter[];
+    sqlParameters?: {
+        [key: string]: string | number | boolean;
+    };
 }
 
 // @public
