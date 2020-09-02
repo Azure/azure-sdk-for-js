@@ -33,13 +33,11 @@ export interface KeyVaultSecretId {
 }
 
 /**
- * Parses the given Key Vault Secret Id.
- * Key Vault Ids come in the shape of URIs, for example
- * a KeyVaultSecret will have an `id` property, with a value similar to the following one:
+ * Parses the given Key Vault Secret Id. An example is:
  *
  *   https://<keyvault-name>.vault.azure.net/secrets/<secret-name>/<unique-version-id>
  *
- * This URI can be parsed into segments using this function. The previous example would result in:
+ * On parsing the above Id, this function returns:
  *
  *   {
  *      sourceId: "https://<keyvault-name>.vault.azure.net/secrets/<secret-name>/<unique-version-id>",
