@@ -106,9 +106,6 @@ export class SharedAccessSignatureCredential extends SharedKeyCredential {
   constructor(sharedAccessSignature: string) {
     super("", "");
 
-    this.keyName = "";
-    this.key = "";
-
     this._accessToken = {
       token: sharedAccessSignature,
       expiresOnTimestamp: 0
