@@ -851,159 +851,82 @@ export interface SubscriptionValidationEventData {
 
 // @public
 export interface SystemEventNameToEventData {
-    // (undocumented)
     "Microsoft.AppConfiguration.KeyValueDeleted": AppConfigurationKeyValueDeletedEventData;
-    // (undocumented)
     "Microsoft.AppConfiguration.KeyValueModified": AppConfigurationKeyValueModifiedEventData;
-    // (undocumented)
     "Microsoft.ContainerRegistry.ChartDeleted": ContainerRegistryChartDeletedEventData;
-    // (undocumented)
     "Microsoft.ContainerRegistry.ChartPushed": ContainerRegistryChartPushedEventData;
-    // (undocumented)
     "Microsoft.ContainerRegistry.ImageDeleted": ContainerRegistryImageDeletedEventData;
-    // (undocumented)
     "Microsoft.ContainerRegistry.ImagePushed": ContainerRegistryImagePushedEventData;
-    // (undocumented)
     "Microsoft.Devices.DeviceConnected": IotHubDeviceConnectedEventData;
-    // (undocumented)
     "Microsoft.Devices.DeviceCreated": IotHubDeviceCreatedEventData;
-    // (undocumented)
     "Microsoft.Devices.DeviceDeleted": IotHubDeviceDeletedEventData;
-    // (undocumented)
     "Microsoft.Devices.DeviceDisconnected": IotHubDeviceDisconnectedEventData;
-    // (undocumented)
     "Microsoft.Devices.DeviceTelemetry": IotHubDeviceTelemetryEventData;
-    // (undocumented)
     "Microsoft.EventGrid.SubscriptionDeletedEvent": SubscriptionDeletedEventData;
-    // (undocumented)
     "Microsoft.EventGrid.SubscriptionValidationEvent": SubscriptionValidationEventData;
-    // (undocumented)
     "Microsoft.EventHub.CaptureFileCreated": EventHubCaptureFileCreatedEventData;
-    // (undocumented)
     "Microsoft.MachineLearningServices.DatasetDriftDetected": MachineLearningServicesDatasetDriftDetectedEventData;
-    // (undocumented)
     "Microsoft.MachineLearningServices.ModelDeployed": MachineLearningServicesModelDeployedEventData;
-    // (undocumented)
     "Microsoft.MachineLearningServices.ModelRegistered": MachineLearningServicesModelRegisteredEventData;
-    // (undocumented)
     "Microsoft.MachineLearningServices.RunCompleted": MachineLearningServicesRunCompletedEventData;
-    // (undocumented)
     "Microsoft.MachineLearningServices.RunStatusChanged": MachineLearningServicesRunStatusChangedEventData;
-    // (undocumented)
     "Microsoft.Maps.GeofenceEntered": MapsGeofenceEnteredEventData;
-    // (undocumented)
     "Microsoft.Maps.GeofenceExited": MapsGeofenceExitedEventData;
-    // (undocumented)
     "Microsoft.Maps.GeofenceResult": MapsGeofenceResultEventData;
-    // (undocumented)
     "Microsoft.Media.JobCanceled": MediaJobCanceledEventData;
-    // (undocumented)
     "Microsoft.Media.JobCanceling": MediaJobCancelingEventData;
-    // (undocumented)
     "Microsoft.Media.JobErrored": MediaJobErroredEventData;
-    // (undocumented)
     "Microsoft.Media.JobFinished": MediaJobFinishedEventData;
-    // (undocumented)
     "Microsoft.Media.JobOutputCanceled": MediaJobOutputCanceledEventData;
-    // (undocumented)
     "Microsoft.Media.JobOutputCanceling": MediaJobOutputCancelingEventData;
-    // (undocumented)
     "Microsoft.Media.JobOutputErrored": MediaJobOutputErroredEventData;
-    // (undocumented)
     "Microsoft.Media.JobOutputFinished": MediaJobOutputFinishedEventData;
-    // (undocumented)
     "Microsoft.Media.JobOutputProcessing": MediaJobOutputProcessingEventData;
-    // (undocumented)
     "Microsoft.Media.JobOutputProgress": MediaJobOutputProgressEventData;
-    // (undocumented)
     "Microsoft.Media.JobOutputScheduled": MediaJobOutputScheduledEventData;
-    // (undocumented)
     "Microsoft.Media.JobOutputStateChange": MediaJobOutputStateChangeEventData;
-    // (undocumented)
     "Microsoft.Media.JobProcessing": MediaJobProcessingEventData;
-    // (undocumented)
     "Microsoft.Media.JobScheduled": MediaJobScheduledEventData;
-    // (undocumented)
     "Microsoft.Media.JobStateChange": MediaJobStateChangeEventData;
-    // (undocumented)
     "Microsoft.Media.LiveEventConnectionRejected": MediaLiveEventConnectionRejectedEventData;
-    // (undocumented)
     "Microsoft.Media.LiveEventEncoderConnected": MediaLiveEventEncoderConnectedEventData;
-    // (undocumented)
     "Microsoft.Media.LiveEventEncoderDisconnected": MediaLiveEventEncoderDisconnectedEventData;
-    // (undocumented)
     "Microsoft.Media.LiveEventIncomingDataChunkDropped": MediaLiveEventIncomingDataChunkDroppedEventData;
-    // (undocumented)
     "Microsoft.Media.LiveEventIncomingStreamReceived": MediaLiveEventIncomingStreamReceivedEventData;
-    // (undocumented)
     "Microsoft.Media.LiveEventIncomingStreamsOutOfSync": MediaLiveEventIncomingStreamsOutOfSyncEventData;
-    // (undocumented)
     "Microsoft.Media.LiveEventIncomingVideoStreamsOutOfSync": MediaLiveEventIncomingVideoStreamsOutOfSyncEventData;
-    // (undocumented)
     "Microsoft.Media.LiveEventIngestHeartbeat": MediaLiveEventIngestHeartbeatEventData;
-    // (undocumented)
     "Microsoft.Media.LiveEventTrackDiscontinuityDetected": MediaLiveEventTrackDiscontinuityDetectedEventData;
-    // (undocumented)
     "Microsoft.Resources.ResourceActionCancel": ResourceActionCancelEventData;
-    // (undocumented)
     "Microsoft.Resources.ResourceActionFailure": ResourceActionFailureEventData;
-    // (undocumented)
     "Microsoft.Resources.ResourceActionSuccess": ResourceActionSuccessEventData;
-    // (undocumented)
     "Microsoft.Resources.ResourceDeleteCancel": ResourceDeleteCancelEventData;
-    // (undocumented)
     "Microsoft.Resources.ResourceDeleteFailure": ResourceDeleteFailureEventData;
-    // (undocumented)
     "Microsoft.Resources.ResourceDeleteSuccess": ResourceDeleteSuccessEventData;
-    // (undocumented)
     "Microsoft.Resources.ResourceWriteCancel": ResourceWriteCancelEventData;
-    // (undocumented)
     "Microsoft.Resources.ResourceWriteFailure": ResourceWriteFailureEventData;
-    // (undocumented)
     "Microsoft.Resources.ResourceWriteSuccess": ResourceWriteSuccessEventData;
-    // (undocumented)
     "Microsoft.ServiceBus.ActiveMessagesAvailableWithNoListeners": ServiceBusActiveMessagesAvailableWithNoListenersEventData;
-    // (undocumented)
     "Microsoft.ServiceBus.DeadletterMessagesAvailableWithNoListener": ServiceBusDeadletterMessagesAvailableWithNoListenersEventData;
-    // (undocumented)
     "Microsoft.Storage.BlobCreated": StorageBlobCreatedEventData;
-    // (undocumented)
     "Microsoft.Storage.BlobDeleted": StorageBlobDeletedEventData;
-    // (undocumented)
     "Microsoft.Storage.BlobRenamed": StorageBlobRenamedEventData;
-    // (undocumented)
     "Microsoft.Storage.DirectoryCreated": StorageDirectoryCreatedEventData;
-    // (undocumented)
     "Microsoft.Storage.DirectoryDeleted": StorageDirectoryDeletedEventData;
-    // (undocumented)
     "Microsoft.Storage.DirectoryRenamed": StorageDirectoryRenamedEventData;
-    // (undocumented)
     "Microsoft.Storage.LifecyclePolicyCompleted": StorageLifecyclePolicyCompletedEventData;
-    // (undocumented)
     "Microsoft.Web.AppServicePlanUpdated": WebAppServicePlanUpdatedEventData;
-    // (undocumented)
     "Microsoft.Web.AppUpdated": WebAppUpdatedEventData;
-    // (undocumented)
     "Microsoft.Web.BackupOperationCompleted": WebBackupOperationCompletedEventData;
-    // (undocumented)
     "Microsoft.Web.BackupOperationFailed": WebBackupOperationFailedEventData;
-    // (undocumented)
     "Microsoft.Web.BackupOperationStarted": WebBackupOperationStartedEventData;
-    // (undocumented)
     "Microsoft.Web.RestoreOperationCompleted": WebRestoreOperationCompletedEventData;
-    // (undocumented)
     "Microsoft.Web.RestoreOperationFailed": WebRestoreOperationFailedEventData;
-    // (undocumented)
     "Microsoft.Web.RestoreOperationStarted": WebRestoreOperationStartedEventData;
-    // (undocumented)
     "Microsoft.Web.SlotSwapCompleted": WebSlotSwapCompletedEventData;
-    // (undocumented)
     "Microsoft.Web.SlotSwapFailed": WebSlotSwapFailedEventData;
-    // (undocumented)
     "Microsoft.Web.SlotSwapStarted": WebSlotSwapStartedEventData;
-    // (undocumented)
     "Microsoft.Web.SlotSwapWithPreviewCancelled": WebSlotSwapWithPreviewCancelledEventData;
-    // (undocumented)
     "Microsoft.Web.SlotSwapWithPreviewStarted": WebSlotSwapWithPreviewStartedEventData;
 }
 
