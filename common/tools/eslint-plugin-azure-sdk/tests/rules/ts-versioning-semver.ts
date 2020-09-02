@@ -295,6 +295,30 @@ ruleTester.run("ts-versioning-semver", rule, {
       filename: "package.json"
     },
     {
+      code: '{"version": "1.1.10-alpha.0"}',
+      filename: "package.json"
+    },
+    {
+      code: '{"version": "1.1.10-alpha.1"}',
+      filename: "package.json"
+    },
+    {
+      code: '{"version": "1.1.10-alpha.10"}',
+      filename: "package.json"
+    },
+    {
+      code: '{"version": "1.1.10-beta.0"}',
+      filename: "package.json"
+    },
+    {
+      code: '{"version": "1.1.10-beta.1"}',
+      filename: "package.json"
+    },
+    {
+      code: '{"version": "1.1.10-beta.10"}',
+      filename: "package.json"
+    },
+    {
       code: '{"version": "1.1.10-dev.20200728.0"}',
       filename: "package.json"
     },
@@ -436,6 +460,78 @@ ruleTester.run("ts-versioning-semver", rule, {
       errors: [
         {
           message: "preview format is not x.y.z-preview.i"
+        }
+      ]
+    },
+    {
+      code: '{"version": "1.0.0-Alpha-1"}',
+      filename: "package.json",
+      errors: [
+        {
+          message: "unrecognized version syntax: Alpha-1"
+        }
+      ]
+    },
+    {
+      code: '{"version": "1.0.0-alpha-1"}',
+      filename: "package.json",
+      errors: [
+        {
+          message: "alpha format is not x.y.z-alpha.i"
+        }
+      ]
+    },
+    {
+      code: '{"version": "1.0.0-alpha1"}',
+      filename: "package.json",
+      errors: [
+        {
+          message: "alpha format is not x.y.z-alpha.i"
+        }
+      ]
+    },
+    {
+      code: '{"version": "1.0.0-alpha.01"}',
+      filename: "package.json",
+      errors: [
+        {
+          message: "alpha format is not x.y.z-alpha.i"
+        }
+      ]
+    },
+    {
+      code: '{"version": "1.0.0-Beta-1"}',
+      filename: "package.json",
+      errors: [
+        {
+          message: "unrecognized version syntax: Beta-1"
+        }
+      ]
+    },
+    {
+      code: '{"version": "1.0.0-beta-1"}',
+      filename: "package.json",
+      errors: [
+        {
+          message: "beta format is not x.y.z-beta.i"
+        }
+      ]
+    },
+    {
+      code: '{"version": "1.0.0-beta1"}',
+      filename: "package.json",
+      errors: [
+        {
+          message: "beta format is not x.y.z-beta.i"
+        }
+      ]
+    },
+    {
+      code: '{"version": "1.0.0-beta.01"}',
+      filename: "package.json",
+      errors: [
+        {
+          message: "beta format is not x.y.z-beta.i"
         }
       ]
     },
