@@ -10,14 +10,14 @@
    "status": 200,
    "response": "{\"documents\":[{\"id\":\"0\",\"entities\":[],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}",
    "responseHeaders": {
-    "apim-request-id": "33cb0a53-e4fb-4689-aac0-53e71375a34f",
+    "apim-request-id": "d7738609-4d3b-44ce-bd37-8dbf2bd66773",
     "content-type": "application/json; charset=utf-8",
     "csp-billing-usage": "CognitiveServices.TextAnalytics.BatchScoring=1",
-    "date": "Wed, 02 Sep 2020 16:06:46 GMT",
+    "date": "Wed, 02 Sep 2020 23:54:05 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "77"
+    "x-envoy-upstream-service-time": "91"
    }
   }
  ],
