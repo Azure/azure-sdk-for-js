@@ -43,6 +43,8 @@ export class InteractiveBrowserCredential implements TokenCredential {
   private tenantId: string;
   private clientId: string;
   private persistenceEnabled: boolean;
+  private redirectUri: string;
+  private authorityHost: string;
   private authenticationRecord: AuthenticationRecord | undefined;
 
   constructor(options?: InteractiveBrowserCredentialOptions) {
@@ -54,11 +56,27 @@ export class InteractiveBrowserCredential implements TokenCredential {
     this.persistenceEnabled = false;
     this.authenticationRecord = undefined;
 
+    if (options && options.redirectUri) {
+      if (typeof options.redirectUri === "string") {
+        this.redirectUri = options.redirectUri;
+      } else {
+        this.redirectUri = options.redirectUri();
+      }
+    } else {
+      this.redirectUri = "http://localhost";
+    }
+
+    if (options && options.authorityHost) {
+      this.authorityHost = options.authorityHost;
+    } else {
+      this.authorityHost = "https://login.microsoftonline.com/" + this.tenantId;
+    }
+
     const publicClientConfig = {
       auth: {
         clientId: this.clientId,
-        authority: "https://login.microsoftonline.com/" + this.tenantId,
-        redirectUri: "http://localhost"
+        authority: this.authorityHost,
+        redirectUri: this.redirectUri
       },
       cache: undefined
     };
@@ -88,7 +106,7 @@ export class InteractiveBrowserCredential implements TokenCredential {
   private async openAuthCodeUrl(scopeArray: string[]): Promise<void> {
     const authCodeUrlParameters = {
       scopes: scopeArray,
-      redirectUri: "http://localhost"
+      redirectUri: this.redirectUri
     };
 
     const response = await this.pca.getAuthCodeUrl(authCodeUrlParameters);
@@ -96,7 +114,9 @@ export class InteractiveBrowserCredential implements TokenCredential {
   }
 
   private async acquireTokenFromBrowser(scopeArray: string[]): Promise<AccessToken | null> {
+    // eslint-disable-next-line
     return new Promise<AccessToken | null>(async (resolve, reject) => {
+      // eslint-disable-next-line
       let listen: http.Server | undefined;
       let socketToDestroy: Socket | undefined;
 
@@ -115,7 +135,7 @@ export class InteractiveBrowserCredential implements TokenCredential {
       app.get("/", async (req, res) => {
         const tokenRequest: msal.AuthorizationCodeRequest = {
           code: req.query.code as string,
-          redirectUri: "http://localhost",
+          redirectUri: this.redirectUri,
           scopes: scopeArray
         };
 
