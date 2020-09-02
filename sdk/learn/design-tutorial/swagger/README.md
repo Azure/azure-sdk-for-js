@@ -15,5 +15,5 @@ source-code-folder-path: ./src/generated
 input-file: ./appconfiguration.json
 add-credentials: false
 use-extension:
-  "@autorest/typescript": "6.0.0-dev.20200727.1"
+  "@autorest/typescript": "6.0.0-dev.20200826.1"
 ```

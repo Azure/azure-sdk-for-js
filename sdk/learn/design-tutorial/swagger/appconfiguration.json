@@ -562,10 +562,6 @@
                             "Sync-Token": {
                                 "description": "Enables real-time consistency between requests by providing the returned value in the next request made to the server.",
                                 "type": "string"
-                            },
-                            "ETag": {
-                                "description": "An identifier representing the returned state of the resource.",
-                                "type": "string"
                             }
                         }
                     },
