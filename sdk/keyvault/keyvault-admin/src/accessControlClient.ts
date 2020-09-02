@@ -66,10 +66,9 @@ export class KeyVaultAccessControlClient {
    *
    * let client = new KeyVaultAccessControlClient(vaultUrl, credentials);
    * ```
-   * @param {string} vaultUrl the URL of the Key Vault. It should have this shape: https://${your-key-vault-name}.vault.azure.net
-   * @param {TokenCredential} credential An object that implements the `TokenCredential` interface used to authenticate requests to the service. Use the @azure/identity package to create a credential that suits your needs.
-   * @param {AccessControlClientOptions} [pipelineOptions] Pipeline options used to configure Key Vault API requests. Omit this parameter to use the default pipeline configuration.
-   * @memberof KeyVaultAccessControlClient
+   * @param vaultUrl the URL of the Key Vault. It should have this shape: https://${your-key-vault-name}.vault.azure.net
+   * @param credential An object that implements the `TokenCredential` interface used to authenticate requests to the service. Use the @azure/identity package to create a credential that suits your needs.
+   * @param [pipelineOptions] Pipeline options used to configure Key Vault API requests. Omit this parameter to use the default pipeline configuration.
    */
   constructor(
     vaultUrl: string,
@@ -128,11 +127,11 @@ export class KeyVaultAccessControlClient {
    * const result = await client.createRoleAssignment("/", "295c179b-9ad3-4117-99cd-b1aa66cf4517", roleDefinition, principalId);
    * ```
    * @summary Creates a new role assignment.
-   * @param {RoleAssignmentScope} roleScope The scope of the role assignment.
-   * @param {string} name The name of the role assignment. Must be a UUID.
-   * @param {string} roleDefinitionId The role definition ID used in the role assignment.
-   * @param {string} principalId The principal ID assigned to the role. This maps to the ID inside the Active Directory. It can point to a user, service principal, or security group.
-   * @param {CreateRoleAssignmentOptions} [options] The optional parameters.
+   * @param roleScope The scope of the role assignment.
+   * @param name The name of the role assignment. Must be a UUID.
+   * @param roleDefinitionId The role definition ID used in the role assignment.
+   * @param principalId The principal ID assigned to the role. This maps to the ID inside the Active Directory. It can point to a user, service principal, or security group.
+   * @param [options] The optional parameters.
    */
   public async createRoleAssignment(
     roleScope: RoleAssignmentScope,
@@ -182,9 +181,9 @@ export class KeyVaultAccessControlClient {
    * console.log(deletedRoleAssignment);
    * ```
    * @summary Deletes an existing role assignment.
-   * @param {string} roleScope The scope of the role assignment.
-   * @param {string} name The name of the role assignment.
-   * @param {DeleteRoleAssignmentOptions} [options] The optional parameters.
+   * @param roleScope The scope of the role assignment.
+   * @param name The name of the role assignment.
+   * @param [options] The optional parameters.
    */
   public async deleteRoleAssignment(
     roleScope: RoleAssignmentScope,
@@ -220,9 +219,9 @@ export class KeyVaultAccessControlClient {
    * console.log(roleAssignment);
    * ```
    * @summary Gets an existing role assignment.
-   * @param {string} roleScope The scope of the role assignment.
-   * @param {string} name The name of the role assignment.
-   * @param {GetRoleAssignmentOptions} [options] The optional parameters.
+   * @param roleScope The scope of the role assignment.
+   * @param name The name of the role assignment.
+   * @param [options] The optional parameters.
    */
   public async getRoleAssignment(
     roleScope: RoleAssignmentScope,
@@ -251,9 +250,9 @@ export class KeyVaultAccessControlClient {
    * @internal
    * @ignore
    * Deals with the pagination of {@link listRoleAssignments}.
-   * @param {string} roleScope The scope of the role assignments.
-   * @param {PageSettings} continuationState An object that indicates the position of the paginated request.
-   * @param {ListRoleAssignmentsOptions} [options] Common options for the iterative endpoints.
+   * @param roleScope The scope of the role assignments.
+   * @param continuationState An object that indicates the position of the paginated request.
+   * @param [options] Common options for the iterative endpoints.
    */
   private async *listRoleAssignmentsPage(
     roleScope: RoleAssignmentScope,
@@ -292,8 +291,8 @@ export class KeyVaultAccessControlClient {
    * @internal
    * @ignore
    * Deals with the iteration of all the available results of {@link listRoleAssignments}.
-   * @param {string} roleScope The scope of the role assignments.
-   * @param {ListRoleAssignmentsOptions} [options] Common options for the iterative endpoints.
+   * @param roleScope The scope of the role assignments.
+   * @param [options] Common options for the iterative endpoints.
    */
   private async *listRoleAssignmentsAll(
     roleScope: RoleAssignmentScope,
@@ -315,8 +314,8 @@ export class KeyVaultAccessControlClient {
    * }
    * ```
    * @summary Lists all of the role assignments in a given scope.
-   * @param {string} roleScope The scope of the role assignments.
-   * @param {ListRoleAssignmentsOptions} [options] The optional parameters.
+   * @param roleScope The scope of the role assignments.
+   * @param [options] The optional parameters.
    */
   public listRoleAssignments(
     roleScope: RoleAssignmentScope,
@@ -348,9 +347,9 @@ export class KeyVaultAccessControlClient {
    * @internal
    * @ignore
    * Deals with the pagination of {@link listRoleDefinitions}.
-   * @param {string} roleScope The scope of the role definition.
-   * @param {ListRoleDefinitionsPageSettings} continuationState An object that indicates the position of the paginated request.
-   * @param {ListRoleAssignmentsOptions} [options] Common options for the iterative endpoints.
+   * @param roleScope The scope of the role definition.
+   * @param continuationState An object that indicates the position of the paginated request.
+   * @param [options] Common options for the iterative endpoints.
    */
   private async *listRoleDefinitionsPage(
     roleScope: RoleAssignmentScope,
@@ -389,8 +388,8 @@ export class KeyVaultAccessControlClient {
    * @internal
    * @ignore
    * Deals with the iteration of all the available results of {@link listRoleDefinitions}.
-   * @param {string} roleScope The scope of the role definition.
-   * @param {ListRoleDefinitionsOptions} [options] Common options for the iterative endpoints.
+   * @param roleScope The scope of the role definition.
+   * @param [options] Common options for the iterative endpoints.
    */
   private async *listRoleDefinitionsAll(
     roleScope: RoleAssignmentScope,
@@ -412,8 +411,8 @@ export class KeyVaultAccessControlClient {
    * }
    * ```
    * @summary Lists all of the role definition in a given scope.
-   * @param {string} roleScope The scope of the role definition.
-   * @param {ListRoleDefinitionsOptions} [options] The optional parameters.
+   * @param roleScope The scope of the role definition.
+   * @param [options] The optional parameters.
    */
   public listRoleDefinitions(
     roleScope: RoleAssignmentScope,
