@@ -397,7 +397,7 @@ export class TableClient {
 
     try {
       if (!entity.partitionKey || !entity.rowKey) {
-        throw new Error("PartitionKey and RowKey must be defined");
+        throw new Error("partitionKey and rowKey must be defined");
       }
 
       const { etag = "*", ...updateEntityOptions } = updatedOptions || {};
