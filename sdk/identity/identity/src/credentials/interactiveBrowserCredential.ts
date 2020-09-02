@@ -67,7 +67,11 @@ export class InteractiveBrowserCredential implements TokenCredential {
     }
 
     if (options && options.authorityHost) {
-      this.authorityHost = options.authorityHost;
+      if (options.authorityHost.endsWith("/")) {
+        this.authorityHost = options.authorityHost + this.tenantId;
+      } else {
+        this.authorityHost = options.authorityHost + "/" + this.tenantId;
+      }
     } else {
       this.authorityHost = "https://login.microsoftonline.com/" + this.tenantId;
     }
