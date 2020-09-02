@@ -49,7 +49,7 @@ import {
   EncryptResult
 } from "./cryptographyClientModels";
 import { KeyBundle } from "./generated/models";
-import { parseKeyVaultKeysIdentifier } from "./identifier";
+import { parseKeyVaultKeyId } from "./identifier";
 
 /**
  * Checks whether a key can be used at that specific moment,
@@ -654,10 +654,10 @@ export class CryptographyClient {
     let parsed;
     if (typeof key === "string") {
       this.key = key;
-      parsed = parseKeyVaultKeysIdentifier(this.key);
+      parsed = parseKeyVaultKeyId(this.key);
     } else if (key.key) {
       this.key = key.key;
-      parsed = parseKeyVaultKeysIdentifier(this.key.kid!);
+      parsed = parseKeyVaultKeyId(this.key.kid!);
     } else {
       throw new Error(
         "The provided key is malformed as it does not have a value for the `key` property."
