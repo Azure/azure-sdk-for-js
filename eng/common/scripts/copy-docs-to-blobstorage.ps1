@@ -247,7 +247,10 @@ if ($Language -eq "javascript")
         if($dirList.Length -eq 1){
             $DocVersion = $dirList[0].Name
             Write-Host "Uploading Doc for $($PkgName) Version:- $($DocVersion)..."
-            $releaseTag = RetrieveReleaseTag "NPM" $DocLocation 
+            $releaseTag = RetrieveReleaseTag "NPM" "$($DocLocation)/documentation"
+            if (!releaseTag) {
+                $releaseTag = GenerateReleaseTag $PkgName $DocVersion
+            } 
             Upload-Blobs -DocDir "$($DocLocation)/documentation/$($Item.BaseName)/$($Item.BaseName)/$($DocVersion)" -PkgName $PkgName -DocVersion $DocVersion -ReleaseTag $releaseTag
         }
         else{
