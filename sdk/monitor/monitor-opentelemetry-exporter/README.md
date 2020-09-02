@@ -30,24 +30,24 @@ const provider = new NodeTracerProvider({
   plugins: {
     https: {
       // Ignore Application Insights Ingestion Server
-      ignoreOutgoingUrls: [new RegExp(/dc.services.visualstudio.com/i)],
-    },
-  },
+      ignoreOutgoingUrls: [new RegExp(/dc.services.visualstudio.com/i)]
+    }
+  }
 });
 provider.register();
 
 // Create an exporter instance
 const exporter = new AzureMonitorTraceExporter({
   logger: provider.logger,
-  instrumentationKey: "ikey",
+  instrumentationKey: "ikey"
 });
 
 // Add the exporter to the provider
 provider.addSpanProcessor(
   new BatchSpanProcessor(exporter, {
     bufferTimeout: 15000,
-    bufferSize: 1000,
-  }),
+    bufferSize: 1000
+  })
 );
 ```
 
@@ -79,9 +79,9 @@ const provider = new NodeTracerProvider({
   plugins: {
     https: {
       // Ignore Application Insights Ingestion Server
-      ignoreOutgoingUrls: [new RegExp(/dc.services.visualstudio.com/i)],
-    },
-  },
+      ignoreOutgoingUrls: [new RegExp(/dc.services.visualstudio.com/i)]
+    }
+  }
 });
 ```
 
@@ -99,4 +99,4 @@ If you cannot your library in the registry, feel free to suggest a new plugin re
 
 If you'd like to contribute to this library, please read the [contributing guide](https://github.com/Azure/azure-sdk-for-js/blob/master/CONTRIBUTING.md) to learn more about how to build and test the code.
 
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js/sdk/monitor/opentelemetry-exporter/README.png)
+![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js/sdk/monitor/monitor-opentelemetry-exporter/README.png)
