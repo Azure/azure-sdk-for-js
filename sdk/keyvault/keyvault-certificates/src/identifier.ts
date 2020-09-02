@@ -9,7 +9,7 @@ import { parseKeyvaultIdentifier } from "./generated/utils";
  */
 export interface KeyVaultCertificateId {
   /**
-   * The complete representation of the Key Vault Certificate Id. An example could be:
+   * The complete representation of the Key Vault Certificate Id. For example:
    *
    *   https://<keyvault-name>.vault.azure.net/certificates/<certificate-name>/<unique-version-id>
    *
