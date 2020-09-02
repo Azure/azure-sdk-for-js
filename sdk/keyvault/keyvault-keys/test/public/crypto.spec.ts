@@ -9,7 +9,7 @@ import { ClientSecretCredential } from "@azure/identity";
 import { isNode } from "@azure/core-http";
 
 import { CryptographyClient, KeyVaultKey, KeyClient } from "../../src";
-import { convertJWKtoPEM } from "../../src/cryptographyClient";
+import { convertJWKtoPEM } from "../../src/localCryptography/conversions";
 import { authenticate } from "../utils/testAuthentication";
 import TestClient from "../utils/testClient";
 import { stringToUint8Array, uint8ArrayToString } from "../utils/crypto";
@@ -194,7 +194,7 @@ describe("CryptographyClient (all decrypts happen remotely)", () => {
     await testClient.flushKey(hsmKeyName);
   });
 
-  it("sign and verify with RS256 through an RSA-HRM key", async function(): Promise<void> {
+  it("sign and verify with RS256 through an RSA-HSM key", async function(): Promise<void> {
     const hsmKeyName = keyName + "2";
     const hsmKey = await client.createKey(hsmKeyName, "RSA-HSM");
     const hsmCryptoClient = new CryptographyClient(hsmKey.id!, credential);
@@ -208,7 +208,7 @@ describe("CryptographyClient (all decrypts happen remotely)", () => {
     await testClient.flushKey(hsmKeyName);
   });
 
-  it("sign and verify with RS384 through an RSA-HRM key", async function(): Promise<void> {
+  it("sign and verify with RS384 through an RSA-HSM key", async function(): Promise<void> {
     const hsmKeyName = keyName + "2";
     const hsmKey = await client.createKey(hsmKeyName, "RSA-HSM");
     const hsmCryptoClient = new CryptographyClient(hsmKey.id!, credential);

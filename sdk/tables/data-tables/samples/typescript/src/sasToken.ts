@@ -14,9 +14,12 @@ async function listTables() {
   const accountUrl = `https://${accountName}.table.core.windows.net${accountSas}`;
   const client = new TableServiceClient(accountUrl);
 
-  const tables = await client.listTables();
+  const tables = client.listTables();
 
-  console.log(tables.value);
+  for await (let table of tables) {
+    console.log(table);
+    // {TableName: "TestTable"}
+  }
 }
 
 async function listEntities() {
@@ -24,9 +27,12 @@ async function listEntities() {
   const tableName = "test1";
   const client = new TableClient(accountUrl, tableName);
 
-  const entities = await client.listEntities();
+  const entities = client.listEntities();
 
-  console.log(entities.value);
+  for await (const entity of entities) {
+    console.log(entity);
+    // {PartitionKey: "P1", RowKey: "R1", foo: "Bar"}
+  }
 }
 
 async function main() {

@@ -222,7 +222,7 @@ export interface ServiceBusMessage {
    * @property The application specific properties which can be
    * used for custom message metadata.
    */
-  properties?: { [key: string]: any };
+  properties?: { [key: string]: number | boolean | string | Date };
 }
 
 /**
@@ -1084,7 +1084,7 @@ export class ServiceBusMessageImpl implements ReceivedMessageWithLock {
       );
       throw error;
     }
-    const isDeferredMessage = this._context.requestResponseLockedMessages.has(this.lockToken);
+    const isDeferredMessage = !this.delivery.link;
     const receiver = isDeferredMessage
       ? undefined
       : this._context.getReceiverFromCache(this.delivery.link.name, this.sessionId);
@@ -1131,10 +1131,6 @@ export class ServiceBusMessageImpl implements ReceivedMessageWithLock {
           associatedLinkName,
           sessionId: this.sessionId
         });
-      if (isDeferredMessage) {
-        // Remove the message from the internal map of deferred messages
-        this._context.requestResponseLockedMessages.delete(this.lockToken);
-      }
       return;
     }
 

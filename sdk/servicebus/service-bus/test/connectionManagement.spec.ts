@@ -46,37 +46,13 @@ describe("controlled connection initialization", () => {
     await serviceBusClient.test.after();
   });
 
-  it("open() early exits if the connection is already open (avoid taking unnecessary lock)", async () => {
-    await sender.open();
-
-    // open uses a lock (at the sender level) that helps us not to have overlapping open() calls.
-    await defaultLock.acquire(sender["_sender"]["openLock"], async () => {
-      // the connection is _already_ open so it doesn't attempt to take a lock
-      // or actually try to open the connection (we have an early exit)
-      const secondOpenCallPromise = sender.open();
-
-      sender["_sender"]["_negotiateClaim"] = async () => {
-        // this is a decent way to tell if we tried to open the connection
-        throw new Error(
-          "We won't get here at all - the connection is already open so we'll early exit."
-        );
-      };
-
-      const ret = await Promise.race([delayThatReturns999(), secondOpenCallPromise]);
-
-      // ie, the Promise<void> from sender.open() 'won' because we don't
-      // acquire the lock when we early-exit.
-      assert.notExists(ret);
-    });
-  });
-
   it("open() properly locks to prevent multiple in-flight open() calls", async () => {
     // open uses a lock (at the sender level) that helps us not to have overlapping open() calls.
     let secondOpenCallPromise: Promise<void> | undefined;
 
     // acquire the same lock that open() uses and then, while it's 100% locked,
     // attempt to call .open() and see that it just blocks...
-    await defaultLock.acquire(sender["_sender"]["openLock"], async () => {
+    await defaultLock.acquire(sender["_sender"]["_openLock"], async () => {
       // we need to fake the connection being closed or else `open()` won't attempt to acquire
       // the lock.
       sender["_sender"]["isOpen"] = () => false;

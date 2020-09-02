@@ -818,4 +818,23 @@ describe("ShareFileClient - Verify Name Properties", () => {
   it("verify endpoint without dots", async () => {
     verifyNameProperties(`https://localhost:80/${accountName}/${shareName}/${dirName}/${fileName}`);
   });
+
+  it("verify custom endpoint without valid accountName", async () => {
+    const newClient = new ShareFileClient(
+      `https://customdomain.com/${shareName}/${dirName}/${fileName}`
+    );
+
+    assert.equal(newClient.accountName, "", "Account name is not the same as expected.");
+    assert.equal(newClient.shareName, shareName, "Share name is not the same as the one provided.");
+    assert.equal(
+      newClient.path,
+      dirName + "/" + fileName,
+      "FilePath is not the same as the one provided."
+    );
+    assert.equal(
+      newClient.name,
+      fileName,
+      "FileClient name is not the same as the baseName of the provided file URI"
+    );
+  });
 });

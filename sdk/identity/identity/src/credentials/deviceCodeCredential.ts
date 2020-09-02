@@ -3,10 +3,10 @@
 
 import qs from "qs";
 import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-http";
+import * as coreHttp from "@azure/core-http";
 import { IdentityClient, TokenResponse, TokenCredentialOptions } from "../client/identityClient";
 import { AuthenticationError, AuthenticationErrorName } from "../client/errors";
 import { createSpan } from "../util/tracing";
-import { delay } from "../util/delay";
 import { CanonicalCode } from "@opentelemetry/api";
 import { credentialLogger, formatSuccess } from "../util/logging";
 
@@ -177,7 +177,8 @@ export class DeviceCodeCredential implements TokenCredential {
 
       while (tokenResponse === null) {
         try {
-          await delay(deviceCodeResponse.interval * 1000);
+          // Referencing delay from core-http this way for testing purposes.
+          await coreHttp.delay(deviceCodeResponse.interval * 1000);
 
           // Check the abort signal before sending the request
           if (options && options.abortSignal && options.abortSignal.aborted) {

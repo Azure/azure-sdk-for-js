@@ -16,7 +16,6 @@ import { ServiceBusClientOptions } from "./constructorHelpers";
 import { Connection, ConnectionEvents, EventContext, OnAmqpEvent } from "rhea-promise";
 import { MessageSender } from "./core/messageSender";
 import { MessageSession } from "./session/messageSession";
-import { ConcurrentExpiringMap } from "./util/concurrentExpiringMap";
 import { MessageReceiver } from "./core/messageReceiver";
 import { ManagementClient } from "./core/managementClient";
 import { formatUserAgentPrefix } from "./util/utils";
@@ -43,12 +42,6 @@ export interface ConnectionContext extends ConnectionContextBase {
    * with receiver name as key.
    */
   messageSessions: { [name: string]: MessageSession };
-  /**
-   * @property A map of unsettled, unexpired deferred messages. When a message settlement request comes
-   * through, this map is used to determine if the message should be settled using the receiver link or
-   * the management link.
-   */
-  requestResponseLockedMessages: ConcurrentExpiringMap<string>;
   /**
    * @property A map of ManagementClient instances for operations over the $management link
    * with key as the entity path.
@@ -80,6 +73,12 @@ export interface ConnectionContext extends ConnectionContextBase {
    * Creates one if none exists in the cache
    */
   getManagementClient(entityPath: string): ManagementClient;
+  /**
+   * Indicates whether the connection is in the process of closing.
+   * When this returns `true`, a `disconnected` event will be received
+   * after the connection is closed.
+   */
+  isConnectionClosing(): boolean;
 }
 
 /**
@@ -89,13 +88,6 @@ export interface ConnectionContext extends ConnectionContextBase {
  * @internal
  */
 export interface ConnectionContextInternalMembers extends ConnectionContext {
-  /**
-   * Indicates whether the connection is in the process of closing.
-   * When this returns `true`, a `disconnected` event will be received
-   * after the connection is closed.
-   *
-   */
-  isConnectionClosing(): boolean;
   /**
    * Resolves once the context's connection emits a `disconnected` event.
    */
@@ -164,7 +156,6 @@ export namespace ConnectionContext {
     connectionContext.senders = {};
     connectionContext.messageReceivers = {};
     connectionContext.messageSessions = {};
-    connectionContext.requestResponseLockedMessages = new ConcurrentExpiringMap();
     connectionContext.managementClients = {};
 
     let waitForConnectionRefreshResolve: () => void;
@@ -181,6 +172,7 @@ export namespace ConnectionContext {
         // This can happen when the idle timeout has been reached but
         // the underlying socket is waiting to be destroyed.
         if (this.isConnectionClosing()) {
+          log.error(`[${this.connectionId}] Connection is closing, waiting for disconnected event`);
           // Wait for the disconnected event that indicates the underlying socket has closed.
           await this.waitForDisconnectedEvent();
         }
@@ -202,8 +194,13 @@ export namespace ConnectionContext {
       waitForConnectionReset() {
         // Check if the connection is currently in the process of disconnecting.
         if (waitForConnectionRefreshPromise) {
+          log.error(`[${this.connectionId}] Waiting for connection reset`);
           return waitForConnectionRefreshPromise;
         }
+
+        log.error(
+          `[${this.connectionId}] Connection not waiting to be reset. Resolving immediately.`
+        );
         return Promise.resolve();
       },
       getReceiverFromCache(
@@ -264,6 +261,7 @@ export namespace ConnectionContext {
       if (waitForConnectionRefreshPromise) {
         return;
       }
+
       waitForConnectionRefreshPromise = new Promise((resolve) => {
         waitForConnectionRefreshResolve = resolve;
       });
@@ -325,10 +323,10 @@ export namespace ConnectionContext {
 
         const detachCalls: Promise<void>[] = [];
 
-        // Call onDetached() on sender so that it can decide whether to reconnect or not
+        // Call onDetached() on sender so that it can gracefully shutdown
         for (const senderName of Object.keys(connectionContext.senders)) {
           const sender = connectionContext.senders[senderName];
-          if (sender && !sender.isConnecting) {
+          if (sender) {
             log.error(
               "[%s] calling detached on sender '%s'.",
               connectionContext.connection.id,
@@ -351,7 +349,7 @@ export namespace ConnectionContext {
         // and streaming receivers can decide whether to reconnect or not.
         for (const receiverName of Object.keys(connectionContext.messageReceivers)) {
           const receiver = connectionContext.messageReceivers[receiverName];
-          if (receiver && !receiver.isConnecting) {
+          if (receiver) {
             log.error(
               "[%s] calling detached on %s receiver '%s'.",
               connectionContext.connection.id,
@@ -495,9 +493,6 @@ export namespace ConnectionContext {
         for (const entityPath of Object.keys(context.managementClients)) {
           await context.managementClients[entityPath].close();
         }
-
-        // Make sure that we clear the map of deferred messages
-        context.requestResponseLockedMessages.clear();
 
         await context.cbsSession.close();
 
