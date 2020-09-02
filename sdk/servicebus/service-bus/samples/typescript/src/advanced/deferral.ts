@@ -11,7 +11,7 @@
   In this sample, we have an application that gets cooking instructions out of order. It uses
   message deferral to defer the instruction that is out of order, and then processes it in order.
 
-  See https://docs.microsoft.com/en-us/azure/service-bus-messaging/message-deferral to learn about
+  See https://docs.microsoft.com/azure/service-bus-messaging/message-deferral to learn about
   message deferral.
 */
 

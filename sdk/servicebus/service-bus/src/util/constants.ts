@@ -365,7 +365,7 @@ export const ATOM_METADATA_MARKER = "_";
 
 /**
  * Known HTTP status codes as documented and referenced in ATOM based management API feature
- * https://docs.microsoft.com/en-us/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
+ * https://docs.microsoft.com/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
  * @internal
  * @ignore
  */

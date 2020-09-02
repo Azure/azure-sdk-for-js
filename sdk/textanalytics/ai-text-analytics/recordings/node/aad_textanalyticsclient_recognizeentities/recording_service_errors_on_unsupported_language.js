@@ -8,9 +8,11 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   .post('/azure_tenant_id/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fcognitiveservices.azure.com%2F.default")
   .reply(200, {"token_type":"Bearer","expires_in":3599,"ext_expires_in":3599,"access_token":"access_token"}, [
   'Cache-Control',
-  'no-cache, no-store',
+  'no-store, no-cache',
   'Pragma',
   'no-cache',
+  'Content-Length',
+  '1329',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
@@ -19,22 +21,20 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'max-age=31536000; includeSubDomains',
   'X-Content-Type-Options',
   'nosniff',
-  'x-ms-request-id',
-  'cbeb869d-26b5-4652-be14-d7453399eb00',
-  'x-ms-ests-server',
-  '2.1.10922.14 - CHI ProdSlices',
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
+  'x-ms-request-id',
+  '34918319-1b2c-47fd-844f-b339ccd52d00',
+  'x-ms-ests-server',
+  '2.1.10985.18 - CHI ProdSlices',
   'Set-Cookie',
-  'fpc=AkMTCZuafNBImJCdhEOVZaP0CyfMAQAAAL2fxNYOAAAA; expires=Thu, 10-Sep-2020 14:18:38 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=At4fNK3Cr7pBvCsgG_Tj_rrIIHRUAQAAAKeq4dYOAAAA; expires=Fri, 02-Oct-2020 15:00:56 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
-  'x-ms-gateway-slice=prod; path=/; SameSite=None; secure; HttpOnly',
+  'x-ms-gateway-slice=prod; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
-  'stsservicecookie=ests; path=/; SameSite=None; secure; HttpOnly',
+  'stsservicecookie=ests; path=/; secure; samesite=none; httponly',
   'Date',
-  'Tue, 11 Aug 2020 14:18:38 GMT',
-  'Content-Length',
-  '1417'
+  'Wed, 02 Sep 2020 15:00:55 GMT'
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
@@ -45,13 +45,13 @@ nock('https://endpoint', {"encodedQueryParams":true})
   'Content-Type',
   'application/json; charset=utf-8',
   'x-envoy-upstream-service-time',
-  '3',
+  '2',
   'apim-request-id',
-  'beb36e62-4690-46bc-84fe-db869ba5e9e7',
+  '3315cf91-8b00-4bd4-ab80-f5b1e8610277',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Tue, 11 Aug 2020 14:18:39 GMT'
+  'Wed, 02 Sep 2020 15:00:55 GMT'
 ]);

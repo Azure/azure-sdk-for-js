@@ -8,7 +8,7 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   .post('/azure_tenant_id/oauth2/v2.0/token', "response_type=token&grant_type=client_credentials&client_id=azure_client_id&client_secret=azure_client_secret&scope=https%3A%2F%2Fcognitiveservices.azure.com%2F.default")
   .reply(200, {"token_type":"Bearer","expires_in":3599,"ext_expires_in":3599,"access_token":"access_token"}, [
   'Cache-Control',
-  'no-cache, no-store',
+  'no-store, no-cache',
   'Pragma',
   'no-cache',
   'Content-Type',
@@ -19,22 +19,22 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'max-age=31536000; includeSubDomains',
   'X-Content-Type-Options',
   'nosniff',
-  'x-ms-request-id',
-  'f1db117a-0a03-46e7-ad27-f105877c0601',
-  'x-ms-ests-server',
-  '2.1.10922.14 - CHI ProdSlices',
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
+  'x-ms-request-id',
+  '297fa582-eedd-44cc-b51c-14d818ba3100',
+  'x-ms-ests-server',
+  '2.1.10985.18 - CHI ProdSlices',
   'Set-Cookie',
-  'fpc=AgKaLI7le85FgoH2soutG3r0CyfMAQAAAMqfxNYOAAAA; expires=Thu, 10-Sep-2020 14:18:50 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AtK4rs_NMUJKqB2FMeAjd1zIIHRUAQAAALGq4dYOAAAA; expires=Fri, 02-Oct-2020 15:01:06 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
-  'x-ms-gateway-slice=prod; path=/; SameSite=None; secure; HttpOnly',
+  'x-ms-gateway-slice=prod; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
-  'stsservicecookie=ests; path=/; SameSite=None; secure; HttpOnly',
+  'stsservicecookie=ests; path=/; secure; samesite=none; httponly',
   'Date',
-  'Tue, 11 Aug 2020 14:18:49 GMT',
+  'Wed, 02 Sep 2020 15:01:05 GMT',
   'Content-Length',
-  '1417'
+  '1329'
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
@@ -45,13 +45,13 @@ nock('https://endpoint', {"encodedQueryParams":true})
   'Content-Type',
   'application/json; charset=utf-8',
   'x-envoy-upstream-service-time',
-  '5',
+  '8',
   'apim-request-id',
-  '1c5d31cb-76ca-44ad-b223-468303604fa5',
+  'fc534cb8-a866-453b-a24c-2da8b93f775d',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Tue, 11 Aug 2020 14:18:50 GMT'
+  'Wed, 02 Sep 2020 15:01:06 GMT'
 ]);

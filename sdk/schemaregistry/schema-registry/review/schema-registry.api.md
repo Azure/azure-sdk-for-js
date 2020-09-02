@@ -4,6 +4,73 @@
 
 ```ts
 
+import { HttpOperationResponse } from '@azure/core-http';
+import { OperationOptions } from '@azure/core-http';
+import { PipelineOptions } from '@azure/core-http';
+import { TokenCredential } from '@azure/core-http';
+
+// @public
+export interface GetSchemaByIdOptions extends OperationOptions {
+}
+
+// @public
+export interface GetSchemaIdOptions extends OperationOptions {
+}
+
+// @public
+export interface RegisterSchemaOptions extends OperationOptions {
+}
+
+// @public
+export interface Response {
+    _response: HttpOperationResponse;
+}
+
+// @public
+export interface Schema extends SchemaDefinition, SchemaId {
+}
+
+// @public
+export interface SchemaDefinition {
+    content: string;
+}
+
+// @public
+export interface SchemaDescription extends SchemaDefinition {
+    group: string;
+    name: string;
+    serializationType: string;
+}
+
+// @public
+export interface SchemaId {
+    id: string;
+    location: string;
+    locationById: string;
+    version: number;
+}
+
+// @public
+export interface SchemaIdResponse extends SchemaId, Response {
+}
+
+// @public
+export class SchemaRegistryClient {
+    constructor(endpoint: string, credential: TokenCredential, options?: SchemaRegistryClientOptions);
+    readonly endpoint: string;
+    getSchemaById(id: string, options?: GetSchemaByIdOptions): Promise<SchemaResponse>;
+    getSchemaId(schema: SchemaDescription, options?: GetSchemaIdOptions): Promise<SchemaIdResponse>;
+    registerSchema(schema: SchemaDescription, options?: RegisterSchemaOptions): Promise<SchemaIdResponse>;
+}
+
+// @public
+export interface SchemaRegistryClientOptions extends PipelineOptions {
+}
+
+// @public
+export interface SchemaResponse extends Schema, Response {
+}
+
 
 // (No @packageDocumentation comment for this package)
 

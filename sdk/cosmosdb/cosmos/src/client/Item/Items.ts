@@ -18,7 +18,7 @@ import {
   isKeyInRange,
   Operation,
   getPartitionKeyToHash,
-  addPKToOperation,
+  decorateOperation,
   OperationResponse,
   OperationInput
 } from "../../utils/batch";
@@ -429,7 +429,7 @@ export class Items {
       };
     });
     operations
-      .map((operation) => addPKToOperation(operation, definition))
+      .map((operation) => decorateOperation(operation, definition))
       .forEach((operation: Operation, index: number) => {
         const partitionProp = definition.paths[0].replace("/", "");
         const isV2 = definition.version && definition.version === 2;
@@ -472,6 +472,7 @@ export class Items {
                 "Partition key error. Either the partitions have split or an operation has an unsupported partitionKey type"
               );
             }
+            throw new Error(`Bulk request errored with: ${err.message}`);
           }
         })
     );

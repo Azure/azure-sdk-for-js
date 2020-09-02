@@ -7,9 +7,12 @@ import { ReceivedMessage, delay } from "../src";
 import { getAlreadyReceivingErrorMsg } from "../src/util/errors";
 import { TestClientType, TestMessage, checkWithTimeout } from "./utils/testUtils";
 import { DispositionType, ReceivedMessageWithLock } from "../src/serviceBusMessage";
-import { SessionReceiver, SessionReceiverImpl } from "../src/receivers/sessionReceiver";
-import { Receiver } from "../src/receivers/receiver";
-import { Sender } from "../src/sender";
+import {
+  ServiceBusSessionReceiver,
+  ServiceBusSessionReceiverImpl
+} from "../src/receivers/sessionReceiver";
+import { ServiceBusReceiver } from "../src/receivers/receiver";
+import { ServiceBusSender } from "../src/sender";
 import {
   EntityName,
   ServiceBusClientForTests,
@@ -23,9 +26,11 @@ const should = chai.should();
 chai.use(chaiAsPromised);
 
 describe("Streaming with sessions", () => {
-  let sender: Sender;
-  let receiver: SessionReceiver<ReceivedMessageWithLock> | SessionReceiver<ReceivedMessage>;
-  let deadLetterReceiver: Receiver<ReceivedMessageWithLock>;
+  let sender: ServiceBusSender;
+  let receiver:
+    | ServiceBusSessionReceiver<ReceivedMessageWithLock>
+    | ServiceBusSessionReceiver<ReceivedMessage>;
+  let deadLetterReceiver: ServiceBusReceiver<ReceivedMessageWithLock>;
   let errorWasThrown: boolean;
   let unexpectedError: Error | undefined;
   let serviceBusClient: ServiceBusClientForTests;
@@ -302,7 +307,9 @@ describe("Streaming with sessions", () => {
             return msg.abandon().then(() => {
               abandonFlag = 1;
               if (
-                (receiver as SessionReceiverImpl<ReceivedMessageWithLock>)["_isReceivingMessages"]()
+                (receiver as ServiceBusSessionReceiverImpl<ReceivedMessageWithLock>)[
+                  "_isReceivingMessages"
+                ]()
               ) {
                 return receiver.close();
               }
@@ -317,7 +324,11 @@ describe("Streaming with sessions", () => {
       const msgAbandonCheck = await checkWithTimeout(() => abandonFlag === 1);
       should.equal(msgAbandonCheck, true, "Abandoning the message results in a failure");
 
-      if ((receiver as SessionReceiverImpl<ReceivedMessageWithLock>)["_isReceivingMessages"]()) {
+      if (
+        (receiver as ServiceBusSessionReceiverImpl<ReceivedMessageWithLock>)[
+          "_isReceivingMessages"
+        ]()
+      ) {
         await receiver.close();
       }
 

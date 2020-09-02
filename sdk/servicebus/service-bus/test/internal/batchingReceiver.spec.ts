@@ -14,8 +14,7 @@ import {
   getRemainingWaitTimeInMsFn,
   BatchingReceiverLite
 } from "../../src/core/batchingReceiver";
-import { createClientEntityContextForTests, defer } from "./unittestUtils";
-import { ReceiverImpl } from "../../src/receivers/receiver";
+import { defer, createConnectionContextForTests } from "./unittestUtils";
 import { createAbortSignalForTest } from "../utils/abortSignalTestUtils";
 import { AbortController, AbortSignalLike } from "@azure/abort-controller";
 import { ServiceBusMessageImpl, InternalReceiveMode } from "../../src/serviceBusMessage";
@@ -29,15 +28,32 @@ import {
 } from "rhea-promise";
 import { StandardAbortMessage } from "../../src/util/utils";
 import { OnAmqpEventAsPromise } from "../../src/core/messageReceiver";
-import { ClientEntityContext } from "../../src/clientEntityContext";
+import { ConnectionContext } from "../../src/connectionContext";
+import { ServiceBusReceiverImpl } from "../../src/receivers/receiver";
 
 describe("BatchingReceiver unit tests", () => {
+  let closeables: { close(): Promise<void> }[];
+
+  beforeEach(() => {
+    closeables = [];
+  });
+
+  afterEach(async () => {
+    for (const closeable of closeables) {
+      await closeable.close();
+    }
+  });
+
   describe("AbortSignal", () => {
     // establish that the abortSignal does get properly sent down. Now the rest of the tests
     // will test at the BatchingReceiver level.
-    it("is plumbed into BatchingReceiver from ReceiverImpl", async () => {
+    it("is plumbed into BatchingReceiver from ServiceBusReceiverImpl", async () => {
       const origAbortSignal = createAbortSignalForTest();
-      const receiver = new ReceiverImpl(createClientEntityContextForTests(), "peekLock");
+      const receiver = new ServiceBusReceiverImpl(
+        createConnectionContextForTests(),
+        "fakeEntityPath",
+        "peekLock"
+      );
       let wasCalled = false;
 
       receiver["_createBatchingReceiver"] = () => {
@@ -67,7 +83,7 @@ describe("BatchingReceiver unit tests", () => {
       const abortController = new AbortController();
       abortController.abort();
 
-      const receiver = new BatchingReceiver(createClientEntityContextForTests(), {
+      const receiver = new BatchingReceiver(createConnectionContextForTests(), "fakeEntityPath", {
         receiveMode: InternalReceiveMode.peekLock
       });
 
@@ -83,9 +99,10 @@ describe("BatchingReceiver unit tests", () => {
     it("abortSignal while receive is in process", async () => {
       const abortController = new AbortController();
 
-      const receiver = new BatchingReceiver(createClientEntityContextForTests(), {
+      const receiver = new BatchingReceiver(createConnectionContextForTests(), "fakeEntityPath", {
         receiveMode: InternalReceiveMode.peekLock
       });
+      closeables.push(receiver);
 
       const listeners = new Set<string>();
       const callsDoneAfterAbort: string[] = [];
@@ -93,7 +110,7 @@ describe("BatchingReceiver unit tests", () => {
       receiver["_init"] = async () => {
         // just enough of a Receiver to validate that cleanup actions
         // are being run on abort.
-        receiver["_receiver"] = ({
+        receiver["_link"] = ({
           connection: {
             id: "connection id"
           },
@@ -164,9 +181,14 @@ describe("BatchingReceiver unit tests", () => {
       });
 
       it("1. We received 'max messages'", async () => {
-        const receiver = new BatchingReceiver(createClientEntityContextForTests(), {
-          receiveMode: lockMode
-        });
+        const receiver = new BatchingReceiver(
+          createConnectionContextForTests(),
+          "dummyEntityPath",
+          {
+            receiveMode: lockMode
+          }
+        );
+        closeables.push(receiver);
 
         const { receiveIsReady, emitter, remainingRegisteredListeners } = setupBatchingReceiver(
           receiver
@@ -192,9 +214,14 @@ describe("BatchingReceiver unit tests", () => {
       // in the new world the overall timeout firing means we've received _no_ messages
       // because otherwise it'd be one of the others.
       it("2. We've waited 'max wait time'", async () => {
-        const receiver = new BatchingReceiver(createClientEntityContextForTests(), {
-          receiveMode: lockMode
-        });
+        const receiver = new BatchingReceiver(
+          createConnectionContextForTests(),
+          "dummyEntityPath",
+          {
+            receiveMode: lockMode
+          }
+        );
+        closeables.push(receiver);
 
         const { receiveIsReady, remainingRegisteredListeners } = setupBatchingReceiver(receiver);
 
@@ -218,9 +245,14 @@ describe("BatchingReceiver unit tests", () => {
       (lockMode === InternalReceiveMode.peekLock ? it : it.skip)(
         `3a. (with idle timeout) We've received 1 message and _now_ have exceeded 'max wait time past first message'`,
         async () => {
-          const receiver = new BatchingReceiver(createClientEntityContextForTests(), {
-            receiveMode: lockMode
-          });
+          const receiver = new BatchingReceiver(
+            createConnectionContextForTests(),
+            "dummyEntityPath",
+            {
+              receiveMode: lockMode
+            }
+          );
+          closeables.push(receiver);
 
           const { receiveIsReady, emitter, remainingRegisteredListeners } = setupBatchingReceiver(
             receiver
@@ -264,9 +296,14 @@ describe("BatchingReceiver unit tests", () => {
       (lockMode === InternalReceiveMode.receiveAndDelete ? it : it.skip)(
         `3b. (without idle timeout)`,
         async () => {
-          const receiver = new BatchingReceiver(createClientEntityContextForTests(), {
-            receiveMode: lockMode
-          });
+          const receiver = new BatchingReceiver(
+            createConnectionContextForTests(),
+            "dummyEntityPath",
+            {
+              receiveMode: lockMode
+            }
+          );
+          closeables.push(receiver);
 
           const { receiveIsReady, emitter, remainingRegisteredListeners } = setupBatchingReceiver(
             receiver
@@ -315,9 +352,14 @@ describe("BatchingReceiver unit tests", () => {
       (lockMode === InternalReceiveMode.peekLock ? it : it.skip)(
         "4. sanity check that we're using getRemainingWaitTimeInMs",
         async () => {
-          const receiver = new BatchingReceiver(createClientEntityContextForTests(), {
-            receiveMode: lockMode
-          });
+          const receiver = new BatchingReceiver(
+            createConnectionContextForTests(),
+            "dummyEntityPath",
+            {
+              receiveMode: lockMode
+            }
+          );
+          closeables.push(receiver);
 
           const { receiveIsReady, emitter, remainingRegisteredListeners } = setupBatchingReceiver(
             receiver
@@ -380,7 +422,7 @@ describe("BatchingReceiver unit tests", () => {
           receiveIsReady
         } = createFakeReceiver();
 
-        batchingReceiver["_receiver"] = fakeRheaReceiver;
+        batchingReceiver["_link"] = fakeRheaReceiver;
 
         batchingReceiver["_batchingReceiverLite"]["_createServiceBusMessage"] = (eventContext) => {
           return {
@@ -516,7 +558,8 @@ describe("BatchingReceiver unit tests", () => {
       const { fakeRheaReceiver, receiveIsReady } = createFakeReceiver();
 
       const receiver = new BatchingReceiverLite(
-        {} as ClientEntityContext,
+        {} as ConnectionContext,
+        "fakeEntityPath",
         async () => {
           return fakeRheaReceiver;
         },
@@ -544,7 +587,8 @@ describe("BatchingReceiver unit tests", () => {
       const { fakeRheaReceiver, receiveIsReady } = createFakeReceiver();
 
       const receiver = new BatchingReceiverLite(
-        {} as ClientEntityContext,
+        {} as ConnectionContext,
+        "fakeEntityPath",
         async () => {
           return fakeRheaReceiver;
         },
@@ -576,7 +620,8 @@ describe("BatchingReceiver unit tests", () => {
       const { fakeRheaReceiver, receiveIsReady } = createFakeReceiver();
 
       const receiver = new BatchingReceiverLite(
-        {} as ClientEntityContext,
+        {} as ConnectionContext,
+        "fakeEntityPath",
         async () => {
           return fakeRheaReceiver;
         },

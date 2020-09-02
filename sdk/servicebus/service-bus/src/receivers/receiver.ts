@@ -11,7 +11,7 @@ import {
 } from "../models";
 import { OperationOptionsBase } from "../modelsToBeSharedWithEventHubs";
 import { ReceivedMessage } from "..";
-import { ClientEntityContext } from "../clientEntityContext";
+import { ConnectionContext } from "../connectionContext";
 import {
   getAlreadyReceivingErrorMsg,
   getReceiverClosedErrorMsg,
@@ -33,7 +33,7 @@ import "@azure/core-asynciterator-polyfill";
 /**
  * A receiver that does not handle sessions.
  */
-export interface Receiver<ReceivedMessageT> {
+export interface ServiceBusReceiver<ReceivedMessageT> {
   /**
    * Streams messages to message handlers.
    * @param handlers A handler that gets called for messages and errors.
@@ -134,55 +134,59 @@ export interface Receiver<ReceivedMessageT> {
  * @internal
  * @ignore
  */
-export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMessageWithLock>
-  implements Receiver<ReceivedMessageT> {
-  /**
-   * @property Describes the amqp connection context for the QueueClient.
-   */
-  private _context: ClientEntityContext;
+export class ServiceBusReceiverImpl<
+  ReceivedMessageT extends ReceivedMessage | ReceivedMessageWithLock
+> implements ServiceBusReceiver<ReceivedMessageT> {
   private _retryOptions: RetryOptions;
   /**
    * @property {boolean} [_isClosed] Denotes if close() was called on this receiver
    */
   private _isClosed: boolean = false;
 
-  public entityPath: string;
+  /**
+   * Instance of the BatchingReceiver class to use to receive messages in pull mode.
+   */
+  private _batchingReceiver?: BatchingReceiver;
+
+  /**
+   * Instance of the StreamingReceiver class to use to receive messages in push mode.
+   */
+  private _streamingReceiver?: StreamingReceiver;
 
   /**
    * @throws Error if the underlying connection is closed.
    */
   constructor(
-    context: ClientEntityContext,
+    private _context: ConnectionContext,
+    public entityPath: string,
     public receiveMode: "peekLock" | "receiveAndDelete",
     retryOptions: RetryOptions = {}
   ) {
-    throwErrorIfConnectionClosed(context.namespace);
-    this.entityPath = context.entityPath;
-    this._context = context;
+    throwErrorIfConnectionClosed(_context);
     this._retryOptions = retryOptions;
   }
 
   private _throwIfAlreadyReceiving(): void {
     if (this._isReceivingMessages()) {
-      const errorMessage = getAlreadyReceivingErrorMsg(this._context.entityPath);
+      const errorMessage = getAlreadyReceivingErrorMsg(this.entityPath);
       const error = new Error(errorMessage);
-      log.error(`[${this._context.namespace.connectionId}] %O`, error);
+      log.error(`[${this._context.connectionId}] %O`, error);
       throw error;
     }
   }
 
   private _throwIfReceiverOrConnectionClosed(): void {
-    throwErrorIfConnectionClosed(this._context.namespace);
+    throwErrorIfConnectionClosed(this._context);
     if (this.isClosed) {
-      const errorMessage = getReceiverClosedErrorMsg(this._context.entityPath);
+      const errorMessage = getReceiverClosedErrorMsg(this.entityPath);
       const error = new Error(errorMessage);
-      log.error(`[${this._context.namespace.connectionId}] %O`, error);
+      log.error(`[${this._context.connectionId}] %O`, error);
       throw error;
     }
   }
 
   public get isClosed(): boolean {
-    return this._isClosed || this._context.isClosed;
+    return this._isClosed || this._context.wasConnectionCloseCalled;
   }
 
   /**
@@ -214,7 +218,7 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
   ): void {
     this._throwIfReceiverOrConnectionClosed();
     this._throwIfAlreadyReceiving();
-    const connId = this._context.namespace.connectionId;
+    const connId = this._context.connectionId;
     throwTypeErrorIfParameterMissing(connId, "onMessage", onMessage);
     throwTypeErrorIfParameterMissing(connId, "onError", onError);
     if (typeof onMessage !== "function") {
@@ -224,15 +228,17 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
       throw new TypeError("The parameter 'onError' must be of type 'function'.");
     }
 
-    this._createStreamingReceiver(this._context, {
+    this._createStreamingReceiver(this._context, this.entityPath, {
       ...options,
       receiveMode: convertToInternalReceiveMode(this.receiveMode),
-      retryOptions: this._retryOptions
+      retryOptions: this._retryOptions,
+      cachedStreamingReceiver: this._streamingReceiver
     })
       .then(async (sReceiver) => {
         if (!sReceiver) {
           return;
         }
+        this._streamingReceiver = sReceiver;
 
         try {
           await onInitialize();
@@ -253,16 +259,19 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
   }
 
   private _createStreamingReceiver(
-    context: ClientEntityContext,
+    context: ConnectionContext,
+    entityPath: string,
     options?: ReceiveOptions &
       Pick<OperationOptionsBase, "abortSignal"> & {
         createStreamingReceiver?: (
-          context: ClientEntityContext,
+          context: ConnectionContext,
+          entityPath: string,
           options?: ReceiveOptions
         ) => StreamingReceiver;
+        cachedStreamingReceiver?: StreamingReceiver;
       }
   ): Promise<StreamingReceiver> {
-    return StreamingReceiver.create(context, options);
+    return StreamingReceiver.create(context, entityPath, options);
   }
 
   async receiveMessages(
@@ -277,14 +286,18 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
     }
 
     const receiveMessages = async () => {
-      if (!this._context.batchingReceiver || !this._context.batchingReceiver.isOpen()) {
+      if (!this._batchingReceiver || !this._context.messageReceivers[this._batchingReceiver.name]) {
         const options: ReceiveOptions = {
           maxConcurrentCalls: 0,
           receiveMode: convertToInternalReceiveMode(this.receiveMode)
         };
-        this._context.batchingReceiver = this._createBatchingReceiver(this._context, options);
+        this._batchingReceiver = this._createBatchingReceiver(
+          this._context,
+          this.entityPath,
+          options
+        );
       }
-      const receivedMessages = await this._context.batchingReceiver.receive(
+      const receivedMessages = await this._batchingReceiver.receive(
         maxMessageCount,
         options?.maxWaitTimeInMs ?? Constants.defaultOperationTimeoutInMs,
         defaultMaxTimeAfterFirstMessageForBatchingMs,
@@ -293,8 +306,8 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
       return (receivedMessages as unknown) as ReceivedMessageT[];
     };
     const config: RetryConfig<ReceivedMessageT[]> = {
-      connectionHost: this._context.namespace.config.host,
-      connectionId: this._context.namespace.connectionId,
+      connectionHost: this._context.config.host,
+      connectionId: this._context.connectionId,
       operation: receiveMessages,
       operationType: RetryOperationType.receiveMessage,
       abortSignal: options?.abortSignal,
@@ -313,12 +326,12 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
   ): Promise<ReceivedMessageT[]> {
     this._throwIfReceiverOrConnectionClosed();
     throwTypeErrorIfParameterMissing(
-      this._context.namespace.connectionId,
+      this._context.connectionId,
       "sequenceNumbers",
       sequenceNumbers
     );
     throwTypeErrorIfParameterNotLong(
-      this._context.namespace.connectionId,
+      this._context.connectionId,
       "sequenceNumbers",
       sequenceNumbers
     );
@@ -327,21 +340,24 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
       ? sequenceNumbers
       : [sequenceNumbers];
     const receiveDeferredMessagesOperationPromise = async () => {
-      const deferredMessages = await this._context.managementClient!.receiveDeferredMessages(
-        deferredSequenceNumbers,
-        convertToInternalReceiveMode(this.receiveMode),
-        undefined,
-        {
-          ...options,
-          requestName: "receiveDeferredMessages",
-          timeoutInMs: this._retryOptions.timeoutInMs
-        }
-      );
+      const deferredMessages = await this._context
+        .getManagementClient(this.entityPath)
+        .receiveDeferredMessages(
+          deferredSequenceNumbers,
+          convertToInternalReceiveMode(this.receiveMode),
+          undefined,
+          {
+            ...options,
+            associatedLinkName: this._getAssociatedReceiverName(),
+            requestName: "receiveDeferredMessages",
+            timeoutInMs: this._retryOptions.timeoutInMs
+          }
+        );
       return (deferredMessages as any) as ReceivedMessageT[];
     };
     const config: RetryConfig<ReceivedMessageT[]> = {
       operation: receiveDeferredMessagesOperationPromise,
-      connectionId: this._context.namespace.connectionId,
+      connectionId: this._context.connectionId,
       operationType: RetryOperationType.management,
       retryOptions: this._retryOptions,
       abortSignal: options?.abortSignal
@@ -363,28 +379,30 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
 
     const managementRequestOptions = {
       ...options,
+      associatedLinkName: this._getAssociatedReceiverName(),
       requestName: "peekMessages",
       timeoutInMs: this._retryOptions?.timeoutInMs
     };
     const peekOperationPromise = async () => {
       if (options.fromSequenceNumber) {
-        return await this._context.managementClient!.peekBySequenceNumber(
-          options.fromSequenceNumber,
-          maxMessageCount,
-          undefined,
-          managementRequestOptions
-        );
+        return await this._context
+          .getManagementClient(this.entityPath)
+          .peekBySequenceNumber(
+            options.fromSequenceNumber,
+            maxMessageCount,
+            undefined,
+            managementRequestOptions
+          );
       } else {
-        return await this._context.managementClient!.peek(
-          maxMessageCount,
-          managementRequestOptions
-        );
+        return await this._context
+          .getManagementClient(this.entityPath)
+          .peek(maxMessageCount, managementRequestOptions);
       }
     };
 
     const config: RetryConfig<ReceivedMessage[]> = {
       operation: peekOperationPromise,
-      connectionId: this._context.namespace.connectionId,
+      connectionId: this._context.connectionId,
       operationType: RetryOperationType.management,
       retryOptions: this._retryOptions,
       abortSignal: options?.abortSignal
@@ -421,7 +439,7 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
 
     return {
       close: async (): Promise<void> => {
-        return this._context.streamingReceiver?.stopReceivingMessages();
+        return this._streamingReceiver?.stopReceivingMessages();
       }
     };
   }
@@ -429,25 +447,22 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
   async close(): Promise<void> {
     try {
       this._isClosed = true;
-      if (this._context.namespace.connection && this._context.namespace.connection.isOpen()) {
+      if (this._context.connection && this._context.connection.isOpen()) {
         // Close the streaming receiver.
-        if (this._context.streamingReceiver) {
-          await this._context.streamingReceiver.close();
+        if (this._streamingReceiver) {
+          await this._streamingReceiver.close();
         }
 
         // Close the batching receiver.
-        if (this._context.batchingReceiver) {
-          await this._context.batchingReceiver.close();
+        if (this._batchingReceiver) {
+          await this._batchingReceiver.close();
         }
-
-        // Make sure that we clear the map of deferred messages
-        this._context.requestResponseLockedMessages.clear();
       }
     } catch (err) {
       log.error(
         "[%s] An error occurred while closing the Receiver for %s: %O",
-        this._context.namespace.connectionId,
-        this._context.entityPath,
+        this._context.connectionId,
+        this.entityPath,
         err
       );
       throw err;
@@ -460,16 +475,16 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
    */
   private _isReceivingMessages(): boolean {
     if (
-      this._context.streamingReceiver &&
-      this._context.streamingReceiver.isOpen() &&
-      this._context.streamingReceiver.isReceivingMessages
+      this._streamingReceiver &&
+      this._streamingReceiver.isOpen() &&
+      this._streamingReceiver.isReceivingMessages
     ) {
       return true;
     }
     if (
-      this._context.batchingReceiver &&
-      this._context.batchingReceiver.isOpen() &&
-      this._context.batchingReceiver.isReceivingMessages
+      this._batchingReceiver &&
+      this._batchingReceiver.isOpen() &&
+      this._batchingReceiver.isReceivingMessages
     ) {
       return true;
     }
@@ -477,10 +492,29 @@ export class ReceiverImpl<ReceivedMessageT extends ReceivedMessage | ReceivedMes
   }
 
   private _createBatchingReceiver(
-    context: ClientEntityContext,
+    context: ConnectionContext,
+    entityPath: string,
     options?: ReceiveOptions
   ): BatchingReceiver {
-    return BatchingReceiver.create(context, options);
+    return BatchingReceiver.create(context, entityPath, options);
+  }
+
+  /**
+   * Helper function to retrieve any active receiver name, regardless of streaming or
+   * batching if it exists. This is used for optimization on the service side
+   */
+  private _getAssociatedReceiverName(): string | undefined {
+    if (this._streamingReceiver && this._streamingReceiver.isOpen()) {
+      return this._streamingReceiver.name;
+    }
+    if (
+      this._batchingReceiver &&
+      this._batchingReceiver.isOpen() &&
+      this._batchingReceiver.isReceivingMessages
+    ) {
+      return this._batchingReceiver.name;
+    }
+    return;
   }
 }
 

@@ -1249,6 +1249,7 @@ export type ServiceGetPropertiesResponse = FileServiceProperties & ServiceGetPro
 // @public
 export interface ServiceListSharesOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
+    includeDeleted?: boolean;
     includeMetadata?: boolean;
     includeSnapshots?: boolean;
     prefix?: string;
@@ -1290,6 +1291,11 @@ export type ServiceSetPropertiesResponse = ServiceSetPropertiesHeaders & {
         parsedHeaders: ServiceSetPropertiesHeaders;
     };
 };
+
+// @public
+export interface ServiceUndeleteShareOptions extends CommonOptions {
+    abortSignal?: AbortSignalLike;
+}
 
 // @public (undocumented)
 export interface SetPropertiesResponse extends FileSetHTTPHeadersResponse {
@@ -1712,6 +1718,7 @@ export class ShareServiceClient extends StorageClient {
     getShareClient(shareName: string): ShareClient;
     listShares(options?: ServiceListSharesOptions): PagedAsyncIterableIterator<ShareItem, ServiceListSharesSegmentResponse>;
     setProperties(properties: FileServiceProperties, options?: ServiceSetPropertiesOptions): Promise<ServiceSetPropertiesResponse>;
+    undeleteShare(deletedShareName: string, deletedShareVersion: string, options?: ServiceUndeleteShareOptions): Promise<ShareClient>;
 }
 
 // @public

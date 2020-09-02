@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import * as conventions from "@opentelemetry/semantic-conventions";
 
 export const { GRPC_KIND } = conventions.RpcAttribute;

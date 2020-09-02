@@ -58,9 +58,18 @@ export interface ResourceGroupFilter {
  */
 export interface TemplateLink {
   /**
-   * The URI of the template to deploy.
+   * The URI of the template to deploy. Use either the uri or id property, but not both.
    */
-  uri: string;
+  uri?: string;
+  /**
+   * The resource id of a Template Spec. Use either the id or uri property, but not both.
+   */
+  id?: string;
+  /**
+   * Applicable only if this template link references a Template Spec. This relativePath property
+   * can optionally be used to reference a Template Spec artifact by path.
+   */
+  relativePath?: string;
   /**
    * If included, must match the ContentVersion in the template.
    */
@@ -239,6 +248,20 @@ export interface DeploymentWhatIf {
 }
 
 /**
+ * Deployment What-if operation parameters.
+ */
+export interface ScopedDeploymentWhatIf {
+  /**
+   * The location to store the deployment data.
+   */
+  location: string;
+  /**
+   * The deployment properties.
+   */
+  properties: DeploymentWhatIfProperties;
+}
+
+/**
  * The resource management error additional info.
  */
 export interface ErrorAdditionalInfo {
@@ -286,6 +309,40 @@ export interface ErrorResponse {
 }
 
 /**
+ * An interface representing ApiProfile.
+ */
+export interface ApiProfile {
+  /**
+   * The profile version.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly profileVersion?: string;
+  /**
+   * The API version.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly apiVersion?: string;
+}
+
+/**
+ * An interface representing AliasPathMetadata.
+ */
+export interface AliasPathMetadata {
+  /**
+   * The type of the token that the alias path is referring to. Possible values include:
+   * 'NotSpecified', 'Any', 'String', 'Object', 'Array', 'Integer', 'Number', 'Boolean'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly type?: AliasPathTokenType;
+  /**
+   * The attributes of the token that the alias path is referring to. Possible values include:
+   * 'None', 'Modifiable'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly attributes?: AliasPathAttributes;
+}
+
+/**
  * The type of the pattern for an alias path.
  */
 export interface AliasPattern {
@@ -319,6 +376,11 @@ export interface AliasPath {
    * The pattern for an alias path.
    */
   pattern?: AliasPattern;
+  /**
+   * The metadata of the alias path. If missing, fall back to the default metadata of the alias.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly metadata?: AliasPathMetadata;
 }
 
 /**
@@ -345,6 +407,12 @@ export interface Alias {
    * The default pattern for an alias.
    */
   defaultPattern?: AliasPattern;
+  /**
+   * The default alias path metadata. Applies to the default path and to any alias path that
+   * doesn't have metadata
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly defaultMetadata?: AliasPathMetadata;
 }
 
 /**
@@ -367,6 +435,16 @@ export interface ProviderResourceType {
    * The API version.
    */
   apiVersions?: string[];
+  /**
+   * The default API version.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly defaultApiVersion?: string;
+  /**
+   * The API profiles for the resource provider.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly apiProfiles?: ApiProfile[];
   /**
    * The additional capabilities offered by this resource type.
    */
@@ -483,10 +561,12 @@ export interface ResourceReference {
  */
 export interface DeploymentPropertiesExtended {
   /**
-   * The state of the provisioning.
+   * Denotes the state of provisioning. Possible values include: 'NotSpecified', 'Accepted',
+   * 'Running', 'Ready', 'Creating', 'Created', 'Deleting', 'Deleted', 'Canceled', 'Failed',
+   * 'Succeeded', 'Updating'
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly provisioningState?: string;
+  readonly provisioningState?: ProvisioningState;
   /**
    * The correlation ID of the deployment.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -988,6 +1068,20 @@ export interface HttpMessage {
 }
 
 /**
+ * Operation status message object.
+ */
+export interface StatusMessage {
+  /**
+   * Status of the deployment operation.
+   */
+  status?: string;
+  /**
+   * The error reported by the operation.
+   */
+  error?: ErrorResponse;
+}
+
+/**
  * Deployment operation properties.
  */
 export interface DeploymentOperationProperties {
@@ -1019,15 +1113,17 @@ export interface DeploymentOperationProperties {
    */
   readonly serviceRequestId?: string;
   /**
-   * Operation status code.
+   * Operation status code from the resource provider. This property may not be set if a response
+   * has not yet been received.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly statusCode?: string;
   /**
-   * Operation status message.
+   * Operation status message from the resource provider. This property is optional.  It will only
+   * be provided if an error was received from the resource provider.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  readonly statusMessage?: any;
+  readonly statusMessage?: StatusMessage;
   /**
    * The target resource.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -1252,7 +1348,7 @@ export interface TagsPatchResource {
   /**
    * The operation type for the patch API. Possible values include: 'Replace', 'Merge', 'Delete'
    */
-  operation?: OperationEnum;
+  operation?: TagsPatchOperation;
   /**
    * The set of tags.
    */
@@ -1553,6 +1649,34 @@ export interface ResourceManagementClientOptions extends AzureServiceClientOptio
 }
 
 /**
+ * Defines headers for WhatIfAtTenantScope operation.
+ */
+export interface DeploymentsWhatIfAtTenantScopeHeaders {
+  /**
+   * URL to get status of this long-running operation.
+   */
+  location: string;
+  /**
+   * Number of seconds to wait before polling for status.
+   */
+  retryAfter: string;
+}
+
+/**
+ * Defines headers for WhatIfAtManagementGroupScope operation.
+ */
+export interface DeploymentsWhatIfAtManagementGroupScopeHeaders {
+  /**
+   * URL to get status of this long-running operation.
+   */
+  location: string;
+  /**
+   * Number of seconds to wait before polling for status.
+   */
+  retryAfter: string;
+}
+
+/**
  * Defines headers for WhatIfAtSubscriptionScope operation.
  */
 export interface DeploymentsWhatIfAtSubscriptionScopeHeaders {
@@ -1696,6 +1820,23 @@ export type OnErrorDeploymentType = 'LastSuccessful' | 'SpecificDeployment';
 export type WhatIfResultFormat = 'ResourceIdOnly' | 'FullResourcePayloads';
 
 /**
+ * Defines values for AliasPathTokenType.
+ * Possible values include: 'NotSpecified', 'Any', 'String', 'Object', 'Array', 'Integer',
+ * 'Number', 'Boolean'
+ * @readonly
+ * @enum {string}
+ */
+export type AliasPathTokenType = 'NotSpecified' | 'Any' | 'String' | 'Object' | 'Array' | 'Integer' | 'Number' | 'Boolean';
+
+/**
+ * Defines values for AliasPathAttributes.
+ * Possible values include: 'None', 'Modifiable'
+ * @readonly
+ * @enum {string}
+ */
+export type AliasPathAttributes = 'None' | 'Modifiable';
+
+/**
  * Defines values for AliasPatternType.
  * Possible values include: 'NotSpecified', 'Extract'
  * @readonly
@@ -1710,6 +1851,15 @@ export type AliasPatternType = 'NotSpecified' | 'Extract';
  * @enum {string}
  */
 export type AliasType = 'NotSpecified' | 'PlainText' | 'Mask';
+
+/**
+ * Defines values for ProvisioningState.
+ * Possible values include: 'NotSpecified', 'Accepted', 'Running', 'Ready', 'Creating', 'Created',
+ * 'Deleting', 'Deleted', 'Canceled', 'Failed', 'Succeeded', 'Updating'
+ * @readonly
+ * @enum {string}
+ */
+export type ProvisioningState = 'NotSpecified' | 'Accepted' | 'Running' | 'Ready' | 'Creating' | 'Created' | 'Deleting' | 'Deleted' | 'Canceled' | 'Failed' | 'Succeeded' | 'Updating';
 
 /**
  * Defines values for ResourceIdentityType.
@@ -1747,12 +1897,12 @@ export type PropertyChangeType = 'Create' | 'Delete' | 'Modify' | 'Array';
 export type ChangeType = 'Create' | 'Delete' | 'Ignore' | 'Deploy' | 'NoChange' | 'Modify';
 
 /**
- * Defines values for OperationEnum.
+ * Defines values for TagsPatchOperation.
  * Possible values include: 'Replace', 'Merge', 'Delete'
  * @readonly
  * @enum {string}
  */
-export type OperationEnum = 'Replace' | 'Merge' | 'Delete';
+export type TagsPatchOperation = 'Replace' | 'Merge' | 'Delete';
 
 /**
  * Contains response data for the list operation.
@@ -2005,6 +2155,31 @@ export type DeploymentsValidateAtTenantScopeResponse = DeploymentValidateResult 
 };
 
 /**
+ * Contains response data for the whatIfAtTenantScope operation.
+ */
+export type DeploymentsWhatIfAtTenantScopeResponse = WhatIfOperationResult & DeploymentsWhatIfAtTenantScopeHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: DeploymentsWhatIfAtTenantScopeHeaders;
+
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: WhatIfOperationResult;
+    };
+};
+
+/**
  * Contains response data for the exportTemplateAtTenantScope operation.
  */
 export type DeploymentsExportTemplateAtTenantScopeResponse = DeploymentExportResult & {
@@ -2126,6 +2301,31 @@ export type DeploymentsValidateAtManagementGroupScopeResponse = DeploymentValida
        * The response body as parsed JSON or XML
        */
       parsedBody: DeploymentValidateResult;
+    };
+};
+
+/**
+ * Contains response data for the whatIfAtManagementGroupScope operation.
+ */
+export type DeploymentsWhatIfAtManagementGroupScopeResponse = WhatIfOperationResult & DeploymentsWhatIfAtManagementGroupScopeHeaders & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The parsed HTTP response headers.
+       */
+      parsedHeaders: DeploymentsWhatIfAtManagementGroupScopeHeaders;
+
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: WhatIfOperationResult;
     };
 };
 

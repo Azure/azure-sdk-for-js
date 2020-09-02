@@ -10,6 +10,7 @@ export {
   RecognizeCategorizedEntitiesOptions,
   AnalyzeSentimentOptions,
   ExtractKeyPhrasesOptions,
+  RecognizePiiEntitiesOptions,
   RecognizeLinkedEntitiesOptions,
   TextAnalyticsOperationOptions
 } from "./textAnalyticsClient";
@@ -25,6 +26,13 @@ export {
   RecognizeCategorizedEntitiesErrorResult,
   RecognizeCategorizedEntitiesSuccessResult
 } from "./recognizeCategorizedEntitiesResult";
+export {
+  PiiEntity,
+  RecognizePiiEntitiesResult,
+  RecognizePiiEntitiesErrorResult,
+  RecognizePiiEntitiesSuccessResult
+} from "./recognizePiiEntitiesResult";
+export { RecognizePiiEntitiesResultArray } from "./recognizePiiEntitiesResultArray";
 export { RecognizeCategorizedEntitiesResultArray } from "./recognizeCategorizedEntitiesResultArray";
 export {
   AnalyzeSentimentResult,
@@ -72,5 +80,9 @@ export {
   WarningCode,
   LinkedEntity,
   Match,
-  TextAnalyticsWarning
+  TextAnalyticsWarning,
+  SentenceAspectSentiment,
+  SentenceOpinionSentiment,
+  AspectConfidenceScoreLabel,
+  SentenceOpinion
 } from "./generated/models";

@@ -7,19 +7,19 @@ module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 nock('https://endpoint:443', {"encodedQueryParams":true})
   .get('/formrecognizer/v2.0/custom/models')
   .query(true)
-  .reply(200, {"summary":{"count":29,"limit":5000,"lastUpdatedDateTime":"2020-08-05T23:29:50Z"}}, [
+  .reply(200, {"summary":{"count":69,"limit":5000,"lastUpdatedDateTime":"2020-08-18T18:47:42Z"}}, [
   'Transfer-Encoding',
   'chunked',
   'Content-Type',
   'application/json; charset=utf-8',
   'x-envoy-upstream-service-time',
-  '13',
+  '29',
   'apim-request-id',
-  '746a3129-c8cc-4ca3-b40f-ac673185feeb',
+  '64990055-915b-4660-9f89-5d25461db1b2',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Wed, 05 Aug 2020 23:29:49 GMT'
+  'Tue, 18 Aug 2020 18:47:42 GMT'
 ]);

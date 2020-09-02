@@ -35,11 +35,19 @@ export interface AnalyzeSentimentSuccessResult extends TextAnalyticsSuccessResul
 }
 
 // @public
+export interface AspectConfidenceScoreLabel {
+    // (undocumented)
+    negative: number;
+    // (undocumented)
+    positive: number;
+}
+
+// @public
 export interface AspectSentiment {
-    confidenceScores: SentimentConfidenceScores;
+    confidenceScores: AspectConfidenceScoreLabel;
     length: number;
     offset: number;
-    sentiment: DocumentSentimentLabel;
+    sentiment: SentenceAspectSentiment;
     text: string;
 }
 
@@ -152,13 +160,11 @@ export interface MinedOpinion {
 }
 
 // @public
-export interface OpinionSentiment {
-    confidenceScores: SentimentConfidenceScores;
-    isNegated: boolean;
-    length: number;
-    offset: number;
-    sentiment: DocumentSentimentLabel;
-    text: string;
+export interface OpinionSentiment extends SentenceOpinion {
+}
+
+// @public
+export interface PiiEntity extends Entity {
 }
 
 // @public
@@ -202,10 +208,46 @@ export interface RecognizeLinkedEntitiesSuccessResult extends TextAnalyticsSucce
 }
 
 // @public
+export type RecognizePiiEntitiesErrorResult = TextAnalyticsErrorResult;
+
+// @public
+export type RecognizePiiEntitiesOptions = TextAnalyticsOperationOptions;
+
+// @public
+export type RecognizePiiEntitiesResult = RecognizePiiEntitiesSuccessResult | RecognizePiiEntitiesErrorResult;
+
+// @public
+export interface RecognizePiiEntitiesResultArray extends Array<RecognizePiiEntitiesResult> {
+    modelVersion: string;
+    statistics?: TextDocumentBatchStatistics;
+}
+
+// @public
+export interface RecognizePiiEntitiesSuccessResult extends TextAnalyticsSuccessResult {
+    readonly entities: PiiEntity[];
+}
+
+// @public
+export type SentenceAspectSentiment = "positive" | "mixed" | "negative";
+
+// @public (undocumented)
+export interface SentenceOpinion {
+    confidenceScores: AspectConfidenceScoreLabel;
+    isNegated: boolean;
+    length: number;
+    offset: number;
+    sentiment: SentenceOpinionSentiment;
+    text: string;
+}
+
+// @public
+export type SentenceOpinionSentiment = "positive" | "mixed" | "negative";
+
+// @public
 export interface SentenceSentiment {
     confidenceScores: SentimentConfidenceScores;
     length: number;
-    minedOpinions?: MinedOpinion[];
+    minedOpinions: MinedOpinion[];
     offset: number;
     sentiment: SentenceSentimentLabel;
     text: string;
@@ -240,6 +282,8 @@ export class TextAnalyticsClient {
     recognizeEntities(documents: TextDocumentInput[], options?: RecognizeCategorizedEntitiesOptions): Promise<RecognizeCategorizedEntitiesResultArray>;
     recognizeLinkedEntities(documents: string[], language?: string, options?: RecognizeLinkedEntitiesOptions): Promise<RecognizeLinkedEntitiesResultArray>;
     recognizeLinkedEntities(documents: TextDocumentInput[], options?: RecognizeLinkedEntitiesOptions): Promise<RecognizeLinkedEntitiesResultArray>;
+    recognizePiiEntities(inputs: string[], language?: string, options?: RecognizePiiEntitiesOptions): Promise<RecognizePiiEntitiesResultArray>;
+    recognizePiiEntities(inputs: TextDocumentInput[], options?: RecognizePiiEntitiesOptions): Promise<RecognizePiiEntitiesResultArray>;
 }
 
 // @public

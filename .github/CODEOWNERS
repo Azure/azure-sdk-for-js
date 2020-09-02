@@ -56,7 +56,7 @@
 /sdk/keyvault/ @jonathandturner @sadasant
 
 # PRLabel: %Storage
-/sdk/storage/ @XiaoningLiu @jeremymeng @HarshaNalluru @vinjiang @jiacfan @ljian3377  
+/sdk/storage/ @XiaoningLiu @jeremymeng @HarshaNalluru @vinjiang @jiacfan @ljian3377
 
 # PRLabel: %Tables
 /sdk/tables/ @mahdiva @joheredi
@@ -84,6 +84,9 @@
 # Management Plane
 /**/*Management*.ts @qiaozha
 /**/arm-*/ @qiaozha
+
+# PRLabel: %Monitor
+/sdk/monitor/ @markwolff @xirzec @applicationinsights-js-owners
 
 ###########
 # Eng Sys

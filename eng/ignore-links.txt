@@ -7,16 +7,3 @@ https://docs.microsoft.com/javascript/api/@azure/storage-blob-changefeed
 https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-blob-changefeed/samples/javascript
 https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-blob-changefeed/samples/typescript
 https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-blob-changefeed/test/
-https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-service-bus/7.0.0-preview.5/classes/servicebusclient.html
-https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-service-bus/7.0.0-preview.5/classes/servicebusclient.html#constructor
-https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-service-bus/7.0.0-preview.5/classes/servicebusclient.html#createsender
-https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-service-bus/7.0.0-preview.5/classes/servicebusclient.html#createreceiver
-https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-service-bus/7.0.0-preview.5/classes/servicebusclient.html#createsessionreceiver
-https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-service-bus/7.0.0-preview.5/interfaces/sender.html
-https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-service-bus/7.0.0-preview.5/interfaces/sender.html#sendmessages
-https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-service-bus/7.0.0-preview.5/interfaces/receiver.html
-https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-service-bus/7.0.0-preview.5/interfaces/receiver.html#receivemessages
-https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-service-bus/7.0.0-preview.5/interfaces/receiver.html#subscribe
-https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-service-bus/7.0.0-preview.5/interfaces/receiver.html#getmessageiterator
-https://azuresdkdocs.blob.core.windows.net/$web/javascript/azure-service-bus/7.0.0-preview.5/interfaces/sessionreceiver.html
-https://github.com/Azure/azure-sdk-for-js/blob/%40azure/service-bus_7.0.0-preview.5/sdk/servicebus/service-bus/migrationguide.md

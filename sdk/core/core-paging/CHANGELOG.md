@@ -2,6 +2,8 @@
 
 ## 1.1.2 (Unreleased)
 
+- Provided down-leveled type declaration files to support older TypeScript versions 3.1 to 3.6.
+  [PR 10599](https://github.com/Azure/azure-sdk-for-js/pull/10599)
 
 ## 1.1.1 (2020-04-02)
 
