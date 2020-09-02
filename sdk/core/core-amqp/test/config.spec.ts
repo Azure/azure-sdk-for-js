@@ -3,6 +3,7 @@
 
 import { ConnectionConfig, EventHubConnectionConfig, IotHubConnectionConfig } from "../src";
 import * as chai from "chai";
+import { isSharedAccessSignature } from "../src/connectionConfig/connectionConfig";
 const should = chai.should();
 
 describe("ConnectionConfig", function() {
@@ -426,6 +427,37 @@ describe("ConnectionConfig", function() {
         }, /Missing 'sharedAccessKey'/);
 
         done();
+      });
+    });
+  });
+
+  describe("SharedAccessSignature", () => {
+    [
+      "Endpoint=hello;SharedAccessSignature=SharedAccessSignature sr=<resource>&sig=someb64=&se=<expiry>&skn=<keyname>",
+      "SharedAccessSignature=SharedAccessSignature sr=<resource>&sig=someb64=&se=<expiry>&skn=<keyname>"
+    ].forEach((validCs, i) => {
+      it(`Valid shared access signatures[${i}]`, () => {
+        should.equal(isSharedAccessSignature(validCs), true);
+      });
+    });
+
+    [
+      "Endpoint=hello;HaredAccessSignature=SharedAccessSignature sr=<resource>&sig=someb64=&se=<expiry>&skn=<keyname>",
+      "SharedAccessSignature=haredAccessSignature sr=<resource>&sig=someb64=&se=<expiry>&skn=<keyname>;Endpoint=asdfasdf"
+    ].forEach((invalidCs, i) => {
+      it(`Invalid shared access signature[${i}]`, () => {
+        should.equal(isSharedAccessSignature(invalidCs), false);
+      });
+    });
+
+    it("skip sharedAccessKey fields when using SharedAccessSignature", () => {
+      // skip validating the sharedKey related fields in connection config
+      ConnectionConfig.validate({
+        endpoint: "unused for this test",
+        host: "unused for this test",
+        sharedAccessKey: "",
+        sharedAccessKeyName: "",
+        connectionString: "Endpoint=hello;SharedAccessSignature=SharedAccessSignature hellosig"
       });
     });
   });
