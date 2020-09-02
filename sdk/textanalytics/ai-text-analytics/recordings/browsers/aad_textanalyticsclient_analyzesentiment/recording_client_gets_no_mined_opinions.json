@@ -11,7 +11,7 @@
     "cache-control": "no-store, no-cache",
     "content-length": "1329",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 01 Sep 2020 19:45:38 GMT",
+    "date": "Wed, 02 Sep 2020 16:06:49 GMT",
     "expires": "-1",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
@@ -19,28 +19,28 @@
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
     "x-ms-ests-server": "2.1.10985.18 - CHI ProdSlices",
-    "x-ms-request-id": "d0eef047-4cfb-4a77-a8fd-38cfad370300"
+    "x-ms-request-id": "3cb81ae6-b997-4a74-8e2c-86e29e0c2800"
    }
   },
   {
    "method": "POST",
    "url": "https://endpoint/text/analytics/v3.1-preview.1/sentiment",
    "query": {
-    "stringIndexType": "TextElements_v8",
+    "stringIndexType": "Utf16CodeUnit",
     "opinionMining": "true"
    },
    "requestBody": "{\"documents\":[{\"id\":\"0\",\"text\":\"today is a hot day\",\"language\":\"en\"}]}",
    "status": 200,
    "response": "{\"documents\":[{\"id\":\"0\",\"sentiment\":\"neutral\",\"confidenceScores\":{\"positive\":0.1,\"neutral\":0.88,\"negative\":0.02},\"sentences\":[{\"sentiment\":\"neutral\",\"confidenceScores\":{\"positive\":0.1,\"neutral\":0.88,\"negative\":0.02},\"offset\":0,\"length\":18,\"text\":\"today is a hot day\",\"aspects\":[],\"opinions\":[]}],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-04-01\"}",
    "responseHeaders": {
-    "apim-request-id": "60308b41-af2f-44dc-b10b-3ac98dc5dc48",
+    "apim-request-id": "8c9b390d-e1c8-42b8-ad27-40e854b99fa3",
     "content-type": "application/json; charset=utf-8",
     "csp-billing-usage": "CognitiveServices.TextAnalytics.BatchScoring=1",
-    "date": "Tue, 01 Sep 2020 19:45:39 GMT",
+    "date": "Wed, 02 Sep 2020 16:06:48 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "100"
+    "x-envoy-upstream-service-time": "114"
    }
   }
  ],

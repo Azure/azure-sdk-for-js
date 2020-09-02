@@ -11,7 +11,7 @@
     "cache-control": "no-store, no-cache",
     "content-length": "1329",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 01 Sep 2020 19:45:43 GMT",
+    "date": "Wed, 02 Sep 2020 16:06:52 GMT",
     "expires": "-1",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
@@ -19,7 +19,7 @@
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
     "x-ms-ests-server": "2.1.10985.18 - CHI ProdSlices",
-    "x-ms-request-id": "ab821aea-314f-43e2-9872-40faa0910200"
+    "x-ms-request-id": "26cb797d-e05b-4aba-95d5-8098cee82400"
    }
   },
   {
@@ -30,14 +30,14 @@
    "status": 200,
    "response": "{\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"week\",\"Space Needle\",\"wonderful trip\",\"Seattle\",\"times\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"entire trip\",\"Seattle\",\"Space Needle\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"movie\"],\"warnings\":[]},{\"id\":\"4\",\"keyPhrases\":[\"book\"],\"warnings\":[]},{\"id\":\"5\",\"keyPhrases\":[\"Monte Rainier\",\"caminos\"],\"warnings\":[]},{\"id\":\"6\",\"keyPhrases\":[\"carretera\",\"tráfico\",\"día\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}",
    "responseHeaders": {
-    "apim-request-id": "4d57fc06-9179-4437-be79-862cb5214c67",
+    "apim-request-id": "17ab6fab-53a1-4b20-b7ba-049e3b5fcb21",
     "content-type": "application/json; charset=utf-8",
     "csp-billing-usage": "CognitiveServices.TextAnalytics.BatchScoring=6",
-    "date": "Tue, 01 Sep 2020 19:45:44 GMT",
+    "date": "Wed, 02 Sep 2020 16:06:53 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "21"
+    "x-envoy-upstream-service-time": "14"
    }
   }
  ],

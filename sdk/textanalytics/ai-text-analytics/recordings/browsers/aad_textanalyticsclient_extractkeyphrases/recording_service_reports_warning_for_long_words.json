@@ -11,7 +11,7 @@
     "cache-control": "no-store, no-cache",
     "content-length": "1329",
     "content-type": "application/json; charset=utf-8",
-    "date": "Tue, 01 Sep 2020 19:45:43 GMT",
+    "date": "Wed, 02 Sep 2020 16:06:52 GMT",
     "expires": "-1",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
@@ -19,7 +19,7 @@
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
     "x-ms-ests-server": "2.1.10985.18 - CHI ProdSlices",
-    "x-ms-request-id": "07fb7c80-a38e-4bce-a6f0-d8e5f1d90200"
+    "x-ms-request-id": "a50a0686-0d6b-4e2d-908a-eb00b1662e00"
    }
   },
   {
@@ -30,14 +30,14 @@
    "status": 200,
    "response": "{\"documents\":[{\"id\":\"0\",\"keyPhrases\":[\"world\",\"thisisanextremelymassivesequenceoflettersthatislongerthansixtyfo\"],\"warnings\":[{\"code\":\"LongWordsInDocument\",\"message\":\"The document contains very long words (longer than 64 characters). These words will be truncated and may result in unreliable model predictions.\"}]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}",
    "responseHeaders": {
-    "apim-request-id": "ee59ee43-a5e4-44cb-bc87-f1a097536c21",
+    "apim-request-id": "33248390-8e21-45d6-b217-dcb7268c6400",
     "content-type": "application/json; charset=utf-8",
     "csp-billing-usage": "CognitiveServices.TextAnalytics.BatchScoring=1",
-    "date": "Tue, 01 Sep 2020 19:45:43 GMT",
+    "date": "Wed, 02 Sep 2020 16:06:52 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "12"
+    "x-envoy-upstream-service-time": "11"
    }
   }
  ],

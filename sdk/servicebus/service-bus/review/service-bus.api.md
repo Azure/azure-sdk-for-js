@@ -355,7 +355,7 @@ export interface ServiceBusMessage {
     messageId?: string | number | Buffer;
     partitionKey?: string;
     properties?: {
-        [key: string]: any;
+        [key: string]: number | boolean | string | Date;
     };
     replyTo?: string;
     replyToSessionId?: string;
@@ -431,8 +431,6 @@ export type SqlRuleAction = SqlRuleFilter;
 
 // @public
 export interface SqlRuleFilter {
-    compatibilityLevel?: number;
-    requiresPreprocessing?: boolean;
     sqlExpression?: string;
     sqlParameters?: SqlParameter[];
 }

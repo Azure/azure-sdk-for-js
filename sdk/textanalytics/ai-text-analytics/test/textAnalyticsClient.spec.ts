@@ -138,6 +138,8 @@ describe("[AAD] TextAnalyticsClient", function() {
           assert.equal("positive", aspect.sentiment);
           assert.isAtLeast(aspect.confidenceScores.positive, 0);
           assert.isAtLeast(aspect.confidenceScores.negative, 0);
+          assert.equal(aspect.offset, 32);
+          assert.equal(aspect.length, 6);
 
           const sleekOpinion = opinion.opinions[0];
           assert.equal("sleek", sleekOpinion.text);
@@ -145,6 +147,8 @@ describe("[AAD] TextAnalyticsClient", function() {
           assert.isAtLeast(sleekOpinion.confidenceScores.positive, 0);
           assert.isAtLeast(sleekOpinion.confidenceScores.positive, 0);
           assert.isFalse(sleekOpinion.isNegated);
+          assert.equal(sleekOpinion.offset, 9);
+          assert.equal(sleekOpinion.length, 5);
 
           const premiumOpinion = opinion.opinions[1];
           assert.equal("premium", premiumOpinion.text);
@@ -152,6 +156,8 @@ describe("[AAD] TextAnalyticsClient", function() {
           assert.isAtLeast(premiumOpinion.confidenceScores.positive, 0);
           assert.isAtLeast(premiumOpinion.confidenceScores.positive, 0);
           assert.isFalse(premiumOpinion.isNegated);
+          assert.equal(premiumOpinion.offset, 15);
+          assert.equal(premiumOpinion.length, 7);
         })
       );
     });

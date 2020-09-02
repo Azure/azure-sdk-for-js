@@ -163,6 +163,20 @@ export const Entity: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
+      offset: {
+        serializedName: "offset",
+        required: true,
+        type: {
+          name: "Number"
+        }
+      },
+      length: {
+        serializedName: "length",
+        required: true,
+        type: {
+          name: "Number"
+        }
+      },
       confidenceScore: {
         serializedName: "confidenceScore",
         required: true,
@@ -534,6 +548,20 @@ export const Match: coreHttp.CompositeMapper = {
         required: true,
         type: {
           name: "String"
+        }
+      },
+      offset: {
+        serializedName: "offset",
+        required: true,
+        type: {
+          name: "Number"
+        }
+      },
+      length: {
+        serializedName: "length",
+        required: true,
+        type: {
+          name: "Number"
         }
       }
     }
@@ -937,6 +965,20 @@ export const SentenceSentiment: coreHttp.CompositeMapper = {
           className: "SentimentConfidenceScores"
         }
       },
+      offset: {
+        serializedName: "offset",
+        required: true,
+        type: {
+          name: "Number"
+        }
+      },
+      length: {
+        serializedName: "length",
+        required: true,
+        type: {
+          name: "Number"
+        }
+      },
       aspects: {
         serializedName: "aspects",
         type: {
@@ -973,6 +1015,20 @@ export const SentenceAspect: coreHttp.CompositeMapper = {
         type: {
           name: "Composite",
           className: "AspectConfidenceScoreLabel"
+        }
+      },
+      offset: {
+        serializedName: "offset",
+        required: true,
+        type: {
+          name: "Number"
+        }
+      },
+      length: {
+        serializedName: "length",
+        required: true,
+        type: {
+          name: "Number"
         }
       },
       text: {
@@ -1059,6 +1115,20 @@ export const SentenceOpinion: coreHttp.CompositeMapper = {
         type: {
           name: "Composite",
           className: "AspectConfidenceScoreLabel"
+        }
+      },
+      offset: {
+        serializedName: "offset",
+        required: true,
+        type: {
+          name: "Number"
+        }
+      },
+      length: {
+        serializedName: "length",
+        required: true,
+        type: {
+          name: "Number"
         }
       },
       text: {

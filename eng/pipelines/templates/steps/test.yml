@@ -1,0 +1,73 @@
+parameters:
+  Artifacts: []
+  ServiceDirectory: not-specified
+  
+steps:
+  - script: |
+      node common/scripts/install-run-rush.js install
+    displayName: "Install dependencies"
+
+  # Option "-p max" ensures parallelism is set to the number of cores on all platforms, which improves build times.
+  # The default on Windows is "cores - 1" (microsoft/rushstack#436).
+  - script: |
+      node eng/tools/rush-runner.js build --verbose -p max
+    displayName: "Build libraries"
+
+  # Option "-p max" ensures parallelism is set to the number of cores on all platforms, which improves build times.
+  # The default on Windows is "cores - 1" (microsoft/rushstack#436).
+  - script: |
+      node eng/tools/rush-runner.js build:test --verbose -p max
+    displayName: "Build test assets"
+
+  - template: ../steps/use-node-test-version.yml
+
+  # Option "-p max" ensures parallelism is set to the number of cores on all platforms, which improves build times.
+  # The default on Windows is "cores - 1" (microsoft/rushstack#436).
+  - script: |
+      node eng/tools/rush-runner.js unit-test:node "${{parameters.ServiceDirectory}}" --verbose -p max
+    displayName: "Test libraries"
+    condition: and(succeeded(),eq(variables['TestType'], 'node'))
+        
+  # Option "-p max" ensures parallelism is set to the number of cores on all platforms, which improves build times.
+  # The default on Windows is "cores - 1" (microsoft/rushstack#436).
+  - script: |
+      node eng/tools/rush-runner.js unit-test:browser "${{parameters.ServiceDirectory}}" --verbose -p max
+    displayName: "Test libraries"
+    condition: and(succeeded(),eq(variables['TestType'], 'browser'))
+
+  # Unlink node_modules folders to significantly improve performance of subsequent tasks
+  # which need to walk the directory tree (and are hardcoded to follow symlinks).
+  # Retry for 30 seconds, since this command may fail with error "Another rush command is already
+  # running in this repository" if the previous rush command was killed.
+  - pwsh: |
+      for ($i=0; $i -lt 30; $i++) {
+        node eng/tools/rush-runner.js unlink
+        if ($lastexitcode -eq 0) {
+          break
+        }
+        else {
+          start-sleep 1
+        }
+      }
+    condition: always()
+    displayName: "Unlink dependencies"
+
+  # It's important for performance to pass "sdk" as "searchFolder" to avoid looking under root "node_modules".
+  # PublishTestResults.searchFolder only supports absolute paths, not relative.
+  - task: PublishTestResults@2
+    inputs:
+      searchFolder: '$(System.DefaultWorkingDirectory)/sdk'
+      testResultsFiles: "**/test-results.xml"
+      testRunTitle: "$(OSName) - NodeJS - Unit Tests - [Node $(NodeTestVersion)]"
+    condition: and(always(),eq(variables['TestType'], 'node'))
+    displayName: "Publish NodeJS unit test results"
+
+  # It's important for performance to pass "sdk" as "searchFolder" to avoid looking under root "node_modules".
+  # PublishTestResults.searchFolder only supports absolute paths, not relative.
+  - task: PublishTestResults@2
+    inputs:
+      searchFolder: '$(System.DefaultWorkingDirectory)/sdk'
+      testResultsFiles: "**/test-results.browser.xml"
+      testRunTitle: "$(OSName) - Browser - Unit Tests - [Node $(NodeTestVersion)]"
+    condition: and(always(),eq(variables['TestType'], 'browser'))
+    displayName: "Publish browser unit test results"

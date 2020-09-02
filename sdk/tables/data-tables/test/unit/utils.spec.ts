@@ -12,6 +12,7 @@ describe("Utility Helpers", () => {
       beforeEach(function() {
         if (!isNode) {
           // Account connection string is not supported for Browsers
+          // eslint-disable-next-line no-invalid-this
           this.skip();
         }
       });
@@ -61,8 +62,6 @@ describe("Utility Helpers", () => {
         kind: "SASConnString",
         url: "https://teststorageaccount.table.core.windows.net"
       };
-
-      beforeEach(() => {});
 
       it("should handle format 'protocol://accountName.table.endpointSuffix'", () => {
         const validSAS =
