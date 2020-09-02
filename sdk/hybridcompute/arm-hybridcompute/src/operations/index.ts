@@ -11,3 +11,7 @@
 export * from "./machines";
 export * from "./machineExtensions";
 export * from "./operations";
+export * from "./privateLinkScopes";
+export * from "./privateLinkResources";
+export * from "./privateEndpointConnections";
+export * from "./privateLinkScopedResources";
