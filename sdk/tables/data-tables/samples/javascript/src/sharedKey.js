@@ -19,9 +19,12 @@ async function listTables() {
   const credential = new TablesSharedKeyCredential(accountName, accountKey);
   const client = new TableServiceClient(accountUrl, credential);
 
-  const tables = await client.listTables();
+  const tables = client.listTables();
 
-  console.log(tables.value);
+  for await (let table of tables) {
+    console.log(table);
+    // {TableName: "TestTable"}
+  }
 }
 
 async function listEntities() {
@@ -29,9 +32,12 @@ async function listEntities() {
   const credential = new TablesSharedKeyCredential(accountName, accountKey);
   const client = new TableClient(accountUrl, tableName, credential);
 
-  const entities = await client.listEntities();
+  const entities = client.listEntities();
 
-  console.log(entities.value);
+  for await (const entity of entities) {
+    console.log(entity);
+    // {PartitionKey: "P1", RowKey: "R1", foo: "Bar"}
+  }
 }
 
 async function main() {

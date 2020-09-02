@@ -4,26 +4,19 @@
 import { parseKeyvaultIdentifier } from "./generated/utils";
 
 /**
- * Valid collection names for Key Vault Key identifiers.
+ * Represents the segments that compose a Key Vault Key Id.
  */
-export type KeyVaultKeysIdentifierCollectionName = "keys" | "deletedkeys";
-
-/**
- * Represents a Key Vault identifier and its parsed contents.
- */
-export interface ParsedKeyVaultKeysIdentifier {
+export interface KeyVaultKeyId {
   /**
-   * The type of resource under Key Vault that this identifier is referring to.
+   * The complete representation of the Key Vault Key Id. For example:
+   *
+   *   https://<keyvault-name>.vault.azure.net/keys/<key-name>/<unique-version-id>
+   *
    */
-  collection: KeyVaultKeysIdentifierCollectionName;
+  sourceId: string;
 
   /**
-   * The originally received identifier.
-   */
-  id: string;
-
-  /**
-   * The Key Vault Key unique identifier (an URl).
+   * The URL of the Azure Key Vault instance to which the Key belongs.
    */
   vaultUrl: string;
 
@@ -39,21 +32,27 @@ export interface ParsedKeyVaultKeysIdentifier {
 }
 
 /**
- * Parses a KeyVaultIdentifier from a string URI.
+ * Parses the given Key Vault Key Id. An example is:
+ *
+ *   https://<keyvault-name>.vault.azure.net/keys/<key-name>/<unique-version-id>
+ *
+ * On parsing the above Id, this function returns:
+ *
+ *   {
+ *      sourceId: "https://<keyvault-name>.vault.azure.net/keys/<key-name>/<unique-version-id>",
+ *      vaultUrl: "https://<keyvault-name>.vault.azure.net",
+ *      version: "<unique-version-id>",
+ *      name: "<key-name>"
+ *   }
+ *
+ * @param id The Id of the Key Vault Key.
  */
-export function parseKeyVaultKeysIdentifier(id: string): ParsedKeyVaultKeysIdentifier {
+export function parseKeyVaultKeyId(id: string): KeyVaultKeyId {
   const urlParts = id.split("/");
-  const collection: KeyVaultKeysIdentifierCollectionName = urlParts[3] as KeyVaultKeysIdentifierCollectionName;
-
-  const collections: KeyVaultKeysIdentifierCollectionName[] = ["keys", "deletedkeys"];
-
-  if (!collections.includes(collection)) {
-    throw new Error(`The only collections allowed are: ${collections.join(", ")}`);
-  }
+  const collection = urlParts[3];
 
   return {
-    collection,
-    id,
+    sourceId: id,
     ...parseKeyvaultIdentifier(collection, id)
   };
 }

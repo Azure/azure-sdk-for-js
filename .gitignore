@@ -146,3 +146,6 @@ sdk/cosmosdb/cosmos/lib
 
 # autorest generated files
 swagger/*.json
+
+#autorest artifacts
+code-model-*

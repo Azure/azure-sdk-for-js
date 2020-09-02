@@ -1,47 +1,47 @@
 {
-  "recordings": [
-    {
-      "method": "POST",
-      "url": "https://joherediteststorage.table.core.windows.net/Tables",
-      "query": {},
-      "requestBody": "{\"TableName\":\"testTablebrowser\"}",
-      "status": 201,
-      "response": "{\"odata.metadata\":\"https://joherediteststorage.table.core.windows.net/$metadata#Tables/@Element\",\"TableName\":\"testTablebrowser\"}",
-      "responseHeaders": {
-        "cache-control": "no-cache",
-        "content-type": "application/json;odata=minimalmetadata;streaming=true;charset=utf-8",
-        "date": "Fri, 21 Aug 2020 14:06:38 GMT",
-        "location": "https://joherediteststorage.table.core.windows.net/Tables('testTablebrowser')",
-        "preference-applied": "return-content",
-        "server": "Windows-Azure-Table/1.0 Microsoft-HTTPAPI/2.0",
-        "transfer-encoding": "chunked",
-        "x-content-type-options": "nosniff",
-        "x-ms-request-id": "fad42b13-b002-00cb-77c4-77c6e4000000",
-        "x-ms-version": "2019-02-02"
-      }
-    },
-    {
-      "method": "GET",
-      "url": "https://joherediteststorage.table.core.windows.net/Tables",
-      "query": {},
-      "requestBody": null,
-      "status": 200,
-      "response": "{\"odata.metadata\":\"https://joherediteststorage.table.core.windows.net/$metadata#Tables\",\"value\":[{\"TableName\":\"integration\"},{\"TableName\":\"test1\"},{\"TableName\":\"TestTable\"},{\"TableName\":\"testTablebrowser\"},{\"TableName\":\"testTablenode\"}]}",
-      "responseHeaders": {
-        "cache-control": "no-cache",
-        "content-type": "application/json;odata=minimalmetadata;streaming=true;charset=utf-8",
-        "date": "Fri, 21 Aug 2020 14:06:38 GMT",
-        "server": "Windows-Azure-Table/1.0 Microsoft-HTTPAPI/2.0",
-        "transfer-encoding": "chunked",
-        "x-content-type-options": "nosniff",
-        "x-ms-request-id": "fad42b24-b002-00cb-06c4-77c6e4000000",
-        "x-ms-version": "2019-02-02"
-      }
-    }
-  ],
-  "uniqueTestInfo": {
-    "uniqueName": {},
-    "newDate": {}
+ "recordings": [
+  {
+   "method": "POST",
+   "url": "https://joherediteststorage.table.core.windows.net/Tables",
+   "query": {},
+   "requestBody": "{\"TableName\":\"testTablebrowser\"}",
+   "status": 201,
+   "response": "{\"odata.metadata\":\"https://joherediteststorage.table.core.windows.net/$metadata#Tables/@Element\",\"TableName\":\"testTablebrowser\"}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-type": "application/json;odata=minimalmetadata;streaming=true;charset=utf-8",
+    "date": "Fri, 21 Aug 2020 19:10:30 GMT",
+    "location": "https://joherediteststorage.table.core.windows.net/Tables('testTablebrowser')",
+    "preference-applied": "return-content",
+    "server": "Windows-Azure-Table/1.0 Microsoft-HTTPAPI/2.0",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-ms-request-id": "bfc51b09-7002-013c-15ee-77a65a000000",
+    "x-ms-version": "2019-02-02"
+   }
   },
-  "hash": "efa54a588d5723c90c430b55e1dacd4b"
+  {
+   "method": "GET",
+   "url": "https://joherediteststorage.table.core.windows.net/Tables",
+   "query": {},
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"odata.metadata\":\"https://joherediteststorage.table.core.windows.net/$metadata#Tables\",\"value\":[{\"TableName\":\"integration\"},{\"TableName\":\"list\"},{\"TableName\":\"test1\"},{\"TableName\":\"TestTable\"},{\"TableName\":\"testTablebrowser\"},{\"TableName\":\"testTablenode\"}]}",
+   "responseHeaders": {
+    "cache-control": "no-cache",
+    "content-type": "application/json;odata=minimalmetadata;streaming=true;charset=utf-8",
+    "date": "Fri, 21 Aug 2020 19:10:30 GMT",
+    "server": "Windows-Azure-Table/1.0 Microsoft-HTTPAPI/2.0",
+    "transfer-encoding": "chunked",
+    "x-content-type-options": "nosniff",
+    "x-ms-request-id": "bfc51b24-7002-013c-2bee-77a65a000000",
+    "x-ms-version": "2019-02-02"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {},
+  "newDate": {}
+ },
+ "hash": "1c54a7b7efb67c762c52ec5128c51627"
 }

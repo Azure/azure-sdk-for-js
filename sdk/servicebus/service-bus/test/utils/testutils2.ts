@@ -423,11 +423,10 @@ export class ServiceBusTestHelpers {
   ): ServiceBusReceiver<ReceivedMessageWithLock> {
     return this.addToCleanup(
       entityNames.queue
-        ? this._serviceBusClient.createDeadLetterReceiver(entityNames.queue)
-        : this._serviceBusClient.createDeadLetterReceiver(
-            entityNames.topic!,
-            entityNames.subscription!
-          )
+        ? this._serviceBusClient.createReceiver(entityNames.queue, { subQueue: "deadLetter" })
+        : this._serviceBusClient.createReceiver(entityNames.topic!, entityNames.subscription!, {
+            subQueue: "deadLetter"
+          })
     );
   }
 
@@ -456,17 +455,18 @@ async function purgeForTestClientType(
 
   if (entityPaths.queue) {
     receiver = serviceBusClient.createReceiver(entityPaths.queue, "receiveAndDelete");
-    deadLetterReceiver = serviceBusClient.createDeadLetterReceiver(entityPaths.queue, {
-      receiveMode: "receiveAndDelete"
+    deadLetterReceiver = serviceBusClient.createReceiver(entityPaths.queue, {
+      receiveMode: "receiveAndDelete",
+      subQueue: "deadLetter"
     });
   } else if (entityPaths.topic && entityPaths.subscription) {
     receiver = serviceBusClient.createReceiver(entityPaths.topic, entityPaths.subscription, {
       receiveMode: "receiveAndDelete"
     });
-    deadLetterReceiver = serviceBusClient.createDeadLetterReceiver(
+    deadLetterReceiver = serviceBusClient.createReceiver(
       entityPaths.topic,
       entityPaths.subscription,
-      { receiveMode: "receiveAndDelete" }
+      { receiveMode: "receiveAndDelete", subQueue: "deadLetter" }
     );
   } else {
     throw new Error(`Unsupported TestClientType for purge: ${testClientType}`);
@@ -509,7 +509,7 @@ export async function drainReceiveAndDeleteReceiver(
 function connectionString() {
   if (env[EnvVarNames.SERVICEBUS_CONNECTION_STRING] == null) {
     throw new Error(
-      `No service bus connection string defined in ${EnvVarNames.SERVICEBUS_CONNECTION_STRING}`
+      `No service bus connection string defined in ${EnvVarNames.SERVICEBUS_CONNECTION_STRING}. If you're in a unit test you should not be depending on the deployed environment!`
     );
   }
 

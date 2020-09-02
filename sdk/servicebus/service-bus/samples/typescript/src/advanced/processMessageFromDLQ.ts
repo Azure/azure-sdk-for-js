@@ -34,8 +34,8 @@ export async function main() {
 }
 
 async function processDeadletterMessageQueue() {
-  // If connecting to a subscription's dead letter queue you can use the createDeadLetterReceiver(topic, subscription) overload
-  const receiver = sbClient.createDeadLetterReceiver(queueName);
+  // If connecting to a subscription's dead letter queue you can use the createReceiver(topic, subscription) overload
+  const receiver = sbClient.createReceiver(queueName, { subQueue: "deadLetter" });
 
   const messages = await receiver.receiveMessages(1);
 

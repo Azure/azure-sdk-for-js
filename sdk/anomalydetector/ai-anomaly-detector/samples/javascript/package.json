@@ -1,15 +1,15 @@
 {
-  "name": "azure-template-samples-js",
+  "name": "azure-ai-anomaly-detector-samples-js",
   "private": true,
   "version": "0.1.0",
-  "description": "Azure template client library samples for JavaScript",
+  "description": "Azure ai-anomaly-detector client library samples for JavaScript",
   "engine": {
     "node": ">=8.0.0"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Azure/azure-sdk-for-js.git",
-    "directory": "sdk/template/template"
+    "directory": "sdk/anomalydetector/ai-anomaly-detector/"
   },
   "keywords": [
     "Azure",
@@ -21,7 +21,7 @@
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/template/template",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/anomalydetector/ai-anomaly-detector",
   "sideEffects": false,
   "dependencies": {
     "@azure/ai-anomaly-detector": "../..",
