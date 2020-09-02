@@ -43,10 +43,10 @@
     "LICENSE"
   ],
   "license": "MIT",
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/monitor/opentelemetry-exporter",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/monitor/monitor-opentelemetry-exporter",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/monitor/opentelemetry-exporter"
+    "url": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/monitor/monitor-opentelemetry-exporter"
   },
   "prettier": "@azure/eslint-plugin-azure-sdk/prettier.json",
   "//metadata": {
