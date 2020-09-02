@@ -154,3 +154,25 @@ export interface ListRoleAssignmentsOptions extends coreHttp.OperationOptions {}
  * An interface representing optional parameters passed to {@link listRoleDefinitions}.
  */
 export interface ListRoleDefinitionsOptions extends coreHttp.OperationOptions {}
+
+/**
+ * Arguments for retrieving the next page of search results.
+ */
+export interface ListRoleDefinitionsPageSettings {
+  /**
+   * A token used for retrieving the next page of results when the server
+   * enforces pagination.
+   */
+  continuationToken?: string;
+}
+
+/**
+ * Arguments for retrieving the next page of search results.
+ */
+export interface ListRoleAssignmentsPageSettings {
+  /**
+   * A token used for retrieving the next page of results when the server
+   * enforces pagination.
+   */
+  continuationToken?: string;
+}

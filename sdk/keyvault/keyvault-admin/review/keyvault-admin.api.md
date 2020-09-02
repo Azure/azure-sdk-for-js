@@ -83,7 +83,17 @@ export interface ListRoleAssignmentsOptions extends coreHttp.OperationOptions {
 }
 
 // @public
+export interface ListRoleAssignmentsPageSettings {
+    continuationToken?: string;
+}
+
+// @public
 export interface ListRoleDefinitionsOptions extends coreHttp.OperationOptions {
+}
+
+// @public
+export interface ListRoleDefinitionsPageSettings {
+    continuationToken?: string;
 }
 
 // @public

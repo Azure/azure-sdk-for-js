@@ -9,7 +9,7 @@ import {
   signingPolicy,
   createPipelineFromOptions
 } from "@azure/core-http";
-import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
+import { PagedAsyncIterableIterator } from "@azure/core-paging";
 
 import { challengeBasedAuthenticationPolicy } from "../../keyvault-common/src";
 import {
@@ -27,7 +27,7 @@ import {
   ListRoleAssignmentsOptions,
   ListRoleDefinitionsOptions,
   KeyVaultRoleDefinition,
-  GetRoleAssignmentOptions
+  GetRoleAssignmentOptions, ListRoleDefinitionsPageSettings, ListRoleAssignmentsPageSettings
 } from "./accessControlModels";
 import { SDK_VERSION, LATEST_API_VERSION } from "./constants";
 import { KeyVaultClient } from "./generated/keyVaultClient";
@@ -257,15 +257,11 @@ export class KeyVaultAccessControlClient {
    */
   private async *listRoleAssignmentsPage(
     roleScope: RoleAssignmentScope,
-    continuationState: PageSettings,
+    continuationState: ListRoleAssignmentsPageSettings,
     options?: ListRoleAssignmentsOptions
   ): AsyncIterableIterator<KeyVaultRoleAssignment[]> {
     if (continuationState.continuationToken == null) {
-      const optionsComplete: RoleAssignmentsListForScopeOptionalParams = {
-        // Not supported!
-        // maxresults: continuationState.maxPageSize,
-        ...options
-      };
+      const optionsComplete: RoleAssignmentsListForScopeOptionalParams = options || {};
       const currentSetResponse = await this.client.roleAssignments.listForScope(
         this.vaultUrl,
         roleScope,
@@ -343,7 +339,7 @@ export class KeyVaultAccessControlClient {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings: PageSettings = {}) =>
+      byPage: (settings: ListRoleAssignmentsPageSettings = {}) =>
         this.listRoleAssignmentsPage(roleScope, settings, updatedOptions)
     };
   }
@@ -353,20 +349,16 @@ export class KeyVaultAccessControlClient {
    * @ignore
    * Deals with the pagination of {@link listRoleDefinitions}.
    * @param {string} roleScope The scope of the role definition.
-   * @param {PageSettings} continuationState An object that indicates the position of the paginated request.
+   * @param {ListRoleDefinitionsPageSettings} continuationState An object that indicates the position of the paginated request.
    * @param {ListRoleAssignmentsOptions} [options] Common options for the iterative endpoints.
    */
   private async *listRoleDefinitionsPage(
     roleScope: RoleAssignmentScope,
-    continuationState: PageSettings,
+    continuationState: ListRoleDefinitionsPageSettings,
     options?: ListRoleDefinitionsOptions
   ): AsyncIterableIterator<KeyVaultRoleDefinition[]> {
     if (continuationState.continuationToken == null) {
-      const optionsComplete: RoleAssignmentsListForScopeOptionalParams = {
-        // Not supported!
-        // maxresults: continuationState.maxPageSize,
-        ...options
-      };
+      const optionsComplete: RoleAssignmentsListForScopeOptionalParams = options || {};
       const currentSetResponse = await this.client.roleDefinitions.list(
         this.vaultUrl,
         roleScope,
@@ -444,7 +436,7 @@ export class KeyVaultAccessControlClient {
       [Symbol.asyncIterator]() {
         return this;
       },
-      byPage: (settings: PageSettings = {}) =>
+      byPage: (settings: ListRoleDefinitionsPageSettings = {}) =>
         this.listRoleDefinitionsPage(roleScope, settings, updatedOptions)
     };
   }
