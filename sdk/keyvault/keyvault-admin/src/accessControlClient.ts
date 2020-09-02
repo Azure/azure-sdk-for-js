@@ -262,7 +262,7 @@ export class KeyVaultAccessControlClient {
     continuationState: ListRoleAssignmentsPageSettings,
     options?: ListRoleAssignmentsOptions
   ): AsyncIterableIterator<KeyVaultRoleAssignment[]> {
-    if (continuationState.continuationToken == null) {
+    if (!continuationState.continuationToken) {
       const optionsComplete: RoleAssignmentsListForScopeOptionalParams = options || {};
       const currentSetResponse = await this.client.roleAssignments.listForScope(
         this.vaultUrl,
@@ -359,7 +359,7 @@ export class KeyVaultAccessControlClient {
     continuationState: ListRoleDefinitionsPageSettings,
     options?: ListRoleDefinitionsOptions
   ): AsyncIterableIterator<KeyVaultRoleDefinition[]> {
-    if (continuationState.continuationToken == null) {
+    if (!continuationState.continuationToken) {
       const optionsComplete: RoleAssignmentsListForScopeOptionalParams = options || {};
       const currentSetResponse = await this.client.roleDefinitions.list(
         this.vaultUrl,
