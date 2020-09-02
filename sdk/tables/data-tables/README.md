@@ -173,6 +173,12 @@ async function main() {
   for await (const table of tablesIter) {
     console.log(`Table${i}: ${table.tableName}`);
     i++;
+    // Output:
+    // Table1: testTable1
+    // Table1: testTable2
+    // Table1: testTable3
+    // Table1: testTable4
+    // Table1: testTable5
   }
 }
 
@@ -269,8 +275,13 @@ async function main() {
   let entitiesIter = client.listEntities();
   let i = 1;
   for await (const entity of entitiesIter) {
-    console.log(`Entity${i}: ${entity}`);
+    console.log(`Entity${i}: PartitionKey: ${entity.PartitionKey} RowKey: ${entity.RowKey}`);
     i++;
+    // Output:
+    // Entity1: PartitionKey: P1 RowKey: R1
+    // Entity2: PartitionKey: P2 RowKey: R2
+    // Entity3: PartitionKey: P3 RowKey: R3
+    // Entity4: PartitionKey: P4 RowKey: R4
   }
 }
 
@@ -302,7 +313,7 @@ async function main() {
       foo: "foo",
       bar: 123
   }
-  await client.createEntity(entity);
+  await client.createEntity(testEntity);
 }
 
 main();
