@@ -31,7 +31,7 @@ function loadEnvironmentProxyValue(): string | undefined {
   return httpsProxy || httpProxy;
 }
 
-// Check whether uri match noProxyList. If match, won't set proxy settings while sending request to the uri.
+// Check whether the given `uri` matches the noProxyList. If it matches, any request sent to that same `uri` won't set the proxy settings.
 function isBypassed(uri: string) {
   if (byPassedList.has(uri)) {
     return byPassedList.get(uri);
@@ -39,19 +39,19 @@ function isBypassed(uri: string) {
   loadNoProxy();
   let isBypassed: boolean = false;
   let host = URLBuilder.parse(uri).getHost()!;
-  for (const s of noProxyList) {
-    if (s[0] == ".") {
-      if (uri.endsWith(s)) {
+  for (const proxyString of noProxyList) {
+    if (proxyString[0] == ".") {
+      if (uri.endsWith(proxyString)) {
         isBypassed = true;
       } else {
-        if (host == s.slice(1) && host.length == s.length - 1) {
+        if (host == proxyString.slice(1) && host.length == proxyString.length - 1) {
           isBypassed = true;
         }
       }
     } else {
-      if (host == s) {
+      if (host == proxyString) {
         isBypassed = true;
-        }
+      }
     }
   }
   byPassedList.set(uri, isBypassed);
