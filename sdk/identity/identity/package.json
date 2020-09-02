@@ -87,9 +87,12 @@
     "events": "^3.0.0",
     "jws": "^4.0.0",
     "msal": "^1.0.2",
+    "open": "^7.0.0",
     "qs": "^6.7.0",
     "tslib": "^2.0.0",
-    "uuid": "^8.1.0"
+    "uuid": "^8.1.0",
+    "@rollup/plugin-json": "^4.0.0",
+    "axios": "^0.19.2"   
   },
   "optionalDependencies": {
     "keytar": "^5.4.0"
