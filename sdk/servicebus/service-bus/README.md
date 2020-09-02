@@ -18,10 +18,10 @@ Resources for the v7.0.0-preview.5 of `@azure/service-bus`:
 > **NOTE**: This document has instructions, links and code snippets for the **preview** of the next version of the `@azure/service-bus` package
 > which has different APIs than the stable version. To use the stable version of the library use the below resources.
 
-[Source code or Readme for v1.1.5](https://github.com/Azure/azure-sdk-for-js/tree/%40azure/service-bus_1.1.5/sdk/servicebus/service-bus) |
-[Package for v1.1.5 (npm)](https://www.npmjs.com/package/@azure/service-bus/v/1.1.5) |
-[API Reference Documentation for v1.1.5](https://docs.microsoft.com/javascript/api/%40azure/service-bus/?view=azure-node-latest) |
-[Samples for v1.1.5](https://github.com/Azure/azure-sdk-for-js/tree/%40azure/service-bus_1.1.5/sdk/servicebus/service-bus/samples)
+[Source code or Readme for v1.1.9](https://github.com/Azure/azure-sdk-for-js/tree/%40azure/service-bus_1.1.9/sdk/servicebus/service-bus) |
+[Package for v1.1.9 (npm)](https://www.npmjs.com/package/@azure/service-bus/v/1.1.9) |
+[API Reference Documentation for v1.1.9](https://docs.microsoft.com/javascript/api/%40azure/service-bus/?view=azure-node-latest) |
+[Samples for @azure/service-bus v1.1.x](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/servicebus/service-bus/samples-v1)
 
 We also provide a migration guide for users familiar with the stable package that would like to try the preview: [migration guide to move from Service Bus V1 to Service Bus V7 Preview][migrationguide]
 

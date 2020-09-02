@@ -6,7 +6,7 @@ import { ServiceBusMessageBatchImpl } from "../../src/serviceBusMessageBatch";
 import { ConnectionContext } from "../../src/connectionContext";
 import { ServiceBusMessage } from "../../src";
 import { isServiceBusMessageBatch, ServiceBusSenderImpl } from "../../src/sender";
-import { DefaultDataTransformer } from "@azure/core-amqp";
+import { createConnectionContextForTests } from "./unittestUtils";
 
 const assert = chai.assert;
 
@@ -88,24 +88,3 @@ describe("sender unit tests", () => {
     });
   });
 });
-
-function createConnectionContextForTests(): ConnectionContext & { initWasCalled: boolean } {
-  let initWasCalled = false;
-
-  const fakeConnectionContext = {
-    config: { endpoint: "my.service.bus" },
-    connectionId: "connection-id",
-    dataTransformer: new DefaultDataTransformer(),
-    cbsSession: {
-      cbsLock: "cbs-lock",
-      async init() {
-        initWasCalled = true;
-      }
-    },
-    senders: {},
-    managementClients: {},
-    initWasCalled
-  };
-
-  return (fakeConnectionContext as any) as ReturnType<typeof createConnectionContextForTests>;
-}

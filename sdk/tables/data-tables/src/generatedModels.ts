@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 export {
-  GeneratedClientOptionalParams as TableServiceClientOptions,
   ServiceGetStatisticsOptionalParams as GetStatisticsOptions,
   ServiceGetStatisticsResponse as GetStatisticsResponse,
   ServiceGetPropertiesOptionalParams as GetPropertiesOptions,
@@ -12,7 +11,6 @@ export {
   ServiceSetPropertiesResponse as SetPropertiesResponse,
   TableDeleteOptionalParams as DeleteTableOptions,
   TableDeleteResponse as DeleteTableResponse,
-  TableQueryOperationResponse as ListTablesResponse,
   TableQueryEntitiesWithPartitionAndRowKeyResponse,
   TableDeleteEntityResponse as DeleteTableEntityResponse,
   TableUpdateEntityResponse as UpdateEntityResponse,

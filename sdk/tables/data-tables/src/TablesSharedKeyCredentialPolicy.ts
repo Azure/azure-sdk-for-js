@@ -3,7 +3,7 @@
 
 import {
   RequestPolicy,
-  RequestPolicyOptions,
+  RequestPolicyOptionsLike,
   WebResource,
   BaseRequestPolicy,
   HttpOperationResponse
@@ -35,7 +35,7 @@ export class TablesSharedKeyCredentialPolicy extends BaseRequestPolicy {
    */
   constructor(
     nextPolicy: RequestPolicy,
-    options: RequestPolicyOptions,
+    options: RequestPolicyOptionsLike,
     factory: TablesSharedKeyCredential
   ) {
     super(nextPolicy, options);
@@ -130,7 +130,7 @@ export class TablesSharedKeyCredentialPolicy extends BaseRequestPolicy {
     if (queries) {
       const queryKeys: string[] = [];
       for (const key in queries) {
-        if (queries.hasOwnProperty(key)) {
+        if (key in queries) {
           const lowercaseKey = key.toLowerCase();
           lowercaseQueries[lowercaseKey] = queries.get(key) || "";
           queryKeys.push(lowercaseKey);

@@ -1,8 +1,8 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
 import { createHmac } from "crypto";
-import { RequestPolicy, RequestPolicyOptions, RequestPolicyFactory } from "@azure/core-http";
+import { RequestPolicy, RequestPolicyOptionsLike, RequestPolicyFactory } from "@azure/core-http";
 
 import { TablesSharedKeyCredentialPolicy } from "./TablesSharedKeyCredentialPolicy";
 
@@ -43,12 +43,12 @@ export class TablesSharedKeyCredential implements RequestPolicyFactory {
    * Creates a {@link TablesSharedKeyCredentialPolicy} object.
    *
    * @param {RequestPolicy} nextPolicy
-   * @param {RequestPolicyOptions} options
+   * @param {RequestPolicyOptionsLike} options
    * @returns {TablesSharedKeyCredentialPolicy}
    */
   public create(
     nextPolicy: RequestPolicy,
-    options: RequestPolicyOptions
+    options: RequestPolicyOptionsLike
   ): TablesSharedKeyCredentialPolicy {
     return new TablesSharedKeyCredentialPolicy(nextPolicy, options, this);
   }
