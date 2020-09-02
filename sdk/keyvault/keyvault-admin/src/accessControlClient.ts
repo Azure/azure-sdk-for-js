@@ -303,9 +303,7 @@ export class KeyVaultAccessControlClient {
     roleScope: RoleAssignmentScope,
     options?: ListRoleAssignmentsOptions
   ): AsyncIterableIterator<KeyVaultRoleAssignment> {
-    const f = {};
-
-    for await (const page of this.listRoleAssignmentsPage(roleScope, f, options)) {
+    for await (const page of this.listRoleAssignmentsPage(roleScope, {}, options)) {
       yield* page;
     }
   }
@@ -406,9 +404,7 @@ export class KeyVaultAccessControlClient {
     roleScope: RoleAssignmentScope,
     options?: ListRoleDefinitionsOptions
   ): AsyncIterableIterator<KeyVaultRoleDefinition> {
-    const f = {};
-
-    for await (const page of this.listRoleDefinitionsPage(roleScope, f, options)) {
+    for await (const page of this.listRoleDefinitionsPage(roleScope, {}, options)) {
       yield* page;
     }
   }
