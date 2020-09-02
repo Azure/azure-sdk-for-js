@@ -531,9 +531,10 @@ function CheckArtifactShaAgainstTagsList($priorExistingTagList, $releaseSha, $ap
 }
 
 function GenerateReleaseTag($packageId, $packageVersion) {
-  return if ($packageId) {
+  $tag =if ($packageId) {
     "$packageId_$packageVersion"
   } else {
     $packageVersion
   }
+  return $tag
 }

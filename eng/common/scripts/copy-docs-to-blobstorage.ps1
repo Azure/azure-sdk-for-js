@@ -248,10 +248,8 @@ if ($Language -eq "javascript")
             $DocVersion = $dirList[0].Name
             Write-Host "Uploading Doc for $($PkgName) Version:- $($DocVersion)..."
             $releaseTag = RetrieveReleaseTag "NPM" "$($DocLocation)/documentation"
-            Write-Host "The release tag $releaseTag from package."
             if (!releaseTag) {
                 $releaseTag = GenerateReleaseTag $PkgName $DocVersion
-                Write-Host "The release tag $releaseTag from name and version."
             } 
             Upload-Blobs -DocDir "$($DocLocation)/documentation/$($Item.BaseName)/$($Item.BaseName)/$($DocVersion)" -PkgName $PkgName -DocVersion $DocVersion -ReleaseTag $releaseTag
         }
@@ -390,5 +388,8 @@ if ($Language -eq "cpp")
 {
     $packageInfo = (Get-Content (Join-Path $DocLocation 'package-info.json') | ConvertFrom-Json)
     $releaseTag = RetrieveReleaseTag "CPP" $DocLocation
+    if (!releaseTag) {
+        $releaseTag = GenerateReleaseTag $packageInfo.name $packageInfo.version
+    } 
     Upload-Blobs -DocDir $DocLocation -PkgName $packageInfo.name -DocVersion $packageInfo.version -ReleaseTag $releaseTag
 }
