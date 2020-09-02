@@ -883,6 +883,12 @@ export const Sku: msRest.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      capacity: {
+        serializedName: "capacity",
+        type: {
+          name: "Number"
+        }
       }
     }
   }
@@ -2434,7 +2440,6 @@ export const Workspace: msRest.CompositeMapper = {
         }
       },
       managedResourceGroupName: {
-        readOnly: true,
         serializedName: "properties.managedResourceGroupName",
         type: {
           name: "String"
@@ -2485,6 +2490,18 @@ export const Workspace: msRest.CompositeMapper = {
             type: {
               name: "Composite",
               className: "PrivateEndpointConnection"
+            }
+          }
+        }
+      },
+      extraProperties: {
+        readOnly: true,
+        serializedName: "properties.extraProperties",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "Object"
             }
           }
         }
@@ -2622,34 +2639,7 @@ export const SubResource: msRest.CompositeMapper = {
     name: "Composite",
     className: "SubResource",
     modelProperties: {
-      id: {
-        readOnly: true,
-        serializedName: "id",
-        type: {
-          name: "String"
-        }
-      },
-      name: {
-        readOnly: true,
-        serializedName: "name",
-        type: {
-          name: "String"
-        }
-      },
-      type: {
-        readOnly: true,
-        serializedName: "type",
-        type: {
-          name: "String"
-        }
-      },
-      etag: {
-        readOnly: true,
-        serializedName: "etag",
-        type: {
-          name: "String"
-        }
-      }
+      ...AzureEntityResource.type.modelProperties
     }
   }
 };
