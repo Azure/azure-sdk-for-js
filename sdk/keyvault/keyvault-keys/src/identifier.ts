@@ -5,7 +5,6 @@ import { parseKeyvaultIdentifier } from "./generated/utils";
 
 /**
  * Represents the segments that compose a Key Vault Key Id.
- * Key Vault Key Ids are Uniform Resource Identifiers (URIs).
  */
 export interface KeyVaultKeyId {
   /**
