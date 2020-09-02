@@ -142,8 +142,11 @@ export class LinkEntity {
     if (this._context.tokenCredential instanceof SharedKeyCredential) {
       tokenObject = this._context.tokenCredential.getToken(this.audience);
       tokenType = TokenType.CbsTokenTypeSas;
-      // renew sas token in every 45 minutess
-      this._tokenTimeoutInMs = (3600 - 900) * 1000;
+
+      if (tokenObject.expiresOnTimestamp > 0) {
+        // renew sas token in every 45 minutess
+        this._tokenTimeoutInMs = (3600 - 900) * 1000;
+      }
     } else {
       const aadToken = await this._context.tokenCredential.getToken(Constants.aadEventHubsScope);
       if (!aadToken) {
