@@ -1,6 +1,6 @@
 # Release History
 
-## 5.1.0-preview.1 (Unreleased)
+## 5.1.0-beta.1 (Unreleased)
 
 - We are now targeting the service's v3.1-preview.1 API as the default instead of v3.0.
 - We now have added support for opinion mining feature of Sentiment Analysis. To use this feature, you need to make sure you are using the service's v3.1-preview.1 API. To get this support pass `includeOpinionMining` as True when calling the `analyzeSentiment` endpoint.
