@@ -54,12 +54,14 @@ export interface KeyVaultRoleAssignment {
 
 // @public
 export interface KeyVaultRoleAssignmentProperties {
-    principalId?: string;
-    roleDefinitionId?: string;
+    principalId: string;
+    roleDefinitionId: string;
 }
 
 // @public
-export interface KeyVaultRoleAssignmentPropertiesWithScope extends KeyVaultRoleAssignmentProperties {
+export interface KeyVaultRoleAssignmentPropertiesWithScope {
+    principalId?: string;
+    roleDefinitionId?: string;
     scope?: RoleAssignmentScope;
 }
 

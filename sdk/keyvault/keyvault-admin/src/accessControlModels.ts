@@ -101,13 +101,13 @@ export interface KeyVaultRoleDefinition {
  */
 export interface KeyVaultRoleAssignmentProperties {
   /**
-   * The role definition ID used in the role assignment.
+   * The role definition ID.
    */
-  roleDefinitionId?: string;
+  roleDefinitionId: string;
   /**
-   * The principal ID assigned to the role. This maps to the ID inside the Active Directory. It can point to a user, service principal, or security group.
+   * The principal ID.
    */
-  principalId?: string;
+  principalId: string;
 }
 
 /**
@@ -119,12 +119,19 @@ export type RoleAssignmentScope = "/" | "/keys" | string;
 /**
  * Role assignment properties with the scope property.
  */
-export interface KeyVaultRoleAssignmentPropertiesWithScope
-  extends KeyVaultRoleAssignmentProperties {
+export interface KeyVaultRoleAssignmentPropertiesWithScope {
   /**
    * The role assignment scope.
    */
   scope?: RoleAssignmentScope;
+  /**
+   * The role definition ID.
+   */
+  roleDefinitionId?: string;
+  /**
+   * The principal ID.
+   */
+  principalId?: string;
 }
 
 /**
