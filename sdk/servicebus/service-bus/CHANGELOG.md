@@ -2,6 +2,18 @@
 
 ## 7.0.0-preview.6 (Unreleased)
 
+### Breaking Changes
+- Renames
+  - Property `defaultMessageTtl` -> `defaultMessageTimeToLive`(Wherever applicable)
+  - `maxMessageAutoRenewLockDurationInMs` -> `maxAutoRenewLockDurationInMs`
+  - `updatedAt` -> `modifiedAt`
+  - Prefixing `Sender`, `Receiver`, `SessionReceiver` with `ServiceBus`
+  - `autoRenewLockDurationInMs` -> `maxAutoRenewLockDurationInMs`
+  - `{get,set}State` -> `{get,set}SessionState`(methods on session receiver)
+- Add ruleExists API and tests
+- `ServiceBusManagementClientOptions` for `ServiceBusManagementClient` is replaced by `PipelineOptions` from `@azure/core-http`
+- `sessionLockedUntilUtc` is readonly and not undefined
+  [PR 10625](https://github.com/Azure/azure-sdk-for-js/pull/10625)
 
 ## 7.0.0-preview.5 (2020-08-10)
 
