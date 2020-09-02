@@ -7,10 +7,7 @@
 
 import {
   AnomalyDetectorClient,
-  DetectRequest,
   DetectChangePointRequest,
-  DetectEntireResponse,
-  DetectLastPointResponse,
   DetectChangePointResponse,
   TimeSeriesPoint,
   TimeGranularity

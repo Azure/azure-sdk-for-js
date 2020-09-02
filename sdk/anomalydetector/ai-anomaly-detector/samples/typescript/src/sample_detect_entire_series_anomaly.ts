@@ -8,10 +8,7 @@
 import {
   AnomalyDetectorClient,
   DetectRequest,
-  DetectChangePointRequest,
   DetectEntireResponse,
-  DetectLastPointResponse,
-  DetectChangePointResponse,
   TimeSeriesPoint,
   TimeGranularity
 } from "@azure/ai-anomaly-detector";
