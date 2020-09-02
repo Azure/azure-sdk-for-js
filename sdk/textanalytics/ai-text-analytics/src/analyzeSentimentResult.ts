@@ -107,7 +107,7 @@ export interface AspectSentiment {
    */
   text: string;
   /**
-   * The aspect text offset from the start of the sentence. The unit of distance 
+   * The aspect text offset from the start of the sentence. The unit of distance
    * used is UTF-16 code units.
    */
   offset: number;
