@@ -46,7 +46,7 @@ export interface KeyVaultCertificateId {
  *      name: "<certificate-name>"
  *   }
  *
- * @param {string} id The Id of the Key Vault Certificate.
+ * @param id The Id of the Key Vault Certificate.
  */
 export function parseKeyVaultCertificateId(id: string): KeyVaultCertificateId {
   const urlParts = id.split("/");
