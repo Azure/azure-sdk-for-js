@@ -490,15 +490,4 @@ describe("Retries - onDetached", () => {
       await streamingReceiver.onDetached(new MessagingError("Hello there, I'm an error"));
     });
   });
-
-  it("Unpartitioned Queue: sender", async function(): Promise<void> {
-    await beforeEachTest(TestClientType.UnpartitionedQueue);
-    await mockOnDetachedAndVerifyRetries(async () => {
-      (sender as ServiceBusSenderImpl)["_sender"]["open"] = fakeFunction;
-
-      await (sender as ServiceBusSenderImpl)["_sender"].onDetached(
-        new MessagingError("Hello there, I'm an error")
-      );
-    });
-  });
 });

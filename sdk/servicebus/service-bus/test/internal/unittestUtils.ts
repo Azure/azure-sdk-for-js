@@ -2,11 +2,16 @@
 // Licensed under the MIT license.
 
 import { ConnectionContext } from "../../src/connectionContext";
-import { AwaitableSender, Receiver as RheaReceiver, ReceiverEvents } from "rhea-promise";
+import {
+  AwaitableSender,
+  Receiver as RheaReceiver,
+  ReceiverEvents,
+  ReceiverOptions
+} from "rhea-promise";
 import { DefaultDataTransformer, AccessToken } from "@azure/core-amqp";
-import { ConcurrentExpiringMap } from "../../src/util/concurrentExpiringMap";
 import { EventEmitter } from "events";
 import { getUniqueName } from "../../src/util/utils";
+import { Link } from "rhea-promise/typings/lib/link";
 
 /**
  * Creates a fake ConnectionContext for tests that can create semi-realistic
@@ -22,19 +27,22 @@ import { getUniqueName } from "../../src/util/utils";
 export function createConnectionContextForTests(options?: {
   onCreateAwaitableSenderCalled?: () => void;
   onCreateReceiverCalled?: (receiver: RheaReceiver) => void;
-}): ConnectionContext & { initWasCalled: boolean } {
+}): ConnectionContext & {
+  initWasCalled: boolean;
+} {
   let initWasCalled = false;
 
   const fakeConnectionContext = {
     async readyToOpenLink(): Promise<void> {},
-    batchingReceivers: {},
-    streamingReceivers: {},
+    isConnectionClosing(): boolean {
+      return false;
+    },
+    messageReceivers: {},
     senders: {},
     messageSessions: {},
     managementClients: {},
     config: { endpoint: "my.service.bus" },
     connectionId: "connection-id",
-    requestResponseLockedMessages: new ConcurrentExpiringMap<string>(),
     connection: {
       id: "connection-id",
 
@@ -50,6 +58,8 @@ export function createConnectionContextForTests(options?: {
           setMaxListeners: () => testAwaitableSender
         } as any) as AwaitableSender;
 
+        mockLinkProperties(testAwaitableSender);
+
         return testAwaitableSender;
       },
       createReceiver: async (): Promise<RheaReceiver> => {
@@ -59,6 +69,8 @@ export function createConnectionContextForTests(options?: {
           options.onCreateReceiverCalled(receiver);
         }
 
+        mockLinkProperties(receiver);
+
         (receiver as any).connection = { id: "connection-id" };
         return receiver;
       }
@@ -66,7 +78,9 @@ export function createConnectionContextForTests(options?: {
     dataTransformer: new DefaultDataTransformer(),
     tokenCredential: {
       getToken() {
-        return {} as AccessToken;
+        return {
+          expiresOnTimestamp: Date.now() + 10 * 60 * 1000
+        } as AccessToken;
       }
     },
     cbsSession: {
@@ -90,16 +104,20 @@ export function createConnectionContextForTests(options?: {
  * - It handles draining (via the .drain = true/addCredit(1) combo of operations).
  * - It respects .close(), so the state of the receiver should be accurate for isOpen().
  */
-export function createRheaReceiverForTests() {
+export function createRheaReceiverForTests(options?: ReceiverOptions) {
   const receiver = new EventEmitter() as RheaReceiver;
 
-  (receiver as any).name = getUniqueName("entity");
+  (receiver as any).name = options?.name == null ? getUniqueName("entity") : options.name;
 
   (receiver as any).connection = {
     id: "connection-id"
   };
 
   (receiver as any).addCredit = (credit: number) => {
+    if (!receiver.isOpen()) {
+      throw new Error("TEST INCONSISTENCY: trying to .addCredit() to a closed receiver");
+    }
+
     if ((receiver as any).credit == null || isNaN((receiver as any).credit)) {
       (receiver as any).credit = 0;
     }
@@ -112,14 +130,20 @@ export function createRheaReceiverForTests() {
     }
   };
 
+  mockLinkProperties(receiver);
+  return receiver;
+}
+
+export function mockLinkProperties(link: Link): void {
   let isOpen = true;
 
-  (receiver as any).close = async (): Promise<void> => {
+  link.close = async (): Promise<void> => {
     isOpen = false;
   };
 
-  (receiver as any).isOpen = () => isOpen;
-  return receiver;
+  link.isItselfClosed = () => !isOpen;
+  link.isOpen = () => isOpen;
+  link.isClosed = () => !isOpen;
 }
 
 export function getPromiseResolverForTest(): {
@@ -161,3 +185,9 @@ export function defer<T>(): {
     reject: actualReject!
   };
 }
+
+export const retryableErrorForTests = (() => {
+  const err = new Error("a retryable error");
+  (err as any).retryable = true;
+  return err;
+})();

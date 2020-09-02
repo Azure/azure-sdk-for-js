@@ -342,10 +342,7 @@ describe("ATOM Serializers", () => {
       const ruleOptions = {
         filter: {
           sqlExpression: "stringValue = @stringParam AND intValue = @intParam",
-          sqlParameters: [
-            { key: "@intParam", value: 1, type: "int" },
-            { key: "@stringParam", value: "b", type: "string" }
-          ]
+          sqlParameters: { "@intParam": 1, type: "int", "@stringParam": "b" }
         },
         action: { sqlExpression: "SET a='b'" }
       };
@@ -439,15 +436,12 @@ describe("ATOM Serializers", () => {
       input: {
         filter: {
           sqlExpression: "stringValue = @stringParam AND intValue = @intParam",
-          sqlParameters: [
-            { key: "@intParam", value: 1, type: "int" },
-            { key: "@stringParam", value: "b", type: "notAKnownType" }
-          ]
+          sqlParameters: { "@intParam": 1, "@stringParam": Buffer.from("") }
         },
         action: { sqlExpression: "SET a='b'" }
       },
       output: {
-        testErrorMessage: `Invalid type "notAKnownType" supplied for the SQL Parameter. Must be either of "int", "string", "long" or "date".`,
+        testErrorMessage: `Unsupported type for the value in the sqlParameters for the key '@stringParam'`,
         testErrorType: Error
       }
     },
@@ -462,7 +456,7 @@ describe("ATOM Serializers", () => {
         action: { sqlExpression: "SET a='b'" }
       },
       output: {
-        testErrorMessage: `parameters must be an array of SqlParameter objects or undefined, but received "notAnArray"`,
+        testErrorMessage: `Unsupported value for the sqlParameters "notAnArray", expected a JSON object with key-value pairs.`,
         testErrorType: TypeError
       }
     },
@@ -477,7 +471,7 @@ describe("ATOM Serializers", () => {
         action: { sqlExpression: "SET a='b'" }
       },
       output: {
-        testErrorMessage: `Expected SQL parameter input to be a JS object value, but received "notAJsObjectLikeValue"`,
+        testErrorMessage: `Unsupported value for the sqlParameters ["notAJsObjectLikeValue"], expected a JSON object with key-value pairs.`,
         testErrorType: TypeError
       }
     },
@@ -490,14 +484,11 @@ describe("ATOM Serializers", () => {
         },
         action: {
           sqlExpression: "stringValue = @stringParam AND intValue = @intParam",
-          sqlParameters: [
-            { notKey: "@intParam", value: 1, type: "int" },
-            { key: "@stringParam", value: "b", type: "notAKnownType" }
-          ]
+          sqlParameters: { "@intParam": 1, "@stringParam": Buffer.from("hello") }
         }
       },
       output: {
-        testErrorMessage: `Invalid type "notAKnownType" supplied for the SQL Parameter. Must be either of "int", "string", "long" or "date".`,
+        testErrorMessage: `Unsupported type for the value in the sqlParameters for the key '@stringParam'`,
         testErrorType: Error
       }
     },
@@ -511,7 +502,7 @@ describe("ATOM Serializers", () => {
         action: { sqlExpression: "SET a='b'", sqlParameters: "notAnArray" }
       },
       output: {
-        testErrorMessage: `parameters must be an array of SqlParameter objects or undefined, but received "notAnArray"`,
+        testErrorMessage: `Unsupported value for the sqlParameters "notAnArray", expected a JSON object with key-value pairs.`,
         testErrorType: TypeError
       }
     },
@@ -525,7 +516,7 @@ describe("ATOM Serializers", () => {
         action: { sqlExpression: "SET a='b'", sqlParameters: ["notAJsObjectLikeValue"] }
       },
       output: {
-        testErrorMessage: `Expected SQL parameter input to be a JS object value, but received "notAJsObjectLikeValue"`,
+        testErrorMessage: `Unsupported value for the sqlParameters ["notAJsObjectLikeValue"], expected a JSON object with key-value pairs.`,
         testErrorType: TypeError
       }
     }
@@ -580,7 +571,7 @@ describe("ATOM Serializers", () => {
         }
       },
       output: {
-        testErrorMessage: `Unsupported type for the value in the user property {message:["hello"]}`,
+        testErrorMessage: `Unsupported type for the value in the userProperties for the key 'message'`,
         testErrorType: Error
       }
     },
@@ -596,7 +587,7 @@ describe("ATOM Serializers", () => {
         }
       },
       output: {
-        testErrorMessage: `Unsupported type for the value in the user property {message:{}}`,
+        testErrorMessage: `Unsupported type for the value in the userProperties for the key 'message'`,
         testErrorType: Error
       }
     },
@@ -612,7 +603,7 @@ describe("ATOM Serializers", () => {
         }
       },
       output: {
-        testErrorMessage: `Unsupported type for the value in the user property {message:undefined}`,
+        testErrorMessage: `Unsupported type for the value in the userProperties for the key 'message'`,
         testErrorType: Error
       }
     },
@@ -626,7 +617,7 @@ describe("ATOM Serializers", () => {
         }
       },
       output: {
-        testErrorMessage: `Unsupported value for the properties 123, expected a JSON object with key-value pairs.`,
+        testErrorMessage: `Unsupported value for the userProperties 123, expected a JSON object with key-value pairs.`,
         testErrorType: Error
       }
     },
@@ -640,7 +631,7 @@ describe("ATOM Serializers", () => {
         }
       },
       output: {
-        testErrorMessage: `Unsupported value for the properties "abcd", expected a JSON object with key-value pairs.`,
+        testErrorMessage: `Unsupported value for the userProperties "abcd", expected a JSON object with key-value pairs.`,
         testErrorType: Error
       }
     },
@@ -654,7 +645,7 @@ describe("ATOM Serializers", () => {
         }
       },
       output: {
-        testErrorMessage: `Unsupported value for the properties ["abcd"], expected a JSON object with key-value pairs.`,
+        testErrorMessage: `Unsupported value for the userProperties ["abcd"], expected a JSON object with key-value pairs.`,
         testErrorType: Error
       }
     },
@@ -668,7 +659,7 @@ describe("ATOM Serializers", () => {
         }
       },
       output: {
-        testErrorMessage: `Unsupported value for the properties {}, expected a JSON object with key-value pairs.`,
+        testErrorMessage: `Unsupported value for the userProperties {}, expected a JSON object with key-value pairs.`,
         testErrorType: Error
       }
     }

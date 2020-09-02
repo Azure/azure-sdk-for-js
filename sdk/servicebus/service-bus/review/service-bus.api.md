@@ -26,9 +26,7 @@ import { WebSocketOptions } from '@azure/core-amqp';
 export type AuthorizationRule = {
     claimType: string;
     claimValue: string;
-    rights: {
-        accessRights?: string[];
-    };
+    accessRights?: ("Manage" | "Send" | "Listen")[];
     keyName: string;
     primaryKey?: string;
     secondaryKey?: string;
@@ -40,7 +38,9 @@ export interface CorrelationRuleFilter {
     correlationId?: string;
     label?: string;
     messageId?: string;
-    properties?: any;
+    properties?: {
+        [key: string]: string | number | boolean;
+    };
     replyTo?: string;
     replyToSessionId?: string;
     sessionId?: string;
@@ -75,11 +75,13 @@ export interface CreateQueueOptions extends OperationOptions {
 // @public
 export interface CreateReceiverOptions<ReceiveModeT extends ReceiveMode> {
     receiveMode?: ReceiveModeT;
+    subQueue?: SubQueue;
 }
 
 // @public
-export interface CreateSessionReceiverOptions<ReceiveModeT extends ReceiveMode> extends CreateReceiverOptions<ReceiveModeT>, OperationOptionsBase {
+export interface CreateSessionReceiverOptions<ReceiveModeT extends ReceiveMode> extends OperationOptionsBase {
     maxAutoRenewLockDurationInMs?: number;
+    receiveMode?: ReceiveModeT;
     sessionId?: string;
 }
 
@@ -283,10 +285,6 @@ export class ServiceBusClient {
     constructor(connectionString: string, options?: ServiceBusClientOptions);
     constructor(fullyQualifiedNamespace: string, credential: TokenCredential, options?: ServiceBusClientOptions);
     close(): Promise<void>;
-    createDeadLetterReceiver(queueName: string, options?: CreateReceiverOptions<"peekLock">): ServiceBusReceiver<ReceivedMessageWithLock>;
-    createDeadLetterReceiver(queueName: string, options: CreateReceiverOptions<"receiveAndDelete">): ServiceBusReceiver<ReceivedMessage>;
-    createDeadLetterReceiver(topicName: string, subscriptionName: string, options?: CreateReceiverOptions<"peekLock">): ServiceBusReceiver<ReceivedMessageWithLock>;
-    createDeadLetterReceiver(topicName: string, subscriptionName: string, options: CreateReceiverOptions<"receiveAndDelete">): ServiceBusReceiver<ReceivedMessage>;
     createReceiver(queueName: string, options?: CreateReceiverOptions<"peekLock">): ServiceBusReceiver<ReceivedMessageWithLock>;
     createReceiver(queueName: string, options: CreateReceiverOptions<"receiveAndDelete">): ServiceBusReceiver<ReceivedMessage>;
     createReceiver(topicName: string, subscriptionName: string, options?: CreateReceiverOptions<"peekLock">): ServiceBusReceiver<ReceivedMessageWithLock>;
@@ -353,7 +351,7 @@ export interface ServiceBusMessage {
     messageId?: string | number | Buffer;
     partitionKey?: string;
     properties?: {
-        [key: string]: any;
+        [key: string]: number | boolean | string | Date;
     };
     replyTo?: string;
     replyToSessionId?: string;
@@ -418,22 +416,23 @@ export interface SessionSubscribeOptions extends OperationOptionsBase, MessageHa
 }
 
 // @public
-export type SqlParameter = {
-    key: string;
-    value: string | number;
-    type: string;
+export type SqlRuleAction = {
+    sqlExpression?: string;
+    sqlParameters?: {
+        [key: string]: string | number | boolean;
+    };
 };
 
 // @public
-export type SqlRuleAction = SqlRuleFilter;
+export interface SqlRuleFilter {
+    sqlExpression?: string;
+    sqlParameters?: {
+        [key: string]: string | number | boolean;
+    };
+}
 
 // @public
-export interface SqlRuleFilter {
-    compatibilityLevel?: number;
-    requiresPreprocessing?: boolean;
-    sqlExpression?: string;
-    sqlParameters?: SqlParameter[];
-}
+export type SubQueue = "deadLetter" | "transferDeadLetter";
 
 // @public
 export interface SubscribeOptions extends OperationOptionsBase, MessageHandlerOptions {

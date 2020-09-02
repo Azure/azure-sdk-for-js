@@ -38,7 +38,7 @@ export class Containers {
    * Queries all containers.
    * @param query Query configuration for the operation. See {@link SqlQuerySpec} for more info on how to configure a query.
    * @param options Use to set options like response page size, continuation tokens, etc.
-   * @returns {@link QueryIterator} Allows you to return specific contaienrs in an array or iterate over them one at a time.
+   * @returns {@link QueryIterator} Allows you to return specific containers in an array or iterate over them one at a time.
    * @example Read all containers to array.
    * ```typescript
    * const querySpec: SqlQuerySpec = {
@@ -55,7 +55,7 @@ export class Containers {
    * Queries all containers.
    * @param query Query configuration for the operation. See {@link SqlQuerySpec} for more info on how to configure a query.
    * @param options Use to set options like response page size, continuation tokens, etc.
-   * @returns {@link QueryIterator} Allows you to return specific contaienrs in an array or iterate over them one at a time.
+   * @returns {@link QueryIterator} Allows you to return specific containers in an array or iterate over them one at a time.
    * @example Read all containers to array.
    * ```typescript
    * const querySpec: SqlQuerySpec = {

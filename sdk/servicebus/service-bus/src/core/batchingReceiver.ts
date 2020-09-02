@@ -13,12 +13,7 @@ import {
   Session
 } from "rhea-promise";
 import { InternalReceiveMode, ServiceBusMessageImpl } from "../serviceBusMessage";
-import {
-  MessageReceiver,
-  OnAmqpEventAsPromise,
-  ReceiveOptions,
-  ReceiverType
-} from "./messageReceiver";
+import { MessageReceiver, OnAmqpEventAsPromise, ReceiveOptions } from "./messageReceiver";
 import { ConnectionContext } from "../connectionContext";
 import { throwErrorIfConnectionClosed } from "../util/errors";
 import { AbortSignalLike } from "@azure/abort-controller";
@@ -41,7 +36,7 @@ export class BatchingReceiver extends MessageReceiver {
    * @param {ReceiveOptions} [options]  Options for how you'd like to connect.
    */
   constructor(context: ConnectionContext, protected _entityPath: string, options?: ReceiveOptions) {
-    super(context, _entityPath, ReceiverType.batching, options);
+    super(context, _entityPath, "br", options);
 
     this._batchingReceiverLite = new BatchingReceiverLite(
       context,
@@ -69,7 +64,7 @@ export class BatchingReceiver extends MessageReceiver {
           throw lastError;
         }
 
-        return this._receiver;
+        return this.link;
       },
       this.receiveMode
     );
@@ -87,8 +82,7 @@ export class BatchingReceiver extends MessageReceiver {
    * @returns {Promise<void>} Promise<void>.
    */
   async onDetached(connectionError?: AmqpError | Error): Promise<void> {
-    // Clears the token renewal timer. Closes the link and its session if they are open.
-    await this._closeLink(this._receiver);
+    await this.closeLink();
 
     if (connectionError == null) {
       connectionError = new Error(
@@ -148,7 +142,7 @@ export class BatchingReceiver extends MessageReceiver {
   ): BatchingReceiver {
     throwErrorIfConnectionClosed(context);
     const bReceiver = new BatchingReceiver(context, entityPath, options);
-    context.batchingReceivers[bReceiver.name] = bReceiver;
+    context.messageReceivers[bReceiver.name] = bReceiver;
     return bReceiver;
   }
 }

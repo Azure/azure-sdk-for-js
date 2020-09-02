@@ -1,5 +1,12 @@
 # Release History
 
+## 4.1.1 (Unreleased)
+
+- Added `parseKeyVaultKeysIdentifier` and `ParsedKeyVaultKeysIdentifier` to help with parsing the unique identifiers of Key Vault Keys.
+- Added the basic structure of a new client to perform local cryptography operations, which is now called `LocalCryptographyClient`.  
+  - The existing `CryptographyClient`, when initialized, will create one instance of a local cryptography client, which can be retrieved by calling to a new method that is part of the `CryptographyClient` class: `getLocalCryptographyClient()`.
+  - The `LocalCryptographyClient` currently has limited support of the cryptography operations available on the `CryptographyClient`. More operations will be added over time.
+
 ## 4.1.0 (2020-08-12)
 
 4.1.0 had changes both relative to the last GA release, `4.0.4`, and the last preview release, `4.1.0-preview.1`.

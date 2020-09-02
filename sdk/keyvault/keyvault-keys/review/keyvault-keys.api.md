@@ -222,6 +222,9 @@ export interface KeyVaultKey {
 }
 
 // @public
+export type KeyVaultKeysIdentifierCollectionName = "keys" | "deletedkeys";
+
+// @public
 export type KeyWrapAlgorithm = "RSA-OAEP" | "RSA-OAEP-256" | "RSA1_5";
 
 // @public
@@ -237,11 +240,35 @@ export interface ListPropertiesOfKeyVersionsOptions extends coreHttp.OperationOp
 }
 
 // @public
+export class LocalCryptographyClient {
+    constructor(key: JsonWebKey);
+    encrypt(algorithm: LocalSupportedAlgorithmName, plaintext: Uint8Array): Promise<EncryptResult>;
+    key: JsonWebKey;
+    verifyData(algorithm: LocalSupportedAlgorithmName, data: Uint8Array, signature: Uint8Array): Promise<VerifyResult>;
+    wrapKey(algorithm: LocalSupportedAlgorithmName, key: Uint8Array): Promise<WrapResult>;
+}
+
+// @public
+export type LocalSupportedAlgorithmName = "RSA1_5" | "RSA-OAEP" | "PS256" | "RS256" | "PS384" | "RS384" | "PS512" | "RS512";
+
+// @public
 export const logger: import("@azure/logger").AzureLogger;
 
 export { PagedAsyncIterableIterator }
 
 export { PageSettings }
+
+// @public
+export interface ParsedKeyVaultKeysIdentifier {
+    collection: KeyVaultKeysIdentifierCollectionName;
+    id: string;
+    name: string;
+    vaultUrl: string;
+    version?: string;
+}
+
+// @public
+export function parseKeyVaultKeysIdentifier(id: string): ParsedKeyVaultKeysIdentifier;
 
 export { PipelineOptions }
 

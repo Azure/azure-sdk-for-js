@@ -333,6 +333,11 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure/ai-anomaly-detector",
+      "projectFolder": "sdk/anomalydetector/ai-anomaly-detector",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure/ai-form-recognizer",
       "projectFolder": "sdk/formrecognizer/ai-form-recognizer",
       "versionPolicyName": "client"
@@ -409,7 +414,7 @@
     },
     {
       "packageName": "@azure/monitor-opentelemetry-exporter",
-      "projectFolder": "sdk/monitor/opentelemetry-exporter",
+      "projectFolder": "sdk/monitor/monitor-opentelemetry-exporter",
       "versionPolicyName": "client"
     },
     {
@@ -513,8 +518,8 @@
       "versionPolicyName": "client"
     },
     {
-      "packageName": "@azure/tables",
-      "projectFolder": "sdk/tables/azure-tables",
+      "packageName": "@azure/data-tables",
+      "projectFolder": "sdk/tables/data-tables",
       "versionPolicyName": "client"
     },
     {
@@ -536,6 +541,11 @@
       "packageName": "@azure/test-utils-perfstress",
       "projectFolder": "sdk/test-utils/perfstress",
       "versionPolicyName": "utility"
+    },
+    {
+      "packageName": "@azure/digitaltwins",
+      "projectFolder": "sdk/digitaltwins/digitaltwins",
+      "versionPolicyName": "client"
     }
   ]
 }

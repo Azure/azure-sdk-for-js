@@ -2,6 +2,18 @@
 
 ## 7.0.0-preview.6 (Unreleased)
 
+### Breaking Changes
+- Renames
+  - Property `defaultMessageTtl` -> `defaultMessageTimeToLive`(Wherever applicable)
+  - `maxMessageAutoRenewLockDurationInMs` -> `maxAutoRenewLockDurationInMs`
+  - `updatedAt` -> `modifiedAt`
+  - Prefixing `Sender`, `Receiver`, `SessionReceiver` with `ServiceBus`
+  - `autoRenewLockDurationInMs` -> `maxAutoRenewLockDurationInMs`
+  - `{get,set}State` -> `{get,set}SessionState`(methods on session receiver)
+- Add ruleExists API and tests
+- `ServiceBusManagementClientOptions` for `ServiceBusManagementClient` is replaced by `PipelineOptions` from `@azure/core-http`
+- `sessionLockedUntilUtc` is readonly and not undefined
+  [PR 10625](https://github.com/Azure/azure-sdk-for-js/pull/10625)
 
 ## 7.0.0-preview.5 (2020-08-10)
 
@@ -86,7 +98,7 @@
   - The "update" methods (`updateQueue`, `updateTopic`, and `updateSubscription`) now require all properties on the given queue/topic/subscription object to be set even though only a subset of them are updatable. Therefore, the suggested flow is to use the "get" methods to get the queue/topic/subscription object, update as needed and then pass it to the "update" methods.
     [PR 9751](https://github.com/Azure/azure-sdk-for-js/pull/9751)
 
-    See [update queue](https://docs.microsoft.com/en-us/rest/api/servicebus/update-queue) and [update-topic](https://docs.microsoft.com/en-us/rest/api/servicebus/update-queue) for list of updatable properties.
+    See [update queue](https://docs.microsoft.com/rest/api/servicebus/update-queue) and [update-topic](https://docs.microsoft.com/rest/api/servicebus/update-queue) for list of updatable properties.
 
 ## 7.0.0-preview.3 (2020-06-08)
 

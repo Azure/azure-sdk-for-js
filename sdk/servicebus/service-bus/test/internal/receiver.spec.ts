@@ -3,36 +3,35 @@
 
 import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
-import { ReceiverEvents, ReceiverOptions } from "rhea-promise";
-import { AbortSignalLike } from "../../../../core/abort-controller/types/src/aborter";
+import { Receiver, ReceiverEvents, ReceiverOptions } from "rhea-promise";
 import { ReceivedMessage, ReceivedMessageWithLock } from "../../src";
 chai.use(chaiAsPromised);
 const assert = chai.assert;
 
-import { ConnectionContext } from "../../src/connectionContext";
 import { BatchingReceiver } from "../../src/core/batchingReceiver";
-import { MessageReceiver, ReceiverType } from "../../src/core/messageReceiver";
-import { InternalMessageHandlers } from "../../src/models";
+import { StreamingReceiver } from "../../src/core/streamingReceiver";
 import { ServiceBusReceiverImpl } from "../../src/receivers/receiver";
 import { createConnectionContextForTests } from "./unittestUtils";
+import { InternalMessageHandlers } from "../../src/models";
+import { createAbortSignalForTest } from "../utils/abortSignalTestUtils";
+import { AbortSignalLike } from "@azure/abort-controller";
+import { ServiceBusSessionReceiverImpl } from "../../src/receivers/sessionReceiver";
+import { Constants } from "@azure/core-amqp";
 
 describe("Receiver unit tests", () => {
   describe("init() and close() interactions", () => {
-    function fakeContext(): ConnectionContext {
-      return ({
-        config: {}
-      } as unknown) as ConnectionContext;
-    }
-
     it("close() called just after init() but before the next step", async () => {
-      const batchingReceiver = new BatchingReceiver(fakeContext(), "fakeEntityPath");
+      const batchingReceiver = new BatchingReceiver(
+        createConnectionContextForTests(),
+        "fakeEntityPath"
+      );
 
       let initWasCalled = false;
       batchingReceiver["_init"] = async () => {
         initWasCalled = true;
         // ie, pretend that somebody called close() and the
         // call happened between .init().then()
-        batchingReceiver["_receiver"] = undefined;
+        batchingReceiver["_link"] = undefined;
       };
 
       // make an init() happen internally.
@@ -43,15 +42,12 @@ describe("Receiver unit tests", () => {
     });
 
     it("message receiver init() bails out early if object is closed()", async () => {
-      const messageReceiver2 = new MessageReceiver(
-        fakeContext(),
-        "fakeEntityPath",
-        ReceiverType.streaming
+      const messageReceiver2 = new StreamingReceiver(
+        createConnectionContextForTests(),
+        "fakeEntityPath"
       );
 
-      // so our object basically looks like an unopened receiver
-      messageReceiver2["isOpen"] = () => false;
-      messageReceiver2["isConnecting"] = false;
+      await messageReceiver2.close();
 
       // close() the object. Closed objects should not be able to be reopened.
       await messageReceiver2.close();
@@ -65,27 +61,30 @@ describe("Receiver unit tests", () => {
         );
       };
 
-      await messageReceiver2["_init"]({} as ReceiverOptions);
-
-      assert.isFalse(negotiateClaimWasCalled);
+      try {
+        await messageReceiver2["_init"]({} as ReceiverOptions);
+        assert.fail("Should throw");
+      } catch (err) {
+        assert.equal("Link has been permanently closed. Not reopening.", err.message);
+        assert.equal(err.name, "AbortError");
+        assert.isFalse(negotiateClaimWasCalled);
+      }
     });
   });
 
   describe("subscribe()", () => {
     it("subscribe and subscription.close()", async () => {
       let receiverWasDrained = false;
-      let closeWasCalled = false;
+
+      let createdRheaReceiver: Receiver | undefined;
 
       const receiverImpl = new ServiceBusReceiverImpl<any>(
         createConnectionContextForTests({
           onCreateReceiverCalled: (receiver) => {
+            createdRheaReceiver = receiver;
             receiver.addListener(ReceiverEvents.receiverDrained, () => {
               receiverWasDrained = true;
             });
-
-            (receiver as any).close = () => {
-              closeWasCalled = true;
-            };
           }
         }),
         "fakeEntityPath",
@@ -100,7 +99,7 @@ describe("Receiver unit tests", () => {
       // closing a subscription doesn't close out the receiver created for it.
       // this allows the user a chance to resolve any outstanding messages.
       assert.isFalse(
-        closeWasCalled,
+        createdRheaReceiver?.isClosed(),
         "sanity check, subscription.close() does not close the receiver"
       );
       assert.isTrue(
@@ -110,7 +109,7 @@ describe("Receiver unit tests", () => {
 
       await receiverImpl.close();
       // rhea receiver is finally closed when the overall Receiver class is closed.
-      assert.isTrue(closeWasCalled, "receiver should note that we closed");
+      assert.isTrue(createdRheaReceiver?.isClosed(), "receiver should note that we closed");
     });
 
     it("can't subscribe while another subscribe is active", async () => {
@@ -241,5 +240,66 @@ describe("Receiver unit tests", () => {
 
       return sub;
     }
+  });
+
+  describe("getMessageIterator", () => {
+    it("abortSignal is passed through (receiver)", async () => {
+      const impl = new ServiceBusReceiverImpl(
+        createConnectionContextForTests(),
+        "entity path",
+        "peekLock"
+      );
+
+      const abortSignal = createAbortSignalForTest(true);
+
+      try {
+        const iter = impl.getMessageIterator({
+          abortSignal
+        });
+
+        await iter.next();
+        assert.fail("Should have thrown");
+      } catch (err) {
+        assert.equal(err.name, "AbortError");
+      }
+
+      await impl.close();
+    });
+
+    it("abortSignal is passed through (session receiver)", async () => {
+      const impl = await ServiceBusSessionReceiverImpl.createInitializedSessionReceiver(
+        createConnectionContextForTests({
+          onCreateReceiverCalled: (receiver) => {
+            (receiver as any).source = {
+              filter: {
+                [Constants.sessionFilterName]: "hello"
+              }
+            };
+
+            (receiver as any).properties = {
+              ["com.microsoft:locked-until-utc"]: Date.now()
+            };
+          }
+        }),
+        "entity path",
+        "peekLock",
+        {}
+      );
+
+      const abortSignal = createAbortSignalForTest(true);
+
+      try {
+        const iter = impl.getMessageIterator({
+          abortSignal
+        });
+
+        await iter.next();
+        assert.fail("Should have thrown");
+      } catch (err) {
+        assert.equal("AbortError", err.name);
+      }
+
+      await impl.close();
+    });
   });
 });

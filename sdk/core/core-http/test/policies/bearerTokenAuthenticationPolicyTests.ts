@@ -59,18 +59,18 @@ describe("BearerTokenAuthenticationPolicy", function() {
     const refreshCred2 = new MockRefreshAzureCredential(now + TokenRefreshBufferMs);
     const notRefreshCred1 = new MockRefreshAzureCredential(now + TokenRefreshBufferMs + 5000);
 
-    const credentialsToTest: [MockRefreshAzureCredential, number][] = [
-      [refreshCred1, 2],
-      [refreshCred2, 2],
-      [notRefreshCred1, 2]
+    const credentialsToTest: [MockRefreshAzureCredential, number, string][] = [
+      [refreshCred1, 2, "Refresh credential 1"],
+      [refreshCred2, 2, "Refresh credential 2"],
+      [notRefreshCred1, 1, "Not refresh credential 1"]
     ];
 
     const request = createRequest();
-    for (const [credentialToTest, expectedCalls] of credentialsToTest) {
+    for (const [credentialToTest, expectedCalls, message] of credentialsToTest) {
       const policy = createBearerTokenPolicy("testscope", credentialToTest);
       await policy.sendRequest(request);
       await policy.sendRequest(request);
-      assert.strictEqual(credentialToTest.authCount, expectedCalls);
+      assert.strictEqual(credentialToTest.authCount, expectedCalls, `${message} failed`);
     }
   });
 
@@ -101,9 +101,8 @@ describe("BearerTokenAuthenticationPolicy", function() {
     return new BearerTokenAuthenticationPolicy(
       mockPolicy,
       new RequestPolicyOptions(),
-      credential,
-      scopes,
-      new ExpiringAccessTokenCache()
+      new ExpiringAccessTokenCache(),
+      new AccessTokenRefresher(credential, scopes)
     );
   }
 });
