@@ -27,7 +27,9 @@ import {
   ListRoleAssignmentsOptions,
   ListRoleDefinitionsOptions,
   KeyVaultRoleDefinition,
-  GetRoleAssignmentOptions, ListRoleDefinitionsPageSettings, ListRoleAssignmentsPageSettings
+  GetRoleAssignmentOptions,
+  ListRoleDefinitionsPageSettings,
+  ListRoleAssignmentsPageSettings
 } from "./accessControlModels";
 import { SDK_VERSION, LATEST_API_VERSION } from "./constants";
 import { KeyVaultClient } from "./generated/keyVaultClient";
