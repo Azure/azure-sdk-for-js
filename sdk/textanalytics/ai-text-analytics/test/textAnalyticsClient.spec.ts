@@ -597,4 +597,15 @@ describe("[AAD] TextAnalyticsClient", function() {
       }
     });
   });
+
+  describe("#String encoding", () => {
+    it("client throws on empty list", async () => {
+      const [result] = await client.recognizePiiEntities([
+        { id: "0", text: "👩 SSN: 859-98-0987", language: "en" }
+      ]);
+      if (!result.error) {
+        assert.equal(result.entities[0].offset, 7);
+      }
+    });
+  });
 });
