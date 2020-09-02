@@ -21,6 +21,9 @@ class SearchManagementClient extends SearchManagementClientContext {
   adminKeys: operations.AdminKeys;
   queryKeys: operations.QueryKeys;
   services: operations.Services;
+  privateLinkResources: operations.PrivateLinkResources;
+  privateEndpointConnections: operations.PrivateEndpointConnections;
+  sharedPrivateLinkResources: operations.SharedPrivateLinkResources;
 
   /**
    * Initializes a new instance of the SearchManagementClient class.
@@ -35,6 +38,9 @@ class SearchManagementClient extends SearchManagementClientContext {
     this.adminKeys = new operations.AdminKeys(this);
     this.queryKeys = new operations.QueryKeys(this);
     this.services = new operations.Services(this);
+    this.privateLinkResources = new operations.PrivateLinkResources(this);
+    this.privateEndpointConnections = new operations.PrivateEndpointConnections(this);
+    this.sharedPrivateLinkResources = new operations.SharedPrivateLinkResources(this);
   }
 }
 
