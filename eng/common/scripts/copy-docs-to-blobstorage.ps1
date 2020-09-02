@@ -7,8 +7,11 @@ param (
   $Language,
   $BlobName,
   $ExitOnError=1,
-  $UploadLatest=1
+  $UploadLatest=1,
+  $RepoReplaceRegex = "(https://github.com/.*/(?:blob|tree)/)master(/.*)"
 )
+
+. (Join-Path $PSScriptRoot artifact-metadata-parsing.ps1)
 
 $Language = $Language.ToLower()
 
@@ -186,7 +189,8 @@ function Upload-Blobs
     Param (
         [Parameter(Mandatory=$true)] [String]$DocDir,
         [Parameter(Mandatory=$true)] [String]$PkgName,
-        [Parameter(Mandatory=$true)] [String]$DocVersion
+        [Parameter(Mandatory=$true)] [String]$DocVersion,
+        [Parameter(Mandatory=$false)] [String]$ReleaseTag
     )
     #eg : $BlobName = "https://azuresdkdocs.blob.core.windows.net"
     $DocDest = "$($BlobName)/`$web/$($Language)"
@@ -196,7 +200,24 @@ function Upload-Blobs
     Write-Host "DocVersion $($DocVersion)"
     Write-Host "DocDir $($DocDir)"
     Write-Host "Final Dest $($DocDest)/$($PkgName)/$($DocVersion)"
+    Write-Host "Release Tag $($ReleaseTag)"
 
+    # Use the step to replace master link to release tag link 
+    if ($ReleaseTag) {
+        foreach ($htmlFile in (Get-ChildItem $DocDir -include *.html -r)) 
+        {
+            $fileContent = Get-Content -Path $htmlFile
+            $checkPattern = $false
+            while ($fileContent -match $RepoReplaceRegex) {
+                $fileContent = $fileContent -replace $RepoReplaceRegex, "`${1}$ReleaseTag`$2"
+                $checkPattern = $true
+            }
+            if ($checkPattern) {
+                Set-Content -Path $htmlFile -Value $fileContent
+            }
+        }
+    } 
+   
     Write-Host "Uploading $($PkgName)/$($DocVersion) to $($DocDest)..."
     & $($AzCopy) cp "$($DocDir)/**" "$($DocDest)/$($PkgName)/$($DocVersion)$($SASKey)" --recursive=true
 
@@ -213,7 +234,6 @@ function Upload-Blobs
     }
 }
 
-
 if ($Language -eq "javascript")
 {
     $PublishedDocs = Get-ChildItem "$($DocLocation)/documentation" | Where-Object -FilterScript {$_.Name.EndsWith(".zip")}
@@ -227,7 +247,8 @@ if ($Language -eq "javascript")
         if($dirList.Length -eq 1){
             $DocVersion = $dirList[0].Name
             Write-Host "Uploading Doc for $($PkgName) Version:- $($DocVersion)..."
-            Upload-Blobs -DocDir "$($DocLocation)/documentation/$($Item.BaseName)/$($Item.BaseName)/$($DocVersion)" -PkgName $PkgName -DocVersion $DocVersion
+            $releaseTag = RetrieveReleaseTag $DocLocation, "NPM"
+            Upload-Blobs -DocDir "$($DocLocation)/documentation/$($Item.BaseName)/$($Item.BaseName)/$($DocVersion)" -PkgName $PkgName -DocVersion $DocVersion -ReleaseTag $releaseTag
         }
         else{
             Write-Host "found more than 1 folder under the documentation for package - $($Item.Name)"
@@ -252,7 +273,8 @@ if ($Language -eq "dotnet")
             Write-Host "DocDir $($Item)"
             Write-Host "PkgName $($PkgName)"
             Write-Host "DocVersion $($DocVersion)"
-            Upload-Blobs -DocDir "$($Item)" -PkgName $PkgName -DocVersion $DocVersion
+            $releaseTag = RetrieveReleaseTag $DocLocation, "Nuget"
+            Upload-Blobs -DocDir "$($Item)" -PkgName $PkgName -DocVersion $DocVersion -ReleaseTag $releaseTag
         }
         else
         {
@@ -279,8 +301,8 @@ if ($Language -eq "python")
         Write-Host "Discovered Package Name: $PkgName"
         Write-Host "Discovered Package Version: $Version"
         Write-Host "Directory for Upload: $UnzippedDocumentationPath"
-
-        Upload-Blobs -DocDir $UnzippedDocumentationPath -PkgName $PkgName -DocVersion $Version
+        $releaseTag = RetrieveReleaseTag $DocLocation, "PyPI"
+        Upload-Blobs -DocDir $UnzippedDocumentationPath -PkgName $PkgName -DocVersion $Version -ReleaseTag $releaseTag
     }
 }
 
@@ -326,8 +348,8 @@ if ($Language -eq "java")
             Write-Host "DocDir $($UnjarredDocumentationPath)"
             Write-Host "PkgName $($ArtifactId)"
             Write-Host "DocVersion $($Version)"
-
-            Upload-Blobs -DocDir $UnjarredDocumentationPath -PkgName $ArtifactId -DocVersion $Version
+            $releaseTag = RetrieveReleaseTag $DocLocation, "Maven"
+            Upload-Blobs -DocDir $UnjarredDocumentationPath -PkgName $ArtifactId -DocVersion $Version -ReleaseTag $releaseTag
 
         } Finally {
             if (![string]::IsNullOrEmpty($UnjarredDocumentationPath)) {
@@ -349,11 +371,13 @@ if ($Language -eq "c")
     # Those loops are left over from previous versions of this script which were
     # used to publish multiple docs packages in a single invocation.
     $pkgInfo = Get-Content $DocLocation/package-info.json | ConvertFrom-Json
-    Upload-Blobs -DocDir $DocLocation -PkgName 'docs' -DocVersion $pkgInfo.version
+    $releaseTag = RetrieveReleaseTag $DocLocation, "C"
+    Upload-Blobs -DocDir $DocLocation -PkgName 'docs' -DocVersion $pkgInfo.version -ReleaseTag $releaseTag
 }
 
 if ($Language -eq "cpp")
 {
     $packageInfo = (Get-Content (Join-Path $DocLocation 'package-info.json') | ConvertFrom-Json)
-    Upload-Blobs -DocDir $DocLocation -PkgName $packageInfo.name -DocVersion $packageInfo.version
+    $releaseTag = RetrieveReleaseTag $DocLocation, "CPP"
+    Upload-Blobs -DocDir $DocLocation -PkgName $packageInfo.name -DocVersion $packageInfo.version -ReleaseTag $releaseTag
 }

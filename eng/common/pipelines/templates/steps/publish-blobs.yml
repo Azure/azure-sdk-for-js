@@ -4,6 +4,7 @@ parameters:
   TargetLanguage: ''
   BlobName: ''
   ScriptPath: ''
+  RepoId: $(Build.Repository.Name)
 
 steps:
 - pwsh: |
@@ -21,6 +22,7 @@ steps:
       -SASKey "${{ parameters.BlobSASKey }}"
       -Language "${{ parameters.TargetLanguage }}"
       -BlobName "${{ parameters.BlobName }}"
+      -RepoReplaceRegex "(https://github.com/${{ parameters.RepoId }}/(?:blob|tree)/)master(/.*)"
     pwsh: true
     workingDirectory: $(Pipeline.Workspace)
   displayName: Copy Docs to Blob
