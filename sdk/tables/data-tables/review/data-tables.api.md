@@ -355,8 +355,8 @@ export interface TableDeleteHeaders {
 
 // @public
 export type TableEntity<T extends object> = T & {
-    PartitionKey: string;
-    RowKey: string;
+    partitionKey: string;
+    rowKey: string;
 };
 
 // @public
