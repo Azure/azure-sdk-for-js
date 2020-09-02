@@ -1906,6 +1906,7 @@ describe("Atom management - Authentication", function(): void {
       userMetadata: "test metadata",
       status: "ReceiveDisabled",
       enablePartitioning: true,
+      enableExpress: false,
       name: managementQueue1
     }
   }
@@ -1944,7 +1945,8 @@ describe("Atom management - Authentication", function(): void {
             secondaryKey: "UreXLPWiP6Murmsq2HYiIXs23qAvWa36ZOL3gb9rXLs="
           }
         ],
-        enablePartitioning: true
+        enablePartitioning: true,
+        enableExpress: false
       });
     });
 

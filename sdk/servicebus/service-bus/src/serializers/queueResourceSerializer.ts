@@ -47,11 +47,12 @@ export function buildQueueOptions(queue: CreateQueueOptions): InternalQueueOptio
     EnablePartitioning: getStringOrUndefined(queue.enablePartitioning),
     ForwardDeadLetteredMessagesTo: getStringOrUndefined(queue.forwardDeadLetteredMessagesTo),
     ForwardTo: getStringOrUndefined(queue.forwardTo),
-    UserMetadata: getStringOrUndefined(queue.userMetadata)
+    UserMetadata: getStringOrUndefined(queue.userMetadata),
+    EnableExpress: getStringOrUndefined(queue.enableExpress)
   };
 }
 
-/**
+/**ß
  * @internal
  * @ignore
  * Builds the queue object from the raw json object gotten after deserializing the
@@ -248,6 +249,11 @@ export interface CreateQueueOptions extends OperationOptions {
    * `sb://<your-service-bus-namespace-endpoint>/<queue-or-topic-name>`
    */
   forwardDeadLetteredMessagesTo?: string;
+
+  /**
+   * Specifies express entities are enabled on queue
+   */
+  enableExpress?: boolean;
 }
 
 /**
@@ -508,6 +514,11 @@ export interface InternalQueueOptions {
    * `sb://<your-service-bus-namespace-endpoint>/<queue-or-topic-name>`
    */
   ForwardDeadLetteredMessagesTo?: string;
+
+  /**
+   * Specifies express entities are enabled on queue
+   */
+  EnableExpress?: string;
 }
 
 /**

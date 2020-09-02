@@ -62,6 +62,7 @@ export interface CreateQueueOptions extends OperationOptions {
     defaultMessageTimeToLive?: string;
     duplicateDetectionHistoryTimeWindow?: string;
     enableBatchedOperations?: boolean;
+    enableExpress?: boolean;
     enablePartitioning?: boolean;
     forwardDeadLetteredMessagesTo?: string;
     forwardTo?: string;
@@ -108,6 +109,7 @@ export interface CreateTopicOptions extends OperationOptions {
     defaultMessageTimeToLive?: string;
     duplicateDetectionHistoryTimeWindow?: string;
     enableBatchedOperations?: boolean;
+    enableExpress?: boolean;
     enablePartitioning?: boolean;
     maxSizeInMegabytes?: number;
     requiresDuplicateDetection?: boolean;

@@ -42,7 +42,8 @@ export function buildTopicOptions(topic: CreateTopicOptions): InternalTopicOptio
     UserMetadata: getStringOrUndefined(topic.userMetadata),
     SupportOrdering: getStringOrUndefined(topic.supportOrdering),
     AutoDeleteOnIdle: getStringOrUndefined(topic.autoDeleteOnIdle),
-    EnablePartitioning: getStringOrUndefined(topic.enablePartitioning)
+    EnablePartitioning: getStringOrUndefined(topic.enablePartitioning),
+    EnableExpress: getStringOrUndefined(topic.enableExpress)
   };
 }
 
@@ -190,6 +191,11 @@ export interface CreateTopicOptions extends OperationOptions {
    * Specifies whether the topic should be partitioned
    */
   enablePartitioning?: boolean;
+
+  /**
+   * Specifies express entities are enabled on topic
+   */
+  enableExpress?: boolean;
 }
 
 /**
@@ -371,6 +377,11 @@ export interface InternalTopicOptions {
    * Specifies whether the topic should be partitioned
    */
   EnablePartitioning?: string;
+
+  /**
+   * Specifies express entities are enabled on queue
+   */
+  EnableExpress?: string;
 }
 
 /**
