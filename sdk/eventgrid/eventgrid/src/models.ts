@@ -54,7 +54,7 @@ export interface CloudEvent<T> {
    */
   id?: string;
   /**
-   * The time the event was generated.
+   * The time the event was generated. If not provided, the current time will be used.
    */
   time?: Date;
   /**

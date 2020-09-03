@@ -22,7 +22,7 @@ const API_KEY_HEADER_NAME = "aeg-sas-key";
 /**
  * The name of the header to include when Shared Access Signature is used for authentication.
  */
-const SAS_TOKEN_HEAER_NAME = "aeg-sas-token";
+const SAS_TOKEN_HEADER_NAME = "aeg-sas-token";
 
 /**
  * Create an HTTP pipeline policy to authenticate a request
@@ -62,7 +62,7 @@ class EventGridAzureKeyCredentialPolicy extends BaseRequestPolicy {
     if (isKeyCredentialLike(this.credential)) {
       webResource.headers.set(API_KEY_HEADER_NAME, this.credential.key);
     } else {
-      webResource.headers.set(SAS_TOKEN_HEAER_NAME, this.credential.signature());
+      webResource.headers.set(SAS_TOKEN_HEADER_NAME, this.credential.signature());
     }
 
     return this._nextPolicy.sendRequest(webResource);

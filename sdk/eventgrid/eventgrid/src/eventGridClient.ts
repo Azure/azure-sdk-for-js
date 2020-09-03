@@ -6,10 +6,9 @@ import {
   PipelineOptions,
   createPipelineFromOptions,
   RestResponse,
-  OperationOptions
+  OperationOptions,
+  generateUuid
 } from "@azure/core-http";
-
-import { v4 as uuidv4 } from "uuid";
 
 import { createEventGridCredentialPolicy } from "./eventGridAuthenticationPolicy";
 import { SignatureCredential } from "./sharedAccessSignitureCredential";
@@ -155,7 +154,7 @@ export function convertEventGridEventToModelType(
   return {
     eventType: event.eventType,
     eventTime: event.eventTime ?? new Date(),
-    id: event.id ?? uuidv4(),
+    id: event.id ?? generateUuid(),
     subject: event.subject,
     topic: event.topic,
     data: event.data,
@@ -185,7 +184,7 @@ export function convertCloudEventToModelType(event: CloudEvent<any>): CloudEvent
     specversion: "1.0",
     type: event.type,
     source: event.source,
-    id: event.id ?? uuidv4(),
+    id: event.id ?? generateUuid(),
     time: event.time ?? new Date(),
     subject: event.subject,
     dataschema: event.dataschema,
