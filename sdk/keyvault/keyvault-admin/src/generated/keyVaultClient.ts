@@ -7,7 +7,6 @@
  */
 
 import * as coreHttp from "@azure/core-http";
-import { LROPoller, shouldDeserializeLRO } from "./lro";
 import * as operations from "./operations";
 import * as Parameters from "./models/parameters";
 import * as Models from "./models";
@@ -36,55 +35,22 @@ class KeyVaultClient extends KeyVaultClientContext {
     this.roleAssignments = new operations.RoleAssignments(this);
   }
 
-  private getOperationOptions<TOptions extends coreHttp.OperationOptions>(
-    options: TOptions | undefined,
-    finalStateVia?: string
-  ): coreHttp.RequestOptionsBase {
-    const operationOptions: coreHttp.OperationOptions = options || {};
-    operationOptions.requestOptions = {
-      ...operationOptions.requestOptions,
-      shouldDeserialize: shouldDeserializeLRO(finalStateVia)
-    };
-    return coreHttp.operationOptionsToRequestOptionsBase(operationOptions);
-  }
-
   /**
    * Creates a full backup using a user-provided SAS token to an Azure blob storage container.
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param options The options parameters.
    */
-  async fullBackup(
+  fullBackup(
     vaultBaseUrl: string,
     options?: KeyVaultClientFullBackupOptionalParams
-  ): Promise<LROPoller<KeyVaultClientFullBackupResponse>> {
-    const operationOptions: coreHttp.RequestOptionsBase = this.getOperationOptions(
-      options,
-      "azure-async-operation"
+  ): Promise<KeyVaultClientFullBackupResponse> {
+    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
+      options || {}
     );
-
-    const args: coreHttp.OperationArguments = {
-      vaultBaseUrl,
-      options: operationOptions
-    };
-    const sendOperation = (
-      args: coreHttp.OperationArguments,
-      spec: coreHttp.OperationSpec
-    ) =>
-      this.sendOperationRequest(args, spec) as Promise<
-        KeyVaultClientFullBackupResponse
-      >;
-    const initialOperationResult = await sendOperation(
-      args,
+    return this.sendOperationRequest(
+      { vaultBaseUrl, options: operationOptions },
       fullBackupOperationSpec
-    );
-
-    return new LROPoller({
-      initialOperationArguments: args,
-      initialOperationSpec: fullBackupOperationSpec,
-      initialOperationResult,
-      sendOperation,
-      finalStateVia: "azure-async-operation"
-    });
+    ) as Promise<KeyVaultClientFullBackupResponse>;
   }
 
   /**
@@ -113,38 +79,17 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param vaultBaseUrl The vault name, for example https://myvault.vault.azure.net.
    * @param options The options parameters.
    */
-  async fullRestoreOperation(
+  fullRestoreOperation(
     vaultBaseUrl: string,
     options?: KeyVaultClientFullRestoreOperationOptionalParams
-  ): Promise<LROPoller<KeyVaultClientFullRestoreOperationResponse>> {
-    const operationOptions: coreHttp.RequestOptionsBase = this.getOperationOptions(
-      options,
-      "azure-async-operation"
+  ): Promise<KeyVaultClientFullRestoreOperationResponse> {
+    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
+      options || {}
     );
-
-    const args: coreHttp.OperationArguments = {
-      vaultBaseUrl,
-      options: operationOptions
-    };
-    const sendOperation = (
-      args: coreHttp.OperationArguments,
-      spec: coreHttp.OperationSpec
-    ) =>
-      this.sendOperationRequest(args, spec) as Promise<
-        KeyVaultClientFullRestoreOperationResponse
-      >;
-    const initialOperationResult = await sendOperation(
-      args,
+    return this.sendOperationRequest(
+      { vaultBaseUrl, options: operationOptions },
       fullRestoreOperationOperationSpec
-    );
-
-    return new LROPoller({
-      initialOperationArguments: args,
-      initialOperationSpec: fullRestoreOperationOperationSpec,
-      initialOperationResult,
-      sendOperation,
-      finalStateVia: "azure-async-operation"
-    });
+    ) as Promise<KeyVaultClientFullRestoreOperationResponse>;
   }
 
   /**
@@ -174,40 +119,18 @@ class KeyVaultClient extends KeyVaultClientContext {
    * @param keyName The name of the key to be restored from the user supplied backup
    * @param options The options parameters.
    */
-  async selectiveKeyRestoreOperation(
+  selectiveKeyRestoreOperation(
     vaultBaseUrl: string,
     keyName: string,
     options?: KeyVaultClientSelectiveKeyRestoreOperationOptionalParams
-  ): Promise<LROPoller<KeyVaultClientSelectiveKeyRestoreOperationResponse>> {
-    const operationOptions: coreHttp.RequestOptionsBase = this.getOperationOptions(
-      options,
-      "azure-async-operation"
+  ): Promise<KeyVaultClientSelectiveKeyRestoreOperationResponse> {
+    const operationOptions: coreHttp.RequestOptionsBase = coreHttp.operationOptionsToRequestOptionsBase(
+      options || {}
     );
-
-    const args: coreHttp.OperationArguments = {
-      vaultBaseUrl,
-      keyName,
-      options: operationOptions
-    };
-    const sendOperation = (
-      args: coreHttp.OperationArguments,
-      spec: coreHttp.OperationSpec
-    ) =>
-      this.sendOperationRequest(args, spec) as Promise<
-        KeyVaultClientSelectiveKeyRestoreOperationResponse
-      >;
-    const initialOperationResult = await sendOperation(
-      args,
+    return this.sendOperationRequest(
+      { vaultBaseUrl, keyName, options: operationOptions },
       selectiveKeyRestoreOperationOperationSpec
-    );
-
-    return new LROPoller({
-      initialOperationArguments: args,
-      initialOperationSpec: selectiveKeyRestoreOperationOperationSpec,
-      initialOperationResult,
-      sendOperation,
-      finalStateVia: "azure-async-operation"
-    });
+    ) as Promise<KeyVaultClientSelectiveKeyRestoreOperationResponse>;
   }
 
   roleDefinitions: operations.RoleDefinitions;
@@ -221,19 +144,7 @@ const fullBackupOperationSpec: coreHttp.OperationSpec = {
   path: "/backup",
   httpMethod: "POST",
   responses: {
-    200: {
-      bodyMapper: Mappers.FullBackupOperation,
-      headersMapper: Mappers.KeyVaultClientFullBackupHeaders
-    },
-    201: {
-      bodyMapper: Mappers.FullBackupOperation,
-      headersMapper: Mappers.KeyVaultClientFullBackupHeaders
-    },
     202: {
-      bodyMapper: Mappers.FullBackupOperation,
-      headersMapper: Mappers.KeyVaultClientFullBackupHeaders
-    },
-    204: {
       bodyMapper: Mappers.FullBackupOperation,
       headersMapper: Mappers.KeyVaultClientFullBackupHeaders
     },
@@ -267,19 +178,7 @@ const fullRestoreOperationOperationSpec: coreHttp.OperationSpec = {
   path: "/restore",
   httpMethod: "PUT",
   responses: {
-    200: {
-      bodyMapper: Mappers.RestoreOperation,
-      headersMapper: Mappers.KeyVaultClientFullRestoreOperationHeaders
-    },
-    201: {
-      bodyMapper: Mappers.RestoreOperation,
-      headersMapper: Mappers.KeyVaultClientFullRestoreOperationHeaders
-    },
     202: {
-      bodyMapper: Mappers.RestoreOperation,
-      headersMapper: Mappers.KeyVaultClientFullRestoreOperationHeaders
-    },
-    204: {
       bodyMapper: Mappers.RestoreOperation,
       headersMapper: Mappers.KeyVaultClientFullRestoreOperationHeaders
     },
@@ -313,19 +212,7 @@ const selectiveKeyRestoreOperationOperationSpec: coreHttp.OperationSpec = {
   path: "/keys/{keyName}/restore",
   httpMethod: "PUT",
   responses: {
-    200: {
-      bodyMapper: Mappers.SelectiveKeyRestoreOperation,
-      headersMapper: Mappers.KeyVaultClientSelectiveKeyRestoreOperationHeaders
-    },
-    201: {
-      bodyMapper: Mappers.SelectiveKeyRestoreOperation,
-      headersMapper: Mappers.KeyVaultClientSelectiveKeyRestoreOperationHeaders
-    },
     202: {
-      bodyMapper: Mappers.SelectiveKeyRestoreOperation,
-      headersMapper: Mappers.KeyVaultClientSelectiveKeyRestoreOperationHeaders
-    },
-    204: {
       bodyMapper: Mappers.SelectiveKeyRestoreOperation,
       headersMapper: Mappers.KeyVaultClientSelectiveKeyRestoreOperationHeaders
     },
