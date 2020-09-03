@@ -233,6 +233,7 @@ export interface RecognizePiiEntitiesResultArray extends Array<RecognizePiiEntit
 // @public
 export interface RecognizePiiEntitiesSuccessResult extends TextAnalyticsSuccessResult {
     readonly entities: PiiEntity[];
+    redactedText: string;
 }
 
 // @public (undocumented)
