@@ -13,7 +13,7 @@ import { Socket } from "net";
 const SERVER_PORT = process.env.PORT || 80;
 
 import express from "express";
-import {PublicClientApplication, TokenCache, AuthorizationCodeRequest} from "@azure/msal-node";
+import { PublicClientApplication, TokenCache, AuthorizationCodeRequest } from "@azure/msal-node";
 import open from "open";
 import path from "path";
 import http from "http";
@@ -37,148 +37,148 @@ interface AuthenticationRecord {
  * window.  This credential is not currently supported in Node.js.
  */
 export class InteractiveBrowserCredential implements TokenCredential {
-  private identityClient: IdentityClient;
-  private pca: PublicClientApplication;
-  private msalCacheManager: TokenCache;
-  private tenantId: string;
-  private clientId: string;
-  private persistenceEnabled: boolean;
-  private redirectUri: string;
-  private authorityHost: string;
-  private authenticationRecord: AuthenticationRecord | undefined;
+         private identityClient: IdentityClient;
+         private pca: PublicClientApplication;
+         private msalCacheManager: TokenCache;
+         private tenantId: string;
+         private clientId: string;
+         private persistenceEnabled: boolean;
+         private redirectUri: string;
+         private authorityHost: string;
+         private authenticationRecord: AuthenticationRecord | undefined;
 
-  constructor(options?: InteractiveBrowserCredentialOptions) {
-    this.identityClient = new IdentityClient(options);
-    this.tenantId = (options && options.tenantId) || DefaultTenantId;
-    this.clientId = (options && options.clientId) || DeveloperSignOnClientId;
-    
-    // Future update: this is for persistent caching
-    this.persistenceEnabled = false;
-    this.authenticationRecord = undefined;
+         constructor(options?: InteractiveBrowserCredentialOptions) {
+           this.identityClient = new IdentityClient(options);
+           this.tenantId = (options && options.tenantId) || DefaultTenantId;
+           this.clientId = (options && options.clientId) || DeveloperSignOnClientId;
 
-    if (options && options.redirectUri) {
-      if (typeof options.redirectUri === "string") {
-        this.redirectUri = options.redirectUri;
-      } else {
-        this.redirectUri = options.redirectUri();
-      }
-    } else {
-      this.redirectUri = "http://localhost";
-    }
+           // Future update: this is for persistent caching
+           this.persistenceEnabled = false;
+           this.authenticationRecord = undefined;
 
-    if (options && options.authorityHost) {
-      if (options.authorityHost.endsWith("/")) {
-        this.authorityHost = options.authorityHost + this.tenantId;
-      } else {
-        this.authorityHost = options.authorityHost + "/" + this.tenantId;
-      }
-    } else {
-      this.authorityHost = "https://login.microsoftonline.com/" + this.tenantId;
-    }
+           if (options && options.redirectUri) {
+             if (typeof options.redirectUri === "string") {
+               this.redirectUri = options.redirectUri;
+             } else {
+               this.redirectUri = options.redirectUri();
+             }
+           } else {
+             this.redirectUri = "http://localhost";
+           }
 
-    const publicClientConfig = {
-      auth: {
-        clientId: this.clientId,
-        authority: this.authorityHost,
-        redirectUri: this.redirectUri
-      },
-      cache: undefined
-    };
-    this.pca = new PublicClientApplication(publicClientConfig);
-    this.msalCacheManager = this.pca.getTokenCache();
-  }
+           if (options && options.authorityHost) {
+             if (options.authorityHost.endsWith("/")) {
+               this.authorityHost = options.authorityHost + this.tenantId;
+             } else {
+               this.authorityHost = options.authorityHost + "/" + this.tenantId;
+             }
+           } else {
+             this.authorityHost = "https://login.microsoftonline.com/" + this.tenantId;
+           }
 
-  /**
-   * Authenticates with Azure Active Directory and returns an access token if
-   * successful.  If authentication cannot be performed at this time, this method may
-   * return null.  If an error occurs during authentication, an {@link AuthenticationError}
-   * containing failure details will be thrown.
-   *
-   * @param scopes The list of scopes for which the token will have access.
-   * @param options The options used to configure any requests this
-   *                TokenCredential implementation might make.
-   */
-  public getToken(
-    scopes: string | string[],
-    options?: GetTokenOptions
-  ): Promise<AccessToken | null> {
-    const scopeArray = typeof scopes === "object" ? scopes : [scopes];
+           const publicClientConfig = {
+             auth: {
+               clientId: this.clientId,
+               authority: this.authorityHost,
+               redirectUri: this.redirectUri
+             },
+             cache: undefined
+           };
+           this.pca = new PublicClientApplication(publicClientConfig);
+           this.msalCacheManager = this.pca.getTokenCache();
+         }
 
-    return this.acquireTokenFromBrowser(scopeArray);
-  }
+         /**
+          * Authenticates with Azure Active Directory and returns an access token if
+          * successful.  If authentication cannot be performed at this time, this method may
+          * return null.  If an error occurs during authentication, an {@link AuthenticationError}
+          * containing failure details will be thrown.
+          *
+          * @param scopes The list of scopes for which the token will have access.
+          * @param options The options used to configure any requests this
+          *                TokenCredential implementation might make.
+          */
+         public getToken(
+           scopes: string | string[],
+           options?: GetTokenOptions
+         ): Promise<AccessToken | null> {
+           const scopeArray = typeof scopes === "object" ? scopes : [scopes];
 
-  private async openAuthCodeUrl(scopeArray: string[]): Promise<void> {
-    const authCodeUrlParameters = {
-      scopes: scopeArray,
-      redirectUri: this.redirectUri
-    };
+           return this.acquireTokenFromBrowser(scopeArray);
+         }
 
-    const response = await this.pca.getAuthCodeUrl(authCodeUrlParameters);
-    await open(response);
-  }
+         private async openAuthCodeUrl(scopeArray: string[]): Promise<void> {
+           const authCodeUrlParameters = {
+             scopes: scopeArray,
+             redirectUri: this.redirectUri
+           };
 
-  private async acquireTokenFromBrowser(scopeArray: string[]): Promise<AccessToken | null> {
-    // eslint-disable-next-line
-    return new Promise<AccessToken | null>(async (resolve, reject) => {
-      // eslint-disable-next-line
-      let listen: http.Server | undefined;
-      let socketToDestroy: Socket | undefined;
+           const response = await this.pca.getAuthCodeUrl(authCodeUrlParameters);
+           await open(response);
+         }
 
-      function cleanup() {
-        if (listen) {
-          listen.close();
-        }
-        if (socketToDestroy) {
-          socketToDestroy.destroy();
-        }
-      }
+         private async acquireTokenFromBrowser(scopeArray: string[]): Promise<AccessToken | null> {
+           // eslint-disable-next-line
+           return new Promise<AccessToken | null>(async (resolve, reject) => {
+             // eslint-disable-next-line
+             let listen: http.Server | undefined;
+             let socketToDestroy: Socket | undefined;
 
-      // Create Express App and Routes
-      const app = express();
+             function cleanup() {
+               if (listen) {
+                 listen.close();
+               }
+               if (socketToDestroy) {
+                 socketToDestroy.destroy();
+               }
+             }
 
-      app.get("/", async (req, res) => {
-        const tokenRequest: AuthorizationCodeRequest = {
-          code: req.query.code as string,
-          redirectUri: this.redirectUri,
-          scopes: scopeArray
-        };
+             // Create Express App and Routes
+             const app = express();
 
-        try {
-          const authResponse = await this.pca.acquireTokenByCode(tokenRequest);
-          res.sendStatus(200);
-          logger.info(`authResponse: ${authResponse}`);
-          if (this.persistenceEnabled) {
-            this.msalCacheManager.writeToPersistence();
-          }
-          
-          resolve({
-            expiresOnTimestamp: authResponse.expiresOn.valueOf(),
-            token: authResponse.accessToken
-          });
-        } catch (error) {
-          res.status(500).send(error);
+             app.get("/", async (req, res) => {
+               const tokenRequest: AuthorizationCodeRequest = {
+                 code: req.query.code as string,
+                 redirectUri: this.redirectUri,
+                 scopes: scopeArray
+               };
 
-          reject(
-            new Error(
-              `Authentication Error "${req.query["error"]}":\n\n${req.query["error_description"]}`
-            )
-          );
-        } finally {
-          cleanup();
-        }
-      });
+               try {
+                 const authResponse = await this.pca.acquireTokenByCode(tokenRequest);
+                 res.sendStatus(200);
+                 logger.info(`authResponse: ${authResponse}`);
+                 if (this.persistenceEnabled) {
+                   this.msalCacheManager.writeToPersistence();
+                 }
 
-      listen = app.listen(SERVER_PORT, () =>
-        logger.info(`Msal Node Auth Code Sample app listening on port ${SERVER_PORT}!`)
-      );
-      listen.on("connection", (socket) => (socketToDestroy = socket));
+                 resolve({
+                   expiresOnTimestamp: authResponse.expiresOn.valueOf(),
+                   token: authResponse.accessToken
+                 });
+               } catch (error) {
+                 res.status(500).send(error);
 
-      try {
-        await this.openAuthCodeUrl(scopeArray);
-      } catch(e) {
-        cleanup();
-        throw e;
-      }
-    });
-  }
-}
+                 reject(
+                   new Error(
+                     `Authentication Error "${req.query["error"]}":\n\n${req.query["error_description"]}`
+                   )
+                 );
+               } finally {
+                 cleanup();
+               }
+             });
+
+             listen = app.listen(SERVER_PORT, () =>
+               logger.info(`Msal Node Auth Code Sample app listening on port ${SERVER_PORT}!`)
+             );
+             listen.on("connection", (socket) => (socketToDestroy = socket));
+
+             try {
+               await this.openAuthCodeUrl(scopeArray);
+             } catch (e) {
+               cleanup();
+               throw e;
+             }
+           });
+         }
+       }
