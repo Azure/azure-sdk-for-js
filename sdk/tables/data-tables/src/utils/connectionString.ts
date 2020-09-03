@@ -6,7 +6,7 @@ import {
   fromAccountConnectionString,
   getAccountConnectionString
 } from "./accountConnectionString";
-import { ClientParamsFromConnectionString, ConnectionString } from './internalModels';
+import { ClientParamsFromConnectionString, ConnectionString } from "./internalModels";
 import { URL } from "./url";
 
 /**

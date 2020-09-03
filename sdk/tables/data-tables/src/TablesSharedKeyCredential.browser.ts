@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 export class TablesSharedKeyCredential {
-    /**
+  /**
    * Creates an instance of TablesSharedKeyCredential.
    * @param {string} accountName
    * @param {string} accountKey
