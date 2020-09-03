@@ -6006,7 +6006,7 @@ export class BlobLeaseClient {
         options.conditions?.ifTags)
     ) {
       throw new RangeError(
-        "the IfMatch, IfNoneMatch and IfTags access conditions must have their default values because they are ignored by the service"
+        "The IfMatch, IfNoneMatch and IfTags access conditions are ignored by the service. Values other than undefined or their default values are not acceptable."
       );
     }
 
@@ -6053,7 +6053,7 @@ export class BlobLeaseClient {
         options.conditions?.ifTags)
     ) {
       throw new RangeError(
-        "the IfMatch, IfNoneMatch and IfTags access conditions must have their default values because they are ignored by the service"
+        "The IfMatch, IfNoneMatch and IfTags access conditions are ignored by the service. Values other than undefined or their default values are not acceptable."
       );
     }
 
@@ -6104,7 +6104,7 @@ export class BlobLeaseClient {
         options.conditions?.ifTags)
     ) {
       throw new RangeError(
-        "the IfMatch, IfNoneMatch and IfTags access conditions must have their default values because they are ignored by the service"
+        "The IfMatch, IfNoneMatch and IfTags access conditions are ignored by the service. Values other than undefined or their default values are not acceptable."
       );
     }
 
@@ -6145,7 +6145,7 @@ export class BlobLeaseClient {
         options.conditions?.ifTags)
     ) {
       throw new RangeError(
-        "the IfMatch, IfNoneMatch and IfTags access conditions must have their default values because they are ignored by the service"
+        "The IfMatch, IfNoneMatch and IfTags access conditions are ignored by the service. Values other than undefined or their default values are not acceptable."
       );
     }
 
@@ -6192,7 +6192,7 @@ export class BlobLeaseClient {
         options.conditions?.ifTags)
     ) {
       throw new RangeError(
-        "the IfMatch, IfNoneMatch and IfTags access conditions must have their default values because they are ignored by the service"
+        "The IfMatch, IfNoneMatch and IfTags access conditions are ignored by the service. Values other than undefined or their default values are not acceptable."
       );
     }
 
