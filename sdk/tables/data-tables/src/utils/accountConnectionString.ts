@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { TableServiceClientOptions } from "..";
-import { ConnectionString } from "./connectionString";
+import { ClientParamsFromConnectionString, ConnectionString } from "./internalModels";
 import { TablesSharedKeyCredential } from "../TablesSharedKeyCredential";
 import { createPipelineFromOptions } from "@azure/core-http";
 
@@ -12,11 +12,10 @@ import { createPipelineFromOptions } from "@azure/core-http";
  * @param extractedCreds parsed connection string
  * @param options TablesServiceClient options
  */
-// eslint-disable-next-line @typescript-eslint/explicit-function-return-type
 export function fromAccountConnectionString(
   extractedCreds: ConnectionString,
   options: TableServiceClientOptions = {}
-) {
+): ClientParamsFromConnectionString {
   const sharedKeyCredential = new TablesSharedKeyCredential(
     extractedCreds.accountName!,
     extractedCreds.accountKey

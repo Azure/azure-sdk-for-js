@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { TableServiceClientOptions } from "..";
-import { ConnectionString } from "./connectionString";
+import { ConnectionString } from "./internalModels";
 
 /**
  * Gets client parameters from an Account Connection String

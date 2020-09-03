@@ -7,7 +7,7 @@
   "module": "dist-esm/src/index.js",
   "browser": {
     "./dist-esm/src/TablesSharedKeyCredential.js": "./dist-esm/src/TablesSharedKeyCredential.browser.js",
-    "./dist-esm/src/utils/fromAccountConnectionString.js": "./dist-esm/src/utils/fromAccountConnectionString.browser.js",
+    "./dist-esm/src/utils/accountConnectionString.js": "./dist-esm/src/utils/accountConnectionString.browser.js",
     "./dist-esm/src/utils/url.js": "./dist-esm/src/utils/url.browser.js",
     "./dist-esm/src/utils/bufferSerializer.js": "./dist-esm/src/utils/bufferSerializer.browser.js"
   },

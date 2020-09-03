@@ -9,7 +9,6 @@ import {
   HttpOperationResponse,
   WebResourceLike
 } from "@azure/core-http";
-import { logger } from "./logger";
 import { TablesSharedKeyCredentialLike } from "./TablesSharedKeyCredential";
 import { HeaderConstants } from "./utils/constants";
 import { URL } from "./utils/url";
@@ -79,7 +78,6 @@ export class TablesSharedKeyCredentialPolicy extends BaseRequestPolicy {
       "\n"
     );
 
-    logger.info(JSON.stringify(stringToSign));
     const signature: string = this.credential.computeHMACSHA256(stringToSign);
     request.headers.set(
       HeaderConstants.AUTHORIZATION,
@@ -117,7 +115,7 @@ export class TablesSharedKeyCredentialPolicy extends BaseRequestPolicy {
     // https://docs.microsoft.com/en-us/rest/api/storageservices/authorize-with-shared-key#shared-key-lite-and-table-service-format-for-2009-09-19-and-later
     const url = new URL(request.url);
     const path = url.pathname || "/";
-    let canonicalizedResourceString = "/" + this.credential.accountName + path;
+    let canonicalizedResourceString = "/" + this.credential.accountName + path.replace(/'/g, "%27");
 
     // The query string should include the question mark and the comp parameter (for example, ?comp=metadata). No other parameters should be included on the query string.
     const comp = url.searchParams.get("comp");
