@@ -103,7 +103,7 @@ await serviceClient.deleteModel(modelId);
 
 ### Create digital twins
 
-For Creating Twin you will need to provide Id of a digital Twin such as `myTwin` and the application/json digital twin based on the model created earlier. You can look at sample application/json [here](https://github.com/Azure/azure-sdk-for-net-pr/tree/feature/IoT-ADT/sdk/digitaltwins/Azure.DigitalTwins.Core/samples/DigitalTwinsClientSample/DTDL/DigitalTwins "DigitalTwin").
+For Creating Twin you will need to provide Id of a digital Twin such as `myTwin` and the application/json digital twin based on the model created earlier. You can look at sample application/json [here](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/digitaltwins/digitaltwins/samples/dtdl/digitalTwins "DigitalTwin").
 
 ```JavaScript Snippet:dt_digitaltwins_lifecycle
 const digitalTwinId = "myTwin";
