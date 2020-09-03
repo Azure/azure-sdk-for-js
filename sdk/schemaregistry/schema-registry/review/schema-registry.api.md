@@ -53,11 +53,8 @@ export interface SchemaRegistry {
 export class SchemaRegistryClient implements SchemaRegistry {
     constructor(endpoint: string, credential: TokenCredential, options?: SchemaRegistryClientOptions);
     readonly endpoint: string;
-    // (undocumented)
     getSchemaById(id: string, options?: GetSchemaByIdOptions): Promise<Schema>;
-    // (undocumented)
     getSchemaId(schema: SchemaDescription, options?: GetSchemaIdOptions): Promise<SchemaId>;
-    // (undocumented)
     registerSchema(schema: SchemaDescription, options?: RegisterSchemaOptions): Promise<SchemaId>;
 }
 

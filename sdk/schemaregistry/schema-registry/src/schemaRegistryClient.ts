@@ -46,7 +46,16 @@ export class SchemaRegistryClient implements SchemaRegistry {
     this.client = new GeneratedSchemaRegistryClient(endpoint, { ...pipeline, endpoint });
   }
 
-  /** @inheritdoc */
+  /**
+   * Registers a new schema and returns its ID.
+   *
+   * If schema of specified name does not exist in the specified group, a schema
+   * is created at version 1. If schema of specified name exists already in
+   * specified group, schema is created at latest version + 1.
+   *
+   * @param schema Schema to register.
+   * @return Registered schema's ID.
+   */
   async registerSchema(
     schema: SchemaDescription,
     options?: RegisterSchemaOptions
@@ -64,7 +73,13 @@ export class SchemaRegistryClient implements SchemaRegistry {
     return convertSchemaIdResponse(response);
   }
 
-  /** @inheritdoc */
+  /**
+   * Gets the ID of an existing schema with matching name, group, type, and
+   * content.
+   *
+   * @param schema Schema to match.
+   * @return Matched schema's ID.
+   */
   async getSchemaId(schema: SchemaDescription, options?: GetSchemaIdOptions): Promise<SchemaId> {
     const response = await this.client.schema.queryIdByContent(
       schema.group,
@@ -79,7 +94,13 @@ export class SchemaRegistryClient implements SchemaRegistry {
     return convertSchemaIdResponse(response);
   }
 
-  /** @inheritdoc */
+  /**
+   * Gets the ID of an existing schema with matching name, group, type, and
+   * content.
+   *
+   * @param schema Schema to match.
+   * @return Matched schema's ID.
+   */
   async getSchemaById(id: string, options?: GetSchemaByIdOptions): Promise<Schema> {
     const response = await this.client.schema.getById(id, options);
     return convertSchemaResponse(response);
