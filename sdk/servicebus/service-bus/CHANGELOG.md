@@ -6,6 +6,8 @@
 
 - Support using the SharedAccessSignature from the connection string.
   ([PR 10951](https://github.com/Azure/azure-sdk-for-js/pull/10951)).
+  - Add a new field `amqpAnnotatedMessage` to the received message which will hold the received
+  message in its raw form, complete with all parts of the message as per the [AMQP spec](https://www.amqp.org/sites/amqp.org/files/amqp.pdf).
 
 ### Breaking Changes
 
