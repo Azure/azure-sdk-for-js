@@ -478,6 +478,7 @@ export const PiiDocumentEntities: coreHttp.CompositeMapper = {
       },
       redactedText: {
         serializedName: "redactedText",
+        required: true,
         type: {
           name: "String"
         }

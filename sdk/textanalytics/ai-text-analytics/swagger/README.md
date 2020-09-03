@@ -12,7 +12,7 @@ generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../
 source-code-folder-path: ./src/generated
-input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/master/specification/cognitiveservices/data-plane/TextAnalytics/preview/v3.1-preview.2/TextAnalytics.json
+input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/f74cb6084d23ad6b4f589602eabb9b98b9ba03f8/specification/cognitiveservices/data-plane/TextAnalytics/preview/v3.1-preview.2/TextAnalytics.json
 add-credentials: false
 package-version: 5.1.0-beta.1
 v3: true

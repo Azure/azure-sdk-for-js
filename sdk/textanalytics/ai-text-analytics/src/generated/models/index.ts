@@ -257,7 +257,7 @@ export interface PiiDocumentEntities {
   /**
    * Returns redacted text.
    */
-  redactedText?: string;
+  redactedText: string;
 }
 
 export interface EntityLinkingResult {
