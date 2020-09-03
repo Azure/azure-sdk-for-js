@@ -9,7 +9,7 @@ import {
   HttpOperationResponse,
   WebResourceLike
 } from "@azure/core-http";
-import { logger } from './logger';
+import { logger } from "./logger";
 import { TablesSharedKeyCredentialLike } from "./TablesSharedKeyCredential";
 import { HeaderConstants } from "./utils/constants";
 import { URL } from "./utils/url";
@@ -69,21 +69,17 @@ export class TablesSharedKeyCredentialPolicy extends BaseRequestPolicy {
     }
 
     // If x-ms-date is present, use it otherwise date
-    const dateHeader =
-      this.getHeaderValueToSign(request, `${HeaderConstants.X_MS_DATE}`);
-      
+    const dateHeader = this.getHeaderValueToSign(request, `${HeaderConstants.X_MS_DATE}`);
+
     if (!dateHeader) {
       throw new Error("Failed to sign request: x-ms-date or date header must be present");
     }
 
-    const stringToSign: string =
-      [
-        dateHeader,
-        this.getCanonicalizedResourceString(request)
-      ].join("\n");
-      
+    const stringToSign: string = [dateHeader, this.getCanonicalizedResourceString(request)].join(
+      "\n"
+    );
 
-      logger.info(JSON.stringify(stringToSign));
+    logger.info(JSON.stringify(stringToSign));
     const signature: string = this.credential.computeHMACSHA256(stringToSign);
     request.headers.set(
       HeaderConstants.AUTHORIZATION,
