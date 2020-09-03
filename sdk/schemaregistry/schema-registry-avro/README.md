@@ -68,11 +68,21 @@ const { SchemaRegistryAvroSerializer } = require("@azure/schema-registry-avro");
 const client = new SchemaRegistryClient("<endpoint>", new DefaultAzureCredential());
 const serializer = new SchemaRegistryAvroSerializer(client, "<group>");
 
-const schema = "<avro schema definition>";
-const value = {
-  /* <object that matches schema> */
-};
+// Example Avro schema
+const schema = JSON.stringify({
+  type: "record",
+  name: "Rating",
+  namespace: "my.example",
+  fields: [{ name: "score", type: "int" }]
+});
+
+// Example value that matches the Avro schema above
+const value = { score: 42 };
+
+// Serialize value to buffer
 const buffer = await serializer.serialize(value, schema);
+
+// Deserialize buffer to value
 const deserializedValue = await serializer.deserialize(buffer);
 ```
 

@@ -129,6 +129,29 @@ describe("SchemaRegistryAvroSerializer", function() {
     serializer = createTestSerializer(false);
     assert.deepStrictEqual(await serializer.serialize(testValue, testSchema), buffer);
   });
+
+  it("works with trivial example in README", async () => {
+    const serializer = createTestSerializer();
+
+    // Example Avro schema
+    const schema = JSON.stringify({
+      type: "record",
+      name: "Rating",
+      namespace: "my.example",
+      fields: [{ name: "score", type: "int" }]
+    });
+
+    // Example value that matches the Avro schema above
+    const value = { score: 42 };
+
+    // Serialize value to buffer
+    const buffer = await serializer.serialize(value, schema);
+
+    // Deserialize buffer to value
+    const deserializedValue = await serializer.deserialize(buffer);
+
+    assertSameJsonRepresentation(deserializedValue, value);
+  });
 });
 
 function assertSameJsonRepresentation(actual: any, expected: any) {
