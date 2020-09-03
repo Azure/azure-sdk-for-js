@@ -251,7 +251,7 @@ export interface CreateQueueOptions extends OperationOptions {
   forwardDeadLetteredMessagesTo?: string;
 
   /**
-   * Specifies express entities are enabled on queue
+   * Specifies whether express entities are enabled on queue.
    */
   enableExpress?: boolean;
 }
