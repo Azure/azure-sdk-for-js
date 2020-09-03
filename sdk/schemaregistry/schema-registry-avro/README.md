@@ -61,9 +61,9 @@ Messages are encoded as follows:
 ### Serialize and deserialize
 
 ```javascript
-import { DefaultAzureCredential } from "@azure/identity";
-import { SchemaRegistryClient, SchemaDescription } from "@azure/schema-registry";
-import { SchemaRegistryAvroSerializer } from "@azure/schema-registry-avro";
+const { DefaultAzureCredential } = require("@azure/identity");
+const { SchemaRegistryClient } = require("@azure/schema-registry");
+const { SchemaRegistryAvroSerializer } = require("@azure/schema-registry-avro");
 
 const client = new SchemaRegistryClient("<endpoint>", new DefaultAzureCredential());
 const serializer = new SchemaRegistryAvroSerializer(client, "<group>");
