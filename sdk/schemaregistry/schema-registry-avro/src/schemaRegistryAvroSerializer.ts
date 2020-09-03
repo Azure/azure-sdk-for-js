@@ -134,12 +134,12 @@ export class SchemaRegistryAvroSerializer {
    */
   async deserialize<T>(buffer: Buffer): Promise<T> {
     if (buffer.length < PAYLOAD_OFFSET) {
-      throw new Error("Buffer is too small to have the correct format.");
+      throw new RangeError("Buffer is too small to have the correct format.");
     }
 
     const format = buffer.readUInt32BE(0);
     if (format !== FORMAT_INDICATOR) {
-      throw new Error(`Buffer has unknown format indicator: 0x${format.toString(16)}`);
+      throw new TypeError(`Buffer has unknown format indicator: 0x${format.toString(16)}`);
     }
 
     const schemaIdBuffer = buffer.slice(SCHEMA_ID_OFFSET, PAYLOAD_OFFSET);
