@@ -138,6 +138,8 @@ describe("[AAD] TextAnalyticsClient", function() {
           assert.equal("positive", aspect.sentiment);
           assert.isAtLeast(aspect.confidenceScores.positive, 0);
           assert.isAtLeast(aspect.confidenceScores.negative, 0);
+          assert.equal(aspect.offset, 32);
+          assert.equal(aspect.length, 6);
 
           const sleekOpinion = opinion.opinions[0];
           assert.equal("sleek", sleekOpinion.text);
@@ -145,6 +147,8 @@ describe("[AAD] TextAnalyticsClient", function() {
           assert.isAtLeast(sleekOpinion.confidenceScores.positive, 0);
           assert.isAtLeast(sleekOpinion.confidenceScores.positive, 0);
           assert.isFalse(sleekOpinion.isNegated);
+          assert.equal(sleekOpinion.offset, 9);
+          assert.equal(sleekOpinion.length, 5);
 
           const premiumOpinion = opinion.opinions[1];
           assert.equal("premium", premiumOpinion.text);
@@ -152,6 +156,8 @@ describe("[AAD] TextAnalyticsClient", function() {
           assert.isAtLeast(premiumOpinion.confidenceScores.positive, 0);
           assert.isAtLeast(premiumOpinion.confidenceScores.positive, 0);
           assert.isFalse(premiumOpinion.isNegated);
+          assert.equal(premiumOpinion.offset, 15);
+          assert.equal(premiumOpinion.length, 7);
         })
       );
     });
@@ -594,6 +600,98 @@ describe("[AAD] TextAnalyticsClient", function() {
           e.message,
           "Batch request contains too many records. Max 5 records are permitted."
         );
+      }
+    });
+  });
+
+  describe("#String encoding", () => {
+    it("emoji", async () => {
+      const [result] = await client.recognizePiiEntities([
+        { id: "0", text: "👩 SSN: 859-98-0987", language: "en" }
+      ]);
+      if (!result.error) {
+        assert.equal(result.entities[0].offset, 8);
+        assert.equal(result.entities[0].length, 11);
+      }
+    });
+
+    it("emoji with skin tone modifier", async () => {
+      const [result] = await client.recognizePiiEntities([
+        { id: "0", text: "👩🏻 SSN: 859-98-0987", language: "en" }
+      ]);
+      if (!result.error) {
+        assert.equal(result.entities[0].offset, 10);
+        assert.equal(result.entities[0].length, 11);
+      }
+    });
+
+    it("family emoji", async () => {
+      const [result] = await client.recognizePiiEntities([
+        { id: "0", text: "👩‍👩‍👧‍👧 SSN: 859-98-0987", language: "en" }
+      ]);
+      if (!result.error) {
+        assert.equal(result.entities[0].offset, 17);
+        assert.equal(result.entities[0].length, 11);
+      }
+    });
+
+    it("family emoji wit skin tone modifier", async () => {
+      const [result] = await client.recognizePiiEntities([
+        { id: "0", text: "👩🏻‍👩🏽‍👧🏾‍👦🏿 SSN: 859-98-0987", language: "en" }
+      ]);
+      if (!result.error) {
+        assert.equal(result.entities[0].offset, 25);
+        assert.equal(result.entities[0].length, 11);
+      }
+    });
+
+    it("diacritics nfc", async () => {
+      const [result] = await client.recognizePiiEntities([
+        { id: "0", text: "año SSN: 859-98-0987", language: "en" }
+      ]);
+      if (!result.error) {
+        assert.equal(result.entities[0].offset, 9);
+        assert.equal(result.entities[0].length, 11);
+      }
+    });
+
+    it("diacritics nfd", async () => {
+      const [result] = await client.recognizePiiEntities([
+        { id: "0", text: "año SSN: 859-98-0987", language: "en" }
+      ]);
+      if (!result.error) {
+        assert.equal(result.entities[0].offset, 10);
+        assert.equal(result.entities[0].length, 11);
+      }
+    });
+
+    it("korean nfc", async () => {
+      const [result] = await client.recognizePiiEntities([
+        { id: "0", text: "아가 SSN: 859-98-0987", language: "en" }
+      ]);
+      if (!result.error) {
+        assert.equal(result.entities[0].offset, 8);
+        assert.equal(result.entities[0].length, 11);
+      }
+    });
+
+    it("korean nfd", async () => {
+      const [result] = await client.recognizePiiEntities([
+        { id: "0", text: "아가 SSN: 859-98-0987", language: "en" }
+      ]);
+      if (!result.error) {
+        assert.equal(result.entities[0].offset, 8);
+        assert.equal(result.entities[0].length, 11);
+      }
+    });
+
+    it("zalgo", async () => {
+      const [result] = await client.recognizePiiEntities([
+        { id: "0", text: "ơ̵̧̧̢̳̘̘͕͔͕̭̟̙͎͈̞͔̈̇̒̃͋̇̅͛̋͛̎́͑̄̐̂̎͗͝m̵͍͉̗̄̏͌̂̑̽̕͝͠g̵̢̡̢̡̨̡̧̛͉̞̯̠̤̣͕̟̫̫̼̰͓̦͖̣̣͎̋͒̈́̓̒̈̍̌̓̅͑̒̓̅̅͒̿̏́͗̀̇͛̏̀̈́̀̊̾̀̔͜͠͝ͅ SSN: 859-98-0987", language: "en" }
+      ]);
+      if (!result.error) {
+        assert.equal(result.entities[0].offset, 121);
+        assert.equal(result.entities[0].length, 11);
       }
     });
   });

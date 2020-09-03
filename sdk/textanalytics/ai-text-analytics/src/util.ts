@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { StringIndexType } from "./generated/models";
 import { logger } from "./logger";
 
 export interface IdObject {
@@ -53,4 +54,8 @@ export function findOpinionIndex(pointer: string): OpinionIndex {
   } else {
     throw new Error(`Pointer "${pointer}" is not a valid opinion pointer`);
   }
+}
+
+export function addStrEncodingParam<T>(options: T): T & { stringIndexType: StringIndexType } {
+  return { ...options, stringIndexType: "Utf16CodeUnit" };
 }

@@ -8,38 +8,39 @@
    "status": 200,
    "response": "{\"token_type\":\"Bearer\",\"expires_in\":3599,\"ext_expires_in\":3599,\"access_token\":\"access_token\"}",
    "responseHeaders": {
-    "cache-control": "no-cache, no-store",
-    "content-length": "1500",
+    "cache-control": "no-store, no-cache",
+    "content-length": "1329",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 14 Aug 2020 17:49:43 GMT",
+    "date": "Wed, 02 Sep 2020 23:54:07 GMT",
     "expires": "-1",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
     "referrer-policy": "strict-origin-when-cross-origin",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.10946.15 - WUS2 ProdSlices",
-    "x-ms-request-id": "5d8f0dfe-fcf5-4829-8d1a-c108d2282900"
+    "x-ms-ests-server": "2.1.10985.18 - CHI ProdSlices",
+    "x-ms-request-id": "179746b3-22b5-4766-bc84-e219aa5c3700"
    }
   },
   {
    "method": "POST",
    "url": "https://endpoint/text/analytics/v3.1-preview.1/sentiment",
    "query": {
+    "stringIndexType": "Utf16CodeUnit",
     "opinionMining": "true"
    },
    "requestBody": "{\"documents\":[{\"id\":\"0\",\"text\":\"The food and service is not good\",\"language\":\"en\"}]}",
    "status": 200,
    "response": "{\"documents\":[{\"id\":\"0\",\"sentiment\":\"negative\",\"confidenceScores\":{\"positive\":0.0,\"neutral\":0.0,\"negative\":1.0},\"sentences\":[{\"sentiment\":\"negative\",\"confidenceScores\":{\"positive\":0.0,\"neutral\":0.0,\"negative\":1.0},\"offset\":0,\"length\":32,\"text\":\"The food and service is not good\",\"aspects\":[{\"sentiment\":\"negative\",\"confidenceScores\":{\"positive\":0.01,\"negative\":0.99},\"offset\":4,\"length\":4,\"text\":\"food\",\"relations\":[{\"relationType\":\"opinion\",\"ref\":\"#/documents/0/sentences/0/opinions/0\"}]},{\"sentiment\":\"negative\",\"confidenceScores\":{\"positive\":0.01,\"negative\":0.99},\"offset\":13,\"length\":7,\"text\":\"service\",\"relations\":[{\"relationType\":\"opinion\",\"ref\":\"#/documents/0/sentences/0/opinions/0\"}]}],\"opinions\":[{\"sentiment\":\"negative\",\"confidenceScores\":{\"positive\":0.01,\"negative\":0.99},\"offset\":28,\"length\":4,\"text\":\"good\",\"isNegated\":true}]}],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-04-01\"}",
    "responseHeaders": {
-    "apim-request-id": "404631dd-3988-4bdc-be93-8e7d96b90bc9",
+    "apim-request-id": "3e05d1a2-8981-4aec-b087-dd793403194c",
     "content-type": "application/json; charset=utf-8",
     "csp-billing-usage": "CognitiveServices.TextAnalytics.BatchScoring=1",
-    "date": "Fri, 14 Aug 2020 17:49:43 GMT",
+    "date": "Wed, 02 Sep 2020 23:54:08 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "851"
+    "x-envoy-upstream-service-time": "125"
    }
   }
  ],
@@ -47,5 +48,5 @@
   "uniqueName": {},
   "newDate": {}
  },
- "hash": "06a3662cd64a31123e04bc97240b5465"
+ "hash": "3fb07cc10034489b4ee3893382d03f61"
 }
