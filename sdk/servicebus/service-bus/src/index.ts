@@ -71,6 +71,9 @@ export {
 } from "./serviceBusAtomManagementClient";
 export { ServiceBusClient } from "./serviceBusClient";
 export {
+  AmqpAnnotatedMessage,
+  AmqpMessageHeader,
+  AmqpMessageProperties,
   DeadLetterOptions,
   ReceivedMessage,
   ReceivedMessageWithLock,
