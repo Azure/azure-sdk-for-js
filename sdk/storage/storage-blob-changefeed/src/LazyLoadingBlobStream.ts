@@ -40,7 +40,7 @@ interface LazyLoadingBlobStreamDownloadBlockOptions extends CommonOptions {
  */
 export class LazyLoadingBlobStream extends Readable {
   /**
-   * The index of buffer to be read in the array of buffers.
+   * BlobClient to make download calls with.
    *
    * @private
    * @type {BlobClient}

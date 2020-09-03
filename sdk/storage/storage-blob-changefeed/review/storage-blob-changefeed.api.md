@@ -13,85 +13,60 @@ import { StoragePipelineOptions } from '@azure/storage-blob';
 import { StorageSharedKeyCredential } from '@azure/storage-blob';
 import { TokenCredential } from '@azure/core-http';
 
-// @public (undocumented)
+// @public
 export class BlobChangeFeedClient {
     constructor(url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions);
     constructor(url: string, pipeline: Pipeline);
-    // (undocumented)
-    static appendUserAgentPrefix(options?: StoragePipelineOptions): StoragePipelineOptions;
-    // (undocumented)
     static fromConnectionString(connectionString: string, options?: StoragePipelineOptions): BlobChangeFeedClient;
-    // (undocumented)
     listChanges(options?: BlobChangeFeedListChangesOptions): PagedAsyncIterableIterator<BlobChangeFeedEvent, BlobChangeFeedEventPage>;
 }
 
-// @public (undocumented)
+// @public
 export interface BlobChangeFeedEvent {
-    // (undocumented)
     data: BlobChangeFeedEventData;
-    // (undocumented)
     dataVersion?: string;
-    // (undocumented)
     eventTime: Date;
-    // (undocumented)
     eventType: BlobChangeFeedEventType;
-    // (undocumented)
     id: string;
-    // (undocumented)
     metadataVersion: string;
-    // (undocumented)
     subject: string;
-    // (undocumented)
     topic: string;
 }
 
-// @public (undocumented)
+// @public
 export interface BlobChangeFeedEventData {
-    // (undocumented)
     api: string;
-    // (undocumented)
     blobType: BlobType;
-    // (undocumented)
     clientRequestId: string;
-    // (undocumented)
     contentLength: number;
-    // (undocumented)
     contentType: string;
-    // (undocumented)
     etag: string;
-    // (undocumented)
     requestId: string;
-    // (undocumented)
     sequencer: string;
-    // (undocumented)
     url: string;
 }
 
-// @public (undocumented)
+// @public
 export class BlobChangeFeedEventPage {
     constructor();
-    // (undocumented)
     continuationToken: string;
-    // (undocumented)
     events: BlobChangeFeedEvent[];
 }
 
-// @public (undocumented)
+// @public
 export type BlobChangeFeedEventType = "UnspecifiedEventType" | "BlobCreated" | "BlobDeleted" | "BlobPropertiesUpdated" | "BlobSnapshotCreated" | "Control" | "BlobTierChanged" | "BlobAsyncOperationInitiated" | "BlobMetadataUpdated";
 
 // @public
 export interface BlobChangeFeedListChangesOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
-    // (undocumented)
     end?: Date;
-    // (undocumented)
     start?: Date;
 }
 
-// @public (undocumented)
+// @public
 export type BlobType = "BlockBlob" | "AppendBlob" | "PageBlob";
 
-// @public (undocumented)
+// @public
 export function newPipeline(credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, pipelineOptions?: StoragePipelineOptions): Pipeline;
 
 

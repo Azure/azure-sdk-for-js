@@ -35,7 +35,7 @@ This library uses an authenticated `BlobServiceClient` to initialize. Refer to [
 
 ### Compatibility
 
-For this preview, this library is only compatible with Node.js.
+For now, this library is only compatible with Node.js.
 
 ## Key concepts
 
@@ -104,7 +104,10 @@ for await (const eventPage of changeFeedClient.listChanges().byPage()) {
 const { BlobChangeFeedEvent } = require("@azure/storage-blob-changefeed");
 
 let changeFeedEvents = [];
-const firstPage = await changeFeedClient.listChanges().byPage({ maxPageSize: 10 }).next();
+const firstPage = await changeFeedClient
+  .listChanges()
+  .byPage({ maxPageSize: 10 })
+  .next();
 for (const event of firstPage.value.events) {
   changeFeedEvents.push(event);
 }
@@ -123,7 +126,7 @@ for await (const eventPage of changeFeedClient
 
 Pass start time and end time to `BlobChangeFeedClient.listChanges()` to fetch events within a time range.
 
-Note that for this preview release, the change feed client will round start time down to the nearest hour, and round end time up to the next hour.
+Note that for now, the change feed client will round start time down to the nearest hour, and round end time up to the next hour.
 
 ```javascript
 const { BlobChangeFeedEvent } = require("@azure/storage-blob-changefeed");
