@@ -62,8 +62,8 @@ describe("Snippets", () => {
             return;
           }
 
-          // Checkpointing will allow your service to restart and pick
-          // up from where it left off.
+          // Checkpointing will allow your service to pick up from
+          // where it left off when restarting.
           //
           // You'll want to balance how often you checkpoint with the
           // performance of your underlying checkpoint store.
