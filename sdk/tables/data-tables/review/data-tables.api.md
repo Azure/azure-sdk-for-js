@@ -386,7 +386,7 @@ export interface TableInsertEntityHeaders {
     clientRequestId?: string;
     contentType?: string;
     date?: Date;
-    eTag?: string;
+    etag?: string;
     preferenceApplied?: string;
     requestId?: string;
     version?: string;
@@ -397,7 +397,7 @@ export interface TableInsertEntityHeaders {
     clientRequestId?: string;
     contentType?: string;
     date?: Date;
-    eTag?: string;
+    etag?: string;
     preferenceApplied?: string;
     requestId?: string;
     version?: string;
@@ -407,7 +407,7 @@ export interface TableInsertEntityHeaders {
 export interface TableMergeEntityHeaders {
     clientRequestId?: string;
     date?: Date;
-    eTag?: string;
+    etag?: string;
     requestId?: string;
     version?: string;
 }
@@ -426,7 +426,7 @@ export interface TableQueryEntitiesHeaders {
 export interface TableQueryEntitiesWithPartitionAndRowKeyHeaders {
     clientRequestId?: string;
     date?: Date;
-    eTag?: string;
+    etag?: string;
     requestId?: string;
     version?: string;
     xMsContinuationNextPartitionKey?: string;
@@ -538,7 +538,7 @@ export class TablesSharedKeyCredentialPolicy extends BaseRequestPolicy {
 export interface TableUpdateEntityHeaders {
     clientRequestId?: string;
     date?: Date;
-    eTag?: string;
+    etag?: string;
     requestId?: string;
     version?: string;
 }
