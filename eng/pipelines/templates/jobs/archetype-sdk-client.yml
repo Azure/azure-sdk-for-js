@@ -40,21 +40,21 @@ jobs:
           Artifacts: ${{parameters.Artifacts}}
           ServiceDirectory: ${{parameters.ServiceDirectory}}
 
-  - job: "Analyze"
-    dependsOn: "Build"
-    variables:
-      - template: ../variables/globals.yml
+  # - job: "Analyze"
+  #   dependsOn: "Build"
+  #   variables:
+  #     - template: ../variables/globals.yml
 
-    pool:
-      vmImage: "$(OSVmImage)"
+  #   pool:
+  #     vmImage: "$(OSVmImage)"
 
-    steps:
-      - template: ../steps/common.yml
+  #   steps:
+  #     - template: ../steps/common.yml
 
-      - template: ../steps/analyze.yml
-        parameters:
-          Artifacts: ${{parameters.Artifacts}}
-          ServiceDirectory: ${{parameters.ServiceDirectory}}
+  #     - template: ../steps/analyze.yml
+  #       parameters:
+  #         Artifacts: ${{parameters.Artifacts}}
+  #         ServiceDirectory: ${{parameters.ServiceDirectory}}
 
   # Only run tests if the matrix has entries
   - ${{ if ne(parameters.RunUnitTests, false) }}:
