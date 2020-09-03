@@ -162,9 +162,9 @@ foreach ($entry in $manifest) {
 
   }
   catch {
-    OutputWarning "Failed to deploy $($entry.Name) $($_Exception.Message)"
+    OutputWarning "Failed to deploy $($entry.Name) $($_.Exception.Message)"
     Write-Warning "Failed to deploy $($entry.Name)"
-    Write-Host $_Exception.Message
+    Write-Host $_.Exception.Message
     continue
   }
 

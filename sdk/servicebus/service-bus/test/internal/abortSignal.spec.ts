@@ -17,6 +17,7 @@ import {
 } from "../utils/abortSignalTestUtils";
 import { createConnectionContextForTests } from "./unittestUtils";
 import { StandardAbortMessage } from "../../src/util/utils";
+import { isLinkLocked } from "../utils/misc";
 
 describe("AbortSignal", () => {
   const testMessageThatDoesntMatter = {
@@ -165,7 +166,7 @@ describe("AbortSignal", () => {
         assert.equal(err.name, "AbortError");
       }
 
-      assert.isFalse(sender.isConnecting);
+      assert.isFalse(isLinkLocked(sender));
     });
 
     it("...afterLock", async () => {
@@ -182,7 +183,7 @@ describe("AbortSignal", () => {
         assert.equal(err.name, "AbortError");
       }
 
-      assert.isFalse(sender.isConnecting);
+      assert.isFalse(isLinkLocked(sender));
     });
 
     it("...negotiateClaim", async () => {
@@ -210,7 +211,7 @@ describe("AbortSignal", () => {
         assert.equal(err.name, "AbortError");
       }
 
-      assert.isFalse(sender.isConnecting);
+      assert.isFalse(isLinkLocked(sender));
     });
 
     it("...createAwaitableSender", async () => {
@@ -238,7 +239,7 @@ describe("AbortSignal", () => {
         assert.equal(err.name, "AbortError");
       }
 
-      assert.isFalse(sender.isConnecting);
+      assert.isFalse(isLinkLocked(sender));
     });
   });
 
@@ -260,7 +261,7 @@ describe("AbortSignal", () => {
         assert.equal(err.name, "AbortError");
       }
 
-      assert.isFalse(messageReceiver.isConnecting);
+      assert.isFalse(isLinkLocked(messageReceiver));
     });
 
     it("...after negotiateClaim", async () => {
@@ -285,7 +286,7 @@ describe("AbortSignal", () => {
         assert.equal(err.name, "AbortError");
       }
 
-      assert.isFalse(messageReceiver["_isConnecting"]);
+      assert.isFalse(isLinkLocked(messageReceiver));
     });
 
     it("...after createReceiver", async () => {
@@ -310,7 +311,7 @@ describe("AbortSignal", () => {
         assert.equal(err.name, "AbortError");
       }
 
-      assert.isFalse(messageReceiver.isConnecting);
+      assert.isFalse(isLinkLocked(messageReceiver));
     });
   });
 });

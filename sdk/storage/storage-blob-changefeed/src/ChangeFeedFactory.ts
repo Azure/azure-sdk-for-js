@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { BlobServiceClient, ContainerClient } from "@azure/storage-blob";
 import { ChangeFeed } from "./ChangeFeed";
 import { ChangeFeedCursor } from "./models/ChangeFeedCursor";

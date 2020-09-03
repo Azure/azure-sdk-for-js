@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { ContainerClient } from "@azure/storage-blob";
 import { Segment } from "./Segment";
 import { SegmentFactory } from "./SegmentFactory";

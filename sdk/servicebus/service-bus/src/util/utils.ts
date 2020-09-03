@@ -334,7 +334,7 @@ export type MessageCountDetails = {
 export type AuthorizationRule = {
   claimType: string;
   claimValue: string;
-  rights: { accessRights?: string[] };
+  accessRights?: ("Manage" | "Send" | "Listen")[];
   keyName: string;
   primaryKey?: string;
   secondaryKey?: string;
@@ -385,19 +385,14 @@ function buildAuthorizationRule(value: any): AuthorizationRule {
   const authorizationRule: AuthorizationRule = {
     claimType: value["ClaimType"],
     claimValue: value["ClaimValue"],
-    rights: {
-      accessRights: accessRights
-    },
+    accessRights,
     keyName: value["KeyName"],
     primaryKey: value["PrimaryKey"],
     secondaryKey: value["SecondaryKey"]
   };
 
-  if (
-    authorizationRule.rights.accessRights &&
-    !Array.isArray(authorizationRule.rights.accessRights)
-  ) {
-    authorizationRule.rights.accessRights = [authorizationRule.rights.accessRights];
+  if (authorizationRule.accessRights && !Array.isArray(authorizationRule.accessRights)) {
+    authorizationRule.accessRights = [authorizationRule.accessRights];
   }
   return authorizationRule;
 }
@@ -452,7 +447,7 @@ function buildRawAuthorizationRule(authorizationRule: AuthorizationRule): any {
     ClaimType: authorizationRule.claimType,
     ClaimValue: authorizationRule.claimValue,
     Rights: {
-      AccessRights: authorizationRule.rights.accessRights
+      AccessRights: authorizationRule.accessRights
     },
     KeyName: authorizationRule.keyName,
     PrimaryKey: authorizationRule.primaryKey,

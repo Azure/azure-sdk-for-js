@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { AvroReader } from "../../storage-internal-avro/src";
 import { BlobChangeFeedEvent } from "./models/BlobChangeFeedEvent";
 
