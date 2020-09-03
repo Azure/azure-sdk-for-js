@@ -536,6 +536,10 @@ describe("[AAD] TextAnalyticsClient", function() {
         assert.equal(result.entities.length, 1);
         assert.equal(result.entities[0].text, "333-333-3333");
         assert.equal(result.entities[0].category, "Phone Number");
+        assert.equal(
+          result.redactedText,
+          "I work at Microsoft and my phone number is ************"
+        );
       }
     });
   });
