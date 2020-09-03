@@ -8,7 +8,6 @@ import {
   SchemaRegisterResponse,
   SchemaQueryIdByContentResponse
 } from "./generated/models";
-import { HttpOperationResponse } from "@azure/core-http";
 
 /**
  * Union of generated client's responses that return schema content.
@@ -26,20 +25,12 @@ type GeneratedSchemaIdResponse = SchemaRegisterResponse | SchemaQueryIdByContent
 type GeneratedResponse = GeneratedSchemaResponse | GeneratedSchemaIdResponse;
 
 /**
- * Underlying HTTP response.
- */
-type Response = { _response: HttpOperationResponse };
-
-/**
  * Converts generated client's reponse to IdentifiedSchemaResponse.
  *
  * @internal
  */
-export function convertSchemaResponse(response: GeneratedSchemaResponse): Schema & Response {
-  return {
-    ...convertResponse(response),
-    content: response.body
-  };
+export function convertSchemaResponse(response: GeneratedSchemaResponse): Schema {
+  return convertResponse(response, { content: response.body });
 }
 
 /**
@@ -47,27 +38,24 @@ export function convertSchemaResponse(response: GeneratedSchemaResponse): Schema
  *
  * @internal
  */
-export function convertSchemaIdResponse(response: GeneratedSchemaIdResponse): SchemaId & Response {
-  return {
-    ...convertResponse(response),
-    // `!` here because server is required to return this on success, but that
-    // is not modeled by the generated client.
-    id: response.id!
-  };
+export function convertSchemaIdResponse(response: GeneratedSchemaIdResponse): SchemaId {
+  // `!` here because server is required to return this on success, but that
+  // is not modeled by the generated client.
+  return convertResponse(response, { id: response.id! });
 }
 
-/**
- * Converts common portion of all generated client responses.
- */
-function convertResponse(response: GeneratedResponse): SchemaId & Response {
-  return {
-    _response: response._response,
+function convertResponse<T>(response: GeneratedResponse, additionalProperties: T): SchemaId & T {
+  const converted = {
     // `!`s here because server is required to return these on success, but that
     // is not modeled by the generated client.
     location: response.location!,
     locationById: response.xSchemaIdLocation!,
     id: response.xSchemaId!,
     version: response.xSchemaVersion!,
-    serializationType: response.xSchemaType!
+    serializationType: response.xSchemaType!,
+    ...additionalProperties
   };
+
+  Object.defineProperty(converted, "_response", { value: response._response, enumerable: false });
+  return converted;
 }
