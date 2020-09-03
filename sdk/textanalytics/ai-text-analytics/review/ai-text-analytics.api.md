@@ -212,7 +212,10 @@ export interface RecognizeLinkedEntitiesSuccessResult extends TextAnalyticsSucce
 export type RecognizePiiEntitiesErrorResult = TextAnalyticsErrorResult;
 
 // @public
-export type RecognizePiiEntitiesOptions = TextAnalyticsOperationOptions;
+export interface RecognizePiiEntitiesOptions extends TextAnalyticsOperationOptions {
+    // Warning: (ae-forgotten-export) The symbol "PIIEntityDomainType" needs to be exported by the entry point index.d.ts
+    domainFilter?: PIIEntityDomainType;
+}
 
 // @public
 export type RecognizePiiEntitiesResult = RecognizePiiEntitiesSuccessResult | RecognizePiiEntitiesErrorResult;
