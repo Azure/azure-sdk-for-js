@@ -76,7 +76,7 @@ import {
   BLOCK_BLOB_MAX_BLOCKS,
   ETagAny
 } from "./utils/constants";
-import { BufferScheduler } from "./utils/BufferScheduler";
+import { BufferScheduler } from "../../storage-common/src";
 import { Batch } from "./utils/Batch";
 import { fsStat, fsCreateReadStream } from "./utils/utils.node";
 
@@ -1570,15 +1570,15 @@ export class DataLakeFileClient extends DataLakePathClient {
         stream,
         options.chunkSize,
         options.maxConcurrency,
-        async (buffer: Buffer, offset?: number) => {
-          await this.append(buffer, offset!, buffer.length, {
+        async (body, length, offset) => {
+          await this.append(body, offset!, length, {
             abortSignal: options.abortSignal,
             conditions: options.conditions,
             tracingOptions: { ...options!.tracingOptions, spanOptions }
           });
 
           // Update progress after block is successfully uploaded to server, in case of block trying
-          transferProgress += buffer.length;
+          transferProgress += length;
           if (options.onProgress) {
             options.onProgress({ loadedBytes: transferProgress });
           }

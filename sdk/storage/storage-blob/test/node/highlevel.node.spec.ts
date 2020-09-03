@@ -250,7 +250,7 @@ describe("Highlevel", () => {
     fs.unlinkSync(tempFile);
   }).timeout(timeoutForLargeFileUploadingTest);
 
-  it.only("uploadStream should success", async () => {
+  it("uploadStream should success", async () => {
     recorder.skip("node", "Temp file - recorder doesn't support saving the file");
     const rs = fs.createReadStream(tempFileLarge);
     await blockBlobClient.uploadStream(rs, 4 * 1024 * 1024, 20);
@@ -267,7 +267,7 @@ describe("Highlevel", () => {
     fs.unlinkSync(downloadFilePath);
   }).timeout(timeoutForLargeFileUploadingTest);
 
-  it.only("uploadStream should success for tiny buffers", async () => {
+  it("uploadStream should success for tiny buffers", async () => {
     recorder.skip("node", "Temp file - recorder doesn't support saving the file");
     const buf = Buffer.from([0x62, 0x75, 0x66, 0x66, 0x65, 0x72]);
     const bufferStream = new PassThrough();
@@ -285,7 +285,7 @@ describe("Highlevel", () => {
     fs.unlinkSync(downloadFilePath);
   });
 
-  it.only("uploadStream should work with tags", async function() {
+  it("uploadStream should work with tags", async function() {
     recorder.skip("node", "Temp file - recorder doesn't support saving the file");
 
     const buf = Buffer.from([0x62, 0x75, 0x66, 0x66, 0x65, 0x72]);
@@ -303,7 +303,7 @@ describe("Highlevel", () => {
     assert.deepStrictEqual(response.tags, tags);
   });
 
-  it.only("uploadStream should abort", async () => {
+  it("uploadStream should abort", async () => {
     recorder.skip("node", "Temp file - recorder doesn't support saving the file");
     const rs = fs.createReadStream(tempFileLarge);
     const aborter = AbortController.timeout(1);
@@ -318,7 +318,7 @@ describe("Highlevel", () => {
     }
   });
 
-  it.only("uploadStream should update progress event", async () => {
+  it("uploadStream should update progress event", async () => {
     recorder.skip("node", "Temp file - recorder doesn't support saving the file");
     const rs = fs.createReadStream(tempFileLarge);
     let eventTriggered = false;
@@ -332,7 +332,7 @@ describe("Highlevel", () => {
     assert.ok(eventTriggered);
   }).timeout(timeoutForLargeFileUploadingTest);
 
-  it.only("uploadStream should work with empty data", async () => {
+  it("uploadStream should work with empty data", async () => {
     const emptyReadable = new Readable();
     emptyReadable.push(null);
 
