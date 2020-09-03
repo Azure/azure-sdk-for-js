@@ -77,7 +77,6 @@ export = {
             const verNumber = ver[2];
             switch (verKeyword) {
               case "preview":
-              case "alpha":
               case "beta":
                 if (!/^\.(:?0|(?:[1-9]\d*))$/.test(verNumber)) {
                   context.report({
@@ -88,10 +87,11 @@ export = {
                 }
                 break;
               case "dev":
+              case "alpha":
                 if (!/^\.[2-9]\d\d\d[0-1]\d[0-3]\d\.(:?0|(?:[1-9]\d*))$/.test(verNumber)) {
                   context.report({
                     node: nodeValue,
-                    message: "dev format is not x.y.z-dev.<date>.i"
+                    message: `${verKeyword} format is not x.y.z-${verKeyword}.<date>.i`
                   });
                   return;
                 }

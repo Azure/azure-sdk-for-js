@@ -48,7 +48,8 @@ export function createConnectionContextForConnectionString(
   config.webSocketEndpointPath = "$servicebus/websocket";
   config.webSocketConstructorOptions = options?.webSocketOptions?.webSocketConstructorOptions;
 
-  const credential = new SharedKeyCredential(config.sharedAccessKeyName, config.sharedAccessKey);
+  const credential = SharedKeyCredential.fromConnectionString(connectionString);
+
   validate(config);
   return ConnectionContext.create(config, credential, options);
 }

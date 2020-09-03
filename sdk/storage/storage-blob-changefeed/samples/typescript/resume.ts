@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { BlobServiceClient, StorageSharedKeyCredential } from "@azure/storage-blob";
 import { BlobChangeFeedClient, BlobChangeFeedEvent } from "../../src";
 

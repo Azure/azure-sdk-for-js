@@ -437,8 +437,13 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
     if (this._context.tokenCredential instanceof SharedKeyCredential) {
       tokenObject = this._context.tokenCredential.getToken(this.audience);
       tokenType = TokenType.CbsTokenTypeSas;
-      // renew sas token in every 45 minutess
-      this._tokenTimeout = (3600 - 900) * 1000;
+
+      // expiresOnTimestamp can be 0 if the token is not meant to be renewed
+      // (ie, SharedAccessSignatureCredential)
+      if (tokenObject.expiresOnTimestamp > 0) {
+        // renew sas token in every 45 minutes
+        this._tokenTimeout = (3600 - 900) * 1000;
+      }
     } else {
       const aadToken = await this._context.tokenCredential.getToken(Constants.aadServiceBusScope);
       if (!aadToken) {

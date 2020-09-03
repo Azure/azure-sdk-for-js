@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { BlobServiceClient } from "@azure/storage-blob";
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { BlobChangeFeedEvent } from "./models/BlobChangeFeedEvent";
