@@ -7,8 +7,9 @@
  */
 
 export {
-  ApiError,
-  ApiErrorBase,
+  CloudError,
+  ErrorAdditionalInfo,
+  ErrorResponse,
   Operation,
   OperationDisplay,
   OperationList

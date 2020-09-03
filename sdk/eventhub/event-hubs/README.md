@@ -128,7 +128,8 @@ network connection issue.
 For example, if you need to know when there is a network issue right away you can lower the
 values for `maxRetries` and `retryDelayInMs`.
 
-After executing the `processError` function, the client invokes the user-provided `processClose` function.
+After executing the `processError` function, the client continues to receive events from the partition as long
+as the error was a retryable one. Otherwise, the client invokes the user-provided `processClose` function.
 This function is also invoked when either you stop the subscription or when the client stops reading
 events from the current partition due to it being picked up by another instance of your application
 as part of load balancing.

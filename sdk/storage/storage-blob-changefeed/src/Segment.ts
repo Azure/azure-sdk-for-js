@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { BlobChangeFeedEvent } from "./models/BlobChangeFeedEvent";
 import { Shard } from "./Shard";
 import { SegmentCursor, ShardCursor } from "./models/ChangeFeedCursor";

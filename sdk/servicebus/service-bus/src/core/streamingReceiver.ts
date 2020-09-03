@@ -121,38 +121,15 @@ export class StreamingReceiver extends MessageReceiver {
       const connectionId = this._context.connectionId;
       const receiverError = context.receiver && context.receiver.error;
       const receiver = this.link || context.receiver!;
-      if (receiverError) {
-        log.error(
-          "[%s] 'receiver_close' event occurred for receiver '%s' with address '%s'. " +
-            "The associated error is: %O",
-          connectionId,
-          this.name,
-          this.address,
-          receiverError
-        );
-      }
+
+      log.error(
+        `${this.logPrefix} 'receiver_close' event occurred. The associated error is: %O`,
+        receiverError
+      );
+
       this._clearAllMessageLockRenewTimers();
       if (receiver && !receiver.isItselfClosed()) {
-        if (!this.isConnecting) {
-          log.error(
-            "[%s] 'receiver_close' event occurred on the receiver '%s' with address '%s' " +
-              "and the sdk did not initiate this. The receiver is not reconnecting. Hence, calling " +
-              "detached from the _onAmqpClose() handler.",
-            connectionId,
-            this.name,
-            this.address
-          );
-          await this.onDetached(receiverError);
-        } else {
-          log.error(
-            "[%s] 'receiver_close' event occurred on the receiver '%s' with address '%s' " +
-              "and the sdk did not initate this. Moreover the receiver is already re-connecting. " +
-              "Hence not calling detached from the _onAmqpClose() handler.",
-            connectionId,
-            this.name,
-            this.address
-          );
-        }
+        await this.onDetached(receiverError);
       } else {
         log.error(
           "[%s] 'receiver_close' event occurred on the receiver '%s' with address '%s' " +
@@ -169,38 +146,15 @@ export class StreamingReceiver extends MessageReceiver {
       const connectionId = this._context.connectionId;
       const receiver = this.link || context.receiver!;
       const sessionError = context.session && context.session.error;
-      if (sessionError) {
-        log.error(
-          "[%s] 'session_close' event occurred for receiver '%s' with address '%s'. " +
-            "The associated error is: %O",
-          connectionId,
-          this.name,
-          this.address,
-          sessionError
-        );
-      }
+
+      log.error(
+        `${this.logPrefix} 'session_close' event occurred. The associated error is: %O`,
+        sessionError
+      );
+
       this._clearAllMessageLockRenewTimers();
       if (receiver && !receiver.isSessionItselfClosed()) {
-        if (!this.isConnecting) {
-          log.error(
-            "[%s] 'session_close' event occurred on the session of receiver '%s' with " +
-              "address '%s' and the sdk did not initiate this. Hence calling detached from the " +
-              "_onSessionClose() handler.",
-            connectionId,
-            this.name,
-            this.address
-          );
-          await this.onDetached(sessionError);
-        } else {
-          log.error(
-            "[%s] 'session_close' event occurred on the session of receiver '%s' with " +
-              "address '%s' and the sdk did not initiate this. Moreover the receiver is already " +
-              "re-connecting. Hence not calling detached from the _onSessionClose() handler.",
-            connectionId,
-            this.name,
-            this.address
-          );
-        }
+        await this.onDetached(sessionError);
       } else {
         log.error(
           "[%s] 'session_close' event occurred on the session of receiver '%s' with address " +
@@ -546,6 +500,8 @@ export class StreamingReceiver extends MessageReceiver {
    * @returns {Promise<void>} Promise<void>.
    */
   async onDetached(receiverError?: AmqpError | Error, causedByDisconnect?: boolean): Promise<void> {
+    log.error(`${this.logPrefix} Detaching.`);
+
     const connectionId = this._context.connectionId;
 
     // User explicitly called `close` on the receiver, so link is already closed

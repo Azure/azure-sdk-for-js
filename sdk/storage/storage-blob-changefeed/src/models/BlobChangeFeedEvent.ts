@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 // https://msazure.visualstudio.com/One/_git/Storage-XStore?path=%2Fsrc%2FXTable%2FNotifications%2Flib%2FBlobChangeEventv4.json&version=GBmaster
 
 export type BlobChangeFeedEventType =

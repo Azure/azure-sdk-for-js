@@ -13,7 +13,7 @@ import {
   getInitialHeader,
   mergeHeaders,
   PipelinedQueryExecutionContext,
-  SqlQuerySpec,
+  SqlQuerySpec
 } from "./queryExecutionContext";
 import { Response } from "./request";
 import { ErrorResponse, PartitionedQueryExecutionInfo } from "./request/ErrorResponse";

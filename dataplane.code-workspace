@@ -5,6 +5,10 @@
       "path": "sdk\\core\\abort-controller"
     },
     {
+      "name": "anomaly-detector",
+      "path": "sdk\\anomalydetector\\ai-anomaly-detector"
+    },
+    {
       "name": "app-configuration",
       "path": "sdk\\appconfiguration\\app-configuration"
     },
