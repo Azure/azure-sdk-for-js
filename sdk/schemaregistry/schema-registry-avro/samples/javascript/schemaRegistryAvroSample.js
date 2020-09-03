@@ -3,6 +3,7 @@
 
 const { DefaultAzureCredential } = require("@azure/identity");
 const { SchemaRegistryClient } = require("@azure/schema-registry");
+const { SchemaRegistryAvroSerializer } = require("@azure/schema-registry-avro");
 
 // Load the .env file if it exists
 const dotenv = require("dotenv");
@@ -13,7 +14,7 @@ const endpoint = process.env["SCHEMA_REGISTRY_ENDPOINT"] || "<endpoint>";
 const group = process.env["SCHEMA_REGISTRY_GROUP"] || "AzureSdkSampleGroup";
 
 // Sample Avro Schema for user with first and last names
-const schema = {
+const schemaObject = {
   type: "record",
   name: "User",
   namespace: "com.azure.schemaregistry.samples",
@@ -28,31 +29,38 @@ const schema = {
     }
   ]
 };
+const schema = JSON.stringify(schemaObject);
 
 // Description of the schema for registration
-const description = {
-  name: `${schema.namespace}.${schema.name}`,
+const schemaDescription = {
+  name: `${schemaObject.namespace}.${schemaObject.name}`,
   group,
   serializationType: "avro",
-  content: JSON.stringify(schema)
+  content: schema
 };
 
 async function main() {
   // Create a new client
   const client = new SchemaRegistryClient(endpoint, new DefaultAzureCredential());
 
-  // Register a schema and get back its ID.
-  const registered = await client.registerSchema(description);
-  console.log(`Registered schema with ID=${registered.id}`);
+  // Register the schema. This would generally have been done somewhere else.
+  // You can also skip this step and let serialize automatically register schemas
+  // using autoRegisterSchemas=true, but that is NOT recommended in production.
+  await client.registerSchema(schemaDescription);
 
-  // Get ID for exisiting schema by its description.
-  // Note that this would throw if it had not been previously registered.
-  const found = await client.getSchemaId(description);
-  console.log(`Got schema ID=${found.id}`);
+  // Create a new serializer backed by the client
+  const serializer = new SchemaRegistryAvroSerializer(client, group);
 
-  // Get content of existing schema by its ID
-  const foundSchema = await client.getSchemaById(registered.id);
-  console.log(`Got schema content=${foundSchema.content}`);
+  // serialize an object that matches the schema
+  const value = { firstName: "Jane", lastName: "Doe" };
+  const buffer = await serializer.serialize(value, schema);
+  console.log("Serialized:");
+  console.log(buffer);
+
+  // deserialize the result back to an object
+  const deserializedValue = await serializer.deserialize(buffer);
+  console.log("Deserialized:");
+  console.log(JSON.stringify(deserializedValue));
 }
 
 main().catch((err) => {

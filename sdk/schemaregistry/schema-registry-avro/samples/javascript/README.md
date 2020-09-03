@@ -6,17 +6,17 @@ languages:
   - javascript
 products:
   - azure
-  - azure-schema-registry
-urlFragment: schema-registry-javascript
+  - azure-schema-registry-avro
+urlFragment: schema-registry-avro-javascript
 --- -->
 
-# Azure Schema Registry client library samples for JavaScript
+# Azure Schema Registry Avro serializer library samples for JavaScript
 
-These sample programs show how to use the JavaScript client libraries for Azure Schema Registry in some common scenarios.
+These sample programs show how to use the JavaScript client libraries for Azure schema-registry in some common scenarios.
 
-| **File Name**                                   | **Description**        |
-| ----------------------------------------------- | ---------------------- |
-| [schemaRegistrySample.js][schemaregistrysample] | schema-registry sample |
+| **File Name**                                       | **Description**             |
+| --------------------------------------------------- | --------------------------- |
+| [schemaRegistryAvroSample.js][schemaregistrysample] | schema-registry-avro sample |
 
 ## Prerequisites
 
@@ -41,20 +41,20 @@ npm install
 3. Run whichever samples you like (note that some samples may require additional setup, see the table above):
 
 ```bash
-node schemaRegistrySample.js
+node schemaRegistryAvroSample.js
 ```
 
 Alternatively, run a single sample with the correct environment variables set (step 3 is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env ENDPOINT="<endpoint>" API_KEY="<api key>" node schemaRegistrySample.js
+npx cross-env ENDPOINT="<endpoint>" API_KEY="<api key>" node schemaRegistryAvroSample.js
 ```
 
 ## Next Steps
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[schemaregistrysample]: ./schemaRegistrySample.js
+[schemaregistrysample]: ./schemaRegistryAvroSample.js
 [apiref]: https://docs.microsoft.com/javascript/api
 [freesub]: https://azure.microsoft.com/free/
 [package]: ../../README.md

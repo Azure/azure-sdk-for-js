@@ -1,5 +1,5 @@
 {
-  "name": "azure-schema-registry-samples-ts",
+  "name": "azure-schema-registry-avro-samples-ts",
   "private": true,
   "version": "0.1.0",
   "description": "Azure schema-registry client library samples for TypeScript",
@@ -13,7 +13,7 @@
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Azure/azure-sdk-for-js.git",
-    "directory": "sdk/schema-registry/schema-registry"
+    "directory": "sdk/schema-registry/schema-registry-avro"
   },
   "keywords": [
     "Azure",
@@ -25,11 +25,12 @@
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/schema-registry/schema-registry",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/schema-registry/schema-registry-avro",
   "sideEffects": false,
   "dependencies": {
     "@azure/identity": "latest",
     "@azure/schema-registry": "latest",
+    "@azure/schema-registry-avro": "latest",
     "dotenv": "^8.2.0"
   },
   "devDependencies": {
