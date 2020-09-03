@@ -10,3 +10,5 @@ extends:
       AZURE_CLIENT_ID: $(aad-azure-sdk-test-client-id)
       AZURE_TENANT_ID: $(aad-azure-sdk-test-tenant-id)
       AZURE_CLIENT_SECRET: $(aad-azure-sdk-test-client-secret)
+      BLOB_STORAGE_URI: $(blob-storage-uri)
+      BLOB_STORAGE_SAS_TOKEN: $(blob-storage-sas-token)
