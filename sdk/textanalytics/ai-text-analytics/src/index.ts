@@ -12,7 +12,8 @@ export {
   ExtractKeyPhrasesOptions,
   RecognizePiiEntitiesOptions,
   RecognizeLinkedEntitiesOptions,
-  TextAnalyticsOperationOptions
+  TextAnalyticsOperationOptions,
+  PIIEntityDomainType
 } from "./textAnalyticsClient";
 export {
   DetectLanguageResult,

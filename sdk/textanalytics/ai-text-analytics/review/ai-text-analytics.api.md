@@ -169,6 +169,11 @@ export interface PiiEntity extends Entity {
 }
 
 // @public
+export enum PIIEntityDomainType {
+    PROTECTED_HEALTH_INFORMATION = "PHI"
+}
+
+// @public
 export type RecognizeCategorizedEntitiesErrorResult = TextAnalyticsErrorResult;
 
 // @public
@@ -213,7 +218,6 @@ export type RecognizePiiEntitiesErrorResult = TextAnalyticsErrorResult;
 
 // @public
 export interface RecognizePiiEntitiesOptions extends TextAnalyticsOperationOptions {
-    // Warning: (ae-forgotten-export) The symbol "PIIEntityDomainType" needs to be exported by the entry point index.d.ts
     domainFilter?: PIIEntityDomainType;
 }
 
