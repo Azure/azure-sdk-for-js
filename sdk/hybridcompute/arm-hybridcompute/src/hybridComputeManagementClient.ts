@@ -20,6 +20,10 @@ class HybridComputeManagementClient extends HybridComputeManagementClientContext
   machines: operations.Machines;
   machineExtensions: operations.MachineExtensions;
   operations: operations.Operations;
+  privateLinkScopes: operations.PrivateLinkScopes;
+  privateLinkResources: operations.PrivateLinkResources;
+  privateEndpointConnections: operations.PrivateEndpointConnections;
+  privateLinkScopedResources: operations.PrivateLinkScopedResources;
 
   /**
    * Initializes a new instance of the HybridComputeManagementClient class.
@@ -32,6 +36,10 @@ class HybridComputeManagementClient extends HybridComputeManagementClientContext
     this.machines = new operations.Machines(this);
     this.machineExtensions = new operations.MachineExtensions(this);
     this.operations = new operations.Operations(this);
+    this.privateLinkScopes = new operations.PrivateLinkScopes(this);
+    this.privateLinkResources = new operations.PrivateLinkResources(this);
+    this.privateEndpointConnections = new operations.PrivateEndpointConnections(this);
+    this.privateLinkScopedResources = new operations.PrivateLinkScopedResources(this);
   }
 }
 
