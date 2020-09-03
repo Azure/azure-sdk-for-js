@@ -20,6 +20,10 @@ Use the client library to:
 
 - Node.js version 8.x.x or higher
 - Browser JavaScript
+  - Apple Safari: latest two versions
+  - Google Chrome: latest two versions
+  - Microsoft Edge: all supported versions
+  - Mozilla FireFox: latest two versions
 
 ### Prerequisites
 
