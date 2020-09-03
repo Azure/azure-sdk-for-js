@@ -7,7 +7,7 @@ import { credentialLogger, formatSuccess } from "../util/logging";
 import { AuthenticationError, AuthenticationErrorName } from "../client/errors";
 import { CanonicalCode } from "@opentelemetry/api";
 
-import msal from "@azure/msal-node";
+import { PublicClientApplication, DeviceCodeRequest } from "@azure/msal-node";
 
 /**
  * Provides the user code and verification URI where the code must be
@@ -48,7 +48,7 @@ const logger = credentialLogger("DeviceCodeCredential");
  */
 export class DeviceCodeCredential implements TokenCredential {
   private identityClient: IdentityClient;
-  private pca: msal.PublicClientApplication;
+  private pca: PublicClientApplication;
   private tenantId: string;
   private clientId: string;
   private userPromptCallback: DeviceCodePromptCallback;
@@ -85,7 +85,7 @@ export class DeviceCodeCredential implements TokenCredential {
       },
     };
 
-    this.pca = new msal.PublicClientApplication(publicClientConfig);
+    this.pca = new PublicClientApplication(publicClientConfig);
   }
 
   /**
@@ -131,7 +131,7 @@ export class DeviceCodeCredential implements TokenCredential {
     }
   }
 
-  private async acquireTokenByDeviceCode(deviceCodeRequest: msal.DeviceCodeRequest): Promise<AccessToken | null> {
+  private async acquireTokenByDeviceCode(deviceCodeRequest: DeviceCodeRequest): Promise<AccessToken | null> {
     try {
       const deviceResponse = await this.pca.acquireTokenByDeviceCode(deviceCodeRequest);
       return({

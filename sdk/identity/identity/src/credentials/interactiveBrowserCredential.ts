@@ -13,7 +13,7 @@ import { Socket } from "net";
 const SERVER_PORT = process.env.PORT || 80;
 
 import express from "express";
-import msal from "@azure/msal-node";
+import {PublicClientApplication, TokenCache, AuthorizationCodeRequest} from "@azure/msal-node";
 import open from "open";
 import path from "path";
 import http from "http";
@@ -38,8 +38,8 @@ interface AuthenticationRecord {
  */
 export class InteractiveBrowserCredential implements TokenCredential {
   private identityClient: IdentityClient;
-  private pca: msal.PublicClientApplication;
-  private msalCacheManager: msal.TokenCache;
+  private pca: PublicClientApplication;
+  private msalCacheManager: TokenCache;
   private tenantId: string;
   private clientId: string;
   private persistenceEnabled: boolean;
@@ -84,7 +84,7 @@ export class InteractiveBrowserCredential implements TokenCredential {
       },
       cache: undefined
     };
-    this.pca = new msal.PublicClientApplication(publicClientConfig);
+    this.pca = new PublicClientApplication(publicClientConfig);
     this.msalCacheManager = this.pca.getTokenCache();
   }
 
@@ -137,7 +137,7 @@ export class InteractiveBrowserCredential implements TokenCredential {
       const app = express();
 
       app.get("/", async (req, res) => {
-        const tokenRequest: msal.AuthorizationCodeRequest = {
+        const tokenRequest: AuthorizationCodeRequest = {
           code: req.query.code as string,
           redirectUri: this.redirectUri,
           scopes: scopeArray
