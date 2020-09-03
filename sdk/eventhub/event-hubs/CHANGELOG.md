@@ -6,7 +6,9 @@
 
 - Adds `loadBalancingOptions` to the `EventHubConsumerClient` to add control around
   how aggressively the client claims partitions while load balancing.
-  ([PR 9706](https://github.com/Azure/azure-sdk-for-js/pull/9706))
+  ([PR 9706](https://github.com/Azure/azure-sdk-for-js/pull/9706)).
+- Support using the SharedAccessSignature from the connection string. 
+  ([PR 10951](https://github.com/Azure/azure-sdk-for-js/pull/10951)).
 
 ### Bug fixes:
 
