@@ -1,5 +1,8 @@
 # Release History
 
+## 1.1.8 (Unreleased)
+
+
 ## 1.1.7 (2020-09-02)
 
 - `BearerTokenAuthenticationPolicy` now starts trying to refresh the token 30 seconds before the token expires. It will only try to refresh said token on each request when refreshing is not in progress. In the mean time, requests will use the existing token. This fixes [issue 10084](https://github.com/Azure/azure-sdk-for-js/issues/10084).
