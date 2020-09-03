@@ -14,7 +14,7 @@
 
 #### API changes
 
-- `SessionReceiver.sessionLockedUntilUtc` is readonly and not undefined
+- `SessionReceiver.sessionLockedUntilUtc` is readonly and never undefined.
   [PR 10625](https://github.com/Azure/azure-sdk-for-js/pull/10625)
 - `ServiceBusClient.createDeadLetterReceiver()` has been absorbed into `createReceiver()`.
   To create a dead letter receiver:
