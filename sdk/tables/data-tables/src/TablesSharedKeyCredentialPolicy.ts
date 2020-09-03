@@ -9,6 +9,7 @@ import {
   HttpOperationResponse,
   WebResourceLike
 } from "@azure/core-http";
+import { logger } from './logger';
 import { TablesSharedKeyCredentialLike } from "./TablesSharedKeyCredential";
 import { HeaderConstants } from "./utils/constants";
 import { URL } from "./utils/url";
@@ -69,27 +70,24 @@ export class TablesSharedKeyCredentialPolicy extends BaseRequestPolicy {
 
     // If x-ms-date is present, use it otherwise date
     const dateHeader =
-      this.getHeaderValueToSign(request, `${HeaderConstants.X_MS_DATE}`) ||
-      this.getHeaderValueToSign(request, HeaderConstants.DATE);
-
+      this.getHeaderValueToSign(request, `${HeaderConstants.X_MS_DATE}`);
+      
     if (!dateHeader) {
       throw new Error("Failed to sign request: x-ms-date or date header must be present");
     }
 
     const stringToSign: string =
       [
-        request.method.toUpperCase(),
-        this.getHeaderValueToSign(request, HeaderConstants.CONTENT_MD5),
-        this.getHeaderValueToSign(request, HeaderConstants.CONTENT_TYPE),
-        dateHeader
-      ].join("\n") +
-      "\n" +
-      this.getCanonicalizedResourceString(request);
+        dateHeader,
+        this.getCanonicalizedResourceString(request)
+      ].join("\n");
+      
 
+      logger.info(JSON.stringify(stringToSign));
     const signature: string = this.credential.computeHMACSHA256(stringToSign);
     request.headers.set(
       HeaderConstants.AUTHORIZATION,
-      `SharedKey ${this.credential.accountName}:${signature}`
+      `SharedKeyLite ${this.credential.accountName}:${signature}`
     );
     return request;
   }
@@ -123,7 +121,7 @@ export class TablesSharedKeyCredentialPolicy extends BaseRequestPolicy {
     // https://docs.microsoft.com/en-us/rest/api/storageservices/authorize-with-shared-key#shared-key-lite-and-table-service-format-for-2009-09-19-and-later
     const url = new URL(request.url);
     const path = url.pathname || "/";
-    let canonicalizedResourceString = `/${this.credential.accountName}${path}`;
+    let canonicalizedResourceString = "/" + this.credential.accountName + path.replace(/'/g, "''");
 
     // The query string should include the question mark and the comp parameter (for example, ?comp=metadata). No other parameters should be included on the query string.
     const comp = url.searchParams.get("comp");
