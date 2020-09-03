@@ -4,7 +4,6 @@
 
 ```ts
 
-import { AmqpMessage } from '@azure/core-amqp';
 import { delay } from '@azure/core-amqp';
 import { Delivery } from 'rhea-promise';
 import { HttpOperationResponse } from '@azure/core-http';
@@ -228,7 +227,6 @@ export interface QueueRuntimePropertiesResponse extends QueueRuntimeProperties, 
 export interface ReceivedMessage extends ServiceBusMessage {
     // Warning: (ae-forgotten-export) The symbol "AmqpAnnotatedMessage" needs to be exported by the entry point index.d.ts
     readonly _amqpAnnotatedMessage: AmqpAnnotatedMessage;
-    readonly _amqpMessage: AmqpMessage;
     readonly deadLetterErrorDescription?: string;
     readonly deadLetterReason?: string;
     readonly deadLetterSource?: string;

@@ -489,11 +489,6 @@ export interface ReceivedMessage extends ServiceBusMessage {
    * @property {AmqpMessage} _amqpMessage The underlying raw amqp message.
    * @readonly
    */
-  readonly _amqpMessage: AmqpMessage;
-  /**
-   * @property {AmqpMessage} _amqpMessage The underlying raw amqp message.
-   * @readonly
-   */
   readonly _amqpAnnotatedMessage: AmqpAnnotatedMessage;
 }
 
@@ -711,7 +706,6 @@ export function fromAmqpMessage(
 
   const rcvdsbmsg: ReceivedMessage = {
     _amqpAnnotatedMessage: toAmqpAnnotatedMessage(msg),
-    _amqpMessage: msg,
     _delivery: delivery,
     deliveryCount: msg.delivery_count,
     lockToken:
@@ -941,11 +935,6 @@ export class ServiceBusMessageImpl implements ReceivedMessageWithLock {
    */
   readonly delivery: Delivery;
   /**
-   * @property {AmqpMessage} _amqpMessage The underlying raw amqp message.
-   * @readonly
-   */
-  readonly _amqpMessage: AmqpMessage;
-  /**
    * @property {AmqpMessage} _amqpAnnotatedMessage The underlying raw amqp annotated message.
    * @readonly
    */
@@ -988,7 +977,6 @@ export class ServiceBusMessageImpl implements ReceivedMessageWithLock {
     if (msg.body) {
       this.body = this._context.dataTransformer.decode(msg.body);
     }
-    this._amqpMessage = msg;
     this._amqpAnnotatedMessage = toAmqpAnnotatedMessage(msg);
     this.delivery = delivery;
   }
