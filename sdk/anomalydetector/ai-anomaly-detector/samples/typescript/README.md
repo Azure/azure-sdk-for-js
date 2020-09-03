@@ -14,9 +14,9 @@ These sample programs show how to use the TypeScript client libraries for Azure 
 
 | **File Name**                                                       | **Description**                                  |
 | ------------------------------------------------------------------- | ------------------------------------------------ |
-| [sample_detect_entire_series_anomaly.ts][detectentireseriesanomaly] | Detect anomaly for each point of the series      |
-| [sample_detect_last_point_anomaly.ts][detectlastpointanomaly]       | Detect anomaly for the last point of the series  |
-| [sample_detect_change_point.ts][detectchangepoint]                  | Detect change point for each point of the series |
+| [src/sample_detect_entire_series_anomaly.ts][detectentireseriesanomaly] | Detect anomaly for each point of the series      |
+| [src/sample_detect_last_point_anomaly.ts][detectlastpointanomaly]       | Detect anomaly for the last point of the series  |
+| [src/sample_detect_change_point.ts][detectchangepoint]                  | Detect change point for each point of the series |
 
 ## Prerequisites
 
@@ -56,9 +56,9 @@ npm run build
 node dist/sample_detect_entire_series_anomaly.js
 ```
 
-[detectentireseriesanomaly]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/anomalydetector/ai-anomaly-detector/samples/typescript/sample_detect_entire_series_anomaly.ts
-[detectlastpointanomaly]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/anomalydetector/ai-anomaly-detector/samples/typescript/sample_detect_last_point_anomaly.ts
-[detectchangepoint]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/anomalydetector/ai-anomaly-detector/samples/typescript/sample_detect_change_point.ts
+[detectentireseriesanomaly]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/anomalydetector/ai-anomaly-detector/samples/typescript/src/sample_detect_entire_series_anomaly.ts
+[detectlastpointanomaly]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/anomalydetector/ai-anomaly-detector/samples/typescript/src/sample_detect_last_point_anomaly.ts
+[detectchangepoint]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/anomalydetector/ai-anomaly-detector/samples/typescript/src/sample_detect_change_point.ts
 [azcogsvc]: https://docs.microsoft.com/azure/cognitive-services/cognitive-services-apis-create-account
 [freesub]: https://azure.microsoft.com/free/
 [package]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/anomalydetector/ai-anomaly-detector/README.md
