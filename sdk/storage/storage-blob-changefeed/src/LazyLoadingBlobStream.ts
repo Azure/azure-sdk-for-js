@@ -67,10 +67,6 @@ export class LazyLoadingBlobStream extends Readable {
 
   private _options?: LazyLoadingBlobStreamOptions;
 
-  // Deal with the _read() -> push() -> _read()... issue in Node 8.
-  // See https://github.com/nodejs/node/issues/3203.
-  private _inProgress: boolean = false;
-
   /**
    * Creates an instance of LazyLoadingBlobStream.
    *
@@ -137,10 +133,6 @@ export class LazyLoadingBlobStream extends Readable {
    * @memberof LazyLoadingBlobStream
    */
   public async _read(size?: number) {
-    if (this._inProgress) {
-      return;
-    }
-
     const { span, spanOptions } = createSpan(
       "LazyLoadingBlobStream-_read",
       this._options?.tracingOptions
@@ -150,10 +142,9 @@ export class LazyLoadingBlobStream extends Readable {
       if (!size) {
         size = this.readableHighWaterMark;
       }
-
       let count = 0;
       let chunkSize = 0;
-      let couldPushMore = false;
+      let chunksToPush = [];
       do {
         if (this._lastDownloadData === undefined || this._lastDownloadData?.byteLength === 0) {
           await this.downloadBlock({
@@ -163,7 +154,7 @@ export class LazyLoadingBlobStream extends Readable {
         }
         if (this._lastDownloadData?.byteLength) {
           chunkSize = Math.min(size - count, this._lastDownloadData?.byteLength);
-          couldPushMore = this.push(this._lastDownloadData.slice(0, chunkSize));
+          chunksToPush.push(this._lastDownloadData.slice(0, chunkSize));
           this._lastDownloadData = this._lastDownloadData.slice(chunkSize);
           count += chunkSize;
         } else {
@@ -171,13 +162,10 @@ export class LazyLoadingBlobStream extends Readable {
         }
       } while (chunkSize > 0 && count < size);
 
-      if (count < size) {
-        couldPushMore = this.push(null);
-      }
+      this.push(Buffer.concat(chunksToPush));
 
-      this._inProgress = false;
-      if (couldPushMore) {
-        this._read();
+      if (count < size) {
+        this.push(null);
       }
     } catch (e) {
       span.setStatus({
