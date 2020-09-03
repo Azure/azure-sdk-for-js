@@ -16,7 +16,7 @@ import {
   AnalyzeSentimentSuccessResult
 } from "../src/index";
 import { assertAllSuccess, isSuccess } from "./utils/resultHelper";
-import { PIIEntityDomainType } from '../src/textAnalyticsClient';
+import { PIIEntityDomainType } from "../src/textAnalyticsClient";
 
 const testDataEn = [
   "I had a wonderful trip to Seattle last week and even visited the Space Needle 2 times!",
@@ -523,7 +523,13 @@ describe("[AAD] TextAnalyticsClient", function() {
 
     it("accepts domain filter", async () => {
       const [result] = await client.recognizePiiEntities(
-        [{id: "0", text: "I work at Microsoft and my phone number is 333-333-3333", language: "en" }],
+        [
+          {
+            id: "0",
+            text: "I work at Microsoft and my phone number is 333-333-3333",
+            language: "en"
+          }
+        ],
         { domainFilter: PIIEntityDomainType.PROTECTED_HEALTH_INFORMATION }
       );
       if (!result.error) {
