@@ -23,12 +23,11 @@ function loadEnvironmentProxyValue(): string | undefined {
     return undefined;
   }
 
-  const httpsProxy =
-    getEnvironmentValue(Constants.HTTPS_PROXY) || getEnvironmentValue(Constants.ALL_PROXY);
-  const httpProxy =
-    getEnvironmentValue(Constants.HTTP_PROXY) || getEnvironmentValue(Constants.ALL_PROXY);
+  const httpsProxy = getEnvironmentValue(Constants.HTTPS_PROXY);
+  const allProxy = getEnvironmentValue(Constants.ALL_PROXY);
+  const httpProxy = getEnvironmentValue(Constants.HTTP_PROXY);
 
-  return httpsProxy || httpProxy;
+  return httpsProxy || allProxy || httpProxy;
 }
 
 // Check whether the given `uri` matches the noProxyList. If it matches, any request sent to that same `uri` won't set the proxy settings.
@@ -37,19 +36,19 @@ function isBypassed(uri: string) {
     return byPassedList.get(uri);
   }
   loadNoProxy();
-  let isBypassed: boolean = false;
+  let isBypassed = false;
   let host = URLBuilder.parse(uri).getHost()!;
   for (const proxyString of noProxyList) {
-    if (proxyString[0] == ".") {
+    if (proxyString[0] === ".") {
       if (uri.endsWith(proxyString)) {
         isBypassed = true;
       } else {
-        if (host == proxyString.slice(1) && host.length == proxyString.length - 1) {
+        if (host === proxyString.slice(1) && host.length === proxyString.length - 1) {
           isBypassed = true;
         }
       }
     } else {
-      if (host == proxyString) {
+      if (host === proxyString) {
         isBypassed = true;
       }
     }
@@ -63,7 +62,7 @@ function loadNoProxy() {
     return;
   }
   const noProxy = getEnvironmentValue(Constants.NO_PROXY);
-  if (noProxy != undefined) {
+  if (noProxy) {
     let list = noProxy.split(",");
     noProxyList = list.map((item) => item.trim()).filter((item) => item.length);
   }
@@ -136,7 +135,7 @@ export class ProxyPolicy extends BaseRequestPolicy {
   }
 
   public sendRequest(request: WebResourceLike): Promise<HttpOperationResponse> {
-    if (!isBypassed(request.url) && !request.proxySettings) {
+    if (!request.proxySettings && !isBypassed(request.url)) {
       request.proxySettings = this.proxySettings;
     }
     return this._nextPolicy.sendRequest(request);
