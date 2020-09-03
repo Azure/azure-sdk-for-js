@@ -553,9 +553,10 @@ describe("BlobClient Node.js only", () => {
         assert.deepStrictEqual(err.isFatal, true);
         assert.deepStrictEqual(err.name, "ParseError");
         assert.deepStrictEqual(err.position, 0);
-        assert.deepStrictEqual(
-          err.description,
-          "Unexpected token ',' at [byte: 3]. Expecting tokens '{', or '['."
+        assert.ok(
+          err.description.startsWith(
+            "Unexpected token ',' at [byte: 3]. Expecting tokens '{', or '['."
+          )
         );
         return;
       }
