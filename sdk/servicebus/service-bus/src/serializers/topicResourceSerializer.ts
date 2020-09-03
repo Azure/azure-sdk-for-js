@@ -84,7 +84,9 @@ export function buildTopic(rawTopic: any): TopicProperties {
     authorizationRules: getAuthorizationRulesOrUndefined(rawTopic[Constants.AUTHORIZATION_RULES]),
     userMetadata: rawTopic[Constants.USER_METADATA],
 
-    status: rawTopic[Constants.STATUS]
+    status: rawTopic[Constants.STATUS],
+
+    enableExpress: getBoolean(rawTopic[Constants.ENABLE_EXPRESS], "enableExpress")
   };
 }
 
@@ -289,6 +291,11 @@ export interface TopicProperties {
    * Specifies whether the topic should be partitioned
    */
   readonly enablePartitioning: boolean;
+
+  /**
+   * Specifies whether express entities are enabled on topic.
+   */
+  enableExpress: boolean;
 }
 
 /**
