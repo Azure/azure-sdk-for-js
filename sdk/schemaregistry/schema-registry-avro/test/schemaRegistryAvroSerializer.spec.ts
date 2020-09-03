@@ -44,23 +44,6 @@ const testValue = { name: "Nick", favoriteNumber: 42 };
 const testAvroType = avro.Type.forSchema(<any>testSchemaObject);
 
 describe("SchemaRegistryAvroSerializer", function() {
-  it("captures constructor args", () => {
-    const registry = createTestRegistry();
-    let serializer = new SchemaRegistryAvroSerializer(registry, "test");
-    assert.strictEqual(serializer.registry, registry);
-    assert.strictEqual(serializer.schemaGroup, "test");
-    assert.strictEqual(serializer.autoRegisterSchemas, false);
-
-    serializer = new SchemaRegistryAvroSerializer(registry, "g", {});
-    assert.strictEqual(serializer.autoRegisterSchemas, false);
-
-    serializer = new SchemaRegistryAvroSerializer(registry, "g", { autoRegisterSchemas: false });
-    assert.strictEqual(serializer.autoRegisterSchemas, false);
-
-    serializer = new SchemaRegistryAvroSerializer(registry, "g", { autoRegisterSchemas: true });
-    assert.strictEqual(serializer.autoRegisterSchemas, true);
-  });
-
   it("rejects buffers that are too small", async () => {
     await assert.isRejected(createTestSerializer().deserialize(Buffer.alloc(3)), /small/);
   });
@@ -77,8 +60,9 @@ describe("SchemaRegistryAvroSerializer", function() {
   });
 
   it("rejects a schema with different serialization type", async () => {
-    const serializer = createTestSerializer();
-    const schema = await serializer.registry.registerSchema({
+    const registry = createTestRegistry();
+    const serializer = createTestSerializer(false, registry);
+    const schema = await registry.registerSchema({
       name: "_",
       content: "_",
       serializationType: "NotAvro",
@@ -162,11 +146,12 @@ function assertSameJsonRepresentation(actual: any, expected: any) {
   assert.strictEqual(JSON.stringify(actual), JSON.stringify(expected));
 }
 
-function createTestSerializer(autoRegisterSchemas = true): SchemaRegistryAvroSerializer {
-  const client = createTestRegistry();
-
+function createTestSerializer(
+  autoRegisterSchemas = true,
+  registry = createTestRegistry()
+): SchemaRegistryAvroSerializer {
   if (!autoRegisterSchemas) {
-    client.registerSchema({
+    registry.registerSchema({
       name: `${testSchemaObject.namespace}.${testSchemaObject.name}`,
       group: "TestGroup",
       content: testSchema,
@@ -174,7 +159,7 @@ function createTestSerializer(autoRegisterSchemas = true): SchemaRegistryAvroSer
     });
   }
 
-  return new SchemaRegistryAvroSerializer(client, "TestGroup", { autoRegisterSchemas });
+  return new SchemaRegistryAvroSerializer(registry, "TestGroup", { autoRegisterSchemas });
 }
 
 function createTestRegistry(): SchemaRegistry {

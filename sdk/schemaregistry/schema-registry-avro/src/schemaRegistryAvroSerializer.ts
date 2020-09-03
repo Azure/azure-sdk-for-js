@@ -81,22 +81,9 @@ export class SchemaRegistryAvroSerializer {
     this.autoRegisterSchemas = options?.autoRegisterSchemas ?? false;
   }
 
-  /** The schema group to use when making requests to the registry*/
-  public readonly schemaGroup: string;
-
-  /**
-   * Schema Registry where schemas are registered and obtained.
-   * Usually this is a SchemaRegistryClient instance.
-   */
-  public readonly registry: SchemaRegistry;
-
-  /**
-   * When true, register new schemas passed to serialize. Otherwise, and by
-   * default, fail if schema has not already been registered.
-   *
-   * Automatic schema registration is NOT recommended for production scenarios.
-   */
-  public autoRegisterSchemas: boolean;
+  private readonly schemaGroup: string;
+  private readonly registry: SchemaRegistry;
+  private readonly autoRegisterSchemas: boolean;
 
   // REVIEW: signature.
   //
