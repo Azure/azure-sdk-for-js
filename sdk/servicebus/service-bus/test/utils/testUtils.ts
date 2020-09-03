@@ -25,7 +25,8 @@ export class TestMessage {
       properties: {
         propOne: 1,
         propTwo: "two",
-        propThree: true
+        propThree: true,
+        propFour: Date()
       }
     };
   }

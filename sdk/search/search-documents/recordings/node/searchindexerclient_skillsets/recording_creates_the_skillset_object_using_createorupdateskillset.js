@@ -1,13 +1,13 @@
 let nock = require('nock');
 
-module.exports.hash = "9e82b6322926fe82029effa87056763b";
+module.exports.hash = "38568a561a9367195ba6479a285309dc";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .put('/skillsets(%27my-azureblob-skillset-6%27)', {"name":"my-azureblob-skillset-6","description":"Skillset description","skills":[{"inputs":[{"name":"text","source":"/document/merged_content"},{"name":"languageCode","source":"/document/language"}],"outputs":[{"name":"persons","targetName":"people"},{"name":"organizations","targetName":"organizations"},{"name":"locations","targetName":"locations"}],"@odata.type":"#Microsoft.Skills.Text.EntityRecognitionSkill"}]})
+  .put('/skillsets(%27my-azureblob-skillset-3%27)', {"name":"my-azureblob-skillset-3","description":"Skillset description","skills":[{"inputs":[{"name":"text","source":"/document/merged_content"},{"name":"languageCode","source":"/document/language"}],"outputs":[{"name":"persons","targetName":"people"},{"name":"organizations","targetName":"organizations"},{"name":"locations","targetName":"locations"}],"@odata.type":"#Microsoft.Skills.Text.EntityRecognitionSkill"}]})
   .query(true)
-  .reply(201, {"@odata.context":"https://endpoint/$metadata#skillsets/$entity","@odata.etag":"\"0x8D83E8360992A15\"","name":"my-azureblob-skillset-6","description":"Skillset description","skills":[{"@odata.type":"#Microsoft.Skills.Text.EntityRecognitionSkill","name":null,"description":null,"context":null,"categories":[],"defaultLanguageCode":null,"minimumPrecision":null,"includeTypelessEntities":null,"inputs":[{"name":"text","source":"/document/merged_content","sourceContext":null,"inputs":[]},{"name":"languageCode","source":"/document/language","sourceContext":null,"inputs":[]}],"outputs":[{"name":"persons","targetName":"people"},{"name":"organizations","targetName":"organizations"},{"name":"locations","targetName":"locations"}]}],"cognitiveServices":null,"knowledgeStore":null,"encryptionKey":null}, [ 'Cache-Control',
+  .reply(201, {"@odata.context":"https://endpoint/$metadata#skillsets/$entity","@odata.etag":"\"0x8D8495D52FA5E66\"","name":"my-azureblob-skillset-3","description":"Skillset description","skills":[{"@odata.type":"#Microsoft.Skills.Text.EntityRecognitionSkill","name":null,"description":null,"context":null,"categories":[],"defaultLanguageCode":null,"minimumPrecision":null,"includeTypelessEntities":null,"inputs":[{"name":"text","source":"/document/merged_content","sourceContext":null,"inputs":[]},{"name":"languageCode","source":"/document/language","sourceContext":null,"inputs":[]}],"outputs":[{"name":"persons","targetName":"people"},{"name":"organizations","targetName":"organizations"},{"name":"locations","targetName":"locations"}]}],"cognitiveServices":null,"knowledgeStore":null,"encryptionKey":null}, [ 'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
@@ -16,13 +16,13 @@ nock('https://endpoint:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'ETag',
-  'W/"0x8D83E8360992A15"',
+  'W/"0x8D8495D52FA5E66"',
   'Location',
-  'https://endpoint/skillsets(\'my-azureblob-skillset-6\')?api-version=2020-06-30',
+  'https://endpoint/skillsets(\'my-azureblob-skillset-3\')?api-version=2020-06-30',
   'request-id',
-  'e012acfc-fc8b-40fb-b916-6a89ed9bea29',
+  '5679176f-bb7e-47f4-bf51-fc33c65581ec',
   'elapsed-time',
-  '85',
+  '83',
   'OData-Version',
   '4.0',
   'Preference-Applied',
@@ -30,14 +30,14 @@ nock('https://endpoint:443', {"encodedQueryParams":true})
   'Strict-Transport-Security',
   'max-age=15724800; includeSubDomains',
   'Date',
-  'Wed, 12 Aug 2020 05:48:44 GMT',
+  'Wed, 26 Aug 2020 01:14:04 GMT',
   'Content-Length',
   '822' ]);
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .get('/skillsets(%27my-azureblob-skillset-6%27)')
+  .get('/skillsets(%27my-azureblob-skillset-3%27)')
   .query(true)
-  .reply(200, ["1f8b0800000000000400edbd07601c499625262f6dca7b7f4af54ad7e074a10880601324d8904010ecc188cde692ec1d69472329ab2a81ca6556655d661640cced9dbcf7de7befbdf7de7befbdf7ba3b9d4e27f7dfff3f5c6664016cf6ce4adac99e2180aac81f3f7e7c1f3f227ef147bf6735cbda6c3cad966dfeaefde8d147f3b65d358feede6df3a66df2ac9ecea759933763f97d7c552c67d555335ee6eddddf6d91b7195efff1e66d51964dde36777fb77cd916edf5472303999a5c10d8dff7a39d77074f0fee9d1edcfb74e7e1c3bde3ddfbbfef47d46a992d72fa7a71bd9dfd605de793b29a6c1b68db9f528359de4ceb62d516d592dabdd6af52ffe3d147f2c6478fbe6707d45eaf00f7c7bf28a675d554e7ed585e1dbfa1618e4f19c957f9b4ba581680c15f122045e7c777e977bf8b47cb75598e3e7264ba3baba6eb050d961a4eb336bfa8ea2207061fbdcceb86de187df413eb8cbba15fbfac2fb265f1838c618d3efaead573faf7749115e8f3794500e48ba704e94d41287c1fdd9f67ebb27d9e2d2fd6d9457e52cd80598e668b62592cd68b97753e2d1abca9e815cb69b99ee56f68ec65de343c4ac6ca7cbd5ab7f4175149c7c98321f255eb7a8abfeda8ee2ef2fa229ffdfe3c601ea4b439c1dff44e17e2f77fc9c8022d7d8ccd8bf4b9036e5ad86f87c11221aa75ab7fda2e564ce386de6f33c2b37d613eae5665fe91874be511bed73cfcd27babd419e9bde1bef8258c9af2cf65fe3aaf2f8ba923f5db657555e6b38bfc755bd5f4a67c9a2fa7f53533d4ef955fcb87bfe4ff013b872a8d83030000"], [ 'Cache-Control',
+  .reply(200, ["1f8b0800000000000400edbd07601c499625262f6dca7b7f4af54ad7e074a10880601324d8904010ecc188cde692ec1d69472329ab2a81ca6556655d661640cced9dbcf7de7befbdf7de7befbdf7ba3b9d4e27f7dfff3f5c6664016cf6ce4adac99e2180aac81f3f7e7c1f3f227ef147bf6735cbda6c3cad966dfeaefde8d147f3b65d358feede6df3a66df2ac9ecea759933763f97d7c552c67d555335ee6eddddf6d91b7195efff1e66d51964dde36777fb77cd916edf5472303999a5c10d8dff7a39d77074f0ff61fde7f7a7fefd9f1fdd34f3ffd7d3fa256cb6c91d3d78bebedec07eb3a9f94d564db40dbbe470d667933ad8b555b544b6af75abf4afd8f471fc91b1f3dfa9e1d507bbd02dc1fffa298d655539db7637975fc8686393e65245fe5d3ea625900067f4980149d1fdfa5dffd2e1e2dd76539fac891e9eeac9aae1734586a38cddafca2aa8b1c187cf432af1b7a63f4d14fac33ee867efdb2bec896c50f328635fae8ab57cfe9dfd34556a0cfe71501902f9e12a43705a1f07d747f9eadcbf679b6bc586717f949350366399a2d8a65b1582f5ed6f9b468f0a6a2572ca7e57a96bfa1b19779d3f028192bf3f56addd25f44251d270f86c857adeb29feb6a3babbc8eb8b7cf6fbf3807990d2e6047fd33b5d88dfff25230bb4f431362fd2e70eb86961bf1d064b84a8d6adfe69bb58318d1b7abfcd08cff685f9b85a95f9471e2e9547f85ef3f04befad5267a4f786fbe297306aca3f97f9ebbcbe2ca68ed46f97d55599cf2ef2d76d55d39bf269be9cd6d7cc50bf577e2d1ffe92ff078172a38683030000"], [ 'Cache-Control',
   'no-cache',
   'Pragma',
   'no-cache',
@@ -48,13 +48,13 @@ nock('https://endpoint:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'ETag',
-  'W/"0x8D83E8360992A15"',
+  'W/"0x8D8495D52FA5E66"',
   'Vary',
   'Accept-Encoding',
   'request-id',
-  'ae410f73-68f2-43fb-a3a6-f4e66b9085e2',
+  '180791ee-fd1b-4086-900b-f37c7260baca',
   'elapsed-time',
-  '54',
+  '56',
   'OData-Version',
   '4.0',
   'Preference-Applied',
@@ -62,12 +62,12 @@ nock('https://endpoint:443', {"encodedQueryParams":true})
   'Strict-Transport-Security',
   'max-age=15724800; includeSubDomains',
   'Date',
-  'Wed, 12 Aug 2020 05:48:44 GMT',
+  'Wed, 26 Aug 2020 01:14:04 GMT',
   'Content-Length',
   '587' ]);
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .delete('/skillsets(%27my-azureblob-skillset-6%27)')
+  .delete('/skillsets(%27my-azureblob-skillset-3%27)')
   .query(true)
   .reply(204, "", [ 'Cache-Control',
   'no-cache',
@@ -76,10 +76,10 @@ nock('https://endpoint:443', {"encodedQueryParams":true})
   'Expires',
   '-1',
   'request-id',
-  '47708273-9b63-4b57-999d-dd6a48cfb504',
+  '1dac2011-fc7c-4c10-a6a6-4f19eb03e94a',
   'elapsed-time',
-  '39',
+  '49',
   'Strict-Transport-Security',
   'max-age=15724800; includeSubDomains',
   'Date',
-  'Wed, 12 Aug 2020 05:48:44 GMT' ]);
+  'Wed, 26 Aug 2020 01:14:04 GMT' ]);

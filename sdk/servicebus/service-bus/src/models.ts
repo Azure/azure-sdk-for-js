@@ -41,6 +41,13 @@ export interface InternalMessageHandlers<ReceivedMessageT>
 export type ReceiveMode = "peekLock" | "receiveAndDelete";
 
 /**
+ * Represents the sub queue that is applicable for any queue or subscription.
+ * Valid values are "deadLetter" and "transferDeadLetter". To learn more about dead letter queues,
+ * see https://docs.microsoft.com/azure/service-bus-messaging/service-bus-dead-letter-queues
+ */
+export type SubQueue = "deadLetter" | "transferDeadLetter";
+
+/**
  *
  *
  * @interface CreateReceiverOptions
@@ -67,6 +74,12 @@ export interface CreateReceiverOptions<ReceiveModeT extends ReceiveMode> {
    *
    */
   receiveMode?: ReceiveModeT;
+  /**
+   * Represents the sub queue that is applicable for any queue or subscription.
+   * Valid values are "deadLetter" and "transferDeadLetter". To learn more about dead letter queues,
+   * see https://docs.microsoft.com/azure/service-bus-messaging/service-bus-dead-letter-queues
+   */
+  subQueue?: SubQueue;
 }
 
 /**
@@ -157,13 +170,31 @@ export interface MessageHandlerOptions extends MessageHandlerOptionsBase {
  *
  * @export
  * @interface CreateSessionReceiverOptions
- * @extends {CreateReceiverOptions<ReceiveModeT>}
  * @extends {OperationOptionsBase}
  * @template ReceiveModeT
  */
 export interface CreateSessionReceiverOptions<ReceiveModeT extends ReceiveMode>
-  extends CreateReceiverOptions<ReceiveModeT>,
-    OperationOptionsBase {
+  extends OperationOptionsBase {
+  /**
+   * Represents the receive mode for the receiver.
+   *
+   * In receiveAndDelete mode, messages are deleted from Service Bus as they are received.
+   *
+   * In peekLock mode, the receiver has a lock on the message for the duration specified on the
+   * queue/subscription.
+   *
+   * Messages that are not settled within the lock duration will be redelivered as many times as
+   * the max delivery count set on the queue/subscription, after which they get sent to a separate
+   * dead letter queue.
+   *
+   * You can settle a message by calling complete(), abandon(), defer() or deadletter() methods on
+   * the message.
+   *
+   * More information about how peekLock and message settlement works here:
+   * https://docs.microsoft.com/azure/service-bus-messaging/message-transfers-locks-settlement#peeklock
+   *
+   */
+  receiveMode?: ReceiveModeT;
   /**
    * @property The id of the session from which messages need to be received. If null or undefined is
    * provided, Service Bus chooses a random session from available sessions.

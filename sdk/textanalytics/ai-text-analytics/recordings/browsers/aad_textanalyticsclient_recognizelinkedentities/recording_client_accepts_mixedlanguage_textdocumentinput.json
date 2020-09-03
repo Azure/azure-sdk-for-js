@@ -8,36 +8,38 @@
    "status": 200,
    "response": "{\"token_type\":\"Bearer\",\"expires_in\":3599,\"ext_expires_in\":3599,\"access_token\":\"access_token\"}",
    "responseHeaders": {
-    "cache-control": "no-cache, no-store",
-    "content-length": "1500",
+    "cache-control": "no-store, no-cache",
+    "content-length": "1329",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 14 Aug 2020 17:50:13 GMT",
+    "date": "Wed, 02 Sep 2020 23:54:13 GMT",
     "expires": "-1",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
     "referrer-policy": "strict-origin-when-cross-origin",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.10946.15 - EUS ProdSlices",
-    "x-ms-request-id": "6ded15d0-3d8c-495f-b55c-d8853df62900"
+    "x-ms-ests-server": "2.1.10985.18 - CHI ProdSlices",
+    "x-ms-request-id": "fbcddf8b-477e-4756-983f-124a158b3c00"
    }
   },
   {
    "method": "POST",
    "url": "https://endpoint/text/analytics/v3.1-preview.1/entities/linking",
-   "query": {},
+   "query": {
+    "stringIndexType": "Utf16CodeUnit"
+   },
    "requestBody": "{\"documents\":[{\"id\":\"1\",\"text\":\"I had a wonderful trip to Seattle last week and even visited the Space Needle 2 times!\",\"language\":\"en\"},{\"id\":\"2\",\"text\":\"Unfortunately, it rained during my entire trip to Seattle. I didn't even get to visit the Space Needle\",\"language\":\"en\"},{\"id\":\"3\",\"text\":\"I went to see a movie on Saturday and it was perfectly average, nothing more or less than I expected.\",\"language\":\"en\"},{\"id\":\"4\",\"text\":\"Los caminos que llevan hasta Monte Rainier son espectaculares y hermosos.\",\"language\":\"es\"},{\"id\":\"5\",\"text\":\"La carretera estaba atascada. Había mucho tráfico el día de ayer.\",\"language\":\"es\"}]}",
    "status": 200,
    "response": "{\"documents\":[{\"id\":\"1\",\"entities\":[{\"name\":\"Space Needle\",\"matches\":[{\"text\":\"Space Needle\",\"offset\":65,\"length\":12,\"confidenceScore\":0.42}],\"language\":\"en\",\"id\":\"Space Needle\",\"url\":\"https://en.wikipedia.org/wiki/Space_Needle\",\"dataSource\":\"Wikipedia\"},{\"name\":\"Seattle\",\"matches\":[{\"text\":\"Seattle\",\"offset\":26,\"length\":7,\"confidenceScore\":0.21}],\"language\":\"en\",\"id\":\"Seattle\",\"url\":\"https://en.wikipedia.org/wiki/Seattle\",\"dataSource\":\"Wikipedia\"}],\"warnings\":[]},{\"id\":\"2\",\"entities\":[{\"name\":\"Space Needle\",\"matches\":[{\"text\":\"Space Needle\",\"offset\":90,\"length\":12,\"confidenceScore\":0.36}],\"language\":\"en\",\"id\":\"Space Needle\",\"url\":\"https://en.wikipedia.org/wiki/Space_Needle\",\"dataSource\":\"Wikipedia\"},{\"name\":\"Seattle\",\"matches\":[{\"text\":\"Seattle\",\"offset\":50,\"length\":7,\"confidenceScore\":0.2}],\"language\":\"en\",\"id\":\"Seattle\",\"url\":\"https://en.wikipedia.org/wiki/Seattle\",\"dataSource\":\"Wikipedia\"}],\"warnings\":[]},{\"id\":\"3\",\"entities\":[{\"name\":\"Saturday\",\"matches\":[{\"text\":\"Saturday\",\"offset\":25,\"length\":8,\"confidenceScore\":0.05}],\"language\":\"en\",\"id\":\"Saturday\",\"url\":\"https://en.wikipedia.org/wiki/Saturday\",\"dataSource\":\"Wikipedia\"}],\"warnings\":[]},{\"id\":\"4\",\"entities\":[{\"name\":\"Monte Rainier\",\"matches\":[{\"text\":\"Monte Rainier\",\"offset\":29,\"length\":13,\"confidenceScore\":0.81}],\"language\":\"es\",\"id\":\"Monte Rainier\",\"url\":\"https://es.wikipedia.org/wiki/Monte_Rainier\",\"dataSource\":\"Wikipedia\"}],\"warnings\":[]},{\"id\":\"5\",\"entities\":[],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-02-01\"}",
    "responseHeaders": {
-    "apim-request-id": "12fc3f52-41d4-41bf-81e1-542e06471010",
+    "apim-request-id": "18acb669-5659-4812-8c84-c0ef7ab47561",
     "content-type": "application/json; charset=utf-8",
     "csp-billing-usage": "CognitiveServices.TextAnalytics.BatchScoring=5",
-    "date": "Fri, 14 Aug 2020 17:50:14 GMT",
+    "date": "Wed, 02 Sep 2020 23:54:13 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "905"
+    "x-envoy-upstream-service-time": "28"
    }
   }
  ],

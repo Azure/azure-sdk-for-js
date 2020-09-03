@@ -76,7 +76,7 @@ brings this package in line with the [Azure SDK Design Guidelines for Typescript
 - `createSessionReceiver()` is now an async method.
   - The promise returned by this method is resolved when a receiver link has been initialized with a session in the service.
   - Prior to v7 `createSessionReceiver()` worked using lazy-initialization, where the
-    receiver link to the session was only initialized when the async methods on the `SessionReceiver`
+    receiver link to the session was only initialized when the async methods on the `ServiceBusSessionReceiver`
     were first called.
 
 ### Receiving messages
@@ -87,7 +87,7 @@ brings this package in line with the [Azure SDK Design Guidelines for Typescript
 - `receiveBatch()` method is renamed to `receiveMessages()` to be consistent in usage of the `Messages` suffix in other methods
   on the receiver and the sender.
 
-- `registerMessageHandler` on `Receiver` has been renamed to `subscribe` and takes different arguments.
+- `registerMessageHandler` on `Receiver` has been renamed to `subscribe`(on `ServiceBusReceiver` and `ServiceBusSessionReceiver`) and takes different arguments.
 
   In V1:
 

@@ -1,8 +1,5 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
-
-import { Readable } from "stream";
-
 import { AbortSignalLike } from "@azure/abort-controller";
 import {
   generateUuid,
@@ -13,22 +10,18 @@ import {
   isTokenCredential,
   TokenCredential,
   TransferProgressEvent,
-  URLBuilder
+  URLBuilder,
 } from "@azure/core-http";
 import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { CanonicalCode } from "@opentelemetry/api";
+import { Readable } from "stream";
 
 import { BlobDownloadResponse } from "./BlobDownloadResponse";
 import { BlobQueryResponse } from "./BlobQueryResponse";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
-import {
-  AppendBlob,
-  Blob as StorageBlob,
-  BlockBlob,
-  Container,
-  PageBlob
-} from "./generated/src/operations";
+import { AppendBlob, Blob as StorageBlob, BlockBlob, Container, PageBlob } from "./generated/src/operations";
 import { StorageClientContext } from "./generated/src/storageClient";
 import {
   AppendBlobAppendBlockFromUrlResponse,
@@ -39,14 +32,18 @@ import {
   BlobCreateSnapshotResponse,
   BlobDeleteResponse,
   BlobDownloadOptionalParams,
+  BlobDownloadResponseModel,
   BlobGetPropertiesResponseModel,
+  BlobGetTagsHeaders,
   BlobHTTPHeaders,
   BlobPrefix,
+  BlobProperties,
   BlobSetHTTPHeadersResponse,
   BlobSetMetadataResponse,
   BlobSetTagsResponse,
   BlobSetTierResponse,
   BlobStartCopyFromURLResponse,
+  BlobTags,
   BlobUndeleteResponse,
   BlockBlobCommitBlockListResponse,
   BlockBlobGetBlockListResponse,
@@ -61,11 +58,15 @@ import {
   ContainerEncryptionScope,
   ContainerGetAccessPolicyHeaders,
   ContainerGetPropertiesResponse,
+  ContainerListBlobFlatSegmentHeaders,
+  ContainerListBlobHierarchySegmentHeaders,
   ContainerSetAccessPolicyResponse,
   ContainerSetMetadataResponse,
   CpkInfo,
   DeleteSnapshotsOptionType,
   LeaseAccessConditions,
+  ListBlobsFlatSegmentResponseModel,
+  ListBlobsHierarchySegmentResponseModel,
   ListBlobsIncludeItem,
   ModifiedAccessConditions,
   PageBlobClearPagesResponse,
@@ -79,75 +80,62 @@ import {
   RehydratePriority,
   SequenceNumberActionType,
   SignedIdentifierModel,
-  BlobGetTagsHeaders,
-  BlobTags,
-  ListBlobsFlatSegmentResponseModel,
-  ContainerListBlobFlatSegmentHeaders,
-  BlobProperties,
-  ContainerListBlobHierarchySegmentHeaders,
-  ListBlobsHierarchySegmentResponseModel,
-  BlobDownloadResponseModel
 } from "./generatedModels";
 import {
   AppendBlobRequestConditions,
+  BlobDownloadResponseParsed,
   BlobRequestConditions,
   BlockBlobTier,
   ensureCpkIfSpecified,
   Metadata,
-  Tags,
+  ObjectReplicationPolicy,
   PageBlobRequestConditions,
   PremiumPageBlobTier,
-  toAccessTier,
-  ObjectReplicationPolicy,
-  BlobDownloadResponseParsed
+  Tags,
+  toAccessTier
 } from "./models";
-import { newPipeline, StoragePipelineOptions, Pipeline } from "./Pipeline";
 import {
-  DEFAULT_MAX_DOWNLOAD_RETRY_REQUESTS,
-  URLConstants,
-  DEFAULT_BLOB_DOWNLOAD_BLOCK_BYTES,
-  DEFAULT_BLOCK_BUFFER_SIZE_BYTES,
+  PageBlobGetPageRangesDiffResponse,
+  PageBlobGetPageRangesResponse,
+  rangeResponseFromModel,
+} from "./PageBlobRangeResponse";
+import { newPipeline, Pipeline, StoragePipelineOptions } from "./Pipeline";
+import {
+  BlobBeginCopyFromUrlPoller,
+  BlobBeginCopyFromUrlPollState,
+  CopyPollerBlobClient,
+} from "./pollers/BlobStartCopyFromUrlPoller";
+import { Range, rangeToString } from "./Range";
+import { CommonOptions, StorageClient } from "./StorageClient";
+import { Batch } from "./utils/Batch";
+import { BufferScheduler } from "./utils/BufferScheduler";
+import {
+  BLOCK_BLOB_MAX_BLOCKS,
   BLOCK_BLOB_MAX_STAGE_BLOCK_BYTES,
   BLOCK_BLOB_MAX_UPLOAD_BLOB_BYTES,
-  BLOCK_BLOB_MAX_BLOCKS,
+  DEFAULT_BLOB_DOWNLOAD_BLOCK_BYTES,
+  DEFAULT_BLOCK_BUFFER_SIZE_BYTES,
+  DEFAULT_MAX_DOWNLOAD_RETRY_REQUESTS,
   ETagAny,
-  ETagNone
+  ETagNone,
+  URLConstants,
 } from "./utils/constants";
+import { createSpan } from "./utils/tracing";
 import {
   appendToURLPath,
   extractConnectionStringParts,
   generateBlockID,
   isIpEndpointStyle,
+  parseObjectReplicationRecord,
   setURLParameter,
+  toBlobTags,
   toBlobTagsString,
   toQuerySerialization,
-  truncatedISO8061Date,
-  toBlobTags,
   toTags,
-  parseObjectReplicationRecord
+  truncatedISO8061Date,
 } from "./utils/utils.common";
-import {
-  fsStat,
-  readStreamToLocalFile,
-  streamToBuffer,
-  fsCreateReadStream
-} from "./utils/utils.node";
-import { Batch } from "./utils/Batch";
-import { createSpan } from "./utils/tracing";
-import { CommonOptions, StorageClient } from "./StorageClient";
-import { Range, rangeToString } from "./Range";
-import { BufferScheduler } from "./utils/BufferScheduler";
-import {
-  PageBlobGetPageRangesDiffResponse,
-  PageBlobGetPageRangesResponse,
-  rangeResponseFromModel
-} from "./PageBlobRangeResponse";
-import {
-  BlobBeginCopyFromUrlPoller,
-  BlobBeginCopyFromUrlPollState,
-  CopyPollerBlobClient
-} from "./pollers/BlobStartCopyFromUrlPoller";
-import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
+import { fsCreateReadStream, fsStat, readStreamToLocalFile, streamToBuffer } from "./utils/utils.node";
+
 
 /**
  * Options to configure the {@link BlobClient.beginCopyFromURL} operation.
@@ -758,6 +746,13 @@ export interface BlobStartCopyFromURLOptions extends CommonOptions {
    * @memberof BlobStartCopyFromURLOptions
    */
   tags?: Tags;
+  /**
+   * Overrides the sealed state of the destination blob. Default true.
+   *
+   * @type {boolean}
+   * @memberof BlobStartCopyFromURLOptions
+   */
+  sealBlob?: boolean;
 }
 
 /**
@@ -2312,6 +2307,7 @@ export class BlobClient extends StorageClient {
         rehydratePriority: options.rehydratePriority,
         tier: toAccessTier(options.tier),
         blobTagsString: toBlobTagsString(options.tags),
+        sealBlob: options.sealBlob,
         spanOptions
       });
     } catch (e) {
@@ -2435,6 +2431,31 @@ export interface AppendBlobCreateIfNotExistsOptions extends CommonOptions {
    * @memberof AppendBlobCreateIfNotExistsOptions
    */
   encryptionScope?: string;
+}
+
+/**
+ * Options to configure {@link AppendBlobClient.seal} operation. 
+ *
+ * @export
+ * @interface AppendBlobSealOptions
+ * @extends {CommonOptions}
+ */
+export interface AppendBlobSealOptions extends CommonOptions {
+  /**
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
+   *
+   * @type {AbortSignalLike}
+   * @memberof AppendBlobAppendBlockOptions
+   */
+  abortSignal?: AbortSignalLike;
+  /**
+   * Conditions to meet.
+   *
+   * @type {AppendBlobRequestConditions}
+   * @memberof AppendBlobAppendBlockOptions
+   */
+  conditions?: AppendBlobRequestConditions;
 }
 
 /**
@@ -2859,6 +2880,41 @@ export class AppendBlobClient extends BlobClient {
         };
       }
 
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Seals the append blob, making it read only.
+   *
+   * @param {AppendBlobSealOptions} [options={}]
+   * @returns {Promise<AppendBlobAppendBlockResponse>}
+   * @memberof AppendBlobClient
+   */
+  public async seal(
+    options: AppendBlobSealOptions = {}
+  ): Promise<AppendBlobAppendBlockResponse> {
+    const { span, spanOptions } = createSpan(
+      "AppendBlobClient-seal",
+      options.tracingOptions
+    );
+    options.conditions = options.conditions || {};
+    try {
+
+      return await this.appendBlobContext.seal({
+        abortSignal: options.abortSignal,
+        appendPositionAccessConditions: options.conditions,
+        leaseAccessConditions: options.conditions,
+        modifiedAccessConditions: options.conditions,
+        spanOptions
+      });
+    } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
         message: e.message
@@ -4432,19 +4488,19 @@ export class BlockBlobClient extends BlobClient {
         stream,
         bufferSize,
         maxConcurrency,
-        async (buffer: Buffer) => {
+        async (body, length) => {
           const blockID = generateBlockID(blockIDPrefix, blockNum);
           blockList.push(blockID);
           blockNum++;
 
-          await this.stageBlock(blockID, buffer, buffer.length, {
+          await this.stageBlock(blockID, body, length, {
             conditions: options.conditions,
             encryptionScope: options.encryptionScope,
             tracingOptions: { ...options!.tracingOptions, spanOptions }
           });
 
           // Update progress after block is successfully uploaded to server, in case of block trying
-          transferProgress += buffer.length;
+          transferProgress += length;
           if (options.onProgress) {
             options.onProgress({ loadedBytes: transferProgress });
           }
@@ -7901,6 +7957,10 @@ export class ContainerClient extends StorageClient {
     ({ kind: "prefix" } & BlobPrefix) | ({ kind: "blob" } & BlobItem),
     ContainerListBlobHierarchySegmentResponse
   > {
+    if (delimiter === "") {
+      throw new RangeError("delimiter should contain one or more characters");
+    }
+
     const include: ListBlobsIncludeItem[] = [];
     if (options.includeCopy) {
       include.push("copy");

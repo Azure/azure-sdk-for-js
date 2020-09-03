@@ -183,6 +183,7 @@ export class AppendBlobClient extends BlobClient {
     appendBlockFromURL(sourceURL: string, sourceOffset: number, count: number, options?: AppendBlobAppendBlockFromURLOptions): Promise<AppendBlobAppendBlockFromUrlResponse>;
     create(options?: AppendBlobCreateOptions): Promise<AppendBlobCreateResponse>;
     createIfNotExists(options?: AppendBlobCreateIfNotExistsOptions): Promise<AppendBlobCreateIfNotExistsResponse>;
+    seal(options?: AppendBlobSealOptions): Promise<AppendBlobAppendBlockResponse>;
     withSnapshot(snapshot: string): AppendBlobClient;
 }
 
@@ -237,6 +238,12 @@ export type AppendBlobCreateResponse = AppendBlobCreateHeaders & {
 
 // @public
 export interface AppendBlobRequestConditions extends BlobRequestConditions, AppendPositionAccessConditions {
+}
+
+// @public
+export interface AppendBlobSealOptions extends CommonOptions {
+    abortSignal?: AbortSignalLike;
+    conditions?: AppendBlobRequestConditions;
 }
 
 // @public
@@ -1167,6 +1174,7 @@ export interface BlobStartCopyFromURLOptions extends CommonOptions {
     conditions?: BlobRequestConditions;
     metadata?: Metadata;
     rehydratePriority?: RehydratePriority;
+    sealBlob?: boolean;
     sourceConditions?: ModifiedAccessConditions;
     tags?: Tags;
     tier?: BlockBlobTier | PremiumPageBlobTier | string;

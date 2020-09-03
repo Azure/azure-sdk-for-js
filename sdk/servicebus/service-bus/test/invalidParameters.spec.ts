@@ -67,7 +67,7 @@ describe("invalid parameters", () => {
       }
       should.equal(
         errorCaught,
-        "Unable to parse the arguments\nTypeError: Invalid receiveMode provided",
+        `Invalid receiveMode '123' provided. Valid values are 'peekLock' and 'receiveAndDelete'`,
         "Did not throw error if created a client with invalid receiveMode."
       );
     });
@@ -224,8 +224,23 @@ describe("invalid parameters", () => {
       }
       should.equal(
         errorCaught,
-        "Unable to parse the arguments\nTypeError: Invalid receiveMode provided",
+        `Invalid receiveMode '123' provided. Valid values are 'peekLock' and 'receiveAndDelete'`,
         "Did not throw error if created a client with invalid receiveMode."
+      );
+    });
+
+    it("Receiver: Invalid SubQueue", async function(): Promise<void> {
+      let errorCaught: string = "";
+      try {
+        // @ts-expect-error
+        sbClient.createReceiver("dummyQueue", { subQueue: 123 });
+      } catch (error) {
+        errorCaught = error.message;
+      }
+      should.equal(
+        errorCaught,
+        `Invalid subQueue '123' provided. Valid values are 'deadLetter' and 'transferDeadLetter'`,
+        "Did not throw error if created a client with invalid subQueue."
       );
     });
 
