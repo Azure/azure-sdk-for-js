@@ -321,6 +321,12 @@ export const GeneratedClientDeleteKeyValueHeaders: coreHttp.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      eTag: {
+        serializedName: "etag",
+        type: {
+          name: "String"
+        }
       }
     }
   }

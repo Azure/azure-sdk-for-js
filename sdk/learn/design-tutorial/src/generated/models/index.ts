@@ -205,6 +205,10 @@ export interface GeneratedClientDeleteKeyValueHeaders {
    * Enables real-time consistency between requests by providing the returned value in the next request made to the server.
    */
   syncToken?: string;
+  /**
+   * An identifier representing the returned state of the resource.
+   */
+  eTag?: string;
 }
 
 /**
@@ -215,6 +219,10 @@ export interface GeneratedClientDeleteKeyValueHeaders {
    * Enables real-time consistency between requests by providing the returned value in the next request made to the server.
    */
   syncToken?: string;
+  /**
+   * An identifier representing the returned state of the resource.
+   */
+  eTag?: string;
 }
 
 /**
