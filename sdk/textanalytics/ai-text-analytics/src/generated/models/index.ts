@@ -329,7 +329,7 @@ export interface LinkedEntity {
   /**
    * Bing unique identifier of the recognized entity. Use in conjunction with the Bing Entity Search API to fetch additional relevant information.
    */
-  bingId?: string;
+  bingEntitySearchApiId?: string;
 }
 
 /**

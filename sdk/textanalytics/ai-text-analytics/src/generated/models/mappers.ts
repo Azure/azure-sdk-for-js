@@ -615,7 +615,7 @@ export const LinkedEntity: coreHttp.CompositeMapper = {
           name: "String"
         }
       },
-      bingId: {
+      bingEntitySearchApiId: {
         serializedName: "bingId",
         type: {
           name: "String"

@@ -43,6 +43,16 @@ directive:
       $["x-ms-client-name"] = "transactionCount";
 ```
 
+### Rename BingId to bingEntitySearchApiId
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.LinkedEntity.properties.bingId
+    transform: >
+      $["x-ms-client-name"] = "bingEntitySearchApiId";
+```
+
 ### Rename plurals in RequestStatistics
 
 ```yaml

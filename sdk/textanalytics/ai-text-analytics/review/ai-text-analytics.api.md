@@ -137,7 +137,7 @@ export type InnerErrorCodeValue = "InvalidParameterValue" | "InvalidRequestBodyF
 
 // @public
 export interface LinkedEntity {
-    bingId?: string;
+    bingEntitySearchApiId?: string;
     dataSource: string;
     dataSourceEntityId?: string;
     language: string;
