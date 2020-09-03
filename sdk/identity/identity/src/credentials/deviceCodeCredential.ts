@@ -52,6 +52,7 @@ export class DeviceCodeCredential implements TokenCredential {
   private tenantId: string;
   private clientId: string;
   private userPromptCallback: DeviceCodePromptCallback;
+  private authorityHost: string;
 
   /**
    * Creates an instance of DeviceCodeCredential with the details needed
@@ -74,11 +75,20 @@ export class DeviceCodeCredential implements TokenCredential {
     this.tenantId = tenantId;
     this.clientId = clientId;
     this.userPromptCallback = userPromptCallback;
+    if (options && options.authorityHost) {
+      if (options.authorityHost.endsWith("/")) {
+        this.authorityHost = options.authorityHost + this.tenantId;
+      } else {
+        this.authorityHost = options.authorityHost + "/" + this.tenantId;
+      }
+    } else {
+      this.authorityHost = "https://login.microsoftonline.com/" + this.tenantId;
+    }
 
     const publicClientConfig = {
       auth: {
           clientId: this.clientId,
-          authority: "https://login.microsoftonline.com/" + this.tenantId,
+          authority: this.authorityHost,
       },
       cache: {
           cachePlugin: undefined
