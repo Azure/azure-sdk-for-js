@@ -10,7 +10,7 @@ import { EventHubConsumerClient } from "@azure/event-hubs";
 import { ContainerClient } from "@azure/storage-blob";
 import { BlobCheckpointStore } from "../src";
 
-describe("Snippets", () => {
+describe.skip("Snippets", () => {
   // used in the eventhubs and eventhubs-checkpointstore-blob readme.
   it("snippet", async () => {
     dotenv.config();
