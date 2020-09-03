@@ -2,7 +2,7 @@
 
 ## 5.1.0-beta.1 (Unreleased)
 
-- We are now targeting the service's v3.1-preview.1 API as the default instead of v3.0.
+- We are now targeting the service's v3.1-preview.2 API as the default instead of v3.0.
 - We now have added support for opinion mining feature of Sentiment Analysis. To use this feature, you need to make sure you are using the service's v3.1-preview.1 API. To get this support pass `includeOpinionMining` as True when calling the `analyzeSentiment` endpoint.
 - We have added the `recognizePiiEntities` API which returns entities containing personal information for a batch of documents.
 - The `length` and `offset` properties are added to the `SentenceSentiment`, `Entity`, `Match`, `PiiEntity` and `CategorizedEntity` interfaces to represent the length of the sentence's text and its offset from the start of the document. The unit of distance used is UTF-16 code points.
