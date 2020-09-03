@@ -1,7 +1,11 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { SharedKeyCredential } from "@azure/core-amqp";
+import {
+  parseConnectionString,
+  ServiceBusConnectionStringModel,
+  SharedKeyCredential
+} from "@azure/core-amqp";
 import { EventHubConsumerClient } from "../src/eventHubConsumerClient";
 import { EnvVarKeys, getEnvVars } from "./utils/testUtils";
 import chai from "chai";
@@ -14,7 +18,9 @@ describe("Authentication via SAS", () => {
   const service = {
     connectionString: env[EnvVarKeys.EVENTHUB_CONNECTION_STRING],
     path: env[EnvVarKeys.EVENTHUB_NAME],
-    fqdn: env[EnvVarKeys.EVENTHUB_FQDN]?.replace(/\/+$/, "")
+    fqdn: parseConnectionString<ServiceBusConnectionStringModel>(
+      env[EnvVarKeys.EVENTHUB_CONNECTION_STRING]
+    ).Endpoint.replace(/\/+$/, "")
   };
 
   before(() => {
@@ -56,9 +62,9 @@ describe("Authentication via SAS", () => {
 
   function getSasConnectionString(): string {
     const sas = SharedKeyCredential.fromConnectionString(service.connectionString).getToken(
-      `sb://${service.fqdn}/${service.path}`
+      `${service.fqdn}/${service.path}`
     ).token;
 
-    return `Endpoint=sb://${service.fqdn}/;SharedAccessSignature=${sas}`;
+    return `Endpoint=${service.fqdn}/;SharedAccessSignature=${sas}`;
   }
 });

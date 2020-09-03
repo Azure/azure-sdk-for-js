@@ -17,7 +17,6 @@ export const isNode =
 export enum EnvVarKeys {
   EVENTHUB_CONNECTION_STRING = "EVENTHUB_CONNECTION_STRING",
   EVENTHUB_NAME = "EVENTHUB_NAME",
-  EVENTHUB_FQDN = "EVENTHUB_FQDN",
   AZURE_TENANT_ID = "AZURE_TENANT_ID",
   AZURE_CLIENT_ID = "AZURE_CLIENT_ID",
   AZURE_CLIENT_SECRET = "AZURE_CLIENT_SECRET"
@@ -35,7 +34,6 @@ function getEnvVarValue(name: string): string | undefined {
 export function getEnvVars(): { [key in EnvVarKeys]: any } {
   return {
     [EnvVarKeys.EVENTHUB_CONNECTION_STRING]: getEnvVarValue(EnvVarKeys.EVENTHUB_CONNECTION_STRING),
-    [EnvVarKeys.EVENTHUB_FQDN]: getEnvVarValue(EnvVarKeys.EVENTHUB_FQDN),
     [EnvVarKeys.EVENTHUB_NAME]: getEnvVarValue(EnvVarKeys.EVENTHUB_NAME),
     [EnvVarKeys.AZURE_TENANT_ID]: getEnvVarValue(EnvVarKeys.AZURE_TENANT_ID),
     [EnvVarKeys.AZURE_CLIENT_ID]: getEnvVarValue(EnvVarKeys.AZURE_CLIENT_ID),
