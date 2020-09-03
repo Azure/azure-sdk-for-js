@@ -193,7 +193,7 @@ export interface CreateTopicOptions extends OperationOptions {
   enablePartitioning?: boolean;
 
   /**
-   * Specifies express entities are enabled on topic
+   * Specifies whether express entities are enabled on topic.
    */
   enableExpress?: boolean;
 }
