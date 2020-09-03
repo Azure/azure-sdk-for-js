@@ -132,7 +132,7 @@ export class SchemaRegistryAvroSerializer {
    * @param buffer The buffer with the serialized value.
    * @return The deserialized value.
    */
-  async deserialize(buffer: Buffer): Promise<any> {
+  async deserialize<T>(buffer: Buffer): Promise<T> {
     if (buffer.length < PAYLOAD_OFFSET) {
       throw new Error("Buffer is too small to have the correct format.");
     }

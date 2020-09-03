@@ -9,7 +9,7 @@ import { SchemaRegistry } from '@azure/schema-registry';
 // @public
 export class SchemaRegistryAvroSerializer {
     constructor(registry: SchemaRegistry, schemaGroup: string, options?: SchemaRegistryAvroSerializerOptions);
-    deserialize(buffer: Buffer): Promise<any>;
+    deserialize<T>(buffer: Buffer): Promise<T>;
     serialize(value: any, schema: string): Promise<Buffer>;
 }
 
