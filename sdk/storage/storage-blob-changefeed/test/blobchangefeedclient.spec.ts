@@ -41,7 +41,7 @@ describe("BlobChangeFeedClient", async () => {
     }
   }).timeout(timeoutForLargeFileUploadingTest);
 
-  it.only("next(): with start and end time", async () => {
+  it("next(): with start and end time", async () => {
     let i = 0;
     let lastEvent: BlobChangeFeedEvent | undefined;
     const start = new Date(Date.UTC(2020, 1, 21, 22, 30, 0)); // will be rounded down to 22:00
