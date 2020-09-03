@@ -281,9 +281,12 @@ describe("Atom management - Authentication", function(): void {
         managementQueue1,
         "Unexpected queue name in the createQueue response"
       );
-      const createQueue2Response = await serviceBusAdministrationClient.createQueue(managementQueue2, {
-        forwardTo: managementQueue1
-      });
+      const createQueue2Response = await serviceBusAdministrationClient.createQueue(
+        managementQueue2,
+        {
+          forwardTo: managementQueue1
+        }
+      );
       should.equal(
         createQueue2Response.name,
         managementQueue2,
