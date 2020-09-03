@@ -3,10 +3,10 @@
 import { base64Encode, base64Decode } from "./utils/bufferSerializer";
 import { EdmTypes } from "./models";
 
-const propertyCaseMap = new Map<string, string>([
-  ["PartitionKey", "partitionKey"],
-  ["RowKey", "rowKey"]
-]);
+const propertyCaseMap: {[key: string]: string} = {
+  "PartitionKey": "partitionKey",
+  "RowKey": "rowKey"
+};
 
 const Edm = {
   Binary: "Edm.Binary",
@@ -77,7 +77,7 @@ function getSerializedValue(value: any): serializedType {
 export function serialize(obj: object): object {
   const serialized: any = {};
   for (const [key, value] of Object.entries(obj)) {
-    const transformedKey = propertyCaseMap.get(key) ?? key;
+    const transformedKey = Object.keys(propertyCaseMap).find(k => propertyCaseMap[k] === key) || key;
     const serializedVal = getSerializedValue(value);
     serialized[transformedKey] = serializedVal.value;
     if (serializedVal.type) {
@@ -111,7 +111,7 @@ export function deserialize<T extends object>(obj: object): T {
   const deserialized: any = {};
   for (const [key, value] of Object.entries(obj)) {
     if (key.indexOf("@odata.type") === -1) {
-      const transformedKey = propertyCaseMap.get(key) || key;
+      const transformedKey = propertyCaseMap[key] || key;
       let typedValue = value;
       if (`${key}@odata.type` in obj) {
         const type = (obj as any)[`${key}@odata.type`];
