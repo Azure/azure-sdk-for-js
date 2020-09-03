@@ -4,6 +4,7 @@
 import { ConnectionConfig, EventHubConnectionConfig, IotHubConnectionConfig } from "../src";
 import * as chai from "chai";
 import { isSharedAccessSignature } from "../src/connectionConfig/connectionConfig";
+import { SharedAccessSignatureCredential } from "../src/auth/sas";
 const should = chai.should();
 
 describe("ConnectionConfig", function() {
@@ -459,6 +460,29 @@ describe("ConnectionConfig", function() {
         sharedAccessKeyName: "",
         connectionString: "Endpoint=hello;SharedAccessSignature=SharedAccessSignature hellosig"
       });
+    });
+
+    it("SharedAccessSignatureCredential", () => {
+      const sasCred = new SharedAccessSignatureCredential("SharedAccessSignature se=<blah>");
+      const accessToken = sasCred.getToken("audience isn't used");
+
+      should.equal(
+        accessToken.token,
+        "SharedAccessSignature se=<blah>",
+        "SAS URI we were constructed with should just be returned verbatim without interpretation (and the audience is ignored)"
+      );
+
+      should.equal(
+        accessToken.expiresOnTimestamp,
+        0,
+        "SAS URI always returns 0 for expiry (ignoring what's in the SAS token)"
+      );
+
+      // these just exist because we're a SharedKeyCredential but we don't currently
+      // parse any attributes out (they're available but we've carved out a spot so
+      // they're not needed.)
+      should.equal(sasCred.key, "");
+      should.equal(sasCred.keyName, "");
     });
   });
 });
