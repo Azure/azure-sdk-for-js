@@ -14,9 +14,9 @@ These sample programs show how to use the TypeScript client libraries for Azure 
 
 | **File Name**                                                       | **Description**                                  |
 | ------------------------------------------------------------------- | ------------------------------------------------ |
-| [sample_detect_entire_series_anomaly.js][detectentireseriesanomaly] | Detect anomaly for each point of the series      |
-| [sample_detect_last_point_anomaly.js][detectlastpointanomaly]       | Detect anomaly for the last point of the series  |
-| [sample_detect_change_point.js][detectchangepoint]                  | Detect change point for each point of the series |
+| [sample_detect_entire_series_anomaly.ts][detectentireseriesanomaly] | Detect anomaly for each point of the series      |
+| [sample_detect_last_point_anomaly.ts][detectlastpointanomaly]       | Detect anomaly for the last point of the series  |
+| [sample_detect_change_point.ts][detectchangepoint]                  | Detect change point for each point of the series |
 
 ## Prerequisites
 
