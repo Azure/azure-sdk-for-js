@@ -28,10 +28,10 @@ export interface CreateShardOptions extends CommonOptions {
 }
 
 export class ShardFactory {
-  private readonly _chunkFactory: ChunkFactory;
+  private readonly chunkFactory: ChunkFactory;
 
   constructor(chunkFactory: ChunkFactory) {
-    this._chunkFactory = chunkFactory;
+    this.chunkFactory = chunkFactory;
   }
 
   public async create(
@@ -79,7 +79,7 @@ export class ShardFactory {
           chunks.splice(0, chunkIndex);
         }
 
-        currentChunk = await this._chunkFactory.create(
+        currentChunk = await this.chunkFactory.create(
           containerClient,
           chunks.shift()!,
           blockOffset,
@@ -91,7 +91,7 @@ export class ShardFactory {
         );
       }
 
-      return new Shard(containerClient, this._chunkFactory, chunks, currentChunk, shardPath);
+      return new Shard(containerClient, this.chunkFactory, chunks, currentChunk, shardPath);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,

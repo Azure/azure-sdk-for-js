@@ -46,7 +46,7 @@ export class LazyLoadingBlobStream extends Readable {
    * @type {BlobClient}
    * @memberof LazyLoadingBlobStream
    */
-  private readonly _blobClient: BlobClient;
+  private readonly blobClient: BlobClient;
 
   /**
    * The offset within the blob of the next block we will download.
@@ -55,17 +55,17 @@ export class LazyLoadingBlobStream extends Readable {
    * @type {number}
    * @memberof LazyLoadingBlobStream
    */
-  private _offset: number;
+  private offset: number;
 
-  private readonly _blockSize: number;
+  private readonly blockSize: number;
 
-  private _lastDownloadBytes: number;
+  private lastDownloadBytes: number;
 
-  private _lastDownloadData?: Buffer;
+  private lastDownloadData?: Buffer;
 
-  private _blobLength: number;
+  private blobLength: number;
 
-  private _options?: LazyLoadingBlobStreamOptions;
+  private options?: LazyLoadingBlobStreamOptions;
 
   /**
    * Creates an instance of LazyLoadingBlobStream.
@@ -80,12 +80,12 @@ export class LazyLoadingBlobStream extends Readable {
     options?: LazyLoadingBlobStreamOptions
   ) {
     super(options);
-    this._blobClient = blobClient;
-    this._offset = offset;
-    this._blockSize = blockSize;
-    this._lastDownloadBytes = -1;
-    this._blobLength = -1;
-    this._options = options;
+    this.blobClient = blobClient;
+    this.offset = offset;
+    this.blockSize = blockSize;
+    this.lastDownloadBytes = -1;
+    this.blobLength = -1;
+    this.options = options;
   }
 
   private async downloadBlock(options: LazyLoadingBlobStreamDownloadBlockOptions = {}) {
@@ -94,27 +94,27 @@ export class LazyLoadingBlobStream extends Readable {
       options.tracingOptions
     );
     try {
-      const properties = await this._blobClient.getProperties({
+      const properties = await this.blobClient.getProperties({
         abortSignal: options.abortSignal,
         tracingOptions: { ...options.tracingOptions, spanOptions }
       });
-      this._blobLength = properties.contentLength!;
+      this.blobLength = properties.contentLength!;
 
-      this._lastDownloadBytes = Math.min(this._blockSize, this._blobLength - this._offset);
-      if (this._lastDownloadBytes === 0) {
-        this._lastDownloadData = undefined;
+      this.lastDownloadBytes = Math.min(this.blockSize, this.blobLength - this.offset);
+      if (this.lastDownloadBytes === 0) {
+        this.lastDownloadData = undefined;
         return;
       }
 
-      this._lastDownloadData = await this._blobClient.downloadToBuffer(
-        this._offset,
-        this._lastDownloadBytes,
+      this.lastDownloadData = await this.blobClient.downloadToBuffer(
+        this.offset,
+        this.lastDownloadBytes,
         {
           abortSignal: options.abortSignal,
           tracingOptions: { ...options.tracingOptions, spanOptions }
         }
       );
-      this._offset += this._lastDownloadBytes;
+      this.offset += this.lastDownloadBytes;
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -134,8 +134,8 @@ export class LazyLoadingBlobStream extends Readable {
    */
   public async _read(size?: number) {
     const { span, spanOptions } = createSpan(
-      "LazyLoadingBlobStream-_read",
-      this._options?.tracingOptions
+      "LazyLoadingBlobStream-read",
+      this.options?.tracingOptions
     );
 
     try {
@@ -146,16 +146,16 @@ export class LazyLoadingBlobStream extends Readable {
       let chunkSize = 0;
       let chunksToPush = [];
       do {
-        if (this._lastDownloadData === undefined || this._lastDownloadData?.byteLength === 0) {
+        if (this.lastDownloadData === undefined || this.lastDownloadData?.byteLength === 0) {
           await this.downloadBlock({
-            abortSignal: this._options?.abortSignal,
-            tracingOptions: { ...this._options?.tracingOptions, spanOptions }
+            abortSignal: this.options?.abortSignal,
+            tracingOptions: { ...this.options?.tracingOptions, spanOptions }
           });
         }
-        if (this._lastDownloadData?.byteLength) {
-          chunkSize = Math.min(size - count, this._lastDownloadData?.byteLength);
-          chunksToPush.push(this._lastDownloadData.slice(0, chunkSize));
-          this._lastDownloadData = this._lastDownloadData.slice(chunkSize);
+        if (this.lastDownloadData?.byteLength) {
+          chunkSize = Math.min(size - count, this.lastDownloadData?.byteLength);
+          chunksToPush.push(this.lastDownloadData.slice(0, chunkSize));
+          this.lastDownloadData = this.lastDownloadData.slice(chunkSize);
           count += chunkSize;
         } else {
           chunkSize = 0;

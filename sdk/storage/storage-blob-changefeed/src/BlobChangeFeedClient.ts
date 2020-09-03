@@ -93,8 +93,8 @@ export class BlobChangeFeedClient {
    * @type {BlobServiceClient}
    * @memberof BlobChangeFeedClient
    */
-  private _blobServiceClient: BlobServiceClient;
-  private _changeFeedFactory: ChangeFeedFactory;
+  private blobServiceClient: BlobServiceClient;
+  private changeFeedFactory: ChangeFeedFactory;
 
   /**
    *
@@ -182,12 +182,12 @@ export class BlobChangeFeedClient {
       | Pipeline,
     options?: StoragePipelineOptions
   ) {
-    this._changeFeedFactory = new ChangeFeedFactory();
+    this.changeFeedFactory = new ChangeFeedFactory();
 
     if (credentialOrPipeline instanceof Pipeline) {
-      this._blobServiceClient = new BlobServiceClient(urlOrClient, credentialOrPipeline);
+      this.blobServiceClient = new BlobServiceClient(urlOrClient, credentialOrPipeline);
     } else {
-      this._blobServiceClient = new BlobServiceClient(
+      this.blobServiceClient = new BlobServiceClient(
         urlOrClient,
         credentialOrPipeline,
         appendUserAgentPrefix(options)
@@ -198,8 +198,8 @@ export class BlobChangeFeedClient {
   private async *getChange(
     options: BlobChangeFeedListChangesOptions = {}
   ): AsyncIterableIterator<BlobChangeFeedEvent> {
-    const changeFeed: ChangeFeed = await this._changeFeedFactory.create(
-      this._blobServiceClient,
+    const changeFeed: ChangeFeed = await this.changeFeedFactory.create(
+      this.blobServiceClient,
       undefined,
       options
     );
@@ -223,8 +223,8 @@ export class BlobChangeFeedClient {
     maxPageSize?: number,
     options: BlobChangeFeedListChangesOptions = {}
   ): AsyncIterableIterator<BlobChangeFeedEventPage> {
-    const changeFeed: ChangeFeed = await this._changeFeedFactory.create(
-      this._blobServiceClient,
+    const changeFeed: ChangeFeed = await this.changeFeedFactory.create(
+      this.blobServiceClient,
       continuationToken,
       options
     );

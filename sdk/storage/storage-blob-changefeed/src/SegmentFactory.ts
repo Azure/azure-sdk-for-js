@@ -40,10 +40,10 @@ export interface CreateSegmentOptions extends CommonOptions {
 }
 
 export class SegmentFactory {
-  private readonly _shardFactory: ShardFactory;
+  private readonly shardFactory: ShardFactory;
 
   constructor(shardFactory: ShardFactory) {
-    this._shardFactory = shardFactory;
+    this.shardFactory = shardFactory;
   }
 
   public async create(
@@ -73,7 +73,7 @@ export class SegmentFactory {
         const shardCursor = cursor?.ShardCursors.find((x) =>
           x.CurrentChunkPath.startsWith(shardPathSubStr)
         );
-        const shard: Shard = await this._shardFactory.create(
+        const shard: Shard = await this.shardFactory.create(
           containerClient,
           shardPathSubStr,
           shardCursor,

@@ -28,15 +28,15 @@ export interface CreateChunkOptions extends CommonOptions {
 }
 
 export class ChunkFactory {
-  private readonly _avroReaderFactory: AvroReaderFactory;
-  private readonly _lazyLoadingBlobStreamFactory: LazyLoadingBlobStreamFactory;
+  private readonly avroReaderFactory: AvroReaderFactory;
+  private readonly lazyLoadingBlobStreamFactory: LazyLoadingBlobStreamFactory;
 
   constructor(
     avroReaderFactory: AvroReaderFactory,
     lazyLoadingBlobStreamFactory: LazyLoadingBlobStreamFactory
   ) {
-    this._avroReaderFactory = avroReaderFactory;
-    this._lazyLoadingBlobStreamFactory = lazyLoadingBlobStreamFactory;
+    this.avroReaderFactory = avroReaderFactory;
+    this.lazyLoadingBlobStreamFactory = lazyLoadingBlobStreamFactory;
   }
 
   public async create(
@@ -51,7 +51,7 @@ export class ChunkFactory {
     eventIndex = eventIndex || 0;
 
     const dataStream = streamToAvroReadable(
-      this._lazyLoadingBlobStreamFactory.create(
+      this.lazyLoadingBlobStreamFactory.create(
         blobClient,
         blockOffset,
         CHANGE_FEED_CHUNK_BLOCK_DOWNLOAD_SIZE,
@@ -62,21 +62,16 @@ export class ChunkFactory {
     let avroReader: AvroReader;
     if (blockOffset !== 0) {
       const headerStream = streamToAvroReadable(
-        this._lazyLoadingBlobStreamFactory.create(
+        this.lazyLoadingBlobStreamFactory.create(
           blobClient,
           0,
           CHANGE_FEED_CHUNK_BLOCK_DOWNLOAD_SIZE,
           options
         )
       );
-      avroReader = this._avroReaderFactory.create(
-        dataStream,
-        headerStream,
-        blockOffset,
-        eventIndex
-      );
+      avroReader = this.avroReaderFactory.create(dataStream, headerStream, blockOffset, eventIndex);
     } else {
-      avroReader = this._avroReaderFactory.create(dataStream);
+      avroReader = this.avroReaderFactory.create(dataStream);
     }
 
     return new Chunk(avroReader, blockOffset, eventIndex, chunkPath, {

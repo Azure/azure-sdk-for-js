@@ -25,8 +25,8 @@ export interface ChunkGetChangeOptions extends CommonOptions {
 }
 
 export class Chunk {
-  private readonly _avroReader: AvroReader;
-  private readonly _iter: AsyncIterableIterator<Record<string, any> | null>;
+  private readonly avroReader: AvroReader;
+  private readonly iter: AsyncIterableIterator<Record<string, any> | null>;
 
   private _blockOffset: number;
   public get blockOffset(): number {
@@ -45,15 +45,15 @@ export class Chunk {
     public readonly chunkPath: string,
     avroOptions: AvroParseOptions = {}
   ) {
-    this._avroReader = avroReader;
+    this.avroReader = avroReader;
     this._blockOffset = blockOffset;
     this._eventIndex = eventIndex;
 
-    this._iter = this._avroReader.parseObjects(avroOptions);
+    this.iter = this.avroReader.parseObjects(avroOptions);
   }
 
   public hasNext(): boolean {
-    return this._avroReader.hasNext();
+    return this.avroReader.hasNext();
   }
 
   public async getChange(): Promise<BlobChangeFeedEvent | undefined> {
@@ -61,9 +61,9 @@ export class Chunk {
       return undefined;
     }
 
-    const next = await this._iter.next();
-    this._eventIndex = this._avroReader.objectIndex;
-    this._blockOffset = this._avroReader.blockOffset;
+    const next = await this.iter.next();
+    this._eventIndex = this.avroReader.objectIndex;
+    this._blockOffset = this.avroReader.blockOffset;
     if (next.done) {
       return undefined;
     } else {

@@ -136,7 +136,7 @@ describe("BlobChangeFeedClient", async () => {
   }
 
   it("user agent set correctly", async () => {
-    const blobServiceClient = (changeFeedClient as any)._blobServiceClient;
+    const blobServiceClient = (changeFeedClient as any).blobServiceClient;
     const telemetryString = fetchTelemetryString(blobServiceClient.pipeline);
     assert.ok(telemetryString.startsWith(`changefeed-js/${SDK_VERSION}`));
 
@@ -148,7 +148,7 @@ describe("BlobChangeFeedClient", async () => {
         userAgentOptions: { userAgentPrefix }
       }
     );
-    const blobServiceClient2 = (changeFeedClient2 as any)._blobServiceClient;
+    const blobServiceClient2 = (changeFeedClient2 as any).blobServiceClient;
     const telemetryString2 = fetchTelemetryString(blobServiceClient2.pipeline);
     assert.ok(telemetryString2.startsWith(`${userAgentPrefix} changefeed-js/${SDK_VERSION}`));
   });

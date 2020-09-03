@@ -31,15 +31,15 @@ interface MetaSegments {
 }
 
 export class ChangeFeedFactory {
-  private readonly _segmentFactory: SegmentFactory;
+  private readonly segmentFactory: SegmentFactory;
 
   constructor();
   constructor(segmentFactory: SegmentFactory);
   constructor(segmentFactory?: SegmentFactory) {
     if (segmentFactory) {
-      this._segmentFactory = segmentFactory;
+      this.segmentFactory = segmentFactory;
     } else {
-      this._segmentFactory = new SegmentFactory(
+      this.segmentFactory = new SegmentFactory(
         new ShardFactory(
           new ChunkFactory(new AvroReaderFactory(), new LazyLoadingBlobStreamFactory())
         )
@@ -137,7 +137,7 @@ export class ChangeFeedFactory {
       if (segments.length === 0) {
         return new ChangeFeed();
       }
-      const currentSegment: Segment = await this._segmentFactory.create(
+      const currentSegment: Segment = await this.segmentFactory.create(
         containerClient,
         segments.shift()!,
         cursor?.CurrentSegmentCursor,
@@ -149,7 +149,7 @@ export class ChangeFeedFactory {
 
       return new ChangeFeed(
         containerClient,
-        this._segmentFactory,
+        this.segmentFactory,
         years,
         segments,
         currentSegment,

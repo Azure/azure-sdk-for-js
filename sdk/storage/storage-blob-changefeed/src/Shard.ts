@@ -28,13 +28,13 @@ export interface ShardGetChangeOptions extends CommonOptions {
 }
 
 export class Shard {
-  private readonly _containerClient: ContainerClient;
+  private readonly containerClient: ContainerClient;
 
-  private readonly _chunkFactory: ChunkFactory;
+  private readonly chunkFactory: ChunkFactory;
 
-  private readonly _chunks: string[];
+  private readonly chunks: string[];
 
-  private _currentChunk: Chunk | undefined;
+  private currentChunk: Chunk | undefined;
 
   constructor(
     containerClient: ContainerClient,
@@ -43,15 +43,15 @@ export class Shard {
     currentChunk: Chunk | undefined,
     public readonly shardPath: string
   ) {
-    this._containerClient = containerClient;
-    this._chunkFactory = chunkFactory;
-    this._chunks = chunks;
-    this._currentChunk = currentChunk;
+    this.containerClient = containerClient;
+    this.chunkFactory = chunkFactory;
+    this.chunks = chunks;
+    this.currentChunk = currentChunk;
   }
 
   public hasNext(): boolean {
     return (
-      this._chunks.length > 0 || (this._currentChunk !== undefined && this._currentChunk.hasNext())
+      this.chunks.length > 0 || (this.currentChunk !== undefined && this.currentChunk.hasNext())
     );
   }
 
@@ -62,13 +62,13 @@ export class Shard {
     try {
       let event: BlobChangeFeedEvent | undefined = undefined;
       while (event === undefined && this.hasNext()) {
-        event = await this._currentChunk!.getChange();
+        event = await this.currentChunk!.getChange();
 
         // Remove currentChunk if it doesn't have more events.
-        if (!this._currentChunk!.hasNext() && this._chunks.length > 0) {
-          this._currentChunk = await this._chunkFactory.create(
-            this._containerClient,
-            this._chunks.shift()!,
+        if (!this.currentChunk!.hasNext() && this.chunks.length > 0) {
+          this.currentChunk = await this.chunkFactory.create(
+            this.containerClient,
+            this.chunks.shift()!,
             undefined,
             undefined,
             {
@@ -91,12 +91,12 @@ export class Shard {
   }
 
   public getCursor(): ShardCursor | undefined {
-    return this._currentChunk === undefined
+    return this.currentChunk === undefined
       ? undefined
       : {
-          CurrentChunkPath: this._currentChunk.chunkPath,
-          BlockOffset: this._currentChunk.blockOffset,
-          EventIndex: this._currentChunk.eventIndex
+          CurrentChunkPath: this.currentChunk.chunkPath,
+          BlockOffset: this.currentChunk.blockOffset,
+          EventIndex: this.currentChunk.eventIndex
         };
   }
 }
