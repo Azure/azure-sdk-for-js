@@ -325,31 +325,7 @@ export interface RuleResponse extends RuleProperties, Response {
 }
 
 // @public
-export class ServiceBusClient {
-    constructor(connectionString: string, options?: ServiceBusClientOptions);
-    constructor(fullyQualifiedNamespace: string, credential: TokenCredential, options?: ServiceBusClientOptions);
-    close(): Promise<void>;
-    createReceiver(queueName: string, options?: CreateReceiverOptions<"peekLock">): ServiceBusReceiver<ReceivedMessageWithLock>;
-    createReceiver(queueName: string, options: CreateReceiverOptions<"receiveAndDelete">): ServiceBusReceiver<ReceivedMessage>;
-    createReceiver(topicName: string, subscriptionName: string, options?: CreateReceiverOptions<"peekLock">): ServiceBusReceiver<ReceivedMessageWithLock>;
-    createReceiver(topicName: string, subscriptionName: string, options: CreateReceiverOptions<"receiveAndDelete">): ServiceBusReceiver<ReceivedMessage>;
-    createSender(queueOrTopicName: string): ServiceBusSender;
-    createSessionReceiver(queueName: string, options?: CreateSessionReceiverOptions<"peekLock">): Promise<ServiceBusSessionReceiver<ReceivedMessageWithLock>>;
-    createSessionReceiver(queueName: string, options: CreateSessionReceiverOptions<"receiveAndDelete">): Promise<ServiceBusSessionReceiver<ReceivedMessage>>;
-    createSessionReceiver(topicName: string, subscriptionName: string, options?: CreateSessionReceiverOptions<"peekLock">): Promise<ServiceBusSessionReceiver<ReceivedMessageWithLock>>;
-    createSessionReceiver(topicName: string, subscriptionName: string, options: CreateSessionReceiverOptions<"receiveAndDelete">): Promise<ServiceBusSessionReceiver<ReceivedMessage>>;
-    fullyQualifiedNamespace: string;
-}
-
-// @public
-export interface ServiceBusClientOptions {
-    retryOptions?: RetryOptions;
-    userAgentOptions?: UserAgentOptions;
-    webSocketOptions?: WebSocketOptions;
-}
-
-// @public
-export class ServiceBusManagementClient extends ServiceClient {
+export class ServiceBusAdministrationClient extends ServiceClient {
     constructor(connectionString: string, options?: PipelineOptions);
     constructor(fullyQualifiedNamespace: string, credential: TokenCredential, options?: PipelineOptions);
     createQueue(queueName: string, options?: CreateQueueOptions): Promise<QueueResponse>;
@@ -384,6 +360,30 @@ export class ServiceBusManagementClient extends ServiceClient {
     updateRule(topicName: string, subscriptionName: string, rule: RuleProperties, operationOptions?: OperationOptions): Promise<RuleResponse>;
     updateSubscription(subscription: SubscriptionProperties, operationOptions?: OperationOptions): Promise<SubscriptionResponse>;
     updateTopic(topic: TopicProperties, operationOptions?: OperationOptions): Promise<TopicResponse>;
+}
+
+// @public
+export class ServiceBusClient {
+    constructor(connectionString: string, options?: ServiceBusClientOptions);
+    constructor(fullyQualifiedNamespace: string, credential: TokenCredential, options?: ServiceBusClientOptions);
+    close(): Promise<void>;
+    createReceiver(queueName: string, options?: CreateReceiverOptions<"peekLock">): ServiceBusReceiver<ReceivedMessageWithLock>;
+    createReceiver(queueName: string, options: CreateReceiverOptions<"receiveAndDelete">): ServiceBusReceiver<ReceivedMessage>;
+    createReceiver(topicName: string, subscriptionName: string, options?: CreateReceiverOptions<"peekLock">): ServiceBusReceiver<ReceivedMessageWithLock>;
+    createReceiver(topicName: string, subscriptionName: string, options: CreateReceiverOptions<"receiveAndDelete">): ServiceBusReceiver<ReceivedMessage>;
+    createSender(queueOrTopicName: string): ServiceBusSender;
+    createSessionReceiver(queueName: string, options?: CreateSessionReceiverOptions<"peekLock">): Promise<ServiceBusSessionReceiver<ReceivedMessageWithLock>>;
+    createSessionReceiver(queueName: string, options: CreateSessionReceiverOptions<"receiveAndDelete">): Promise<ServiceBusSessionReceiver<ReceivedMessage>>;
+    createSessionReceiver(topicName: string, subscriptionName: string, options?: CreateSessionReceiverOptions<"peekLock">): Promise<ServiceBusSessionReceiver<ReceivedMessageWithLock>>;
+    createSessionReceiver(topicName: string, subscriptionName: string, options: CreateSessionReceiverOptions<"receiveAndDelete">): Promise<ServiceBusSessionReceiver<ReceivedMessage>>;
+    fullyQualifiedNamespace: string;
+}
+
+// @public
+export interface ServiceBusClientOptions {
+    retryOptions?: RetryOptions;
+    userAgentOptions?: UserAgentOptions;
+    webSocketOptions?: WebSocketOptions;
 }
 
 // @public

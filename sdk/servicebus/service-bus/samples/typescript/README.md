@@ -19,8 +19,8 @@ These sample programs show how to use the TypeScript client libraries for Azure 
 | [advanced/processMessageFromDLQ.ts][advanced-processmessagefromdlq] | retrieves a message from a dead-letter queue, edits it, and sends it back to the main queue                                                                                            |
 | [advanced/sessionRoundRobin.ts][advanced-session-round-robin]       | uses `ServiceBusSessionReceiver`'s ability to get the next available session to round-robin through all sessions in a Queue/Subscription                                                         |
 | [advanced/sessionState.ts][advanced-sessionstate]                   | uses a "shopping cart" example to demonstrate how session-state information can be read and maintained in an application                                                                |
-| [advanced/managementClient.ts][advanced-management-client]          | demonstrates how the `ServiceBusManagementClient` can be used to manage the resources of a service bus namespace                                                                         |
-| [advanced/listingEntities.ts][advanced-listing-entities]            | Async iterable iterators with pagination support for all the listing methods under ServiceBusManagementClient like `listQueues()`, `listTopics()`,`listQueuesRuntimeProperties()`, etc |
+| [advanced/managementClient.ts][advanced-management-client]          | demonstrates how the `ServiceBusAdministrationClient` can be used to manage the resources of a service bus namespace                                                                         |
+| [advanced/listingEntities.ts][advanced-listing-entities]            | Async iterable iterators with pagination support for all the listing methods under ServiceBusAdministrationClient like `listQueues()`, `listTopics()`,`listQueuesRuntimeProperties()`, etc |
 
 ## Prerequisites
 

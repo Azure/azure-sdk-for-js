@@ -59,7 +59,7 @@ export {
   QueueRuntimePropertiesResponse,
   Response,
   RuleResponse,
-  ServiceBusManagementClient,
+  ServiceBusAdministrationClient,
   SubscriptionResponse,
   SubscriptionRuntimePropertiesResponse,
   TopicResponse,

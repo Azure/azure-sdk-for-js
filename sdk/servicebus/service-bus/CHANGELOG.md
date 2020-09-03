@@ -4,6 +4,8 @@
 
 ### Breaking Changes
 - Renames
+  - The `ServiceBusManagementClient` has been renamed to `ServiceBusAdministrationClient`. See
+  [Issue 11012](https://github.com/Azure/azure-sdk-for-js/issues/11012) for more details.
   - Property `defaultMessageTtl` -> `defaultMessageTimeToLive`(Wherever applicable)
   - `maxMessageAutoRenewLockDurationInMs` -> `maxAutoRenewLockDurationInMs`
   - `updatedAt` -> `modifiedAt`
