@@ -25,6 +25,7 @@ async function main() {
     for (const entity of result.entities) {
       console.log(`Found PII entity ${entity.text} of type ${entity.category}`);
     }
+    console.log(`Redacted text: ${result.redactedText}`);
   }
 }
 
