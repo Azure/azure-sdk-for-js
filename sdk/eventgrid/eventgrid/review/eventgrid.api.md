@@ -5,10 +5,10 @@
 ```ts
 
 import { AzureKeyCredential } from '@azure/core-auth';
+import { HttpResponse } from '@azure/core-http';
 import { KeyCredential } from '@azure/core-auth';
 import { OperationOptions } from '@azure/core-http';
 import { PipelineOptions } from '@azure/core-http';
-import { RestResponse } from '@azure/core-http';
 
 // @public
 export type AppAction = "Restarted" | "Stopped" | "ChangedAppSettings" | "Started" | "Completed" | "Failed";
@@ -234,9 +234,10 @@ export class EventGridPublisherClient {
     constructor(endpointUrl: string, credential: KeyCredential | SignatureCredential, options?: EventGridPublisherClientOptions);
     readonly apiVersion: string;
     readonly endpointUrl: string;
-    sendCloudEvents(events: CloudEvent<any>[], options?: SendCloudEventsOptions): Promise<RestResponse>;
-    sendCustomSchemaEvents(events: Record<string, any>[], options?: SendCustomSchemaEventsOptions): Promise<RestResponse>;
-    sendEvents(events: EventGridEvent<any>[], options?: SendEventsOptions): Promise<RestResponse>;
+    sendCloudEvents(events: CloudEvent<any>[], options?: SendCloudEventsOptions): Promise<SendEventsResponse>;
+    sendCustomSchemaEvents(events: Record<string, any>[], options?: SendCustomSchemaEventsOptions): Promise<SendEventsResponse>;
+    // Warning: (ae-forgotten-export) The symbol "SendEventsResponse" needs to be exported by the entry point index.d.ts
+    sendEvents(events: EventGridEvent<any>[], options?: SendEventsOptions): Promise<SendEventsResponse>;
 }
 
 // @public

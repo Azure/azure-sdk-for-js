@@ -5,9 +5,9 @@ import { KeyCredential } from "@azure/core-auth";
 import {
   PipelineOptions,
   createPipelineFromOptions,
-  RestResponse,
   OperationOptions,
-  generateUuid
+  generateUuid,
+  HttpResponse
 } from "@azure/core-http";
 
 import { createEventGridCredentialPolicy } from "./eventGridAuthenticationPolicy";
@@ -39,6 +39,13 @@ export type SendCloudEventsOptions = OperationOptions;
  * Options for the send custom schema events operation.
  */
 export type SendCustomSchemaEventsOptions = OperationOptions;
+
+/**
+ * The response when sending events to the Event Grid service.
+ */
+export interface SendEventsResponse {
+  _response: HttpResponse;
+}
 
 /**
  * Client class for publishing events to the Event Grid Service.
@@ -108,12 +115,21 @@ export class EventGridPublisherClient {
    *
    * @param message One or more events to publish
    */
-  sendEvents(events: EventGridEvent<any>[], options?: SendEventsOptions): Promise<RestResponse> {
-    return this.client.publishEvents(
-      this.endpointUrl,
-      (events || []).map(convertEventGridEventToModelType),
-      options
-    );
+  sendEvents(
+    events: EventGridEvent<any>[],
+    options?: SendEventsOptions
+  ): Promise<SendEventsResponse> {
+    return this.client
+      .publishEvents(
+        this.endpointUrl,
+        (events || []).map(convertEventGridEventToModelType),
+        options
+      )
+      .then((r) => {
+        return {
+          _response: r._response
+        };
+      });
   }
 
   /**
@@ -124,12 +140,18 @@ export class EventGridPublisherClient {
   sendCloudEvents(
     events: CloudEvent<any>[],
     options?: SendCloudEventsOptions
-  ): Promise<RestResponse> {
-    return this.client.publishCloudEventEvents(
-      this.endpointUrl,
-      (events || []).map(convertCloudEventToModelType),
-      options
-    );
+  ): Promise<SendEventsResponse> {
+    return this.client
+      .publishCloudEventEvents(
+        this.endpointUrl,
+        (events || []).map(convertCloudEventToModelType),
+        options
+      )
+      .then((r) => {
+        return {
+          _response: r._response
+        };
+      });
   }
 
   /**
@@ -140,8 +162,14 @@ export class EventGridPublisherClient {
   sendCustomSchemaEvents(
     events: Record<string, any>[],
     options?: SendCustomSchemaEventsOptions
-  ): Promise<RestResponse> {
-    return this.client.publishCustomEventEvents(this.endpointUrl, events || [], options);
+  ): Promise<SendEventsResponse> {
+    return this.client
+      .publishCustomEventEvents(this.endpointUrl, events || [], options)
+      .then((r) => {
+        return {
+          _response: r._response
+        };
+      });
   }
 }
 
