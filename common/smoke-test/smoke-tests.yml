@@ -43,7 +43,7 @@ jobs:
       - name: AzureUSGovernmentArmTemplateParameters
         value: "@{ storageEndpointSuffix = 'core.usgovcloudapi.net'; cognitiveServicesEndpointSuffix = 'cognitiveservices.azure.us'; searchSku = 'basic' }"
       - name: AzureChinaCloudArmTemplateParameters
-        value: "@{ storageEndpointSuffix = 'core.chinacloudapi.cn'; cognitiveServicesEndpointSuffix = 'cognitiveservices.azure.cn'; searchSku = 'basic' }"
+        value: "@{ storageEndpointSuffix = 'core.chinacloudapi.cn'; cognitiveServicesEndpointSuffix = 'cognitiveservices.azure.cn'; searchSku = 'basic'; keyVaultSkuType = 'Standard' }"
 
     steps:
       - template: ../../eng/pipelines/templates/steps/common.yml

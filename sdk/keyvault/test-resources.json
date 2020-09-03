@@ -20,6 +20,13 @@
       "metadata": {
         "description": "The application client ID used to run tests. You may get it from the overview page of a recently created Azure application."
       }
+    },
+    "keyVaultSkuType": {
+      "type": "string",
+      "defaultValue": "Premium",
+      "metadata": {
+        "description": "SKY type for Key Vault. Default value is 'Premium'"
+      }
     }
   },
   "variables": {
@@ -35,7 +42,7 @@
       "properties": {
         "sku": {
           "family": "A",
-          "name": "Premium"
+          "name": "[parameters('keyVaultSkuType')]"
         },
         "tenantId": "[parameters('tenantId')]",
         "accessPolicies": [
