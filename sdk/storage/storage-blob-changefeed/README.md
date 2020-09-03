@@ -99,7 +99,7 @@ for await (const eventPage of changeFeedClient.listChanges().byPage()) {
 }
 ```
 
-### Resuming reading events with a cursor
+### Resuming reading events with a continuationToken
 
 ```javascript
 const { BlobChangeFeedEvent } = require("@azure/storage-blob-changefeed");

@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 export const CHANGE_FEED_CONTAINER_NAME: string = "$blobchangefeed";
 export const CHANGE_FEED_META_SEGMENT_PATH: string = "meta/segments.json";
 export const CHANGE_FEED_MAX_PAGE_SIZE: number = 5000; // align with rest API list operations
