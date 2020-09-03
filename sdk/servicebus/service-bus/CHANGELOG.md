@@ -2,7 +2,13 @@
 
 ## 7.0.0-preview.6 (Unreleased)
 
+### New features:
+
+- Support using the SharedAccessSignature from the connection string.
+  ([PR 10951](https://github.com/Azure/azure-sdk-for-js/pull/10951)).
+
 ### Breaking Changes
+
 - Renames
   - Property `defaultMessageTtl` -> `defaultMessageTimeToLive`(Wherever applicable)
   - `maxMessageAutoRenewLockDurationInMs` -> `maxAutoRenewLockDurationInMs`
