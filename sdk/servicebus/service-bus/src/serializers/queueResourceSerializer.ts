@@ -52,7 +52,7 @@ export function buildQueueOptions(queue: CreateQueueOptions): InternalQueueOptio
   };
 }
 
-/**ß
+/**
  * @internal
  * @ignore
  * Builds the queue object from the raw json object gotten after deserializing the
