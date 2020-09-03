@@ -69,7 +69,7 @@ export class TablesSharedKeyCredentialPolicy extends BaseRequestPolicy {
     }
 
     // If x-ms-date is present, use it otherwise date
-    const dateHeader = this.getHeaderValueToSign(request, `${HeaderConstants.X_MS_DATE}`);
+    const dateHeader = this.getHeaderValueToSign(request, HeaderConstants.X_MS_DATE);
 
     if (!dateHeader) {
       throw new Error("Failed to sign request: x-ms-date or date header must be present");
@@ -117,7 +117,7 @@ export class TablesSharedKeyCredentialPolicy extends BaseRequestPolicy {
     // https://docs.microsoft.com/en-us/rest/api/storageservices/authorize-with-shared-key#shared-key-lite-and-table-service-format-for-2009-09-19-and-later
     const url = new URL(request.url);
     const path = url.pathname || "/";
-    let canonicalizedResourceString = "/" + this.credential.accountName + path.replace(/'/g, "''");
+    let canonicalizedResourceString = "/" + this.credential.accountName + path;
 
     // The query string should include the question mark and the comp parameter (for example, ?comp=metadata). No other parameters should be included on the query string.
     const comp = url.searchParams.get("comp");
