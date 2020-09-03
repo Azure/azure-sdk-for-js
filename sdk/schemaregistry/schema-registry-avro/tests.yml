@@ -1,0 +1,16 @@
+trigger: none
+
+extends:
+  template: ../../../eng/pipelines/templates/jobs/archetype-sdk-integration.yml
+  parameters:
+    PackageName: "@azure/schema-registry-avro"
+    ResourceServiceDirectory: keyvault
+    TestMinMax: true
+    EnvVars:
+      AZURE_CLIENT_ID: $(aad-azure-sdk-test-client-id)
+      AZURE_TENANT_ID: $(aad-azure-sdk-test-tenant-id)
+      AZURE_CLIENT_SECRET: $(aad-azure-sdk-test-client-secret)
+      # TODO: We cannot provision live resource for new service yet, so we run
+      # nightly tests in playback mode for now. ETA mid-September from service
+      # team.
+      TEST_MODE: playback
