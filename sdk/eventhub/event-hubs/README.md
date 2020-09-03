@@ -306,36 +306,56 @@ const { EventHubConsumerClient } = require("@azure/event-hubs");
 const { ContainerClient } = require("@azure/storage-blob");
 const { BlobCheckpointStore } = require("@azure/eventhubs-checkpointstore-blob");
 
+const storageAccountConnectionString = "storage-account-connection-string";
+const containerName = "container-name";
+const eventHubConnectionString = "eventhub-connection-string";
+const consumerGroup = "my-consumer-group";
+const eventHubName = "eventHubName";
+
 async function main() {
-  const blobContainerClient = new ContainerClient("storage-connection-string", "container-name");
-  await blobContainerClient.create(); // This can be skipped if the container already exists
+  const blobContainerClient = new ContainerClient(storageAccountConnectionString, containerName);
+
+  if (!(await blobContainerClient.exists())) {
+    await blobContainerClient.create();
+  }
+
   const checkpointStore = new BlobCheckpointStore(blobContainerClient);
   const consumerClient = new EventHubConsumerClient(
-    "my-consumer-group",
-    "connectionString",
-    "eventHubName",
+    consumerGroup,
+    eventHubConnectionString,
+    eventHubName,
     checkpointStore
   );
 
   const subscription = consumerClient.subscribe({
     processEvents: async (events, context) => {
       // event processing code goes here
+      if (events.length === 0) {
+        // If the wait time expires (configured via options in maxWaitTimeInSeconds) Event Hubs
+        // will pass you an empty array.
+        return;
+      }
 
-      // Mark the last event in the batch as processed, so that when the program is restarted
-      // or when the partition is picked up by another process, it can start from the next event
+      // Checkpointing will allow your service to restart and pick
+      // up from where it left off.
+      //
+      // You'll want to balance how often you checkpoint with the
+      // performance of your underlying checkpoint store.
       await context.updateCheckpoint(events[events.length - 1]);
     },
-    processError: (err, context) => {
-      // error reporting/handling code here
+    processError: async (err, context) => {
+      // handle any errors that occur during the course of
+      // this subscription
+      console.log(`Errors in subscription to partition ${context.partitionId}: ${err}`);
     }
   });
 
   // Wait for a few seconds to receive events before closing
-  setTimeout(async () => {
-    await subscription.close();
-    await consumerClient.close();
-    console.log(`Exiting sample`);
-  }, 3 * 1000);
+  await new Promise((resolve) => setTimeout(resolve, 10 * 1000));
+
+  await subscription.close();
+  await consumerClient.close();
+  console.log(`Exiting sample`);
 }
 
 main();
