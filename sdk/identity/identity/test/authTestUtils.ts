@@ -3,7 +3,7 @@
 
 import assert from "assert";
 import * as sinon from "sinon";
-import { TokenCredentialOptions } from "../src";
+import { ClientCertificateCredentialOptions } from "../src";
 import {
   HttpHeaders,
   HttpOperationResponse,
@@ -30,7 +30,7 @@ export class MockAuthHttpClient implements HttpClient {
   private currentResponse: number = 0;
   private mockTimeout: boolean;
 
-  public tokenCredentialOptions: TokenCredentialOptions;
+  public tokenCredentialOptions: ClientCertificateCredentialOptions;
   public requests: WebResource[] = [];
 
   constructor(options?: MockAuthHttpClientOptions) {
