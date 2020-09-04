@@ -273,7 +273,7 @@ console.log("Number of messages in the queue = ", queueRuntimeProperties.totalMe
 await serviceBusAdministrationClient.deleteQueue(queueName);
 ```
 
-- Sample for reference - [managementClient.ts](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/servicebus/service-bus/samples/typescript/src/advanced/managementClient.ts)
+- Sample for reference - [administrationClient.ts](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/servicebus/service-bus/samples/typescript/src/advanced/administrationClient.ts)
 
 ## Troubleshooting
 
