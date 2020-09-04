@@ -3166,28 +3166,19 @@ export interface BlobQueryError {
 }
 
 /**
- * Base type for options to query blob.
- *
- * @export
- * @interface BlobQueryTextConfiguration
- */
-export interface BlobQueryTextConfiguration {
-  /**
-   * Record separator.
-   *
-   * @type {string}
-   * @memberof BlobQueryTextConfiguration
-   */
-  recordSeparator: string;
-}
-
-/**
  * Options to query blob with JSON format.
  *
  * @export
  * @interface BlobQueryJsonTextConfiguration
  */
-export interface BlobQueryJsonTextConfiguration extends BlobQueryTextConfiguration {
+export interface BlobQueryJsonTextConfiguration {
+  /**
+   * Record separator.
+   *
+   * @type {string}
+   * @memberof BlobQueryJsonTextConfiguration
+   */
+  recordSeparator: string;
   /**
    * Query for a JSON format blob.
    *
@@ -3203,7 +3194,14 @@ export interface BlobQueryJsonTextConfiguration extends BlobQueryTextConfigurati
  * @export
  * @interface BlobQueryCsvTextConfiguration
  */
-export interface BlobQueryCsvTextConfiguration extends BlobQueryTextConfiguration {
+export interface BlobQueryCsvTextConfiguration {
+  /**
+   * Record separator.
+   *
+   * @type {string}
+   * @memberof BlobQueryCsvTextConfiguration
+   */
+  recordSeparator: string;
   /**
    * Query for a CSV format blob.
    *
@@ -3930,6 +3928,8 @@ export class BlockBlobClient extends BlobClient {
   }
 
   /**
+   * ONLY AVAILABLE IN NODE.JS RUNTIME.
+   *
    * Quick query for a JSON or CSV formatted blob.
    *
    * Example usage (Node.js):
@@ -3937,17 +3937,17 @@ export class BlockBlobClient extends BlobClient {
    * ```js
    * // Query and convert a blob to a string
    * const queryBlockBlobResponse = await blockBlobClient.query("select * from BlobStorage");
-   * const downloaded = await streamToString(queryBlockBlobResponse.readableStreamBody);
+   * const downloaded = (await streamToBuffer(queryBlockBlobResponse.readableStreamBody)).toString();
    * console.log("Query blob content:", downloaded);
    *
-   * async function streamToString(readableStream) {
+   * async function streamToBuffer(readableStream) {
    *   return new Promise((resolve, reject) => {
    *     const chunks = [];
    *     readableStream.on("data", (data) => {
-   *       chunks.push(data.toString());
+   *       chunks.push(data instanceof Buffer ? data : Buffer.from(data));
    *     });
    *     readableStream.on("end", () => {
-   *       resolve(chunks.join(""));
+   *       resolve(Buffer.concat(chunks));
    *     });
    *     readableStream.on("error", reject);
    *   });
@@ -3968,6 +3968,10 @@ export class BlockBlobClient extends BlobClient {
     const { span, spanOptions } = createSpan("BlockBlobClient-query", options.tracingOptions);
 
     try {
+      if (!isNode) {
+        throw new Error("This operation currently is only supported in Node.js.");
+      }
+
       const response = await this._blobContext.query({
         abortSignal: options.abortSignal,
         queryRequest: {

@@ -8,7 +8,7 @@ Copy the sample file you want to a folder of your choice and run the following c
 npm install @azure/storage-blob-changefeed
 ```
 
-Or, in case you have cloned the repo and want to utilize the published npm package instead of src code, run the following commands in the `samples` folder to initialize an npm project and to install the storage-blob-changefeed package.
+Or, in case you have cloned the repo and want to utilize the published npm package instead of source code, run the following commands in the `samples` folder to initialize an npm project and to install the storage-blob-changefeed package.
 
 ```bash
 npm init -y
@@ -25,7 +25,7 @@ npm install @azure/storage-blob-changefeed
 
 If you have [registered an application](https://docs.microsoft.com/en-us/azure/active-directory/develop/quickstart-register-app) with an Azure Active Directory tenant, you can [assign it to an RBAC role](https://docs.microsoft.com/en-us/azure/storage/common/storage-auth-aad) in your Azure Storage account. This enables you to use the Azure.Identity library to authenticate with Azure Storage as shown in the [azureAdAuth.ts sample](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/storage/storage-blob/samples/typescript/src/azureAdAuth.ts).
 
-## Javascript sample
+## JavaScript sample
 
 Copy the sample to your samples folder and use `node` to run it.
 
@@ -33,15 +33,15 @@ Copy the sample to your samples folder and use `node` to run it.
 node sample.js
 ```
 
-## Typescript sample
+## TypeScript sample
 
-If you don't have Typescript installed, then use `npm` to install it first.
+If you don't have TypeScript installed, then use `npm` to install it first.
 
 ```bash
 npm install -g typescript
 ```
 
-One way to run Typescript samples is to use `ts-node`. To install `ts-node`, run the below in your sample folder
+One way to run TypeScript samples is to use `ts-node`. To install `ts-node`, run the below in your sample folder
 
 ```bash
 npm install -g ts-node
