@@ -393,7 +393,7 @@ export interface QueueProperties {
   /**
    * Specifies whether express entities are enabled on queue.
    */
-  enableExpress: boolean;
+  readonly enableExpress: boolean;
 }
 /**
  * @internal
