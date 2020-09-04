@@ -53,31 +53,14 @@ Copy the sample to your samples folder and use `ts-node` to run it.
 ts-node sample.ts
 ```
 
-## Browser sample
-
-Running these samples in the browser requires a bundler. While we give examples using Webpack, any bundler will do!
-
-First, install webpack and webpack-cli.
-
-```bash
-npm install --save-dev webpack webpack-cli
-```
-
-Next, run webpack on the sample code to produce an optimized browser bundle.
-
-```bash
-npx webpack sample.js
-```
-
-This will produce `dist/main.js`. Reference this file in an HTML file script tag and open the file in a browser to run the sample.
-
-```html
-<script src="./dist/main.js"></script>
-```
-
 ## Outline
 
-- Iterate through the entire Change Feed between a start and end date [basic.ts](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-blob-changefeed/samples/typescript/basic.ts)
-- Resuming a previous iteration of a Change Feed using the continuation token [resume.ts](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-blob-changefeed/samples/typescript/resume.ts)
+- Iterate through the entire Change Feed between a start and end date [basic.js][basic.js], [basic.ts][basic.ts]
+- Resuming a previous iteration of a Change Feed using the continuation token [resume.js][resume.js], [resume.ts][resume.ts]
+
+[basic.js]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-blob-changefeed/samples/javascript/basic.js
+[resume.js]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-blob-changefeed/samples/javascript/resume.js
+[basic.ts]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-blob-changefeed/samples/typescript/src/basic.ts
+[resume.ts]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-blob-changefeed/samples/typescript/src/resume.ts
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fstorage%2Fstorage-blob-changefeed%2Fsamples%2FREADME.png)
