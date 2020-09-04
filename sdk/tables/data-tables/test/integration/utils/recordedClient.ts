@@ -77,7 +77,7 @@ export function createTableClient(
       return new TableClient(`${env.TABLES_URL}${env.SAS_TOKEN}`, tableName);
 
     case "AccountKey":
-      if ((!env.ACCOUNT_NAME && !env.ACCOUNT_KEY) || !env.TABLES_URL) {
+      if (!env.ACCOUNT_NAME || !env.ACCOUNT_KEY || !env.TABLES_URL) {
         throw new Error(
           "AccountName, AccountURL and AccountKey must be defined, make sure that ACCOUNT_NAME, ACCOUNT_KEY and TABLES_URL are defined in the environment"
         );
@@ -103,7 +103,9 @@ export function createTableClient(
   }
 }
 
-export function createTableServiceClient(mode: CreateClientMode = "SASConnectionString"): TableServiceClient {
+export function createTableServiceClient(
+  mode: CreateClientMode = "SASConnectionString"
+): TableServiceClient {
   switch (mode) {
     case "SASConnectionString":
       if (!env.SAS_CONNECTION_STRING) {
@@ -124,7 +126,7 @@ export function createTableServiceClient(mode: CreateClientMode = "SASConnection
       return new TableServiceClient(`${env.TABLES_URL}${env.SAS_TOKEN}`);
 
     case "AccountKey":
-      if ((!env.ACCOUNT_NAME && !env.ACCOUNT_KEY) || !env.TABLES_URL) {
+      if (!env.ACCOUNT_NAME || !env.ACCOUNT_KEY || !env.TABLES_URL) {
         throw new Error(
           "AccountName, AccountURL and AccountKey must be defined, make sure that ACCOUNT_NAME, ACCOUNT_KEY and TABLES_URL are defined in the environment"
         );
