@@ -57,12 +57,7 @@ export const batching = debugModule("azure:service-bus:receiverbatching");
  * log statements for connectionContext
  */
 export const connectionCtxt = debugModule("azure:service-bus:connectionContext");
-/**
- * @internal
- * @ignore
- * log statements for namespace
- */
-export const ns = debugModule("azure:service-bus:namespace");
+
 /**
  * @internal
  * @ignore
@@ -81,9 +76,3 @@ export const utils = debugModule("azure:service-bus:utils");
  * log statements for messageSession
  */
 export const messageSession = debugModule("azure:service-bus:messageSession");
-/**
- * @internal
- * @ignore
- * log statements for Atom XML management API over HTTP
- */
-export const httpAtomXml = debugModule("azure:service-bus:atom-xml");
