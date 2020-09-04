@@ -475,7 +475,7 @@ export namespace ConnectionContext {
   export async function close(context: ConnectionContext): Promise<void> {
     try {
       if (context.connection.isOpen()) {
-        log.ns("Closing the amqp connection '%s' on the client.", context.connectionId);
+        logger.info("Closing the amqp connection '%s' on the client.", context.connectionId);
 
         // Close all the senders.
         for (const senderName of Object.keys(context.senders)) {
@@ -501,7 +501,7 @@ export namespace ConnectionContext {
 
         await context.connection.close();
         context.wasConnectionCloseCalled = true;
-        log.ns("Closed the amqp connection '%s' on the client.", context.connectionId);
+        logger.info("Closed the amqp connection '%s' on the client.", context.connectionId);
       }
     } catch (err) {
       const errObj = err instanceof Error ? err : new Error(JSON.stringify(err));
