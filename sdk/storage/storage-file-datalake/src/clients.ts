@@ -931,13 +931,13 @@ export class DataLakeFileClient extends DataLakePathClient {
   private pathContextInternal: PathOperations;
 
   /**
-   * blobClientInternal provided by @azure/storage-blob package.
+   * blockBlobClientInternal provided by @azure/storage-blob package.
    *
    * @private
    * @type {BlockBlobClient}
    * @memberof DataLakeFileClient
    */
-  private blobClientInternal: BlockBlobClient;
+  private blockBlobClientInternal: BlockBlobClient;
 
   /**
    * Creates an instance of DataLakeFileClient from url and credential.
@@ -991,7 +991,7 @@ export class DataLakeFileClient extends DataLakePathClient {
     }
 
     this.pathContextInternal = new PathOperations(this.storageClientContext);
-    this.blobClientInternal = new BlockBlobClient(this.blobEndpointUrl, this.pipeline);
+    this.blockBlobClientInternal = new BlockBlobClient(this.blobEndpointUrl, this.pipeline);
   }
 
   /**
@@ -1184,7 +1184,7 @@ export class DataLakeFileClient extends DataLakePathClient {
   ): Promise<FileReadResponse> {
     const { span, spanOptions } = createSpan("DataLakeFileClient-read", options.tracingOptions);
     try {
-      const rawResponse = await this.blobClientInternal.download(offset, count, {
+      const rawResponse = await this.blockBlobClientInternal.download(offset, count, {
         ...options,
         tracingOptions: { ...options.tracingOptions, spanOptions }
       });
@@ -1681,14 +1681,14 @@ export class DataLakeFileClient extends DataLakePathClient {
     );
     try {
       if (buffer) {
-        return await this.blobClientInternal.downloadToBuffer(buffer, offset, count, {
+        return await this.blockBlobClientInternal.downloadToBuffer(buffer, offset, count, {
           ...options,
           maxRetryRequestsPerBlock: options.maxRetryRequestsPerChunk,
           blockSize: options.chunkSize,
           tracingOptions: { ...options!.tracingOptions, spanOptions }
         });
       } else {
-        return await this.blobClientInternal.downloadToBuffer(offset, count, {
+        return await this.blockBlobClientInternal.downloadToBuffer(offset, count, {
           ...options,
           maxRetryRequestsPerBlock: options.maxRetryRequestsPerChunk,
           blockSize: options.chunkSize,
@@ -1734,7 +1734,7 @@ export class DataLakeFileClient extends DataLakePathClient {
       options.tracingOptions
     );
     try {
-      return await this.blobClientInternal.downloadToFile(filePath, offset, count, {
+      return await this.blockBlobClientInternal.downloadToFile(filePath, offset, count, {
         ...options,
         tracingOptions: { ...options!.tracingOptions, spanOptions }
       });
@@ -1783,7 +1783,7 @@ export class DataLakeFileClient extends DataLakePathClient {
     const { span, spanOptions } = createSpan("DataLakeFileClient-query", options.tracingOptions);
 
     try {
-      const rawResponse = await this.blobClientInternal.query(query, {
+      const rawResponse = await this.blockBlobClientInternal.query(query, {
         ...options,
         tracingOptions: { ...options.tracingOptions, spanOptions }
       });

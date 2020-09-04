@@ -350,7 +350,7 @@ export interface FileParallelUploadOptions extends CommonOptions {
 }
 
 // @public
-export interface FileQueryCsvTextConfiguration extends FileQueryTextConfiguration {
+export interface FileQueryCsvTextConfiguration {
     columnSeparator?: string;
     escapeCharacter?: string;
     fieldQuote?: string;
@@ -368,7 +368,7 @@ export interface FileQueryError {
 }
 
 // @public
-export interface FileQueryJsonTextConfiguration extends FileQueryTextConfiguration {
+export interface FileQueryJsonTextConfiguration {
     kind: "json";
     recordSeparator: string;
 }
@@ -381,10 +381,6 @@ export interface FileQueryOptions extends CommonOptions {
     onError?: (error: FileQueryError) => void;
     onProgress?: (progress: TransferProgressEvent) => void;
     outputTextConfiguration?: FileQueryJsonTextConfiguration | FileQueryCsvTextConfiguration;
-}
-
-// @public
-export interface FileQueryTextConfiguration {
 }
 
 // @public (undocumented)

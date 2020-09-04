@@ -940,20 +940,12 @@ export interface FileReadToBufferOptions extends CommonOptions {
 }
 
 /**
- * Base type for options to query file.
- *
- * @export
- * @interface FileQueryTextConfiguration
- */
-export interface FileQueryTextConfiguration {}
-
-/**
  * Options to query file with JSON format.
  *
  * @export
  * @interface FileQueryJsonTextConfiguration
  */
-export interface FileQueryJsonTextConfiguration extends FileQueryTextConfiguration {
+export interface FileQueryJsonTextConfiguration {
   /**
    * Record separator.
    *
@@ -976,7 +968,7 @@ export interface FileQueryJsonTextConfiguration extends FileQueryTextConfigurati
  * @export
  * @interface FileQueryCsvTextConfiguration
  */
-export interface FileQueryCsvTextConfiguration extends FileQueryTextConfiguration {
+export interface FileQueryCsvTextConfiguration {
   /**
    * Record separator.
    *
