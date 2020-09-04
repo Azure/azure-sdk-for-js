@@ -362,6 +362,28 @@ describe("BlobClient Node.js only", () => {
     assert.deepStrictEqual(await bodyToString(response), csvContent);
   });
 
+  it("query should work with conditional tags", async function() {
+    recorder.skip(undefined, "TODO: figure out why quick query do not work with recording");
+    const csvContent = "100,200,300,400\n150,250,350,450\n";
+    await blockBlobClient.upload(csvContent, csvContent.length, { tags: { tag: "val" } });
+
+    let exceptionCaught = false;
+    try {
+      await blockBlobClient.query("select * from BlobStorage", {
+        conditions: { tagConditions: "tag = 'val1'" }
+      });
+    } catch (e) {
+      assert.equal(e.details?.errorCode, "ConditionNotMet");
+      exceptionCaught = true;
+    }
+    assert.ok(exceptionCaught);
+
+    const response = await blockBlobClient.query("select * from BlobStorage", {
+      conditions: { tagConditions: "tag = 'val'" }
+    });
+    assert.deepStrictEqual(await bodyToString(response), csvContent);
+  });
+
   it("query should work with access conditions", async function() {
     const csvContent = "100,200,300,400\n150,250,350,450\n";
     const uploadResponse = await blockBlobClient.upload(csvContent, csvContent.length);
