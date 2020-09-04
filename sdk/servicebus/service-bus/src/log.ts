@@ -27,9 +27,3 @@ import debugModule from "debug";
  * log statements for utils
  */
 export const utils = debugModule("azure:service-bus:utils");
-/**
- * @internal
- * @ignore
- * log statements for messageSession
- */
-export const messageSession = debugModule("azure:service-bus:messageSession");

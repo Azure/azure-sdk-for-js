@@ -15,7 +15,6 @@ import { ConnectionContext } from "../connectionContext";
 import { LinkEntity } from "../core/linkEntity";
 import { DispositionStatusOptions } from "../core/managementClient";
 import { OnAmqpEventAsPromise, OnError, OnMessage } from "../core/messageReceiver";
-import * as log from "../log";
 import { logger } from "../log";
 import { DispositionType, InternalReceiveMode, ServiceBusMessageImpl } from "../serviceBusMessage";
 import { throwErrorIfConnectionClosed } from "../util/errors";
@@ -193,7 +192,7 @@ export class MessageSession extends LinkEntity<Receiver> {
       const nextRenewalTimeout = calculateRenewAfterDuration(this.sessionLockedUntilUtc!);
       this._sessionLockRenewalTimer = setTimeout(async () => {
         try {
-          log.messageSession(
+          logger.info(
             "[%s] Attempting to renew the session lock for MessageSession '%s' " +
               "with name '%s'.",
             connectionId,
@@ -230,7 +229,7 @@ export class MessageSession extends LinkEntity<Receiver> {
           );
         }
       }, nextRenewalTimeout);
-      log.messageSession(
+      logger.info(
         "[%s] MessageSession '%s' with name '%s', has next session lock renewal " +
           "in %d milliseconds @(%s).",
         this._context.connectionId,
@@ -291,7 +290,7 @@ export class MessageSession extends LinkEntity<Receiver> {
       this.sessionLockedUntilUtc = convertTicksToDate(
         this.link.properties["com.microsoft:locked-until-utc"]
       );
-      log.messageSession(
+      logger.info(
         "[%s] Session with id '%s' is locked until: '%s'.",
         connectionId,
         this.sessionId,
@@ -303,11 +302,11 @@ export class MessageSession extends LinkEntity<Receiver> {
         this.name,
         this.sessionId
       );
-      log.messageSession(
+      logger.info(
         "Promise to create the receiver resolved. " + "Created receiver with name: ",
         this.name
       );
-      log.messageSession(
+      logger.info(
         "[%s] Receiver '%s' created with receiver options: %O",
         connectionId,
         this.name,
@@ -560,7 +559,7 @@ export class MessageSession extends LinkEntity<Receiver> {
     try {
       this._isReceivingMessagesForSubscriber = false;
       if (this._sessionLockRenewalTimer) clearTimeout(this._sessionLockRenewalTimer);
-      log.messageSession(
+      logger.info(
         "[%s] Cleared the timers for 'no new message received' task and " +
           "'session lock renewal' task.",
         this._context.connectionId
@@ -584,7 +583,7 @@ export class MessageSession extends LinkEntity<Receiver> {
    */
   isOpen(): boolean {
     const result: boolean = this.link! && this.link!.isOpen();
-    log.messageSession(
+    logger.info(
       "[%s] Receiver '%s' for sessionId '%s' is open? -> %s",
       this._context.connectionId,
       this.name,
@@ -706,7 +705,7 @@ export class MessageSession extends LinkEntity<Receiver> {
           !bMessage.delivery.remote_settled
         ) {
           try {
-            log.messageSession(
+            logger.info(
               "[%s] Auto completing the message with id '%s' on " + "the receiver '%s'.",
               connectionId,
               bMessage.messageId,
