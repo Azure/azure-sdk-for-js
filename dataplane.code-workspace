@@ -157,7 +157,7 @@
       "path": "sdk/test-utils/perfstress"
     },
     {
-      "path": "sdk/digitaltwins/digitaltwins"
+      "path": "sdk\\digitaltwins\\digital-twins"
     }
   ],
   "settings": {

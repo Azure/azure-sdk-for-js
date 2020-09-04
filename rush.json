@@ -548,8 +548,8 @@
       "versionPolicyName": "utility"
     },
     {
-      "packageName": "@azure/digitaltwins",
-      "projectFolder": "sdk/digitaltwins/digitaltwins",
+      "packageName": "@azure/digital-twins",
+      "projectFolder": "sdk/digitaltwins/digital-twins",
       "versionPolicyName": "client"
     }
   ]
