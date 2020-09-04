@@ -13,7 +13,7 @@ import { isNode } from "@azure/core-http";
  *
  * 1) Have a CORS rule to allow connections from browser tests
  * 2) Have 7000 entities in total of which
- *    2.1) 1000 are in this form {foo: "testEntity"} - partitionKey and powKey don't have any specific requirements
+ *    2.1) 1000 are in this form {foo: "testEntity"} - partitionKey and rowKey don't have any specific requirements
  *    2.1) 1 {RowKey: "binary1", foo: Buffer.from("Bar")} - partitionKey doesn't have any specific requirements
  *
  * With Issue #10918 we'll have ARM templates that should make running live tests locally much easier
