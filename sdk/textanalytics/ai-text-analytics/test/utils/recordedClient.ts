@@ -64,7 +64,7 @@ export function createCredentialFromEnvVar() : AzureKeyCredential | TokenCredent
   const authMode = testEnv.TEST_AUTH_MODE;
   switch (authMode) {
     case undefined:
-    case "AAD":
+    case "ADD":
       credential = new ClientSecretCredential(
         testEnv.AZURE_TENANT_ID,
         testEnv.AZURE_CLIENT_ID,
