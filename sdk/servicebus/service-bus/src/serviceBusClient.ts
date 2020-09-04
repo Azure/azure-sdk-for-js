@@ -213,6 +213,14 @@ export class ServiceBusClient {
       options3
     );
 
+    if (this._connectionContext.config.entityPath && this._connectionContext.config.entityPath !== entityPath) {
+      if (entityPath === queueOrTopicName1) {
+        throw new Error(entityPathMisMatchErrors.queue);
+      } else {
+        throw new Error(entityPathMisMatchErrors.topicAndSubscription);
+      }
+    }
+
     let entityPathWithSubQueue = entityPath;
     if (options?.subQueue) {
       switch (options?.subQueue) {
@@ -346,6 +354,14 @@ export class ServiceBusClient {
       options3
     );
 
+    if (this._connectionContext.config.entityPath && this._connectionContext.config.entityPath !== entityPath) {
+      if (entityPath === queueOrTopicName1) {
+        throw new Error(entityPathMisMatchErrors.queue);
+      } else {
+        throw new Error(entityPathMisMatchErrors.topicAndSubscription);
+      }
+    }
+
     return ServiceBusSessionReceiverImpl.createInitializedSessionReceiver(
       this._connectionContext,
       entityPath,
@@ -365,6 +381,9 @@ export class ServiceBusClient {
    * @param queueOrTopicName The name of a queue or topic to send messages to.
    */
   createSender(queueOrTopicName: string): ServiceBusSender {
+    if (this._connectionContext.config.entityPath && this._connectionContext.config.entityPath !== queueOrTopicName) {
+      throw new Error(entityPathMisMatchErrors.queueOrTopic)
+    }
     return new ServiceBusSenderImpl(
       this._connectionContext,
       queueOrTopicName,
@@ -428,4 +447,17 @@ export function extractReceiverArguments<OptionsT extends { receiveMode?: Receiv
     receiveMode,
     options
   };
+}
+
+/**
+ * Error messages to use when EntityPath in connection string does not match the 
+ * queue/topic/subscription names passed to the methods in the ServiceBusClient
+ * 
+ * @internal
+ * @ignore
+ */
+export const entityPathMisMatchErrors= {
+  queue: "The queue name provided does not match the EntityPath in the connection string passed to the ServiceBusClient constructor.",
+  topicAndSubscription: "The topic and subscription names provided do not match the EntityPath in the connection string passed to the ServiceBusClient constructor.",
+  queueOrTopic: "The queue or topic name provided does not match the EntityPath in the connection string passed to the ServiceBusClient constructor."
 }
