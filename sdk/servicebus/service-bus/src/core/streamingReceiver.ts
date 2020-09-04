@@ -24,7 +24,6 @@ import {
   ConditionErrorNameMapper
 } from "@azure/core-amqp";
 import { OperationOptionsBase } from "../modelsToBeSharedWithEventHubs";
-import * as log from "../log";
 import { logger } from "../log";
 import { AmqpError, EventContext, isAmqpError, OnAmqpEvent } from "rhea-promise";
 import { InternalReceiveMode, ServiceBusMessageImpl } from "../serviceBusMessage";
@@ -265,14 +264,14 @@ export class StreamingReceiver extends MessageReceiver {
         // when an attempt is made to settle the message (either by the user or by the sdk) OR
         // when the execution of user's message handler completes.
         this._messageRenewLockTimers.set(bMessage.messageId as string, undefined);
-        log.receiver(
+        logger.info(
           "[%s] message with id '%s' is locked until %s.",
           connectionId,
           bMessage.messageId,
           bMessage.lockedUntilUtc!.toString()
         );
         const totalAutoLockRenewDuration = Date.now() + this.maxAutoRenewDurationInMs;
-        log.receiver(
+        logger.info(
           "[%s] Total autolockrenew duration for message with id '%s' is: ",
           connectionId,
           bMessage.messageId,
@@ -289,7 +288,7 @@ export class StreamingReceiver extends MessageReceiver {
               // of the queue. However, we do not have the management plane of the client ready for
               // now. Hence we rely on the lockedUntilUtc property on the message set by ServiceBus.
               const amount = calculateRenewAfterDuration(bMessage.lockedUntilUtc!);
-              log.receiver(
+              logger.info(
                 "[%s] Sleeping for %d milliseconds while renewing the lock for " +
                   "message with id '%s' is: ",
                 connectionId,
@@ -303,7 +302,7 @@ export class StreamingReceiver extends MessageReceiver {
                 bMessage.messageId as string,
                 setTimeout(async () => {
                   try {
-                    log.receiver(
+                    logger.info(
                       "[%s] Attempting to renew the lock for message with id '%s'.",
                       connectionId,
                       bMessage.messageId
@@ -311,12 +310,12 @@ export class StreamingReceiver extends MessageReceiver {
                     bMessage.lockedUntilUtc = await this._context
                       .getManagementClient(this._entityPath)
                       .renewLock(lockToken, { associatedLinkName: this.name });
-                    log.receiver(
+                    logger.info(
                       "[%s] Successfully renewed the lock for message with id '%s'.",
                       connectionId,
                       bMessage.messageId
                     );
-                    log.receiver(
+                    logger.info(
                       "[%s] Calling the autorenewlock task again for message with " + "id '%s'.",
                       connectionId,
                       bMessage.messageId
@@ -337,7 +336,7 @@ export class StreamingReceiver extends MessageReceiver {
                 }, amount)
               );
             } else {
-              log.receiver(
+              logger.info(
                 "[%s] Looks like the message lock renew timer has already been " +
                   "cleared for message with id '%s'.",
                 connectionId,
@@ -345,7 +344,7 @@ export class StreamingReceiver extends MessageReceiver {
               );
             }
           } else {
-            log.receiver(
+            logger.info(
               "[%s] Current time %s exceeds the total autolockrenew duration %s for " +
                 "message with messageId '%s'. Hence we will stop the autoLockRenewTask.",
               connectionId,

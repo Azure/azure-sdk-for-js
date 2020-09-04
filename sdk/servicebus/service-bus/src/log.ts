@@ -36,12 +36,6 @@ export const sender = debugModule("azure:service-bus:sender");
 /**
  * @internal
  * @ignore
- * log statements for receiver
- */
-export const receiver = debugModule("azure:service-bus:receiver");
-/**
- * @internal
- * @ignore
  * log statements for utils
  */
 export const utils = debugModule("azure:service-bus:utils");

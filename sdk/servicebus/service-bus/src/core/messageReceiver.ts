@@ -9,7 +9,6 @@ import {
   translate
 } from "@azure/core-amqp";
 import { AmqpError, EventContext, OnAmqpEvent, Receiver, ReceiverOptions } from "rhea-promise";
-import * as log from "../log";
 import { logger } from "../log";
 import { LinkEntity, ReceiverType } from "./linkEntity";
 import { ConnectionContext } from "../connectionContext";
@@ -176,7 +175,7 @@ export abstract class MessageReceiver extends LinkEntity<Receiver> {
     this._clearMessageLockRenewTimer = (messageId: string) => {
       if (this._messageRenewLockTimers.has(messageId)) {
         clearTimeout(this._messageRenewLockTimers.get(messageId) as NodeJS.Timer);
-        log.receiver(
+        logger.info(
           "[%s] Cleared the message renew lock timer for message with id '%s'.",
           this._context.connectionId,
           messageId
@@ -185,7 +184,7 @@ export abstract class MessageReceiver extends LinkEntity<Receiver> {
       }
     };
     this._clearAllMessageLockRenewTimers = () => {
-      log.receiver(
+      logger.info(
         "[%s] Clearing message renew lock timers for all the active messages.",
         this._context.connectionId
       );
@@ -303,7 +302,7 @@ export abstract class MessageReceiver extends LinkEntity<Receiver> {
       const timer = setTimeout(() => {
         this._deliveryDispositionMap.delete(delivery.id);
 
-        log.receiver(
+        logger.info(
           "[%s] Disposition for delivery id: %d, did not complete in %d milliseconds. " +
             "Hence rejecting the promise with timeout error.",
           this._context.connectionId,

@@ -206,14 +206,14 @@ export class MessageSession extends LinkEntity<Receiver> {
               associatedLinkName: this.name,
               timeoutInMs: 10000
             });
-          log.receiver(
+          logger.info(
             "[%s] Successfully renewed the session lock for MessageSession '%s' " +
               "with name '%s'.",
             connectionId,
             this.sessionId,
             this.name
           );
-          log.receiver(
+          logger.info(
             "[%s] Calling _ensureSessionLockRenewal() again for MessageSession '%s'.",
             connectionId,
             this.sessionId
@@ -793,7 +793,7 @@ export class MessageSession extends LinkEntity<Receiver> {
       const delivery = message.delivery;
       const timer = setTimeout(() => {
         this._deliveryDispositionMap.delete(delivery.id);
-        log.receiver(
+        logger.info(
           "[%s] Disposition for delivery id: %d, did not complete in %d milliseconds. " +
             "Hence rejecting the promise with timeout error",
           this._context.connectionId,
