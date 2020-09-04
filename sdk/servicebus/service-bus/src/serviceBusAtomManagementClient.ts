@@ -24,7 +24,7 @@ import {
 } from "@azure/core-http";
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { CorrelationRuleFilter } from "./core/managementClient";
-import * as log from "./log";
+import { logger } from "./log";
 import {
   buildNamespace,
   NamespaceProperties,
@@ -266,7 +266,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
   async getNamespaceProperties(
     operationOptions?: OperationOptions
   ): Promise<NamespacePropertiesResponse> {
-    log.httpAtomXml(`Performing management operation - getNamespaceProperties()`);
+    logger.info(`Performing management operation - getNamespaceProperties()`);
     const { span, updatedOperationOptions } = createSpan(
       "ServiceBusAdministrationClient-getNamespaceProperties",
       operationOptions
@@ -312,7 +312,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       options
     );
     try {
-      log.httpAtomXml(
+      logger.info(
         `Performing management operation - createQueue() for "${queueName}" with options: ${options}`
       );
       const response: HttpOperationResponse = await this.putResource(
@@ -356,7 +356,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       operationOptions
     );
     try {
-      log.httpAtomXml(`Performing management operation - getQueue() for "${queueName}"`);
+      logger.info(`Performing management operation - getQueue() for "${queueName}"`);
       const response: HttpOperationResponse = await this.getResource(
         queueName,
         this.queueResourceSerializer,
@@ -398,7 +398,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       operationOptions
     );
     try {
-      log.httpAtomXml(
+      logger.info(
         `Performing management operation - getQueueRuntimeProperties() for "${queueName}"`
       );
       const response: HttpOperationResponse = await this.getResource(
@@ -440,7 +440,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       options
     );
     try {
-      log.httpAtomXml(`Performing management operation - getQueues() with options: ${options}`);
+      logger.info(`Performing management operation - getQueues() with options: ${options}`);
       const response: HttpOperationResponse = await this.listResources(
         "$Resources/Queues",
         updatedOperationOptions,
@@ -499,7 +499,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
   public listQueues(
     options?: OperationOptions
   ): PagedAsyncIterableIterator<QueueProperties, EntitiesResponse<QueueProperties>> {
-    log.httpAtomXml(`Performing management operation - listQueues() with options: ${options}`);
+    logger.info(`Performing management operation - listQueues() with options: ${options}`);
     const iter = this.listQueuesAll(options);
     return {
       /**
@@ -547,7 +547,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       options
     );
     try {
-      log.httpAtomXml(
+      logger.info(
         `Performing management operation - getQueuesRuntimeProperties() with options: ${options}`
       );
       const response: HttpOperationResponse = await this.listResources(
@@ -609,7 +609,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
   public listQueuesRuntimeProperties(
     options?: OperationOptions
   ): PagedAsyncIterableIterator<QueueRuntimeProperties, EntitiesResponse<QueueRuntimeProperties>> {
-    log.httpAtomXml(
+    logger.info(
       `Performing management operation - listQueuesRuntimeProperties() with options: ${options}`
     );
     const iter = this.listQueuesRuntimePropertiesAll(options);
@@ -668,7 +668,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       operationOptions
     );
     try {
-      log.httpAtomXml(
+      logger.info(
         `Performing management operation - updateQueue() for "${queue.name}" with options: ${queue}`
       );
 
@@ -722,7 +722,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       operationOptions
     );
     try {
-      log.httpAtomXml(`Performing management operation - deleteQueue() for "${queueName}"`);
+      logger.info(`Performing management operation - deleteQueue() for "${queueName}"`);
       const response: HttpOperationResponse = await this.deleteResource(
         queueName,
         this.queueResourceSerializer,
@@ -752,7 +752,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       operationOptions
     );
     try {
-      log.httpAtomXml(`Performing management operation - queueExists() for "${queueName}"`);
+      logger.info(`Performing management operation - queueExists() for "${queueName}"`);
       try {
         await this.getQueue(queueName, updatedOperationOptions);
       } catch (error) {
@@ -795,7 +795,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       options
     );
     try {
-      log.httpAtomXml(
+      logger.info(
         `Performing management operation - createTopic() for "${topicName}" with options: ${options}`
       );
       const response: HttpOperationResponse = await this.putResource(
@@ -839,7 +839,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       operationOptions
     );
     try {
-      log.httpAtomXml(`Performing management operation - getTopic() for "${topicName}"`);
+      logger.info(`Performing management operation - getTopic() for "${topicName}"`);
       const response: HttpOperationResponse = await this.getResource(
         topicName,
         this.topicResourceSerializer,
@@ -881,7 +881,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       operationOptions
     );
     try {
-      log.httpAtomXml(
+      logger.info(
         `Performing management operation - getTopicRuntimeProperties() for "${topicName}"`
       );
       const response: HttpOperationResponse = await this.getResource(
@@ -923,7 +923,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       options
     );
     try {
-      log.httpAtomXml(`Performing management operation - getTopics() with options: ${options}`);
+      logger.info(`Performing management operation - getTopics() with options: ${options}`);
       const response: HttpOperationResponse = await this.listResources(
         "$Resources/Topics",
         updatedOperationOptions,
@@ -983,7 +983,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
   public listTopics(
     options?: OperationOptions
   ): PagedAsyncIterableIterator<TopicProperties, EntitiesResponse<TopicProperties>> {
-    log.httpAtomXml(`Performing management operation - listTopics() with options: ${options}`);
+    logger.info(`Performing management operation - listTopics() with options: ${options}`);
     const iter = this.listTopicsAll(options);
     return {
       /**
@@ -1031,7 +1031,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       options
     );
     try {
-      log.httpAtomXml(
+      logger.info(
         `Performing management operation - getTopicsRuntimeProperties() with options: ${options}`
       );
       const response: HttpOperationResponse = await this.listResources(
@@ -1094,7 +1094,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
   public listTopicsRuntimeProperties(
     options?: OperationOptions
   ): PagedAsyncIterableIterator<TopicRuntimeProperties, EntitiesResponse<TopicRuntimeProperties>> {
-    log.httpAtomXml(
+    logger.info(
       `Performing management operation - listTopicsRuntimeProperties() with options: ${options}`
     );
     const iter = this.listTopicsRuntimePropertiesAll(options);
@@ -1153,7 +1153,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       operationOptions
     );
     try {
-      log.httpAtomXml(
+      logger.info(
         `Performing management operation - updateTopic() for "${topic.name}" with options: ${topic}`
       );
 
@@ -1207,7 +1207,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       operationOptions
     );
     try {
-      log.httpAtomXml(`Performing management operation - deleteTopic() for "${topicName}"`);
+      logger.info(`Performing management operation - deleteTopic() for "${topicName}"`);
       const response: HttpOperationResponse = await this.deleteResource(
         topicName,
         this.topicResourceSerializer,
@@ -1237,7 +1237,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       operationOptions
     );
     try {
-      log.httpAtomXml(`Performing management operation - topicExists() for "${topicName}"`);
+      logger.info(`Performing management operation - topicExists() for "${topicName}"`);
       try {
         await this.getTopic(topicName, updatedOperationOptions);
       } catch (error) {
@@ -1285,7 +1285,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       options
     );
     try {
-      log.httpAtomXml(
+      logger.info(
         `Performing management operation - createSubscription() for "${subscriptionName}" with options: ${options}`
       );
       const fullPath = this.getSubscriptionPath(topicName, subscriptionName);
@@ -1335,9 +1335,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       operationOptions
     );
     try {
-      log.httpAtomXml(
-        `Performing management operation - getSubscription() for "${subscriptionName}"`
-      );
+      logger.info(`Performing management operation - getSubscription() for "${subscriptionName}"`);
       const fullPath = this.getSubscriptionPath(topicName, subscriptionName);
       const response: HttpOperationResponse = await this.getResource(
         fullPath,
@@ -1382,7 +1380,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       operationOptions
     );
     try {
-      log.httpAtomXml(
+      logger.info(
         `Performing management operation - getSubscriptionRuntimeProperties() for "${subscriptionName}"`
       );
       const fullPath = this.getSubscriptionPath(topicName, subscriptionName);
@@ -1427,9 +1425,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       options
     );
     try {
-      log.httpAtomXml(
-        `Performing management operation - getSubscriptions() with options: ${options}`
-      );
+      logger.info(`Performing management operation - getSubscriptions() with options: ${options}`);
       const response: HttpOperationResponse = await this.listResources(
         topicName + "/Subscriptions/",
         updatedOperationOptions,
@@ -1495,9 +1491,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     topicName: string,
     options?: OperationOptions
   ): PagedAsyncIterableIterator<SubscriptionProperties, EntitiesResponse<SubscriptionProperties>> {
-    log.httpAtomXml(
-      `Performing management operation - listSubscriptions() with options: ${options}`
-    );
+    logger.info(`Performing management operation - listSubscriptions() with options: ${options}`);
     const iter = this.listSubscriptionsAll(topicName, options);
     return {
       /**
@@ -1547,7 +1541,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       options
     );
     try {
-      log.httpAtomXml(
+      logger.info(
         `Performing management operation - getSubscriptionsRuntimeProperties() with options: ${options}`
       );
       const response: HttpOperationResponse = await this.listResources(
@@ -1621,7 +1615,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     SubscriptionRuntimeProperties,
     EntitiesResponse<SubscriptionRuntimeProperties>
   > {
-    log.httpAtomXml(
+    logger.info(
       `Performing management operation - listSubscriptionsRuntimeProperties() with options: ${options}`
     );
     const iter = this.listSubscriptionsRuntimePropertiesAll(topicName, options);
@@ -1679,7 +1673,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       operationOptions
     );
     try {
-      log.httpAtomXml(
+      logger.info(
         `Performing management operation - updateSubscription() for "${subscription.subscriptionName}" with options: ${subscription}`
       );
 
@@ -1745,7 +1739,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       operationOptions
     );
     try {
-      log.httpAtomXml(
+      logger.info(
         `Performing management operation - deleteSubscription() for "${subscriptionName}"`
       );
       const fullPath = this.getSubscriptionPath(topicName, subscriptionName);
@@ -1783,7 +1777,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       operationOptions
     );
     try {
-      log.httpAtomXml(
+      logger.info(
         `Performing management operation - subscriptionExists() for "${topicName}" and "${subscriptionName}"`
       );
       try {
@@ -1884,7 +1878,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       operOptions
     );
     try {
-      log.httpAtomXml(
+      logger.info(
         `Performing management operation - createRule() for "${ruleName}" with filter: "${ruleFilter}"`
       );
       const fullPath = this.getRulePath(topicName, subscriptionName, ruleName);
@@ -1934,7 +1928,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       operationOptions
     );
     try {
-      log.httpAtomXml(`Performing management operation - getRule() for "${ruleName}"`);
+      logger.info(`Performing management operation - getRule() for "${ruleName}"`);
       const fullPath = this.getRulePath(topicName, subscriptionName, ruleName);
       const response: HttpOperationResponse = await this.getResource(
         fullPath,
@@ -1978,7 +1972,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       options
     );
     try {
-      log.httpAtomXml(`Performing management operation - getRules() with options: ${options}`);
+      logger.info(`Performing management operation - getRules() with options: ${options}`);
       const fullPath = this.getSubscriptionPath(topicName, subscriptionName) + "/Rules/";
       const response: HttpOperationResponse = await this.listResources(
         fullPath,
@@ -2044,7 +2038,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     subscriptionName: string,
     options?: OperationOptions
   ): PagedAsyncIterableIterator<RuleProperties, EntitiesResponse<RuleProperties>> {
-    log.httpAtomXml(`Performing management operation - listRules() with options: ${options}`);
+    logger.info(`Performing management operation - listRules() with options: ${options}`);
     const iter = this.listRulesAll(topicName, subscriptionName, options);
     return {
       /**
@@ -2104,7 +2098,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       operationOptions
     );
     try {
-      log.httpAtomXml(
+      logger.info(
         `Performing management operation - updateRule() for "${rule.name}" with options: ${rule}`
       );
 
@@ -2166,7 +2160,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       operationOptions
     );
     try {
-      log.httpAtomXml(`Performing management operation - deleteRule() for "${ruleName}"`);
+      logger.info(`Performing management operation - deleteRule() for "${ruleName}"`);
       const fullPath = this.getRulePath(topicName, subscriptionName, ruleName);
       const response: HttpOperationResponse = await this.deleteResource(
         fullPath,
@@ -2205,7 +2199,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       operationOptions
     );
     try {
-      log.httpAtomXml(`Performing management operation - ruleExists() for "${ruleName}"`);
+      logger.info(`Performing management operation - ruleExists() for "${ruleName}"`);
       try {
         await this.getRule(topicName, subscriptionName, ruleName, updatedOperationOptions);
       } catch (error) {
@@ -2462,7 +2456,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       });
       return namespaceResponse;
     } catch (err) {
-      log.warning("Failure parsing response from service - %0 ", err);
+      logger.error("Failure parsing response from service - %0 ", err);
       throw new RestError(
         `Error occurred while parsing the response body - cannot form a namespace object using the response from the service.`,
         RestError.PARSE_ERROR,
@@ -2495,7 +2489,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       listQueuesResponse.continuationToken = nextMarker;
       return listQueuesResponse;
     } catch (err) {
-      log.warning("Failure parsing response from service - %0 ", err);
+      logger.error("Failure parsing response from service - %0 ", err);
       throw new RestError(
         `Error occurred while parsing the response body - cannot form a list of queues using the response from the service.`,
         RestError.PARSE_ERROR,
@@ -2528,7 +2522,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       listQueuesResponse.continuationToken = nextMarker;
       return listQueuesResponse;
     } catch (err) {
-      log.warning("Failure parsing response from service - %0 ", err);
+      logger.error("Failure parsing response from service - %0 ", err);
       throw new RestError(
         `Error occurred while parsing the response body - cannot form a list of queues using the response from the service.`,
         RestError.PARSE_ERROR,
@@ -2547,7 +2541,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       });
       return queueResponse;
     } catch (err) {
-      log.warning("Failure parsing response from service - %0 ", err);
+      logger.error("Failure parsing response from service - %0 ", err);
       throw new RestError(
         `Error occurred while parsing the response body - cannot form a queue object using the response from the service.`,
         RestError.PARSE_ERROR,
@@ -2568,7 +2562,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       });
       return queueResponse;
     } catch (err) {
-      log.warning("Failure parsing response from service - %0 ", err);
+      logger.error("Failure parsing response from service - %0 ", err);
       throw new RestError(
         `Error occurred while parsing the response body - cannot form a queue object using the response from the service.`,
         RestError.PARSE_ERROR,
@@ -2601,7 +2595,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       listTopicsResponse.continuationToken = nextMarker;
       return listTopicsResponse;
     } catch (err) {
-      log.warning("Failure parsing response from service - %0 ", err);
+      logger.error("Failure parsing response from service - %0 ", err);
       throw new RestError(
         `Error occurred while parsing the response body - cannot form a list of topics using the response from the service.`,
         RestError.PARSE_ERROR,
@@ -2634,7 +2628,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       listTopicsResponse.continuationToken = nextMarker;
       return listTopicsResponse;
     } catch (err) {
-      log.warning("Failure parsing response from service - %0 ", err);
+      logger.error("Failure parsing response from service - %0 ", err);
       throw new RestError(
         `Error occurred while parsing the response body - cannot form a list of topics using the response from the service.`,
         RestError.PARSE_ERROR,
@@ -2652,7 +2646,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       });
       return topicResponse;
     } catch (err) {
-      log.warning("Failure parsing response from service - %0 ", err);
+      logger.error("Failure parsing response from service - %0 ", err);
       throw new RestError(
         `Error occurred while parsing the response body - cannot form a topic object using the response from the service.`,
         RestError.PARSE_ERROR,
@@ -2673,7 +2667,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       });
       return topicResponse;
     } catch (err) {
-      log.warning("Failure parsing response from service - %0 ", err);
+      logger.error("Failure parsing response from service - %0 ", err);
       throw new RestError(
         `Error occurred while parsing the response body - cannot form a topic object using the response from the service.`,
         RestError.PARSE_ERROR,
@@ -2709,7 +2703,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       listSubscriptionsResponse.continuationToken = nextMarker;
       return listSubscriptionsResponse;
     } catch (err) {
-      log.warning("Failure parsing response from service - %0 ", err);
+      logger.error("Failure parsing response from service - %0 ", err);
       throw new RestError(
         `Error occurred while parsing the response body - cannot form a list of subscriptions using the response from the service.`,
         RestError.PARSE_ERROR,
@@ -2745,7 +2739,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       listSubscriptionsResponse.continuationToken = nextMarker;
       return listSubscriptionsResponse;
     } catch (err) {
-      log.warning("Failure parsing response from service - %0 ", err);
+      logger.error("Failure parsing response from service - %0 ", err);
       throw new RestError(
         `Error occurred while parsing the response body - cannot form a list of subscriptions using the response from the service.`,
         RestError.PARSE_ERROR,
@@ -2764,7 +2758,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       });
       return subscriptionResponse;
     } catch (err) {
-      log.warning("Failure parsing response from service - %0 ", err);
+      logger.error("Failure parsing response from service - %0 ", err);
       throw new RestError(
         `Error occurred while parsing the response body - cannot form a subscription object using the response from the service.`,
         RestError.PARSE_ERROR,
@@ -2788,7 +2782,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       );
       return subscriptionResponse;
     } catch (err) {
-      log.warning("Failure parsing response from service - %0 ", err);
+      logger.error("Failure parsing response from service - %0 ", err);
       throw new RestError(
         `Error occurred while parsing the response body - cannot form a subscription object using the response from the service.`,
         RestError.PARSE_ERROR,
@@ -2821,7 +2815,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       listRulesResponse.continuationToken = nextMarker;
       return listRulesResponse;
     } catch (err) {
-      log.warning("Failure parsing response from service - %0 ", err);
+      logger.error("Failure parsing response from service - %0 ", err);
       throw new RestError(
         `Error occurred while parsing the response body - cannot form a list of rules using the response from the service.`,
         RestError.PARSE_ERROR,
@@ -2838,7 +2832,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       const ruleResponse: RuleResponse = Object.assign(rule || {}, { _response: response });
       return ruleResponse;
     } catch (err) {
-      log.warning("Failure parsing response from service - %0 ", err);
+      logger.error("Failure parsing response from service - %0 ", err);
       throw new RestError(
         `Error occurred while parsing the response body - cannot form a rule object using the response from the service.`,
         RestError.PARSE_ERROR,
