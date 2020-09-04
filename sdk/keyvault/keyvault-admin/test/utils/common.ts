@@ -20,8 +20,9 @@ export function getKeyvaultName(): string {
   return keyVaultName;
 }
 
+// The property in the clients is called vaultUrl, but the environment variable is KEYVAULT_URI.
 export function getKeyVaultUrl(): string {
-  const keyVaultEnvVarName = "KEYVAULT_URL";
+  const keyVaultEnvVarName = "KEYVAULT_URI";
   const result: string | undefined = env[keyVaultEnvVarName];
 
   return result!;
