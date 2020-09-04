@@ -24,12 +24,6 @@ import debugModule from "debug";
 /**
  * @internal
  * @ignore
- * log statements for sender
- */
-export const sender = debugModule("azure:service-bus:sender");
-/**
- * @internal
- * @ignore
  * log statements for utils
  */
 export const utils = debugModule("azure:service-bus:utils");

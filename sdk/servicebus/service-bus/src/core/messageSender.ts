@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as log from "../log";
 import { logger } from "../log";
 import {
   AmqpError,
@@ -147,7 +146,7 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
       onSessionClose: this._onSessionClose,
       sendTimeoutInSeconds: timeoutInMs / 1000
     };
-    log.sender("Creating sender with options: %O", srOptions);
+    logger.info("Creating sender with options: %O", srOptions);
     return srOptions;
   }
 
@@ -202,7 +201,7 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
         try {
           const timeTakenByInit = Date.now() - initStartTime;
 
-          log.sender(
+          logger.info(
             "[%s] Sender '%s', credit: %d available: %d",
             this._context.connectionId,
             this.name,
@@ -211,7 +210,7 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
           );
 
           if (!this.link?.sendable()) {
-            log.sender(
+            logger.verbose(
               "[%s] Sender '%s', waiting for 1 second for sender to become sendable",
               this._context.connectionId,
               this.name
@@ -219,7 +218,7 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
 
             await delay(1000);
 
-            log.sender(
+            logger.verbose(
               "[%s] Sender '%s' after waiting for a second, credit: %d available: %d",
               this._context.connectionId,
               this.name,
@@ -247,7 +246,7 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
                 undefined,
                 sendBatch ? 0x80013700 : 0
               );
-              log.sender(
+              logger.info(
                 "[%s] Sender '%s', sent message with delivery id: %d",
                 this._context.connectionId,
                 this.name,
@@ -378,7 +377,7 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
         }
         throw error;
       }
-      log.sender(
+      logger.info(
         "[%s] Sender '%s', trying to send message: %O",
         this._context.connectionId,
         this.name,
@@ -415,7 +414,7 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
       if (!Array.isArray(inputMessages)) {
         inputMessages = [inputMessages];
       }
-      log.sender(
+      logger.info(
         "[%s] Sender '%s', trying to send Message[]: %O",
         this._context.connectionId,
         this.name,
@@ -459,7 +458,7 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
       // Finally encode the envelope (batch message).
       const encodedBatchMessage = RheaMessageUtil.encode(batchMessage);
 
-      log.sender(
+      logger.info(
         "[%s]Sender '%s', sending encoded batch message.",
         this._context.connectionId,
         this.name,
@@ -545,7 +544,7 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
   ): Promise<void> {
     throwErrorIfConnectionClosed(this._context);
     try {
-      log.sender(
+      logger.info(
         "[%s]Sender '%s', sending encoded batch message.",
         this._context.connectionId,
         this.name,
