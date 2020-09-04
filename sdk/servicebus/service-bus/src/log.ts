@@ -1,6 +1,25 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { createClientLogger } from "@azure/logger";
+
+/**
+ * The @azure/logger configuration for this package.
+ * This will output logs using the `azure:event-hubs` namespace prefix.
+ */
+export const logger = createClientLogger("service-bus");
+
+/**
+ * Logs the error's stack trace to "verbose" if a stack trace is available.
+ * @param error Error containing a stack trace.
+ * @ignore
+ */
+export function logErrorStackTrace(error: any) {
+  if (error && error.stack) {
+    logger.verbose(error.stack);
+  }
+}
+
 import debugModule from "debug";
 /**
  * @internal
@@ -86,18 +105,6 @@ export const utils = debugModule("azure:service-bus:utils");
  * log statements for messageSession
  */
 export const messageSession = debugModule("azure:service-bus:messageSession");
-/**
- * @internal
- * @ignore
- * log statements for semaphore
- */
-export const semaphore = debugModule("azure:service-bus:semaphore");
-/**
- * @internal
- * @ignore
- * log statements for sessionManager
- */
-export const sessionManager = debugModule("azure:service-bus:sessionManager");
 /**
  * @internal
  * @ignore
