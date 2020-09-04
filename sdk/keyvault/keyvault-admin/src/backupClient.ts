@@ -114,9 +114,13 @@ export class KeyVaultBackupClient {
    * const poller = await client.beginBackup(blobStorageUri, sasToken);
    *
    * // Serializing the poller
-   * const serialized = poller.toString();
+   * //
+   * //   const serialized = poller.toString();
+   * //
    * // A new poller can be created with:
-   * // await client.beginBackup(blobStorageUri, sasToken, { resumeFrom: serialized });
+   * //
+   * //   await client.beginBackup(blobStorageUri, sasToken, { resumeFrom: serialized });
+   * //
    *
    * // Waiting until it's done
    * const backupUri = await poller.pollUntilDone();
@@ -169,10 +173,14 @@ export class KeyVaultBackupClient {
    * const folderName = "<folder-name>";
    * const poller = await client.beginRestore(blobStorageUri, sasToken, folderName);
    *
-   * // Serializing the poller
-   * const serialized = poller.toString();
+   * // The poller can be serialized with:
+   * //
+   * //   const serialized = poller.toString();
+   * //
    * // A new poller can be created with:
-   * // await client.beginRestore(blobStorageUri, sasToken, folderName, { resumeFrom: serialized });
+   * //
+   * //   await client.beginRestore(blobStorageUri, sasToken, folderName, { resumeFrom: serialized });
+   * //
    *
    * // Waiting until it's done
    * const backupUri = await poller.pollUntilDone();
@@ -230,9 +238,13 @@ export class KeyVaultBackupClient {
    * const poller = await client.beginSelectiveRestore(blobStorageUri, sasToken, folderName, keyName);
    *
    * // Serializing the poller
-   * const serialized = poller.toString();
+   * //
+   * //   const serialized = poller.toString();
+   * //
    * // A new poller can be created with:
-   * // await client.beginSelectiveRestore(blobStorageUri, sasToken, folderName, keyName, { resumeFrom: serialized });
+   * //
+   * //   await client.beginSelectiveRestore(blobStorageUri, sasToken, folderName, keyName, { resumeFrom: serialized });
+   * //
    *
    * // Waiting until it's done
    * await poller.pollUntilDone();
