@@ -19,7 +19,7 @@ import {
   getRandomTestClientType
 } from "./utils/testutils2";
 import { ServiceBusSender } from "../src/sender";
-import { ReceivedMessageWithLock } from "../src/serviceBusMessage";
+import { ServiceBusReceivedMessageWithLock } from "../src/serviceBusMessage";
 import { AbortController } from "@azure/abort-controller";
 
 const noSessionTestClientType = getRandomTestClientTypeWithNoSessions();
@@ -28,7 +28,7 @@ const anyRandomTestClientType = getRandomTestClientType();
 
 describe("Sender Tests", () => {
   let sender: ServiceBusSender;
-  let receiver: ServiceBusReceiver<ReceivedMessageWithLock>;
+  let receiver: ServiceBusReceiver<ServiceBusReceivedMessageWithLock>;
   let serviceBusClient: ServiceBusClientForTests;
   let entityName: EntityName;
 
@@ -330,7 +330,7 @@ describe("Sender Tests", () => {
   });
 
   async function testReceivedMsgsLength(
-    receiver: ServiceBusReceiver<ReceivedMessageWithLock>,
+    receiver: ServiceBusReceiver<ServiceBusReceivedMessageWithLock>,
     expectedReceivedMsgsLength: number
   ): Promise<void> {
     const receivedMsgs = await receiver.receiveMessages(expectedReceivedMsgsLength + 1, {

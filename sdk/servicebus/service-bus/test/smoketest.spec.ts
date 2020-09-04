@@ -1,14 +1,14 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { ReceivedMessage, ServiceBusReceiver, ServiceBusMessage, delay } from "../src";
+import { ServiceBusReceivedMessage, ServiceBusReceiver, ServiceBusMessage, delay } from "../src";
 import { TestClientType } from "./utils/testUtils";
 import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
 import { getEntityNameFromConnectionString } from "../src/constructorHelpers";
 import { ServiceBusClientForTests, createServiceBusClientForTests } from "./utils/testutils2";
 import { ServiceBusSender } from "../src/sender";
-import { ReceivedMessageWithLock } from "../src/serviceBusMessage";
+import { ServiceBusReceivedMessageWithLock } from "../src/serviceBusMessage";
 chai.use(chaiAsPromised);
 const assert = chai.assert;
 
@@ -53,7 +53,7 @@ describe("Sample scenarios for track 2", () => {
       const receivedBodies: string[] = [];
 
       receiver.subscribe({
-        async processMessage(message: ReceivedMessageWithLock): Promise<void> {
+        async processMessage(message: ServiceBusReceivedMessageWithLock): Promise<void> {
           await message.complete();
           receivedBodies.push(message.body);
         },
@@ -126,7 +126,7 @@ describe("Sample scenarios for track 2", () => {
       const receivedBodies: string[] = [];
 
       receiver.subscribe({
-        async processMessage(message: ReceivedMessage): Promise<void> {
+        async processMessage(message: ServiceBusReceivedMessage): Promise<void> {
           receivedBodies.push(message.body);
         },
         async processError(err: Error): Promise<void> {
@@ -208,7 +208,7 @@ describe("Sample scenarios for track 2", () => {
       const receivedBodies: string[] = [];
 
       receiver.subscribe({
-        async processMessage(message: ReceivedMessageWithLock): Promise<void> {
+        async processMessage(message: ServiceBusReceivedMessageWithLock): Promise<void> {
           await message.complete();
           receivedBodies.push(message.body);
         },
@@ -233,7 +233,7 @@ describe("Sample scenarios for track 2", () => {
       const receivedBodies: string[] = [];
 
       receiver.subscribe({
-        async processMessage(message: ReceivedMessage): Promise<void> {
+        async processMessage(message: ServiceBusReceivedMessage): Promise<void> {
           receivedBodies.push(message.body);
         },
         async processError(err: Error): Promise<void> {
@@ -346,7 +346,7 @@ describe("Sample scenarios for track 2", () => {
       const receivedBodies: string[] = [];
 
       receiver.subscribe({
-        async processMessage(message: ReceivedMessage): Promise<void> {
+        async processMessage(message: ServiceBusReceivedMessage): Promise<void> {
           receivedBodies.push(message.body);
         },
         async processError(err: Error): Promise<void> {
@@ -383,7 +383,7 @@ describe("Sample scenarios for track 2", () => {
       const receivedBodies: string[] = [];
 
       receiver.subscribe({
-        async processMessage(message: ReceivedMessage): Promise<void> {
+        async processMessage(message: ServiceBusReceivedMessage): Promise<void> {
           receivedBodies.push(message.body);
         },
         async processError(err: Error): Promise<void> {
@@ -475,7 +475,7 @@ async function waitAndValidate(
   expectedMessage: string,
   receivedBodies: string[],
   errors: string[],
-  receiver: ServiceBusReceiver<ReceivedMessage>
+  receiver: ServiceBusReceiver<ServiceBusReceivedMessage>
 ): Promise<void> {
   const maxChecks = 20;
   let numChecks = 0;

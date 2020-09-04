@@ -4,7 +4,7 @@
 import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
 import { Receiver, ReceiverEvents, ReceiverOptions } from "rhea-promise";
-import { ReceivedMessage, ReceivedMessageWithLock } from "../../src";
+import { ServiceBusReceivedMessage, ServiceBusReceivedMessageWithLock } from "../../src";
 chai.use(chaiAsPromised);
 const assert = chai.assert;
 
@@ -212,7 +212,7 @@ describe("Receiver unit tests", () => {
     });
 
     async function subscribeAndWaitForInitialize<
-      T extends ReceivedMessage | ReceivedMessageWithLock
+      T extends ServiceBusReceivedMessage | ServiceBusReceivedMessageWithLock
     >(receiver: ServiceBusReceiverImpl<T>): Promise<ReturnType<typeof receiver["subscribe"]>> {
       const sub = await new Promise<{
         close(): Promise<void>;
