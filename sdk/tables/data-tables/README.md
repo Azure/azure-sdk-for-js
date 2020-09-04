@@ -290,7 +290,7 @@ main();
 
 #### Create a new entity and add it to a table
 
-You can create a new Entity in a table by through a `TableClient` instance calling the `createEntity` function. This function takes the entity to insert as a parameter. The entity must contain `PartitionKey` and `RowKey`.
+You can create a new Entity in a table by through a `TableClient` instance calling the `createEntity` function. This function takes the entity to insert as a parameter. The entity must contain `partitionKey` and `rowKey`.
 
 ```javascript
 const { TableClient, TablesSharedKeyCredential } = require("@azure/data-tables");
@@ -308,8 +308,8 @@ const client = new TableClient(
 
 async function main() {
   const testEntity = {
-      PartitionKey: "P1",
-      RowKey: "R1",
+      partitionKey: "P1",
+      rowKey: "R1",
       foo: "foo",
       bar: 123
   }

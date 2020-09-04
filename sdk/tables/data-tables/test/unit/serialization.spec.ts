@@ -7,8 +7,6 @@ import { Edm } from "../../src";
 import { serialize, deserialize } from "../../src/serialization";
 
 interface Entity {
-  PartitionKey?: string;
-  RowKey?: string;
   strProp?: string;
   strObjProp?: Edm<"String">;
   boolProp?: boolean;
