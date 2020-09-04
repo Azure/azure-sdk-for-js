@@ -48,12 +48,6 @@ export const batching = debugModule("azure:service-bus:receiverbatching");
 /**
  * @internal
  * @ignore
- * log statements for servicebusMessage
- */
-export const message = debugModule("azure:service-bus:servicebusMessage");
-/**
- * @internal
- * @ignore
  * log statements for utils
  */
 export const utils = debugModule("azure:service-bus:utils");

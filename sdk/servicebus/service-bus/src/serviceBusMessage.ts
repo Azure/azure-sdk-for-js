@@ -11,7 +11,6 @@ import {
   MessageProperties,
   translate
 } from "@azure/core-amqp";
-import * as log from "./log";
 import { logger } from "./log";
 import { ConnectionContext } from "./connectionContext";
 import { reorderLockToken } from "./util/utils";
@@ -493,7 +492,7 @@ export function toAmqpMessage(msg: ServiceBusMessage): AmqpMessage {
   if (msg.scheduledEnqueueTimeUtc != null) {
     amqpMsg.message_annotations![Constants.scheduledEnqueueTime] = msg.scheduledEnqueueTimeUtc;
   }
-  log.message("SBMessage to AmqpMessage: %O", amqpMsg);
+  logger.verbose("SBMessage to AmqpMessage: %O", amqpMsg);
   return amqpMsg;
 }
 
@@ -817,7 +816,7 @@ export function fromAmqpMessage(
     deadLetterErrorDescription: sbmsg.properties?.DeadLetterErrorDescription
   };
 
-  log.message("AmqpMessage to ReceivedSBMessage: %O", rcvdsbmsg);
+  logger.verbose("AmqpMessage to ReceivedSBMessage: %O", rcvdsbmsg);
   return rcvdsbmsg;
 }
 
@@ -1076,7 +1075,7 @@ export class ServiceBusMessageImpl implements ReceivedMessageWithLock {
    * See ReceivedMessageWithLock.complete().
    */
   async complete(): Promise<void> {
-    log.message(
+    logger.info(
       "[%s] Completing the message with id '%s'.",
       this._context.connectionId,
       this.messageId
@@ -1089,7 +1088,7 @@ export class ServiceBusMessageImpl implements ReceivedMessageWithLock {
    */
   async abandon(propertiesToModify?: { [key: string]: any }): Promise<void> {
     // TODO: Figure out a mechanism to convert specified properties to message_annotations.
-    log.message(
+    logger.info(
       "[%s] Abandoning the message with id '%s'.",
       this._context.connectionId,
       this.messageId
@@ -1103,7 +1102,7 @@ export class ServiceBusMessageImpl implements ReceivedMessageWithLock {
    * See ReceivedMessageWithLock.defer().
    */
   async defer(propertiesToModify?: { [key: string]: any }): Promise<void> {
-    log.message(
+    logger.info(
       "[%s] Deferring the message with id '%s'.",
       this._context.connectionId,
       this.messageId
@@ -1117,7 +1116,7 @@ export class ServiceBusMessageImpl implements ReceivedMessageWithLock {
    * See ReceivedMessageWithLock.deadLetter().
    */
   async deadLetter(propertiesToModify?: DeadLetterOptions & { [key: string]: any }): Promise<void> {
-    log.message(
+    logger.info(
       "[%s] Deadlettering the message with id '%s'.",
       this._context.connectionId,
       this.messageId
