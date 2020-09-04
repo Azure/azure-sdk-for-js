@@ -213,7 +213,10 @@ export class ServiceBusClient {
       options3
     );
 
-    if (this._connectionContext.config.entityPath && this._connectionContext.config.entityPath !== entityPath) {
+    if (
+      this._connectionContext.config.entityPath &&
+      this._connectionContext.config.entityPath !== entityPath
+    ) {
       if (entityPath === queueOrTopicName1) {
         throw new Error(entityPathMisMatchErrors.queue);
       } else {
@@ -354,7 +357,10 @@ export class ServiceBusClient {
       options3
     );
 
-    if (this._connectionContext.config.entityPath && this._connectionContext.config.entityPath !== entityPath) {
+    if (
+      this._connectionContext.config.entityPath &&
+      this._connectionContext.config.entityPath !== entityPath
+    ) {
       if (entityPath === queueOrTopicName1) {
         throw new Error(entityPathMisMatchErrors.queue);
       } else {
@@ -381,8 +387,11 @@ export class ServiceBusClient {
    * @param queueOrTopicName The name of a queue or topic to send messages to.
    */
   createSender(queueOrTopicName: string): ServiceBusSender {
-    if (this._connectionContext.config.entityPath && this._connectionContext.config.entityPath !== queueOrTopicName) {
-      throw new Error(entityPathMisMatchErrors.queueOrTopic)
+    if (
+      this._connectionContext.config.entityPath &&
+      this._connectionContext.config.entityPath !== queueOrTopicName
+    ) {
+      throw new Error(entityPathMisMatchErrors.queueOrTopic);
     }
     return new ServiceBusSenderImpl(
       this._connectionContext,
