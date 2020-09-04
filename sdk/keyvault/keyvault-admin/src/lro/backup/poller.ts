@@ -1,8 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { delay, RequestOptionsBase } from "@azure/core-http";
+import { delay } from "@azure/core-http";
 import { Poller } from "@azure/core-lro";
+import { BeginBackupOptions } from "../../backupClientModels";
 import { KeyVaultClient } from "../../generated/keyVaultClient";
 import {
   BackupOperationState,
@@ -15,7 +16,7 @@ export interface BackupPollerOptions {
   vaultUrl: string;
   blobStorageUri: string;
   sasToken: string;
-  requestOptions?: RequestOptionsBase;
+  requestOptions?: BeginBackupOptions;
   intervalInMs?: number;
   resumeFrom?: string;
 }

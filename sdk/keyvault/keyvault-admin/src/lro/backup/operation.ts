@@ -3,11 +3,6 @@
 
 import { AbortSignalLike } from "@azure/abort-controller";
 import { PollOperationState, PollOperation } from "@azure/core-lro";
-import {
-  OperationOptions,
-  operationOptionsToRequestOptionsBase,
-  RequestOptionsBase
-} from "@azure/core-http";
 import { KeyVaultClient } from "../../generated/keyVaultClient";
 import {
   KeyVaultClientFullBackupOptionalParams,
@@ -15,6 +10,7 @@ import {
   KeyVaultClientFullBackupStatusResponse
 } from "../../generated/models";
 import { createSpan, setParentSpan } from "../../tracing";
+import { BeginBackupOptions } from "../../backupClientModels";
 
 /**
  * An interface representing the publicly available properties of the state of a backup Key Vault's poll operation.
@@ -62,7 +58,7 @@ export interface BackupPollOperationState extends PollOperationState<string> {
   /**
    * Options for the core-http requests.
    */
-  requestOptions?: RequestOptionsBase;
+  requestOptions?: BeginBackupOptions;
   /**
    * An interface representing the internal KeyVaultClient.
    */
@@ -114,12 +110,11 @@ async function fullBackup(
   vaultUrl: string,
   options: KeyVaultClientFullBackupOptionalParams
 ): Promise<KeyVaultClientFullBackupResponse> {
-  const requestOptions = operationOptionsToRequestOptionsBase(options);
-  const span = createSpan("generatedClient.fullBackup", requestOptions);
+  const span = createSpan("generatedClient.fullBackup", options);
 
   let response: KeyVaultClientFullBackupResponse;
   try {
-    response = await client.fullBackup(vaultUrl, setParentSpan(span, requestOptions));
+    response = await client.fullBackup(vaultUrl, setParentSpan(span, options));
   } finally {
     span.end();
   }
@@ -134,14 +129,13 @@ async function fullBackupStatus(
   client: KeyVaultClient,
   vaultUrl: string,
   jobId: string,
-  options: OperationOptions
+  options: BeginBackupOptions
 ): Promise<KeyVaultClientFullBackupStatusResponse> {
-  const requestOptions = operationOptionsToRequestOptionsBase(options);
-  const span = createSpan("generatedClient.fullBackupStatus", requestOptions);
+  const span = createSpan("generatedClient.fullBackupStatus", options);
 
   let response: KeyVaultClientFullBackupStatusResponse;
   try {
-    response = await client.fullBackupStatus(vaultUrl, jobId, setParentSpan(span, requestOptions));
+    response = await client.fullBackupStatus(vaultUrl, jobId, setParentSpan(span, options));
   } finally {
     span.end();
   }
@@ -173,7 +167,7 @@ async function update(
   }
 
   if (!state.isStarted) {
-    const fullBackupOperation = await fullBackup(client, vaultUrl, {
+    const serviceOperation = await fullBackup(client, vaultUrl, {
       ...requestOptions,
       azureStorageBlobContainerUri: {
         storageResourceUri: blobStorageUri,
@@ -181,7 +175,7 @@ async function update(
       }
     });
 
-    const { startTime, jobId, azureStorageBlobContainerUri, endTime, error } = fullBackupOperation;
+    const { startTime, jobId, azureStorageBlobContainerUri, endTime, error } = serviceOperation;
 
     if (!startTime) {
       state.error = new Error(`Missing "startTime" from the full backup operation.`);
@@ -193,14 +187,14 @@ async function update(
     state.jobId = jobId;
     state.endTime = endTime;
     state.startTime = startTime;
-    state.status = fullBackupOperation.status;
-    state.statusDetails = fullBackupOperation.statusDetails;
+    state.status = serviceOperation.status;
+    state.statusDetails = serviceOperation.statusDetails;
     state.result = azureStorageBlobContainerUri;
 
     if (endTime) {
       state.isCompleted = true;
     }
-    if (error) {
+    if (error && error.message) {
       state.isCompleted = true;
       state.error = new Error(error.message);
     }
@@ -213,15 +207,24 @@ async function update(
   }
 
   if (!state.isCompleted) {
-    const fullBackupOperation = await fullBackupStatus(client, vaultUrl, state.jobId, {
-      requestOptions
-    });
-    const { azureStorageBlobContainerUri, endTime, error } = fullBackupOperation;
+    const serviceOperation = await fullBackupStatus(client, vaultUrl, state.jobId, requestOptions);
+    const {
+      azureStorageBlobContainerUri,
+      endTime,
+      status,
+      statusDetails,
+      error
+    } = serviceOperation;
+
+    state.endTime = endTime;
+    state.status = status;
+    state.statusDetails = statusDetails;
     state.result = azureStorageBlobContainerUri;
+
     if (endTime) {
       state.isCompleted = true;
     }
-    if (error) {
+    if (error && error.message) {
       state.isCompleted = true;
       state.error = new Error(error.message);
     }

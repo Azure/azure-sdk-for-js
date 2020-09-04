@@ -1,8 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { delay, RequestOptionsBase } from "@azure/core-http";
+import { delay } from "@azure/core-http";
 import { Poller } from "@azure/core-lro";
+import { BeginRestoreOptions } from "../..";
 import { KeyVaultClient } from "../../generated/keyVaultClient";
 import {
   RestoreOperationState,
@@ -16,7 +17,7 @@ export interface RestorePollerOptions {
   blobStorageUri: string;
   sasToken: string;
   folderName: string;
-  requestOptions?: RequestOptionsBase;
+  requestOptions?: BeginRestoreOptions;
   intervalInMs?: number;
   resumeFrom?: string;
 }
@@ -30,7 +31,6 @@ export class RestorePoller extends Poller<RestorePollOperationState, undefined> 
    * @memberof RestorePoller
    */
   public intervalInMs: number;
-
   constructor(options: RestorePollerOptions) {
     const {
       client,

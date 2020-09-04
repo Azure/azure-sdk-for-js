@@ -3,11 +3,7 @@
 
 import { AbortSignalLike } from "@azure/abort-controller";
 import { PollOperationState, PollOperation } from "@azure/core-lro";
-import {
-  OperationOptions,
-  operationOptionsToRequestOptionsBase,
-  RequestOptionsBase
-} from "@azure/core-http";
+import { OperationOptions, RequestOptionsBase } from "@azure/core-http";
 import { KeyVaultClient } from "../../generated/keyVaultClient";
 import {
   KeyVaultClientFullBackupStatusResponse,
@@ -122,12 +118,11 @@ async function fullRestore(
   vaultUrl: string,
   options: KeyVaultClientFullRestoreOperationOptionalParams
 ): Promise<KeyVaultClientFullRestoreOperationResponse> {
-  const requestOptions = operationOptionsToRequestOptionsBase(options);
-  const span = createSpan("generatedClient.fullRestore", requestOptions);
+  const span = createSpan("generatedClient.fullRestore", options);
 
   let response: KeyVaultClientFullRestoreOperationResponse;
   try {
-    response = await client.fullRestoreOperation(vaultUrl, setParentSpan(span, requestOptions));
+    response = await client.fullRestoreOperation(vaultUrl, setParentSpan(span, options));
   } finally {
     span.end();
   }
@@ -138,18 +133,17 @@ async function fullRestore(
 /**
  * Tracing the fullRestoreStatus operation.
  */
-async function fullRestoreStatus(
+async function fullBackupStatus(
   client: KeyVaultClient,
   vaultUrl: string,
   jobId: string,
   options: OperationOptions
 ): Promise<KeyVaultClientFullBackupStatusResponse> {
-  const requestOptions = operationOptionsToRequestOptionsBase(options);
-  const span = createSpan("generatedClient.fullRestoreStatus", requestOptions);
+  const span = createSpan("generatedClient.fullBackupStatus", options);
 
   let response: KeyVaultClientFullBackupStatusResponse;
   try {
-    response = await client.fullBackupStatus(vaultUrl, jobId, setParentSpan(span, requestOptions));
+    response = await client.fullBackupStatus(vaultUrl, jobId, setParentSpan(span, options));
   } finally {
     span.end();
   }
@@ -181,7 +175,7 @@ async function update(
   }
 
   if (!state.isStarted) {
-    const fullRestoreOperation = await fullRestore(client, vaultUrl, {
+    const serviceOperation = await fullRestore(client, vaultUrl, {
       ...requestOptions,
       restoreBlobDetails: {
         folderToRestore: folderName,
@@ -192,7 +186,7 @@ async function update(
       }
     });
 
-    const { startTime, jobId, endTime, error } = fullRestoreOperation;
+    const { startTime, jobId, endTime, error } = serviceOperation;
 
     if (!startTime) {
       state.error = new Error(`Missing "startTime" from the full restore operation.`);
@@ -204,8 +198,8 @@ async function update(
     state.jobId = jobId;
     state.endTime = endTime;
     state.startTime = startTime;
-    state.status = fullRestoreOperation.status;
-    state.statusDetails = fullRestoreOperation.statusDetails;
+    state.status = serviceOperation.status;
+    state.statusDetails = serviceOperation.statusDetails;
 
     if (endTime) {
       state.isCompleted = true;
@@ -223,10 +217,10 @@ async function update(
   }
 
   if (!state.isCompleted) {
-    const fullRestoreOperation = await fullRestoreStatus(client, vaultUrl, state.jobId, {
+    const serviceOperation = await fullBackupStatus(client, vaultUrl, state.jobId, {
       requestOptions
     });
-    const { endTime, error } = fullRestoreOperation;
+    const { endTime, error } = serviceOperation;
     if (endTime) {
       state.isCompleted = true;
     }
