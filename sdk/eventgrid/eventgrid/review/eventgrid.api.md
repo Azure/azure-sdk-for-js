@@ -50,7 +50,7 @@ export interface CloudEvent<T> {
     datacontenttype?: string;
     dataschema?: string;
     extensionAttributes?: Record<string, unknown>;
-    id?: string;
+    id: string;
     source: string;
     subject?: string;
     time?: Date;
@@ -222,9 +222,9 @@ export interface EventGridConsumerOptions {
 export interface EventGridEvent<T> {
     data: T;
     dataVersion: string;
-    eventTime?: Date;
+    eventTime: Date;
     eventType: string;
-    id?: string;
+    id: string;
     subject: string;
     topic?: string;
 }
@@ -234,10 +234,10 @@ export class EventGridPublisherClient {
     constructor(endpointUrl: string, credential: KeyCredential | SignatureCredential, options?: EventGridPublisherClientOptions);
     readonly apiVersion: string;
     readonly endpointUrl: string;
-    sendCloudEvents(events: CloudEvent<any>[], options?: SendCloudEventsOptions): Promise<SendEventsResponse>;
+    sendCloudEvents(events: SendCloudEventInput<any>[], options?: SendCloudEventsOptions): Promise<SendEventsResponse>;
     sendCustomSchemaEvents(events: Record<string, any>[], options?: SendCustomSchemaEventsOptions): Promise<SendEventsResponse>;
     // Warning: (ae-forgotten-export) The symbol "SendEventsResponse" needs to be exported by the entry point index.d.ts
-    sendEvents(events: EventGridEvent<any>[], options?: SendEventsOptions): Promise<SendEventsResponse>;
+    sendEvents(events: SendEventGridEventInput<any>[], options?: SendEventsOptions): Promise<SendEventsResponse>;
 }
 
 // @public
@@ -717,10 +717,34 @@ export interface ResourceWriteSuccessEventData {
 }
 
 // @public
+export interface SendCloudEventInput<T> {
+    data?: T;
+    datacontenttype?: string;
+    dataschema?: string;
+    extensionAttributes?: Record<string, unknown>;
+    id?: string;
+    source: string;
+    subject?: string;
+    time?: Date;
+    type: string;
+}
+
+// @public
 export type SendCloudEventsOptions = OperationOptions;
 
 // @public
 export type SendCustomSchemaEventsOptions = OperationOptions;
+
+// @public
+export interface SendEventGridEventInput<T> {
+    data: T;
+    dataVersion: string;
+    eventTime?: Date;
+    eventType: string;
+    id?: string;
+    subject: string;
+    topic?: string;
+}
 
 // @public
 export type SendEventsOptions = OperationOptions;

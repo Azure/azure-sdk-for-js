@@ -13,7 +13,11 @@ import {
 import { createEventGridCredentialPolicy } from "./eventGridAuthenticationPolicy";
 import { SignatureCredential } from "./sharedAccessSignitureCredential";
 import { SDK_VERSION } from "./constants";
-import { CloudEvent, EventGridEvent, cloudEventReservedPropertyNames } from "./models";
+import {
+  SendCloudEventInput,
+  SendEventGridEventInput,
+  cloudEventReservedPropertyNames
+} from "./models";
 import { GeneratedClient } from "./generated/generatedClient";
 import {
   CloudEvent as CloudEventWireModel,
@@ -116,7 +120,7 @@ export class EventGridPublisherClient {
    * @param message One or more events to publish
    */
   sendEvents(
-    events: EventGridEvent<any>[],
+    events: SendEventGridEventInput<any>[],
     options?: SendEventsOptions
   ): Promise<SendEventsResponse> {
     return this.client
@@ -138,7 +142,7 @@ export class EventGridPublisherClient {
    * @param message One or more events to publish
    */
   sendCloudEvents(
-    events: CloudEvent<any>[],
+    events: SendCloudEventInput<any>[],
     options?: SendCloudEventsOptions
   ): Promise<SendEventsResponse> {
     return this.client
@@ -177,7 +181,7 @@ export class EventGridPublisherClient {
  * @internal
  */
 export function convertEventGridEventToModelType(
-  event: EventGridEvent<any>
+  event: SendEventGridEventInput<any>
 ): EventGridEventWireModel {
   return {
     eventType: event.eventType,
@@ -193,7 +197,7 @@ export function convertEventGridEventToModelType(
 /**
  * @internal
  */
-export function convertCloudEventToModelType(event: CloudEvent<any>): CloudEventWireModel {
+export function convertCloudEventToModelType(event: SendCloudEventInput<any>): CloudEventWireModel {
   if (event.extensionAttributes) {
     for (const propName in event.extensionAttributes) {
       // Per the cloud events spec: "CloudEvents attribute names MUST consist of lower-case letters ('a' to 'z') or digits ('0' to '9') from the ASCII character set"

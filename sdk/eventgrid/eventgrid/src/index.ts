@@ -3,7 +3,13 @@
 
 export { AzureKeyCredential } from "@azure/core-auth";
 
-export { CustomEventDataDeserializer, EventGridEvent, CloudEvent } from "./models";
+export {
+  CloudEvent,
+  CustomEventDataDeserializer,
+  EventGridEvent,
+  SendCloudEventInput,
+  SendEventGridEventInput
+} from "./models";
 
 export {
   EventGridPublisherClient,
