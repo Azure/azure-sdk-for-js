@@ -188,7 +188,7 @@ function parseAtomResult(response: HttpOperationResponse, nameProperties: string
     return;
   }
 
-  log.error(
+  logger.error(
     "Failure in parsing response body from service. Expected response to be in Atom XML format and have either feed or entry components, but received - %0",
     atomResponseInJson
   );

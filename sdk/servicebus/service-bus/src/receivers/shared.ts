@@ -47,7 +47,7 @@ export async function* getMessageIterator<ReceivedMessageT>(
  */
 export function wrapProcessErrorHandler(
   handlers: Pick<MessageHandlers<unknown>, "processError">,
-  logError: (formatter: any, ...args: any[]) => void = log.error
+  logError: (formatter: any, ...args: any[]) => void = logger.error
 ): MessageHandlers<unknown>["processError"] {
   return async (err: Error) => {
     try {

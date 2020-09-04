@@ -172,7 +172,7 @@ export class ServiceBusSessionReceiverImpl<
       if (this._isClosed) {
         const errorMessage = getReceiverClosedErrorMsg(this.entityPath, this.sessionId);
         const error = new Error(errorMessage);
-        log.error(`[${this._context.connectionId}] %O`, error);
+        logger.error(`[${this._context.connectionId}] %O`, error);
         throw error;
       }
       const amqpError: AmqpError = {
@@ -187,7 +187,7 @@ export class ServiceBusSessionReceiverImpl<
     if (this._isReceivingMessages()) {
       const errorMessage = getAlreadyReceivingErrorMsg(this.entityPath, this.sessionId);
       const error = new Error(errorMessage);
-      log.error(`[${this._context.connectionId}] %O`, error);
+      logger.error(`[${this._context.connectionId}] %O`, error);
       throw error;
     }
   }
@@ -515,7 +515,7 @@ export class ServiceBusSessionReceiverImpl<
     try {
       await this._messageSession.close();
     } catch (err) {
-      log.error(
+      logger.error(
         "[%s] An error occurred while closing the SessionReceiver for session %s in %s: %O",
         this._context.connectionId,
         this.sessionId,

@@ -161,7 +161,7 @@ export class ServiceBusSenderImpl implements ServiceBusSender {
     if (this.isClosed) {
       const errorMessage = getSenderClosedErrorMsg(this._entityPath);
       const error = new Error(errorMessage);
-      log.error(`[${this._context.connectionId}] %O`, error);
+      logger.error(`[${this._context.connectionId}] %O`, error);
       throw error;
     }
   }
@@ -313,7 +313,7 @@ export class ServiceBusSenderImpl implements ServiceBusSender {
       this._isClosed = true;
       await this._sender.close();
     } catch (err) {
-      log.error(
+      logger.error(
         "[%s] An error occurred while closing the Sender for %s: %O",
         this._context.connectionId,
         this._entityPath,

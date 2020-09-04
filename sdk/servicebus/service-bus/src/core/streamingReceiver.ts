@@ -122,7 +122,7 @@ export class StreamingReceiver extends MessageReceiver {
       const receiverError = context.receiver && context.receiver.error;
       const receiver = this.link || context.receiver!;
 
-      log.error(
+      logger.error(
         `${this.logPrefix} 'receiver_close' event occurred. The associated error is: %O`,
         receiverError
       );
@@ -131,7 +131,7 @@ export class StreamingReceiver extends MessageReceiver {
       if (receiver && !receiver.isItselfClosed()) {
         await this.onDetached(receiverError);
       } else {
-        log.error(
+        logger.error(
           "[%s] 'receiver_close' event occurred on the receiver '%s' with address '%s' " +
             "because the sdk initiated it. Hence not calling detached from the _onAmqpClose" +
             "() handler.",
@@ -147,7 +147,7 @@ export class StreamingReceiver extends MessageReceiver {
       const receiver = this.link || context.receiver!;
       const sessionError = context.session && context.session.error;
 
-      log.error(
+      logger.error(
         `${this.logPrefix} 'session_close' event occurred. The associated error is: %O`,
         sessionError
       );
@@ -156,7 +156,7 @@ export class StreamingReceiver extends MessageReceiver {
       if (receiver && !receiver.isSessionItselfClosed()) {
         await this.onDetached(sessionError);
       } else {
-        log.error(
+        logger.error(
           "[%s] 'session_close' event occurred on the session of receiver '%s' with address " +
             "'%s' because the sdk initiated it. Hence not calling detached from the _onSessionClose" +
             "() handler.",
@@ -173,7 +173,7 @@ export class StreamingReceiver extends MessageReceiver {
       const receiverError = context.receiver && context.receiver.error;
       if (receiverError) {
         const sbError = translate(receiverError) as MessagingError;
-        log.error(
+        logger.error(
           "[%s] An error occurred for Receiver '%s': %O.",
           connectionId,
           this.name,
@@ -181,21 +181,21 @@ export class StreamingReceiver extends MessageReceiver {
         );
         if (!sbError.retryable) {
           if (receiver && !receiver.isItselfClosed()) {
-            log.error(
+            logger.error(
               "[%s] Since the user did not close the receiver and the error is not " +
                 "retryable, we let the user know about it by calling the user's error handler.",
               connectionId
             );
             this._onError!(sbError);
           } else {
-            log.error(
+            logger.error(
               "[%s] The received error is not retryable. However, the receiver was " +
                 "closed by the user. Hence not notifying the user's error handler.",
               connectionId
             );
           }
         } else {
-          log.error(
+          logger.error(
             "[%s] Since received error is retryable, we will NOT notify the user's " +
               "error handler.",
             connectionId
@@ -210,14 +210,14 @@ export class StreamingReceiver extends MessageReceiver {
       const sessionError = context.session && context.session.error;
       if (sessionError) {
         const sbError = translate(sessionError) as MessagingError;
-        log.error(
+        logger.error(
           "[%s] An error occurred on the session for Receiver '%s': %O.",
           connectionId,
           this.name,
           sbError
         );
         if (receiver && !receiver.isSessionItselfClosed() && !sbError.retryable) {
-          log.error(
+          logger.error(
             "[%s] Since the user did not close the receiver and the session error is not " +
               "retryable, we let the user know about it by calling the user's error handler.",
             connectionId
@@ -234,7 +234,7 @@ export class StreamingReceiver extends MessageReceiver {
         this.receiveMode === InternalReceiveMode.peekLock &&
         (!this.link || !this.link.isOpen())
       ) {
-        log.error(
+        logger.error(
           "[%s] Not calling the user's message handler for the current message " +
             "as the receiver '%s' is closed",
           this._context.connectionId,
@@ -322,7 +322,7 @@ export class StreamingReceiver extends MessageReceiver {
                     );
                     autoRenewLockTask();
                   } catch (err) {
-                    log.error(
+                    logger.error(
                       "[%s] An error occured while auto renewing the message lock '%s' " +
                         "for message with id '%s': %O.",
                       connectionId,
@@ -364,7 +364,7 @@ export class StreamingReceiver extends MessageReceiver {
       } catch (err) {
         // This ensures we call users' error handler when users' message handler throws.
         if (!isAmqpError(err)) {
-          log.error(
+          logger.error(
             "[%s] An error occurred while running user's message handler for the message " +
               "with id '%s' on the receiver '%s': %O",
             connectionId,
@@ -387,7 +387,7 @@ export class StreamingReceiver extends MessageReceiver {
           this.isOpen() // only try to abandon the messages if the connection is still open
         ) {
           try {
-            log.error(
+            logger.error(
               "[%s] Abandoning the message with id '%s' on the receiver '%s' since " +
                 "an error occured: %O.",
               connectionId,
@@ -398,7 +398,7 @@ export class StreamingReceiver extends MessageReceiver {
             await bMessage.abandon();
           } catch (abandonError) {
             const translatedError = translate(abandonError);
-            log.error(
+            logger.error(
               "[%s] An error occurred while abandoning the message with id '%s' on the " +
                 "receiver '%s': %O.",
               connectionId,
@@ -431,7 +431,7 @@ export class StreamingReceiver extends MessageReceiver {
           await bMessage.complete();
         } catch (completeError) {
           const translatedError = translate(completeError);
-          log.error(
+          logger.error(
             "[%s] An error occurred while completing the message with id '%s' on the " +
               "receiver '%s': %O.",
             connectionId,
@@ -500,7 +500,7 @@ export class StreamingReceiver extends MessageReceiver {
    * @returns {Promise<void>} Promise<void>.
    */
   async onDetached(receiverError?: AmqpError | Error, causedByDisconnect?: boolean): Promise<void> {
-    log.error(`${this.logPrefix} Detaching.`);
+    logger.error(`${this.logPrefix} Detaching.`);
 
     const connectionId = this._context.connectionId;
 
@@ -519,7 +519,7 @@ export class StreamingReceiver extends MessageReceiver {
       // we'll continue to see connection `disconnect` errors.
       // These should be ignored until the already running `onDetached` completes
       // its retry attempts or errors.
-      log.error(
+      logger.error(
         `[${connectionId}] Call to detached on streaming receiver '${this.name}' is already in progress.`
       );
       return;
@@ -551,7 +551,7 @@ export class StreamingReceiver extends MessageReceiver {
       // will have already been forwarded to the user's error handler.
       // Swallow the error and return quickly.
       if (!shouldReopen && !causedByDisconnect) {
-        log.error(
+        logger.error(
           "[%s] Encountered a non retryable error on the receiver. Cannot recover receiver '%s' with address '%s' encountered error: %O",
           connectionId,
           this.name,
@@ -565,7 +565,7 @@ export class StreamingReceiver extends MessageReceiver {
       // haven't had a chance to show up in the user's error handler.
       // Rethrow the error so the surrounding try/catch forwards it appropriately.
       if (!shouldReopen && causedByDisconnect) {
-        log.error(
+        logger.error(
           "[%s] Encountered a non retryable error on the connection. Cannot recover receiver '%s' with address '%s': %O",
           connectionId,
           this.name,
@@ -596,7 +596,7 @@ export class StreamingReceiver extends MessageReceiver {
       // retry will throw and the error will surface to the user's error handler.
       await retry<void>(config);
     } catch (err) {
-      log.error(
+      logger.error(
         "[%s] An error occurred while processing detached() of Receiver '%s': %O ",
         connectionId,
         this.name,
@@ -604,7 +604,7 @@ export class StreamingReceiver extends MessageReceiver {
         err
       );
       if (typeof this._onError === "function") {
-        log.error(
+        logger.error(
           "[%s] Unable to automatically reconnect Receiver '%s' with address '%s'.",
           connectionId,
           this.name,
@@ -613,7 +613,7 @@ export class StreamingReceiver extends MessageReceiver {
         try {
           this._onError(err);
         } catch (err) {
-          log.error(
+          logger.error(
             "[%s] User-code error in error handler called after disconnect: %O",
             connectionId,
             err

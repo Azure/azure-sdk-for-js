@@ -239,7 +239,7 @@ export abstract class MessageReceiver extends LinkEntity<Receiver> {
       this._context.messageReceivers[this.name] = this as any;
     } catch (err) {
       err = translate(err);
-      log.error(
+      logger.error(
         "[%s] An error occured while creating the receiver '%s': %O",
         this._context.connectionId,
         this.name,

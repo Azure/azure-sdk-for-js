@@ -170,7 +170,7 @@ export class ServiceBusReceiverImpl<
     if (this._isReceivingMessages()) {
       const errorMessage = getAlreadyReceivingErrorMsg(this.entityPath);
       const error = new Error(errorMessage);
-      log.error(`[${this._context.connectionId}] %O`, error);
+      logger.error(`[${this._context.connectionId}] %O`, error);
       throw error;
     }
   }
@@ -180,7 +180,7 @@ export class ServiceBusReceiverImpl<
     if (this.isClosed) {
       const errorMessage = getReceiverClosedErrorMsg(this.entityPath);
       const error = new Error(errorMessage);
-      log.error(`[${this._context.connectionId}] %O`, error);
+      logger.error(`[${this._context.connectionId}] %O`, error);
       throw error;
     }
   }
@@ -459,7 +459,7 @@ export class ServiceBusReceiverImpl<
         }
       }
     } catch (err) {
-      log.error(
+      logger.error(
         "[%s] An error occurred while closing the Receiver for %s: %O",
         this._context.connectionId,
         this.entityPath,

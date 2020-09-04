@@ -103,6 +103,7 @@
     "@azure/core-http": "^1.1.6",
     "@azure/core-tracing": "1.0.0-preview.9",
     "@azure/core-paging": "^1.1.1",
+    "@azure/logger": "^1.0.0",
     "@opentelemetry/api": "^0.10.2",
     "@types/is-buffer": "^2.0.0",
     "@types/long": "^4.0.0",

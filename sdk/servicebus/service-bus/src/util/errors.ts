@@ -15,7 +15,7 @@ export function throwErrorIfConnectionClosed(context: ConnectionContext): void {
   if (context && context.wasConnectionCloseCalled) {
     const errorMessage = "The underlying AMQP connection is closed.";
     const error = new Error(errorMessage);
-    log.error(`[${context.connectionId}] %O`, error);
+    logger.error(`[${context.connectionId}] %O`, error);
     throw error;
   }
 }
@@ -81,7 +81,7 @@ export function throwTypeErrorIfParameterMissing(
 ): void {
   if (parameterValue === undefined || parameterValue === null) {
     const error = new TypeError(`Missing parameter "${parameterName}"`);
-    log.error(`[${connectionId}] %O`, error);
+    logger.error(`[${connectionId}] %O`, error);
     throw error;
   }
 }
@@ -105,7 +105,7 @@ export function throwTypeErrorIfParameterTypeMismatch(
     const error = new TypeError(
       `The parameter "${parameterName}" should be of type "${expectedType}"`
     );
-    log.error(`[${connectionId}] %O`, error);
+    logger.error(`[${connectionId}] %O`, error);
     throw error;
   }
 }
@@ -130,7 +130,7 @@ export function throwTypeErrorIfParameterNotLong(
     return;
   }
   const error = new TypeError(`The parameter "${parameterName}" should be of type "Long"`);
-  log.error(`[${connectionId}] %O`, error);
+  logger.error(`[${connectionId}] %O`, error);
   throw error;
 }
 
@@ -151,7 +151,7 @@ export function throwTypeErrorIfParameterNotLongArray(
     return;
   }
   const error = new TypeError(`The parameter "${parameterName}" should be an array of type "Long"`);
-  log.error(`[${connectionId}] %O`, error);
+  logger.error(`[${connectionId}] %O`, error);
   throw error;
 }
 
@@ -172,7 +172,7 @@ export function throwTypeErrorIfParameterIsEmptyString(
     return;
   }
   const error = new TypeError(`Empty string not allowed in parameter "${parameterName}"`);
-  log.error(`[${connectionId}] %O`, error);
+  logger.error(`[${connectionId}] %O`, error);
   throw error;
 }
 

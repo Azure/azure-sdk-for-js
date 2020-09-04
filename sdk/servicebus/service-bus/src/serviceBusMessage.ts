@@ -801,14 +801,14 @@ export function fromAmqpMessage(
     lockToken:
       delivery && delivery.tag && delivery.tag.length !== 0
         ? uuid_to_string(
-          shouldReorderLockToken === true
-            ? reorderLockToken(
-              typeof delivery.tag === "string" ? Buffer.from(delivery.tag) : delivery.tag
-            )
-            : typeof delivery.tag === "string"
+            shouldReorderLockToken === true
+              ? reorderLockToken(
+                  typeof delivery.tag === "string" ? Buffer.from(delivery.tag) : delivery.tag
+                )
+              : typeof delivery.tag === "string"
               ? Buffer.from(delivery.tag)
               : delivery.tag
-        )
+          )
         : undefined,
     ...sbmsg,
     ...props,
@@ -1166,7 +1166,7 @@ export class ServiceBusMessageImpl implements ReceivedMessageWithLock {
       error = new Error(`Failed to renew the lock as this message is already settled.`);
     }
     if (error) {
-      log.error(
+      logger.error(
         "[%s] An error occurred when renewing the lock on the message with id '%s': %O",
         this._context.connectionId,
         this.messageId,
@@ -1230,7 +1230,7 @@ export class ServiceBusMessageImpl implements ReceivedMessageWithLock {
       const error = new Error(
         getErrorMessageNotSupportedInReceiveAndDeleteMode(`${operation} the message`)
       );
-      log.error(
+      logger.error(
         "[%s] An error occurred when settling a message with id '%s': %O",
         this._context.connectionId,
         this.messageId,
@@ -1264,7 +1264,7 @@ export class ServiceBusMessageImpl implements ReceivedMessageWithLock {
         });
       }
       if (error) {
-        log.error(
+        logger.error(
           "[%s] An error occurred when settling a message with id '%s': %O",
           this._context.connectionId,
           this.messageId,

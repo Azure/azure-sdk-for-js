@@ -30,12 +30,6 @@ export const link = debugModule("azure:service-bus:linkEntity");
 /**
  * @internal
  * @ignore
- * log statements for error
- */
-export const error = debugModule("azure:service-bus:error");
-/**
- * @internal
- * @ignore
  * log statements for warning
  */
 export const warning = debugModule("azure:service-bus:warning");
