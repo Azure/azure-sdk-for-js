@@ -251,7 +251,7 @@ You can read more about how sessions work [here][docsms_messagesessions].
 
 ### Manage resources of a service bus namespace
 
-`ServiceBusManagementClient` lets you manage a namespace with CRUD operations on the entities(queues, topics, and subscriptions) and on the rules of a subscription.
+`ServiceBusAdministrationClient` lets you manage a namespace with CRUD operations on the entities(queues, topics, and subscriptions) and on the rules of a subscription.
 
 - Supports authentication with a service bus connection string as well as with the AAD credentials from `@azure/identity` similar to the `ServiceBusClient`.
 
@@ -259,21 +259,21 @@ You can read more about how sessions work [here][docsms_messagesessions].
 // Get the connection string from the portal
 // OR
 // use the token credential overload, provide the host name of your Service Bus instance and the AAD credentials from the @azure/identity library
-const serviceBusManagementClient = new ServiceBusManagementClient("<connectionString>");
+const serviceBusAdministrationClient = new ServiceBusAdministrationClient("<connectionString>");
 
 // Similarly, you can create topics and subscriptions as well.
-const createQueueResponse = await serviceBusManagementClient.createQueue(queueName);
+const createQueueResponse = await serviceBusAdministrationClient.createQueue(queueName);
 console.log("Created queue with name - ", createQueueResponse.name);
 
-const queueRuntimeProperties = await serviceBusManagementClient.getQueueRuntimeProperties(
+const queueRuntimeProperties = await serviceBusAdministrationClient.getQueueRuntimeProperties(
   queueName
 );
 console.log("Number of messages in the queue = ", queueRuntimeProperties.totalMessageCount);
 
-await serviceBusManagementClient.deleteQueue(queueName);
+await serviceBusAdministrationClient.deleteQueue(queueName);
 ```
 
-- Sample for reference - [managementClient.ts](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/servicebus/service-bus/samples/typescript/src/advanced/managementClient.ts)
+- Sample for reference - [administrationClient.ts](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/servicebus/service-bus/samples/typescript/src/advanced/administrationClient.ts)
 
 ## Troubleshooting
 

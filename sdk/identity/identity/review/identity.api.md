@@ -64,9 +64,14 @@ export class ChainedTokenCredential implements TokenCredential {
 
 // @public
 export class ClientCertificateCredential implements TokenCredential {
-    constructor(tenantId: string, clientId: string, certificatePath: string, options?: TokenCredentialOptions);
+    constructor(tenantId: string, clientId: string, certificatePath: string, options?: ClientCertificateCredentialOptions);
     getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken | null>;
     }
+
+// @public
+export interface ClientCertificateCredentialOptions extends TokenCredentialOptions {
+    includeX5c?: boolean;
+}
 
 // @public
 export class ClientSecretCredential implements TokenCredential {

@@ -26,6 +26,10 @@ export class AvroReadableFromStream extends AvroReadable {
     return this._position;
   }
   public async read(size: number, options: AvroReadableReadOptions = {}): Promise<Uint8Array> {
+    if (options.abortSignal?.aborted) {
+      throw ABORT_ERROR;
+    }
+
     if (size < 0) {
       throw new Error(`size parameter should be positive: ${size}`);
     }

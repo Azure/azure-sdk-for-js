@@ -97,7 +97,7 @@ export {
   ServiceFilterBlobsHeaders,
   Logging,
   Metrics,
-  ModifiedAccessConditions,
+  ModifiedAccessConditions as ModifiedAccessConditionsModel,
   PublicAccessType,
   PageBlobCreateResponse,
   PageBlobUploadPagesResponse,
