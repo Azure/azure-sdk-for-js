@@ -92,15 +92,15 @@ export function calculateRenewAfterDuration(lockedUntilUtc: Date): number {
   const now = Date.now();
   const lockedUntil = lockedUntilUtc.getTime();
   const remainingTime = lockedUntil - now;
-  log.utils("Locked until utc  : %d", lockedUntil);
-  log.utils("Current time is   : %d", now);
-  log.utils("Remaining time is : %d", remainingTime);
+  logger.verbose("Locked until utc  : %d", lockedUntil);
+  logger.verbose("Current time is   : %d", now);
+  logger.verbose("Remaining time is : %d", remainingTime);
   if (remainingTime < 1000) {
     return 0;
   }
   const buffer = Math.min(remainingTime / 2, 10000); // 10 seconds
   const renewAfter = remainingTime - buffer;
-  log.utils("Renew after       : %d", renewAfter);
+  logger.verbose("Renew after       : %d", renewAfter);
   return renewAfter;
 }
 
@@ -127,7 +127,7 @@ export function convertTicksToDate(buf: number[]): Date {
     .div(10000)
     .toNumber();
   const result = new Date(timeInMS);
-  log.utils("The converted date is: %s", result.toString());
+  logger.verbose("The converted date is: %s", result.toString());
   return result;
 }
 
@@ -153,7 +153,7 @@ export function getProcessorCount(): number {
  */
 export function toBuffer(input: any): Buffer {
   let result: any;
-  log.utils(
+  logger.verbose(
     "[utils.toBuffer] The given message body that needs to be converted to buffer is: ",
     input
   );
@@ -176,7 +176,7 @@ export function toBuffer(input: any): Buffer {
       throw err instanceof Error ? err : new Error(msg);
     }
   }
-  log.utils("[utils.toBuffer] The converted buffer is: %O.", result);
+  logger.verbose("[utils.toBuffer] The converted buffer is: %O.", result);
   return result;
 }
 

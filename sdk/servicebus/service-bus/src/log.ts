@@ -19,11 +19,3 @@ export function logErrorStackTrace(error: any) {
     logger.verbose(error.stack);
   }
 }
-
-import debugModule from "debug";
-/**
- * @internal
- * @ignore
- * log statements for utils
- */
-export const utils = debugModule("azure:service-bus:utils");
