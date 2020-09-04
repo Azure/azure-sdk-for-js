@@ -20,33 +20,33 @@ require("dotenv").config();
 const connectionString = process.env.SERVICE_BUS_CONNECTION_STRING || "<connection string>";
 
 async function main() {
-  const ServiceBusAdministrationClient = new ServiceBusAdministrationClient(connectionString);
+  const serviceBusAdministrationClient = new ServiceBusAdministrationClient(connectionString);
   const baseQueueName = "random-queue";
   const numberOfQueues = 7;
 
   // Create queues in order to list them later
   for (let i = 0; i < numberOfQueues; i++) {
-    await ServiceBusAdministrationClient.createQueue(baseQueueName + "_" + i);
+    await serviceBusAdministrationClient.createQueue(baseQueueName + "_" + i);
   }
 
   // This sample leverages `listQueues()` as an example, you can iterate over topics, subscriptions, and rules
   // as well as on the runtime info of entities by using methods like `listQueuesRuntimeProperties()`
   // 1. List Queues
   let i = 1;
-  let queues = ServiceBusAdministrationClient.listQueues();
+  let queues = serviceBusAdministrationClient.listQueues();
   for await (const queue of queues) {
     console.log(`Queue ${i++}: ${queue.name}`);
   }
 
   // 2. Same as the previous example
   i = 1;
-  for await (const queue of ServiceBusAdministrationClient.listQueues()) {
+  for await (const queue of serviceBusAdministrationClient.listQueues()) {
     console.log(`Queue ${i++}: ${queue.name}`);
   }
 
   // 3. Generator syntax .next()
   i = 1;
-  queues = ServiceBusAdministrationClient.listQueues();
+  queues = serviceBusAdministrationClient.listQueues();
   let queueItem = await queues.next();
   while (!queueItem.done) {
     console.log(`Queue ${i++}: ${queueItem.value.name}`);
@@ -59,7 +59,7 @@ async function main() {
 
   // 4. list queues by page
   i = 1;
-  for await (const queuesPage of ServiceBusAdministrationClient.listQueues().byPage()) {
+  for await (const queuesPage of serviceBusAdministrationClient.listQueues().byPage()) {
     for (const queue of queuesPage) {
       console.log(`Queue ${i++}: ${queue.name}`);
     }
@@ -67,7 +67,7 @@ async function main() {
 
   // 5. Same as the previous example - passing maxPageSize in the page settings
   i = 1;
-  for await (const queuesPage of ServiceBusAdministrationClient
+  for await (const queuesPage of serviceBusAdministrationClient
     .listQueues()
     .byPage({ maxPageSize: 2 })) {
     for (const queue of queuesPage) {
@@ -77,7 +77,7 @@ async function main() {
 
   // 6. Generator syntax .next()
   i = 1;
-  let iterator = ServiceBusAdministrationClient.listQueues().byPage({ maxPageSize: 3 });
+  let iterator = serviceBusAdministrationClient.listQueues().byPage({ maxPageSize: 3 });
   let queuesPage = await iterator.next();
   while (!queuesPage.done) {
     if (queuesPage.value) {
@@ -90,7 +90,7 @@ async function main() {
 
   // 7. Passing marker as an argument (similar to the previous example)
   i = 1;
-  iterator = ServiceBusAdministrationClient.listQueues().byPage({ maxPageSize: 2 });
+  iterator = serviceBusAdministrationClient.listQueues().byPage({ maxPageSize: 2 });
   queuesPage = await iterator.next();
   // Prints 2 queue names
   if (!queuesPage.done) {
@@ -102,7 +102,7 @@ async function main() {
   // lists next marker
   let marker = queuesPage.value.continuationToken;
   // Passing next marker as continuationToken
-  iterator = ServiceBusAdministrationClient.listQueues().byPage({
+  iterator = serviceBusAdministrationClient.listQueues().byPage({
     continuationToken: marker,
     maxPageSize: 10
   });
@@ -116,7 +116,7 @@ async function main() {
 
   // Delete all the newly created queues
   for (let i = 0; i < numberOfQueues; i++) {
-    await ServiceBusAdministrationClient.deleteQueue(baseQueueName + "_" + i);
+    await serviceBusAdministrationClient.deleteQueue(baseQueueName + "_" + i);
   }
 }
 

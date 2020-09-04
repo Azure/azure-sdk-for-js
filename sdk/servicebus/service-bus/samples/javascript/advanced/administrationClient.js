@@ -23,29 +23,29 @@ const queueName = process.env.QUEUE_NAME || "<queue name>";
 async function main() {
   // You can also use AAD credentials from `@azure/identity` along with the host url
   // instead of the connection string for authentication.
-  const ServiceBusAdministrationClient = new ServiceBusAdministrationClient(connectionString);
+  const serviceBusAdministrationClient = new ServiceBusAdministrationClient(connectionString);
 
   // Similarly, you can create topics and subscriptions as well.
-  const createQueueResponse = await ServiceBusAdministrationClient.createQueue(queueName);
+  const createQueueResponse = await serviceBusAdministrationClient.createQueue(queueName);
   console.log("Created queue with name - ", createQueueResponse.name);
 
-  const getQueueResponse = await ServiceBusAdministrationClient.getQueue(queueName);
+  const getQueueResponse = await serviceBusAdministrationClient.getQueue(queueName);
   console.log("(Current)max delivery count = ", getQueueResponse.maxDeliveryCount);
 
   getQueueResponse.maxDeliveryCount = 12;
-  const updateQueueResponse = await ServiceBusAdministrationClient.updateQueue(getQueueResponse);
+  const updateQueueResponse = await serviceBusAdministrationClient.updateQueue(getQueueResponse);
   console.log("(Updated)max delivery count = ", updateQueueResponse.maxDeliveryCount);
 
-  const queueRuntimeProperties = await ServiceBusAdministrationClient.getQueueRuntimeProperties(
+  const queueRuntimeProperties = await serviceBusAdministrationClient.getQueueRuntimeProperties(
     queueName
   );
   console.log("Number of messages in the queue = ", queueRuntimeProperties.totalMessageCount);
 
-  const namespaceInfo = await ServiceBusAdministrationClient.getNamespaceProperties();
+  const namespaceInfo = await serviceBusAdministrationClient.getNamespaceProperties();
   console.log("Type of the namespace - ", namespaceInfo.namespaceType);
 
-  await ServiceBusAdministrationClient.deleteQueue(queueName);
-  const queueExists = await ServiceBusAdministrationClient.queueExists(queueName);
+  await serviceBusAdministrationClient.deleteQueue(queueName);
+  const queueExists = await serviceBusAdministrationClient.queueExists(queueName);
   if (queueExists == true) {
     console.log("Something went wrong, queue should have been deleted");
     return;
