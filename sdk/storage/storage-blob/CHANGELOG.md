@@ -1,13 +1,16 @@
 # Release History
 
-## 12.2.0 (Unreleased)
+## 12.2.0 (2020.09)
 
 - Added RehydratePriority to BlobProperties and BlobItemProperties.
-- Fixed `BlockBlobClient.uploadStream()` to support bufferSize larger than `buffer.constants.MAX_LENGTH` for Jumbo Blob (~200TB Block Blob).
+- Fixed `BlockBlobClient.uploadStream()` to support `bufferSize` larger than `buffer.constants.MAX_LENGTH`.
 - Added support for Object Replication Service.
 - Added custom domain support.
 - Supported Append Blob Seal.
 - Supported tags conditional operations.
+- The Static Website Service now supports a DefaultIndexDocumentPath for a global HTTP 200 route within the static website. You can get it by `BlobServiceClient.getProperties()` and set it via `blobServiceClient.setProperties()`.
+- Bug fix - `newPipeline()` now permits not specifying the credential. If not specified, `AnonymousCredential` is used. Fixes bug [9628](https://github.com/Azure/azure-sdk-for-js/issues/9628).
+- Bug fix - high level upload functions `BlockBlobClient.uploadFile()`, `BlockBlobClient.uploadStream()` and `BlockBlobClient.uploadBrowserData()` now support setting tier. Fixes bug [9062](https://github.com/Azure/azure-sdk-for-js/issues/9062).
 
 ## 12.2.0-preview.1 (2020.07)
 
