@@ -11,7 +11,6 @@ import {
   MessagingError
 } from "@azure/core-amqp";
 import { ConnectionContext } from "../connectionContext";
-import * as log from "../log";
 import { logger } from "../log";
 import {
   AwaitableSender,
@@ -161,8 +160,6 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
     return this._logPrefix;
   }
 
-  private _logger: typeof logger.error;
-
   /**
    * Indicates that close() has been called on this link and
    * that it should not be allowed to reopen.
@@ -193,8 +190,6 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
     this.audience = options.audience || "";
     this.name = getUniqueName(name);
     this._logPrefix = `[${context.connectionId}|${this._linkType}:${this.name}]`;
-
-    this._logger = LinkEntity.getLogger(this._linkType);
   }
 
   /**
@@ -262,13 +257,13 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
       checkAborted();
       this.checkIfConnectionReady();
 
-      this._logger(`${this._logPrefix} Creating with options %O`, options);
+      logger.info(`${this._logPrefix} Creating with options %O`, options);
       this._link = await this.createRheaLink(options);
       checkAborted();
 
       this._ensureTokenRenewal();
 
-      this._logger(`${this._logPrefix} Link has been created.`);
+      logger.info(`${this._logPrefix} Link has been created.`);
     } catch (err) {
       logger.error(`${this._logPrefix} Error thrown when creating the link:`, err);
       await this.closeLinkImpl();
@@ -342,7 +337,7 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
   }
 
   private async closeLinkImpl(): Promise<void> {
-    this._logger(`${this._logPrefix} closeLinkImpl() called`);
+    logger.info(`${this._logPrefix} closeLinkImpl() called`);
 
     clearTimeout(this._tokenRenewalTimer as NodeJS.Timer);
     this._tokenRenewalTimer = undefined;
@@ -356,31 +351,9 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
         // remove them from the internal map.
         await link.close();
 
-        this._logger(`${this._logPrefix} closed.`);
+        logger.info(`${this._logPrefix} closed.`);
       } catch (err) {
         logger.error(`${this._logPrefix} An error occurred while closing the link.: %O`, err);
-      }
-    }
-  }
-
-  private static getLogger(
-    linkType: LinkTypeT<Receiver> | LinkTypeT<AwaitableSender> | LinkTypeT<RequestResponseLink>
-  ): typeof logger.error {
-    switch (linkType) {
-      case "m": {
-        return log.mgmt;
-      }
-      case "s": {
-        return log.sender;
-      }
-      case "br": {
-        return log.batching;
-      }
-      case "sr": {
-        return log.streaming;
-      }
-      case "ms": {
-        return log.messageSession;
       }
     }
   }
@@ -420,7 +393,7 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
     // Although node.js is single threaded, we need a locking mechanism to ensure that a
     // race condition does not happen while creating a shared resource (in this case the
     // cbs session, since we want to have exactly 1 cbs session per connection).
-    this._logger(
+    logger.info(
       "[%s] Acquiring cbs lock: '%s' for creating the cbs session while creating the %s: " +
         "'%s' with address: '%s'.",
       this._context.connectionId,
@@ -454,14 +427,14 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
       tokenType = TokenType.CbsTokenTypeJwt;
       this._tokenTimeout = tokenObject.expiresOnTimestamp - Date.now() - 2 * 60 * 1000;
     }
-    this._logger(
+    logger.info(
       "[%s] %s: calling negotiateClaim for audience '%s'.",
       this._context.connectionId,
       this._type,
       this.audience
     );
     // Acquire the lock to negotiate the CBS claim.
-    this._logger(
+    logger.info(
       "[%s] Acquiring cbs lock: '%s' for cbs auth for %s: '%s' with address '%s'.",
       this._context.connectionId,
       this._context.negotiateClaimLock,
@@ -476,7 +449,7 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
       this.checkIfConnectionReady();
       return this._context.cbsSession.negotiateClaim(this.audience, tokenObject, tokenType);
     });
-    this._logger(
+    logger.info(
       "[%s] Negotiated claim for %s '%s' with with address: %s",
       this._context.connectionId,
       this._type,
@@ -532,7 +505,7 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
         );
       }
     }, this._tokenTimeout);
-    this._logger(
+    logger.info(
       "[%s] %s '%s' with address %s, has next token renewal in %d milliseconds @(%s).",
       this._context.connectionId,
       this._type,

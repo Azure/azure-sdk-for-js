@@ -24,12 +24,6 @@ import debugModule from "debug";
 /**
  * @internal
  * @ignore
- * log statements for linkEntity
- */
-export const link = debugModule("azure:service-bus:linkEntity");
-/**
- * @internal
- * @ignore
  * log statements for warning
  */
 export const warning = debugModule("azure:service-bus:warning");
@@ -60,12 +54,6 @@ export const batching = debugModule("azure:service-bus:receiverbatching");
 /**
  * @internal
  * @ignore
- * log statements for receiverstreaming
- */
-export const streaming = debugModule("azure:service-bus:receiverstreaming");
-/**
- * @internal
- * @ignore
  * log statements for connectionContext
  */
 export const connectionCtxt = debugModule("azure:service-bus:connectionContext");
@@ -81,12 +69,6 @@ export const ns = debugModule("azure:service-bus:namespace");
  * log statements for servicebusMessage
  */
 export const message = debugModule("azure:service-bus:servicebusMessage");
-/**
- * @internal
- * @ignore
- * log statements for map
- */
-export const map = debugModule("azure:service-bus:concurrentMap");
 /**
  * @internal
  * @ignore

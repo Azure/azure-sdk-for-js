@@ -9,7 +9,6 @@ import { Receiver, ReceiverOptions } from "rhea-promise";
 import sinon from "sinon";
 import { ConnectionContext } from "../../src/connectionContext";
 import { LinkEntity } from "../../src/core/linkEntity";
-import * as log from "../../src/log";
 import { isLinkLocked } from "../utils/misc";
 import { createConnectionContextForTests, createRheaReceiverForTests } from "./unittestUtils";
 chai.use(chaiAsPromised);
@@ -306,14 +305,6 @@ describe("LinkEntity unit tests", () => {
 
       await linkEntity.close();
       await linkEntity.close();
-    });
-
-    it("get logger", async () => {
-      assert.strictEqual(LinkEntity["getLogger"]("br"), log.batching);
-      assert.strictEqual(LinkEntity["getLogger"]("sr"), log.streaming);
-      assert.strictEqual(LinkEntity["getLogger"]("s"), log.sender);
-      assert.strictEqual(LinkEntity["getLogger"]("m"), log.mgmt);
-      assert.strictEqual(LinkEntity["getLogger"]("ms"), log.messageSession);
     });
   });
 

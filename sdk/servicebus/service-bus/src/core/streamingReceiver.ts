@@ -423,7 +423,7 @@ export class StreamingReceiver extends MessageReceiver {
         !bMessage.delivery.remote_settled
       ) {
         try {
-          log.streaming(
+          logger.info(
             "[%s] Auto completing the message with id '%s' on " + "the receiver '%s'.",
             connectionId,
             bMessage.messageId,
