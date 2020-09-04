@@ -15,6 +15,7 @@ import { RequestPolicy } from '@azure/core-http';
 import { RequestPolicyFactory } from '@azure/core-http';
 import { RequestPolicyOptionsLike } from '@azure/core-http';
 import { WebResource } from '@azure/core-http';
+import { WebResourceLike } from '@azure/core-http';
 
 // @public
 export interface AccessPolicy {
@@ -513,7 +514,7 @@ export interface TableSetAccessPolicyHeaders {
 }
 
 // @public
-export class TablesSharedKeyCredential implements RequestPolicyFactory {
+export class TablesSharedKeyCredential implements TablesSharedKeyCredentialLike {
     constructor(accountName: string, accountKey: string);
     readonly accountName: string;
     computeHMACSHA256(stringToSign: string): string;
@@ -521,10 +522,16 @@ export class TablesSharedKeyCredential implements RequestPolicyFactory {
 }
 
 // @public
+export interface TablesSharedKeyCredentialLike extends RequestPolicyFactory {
+    accountName: string;
+    computeHMACSHA256: (stringToSign: string) => string;
+}
+
+// @public
 export class TablesSharedKeyCredentialPolicy extends BaseRequestPolicy {
-    constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptionsLike, factory: TablesSharedKeyCredential);
-    sendRequest(request: WebResource): Promise<HttpOperationResponse>;
-    protected signRequest(request: WebResource): WebResource;
+    constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptionsLike, credential: TablesSharedKeyCredentialLike);
+    sendRequest(request: WebResourceLike): Promise<HttpOperationResponse>;
+    protected signRequest(request: WebResourceLike): WebResource;
 }
 
 // @public

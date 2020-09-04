@@ -10,7 +10,7 @@ import {
   isTokenCredential,
   TokenCredential,
   TransferProgressEvent,
-  URLBuilder,
+  URLBuilder
 } from "@azure/core-http";
 import { PollerLike, PollOperationState } from "@azure/core-lro";
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
@@ -21,7 +21,13 @@ import { BlobDownloadResponse } from "./BlobDownloadResponse";
 import { BlobQueryResponse } from "./BlobQueryResponse";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
-import { AppendBlob, Blob as StorageBlob, BlockBlob, Container, PageBlob } from "./generated/src/operations";
+import {
+  AppendBlob,
+  Blob as StorageBlob,
+  BlockBlob,
+  Container,
+  PageBlob
+} from "./generated/src/operations";
 import { StorageClientContext } from "./generated/src/storageClient";
 import {
   AppendBlobAppendBlockFromUrlResponse,
@@ -68,7 +74,6 @@ import {
   ListBlobsFlatSegmentResponseModel,
   ListBlobsHierarchySegmentResponseModel,
   ListBlobsIncludeItem,
-  ModifiedAccessConditions,
   PageBlobClearPagesResponse,
   PageBlobCopyIncrementalResponse,
   PageBlobCreateResponse,
@@ -79,7 +84,7 @@ import {
   PublicAccessType,
   RehydratePriority,
   SequenceNumberActionType,
-  SignedIdentifierModel,
+  SignedIdentifierModel
 } from "./generatedModels";
 import {
   AppendBlobRequestConditions,
@@ -92,23 +97,28 @@ import {
   PageBlobRequestConditions,
   PremiumPageBlobTier,
   Tags,
-  toAccessTier
+  toAccessTier,
+  ContainerRequestConditions,
+  TagConditions,
+  MatchConditions,
+  ModificationConditions,
+  ModifiedAccessConditions
 } from "./models";
 import {
   PageBlobGetPageRangesDiffResponse,
   PageBlobGetPageRangesResponse,
-  rangeResponseFromModel,
+  rangeResponseFromModel
 } from "./PageBlobRangeResponse";
 import { newPipeline, Pipeline, StoragePipelineOptions } from "./Pipeline";
 import {
   BlobBeginCopyFromUrlPoller,
   BlobBeginCopyFromUrlPollState,
-  CopyPollerBlobClient,
+  CopyPollerBlobClient
 } from "./pollers/BlobStartCopyFromUrlPoller";
 import { Range, rangeToString } from "./Range";
 import { CommonOptions, StorageClient } from "./StorageClient";
 import { Batch } from "./utils/Batch";
-import { BufferScheduler } from "./utils/BufferScheduler";
+import { BufferScheduler } from "../../storage-common/src";
 import {
   BLOCK_BLOB_MAX_BLOCKS,
   BLOCK_BLOB_MAX_STAGE_BLOCK_BYTES,
@@ -118,7 +128,7 @@ import {
   DEFAULT_MAX_DOWNLOAD_RETRY_REQUESTS,
   ETagAny,
   ETagNone,
-  URLConstants,
+  URLConstants
 } from "./utils/constants";
 import { createSpan } from "./utils/tracing";
 import {
@@ -132,10 +142,14 @@ import {
   toBlobTagsString,
   toQuerySerialization,
   toTags,
-  truncatedISO8061Date,
+  truncatedISO8061Date
 } from "./utils/utils.common";
-import { fsCreateReadStream, fsStat, readStreamToLocalFile, streamToBuffer } from "./utils/utils.node";
-
+import {
+  fsCreateReadStream,
+  fsStat,
+  readStreamToLocalFile,
+  streamToBuffer
+} from "./utils/utils.node";
 
 /**
  * Options to configure the {@link BlobClient.beginCopyFromURL} operation.
@@ -475,6 +489,13 @@ export interface BlobSetTagsOptions extends CommonOptions {
    * @memberof BlobSetTagsOptions
    */
   abortSignal?: AbortSignalLike;
+  /**
+   * Conditions to meet for the blob to perform this operation.
+   *
+   * @type {TagConditions}
+   * @memberof BlobSetTagsOptions
+   */
+  conditions?: TagConditions;
 }
 
 /**
@@ -492,6 +513,13 @@ export interface BlobGetTagsOptions extends CommonOptions {
    * @memberof BlobGetTagsOptions
    */
   abortSignal?: AbortSignalLike;
+  /**
+   * Conditions to meet for the blob to perform this operation.
+   *
+   * @type {TagConditions}
+   * @memberof BlobGetTagsOptions
+   */
+  conditions?: TagConditions;
 }
 
 /**
@@ -812,10 +840,10 @@ export interface BlobSyncCopyFromURLOptions extends CommonOptions {
   /**
    * Conditions to meet for the source Azure Blob/File when copying from a URL to the blob.
    *
-   * @type {ModifiedAccessConditions}
+   * @type {MatchConditions & ModificationConditions}
    * @memberof BlobSyncCopyFromURLOptions
    */
-  sourceConditions?: ModifiedAccessConditions;
+  sourceConditions?: MatchConditions & ModificationConditions;
   /**
    * Specify the md5 calculated for the range of bytes that must be read from the copy source.
    *
@@ -851,10 +879,10 @@ export interface BlobSetTierOptions extends CommonOptions {
    * If specified, contains the lease id that must be matched and lease with this id
    * must be active in order for the operation to succeed.
    *
-   * @type {LeaseAccessConditions}
+   * @type {LeaseAccessConditions & TagConditions}
    * @memberof BlobSetTierOptions
    */
-  conditions?: LeaseAccessConditions;
+  conditions?: LeaseAccessConditions & TagConditions;
   /**
    * Rehydrate Priority - possible values include 'High', 'Standard'.
    * More Details - https://docs.microsoft.com/en-us/azure/storage/blobs/storage-blob-rehydration#rehydrate-an-archived-blob-to-an-online-tier
@@ -1304,7 +1332,10 @@ export class BlobClient extends StorageClient {
       const res = await this.blobContext.download({
         abortSignal: options.abortSignal,
         leaseAccessConditions: options.conditions,
-        modifiedAccessConditions: options.conditions,
+        modifiedAccessConditions: {
+          ...options.conditions,
+          ifTags: options.conditions?.tagConditions
+        },
         onDownloadProgress: isNode ? undefined : options.onProgress, // for Node.js, progress is reported by RetriableReadableStream
         range: offset === 0 && !count ? undefined : rangeToString({ offset, count }),
         rangeGetContentMD5: options.rangeGetContentMD5,
@@ -1352,7 +1383,8 @@ export class BlobClient extends StorageClient {
               ifMatch: options.conditions!.ifMatch || res.etag,
               ifModifiedSince: options.conditions!.ifModifiedSince,
               ifNoneMatch: options.conditions!.ifNoneMatch,
-              ifUnmodifiedSince: options.conditions!.ifUnmodifiedSince
+              ifUnmodifiedSince: options.conditions!.ifUnmodifiedSince,
+              ifTags: options.conditions?.tagConditions
             },
             range: rangeToString({
               count: offset + res.contentLength! - start,
@@ -1464,7 +1496,10 @@ export class BlobClient extends StorageClient {
       const res = await this.blobContext.getProperties({
         abortSignal: options.abortSignal,
         leaseAccessConditions: options.conditions,
-        modifiedAccessConditions: options.conditions,
+        modifiedAccessConditions: {
+          ...options.conditions,
+          ifTags: options.conditions?.tagConditions
+        },
         cpkInfo: options.customerProvidedKey,
         spanOptions
       });
@@ -1505,7 +1540,10 @@ export class BlobClient extends StorageClient {
         abortSignal: options.abortSignal,
         deleteSnapshots: options.deleteSnapshots,
         leaseAccessConditions: options.conditions,
-        modifiedAccessConditions: options.conditions,
+        modifiedAccessConditions: {
+          ...options.conditions,
+          ifTags: options.conditions?.tagConditions
+        },
         spanOptions
       });
     } catch (e) {
@@ -1620,7 +1658,10 @@ export class BlobClient extends StorageClient {
         abortSignal: options.abortSignal,
         blobHTTPHeaders,
         leaseAccessConditions: options.conditions,
-        modifiedAccessConditions: options.conditions,
+        modifiedAccessConditions: {
+          ...options.conditions,
+          ifTags: options.conditions?.tagConditions
+        },
         cpkInfo: options.customerProvidedKey,
         spanOptions
       });
@@ -1660,7 +1701,10 @@ export class BlobClient extends StorageClient {
         abortSignal: options.abortSignal,
         leaseAccessConditions: options.conditions,
         metadata,
-        modifiedAccessConditions: options.conditions,
+        modifiedAccessConditions: {
+          ...options.conditions,
+          ifTags: options.conditions?.tagConditions
+        },
         cpkInfo: options.customerProvidedKey,
         encryptionScope: options.encryptionScope,
         spanOptions
@@ -1692,6 +1736,10 @@ export class BlobClient extends StorageClient {
     try {
       return await this.blobContext.setTags({
         abortSignal: options.abortSignal,
+        modifiedAccessConditions: {
+          ...options.conditions,
+          ifTags: options.conditions?.tagConditions
+        },
         spanOptions,
         tags: toBlobTags(tags)
       });
@@ -1718,6 +1766,10 @@ export class BlobClient extends StorageClient {
     try {
       const response = await this.blobContext.getTags({
         abortSignal: options.abortSignal,
+        modifiedAccessConditions: {
+          ...options.conditions,
+          ifTags: options.conditions?.tagConditions
+        },
         spanOptions
       });
       const wrappedResponse: BlobGetTagsResponse = {
@@ -1767,7 +1819,10 @@ export class BlobClient extends StorageClient {
         abortSignal: options.abortSignal,
         leaseAccessConditions: options.conditions,
         metadata: options.metadata,
-        modifiedAccessConditions: options.conditions,
+        modifiedAccessConditions: {
+          ...options.conditions,
+          ifTags: options.conditions?.tagConditions
+        },
         cpkInfo: options.customerProvidedKey,
         encryptionScope: options.encryptionScope,
         spanOptions
@@ -1937,7 +1992,10 @@ export class BlobClient extends StorageClient {
         abortSignal: options.abortSignal,
         metadata: options.metadata,
         leaseAccessConditions: options.conditions,
-        modifiedAccessConditions: options.conditions,
+        modifiedAccessConditions: {
+          ...options.conditions,
+          ifTags: options.conditions?.tagConditions
+        },
         sourceModifiedAccessConditions: {
           sourceIfMatch: options.sourceConditions.ifMatch,
           sourceIfModifiedSince: options.sourceConditions.ifModifiedSince,
@@ -1981,6 +2039,10 @@ export class BlobClient extends StorageClient {
       return await this.blobContext.setTier(toAccessTier(tier)!, {
         abortSignal: options.abortSignal,
         leaseAccessConditions: options.conditions,
+        modifiedAccessConditions: {
+          ...options.conditions,
+          ifTags: options.conditions?.tagConditions
+        },
         rehydratePriority: options.rehydratePriority,
         spanOptions
       });
@@ -2297,12 +2359,16 @@ export class BlobClient extends StorageClient {
         abortSignal: options.abortSignal,
         leaseAccessConditions: options.conditions,
         metadata: options.metadata,
-        modifiedAccessConditions: options.conditions,
+        modifiedAccessConditions: {
+          ...options.conditions,
+          ifTags: options.conditions?.tagConditions
+        },
         sourceModifiedAccessConditions: {
           sourceIfMatch: options.sourceConditions.ifMatch,
           sourceIfModifiedSince: options.sourceConditions.ifModifiedSince,
           sourceIfNoneMatch: options.sourceConditions.ifNoneMatch,
-          sourceIfUnmodifiedSince: options.sourceConditions.ifUnmodifiedSince
+          sourceIfUnmodifiedSince: options.sourceConditions.ifUnmodifiedSince,
+          sourceIfTags: options.sourceConditions.tagConditions
         },
         rehydratePriority: options.rehydratePriority,
         tier: toAccessTier(options.tier),
@@ -2434,7 +2500,7 @@ export interface AppendBlobCreateIfNotExistsOptions extends CommonOptions {
 }
 
 /**
- * Options to configure {@link AppendBlobClient.seal} operation. 
+ * Options to configure {@link AppendBlobClient.seal} operation.
  *
  * @export
  * @interface AppendBlobSealOptions
@@ -2551,10 +2617,10 @@ export interface AppendBlobAppendBlockFromURLOptions extends CommonOptions {
   /**
    * Conditions to meet for the source Azure Blob/File when copying from a URL to the blob.
    *
-   * @type {ModifiedAccessConditions}
+   * @type {MatchConditions & ModificationConditions}
    * @memberof AppendBlobAppendBlockFromURLOptions
    */
-  sourceConditions?: ModifiedAccessConditions;
+  sourceConditions?: MatchConditions & ModificationConditions;
   /**
    * An MD5 hash of the append block content from the URI.
    * This hash is used to verify the integrity of the append block during transport of the data from the URI.
@@ -2822,7 +2888,10 @@ export class AppendBlobClient extends BlobClient {
         blobHTTPHeaders: options.blobHTTPHeaders,
         leaseAccessConditions: options.conditions,
         metadata: options.metadata,
-        modifiedAccessConditions: options.conditions,
+        modifiedAccessConditions: {
+          ...options.conditions,
+          ifTags: options.conditions?.tagConditions
+        },
         cpkInfo: options.customerProvidedKey,
         encryptionScope: options.encryptionScope,
         blobTagsString: toBlobTagsString(options.tags),
@@ -2897,21 +2966,18 @@ export class AppendBlobClient extends BlobClient {
    * @returns {Promise<AppendBlobAppendBlockResponse>}
    * @memberof AppendBlobClient
    */
-  public async seal(
-    options: AppendBlobSealOptions = {}
-  ): Promise<AppendBlobAppendBlockResponse> {
-    const { span, spanOptions } = createSpan(
-      "AppendBlobClient-seal",
-      options.tracingOptions
-    );
+  public async seal(options: AppendBlobSealOptions = {}): Promise<AppendBlobAppendBlockResponse> {
+    const { span, spanOptions } = createSpan("AppendBlobClient-seal", options.tracingOptions);
     options.conditions = options.conditions || {};
     try {
-
       return await this.appendBlobContext.seal({
         abortSignal: options.abortSignal,
         appendPositionAccessConditions: options.conditions,
         leaseAccessConditions: options.conditions,
-        modifiedAccessConditions: options.conditions,
+        modifiedAccessConditions: {
+          ...options.conditions,
+          ifTags: options.conditions?.tagConditions
+        },
         spanOptions
       });
     } catch (e) {
@@ -2967,7 +3033,10 @@ export class AppendBlobClient extends BlobClient {
         abortSignal: options.abortSignal,
         appendPositionAccessConditions: options.conditions,
         leaseAccessConditions: options.conditions,
-        modifiedAccessConditions: options.conditions,
+        modifiedAccessConditions: {
+          ...options.conditions,
+          ifTags: options.conditions?.tagConditions
+        },
         onUploadProgress: options.onProgress,
         transactionalContentMD5: options.transactionalContentMD5,
         transactionalContentCrc64: options.transactionalContentCrc64,
@@ -3024,7 +3093,10 @@ export class AppendBlobClient extends BlobClient {
         sourceContentCrc64: options.sourceContentCrc64,
         leaseAccessConditions: options.conditions,
         appendPositionAccessConditions: options.conditions,
-        modifiedAccessConditions: options.conditions,
+        modifiedAccessConditions: {
+          ...options.conditions,
+          ifTags: options.conditions?.tagConditions
+        },
         sourceModifiedAccessConditions: {
           sourceIfMatch: options.sourceConditions.ifMatch,
           sourceIfModifiedSince: options.sourceConditions.ifModifiedSince,
@@ -3162,28 +3234,19 @@ export interface BlobQueryError {
 }
 
 /**
- * Base type for options to query blob.
- *
- * @export
- * @interface BlobQueryTextConfiguration
- */
-export interface BlobQueryTextConfiguration {
-  /**
-   * Record separator.
-   *
-   * @type {string}
-   * @memberof BlobQueryTextConfiguration
-   */
-  recordSeparator: string;
-}
-
-/**
  * Options to query blob with JSON format.
  *
  * @export
  * @interface BlobQueryJsonTextConfiguration
  */
-export interface BlobQueryJsonTextConfiguration extends BlobQueryTextConfiguration {
+export interface BlobQueryJsonTextConfiguration {
+  /**
+   * Record separator.
+   *
+   * @type {string}
+   * @memberof BlobQueryJsonTextConfiguration
+   */
+  recordSeparator: string;
   /**
    * Query for a JSON format blob.
    *
@@ -3199,7 +3262,14 @@ export interface BlobQueryJsonTextConfiguration extends BlobQueryTextConfigurati
  * @export
  * @interface BlobQueryCsvTextConfiguration
  */
-export interface BlobQueryCsvTextConfiguration extends BlobQueryTextConfiguration {
+export interface BlobQueryCsvTextConfiguration {
+  /**
+   * Record separator.
+   *
+   * @type {string}
+   * @memberof BlobQueryCsvTextConfiguration
+   */
+  recordSeparator: string;
   /**
    * Query for a CSV format blob.
    *
@@ -3526,10 +3596,10 @@ export interface BlockBlobGetBlockListOptions extends CommonOptions {
    * If specified, contains the lease id that must be matched and lease with this id
    * must be active in order for the operation to succeed.
    *
-   * @type {LeaseAccessConditions}
+   * @type {LeaseAccessConditions & TagConditions}
    * @memberof BlockBlobGetBlockListOptions
    */
-  conditions?: LeaseAccessConditions;
+  conditions?: LeaseAccessConditions & TagConditions;
 }
 
 /**
@@ -3598,6 +3668,15 @@ export interface BlockBlobUploadStreamOptions extends CommonOptions {
    * @memberof BlockBlobUploadStreamOptions
    */
   tags?: Tags;
+
+  /**
+   * Access tier.
+   * More Details - https://docs.microsoft.com/en-us/azure/storage/blobs/storage-blob-storage-tiers
+   *
+   * @type {BlockBlobTier | string}
+   * @memberof BlockBlobUploadStreamOptions
+   */
+  tier?: BlockBlobTier | string;
 }
 /**
  * Option interface for {@link BlockBlobClient.uploadFile} and {@link BlockBlobClient.uploadSeekableStream}.
@@ -3692,6 +3771,15 @@ export interface BlockBlobParallelUploadOptions extends CommonOptions {
    * @memberof BlockBlobParallelUploadOptions
    */
   tags?: Tags;
+
+  /**
+   * Access tier.
+   * More Details - https://docs.microsoft.com/en-us/azure/storage/blobs/storage-blob-storage-tiers
+   *
+   * @type {BlockBlobTier | string}
+   * @memberof BlockBlobParallelUploadOptions
+   */
+  tier?: BlockBlobTier | string;
 }
 
 /**
@@ -3908,6 +3996,8 @@ export class BlockBlobClient extends BlobClient {
   }
 
   /**
+   * ONLY AVAILABLE IN NODE.JS RUNTIME.
+   *
    * Quick query for a JSON or CSV formatted blob.
    *
    * Example usage (Node.js):
@@ -3915,17 +4005,17 @@ export class BlockBlobClient extends BlobClient {
    * ```js
    * // Query and convert a blob to a string
    * const queryBlockBlobResponse = await blockBlobClient.query("select * from BlobStorage");
-   * const downloaded = await streamToString(queryBlockBlobResponse.readableStreamBody);
+   * const downloaded = (await streamToBuffer(queryBlockBlobResponse.readableStreamBody)).toString();
    * console.log("Query blob content:", downloaded);
    *
-   * async function streamToString(readableStream) {
+   * async function streamToBuffer(readableStream) {
    *   return new Promise((resolve, reject) => {
    *     const chunks = [];
    *     readableStream.on("data", (data) => {
-   *       chunks.push(data.toString());
+   *       chunks.push(data instanceof Buffer ? data : Buffer.from(data));
    *     });
    *     readableStream.on("end", () => {
-   *       resolve(chunks.join(""));
+   *       resolve(Buffer.concat(chunks));
    *     });
    *     readableStream.on("error", reject);
    *   });
@@ -3946,6 +4036,10 @@ export class BlockBlobClient extends BlobClient {
     const { span, spanOptions } = createSpan("BlockBlobClient-query", options.tracingOptions);
 
     try {
+      if (!isNode) {
+        throw new Error("This operation currently is only supported in Node.js.");
+      }
+
       const response = await this._blobContext.query({
         abortSignal: options.abortSignal,
         queryRequest: {
@@ -3954,7 +4048,10 @@ export class BlockBlobClient extends BlobClient {
           outputSerialization: toQuerySerialization(options.outputTextConfiguration)
         },
         leaseAccessConditions: options.conditions,
-        modifiedAccessConditions: options.conditions,
+        modifiedAccessConditions: {
+          ...options.conditions,
+          ifTags: options.conditions?.tagConditions
+        },
         spanOptions
       });
       return new BlobQueryResponse(response, {
@@ -4015,7 +4112,10 @@ export class BlockBlobClient extends BlobClient {
         blobHTTPHeaders: options.blobHTTPHeaders,
         leaseAccessConditions: options.conditions,
         metadata: options.metadata,
-        modifiedAccessConditions: options.conditions,
+        modifiedAccessConditions: {
+          ...options.conditions,
+          ifTags: options.conditions?.tagConditions
+        },
         onUploadProgress: options.onProgress,
         cpkInfo: options.customerProvidedKey,
         encryptionScope: options.encryptionScope,
@@ -4163,7 +4263,10 @@ export class BlockBlobClient extends BlobClient {
           blobHTTPHeaders: options.blobHTTPHeaders,
           leaseAccessConditions: options.conditions,
           metadata: options.metadata,
-          modifiedAccessConditions: options.conditions,
+          modifiedAccessConditions: {
+            ...options.conditions,
+            ifTags: options.conditions?.tagConditions
+          },
           cpkInfo: options.customerProvidedKey,
           encryptionScope: options.encryptionScope,
           tier: toAccessTier(options.tier),
@@ -4205,6 +4308,10 @@ export class BlockBlobClient extends BlobClient {
       const res = await this.blockBlobContext.getBlockList(listType, {
         abortSignal: options.abortSignal,
         leaseAccessConditions: options.conditions,
+        modifiedAccessConditions: {
+          ...options.conditions,
+          ifTags: options.conditions?.tagConditions
+        },
         spanOptions
       });
 
@@ -4488,19 +4595,19 @@ export class BlockBlobClient extends BlobClient {
         stream,
         bufferSize,
         maxConcurrency,
-        async (buffer: Buffer) => {
+        async (body, length) => {
           const blockID = generateBlockID(blockIDPrefix, blockNum);
           blockList.push(blockID);
           blockNum++;
 
-          await this.stageBlock(blockID, buffer, buffer.length, {
+          await this.stageBlock(blockID, body, length, {
             conditions: options.conditions,
             encryptionScope: options.encryptionScope,
             tracingOptions: { ...options!.tracingOptions, spanOptions }
           });
 
           // Update progress after block is successfully uploaded to server, in case of block trying
-          transferProgress += buffer.length;
+          transferProgress += length;
           if (options.onProgress) {
             options.onProgress({ loadedBytes: transferProgress });
           }
@@ -5075,10 +5182,10 @@ export interface PageBlobUploadPagesFromURLOptions extends CommonOptions {
   /**
    * Conditions to meet for the source Azure Blob/File when copying from a URL to the blob.
    *
-   * @type {ModifiedAccessConditions}
+   * @type {MatchConditions & ModificationConditions}
    * @memberof PageBlobUploadPagesFromURLOptions
    */
-  sourceConditions?: ModifiedAccessConditions;
+  sourceConditions?: MatchConditions & ModificationConditions;
   /**
    * An MD5 hash of the content from the URI.
    * This hash is used to verify the integrity of the content during transport of the data from the URI.
@@ -5336,7 +5443,10 @@ export class PageBlobClient extends BlobClient {
         blobSequenceNumber: options.blobSequenceNumber,
         leaseAccessConditions: options.conditions,
         metadata: options.metadata,
-        modifiedAccessConditions: options.conditions,
+        modifiedAccessConditions: {
+          ...options.conditions,
+          ifTags: options.conditions?.tagConditions
+        },
         cpkInfo: options.customerProvidedKey,
         encryptionScope: options.encryptionScope,
         tier: toAccessTier(options.tier),
@@ -5432,7 +5542,10 @@ export class PageBlobClient extends BlobClient {
       return await this.pageBlobContext.uploadPages(body, count, {
         abortSignal: options.abortSignal,
         leaseAccessConditions: options.conditions,
-        modifiedAccessConditions: options.conditions,
+        modifiedAccessConditions: {
+          ...options.conditions,
+          ifTags: options.conditions?.tagConditions
+        },
         onUploadProgress: options.onProgress,
         range: rangeToString({ offset, count }),
         sequenceNumberAccessConditions: options.conditions,
@@ -5492,7 +5605,10 @@ export class PageBlobClient extends BlobClient {
           sourceContentCrc64: options.sourceContentCrc64,
           leaseAccessConditions: options.conditions,
           sequenceNumberAccessConditions: options.conditions,
-          modifiedAccessConditions: options.conditions,
+          modifiedAccessConditions: {
+            ...options.conditions,
+            ifTags: options.conditions?.tagConditions
+          },
           sourceModifiedAccessConditions: {
             sourceIfMatch: options.sourceConditions.ifMatch,
             sourceIfModifiedSince: options.sourceConditions.ifModifiedSince,
@@ -5536,7 +5652,10 @@ export class PageBlobClient extends BlobClient {
       return await this.pageBlobContext.clearPages(0, {
         abortSignal: options.abortSignal,
         leaseAccessConditions: options.conditions,
-        modifiedAccessConditions: options.conditions,
+        modifiedAccessConditions: {
+          ...options.conditions,
+          ifTags: options.conditions?.tagConditions
+        },
         range: rangeToString({ offset, count }),
         sequenceNumberAccessConditions: options.conditions,
         cpkInfo: options.customerProvidedKey,
@@ -5579,7 +5698,10 @@ export class PageBlobClient extends BlobClient {
         .getPageRanges({
           abortSignal: options.abortSignal,
           leaseAccessConditions: options.conditions,
-          modifiedAccessConditions: options.conditions,
+          modifiedAccessConditions: {
+            ...options.conditions,
+            ifTags: options.conditions?.tagConditions
+          },
           range: rangeToString({ offset, count }),
           spanOptions
         })
@@ -5623,7 +5745,10 @@ export class PageBlobClient extends BlobClient {
         .getPageRangesDiff({
           abortSignal: options.abortSignal,
           leaseAccessConditions: options.conditions,
-          modifiedAccessConditions: options.conditions,
+          modifiedAccessConditions: {
+            ...options.conditions,
+            ifTags: options.conditions?.tagConditions
+          },
           prevsnapshot: prevSnapshot,
           range: rangeToString({ offset, count }),
           spanOptions
@@ -5668,7 +5793,10 @@ export class PageBlobClient extends BlobClient {
         .getPageRangesDiff({
           abortSignal: options.abortSignal,
           leaseAccessConditions: options.conditions,
-          modifiedAccessConditions: options.conditions,
+          modifiedAccessConditions: {
+            ...options.conditions,
+            ifTags: options.conditions?.tagConditions
+          },
           prevSnapshotUrl,
           range: rangeToString({ offset, count }),
           spanOptions
@@ -5704,7 +5832,10 @@ export class PageBlobClient extends BlobClient {
       return await this.pageBlobContext.resize(size, {
         abortSignal: options.abortSignal,
         leaseAccessConditions: options.conditions,
-        modifiedAccessConditions: options.conditions,
+        modifiedAccessConditions: {
+          ...options.conditions,
+          ifTags: options.conditions?.tagConditions
+        },
         encryptionScope: options.encryptionScope,
         spanOptions
       });
@@ -5744,7 +5875,10 @@ export class PageBlobClient extends BlobClient {
         abortSignal: options.abortSignal,
         blobSequenceNumber: sequenceNumber,
         leaseAccessConditions: options.conditions,
-        modifiedAccessConditions: options.conditions,
+        modifiedAccessConditions: {
+          ...options.conditions,
+          ifTags: options.conditions?.tagConditions
+        },
         spanOptions
       });
     } catch (e) {
@@ -5783,7 +5917,10 @@ export class PageBlobClient extends BlobClient {
     try {
       return await this.pageBlobContext.copyIncremental(copySource, {
         abortSignal: options.abortSignal,
-        modifiedAccessConditions: options.conditions,
+        modifiedAccessConditions: {
+          ...options.conditions,
+          ifTags: options.conditions?.tagConditions
+        },
         spanOptions
       });
     } catch (e) {
@@ -5898,6 +6035,7 @@ export class BlobLeaseClient {
   private _leaseId: string;
   private _url: string;
   private _containerOrBlobOperation: Container | StorageBlob;
+  private _isContainer: boolean;
 
   /**
    * Gets the lease Id.
@@ -5935,8 +6073,10 @@ export class BlobLeaseClient {
     this._url = client.url;
 
     if (client instanceof ContainerClient) {
+      this._isContainer = true;
       this._containerOrBlobOperation = new Container(clientContext);
     } else {
+      this._isContainer = false;
       this._containerOrBlobOperation = new StorageBlob(clientContext);
     }
 
@@ -5967,11 +6107,26 @@ export class BlobLeaseClient {
       "BlobLeaseClient-acquireLease",
       options.tracingOptions
     );
+
+    if (
+      this._isContainer &&
+      ((options.conditions?.ifMatch && options.conditions?.ifMatch !== ETagNone) ||
+        (options.conditions?.ifNoneMatch && options.conditions?.ifNoneMatch !== ETagNone) ||
+        options.conditions?.tagConditions)
+    ) {
+      throw new RangeError(
+        "The IfMatch, IfNoneMatch and tags access conditions are ignored by the service. Values other than undefined or their default values are not acceptable."
+      );
+    }
+
     try {
       return await this._containerOrBlobOperation.acquireLease({
         abortSignal: options.abortSignal,
         duration,
-        modifiedAccessConditions: options.conditions,
+        modifiedAccessConditions: {
+          ...options.conditions,
+          ifTags: options.conditions?.tagConditions
+        },
         proposedLeaseId: this._leaseId,
         spanOptions
       });
@@ -6002,13 +6157,28 @@ export class BlobLeaseClient {
     options: LeaseOperationOptions = {}
   ): Promise<LeaseOperationResponse> {
     const { span, spanOptions } = createSpan("BlobLeaseClient-changeLease", options.tracingOptions);
+
+    if (
+      this._isContainer &&
+      ((options.conditions?.ifMatch && options.conditions?.ifMatch !== ETagNone) ||
+        (options.conditions?.ifNoneMatch && options.conditions?.ifNoneMatch !== ETagNone) ||
+        options.conditions?.tagConditions)
+    ) {
+      throw new RangeError(
+        "The IfMatch, IfNoneMatch and tags access conditions are ignored by the service. Values other than undefined or their default values are not acceptable."
+      );
+    }
+
     try {
       const response = await this._containerOrBlobOperation.changeLease(
         this._leaseId,
         proposedLeaseId,
         {
           abortSignal: options.abortSignal,
-          modifiedAccessConditions: options.conditions,
+          modifiedAccessConditions: {
+            ...options.conditions,
+            ifTags: options.conditions?.tagConditions
+          },
           spanOptions
         }
       );
@@ -6041,10 +6211,25 @@ export class BlobLeaseClient {
       "BlobLeaseClient-releaseLease",
       options.tracingOptions
     );
+
+    if (
+      this._isContainer &&
+      ((options.conditions?.ifMatch && options.conditions?.ifMatch !== ETagNone) ||
+        (options.conditions?.ifNoneMatch && options.conditions?.ifNoneMatch !== ETagNone) ||
+        options.conditions?.tagConditions)
+    ) {
+      throw new RangeError(
+        "The IfMatch, IfNoneMatch and tags access conditions are ignored by the service. Values other than undefined or their default values are not acceptable."
+      );
+    }
+
     try {
       return await this._containerOrBlobOperation.releaseLease(this._leaseId, {
         abortSignal: options.abortSignal,
-        modifiedAccessConditions: options.conditions,
+        modifiedAccessConditions: {
+          ...options.conditions,
+          ifTags: options.conditions?.tagConditions
+        },
         spanOptions
       });
     } catch (e) {
@@ -6070,10 +6255,25 @@ export class BlobLeaseClient {
    */
   public async renewLease(options: LeaseOperationOptions = {}): Promise<Lease> {
     const { span, spanOptions } = createSpan("BlobLeaseClient-renewLease", options.tracingOptions);
+
+    if (
+      this._isContainer &&
+      ((options.conditions?.ifMatch && options.conditions?.ifMatch !== ETagNone) ||
+        (options.conditions?.ifNoneMatch && options.conditions?.ifNoneMatch !== ETagNone) ||
+        options.conditions?.tagConditions)
+    ) {
+      throw new RangeError(
+        "The IfMatch, IfNoneMatch and tags access conditions are ignored by the service. Values other than undefined or their default values are not acceptable."
+      );
+    }
+
     try {
       return await this._containerOrBlobOperation.renewLease(this._leaseId, {
         abortSignal: options.abortSignal,
-        modifiedAccessConditions: options.conditions,
+        modifiedAccessConditions: {
+          ...options.conditions,
+          ifTags: options.conditions?.tagConditions
+        },
         spanOptions
       });
     } catch (e) {
@@ -6105,11 +6305,26 @@ export class BlobLeaseClient {
     options: LeaseOperationOptions = {}
   ): Promise<LeaseOperationResponse> {
     const { span, spanOptions } = createSpan("BlobLeaseClient-breakLease", options.tracingOptions);
+
+    if (
+      this._isContainer &&
+      ((options.conditions?.ifMatch && options.conditions?.ifMatch !== ETagNone) ||
+        (options.conditions?.ifNoneMatch && options.conditions?.ifNoneMatch !== ETagNone) ||
+        options.conditions?.tagConditions)
+    ) {
+      throw new RangeError(
+        "The IfMatch, IfNoneMatch and tags access conditions are ignored by the service. Values other than undefined or their default values are not acceptable."
+      );
+    }
+
     try {
       const operationOptions: ContainerBreakLeaseOptionalParams = {
         abortSignal: options.abortSignal,
         breakPeriod,
-        modifiedAccessConditions: options.conditions,
+        modifiedAccessConditions: {
+          ...options.conditions,
+          ifTags: options.conditions?.tagConditions
+        },
         spanOptions
       };
       return await this._containerOrBlobOperation.breakLease(operationOptions);
@@ -6208,10 +6423,10 @@ export interface ContainerDeleteMethodOptions extends CommonOptions {
   /**
    * Conditions to meet when deleting the container.
    *
-   * @type {BlobRequestConditions}
+   * @type {ContainerRequestConditions}
    * @memberof ContainerDeleteMethodOptions
    */
-  conditions?: BlobRequestConditions;
+  conditions?: ContainerRequestConditions;
 }
 
 /**
@@ -6250,10 +6465,10 @@ export interface ContainerSetMetadataOptions extends CommonOptions {
    * If specified, contains the lease id that must be matched and lease with this id
    * must be active in order for the operation to succeed.
    *
-   * @type {BlobRequestConditions}
+   * @type {ContainerRequestConditions}
    * @memberof ContainerSetMetadataOptions
    */
-  conditions?: BlobRequestConditions;
+  conditions?: ContainerRequestConditions;
 }
 
 /**
@@ -6355,10 +6570,10 @@ export interface ContainerSetAccessPolicyOptions extends CommonOptions {
   /**
    * Conditions to meet when setting the access policy.
    *
-   * @type {BlobRequestConditions}
+   * @type {ContainerRequestConditions}
    * @memberof ContainerSetAccessPolicyOptions
    */
-  conditions?: BlobRequestConditions;
+  conditions?: ContainerRequestConditions;
 }
 
 /**
@@ -7134,18 +7349,7 @@ export class ContainerClient extends StorageClient {
       options.conditions = {};
     }
 
-    if (
-      (options.conditions.ifMatch && options.conditions.ifMatch !== ETagNone) ||
-      (options.conditions.ifNoneMatch && options.conditions.ifNoneMatch !== ETagNone)
-    ) {
-      throw new RangeError(
-        "the IfMatch and IfNoneMatch access conditions must have their default\
-        values because they are ignored by the service"
-      );
-    }
-
     const { span, spanOptions } = createSpan("ContainerClient-delete", options.tracingOptions);
-
     try {
       return await this.containerContext.deleteMethod({
         abortSignal: options.abortSignal,
@@ -7235,14 +7439,9 @@ export class ContainerClient extends StorageClient {
       options.conditions = {};
     }
 
-    if (
-      options.conditions.ifUnmodifiedSince ||
-      (options.conditions.ifMatch && options.conditions.ifMatch !== ETagNone) ||
-      (options.conditions.ifNoneMatch && options.conditions.ifNoneMatch !== ETagNone)
-    ) {
+    if (options.conditions.ifUnmodifiedSince) {
       throw new RangeError(
-        "the IfUnmodifiedSince, IfMatch, and IfNoneMatch must have their default values\
-        because they are ignored by the blob service"
+        "the IfUnmodifiedSince must have their default values because they are ignored by the blob service"
       );
     }
 

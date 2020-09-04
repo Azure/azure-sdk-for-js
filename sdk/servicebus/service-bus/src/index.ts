@@ -28,6 +28,7 @@ export {
   ReceiveMessagesOptions,
   ReceiveMode,
   SessionSubscribeOptions,
+  SubQueue,
   SubscribeOptions
 } from "./models";
 export { OperationOptionsBase } from "./modelsToBeSharedWithEventHubs";
@@ -40,12 +41,7 @@ export {
   QueueProperties,
   QueueRuntimeProperties
 } from "./serializers/queueResourceSerializer";
-export {
-  RuleProperties,
-  SqlParameter,
-  SqlRuleAction,
-  SqlRuleFilter
-} from "./serializers/ruleResourceSerializer";
+export { RuleProperties, SqlRuleAction, SqlRuleFilter } from "./serializers/ruleResourceSerializer";
 export {
   CreateSubscriptionOptions,
   SubscriptionProperties,
@@ -63,7 +59,7 @@ export {
   QueueRuntimePropertiesResponse,
   Response,
   RuleResponse,
-  ServiceBusManagementClient,
+  ServiceBusAdministrationClient,
   SubscriptionResponse,
   SubscriptionRuntimePropertiesResponse,
   TopicResponse,
@@ -71,6 +67,9 @@ export {
 } from "./serviceBusAtomManagementClient";
 export { ServiceBusClient } from "./serviceBusClient";
 export {
+  AmqpAnnotatedMessage,
+  AmqpMessageHeader,
+  AmqpMessageProperties,
   DeadLetterOptions,
   ReceivedMessage,
   ReceivedMessageWithLock,

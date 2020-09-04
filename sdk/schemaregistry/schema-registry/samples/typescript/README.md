@@ -1,4 +1,4 @@
-<!-- The following YAML bit is needed by the docs system to publish the samples online. Uncomment/Update it when the samples can be published publically -->
+<!-- The following YAML bit is needed by the docs system to publish the samples online. Uncomment/Update it when the samples can be published publicly -->
 
 <!-- ---
 page_type: sample
@@ -10,17 +10,17 @@ products:
 urlFragment: schema-registry-typescript
 --- -->
 
-# Azure Schema-Registry client library samples for TypeScript
+# Azure Schema Registry client library samples for TypeScript
 
 These sample programs show how to use the TypeScript client libraries for Azure schema-registry in some common scenarios.
 
-| **File Name**                                           | **Description**                                                                                    |
-| ------------------------------------------------------- | -------------------------------------------------------------------------------------------------- |
-| [schemaRegistrySample.ts][schemaRegistrySample]         | schema-registry sample                                                                                    |
+| **File Name**                                   | **Description**        |
+| ----------------------------------------------- | ---------------------- |
+| [schemaRegistrySample.ts][schemaregistrysample] | schema-registry sample |
 
 ## Prerequisites
 
-The samples are compatible with Node.js >= 8.0.0.
+The samples are compatible with Node.js >= 10.0.0.
 
 Before running the samples in Node, they must be compiled to JavaScript using the TypeScript compiler. For more information on TypeScript, see the [TypeScript documentation][typescript]. Install the TypeScript compiler using
 
@@ -59,15 +59,15 @@ node dist/schemaRegistrySample.js
 Alternatively, run a single sample with the correct environment variables set (step 3 is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env ENDPOINT="<endpoint>" API_KEY="<api key>" node dist/schemaRegistrySample.js
+npx cross-env SCHEMA_REGISTRY_ENDPOINT="<endpoint>" AZURE_TENANT_ID="<tenant id>" AZURE_CLIENT_ID="<client id>" AZURE_CLIENT_SECRET="<secret>" node dist/schemaRegistrySample.js
 ```
 
 ## Next Steps
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[schemaRegistrySample]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/schemaregistry/schema-registry/samples/typescript/src/schemaRegistrySample.ts
+[schemaregistrysample]: ./src/schemaRegistrySample.ts
 [apiref]: https://docs.microsoft.com/javascript/api
 [freesub]: https://azure.microsoft.com/free/
-[package]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/schemaregistry/schema-registry/README.md
+[package]: ../../README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

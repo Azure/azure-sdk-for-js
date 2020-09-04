@@ -414,7 +414,7 @@
     },
     {
       "packageName": "@azure/monitor-opentelemetry-exporter",
-      "projectFolder": "sdk/monitor/opentelemetry-exporter",
+      "projectFolder": "sdk/monitor/monitor-opentelemetry-exporter",
       "versionPolicyName": "client"
     },
     {
@@ -488,6 +488,11 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure/schema-registry-avro",
+      "projectFolder": "sdk/schemaregistry/schema-registry-avro",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure/service-bus",
       "projectFolder": "sdk/servicebus/service-bus",
       "versionPolicyName": "client"
@@ -546,6 +551,11 @@
       "packageName": "@azure/test-utils-perfstress",
       "projectFolder": "sdk/test-utils/perfstress",
       "versionPolicyName": "utility"
+    },
+    {
+      "packageName": "@azure/digital-twins",
+      "projectFolder": "sdk/digitaltwins/digital-twins",
+      "versionPolicyName": "client"
     }
   ]
 }

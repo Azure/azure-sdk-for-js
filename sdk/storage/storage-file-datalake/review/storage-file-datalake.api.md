@@ -19,7 +19,7 @@ import { Lease } from '@azure/storage-blob';
 import { LeaseAccessConditions } from '@azure/storage-blob';
 import { LeaseOperationOptions } from '@azure/storage-blob';
 import { LeaseOperationResponse } from '@azure/storage-blob';
-import { ModifiedAccessConditions } from '@azure/storage-blob';
+import { ModifiedAccessConditions as ModifiedAccessConditions_2 } from '@azure/storage-blob';
 import { OperationTracingOptions } from '@azure/core-tracing';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { Pipeline as Pipeline_2 } from '@azure/storage-blob';
@@ -149,6 +149,7 @@ export class DataLakeFileClient extends DataLakePathClient {
     createIfNotExists(resourceType: PathResourceType, options?: PathCreateIfNotExistsOptions): Promise<PathCreateIfNotExistsResponse>;
     createIfNotExists(options?: FileCreateIfNotExistsOptions): Promise<FileCreateIfNotExistsResponse>;
     flush(position: number, options?: FileFlushOptions): Promise<PathFlushDataResponse>;
+    query(query: string, options?: FileQueryOptions): Promise<FileReadResponse>;
     read(offset?: number, count?: number, options?: FileReadOptions): Promise<FileReadResponse>;
     readToBuffer(buffer: Buffer, offset?: number, count?: number, options?: FileReadToBufferOptions): Promise<Buffer>;
     readToBuffer(offset?: number, count?: number, options?: FileReadToBufferOptions): Promise<Buffer>;
@@ -346,6 +347,40 @@ export interface FileParallelUploadOptions extends CommonOptions {
     permissions?: string;
     singleUploadThreshold?: number;
     umask?: string;
+}
+
+// @public
+export interface FileQueryCsvTextConfiguration {
+    columnSeparator?: string;
+    escapeCharacter?: string;
+    fieldQuote?: string;
+    hasHeaders?: boolean;
+    kind: "csv";
+    recordSeparator: string;
+}
+
+// @public
+export interface FileQueryError {
+    description: string;
+    isFatal: boolean;
+    name: string;
+    position: number;
+}
+
+// @public
+export interface FileQueryJsonTextConfiguration {
+    kind: "json";
+    recordSeparator: string;
+}
+
+// @public
+export interface FileQueryOptions extends CommonOptions {
+    abortSignal?: AbortSignalLike;
+    conditions?: DataLakeRequestConditions;
+    inputTextConfiguration?: FileQueryJsonTextConfiguration | FileQueryCsvTextConfiguration;
+    onError?: (error: FileQueryError) => void;
+    onProgress?: (progress: TransferProgressEvent) => void;
+    outputTextConfiguration?: FileQueryJsonTextConfiguration | FileQueryCsvTextConfiguration;
 }
 
 // @public (undocumented)
@@ -813,8 +848,11 @@ export interface Metadata {
     [propertyName: string]: string;
 }
 
+// @public (undocumented)
+export type ModifiedAccessConditions = Omit<ModifiedAccessConditions_2, "ifTags">;
+
 // @public
-export function newPipeline(credential: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, pipelineOptions?: StoragePipelineOptions): Pipeline;
+export function newPipeline(credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, pipelineOptions?: StoragePipelineOptions): Pipeline;
 
 // @public (undocumented)
 export interface Path {

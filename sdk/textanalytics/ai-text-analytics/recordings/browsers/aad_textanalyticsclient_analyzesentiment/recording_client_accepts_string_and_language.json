@@ -8,36 +8,38 @@
    "status": 200,
    "response": "{\"token_type\":\"Bearer\",\"expires_in\":3599,\"ext_expires_in\":3599,\"access_token\":\"access_token\"}",
    "responseHeaders": {
-    "cache-control": "no-cache, no-store",
-    "content-length": "1500",
+    "cache-control": "no-store, no-cache",
+    "content-length": "1329",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 14 Aug 2020 17:49:36 GMT",
+    "date": "Wed, 02 Sep 2020 23:54:05 GMT",
     "expires": "-1",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
     "referrer-policy": "strict-origin-when-cross-origin",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.10946.15 - WUS2 ProdSlices",
-    "x-ms-request-id": "13430878-5a71-4819-b6b7-816bd6ae2a00"
+    "x-ms-ests-server": "2.1.10985.18 - CHI ProdSlices",
+    "x-ms-request-id": "5f2522f4-d621-47f6-8a7d-0eebf02c3b00"
    }
   },
   {
    "method": "POST",
    "url": "https://endpoint/text/analytics/v3.1-preview.1/sentiment",
-   "query": {},
+   "query": {
+    "stringIndexType": "Utf16CodeUnit"
+   },
    "requestBody": "{\"documents\":[{\"id\":\"0\",\"text\":\"I had a wonderful trip to Seattle last week and even visited the Space Needle 2 times!\",\"language\":\"en\"},{\"id\":\"1\",\"text\":\"Unfortunately, it rained during my entire trip to Seattle. I didn't even get to visit the Space Needle\",\"language\":\"en\"},{\"id\":\"2\",\"text\":\"I went to see a movie on Saturday and it was perfectly average, nothing more or less than I expected.\",\"language\":\"en\"},{\"id\":\"3\",\"text\":\"I didn't like the last book I read at all.\",\"language\":\"en\"}]}",
    "status": 200,
    "response": "{\"documents\":[{\"id\":\"0\",\"sentiment\":\"positive\",\"confidenceScores\":{\"positive\":0.99,\"neutral\":0.01,\"negative\":0.0},\"sentences\":[{\"sentiment\":\"positive\",\"confidenceScores\":{\"positive\":0.99,\"neutral\":0.01,\"negative\":0.0},\"offset\":0,\"length\":86,\"text\":\"I had a wonderful trip to Seattle last week and even visited the Space Needle 2 times!\"}],\"warnings\":[]},{\"id\":\"1\",\"sentiment\":\"negative\",\"confidenceScores\":{\"positive\":0.0,\"neutral\":0.0,\"negative\":1.0},\"sentences\":[{\"sentiment\":\"negative\",\"confidenceScores\":{\"positive\":0.0,\"neutral\":0.0,\"negative\":1.0},\"offset\":0,\"length\":58,\"text\":\"Unfortunately, it rained during my entire trip to Seattle.\"},{\"sentiment\":\"neutral\",\"confidenceScores\":{\"positive\":0.01,\"neutral\":0.7,\"negative\":0.29},\"offset\":59,\"length\":43,\"text\":\"I didn't even get to visit the Space Needle\"}],\"warnings\":[]},{\"id\":\"2\",\"sentiment\":\"positive\",\"confidenceScores\":{\"positive\":1.0,\"neutral\":0.0,\"negative\":0.0},\"sentences\":[{\"sentiment\":\"positive\",\"confidenceScores\":{\"positive\":1.0,\"neutral\":0.0,\"negative\":0.0},\"offset\":0,\"length\":101,\"text\":\"I went to see a movie on Saturday and it was perfectly average, nothing more or less than I expected.\"}],\"warnings\":[]},{\"id\":\"3\",\"sentiment\":\"negative\",\"confidenceScores\":{\"positive\":0.01,\"neutral\":0.03,\"negative\":0.96},\"sentences\":[{\"sentiment\":\"negative\",\"confidenceScores\":{\"positive\":0.01,\"neutral\":0.03,\"negative\":0.96},\"offset\":0,\"length\":42,\"text\":\"I didn't like the last book I read at all.\"}],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-04-01\"}",
    "responseHeaders": {
-    "apim-request-id": "e902e48d-2b08-4609-b4a9-26a9a0ead430",
+    "apim-request-id": "28a47dd4-1fd2-42ae-ab2c-263cc6647ab9",
     "content-type": "application/json; charset=utf-8",
     "csp-billing-usage": "CognitiveServices.TextAnalytics.BatchScoring=4",
-    "date": "Fri, 14 Aug 2020 17:49:37 GMT",
+    "date": "Wed, 02 Sep 2020 23:54:05 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "958"
+    "x-envoy-upstream-service-time": "87"
    }
   }
  ],
