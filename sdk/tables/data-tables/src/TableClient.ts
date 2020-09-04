@@ -447,13 +447,12 @@ export class TableClient {
         throw new Error("partitionKey and rowKey must be defined");
       }
 
-      const { queryOptions, etag = "*", ...upsertOptions } = updatedOptions || {};
+      const { queryOptions, ...upsertOptions } = updatedOptions || {};
       if (mode === "Merge") {
         return this.table.mergeEntity(this.tableName, entity.partitionKey, entity.rowKey, {
           tableEntityProperties: serialize(entity),
           queryOptions: this.convertQueryOptions(queryOptions || {}),
-          ...upsertOptions,
-          ifMatch: etag
+          ...upsertOptions
         });
       }
 
@@ -462,7 +461,6 @@ export class TableClient {
           tableEntityProperties: serialize(entity),
           queryOptions: this.convertQueryOptions(queryOptions || {}),
           ...upsertOptions,
-          ifMatch: etag
         });
       }
       throw new Error(`Unexpected value for update mode: ${mode}`);

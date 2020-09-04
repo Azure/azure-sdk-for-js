@@ -215,6 +215,10 @@ export interface TableEntityQueryOptions {
  */
 export type ListTableItemsOptions = OperationOptions & {
   /**
+   * Query options group
+   */
+  queryOptions?: TableQueryOptions;
+  /**
    * Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when analytics logging is enabled.
    */
   requestId?: string;

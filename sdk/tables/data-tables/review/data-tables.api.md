@@ -200,6 +200,7 @@ export type ListTableEntitiesOptions = OperationOptions & {
 
 // @public
 export type ListTableItemsOptions = OperationOptions & {
+    queryOptions?: TableQueryOptions;
     requestId?: string;
     nextTableName?: string;
 };
