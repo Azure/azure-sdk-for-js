@@ -66,10 +66,10 @@ describe("KeyVaultBackupClient", () => {
 
     const folderName = getFolderName(blobStorageUri);
     const selectiveRestorePoller = await client.beginSelectiveRestore(
-      key.name,
       blobStorageUri,
       sasToken,
       folderName,
+      key.name,
       testPollerProperties
     );
     await selectiveRestorePoller.pollUntilDone();

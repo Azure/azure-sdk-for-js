@@ -65,7 +65,7 @@ describe("Aborting KeyVaultBackupClient's requests", () => {
     controller.abort();
 
     await assertThrowsAbortError(async () => {
-      await client.beginSelectiveRestore("Key Name", blobStorageUri, sasToken, folderName, {
+      await client.beginSelectiveRestore(blobStorageUri, sasToken, folderName, "Key Name", {
         ...testPollerProperties,
         abortSignal: controller.signal
       });
