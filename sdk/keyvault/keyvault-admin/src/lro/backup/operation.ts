@@ -17,18 +17,6 @@ import { BeginBackupOptions } from "../../backupClientModels";
  */
 export interface BackupOperationState extends PollOperationState<string> {
   /**
-   * The base URL to the vault
-   */
-  vaultUrl: string;
-  /**
-   * The URI of the blob storage account.
-   */
-  blobStorageUri: string;
-  /**
-   * The SAS token.
-   */
-  sasToken: string;
-  /**
    * Identifier for the full backup operation.
    */
   jobId?: string;
@@ -64,17 +52,17 @@ export interface BackupPollOperationState extends PollOperationState<string> {
    */
   client?: KeyVaultClient;
   /**
-   * The base URL to the vault
+   * The base URL to the vault.
    */
-  vaultUrl: string;
+  vaultUrl?: string;
   /**
    * The URI of the blob storage account.
    */
-  blobStorageUri: string;
+  blobStorageUri?: string;
   /**
    * The SAS token.
    */
-  sasToken: string;
+  sasToken?: string;
   /**
    * The id returned as part of the backup request
    */
@@ -167,11 +155,11 @@ async function update(
   }
 
   if (!state.isStarted) {
-    const serviceOperation = await fullBackup(client, vaultUrl, {
+    const serviceOperation = await fullBackup(client, vaultUrl!, {
       ...requestOptions,
       azureStorageBlobContainerUri: {
-        storageResourceUri: blobStorageUri,
-        token: sasToken
+        storageResourceUri: blobStorageUri!,
+        token: sasToken!
       }
     });
 
@@ -207,7 +195,7 @@ async function update(
   }
 
   if (!state.isCompleted) {
-    const serviceOperation = await fullBackupStatus(client, vaultUrl, state.jobId, requestOptions);
+    const serviceOperation = await fullBackupStatus(client, vaultUrl!, state.jobId, requestOptions);
     const {
       azureStorageBlobContainerUri,
       endTime,

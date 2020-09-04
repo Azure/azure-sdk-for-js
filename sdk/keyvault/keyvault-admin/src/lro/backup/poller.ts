@@ -76,9 +76,6 @@ export class BackupPoller extends Poller<BackupPollOperationState, string> {
   public getOperationState(): BackupOperationState {
     const state: BackupOperationState = this.operation.state;
     return {
-      vaultUrl: state.vaultUrl,
-      blobStorageUri: state.blobStorageUri,
-      sasToken: state.sasToken,
       isStarted: state.isStarted,
       isCompleted: state.isCompleted,
       isCancelled: state.isCancelled,
