@@ -164,6 +164,44 @@ export class DiskEncryptionSets {
   }
 
   /**
+   * Lists all resources that are encrypted with this disk encryption set.
+   * @param resourceGroupName The name of the resource group.
+   * @param diskEncryptionSetName The name of the disk encryption set that is being created. The name
+   * can't be changed after the disk encryption set is created. Supported characters for the name are
+   * a-z, A-Z, 0-9 and _. The maximum name length is 80 characters.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.DiskEncryptionSetsListAssociatedResourcesResponse>
+   */
+  listAssociatedResources(resourceGroupName: string, diskEncryptionSetName: string, options?: msRest.RequestOptionsBase): Promise<Models.DiskEncryptionSetsListAssociatedResourcesResponse>;
+  /**
+   * @param resourceGroupName The name of the resource group.
+   * @param diskEncryptionSetName The name of the disk encryption set that is being created. The name
+   * can't be changed after the disk encryption set is created. Supported characters for the name are
+   * a-z, A-Z, 0-9 and _. The maximum name length is 80 characters.
+   * @param callback The callback
+   */
+  listAssociatedResources(resourceGroupName: string, diskEncryptionSetName: string, callback: msRest.ServiceCallback<Models.ResourceUriList>): void;
+  /**
+   * @param resourceGroupName The name of the resource group.
+   * @param diskEncryptionSetName The name of the disk encryption set that is being created. The name
+   * can't be changed after the disk encryption set is created. Supported characters for the name are
+   * a-z, A-Z, 0-9 and _. The maximum name length is 80 characters.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  listAssociatedResources(resourceGroupName: string, diskEncryptionSetName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ResourceUriList>): void;
+  listAssociatedResources(resourceGroupName: string, diskEncryptionSetName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ResourceUriList>, callback?: msRest.ServiceCallback<Models.ResourceUriList>): Promise<Models.DiskEncryptionSetsListAssociatedResourcesResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        diskEncryptionSetName,
+        options
+      },
+      listAssociatedResourcesOperationSpec,
+      callback) as Promise<Models.DiskEncryptionSetsListAssociatedResourcesResponse>;
+  }
+
+  /**
    * Creates or updates a disk encryption set
    * @param resourceGroupName The name of the resource group.
    * @param diskEncryptionSetName The name of the disk encryption set that is being created. The name
@@ -284,6 +322,34 @@ export class DiskEncryptionSets {
       listNextOperationSpec,
       callback) as Promise<Models.DiskEncryptionSetsListNextResponse>;
   }
+
+  /**
+   * Lists all resources that are encrypted with this disk encryption set.
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.DiskEncryptionSetsListAssociatedResourcesNextResponse>
+   */
+  listAssociatedResourcesNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.DiskEncryptionSetsListAssociatedResourcesNextResponse>;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param callback The callback
+   */
+  listAssociatedResourcesNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.ResourceUriList>): void;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  listAssociatedResourcesNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ResourceUriList>): void;
+  listAssociatedResourcesNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ResourceUriList>, callback?: msRest.ServiceCallback<Models.ResourceUriList>): Promise<Models.DiskEncryptionSetsListAssociatedResourcesNextResponse> {
+    return this.client.sendOperationRequest(
+      {
+        nextPageLink,
+        options
+      },
+      listAssociatedResourcesNextOperationSpec,
+      callback) as Promise<Models.DiskEncryptionSetsListAssociatedResourcesNextResponse>;
+  }
 }
 
 // Operation Specifications
@@ -360,6 +426,31 @@ const listOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
+const listAssociatedResourcesOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskEncryptionSets/{diskEncryptionSetName}/associatedResources",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.diskEncryptionSetName
+  ],
+  queryParameters: [
+    Parameters.apiVersion2
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.ResourceUriList
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
 const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Compute/diskEncryptionSets/{diskEncryptionSetName}",
@@ -385,7 +476,7 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
     200: {
       bodyMapper: Mappers.DiskEncryptionSet
     },
-    201: {
+    202: {
       bodyMapper: Mappers.DiskEncryptionSet
     },
     default: {
@@ -489,6 +580,27 @@ const listNextOperationSpec: msRest.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.DiskEncryptionSetList
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const listAssociatedResourcesNextOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  baseUrl: "https://management.azure.com",
+  path: "{nextLink}",
+  urlParameters: [
+    Parameters.nextPageLink
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.ResourceUriList
     },
     default: {
       bodyMapper: Mappers.CloudError
