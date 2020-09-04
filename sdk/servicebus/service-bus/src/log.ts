@@ -24,12 +24,6 @@ import debugModule from "debug";
 /**
  * @internal
  * @ignore
- * log statements for management
- */
-export const mgmt = debugModule("azure:service-bus:management");
-/**
- * @internal
- * @ignore
  * log statements for sender
  */
 export const sender = debugModule("azure:service-bus:sender");

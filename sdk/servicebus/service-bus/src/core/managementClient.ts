@@ -32,7 +32,6 @@ import {
   toAmqpMessage
 } from "../serviceBusMessage";
 import { LinkEntity, RequestResponseLinkOptions } from "./linkEntity";
-import * as log from "../log";
 import { logger } from "../log";
 import { InternalReceiveMode, fromAmqpMessage } from "../serviceBusMessage";
 import { toBuffer } from "../util/utils";
@@ -307,7 +306,10 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
 
     const waitTimer = setTimeout(actionAfterTimeout, retryTimeoutInMs);
 
-    log.mgmt("[%s] Acquiring lock to get the management req res link.", this._context.connectionId);
+    logger.info(
+      "[%s] Acquiring lock to get the management req res link.",
+      this._context.connectionId
+    );
 
     try {
       await this._init(sendRequestOptions?.abortSignal);
@@ -350,7 +352,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
       // the other links do. When we add handling of this (via the onDetached call, like other links)
       // we can change this back to closeLink("permanent").
       await this.closeLink();
-      log.mgmt("Successfully closed the management session.");
+      logger.info("Successfully closed the management session.");
     } catch (err) {
       logger.error(
         "[%s] An error occurred while closing the management session: %O.",
@@ -465,7 +467,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
         request.application_properties![Constants.associatedLinkName] = options?.associatedLinkName;
       }
       request.application_properties![Constants.trackingId] = generate_uuid();
-      log.mgmt(
+      logger.info(
         "[%s] Peek by sequence number request body: %O.",
         this._context.connectionId,
         request.body
@@ -535,7 +537,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
       if (options.associatedLinkName) {
         request.application_properties![Constants.associatedLinkName] = options.associatedLinkName;
       }
-      log.mgmt("[%s] Renew message Lock request: %O.", this._context.connectionId, request);
+      logger.info("[%s] Renew message Lock request: %O.", this._context.connectionId, request);
       const result = await this._makeManagementRequest(request, {
         abortSignal: options?.abortSignal,
         requestName: "renewLock"
@@ -621,7 +623,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
         request.application_properties![Constants.associatedLinkName] = options?.associatedLinkName;
       }
       request.application_properties![Constants.trackingId] = generate_uuid();
-      log.mgmt(
+      logger.info(
         "[%s] Schedule messages request body: %O.",
         this._context.connectionId,
         request.body
@@ -694,7 +696,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
         request.application_properties![Constants.associatedLinkName] = options?.associatedLinkName;
       }
       request.application_properties![Constants.trackingId] = generate_uuid();
-      log.mgmt(
+      logger.info(
         "[%s] Cancel scheduled messages request body: %O.",
         this._context.connectionId,
         request.body
@@ -773,7 +775,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
         request.application_properties![Constants.associatedLinkName] = options?.associatedLinkName;
       }
       request.application_properties![Constants.trackingId] = generate_uuid();
-      log.mgmt(
+      logger.info(
         "[%s] Receive deferred messages request body: %O.",
         this._context.connectionId,
         request.body
@@ -861,7 +863,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
         request.application_properties![Constants.associatedLinkName] = options.associatedLinkName;
       }
       request.application_properties![Constants.trackingId] = generate_uuid();
-      log.mgmt(
+      logger.info(
         "[%s] Update disposition status request body: %O.",
         this._context.connectionId,
         request.body
@@ -904,14 +906,14 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
       if (options?.associatedLinkName) {
         request.application_properties![Constants.associatedLinkName] = options?.associatedLinkName;
       }
-      log.mgmt(
+      logger.info(
         "[%s] Renew Session Lock request body: %O.",
         this._context.connectionId,
         request.body
       );
       const result = await this._makeManagementRequest(request, options);
       const lockedUntilUtc = new Date(result.body.expiration);
-      log.mgmt(
+      logger.info(
         "[%s] Lock for session '%s' will expire at %s.",
         this._context.connectionId,
         sessionId,
@@ -957,7 +959,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
         request.application_properties![Constants.associatedLinkName] = options?.associatedLinkName;
       }
       request.application_properties![Constants.trackingId] = generate_uuid();
-      log.mgmt(
+      logger.info(
         "[%s] Set Session state request body: %O.",
         this._context.connectionId,
         request.body
@@ -998,7 +1000,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
         request.application_properties![Constants.associatedLinkName] = options?.associatedLinkName;
       }
       request.application_properties![Constants.trackingId] = generate_uuid();
-      log.mgmt(
+      logger.info(
         "[%s] Get session state request body: %O.",
         this._context.connectionId,
         request.body
@@ -1057,7 +1059,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
         }
       };
       request.application_properties![Constants.trackingId] = generate_uuid();
-      log.mgmt("[%s] List sessions request body: %O.", this._context.connectionId, request.body);
+      logger.info("[%s] List sessions request body: %O.", this._context.connectionId, request.body);
       const response = await this._makeManagementRequest(request, options);
 
       return (response && response.body && response.body["sessions-ids"]) || [];
@@ -1092,7 +1094,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
       };
       request.application_properties![Constants.trackingId] = generate_uuid();
 
-      log.mgmt("[%s] Get rules request body: %O.", this._context.connectionId, request.body);
+      logger.info("[%s] Get rules request body: %O.", this._context.connectionId, request.body);
       const response = await this._makeManagementRequest(request, options);
       if (
         response.application_properties!.statusCode === 204 ||
@@ -1149,7 +1151,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
             };
             break;
           default:
-            log.mgmt(
+            logger.warning(
               `Found unexpected descriptor code for the filter: ${filtersRawData.descriptor.value}`
             );
             break;
@@ -1202,7 +1204,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
       };
       request.application_properties![Constants.trackingId] = generate_uuid();
 
-      log.mgmt("[%s] Remove Rule request body: %O.", this._context.connectionId, request.body);
+      logger.info("[%s] Remove Rule request body: %O.", this._context.connectionId, request.body);
       await this._makeManagementRequest(request, options);
     } catch (err) {
       const error = translate(err);
@@ -1288,7 +1290,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
       };
       request.application_properties![Constants.trackingId] = generate_uuid();
 
-      log.mgmt("[%s] Add Rule request body: %O.", this._context.connectionId, request.body);
+      logger.info("[%s] Add Rule request body: %O.", this._context.connectionId, request.body);
       await this._makeManagementRequest(request, options);
     } catch (err) {
       const error = translate(err);
