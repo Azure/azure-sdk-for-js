@@ -1,6 +1,6 @@
 # Release History
 
-## 12.2.0 (2020.09)
+## 12.2.0 (2020-09-08)
 
 - Added share soft delete support. Added `undeleteShare` to `ShareServiceClient`. `listShares` now can return deleted shares. Note: share soft delete only take effect on accounts with share soft delete feature enabled.
 - Bug fix - `newPipeline()` now permits not specifying the credential. If not specified, `AnonymousCredential` is used. Fixes bug [9628](https://github.com/Azure/azure-sdk-for-js/issues/9628).

@@ -1,6 +1,6 @@
 # Release History
 
-## 12.1.0 (2020.09)
+## 12.1.0 (2020-09-08)
 
 - Bug fix - `newPipeline()` now permits not specifying the credential. If not specified, `AnonymousCredential` is used. Fixes bug [9628](https://github.com/Azure/azure-sdk-for-js/issues/9628).
 

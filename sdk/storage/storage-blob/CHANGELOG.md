@@ -1,6 +1,6 @@
 # Release History
 
-## 12.2.0 (2020.09)
+## 12.2.0 (2020-09-08)
 
 - Added RehydratePriority to BlobProperties and BlobItemProperties.
 - Fixed `BlockBlobClient.uploadStream()` to support `bufferSize` larger than `buffer.constants.MAX_LENGTH`.
