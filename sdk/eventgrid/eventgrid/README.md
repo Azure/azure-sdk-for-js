@@ -103,7 +103,7 @@ const { generateSharedAccessSignature, AzureKeyCredential } = require("@azure/ev
 const token = generateSharedAccessSignature(
   "<endpoint>",
   new AzureKeyCredential("<API key>"),
-  new Date(2020, 0, 1, 0, 0, 0)
+  new Date("2020-01-01T00:00:00")
 );
 ```
 
