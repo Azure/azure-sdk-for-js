@@ -81,8 +81,7 @@ export {
   LinkedEntity,
   Match,
   TextAnalyticsWarning,
-  SentenceAspectSentiment,
-  SentenceOpinionSentiment,
+  TokenSentimentValue,
   AspectConfidenceScoreLabel,
   SentenceOpinion
 } from "./generated/models";

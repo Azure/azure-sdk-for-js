@@ -1149,7 +1149,7 @@ export interface Metrics {
 }
 
 // @public
-export function newPipeline(credential: Credential, pipelineOptions?: StoragePipelineOptions): Pipeline;
+export function newPipeline(credential?: Credential, pipelineOptions?: StoragePipelineOptions): Pipeline;
 
 // @public
 export class Pipeline {

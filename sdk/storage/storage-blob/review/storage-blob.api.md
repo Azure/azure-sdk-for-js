@@ -882,12 +882,13 @@ export interface BlobProperties {
 }
 
 // @public
-export interface BlobQueryCsvTextConfiguration extends BlobQueryTextConfiguration {
+export interface BlobQueryCsvTextConfiguration {
     columnSeparator?: string;
     escapeCharacter?: string;
     fieldQuote?: string;
     hasHeaders?: boolean;
     kind: "csv";
+    recordSeparator: string;
 }
 
 // @public
@@ -941,8 +942,9 @@ export interface BlobQueryHeaders {
 }
 
 // @public
-export interface BlobQueryJsonTextConfiguration extends BlobQueryTextConfiguration {
+export interface BlobQueryJsonTextConfiguration {
     kind: "json";
+    recordSeparator: string;
 }
 
 // @public
@@ -953,11 +955,6 @@ export type BlobQueryResponseModel = BlobQueryHeaders & {
         parsedHeaders: BlobQueryHeaders;
     };
 };
-
-// @public
-export interface BlobQueryTextConfiguration {
-    recordSeparator: string;
-}
 
 // @public
 export interface BlobReleaseLeaseOptions extends CommonOptions {
@@ -1347,6 +1344,7 @@ export interface BlockBlobParallelUploadOptions extends CommonOptions {
     };
     onProgress?: (progress: TransferProgressEvent) => void;
     tags?: Tags;
+    tier?: BlockBlobTier | string;
 }
 
 // @public
@@ -1481,6 +1479,7 @@ export interface BlockBlobUploadStreamOptions extends CommonOptions {
     };
     onProgress?: (progress: TransferProgressEvent) => void;
     tags?: Tags;
+    tier?: BlockBlobTier | string;
 }
 
 // @public
@@ -2158,7 +2157,7 @@ export interface ModifiedAccessConditionsModel {
 }
 
 // @public
-export function newPipeline(credential: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, pipelineOptions?: StoragePipelineOptions): Pipeline;
+export function newPipeline(credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, pipelineOptions?: StoragePipelineOptions): Pipeline;
 
 // @public
 export interface ObjectReplicationPolicy {

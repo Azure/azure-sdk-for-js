@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 export {
-  GeneratedClientOptionalParams as TableServiceClientOptions,
   ServiceGetStatisticsOptionalParams as GetStatisticsOptions,
   ServiceGetStatisticsResponse as GetStatisticsResponse,
   ServiceGetPropertiesOptionalParams as GetPropertiesOptions,

@@ -12,7 +12,7 @@ import {
   ServiceBusClient,
   delay,
   ReceivedMessageWithLock,
-  ServiceBusSessionRceiver,
+  ServiceBusSessionReceiver,
   MessagingError
 } from "@azure/service-bus";
 import * as dotenv from "dotenv";

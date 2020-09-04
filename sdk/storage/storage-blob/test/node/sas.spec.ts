@@ -61,10 +61,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     ).toString();
 
     const sasClient = `${blobServiceClient.url}?${sas}`;
-    const serviceClientWithSAS = new BlobServiceClient(
-      sasClient,
-      newPipeline(new AnonymousCredential())
-    );
+    const serviceClientWithSAS = new BlobServiceClient(sasClient, newPipeline());
 
     await serviceClientWithSAS.getAccountInfo();
   });

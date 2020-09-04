@@ -118,7 +118,7 @@ import {
 import { Range, rangeToString } from "./Range";
 import { CommonOptions, StorageClient } from "./StorageClient";
 import { Batch } from "./utils/Batch";
-import { BufferScheduler } from "./utils/BufferScheduler";
+import { BufferScheduler } from "../../storage-common/src";
 import {
   BLOCK_BLOB_MAX_BLOCKS,
   BLOCK_BLOB_MAX_STAGE_BLOCK_BYTES,
@@ -3234,28 +3234,19 @@ export interface BlobQueryError {
 }
 
 /**
- * Base type for options to query blob.
- *
- * @export
- * @interface BlobQueryTextConfiguration
- */
-export interface BlobQueryTextConfiguration {
-  /**
-   * Record separator.
-   *
-   * @type {string}
-   * @memberof BlobQueryTextConfiguration
-   */
-  recordSeparator: string;
-}
-
-/**
  * Options to query blob with JSON format.
  *
  * @export
  * @interface BlobQueryJsonTextConfiguration
  */
-export interface BlobQueryJsonTextConfiguration extends BlobQueryTextConfiguration {
+export interface BlobQueryJsonTextConfiguration {
+  /**
+   * Record separator.
+   *
+   * @type {string}
+   * @memberof BlobQueryJsonTextConfiguration
+   */
+  recordSeparator: string;
   /**
    * Query for a JSON format blob.
    *
@@ -3271,7 +3262,14 @@ export interface BlobQueryJsonTextConfiguration extends BlobQueryTextConfigurati
  * @export
  * @interface BlobQueryCsvTextConfiguration
  */
-export interface BlobQueryCsvTextConfiguration extends BlobQueryTextConfiguration {
+export interface BlobQueryCsvTextConfiguration {
+  /**
+   * Record separator.
+   *
+   * @type {string}
+   * @memberof BlobQueryCsvTextConfiguration
+   */
+  recordSeparator: string;
   /**
    * Query for a CSV format blob.
    *
@@ -3670,6 +3668,15 @@ export interface BlockBlobUploadStreamOptions extends CommonOptions {
    * @memberof BlockBlobUploadStreamOptions
    */
   tags?: Tags;
+
+  /**
+   * Access tier.
+   * More Details - https://docs.microsoft.com/en-us/azure/storage/blobs/storage-blob-storage-tiers
+   *
+   * @type {BlockBlobTier | string}
+   * @memberof BlockBlobUploadStreamOptions
+   */
+  tier?: BlockBlobTier | string;
 }
 /**
  * Option interface for {@link BlockBlobClient.uploadFile} and {@link BlockBlobClient.uploadSeekableStream}.
@@ -3764,6 +3771,15 @@ export interface BlockBlobParallelUploadOptions extends CommonOptions {
    * @memberof BlockBlobParallelUploadOptions
    */
   tags?: Tags;
+
+  /**
+   * Access tier.
+   * More Details - https://docs.microsoft.com/en-us/azure/storage/blobs/storage-blob-storage-tiers
+   *
+   * @type {BlockBlobTier | string}
+   * @memberof BlockBlobParallelUploadOptions
+   */
+  tier?: BlockBlobTier | string;
 }
 
 /**
@@ -3980,6 +3996,8 @@ export class BlockBlobClient extends BlobClient {
   }
 
   /**
+   * ONLY AVAILABLE IN NODE.JS RUNTIME.
+   *
    * Quick query for a JSON or CSV formatted blob.
    *
    * Example usage (Node.js):
@@ -3987,17 +4005,17 @@ export class BlockBlobClient extends BlobClient {
    * ```js
    * // Query and convert a blob to a string
    * const queryBlockBlobResponse = await blockBlobClient.query("select * from BlobStorage");
-   * const downloaded = await streamToString(queryBlockBlobResponse.readableStreamBody);
+   * const downloaded = (await streamToBuffer(queryBlockBlobResponse.readableStreamBody)).toString();
    * console.log("Query blob content:", downloaded);
    *
-   * async function streamToString(readableStream) {
+   * async function streamToBuffer(readableStream) {
    *   return new Promise((resolve, reject) => {
    *     const chunks = [];
    *     readableStream.on("data", (data) => {
-   *       chunks.push(data.toString());
+   *       chunks.push(data instanceof Buffer ? data : Buffer.from(data));
    *     });
    *     readableStream.on("end", () => {
-   *       resolve(chunks.join(""));
+   *       resolve(Buffer.concat(chunks));
    *     });
    *     readableStream.on("error", reject);
    *   });
@@ -4018,6 +4036,10 @@ export class BlockBlobClient extends BlobClient {
     const { span, spanOptions } = createSpan("BlockBlobClient-query", options.tracingOptions);
 
     try {
+      if (!isNode) {
+        throw new Error("This operation currently is only supported in Node.js.");
+      }
+
       const response = await this._blobContext.query({
         abortSignal: options.abortSignal,
         queryRequest: {
@@ -4573,19 +4595,19 @@ export class BlockBlobClient extends BlobClient {
         stream,
         bufferSize,
         maxConcurrency,
-        async (buffer: Buffer) => {
+        async (body, length) => {
           const blockID = generateBlockID(blockIDPrefix, blockNum);
           blockList.push(blockID);
           blockNum++;
 
-          await this.stageBlock(blockID, buffer, buffer.length, {
+          await this.stageBlock(blockID, body, length, {
             conditions: options.conditions,
             encryptionScope: options.encryptionScope,
             tracingOptions: { ...options!.tracingOptions, spanOptions }
           });
 
           // Update progress after block is successfully uploaded to server, in case of block trying
-          transferProgress += buffer.length;
+          transferProgress += length;
           if (options.onProgress) {
             options.onProgress({ loadedBytes: transferProgress });
           }

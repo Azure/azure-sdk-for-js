@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { TableServiceClientOptions } from "../generatedModels";
+import { TableServiceClientOptions } from "../models";
 import { fromAccountConnectionString } from "./fromAccountConnectionString";
 import { URL } from "./url";
 

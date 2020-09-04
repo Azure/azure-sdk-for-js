@@ -3,6 +3,7 @@
 ## 12.2.0 (Unreleased)
 
 - Added RehydratePriority to BlobProperties and BlobItemProperties.
+- Fixed `BlockBlobClient.uploadStream()` to support bufferSize larger than `buffer.constants.MAX_LENGTH` for Jumbo Blob (~200TB Block Blob).
 - Added support for Object Replication Service.
 - Added custom domain support.
 - Supported Append Blob Seal.
