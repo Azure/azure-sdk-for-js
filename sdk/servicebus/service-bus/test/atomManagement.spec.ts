@@ -12,7 +12,7 @@ import { CreateQueueOptions } from "../src/serializers/queueResourceSerializer";
 import { RuleProperties } from "../src/serializers/ruleResourceSerializer";
 import { CreateSubscriptionOptions } from "../src/serializers/subscriptionResourceSerializer";
 import { CreateTopicOptions } from "../src/serializers/topicResourceSerializer";
-import { ServiceBusManagementClient } from "../src/serviceBusAtomManagementClient";
+import { ServiceBusAdministrationClient } from "../src/serviceBusAtomManagementClient";
 import { EntityStatus } from "../src/util/utils";
 import { EnvVarNames, getEnvVars } from "./utils/envVarUtils";
 import { recreateQueue, recreateSubscription, recreateTopic } from "./utils/managementUtils";
@@ -27,7 +27,7 @@ dotenv.config();
 
 const env = getEnvVars();
 
-const serviceBusAtomManagementClient: ServiceBusManagementClient = new ServiceBusManagementClient(
+const serviceBusAtomManagementClient: ServiceBusAdministrationClient = new ServiceBusAdministrationClient(
   env[EnvVarNames.SERVICEBUS_CONNECTION_STRING]
 );
 
@@ -271,19 +271,22 @@ describe("Atom management - Authentication", function(): void {
         .Endpoint;
       const host = endpoint.match(".*://([^/]*)")[1];
 
-      const serviceBusManagementClient = new ServiceBusManagementClient(
+      const serviceBusAdministrationClient = new ServiceBusAdministrationClient(
         host,
         new DefaultAzureCredential()
       );
 
       should.equal(
-        (await serviceBusManagementClient.createQueue(managementQueue1)).name,
+        (await serviceBusAdministrationClient.createQueue(managementQueue1)).name,
         managementQueue1,
         "Unexpected queue name in the createQueue response"
       );
-      const createQueue2Response = await serviceBusManagementClient.createQueue(managementQueue2, {
-        forwardTo: managementQueue1
-      });
+      const createQueue2Response = await serviceBusAdministrationClient.createQueue(
+        managementQueue2,
+        {
+          forwardTo: managementQueue1
+        }
+      );
       should.equal(
         createQueue2Response.name,
         managementQueue2,
@@ -294,29 +297,29 @@ describe("Atom management - Authentication", function(): void {
         endpoint + managementQueue1,
         "Unexpected name in the `forwardTo` field of createQueue response"
       );
-      const getQueueResponse = await serviceBusManagementClient.getQueue(managementQueue1);
+      const getQueueResponse = await serviceBusAdministrationClient.getQueue(managementQueue1);
       should.equal(
         getQueueResponse.name,
         managementQueue1,
         "Unexpected queue name in the getQueue response"
       );
       should.equal(
-        (await serviceBusManagementClient.updateQueue(getQueueResponse)).name,
+        (await serviceBusAdministrationClient.updateQueue(getQueueResponse)).name,
         managementQueue1,
         "Unexpected queue name in the updateQueue response"
       );
       should.equal(
-        (await serviceBusManagementClient.getQueueRuntimeProperties(managementQueue1)).name,
+        (await serviceBusAdministrationClient.getQueueRuntimeProperties(managementQueue1)).name,
         managementQueue1,
         "Unexpected queue name in the getQueueRuntimeProperties response"
       );
       should.equal(
-        (await serviceBusManagementClient.getNamespaceProperties()).name,
+        (await serviceBusAdministrationClient.getNamespaceProperties()).name,
         host.match("(.*).servicebus.windows.net")[1],
         "Unexpected namespace name in the getNamespaceProperties response"
       );
-      await serviceBusManagementClient.deleteQueue(managementQueue1);
-      await serviceBusManagementClient.deleteQueue(managementQueue2);
+      await serviceBusAdministrationClient.deleteQueue(managementQueue1);
+      await serviceBusAdministrationClient.deleteQueue(managementQueue2);
     });
   }
 });

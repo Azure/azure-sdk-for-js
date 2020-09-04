@@ -1,15 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { PipelineOptions, OperationOptions, HttpOperationResponse } from "@azure/core-http";
-
-/**
- * Schema definition.
- */
-export interface SchemaDefinition {
-  /** String representation of schema. */
-  content: string;
-}
+import { PipelineOptions, OperationOptions } from "@azure/core-http";
 
 /**
  * Identifies a Schema by its unique ID, version, and location.
@@ -17,6 +9,12 @@ export interface SchemaDefinition {
 export interface SchemaId {
   /** ID that uniquely identifies a schema in the registry namespace. */
   id: string;
+
+  /**
+   * Serialization type of schema.
+   * Currently only 'avro' is supported, but this is subject to change.
+   */
+  serializationType: string;
 
   /** Automatically incremented version number of the schema. */
   version: number;
@@ -29,14 +27,9 @@ export interface SchemaId {
 }
 
 /**
- * Schema definition with its unique ID, version, and location.
- */
-export interface Schema extends SchemaDefinition, SchemaId {}
-
-/**
  * Schema definition with its group, name, and serialization type.
  */
-export interface SchemaDescription extends SchemaDefinition {
+export interface SchemaDescription {
   /** Schema group under which schema is or should be registered. */
   group: string;
 
@@ -48,25 +41,18 @@ export interface SchemaDescription extends SchemaDefinition {
    * Currently only 'avro' is supported, but this is subject to change.
    */
   serializationType: string;
+
+  /** String representation of schema. */
+  content: string;
 }
 
 /**
- * Provides access to underlying HTTP response.
+ * Schema definition with its unique ID, version, and location.
  */
-export interface Response {
-  /** The underlying HTTP reponse. */
-  _response: HttpOperationResponse;
+export interface Schema extends SchemaId {
+  /** String representation of schema. */
+  content: string;
 }
-
-/**
- * Schema with underlying HTTP response.
- */
-export interface SchemaResponse extends Schema, Response {}
-
-/**
- * SchemaId with underlying HTTP reponse.
- */
-export interface SchemaIdResponse extends SchemaId, Response {}
 
 /**
  * Options for SchemaRegistrationClient.
@@ -87,3 +73,40 @@ export interface GetSchemaIdOptions extends OperationOptions {}
  * Options to configure SchemaRegistryClient.getSchemaById.
  */
 export interface GetSchemaByIdOptions extends OperationOptions {}
+
+/**
+ * Represents a store of registered schemas.
+ *
+ * Implemented by SchemaRegistryClient to store the schemas using the Azure
+ * Schema Registry service.
+ */
+export interface SchemaRegistry {
+  /**
+   * Registers a new schema and returns its ID.
+   *
+   * If schema of specified name does not exist in the specified group, a schema
+   * is created at version 1. If schema of specified name exists already in
+   * specified group, schema is created at latest version + 1.
+   *
+   * @param schema Schema to register.
+   * @return Registered schema's ID.
+   */
+  registerSchema(schema: SchemaDescription, options?: RegisterSchemaOptions): Promise<SchemaId>;
+
+  /**
+   * Gets the ID of an existing schema with matching name, group, type, and
+   * content.
+   *
+   * @param schema Schema to match.
+   * @return Matched schema's ID.
+   */
+  getSchemaId(schema: SchemaDescription, options?: GetSchemaIdOptions): Promise<SchemaId>;
+
+  /**
+   * Gets an existing schema by ID.
+   *
+   * @param id Unique schema ID.
+   * @return Schema with given ID.
+   */
+  getSchemaById(id: string, options?: GetSchemaByIdOptions): Promise<Schema>;
+}

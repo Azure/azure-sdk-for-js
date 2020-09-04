@@ -1,0 +1,16 @@
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "moduleResolution": "node",
+
+    "allowSyntheticDefaultImports": true,
+
+    "strict": true,
+    "alwaysStrict": true,
+
+    "outDir": "dist",
+    "rootDir": "src"
+  },
+  "include": ["src/**.ts"],
+  "exclude": ["node_modules"]
+}

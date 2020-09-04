@@ -1,0 +1,140 @@
+# Azure Schema Registry Avro serializer client library for JavaScript
+
+Azure Schema Registry is a cloud-based service that stores schemas for
+serialization. This package provides an Avro serializer that stores only schema
+ID in payload and the full Avro schema in the schema registry.
+
+## Getting started
+
+- Node.js version 8.x.x or higher
+
+### Prerequisites
+
+- An [Azure subscription][azure_sub]
+- An existing Schema Registry resource
+
+<!--
+TODO: Links not publicly available yet for creating resource
+-->
+
+### Install the `@azure/schema-registry-avro` package
+
+Install the Azure Text Analytics client library for JavaScript with `npm`:
+
+```bash
+npm install @azure/schema-registry-avro
+```
+
+## Key concepts
+
+### SchemaRegistryAvroSerializer
+
+Provides API to serialize to and deserialize from Avro Binary Encoding plus a
+header with schema ID. Uses [SchemaRegistryClient](../schema-registry) to get
+schema IDs from schema content or vice versa.
+
+### Message format
+
+The same format is used by schema registry serializers across Azure SDK languages.
+
+Messages are encoded as follows:
+
+- 4 bytes: Format Indicator
+
+  - Currently always zero to indicate format below.
+
+- 32 bytes: Schema ID
+
+  - UTF-8 hexadecimal representation of GUID.
+  - 32 hex digits, no hyphens.
+  - Same format and byte order as string from Schema Registry service.
+
+- Remaining bytes: Avro payload (in general, format-specific payload)
+
+  - Avro Binary Encoding
+  - NOT Avro Object Container File, which includes the schema and defeats the
+    purpose of this serialzer to move the schema out of the message payload and
+    into the schema registry.
+
+## Examples
+
+### Serialize and deserialize
+
+```javascript
+const { DefaultAzureCredential } = require("@azure/identity");
+const { SchemaRegistryClient } = require("@azure/schema-registry");
+const { SchemaRegistryAvroSerializer } = require("@azure/schema-registry-avro");
+
+const client = new SchemaRegistryClient("<endpoint>", new DefaultAzureCredential());
+const serializer = new SchemaRegistryAvroSerializer(client, "<group>");
+
+// Example Avro schema
+const schema = JSON.stringify({
+  type: "record",
+  name: "Rating",
+  namespace: "my.example",
+  fields: [{ name: "score", type: "int" }]
+});
+
+// Example value that matches the Avro schema above
+const value = { score: 42 };
+
+// Serialize value to buffer
+const buffer = await serializer.serialize(value, schema);
+
+// Deserialize buffer to value
+const deserializedValue = await serializer.deserialize(buffer);
+```
+
+## Troubleshooting
+
+### Enable logs
+
+You can set the following environment variable to see debug logs when using this library.
+
+- Getting debug logs from the Azure Schema Registry client library
+
+```bash
+export DEBUG=azure*
+```
+
+## Next steps
+
+Please take a look at the [samples](./samples) directory for detailed examples
+on how to use this library.
+
+## Contributing
+
+This project welcomes contributions and suggestions. Most contributions require
+you to agree to a Contributor License Agreement (CLA) declaring that you have
+the right to, and actually do, grant us the rights to use your contribution. For
+details, visit https://cla.microsoft.com.
+
+When you submit a pull request, a CLA-bot will automatically determine whether
+you need to provide a CLA and decorate the PR appropriately (e.g., label,
+comment). Simply follow the instructions provided by the bot. You will only need
+to do this once across all repos using our CLA.
+
+This project has adopted the [Microsoft Open Source Code of
+Conduct](https://opensource.microsoft.com/codeofconduct/). For more information
+see the [Code of Conduct
+FAQ](https://opensource.microsoft.com/codeofconduct/faq/) or contact
+[opencode@microsoft.com](mailto:opencode@microsoft.com) with any additional
+questions or comments.
+
+If you'd like to contribute to this library, please read the [contributing
+guide](https://github.com/Azure/azure-sdk-for-js/blob/master/CONTRIBUTING.md) to
+learn more about how to build and test the code.
+
+## Related projects
+
+- [Microsoft Azure SDK for Javascript](https://github.com/Azure/azure-sdk-for-js)
+
+![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fschemaregistry%2Fschema-registry-avro%2FREADME.png)
+
+[azure_cli]: https://docs.microsoft.com/cli/azure
+[azure_sub]: https://azure.microsoft.com/free/
+[azure_portal]: https://portal.azure.com
+[azure_identity]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/identity/identity
+[cognitive_auth]: https://docs.microsoft.com/azure/cognitive-services/authentication
+[defaultazurecredential]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/identity/identity#defaultazurecredential

@@ -11,16 +11,17 @@ import {
   GetSchemaByIdOptions,
   GetSchemaIdOptions,
   SchemaDescription,
-  SchemaIdResponse,
-  SchemaResponse,
   SchemaRegistryClientOptions,
-  RegisterSchemaOptions
+  SchemaRegistry,
+  RegisterSchemaOptions,
+  SchemaId,
+  Schema
 } from "./models";
 
 /**
  * Client for Azure Schema Registry service.
  */
-export class SchemaRegistryClient {
+export class SchemaRegistryClient implements SchemaRegistry {
   /** The Schema Registry service endpoint URL. */
   readonly endpoint: string;
 
@@ -46,7 +47,7 @@ export class SchemaRegistryClient {
   }
 
   /**
-   * Registers a schema.
+   * Registers a new schema and returns its ID.
    *
    * If schema of specified name does not exist in the specified group, a schema
    * is created at version 1. If schema of specified name exists already in
@@ -58,7 +59,7 @@ export class SchemaRegistryClient {
   async registerSchema(
     schema: SchemaDescription,
     options?: RegisterSchemaOptions
-  ): Promise<SchemaIdResponse> {
+  ): Promise<SchemaId> {
     const response = await this.client.schema.register(
       schema.group,
       schema.name,
@@ -73,16 +74,13 @@ export class SchemaRegistryClient {
   }
 
   /**
-   * Gets the identity of an existing schema with matching name, group, type,
-   * and content.
+   * Gets the ID of an existing schema with matching name, group, type, and
+   * content.
    *
    * @param schema Schema to match.
    * @return Matched schema's ID.
    */
-  async getSchemaId(
-    schema: SchemaDescription,
-    options?: GetSchemaIdOptions
-  ): Promise<SchemaIdResponse> {
+  async getSchemaId(schema: SchemaDescription, options?: GetSchemaIdOptions): Promise<SchemaId> {
     const response = await this.client.schema.queryIdByContent(
       schema.group,
       schema.name,
@@ -97,12 +95,13 @@ export class SchemaRegistryClient {
   }
 
   /**
-   * Gets an existing schema by ID.
+   * Gets the ID of an existing schema with matching name, group, type, and
+   * content.
    *
-   * @param id Unique schema ID.
-   * @return Schema with given ID.
+   * @param schema Schema to match.
+   * @return Matched schema's ID.
    */
-  async getSchemaById(id: string, options?: GetSchemaByIdOptions): Promise<SchemaResponse> {
+  async getSchemaById(id: string, options?: GetSchemaByIdOptions): Promise<Schema> {
     const response = await this.client.schema.getById(id, options);
     return convertSchemaResponse(response);
   }
