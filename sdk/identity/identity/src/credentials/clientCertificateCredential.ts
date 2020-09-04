@@ -7,7 +7,8 @@ import { v4 as uuidV4 } from "uuid";
 import { readFileSync } from "fs";
 import { createHash } from "crypto";
 import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-http";
-import { TokenCredentialOptions, IdentityClient } from "../client/identityClient";
+import { IdentityClient } from "../client/identityClient";
+import { ClientCertificateCredentialOptions } from "./clientCertificateCredentialOptions";
 import { createSpan } from "../util/tracing";
 import { AuthenticationErrorName } from "../client/errors";
 import { CanonicalCode } from "@opentelemetry/api";
@@ -41,6 +42,7 @@ export class ClientCertificateCredential implements TokenCredential {
   private certificateString: string;
   private certificateThumbprint: string;
   private certificateX5t: string;
+  private certificateX5c?: Array<string>;
 
   /**
    * Creates an instance of the ClientCertificateCredential with the details
@@ -55,17 +57,27 @@ export class ClientCertificateCredential implements TokenCredential {
     tenantId: string,
     clientId: string,
     certificatePath: string,
-    options?: TokenCredentialOptions
+    options?: ClientCertificateCredentialOptions
   ) {
     this.identityClient = new IdentityClient(options);
     this.tenantId = tenantId;
     this.clientId = clientId;
     this.certificateString = readFileSync(certificatePath, "utf8");
 
-    const certificatePattern = /(-+BEGIN CERTIFICATE-+)(\n\r?|\r\n?)([A-Za-z0-9+/\n\r]+=*)(\n\r?|\r\n?)(-+END CERTIFICATE-+)/;
-    const matchCert = this.certificateString.match(certificatePattern);
-    const publicKey = matchCert ? matchCert[3] : "";
-    if (!publicKey) {
+    const certificatePattern = /(-+BEGIN CERTIFICATE-+)(\n\r?|\r\n?)([A-Za-z0-9+/\n\r]+=*)(\n\r?|\r\n?)(-+END CERTIFICATE-+)/g;
+
+    const publicKeys: string[] = [];
+
+    // Match all possible certificates, in the order they are in the file. These will form the chain that is used for x5c
+    let match;
+    do {
+      match = certificatePattern.exec(this.certificateString);
+      if (match) {
+        publicKeys.push(match[3]);
+      }
+    } while (match);
+
+    if (publicKeys.length === 0) {
       const error = new Error(
         "The file at the specified path does not contain a PEM-encoded certificate."
       );
@@ -74,11 +86,14 @@ export class ClientCertificateCredential implements TokenCredential {
     }
 
     this.certificateThumbprint = createHash("sha1")
-      .update(Buffer.from(publicKey, "base64"))
+      .update(Buffer.from(publicKeys[0], "base64"))
       .digest("hex")
       .toUpperCase();
 
     this.certificateX5t = Buffer.from(this.certificateThumbprint, "hex").toString("base64");
+    if (options && options.includeX5c) {
+      this.certificateX5c = publicKeys;
+    }
   }
 
   /**
@@ -102,10 +117,21 @@ export class ClientCertificateCredential implements TokenCredential {
     try {
       const tokenId = uuidV4();
       const audienceUrl = `${this.identityClient.authorityHost}/${this.tenantId}/oauth2/v2.0/token`;
-      const header: jws.Header = {
-        typ: "JWT",
-        alg: "RS256",
-        x5t: this.certificateX5t
+      let header: jws.Header;
+
+      if (this.certificateX5c) {
+        header = {
+          typ: "JWT",
+          alg: "RS256",
+          x5t: this.certificateX5t,
+          x5c: this.certificateX5c
+        };
+      } else {
+        header = {
+          typ: "JWT",
+          alg: "RS256",
+          x5t: this.certificateX5t
+        };
       };
 
       const payload = {

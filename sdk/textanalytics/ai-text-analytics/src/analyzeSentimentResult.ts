@@ -18,7 +18,7 @@ import {
   SentenceAspect,
   AspectRelation,
   SentenceOpinion,
-  SentenceAspectSentiment,
+  TokenSentimentValue as SentenceAspectSentiment,
   AspectConfidenceScoreLabel
 } from "./generated/models";
 import { findOpinionIndex, OpinionIndex } from "./util";
@@ -65,6 +65,14 @@ export interface SentenceSentiment {
    */
   confidenceScores: SentimentConfidenceScores;
   /**
+   * The sentence text offset from the start of the document.
+   */
+  offset: number;
+  /**
+   * The length of the sentence text.
+   */
+  length: number;
+  /**
    * The list of opinions mined from this sentence. For example in "The food is
    * good, but the service is bad", we would mind these two opinions "food is
    * good", "service is bad". Only returned if `show_opinion_mining` is set to
@@ -96,6 +104,14 @@ export interface AspectSentiment {
    * The aspect text.
    */
   text: string;
+  /**
+   * The aspect text offset from the start of the sentence.
+   */
+  offset: number;
+  /**
+   * The length of the aspect text.
+   */
+  length: number;
 }
 
 /**
@@ -169,13 +185,17 @@ function convertGeneratedSentenceSentiment(
     confidenceScores: sentence.confidenceScores,
     sentiment: sentence.sentiment,
     text: sentence.text,
+    length: sentence.length,
+    offset: sentence.offset,
     minedOpinions: sentence.aspects
       ? sentence.aspects.map(
           (aspect: SentenceAspect): MinedOpinion => ({
             aspect: {
               confidenceScores: aspect.confidenceScores,
               sentiment: aspect.sentiment,
-              text: aspect.text
+              text: aspect.text,
+              offset: aspect.offset,
+              length: aspect.length
             },
             opinions: aspect.relations
               .filter((relation) => relation.relationType === "opinion")

@@ -1,11 +1,17 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { ShardFactory } from "./ShardFactory";
-import { ContainerClient } from "@azure/storage-blob";
-import { CHANGE_FEED_STATUS_FINALIZED, CHANGE_FEED_CONTAINER_NAME } from "./utils/constants";
+import { ContainerClient, CommonOptions } from "@azure/storage-blob";
+import { CHANGE_FEED_CONTAINER_NAME } from "./utils/constants";
 import { Shard } from "./Shard";
 import { Segment } from "./Segment";
 import { SegmentCursor } from "./models/ChangeFeedCursor";
 import { bodyToString } from "./utils/utils.node";
 import { parseDateFromSegmentPath } from "./utils/utils.common";
+import { AbortSignalLike } from "@azure/core-http";
+import { createSpan } from "./utils/tracing";
+import { CanonicalCode } from "@opentelemetry/api";
 
 export interface SegmentManifest {
   version?: number;
@@ -16,43 +22,87 @@ export interface SegmentManifest {
   chunkFilePaths: string[];
 }
 
+/**
+ * Options to configure {@link SegmentFactory.create} operation.
+ *
+ * @export
+ * @interface CreateSegmentOptions
+ */
+export interface CreateSegmentOptions extends CommonOptions {
+  /**
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
+   *
+   * @type {AbortSignalLike}
+   * @memberof CreateSegmentOptions
+   */
+  abortSignal?: AbortSignalLike;
+}
+
 export class SegmentFactory {
-  private readonly _shardFactory: ShardFactory;
+  private readonly shardFactory: ShardFactory;
 
   constructor(shardFactory: ShardFactory) {
-    this._shardFactory = shardFactory;
+    this.shardFactory = shardFactory;
   }
 
   public async create(
     containerClient: ContainerClient,
     manifestPath: string,
-    cursor?: SegmentCursor
+    cursor?: SegmentCursor,
+    options: CreateSegmentOptions = {}
   ): Promise<Segment> {
-    const shards: Shard[] = [];
-    const dateTime: Date = parseDateFromSegmentPath(manifestPath);
-    const shardIndex = cursor?.shardIndex || 0;
+    const { span, spanOptions } = createSpan("SegmentFactory-create", options.tracingOptions);
 
-    const blobClient = containerClient.getBlobClient(manifestPath);
-    const blobDownloadRes = await blobClient.download();
-    const blobContent: string = await bodyToString(blobDownloadRes);
+    try {
+      const shards: Shard[] = [];
+      const dateTime: Date = parseDateFromSegmentPath(manifestPath);
 
-    const segmentManifest = JSON.parse(blobContent) as SegmentManifest;
-    const finalized = segmentManifest.status === CHANGE_FEED_STATUS_FINALIZED;
+      const blobClient = containerClient.getBlobClient(manifestPath);
+      const blobDownloadRes = await blobClient.download(undefined, undefined, {
+        abortSignal: options.abortSignal,
+        tracingOptions: { ...options.tracingOptions, spanOptions }
+      });
+      const blobContent: string = await bodyToString(blobDownloadRes);
 
-    if (finalized) {
-      let i = 0;
+      const segmentManifest = JSON.parse(blobContent) as SegmentManifest;
 
       const containerPrefixLength = CHANGE_FEED_CONTAINER_NAME.length + 1; // "$blobchangefeed/"
       for (const shardPath of segmentManifest.chunkFilePaths) {
-        const shard: Shard = await this._shardFactory.create(
-          containerClient,
-          shardPath.substring(containerPrefixLength),
-          cursor?.shardCursors[i++]
+        const shardPathSubStr = shardPath.substring(containerPrefixLength);
+        const shardCursor = cursor?.ShardCursors.find((x) =>
+          x.CurrentChunkPath.startsWith(shardPathSubStr)
         );
-        shards.push(shard);
+        const shard: Shard = await this.shardFactory.create(
+          containerClient,
+          shardPathSubStr,
+          shardCursor,
+          {
+            abortSignal: options.abortSignal,
+            tracingOptions: { ...options.tracingOptions, spanOptions }
+          }
+        );
+        if (shard.hasNext()) {
+          shards.push(shard);
+        }
       }
-    }
 
-    return new Segment(shards, shardIndex, dateTime, finalized);
+      let shardIndex = 0;
+      if (cursor?.CurrentShardPath) {
+        shardIndex = shards.findIndex((s) => s.shardPath === cursor?.CurrentShardPath);
+        if (shardIndex === -1) {
+          shardIndex = 0;
+        }
+      }
+      return new Segment(shards, shardIndex, dateTime, manifestPath);
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 }

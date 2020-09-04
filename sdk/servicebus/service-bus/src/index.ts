@@ -28,6 +28,7 @@ export {
   ReceiveMessagesOptions,
   ReceiveMode,
   SessionSubscribeOptions,
+  SubQueue,
   SubscribeOptions
 } from "./models";
 export { OperationOptionsBase } from "./modelsToBeSharedWithEventHubs";
@@ -58,7 +59,7 @@ export {
   QueueRuntimePropertiesResponse,
   Response,
   RuleResponse,
-  ServiceBusManagementClient,
+  ServiceBusAdministrationClient,
   SubscriptionResponse,
   SubscriptionRuntimePropertiesResponse,
   TopicResponse,
@@ -66,6 +67,9 @@ export {
 } from "./serviceBusAtomManagementClient";
 export { ServiceBusClient } from "./serviceBusClient";
 export {
+  AmqpAnnotatedMessage,
+  AmqpMessageHeader,
+  AmqpMessageProperties,
   DeadLetterOptions,
   ReceivedMessage,
   ReceivedMessageWithLock,

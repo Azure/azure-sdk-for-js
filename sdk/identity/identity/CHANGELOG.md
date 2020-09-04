@@ -1,5 +1,12 @@
 # Release History
 
+## 1.2.0-beta.1 (2020-09-08)
+
+- A new `InteractiveBrowserCredential` for node which will spawn a web server, start a web browser, and allow the user to interactively authenticate with the browser.
+- With 1.2.0-beta.1, Identity will now use [MSAL](https://www.npmjs.com/package/@azure/msal-node) to perform authentication. With this beta, DeviceCodeCredential and a new InteractiveBrowserCredential for node are powered by MSAL.
+- Identity now supports Subject Name/Issuer (SNI) as part of authentication for ClientCertificateCredential
+- Upgraded App Services MSI API version
+
 ## 1.1.0 (2020-08-11)
 
 ### Changes since 1.0.*
