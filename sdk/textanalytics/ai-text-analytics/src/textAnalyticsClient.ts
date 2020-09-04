@@ -112,7 +112,7 @@ export interface AnalyzeSentimentOptions extends TextAnalyticsOperationOptions {
 /**
  * The different domains of PII entities that users can filter by.
  */
-export enum PIIEntityDomain {
+export enum PiiEntityDomain {
   /**
    * See https://aka.ms/tanerpii for more information.
    */
@@ -128,7 +128,7 @@ export interface RecognizePiiEntitiesOptions extends TextAnalyticsOperationOptio
    * set to 'PHI', entities in the Protected Healthcare Information domain will
    * only be returned). See https://aka.ms/tanerpii for more information.
    */
-  domainFilter?: PIIEntityDomain;
+  domainFilter?: PiiEntityDomain;
 }
 
 /**

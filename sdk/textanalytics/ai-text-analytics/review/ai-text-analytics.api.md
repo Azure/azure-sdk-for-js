@@ -169,7 +169,7 @@ export interface PiiEntity extends Entity {
 }
 
 // @public
-export enum PIIEntityDomain {
+export enum PiiEntityDomain {
     PROTECTED_HEALTH_INFORMATION = "PHI"
 }
 
@@ -218,7 +218,7 @@ export type RecognizePiiEntitiesErrorResult = TextAnalyticsErrorResult;
 
 // @public
 export interface RecognizePiiEntitiesOptions extends TextAnalyticsOperationOptions {
-    domainFilter?: PIIEntityDomain;
+    domainFilter?: PiiEntityDomain;
 }
 
 // @public

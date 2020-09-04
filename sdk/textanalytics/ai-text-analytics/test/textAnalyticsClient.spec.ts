@@ -16,7 +16,7 @@ import {
   AnalyzeSentimentSuccessResult
 } from "../src/index";
 import { assertAllSuccess, isSuccess } from "./utils/resultHelper";
-import { PIIEntityDomain } from "../src/textAnalyticsClient";
+import { PiiEntityDomain } from "../src/textAnalyticsClient";
 
 const testDataEn = [
   "I had a wonderful trip to Seattle last week and even visited the Space Needle 2 times!",
@@ -530,7 +530,7 @@ describe("[AAD] TextAnalyticsClient", function() {
             language: "en"
           }
         ],
-        { domainFilter: PIIEntityDomain.PROTECTED_HEALTH_INFORMATION }
+        { domainFilter: PiiEntityDomain.PROTECTED_HEALTH_INFORMATION }
       );
       if (!result.error) {
         assert.equal(result.entities.length, 1);
