@@ -22,10 +22,30 @@ async function main() {
   const [result] = await client.recognizePiiEntities(["My phone number is 555-5555"]);
 
   if (!result.error) {
+    console.log(`The redacted text: ${result.redactedText}`);
     for (const entity of result.entities) {
       console.log(`Found PII entity ${entity.text} of type ${entity.category}`);
     }
-    console.log(`Redacted text: ${result.redactedText}`);
+  }
+
+  const textNoPHI =
+    "FIFA is a non-profit organization which describes itself as an international governing body of association football.";
+  console.log(`There are no PHI entities in this text: ${textNoPHI}`);
+  const [resultWithPHI] = await client.recognizePiiEntities(
+    [{ id: "0", text: textNoPHI, language: "en" }],
+    { domainFilter: PIIEntityDomainType.PROTECTED_HEALTH_INFORMATION }
+  );
+  if (!resultWithPHI.error) {
+    console.log(`Also there is nothing to redact: ${resultWithPHI.redactedText}`);
+    assert(resultWithPHI.entities.length === 0);
+  }
+
+  console.log(`But there are other entities in that text`);
+  const [resultWithoutPHI] = await client.recognizePiiEntities([textNoPHI]);
+  if (!resultWithoutPHI.error) {
+    for (const entity of resultWithoutPHI.entities) {
+      console.log(`Found PII entity ${entity.text} of type ${entity.category}`);
+    }
   }
 }
 
