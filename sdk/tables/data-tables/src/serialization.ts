@@ -28,7 +28,13 @@ type serializedType = {
 
 function serializePrimitive(value: any): serializedType {
   const serializedValue: serializedType = { value };
-  if (typeof value === "boolean" || typeof value === "string" || typeof value === "number") {
+  if (
+    value === undefined ||
+    value === null ||
+    typeof value === "boolean" ||
+    typeof value === "string" ||
+    typeof value === "number"
+  ) {
     serializedValue.value = value;
   } else if (value instanceof Date) {
     serializedValue.value = value;
@@ -67,7 +73,7 @@ function serializeObject(obj: { value: any; type: EdmTypes }): serializedType {
 }
 
 function getSerializedValue(value: any): serializedType {
-  if (typeof value === "object" && value.value && value.type) {
+  if (typeof value === "object" && value?.value && value?.type) {
     return serializeObject(value);
   } else {
     return serializePrimitive(value);
