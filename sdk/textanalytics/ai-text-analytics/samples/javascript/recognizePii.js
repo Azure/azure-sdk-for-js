@@ -5,7 +5,12 @@
  * detects personally-identifiable information
  */
 
-const { TextAnalyticsClient, AzureKeyCredential } = require("@azure/ai-text-analytics");
+const {
+  TextAnalyticsClient,
+  AzureKeyCredential,
+  PiiEntityDomainType
+} = require("@azure/ai-text-analytics");
+const { assert } = require("console");
 
 // Load the .env file if it exists
 require("dotenv").config();
