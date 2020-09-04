@@ -7,10 +7,11 @@
  */
 
 export {
+  AzureEntityResource,
   BaseResource,
   CloudError,
+  CloudErrorError,
   ErrorAdditionalInfo,
-  ErrorResponse,
   Identity,
   ParameterDefinitionsValue,
   ParameterDefinitionsValueMetadata,
@@ -20,6 +21,11 @@ export {
   PolicyDefinition,
   PolicyDefinitionGroup,
   PolicyDefinitionReference,
+  PolicyExemption,
   PolicySetDefinition,
-  PolicySku
+  PolicySku,
+  ProxyResource,
+  Resource,
+  SystemData,
+  TrackedResource
 } from "../models/mappers";
