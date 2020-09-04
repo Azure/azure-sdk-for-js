@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as log from "./log";
 import { logger } from "./log";
 import { packageJsonInfo } from "./util/constants";
 import {
@@ -253,7 +252,7 @@ export namespace ConnectionContext {
     // "connection_open" and "connection_error" events.
     const onConnectionOpen: OnAmqpEvent = () => {
       connectionContext.wasConnectionCloseCalled = false;
-      log.connectionCtxt(
+      logger.verbose(
         "[%s] setting 'wasConnectionCloseCalled' property of connection context to %s.",
         connectionContext.connection.id,
         connectionContext.wasConnectionCloseCalled
@@ -455,10 +454,7 @@ export namespace ConnectionContext {
 
     addConnectionListeners(connectionContext.connection);
 
-    log.connectionCtxt(
-      "[%s] Created connection context successfully.",
-      connectionContext.connectionId
-    );
+    logger.info("[%s] Created connection context successfully.", connectionContext.connectionId);
 
     return connectionContext;
   }

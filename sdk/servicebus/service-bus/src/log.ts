@@ -54,13 +54,6 @@ export const batching = debugModule("azure:service-bus:receiverbatching");
 /**
  * @internal
  * @ignore
- * log statements for connectionContext
- */
-export const connectionCtxt = debugModule("azure:service-bus:connectionContext");
-
-/**
- * @internal
- * @ignore
  * log statements for servicebusMessage
  */
 export const message = debugModule("azure:service-bus:servicebusMessage");
