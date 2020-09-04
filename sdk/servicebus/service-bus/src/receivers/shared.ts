@@ -3,8 +3,8 @@
 
 import { MessageHandlers } from "../models";
 import { ServiceBusReceiver } from "./receiver";
-import * as log from "../log";
 import { OperationOptionsBase } from "../modelsToBeSharedWithEventHubs";
+import { logger } from "../log";
 
 /**
  * @internal

@@ -15,6 +15,7 @@ import {
 
 import * as Constants from "./constants";
 import * as log from "../log";
+import { logger } from "../log";
 import { Buffer } from "buffer";
 
 import { parseURL } from "./parseUrl";

@@ -16,6 +16,7 @@ import { LinkEntity } from "../core/linkEntity";
 import { DispositionStatusOptions } from "../core/managementClient";
 import { OnAmqpEventAsPromise, OnError, OnMessage } from "../core/messageReceiver";
 import * as log from "../log";
+import { logger } from "../log";
 import { DispositionType, InternalReceiveMode, ServiceBusMessageImpl } from "../serviceBusMessage";
 import { throwErrorIfConnectionClosed } from "../util/errors";
 import { calculateRenewAfterDuration, convertTicksToDate } from "../util/utils";

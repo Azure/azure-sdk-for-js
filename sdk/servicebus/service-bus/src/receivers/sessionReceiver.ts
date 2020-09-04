@@ -18,7 +18,7 @@ import {
   throwTypeErrorIfParameterMissing,
   throwTypeErrorIfParameterNotLong
 } from "../util/errors";
-import * as log from "../log";
+import { logger } from "../log";
 import { OnError, OnMessage } from "../core/messageReceiver";
 import { assertValidMessageHandlers, getMessageIterator, wrapProcessErrorHandler } from "./shared";
 import { convertToInternalReceiveMode } from "../constructorHelpers";

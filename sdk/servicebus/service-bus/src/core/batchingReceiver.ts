@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import * as log from "../log";
+import { logger } from "../log";
 import { MessagingError, translate } from "@azure/core-amqp";
 import {
   AmqpError,

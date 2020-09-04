@@ -10,6 +10,7 @@ import {
 } from "@azure/core-amqp";
 import { AmqpError, EventContext, OnAmqpEvent, Receiver, ReceiverOptions } from "rhea-promise";
 import * as log from "../log";
+import { logger } from "../log";
 import { LinkEntity, ReceiverType } from "./linkEntity";
 import { ConnectionContext } from "../connectionContext";
 import { DispositionType, InternalReceiveMode, ServiceBusMessageImpl } from "../serviceBusMessage";

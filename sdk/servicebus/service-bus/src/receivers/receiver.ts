@@ -19,7 +19,7 @@ import {
   throwTypeErrorIfParameterMissing,
   throwTypeErrorIfParameterNotLong
 } from "../util/errors";
-import * as log from "../log";
+import { logger } from "../log";
 import { OnError, OnMessage, ReceiveOptions } from "../core/messageReceiver";
 import { StreamingReceiver } from "../core/streamingReceiver";
 import { BatchingReceiver } from "../core/batchingReceiver";

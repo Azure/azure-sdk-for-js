@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 import * as log from "../log";
+import { logger } from "../log";
 import {
   AmqpError,
   AwaitableSender,

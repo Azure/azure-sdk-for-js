@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import Long from "long";
-import * as log from "./log";
+import { logger } from "./log";
 import { MessageSender } from "./core/messageSender";
 import { ServiceBusMessage, isServiceBusMessage } from "./serviceBusMessage";
 import { ConnectionContext } from "./connectionContext";

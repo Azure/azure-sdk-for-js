@@ -33,6 +33,7 @@ import {
 } from "../serviceBusMessage";
 import { LinkEntity, RequestResponseLinkOptions } from "./linkEntity";
 import * as log from "../log";
+import { logger } from "../log";
 import { InternalReceiveMode, fromAmqpMessage } from "../serviceBusMessage";
 import { toBuffer } from "../util/utils";
 import {

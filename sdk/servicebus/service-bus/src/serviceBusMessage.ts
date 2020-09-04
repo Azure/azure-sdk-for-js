@@ -12,6 +12,7 @@ import {
   translate
 } from "@azure/core-amqp";
 import * as log from "./log";
+import { logger } from "./log";
 import { ConnectionContext } from "./connectionContext";
 import { reorderLockToken } from "./util/utils";
 import { getErrorMessageNotSupportedInReceiveAndDeleteMode } from "./util/errors";

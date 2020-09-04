@@ -25,6 +25,7 @@ import {
 } from "@azure/core-amqp";
 import { OperationOptionsBase } from "../modelsToBeSharedWithEventHubs";
 import * as log from "../log";
+import { logger } from "../log";
 import { AmqpError, EventContext, isAmqpError, OnAmqpEvent } from "rhea-promise";
 import { InternalReceiveMode, ServiceBusMessageImpl } from "../serviceBusMessage";
 import { calculateRenewAfterDuration } from "../util/utils";

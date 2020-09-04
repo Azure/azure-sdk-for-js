@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as log from "../log";
+import { logger } from "../log";
 import Long from "long";
 import { ConnectionContext } from "../connectionContext";
 

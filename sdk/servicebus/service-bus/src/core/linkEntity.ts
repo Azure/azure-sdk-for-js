@@ -12,6 +12,7 @@ import {
 } from "@azure/core-amqp";
 import { ConnectionContext } from "../connectionContext";
 import * as log from "../log";
+import { logger } from "../log";
 import {
   AwaitableSender,
   AwaitableSenderOptions,

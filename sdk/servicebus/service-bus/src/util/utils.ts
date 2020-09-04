@@ -3,6 +3,7 @@
 
 import Long from "long";
 import * as log from "../log";
+import { logger } from "../log";
 import { OperationTimeoutError, generate_uuid } from "rhea-promise";
 import isBuffer from "is-buffer";
 import { Buffer } from "buffer";
