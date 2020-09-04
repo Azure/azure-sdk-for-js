@@ -1,7 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as log from "../log";
 import { logger } from "../log";
 import { MessagingError, translate } from "@azure/core-amqp";
 import {
@@ -113,7 +112,7 @@ export class BatchingReceiver extends MessageReceiver {
     throwErrorIfConnectionClosed(this._context);
 
     try {
-      log.batching(
+      logger.info(
         "[%s] Receiver '%s', setting max concurrent calls to 0.",
         this._context.connectionId,
         this.name
@@ -346,7 +345,7 @@ export class BatchingReceiverLite {
           // Return the collected messages if in ReceiveAndDelete mode because otherwise they are lost forever
           (this._receiveMode === InternalReceiveMode.receiveAndDelete && brokeredMessages.length)
         ) {
-          log.batching(
+          logger.info(
             `${loggingPrefix} Closing. Resolving with ${brokeredMessages.length} messages.`
           );
           return resolve(brokeredMessages);
@@ -366,7 +365,7 @@ export class BatchingReceiverLite {
 
         // Drain any pending credits.
         if (receiver.isOpen() && receiver.credit > 0) {
-          log.batching(`${loggingPrefix} Draining leftover credits(${receiver.credit}).`);
+          logger.info(`${loggingPrefix} Draining leftover credits(${receiver.credit}).`);
 
           // Setting drain must be accompanied by a flow call (aliased to addCredit in this case).
           receiver.drain = true;
@@ -374,7 +373,7 @@ export class BatchingReceiverLite {
         } else {
           receiver.removeListener(ReceiverEvents.receiverDrained, onReceiveDrain);
 
-          log.batching(
+          logger.info(
             `${loggingPrefix} Resolving receiveMessages() with ${brokeredMessages.length} messages.`
           );
           resolve(brokeredMessages);
@@ -435,7 +434,7 @@ export class BatchingReceiverLite {
         receiver.removeListener(ReceiverEvents.receiverDrained, onReceiveDrain);
         receiver.drain = false;
 
-        log.batching(
+        logger.info(
           `${loggingPrefix} Drained, resolving receiveMessages() with ${brokeredMessages.length} messages.`
         );
 
@@ -476,15 +475,13 @@ export class BatchingReceiverLite {
 
       // Action to be performed after the max wait time is over.
       const actionAfterWaitTimeout = (): void => {
-        log.batching(
+        logger.info(
           `${loggingPrefix}  Batching, max wait time in milliseconds ${args.maxWaitTimeInMs} over.`
         );
         return finalAction();
       };
 
-      log.batching(
-        `${loggingPrefix} Adding credit for receiving ${args.maxMessageCount} messages.`
-      );
+      logger.info(`${loggingPrefix} Adding credit for receiving ${args.maxMessageCount} messages.`);
 
       // By adding credit here, we let the service know that at max we can handle `maxMessageCount`
       // number of messages concurrently. We will return the user an array of messages that can
@@ -492,7 +489,7 @@ export class BatchingReceiverLite {
       // (complete/abandon/defer/deadletter) the messages from the array.
       receiver.addCredit(args.maxMessageCount);
 
-      log.batching(
+      logger.info(
         `${loggingPrefix} Setting the wait timer for ${args.maxWaitTimeInMs} milliseconds.`
       );
 
