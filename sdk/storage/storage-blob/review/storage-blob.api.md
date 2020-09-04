@@ -1345,6 +1345,7 @@ export interface BlockBlobParallelUploadOptions extends CommonOptions {
     };
     onProgress?: (progress: TransferProgressEvent) => void;
     tags?: Tags;
+    tier?: BlockBlobTier | string;
 }
 
 // @public
@@ -1479,6 +1480,7 @@ export interface BlockBlobUploadStreamOptions extends CommonOptions {
     };
     onProgress?: (progress: TransferProgressEvent) => void;
     tags?: Tags;
+    tier?: BlockBlobTier | string;
 }
 
 // @public

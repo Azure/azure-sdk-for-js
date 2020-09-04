@@ -3602,6 +3602,15 @@ export interface BlockBlobUploadStreamOptions extends CommonOptions {
    * @memberof BlockBlobUploadStreamOptions
    */
   tags?: Tags;
+
+  /**
+   * Access tier.
+   * More Details - https://docs.microsoft.com/en-us/azure/storage/blobs/storage-blob-storage-tiers
+   *
+   * @type {BlockBlobTier | string}
+   * @memberof BlockBlobUploadStreamOptions
+   */
+  tier?: BlockBlobTier | string;
 }
 /**
  * Option interface for {@link BlockBlobClient.uploadFile} and {@link BlockBlobClient.uploadSeekableStream}.
@@ -3696,6 +3705,15 @@ export interface BlockBlobParallelUploadOptions extends CommonOptions {
    * @memberof BlockBlobParallelUploadOptions
    */
   tags?: Tags;
+
+  /**
+   * Access tier.
+   * More Details - https://docs.microsoft.com/en-us/azure/storage/blobs/storage-blob-storage-tiers
+   *
+   * @type {BlockBlobTier | string}
+   * @memberof BlockBlobParallelUploadOptions
+   */
+  tier?: BlockBlobTier | string;
 }
 
 /**
