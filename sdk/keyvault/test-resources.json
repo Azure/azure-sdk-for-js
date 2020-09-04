@@ -98,6 +98,18 @@
     "KEYVAULT_URI": {
       "type": "string",
       "value": "[reference(variables('keyVaultName')).vaultUri]"
+    },
+    "CLIENT_OBJECT_ID": {
+      "type": "string",
+      "value": "[parameters('testApplicationOid')]"
+    },
+    "BLOB_STORAGE_URI": {
+      "type": "string",
+      "value": "7.2-preview-blob-storage-uri"
+    },
+    "BLOB_STORAGE_SAS_TOKEN": {
+      "type": "string",
+      "value": "7.2-preview-blob-storage-sas-uri"
     }
   }
 }

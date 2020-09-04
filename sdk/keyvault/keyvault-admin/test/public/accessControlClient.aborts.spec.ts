@@ -48,7 +48,7 @@ describe("Aborting KeyVaultAccessControlClient's requests", () => {
     controller.abort();
 
     await assertThrowsAbortError(async () => {
-      await client.createRoleAssignment(globalScope, name, roleDefinitionId, env.AZURE_TENANT_ID, {
+      await client.createRoleAssignment(globalScope, name, roleDefinitionId, env.CLIENT_OBJECT_ID, {
         abortSignal: controller.signal
       });
     });

@@ -29,7 +29,7 @@ nock('https://eastus2.keyvault_name.managedhsm-int.azure-int.net:443', {"encoded
   'no-cache' ]);
 
 nock('https://eastus2.keyvault_name.managedhsm-int.azure-int.net:443', {"encodedQueryParams":true})
-  .post('/backup', {"storageResourceUri":"https://chrissprim.blob.core.windows.net/backup","token":"?sv=2019-12-12&ss=bfqt&srt=sco&sp=rwdlacupx&se=2022-07-14T05:56:52Z&st=2020-09-03T21:56:52Z&spr=https,http&sig=Rzts1hBG%2BgqTCTZo%2BX%2FZgJWJ5Ao16ueN%2F1BB4Dg8%2FLo%3D"})
+  .post('/backup', {"storageResourceUri":"https://chrissprim.blob.core.windows.net/backup","token":"blob_storage_sas_token"})
   .query(true)
   .reply(202, {"status":"InProgress","statusDetails":null,"error":{"code":null,"message":null,"innererror":null},"startTime":1599226672,"endTime":null,"jobId":"3b6fd673a64144b1bc6c8c9979cf2d2f","azureStorageBlobContainerUri":null}, [ 'server',
   'Kestrel',
@@ -255,7 +255,7 @@ nock('https://eastus2.keyvault_name.managedhsm-int.azure-int.net:443', {"encoded
   'default-src \'self\'' ]);
 
 nock('https://eastus2.keyvault_name.managedhsm-int.azure-int.net:443', {"encodedQueryParams":true})
-  .put('/restore', {"sasTokenParameters":{"storageResourceUri":"https://chrissprim.blob.core.windows.net/backup","token":"?sv=2019-12-12&ss=bfqt&srt=sco&sp=rwdlacupx&se=2022-07-14T05:56:52Z&st=2020-09-03T21:56:52Z&spr=https,http&sig=Rzts1hBG%2BgqTCTZo%2BX%2FZgJWJ5Ao16ueN%2F1BB4Dg8%2FLo%3D"},"folderToRestore":"https://chrissprim.blob.core.windows.net/backup"})
+  .put('/restore', {"sasTokenParameters":{"storageResourceUri":"https://chrissprim.blob.core.windows.net/backup","token":"blob_storage_sas_token"},"folderToRestore":"https://chrissprim.blob.core.windows.net/backup"})
   .query(true)
   .reply(202, {"endTime":null,"error":{"code":null,"innererror":null,"message":null},"jobId":"928034973f004fe8b203438bda65e9db","startTime":1599226685,"status":"InProgress","statusDetails":null}, [ 'server',
   'Kestrel',

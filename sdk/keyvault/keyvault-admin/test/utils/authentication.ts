@@ -19,8 +19,10 @@ export async function authenticate(that: any): Promise<any> {
   const recorderEnvSetup: RecorderEnvironmentSetup = {
     replaceableVariables: {
       AZURE_CLIENT_ID: "azure_client_id",
+      AZURE_TENANT_ID: "azure_tenant_id",
       AZURE_CLIENT_SECRET: "azure_client_secret",
-      AZURE_TENANT_ID: "01ea9a65-813e-4238-8204-bf7328d63fc6",
+      CLIENT_OBJECT_ID: "01ea9a65-813e-4238-8204-bf7328d63fc6",
+      BLOB_STORAGE_SAS_TOKEN: "blob_storage_sas_token",
       KEYVAULT_NAME: "keyvault_name"
     },
     customizationsOnRecordings: [

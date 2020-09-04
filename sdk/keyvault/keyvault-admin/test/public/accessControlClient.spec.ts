@@ -56,30 +56,30 @@ describe("KeyVaultAccessControlClient", () => {
       globalScope,
       name,
       roleDefinition.id!,
-      env.AZURE_TENANT_ID
+      env.CLIENT_OBJECT_ID
     );
     assert.equal(assignment.name, name);
     assert.equal(assignment.properties?.roleDefinitionId, roleDefinition.id);
-    assert.equal(assignment.properties?.principalId, env.AZURE_TENANT_ID);
+    assert.equal(assignment.properties?.principalId, env.CLIENT_OBJECT_ID);
 
     assignment = await client.deleteRoleAssignment(globalScope, name);
     assert.equal(assignment.name, name);
     assert.equal(assignment.properties?.roleDefinitionId, roleDefinition.id);
-    assert.equal(assignment.properties?.principalId, env.AZURE_TENANT_ID);
+    assert.equal(assignment.properties?.principalId, env.CLIENT_OBJECT_ID);
   });
 
   it("createRoleAssignment, getRoleAssignment and deleteRoleAssignment", async function() {
     const roleDefinition = (await client.listRoleDefinitions(globalScope).next()).value;
     const name = generateFakeUUID();
-    await client.createRoleAssignment(globalScope, name, roleDefinition.id!, env.AZURE_TENANT_ID);
+    await client.createRoleAssignment(globalScope, name, roleDefinition.id!, env.CLIENT_OBJECT_ID);
     let assignment = await client.getRoleAssignment(globalScope, name);
     assert.equal(assignment.name, name);
     assert.equal(assignment.properties?.roleDefinitionId, roleDefinition.id);
-    assert.equal(assignment.properties?.principalId, env.AZURE_TENANT_ID);
+    assert.equal(assignment.properties?.principalId, env.CLIENT_OBJECT_ID);
 
     assignment = await client.deleteRoleAssignment(globalScope, name);
     assert.equal(assignment.name, name);
     assert.equal(assignment.properties?.roleDefinitionId, roleDefinition.id);
-    assert.equal(assignment.properties?.principalId, env.AZURE_TENANT_ID);
+    assert.equal(assignment.properties?.principalId, env.CLIENT_OBJECT_ID);
   });
 });
