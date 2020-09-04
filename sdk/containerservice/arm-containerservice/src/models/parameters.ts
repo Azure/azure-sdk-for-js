@@ -72,7 +72,7 @@ export const apiVersion3: msRest.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "api-version",
-    defaultValue: '2020-06-01',
+    defaultValue: '2020-07-01',
     type: {
       name: "String"
     }

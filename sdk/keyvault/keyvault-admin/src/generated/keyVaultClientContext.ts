@@ -8,7 +8,6 @@
 
 import * as coreHttp from "@azure/core-http";
 import { KeyVaultClientOptionalParams } from "./models";
-import { lroPolicy } from "./lro";
 
 const packageName = "@azure/keyvault-admin";
 const packageVersion = "1.0.0";
@@ -30,14 +29,6 @@ export class KeyVaultClientContext extends coreHttp.ServiceClient {
       const defaultUserAgent = coreHttp.getDefaultUserAgentValue();
       options.userAgent = `${packageName}/${packageVersion} ${defaultUserAgent}`;
     }
-
-    const defaultPipelines = coreHttp.createPipelineFromOptions(options)
-      .requestPolicyFactories as coreHttp.RequestPolicyFactory[];
-
-    options = {
-      ...options,
-      requestPolicyFactories: [lroPolicy(), ...defaultPipelines]
-    };
 
     super(undefined, options);
 

@@ -156,7 +156,7 @@ export interface RuleResponse extends RuleProperties, Response {}
  * These objects also have a property called `_response` that you can use if you want to
  * access the direct response from the service.
  */
-export class ServiceBusManagementClient extends ServiceClient {
+export class ServiceBusAdministrationClient extends ServiceClient {
   /**
    * Reference to the endpoint as extracted from input connection string.
    */
@@ -182,7 +182,7 @@ export class ServiceBusManagementClient extends ServiceClient {
   private credentials: SasServiceClientCredentials | TokenCredential;
 
   /**
-   * Initializes a new instance of the ServiceBusManagementClient class.
+   * Initializes a new instance of the ServiceBusAdministrationClient class.
    * @param connectionString The connection string needed for the client to connect to Azure.
    * @param options PipelineOptions
    */
@@ -268,7 +268,7 @@ export class ServiceBusManagementClient extends ServiceClient {
   ): Promise<NamespacePropertiesResponse> {
     log.httpAtomXml(`Performing management operation - getNamespaceProperties()`);
     const { span, updatedOperationOptions } = createSpan(
-      "ServiceBusManagementClient-getNamespaceProperties",
+      "ServiceBusAdministrationClient-getNamespaceProperties",
       operationOptions
     );
     try {
@@ -308,7 +308,7 @@ export class ServiceBusManagementClient extends ServiceClient {
    */
   async createQueue(queueName: string, options?: CreateQueueOptions): Promise<QueueResponse> {
     const { span, updatedOperationOptions } = createSpan(
-      "ServiceBusManagementClient-createQueue",
+      "ServiceBusAdministrationClient-createQueue",
       options
     );
     try {
@@ -352,7 +352,7 @@ export class ServiceBusManagementClient extends ServiceClient {
    */
   async getQueue(queueName: string, operationOptions?: OperationOptions): Promise<QueueResponse> {
     const { span, updatedOperationOptions } = createSpan(
-      "ServiceBusManagementClient-getQueue",
+      "ServiceBusAdministrationClient-getQueue",
       operationOptions
     );
     try {
@@ -394,7 +394,7 @@ export class ServiceBusManagementClient extends ServiceClient {
     operationOptions?: OperationOptions
   ): Promise<QueueRuntimePropertiesResponse> {
     const { span, updatedOperationOptions } = createSpan(
-      "ServiceBusManagementClient-getQueueRuntimeProperties",
+      "ServiceBusAdministrationClient-getQueueRuntimeProperties",
       operationOptions
     );
     try {
@@ -436,7 +436,7 @@ export class ServiceBusManagementClient extends ServiceClient {
     options?: ListRequestOptions & OperationOptions
   ): Promise<EntitiesResponse<QueueProperties>> {
     const { span, updatedOperationOptions } = createSpan(
-      "ServiceBusManagementClient-getQueues",
+      "ServiceBusAdministrationClient-getQueues",
       options
     );
     try {
@@ -494,7 +494,7 @@ export class ServiceBusManagementClient extends ServiceClient {
    *     QueueProperties,
    *     EntitiesResponse<QueueProperties>,
    *   >} An asyncIterableIterator that supports paging.
-   * @memberof ServiceBusManagementClient
+   * @memberof ServiceBusAdministrationClient
    */
   public listQueues(
     options?: OperationOptions
@@ -543,7 +543,7 @@ export class ServiceBusManagementClient extends ServiceClient {
     options?: ListRequestOptions & OperationOptions
   ): Promise<EntitiesResponse<QueueRuntimeProperties>> {
     const { span, updatedOperationOptions } = createSpan(
-      "ServiceBusManagementClient-getQueuesRuntimeProperties",
+      "ServiceBusAdministrationClient-getQueuesRuntimeProperties",
       options
     );
     try {
@@ -604,7 +604,7 @@ export class ServiceBusManagementClient extends ServiceClient {
    *     QueueRuntimeProperties,
    *     EntitiesResponse<QueueRuntimeProperties>,
    *   >} An asyncIterableIterator that supports paging.
-   * @memberof ServiceBusManagementClient
+   * @memberof ServiceBusAdministrationClient
    */
   public listQueuesRuntimeProperties(
     options?: OperationOptions
@@ -664,7 +664,7 @@ export class ServiceBusManagementClient extends ServiceClient {
     operationOptions?: OperationOptions
   ): Promise<QueueResponse> {
     const { span, updatedOperationOptions } = createSpan(
-      "ServiceBusManagementClient-updateQueue",
+      "ServiceBusAdministrationClient-updateQueue",
       operationOptions
     );
     try {
@@ -718,7 +718,7 @@ export class ServiceBusManagementClient extends ServiceClient {
    */
   async deleteQueue(queueName: string, operationOptions?: OperationOptions): Promise<Response> {
     const { span, updatedOperationOptions } = createSpan(
-      "ServiceBusManagementClient-deleteQueue",
+      "ServiceBusAdministrationClient-deleteQueue",
       operationOptions
     );
     try {
@@ -748,7 +748,7 @@ export class ServiceBusManagementClient extends ServiceClient {
    */
   async queueExists(queueName: string, operationOptions?: OperationOptions): Promise<boolean> {
     const { span, updatedOperationOptions } = createSpan(
-      "ServiceBusManagementClient-queueExists",
+      "ServiceBusAdministrationClient-queueExists",
       operationOptions
     );
     try {
@@ -791,7 +791,7 @@ export class ServiceBusManagementClient extends ServiceClient {
    */
   async createTopic(topicName: string, options?: CreateTopicOptions): Promise<TopicResponse> {
     const { span, updatedOperationOptions } = createSpan(
-      "ServiceBusManagementClient-createTopic",
+      "ServiceBusAdministrationClient-createTopic",
       options
     );
     try {
@@ -835,7 +835,7 @@ export class ServiceBusManagementClient extends ServiceClient {
    */
   async getTopic(topicName: string, operationOptions?: OperationOptions): Promise<TopicResponse> {
     const { span, updatedOperationOptions } = createSpan(
-      "ServiceBusManagementClient-getTopic",
+      "ServiceBusAdministrationClient-getTopic",
       operationOptions
     );
     try {
@@ -877,7 +877,7 @@ export class ServiceBusManagementClient extends ServiceClient {
     operationOptions?: OperationOptions
   ): Promise<TopicRuntimePropertiesResponse> {
     const { span, updatedOperationOptions } = createSpan(
-      "ServiceBusManagementClient-getTopicRuntimeProperties",
+      "ServiceBusAdministrationClient-getTopicRuntimeProperties",
       operationOptions
     );
     try {
@@ -919,7 +919,7 @@ export class ServiceBusManagementClient extends ServiceClient {
     options?: ListRequestOptions & OperationOptions
   ): Promise<EntitiesResponse<TopicProperties>> {
     const { span, updatedOperationOptions } = createSpan(
-      "ServiceBusManagementClient-getTopics",
+      "ServiceBusAdministrationClient-getTopics",
       options
     );
     try {
@@ -978,7 +978,7 @@ export class ServiceBusManagementClient extends ServiceClient {
    *     TopicProperties,
    *     EntitiesResponse<TopicProperties>,
    *   >} An asyncIterableIterator that supports paging.
-   * @memberof ServiceBusManagementClient
+   * @memberof ServiceBusAdministrationClient
    */
   public listTopics(
     options?: OperationOptions
@@ -1027,7 +1027,7 @@ export class ServiceBusManagementClient extends ServiceClient {
     options?: ListRequestOptions & OperationOptions
   ): Promise<EntitiesResponse<TopicRuntimeProperties>> {
     const { span, updatedOperationOptions } = createSpan(
-      "ServiceBusManagementClient-getTopicsRuntimeProperties",
+      "ServiceBusAdministrationClient-getTopicsRuntimeProperties",
       options
     );
     try {
@@ -1089,7 +1089,7 @@ export class ServiceBusManagementClient extends ServiceClient {
    *     EntitiesResponse<TopicRuntimeProperties>,
 
    *   >} An asyncIterableIterator that supports paging.
-   * @memberof ServiceBusManagementClient
+   * @memberof ServiceBusAdministrationClient
    */
   public listTopicsRuntimeProperties(
     options?: OperationOptions
@@ -1149,7 +1149,7 @@ export class ServiceBusManagementClient extends ServiceClient {
     operationOptions?: OperationOptions
   ): Promise<TopicResponse> {
     const { span, updatedOperationOptions } = createSpan(
-      "ServiceBusManagementClient-updateTopic",
+      "ServiceBusAdministrationClient-updateTopic",
       operationOptions
     );
     try {
@@ -1203,7 +1203,7 @@ export class ServiceBusManagementClient extends ServiceClient {
    */
   async deleteTopic(topicName: string, operationOptions?: OperationOptions): Promise<Response> {
     const { span, updatedOperationOptions } = createSpan(
-      "ServiceBusManagementClient-deleteTopic",
+      "ServiceBusAdministrationClient-deleteTopic",
       operationOptions
     );
     try {
@@ -1233,7 +1233,7 @@ export class ServiceBusManagementClient extends ServiceClient {
    */
   async topicExists(topicName: string, operationOptions?: OperationOptions): Promise<boolean> {
     const { span, updatedOperationOptions } = createSpan(
-      "ServiceBusManagementClient-topicExists",
+      "ServiceBusAdministrationClient-topicExists",
       operationOptions
     );
     try {
@@ -1281,7 +1281,7 @@ export class ServiceBusManagementClient extends ServiceClient {
     options?: CreateSubscriptionOptions
   ): Promise<SubscriptionResponse> {
     const { span, updatedOperationOptions } = createSpan(
-      "ServiceBusManagementClient-createSubscription",
+      "ServiceBusAdministrationClient-createSubscription",
       options
     );
     try {
@@ -1331,7 +1331,7 @@ export class ServiceBusManagementClient extends ServiceClient {
     operationOptions?: OperationOptions
   ): Promise<SubscriptionResponse> {
     const { span, updatedOperationOptions } = createSpan(
-      "ServiceBusManagementClient-getSubscription",
+      "ServiceBusAdministrationClient-getSubscription",
       operationOptions
     );
     try {
@@ -1378,7 +1378,7 @@ export class ServiceBusManagementClient extends ServiceClient {
     operationOptions?: OperationOptions
   ): Promise<SubscriptionRuntimePropertiesResponse> {
     const { span, updatedOperationOptions } = createSpan(
-      "ServiceBusManagementClient-getSubscriptionRuntimeProperties",
+      "ServiceBusAdministrationClient-getSubscriptionRuntimeProperties",
       operationOptions
     );
     try {
@@ -1423,7 +1423,7 @@ export class ServiceBusManagementClient extends ServiceClient {
     options?: ListRequestOptions & OperationOptions
   ): Promise<EntitiesResponse<SubscriptionProperties>> {
     const { span, updatedOperationOptions } = createSpan(
-      "ServiceBusManagementClient-getSubscriptions",
+      "ServiceBusAdministrationClient-getSubscriptions",
       options
     );
     try {
@@ -1482,14 +1482,14 @@ export class ServiceBusManagementClient extends ServiceClient {
    *
    * .byPage() returns an async iterable iterator to list the subscriptions in pages.
    *
-   * @memberof ServiceBusManagementClient
+   * @memberof ServiceBusAdministrationClient
    * @param {string} topicName
    * @param {OperationOptions} [options]
    * @returns {PagedAsyncIterableIterator<
    *     SubscriptionProperties,
    *     EntitiesResponse<SubscriptionProperties>
    *   >} An asyncIterableIterator that supports paging.
-   * @memberof ServiceBusManagementClient
+   * @memberof ServiceBusAdministrationClient
    */
   public listSubscriptions(
     topicName: string,
@@ -1543,7 +1543,7 @@ export class ServiceBusManagementClient extends ServiceClient {
     options?: ListRequestOptions & OperationOptions
   ): Promise<EntitiesResponse<SubscriptionRuntimeProperties>> {
     const { span, updatedOperationOptions } = createSpan(
-      "ServiceBusManagementClient-getSubscriptionsRuntimeProperties",
+      "ServiceBusAdministrationClient-getSubscriptionsRuntimeProperties",
       options
     );
     try {
@@ -1612,7 +1612,7 @@ export class ServiceBusManagementClient extends ServiceClient {
    *     EntitiesResponse<SubscriptionRuntimeProperties>,
 
    *   >}  An asyncIterableIterator that supports paging.
-   * @memberof ServiceBusManagementClient
+   * @memberof ServiceBusAdministrationClient
    */
   public listSubscriptionsRuntimeProperties(
     topicName: string,
@@ -1675,7 +1675,7 @@ export class ServiceBusManagementClient extends ServiceClient {
     operationOptions?: OperationOptions
   ): Promise<SubscriptionResponse> {
     const { span, updatedOperationOptions } = createSpan(
-      "ServiceBusManagementClient-updateSubscription",
+      "ServiceBusAdministrationClient-updateSubscription",
       operationOptions
     );
     try {
@@ -1741,7 +1741,7 @@ export class ServiceBusManagementClient extends ServiceClient {
     operationOptions?: OperationOptions
   ): Promise<Response> {
     const { span, updatedOperationOptions } = createSpan(
-      "ServiceBusManagementClient-deleteSubscription",
+      "ServiceBusAdministrationClient-deleteSubscription",
       operationOptions
     );
     try {
@@ -1779,7 +1779,7 @@ export class ServiceBusManagementClient extends ServiceClient {
     operationOptions?: OperationOptions
   ): Promise<boolean> {
     const { span, updatedOperationOptions } = createSpan(
-      "ServiceBusManagementClient-subscriptionExists",
+      "ServiceBusAdministrationClient-subscriptionExists",
       operationOptions
     );
     try {
@@ -1880,7 +1880,7 @@ export class ServiceBusManagementClient extends ServiceClient {
       }
     }
     const { span, updatedOperationOptions } = createSpan(
-      "ServiceBusManagementClient-createRule",
+      "ServiceBusAdministrationClient-createRule",
       operOptions
     );
     try {
@@ -1930,7 +1930,7 @@ export class ServiceBusManagementClient extends ServiceClient {
     operationOptions?: OperationOptions
   ): Promise<RuleResponse> {
     const { span, updatedOperationOptions } = createSpan(
-      "ServiceBusManagementClient-getRule",
+      "ServiceBusAdministrationClient-getRule",
       operationOptions
     );
     try {
@@ -1974,7 +1974,7 @@ export class ServiceBusManagementClient extends ServiceClient {
     options?: ListRequestOptions & OperationOptions
   ): Promise<EntitiesResponse<RuleProperties>> {
     const { span, updatedOperationOptions } = createSpan(
-      "ServiceBusManagementClient-getRules",
+      "ServiceBusAdministrationClient-getRules",
       options
     );
     try {
@@ -2037,7 +2037,7 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @param {string} subscriptionName
    * @param {OperationOptions} [options]
    * @returns {PagedAsyncIterableIterator<RuleProperties, EntitiesResponse<RuleProperties>>} An asyncIterableIterator that supports paging.
-   * @memberof ServiceBusManagementClient
+   * @memberof ServiceBusAdministrationClient
    */
   public listRules(
     topicName: string,
@@ -2100,7 +2100,7 @@ export class ServiceBusManagementClient extends ServiceClient {
     operationOptions?: OperationOptions
   ): Promise<RuleResponse> {
     const { span, updatedOperationOptions } = createSpan(
-      "ServiceBusManagementClient-updateRule",
+      "ServiceBusAdministrationClient-updateRule",
       operationOptions
     );
     try {
@@ -2162,7 +2162,7 @@ export class ServiceBusManagementClient extends ServiceClient {
     operationOptions?: OperationOptions
   ): Promise<Response> {
     const { span, updatedOperationOptions } = createSpan(
-      "ServiceBusManagementClient-deleteRule",
+      "ServiceBusAdministrationClient-deleteRule",
       operationOptions
     );
     try {
@@ -2201,7 +2201,7 @@ export class ServiceBusManagementClient extends ServiceClient {
     operationOptions?: OperationOptions
   ): Promise<boolean> {
     const { span, updatedOperationOptions } = createSpan(
-      "ServiceBusManagementClient-ruleExists",
+      "ServiceBusAdministrationClient-ruleExists",
       operationOptions
     );
     try {
@@ -2245,7 +2245,7 @@ export class ServiceBusManagementClient extends ServiceClient {
     operationOptions: OperationOptions = {}
   ): Promise<HttpOperationResponse> {
     const { span, updatedOperationOptions } = createSpan(
-      "ServiceBusManagementClient-putResource",
+      "ServiceBusAdministrationClient-putResource",
       operationOptions
     );
     try {
@@ -2310,7 +2310,7 @@ export class ServiceBusManagementClient extends ServiceClient {
     operationOptions: OperationOptions = {}
   ): Promise<HttpOperationResponse> {
     const { span, updatedOperationOptions } = createSpan(
-      "ServiceBusManagementClient-getResource",
+      "ServiceBusAdministrationClient-getResource",
       operationOptions
     );
     try {
@@ -2359,7 +2359,7 @@ export class ServiceBusManagementClient extends ServiceClient {
     serializer: AtomXmlSerializer
   ): Promise<HttpOperationResponse> {
     const { span, updatedOperationOptions } = createSpan(
-      "ServiceBusManagementClient-listResources",
+      "ServiceBusAdministrationClient-listResources",
       options
     );
     try {
@@ -2397,7 +2397,7 @@ export class ServiceBusManagementClient extends ServiceClient {
     operationOptions: OperationOptions = {}
   ): Promise<HttpOperationResponse> {
     const { span, updatedOperationOptions } = createSpan(
-      "ServiceBusManagementClient-deleteResource",
+      "ServiceBusAdministrationClient-deleteResource",
       operationOptions
     );
     try {
