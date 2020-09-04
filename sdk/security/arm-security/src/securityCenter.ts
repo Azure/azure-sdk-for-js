@@ -19,7 +19,6 @@ class SecurityCenter extends SecurityCenterContext {
   // Operation groups
   complianceResults: operations.ComplianceResults;
   pricings: operations.Pricings;
-  alerts: operations.Alerts;
   settings: operations.Settings;
   advancedThreatProtection: operations.AdvancedThreatProtection;
   deviceSecurityGroups: operations.DeviceSecurityGroups;
@@ -27,6 +26,10 @@ class SecurityCenter extends SecurityCenterContext {
   iotSecuritySolutionAnalytics: operations.IotSecuritySolutionAnalytics;
   iotSecuritySolutionsAnalyticsAggregatedAlert: operations.IotSecuritySolutionsAnalyticsAggregatedAlert;
   iotSecuritySolutionsAnalyticsRecommendation: operations.IotSecuritySolutionsAnalyticsRecommendation;
+  iotAlertTypes: operations.IotAlertTypes;
+  iotAlerts: operations.IotAlerts;
+  iotRecommendationTypes: operations.IotRecommendationTypes;
+  iotRecommendations: operations.IotRecommendations;
   locations: operations.Locations;
   operations: operations.Operations;
   tasks: operations.Tasks;
@@ -38,22 +41,28 @@ class SecurityCenter extends SecurityCenterContext {
   regulatoryComplianceStandards: operations.RegulatoryComplianceStandards;
   regulatoryComplianceControls: operations.RegulatoryComplianceControls;
   regulatoryComplianceAssessments: operations.RegulatoryComplianceAssessments;
-  serverVulnerabilityAssessment: operations.ServerVulnerabilityAssessmentOperations;
   subAssessments: operations.SubAssessments;
   automations: operations.Automations;
   alertsSuppressionRules: operations.AlertsSuppressionRules;
+  serverVulnerabilityAssessment: operations.ServerVulnerabilityAssessmentOperations;
   assessmentsMetadata: operations.AssessmentsMetadata;
   assessments: operations.Assessments;
   adaptiveApplicationControls: operations.AdaptiveApplicationControls;
   adaptiveNetworkHardenings: operations.AdaptiveNetworkHardenings;
   allowedConnections: operations.AllowedConnections;
   topology: operations.Topology;
+  alerts: operations.Alerts;
   jitNetworkAccessPolicies: operations.JitNetworkAccessPolicies;
   discoveredSecuritySolutions: operations.DiscoveredSecuritySolutions;
+  securitySolutionsReferenceData: operations.SecuritySolutionsReferenceDataOperations;
   externalSecuritySolutions: operations.ExternalSecuritySolutions;
   secureScores: operations.SecureScores;
   secureScoreControls: operations.SecureScoreControls;
   secureScoreControlDefinitions: operations.SecureScoreControlDefinitions;
+  securitySolutions: operations.SecuritySolutions;
+  connectors: operations.Connectors;
+  iotDefenderSettings: operations.IotDefenderSettings;
+  iotSensors: operations.IotSensors;
 
   /**
    * Initializes a new instance of the SecurityCenter class.
@@ -67,7 +76,6 @@ class SecurityCenter extends SecurityCenterContext {
     super(credentials, subscriptionId, ascLocation, options);
     this.complianceResults = new operations.ComplianceResults(this);
     this.pricings = new operations.Pricings(this);
-    this.alerts = new operations.Alerts(this);
     this.settings = new operations.Settings(this);
     this.advancedThreatProtection = new operations.AdvancedThreatProtection(this);
     this.deviceSecurityGroups = new operations.DeviceSecurityGroups(this);
@@ -75,6 +83,10 @@ class SecurityCenter extends SecurityCenterContext {
     this.iotSecuritySolutionAnalytics = new operations.IotSecuritySolutionAnalytics(this);
     this.iotSecuritySolutionsAnalyticsAggregatedAlert = new operations.IotSecuritySolutionsAnalyticsAggregatedAlert(this);
     this.iotSecuritySolutionsAnalyticsRecommendation = new operations.IotSecuritySolutionsAnalyticsRecommendation(this);
+    this.iotAlertTypes = new operations.IotAlertTypes(this);
+    this.iotAlerts = new operations.IotAlerts(this);
+    this.iotRecommendationTypes = new operations.IotRecommendationTypes(this);
+    this.iotRecommendations = new operations.IotRecommendations(this);
     this.locations = new operations.Locations(this);
     this.operations = new operations.Operations(this);
     this.tasks = new operations.Tasks(this);
@@ -86,22 +98,28 @@ class SecurityCenter extends SecurityCenterContext {
     this.regulatoryComplianceStandards = new operations.RegulatoryComplianceStandards(this);
     this.regulatoryComplianceControls = new operations.RegulatoryComplianceControls(this);
     this.regulatoryComplianceAssessments = new operations.RegulatoryComplianceAssessments(this);
-    this.serverVulnerabilityAssessment = new operations.ServerVulnerabilityAssessmentOperations(this);
     this.subAssessments = new operations.SubAssessments(this);
     this.automations = new operations.Automations(this);
     this.alertsSuppressionRules = new operations.AlertsSuppressionRules(this);
+    this.serverVulnerabilityAssessment = new operations.ServerVulnerabilityAssessmentOperations(this);
     this.assessmentsMetadata = new operations.AssessmentsMetadata(this);
     this.assessments = new operations.Assessments(this);
     this.adaptiveApplicationControls = new operations.AdaptiveApplicationControls(this);
     this.adaptiveNetworkHardenings = new operations.AdaptiveNetworkHardenings(this);
     this.allowedConnections = new operations.AllowedConnections(this);
     this.topology = new operations.Topology(this);
+    this.alerts = new operations.Alerts(this);
     this.jitNetworkAccessPolicies = new operations.JitNetworkAccessPolicies(this);
     this.discoveredSecuritySolutions = new operations.DiscoveredSecuritySolutions(this);
+    this.securitySolutionsReferenceData = new operations.SecuritySolutionsReferenceDataOperations(this);
     this.externalSecuritySolutions = new operations.ExternalSecuritySolutions(this);
     this.secureScores = new operations.SecureScores(this);
     this.secureScoreControls = new operations.SecureScoreControls(this);
     this.secureScoreControlDefinitions = new operations.SecureScoreControlDefinitions(this);
+    this.securitySolutions = new operations.SecuritySolutions(this);
+    this.connectors = new operations.Connectors(this);
+    this.iotDefenderSettings = new operations.IotDefenderSettings(this);
+    this.iotSensors = new operations.IotSensors(this);
   }
 }
 
