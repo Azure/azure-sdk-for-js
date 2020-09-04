@@ -47,7 +47,8 @@ export {
   TagConditions,
   ContainerRequestConditions,
   ModificationConditions,
-  MatchConditions
+  MatchConditions,
+  ModifiedAccessConditions
 } from "./models";
 export { RestError };
 export {

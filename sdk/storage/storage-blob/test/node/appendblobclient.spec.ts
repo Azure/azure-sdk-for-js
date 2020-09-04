@@ -177,7 +177,7 @@ describe("AppendBlobClient Node.js only", () => {
     let exceptionCaught = false;
     try {
       await newBlobClient.appendBlockFromURL(`${blockBlobClient.url}?${sas}`, 0, content.length, {
-        conditions: { ifTags: "tag1 = 'val2'" }
+        conditions: { tagConditions: "tag1 = 'val2'" }
       });
     } catch (err) {
       assert.equal(err.details?.errorCode, "ConditionNotMet");
@@ -186,7 +186,7 @@ describe("AppendBlobClient Node.js only", () => {
     assert.ok(exceptionCaught);
 
     await newBlobClient.appendBlockFromURL(`${blockBlobClient.url}?${sas}`, 0, content.length, {
-      conditions: { ifTags: "tag = 'val'" }
+      conditions: { tagConditions: "tag = 'val'" }
     });
   });
 

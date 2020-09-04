@@ -550,7 +550,7 @@ export interface BlobDownloadHeaders {
 export interface BlobDownloadOptionalParams extends coreHttp.RequestOptionsBase {
     cpkInfo?: CpkInfo;
     leaseAccessConditions?: LeaseAccessConditions;
-    modifiedAccessConditions?: ModifiedAccessConditions;
+    modifiedAccessConditions?: ModifiedAccessConditionsModel;
     range?: string;
     rangeGetContentCRC64?: boolean;
     rangeGetContentMD5?: boolean;
@@ -1508,7 +1508,7 @@ export interface ContainerAcquireLeaseOptions extends CommonOptions {
 // @public
 export interface ContainerBreakLeaseOptionalParams extends coreHttp.RequestOptionsBase {
     breakPeriod?: number;
-    modifiedAccessConditions?: ModifiedAccessConditions;
+    modifiedAccessConditions?: ModifiedAccessConditionsModel;
     requestId?: string;
     timeoutInSeconds?: number;
 }
@@ -2145,7 +2145,11 @@ export interface ModificationConditions {
 }
 
 // @public
-export interface ModifiedAccessConditions {
+export interface ModifiedAccessConditions extends MatchConditions, ModificationConditions, TagConditions {
+}
+
+// @public
+export interface ModifiedAccessConditionsModel {
     ifMatch?: string;
     ifModifiedSince?: Date;
     ifNoneMatch?: string;
@@ -2890,7 +2894,7 @@ export type SyncCopyStatusType = 'success';
 
 // @public
 export interface TagConditions {
-    ifTags?: string;
+    tagConditions?: string;
 }
 
 // @public

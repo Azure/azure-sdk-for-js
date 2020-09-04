@@ -336,8 +336,8 @@ describe("PageBlobClient Node.js only", () => {
       tag2: "val2"
     };
 
-    const tagConditionMet = { ifTags: "tag1 = 'val1'" };
-    const tagConditionUnmet = { ifTags: "tag1 = 'val2'" };
+    const tagConditionMet = { tagConditions: "tag1 = 'val1'" };
+    const tagConditionUnmet = { tagConditions: "tag1 = 'val2'" };
 
     beforeEach(async function() {
       await pageBlobClient.create(1024, { tags });

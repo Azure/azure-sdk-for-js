@@ -835,8 +835,8 @@ describe("BlobClient", () => {
       tag2: "val2"
     };
 
-    const tagConditionMet = { ifTags: "tag1 = 'val1'" };
-    const tagConditionUnmet = { ifTags: "tag1 = 'val2'" };
+    const tagConditionMet = { tagConditions: "tag1 = 'val1'" };
+    const tagConditionUnmet = { tagConditions: "tag1 = 'val2'" };
 
     beforeEach(async function() {
       if (!isNode) {
@@ -933,7 +933,7 @@ describe("BlobClient", () => {
       );
 
       await newBlobClient.beginCopyFromURL(blobClient.url, {
-        conditions: { ifTags: "tag = 'val'" }
+        conditions: { tagConditions: "tag = 'val'" }
       });
     });
 
@@ -972,7 +972,7 @@ describe("BlobClient", () => {
       );
 
       await newBlobClient.syncCopyFromURL("https://azure.github.io/azure-sdk-for-js/index.html", {
-        conditions: { ifTags: "tag = 'val'" }
+        conditions: { tagConditions: "tag = 'val'" }
       });
     });
 
@@ -1262,7 +1262,11 @@ describe("BlobClient - Verify Name Properties", () => {
   it("verify custom endpoint without valid accountName", async () => {
     const newClient = new BlobClient(`https://customdomain.com/${containerName}/${blobName}`);
     assert.equal(newClient.accountName, "", "Account name is not the same as expected.");
-    assert.equal(newClient.containerName, containerName, "Container name is not the same as the one provided.");
+    assert.equal(
+      newClient.containerName,
+      containerName,
+      "Container name is not the same as the one provided."
+    );
     assert.equal(newClient.name, blobName, "Blob name is not the same as the one provided.");
   });
 });

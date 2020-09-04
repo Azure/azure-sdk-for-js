@@ -364,7 +364,7 @@ describe("BlobClient Node.js only", () => {
     let exceptionCaught = false;
     try {
       await blockBlobClient.query("select * from BlobStorage", {
-        conditions: { ifTags: "tag = 'val1'" }
+        conditions: { tagConditions: "tag = 'val1'" }
       });
     } catch (e) {
       assert.equal(e.details?.errorCode, "ConditionNotMet");
@@ -373,7 +373,7 @@ describe("BlobClient Node.js only", () => {
     assert.ok(exceptionCaught);
 
     const response = await blockBlobClient.query("select * from BlobStorage", {
-      conditions: { ifTags: "tag = 'val'" }
+      conditions: { tagConditions: "tag = 'val'" }
     });
     assert.deepStrictEqual(await bodyToString(response), csvContent);
   });

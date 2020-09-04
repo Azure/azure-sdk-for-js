@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 import {
-  ModifiedAccessConditions,
   LeaseAccessConditions,
   SequenceNumberAccessConditions,
   AppendPositionAccessConditions,
@@ -28,7 +27,15 @@ export interface Metadata {
 }
 
 /**
- * Conditions to add to the creation of this blob.
+ * standard HTTP conditional headers and tags condition.
+ */
+export interface ModifiedAccessConditions
+  extends MatchConditions,
+    ModificationConditions,
+    TagConditions {}
+
+/**
+ * standard HTTP conditional headers, tags condition and lease condition
  */
 export interface BlobRequestConditions extends ModifiedAccessConditions, LeaseAccessConditions {}
 
@@ -83,7 +90,7 @@ export interface TagConditions {
   /**
    * Optional SQL statement to apply to the tags of the blob.
    */
-  ifTags?: string;
+  tagConditions?: string;
 }
 
 /**
