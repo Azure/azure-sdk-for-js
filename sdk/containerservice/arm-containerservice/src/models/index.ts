@@ -907,8 +907,9 @@ export interface ManagedClusterAgentPoolProfileProperties {
   orchestratorVersion?: string;
   /**
    * Version of node image
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  nodeImageVersion?: string;
+  readonly nodeImageVersion?: string;
   /**
    * Settings for upgrading the agentpool
    */
@@ -1069,8 +1070,9 @@ export interface AgentPool extends SubResource {
   orchestratorVersion?: string;
   /**
    * Version of node image
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  nodeImageVersion?: string;
+  readonly nodeImageVersion?: string;
   /**
    * Settings for upgrading the agentpool
    */
@@ -1136,6 +1138,11 @@ export interface ManagedClusterWindowsProfile {
    * The administrator password to use for Windows VMs.
    */
   adminPassword?: string;
+  /**
+   * The licenseType to use for Windows VMs. Windows_Server is used to enable Azure Hybrid User
+   * Benefits for Windows VMs. Possible values include: 'None', 'Windows_Server'
+   */
+  licenseType?: LicenseType;
 }
 
 /**
@@ -1502,7 +1509,8 @@ export interface ManagedCluster extends Resource {
    */
   enableRBAC?: boolean;
   /**
-   * (PREVIEW) Whether to enable Kubernetes Pod security policy.
+   * (DEPRECATING) Whether to enable Kubernetes pod security policy (preview). This feature is set
+   * for removal on October 15th, 2020. Learn more at aka.ms/aks/azpodpolicy.
    */
   enablePodSecurityPolicy?: boolean;
   /**
@@ -2008,6 +2016,14 @@ export type ScaleSetPriority = 'Spot' | 'Regular';
  * @enum {string}
  */
 export type ScaleSetEvictionPolicy = 'Delete' | 'Deallocate';
+
+/**
+ * Defines values for LicenseType.
+ * Possible values include: 'None', 'Windows_Server'
+ * @readonly
+ * @enum {string}
+ */
+export type LicenseType = 'None' | 'Windows_Server';
 
 /**
  * Defines values for NetworkPlugin.
@@ -2650,6 +2666,26 @@ export type ManagedClustersUpdateTagsResponse = ManagedCluster & {
 };
 
 /**
+ * Contains response data for the upgradeNodeImageVersion operation.
+ */
+export type ManagedClustersUpgradeNodeImageVersionResponse = AgentPool & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: AgentPool;
+    };
+};
+
+/**
  * Contains response data for the beginCreateOrUpdate operation.
  */
 export type ManagedClustersBeginCreateOrUpdateResponse = ManagedCluster & {
@@ -2686,6 +2722,26 @@ export type ManagedClustersBeginUpdateTagsResponse = ManagedCluster & {
        * The response body as parsed JSON or XML
        */
       parsedBody: ManagedCluster;
+    };
+};
+
+/**
+ * Contains response data for the beginUpgradeNodeImageVersion operation.
+ */
+export type ManagedClustersBeginUpgradeNodeImageVersionResponse = AgentPool & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: AgentPool;
     };
 };
 

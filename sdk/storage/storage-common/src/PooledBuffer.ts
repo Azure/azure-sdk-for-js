@@ -3,16 +3,12 @@
 
 import { BuffersStream } from "./BuffersStream";
 import { Readable } from "stream";
-import { BLOCK_BLOB_MAX_STAGE_BLOCK_BYTES } from "./constants";
 
 /**
  * maxBufferLength is max size of each buffer in the pooled buffers.
  */
-const maxBufferLength = Math.min(
-  // Can't use import as Typescript doesn't recognize "buffer".
-  require("buffer").constants.MAX_LENGTH,
-  BLOCK_BLOB_MAX_STAGE_BLOCK_BYTES
-);
+// Can't use import as Typescript doesn't recognize "buffer".
+const maxBufferLength = require("buffer").constants.MAX_LENGTH;
 
 /**
  * This class provides a buffer container which conceptually has no hard size limit.

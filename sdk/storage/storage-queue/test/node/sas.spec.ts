@@ -57,10 +57,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     ).toString();
 
     const sasURL = `${queueServiceClient.url}?${sas}`;
-    const queueServiceClientwithSAS = new QueueServiceClient(
-      sasURL,
-      newPipeline(new AnonymousCredential())
-    );
+    const queueServiceClientwithSAS = new QueueServiceClient(sasURL, newPipeline());
 
     await queueServiceClientwithSAS.getProperties();
   });

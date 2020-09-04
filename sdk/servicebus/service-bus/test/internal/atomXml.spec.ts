@@ -12,7 +12,7 @@ import {
   executeAtomXmlOperation
 } from "../../src/util/atomXmlHelper";
 import * as Constants from "../../src/util/constants";
-import { ServiceBusManagementClient } from "../../src/serviceBusAtomManagementClient";
+import { ServiceBusAdministrationClient } from "../../src/serviceBusAtomManagementClient";
 import { QueueResourceSerializer } from "../../src/serializers/queueResourceSerializer";
 import { HttpHeaders, HttpOperationResponse, WebResource } from "@azure/core-http";
 import { TopicResourceSerializer } from "../../src/serializers/topicResourceSerializer";
@@ -68,7 +68,7 @@ const subscriptionProperties = [
 
 const ruleProperties = ["Filter", "Action", "Name"];
 
-const mockServiceBusAtomManagementClient: ServiceBusManagementClient = new ServiceBusManagementClient(
+const mockServiceBusAtomManagementClient: ServiceBusAdministrationClient = new ServiceBusAdministrationClient(
   "Endpoint=sb://test/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=test"
 );
 

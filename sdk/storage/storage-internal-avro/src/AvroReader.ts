@@ -43,6 +43,9 @@ export class AvroReader {
 
   private _itemsRemainingInBlock?: number;
 
+  // Remembers where we started if partial data stream was provided.
+  private readonly _initialBlockOffset: number;
+
   /// The byte offset within the Avro file (both header and data)
   /// of the start of the current block.
   private _blockOffset: number;
@@ -77,6 +80,7 @@ export class AvroReader {
     this._initialized = false;
     this._blockOffset = currentBlockOffset || 0;
     this._objectIndex = indexWithinCurrentBlock || 0;
+    this._initialBlockOffset = currentBlockOffset || 0;
   }
 
   private async initialize(options: AvroParseOptions = {}) {
@@ -109,7 +113,7 @@ export class AvroReader {
     this._itemType = AvroType.fromSchema(schema);
 
     if (this._blockOffset == 0) {
-      this._blockOffset = this._dataStream.position;
+      this._blockOffset = this._initialBlockOffset + this._dataStream.position;
     }
 
     this._itemsRemainingInBlock = await AvroParser.readLong(this._dataStream, {
@@ -151,7 +155,7 @@ export class AvroReader {
           abortSignal: options.abortSignal
         });
 
-        this._blockOffset = this._dataStream.position;
+        this._blockOffset = this._initialBlockOffset + this._dataStream.position;
         this._objectIndex = 0;
 
         if (!arraysEqual(this._syncMarker!, marker)) {

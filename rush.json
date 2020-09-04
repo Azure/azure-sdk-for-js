@@ -483,6 +483,11 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure/schema-registry-avro",
+      "projectFolder": "sdk/schemaregistry/schema-registry-avro",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure/service-bus",
       "projectFolder": "sdk/servicebus/service-bus",
       "versionPolicyName": "client"
