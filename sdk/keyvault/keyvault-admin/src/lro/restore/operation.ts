@@ -204,7 +204,7 @@ async function update(
     if (endTime) {
       state.isCompleted = true;
     }
-    if (error) {
+    if (error && error.message) {
       state.isCompleted = true;
       state.error = new Error(error.message);
     }
@@ -220,11 +220,16 @@ async function update(
     const serviceOperation = await fullBackupStatus(client, vaultUrl, state.jobId, {
       requestOptions
     });
-    const { endTime, error } = serviceOperation;
+    const { endTime, status, statusDetails, error } = serviceOperation;
+
+    state.endTime = endTime;
+    state.status = status;
+    state.statusDetails = statusDetails;
+
     if (endTime) {
       state.isCompleted = true;
     }
-    if (error) {
+    if (error && error.message) {
       state.isCompleted = true;
       state.error = new Error(error.message);
     }
