@@ -325,7 +325,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
       return await this.link!.sendRequest(request, sendRequestOptions);
     } catch (err) {
       err = translate(err);
-      log.warning(
+      logger.error(
         "[%s] An error occurred during send on management request-response link with address " +
           "'%s': %O",
         this._context.connectionId,

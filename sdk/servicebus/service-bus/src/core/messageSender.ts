@@ -189,7 +189,7 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
             });
           } catch (err) {
             err = translate(err);
-            log.warning(
+            logger.error(
               "[%s] An error occurred while creating the sender %s",
               this._context.connectionId,
               this.name,

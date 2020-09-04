@@ -24,12 +24,6 @@ import debugModule from "debug";
 /**
  * @internal
  * @ignore
- * log statements for warning
- */
-export const warning = debugModule("azure:service-bus:warning");
-/**
- * @internal
- * @ignore
  * log statements for management
  */
 export const mgmt = debugModule("azure:service-bus:management");
