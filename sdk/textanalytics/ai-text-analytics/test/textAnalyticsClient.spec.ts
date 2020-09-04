@@ -5,7 +5,7 @@ import { assert } from "chai";
 
 import { Recorder } from "@azure/test-utils-recorder";
 
-import { createRecordedClient } from "./utils/recordedClient";
+import { createCredentialFromEnvVar, createRecordedClient } from "./utils/recordedClient";
 import {
   TextAnalyticsClient,
   TextDocumentInput,
@@ -28,9 +28,10 @@ const testDataEs = [
   "Los caminos que llevan hasta Monte Rainier son espectaculares y hermosos.",
   "La carretera estaba atascada. Había mucho tráfico el día de ayer."
 ];
-describe("[AAD] TextAnalyticsClient", function() {
+describe("TextAnalyticsClient", function() {
   let recorder: Recorder;
   let client: TextAnalyticsClient;
+  const credential = createCredentialFromEnvVar();
 
   let getId: () => string;
 
@@ -39,7 +40,7 @@ describe("[AAD] TextAnalyticsClient", function() {
 
   beforeEach(function() {
     // eslint-disable-next-line no-invalid-this
-    ({ client, recorder } = createRecordedClient(this));
+    ({ client, recorder } = createRecordedClient(this, credential));
     let nextId = 0;
     getId = () => {
       nextId += 1;

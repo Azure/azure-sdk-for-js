@@ -52,23 +52,39 @@ export const environmentSetup: RecorderEnvironmentSetup = {
   queryParametersToSkip: []
 };
 
+export function createCredentialFromAPIKey() : AzureKeyCredential {
+  return new AzureKeyCredential(testEnv.TEXT_ANALYTICS_API_KEY);
+}
+
+/**
+ * If the environment variable TEST_AUTH_MODE is not set, it defaults to AAD.
+ */
+export function createCredentialFromEnvVar() : AzureKeyCredential | TokenCredential {
+  let credential: AzureKeyCredential | TokenCredential;
+  const authMode = testEnv.TEST_AUTH_MODE;
+  switch (authMode) {
+    case undefined:
+    case "AAD":
+      credential = new ClientSecretCredential(
+        testEnv.AZURE_TENANT_ID,
+        testEnv.AZURE_CLIENT_ID,
+        testEnv.AZURE_CLIENT_SECRET
+      );
+      break;
+    case "APIKey":
+      credential = createCredentialFromAPIKey();
+      break;
+    default:
+      throw new Error(`unsupported mode of authentication: ${authMode}`);
+  }
+  return credential;
+}
+
 export function createRecordedClient(
   context: Context,
-  apiKey?: AzureKeyCredential
+  credential: AzureKeyCredential | TokenCredential
 ): RecordedClient {
   const recorder = record(context, environmentSetup);
-
-  let credential: AzureKeyCredential | TokenCredential;
-  if (apiKey !== undefined) {
-    credential = apiKey;
-  } else {
-    credential = new ClientSecretCredential(
-      testEnv.AZURE_TENANT_ID,
-      testEnv.AZURE_CLIENT_ID,
-      testEnv.AZURE_CLIENT_SECRET
-    );
-  }
-
   return {
     client: new TextAnalyticsClient(testEnv.ENDPOINT, credential),
     recorder
