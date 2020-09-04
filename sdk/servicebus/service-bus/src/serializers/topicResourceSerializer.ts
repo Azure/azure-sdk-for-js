@@ -295,7 +295,7 @@ export interface TopicProperties {
   /**
    * Specifies whether express entities are enabled on topic.
    */
-  enableExpress: boolean;
+  readonly enableExpress: boolean;
 }
 
 /**
