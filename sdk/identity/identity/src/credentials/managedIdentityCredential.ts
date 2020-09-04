@@ -115,26 +115,47 @@ export class ManagedIdentityCredential implements TokenCredential {
 
   private createAppServiceMsiAuthRequest(
     resource: string,
-    clientId?: string
+    clientId?: string,
+    version?: "2019-08-01" | "2017-09-01"
   ): RequestPrepareOptions {
     const queryParameters: any = {
       resource,
       "api-version": AppServiceMsiApiVersion
     };
 
-    if (clientId) {
-      queryParameters.clientid = clientId;
-    }
-
-    return {
-      url: process.env.MSI_ENDPOINT,
-      method: "GET",
-      queryParameters,
-      headers: {
-        Accept: "application/json",
-        secret: process.env.MSI_SECRET
+    if (version === "2019-08-01") {
+      if (clientId) {
+        queryParameters.client_id = clientId;
       }
-    };
+
+      return {
+        url: process.env.IDENTITY_ENDPOINT,
+        method: "GET",
+        queryParameters,
+        headers: {
+          Accept: "application/json",
+          "X-IDENTITY-HEADER": process.env.IDENTITY_HEADER
+        }
+      };
+    } else if (version === "2017-09-01") {
+      if (clientId) {
+        queryParameters.clientid = clientId;
+      }
+
+      return {
+        url: process.env.MSI_ENDPOINT,
+        method: "GET",
+        queryParameters,
+        headers: {
+          Accept: "application/json",
+          secret: process.env.MSI_SECRET
+        }
+      };
+    } else {
+      throw new Error(
+        `Unsupported version ${version}. The supported versions are "2019-08-01" and "2017-09-01"`
+      );
+    }
   }
 
   private createCloudShellMsiAuthRequest(
@@ -238,10 +259,24 @@ export class ManagedIdentityCredential implements TokenCredential {
 
     try {
       // Detect which type of environment we are running in
-      if (process.env.MSI_ENDPOINT) {
+      if (process.env.IDENTITY_ENDPOINT && process.env.IDENTITY_HEADER) {
+        // Running in App Service 2019-08-01
+        authRequestOptions = this.createAppServiceMsiAuthRequest(resource, clientId, "2019-08-01");
+        expiresInParser = (requestBody: any) => {
+          // Parses a string representation of the seconds since epoch into a number value
+          return Number(requestBody.expires_on);
+        };
+        logger.info(
+          `Using the endpoint and the secret coming form the environment variables: IDENTITY_ENDPOINT=${process.env.IDENTITY_ENDPOINT} and IDENTITY_HEADER=[REDACTED].`
+        );
+      } else if (process.env.MSI_ENDPOINT) {
         if (process.env.MSI_SECRET) {
           // Running in App Service
-          authRequestOptions = this.createAppServiceMsiAuthRequest(resource, clientId);
+          authRequestOptions = this.createAppServiceMsiAuthRequest(
+            resource,
+            clientId,
+            "2017-09-01"
+          );
           expiresInParser = (requestBody: any) => {
             // Parse a date format like "06/20/2019 02:57:58 +00:00" and
             // convert it into a JavaScript-formatted date

@@ -8,8 +8,9 @@ import assert from "assert";
 import { ClientCertificateCredential } from "../../src";
 import { MockAuthHttpClient } from "../authTestUtils";
 import { setTracer, TestTracer, SpanGraph } from "@azure/core-tracing";
+import { ClientCertificateCredentialOptions } from "../../src/credentials/clientCertificateCredentialOptions";
 
-describe("ClientCertificateCredential", function() {
+describe("ClientCertificateCredential", function () {
   it("loads a PEM-formatted certificate from a file", () => {
     const credential = new ClientCertificateCredential(
       "tenant",
@@ -68,6 +69,100 @@ describe("ClientCertificateCredential", function() {
       const jwtToken = jws.decode(queryParams.client_assertion as string);
 
       assert.strictEqual(jwtToken.header.x5t, (credential as any).certificateX5t);
+      assert.strictEqual(jwtToken.payload.iss, clientId);
+      assert.strictEqual(jwtToken.payload.sub, clientId);
+      assert.strictEqual(
+        jwtToken.payload.aud.startsWith(`https://authority/${tenantId}`),
+        true,
+        "Audience does not have the correct authority or tenantId"
+      );
+    }
+  });
+
+  it("sends a correctly formatted token request with x5c enabled", async () => {
+    const tenantId = "tenantId";
+    const clientId = "clientId";
+    const mockHttpClient = new MockAuthHttpClient();
+    // Enable X5c flag
+    mockHttpClient.tokenCredentialOptions.includeX5c = true;
+
+    const credential = new ClientCertificateCredential(
+      tenantId,
+      clientId,
+      path.resolve(__dirname, "../test/azure-identity-test.crt"),
+      mockHttpClient.tokenCredentialOptions
+    );
+
+    await credential.getToken("scope");
+
+    const authRequest = mockHttpClient.requests[0];
+    if (!authRequest) {
+      assert.fail("No authentication request was intercepted");
+    } else {
+      assert.strictEqual(
+        authRequest.url.startsWith(`https://authority/${tenantId}`),
+        true,
+        "Request URL doesn't contain expected tenantId"
+      );
+      assert.strictEqual(
+        authRequest.body.indexOf(`client_id=${clientId}`) > -1,
+        true,
+        "Request URL doesn't contain expected clientId"
+      );
+
+
+      const queryParams = qs.parse(authRequest.body);
+      const jwtToken = jws.decode(queryParams.client_assertion as string);
+
+      assert.strictEqual(jwtToken.header.x5t, (credential as any).certificateX5t);
+      assert.deepStrictEqual(jwtToken.header.x5c, (credential as any).certificateX5c);
+      assert.strictEqual(jwtToken.payload.iss, clientId);
+      assert.strictEqual(jwtToken.payload.sub, clientId);
+      assert.strictEqual(
+        jwtToken.payload.aud.startsWith(`https://authority/${tenantId}`),
+        true,
+        "Audience does not have the correct authority or tenantId"
+      );
+    }
+  });
+
+  it("sends a correctly formatted token request with a chained x5c enabled", async () => {
+    const tenantId = "tenantId";
+    const clientId = "clientId";
+    const mockHttpClient = new MockAuthHttpClient();
+    // Enable X5c flag
+    mockHttpClient.tokenCredentialOptions.includeX5c = true;
+
+    const credential = new ClientCertificateCredential(
+      tenantId,
+      clientId,
+      path.resolve(__dirname, "../test/azure-identity-chain-test.crt"),
+      mockHttpClient.tokenCredentialOptions
+    );
+
+    await credential.getToken("scope");
+
+    const authRequest = mockHttpClient.requests[0];
+    if (!authRequest) {
+      assert.fail("No authentication request was intercepted");
+    } else {
+      assert.strictEqual(
+        authRequest.url.startsWith(`https://authority/${tenantId}`),
+        true,
+        "Request URL doesn't contain expected tenantId"
+      );
+      assert.strictEqual(
+        authRequest.body.indexOf(`client_id=${clientId}`) > -1,
+        true,
+        "Request URL doesn't contain expected clientId"
+      );
+
+      const queryParams = qs.parse(authRequest.body);
+      const jwtToken = jws.decode(queryParams.client_assertion as string);
+
+      assert.strictEqual(jwtToken.header.x5t, (credential as any).certificateX5t);
+      assert.deepStrictEqual(jwtToken.header.x5c, (credential as any).certificateX5c);
+      assert.strictEqual(2, (credential as any).certificateX5c.length);
       assert.strictEqual(jwtToken.payload.iss, clientId);
       assert.strictEqual(jwtToken.payload.sub, clientId);
       assert.strictEqual(

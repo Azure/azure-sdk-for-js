@@ -20,6 +20,8 @@ interface AuthRequestDetails {
 
 describe("ManagedIdentityCredential", function() {
   afterEach(() => {
+    delete process.env.IDENTITY_ENDPOINT;
+    delete process.env.IDENTITY_HEADER;
     delete process.env.MSI_ENDPOINT;
     delete process.env.MSI_SECRET;
   });
@@ -131,6 +133,44 @@ describe("ManagedIdentityCredential", function() {
   //   assert.strictEqual(secondGetToken, null);
   //   assert.strictEqual(mockHttpClient.requests.length, 1);
   // });
+
+  it("sends an authorization request correctly in an App Service environment version 2019-08-01", async () => {
+    // Trigger App Service behavior by setting environment variables
+    process.env.IDENTITY_ENDPOINT = "https://endpoint";
+    process.env.IDENTITY_HEADER = "secret";
+
+    const authDetails = await getMsiTokenAuthRequest(["https://service/.default"], "client", {
+      authResponse: {
+        status: 200,
+        parsedBody: {
+          token: "token",
+          expires_on: "1560999478"
+        }
+      }
+    });
+
+    const authRequest = authDetails.requests[0];
+    assert.ok(authRequest.query, "No query string parameters on request");
+    if (authRequest.query) {
+      assert.equal(authRequest.method, "GET");
+      assert.equal(authRequest.query["client_id"], "client");
+      assert.equal(decodeURIComponent(authRequest.query["resource"]), "https://service");
+      assert.ok(
+        authRequest.url.startsWith(process.env.IDENTITY_ENDPOINT),
+        "URL does not start with expected host and path"
+      );
+      assert.equal(authRequest.headers.get("X-IDENTITY-HEADER"), process.env.IDENTITY_HEADER);
+      assert.ok(
+        authRequest.url.indexOf(`api-version=${AppServiceMsiApiVersion}`) > -1,
+        "URL does not have expected version"
+      );
+      if (authDetails.token) {
+        assert.equal(authDetails.token.expiresOnTimestamp, 1560999478);
+      } else {
+        assert.fail("No token was returned!");
+      }
+    }
+  });
 
   it("sends an authorization request correctly in an App Service environment", async () => {
     // Trigger App Service behavior by setting environment variables
