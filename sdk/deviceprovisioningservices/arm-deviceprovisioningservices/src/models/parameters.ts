@@ -160,6 +160,16 @@ export const certificaterawBytes: msRest.OperationQueryParameter = {
     }
   }
 };
+export const groupId: msRest.OperationURLParameter = {
+  parameterPath: "groupId",
+  mapper: {
+    required: true,
+    serializedName: "groupId",
+    type: {
+      name: "String"
+    }
+  }
+};
 export const ifMatch0: msRest.OperationParameter = {
   parameterPath: [
     "options",
@@ -213,6 +223,16 @@ export const operationId: msRest.OperationURLParameter = {
     }
   }
 };
+export const privateEndpointConnectionName: msRest.OperationURLParameter = {
+  parameterPath: "privateEndpointConnectionName",
+  mapper: {
+    required: true,
+    serializedName: "privateEndpointConnectionName",
+    type: {
+      name: "String"
+    }
+  }
+};
 export const provisioningServiceName: msRest.OperationURLParameter = {
   parameterPath: "provisioningServiceName",
   mapper: {
@@ -228,6 +248,16 @@ export const resourceGroupName: msRest.OperationURLParameter = {
   mapper: {
     required: true,
     serializedName: "resourceGroupName",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const resourceName: msRest.OperationURLParameter = {
+  parameterPath: "resourceName",
+  mapper: {
+    required: true,
+    serializedName: "resourceName",
     type: {
       name: "String"
     }
