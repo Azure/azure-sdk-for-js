@@ -13,7 +13,7 @@ export {
   RecognizePiiEntitiesOptions,
   RecognizeLinkedEntitiesOptions,
   TextAnalyticsOperationOptions,
-  PiiEntityDomain
+  PiiEntityDomainType
 } from "./textAnalyticsClient";
 export {
   DetectLanguageResult,
