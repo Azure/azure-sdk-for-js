@@ -144,7 +144,7 @@ async function fullBackupStatus(
 }
 
 /**
- * @summary Reaches to the service and updates the delete key's poll operation.
+ * @summary Reaches to the service and updates the backup's poll operation.
  * @param [options] The optional parameters, which are an abortSignal from @azure/abort-controller and a function that triggers the poller's onProgress function.
  */
 async function update(
