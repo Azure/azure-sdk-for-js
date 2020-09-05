@@ -4,7 +4,7 @@
 
 - Fixed `DataLakeFileClient.uploadStream()` to support `chunkSize` larger than `buffer.constants.MAX_LENGTH`.
 - Bug fix - `credential` parameter of `newPipeline()` function is now optional. If not specified, `AnonymousCredential` is used. Fixes bug [9628](https://github.com/Azure/azure-sdk-for-js/issues/9628).
-- Supported quick query. Added a new API `DataLakeFileClient.query()`.
+- Supported Quick Query. Added a new API `DataLakeFileClient.query()`.
 
 ## 12.1.0-preview.1 (2020.07)
 
