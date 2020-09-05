@@ -107,6 +107,12 @@ jobs:
         
         # Add matrix entry for min-max testing
         ${{ if eq(parameters.TestMinMax, 'true') }}:
+          SameVersion_Node:
+            OSVmImage: "ubuntu-18.04"
+            TestType: "node"
+            DependencyVersion: same
+            NodeTestVersion: "12.x"
+            TestResultsFiles: "**/test-results.xml"    
           MaxVersion_Node:
             OSVmImage: "ubuntu-18.04"
             TestType: "node"
