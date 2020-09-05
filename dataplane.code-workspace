@@ -61,6 +61,10 @@
       "path": "sdk/cosmosdb/cosmos"
     },
     {
+      "name": "eventgrid",
+      "path": "sdk\\eventgrid\\eventgrid"
+    },
+    {
       "name": "event-hubs",
       "path": "sdk/eventhub/event-hubs"
     },

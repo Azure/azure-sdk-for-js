@@ -1,0 +1,34 @@
+{
+ "recordings": [
+  {
+   "method": "POST",
+   "url": "https://endpoint/api/events",
+   "query": {
+    "api-version": "2018-01-01"
+   },
+   "requestBody": "[{\"id\":\"multiEventId1159588374666206734\",\"subject\":\"Multiple 1\",\"data\":{\"hello\":\"world\"},\"eventType\":\"Azure.Sdk.TestEvent1\",\"eventTime\":\"2020-07-27T21:02:26.662Z\",\"dataVersion\":\"1.0\"},{\"id\":\"multiEventId2159588374666206405\",\"subject\":\"Multiple 2\",\"data\":{\"hello\":\"world\"},\"eventType\":\"Azure.Sdk.TestEvent1\",\"eventTime\":\"2020-07-27T21:02:26.662Z\",\"dataVersion\":\"1.0\"}]",
+   "status": 200,
+   "response": "",
+   "responseHeaders": {
+    "api-supported-versions": "2018-01-01",
+    "content-length": "0",
+    "date": "Mon, 27 Jul 2020 21:02:26 GMT",
+    "server": "Microsoft-HTTPAPI/2.0",
+    "status": "200",
+    "strict-transport-security": "max-age=31536000; includeSubDomains",
+    "x-ms-request-id": "e8eb4406-e3e9-4f10-9f25-31ebd5c4e48b"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {
+   "multiEventId1": "multiEventId1159588374666206734",
+   "multiEventId2": "multiEventId2159588374666206405"
+  },
+  "newDate": {
+   "multiEventDate1": "2020-07-27T21:02:26.662Z",
+   "multiEventDate2": "2020-07-27T21:02:26.662Z"
+  }
+ },
+ "hash": "a1eefb69b1513dc523f50ee66055787d"
+}

@@ -423,6 +423,11 @@
       "versionPolicyName": "utility"
     },
     {
+      "packageName": "@azure/eventgrid",
+      "projectFolder": "sdk/eventgrid/eventgrid",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure/event-hubs",
       "projectFolder": "sdk/eventhub/event-hubs",
       "versionPolicyName": "client"
