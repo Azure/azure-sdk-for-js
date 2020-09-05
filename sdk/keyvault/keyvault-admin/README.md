@@ -81,52 +81,63 @@ environment variables. For example, you can use the [dotenv][dotenv] project and
     az keyvault show --hsm-name <your-key-vault-name>
     ```
 
----
-TODO:
-Also need to create storage account.
----
+#### Get or create a storage account
+
+TODO: 
 
 #### Create KeyVaultAccessControlClient
-Once you've populated the **AZURE_CLIENT_ID**, **AZURE_CLIENT_SECRET** and **AZURE_TENANT_ID** environment variables and replaced **your-vault-url** 
-with the above returned URI, you can create the [KeyVaultAccessControlClient][rbac_client]:
 
-```C# Snippet:HelloCreateKeyVaultAccessControlClient
-KeyVaultAccessControlClient client = new KeyVaultAccessControlClient(new Uri(keyVaultUrl), new DefaultAzureCredential());
+Once you've populated the **AZURE_CLIENT_ID**, **AZURE_CLIENT_SECRET** and **AZURE_TENANT_ID** environment variables and replaced **your-vault-url** 
+with the above returned URI, you can create the `KeyVaultAccessControlClient`:
+
+```ts
+const credentials = new DefaultAzureCredential();
+const client = new KeyVaultAccessControlClient(vaultUrl, credentials);
 ```
 
 #### Create KeyVaultBackupClient
-Once you've populated the **AZURE_CLIENT_ID**, **AZURE_CLIENT_SECRET** and **AZURE_TENANT_ID** environment variables and replaced **your-vault-url** 
-with the above returned URI, you can create the [KeyVaultBackupClient][backup_client]:
 
-```C# Snippet:HelloCreateKeyVaultBackupClient
-KeyVaultBackupClient client = new KeyVaultBackupClient(new Uri(keyVaultUrl), new DefaultAzureCredential());
+Once you've populated the **AZURE_CLIENT_ID**, **AZURE_CLIENT_SECRET** and **AZURE_TENANT_ID** environment variables and replaced **your-vault-url** 
+with the above returned URI, you can create the `KeyVaultBackupClient`:
+
+```ts
+const vaultUrl = `https://<MY KEY VAULT HERE>.vault.azure.net`;
+const credentials = new DefaultAzureCredential();
+const client = new KeyVaultBackupClient(vaultUrl, credentials);
 ```
 
 ## Key concepts
 
 ### KeyVaultRoleDefinition
+
 A `KeyVaultRoleDefinition` is a collection of permissions. A role definition defines the operations that can be performed, such as read, write, 
 and delete. It can also define the operations that are excluded from allowed operations.
 
 KeyVaultRoleDefinitions can be listed and specified as part of a `KeyVaultRoleAssignment`.
 
 ### KeyVaultRoleAssignment. 
+
 A `KeyVaultRoleAssignment` is the association of a KeyVaultRoleDefinition to a service principal. They can be created, listed, fetched individually, and deleted.
 
 ### KeyVaultAccessControlClient
+
 A `KeyVaultAccessControlClient` provides both synchronous and asynchronous operations allowing for management of `KeyVaultRoleDefinition` and `KeyVaultRoleAssignment` objects.
 
 ### KeyVaultBackupClient
 
 A `KeyVaultBackupClient` provides both synchronous and asynchronous operations for performing full key backups, full key restores, and selective key restores.
 
-### BackupOperation
+### Long Running Operations
 
-A `BackupOperation` represents a long running operation for a full key backup.
+The Azure SDK for TypeScript and JavaScript offers a common abstraction for long running operations through the package [core-lro][corelro]. In particular, the operations done by the `KeyVaultBackupClient` may take as much time as needed by the Azure resources, requiring a client layer to keep track, serialize and resume the operations through the lifecycle of the programs that wait for them to finish.
 
-### RestoreOperation
+The `KeyVaultBackupClient` offers three methods that execute Long Running Operations:
 
-A `RestoreOperation` represents a long running operation for both a full key and selective key restore.
+- `beginBackup`, starts generating a backup of an Azure Key Vault on the specified Storage Blob account.
+- `beginRestore`, starts restoring all key materials using the SAS token pointing to a previously stored Azure Blob storage backup folder.
+- `beginSelectiveRestore`, starts restoring all key versions of a given key using user supplied SAS token pointing to a previously stored Azure Blob storage backup folder.
+
+All of the Long Running Operation methods return a a Long Running Operation poller that allows you to wait indefinitely until the Key Vault selective restore is complete. More information is available on the examples below.
 
 ## Examples
 The Azure.Security.KeyVault.Administration package supports synchronous and asynchronous APIs.
