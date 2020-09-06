@@ -190,7 +190,7 @@ export interface QueueProperties {
     defaultMessageTimeToLive: string;
     duplicateDetectionHistoryTimeWindow: string;
     enableBatchedOperations: boolean;
-    enableExpress: boolean;
+    readonly enableExpress: boolean;
     readonly enablePartitioning: boolean;
     forwardDeadLetteredMessagesTo?: string;
     forwardTo?: string;
@@ -493,7 +493,7 @@ export interface TopicProperties {
     defaultMessageTimeToLive: string;
     duplicateDetectionHistoryTimeWindow: string;
     enableBatchedOperations: boolean;
-    enableExpress: boolean;
+    readonly enableExpress: boolean;
     readonly enablePartitioning: boolean;
     maxSizeInMegabytes: number;
     readonly name: string;
