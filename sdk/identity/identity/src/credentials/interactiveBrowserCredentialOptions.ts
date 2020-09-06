@@ -20,7 +20,8 @@ export interface InteractiveBrowserCredentialOptions extends TokenCredentialOpti
   /**
    * Specifies whether a redirect or a popup window should be used to
    * initiate the user authentication flow. Possible values are "redirect"
-   * or "popup" (default).
+   * or "popup" (default) for browser and "popup" (default) for node.
+   * 
    */
   loginStyle?: BrowserLoginStyle;
 

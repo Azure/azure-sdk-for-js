@@ -96,7 +96,8 @@ function Publish-javascript-GithubIODocs ()
     {
       $DocVersion = $dirList[0].Name
       Write-Host "Uploading Doc for $($PkgName) Version:- $($DocVersion)..."
-      Upload-Blobs -DocDir "$($DocLocation)/documentation/$($Item.BaseName)/$($Item.BaseName)/$($DocVersion)" -PkgName $PkgName -DocVersion $DocVersion
+      $releaseTag = RetrieveReleaseTag "NPM" $PublicArtifactLocation
+      Upload-Blobs -DocDir "$($DocLocation)/documentation/$($Item.BaseName)/$($Item.BaseName)/$($DocVersion)" -PkgName $PkgName -DocVersion $DocVersion -ReleaseTag $releaseTag
     }
     else
     {

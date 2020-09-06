@@ -222,7 +222,12 @@ export interface KeyVaultKey {
 }
 
 // @public
-export type KeyVaultKeysIdentifierCollectionName = "keys" | "deletedkeys";
+export interface KeyVaultKeyId {
+    name: string;
+    sourceId: string;
+    vaultUrl: string;
+    version?: string;
+}
 
 // @public
 export type KeyWrapAlgorithm = "RSA-OAEP" | "RSA-OAEP-256" | "RSA1_5";
@@ -259,16 +264,7 @@ export { PagedAsyncIterableIterator }
 export { PageSettings }
 
 // @public
-export interface ParsedKeyVaultKeysIdentifier {
-    collection: KeyVaultKeysIdentifierCollectionName;
-    id: string;
-    name: string;
-    vaultUrl: string;
-    version?: string;
-}
-
-// @public
-export function parseKeyVaultKeysIdentifier(id: string): ParsedKeyVaultKeysIdentifier;
+export function parseKeyVaultKeyId(id: string): KeyVaultKeyId;
 
 export { PipelineOptions }
 

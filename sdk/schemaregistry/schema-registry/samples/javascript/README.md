@@ -1,4 +1,4 @@
-<!-- The following YAML bit is needed by the docs system to publish the samples online. Uncomment/Update it when the samples can be published publically -->
+<!-- The following YAML bit is needed by the docs system to publish the samples online. Uncomment/Update it when the samples can be published publicly -->
 
 <!-- ---
 page_type: sample
@@ -12,15 +12,15 @@ urlFragment: schema-registry-javascript
 
 # Azure Schema Registry client library samples for JavaScript
 
-These sample programs show how to use the JavaScript client libraries for Azure schema-registry in some common scenarios.
+These sample programs show how to use the JavaScript client libraries for Azure Schema Registry in some common scenarios.
 
-| **File Name**                                           | **Description**                                                                                    |
-| ------------------------------------------------------- | -------------------------------------------------------------------------------------------------- |
-| [schemaRegistrySample.js][schemaRegistrySample]         | schema-registry sample                                                                                    |
+| **File Name**                                   | **Description**        |
+| ----------------------------------------------- | ---------------------- |
+| [schemaRegistrySample.js][schemaregistrysample] | schema-registry sample |
 
 ## Prerequisites
 
-The samples are compatible with Node.js >= 8.0.0.
+The samples are compatible with Node.js >= 10.0.0.
 
 You need [an Azure subscription][freesub] to run these sample programs. Samples retrieve credentials to access the endpoint from environment variables. Alternatively, edit the source code to include the appropriate credentials. See each individual sample for details on which environment variables/credentials it requires to function.
 
@@ -54,7 +54,7 @@ npx cross-env ENDPOINT="<endpoint>" API_KEY="<api key>" node schemaRegistrySampl
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[schemaRegistrySample]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/schemaregistry/schema-registry/samples/javascript/schemaRegistrySample.js
+[schemaregistrysample]: ./schemaRegistrySample.js
 [apiref]: https://docs.microsoft.com/javascript/api
 [freesub]: https://azure.microsoft.com/free/
-[package]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/schemaregistry/schema-registry/README.md
+[package]: ../../README.md

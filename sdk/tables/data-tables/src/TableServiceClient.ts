@@ -370,11 +370,16 @@ export class TableServiceClient {
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options?: TableServiceClientOptions
   ): TableServiceClient {
-    const { url, options: clientOptions } = getClientParamsFromConnectionString(
+    const { url, options: clientOptions, credential } = getClientParamsFromConnectionString(
       connectionString,
       options
     );
-    return new TableServiceClient(url, clientOptions);
+
+    if (credential) {
+      return new TableServiceClient(url, credential, clientOptions);
+    } else {
+      return new TableServiceClient(url, clientOptions);
+    }
   }
 }
 

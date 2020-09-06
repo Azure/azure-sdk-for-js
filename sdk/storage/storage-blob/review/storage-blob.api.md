@@ -125,7 +125,7 @@ export interface AppendBlobAppendBlockFromURLOptions extends CommonOptions {
     conditions?: AppendBlobRequestConditions;
     customerProvidedKey?: CpkInfo;
     encryptionScope?: string;
-    sourceConditions?: ModifiedAccessConditions;
+    sourceConditions?: MatchConditions & ModificationConditions;
     sourceContentCrc64?: Uint8Array;
     sourceContentMD5?: Uint8Array;
 }
@@ -550,7 +550,7 @@ export interface BlobDownloadHeaders {
 export interface BlobDownloadOptionalParams extends coreHttp.RequestOptionsBase {
     cpkInfo?: CpkInfo;
     leaseAccessConditions?: LeaseAccessConditions;
-    modifiedAccessConditions?: ModifiedAccessConditions;
+    modifiedAccessConditions?: ModifiedAccessConditionsModel;
     range?: string;
     rangeGetContentCRC64?: boolean;
     rangeGetContentMD5?: boolean;
@@ -707,6 +707,7 @@ export interface BlobGetTagsHeaders {
 // @public
 export interface BlobGetTagsOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
+    conditions?: TagConditions;
 }
 
 // @public
@@ -881,12 +882,13 @@ export interface BlobProperties {
 }
 
 // @public
-export interface BlobQueryCsvTextConfiguration extends BlobQueryTextConfiguration {
+export interface BlobQueryCsvTextConfiguration {
     columnSeparator?: string;
     escapeCharacter?: string;
     fieldQuote?: string;
     hasHeaders?: boolean;
     kind: "csv";
+    recordSeparator: string;
 }
 
 // @public
@@ -940,8 +942,9 @@ export interface BlobQueryHeaders {
 }
 
 // @public
-export interface BlobQueryJsonTextConfiguration extends BlobQueryTextConfiguration {
+export interface BlobQueryJsonTextConfiguration {
     kind: "json";
+    recordSeparator: string;
 }
 
 // @public
@@ -952,11 +955,6 @@ export type BlobQueryResponseModel = BlobQueryHeaders & {
         parsedHeaders: BlobQueryHeaders;
     };
 };
-
-// @public
-export interface BlobQueryTextConfiguration {
-    recordSeparator: string;
-}
 
 // @public
 export interface BlobReleaseLeaseOptions extends CommonOptions {
@@ -1121,6 +1119,7 @@ export interface BlobSetTagsHeaders {
 // @public
 export interface BlobSetTagsOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
+    conditions?: TagConditions;
 }
 
 // @public
@@ -1142,7 +1141,7 @@ export interface BlobSetTierHeaders {
 // @public
 export interface BlobSetTierOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
-    conditions?: LeaseAccessConditions;
+    conditions?: LeaseAccessConditions & TagConditions;
     rehydratePriority?: RehydratePriority;
 }
 
@@ -1192,7 +1191,7 @@ export interface BlobSyncCopyFromURLOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
     conditions?: BlobRequestConditions;
     metadata?: Metadata;
-    sourceConditions?: ModifiedAccessConditions;
+    sourceConditions?: MatchConditions & ModificationConditions;
     sourceContentMD5?: Uint8Array;
     tags?: Tags;
 }
@@ -1319,7 +1318,7 @@ export interface BlockBlobGetBlockListHeaders {
 // @public
 export interface BlockBlobGetBlockListOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
-    conditions?: LeaseAccessConditions;
+    conditions?: LeaseAccessConditions & TagConditions;
 }
 
 // @public
@@ -1345,6 +1344,7 @@ export interface BlockBlobParallelUploadOptions extends CommonOptions {
     };
     onProgress?: (progress: TransferProgressEvent) => void;
     tags?: Tags;
+    tier?: BlockBlobTier | string;
 }
 
 // @public
@@ -1479,6 +1479,7 @@ export interface BlockBlobUploadStreamOptions extends CommonOptions {
     };
     onProgress?: (progress: TransferProgressEvent) => void;
     tags?: Tags;
+    tier?: BlockBlobTier | string;
 }
 
 // @public
@@ -1506,7 +1507,7 @@ export interface ContainerAcquireLeaseOptions extends CommonOptions {
 // @public
 export interface ContainerBreakLeaseOptionalParams extends coreHttp.RequestOptionsBase {
     breakPeriod?: number;
-    modifiedAccessConditions?: ModifiedAccessConditions;
+    modifiedAccessConditions?: ModifiedAccessConditionsModel;
     requestId?: string;
     timeoutInSeconds?: number;
 }
@@ -1611,7 +1612,7 @@ export interface ContainerDeleteIfExistsResponse extends ContainerDeleteResponse
 // @public
 export interface ContainerDeleteMethodOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
-    conditions?: BlobRequestConditions;
+    conditions?: ContainerRequestConditions;
 }
 
 // @public
@@ -1805,6 +1806,10 @@ export interface ContainerRenewLeaseOptions extends CommonOptions {
 }
 
 // @public
+export interface ContainerRequestConditions extends LeaseAccessConditions, ModificationConditions {
+}
+
+// @public
 export class ContainerSASPermissions {
     add: boolean;
     create: boolean;
@@ -1833,7 +1838,7 @@ export interface ContainerSetAccessPolicyHeaders {
 // @public
 export interface ContainerSetAccessPolicyOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
-    conditions?: BlobRequestConditions;
+    conditions?: ContainerRequestConditions;
 }
 
 // @public
@@ -1858,7 +1863,7 @@ export interface ContainerSetMetadataHeaders {
 // @public
 export interface ContainerSetMetadataOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
-    conditions?: BlobRequestConditions;
+    conditions?: ContainerRequestConditions;
 }
 
 // @public
@@ -2113,6 +2118,12 @@ export interface Logging {
 }
 
 // @public
+export interface MatchConditions {
+    ifMatch?: string;
+    ifNoneMatch?: string;
+}
+
+// @public
 export interface Metadata {
     [propertyName: string]: string;
 }
@@ -2127,7 +2138,17 @@ export interface Metrics {
 }
 
 // @public
-export interface ModifiedAccessConditions {
+export interface ModificationConditions {
+    ifModifiedSince?: Date;
+    ifUnmodifiedSince?: Date;
+}
+
+// @public
+export interface ModifiedAccessConditions extends MatchConditions, ModificationConditions, TagConditions {
+}
+
+// @public
+export interface ModifiedAccessConditionsModel {
     ifMatch?: string;
     ifModifiedSince?: Date;
     ifNoneMatch?: string;
@@ -2136,7 +2157,7 @@ export interface ModifiedAccessConditions {
 }
 
 // @public
-export function newPipeline(credential: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, pipelineOptions?: StoragePipelineOptions): Pipeline;
+export function newPipeline(credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, pipelineOptions?: StoragePipelineOptions): Pipeline;
 
 // @public
 export interface ObjectReplicationPolicy {
@@ -2419,7 +2440,7 @@ export interface PageBlobUploadPagesFromURLOptions extends CommonOptions {
     conditions?: PageBlobRequestConditions;
     customerProvidedKey?: CpkInfo;
     encryptionScope?: string;
-    sourceConditions?: ModifiedAccessConditions;
+    sourceConditions?: MatchConditions & ModificationConditions;
     sourceContentCrc64?: Uint8Array;
     sourceContentMD5?: Uint8Array;
 }
@@ -2869,6 +2890,11 @@ export class StorageSharedKeyCredentialPolicy extends CredentialPolicy {
 
 // @public
 export type SyncCopyStatusType = 'success';
+
+// @public
+export interface TagConditions {
+    tagConditions?: string;
+}
 
 // @public
 export type Tags = Record<string, string>;

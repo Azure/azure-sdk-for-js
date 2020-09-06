@@ -194,4 +194,20 @@ describe("Highlevel", () => {
 
     assert.ok(arrayBufferEqual(buf1, buf2));
   });
+
+  it("set tier while upload", async () => {
+    recorder.skip("browser", "Temp file - recorder doesn't support saving the file");
+    // single upload
+    await blockBlobClient.uploadBrowserData(tempFile2, {
+      tier: "Hot",
+      maxSingleShotSize: 256 * 1024 * 1024
+    });
+    assert.equal((await blockBlobClient.getProperties()).accessTier, "Hot");
+
+    await blockBlobClient.uploadBrowserData(tempFile2, {
+      tier: "Cool",
+      maxSingleShotSize: 256 * 1024
+    });
+    assert.equal((await blockBlobClient.getProperties()).accessTier, "Cool");
+  });
 });

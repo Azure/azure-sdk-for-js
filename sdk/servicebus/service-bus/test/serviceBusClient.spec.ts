@@ -719,7 +719,7 @@ describe("entityPath on sender and receiver", async () => {
 
   it("Entity Path on Queue deadletter Receiver", () => {
     const dummyQueueName = "dummy";
-    const receiver = sbClient.createDeadLetterReceiver(dummyQueueName);
+    const receiver = sbClient.createReceiver(dummyQueueName, { subQueue: "deadLetter" });
     should.equal(
       receiver.entityPath,
       `${dummyQueueName}/$DeadLetterQueue`,
@@ -741,7 +741,9 @@ describe("entityPath on sender and receiver", async () => {
   it("Entity Path on Subscription deadletter Receiver", () => {
     const dummyTopicName = "dummyTopicName";
     const dummySubscriptionName = "dummySubscriptionName";
-    const receiver = sbClient.createDeadLetterReceiver(dummyTopicName, dummySubscriptionName);
+    const receiver = sbClient.createReceiver(dummyTopicName, dummySubscriptionName, {
+      subQueue: "deadLetter"
+    });
     should.equal(
       receiver.entityPath,
       `${dummyTopicName}/Subscriptions/${dummySubscriptionName}/$DeadLetterQueue`,

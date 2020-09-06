@@ -10,7 +10,7 @@ import * as coreHttp from "@azure/core-http";
 import { GeneratedSchemaRegistryClientOptionalParams } from "./models";
 
 const packageName = "@azure/schema-registry";
-const packageVersion = "1.0.0-preview.1";
+const packageVersion = "1.0.0-beta.1";
 
 export class GeneratedSchemaRegistryClientContext extends coreHttp.ServiceClient {
   endpoint: string;

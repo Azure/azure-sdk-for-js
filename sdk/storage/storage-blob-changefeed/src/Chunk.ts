@@ -1,9 +1,32 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { AvroReader } from "../../storage-internal-avro/src";
 import { BlobChangeFeedEvent } from "./models/BlobChangeFeedEvent";
+import { CommonOptions } from "@azure/storage-blob";
+import { AbortSignalLike } from "@azure/core-http";
+import { AvroParseOptions } from "../../storage-internal-avro/src/AvroReader";
+
+/**
+ * Options to configure {@link Chunk.getChange} operation.
+ *
+ * @export
+ * @interface ChunkGetChangeOptions
+ */
+export interface ChunkGetChangeOptions extends CommonOptions {
+  /**
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
+   *
+   * @type {AbortSignalLike}
+   * @memberof ChunkGetChangeOptions
+   */
+  abortSignal?: AbortSignalLike;
+}
 
 export class Chunk {
-  private readonly _avroReader: AvroReader;
-  private readonly _iter: AsyncIterableIterator<Record<string, any> | null>;
+  private readonly avroReader: AvroReader;
+  private readonly iter: AsyncIterableIterator<Record<string, any> | null>;
 
   private _blockOffset: number;
   public get blockOffset(): number {
@@ -15,16 +38,22 @@ export class Chunk {
     return this._eventIndex;
   }
 
-  constructor(avroReader: AvroReader, blockOffset: number, eventIndex: number) {
-    this._avroReader = avroReader;
+  constructor(
+    avroReader: AvroReader,
+    blockOffset: number,
+    eventIndex: number,
+    public readonly chunkPath: string,
+    avroOptions: AvroParseOptions = {}
+  ) {
+    this.avroReader = avroReader;
     this._blockOffset = blockOffset;
     this._eventIndex = eventIndex;
 
-    this._iter = this._avroReader.parseObjects();
+    this.iter = this.avroReader.parseObjects(avroOptions);
   }
 
   public hasNext(): boolean {
-    return this._avroReader.hasNext();
+    return this.avroReader.hasNext();
   }
 
   public async getChange(): Promise<BlobChangeFeedEvent | undefined> {
@@ -32,9 +61,9 @@ export class Chunk {
       return undefined;
     }
 
-    const next = await this._iter.next();
-    this._eventIndex = this._avroReader.objectIndex;
-    this._blockOffset = this._avroReader.blockOffset;
+    const next = await this.iter.next();
+    this._eventIndex = this.avroReader.objectIndex;
+    this._blockOffset = this.avroReader.blockOffset;
     if (next.done) {
       return undefined;
     } else {

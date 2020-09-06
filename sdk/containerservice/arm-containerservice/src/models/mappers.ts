@@ -1263,6 +1263,7 @@ export const ManagedClusterAgentPoolProfileProperties: msRest.CompositeMapper = 
         }
       },
       nodeImageVersion: {
+        readOnly: true,
         serializedName: "nodeImageVersion",
         type: {
           name: "String"
@@ -1464,6 +1465,7 @@ export const AgentPool: msRest.CompositeMapper = {
         }
       },
       nodeImageVersion: {
+        readOnly: true,
         serializedName: "properties.nodeImageVersion",
         type: {
           name: "String"
@@ -1584,6 +1586,12 @@ export const ManagedClusterWindowsProfile: msRest.CompositeMapper = {
         constraints: {
           Pattern: /^(?=.*[a-z])(?=.*[A-Z])(?=.*[!@#$%\^&\*\(\)])[a-zA-Z\d!@#$%\^&\*\(\)]{12,123}$/
         },
+        type: {
+          name: "String"
+        }
+      },
+      licenseType: {
+        serializedName: "licenseType",
         type: {
           name: "String"
         }
