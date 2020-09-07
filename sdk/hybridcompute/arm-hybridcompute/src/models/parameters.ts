@@ -55,6 +55,16 @@ export const extensionName: msRest.OperationURLParameter = {
     }
   }
 };
+export const groupName: msRest.OperationURLParameter = {
+  parameterPath: "groupName",
+  mapper: {
+    required: true,
+    serializedName: "groupName",
+    type: {
+      name: "String"
+    }
+  }
+};
 export const name: msRest.OperationURLParameter = {
   parameterPath: "name",
   mapper: {
@@ -76,11 +86,31 @@ export const nextPageLink: msRest.OperationURLParameter = {
   },
   skipEncoding: true
 };
+export const privateEndpointConnectionName: msRest.OperationURLParameter = {
+  parameterPath: "privateEndpointConnectionName",
+  mapper: {
+    required: true,
+    serializedName: "privateEndpointConnectionName",
+    type: {
+      name: "String"
+    }
+  }
+};
 export const resourceGroupName: msRest.OperationURLParameter = {
   parameterPath: "resourceGroupName",
   mapper: {
     required: true,
     serializedName: "resourceGroupName",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const scopeName: msRest.OperationURLParameter = {
+  parameterPath: "scopeName",
+  mapper: {
+    required: true,
+    serializedName: "scopeName",
     type: {
       name: "String"
     }
