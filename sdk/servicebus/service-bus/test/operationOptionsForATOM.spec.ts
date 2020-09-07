@@ -5,7 +5,7 @@ import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
 import chaiExclude from "chai-exclude";
 import * as dotenv from "dotenv";
-import { ServiceBusManagementClient } from "../src/serviceBusAtomManagementClient";
+import { ServiceBusAdministrationClient } from "../src/serviceBusAtomManagementClient";
 import { EnvVarNames, getEnvVars } from "./utils/envVarUtils";
 import { AbortController } from "@azure/abort-controller";
 import { WebResource } from "@azure/core-http";
@@ -21,13 +21,13 @@ dotenv.config();
 
 const env = getEnvVars();
 
-const serviceBusAtomManagementClient: ServiceBusManagementClient = new ServiceBusManagementClient(
+const serviceBusAtomManagementClient: ServiceBusAdministrationClient = new ServiceBusAdministrationClient(
   env[EnvVarNames.SERVICEBUS_CONNECTION_STRING]
 );
 
 describe("Operation Options", () => {
-  const enitityName1 = "random-name";
-  const enitityName2 = "random-name-2";
+  const entityName1 = "random-name";
+  const entityName2 = "random-name-2";
   // This describe block ensures that abort signal works as expected and
   // the OperationOptions are plugged in for all the methods
   describe("Abort Signal", () => {
@@ -52,7 +52,7 @@ describe("Operation Options", () => {
     it("createQueue", async () => {
       await verifyAbortError(
         async () =>
-          await serviceBusAtomManagementClient.createQueue(enitityName1, {
+          await serviceBusAtomManagementClient.createQueue(entityName1, {
             abortSignal: AbortController.timeout(1)
           })
       );
@@ -60,7 +60,7 @@ describe("Operation Options", () => {
     it("getQueue", async () => {
       await verifyAbortError(
         async () =>
-          await serviceBusAtomManagementClient.getQueue(enitityName1, {
+          await serviceBusAtomManagementClient.getQueue(entityName1, {
             abortSignal: AbortController.timeout(1)
           })
       );
@@ -68,18 +68,15 @@ describe("Operation Options", () => {
     it("updateQueue", async () => {
       await verifyAbortError(
         async () =>
-          await serviceBusAtomManagementClient.updateQueue(
-            { name: enitityName1 },
-            {
-              abortSignal: AbortController.timeout(1)
-            }
-          )
+          await serviceBusAtomManagementClient.updateQueue({ name: entityName1 } as any, {
+            abortSignal: AbortController.timeout(1)
+          })
       );
     });
     it("deleteQueue", async () => {
       await verifyAbortError(
         async () =>
-          await serviceBusAtomManagementClient.deleteQueue(enitityName1, {
+          await serviceBusAtomManagementClient.deleteQueue(entityName1, {
             abortSignal: AbortController.timeout(1)
           })
       );
@@ -87,7 +84,7 @@ describe("Operation Options", () => {
     it("getQueueRuntimeProperties", async () => {
       await verifyAbortError(
         async () =>
-          await serviceBusAtomManagementClient.getQueueRuntimeProperties(enitityName1, {
+          await serviceBusAtomManagementClient.getQueueRuntimeProperties(entityName1, {
             abortSignal: AbortController.timeout(1)
           })
       );
@@ -95,7 +92,7 @@ describe("Operation Options", () => {
     it("getQueues", async () => {
       await verifyAbortError(
         async () =>
-          await serviceBusAtomManagementClient["listQueues"]({
+          await serviceBusAtomManagementClient["getQueues"]({
             abortSignal: AbortController.timeout(1)
           })
       );
@@ -103,7 +100,7 @@ describe("Operation Options", () => {
     it("getQueuesRuntimeProperties", async () => {
       await verifyAbortError(
         async () =>
-          await serviceBusAtomManagementClient["listQueuesRuntimeProperties"]({
+          await serviceBusAtomManagementClient["getQueuesRuntimeProperties"]({
             abortSignal: AbortController.timeout(1)
           })
       );
@@ -111,7 +108,7 @@ describe("Operation Options", () => {
     it("createTopic", async () => {
       await verifyAbortError(
         async () =>
-          await serviceBusAtomManagementClient.createTopic(enitityName1, {
+          await serviceBusAtomManagementClient.createTopic(entityName1, {
             abortSignal: AbortController.timeout(1)
           })
       );
@@ -119,7 +116,7 @@ describe("Operation Options", () => {
     it("getTopic", async () => {
       await verifyAbortError(
         async () =>
-          await serviceBusAtomManagementClient.getTopic(enitityName1, {
+          await serviceBusAtomManagementClient.getTopic(entityName1, {
             abortSignal: AbortController.timeout(1)
           })
       );
@@ -127,18 +124,15 @@ describe("Operation Options", () => {
     it("updateTopic", async () => {
       await verifyAbortError(
         async () =>
-          await serviceBusAtomManagementClient.updateTopic(
-            { name: enitityName1 },
-            {
-              abortSignal: AbortController.timeout(1)
-            }
-          )
+          await serviceBusAtomManagementClient.updateTopic({ name: entityName1 } as any, {
+            abortSignal: AbortController.timeout(1)
+          })
       );
     });
     it("deleteTopic", async () => {
       await verifyAbortError(
         async () =>
-          await serviceBusAtomManagementClient.deleteTopic(enitityName1, {
+          await serviceBusAtomManagementClient.deleteTopic(entityName1, {
             abortSignal: AbortController.timeout(1)
           })
       );
@@ -146,7 +140,7 @@ describe("Operation Options", () => {
     it("getTopicRuntimeProperties", async () => {
       await verifyAbortError(
         async () =>
-          await serviceBusAtomManagementClient.getTopicRuntimeProperties(enitityName1, {
+          await serviceBusAtomManagementClient.getTopicRuntimeProperties(entityName1, {
             abortSignal: AbortController.timeout(1)
           })
       );
@@ -154,7 +148,7 @@ describe("Operation Options", () => {
     it("getTopics", async () => {
       await verifyAbortError(
         async () =>
-          await serviceBusAtomManagementClient["listTopics"]({
+          await serviceBusAtomManagementClient["getTopics"]({
             abortSignal: AbortController.timeout(1)
           })
       );
@@ -162,7 +156,7 @@ describe("Operation Options", () => {
     it("getTopicsRuntimeProperties", async () => {
       await verifyAbortError(
         async () =>
-          await serviceBusAtomManagementClient["listTopicsRuntimeProperties"]({
+          await serviceBusAtomManagementClient["getTopicsRuntimeProperties"]({
             abortSignal: AbortController.timeout(1)
           })
       );
@@ -171,7 +165,7 @@ describe("Operation Options", () => {
       await verifyAbortError(
         async () =>
           await serviceBusAtomManagementClient.createSubscription(
-            { topicName: enitityName1, subscriptionName: enitityName2 },
+            entityName1,  entityName2 ,
             {
               abortSignal: AbortController.timeout(1)
             }
@@ -181,7 +175,7 @@ describe("Operation Options", () => {
     it("getSubscription", async () => {
       await verifyAbortError(
         async () =>
-          await serviceBusAtomManagementClient.getSubscription(enitityName1, enitityName2, {
+          await serviceBusAtomManagementClient.getSubscription(entityName1, entityName2, {
             abortSignal: AbortController.timeout(1)
           })
       );
@@ -190,7 +184,7 @@ describe("Operation Options", () => {
       await verifyAbortError(
         async () =>
           await serviceBusAtomManagementClient.updateSubscription(
-            { topicName: enitityName1, subscriptionName: enitityName2 },
+            { topicName: entityName1, subscriptionName: entityName2 } as any,
             {
               abortSignal: AbortController.timeout(1)
             }
@@ -200,7 +194,7 @@ describe("Operation Options", () => {
     it("deleteSubscription", async () => {
       await verifyAbortError(
         async () =>
-          await serviceBusAtomManagementClient.deleteSubscription(enitityName1, enitityName2, {
+          await serviceBusAtomManagementClient.deleteSubscription(entityName1, entityName2, {
             abortSignal: AbortController.timeout(1)
           })
       );
@@ -209,8 +203,8 @@ describe("Operation Options", () => {
       await verifyAbortError(
         async () =>
           await serviceBusAtomManagementClient.getSubscriptionRuntimeProperties(
-            enitityName1,
-            enitityName2,
+            entityName1,
+            entityName2,
             {
               abortSignal: AbortController.timeout(1)
             }
@@ -220,7 +214,7 @@ describe("Operation Options", () => {
     it("getSubscriptions", async () => {
       await verifyAbortError(
         async () =>
-          await serviceBusAtomManagementClient["listSubscriptions"](enitityName1, {
+          await serviceBusAtomManagementClient["getSubscriptions"](entityName1, {
             abortSignal: AbortController.timeout(1)
           })
       );
@@ -228,7 +222,7 @@ describe("Operation Options", () => {
     it("getSubscriptionsRuntimeProperties", async () => {
       await verifyAbortError(
         async () =>
-          await serviceBusAtomManagementClient["listSubscriptionsRuntimeProperties"](enitityName1, {
+          await serviceBusAtomManagementClient["getSubscriptionsRuntimeProperties"](entityName1, {
             abortSignal: AbortController.timeout(1)
           })
       );
@@ -239,7 +233,7 @@ describe("Operation Options", () => {
     // This test makes sure the timeout is plumbed as expected
     it("requestOptions.timeout should work", async () => {
       try {
-        await serviceBusAtomManagementClient.createQueue(enitityName1, {
+        await serviceBusAtomManagementClient.createQueue(entityName1, {
           requestOptions: { timeout: 1 }
         });
         assert.fail();
@@ -293,7 +287,7 @@ describe("Operation Options", () => {
             name: rootSpan.name,
             children: [
               {
-                name: "Azure.ServiceBus.ServiceBusManagementClient-getNamespaceProperties",
+                name: "Azure.ServiceBus.ServiceBusAdministrationClient-getNamespaceProperties",
                 children: [
                   {
                     children: [
@@ -302,7 +296,7 @@ describe("Operation Options", () => {
                         name: "/$namespaceinfo"
                       }
                     ],
-                    name: "Azure.ServiceBus.ServiceBusManagementClient-getResource"
+                    name: "Azure.ServiceBus.ServiceBusAdministrationClient-getResource"
                   }
                 ]
               }

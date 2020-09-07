@@ -9,7 +9,7 @@ import { HttpHeaders, RequestPolicyOptions } from "../../src/coreHttp";
 
 describe("ExponentialRetryPolicy", () => {
   class PassThroughPolicy {
-    constructor(private _response: HttpOperationResponse) { }
+    constructor(private _response: HttpOperationResponse) {}
     public sendRequest(request: WebResource): Promise<HttpOperationResponse> {
       const response = {
         ...this._response,
@@ -23,7 +23,7 @@ describe("ExponentialRetryPolicy", () => {
   // Return response with the given status code on first sendRequest()
   class FailFirstRequestPolicy {
     public count = 0;
-    constructor(private _response: HttpOperationResponse, private statusCode: number) { }
+    constructor(private _response: HttpOperationResponse, private statusCode: number) {}
     public sendRequest(request: WebResource): Promise<HttpOperationResponse> {
       this.count++;
       if (this.count === 1) {
@@ -117,8 +117,8 @@ describe("ExponentialRetryPolicy", () => {
         const response = {
           status: code,
           request: request,
-          headers: new HttpHeaders(),
-        }
+          headers: new HttpHeaders()
+        };
         const faultyPolicy = new FailFirstRequestPolicy(response, code);
         const policy = new ExponentialRetryPolicy(
           faultyPolicy,
@@ -129,7 +129,7 @@ describe("ExponentialRetryPolicy", () => {
         );
 
         const result = await policy.sendRequest(request);
-        assert.equal(result.status, code, "Unexpected response status code")
+        assert.equal(result.status, code, "Unexpected response status code");
         assert.equal(faultyPolicy.count, 1, "Retry should NOT have happened");
       });
     });
@@ -138,7 +138,7 @@ describe("ExponentialRetryPolicy", () => {
       it(`should return after max retry count for retriable status code ${code}`, async () => {
         class FailEveryRequestPolicy {
           public count = 0;
-          constructor(private code: number) { }
+          constructor(private code: number) {}
           public sendRequest(_request: WebResource): Promise<HttpOperationResponse> {
             this.count++;
             const response = {

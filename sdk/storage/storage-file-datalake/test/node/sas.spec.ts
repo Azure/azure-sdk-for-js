@@ -62,10 +62,7 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     ).toString();
 
     const sasClient = `${serviceClient.url}?${sas}`;
-    const serviceClientWithSAS = new DataLakeServiceClient(
-      sasClient,
-      newPipeline(new AnonymousCredential())
-    );
+    const serviceClientWithSAS = new DataLakeServiceClient(sasClient, newPipeline());
 
     await serviceClientWithSAS.listFileSystems().next();
   });

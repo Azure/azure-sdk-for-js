@@ -302,12 +302,11 @@ export function isJSONLikeObject(value: any): boolean {
  * @internal
  * @ignore
  * Helper utility to retrieve message count details from given input,
- * or undefined if not passed in.
  * @param value
  */
-export function getCountDetailsOrUndefined(value: any): MessageCountDetails | undefined {
+export function getMessageCountDetails(value: any): MessageCountDetails {
   if (value == undefined) {
-    return undefined;
+    value = {};
   }
   return {
     activeMessageCount: parseInt(value["d2p1:ActiveMessageCount"]) || 0,
@@ -335,7 +334,7 @@ export type MessageCountDetails = {
 export type AuthorizationRule = {
   claimType: string;
   claimValue: string;
-  rights: { accessRights?: string[] };
+  accessRights?: ("Manage" | "Send" | "Listen")[];
   keyName: string;
   primaryKey?: string;
   secondaryKey?: string;
@@ -386,19 +385,14 @@ function buildAuthorizationRule(value: any): AuthorizationRule {
   const authorizationRule: AuthorizationRule = {
     claimType: value["ClaimType"],
     claimValue: value["ClaimValue"],
-    rights: {
-      accessRights: accessRights
-    },
+    accessRights,
     keyName: value["KeyName"],
     primaryKey: value["PrimaryKey"],
     secondaryKey: value["SecondaryKey"]
   };
 
-  if (
-    authorizationRule.rights.accessRights &&
-    !Array.isArray(authorizationRule.rights.accessRights)
-  ) {
-    authorizationRule.rights.accessRights = [authorizationRule.rights.accessRights];
+  if (authorizationRule.accessRights && !Array.isArray(authorizationRule.accessRights)) {
+    authorizationRule.accessRights = [authorizationRule.accessRights];
   }
   return authorizationRule;
 }
@@ -453,7 +447,7 @@ function buildRawAuthorizationRule(authorizationRule: AuthorizationRule): any {
     ClaimType: authorizationRule.claimType,
     ClaimValue: authorizationRule.claimValue,
     Rights: {
-      AccessRights: authorizationRule.rights.accessRights
+      AccessRights: authorizationRule.accessRights
     },
     KeyName: authorizationRule.keyName,
     PrimaryKey: authorizationRule.primaryKey,
@@ -584,4 +578,26 @@ export function checkAndRegisterWithAbortSignal(
   abortSignal.addEventListener("abort", onAbort);
 
   return () => abortSignal.removeEventListener("abort", onAbort);
+}
+
+/**
+ * @internal
+ * @ignore
+ * @property {string} libInfo The user agent prefix string for the ServiceBus client.
+ * See guideline at https://azure.github.io/azure-sdk/general_azurecore.html#telemetry-policy
+ */
+export const libInfo: string = `azsdk-js-azureservicebus/${Constants.packageJsonInfo.version}`;
+
+/**
+ * @internal
+ * @ignore
+ * Returns the formatted prefix by removing the spaces, by appending the libInfo.
+ *
+ * @param {string} [prefix]
+ * @returns {string}
+ */
+export function formatUserAgentPrefix(prefix?: string): string {
+  let userAgentPrefix = `${(prefix || "").replace(" ", "")}`;
+  userAgentPrefix = userAgentPrefix.length > 0 ? userAgentPrefix + " " : "";
+  return `${userAgentPrefix}${libInfo}`;
 }

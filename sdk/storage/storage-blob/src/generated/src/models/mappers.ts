@@ -465,8 +465,8 @@ export const BlobPropertiesInternal: coreHttp.CompositeMapper = {
         }
       },
       isSealed: {
-        xmlName: "IsSealed",
-        serializedName: "IsSealed",
+        xmlName: "Sealed",
+        serializedName: "Sealed",
         type: {
           name: "Boolean"
         }

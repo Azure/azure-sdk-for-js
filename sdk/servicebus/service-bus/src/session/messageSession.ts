@@ -1,13 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import {
-  Constants,
-  ErrorNameConditionMapper,
-  Func,
-  MessagingError,
-  translate
-} from "@azure/core-amqp";
+import { Constants, ErrorNameConditionMapper, MessagingError, translate } from "@azure/core-amqp";
 import {
   AmqpError,
   EventContext,
@@ -17,25 +11,24 @@ import {
   ReceiverEvents,
   ReceiverOptions
 } from "rhea-promise";
-import { ClientEntityContext } from "../clientEntityContext";
+import { ConnectionContext } from "../connectionContext";
 import { LinkEntity } from "../core/linkEntity";
 import { DispositionStatusOptions } from "../core/managementClient";
-import {
-  OnAmqpEventAsPromise,
-  OnError,
-  OnMessage,
-  PromiseLike,
-  ReceiverHelper
-} from "../core/messageReceiver";
+import { OnAmqpEventAsPromise, OnError, OnMessage } from "../core/messageReceiver";
 import * as log from "../log";
-import { DispositionType, ReceiveMode, ServiceBusMessageImpl } from "../serviceBusMessage";
+import { DispositionType, InternalReceiveMode, ServiceBusMessageImpl } from "../serviceBusMessage";
 import { throwErrorIfConnectionClosed } from "../util/errors";
 import { calculateRenewAfterDuration, convertTicksToDate } from "../util/utils";
-import { getRemainingWaitTimeInMsFn } from "../core/batchingReceiver";
+import { BatchingReceiverLite, MinimalReceiver } from "../core/batchingReceiver";
+import { onMessageSettled, DeferredPromiseAndTimer } from "../core/shared";
+import { AbortSignalLike } from "@azure/abort-controller";
+import { ReceiverHelper } from "../core/receiverHelper";
+import { CreateSessionReceiverOptions, MessageHandlerOptionsBase } from "../models";
 
 /**
  * Describes the options that need to be provided while creating a message session receiver link.
  * @internal
+ * @ignore
  */
 export interface CreateMessageSessionReceiverLinkOptions {
   onClose: OnAmqpEventAsPromise;
@@ -47,62 +40,27 @@ export interface CreateMessageSessionReceiverLinkOptions {
 }
 
 /**
- * Describes the options passed to the `createReceiver` method when using a Queue/Subscription that
- * has sessions enabled.
- */
-export interface SessionReceiverOptions {
-  /**
-   * @property The id of the session from which messages need to be received. If null or undefined is
-   * provided, Service Bus chooses a random session from available sessions.
-   */
-  sessionId?: string;
-  /**
-   * @property The maximum duration in milliseconds
-   * until which, the lock on the session will be renewed automatically by the sdk.
-   * - **Default**: `300000` milliseconds (5 minutes).
-   * - **To disable autolock renewal**, set this to `0`.
-   */
-  autoRenewLockDurationInMs?: number;
-}
-
-/**
- * Describes the options passed to `registerMessageHandler` method when receiving messages from a
- * Queue/Subscription which has sessions enabled.
- */
-export interface SessionMessageHandlerOptions {
-  /**
-   * @property Indicates whether the `complete()` method on the message should automatically be
-   * called by the sdk after the user provided onMessage handler has been executed.
-   * Calling `complete()` on a message removes it from the Queue/Subscription.
-   * - **Default**: `true`.
-   */
-  autoComplete?: boolean;
-  /**
-   * @property The maximum number of concurrent calls that the library
-   * can make to the user's message handler. Once this limit has been reached, more messages will
-   * not be received until atleast one of the calls to the user's message handler has completed.
-   * - **Default**: `1`.
-   */
-  maxConcurrentCalls?: number;
-}
-
-/**
  * @internal
+ * @ignore
  * Describes all the options that can be set while instantiating a MessageSession object.
  */
-export type MessageSessionOptions = SessionReceiverOptions & {
-  receiveMode?: ReceiveMode;
+export type MessageSessionOptions = Pick<
+  CreateSessionReceiverOptions<"receiveAndDelete">,
+  "sessionId" | "maxAutoRenewLockDurationInMs" | "abortSignal"
+> & {
+  receiveMode?: InternalReceiveMode;
 };
 
 /**
  * @internal
+ * @ignore
  * Describes the receiver for a Message Session.
  */
-export class MessageSession extends LinkEntity {
+export class MessageSession extends LinkEntity<Receiver> {
   /**
    * @property {Date} [sessionLockedUntilUtc] Provides the duration until which the session is locked.
    */
-  sessionLockedUntilUtc?: Date;
+  sessionLockedUntilUtc!: Date;
   /**
    * @property {string} [providedSessionId] The sessionId provided in the MessageSessionOptions. Empty string is valid sessionId.
    */
@@ -128,7 +86,7 @@ export class MessageSession extends LinkEntity {
    * @property {number} [receiveMode] The mode in which messages should be received.
    * Default: ReceiveMode.peekLock
    */
-  receiveMode: ReceiveMode;
+  receiveMode: InternalReceiveMode;
   /**
    * @property {boolean} autoComplete Indicates whether `Message.complete()` should be called
    * automatically after the message processing is complete while receiving messages with handlers.
@@ -150,17 +108,22 @@ export class MessageSession extends LinkEntity {
   /**
    * Denotes if we are currently receiving messages
    */
-  isReceivingMessages: boolean;
-  /**
-   * @property {Receiver} [_receiver] The AMQP receiver link.
-   */
-  private _receiver?: Receiver;
+  get isReceivingMessages(): boolean {
+    return this._batchingReceiverLite.isReceivingMessages || this._isReceivingMessagesForSubscriber;
+  }
+
+  private _batchingReceiverLite: BatchingReceiverLite;
+  private _isReceivingMessagesForSubscriber: boolean;
+
   /**
    * @property {Map<number, Promise<any>>} _deliveryDispositionMap Maintains a map of deliveries that
    * are being actively disposed. It acts as a store for correlating the responses received for
    * active dispositions.
    */
-  private _deliveryDispositionMap: Map<number, PromiseLike> = new Map<number, PromiseLike>();
+  private _deliveryDispositionMap: Map<number, DeferredPromiseAndTimer> = new Map<
+    number,
+    DeferredPromiseAndTimer
+  >();
   /**
    * @property {OnMessage} _onMessage The message handler provided by the user that will
    * be wrapped inside _onAmqpMessage.
@@ -225,7 +188,7 @@ export class MessageSession extends LinkEntity {
       Date.now() < this._totalAutoLockRenewDuration &&
       this.isOpen()
     ) {
-      const connectionId = this._context.namespace.connectionId;
+      const connectionId = this._context.connectionId;
       const nextRenewalTimeout = calculateRenewAfterDuration(this.sessionLockedUntilUtc!);
       this._sessionLockRenewalTimer = setTimeout(async () => {
         try {
@@ -236,12 +199,12 @@ export class MessageSession extends LinkEntity {
             this.sessionId,
             this.name
           );
-          this.sessionLockedUntilUtc = await this._context.managementClient!.renewSessionLock(
-            this.sessionId,
-            {
+          this.sessionLockedUntilUtc = await this._context
+            .getManagementClient(this._entityPath)
+            .renewSessionLock(this.sessionId, {
+              associatedLinkName: this.name,
               timeoutInMs: 10000
-            }
-          );
+            });
           log.receiver(
             "[%s] Successfully renewed the session lock for MessageSession '%s' " +
               "with name '%s'.",
@@ -259,7 +222,7 @@ export class MessageSession extends LinkEntity {
           log.error(
             "[%s] An error occurred while renewing the session lock for MessageSession " +
               "'%s' with name '%s': %O",
-            this._context.namespace.connectionId,
+            this._context.connectionId,
             this.sessionId,
             this.name,
             err
@@ -269,7 +232,7 @@ export class MessageSession extends LinkEntity {
       log.messageSession(
         "[%s] MessageSession '%s' with name '%s', has next session lock renewal " +
           "in %d milliseconds @(%s).",
-        this._context.namespace.connectionId,
+        this._context.connectionId,
         this.sessionId,
         this.name,
         nextRenewalTimeout,
@@ -278,126 +241,99 @@ export class MessageSession extends LinkEntity {
     }
   }
 
-  /**
-   * Deletes the MessageSession from the internal cache.
-   */
-  private _deleteFromCache(): void {
-    this._receiver = undefined;
-    delete this._context.messageSessions[this.sessionId];
-    log.error(
-      "[%s] Deleted the receiver '%s' with sessionId '%s' from the client cache.",
-      this._context.namespace.connectionId,
-      this.name,
-      this.sessionId
-    );
+  protected createRheaLink(
+    options: ReceiverOptions,
+    _abortSignal?: AbortSignalLike
+  ): Promise<Receiver> {
+    return this._context.connection.createReceiver(options);
   }
 
   /**
    * Creates a new AMQP receiver under a new AMQP session.
    */
-  private async _init(): Promise<void> {
-    const connectionId = this._context.namespace.connectionId;
+  private async _init(abortSignal?: AbortSignalLike): Promise<void> {
+    const connectionId = this._context.connectionId;
     try {
-      if (!this.isOpen() && !this.isConnecting) {
-        log.error(
-          "[%s] The receiver '%s' with address '%s' is not open and is not currently " +
-            "establishing itself. Hence let's try to connect.",
-          connectionId,
-          this.name,
-          this.address
-        );
-        this.isConnecting = true;
-        await this._negotiateClaim();
+      const options = this._createMessageSessionOptions();
+      await this.initLink(options, abortSignal);
 
-        const options = this._createMessageSessionOptions();
-
-        log.error(
-          "[%s] Trying to create receiver '%s' with options %O",
-          connectionId,
-          this.name,
-          options
-        );
-
-        this._receiver = await this._context.namespace.connection.createReceiver(options);
-        this.isConnecting = false;
-        const receivedSessionId =
-          this._receiver.source &&
-          this._receiver.source.filter &&
-          this._receiver.source.filter[Constants.sessionFilterName];
-
-        let errorMessage: string = "";
-        // SB allows a sessionId with empty string value :)
-
-        if (this.providedSessionId == null && receivedSessionId == null) {
-          // Ideally this code path should never be reached as `MessageSession.createReceiver()` should fail instead
-          // TODO: https://github.com/Azure/azure-sdk-for-js/issues/9775 to figure out why this code path indeed gets hit.
-          errorMessage = `No unlocked sessions were available`;
-        } else if (this.providedSessionId != null && receivedSessionId !== this.providedSessionId) {
-          // This code path is reached if the session is already locked by another receiver.
-          // TODO: Check why the service would not throw an error or just timeout instead of giving a misleading successful receiver
-          errorMessage = `Failed to get a lock on the session ${this.providedSessionId}`;
-        }
-
-        if (errorMessage) {
-          const error = translate({
-            description: errorMessage,
-            condition: ErrorNameConditionMapper.SessionCannotBeLockedError
-          });
-          log.error("[%s] %O", this._context.namespace.connectionId, error);
-          throw error;
-        }
-        if (this.providedSessionId == null) this.sessionId = receivedSessionId;
-        this.sessionLockedUntilUtc = convertTicksToDate(
-          this._receiver.properties["com.microsoft:locked-until-utc"]
-        );
-        log.messageSession(
-          "[%s] Session with id '%s' is locked until: '%s'.",
-          connectionId,
-          this.sessionId,
-          this.sessionLockedUntilUtc.toISOString()
-        );
-        log.error(
-          "[%s] Receiver '%s' for sessionId '%s' has established itself.",
-          connectionId,
-          this.name,
-          this.sessionId
-        );
-        log.messageSession(
-          "Promise to create the receiver resolved. " + "Created receiver with name: ",
-          this.name
-        );
-        log.messageSession(
-          "[%s] Receiver '%s' created with receiver options: %O",
-          connectionId,
-          this.name,
-          options
-        );
-        if (!this._context.messageSessions[this.sessionId]) {
-          this._context.messageSessions[this.sessionId] = this;
-        }
-        this._totalAutoLockRenewDuration = Date.now() + this.maxAutoRenewDurationInMs;
-        this._ensureTokenRenewal();
-        this._ensureSessionLockRenewal();
-      } else {
-        log.error(
-          "[%s] The receiver '%s' for sessionId '%s' is open -> %s and is connecting " +
-            "-> %s. Hence not reconnecting.",
-          connectionId,
-          this.name,
-          this.sessionId,
-          this.isOpen(),
-          this.isConnecting
-        );
+      if (this.link == null) {
+        throw new Error("INTERNAL ERROR: failed to create receiver but without an error.");
       }
+
+      const receivedSessionId =
+        this.link.source &&
+        this.link.source.filter &&
+        this.link.source.filter[Constants.sessionFilterName];
+
+      let errorMessage: string = "";
+
+      if (this.providedSessionId == null && receivedSessionId == null) {
+        // Ideally this code path should never be reached as `MessageSession.createReceiver()` should fail instead
+        // TODO: https://github.com/Azure/azure-sdk-for-js/issues/9775 to figure out why this code path indeed gets hit.
+        errorMessage = `Failed to create a receiver. No unlocked sessions available.`;
+      } else if (this.providedSessionId != null && receivedSessionId !== this.providedSessionId) {
+        // This code path is reached if the session is already locked by another receiver.
+        // TODO: Check why the service would not throw an error or just timeout instead of giving a misleading successful receiver
+        errorMessage = `Failed to create a receiver for the requested session '${this.providedSessionId}'. It may be locked by another receiver.`;
+      }
+
+      if (errorMessage) {
+        const error = translate({
+          description: errorMessage,
+          condition: ErrorNameConditionMapper.SessionCannotBeLockedError
+        });
+        log.error("[%s] %O", this._context.connectionId, error);
+        throw error;
+      }
+      if (this.providedSessionId == null) this.sessionId = receivedSessionId;
+      this.sessionLockedUntilUtc = convertTicksToDate(
+        this.link.properties["com.microsoft:locked-until-utc"]
+      );
+      log.messageSession(
+        "[%s] Session with id '%s' is locked until: '%s'.",
+        connectionId,
+        this.sessionId,
+        this.sessionLockedUntilUtc.toISOString()
+      );
+      log.error(
+        "[%s] Receiver '%s' for sessionId '%s' has established itself.",
+        connectionId,
+        this.name,
+        this.sessionId
+      );
+      log.messageSession(
+        "Promise to create the receiver resolved. " + "Created receiver with name: ",
+        this.name
+      );
+      log.messageSession(
+        "[%s] Receiver '%s' created with receiver options: %O",
+        connectionId,
+        this.name,
+        options
+      );
+      if (!this._context.messageSessions[this.name]) {
+        this._context.messageSessions[this.name] = this;
+      }
+      this._totalAutoLockRenewDuration = Date.now() + this.maxAutoRenewDurationInMs;
+      this._ensureSessionLockRenewal();
     } catch (err) {
-      this.isConnecting = false;
       const errObj = translate(err);
       log.error(
-        "[%s] An error occurred while creating the receiver '%s': %O",
-        this._context.namespace.connectionId,
+        "[%s] An error occured while creating the receiver '%s': %O",
+        this._context.connectionId,
         this.name,
         errObj
       );
+
+      // Fix the unhelpful error messages for the OperationTimeoutError that comes from `rhea-promise`.
+      if ((errObj as MessagingError).code === "OperationTimeoutError") {
+        if (this.providedSessionId) {
+          errObj.message = `Failed to create a receiver for the requested session '${this.providedSessionId}' within allocated time and retry attempts.`;
+        } else {
+          errObj.message = "Failed to create a receiver within allocated time and retry attempts.";
+        }
+      }
       throw errObj;
     }
   }
@@ -410,9 +346,9 @@ export class MessageSession extends LinkEntity {
       name: this.name,
       autoaccept: false,
       // receiveAndDelete -> first(0), peekLock -> second (1)
-      rcv_settle_mode: this.receiveMode === ReceiveMode.receiveAndDelete ? 0 : 1,
+      rcv_settle_mode: this.receiveMode === InternalReceiveMode.receiveAndDelete ? 0 : 1,
       // receiveAndDelete -> settled (1), peekLock -> unsettled (0)
-      snd_settle_mode: this.receiveMode === ReceiveMode.receiveAndDelete ? 1 : 0,
+      snd_settle_mode: this.receiveMode === InternalReceiveMode.receiveAndDelete ? 1 : 0,
       source: {
         address: this.address,
         filter: {}
@@ -434,63 +370,45 @@ export class MessageSession extends LinkEntity {
     return rcvrOptions;
   }
 
-  constructor(context: ClientEntityContext, options?: MessageSessionOptions) {
-    super(context.entityPath, context, {
-      address: context.entityPath,
-      audience: `${context.namespace.config.endpoint}${context.entityPath}`
+  constructor(
+    context: ConnectionContext,
+    private _entityPath: string,
+    options?: MessageSessionOptions
+  ) {
+    super(_entityPath, context, "ms", {
+      address: _entityPath,
+      audience: `${context.config.endpoint}${_entityPath}`
     });
-    this._context.isSessionEnabled = true;
-    this.isReceivingMessages = false;
-    this._receiverHelper = new ReceiverHelper(() => this._receiver);
+    this._receiverHelper = new ReceiverHelper(() => this.link);
     if (!options) options = { sessionId: undefined };
     this.autoComplete = false;
     this.providedSessionId = options.sessionId;
     if (this.providedSessionId != undefined) this.sessionId = this.providedSessionId;
-    this.receiveMode = options.receiveMode || ReceiveMode.peekLock;
+    this.receiveMode = options.receiveMode || InternalReceiveMode.peekLock;
     this.maxAutoRenewDurationInMs =
-      options.autoRenewLockDurationInMs != null ? options.autoRenewLockDurationInMs : 300 * 1000;
+      options.maxAutoRenewLockDurationInMs != null
+        ? options.maxAutoRenewLockDurationInMs
+        : 300 * 1000;
     this._totalAutoLockRenewDuration = Date.now() + this.maxAutoRenewDurationInMs;
     this.autoRenewLock =
-      this.maxAutoRenewDurationInMs > 0 && this.receiveMode === ReceiveMode.peekLock;
+      this.maxAutoRenewDurationInMs > 0 && this.receiveMode === InternalReceiveMode.peekLock;
+
+    this._isReceivingMessagesForSubscriber = false;
+    this._batchingReceiverLite = new BatchingReceiverLite(
+      context,
+      _entityPath,
+      async (_abortSignal?: AbortSignalLike): Promise<MinimalReceiver> => {
+        return this.link!;
+      },
+      this.receiveMode
+    );
 
     // setting all the handlers
     this._onSettled = (context: EventContext) => {
-      const connectionId = this._context.namespace.connectionId;
+      const connectionId = this._context.connectionId;
       const delivery = context.delivery;
-      if (delivery) {
-        const id = delivery.id;
-        const state = delivery.remote_state;
-        const settled = delivery.remote_settled;
-        log.receiver(
-          "[%s] Delivery with id %d, remote_settled: %s, remote_state: %o has been " + "received.",
-          connectionId,
-          id,
-          settled,
-          state && state.error ? state.error : state
-        );
-        if (settled && this._deliveryDispositionMap.has(id)) {
-          const promise = this._deliveryDispositionMap.get(id) as PromiseLike;
-          clearTimeout(promise.timer);
-          log.receiver(
-            "[%s] Found the delivery with id %d in the map and cleared the timer.",
-            connectionId,
-            id
-          );
-          const deleteResult = this._deliveryDispositionMap.delete(id);
-          log.receiver(
-            "[%s] Successfully deleted the delivery with id %d from the map.",
-            connectionId,
-            id,
-            deleteResult
-          );
-          if (state && state.error && (state.error.condition || state.error.description)) {
-            const error = translate(state.error);
-            return promise.reject(error);
-          }
 
-          return promise.resolve();
-        }
-      }
+      onMessageSettled(connectionId, delivery, this._deliveryDispositionMap);
     };
 
     this._notifyError = (error: MessagingError | Error) => {
@@ -499,14 +417,14 @@ export class MessageSession extends LinkEntity {
         log.error(
           "[%s] Notified the user's error handler about the error received by the " +
             "Receiver '%s'.",
-          this._context.namespace.connectionId,
+          this._context.connectionId,
           this.name
         );
       }
     };
 
     this._onAmqpError = (context: EventContext) => {
-      const connectionId = this._context.namespace.connectionId;
+      const connectionId = this._context.connectionId;
       const receiverError = context.receiver && context.receiver.error;
       if (receiverError) {
         const sbError = translate(receiverError) as MessagingError;
@@ -524,7 +442,7 @@ export class MessageSession extends LinkEntity {
     };
 
     this._onSessionError = (context: EventContext) => {
-      const connectionId = this._context.namespace.connectionId;
+      const connectionId = this._context.connectionId;
       const sessionError = context.session && context.session.error;
       if (sessionError) {
         const sbError = translate(sessionError);
@@ -539,9 +457,9 @@ export class MessageSession extends LinkEntity {
     };
 
     this._onAmqpClose = async (context: EventContext) => {
-      const connectionId = this._context.namespace.connectionId;
+      const connectionId = this._context.connectionId;
       const receiverError = context.receiver && context.receiver.error;
-      const receiver = this._receiver || context.receiver!;
+      const receiver = this.link || context.receiver!;
       if (receiverError) {
         const sbError = translate(receiverError) as MessagingError;
         log.error(
@@ -586,8 +504,8 @@ export class MessageSession extends LinkEntity {
     };
 
     this._onSessionClose = async (context: EventContext) => {
-      const connectionId = this._context.namespace.connectionId;
-      const receiver = this._receiver || context.receiver!;
+      const connectionId = this._context.connectionId;
+      const receiver = this.link || context.receiver!;
       const sessionError = context.session && context.session.error;
       if (sessionError) {
         const sbError = translate(sessionError);
@@ -639,30 +557,21 @@ export class MessageSession extends LinkEntity {
    */
   async close(): Promise<void> {
     try {
-      log.messageSession(
-        "[%s] Closing the MessageSession '%s' for queue '%s'.",
-        this._context.namespace.connectionId,
-        this.sessionId,
-        this.name
-      );
-
-      this.isReceivingMessages = false;
+      this._isReceivingMessagesForSubscriber = false;
       if (this._sessionLockRenewalTimer) clearTimeout(this._sessionLockRenewalTimer);
       log.messageSession(
         "[%s] Cleared the timers for 'no new message received' task and " +
           "'session lock renewal' task.",
-        this._context.namespace.connectionId
+        this._context.connectionId
       );
 
-      if (this._receiver) {
-        const receiverLink = this._receiver;
-        this._deleteFromCache();
-        await this._closeLink(receiverLink);
-      }
+      await super.close();
+
+      await this._batchingReceiverLite.close();
     } catch (err) {
       log.error(
         "[%s] An error occurred while closing the message session with id '%s': %O.",
-        this._context.namespace.connectionId,
+        this._context.connectionId,
         this.sessionId,
         err
       );
@@ -673,10 +582,10 @@ export class MessageSession extends LinkEntity {
    * Determines whether the AMQP receiver link is open. If open then returns true else returns false.
    */
   isOpen(): boolean {
-    const result: boolean = this._receiver! && this._receiver!.isOpen();
+    const result: boolean = this.link! && this.link!.isOpen();
     log.messageSession(
       "[%s] Receiver '%s' for sessionId '%s' is open? -> %s",
-      this._context.namespace.connectionId,
+      this._context.connectionId,
       this.name,
       this.sessionId,
       result
@@ -698,9 +607,9 @@ export class MessageSession extends LinkEntity {
    *
    * @returns void
    */
-  receive(onMessage: OnMessage, onError: OnError, options?: SessionMessageHandlerOptions): void {
+  subscribe(onMessage: OnMessage, onError: OnError, options?: MessageHandlerOptionsBase): void {
     if (!options) options = {};
-    this.isReceivingMessages = true;
+    this._isReceivingMessagesForSubscriber = true;
     if (typeof options.maxConcurrentCalls === "number" && options.maxConcurrentCalls > 0) {
       this.maxConcurrentCalls = options.maxConcurrentCalls;
     }
@@ -709,15 +618,15 @@ export class MessageSession extends LinkEntity {
     this.autoComplete = options.autoComplete === false ? options.autoComplete : true;
     this._onMessage = onMessage;
     this._onError = onError;
-    const connectionId = this._context.namespace.connectionId;
+    const connectionId = this._context.connectionId;
 
-    if (this._receiver && this._receiver.isOpen()) {
+    if (this.link && this.link.isOpen()) {
       const onSessionMessage = async (context: EventContext): Promise<void> => {
         // If the receiver got closed in PeekLock mode, avoid processing the message as we
         // cannot settle the message.
         if (
-          this.receiveMode === ReceiveMode.peekLock &&
-          (!this._receiver || !this._receiver.isOpen())
+          this.receiveMode === InternalReceiveMode.peekLock &&
+          (!this.link || !this.link.isOpen())
         ) {
           log.error(
             "[%s] Not calling the user's message handler for the current message " +
@@ -728,7 +637,14 @@ export class MessageSession extends LinkEntity {
           return;
         }
 
-        const bMessage = this._getServiceBusMessage(context);
+        const bMessage = new ServiceBusMessageImpl(
+          this._context,
+          this._entityPath,
+          context.message!,
+          context.delivery!,
+          true,
+          this.receiveMode
+        );
 
         try {
           await this._onMessage(bMessage);
@@ -750,7 +666,7 @@ export class MessageSession extends LinkEntity {
           // Nothing much to do if user's message handler throws. Let us try abandoning the message.
           if (
             !bMessage.delivery.remote_settled &&
-            this.receiveMode === ReceiveMode.peekLock &&
+            this.receiveMode === InternalReceiveMode.peekLock &&
             this.isOpen() // only try to abandon the messages if the connection is still open
           ) {
             try {
@@ -778,14 +694,14 @@ export class MessageSession extends LinkEntity {
           }
           return;
         } finally {
-          this._receiverHelper.addCredit(1);
+          this.receiverHelper.addCredit(1);
         }
 
         // If we've made it this far, then user's message handler completed fine. Let us try
         // completing the message.
         if (
           this.autoComplete &&
-          this.receiveMode === ReceiveMode.peekLock &&
+          this.receiveMode === InternalReceiveMode.peekLock &&
           !bMessage.delivery.remote_settled
         ) {
           try {
@@ -811,15 +727,15 @@ export class MessageSession extends LinkEntity {
         }
       };
       // setting the "message" event listener.
-      this._receiver.on(ReceiverEvents.message, onSessionMessage);
+      this.link.on(ReceiverEvents.message, onSessionMessage);
       // adding credit
-      this._receiverHelper.addCredit(this.maxConcurrentCalls);
+      this.receiverHelper.addCredit(this.maxConcurrentCalls);
     } else {
-      this.isReceivingMessages = false;
+      this._isReceivingMessagesForSubscriber = false;
       const msg =
         `MessageSession with sessionId '${this.sessionId}' and name '${this.name}' ` +
         `has either not been created or is not open.`;
-      log.error("[%s] %s", this._context.namespace.connectionId, msg);
+      log.error("[%s] %s", this._context.connectionId, msg);
       this._notifyError(new Error(msg));
     }
   }
@@ -836,173 +752,25 @@ export class MessageSession extends LinkEntity {
   async receiveMessages(
     maxMessageCount: number,
     maxWaitTimeInMs: number,
-    maxTimeAfterFirstMessageMs: number
+    maxTimeAfterFirstMessageInMs: number,
+    userAbortSignal?: AbortSignalLike
   ): Promise<ServiceBusMessageImpl[]> {
-    const brokeredMessages: ServiceBusMessageImpl[] = [];
-    this.isReceivingMessages = true;
-
-    const getRemainingWaitTimeInMs = this._getRemainingWaitTimeInMsFn(
-      maxWaitTimeInMs,
-      maxTimeAfterFirstMessageMs
-    );
-
-    return new Promise<ServiceBusMessageImpl[]>((resolve, reject) => {
-      let totalWaitTimer: any;
-
-      // Action to be performed on the "receiver_drained" event.
-      const onReceiveDrain: OnAmqpEvent = () => {
-        this._receiver!.removeListener(ReceiverEvents.receiverDrained, onReceiveDrain);
-        this._receiver!.drain = false;
-
-        this.isReceivingMessages = false;
-
-        log.messageSession(
-          "[%s] Receiver '%s' drained. Resolving receiveMessages() with %d messages.",
-          this._context.namespace.connectionId,
-          this.name,
-          brokeredMessages.length
-        );
-
-        resolve(brokeredMessages);
-      };
-
-      // Action to be performed after the max wait time is over.
-      const actionAfterWaitTimeout: Func<void, void> = (): void => {
-        log.batching(
-          "[%s] Batching Receiver '%s'  max wait time in milliseconds %d over.",
-          this._context.namespace.connectionId,
-          this.name,
-          maxWaitTimeInMs
-        );
-        return finalAction();
-      };
-
-      // Action to be performed on the "message" event.
-      const onReceiveMessage: OnAmqpEventAsPromise = async (context: EventContext) => {
-        // TODO: this appears to be aggravating a bug that we need to look into more deeply.
-        // The same timeout+drain sequence should work fine for receiveAndDelete but it appears
-        // to cause problems.
-        if (this.receiveMode === ReceiveMode.peekLock) {
-          if (brokeredMessages.length === 0) {
-            // We'll now remove the old timer (which was the overall `maxWaitTimeMs` timer)
-            // and replace it with another timer that is a (probably) much shorter interval.
-            //
-            // This allows the user to get access to received messages earlier and also gives us
-            // a chance to have fewer messages internally that could get lost if the user's
-            // app crashes in receiveAndDelete mode.
-            if (totalWaitTimer) clearTimeout(totalWaitTimer);
-
-            totalWaitTimer = setTimeout(actionAfterWaitTimeout, getRemainingWaitTimeInMs());
-          }
-        }
-
-        try {
-          const data = this._getServiceBusMessage(context);
-
-          if (brokeredMessages.length < maxMessageCount) {
-            brokeredMessages.push(data);
-          }
-        } catch (err) {
-          // Removing listeners, so that the next receiveMessages() call can set them again.
-          if (this._receiver) {
-            this._receiver.removeListener(ReceiverEvents.message, onReceiveMessage);
-            this._receiver.removeListener(ReceiverEvents.receiverDrained, onReceiveDrain);
-          }
-
-          log.error(
-            "[%s] Receiver '%s' received an error while converting AmqpMessage to ServiceBusMessage:\n%O",
-            this._context.namespace.connectionId,
-            this.name,
-            err
-          );
-          reject(err instanceof Error ? err : new Error(JSON.stringify(err)));
-        }
-        if (brokeredMessages.length === maxMessageCount) {
-          finalAction();
-        }
-      };
-
-      this._onError = (error: MessagingError | Error) => {
-        this.isReceivingMessages = false;
-        if (totalWaitTimer) {
-          clearTimeout(totalWaitTimer);
-        }
-        // Removing listeners, so that the next receiveMessages() call can set them again.
-        if (this._receiver) {
-          this._receiver.removeListener(ReceiverEvents.message, onReceiveMessage);
-          this._receiver.removeListener(ReceiverEvents.receiverDrained, onReceiveDrain);
-        }
-        reject(error);
-      };
-
-      // Final action to be performed after maxMessageCount is reached or the maxWaitTime is over.
-      const finalAction = (): void => {
-        if (totalWaitTimer) {
-          clearTimeout(totalWaitTimer);
-        }
-
-        // Removing listeners, so that the next receiveMessages() call can set them again.
-        if (this._receiver) {
-          this._receiver.removeListener(ReceiverEvents.message, onReceiveMessage);
-        }
-
-        if (this._receiver && this._receiver.credit > 0) {
-          log.messageSession(
-            "[%s] Receiver '%s': Draining leftover credits(%d).",
-            this._context.namespace.connectionId,
-            this.name,
-            this._receiver.credit
-          );
-
-          // Setting drain must be accompanied by a flow call (aliased to addCredit in this case).
-          this._receiver.drain = true;
-          this._receiver.addCredit(1);
-        } else {
-          if (this._receiver) {
-            this._receiver.removeListener(ReceiverEvents.receiverDrained, onReceiveDrain);
-          }
-
-          this.isReceivingMessages = false;
-          log.messageSession(
-            "[%s] Receiver '%s': Resolving receiveMessages() with %d messages.",
-            this._context.namespace.connectionId,
-            this.name,
-            brokeredMessages.length
-          );
-          resolve(brokeredMessages);
-        }
-      };
-
-      const addCreditAndSetTimer = (reuse?: boolean): void => {
-        log.batching(
-          "[%s] Receiver '%s', adding credit for receiving %d messages.",
-          this._context.namespace.connectionId,
-          this.name,
-          maxMessageCount
-        );
-        // By adding credit here, we let the service know that at max we can handle `maxMessageCount`
-        // number of messages concurrently. We will return the user an array of messages that can
-        // be of size upto maxMessageCount. Then the user needs to accordingly dispose
-        // (complete,/abandon/defer/deadletter) the messages from the array.
-        this._receiverHelper.addCredit(maxMessageCount);
-        let msg: string = "[%s] Setting the wait timer for %d milliseconds for receiver '%s'.";
-        if (reuse) msg += " Receiver link already present, hence reusing it.";
-        log.batching(msg, this._context.namespace.connectionId, maxWaitTimeInMs, this.name);
-        totalWaitTimer = setTimeout(actionAfterWaitTimeout, maxWaitTimeInMs);
-      };
-
-      if (this.isOpen()) {
-        addCreditAndSetTimer(true);
-        this._receiver!.on(ReceiverEvents.message, onReceiveMessage);
-        this._receiver!.on(ReceiverEvents.receiverDrained, onReceiveDrain);
-      } else {
-        const msg =
-          `MessageSession "${this.name}" with sessionId "${this.sessionId}", ` +
-          `is already closed. Hence cannot receive messages in a batch.`;
-        log.error("[%s] %s", this._context.namespace.connectionId, msg);
-        reject(new Error(msg));
-      }
-    });
+    try {
+      return await this._batchingReceiverLite.receiveMessages({
+        maxMessageCount,
+        maxWaitTimeInMs,
+        maxTimeAfterFirstMessageInMs,
+        userAbortSignal
+      });
+    } catch (error) {
+      log.error(
+        "[%s] Receiver '%s': Rejecting receiveMessages() with error %O: ",
+        this._context.connectionId,
+        this.name,
+        error
+      );
+      throw error;
+    }
   }
 
   /**
@@ -1027,7 +795,7 @@ export class MessageSession extends LinkEntity {
         log.receiver(
           "[%s] Disposition for delivery id: %d, did not complete in %d milliseconds. " +
             "Hence rejecting the promise with timeout error",
-          this._context.namespace.connectionId,
+          this._context.connectionId,
           delivery.id,
           Constants.defaultOperationTimeoutInMs
         );
@@ -1073,29 +841,19 @@ export class MessageSession extends LinkEntity {
     });
   }
 
-  private _getServiceBusMessage(context: EventContext): ServiceBusMessageImpl {
-    return new ServiceBusMessageImpl(this._context, context.message!, context.delivery!, true);
-  }
-
-  private _getRemainingWaitTimeInMsFn(
-    maxWaitTimeInMs: number,
-    maxTimeAfterFirstMessageInMs: number
-  ): () => number {
-    return getRemainingWaitTimeInMsFn(maxWaitTimeInMs, maxTimeAfterFirstMessageInMs);
-  }
-
   /**
    * Creates a new instance of the MessageSession based on the provided parameters.
    * @param context The client entity context
    * @param options Options that can be provided while creating the MessageSession.
    */
   static async create(
-    context: ClientEntityContext,
+    context: ConnectionContext,
+    entityPath: string,
     options?: MessageSessionOptions
   ): Promise<MessageSession> {
-    throwErrorIfConnectionClosed(context.namespace);
-    const messageSession = new MessageSession(context, options);
-    await messageSession._init();
+    throwErrorIfConnectionClosed(context);
+    const messageSession = new MessageSession(context, entityPath, options);
+    await messageSession._init(options?.abortSignal);
     return messageSession;
   }
 }

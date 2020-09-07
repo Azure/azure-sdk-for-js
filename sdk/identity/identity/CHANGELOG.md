@@ -1,8 +1,38 @@
 # Release History
 
-## 1.1.0-preview.5 (Unreleased)
+## 1.2.0-beta.1 (2020-09-08)
+
+- A new `InteractiveBrowserCredential` for node which will spawn a web server, start a web browser, and allow the user to interactively authenticate with the browser.
+- With 1.2.0-beta.1, Identity will now use [MSAL](https://www.npmjs.com/package/@azure/msal-node) to perform authentication. With this beta, DeviceCodeCredential and a new InteractiveBrowserCredential for node are powered by MSAL.
+- Identity now supports Subject Name/Issuer (SNI) as part of authentication for ClientCertificateCredential
+- Upgraded App Services MSI API version
+
+## 1.1.0 (2020-08-11)
+
+### Changes since 1.0.*
+
+- With 1.1.0, new developer credentials are now available: `VisualStudioCodeCredential` and `AzureCliCredential`.
+  - `VisualStudioCodeCredential` allows developers to log into Azure using the credentials available after logging in through the Azure Account extension in Visual Studio Code.
+  - `AzureCliCredential` allows developers to log into Azure using the login credentials after an "az login" call.
+- Both `VisualStudioCodeCredential` and `AzureCliCredential` may be used directly or indirectly as part of `DefaultAzureCredential`.
+- Added the ability to configure the Managed Identity with a user-assigned client ID via a new option available in the `DefaultAzureCredential` constructor options: `managedIdentityClientId`.
+- Made a list of known authorities is now available via a new top-level constant: `AzureAuthorityHosts`.
+- Introduced the `CredentialUnavailable` error, which allows developers to differentiate between a credential not being available and an error happening during authentication.
+
+### Changes since the latest 1.1-preview
+
+- Renamed the `VSCodeCredential` to `VisualStudioCodeCredential`, and its options parameter from `VSCodeCredentialOptions` to `VisualStudioCodeCredentialOptions`.
+- Tenant information is now loaded from the Visual Studio Code settings file when the `VisualStudioCodeCredential` is used.
+- Added `managedIdentityClientId` to optionally pass in a user-assigned client ID for the `ManagedIdentityCredential`.
+
+## 1.1.0-preview.5 (2020-07-22)
+
+- Make the keytar dependency optional, allowing for building and running on platforms not supported by keytar [PR #10142](https://github.com/Azure/azure-sdk-for-js/pull/10142)
+- DefaultAzureCredential and VSCodeCredential can now take a tenant id as part of the options object
+- KnownAuthorityHosts has been renamed to AzureAuthorityHosts
 
 ## 1.1.0-preview.4 (2020-06-09)
+
 - Switch to using CredentialUnavailable to differentiate from expected and unexpected errors during DefaultAzureCredential startup. [PR #8172](https://github.com/Azure/azure-sdk-for-js/pull/8127)
 - Make all developer credentials public as well as the list used by DefaultAzureCredential [PR #9274](https://github.com/Azure/azure-sdk-for-js/pull/9274)
 

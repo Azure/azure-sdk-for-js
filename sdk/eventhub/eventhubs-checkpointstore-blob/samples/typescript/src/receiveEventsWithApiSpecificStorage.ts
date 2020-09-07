@@ -6,7 +6,7 @@
   of a consumer group in an Event Hubs instance, as well as checkpointing - synonymous with persisting
   your event offsets - along the way.
 
-  This sample uses the `ApiSpecificContainerClient` to use a specific version of the Storage Blob service.
+  This sample uses the `createCustomPipeline` function to override the targetted version of the Storage Blob service.
 
   Checkpointing using a durable store allows your application to be more resilient. When you restart
   your application after a crash (or an intentional stop), your application can continue consuming
@@ -21,18 +21,26 @@
 
 import { EventHubConsumerClient, CheckpointStore } from "@azure/event-hubs";
 import { BlobCheckpointStore } from "@azure/eventhubs-checkpointstore-blob";
-import { ApiSpecificContainerClient } from "./apiSpecificContainerClient";
+import { ContainerClient, StorageSharedKeyCredential } from "@azure/storage-blob";
+import { createCustomPipeline } from "./createCustomPipeline";
 
-const connectionString = "";
-const eventHubName = "";
-const storageConnectionString = "";
-const containerName = "";
-const consumerGroup = "";
+const connectionString =
+  process.env["EVENT_HUB_CONNECTION_STRING"] || "<event-hub-connection-string>";
+const eventHubName = process.env["EVENT_HUB_NAME"] || "<eventHubName>";
+const consumerGroup =
+  process.env["EVENT_HUB_CONSUMER_GROUP"] || EventHubConsumerClient.defaultConsumerGroupName;
+const storageContainerUrl =
+  process.env["STORAGE_CONTAINER_URL"] ||
+  "https://<storageaccount>.blob.core.windows.net/<containername>";
+const storageAccountName = process.env["STORAGE_ACCOUNT_NAME"] || "<storageaccount>";
+const storageAccountKey = process.env["STORAGE_ACCOUNT_KEY"] || "<key>";
 
 async function main() {
-  // This client will be used by our eventhubs-checkpointstore-blob, which
+  // The `containerClient` will be used by our eventhubs-checkpointstore-blob, which
   // persists any checkpoints from this session in Azure Storage.
-  const containerClient = new ApiSpecificContainerClient(storageConnectionString, containerName);
+  const storageCredential = new StorageSharedKeyCredential(storageAccountName, storageAccountKey);
+  const storageContainerPipeline = createCustomPipeline(storageCredential);
+  const containerClient = new ContainerClient(storageContainerUrl, storageContainerPipeline);
 
   if (!containerClient.exists()) {
     await containerClient.create();

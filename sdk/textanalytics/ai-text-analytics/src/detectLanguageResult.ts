@@ -53,4 +53,3 @@ export function makeDetectLanguageErrorResult(
 ): DetectLanguageErrorResult {
   return makeTextAnalyticsErrorResult(id, error);
 }
-

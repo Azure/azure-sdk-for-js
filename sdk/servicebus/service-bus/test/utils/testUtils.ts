@@ -25,7 +25,8 @@ export class TestMessage {
       properties: {
         propOne: 1,
         propTwo: "two",
-        propThree: true
+        propThree: true,
+        propFour: Date()
       }
     };
   }
@@ -35,7 +36,7 @@ export class TestMessage {
     return {
       body: `message body ${randomNumber}`,
       messageId: `message id ${randomNumber}`,
-      partitionKey: `partition key ${randomNumber}`,
+      partitionKey: TestMessage.sessionId,
       contentType: `content type ${randomNumber}`,
       correlationId: `correlation id ${randomNumber}`,
       timeToLive: 60 * 60 * 24,

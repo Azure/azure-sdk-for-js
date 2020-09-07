@@ -16,9 +16,7 @@
   located here: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/eventhub/event-hubs/samples/sendEvents.ts
 */
 
-import {
-  EventHubConsumerClient, CheckpointStore,
-} from "@azure/event-hubs";
+import { EventHubConsumerClient, CheckpointStore } from "@azure/event-hubs";
 
 import { ContainerClient } from "@azure/storage-blob";
 import { BlobCheckpointStore } from "@azure/eventhubs-checkpointstore-blob";
@@ -30,42 +28,55 @@ const containerName = "";
 const consumerGroup = "";
 
 async function main() {
-  // this client will be used by our eventhubs-checkpointstore-blob, which 
+  // this client will be used by our eventhubs-checkpointstore-blob, which
   // persists any checkpoints from this session in Azure Storage
   const containerClient = new ContainerClient(storageConnectionString, containerName);
 
-  if (!containerClient.exists()) {
+  if (!(await containerClient.exists())) {
     await containerClient.create();
   }
 
-  const checkpointStore : CheckpointStore = new BlobCheckpointStore(containerClient);
+  const checkpointStore: CheckpointStore = new BlobCheckpointStore(containerClient);
 
-
-  const consumerClient = new EventHubConsumerClient(consumerGroup, connectionString, eventHubName, checkpointStore);
-   
-  const subscription = consumerClient.subscribe({
-      processEvents: async (events, context) => {
-        for (const event of events) {
-          console.log(`Received event: '${event.body}' from partition: '${context.partitionId}' and consumer group: '${context.consumerGroup}'`);
-        }
-    
-        try {
-          // save a checkpoint for the last event now that we've processed this batch.
-          await context.updateCheckpoint(events[events.length - 1]);
-        } catch (err) {
-          console.log(`Error when checkpointing on partition ${context.partitionId}: `, err);
-          throw err;
-        };
-
-        console.log(
-          `Successfully checkpointed event with sequence number: ${events[events.length - 1].sequenceNumber} from partition: 'partitionContext.partitionId'`
-        );
-      },
-      processError: async (err, context) => {
-        console.log(`Error : ${err}`);
-      }
-    }
+  const consumerClient = new EventHubConsumerClient(
+    consumerGroup,
+    connectionString,
+    eventHubName,
+    checkpointStore
   );
+
+  const subscription = consumerClient.subscribe({
+    processEvents: async (events, context) => {
+      if (events.length === 0) {
+        // If the wait time expires (configured via options in maxWaitTimeInSeconds) Event Hubs
+        // will pass you an empty array.
+        return;
+      }
+
+      for (const event of events) {
+        console.log(
+          `Received event: '${event.body}' from partition: '${context.partitionId}' and consumer group: '${context.consumerGroup}'`
+        );
+      }
+
+      try {
+        // save a checkpoint for the last event now that we've processed this batch.
+        await context.updateCheckpoint(events[events.length - 1]);
+      } catch (err) {
+        console.log(`Error when checkpointing on partition ${context.partitionId}: `, err);
+        throw err;
+      }
+
+      console.log(
+        `Successfully checkpointed event with sequence number: ${
+          events[events.length - 1].sequenceNumber
+        } from partition: 'partitionContext.partitionId'`
+      );
+    },
+    processError: async (err, context) => {
+      console.log(`Error : ${err}`);
+    }
+  });
 
   // after 30 seconds, stop processing
   await new Promise((resolve) => {

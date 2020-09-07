@@ -22,7 +22,15 @@ export * from "./credentials/Credential";
 export * from "./credentials/StorageSharedKeyCredential";
 export { SasIPRange } from "./SasIPRange";
 export { Range } from "./Range";
-export { BlockBlobTier, PremiumPageBlobTier, Tags } from "./models";
+export {
+  BlockBlobTier,
+  PremiumPageBlobTier,
+  Tags,
+  BlobDownloadResponseParsed,
+  ObjectReplicationPolicy,
+  ObjectReplicationRule,
+  ObjectReplicationStatus
+} from "./models";
 export * from "./Pipeline";
 export * from "./policies/AnonymousCredentialPolicy";
 export * from "./policies/CredentialPolicy";
@@ -35,7 +43,12 @@ export {
   AppendBlobRequestConditions,
   BlobRequestConditions,
   Metadata,
-  PageBlobRequestConditions
+  PageBlobRequestConditions,
+  TagConditions,
+  ContainerRequestConditions,
+  ModificationConditions,
+  MatchConditions,
+  ModifiedAccessConditions
 } from "./models";
 export { RestError };
 export {

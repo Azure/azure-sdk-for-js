@@ -11,7 +11,7 @@ The Azure resource that is used by the tests in this project is:
 To run the live tests, you will also need to set the below environment variables:
 
 - `TEST_MODE`: Should have `live` assigned.
-- `AZ_CONFIG_CONNECTION`: The connection string of your Azure App Configuration account.
+- `APPCONFIG_CONNECTION_STRING`: The connection string of your Azure App Configuration account.
 - `AZ_CONFIG_ENDPOINT`: The endpoint of your Azure App Configuration account.
 - `AZURE_CLIENT_ID`: The client ID of an Azure Active Directory application.
 - `AZURE_CLIENT_SECRET`: The client secret of an Azure Active Directory application.

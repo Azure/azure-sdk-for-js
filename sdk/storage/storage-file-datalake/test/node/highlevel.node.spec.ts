@@ -485,7 +485,8 @@ describe("Highlevel Node.js only", () => {
     fs.unlinkSync(tempFileEmpty);
   });
 
-  it("uploadFile with chunkSize = FILE_UPLOAD_MAX_CHUNK_SIZE should succeed", async () => {
+  // Skipped since creating large file (~8GB) may take too long in live tests pipeline.
+  it.skip("uploadFile with chunkSize = FILE_UPLOAD_MAX_CHUNK_SIZE should succeed", async () => {
     recorder.skip("node", "Temp file - recorder doesn't support saving the file");
     const fileSize = FILE_UPLOAD_MAX_CHUNK_SIZE * 2 + MB;
     const tempFile = await createRandomLocalFile(tempFolderPath, fileSize / MB, MB);
@@ -495,13 +496,14 @@ describe("Highlevel Node.js only", () => {
         abortSignal: AbortController.timeout(20 * 1000) // takes too long to upload the file
       });
     } catch (err) {
-      assert.equal(err.name, 'AbortError');
+      assert.equal(err.name, "AbortError");
     }
 
     fs.unlinkSync(tempFile);
   }).timeout(timeoutForLargeFileUploadingTest);
 
-  // Skipped because it throw "invalid typed array length" error. Probably due to bugs underlying.
+  // Skipped because it throws an "invalid typed array length" error due to bugs in node-fetch.
+  // https://github.com/Azure/azure-sdk-for-js/issues/9481
   it.skip("upload with chunkSize = FILE_UPLOAD_MAX_CHUNK_SIZE should succeed", async () => {
     const fileSize = FILE_UPLOAD_MAX_CHUNK_SIZE * 2 + MB;
     const arrayBuf = new ArrayBuffer(fileSize);
@@ -511,7 +513,7 @@ describe("Highlevel Node.js only", () => {
         abortSignal: AbortController.timeout(20 * 1000) // takes too long to upload the file
       });
     } catch (err) {
-      assert.equal(err.name, 'AbortError');
+      assert.equal(err.name, "AbortError");
     }
   }).timeout(timeoutForLargeFileUploadingTest);
 

@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
 import { HttpRequestBody, isNode, TokenCredential } from "@azure/core-http";
-import { BlobClient } from "@azure/storage-blob";
+import { BlobClient, BlockBlobClient } from "@azure/storage-blob";
 import { CanonicalCode } from "@opentelemetry/api";
 
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
@@ -54,7 +54,8 @@ import {
   PathCreateIfNotExistsResponse,
   PathDeleteIfExistsResponse,
   DirectoryCreateIfNotExistsResponse,
-  FileCreateIfNotExistsResponse
+  FileCreateIfNotExistsResponse,
+  FileQueryOptions
 } from "./models";
 import { newPipeline, Pipeline, StoragePipelineOptions } from "./Pipeline";
 import { StorageClient } from "./StorageClient";
@@ -76,7 +77,7 @@ import {
   BLOCK_BLOB_MAX_BLOCKS,
   ETagAny
 } from "./utils/constants";
-import { BufferScheduler } from "./utils/BufferScheduler";
+import { BufferScheduler } from "../../storage-common/src";
 import { Batch } from "./utils/Batch";
 import { fsStat, fsCreateReadStream } from "./utils/utils.node";
 
@@ -930,13 +931,13 @@ export class DataLakeFileClient extends DataLakePathClient {
   private pathContextInternal: PathOperations;
 
   /**
-   * blobClientInternal provided by @azure/storage-blob package.
+   * blockBlobClientInternal provided by @azure/storage-blob package.
    *
    * @private
-   * @type {BlobClient}
+   * @type {BlockBlobClient}
    * @memberof DataLakeFileClient
    */
-  private blobClientInternal: BlobClient;
+  private blockBlobClientInternal: BlockBlobClient;
 
   /**
    * Creates an instance of DataLakeFileClient from url and credential.
@@ -990,7 +991,7 @@ export class DataLakeFileClient extends DataLakePathClient {
     }
 
     this.pathContextInternal = new PathOperations(this.storageClientContext);
-    this.blobClientInternal = new BlobClient(this.blobEndpointUrl, this.pipeline);
+    this.blockBlobClientInternal = new BlockBlobClient(this.blobEndpointUrl, this.pipeline);
   }
 
   /**
@@ -1183,7 +1184,7 @@ export class DataLakeFileClient extends DataLakePathClient {
   ): Promise<FileReadResponse> {
     const { span, spanOptions } = createSpan("DataLakeFileClient-read", options.tracingOptions);
     try {
-      const rawResponse = await this.blobClientInternal.download(offset, count, {
+      const rawResponse = await this.blockBlobClientInternal.download(offset, count, {
         ...options,
         tracingOptions: { ...options.tracingOptions, spanOptions }
       });
@@ -1570,15 +1571,15 @@ export class DataLakeFileClient extends DataLakePathClient {
         stream,
         options.chunkSize,
         options.maxConcurrency,
-        async (buffer: Buffer, offset?: number) => {
-          await this.append(buffer, offset!, buffer.length, {
+        async (body, length, offset) => {
+          await this.append(body, offset!, length, {
             abortSignal: options.abortSignal,
             conditions: options.conditions,
             tracingOptions: { ...options!.tracingOptions, spanOptions }
           });
 
           // Update progress after block is successfully uploaded to server, in case of block trying
-          transferProgress += buffer.length;
+          transferProgress += length;
           if (options.onProgress) {
             options.onProgress({ loadedBytes: transferProgress });
           }
@@ -1680,14 +1681,14 @@ export class DataLakeFileClient extends DataLakePathClient {
     );
     try {
       if (buffer) {
-        return await this.blobClientInternal.downloadToBuffer(buffer, offset, count, {
+        return await this.blockBlobClientInternal.downloadToBuffer(buffer, offset, count, {
           ...options,
           maxRetryRequestsPerBlock: options.maxRetryRequestsPerChunk,
           blockSize: options.chunkSize,
           tracingOptions: { ...options!.tracingOptions, spanOptions }
         });
       } else {
-        return await this.blobClientInternal.downloadToBuffer(offset, count, {
+        return await this.blockBlobClientInternal.downloadToBuffer(offset, count, {
           ...options,
           maxRetryRequestsPerBlock: options.maxRetryRequestsPerChunk,
           blockSize: options.chunkSize,
@@ -1733,10 +1734,69 @@ export class DataLakeFileClient extends DataLakePathClient {
       options.tracingOptions
     );
     try {
-      return await this.blobClientInternal.downloadToFile(filePath, offset, count, {
+      return await this.blockBlobClientInternal.downloadToFile(filePath, offset, count, {
         ...options,
         tracingOptions: { ...options!.tracingOptions, spanOptions }
       });
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Quick query for a JSON or CSV formatted file.
+   *
+   * Example usage (Node.js):
+   *
+   * ```js
+   * // Query and convert a file to a string
+   * const queryResponse = await fileClient.query("select * from BlobStorage");
+   * const downloaded = (await streamToBuffer(queryResponse.readableStreamBody)).toString();
+   * console.log("Query file content:", downloaded);
+   *
+   * async function streamToBuffer(readableStream) {
+   *   return new Promise((resolve, reject) => {
+   *     const chunks = [];
+   *     readableStream.on("data", (data) => {
+   *       chunks.push(data instanceof Buffer ? data : Buffer.from(data));
+   *     });
+   *     readableStream.on("end", () => {
+   *       resolve(Buffer.concat(chunks));
+   *     });
+   *     readableStream.on("error", reject);
+   *   });
+   * }
+   * ```
+   *
+   * @param {string} query
+   * @param {FileQueryOptions} [options={}]
+   * @returns {Promise<FileReadResponse>}
+   * @memberof DataLakeFileClient
+   */
+  public async query(query: string, options: FileQueryOptions = {}): Promise<FileReadResponse> {
+    const { span, spanOptions } = createSpan("DataLakeFileClient-query", options.tracingOptions);
+
+    try {
+      const rawResponse = await this.blockBlobClientInternal.query(query, {
+        ...options,
+        tracingOptions: { ...options.tracingOptions, spanOptions }
+      });
+      const response = rawResponse as FileReadResponse;
+      if (!isNode && !response.contentAsBlob) {
+        response.contentAsBlob = rawResponse.blobBody;
+      }
+      response.fileContentMD5 = rawResponse.blobContentMD5;
+      response._response.parsedHeaders.fileContentMD5 =
+        rawResponse._response.parsedHeaders.blobContentMD5;
+      delete rawResponse.blobContentMD5;
+      delete rawResponse._response.parsedHeaders.blobContentMD5;
+      return response;
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,

@@ -8,30 +8,44 @@ const assert = chai.assert;
 
 import { MessageSender } from "../../src/core/messageSender";
 import { OperationOptionsBase } from "../../src/modelsToBeSharedWithEventHubs";
-import { AwaitableSender, delay } from "rhea-promise";
+import { AwaitableSender, delay, ReceiverOptions } from "rhea-promise";
 import { ServiceBusMessageBatchImpl } from "../../src/serviceBusMessageBatch";
-import { MessageReceiver, ReceiverType } from "../../src/core/messageReceiver";
+import { StreamingReceiver } from "../../src/core/streamingReceiver";
 import {
   createAbortSignalForTest,
   createCountdownAbortSignal
 } from "../utils/abortSignalTestUtils";
-import { createClientEntityContextForTests } from "./unittestUtils";
+import { createConnectionContextForTests } from "./unittestUtils";
 import { StandardAbortMessage } from "../../src/util/utils";
+import { isLinkLocked } from "../utils/misc";
 
 describe("AbortSignal", () => {
   const testMessageThatDoesntMatter = {
     body: "doesn't matter"
   };
 
+  let closeables: { close(): Promise<void> }[];
+
+  beforeEach(() => {
+    closeables = [];
+  });
+
+  afterEach(async () => {
+    for (const closeable of closeables) {
+      await closeable.close();
+    }
+  });
+
   describe("sender", () => {
-    let clientEntityContext: ReturnType<typeof createClientEntityContextForTests>;
+    let connectionContext: ReturnType<typeof createConnectionContextForTests>;
 
     beforeEach(() => {
-      clientEntityContext = createClientEntityContextForTests();
+      connectionContext = createConnectionContextForTests();
     });
 
     it("AbortSignal is plumbed through all send operations", async () => {
-      const sender = new MessageSender(clientEntityContext, {});
+      const sender = new MessageSender(connectionContext, "fakeEntityPath", {});
+      closeables.push(sender);
 
       let passedInOptions: OperationOptionsBase | undefined;
 
@@ -49,7 +63,7 @@ describe("AbortSignal", () => {
 
       abortSignal = createAbortSignalForTest(false);
 
-      const batchMessage = new ServiceBusMessageBatchImpl(clientEntityContext, 1000);
+      const batchMessage = new ServiceBusMessageBatchImpl(connectionContext, 1000);
       await sender.sendBatch(batchMessage, {
         abortSignal
       });
@@ -64,7 +78,8 @@ describe("AbortSignal", () => {
     });
 
     it("_trySend with an already aborted AbortSignal", async () => {
-      const sender = new MessageSender(clientEntityContext, { timeoutInMs: 1 });
+      const sender = new MessageSender(connectionContext, "fakeEntityPath", { timeoutInMs: 1 });
+      closeables.push(sender);
 
       sender["open"] = async () => {
         throw new Error("INIT SHOULD NEVER HAVE BEEN CALLED");
@@ -85,19 +100,21 @@ describe("AbortSignal", () => {
         assert.isFalse(abortSignal.removeWasCalled);
 
         // init() doesn't get called - we abort early on this one.
-        assert.isFalse(clientEntityContext.initWasCalled);
+        assert.isFalse(connectionContext.initWasCalled);
       }
     });
 
     it("_trySend when the timer expires", async () => {
-      const sender = new MessageSender(clientEntityContext, {
+      const sender = new MessageSender(connectionContext, "fakeEntityPath", {
         timeoutInMs: 1
       });
+      closeables.push(sender);
+
       sender["_retryOptions"].timeoutInMs = 1;
       sender["_retryOptions"].maxRetries = 1;
       sender["_retryOptions"].retryDelayInMs = 1;
 
-      sender["_sender"] = {
+      sender["_link"] = {
         credit: 999,
         isOpen: () => false,
         session: {
@@ -136,7 +153,9 @@ describe("AbortSignal", () => {
 
   describe("MessageSender.open() aborts after...", () => {
     it("...beforeLock", async () => {
-      const sender = new MessageSender(createClientEntityContextForTests(), {});
+      const sender = new MessageSender(createConnectionContextForTests(), "fakeEntityPath", {});
+      closeables.push(sender);
+
       const abortSignal = createCountdownAbortSignal(1);
 
       try {
@@ -147,11 +166,13 @@ describe("AbortSignal", () => {
         assert.equal(err.name, "AbortError");
       }
 
-      assert.isFalse(sender.isConnecting);
+      assert.isFalse(isLinkLocked(sender));
     });
 
     it("...afterLock", async () => {
-      const sender = new MessageSender(createClientEntityContextForTests(), {});
+      const sender = new MessageSender(createConnectionContextForTests(), "fakeEntityPath", {});
+      closeables.push(sender);
+
       const abortSignal = createCountdownAbortSignal(2);
 
       try {
@@ -162,7 +183,7 @@ describe("AbortSignal", () => {
         assert.equal(err.name, "AbortError");
       }
 
-      assert.isFalse(sender.isConnecting);
+      assert.isFalse(isLinkLocked(sender));
     });
 
     it("...negotiateClaim", async () => {
@@ -170,11 +191,13 @@ describe("AbortSignal", () => {
       const taggedAbortSignal = createAbortSignalForTest(() => isAborted);
 
       const sender = new MessageSender(
-        createClientEntityContextForTests({
+        createConnectionContextForTests({
           onCreateAwaitableSenderCalled: () => {}
         }),
+        "fakeEntityPath",
         {}
       );
+      closeables.push(sender);
 
       sender["_negotiateClaim"] = async () => {
         isAborted = true;
@@ -188,7 +211,7 @@ describe("AbortSignal", () => {
         assert.equal(err.name, "AbortError");
       }
 
-      assert.isFalse(sender.isConnecting);
+      assert.isFalse(isLinkLocked(sender));
     });
 
     it("...createAwaitableSender", async () => {
@@ -196,13 +219,15 @@ describe("AbortSignal", () => {
       const taggedAbortSignal = createAbortSignalForTest(() => isAborted);
 
       const sender = new MessageSender(
-        createClientEntityContextForTests({
+        createConnectionContextForTests({
           onCreateAwaitableSenderCalled: () => {
             isAborted = true;
           }
         }),
+        "fakeEntityPath",
         {}
       );
+      closeables.push(sender);
 
       sender["_negotiateClaim"] = async () => {};
 
@@ -214,35 +239,37 @@ describe("AbortSignal", () => {
         assert.equal(err.name, "AbortError");
       }
 
-      assert.isFalse(sender.isConnecting);
+      assert.isFalse(isLinkLocked(sender));
     });
   });
 
   describe("MessageReceiver.open() aborts after...", () => {
     it("...before first async call", async () => {
-      const messageReceiver = new MessageReceiver(
-        createClientEntityContextForTests(),
-        ReceiverType.streaming
+      const messageReceiver = new StreamingReceiver(
+        createConnectionContextForTests(),
+        "fakeEntityPath"
       );
+      closeables.push(messageReceiver);
 
       const abortSignal = createCountdownAbortSignal(1);
 
       try {
-        await messageReceiver["_init"](undefined, abortSignal);
+        await messageReceiver["_init"]({} as ReceiverOptions, abortSignal);
         assert.fail("Should have thrown an AbortError");
       } catch (err) {
         assert.equal(err.message, StandardAbortMessage);
         assert.equal(err.name, "AbortError");
       }
 
-      assert.isFalse(messageReceiver.isConnecting);
+      assert.isFalse(isLinkLocked(messageReceiver));
     });
 
     it("...after negotiateClaim", async () => {
-      const messageReceiver = new MessageReceiver(
-        createClientEntityContextForTests(),
-        ReceiverType.streaming
+      const messageReceiver = new StreamingReceiver(
+        createConnectionContextForTests(),
+        "fakeEntityPath"
       );
+      closeables.push(messageReceiver);
 
       let isAborted = false;
       const abortSignal = createAbortSignalForTest(() => isAborted);
@@ -252,38 +279,39 @@ describe("AbortSignal", () => {
       };
 
       try {
-        await messageReceiver["_init"](undefined, abortSignal);
+        await messageReceiver["_init"]({} as ReceiverOptions, abortSignal);
         assert.fail("Should have thrown an AbortError");
       } catch (err) {
         assert.equal(err.message, StandardAbortMessage);
         assert.equal(err.name, "AbortError");
       }
 
-      assert.isFalse(messageReceiver.isConnecting);
+      assert.isFalse(isLinkLocked(messageReceiver));
     });
 
     it("...after createReceiver", async () => {
       let isAborted = false;
       const abortSignal = createAbortSignalForTest(() => isAborted);
 
-      const fakeContext = createClientEntityContextForTests({
+      const fakeContext = createConnectionContextForTests({
         onCreateReceiverCalled: () => {
           isAborted = true;
         }
       });
-      const messageReceiver = new MessageReceiver(fakeContext, ReceiverType.streaming);
+      const messageReceiver = new StreamingReceiver(fakeContext, "fakeEntityPath");
+      closeables.push(messageReceiver);
 
       messageReceiver["_negotiateClaim"] = async () => {};
 
       try {
-        await messageReceiver["_init"](undefined, abortSignal);
+        await messageReceiver["_init"]({} as ReceiverOptions, abortSignal);
         assert.fail("Should have thrown an AbortError");
       } catch (err) {
         assert.equal(err.message, StandardAbortMessage);
         assert.equal(err.name, "AbortError");
       }
 
-      assert.isFalse(messageReceiver.isConnecting);
+      assert.isFalse(isLinkLocked(messageReceiver));
     });
   });
 });

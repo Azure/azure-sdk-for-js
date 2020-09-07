@@ -5,6 +5,24 @@ export { StatusCodes } from "./common";
 export { extractPartitionKey } from "./extractPartitionKey";
 export { setAuthorizationTokenHeaderUsingMasterKey } from "./auth";
 export {
+  Operation,
+  OperationResponse,
+  CreateOperation,
+  UpsertOperation,
+  ReplaceOperation,
+  DeleteOperation,
+  ReadOperation,
+  OperationBase,
+  OperationWithItem,
+  OperationInput,
+  BulkOperationType,
+  CreateOperationInput,
+  UpsertOperationInput,
+  ReplaceOperationInput,
+  ReadOperationInput,
+  DeleteOperationInput
+} from "./utils/batch";
+export {
   ConnectionMode,
   ConsistencyLevel,
   ConnectionPolicy,
@@ -27,6 +45,8 @@ export {
   UserDefinedFunctionType
 } from "./documents";
 
+export { UniqueKeyPolicy, UniqueKey } from "./client/Container/UniqueKeyPolicy";
+export { ContainerRequest } from "./client/Container/ContainerRequest";
 export { Constants, OperationType, ResourceType, HTTPMethod } from "./common";
 export { RetryOptions } from "./retry";
 export * from "./request";

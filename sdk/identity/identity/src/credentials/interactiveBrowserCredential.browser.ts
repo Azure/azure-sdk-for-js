@@ -1,5 +1,5 @@
 // Copyright (c) Microsoft Corporation.
-// Licensed under the MIT License.
+// Licensed under the MIT license.
 
 import * as msal from "msal";
 import { AccessToken, TokenCredential, GetTokenOptions } from "@azure/core-http";
@@ -11,7 +11,9 @@ import {
 import { createSpan } from "../util/tracing";
 import { CanonicalCode } from "@opentelemetry/api";
 import { DefaultTenantId, DeveloperSignOnClientId } from "../constants";
-import { logger } from "../util/logging";
+import { credentialLogger, formatSuccess, formatError } from "../util/logging";
+
+const logger = credentialLogger("InteractiveBrowserCredential");
 
 /**
  * Enables authentication to Azure Active Directory inside of the web browser
@@ -45,7 +47,9 @@ export class InteractiveBrowserCredential implements TokenCredential {
 
     this.loginStyle = options.loginStyle || "popup";
     if (["redirect", "popup"].indexOf(this.loginStyle) === -1) {
-      throw new Error(`Invalid loginStyle: ${options.loginStyle}`);
+      const error = new Error(`Invalid loginStyle: ${options.loginStyle}`);
+      logger.info(formatError(error));
+      throw error;
     }
 
     this.msalConfig = {
@@ -83,7 +87,7 @@ export class InteractiveBrowserCredential implements TokenCredential {
   ): Promise<msal.AuthResponse | undefined> {
     let authResponse: msal.AuthResponse | undefined;
     try {
-      logger.info("InteractiveBrowserCredential: attempting to acquire token silently");
+      logger.info("Attempting to acquire token silently");
       authResponse = await this.msalObject.acquireTokenSilent(authParams);
     } catch (err) {
       if (err instanceof msal.AuthError) {
@@ -91,12 +95,10 @@ export class InteractiveBrowserCredential implements TokenCredential {
           case "consent_required":
           case "interaction_required":
           case "login_required":
-            logger.warning(
-              `InteractiveBrowserCredential: authentication returned errorCode ${err.errorCode}`
-            );
+            logger.info(`Authentication returned errorCode ${err.errorCode}`);
             break;
           default:
-            logger.warning(`InteractiveBrowserCredential: failed to acquire token: ${err}`);
+            logger.info(formatError(`Failed to acquire token: ${err.message}`));
             throw err;
         }
       }
@@ -104,8 +106,8 @@ export class InteractiveBrowserCredential implements TokenCredential {
 
     let authPromise: Promise<msal.AuthResponse> | undefined;
     if (authResponse === undefined) {
-      logger.warning(
-        `InteractiveBrowserCredential: silent authentication failed, falling back to interactive method ${this.loginStyle}`
+      logger.info(
+        `Silent authentication failed, falling back to interactive method ${this.loginStyle}`
       );
       switch (this.loginStyle) {
         case "redirect":
@@ -150,11 +152,13 @@ export class InteractiveBrowserCredential implements TokenCredential {
       });
 
       if (authResponse) {
+        logger.getToken.info(formatSuccess(scopes));
         return {
           token: authResponse.accessToken,
           expiresOnTimestamp: authResponse.expiresOn.getTime()
         };
       } else {
+        logger.getToken.info("No response");
         return null;
       }
     } catch (err) {
@@ -162,6 +166,7 @@ export class InteractiveBrowserCredential implements TokenCredential {
         code: CanonicalCode.UNKNOWN,
         message: err.message
       });
+      logger.getToken.info(formatError(err));
       throw err;
     } finally {
       span.end();

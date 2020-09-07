@@ -207,6 +207,11 @@ export interface ActiveDirectory {
    * The Active Directory site the service will limit Domain Controller discovery to
    */
   site?: string;
+  /**
+   * Users to be added to the Built-in Backup Operator active directory group. A list of unique
+   * usernames without domain specifier
+   */
+  backupOperators?: string[];
 }
 
 /**
@@ -394,11 +399,11 @@ export interface ExportPolicyRule {
    */
   cifs?: boolean;
   /**
-   * Allows NFSv3 protocol
+   * Allows NFSv3 protocol. Enable only for NFSv3 type volumes
    */
   nfsv3?: boolean;
   /**
-   * Allows NFSv4.1 protocol
+   * Allows NFSv4.1 protocol. Enable only for NFSv4.1 type volumes
    */
   nfsv41?: boolean;
   /**
@@ -491,6 +496,16 @@ export interface ReplicationObject {
 }
 
 /**
+ * Volume Snapshot Properties
+ */
+export interface VolumeSnapshotProperties {
+  /**
+   * Snapshot Policy ResourceId
+   */
+  snapshotPolicyId?: string;
+}
+
+/**
  * DataProtection type volumes include an object containing details of the replication
  * @summary DataProtection
  */
@@ -499,6 +514,10 @@ export interface VolumePropertiesDataProtection {
    * Replication. Replication properties
    */
   replication?: ReplicationObject;
+  /**
+   * Snapshot. Snapshot properties.
+   */
+  snapshot?: VolumeSnapshotProperties;
 }
 
 /**
@@ -593,6 +612,11 @@ export interface Volume extends BaseResource {
    * Restoring
    */
   isRestoring?: boolean;
+  /**
+   * If enabled (true) the volume will contain a read-only .snapshot directory which provides
+   * access to each of the volume's snapshots (default to true).
+   */
+  snapshotDirectoryVisible?: boolean;
 }
 
 /**
@@ -772,10 +796,6 @@ export interface Snapshot extends BaseResource {
    */
   readonly snapshotId?: string;
   /**
-   * fileSystemId. UUID v4 used to identify the FileSystem
-   */
-  fileSystemId?: string;
-  /**
    * name. The creation date of the snapshot
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
@@ -845,26 +865,6 @@ export interface VolumesBeginAuthorizeReplicationOptionalParams extends msRest.R
    * Resource id of the remote volume
    */
   remoteVolumeResourceId?: string;
-}
-
-/**
- * Optional Parameters.
- */
-export interface SnapshotsCreateOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * fileSystemId UUID v4 used to identify the FileSystem
-   */
-  fileSystemId?: string;
-}
-
-/**
- * Optional Parameters.
- */
-export interface SnapshotsBeginCreateOptionalParams extends msRest.RequestOptionsBase {
-  /**
-   * fileSystemId UUID v4 used to identify the FileSystem
-   */
-  fileSystemId?: string;
 }
 
 /**
@@ -1118,6 +1118,26 @@ export type AccountsUpdateResponse = NetAppAccount & {
  * Contains response data for the beginCreateOrUpdate operation.
  */
 export type AccountsBeginCreateOrUpdateResponse = NetAppAccount & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: NetAppAccount;
+    };
+};
+
+/**
+ * Contains response data for the beginUpdate operation.
+ */
+export type AccountsBeginUpdateResponse = NetAppAccount & {
   /**
    * The underlying HTTP response.
    */

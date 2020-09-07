@@ -9,7 +9,9 @@
 export {
   Alias,
   AliasPath,
+  AliasPathMetadata,
   AliasPattern,
+  ApiProfile,
   BaseResource,
   BasicDependency,
   CloudError,

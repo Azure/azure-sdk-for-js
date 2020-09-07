@@ -1,6 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+// eslint-disable-next-line @typescript-eslint/explicit-function-return-type, @typescript-eslint/no-empty-function
 export function streamToBuffer() {}
 
 export async function getFirstFourBytesFromBlob(data: Blob): Promise<Uint8Array> {

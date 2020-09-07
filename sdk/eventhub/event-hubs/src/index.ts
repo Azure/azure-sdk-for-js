@@ -15,7 +15,7 @@ export {
   CreateBatchOptions,
   GetPartitionIdsOptions,
   GetPartitionPropertiesOptions,
-  GetEventHubPropertiesOptions,
+  GetEventHubPropertiesOptions
 } from "./models/public";
 export { EventHubConsumerClient } from "./eventHubConsumerClient";
 export { EventHubProducerClient } from "./eventHubProducerClient";
@@ -27,7 +27,7 @@ export {
   ProcessErrorHandler,
   ProcessInitializeHandler,
   ProcessCloseHandler,
-  ProcessEventsHandler,
+  ProcessEventsHandler
 } from "./eventHubConsumerClientModels";
 export { EventPosition, latestEventPosition, earliestEventPosition } from "./eventPosition";
 export { PartitionProperties, EventHubProperties } from "./managementClient";

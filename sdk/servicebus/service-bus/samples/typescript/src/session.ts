@@ -11,7 +11,7 @@
 
   Setup: To run this sample, you would need session enabled Queue/Subscription.
 
-  See https://docs.microsoft.com/en-us/azure/service-bus-messaging/message-sessions to learn about
+  See https://docs.microsoft.com/azure/service-bus-messaging/message-sessions to learn about
   sessions in Service Bus.
 */
 
@@ -80,7 +80,7 @@ async function sendMessage(sbClient: ServiceBusClient, scientist: any, sessionId
 
 async function receiveMessages(sbClient: ServiceBusClient, sessionId: string) {
   // If receiving from a subscription you can use the createSessionReceiver(topic, subscription) overload
-  const receiver = await sbClient.createSessionReceiver(queueName, "peekLock", {
+  const receiver = await sbClient.createSessionReceiver(queueName, {
     sessionId: sessionId
   });
 

@@ -68,3 +68,8 @@ export {
   UserAgentPolicyOptions
 } from "./policies/userAgentPolicy";
 export { formDataPolicy, formDataPolicyName } from "./policies/formDataPolicy";
+export {
+  bearerTokenAuthenticationPolicy,
+  BearerTokenAuthenticationPolicyOptions,
+  bearerTokenAuthenticationPolicyName
+} from "./policies/bearerTokenAuthenticationPolicy";
