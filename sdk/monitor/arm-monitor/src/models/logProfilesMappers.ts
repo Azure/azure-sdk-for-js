@@ -76,6 +76,7 @@ export {
   ScaleAction,
   ScaleCapacity,
   ScaleRule,
+  ScaleRuleMetricDimension,
   Schedule,
   SmsReceiver,
   Source,
@@ -86,5 +87,6 @@ export {
   VoiceReceiver,
   WebhookNotification,
   WebhookReceiver,
+  WebtestLocationAvailabilityCriteria,
   WorkspaceInfo
 } from "../models/mappers";
