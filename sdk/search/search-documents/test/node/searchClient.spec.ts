@@ -124,7 +124,7 @@ describe("SearchClient", function() {
     it("throws error for invalid getDocument Value", async function() {
       let errorThrown = false;
       try {
-         await searchClient.getDocument("garbxyz");
+        await searchClient.getDocument("garbxyz");
       } catch (ex) {
         errorThrown = true;
       }

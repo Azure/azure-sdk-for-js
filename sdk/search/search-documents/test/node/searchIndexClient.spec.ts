@@ -2,11 +2,11 @@
 // Licensed under the MIT license.
 
 /* eslint-disable no-invalid-this */
-import {isPlaybackMode, record, Recorder} from "@azure/test-utils-recorder";
-import {assert} from "chai";
-import {SearchIndexClient, SynonymMap, SearchIndex} from "../../src/index";
-import {Hotel} from "../utils/interfaces";
-import {createClients, environmentSetup} from "../utils/recordedClient";
+import { isPlaybackMode, record, Recorder } from "@azure/test-utils-recorder";
+import { assert } from "chai";
+import { SearchIndexClient, SynonymMap, SearchIndex } from "../../src/index";
+import { Hotel } from "../utils/interfaces";
+import { createClients, environmentSetup } from "../utils/recordedClient";
 import { createSimpleIndex, createSynonymMaps, deleteSynonymMaps, WAIT_TIME } from "../utils/setup";
 import { delay } from "@azure/core-http";
 
@@ -27,9 +27,8 @@ describe("SearchIndexClient", function() {
     }
     recorder = record(this, environmentSetup);
     // create the clients again, but hooked up to the recorder
-    ({ indexClient } = createClients<Hotel>(TEST_INDEX_NAME))
+    ({ indexClient } = createClients<Hotel>(TEST_INDEX_NAME));
   });
-
 
   afterEach(async function() {
     if (recorder) {
@@ -43,12 +42,12 @@ describe("SearchIndexClient", function() {
   });
 
   describe("#synonymmaps", function() {
-    it("gets the list of synonymmaps", async function(){
+    it("gets the list of synonymmaps", async function() {
       const synonymMaps = await indexClient.listSynonymMaps();
       assert.isAtLeast(synonymMaps.length, 2);
     });
 
-    it("gets the list of synonymmaps names", async function(){
+    it("gets the list of synonymmaps names", async function() {
       const synonymMapNames = await indexClient.listSynonymMapsNames();
       assert.isAtLeast(synonymMapNames.length, 2);
       for (let i = 1; i <= 2; i++) {
@@ -56,26 +55,29 @@ describe("SearchIndexClient", function() {
       }
     });
 
-    it("gets the correct synonymmap object", async function(){
+    it("gets the correct synonymmap object", async function() {
       const synonymMap = await indexClient.getSynonymMap("my-azure-synonymmap-1");
       assert.equal(synonymMap.name, "my-azure-synonymmap-1");
       assert.equal(synonymMap.synonyms.length, 2);
-      const synonyms = ["United States, United States of America => USA", "Washington, Wash. => WA"];
+      const synonyms = [
+        "United States, United States of America => USA",
+        "Washington, Wash. => WA"
+      ];
       assert.include(synonyms, synonymMap.synonyms[0]);
       assert.include(synonyms, synonymMap.synonyms[1]);
     });
 
-    it("throws error for invalid synonymmap object", async function(){
-      let retrievalError:boolean = false;
+    it("throws error for invalid synonymmap object", async function() {
+      let retrievalError: boolean = false;
       try {
         await indexClient.getSynonymMap("garbxyz");
-      } catch(ex) {
+      } catch (ex) {
         retrievalError = true;
       }
       assert.isTrue(retrievalError);
     });
 
-    it("creates the synonymmap object using createOrUpdateSynonymMap", async function(){
+    it("creates the synonymmap object using createOrUpdateSynonymMap", async function() {
       let synonymMap: SynonymMap = {
         name: `my-azure-synonymmap-3`,
         synonyms: ["United States, United States of America => USA", "Washington, Wash. => WA"]
@@ -85,7 +87,10 @@ describe("SearchIndexClient", function() {
         synonymMap = await indexClient.getSynonymMap("my-azure-synonymmap-3");
         assert.equal(synonymMap.name, "my-azure-synonymmap-3");
         assert.equal(synonymMap.synonyms.length, 2);
-        const synonyms = ["United States, United States of America => USA", "Washington, Wash. => WA"];
+        const synonyms = [
+          "United States, United States of America => USA",
+          "Washington, Wash. => WA"
+        ];
         assert.include(synonyms, synonymMap.synonyms[0]);
         assert.include(synonyms, synonymMap.synonyms[1]);
       } catch (ex) {
@@ -95,13 +100,17 @@ describe("SearchIndexClient", function() {
       }
     });
 
-    it("modify and updates the synonymmap object", async function(){
+    it("modify and updates the synonymmap object", async function() {
       let synonymMap = await indexClient.getSynonymMap("my-azure-synonymmap-1");
       synonymMap.synonyms.push("California, Clif. => CA");
       await indexClient.createOrUpdateSynonymMap(synonymMap);
       synonymMap = await indexClient.getSynonymMap("my-azure-synonymmap-1");
       assert.equal(synonymMap.synonyms.length, 3);
-      const synonyms = ["United States, United States of America => USA", "Washington, Wash. => WA", "California, Clif. => CA"];
+      const synonyms = [
+        "United States, United States of America => USA",
+        "Washington, Wash. => WA",
+        "California, Clif. => CA"
+      ];
       assert.include(synonyms, synonymMap.synonyms[0]);
       assert.include(synonyms, synonymMap.synonyms[1]);
       assert.include(synonyms, synonymMap.synonyms[2]);
@@ -109,10 +118,10 @@ describe("SearchIndexClient", function() {
   });
 
   describe("#indexes", function() {
-    it("gets the list of indexes", async function(){
+    it("gets the list of indexes", async function() {
       const result = await indexClient.listIndexes();
       let listOfIndexes = await result.next();
-      const indexNames:string[] = [];
+      const indexNames: string[] = [];
       while (!listOfIndexes.done) {
         indexNames.push(listOfIndexes.value.name);
         listOfIndexes = await result.next();
@@ -120,10 +129,10 @@ describe("SearchIndexClient", function() {
       assert.include(indexNames, `hotel-live-test3`);
     });
 
-    it("gets the list of indexes names", async function(){
+    it("gets the list of indexes names", async function() {
       const result = await indexClient.listIndexesNames();
       let listOfIndexNames = await result.next();
-      const indexNames:string[] = [];
+      const indexNames: string[] = [];
       while (!listOfIndexNames.done) {
         indexNames.push(listOfIndexNames.value);
         listOfIndexNames = await result.next();
@@ -131,24 +140,24 @@ describe("SearchIndexClient", function() {
       assert.include(indexNames, `hotel-live-test3`);
     });
 
-    it("gets the correct index object", async function(){
+    it("gets the correct index object", async function() {
       const index = await indexClient.getIndex(TEST_INDEX_NAME);
       assert.equal(index.name, TEST_INDEX_NAME);
       assert.equal(index.fields.length, 5);
     });
 
-    it("throws error for invalid index object", async function(){
-      let retrievalError:boolean = false;
+    it("throws error for invalid index object", async function() {
+      let retrievalError: boolean = false;
       try {
         await indexClient.getIndex("garbxyz");
-      } catch(ex) {
+      } catch (ex) {
         retrievalError = true;
       }
       assert.isTrue(retrievalError);
     });
 
-    it("creates the index object using createOrUpdateIndex", async function(){
-      let index:SearchIndex = {
+    it("creates the index object using createOrUpdateIndex", async function() {
+      let index: SearchIndex = {
         name: "hotel-live-test4",
         fields: [
           {
@@ -198,7 +207,7 @@ describe("SearchIndexClient", function() {
       }
     });
 
-    it("modify and updates the index object", async function(){
+    it("modify and updates the index object", async function() {
       let index = await indexClient.getIndex(TEST_INDEX_NAME);
       index.fields.push({
         type: "Edm.DateTimeOffset",
