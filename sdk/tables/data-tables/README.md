@@ -173,6 +173,12 @@ async function main() {
   for await (const table of tablesIter) {
     console.log(`Table${i}: ${table.tableName}`);
     i++;
+    // Output:
+    // Table1: testTable1
+    // Table1: testTable2
+    // Table1: testTable3
+    // Table1: testTable4
+    // Table1: testTable5
   }
 }
 
@@ -269,8 +275,13 @@ async function main() {
   let entitiesIter = client.listEntities();
   let i = 1;
   for await (const entity of entitiesIter) {
-    console.log(`Entity${i}: ${entity}`);
+    console.log(`Entity${i}: PartitionKey: ${entity.PartitionKey} RowKey: ${entity.RowKey}`);
     i++;
+    // Output:
+    // Entity1: PartitionKey: P1 RowKey: R1
+    // Entity2: PartitionKey: P2 RowKey: R2
+    // Entity3: PartitionKey: P3 RowKey: R3
+    // Entity4: PartitionKey: P4 RowKey: R4
   }
 }
 
@@ -279,7 +290,7 @@ main();
 
 #### Create a new entity and add it to a table
 
-You can create a new Entity in a table by through a `TableClient` instance calling the `createEntity` function. This function takes the entity to insert as a parameter. The entity must contain `PartitionKey` and `RowKey`.
+You can create a new Entity in a table by through a `TableClient` instance calling the `createEntity` function. This function takes the entity to insert as a parameter. The entity must contain `partitionKey` and `rowKey`.
 
 ```javascript
 const { TableClient, TablesSharedKeyCredential } = require("@azure/data-tables");
@@ -297,12 +308,12 @@ const client = new TableClient(
 
 async function main() {
   const testEntity = {
-      PartitionKey: "P1",
-      RowKey: "R1",
+      partitionKey: "P1",
+      rowKey: "R1",
       foo: "foo",
       bar: 123
   }
-  await client.createEntity(entity);
+  await client.createEntity(testEntity);
 }
 
 main();

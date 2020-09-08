@@ -26,5 +26,5 @@ extends:
   parameters:
     ServiceDirectory: digitaltwins
     Artifacts:
-      - name: azure-digitaltwins
+      - name: azure-digital-twins
         safeName: azuredigitaltwins

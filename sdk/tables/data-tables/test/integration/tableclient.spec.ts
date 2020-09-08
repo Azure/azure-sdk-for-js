@@ -13,8 +13,8 @@ import { isNode } from "@azure/core-http";
  *
  * 1) Have a CORS rule to allow connections from browser tests
  * 2) Have 7000 entities in total of which
- *    2.1) 1000 are in this form {foo: "testEntity"} - PartitionKey and RowKey don't have any specific requirements
- *    2.1) 1 {RowKey: "binary1", foo: Buffer.from("Bar")} - PartitionKey doesn't have any specific requirements
+ *    2.1) 1000 are in this form {foo: "testEntity"} - partitionKey and rowKey don't have any specific requirements
+ *    2.1) 1 {RowKey: "binary1", foo: Buffer.from("Bar")} - partitionKey doesn't have any specific requirements
  *
  * With Issue #10918 we'll have ARM templates that should make running live tests locally much easier
  */
@@ -37,16 +37,16 @@ describe("TableClient", () => {
     it("should createEntity with only primitives", async () => {
       type TestType = { testField: string };
       const testEntity: TableEntity<TestType> = {
-        PartitionKey: `P2_${suffix}`,
-        RowKey: "R1",
+        partitionKey: `P2_${suffix}`,
+        rowKey: "R1",
         testField: "testEntity"
       };
       const createResult = await client.createEntity(testEntity);
-      const result = await client.getEntity<TestType>(testEntity.PartitionKey, testEntity.RowKey);
+      const result = await client.getEntity<TestType>(testEntity.partitionKey, testEntity.rowKey);
 
       assert.equal(createResult._response.status, 204);
-      assert.equal(result.PartitionKey, testEntity.PartitionKey);
-      assert.equal(result.RowKey, testEntity.RowKey);
+      assert.equal(result.partitionKey, testEntity.partitionKey);
+      assert.equal(result.rowKey, testEntity.rowKey);
       assert.equal(result.testField, testEntity.testField);
     });
 
@@ -54,16 +54,16 @@ describe("TableClient", () => {
       type TestType = { testField: Date };
       const testDate = new Date(2020, 8, 17);
       const testEntity: TableEntity<TestType> = {
-        PartitionKey: `P2_${suffix}`,
-        RowKey: "R2",
+        partitionKey: `P2_${suffix}`,
+        rowKey: "R2",
         testField: testDate
       };
       const createResult = await client.createEntity(testEntity);
-      const result = await client.getEntity<TestType>(testEntity.PartitionKey, testEntity.RowKey);
+      const result = await client.getEntity<TestType>(testEntity.partitionKey, testEntity.rowKey);
 
       assert.equal(createResult._response.status, 204);
-      assert.equal(result.PartitionKey, testEntity.PartitionKey);
-      assert.equal(result.RowKey, testEntity.RowKey);
+      assert.equal(result.partitionKey, testEntity.partitionKey);
+      assert.equal(result.rowKey, testEntity.rowKey);
       assert.deepEqual(result.testField, testDate);
     });
 
@@ -77,16 +77,16 @@ describe("TableClient", () => {
         type: "Guid"
       };
       const testEntity: TableEntity<TestType> = {
-        PartitionKey: `P3_${suffix}`,
-        RowKey: "R3",
+        partitionKey: `P3_${suffix}`,
+        rowKey: "R3",
         testField: testGuid
       };
       const createResult = await client.createEntity(testEntity);
-      const result = await client.getEntity<TestType>(testEntity.PartitionKey, testEntity.RowKey);
+      const result = await client.getEntity<TestType>(testEntity.partitionKey, testEntity.rowKey);
 
       assert.equal(createResult._response.status, 204);
-      assert.equal(result.PartitionKey, testEntity.PartitionKey);
-      assert.equal(result.RowKey, testEntity.RowKey);
+      assert.equal(result.partitionKey, testEntity.partitionKey);
+      assert.equal(result.rowKey, testEntity.rowKey);
       assert.deepEqual(result.testField, testGuid);
     });
 
@@ -99,15 +99,15 @@ describe("TableClient", () => {
         type: "Int64"
       };
       const testEntity: TableEntity<TestType> = {
-        PartitionKey: `P4_${suffix}`,
-        RowKey: "R4",
+        partitionKey: `P4_${suffix}`,
+        rowKey: "R4",
         testField: testInt64
       };
       const createResult = await client.createEntity(testEntity);
-      const result = await client.getEntity<TestType>(testEntity.PartitionKey, testEntity.RowKey);
+      const result = await client.getEntity<TestType>(testEntity.partitionKey, testEntity.rowKey);
 
       assert.equal(createResult._response.status, 204);
-      assert.equal(result.RowKey, testEntity.RowKey);
+      assert.equal(result.rowKey, testEntity.rowKey);
       assert.deepEqual(result.testField, testInt64);
     });
 
@@ -125,20 +125,20 @@ describe("TableClient", () => {
         type: "Int32"
       };
       const testEntity: TableEntity<TestType> = {
-        PartitionKey: `P5_${suffix}`,
-        RowKey: "R5",
+        partitionKey: `P5_${suffix}`,
+        rowKey: "R5",
         testField: testInt32
       };
       const createResult = await client.createEntity(testEntity);
       const result = await client.getEntity<ResponseType>(
-        testEntity.PartitionKey,
-        testEntity.RowKey
+        testEntity.partitionKey,
+        testEntity.rowKey
       );
 
       assert.equal(createResult._response.status, 204);
 
-      assert.equal(result.PartitionKey, testEntity.PartitionKey);
-      assert.equal(result.RowKey, testEntity.RowKey);
+      assert.equal(result.partitionKey, testEntity.partitionKey);
+      assert.equal(result.rowKey, testEntity.rowKey);
       assert.deepEqual(result.testField, 123);
     });
 
@@ -157,18 +157,18 @@ describe("TableClient", () => {
       };
       // Check this API interaction!
       const testEntity: TableEntity<TestType> = {
-        PartitionKey: `P6_${suffix}`,
-        RowKey: "R6",
+        partitionKey: `P6_${suffix}`,
+        rowKey: "R6",
         testField: testBoolean
       };
       const createResult = await client.createEntity(testEntity);
       const result = await client.getEntity<ResponseType>(
-        testEntity.PartitionKey,
-        testEntity.RowKey
+        testEntity.partitionKey,
+        testEntity.rowKey
       );
 
       assert.equal(createResult._response.status, 204);
-      assert.equal(result.RowKey, testEntity.RowKey);
+      assert.equal(result.rowKey, testEntity.rowKey);
       assert.equal(result.testField, true);
     });
 
@@ -187,35 +187,35 @@ describe("TableClient", () => {
       };
       // Check this API interaction!
       const testEntity: TableEntity<TestType> = {
-        PartitionKey: `P7_${suffix}`,
-        RowKey: "R7",
+        partitionKey: `P7_${suffix}`,
+        rowKey: "R7",
         testField: testDateTime
       };
       const createResult = await client.createEntity(testEntity, {});
       const result = await client.getEntity<ResponseType>(
-        testEntity.PartitionKey,
-        testEntity.RowKey
+        testEntity.partitionKey,
+        testEntity.rowKey
       );
 
       assert.equal(createResult._response.status, 204);
-      assert.equal(result.RowKey, testEntity.RowKey);
+      assert.equal(result.rowKey, testEntity.rowKey);
       assert.deepEqual(result.testField, testDate);
     });
 
     it("should createEntity with primitive int and float", async () => {
       type TestType = { integerNumber: number; floatingPointNumber: number };
       const testEntity: TableEntity<TestType> = {
-        PartitionKey: `P8_${suffix}`,
-        RowKey: "R8",
+        partitionKey: `P8_${suffix}`,
+        rowKey: "R8",
         integerNumber: 3,
         floatingPointNumber: 3.14
       };
       const createResult = await client.createEntity(testEntity, {});
-      const result = await client.getEntity<TestType>(testEntity.PartitionKey, testEntity.RowKey);
+      const result = await client.getEntity<TestType>(testEntity.partitionKey, testEntity.rowKey);
 
       assert.equal(createResult._response.status, 204);
-      assert.equal(result.PartitionKey, testEntity.PartitionKey);
-      assert.equal(result.RowKey, testEntity.RowKey);
+      assert.equal(result.partitionKey, testEntity.partitionKey);
+      assert.equal(result.rowKey, testEntity.rowKey);
       assert.equal(result.integerNumber, 3);
       assert.equal(result.floatingPointNumber, 3.14);
     });

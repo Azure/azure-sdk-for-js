@@ -109,7 +109,7 @@ brings this package in line with the [Azure SDK Design Guidelines for Typescript
 
 ### Rule management
 
-- The add/get/remove rule operations on the older `SubscriptionClient` have moved to the new `ServiceBusManagementClient` class which will be supporting
+- The add/get/remove rule operations on the older `SubscriptionClient` have moved to the new `ServiceBusAdministrationClient` class which will be supporting
   Create, Get, Update and Delete operations on Queues, Topics, Subscriptions and Rules.
 
   In V1:
@@ -123,10 +123,10 @@ brings this package in line with the [Azure SDK Design Guidelines for Typescript
   In V7:
 
   ```typescript
-  const serviceBusManagementClient = new ServiceBusManagementClient(connectionString);
-  await serviceBusManagementClient.createRule();
-  await serviceBusManagementClient.getRules();
-  await serviceBusManagementClient.deleteRule();
+  const serviceBusAdministrationClient = new ServiceBusAdministrationClient(connectionString);
+  await serviceBusAdministrationClient.createRule();
+  await serviceBusAdministrationClient.getRules();
+  await serviceBusAdministrationClient.deleteRule();
   ```
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fservicebus%2Fservice-bus%2FMIGRATIONGUIDE.png)
