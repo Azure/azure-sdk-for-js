@@ -89,7 +89,7 @@ describe("Utility Helpers", () => {
 
   it("extractConnectionStringParts parses sas connection string with custom domain", async () => {
     const sasConnectionString = `BlobEndpoint=${customDomainBlobEndpoint};
-    SharedAccessSignature=${sharedAccessSignature}`
+    SharedAccessSignature=${sharedAccessSignature}`;
     const connectionStringParts = extractConnectionStringParts(sasConnectionString);
     assert.equal(
       "SASConnString",
@@ -102,7 +102,7 @@ describe("Utility Helpers", () => {
       "extractConnectionStringParts().url is different than expected."
     );
     assert.equal(
-      '',
+      "",
       connectionStringParts.accountName,
       "extractConnectionStringParts().accountName is different than expected."
     );
