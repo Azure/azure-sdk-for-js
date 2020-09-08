@@ -420,6 +420,7 @@ export class EventHubConsumerClient {
    *    processError: (err, context) => { console.log("Error: ", err) }
    *  },
    *  { startPosition: earliestEventPosition }
+   * );
    * ```
    *
    * @param handlers Handlers for the lifecycle of the subscription - subscription initialization
@@ -445,6 +446,7 @@ export class EventHubConsumerClient {
    *    processError: (err, context) => { console.log("Error: ", err) }
    *  },
    *  { startPosition: earliestEventPosition }
+   * );
    * ```
    *
    * @param partitionId The id of the partition to subscribe to.

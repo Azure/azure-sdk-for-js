@@ -160,6 +160,7 @@ export class EventHubProducerClient {
    *    await client.sendBatch(batch);
    *  }
    * }
+   * }
    * ```
    *
    * @param options  Configures the behavior of the batch.
@@ -250,7 +251,8 @@ export class EventHubProducerClient {
    *    await client.sendBatch(batch);
    *  }
    * }
-   *
+   * }
+   * ```
    * @param batch A batch of events that you can create using the {@link createBatch} method.
    * @param options A set of options that can be specified to influence the way in which
    * events are sent to the associated Event Hub.
