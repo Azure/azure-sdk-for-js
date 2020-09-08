@@ -1,8 +1,9 @@
 # Azure Schema Registry client library for JavaScript
 
-Azure Schema Registry is a could-based service that stores schemas for
-serialization. It can be leveraged by serializers to keep payload size smaller
-by sending only a schema ID rather than a full schema.
+Azure Schema Registry is a schema repository service hosted by Azure Event Hubs,
+providing schema storage, versioning, and management. The registry is leveraged
+by serializers to reduce payload size while describing payload structure with
+schema identifiers rather than full schemas.
 
 ## Getting started
 

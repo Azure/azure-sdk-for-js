@@ -1,8 +1,9 @@
 # Azure Schema Registry Avro serializer client library for JavaScript
 
-Azure Schema Registry is a cloud-based service that stores schemas for
-serialization. This package provides an Avro serializer that stores only schema
-ID in payload and the full Avro schema in the schema registry.
+Azure Schema Registry is a schema repository service hosted by Azure Event Hubs,
+providing schema storage, versioning, and management. This package provides an
+Avro serializer capable of serializing and deserializing payloads containing
+Schema Registry schema identifiers and Avro-encoded data.
 
 ## Getting started
 
