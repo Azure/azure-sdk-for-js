@@ -84,14 +84,17 @@ const deserializedValue = await serializer.deserialize(buffer);
 
 ## Troubleshooting
 
-### Enable logs
+### Logging
 
-You can set the following environment variable to see debug logs when using this library.
+Enabling logging may help uncover useful information about failures. In order to
+see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment
+variable to `info`. Alternatively, logging can be enabled at runtime by calling
+`setLogLevel` in the `@azure/logger`:
 
-- Getting debug logs from the Azure Schema Registry client library
+```javascript
+import { setLogLevel } from "@azure/logger";
 
-```bash
-export DEBUG=azure*
+setLogLevel("info");
 ```
 
 ## Next steps

@@ -113,8 +113,6 @@ console.log(`Got schema content=${foundSchema.content}`);
 
 ## Troubleshooting
 
-### Enable logs
-
 ### Logging
 
 Enabling logging may help uncover useful information about failures. In order to
