@@ -58,8 +58,9 @@ schema registry.
 
 ### SchemaRegistry serializers
 
-- [SchemaRegistryAvroSerializer](../schema-registry-avro) is a separate package that
-  uses `SchemaRegistryClient` to pair schema ID along with Avro Binary Encoding.
+- [SchemaRegistryAvroSerializer](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/schemaregistry/schema-registry-avro)
+  is a separate package that uses `SchemaRegistryClient` to pair schema ID along
+  with Avro Binary Encoding.
 
 ## Examples
 
@@ -129,8 +130,9 @@ setLogLevel("info");
 
 ## Next steps
 
-Please take a look at the [samples](./samples) directory for detailed examples
-on how to use this library.
+Please take a look at the
+[samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/schemaregistry/schema-registry/samples)
+directory for detailed examples on how to use this library.
 
 ## Contributing
 
