@@ -156,9 +156,9 @@ export class EventHubProducerClient {
    *    if (!batch.tryAdd(messages[i])) {
    *      throw new Error("Message too big to fit")
    *    }
-   *  if (i === messages.length - 1) {
-   *    await client.sendBatch(batch);
-   *  }
+   *    if (i === messages.length - 1) {
+   *      await client.sendBatch(batch);
+   *    }
    * }
    * }
    * ```
