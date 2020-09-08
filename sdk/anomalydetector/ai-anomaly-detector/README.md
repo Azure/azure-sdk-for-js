@@ -5,12 +5,16 @@
 [Source code](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/anomalydetector/ai-anomaly-detector/) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/ai-anomaly-detector) |
 [API reference documentation](https://aka.ms/azsdk/net/docs/ref/anomalydetector) |
-[Product documentation](https://docs.microsoft.com/en-us/azure/cognitive-services/anomaly-detector/) |[Samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/anomalydetector/ai-anomaly-detector/samples)
+[Product documentation](https://docs.microsoft.com/azure/cognitive-services/anomaly-detector/) |
 [Samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/anomalydetector/ai-anomaly-detector/samples)
 
 ## Key concepts
 
-Coming soon (#10865)
+The `AnomalyDetectorClient` provides methods for anomaly detection:
+
+- `detectEntireSeries` - Detects anomalies on an entire data set
+- `detectLastPoint` - Detects anomalies in the latest data point
+- `detectChangePoint` - Evaluates change point score of every series point
 
 ## Getting started
 
@@ -20,8 +24,8 @@ Coming soon (#10865)
 
 ### Prerequisites
 
-- An [Azure subscription][azure_sub].
-- An existing [Cognitive Services][cognitive_resource] or Anomaly Detector resource. If you need to create the resource, you can use the [Azure Portal][azure_portal] or [Azure CLI][azure_cli].
+- An [Azure subscription](https://azure.microsoft.com/free/).
+- An existing Cognitive Services or Anomaly Detector resource.
 
 If you use the Azure CLI, replace `<your-resource-group-name>` and `<your-resource-name>` with your own unique names:
 
@@ -41,7 +45,7 @@ npm install @azure/ai-anomaly-detector
 
 To create a client object to access the Anomaly Detector API, you will need the `endpoint` of your Anomaly Detector resource and a `credential`. The Anomaly Detector client can use either Azure Active Directory credentials or an API key credential to authenticate.
 
-You can find the endpoint for your Anomaly Detector resource either in the [Azure Portal][azure_portal] or by using the [Azure CLI][azure_cli] snippet below:
+You can find the endpoint for your Anomaly Detector resource either in the Azure Portal or by using the Azure CLI snippet below:
 
 ```bash
 az cognitiveservices account show --name <your-resource-name> --resource-group <your-resource-group-name> --query "endpoint"
@@ -49,7 +53,7 @@ az cognitiveservices account show --name <your-resource-name> --resource-group <
 
 #### Using an API Key
 
-Use the [Azure Portal][azure_portal] to browse to your Anomaly Detector resource and retrieve an API key, or use the [Azure CLI][azure_cli] snippet below:
+Use the Azure Portal to browse to your Anomaly Detector resource and retrieve an API key, or use the Azure CLI snippet below:
 
 **Note:** Sometimes the API key is referred to as a "subscription key" or "subscription API key."
 
@@ -67,14 +71,14 @@ const client = new AnomalyDetectorClient("<endpoint>", new AzureKeyCredential("<
 
 #### Using an Azure Active Directory Credential
 
-Client API key authentication is used in most of the examples, but you can also authenticate with Azure Active Directory using the [Azure Identity library][azure_identity]. To use the [DefaultAzureCredential][defaultazurecredential] provider shown below,
+Client API key authentication is used in most of the examples, but you can also authenticate with Azure Active Directory using the [Azure Identity library]. To use the DefaultAzureCredential provider shown below,
 or other credential providers provided with the Azure SDK, please install the `@azure/identity` package:
 
 ```bash
 npm install @azure/identity
 ```
 
-You will also need to [register a new AAD application][register_aad_app] and grant access to Anomaly Detector by assigning the `"Cognitive Services User"` role to your service principal (note: other roles such as `"Owner"` will not grant the necessary permissions, only `"Cognitive Services User"` will suffice to run the examples and the sample code).
+You will also need to register a new AAD application and grant access to Anomaly Detector by assigning the `"Cognitive Services User"` role to your service principal (note: other roles such as `"Owner"` will not grant the necessary permissions, only `"Cognitive Services User"` will suffice to run the examples and the sample code).
 
 Set the values of the client ID, tenant ID, and client secret of the AAD application as environment variables: `AZURE_CLIENT_ID`, `AZURE_TENANT_ID`, `AZURE_CLIENT_SECRET`.
 
@@ -87,7 +91,7 @@ const client = new AnomalyDetectorClient("<endpoint>", new DefaultAzureCredentia
 
 ## Examples
 
-Coming soon (#10865)
+Samples can be found [here](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/anomalydetector/ai-anomaly-detector/samples)
 
 ## Troubleshooting
 
