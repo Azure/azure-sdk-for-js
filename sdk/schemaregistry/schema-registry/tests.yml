@@ -10,7 +10,4 @@ extends:
       AZURE_CLIENT_ID: $(aad-azure-sdk-test-client-id)
       AZURE_TENANT_ID: $(aad-azure-sdk-test-tenant-id)
       AZURE_CLIENT_SECRET: $(aad-azure-sdk-test-client-secret)
-      # TODO: We cannot provision live resource for new service yet, so we run
-      # nightly tests in playback mode for now. ETA mid-September from service
-      # team.
-      TEST_MODE: playback
+
