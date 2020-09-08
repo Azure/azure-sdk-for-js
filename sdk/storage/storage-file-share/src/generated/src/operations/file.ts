@@ -779,7 +779,7 @@ const setMetadataOperationSpec: coreHttp.OperationSpec = {
   ],
   queryParameters: [
     Parameters.timeoutInSeconds,
-    Parameters.comp4
+    Parameters.comp5
   ],
   headerParameters: [
     Parameters.metadata,
@@ -807,7 +807,7 @@ const acquireLeaseOperationSpec: coreHttp.OperationSpec = {
   ],
   queryParameters: [
     Parameters.timeoutInSeconds,
-    Parameters.comp10
+    Parameters.comp2
   ],
   headerParameters: [
     Parameters.duration,
@@ -837,7 +837,7 @@ const releaseLeaseOperationSpec: coreHttp.OperationSpec = {
   ],
   queryParameters: [
     Parameters.timeoutInSeconds,
-    Parameters.comp10
+    Parameters.comp2
   ],
   headerParameters: [
     Parameters.leaseId1,
@@ -866,7 +866,7 @@ const changeLeaseOperationSpec: coreHttp.OperationSpec = {
   ],
   queryParameters: [
     Parameters.timeoutInSeconds,
-    Parameters.comp10
+    Parameters.comp2
   ],
   headerParameters: [
     Parameters.leaseId1,
@@ -896,12 +896,12 @@ const breakLeaseOperationSpec: coreHttp.OperationSpec = {
   ],
   queryParameters: [
     Parameters.timeoutInSeconds,
-    Parameters.comp10
+    Parameters.comp2
   ],
   headerParameters: [
     Parameters.version,
     Parameters.requestId,
-    Parameters.action3,
+    Parameters.action4,
     Parameters.leaseId0
   ],
   responses: {
@@ -1004,6 +1004,7 @@ const getRangeListOperationSpec: coreHttp.OperationSpec = {
   ],
   queryParameters: [
     Parameters.shareSnapshot,
+    Parameters.prevsharesnapshot,
     Parameters.timeoutInSeconds,
     Parameters.comp12
   ],
@@ -1114,7 +1115,7 @@ const listHandlesOperationSpec: coreHttp.OperationSpec = {
     Parameters.maxResults,
     Parameters.timeoutInSeconds,
     Parameters.shareSnapshot,
-    Parameters.comp8
+    Parameters.comp9
   ],
   headerParameters: [
     Parameters.version
@@ -1143,7 +1144,7 @@ const forceCloseHandlesOperationSpec: coreHttp.OperationSpec = {
     Parameters.timeoutInSeconds,
     Parameters.marker,
     Parameters.shareSnapshot,
-    Parameters.comp9
+    Parameters.comp10
   ],
   headerParameters: [
     Parameters.handleId,

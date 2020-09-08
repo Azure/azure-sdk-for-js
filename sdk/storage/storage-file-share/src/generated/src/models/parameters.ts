@@ -52,9 +52,33 @@ export const action3: coreHttp.OperationParameter = {
     required: true,
     isConstant: true,
     serializedName: "x-ms-lease-action",
+    defaultValue: 'renew',
+    type: {
+      name: "String"
+    }
+  }
+};
+export const action4: coreHttp.OperationParameter = {
+  parameterPath: "action",
+  mapper: {
+    required: true,
+    isConstant: true,
+    serializedName: "x-ms-lease-action",
     defaultValue: 'break',
     type: {
       name: "String"
+    }
+  }
+};
+export const breakPeriod: coreHttp.OperationParameter = {
+  parameterPath: [
+    "options",
+    "breakPeriod"
+  ],
+  mapper: {
+    serializedName: "x-ms-lease-break-period",
+    type: {
+      name: "Number"
     }
   }
 };
@@ -88,7 +112,7 @@ export const comp10: coreHttp.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "comp",
-    defaultValue: 'lease',
+    defaultValue: 'forceclosehandles',
     type: {
       name: "String"
     }
@@ -136,7 +160,7 @@ export const comp2: coreHttp.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "comp",
-    defaultValue: 'snapshot',
+    defaultValue: 'lease',
     type: {
       name: "String"
     }
@@ -148,7 +172,7 @@ export const comp3: coreHttp.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "comp",
-    defaultValue: 'filepermission',
+    defaultValue: 'snapshot',
     type: {
       name: "String"
     }
@@ -160,7 +184,7 @@ export const comp4: coreHttp.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "comp",
-    defaultValue: 'metadata',
+    defaultValue: 'filepermission',
     type: {
       name: "String"
     }
@@ -172,7 +196,7 @@ export const comp5: coreHttp.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "comp",
-    defaultValue: 'acl',
+    defaultValue: 'metadata',
     type: {
       name: "String"
     }
@@ -184,7 +208,7 @@ export const comp6: coreHttp.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "comp",
-    defaultValue: 'stats',
+    defaultValue: 'acl',
     type: {
       name: "String"
     }
@@ -196,7 +220,7 @@ export const comp7: coreHttp.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "comp",
-    defaultValue: 'undelete',
+    defaultValue: 'stats',
     type: {
       name: "String"
     }
@@ -208,7 +232,7 @@ export const comp8: coreHttp.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "comp",
-    defaultValue: 'listhandles',
+    defaultValue: 'undelete',
     type: {
       name: "String"
     }
@@ -220,7 +244,7 @@ export const comp9: coreHttp.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "comp",
-    defaultValue: 'forceclosehandles',
+    defaultValue: 'listhandles',
     type: {
       name: "String"
     }
@@ -711,6 +735,18 @@ export const prefix: coreHttp.OperationQueryParameter = {
   ],
   mapper: {
     serializedName: "prefix",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const prevsharesnapshot: coreHttp.OperationQueryParameter = {
+  parameterPath: [
+    "options",
+    "prevsharesnapshot"
+  ],
+  mapper: {
+    serializedName: "prevsharesnapshot",
     type: {
       name: "String"
     }

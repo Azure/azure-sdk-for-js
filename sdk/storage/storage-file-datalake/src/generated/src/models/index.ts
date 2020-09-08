@@ -475,6 +475,14 @@ export interface PathUpdateOptionalParams extends coreHttp.RequestOptionsBase {
    */
   continuation?: string;
   /**
+   * Optional. Valid for "SetAccessControlRecursive" operation. If set to false, the operation will
+   * terminate quickly on encountering user errors (4XX). If true, the operation will ignore user
+   * errors and proceed with the operation on other sub-entities of the directory. Continuation
+   * token will only be returned when forceFlag is true in case of user errors. If not set the
+   * default value is false for this.
+   */
+  forceFlag?: boolean;
+  /**
    * This parameter allows the caller to upload data in parallel and control the order in which it
    * is appended to the file.  It is required when uploading data to be appended to the file and
    * when flushing previously uploaded data to the file.  The value must be the position where the
@@ -788,6 +796,14 @@ export interface PathSetAccessControlRecursiveOptionalParams extends coreHttp.Re
    */
   continuation?: string;
   /**
+   * Optional. Valid for "SetAccessControlRecursive" operation. If set to false, the operation will
+   * terminate quickly on encountering user errors (4XX). If true, the operation will ignore user
+   * errors and proceed with the operation on other sub-entities of the directory. Continuation
+   * token will only be returned when forceFlag is true in case of user errors. If not set the
+   * default value is false for this.
+   */
+  forceFlag?: boolean;
+  /**
    * Optional. It specifies the maximum number of files or directories on which the acl change will
    * be applied. If omitted or greater than 2,000, the request will process up to 2,000 items
    */
@@ -895,6 +911,10 @@ export interface PathAppendDataOptionalParams extends coreHttp.RequestOptionsBas
    * of the request content in bytes for "Append Data".
    */
   contentLength?: number;
+  /**
+   * Specify the transactional crc64 for the body, to be validated by the service.
+   */
+  transactionalContentCrc64?: Uint8Array;
   /**
    * Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the
    * analytics logs when storage analytics logging is enabled.
@@ -1668,6 +1688,26 @@ export interface PathAppendDataHeaders {
    * The version of the REST protocol used to process the request.
    */
   version?: string;
+  /**
+   * An HTTP entity tag associated with the file or directory.
+   */
+  etag?: string;
+  /**
+   * If the blob has an MD5 hash and this operation is to read the full blob, this response header
+   * is returned so that the client can check for message content integrity.
+   */
+  contentMD5?: Uint8Array;
+  /**
+   * This header is returned so that the client can check for message content integrity. The value
+   * of this header is computed by the Blob service; it is not necessarily the same value specified
+   * in the request headers.
+   */
+  xMsContentCrc64?: Uint8Array;
+  /**
+   * The value of this header is set to true if the contents of the request are successfully
+   * encrypted using the specified algorithm, and false otherwise.
+   */
+  isServerEncrypted?: boolean;
 }
 
 /**

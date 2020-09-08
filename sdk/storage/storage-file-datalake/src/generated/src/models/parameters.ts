@@ -254,6 +254,18 @@ export const expiryOptions: coreHttp.OperationParameter = {
     }
   }
 };
+export const forceFlag: coreHttp.OperationQueryParameter = {
+  parameterPath: [
+    "options",
+    "forceFlag"
+  ],
+  mapper: {
+    serializedName: "forceFlag",
+    type: {
+      name: "Boolean"
+    }
+  }
+};
 export const group: coreHttp.OperationParameter = {
   parameterPath: [
     "options",
@@ -662,6 +674,18 @@ export const timeout: coreHttp.OperationQueryParameter = {
     },
     type: {
       name: "Number"
+    }
+  }
+};
+export const transactionalContentCrc64: coreHttp.OperationParameter = {
+  parameterPath: [
+    "options",
+    "transactionalContentCrc64"
+  ],
+  mapper: {
+    serializedName: "x-ms-content-crc64",
+    type: {
+      name: "ByteArray"
     }
   }
 };
