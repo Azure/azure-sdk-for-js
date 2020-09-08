@@ -267,7 +267,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
   async getNamespaceProperties(
     operationOptions?: OperationOptions
   ): Promise<NamespacePropertiesResponse> {
-    logger.info(`Performing management operation - getNamespaceProperties()`);
+    logger.verbose(`Performing management operation - getNamespaceProperties()`);
     const { span, updatedOperationOptions } = createSpan(
       "ServiceBusAdministrationClient-getNamespaceProperties",
       operationOptions
@@ -313,7 +313,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       options
     );
     try {
-      logger.info(
+      logger.verbose(
         `Performing management operation - createQueue() for "${queueName}" with options: ${options}`
       );
       const response: HttpOperationResponse = await this.putResource(
@@ -357,7 +357,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       operationOptions
     );
     try {
-      logger.info(`Performing management operation - getQueue() for "${queueName}"`);
+      logger.verbose(`Performing management operation - getQueue() for "${queueName}"`);
       const response: HttpOperationResponse = await this.getResource(
         queueName,
         this.queueResourceSerializer,
@@ -399,7 +399,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       operationOptions
     );
     try {
-      logger.info(
+      logger.verbose(
         `Performing management operation - getQueueRuntimeProperties() for "${queueName}"`
       );
       const response: HttpOperationResponse = await this.getResource(
@@ -441,7 +441,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       options
     );
     try {
-      logger.info(`Performing management operation - getQueues() with options: ${options}`);
+      logger.verbose(`Performing management operation - getQueues() with options: ${options}`);
       const response: HttpOperationResponse = await this.listResources(
         "$Resources/Queues",
         updatedOperationOptions,
@@ -500,7 +500,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
   public listQueues(
     options?: OperationOptions
   ): PagedAsyncIterableIterator<QueueProperties, EntitiesResponse<QueueProperties>> {
-    logger.info(`Performing management operation - listQueues() with options: ${options}`);
+    logger.verbose(`Performing management operation - listQueues() with options: ${options}`);
     const iter = this.listQueuesAll(options);
     return {
       /**
@@ -548,7 +548,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       options
     );
     try {
-      logger.info(
+      logger.verbose(
         `Performing management operation - getQueuesRuntimeProperties() with options: ${options}`
       );
       const response: HttpOperationResponse = await this.listResources(
@@ -610,7 +610,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
   public listQueuesRuntimeProperties(
     options?: OperationOptions
   ): PagedAsyncIterableIterator<QueueRuntimeProperties, EntitiesResponse<QueueRuntimeProperties>> {
-    logger.info(
+    logger.verbose(
       `Performing management operation - listQueuesRuntimeProperties() with options: ${options}`
     );
     const iter = this.listQueuesRuntimePropertiesAll(options);
@@ -669,7 +669,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       operationOptions
     );
     try {
-      logger.info(
+      logger.verbose(
         `Performing management operation - updateQueue() for "${queue.name}" with options: ${queue}`
       );
 
@@ -723,7 +723,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       operationOptions
     );
     try {
-      logger.info(`Performing management operation - deleteQueue() for "${queueName}"`);
+      logger.verbose(`Performing management operation - deleteQueue() for "${queueName}"`);
       const response: HttpOperationResponse = await this.deleteResource(
         queueName,
         this.queueResourceSerializer,
@@ -753,7 +753,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       operationOptions
     );
     try {
-      logger.info(`Performing management operation - queueExists() for "${queueName}"`);
+      logger.verbose(`Performing management operation - queueExists() for "${queueName}"`);
       try {
         await this.getQueue(queueName, updatedOperationOptions);
       } catch (error) {
@@ -796,7 +796,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       options
     );
     try {
-      logger.info(
+      logger.verbose(
         `Performing management operation - createTopic() for "${topicName}" with options: ${options}`
       );
       const response: HttpOperationResponse = await this.putResource(
@@ -840,7 +840,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       operationOptions
     );
     try {
-      logger.info(`Performing management operation - getTopic() for "${topicName}"`);
+      logger.verbose(`Performing management operation - getTopic() for "${topicName}"`);
       const response: HttpOperationResponse = await this.getResource(
         topicName,
         this.topicResourceSerializer,
@@ -882,7 +882,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       operationOptions
     );
     try {
-      logger.info(
+      logger.verbose(
         `Performing management operation - getTopicRuntimeProperties() for "${topicName}"`
       );
       const response: HttpOperationResponse = await this.getResource(
@@ -924,7 +924,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       options
     );
     try {
-      logger.info(`Performing management operation - getTopics() with options: ${options}`);
+      logger.verbose(`Performing management operation - getTopics() with options: ${options}`);
       const response: HttpOperationResponse = await this.listResources(
         "$Resources/Topics",
         updatedOperationOptions,
@@ -984,7 +984,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
   public listTopics(
     options?: OperationOptions
   ): PagedAsyncIterableIterator<TopicProperties, EntitiesResponse<TopicProperties>> {
-    logger.info(`Performing management operation - listTopics() with options: ${options}`);
+    logger.verbose(`Performing management operation - listTopics() with options: ${options}`);
     const iter = this.listTopicsAll(options);
     return {
       /**
@@ -1032,7 +1032,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       options
     );
     try {
-      logger.info(
+      logger.verbose(
         `Performing management operation - getTopicsRuntimeProperties() with options: ${options}`
       );
       const response: HttpOperationResponse = await this.listResources(
@@ -1095,7 +1095,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
   public listTopicsRuntimeProperties(
     options?: OperationOptions
   ): PagedAsyncIterableIterator<TopicRuntimeProperties, EntitiesResponse<TopicRuntimeProperties>> {
-    logger.info(
+    logger.verbose(
       `Performing management operation - listTopicsRuntimeProperties() with options: ${options}`
     );
     const iter = this.listTopicsRuntimePropertiesAll(options);
@@ -1154,7 +1154,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       operationOptions
     );
     try {
-      logger.info(
+      logger.verbose(
         `Performing management operation - updateTopic() for "${topic.name}" with options: ${topic}`
       );
 
@@ -1208,7 +1208,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       operationOptions
     );
     try {
-      logger.info(`Performing management operation - deleteTopic() for "${topicName}"`);
+      logger.verbose(`Performing management operation - deleteTopic() for "${topicName}"`);
       const response: HttpOperationResponse = await this.deleteResource(
         topicName,
         this.topicResourceSerializer,
@@ -1238,7 +1238,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       operationOptions
     );
     try {
-      logger.info(`Performing management operation - topicExists() for "${topicName}"`);
+      logger.verbose(`Performing management operation - topicExists() for "${topicName}"`);
       try {
         await this.getTopic(topicName, updatedOperationOptions);
       } catch (error) {
@@ -1286,7 +1286,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       options
     );
     try {
-      logger.info(
+      logger.verbose(
         `Performing management operation - createSubscription() for "${subscriptionName}" with options: ${options}`
       );
       const fullPath = this.getSubscriptionPath(topicName, subscriptionName);
@@ -1336,7 +1336,9 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       operationOptions
     );
     try {
-      logger.info(`Performing management operation - getSubscription() for "${subscriptionName}"`);
+      logger.verbose(
+        `Performing management operation - getSubscription() for "${subscriptionName}"`
+      );
       const fullPath = this.getSubscriptionPath(topicName, subscriptionName);
       const response: HttpOperationResponse = await this.getResource(
         fullPath,
@@ -1381,7 +1383,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       operationOptions
     );
     try {
-      logger.info(
+      logger.verbose(
         `Performing management operation - getSubscriptionRuntimeProperties() for "${subscriptionName}"`
       );
       const fullPath = this.getSubscriptionPath(topicName, subscriptionName);
@@ -1426,7 +1428,9 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       options
     );
     try {
-      logger.info(`Performing management operation - getSubscriptions() with options: ${options}`);
+      logger.verbose(
+        `Performing management operation - getSubscriptions() with options: ${options}`
+      );
       const response: HttpOperationResponse = await this.listResources(
         topicName + "/Subscriptions/",
         updatedOperationOptions,
@@ -1492,7 +1496,9 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     topicName: string,
     options?: OperationOptions
   ): PagedAsyncIterableIterator<SubscriptionProperties, EntitiesResponse<SubscriptionProperties>> {
-    logger.info(`Performing management operation - listSubscriptions() with options: ${options}`);
+    logger.verbose(
+      `Performing management operation - listSubscriptions() with options: ${options}`
+    );
     const iter = this.listSubscriptionsAll(topicName, options);
     return {
       /**
@@ -1542,7 +1548,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       options
     );
     try {
-      logger.info(
+      logger.verbose(
         `Performing management operation - getSubscriptionsRuntimeProperties() with options: ${options}`
       );
       const response: HttpOperationResponse = await this.listResources(
@@ -1616,7 +1622,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     SubscriptionRuntimeProperties,
     EntitiesResponse<SubscriptionRuntimeProperties>
   > {
-    logger.info(
+    logger.verbose(
       `Performing management operation - listSubscriptionsRuntimeProperties() with options: ${options}`
     );
     const iter = this.listSubscriptionsRuntimePropertiesAll(topicName, options);
@@ -1674,7 +1680,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       operationOptions
     );
     try {
-      logger.info(
+      logger.verbose(
         `Performing management operation - updateSubscription() for "${subscription.subscriptionName}" with options: ${subscription}`
       );
 
@@ -1740,7 +1746,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       operationOptions
     );
     try {
-      logger.info(
+      logger.verbose(
         `Performing management operation - deleteSubscription() for "${subscriptionName}"`
       );
       const fullPath = this.getSubscriptionPath(topicName, subscriptionName);
@@ -1778,7 +1784,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       operationOptions
     );
     try {
-      logger.info(
+      logger.verbose(
         `Performing management operation - subscriptionExists() for "${topicName}" and "${subscriptionName}"`
       );
       try {
@@ -1879,7 +1885,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       operOptions
     );
     try {
-      logger.info(
+      logger.verbose(
         `Performing management operation - createRule() for "${ruleName}" with filter: "${ruleFilter}"`
       );
       const fullPath = this.getRulePath(topicName, subscriptionName, ruleName);
@@ -1929,7 +1935,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       operationOptions
     );
     try {
-      logger.info(`Performing management operation - getRule() for "${ruleName}"`);
+      logger.verbose(`Performing management operation - getRule() for "${ruleName}"`);
       const fullPath = this.getRulePath(topicName, subscriptionName, ruleName);
       const response: HttpOperationResponse = await this.getResource(
         fullPath,
@@ -1973,7 +1979,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       options
     );
     try {
-      logger.info(`Performing management operation - getRules() with options: ${options}`);
+      logger.verbose(`Performing management operation - getRules() with options: ${options}`);
       const fullPath = this.getSubscriptionPath(topicName, subscriptionName) + "/Rules/";
       const response: HttpOperationResponse = await this.listResources(
         fullPath,
@@ -2039,7 +2045,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
     subscriptionName: string,
     options?: OperationOptions
   ): PagedAsyncIterableIterator<RuleProperties, EntitiesResponse<RuleProperties>> {
-    logger.info(`Performing management operation - listRules() with options: ${options}`);
+    logger.verbose(`Performing management operation - listRules() with options: ${options}`);
     const iter = this.listRulesAll(topicName, subscriptionName, options);
     return {
       /**
@@ -2099,7 +2105,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       operationOptions
     );
     try {
-      logger.info(
+      logger.verbose(
         `Performing management operation - updateRule() for "${rule.name}" with options: ${rule}`
       );
 
@@ -2161,7 +2167,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       operationOptions
     );
     try {
-      logger.info(`Performing management operation - deleteRule() for "${ruleName}"`);
+      logger.verbose(`Performing management operation - deleteRule() for "${ruleName}"`);
       const fullPath = this.getRulePath(topicName, subscriptionName, ruleName);
       const response: HttpOperationResponse = await this.deleteResource(
         fullPath,
@@ -2200,7 +2206,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       operationOptions
     );
     try {
-      logger.info(`Performing management operation - ruleExists() for "${ruleName}"`);
+      logger.verbose(`Performing management operation - ruleExists() for "${ruleName}"`);
       try {
         await this.getRule(topicName, subscriptionName, ruleName, updatedOperationOptions);
       } catch (error) {

@@ -152,7 +152,7 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
       onSessionClose: this._onSessionClose,
       sendTimeoutInSeconds: timeoutInMs / 1000
     };
-    logger.info("Creating sender with options: %O", srOptions);
+    logger.verbose("Creating sender with options: %O", srOptions);
     return srOptions;
   }
 
@@ -208,7 +208,7 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
         try {
           const timeTakenByInit = Date.now() - initStartTime;
 
-          logger.info(
+          logger.verbose(
             "[%s] Sender '%s', credit: %d available: %d",
             this._context.connectionId,
             this.name,
@@ -239,7 +239,7 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
                 `[${this._context.connectionId}] Sender "${this.name}" ` +
                 `with address "${this.address}", was not able to send the message right now, due ` +
                 `to operation timeout.`;
-              logger.info(desc);
+              logger.warning(desc);
               const e: AmqpError = {
                 condition: ErrorNameConditionMapper.ServiceUnavailableError,
                 description: desc
@@ -253,7 +253,7 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
                 undefined,
                 sendBatch ? 0x80013700 : 0
               );
-              logger.info(
+              logger.verbose(
                 "[%s] Sender '%s', sent message with delivery id: %d",
                 this._context.connectionId,
                 this.name,
@@ -275,7 +275,7 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
             const msg =
               `[${this._context.connectionId}] Sender "${this.name}", ` +
               `cannot send the message right now. Please try later.`;
-            logger.info(msg);
+            logger.warning(msg);
             const amqpError: AmqpError = {
               condition: ErrorNameConditionMapper.SenderBusyError,
               description: msg
@@ -386,7 +386,7 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
         }
         throw error;
       }
-      logger.info(
+      logger.verbose(
         "[%s] Sender '%s', trying to send message: %O",
         this._context.connectionId,
         this.name,
@@ -424,7 +424,7 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
       if (!Array.isArray(inputMessages)) {
         inputMessages = [inputMessages];
       }
-      logger.info(
+      logger.verbose(
         "[%s] Sender '%s', trying to send Message[]: %O",
         this._context.connectionId,
         this.name,
@@ -468,7 +468,7 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
       // Finally encode the envelope (batch message).
       const encodedBatchMessage = RheaMessageUtil.encode(batchMessage);
 
-      logger.info(
+      logger.verbose(
         "[%s]Sender '%s', sending encoded batch message.",
         this._context.connectionId,
         this.name,
@@ -555,7 +555,7 @@ export class MessageSender extends LinkEntity<AwaitableSender> {
   ): Promise<void> {
     throwErrorIfConnectionClosed(this._context);
     try {
-      logger.info(
+      logger.verbose(
         "[%s]Sender '%s', sending encoded batch message.",
         this._context.connectionId,
         this.name,

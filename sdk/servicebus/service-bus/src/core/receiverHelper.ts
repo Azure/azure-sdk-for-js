@@ -52,7 +52,7 @@ export class ReceiverHelper {
       return;
     }
 
-    logger.info(
+    logger.verbose(
       `[${receiver.name}] User has requested to stop receiving new messages, attempting to drain the credits.`
     );
     return this.drain();
@@ -88,11 +88,11 @@ export class ReceiverHelper {
       return;
     }
 
-    logger.info(`[${receiver.name}] Receiver is starting drain.`);
+    logger.verbose(`[${receiver.name}] Receiver is starting drain.`);
 
     const drainPromise = new Promise<void>((resolve) => {
       receiver.once(ReceiverEvents.receiverDrained, () => {
-        logger.info(`[${receiver.name}] Receiver has been drained.`);
+        logger.verbose(`[${receiver.name}] Receiver has been drained.`);
         receiver.drain = false;
         resolve();
       });

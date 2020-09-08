@@ -1075,7 +1075,7 @@ export class ServiceBusMessageImpl implements ReceivedMessageWithLock {
    * See ReceivedMessageWithLock.complete().
    */
   async complete(): Promise<void> {
-    logger.info(
+    logger.verbose(
       "[%s] Completing the message with id '%s'.",
       this._context.connectionId,
       this.messageId
@@ -1088,7 +1088,7 @@ export class ServiceBusMessageImpl implements ReceivedMessageWithLock {
    */
   async abandon(propertiesToModify?: { [key: string]: any }): Promise<void> {
     // TODO: Figure out a mechanism to convert specified properties to message_annotations.
-    logger.info(
+    logger.verbose(
       "[%s] Abandoning the message with id '%s'.",
       this._context.connectionId,
       this.messageId
@@ -1102,7 +1102,7 @@ export class ServiceBusMessageImpl implements ReceivedMessageWithLock {
    * See ReceivedMessageWithLock.defer().
    */
   async defer(propertiesToModify?: { [key: string]: any }): Promise<void> {
-    logger.info(
+    logger.verbose(
       "[%s] Deferring the message with id '%s'.",
       this._context.connectionId,
       this.messageId
@@ -1116,7 +1116,7 @@ export class ServiceBusMessageImpl implements ReceivedMessageWithLock {
    * See ReceivedMessageWithLock.deadLetter().
    */
   async deadLetter(propertiesToModify?: DeadLetterOptions & { [key: string]: any }): Promise<void> {
-    logger.info(
+    logger.verbose(
       "[%s] Deadlettering the message with id '%s'.",
       this._context.connectionId,
       this.messageId

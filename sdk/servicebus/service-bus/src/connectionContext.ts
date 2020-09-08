@@ -168,12 +168,14 @@ export namespace ConnectionContext {
         return Boolean(!this.connection.isOpen() && this.connection.isRemoteOpen());
       },
       async readyToOpenLink() {
-        logger.info(`[${this.connectionId}] Waiting until the connection is ready to open link.`);
+        logger.verbose(
+          `[${this.connectionId}] Waiting until the connection is ready to open link.`
+        );
         // Check that the connection isn't in the process of closing.
         // This can happen when the idle timeout has been reached but
         // the underlying socket is waiting to be destroyed.
         if (this.isConnectionClosing()) {
-          logger.info(
+          logger.verbose(
             `[${this.connectionId}] Connection is closing, waiting for disconnected event`
           );
           // Wait for the disconnected event that indicates the underlying socket has closed.
@@ -182,11 +184,11 @@ export namespace ConnectionContext {
 
         // Wait for the connection to be reset.
         await this.waitForConnectionReset();
-        logger.info(`[${this.connectionId}] Connection is ready to open link.`);
+        logger.verbose(`[${this.connectionId}] Connection is ready to open link.`);
       },
       waitForDisconnectedEvent() {
         return new Promise((resolve) => {
-          logger.info(
+          logger.verbose(
             `[${this.connectionId}] Attempting to reinitialize connection` +
               ` but the connection is in the process of closing.` +
               ` Waiting for the disconnect event before continuing.`
@@ -197,11 +199,11 @@ export namespace ConnectionContext {
       waitForConnectionReset() {
         // Check if the connection is currently in the process of disconnecting.
         if (waitForConnectionRefreshPromise) {
-          logger.info(`[${this.connectionId}] Waiting for connection reset`);
+          logger.verbose(`[${this.connectionId}] Waiting for connection reset`);
           return waitForConnectionRefreshPromise;
         }
 
-        logger.info(
+        logger.verbose(
           `[${this.connectionId}] Connection not waiting to be reset. Resolving immediately.`
         );
         return Promise.resolve();
@@ -319,7 +321,7 @@ export namespace ConnectionContext {
       // and there was atleast one sender/receiver link on the connection before it went down.
       logger.verbose("[%s] state: %O", connectionContext.connectionId, state);
       if (!state.wasConnectionCloseCalled && (state.numSenders || state.numReceivers)) {
-        logger.info(
+        logger.verbose(
           "[%s] connection.close() was not called from the sdk and there were some " +
             "senders and/or receivers. We should reconnect.",
           connectionContext.connection.id
@@ -464,7 +466,7 @@ export namespace ConnectionContext {
 
     addConnectionListeners(connectionContext.connection);
 
-    logger.info("[%s] Created connection context successfully.", connectionContext.connectionId);
+    logger.verbose("[%s] Created connection context successfully.", connectionContext.connectionId);
 
     return connectionContext;
   }
@@ -481,7 +483,7 @@ export namespace ConnectionContext {
   export async function close(context: ConnectionContext): Promise<void> {
     try {
       if (context.connection.isOpen()) {
-        logger.info("Closing the amqp connection '%s' on the client.", context.connectionId);
+        logger.verbose("Closing the amqp connection '%s' on the client.", context.connectionId);
 
         // Close all the senders.
         for (const senderName of Object.keys(context.senders)) {
@@ -507,7 +509,7 @@ export namespace ConnectionContext {
 
         await context.connection.close();
         context.wasConnectionCloseCalled = true;
-        logger.info("Closed the amqp connection '%s' on the client.", context.connectionId);
+        logger.verbose("Closed the amqp connection '%s' on the client.", context.connectionId);
       }
     } catch (err) {
       const errObj = err instanceof Error ? err : new Error(JSON.stringify(err));

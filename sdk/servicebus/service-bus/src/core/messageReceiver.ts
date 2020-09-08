@@ -176,7 +176,7 @@ export abstract class MessageReceiver extends LinkEntity<Receiver> {
     this._clearMessageLockRenewTimer = (messageId: string) => {
       if (this._messageRenewLockTimers.has(messageId)) {
         clearTimeout(this._messageRenewLockTimers.get(messageId) as NodeJS.Timer);
-        logger.info(
+        logger.verbose(
           "[%s] Cleared the message renew lock timer for message with id '%s'.",
           this._context.connectionId,
           messageId
@@ -185,7 +185,7 @@ export abstract class MessageReceiver extends LinkEntity<Receiver> {
       }
     };
     this._clearAllMessageLockRenewTimers = () => {
-      logger.info(
+      logger.verbose(
         "[%s] Clearing message renew lock timers for all the active messages.",
         this._context.connectionId
       );
@@ -304,7 +304,7 @@ export abstract class MessageReceiver extends LinkEntity<Receiver> {
       const timer = setTimeout(() => {
         this._deliveryDispositionMap.delete(delivery.id);
 
-        logger.info(
+        logger.verbose(
           "[%s] Disposition for delivery id: %d, did not complete in %d milliseconds. " +
             "Hence rejecting the promise with timeout error.",
           this._context.connectionId,

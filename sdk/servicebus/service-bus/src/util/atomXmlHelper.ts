@@ -54,7 +54,7 @@ export async function executeAtomXmlOperation(
     webResource.headers.set("content-length", Buffer.byteLength(webResource.body));
   }
 
-  logger.info(`Executing ATOM based HTTP request: ${webResource.body}`);
+  logger.verbose(`Executing ATOM based HTTP request: ${webResource.body}`);
 
   const reqPrepareOptions: RequestPrepareOptions = {
     ...webResource,
@@ -71,7 +71,7 @@ export async function executeAtomXmlOperation(
     webResource
   );
 
-  logger.info(`Received ATOM based HTTP response: ${response.bodyAsText}`);
+  logger.verbose(`Received ATOM based HTTP response: ${response.bodyAsText}`);
 
   try {
     if (response.bodyAsText) {
