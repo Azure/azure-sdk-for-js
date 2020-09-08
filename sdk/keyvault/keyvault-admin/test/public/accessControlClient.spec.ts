@@ -49,6 +49,29 @@ describe("KeyVaultAccessControlClient", () => {
     assert.ok(receivedRoles.length);
   });
 
+  it("listRoleAssignments", async function() {
+    const expectedType = "Microsoft.Authorization/roleAssignments";
+    let receivedRoles: string[] = [];
+
+    for await (const roleAssignment of client.listRoleAssignments("/")) {
+      // Each role assignment will have the shape of:
+      //
+      //   {
+      //     id: 'Microsoft.KeyVault/providers/Microsoft.Authorization/roleAssignment/<ID>',
+      //     name: '<ID>',
+      //     type: '<role-type>',
+      //     // ...
+      //   }
+      //
+      console.log({ roleAssignment });
+      assert.equal(roleAssignment.type, expectedType);
+      receivedRoles.push(roleAssignment.roleName!);
+    }
+
+    // Roles might change
+    assert.ok(receivedRoles.length);
+  });
+
   it("createRoleAssignment and deleteRoleAssignment", async function() {
     const roleDefinition = (await client.listRoleDefinitions(globalScope).next()).value;
     const name = generateFakeUUID();
