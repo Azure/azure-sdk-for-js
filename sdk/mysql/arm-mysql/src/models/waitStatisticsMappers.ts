@@ -30,7 +30,6 @@ export {
   Server,
   ServerAdministratorResource,
   ServerKey,
-  ServerListResult,
   ServerPrivateEndpointConnection,
   ServerPrivateEndpointConnectionProperties,
   ServerPrivateLinkServiceConnectionStateProperty,
@@ -39,5 +38,7 @@ export {
   StorageProfile,
   TrackedResource,
   VirtualNetworkRule,
-  WaitStatistic
+  WaitStatistic,
+  WaitStatisticsInput,
+  WaitStatisticsResultList
 } from "../models/mappers";
