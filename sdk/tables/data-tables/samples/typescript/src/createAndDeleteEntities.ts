@@ -20,15 +20,12 @@ export async function createAndDeleteEntities() {
   const creds = new TablesSharedKeyCredential(accountName, accountKey);
   const client = new TableClient(tablesUrl, tableName, creds);
 
-  // Create the table
-  await client.create();
-
   const entity: Entity = {
     partitionKey: "Stationery",
     rowKey: "A1",
     name: "Marker Set",
     price: 5.0,
-    quantity: 21,
+    quantity: 21
   };
 
   // Create the new entity
@@ -36,9 +33,6 @@ export async function createAndDeleteEntities() {
 
   // Delete the entity
   await client.deleteEntity(entity.partitionKey, entity.rowKey);
-
-  // Delete the table
-  await client.delete();
 }
 
 interface Entity {

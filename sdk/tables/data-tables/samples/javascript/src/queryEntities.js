@@ -18,9 +18,6 @@ export async function createAndDeleteEntities() {
   // See authenticationMethods sample for other options of creating a new client
   const client = new TableClient(`${tablesUrl}${sasToken}`, tableName);
 
-  // Create the table
-  await client.create();
-
   const partitionKey = "Stationery";
   const marker = {
     partitionKey,
@@ -60,8 +57,6 @@ export async function createAndDeleteEntities() {
   for await (const product of priceListResults) {
     console.log(`${product.name}: ${product.price}`);
   }
-
-  await client.delete();
 }
 
 async function main() {

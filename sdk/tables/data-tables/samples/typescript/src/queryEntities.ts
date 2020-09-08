@@ -18,16 +18,13 @@ export async function createAndDeleteEntities() {
   // See authenticationMethods sample for other options of creating a new client
   const client = new TableClient(`${tablesUrl}${sasToken}`, tableName);
 
-  // Create the table
-  await client.create();
-
   const partitionKey = "Stationery";
   const marker: Entity = {
     partitionKey,
     rowKey: "1",
     name: "Markers",
     price: 5.0,
-    quantity: 34,
+    quantity: 34
   };
 
   const planner: Entity = {
@@ -35,7 +32,7 @@ export async function createAndDeleteEntities() {
     rowKey: "2",
     name: "Planner",
     price: 7.0,
-    quantity: 34,
+    quantity: 34
   };
 
   // create entities for marker and planner
@@ -44,7 +41,7 @@ export async function createAndDeleteEntities() {
 
   // List all entities with PartitionKey "Stationery"
   const listResults = client.listEntities<Entity>({
-    queryOptions: { filter: odata`PartitionKey eq ${partitionKey}` },
+    queryOptions: { filter: odata`PartitionKey eq ${partitionKey}` }
   });
 
   for await (const product of listResults) {
@@ -53,15 +50,13 @@ export async function createAndDeleteEntities() {
 
   // List all entities with a price less than 6.0
   const priceListResults = client.listEntities<Entity>({
-    queryOptions: { filter: odata`price le 6` },
+    queryOptions: { filter: odata`price le 6` }
   });
 
   console.log("-- Products with a price less or equals to 6.00");
   for await (const product of priceListResults) {
     console.log(`${product.name}: ${product.price}`);
   }
-
-  await client.delete();
 }
 
 interface Entity {
