@@ -1789,7 +1789,7 @@ describe("Atom management - Authentication", function(): void {
     }
   }
 ].forEach((testCase) => {
-  describe.only(`createRule() using different variations to the input parameter "ruleOptions"`, function(): void {
+  describe(`createRule() using different variations to the input parameter "ruleOptions"`, function(): void {
     beforeEach(async () => {
       await recreateTopic(managementTopic1);
       await recreateSubscription(managementTopic1, managementSubscription1);
