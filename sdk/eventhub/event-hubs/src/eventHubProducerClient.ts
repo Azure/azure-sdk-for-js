@@ -159,7 +159,7 @@ export class EventHubProducerClient {
    *    if (i === messages.length - 1) {
    *      await client.sendBatch(batch);
    *    }
-   * }
+   *   }
    * }
    * ```
    *
@@ -250,7 +250,7 @@ export class EventHubProducerClient {
    *    if (i === messages.length - 1) {
    *      await client.sendBatch(batch);
    *    }
-   * }
+   *   }
    * }
    * ```
    * @param batch A batch of events that you can create using the {@link createBatch} method.
