@@ -6,7 +6,7 @@ import Long from "long";
 import { ConnectionContext } from "../connectionContext";
 
 /**
- * Error messages to use when EntityPath in connection string does not match the 
+ * Error message to use when EntityPath in connection string does not match the 
  * queue or topic name passed to the methods in the ServiceBusClient that create
  * senders and receivers.
  * 
