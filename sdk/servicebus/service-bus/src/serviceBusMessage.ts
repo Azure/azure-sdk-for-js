@@ -14,7 +14,7 @@ import {
 import { logger } from "./log";
 import { ConnectionContext } from "./connectionContext";
 import { reorderLockToken } from "./util/utils";
-import { getErrorMessageNotSupportedInReceiveAndDeleteMode } from "./util/errors";
+import { getErrorMessageNotSupportedInReceiveAndDeleteMode, logError } from "./util/errors";
 import { Buffer } from "buffer";
 import { DispositionStatusOptions } from "./core/managementClient";
 
@@ -1166,7 +1166,8 @@ export class ServiceBusMessageImpl implements ReceivedMessageWithLock {
       error = new Error(`Failed to renew the lock as this message is already settled.`);
     }
     if (error) {
-      logger.error(
+      logError(
+        error,
         "[%s] An error occurred when renewing the lock on the message with id '%s': %O",
         this._context.connectionId,
         this.messageId,
@@ -1230,7 +1231,8 @@ export class ServiceBusMessageImpl implements ReceivedMessageWithLock {
       const error = new Error(
         getErrorMessageNotSupportedInReceiveAndDeleteMode(`${operation} the message`)
       );
-      logger.error(
+      logError(
+        error,
         "[%s] An error occurred when settling a message with id '%s': %O",
         this._context.connectionId,
         this.messageId,
@@ -1264,7 +1266,8 @@ export class ServiceBusMessageImpl implements ReceivedMessageWithLock {
         });
       }
       if (error) {
-        logger.error(
+        logError(
+          error,
           "[%s] An error occurred when settling a message with id '%s': %O",
           this._context.connectionId,
           this.messageId,

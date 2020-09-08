@@ -22,6 +22,7 @@ import {
 } from "rhea-promise";
 import { getUniqueName, StandardAbortMessage } from "../util/utils";
 import { AbortError, AbortSignalLike } from "@azure/abort-controller";
+import { logError } from "../util/errors";
 
 /**
  * @internal
@@ -198,7 +199,7 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
    */
   isOpen(): boolean {
     const result: boolean = this._link ? this._link.isOpen() : false;
-    logger.error(`${this._logPrefix} is open? ${result}`);
+    logger.verbose(`${this._logPrefix} is open? ${result}`);
     return result;
   }
 
@@ -212,11 +213,11 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
     // we'll check that the connection isn't in the process of recycling (and if so, wait for it to complete)
     await this._context.readyToOpenLink();
 
-    logger.error(
+    logger.verbose(
       `${this._logPrefix} Attempting to acquire lock token ${this._openLock} for initializing link`
     );
     return defaultLock.acquire(this._openLock, () => {
-      logger.error(`${this._logPrefix} Lock ${this._openLock} acquired for initializing link`);
+      logger.verbose(`${this._logPrefix} Lock ${this._openLock} acquired for initializing link`);
       return this._initLinkImpl(options, abortSignal);
     });
   }
@@ -240,16 +241,16 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
     }
 
     if (this._wasClosedPermanently) {
-      logger.error(`${this._logPrefix} Link has been permanently closed. Not reopening.`);
+      logger.info(`${this._logPrefix} Link has been permanently closed. Not reopening.`);
       throw new AbortError(`Link has been permanently closed. Not reopening.`);
     }
 
     if (this.isOpen()) {
-      logger.error(`${this._logPrefix} Link is already open. Returning.`);
+      logger.verbose(`${this._logPrefix} Link is already open. Returning.`);
       return;
     }
 
-    logger.error(`${this._logPrefix} Is not open and is not currently connecting. Opening.`);
+    logger.verbose(`${this._logPrefix} Is not open and is not currently connecting. Opening.`);
 
     try {
       await this._negotiateClaim();
@@ -265,7 +266,7 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
 
       logger.info(`${this._logPrefix} Link has been created.`);
     } catch (err) {
-      logger.error(`${this._logPrefix} Error thrown when creating the link:`, err);
+      logError(err, `${this._logPrefix} Error thrown when creating the link:`, err);
       await this.closeLinkImpl();
       throw err;
     }
@@ -280,7 +281,7 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
     // Set the flag to indicate that this instance of LinkEntity is not meant to be re-used.
     this._wasClosedPermanently = true;
 
-    logger.error(
+    logger.verbose(
       "[%s] Closing the %s for entity '%s'.",
       this._context.connectionId,
       this._type,
@@ -304,7 +305,7 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
       }
     }
 
-    logger.error(
+    logger.verbose(
       "[%s] Deleted the %s '%s' from the client cache.",
       this._context.connectionId,
       this._type,
@@ -327,11 +328,11 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
    * the this._link field to undefined.
    */
   protected closeLink(): Promise<void> {
-    logger.error(
+    logger.verbose(
       `${this._logPrefix} Attempting to acquire lock token ${this._openLock} for closing link`
     );
     return defaultLock.acquire(this._openLock, () => {
-      logger.error(`${this._logPrefix} Lock ${this._openLock} acquired for closing link`);
+      logger.verbose(`${this._logPrefix} Lock ${this._openLock} acquired for closing link`);
       return this.closeLinkImpl();
     });
   }
@@ -353,7 +354,7 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
 
         logger.info(`${this._logPrefix} closed.`);
       } catch (err) {
-        logger.error(`${this._logPrefix} An error occurred while closing the link.: %O`, err);
+        logError(err, `${this._logPrefix} An error occurred while closing the link.: %O`, err);
       }
     }
   }
@@ -384,7 +385,7 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
    * @return {Promise<void>} Promise<void>
    */
   private async _negotiateClaim(setTokenRenewal?: boolean): Promise<void> {
-    logger.error(`${this._logPrefix} negotiateclaim() has been called`);
+    logger.verbose(`${this._logPrefix} negotiateclaim() has been called`);
 
     // Wait for the connectionContext to be ready to open the link.
     this.checkIfConnectionReady();
@@ -471,7 +472,7 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
       return;
     }
 
-    logger.error(`${this._logPrefix} Connection is reopening, aborting link initialization.`);
+    logger.verbose(`${this._logPrefix} Connection is reopening, aborting link initialization.`);
     const err = new MessagingError("Connection is reopening, aborting link initialization.");
     err.retryable = true;
     throw err;
@@ -495,7 +496,8 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
       try {
         await this._negotiateClaim(true);
       } catch (err) {
-        logger.error(
+        logError(
+          err,
           "[%s] %s '%s' with address %s, an error occurred while renewing the token: %O",
           this._context.connectionId,
           this._type,

@@ -1,9 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { logger } from "../log";
+import { logErrorStackTrace, logger } from "../log";
 import Long from "long";
 import { ConnectionContext } from "../connectionContext";
+import { AmqpError } from "rhea-promise";
 
 /**
  * @internal
@@ -15,7 +16,7 @@ export function throwErrorIfConnectionClosed(context: ConnectionContext): void {
   if (context && context.wasConnectionCloseCalled) {
     const errorMessage = "The underlying AMQP connection is closed.";
     const error = new Error(errorMessage);
-    logger.error(`[${context.connectionId}] %O`, error);
+    logger.warning(`[${context.connectionId}] %O`, error);
     throw error;
   }
 }
@@ -81,7 +82,7 @@ export function throwTypeErrorIfParameterMissing(
 ): void {
   if (parameterValue === undefined || parameterValue === null) {
     const error = new TypeError(`Missing parameter "${parameterName}"`);
-    logger.error(`[${connectionId}] %O`, error);
+    logger.warning(`[${connectionId}] %O`, error);
     throw error;
   }
 }
@@ -105,7 +106,7 @@ export function throwTypeErrorIfParameterTypeMismatch(
     const error = new TypeError(
       `The parameter "${parameterName}" should be of type "${expectedType}"`
     );
-    logger.error(`[${connectionId}] %O`, error);
+    logger.warning(`[${connectionId}] %O`, error);
     throw error;
   }
 }
@@ -130,7 +131,7 @@ export function throwTypeErrorIfParameterNotLong(
     return;
   }
   const error = new TypeError(`The parameter "${parameterName}" should be of type "Long"`);
-  logger.error(`[${connectionId}] %O`, error);
+  logger.warning(`[${connectionId}] %O`, error);
   throw error;
 }
 
@@ -151,7 +152,7 @@ export function throwTypeErrorIfParameterNotLongArray(
     return;
   }
   const error = new TypeError(`The parameter "${parameterName}" should be an array of type "Long"`);
-  logger.error(`[${connectionId}] %O`, error);
+  logger.warning(`[${connectionId}] %O`, error);
   throw error;
 }
 
@@ -172,7 +173,7 @@ export function throwTypeErrorIfParameterIsEmptyString(
     return;
   }
   const error = new TypeError(`Empty string not allowed in parameter "${parameterName}"`);
-  logger.error(`[${connectionId}] %O`, error);
+  logger.warning(`[${connectionId}] %O`, error);
   throw error;
 }
 
@@ -185,4 +186,26 @@ export function throwTypeErrorIfParameterIsEmptyString(
  */
 export function getErrorMessageNotSupportedInReceiveAndDeleteMode(failedToDo: string): string {
   return `Failed to ${failedToDo} as the operation is only supported in 'PeekLock' receive mode.`;
+}
+
+/**
+ * @internal
+ * @ignore
+ */
+export function logError(err: Error | AmqpError | undefined, ...args: any[]): void {
+  let l: typeof logger.info;
+
+  if (isError(err) && err.name === "AbortError") {
+    l = logger.info;
+  } else {
+    l = logger.warning;
+  }
+
+  l(...args);
+
+  logErrorStackTrace(err);
+}
+
+function isError(err: Error | AmqpError | undefined): err is Error {
+  return err != null && (err as any).name != null;
 }

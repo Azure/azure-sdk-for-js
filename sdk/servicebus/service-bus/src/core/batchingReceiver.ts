@@ -15,7 +15,7 @@ import {
 import { InternalReceiveMode, ServiceBusMessageImpl } from "../serviceBusMessage";
 import { MessageReceiver, OnAmqpEventAsPromise, ReceiveOptions } from "./messageReceiver";
 import { ConnectionContext } from "../connectionContext";
-import { throwErrorIfConnectionClosed } from "../util/errors";
+import { logError, throwErrorIfConnectionClosed } from "../util/errors";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { checkAndRegisterWithAbortSignal } from "../util/utils";
 
@@ -125,7 +125,8 @@ export class BatchingReceiver extends MessageReceiver {
         userAbortSignal
       });
     } catch (error) {
-      logger.error(
+      logError(
+        error,
         "[%s] Receiver '%s': Rejecting receiveMessages() with error %O: ",
         this._context.connectionId,
         this.name,
@@ -326,7 +327,8 @@ export class BatchingReceiverLite {
 
         if (error) {
           error = translate(error);
-          logger.error(
+          logError(
+            error,
             `${loggingPrefix} '${eventType}' event occurred. Received an error:\n%O`,
             error
           );
@@ -406,7 +408,8 @@ export class BatchingReceiverLite {
           }
         } catch (err) {
           const errObj = err instanceof Error ? err : new Error(JSON.stringify(err));
-          logger.error(
+          logError(
+            err,
             `${loggingPrefix} Received an error while converting AmqpMessage to ServiceBusMessage:\n%O`,
             errObj
           );
@@ -422,7 +425,8 @@ export class BatchingReceiverLite {
         const error = context.session?.error || context.receiver?.error;
 
         if (error) {
-          logger.error(
+          logError(
+            error,
             `${loggingPrefix} '${type}' event occurred. The associated error is: %O`,
             error
           );

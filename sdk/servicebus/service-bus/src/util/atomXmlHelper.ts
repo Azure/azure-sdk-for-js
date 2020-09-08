@@ -19,6 +19,7 @@ import { Buffer } from "buffer";
 
 import { parseURL } from "./parseUrl";
 import { OperationOptions } from "@azure/core-http";
+import { logError } from "./errors";
 
 /**
  * @internal
@@ -84,7 +85,7 @@ export async function executeAtomXmlOperation(
       stripRequest(response.request),
       stripResponse(response)
     );
-    logger.error("Error parsing response body from Service - %0", err);
+    logError(err, "Error parsing response body from Service - %0", err);
     throw error;
   }
 
@@ -188,7 +189,7 @@ function parseAtomResult(response: HttpOperationResponse, nameProperties: string
     return;
   }
 
-  logger.error(
+  logger.warning(
     "Failure in parsing response body from service. Expected response to be in Atom XML format and have either feed or entry components, but received - %0",
     atomResponseInJson
   );

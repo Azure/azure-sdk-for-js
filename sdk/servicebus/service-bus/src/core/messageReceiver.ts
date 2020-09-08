@@ -18,6 +18,7 @@ import { MessageHandlerOptions } from "../models";
 import { DispositionStatusOptions } from "./managementClient";
 import { AbortSignalLike } from "@azure/core-http";
 import { onMessageSettled, DeferredPromiseAndTimer } from "./shared";
+import { logError } from "../util/errors";
 
 /**
  * @internal
@@ -239,7 +240,8 @@ export abstract class MessageReceiver extends LinkEntity<Receiver> {
       this._context.messageReceivers[this.name] = this as any;
     } catch (err) {
       err = translate(err);
-      logger.error(
+      logError(
+        err,
         "[%s] An error occured while creating the receiver '%s': %O",
         this._context.connectionId,
         this.name,

@@ -171,7 +171,7 @@ export function toBuffer(input: any): Buffer {
         `An error occurred while executing JSON.stringify() on the given input ` +
         input +
         `${err instanceof Error ? err.stack : JSON.stringify(err)}`;
-      logger.error("[utils.toBuffer] " + msg);
+      logger.warning("[utils.toBuffer] " + msg);
       throw err instanceof Error ? err : new Error(msg);
     }
   }

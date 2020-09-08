@@ -71,6 +71,7 @@ import {
 } from "./serializers/topicResourceSerializer";
 import { AtomXmlSerializer, executeAtomXmlOperation } from "./util/atomXmlHelper";
 import * as Constants from "./util/constants";
+import { logError } from "./util/errors";
 import { parseURL } from "./util/parseUrl";
 import { SasServiceClientCredentials } from "./util/sasServiceClientCredentials";
 import { createSpan, getCanonicalCode } from "./util/tracing";
@@ -2456,7 +2457,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       });
       return namespaceResponse;
     } catch (err) {
-      logger.error("Failure parsing response from service - %0 ", err);
+      logError(err, "Failure parsing response from service - %0 ", err);
       throw new RestError(
         `Error occurred while parsing the response body - cannot form a namespace object using the response from the service.`,
         RestError.PARSE_ERROR,
@@ -2489,7 +2490,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       listQueuesResponse.continuationToken = nextMarker;
       return listQueuesResponse;
     } catch (err) {
-      logger.error("Failure parsing response from service - %0 ", err);
+      logError(err, "Failure parsing response from service - %0 ", err);
       throw new RestError(
         `Error occurred while parsing the response body - cannot form a list of queues using the response from the service.`,
         RestError.PARSE_ERROR,
@@ -2522,7 +2523,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       listQueuesResponse.continuationToken = nextMarker;
       return listQueuesResponse;
     } catch (err) {
-      logger.error("Failure parsing response from service - %0 ", err);
+      logError(err, "Failure parsing response from service - %0 ", err);
       throw new RestError(
         `Error occurred while parsing the response body - cannot form a list of queues using the response from the service.`,
         RestError.PARSE_ERROR,
@@ -2541,7 +2542,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       });
       return queueResponse;
     } catch (err) {
-      logger.error("Failure parsing response from service - %0 ", err);
+      logError(err, "Failure parsing response from service - %0 ", err);
       throw new RestError(
         `Error occurred while parsing the response body - cannot form a queue object using the response from the service.`,
         RestError.PARSE_ERROR,
@@ -2562,7 +2563,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       });
       return queueResponse;
     } catch (err) {
-      logger.error("Failure parsing response from service - %0 ", err);
+      logError(err, "Failure parsing response from service - %0 ", err);
       throw new RestError(
         `Error occurred while parsing the response body - cannot form a queue object using the response from the service.`,
         RestError.PARSE_ERROR,
@@ -2595,7 +2596,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       listTopicsResponse.continuationToken = nextMarker;
       return listTopicsResponse;
     } catch (err) {
-      logger.error("Failure parsing response from service - %0 ", err);
+      logError(err, "Failure parsing response from service - %0 ", err);
       throw new RestError(
         `Error occurred while parsing the response body - cannot form a list of topics using the response from the service.`,
         RestError.PARSE_ERROR,
@@ -2628,7 +2629,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       listTopicsResponse.continuationToken = nextMarker;
       return listTopicsResponse;
     } catch (err) {
-      logger.error("Failure parsing response from service - %0 ", err);
+      logError(err, "Failure parsing response from service - %0 ", err);
       throw new RestError(
         `Error occurred while parsing the response body - cannot form a list of topics using the response from the service.`,
         RestError.PARSE_ERROR,
@@ -2646,7 +2647,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       });
       return topicResponse;
     } catch (err) {
-      logger.error("Failure parsing response from service - %0 ", err);
+      logError(err, "Failure parsing response from service - %0 ", err);
       throw new RestError(
         `Error occurred while parsing the response body - cannot form a topic object using the response from the service.`,
         RestError.PARSE_ERROR,
@@ -2667,7 +2668,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       });
       return topicResponse;
     } catch (err) {
-      logger.error("Failure parsing response from service - %0 ", err);
+      logError(err, "Failure parsing response from service - %0 ", err);
       throw new RestError(
         `Error occurred while parsing the response body - cannot form a topic object using the response from the service.`,
         RestError.PARSE_ERROR,
@@ -2703,7 +2704,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       listSubscriptionsResponse.continuationToken = nextMarker;
       return listSubscriptionsResponse;
     } catch (err) {
-      logger.error("Failure parsing response from service - %0 ", err);
+      logError(err, "Failure parsing response from service - %0 ", err);
       throw new RestError(
         `Error occurred while parsing the response body - cannot form a list of subscriptions using the response from the service.`,
         RestError.PARSE_ERROR,
@@ -2739,7 +2740,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       listSubscriptionsResponse.continuationToken = nextMarker;
       return listSubscriptionsResponse;
     } catch (err) {
-      logger.error("Failure parsing response from service - %0 ", err);
+      logError(err, "Failure parsing response from service - %0 ", err);
       throw new RestError(
         `Error occurred while parsing the response body - cannot form a list of subscriptions using the response from the service.`,
         RestError.PARSE_ERROR,
@@ -2758,7 +2759,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       });
       return subscriptionResponse;
     } catch (err) {
-      logger.error("Failure parsing response from service - %0 ", err);
+      logError(err, "Failure parsing response from service - %0 ", err);
       throw new RestError(
         `Error occurred while parsing the response body - cannot form a subscription object using the response from the service.`,
         RestError.PARSE_ERROR,
@@ -2782,7 +2783,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       );
       return subscriptionResponse;
     } catch (err) {
-      logger.error("Failure parsing response from service - %0 ", err);
+      logError(err, "Failure parsing response from service - %0 ", err);
       throw new RestError(
         `Error occurred while parsing the response body - cannot form a subscription object using the response from the service.`,
         RestError.PARSE_ERROR,
@@ -2815,7 +2816,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       listRulesResponse.continuationToken = nextMarker;
       return listRulesResponse;
     } catch (err) {
-      logger.error("Failure parsing response from service - %0 ", err);
+      logError(err, "Failure parsing response from service - %0 ", err);
       throw new RestError(
         `Error occurred while parsing the response body - cannot form a list of rules using the response from the service.`,
         RestError.PARSE_ERROR,
@@ -2832,7 +2833,7 @@ export class ServiceBusAdministrationClient extends ServiceClient {
       const ruleResponse: RuleResponse = Object.assign(rule || {}, { _response: response });
       return ruleResponse;
     } catch (err) {
-      logger.error("Failure parsing response from service - %0 ", err);
+      logError(err, "Failure parsing response from service - %0 ", err);
       throw new RestError(
         `Error occurred while parsing the response body - cannot form a rule object using the response from the service.`,
         RestError.PARSE_ERROR,

@@ -17,7 +17,7 @@ import { DispositionStatusOptions } from "../core/managementClient";
 import { OnAmqpEventAsPromise, OnError, OnMessage } from "../core/messageReceiver";
 import { logger } from "../log";
 import { DispositionType, InternalReceiveMode, ServiceBusMessageImpl } from "../serviceBusMessage";
-import { throwErrorIfConnectionClosed } from "../util/errors";
+import { logError, throwErrorIfConnectionClosed } from "../util/errors";
 import { calculateRenewAfterDuration, convertTicksToDate } from "../util/utils";
 import { BatchingReceiverLite, MinimalReceiver } from "../core/batchingReceiver";
 import { onMessageSettled, DeferredPromiseAndTimer } from "../core/shared";
@@ -219,7 +219,8 @@ export class MessageSession extends LinkEntity<Receiver> {
           );
           this._ensureSessionLockRenewal();
         } catch (err) {
-          logger.error(
+          logError(
+            err,
             "[%s] An error occurred while renewing the session lock for MessageSession " +
               "'%s' with name '%s': %O",
             this._context.connectionId,
@@ -283,7 +284,7 @@ export class MessageSession extends LinkEntity<Receiver> {
           description: errorMessage,
           condition: ErrorNameConditionMapper.SessionCannotBeLockedError
         });
-        logger.error("[%s] %O", this._context.connectionId, error);
+        logError(error, "[%s] %O", this._context.connectionId, error);
         throw error;
       }
       if (this.providedSessionId == null) this.sessionId = receivedSessionId;
@@ -296,13 +297,13 @@ export class MessageSession extends LinkEntity<Receiver> {
         this.sessionId,
         this.sessionLockedUntilUtc.toISOString()
       );
-      logger.error(
+      logger.verbose(
         "[%s] Receiver '%s' for sessionId '%s' has established itself.",
         connectionId,
         this.name,
         this.sessionId
       );
-      logger.info(
+      logger.verbose(
         "Promise to create the receiver resolved. " + "Created receiver with name: ",
         this.name
       );
@@ -319,7 +320,8 @@ export class MessageSession extends LinkEntity<Receiver> {
       this._ensureSessionLockRenewal();
     } catch (err) {
       const errObj = translate(err);
-      logger.error(
+      logError(
+        errObj,
         "[%s] An error occured while creating the receiver '%s': %O",
         this._context.connectionId,
         this.name,
@@ -414,7 +416,7 @@ export class MessageSession extends LinkEntity<Receiver> {
     this._notifyError = (error: MessagingError | Error) => {
       if (this._onError) {
         this._onError(error);
-        logger.error(
+        logger.verbose(
           "[%s] Notified the user's error handler about the error received by the " +
             "Receiver '%s'.",
           this._context.connectionId,
@@ -431,7 +433,8 @@ export class MessageSession extends LinkEntity<Receiver> {
         if (sbError.code === "SessionLockLostError") {
           sbError.message = `The session lock has expired on the session with id ${this.sessionId}.`;
         }
-        logger.error(
+        logError(
+          sbError,
           "[%s] An error occurred for Receiver '%s': %O.",
           connectionId,
           this.name,
@@ -446,7 +449,8 @@ export class MessageSession extends LinkEntity<Receiver> {
       const sessionError = context.session && context.session.error;
       if (sessionError) {
         const sbError = translate(sessionError);
-        logger.error(
+        logError(
+          sbError,
           "[%s] An error occurred on the session for Receiver '%s': %O.",
           connectionId,
           this.name,
@@ -462,7 +466,8 @@ export class MessageSession extends LinkEntity<Receiver> {
       const receiver = this.link || context.receiver!;
       if (receiverError) {
         const sbError = translate(receiverError) as MessagingError;
-        logger.error(
+        logError(
+          sbError,
           "[%s] 'receiver_close' event occurred for receiver '%s' for sessionId '%s'. " +
             "The associated error is: %O",
           connectionId,
@@ -474,7 +479,7 @@ export class MessageSession extends LinkEntity<Receiver> {
         // will always be emitted before receiver_close.
       }
       if (receiver && !receiver.isItselfClosed()) {
-        logger.error(
+        logger.info(
           "[%s] 'receiver_close' event occurred on the receiver '%s' for sessionId '%s' " +
             "and the sdk did not initiate this. Hence, let's gracefully close the receiver.",
           connectionId,
@@ -484,7 +489,8 @@ export class MessageSession extends LinkEntity<Receiver> {
         try {
           await this.close();
         } catch (err) {
-          logger.error(
+          logError(
+            err,
             "[%s] An error occurred while closing the receiver '%s' for sessionId '%s': %O.",
             connectionId,
             this.name,
@@ -493,7 +499,7 @@ export class MessageSession extends LinkEntity<Receiver> {
           );
         }
       } else {
-        logger.error(
+        logger.info(
           "[%s] 'receiver_close' event occurred on the receiver '%s' for sessionId '%s' " +
             "because the sdk initiated it. Hence no need to gracefully close the receiver",
           connectionId,
@@ -509,7 +515,8 @@ export class MessageSession extends LinkEntity<Receiver> {
       const sessionError = context.session && context.session.error;
       if (sessionError) {
         const sbError = translate(sessionError);
-        logger.error(
+        logError(
+          sbError,
           "[%s] 'session_close' event occurred for receiver '%s' for sessionId '%s'. " +
             "The associated error is: %O",
           connectionId,
@@ -522,7 +529,7 @@ export class MessageSession extends LinkEntity<Receiver> {
       }
 
       if (receiver && !receiver.isSessionItselfClosed()) {
-        logger.error(
+        logger.info(
           "[%s] 'session_close' event occurred on the receiver '%s' for sessionId '%s' " +
             "and the sdk did not initiate this. Hence, let's gracefully close the receiver.",
           connectionId,
@@ -532,7 +539,8 @@ export class MessageSession extends LinkEntity<Receiver> {
         try {
           await this.close();
         } catch (err) {
-          logger.error(
+          logError(
+            err,
             "[%s] An error occurred while closing the receiver '%s' for sessionId '%s': %O.",
             connectionId,
             this.name,
@@ -541,7 +549,7 @@ export class MessageSession extends LinkEntity<Receiver> {
           );
         }
       } else {
-        logger.error(
+        logger.info(
           "[%s] 'session_close' event occurred on the receiver '%s' for sessionId '%s' " +
             "because the sdk initiated it. Hence no need to gracefully close the receiver",
           connectionId,
@@ -569,7 +577,8 @@ export class MessageSession extends LinkEntity<Receiver> {
 
       await this._batchingReceiverLite.close();
     } catch (err) {
-      logger.error(
+      logError(
+        err,
         "[%s] An error occurred while closing the message session with id '%s': %O.",
         this._context.connectionId,
         this.sessionId,
@@ -628,7 +637,7 @@ export class MessageSession extends LinkEntity<Receiver> {
           this.receiveMode === InternalReceiveMode.peekLock &&
           (!this.link || !this.link.isOpen())
         ) {
-          logger.error(
+          logger.verbose(
             "[%s] Not calling the user's message handler for the current message " +
               "as the receiver '%s' is closed",
             connectionId,
@@ -651,7 +660,8 @@ export class MessageSession extends LinkEntity<Receiver> {
         } catch (err) {
           // This ensures we call users' error handler when users' message handler throws.
           if (!isAmqpError(err)) {
-            logger.error(
+            logError(
+              err,
               "[%s] An error occurred while running user's message handler for the message " +
                 "with id '%s' on the receiver '%s': %O",
               connectionId,
@@ -670,7 +680,8 @@ export class MessageSession extends LinkEntity<Receiver> {
             this.isOpen() // only try to abandon the messages if the connection is still open
           ) {
             try {
-              logger.error(
+              logError(
+                error,
                 "[%s] Abandoning the message with id '%s' on the receiver '%s' since " +
                   "an error occured: %O.",
                 connectionId,
@@ -681,7 +692,8 @@ export class MessageSession extends LinkEntity<Receiver> {
               await bMessage.abandon();
             } catch (abandonError) {
               const translatedError = translate(abandonError);
-              logger.error(
+              logError(
+                translatedError,
                 "[%s] An error occurred while abandoning the message with id '%s' on the " +
                   "receiver '%s': %O.",
                 connectionId,
@@ -714,7 +726,8 @@ export class MessageSession extends LinkEntity<Receiver> {
             await bMessage.complete();
           } catch (completeError) {
             const translatedError = translate(completeError);
-            logger.error(
+            logError(
+              translatedError,
               "[%s] An error occurred while completing the message with id '%s' on the " +
                 "receiver '%s': %O.",
               connectionId,
@@ -735,7 +748,7 @@ export class MessageSession extends LinkEntity<Receiver> {
       const msg =
         `MessageSession with sessionId '${this.sessionId}' and name '${this.name}' ` +
         `has either not been created or is not open.`;
-      logger.error("[%s] %s", this._context.connectionId, msg);
+      logger.info("[%s] %s", this._context.connectionId, msg);
       this._notifyError(new Error(msg));
     }
   }
@@ -763,7 +776,8 @@ export class MessageSession extends LinkEntity<Receiver> {
         userAbortSignal
       });
     } catch (error) {
-      logger.error(
+      logError(
+        error,
         "[%s] Receiver '%s': Rejecting receiveMessages() with error %O: ",
         this._context.connectionId,
         this.name,
