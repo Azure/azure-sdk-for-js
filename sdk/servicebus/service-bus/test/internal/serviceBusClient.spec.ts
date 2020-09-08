@@ -4,7 +4,7 @@
 import { extractReceiverArguments, ServiceBusClient } from "../../src/serviceBusClient";
 import chai from "chai";
 import { CreateSessionReceiverOptions } from "../../src/models";
-import { entityPathMisMatchErrors } from "../../src/util/errors";
+import { entityPathMisMatchError } from "../../src/util/errors";
 const assert = chai.assert;
 
 const allLockModes: ("peekLock" | "receiveAndDelete")[] = ["peekLock", "receiveAndDelete"];
@@ -103,7 +103,7 @@ describe("serviceBusClient unit tests", () => {
         client.createReceiver("my-queue");
         throw new Error("Receiver should not have been created successfully.");
       } catch (error) {
-        assert.equal(error.message, entityPathMisMatchErrors);
+        assert.equal(error.message, entityPathMisMatchError);
       }
     });
 
@@ -113,7 +113,7 @@ describe("serviceBusClient unit tests", () => {
         client.createReceiver("my-topic", "my-subscription");
         throw new Error("Receiver should not have been created successfully.");
       } catch (error) {
-        assert.equal(error.message, entityPathMisMatchErrors);
+        assert.equal(error.message, entityPathMisMatchError);
       }
     });
 
@@ -123,7 +123,7 @@ describe("serviceBusClient unit tests", () => {
         await client.createSessionReceiver("my-queue");
         throw new Error("Receiver should not have been created successfully.");
       } catch (error) {
-        assert.equal(error.message, entityPathMisMatchErrors);
+        assert.equal(error.message, entityPathMisMatchError);
       }
     });
 
@@ -133,7 +133,7 @@ describe("serviceBusClient unit tests", () => {
         await client.createSessionReceiver("my-topic", "my-subscription");
         throw new Error("Receiver should not have been created successfully.");
       } catch (error) {
-        assert.equal(error.message, entityPathMisMatchErrors);
+        assert.equal(error.message, entityPathMisMatchError);
       }
     });
 
@@ -143,7 +143,7 @@ describe("serviceBusClient unit tests", () => {
         client.createSender("my-queue");
         throw new Error("Sender should not have been created successfully.");
       } catch (error) {
-        assert.equal(error.message, entityPathMisMatchErrors);
+        assert.equal(error.message, entityPathMisMatchError);
       }
     });
   });

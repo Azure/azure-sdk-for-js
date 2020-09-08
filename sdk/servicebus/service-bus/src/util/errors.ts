@@ -13,7 +13,8 @@ import { ConnectionContext } from "../connectionContext";
  * @internal
  * @ignore
  */
-export const entityPathMisMatchErrors = "The queue or topic name provided does not match the EntityPath in the connection string passed to the ServiceBusClient constructor.";
+export const entityPathMisMatchError =
+  "The queue or topic name provided does not match the EntityPath in the connection string passed to the ServiceBusClient constructor.";
 
 /**
  * @internal

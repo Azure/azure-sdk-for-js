@@ -16,7 +16,7 @@ import {
 } from "./receivers/sessionReceiver";
 import { ServiceBusReceivedMessage, ServiceBusReceivedMessageWithLock } from "./serviceBusMessage";
 import { ServiceBusSender, ServiceBusSenderImpl } from "./sender";
-import { entityPathMisMatchErrors } from "./util/errors";
+import { entityPathMisMatchError } from "./util/errors";
 
 /**
  * A client that can create Sender instances for sending messages to queues and
@@ -447,11 +447,8 @@ export function extractReceiverArguments<OptionsT extends { receiveMode?: Receiv
  * @internal
  * @ignore
  */
-export function validateEntityPath(
-  connectionConfig: ConnectionConfig,
-  queueOrTopicName: string
-): void {
+function validateEntityPath(connectionConfig: ConnectionConfig, queueOrTopicName: string): void {
   if (connectionConfig.entityPath && connectionConfig.entityPath !== queueOrTopicName) {
-    throw new Error(entityPathMisMatchErrors);
+    throw new Error(entityPathMisMatchError);
   }
 }
