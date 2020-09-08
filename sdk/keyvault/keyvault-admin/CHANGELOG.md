@@ -4,5 +4,5 @@
 
 The @azure/keyvault-admin package provides two clients, `KeyVaultAccessControlClient` and `KeyVaultBackupClient`.
 
-- The `KeyVaultAccessControlClient` allows assigning, deleting and retrieving role assignments, and retrieving role definitions.
+- The `KeyVaultAccessControlClient` allows working with role-based access control (RBAC) operations, meaning assigning, deleting and retrieving role assignments, and retrieving role definitions.
 - The `KeyVaultBackupClient` allows generating full backups, selective restores of specific keys and full restores of Key Vault instances.

@@ -14,9 +14,9 @@ These sample programs show how to use the TypeScript client libraries for Azure 
 
 | **File Name** | **Description** |
 | ------------------------------- |
-| [accessControlHelloWorld.ts][accessControlHelloWorld] | Lists all Role Definitions and Role Assignments, Creates a Role Assignment, then gets it and later deletes it. |
-| [backupHelloWorld.ts][BackupHelloWorld] | Performs a full key backup, then a full key restore. |
-| [backupSelective.ts][BackupSelective] | Performs a selective key backup, then a selective key restore. |
+| [accessControlHelloWorld.ts][accessControlHelloWorld] (RBAC) | Lists all Role Definitions and Role Assignments, Creates a Role Assignment, then gets it and later deletes it. |
+| [backupRestoreHelloWorld.ts][BackupHelloWorld] | Performs a full key backup, then a full key restore. |
+| [backupSelectiveRestore.ts][BackupSelective] | Performs a selective key backup, then a selective key restore. |
 
 ## Prerequisites
 
@@ -59,13 +59,13 @@ npm run build
 4. Run whichever samples you like (note that some samples may require additional setup, see the table above):
 
 ```bash
-node dist/backupHelloWorld.ts
+node dist/backupRestoreHelloWorld.ts
 ```
 
 Alternatively, run a single sample with the correct environment variables set (step 2 is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env KEYVAULT_NAME="<key vault name>" AZURE_TENANT_ID="<AAD tenant id>" AZURE_CLIENT_ID="<AAD client id>" AZURE_CLIENT_SECRET="<AAD client secret>" BLOB_STORAGE_URI="<blob-storage-uri>" BLOB_STORAGE_SAS_TOKEN="<blob-storage-sas-token>" CLIENT_OBJECT_ID="<client-object-id>" node dist/backupHelloWorld.ts
+npx cross-env KEYVAULT_NAME="<key vault name>" AZURE_TENANT_ID="<AAD tenant id>" AZURE_CLIENT_ID="<AAD client id>" AZURE_CLIENT_SECRET="<AAD client secret>" BLOB_STORAGE_URI="<blob-storage-uri>" BLOB_STORAGE_SAS_TOKEN="<blob-storage-sas-token>" CLIENT_OBJECT_ID="<client-object-id>" node dist/backupRestoreHelloWorld.ts
 ```
 
 ## Next Steps
@@ -73,8 +73,8 @@ npx cross-env KEYVAULT_NAME="<key vault name>" AZURE_TENANT_ID="<AAD tenant id>"
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
 [accessControlHelloWorld]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-admin/samples/typescript/src/accessControlHelloWorld.ts
-[BackupHelloWorld]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-admin/samples/typescript/src/backupHelloWorld.ts
-[BackupSelective]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-admin/samples/typescript/src/backupSelective.ts
+[BackupHelloWorld]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-admin/samples/typescript/src/backupRestoreHelloWorld.ts
+[BackupSelective]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-admin/samples/typescript/src/backupSelectiveRestore.ts
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/keyvault-admin
 [azkeyvault]: https://docs.microsoft.com/azure/key-vault/quick-create-portal
 [kvsoftdelete]: https://docs.microsoft.com/azure/key-vault/key-vault-soft-delete-cli

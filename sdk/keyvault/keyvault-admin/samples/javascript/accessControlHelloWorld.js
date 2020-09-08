@@ -3,6 +3,8 @@
 
 const { KeyVaultAccessControlClient } = require("@azure/keyvault-admin");
 const { DefaultAzureCredential } = require("@azure/identity");
+const uuid = require("uuid");
+const uuidv4 = uuid.v4;
 
 // Load the .env file if it exists
 require("dotenv").config();
@@ -26,15 +28,19 @@ async function main() {
   const globalScope = "/";
   const roleDefinition = (await client.listRoleDefinitions(globalScope).next()).value;
 
+  const roleAssignmentName = uuidv4();
   let assignment = await client.createRoleAssignment(
     globalScope,
-    name,
+    roleAssignmentName,
     roleDefinition.id,
     process.env["CLIENT_OBJECT_ID"]
   );
   console.log(assignment);
 
-  assignment = await client.deleteRoleAssignment(globalScope, name);
+  assignment = await client.getRoleAssignment(globalScope, roleAssignmentName);
+  console.log(assignment);
+
+  assignment = await client.deleteRoleAssignment(globalScope, roleAssignmentName);
   console.log(assignment);
 }
 

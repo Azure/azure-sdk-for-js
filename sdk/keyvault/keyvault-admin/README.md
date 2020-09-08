@@ -114,7 +114,12 @@ Once you've populated the **AZURE_CLIENT_ID**, **AZURE_CLIENT_SECRET** and **AZU
 with the above returned URI, you can create the [KeyVaultAccessControlClient][src-rbac-client]:
 
 ```ts
+import { DefaultAzureCredential } from "@azure/identity";
+import { KeyVaultBackupClient } from "@azure/keyvault-admin";
+
 const credentials = new DefaultAzureCredential();
+
+const vaultUrl = `https://<MY KEY VAULT HERE>.vault.azure.net`;
 const client = new KeyVaultAccessControlClient(vaultUrl, credentials);
 ```
 
@@ -124,8 +129,12 @@ Once you've populated the **AZURE_CLIENT_ID**, **AZURE_CLIENT_SECRET** and **AZU
 with the above returned URI, you can create the [KeyVaultBackupClient][src-backup-client]:
 
 ```ts
-const vaultUrl = `https://<MY KEY VAULT HERE>.vault.azure.net`;
+import { DefaultAzureCredential } from "@azure/identity";
+import { KeyVaultBackupClient } from "@azure/keyvault-admin";
+
 const credentials = new DefaultAzureCredential();
+
+const vaultUrl = `https://<MY KEY VAULT HERE>.vault.azure.net`;
 const client = new KeyVaultBackupClient(vaultUrl, credentials);
 ```
 
@@ -133,18 +142,18 @@ const client = new KeyVaultBackupClient(vaultUrl, credentials);
 
 ### KeyVaultRoleDefinition
 
-A `KeyVaultRoleDefinition` is a collection of permissions. A role definition defines the operations that can be performed, such as read, write, 
+A Role Definition is a collection of permissions. A role definition defines the operations that can be performed, such as read, write, 
 and delete. It can also define the operations that are excluded from allowed operations.
 
-KeyVaultRoleDefinitions can be listed and specified as part of a `KeyVaultRoleAssignment`.
+Role definitions can be listed and specified as part of a Role Assignment.
 
 ### KeyVaultRoleAssignment. 
 
-A `KeyVaultRoleAssignment` is the association of a KeyVaultRoleDefinition to a service principal. They can be created, listed, fetched individually, and deleted.
+A Role Assignment is the association of a Role Definition to a service principal. They can be created, listed, fetched individually, and deleted.
 
 ### KeyVaultAccessControlClient
 
-A [KeyVaultAccessControlClient][src-rbac-client] provides both synchronous and asynchronous operations allowing for management of `KeyVaultRoleDefinition` and `KeyVaultRoleAssignment` objects.
+A [KeyVaultAccessControlClient][src-rbac-client] provides both synchronous and asynchronous operations allowing for management of Role Definitions (instances of `KeyVaultRoleDefinition`) and Role Assignments (instances of `KeyVaultRoleAssignment`).
 
 ### KeyVaultBackupClient
 
@@ -152,7 +161,7 @@ A [KeyVaultBackupClient][src-backup-client] provides both synchronous and asynch
 
 ### Long Running Operations
 
-The Azure SDK for TypeScript and JavaScript offers a common abstraction for long running operations through the package [core-lro][corelro]. In particular, the operations done by the [KeyVaultBackupClient][src-backup-client] may take as much time as needed by the Azure resources, requiring a client layer to keep track, serialize and resume the operations through the lifecycle of the programs that wait for them to finish.
+The Azure SDK for TypeScript and JavaScript offers a common abstraction for long running operations through the package [core-lro][core-lro]. In particular, the operations done by the [KeyVaultBackupClient][src-backup-client] may take as much time as needed by the Azure resources, requiring a client layer to keep track, serialize and resume the operations through the lifecycle of the programs that wait for them to finish.
 
 The [KeyVaultBackupClient][src-backup-client] offers three methods that execute Long Running Operations:
 
@@ -166,17 +175,17 @@ All of the Long Running Operation methods return a a Long Running Operation poll
 
 The following section provides several code snippets using the `client` created above for either [access control](#create-keyvaultaccesscontrolclient) or [backup](#create-KeyVaultBackupClient) clients, covering some of the most common Azure Key Vault access control related tasks:
 
-- Access control
+- Access control (RBAC):
     - [Listing All Role Definitions](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-admin/samples/typescript/src/accessControlHelloWorld.ts)
     - [Listing All Role Assignments](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-admin/samples/typescript/src/accessControlHelloWorld.ts)
     - [Creating a Role Assignment](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-admin/samples/typescript/src/accessControlHelloWorld.ts)
     - [Getting a Role Assignment](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-admin/samples/typescript/src/accessControlHelloWorld.ts)
     - [Deleting a Role Assignment](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-admin/samples/typescript/src/accessControlHelloWorld.ts)
-- Backup and restore
-    - [Performing a full key backup](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-admin/samples/typescript/src/backupHelloWorld.ts)
-    - [Performing a full key restore](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-admin/samples/typescript/src/backupHelloWorld.ts)
-    - [Performing a selective key backup](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-admin/samples/typescript/src/backupSelective.ts)
-    - [Performing a selective key restore](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-admin/samples/typescript/src/backupSelective.ts)
+- Backup and restore:
+    - [Performing a full key backup](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-admin/samples/typescript/src/backupRestoreHelloWorld.ts)
+    - [Performing a full key restore](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-admin/samples/typescript/src/backupRestoreHelloWorld.ts)
+    - [Performing a selective key backup](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-admin/samples/typescript/src/backupSelectiveRestore.ts)
+    - [Performing a selective key restore](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-admin/samples/typescript/src/backupSelectiveRestore.ts)
 
 ## Troubleshooting
 
@@ -193,7 +202,7 @@ setLogLevel("info");
 You can find more code samples through the following links:
 
 - [KeyVault Admin Samples (JavaScript)](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-admin/samples/javascript)
-- [KeyVault Admin Samples (TypeScript)](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-admin/samples/typescript)src/
+- [KeyVault Admin Samples (TypeScript)](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-admin/samples/typescript)
 - [KeyVault Admin Test Cases](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-admin/test/)
 
 ## Contributing
@@ -208,8 +217,8 @@ If you'd like to contribute to this library, please read the [contributing guide
 [package-npm]: https://www.npmjs.com/package/@azure/keyvault-admin
 [identity-npm]: https://www.npmjs.com/package/@azure/identity
 [docs]: https://docs.microsoft.com/javascript/api/@azure/keyvault-admin
-[docs-service]: https://azure.microsoft.com/en-us/services/key-vault/
-[docs-overview]: https://docs.microsoft.com/en-us/azure/key-vault/key-vault-overview
+[docs-service]: https://azure.microsoft.com/services/key-vault/
+[docs-overview]: https://docs.microsoft.com/azure/key-vault/key-vault-overview
 [samples]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-admin/samples
 [azure-sub]: https://azure.microsoft.com/free/
 [azure-cli]: https://docs.microsoft.com/cli/azure
@@ -223,7 +232,7 @@ If you'd like to contribute to this library, please read the [contributing guide
 [storage-account-create-ps]: https://docs.microsoft.com/azure/storage/common/storage-quickstart-create-account?tabs=azure-powershell
 [storage-account-create-cli]: https://docs.microsoft.com/azure/storage/common/storage-quickstart-create-account?tabs=azure-cli
 [storage-account-create-portal]: https://docs.microsoft.com/azure/storage/common/storage-quickstart-create-account?tabs=azure-portal
-
+[package-gh]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/core/core-lro
 [code_of_conduct]: https://opensource.microsoft.com/codeofconduct/
 [backup_client]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-admin/src/KeyVaultBackupClient.cs
 [keyvault_docs]: https://docs.microsoft.com/azure/key-vault/
