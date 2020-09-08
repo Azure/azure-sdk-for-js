@@ -14,9 +14,9 @@ These sample programs show how to use the JavaScript client libraries for Azure 
 
 | **File Name** | **Description** |
 | ------------------------------- |
-| [RBACHelloWorld.js][RBACHelloWorld] | Lists all Role Definitions and Role Assignments, Creates a Role Assignment, then gets it and later deletes it. |
-| [BackupHelloWorld.js][BackupHelloWorld] | Performs a full key backup, then a full key restore. |
-| [BackupSelective.js][BackupSelective] | Performs a selective key backup, then a selective key restore. |
+| [accessControlHelloWorld.js][accessControlHelloWorld] | Lists all Role Definitions and Role Assignments, Creates a Role Assignment, then gets it and later deletes it. |
+| [backupHelloWorld.js][BackupHelloWorld] | Performs a full key backup, then a full key restore. |
+| [backupSelective.js][BackupSelective] | Performs a selective key backup, then a selective key restore. |
 
 ## Prerequisites
 
@@ -47,22 +47,22 @@ npm install
 3. Run whichever samples you like (note that some samples may require additional setup, see the table above):
 
 ```bash
-node helloWorld.js
+node backupHelloWorld.js
 ```
 
 Alternatively, run a single sample with the correct environment variables set (step 2 is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env KEYVAULT_NAME="<key vault name>" AZURE_TENANT_ID="<AAD tenant id>" AZURE_CLIENT_ID="<AAD client id>" AZURE_CLIENT_SECRET="<AAD client secret>" node helloWorld.js
+npx cross-env KEYVAULT_NAME="<key vault name>" AZURE_TENANT_ID="<AAD tenant id>" AZURE_CLIENT_ID="<AAD client id>" AZURE_CLIENT_SECRET="<AAD client secret>" BLOB_STORAGE_URI="<blob-storage-uri>" BLOB_STORAGE_SAS_TOKEN="<blob-storage-sas-token>" CLIENT_OBJECT_ID="<client-object-id>" node backupHelloWorld.js
 ```
 
 ## Next Steps
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[cryptography]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-keys/samples/javascript/cryptography.js
-[helloworld]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-keys/samples/javascript/helloWorld.js
-[purgeAllKeys]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-keys/samples/javascript/purgeAllKeys.js
+[accessControlHelloWorld]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-admin/samples/javascript/accessControlHelloWorld.js
+[BackupHelloWorld]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-admin/samples/javascript/backupHelloWorld.js
+[BackupSelective]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-admin/samples/javascript/backupSelective.js
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/keyvault-keys
 [azkeyvault]: https://docs.microsoft.com/azure/key-vault/quick-create-portal
 [kvsoftdelete]: https://docs.microsoft.com/azure/key-vault/key-vault-soft-delete-cli

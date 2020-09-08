@@ -74,7 +74,7 @@ Use the [Azure CLI][azure-cli] snippet below to create/get client secret credent
     "<your-service-principal-object-id>"
     ```
 * Use the returned credentials above to set  **AZURE_CLIENT_ID** (appId), **AZURE_CLIENT_SECRET** (password), and **AZURE_TENANT_ID** (tenant) 
-environment variables. For example, you can use the [dotenv][dotenv] project and add a `.env` file to your project with hte following contents:
+environment variables. For example, you can use the [dotenv][dotenv] project and add a `.env` file to your project with hte following contents (for the full section of environment variables, see [Environment Variables](#environment-variables)):
     ```PowerShell
     AZURE_TENANT_ID=<tenant-ID>
     AZURE_CLIENT_ID=<generated-app-ID>
@@ -103,6 +103,10 @@ Here's an example using the Azure CLI:
 ```Powershell
 az storage account create --name MyStorageAccount --resource-group MyResourceGroup --location westus --sku Standard_LRS
 ```
+
+#### Environment Variables
+
+With a Key Vault and a Storage account, you can fill the rest of the environment variables in the `.env` file used by [dotenv][dotenv]. You can look for more information about other required environment variables in our [sample.env](./sample.env) file.
 
 #### Create KeyVaultAccessControlClient
 
@@ -163,16 +167,16 @@ All of the Long Running Operation methods return a a Long Running Operation poll
 The following section provides several code snippets using the `client` created above for either [access control](#create-keyvaultaccesscontrolclient) or [backup](#create-KeyVaultBackupClient) clients, covering some of the most common Azure Key Vault access control related tasks:
 
 - Access control
-    - [Listing All Role Definitions](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-admin/samples/typescript/RBACHelloWorld.ts)
-    - [Listing All Role Assignments](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-admin/samples/typescript/RBACHelloWorld.ts)
-    - [Creating a Role Assignment](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-admin/samples/typescript/RBACHelloWorld.ts)
-    - [Getting a Role Assignment](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-admin/samples/typescript/RBACHelloWorld.ts)
-    - [Deleting a Role Assignment](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-admin/samples/typescript/RBACHelloWorld.ts)
+    - [Listing All Role Definitions](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-admin/samples/typescript/src/accessControlHelloWorld.ts)
+    - [Listing All Role Assignments](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-admin/samples/typescript/src/accessControlHelloWorld.ts)
+    - [Creating a Role Assignment](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-admin/samples/typescript/src/accessControlHelloWorld.ts)
+    - [Getting a Role Assignment](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-admin/samples/typescript/src/accessControlHelloWorld.ts)
+    - [Deleting a Role Assignment](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-admin/samples/typescript/src/accessControlHelloWorld.ts)
 - Backup and restore
-    - [Performing a full key backup](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-admin/samples/typescript/BackupHelloWorld.ts)
-    - [Performing a full key restore](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-admin/samples/typescript/BackupHelloWorld.ts)
-    - [Performing a selective key backup](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-admin/samples/typescript/BackupSelective.ts)
-    - [Performing a selective key restore](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-admin/samples/typescript/BackupSelective.ts)
+    - [Performing a full key backup](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-admin/samples/typescript/src/backupHelloWorld.ts)
+    - [Performing a full key restore](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-admin/samples/typescript/src/backupHelloWorld.ts)
+    - [Performing a selective key backup](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-admin/samples/typescript/src/backupSelective.ts)
+    - [Performing a selective key restore](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-admin/samples/typescript/src/backupSelective.ts)
 
 ## Troubleshooting
 
@@ -189,7 +193,7 @@ setLogLevel("info");
 You can find more code samples through the following links:
 
 - [KeyVault Admin Samples (JavaScript)](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-admin/samples/javascript)
-- [KeyVault Admin Samples (TypeScript)](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-admin/samples/typescript)
+- [KeyVault Admin Samples (TypeScript)](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-admin/samples/typescript)src/
 - [KeyVault Admin Test Cases](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-admin/test/)
 
 ## Contributing
