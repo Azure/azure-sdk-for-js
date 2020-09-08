@@ -97,7 +97,15 @@ describe("URLQuery", () => {
     });
 
     it(`with "A=="`, () => {
-      assert.strictEqual(URLQuery.parse("A==").toString(), "");
+      assert.strictEqual(URLQuery.parse("A==").toString(), "A==");
+    });
+
+    it(`with "A=B&C=123=="`, () => {
+      assert.strictEqual(URLQuery.parse("A=B&C=123==").toString(), "A=B&C=123==");
+    });
+
+    it(`with "A===&C=123"`, () => {
+      assert.strictEqual(URLQuery.parse("A===&C=123").toString(), "A===&C=123");
     });
 
     it(`with "A=&B=C"`, () => {

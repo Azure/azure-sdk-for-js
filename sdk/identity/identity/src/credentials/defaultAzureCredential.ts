@@ -16,6 +16,10 @@ export interface DefaultAzureCredentialOptions extends TokenCredentialOptions {
    * Optionally pass in a Tenant ID to be used as part of the credential
    */
   tenantId?: string;
+  /**
+   * Optionally pass in a user assigned client ID for the ManagedIdentityCredential
+   */
+  managedIdentityClientId?: string;
 }
 
 /**
@@ -41,7 +45,10 @@ export class DefaultAzureCredential extends ChainedTokenCredential {
     credentials.push(new ManagedIdentityCredential(tokenCredentialOptions));
     if (process.env.AZURE_CLIENT_ID) {
       credentials.push(
-        new ManagedIdentityCredential(process.env.AZURE_CLIENT_ID, tokenCredentialOptions)
+        new ManagedIdentityCredential(
+          tokenCredentialOptions?.managedIdentityClientId || process.env.AZURE_CLIENT_ID,
+          tokenCredentialOptions
+        )
       );
     }
     credentials.push(new AzureCliCredential());

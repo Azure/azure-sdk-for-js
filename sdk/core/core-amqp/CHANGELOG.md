@@ -1,5 +1,10 @@
 # Release History
 
+## 1.1.6 (2020-09-08)
+
+- Support using the SharedAccessSignature from the connection string.
+  ([PR 10951](https://github.com/Azure/azure-sdk-for-js/pull/10951)).
+
 ## 1.1.5 (2020-08-04)
 
 - Fixes issue [9615](https://github.com/Azure/azure-sdk-for-js/issues/9615)

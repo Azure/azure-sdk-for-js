@@ -27,7 +27,7 @@ describe("makeTextAnalyticsErrorResult", function() {
     const result = makeTextAnalyticsErrorResult("2", {
       code: "InvalidRequest",
       message: "This is an error message",
-      innerError: {
+      innererror: {
         code: "MissingInputRecords",
         message: "This is a deeper error message",
         target: "a target"

@@ -1,6 +1,7 @@
 import nodeResolve from "@rollup/plugin-node-resolve";
 import multiEntry from "@rollup/plugin-multi-entry";
 import cjs from "@rollup/plugin-commonjs";
+import json from "@rollup/plugin-json";
 import replace from "@rollup/plugin-replace";
 import { terser } from "rollup-plugin-terser";
 import sourcemaps from "rollup-plugin-sourcemaps";
@@ -12,7 +13,7 @@ const input = "dist-esm/src/index.js";
 const production = process.env.NODE_ENV === "production";
 
 export function nodeConfig(test = false) {
-  const externalNodeBuiltins = ["crypto", "events", "fs", "child_process"];
+  const externalNodeBuiltins = ["crypto", "events", "fs", "os", "path", "child_process"];
   const baseConfig = {
     input: input,
     external: depNames.concat(externalNodeBuiltins),
@@ -27,14 +28,14 @@ export function nodeConfig(test = false) {
         "if (isNode)": "if (true)"
       }),
       nodeResolve({ preferBuiltins: true }),
+      json(),
       cjs()
     ]
   };
 
   if (test) {
     // entry point is every test file
-    baseConfig.input = "dist-esm/test/**/*.spec.js";
-    baseConfig.input = ["dist-esm/test/*.spec.js", "dist-esm/test/node/*.spec.js"];
+    baseConfig.input = ["dist-esm/test/public/*.spec.js", "dist-esm/test/internal/**/*.spec.js"];
     baseConfig.plugins.unshift(multiEntry({ exports: false }));
 
     // different output file
@@ -88,7 +89,7 @@ export function browserConfig(test = false) {
   };
 
   if (test) {
-    baseConfig.input = "dist-esm/test/*.spec.js";
+    baseConfig.input = "dist-esm/test/internal/*.spec.js";
     baseConfig.plugins.unshift(multiEntry({ exports: false }));
     baseConfig.output.file = "test-browser/index.js";
 

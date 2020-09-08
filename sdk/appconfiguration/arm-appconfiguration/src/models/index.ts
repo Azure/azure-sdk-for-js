@@ -242,6 +242,11 @@ export interface ConfigurationStoreUpdateParameters {
    */
   encryption?: EncryptionProperties;
   /**
+   * Control permission for data plane traffic coming from public networks while private endpoint
+   * is enabled. Possible values include: 'Enabled', 'Disabled'
+   */
+  publicNetworkAccess?: PublicNetworkAccess;
+  /**
    * The managed identity information for the configuration store.
    */
   identity?: ResourceIdentity;

@@ -1,20 +1,39 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { BlobChangeFeedEvent } from "./models/BlobChangeFeedEvent";
 import { Shard } from "./Shard";
 import { SegmentCursor, ShardCursor } from "./models/ChangeFeedCursor";
+import { CommonOptions } from "@azure/storage-blob";
+import { AbortSignalLike } from "@azure/core-http";
+import { createSpan } from "./utils/tracing";
+import { CanonicalCode } from "@opentelemetry/api";
+
+/**
+ * Options to configure {@link Segment.getChange} operation.
+ *
+ * @export
+ * @interface SegmentGetChangeOptions
+ */
+export interface SegmentGetChangeOptions extends CommonOptions {
+  /**
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
+   *
+   * @type {AbortSignalLike}
+   * @memberof SegmentGetChangeOptions
+   */
+  abortSignal?: AbortSignalLike;
+}
 
 export class Segment {
-  private readonly _shards: Shard[];
+  private readonly shards: Shard[];
 
   // Track shards that we have finished reading from.
-  private _shardDone: boolean[];
-  private _shardDoneCount: number;
+  private shardDone: boolean[];
+  private shardDoneCount: number;
 
-  private _shardIndex: number;
-
-  private _finalized: boolean;
-  public get finalized(): boolean {
-    return this._finalized;
-  }
+  private shardIndex: number;
 
   // Assuming the dateTime of segments is rounded to hour. If not, our logic for fetching
   // change events between a time range would be incorrect.
@@ -23,56 +42,80 @@ export class Segment {
     return this._dateTime;
   }
 
-  constructor(shards: Shard[], shardIndex: number, dateTime: Date, finalized: boolean) {
-    this._shards = shards;
-    this._shardIndex = shardIndex;
+  constructor(
+    shards: Shard[],
+    shardIndex: number,
+    dateTime: Date,
+    private readonly manifestPath: string
+  ) {
+    this.shards = shards;
+    this.shardIndex = shardIndex;
     this._dateTime = dateTime;
-    this._finalized = finalized;
 
     // TODO: add polyfill for Array.prototype.fill for IE11
-    this._shardDone = Array(shards.length).fill(false);
-    this._shardDoneCount = 0;
+    this.shardDone = Array(shards.length).fill(false);
+    this.shardDoneCount = 0;
   }
 
   public hasNext(): boolean {
-    return this._shards.length > this._shardDoneCount;
+    return this.shards.length > this.shardDoneCount;
   }
 
-  public async getChange(): Promise<BlobChangeFeedEvent | undefined> {
-    if (this._shardIndex >= this._shards.length || this._shardIndex < 0) {
-      throw new Error("shardIndex invalid.");
-    }
+  public async getChange(
+    options: SegmentGetChangeOptions = {}
+  ): Promise<BlobChangeFeedEvent | undefined> {
+    const { span, spanOptions } = createSpan("Segment-getChange", options.tracingOptions);
 
-    let event: BlobChangeFeedEvent | undefined = undefined;
-    while (event === undefined && this.hasNext()) {
-      if (this._shardDone[this._shardIndex]) {
-        this._shardIndex = (this._shardIndex + 1) % this._shards.length; // find next available shard
-        continue;
+    try {
+      if (this.shardIndex >= this.shards.length || this.shardIndex < 0) {
+        throw new Error("shardIndex invalid.");
       }
 
-      const currentShard = this._shards[this._shardIndex];
-      event = await currentShard.getChange();
+      let event: BlobChangeFeedEvent | undefined = undefined;
+      while (event === undefined && this.hasNext()) {
+        if (this.shardDone[this.shardIndex]) {
+          this.shardIndex = (this.shardIndex + 1) % this.shards.length; // find next available shard
+          continue;
+        }
 
-      if (!currentShard.hasNext()) {
-        this._shardDone[this._shardIndex] = true;
-        this._shardDoneCount++;
+        const currentShard = this.shards[this.shardIndex];
+        event = await currentShard.getChange({
+          abortSignal: options.abortSignal,
+          tracingOptions: { ...options.tracingOptions, spanOptions }
+        });
+
+        if (!currentShard.hasNext()) {
+          this.shardDone[this.shardIndex] = true;
+          this.shardDoneCount++;
+        }
+        // Round robin with shards
+        this.shardIndex = (this.shardIndex + 1) % this.shards.length;
       }
-      // Round robin with shards
-      this._shardIndex = (this._shardIndex + 1) % this._shards.length;
+      return event;
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
     }
-    return event;
   }
 
   public getCursor(): SegmentCursor {
     const shardCursors: ShardCursor[] = [];
-    for (const shard of this._shards) {
-      shardCursors.push(shard.getCursor());
+    for (const shard of this.shards) {
+      const shardCursor = shard.getCursor();
+      if (shardCursor) {
+        shardCursors.push(shardCursor);
+      }
     }
 
     return {
-      shardCursors,
-      shardIndex: this._shardIndex,
-      segmentTime: this._dateTime.toJSON()
+      SegmentPath: this.manifestPath,
+      ShardCursors: shardCursors,
+      CurrentShardPath: this.shards[this.shardIndex].shardPath
     };
   }
 }

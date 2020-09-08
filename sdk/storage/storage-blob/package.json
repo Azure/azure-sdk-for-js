@@ -13,6 +13,8 @@
     "./dist-esm/storage-blob/src/BatchUtils.js": "./dist-esm/storage-blob/src/BatchUtils.browser.js",
     "./dist-esm/storage-blob/src/BlobDownloadResponse.js": "./dist-esm/storage-blob/src/BlobDownloadResponse.browser.js",
     "./dist-esm/storage-blob/src/BlobQueryResponse.js": "./dist-esm/storage-blob/src/BlobQueryResponse.browser.js",
+    "./dist-esm/storage-blob/src/utils/BufferScheduler.js": "./dist-esm/storage-blob/src/utils/BufferScheduler.browser.js",
+    "./dist-esm/storage-common/src/index.js": "./dist-esm/storage-common/src/index.browser.js",
     "fs": false,
     "os": false,
     "process": false
@@ -64,6 +66,7 @@
     "dist/",
     "dist-esm/storage-blob/src/",
     "dist-esm/storage-internal-avro/src/",
+    "dist-esm/storage-common/src/",
     "typings/latest/storage-blob.d.ts",
     "typings/3.1/storage-blob.d.ts",
     "README.md",
@@ -74,13 +77,13 @@
     "url": "git+https://github.com/Azure/azure-sdk-for-js.git"
   },
   "keywords": [
-    "Azure",
-    "Storage",
-    "Blob",
-    "Node.js",
-    "TypeScript",
-    "JavaScript",
-    "Browser"
+    "azure",
+    "atorage",
+    "alob",
+    "node.js",
+    "typescript",
+    "javascript",
+    "browser"
   ],
   "author": "Microsoft Corporation",
   "license": "MIT",
@@ -90,10 +93,12 @@
   "homepage": "https://github.com/Azure/azure-sdk-for-js#readme",
   "sideEffects": false,
   "//metadata": {
-    "constantPaths": [{
-      "path": "src/utils/constants.ts",
-      "prefix": "SDK_VERSION"
-    }]
+    "constantPaths": [
+      {
+        "path": "src/utils/constants.ts",
+        "prefix": "SDK_VERSION"
+      }
+    ]
   },
   "//smokeTestConfiguration": {
     "skip": [
@@ -113,7 +118,7 @@
   },
   "dependencies": {
     "@azure/abort-controller": "^1.0.0",
-    "@azure/core-http": "^1.1.4",
+    "@azure/core-http": "^1.1.6",
     "@azure/core-lro": "^1.0.2",
     "@azure/core-paging": "^1.1.1",
     "@azure/core-tracing": "1.0.0-preview.9",
@@ -124,7 +129,7 @@
   },
   "devDependencies": {
     "@azure/dev-tool": "^1.0.0",
-    "@azure/identity": "^1.1.0-preview",
+    "@azure/identity": "^1.1.0",
     "@azure/test-utils-recorder": "^1.0.0",
     "@microsoft/api-extractor": "7.7.11",
     "@rollup/plugin-multi-entry": "^3.0.0",

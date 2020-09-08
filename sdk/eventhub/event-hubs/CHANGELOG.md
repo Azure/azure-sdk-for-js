@@ -1,6 +1,19 @@
 # Release History
 
-## 5.3.0-preview.2 (Unreleased)
+## 5.3.1 (Unreleased)
+
+
+## 5.3.0 (2020-09-08)
+
+### New features:
+
+- Adds `loadBalancingOptions` to the `EventHubConsumerClient` to add control around
+  how aggressively the client claims partitions while load balancing.
+  ([PR 9706](https://github.com/Azure/azure-sdk-for-js/pull/9706)).
+- Support using the SharedAccessSignature from the connection string.
+  ([PR 10951](https://github.com/Azure/azure-sdk-for-js/pull/10951)).
+
+### Bug fixes:
 
 - Fixes issue [#9704](https://github.com/Azure/azure-sdk-for-js/issues/9704)
   where events could be _skipped_ while receiving messages.
@@ -8,6 +21,9 @@
 
 ### Tracing updates:
 
+- Fixes issue [#10298](https://github.com/Azure/azure-sdk-for-js/issues/10298)
+  where spans had inconsistent `peer.address` attributes by removing the scheme
+  (i.e. `sb://`) from EventHub `peer.address` span attributes
 - Addresses [#10276](https://github.com/Azure/azure-sdk-for-js/issues/10276): adds
   `message_bus.destination` and `peer.address` attributes to `Azure.EventHubs.message` spans.
   ([PR 10389](https://github.com/Azure/azure-sdk-for-js/pull/10389))

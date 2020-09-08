@@ -64,23 +64,26 @@ export async function main() {
     (await blobSnapshotClient.getProperties()).contentLength
   );
 
-  console.log("Downloaded blob content", await streamToString(response.readableStreamBody!));
-
+  console.log(
+    "Downloaded blob content",
+    (await streamToBuffer(response.readableStreamBody!)).toString()
+  );
+  
   // Delete container
   await containerClient.delete();
 
   console.log("deleted container");
 }
 
-// A helper method used to read a Node.js readable stream into string
-async function streamToString(readableStream: NodeJS.ReadableStream) {
+// A helper method used to read a Node.js readable stream into a Buffer
+async function streamToBuffer(readableStream: NodeJS.ReadableStream): Promise<Buffer> {
   return new Promise((resolve, reject) => {
-    const chunks: string[] = [];
-    readableStream.on("data", (data) => {
-      chunks.push(data.toString());
+    const chunks: Buffer[] = [];
+    readableStream.on("data", (data: Buffer | string) => {
+      chunks.push(data instanceof Buffer ? data : Buffer.from(data));
     });
     readableStream.on("end", () => {
-      resolve(chunks.join(""));
+      resolve(Buffer.concat(chunks));
     });
     readableStream.on("error", reject);
   });

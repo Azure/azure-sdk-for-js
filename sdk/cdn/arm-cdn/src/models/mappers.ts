@@ -220,6 +220,253 @@ export const DeepCreatedOrigin: msRest.CompositeMapper = {
         type: {
           name: "Number"
         }
+      },
+      originHostHeader: {
+        serializedName: "properties.originHostHeader",
+        type: {
+          name: "String"
+        }
+      },
+      priority: {
+        serializedName: "properties.priority",
+        constraints: {
+          InclusiveMaximum: 5,
+          InclusiveMinimum: 1
+        },
+        type: {
+          name: "Number"
+        }
+      },
+      weight: {
+        serializedName: "properties.weight",
+        constraints: {
+          InclusiveMaximum: 1000,
+          InclusiveMinimum: 1
+        },
+        type: {
+          name: "Number"
+        }
+      },
+      enabled: {
+        serializedName: "properties.enabled",
+        type: {
+          name: "Boolean"
+        }
+      },
+      privateLinkAlias: {
+        serializedName: "properties.privateLinkAlias",
+        type: {
+          name: "String"
+        }
+      },
+      privateLinkResourceId: {
+        serializedName: "properties.privateLinkResourceId",
+        type: {
+          name: "String"
+        }
+      },
+      privateLinkLocation: {
+        serializedName: "properties.privateLinkLocation",
+        type: {
+          name: "String"
+        }
+      },
+      privateLinkApprovalMessage: {
+        serializedName: "properties.privateLinkApprovalMessage",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const HealthProbeParameters: msRest.CompositeMapper = {
+  serializedName: "HealthProbeParameters",
+  type: {
+    name: "Composite",
+    className: "HealthProbeParameters",
+    modelProperties: {
+      probePath: {
+        serializedName: "probePath",
+        type: {
+          name: "String"
+        }
+      },
+      probeRequestType: {
+        serializedName: "probeRequestType",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "NotSet",
+            "GET",
+            "HEAD"
+          ]
+        }
+      },
+      probeProtocol: {
+        serializedName: "probeProtocol",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "NotSet",
+            "Http",
+            "Https"
+          ]
+        }
+      },
+      probeIntervalInSeconds: {
+        serializedName: "probeIntervalInSeconds",
+        constraints: {
+          InclusiveMaximum: 255,
+          InclusiveMinimum: 1
+        },
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const ResourceReference: msRest.CompositeMapper = {
+  serializedName: "ResourceReference",
+  type: {
+    name: "Composite",
+    className: "ResourceReference",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const HttpErrorRangeParameters: msRest.CompositeMapper = {
+  serializedName: "HttpErrorRangeParameters",
+  type: {
+    name: "Composite",
+    className: "HttpErrorRangeParameters",
+    modelProperties: {
+      begin: {
+        serializedName: "begin",
+        constraints: {
+          InclusiveMaximum: 999,
+          InclusiveMinimum: 100
+        },
+        type: {
+          name: "Number"
+        }
+      },
+      end: {
+        serializedName: "end",
+        constraints: {
+          InclusiveMaximum: 999,
+          InclusiveMinimum: 100
+        },
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const ResponseBasedOriginErrorDetectionParameters: msRest.CompositeMapper = {
+  serializedName: "ResponseBasedOriginErrorDetectionParameters",
+  type: {
+    name: "Composite",
+    className: "ResponseBasedOriginErrorDetectionParameters",
+    modelProperties: {
+      responseBasedDetectedErrorTypes: {
+        serializedName: "responseBasedDetectedErrorTypes",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "None",
+            "TcpErrorsOnly",
+            "TcpAndHttpErrors"
+          ]
+        }
+      },
+      responseBasedFailoverThresholdPercentage: {
+        serializedName: "responseBasedFailoverThresholdPercentage",
+        constraints: {
+          InclusiveMaximum: 100,
+          InclusiveMinimum: 0
+        },
+        type: {
+          name: "Number"
+        }
+      },
+      httpErrorRanges: {
+        serializedName: "httpErrorRanges",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "HttpErrorRangeParameters"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const DeepCreatedOriginGroup: msRest.CompositeMapper = {
+  serializedName: "DeepCreatedOriginGroup",
+  type: {
+    name: "Composite",
+    className: "DeepCreatedOriginGroup",
+    modelProperties: {
+      name: {
+        required: true,
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      healthProbeSettings: {
+        serializedName: "properties.healthProbeSettings",
+        type: {
+          name: "Composite",
+          className: "HealthProbeParameters"
+        }
+      },
+      origins: {
+        required: true,
+        serializedName: "properties.origins",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ResourceReference"
+            }
+          }
+        }
+      },
+      trafficRestorationTimeToHealedOrNewEndpointsInMinutes: {
+        serializedName: "properties.trafficRestorationTimeToHealedOrNewEndpointsInMinutes",
+        constraints: {
+          InclusiveMaximum: 50,
+          InclusiveMinimum: 0
+        },
+        type: {
+          name: "Number"
+        }
+      },
+      responseBasedOriginErrorDetectionSettings: {
+        serializedName: "properties.responseBasedOriginErrorDetectionSettings",
+        type: {
+          name: "Composite",
+          className: "ResponseBasedOriginErrorDetectionParameters"
+        }
       }
     }
   }
@@ -232,12 +479,6 @@ export const Endpoint: msRest.CompositeMapper = {
     className: "Endpoint",
     modelProperties: {
       ...TrackedResource.type.modelProperties,
-      originHostHeader: {
-        serializedName: "properties.originHostHeader",
-        type: {
-          name: "String"
-        }
-      },
       originPath: {
         serializedName: "properties.originPath",
         type: {
@@ -253,6 +494,12 @@ export const Endpoint: msRest.CompositeMapper = {
               name: "String"
             }
           }
+        }
+      },
+      originHostHeader: {
+        serializedName: "properties.originHostHeader",
+        type: {
+          name: "String"
         }
       },
       isCompressionEnabled: {
@@ -309,11 +556,37 @@ export const Endpoint: msRest.CompositeMapper = {
           }
         }
       },
+      defaultOriginGroup: {
+        serializedName: "properties.defaultOriginGroup",
+        type: {
+          name: "Composite",
+          className: "ResourceReference"
+        }
+      },
+      urlSigningKeys: {
+        serializedName: "properties.urlSigningKeys",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "UrlSigningKey"
+            }
+          }
+        }
+      },
       deliveryPolicy: {
         serializedName: "properties.deliveryPolicy",
         type: {
           name: "Composite",
           className: "EndpointPropertiesUpdateParametersDeliveryPolicy"
+        }
+      },
+      webApplicationFirewallPolicyLink: {
+        serializedName: "properties.webApplicationFirewallPolicyLink",
+        type: {
+          name: "Composite",
+          className: "EndpointPropertiesUpdateParametersWebApplicationFirewallPolicyLink"
         }
       },
       hostName: {
@@ -332,6 +605,18 @@ export const Endpoint: msRest.CompositeMapper = {
             type: {
               name: "Composite",
               className: "DeepCreatedOrigin"
+            }
+          }
+        }
+      },
+      originGroups: {
+        serializedName: "properties.originGroups",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "DeepCreatedOriginGroup"
             }
           }
         }
@@ -394,22 +679,80 @@ export const GeoFilter: msRest.CompositeMapper = {
   }
 };
 
-export const DeliveryRuleAction: msRest.CompositeMapper = {
-  serializedName: "DeliveryRuleAction",
+export const KeyVaultSigningKeyParameters: msRest.CompositeMapper = {
+  serializedName: "KeyVaultSigningKeyParameters",
   type: {
     name: "Composite",
-    polymorphicDiscriminator: {
-      serializedName: "name",
-      clientName: "name"
-    },
-    uberParent: "DeliveryRuleAction",
-    className: "DeliveryRuleAction",
+    className: "KeyVaultSigningKeyParameters",
     modelProperties: {
-      name: {
+      odatatype: {
         required: true,
-        serializedName: "name",
+        isConstant: true,
+        serializedName: "@odata\\.type",
+        defaultValue: '#Microsoft.Azure.Cdn.Models.KeyVaultSigningKeyParameters',
         type: {
           name: "String"
+        }
+      },
+      subscriptionId: {
+        required: true,
+        serializedName: "subscriptionId",
+        type: {
+          name: "String"
+        }
+      },
+      resourceGroupName: {
+        required: true,
+        serializedName: "resourceGroupName",
+        type: {
+          name: "String"
+        }
+      },
+      vaultName: {
+        required: true,
+        serializedName: "vaultName",
+        type: {
+          name: "String"
+        }
+      },
+      secretName: {
+        required: true,
+        serializedName: "secretName",
+        type: {
+          name: "String"
+        }
+      },
+      secretVersion: {
+        required: true,
+        serializedName: "secretVersion",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const UrlSigningKey: msRest.CompositeMapper = {
+  serializedName: "UrlSigningKey",
+  type: {
+    name: "Composite",
+    className: "UrlSigningKey",
+    modelProperties: {
+      keyId: {
+        required: true,
+        serializedName: "keyId",
+        type: {
+          name: "String"
+        }
+      },
+      keySourceParameters: {
+        required: true,
+        serializedName: "keySourceParameters",
+        defaultValue: {},
+        type: {
+          name: "Composite",
+          className: "KeyVaultSigningKeyParameters"
         }
       }
     }
@@ -438,17 +781,57 @@ export const DeliveryRuleCondition: msRest.CompositeMapper = {
   }
 };
 
+export const DeliveryRuleAction: msRest.CompositeMapper = {
+  serializedName: "DeliveryRuleAction",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: {
+      serializedName: "name",
+      clientName: "name"
+    },
+    uberParent: "DeliveryRuleAction",
+    className: "DeliveryRuleAction",
+    modelProperties: {
+      name: {
+        required: true,
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const DeliveryRule: msRest.CompositeMapper = {
   serializedName: "DeliveryRule",
   type: {
     name: "Composite",
     className: "DeliveryRule",
     modelProperties: {
+      name: {
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
       order: {
         required: true,
         serializedName: "order",
         type: {
           name: "Number"
+        }
+      },
+      conditions: {
+        serializedName: "conditions",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "DeliveryRuleCondition"
+            }
+          }
         }
       },
       actions: {
@@ -460,18 +843,6 @@ export const DeliveryRule: msRest.CompositeMapper = {
             type: {
               name: "Composite",
               className: "DeliveryRuleAction"
-            }
-          }
-        }
-      },
-      conditions: {
-        serializedName: "conditions",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "DeliveryRuleCondition"
             }
           }
         }
@@ -509,6 +880,22 @@ export const EndpointPropertiesUpdateParametersDeliveryPolicy: msRest.CompositeM
   }
 };
 
+export const EndpointPropertiesUpdateParametersWebApplicationFirewallPolicyLink: msRest.CompositeMapper = {
+  serializedName: "EndpointPropertiesUpdateParameters_webApplicationFirewallPolicyLink",
+  type: {
+    name: "Composite",
+    className: "EndpointPropertiesUpdateParametersWebApplicationFirewallPolicyLink",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const EndpointUpdateParameters: msRest.CompositeMapper = {
   serializedName: "EndpointUpdateParameters",
   type: {
@@ -526,12 +913,6 @@ export const EndpointUpdateParameters: msRest.CompositeMapper = {
           }
         }
       },
-      originHostHeader: {
-        serializedName: "properties.originHostHeader",
-        type: {
-          name: "String"
-        }
-      },
       originPath: {
         serializedName: "properties.originPath",
         type: {
@@ -547,6 +928,12 @@ export const EndpointUpdateParameters: msRest.CompositeMapper = {
               name: "String"
             }
           }
+        }
+      },
+      originHostHeader: {
+        serializedName: "properties.originHostHeader",
+        type: {
+          name: "String"
         }
       },
       isCompressionEnabled: {
@@ -603,44 +990,704 @@ export const EndpointUpdateParameters: msRest.CompositeMapper = {
           }
         }
       },
+      defaultOriginGroup: {
+        serializedName: "properties.defaultOriginGroup",
+        type: {
+          name: "Composite",
+          className: "ResourceReference"
+        }
+      },
+      urlSigningKeys: {
+        serializedName: "properties.urlSigningKeys",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "UrlSigningKey"
+            }
+          }
+        }
+      },
       deliveryPolicy: {
         serializedName: "properties.deliveryPolicy",
         type: {
           name: "Composite",
           className: "EndpointPropertiesUpdateParametersDeliveryPolicy"
         }
+      },
+      webApplicationFirewallPolicyLink: {
+        serializedName: "properties.webApplicationFirewallPolicyLink",
+        type: {
+          name: "Composite",
+          className: "EndpointPropertiesUpdateParametersWebApplicationFirewallPolicyLink"
+        }
       }
     }
   }
 };
 
-export const UrlPathConditionParameters: msRest.CompositeMapper = {
-  serializedName: "UrlPathConditionParameters",
+export const RemoteAddressMatchConditionParameters: msRest.CompositeMapper = {
+  serializedName: "RemoteAddressMatchConditionParameters",
   type: {
     name: "Composite",
-    className: "UrlPathConditionParameters",
+    className: "RemoteAddressMatchConditionParameters",
     modelProperties: {
       odatatype: {
         required: true,
         isConstant: true,
         serializedName: "@odata\\.type",
-        defaultValue: 'Microsoft.Azure.Cdn.Models.DeliveryRuleUrlPathConditionParameters',
+        defaultValue: '#Microsoft.Azure.Cdn.Models.DeliveryRuleRemoteAddressConditionParameters',
         type: {
           name: "String"
         }
       },
-      path: {
+      operator: {
         required: true,
-        serializedName: "path",
+        serializedName: "operator",
         type: {
           name: "String"
         }
       },
-      matchType: {
+      negateCondition: {
+        serializedName: "negateCondition",
+        type: {
+          name: "Boolean"
+        }
+      },
+      matchValues: {
         required: true,
-        serializedName: "matchType",
+        serializedName: "matchValues",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      transforms: {
+        serializedName: "transforms",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const DeliveryRuleRemoteAddressCondition: msRest.CompositeMapper = {
+  serializedName: "RemoteAddress",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: DeliveryRuleCondition.type.polymorphicDiscriminator,
+    uberParent: "DeliveryRuleCondition",
+    className: "DeliveryRuleRemoteAddressCondition",
+    modelProperties: {
+      ...DeliveryRuleCondition.type.modelProperties,
+      parameters: {
+        required: true,
+        serializedName: "parameters",
+        defaultValue: {},
+        type: {
+          name: "Composite",
+          className: "RemoteAddressMatchConditionParameters"
+        }
+      }
+    }
+  }
+};
+
+export const RequestMethodMatchConditionParameters: msRest.CompositeMapper = {
+  serializedName: "RequestMethodMatchConditionParameters",
+  type: {
+    name: "Composite",
+    className: "RequestMethodMatchConditionParameters",
+    modelProperties: {
+      odatatype: {
+        required: true,
+        isConstant: true,
+        serializedName: "@odata\\.type",
+        defaultValue: '#Microsoft.Azure.Cdn.Models.DeliveryRuleRequestMethodConditionParameters',
         type: {
           name: "String"
+        }
+      },
+      operator: {
+        required: true,
+        isConstant: true,
+        serializedName: "operator",
+        defaultValue: 'Equal',
+        type: {
+          name: "String"
+        }
+      },
+      negateCondition: {
+        serializedName: "negateCondition",
+        type: {
+          name: "Boolean"
+        }
+      },
+      matchValues: {
+        required: true,
+        serializedName: "matchValues",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const DeliveryRuleRequestMethodCondition: msRest.CompositeMapper = {
+  serializedName: "RequestMethod",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: DeliveryRuleCondition.type.polymorphicDiscriminator,
+    uberParent: "DeliveryRuleCondition",
+    className: "DeliveryRuleRequestMethodCondition",
+    modelProperties: {
+      ...DeliveryRuleCondition.type.modelProperties,
+      parameters: {
+        required: true,
+        serializedName: "parameters",
+        defaultValue: {},
+        type: {
+          name: "Composite",
+          className: "RequestMethodMatchConditionParameters"
+        }
+      }
+    }
+  }
+};
+
+export const QueryStringMatchConditionParameters: msRest.CompositeMapper = {
+  serializedName: "QueryStringMatchConditionParameters",
+  type: {
+    name: "Composite",
+    className: "QueryStringMatchConditionParameters",
+    modelProperties: {
+      odatatype: {
+        required: true,
+        isConstant: true,
+        serializedName: "@odata\\.type",
+        defaultValue: '#Microsoft.Azure.Cdn.Models.DeliveryRuleQueryStringConditionParameters',
+        type: {
+          name: "String"
+        }
+      },
+      operator: {
+        required: true,
+        serializedName: "operator",
+        type: {
+          name: "String"
+        }
+      },
+      negateCondition: {
+        serializedName: "negateCondition",
+        type: {
+          name: "Boolean"
+        }
+      },
+      matchValues: {
+        required: true,
+        serializedName: "matchValues",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      transforms: {
+        serializedName: "transforms",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const DeliveryRuleQueryStringCondition: msRest.CompositeMapper = {
+  serializedName: "QueryString",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: DeliveryRuleCondition.type.polymorphicDiscriminator,
+    uberParent: "DeliveryRuleCondition",
+    className: "DeliveryRuleQueryStringCondition",
+    modelProperties: {
+      ...DeliveryRuleCondition.type.modelProperties,
+      parameters: {
+        required: true,
+        serializedName: "parameters",
+        defaultValue: {},
+        type: {
+          name: "Composite",
+          className: "QueryStringMatchConditionParameters"
+        }
+      }
+    }
+  }
+};
+
+export const PostArgsMatchConditionParameters: msRest.CompositeMapper = {
+  serializedName: "PostArgsMatchConditionParameters",
+  type: {
+    name: "Composite",
+    className: "PostArgsMatchConditionParameters",
+    modelProperties: {
+      odatatype: {
+        required: true,
+        isConstant: true,
+        serializedName: "@odata\\.type",
+        defaultValue: '#Microsoft.Azure.Cdn.Models.DeliveryRulePostArgsConditionParameters',
+        type: {
+          name: "String"
+        }
+      },
+      selector: {
+        required: true,
+        serializedName: "selector",
+        type: {
+          name: "String"
+        }
+      },
+      operator: {
+        required: true,
+        serializedName: "operator",
+        type: {
+          name: "String"
+        }
+      },
+      negateCondition: {
+        serializedName: "negateCondition",
+        type: {
+          name: "Boolean"
+        }
+      },
+      matchValues: {
+        required: true,
+        serializedName: "matchValues",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      transforms: {
+        serializedName: "transforms",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const DeliveryRulePostArgsCondition: msRest.CompositeMapper = {
+  serializedName: "PostArgs",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: DeliveryRuleCondition.type.polymorphicDiscriminator,
+    uberParent: "DeliveryRuleCondition",
+    className: "DeliveryRulePostArgsCondition",
+    modelProperties: {
+      ...DeliveryRuleCondition.type.modelProperties,
+      parameters: {
+        required: true,
+        serializedName: "parameters",
+        defaultValue: {},
+        type: {
+          name: "Composite",
+          className: "PostArgsMatchConditionParameters"
+        }
+      }
+    }
+  }
+};
+
+export const RequestUriMatchConditionParameters: msRest.CompositeMapper = {
+  serializedName: "RequestUriMatchConditionParameters",
+  type: {
+    name: "Composite",
+    className: "RequestUriMatchConditionParameters",
+    modelProperties: {
+      odatatype: {
+        required: true,
+        isConstant: true,
+        serializedName: "@odata\\.type",
+        defaultValue: '#Microsoft.Azure.Cdn.Models.DeliveryRuleRequestUriConditionParameters',
+        type: {
+          name: "String"
+        }
+      },
+      operator: {
+        required: true,
+        serializedName: "operator",
+        type: {
+          name: "String"
+        }
+      },
+      negateCondition: {
+        serializedName: "negateCondition",
+        type: {
+          name: "Boolean"
+        }
+      },
+      matchValues: {
+        required: true,
+        serializedName: "matchValues",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      transforms: {
+        serializedName: "transforms",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const DeliveryRuleRequestUriCondition: msRest.CompositeMapper = {
+  serializedName: "RequestUri",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: DeliveryRuleCondition.type.polymorphicDiscriminator,
+    uberParent: "DeliveryRuleCondition",
+    className: "DeliveryRuleRequestUriCondition",
+    modelProperties: {
+      ...DeliveryRuleCondition.type.modelProperties,
+      parameters: {
+        required: true,
+        serializedName: "parameters",
+        defaultValue: {},
+        type: {
+          name: "Composite",
+          className: "RequestUriMatchConditionParameters"
+        }
+      }
+    }
+  }
+};
+
+export const RequestHeaderMatchConditionParameters: msRest.CompositeMapper = {
+  serializedName: "RequestHeaderMatchConditionParameters",
+  type: {
+    name: "Composite",
+    className: "RequestHeaderMatchConditionParameters",
+    modelProperties: {
+      odatatype: {
+        required: true,
+        isConstant: true,
+        serializedName: "@odata\\.type",
+        defaultValue: '#Microsoft.Azure.Cdn.Models.DeliveryRuleRequestHeaderConditionParameters',
+        type: {
+          name: "String"
+        }
+      },
+      selector: {
+        required: true,
+        serializedName: "selector",
+        type: {
+          name: "String"
+        }
+      },
+      operator: {
+        required: true,
+        serializedName: "operator",
+        type: {
+          name: "String"
+        }
+      },
+      negateCondition: {
+        serializedName: "negateCondition",
+        type: {
+          name: "Boolean"
+        }
+      },
+      matchValues: {
+        required: true,
+        serializedName: "matchValues",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      transforms: {
+        serializedName: "transforms",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const DeliveryRuleRequestHeaderCondition: msRest.CompositeMapper = {
+  serializedName: "RequestHeader",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: DeliveryRuleCondition.type.polymorphicDiscriminator,
+    uberParent: "DeliveryRuleCondition",
+    className: "DeliveryRuleRequestHeaderCondition",
+    modelProperties: {
+      ...DeliveryRuleCondition.type.modelProperties,
+      parameters: {
+        required: true,
+        serializedName: "parameters",
+        defaultValue: {},
+        type: {
+          name: "Composite",
+          className: "RequestHeaderMatchConditionParameters"
+        }
+      }
+    }
+  }
+};
+
+export const RequestBodyMatchConditionParameters: msRest.CompositeMapper = {
+  serializedName: "RequestBodyMatchConditionParameters",
+  type: {
+    name: "Composite",
+    className: "RequestBodyMatchConditionParameters",
+    modelProperties: {
+      odatatype: {
+        required: true,
+        isConstant: true,
+        serializedName: "@odata\\.type",
+        defaultValue: '#Microsoft.Azure.Cdn.Models.DeliveryRuleRequestBodyConditionParameters',
+        type: {
+          name: "String"
+        }
+      },
+      operator: {
+        required: true,
+        serializedName: "operator",
+        type: {
+          name: "String"
+        }
+      },
+      negateCondition: {
+        serializedName: "negateCondition",
+        type: {
+          name: "Boolean"
+        }
+      },
+      matchValues: {
+        required: true,
+        serializedName: "matchValues",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      transforms: {
+        serializedName: "transforms",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const DeliveryRuleRequestBodyCondition: msRest.CompositeMapper = {
+  serializedName: "RequestBody",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: DeliveryRuleCondition.type.polymorphicDiscriminator,
+    uberParent: "DeliveryRuleCondition",
+    className: "DeliveryRuleRequestBodyCondition",
+    modelProperties: {
+      ...DeliveryRuleCondition.type.modelProperties,
+      parameters: {
+        required: true,
+        serializedName: "parameters",
+        defaultValue: {},
+        type: {
+          name: "Composite",
+          className: "RequestBodyMatchConditionParameters"
+        }
+      }
+    }
+  }
+};
+
+export const RequestSchemeMatchConditionParameters: msRest.CompositeMapper = {
+  serializedName: "RequestSchemeMatchConditionParameters",
+  type: {
+    name: "Composite",
+    className: "RequestSchemeMatchConditionParameters",
+    modelProperties: {
+      odatatype: {
+        required: true,
+        isConstant: true,
+        serializedName: "@odata\\.type",
+        defaultValue: '#Microsoft.Azure.Cdn.Models.DeliveryRuleRequestSchemeConditionParameters',
+        type: {
+          name: "String"
+        }
+      },
+      operator: {
+        required: true,
+        isConstant: true,
+        serializedName: "operator",
+        defaultValue: 'Equal',
+        type: {
+          name: "String"
+        }
+      },
+      negateCondition: {
+        serializedName: "negateCondition",
+        type: {
+          name: "Boolean"
+        }
+      },
+      matchValues: {
+        required: true,
+        serializedName: "matchValues",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const DeliveryRuleRequestSchemeCondition: msRest.CompositeMapper = {
+  serializedName: "RequestScheme",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: DeliveryRuleCondition.type.polymorphicDiscriminator,
+    uberParent: "DeliveryRuleCondition",
+    className: "DeliveryRuleRequestSchemeCondition",
+    modelProperties: {
+      ...DeliveryRuleCondition.type.modelProperties,
+      parameters: {
+        required: true,
+        serializedName: "parameters",
+        defaultValue: {},
+        type: {
+          name: "Composite",
+          className: "RequestSchemeMatchConditionParameters"
+        }
+      }
+    }
+  }
+};
+
+export const UrlPathMatchConditionParameters: msRest.CompositeMapper = {
+  serializedName: "UrlPathMatchConditionParameters",
+  type: {
+    name: "Composite",
+    className: "UrlPathMatchConditionParameters",
+    modelProperties: {
+      odatatype: {
+        required: true,
+        isConstant: true,
+        serializedName: "@odata\\.type",
+        defaultValue: '#Microsoft.Azure.Cdn.Models.DeliveryRuleUrlPathMatchConditionParameters',
+        type: {
+          name: "String"
+        }
+      },
+      operator: {
+        required: true,
+        serializedName: "operator",
+        type: {
+          name: "String"
+        }
+      },
+      negateCondition: {
+        serializedName: "negateCondition",
+        type: {
+          name: "Boolean"
+        }
+      },
+      matchValues: {
+        required: true,
+        serializedName: "matchValues",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      transforms: {
+        serializedName: "transforms",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
         }
       }
     }
@@ -662,31 +1709,55 @@ export const DeliveryRuleUrlPathCondition: msRest.CompositeMapper = {
         defaultValue: {},
         type: {
           name: "Composite",
-          className: "UrlPathConditionParameters"
+          className: "UrlPathMatchConditionParameters"
         }
       }
     }
   }
 };
 
-export const UrlFileExtensionConditionParameters: msRest.CompositeMapper = {
-  serializedName: "UrlFileExtensionConditionParameters",
+export const UrlFileExtensionMatchConditionParameters: msRest.CompositeMapper = {
+  serializedName: "UrlFileExtensionMatchConditionParameters",
   type: {
     name: "Composite",
-    className: "UrlFileExtensionConditionParameters",
+    className: "UrlFileExtensionMatchConditionParameters",
     modelProperties: {
       odatatype: {
         required: true,
         isConstant: true,
         serializedName: "@odata\\.type",
-        defaultValue: 'Microsoft.Azure.Cdn.Models.DeliveryRuleUrlFileExtensionConditionParameters',
+        defaultValue: '#Microsoft.Azure.Cdn.Models.DeliveryRuleUrlFileExtensionMatchConditionParameters',
         type: {
           name: "String"
         }
       },
-      extensions: {
+      operator: {
         required: true,
-        serializedName: "extensions",
+        serializedName: "operator",
+        type: {
+          name: "String"
+        }
+      },
+      negateCondition: {
+        serializedName: "negateCondition",
+        type: {
+          name: "Boolean"
+        }
+      },
+      matchValues: {
+        required: true,
+        serializedName: "matchValues",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      transforms: {
+        serializedName: "transforms",
         type: {
           name: "Sequence",
           element: {
@@ -715,7 +1786,634 @@ export const DeliveryRuleUrlFileExtensionCondition: msRest.CompositeMapper = {
         defaultValue: {},
         type: {
           name: "Composite",
-          className: "UrlFileExtensionConditionParameters"
+          className: "UrlFileExtensionMatchConditionParameters"
+        }
+      }
+    }
+  }
+};
+
+export const UrlFileNameMatchConditionParameters: msRest.CompositeMapper = {
+  serializedName: "UrlFileNameMatchConditionParameters",
+  type: {
+    name: "Composite",
+    className: "UrlFileNameMatchConditionParameters",
+    modelProperties: {
+      odatatype: {
+        required: true,
+        isConstant: true,
+        serializedName: "@odata\\.type",
+        defaultValue: '#Microsoft.Azure.Cdn.Models.DeliveryRuleUrlFilenameConditionParameters',
+        type: {
+          name: "String"
+        }
+      },
+      operator: {
+        required: true,
+        serializedName: "operator",
+        type: {
+          name: "String"
+        }
+      },
+      negateCondition: {
+        serializedName: "negateCondition",
+        type: {
+          name: "Boolean"
+        }
+      },
+      matchValues: {
+        required: true,
+        serializedName: "matchValues",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      transforms: {
+        serializedName: "transforms",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const DeliveryRuleUrlFileNameCondition: msRest.CompositeMapper = {
+  serializedName: "UrlFileName",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: DeliveryRuleCondition.type.polymorphicDiscriminator,
+    uberParent: "DeliveryRuleCondition",
+    className: "DeliveryRuleUrlFileNameCondition",
+    modelProperties: {
+      ...DeliveryRuleCondition.type.modelProperties,
+      parameters: {
+        required: true,
+        serializedName: "parameters",
+        defaultValue: {},
+        type: {
+          name: "Composite",
+          className: "UrlFileNameMatchConditionParameters"
+        }
+      }
+    }
+  }
+};
+
+export const HttpVersionMatchConditionParameters: msRest.CompositeMapper = {
+  serializedName: "HttpVersionMatchConditionParameters",
+  type: {
+    name: "Composite",
+    className: "HttpVersionMatchConditionParameters",
+    modelProperties: {
+      odatatype: {
+        required: true,
+        isConstant: true,
+        serializedName: "@odata\\.type",
+        defaultValue: '#Microsoft.Azure.Cdn.Models.DeliveryRuleHttpVersionConditionParameters',
+        type: {
+          name: "String"
+        }
+      },
+      operator: {
+        required: true,
+        isConstant: true,
+        serializedName: "operator",
+        defaultValue: 'Equal',
+        type: {
+          name: "String"
+        }
+      },
+      negateCondition: {
+        serializedName: "negateCondition",
+        type: {
+          name: "Boolean"
+        }
+      },
+      matchValues: {
+        required: true,
+        serializedName: "matchValues",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const DeliveryRuleHttpVersionCondition: msRest.CompositeMapper = {
+  serializedName: "HttpVersion",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: DeliveryRuleCondition.type.polymorphicDiscriminator,
+    uberParent: "DeliveryRuleCondition",
+    className: "DeliveryRuleHttpVersionCondition",
+    modelProperties: {
+      ...DeliveryRuleCondition.type.modelProperties,
+      parameters: {
+        required: true,
+        serializedName: "parameters",
+        defaultValue: {},
+        type: {
+          name: "Composite",
+          className: "HttpVersionMatchConditionParameters"
+        }
+      }
+    }
+  }
+};
+
+export const CookiesMatchConditionParameters: msRest.CompositeMapper = {
+  serializedName: "CookiesMatchConditionParameters",
+  type: {
+    name: "Composite",
+    className: "CookiesMatchConditionParameters",
+    modelProperties: {
+      odatatype: {
+        required: true,
+        isConstant: true,
+        serializedName: "@odata\\.type",
+        defaultValue: '#Microsoft.Azure.Cdn.Models.DeliveryRuleCookiesConditionParameters',
+        type: {
+          name: "String"
+        }
+      },
+      selector: {
+        required: true,
+        serializedName: "selector",
+        type: {
+          name: "String"
+        }
+      },
+      operator: {
+        required: true,
+        serializedName: "operator",
+        type: {
+          name: "String"
+        }
+      },
+      negateCondition: {
+        serializedName: "negateCondition",
+        type: {
+          name: "Boolean"
+        }
+      },
+      matchValues: {
+        required: true,
+        serializedName: "matchValues",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      transforms: {
+        serializedName: "transforms",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const DeliveryRuleCookiesCondition: msRest.CompositeMapper = {
+  serializedName: "Cookies",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: DeliveryRuleCondition.type.polymorphicDiscriminator,
+    uberParent: "DeliveryRuleCondition",
+    className: "DeliveryRuleCookiesCondition",
+    modelProperties: {
+      ...DeliveryRuleCondition.type.modelProperties,
+      parameters: {
+        required: true,
+        serializedName: "parameters",
+        defaultValue: {},
+        type: {
+          name: "Composite",
+          className: "CookiesMatchConditionParameters"
+        }
+      }
+    }
+  }
+};
+
+export const IsDeviceMatchConditionParameters: msRest.CompositeMapper = {
+  serializedName: "IsDeviceMatchConditionParameters",
+  type: {
+    name: "Composite",
+    className: "IsDeviceMatchConditionParameters",
+    modelProperties: {
+      odatatype: {
+        required: true,
+        isConstant: true,
+        serializedName: "@odata\\.type",
+        defaultValue: '#Microsoft.Azure.Cdn.Models.DeliveryRuleIsDeviceConditionParameters',
+        type: {
+          name: "String"
+        }
+      },
+      operator: {
+        required: true,
+        isConstant: true,
+        serializedName: "operator",
+        defaultValue: 'Equal',
+        type: {
+          name: "String"
+        }
+      },
+      negateCondition: {
+        serializedName: "negateCondition",
+        type: {
+          name: "Boolean"
+        }
+      },
+      matchValues: {
+        required: true,
+        serializedName: "matchValues",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      transforms: {
+        serializedName: "transforms",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const DeliveryRuleIsDeviceCondition: msRest.CompositeMapper = {
+  serializedName: "IsDevice",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: DeliveryRuleCondition.type.polymorphicDiscriminator,
+    uberParent: "DeliveryRuleCondition",
+    className: "DeliveryRuleIsDeviceCondition",
+    modelProperties: {
+      ...DeliveryRuleCondition.type.modelProperties,
+      parameters: {
+        required: true,
+        serializedName: "parameters",
+        defaultValue: {},
+        type: {
+          name: "Composite",
+          className: "IsDeviceMatchConditionParameters"
+        }
+      }
+    }
+  }
+};
+
+export const UrlRedirectActionParameters: msRest.CompositeMapper = {
+  serializedName: "UrlRedirectActionParameters",
+  type: {
+    name: "Composite",
+    className: "UrlRedirectActionParameters",
+    modelProperties: {
+      odatatype: {
+        required: true,
+        isConstant: true,
+        serializedName: "@odata\\.type",
+        defaultValue: '#Microsoft.Azure.Cdn.Models.DeliveryRuleUrlRedirectActionParameters',
+        type: {
+          name: "String"
+        }
+      },
+      redirectType: {
+        required: true,
+        serializedName: "redirectType",
+        type: {
+          name: "String"
+        }
+      },
+      destinationProtocol: {
+        serializedName: "destinationProtocol",
+        type: {
+          name: "String"
+        }
+      },
+      customPath: {
+        serializedName: "customPath",
+        type: {
+          name: "String"
+        }
+      },
+      customHostname: {
+        serializedName: "customHostname",
+        type: {
+          name: "String"
+        }
+      },
+      customQueryString: {
+        serializedName: "customQueryString",
+        type: {
+          name: "String"
+        }
+      },
+      customFragment: {
+        serializedName: "customFragment",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const UrlRedirectAction: msRest.CompositeMapper = {
+  serializedName: "UrlRedirect",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: DeliveryRuleAction.type.polymorphicDiscriminator,
+    uberParent: "DeliveryRuleAction",
+    className: "UrlRedirectAction",
+    modelProperties: {
+      ...DeliveryRuleAction.type.modelProperties,
+      parameters: {
+        required: true,
+        serializedName: "parameters",
+        defaultValue: {},
+        type: {
+          name: "Composite",
+          className: "UrlRedirectActionParameters"
+        }
+      }
+    }
+  }
+};
+
+export const UrlSigningParamIdentifier: msRest.CompositeMapper = {
+  serializedName: "UrlSigningParamIdentifier",
+  type: {
+    name: "Composite",
+    className: "UrlSigningParamIdentifier",
+    modelProperties: {
+      paramIndicator: {
+        required: true,
+        serializedName: "paramIndicator",
+        type: {
+          name: "String"
+        }
+      },
+      paramName: {
+        required: true,
+        serializedName: "paramName",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const UrlSigningActionParameters: msRest.CompositeMapper = {
+  serializedName: "UrlSigningActionParameters",
+  type: {
+    name: "Composite",
+    className: "UrlSigningActionParameters",
+    modelProperties: {
+      odatatype: {
+        serializedName: "@odata\\.type",
+        type: {
+          name: "String"
+        }
+      },
+      keyId: {
+        required: true,
+        serializedName: "keyId",
+        type: {
+          name: "String"
+        }
+      },
+      algorithm: {
+        serializedName: "algorithm",
+        type: {
+          name: "String"
+        }
+      },
+      parameterNameOverride: {
+        serializedName: "parameterNameOverride",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "UrlSigningParamIdentifier"
+            }
+          }
+        }
+      },
+      ipSubnets: {
+        serializedName: "ipSubnets",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const UrlSigningAction: msRest.CompositeMapper = {
+  serializedName: "UrlSigning",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: DeliveryRuleAction.type.polymorphicDiscriminator,
+    uberParent: "DeliveryRuleAction",
+    className: "UrlSigningAction",
+    modelProperties: {
+      ...DeliveryRuleAction.type.modelProperties,
+      parameters: {
+        required: true,
+        serializedName: "parameters",
+        type: {
+          name: "Composite",
+          className: "UrlSigningActionParameters"
+        }
+      }
+    }
+  }
+};
+
+export const UrlRewriteActionParameters: msRest.CompositeMapper = {
+  serializedName: "UrlRewriteActionParameters",
+  type: {
+    name: "Composite",
+    className: "UrlRewriteActionParameters",
+    modelProperties: {
+      odatatype: {
+        required: true,
+        isConstant: true,
+        serializedName: "@odata\\.type",
+        defaultValue: '#Microsoft.Azure.Cdn.Models.DeliveryRuleUrlRewriteActionParameters',
+        type: {
+          name: "String"
+        }
+      },
+      sourcePattern: {
+        required: true,
+        serializedName: "sourcePattern",
+        type: {
+          name: "String"
+        }
+      },
+      destination: {
+        required: true,
+        serializedName: "destination",
+        type: {
+          name: "String"
+        }
+      },
+      preserveUnmatchedPath: {
+        serializedName: "preserveUnmatchedPath",
+        type: {
+          name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
+export const UrlRewriteAction: msRest.CompositeMapper = {
+  serializedName: "UrlRewrite",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: DeliveryRuleAction.type.polymorphicDiscriminator,
+    uberParent: "DeliveryRuleAction",
+    className: "UrlRewriteAction",
+    modelProperties: {
+      ...DeliveryRuleAction.type.modelProperties,
+      parameters: {
+        required: true,
+        serializedName: "parameters",
+        defaultValue: {},
+        type: {
+          name: "Composite",
+          className: "UrlRewriteActionParameters"
+        }
+      }
+    }
+  }
+};
+
+export const HeaderActionParameters: msRest.CompositeMapper = {
+  serializedName: "HeaderActionParameters",
+  type: {
+    name: "Composite",
+    className: "HeaderActionParameters",
+    modelProperties: {
+      odatatype: {
+        required: true,
+        isConstant: true,
+        serializedName: "@odata\\.type",
+        defaultValue: '#Microsoft.Azure.Cdn.Models.DeliveryRuleHeaderActionParameters',
+        type: {
+          name: "String"
+        }
+      },
+      headerAction: {
+        required: true,
+        serializedName: "headerAction",
+        type: {
+          name: "String"
+        }
+      },
+      headerName: {
+        required: true,
+        serializedName: "headerName",
+        type: {
+          name: "String"
+        }
+      },
+      value: {
+        serializedName: "value",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const DeliveryRuleRequestHeaderAction: msRest.CompositeMapper = {
+  serializedName: "ModifyRequestHeader",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: DeliveryRuleAction.type.polymorphicDiscriminator,
+    uberParent: "DeliveryRuleAction",
+    className: "DeliveryRuleRequestHeaderAction",
+    modelProperties: {
+      ...DeliveryRuleAction.type.modelProperties,
+      parameters: {
+        required: true,
+        serializedName: "parameters",
+        defaultValue: {},
+        type: {
+          name: "Composite",
+          className: "HeaderActionParameters"
+        }
+      }
+    }
+  }
+};
+
+export const DeliveryRuleResponseHeaderAction: msRest.CompositeMapper = {
+  serializedName: "ModifyResponseHeader",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: DeliveryRuleAction.type.polymorphicDiscriminator,
+    uberParent: "DeliveryRuleAction",
+    className: "DeliveryRuleResponseHeaderAction",
+    modelProperties: {
+      ...DeliveryRuleAction.type.modelProperties,
+      parameters: {
+        required: true,
+        serializedName: "parameters",
+        defaultValue: {},
+        type: {
+          name: "Composite",
+          className: "HeaderActionParameters"
         }
       }
     }
@@ -732,7 +2430,7 @@ export const CacheExpirationActionParameters: msRest.CompositeMapper = {
         required: true,
         isConstant: true,
         serializedName: "@odata\\.type",
-        defaultValue: 'Microsoft.Azure.Cdn.Models.DeliveryRuleCacheExpirationActionParameters',
+        defaultValue: '#Microsoft.Azure.Cdn.Models.DeliveryRuleCacheExpirationActionParameters',
         type: {
           name: "String"
         }
@@ -786,6 +2484,61 @@ export const DeliveryRuleCacheExpirationAction: msRest.CompositeMapper = {
   }
 };
 
+export const CacheKeyQueryStringActionParameters: msRest.CompositeMapper = {
+  serializedName: "CacheKeyQueryStringActionParameters",
+  type: {
+    name: "Composite",
+    className: "CacheKeyQueryStringActionParameters",
+    modelProperties: {
+      odatatype: {
+        required: true,
+        isConstant: true,
+        serializedName: "@odata\\.type",
+        defaultValue: '#Microsoft.Azure.Cdn.Models.DeliveryRuleCacheKeyQueryStringBehaviorActionParameters',
+        type: {
+          name: "String"
+        }
+      },
+      queryStringBehavior: {
+        required: true,
+        serializedName: "queryStringBehavior",
+        type: {
+          name: "String"
+        }
+      },
+      queryParameters: {
+        nullable: true,
+        serializedName: "queryParameters",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const DeliveryRuleCacheKeyQueryStringAction: msRest.CompositeMapper = {
+  serializedName: "CacheKeyQueryString",
+  type: {
+    name: "Composite",
+    polymorphicDiscriminator: DeliveryRuleAction.type.polymorphicDiscriminator,
+    uberParent: "DeliveryRuleAction",
+    className: "DeliveryRuleCacheKeyQueryStringAction",
+    modelProperties: {
+      ...DeliveryRuleAction.type.modelProperties,
+      parameters: {
+        required: true,
+        serializedName: "parameters",
+        defaultValue: {},
+        type: {
+          name: "Composite",
+          className: "CacheKeyQueryStringActionParameters"
+        }
+      }
+    }
+  }
+};
+
 export const PurgeParameters: msRest.CompositeMapper = {
   serializedName: "PurgeParameters",
   type: {
@@ -830,15 +2583,25 @@ export const LoadParameters: msRest.CompositeMapper = {
   }
 };
 
+export const ProxyResource: msRest.CompositeMapper = {
+  serializedName: "ProxyResource",
+  type: {
+    name: "Composite",
+    className: "ProxyResource",
+    modelProperties: {
+      ...Resource.type.modelProperties
+    }
+  }
+};
+
 export const Origin: msRest.CompositeMapper = {
   serializedName: "Origin",
   type: {
     name: "Composite",
     className: "Origin",
     modelProperties: {
-      ...TrackedResource.type.modelProperties,
+      ...ProxyResource.type.modelProperties,
       hostName: {
-        required: true,
         serializedName: "properties.hostName",
         type: {
           name: "String"
@@ -864,6 +2627,62 @@ export const Origin: msRest.CompositeMapper = {
           name: "Number"
         }
       },
+      originHostHeader: {
+        serializedName: "properties.originHostHeader",
+        type: {
+          name: "String"
+        }
+      },
+      priority: {
+        serializedName: "properties.priority",
+        constraints: {
+          InclusiveMaximum: 5,
+          InclusiveMinimum: 1
+        },
+        type: {
+          name: "Number"
+        }
+      },
+      weight: {
+        serializedName: "properties.weight",
+        constraints: {
+          InclusiveMaximum: 1000,
+          InclusiveMinimum: 1
+        },
+        type: {
+          name: "Number"
+        }
+      },
+      enabled: {
+        serializedName: "properties.enabled",
+        type: {
+          name: "Boolean"
+        }
+      },
+      privateLinkAlias: {
+        serializedName: "properties.privateLinkAlias",
+        type: {
+          name: "String"
+        }
+      },
+      privateLinkResourceId: {
+        serializedName: "properties.privateLinkResourceId",
+        type: {
+          name: "String"
+        }
+      },
+      privateLinkLocation: {
+        serializedName: "properties.privateLinkLocation",
+        type: {
+          name: "String"
+        }
+      },
+      privateLinkApprovalMessage: {
+        serializedName: "properties.privateLinkApprovalMessage",
+        type: {
+          name: "String"
+        }
+      },
       resourceState: {
         readOnly: true,
         serializedName: "properties.resourceState",
@@ -874,6 +2693,13 @@ export const Origin: msRest.CompositeMapper = {
       provisioningState: {
         readOnly: true,
         serializedName: "properties.provisioningState",
+        type: {
+          name: "String"
+        }
+      },
+      privateEndpointStatus: {
+        readOnly: true,
+        serializedName: "properties.privateEndpointStatus",
         type: {
           name: "String"
         }
@@ -913,18 +2739,170 @@ export const OriginUpdateParameters: msRest.CompositeMapper = {
         type: {
           name: "Number"
         }
+      },
+      originHostHeader: {
+        serializedName: "properties.originHostHeader",
+        type: {
+          name: "String"
+        }
+      },
+      priority: {
+        serializedName: "properties.priority",
+        constraints: {
+          InclusiveMaximum: 5,
+          InclusiveMinimum: 1
+        },
+        type: {
+          name: "Number"
+        }
+      },
+      weight: {
+        serializedName: "properties.weight",
+        constraints: {
+          InclusiveMaximum: 1000,
+          InclusiveMinimum: 1
+        },
+        type: {
+          name: "Number"
+        }
+      },
+      enabled: {
+        serializedName: "properties.enabled",
+        type: {
+          name: "Boolean"
+        }
+      },
+      privateLinkAlias: {
+        serializedName: "properties.privateLinkAlias",
+        type: {
+          name: "String"
+        }
+      },
+      privateLinkResourceId: {
+        serializedName: "properties.privateLinkResourceId",
+        type: {
+          name: "String"
+        }
+      },
+      privateLinkLocation: {
+        serializedName: "properties.privateLinkLocation",
+        type: {
+          name: "String"
+        }
+      },
+      privateLinkApprovalMessage: {
+        serializedName: "properties.privateLinkApprovalMessage",
+        type: {
+          name: "String"
+        }
       }
     }
   }
 };
 
-export const ProxyResource: msRest.CompositeMapper = {
-  serializedName: "ProxyResource",
+export const OriginGroup: msRest.CompositeMapper = {
+  serializedName: "OriginGroup",
   type: {
     name: "Composite",
-    className: "ProxyResource",
+    className: "OriginGroup",
     modelProperties: {
-      ...Resource.type.modelProperties
+      ...ProxyResource.type.modelProperties,
+      healthProbeSettings: {
+        serializedName: "properties.healthProbeSettings",
+        type: {
+          name: "Composite",
+          className: "HealthProbeParameters"
+        }
+      },
+      origins: {
+        serializedName: "properties.origins",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ResourceReference"
+            }
+          }
+        }
+      },
+      trafficRestorationTimeToHealedOrNewEndpointsInMinutes: {
+        serializedName: "properties.trafficRestorationTimeToHealedOrNewEndpointsInMinutes",
+        constraints: {
+          InclusiveMaximum: 50,
+          InclusiveMinimum: 0
+        },
+        type: {
+          name: "Number"
+        }
+      },
+      responseBasedOriginErrorDetectionSettings: {
+        serializedName: "properties.responseBasedOriginErrorDetectionSettings",
+        type: {
+          name: "Composite",
+          className: "ResponseBasedOriginErrorDetectionParameters"
+        }
+      },
+      resourceState: {
+        readOnly: true,
+        serializedName: "properties.resourceState",
+        type: {
+          name: "String"
+        }
+      },
+      provisioningState: {
+        readOnly: true,
+        serializedName: "properties.provisioningState",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const OriginGroupUpdateParameters: msRest.CompositeMapper = {
+  serializedName: "OriginGroupUpdateParameters",
+  type: {
+    name: "Composite",
+    className: "OriginGroupUpdateParameters",
+    modelProperties: {
+      healthProbeSettings: {
+        serializedName: "properties.healthProbeSettings",
+        type: {
+          name: "Composite",
+          className: "HealthProbeParameters"
+        }
+      },
+      origins: {
+        serializedName: "properties.origins",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ResourceReference"
+            }
+          }
+        }
+      },
+      trafficRestorationTimeToHealedOrNewEndpointsInMinutes: {
+        serializedName: "properties.trafficRestorationTimeToHealedOrNewEndpointsInMinutes",
+        constraints: {
+          InclusiveMaximum: 50,
+          InclusiveMinimum: 0
+        },
+        type: {
+          name: "Number"
+        }
+      },
+      responseBasedOriginErrorDetectionSettings: {
+        serializedName: "properties.responseBasedOriginErrorDetectionSettings",
+        type: {
+          name: "Composite",
+          className: "ResponseBasedOriginErrorDetectionParameters"
+        }
+      }
     }
   }
 };
@@ -1014,6 +2992,17 @@ export const CustomDomainHttpsParameters: msRest.CompositeMapper = {
         serializedName: "protocolType",
         type: {
           name: "String"
+        }
+      },
+      minimumTlsVersion: {
+        serializedName: "minimumTlsVersion",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "None",
+            "TLS10",
+            "TLS12"
+          ]
         }
       },
       certificateSource: {
@@ -1525,6 +3514,594 @@ export const ErrorResponse: msRest.CompositeMapper = {
   }
 };
 
+export const PolicySettings: msRest.CompositeMapper = {
+  serializedName: "policySettings",
+  type: {
+    name: "Composite",
+    className: "PolicySettings",
+    modelProperties: {
+      enabledState: {
+        serializedName: "enabledState",
+        type: {
+          name: "String"
+        }
+      },
+      mode: {
+        serializedName: "mode",
+        type: {
+          name: "String"
+        }
+      },
+      defaultRedirectUrl: {
+        serializedName: "defaultRedirectUrl",
+        type: {
+          name: "String"
+        }
+      },
+      defaultCustomBlockResponseStatusCode: {
+        serializedName: "defaultCustomBlockResponseStatusCode",
+        type: {
+          name: "Number"
+        }
+      },
+      defaultCustomBlockResponseBody: {
+        serializedName: "defaultCustomBlockResponseBody",
+        constraints: {
+          Pattern: /^(?:[A-Za-z0-9+\/]{4})*(?:[A-Za-z0-9+\/]{2}==|[A-Za-z0-9+\/]{3}=|[A-Za-z0-9+\/]{4})$/
+        },
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const CustomRule: msRest.CompositeMapper = {
+  serializedName: "CustomRule",
+  type: {
+    name: "Composite",
+    className: "CustomRule",
+    modelProperties: {
+      name: {
+        required: true,
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      enabledState: {
+        serializedName: "enabledState",
+        type: {
+          name: "String"
+        }
+      },
+      priority: {
+        required: true,
+        serializedName: "priority",
+        constraints: {
+          InclusiveMaximum: 1000,
+          InclusiveMinimum: 0
+        },
+        type: {
+          name: "Number"
+        }
+      },
+      matchConditions: {
+        required: true,
+        serializedName: "matchConditions",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "MatchCondition"
+            }
+          }
+        }
+      },
+      action: {
+        required: true,
+        serializedName: "action",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const RateLimitRule: msRest.CompositeMapper = {
+  serializedName: "RateLimitRule",
+  type: {
+    name: "Composite",
+    className: "RateLimitRule",
+    modelProperties: {
+      ...CustomRule.type.modelProperties,
+      rateLimitThreshold: {
+        required: true,
+        serializedName: "rateLimitThreshold",
+        constraints: {
+          InclusiveMinimum: 0
+        },
+        type: {
+          name: "Number"
+        }
+      },
+      rateLimitDurationInMinutes: {
+        required: true,
+        serializedName: "rateLimitDurationInMinutes",
+        constraints: {
+          InclusiveMaximum: 60,
+          InclusiveMinimum: 0
+        },
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const RateLimitRuleList: msRest.CompositeMapper = {
+  serializedName: "RateLimitRuleList",
+  type: {
+    name: "Composite",
+    className: "RateLimitRuleList",
+    modelProperties: {
+      rules: {
+        serializedName: "rules",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "RateLimitRule"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const MatchCondition: msRest.CompositeMapper = {
+  serializedName: "MatchCondition",
+  type: {
+    name: "Composite",
+    className: "MatchCondition",
+    modelProperties: {
+      matchVariable: {
+        required: true,
+        serializedName: "matchVariable",
+        type: {
+          name: "String"
+        }
+      },
+      selector: {
+        serializedName: "selector",
+        type: {
+          name: "String"
+        }
+      },
+      operator: {
+        required: true,
+        serializedName: "operator",
+        type: {
+          name: "String"
+        }
+      },
+      negateCondition: {
+        serializedName: "negateCondition",
+        type: {
+          name: "Boolean"
+        }
+      },
+      matchValue: {
+        required: true,
+        serializedName: "matchValue",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      },
+      transforms: {
+        serializedName: "transforms",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const CustomRuleList: msRest.CompositeMapper = {
+  serializedName: "CustomRuleList",
+  type: {
+    name: "Composite",
+    className: "CustomRuleList",
+    modelProperties: {
+      rules: {
+        serializedName: "rules",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "CustomRule"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const ManagedRuleOverride: msRest.CompositeMapper = {
+  serializedName: "ManagedRuleOverride",
+  type: {
+    name: "Composite",
+    className: "ManagedRuleOverride",
+    modelProperties: {
+      ruleId: {
+        required: true,
+        serializedName: "ruleId",
+        type: {
+          name: "String"
+        }
+      },
+      enabledState: {
+        serializedName: "enabledState",
+        type: {
+          name: "String"
+        }
+      },
+      action: {
+        serializedName: "action",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ManagedRuleGroupOverride: msRest.CompositeMapper = {
+  serializedName: "ManagedRuleGroupOverride",
+  type: {
+    name: "Composite",
+    className: "ManagedRuleGroupOverride",
+    modelProperties: {
+      ruleGroupName: {
+        required: true,
+        serializedName: "ruleGroupName",
+        type: {
+          name: "String"
+        }
+      },
+      rules: {
+        serializedName: "rules",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ManagedRuleOverride"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const ManagedRuleSet: msRest.CompositeMapper = {
+  serializedName: "ManagedRuleSet",
+  type: {
+    name: "Composite",
+    className: "ManagedRuleSet",
+    modelProperties: {
+      ruleSetType: {
+        required: true,
+        serializedName: "ruleSetType",
+        type: {
+          name: "String"
+        }
+      },
+      ruleSetVersion: {
+        required: true,
+        serializedName: "ruleSetVersion",
+        type: {
+          name: "String"
+        }
+      },
+      anomalyScore: {
+        serializedName: "anomalyScore",
+        constraints: {
+          InclusiveMaximum: 20,
+          InclusiveMinimum: 0
+        },
+        type: {
+          name: "Number"
+        }
+      },
+      ruleGroupOverrides: {
+        serializedName: "ruleGroupOverrides",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ManagedRuleGroupOverride"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const ManagedRuleSetList: msRest.CompositeMapper = {
+  serializedName: "ManagedRuleSetList",
+  type: {
+    name: "Composite",
+    className: "ManagedRuleSetList",
+    modelProperties: {
+      managedRuleSets: {
+        serializedName: "managedRuleSets",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ManagedRuleSet"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const CdnEndpoint: msRest.CompositeMapper = {
+  serializedName: "CdnEndpoint",
+  type: {
+    name: "Composite",
+    className: "CdnEndpoint",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const CdnWebApplicationFirewallPolicy: msRest.CompositeMapper = {
+  serializedName: "CdnWebApplicationFirewallPolicy",
+  type: {
+    name: "Composite",
+    className: "CdnWebApplicationFirewallPolicy",
+    modelProperties: {
+      ...TrackedResource.type.modelProperties,
+      policySettings: {
+        serializedName: "properties.policySettings",
+        type: {
+          name: "Composite",
+          className: "PolicySettings"
+        }
+      },
+      rateLimitRules: {
+        serializedName: "properties.rateLimitRules",
+        type: {
+          name: "Composite",
+          className: "RateLimitRuleList"
+        }
+      },
+      customRules: {
+        serializedName: "properties.customRules",
+        type: {
+          name: "Composite",
+          className: "CustomRuleList"
+        }
+      },
+      managedRules: {
+        serializedName: "properties.managedRules",
+        type: {
+          name: "Composite",
+          className: "ManagedRuleSetList"
+        }
+      },
+      endpointLinks: {
+        readOnly: true,
+        serializedName: "properties.endpointLinks",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "CdnEndpoint"
+            }
+          }
+        }
+      },
+      provisioningState: {
+        readOnly: true,
+        serializedName: "properties.provisioningState",
+        type: {
+          name: "String"
+        }
+      },
+      resourceState: {
+        readOnly: true,
+        serializedName: "properties.resourceState",
+        type: {
+          name: "String"
+        }
+      },
+      etag: {
+        serializedName: "etag",
+        type: {
+          name: "String"
+        }
+      },
+      sku: {
+        required: true,
+        serializedName: "sku",
+        type: {
+          name: "Composite",
+          className: "Sku"
+        }
+      }
+    }
+  }
+};
+
+export const CdnWebApplicationFirewallPolicyPatchParameters: msRest.CompositeMapper = {
+  serializedName: "CdnWebApplicationFirewallPolicyPatchParameters",
+  type: {
+    name: "Composite",
+    className: "CdnWebApplicationFirewallPolicyPatchParameters",
+    modelProperties: {
+      tags: {
+        serializedName: "tags",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const ManagedRuleDefinition: msRest.CompositeMapper = {
+  serializedName: "ManagedRuleDefinition",
+  type: {
+    name: "Composite",
+    className: "ManagedRuleDefinition",
+    modelProperties: {
+      ruleId: {
+        readOnly: true,
+        serializedName: "ruleId",
+        type: {
+          name: "String"
+        }
+      },
+      description: {
+        readOnly: true,
+        serializedName: "description",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ManagedRuleGroupDefinition: msRest.CompositeMapper = {
+  serializedName: "ManagedRuleGroupDefinition",
+  type: {
+    name: "Composite",
+    className: "ManagedRuleGroupDefinition",
+    modelProperties: {
+      ruleGroupName: {
+        readOnly: true,
+        serializedName: "ruleGroupName",
+        type: {
+          name: "String"
+        }
+      },
+      description: {
+        readOnly: true,
+        serializedName: "description",
+        type: {
+          name: "String"
+        }
+      },
+      rules: {
+        readOnly: true,
+        serializedName: "rules",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ManagedRuleDefinition"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const ManagedRuleSetDefinition: msRest.CompositeMapper = {
+  serializedName: "ManagedRuleSetDefinition",
+  type: {
+    name: "Composite",
+    className: "ManagedRuleSetDefinition",
+    modelProperties: {
+      ...Resource.type.modelProperties,
+      provisioningState: {
+        readOnly: true,
+        serializedName: "properties.provisioningState",
+        type: {
+          name: "String"
+        }
+      },
+      ruleSetType: {
+        readOnly: true,
+        serializedName: "properties.ruleSetType",
+        type: {
+          name: "String"
+        }
+      },
+      ruleSetVersion: {
+        readOnly: true,
+        serializedName: "properties.ruleSetVersion",
+        type: {
+          name: "String"
+        }
+      },
+      ruleGroups: {
+        readOnly: true,
+        serializedName: "properties.ruleGroups",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ManagedRuleGroupDefinition"
+            }
+          }
+        }
+      },
+      sku: {
+        serializedName: "sku",
+        type: {
+          name: "Composite",
+          className: "Sku"
+        }
+      }
+    }
+  }
+};
+
 export const ProfileListResult: msRest.CompositeMapper = {
   serializedName: "ProfileListResult",
   type: {
@@ -1641,6 +4218,35 @@ export const OriginListResult: msRest.CompositeMapper = {
   }
 };
 
+export const OriginGroupListResult: msRest.CompositeMapper = {
+  serializedName: "OriginGroupListResult",
+  type: {
+    name: "Composite",
+    className: "OriginGroupListResult",
+    modelProperties: {
+      value: {
+        readOnly: true,
+        serializedName: "",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "OriginGroup"
+            }
+          }
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const CustomDomainListResult: msRest.CompositeMapper = {
   serializedName: "CustomDomainListResult",
   type: {
@@ -1728,12 +4334,88 @@ export const EdgenodeResult: msRest.CompositeMapper = {
   }
 };
 
+export const CdnWebApplicationFirewallPolicyList: msRest.CompositeMapper = {
+  serializedName: "CdnWebApplicationFirewallPolicyList",
+  type: {
+    name: "Composite",
+    className: "CdnWebApplicationFirewallPolicyList",
+    modelProperties: {
+      value: {
+        readOnly: true,
+        serializedName: "",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "CdnWebApplicationFirewallPolicy"
+            }
+          }
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ManagedRuleSetDefinitionList: msRest.CompositeMapper = {
+  serializedName: "ManagedRuleSetDefinitionList",
+  type: {
+    name: "Composite",
+    className: "ManagedRuleSetDefinitionList",
+    modelProperties: {
+      value: {
+        readOnly: true,
+        serializedName: "",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ManagedRuleSetDefinition"
+            }
+          }
+        }
+      },
+      nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const discriminators = {
-  'DeliveryRuleAction' : DeliveryRuleAction,
   'DeliveryRuleCondition' : DeliveryRuleCondition,
+  'DeliveryRuleAction' : DeliveryRuleAction,
+  'DeliveryRuleCondition.RemoteAddress' : DeliveryRuleRemoteAddressCondition,
+  'DeliveryRuleCondition.RequestMethod' : DeliveryRuleRequestMethodCondition,
+  'DeliveryRuleCondition.QueryString' : DeliveryRuleQueryStringCondition,
+  'DeliveryRuleCondition.PostArgs' : DeliveryRulePostArgsCondition,
+  'DeliveryRuleCondition.RequestUri' : DeliveryRuleRequestUriCondition,
+  'DeliveryRuleCondition.RequestHeader' : DeliveryRuleRequestHeaderCondition,
+  'DeliveryRuleCondition.RequestBody' : DeliveryRuleRequestBodyCondition,
+  'DeliveryRuleCondition.RequestScheme' : DeliveryRuleRequestSchemeCondition,
   'DeliveryRuleCondition.UrlPath' : DeliveryRuleUrlPathCondition,
   'DeliveryRuleCondition.UrlFileExtension' : DeliveryRuleUrlFileExtensionCondition,
+  'DeliveryRuleCondition.UrlFileName' : DeliveryRuleUrlFileNameCondition,
+  'DeliveryRuleCondition.HttpVersion' : DeliveryRuleHttpVersionCondition,
+  'DeliveryRuleCondition.Cookies' : DeliveryRuleCookiesCondition,
+  'DeliveryRuleCondition.IsDevice' : DeliveryRuleIsDeviceCondition,
+  'DeliveryRuleAction.UrlRedirect' : UrlRedirectAction,
+  'DeliveryRuleAction.UrlSigning' : UrlSigningAction,
+  'DeliveryRuleAction.UrlRewrite' : UrlRewriteAction,
+  'DeliveryRuleAction.ModifyRequestHeader' : DeliveryRuleRequestHeaderAction,
+  'DeliveryRuleAction.ModifyResponseHeader' : DeliveryRuleResponseHeaderAction,
   'DeliveryRuleAction.CacheExpiration' : DeliveryRuleCacheExpirationAction,
+  'DeliveryRuleAction.CacheKeyQueryString' : DeliveryRuleCacheKeyQueryStringAction,
   'CustomDomainHttpsParameters' : CustomDomainHttpsParameters,
   'CustomDomainHttpsParameters.Cdn' : CdnManagedHttpsParameters,
   'CustomDomainHttpsParameters.AzureKeyVault' : UserManagedHttpsParameters

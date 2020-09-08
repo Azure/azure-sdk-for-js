@@ -40,7 +40,7 @@ async function main() {
     throw new Error("Expecting at lease one receipt in analysis result");
   }
 
-  // For supported fields recognized by the service, please refer to https://westus2.dev.cognitive.microsoft.com/docs/services/form-recognizer-api-v2-preview/operations/GetAnalyzeReceiptResult.
+  // For a list of fields that are contained in the response, please refer to the "Supported fields" section at the following link: https://aka.ms/azsdk/formrecognizer/receiptfields
   const receiptTypeField = receipt.fields["ReceiptType"];
   if (receiptTypeField.valueType === "string") {
     console.log(

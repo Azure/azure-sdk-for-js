@@ -8,12 +8,19 @@ parameters:
 - name: RunUnitTests
   type: boolean
   default: false
+- name: TargetDocRepoOwner
+  type: string
+  default: MicrosoftDocs
+- name: TargetDocRepoName
+  type: string
+  default: azure-docs-sdk-node
 
 stages:
   - stage: Build
     jobs:
       - template: ../jobs/archetype-sdk-client.yml
         parameters:
+          Artifacts: ${{parameters.Artifacts}}
           ServiceDirectory: ${{ parameters.ServiceDirectory }}
           RunUnitTests: ${{ parameters.RunUnitTests }}
 
@@ -41,3 +48,5 @@ stages:
         ServiceDirectory: ${{parameters.ServiceDirectory}}
         Artifacts: ${{parameters.Artifacts}}
         ArtifactName: packages
+        TargetDocRepoOwner: ${{ parameters.TargetDocRepoOwner }}
+        TargetDocRepoName: ${{ parameters.TargetDocRepoName }}

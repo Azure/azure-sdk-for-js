@@ -203,7 +203,7 @@ if ($CI) {
   Write-Verbose "Generated base name '$BaseName' for CI build"
 }
 
-$rgName = if ($ResourceGroupName -ne '') {
+$ResourceGroupName = if ($ResourceGroupName) {
   $ResourceGroupName
 } elseif ($CI) {
   # Format the resource group name based on resource group naming recommendations and limitations.
@@ -233,14 +233,14 @@ if ($CI) {
     }
 
     # Set the resource group name variable.
-    Write-Host "Setting variable 'AZURE_RESOURCEGROUP_NAME': $rgName"
-    Write-Host "##vso[task.setvariable variable=AZURE_RESOURCEGROUP_NAME;]$rgName"
-    $environmentVariables['AZURE_RESOURCEGROUP_NAME'] = $rgName
+    Write-Host "Setting variable 'AZURE_RESOURCEGROUP_NAME': $ResourceGroupName"
+    Write-Host "##vso[task.setvariable variable=AZURE_RESOURCEGROUP_NAME;]$ResourceGroupName"
+    $environmentVariables['AZURE_RESOURCEGROUP_NAME'] = $ResourceGroupName
 }
 
-Log "Creating resource group '$rgName' in location '$Location'"
+Log "Creating resource group '$ResourceGroupName' in location '$Location'"
 $resourceGroup = Retry {
-    New-AzResourceGroup -Name "$rgName" -Location $Location -Tag $tags -Force:$Force
+    New-AzResourceGroup -Name "$ResourceGroupName" -Location $Location -Tag $tags -Force:$Force
 }
 
 if ($resourceGroup.ProvisioningState -eq 'Succeeded') {
@@ -304,7 +304,7 @@ foreach ($templateFile in $templateFiles) {
     $preDeploymentScript = $templateFile | Split-Path | Join-Path -ChildPath 'test-resources-pre.ps1'
     if (Test-Path $preDeploymentScript) {
         Log "Invoking pre-deployment script '$preDeploymentScript'"
-        &$preDeploymentScript -ResourceGroupName $rgName @PSBoundParameters
+        &$preDeploymentScript -ResourceGroupName $ResourceGroupName @PSBoundParameters
     }
 
     Log "Deploying template '$templateFile' to resource group '$($resourceGroup.ResourceGroupName)'"
@@ -396,7 +396,7 @@ foreach ($templateFile in $templateFiles) {
     $postDeploymentScript = $templateFile | Split-Path | Join-Path -ChildPath 'test-resources-post.ps1'
     if (Test-Path $postDeploymentScript) {
         Log "Invoking post-deployment script '$postDeploymentScript'"
-        &$postDeploymentScript -ResourceGroupName $rgName -DeploymentOutputs $deploymentOutputs @PSBoundParameters
+        &$postDeploymentScript -ResourceGroupName $ResourceGroupName -DeploymentOutputs $deploymentOutputs @PSBoundParameters
     }
 }
 

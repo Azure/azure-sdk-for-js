@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { ReceiveMode } from "./serviceBusMessage";
+import { InternalReceiveMode } from "./serviceBusMessage";
 import {
   ConnectionConfig,
   RetryOptions,
@@ -11,6 +11,7 @@ import {
 } from "@azure/core-amqp";
 import { ConnectionContext } from "./connectionContext";
 import { UserAgentOptions } from "@azure/core-http";
+import { ReceiveMode } from "./models";
 
 /**
  * Describes the options that can be provided while creating the ServiceBusClient.
@@ -47,7 +48,8 @@ export function createConnectionContextForConnectionString(
   config.webSocketEndpointPath = "$servicebus/websocket";
   config.webSocketConstructorOptions = options?.webSocketOptions?.webSocketConstructorOptions;
 
-  const credential = new SharedKeyCredential(config.sharedAccessKeyName, config.sharedAccessKey);
+  const credential = SharedKeyCredential.fromConnectionString(connectionString);
+
   validate(config);
   return ConnectionContext.create(config, credential, options);
 }
@@ -116,13 +118,11 @@ export function getEntityNameFromConnectionString(connectionString: string): str
  * @internal
  * @ignore
  */
-export function convertToInternalReceiveMode(
-  receiveMode: "peekLock" | "receiveAndDelete"
-): ReceiveMode {
+export function convertToInternalReceiveMode(receiveMode: ReceiveMode): InternalReceiveMode {
   switch (receiveMode) {
     case "peekLock":
-      return ReceiveMode.peekLock;
+      return InternalReceiveMode.peekLock;
     case "receiveAndDelete":
-      return ReceiveMode.receiveAndDelete;
+      return InternalReceiveMode.receiveAndDelete;
   }
 }
