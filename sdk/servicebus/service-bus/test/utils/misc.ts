@@ -2,13 +2,13 @@
 // Licensed under the MIT license.
 
 import { defaultLock } from "@azure/core-amqp";
-import { Delivery, ReceivedMessage } from "../../src";
+import { Delivery, ServiceBusReceivedMessage } from "../../src";
 import { LinkEntity } from "../../src/core/linkEntity";
 import { ServiceBusMessageImpl } from "../../src/serviceBusMessage";
 
 // some functions useful as we transition between interfaces and classes.
 
-export function getDeliveryProperty(message: ReceivedMessage): Delivery {
+export function getDeliveryProperty(message: ServiceBusReceivedMessage): Delivery {
   if (
     message &&
     (message as ServiceBusMessageImpl).delivery &&

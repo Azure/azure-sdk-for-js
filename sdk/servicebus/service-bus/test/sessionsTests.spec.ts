@@ -6,7 +6,7 @@ import Long from "long";
 const should = chai.should();
 import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
-import { ReceivedMessage, delay } from "../src";
+import { ServiceBusReceivedMessage, delay } from "../src";
 
 import { TestClientType, TestMessage, checkWithTimeout, isMessagingError } from "./utils/testUtils";
 import { ServiceBusSender } from "../src/sender";
@@ -18,7 +18,7 @@ import {
   testPeekMsgsLength,
   getRandomTestClientTypeWithSessions
 } from "./utils/testutils2";
-import { ReceivedMessageWithLock } from "../src/serviceBusMessage";
+import { ServiceBusReceivedMessageWithLock } from "../src/serviceBusMessage";
 import { AbortController } from "@azure/abort-controller";
 
 let unexpectedError: Error | undefined;
@@ -32,7 +32,7 @@ async function processError(err: Error): Promise<void> {
 describe("session tests", () => {
   let serviceBusClient: ServiceBusClientForTests;
   let sender: ServiceBusSender;
-  let receiver: ServiceBusSessionReceiver<ReceivedMessageWithLock>;
+  let receiver: ServiceBusSessionReceiver<ServiceBusReceivedMessageWithLock>;
   let testClientType = getRandomTestClientTypeWithSessions();
 
   async function beforeEachTest(sessionId?: string): Promise<void> {
@@ -161,9 +161,9 @@ describe("session tests", () => {
       const testMessage = TestMessage.getSessionSample();
       await sender.sendMessages(testMessage);
 
-      let receivedMsgs: ReceivedMessage[] = [];
+      let receivedMsgs: ServiceBusReceivedMessage[] = [];
       receiver.subscribe({
-        async processMessage(msg: ReceivedMessage) {
+        async processMessage(msg: ServiceBusReceivedMessage) {
           receivedMsgs.push(msg);
           return Promise.resolve();
         },
@@ -181,7 +181,7 @@ describe("session tests", () => {
       receivedMsgs = [];
       receiver.subscribe(
         {
-          async processMessage(msg: ReceivedMessageWithLock) {
+          async processMessage(msg: ServiceBusReceivedMessageWithLock) {
             should.equal(msg.body, testMessage.body, "MessageBody is different than expected");
             should.equal(
               msg.messageId,

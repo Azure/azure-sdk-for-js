@@ -6,13 +6,17 @@ const should = chai.should();
 
 import { createServiceBusClientForTests } from "./utils/testutils2";
 import { TestClientType, TestMessage } from "./utils/testUtils";
-import { ReceivedMessage, ReceivedMessageWithLock, ServiceBusReceiver } from "../src";
+import {
+  ServiceBusReceivedMessage,
+  ServiceBusReceivedMessageWithLock,
+  ServiceBusReceiver
+} from "../src";
 
 describe("dead lettering", () => {
   let serviceBusClient: ReturnType<typeof createServiceBusClientForTests>;
-  let deadLetterReceiver: ServiceBusReceiver<ReceivedMessage>;
-  let receiver: ServiceBusReceiver<ReceivedMessageWithLock>;
-  let receivedMessage: ReceivedMessageWithLock;
+  let deadLetterReceiver: ServiceBusReceiver<ServiceBusReceivedMessage>;
+  let receiver: ServiceBusReceiver<ServiceBusReceivedMessageWithLock>;
+  let receivedMessage: ServiceBusReceivedMessageWithLock;
 
   before(() => {
     serviceBusClient = createServiceBusClientForTests();
@@ -166,8 +170,8 @@ describe("dead lettering", () => {
 
 describe("abandoning", () => {
   let serviceBusClient: ReturnType<typeof createServiceBusClientForTests>;
-  let receiver: ServiceBusReceiver<ReceivedMessageWithLock>;
-  let receivedMessage: ReceivedMessageWithLock;
+  let receiver: ServiceBusReceiver<ServiceBusReceivedMessageWithLock>;
+  let receivedMessage: ServiceBusReceivedMessageWithLock;
 
   before(() => {
     serviceBusClient = createServiceBusClientForTests();
@@ -276,7 +280,7 @@ describe("abandoning", () => {
   });
 
   async function checkAbandonedMessage(
-    abandonedMessage: ReceivedMessageWithLock,
+    abandonedMessage: ServiceBusReceivedMessageWithLock,
     expected: { customProperty?: string }
   ) {
     should.exist(abandonedMessage);
@@ -289,8 +293,8 @@ describe("abandoning", () => {
 
 describe("deferring", () => {
   let serviceBusClient: ReturnType<typeof createServiceBusClientForTests>;
-  let receiver: ServiceBusReceiver<ReceivedMessageWithLock>;
-  let receivedMessage: ReceivedMessageWithLock;
+  let receiver: ServiceBusReceiver<ServiceBusReceivedMessageWithLock>;
+  let receivedMessage: ServiceBusReceivedMessageWithLock;
 
   before(() => {
     serviceBusClient = createServiceBusClientForTests();
