@@ -5,7 +5,7 @@ languages:
 products:
   - azure
   - azure-key-vault
-urlFragment: keyvault-keys-typescript
+urlFragment: keyvault-admin-typescript
 ---
 
 # Azure Key Vault Administration client library samples for TypeScript
@@ -75,8 +75,8 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [accessControlHelloWorld]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-admin/samples/typescript/src/accessControlHelloWorld.ts
 [BackupHelloWorld]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-admin/samples/typescript/src/backupHelloWorld.ts
 [BackupSelective]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-admin/samples/typescript/src/backupSelective.ts
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/keyvault-keys
+[apiref]: https://docs.microsoft.com/javascript/api/@azure/keyvault-admin
 [azkeyvault]: https://docs.microsoft.com/azure/key-vault/quick-create-portal
 [kvsoftdelete]: https://docs.microsoft.com/azure/key-vault/key-vault-soft-delete-cli
 [freesub]: https://azure.microsoft.com/free/
-[package]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-keys/README.md
+[package]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-admin/README.md

@@ -5,7 +5,7 @@ languages:
 products:
   - azure
   - azure-key-vault
-urlFragment: keyvault-keys-javascript
+urlFragment: keyvault-admin-javascript
 ---
 
 # Azure Key Vault Administration client library samples for JavaScript
@@ -63,8 +63,8 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [accessControlHelloWorld]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-admin/samples/javascript/accessControlHelloWorld.js
 [BackupHelloWorld]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-admin/samples/javascript/backupHelloWorld.js
 [BackupSelective]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-admin/samples/javascript/backupSelective.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/keyvault-keys
+[apiref]: https://docs.microsoft.com/javascript/api/@azure/keyvault-admin
 [azkeyvault]: https://docs.microsoft.com/azure/key-vault/quick-create-portal
 [kvsoftdelete]: https://docs.microsoft.com/azure/key-vault/key-vault-soft-delete-cli
 [freesub]: https://azure.microsoft.com/free/
-[package]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-keys/README.md
+[package]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-admin/README.md
