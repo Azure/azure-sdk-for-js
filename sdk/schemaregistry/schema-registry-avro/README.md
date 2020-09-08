@@ -28,7 +28,7 @@ npm install @azure/schema-registry-avro
 
 Provides API to serialize to and deserialize from Avro Binary Encoding plus a
 header with schema ID. Uses
-[SchemaRegistryClient](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/schemaregistry/schema-registry)
+`SchemaRegistryClient` from the [@azure/schema-registry](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/schemaregistry/schema-registry) package
 to get schema IDs from schema content or vice versa.
 
 ### Message format
@@ -94,7 +94,7 @@ variable to `info`. Alternatively, logging can be enabled at runtime by calling
 `setLogLevel` in the `@azure/logger`:
 
 ```javascript
-import { setLogLevel } from "@azure/logger";
+const { setLogLevel } = require("@azure/logger");
 
 setLogLevel("info");
 ```

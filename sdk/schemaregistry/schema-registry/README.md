@@ -58,7 +58,7 @@ schema registry.
 
 ### SchemaRegistry serializers
 
-- [SchemaRegistryAvroSerializer](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/schemaregistry/schema-registry-avro)
+- [@azure/schema-registry-avro](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/schemaregistry/schema-registry-avro)
   is a separate package that uses `SchemaRegistryClient` to pair schema ID along
   with Avro Binary Encoding.
 
@@ -123,7 +123,7 @@ variable to `info`. Alternatively, logging can be enabled at runtime by calling
 `setLogLevel` in the `@azure/logger`:
 
 ```javascript
-import { setLogLevel } from "@azure/logger";
+const { setLogLevel } = require("@azure/logger");
 
 setLogLevel("info");
 ```
