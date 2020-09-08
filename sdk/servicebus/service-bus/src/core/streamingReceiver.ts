@@ -238,7 +238,7 @@ export class StreamingReceiver extends MessageReceiver {
         this.receiveMode === InternalReceiveMode.peekLock &&
         (!this.link || !this.link.isOpen())
       ) {
-        logger.info(
+        logger.verbose(
           "[%s] Not calling the user's message handler for the current message " +
             "as the receiver '%s' is closed",
           this._context.connectionId,
