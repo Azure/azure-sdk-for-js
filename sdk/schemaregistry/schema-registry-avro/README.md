@@ -11,11 +11,7 @@ ID in payload and the full Avro schema in the schema registry.
 ### Prerequisites
 
 - An [Azure subscription][azure_sub]
-- An existing Schema Registry resource
-
-<!--
-TODO: Links not publicly available yet for creating resource
--->
+- An existing [Schema Registry resource](https://aka.ms/schemaregistry)
 
 ### Install the `@azure/schema-registry-avro` package
 

@@ -11,11 +11,7 @@ by sending only a schema ID rather than a full schema.
 ### Prerequisites
 
 - An [Azure subscription][azure_sub]
-- An existing Schema Registry resource
-
-<!--
-TODO: Links not publicly available yet for creating resource
--->
+- An existing [Schema Registry resource](https://aka.ms/schemaregistry)
 
 ### Install the `@azure/schema-registry` package
 
@@ -31,10 +27,7 @@ To create a client object to access the Schema Registry API, you will need the
 `endpoint` of your Schema Registry resource and a `credential`. The Schema
 Registry client uses Azure Active Directory credentials to authenticate.
 
-#### Using an Azure Active Directory Credential
-
-Client API key authentication is used in most of the examples, but you can also
-authenticate with Azure Active Directory using the [Azure Identity
+You can authenticate with Azure Active Directory using the [Azure Identity
 library][azure_identity]. To use the
 [DefaultAzureCredential][defaultazurecredential] provider shown below, or other
 credential providers provided with the Azure SDK, please install the
@@ -122,12 +115,17 @@ console.log(`Got schema content=${foundSchema.content}`);
 
 ### Enable logs
 
-You can set the following environment variable to see debug logs when using this library.
+### Logging
 
-- Getting debug logs from the Azure Schema Registry client library
+Enabling logging may help uncover useful information about failures. In order to
+see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment
+variable to `info`. Alternatively, logging can be enabled at runtime by calling
+`setLogLevel` in the `@azure/logger`:
 
-```bash
-export DEBUG=azure*
+```javascript
+import { setLogLevel } from "@azure/logger";
+
+setLogLevel("info");
 ```
 
 ## Next steps
