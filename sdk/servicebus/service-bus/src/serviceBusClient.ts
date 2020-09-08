@@ -16,6 +16,7 @@ import {
 } from "./receivers/sessionReceiver";
 import { ReceivedMessage, ReceivedMessageWithLock } from "./serviceBusMessage";
 import { ServiceBusSender, ServiceBusSenderImpl } from "./sender";
+import { entityPathMisMatchErrors } from "./util/errors";
 
 /**
  * A client that can create Sender instances for sending messages to queues and
@@ -205,6 +206,13 @@ export class ServiceBusClient {
       | string,
     options3?: CreateReceiverOptions<"receiveAndDelete"> | CreateReceiverOptions<"peekLock">
   ): ServiceBusReceiver<ReceivedMessage> | ServiceBusReceiver<ReceivedMessageWithLock> {
+    if (
+      this._connectionContext.config.entityPath &&
+      this._connectionContext.config.entityPath !== queueOrTopicName1
+    ) {
+      throw new Error(entityPathMisMatchErrors);
+    }
+
     // NOTE: we don't currently have any options for this kind of receiver but
     // when we do make sure you pass them in and extract them.
     const { entityPath, receiveMode, options } = extractReceiverArguments(
@@ -212,17 +220,6 @@ export class ServiceBusClient {
       optionsOrSubscriptionName2,
       options3
     );
-
-    if (
-      this._connectionContext.config.entityPath &&
-      this._connectionContext.config.entityPath !== entityPath
-    ) {
-      if (entityPath === queueOrTopicName1) {
-        throw new Error(entityPathMisMatchErrors.queue);
-      } else {
-        throw new Error(entityPathMisMatchErrors.topicAndSubscription);
-      }
-    }
 
     let entityPathWithSubQueue = entityPath;
     if (options?.subQueue) {
@@ -351,22 +348,18 @@ export class ServiceBusClient {
   ): Promise<
     ServiceBusSessionReceiver<ReceivedMessage> | ServiceBusSessionReceiver<ReceivedMessageWithLock>
   > {
+    if (
+      this._connectionContext.config.entityPath &&
+      this._connectionContext.config.entityPath !== queueOrTopicName1
+    ) {
+      throw new Error(entityPathMisMatchErrors);
+    }
+
     const { entityPath, receiveMode, options } = extractReceiverArguments(
       queueOrTopicName1,
       optionsOrSubscriptionName2,
       options3
     );
-
-    if (
-      this._connectionContext.config.entityPath &&
-      this._connectionContext.config.entityPath !== entityPath
-    ) {
-      if (entityPath === queueOrTopicName1) {
-        throw new Error(entityPathMisMatchErrors.queue);
-      } else {
-        throw new Error(entityPathMisMatchErrors.topicAndSubscription);
-      }
-    }
 
     return ServiceBusSessionReceiverImpl.createInitializedSessionReceiver(
       this._connectionContext,
@@ -391,7 +384,7 @@ export class ServiceBusClient {
       this._connectionContext.config.entityPath &&
       this._connectionContext.config.entityPath !== queueOrTopicName
     ) {
-      throw new Error(entityPathMisMatchErrors.queueOrTopic);
+      throw new Error(entityPathMisMatchErrors);
     }
     return new ServiceBusSenderImpl(
       this._connectionContext,
@@ -456,17 +449,4 @@ export function extractReceiverArguments<OptionsT extends { receiveMode?: Receiv
     receiveMode,
     options
   };
-}
-
-/**
- * Error messages to use when EntityPath in connection string does not match the 
- * queue/topic/subscription names passed to the methods in the ServiceBusClient
- * 
- * @internal
- * @ignore
- */
-export const entityPathMisMatchErrors= {
-  queue: "The queue name provided does not match the EntityPath in the connection string passed to the ServiceBusClient constructor.",
-  topicAndSubscription: "The topic and subscription names provided do not match the EntityPath in the connection string passed to the ServiceBusClient constructor.",
-  queueOrTopic: "The queue or topic name provided does not match the EntityPath in the connection string passed to the ServiceBusClient constructor."
 }

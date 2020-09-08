@@ -1,13 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import {
-  extractReceiverArguments,
-  ServiceBusClient,
-  entityPathMisMatchErrors
-} from "../../src/serviceBusClient";
+import { extractReceiverArguments, ServiceBusClient } from "../../src/serviceBusClient";
 import chai from "chai";
 import { CreateSessionReceiverOptions } from "../../src/models";
+import { entityPathMisMatchErrors } from "../../src/util/errors";
 const assert = chai.assert;
 
 const allLockModes: ("peekLock" | "receiveAndDelete")[] = ["peekLock", "receiveAndDelete"];
@@ -106,7 +103,7 @@ describe("serviceBusClient unit tests", () => {
         client.createReceiver("my-queue");
         throw new Error("Receiver should not have been created successfully.");
       } catch (error) {
-        assert.equal(error.message, entityPathMisMatchErrors.queue);
+        assert.equal(error.message, entityPathMisMatchErrors);
       }
     });
 
@@ -116,7 +113,7 @@ describe("serviceBusClient unit tests", () => {
         client.createReceiver("my-topic", "my-subscription");
         throw new Error("Receiver should not have been created successfully.");
       } catch (error) {
-        assert.equal(error.message, entityPathMisMatchErrors.topicAndSubscription);
+        assert.equal(error.message, entityPathMisMatchErrors);
       }
     });
 
@@ -126,7 +123,7 @@ describe("serviceBusClient unit tests", () => {
         await client.createSessionReceiver("my-queue");
         throw new Error("Receiver should not have been created successfully.");
       } catch (error) {
-        assert.equal(error.message, entityPathMisMatchErrors.queue);
+        assert.equal(error.message, entityPathMisMatchErrors);
       }
     });
 
@@ -136,7 +133,7 @@ describe("serviceBusClient unit tests", () => {
         await client.createSessionReceiver("my-topic", "my-subscription");
         throw new Error("Receiver should not have been created successfully.");
       } catch (error) {
-        assert.equal(error.message, entityPathMisMatchErrors.topicAndSubscription);
+        assert.equal(error.message, entityPathMisMatchErrors);
       }
     });
 
@@ -146,7 +143,7 @@ describe("serviceBusClient unit tests", () => {
         client.createSender("my-queue");
         throw new Error("Sender should not have been created successfully.");
       } catch (error) {
-        assert.equal(error.message, entityPathMisMatchErrors.queueOrTopic);
+        assert.equal(error.message, entityPathMisMatchErrors);
       }
     });
   });
