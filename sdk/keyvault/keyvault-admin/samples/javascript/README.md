@@ -15,8 +15,8 @@ These sample programs show how to use the JavaScript client libraries for Azure 
 | **File Name** | **Description** |
 | ------------------------------- |
 | [accessControlHelloWorld.js][accessControlHelloWorld] (RBAC) | Lists all Role Definitions and Role Assignments, Creates a Role Assignment, then gets it and later deletes it. |
-| [backupRestoreHelloWorld.js][BackupHelloWorld] | Performs a full key backup, then a full key restore. |
-| [backupSelectiveRestore.js][BackupSelective] | Performs a selective key backup, then a selective key restore. |
+| [backupRestoreHelloWorld.js][BackupRestoreHelloWorld] | Performs a full key backup, then a full key restore. |
+| [backupSelectiveRestore.js][BackupSelectiveRestore] | Performs a selective key backup, then a selective key restore. |
 
 ## Prerequisites
 
@@ -61,8 +61,8 @@ npx cross-env KEYVAULT_NAME="<key vault name>" AZURE_TENANT_ID="<AAD tenant id>"
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
 [accessControlHelloWorld]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-admin/samples/javascript/accessControlHelloWorld.js
-[BackupHelloWorld]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-admin/samples/javascript/backupRestoreHelloWorld.js
-[BackupSelective]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-admin/samples/javascript/backupSelectiveRestore.js
+[BackupRestoreHelloWorld]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-admin/samples/javascript/backupRestoreHelloWorld.js
+[BackupSelectiveRestore]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-admin/samples/javascript/backupSelectiveRestore.js
 [apiref]: https://docs.microsoft.com/javascript/api/@azure/keyvault-admin
 [azkeyvault]: https://docs.microsoft.com/azure/key-vault/quick-create-portal
 [kvsoftdelete]: https://docs.microsoft.com/azure/key-vault/key-vault-soft-delete-cli
