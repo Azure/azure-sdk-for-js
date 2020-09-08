@@ -4,9 +4,6 @@ extends:
   template: ../../../eng/pipelines/templates/jobs/archetype-sdk-integration.yml
   parameters:
     PackageName: "@azure/schema-registry"
-    #Tests are currently run in playback as the resource cannot yet be provisioned
-    #ResourceServiceDirectory: schemaregistry
-    TestMinMax: true
     EnvVars:
       AZURE_CLIENT_ID: $(aad-azure-sdk-test-client-id)
       AZURE_TENANT_ID: $(aad-azure-sdk-test-tenant-id)
