@@ -94,10 +94,10 @@ environment variables. For example, you can use the [dotenv][dotenv] project and
 
 #### Get or create a storage account
 
-To generate Key Vault backups, you will need to point the `KeyVaultBackupClient` to an existing Storage account.
+To generate Key Vault backups, you will need to point the [KeyVaultBackupClient][src-backup-client] to an existing Storage account.
 
-To create a new Storage Account, you can use the [Azure Portal][storage_account_create_portal],
-[Azure PowerShell][storage_account_create_ps], or the [Azure CLI][storage_account_create_cli].
+To create a new Storage Account, you can use the [Azure Portal][storage-account-create-portal],
+[Azure PowerShell][storage-account-create-ps], or the [Azure CLI][storage-account-create-cli].
 Here's an example using the Azure CLI:
 
 ```Powershell
@@ -107,7 +107,7 @@ az storage account create --name MyStorageAccount --resource-group MyResourceGro
 #### Create KeyVaultAccessControlClient
 
 Once you've populated the **AZURE_CLIENT_ID**, **AZURE_CLIENT_SECRET** and **AZURE_TENANT_ID** environment variables and replaced **your-vault-url** 
-with the above returned URI, you can create the `KeyVaultAccessControlClient`:
+with the above returned URI, you can create the [KeyVaultAccessControlClient][src-rbac-client]:
 
 ```ts
 const credentials = new DefaultAzureCredential();
@@ -117,7 +117,7 @@ const client = new KeyVaultAccessControlClient(vaultUrl, credentials);
 #### Create KeyVaultBackupClient
 
 Once you've populated the **AZURE_CLIENT_ID**, **AZURE_CLIENT_SECRET** and **AZURE_TENANT_ID** environment variables and replaced **your-vault-url** 
-with the above returned URI, you can create the `KeyVaultBackupClient`:
+with the above returned URI, you can create the [KeyVaultBackupClient][src-backup-client]:
 
 ```ts
 const vaultUrl = `https://<MY KEY VAULT HERE>.vault.azure.net`;
@@ -140,17 +140,17 @@ A `KeyVaultRoleAssignment` is the association of a KeyVaultRoleDefinition to a s
 
 ### KeyVaultAccessControlClient
 
-A `KeyVaultAccessControlClient` provides both synchronous and asynchronous operations allowing for management of `KeyVaultRoleDefinition` and `KeyVaultRoleAssignment` objects.
+A [KeyVaultAccessControlClient][src-rbac-client] provides both synchronous and asynchronous operations allowing for management of `KeyVaultRoleDefinition` and `KeyVaultRoleAssignment` objects.
 
 ### KeyVaultBackupClient
 
-A `KeyVaultBackupClient` provides both synchronous and asynchronous operations for performing full key backups, full key restores, and selective key restores.
+A [KeyVaultBackupClient][src-backup-client] provides both synchronous and asynchronous operations for performing full key backups, full key restores, and selective key restores.
 
 ### Long Running Operations
 
-The Azure SDK for TypeScript and JavaScript offers a common abstraction for long running operations through the package [core-lro][corelro]. In particular, the operations done by the `KeyVaultBackupClient` may take as much time as needed by the Azure resources, requiring a client layer to keep track, serialize and resume the operations through the lifecycle of the programs that wait for them to finish.
+The Azure SDK for TypeScript and JavaScript offers a common abstraction for long running operations through the package [core-lro][corelro]. In particular, the operations done by the [KeyVaultBackupClient][src-backup-client] may take as much time as needed by the Azure resources, requiring a client layer to keep track, serialize and resume the operations through the lifecycle of the programs that wait for them to finish.
 
-The `KeyVaultBackupClient` offers three methods that execute Long Running Operations:
+The [KeyVaultBackupClient][src-backup-client] offers three methods that execute Long Running Operations:
 
 - `beginBackup`, starts generating a backup of an Azure Key Vault on the specified Storage Blob account.
 - `beginRestore`, starts restoring all key materials using the SAS token pointing to a previously stored Azure Blob storage backup folder.
@@ -159,22 +159,9 @@ The `KeyVaultBackupClient` offers three methods that execute Long Running Operat
 All of the Long Running Operation methods return a a Long Running Operation poller that allows you to wait indefinitely until the Key Vault selective restore is complete. More information is available on the examples below.
 
 ## Examples
-The Azure.Security.KeyVault.Administration package supports synchronous and asynchronous APIs.
 
 The following section provides several code snippets using the `client` created above for either [access control](#create-keyvaultaccesscontrolclient) or [backup](#create-KeyVaultBackupClient) clients, covering some of the most common Azure Key Vault access control related tasks:
 
-### Sync examples
-- Access control
-    - [Listing All Role Definitions](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-admin/samples/typescript/RbacHelloWorldSync.ts)
-    - [Listing All Role Assignments](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-admin/samples/typescript/RbacHelloWorldSync.ts
-    - [Creating a Role Assignment](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-admin/samples/typescript/RbacHelloWorldSync.ts
-    - [Getting a Role Assignment](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-admin/samples/typescript/RbacHelloWorldSync.ts
-    - [Deleting a Role Assignment](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-admin/samples/typescript/RbacHelloWorldSync.ts
-- Backup and restore
-    - [Performing a full key backup](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-admin/samples/typescript/BackupHelloWorldSync.ts)
-    - [Performing a full key restore](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-admin/samples/typescript/BackupHelloWorldSync.ts)
-
-### Async examples
 - Access control
     - [Listing All Role Definitions](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-admin/samples/typescript/RbacHelloWorldAsync.ts)
     - [Listing All Role Assignments](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-admin/samples/typescript/RbacHelloWorldAsync.ts)
@@ -227,13 +214,13 @@ If you'd like to contribute to this library, please read the [contributing guide
 [src-rbac-client]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-admin/src/KeyVaultAccessControlClient.cs
 [src-backup-client]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-admin/src/KeyVaultAccessControlClient.cs
 [DAC]: https://github.com/Azure/azure-sdk-for-net/blob/master/sdk/identity/Azure.Identity/README.md
+[storage-account-create-ps]: https://docs.microsoft.com/azure/storage/common/storage-quickstart-create-account?tabs=azure-powershell
+[storage-account-create-cli]: https://docs.microsoft.com/azure/storage/common/storage-quickstart-create-account?tabs=azure-cli
+[storage-account-create-portal]: https://docs.microsoft.com/azure/storage/common/storage-quickstart-create-account?tabs=azure-portal
 
 [code_of_conduct]: https://opensource.microsoft.com/codeofconduct/
 [backup_client]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-admin/src/KeyVaultBackupClient.cs
 [keyvault_docs]: https://docs.microsoft.com/azure/key-vault/
-[admin_client_nuget_package]: https://www.nuget.org/packages?q=Azure.Security.KeyVault.Administration
-[admin_client_samples]: https://github.com/Azure/azure-sdk-for-net/tree/master/sdk/keyvault/Azure.Security.KeyVault.Administration/samples
-[admin_client_src]: https://github.com/Azure/azure-sdk-for-net/tree/master/sdk/keyvault/Azure.Security.KeyVault.Administration/src
 [JWK]: https://tools.ietf.org/html/rfc7517
 [logging]: https://github.com/Azure/azure-sdk-for-net/blob/master/sdk/core/Azure.Core/samples/Diagnostics.ts.com/Azure/azure-sdk-for-net/blob/master/sdk/keyvault/Microsoft.Azure.KeyVault/CONTRIBUTING.md
 
