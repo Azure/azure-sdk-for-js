@@ -37,10 +37,6 @@ export interface BackupOperationState extends PollOperationState<string> {
    * The end time of the backup operation in UTC
    */
   endTime?: Date;
-  /**
-   * Internal request parameters
-   */
-  requestParameters?: any;
 }
 
 /**
@@ -48,28 +44,26 @@ export interface BackupOperationState extends PollOperationState<string> {
  * @internal
  */
 export interface BackupPollOperationState extends PollOperationState<string> {
-  requestParameters?: {
-    /**
-     * Options for the core-http requests.
-     */
-    requestOptions: RequestOptionsBase;
-    /**
-     * An interface representing the internal KeyVaultClient.
-     */
-    client: KeyVaultClient;
-    /**
-     * The base URL to the vault.
-     */
-    vaultUrl: string;
-    /**
-     * The URI of the blob storage account.
-     */
-    blobStorageUri: string;
-    /**
-     * The SAS token.
-     */
-    sasToken: string;
-  };
+  /**
+   * Options for the core-http requests.
+   */
+  requestOptions: RequestOptionsBase;
+  /**
+   * An interface representing the internal KeyVaultClient.
+   */
+  client: KeyVaultClient;
+  /**
+   * The base URL to the vault.
+   */
+  vaultUrl: string;
+  /**
+   * The URI of the blob storage account.
+   */
+  blobStorageUri: string;
+  /**
+   * The SAS token.
+   */
+  sasToken: string;
   /**
    * The id returned as part of the backup request
    */
@@ -150,7 +144,7 @@ async function update(
   } = {}
 ): Promise<BackupPollOperation> {
   const state = this.state;
-  const { requestOptions, vaultUrl, blobStorageUri, sasToken, client } = state.requestParameters!;
+  const { requestOptions, vaultUrl, blobStorageUri, sasToken, client } = state;
 
   if (options.abortSignal) {
     requestOptions.abortSignal = options.abortSignal;

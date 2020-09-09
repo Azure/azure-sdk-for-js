@@ -24,7 +24,7 @@ export interface RestorePollerOptions {
 /**
  * Class that creates a poller that waits until a Key Vault ends up being restored.
  */
-export class RestorePoller extends Poller<RestorePollOperationState, undefined> {
+export class RestorePoller extends Poller<RestoreOperationState, undefined> {
   /**
    * Defines how much time the poller is going to wait before making a new request to the service.
    * @memberof RestorePoller
@@ -50,14 +50,12 @@ export class RestorePoller extends Poller<RestorePollOperationState, undefined> 
 
     const operation = makeRestorePollOperation({
       ...state,
-      requestParameters: {
-        blobStorageUri,
-        sasToken,
-        folderName,
-        requestOptions: requestOptions || {},
-        client,
-        vaultUrl
-      }
+      blobStorageUri,
+      sasToken,
+      folderName,
+      requestOptions: requestOptions || {},
+      client,
+      vaultUrl
     });
 
     super(operation);

@@ -24,7 +24,7 @@ export interface BackupPollerOptions {
 /**
  * Class that creates a poller that waits until the backup of a Key Vault ends up being generated.
  */
-export class BackupPoller extends Poller<BackupPollOperationState, string> {
+export class BackupPoller extends Poller<BackupOperationState, string> {
   /**
    * Defines how much time the poller is going to wait before making a new request to the service.
    * @memberof BackupPoller
@@ -50,13 +50,11 @@ export class BackupPoller extends Poller<BackupPollOperationState, string> {
 
     const operation = makeBackupPollOperation({
       ...state,
-      requestParameters: {
-        blobStorageUri,
-        sasToken,
-        requestOptions: requestOptions || {},
-        client,
-        vaultUrl
-      }
+      blobStorageUri,
+      sasToken,
+      requestOptions: requestOptions || {},
+      client,
+      vaultUrl
     });
 
     super(operation);
