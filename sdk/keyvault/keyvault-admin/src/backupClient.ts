@@ -7,7 +7,7 @@ import {
   signingPolicy,
   TokenCredential
 } from "@azure/core-http";
-import { PollerLike, PollOperationState } from "@azure/core-lro";
+import { PollerLike } from "@azure/core-lro";
 
 import { challengeBasedAuthenticationPolicy } from "../../keyvault-common";
 import { KeyVaultClient } from "./generated/keyVaultClient";
@@ -17,6 +17,11 @@ import { logger } from "./log";
 import { BackupPoller } from "./lro/backup/poller";
 import { RestorePoller } from "./lro/restore/poller";
 import { SelectiveRestorePoller } from "./lro/selectiveRestore/poller";
+import { BackupOperationState } from "./lro/backup/operation";
+import { RestoreOperationState } from "./lro/restore/operation";
+import { SelectiveRestoreOperationState } from "./lro/selectiveRestore/operation";
+
+export { BackupOperationState, RestoreOperationState, SelectiveRestoreOperationState };
 
 /**
  * The KeyVaultBackupClient provides methods to generate backups
@@ -135,7 +140,7 @@ export class KeyVaultBackupClient {
     blobStorageUri: string,
     sasToken: string,
     options: BeginBackupOptions = {}
-  ): Promise<PollerLike<PollOperationState<string>, string>> {
+  ): Promise<PollerLike<BackupOperationState, string>> {
     if (!(blobStorageUri && sasToken)) {
       throw new Error(
         "beginBackup requires non-empty strings for the parameters: blobStorageUri and sasToken."
@@ -197,7 +202,7 @@ export class KeyVaultBackupClient {
     sasToken: string,
     folderName: string,
     options: BeginRestoreOptions = {}
-  ): Promise<PollerLike<PollOperationState<undefined>, undefined>> {
+  ): Promise<PollerLike<RestoreOperationState, undefined>> {
     if (!(blobStorageUri && sasToken && folderName)) {
       throw new Error(
         "beginRestore requires non-empty strings for the parameters: blobStorageUri, sasToken and folderName."
@@ -262,7 +267,7 @@ export class KeyVaultBackupClient {
     folderName: string,
     keyName: string,
     options: BeginBackupOptions = {}
-  ): Promise<PollerLike<PollOperationState<undefined>, undefined>> {
+  ): Promise<PollerLike<SelectiveRestoreOperationState, undefined>> {
     if (!(keyName && blobStorageUri && sasToken && folderName)) {
       throw new Error(
         "beginSelectiveRestore requires non-empty strings for the parameters: keyName, blobStorageUri, sasToken and folderName."

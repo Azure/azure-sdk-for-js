@@ -21,6 +21,15 @@ export interface BackupClientOptions extends coreHttp.PipelineOptions {
 }
 
 // @public
+export interface BackupOperationState extends PollOperationState<string> {
+    endTime?: Date;
+    jobId?: string;
+    startTime?: Date;
+    status?: string;
+    statusDetails?: string;
+}
+
+// @public
 export interface BackupPollerOptions extends coreHttp.OperationOptions {
     intervalInMs?: number;
     resumeFrom?: string;
@@ -64,9 +73,9 @@ export class KeyVaultAccessControlClient {
 // @public
 export class KeyVaultBackupClient {
     constructor(vaultUrl: string, credential: TokenCredential, pipelineOptions?: BackupClientOptions);
-    beginBackup(blobStorageUri: string, sasToken: string, options?: BeginBackupOptions): Promise<PollerLike<PollOperationState<string>, string>>;
-    beginRestore(blobStorageUri: string, sasToken: string, folderName: string, options?: BeginRestoreOptions): Promise<PollerLike<PollOperationState<undefined>, undefined>>;
-    beginSelectiveRestore(blobStorageUri: string, sasToken: string, folderName: string, keyName: string, options?: BeginBackupOptions): Promise<PollerLike<PollOperationState<undefined>, undefined>>;
+    beginBackup(blobStorageUri: string, sasToken: string, options?: BeginBackupOptions): Promise<PollerLike<BackupOperationState, string>>;
+    beginRestore(blobStorageUri: string, sasToken: string, folderName: string, options?: BeginRestoreOptions): Promise<PollerLike<RestoreOperationState, undefined>>;
+    beginSelectiveRestore(blobStorageUri: string, sasToken: string, folderName: string, keyName: string, options?: BeginBackupOptions): Promise<PollerLike<SelectiveRestoreOperationState, undefined>>;
     readonly vaultUrl: string;
 }
 
@@ -133,10 +142,28 @@ export interface ListRoleDefinitionsPageSettings {
 }
 
 // @public
+export interface RestoreOperationState extends PollOperationState<undefined> {
+    endTime?: Date;
+    jobId?: string;
+    startTime?: Date;
+    status?: string;
+    statusDetails?: string;
+}
+
+// @public
 export type RoleAssignmentScope = "/" | "/keys" | string;
 
 // @public
 export const SDK_VERSION: string;
+
+// @public
+export interface SelectiveRestoreOperationState extends PollOperationState<undefined> {
+    endTime?: Date;
+    jobId?: string;
+    startTime?: Date;
+    status?: string;
+    statusDetails?: string;
+}
 
 // @public
 export type SUPPORTED_API_VERSIONS = "7.2-preview";

@@ -21,26 +21,6 @@ import { createSpan, setParentSpan } from "../../tracing";
  */
 export interface SelectiveRestoreOperationState extends PollOperationState<undefined> {
   /**
-   * The base URL to the vault
-   */
-  vaultUrl: string;
-  /**
-   * The name of a Key Vault Key.
-   */
-  keyName: string;
-  /**
-   * The URI of the blob storage account.
-   */
-  blobStorageUri: string;
-  /**
-   * The SAS token.
-   */
-  sasToken: string;
-  /**
-   * The Folder name of the blob where the previous successful full backup was stored.
-   */
-  folderName: string;
-  /**
    * Identifier for the full restore operation.
    */
   jobId?: string;
@@ -70,11 +50,11 @@ export interface SelectiveRestorePollOperationState extends PollOperationState<u
   /**
    * Options for the core-http requests.
    */
-  requestOptions?: RequestOptionsBase;
+  requestOptions: RequestOptionsBase;
   /**
    * An interface representing the internal KeyVaultClient.
    */
-  client?: KeyVaultClient;
+  client: KeyVaultClient;
   /**
    * The base URL to the vault
    */

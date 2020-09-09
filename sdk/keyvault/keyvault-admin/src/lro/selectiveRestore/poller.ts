@@ -25,7 +25,7 @@ export interface SelectiveRestorePollerOptions {
 /**
  * Class that creates a poller that waits until a key of a Key Vault backup ends up being restored.
  */
-export class SelectiveRestorePoller extends Poller<SelectiveRestorePollOperationState, undefined> {
+export class SelectiveRestorePoller extends Poller<SelectiveRestoreOperationState, undefined> {
   /**
    * Defines how much time the poller is going to wait before making a new request to the service.
    * @memberof SelectiveRestorePoller
@@ -57,7 +57,7 @@ export class SelectiveRestorePoller extends Poller<SelectiveRestorePollOperation
       blobStorageUri,
       sasToken,
       folderName,
-      requestOptions,
+      requestOptions: requestOptions || {},
       client,
       vaultUrl
     });
@@ -81,11 +81,6 @@ export class SelectiveRestorePoller extends Poller<SelectiveRestorePollOperation
   public getOperationState(): SelectiveRestoreOperationState {
     const state: SelectiveRestoreOperationState = this.operation.state;
     return {
-      vaultUrl: state.vaultUrl,
-      keyName: state.keyName,
-      blobStorageUri: state.blobStorageUri,
-      sasToken: state.sasToken,
-      folderName: state.folderName,
       isStarted: state.isStarted,
       isCompleted: state.isCompleted,
       isCancelled: state.isCancelled,
