@@ -55,7 +55,7 @@ export class Operations {
 const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "providers/Microsoft.DBforMariaDB/operations",
+  path: "providers/Microsoft.DBForMariaDB/operations",
   queryParameters: [
     Parameters.apiVersion
   ],
