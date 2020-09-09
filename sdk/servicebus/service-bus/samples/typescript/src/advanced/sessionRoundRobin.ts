@@ -11,7 +11,7 @@
 import {
   ServiceBusClient,
   delay,
-  ReceivedMessageWithLock,
+  ServiceBusReceivedMessageWithLock,
   ServiceBusSessionReceiver,
   MessagingError
 } from "@azure/service-bus";
@@ -42,7 +42,7 @@ async function sessionAccepted(sessionId: string) {
 
 // Called by the ServiceBusSessionReceiver when a message is received.
 // This is passed as part of the handlers when calling `ServiceBusSessionReceiver.subscribe()`.
-async function processMessage(msg: ReceivedMessageWithLock) {
+async function processMessage(msg: ServiceBusReceivedMessageWithLock) {
   console.log(`[${msg.sessionId}] received message with body ${msg.body}`);
 }
 
@@ -80,7 +80,7 @@ function createRefreshableTimer(timeoutMs: number, resolve: Function): () => voi
 
 // Queries Service Bus for the next available session and processes it.
 async function receiveFromNextSession(serviceBusClient: ServiceBusClient): Promise<void> {
-  let sessionReceiver: ServiceBusSessionReceiver<ReceivedMessageWithLock>;
+  let sessionReceiver: ServiceBusSessionReceiver<ServiceBusReceivedMessageWithLock>;
 
   try {
     sessionReceiver = await serviceBusClient.createSessionReceiver(queueName, {

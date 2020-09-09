@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { ConnectionContext } from "../connectionContext";
-import { MessageHandlers, ReceiveMessagesOptions, ReceivedMessage } from "..";
+import { MessageHandlers, ReceiveMessagesOptions, ServiceBusReceivedMessage } from "..";
 import {
   PeekMessagesOptions,
   CreateSessionReceiverOptions,
@@ -24,7 +24,7 @@ import { assertValidMessageHandlers, getMessageIterator, wrapProcessErrorHandler
 import { convertToInternalReceiveMode } from "../constructorHelpers";
 import { defaultMaxTimeAfterFirstMessageForBatchingMs, ServiceBusReceiver } from "./receiver";
 import Long from "long";
-import { ReceivedMessageWithLock, ServiceBusMessageImpl } from "../serviceBusMessage";
+import { ServiceBusReceivedMessageWithLock, ServiceBusMessageImpl } from "../serviceBusMessage";
 import {
   Constants,
   RetryConfig,
@@ -42,7 +42,7 @@ import { AmqpError } from "rhea-promise";
  *A receiver that handles sessions, including renewing the session lock.
  */
 export interface ServiceBusSessionReceiver<
-  ReceivedMessageT extends ReceivedMessage | ReceivedMessageWithLock
+  ReceivedMessageT extends ServiceBusReceivedMessage | ServiceBusReceivedMessageWithLock
 > extends ServiceBusReceiver<ReceivedMessageT> {
   /**
    * The session ID.
@@ -111,7 +111,7 @@ export interface ServiceBusSessionReceiver<
  * @ignore
  */
 export class ServiceBusSessionReceiverImpl<
-  ReceivedMessageT extends ReceivedMessage | ReceivedMessageWithLock
+  ReceivedMessageT extends ServiceBusReceivedMessage | ServiceBusReceivedMessageWithLock
 > implements ServiceBusSessionReceiver<ReceivedMessageT> {
   public sessionId: string;
 
@@ -137,7 +137,7 @@ export class ServiceBusSessionReceiverImpl<
   }
 
   static async createInitializedSessionReceiver<
-    ReceivedMessageT extends ReceivedMessage | ReceivedMessageWithLock
+    ReceivedMessageT extends ServiceBusReceivedMessage | ServiceBusReceivedMessageWithLock
   >(
     context: ConnectionContext,
     entityPath: string,
@@ -319,7 +319,7 @@ export class ServiceBusSessionReceiverImpl<
   async peekMessages(
     maxMessageCount: number,
     options: PeekMessagesOptions = {}
-  ): Promise<ReceivedMessage[]> {
+  ): Promise<ServiceBusReceivedMessage[]> {
     this._throwIfReceiverOrConnectionClosed();
 
     if (maxMessageCount == undefined) {
@@ -349,14 +349,14 @@ export class ServiceBusSessionReceiverImpl<
       }
     };
 
-    const config: RetryConfig<ReceivedMessage[]> = {
+    const config: RetryConfig<ServiceBusReceivedMessage[]> = {
       operation: peekOperationPromise,
       connectionId: this._context.connectionId,
       operationType: RetryOperationType.management,
       retryOptions: this._retryOptions,
       abortSignal: options?.abortSignal
     };
-    return retry<ReceivedMessage[]>(config);
+    return retry<ServiceBusReceivedMessage[]>(config);
   }
 
   async receiveDeferredMessages(
