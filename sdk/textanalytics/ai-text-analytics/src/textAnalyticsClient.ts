@@ -633,10 +633,7 @@ export class TextAnalyticsClient {
         operationOptionsToRequestOptionsBase(addStrEncodingParam(finalOptions))
       );
 
-      return makeRecognizePiiEntitiesResultArray(
-        realInputs,
-        result
-      );
+      return makeRecognizePiiEntitiesResultArray(realInputs, result);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,

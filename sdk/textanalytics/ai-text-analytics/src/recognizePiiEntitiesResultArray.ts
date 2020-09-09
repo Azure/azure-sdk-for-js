@@ -3,7 +3,8 @@
 
 import {
   TextDocumentBatchStatistics,
-  TextDocumentInput, GeneratedClientEntitiesRecognitionPiiResponse
+  TextDocumentInput,
+  GeneratedClientEntitiesRecognitionPiiResponse
 } from "./generated/models";
 import {
   RecognizePiiEntitiesResult,
@@ -34,7 +35,7 @@ export function makeRecognizePiiEntitiesResultArray(
   input: TextDocumentInput[],
   response: GeneratedClientEntitiesRecognitionPiiResponse
 ): RecognizePiiEntitiesResultArray {
-  const { documents, errors, statistics, modelVersion} = response;
+  const { documents, errors, statistics, modelVersion } = response;
   const unsortedResult = documents
     .map(
       (document): RecognizePiiEntitiesResult => {
