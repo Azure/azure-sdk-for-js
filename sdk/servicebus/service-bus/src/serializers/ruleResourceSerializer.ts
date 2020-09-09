@@ -375,6 +375,8 @@ export function buildInternalRawKeyValuePairs(
     let type: string | number | boolean;
     if (typeof value === "number") {
       type = TypeMapForRequestSerialization.int;
+    } else if (typeof value === "string") {
+      type = TypeMapForRequestSerialization.string;
     } else if (typeof value === "boolean") {
       type = TypeMapForRequestSerialization.boolean;
     } else if (value instanceof Date && !isNaN(value.valueOf())) {
