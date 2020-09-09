@@ -98,6 +98,10 @@ export interface ProxyResource extends BaseResource {
  */
 export interface ExportPipeline extends ProxyResource {
   /**
+   * The location of the export pipeline.
+   */
+  location?: string;
+  /**
    * The identity of the export pipeline.
    */
   identity?: IdentityProperties;
@@ -227,6 +231,10 @@ export interface PipelineTriggerProperties {
  * An object that represents an import pipeline for a container registry.
  */
 export interface ImportPipeline extends ProxyResource {
+  /**
+   * The location of the import pipeline.
+   */
+  location?: string;
   /**
    * The identity of the import pipeline.
    */
@@ -1456,6 +1464,10 @@ export interface RunRequest {
    * The dedicated agent pool for the run.
    */
   agentPoolName?: string;
+  /**
+   * The template that describes the repository and tag information for run log artifact.
+   */
+  logTemplate?: string;
 }
 
 /**
@@ -1659,6 +1671,11 @@ export interface Run extends ProxyResource {
    */
   updateTriggerToken?: string;
   /**
+   * The image description for the log artifact.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly logArtifact?: ImageDescriptor;
+  /**
    * The provisioning state of a run. Possible values include: 'Creating', 'Updating', 'Deleting',
    * 'Succeeded', 'Failed', 'Canceled'
    */
@@ -1746,13 +1763,17 @@ export interface RunGetLogResult {
    * The link to logs for a run on a azure container registry.
    */
   logLink?: string;
+  /**
+   * The link to logs in registry for a run on a azure container registry.
+   */
+  logArtifactLink?: string;
 }
 
 /**
  * The task run that has the ARM resource and properties.
  * The task run will have the information of request and result of a run.
  */
-export interface TaskRun extends Resource {
+export interface TaskRun extends ProxyResource {
   /**
    * Identity for the resource.
    */
@@ -1776,6 +1797,10 @@ export interface TaskRun extends Resource {
    * How the run should be forced to rerun even if the run request configuration has not changed
    */
   forceUpdateTag?: string;
+  /**
+   * The location of the resource
+   */
+  location?: string;
 }
 
 /**
@@ -1794,6 +1819,10 @@ export interface TaskRunUpdateParameters {
    * How the run should be forced to rerun even if the run request configuration has not changed
    */
   forceUpdateTag?: string;
+  /**
+   * The location of the resource
+   */
+  location?: string;
   /**
    * The ARM resource tags.
    */
@@ -2091,7 +2120,7 @@ export interface Task extends Resource {
   /**
    * The platform properties against which the run has to happen.
    */
-  platform: PlatformProperties;
+  platform?: PlatformProperties;
   /**
    * The machine configuration of the run agent.
    */
@@ -2107,7 +2136,7 @@ export interface Task extends Resource {
   /**
    * The properties of a task step.
    */
-  step: TaskStepPropertiesUnion;
+  step?: TaskStepPropertiesUnion;
   /**
    * The properties that describe all triggers for the task.
    */
@@ -2116,6 +2145,15 @@ export interface Task extends Resource {
    * The properties that describes a set of credentials that will be used when this run is invoked.
    */
   credentials?: Credentials;
+  /**
+   * The template that describes the repository and tag information for run log artifact.
+   */
+  logTemplate?: string;
+  /**
+   * The value of this property indicates whether the task resource is system task or not. Default
+   * value: false.
+   */
+  isSystemTask?: boolean;
 }
 
 /**
@@ -2340,6 +2378,10 @@ export interface TaskUpdateParameters {
    */
   credentials?: Credentials;
   /**
+   * The template that describes the repository and tag information for run log artifact.
+   */
+  logTemplate?: string;
+  /**
    * The ARM resource tags.
    */
   tags?: { [propertyName: string]: string };
@@ -2432,6 +2474,10 @@ export interface DockerBuildRequest {
    */
   agentPoolName?: string;
   /**
+   * The template that describes the repository and tag information for run log artifact.
+   */
+  logTemplate?: string;
+  /**
    * The fully qualified image names including the repository and tag.
    */
   imageNames?: string[];
@@ -2518,6 +2564,10 @@ export interface FileTaskRunRequest {
    */
   agentPoolName?: string;
   /**
+   * The template that describes the repository and tag information for run log artifact.
+   */
+  logTemplate?: string;
+  /**
    * The template/definition file path relative to the source.
    */
   taskFilePath: string;
@@ -2603,6 +2653,10 @@ export interface TaskRunRequest {
    */
   agentPoolName?: string;
   /**
+   * The template that describes the repository and tag information for run log artifact.
+   */
+  logTemplate?: string;
+  /**
    * The resource ID of task against which run has to be queued.
    */
   taskId: string;
@@ -2629,6 +2683,10 @@ export interface EncodedTaskRunRequest {
    * The dedicated agent pool for the run.
    */
   agentPoolName?: string;
+  /**
+   * The template that describes the repository and tag information for run log artifact.
+   */
+  logTemplate?: string;
   /**
    * Base64 encoded value of the template/definition file content.
    */

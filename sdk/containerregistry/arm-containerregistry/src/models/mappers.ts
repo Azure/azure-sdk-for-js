@@ -147,6 +147,12 @@ export const ExportPipeline: msRest.CompositeMapper = {
     className: "ExportPipeline",
     modelProperties: {
       ...ProxyResource.type.modelProperties,
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      },
       identity: {
         serializedName: "identity",
         type: {
@@ -362,6 +368,12 @@ export const ImportPipeline: msRest.CompositeMapper = {
     className: "ImportPipeline",
     modelProperties: {
       ...ProxyResource.type.modelProperties,
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
+      },
       identity: {
         serializedName: "identity",
         type: {
@@ -2395,6 +2407,12 @@ export const RunRequest: msRest.CompositeMapper = {
           name: "String"
         }
       },
+      logTemplate: {
+        serializedName: "logTemplate",
+        type: {
+          name: "String"
+        }
+      },
       type: {
         required: true,
         serializedName: "type",
@@ -2731,6 +2749,14 @@ export const Run: msRest.CompositeMapper = {
           name: "String"
         }
       },
+      logArtifact: {
+        readOnly: true,
+        serializedName: "properties.logArtifact",
+        type: {
+          name: "Composite",
+          className: "ImageDescriptor"
+        }
+      },
       provisioningState: {
         serializedName: "properties.provisioningState",
         type: {
@@ -2861,6 +2887,12 @@ export const RunGetLogResult: msRest.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      logArtifactLink: {
+        serializedName: "logArtifactLink",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -2872,7 +2904,7 @@ export const TaskRun: msRest.CompositeMapper = {
     name: "Composite",
     className: "TaskRun",
     modelProperties: {
-      ...Resource.type.modelProperties,
+      ...ProxyResource.type.modelProperties,
       identity: {
         serializedName: "identity",
         type: {
@@ -2907,6 +2939,12 @@ export const TaskRun: msRest.CompositeMapper = {
         type: {
           name: "String"
         }
+      },
+      location: {
+        serializedName: "location",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -2934,6 +2972,12 @@ export const TaskRunUpdateParameters: msRest.CompositeMapper = {
       },
       forceUpdateTag: {
         serializedName: "properties.forceUpdateTag",
+        type: {
+          name: "String"
+        }
+      },
+      location: {
+        serializedName: "location",
         type: {
           name: "String"
         }
@@ -3410,7 +3454,6 @@ export const Task: msRest.CompositeMapper = {
         }
       },
       platform: {
-        required: true,
         serializedName: "properties.platform",
         type: {
           name: "Composite",
@@ -3442,7 +3485,6 @@ export const Task: msRest.CompositeMapper = {
         }
       },
       step: {
-        required: true,
         serializedName: "properties.step",
         type: {
           name: "Composite",
@@ -3461,6 +3503,19 @@ export const Task: msRest.CompositeMapper = {
         type: {
           name: "Composite",
           className: "Credentials"
+        }
+      },
+      logTemplate: {
+        serializedName: "properties.logTemplate",
+        type: {
+          name: "String"
+        }
+      },
+      isSystemTask: {
+        serializedName: "properties.isSystemTask",
+        defaultValue: false,
+        type: {
+          name: "Boolean"
         }
       }
     }
@@ -3823,6 +3878,12 @@ export const TaskUpdateParameters: msRest.CompositeMapper = {
         type: {
           name: "Composite",
           className: "Credentials"
+        }
+      },
+      logTemplate: {
+        serializedName: "properties.logTemplate",
+        type: {
+          name: "String"
         }
       },
       tags: {
