@@ -51,8 +51,7 @@ Use the [Azure CLI][azure-cli] snippet below to create/get client secret credent
     ```
     "<your-service-principal-object-id>"
     ```
-* Use the returned credentials above to set  **AZURE_CLIENT_ID** (appId), **AZURE_CLIENT_SECRET** (password), and **AZURE_TENANT_ID** (tenant) 
-environment variables. For example, you can use the [dotenv][dotenv] project and add a `.env` file to your project with hte following contents (for the full section of environment variables, see [Environment Variables](#environment-variables)):
+* Use the returned credentials above to set  **AZURE_CLIENT_ID** (appId), **AZURE_CLIENT_SECRET** (password), and **AZURE_TENANT_ID** (tenant) environment variables. For example, you can use the [dotenv][dotenv] project and add a `.env` file to your project with hte following contents (for the full section of environment variables, see [Environment Variables](#environment-variables)):
     ```PowerShell
     AZURE_TENANT_ID=<tenant-ID>
     AZURE_CLIENT_ID=<generated-app-ID>
@@ -61,8 +60,7 @@ environment variables. For example, you can use the [dotenv][dotenv] project and
 
 #### Get or create an Azure Key Vault with the Azure CLI
 
-* Create the Key Vault and grant the above mentioned application authorization to perform administrative operations on the Azure Key Vault 
-(replace `<your-resource-group-name>` and `<your-key-vault-name>` with your own, unique names and `<your-service-principal-object-id>` with the value from above):
+* Create the Key Vault and grant the above mentioned application authorization to perform administrative operations on the Azure Key Vault (replace `<your-resource-group-name>` and `<your-key-vault-name>` with your own, unique names and `<your-service-principal-object-id>` with the value from above):
     ```
     az keyvault create --hsm-name <your-key-vault-name> --resource-group <your-resource-group-name> --administrators <your-service-principal-object-id> --location <your-azure-location>
     ```
@@ -110,8 +108,7 @@ npm install @azure/identity
 
 #### Create KeyVaultAccessControlClient
 
-Once you've populated the **AZURE_CLIENT_ID**, **AZURE_CLIENT_SECRET** and **AZURE_TENANT_ID** environment variables and replaced **your-vault-url** 
-with the above returned URI, you can create the [KeyVaultAccessControlClient][src-rbac-client]:
+Once you've populated the **AZURE_CLIENT_ID**, **AZURE_CLIENT_SECRET** and **AZURE_TENANT_ID** environment variables and replaced **your-vault-url** with the above returned URI, you can create the [KeyVaultAccessControlClient][src-rbac-client]:
 
 ```ts
 import { DefaultAzureCredential } from "@azure/identity";
@@ -125,8 +122,7 @@ const client = new KeyVaultAccessControlClient(vaultUrl, credentials);
 
 #### Create KeyVaultBackupClient
 
-Once you've populated the **AZURE_CLIENT_ID**, **AZURE_CLIENT_SECRET** and **AZURE_TENANT_ID** environment variables and replaced **your-vault-url** 
-with the above returned URI, you can create the [KeyVaultBackupClient][src-backup-client]:
+Once you've populated the **AZURE_CLIENT_ID**, **AZURE_CLIENT_SECRET** and **AZURE_TENANT_ID** environment variables and replaced **your-vault-url** with the above returned URI, you can create the [KeyVaultBackupClient][src-backup-client]:
 
 ```ts
 import { DefaultAzureCredential } from "@azure/identity";
@@ -142,12 +138,11 @@ const client = new KeyVaultBackupClient(vaultUrl, credentials);
 
 ### KeyVaultRoleDefinition
 
-A Role Definition is a collection of permissions. A role definition defines the operations that can be performed, such as read, write, 
-and delete. It can also define the operations that are excluded from allowed operations.
+A Role Definition is a collection of permissions. A role definition defines the operations that can be performed, such as read, write, and delete. It can also define the operations that are excluded from allowed operations.
 
 Role definitions can be listed and specified as part of a Role Assignment.
 
-### KeyVaultRoleAssignment. 
+### KeyVaultRoleAssignment.
 
 A Role Assignment is the association of a Role Definition to a service principal. They can be created, listed, fetched individually, and deleted.
 
@@ -161,7 +156,7 @@ A [KeyVaultBackupClient][src-backup-client] provides both synchronous and asynch
 
 ### Long running operations
 
-The Azure SDK for TypeScript and JavaScript offers a common abstraction for long running operations through the package [core-lro][core-lro]. In particular, the operations done by the [KeyVaultBackupClient][src-backup-client] may take as much time as needed by the Azure resources, requiring a client layer to keep track, serialize and resume the operations through the lifecycle of the programs that wait for them to finish.
+The operations done by the [KeyVaultBackupClient][src-backup-client] may take as much time as needed by the Azure resources, requiring a client layer to keep track, serialize and resume the operations through the lifecycle of the programs that wait for them to finish. This is done via a common abstraction through the package [@azure/core-lro][core-lro].
 
 The [KeyVaultBackupClient][src-backup-client] offers three methods that execute long running operations:
 
