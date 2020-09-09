@@ -100,9 +100,9 @@ You also need to enable `compilerOptions.allowSyntheticDefaultImports` in your t
 
 In order to control permissions to the Key Vault service, or to generate and restore backups of a specific Key Vault, you'll need to create either an instance of the [KeyVaultAccessControlClient][src-rbac-client] class, or an instance of the [KeyVaultBackupClient][src-backup-client] class, respectively.
 
-In both cases, you'll need a **vault URL**, which you may see as "DNS Name" in the portal,  and **client secret credentials (client id, client secret, tenant id)** to instantiate a client object.
+In both cases, you'll need a **vault URL**, which you may see as "DNS Name" in the portal, and a credential object from the [@azure/identity][identity-npm] package which is used to authenticate with Azure Active Directory.
 
-Client secret credential authentication is being used in this getting started section but you can find more ways to authenticate with [Azure identity][azure-identity]. To use the [DefaultAzureCredential][DAC] provider shown below, or other credential providers provided with the Azure SDK, you should install the [@azure/identity][identity-npm] package:
+In the below example, we are using a **client secret credentials (client id, client secret, tenant id)**,  but you can find more ways to authenticate with [Azure Identity][azure-identity]. To use the [DefaultAzureCredential][DAC] provider shown below, or other credential providers provided with the Azure SDK, you should install the [@azure/identity][identity-npm] package:
 
 ```PowerShell
 npm install @azure/identity
