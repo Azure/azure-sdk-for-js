@@ -2,7 +2,7 @@
  Setup: Enter your storage account name and shared key in main()
 */
 
-const { DataLakeServiceClient, StorageSharedKeyCredential } = require("../.."); // Change to "@azure/storage-file-datalake" in your package
+const { DataLakeServiceClient, StorageSharedKeyCredential } = require("@azure/storage-file-datalake");
 
 async function main() {
   // Enter your storage account name and shared key

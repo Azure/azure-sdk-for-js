@@ -1,10 +1,14 @@
 {
-  "name": "azure-storage-blob-samples-js",
+  "name": "azure-storage-file-datalake-samples-ts",
   "private": true,
   "version": "0.1.0",
-  "description": "Azure Storage Blob client library samples for JavaScript",
+  "description": "Azure Data Lake Storage client library samples for TypeScript",
   "engine": {
     "node": ">=8.0.0"
+  },
+  "scripts": {
+    "build": "tsc",
+    "prebuild": "rimraf dist/"
   },
   "repository": {
     "type": "git",
@@ -13,9 +17,11 @@
   "keywords": [
     "Azure",
     "Storage",
-    "Blob",
+    "ADLS",
+    "DFS",
+    "datalake",
     "Node.js",
-    "JavaScript"
+    "TypeScript"
   ],
   "author": "Microsoft Corporation",
   "license": "MIT",
@@ -25,12 +31,12 @@
   "homepage": "https://github.com/Azure/azure-sdk-for-js#readme",
   "sideEffects": false,
   "dependencies": {
-    "@azure/abort-controller": "latest",
-    "@azure/identity": "latest",
-    "@azure/storage-blob": "latest",
+    "@azure/storage-file-datalake": "latest",
     "dotenv": "^8.2.0"
   },
   "devDependencies": {
-    "rimraf": "^3.0.0"
+    "@types/node": "^8.0.0",
+    "rimraf": "^3.0.0",
+    "typescript": "~3.6.4"
   }
 }
