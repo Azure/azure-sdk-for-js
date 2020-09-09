@@ -42,7 +42,8 @@ export function buildTopicOptions(topic: CreateTopicOptions): InternalTopicOptio
     UserMetadata: getStringOrUndefined(topic.userMetadata),
     SupportOrdering: getStringOrUndefined(topic.supportOrdering),
     AutoDeleteOnIdle: getStringOrUndefined(topic.autoDeleteOnIdle),
-    EnablePartitioning: getStringOrUndefined(topic.enablePartitioning)
+    EnablePartitioning: getStringOrUndefined(topic.enablePartitioning),
+    EnableExpress: getStringOrUndefined(topic.enableExpress)
   };
 }
 
@@ -83,7 +84,9 @@ export function buildTopic(rawTopic: any): TopicProperties {
     authorizationRules: getAuthorizationRulesOrUndefined(rawTopic[Constants.AUTHORIZATION_RULES]),
     userMetadata: rawTopic[Constants.USER_METADATA],
 
-    status: rawTopic[Constants.STATUS]
+    status: rawTopic[Constants.STATUS],
+
+    enableExpress: getBoolean(rawTopic[Constants.ENABLE_EXPRESS], "enableExpress")
   };
 }
 
@@ -190,6 +193,11 @@ export interface CreateTopicOptions extends OperationOptions {
    * Specifies whether the topic should be partitioned
    */
   enablePartitioning?: boolean;
+
+  /**
+   * Specifies whether express entities are enabled on topic.
+   */
+  enableExpress?: boolean;
 }
 
 /**
@@ -283,6 +291,11 @@ export interface TopicProperties {
    * Specifies whether the topic should be partitioned
    */
   readonly enablePartitioning: boolean;
+
+  /**
+   * Specifies whether express entities are enabled on topic.
+   */
+  readonly enableExpress: boolean;
 }
 
 /**
@@ -371,6 +384,11 @@ export interface InternalTopicOptions {
    * Specifies whether the topic should be partitioned
    */
   EnablePartitioning?: string;
+
+  /**
+   * Specifies whether express entities are enabled on queue.
+   */
+  EnableExpress?: string;
 }
 
 /**

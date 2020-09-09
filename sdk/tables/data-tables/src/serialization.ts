@@ -3,6 +3,11 @@
 import { base64Encode, base64Decode } from "./utils/bufferSerializer";
 import { EdmTypes } from "./models";
 
+const propertyCaseMap: Map<string, string> = new Map<string, string>([
+  ["PartitionKey", "partitionKey"],
+  ["RowKey", "rowKey"]
+]);
+
 const Edm = {
   Binary: "Edm.Binary",
   Boolean: "Edm.Boolean",
@@ -23,7 +28,13 @@ type serializedType = {
 
 function serializePrimitive(value: any): serializedType {
   const serializedValue: serializedType = { value };
-  if (typeof value === "boolean" || typeof value === "string" || typeof value === "number") {
+  if (
+    value === undefined ||
+    value === null ||
+    typeof value === "boolean" ||
+    typeof value === "string" ||
+    typeof value === "number"
+  ) {
     serializedValue.value = value;
   } else if (value instanceof Date) {
     serializedValue.value = value;
@@ -62,20 +73,31 @@ function serializeObject(obj: { value: any; type: EdmTypes }): serializedType {
 }
 
 function getSerializedValue(value: any): serializedType {
-  if (typeof value === "object" && value.value && value.type) {
+  if (typeof value === "object" && value?.value && value?.type) {
     return serializeObject(value);
   } else {
     return serializePrimitive(value);
   }
 }
 
+function translatePropertyNameForSerialization(propertyName: string): string {
+  for (const [original, internal] of propertyCaseMap) {
+    if (internal === propertyName) {
+      return original;
+    }
+  }
+
+  return propertyName;
+}
+
 export function serialize(obj: object): object {
   const serialized: any = {};
-  for (const [key, value] of Object.entries(obj)) {
-    const serializedVal = getSerializedValue(value);
-    serialized[key] = serializedVal.value;
+  for (const [propertyName, propertyValue] of Object.entries(obj)) {
+    const transformedKey = translatePropertyNameForSerialization(propertyName);
+    const serializedVal = getSerializedValue(propertyValue);
+    serialized[transformedKey] = serializedVal.value;
     if (serializedVal.type) {
-      serialized[`${key}@odata.type`] = serializedVal.type;
+      serialized[`${transformedKey}@odata.type`] = serializedVal.type;
     }
   }
   return serialized;
@@ -105,12 +127,13 @@ export function deserialize<T extends object>(obj: object): T {
   const deserialized: any = {};
   for (const [key, value] of Object.entries(obj)) {
     if (key.indexOf("@odata.type") === -1) {
+      const transformedKey = propertyCaseMap.get(key) ?? key;
       let typedValue = value;
       if (`${key}@odata.type` in obj) {
         const type = (obj as any)[`${key}@odata.type`];
         typedValue = getTypedObject(value, type);
       }
-      deserialized[key] = typedValue;
+      deserialized[transformedKey] = typedValue;
     }
   }
   return deserialized;

@@ -200,6 +200,7 @@ export type ListTableEntitiesOptions = OperationOptions & {
 
 // @public
 export type ListTableItemsOptions = OperationOptions & {
+    queryOptions?: TableQueryOptions;
     requestId?: string;
     nextTableName?: string;
 };
@@ -355,8 +356,8 @@ export interface TableDeleteHeaders {
 
 // @public
 export type TableEntity<T extends object> = T & {
-    PartitionKey: string;
-    RowKey: string;
+    partitionKey: string;
+    rowKey: string;
 };
 
 // @public
@@ -386,7 +387,7 @@ export interface TableInsertEntityHeaders {
     clientRequestId?: string;
     contentType?: string;
     date?: Date;
-    eTag?: string;
+    etag?: string;
     preferenceApplied?: string;
     requestId?: string;
     version?: string;
@@ -397,7 +398,7 @@ export interface TableInsertEntityHeaders {
     clientRequestId?: string;
     contentType?: string;
     date?: Date;
-    eTag?: string;
+    etag?: string;
     preferenceApplied?: string;
     requestId?: string;
     version?: string;
@@ -407,7 +408,7 @@ export interface TableInsertEntityHeaders {
 export interface TableMergeEntityHeaders {
     clientRequestId?: string;
     date?: Date;
-    eTag?: string;
+    etag?: string;
     requestId?: string;
     version?: string;
 }
@@ -426,7 +427,7 @@ export interface TableQueryEntitiesHeaders {
 export interface TableQueryEntitiesWithPartitionAndRowKeyHeaders {
     clientRequestId?: string;
     date?: Date;
-    eTag?: string;
+    etag?: string;
     requestId?: string;
     version?: string;
     xMsContinuationNextPartitionKey?: string;
@@ -538,7 +539,7 @@ export class TablesSharedKeyCredentialPolicy extends BaseRequestPolicy {
 export interface TableUpdateEntityHeaders {
     clientRequestId?: string;
     date?: Date;
-    eTag?: string;
+    etag?: string;
     requestId?: string;
     version?: string;
 }

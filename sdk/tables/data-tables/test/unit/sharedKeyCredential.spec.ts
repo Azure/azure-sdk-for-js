@@ -14,7 +14,6 @@ import { TablesSharedKeyCredential } from "../../src/TablesSharedKeyCredential";
 import { TablesSharedKeyCredentialPolicy } from "../../src/TablesSharedKeyCredentialPolicy";
 
 describe("TablesSharedKeyCredential", () => {
-
   let originalToUTCString: () => string;
   beforeEach(() => {
     originalToUTCString = Date.prototype.toUTCString;
@@ -37,7 +36,8 @@ describe("TablesSharedKeyCredential", () => {
       headers: new HttpHeaders()
     };
     const request = new WebResource();
-    request.url = "https://testaccount.table.core.windows.net/tablename(PartitionKey='p1',RowKey='r1')";
+    request.url =
+      "https://testaccount.table.core.windows.net/tablename(PartitionKey='p1',RowKey='r1')";
     const nextPolicy = {
       sendRequest: (requestToSend: WebResource): Promise<HttpOperationResponse> => {
         assert.deepEqual(

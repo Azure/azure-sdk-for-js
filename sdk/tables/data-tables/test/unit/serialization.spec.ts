@@ -7,8 +7,6 @@ import { Edm } from "../../src";
 import { serialize, deserialize } from "../../src/serialization";
 
 interface Entity {
-  PartitionKey?: string;
-  RowKey?: string;
   strProp?: string;
   strObjProp?: Edm<"String">;
   boolProp?: boolean;
@@ -23,6 +21,8 @@ interface Entity {
   guidObjProp?: Edm<"Guid">;
   binProp?: Uint8Array;
   binObjProp?: Edm<"Binary">;
+  nullProp?: null;
+  undefinedProp?: undefined;
 }
 
 describe("Serializer", () => {
@@ -35,6 +35,15 @@ describe("Serializer", () => {
     assert.strictEqual(serialized.boolProp, boolValue);
     assert.strictEqual(serialized.boolObjProp, boolValue);
     assert.strictEqual(serialized["boolObjProp@odata.type"], "Edm.Boolean");
+  });
+
+  it("should serialize null and undefined values", () => {
+    const serialized: any = serialize({
+      nullProp: null,
+      undefinedProp: undefined
+    });
+    assert.strictEqual(serialized.nullProp, null);
+    assert.strictEqual(serialized.undefinedProp, undefined);
   });
 
   it("should serialize a String value", () => {
@@ -113,6 +122,15 @@ describe("Serializer", () => {
 });
 
 describe("Deserializer", () => {
+  it("should deserialize a null and undefined values", () => {
+    const deserialized: Entity = deserialize<Entity>({
+      nullProp: null,
+      undefinedProp: undefined
+    });
+    assert.strictEqual(deserialized.nullProp, null);
+    assert.strictEqual(deserialized.undefinedProp, undefined);
+  });
+
   it("should deserialize a Boolean value", () => {
     const boolValue = true;
     const deserialized: Entity = deserialize<Entity>({

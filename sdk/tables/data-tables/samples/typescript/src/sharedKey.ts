@@ -32,7 +32,7 @@ async function listEntities() {
 
   for await (const entity of entities) {
     console.log(entity);
-    // {PartitionKey: "P1", RowKey: "R1", foo: "Bar"}
+    // {partitionKey: "P1", rowKey: "R1", foo: "Bar"}
   }
 }
 

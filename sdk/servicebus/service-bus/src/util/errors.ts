@@ -7,6 +7,17 @@ import { ConnectionContext } from "../connectionContext";
 import { AmqpError } from "rhea-promise";
 
 /**
+ * Error message to use when EntityPath in connection string does not match the 
+ * queue or topic name passed to the methods in the ServiceBusClient that create
+ * senders and receivers.
+ * 
+ * @internal
+ * @ignore
+ */
+export const entityPathMisMatchError =
+  "The queue or topic name provided does not match the EntityPath in the connection string passed to the ServiceBusClient constructor.";
+
+/**
  * @internal
  * @ignore
  * Logs and throws Error if the current AMQP connection is closed.

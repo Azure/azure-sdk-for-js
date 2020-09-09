@@ -25,7 +25,7 @@ import {
 import { ConnectionContext } from "../connectionContext";
 import {
   DispositionType,
-  ReceivedMessage,
+  ServiceBusReceivedMessage,
   ServiceBusMessage,
   ServiceBusMessageImpl,
   getMessagePropertyTypeMismatchError,
@@ -393,7 +393,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
   async peek(
     messageCount?: number,
     options?: OperationOptionsBase & SendManagementRequestOptions
-  ): Promise<ReceivedMessage[]> {
+  ): Promise<ServiceBusReceivedMessage[]> {
     throwErrorIfConnectionClosed(this._context);
     return this.peekBySequenceNumber(
       this._lastPeekedSequenceNumber.add(1),
@@ -420,7 +420,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
     sessionId: string,
     messageCount?: number,
     options?: OperationOptionsBase & SendManagementRequestOptions
-  ): Promise<ReceivedMessage[]> {
+  ): Promise<ServiceBusReceivedMessage[]> {
     throwErrorIfConnectionClosed(this._context);
     return this.peekBySequenceNumber(
       this._lastPeekedSequenceNumber.add(1),
@@ -443,7 +443,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
     maxMessageCount?: number,
     sessionId?: string,
     options?: OperationOptionsBase & SendManagementRequestOptions
-  ): Promise<ReceivedMessage[]> {
+  ): Promise<ServiceBusReceivedMessage[]> {
     throwErrorIfConnectionClosed(this._context);
     const connId = this._context.connectionId;
 
@@ -461,7 +461,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
       maxMessageCount = 1;
     }
 
-    const messageList: ReceivedMessage[] = [];
+    const messageList: ServiceBusReceivedMessage[] = [];
     try {
       const messageBody: any = {};
       messageBody[Constants.fromSequenceNumber] = types.wrap_long(

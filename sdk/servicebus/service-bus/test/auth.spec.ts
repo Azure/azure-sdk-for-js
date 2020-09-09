@@ -6,7 +6,7 @@ import chai from "chai";
 import { parseConnectionString } from "rhea-promise";
 import { ServiceBusReceiver } from "../src/receivers/receiver";
 import { ServiceBusClient } from "../src/serviceBusClient";
-import { ReceivedMessage } from "../src/serviceBusMessage";
+import { ServiceBusReceivedMessage } from "../src/serviceBusMessage";
 import { getEnvVars } from "./utils/envVarUtils";
 import { TestClientType } from "./utils/testUtils";
 import {
@@ -60,7 +60,7 @@ type UnpackReturnType<T extends (...args: any) => any> = ReturnType<T> extends P
 
         await sender.close();
 
-        let receiver: ServiceBusReceiver<ReceivedMessage>;
+        let receiver: ServiceBusReceiver<ServiceBusReceivedMessage>;
 
         if (entities.queue) {
           receiver = client.createReceiver(entities.queue!, {
