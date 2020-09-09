@@ -52,4 +52,3 @@ extends:
         safeName: azurecoretracing
       - name: azure-logger
         safeName: azurelogger
-
