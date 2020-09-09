@@ -51,7 +51,7 @@ Use the [Azure CLI][azure-cli] snippet below to create/get client secret credent
     ```
     "<your-service-principal-object-id>"
     ```
-* Use the returned credentials above to set  **AZURE_CLIENT_ID** (appId), **AZURE_CLIENT_SECRET** (password), and **AZURE_TENANT_ID** (tenant) environment variables. For example, you can use the [dotenv][dotenv] project and add a `.env` file to your project with hte following contents (for the full section of environment variables, see [Environment Variables](#environment-variables)):
+* Use the returned credentials above to set  **AZURE_CLIENT_ID** (appId), **AZURE_CLIENT_SECRET** (password), and **AZURE_TENANT_ID** (tenant) environment variables:
     ```PowerShell
     AZURE_TENANT_ID=<tenant-ID>
     AZURE_CLIENT_ID=<generated-app-ID>
