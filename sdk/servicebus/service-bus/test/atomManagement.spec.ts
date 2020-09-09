@@ -12,7 +12,7 @@ import { CreateQueueOptions } from "../src/serializers/queueResourceSerializer";
 import { RuleProperties } from "../src/serializers/ruleResourceSerializer";
 import { CreateSubscriptionOptions } from "../src/serializers/subscriptionResourceSerializer";
 import { CreateTopicOptions } from "../src/serializers/topicResourceSerializer";
-import { ServiceBusManagementClient } from "../src/serviceBusAtomManagementClient";
+import { ServiceBusAdministrationClient } from "../src/serviceBusAtomManagementClient";
 import { EntityStatus } from "../src/util/utils";
 import { EnvVarNames, getEnvVars } from "./utils/envVarUtils";
 import { recreateQueue, recreateSubscription, recreateTopic } from "./utils/managementUtils";
@@ -27,7 +27,7 @@ dotenv.config();
 
 const env = getEnvVars();
 
-const serviceBusAtomManagementClient: ServiceBusManagementClient = new ServiceBusManagementClient(
+const serviceBusAtomManagementClient: ServiceBusAdministrationClient = new ServiceBusAdministrationClient(
   env[EnvVarNames.SERVICEBUS_CONNECTION_STRING]
 );
 
@@ -54,6 +54,7 @@ const managementRule2 = EntityNames.MANAGEMENT_RULE_2;
 
 const newManagementEntity1 = EntityNames.MANAGEMENT_NEW_ENTITY_1;
 const newManagementEntity2 = EntityNames.MANAGEMENT_NEW_ENTITY_2;
+type AccessRights = ("Manage" | "Send" | "Listen")[];
 
 describe("Atom management - Namespace", function(): void {
   it("Get namespace properties", async () => {
@@ -270,19 +271,22 @@ describe("Atom management - Authentication", function(): void {
         .Endpoint;
       const host = endpoint.match(".*://([^/]*)")[1];
 
-      const serviceBusManagementClient = new ServiceBusManagementClient(
+      const serviceBusAdministrationClient = new ServiceBusAdministrationClient(
         host,
         new DefaultAzureCredential()
       );
 
       should.equal(
-        (await serviceBusManagementClient.createQueue(managementQueue1)).name,
+        (await serviceBusAdministrationClient.createQueue(managementQueue1)).name,
         managementQueue1,
         "Unexpected queue name in the createQueue response"
       );
-      const createQueue2Response = await serviceBusManagementClient.createQueue(managementQueue2, {
-        forwardTo: managementQueue1
-      });
+      const createQueue2Response = await serviceBusAdministrationClient.createQueue(
+        managementQueue2,
+        {
+          forwardTo: managementQueue1
+        }
+      );
       should.equal(
         createQueue2Response.name,
         managementQueue2,
@@ -293,29 +297,29 @@ describe("Atom management - Authentication", function(): void {
         endpoint + managementQueue1,
         "Unexpected name in the `forwardTo` field of createQueue response"
       );
-      const getQueueResponse = await serviceBusManagementClient.getQueue(managementQueue1);
+      const getQueueResponse = await serviceBusAdministrationClient.getQueue(managementQueue1);
       should.equal(
         getQueueResponse.name,
         managementQueue1,
         "Unexpected queue name in the getQueue response"
       );
       should.equal(
-        (await serviceBusManagementClient.updateQueue(getQueueResponse)).name,
+        (await serviceBusAdministrationClient.updateQueue(getQueueResponse)).name,
         managementQueue1,
         "Unexpected queue name in the updateQueue response"
       );
       should.equal(
-        (await serviceBusManagementClient.getQueueRuntimeProperties(managementQueue1)).name,
+        (await serviceBusAdministrationClient.getQueueRuntimeProperties(managementQueue1)).name,
         managementQueue1,
         "Unexpected queue name in the getQueueRuntimeProperties response"
       );
       should.equal(
-        (await serviceBusManagementClient.getNamespaceProperties()).name,
+        (await serviceBusAdministrationClient.getNamespaceProperties()).name,
         host.match("(.*).servicebus.windows.net")[1],
         "Unexpected namespace name in the getNamespaceProperties response"
       );
-      await serviceBusManagementClient.deleteQueue(managementQueue1);
-      await serviceBusManagementClient.deleteQueue(managementQueue2);
+      await serviceBusAdministrationClient.deleteQueue(managementQueue1);
+      await serviceBusAdministrationClient.deleteQueue(managementQueue2);
     });
   }
 });
@@ -1254,6 +1258,7 @@ describe("Atom management - Authentication", function(): void {
       duplicateDetectionHistoryTimeWindow: "PT10M",
       enableBatchedOperations: true,
       enablePartitioning: false,
+      enableExpress: false,
       maxSizeInMegabytes: 1024,
       userMetadata: undefined,
       requiresDuplicateDetection: false,
@@ -1272,6 +1277,7 @@ describe("Atom management - Authentication", function(): void {
       enableBatchedOperations: false,
       status: "SendDisabled" as EntityStatus,
       enablePartitioning: true,
+      enableExpress: false,
       supportOrdering: false,
       userMetadata: "test metadata"
     },
@@ -1283,6 +1289,7 @@ describe("Atom management - Authentication", function(): void {
       supportOrdering: false,
       requiresDuplicateDetection: true,
       enablePartitioning: true,
+      enableExpress: false,
       maxSizeInMegabytes: 16384,
       autoDeleteOnIdle: "P10675199DT2H48M5.4775807S",
       authorizationRules: undefined,
@@ -1433,6 +1440,7 @@ describe("Atom management - Authentication", function(): void {
 
       messageCount: 0,
       enablePartitioning: undefined,
+      enableExpress: undefined,
       maxSizeInMegabytes: undefined,
       sizeInBytes: undefined,
 
@@ -1508,6 +1516,7 @@ describe("Atom management - Authentication", function(): void {
       duplicateDetectionHistoryTimeWindow: "PT10M",
       enableBatchedOperations: true,
       enablePartitioning: false,
+      enableExpress: false,
       forwardDeadLetteredMessagesTo: undefined,
       lockDuration: "PT1M",
       maxDeliveryCount: 10,
@@ -1536,9 +1545,7 @@ describe("Atom management - Authentication", function(): void {
         {
           claimType: "SharedAccessKey",
           claimValue: "None",
-          rights: {
-            accessRights: ["Manage", "Send", "Listen"]
-          },
+          accessRights: ["Manage", "Send", "Listen"] as AccessRights,
           keyName: "allClaims_v2",
           primaryKey: "pNSRzKKm2vfdbCuTXMa9gOMHD66NwCTxJi4KWJX/TDc=",
           secondaryKey: "UreXLPWiP6Murmsq2HYiIXs23qAvWa36ZOL3gb9rXLs="
@@ -1546,15 +1553,14 @@ describe("Atom management - Authentication", function(): void {
         {
           claimType: "SharedAccessKey",
           claimValue: "None",
-          rights: {
-            accessRights: ["Manage", "Send", "Listen"]
-          },
+          accessRights: ["Manage", "Send", "Listen"] as AccessRights,
           keyName: "allClaims_v3",
           primaryKey: "pNSRzKKm2vfdbCuTXMa9gOMHD66NwCTxJi4KWJX/TDc=",
           secondaryKey: "UreXLPWiP6Murmsq2HYiIXs23qAvWa36ZOL3gb9rXLs="
         }
       ],
       enablePartitioning: true,
+      enableExpress: false,
       userMetadata: "test metadata",
       status: "ReceiveDisabled" as EntityStatus
     },
@@ -1572,9 +1578,7 @@ describe("Atom management - Authentication", function(): void {
         {
           claimType: "SharedAccessKey",
           claimValue: "None",
-          rights: {
-            accessRights: ["Manage", "Send", "Listen"]
-          },
+          accessRights: ["Manage", "Send", "Listen"] as AccessRights,
           keyName: "allClaims_v2",
           primaryKey: "pNSRzKKm2vfdbCuTXMa9gOMHD66NwCTxJi4KWJX/TDc=",
           secondaryKey: "UreXLPWiP6Murmsq2HYiIXs23qAvWa36ZOL3gb9rXLs="
@@ -1582,21 +1586,18 @@ describe("Atom management - Authentication", function(): void {
         {
           claimType: "SharedAccessKey",
           claimValue: "None",
-          rights: {
-            accessRights: ["Manage", "Send", "Listen"]
-          },
+          accessRights: ["Manage", "Send", "Listen"] as AccessRights,
           keyName: "allClaims_v3",
           primaryKey: "pNSRzKKm2vfdbCuTXMa9gOMHD66NwCTxJi4KWJX/TDc=",
           secondaryKey: "UreXLPWiP6Murmsq2HYiIXs23qAvWa36ZOL3gb9rXLs="
         }
       ],
-
       enablePartitioning: true,
+      enableExpress: false,
       maxSizeInMegabytes: 16384,
       forwardDeadLetteredMessagesTo: undefined,
       forwardTo: undefined,
       userMetadata: "test metadata",
-
       status: "ReceiveDisabled",
       name: managementQueue1
     }
@@ -1705,20 +1706,14 @@ describe("Atom management - Authentication", function(): void {
     input: {
       filter: {
         sqlExpression: "stringValue = @stringParam AND intValue = @intParam",
-        sqlParameters: [
-          { key: "@intParam", value: 1, type: "int" },
-          { key: "@stringParam", value: "b", type: "string" }
-        ]
+        sqlParameters: { "@intParam": 1, "@stringParam": "b" }
       },
       action: { sqlExpression: "SET a='b'" }
     },
     output: {
       filter: {
         sqlExpression: "stringValue = @stringParam AND intValue = @intParam",
-        sqlParameters: [
-          { key: "@intParam", value: 1, type: "int" },
-          { key: "@stringParam", value: "b", type: "string" }
-        ]
+        sqlParameters: { "@intParam": 1, "@stringParam": "b" }
       },
       action: {
         sqlExpression: "SET a='b'",
@@ -1846,9 +1841,7 @@ describe("Atom management - Authentication", function(): void {
         {
           claimType: "SharedAccessKey",
           claimValue: "None",
-          rights: {
-            accessRights: ["Send"]
-          },
+          accessRights: ["Send"] as AccessRights,
           keyName: "allClaims_v2",
           primaryKey: "pNSRzKKm2vfdbCuTXMa9gOMHD66NwCTxJi4KWJX/TDc=",
           secondaryKey: "UreXLPWiP6Murmsq2HYiIXs23qAvWa36ZOL3gb9rXLs="
@@ -1856,15 +1849,14 @@ describe("Atom management - Authentication", function(): void {
         {
           claimType: "SharedAccessKey",
           claimValue: "None",
-          rights: {
-            accessRights: ["Listen"]
-          },
+          accessRights: ["Listen"] as AccessRights,
           keyName: "allClaims_v3",
           primaryKey: "pNSRzKKm2vfdbCuTXMa9gOMHD66NwCTxJi4KWJX/TDc=",
           secondaryKey: "UreXLPWiP6Murmsq2HYiIXs23qAvWa36ZOL3gb9rXLs="
         }
       ],
       enablePartitioning: true,
+      enableExpress: false,
       userMetadata: "test metadata",
       status: "ReceiveDisabled" as EntityStatus
     },
@@ -1880,9 +1872,7 @@ describe("Atom management - Authentication", function(): void {
         {
           claimType: "SharedAccessKey",
           claimValue: "None",
-          rights: {
-            accessRights: ["Send"]
-          },
+          accessRights: ["Send"] as AccessRights,
           keyName: "allClaims_v2",
           primaryKey: "pNSRzKKm2vfdbCuTXMa9gOMHD66NwCTxJi4KWJX/TDc=",
           secondaryKey: "UreXLPWiP6Murmsq2HYiIXs23qAvWa36ZOL3gb9rXLs="
@@ -1890,9 +1880,7 @@ describe("Atom management - Authentication", function(): void {
         {
           claimType: "SharedAccessKey",
           claimValue: "None",
-          rights: {
-            accessRights: ["Listen"]
-          },
+          accessRights: ["Listen"] as AccessRights,
           keyName: "allClaims_v3",
           primaryKey: "pNSRzKKm2vfdbCuTXMa9gOMHD66NwCTxJi4KWJX/TDc=",
           secondaryKey: "UreXLPWiP6Murmsq2HYiIXs23qAvWa36ZOL3gb9rXLs="
@@ -1906,6 +1894,7 @@ describe("Atom management - Authentication", function(): void {
       userMetadata: "test metadata",
       status: "ReceiveDisabled",
       enablePartitioning: true,
+      enableExpress: false,
       name: managementQueue1
     }
   }
@@ -1926,9 +1915,7 @@ describe("Atom management - Authentication", function(): void {
           {
             claimType: "SharedAccessKey",
             claimValue: "None",
-            rights: {
-              accessRights: ["Manage", "Send", "Listen"]
-            },
+            accessRights: ["Manage", "Send", "Listen"],
             keyName: "allClaims_v2",
             primaryKey: "pNSRzKKm2vfdbCuTXMa9gOMHD66NwCTxJi4KWJX/TDc=",
             secondaryKey: "UreXLPWiP6Murmsq2HYiIXs23qAvWa36ZOL3gb9rXLs="
@@ -1936,15 +1923,14 @@ describe("Atom management - Authentication", function(): void {
           {
             claimType: "SharedAccessKey",
             claimValue: "None",
-            rights: {
-              accessRights: ["Manage", "Send", "Listen"]
-            },
+            accessRights: ["Manage", "Send", "Listen"],
             keyName: "allClaims_v3",
             primaryKey: "pNSRzKKm2vfdbCuTXMa9gOMHD66NwCTxJi4KWJX/TDc=",
             secondaryKey: "UreXLPWiP6Murmsq2HYiIXs23qAvWa36ZOL3gb9rXLs="
           }
         ],
-        enablePartitioning: true
+        enablePartitioning: true,
+        enableExpress: false
       });
     });
 
@@ -1996,9 +1982,7 @@ describe("Atom management - Authentication", function(): void {
         {
           claimType: "SharedAccessKey",
           claimValue: "None",
-          rights: {
-            accessRights: ["Manage", "Send", "Listen"]
-          },
+          accessRights: ["Manage", "Send", "Listen"] as AccessRights,
           keyName: "allClaims_v2",
           primaryKey: "pNSRzKKm2vfdbCuTXMa9gOMHD66NwCTxJi4KWJX/TDc=",
           secondaryKey: "UreXLPWiP6Murmsq2HYiIXs23qAvWa36ZOL3gb9rXLs="
@@ -2006,9 +1990,7 @@ describe("Atom management - Authentication", function(): void {
         {
           claimType: "SharedAccessKey",
           claimValue: "None",
-          rights: {
-            accessRights: ["Manage", "Send", "Listen"]
-          },
+          accessRights: ["Manage", "Send", "Listen"] as AccessRights,
           keyName: "allClaims_v3",
           primaryKey: "pNSRzKKm2vfdbCuTXMa9gOMHD66NwCTxJi4KWJX/TDc=",
           secondaryKey: "UreXLPWiP6Murmsq2HYiIXs23qAvWa36ZOL3gb9rXLs="
@@ -2107,6 +2089,7 @@ describe("Atom management - Authentication", function(): void {
       maxSizeInMegabytes: 3072,
       enableBatchedOperations: true,
       enablePartitioning: false,
+      enableExpress: false,
       authorizationRules: undefined,
       status: "SendDisabled",
       userMetadata: "test metadata",
@@ -2286,14 +2269,14 @@ describe("Atom management - Authentication", function(): void {
     input: {
       filter: {
         sqlExpression: "stringValue = @stringParam",
-        sqlParameters: [{ key: "@stringParam", value: "b", type: "string" }]
+        sqlParameters: { "@stringParam": "b" }
       },
       action: { sqlExpression: "SET a='c'" }
     },
     output: {
       filter: {
         sqlExpression: "stringValue = @stringParam",
-        sqlParameters: [{ key: "@stringParam", value: "b", type: "string" }]
+        sqlParameters: { "@stringParam": "b" }
       },
       action: {
         sqlExpression: "SET a='c'",
@@ -2420,9 +2403,7 @@ async function createEntity(
           {
             claimType: "SharedAccessKey",
             claimValue: "None",
-            rights: {
-              accessRights: ["Manage", "Send", "Listen"]
-            },
+            accessRights: ["Manage", "Send", "Listen"],
             keyName: "allClaims_v1",
             primaryKey: "pNSRzKKm2vfdbCuTXMa9gOMHD66NwCTxJi4KWJX/TDc=",
             secondaryKey: "UreXLPWiP6Murmsq2HYiIXs23qAvWa36ZOL3gb9rXLs="
@@ -2447,10 +2428,7 @@ async function createEntity(
       ruleOptions = {
         filter: {
           sqlExpression: "stringValue = @stringParam AND intValue = @intParam",
-          sqlParameters: [
-            { key: "@intParam", value: 1, type: "int" },
-            { key: "@stringParam", value: "b", type: "string" }
-          ]
+          sqlParameters: { "@intParam": 1, "@stringParam": "b" }
         },
         action: { sqlExpression: "SET a='b'" }
       };
@@ -2655,9 +2633,7 @@ async function updateEntity(
           {
             claimType: "SharedAccessKey",
             claimValue: "None",
-            rights: {
-              accessRights: ["Manage", "Send", "Listen"]
-            },
+            accessRights: ["Manage", "Send", "Listen"],
             keyName: "allClaims_v1",
             primaryKey: "pNSRzKKm2vfdbCuTXMa9gOMHD66NwCTxJi4KWJX/TDc=",
             secondaryKey: "UreXLPWiP6Murmsq2HYiIXs23qAvWa36ZOL3gb9rXLs="
@@ -2682,10 +2658,10 @@ async function updateEntity(
       ruleOptions = {
         filter: {
           sqlExpression: "stringValue = @stringParam AND intValue = @intParam",
-          sqlParameters: [
-            { key: "@intParam", value: 1, type: "int" },
-            { key: "@stringParam", value: "b", type: "string" }
-          ]
+          sqlParameters: {
+            "@intParam": 1,
+            "@stringParam": "b"
+          }
         },
         action: { sqlExpression: "SET a='b'" }
       };

@@ -1,7 +1,7 @@
 {
   "name": "@azure/event-hubs",
   "sdk-type": "client",
-  "version": "5.3.0-preview.2",
+  "version": "5.3.1",
   "description": "Azure Event Hubs SDK for JS.",
   "author": "Microsoft Corporation",
   "license": "MIT",
@@ -72,10 +72,12 @@
     "unit-test": "npm run unit-test:node && npm run unit-test:browser"
   },
   "//metadata": {
-    "constantPaths": [{
-      "path": "src/util/constants.ts",
-      "prefix": "version"
-    }]
+    "constantPaths": [
+      {
+        "path": "src/util/constants.ts",
+        "prefix": "version"
+      }
+    ]
   },
   "//smokeTestConfiguration": {
     "skip": [
@@ -86,7 +88,7 @@
   },
   "dependencies": {
     "@azure/abort-controller": "^1.0.0",
-    "@azure/core-amqp": "^1.1.4",
+    "@azure/core-amqp": "^1.1.6",
     "@azure/core-asynciterator-polyfill": "^1.0.0",
     "@azure/core-tracing": "1.0.0-preview.9",
     "@azure/logger": "^1.0.0",

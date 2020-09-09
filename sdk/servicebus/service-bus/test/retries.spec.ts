@@ -5,7 +5,7 @@ import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
 const should = chai.should();
-import { ReceivedMessageWithLock } from "../src";
+import { ServiceBusReceivedMessageWithLock } from "../src";
 import { TestClientType, TestMessage } from "./utils/testUtils";
 import { ServiceBusClientForTests, createServiceBusClientForTests } from "./utils/testutils2";
 import { ServiceBusSender, ServiceBusSenderImpl } from "../src/sender";
@@ -22,8 +22,8 @@ import { ServiceBusReceiver, ServiceBusReceiverImpl } from "../src/receivers/rec
 describe("Retries - ManagementClient", () => {
   let sender: ServiceBusSender;
   let receiver:
-    | ServiceBusReceiver<ReceivedMessageWithLock>
-    | ServiceBusSessionReceiver<ReceivedMessageWithLock>;
+    | ServiceBusReceiver<ServiceBusReceivedMessageWithLock>
+    | ServiceBusSessionReceiver<ServiceBusReceivedMessageWithLock>;
   let serviceBusClient: ServiceBusClientForTests;
   const defaultMaxRetries = 2;
   let numberOfTimesManagementClientInvoked: number;
@@ -144,11 +144,11 @@ describe("Retries - ManagementClient", () => {
   });
 
   describe("Session Receiver Retries", () => {
-    let sessionReceiver: ServiceBusSessionReceiver<ReceivedMessageWithLock>;
+    let sessionReceiver: ServiceBusSessionReceiver<ServiceBusReceivedMessageWithLock>;
     beforeEach(async () => {
       numberOfTimesManagementClientInvoked = 0;
       await beforeEachTest(TestClientType.UnpartitionedQueueWithSessions);
-      sessionReceiver = receiver as ServiceBusSessionReceiver<ReceivedMessageWithLock>;
+      sessionReceiver = receiver as ServiceBusSessionReceiver<ServiceBusReceivedMessageWithLock>;
     });
     afterEach(async () => {
       await afterEachTest();
@@ -309,7 +309,7 @@ describe("Retries - MessageSender", () => {
 });
 
 describe("Retries - Receive methods", () => {
-  let receiver: ServiceBusReceiver<ReceivedMessageWithLock>;
+  let receiver: ServiceBusReceiver<ServiceBusReceivedMessageWithLock>;
   let serviceBusClient: ServiceBusClientForTests;
   const defaultMaxRetries = 2;
   let numberOfTimesTried: number;
@@ -346,7 +346,7 @@ describe("Retries - Receive methods", () => {
 
     if (receiver instanceof ServiceBusSessionReceiverImpl) {
       // Mocking `_messageSession.receiveMessages()` to throw the error and fail
-      (receiver as ServiceBusSessionReceiverImpl<ReceivedMessageWithLock>)[
+      (receiver as ServiceBusSessionReceiverImpl<ServiceBusReceivedMessageWithLock>)[
         "_messageSession"
       ].receiveMessages = fakeFunction;
     } else {
@@ -357,7 +357,7 @@ describe("Retries - Receive methods", () => {
       );
       batchingReceiver.isOpen = () => true;
       batchingReceiver.receive = fakeFunction;
-      (receiver as ServiceBusReceiverImpl<ReceivedMessageWithLock>)[
+      (receiver as ServiceBusReceiverImpl<ServiceBusReceivedMessageWithLock>)[
         "_batchingReceiver"
       ] = batchingReceiver;
     }
@@ -416,8 +416,8 @@ describe("Retries - Receive methods", () => {
 describe("Retries - onDetached", () => {
   let sender: ServiceBusSender;
   let receiver:
-    | ServiceBusReceiver<ReceivedMessageWithLock>
-    | ServiceBusSessionReceiver<ReceivedMessageWithLock>;
+    | ServiceBusReceiver<ServiceBusReceivedMessageWithLock>
+    | ServiceBusSessionReceiver<ServiceBusReceivedMessageWithLock>;
   let serviceBusClient: ServiceBusClientForTests;
   const defaultMaxRetries = 2;
   let numberOfTimesOnDetachedInvoked: number;

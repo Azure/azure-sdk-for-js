@@ -3,8 +3,8 @@
 
 import { MessageHandlers } from "../models";
 import { ServiceBusReceiver } from "./receiver";
-import * as log from "../log";
 import { OperationOptionsBase } from "../modelsToBeSharedWithEventHubs";
+import { logger } from "../log";
 
 /**
  * @internal
@@ -47,7 +47,7 @@ export async function* getMessageIterator<ReceivedMessageT>(
  */
 export function wrapProcessErrorHandler(
   handlers: Pick<MessageHandlers<unknown>, "processError">,
-  logError: (formatter: any, ...args: any[]) => void = log.error
+  logError: (formatter: any, ...args: any[]) => void = logger.error
 ): MessageHandlers<unknown>["processError"] {
   return async (err: Error) => {
     try {

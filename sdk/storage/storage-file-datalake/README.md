@@ -482,18 +482,18 @@ async function main() {
   // Get file content from position 0 to the end
   // In Node.js, get downloaded data by accessing downloadResponse.readableStreamBody
   const downloadResponse = await fileClient.read();
-  const downloaded = await streamToString(downloadResponse.readableStreamBody);
-  console.log("Downloaded file content:", downloaded);
+  const downloaded = await streamToBuffer(downloadResponse.readableStreamBody);
+  console.log("Downloaded file content:", downloaded.toString());
 
-  // [Node.js only] A helper method used to read a Node.js readable stream into string
-  async function streamToString(readableStream) {
+  // [Node.js only] A helper method used to read a Node.js readable stream into a Buffer.
+  async function streamToBuffer(readableStream) {
     return new Promise((resolve, reject) => {
       const chunks = [];
       readableStream.on("data", (data) => {
-        chunks.push(data.toString());
+        chunks.push(data instanceof Buffer ? data : Buffer.from(data));
       });
       readableStream.on("end", () => {
-        resolve(chunks.join(""));
+        resolve(Buffer.concat(chunks));
       });
       readableStream.on("error", reject);
     });

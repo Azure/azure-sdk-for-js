@@ -11,7 +11,12 @@ import {
   TableResponse,
   TableCreateHeaders
 } from "./generated/models";
-import { OperationOptions, HttpResponse } from "@azure/core-http";
+import { OperationOptions, HttpResponse, PipelineOptions } from "@azure/core-http";
+
+/**
+ * Client options used to configure Tables Api requests
+ */
+export type TableServiceClientOptions = PipelineOptions & { endpoint?: string; version?: string };
 
 /**
  * Contains response data for the createTable operation.
@@ -208,7 +213,11 @@ export interface TableEntityQueryOptions {
 /**
  * List tables optional parameters.
  */
-export interface ListTableItemsOptions {
+export type ListTableItemsOptions = OperationOptions & {
+  /**
+   * Query options group
+   */
+  queryOptions?: TableQueryOptions;
   /**
    * Provides a client-generated, opaque value with a 1 KB character limit that is recorded in the analytics logs when analytics logging is enabled.
    */
@@ -217,12 +226,12 @@ export interface ListTableItemsOptions {
    * A table query continuation token from a previous call.
    */
   nextTableName?: string;
-}
+};
 
 /**
  * List entities optional parameters.
  */
-export interface ListTableEntitiesOptions {
+export type ListTableEntitiesOptions = OperationOptions & {
   /**
    * Query options group
    */
@@ -243,7 +252,7 @@ export interface ListTableEntitiesOptions {
    * An entity query continuation token from a previous call.
    */
   nextRowKey?: string;
-}
+};
 
 /**
  * GetEntity optional parameters.
@@ -332,11 +341,11 @@ export type TableEntity<T extends object> = T & {
   /**
    * The PartitionKey property of the entity.
    */
-  PartitionKey: string;
+  partitionKey: string;
   /**
    * The RowKey property of the entity.
    */
-  RowKey: string;
+  rowKey: string;
 };
 
 /**

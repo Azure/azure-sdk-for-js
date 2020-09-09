@@ -9,10 +9,10 @@ import {
   CreateTableOptions,
   ListTableItemsResponse,
   CreateTableItemResponse,
+  TableServiceClientOptions,
   TableQueryOptions
 } from "./models";
 import {
-  TableServiceClientOptions,
   GetStatisticsOptions,
   GetStatisticsResponse,
   GetPropertiesOptions,
@@ -31,6 +31,11 @@ import {
 import { getClientParamsFromConnectionString } from "./utils/connectionString";
 import { TablesSharedKeyCredential } from "./TablesSharedKeyCredential";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
+import { LIB_INFO, TablesLoggingAllowedHeaderNames } from "./utils/constants";
+import { logger } from "./logger";
+import { createPipelineFromOptions, InternalPipelineOptions } from "@azure/core-http";
+import { CanonicalCode } from "@opentelemetry/api";
+import { createSpan } from "./utils/tracing";
 
 /**
  * A TableServiceClient represents a Client to the Azure Tables service allowing you
@@ -101,18 +106,30 @@ export class TableServiceClient {
         ? credentialOrOptions
         : options) || {};
 
-    if (credential) {
-      clientOptions.requestPolicyFactories = (defaultFactories) => [
-        ...defaultFactories,
-        credential
-      ];
+    if (!clientOptions.userAgentOptions) {
+      clientOptions.userAgentOptions = {};
     }
 
-    const client = new GeneratedClient(url, clientOptions);
+    if (clientOptions.userAgentOptions.userAgentPrefix) {
+      clientOptions.userAgentOptions.userAgentPrefix = `${clientOptions.userAgentOptions.userAgentPrefix} ${LIB_INFO}`;
+    } else {
+      clientOptions.userAgentOptions.userAgentPrefix = LIB_INFO;
+    }
+
+    const internalPipelineOptions: InternalPipelineOptions = {
+      ...clientOptions,
+      ...{
+        loggingOptions: {
+          logger: logger.info,
+          allowedHeaderNames: [...TablesLoggingAllowedHeaderNames]
+        }
+      }
+    };
+
+    const pipeline = createPipelineFromOptions(internalPipelineOptions, credential);
+    const client = new GeneratedClient(url, pipeline);
     this.table = client.table;
     this.service = client.service;
-
-    // TODO: Add the required policies and credential pipelines #9909
   }
 
   /**
@@ -120,8 +137,16 @@ export class TableServiceClient {
    * secondary location endpoint when read-access geo-redundant replication is enabled for the account.
    * @param options The options parameters.
    */
-  public getStatistics(options?: GetStatisticsOptions): Promise<GetStatisticsResponse> {
-    return this.service.getStatistics(options);
+  public getStatistics(options: GetStatisticsOptions = {}): Promise<GetStatisticsResponse> {
+    const { span, updatedOptions } = createSpan("TableServiceClient-getStatistics", options);
+    try {
+      return this.service.getStatistics(updatedOptions);
+    } catch (e) {
+      span.setStatus({ code: CanonicalCode.UNKNOWN, message: e.message });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -129,8 +154,16 @@ export class TableServiceClient {
    * (Cross-Origin Resource Sharing) rules.
    * @param options The options parameters.
    */
-  public getProperties(options?: GetPropertiesOptions): Promise<GetPropertiesResponse> {
-    return this.service.getProperties(options);
+  public getProperties(options: GetPropertiesOptions = {}): Promise<GetPropertiesResponse> {
+    const { span, updatedOptions } = createSpan("TableServiceClient-getProperties", options);
+    try {
+      return this.service.getProperties(updatedOptions);
+    } catch (e) {
+      span.setStatus({ code: CanonicalCode.UNKNOWN, message: e.message });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -141,9 +174,17 @@ export class TableServiceClient {
    */
   public setProperties(
     properties: ServiceProperties,
-    options?: SetPropertiesOptions
+    options: SetPropertiesOptions = {}
   ): Promise<SetPropertiesResponse> {
-    return this.service.setProperties(properties, options);
+    const { span, updatedOptions } = createSpan("TableServiceClient-setProperties", options);
+    try {
+      return this.service.setProperties(properties, updatedOptions);
+    } catch (e) {
+      span.setStatus({ code: CanonicalCode.UNKNOWN, message: e.message });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -153,9 +194,20 @@ export class TableServiceClient {
    */
   public createTable(
     tableName: string,
-    options?: CreateTableOptions
+    options: CreateTableOptions = {}
   ): Promise<CreateTableItemResponse> {
-    return this.table.create({ tableName }, { ...options, responsePreference: "return-content" });
+    const { span, updatedOptions } = createSpan("TableServiceClient-createTable", options);
+    try {
+      return this.table.create(
+        { tableName },
+        { ...updatedOptions, responsePreference: "return-content" }
+      );
+    } catch (e) {
+      span.setStatus({ code: CanonicalCode.UNKNOWN, message: e.message });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -165,9 +217,17 @@ export class TableServiceClient {
    */
   public deleteTable(
     tableName: string,
-    options?: DeleteTableOptions
+    options: DeleteTableOptions = {}
   ): Promise<DeleteTableResponse> {
-    return this.table.delete(tableName, options);
+    const { span, updatedOptions } = createSpan("TableServiceClient-deleteTable", options);
+    try {
+      return this.table.delete(tableName, updatedOptions);
+    } catch (e) {
+      span.setStatus({ code: CanonicalCode.UNKNOWN, message: e.message });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -215,19 +275,28 @@ export class TableServiceClient {
   }
 
   private async *listTablesPage(
-    options?: InternalListTablesOptions
+    options: InternalListTablesOptions = {}
   ): AsyncIterableIterator<ListTableItemsResponse> {
-    let result = await this._listTables(options);
+    const { span, updatedOptions } = createSpan("TableServiceClient-listTablesPage", options);
 
-    yield result;
+    try {
+      let result = await this._listTables(updatedOptions);
 
-    while (result.nextTableName) {
-      const optionsWithContinuation: ListTableItemsOptions = {
-        ...options,
-        nextTableName: result.nextTableName
-      };
-      result = await this._listTables(optionsWithContinuation);
       yield result;
+
+      while (result.nextTableName) {
+        const optionsWithContinuation: ListTableItemsOptions = {
+          ...updatedOptions,
+          nextTableName: result.nextTableName
+        };
+        result = await this._listTables(optionsWithContinuation);
+        yield result;
+      }
+    } catch (e) {
+      span.setStatus({ code: CanonicalCode.UNKNOWN, message: e.message });
+      throw e;
+    } finally {
+      span.end();
     }
   }
 
@@ -249,9 +318,17 @@ export class TableServiceClient {
    */
   public getAccessPolicy(
     tableName: string,
-    options?: GetAccessPolicyOptions
+    options: GetAccessPolicyOptions = {}
   ): Promise<GetAccessPolicyResponse> {
-    return this.table.getAccessPolicy(tableName, options);
+    const { span, updatedOptions } = createSpan("TableServiceClient-getAccessPolicy", options);
+    try {
+      return this.table.getAccessPolicy(tableName, updatedOptions);
+    } catch (e) {
+      span.setStatus({ code: CanonicalCode.UNKNOWN, message: e.message });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -262,9 +339,17 @@ export class TableServiceClient {
    */
   public setAccessPolicy(
     tableName: string,
-    options?: SetAccessPolicyOptions
+    options: SetAccessPolicyOptions = {}
   ): Promise<SetAccessPolicyResponse> {
-    return this.table.setAccessPolicy(tableName, options);
+    const { span, updatedOptions } = createSpan("TableServiceClient-setAccessPolicy", options);
+    try {
+      return this.table.setAccessPolicy(tableName, updatedOptions);
+    } catch (e) {
+      span.setStatus({ code: CanonicalCode.UNKNOWN, message: e.message });
+      throw e;
+    } finally {
+      span.end();
+    }
   }
 
   /**
@@ -285,11 +370,16 @@ export class TableServiceClient {
     // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options?: TableServiceClientOptions
   ): TableServiceClient {
-    const { url, options: clientOptions } = getClientParamsFromConnectionString(
+    const { url, options: clientOptions, credential } = getClientParamsFromConnectionString(
       connectionString,
       options
     );
-    return new TableServiceClient(url, clientOptions);
+
+    if (credential) {
+      return new TableServiceClient(url, credential, clientOptions);
+    } else {
+      return new TableServiceClient(url, clientOptions);
+    }
   }
 }
 

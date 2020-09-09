@@ -8,35 +8,37 @@
    "status": 200,
    "response": "{\"token_type\":\"Bearer\",\"expires_in\":3599,\"ext_expires_in\":3599,\"access_token\":\"access_token\"}",
    "responseHeaders": {
-    "cache-control": "no-cache, no-store",
-    "content-length": "1500",
+    "cache-control": "no-store, no-cache",
+    "content-length": "1329",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 14 Aug 2020 17:49:38 GMT",
+    "date": "Wed, 02 Sep 2020 23:54:06 GMT",
     "expires": "-1",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
     "referrer-policy": "strict-origin-when-cross-origin",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.10946.15 - NCUS ProdSlices",
-    "x-ms-request-id": "4e088a4f-8233-4e44-8b06-74f18dc52700"
+    "x-ms-ests-server": "2.1.10985.18 - CHI ProdSlices",
+    "x-ms-request-id": "4f74d6ed-7012-4b1b-a1d8-72366ded3d00"
    }
   },
   {
    "method": "POST",
    "url": "https://endpoint/text/analytics/v3.1-preview.1/sentiment",
-   "query": {},
+   "query": {
+    "stringIndexType": "Utf16CodeUnit"
+   },
    "requestBody": "{\"documents\":[{\"id\":\"0\",\"text\":\"Hello world!\",\"language\":\"notalanguage\"}]}",
    "status": 200,
-   "response": "{\"documents\":[],\"errors\":[{\"id\":\"0\",\"error\":{\"code\":\"InvalidArgument\",\"message\":\"Invalid Language Code.\",\"innererror\":{\"code\":\"UnsupportedLanguageCode\",\"message\":\"Invalid language code. Supported languages: de,en,es,fr,it,ja,ko,nl,pt-PT,zh-Hans,zh-Hant\"}}}],\"modelVersion\":\"2020-04-01\"}",
+   "response": "{\"documents\":[],\"errors\":[{\"id\":\"0\",\"error\":{\"code\":\"InvalidArgument\",\"message\":\"Invalid Language Code.\",\"innererror\":{\"code\":\"UnsupportedLanguageCode\",\"message\":\"Invalid language code. Supported languages: de,en,es,fr,it,ja,ko,nl,no,pt-PT,tr,zh-Hans,zh-Hant\"}}}],\"modelVersion\":\"2020-04-01\"}",
    "responseHeaders": {
-    "apim-request-id": "044c9343-2ee7-4786-aea0-4b38018ba0b0",
+    "apim-request-id": "37a6cf9d-ec9e-4ac4-ad88-69a571215f8a",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 14 Aug 2020 17:49:39 GMT",
+    "date": "Wed, 02 Sep 2020 23:54:05 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "876"
+    "x-envoy-upstream-service-time": "2"
    }
   }
  ],

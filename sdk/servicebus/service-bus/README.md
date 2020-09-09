@@ -18,10 +18,10 @@ Resources for the v7.0.0-preview.5 of `@azure/service-bus`:
 > **NOTE**: This document has instructions, links and code snippets for the **preview** of the next version of the `@azure/service-bus` package
 > which has different APIs than the stable version. To use the stable version of the library use the below resources.
 
-[Source code or Readme for v1.1.5](https://github.com/Azure/azure-sdk-for-js/tree/%40azure/service-bus_1.1.5/sdk/servicebus/service-bus) |
-[Package for v1.1.5 (npm)](https://www.npmjs.com/package/@azure/service-bus/v/1.1.5) |
-[API Reference Documentation for v1.1.5](https://docs.microsoft.com/javascript/api/%40azure/service-bus/?view=azure-node-latest) |
-[Samples for v1.1.5](https://github.com/Azure/azure-sdk-for-js/tree/%40azure/service-bus_1.1.5/sdk/servicebus/service-bus/samples)
+[Source code or Readme for v1.1.9](https://github.com/Azure/azure-sdk-for-js/tree/%40azure/service-bus_1.1.9/sdk/servicebus/service-bus) |
+[Package for v1.1.9 (npm)](https://www.npmjs.com/package/@azure/service-bus/v/1.1.9) |
+[API Reference Documentation for v1.1.9](https://docs.microsoft.com/javascript/api/%40azure/service-bus/?view=azure-node-latest) |
+[Samples for @azure/service-bus v1.1.x](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/servicebus/service-bus/samples-v1)
 
 We also provide a migration guide for users familiar with the stable package that would like to try the preview: [migration guide to move from Service Bus V1 to Service Bus V7 Preview][migrationguide]
 
@@ -251,7 +251,7 @@ You can read more about how sessions work [here][docsms_messagesessions].
 
 ### Manage resources of a service bus namespace
 
-`ServiceBusManagementClient` lets you manage a namespace with CRUD operations on the entities(queues, topics, and subscriptions) and on the rules of a subscription.
+`ServiceBusAdministrationClient` lets you manage a namespace with CRUD operations on the entities(queues, topics, and subscriptions) and on the rules of a subscription.
 
 - Supports authentication with a service bus connection string as well as with the AAD credentials from `@azure/identity` similar to the `ServiceBusClient`.
 
@@ -259,21 +259,21 @@ You can read more about how sessions work [here][docsms_messagesessions].
 // Get the connection string from the portal
 // OR
 // use the token credential overload, provide the host name of your Service Bus instance and the AAD credentials from the @azure/identity library
-const serviceBusManagementClient = new ServiceBusManagementClient("<connectionString>");
+const serviceBusAdministrationClient = new ServiceBusAdministrationClient("<connectionString>");
 
 // Similarly, you can create topics and subscriptions as well.
-const createQueueResponse = await serviceBusManagementClient.createQueue(queueName);
+const createQueueResponse = await serviceBusAdministrationClient.createQueue(queueName);
 console.log("Created queue with name - ", createQueueResponse.name);
 
-const queueRuntimeProperties = await serviceBusManagementClient.getQueueRuntimeProperties(
+const queueRuntimeProperties = await serviceBusAdministrationClient.getQueueRuntimeProperties(
   queueName
 );
 console.log("Number of messages in the queue = ", queueRuntimeProperties.totalMessageCount);
 
-await serviceBusManagementClient.deleteQueue(queueName);
+await serviceBusAdministrationClient.deleteQueue(queueName);
 ```
 
-- Sample for reference - [managementClient.ts](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/servicebus/service-bus/samples/typescript/src/advanced/managementClient.ts)
+- Sample for reference - [administrationClient.ts](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/servicebus/service-bus/samples/typescript/src/advanced/administrationClient.ts)
 
 ## Troubleshooting
 

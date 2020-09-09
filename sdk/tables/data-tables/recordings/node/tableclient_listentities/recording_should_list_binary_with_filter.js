@@ -1,6 +1,6 @@
 let nock = require('nock');
 
-module.exports.hash = "18c92de12a606119d96df081613060c8";
+module.exports.hash = "7700ce3484ab31a95818e5c9e442cd13";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
@@ -17,17 +17,17 @@ nock('https://joherediteststorage.table.core.windows.net:443', {"encodedQueryPar
   'Server',
   'Windows-Azure-Table/1.0 Microsoft-HTTPAPI/2.0',
   'x-ms-request-id',
-  'b4913c38-9002-00d7-2da0-7c1ef3000000',
+  '08ac11c5-5002-0120-64a8-7d7e4d000000',
+  'x-ms-client-request-id',
+  '8cb05409-fb48-4e2e-bc35-47115474563a',
   'x-ms-version',
   '2019-02-02',
   'X-Content-Type-Options',
   'nosniff',
   'Access-Control-Expose-Headers',
-  'x-ms-request-id,Server,x-ms-version,X-Content-Type-Options,Cache-Control,Content-Type,Content-Length,Date,Transfer-Encoding',
+  'x-ms-request-id,x-ms-client-request-id,Server,x-ms-version,X-Content-Type-Options,Cache-Control,Content-Type,Content-Length,Date,Transfer-Encoding',
   'Access-Control-Allow-Origin',
   '*',
   'Date',
-  'Thu, 27 Aug 2020 18:30:36 GMT',
-  'Connection',
-  'close'
+  'Sat, 29 Aug 2020 02:04:46 GMT'
 ]);

@@ -6,9 +6,10 @@ import {
   RequestPolicyOptionsLike,
   WebResource,
   BaseRequestPolicy,
-  HttpOperationResponse
+  HttpOperationResponse,
+  WebResourceLike
 } from "@azure/core-http";
-import { TablesSharedKeyCredential } from "./TablesSharedKeyCredential";
+import { TablesSharedKeyCredentialLike } from "./TablesSharedKeyCredential";
 import { HeaderConstants } from "./utils/constants";
 import { URL } from "./utils/url";
 
@@ -25,7 +26,7 @@ export class TablesSharedKeyCredentialPolicy extends BaseRequestPolicy {
    *
    * @type {TablesSharedKeyCredential}
    */
-  private readonly factory: TablesSharedKeyCredential;
+  private readonly credential: TablesSharedKeyCredentialLike;
 
   /**
    * Creates an instance of TablesSharedKeyCredentialPolicy.
@@ -36,10 +37,10 @@ export class TablesSharedKeyCredentialPolicy extends BaseRequestPolicy {
   constructor(
     nextPolicy: RequestPolicy,
     options: RequestPolicyOptionsLike,
-    factory: TablesSharedKeyCredential
+    credential: TablesSharedKeyCredentialLike
   ) {
     super(nextPolicy, options);
-    this.factory = factory;
+    this.credential = credential;
   }
 
   /**
@@ -48,7 +49,7 @@ export class TablesSharedKeyCredentialPolicy extends BaseRequestPolicy {
    * @param {WebResource} request
    * @returns {Promise<HttpOperationResponse>}
    */
-  public sendRequest(request: WebResource): Promise<HttpOperationResponse> {
+  public sendRequest(request: WebResourceLike): Promise<HttpOperationResponse> {
     return this._nextPolicy.sendRequest(this.signRequest(request));
   }
 
@@ -59,7 +60,7 @@ export class TablesSharedKeyCredentialPolicy extends BaseRequestPolicy {
    * @param {WebResource} request
    * @returns {WebResource}
    */
-  protected signRequest(request: WebResource): WebResource {
+  protected signRequest(request: WebResourceLike): WebResource {
     request.headers.set(HeaderConstants.X_MS_DATE, new Date().toUTCString());
 
     if (request.body && typeof request.body === "string" && request.body.length > 0) {
@@ -67,28 +68,20 @@ export class TablesSharedKeyCredentialPolicy extends BaseRequestPolicy {
     }
 
     // If x-ms-date is present, use it otherwise date
-    const dateHeader =
-      this.getHeaderValueToSign(request, `${HeaderConstants.X_MS_DATE}`) ||
-      this.getHeaderValueToSign(request, HeaderConstants.DATE);
+    const dateHeader = this.getHeaderValueToSign(request, HeaderConstants.X_MS_DATE);
 
     if (!dateHeader) {
       throw new Error("Failed to sign request: x-ms-date or date header must be present");
     }
 
-    const stringToSign: string =
-      [
-        request.method.toUpperCase(),
-        this.getHeaderValueToSign(request, HeaderConstants.CONTENT_MD5),
-        this.getHeaderValueToSign(request, HeaderConstants.CONTENT_TYPE),
-        dateHeader
-      ].join("\n") +
-      "\n" +
-      this.getCanonicalizedResourceString(request);
+    const stringToSign: string = [dateHeader, this.getCanonicalizedResourceString(request)].join(
+      "\n"
+    );
 
-    const signature: string = this.factory.computeHMACSHA256(stringToSign);
+    const signature: string = this.credential.computeHMACSHA256(stringToSign);
     request.headers.set(
       HeaderConstants.AUTHORIZATION,
-      `SharedKey ${this.factory.accountName}:${signature}`
+      `SharedKeyLite ${this.credential.accountName}:${signature}`
     );
     return request;
   }
@@ -119,29 +112,16 @@ export class TablesSharedKeyCredentialPolicy extends BaseRequestPolicy {
    * @returns {string}
    */
   private getCanonicalizedResourceString(request: WebResource): string {
+    // https://docs.microsoft.com/en-us/rest/api/storageservices/authorize-with-shared-key#shared-key-lite-and-table-service-format-for-2009-09-19-and-later
     const url = new URL(request.url);
     const path = url.pathname || "/";
+    let canonicalizedResourceString = "/" + this.credential.accountName + path.replace(/'/g, "%27");
 
-    let canonicalizedResourceString: string = "";
-    canonicalizedResourceString += `/${this.factory.accountName}${path}`;
+    // The query string should include the question mark and the comp parameter (for example, ?comp=metadata). No other parameters should be included on the query string.
+    const comp = url.searchParams.get("comp");
 
-    const queries = url.searchParams;
-    const lowercaseQueries: { [key: string]: string } = {};
-    if (queries) {
-      const queryKeys: string[] = [];
-      for (const key in queries) {
-        if (key in queries) {
-          const lowercaseKey = key.toLowerCase();
-          lowercaseQueries[lowercaseKey] = queries.get(key) || "";
-          queryKeys.push(lowercaseKey);
-        }
-      }
-
-      queryKeys.sort();
-
-      for (const key of queryKeys) {
-        canonicalizedResourceString += `\n${key}:${decodeURIComponent(lowercaseQueries[key])}`;
-      }
+    if (comp) {
+      canonicalizedResourceString = `${canonicalizedResourceString}?comp=${comp}`;
     }
 
     return canonicalizedResourceString;

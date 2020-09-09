@@ -4,9 +4,10 @@ import { AbortSignalLike } from "@azure/abort-controller";
 import { HttpResponse, TransferProgressEvent } from "@azure/core-http";
 import {
   LeaseAccessConditions,
-  ModifiedAccessConditions,
+  ModifiedAccessConditions as ModifiedAccessConditionsModel,
   UserDelegationKeyModel
 } from "@azure/storage-blob";
+export type ModifiedAccessConditions = Omit<ModifiedAccessConditionsModel, "ifTags">;
 
 import {
   PathCreateResponse,
@@ -937,6 +938,171 @@ export interface FileReadToBufferOptions extends CommonOptions {
    * @memberof FileReadToBufferOptions
    */
   concurrency?: number;
+}
+
+/**
+ * Options to query file with JSON format.
+ *
+ * @export
+ * @interface FileQueryJsonTextConfiguration
+ */
+export interface FileQueryJsonTextConfiguration {
+  /**
+   * Record separator.
+   *
+   * @type {string}
+   * @memberof FileQueryJsonTextConfiguration
+   */
+  recordSeparator: string;
+  /**
+   * Query for a JSON format file.
+   *
+   * @type {"json"}
+   * @memberof FileQueryJsonTextConfiguration
+   */
+  kind: "json";
+}
+
+/**
+ * Options to query file with CSV format.
+ *
+ * @export
+ * @interface FileQueryCsvTextConfiguration
+ */
+export interface FileQueryCsvTextConfiguration {
+  /**
+   * Record separator.
+   *
+   * @type {string}
+   * @memberof FileQueryCsvTextConfiguration
+   */
+  recordSeparator: string;
+  /**
+   * Query for a CSV format file.
+   *
+   * @type {"csv"}
+   * @memberof FileQueryCsvTextConfiguration
+   */
+  kind: "csv";
+  /**
+   * Column separator. Default is ",".
+   *
+   * @type {string}
+   * @memberof FileQueryCsvTextConfiguration
+   */
+  columnSeparator?: string;
+  /**
+   * Field quote.
+   *
+   * @type {string}
+   * @memberof FileQueryCsvTextConfiguration
+   */
+  fieldQuote?: string;
+  /**
+   * Escape character.
+   *
+   * @type {string}
+   * @memberof FileQueryCsvTextConfiguration
+   */
+  escapeCharacter?: string;
+  /**
+   * Has headers. Default is false.
+   *
+   * @type {boolean}
+   * @memberof FileQueryCsvTextConfiguration
+   */
+  hasHeaders?: boolean;
+}
+
+/**
+ * File query error type.
+ *
+ * @export
+ * @interface FileQueryError
+ */
+export interface FileQueryError {
+  /**
+   * Whether the error is fatal or not. A fatal error will stop the query.
+   *
+   * @type {boolean}
+   * @memberof FileQueryError
+   */
+  isFatal: boolean;
+  /**
+   * Error name.
+   *
+   * @type {string}
+   * @memberof FileQueryError
+   */
+  name: string;
+  /**
+   * Position in bytes of the query.
+   *
+   * @type {number}
+   * @memberof FileQueryError
+   */
+  position: number;
+  /**
+   * Error description.
+   *
+   * @type {string}
+   * @memberof FileQueryError
+   */
+  description: string;
+}
+
+/**
+ * Option interface for Data Lake file - query operations
+ *
+ * See:
+ * - {@link DataLakeFileClient.query}
+ *
+ * @export
+ * @interface FileQueryOptions
+ */
+export interface FileQueryOptions extends CommonOptions {
+  /**
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
+   *
+   * @type {AbortSignalLike}
+   * @memberof FileQueryOptions
+   */
+  abortSignal?: AbortSignalLike;
+  /**
+   * Configurations for the query input.
+   *
+   * @type {FileQueryJsonTextConfiguration | FileQueryCsvTextConfiguration}
+   * @memberof FileQueryOptions
+   */
+  inputTextConfiguration?: FileQueryJsonTextConfiguration | FileQueryCsvTextConfiguration;
+  /**
+   * Configurations for the query output.
+   *
+   * @type {FileQueryJsonTextConfiguration | FileQueryCsvTextConfiguration}
+   * @memberof FileQueryOptions
+   */
+  outputTextConfiguration?: FileQueryJsonTextConfiguration | FileQueryCsvTextConfiguration;
+  /**
+   * Callback to receive events on the progress of query operation.
+   *
+   * @type {(progress: TransferProgressEvent) => void}
+   * @memberof FileQueryOptions
+   */
+  onProgress?: (progress: TransferProgressEvent) => void;
+  /**
+   * Callback to receive error events during the query operaiton.
+   *
+   * @memberof FileQueryOptions
+   */
+  onError?: (error: FileQueryError) => void;
+  /**
+   * Conditions to meet when uploading to the block file.
+   *
+   * @type {FileRequestConditions}
+   * @memberof FileQueryOptions
+   */
+  conditions?: DataLakeRequestConditions;
 }
 
 /***********************************************************/

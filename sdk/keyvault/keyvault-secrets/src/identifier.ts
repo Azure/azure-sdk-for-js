@@ -4,26 +4,19 @@
 import { parseKeyvaultIdentifier } from "./generated/utils";
 
 /**
- * Valid collection names for Key Vault Secret identifiers.
+ * Represents the segments that compose a Key Vault Secret Id.
  */
-export type KeyVaultSecretsIdentifierCollectionName = "secrets" | "deletedsecrets";
-
-/**
- * Represents a Key Vault Secrets identifier and its parsed contents.
- */
-export interface ParsedKeyVaultSecretsIdentifier {
+export interface KeyVaultSecretId {
   /**
-   * The type of resource under Key Vault that this identifier is referring to.
+   * The complete representation of the Key Vault Secret Id. For example:
+   *
+   *   https://<keyvault-name>.vault.azure.net/secrets/<secret-name>/<unique-version-id>
+   *
    */
-  collection: KeyVaultSecretsIdentifierCollectionName;
+  sourceId: string;
 
   /**
-   * The originally received identifier.
-   */
-  id: string;
-
-  /**
-   * The Key Vault Secret unique identifier (an URl).
+   * The URL of the Azure Key Vault instance to which the Secret belongs.
    */
   vaultUrl: string;
 
@@ -39,21 +32,27 @@ export interface ParsedKeyVaultSecretsIdentifier {
 }
 
 /**
- * Parses a KeyVaultIdentifier from a string URI.
+ * Parses the given Key Vault Secret Id. An example is:
+ *
+ *   https://<keyvault-name>.vault.azure.net/secrets/<secret-name>/<unique-version-id>
+ *
+ * On parsing the above Id, this function returns:
+ *
+ *   {
+ *      sourceId: "https://<keyvault-name>.vault.azure.net/secrets/<secret-name>/<unique-version-id>",
+ *      vaultUrl: "https://<keyvault-name>.vault.azure.net",
+ *      version: "<unique-version-id>",
+ *      name: "<secret-name>"
+ *   }
+ *
+ * @param id The Id of the Key Vault Secret.
  */
-export function parseKeyVaultSecretsIdentifier(id: string): ParsedKeyVaultSecretsIdentifier {
+export function parseKeyVaultSecretId(id: string): KeyVaultSecretId {
   const urlParts = id.split("/");
-  const collection: KeyVaultSecretsIdentifierCollectionName = urlParts[3] as KeyVaultSecretsIdentifierCollectionName;
-
-  const collections: KeyVaultSecretsIdentifierCollectionName[] = ["secrets", "deletedsecrets"];
-
-  if (!collections.includes(collection)) {
-    throw new Error(`The only collections allowed are: ${collections.join(", ")}`);
-  }
+  const collection = urlParts[3];
 
   return {
-    collection,
-    id,
+    sourceId: id,
     ...parseKeyvaultIdentifier(collection, id)
   };
 }

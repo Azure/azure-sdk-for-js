@@ -7,7 +7,7 @@ import { Shard } from "../src/Shard";
 import { SegmentFactory } from "../src/SegmentFactory";
 import { ShardFactory } from "../src/ShardFactory";
 
-describe("Shard", async () => {
+describe("Segment", async () => {
   const manifestPath = "idx/segments/2020/03/25/0200/meta.json";
   const dateTime = new Date(Date.UTC(2020, 2, 25, 2));
   const shardCount = 3;
@@ -33,6 +33,7 @@ describe("Shard", async () => {
 
       shardStubs[i].hasNext.returns(true);
       shardStubs[i].getChange.returns(i);
+      shardStubs[i].shardPath = `log/0${i}/2020/03/25/0200/`;
     }
   });
 
@@ -45,7 +46,6 @@ describe("Shard", async () => {
     const segment = await segmentFactory.create(containerClientStub, manifestPath);
     assert.ok(segment.hasNext());
     assert.equal(segment.dateTime.getTime(), dateTime.getTime());
-    assert.ok(segment.finalized);
 
     // round robin
     for (let i = 0; i < shardCount * 2 + 1; i++) {
@@ -79,15 +79,17 @@ describe("Shard", async () => {
 
   it("init with non-zero shardIndex", async () => {
     const shardIndex = 1;
+    const CurrentShardPath = `log/0${shardIndex}/2020/03/25/0200/`;
     const segmentFactory = new SegmentFactory(shardFactoryStub);
     const segment = await segmentFactory.create(containerClientStub, manifestPath, {
-      shardIndex,
-      shardCursors: []
+      CurrentShardPath,
+      SegmentPath: "idx/segments/2020/03/25/0200/meta.json",
+      ShardCursors: []
     } as any);
     assert.ok(segment.hasNext());
     assert.equal(segment.dateTime.getTime(), dateTime.getTime());
-    assert.ok(segment.finalized);
-    assert.equal(segment.getCursor().shardIndex, shardIndex);
+    const segmentCursor = segment.getCursor();
+    assert.equal(segmentCursor.CurrentShardPath, CurrentShardPath);
 
     const event = await segment.getChange();
     assert.equal(event, shardIndex);

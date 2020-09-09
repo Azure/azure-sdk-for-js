@@ -4,7 +4,6 @@
 
 ```ts
 
-import { HttpOperationResponse } from '@azure/core-http';
 import { OperationOptions } from '@azure/core-http';
 import { PipelineOptions } from '@azure/core-http';
 import { TokenCredential } from '@azure/core-http';
@@ -22,21 +21,13 @@ export interface RegisterSchemaOptions extends OperationOptions {
 }
 
 // @public
-export interface Response {
-    _response: HttpOperationResponse;
-}
-
-// @public
-export interface Schema extends SchemaDefinition, SchemaId {
-}
-
-// @public
-export interface SchemaDefinition {
+export interface Schema extends SchemaId {
     content: string;
 }
 
 // @public
-export interface SchemaDescription extends SchemaDefinition {
+export interface SchemaDescription {
+    content: string;
     group: string;
     name: string;
     serializationType: string;
@@ -47,28 +38,28 @@ export interface SchemaId {
     id: string;
     location: string;
     locationById: string;
+    serializationType: string;
     version: number;
 }
 
 // @public
-export interface SchemaIdResponse extends SchemaId, Response {
+export interface SchemaRegistry {
+    getSchemaById(id: string, options?: GetSchemaByIdOptions): Promise<Schema>;
+    getSchemaId(schema: SchemaDescription, options?: GetSchemaIdOptions): Promise<SchemaId>;
+    registerSchema(schema: SchemaDescription, options?: RegisterSchemaOptions): Promise<SchemaId>;
 }
 
 // @public
-export class SchemaRegistryClient {
+export class SchemaRegistryClient implements SchemaRegistry {
     constructor(endpoint: string, credential: TokenCredential, options?: SchemaRegistryClientOptions);
     readonly endpoint: string;
-    getSchemaById(id: string, options?: GetSchemaByIdOptions): Promise<SchemaResponse>;
-    getSchemaId(schema: SchemaDescription, options?: GetSchemaIdOptions): Promise<SchemaIdResponse>;
-    registerSchema(schema: SchemaDescription, options?: RegisterSchemaOptions): Promise<SchemaIdResponse>;
+    getSchemaById(id: string, options?: GetSchemaByIdOptions): Promise<Schema>;
+    getSchemaId(schema: SchemaDescription, options?: GetSchemaIdOptions): Promise<SchemaId>;
+    registerSchema(schema: SchemaDescription, options?: RegisterSchemaOptions): Promise<SchemaId>;
 }
 
 // @public
 export interface SchemaRegistryClientOptions extends PipelineOptions {
-}
-
-// @public
-export interface SchemaResponse extends Schema, Response {
 }
 
 

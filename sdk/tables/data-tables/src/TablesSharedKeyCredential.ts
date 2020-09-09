@@ -9,16 +9,33 @@ import { TablesSharedKeyCredentialPolicy } from "./TablesSharedKeyCredentialPoli
 /**
  * ONLY AVAILABLE IN NODE.JS RUNTIME.
  *
- * TablesSharedKeyCredential for account key authorization of Azure  service.
+ * TablesSharedKeyCredentialLike shape for account key authorization of Azure Tables service.
+ */
+export interface TablesSharedKeyCredentialLike extends RequestPolicyFactory {
+  /**
+   * Azure  account name; readonly.
+   */
+  accountName: string;
+  /**
+   * Generates a hash signature for an HTTP request or for a SAS.
+   *
+   * @param {string} stringToSign
+   * @returns {string}
+   */
+  computeHMACSHA256: (stringToSign: string) => string;
+}
+
+/**
+ * ONLY AVAILABLE IN NODE.JS RUNTIME.
+ *
+ * TablesSharedKeyCredential for account key authorization of Azure Tables service.
  *
  * @export
  * @class TablesSharedKeyCredential
  */
-export class TablesSharedKeyCredential implements RequestPolicyFactory {
+export class TablesSharedKeyCredential implements TablesSharedKeyCredentialLike {
   /**
    * Azure  account name; readonly.
-   *
-   * @type {string}
    */
   public readonly accountName: string;
 

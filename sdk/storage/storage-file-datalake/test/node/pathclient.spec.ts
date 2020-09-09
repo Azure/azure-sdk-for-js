@@ -9,7 +9,7 @@ import {
   DataLakeServiceClient
 } from "../../src";
 import { PathPermissions } from "../../src/models";
-import { getDataLakeServiceClient, recorderEnvSetup } from "../utils";
+import { getDataLakeServiceClient, recorderEnvSetup, bodyToString } from "../utils";
 
 dotenv.config();
 
@@ -318,5 +318,16 @@ describe("DataLakePathClient Node.js only", () => {
 
     await destFileClient.getProperties();
     await destFileSystemClient.delete();
+  });
+
+  it("quick query should work", async () => {
+    const csvContent = "100,200,300,400\n150,250,350,450\n";
+    const fileClient2 = fileSystemClient.getFileClient(fileName + "2");
+    await fileClient2.create();
+    await fileClient2.append(csvContent, 0, csvContent.length);
+    await fileClient2.flush(csvContent.length);
+
+    const response = await fileClient2.query("select * from BlobStorage");
+    assert.deepStrictEqual(await bodyToString(response), csvContent);
   });
 });

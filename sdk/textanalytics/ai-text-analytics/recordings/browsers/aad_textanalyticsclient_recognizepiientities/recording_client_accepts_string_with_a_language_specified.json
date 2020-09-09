@@ -8,36 +8,38 @@
    "status": 200,
    "response": "{\"token_type\":\"Bearer\",\"expires_in\":3599,\"ext_expires_in\":3599,\"access_token\":\"access_token\"}",
    "responseHeaders": {
-    "cache-control": "no-cache, no-store",
-    "content-length": "1500",
+    "cache-control": "no-store, no-cache",
+    "content-length": "1329",
     "content-type": "application/json; charset=utf-8",
-    "date": "Fri, 14 Aug 2020 17:50:04 GMT",
+    "date": "Wed, 02 Sep 2020 23:54:11 GMT",
     "expires": "-1",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
     "referrer-policy": "strict-origin-when-cross-origin",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.10946.15 - NCUS ProdSlices",
-    "x-ms-request-id": "4e088a4f-8233-4e44-8b06-74f180c92700"
+    "x-ms-ests-server": "2.1.10985.18 - CHI ProdSlices",
+    "x-ms-request-id": "f62a380c-7857-4923-8fa5-54a928d53700"
    }
   },
   {
    "method": "POST",
    "url": "https://endpoint/text/analytics/v3.1-preview.1/entities/recognition/pii",
-   "query": {},
+   "query": {
+    "stringIndexType": "Utf16CodeUnit"
+   },
    "requestBody": "{\"documents\":[{\"id\":\"0\",\"text\":\"I had a wonderful trip to Seattle last week and even visited the Space Needle 2 times!\",\"language\":\"en\"},{\"id\":\"1\",\"text\":\"Unfortunately, it rained during my entire trip to Seattle. I didn't even get to visit the Space Needle\",\"language\":\"en\"},{\"id\":\"2\",\"text\":\"I went to see a movie on Saturday and it was perfectly average, nothing more or less than I expected.\",\"language\":\"en\"},{\"id\":\"3\",\"text\":\"I didn't like the last book I read at all.\",\"language\":\"en\"}]}",
    "status": 200,
    "response": "{\"documents\":[{\"id\":\"0\",\"entities\":[],\"warnings\":[]},{\"id\":\"1\",\"entities\":[],\"warnings\":[]},{\"id\":\"2\",\"entities\":[{\"text\":\"Saturday\",\"category\":\"DateTime\",\"subcategory\":\"Date\",\"offset\":25,\"length\":8,\"confidenceScore\":0.8}],\"warnings\":[]},{\"id\":\"3\",\"entities\":[],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}",
    "responseHeaders": {
-    "apim-request-id": "9ae3e890-e819-4486-b248-4127a6670232",
+    "apim-request-id": "1b3bd147-a12d-450c-b360-6b6c276d80c8",
     "content-type": "application/json; charset=utf-8",
     "csp-billing-usage": "CognitiveServices.TextAnalytics.BatchScoring=4",
-    "date": "Fri, 14 Aug 2020 17:50:05 GMT",
+    "date": "Wed, 02 Sep 2020 23:54:12 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "1132"
+    "x-envoy-upstream-service-time": "136"
    }
   }
  ],
