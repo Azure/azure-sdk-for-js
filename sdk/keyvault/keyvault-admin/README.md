@@ -23,7 +23,7 @@ To work with the Azure Key Vault Administration client, the following is necessa
 
 * An [Azure subscription][azure-sub].
 * An existing Azure Key Vault. If you need to create an Azure Key Vault, you can use the [Azure CLI][azure-cli].
-* If you are using this package in a Node.js application, then use Node.js 8.x or higher.
+* Use [Node.js](https://nodejs.org/) 8.x or higher.
 
 #### Getting Azure credentials
 
