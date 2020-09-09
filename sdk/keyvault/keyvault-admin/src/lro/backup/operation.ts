@@ -3,6 +3,7 @@
 
 import { AbortSignalLike } from "@azure/abort-controller";
 import { PollOperationState, PollOperation } from "@azure/core-lro";
+import { RequestOptionsBase } from "@azure/core-http";
 import { KeyVaultClient } from "../../generated/keyVaultClient";
 import {
   KeyVaultClientFullBackupOptionalParams,
@@ -36,6 +37,10 @@ export interface BackupOperationState extends PollOperationState<string> {
    * The end time of the backup operation in UTC
    */
   endTime?: Date;
+  /**
+   * Internal request parameters
+   */
+  requestParameters?: any;
 }
 
 /**
@@ -43,26 +48,28 @@ export interface BackupOperationState extends PollOperationState<string> {
  * @internal
  */
 export interface BackupPollOperationState extends PollOperationState<string> {
-  /**
-   * Options for the core-http requests.
-   */
-  requestOptions?: BeginBackupOptions;
-  /**
-   * An interface representing the internal KeyVaultClient.
-   */
-  client?: KeyVaultClient;
-  /**
-   * The base URL to the vault.
-   */
-  vaultUrl?: string;
-  /**
-   * The URI of the blob storage account.
-   */
-  blobStorageUri?: string;
-  /**
-   * The SAS token.
-   */
-  sasToken?: string;
+  requestParameters?: {
+    /**
+     * Options for the core-http requests.
+     */
+    requestOptions: RequestOptionsBase;
+    /**
+     * An interface representing the internal KeyVaultClient.
+     */
+    client: KeyVaultClient;
+    /**
+     * The base URL to the vault.
+     */
+    vaultUrl: string;
+    /**
+     * The URI of the blob storage account.
+     */
+    blobStorageUri: string;
+    /**
+     * The SAS token.
+     */
+    sasToken: string;
+  };
   /**
    * The id returned as part of the backup request
    */
@@ -143,13 +150,8 @@ async function update(
   } = {}
 ): Promise<BackupPollOperation> {
   const state = this.state;
-  const { vaultUrl, blobStorageUri, sasToken } = state;
+  const { requestOptions, vaultUrl, blobStorageUri, sasToken, client } = state.requestParameters!;
 
-  // Internal properties,
-  // the reference is only potentially undefined in the public representation of the poller.
-  const client = state.client!;
-
-  const requestOptions = state.requestOptions || {};
   if (options.abortSignal) {
     requestOptions.abortSignal = options.abortSignal;
   }

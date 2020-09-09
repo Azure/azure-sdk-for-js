@@ -17,22 +17,6 @@ import { KeyVaultClientFullRestoreOperationResponse } from "../../generated/mode
  */
 export interface RestoreOperationState extends PollOperationState<undefined> {
   /**
-   * The base URL to the vault
-   */
-  vaultUrl: string;
-  /**
-   * The URI of the blob storage account.
-   */
-  blobStorageUri: string;
-  /**
-   * The SAS token.
-   */
-  sasToken: string;
-  /**
-   * The Folder name of the blob where the previous successful full backup was stored.
-   */
-  folderName: string;
-  /**
    * Identifier for the full restore operation.
    */
   jobId?: string;
@@ -52,6 +36,10 @@ export interface RestoreOperationState extends PollOperationState<undefined> {
    * The end time of the restore operation in UTC
    */
   endTime?: Date;
+  /**
+   * Internal request parameters
+   */
+  requestParameters?: any;
 }
 
 /**
@@ -59,30 +47,32 @@ export interface RestoreOperationState extends PollOperationState<undefined> {
  * @internal
  */
 export interface RestorePollOperationState extends PollOperationState<undefined> {
-  /**
-   * Options for the core-http requests.
-   */
-  requestOptions?: RequestOptionsBase;
-  /**
-   * An interface representing the internal KeyVaultClient.
-   */
-  client?: KeyVaultClient;
-  /**
-   * The base URL to the vault
-   */
-  vaultUrl: string;
-  /**
-   * The URI of the blob storage account.
-   */
-  blobStorageUri: string;
-  /**
-   * The SAS token.
-   */
-  sasToken: string;
-  /**
-   * The Folder name of the blob where the previous successful full backup was stored
-   */
-  folderName: string;
+  requestParameters?: {
+    /**
+     * Options for the core-http requests.
+     */
+    requestOptions: RequestOptionsBase;
+    /**
+     * An interface representing the internal KeyVaultClient.
+     */
+    client: KeyVaultClient;
+    /**
+     * The base URL to the vault.
+     */
+    vaultUrl: string;
+    /**
+     * The URI of the blob storage account.
+     */
+    blobStorageUri: string;
+    /**
+     * The SAS token.
+     */
+    sasToken: string;
+    /**
+     * The Folder name of the blob where the previous successful full backup was stored
+     */
+    folderName: string;
+  };
   /**
    * The id returned as part of the restore request
    */
@@ -163,13 +153,15 @@ async function update(
   } = {}
 ): Promise<RestorePollOperation> {
   const state = this.state;
-  const { vaultUrl, blobStorageUri, sasToken, folderName } = state;
+  const {
+    client,
+    requestOptions,
+    vaultUrl,
+    blobStorageUri,
+    sasToken,
+    folderName
+  } = state.requestParameters!;
 
-  // Internal properties,
-  // the reference is only potentially undefined in the public representation of the poller.
-  const client = state.client!;
-
-  const requestOptions = state.requestOptions || {};
   if (options.abortSignal) {
     requestOptions.abortSignal = options.abortSignal;
   }

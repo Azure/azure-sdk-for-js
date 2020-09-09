@@ -50,11 +50,13 @@ export class BackupPoller extends Poller<BackupPollOperationState, string> {
 
     const operation = makeBackupPollOperation({
       ...state,
-      blobStorageUri,
-      sasToken,
-      requestOptions,
-      client,
-      vaultUrl
+      requestParameters: {
+        blobStorageUri,
+        sasToken,
+        requestOptions: requestOptions || {},
+        client,
+        vaultUrl
+      }
     });
 
     super(operation);
