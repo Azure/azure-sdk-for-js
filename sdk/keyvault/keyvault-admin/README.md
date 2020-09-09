@@ -19,35 +19,13 @@ npm install @azure/keyvault-admin
 
 ### Prerequisites
 
+To work with the Azure Key Vault Administration client, the following is necessary:
+
 * An [Azure subscription][azure-sub].
 * An existing Azure Key Vault. If you need to create an Azure Key Vault, you can use the [Azure CLI][azure-cli].
 * If you are using this package in a Node.js application, then use Node.js 8.x or higher.
 
-See the final two steps in the next section for details on creating the Key Vault with the Azure CLI.
-
-### Configure TypeScript
-
-TypeScript users need to have Node type definitions installed:
-
-```bash
-npm install @types/node
-```
-
-You also need to enable `compilerOptions.allowSyntheticDefaultImports` in your tsconfig.json. Note that if you have enabled `compilerOptions.esModuleInterop`, `allowSyntheticDefaultImports` is enabled by default. See [TypeScript's compiler options handbook][compiler-options] for more information.
-
-### Authenticate the client
-
-In order to control permissions to the Key Vault service, or to generate and restore backups of a specific Key Vault, you'll need to create either an instance of the [KeyVaultAccessControlClient][src-rbac-client] class, or an instance of the [KeyVaultBackupClient][src-backup-client] class, respectively.
-
-In both cases, you'll need a **vault URL**, which you may see as "DNS Name" in the portal,  and **client secret credentials (client id, client secret, tenant id)** to instantiate a client object.
-
-Client secret credential authentication is being used in this getting started section but you can find more ways to authenticate with [Azure identity][azure-identity]. To use the [DefaultAzureCredential][DAC] provider shown below, or other credential providers provided with the Azure SDK, you should install the [@azure/identity][identity-npm] package:
-
-```PowerShell
-npm install @azure/identity
-```
-
-#### Create/Get credentials
+#### Getting Azure credentials
 
 Use the [Azure CLI][azure-cli] snippet below to create/get client secret credentials.
 
@@ -81,6 +59,8 @@ environment variables. For example, you can use the [dotenv][dotenv] project and
     AZURE_CLIENT_SECRET=<random-password>
     ```
 
+#### Get or create an Azure Key Vault with the Azure CLI
+
 * Create the Key Vault and grant the above mentioned application authorization to perform administrative operations on the Azure Key Vault 
 (replace `<your-resource-group-name>` and `<your-key-vault-name>` with your own, unique names and `<your-service-principal-object-id>` with the value from above):
     ```
@@ -92,7 +72,7 @@ environment variables. For example, you can use the [dotenv][dotenv] project and
     az keyvault show --hsm-name <your-key-vault-name>
     ```
 
-#### Get or create a storage account
+#### Get or create an Azure Storage Account with the Azure CLI
 
 To generate Key Vault backups, you will need to point the [KeyVaultBackupClient][src-backup-client] to an existing Storage account.
 
@@ -104,9 +84,27 @@ Here's an example using the Azure CLI:
 az storage account create --name MyStorageAccount --resource-group MyResourceGroup --location westus --sku Standard_LRS
 ```
 
-#### Environment Variables
+### Configure TypeScript
 
-With a Key Vault and a Storage account, you can fill the rest of the environment variables in the `.env` file used by [dotenv][dotenv]. You can look for more information about other required environment variables in our [sample.env](./sample.env) file.
+TypeScript users need to have Node type definitions installed:
+
+```bash
+npm install @types/node
+```
+
+You also need to enable `compilerOptions.allowSyntheticDefaultImports` in your tsconfig.json. Note that if you have enabled `compilerOptions.esModuleInterop`, `allowSyntheticDefaultImports` is enabled by default. See [TypeScript's compiler options handbook][compiler-options] for more information.
+
+### Authenticate the client
+
+In order to control permissions to the Key Vault service, or to generate and restore backups of a specific Key Vault, you'll need to create either an instance of the [KeyVaultAccessControlClient][src-rbac-client] class, or an instance of the [KeyVaultBackupClient][src-backup-client] class, respectively.
+
+In both cases, you'll need a **vault URL**, which you may see as "DNS Name" in the portal,  and **client secret credentials (client id, client secret, tenant id)** to instantiate a client object.
+
+Client secret credential authentication is being used in this getting started section but you can find more ways to authenticate with [Azure identity][azure-identity]. To use the [DefaultAzureCredential][DAC] provider shown below, or other credential providers provided with the Azure SDK, you should install the [@azure/identity][identity-npm] package:
+
+```PowerShell
+npm install @azure/identity
+```
 
 #### Create KeyVaultAccessControlClient
 
@@ -159,7 +157,7 @@ A [KeyVaultAccessControlClient][src-rbac-client] provides both synchronous and a
 
 A [KeyVaultBackupClient][src-backup-client] provides both synchronous and asynchronous operations for performing full key backups, full key restores, and selective key restores.
 
-### Long Running Operations
+### Long running operations
 
 The Azure SDK for TypeScript and JavaScript offers a common abstraction for long running operations through the package [core-lro][core-lro]. In particular, the operations done by the [KeyVaultBackupClient][src-backup-client] may take as much time as needed by the Azure resources, requiring a client layer to keep track, serialize and resume the operations through the lifecycle of the programs that wait for them to finish.
 
@@ -201,9 +199,9 @@ setLogLevel("info");
 
 You can find more code samples through the following links:
 
-- [KeyVault Admin Samples (JavaScript)](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-admin/samples/javascript)
-- [KeyVault Admin Samples (TypeScript)](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-admin/samples/typescript)
-- [KeyVault Admin Test Cases](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-admin/test/)
+- [KeyVault Administration Samples (JavaScript)](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-admin/samples/javascript)
+- [KeyVault Administration Samples (TypeScript)](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-admin/samples/typescript)
+- [KeyVault Administration Test Cases](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-admin/test/)
 
 ## Contributing
 
@@ -232,7 +230,7 @@ If you'd like to contribute to this library, please read the [contributing guide
 [storage-account-create-ps]: https://docs.microsoft.com/azure/storage/common/storage-quickstart-create-account?tabs=azure-powershell
 [storage-account-create-cli]: https://docs.microsoft.com/azure/storage/common/storage-quickstart-create-account?tabs=azure-cli
 [storage-account-create-portal]: https://docs.microsoft.com/azure/storage/common/storage-quickstart-create-account?tabs=azure-portal
-[package-gh]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/core/core-lro
+[core-lro]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/core/core-lro
 [code_of_conduct]: https://opensource.microsoft.com/codeofconduct/
 [backup_client]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-admin/src/KeyVaultBackupClient.cs
 [keyvault_docs]: https://docs.microsoft.com/azure/key-vault/
