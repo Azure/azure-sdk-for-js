@@ -380,10 +380,16 @@ describe("Sender Tests", () => {
 });
 
 describe("ServiceBusMessage validations", function(): void {
-  const sbClient = new ServiceBusClient(
-    "Endpoint=sb://a;SharedAccessKeyName=b;SharedAccessKey=c;EntityPath=d"
-  );
-  const sender = sbClient.createSender("dummyQueue");
+  let sbClient: ServiceBusClient;
+  let sender: ServiceBusSender;
+
+  before(() => {
+    sbClient = new ServiceBusClient(
+      "Endpoint=sb://a;SharedAccessKeyName=b;SharedAccessKey=c;"
+    );
+    sender = sbClient.createSender("dummyQueue");
+  });
+
   const longString =
     "A very very very very very very very very very very very very very very very very very very very very very very very very very long string.";
 

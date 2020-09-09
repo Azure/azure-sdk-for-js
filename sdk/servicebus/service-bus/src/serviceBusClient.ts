@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { TokenCredential, isTokenCredential } from "@azure/core-amqp";
+import { TokenCredential, isTokenCredential, ConnectionConfig } from "@azure/core-amqp";
 import {
   ServiceBusClientOptions,
   createConnectionContextForConnectionString,
@@ -16,6 +16,7 @@ import {
 } from "./receivers/sessionReceiver";
 import { ServiceBusReceivedMessage, ServiceBusReceivedMessageWithLock } from "./serviceBusMessage";
 import { ServiceBusSender, ServiceBusSenderImpl } from "./sender";
+import { entityPathMisMatchError } from "./util/errors";
 
 /**
  * A client that can create Sender instances for sending messages to queues and
@@ -207,6 +208,8 @@ export class ServiceBusClient {
   ):
     | ServiceBusReceiver<ServiceBusReceivedMessage>
     | ServiceBusReceiver<ServiceBusReceivedMessageWithLock> {
+    validateEntityPath(this._connectionContext.config, queueOrTopicName1);
+
     // NOTE: we don't currently have any options for this kind of receiver but
     // when we do make sure you pass them in and extract them.
     const { entityPath, receiveMode, options } = extractReceiverArguments(
@@ -343,6 +346,8 @@ export class ServiceBusClient {
     | ServiceBusSessionReceiver<ServiceBusReceivedMessage>
     | ServiceBusSessionReceiver<ServiceBusReceivedMessageWithLock>
   > {
+    validateEntityPath(this._connectionContext.config, queueOrTopicName1);
+
     const { entityPath, receiveMode, options } = extractReceiverArguments(
       queueOrTopicName1,
       optionsOrSubscriptionName2,
@@ -368,6 +373,8 @@ export class ServiceBusClient {
    * @param queueOrTopicName The name of a queue or topic to send messages to.
    */
   createSender(queueOrTopicName: string): ServiceBusSender {
+    validateEntityPath(this._connectionContext.config, queueOrTopicName);
+
     return new ServiceBusSenderImpl(
       this._connectionContext,
       queueOrTopicName,
@@ -431,4 +438,17 @@ export function extractReceiverArguments<OptionsT extends { receiveMode?: Receiv
     receiveMode,
     options
   };
+}
+
+/**
+ * Validates that the EntityPath in the connection string (if any) matches with the
+ * queue or topic name passed to the methods that create senders and receivers.
+ *
+ * @internal
+ * @ignore
+ */
+function validateEntityPath(connectionConfig: ConnectionConfig, queueOrTopicName: string): void {
+  if (connectionConfig.entityPath && connectionConfig.entityPath !== queueOrTopicName) {
+    throw new Error(entityPathMisMatchError);
+  }
 }

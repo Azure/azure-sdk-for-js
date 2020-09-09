@@ -460,7 +460,7 @@ export class TableClient {
         return this.table.updateEntity(this.tableName, entity.partitionKey, entity.rowKey, {
           tableEntityProperties: serialize(entity),
           queryOptions: this.convertQueryOptions(queryOptions || {}),
-          ...upsertOptions,
+          ...upsertOptions
         });
       }
       throw new Error(`Unexpected value for update mode: ${mode}`);
