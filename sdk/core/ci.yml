@@ -44,7 +44,6 @@ extends:
         safeName: azurecoreauth
       - name: azure-core-http
         safeName: azurecorehttp
-        options.skipDocMs: True
       - name: azure-core-lro
         safeName: azurecorelro
       - name: azure-core-paging
