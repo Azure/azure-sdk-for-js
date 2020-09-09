@@ -2,8 +2,10 @@ import * as sinon from "sinon";
 import { logger } from "../../src/log";
 import { logError } from "../../src/util/errors";
 import { MessagingError } from "@azure/core-amqp";
-import * as chai from "chai";
 import { AbortError } from "@azure/abort-controller";
+import chai from "chai";
+import chaiAsPromised from "chai-as-promised";
+chai.use(chaiAsPromised);
 const assert = chai.assert;
 
 describe("errors", () => {
