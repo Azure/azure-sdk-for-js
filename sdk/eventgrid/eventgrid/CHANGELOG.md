@@ -1,5 +1,8 @@
 # Release History
 
+## 3.0.0-beta.2 (Unreleased)
+
+
 ## 3.0.0-beta.1 (2020-09-08)
 
 - This release is a preview of our efforts to create a client library that is user friendly and
