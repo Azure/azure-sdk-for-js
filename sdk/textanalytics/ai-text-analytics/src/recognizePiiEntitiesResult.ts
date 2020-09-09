@@ -41,12 +41,7 @@ export type RecognizePiiEntitiesErrorResult = TextAnalyticsErrorResult;
 export function makeRecognizePiiEntitiesResult(
   document: RecognizePiiEntitiesSuccessResult
 ): RecognizePiiEntitiesSuccessResult {
-  const {
-    id,
-    entities,
-    warnings,
-    statistics
-  } = document;
+  const { id, entities, warnings, statistics } = document;
   return {
     ...makeTextAnalyticsSuccessResult(id, warnings, statistics),
     entities

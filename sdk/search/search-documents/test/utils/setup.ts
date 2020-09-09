@@ -439,7 +439,8 @@ export async function createDataSourceConnections(client: SearchIndexerClient): 
     await client.deleteDataSourceConnection(dataSourceConnectionName);
   }
 
-  const connectionString:string = "AccountEndpoint=https://hotels-docbb.documents.azure.com:443/;AccountKey=4UPsNZyFAjgZ1tzHPGZaxS09XcwLrIawbXBWk6IixcxJoSePTcjBn0mi53XiKWu8MaUgowUhIovOv7kjksqAug==;Database=SampleData";
+  const connectionString: string =
+    "AccountEndpoint=https://hotels-docbb.documents.azure.com:443/;AccountKey=4UPsNZyFAjgZ1tzHPGZaxS09XcwLrIawbXBWk6IixcxJoSePTcjBn0mi53XiKWu8MaUgowUhIovOv7kjksqAug==;Database=SampleData";
   for (let i = 1; i <= 2; i++) {
     await client.createDataSourceConnection({
       name: `my-data-source-${i}`,

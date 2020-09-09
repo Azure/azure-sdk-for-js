@@ -87,12 +87,12 @@ export class DeviceCodeCredential implements TokenCredential {
 
     const publicClientConfig = {
       auth: {
-          clientId: this.clientId,
-          authority: this.authorityHost,
+        clientId: this.clientId,
+        authority: this.authorityHost
       },
       cache: {
-          cachePlugin: undefined
-      },
+        cachePlugin: undefined
+      }
     };
 
     this.pca = new PublicClientApplication(publicClientConfig);
@@ -108,17 +108,14 @@ export class DeviceCodeCredential implements TokenCredential {
    * @param options The options used to configure any requests this
    *                TokenCredential implementation might make.
    */
-  getToken(
-    scopes: string | string[],
-    options?: GetTokenOptions
-  ): Promise<AccessToken | null> {
+  getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken | null> {
     const { span, options: newOptions } = createSpan("DeviceCodeCredential-getToken", options);
 
     const scopeArray = typeof scopes === "object" ? scopes : [scopes];
 
     const deviceCodeRequest = {
       deviceCodeCallback: this.userPromptCallback,
-      scopes: scopeArray,
+      scopes: scopeArray
     };
 
     logger.info("Sending devicecode request");
@@ -141,13 +138,15 @@ export class DeviceCodeCredential implements TokenCredential {
     }
   }
 
-  private async acquireTokenByDeviceCode(deviceCodeRequest: DeviceCodeRequest): Promise<AccessToken | null> {
+  private async acquireTokenByDeviceCode(
+    deviceCodeRequest: DeviceCodeRequest
+  ): Promise<AccessToken | null> {
     try {
       const deviceResponse = await this.pca.acquireTokenByDeviceCode(deviceCodeRequest);
-      return({
+      return {
         expiresOnTimestamp: deviceResponse.expiresOn.getTime(),
         token: deviceResponse.accessToken
-      });
+      };
     } catch (error) {
       throw new Error(`Device Authentication Error "${JSON.stringify(error)}"`);
     }
