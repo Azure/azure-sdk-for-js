@@ -14,3 +14,5 @@ export * from "./operations";
 export * from "./managedClusters";
 export * from "./agentPools";
 export * from "./privateEndpointConnections";
+export * from "./privateLinkResources";
+export * from "./resolvePrivateLinkServiceId";
