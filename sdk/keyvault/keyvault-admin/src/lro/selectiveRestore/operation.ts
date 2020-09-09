@@ -114,10 +114,8 @@ async function selectiveRestore(
 ): Promise<KeyVaultClientSelectiveKeyRestoreOperationResponse> {
   const requestOptions = operationOptionsToRequestOptionsBase(options);
   const span = createSpan("generatedClient.selectiveRestore", requestOptions);
-
-  let response: KeyVaultClientSelectiveKeyRestoreOperationResponse;
   try {
-    response = await client.selectiveKeyRestoreOperation(
+    return await client.selectiveKeyRestoreOperation(
       vaultUrl,
       keyName,
       setParentSpan(span, requestOptions)
@@ -125,8 +123,6 @@ async function selectiveRestore(
   } finally {
     span.end();
   }
-
-  return response;
 }
 
 /**
@@ -140,15 +136,11 @@ async function fullRestoreStatus(
 ): Promise<KeyVaultClientFullBackupStatusResponse> {
   const requestOptions = operationOptionsToRequestOptionsBase(options);
   const span = createSpan("generatedClient.fullRestoreStatus", requestOptions);
-
-  let response: KeyVaultClientFullBackupStatusResponse;
   try {
-    response = await client.fullBackupStatus(vaultUrl, jobId, options);
+    return await client.fullBackupStatus(vaultUrl, jobId, options);
   } finally {
     span.end();
   }
-
-  return response;
 }
 
 /**

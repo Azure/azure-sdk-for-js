@@ -100,15 +100,11 @@ async function fullBackup(
   options: KeyVaultClientFullBackupOptionalParams
 ): Promise<KeyVaultClientFullBackupResponse> {
   const span = createSpan("generatedClient.fullBackup", options);
-
-  let response: KeyVaultClientFullBackupResponse;
   try {
-    response = await client.fullBackup(vaultUrl, setParentSpan(span, options));
+    return await client.fullBackup(vaultUrl, setParentSpan(span, options));
   } finally {
     span.end();
   }
-
-  return response;
 }
 
 /**
@@ -121,15 +117,11 @@ async function fullBackupStatus(
   options: BeginBackupOptions
 ): Promise<KeyVaultClientFullBackupStatusResponse> {
   const span = createSpan("generatedClient.fullBackupStatus", options);
-
-  let response: KeyVaultClientFullBackupStatusResponse;
   try {
-    response = await client.fullBackupStatus(vaultUrl, jobId, setParentSpan(span, options));
+    return await client.fullBackupStatus(vaultUrl, jobId, setParentSpan(span, options));
   } finally {
     span.end();
   }
-
-  return response;
 }
 
 /**
