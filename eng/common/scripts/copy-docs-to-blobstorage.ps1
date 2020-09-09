@@ -201,6 +201,7 @@ function Upload-Blobs
     Write-Host "DocDir $($DocDir)"
     Write-Host "Final Dest $($DocDest)/$($PkgName)/$($DocVersion)"
     Write-Host "Release Tag $($ReleaseTag)"
+    Write-Host "Regex: $($RepoReplaceRegex)"
 
     # Use the step to replace master link to release tag link 
     if ($ReleaseTag) {
