@@ -74,6 +74,8 @@ environment variables. For example, you can use the [dotenv][dotenv] project and
 
 #### Get or create an Azure Storage Account with the Azure CLI
 
+A storage account is necessary to generate the backup of a Key Vault.
+
 To generate Key Vault backups, you will need to point the [KeyVaultBackupClient][src-backup-client] to an existing Storage account.
 
 To create a new Storage Account, you can use the [Azure Portal][storage-account-create-portal],
@@ -161,17 +163,17 @@ A [KeyVaultBackupClient][src-backup-client] provides both synchronous and asynch
 
 The Azure SDK for TypeScript and JavaScript offers a common abstraction for long running operations through the package [core-lro][core-lro]. In particular, the operations done by the [KeyVaultBackupClient][src-backup-client] may take as much time as needed by the Azure resources, requiring a client layer to keep track, serialize and resume the operations through the lifecycle of the programs that wait for them to finish.
 
-The [KeyVaultBackupClient][src-backup-client] offers three methods that execute Long Running Operations:
+The [KeyVaultBackupClient][src-backup-client] offers three methods that execute long running operations:
 
 - `beginBackup`, starts generating a backup of an Azure Key Vault on the specified Storage Blob account.
 - `beginRestore`, starts restoring all key materials using the SAS token pointing to a previously stored Azure Blob storage backup folder.
 - `beginSelectiveRestore`, starts restoring all key versions of a given key using user supplied SAS token pointing to a previously stored Azure Blob storage backup folder.
 
-All of the Long Running Operation methods return a a Long Running Operation poller that allows you to wait indefinitely until the Key Vault selective restore is complete. More information is available on the examples below.
+The methods that begin long running operations return a poller that allows you to wait indefinitely until the operation is complete. More information is available on the examples below.
 
 ## Examples
 
-The following section provides several code snippets using the `client` created above for either [access control](#create-keyvaultaccesscontrolclient) or [backup](#create-KeyVaultBackupClient) clients, covering some of the most common Azure Key Vault access control related tasks:
+We have provided readmes with the detailed steps to run our samples, both for [JavaScript](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-admin/samples/javascript/README.md) and [TypeScript](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-admin/samples/typescript/README.md). Direct links to the specific samples follow:
 
 - Access control (RBAC):
     - [Listing All Role Definitions](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-admin/samples/typescript/src/accessControlHelloWorld.ts)
