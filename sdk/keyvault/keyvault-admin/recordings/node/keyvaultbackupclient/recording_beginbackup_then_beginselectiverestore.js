@@ -79,7 +79,7 @@ nock('https://eastus2.keyvault_name.managedhsm-int.azure-int.net:443', {"encoded
   'no-cache' ]);
 
 nock('https://eastus2.keyvault_name.managedhsm-int.azure-int.net:443', {"encodedQueryParams":true})
-  .post('/backup', {"storageResourceUri":"https://chrissprim.blob.core.windows.net/backup","token":"blob_storage_sas_token"})
+  .post('/backup', {"storageResourceUri":"https://uri.blob.core.windows.net/backup","token":"blob_storage_sas_token"})
   .query(true)
   .reply(202, {"status":"InProgress","statusDetails":null,"error":{"code":null,"message":null,"innererror":null},"startTime":1599749038,"endTime":null,"jobId":"05ce6eb2019647feb2d82d8d05b2ef5a","azureStorageBlobContainerUri":null}, [ 'server',
   'Kestrel',
@@ -275,7 +275,7 @@ nock('https://eastus2.keyvault_name.managedhsm-int.azure-int.net:443', {"encoded
 nock('https://eastus2.keyvault_name.managedhsm-int.azure-int.net:443', {"encodedQueryParams":true})
   .get('/backup/05ce6eb2019647feb2d82d8d05b2ef5a/pending')
   .query(true)
-  .reply(200, {"azureStorageBlobContainerUri":"https://chrissprim.blob.core.windows.net/backup/mhsm-keyvault_name-2020091014435852","endTime":1599749049,"error":null,"jobId":"05ce6eb2019647feb2d82d8d05b2ef5a","startTime":1599749038,"status":"Succeeded","statusDetails":null}, [ 'server',
+  .reply(200, {"azureStorageBlobContainerUri":"https://uri.blob.core.windows.net/backup/mhsm-keyvault_name-2020091014435852","endTime":1599749049,"error":null,"jobId":"05ce6eb2019647feb2d82d8d05b2ef5a","startTime":1599749038,"status":"Succeeded","statusDetails":null}, [ 'server',
   'Kestrel',
   'x-ms-build-version',
   '1.0.20200909-2-c73be597-develop',
@@ -305,7 +305,7 @@ nock('https://eastus2.keyvault_name.managedhsm-int.azure-int.net:443', {"encoded
   'default-src \'self\'' ]);
 
 nock('https://eastus2.keyvault_name.managedhsm-int.azure-int.net:443', {"encodedQueryParams":true})
-  .put('/keys/beginBackupthenbeginSelectiveRestore/restore', {"sasTokenParameters":{"storageResourceUri":"https://chrissprim.blob.core.windows.net/backup","token":"blob_storage_sas_token"},"folder":"https://chrissprim.blob.core.windows.net/backup"})
+  .put('/keys/beginBackupthenbeginSelectiveRestore/restore', {"sasTokenParameters":{"storageResourceUri":"https://uri.blob.core.windows.net/backup","token":"blob_storage_sas_token"},"folder":"https://uri.blob.core.windows.net/backup"})
   .query(true)
   .reply(202, {"endTime":null,"error":{"code":null,"innererror":null,"message":null},"jobId":"2e7e281982334c0ca84186d8f6f40cca","startTime":1599749052,"status":"InProgress","statusDetails":null}, [ 'server',
   'Kestrel',

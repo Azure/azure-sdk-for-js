@@ -28,6 +28,7 @@ export async function authenticate(that: any): Promise<any> {
       AZURE_TENANT_ID: "azure_tenant_id",
       AZURE_CLIENT_SECRET: "azure_client_secret",
       CLIENT_OBJECT_ID: "01ea9a65-813e-4238-8204-bf7328d63fc6",
+      BLOB_STORAGE_URI: "https://uri.blob.core.windows.net/backup",
       BLOB_STORAGE_SAS_TOKEN: "blob_storage_sas_token",
       KEYVAULT_NAME: "keyvault_name",
       KEYVAULT_URI: "https://eastus2.keyvault_name.managedhsm-int.azure-int.net"

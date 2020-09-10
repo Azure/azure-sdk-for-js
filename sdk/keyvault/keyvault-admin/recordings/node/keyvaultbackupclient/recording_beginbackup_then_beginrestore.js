@@ -29,7 +29,7 @@ nock('https://eastus2.keyvault_name.managedhsm-int.azure-int.net:443', {"encoded
   'no-cache' ]);
 
 nock('https://eastus2.keyvault_name.managedhsm-int.azure-int.net:443', {"encodedQueryParams":true})
-  .post('/backup', {"storageResourceUri":"https://chrissprim.blob.core.windows.net/backup","token":"blob_storage_sas_token"})
+  .post('/backup', {"storageResourceUri":"https://uri.blob.core.windows.net/backup","token":"blob_storage_sas_token"})
   .query(true)
   .reply(202, {"status":"InProgress","statusDetails":null,"error":{"code":null,"message":null,"innererror":null},"startTime":1599748998,"endTime":null,"jobId":"01d247c294db47229eefb189ba0b8982","azureStorageBlobContainerUri":null}, [ 'server',
   'Kestrel',
@@ -193,7 +193,7 @@ nock('https://eastus2.keyvault_name.managedhsm-int.azure-int.net:443', {"encoded
 nock('https://eastus2.keyvault_name.managedhsm-int.azure-int.net:443', {"encodedQueryParams":true})
   .get('/backup/01d247c294db47229eefb189ba0b8982/pending')
   .query(true)
-  .reply(200, {"azureStorageBlobContainerUri":"https://chrissprim.blob.core.windows.net/backup/mhsm-keyvault_name-2020091014431833","endTime":1599749008,"error":null,"jobId":"01d247c294db47229eefb189ba0b8982","startTime":1599748998,"status":"Succeeded","statusDetails":null}, [ 'server',
+  .reply(200, {"azureStorageBlobContainerUri":"https://uri.blob.core.windows.net/backup/mhsm-keyvault_name-2020091014431833","endTime":1599749008,"error":null,"jobId":"01d247c294db47229eefb189ba0b8982","startTime":1599748998,"status":"Succeeded","statusDetails":null}, [ 'server',
   'Kestrel',
   'x-ms-build-version',
   '1.0.20200909-2-c73be597-develop',
@@ -223,7 +223,7 @@ nock('https://eastus2.keyvault_name.managedhsm-int.azure-int.net:443', {"encoded
   'default-src \'self\'' ]);
 
 nock('https://eastus2.keyvault_name.managedhsm-int.azure-int.net:443', {"encodedQueryParams":true})
-  .put('/restore', {"sasTokenParameters":{"storageResourceUri":"https://chrissprim.blob.core.windows.net/backup","token":"blob_storage_sas_token"},"folderToRestore":"https://chrissprim.blob.core.windows.net/backup"})
+  .put('/restore', {"sasTokenParameters":{"storageResourceUri":"https://uri.blob.core.windows.net/backup","token":"blob_storage_sas_token"},"folderToRestore":"https://uri.blob.core.windows.net/backup"})
   .query(true)
   .reply(202, {"endTime":null,"error":{"code":null,"innererror":null,"message":null},"jobId":"56bbbdab421c4fadb3592a2fc23fcf9c","startTime":1599749010,"status":"InProgress","statusDetails":null}, [ 'server',
   'Kestrel',
@@ -259,7 +259,7 @@ nock('https://eastus2.keyvault_name.managedhsm-int.azure-int.net:443', {"encoded
 nock('https://eastus2.keyvault_name.managedhsm-int.azure-int.net:443', {"encodedQueryParams":true})
   .get('/backup/56bbbdab421c4fadb3592a2fc23fcf9c/pending')
   .query(true)
-  .reply(200, {"azureStorageBlobContainerUri":"https://chrissprim.blob.core.windows.net/backup/https://chrissprim.blob.core.windows.net/backup","endTime":1599749010,"error":{"code":null,"innererror":null,"message":null},"jobId":"56bbbdab421c4fadb3592a2fc23fcf9c","startTime":1599749010,"status":"Failed","statusDetails":"Invalid backup provided"}, [ 'server',
+  .reply(200, {"azureStorageBlobContainerUri":"https://uri.blob.core.windows.net/backup/https://uri.blob.core.windows.net/backup","endTime":1599749010,"error":{"code":null,"innererror":null,"message":null},"jobId":"56bbbdab421c4fadb3592a2fc23fcf9c","startTime":1599749010,"status":"Failed","statusDetails":"Invalid backup provided"}, [ 'server',
   'Kestrel',
   'x-ms-build-version',
   '1.0.20200909-2-c73be597-develop',
