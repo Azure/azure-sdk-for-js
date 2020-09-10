@@ -325,7 +325,9 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
     );
 
     try {
-      await this._init(sendRequestOptions?.abortSignal);
+      if (!this.isOpen()) {
+        await this._init(sendRequestOptions?.abortSignal);
+      }
     } finally {
       clearTimeout(waitTimer);
     }

@@ -10,7 +10,7 @@ urlFragment: storage-blob-changefeed-javascript
 
 # Azure Storage Blob client library samples for JavaScript
 
-These sample programs show how to use the JavaScript client libraries for Azure Storage Blobs in some common scenarios.
+These sample programs show how to use the JavaScript client libraries for Azure Storage Blobs Change Feed in some common scenarios.
 
 | **File Name**       | **Description**                                                             |
 | ------------------- | --------------------------------------------------------------------------- |

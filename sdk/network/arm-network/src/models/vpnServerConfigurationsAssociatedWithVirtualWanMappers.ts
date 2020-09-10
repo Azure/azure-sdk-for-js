@@ -10,4 +10,4 @@ export {
   discriminators,
   CloudError,
   VpnServerConfigurationsResponse
-} from "./mappers";
+} from "../models/mappers";

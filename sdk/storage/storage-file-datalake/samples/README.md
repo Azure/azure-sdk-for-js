@@ -15,10 +15,6 @@ npm init -y
 npm install @azure/storage-file-datalake
 ```
 
-### Running Samples
-
-Also, change `"../.."` to `"@azure/storage-file-datalake"` in the samples in order to import the published package instead of using source code.
-
 ## Get account credentials of your storage account
 
 - In the [Azure Portal](https://portal.azure.com), go to **Dashboard > Storage > _your-storage-account_**.

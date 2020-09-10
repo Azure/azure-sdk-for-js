@@ -10,7 +10,6 @@ import { SASProtocol, SASQueryParameters } from "./SASQueryParameters";
 import { SERVICE_VERSION } from "./utils/constants";
 import { truncatedISO8061Date } from "./utils/utils.common";
 
-
 /**
  * ONLY AVAILABLE IN NODE.JS RUNTIME.
  *

@@ -2,7 +2,10 @@
  Setup: Enter your storage account name and shared key in main()
 */
 
-const { DataLakeServiceClient, StorageSharedKeyCredential } = require("../.."); // Change to "@azure/storage-file-datalake" in your package
+const { DataLakeServiceClient, StorageSharedKeyCredential } = require("@azure/storage-file-datalake");
+
+// Load the .env file if it exists
+require("dotenv").config();
 
 async function main() {
   // Enter your storage account name and shared key
@@ -95,11 +98,6 @@ async function streamToBuffer(readableStream) {
   });
 }
 
-// An async method returns a Promise object, which is compatible with then().catch() coding style.
-main()
-  .then(() => {
-    console.log("Successfully executed sample.");
-  })
-  .catch((err) => {
-    console.log(err.message);
-  });
+main().catch((err) => {
+  console.error("Error running sample:", err.message);
+});
