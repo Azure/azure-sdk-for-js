@@ -47,7 +47,8 @@ export function buildQueueOptions(queue: CreateQueueOptions): InternalQueueOptio
     EnablePartitioning: getStringOrUndefined(queue.enablePartitioning),
     ForwardDeadLetteredMessagesTo: getStringOrUndefined(queue.forwardDeadLetteredMessagesTo),
     ForwardTo: getStringOrUndefined(queue.forwardTo),
-    UserMetadata: getStringOrUndefined(queue.userMetadata)
+    UserMetadata: getStringOrUndefined(queue.userMetadata),
+    EnableExpress: getStringOrUndefined(queue.enableExpress)
   };
 }
 
@@ -101,7 +102,9 @@ export function buildQueue(rawQueue: any): QueueProperties {
 
     authorizationRules: getAuthorizationRulesOrUndefined(rawQueue[Constants.AUTHORIZATION_RULES]),
 
-    status: rawQueue[Constants.STATUS]
+    status: rawQueue[Constants.STATUS],
+
+    enableExpress: getBoolean(rawQueue[Constants.ENABLE_EXPRESS], "enableExpress")
   };
 }
 
@@ -248,6 +251,11 @@ export interface CreateQueueOptions extends OperationOptions {
    * `sb://<your-service-bus-namespace-endpoint>/<queue-or-topic-name>`
    */
   forwardDeadLetteredMessagesTo?: string;
+
+  /**
+   * Specifies whether express entities are enabled on queue.
+   */
+  enableExpress?: boolean;
 }
 
 /**
@@ -381,6 +389,11 @@ export interface QueueProperties {
    * `sb://<your-service-bus-namespace-endpoint>/<queue-or-topic-name>`
    */
   forwardDeadLetteredMessagesTo?: string;
+
+  /**
+   * Specifies whether express entities are enabled on queue.
+   */
+  readonly enableExpress: boolean;
 }
 /**
  * @internal
@@ -508,6 +521,11 @@ export interface InternalQueueOptions {
    * `sb://<your-service-bus-namespace-endpoint>/<queue-or-topic-name>`
    */
   ForwardDeadLetteredMessagesTo?: string;
+
+  /**
+   * Specifies whether express entities are enabled on queue.
+   */
+  EnableExpress?: string;
 }
 
 /**

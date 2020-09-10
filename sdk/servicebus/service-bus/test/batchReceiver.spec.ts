@@ -18,7 +18,10 @@ import {
   EntityName,
   getRandomTestClientType
 } from "./utils/testutils2";
-import { ReceivedMessage, ReceivedMessageWithLock } from "../src/serviceBusMessage";
+import {
+  ServiceBusReceivedMessage,
+  ServiceBusReceivedMessageWithLock
+} from "../src/serviceBusMessage";
 import { AbortController } from "@azure/abort-controller";
 import { ReceiverEvents } from "rhea-promise";
 
@@ -32,8 +35,8 @@ const anyRandomTestClientType = getRandomTestClientType();
 let serviceBusClient: ServiceBusClientForTests;
 let entityNames: EntityName;
 let sender: ServiceBusSender;
-let receiver: ServiceBusReceiver<ReceivedMessageWithLock>;
-let deadLetterReceiver: ServiceBusReceiver<ReceivedMessageWithLock>;
+let receiver: ServiceBusReceiver<ServiceBusReceivedMessageWithLock>;
+let deadLetterReceiver: ServiceBusReceiver<ServiceBusReceivedMessageWithLock>;
 
 async function beforeEachTest(entityType: TestClientType): Promise<void> {
   entityNames = await serviceBusClient.test.createTestEntities(entityType);
@@ -136,7 +139,7 @@ describe("Batching Receiver", () => {
 
     async function sendReceiveMsg(
       testMessages: ServiceBusMessage
-    ): Promise<ReceivedMessageWithLock> {
+    ): Promise<ServiceBusReceivedMessageWithLock> {
       await sender.sendMessages(testMessages);
       const msgs = await receiver.receiveMessages(1);
 
@@ -392,7 +395,7 @@ describe("Batching Receiver", () => {
 
     async function deadLetterMessage(
       testMessage: ServiceBusMessage
-    ): Promise<ReceivedMessageWithLock> {
+    ): Promise<ServiceBusReceivedMessageWithLock> {
       await sender.sendMessages(testMessage);
       const batch = await receiver.receiveMessages(1);
 
@@ -433,7 +436,7 @@ describe("Batching Receiver", () => {
 
     async function completeDeadLetteredMessage(
       testMessage: ServiceBusMessage,
-      deadletterClient: ServiceBusReceiver<ReceivedMessageWithLock>,
+      deadletterClient: ServiceBusReceiver<ServiceBusReceivedMessageWithLock>,
       expectedDeliverCount: number
     ): Promise<void> {
       const deadLetterMsgsBatch = await deadLetterReceiver.receiveMessages(1);
@@ -866,7 +869,9 @@ describe("Batching Receiver", () => {
   describe(noSessionTestClientType + ": Batch Receiver - disconnects", function(): void {
     let serviceBusClient: ServiceBusClientForTests;
     let sender: ServiceBusSender;
-    let receiver: ServiceBusReceiver<ReceivedMessageWithLock> | ServiceBusReceiver<ReceivedMessage>;
+    let receiver:
+      | ServiceBusReceiver<ServiceBusReceivedMessageWithLock>
+      | ServiceBusReceiver<ServiceBusReceivedMessage>;
 
     async function beforeEachTest(
       receiveMode: "peekLock" | "receiveAndDelete" = "peekLock"
@@ -901,7 +906,7 @@ describe("Batching Receiver", () => {
       let settledMessageCount = 0;
 
       const messages1 = await (receiver as ServiceBusReceiver<
-        ReceivedMessageWithLock
+        ServiceBusReceivedMessageWithLock
       >).receiveMessages(1, {
         maxWaitTimeInMs: 5000
       });
@@ -921,16 +926,16 @@ describe("Batching Receiver", () => {
       };
 
       // Simulate a disconnect being called with a non-retryable error.
-      (receiver as ServiceBusReceiverImpl<ReceivedMessageWithLock>)["_context"].connection[
-        "_connection"
-      ].idle();
+      (receiver as ServiceBusReceiverImpl<ServiceBusReceivedMessageWithLock>)[
+        "_context"
+      ].connection["_connection"].idle();
 
       // send a second message to trigger the message handler again.
       await sender.sendMessages(TestMessage.getSample());
 
       // wait for the 2nd message to be received.
       const messages2 = await (receiver as ServiceBusReceiver<
-        ReceivedMessageWithLock
+        ServiceBusReceivedMessageWithLock
       >).receiveMessages(1, {
         maxWaitTimeInMs: 5000
       });
@@ -952,10 +957,10 @@ describe("Batching Receiver", () => {
       // The `receiver_drained` handler is only added after the link is created,
       // which is a non-blocking task.
       await receiver.receiveMessages(1, { maxWaitTimeInMs: 1000 });
-      const receiverContext = (receiver as ServiceBusReceiverImpl<ReceivedMessageWithLock>)[
-        "_context"
-      ];
-      const batchingReceiver = (receiver as ServiceBusReceiverImpl<ReceivedMessage>)[
+      const receiverContext = (receiver as ServiceBusReceiverImpl<
+        ServiceBusReceivedMessageWithLock
+      >)["_context"];
+      const batchingReceiver = (receiver as ServiceBusReceiverImpl<ServiceBusReceivedMessage>)[
         "_batchingReceiver"
       ];
 
@@ -1017,10 +1022,10 @@ describe("Batching Receiver", () => {
       // The `receiver_drained` handler is only added after the link is created,
       // which is a non-blocking task.
       await receiver.receiveMessages(1, { maxWaitTimeInMs: 1000 });
-      const receiverContext = (receiver as ServiceBusReceiverImpl<ReceivedMessageWithLock>)[
-        "_context"
-      ];
-      const batchingReceiver = (receiver as ServiceBusReceiverImpl<ReceivedMessage>)[
+      const receiverContext = (receiver as ServiceBusReceiverImpl<
+        ServiceBusReceivedMessageWithLock
+      >)["_context"];
+      const batchingReceiver = (receiver as ServiceBusReceiverImpl<ServiceBusReceivedMessage>)[
         "_batchingReceiver"
       ];
 
@@ -1089,8 +1094,10 @@ describe("Batching Receiver", () => {
       // The `receiver_drained` handler is only added after the link is created,
       // which is a non-blocking task.
       await receiver.receiveMessages(1, { maxWaitTimeInMs: 1000 });
-      const receiverContext = (receiver as ServiceBusReceiverImpl<ReceivedMessage>)["_context"];
-      const batchingReceiver = (receiver as ServiceBusReceiverImpl<ReceivedMessage>)[
+      const receiverContext = (receiver as ServiceBusReceiverImpl<ServiceBusReceivedMessage>)[
+        "_context"
+      ];
+      const batchingReceiver = (receiver as ServiceBusReceiverImpl<ServiceBusReceivedMessage>)[
         "_batchingReceiver"
       ];
 
@@ -1133,10 +1140,10 @@ describe("Batching Receiver", () => {
       // The `receiver_drained` handler is only added after the link is created,
       // which is a non-blocking task.
       await receiver.receiveMessages(1, { maxWaitTimeInMs: 1000 });
-      const receiverContext = (receiver as ServiceBusReceiverImpl<ReceivedMessageWithLock>)[
-        "_context"
-      ];
-      const batchingReceiver = (receiver as ServiceBusReceiverImpl<ReceivedMessage>)[
+      const receiverContext = (receiver as ServiceBusReceiverImpl<
+        ServiceBusReceivedMessageWithLock
+      >)["_context"];
+      const batchingReceiver = (receiver as ServiceBusReceiverImpl<ServiceBusReceivedMessage>)[
         "_batchingReceiver"
       ];
 

@@ -1,13 +1,16 @@
 # Release History
 
-## 5.3.0 (Unreleased)
+## 5.3.1 (Unreleased)
+
+
+## 5.3.0 (2020-09-08)
 
 ### New features:
 
 - Adds `loadBalancingOptions` to the `EventHubConsumerClient` to add control around
   how aggressively the client claims partitions while load balancing.
   ([PR 9706](https://github.com/Azure/azure-sdk-for-js/pull/9706)).
-- Support using the SharedAccessSignature from the connection string. 
+- Support using the SharedAccessSignature from the connection string.
   ([PR 10951](https://github.com/Azure/azure-sdk-for-js/pull/10951)).
 
 ### Bug fixes:

@@ -1,9 +1,10 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { extractReceiverArguments } from "../../src/serviceBusClient";
+import { extractReceiverArguments, ServiceBusClient } from "../../src/serviceBusClient";
 import chai from "chai";
 import { CreateSessionReceiverOptions } from "../../src/models";
+import { entityPathMisMatchError } from "../../src/util/errors";
 const assert = chai.assert;
 
 const allLockModes: ("peekLock" | "receiveAndDelete")[] = ["peekLock", "receiveAndDelete"];
@@ -89,6 +90,61 @@ describe("serviceBusClient unit tests", () => {
           }),
         `Invalid receiveMode '${badReceiveMode}' provided. Valid values are 'peekLock' and 'receiveAndDelete'`
       );
+    });
+  });
+
+  describe("entityPath in connection string", () => {
+    const connectionString =
+      "Endpoint=sb://testnamespace/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=testKey;EntityPath=testEntityPath";
+
+    it("mismatch with queue in createReceiver", () => {
+      try {
+        const client = new ServiceBusClient(connectionString);
+        client.createReceiver("my-queue");
+        throw new Error("Receiver should not have been created successfully.");
+      } catch (error) {
+        assert.equal(error.message, entityPathMisMatchError);
+      }
+    });
+
+    it("mismatch with topic and subscription in createReceiver", () => {
+      try {
+        const client = new ServiceBusClient(connectionString);
+        client.createReceiver("my-topic", "my-subscription");
+        throw new Error("Receiver should not have been created successfully.");
+      } catch (error) {
+        assert.equal(error.message, entityPathMisMatchError);
+      }
+    });
+
+    it("mismatch with queue in createSessionReceiver", async () => {
+      try {
+        const client = new ServiceBusClient(connectionString);
+        await client.createSessionReceiver("my-queue");
+        throw new Error("Receiver should not have been created successfully.");
+      } catch (error) {
+        assert.equal(error.message, entityPathMisMatchError);
+      }
+    });
+
+    it("mismatch with topic and subscription in createSessionReceiver", async () => {
+      try {
+        const client = new ServiceBusClient(connectionString);
+        await client.createSessionReceiver("my-topic", "my-subscription");
+        throw new Error("Receiver should not have been created successfully.");
+      } catch (error) {
+        assert.equal(error.message, entityPathMisMatchError);
+      }
+    });
+
+    it("mismatch with queue in createSender", () => {
+      try {
+        const client = new ServiceBusClient(connectionString);
+        client.createSender("my-queue");
+        throw new Error("Sender should not have been created successfully.");
+      } catch (error) {
+        assert.equal(error.message, entityPathMisMatchError);
+      }
     });
   });
 });

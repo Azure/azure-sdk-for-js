@@ -8,7 +8,7 @@ import * as dotenv from "dotenv";
 import Long from "long";
 import { MessagingError, ServiceBusClient, ServiceBusSessionReceiver } from "../src";
 import { ServiceBusSender } from "../src/sender";
-import { DispositionType, ReceivedMessageWithLock } from "../src/serviceBusMessage";
+import { DispositionType, ServiceBusReceivedMessageWithLock } from "../src/serviceBusMessage";
 import { getReceiverClosedErrorMsg, getSenderClosedErrorMsg } from "../src/util/errors";
 import { EnvVarNames, getEnvVars, isNode } from "../test/utils/envVarUtils";
 import { checkWithTimeout, isMessagingError, TestClientType, TestMessage } from "./utils/testUtils";
@@ -359,8 +359,8 @@ describe("Test ServiceBusClient with TokenCredentials", function(): void {
 describe("Errors after close()", function(): void {
   let sbClient: ServiceBusClientForTests;
   let sender: ServiceBusSender;
-  let receiver: ServiceBusReceiver<ReceivedMessageWithLock>;
-  let receivedMessage: ReceivedMessageWithLock;
+  let receiver: ServiceBusReceiver<ServiceBusReceivedMessageWithLock>;
+  let receivedMessage: ServiceBusReceivedMessageWithLock;
   let entityName: EntityName;
 
   afterEach(async () => {
@@ -579,7 +579,9 @@ describe("Errors after close()", function(): void {
    */
   async function testSessionReceiver(expectedErrorMsg: string): Promise<void> {
     await testReceiver(expectedErrorMsg);
-    const sessionReceiver = receiver as ServiceBusSessionReceiver<ReceivedMessageWithLock>;
+    const sessionReceiver = receiver as ServiceBusSessionReceiver<
+      ServiceBusReceivedMessageWithLock
+    >;
 
     let errorPeek: string = "";
     await sessionReceiver.peekMessages(1).catch((err) => {
