@@ -90,15 +90,6 @@ directive:
       $.Path.properties.lastModified.format = "date-time-rfc1123";
 ```
 
-### Update service version
-
-```yaml
-directive:
-  - from: swagger-document
-    where: $.parameters.ApiVersionParameter
-    transform: $.enum = [ "2019-12-12" ];
-```
-
 ### Rename eTag -> etag
 
 ```yaml
