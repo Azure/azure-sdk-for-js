@@ -11,8 +11,14 @@ import { getKeyvaultName, getKeyVaultUrl } from "./common";
 import { uniqueString } from "./recorder";
 
 export async function authenticate(that: any): Promise<any> {
+  const generatedUUIDs: string[] = [];
   function generateFakeUUID(): string {
-    return isPlaybackMode() ? "b36b00af-89c6-435f-a43d-9a3087015c27" : uuidv4();
+    if (isPlaybackMode()) {
+      return "b36b00af-89c6-435f-a43d-9a3087015c27";
+    }
+    const uuid = uuidv4();
+    generatedUUIDs.push(uuid);
+    return uuid;
   }
 
   const secretSuffix = uniqueString();
@@ -23,18 +29,23 @@ export async function authenticate(that: any): Promise<any> {
       AZURE_CLIENT_SECRET: "azure_client_secret",
       CLIENT_OBJECT_ID: "01ea9a65-813e-4238-8204-bf7328d63fc6",
       BLOB_STORAGE_SAS_TOKEN: "blob_storage_sas_token",
-      KEYVAULT_NAME: "keyvault_name"
+      KEYVAULT_NAME: "keyvault_name",
+      KEYVAULT_URI: "https://eastus2.keyvault_name.managedhsm-int.azure-int.net"
     },
     customizationsOnRecordings: [
       (recording: any): any =>
         recording.replace(/"access_token":"[^"]*"/g, `"access_token":"access_token"`),
       (recording: any): any =>
         secretSuffix === "" ? recording : recording.replace(new RegExp(secretSuffix, "g"), ""),
-      (recording: any): any =>
-        recording.replace(
-          /^[0-9a-fA-F]{8}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{4}-[0-9a-fA-F]{12}$/gi,
-          "b36b00af-89c6-435f-a43d-9a3087015c27"
-        ) // Fake UUID
+      (recording: any): any => {
+        for (const uuid of generatedUUIDs) {
+          recording = recording.replace(
+            new RegExp(uuid, "g"),
+            "b36b00af-89c6-435f-a43d-9a3087015c27"
+          );
+        }
+        return recording;
+      }
     ],
     queryParametersToSkip: []
   };

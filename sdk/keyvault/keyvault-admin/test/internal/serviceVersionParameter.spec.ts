@@ -15,40 +15,44 @@ type ApIVersions = "7.2-preview";
 describe("The keyvault-admin clients should set the serviceVersion", () => {
   const keyVaultUrl = `https://eastus2.keyvault_name.managedhsm-int.azure-int.net`;
 
-  describe("KeyVaultAccessControlClient", () => {
-    const mockHttpClient: HttpClient = {
+  function makeHTTPMock(path: string, status = 200): HttpClient {
+    return {
       async sendRequest(httpRequest: WebResourceLike): Promise<HttpOperationResponse> {
         return {
-          status: 200,
+          status,
           headers: new HttpHeaders(),
           request: httpRequest,
           parsedBody: {
-            id: `${keyVaultUrl}/providers/Microsoft.Authorization/roleDefinitions`,
+            id: `${keyVaultUrl}${path}`,
             attributes: {}
           }
         };
       }
     };
-  
-    let sandbox: SinonSandbox;
-    let spy: SinonSpy<[WebResourceLike], Promise<HttpOperationResponse>>;
-    let credential: ClientSecretCredential;
-  
+  }
+
+  let mockHttpClient: HttpClient;
+  let sandbox: SinonSandbox;
+  let spy: SinonSpy<[WebResourceLike], Promise<HttpOperationResponse>>;
+  let credential: ClientSecretCredential;
+
+  afterEach(() => {
+    sandbox.restore();
+  });
+
+  describe("KeyVaultAccessControlClient", () => {
     beforeEach(async () => {
+      mockHttpClient = makeHTTPMock("/providers/Microsoft.Authorization/roleDefinitions");
       sandbox = createSandbox();
       spy = sandbox.spy(mockHttpClient, "sendRequest");
-  
+
       credential = await new ClientSecretCredential(
         env.AZURE_TENANT_ID!,
         env.AZURE_CLIENT_ID!,
         env.AZURE_CLIENT_SECRET!
       );
     });
-  
-    afterEach(() => {
-      sandbox.restore();
-    });
-  
+
     it("it should default to the latest API version", async function() {
       const client = new KeyVaultAccessControlClient(keyVaultUrl, credential, {
         httpClient: mockHttpClient
@@ -84,45 +88,23 @@ describe("The keyvault-admin clients should set the serviceVersion", () => {
   });
 
   describe("KeyVaultBackupClient", () => {
-    const mockHttpClient: HttpClient = {
-      async sendRequest(httpRequest: WebResourceLike): Promise<HttpOperationResponse> {
-        return {
-          status: 200,
-          headers: new HttpHeaders(),
-          request: httpRequest,
-          parsedBody: {
-            id: `${keyVaultUrl}/backup`,
-            attributes: {}
-          }
-        };
-      }
-    };
-  
-    let sandbox: SinonSandbox;
-    let spy: SinonSpy<[WebResourceLike], Promise<HttpOperationResponse>>;
-    let credential: ClientSecretCredential;
-  
     beforeEach(async () => {
+      mockHttpClient = makeHTTPMock("/backup", 202);
       sandbox = createSandbox();
       spy = sandbox.spy(mockHttpClient, "sendRequest");
-  
+
       credential = await new ClientSecretCredential(
         env.AZURE_TENANT_ID!,
         env.AZURE_CLIENT_ID!,
         env.AZURE_CLIENT_SECRET!
       );
     });
-  
-    afterEach(() => {
-      sandbox.restore();
-    });
-  
+
     it("it should default to the latest API version", async function() {
       const client = new KeyVaultBackupClient(keyVaultUrl, credential, {
         httpClient: mockHttpClient
       });
-      const backupPoller = await client.beginBackup("secretName", "value");
-      await backupPoller.pollUntilDone();
+      await client.beginBackup("secretName", "value");
 
       const calls = spy.getCalls();
       assert.equal(calls[0].args[0].url, `${keyVaultUrl}/backup?api-version=${LATEST_API_VERSION}`);
@@ -139,8 +121,7 @@ describe("The keyvault-admin clients should set the serviceVersion", () => {
         serviceVersion: serviceVersion as ApIVersions,
         httpClient: mockHttpClient
       });
-      const backupPoller = await client.beginBackup("secretName", "value");
-      await backupPoller.pollUntilDone();
+      await client.beginBackup("secretName", "value");
 
       const calls = spy.getCalls();
       const lastCall = calls[calls.length - 1];

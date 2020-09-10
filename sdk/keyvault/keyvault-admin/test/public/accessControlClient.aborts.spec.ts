@@ -40,6 +40,19 @@ describe("Aborting KeyVaultAccessControlClient's requests", () => {
     });
   });
 
+  it("can abort listRoleAssignments", async function() {
+    const controller = new AbortController();
+    controller.abort();
+
+    await assertThrowsAbortError(async () => {
+      await client
+        .listRoleAssignments("/", {
+          abortSignal: controller.signal
+        })
+        .next();
+    });
+  });
+
   it("can abort createRoleAssignment", async function() {
     const roleDefinitionId = generateFakeUUID();
     const name = generateFakeUUID();

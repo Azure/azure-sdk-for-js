@@ -157,7 +157,7 @@ async function update(
       }
     });
 
-    const { startTime, jobId, endTime, error } = serviceOperation;
+    const { startTime, jobId, endTime, error, status, statusDetails } = serviceOperation;
 
     if (!startTime) {
       state.error = new Error(`Missing "startTime" from the full restore operation.`);
@@ -169,8 +169,8 @@ async function update(
     state.jobId = jobId;
     state.endTime = endTime;
     state.startTime = startTime;
-    state.status = serviceOperation.status;
-    state.statusDetails = serviceOperation.statusDetails;
+    state.status = status;
+    state.statusDetails = statusDetails;
 
     if (endTime) {
       state.isCompleted = true;
