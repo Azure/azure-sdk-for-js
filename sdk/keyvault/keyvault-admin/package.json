@@ -73,6 +73,7 @@
   },
   "sideEffects": false,
   "dependencies": {
+    "@azure/abort-controller": "^1.0.0",
     "@azure/core-http": "^1.1.6",
     "@azure/core-lro": "^1.0.2",
     "@azure/core-paging": "^1.1.1",

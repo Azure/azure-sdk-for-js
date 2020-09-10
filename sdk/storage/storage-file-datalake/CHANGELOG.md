@@ -1,5 +1,8 @@
 # Release History
 
+## 12.1.1 (Unreleased)
+
+
 ## 12.1.0 (2020-09-08)
 
 - Fixed `DataLakeFileClient.uploadStream()` to support `chunkSize` larger than `buffer.constants.MAX_LENGTH`.
