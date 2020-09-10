@@ -65,7 +65,7 @@ describe("KeyVaultAccessControlClient", () => {
       //
       console.log({ roleAssignment });
       assert.equal(roleAssignment.type, expectedType);
-      receivedRoles.push(roleAssignment.roleName!);
+      receivedRoles.push(roleAssignment.name);
     }
 
     // Roles might change
