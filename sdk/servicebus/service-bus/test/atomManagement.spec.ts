@@ -2174,7 +2174,7 @@ describe("Atom management - Authentication", function(): void {
       status: "ReceiveDisabled",
       subscriptionName: managementSubscription1,
       topicName: managementTopic1,
-      availabilityStatus: "Unknow"
+      availabilityStatus: "Unknown"
     }
   }
 ].forEach((testCase) => {
