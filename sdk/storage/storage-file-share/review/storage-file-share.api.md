@@ -835,6 +835,8 @@ export interface FileServiceProperties {
     cors?: CorsRule[];
     hourMetrics?: Metrics;
     minuteMetrics?: Metrics;
+    // Warning: (ae-forgotten-export) The symbol "ProtocolSettings" needs to be exported by the entry point index.d.ts
+    protocolSettings?: ProtocolSettings;
 }
 
 // @public
@@ -1582,6 +1584,9 @@ export interface ShareGetPropertiesHeaders {
     errorCode?: string;
     etag?: string;
     lastModified?: Date;
+    leaseDuration?: LeaseDurationType;
+    leaseState?: LeaseStateType;
+    leaseStatus?: LeaseStatusType;
     // (undocumented)
     metadata?: {
         [propertyName: string]: string;
@@ -1679,6 +1684,9 @@ export interface ShareProperties {
     etag: string;
     // (undocumented)
     lastModified: Date;
+    leaseDuration?: LeaseDurationType;
+    leaseState?: LeaseStateType;
+    leaseStatus?: LeaseStatusType;
     // (undocumented)
     nextAllowedQuotaDowngradeTime?: Date;
     // (undocumented)
