@@ -14,7 +14,11 @@
     "typescript",
     "browser",
     "isomorphic",
-    "keyvault"
+    "keyvault",
+    "backup",
+    "restore",
+    "access",
+    "role"
   ],
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
