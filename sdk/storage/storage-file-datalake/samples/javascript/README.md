@@ -5,17 +5,16 @@ languages:
 products:
   - azure
   - azure-storage
-urlFragment: storage-blob-changefeed-javascript
+urlFragment: storage-file-datalake-javascript
 ---
 
-# Azure Storage Blob client library samples for JavaScript
+# Azure Data Lake Storage client library samples for JavaScript
 
-These sample programs show how to use the JavaScript client libraries for Azure Storage Blobs Change Feed in some common scenarios.
+These sample programs show how to use the JavaScript client libraries for Azure Data Lake Storage in some common scenarios.
 
-| **File Name**       | **Description**                                                             |
-| ------------------- | --------------------------------------------------------------------------- |
-| [basic.js][basic]   | iterate through the Change Feed between a start and end date                |
-| [resume.js][resume] | resuming a previous iteration of a Change Feed using the continuation token |
+| **File Name**     | **Description**                                                                                                                 |
+| ----------------- | ------------------------------------------------------------------------------------------------------------------------------- |
+| [basic.js][basic] | authenticate with the service using an account name & key; create and delete filesystem; create and download a file, list paths |
 
 ## Prerequisites
 
@@ -51,8 +50,7 @@ npx cross-env ACCOUNT_NAME="<account name>" ACCOUNT_KEY="<account key>" node bas
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[basic]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-blob-changefeed/samples/javascript/basic.js
-[resume]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-blob-changefeed/samples/javascript/resume.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/storage-blob-changefeed
+[basic]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-file-datalake/samples/javascript/basic.js
+[apiref]: https://docs.microsoft.com/javascript/api/@azure/storage-file-datalake
 [azstorage]: https://docs.microsoft.com/azure/storage/common/storage-account-overview
 [freesub]: https://azure.microsoft.com/free/

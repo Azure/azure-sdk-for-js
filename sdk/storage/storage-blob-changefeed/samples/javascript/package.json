@@ -1,8 +1,8 @@
 {
-  "name": "azure-storage-blob-samples-js",
+  "name": "azure-storage-blob-changefeed-samples-js",
   "private": true,
   "version": "0.1.0",
-  "description": "Azure Storage Blob client library samples for JavaScript",
+  "description": "Azure Storage Blob Change Feed client library samples for JavaScript",
   "engine": {
     "node": ">=8.0.0"
   },
@@ -14,6 +14,7 @@
     "Azure",
     "Storage",
     "Blob",
+    "Change Feed",
     "Node.js",
     "JavaScript"
   ],
@@ -25,9 +26,8 @@
   "homepage": "https://github.com/Azure/azure-sdk-for-js#readme",
   "sideEffects": false,
   "dependencies": {
-    "@azure/abort-controller": "latest",
-    "@azure/identity": "latest",
     "@azure/storage-blob": "latest",
+    "@azure/storage-blob-changefeed": "latest",
     "dotenv": "^8.2.0"
   },
   "devDependencies": {

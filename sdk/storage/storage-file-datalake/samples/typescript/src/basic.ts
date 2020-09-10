@@ -2,9 +2,13 @@
  Setup: Enter your storage account name and shared key in main()
 */
 
-const { DataLakeServiceClient, StorageSharedKeyCredential } = require("../.."); // Change to "@azure/storage-file-datalake" in your package
+import { DataLakeServiceClient, StorageSharedKeyCredential } from "@azure/storage-file-datalake";
 
-async function main() {
+// Load the .env file if it exists
+import * as dotenv from "dotenv";
+dotenv.config();
+
+export async function main() {
   // Enter your storage account name and shared key
   const account = process.env.ACCOUNT_NAME || "";
   const accountKey = process.env.ACCOUNT_KEY || "";
@@ -75,7 +79,7 @@ async function main() {
   const readFileResponse = await fileClient.read();
   console.log(
     "Downloaded file content",
-    (await streamToBuffer(readFileResponse.readableStreamBody)).toString()
+    (await streamToBuffer(readFileResponse.readableStreamBody!)).toString()
   );
 
   // Delete filesystem
@@ -98,11 +102,6 @@ async function streamToBuffer(readableStream: NodeJS.ReadableStream): Promise<Bu
   });
 }
 
-// An async method returns a Promise object, which is compatible with then().catch() coding style.
-main()
-  .then(() => {
-    console.log("Successfully executed sample.");
-  })
-  .catch((err) => {
-    console.log(err.message);
-  });
+main().catch((err) => {
+  console.error("Error running sample:", err.message);
+});
