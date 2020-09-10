@@ -1,4 +1,4 @@
-### 2020-08-18 1.0.0-preview.17
+### 2020-09-10 1.0.0-preview.17
 
 - Fixes [bug 10943](https://github.com/Azure/azure-sdk-for-js/issues/10943) where accessing the address
   field when timing out could cause a fatal error.
