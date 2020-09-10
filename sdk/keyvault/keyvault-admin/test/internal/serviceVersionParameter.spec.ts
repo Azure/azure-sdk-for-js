@@ -36,6 +36,14 @@ describe("The keyvault-admin clients should set the serviceVersion", () => {
   let spy: SinonSpy<[WebResourceLike], Promise<HttpOperationResponse>>;
   let credential: ClientSecretCredential;
 
+  beforeEach(async () => {
+    credential = await new ClientSecretCredential(
+      env.AZURE_TENANT_ID!,
+      env.AZURE_CLIENT_ID!,
+      env.AZURE_CLIENT_SECRET!
+    );
+  });
+
   afterEach(() => {
     sandbox.restore();
   });
@@ -45,12 +53,6 @@ describe("The keyvault-admin clients should set the serviceVersion", () => {
       mockHttpClient = makeHTTPMock("/providers/Microsoft.Authorization/roleDefinitions");
       sandbox = createSandbox();
       spy = sandbox.spy(mockHttpClient, "sendRequest");
-
-      credential = await new ClientSecretCredential(
-        env.AZURE_TENANT_ID!,
-        env.AZURE_CLIENT_ID!,
-        env.AZURE_CLIENT_SECRET!
-      );
     });
 
     it("it should default to the latest API version", async function() {
@@ -67,11 +69,6 @@ describe("The keyvault-admin clients should set the serviceVersion", () => {
 
     it("it should allow us to specify an API version from a specific set of versions", async function() {
       const serviceVersion = "7.2-preview";
-      const credential = await new ClientSecretCredential(
-        env.AZURE_TENANT_ID!,
-        env.AZURE_CLIENT_ID!,
-        env.AZURE_CLIENT_SECRET!
-      );
       const client = new KeyVaultAccessControlClient(keyVaultUrl, credential, {
         serviceVersion: serviceVersion as ApIVersions,
         httpClient: mockHttpClient
@@ -92,12 +89,6 @@ describe("The keyvault-admin clients should set the serviceVersion", () => {
       mockHttpClient = makeHTTPMock("/backup", 202);
       sandbox = createSandbox();
       spy = sandbox.spy(mockHttpClient, "sendRequest");
-
-      credential = await new ClientSecretCredential(
-        env.AZURE_TENANT_ID!,
-        env.AZURE_CLIENT_ID!,
-        env.AZURE_CLIENT_SECRET!
-      );
     });
 
     it("it should default to the latest API version", async function() {
@@ -112,11 +103,6 @@ describe("The keyvault-admin clients should set the serviceVersion", () => {
 
     it("it should allow us to specify an API version from a specific set of versions", async function() {
       const serviceVersion = "7.2-preview";
-      const credential = await new ClientSecretCredential(
-        env.AZURE_TENANT_ID!,
-        env.AZURE_CLIENT_ID!,
-        env.AZURE_CLIENT_SECRET!
-      );
       const client = new KeyVaultBackupClient(keyVaultUrl, credential, {
         serviceVersion: serviceVersion as ApIVersions,
         httpClient: mockHttpClient
