@@ -386,10 +386,19 @@ describe("RequestResponseLink", function() {
       await link.sendRequest(request, { times: 1 });
       assert.equal(clearTimeoutCalledCount, 1, "Expected clearTimeout to be called once.");
     });
+  });
+
+  describe(".source == undefined", () => {
+    let clock: ReturnType<typeof useFakeTimers>;
+    beforeEach(() => {
+      clock = useFakeTimers();
+    });
+
+    afterEach(() => {
+      clock.restore();
+    });
 
     it("sendRequest doesn't fault if .source is not set in the receiver", async function() {
-      const clock = useFakeTimers();
-
       const rcvr = new EventEmitter() as Receiver;
       let sourceWasCalled = false;
       Object.defineProperty(rcvr, "source", {
