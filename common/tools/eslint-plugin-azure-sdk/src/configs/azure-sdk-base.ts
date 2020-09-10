@@ -70,6 +70,7 @@ export default {
     "@typescript-eslint/no-useless-constructor": "error",
     "@typescript-eslint/no-use-before-define": "off",
     "@typescript-eslint/no-var-requires": "off",
+    "no-duplicate-imports": ["error", { includeExports: true }],
     // https://github.com/Azure/azure-sdk-for-js/issues/7608
     // "@typescript-eslint/member-ordering": [
     //   "error",

@@ -11,7 +11,8 @@ import {
   SenderOptions,
   generate_uuid,
   string_to_uuid,
-  types
+  types,
+  Typed
 } from "rhea-promise";
 import {
   AmqpMessage,
@@ -29,11 +30,12 @@ import {
   ServiceBusMessage,
   ServiceBusMessageImpl,
   getMessagePropertyTypeMismatchError,
-  toAmqpMessage
+  toAmqpMessage,
+  InternalReceiveMode,
+  fromAmqpMessage
 } from "../serviceBusMessage";
 import { LinkEntity, RequestResponseLinkOptions } from "./linkEntity";
 import { logger } from "../log";
-import { InternalReceiveMode, fromAmqpMessage } from "../serviceBusMessage";
 import { toBuffer } from "../util/utils";
 import {
   logError,
@@ -43,7 +45,6 @@ import {
   throwTypeErrorIfParameterNotLong,
   throwTypeErrorIfParameterTypeMismatch
 } from "../util/errors";
-import { Typed } from "rhea-promise";
 import { max32BitNumber } from "../util/constants";
 import { Buffer } from "buffer";
 import { OperationOptionsBase } from "./../modelsToBeSharedWithEventHubs";
