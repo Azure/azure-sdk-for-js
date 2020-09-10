@@ -2,16 +2,12 @@
 // Licensed under the MIT license. See LICENSE file in the project root for full license information.
 
 import * as assert from "assert";
-import {
-  RequestResponseLink,
-  AmqpMessage,
-  ErrorNameConditionMapper
-} from "../src";
-import { Connection } from "rhea-promise";
-import { stub } from "sinon";
+import { RequestResponseLink, AmqpMessage, ErrorNameConditionMapper } from "../src";
+import { Connection, Receiver, Sender, Session } from "rhea-promise";
+import { stub, useFakeTimers, spy } from "sinon";
 import EventEmitter from "events";
 
-interface Window { }
+interface Window {}
 declare let self: Window & typeof globalThis;
 
 function getGlobal() {
@@ -22,8 +18,8 @@ function getGlobal() {
   }
 }
 
-describe("RequestResponseLink", function () {
-  it("should send a request and receive a response correctly", async function () {
+describe("RequestResponseLink", function() {
+  it("should send a request and receive a response correctly", async function() {
     const connectionStub = stub(new Connection());
     const rcvr = new EventEmitter();
     let req: any = {};
@@ -45,11 +41,7 @@ describe("RequestResponseLink", function () {
     const sessionStub = await connectionStub.createSession();
     const senderStub = await sessionStub.createSender();
     const receiverStub = await sessionStub.createReceiver();
-    const link = new RequestResponseLink(
-      sessionStub as any,
-      senderStub,
-      receiverStub
-    );
+    const link = new RequestResponseLink(sessionStub as any, senderStub, receiverStub);
     const request: AmqpMessage = {
       body: "Hello World!!"
     };
@@ -100,11 +92,7 @@ describe("RequestResponseLink", function () {
     const sessionStub = await connectionStub.createSession();
     const senderStub = await sessionStub.createSender();
     const receiverStub = await sessionStub.createReceiver();
-    const link = new RequestResponseLink(
-      sessionStub as any,
-      senderStub,
-      receiverStub
-    );
+    const link = new RequestResponseLink(sessionStub as any, senderStub, receiverStub);
     const request: AmqpMessage = {
       body: "Hello World!!"
     };
@@ -142,7 +130,7 @@ describe("RequestResponseLink", function () {
     assert.equal(response.correlation_id, messageId);
   });
 
-  it("should send parallel requests and receive responses correctly", async function () {
+  it("should send parallel requests and receive responses correctly", async function() {
     const connectionStub = stub(new Connection());
     const rcvr = new EventEmitter();
     let reqs: AmqpMessage[] = [];
@@ -208,7 +196,7 @@ describe("RequestResponseLink", function () {
     assert.equal(responses[1].correlation_id, reqs[1].message_id);
   });
 
-  it("should send parallel requests and receive responses correctly (one failure)", async function () {
+  it("should send parallel requests and receive responses correctly (one failure)", async function() {
     const connectionStub = stub(new Connection());
     const rcvr = new EventEmitter();
     let reqs: AmqpMessage[] = [];
@@ -304,7 +292,7 @@ describe("RequestResponseLink", function () {
       _global.clearTimeout = originalClearTimeout;
     });
 
-    it("sendRequest clears timeout after error message", async function () {
+    it("sendRequest clears timeout after error message", async function() {
       const connectionStub = stub(new Connection());
       const rcvr = new EventEmitter();
       let req: any = {};
@@ -354,7 +342,7 @@ describe("RequestResponseLink", function () {
       assert.equal(clearTimeoutCalledCount, 1, "Expected clearTimeout to be called once.");
     });
 
-    it("sendRequest clears timeout after successful message", async function () {
+    it("sendRequest clears timeout after successful message", async function() {
       const connectionStub = stub(new Connection());
       const rcvr = new EventEmitter();
       let req: any = {};
@@ -397,6 +385,73 @@ describe("RequestResponseLink", function () {
 
       await link.sendRequest(request, { times: 1 });
       assert.equal(clearTimeoutCalledCount, 1, "Expected clearTimeout to be called once.");
+    });
+
+    it("sendRequest doesn't fault if .source is not set in the receiver", async function() {
+      const clock = useFakeTimers();
+
+      const rcvr = new EventEmitter() as Receiver;
+      let sourceWasCalled = false;
+      Object.defineProperty(rcvr, "source", {
+        get: () => {
+          sourceWasCalled = true;
+          return undefined;
+        }
+      });
+
+      const sender = {
+        send: (_request: any) => {
+          clock.tick(5000);
+        }
+      } as Sender;
+
+      const sendSpy = spy(sender, "send");
+
+      const link = new RequestResponseLink(
+        ({
+          connection: {
+            id: "connection-1"
+          }
+        } as any) as Session,
+        sender,
+        rcvr
+      );
+
+      const linkCloseSpy = spy(link, "close");
+
+      const request: AmqpMessage = {
+        body: "Hello World!!"
+      };
+      const testFailureMessage = "Test failure";
+
+      try {
+        // we'll force a timeout here while also causing the receiverStub to have an invalid .source
+        const requestPromise = link.sendRequest(request, {
+          times: 1,
+          delayInSeconds: 5,
+          timeoutInSeconds: 1
+        });
+
+        // should time out.
+        await requestPromise;
+
+        throw new Error(testFailureMessage);
+      } catch (err) {
+        assert.equal(err.message, "The receiver is invalid. Please try again later.");
+      }
+
+      assert.equal(
+        linkCloseSpy.called,
+        true,
+        "Link should be called when we detect .source == undefined"
+      );
+      assert.equal(sendSpy.called, 1, "Should abort after a single retry");
+
+      assert.equal(
+        sourceWasCalled,
+        true,
+        ".source should have been checked (and properly ignored) in the actionAfterTimeout call"
+      );
     });
   });
 });

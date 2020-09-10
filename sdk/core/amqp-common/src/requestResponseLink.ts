@@ -17,7 +17,7 @@ import {
   ReqResLink,
   generate_uuid
 } from "rhea-promise";
-import { translate, ConditionStatusMapper } from "./errors";
+import { translate, ConditionStatusMapper, MessagingError } from "./errors";
 import * as log from "./log";
 
 /**
@@ -53,11 +53,7 @@ export class RequestResponseLink implements ReqResLink {
    * @param {Sender} sender The amqp sender link.
    * @param {Receiver} receiver The amqp receiver link.
    */
-  constructor(
-    public session: Session,
-    public sender: Sender,
-    public receiver: Receiver
-  ) {
+  constructor(public session: Session, public sender: Sender, public receiver: Receiver) {
     this.session = session;
     this.sender = sender;
     this.receiver = receiver;
@@ -76,9 +72,7 @@ export class RequestResponseLink implements ReqResLink {
    * @returns {boolean} boolean - `true` - `open`, `false` - `closed`.
    */
   isOpen(): boolean {
-    return (
-      this.session.isOpen() && this.sender.isOpen() && this.receiver.isOpen()
-    );
+    return this.session.isOpen() && this.sender.isOpen() && this.receiver.isOpen();
   }
 
   /**
@@ -91,10 +85,7 @@ export class RequestResponseLink implements ReqResLink {
    * @param {SendRequestOptions} [options] Options that can be provided while sending a request.
    * @returns {Promise<Message>} Promise<Message> The AMQP (response) message.
    */
-  sendRequest(
-    request: AmqpMessage,
-    options?: SendRequestOptions
-  ): Promise<AmqpMessage> {
+  sendRequest(request: AmqpMessage, options?: SendRequestOptions): Promise<AmqpMessage> {
     if (!options) options = {};
 
     if (!options.timeoutInSeconds) {
@@ -126,19 +117,15 @@ export class RequestResponseLink implements ReqResLink {
         const getCodeDescriptionAndError = (props: any): NormalizedInfo => {
           if (!props) props = {};
           return {
-            statusCode: (props[Constants.statusCode] ||
-              props.statusCode) as number,
+            statusCode: (props[Constants.statusCode] || props.statusCode) as number,
             statusDescription: (props[Constants.statusDescription] ||
               props.statusDescription) as string,
-            errorCondition: (props[Constants.errorCondition] ||
-              props.errorCondition) as string
+            errorCondition: (props[Constants.errorCondition] || props.errorCondition) as string
           };
         };
 
         const messageCallback = (context: EventContext) => {
-          const info = getCodeDescriptionAndError(
-            context.message!.application_properties
-          );
+          const info = getCodeDescriptionAndError(context.message!.application_properties);
           const responseCorrelationId = context.message!.correlation_id;
           log.reqres(
             "[%s] %s response: ",
@@ -147,13 +134,16 @@ export class RequestResponseLink implements ReqResLink {
             context.message
           );
 
-          if (request.message_id !== responseCorrelationId && request.correlation_id !== responseCorrelationId) {
+          if (
+            request.message_id !== responseCorrelationId &&
+            request.correlation_id !== responseCorrelationId
+          ) {
             // do not remove message listener.
             // parallel requests listen on the same receiver, so continue waiting until respose that matches
             // request via correlationId is found.
             log.error(
               "[%s] request-messageId | '%s' != '%s' | response-correlationId. " +
-              "Hence dropping this response and waiting for the next one.",
+                "Hence dropping this response and waiting for the next one.",
               this.connection.id,
               request.message_id,
               responseCorrelationId
@@ -195,10 +185,34 @@ export class RequestResponseLink implements ReqResLink {
         const actionAfterTimeout = () => {
           timeOver = true;
           this.receiver.removeListener(ReceiverEvents.message, messageCallback);
-          const address = this.receiver.source && this.receiver.source.address || "address";
+
+          const address = this.receiver.source && this.receiver.source.address;
+
+          if (address == null) {
+            // they're in an indeterminate state here - the internal source is not properly initialized
+            // but the link was "opened". Throw a non-retryable error here as future sends are not going
+            // to work without reinitializing the link (and possibly the connection)
+            const err = translate(
+              new MessagingError("The receiver is invalid. Please try again later.")
+            );
+            err.retryable = false;
+
+            this.close()
+              .catch(() => {
+                // if there are additional failures as we bail we'll just ignore them - the important thing is to clear
+                // as much of the previous state as possible to pave the way for a new session and links to
+                // be created.
+                reject(err);
+              })
+              .then(() => {
+                reject(err);
+              });
+
+            return;
+          }
+
           const desc: string =
-            `The request with message_id "${request.message_id
-            }" to "${address}" ` +
+            `The request with message_id "${request.message_id}" to "${address}" ` +
             `endpoint timed out. Please try again later.`;
           const e: AmqpError = {
             condition: ConditionStatusMapper[408],
@@ -208,10 +222,8 @@ export class RequestResponseLink implements ReqResLink {
         };
 
         this.receiver.on(ReceiverEvents.message, messageCallback);
-        waitTimer = setTimeout(
-          actionAfterTimeout,
-          options!.timeoutInSeconds! * 1000
-        );
+
+        waitTimer = setTimeout(actionAfterTimeout, options!.timeoutInSeconds! * 1000);
         log.reqres(
           "[%s] %s request sent: %O",
           this.connection.id,

@@ -111,7 +111,7 @@
     "test:node": "npm run build:test:node && npm run unit-test:node",
     "test": "npm run test:node && npm run test:browser",
     "unit-test:browser": "karma start --single-run",
-    "unit-test:node": "cross-env TS_NODE_FILES=true TS_NODE_COMPILER_OPTIONS=\"{\\\"module\\\":\\\"commonjs\\\"}\" mocha -r ts-node/register -t 50000 ./test/**/*.spec.ts",
+    "unit-test:node": "cross-env TS_NODE_FILES=true TS_NODE_COMPILER_OPTIONS=\"{\\\"module\\\":\\\"commonjs\\\"}\" mocha -r ts-node/register -t 50000 ./test/*.spec.ts ./test/**/*.spec.ts",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser"
   },
   "repository": {
