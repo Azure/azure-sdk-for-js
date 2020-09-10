@@ -103,5 +103,13 @@ describe("KeyVaultAccessControlClient", () => {
     assert.equal(assignment.name, name);
     assert.equal(assignment.properties?.roleDefinitionId, roleDefinition.id);
     assert.equal(assignment.properties?.principalId, env.CLIENT_OBJECT_ID);
+
+    let error: Error;
+    try {
+      await client.getRoleAssignment(globalScope, name);
+    } catch(e) {
+      error = e;
+    }
+    assert.ok(error!.message.match(/Requested role assignment not found/))
   });
 });
