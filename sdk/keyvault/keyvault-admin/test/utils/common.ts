@@ -48,6 +48,10 @@ export function formatName(name: string): string {
   return name.replace(/[^0-9a-zA-Z-]/g, "");
 }
 
-export function getFolderName(storageURI: string): string {
-  return storageURI; // TODO
+// Receives:
+//   https://uri.blob.core.windows.net/backup/<id>
+// Splits into:
+//   https:    uri.blob.core.windows.net    backup    <id>
+export function getFolderName(uri: string): string {
+  return uri.split("/")[3];
 }

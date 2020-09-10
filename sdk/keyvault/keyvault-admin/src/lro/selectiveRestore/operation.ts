@@ -178,7 +178,7 @@ async function update(
       }
     });
 
-    const { startTime, jobId, endTime, error } = selectiveRestoreOperation;
+    const { startTime, jobId, endTime, error, status, statusDetails } = selectiveRestoreOperation;
 
     if (!startTime) {
       state.error = new Error(`Missing "startTime" from the full restore operation.`);
@@ -190,13 +190,13 @@ async function update(
     state.jobId = jobId;
     state.endTime = endTime;
     state.startTime = startTime;
-    state.status = selectiveRestoreOperation.status;
-    state.statusDetails = selectiveRestoreOperation.statusDetails;
+    state.status = status;
+    state.statusDetails = statusDetails;
 
     if (endTime) {
       state.isCompleted = true;
     }
-    if (error) {
+    if (error && error.message) {
       state.isCompleted = true;
       state.error = new Error(error.message);
     }
@@ -212,11 +212,16 @@ async function update(
     const selectiveRestoreOperation = await fullRestoreStatus(client, vaultUrl, state.jobId, {
       requestOptions
     });
-    const { endTime, error } = selectiveRestoreOperation;
+    const { endTime, status, statusDetails, error } = selectiveRestoreOperation;
+
+    state.endTime = endTime;
+    state.status = status;
+    state.statusDetails = statusDetails;
+
     if (endTime) {
       state.isCompleted = true;
     }
-    if (error) {
+    if (error && error.message) {
       state.isCompleted = true;
       state.error = new Error(error.message);
     }

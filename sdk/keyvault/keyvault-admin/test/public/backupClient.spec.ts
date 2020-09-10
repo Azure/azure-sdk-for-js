@@ -43,7 +43,7 @@ describe("KeyVaultBackupClient", () => {
     const backupURI = await backupPoller.pollUntilDone();
     assert.ok(!!backupURI.match(blobStorageUri));
 
-    const folderName = getFolderName(blobStorageUri);
+    const folderName = getFolderName(backupURI);
     const restorePoller = await client.beginRestore(
       blobStorageUri,
       sasToken,
@@ -51,6 +51,9 @@ describe("KeyVaultBackupClient", () => {
       testPollerProperties
     );
     await restorePoller.pollUntilDone();
+    const operationState = restorePoller.getOperationState();
+    assert.equal(operationState.isCompleted, true);
+    assert.equal(operationState.error, undefined);
   });
 
   it("beginBackup, then beginSelectiveRestore", async function() {
@@ -64,7 +67,7 @@ describe("KeyVaultBackupClient", () => {
     const backupURI = await backupPoller.pollUntilDone();
     assert.ok(!!backupURI.match(blobStorageUri));
 
-    const folderName = getFolderName(blobStorageUri);
+    const folderName = getFolderName(backupURI);
     const selectiveRestorePoller = await client.beginSelectiveRestore(
       blobStorageUri,
       sasToken,
@@ -73,6 +76,9 @@ describe("KeyVaultBackupClient", () => {
       testPollerProperties
     );
     await selectiveRestorePoller.pollUntilDone();
+    const operationState = selectiveRestorePoller.getOperationState();
+    assert.equal(operationState.isCompleted, true);
+    assert.equal(operationState.error, undefined);
 
     const deleteKeyPoller = await keyClient.beginDeleteKey(keyName);
     await deleteKeyPoller.pollUntilDone();

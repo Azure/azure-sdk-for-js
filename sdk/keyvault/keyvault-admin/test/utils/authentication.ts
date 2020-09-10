@@ -31,13 +31,18 @@ export async function authenticate(that: any): Promise<any> {
       BLOB_STORAGE_URI: "https://uri.blob.core.windows.net/backup",
       BLOB_STORAGE_SAS_TOKEN: "blob_storage_sas_token",
       KEYVAULT_NAME: "keyvault_name",
-      KEYVAULT_URI: "https://eastus2.keyvault_name.managedhsm-int.azure-int.net"
+      KEYVAULT_URI: "https://eastus2.keyvault_name.managedhsm.azure.net"
     },
     customizationsOnRecordings: [
       (recording: any): any =>
         recording.replace(/"access_token":"[^"]*"/g, `"access_token":"access_token"`),
       (recording: any): any =>
         secretSuffix === "" ? recording : recording.replace(new RegExp(secretSuffix, "g"), ""),
+      (recording: any): any =>
+        recording.replace(
+          /keyvault_name\.[a-z-]+\.azure[a-z-]*\.net/g,
+          `keyvault_name.managedhsm.azure.net`
+        ),
       (recording: any): any => {
         for (const uuid of generatedUUIDs) {
           recording = recording.replace(

@@ -1,16 +1,16 @@
 let nock = require('nock');
 
-module.exports.hash = "908147e0f531c6948ff29890bdb04724";
+module.exports.hash = "e010f163c077c8a3e782ae2b4b5991d1";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
-nock('https://eastus2.keyvault_name.managedhsm-int.azure-int.net:443', {"encodedQueryParams":true})
+nock('https://eastus2.keyvault_name.managedhsm.azure.net:443', {"encodedQueryParams":true})
   .post('/keys/beginBackupthenbeginSelectiveRestore/create')
   .query(true)
   .reply(401, "", [ 'content-type',
   'application/json; charset=utf-8',
   'x-ms-server-latency',
-  '1',
+  '2',
   'x-content-type-options',
   'nosniff',
   'www-authenticate',
@@ -20,7 +20,7 @@ nock('https://eastus2.keyvault_name.managedhsm-int.azure-int.net:443', {"encoded
   'content-length',
   '0',
   'x-ms-request-id',
-  '9cd5d3a8-f2aa-11ea-ae7c-0242ac120003',
+  '58dd65a2-f2a6-11ea-a492-0242ac120009',
   'strict-transport-security',
   'max-age=31536000; includeSubDomains',
   'content-security-policy',
@@ -28,17 +28,17 @@ nock('https://eastus2.keyvault_name.managedhsm-int.azure-int.net:443', {"encoded
   'cache-control',
   'no-cache' ]);
 
-nock('https://eastus2.keyvault_name.managedhsm-int.azure-int.net:443', {"encodedQueryParams":true})
+nock('https://eastus2.keyvault_name.managedhsm.azure.net:443', {"encodedQueryParams":true})
   .post('/keys/beginBackupthenbeginSelectiveRestore/create', {"kty":"RSA"})
   .query(true)
-  .reply(200, {"attributes":{"created":1599749024,"enabled":true,"exportable":false,"recoverableDays":7,"recoveryLevel":"CustomizedRecoverable+Purgeable","updated":1599749024},"key":{"e":"AQAB","key_ops":["wrapKey","decrypt","encrypt","unwrapKey","sign","verify"],"kid":"https://eastus2.keyvault_name.managedhsm-int.azure-int.net/keys/beginBackupthenbeginSelectiveRestore/13cd12b2b86401872fb5828577ec40bb","kty":"RSA-HSM","n":"i5UMbpILEmoGVyS-WpzaloXsUjfhlQ9ss7yemxOGghcT6z2rXblAm3ZXvglrrz7CN_u0qZ_3246gG7Yr6EM-x6hDNgpLOBVMiUHAubp75cDqC14RNis9J16nnhmfTw3cMdvk9w2Tf4iIl7UrwQTXen-yPnoGrixvIBGrTPX-9cheOASXodEqCGaoZi0YyPc0XP0-_efs_QVqQCy6a6HJifndaQlvQ0u0kj_9jqGI4zYm0deaAxHsRYpO7p0Ae7qOPgn4TmmDPvYPdLo5PdtOjGEuVnhA3DPSuwV7jKJtOLRdkch3QBzMVkg1_ChErnE2RKY3afiQF1QKfVbbqdYCCw"}}, [ 'content-type',
+  .reply(200, {"attributes":{"created":1599772302,"enabled":true,"exportable":false,"recoverableDays":7,"recoveryLevel":"CustomizedRecoverable+Purgeable","updated":1599772302},"key":{"e":"AQAB","key_ops":["wrapKey","decrypt","encrypt","unwrapKey","sign","verify"],"kid":"https://eastus2.keyvault_name.managedhsm.azure.net/keys/beginBackupthenbeginSelectiveRestore/103dbfbac8a601bc9ee20f7dcb35535a","kty":"RSA-HSM","n":"vK0p6QSHXodfOhTvPTkXUvkt8Gn4fLlMFMIkF7K3GpBhEZfuS_nAmHWs_jRD7kgL25X9ycjJE-OrBdKjmRvmHnezwE0jU4vEIf15NMY3UbQSnLjfmYDnjipgTyuLpU3x0FyxjwwZCewEgyJ-LFj2UqOCZSWbsVBSDpZOSz-aPmXGR7eJTpLM-dvNfkL6y488-SmBu0tslfRs9E73v4lOhsCSqLfEqMOMpHWvCgQ9kUqw9P5NHwFI52eesNe-XwF_N-XpiQqPeh1DgDfIBDpUHlEtFZUj_qJjSDoIbnO-tkK-dOYdVn4Uycju-i64p-6XdYSHljjylWHKQ1eRIdZU4Q"}}, [ 'content-type',
   'application/json; charset=utf-8',
   'x-content-type-options',
   'nosniff',
   'content-length',
   '755',
   'x-ms-request-id',
-  '9cd5d3a8-f2aa-11ea-ae7c-0242ac120003',
+  '58dd65a2-f2a6-11ea-a492-0242ac120009',
   'x-ms-keyvault-region',
   'EASTUS',
   'strict-transport-security',
@@ -48,13 +48,13 @@ nock('https://eastus2.keyvault_name.managedhsm-int.azure-int.net:443', {"encoded
   'x-ms-keyvault-network-info',
   'addr=108.226.109.105',
   'x-ms-server-latency',
-  '693',
+  '675',
   'cache-control',
   'no-cache',
   'x-frame-options',
   'SAMEORIGIN' ]);
 
-nock('https://eastus2.keyvault_name.managedhsm-int.azure-int.net:443', {"encodedQueryParams":true})
+nock('https://eastus2.keyvault_name.managedhsm.azure.net:443', {"encodedQueryParams":true})
   .post('/backup')
   .query(true)
   .reply(401, "", [ 'content-type',
@@ -70,7 +70,7 @@ nock('https://eastus2.keyvault_name.managedhsm-int.azure-int.net:443', {"encoded
   'content-length',
   '0',
   'x-ms-request-id',
-  'e6aeb748-f2ae-11ea-857a-0242ac120004',
+  '9cd5d3a8-f2aa-11ea-ae7c-0242ac120003',
   'strict-transport-security',
   'max-age=31536000; includeSubDomains',
   'content-security-policy',
@@ -78,25 +78,25 @@ nock('https://eastus2.keyvault_name.managedhsm-int.azure-int.net:443', {"encoded
   'cache-control',
   'no-cache' ]);
 
-nock('https://eastus2.keyvault_name.managedhsm-int.azure-int.net:443', {"encodedQueryParams":true})
+nock('https://eastus2.keyvault_name.managedhsm.azure.net:443', {"encodedQueryParams":true})
   .post('/backup', {"storageResourceUri":"https://uri.blob.core.windows.net/backup","token":"blob_storage_sas_token"})
   .query(true)
-  .reply(202, {"status":"InProgress","statusDetails":null,"error":{"code":null,"message":null,"innererror":null},"startTime":1599749038,"endTime":null,"jobId":"05ce6eb2019647feb2d82d8d05b2ef5a","azureStorageBlobContainerUri":null}, [ 'server',
+  .reply(202, {"status":"InProgress","statusDetails":null,"error":{"code":null,"message":null,"innererror":null},"startTime":1599772315,"endTime":null,"jobId":"40f784f0d15246c8bd259ce6e2bdc69b","azureStorageBlobContainerUri":null}, [ 'server',
   'Kestrel',
   'date',
-  'Thu, 10 Sep 2020 14:43:58 GMT',
+  'Thu, 10 Sep 2020 21:11:54 GMT',
   'cache-control',
   'no-cache',
   'x-content-type-options',
   'nosniff',
   'azure-asyncoperation',
-  'https://eastus2.keyvault_name.managedhsm-int.azure-int.net/backup/05ce6eb2019647feb2d82d8d05b2ef5a/pending',
+  'https://eastus2.keyvault_name.managedhsm.azure.net/backup/40f784f0d15246c8bd259ce6e2bdc69b/pending',
   'x-ms-keyvault-region',
   'EASTUS',
   'retry-after',
   '10',
   'x-ms-request-id',
-  'e6aeb748-f2ae-11ea-857a-0242ac120004',
+  '9cd5d3a8-f2aa-11ea-ae7c-0242ac120003',
   'content-type',
   'application/json; charset=utf-8',
   'x-frame-options',
@@ -104,7 +104,7 @@ nock('https://eastus2.keyvault_name.managedhsm-int.azure-int.net:443', {"encoded
   'x-ms-keyvault-network-info',
   'addr=108.226.109.105',
   'x-ms-server-latency',
-  '838',
+  '900',
   'content-length',
   '216',
   'strict-transport-security',
@@ -112,15 +112,15 @@ nock('https://eastus2.keyvault_name.managedhsm-int.azure-int.net:443', {"encoded
   'content-security-policy',
   'default-src \'self\'' ]);
 
-nock('https://eastus2.keyvault_name.managedhsm-int.azure-int.net:443', {"encodedQueryParams":true})
-  .get('/backup/05ce6eb2019647feb2d82d8d05b2ef5a/pending')
+nock('https://eastus2.keyvault_name.managedhsm.azure.net:443', {"encodedQueryParams":true})
+  .get('/backup/40f784f0d15246c8bd259ce6e2bdc69b/pending')
   .query(true)
-  .reply(200, {"azureStorageBlobContainerUri":null,"endTime":null,"error":{"code":null,"innererror":null,"message":null},"jobId":"05ce6eb2019647feb2d82d8d05b2ef5a","startTime":1599749038,"status":"InProgress","statusDetails":null}, [ 'server',
+  .reply(200, {"azureStorageBlobContainerUri":null,"endTime":null,"error":{"code":null,"innererror":null,"message":null},"jobId":"40f784f0d15246c8bd259ce6e2bdc69b","startTime":1599772315,"status":"InProgress","statusDetails":null}, [ 'server',
   'Kestrel',
   'x-ms-build-version',
   '1.0.20200909-2-c73be597-develop',
   'date',
-  'Thu, 10 Sep 2020 14:43:59 GMT',
+  'Thu, 10 Sep 2020 21:11:55 GMT',
   'cache-control',
   'no-cache',
   'x-content-type-options',
@@ -128,39 +128,7 @@ nock('https://eastus2.keyvault_name.managedhsm-int.azure-int.net:443', {"encoded
   'x-ms-keyvault-region',
   'EASTUS',
   'x-ms-request-id',
-  'e6aeb748-f2ae-11ea-857a-0242ac120004',
-  'content-type',
-  'application/json; charset=utf-8',
-  'x-frame-options',
-  'SAMEORIGIN',
-  'content-length',
-  '216',
-  'strict-transport-security',
-  'max-age=31536000; includeSubDomains',
-  'x-ms-keyvault-network-info',
-  'addr=108.226.109.105',
-  'x-ms-server-latency',
-  '755',
-  'content-security-policy',
-  'default-src \'self\'' ]);
-
-nock('https://eastus2.keyvault_name.managedhsm-int.azure-int.net:443', {"encodedQueryParams":true})
-  .get('/backup/05ce6eb2019647feb2d82d8d05b2ef5a/pending')
-  .query(true)
-  .reply(200, {"azureStorageBlobContainerUri":null,"endTime":null,"error":{"code":null,"innererror":null,"message":null},"jobId":"05ce6eb2019647feb2d82d8d05b2ef5a","startTime":1599749038,"status":"InProgress","statusDetails":null}, [ 'server',
-  'Kestrel',
-  'x-ms-build-version',
-  '1.0.20200909-2-c73be597-develop',
-  'date',
-  'Thu, 10 Sep 2020 14:44:00 GMT',
-  'cache-control',
-  'no-cache',
-  'x-content-type-options',
-  'nosniff',
-  'x-ms-keyvault-region',
-  'EASTUS',
-  'x-ms-request-id',
-  'e6aeb748-f2ae-11ea-857a-0242ac120004',
+  '9cd5d3a8-f2aa-11ea-ae7c-0242ac120003',
   'content-type',
   'application/json; charset=utf-8',
   'x-frame-options',
@@ -172,19 +140,19 @@ nock('https://eastus2.keyvault_name.managedhsm-int.azure-int.net:443', {"encoded
   'x-ms-keyvault-network-info',
   'addr=108.226.109.105',
   'x-ms-server-latency',
-  '653',
+  '600',
   'content-security-policy',
   'default-src \'self\'' ]);
 
-nock('https://eastus2.keyvault_name.managedhsm-int.azure-int.net:443', {"encodedQueryParams":true})
-  .get('/backup/05ce6eb2019647feb2d82d8d05b2ef5a/pending')
+nock('https://eastus2.keyvault_name.managedhsm.azure.net:443', {"encodedQueryParams":true})
+  .get('/backup/40f784f0d15246c8bd259ce6e2bdc69b/pending')
   .query(true)
-  .reply(200, {"azureStorageBlobContainerUri":null,"endTime":null,"error":{"code":null,"innererror":null,"message":null},"jobId":"05ce6eb2019647feb2d82d8d05b2ef5a","startTime":1599749038,"status":"InProgress","statusDetails":null}, [ 'server',
+  .reply(200, {"azureStorageBlobContainerUri":null,"endTime":null,"error":{"code":null,"innererror":null,"message":null},"jobId":"40f784f0d15246c8bd259ce6e2bdc69b","startTime":1599772315,"status":"InProgress","statusDetails":null}, [ 'server',
   'Kestrel',
   'x-ms-build-version',
   '1.0.20200909-2-c73be597-develop',
   'date',
-  'Thu, 10 Sep 2020 14:44:02 GMT',
+  'Thu, 10 Sep 2020 21:11:56 GMT',
   'cache-control',
   'no-cache',
   'x-content-type-options',
@@ -192,7 +160,7 @@ nock('https://eastus2.keyvault_name.managedhsm-int.azure-int.net:443', {"encoded
   'x-ms-keyvault-region',
   'EASTUS',
   'x-ms-request-id',
-  'e6aeb748-f2ae-11ea-857a-0242ac120004',
+  '9cd5d3a8-f2aa-11ea-ae7c-0242ac120003',
   'content-type',
   'application/json; charset=utf-8',
   'x-frame-options',
@@ -204,19 +172,19 @@ nock('https://eastus2.keyvault_name.managedhsm-int.azure-int.net:443', {"encoded
   'x-ms-keyvault-network-info',
   'addr=108.226.109.105',
   'x-ms-server-latency',
-  '645',
+  '673',
   'content-security-policy',
   'default-src \'self\'' ]);
 
-nock('https://eastus2.keyvault_name.managedhsm-int.azure-int.net:443', {"encodedQueryParams":true})
-  .get('/backup/05ce6eb2019647feb2d82d8d05b2ef5a/pending')
+nock('https://eastus2.keyvault_name.managedhsm.azure.net:443', {"encodedQueryParams":true})
+  .get('/backup/40f784f0d15246c8bd259ce6e2bdc69b/pending')
   .query(true)
-  .reply(200, {"azureStorageBlobContainerUri":null,"endTime":null,"error":{"code":null,"innererror":null,"message":null},"jobId":"05ce6eb2019647feb2d82d8d05b2ef5a","startTime":1599749038,"status":"InProgress","statusDetails":null}, [ 'server',
+  .reply(200, {"azureStorageBlobContainerUri":null,"endTime":null,"error":{"code":null,"innererror":null,"message":null},"jobId":"40f784f0d15246c8bd259ce6e2bdc69b","startTime":1599772315,"status":"InProgress","statusDetails":null}, [ 'server',
   'Kestrel',
   'x-ms-build-version',
   '1.0.20200909-2-c73be597-develop',
   'date',
-  'Thu, 10 Sep 2020 14:44:05 GMT',
+  'Thu, 10 Sep 2020 21:11:58 GMT',
   'cache-control',
   'no-cache',
   'x-content-type-options',
@@ -224,7 +192,7 @@ nock('https://eastus2.keyvault_name.managedhsm-int.azure-int.net:443', {"encoded
   'x-ms-keyvault-region',
   'EASTUS',
   'x-ms-request-id',
-  'e6aeb748-f2ae-11ea-857a-0242ac120004',
+  '9cd5d3a8-f2aa-11ea-ae7c-0242ac120003',
   'content-type',
   'application/json; charset=utf-8',
   'x-frame-options',
@@ -236,19 +204,19 @@ nock('https://eastus2.keyvault_name.managedhsm-int.azure-int.net:443', {"encoded
   'x-ms-keyvault-network-info',
   'addr=108.226.109.105',
   'x-ms-server-latency',
-  '653',
+  '617',
   'content-security-policy',
   'default-src \'self\'' ]);
 
-nock('https://eastus2.keyvault_name.managedhsm-int.azure-int.net:443', {"encodedQueryParams":true})
-  .get('/backup/05ce6eb2019647feb2d82d8d05b2ef5a/pending')
+nock('https://eastus2.keyvault_name.managedhsm.azure.net:443', {"encodedQueryParams":true})
+  .get('/backup/40f784f0d15246c8bd259ce6e2bdc69b/pending')
   .query(true)
-  .reply(200, {"azureStorageBlobContainerUri":null,"endTime":null,"error":{"code":null,"innererror":null,"message":null},"jobId":"05ce6eb2019647feb2d82d8d05b2ef5a","startTime":1599749038,"status":"InProgress","statusDetails":null}, [ 'server',
+  .reply(200, {"azureStorageBlobContainerUri":null,"endTime":null,"error":{"code":null,"innererror":null,"message":null},"jobId":"40f784f0d15246c8bd259ce6e2bdc69b","startTime":1599772315,"status":"InProgress","statusDetails":null}, [ 'server',
   'Kestrel',
   'x-ms-build-version',
   '1.0.20200909-2-c73be597-develop',
   'date',
-  'Thu, 10 Sep 2020 14:44:08 GMT',
+  'Thu, 10 Sep 2020 21:12:01 GMT',
   'cache-control',
   'no-cache',
   'x-content-type-options',
@@ -256,7 +224,7 @@ nock('https://eastus2.keyvault_name.managedhsm-int.azure-int.net:443', {"encoded
   'x-ms-keyvault-region',
   'EASTUS',
   'x-ms-request-id',
-  'e6aeb748-f2ae-11ea-857a-0242ac120004',
+  '9cd5d3a8-f2aa-11ea-ae7c-0242ac120003',
   'content-type',
   'application/json; charset=utf-8',
   'x-frame-options',
@@ -268,19 +236,19 @@ nock('https://eastus2.keyvault_name.managedhsm-int.azure-int.net:443', {"encoded
   'x-ms-keyvault-network-info',
   'addr=108.226.109.105',
   'x-ms-server-latency',
-  '661',
+  '658',
   'content-security-policy',
   'default-src \'self\'' ]);
 
-nock('https://eastus2.keyvault_name.managedhsm-int.azure-int.net:443', {"encodedQueryParams":true})
-  .get('/backup/05ce6eb2019647feb2d82d8d05b2ef5a/pending')
+nock('https://eastus2.keyvault_name.managedhsm.azure.net:443', {"encodedQueryParams":true})
+  .get('/backup/40f784f0d15246c8bd259ce6e2bdc69b/pending')
   .query(true)
-  .reply(200, {"azureStorageBlobContainerUri":"https://uri.blob.core.windows.net/backup/mhsm-keyvault_name-2020091014435852","endTime":1599749049,"error":null,"jobId":"05ce6eb2019647feb2d82d8d05b2ef5a","startTime":1599749038,"status":"Succeeded","statusDetails":null}, [ 'server',
+  .reply(200, {"azureStorageBlobContainerUri":null,"endTime":null,"error":{"code":null,"innererror":null,"message":null},"jobId":"40f784f0d15246c8bd259ce6e2bdc69b","startTime":1599772315,"status":"InProgress","statusDetails":null}, [ 'server',
   'Kestrel',
   'x-ms-build-version',
   '1.0.20200909-2-c73be597-develop',
   'date',
-  'Thu, 10 Sep 2020 14:44:11 GMT',
+  'Thu, 10 Sep 2020 21:12:04 GMT',
   'cache-control',
   'no-cache',
   'x-content-type-options',
@@ -288,7 +256,39 @@ nock('https://eastus2.keyvault_name.managedhsm-int.azure-int.net:443', {"encoded
   'x-ms-keyvault-region',
   'EASTUS',
   'x-ms-request-id',
-  'e6aeb748-f2ae-11ea-857a-0242ac120004',
+  '9cd5d3a8-f2aa-11ea-ae7c-0242ac120003',
+  'content-type',
+  'application/json; charset=utf-8',
+  'x-frame-options',
+  'SAMEORIGIN',
+  'content-length',
+  '216',
+  'strict-transport-security',
+  'max-age=31536000; includeSubDomains',
+  'x-ms-keyvault-network-info',
+  'addr=108.226.109.105',
+  'x-ms-server-latency',
+  '633',
+  'content-security-policy',
+  'default-src \'self\'' ]);
+
+nock('https://eastus2.keyvault_name.managedhsm.azure.net:443', {"encodedQueryParams":true})
+  .get('/backup/40f784f0d15246c8bd259ce6e2bdc69b/pending')
+  .query(true)
+  .reply(200, {"azureStorageBlobContainerUri":"https://uri.blob.core.windows.net/backup/mhsm-keyvault_name-2020091021115530","endTime":1599772325,"error":null,"jobId":"40f784f0d15246c8bd259ce6e2bdc69b","startTime":1599772315,"status":"Succeeded","statusDetails":null}, [ 'server',
+  'Kestrel',
+  'x-ms-build-version',
+  '1.0.20200909-2-c73be597-develop',
+  'date',
+  'Thu, 10 Sep 2020 21:12:06 GMT',
+  'cache-control',
+  'no-cache',
+  'x-content-type-options',
+  'nosniff',
+  'x-ms-keyvault-region',
+  'EASTUS',
+  'x-ms-request-id',
+  '9cd5d3a8-f2aa-11ea-ae7c-0242ac120003',
   'content-type',
   'application/json; charset=utf-8',
   'x-frame-options',
@@ -300,29 +300,29 @@ nock('https://eastus2.keyvault_name.managedhsm-int.azure-int.net:443', {"encoded
   'x-ms-keyvault-network-info',
   'addr=108.226.109.105',
   'x-ms-server-latency',
-  '634',
+  '650',
   'content-security-policy',
   'default-src \'self\'' ]);
 
-nock('https://eastus2.keyvault_name.managedhsm-int.azure-int.net:443', {"encodedQueryParams":true})
-  .put('/keys/beginBackupthenbeginSelectiveRestore/restore', {"sasTokenParameters":{"storageResourceUri":"https://uri.blob.core.windows.net/backup","token":"blob_storage_sas_token"},"folder":"https://uri.blob.core.windows.net/backup"})
+nock('https://eastus2.keyvault_name.managedhsm.azure.net:443', {"encodedQueryParams":true})
+  .put('/keys/beginBackupthenbeginSelectiveRestore/restore', {"sasTokenParameters":{"storageResourceUri":"https://uri.blob.core.windows.net/backup","token":"blob_storage_sas_token"},"folder":"backup"})
   .query(true)
-  .reply(202, {"endTime":null,"error":{"code":null,"innererror":null,"message":null},"jobId":"2e7e281982334c0ca84186d8f6f40cca","startTime":1599749052,"status":"InProgress","statusDetails":null}, [ 'server',
+  .reply(202, {"endTime":null,"error":{"code":null,"innererror":null,"message":null},"jobId":"38c9569672334ec8b5b752b9235fe864","startTime":1599772328,"status":"InProgress","statusDetails":null}, [ 'server',
   'Kestrel',
   'date',
-  'Thu, 10 Sep 2020 14:44:12 GMT',
+  'Thu, 10 Sep 2020 21:12:07 GMT',
   'cache-control',
   'no-cache',
   'x-content-type-options',
   'nosniff',
   'azure-asyncoperation',
-  'https://eastus2.keyvault_name.managedhsm-int.azure-int.net/restore/2e7e281982334c0ca84186d8f6f40cca/pending',
+  'https://eastus2.keyvault_name.managedhsm.azure.net/restore/38c9569672334ec8b5b752b9235fe864/pending',
   'x-ms-keyvault-region',
   'EASTUS',
   'retry-after',
   '10',
   'x-ms-request-id',
-  'e6aeb748-f2ae-11ea-857a-0242ac120004',
+  '9cd5d3a8-f2aa-11ea-ae7c-0242ac120003',
   'content-type',
   'application/json; charset=utf-8',
   'x-frame-options',
@@ -330,7 +330,7 @@ nock('https://eastus2.keyvault_name.managedhsm-int.azure-int.net:443', {"encoded
   'x-ms-keyvault-network-info',
   'addr=108.226.109.105',
   'x-ms-server-latency',
-  '903',
+  '826',
   'content-length',
   '180',
   'strict-transport-security',
@@ -338,17 +338,49 @@ nock('https://eastus2.keyvault_name.managedhsm-int.azure-int.net:443', {"encoded
   'content-security-policy',
   'default-src \'self\'' ]);
 
-nock('https://eastus2.keyvault_name.managedhsm-int.azure-int.net:443', {"encodedQueryParams":true})
+nock('https://eastus2.keyvault_name.managedhsm.azure.net:443', {"encodedQueryParams":true})
+  .get('/backup/38c9569672334ec8b5b752b9235fe864/pending')
+  .query(true)
+  .reply(200, {"azureStorageBlobContainerUri":"https://uri.blob.core.windows.net/backup/backup","endTime":1599772328,"error":{"code":null,"innererror":null,"message":null},"jobId":"38c9569672334ec8b5b752b9235fe864","startTime":1599772328,"status":"Failed","statusDetails":"Invalid backup provided"}, [ 'server',
+  'Kestrel',
+  'x-ms-build-version',
+  '1.0.20200909-2-c73be597-develop',
+  'date',
+  'Thu, 10 Sep 2020 21:12:08 GMT',
+  'cache-control',
+  'no-cache',
+  'x-content-type-options',
+  'nosniff',
+  'x-ms-keyvault-region',
+  'EASTUS',
+  'x-ms-request-id',
+  '9cd5d3a8-f2aa-11ea-ae7c-0242ac120003',
+  'content-type',
+  'application/json; charset=utf-8',
+  'x-frame-options',
+  'SAMEORIGIN',
+  'content-length',
+  '291',
+  'strict-transport-security',
+  'max-age=31536000; includeSubDomains',
+  'x-ms-keyvault-network-info',
+  'addr=108.226.109.105',
+  'x-ms-server-latency',
+  '632',
+  'content-security-policy',
+  'default-src \'self\'' ]);
+
+nock('https://eastus2.keyvault_name.managedhsm.azure.net:443', {"encodedQueryParams":true})
   .delete('/keys/beginBackupthenbeginSelectiveRestore')
   .query(true)
-  .reply(200, {"attributes":{"created":1599749024,"enabled":true,"exportable":false,"recoverableDays":7,"recoveryLevel":"CustomizedRecoverable+Purgeable","updated":1599749024},"deletedDate":1599749053,"key":{"e":"AQAB","key_ops":["wrapKey","verify","sign","unwrapKey","decrypt","encrypt"],"kid":"https://eastus2.keyvault_name.managedhsm-int.azure-int.net/keys/beginBackupthenbeginSelectiveRestore/13cd12b2b86401872fb5828577ec40bb","kty":"RSA-HSM","n":"i5UMbpILEmoGVyS-WpzaloXsUjfhlQ9ss7yemxOGghcT6z2rXblAm3ZXvglrrz7CN_u0qZ_3246gG7Yr6EM-x6hDNgpLOBVMiUHAubp75cDqC14RNis9J16nnhmfTw3cMdvk9w2Tf4iIl7UrwQTXen-yPnoGrixvIBGrTPX-9cheOASXodEqCGaoZi0YyPc0XP0-_efs_QVqQCy6a6HJifndaQlvQ0u0kj_9jqGI4zYm0deaAxHsRYpO7p0Ae7qOPgn4TmmDPvYPdLo5PdtOjGEuVnhA3DPSuwV7jKJtOLRdkch3QBzMVkg1_ChErnE2RKY3afiQF1QKfVbbqdYCCw"},"recoveryId":"https://eastus2.keyvault_name.managedhsm-int.azure-int.net/deletedkeys/beginBackupthenbeginSelectiveRestore","scheduledPurgeDate":1600353853}, [ 'content-type',
+  .reply(200, {"attributes":{"created":1599772302,"enabled":true,"exportable":false,"recoverableDays":7,"recoveryLevel":"CustomizedRecoverable+Purgeable","updated":1599772302},"deletedDate":1599772329,"key":{"e":"AQAB","key_ops":["wrapKey","verify","sign","unwrapKey","decrypt","encrypt"],"kid":"https://eastus2.keyvault_name.managedhsm.azure.net/keys/beginBackupthenbeginSelectiveRestore/103dbfbac8a601bc9ee20f7dcb35535a","kty":"RSA-HSM","n":"vK0p6QSHXodfOhTvPTkXUvkt8Gn4fLlMFMIkF7K3GpBhEZfuS_nAmHWs_jRD7kgL25X9ycjJE-OrBdKjmRvmHnezwE0jU4vEIf15NMY3UbQSnLjfmYDnjipgTyuLpU3x0FyxjwwZCewEgyJ-LFj2UqOCZSWbsVBSDpZOSz-aPmXGR7eJTpLM-dvNfkL6y488-SmBu0tslfRs9E73v4lOhsCSqLfEqMOMpHWvCgQ9kUqw9P5NHwFI52eesNe-XwF_N-XpiQqPeh1DgDfIBDpUHlEtFZUj_qJjSDoIbnO-tkK-dOYdVn4Uycju-i64p-6XdYSHljjylWHKQ1eRIdZU4Q"},"recoveryId":"https://eastus2.keyvault_name.managedhsm.azure.net/deletedkeys/beginBackupthenbeginSelectiveRestore","scheduledPurgeDate":1600377129}, [ 'content-type',
   'application/json; charset=utf-8',
   'x-content-type-options',
   'nosniff',
   'content-length',
   '932',
   'x-ms-request-id',
-  '9cd5d3a8-f2aa-11ea-ae7c-0242ac120003',
+  '58dd65a2-f2a6-11ea-a492-0242ac120009',
   'x-ms-keyvault-region',
   'EASTUS',
   'strict-transport-security',
@@ -358,19 +390,19 @@ nock('https://eastus2.keyvault_name.managedhsm-int.azure-int.net:443', {"encoded
   'x-ms-keyvault-network-info',
   'addr=108.226.109.105',
   'x-ms-server-latency',
-  '456',
+  '463',
   'cache-control',
   'no-cache',
   'x-frame-options',
   'SAMEORIGIN' ]);
 
-nock('https://eastus2.keyvault_name.managedhsm-int.azure-int.net:443', {"encodedQueryParams":true})
+nock('https://eastus2.keyvault_name.managedhsm.azure.net:443', {"encodedQueryParams":true})
   .get('/deletedkeys/beginBackupthenbeginSelectiveRestore')
   .query(true)
-  .reply(200, {"attributes":{"created":1599749024,"enabled":true,"exportable":false,"recoverableDays":7,"recoveryLevel":"CustomizedRecoverable+Purgeable","updated":1599749024},"deletedDate":1599749053,"key":{"e":"AQAB","key_ops":["encrypt","decrypt","unwrapKey","sign","verify","wrapKey"],"kid":"https://eastus2.keyvault_name.managedhsm-int.azure-int.net/keys/beginBackupthenbeginSelectiveRestore/13cd12b2b86401872fb5828577ec40bb","kty":"RSA-HSM","n":"i5UMbpILEmoGVyS-WpzaloXsUjfhlQ9ss7yemxOGghcT6z2rXblAm3ZXvglrrz7CN_u0qZ_3246gG7Yr6EM-x6hDNgpLOBVMiUHAubp75cDqC14RNis9J16nnhmfTw3cMdvk9w2Tf4iIl7UrwQTXen-yPnoGrixvIBGrTPX-9cheOASXodEqCGaoZi0YyPc0XP0-_efs_QVqQCy6a6HJifndaQlvQ0u0kj_9jqGI4zYm0deaAxHsRYpO7p0Ae7qOPgn4TmmDPvYPdLo5PdtOjGEuVnhA3DPSuwV7jKJtOLRdkch3QBzMVkg1_ChErnE2RKY3afiQF1QKfVbbqdYCCw"},"recoveryId":"https://eastus2.keyvault_name.managedhsm-int.azure-int.net/deletedkeys/beginBackupthenbeginSelectiveRestore","scheduledPurgeDate":1600353853}, [ 'x-frame-options',
+  .reply(200, {"attributes":{"created":1599772302,"enabled":true,"exportable":false,"recoverableDays":7,"recoveryLevel":"CustomizedRecoverable+Purgeable","updated":1599772302},"deletedDate":1599772329,"key":{"e":"AQAB","key_ops":["encrypt","decrypt","unwrapKey","sign","verify","wrapKey"],"kid":"https://eastus2.keyvault_name.managedhsm.azure.net/keys/beginBackupthenbeginSelectiveRestore/103dbfbac8a601bc9ee20f7dcb35535a","kty":"RSA-HSM","n":"vK0p6QSHXodfOhTvPTkXUvkt8Gn4fLlMFMIkF7K3GpBhEZfuS_nAmHWs_jRD7kgL25X9ycjJE-OrBdKjmRvmHnezwE0jU4vEIf15NMY3UbQSnLjfmYDnjipgTyuLpU3x0FyxjwwZCewEgyJ-LFj2UqOCZSWbsVBSDpZOSz-aPmXGR7eJTpLM-dvNfkL6y488-SmBu0tslfRs9E73v4lOhsCSqLfEqMOMpHWvCgQ9kUqw9P5NHwFI52eesNe-XwF_N-XpiQqPeh1DgDfIBDpUHlEtFZUj_qJjSDoIbnO-tkK-dOYdVn4Uycju-i64p-6XdYSHljjylWHKQ1eRIdZU4Q"},"recoveryId":"https://eastus2.keyvault_name.managedhsm.azure.net/deletedkeys/beginBackupthenbeginSelectiveRestore","scheduledPurgeDate":1600377129}, [ 'x-frame-options',
   'SAMEORIGIN',
   'x-ms-request-id',
-  '9cd5d3a8-f2aa-11ea-ae7c-0242ac120003',
+  '58dd65a2-f2a6-11ea-a492-0242ac120009',
   'content-type',
   'application/json; charset=utf-8',
   'x-ms-keyvault-region',
@@ -390,9 +422,9 @@ nock('https://eastus2.keyvault_name.managedhsm-int.azure-int.net:443', {"encoded
   'x-ms-keyvault-network-info',
   'addr=108.226.109.105',
   'x-ms-server-latency',
-  '194' ]);
+  '175' ]);
 
-nock('https://eastus2.keyvault_name.managedhsm-int.azure-int.net:443', {"encodedQueryParams":true})
+nock('https://eastus2.keyvault_name.managedhsm.azure.net:443', {"encodedQueryParams":true})
   .delete('/deletedkeys/beginBackupthenbeginSelectiveRestore')
   .query(true)
   .reply(204, "", [ 'content-type',
@@ -402,7 +434,7 @@ nock('https://eastus2.keyvault_name.managedhsm-int.azure-int.net:443', {"encoded
   'content-length',
   '0',
   'x-ms-request-id',
-  '9cd5d3a8-f2aa-11ea-ae7c-0242ac120003',
+  '58dd65a2-f2a6-11ea-a492-0242ac120009',
   'x-ms-keyvault-region',
   'EASTUS',
   'strict-transport-security',
@@ -412,7 +444,7 @@ nock('https://eastus2.keyvault_name.managedhsm-int.azure-int.net:443', {"encoded
   'x-ms-keyvault-network-info',
   'addr=108.226.109.105',
   'x-ms-server-latency',
-  '597',
+  '529',
   'cache-control',
   'no-cache',
   'x-frame-options',
