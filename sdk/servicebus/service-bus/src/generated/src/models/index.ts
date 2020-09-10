@@ -16,7 +16,6 @@ export type SqlFilterUnion = SqlFilter | TrueFilter | FalseFilter;
  * The request body for creating a topic.
  */
 export interface CreateTopicBody {
-  xmlns?: string;
   /**
    * The timestamp for when this topic was last updated
    */
@@ -45,8 +44,6 @@ export interface CreateTopicBodyContent {
  * Description of a Service Bus topic resource.
  */
 export interface TopicDescription {
-  xmlns?: string;
-  xmlnsI?: string;
   /**
    * ISO 8601 default message timespan to live value. This is the duration after which the message expires, starting from when the message is sent to Service Bus. This is the default value used when TimeToLive is not set on a message itself.
    */
@@ -223,7 +220,6 @@ export interface ServiceBusManagementError {
  * The request body for creating a queue.
  */
 export interface CreateQueueBody {
-  xmlns?: string;
   /**
    * The timestamp for when this queue was last updated
    */
@@ -252,8 +248,6 @@ export interface CreateQueueBodyContent {
  * Description of a Service Bus queue resource.
  */
 export interface QueueDescription {
-  xmlns?: string;
-  xmlnsI?: string;
   /**
    * ISO 8601 timespan duration of a peek-lock; that is, the amount of time that the message is locked for other receivers. The maximum value for LockDuration is 5 minutes; the default value is 1 minute.
    */
@@ -1254,12 +1248,7 @@ export interface EntityPutTopicOptionalParams
 /**
  * Contains response data for the putTopic operation.
  */
-export type EntityPutTopicResponse = {
-  /**
-   * The parsed response body.
-   */
-  body: any;
-
+export type EntityPutTopicResponse = CreateTopicBody & {
   /**
    * The underlying HTTP response.
    */
@@ -1272,7 +1261,7 @@ export type EntityPutTopicResponse = {
     /**
      * The response body as parsed JSON or XML
      */
-    parsedBody: any;
+    parsedBody: CreateTopicBody;
   };
 };
 
@@ -1341,12 +1330,7 @@ export interface EntityPutQueueOptionalParams
 /**
  * Contains response data for the putQueue operation.
  */
-export type EntityPutQueueResponse = {
-  /**
-   * The parsed response body.
-   */
-  body: any;
-
+export type EntityPutQueueResponse = CreateQueueBody & {
   /**
    * The underlying HTTP response.
    */
@@ -1359,7 +1343,7 @@ export type EntityPutQueueResponse = {
     /**
      * The response body as parsed JSON or XML
      */
-    parsedBody: any;
+    parsedBody: CreateQueueBody;
   };
 };
 

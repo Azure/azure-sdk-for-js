@@ -15,15 +15,6 @@ export const CreateTopicBody: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "CreateTopicBody",
     modelProperties: {
-      xmlns: {
-        defaultValue: "http://www.w3.org/2005/Atom",
-        serializedName: "xmlns",
-        xmlName: "xmlns",
-        xmlIsAttribute: true,
-        type: {
-          name: "String"
-        }
-      },
       updated: {
         serializedName: "updated",
         xmlName: "updated",
@@ -77,25 +68,6 @@ export const TopicDescription: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "TopicDescription",
     modelProperties: {
-      xmlns: {
-        defaultValue:
-          "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
-        serializedName: "xmlns",
-        xmlName: "xmlns",
-        xmlIsAttribute: true,
-        type: {
-          name: "String"
-        }
-      },
-      xmlnsI: {
-        defaultValue: "http://www.w3.org/2001/XMLSchema-instance",
-        serializedName: "xmlns:i",
-        xmlName: "xmlns:i",
-        xmlIsAttribute: true,
-        type: {
-          name: "String"
-        }
-      },
       defaultMessageTimeToLive: {
         serializedName: "defaultMessageTimeToLive",
         xmlName: "DefaultMessageTimeToLive",
@@ -415,15 +387,6 @@ export const CreateQueueBody: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "CreateQueueBody",
     modelProperties: {
-      xmlns: {
-        defaultValue: "http://www.w3.org/2005/Atom",
-        serializedName: "xmlns",
-        xmlName: "xmlns",
-        xmlIsAttribute: true,
-        type: {
-          name: "String"
-        }
-      },
       updated: {
         serializedName: "updated",
         xmlName: "updated",
@@ -477,25 +440,6 @@ export const QueueDescription: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "QueueDescription",
     modelProperties: {
-      xmlns: {
-        defaultValue:
-          "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
-        serializedName: "xmlns",
-        xmlName: "xmlns",
-        xmlIsAttribute: true,
-        type: {
-          name: "String"
-        }
-      },
-      xmlnsI: {
-        defaultValue: "http://www.w3.org/2001/XMLSchema-instance",
-        serializedName: "xmlns:i",
-        xmlName: "xmlns:i",
-        xmlIsAttribute: true,
-        type: {
-          name: "String"
-        }
-      },
       lockDuration: {
         serializedName: "lockDuration",
         xmlName: "LockDuration",

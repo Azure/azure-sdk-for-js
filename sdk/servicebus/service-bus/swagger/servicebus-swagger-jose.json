@@ -192,14 +192,6 @@
         "namespace": "http://www.w3.org/2005/Atom"
       },
       "properties": {
-        "xmlns": {
-          "type": "string",
-          "default": "http://www.w3.org/2005/Atom",
-          "xml": {
-            "name": "xmlns",
-            "attribute": true
-          }
-        },
         "updated": {
           "description": "The timestamp for when this queue was last updated",
           "type": "string",
@@ -239,14 +231,6 @@
         "namespace": "http://www.w3.org/2005/Atom"
       },
       "properties": {
-        "xmlns": {
-          "type": "string",
-          "default": "http://www.w3.org/2005/Atom",
-          "xml": {
-            "name": "xmlns",
-            "attribute": true
-          }
-        },
         "updated": {
           "description": "The timestamp for when this topic was last updated",
           "type": "string",
@@ -564,22 +548,6 @@
         "namespace": "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"
       },
       "properties": {
-        "xmlns": {
-          "type": "string",
-          "default": "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
-          "xml": {
-            "name": "xmlns",
-            "attribute": true
-          }
-        },
-        "xmlns:i": {
-          "type": "string",
-          "default": "http://www.w3.org/2001/XMLSchema-instance",
-          "xml": {
-            "name": "xmlns:i",
-            "attribute": true
-          }
-        },
         "lockDuration": {
           "description": "ISO 8601 timespan duration of a peek-lock; that is, the amount of time that the message is locked for other receivers. The maximum value for LockDuration is 5 minutes; the default value is 1 minute.",
           "type": "string",
@@ -976,22 +944,6 @@
         "namespace": "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"
       },
       "properties": {
-        "xmlns": {
-          "type": "string",
-          "default": "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
-          "xml": {
-            "name": "xmlns",
-            "attribute": true
-          }
-        },
-        "xmlns:i": {
-          "type": "string",
-          "default": "http://www.w3.org/2001/XMLSchema-instance",
-          "xml": {
-            "name": "xmlns:i",
-            "attribute": true
-          }
-        },
         "defaultMessageTimeToLive": {
           "description": "ISO 8601 default message timespan to live value. This is the duration after which the message expires, starting from when the message is sent to Service Bus. This is the default value used when TimeToLive is not set on a message itself.",
           "type": "string",
@@ -2023,13 +1975,13 @@
           "200": {
             "description": "Update -- Update Topic operation completed successfully.",
             "schema": {
-              "type": "object"
+              "$ref": "#/definitions/CreateTopicBody"
             }
           },
           "201": {
             "description": "Created -- Create Topic operation completed successfully.",
             "schema": {
-              "type": "object"
+              "$ref": "#/definitions/CreateTopicBody"
             }
           },
           "default": {
@@ -2130,13 +2082,13 @@
           "200": {
             "description": "Update -- Update Queue operation completed successfully.",
             "schema": {
-              "type": "object"
+              "$ref": "#/definitions/CreateQueueBody"
             }
           },
           "201": {
             "description": "Created -- Create Queue operation completed successfully.",
             "schema": {
-              "type": "object"
+              "$ref": "#/definitions/CreateQueueBody"
             }
           },
           "default": {

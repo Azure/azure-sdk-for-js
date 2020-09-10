@@ -177,10 +177,10 @@ const putTopicOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: { type: { name: "any" }, serializedName: "any" }
+      bodyMapper: Mappers.CreateTopicBody
     },
     201: {
-      bodyMapper: { type: { name: "any" }, serializedName: "any" }
+      bodyMapper: Mappers.CreateTopicBody
     },
     default: {
       bodyMapper: Mappers.ServiceBusManagementError,
@@ -235,10 +235,10 @@ const putQueueOperationSpec: coreHttp.OperationSpec = {
   httpMethod: "PUT",
   responses: {
     200: {
-      bodyMapper: { type: { name: "any" }, serializedName: "any" }
+      bodyMapper: Mappers.CreateQueueBody
     },
     201: {
-      bodyMapper: { type: { name: "any" }, serializedName: "any" }
+      bodyMapper: Mappers.CreateQueueBody
     },
     default: {
       bodyMapper: Mappers.ServiceBusManagementError,
