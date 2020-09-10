@@ -51,12 +51,7 @@ Use the [Azure CLI][azure-cli] snippet below to create/get client secret credent
     ```
     "<your-service-principal-object-id>"
     ```
-* Use the returned credentials above to set  **AZURE_CLIENT_ID** (appId), **AZURE_CLIENT_SECRET** (password), and **AZURE_TENANT_ID** (tenant) environment variables:
-    ```PowerShell
-    AZURE_TENANT_ID=<tenant-ID>
-    AZURE_CLIENT_ID=<generated-app-ID>
-    AZURE_CLIENT_SECRET=<random-password>
-    ```
+* Use the returned credentials above to set  **AZURE_CLIENT_ID** (appId), **AZURE_CLIENT_SECRET** (password), and **AZURE_TENANT_ID** (tenant) environment variables.
 
 #### Get or create an Azure Key Vault with the Azure CLI
 
