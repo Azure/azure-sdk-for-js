@@ -39,7 +39,7 @@ module.exports = function(config) {
       "https://cdn.polyfill.io/v2/polyfill.js?features=Symbol,Promise,String.prototype.startsWith,String.prototype.endsWith,String.prototype.repeat,String.prototype.includes,Array.prototype.includes,Object.assign,Object.keys|always,Symbol.iterator",
       "dist-test/index.browser.js",
       // { pattern: 'dist-/*.js', included: false }
-      { pattern: "dist-test/index.browser.js.map", type: "html", included: false, served: true },
+      { pattern: "dist-test/index.browser.js.map", type: "html", included: false, served: true }
     ].concat(isPlaybackMode() || isSoftRecordMode() ? ["recordings/browsers/**/*.json"] : []),
 
     // list of files / patterns to exclude
@@ -58,9 +58,7 @@ module.exports = function(config) {
     // inject following environment values into browser testing with window.__env__
     // environment values MUST be exported or set with same console running "karma start"
     // https://www.npmjs.com/package/karma-env-preprocessor
-    envPreprocessor: [
-      "TEST_MODE",
-    ],
+    envPreprocessor: ["TEST_MODE"],
 
     // test results reporter to use
     // possible values: 'dots', 'progress'
