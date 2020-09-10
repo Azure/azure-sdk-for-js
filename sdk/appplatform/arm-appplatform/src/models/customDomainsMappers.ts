@@ -33,6 +33,7 @@ export {
   MonitoringSettingProperties,
   MonitoringSettingResource,
   NetworkProfile,
+  NetworkProfileOutboundIPs,
   PersistentDisk,
   ProxyResource,
   Resource,

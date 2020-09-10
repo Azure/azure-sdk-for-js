@@ -34,6 +34,7 @@ export {
   NameAvailability,
   NameAvailabilityParameters,
   NetworkProfile,
+  NetworkProfileOutboundIPs,
   PersistentDisk,
   ProxyResource,
   RegenerateTestKeyRequestPayload,
