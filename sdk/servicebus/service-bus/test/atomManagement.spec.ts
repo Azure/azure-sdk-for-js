@@ -1363,7 +1363,7 @@ describe("Atom management - Authentication", function(): void {
       requiresSession: true,
       userMetadata: "test metadata",
       status: "ReceiveDisabled" as EntityStatus,
-      availabilityStatus: "Restoring" as EntityAvailabilityStatus
+      availabilityStatus: "Available" as EntityAvailabilityStatus
     },
     output: {
       lockDuration: "PT5M",
@@ -1382,7 +1382,7 @@ describe("Atom management - Authentication", function(): void {
 
       subscriptionName: managementSubscription1,
       topicName: managementTopic1,
-      availabilityStatus: "Restoring"
+      availabilityStatus: "Available"
     }
   }
 ].forEach((testCase) => {
@@ -1569,7 +1569,7 @@ describe("Atom management - Authentication", function(): void {
       enableExpress: false,
       userMetadata: "test metadata",
       status: "ReceiveDisabled" as EntityStatus,
-      availabilityStatus: "Restoring" as EntityAvailabilityStatus
+      availabilityStatus: "Available" as EntityAvailabilityStatus
     },
     output: {
       duplicateDetectionHistoryTimeWindow: "PT1M",
@@ -1607,7 +1607,7 @@ describe("Atom management - Authentication", function(): void {
       userMetadata: "test metadata",
       status: "ReceiveDisabled",
       name: managementQueue1,
-      availabilityStatus: "Restoring"
+      availabilityStatus: "Available"
     }
   }
 ].forEach((testCase) => {
@@ -1867,7 +1867,7 @@ describe("Atom management - Authentication", function(): void {
       enableExpress: false,
       userMetadata: "test metadata",
       status: "ReceiveDisabled" as EntityStatus,
-      availabilityStatus: "Limited" as EntityAvailabilityStatus
+      availabilityStatus: "Available" as EntityAvailabilityStatus
     },
     output: {
       duplicateDetectionHistoryTimeWindow: "PT2M",
@@ -1905,7 +1905,7 @@ describe("Atom management - Authentication", function(): void {
       enablePartitioning: true,
       enableExpress: false,
       name: managementQueue1,
-      availabilityStatus: "Limited"
+      availabilityStatus: "Available"
     }
   }
 ].forEach((testCase) => {
@@ -2089,7 +2089,7 @@ describe("Atom management - Authentication", function(): void {
       autoDeleteOnIdle: "PT2H",
       supportOrdering: true,
       maxSizeInMegabytes: 3072,
-      availabilityStatus: "Renaming" as EntityAvailabilityStatus
+      availabilityStatus: "Available" as EntityAvailabilityStatus
     },
     output: {
       requiresDuplicateDetection: false,
@@ -2105,7 +2105,7 @@ describe("Atom management - Authentication", function(): void {
       status: "SendDisabled",
       userMetadata: "test metadata",
       name: managementTopic1,
-      availabilityStatus: "Renaming"
+      availabilityStatus: "Available"
     }
   }
 ].forEach((testCase) => {
@@ -2157,7 +2157,7 @@ describe("Atom management - Authentication", function(): void {
       requiresSession: false,
       userMetadata: "test metadata",
       status: "ReceiveDisabled" as EntityStatus,
-      availabilityStatus: "Unknown" as EntityAvailabilityStatus
+      availabilityStatus: "Available" as EntityAvailabilityStatus
     },
     output: {
       lockDuration: "PT3M",
@@ -2174,7 +2174,7 @@ describe("Atom management - Authentication", function(): void {
       status: "ReceiveDisabled",
       subscriptionName: managementSubscription1,
       topicName: managementTopic1,
-      availabilityStatus: "Unknown"
+      availabilityStatus: "Available"
     }
   }
 ].forEach((testCase) => {
