@@ -357,7 +357,7 @@ If you'd like to contribute to this library, please read the [contributing guide
 [receiver_subscribe]: https://docs.microsoft.com/en-us/javascript/api/@azure/service-bus/receiver?view=azure-node-preview#subscribe-messagehandlers-receivedmessaget---subscribeoptions-
 [receiver_getmessageiterator]: https://docs.microsoft.com/en-us/javascript/api/@azure/service-bus/receiver?view=azure-node-preview#getmessageiterator-getmessageiteratoroptions-
 [sessionreceiver]: https://docs.microsoft.com/en-us/javascript/api/@azure/service-bus/sessionreceiver?view=azure-node-preview
-[migrationguide]: https://github.com/Azure/azure-sdk-for-js/blob/%40azure/service-bus_7.0.0-preview.5/sdk/servicebus/service-bus/migrationguide.md
+[migrationguide]: https://github.com/Azure/azure-sdk-for-js/blob/fb53a838e702a075c4db6f1d4a17849a271342df/sdk/servicebus/service-bus/migrationguide.md
 [docsms_messagesessions]: https://docs.microsoft.com/azure/service-bus-messaging/message-sessions
 [docsms_messagesessions_fifo]: https://docs.microsoft.com/azure/service-bus-messaging/message-sessions#first-in-first-out-fifo-pattern
 [queue_concept]: https://docs.microsoft.com/azure/service-bus-messaging/service-bus-messaging-overview#queues
