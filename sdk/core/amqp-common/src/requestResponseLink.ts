@@ -17,7 +17,7 @@ import {
   ReqResLink,
   generate_uuid
 } from "rhea-promise";
-import { translate, ConditionStatusMapper, MessagingError } from "./errors";
+import { translate, ConditionStatusMapper } from "./errors";
 import * as log from "./log";
 
 /**
@@ -188,37 +188,26 @@ export class RequestResponseLink implements ReqResLink {
 
           const address = this.receiver.source && this.receiver.source.address;
 
-          if (address == null) {
-            // they're in an indeterminate state here - the internal source is not properly initialized
-            // but the link was "opened". Throw a non-retryable error here as future sends are not going
-            // to work without reinitializing the link (and possibly the connection)
-            const err = translate(
-              new MessagingError("The receiver is invalid. Please try again later.")
-            );
-            err.retryable = false;
-
-            this.close()
-              .catch(() => {
-                // if there are additional failures as we bail we'll just ignore them - the important thing is to clear
-                // as much of the previous state as possible to pave the way for a new session and links to
-                // be created.
-                reject(err);
-              })
-              .then(() => {
-                reject(err);
-              });
-
-            return;
-          }
-
           const desc: string =
-            `The request with message_id "${request.message_id}" to "${address}" ` +
+            `The request with message_id "${request.message_id}" to "${address || "unknown"}" ` +
             `endpoint timed out. Please try again later.`;
           const e: AmqpError = {
             condition: ConditionStatusMapper[408],
             description: desc
           };
-          return reject(translate(e));
+
+          if (address == null) {
+            this.close()
+              .catch(() => {
+                // if there are additional failures as we bail we'll just ignore them - the important thing is to clear
+                // as much of the previous state as possible to pave the way for a new session and links to
+                // be created.
+                reject(translate(e));
+              })
+              .then(() => reject(translate(e)));
+          } else {
+            return reject(translate(e));
+          }
         };
 
         this.receiver.on(ReceiverEvents.message, messageCallback);

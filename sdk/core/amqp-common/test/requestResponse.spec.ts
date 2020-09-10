@@ -4,7 +4,7 @@
 import * as assert from "assert";
 import { RequestResponseLink, AmqpMessage, ErrorNameConditionMapper } from "../src";
 import { Connection, Receiver, Sender, Session } from "rhea-promise";
-import { stub, useFakeTimers, spy } from "sinon";
+import { stub, spy } from "sinon";
 import EventEmitter from "events";
 
 interface Window {}
@@ -389,18 +389,10 @@ describe("RequestResponseLink", function() {
   });
 
   describe(".source == undefined", () => {
-    let clock: ReturnType<typeof useFakeTimers>;
-    beforeEach(() => {
-      clock = useFakeTimers();
-    });
-
-    afterEach(() => {
-      clock.restore();
-    });
-
     it("sendRequest doesn't fault if .source is not set in the receiver", async function() {
       const rcvr = new EventEmitter() as Receiver;
       let sourceWasCalled = false;
+
       Object.defineProperty(rcvr, "source", {
         get: () => {
           sourceWasCalled = true;
@@ -409,9 +401,7 @@ describe("RequestResponseLink", function() {
       });
 
       const sender = {
-        send: (_request: any) => {
-          clock.tick(5000);
-        }
+        send: (_request: any) => {}
       } as Sender;
 
       const sendSpy = spy(sender, "send");
@@ -426,7 +416,10 @@ describe("RequestResponseLink", function() {
         rcvr
       );
 
-      const linkCloseSpy = spy(link, "close");
+      let closeWasCalled = false;
+      link["close"] = async () => {
+        closeWasCalled = true;
+      };
 
       const request: AmqpMessage = {
         body: "Hello World!!"
@@ -437,7 +430,7 @@ describe("RequestResponseLink", function() {
         // we'll force a timeout here while also causing the receiverStub to have an invalid .source
         const requestPromise = link.sendRequest(request, {
           times: 1,
-          delayInSeconds: 5,
+          delayInSeconds: 0,
           timeoutInSeconds: 1
         });
 
@@ -446,11 +439,18 @@ describe("RequestResponseLink", function() {
 
         throw new Error(testFailureMessage);
       } catch (err) {
-        assert.equal(err.message, "The receiver is invalid. Please try again later.");
+        assert.equal(
+          err.message.match(
+            /.*The request with message_id ".*?" to "unknown" endpoint timed out. Please try again later\..*/
+          ) != null,
+          true
+        );
+
+        assert.equal(err.retryable, true, "error ultimately thrown is still considered retryable");
       }
 
       assert.equal(
-        linkCloseSpy.called,
+        closeWasCalled,
         true,
         "Link should be called when we detect .source == undefined"
       );
