@@ -18,7 +18,7 @@ To run the live tests, you will also need to set the below environment variables
 - `KEYVAULT_NAME`: The name of the KeyVault to use.
 - `BLOB_STORAGE_URI`: URI of the Blob Storage instance, with the name of the container where the Key Vault backups will be generated.
 - `BLOB_STORAGE_SAS_TOKEN`: URI of the Blob Storage instance, with the name of the container where the Key Vault backups will be generated.
-- `CLIENT_OBJECT_ID`: Object ID of the application, tenant or principal to whom the role will be assigned to.
+- `CLIENT_OBJECT_ID`: Object ID of the application, tenant or principal to whom the role will be assigned to. These tests add and remove roles to and from this ID. **Do not use the same Object Id of the application, tenant or principal you're using to authenticate the client.**
 
 The live tests in this project will assign access roles to an Azure Key Vault, as well as generate backups and delete backups of an Azure Key Vault.
 
