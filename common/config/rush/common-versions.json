@@ -15,8 +15,7 @@
      * When someone asks for "^1.0.0" make sure they get "1.2.3" when working in this repo,
      * instead of the latest version.
      */
-    "prettier": "^1.16.4",
-    "precise-commits": "^1.0.2"
+    // "some-library": "1.2.3"
   },
   /**
    * When set to true, for all projects in the repo, all dependencies will be automatically added as preferredVersions,
