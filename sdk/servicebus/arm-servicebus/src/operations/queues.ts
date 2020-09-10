@@ -27,150 +27,6 @@ export class Queues {
   }
 
   /**
-   * Gets the queues within a namespace.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param namespaceName The namespace name
-   * @param [options] The optional parameters
-   * @returns Promise<Models.QueuesListByNamespaceResponse>
-   */
-  listByNamespace(resourceGroupName: string, namespaceName: string, options?: Models.QueuesListByNamespaceOptionalParams): Promise<Models.QueuesListByNamespaceResponse>;
-  /**
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param namespaceName The namespace name
-   * @param callback The callback
-   */
-  listByNamespace(resourceGroupName: string, namespaceName: string, callback: msRest.ServiceCallback<Models.SBQueueListResult>): void;
-  /**
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param namespaceName The namespace name
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  listByNamespace(resourceGroupName: string, namespaceName: string, options: Models.QueuesListByNamespaceOptionalParams, callback: msRest.ServiceCallback<Models.SBQueueListResult>): void;
-  listByNamespace(resourceGroupName: string, namespaceName: string, options?: Models.QueuesListByNamespaceOptionalParams | msRest.ServiceCallback<Models.SBQueueListResult>, callback?: msRest.ServiceCallback<Models.SBQueueListResult>): Promise<Models.QueuesListByNamespaceResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        namespaceName,
-        options
-      },
-      listByNamespaceOperationSpec,
-      callback) as Promise<Models.QueuesListByNamespaceResponse>;
-  }
-
-  /**
-   * Creates or updates a Service Bus queue. This operation is idempotent.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param namespaceName The namespace name
-   * @param queueName The queue name.
-   * @param parameters Parameters supplied to create or update a queue resource.
-   * @param [options] The optional parameters
-   * @returns Promise<Models.QueuesCreateOrUpdateResponse>
-   */
-  createOrUpdate(resourceGroupName: string, namespaceName: string, queueName: string, parameters: Models.SBQueue, options?: msRest.RequestOptionsBase): Promise<Models.QueuesCreateOrUpdateResponse>;
-  /**
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param namespaceName The namespace name
-   * @param queueName The queue name.
-   * @param parameters Parameters supplied to create or update a queue resource.
-   * @param callback The callback
-   */
-  createOrUpdate(resourceGroupName: string, namespaceName: string, queueName: string, parameters: Models.SBQueue, callback: msRest.ServiceCallback<Models.SBQueue>): void;
-  /**
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param namespaceName The namespace name
-   * @param queueName The queue name.
-   * @param parameters Parameters supplied to create or update a queue resource.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  createOrUpdate(resourceGroupName: string, namespaceName: string, queueName: string, parameters: Models.SBQueue, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SBQueue>): void;
-  createOrUpdate(resourceGroupName: string, namespaceName: string, queueName: string, parameters: Models.SBQueue, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SBQueue>, callback?: msRest.ServiceCallback<Models.SBQueue>): Promise<Models.QueuesCreateOrUpdateResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        namespaceName,
-        queueName,
-        parameters,
-        options
-      },
-      createOrUpdateOperationSpec,
-      callback) as Promise<Models.QueuesCreateOrUpdateResponse>;
-  }
-
-  /**
-   * Deletes a queue from the specified namespace in a resource group.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param namespaceName The namespace name
-   * @param queueName The queue name.
-   * @param [options] The optional parameters
-   * @returns Promise<msRest.RestResponse>
-   */
-  deleteMethod(resourceGroupName: string, namespaceName: string, queueName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
-  /**
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param namespaceName The namespace name
-   * @param queueName The queue name.
-   * @param callback The callback
-   */
-  deleteMethod(resourceGroupName: string, namespaceName: string, queueName: string, callback: msRest.ServiceCallback<void>): void;
-  /**
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param namespaceName The namespace name
-   * @param queueName The queue name.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  deleteMethod(resourceGroupName: string, namespaceName: string, queueName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
-  deleteMethod(resourceGroupName: string, namespaceName: string, queueName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        namespaceName,
-        queueName,
-        options
-      },
-      deleteMethodOperationSpec,
-      callback);
-  }
-
-  /**
-   * Returns a description for the specified queue.
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param namespaceName The namespace name
-   * @param queueName The queue name.
-   * @param [options] The optional parameters
-   * @returns Promise<Models.QueuesGetResponse>
-   */
-  get(resourceGroupName: string, namespaceName: string, queueName: string, options?: msRest.RequestOptionsBase): Promise<Models.QueuesGetResponse>;
-  /**
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param namespaceName The namespace name
-   * @param queueName The queue name.
-   * @param callback The callback
-   */
-  get(resourceGroupName: string, namespaceName: string, queueName: string, callback: msRest.ServiceCallback<Models.SBQueue>): void;
-  /**
-   * @param resourceGroupName Name of the Resource group within the Azure subscription.
-   * @param namespaceName The namespace name
-   * @param queueName The queue name.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  get(resourceGroupName: string, namespaceName: string, queueName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SBQueue>): void;
-  get(resourceGroupName: string, namespaceName: string, queueName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SBQueue>, callback?: msRest.ServiceCallback<Models.SBQueue>): Promise<Models.QueuesGetResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        namespaceName,
-        queueName,
-        options
-      },
-      getOperationSpec,
-      callback) as Promise<Models.QueuesGetResponse>;
-  }
-
-  /**
    * Gets all authorization rules for a queue.
    * @param resourceGroupName Name of the Resource group within the Azure subscription.
    * @param namespaceName The namespace name
@@ -416,30 +272,146 @@ export class Queues {
 
   /**
    * Gets the queues within a namespace.
-   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param namespaceName The namespace name
    * @param [options] The optional parameters
-   * @returns Promise<Models.QueuesListByNamespaceNextResponse>
+   * @returns Promise<Models.QueuesListByNamespaceResponse>
    */
-  listByNamespaceNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.QueuesListByNamespaceNextResponse>;
+  listByNamespace(resourceGroupName: string, namespaceName: string, options?: Models.QueuesListByNamespaceOptionalParams): Promise<Models.QueuesListByNamespaceResponse>;
   /**
-   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param namespaceName The namespace name
    * @param callback The callback
    */
-  listByNamespaceNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.SBQueueListResult>): void;
+  listByNamespace(resourceGroupName: string, namespaceName: string, callback: msRest.ServiceCallback<Models.SBQueueListResult>): void;
   /**
-   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param namespaceName The namespace name
    * @param options The optional parameters
    * @param callback The callback
    */
-  listByNamespaceNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SBQueueListResult>): void;
-  listByNamespaceNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SBQueueListResult>, callback?: msRest.ServiceCallback<Models.SBQueueListResult>): Promise<Models.QueuesListByNamespaceNextResponse> {
+  listByNamespace(resourceGroupName: string, namespaceName: string, options: Models.QueuesListByNamespaceOptionalParams, callback: msRest.ServiceCallback<Models.SBQueueListResult>): void;
+  listByNamespace(resourceGroupName: string, namespaceName: string, options?: Models.QueuesListByNamespaceOptionalParams | msRest.ServiceCallback<Models.SBQueueListResult>, callback?: msRest.ServiceCallback<Models.SBQueueListResult>): Promise<Models.QueuesListByNamespaceResponse> {
     return this.client.sendOperationRequest(
       {
-        nextPageLink,
+        resourceGroupName,
+        namespaceName,
         options
       },
-      listByNamespaceNextOperationSpec,
-      callback) as Promise<Models.QueuesListByNamespaceNextResponse>;
+      listByNamespaceOperationSpec,
+      callback) as Promise<Models.QueuesListByNamespaceResponse>;
+  }
+
+  /**
+   * Creates or updates a Service Bus queue. This operation is idempotent.
+   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param namespaceName The namespace name
+   * @param queueName The queue name.
+   * @param parameters Parameters supplied to create or update a queue resource.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.QueuesCreateOrUpdateResponse>
+   */
+  createOrUpdate(resourceGroupName: string, namespaceName: string, queueName: string, parameters: Models.SBQueue, options?: msRest.RequestOptionsBase): Promise<Models.QueuesCreateOrUpdateResponse>;
+  /**
+   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param namespaceName The namespace name
+   * @param queueName The queue name.
+   * @param parameters Parameters supplied to create or update a queue resource.
+   * @param callback The callback
+   */
+  createOrUpdate(resourceGroupName: string, namespaceName: string, queueName: string, parameters: Models.SBQueue, callback: msRest.ServiceCallback<Models.SBQueue>): void;
+  /**
+   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param namespaceName The namespace name
+   * @param queueName The queue name.
+   * @param parameters Parameters supplied to create or update a queue resource.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  createOrUpdate(resourceGroupName: string, namespaceName: string, queueName: string, parameters: Models.SBQueue, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SBQueue>): void;
+  createOrUpdate(resourceGroupName: string, namespaceName: string, queueName: string, parameters: Models.SBQueue, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SBQueue>, callback?: msRest.ServiceCallback<Models.SBQueue>): Promise<Models.QueuesCreateOrUpdateResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        namespaceName,
+        queueName,
+        parameters,
+        options
+      },
+      createOrUpdateOperationSpec,
+      callback) as Promise<Models.QueuesCreateOrUpdateResponse>;
+  }
+
+  /**
+   * Deletes a queue from the specified namespace in a resource group.
+   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param namespaceName The namespace name
+   * @param queueName The queue name.
+   * @param [options] The optional parameters
+   * @returns Promise<msRest.RestResponse>
+   */
+  deleteMethod(resourceGroupName: string, namespaceName: string, queueName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse>;
+  /**
+   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param namespaceName The namespace name
+   * @param queueName The queue name.
+   * @param callback The callback
+   */
+  deleteMethod(resourceGroupName: string, namespaceName: string, queueName: string, callback: msRest.ServiceCallback<void>): void;
+  /**
+   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param namespaceName The namespace name
+   * @param queueName The queue name.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  deleteMethod(resourceGroupName: string, namespaceName: string, queueName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<void>): void;
+  deleteMethod(resourceGroupName: string, namespaceName: string, queueName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        namespaceName,
+        queueName,
+        options
+      },
+      deleteMethodOperationSpec,
+      callback);
+  }
+
+  /**
+   * Returns a description for the specified queue.
+   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param namespaceName The namespace name
+   * @param queueName The queue name.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.QueuesGetResponse>
+   */
+  get(resourceGroupName: string, namespaceName: string, queueName: string, options?: msRest.RequestOptionsBase): Promise<Models.QueuesGetResponse>;
+  /**
+   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param namespaceName The namespace name
+   * @param queueName The queue name.
+   * @param callback The callback
+   */
+  get(resourceGroupName: string, namespaceName: string, queueName: string, callback: msRest.ServiceCallback<Models.SBQueue>): void;
+  /**
+   * @param resourceGroupName Name of the Resource group within the Azure subscription.
+   * @param namespaceName The namespace name
+   * @param queueName The queue name.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  get(resourceGroupName: string, namespaceName: string, queueName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SBQueue>): void;
+  get(resourceGroupName: string, namespaceName: string, queueName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SBQueue>, callback?: msRest.ServiceCallback<Models.SBQueue>): Promise<Models.QueuesGetResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        namespaceName,
+        queueName,
+        options
+      },
+      getOperationSpec,
+      callback) as Promise<Models.QueuesGetResponse>;
   }
 
   /**
@@ -469,132 +441,49 @@ export class Queues {
       listAuthorizationRulesNextOperationSpec,
       callback) as Promise<Models.QueuesListAuthorizationRulesNextResponse>;
   }
+
+  /**
+   * Gets the queues within a namespace.
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.QueuesListByNamespaceNextResponse>
+   */
+  listByNamespaceNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.QueuesListByNamespaceNextResponse>;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param callback The callback
+   */
+  listByNamespaceNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.SBQueueListResult>): void;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  listByNamespaceNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SBQueueListResult>): void;
+  listByNamespaceNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SBQueueListResult>, callback?: msRest.ServiceCallback<Models.SBQueueListResult>): Promise<Models.QueuesListByNamespaceNextResponse> {
+    return this.client.sendOperationRequest(
+      {
+        nextPageLink,
+        options
+      },
+      listByNamespaceNextOperationSpec,
+      callback) as Promise<Models.QueuesListByNamespaceNextResponse>;
+  }
 }
 
 // Operation Specifications
 const serializer = new msRest.Serializer(Mappers);
-const listByNamespaceOperationSpec: msRest.OperationSpec = {
-  httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/queues",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.namespaceName1,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion,
-    Parameters.skip,
-    Parameters.top
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  responses: {
-    200: {
-      bodyMapper: Mappers.SBQueueListResult
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  serializer
-};
-
-const createOrUpdateOperationSpec: msRest.OperationSpec = {
-  httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/queues/{queueName}",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.namespaceName1,
-    Parameters.queueName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  requestBody: {
-    parameterPath: "parameters",
-    mapper: {
-      ...Mappers.SBQueue,
-      required: true
-    }
-  },
-  responses: {
-    200: {
-      bodyMapper: Mappers.SBQueue
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  serializer
-};
-
-const deleteMethodOperationSpec: msRest.OperationSpec = {
-  httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/queues/{queueName}",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.namespaceName1,
-    Parameters.queueName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  responses: {
-    200: {},
-    204: {},
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  serializer
-};
-
-const getOperationSpec: msRest.OperationSpec = {
-  httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/queues/{queueName}",
-  urlParameters: [
-    Parameters.resourceGroupName,
-    Parameters.namespaceName1,
-    Parameters.queueName,
-    Parameters.subscriptionId
-  ],
-  queryParameters: [
-    Parameters.apiVersion
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  responses: {
-    200: {
-      bodyMapper: Mappers.SBQueue
-    },
-    default: {
-      bodyMapper: Mappers.ErrorResponse
-    }
-  },
-  serializer
-};
-
 const listAuthorizationRulesOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/queues/{queueName}/authorizationRules",
   urlParameters: [
     Parameters.resourceGroupName,
-    Parameters.namespaceName1,
+    Parameters.namespaceName0,
     Parameters.queueName,
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion1
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -615,13 +504,13 @@ const createOrUpdateAuthorizationRuleOperationSpec: msRest.OperationSpec = {
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/queues/{queueName}/authorizationRules/{authorizationRuleName}",
   urlParameters: [
     Parameters.resourceGroupName,
-    Parameters.namespaceName1,
+    Parameters.namespaceName0,
     Parameters.queueName,
     Parameters.authorizationRuleName,
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion1
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -649,13 +538,13 @@ const deleteAuthorizationRuleOperationSpec: msRest.OperationSpec = {
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/queues/{queueName}/authorizationRules/{authorizationRuleName}",
   urlParameters: [
     Parameters.resourceGroupName,
-    Parameters.namespaceName1,
+    Parameters.namespaceName0,
     Parameters.queueName,
     Parameters.authorizationRuleName,
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion1
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -675,13 +564,13 @@ const getAuthorizationRuleOperationSpec: msRest.OperationSpec = {
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/queues/{queueName}/authorizationRules/{authorizationRuleName}",
   urlParameters: [
     Parameters.resourceGroupName,
-    Parameters.namespaceName1,
+    Parameters.namespaceName0,
     Parameters.queueName,
     Parameters.authorizationRuleName,
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion1
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -702,13 +591,13 @@ const listKeysOperationSpec: msRest.OperationSpec = {
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/queues/{queueName}/authorizationRules/{authorizationRuleName}/ListKeys",
   urlParameters: [
     Parameters.resourceGroupName,
-    Parameters.namespaceName1,
+    Parameters.namespaceName0,
     Parameters.queueName,
     Parameters.authorizationRuleName,
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion1
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -729,13 +618,13 @@ const regenerateKeysOperationSpec: msRest.OperationSpec = {
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/queues/{queueName}/authorizationRules/{authorizationRuleName}/regenerateKeys",
   urlParameters: [
     Parameters.resourceGroupName,
-    Parameters.namespaceName1,
+    Parameters.namespaceName0,
     Parameters.queueName,
     Parameters.authorizationRuleName,
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion1
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -758,12 +647,18 @@ const regenerateKeysOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const listByNamespaceNextOperationSpec: msRest.OperationSpec = {
+const listByNamespaceOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  baseUrl: "https://management.azure.com",
-  path: "{nextLink}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/queues",
   urlParameters: [
-    Parameters.nextPageLink
+    Parameters.resourceGroupName,
+    Parameters.namespaceName0,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion1,
+    Parameters.skip,
+    Parameters.top
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -771,6 +666,90 @@ const listByNamespaceNextOperationSpec: msRest.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.SBQueueListResult
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  serializer
+};
+
+const createOrUpdateOperationSpec: msRest.OperationSpec = {
+  httpMethod: "PUT",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/queues/{queueName}",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.namespaceName0,
+    Parameters.queueName,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion1
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "parameters",
+    mapper: {
+      ...Mappers.SBQueue,
+      required: true
+    }
+  },
+  responses: {
+    200: {
+      bodyMapper: Mappers.SBQueue
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  serializer
+};
+
+const deleteMethodOperationSpec: msRest.OperationSpec = {
+  httpMethod: "DELETE",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/queues/{queueName}",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.namespaceName0,
+    Parameters.queueName,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion1
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {},
+    204: {},
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  serializer
+};
+
+const getOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ServiceBus/namespaces/{namespaceName}/queues/{queueName}",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.namespaceName0,
+    Parameters.queueName,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion1
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.SBQueue
     },
     default: {
       bodyMapper: Mappers.ErrorResponse
@@ -792,6 +771,27 @@ const listAuthorizationRulesNextOperationSpec: msRest.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.SBAuthorizationRuleListResult
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  serializer
+};
+
+const listByNamespaceNextOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  baseUrl: "https://management.azure.com",
+  path: "{nextLink}",
+  urlParameters: [
+    Parameters.nextPageLink
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.SBQueueListResult
     },
     default: {
       bodyMapper: Mappers.ErrorResponse

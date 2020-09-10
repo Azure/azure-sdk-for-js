@@ -18,7 +18,6 @@ const packageVersion = "4.0.0";
 export class ServiceBusManagementClientContext extends msRestAzure.AzureServiceClient {
   credentials: msRest.ServiceClientCredentials;
   subscriptionId: string;
-  apiVersion?: string;
 
   /**
    * Initializes a new instance of the ServiceBusManagementClient class.
@@ -45,7 +44,6 @@ export class ServiceBusManagementClientContext extends msRestAzure.AzureServiceC
 
     super(credentials, options);
 
-    this.apiVersion = '2017-04-01';
     this.acceptLanguage = 'en-US';
     this.longRunningOperationRetryTimeout = 30;
     this.baseUri = options.baseUri || this.baseUri || "https://management.azure.com";

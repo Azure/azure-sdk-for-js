@@ -8,14 +8,16 @@
  * regenerated.
  */
 
-export * from "./operations";
 export * from "./namespaces";
-export * from "./disasterRecoveryConfigs";
-export * from "./migrationConfigs";
+export * from "./privateEndpointConnections";
+export * from "./privateLinkResources";
+export * from "./operations";
 export * from "./queues";
 export * from "./topics";
+export * from "./disasterRecoveryConfigs";
+export * from "./eventHubs";
+export * from "./migrationConfigs";
+export * from "./premiumMessagingRegionsOperations";
+export * from "./regions";
 export * from "./subscriptions";
 export * from "./rules";
-export * from "./regions";
-export * from "./premiumMessagingRegionsOperations";
-export * from "./eventHubs";
