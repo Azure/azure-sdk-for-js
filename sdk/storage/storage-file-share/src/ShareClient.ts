@@ -702,7 +702,7 @@ export class ShareClient extends StorageClient {
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/create-file
    *
    * @param {string} fileName
-   * @param {number} size Specifies the maximum size in bytes for the file, up to 1 TB.
+   * @param {number} size Specifies the maximum size in bytes for the file, up to 4 TB.
    * @param {FileCreateOptions} [options] Options to File Create operation.
    * @returns {Promise<{ fileClient: ShareFileClient, fileCreateResponse: FileCreateResponse }>} File creation response data and the corresponding file client.
    * @memberof ShareClient

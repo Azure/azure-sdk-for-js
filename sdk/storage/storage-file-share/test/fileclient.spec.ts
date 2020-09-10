@@ -149,7 +149,7 @@ describe("FileClient", () => {
     assert.ok(properties.fileParentId!);
   });
 
-  it.only("create largest file", async function() {
+  it("create largest file", async function() {
     // IE complains about "Arithmetic result exceeded 32 bits".
     if (!isNode && isIE()) {
       this.skip();
