@@ -69,7 +69,7 @@ Use the [Azure CLI][azure-cli] snippet below to create/get client secret credent
 
 A storage account is necessary to generate the backup of a Key Vault.
 
-To generate Key Vault backups, you will need to point the [KeyVaultBackupClient][src-backup-client] to an existing Storage account.
+To generate Key Vault backups, you will need to point the `KeyVaultBackupClient` to an existing Storage account.
 
 To create a new Storage Account, you can use the [Azure Portal][storage-account-create-portal],
 [Azure PowerShell][storage-account-create-ps], or the [Azure CLI][storage-account-create-cli].
@@ -91,7 +91,7 @@ You also need to enable `compilerOptions.allowSyntheticDefaultImports` in your t
 
 ### Authenticate the client
 
-In order to control permissions to the Key Vault service, or to generate and restore backups of a specific Key Vault, you'll need to create either an instance of the [KeyVaultAccessControlClient][src-rbac-client] class, or an instance of the [KeyVaultBackupClient][src-backup-client] class, respectively.
+In order to control permissions to the Key Vault service, or to generate and restore backups of a specific Key Vault, you'll need to create either an instance of the `KeyVaultAccessControlClient` class, or an instance of the `KeyVaultBackupClient` class, respectively.
 
 In both cases, you'll need a **vault URL**, which you may see as "DNS Name" in the portal, and a credential object from the [@azure/identity][identity-npm] package which is used to authenticate with Azure Active Directory.
 
@@ -103,7 +103,7 @@ npm install @azure/identity
 
 #### Create KeyVaultAccessControlClient
 
-Once you've populated the **AZURE_CLIENT_ID**, **AZURE_CLIENT_SECRET** and **AZURE_TENANT_ID** environment variables and replaced **your-vault-url** with the above returned URI, you can create the [KeyVaultAccessControlClient][src-rbac-client]:
+Once you've populated the **AZURE_CLIENT_ID**, **AZURE_CLIENT_SECRET** and **AZURE_TENANT_ID** environment variables and replaced **your-vault-url** with the above returned URI, you can create the `KeyVaultAccessControlClient`:
 
 ```ts
 import { DefaultAzureCredential } from "@azure/identity";
@@ -117,7 +117,7 @@ const client = new KeyVaultAccessControlClient(vaultUrl, credentials);
 
 #### Create KeyVaultBackupClient
 
-Once you've populated the **AZURE_CLIENT_ID**, **AZURE_CLIENT_SECRET** and **AZURE_TENANT_ID** environment variables and replaced **your-vault-url** with the above returned URI, you can create the [KeyVaultBackupClient][src-backup-client]:
+Once you've populated the **AZURE_CLIENT_ID**, **AZURE_CLIENT_SECRET** and **AZURE_TENANT_ID** environment variables and replaced **your-vault-url** with the above returned URI, you can create the `KeyVaultBackupClient`:
 
 ```ts
 import { DefaultAzureCredential } from "@azure/identity";
@@ -143,17 +143,17 @@ A Role Assignment is the association of a Role Definition to a service principal
 
 ### KeyVaultAccessControlClient
 
-A [KeyVaultAccessControlClient][src-rbac-client] provides both synchronous and asynchronous operations allowing for management of Role Definitions (instances of `KeyVaultRoleDefinition`) and Role Assignments (instances of `KeyVaultRoleAssignment`).
+A `KeyVaultAccessControlClient` provides both synchronous and asynchronous operations allowing for management of Role Definitions (instances of `KeyVaultRoleDefinition`) and Role Assignments (instances of `KeyVaultRoleAssignment`).
 
 ### KeyVaultBackupClient
 
-A [KeyVaultBackupClient][src-backup-client] provides both synchronous and asynchronous operations for performing full key backups, full key restores, and selective key restores.
+A `KeyVaultBackupClient` provides both synchronous and asynchronous operations for performing full key backups, full key restores, and selective key restores.
 
 ### Long running operations
 
-The operations done by the [KeyVaultBackupClient][src-backup-client] may take as much time as needed by the Azure resources, requiring a client layer to keep track, serialize and resume the operations through the lifecycle of the programs that wait for them to finish. This is done via a common abstraction through the package [@azure/core-lro][core-lro].
+The operations done by the `KeyVaultBackupClient` may take as much time as needed by the Azure resources, requiring a client layer to keep track, serialize and resume the operations through the lifecycle of the programs that wait for them to finish. This is done via a common abstraction through the package [@azure/core-lro][core-lro].
 
-The [KeyVaultBackupClient][src-backup-client] offers three methods that execute long running operations:
+The `KeyVaultBackupClient` offers three methods that execute long running operations:
 
 - `beginBackup`, starts generating a backup of an Azure Key Vault on the specified Storage Blob account.
 - `beginRestore`, starts restoring all key materials using the SAS token pointing to a previously stored Azure Blob storage backup folder.
@@ -221,8 +221,6 @@ If you'd like to contribute to this library, please read the [contributing guide
 [api-rest]: https://docs.microsoft.com/rest/api/keyvault/
 [compiler-options]: https://www.typescriptlang.org/docs/handbook/compiler-options.html
 [dotenv]: https://www.npmjs.com/package/dotenv]
-[src-rbac-client]: ./src/KeyVaultAccessControlClient.cs
-[src-backup-client]: ./src/KeyVaultAccessControlClient.cs
 [DAC]: https://github.com/Azure/azure-sdk-for-net/blob/master/sdk/identity/Azure.Identity/README.md
 [storage-account-create-ps]: https://docs.microsoft.com/azure/storage/common/storage-quickstart-create-account?tabs=azure-powershell
 [storage-account-create-cli]: https://docs.microsoft.com/azure/storage/common/storage-quickstart-create-account?tabs=azure-cli
