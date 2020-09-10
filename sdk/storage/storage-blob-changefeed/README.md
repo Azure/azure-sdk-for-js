@@ -14,7 +14,7 @@ Use the client libraries in this package to:
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-blob-changefeed) |
 [Package (npm)](https://www.npmjs.com/package/@azure/storage-blob-changefeed/) |
 [API Reference Documentation](https://docs.microsoft.com/javascript/api/@azure/storage-blob-changefeed) |
-[Product documentation](https://docs.microsoft.com/en-us/azure/storage/blobs/storage-blob-change-feed) |
+[Product documentation](https://docs.microsoft.com/azure/storage/blobs/storage-blob-change-feed) |
 [Samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-blob-changefeed/samples) |
 
 ## Getting started
@@ -48,7 +48,7 @@ This library offers a client you can use to fetch the change events.
 
 - [Initialize the change feed client](#initialize-the-change-feed-client "Initialize the change feed client")
 - [Reading all events in the Change Feed](#reading-all-events-in-the-change-feed "Reading all events in the Change Feed")
-- [Resuming reading events with a cursor](#resuming-reading-events-with-a-cursor "Resuming reading events with a cursor")
+- [Resuming reading events with a continuationToken](#resuming-reading-events-with-a-continuationtoken "Resuming reading events with a continuationToken")
 - [Reading events within a time range](#reading-events-within-a-time-range "Reading events within a time range")
 
 ### Initialize the change feed client
