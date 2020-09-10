@@ -9752,7 +9752,7 @@ export interface AmazonMWSObjectDataset {
 /**
  * Contains the possible cases for DatasetCompression.
  */
-export type DatasetCompressionUnion = DatasetCompression | DatasetZipDeflateCompression | DatasetDeflateCompression | DatasetGZipCompression | DatasetBZip2Compression;
+export type DatasetCompressionUnion = DatasetCompression | DatasetTarGZipCompression | DatasetTarCompression | DatasetZipDeflateCompression | DatasetDeflateCompression | DatasetGZipCompression | DatasetBZip2Compression;
 
 /**
  * The compression method used on a dataset.
@@ -9766,6 +9766,30 @@ export interface DatasetCompression {
    * Describes unknown properties. The value of an unknown property can be of "any" type.
    */
   [property: string]: any;
+}
+
+/**
+ * The TarGZip compression method used on a dataset.
+ */
+export interface DatasetTarGZipCompression {
+  /**
+   * Polymorphic Discriminator
+   */
+  type: "TarGZip";
+  /**
+   * The TarGZip compression level.
+   */
+  level?: any;
+}
+
+/**
+ * The Tar archive method used on a dataset.
+ */
+export interface DatasetTarCompression {
+  /**
+   * Polymorphic Discriminator
+   */
+  type: "Tar";
 }
 
 /**
@@ -14090,7 +14114,7 @@ export interface AzureMLBatchExecutionActivity {
 /**
  * Contains the possible cases for CompressionReadSettings.
  */
-export type CompressionReadSettingsUnion = CompressionReadSettings | ZipDeflateReadSettings;
+export type CompressionReadSettingsUnion = CompressionReadSettings | TarGZipReadSettings | TarReadSettings | ZipDeflateReadSettings;
 
 /**
  * Compression read settings.
@@ -14104,6 +14128,36 @@ export interface CompressionReadSettings {
    * Describes unknown properties. The value of an unknown property can be of "any" type.
    */
   [property: string]: any;
+}
+
+/**
+ * The TarGZip compression read settings.
+ */
+export interface TarGZipReadSettings {
+  /**
+   * Polymorphic Discriminator
+   */
+  type: "TarGZipReadSettings";
+  /**
+   * Preserve the compression file name as folder path. Type: boolean (or Expression with
+   * resultType boolean).
+   */
+  preserveCompressionFileNameAsFolder?: any;
+}
+
+/**
+ * The Tar compression read settings.
+ */
+export interface TarReadSettings {
+  /**
+   * Polymorphic Discriminator
+   */
+  type: "TarReadSettings";
+  /**
+   * Preserve the compression file name as folder path. Type: boolean (or Expression with
+   * resultType boolean).
+   */
+  preserveCompressionFileNameAsFolder?: any;
 }
 
 /**
@@ -19131,6 +19185,16 @@ export interface LogStorageSettings {
    */
   path?: any;
   /**
+   * Gets or sets the log level, support: Info, Warning. Type: string (or Expression with
+   * resultType string).
+   */
+  logLevel?: any;
+  /**
+   * Specifies whether to enable reliable logging. Type: boolean (or Expression with resultType
+   * boolean).
+   */
+  enableReliableLogging?: any;
+  /**
    * Describes unknown properties. The value of an unknown property can be of "any" type.
    */
   [property: string]: any;
@@ -21396,46 +21460,9 @@ export interface BinarySink {
 }
 
 /**
- * A copy activity Parquet sink.
- */
-export interface ParquetSink {
-  /**
-   * Polymorphic Discriminator
-   */
-  type: "ParquetSink";
-  /**
-   * Write batch size. Type: integer (or Expression with resultType integer), minimum: 0.
-   */
-  writeBatchSize?: any;
-  /**
-   * Write batch timeout. Type: string (or Expression with resultType string), pattern:
-   * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
-   */
-  writeBatchTimeout?: any;
-  /**
-   * Sink retry count. Type: integer (or Expression with resultType integer).
-   */
-  sinkRetryCount?: any;
-  /**
-   * Sink retry wait. Type: string (or Expression with resultType string), pattern:
-   * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
-   */
-  sinkRetryWait?: any;
-  /**
-   * The maximum concurrent connection count for the sink data store. Type: integer (or Expression
-   * with resultType integer).
-   */
-  maxConcurrentConnections?: any;
-  /**
-   * Parquet store settings.
-   */
-  storeSettings?: StoreWriteSettingsUnion;
-}
-
-/**
  * Contains the possible cases for FormatWriteSettings.
  */
-export type FormatWriteSettingsUnion = FormatWriteSettings | JsonWriteSettings | DelimitedTextWriteSettings | AvroWriteSettings;
+export type FormatWriteSettingsUnion = FormatWriteSettings | JsonWriteSettings | DelimitedTextWriteSettings | OrcWriteSettings | AvroWriteSettings | ParquetWriteSettings;
 
 /**
  * Format write settings.
@@ -21485,6 +21512,38 @@ export interface DelimitedTextWriteSettings {
    * string).
    */
   fileExtension: any;
+  /**
+   * Limit the written file's row count to be smaller than or equal to the specified count. Type:
+   * integer (or Expression with resultType integer).
+   */
+  maxRowsPerFile?: any;
+  /**
+   * Specifies the file name pattern <fileNamePrefix>_<fileIndex>.<fileExtension> when copy from
+   * non-file based store without partitionOptions. Type: string (or Expression with resultType
+   * string).
+   */
+  fileNamePrefix?: any;
+}
+
+/**
+ * Orc write settings.
+ */
+export interface OrcWriteSettings {
+  /**
+   * Polymorphic Discriminator
+   */
+  type: "OrcWriteSettings";
+  /**
+   * Limit the written file's row count to be smaller than or equal to the specified count. Type:
+   * integer (or Expression with resultType integer).
+   */
+  maxRowsPerFile?: any;
+  /**
+   * Specifies the file name pattern <fileNamePrefix>_<fileIndex>.<fileExtension> when copy from
+   * non-file based store without partitionOptions. Type: string (or Expression with resultType
+   * string).
+   */
+  fileNamePrefix?: any;
 }
 
 /**
@@ -21503,6 +21562,79 @@ export interface AvroWriteSettings {
    * Record namespace in the write result.
    */
   recordNamespace?: string;
+  /**
+   * Limit the written file's row count to be smaller than or equal to the specified count. Type:
+   * integer (or Expression with resultType integer).
+   */
+  maxRowsPerFile?: any;
+  /**
+   * Specifies the file name pattern <fileNamePrefix>_<fileIndex>.<fileExtension> when copy from
+   * non-file based store without partitionOptions. Type: string (or Expression with resultType
+   * string).
+   */
+  fileNamePrefix?: any;
+}
+
+/**
+ * Parquet write settings.
+ */
+export interface ParquetWriteSettings {
+  /**
+   * Polymorphic Discriminator
+   */
+  type: "ParquetWriteSettings";
+  /**
+   * Limit the written file's row count to be smaller than or equal to the specified count. Type:
+   * integer (or Expression with resultType integer).
+   */
+  maxRowsPerFile?: any;
+  /**
+   * Specifies the file name pattern <fileNamePrefix>_<fileIndex>.<fileExtension> when copy from
+   * non-file based store without partitionOptions. Type: string (or Expression with resultType
+   * string).
+   */
+  fileNamePrefix?: any;
+}
+
+/**
+ * A copy activity Parquet sink.
+ */
+export interface ParquetSink {
+  /**
+   * Polymorphic Discriminator
+   */
+  type: "ParquetSink";
+  /**
+   * Write batch size. Type: integer (or Expression with resultType integer), minimum: 0.
+   */
+  writeBatchSize?: any;
+  /**
+   * Write batch timeout. Type: string (or Expression with resultType string), pattern:
+   * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
+   */
+  writeBatchTimeout?: any;
+  /**
+   * Sink retry count. Type: integer (or Expression with resultType integer).
+   */
+  sinkRetryCount?: any;
+  /**
+   * Sink retry wait. Type: string (or Expression with resultType string), pattern:
+   * ((\d+)\.)?(\d\d):(60|([0-5][0-9])):(60|([0-5][0-9])).
+   */
+  sinkRetryWait?: any;
+  /**
+   * The maximum concurrent connection count for the sink data store. Type: integer (or Expression
+   * with resultType integer).
+   */
+  maxConcurrentConnections?: any;
+  /**
+   * Parquet store settings.
+   */
+  storeSettings?: StoreWriteSettingsUnion;
+  /**
+   * Parquet format settings.
+   */
+  formatSettings?: ParquetWriteSettings;
 }
 
 /**
@@ -21846,6 +21978,10 @@ export interface OrcSink {
    * ORC store settings.
    */
   storeSettings?: StoreWriteSettingsUnion;
+  /**
+   * ORC format settings.
+   */
+  formatSettings?: OrcWriteSettings;
 }
 
 /**

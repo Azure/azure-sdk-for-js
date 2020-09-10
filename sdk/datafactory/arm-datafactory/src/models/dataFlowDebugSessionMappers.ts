@@ -103,6 +103,8 @@ export {
   DatasetLocation,
   DatasetReference,
   DatasetStorageFormat,
+  DatasetTarCompression,
+  DatasetTarGZipCompression,
   DatasetZipDeflateCompression,
   Db2LinkedService,
   Db2TableDataset,
