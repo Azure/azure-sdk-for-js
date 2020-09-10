@@ -165,22 +165,22 @@ The methods that begin long running operations return a poller that allows you t
 
 We have samples both in JavaScript and TypeScript that show the access control and backup/restore features in this package. Please follow the corresponding readmes for detailed steps to run the samples.
 
-- [Readme for JavaScript samples](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-admin/samples/javascript/README.md)
-- [Readme for TypeScript samples](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-admin/samples/typescript/README.md)
+- [Readme for JavaScript samples](./samples/javascript/README.md)
+- [Readme for TypeScript samples](./samples/typescript/README.md)
 
 Direct links to the specific JavaScript samples follow:
 
 - Access control (RBAC):
-    - [Listing All Role Definitions](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-admin/samples/javascript/accessControlHelloWorld.ts)
-    - [Listing All Role Assignments](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-admin/samples/javascript/accessControlHelloWorld.ts)
-    - [Creating a Role Assignment](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-admin/samples/javascript/accessControlHelloWorld.ts)
-    - [Getting a Role Assignment](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-admin/samples/javascript/accessControlHelloWorld.ts)
-    - [Deleting a Role Assignment](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-admin/samples/javascript/accessControlHelloWorld.ts)
+    - [Listing All Role Definitions](./samples/javascript/accessControlHelloWorld.js)
+    - [Listing All Role Assignments](./samples/javascript/accessControlHelloWorld.js)
+    - [Creating a Role Assignment](./samples/javascript/accessControlHelloWorld.js)
+    - [Getting a Role Assignment](./samples/javascript/accessControlHelloWorld.js)
+    - [Deleting a Role Assignment](./samples/javascript/accessControlHelloWorld.js)
 - Backup and restore:
-    - [Performing a full key backup](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-admin/samples/javascript/backupRestoreHelloWorld.ts)
-    - [Performing a full key restore](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-admin/samples/javascript/backupRestoreHelloWorld.ts)
-    - [Performing a selective key backup](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-admin/samples/javascript/backupSelectiveRestore.ts)
-    - [Performing a selective key restore](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-admin/samples/javascript/backupSelectiveRestore.ts)
+    - [Performing a full key backup](./samples/javascript/backupRestoreHelloWorld.js)
+    - [Performing a full key restore](./samples/javascript/backupRestoreHelloWorld.js)
+    - [Performing a selective key backup](./samples/javascript/backupSelectiveRestore.js)
+    - [Performing a selective key restore](./samples/javascript/backupSelectiveRestore.js)
 
 ## Troubleshooting
 
@@ -221,15 +221,15 @@ If you'd like to contribute to this library, please read the [contributing guide
 [api-rest]: https://docs.microsoft.com/rest/api/keyvault/
 [compiler-options]: https://www.typescriptlang.org/docs/handbook/compiler-options.html
 [dotenv]: https://www.npmjs.com/package/dotenv]
-[src-rbac-client]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-admin/src/KeyVaultAccessControlClient.cs
-[src-backup-client]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-admin/src/KeyVaultAccessControlClient.cs
+[src-rbac-client]: ./src/KeyVaultAccessControlClient.cs
+[src-backup-client]: ./src/KeyVaultAccessControlClient.cs
 [DAC]: https://github.com/Azure/azure-sdk-for-net/blob/master/sdk/identity/Azure.Identity/README.md
 [storage-account-create-ps]: https://docs.microsoft.com/azure/storage/common/storage-quickstart-create-account?tabs=azure-powershell
 [storage-account-create-cli]: https://docs.microsoft.com/azure/storage/common/storage-quickstart-create-account?tabs=azure-cli
 [storage-account-create-portal]: https://docs.microsoft.com/azure/storage/common/storage-quickstart-create-account?tabs=azure-portal
 [core-lro]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/core/core-lro
 [code_of_conduct]: https://opensource.microsoft.com/codeofconduct/
-[backup_client]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-admin/src/KeyVaultBackupClient.cs
+[backup_client]: ./src/KeyVaultBackupClient.cs
 [keyvault_docs]: https://docs.microsoft.com/azure/key-vault/
 [JWK]: https://tools.ietf.org/html/rfc7517
 [logging]: https://github.com/Azure/azure-sdk-for-net/blob/master/sdk/core/Azure.Core/samples/Diagnostics.ts.com/Azure/azure-sdk-for-net/blob/master/sdk/keyvault/Microsoft.Azure.KeyVault/CONTRIBUTING.md
