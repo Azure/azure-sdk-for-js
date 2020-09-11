@@ -5,18 +5,18 @@ languages:
 products:
   - azure
   - azure-key-vault
-urlFragment: keyvault-keys-javascript
+urlFragment: keyvault-admin-javascript
 ---
 
-# Azure Key Vault Keys client library samples for JavaScript
+# Azure Key Vault Administration client library samples for JavaScript
 
 These sample programs show how to use the JavaScript client libraries for Azure Key Vault Keys in some common scenarios.
 
-| **File Name**                  | **Description**                                                 |
-| ------------------------------- | ---------------------------------------------------------------- |
-| [cryptography.js][cryptography] | uses a key to sign/verify, encrypt/decrypt, and wrap/unwrap data |
-| [helloWorld.js][helloworld]     | creates, reads, lists, and deletes keys                          |
-| [purgeAllKeys.js][purgeAllKeys] | purges all the keys of a Key Vault (useful for repeated tests)    |
+| **File Name** | **Description** |
+| ------------------------------- |
+| [accessControlHelloWorld.js][accessControlHelloWorld] (RBAC) | Lists all Role Definitions and Role Assignments, Creates a Role Assignment, then gets it and later deletes it. |
+| [backupRestoreHelloWorld.js][BackupRestoreHelloWorld] | Performs a full key backup, then a full key restore. |
+| [backupSelectiveRestore.js][BackupSelectiveRestore] | Performs a selective key backup, then a selective key restore. |
 
 ## Prerequisites
 
@@ -47,24 +47,26 @@ npm install
 3. Run whichever samples you like (note that some samples may require additional setup, see the table above):
 
 ```bash
-node helloWorld.js
+node backupRestoreHelloWorld.js
 ```
 
 Alternatively, run a single sample with the correct environment variables set (step 2 is not required if you do this), for example (cross-platform):
 
 ```bash
-npx cross-env KEYVAULT_NAME="<key vault name>" AZURE_TENANT_ID="<AAD tenant id>" AZURE_CLIENT_ID="<AAD client id>" AZURE_CLIENT_SECRET="<AAD client secret>" node helloWorld.js
+npx cross-env KEYVAULT_NAME="<key vault name>" AZURE_TENANT_ID="<AAD tenant id>" AZURE_CLIENT_ID="<AAD client id>" AZURE_CLIENT_SECRET="<AAD client secret>" BLOB_STORAGE_URI="<blob-storage-uri>" BLOB_STORAGE_SAS_TOKEN="<blob-storage-sas-token>" CLIENT_OBJECT_ID="<client-object-id>" node backupRestoreHelloWorld.js
 ```
+
+These samples add and remove roles to and from the application, tenant or principal specified by the `CLIENT_OBJECT_ID` environment variable. **Do not use the same Object Id of the application, tenant or principal you're using to authenticate the client.**
 
 ## Next Steps
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[cryptography]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-keys/samples/javascript/cryptography.js
-[helloworld]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-keys/samples/javascript/helloWorld.js
-[purgeAllKeys]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-keys/samples/javascript/purgeAllKeys.js
-[apiref]: https://docs.microsoft.com/javascript/api/@azure/keyvault-keys
+[accessControlHelloWorld]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-admin/samples/javascript/accessControlHelloWorld.js
+[BackupRestoreHelloWorld]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-admin/samples/javascript/backupRestoreHelloWorld.js
+[BackupSelectiveRestore]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-admin/samples/javascript/backupSelectiveRestore.js
+[apiref]: https://docs.microsoft.com/javascript/api/@azure/keyvault-admin
 [azkeyvault]: https://docs.microsoft.com/azure/key-vault/quick-create-portal
 [kvsoftdelete]: https://docs.microsoft.com/azure/key-vault/key-vault-soft-delete-cli
 [freesub]: https://azure.microsoft.com/free/
-[package]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-keys/README.md
+[package]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/keyvault/keyvault-admin/README.md

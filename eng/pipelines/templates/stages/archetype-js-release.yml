@@ -146,6 +146,11 @@ stages:
                         displayName: Set Documentation File Name
                       - template: /eng/pipelines/templates/steps/stage-artifacts.yml
                         parameters:
+                          SourceFolder: ${{parameters.ArtifactName}}
+                          TargetFolder: ${{artifact.safeName}}
+                          PackageName: ${{artifact.name}}-*.tgz
+                      - template: /eng/pipelines/templates/steps/stage-artifacts.yml
+                        parameters:
                           SourceFolder: ${{parameters.DocArtifact}}
                           TargetFolder: ${{artifact.safeName}}/${{parameters.DocArtifact}}
                           PackageName: $(Documentation.Zip).zip
@@ -159,6 +164,7 @@ stages:
                           BlobSASKey: '$(azure-sdk-docs-prod-sas)'
                           BlobName: '$(azure-sdk-docs-prod-blob-name)'
                           TargetLanguage: 'javascript'
+                          ArtifactLocation: '$(Pipeline.Workspace)/${{artifact.safeName}}'
                           # we override the regular script path because we have cloned the build tools repo as a separate artifact.
                           ScriptPath: 'eng/common/scripts/copy-docs-to-blobstorage.ps1'
 
