@@ -6,10 +6,7 @@
   "engine": {
     "node": ">=8.0.0"
   },
-  "scripts": {
-    "build": "tsc",
-    "prebuild": "rimraf dist/"
-  },
+  "scripts": {},
   "repository": {
     "type": "git",
     "url": "git+https://github.com/Azure/azure-sdk-for-js.git"
@@ -18,7 +15,7 @@
     "Azure",
     "Service Bus",
     "Node.js",
-    "TypeScript"
+    "JavaScript"
   ],
   "author": "Microsoft Corporation",
   "license": "MIT",
@@ -36,9 +33,6 @@
     "ws": "^7.0.0"
   },
   "devDependencies": {
-    "@types/node": "^8.0.0",
-    "@types/ws": "^6.0.0",
-    "rimraf": "^3.0.0",
-    "typescript": "~3.6.4"
+    "rimraf": "^3.0.0"
   }
 }
