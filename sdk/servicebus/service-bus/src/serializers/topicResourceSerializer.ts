@@ -416,7 +416,7 @@ export interface TopicRuntimeProperties {
 
 /**
  * @internal
- * @ignore 
+ * @ignore
  * TopicResourceSerializer for serializing / deserializing Topic entities
  */
 export class TopicResourceSerializer implements AtomXmlSerializer {

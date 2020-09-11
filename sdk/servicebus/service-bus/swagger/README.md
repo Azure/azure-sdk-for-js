@@ -16,6 +16,8 @@ output-folder: ../src/generated
 input-file: ./servicebus-swagger-jose.json
 model-date-time-as-string: true
 optional-response-headers: true
+use-extension:
+  "@autorest/typescript": "~/projects/autorest.typescript"
 ```
 
 ## Customizations for Track 2 Generator

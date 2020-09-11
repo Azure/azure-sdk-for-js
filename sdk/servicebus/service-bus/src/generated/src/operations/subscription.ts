@@ -107,7 +107,7 @@ const getOperationSpec: coreHttp.OperationSpec = {
     },
     default: {
       bodyMapper: Mappers.ServiceBusManagementError,
-      headersMapper: Mappers.SubscriptionGetHeaders
+      headersMapper: Mappers.SubscriptionGetExceptionHeaders
     }
   },
   queryParameters: [Parameters.enrich, Parameters.apiVersion],
@@ -116,6 +116,7 @@ const getOperationSpec: coreHttp.OperationSpec = {
     Parameters.topicName,
     Parameters.subscriptionName
   ],
+  headerParameters: [Parameters.accept],
   isXML: true,
   serializer: xmlSerializer
 };
@@ -131,7 +132,7 @@ const putOperationSpec: coreHttp.OperationSpec = {
     },
     default: {
       bodyMapper: Mappers.ServiceBusManagementError,
-      headersMapper: Mappers.SubscriptionPutHeaders
+      headersMapper: Mappers.SubscriptionPutExceptionHeaders
     }
   },
   requestBody: Parameters.requestBody2,
@@ -141,7 +142,11 @@ const putOperationSpec: coreHttp.OperationSpec = {
     Parameters.topicName,
     Parameters.subscriptionName
   ],
-  headerParameters: [Parameters.contentType, Parameters.ifMatch],
+  headerParameters: [
+    Parameters.contentType,
+    Parameters.accept1,
+    Parameters.ifMatch
+  ],
   isXML: true,
   contentType: "application/xml; charset=utf-8",
   mediaType: "xml",
@@ -156,7 +161,7 @@ const deleteOperationSpec: coreHttp.OperationSpec = {
     },
     default: {
       bodyMapper: Mappers.ServiceBusManagementError,
-      headersMapper: Mappers.SubscriptionDeleteHeaders
+      headersMapper: Mappers.SubscriptionDeleteExceptionHeaders
     }
   },
   queryParameters: [Parameters.apiVersion],
@@ -165,6 +170,7 @@ const deleteOperationSpec: coreHttp.OperationSpec = {
     Parameters.topicName,
     Parameters.subscriptionName
   ],
+  headerParameters: [Parameters.accept],
   isXML: true,
   serializer: xmlSerializer
 };

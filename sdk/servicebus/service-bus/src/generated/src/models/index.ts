@@ -942,7 +942,7 @@ export type FalseFilter = SqlFilter & {};
 /**
  * Defines headers for Entity_getTopic operation.
  */
-export interface EntityGetTopicHeaders {
+export interface EntityGetTopicExceptionHeaders {
   /**
    * A server-generated UUID recorded in the analytics logs for troubleshooting and correlation.
    */
@@ -956,7 +956,7 @@ export interface EntityGetTopicHeaders {
 /**
  * Defines headers for Entity_putTopic operation.
  */
-export interface EntityPutTopicHeaders {
+export interface EntityPutTopicExceptionHeaders {
   /**
    * A server-generated UUID recorded in the analytics logs for troubleshooting and correlation.
    */
@@ -970,7 +970,7 @@ export interface EntityPutTopicHeaders {
 /**
  * Defines headers for Entity_deleteTopic operation.
  */
-export interface EntityDeleteTopicHeaders {
+export interface EntityDeleteTopicExceptionHeaders {
   /**
    * A server-generated UUID recorded in the analytics logs for troubleshooting and correlation.
    */
@@ -984,7 +984,7 @@ export interface EntityDeleteTopicHeaders {
 /**
  * Defines headers for Entity_getQueue operation.
  */
-export interface EntityGetQueueHeaders {
+export interface EntityGetQueueExceptionHeaders {
   /**
    * A server-generated UUID recorded in the analytics logs for troubleshooting and correlation.
    */
@@ -998,7 +998,7 @@ export interface EntityGetQueueHeaders {
 /**
  * Defines headers for Entity_putQueue operation.
  */
-export interface EntityPutQueueHeaders {
+export interface EntityPutQueueExceptionHeaders {
   /**
    * A server-generated UUID recorded in the analytics logs for troubleshooting and correlation.
    */
@@ -1012,7 +1012,7 @@ export interface EntityPutQueueHeaders {
 /**
  * Defines headers for Entity_deleteQueue operation.
  */
-export interface EntityDeleteQueueHeaders {
+export interface EntityDeleteQueueExceptionHeaders {
   /**
    * A server-generated UUID recorded in the analytics logs for troubleshooting and correlation.
    */
@@ -1026,7 +1026,7 @@ export interface EntityDeleteQueueHeaders {
 /**
  * Defines headers for ServiceBusManagementClientInternal_listSubscriptions operation.
  */
-export interface ServiceBusManagementClientInternalListSubscriptionsHeaders {
+export interface ServiceBusManagementClientInternalListSubscriptionsExceptionHeaders {
   /**
    * A server-generated UUID recorded in the analytics logs for troubleshooting and correlation.
    */
@@ -1040,7 +1040,7 @@ export interface ServiceBusManagementClientInternalListSubscriptionsHeaders {
 /**
  * Defines headers for ServiceBusManagementClientInternal_listRules operation.
  */
-export interface ServiceBusManagementClientInternalListRulesHeaders {
+export interface ServiceBusManagementClientInternalListRulesExceptionHeaders {
   /**
    * A server-generated UUID recorded in the analytics logs for troubleshooting and correlation.
    */
@@ -1054,7 +1054,7 @@ export interface ServiceBusManagementClientInternalListRulesHeaders {
 /**
  * Defines headers for ServiceBusManagementClientInternal_listEntities operation.
  */
-export interface ServiceBusManagementClientInternalListEntitiesHeaders {
+export interface ServiceBusManagementClientInternalListEntitiesExceptionHeaders {
   /**
    * A server-generated UUID recorded in the analytics logs for troubleshooting and correlation.
    */
@@ -1068,7 +1068,7 @@ export interface ServiceBusManagementClientInternalListEntitiesHeaders {
 /**
  * Defines headers for Subscription_get operation.
  */
-export interface SubscriptionGetHeaders {
+export interface SubscriptionGetExceptionHeaders {
   /**
    * A server-generated UUID recorded in the analytics logs for troubleshooting and correlation.
    */
@@ -1082,7 +1082,7 @@ export interface SubscriptionGetHeaders {
 /**
  * Defines headers for Subscription_put operation.
  */
-export interface SubscriptionPutHeaders {
+export interface SubscriptionPutExceptionHeaders {
   /**
    * A server-generated UUID recorded in the analytics logs for troubleshooting and correlation.
    */
@@ -1096,7 +1096,7 @@ export interface SubscriptionPutHeaders {
 /**
  * Defines headers for Subscription_delete operation.
  */
-export interface SubscriptionDeleteHeaders {
+export interface SubscriptionDeleteExceptionHeaders {
   /**
    * A server-generated UUID recorded in the analytics logs for troubleshooting and correlation.
    */
@@ -1110,7 +1110,7 @@ export interface SubscriptionDeleteHeaders {
 /**
  * Defines headers for Rule_get operation.
  */
-export interface RuleGetHeaders {
+export interface RuleGetExceptionHeaders {
   /**
    * A server-generated UUID recorded in the analytics logs for troubleshooting and correlation.
    */
@@ -1124,7 +1124,7 @@ export interface RuleGetHeaders {
 /**
  * Defines headers for Rule_put operation.
  */
-export interface RulePutHeaders {
+export interface RulePutExceptionHeaders {
   /**
    * A server-generated UUID recorded in the analytics logs for troubleshooting and correlation.
    */
@@ -1138,7 +1138,7 @@ export interface RulePutHeaders {
 /**
  * Defines headers for Rule_delete operation.
  */
-export interface RuleDeleteHeaders {
+export interface RuleDeleteExceptionHeaders {
   /**
    * A server-generated UUID recorded in the analytics logs for troubleshooting and correlation.
    */
@@ -1152,7 +1152,7 @@ export interface RuleDeleteHeaders {
 /**
  * Defines headers for Namespace_get operation.
  */
-export interface NamespaceGetHeaders {
+export interface NamespaceGetExceptionHeaders {
   /**
    * A server-generated UUID recorded in the analytics logs for troubleshooting and correlation.
    */
@@ -1175,7 +1175,8 @@ export type EntityStatus =
   | "Renaming"
   | "Restoring"
   | "SendDisabled"
-  | "Unknown";
+  | "Unknown"
+  | string;
 /**
  * Defines values for EntityAvailabilityStatus.
  */
@@ -1184,11 +1185,12 @@ export type EntityAvailabilityStatus =
   | "Limited"
   | "Renaming"
   | "Restoring"
-  | "Unknown";
+  | "Unknown"
+  | string;
 /**
  * Defines values for MessagingSku.
  */
-export type MessagingSku = "Basic" | "Standard" | "Premium";
+export type MessagingSku = "Basic" | "Standard" | "Premium" | string;
 /**
  * Defines values for NamespaceType.
  */
@@ -1197,11 +1199,12 @@ export type NamespaceType =
   | "NotificationHub"
   | "Mixed"
   | "EventHub"
-  | "Relay";
+  | "Relay"
+  | string;
 /**
  * Defines values for AccessRights.
  */
-export type AccessRights = "Manage" | "Send" | "Listen";
+export type AccessRights = "Manage" | "Send" | "Listen" | string;
 
 /**
  * Optional parameters.

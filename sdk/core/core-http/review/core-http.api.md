@@ -71,6 +71,10 @@ export interface BaseMapper {
     xmlIsWrapped?: boolean;
     // (undocumented)
     xmlName?: string;
+    // (undocumented)
+    xmlNamespace?: string;
+    // (undocumented)
+    xmlNamespacePrefix?: string;
 }
 
 // @public (undocumented)

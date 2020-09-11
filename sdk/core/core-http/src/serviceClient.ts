@@ -540,7 +540,14 @@ export function serializeRequestBody(
     );
 
     const bodyMapper = operationSpec.requestBody.mapper;
-    const { required, xmlName, xmlElementName, serializedName } = bodyMapper;
+    const {
+      required,
+      xmlName,
+      xmlElementName,
+      serializedName,
+      xmlNamespace,
+      xmlNamespacePrefix
+    } = bodyMapper;
     const typeName = bodyMapper.type.name;
 
     try {
@@ -557,16 +564,18 @@ export function serializeRequestBody(
         const isStream = typeName === MapperType.Stream;
 
         if (operationSpec.isXML) {
+          const xmlnsKey = xmlNamespacePrefix ? `xmlns:${xmlNamespacePrefix}` : "xmlns";
+          const value =
+            xmlNamespace && !["Composite", "Sequence"].includes(typeName)
+              ? { _: httpRequest.body, $: { [xmlnsKey]: xmlNamespace } }
+              : httpRequest.body;
           if (typeName === MapperType.Sequence) {
             httpRequest.body = stringifyXML(
-              utils.prepareXMLRootList(
-                httpRequest.body,
-                xmlElementName || xmlName || serializedName!
-              ),
+              utils.prepareXMLRootList(value, xmlElementName || xmlName || serializedName!),
               { rootName: xmlName || serializedName }
             );
           } else if (!isStream) {
-            httpRequest.body = stringifyXML(httpRequest.body, {
+            httpRequest.body = stringifyXML(value, {
               rootName: xmlName || serializedName
             });
           }

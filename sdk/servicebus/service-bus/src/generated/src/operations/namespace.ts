@@ -53,11 +53,12 @@ const getOperationSpec: coreHttp.OperationSpec = {
     },
     default: {
       bodyMapper: Mappers.ServiceBusManagementError,
-      headersMapper: Mappers.NamespaceGetHeaders
+      headersMapper: Mappers.NamespaceGetExceptionHeaders
     }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint],
+  headerParameters: [Parameters.accept],
   isXML: true,
   serializer: xmlSerializer
 };

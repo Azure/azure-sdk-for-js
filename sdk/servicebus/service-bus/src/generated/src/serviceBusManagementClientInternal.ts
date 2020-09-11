@@ -115,12 +115,12 @@ const listSubscriptionsOperationSpec: coreHttp.OperationSpec = {
     },
     default: {
       bodyMapper: Mappers.ServiceBusManagementError,
-      headersMapper:
-        Mappers.ServiceBusManagementClientInternalListSubscriptionsHeaders
+      headersMapper: Mappers.ServiceBusManagementClientInternalListSubscriptionsExceptionHeaders
     }
   },
   queryParameters: [Parameters.apiVersion, Parameters.skip, Parameters.top],
   urlParameters: [Parameters.endpoint, Parameters.topicName],
+  headerParameters: [Parameters.accept],
   isXML: true,
   serializer: xmlSerializer
 };
@@ -133,15 +133,12 @@ const listRulesOperationSpec: coreHttp.OperationSpec = {
     },
     default: {
       bodyMapper: Mappers.ServiceBusManagementError,
-      headersMapper: Mappers.ServiceBusManagementClientInternalListRulesHeaders
+      headersMapper: Mappers.ServiceBusManagementClientInternalListRulesExceptionHeaders
     }
   },
   queryParameters: [Parameters.apiVersion, Parameters.skip, Parameters.top],
-  urlParameters: [
-    Parameters.endpoint,
-    Parameters.topicName,
-    Parameters.subscriptionName
-  ],
+  urlParameters: [Parameters.endpoint, Parameters.topicName, Parameters.subscriptionName],
+  headerParameters: [Parameters.accept],
   isXML: true,
   serializer: xmlSerializer
 };
@@ -154,12 +151,12 @@ const listEntitiesOperationSpec: coreHttp.OperationSpec = {
     },
     default: {
       bodyMapper: Mappers.ServiceBusManagementError,
-      headersMapper:
-        Mappers.ServiceBusManagementClientInternalListEntitiesHeaders
+      headersMapper: Mappers.ServiceBusManagementClientInternalListEntitiesExceptionHeaders
     }
   },
   queryParameters: [Parameters.apiVersion, Parameters.skip, Parameters.top],
   urlParameters: [Parameters.endpoint, Parameters.entityType],
+  headerParameters: [Parameters.accept],
   isXML: true,
   serializer: xmlSerializer
 };

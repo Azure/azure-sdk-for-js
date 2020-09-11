@@ -164,11 +164,12 @@ const getTopicOperationSpec: coreHttp.OperationSpec = {
     },
     default: {
       bodyMapper: Mappers.ServiceBusManagementError,
-      headersMapper: Mappers.EntityGetTopicHeaders
+      headersMapper: Mappers.EntityGetTopicExceptionHeaders
     }
   },
   queryParameters: [Parameters.enrich, Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.topicName],
+  headerParameters: [Parameters.accept],
   isXML: true,
   serializer: xmlSerializer
 };
@@ -184,13 +185,17 @@ const putTopicOperationSpec: coreHttp.OperationSpec = {
     },
     default: {
       bodyMapper: Mappers.ServiceBusManagementError,
-      headersMapper: Mappers.EntityPutTopicHeaders
+      headersMapper: Mappers.EntityPutTopicExceptionHeaders
     }
   },
   requestBody: Parameters.requestBody,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.topicName],
-  headerParameters: [Parameters.contentType, Parameters.ifMatch],
+  headerParameters: [
+    Parameters.contentType,
+    Parameters.accept1,
+    Parameters.ifMatch
+  ],
   isXML: true,
   contentType: "application/xml; charset=utf-8",
   mediaType: "xml",
@@ -205,11 +210,12 @@ const deleteTopicOperationSpec: coreHttp.OperationSpec = {
     },
     default: {
       bodyMapper: Mappers.ServiceBusManagementError,
-      headersMapper: Mappers.EntityDeleteTopicHeaders
+      headersMapper: Mappers.EntityDeleteTopicExceptionHeaders
     }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.topicName],
+  headerParameters: [Parameters.accept],
   isXML: true,
   serializer: xmlSerializer
 };
@@ -222,11 +228,12 @@ const getQueueOperationSpec: coreHttp.OperationSpec = {
     },
     default: {
       bodyMapper: Mappers.ServiceBusManagementError,
-      headersMapper: Mappers.EntityGetQueueHeaders
+      headersMapper: Mappers.EntityGetQueueExceptionHeaders
     }
   },
   queryParameters: [Parameters.enrich, Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.queueName],
+  headerParameters: [Parameters.accept],
   isXML: true,
   serializer: xmlSerializer
 };
@@ -242,13 +249,17 @@ const putQueueOperationSpec: coreHttp.OperationSpec = {
     },
     default: {
       bodyMapper: Mappers.ServiceBusManagementError,
-      headersMapper: Mappers.EntityPutQueueHeaders
+      headersMapper: Mappers.EntityPutQueueExceptionHeaders
     }
   },
   requestBody: Parameters.requestBody1,
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.queueName],
-  headerParameters: [Parameters.contentType, Parameters.ifMatch],
+  headerParameters: [
+    Parameters.contentType,
+    Parameters.accept1,
+    Parameters.ifMatch
+  ],
   isXML: true,
   contentType: "application/xml; charset=utf-8",
   mediaType: "xml",
@@ -263,11 +274,12 @@ const deleteQueueOperationSpec: coreHttp.OperationSpec = {
     },
     default: {
       bodyMapper: Mappers.ServiceBusManagementError,
-      headersMapper: Mappers.EntityDeleteQueueHeaders
+      headersMapper: Mappers.EntityDeleteQueueExceptionHeaders
     }
   },
   queryParameters: [Parameters.apiVersion],
   urlParameters: [Parameters.endpoint, Parameters.queueName],
+  headerParameters: [Parameters.accept],
   isXML: true,
   serializer: xmlSerializer
 };

@@ -7,14 +7,26 @@
  */
 
 import {
+  OperationParameter,
   OperationURLParameter,
-  OperationQueryParameter,
-  OperationParameter
+  OperationQueryParameter
 } from "@azure/core-http";
 import {
   CreateTopicBody as CreateTopicBodyMapper,
   CreateQueueBody as CreateQueueBodyMapper
 } from "../models/mappers";
+
+export const accept: OperationParameter = {
+  parameterPath: "accept",
+  mapper: {
+    defaultValue: "application/xml, application/atom+xml",
+    isConstant: true,
+    serializedName: "Accept",
+    type: {
+      name: "String"
+    }
+  }
+};
 
 export const endpoint: OperationURLParameter = {
   parameterPath: "endpoint",
@@ -58,7 +70,7 @@ export const enrich: OperationQueryParameter = {
 export const apiVersion: OperationQueryParameter = {
   parameterPath: "apiVersion",
   mapper: {
-    defaultValue: "2017-04",
+    defaultValue: "2017_04",
     isConstant: true,
     serializedName: "api-version",
     type: {
@@ -82,6 +94,18 @@ export const contentType: OperationParameter = {
 export const requestBody: OperationParameter = {
   parameterPath: "requestBody",
   mapper: CreateTopicBodyMapper
+};
+
+export const accept1: OperationParameter = {
+  parameterPath: "accept",
+  mapper: {
+    defaultValue: "application/xml, application/atom+xml",
+    isConstant: true,
+    serializedName: "Accept",
+    type: {
+      name: "String"
+    }
+  }
 };
 
 export const ifMatch: OperationParameter = {

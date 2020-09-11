@@ -352,6 +352,7 @@ function serializeBasicTypes(typeName: string, objectName: string, value: any): 
       }
     }
   }
+
   return value;
 }
 
@@ -589,6 +590,12 @@ function serializeCompositeType(
       }
 
       if (parentObject != undefined) {
+        if (mapper.xmlNamespace) {
+          const xmlnsKey = mapper.xmlNamespacePrefix
+            ? `xmlns:${mapper.xmlNamespacePrefix}`
+            : "xmlns";
+          parentObject.$ = { [xmlnsKey]: mapper.xmlNamespace };
+        }
         const propertyObjectName =
           propertyMapper.serializedName !== ""
             ? objectName + "." + propertyMapper.serializedName
@@ -610,6 +617,13 @@ function serializeCompositeType(
           propertyObjectName
         );
         if (serializedValue !== undefined && propName != undefined) {
+          const xmlnsKey = propertyMapper.xmlNamespacePrefix
+            ? `xmlns:${propertyMapper.xmlNamespacePrefix}`
+            : "xmlns";
+          const xmlNamespace = { [xmlnsKey]: propertyMapper.xmlNamespace };
+          const value = propertyMapper.xmlNamespace
+            ? { _: serializedValue, $: xmlNamespace }
+            : serializedValue;
           if (propertyMapper.xmlIsAttribute) {
             // $ is the key attributes are kept under in xml2js.
             // This keeps things simple while preventing name collision
@@ -617,9 +631,9 @@ function serializeCompositeType(
             parentObject.$ = parentObject.$ || {};
             parentObject.$[propName] = serializedValue;
           } else if (propertyMapper.xmlIsWrapped) {
-            parentObject[propName] = { [propertyMapper.xmlElementName!]: serializedValue };
+            parentObject[propName] = { [propertyMapper.xmlElementName!]: value };
           } else {
-            parentObject[propName] = serializedValue;
+            parentObject[propName] = value;
           }
         }
       }
@@ -961,6 +975,8 @@ export interface EnumMapperType {
 
 export interface BaseMapper {
   xmlName?: string;
+  xmlNamespace?: string;
+  xmlNamespacePrefix?: string;
   xmlIsAttribute?: boolean;
   xmlElementName?: string;
   xmlIsWrapped?: boolean;

@@ -11,6 +11,7 @@ import * as coreHttp from "@azure/core-http";
 export const CreateTopicBody: coreHttp.CompositeMapper = {
   serializedName: "CreateTopicBody",
   xmlName: "entry",
+  xmlNamespace: "http://www.w3.org/2005/Atom",
   type: {
     name: "Composite",
     className: "CreateTopicBody",
@@ -18,6 +19,7 @@ export const CreateTopicBody: coreHttp.CompositeMapper = {
       updated: {
         serializedName: "updated",
         xmlName: "updated",
+        xmlNamespace: "http://www.w3.org/2005/Atom",
         type: {
           name: "DateTime"
         }
@@ -25,6 +27,7 @@ export const CreateTopicBody: coreHttp.CompositeMapper = {
       content: {
         serializedName: "content",
         xmlName: "content",
+        xmlNamespace: "http://www.w3.org/2005/Atom",
         type: {
           name: "Composite",
           className: "CreateTopicBodyContent"
@@ -36,6 +39,7 @@ export const CreateTopicBody: coreHttp.CompositeMapper = {
 
 export const CreateTopicBodyContent: coreHttp.CompositeMapper = {
   serializedName: "CreateTopicBodyContent",
+  xmlNamespace: "http://www.w3.org/2005/Atom",
   type: {
     name: "Composite",
     className: "CreateTopicBodyContent",
@@ -52,6 +56,8 @@ export const CreateTopicBodyContent: coreHttp.CompositeMapper = {
       topicDescription: {
         serializedName: "topicDescription",
         xmlName: "TopicDescription",
+        xmlNamespace:
+          "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
         type: {
           name: "Composite",
           className: "TopicDescription"
@@ -64,6 +70,8 @@ export const CreateTopicBodyContent: coreHttp.CompositeMapper = {
 export const TopicDescription: coreHttp.CompositeMapper = {
   serializedName: "TopicDescription",
   xmlName: "TopicDescription",
+  xmlNamespace:
+    "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
   type: {
     name: "Composite",
     className: "TopicDescription",
@@ -71,6 +79,8 @@ export const TopicDescription: coreHttp.CompositeMapper = {
       defaultMessageTimeToLive: {
         serializedName: "defaultMessageTimeToLive",
         xmlName: "DefaultMessageTimeToLive",
+        xmlNamespace:
+          "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
         type: {
           name: "TimeSpan"
         }
@@ -78,6 +88,8 @@ export const TopicDescription: coreHttp.CompositeMapper = {
       maxSizeInMegabytes: {
         serializedName: "maxSizeInMegabytes",
         xmlName: "MaxSizeInMegabytes",
+        xmlNamespace:
+          "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
         type: {
           name: "Number"
         }
@@ -85,6 +97,8 @@ export const TopicDescription: coreHttp.CompositeMapper = {
       requiresDuplicateDetection: {
         serializedName: "requiresDuplicateDetection",
         xmlName: "RequiresDuplicateDetection",
+        xmlNamespace:
+          "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
         type: {
           name: "Boolean"
         }
@@ -92,6 +106,8 @@ export const TopicDescription: coreHttp.CompositeMapper = {
       duplicateDetectionHistoryTimeWindow: {
         serializedName: "duplicateDetectionHistoryTimeWindow",
         xmlName: "DuplicateDetectionHistoryTimeWindow",
+        xmlNamespace:
+          "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
         type: {
           name: "TimeSpan"
         }
@@ -99,6 +115,8 @@ export const TopicDescription: coreHttp.CompositeMapper = {
       enableBatchedOperations: {
         serializedName: "enableBatchedOperations",
         xmlName: "EnableBatchedOperations",
+        xmlNamespace:
+          "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
         type: {
           name: "Boolean"
         }
@@ -106,6 +124,8 @@ export const TopicDescription: coreHttp.CompositeMapper = {
       sizeInBytes: {
         serializedName: "sizeInBytes",
         xmlName: "SizeInBytes",
+        xmlNamespace:
+          "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
         type: {
           name: "Number"
         }
@@ -113,6 +133,8 @@ export const TopicDescription: coreHttp.CompositeMapper = {
       filteringMessagesBeforePublishing: {
         serializedName: "filteringMessagesBeforePublishing",
         xmlName: "FilteringMessagesBeforePublishing",
+        xmlNamespace:
+          "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
         type: {
           name: "Boolean"
         }
@@ -120,6 +142,8 @@ export const TopicDescription: coreHttp.CompositeMapper = {
       isAnonymousAccessible: {
         serializedName: "isAnonymousAccessible",
         xmlName: "IsAnonymousAccessible",
+        xmlNamespace:
+          "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
         type: {
           name: "Boolean"
         }
@@ -129,6 +153,8 @@ export const TopicDescription: coreHttp.CompositeMapper = {
         xmlName: "AuthorizationRules",
         xmlIsWrapped: true,
         xmlElementName: "AuthorizationRule",
+        xmlNamespace:
+          "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
         type: {
           name: "Sequence",
           element: {
@@ -139,6 +165,8 @@ export const TopicDescription: coreHttp.CompositeMapper = {
       status: {
         serializedName: "status",
         xmlName: "Status",
+        xmlNamespace:
+          "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
         type: {
           name: "String"
         }
@@ -146,6 +174,8 @@ export const TopicDescription: coreHttp.CompositeMapper = {
       createdAt: {
         serializedName: "createdAt",
         xmlName: "CreatedAt",
+        xmlNamespace:
+          "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
         type: {
           name: "DateTime"
         }
@@ -153,6 +183,8 @@ export const TopicDescription: coreHttp.CompositeMapper = {
       updatedAt: {
         serializedName: "updatedAt",
         xmlName: "UpdatedAt",
+        xmlNamespace:
+          "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
         type: {
           name: "DateTime"
         }
@@ -160,6 +192,8 @@ export const TopicDescription: coreHttp.CompositeMapper = {
       accessedAt: {
         serializedName: "accessedAt",
         xmlName: "AccessedAt",
+        xmlNamespace:
+          "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
         type: {
           name: "DateTime"
         }
@@ -167,6 +201,8 @@ export const TopicDescription: coreHttp.CompositeMapper = {
       supportOrdering: {
         serializedName: "supportOrdering",
         xmlName: "SupportOrdering",
+        xmlNamespace:
+          "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
         type: {
           name: "Boolean"
         }
@@ -174,6 +210,8 @@ export const TopicDescription: coreHttp.CompositeMapper = {
       messageCountDetails: {
         serializedName: "messageCountDetails",
         xmlName: "CountDetails",
+        xmlNamespace:
+          "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
         type: {
           name: "Composite",
           className: "MessageCountDetails"
@@ -182,6 +220,8 @@ export const TopicDescription: coreHttp.CompositeMapper = {
       subscriptionCount: {
         serializedName: "subscriptionCount",
         xmlName: "SubscriptionCount",
+        xmlNamespace:
+          "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
         type: {
           name: "Number"
         }
@@ -189,6 +229,8 @@ export const TopicDescription: coreHttp.CompositeMapper = {
       autoDeleteOnIdle: {
         serializedName: "autoDeleteOnIdle",
         xmlName: "AutoDeleteOnIdle",
+        xmlNamespace:
+          "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
         type: {
           name: "TimeSpan"
         }
@@ -196,6 +238,8 @@ export const TopicDescription: coreHttp.CompositeMapper = {
       enablePartitioning: {
         serializedName: "enablePartitioning",
         xmlName: "EnablePartitioning",
+        xmlNamespace:
+          "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
         type: {
           name: "Boolean"
         }
@@ -203,6 +247,8 @@ export const TopicDescription: coreHttp.CompositeMapper = {
       entityAvailabilityStatus: {
         serializedName: "entityAvailabilityStatus",
         xmlName: "EntityAvailabilityStatus",
+        xmlNamespace:
+          "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
         type: {
           name: "String"
         }
@@ -210,6 +256,8 @@ export const TopicDescription: coreHttp.CompositeMapper = {
       enableSubscriptionPartitioning: {
         serializedName: "enableSubscriptionPartitioning",
         xmlName: "EnableSubscriptionPartitioning",
+        xmlNamespace:
+          "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
         type: {
           name: "Boolean"
         }
@@ -217,6 +265,8 @@ export const TopicDescription: coreHttp.CompositeMapper = {
       enableExpress: {
         serializedName: "enableExpress",
         xmlName: "EnableExpress",
+        xmlNamespace:
+          "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
         type: {
           name: "Boolean"
         }
@@ -224,6 +274,8 @@ export const TopicDescription: coreHttp.CompositeMapper = {
       userMetadata: {
         serializedName: "userMetadata",
         xmlName: "UserMetadata",
+        xmlNamespace:
+          "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
         type: {
           name: "String"
         }
@@ -235,6 +287,8 @@ export const TopicDescription: coreHttp.CompositeMapper = {
 export const AuthorizationRule: coreHttp.CompositeMapper = {
   serializedName: "AuthorizationRule",
   xmlName: "AuthorizationRule",
+  xmlNamespace:
+    "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
   type: {
     name: "Composite",
     className: "AuthorizationRule",
@@ -243,6 +297,8 @@ export const AuthorizationRule: coreHttp.CompositeMapper = {
         serializedName: "type",
         xmlName: "type",
         xmlIsAttribute: true,
+        xmlNamespace: "http://www.w3.org/2001/XMLSchema-instance",
+        xmlNamespacePrefix: "i",
         type: {
           name: "String"
         }
@@ -250,6 +306,8 @@ export const AuthorizationRule: coreHttp.CompositeMapper = {
       claimType: {
         serializedName: "claimType",
         xmlName: "ClaimType",
+        xmlNamespace:
+          "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
         type: {
           name: "String"
         }
@@ -257,6 +315,8 @@ export const AuthorizationRule: coreHttp.CompositeMapper = {
       claimValue: {
         serializedName: "claimValue",
         xmlName: "ClaimValue",
+        xmlNamespace:
+          "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
         type: {
           name: "String"
         }
@@ -266,6 +326,8 @@ export const AuthorizationRule: coreHttp.CompositeMapper = {
         xmlName: "Rights",
         xmlIsWrapped: true,
         xmlElementName: "AccessRights",
+        xmlNamespace:
+          "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
         type: {
           name: "Sequence",
           element: { type: { name: "String" } }
@@ -274,6 +336,8 @@ export const AuthorizationRule: coreHttp.CompositeMapper = {
       createdTime: {
         serializedName: "createdTime",
         xmlName: "CreatedTime",
+        xmlNamespace:
+          "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
         type: {
           name: "DateTime"
         }
@@ -281,6 +345,8 @@ export const AuthorizationRule: coreHttp.CompositeMapper = {
       modifiedTime: {
         serializedName: "modifiedTime",
         xmlName: "ModifiedTime",
+        xmlNamespace:
+          "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
         type: {
           name: "DateTime"
         }
@@ -288,6 +354,8 @@ export const AuthorizationRule: coreHttp.CompositeMapper = {
       keyName: {
         serializedName: "keyName",
         xmlName: "KeyName",
+        xmlNamespace:
+          "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
         type: {
           name: "String"
         }
@@ -295,6 +363,8 @@ export const AuthorizationRule: coreHttp.CompositeMapper = {
       primaryKey: {
         serializedName: "primaryKey",
         xmlName: "PrimaryKey",
+        xmlNamespace:
+          "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
         type: {
           name: "String"
         }
@@ -302,6 +372,8 @@ export const AuthorizationRule: coreHttp.CompositeMapper = {
       secondaryKey: {
         serializedName: "secondaryKey",
         xmlName: "SecondaryKey",
+        xmlNamespace:
+          "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
         type: {
           name: "String"
         }
@@ -313,6 +385,8 @@ export const AuthorizationRule: coreHttp.CompositeMapper = {
 export const MessageCountDetails: coreHttp.CompositeMapper = {
   serializedName: "MessageCountDetails",
   xmlName: "CountDetails",
+  xmlNamespace:
+    "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
   type: {
     name: "Composite",
     className: "MessageCountDetails",
@@ -320,6 +394,9 @@ export const MessageCountDetails: coreHttp.CompositeMapper = {
       activeMessageCount: {
         serializedName: "activeMessageCount",
         xmlName: "ActiveMessageCount",
+        xmlNamespace:
+          "http://schemas.microsoft.com/netservices/2011/06/servicebus",
+        xmlNamespacePrefix: "d2p1",
         type: {
           name: "Number"
         }
@@ -327,6 +404,9 @@ export const MessageCountDetails: coreHttp.CompositeMapper = {
       deadLetterMessageCount: {
         serializedName: "deadLetterMessageCount",
         xmlName: "DeadLetterMessageCount",
+        xmlNamespace:
+          "http://schemas.microsoft.com/netservices/2011/06/servicebus",
+        xmlNamespacePrefix: "d2p1",
         type: {
           name: "Number"
         }
@@ -334,6 +414,9 @@ export const MessageCountDetails: coreHttp.CompositeMapper = {
       scheduledMessageCount: {
         serializedName: "scheduledMessageCount",
         xmlName: "ScheduledMessageCount",
+        xmlNamespace:
+          "http://schemas.microsoft.com/netservices/2011/06/servicebus",
+        xmlNamespacePrefix: "d2p1",
         type: {
           name: "Number"
         }
@@ -341,6 +424,9 @@ export const MessageCountDetails: coreHttp.CompositeMapper = {
       transferDeadLetterMessageCount: {
         serializedName: "transferDeadLetterMessageCount",
         xmlName: "TransferDeadLetterMessageCount",
+        xmlNamespace:
+          "http://schemas.microsoft.com/netservices/2011/06/servicebus",
+        xmlNamespacePrefix: "d2p1",
         type: {
           name: "Number"
         }
@@ -348,6 +434,9 @@ export const MessageCountDetails: coreHttp.CompositeMapper = {
       transferMessageCount: {
         serializedName: "transferMessageCount",
         xmlName: "TransferMessageCount",
+        xmlNamespace:
+          "http://schemas.microsoft.com/netservices/2011/06/servicebus",
+        xmlNamespacePrefix: "d2p1",
         type: {
           name: "Number"
         }
@@ -383,6 +472,7 @@ export const ServiceBusManagementError: coreHttp.CompositeMapper = {
 export const CreateQueueBody: coreHttp.CompositeMapper = {
   serializedName: "CreateQueueBody",
   xmlName: "entry",
+  xmlNamespace: "http://www.w3.org/2005/Atom",
   type: {
     name: "Composite",
     className: "CreateQueueBody",
@@ -390,6 +480,7 @@ export const CreateQueueBody: coreHttp.CompositeMapper = {
       updated: {
         serializedName: "updated",
         xmlName: "updated",
+        xmlNamespace: "http://www.w3.org/2005/Atom",
         type: {
           name: "DateTime"
         }
@@ -397,6 +488,7 @@ export const CreateQueueBody: coreHttp.CompositeMapper = {
       content: {
         serializedName: "content",
         xmlName: "content",
+        xmlNamespace: "http://www.w3.org/2005/Atom",
         type: {
           name: "Composite",
           className: "CreateQueueBodyContent"
@@ -408,6 +500,7 @@ export const CreateQueueBody: coreHttp.CompositeMapper = {
 
 export const CreateQueueBodyContent: coreHttp.CompositeMapper = {
   serializedName: "CreateQueueBodyContent",
+  xmlNamespace: "http://www.w3.org/2005/Atom",
   type: {
     name: "Composite",
     className: "CreateQueueBodyContent",
@@ -424,6 +517,8 @@ export const CreateQueueBodyContent: coreHttp.CompositeMapper = {
       queueDescription: {
         serializedName: "queueDescription",
         xmlName: "QueueDescription",
+        xmlNamespace:
+          "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
         type: {
           name: "Composite",
           className: "QueueDescription"
@@ -436,6 +531,8 @@ export const CreateQueueBodyContent: coreHttp.CompositeMapper = {
 export const QueueDescription: coreHttp.CompositeMapper = {
   serializedName: "QueueDescription",
   xmlName: "QueueDescription",
+  xmlNamespace:
+    "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
   type: {
     name: "Composite",
     className: "QueueDescription",
@@ -443,6 +540,8 @@ export const QueueDescription: coreHttp.CompositeMapper = {
       lockDuration: {
         serializedName: "lockDuration",
         xmlName: "LockDuration",
+        xmlNamespace:
+          "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
         type: {
           name: "TimeSpan"
         }
@@ -450,6 +549,8 @@ export const QueueDescription: coreHttp.CompositeMapper = {
       maxSizeInMegabytes: {
         serializedName: "maxSizeInMegabytes",
         xmlName: "MaxSizeInMegabytes",
+        xmlNamespace:
+          "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
         type: {
           name: "Number"
         }
@@ -457,6 +558,8 @@ export const QueueDescription: coreHttp.CompositeMapper = {
       requiresDuplicateDetection: {
         serializedName: "requiresDuplicateDetection",
         xmlName: "RequiresDuplicateDetection",
+        xmlNamespace:
+          "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
         type: {
           name: "Boolean"
         }
@@ -464,6 +567,8 @@ export const QueueDescription: coreHttp.CompositeMapper = {
       requiresSession: {
         serializedName: "requiresSession",
         xmlName: "RequiresSession",
+        xmlNamespace:
+          "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
         type: {
           name: "Boolean"
         }
@@ -471,6 +576,8 @@ export const QueueDescription: coreHttp.CompositeMapper = {
       defaultMessageTimeToLive: {
         serializedName: "defaultMessageTimeToLive",
         xmlName: "DefaultMessageTimeToLive",
+        xmlNamespace:
+          "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
         type: {
           name: "TimeSpan"
         }
@@ -478,6 +585,8 @@ export const QueueDescription: coreHttp.CompositeMapper = {
       deadLetteringOnMessageExpiration: {
         serializedName: "deadLetteringOnMessageExpiration",
         xmlName: "DeadLetteringOnMessageExpiration",
+        xmlNamespace:
+          "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
         type: {
           name: "Boolean"
         }
@@ -485,6 +594,8 @@ export const QueueDescription: coreHttp.CompositeMapper = {
       duplicateDetectionHistoryTimeWindow: {
         serializedName: "duplicateDetectionHistoryTimeWindow",
         xmlName: "DuplicateDetectionHistoryTimeWindow",
+        xmlNamespace:
+          "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
         type: {
           name: "TimeSpan"
         }
@@ -492,6 +603,8 @@ export const QueueDescription: coreHttp.CompositeMapper = {
       maxDeliveryCount: {
         serializedName: "maxDeliveryCount",
         xmlName: "MaxDeliveryCount",
+        xmlNamespace:
+          "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
         type: {
           name: "Number"
         }
@@ -499,6 +612,8 @@ export const QueueDescription: coreHttp.CompositeMapper = {
       enableBatchedOperations: {
         serializedName: "enableBatchedOperations",
         xmlName: "EnableBatchedOperations",
+        xmlNamespace:
+          "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
         type: {
           name: "Boolean"
         }
@@ -506,6 +621,8 @@ export const QueueDescription: coreHttp.CompositeMapper = {
       sizeInBytes: {
         serializedName: "sizeInBytes",
         xmlName: "SizeInBytes",
+        xmlNamespace:
+          "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
         type: {
           name: "Number"
         }
@@ -513,6 +630,8 @@ export const QueueDescription: coreHttp.CompositeMapper = {
       messageCount: {
         serializedName: "messageCount",
         xmlName: "MessageCount",
+        xmlNamespace:
+          "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
         type: {
           name: "Number"
         }
@@ -520,6 +639,8 @@ export const QueueDescription: coreHttp.CompositeMapper = {
       isAnonymousAccessible: {
         serializedName: "isAnonymousAccessible",
         xmlName: "IsAnonymousAccessible",
+        xmlNamespace:
+          "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
         type: {
           name: "Boolean"
         }
@@ -529,6 +650,8 @@ export const QueueDescription: coreHttp.CompositeMapper = {
         xmlName: "AuthorizationRules",
         xmlIsWrapped: true,
         xmlElementName: "AuthorizationRule",
+        xmlNamespace:
+          "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
         type: {
           name: "Sequence",
           element: {
@@ -539,6 +662,8 @@ export const QueueDescription: coreHttp.CompositeMapper = {
       status: {
         serializedName: "status",
         xmlName: "Status",
+        xmlNamespace:
+          "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
         type: {
           name: "String"
         }
@@ -546,6 +671,8 @@ export const QueueDescription: coreHttp.CompositeMapper = {
       forwardTo: {
         serializedName: "forwardTo",
         xmlName: "ForwardTo",
+        xmlNamespace:
+          "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
         type: {
           name: "String"
         }
@@ -553,6 +680,8 @@ export const QueueDescription: coreHttp.CompositeMapper = {
       userMetadata: {
         serializedName: "userMetadata",
         xmlName: "UserMetadata",
+        xmlNamespace:
+          "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
         type: {
           name: "String"
         }
@@ -560,6 +689,8 @@ export const QueueDescription: coreHttp.CompositeMapper = {
       createdAt: {
         serializedName: "createdAt",
         xmlName: "CreatedAt",
+        xmlNamespace:
+          "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
         type: {
           name: "DateTime"
         }
@@ -567,6 +698,8 @@ export const QueueDescription: coreHttp.CompositeMapper = {
       updatedAt: {
         serializedName: "updatedAt",
         xmlName: "UpdatedAt",
+        xmlNamespace:
+          "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
         type: {
           name: "DateTime"
         }
@@ -574,6 +707,8 @@ export const QueueDescription: coreHttp.CompositeMapper = {
       accessedAt: {
         serializedName: "accessedAt",
         xmlName: "AccessedAt",
+        xmlNamespace:
+          "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
         type: {
           name: "DateTime"
         }
@@ -581,6 +716,8 @@ export const QueueDescription: coreHttp.CompositeMapper = {
       supportOrdering: {
         serializedName: "supportOrdering",
         xmlName: "SupportOrdering",
+        xmlNamespace:
+          "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
         type: {
           name: "Boolean"
         }
@@ -588,6 +725,8 @@ export const QueueDescription: coreHttp.CompositeMapper = {
       messageCountDetails: {
         serializedName: "messageCountDetails",
         xmlName: "CountDetails",
+        xmlNamespace:
+          "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
         type: {
           name: "Composite",
           className: "MessageCountDetails"
@@ -596,6 +735,8 @@ export const QueueDescription: coreHttp.CompositeMapper = {
       autoDeleteOnIdle: {
         serializedName: "autoDeleteOnIdle",
         xmlName: "AutoDeleteOnIdle",
+        xmlNamespace:
+          "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
         type: {
           name: "TimeSpan"
         }
@@ -603,6 +744,8 @@ export const QueueDescription: coreHttp.CompositeMapper = {
       enablePartitioning: {
         serializedName: "enablePartitioning",
         xmlName: "EnablePartitioning",
+        xmlNamespace:
+          "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
         type: {
           name: "Boolean"
         }
@@ -610,6 +753,8 @@ export const QueueDescription: coreHttp.CompositeMapper = {
       entityAvailabilityStatus: {
         serializedName: "entityAvailabilityStatus",
         xmlName: "EntityAvailabilityStatus",
+        xmlNamespace:
+          "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
         type: {
           name: "String"
         }
@@ -617,6 +762,8 @@ export const QueueDescription: coreHttp.CompositeMapper = {
       enableExpress: {
         serializedName: "enableExpress",
         xmlName: "EnableExpress",
+        xmlNamespace:
+          "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
         type: {
           name: "Boolean"
         }
@@ -624,6 +771,8 @@ export const QueueDescription: coreHttp.CompositeMapper = {
       forwardDeadLetteredMessagesTo: {
         serializedName: "forwardDeadLetteredMessagesTo",
         xmlName: "ForwardDeadLetteredMessagesTo",
+        xmlNamespace:
+          "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
         type: {
           name: "String"
         }
@@ -635,6 +784,7 @@ export const QueueDescription: coreHttp.CompositeMapper = {
 export const NamespacePropertiesEntry: coreHttp.CompositeMapper = {
   serializedName: "NamespacePropertiesEntry",
   xmlName: "entry",
+  xmlNamespace: "http://www.w3.org/2005/Atom",
   type: {
     name: "Composite",
     className: "NamespacePropertiesEntry",
@@ -642,6 +792,7 @@ export const NamespacePropertiesEntry: coreHttp.CompositeMapper = {
       id: {
         serializedName: "id",
         xmlName: "id",
+        xmlNamespace: "http://www.w3.org/2005/Atom",
         type: {
           name: "String"
         }
@@ -656,6 +807,7 @@ export const NamespacePropertiesEntry: coreHttp.CompositeMapper = {
       updated: {
         serializedName: "updated",
         xmlName: "updated",
+        xmlNamespace: "http://www.w3.org/2005/Atom",
         type: {
           name: "DateTime"
         }
@@ -663,6 +815,7 @@ export const NamespacePropertiesEntry: coreHttp.CompositeMapper = {
       author: {
         serializedName: "author",
         xmlName: "author",
+        xmlNamespace: "http://www.w3.org/2005/Atom",
         type: {
           name: "Composite",
           className: "ResponseAuthor"
@@ -671,6 +824,7 @@ export const NamespacePropertiesEntry: coreHttp.CompositeMapper = {
       link: {
         serializedName: "link",
         xmlName: "link",
+        xmlNamespace: "http://www.w3.org/2005/Atom",
         type: {
           name: "Composite",
           className: "ResponseLink"
@@ -679,6 +833,7 @@ export const NamespacePropertiesEntry: coreHttp.CompositeMapper = {
       content: {
         serializedName: "content",
         xmlName: "content",
+        xmlNamespace: "http://www.w3.org/2005/Atom",
         type: {
           name: "Composite",
           className: "NamespacePropertiesEntryContent"
@@ -691,6 +846,7 @@ export const NamespacePropertiesEntry: coreHttp.CompositeMapper = {
 export const ResponseAuthor: coreHttp.CompositeMapper = {
   serializedName: "ResponseAuthor",
   xmlName: "author",
+  xmlNamespace: "http://www.w3.org/2005/Atom",
   type: {
     name: "Composite",
     className: "ResponseAuthor",
@@ -698,6 +854,7 @@ export const ResponseAuthor: coreHttp.CompositeMapper = {
       name: {
         serializedName: "name",
         xmlName: "name",
+        xmlNamespace: "http://www.w3.org/2005/Atom",
         type: {
           name: "String"
         }
@@ -709,6 +866,7 @@ export const ResponseAuthor: coreHttp.CompositeMapper = {
 export const ResponseLink: coreHttp.CompositeMapper = {
   serializedName: "ResponseLink",
   xmlName: "link",
+  xmlNamespace: "http://www.w3.org/2005/Atom",
   type: {
     name: "Composite",
     className: "ResponseLink",
@@ -735,6 +893,7 @@ export const ResponseLink: coreHttp.CompositeMapper = {
 
 export const NamespacePropertiesEntryContent: coreHttp.CompositeMapper = {
   serializedName: "NamespacePropertiesEntryContent",
+  xmlNamespace: "http://www.w3.org/2005/Atom",
   type: {
     name: "Composite",
     className: "NamespacePropertiesEntryContent",
@@ -750,6 +909,8 @@ export const NamespacePropertiesEntryContent: coreHttp.CompositeMapper = {
       namespaceProperties: {
         serializedName: "NamespaceProperties",
         xmlName: "NamespaceInfo",
+        xmlNamespace:
+          "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
         type: {
           name: "Composite",
           className: "NamespaceProperties"
@@ -762,6 +923,8 @@ export const NamespacePropertiesEntryContent: coreHttp.CompositeMapper = {
 export const NamespaceProperties: coreHttp.CompositeMapper = {
   serializedName: "NamespaceProperties",
   xmlName: "NamespaceInfo",
+  xmlNamespace:
+    "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
   type: {
     name: "Composite",
     className: "NamespaceProperties",
@@ -769,6 +932,8 @@ export const NamespaceProperties: coreHttp.CompositeMapper = {
       alias: {
         serializedName: "alias",
         xmlName: "Alias",
+        xmlNamespace:
+          "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
         type: {
           name: "String"
         }
@@ -776,6 +941,8 @@ export const NamespaceProperties: coreHttp.CompositeMapper = {
       createdTime: {
         serializedName: "createdTime",
         xmlName: "CreatedTime",
+        xmlNamespace:
+          "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
         type: {
           name: "DateTime"
         }
@@ -783,6 +950,8 @@ export const NamespaceProperties: coreHttp.CompositeMapper = {
       messagingSku: {
         serializedName: "messagingSku",
         xmlName: "MessagingSKU",
+        xmlNamespace:
+          "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
         type: {
           name: "String"
         }
@@ -790,6 +959,8 @@ export const NamespaceProperties: coreHttp.CompositeMapper = {
       messagingUnits: {
         serializedName: "messagingUnits",
         xmlName: "MessagingUnits",
+        xmlNamespace:
+          "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
         type: {
           name: "Number"
         }
@@ -797,6 +968,8 @@ export const NamespaceProperties: coreHttp.CompositeMapper = {
       modifiedTime: {
         serializedName: "modifiedTime",
         xmlName: "ModifiedTime",
+        xmlNamespace:
+          "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
         type: {
           name: "DateTime"
         }
@@ -804,6 +977,8 @@ export const NamespaceProperties: coreHttp.CompositeMapper = {
       name: {
         serializedName: "name",
         xmlName: "Name",
+        xmlNamespace:
+          "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
         type: {
           name: "String"
         }
@@ -811,6 +986,8 @@ export const NamespaceProperties: coreHttp.CompositeMapper = {
       namespaceType: {
         serializedName: "namespaceType",
         xmlName: "NamespaceType",
+        xmlNamespace:
+          "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
         type: {
           name: "String"
         }
@@ -822,6 +999,7 @@ export const NamespaceProperties: coreHttp.CompositeMapper = {
 export const CreateSubscriptionBody: coreHttp.CompositeMapper = {
   serializedName: "CreateSubscriptionBody",
   xmlName: "entry",
+  xmlNamespace: "http://www.w3.org/2005/Atom",
   type: {
     name: "Composite",
     className: "CreateSubscriptionBody",
@@ -829,6 +1007,7 @@ export const CreateSubscriptionBody: coreHttp.CompositeMapper = {
       content: {
         serializedName: "content",
         xmlName: "content",
+        xmlNamespace: "http://www.w3.org/2005/Atom",
         type: {
           name: "Composite",
           className: "CreateSubscriptionBodyContent"
@@ -840,6 +1019,7 @@ export const CreateSubscriptionBody: coreHttp.CompositeMapper = {
 
 export const CreateSubscriptionBodyContent: coreHttp.CompositeMapper = {
   serializedName: "CreateSubscriptionBodyContent",
+  xmlNamespace: "http://www.w3.org/2005/Atom",
   type: {
     name: "Composite",
     className: "CreateSubscriptionBodyContent",
@@ -856,6 +1036,8 @@ export const CreateSubscriptionBodyContent: coreHttp.CompositeMapper = {
       subscriptionDescription: {
         serializedName: "subscriptionDescription",
         xmlName: "SubscriptionDescription",
+        xmlNamespace:
+          "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
         type: {
           name: "Composite",
           className: "SubscriptionDescription"
@@ -868,6 +1050,8 @@ export const CreateSubscriptionBodyContent: coreHttp.CompositeMapper = {
 export const SubscriptionDescription: coreHttp.CompositeMapper = {
   serializedName: "SubscriptionDescription",
   xmlName: "SubscriptionDescription",
+  xmlNamespace:
+    "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
   type: {
     name: "Composite",
     className: "SubscriptionDescription",
@@ -875,6 +1059,8 @@ export const SubscriptionDescription: coreHttp.CompositeMapper = {
       lockDuration: {
         serializedName: "lockDuration",
         xmlName: "LockDuration",
+        xmlNamespace:
+          "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
         type: {
           name: "TimeSpan"
         }
@@ -882,6 +1068,8 @@ export const SubscriptionDescription: coreHttp.CompositeMapper = {
       requiresSession: {
         serializedName: "requiresSession",
         xmlName: "RequiresSession",
+        xmlNamespace:
+          "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
         type: {
           name: "Boolean"
         }
@@ -889,6 +1077,8 @@ export const SubscriptionDescription: coreHttp.CompositeMapper = {
       defaultMessageTimeToLive: {
         serializedName: "defaultMessageTimeToLive",
         xmlName: "DefaultMessageTimeToLive",
+        xmlNamespace:
+          "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
         type: {
           name: "TimeSpan"
         }
@@ -896,6 +1086,8 @@ export const SubscriptionDescription: coreHttp.CompositeMapper = {
       deadLetteringOnMessageExpiration: {
         serializedName: "deadLetteringOnMessageExpiration",
         xmlName: "DeadLetteringOnMessageExpiration",
+        xmlNamespace:
+          "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
         type: {
           name: "Boolean"
         }
@@ -903,6 +1095,8 @@ export const SubscriptionDescription: coreHttp.CompositeMapper = {
       deadLetteringOnFilterEvaluationExceptions: {
         serializedName: "deadLetteringOnFilterEvaluationExceptions",
         xmlName: "DeadLetteringOnFilterEvaluationExceptions",
+        xmlNamespace:
+          "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
         type: {
           name: "Boolean"
         }
@@ -910,6 +1104,8 @@ export const SubscriptionDescription: coreHttp.CompositeMapper = {
       messageCount: {
         serializedName: "messageCount",
         xmlName: "MessageCount",
+        xmlNamespace:
+          "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
         type: {
           name: "Number"
         }
@@ -917,6 +1113,8 @@ export const SubscriptionDescription: coreHttp.CompositeMapper = {
       maxDeliveryCount: {
         serializedName: "maxDeliveryCount",
         xmlName: "MaxDeliveryCount",
+        xmlNamespace:
+          "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
         type: {
           name: "Number"
         }
@@ -924,6 +1122,8 @@ export const SubscriptionDescription: coreHttp.CompositeMapper = {
       enableBatchedOperations: {
         serializedName: "enableBatchedOperations",
         xmlName: "EnableBatchedOperations",
+        xmlNamespace:
+          "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
         type: {
           name: "Boolean"
         }
@@ -931,6 +1131,8 @@ export const SubscriptionDescription: coreHttp.CompositeMapper = {
       status: {
         serializedName: "status",
         xmlName: "Status",
+        xmlNamespace:
+          "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
         type: {
           name: "String"
         }
@@ -938,6 +1140,8 @@ export const SubscriptionDescription: coreHttp.CompositeMapper = {
       forwardTo: {
         serializedName: "forwardTo",
         xmlName: "ForwardTo",
+        xmlNamespace:
+          "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
         type: {
           name: "String"
         }
@@ -945,6 +1149,8 @@ export const SubscriptionDescription: coreHttp.CompositeMapper = {
       createdAt: {
         serializedName: "createdAt",
         xmlName: "CreatedAt",
+        xmlNamespace:
+          "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
         type: {
           name: "DateTime"
         }
@@ -952,6 +1158,8 @@ export const SubscriptionDescription: coreHttp.CompositeMapper = {
       updatedAt: {
         serializedName: "updatedAt",
         xmlName: "UpdatedAt",
+        xmlNamespace:
+          "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
         type: {
           name: "DateTime"
         }
@@ -959,6 +1167,8 @@ export const SubscriptionDescription: coreHttp.CompositeMapper = {
       accessedAt: {
         serializedName: "accessedAt",
         xmlName: "AccessedAt",
+        xmlNamespace:
+          "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
         type: {
           name: "DateTime"
         }
@@ -966,6 +1176,8 @@ export const SubscriptionDescription: coreHttp.CompositeMapper = {
       messageCountDetails: {
         serializedName: "messageCountDetails",
         xmlName: "CountDetails",
+        xmlNamespace:
+          "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
         type: {
           name: "Composite",
           className: "MessageCountDetails"
@@ -974,6 +1186,8 @@ export const SubscriptionDescription: coreHttp.CompositeMapper = {
       userMetadata: {
         serializedName: "userMetadata",
         xmlName: "UserMetadata",
+        xmlNamespace:
+          "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
         type: {
           name: "String"
         }
@@ -981,6 +1195,8 @@ export const SubscriptionDescription: coreHttp.CompositeMapper = {
       forwardDeadLetteredMessagesTo: {
         serializedName: "forwardDeadLetteredMessagesTo",
         xmlName: "ForwardDeadLetteredMessagesTo",
+        xmlNamespace:
+          "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
         type: {
           name: "String"
         }
@@ -988,6 +1204,8 @@ export const SubscriptionDescription: coreHttp.CompositeMapper = {
       autoDeleteOnIdle: {
         serializedName: "autoDeleteOnIdle",
         xmlName: "AutoDeleteOnIdle",
+        xmlNamespace:
+          "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
         type: {
           name: "TimeSpan"
         }
@@ -995,6 +1213,8 @@ export const SubscriptionDescription: coreHttp.CompositeMapper = {
       entityAvailabilityStatus: {
         serializedName: "entityAvailabilityStatus",
         xmlName: "EntityAvailabilityStatus",
+        xmlNamespace:
+          "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
         type: {
           name: "String"
         }
@@ -1006,6 +1226,7 @@ export const SubscriptionDescription: coreHttp.CompositeMapper = {
 export const CreateRuleBody: coreHttp.CompositeMapper = {
   serializedName: "CreateRuleBody",
   xmlName: "entry",
+  xmlNamespace: "http://www.w3.org/2005/Atom",
   type: {
     name: "Composite",
     className: "CreateRuleBody",
@@ -1013,6 +1234,7 @@ export const CreateRuleBody: coreHttp.CompositeMapper = {
       content: {
         serializedName: "content",
         xmlName: "content",
+        xmlNamespace: "http://www.w3.org/2005/Atom",
         type: {
           name: "Composite",
           className: "CreateRuleBodyContent"
@@ -1024,6 +1246,7 @@ export const CreateRuleBody: coreHttp.CompositeMapper = {
 
 export const CreateRuleBodyContent: coreHttp.CompositeMapper = {
   serializedName: "CreateRuleBodyContent",
+  xmlNamespace: "http://www.w3.org/2005/Atom",
   type: {
     name: "Composite",
     className: "CreateRuleBodyContent",
@@ -1040,6 +1263,8 @@ export const CreateRuleBodyContent: coreHttp.CompositeMapper = {
       ruleDescription: {
         serializedName: "ruleDescription",
         xmlName: "RuleDescription",
+        xmlNamespace:
+          "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
         type: {
           name: "Composite",
           className: "RuleDescription"
@@ -1052,6 +1277,8 @@ export const CreateRuleBodyContent: coreHttp.CompositeMapper = {
 export const RuleDescription: coreHttp.CompositeMapper = {
   serializedName: "RuleDescription",
   xmlName: "RuleDescription",
+  xmlNamespace:
+    "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
   type: {
     name: "Composite",
     className: "RuleDescription",
@@ -1059,6 +1286,8 @@ export const RuleDescription: coreHttp.CompositeMapper = {
       filter: {
         serializedName: "filter",
         xmlName: "Filter",
+        xmlNamespace:
+          "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
         type: {
           name: "Composite",
           className: "RuleFilter"
@@ -1067,6 +1296,8 @@ export const RuleDescription: coreHttp.CompositeMapper = {
       action: {
         serializedName: "action",
         xmlName: "Action",
+        xmlNamespace:
+          "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
         type: {
           name: "Composite",
           className: "RuleAction"
@@ -1075,6 +1306,8 @@ export const RuleDescription: coreHttp.CompositeMapper = {
       createdAt: {
         serializedName: "createdAt",
         xmlName: "CreatedAt",
+        xmlNamespace:
+          "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
         type: {
           name: "DateTime"
         }
@@ -1082,6 +1315,8 @@ export const RuleDescription: coreHttp.CompositeMapper = {
       name: {
         serializedName: "name",
         xmlName: "Name",
+        xmlNamespace:
+          "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
         type: {
           name: "String"
         }
@@ -1093,6 +1328,8 @@ export const RuleDescription: coreHttp.CompositeMapper = {
 export const RuleFilter: coreHttp.CompositeMapper = {
   serializedName: "RuleFilter",
   xmlName: "Filter",
+  xmlNamespace:
+    "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
   type: {
     name: "Composite",
     className: "RuleFilter",
@@ -1107,6 +1344,8 @@ export const RuleFilter: coreHttp.CompositeMapper = {
         required: true,
         xmlName: "type",
         xmlIsAttribute: true,
+        xmlNamespace: "http://www.w3.org/2001/XMLSchema-instance",
+        xmlNamespacePrefix: "xsi",
         type: {
           name: "String"
         }
@@ -1118,6 +1357,8 @@ export const RuleFilter: coreHttp.CompositeMapper = {
 export const RuleAction: coreHttp.CompositeMapper = {
   serializedName: "RuleAction",
   xmlName: "Action",
+  xmlNamespace:
+    "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
   type: {
     name: "Composite",
     className: "RuleAction",
@@ -1132,6 +1373,8 @@ export const RuleAction: coreHttp.CompositeMapper = {
         required: true,
         xmlName: "type",
         xmlIsAttribute: true,
+        xmlNamespace: "http://www.w3.org/2001/XMLSchema-instance",
+        xmlNamespacePrefix: "xsi",
         type: {
           name: "String"
         }
@@ -1143,6 +1386,7 @@ export const RuleAction: coreHttp.CompositeMapper = {
 export const QueueDescriptionEntry: coreHttp.CompositeMapper = {
   serializedName: "QueueDescriptionEntry",
   xmlName: "entry",
+  xmlNamespace: "http://www.w3.org/2005/Atom",
   type: {
     name: "Composite",
     className: "QueueDescriptionEntry",
@@ -1151,6 +1395,7 @@ export const QueueDescriptionEntry: coreHttp.CompositeMapper = {
         serializedName: "base",
         xmlName: "base",
         xmlIsAttribute: true,
+        xmlNamespacePrefix: "xml",
         type: {
           name: "String"
         }
@@ -1158,6 +1403,7 @@ export const QueueDescriptionEntry: coreHttp.CompositeMapper = {
       id: {
         serializedName: "id",
         xmlName: "id",
+        xmlNamespace: "http://www.w3.org/2005/Atom",
         type: {
           name: "String"
         }
@@ -1172,6 +1418,7 @@ export const QueueDescriptionEntry: coreHttp.CompositeMapper = {
       published: {
         serializedName: "published",
         xmlName: "published",
+        xmlNamespace: "http://www.w3.org/2005/Atom",
         type: {
           name: "DateTime"
         }
@@ -1179,6 +1426,7 @@ export const QueueDescriptionEntry: coreHttp.CompositeMapper = {
       updated: {
         serializedName: "updated",
         xmlName: "updated",
+        xmlNamespace: "http://www.w3.org/2005/Atom",
         type: {
           name: "DateTime"
         }
@@ -1186,6 +1434,7 @@ export const QueueDescriptionEntry: coreHttp.CompositeMapper = {
       author: {
         serializedName: "author",
         xmlName: "author",
+        xmlNamespace: "http://www.w3.org/2005/Atom",
         type: {
           name: "Composite",
           className: "ResponseAuthor"
@@ -1194,6 +1443,7 @@ export const QueueDescriptionEntry: coreHttp.CompositeMapper = {
       link: {
         serializedName: "link",
         xmlName: "link",
+        xmlNamespace: "http://www.w3.org/2005/Atom",
         type: {
           name: "Composite",
           className: "ResponseLink"
@@ -1202,6 +1452,7 @@ export const QueueDescriptionEntry: coreHttp.CompositeMapper = {
       content: {
         serializedName: "content",
         xmlName: "content",
+        xmlNamespace: "http://www.w3.org/2005/Atom",
         type: {
           name: "Composite",
           className: "QueueDescriptionEntryContent"
@@ -1213,6 +1464,7 @@ export const QueueDescriptionEntry: coreHttp.CompositeMapper = {
 
 export const QueueDescriptionEntryContent: coreHttp.CompositeMapper = {
   serializedName: "QueueDescriptionEntryContent",
+  xmlNamespace: "http://www.w3.org/2005/Atom",
   type: {
     name: "Composite",
     className: "QueueDescriptionEntryContent",
@@ -1228,6 +1480,8 @@ export const QueueDescriptionEntryContent: coreHttp.CompositeMapper = {
       queueDescription: {
         serializedName: "QueueDescription",
         xmlName: "QueueDescription",
+        xmlNamespace:
+          "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
         type: {
           name: "Composite",
           className: "QueueDescription"
@@ -1240,6 +1494,7 @@ export const QueueDescriptionEntryContent: coreHttp.CompositeMapper = {
 export const QueueDescriptionFeed: coreHttp.CompositeMapper = {
   serializedName: "QueueDescriptionFeed",
   xmlName: "feed",
+  xmlNamespace: "http://www.w3.org/2005/Atom",
   type: {
     name: "Composite",
     className: "QueueDescriptionFeed",
@@ -1247,6 +1502,7 @@ export const QueueDescriptionFeed: coreHttp.CompositeMapper = {
       id: {
         serializedName: "id",
         xmlName: "id",
+        xmlNamespace: "http://www.w3.org/2005/Atom",
         type: {
           name: "String"
         }
@@ -1261,6 +1517,7 @@ export const QueueDescriptionFeed: coreHttp.CompositeMapper = {
       updated: {
         serializedName: "updated",
         xmlName: "updated",
+        xmlNamespace: "http://www.w3.org/2005/Atom",
         type: {
           name: "DateTime"
         }
@@ -1292,6 +1549,7 @@ export const QueueDescriptionFeed: coreHttp.CompositeMapper = {
 export const TopicDescriptionEntry: coreHttp.CompositeMapper = {
   serializedName: "TopicDescriptionEntry",
   xmlName: "entry",
+  xmlNamespace: "http://www.w3.org/2005/Atom",
   type: {
     name: "Composite",
     className: "TopicDescriptionEntry",
@@ -1300,6 +1558,7 @@ export const TopicDescriptionEntry: coreHttp.CompositeMapper = {
         serializedName: "base",
         xmlName: "base",
         xmlIsAttribute: true,
+        xmlNamespacePrefix: "xml",
         type: {
           name: "String"
         }
@@ -1307,6 +1566,7 @@ export const TopicDescriptionEntry: coreHttp.CompositeMapper = {
       id: {
         serializedName: "id",
         xmlName: "id",
+        xmlNamespace: "http://www.w3.org/2005/Atom",
         type: {
           name: "String"
         }
@@ -1321,6 +1581,7 @@ export const TopicDescriptionEntry: coreHttp.CompositeMapper = {
       published: {
         serializedName: "published",
         xmlName: "published",
+        xmlNamespace: "http://www.w3.org/2005/Atom",
         type: {
           name: "DateTime"
         }
@@ -1328,6 +1589,7 @@ export const TopicDescriptionEntry: coreHttp.CompositeMapper = {
       updated: {
         serializedName: "updated",
         xmlName: "updated",
+        xmlNamespace: "http://www.w3.org/2005/Atom",
         type: {
           name: "DateTime"
         }
@@ -1335,6 +1597,7 @@ export const TopicDescriptionEntry: coreHttp.CompositeMapper = {
       author: {
         serializedName: "author",
         xmlName: "author",
+        xmlNamespace: "http://www.w3.org/2005/Atom",
         type: {
           name: "Composite",
           className: "ResponseAuthor"
@@ -1343,6 +1606,7 @@ export const TopicDescriptionEntry: coreHttp.CompositeMapper = {
       link: {
         serializedName: "link",
         xmlName: "link",
+        xmlNamespace: "http://www.w3.org/2005/Atom",
         type: {
           name: "Composite",
           className: "ResponseLink"
@@ -1351,6 +1615,7 @@ export const TopicDescriptionEntry: coreHttp.CompositeMapper = {
       content: {
         serializedName: "content",
         xmlName: "content",
+        xmlNamespace: "http://www.w3.org/2005/Atom",
         type: {
           name: "Composite",
           className: "TopicDescriptionEntryContent"
@@ -1362,6 +1627,7 @@ export const TopicDescriptionEntry: coreHttp.CompositeMapper = {
 
 export const TopicDescriptionEntryContent: coreHttp.CompositeMapper = {
   serializedName: "TopicDescriptionEntryContent",
+  xmlNamespace: "http://www.w3.org/2005/Atom",
   type: {
     name: "Composite",
     className: "TopicDescriptionEntryContent",
@@ -1377,6 +1643,8 @@ export const TopicDescriptionEntryContent: coreHttp.CompositeMapper = {
       topicDescription: {
         serializedName: "TopicDescription",
         xmlName: "TopicDescription",
+        xmlNamespace:
+          "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
         type: {
           name: "Composite",
           className: "TopicDescription"
@@ -1389,6 +1657,7 @@ export const TopicDescriptionEntryContent: coreHttp.CompositeMapper = {
 export const TopicDescriptionFeed: coreHttp.CompositeMapper = {
   serializedName: "TopicDescriptionFeed",
   xmlName: "feed",
+  xmlNamespace: "http://www.w3.org/2005/Atom",
   type: {
     name: "Composite",
     className: "TopicDescriptionFeed",
@@ -1396,6 +1665,7 @@ export const TopicDescriptionFeed: coreHttp.CompositeMapper = {
       id: {
         serializedName: "id",
         xmlName: "id",
+        xmlNamespace: "http://www.w3.org/2005/Atom",
         type: {
           name: "String"
         }
@@ -1410,6 +1680,7 @@ export const TopicDescriptionFeed: coreHttp.CompositeMapper = {
       updated: {
         serializedName: "updated",
         xmlName: "updated",
+        xmlNamespace: "http://www.w3.org/2005/Atom",
         type: {
           name: "DateTime"
         }
@@ -1441,6 +1712,7 @@ export const TopicDescriptionFeed: coreHttp.CompositeMapper = {
 export const SubscriptionDescriptionEntry: coreHttp.CompositeMapper = {
   serializedName: "SubscriptionDescriptionEntry",
   xmlName: "entry",
+  xmlNamespace: "http://www.w3.org/2005/Atom",
   type: {
     name: "Composite",
     className: "SubscriptionDescriptionEntry",
@@ -1448,6 +1720,7 @@ export const SubscriptionDescriptionEntry: coreHttp.CompositeMapper = {
       id: {
         serializedName: "id",
         xmlName: "id",
+        xmlNamespace: "http://www.w3.org/2005/Atom",
         type: {
           name: "String"
         }
@@ -1462,6 +1735,7 @@ export const SubscriptionDescriptionEntry: coreHttp.CompositeMapper = {
       published: {
         serializedName: "published",
         xmlName: "published",
+        xmlNamespace: "http://www.w3.org/2005/Atom",
         type: {
           name: "DateTime"
         }
@@ -1469,6 +1743,7 @@ export const SubscriptionDescriptionEntry: coreHttp.CompositeMapper = {
       updated: {
         serializedName: "updated",
         xmlName: "updated",
+        xmlNamespace: "http://www.w3.org/2005/Atom",
         type: {
           name: "DateTime"
         }
@@ -1476,6 +1751,7 @@ export const SubscriptionDescriptionEntry: coreHttp.CompositeMapper = {
       link: {
         serializedName: "link",
         xmlName: "link",
+        xmlNamespace: "http://www.w3.org/2005/Atom",
         type: {
           name: "Composite",
           className: "ResponseLink"
@@ -1484,6 +1760,7 @@ export const SubscriptionDescriptionEntry: coreHttp.CompositeMapper = {
       content: {
         serializedName: "content",
         xmlName: "content",
+        xmlNamespace: "http://www.w3.org/2005/Atom",
         type: {
           name: "Composite",
           className: "SubscriptionDescriptionEntryContent"
@@ -1495,6 +1772,7 @@ export const SubscriptionDescriptionEntry: coreHttp.CompositeMapper = {
 
 export const SubscriptionDescriptionEntryContent: coreHttp.CompositeMapper = {
   serializedName: "SubscriptionDescriptionEntryContent",
+  xmlNamespace: "http://www.w3.org/2005/Atom",
   type: {
     name: "Composite",
     className: "SubscriptionDescriptionEntryContent",
@@ -1510,6 +1788,8 @@ export const SubscriptionDescriptionEntryContent: coreHttp.CompositeMapper = {
       subscriptionDescription: {
         serializedName: "SubscriptionDescription",
         xmlName: "SubscriptionDescription",
+        xmlNamespace:
+          "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
         type: {
           name: "Composite",
           className: "SubscriptionDescription"
@@ -1522,6 +1802,7 @@ export const SubscriptionDescriptionEntryContent: coreHttp.CompositeMapper = {
 export const SubscriptionDescriptionFeed: coreHttp.CompositeMapper = {
   serializedName: "SubscriptionDescriptionFeed",
   xmlName: "feed",
+  xmlNamespace: "http://www.w3.org/2005/Atom",
   type: {
     name: "Composite",
     className: "SubscriptionDescriptionFeed",
@@ -1529,6 +1810,7 @@ export const SubscriptionDescriptionFeed: coreHttp.CompositeMapper = {
       id: {
         serializedName: "id",
         xmlName: "id",
+        xmlNamespace: "http://www.w3.org/2005/Atom",
         type: {
           name: "String"
         }
@@ -1543,6 +1825,7 @@ export const SubscriptionDescriptionFeed: coreHttp.CompositeMapper = {
       updated: {
         serializedName: "updated",
         xmlName: "updated",
+        xmlNamespace: "http://www.w3.org/2005/Atom",
         type: {
           name: "DateTime"
         }
@@ -1577,6 +1860,8 @@ export const SubscriptionDescriptionFeed: coreHttp.CompositeMapper = {
 export const KeyValue: coreHttp.CompositeMapper = {
   serializedName: "KeyValue",
   xmlName: "KeyValueOfstringanyType",
+  xmlNamespace:
+    "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
   type: {
     name: "Composite",
     className: "KeyValue",
@@ -1584,6 +1869,8 @@ export const KeyValue: coreHttp.CompositeMapper = {
       key: {
         serializedName: "key",
         xmlName: "Key",
+        xmlNamespace:
+          "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
         type: {
           name: "String"
         }
@@ -1591,6 +1878,8 @@ export const KeyValue: coreHttp.CompositeMapper = {
       value: {
         serializedName: "value",
         xmlName: "Value",
+        xmlNamespace:
+          "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
         type: {
           name: "String"
         }
@@ -1602,6 +1891,7 @@ export const KeyValue: coreHttp.CompositeMapper = {
 export const RuleDescriptionEntry: coreHttp.CompositeMapper = {
   serializedName: "RuleDescriptionEntry",
   xmlName: "entry",
+  xmlNamespace: "http://www.w3.org/2005/Atom",
   type: {
     name: "Composite",
     className: "RuleDescriptionEntry",
@@ -1609,6 +1899,7 @@ export const RuleDescriptionEntry: coreHttp.CompositeMapper = {
       id: {
         serializedName: "id",
         xmlName: "id",
+        xmlNamespace: "http://www.w3.org/2005/Atom",
         type: {
           name: "String"
         }
@@ -1623,6 +1914,7 @@ export const RuleDescriptionEntry: coreHttp.CompositeMapper = {
       published: {
         serializedName: "published",
         xmlName: "published",
+        xmlNamespace: "http://www.w3.org/2005/Atom",
         type: {
           name: "DateTime"
         }
@@ -1630,6 +1922,7 @@ export const RuleDescriptionEntry: coreHttp.CompositeMapper = {
       updated: {
         serializedName: "updated",
         xmlName: "updated",
+        xmlNamespace: "http://www.w3.org/2005/Atom",
         type: {
           name: "DateTime"
         }
@@ -1637,6 +1930,7 @@ export const RuleDescriptionEntry: coreHttp.CompositeMapper = {
       link: {
         serializedName: "link",
         xmlName: "link",
+        xmlNamespace: "http://www.w3.org/2005/Atom",
         type: {
           name: "Composite",
           className: "ResponseLink"
@@ -1645,6 +1939,7 @@ export const RuleDescriptionEntry: coreHttp.CompositeMapper = {
       content: {
         serializedName: "content",
         xmlName: "content",
+        xmlNamespace: "http://www.w3.org/2005/Atom",
         type: {
           name: "Composite",
           className: "RuleDescriptionEntryContent"
@@ -1656,6 +1951,7 @@ export const RuleDescriptionEntry: coreHttp.CompositeMapper = {
 
 export const RuleDescriptionEntryContent: coreHttp.CompositeMapper = {
   serializedName: "RuleDescriptionEntryContent",
+  xmlNamespace: "http://www.w3.org/2005/Atom",
   type: {
     name: "Composite",
     className: "RuleDescriptionEntryContent",
@@ -1671,6 +1967,8 @@ export const RuleDescriptionEntryContent: coreHttp.CompositeMapper = {
       ruleDescription: {
         serializedName: "RuleDescription",
         xmlName: "RuleDescription",
+        xmlNamespace:
+          "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
         type: {
           name: "Composite",
           className: "RuleDescription"
@@ -1683,6 +1981,7 @@ export const RuleDescriptionEntryContent: coreHttp.CompositeMapper = {
 export const RuleDescriptionFeed: coreHttp.CompositeMapper = {
   serializedName: "RuleDescriptionFeed",
   xmlName: "feed",
+  xmlNamespace: "http://www.w3.org/2005/Atom",
   type: {
     name: "Composite",
     className: "RuleDescriptionFeed",
@@ -1690,6 +1989,7 @@ export const RuleDescriptionFeed: coreHttp.CompositeMapper = {
       id: {
         serializedName: "id",
         xmlName: "id",
+        xmlNamespace: "http://www.w3.org/2005/Atom",
         type: {
           name: "String"
         }
@@ -1704,6 +2004,7 @@ export const RuleDescriptionFeed: coreHttp.CompositeMapper = {
       updated: {
         serializedName: "updated",
         xmlName: "updated",
+        xmlNamespace: "http://www.w3.org/2005/Atom",
         type: {
           name: "DateTime"
         }
@@ -1744,6 +2045,8 @@ export const CorrelationFilter: coreHttp.CompositeMapper = {
       correlationId: {
         serializedName: "correlationId",
         xmlName: "CorrelationId",
+        xmlNamespace:
+          "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
         type: {
           name: "String"
         }
@@ -1751,6 +2054,8 @@ export const CorrelationFilter: coreHttp.CompositeMapper = {
       messageId: {
         serializedName: "messageId",
         xmlName: "MessageId",
+        xmlNamespace:
+          "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
         type: {
           name: "String"
         }
@@ -1758,6 +2063,8 @@ export const CorrelationFilter: coreHttp.CompositeMapper = {
       to: {
         serializedName: "to",
         xmlName: "To",
+        xmlNamespace:
+          "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
         type: {
           name: "String"
         }
@@ -1765,6 +2072,8 @@ export const CorrelationFilter: coreHttp.CompositeMapper = {
       replyTo: {
         serializedName: "replyTo",
         xmlName: "ReplyTo",
+        xmlNamespace:
+          "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
         type: {
           name: "String"
         }
@@ -1772,6 +2081,8 @@ export const CorrelationFilter: coreHttp.CompositeMapper = {
       label: {
         serializedName: "label",
         xmlName: "Label",
+        xmlNamespace:
+          "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
         type: {
           name: "String"
         }
@@ -1779,6 +2090,8 @@ export const CorrelationFilter: coreHttp.CompositeMapper = {
       sessionId: {
         serializedName: "sessionId",
         xmlName: "SessionId",
+        xmlNamespace:
+          "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
         type: {
           name: "String"
         }
@@ -1786,6 +2099,8 @@ export const CorrelationFilter: coreHttp.CompositeMapper = {
       replyToSessionId: {
         serializedName: "replyToSessionId",
         xmlName: "ReplyToSessionId",
+        xmlNamespace:
+          "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
         type: {
           name: "String"
         }
@@ -1793,6 +2108,8 @@ export const CorrelationFilter: coreHttp.CompositeMapper = {
       contentType: {
         serializedName: "contentType",
         xmlName: "ContentType",
+        xmlNamespace:
+          "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
         type: {
           name: "String"
         }
@@ -1802,6 +2119,8 @@ export const CorrelationFilter: coreHttp.CompositeMapper = {
         xmlName: "Properties",
         xmlIsWrapped: true,
         xmlElementName: "KeyValueOfstringanyType",
+        xmlNamespace:
+          "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
         type: {
           name: "Sequence",
           element: { type: { name: "Composite", className: "KeyValue" } }
@@ -1826,6 +2145,8 @@ export const SqlFilter: coreHttp.CompositeMapper = {
       sqlExpression: {
         serializedName: "sqlExpression",
         xmlName: "SqlExpression",
+        xmlNamespace:
+          "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
         type: {
           name: "String"
         }
@@ -1834,6 +2155,8 @@ export const SqlFilter: coreHttp.CompositeMapper = {
         defaultValue: "20",
         serializedName: "compatibilityLevel",
         xmlName: "CompatibilityLevel",
+        xmlNamespace:
+          "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
         type: {
           name: "String"
         }
@@ -1843,6 +2166,8 @@ export const SqlFilter: coreHttp.CompositeMapper = {
         xmlName: "Parameters",
         xmlIsWrapped: true,
         xmlElementName: "KeyValueOfstringanyType",
+        xmlNamespace:
+          "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
         type: {
           name: "Sequence",
           element: { type: { name: "Composite", className: "KeyValue" } }
@@ -1851,6 +2176,8 @@ export const SqlFilter: coreHttp.CompositeMapper = {
       requiresPreprocessing: {
         serializedName: "requiresPreprocessing",
         xmlName: "RequiresPreprocessing",
+        xmlNamespace:
+          "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
         type: {
           name: "Boolean"
         }
@@ -1871,6 +2198,8 @@ export const SqlRuleAction: coreHttp.CompositeMapper = {
       sqlExpression: {
         serializedName: "sqlExpression",
         xmlName: "SqlExpression",
+        xmlNamespace:
+          "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
         type: {
           name: "String"
         }
@@ -1879,6 +2208,8 @@ export const SqlRuleAction: coreHttp.CompositeMapper = {
         defaultValue: "20",
         serializedName: "compatibilityLevel",
         xmlName: "CompatibilityLevel",
+        xmlNamespace:
+          "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
         type: {
           name: "String"
         }
@@ -1888,6 +2219,8 @@ export const SqlRuleAction: coreHttp.CompositeMapper = {
         xmlName: "Parameters",
         xmlIsWrapped: true,
         xmlElementName: "KeyValueOfstringanyType",
+        xmlNamespace:
+          "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
         type: {
           name: "Sequence",
           element: { type: { name: "Composite", className: "KeyValue" } }
@@ -1896,6 +2229,8 @@ export const SqlRuleAction: coreHttp.CompositeMapper = {
       requiresPreprocessing: {
         serializedName: "requiresPreprocessing",
         xmlName: "RequiresPreprocessing",
+        xmlNamespace:
+          "http://schemas.microsoft.com/netservices/2010/10/servicebus/connect",
         type: {
           name: "Boolean"
         }
@@ -1943,11 +2278,11 @@ export const FalseFilter: coreHttp.CompositeMapper = {
   }
 };
 
-export const EntityGetTopicHeaders: coreHttp.CompositeMapper = {
-  serializedName: "Entity_getTopicHeaders",
+export const EntityGetTopicExceptionHeaders: coreHttp.CompositeMapper = {
+  serializedName: "Entity_getTopicExceptionHeaders",
   type: {
     name: "Composite",
-    className: "EntityGetTopicHeaders",
+    className: "EntityGetTopicExceptionHeaders",
     modelProperties: {
       xMsRequestId: {
         constraints: {
@@ -1972,11 +2307,11 @@ export const EntityGetTopicHeaders: coreHttp.CompositeMapper = {
   }
 };
 
-export const EntityPutTopicHeaders: coreHttp.CompositeMapper = {
-  serializedName: "Entity_putTopicHeaders",
+export const EntityPutTopicExceptionHeaders: coreHttp.CompositeMapper = {
+  serializedName: "Entity_putTopicExceptionHeaders",
   type: {
     name: "Composite",
-    className: "EntityPutTopicHeaders",
+    className: "EntityPutTopicExceptionHeaders",
     modelProperties: {
       xMsRequestId: {
         constraints: {
@@ -2001,11 +2336,11 @@ export const EntityPutTopicHeaders: coreHttp.CompositeMapper = {
   }
 };
 
-export const EntityDeleteTopicHeaders: coreHttp.CompositeMapper = {
-  serializedName: "Entity_deleteTopicHeaders",
+export const EntityDeleteTopicExceptionHeaders: coreHttp.CompositeMapper = {
+  serializedName: "Entity_deleteTopicExceptionHeaders",
   type: {
     name: "Composite",
-    className: "EntityDeleteTopicHeaders",
+    className: "EntityDeleteTopicExceptionHeaders",
     modelProperties: {
       xMsRequestId: {
         constraints: {
@@ -2030,11 +2365,11 @@ export const EntityDeleteTopicHeaders: coreHttp.CompositeMapper = {
   }
 };
 
-export const EntityGetQueueHeaders: coreHttp.CompositeMapper = {
-  serializedName: "Entity_getQueueHeaders",
+export const EntityGetQueueExceptionHeaders: coreHttp.CompositeMapper = {
+  serializedName: "Entity_getQueueExceptionHeaders",
   type: {
     name: "Composite",
-    className: "EntityGetQueueHeaders",
+    className: "EntityGetQueueExceptionHeaders",
     modelProperties: {
       xMsRequestId: {
         constraints: {
@@ -2059,11 +2394,11 @@ export const EntityGetQueueHeaders: coreHttp.CompositeMapper = {
   }
 };
 
-export const EntityPutQueueHeaders: coreHttp.CompositeMapper = {
-  serializedName: "Entity_putQueueHeaders",
+export const EntityPutQueueExceptionHeaders: coreHttp.CompositeMapper = {
+  serializedName: "Entity_putQueueExceptionHeaders",
   type: {
     name: "Composite",
-    className: "EntityPutQueueHeaders",
+    className: "EntityPutQueueExceptionHeaders",
     modelProperties: {
       xMsRequestId: {
         constraints: {
@@ -2088,11 +2423,11 @@ export const EntityPutQueueHeaders: coreHttp.CompositeMapper = {
   }
 };
 
-export const EntityDeleteQueueHeaders: coreHttp.CompositeMapper = {
-  serializedName: "Entity_deleteQueueHeaders",
+export const EntityDeleteQueueExceptionHeaders: coreHttp.CompositeMapper = {
+  serializedName: "Entity_deleteQueueExceptionHeaders",
   type: {
     name: "Composite",
-    className: "EntityDeleteQueueHeaders",
+    className: "EntityDeleteQueueExceptionHeaders",
     modelProperties: {
       xMsRequestId: {
         constraints: {
@@ -2117,11 +2452,13 @@ export const EntityDeleteQueueHeaders: coreHttp.CompositeMapper = {
   }
 };
 
-export const ServiceBusManagementClientInternalListSubscriptionsHeaders: coreHttp.CompositeMapper = {
-  serializedName: "ServiceBusManagementClientInternal_listSubscriptionsHeaders",
+export const ServiceBusManagementClientInternalListSubscriptionsExceptionHeaders: coreHttp.CompositeMapper = {
+  serializedName:
+    "ServiceBusManagementClientInternal_listSubscriptionsExceptionHeaders",
   type: {
     name: "Composite",
-    className: "ServiceBusManagementClientInternalListSubscriptionsHeaders",
+    className:
+      "ServiceBusManagementClientInternalListSubscriptionsExceptionHeaders",
     modelProperties: {
       xMsRequestId: {
         constraints: {
@@ -2146,11 +2483,12 @@ export const ServiceBusManagementClientInternalListSubscriptionsHeaders: coreHtt
   }
 };
 
-export const ServiceBusManagementClientInternalListRulesHeaders: coreHttp.CompositeMapper = {
-  serializedName: "ServiceBusManagementClientInternal_listRulesHeaders",
+export const ServiceBusManagementClientInternalListRulesExceptionHeaders: coreHttp.CompositeMapper = {
+  serializedName:
+    "ServiceBusManagementClientInternal_listRulesExceptionHeaders",
   type: {
     name: "Composite",
-    className: "ServiceBusManagementClientInternalListRulesHeaders",
+    className: "ServiceBusManagementClientInternalListRulesExceptionHeaders",
     modelProperties: {
       xMsRequestId: {
         constraints: {
@@ -2175,11 +2513,12 @@ export const ServiceBusManagementClientInternalListRulesHeaders: coreHttp.Compos
   }
 };
 
-export const ServiceBusManagementClientInternalListEntitiesHeaders: coreHttp.CompositeMapper = {
-  serializedName: "ServiceBusManagementClientInternal_listEntitiesHeaders",
+export const ServiceBusManagementClientInternalListEntitiesExceptionHeaders: coreHttp.CompositeMapper = {
+  serializedName:
+    "ServiceBusManagementClientInternal_listEntitiesExceptionHeaders",
   type: {
     name: "Composite",
-    className: "ServiceBusManagementClientInternalListEntitiesHeaders",
+    className: "ServiceBusManagementClientInternalListEntitiesExceptionHeaders",
     modelProperties: {
       xMsRequestId: {
         constraints: {
@@ -2204,11 +2543,11 @@ export const ServiceBusManagementClientInternalListEntitiesHeaders: coreHttp.Com
   }
 };
 
-export const SubscriptionGetHeaders: coreHttp.CompositeMapper = {
-  serializedName: "Subscription_getHeaders",
+export const SubscriptionGetExceptionHeaders: coreHttp.CompositeMapper = {
+  serializedName: "Subscription_getExceptionHeaders",
   type: {
     name: "Composite",
-    className: "SubscriptionGetHeaders",
+    className: "SubscriptionGetExceptionHeaders",
     modelProperties: {
       xMsRequestId: {
         constraints: {
@@ -2233,11 +2572,11 @@ export const SubscriptionGetHeaders: coreHttp.CompositeMapper = {
   }
 };
 
-export const SubscriptionPutHeaders: coreHttp.CompositeMapper = {
-  serializedName: "Subscription_putHeaders",
+export const SubscriptionPutExceptionHeaders: coreHttp.CompositeMapper = {
+  serializedName: "Subscription_putExceptionHeaders",
   type: {
     name: "Composite",
-    className: "SubscriptionPutHeaders",
+    className: "SubscriptionPutExceptionHeaders",
     modelProperties: {
       xMsRequestId: {
         constraints: {
@@ -2262,11 +2601,11 @@ export const SubscriptionPutHeaders: coreHttp.CompositeMapper = {
   }
 };
 
-export const SubscriptionDeleteHeaders: coreHttp.CompositeMapper = {
-  serializedName: "Subscription_deleteHeaders",
+export const SubscriptionDeleteExceptionHeaders: coreHttp.CompositeMapper = {
+  serializedName: "Subscription_deleteExceptionHeaders",
   type: {
     name: "Composite",
-    className: "SubscriptionDeleteHeaders",
+    className: "SubscriptionDeleteExceptionHeaders",
     modelProperties: {
       xMsRequestId: {
         constraints: {
@@ -2291,11 +2630,11 @@ export const SubscriptionDeleteHeaders: coreHttp.CompositeMapper = {
   }
 };
 
-export const RuleGetHeaders: coreHttp.CompositeMapper = {
-  serializedName: "Rule_getHeaders",
+export const RuleGetExceptionHeaders: coreHttp.CompositeMapper = {
+  serializedName: "Rule_getExceptionHeaders",
   type: {
     name: "Composite",
-    className: "RuleGetHeaders",
+    className: "RuleGetExceptionHeaders",
     modelProperties: {
       xMsRequestId: {
         constraints: {
@@ -2320,11 +2659,11 @@ export const RuleGetHeaders: coreHttp.CompositeMapper = {
   }
 };
 
-export const RulePutHeaders: coreHttp.CompositeMapper = {
-  serializedName: "Rule_putHeaders",
+export const RulePutExceptionHeaders: coreHttp.CompositeMapper = {
+  serializedName: "Rule_putExceptionHeaders",
   type: {
     name: "Composite",
-    className: "RulePutHeaders",
+    className: "RulePutExceptionHeaders",
     modelProperties: {
       xMsRequestId: {
         constraints: {
@@ -2349,11 +2688,11 @@ export const RulePutHeaders: coreHttp.CompositeMapper = {
   }
 };
 
-export const RuleDeleteHeaders: coreHttp.CompositeMapper = {
-  serializedName: "Rule_deleteHeaders",
+export const RuleDeleteExceptionHeaders: coreHttp.CompositeMapper = {
+  serializedName: "Rule_deleteExceptionHeaders",
   type: {
     name: "Composite",
-    className: "RuleDeleteHeaders",
+    className: "RuleDeleteExceptionHeaders",
     modelProperties: {
       xMsRequestId: {
         constraints: {
@@ -2378,11 +2717,11 @@ export const RuleDeleteHeaders: coreHttp.CompositeMapper = {
   }
 };
 
-export const NamespaceGetHeaders: coreHttp.CompositeMapper = {
-  serializedName: "Namespace_getHeaders",
+export const NamespaceGetExceptionHeaders: coreHttp.CompositeMapper = {
+  serializedName: "Namespace_getExceptionHeaders",
   type: {
     name: "Composite",
-    className: "NamespaceGetHeaders",
+    className: "NamespaceGetExceptionHeaders",
     modelProperties: {
       xMsRequestId: {
         constraints: {
