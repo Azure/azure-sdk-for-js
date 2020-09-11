@@ -1,13 +1,13 @@
 {
   "name": "@azure/data-tables",
-  "version": "1.0.0-preview.1",
+  "version": "1.0.0-beta.2",
   "description": "An isomorphic client library for the Azure Tables service.",
   "sdk-type": "client",
   "main": "dist/index.js",
   "module": "dist-esm/src/index.js",
   "browser": {
     "./dist-esm/src/TablesSharedKeyCredential.js": "./dist-esm/src/TablesSharedKeyCredential.browser.js",
-    "./dist-esm/src/utils/fromAccountConnectionString.js": "./dist-esm/src/utils/fromAccountConnectionString.browser.js",
+    "./dist-esm/src/utils/accountConnectionString.js": "./dist-esm/src/utils/accountConnectionString.browser.js",
     "./dist-esm/src/utils/url.js": "./dist-esm/src/utils/url.browser.js",
     "./dist-esm/src/utils/bufferSerializer.js": "./dist-esm/src/utils/bufferSerializer.browser.js"
   },

@@ -15,6 +15,7 @@ import { RequestPolicy } from '@azure/core-http';
 import { RequestPolicyFactory } from '@azure/core-http';
 import { RequestPolicyOptionsLike } from '@azure/core-http';
 import { WebResource } from '@azure/core-http';
+import { WebResourceLike } from '@azure/core-http';
 
 // @public
 export interface AccessPolicy {
@@ -199,6 +200,7 @@ export type ListTableEntitiesOptions = OperationOptions & {
 
 // @public
 export type ListTableItemsOptions = OperationOptions & {
+    queryOptions?: TableQueryOptions;
     requestId?: string;
     nextTableName?: string;
 };
@@ -354,8 +356,8 @@ export interface TableDeleteHeaders {
 
 // @public
 export type TableEntity<T extends object> = T & {
-    PartitionKey: string;
-    RowKey: string;
+    partitionKey: string;
+    rowKey: string;
 };
 
 // @public
@@ -385,7 +387,7 @@ export interface TableInsertEntityHeaders {
     clientRequestId?: string;
     contentType?: string;
     date?: Date;
-    eTag?: string;
+    etag?: string;
     preferenceApplied?: string;
     requestId?: string;
     version?: string;
@@ -396,7 +398,7 @@ export interface TableInsertEntityHeaders {
     clientRequestId?: string;
     contentType?: string;
     date?: Date;
-    eTag?: string;
+    etag?: string;
     preferenceApplied?: string;
     requestId?: string;
     version?: string;
@@ -406,7 +408,7 @@ export interface TableInsertEntityHeaders {
 export interface TableMergeEntityHeaders {
     clientRequestId?: string;
     date?: Date;
-    eTag?: string;
+    etag?: string;
     requestId?: string;
     version?: string;
 }
@@ -425,7 +427,7 @@ export interface TableQueryEntitiesHeaders {
 export interface TableQueryEntitiesWithPartitionAndRowKeyHeaders {
     clientRequestId?: string;
     date?: Date;
-    eTag?: string;
+    etag?: string;
     requestId?: string;
     version?: string;
     xMsContinuationNextPartitionKey?: string;
@@ -513,7 +515,7 @@ export interface TableSetAccessPolicyHeaders {
 }
 
 // @public
-export class TablesSharedKeyCredential implements RequestPolicyFactory {
+export class TablesSharedKeyCredential implements TablesSharedKeyCredentialLike {
     constructor(accountName: string, accountKey: string);
     readonly accountName: string;
     computeHMACSHA256(stringToSign: string): string;
@@ -521,17 +523,23 @@ export class TablesSharedKeyCredential implements RequestPolicyFactory {
 }
 
 // @public
+export interface TablesSharedKeyCredentialLike extends RequestPolicyFactory {
+    accountName: string;
+    computeHMACSHA256: (stringToSign: string) => string;
+}
+
+// @public
 export class TablesSharedKeyCredentialPolicy extends BaseRequestPolicy {
-    constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptionsLike, factory: TablesSharedKeyCredential);
-    sendRequest(request: WebResource): Promise<HttpOperationResponse>;
-    protected signRequest(request: WebResource): WebResource;
+    constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptionsLike, credential: TablesSharedKeyCredentialLike);
+    sendRequest(request: WebResourceLike): Promise<HttpOperationResponse>;
+    protected signRequest(request: WebResourceLike): WebResource;
 }
 
 // @public
 export interface TableUpdateEntityHeaders {
     clientRequestId?: string;
     date?: Date;
-    eTag?: string;
+    etag?: string;
     requestId?: string;
     version?: string;
 }

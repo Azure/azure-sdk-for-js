@@ -35,3 +35,11 @@ directive:
     transform: >
       $["description"] = "A summary of request statistics grouped by API";
 ```
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.paths..responses..headers["ETag"]
+    transform: >
+      $["x-ms-client-name"] = "etag";
+```

@@ -2,7 +2,6 @@
 // Licensed under the MIT License.
 
 import {
-  ModifiedAccessConditions,
   LeaseAccessConditions,
   SequenceNumberAccessConditions,
   AppendPositionAccessConditions,
@@ -28,7 +27,15 @@ export interface Metadata {
 }
 
 /**
- * Conditions to add to the creation of this blob.
+ * standard HTTP conditional headers and tags condition.
+ */
+export interface ModifiedAccessConditions
+  extends MatchConditions,
+    ModificationConditions,
+    TagConditions {}
+
+/**
+ * standard HTTP conditional headers, tags condition and lease condition
  */
 export interface BlobRequestConditions extends ModifiedAccessConditions, LeaseAccessConditions {}
 
@@ -45,6 +52,51 @@ export interface PageBlobRequestConditions
 export interface AppendBlobRequestConditions
   extends BlobRequestConditions,
     AppendPositionAccessConditions {}
+
+/**
+ * Specifies HTTP options for conditional requests based on modification time.
+ */
+export interface ModificationConditions {
+  /**
+   * Specify this header value to operate only on a blob if it has been modified since the
+   * specified date/time.
+   */
+  ifModifiedSince?: Date;
+  /**
+   * Specify this header value to operate only on a blob if it has not been modified since the
+   * specified date/time.
+   */
+  ifUnmodifiedSince?: Date;
+}
+
+/**
+ * Specifies HTTP options for conditional requests based on ETag matching.
+ */
+export interface MatchConditions {
+  /**
+   * Specify an ETag value to operate only on blobs with a matching value.
+   */
+  ifMatch?: string;
+  /**
+   * Specify an ETag value to operate only on blobs without a matching value.
+   */
+  ifNoneMatch?: string;
+}
+
+/**
+ * Specifies HTTP options for conditional requests based on blob tags.
+ */
+export interface TagConditions {
+  /**
+   * Optional SQL statement to apply to the tags of the blob.
+   */
+  tagConditions?: string;
+}
+
+/**
+ * Conditions to meet for the container.
+ */
+export interface ContainerRequestConditions extends LeaseAccessConditions, ModificationConditions {}
 
 /**
  * Represents the access tier on a blob.

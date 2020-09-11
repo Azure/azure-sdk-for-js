@@ -47,6 +47,7 @@ import {
 import { createSpan } from "./tracing";
 import { CanonicalCode } from "@opentelemetry/api";
 import { createTextAnalyticsAzureKeyCredentialPolicy } from "./azureKeyCredentialPolicy";
+import { addStrEncodingParam } from "./util";
 
 const DEFAULT_COGNITIVE_SCOPE = "https://cognitiveservices.azure.com/.default";
 
@@ -363,7 +364,7 @@ export class TextAnalyticsClient {
         {
           documents: realInputs
         },
-        operationOptionsToRequestOptionsBase(finalOptions)
+        operationOptionsToRequestOptionsBase(addStrEncodingParam(finalOptions))
       );
 
       return makeRecognizeCategorizedEntitiesResultArray(
@@ -471,7 +472,7 @@ export class TextAnalyticsClient {
         {
           documents: realInputs
         },
-        operationOptionsToRequestOptionsBase(finalOptions)
+        operationOptionsToRequestOptionsBase(addStrEncodingParam(finalOptions))
       );
 
       return makeAnalyzeSentimentResultArray(realInputs, result);
@@ -629,13 +630,10 @@ export class TextAnalyticsClient {
         {
           documents: realInputs
         },
-        operationOptionsToRequestOptionsBase(finalOptions)
+        operationOptionsToRequestOptionsBase(addStrEncodingParam(finalOptions))
       );
 
-      return makeRecognizePiiEntitiesResultArray(
-        realInputs,
-        result
-      );
+      return makeRecognizePiiEntitiesResultArray(realInputs, result);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -710,7 +708,7 @@ export class TextAnalyticsClient {
         {
           documents: realInputs
         },
-        operationOptionsToRequestOptionsBase(finalOptions)
+        operationOptionsToRequestOptionsBase(addStrEncodingParam(finalOptions))
       );
 
       return makeRecognizeLinkedEntitiesResultArray(

@@ -30,7 +30,7 @@ describe("Chunk", async () => {
     const avroReaderStub = sinon.createStubInstance(AvroReader);
     avroReaderStub.hasNext.returns(true);
 
-    const chunk = new Chunk(avroReaderStub as any, 0, 0);
+    const chunk = new Chunk(avroReaderStub as any, 0, 0, "log/00/2020/07/30/2300/");
     assert.equal(chunk.hasNext(), true);
 
     avroReaderStub.hasNext.returns(false);
@@ -54,7 +54,8 @@ describe("Chunk", async () => {
     const chunk = new Chunk(
       avroReaderStub as any,
       avroReaderStub.blockOffset,
-      avroReaderStub.objectIndex
+      avroReaderStub.objectIndex,
+      "log/00/2020/07/30/2300/"
     );
 
     // act and verify

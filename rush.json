@@ -414,13 +414,18 @@
     },
     {
       "packageName": "@azure/monitor-opentelemetry-exporter",
-      "projectFolder": "sdk/monitor/opentelemetry-exporter",
+      "projectFolder": "sdk/monitor/monitor-opentelemetry-exporter",
       "versionPolicyName": "client"
     },
     {
       "packageName": "@azure/dev-tool",
       "projectFolder": "common/tools/dev-tool",
       "versionPolicyName": "utility"
+    },
+    {
+      "packageName": "@azure/eventgrid",
+      "projectFolder": "sdk/eventgrid/eventgrid",
+      "versionPolicyName": "client"
     },
     {
       "packageName": "@azure/event-hubs",
@@ -480,6 +485,11 @@
     {
       "packageName": "@azure/schema-registry",
       "projectFolder": "sdk/schemaregistry/schema-registry",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/schema-registry-avro",
+      "projectFolder": "sdk/schemaregistry/schema-registry-avro",
       "versionPolicyName": "client"
     },
     {
@@ -543,8 +553,8 @@
       "versionPolicyName": "utility"
     },
     {
-      "packageName": "@azure/digitaltwins",
-      "projectFolder": "sdk/digitaltwins/digitaltwins",
+      "packageName": "@azure/digital-twins",
+      "projectFolder": "sdk/digitaltwins/digital-twins",
       "versionPolicyName": "client"
     },
     {

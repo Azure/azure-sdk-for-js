@@ -4,26 +4,19 @@
 import { parseKeyvaultIdentifier } from "./generated/utils";
 
 /**
- * Valid collection names for Key Vault Certificate identifiers.
+ * Represents the segments that compose a Key Vault Certificate Id.
  */
-export type KeyVaultCertificatesIdentifierCollectionName = "certificates" | "deletedcertificates";
-
-/**
- * Represents a Key Vault identifier and its parsed contents.
- */
-export interface ParsedKeyVaultCertificatesIdentifier {
+export interface KeyVaultCertificateId {
   /**
-   * The type of resource under Key Vault that this identifier is referring to.
+   * The complete representation of the Key Vault Certificate Id. For example:
+   *
+   *   https://<keyvault-name>.vault.azure.net/certificates/<certificate-name>/<unique-version-id>
+   *
    */
-  collection: KeyVaultCertificatesIdentifierCollectionName;
+  sourceId: string;
 
   /**
-   * The originally received identifier.
-   */
-  id: string;
-
-  /**
-   * The Key Vault Certificate unique identifier (a URL).
+   * The URL of the Azure Key Vault instance to which the Certificate belongs.
    */
   vaultUrl: string;
 
@@ -39,26 +32,27 @@ export interface ParsedKeyVaultCertificatesIdentifier {
 }
 
 /**
- * Parses a KeyVaultIdentifier from a string URI.
+ * Parses the given Key Vault Certificate Id. An example is:
+ *
+ *   https://<keyvault-name>.vault.azure.net/certificates/<certificate-name>/<unique-version-id>
+ *
+ * On parsing the above Id, this function returns:
+ *
+ *   {
+ *      sourceId: "https://<keyvault-name>.vault.azure.net/certificates/<certificate-name>/<unique-version-id>",
+ *      vaultUrl: "https://<keyvault-name>.vault.azure.net",
+ *      version: "<unique-version-id>",
+ *      name: "<certificate-name>"
+ *   }
+ *
+ * @param id The Id of the Key Vault Certificate.
  */
-export function parseKeyVaultCertificatesIdentifier(
-  id: string
-): ParsedKeyVaultCertificatesIdentifier {
+export function parseKeyVaultCertificateId(id: string): KeyVaultCertificateId {
   const urlParts = id.split("/");
-  const collection: KeyVaultCertificatesIdentifierCollectionName = urlParts[3] as KeyVaultCertificatesIdentifierCollectionName;
-
-  const collections: KeyVaultCertificatesIdentifierCollectionName[] = [
-    "certificates",
-    "deletedcertificates"
-  ];
-
-  if (!collections.includes(collection)) {
-    throw new Error(`The only collections allowed are: ${collections.join(", ")}`);
-  }
+  const collection = urlParts[3];
 
   return {
-    collection,
-    id,
+    sourceId: id,
     ...parseKeyvaultIdentifier(collection, id)
   };
 }

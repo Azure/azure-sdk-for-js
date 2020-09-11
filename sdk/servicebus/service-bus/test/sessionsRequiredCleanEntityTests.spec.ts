@@ -11,7 +11,7 @@ import {
 import { ServiceBusSender } from "../src/sender";
 import { ServiceBusMessage, ServiceBusSessionReceiver } from "../src";
 import { TestMessage } from "./utils/testUtils";
-import { ReceivedMessageWithLock } from "../src/serviceBusMessage";
+import { ServiceBusReceivedMessageWithLock } from "../src/serviceBusMessage";
 const should = chai.should();
 
 // NOTE: these tests should be reworked, if possible. Since they need to be deterministic
@@ -23,7 +23,7 @@ const should = chai.should();
 describe("sessions tests -  requires completely clean entity for each test", () => {
   let serviceBusClient: ServiceBusClientForTests;
   let sender: ServiceBusSender;
-  let receiver: ServiceBusSessionReceiver<ReceivedMessageWithLock>;
+  let receiver: ServiceBusSessionReceiver<ServiceBusReceivedMessageWithLock>;
 
   let testClientType = getRandomTestClientTypeWithSessions();
 
