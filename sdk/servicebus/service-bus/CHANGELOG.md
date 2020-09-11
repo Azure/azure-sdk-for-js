@@ -2,6 +2,10 @@
 
 ## 7.0.0-preview.7 (Unreleased)
 
+### New features:
+
+- Options to create/update a queue, topic and subscription now support `availabilityStatus` property. `availabilityStatus` indicates the status of entity availability. Possible values are: Available, Limited, Renaming, Restoring and Unknown.
+  [PR 11152](https://github.com/Azure/azure-sdk-for-js/pull/11152)
 
 ## 7.0.0-preview.6 (2020-09-10)
 
