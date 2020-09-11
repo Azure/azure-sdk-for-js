@@ -51,7 +51,9 @@ export function formatName(name: string): string {
 // Receives:
 //   https://uri.blob.core.windows.net/backup/<id>
 // Splits into:
-//   https:    uri.blob.core.windows.net    backup    <id>
+//   ["https:", "", "uri.blob.core.windows.net", "backup", "<id>"]
+// Returns:
+//   "<id>"
 export function getFolderName(uri: string): string {
-  return uri.split("/")[3];
+  return uri.split("/")[4];
 }

@@ -3,22 +3,19 @@
 
 import { assert } from "chai";
 import { env, Recorder } from "@azure/test-utils-recorder";
-import { KeyClient } from "@azure/keyvault-keys";
 
 import { KeyVaultBackupClient } from "../../src";
 import { authenticate } from "../utils/authentication";
 import { testPollerProperties } from "../utils/recorder";
-import { formatName, getFolderName } from "../utils/common";
+import { getFolderName } from "../utils/common";
 
 describe("KeyVaultBackupClient", () => {
   let client: KeyVaultBackupClient;
-  let keyClient: KeyClient;
   let recorder: Recorder;
 
   beforeEach(async function() {
     const authentication = await authenticate(this);
     client = authentication.backupClient;
-    keyClient = authentication.keyClient;
     recorder = authentication.recorder;
   });
 
@@ -57,9 +54,7 @@ describe("KeyVaultBackupClient", () => {
   });
 
   it("beginBackup, then beginSelectiveRestore", async function() {
-    const keyName = formatName(this!.test!.title);
-    const key = await keyClient.createRsaKey(keyName);
-    assert.equal(key.name, keyName, "Unexpected key name in result from createRsaKey().");
+    const keyName = "rsa-1";
 
     const blobStorageUri = env.BLOB_STORAGE_URI;
     const sasToken = env.BLOB_STORAGE_SAS_TOKEN;
@@ -72,16 +67,12 @@ describe("KeyVaultBackupClient", () => {
       blobStorageUri,
       sasToken,
       folderName,
-      key.name,
+      keyName,
       testPollerProperties
     );
     await selectiveRestorePoller.pollUntilDone();
     const operationState = selectiveRestorePoller.getOperationState();
     assert.equal(operationState.isCompleted, true);
     assert.equal(operationState.error, undefined);
-
-    const deleteKeyPoller = await keyClient.beginDeleteKey(keyName);
-    await deleteKeyPoller.pollUntilDone();
-    await keyClient.purgeDeletedKey(keyName);
   });
 });

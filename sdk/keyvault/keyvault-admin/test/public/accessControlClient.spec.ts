@@ -107,9 +107,9 @@ describe("KeyVaultAccessControlClient", () => {
     let error: Error;
     try {
       await client.getRoleAssignment(globalScope, name);
-    } catch(e) {
+    } catch (e) {
       error = e;
     }
-    assert.ok(error!.message.match(/Requested role assignment not found/))
+    assert.ok(error!.message.match(/Requested role assignment not found/));
   });
 });

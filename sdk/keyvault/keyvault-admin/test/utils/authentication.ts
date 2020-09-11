@@ -2,7 +2,6 @@
 // Licensed under the MIT license.
 
 import { AzureCliCredential } from "@azure/identity";
-import { KeyClient } from "@azure/keyvault-keys";
 import { isPlaybackMode, record, RecorderEnvironmentSetup } from "@azure/test-utils-recorder";
 import { v4 as uuidv4 } from "uuid";
 
@@ -21,7 +20,7 @@ export async function authenticate(that: any): Promise<any> {
     return uuid;
   }
 
-  const secretSuffix = uniqueString();
+  const suffix = uniqueString();
   const recorderEnvSetup: RecorderEnvironmentSetup = {
     replaceableVariables: {
       AZURE_CLIENT_ID: "azure_client_id",
@@ -37,7 +36,7 @@ export async function authenticate(that: any): Promise<any> {
       (recording: any): any =>
         recording.replace(/"access_token":"[^"]*"/g, `"access_token":"access_token"`),
       (recording: any): any =>
-        secretSuffix === "" ? recording : recording.replace(new RegExp(secretSuffix, "g"), ""),
+        suffix === "" ? recording : recording.replace(new RegExp(suffix, "g"), ""),
       (recording: any): any =>
         recording.replace(
           /keyvault_name\.[a-z-]+\.azure[a-z-]*\.net/g,
@@ -62,7 +61,6 @@ export async function authenticate(that: any): Promise<any> {
   const keyVaultUrl = getKeyVaultUrl() || `https://${keyVaultName}.vault.azure.net`;
   const accessControlClient = new KeyVaultAccessControlClient(keyVaultUrl, credential);
   const backupClient = new KeyVaultBackupClient(keyVaultUrl, credential);
-  const keyClient = new KeyClient(keyVaultUrl, credential);
 
-  return { recorder, accessControlClient, backupClient, keyClient, secretSuffix, generateFakeUUID };
+  return { recorder, accessControlClient, backupClient, suffix, generateFakeUUID };
 }

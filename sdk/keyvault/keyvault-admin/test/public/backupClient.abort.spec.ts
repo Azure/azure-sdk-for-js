@@ -12,11 +12,13 @@ import { assertThrowsAbortError, getFolderName } from "../utils/common";
 describe("Aborting KeyVaultBackupClient's requests", () => {
   let client: KeyVaultBackupClient;
   let recorder: Recorder;
+  let generateFakeUUID: () => string;
 
   beforeEach(async function() {
     const authentication = await authenticate(this);
     client = authentication.backupClient;
     recorder = authentication.recorder;
+    generateFakeUUID = authentication.generateFakeUUID;
   });
 
   afterEach(async function() {
@@ -42,8 +44,9 @@ describe("Aborting KeyVaultBackupClient's requests", () => {
 
   it("can abort beginRestore", async function() {
     const blobStorageUri = env.BLOB_STORAGE_URI;
+    const backupURI = `${blobStorageUri}/${generateFakeUUID()}`;
     const sasToken = env.BLOB_STORAGE_SAS_TOKEN;
-    const folderName = getFolderName(blobStorageUri);
+    const folderName = getFolderName(backupURI);
 
     const controller = new AbortController();
     controller.abort();
@@ -58,8 +61,9 @@ describe("Aborting KeyVaultBackupClient's requests", () => {
 
   it("can abort beginSelectiveRestore", async function() {
     const blobStorageUri = env.BLOB_STORAGE_URI;
+    const backupURI = `${blobStorageUri}/${generateFakeUUID()}`;
     const sasToken = env.BLOB_STORAGE_SAS_TOKEN;
-    const folderName = getFolderName(blobStorageUri);
+    const folderName = getFolderName(backupURI);
 
     const controller = new AbortController();
     controller.abort();

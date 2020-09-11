@@ -10,7 +10,7 @@ import {
 } from "@azure/core-http";
 import { KeyVaultClient } from "../../generated/keyVaultClient";
 import {
-  KeyVaultClientFullBackupStatusResponse,
+  KeyVaultClientRestoreStatusResponse,
   KeyVaultClientSelectiveKeyRestoreOperationOptionalParams,
   KeyVaultClientSelectiveKeyRestoreOperationResponse
 } from "../../generated/models";
@@ -126,18 +126,18 @@ async function selectiveRestore(
 }
 
 /**
- * Tracing the fullRestoreStatus operation.
+ * Tracing the restoreStatus operation.
  */
-async function fullRestoreStatus(
+async function restoreStatus(
   client: KeyVaultClient,
   vaultUrl: string,
   jobId: string,
   options: OperationOptions
-): Promise<KeyVaultClientFullBackupStatusResponse> {
+): Promise<KeyVaultClientRestoreStatusResponse> {
   const requestOptions = operationOptionsToRequestOptionsBase(options);
-  const span = createSpan("generatedClient.fullRestoreStatus", requestOptions);
+  const span = createSpan("generatedClient.restoreStatus", requestOptions);
   try {
-    return await client.fullBackupStatus(vaultUrl, jobId, options);
+    return await client.restoreStatus(vaultUrl, jobId, options);
   } finally {
     span.end();
   }
@@ -209,7 +209,7 @@ async function update(
   }
 
   if (!state.isCompleted) {
-    const selectiveRestoreOperation = await fullRestoreStatus(client, vaultUrl, state.jobId, {
+    const selectiveRestoreOperation = await restoreStatus(client, vaultUrl, state.jobId, {
       requestOptions
     });
     const { endTime, status, statusDetails, error } = selectiveRestoreOperation;
