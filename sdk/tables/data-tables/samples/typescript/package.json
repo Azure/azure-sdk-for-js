@@ -29,7 +29,7 @@
   "homepage": "https://github.com/Azure/azure-sdk-for-js#readme",
   "sideEffects": false,
   "dependencies": {
-    "@azure/data-tables": "file:../../projects/azure-sdk-for-js/sdk/tables/data-tables/azure-data-tables-1.0.0-preview.1.tgz",
+    "@azure/data-tables": "next",
     "dotenv": "^8.2.0"
   },
   "devDependencies": {
