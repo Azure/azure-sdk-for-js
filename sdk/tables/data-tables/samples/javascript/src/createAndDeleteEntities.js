@@ -14,6 +14,7 @@ const accountKey = process.env["ACCOUNT_KEY"] || "";
 export async function createAndDeleteEntities() {
   console.log("== Create and delete entities Sample ==");
 
+  // Note that this sample assumes that a table with tableName exists
   const tableName = "OfficeSupplies2p1";
 
   // See authenticationMethods sample for other options of creating a new client
