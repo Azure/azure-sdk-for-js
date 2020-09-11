@@ -73,7 +73,7 @@ export interface KeyValue {
   /**
    * The unique name of the key-value.
    */
-  key?: string;
+  key: string;
   /**
    * The label of the key-value.
    */

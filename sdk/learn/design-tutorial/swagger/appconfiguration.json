@@ -1198,6 +1198,7 @@
         },
         "KeyValue": {
             "type": "object",
+            "required": ["key"],
             "properties": {
                 "key": {
                     "description": "The unique name of the key-value.",

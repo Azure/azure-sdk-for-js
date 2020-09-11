@@ -114,6 +114,7 @@ export const KeyValue: coreHttp.CompositeMapper = {
     modelProperties: {
       key: {
         serializedName: "key",
+        required: true,
         type: {
           name: "String"
         }
