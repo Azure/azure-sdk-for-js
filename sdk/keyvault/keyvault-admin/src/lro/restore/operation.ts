@@ -6,8 +6,8 @@ import { PollOperationState, PollOperation } from "@azure/core-lro";
 import { OperationOptions, RequestOptionsBase } from "@azure/core-http";
 import { KeyVaultClient } from "../../generated/keyVaultClient";
 import {
-  KeyVaultClientFullBackupStatusResponse,
-  KeyVaultClientFullRestoreOperationOptionalParams
+  KeyVaultClientFullRestoreOperationOptionalParams,
+  KeyVaultClientRestoreStatusResponse
 } from "../../generated/models";
 import { createSpan, setParentSpan } from "../../tracing";
 import { KeyVaultClientFullRestoreOperationResponse } from "../../generated/models";
@@ -111,17 +111,17 @@ async function fullRestore(
 }
 
 /**
- * Tracing the fullRestoreStatus operation.
+ * Tracing the restoreStatus operation.
  */
-async function fullBackupStatus(
+async function restoreStatus(
   client: KeyVaultClient,
   vaultUrl: string,
   jobId: string,
   options: OperationOptions
-): Promise<KeyVaultClientFullBackupStatusResponse> {
-  const span = createSpan("generatedClient.fullBackupStatus", options);
+): Promise<KeyVaultClientRestoreStatusResponse> {
+  const span = createSpan("generatedClient.restoreStatus", options);
   try {
-    return await client.fullBackupStatus(vaultUrl, jobId, setParentSpan(span, options));
+    return await client.restoreStatus(vaultUrl, jobId, setParentSpan(span, options));
   } finally {
     span.end();
   }
@@ -157,7 +157,7 @@ async function update(
       }
     });
 
-    const { startTime, jobId, endTime, error } = serviceOperation;
+    const { startTime, jobId, endTime, error, status, statusDetails } = serviceOperation;
 
     if (!startTime) {
       state.error = new Error(`Missing "startTime" from the full restore operation.`);
@@ -169,8 +169,8 @@ async function update(
     state.jobId = jobId;
     state.endTime = endTime;
     state.startTime = startTime;
-    state.status = serviceOperation.status;
-    state.statusDetails = serviceOperation.statusDetails;
+    state.status = status;
+    state.statusDetails = statusDetails;
 
     if (endTime) {
       state.isCompleted = true;
@@ -188,7 +188,7 @@ async function update(
   }
 
   if (!state.isCompleted) {
-    const serviceOperation = await fullBackupStatus(client, vaultUrl, state.jobId, {
+    const serviceOperation = await restoreStatus(client, vaultUrl, state.jobId, {
       requestOptions
     });
     const { endTime, status, statusDetails, error } = serviceOperation;
