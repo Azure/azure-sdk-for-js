@@ -18,13 +18,11 @@ const packageVersion = "1.1.1";
 export class StreamAnalyticsManagementClientContext extends msRestAzure.AzureServiceClient {
   credentials: msRest.ServiceClientCredentials;
   subscriptionId: string;
-  apiVersion?: string;
 
   /**
    * Initializes a new instance of the StreamAnalyticsManagementClient class.
    * @param credentials Credentials needed for the client to connect to Azure.
-   * @param subscriptionId GUID which uniquely identify Microsoft Azure subscription. The
-   * subscription ID forms part of the URI for every service call.
+   * @param subscriptionId The ID of the target subscription.
    * @param [options] The parameter options
    */
   constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.StreamAnalyticsManagementClientOptions) {
@@ -45,7 +43,6 @@ export class StreamAnalyticsManagementClientContext extends msRestAzure.AzureSer
 
     super(credentials, options);
 
-    this.apiVersion = '2016-03-01';
     this.acceptLanguage = 'en-US';
     this.longRunningOperationRetryTimeout = 30;
     this.baseUri = options.baseUri || this.baseUri || "https://management.azure.com";

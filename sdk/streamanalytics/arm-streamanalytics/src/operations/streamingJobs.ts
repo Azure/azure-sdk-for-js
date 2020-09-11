@@ -31,8 +31,7 @@ export class StreamingJobs {
    * Creates a streaming job or replaces an already existing streaming job.
    * @param streamingJob The definition of the streaming job that will be used to create a new
    * streaming job or replace the existing one.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can
-   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param jobName The name of the streaming job.
    * @param [options] The optional parameters
    * @returns Promise<Models.StreamingJobsCreateOrReplaceResponse>
@@ -49,8 +48,7 @@ export class StreamingJobs {
    * corresponding properties in the existing streaming job (ie. Those properties will be updated).
    * Any properties that are set to null here will mean that the corresponding property in the
    * existing input will remain the same and not change as a result of this PATCH operation.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can
-   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param jobName The name of the streaming job.
    * @param [options] The optional parameters
    * @returns Promise<Models.StreamingJobsUpdateResponse>
@@ -61,8 +59,7 @@ export class StreamingJobs {
    * corresponding properties in the existing streaming job (ie. Those properties will be updated).
    * Any properties that are set to null here will mean that the corresponding property in the
    * existing input will remain the same and not change as a result of this PATCH operation.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can
-   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param jobName The name of the streaming job.
    * @param callback The callback
    */
@@ -72,8 +69,7 @@ export class StreamingJobs {
    * corresponding properties in the existing streaming job (ie. Those properties will be updated).
    * Any properties that are set to null here will mean that the corresponding property in the
    * existing input will remain the same and not change as a result of this PATCH operation.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can
-   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param jobName The name of the streaming job.
    * @param options The optional parameters
    * @param callback The callback
@@ -93,8 +89,7 @@ export class StreamingJobs {
 
   /**
    * Deletes a streaming job.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can
-   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param jobName The name of the streaming job.
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
@@ -106,23 +101,20 @@ export class StreamingJobs {
 
   /**
    * Gets details about the specified streaming job.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can
-   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param jobName The name of the streaming job.
    * @param [options] The optional parameters
    * @returns Promise<Models.StreamingJobsGetResponse>
    */
   get(resourceGroupName: string, jobName: string, options?: Models.StreamingJobsGetOptionalParams): Promise<Models.StreamingJobsGetResponse>;
   /**
-   * @param resourceGroupName The name of the resource group that contains the resource. You can
-   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param jobName The name of the streaming job.
    * @param callback The callback
    */
   get(resourceGroupName: string, jobName: string, callback: msRest.ServiceCallback<Models.StreamingJob>): void;
   /**
-   * @param resourceGroupName The name of the resource group that contains the resource. You can
-   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param jobName The name of the streaming job.
    * @param options The optional parameters
    * @param callback The callback
@@ -141,21 +133,18 @@ export class StreamingJobs {
 
   /**
    * Lists all of the streaming jobs in the specified resource group.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can
-   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param [options] The optional parameters
    * @returns Promise<Models.StreamingJobsListByResourceGroupResponse>
    */
   listByResourceGroup(resourceGroupName: string, options?: Models.StreamingJobsListByResourceGroupOptionalParams): Promise<Models.StreamingJobsListByResourceGroupResponse>;
   /**
-   * @param resourceGroupName The name of the resource group that contains the resource. You can
-   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param callback The callback
    */
   listByResourceGroup(resourceGroupName: string, callback: msRest.ServiceCallback<Models.StreamingJobListResult>): void;
   /**
-   * @param resourceGroupName The name of the resource group that contains the resource. You can
-   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -197,8 +186,7 @@ export class StreamingJobs {
   /**
    * Starts a streaming job. Once a job is started it will start processing input events and produce
    * output.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can
-   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param jobName The name of the streaming job.
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
@@ -211,8 +199,7 @@ export class StreamingJobs {
   /**
    * Stops a running streaming job. This will cause a running streaming job to stop processing input
    * events and producing output.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can
-   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param jobName The name of the streaming job.
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
@@ -226,8 +213,7 @@ export class StreamingJobs {
    * Creates a streaming job or replaces an already existing streaming job.
    * @param streamingJob The definition of the streaming job that will be used to create a new
    * streaming job or replace the existing one.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can
-   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param jobName The name of the streaming job.
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
@@ -246,8 +232,7 @@ export class StreamingJobs {
 
   /**
    * Deletes a streaming job.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can
-   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param jobName The name of the streaming job.
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
@@ -266,8 +251,7 @@ export class StreamingJobs {
   /**
    * Starts a streaming job. Once a job is started it will start processing input events and produce
    * output.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can
-   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param jobName The name of the streaming job.
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
@@ -286,8 +270,7 @@ export class StreamingJobs {
   /**
    * Stops a running streaming job. This will cause a running streaming job to stop processing input
    * events and producing output.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can
-   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param jobName The name of the streaming job.
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
@@ -371,7 +354,7 @@ const updateOperationSpec: msRest.OperationSpec = {
     Parameters.jobName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.ifMatch,
@@ -390,7 +373,8 @@ const updateOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.StreamingJobsUpdateHeaders
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.CloudError,
+      headersMapper: Mappers.StreamingJobsUpdateHeaders
     }
   },
   serializer
@@ -406,7 +390,7 @@ const getOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.expand,
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -417,7 +401,8 @@ const getOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.StreamingJobsGetHeaders
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.CloudError,
+      headersMapper: Mappers.StreamingJobsGetHeaders
     }
   },
   serializer
@@ -432,7 +417,7 @@ const listByResourceGroupOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.expand,
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -456,7 +441,7 @@ const listOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.expand,
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -481,7 +466,7 @@ const beginCreateOrReplaceOperationSpec: msRest.OperationSpec = {
     Parameters.jobName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.ifMatch,
@@ -505,7 +490,8 @@ const beginCreateOrReplaceOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.StreamingJobsCreateOrReplaceHeaders
     },
     default: {
-      bodyMapper: Mappers.CloudError
+      bodyMapper: Mappers.CloudError,
+      headersMapper: Mappers.StreamingJobsCreateOrReplaceHeaders
     }
   },
   serializer
@@ -520,7 +506,7 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.jobName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -545,7 +531,7 @@ const beginStartOperationSpec: msRest.OperationSpec = {
     Parameters.jobName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -576,7 +562,7 @@ const beginStopOperationSpec: msRest.OperationSpec = {
     Parameters.jobName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
