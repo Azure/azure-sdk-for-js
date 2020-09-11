@@ -27,19 +27,19 @@ export class CertificateOperations {
   }
 
   /**
-   * @summary Adds a certificate to the specified account.
-   * @param certificate The certificate to be added.
+   * @summary Adds a Certificate to the specified Account.
+   * @param certificate The Certificate to be added.
    * @param [options] The optional parameters
    * @returns Promise<Models.CertificateAddResponse>
    */
   add(certificate: Models.CertificateAddParameter, options?: Models.CertificateAddOptionalParams): Promise<Models.CertificateAddResponse>;
   /**
-   * @param certificate The certificate to be added.
+   * @param certificate The Certificate to be added.
    * @param callback The callback
    */
   add(certificate: Models.CertificateAddParameter, callback: msRest.ServiceCallback<void>): void;
   /**
-   * @param certificate The certificate to be added.
+   * @param certificate The Certificate to be added.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -55,7 +55,7 @@ export class CertificateOperations {
   }
 
   /**
-   * @summary Lists all of the certificates that have been added to the specified account.
+   * @summary Lists all of the Certificates that have been added to the specified Account.
    * @param [options] The optional parameters
    * @returns Promise<Models.CertificateListResponse>
    */
@@ -79,16 +79,16 @@ export class CertificateOperations {
   }
 
   /**
-   * If you try to delete a certificate that is being used by a pool or compute node, the status of
-   * the certificate changes to deleteFailed. If you decide that you want to continue using the
-   * certificate, you can use this operation to set the status of the certificate back to active. If
-   * you intend to delete the certificate, you do not need to run this operation after the deletion
-   * failed. You must make sure that the certificate is not being used by any resources, and then you
-   * can try again to delete the certificate.
-   * @summary Cancels a failed deletion of a certificate from the specified account.
+   * If you try to delete a Certificate that is being used by a Pool or Compute Node, the status of
+   * the Certificate changes to deleteFailed. If you decide that you want to continue using the
+   * Certificate, you can use this operation to set the status of the Certificate back to active. If
+   * you intend to delete the Certificate, you do not need to run this operation after the deletion
+   * failed. You must make sure that the Certificate is not being used by any resources, and then you
+   * can try again to delete the Certificate.
+   * @summary Cancels a failed deletion of a Certificate from the specified Account.
    * @param thumbprintAlgorithm The algorithm used to derive the thumbprint parameter. This must be
    * sha1.
-   * @param thumbprint The thumbprint of the certificate being deleted.
+   * @param thumbprint The thumbprint of the Certificate being deleted.
    * @param [options] The optional parameters
    * @returns Promise<Models.CertificateCancelDeletionResponse>
    */
@@ -96,14 +96,14 @@ export class CertificateOperations {
   /**
    * @param thumbprintAlgorithm The algorithm used to derive the thumbprint parameter. This must be
    * sha1.
-   * @param thumbprint The thumbprint of the certificate being deleted.
+   * @param thumbprint The thumbprint of the Certificate being deleted.
    * @param callback The callback
    */
   cancelDeletion(thumbprintAlgorithm: string, thumbprint: string, callback: msRest.ServiceCallback<void>): void;
   /**
    * @param thumbprintAlgorithm The algorithm used to derive the thumbprint parameter. This must be
    * sha1.
-   * @param thumbprint The thumbprint of the certificate being deleted.
+   * @param thumbprint The thumbprint of the Certificate being deleted.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -120,18 +120,18 @@ export class CertificateOperations {
   }
 
   /**
-   * You cannot delete a certificate if a resource (pool or compute node) is using it. Before you can
-   * delete a certificate, you must therefore make sure that the certificate is not associated with
-   * any existing pools, the certificate is not installed on any compute nodes (even if you remove a
-   * certificate from a pool, it is not removed from existing compute nodes in that pool until they
-   * restart), and no running tasks depend on the certificate. If you try to delete a certificate
-   * that is in use, the deletion fails. The certificate status changes to deleteFailed. You can use
+   * You cannot delete a Certificate if a resource (Pool or Compute Node) is using it. Before you can
+   * delete a Certificate, you must therefore make sure that the Certificate is not associated with
+   * any existing Pools, the Certificate is not installed on any Nodes (even if you remove a
+   * Certificate from a Pool, it is not removed from existing Compute Nodes in that Pool until they
+   * restart), and no running Tasks depend on the Certificate. If you try to delete a Certificate
+   * that is in use, the deletion fails. The Certificate status changes to deleteFailed. You can use
    * Cancel Delete Certificate to set the status back to active if you decide that you want to
-   * continue using the certificate.
-   * @summary Deletes a certificate from the specified account.
+   * continue using the Certificate.
+   * @summary Deletes a Certificate from the specified Account.
    * @param thumbprintAlgorithm The algorithm used to derive the thumbprint parameter. This must be
    * sha1.
-   * @param thumbprint The thumbprint of the certificate to be deleted.
+   * @param thumbprint The thumbprint of the Certificate to be deleted.
    * @param [options] The optional parameters
    * @returns Promise<Models.CertificateDeleteResponse>
    */
@@ -139,14 +139,14 @@ export class CertificateOperations {
   /**
    * @param thumbprintAlgorithm The algorithm used to derive the thumbprint parameter. This must be
    * sha1.
-   * @param thumbprint The thumbprint of the certificate to be deleted.
+   * @param thumbprint The thumbprint of the Certificate to be deleted.
    * @param callback The callback
    */
   deleteMethod(thumbprintAlgorithm: string, thumbprint: string, callback: msRest.ServiceCallback<void>): void;
   /**
    * @param thumbprintAlgorithm The algorithm used to derive the thumbprint parameter. This must be
    * sha1.
-   * @param thumbprint The thumbprint of the certificate to be deleted.
+   * @param thumbprint The thumbprint of the Certificate to be deleted.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -163,10 +163,10 @@ export class CertificateOperations {
   }
 
   /**
-   * Gets information about the specified certificate.
+   * Gets information about the specified Certificate.
    * @param thumbprintAlgorithm The algorithm used to derive the thumbprint parameter. This must be
    * sha1.
-   * @param thumbprint The thumbprint of the certificate to get.
+   * @param thumbprint The thumbprint of the Certificate to get.
    * @param [options] The optional parameters
    * @returns Promise<Models.CertificateGetResponse>
    */
@@ -174,14 +174,14 @@ export class CertificateOperations {
   /**
    * @param thumbprintAlgorithm The algorithm used to derive the thumbprint parameter. This must be
    * sha1.
-   * @param thumbprint The thumbprint of the certificate to get.
+   * @param thumbprint The thumbprint of the Certificate to get.
    * @param callback The callback
    */
   get(thumbprintAlgorithm: string, thumbprint: string, callback: msRest.ServiceCallback<Models.Certificate>): void;
   /**
    * @param thumbprintAlgorithm The algorithm used to derive the thumbprint parameter. This must be
    * sha1.
-   * @param thumbprint The thumbprint of the certificate to get.
+   * @param thumbprint The thumbprint of the Certificate to get.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -198,7 +198,7 @@ export class CertificateOperations {
   }
 
   /**
-   * @summary Lists all of the certificates that have been added to the specified account.
+   * @summary Lists all of the Certificates that have been added to the specified Account.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
    * @returns Promise<Models.CertificateListResponse>
@@ -257,7 +257,8 @@ const addOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.CertificateAddHeaders
     },
     default: {
-      bodyMapper: Mappers.BatchError
+      bodyMapper: Mappers.BatchError,
+      headersMapper: Mappers.CertificateAddHeaders
     }
   },
   serializer
@@ -288,7 +289,8 @@ const listOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.CertificateListHeaders
     },
     default: {
-      bodyMapper: Mappers.BatchError
+      bodyMapper: Mappers.BatchError,
+      headersMapper: Mappers.CertificateListHeaders
     }
   },
   serializer
@@ -317,7 +319,8 @@ const cancelDeletionOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.CertificateCancelDeletionHeaders
     },
     default: {
-      bodyMapper: Mappers.BatchError
+      bodyMapper: Mappers.BatchError,
+      headersMapper: Mappers.CertificateCancelDeletionHeaders
     }
   },
   serializer
@@ -346,7 +349,8 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.CertificateDeleteHeaders
     },
     default: {
-      bodyMapper: Mappers.BatchError
+      bodyMapper: Mappers.BatchError,
+      headersMapper: Mappers.CertificateDeleteHeaders
     }
   },
   serializer
@@ -377,7 +381,8 @@ const getOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.CertificateGetHeaders
     },
     default: {
-      bodyMapper: Mappers.BatchError
+      bodyMapper: Mappers.BatchError,
+      headersMapper: Mappers.CertificateGetHeaders
     }
   },
   serializer
@@ -402,7 +407,8 @@ const listNextOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.CertificateListHeaders
     },
     default: {
-      bodyMapper: Mappers.BatchError
+      bodyMapper: Mappers.BatchError,
+      headersMapper: Mappers.CertificateListHeaders
     }
   },
   serializer

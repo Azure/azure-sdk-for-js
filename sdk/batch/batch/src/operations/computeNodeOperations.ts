@@ -27,26 +27,26 @@ export class ComputeNodeOperations {
   }
 
   /**
-   * You can add a user account to a node only when it is in the idle or running state.
-   * @summary Adds a user account to the specified compute node.
-   * @param poolId The ID of the pool that contains the compute node.
-   * @param nodeId The ID of the machine on which you want to create a user account.
-   * @param user The user account to be created.
+   * You can add a user Account to a Compute Node only when it is in the idle or running state.
+   * @summary Adds a user Account to the specified Compute Node.
+   * @param poolId The ID of the Pool that contains the Compute Node.
+   * @param nodeId The ID of the machine on which you want to create a user Account.
+   * @param user The user Account to be created.
    * @param [options] The optional parameters
    * @returns Promise<Models.ComputeNodeAddUserResponse>
    */
   addUser(poolId: string, nodeId: string, user: Models.ComputeNodeUser, options?: Models.ComputeNodeAddUserOptionalParams): Promise<Models.ComputeNodeAddUserResponse>;
   /**
-   * @param poolId The ID of the pool that contains the compute node.
-   * @param nodeId The ID of the machine on which you want to create a user account.
-   * @param user The user account to be created.
+   * @param poolId The ID of the Pool that contains the Compute Node.
+   * @param nodeId The ID of the machine on which you want to create a user Account.
+   * @param user The user Account to be created.
    * @param callback The callback
    */
   addUser(poolId: string, nodeId: string, user: Models.ComputeNodeUser, callback: msRest.ServiceCallback<void>): void;
   /**
-   * @param poolId The ID of the pool that contains the compute node.
-   * @param nodeId The ID of the machine on which you want to create a user account.
-   * @param user The user account to be created.
+   * @param poolId The ID of the Pool that contains the Compute Node.
+   * @param nodeId The ID of the machine on which you want to create a user Account.
+   * @param user The user Account to be created.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -64,26 +64,26 @@ export class ComputeNodeOperations {
   }
 
   /**
-   * You can delete a user account to a node only when it is in the idle or running state.
-   * @summary Deletes a user account from the specified compute node.
-   * @param poolId The ID of the pool that contains the compute node.
-   * @param nodeId The ID of the machine on which you want to delete a user account.
-   * @param userName The name of the user account to delete.
+   * You can delete a user Account to a Compute Node only when it is in the idle or running state.
+   * @summary Deletes a user Account from the specified Compute Node.
+   * @param poolId The ID of the Pool that contains the Compute Node.
+   * @param nodeId The ID of the machine on which you want to delete a user Account.
+   * @param userName The name of the user Account to delete.
    * @param [options] The optional parameters
    * @returns Promise<Models.ComputeNodeDeleteUserResponse>
    */
   deleteUser(poolId: string, nodeId: string, userName: string, options?: Models.ComputeNodeDeleteUserOptionalParams): Promise<Models.ComputeNodeDeleteUserResponse>;
   /**
-   * @param poolId The ID of the pool that contains the compute node.
-   * @param nodeId The ID of the machine on which you want to delete a user account.
-   * @param userName The name of the user account to delete.
+   * @param poolId The ID of the Pool that contains the Compute Node.
+   * @param nodeId The ID of the machine on which you want to delete a user Account.
+   * @param userName The name of the user Account to delete.
    * @param callback The callback
    */
   deleteUser(poolId: string, nodeId: string, userName: string, callback: msRest.ServiceCallback<void>): void;
   /**
-   * @param poolId The ID of the pool that contains the compute node.
-   * @param nodeId The ID of the machine on which you want to delete a user account.
-   * @param userName The name of the user account to delete.
+   * @param poolId The ID of the Pool that contains the Compute Node.
+   * @param nodeId The ID of the machine on which you want to delete a user Account.
+   * @param userName The name of the user Account to delete.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -101,32 +101,32 @@ export class ComputeNodeOperations {
   }
 
   /**
-   * This operation replaces of all the updatable properties of the account. For example, if the
+   * This operation replaces of all the updatable properties of the Account. For example, if the
    * expiryTime element is not specified, the current value is replaced with the default value, not
-   * left unmodified. You can update a user account on a node only when it is in the idle or running
-   * state.
-   * @summary Updates the password and expiration time of a user account on the specified compute
-   * node.
-   * @param poolId The ID of the pool that contains the compute node.
-   * @param nodeId The ID of the machine on which you want to update a user account.
-   * @param userName The name of the user account to update.
+   * left unmodified. You can update a user Account on a Compute Node only when it is in the idle or
+   * running state.
+   * @summary Updates the password and expiration time of a user Account on the specified Compute
+   * Node.
+   * @param poolId The ID of the Pool that contains the Compute Node.
+   * @param nodeId The ID of the machine on which you want to update a user Account.
+   * @param userName The name of the user Account to update.
    * @param nodeUpdateUserParameter The parameters for the request.
    * @param [options] The optional parameters
    * @returns Promise<Models.ComputeNodeUpdateUserResponse>
    */
   updateUser(poolId: string, nodeId: string, userName: string, nodeUpdateUserParameter: Models.NodeUpdateUserParameter, options?: Models.ComputeNodeUpdateUserOptionalParams): Promise<Models.ComputeNodeUpdateUserResponse>;
   /**
-   * @param poolId The ID of the pool that contains the compute node.
-   * @param nodeId The ID of the machine on which you want to update a user account.
-   * @param userName The name of the user account to update.
+   * @param poolId The ID of the Pool that contains the Compute Node.
+   * @param nodeId The ID of the machine on which you want to update a user Account.
+   * @param userName The name of the user Account to update.
    * @param nodeUpdateUserParameter The parameters for the request.
    * @param callback The callback
    */
   updateUser(poolId: string, nodeId: string, userName: string, nodeUpdateUserParameter: Models.NodeUpdateUserParameter, callback: msRest.ServiceCallback<void>): void;
   /**
-   * @param poolId The ID of the pool that contains the compute node.
-   * @param nodeId The ID of the machine on which you want to update a user account.
-   * @param userName The name of the user account to update.
+   * @param poolId The ID of the Pool that contains the Compute Node.
+   * @param nodeId The ID of the machine on which you want to update a user Account.
+   * @param userName The name of the user Account to update.
    * @param nodeUpdateUserParameter The parameters for the request.
    * @param options The optional parameters
    * @param callback The callback
@@ -146,22 +146,22 @@ export class ComputeNodeOperations {
   }
 
   /**
-   * @summary Gets information about the specified compute node.
-   * @param poolId The ID of the pool that contains the compute node.
-   * @param nodeId The ID of the compute node that you want to get information about.
+   * @summary Gets information about the specified Compute Node.
+   * @param poolId The ID of the Pool that contains the Compute Node.
+   * @param nodeId The ID of the Compute Node that you want to get information about.
    * @param [options] The optional parameters
    * @returns Promise<Models.ComputeNodeGetResponse>
    */
   get(poolId: string, nodeId: string, options?: Models.ComputeNodeGetOptionalParams): Promise<Models.ComputeNodeGetResponse>;
   /**
-   * @param poolId The ID of the pool that contains the compute node.
-   * @param nodeId The ID of the compute node that you want to get information about.
+   * @param poolId The ID of the Pool that contains the Compute Node.
+   * @param nodeId The ID of the Compute Node that you want to get information about.
    * @param callback The callback
    */
   get(poolId: string, nodeId: string, callback: msRest.ServiceCallback<Models.ComputeNode>): void;
   /**
-   * @param poolId The ID of the pool that contains the compute node.
-   * @param nodeId The ID of the compute node that you want to get information about.
+   * @param poolId The ID of the Pool that contains the Compute Node.
+   * @param nodeId The ID of the Compute Node that you want to get information about.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -178,23 +178,23 @@ export class ComputeNodeOperations {
   }
 
   /**
-   * You can restart a node only if it is in an idle or running state.
-   * @summary Restarts the specified compute node.
-   * @param poolId The ID of the pool that contains the compute node.
-   * @param nodeId The ID of the compute node that you want to restart.
+   * You can restart a Compute Node only if it is in an idle or running state.
+   * @summary Restarts the specified Compute Node.
+   * @param poolId The ID of the Pool that contains the Compute Node.
+   * @param nodeId The ID of the Compute Node that you want to restart.
    * @param [options] The optional parameters
    * @returns Promise<Models.ComputeNodeRebootResponse>
    */
   reboot(poolId: string, nodeId: string, options?: Models.ComputeNodeRebootOptionalParams): Promise<Models.ComputeNodeRebootResponse>;
   /**
-   * @param poolId The ID of the pool that contains the compute node.
-   * @param nodeId The ID of the compute node that you want to restart.
+   * @param poolId The ID of the Pool that contains the Compute Node.
+   * @param nodeId The ID of the Compute Node that you want to restart.
    * @param callback The callback
    */
   reboot(poolId: string, nodeId: string, callback: msRest.ServiceCallback<void>): void;
   /**
-   * @param poolId The ID of the pool that contains the compute node.
-   * @param nodeId The ID of the compute node that you want to restart.
+   * @param poolId The ID of the Pool that contains the Compute Node.
+   * @param nodeId The ID of the Compute Node that you want to restart.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -211,24 +211,25 @@ export class ComputeNodeOperations {
   }
 
   /**
-   * You can reinstall the operating system on a node only if it is in an idle or running state. This
-   * API can be invoked only on pools created with the cloud service configuration property.
-   * @summary Reinstalls the operating system on the specified compute node.
-   * @param poolId The ID of the pool that contains the compute node.
-   * @param nodeId The ID of the compute node that you want to restart.
+   * You can reinstall the operating system on a Compute Node only if it is in an idle or running
+   * state. This API can be invoked only on Pools created with the cloud service configuration
+   * property.
+   * @summary Reinstalls the operating system on the specified Compute Node.
+   * @param poolId The ID of the Pool that contains the Compute Node.
+   * @param nodeId The ID of the Compute Node that you want to restart.
    * @param [options] The optional parameters
    * @returns Promise<Models.ComputeNodeReimageResponse>
    */
   reimage(poolId: string, nodeId: string, options?: Models.ComputeNodeReimageOptionalParams): Promise<Models.ComputeNodeReimageResponse>;
   /**
-   * @param poolId The ID of the pool that contains the compute node.
-   * @param nodeId The ID of the compute node that you want to restart.
+   * @param poolId The ID of the Pool that contains the Compute Node.
+   * @param nodeId The ID of the Compute Node that you want to restart.
    * @param callback The callback
    */
   reimage(poolId: string, nodeId: string, callback: msRest.ServiceCallback<void>): void;
   /**
-   * @param poolId The ID of the pool that contains the compute node.
-   * @param nodeId The ID of the compute node that you want to restart.
+   * @param poolId The ID of the Pool that contains the Compute Node.
+   * @param nodeId The ID of the Compute Node that you want to restart.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -245,23 +246,24 @@ export class ComputeNodeOperations {
   }
 
   /**
-   * You can disable task scheduling on a node only if its current scheduling state is enabled.
-   * @summary Disables task scheduling on the specified compute node.
-   * @param poolId The ID of the pool that contains the compute node.
-   * @param nodeId The ID of the compute node on which you want to disable task scheduling.
+   * You can disable Task scheduling on a Compute Node only if its current scheduling state is
+   * enabled.
+   * @summary Disables Task scheduling on the specified Compute Node.
+   * @param poolId The ID of the Pool that contains the Compute Node.
+   * @param nodeId The ID of the Compute Node on which you want to disable Task scheduling.
    * @param [options] The optional parameters
    * @returns Promise<Models.ComputeNodeDisableSchedulingResponse>
    */
   disableScheduling(poolId: string, nodeId: string, options?: Models.ComputeNodeDisableSchedulingOptionalParams): Promise<Models.ComputeNodeDisableSchedulingResponse>;
   /**
-   * @param poolId The ID of the pool that contains the compute node.
-   * @param nodeId The ID of the compute node on which you want to disable task scheduling.
+   * @param poolId The ID of the Pool that contains the Compute Node.
+   * @param nodeId The ID of the Compute Node on which you want to disable Task scheduling.
    * @param callback The callback
    */
   disableScheduling(poolId: string, nodeId: string, callback: msRest.ServiceCallback<void>): void;
   /**
-   * @param poolId The ID of the pool that contains the compute node.
-   * @param nodeId The ID of the compute node on which you want to disable task scheduling.
+   * @param poolId The ID of the Pool that contains the Compute Node.
+   * @param nodeId The ID of the Compute Node on which you want to disable Task scheduling.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -278,23 +280,24 @@ export class ComputeNodeOperations {
   }
 
   /**
-   * You can enable task scheduling on a node only if its current scheduling state is disabled
-   * @summary Enables task scheduling on the specified compute node.
-   * @param poolId The ID of the pool that contains the compute node.
-   * @param nodeId The ID of the compute node on which you want to enable task scheduling.
+   * You can enable Task scheduling on a Compute Node only if its current scheduling state is
+   * disabled
+   * @summary Enables Task scheduling on the specified Compute Node.
+   * @param poolId The ID of the Pool that contains the Compute Node.
+   * @param nodeId The ID of the Compute Node on which you want to enable Task scheduling.
    * @param [options] The optional parameters
    * @returns Promise<Models.ComputeNodeEnableSchedulingResponse>
    */
   enableScheduling(poolId: string, nodeId: string, options?: Models.ComputeNodeEnableSchedulingOptionalParams): Promise<Models.ComputeNodeEnableSchedulingResponse>;
   /**
-   * @param poolId The ID of the pool that contains the compute node.
-   * @param nodeId The ID of the compute node on which you want to enable task scheduling.
+   * @param poolId The ID of the Pool that contains the Compute Node.
+   * @param nodeId The ID of the Compute Node on which you want to enable Task scheduling.
    * @param callback The callback
    */
   enableScheduling(poolId: string, nodeId: string, callback: msRest.ServiceCallback<void>): void;
   /**
-   * @param poolId The ID of the pool that contains the compute node.
-   * @param nodeId The ID of the compute node on which you want to enable task scheduling.
+   * @param poolId The ID of the Pool that contains the Compute Node.
+   * @param nodeId The ID of the Compute Node on which you want to enable Task scheduling.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -311,26 +314,26 @@ export class ComputeNodeOperations {
   }
 
   /**
-   * Before you can remotely login to a node using the remote login settings, you must create a user
-   * account on the node. This API can be invoked only on pools created with the virtual machine
-   * configuration property. For pools created with a cloud service configuration, see the
-   * GetRemoteDesktop API.
-   * @summary Gets the settings required for remote login to a compute node.
-   * @param poolId The ID of the pool that contains the compute node.
-   * @param nodeId The ID of the compute node for which to obtain the remote login settings.
+   * Before you can remotely login to a Compute Node using the remote login settings, you must create
+   * a user Account on the Compute Node. This API can be invoked only on Pools created with the
+   * virtual machine configuration property. For Pools created with a cloud service configuration,
+   * see the GetRemoteDesktop API.
+   * @summary Gets the settings required for remote login to a Compute Node.
+   * @param poolId The ID of the Pool that contains the Compute Node.
+   * @param nodeId The ID of the Compute Node for which to obtain the remote login settings.
    * @param [options] The optional parameters
    * @returns Promise<Models.ComputeNodeGetRemoteLoginSettingsResponse>
    */
   getRemoteLoginSettings(poolId: string, nodeId: string, options?: Models.ComputeNodeGetRemoteLoginSettingsOptionalParams): Promise<Models.ComputeNodeGetRemoteLoginSettingsResponse>;
   /**
-   * @param poolId The ID of the pool that contains the compute node.
-   * @param nodeId The ID of the compute node for which to obtain the remote login settings.
+   * @param poolId The ID of the Pool that contains the Compute Node.
+   * @param nodeId The ID of the Compute Node for which to obtain the remote login settings.
    * @param callback The callback
    */
   getRemoteLoginSettings(poolId: string, nodeId: string, callback: msRest.ServiceCallback<Models.ComputeNodeGetRemoteLoginSettingsResult>): void;
   /**
-   * @param poolId The ID of the pool that contains the compute node.
-   * @param nodeId The ID of the compute node for which to obtain the remote login settings.
+   * @param poolId The ID of the Pool that contains the Compute Node.
+   * @param nodeId The ID of the Compute Node for which to obtain the remote login settings.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -347,27 +350,28 @@ export class ComputeNodeOperations {
   }
 
   /**
-   * Before you can access a node by using the RDP file, you must create a user account on the node.
-   * This API can only be invoked on pools created with a cloud service configuration. For pools
-   * created with a virtual machine configuration, see the GetRemoteLoginSettings API.
-   * @summary Gets the Remote Desktop Protocol file for the specified compute node.
-   * @param poolId The ID of the pool that contains the compute node.
-   * @param nodeId The ID of the compute node for which you want to get the Remote Desktop Protocol
+   * Before you can access a Compute Node by using the RDP file, you must create a user Account on
+   * the Compute Node. This API can only be invoked on Pools created with a cloud service
+   * configuration. For Pools created with a virtual machine configuration, see the
+   * GetRemoteLoginSettings API.
+   * @summary Gets the Remote Desktop Protocol file for the specified Compute Node.
+   * @param poolId The ID of the Pool that contains the Compute Node.
+   * @param nodeId The ID of the Compute Node for which you want to get the Remote Desktop Protocol
    * file.
    * @param [options] The optional parameters
    * @returns Promise<Models.ComputeNodeGetRemoteDesktopResponse>
    */
   getRemoteDesktop(poolId: string, nodeId: string, options?: Models.ComputeNodeGetRemoteDesktopOptionalParams): Promise<Models.ComputeNodeGetRemoteDesktopResponse>;
   /**
-   * @param poolId The ID of the pool that contains the compute node.
-   * @param nodeId The ID of the compute node for which you want to get the Remote Desktop Protocol
+   * @param poolId The ID of the Pool that contains the Compute Node.
+   * @param nodeId The ID of the Compute Node for which you want to get the Remote Desktop Protocol
    * file.
    * @param callback The callback
    */
   getRemoteDesktop(poolId: string, nodeId: string, callback: msRest.ServiceCallback<void>): void;
   /**
-   * @param poolId The ID of the pool that contains the compute node.
-   * @param nodeId The ID of the compute node for which you want to get the Remote Desktop Protocol
+   * @param poolId The ID of the Pool that contains the Compute Node.
+   * @param nodeId The ID of the Compute Node for which you want to get the Remote Desktop Protocol
    * file.
    * @param options The optional parameters
    * @param callback The callback
@@ -385,13 +389,13 @@ export class ComputeNodeOperations {
   }
 
   /**
-   * This is for gathering Azure Batch service log files in an automated fashion from nodes if you
-   * are experiencing an error and wish to escalate to Azure support. The Azure Batch service log
-   * files should be shared with Azure support to aid in debugging issues with the Batch service.
-   * @summary Upload Azure Batch service log files from the specified compute node to Azure Blob
+   * This is for gathering Azure Batch service log files in an automated fashion from Compute Nodes
+   * if you are experiencing an error and wish to escalate to Azure support. The Azure Batch service
+   * log files should be shared with Azure support to aid in debugging issues with the Batch service.
+   * @summary Upload Azure Batch service log files from the specified Compute Node to Azure Blob
    * Storage.
-   * @param poolId The ID of the pool that contains the compute node.
-   * @param nodeId The ID of the compute node from which you want to upload the Azure Batch service
+   * @param poolId The ID of the Pool that contains the Compute Node.
+   * @param nodeId The ID of the Compute Node from which you want to upload the Azure Batch service
    * log files.
    * @param uploadBatchServiceLogsConfiguration The Azure Batch service log files upload
    * configuration.
@@ -400,8 +404,8 @@ export class ComputeNodeOperations {
    */
   uploadBatchServiceLogs(poolId: string, nodeId: string, uploadBatchServiceLogsConfiguration: Models.UploadBatchServiceLogsConfiguration, options?: Models.ComputeNodeUploadBatchServiceLogsOptionalParams): Promise<Models.ComputeNodeUploadBatchServiceLogsResponse>;
   /**
-   * @param poolId The ID of the pool that contains the compute node.
-   * @param nodeId The ID of the compute node from which you want to upload the Azure Batch service
+   * @param poolId The ID of the Pool that contains the Compute Node.
+   * @param nodeId The ID of the Compute Node from which you want to upload the Azure Batch service
    * log files.
    * @param uploadBatchServiceLogsConfiguration The Azure Batch service log files upload
    * configuration.
@@ -409,8 +413,8 @@ export class ComputeNodeOperations {
    */
   uploadBatchServiceLogs(poolId: string, nodeId: string, uploadBatchServiceLogsConfiguration: Models.UploadBatchServiceLogsConfiguration, callback: msRest.ServiceCallback<Models.UploadBatchServiceLogsResult>): void;
   /**
-   * @param poolId The ID of the pool that contains the compute node.
-   * @param nodeId The ID of the compute node from which you want to upload the Azure Batch service
+   * @param poolId The ID of the Pool that contains the Compute Node.
+   * @param nodeId The ID of the Compute Node from which you want to upload the Azure Batch service
    * log files.
    * @param uploadBatchServiceLogsConfiguration The Azure Batch service log files upload
    * configuration.
@@ -431,19 +435,19 @@ export class ComputeNodeOperations {
   }
 
   /**
-   * @summary Lists the compute nodes in the specified pool.
-   * @param poolId The ID of the pool from which you want to list nodes.
+   * @summary Lists the Compute Nodes in the specified Pool.
+   * @param poolId The ID of the Pool from which you want to list Compute Nodes.
    * @param [options] The optional parameters
    * @returns Promise<Models.ComputeNodeListResponse>
    */
   list(poolId: string, options?: Models.ComputeNodeListOptionalParams): Promise<Models.ComputeNodeListResponse>;
   /**
-   * @param poolId The ID of the pool from which you want to list nodes.
+   * @param poolId The ID of the Pool from which you want to list Compute Nodes.
    * @param callback The callback
    */
   list(poolId: string, callback: msRest.ServiceCallback<Models.ComputeNodeListResult>): void;
   /**
-   * @param poolId The ID of the pool from which you want to list nodes.
+   * @param poolId The ID of the Pool from which you want to list Compute Nodes.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -459,7 +463,7 @@ export class ComputeNodeOperations {
   }
 
   /**
-   * @summary Lists the compute nodes in the specified pool.
+   * @summary Lists the Compute Nodes in the specified Pool.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
    * @returns Promise<Models.ComputeNodeListResponse>
@@ -520,7 +524,8 @@ const addUserOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.ComputeNodeAddUserHeaders
     },
     default: {
-      bodyMapper: Mappers.BatchError
+      bodyMapper: Mappers.BatchError,
+      headersMapper: Mappers.ComputeNodeAddUserHeaders
     }
   },
   serializer
@@ -550,7 +555,8 @@ const deleteUserOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.ComputeNodeDeleteUserHeaders
     },
     default: {
-      bodyMapper: Mappers.BatchError
+      bodyMapper: Mappers.BatchError,
+      headersMapper: Mappers.ComputeNodeDeleteUserHeaders
     }
   },
   serializer
@@ -588,7 +594,8 @@ const updateUserOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.ComputeNodeUpdateUserHeaders
     },
     default: {
-      bodyMapper: Mappers.BatchError
+      bodyMapper: Mappers.BatchError,
+      headersMapper: Mappers.ComputeNodeUpdateUserHeaders
     }
   },
   serializer
@@ -619,7 +626,8 @@ const getOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.ComputeNodeGetHeaders
     },
     default: {
-      bodyMapper: Mappers.BatchError
+      bodyMapper: Mappers.BatchError,
+      headersMapper: Mappers.ComputeNodeGetHeaders
     }
   },
   serializer
@@ -658,7 +666,8 @@ const rebootOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.ComputeNodeRebootHeaders
     },
     default: {
-      bodyMapper: Mappers.BatchError
+      bodyMapper: Mappers.BatchError,
+      headersMapper: Mappers.ComputeNodeRebootHeaders
     }
   },
   serializer
@@ -697,7 +706,8 @@ const reimageOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.ComputeNodeReimageHeaders
     },
     default: {
-      bodyMapper: Mappers.BatchError
+      bodyMapper: Mappers.BatchError,
+      headersMapper: Mappers.ComputeNodeReimageHeaders
     }
   },
   serializer
@@ -736,7 +746,8 @@ const disableSchedulingOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.ComputeNodeDisableSchedulingHeaders
     },
     default: {
-      bodyMapper: Mappers.BatchError
+      bodyMapper: Mappers.BatchError,
+      headersMapper: Mappers.ComputeNodeDisableSchedulingHeaders
     }
   },
   serializer
@@ -765,7 +776,8 @@ const enableSchedulingOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.ComputeNodeEnableSchedulingHeaders
     },
     default: {
-      bodyMapper: Mappers.BatchError
+      bodyMapper: Mappers.BatchError,
+      headersMapper: Mappers.ComputeNodeEnableSchedulingHeaders
     }
   },
   serializer
@@ -795,7 +807,8 @@ const getRemoteLoginSettingsOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.ComputeNodeGetRemoteLoginSettingsHeaders
     },
     default: {
-      bodyMapper: Mappers.BatchError
+      bodyMapper: Mappers.BatchError,
+      headersMapper: Mappers.ComputeNodeGetRemoteLoginSettingsHeaders
     }
   },
   serializer
@@ -830,7 +843,8 @@ const getRemoteDesktopOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.ComputeNodeGetRemoteDesktopHeaders
     },
     default: {
-      bodyMapper: Mappers.BatchError
+      bodyMapper: Mappers.BatchError,
+      headersMapper: Mappers.ComputeNodeGetRemoteDesktopHeaders
     }
   },
   serializer
@@ -868,7 +882,8 @@ const uploadBatchServiceLogsOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.ComputeNodeUploadBatchServiceLogsHeaders
     },
     default: {
-      bodyMapper: Mappers.BatchError
+      bodyMapper: Mappers.BatchError,
+      headersMapper: Mappers.ComputeNodeUploadBatchServiceLogsHeaders
     }
   },
   serializer
@@ -900,7 +915,8 @@ const listOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.ComputeNodeListHeaders
     },
     default: {
-      bodyMapper: Mappers.BatchError
+      bodyMapper: Mappers.BatchError,
+      headersMapper: Mappers.ComputeNodeListHeaders
     }
   },
   serializer
@@ -925,7 +941,8 @@ const listNextOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.ComputeNodeListHeaders
     },
     default: {
-      bodyMapper: Mappers.BatchError
+      bodyMapper: Mappers.BatchError,
+      headersMapper: Mappers.ComputeNodeListHeaders
     }
   },
   serializer
