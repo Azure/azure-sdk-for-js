@@ -567,6 +567,38 @@ describe("ServiceClient", function() {
       );
     });
 
+    it("should serialize an XML String request body with namespace", () => {
+      const httpRequest = new WebResource();
+      serializeRequestBody(
+        new ServiceClient(),
+        httpRequest,
+        {
+          bodyArg: "body value"
+        },
+        {
+          httpMethod: "POST",
+          requestBody: {
+            parameterPath: "bodyArg",
+            mapper: {
+              required: true,
+              serializedName: "bodyArg",
+              xmlNamespace: "https://microsoft.com",
+              type: {
+                name: MapperType.String
+              }
+            }
+          },
+          responses: { 200: {} },
+          serializer: new Serializer(undefined, true /** isXML*/),
+          isXML: true
+        }
+      );
+      assert.strictEqual(
+        httpRequest.body,
+        `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><bodyArg xmlns="https://microsoft.com">body value</bodyArg>`
+      );
+    });
+
     it("should serialize an XML ByteArray request body", () => {
       const httpRequest = new WebResource();
       serializeRequestBody(
@@ -597,6 +629,206 @@ describe("ServiceClient", function() {
         `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><bodyArg>SmF2YXNjcmlwdA==</bodyArg>`
       );
     });
+
+    it("should serialize an XML ByteArray request body with namespace", () => {
+      const httpRequest = new WebResource();
+      serializeRequestBody(
+        new ServiceClient(),
+        httpRequest,
+        {
+          bodyArg: stringToByteArray("Javascript")
+        },
+        {
+          httpMethod: "POST",
+          requestBody: {
+            parameterPath: "bodyArg",
+            mapper: {
+              xmlNamespace: "https://microsoft.com",
+              required: true,
+              serializedName: "bodyArg",
+              type: {
+                name: MapperType.ByteArray
+              }
+            }
+          },
+          responses: { 200: {} },
+          serializer: new Serializer(undefined, true),
+          isXML: true
+        }
+      );
+      assert.strictEqual(
+        httpRequest.body,
+        `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><bodyArg xmlns="https://microsoft.com">SmF2YXNjcmlwdA==</bodyArg>`
+      );
+    });
+
+    it("should serialize an XML ByteArray request body with namespace and prefix", () => {
+      const httpRequest = new WebResource();
+      serializeRequestBody(
+        new ServiceClient(),
+        httpRequest,
+        {
+          bodyArg: stringToByteArray("Javascript")
+        },
+        {
+          httpMethod: "POST",
+          requestBody: {
+            parameterPath: "bodyArg",
+            mapper: {
+              xmlNamespace: "https://microsoft.com",
+              xmlNamespacePrefix: "sample",
+              required: true,
+              serializedName: "bodyArg",
+              type: {
+                name: MapperType.ByteArray
+              }
+            }
+          },
+          responses: { 200: {} },
+          serializer: new Serializer(undefined, true),
+          isXML: true
+        }
+      );
+      assert.strictEqual(
+        httpRequest.body,
+        `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><bodyArg xmlns:sample="https://microsoft.com">SmF2YXNjcmlwdA==</bodyArg>`
+      );
+    });
+
+    it("should serialize an XML Composite request body", () => {
+      const httpRequest = new WebResource();
+      serializeRequestBody(
+        new ServiceClient(),
+        httpRequest,
+        {
+          bodyArg: {foo: "Foo", bar: "Bar"}
+        },
+        {
+          httpMethod: "POST",
+          requestBody: {
+            parameterPath: "bodyArg",
+            mapper: {
+              required: true,
+              serializedName: "bodyArg",
+              type: {
+                name: MapperType.Composite,
+                modelProperties: {
+                  foo: {
+                    serializedName: "foo",
+                    xmlName: "Foo",
+                    type: {
+                      name: "String"
+                    }
+                  },
+                  bar: {
+                    xmlName: "Bar",
+                    serializedName: "bar",
+                    type: {
+                      name: "String"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          responses: { 200: {} },
+          serializer: new Serializer(undefined, true),
+          isXML: true
+        }
+      );
+      assert.strictEqual(
+        httpRequest.body,
+        `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><bodyArg><Foo>Foo</Foo><Bar>Bar</Bar></bodyArg>`
+      );
+    });
+
+    it.skip("should serialize an XML Array request body with namespace and prefix", () => {
+      const httpRequest = new WebResource();
+      serializeRequestBody(
+        new ServiceClient(),
+        httpRequest,
+        {
+          bodyArg: ["Foo", "Bar"]
+        },
+        {
+          httpMethod: "POST",
+          requestBody: {
+            parameterPath: "bodyArg",
+            mapper: {
+              required: true,
+              serializedName: "bodyArg",
+              xmlNamespace: "https://microsoft.com",
+              xmlElementName: "testItem",
+              type: {
+                name: MapperType.Sequence,
+                element: {
+                  type: {name: "String"},
+                  xmlNamespace: "https://microsoft.com"
+                }
+              }
+            }
+          },
+          responses: { 200: {} },
+          serializer: new Serializer(undefined, true),
+          isXML: true
+        }
+      );
+      assert.strictEqual(
+        httpRequest.body,
+        `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><bodyArg xmlns="https://microsoft.com"><Foo xmlns="https://microsoft.com/foo">Foo</Foo><Bar xmlns:bar="https://microsoft.com/bar">Bar</Bar></bodyArg>`
+      );
+    })
+
+    it("should serialize an XML Composite request body with namespace and prefix", () => {
+      const httpRequest = new WebResource();
+      serializeRequestBody(
+        new ServiceClient(),
+        httpRequest,
+        {
+          bodyArg: {foo: "Foo", bar: "Bar"}
+        },
+        {
+          httpMethod: "POST",
+          requestBody: {
+            parameterPath: "bodyArg",
+            mapper: {
+              required: true,
+              serializedName: "bodyArg",
+              xmlNamespace: "https://microsoft.com",
+              type: {
+                name: MapperType.Composite,
+                modelProperties: {
+                  foo: {
+                    serializedName: "foo",
+                    xmlNamespace: "https://microsoft.com/foo",
+                    xmlName: "Foo",
+                    type: {
+                      name: "String"
+                    }
+                  },
+                  bar: {
+                    xmlNamespacePrefix: "bar",
+                    xmlNamespace: "https://microsoft.com/bar",
+                    xmlName: "Bar",
+                    serializedName: "bar",
+                    type: {
+                      name: "String"
+                    }
+                  }
+                }
+              }
+            }
+          },
+          responses: { 200: {} },
+          serializer: new Serializer(undefined, true),
+          isXML: true
+        }
+      );
+      assert.strictEqual(
+        httpRequest.body,
+        `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><bodyArg xmlns="https://microsoft.com"><Foo xmlns="https://microsoft.com/foo">Foo</Foo><Bar xmlns:bar="https://microsoft.com/bar">Bar</Bar></bodyArg>`
+      );
+    })
 
     it("should serialize an XML Stream request body", () => {
       const httpRequest = new WebResource();
