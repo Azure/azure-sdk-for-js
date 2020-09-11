@@ -8,6 +8,23 @@ extends:
     TimeoutInMinutes: 90
     ResourceGroupLocation: canadacentral
     ArmTemplateParameters: '@{ enableVersioning = $true }'
+    TestBrowser: false
+    TestSamples: false
+    Matrix:
+      Linux Node 12:
+        OSVmImage: "ubuntu-18.04"
+        TestType: "node"
+        NodeTestVersion: "12.x"
+        PublishCodeCoverage: true
+      Windows Node 12:
+        OSVmImage: "windows-2019"
+        TestType: "node"
+        NodeTestVersion: "12.x"
+      MacOS Node 12:
+        OSVmImage: "macOS-10.15"
+        TestType: "node"
+        NodeTestVersion: "12.x"
+
     EnvVars:
       AZURE_CLIENT_ID: $(aad-azure-sdk-test-client-id)
       AZURE_TENANT_ID: $(aad-azure-sdk-test-tenant-id)

@@ -13,7 +13,7 @@ import { BLOCK_BLOB_MAX_STAGE_BLOCK_BYTES } from "../../src/utils/constants";
 import { Test_CPK_INFO } from "../utils/constants";
 
 // tslint:disable:no-empty
-describe("Highlevel", () => {
+describe.only("Highlevel", () => {
   let containerName: string;
   let containerClient: ContainerClient;
   let blobName: string;
