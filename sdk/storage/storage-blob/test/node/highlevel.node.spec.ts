@@ -16,7 +16,7 @@ import { setLogLevel } from "@azure/logger";
 setLogLevel("info");
 
 // tslint:disable:no-empty
-describe("Highlevel", () => {
+describe.only("Highlevel", () => {
   let containerName: string;
   let containerClient: ContainerClient;
   let blobName: string;
@@ -306,7 +306,7 @@ describe("Highlevel", () => {
     assert.deepStrictEqual(response.tags, tags);
   });
 
-  it.only("uploadStream should abort", async () => {
+  it("uploadStream should abort", async () => {
     recorder.skip("node", "Temp file - recorder doesn't support saving the file");
     const rs = fs.createReadStream(tempFileLarge);
     const aborter = AbortController.timeout(1);
@@ -321,7 +321,7 @@ describe("Highlevel", () => {
     }
   });
 
-  it.only("uploadStream should update progress event", async () => {
+  it("uploadStream should update progress event", async () => {
     recorder.skip("node", "Temp file - recorder doesn't support saving the file");
     const rs = fs.createReadStream(tempFileLarge);
     let eventTriggered = false;
