@@ -12,6 +12,9 @@ import { readStreamToLocalFileWithLogs } from "../utils/testutils.node";
 import { BLOCK_BLOB_MAX_STAGE_BLOCK_BYTES } from "../../src/utils/constants";
 import { Test_CPK_INFO } from "../utils/constants";
 
+import { setLogLevel } from "@azure/logger";
+setLogLevel("info");
+
 // tslint:disable:no-empty
 describe("Highlevel", () => {
   let containerName: string;
@@ -303,7 +306,7 @@ describe("Highlevel", () => {
     assert.deepStrictEqual(response.tags, tags);
   });
 
-  it("uploadStream should abort", async () => {
+  it.only("uploadStream should abort", async () => {
     recorder.skip("node", "Temp file - recorder doesn't support saving the file");
     const rs = fs.createReadStream(tempFileLarge);
     const aborter = AbortController.timeout(1);
@@ -318,7 +321,7 @@ describe("Highlevel", () => {
     }
   });
 
-  it("uploadStream should update progress event", async () => {
+  it.only("uploadStream should update progress event", async () => {
     recorder.skip("node", "Temp file - recorder doesn't support saving the file");
     const rs = fs.createReadStream(tempFileLarge);
     let eventTriggered = false;
