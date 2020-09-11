@@ -19,8 +19,9 @@ npm install @azure/arm-mariadb
 
 ##### Install @azure/ms-rest-nodeauth
 
+- Please install minimum version of `"@azure/ms-rest-nodeauth": "^3.0.0"`.
 ```bash
-npm install @azure/ms-rest-nodeauth
+npm install @azure/ms-rest-nodeauth@"^3.0.0"
 ```
 
 ##### Sample code
@@ -99,4 +100,4 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
 
 - [Microsoft Azure SDK for Javascript](https://github.com/Azure/azure-sdk-for-js)
 
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fmariadb%2Farm-mariadb%2FREADME.png)
+![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js/sdk/mariadb/arm-mariadb/README.png)

@@ -62,12 +62,12 @@ export class CheckNameAvailability {
 const serializer = new msRest.Serializer(Mappers);
 const executeOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.DBforMariaDB/checkNameAvailability",
+  path: "subscriptions/{subscriptionId}/providers/Microsoft.DBForMariaDB/checkNameAvailability",
   urlParameters: [
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage

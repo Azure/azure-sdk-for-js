@@ -9,6 +9,8 @@
 export {
   discriminators,
   CloudError,
+  ErrorAdditionalInfo,
+  ErrorResponse,
   Operation,
   OperationDisplay,
   OperationListResult

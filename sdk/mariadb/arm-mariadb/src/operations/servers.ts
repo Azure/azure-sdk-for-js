@@ -30,8 +30,7 @@ export class Servers {
   /**
    * Creates a new server or updates an existing server. The update action will overwrite the
    * existing server.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can
-   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serverName The name of the server.
    * @param parameters The required parameters for creating or updating a server.
    * @param [options] The optional parameters
@@ -45,8 +44,7 @@ export class Servers {
   /**
    * Updates an existing server. The request body can contain one to many of the properties present
    * in the normal server definition.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can
-   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serverName The name of the server.
    * @param parameters The required parameters for updating a server.
    * @param [options] The optional parameters
@@ -59,8 +57,7 @@ export class Servers {
 
   /**
    * Deletes a server.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can
-   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serverName The name of the server.
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
@@ -72,23 +69,20 @@ export class Servers {
 
   /**
    * Gets information about a server.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can
-   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serverName The name of the server.
    * @param [options] The optional parameters
    * @returns Promise<Models.ServersGetResponse>
    */
   get(resourceGroupName: string, serverName: string, options?: msRest.RequestOptionsBase): Promise<Models.ServersGetResponse>;
   /**
-   * @param resourceGroupName The name of the resource group that contains the resource. You can
-   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serverName The name of the server.
    * @param callback The callback
    */
   get(resourceGroupName: string, serverName: string, callback: msRest.ServiceCallback<Models.Server>): void;
   /**
-   * @param resourceGroupName The name of the resource group that contains the resource. You can
-   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serverName The name of the server.
    * @param options The optional parameters
    * @param callback The callback
@@ -107,21 +101,18 @@ export class Servers {
 
   /**
    * List all the servers in a given resource group.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can
-   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param [options] The optional parameters
    * @returns Promise<Models.ServersListByResourceGroupResponse>
    */
   listByResourceGroup(resourceGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.ServersListByResourceGroupResponse>;
   /**
-   * @param resourceGroupName The name of the resource group that contains the resource. You can
-   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param callback The callback
    */
   listByResourceGroup(resourceGroupName: string, callback: msRest.ServiceCallback<Models.ServerListResult>): void;
   /**
-   * @param resourceGroupName The name of the resource group that contains the resource. You can
-   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -162,8 +153,7 @@ export class Servers {
 
   /**
    * Restarts a server.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can
-   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serverName The name of the server.
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
@@ -174,10 +164,33 @@ export class Servers {
   }
 
   /**
+   * Starts a stopped server.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serverName The name of the server.
+   * @param [options] The optional parameters
+   * @returns Promise<msRest.RestResponse>
+   */
+  start(resourceGroupName: string, serverName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+    return this.beginStart(resourceGroupName,serverName,options)
+      .then(lroPoller => lroPoller.pollUntilFinished());
+  }
+
+  /**
+   * Stops a running server.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serverName The name of the server.
+   * @param [options] The optional parameters
+   * @returns Promise<msRest.RestResponse>
+   */
+  stop(resourceGroupName: string, serverName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+    return this.beginStop(resourceGroupName,serverName,options)
+      .then(lroPoller => lroPoller.pollUntilFinished());
+  }
+
+  /**
    * Creates a new server or updates an existing server. The update action will overwrite the
    * existing server.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can
-   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serverName The name of the server.
    * @param parameters The required parameters for creating or updating a server.
    * @param [options] The optional parameters
@@ -198,8 +211,7 @@ export class Servers {
   /**
    * Updates an existing server. The request body can contain one to many of the properties present
    * in the normal server definition.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can
-   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serverName The name of the server.
    * @param parameters The required parameters for updating a server.
    * @param [options] The optional parameters
@@ -219,8 +231,7 @@ export class Servers {
 
   /**
    * Deletes a server.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can
-   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serverName The name of the server.
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
@@ -238,8 +249,7 @@ export class Servers {
 
   /**
    * Restarts a server.
-   * @param resourceGroupName The name of the resource group that contains the resource. You can
-   * obtain this value from the Azure Resource Manager API or the portal.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param serverName The name of the server.
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
@@ -254,20 +264,56 @@ export class Servers {
       beginRestartOperationSpec,
       options);
   }
+
+  /**
+   * Starts a stopped server.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serverName The name of the server.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginStart(resourceGroupName: string, serverName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        serverName,
+        options
+      },
+      beginStartOperationSpec,
+      options);
+  }
+
+  /**
+   * Stops a running server.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param serverName The name of the server.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginStop(resourceGroupName: string, serverName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        serverName,
+        options
+      },
+      beginStopOperationSpec,
+      options);
+  }
 }
 
 // Operation Specifications
 const serializer = new msRest.Serializer(Mappers);
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforMariaDB/servers/{serverName}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBForMariaDB/servers/{serverName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -285,13 +331,13 @@ const getOperationSpec: msRest.OperationSpec = {
 
 const listByResourceGroupOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforMariaDB/servers",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBForMariaDB/servers",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -309,12 +355,12 @@ const listByResourceGroupOperationSpec: msRest.OperationSpec = {
 
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.DBforMariaDB/servers",
+  path: "subscriptions/{subscriptionId}/providers/Microsoft.DBForMariaDB/servers",
   urlParameters: [
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -332,14 +378,14 @@ const listOperationSpec: msRest.OperationSpec = {
 
 const beginCreateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforMariaDB/servers/{serverName}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBForMariaDB/servers/{serverName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -368,14 +414,14 @@ const beginCreateOperationSpec: msRest.OperationSpec = {
 
 const beginUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforMariaDB/servers/{serverName}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBForMariaDB/servers/{serverName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -401,14 +447,14 @@ const beginUpdateOperationSpec: msRest.OperationSpec = {
 
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforMariaDB/servers/{serverName}",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBForMariaDB/servers/{serverName}",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -426,14 +472,62 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
 
 const beginRestartOperationSpec: msRest.OperationSpec = {
   httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforMariaDB/servers/{serverName}/restart",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBForMariaDB/servers/{serverName}/restart",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.resourceGroupName,
     Parameters.serverName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {},
+    202: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const beginStartOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforMariaDB/servers/{serverName}/start",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.serverName
+  ],
+  queryParameters: [
+    Parameters.apiVersion1
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {},
+    202: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const beginStopOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.DBforMariaDB/servers/{serverName}/stop",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.serverName
+  ],
+  queryParameters: [
+    Parameters.apiVersion1
   ],
   headerParameters: [
     Parameters.acceptLanguage
