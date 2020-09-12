@@ -15,6 +15,7 @@ const IS_PRODUCTION = process.env.NODE_ENV === "production";
 
 interface PackageJson {
   name: string;
+  module: string;
   dependencies: Record<string, string>;
   devDependencies: Record<string, string>;
 }
@@ -96,7 +97,8 @@ function makeBrowserTestConfig() {
 
 export function makeConfig(pkg: PackageJson)  {
   const baseConfig = {
-    input: "dist-esm/src/index.js",
+    // Use the package's module field if it has one
+    input: pkg["module"] ?? "dist-esm/src/index.js",
     external: [...nodeBuiltins, ...Object.keys(pkg.dependencies), ...Object.keys(pkg.devDependencies)],
     output: { file: "dist/index.js", format: "cjs", sourcemap: true },
     preserveSymlinks: false,
