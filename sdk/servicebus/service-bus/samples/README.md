@@ -6,7 +6,7 @@ There are three ways to work with the samples.
 
 - Download the sample package from [docs.microsoft.com/samples](https://docs.microsoft.com/samples) by browsing to the Azure Service Bus product and choosing either JavaScript or TypeScript in the list of languages.
 - Copy the sample file you want to a folder of your choice and use `npm` to install its requisite dependencies, then edit the file to add the necessary credentials and information, finally running it with NodeJS.
-- In case you have cloned this repo, run `npm install` in either the `samples-v1/javascript` or `samples-v1/typescript` folder to install the library as well as other dependencies that are required by some of the samples.
+- In case you have cloned this repo, run `npm install` in either the `samples/javascript` or `samples/typescript` folder to install the library as well as other dependencies that are required by some of the samples.
 
 ## Get connection string for Service Bus & names for Queues/Topics/Subscriptions
 
