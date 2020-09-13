@@ -63,6 +63,12 @@ export { getDefaultProxySettings, proxyPolicy } from "./policies/proxyPolicy";
 export { redirectPolicy, RedirectOptions } from "./policies/redirectPolicy";
 export { keepAlivePolicy, KeepAliveOptions } from "./policies/keepAlivePolicy";
 export { disableResponseDecompressionPolicy } from "./policies/disableResponseDecompressionPolicy";
+export {
+  challengeBasedAuthenticationPolicy,
+  parseWWWAuthenticate,
+  AuthenticationChallenge,
+  AuthenticationChallengeCache
+} from "./policies/challengeBasedAuthenticationPolicy";
 export { signingPolicy } from "./policies/signingPolicy";
 export {
   userAgentPolicy,
