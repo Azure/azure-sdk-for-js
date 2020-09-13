@@ -33,7 +33,6 @@
     "dist/",
     "dist-browser/",
     "dist-esm/keyvault-secrets/src",
-    "dist-esm/keyvault-common/src",
     "README.md",
     "LICENSE"
   ],

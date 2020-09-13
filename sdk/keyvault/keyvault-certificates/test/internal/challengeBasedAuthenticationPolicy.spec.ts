@@ -9,7 +9,7 @@ import {
   AuthenticationChallengeCache,
   AuthenticationChallenge,
   parseWWWAuthenticate
-} from "../../../keyvault-common/src";
+} from "@azure/core-http";
 import { CertificateClient } from "../../src";
 import { testPollerProperties } from "../utils/recorderUtils";
 import { authenticate } from "../utils/testAuthentication";
