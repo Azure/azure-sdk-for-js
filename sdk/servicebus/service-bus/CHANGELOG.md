@@ -1,5 +1,8 @@
 # Release History
 
+## 1.1.11 (Unreleased)
+
+
 ## 1.1.10 (2020-09-14)
 
  - Fixes [bug 10943](https://github.com/Azure/azure-sdk-for-js/issues/10943) where accessing the address
