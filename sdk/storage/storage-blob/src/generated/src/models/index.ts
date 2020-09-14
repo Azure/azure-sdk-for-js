@@ -1214,12 +1214,12 @@ export interface ContainerRestoreOptionalParams extends coreHttp.RequestOptionsB
    */
   requestId?: string;
   /**
-   * Optional.  Version 2019-12-12 and laster.  Specifies the name of the deleted container to
+   * Optional.  Version 2019-12-12 and later.  Specifies the name of the deleted container to
    * restore.
    */
   deletedContainerName?: string;
   /**
-   * Optional.  Version 2019-12-12 and laster.  Specifies the version of the deleted container to
+   * Optional.  Version 2019-12-12 and later.  Specifies the version of the deleted container to
    * restore.
    */
   deletedContainerVersion?: string;

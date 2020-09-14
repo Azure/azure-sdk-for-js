@@ -28,7 +28,7 @@ export class File {
 
   /**
    * Creates a new file or replaces a file. Note it only initializes the file with no content.
-   * @param fileContentLength Specifies the maximum size for the file, up to 1 TB.
+   * @param fileContentLength Specifies the maximum size for the file, up to 4 TB.
    * @param fileAttributes If specified, the provided file attributes shall be set. Default value:
    * ‘Archive’ for file and ‘Directory’ for directory. ‘None’ can also be specified as default.
    * @param fileCreatedOn Creation time for the file/directory. Default value: Now.
@@ -38,7 +38,7 @@ export class File {
    */
   create(fileContentLength: number, fileAttributes: string, fileCreatedOn: string, fileLastWriteOn: string, options?: Models.FileCreateOptionalParams): Promise<Models.FileCreateResponse>;
   /**
-   * @param fileContentLength Specifies the maximum size for the file, up to 1 TB.
+   * @param fileContentLength Specifies the maximum size for the file, up to 4 TB.
    * @param fileAttributes If specified, the provided file attributes shall be set. Default value:
    * ‘Archive’ for file and ‘Directory’ for directory. ‘None’ can also be specified as default.
    * @param fileCreatedOn Creation time for the file/directory. Default value: Now.
@@ -47,7 +47,7 @@ export class File {
    */
   create(fileContentLength: number, fileAttributes: string, fileCreatedOn: string, fileLastWriteOn: string, callback: coreHttp.ServiceCallback<void>): void;
   /**
-   * @param fileContentLength Specifies the maximum size for the file, up to 1 TB.
+   * @param fileContentLength Specifies the maximum size for the file, up to 4 TB.
    * @param fileAttributes If specified, the provided file attributes shall be set. Default value:
    * ‘Archive’ for file and ‘Directory’ for directory. ‘None’ can also be specified as default.
    * @param fileCreatedOn Creation time for the file/directory. Default value: Now.
