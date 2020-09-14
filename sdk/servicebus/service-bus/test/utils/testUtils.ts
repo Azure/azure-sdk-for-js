@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import chai from "chai";
-import { MessagingError, ReceivedMessage, ServiceBusMessage, delay } from "../../src";
+import { MessagingError, ServiceBusReceivedMessage, ServiceBusMessage, delay } from "../../src";
 import * as dotenv from "dotenv";
 dotenv.config();
 
@@ -25,7 +25,8 @@ export class TestMessage {
       properties: {
         propOne: 1,
         propTwo: "two",
-        propThree: true
+        propThree: true,
+        propFour: Date()
       }
     };
   }
@@ -59,7 +60,7 @@ export class TestMessage {
    */
   static checkMessageContents(
     sent: ServiceBusMessage,
-    received: ReceivedMessage,
+    received: ServiceBusReceivedMessage,
     useSessions?: boolean,
     usePartitions?: boolean
   ): void {

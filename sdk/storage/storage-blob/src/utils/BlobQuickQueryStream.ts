@@ -3,7 +3,7 @@
 
 import { Readable } from "stream";
 
-import { AbortError, AbortSignal, AbortSignalLike } from "@azure/abort-controller";
+import { AbortSignalLike } from "@azure/abort-controller";
 import { TransferProgressEvent } from "@azure/core-http";
 
 import { AvroReadableFromStream, AvroReader } from "../../../storage-internal-avro/src";
@@ -34,30 +34,20 @@ export interface BlobQuickQueryStreamOptions {
   onError?: (error: BlobQueryError) => void;
 }
 
-const ABORT_ERROR = new AbortError("The operation was aborted.");
-
 /**
  * ONLY AVAILABLE IN NODE.JS RUNTIME.
  *
- * A Node.js BlobQuickQueryStream will internally parse avor data stream for blob query.
+ * A Node.js BlobQuickQueryStream will internally parse avro data stream for blob query.
  *
  * @class BlobQuickQueryStream
  * @extends {Readable}
  */
 export class BlobQuickQueryStream extends Readable {
-  private aborter: AbortSignalLike;
   private source: NodeJS.ReadableStream;
   private avroReader: AvroReader;
   private avroIter: AsyncIterableIterator<Object | null>;
   private onProgress?: (progress: TransferProgressEvent) => void;
   private onError?: (error: BlobQueryError) => void;
-  private abortHandler = () => {
-    // Workaround before avor reader doesn't support aborter
-    this.source.pause();
-    this.source.removeAllListeners();
-    // TODO: Avor reader supports aborter
-    this.emit("error", ABORT_ERROR);
-  };
 
   /**
    * Creates an instance of BlobQuickQueryStream.
@@ -68,33 +58,24 @@ export class BlobQuickQueryStream extends Readable {
    */
   public constructor(source: NodeJS.ReadableStream, options: BlobQuickQueryStreamOptions = {}) {
     super();
-    this.aborter = options.abortSignal || AbortSignal.none;
     this.source = source;
     this.onProgress = options.onProgress;
     this.onError = options.onError;
     this.avroReader = new AvroReader(new AvroReadableFromStream(this.source));
-    this.avroIter = this.avroReader.parseObjects();
-
-    this.aborter.addEventListener("abort", this.abortHandler);
+    this.avroIter = this.avroReader.parseObjects({ abortSignal: options.abortSignal });
   }
 
   public _read() {
-    if (!this.aborter.aborted) {
-      this.readInternal().catch((err) => {
-        this.emit("error", err);
-      });
-    }
+    this.readInternal().catch((err) => {
+      this.emit("error", err);
+    });
   }
 
   private async readInternal() {
     for await (const obj of this.avroIter) {
-      if (this.aborter.aborted) {
-        break;
-      }
-
       const schema = (obj as any).$schema;
       if (typeof schema !== "string") {
-        throw Error("Missing schema in avor record.");
+        throw Error("Missing schema in avro record.");
       }
 
       let exit = false;
@@ -102,7 +83,7 @@ export class BlobQuickQueryStream extends Readable {
         case "com.microsoft.azure.storage.queryBlobContents.resultData":
           const data = (obj as any).data;
           if (data instanceof Uint8Array === false) {
-            throw Error("Invalid data in avor result record.");
+            throw Error("Invalid data in avro result record.");
           }
           if (!this.push(Buffer.from(data))) {
             exit = true;
@@ -111,7 +92,7 @@ export class BlobQuickQueryStream extends Readable {
         case "com.microsoft.azure.storage.queryBlobContents.progress":
           const bytesScanned = (obj as any).bytesScanned;
           if (typeof bytesScanned !== "number") {
-            throw Error("Invalid bytesScanned in avor progress record.");
+            throw Error("Invalid bytesScanned in avro progress record.");
           }
           if (this.onProgress) {
             this.onProgress({ loadedBytes: bytesScanned });
@@ -121,7 +102,7 @@ export class BlobQuickQueryStream extends Readable {
           if (this.onProgress) {
             const totalBytes = (obj as any).totalBytes;
             if (typeof totalBytes !== "number") {
-              throw Error("Invalid totalBytes in avor end record.");
+              throw Error("Invalid totalBytes in avro end record.");
             }
             this.onProgress({ loadedBytes: totalBytes });
           }
@@ -131,19 +112,19 @@ export class BlobQuickQueryStream extends Readable {
           if (this.onError) {
             const fatal = (obj as any).fatal;
             if (typeof fatal !== "boolean") {
-              throw Error("Invalid fatal in avor error record.");
+              throw Error("Invalid fatal in avro error record.");
             }
             const name = (obj as any).name;
             if (typeof name !== "string") {
-              throw Error("Invalid name in avor error record.");
+              throw Error("Invalid name in avro error record.");
             }
             const description = (obj as any).description;
             if (typeof description !== "string") {
-              throw Error("Invalid description in avor error record.");
+              throw Error("Invalid description in avro error record.");
             }
             const position = (obj as any).position;
             if (typeof position !== "number") {
-              throw Error("Invalid position in avor error record.");
+              throw Error("Invalid position in avro error record.");
             }
             this.onError({
               position,
@@ -154,7 +135,7 @@ export class BlobQuickQueryStream extends Readable {
           }
           break;
         default:
-          throw Error(`Unknown schema ${schema} in avor progress record.`);
+          throw Error(`Unknown schema ${schema} in avro progress record.`);
       }
 
       if (exit) {

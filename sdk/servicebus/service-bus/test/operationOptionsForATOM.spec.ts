@@ -5,7 +5,7 @@ import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
 import chaiExclude from "chai-exclude";
 import * as dotenv from "dotenv";
-import { ServiceBusManagementClient } from "../src/serviceBusAtomManagementClient";
+import { ServiceBusAdministrationClient } from "../src/serviceBusAtomManagementClient";
 import { EnvVarNames, getEnvVars } from "./utils/envVarUtils";
 import { AbortController } from "@azure/abort-controller";
 import { WebResource } from "@azure/core-http";
@@ -21,7 +21,7 @@ dotenv.config();
 
 const env = getEnvVars();
 
-const serviceBusAtomManagementClient: ServiceBusManagementClient = new ServiceBusManagementClient(
+const serviceBusAtomManagementClient: ServiceBusAdministrationClient = new ServiceBusAdministrationClient(
   env[EnvVarNames.SERVICEBUS_CONNECTION_STRING]
 );
 
@@ -164,12 +164,9 @@ describe("Operation Options", () => {
     it("createSubscription", async () => {
       await verifyAbortError(
         async () =>
-          await serviceBusAtomManagementClient.createSubscription(
-            entityName1,  entityName2 ,
-            {
-              abortSignal: AbortController.timeout(1)
-            }
-          )
+          await serviceBusAtomManagementClient.createSubscription(entityName1, entityName2, {
+            abortSignal: AbortController.timeout(1)
+          })
       );
     });
     it("getSubscription", async () => {
@@ -287,7 +284,7 @@ describe("Operation Options", () => {
             name: rootSpan.name,
             children: [
               {
-                name: "Azure.ServiceBus.ServiceBusManagementClient-getNamespaceProperties",
+                name: "Azure.ServiceBus.ServiceBusAdministrationClient-getNamespaceProperties",
                 children: [
                   {
                     children: [
@@ -296,7 +293,7 @@ describe("Operation Options", () => {
                         name: "/$namespaceinfo"
                       }
                     ],
-                    name: "Azure.ServiceBus.ServiceBusManagementClient-getResource"
+                    name: "Azure.ServiceBus.ServiceBusAdministrationClient-getResource"
                   }
                 ]
               }

@@ -24,7 +24,7 @@ import {
 } from "@azure/core-http";
 import { PagedAsyncIterableIterator, PageSettings } from "@azure/core-paging";
 import { CorrelationRuleFilter } from "./core/managementClient";
-import * as log from "./log";
+import { logger } from "./log";
 import {
   buildNamespace,
   NamespaceProperties,
@@ -71,6 +71,7 @@ import {
 } from "./serializers/topicResourceSerializer";
 import { AtomXmlSerializer, executeAtomXmlOperation } from "./util/atomXmlHelper";
 import * as Constants from "./util/constants";
+import { logError } from "./util/errors";
 import { parseURL } from "./util/parseUrl";
 import { SasServiceClientCredentials } from "./util/sasServiceClientCredentials";
 import { createSpan, getCanonicalCode } from "./util/tracing";
@@ -156,7 +157,7 @@ export interface RuleResponse extends RuleProperties, Response {}
  * These objects also have a property called `_response` that you can use if you want to
  * access the direct response from the service.
  */
-export class ServiceBusManagementClient extends ServiceClient {
+export class ServiceBusAdministrationClient extends ServiceClient {
   /**
    * Reference to the endpoint as extracted from input connection string.
    */
@@ -182,7 +183,7 @@ export class ServiceBusManagementClient extends ServiceClient {
   private credentials: SasServiceClientCredentials | TokenCredential;
 
   /**
-   * Initializes a new instance of the ServiceBusManagementClient class.
+   * Initializes a new instance of the ServiceBusAdministrationClient class.
    * @param connectionString The connection string needed for the client to connect to Azure.
    * @param options PipelineOptions
    */
@@ -266,9 +267,9 @@ export class ServiceBusManagementClient extends ServiceClient {
   async getNamespaceProperties(
     operationOptions?: OperationOptions
   ): Promise<NamespacePropertiesResponse> {
-    log.httpAtomXml(`Performing management operation - getNamespaceProperties()`);
+    logger.verbose(`Performing management operation - getNamespaceProperties()`);
     const { span, updatedOperationOptions } = createSpan(
-      "ServiceBusManagementClient-getNamespaceProperties",
+      "ServiceBusAdministrationClient-getNamespaceProperties",
       operationOptions
     );
     try {
@@ -304,16 +305,15 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @throws `RestError` with code `ServerBusyError` when the request fails due to server being busy,
    * @throws `RestError` with code `ServiceError` when receiving unrecognized HTTP status or for a scenarios such as
    * bad requests or requests resulting in conflicting operation on the server,
-   * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
-   * https://docs.microsoft.com/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
+   * @throws `RestError` with code and statusCode representing the standard set of REST API errors.
    */
   async createQueue(queueName: string, options?: CreateQueueOptions): Promise<QueueResponse> {
     const { span, updatedOperationOptions } = createSpan(
-      "ServiceBusManagementClient-createQueue",
+      "ServiceBusAdministrationClient-createQueue",
       options
     );
     try {
-      log.httpAtomXml(
+      logger.verbose(
         `Performing management operation - createQueue() for "${queueName}" with options: ${options}`
       );
       const response: HttpOperationResponse = await this.putResource(
@@ -349,16 +349,15 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @throws `RestError` with code `ServerBusyError` when the request fails due to server being busy,
    * @throws `RestError` with code `ServiceError` when receiving unrecognized HTTP status or for a scenarios such as
    * bad requests or requests resulting in conflicting operation on the server,
-   * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
-   * https://docs.microsoft.com/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
+   * @throws `RestError` with code and statusCode representing the standard set of REST API errors.
    */
   async getQueue(queueName: string, operationOptions?: OperationOptions): Promise<QueueResponse> {
     const { span, updatedOperationOptions } = createSpan(
-      "ServiceBusManagementClient-getQueue",
+      "ServiceBusAdministrationClient-getQueue",
       operationOptions
     );
     try {
-      log.httpAtomXml(`Performing management operation - getQueue() for "${queueName}"`);
+      logger.verbose(`Performing management operation - getQueue() for "${queueName}"`);
       const response: HttpOperationResponse = await this.getResource(
         queueName,
         this.queueResourceSerializer,
@@ -389,19 +388,18 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @throws `RestError` with code `ServerBusyError` when the request fails due to server being busy,
    * @throws `RestError` with code `ServiceError` when receiving unrecognized HTTP status or for a scenarios such as
    * bad requests or requests resulting in conflicting operation on the server,
-   * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
-   * https://docs.microsoft.com/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
+   * @throws `RestError` with code and statusCode representing the standard set of REST API errors.
    */
   async getQueueRuntimeProperties(
     queueName: string,
     operationOptions?: OperationOptions
   ): Promise<QueueRuntimePropertiesResponse> {
     const { span, updatedOperationOptions } = createSpan(
-      "ServiceBusManagementClient-getQueueRuntimeProperties",
+      "ServiceBusAdministrationClient-getQueueRuntimeProperties",
       operationOptions
     );
     try {
-      log.httpAtomXml(
+      logger.verbose(
         `Performing management operation - getQueueRuntimeProperties() for "${queueName}"`
       );
       const response: HttpOperationResponse = await this.getResource(
@@ -433,18 +431,17 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @throws `RestError` with code `ServerBusyError` when the request fails due to server being busy,
    * @throws `RestError` with code `ServiceError` when receiving unrecognized HTTP status or for a scenarios such as
    * bad requests or requests resulting in conflicting operation on the server,
-   * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
-   * https://docs.microsoft.com/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
+   * @throws `RestError` with code and statusCode representing the standard set of REST API errors.
    */
   private async getQueues(
     options?: ListRequestOptions & OperationOptions
   ): Promise<EntitiesResponse<QueueProperties>> {
     const { span, updatedOperationOptions } = createSpan(
-      "ServiceBusManagementClient-getQueues",
+      "ServiceBusAdministrationClient-getQueues",
       options
     );
     try {
-      log.httpAtomXml(`Performing management operation - getQueues() with options: ${options}`);
+      logger.verbose(`Performing management operation - getQueues() with options: ${options}`);
       const response: HttpOperationResponse = await this.listResources(
         "$Resources/Queues",
         updatedOperationOptions,
@@ -498,12 +495,12 @@ export class ServiceBusManagementClient extends ServiceClient {
    *     QueueProperties,
    *     EntitiesResponse<QueueProperties>,
    *   >} An asyncIterableIterator that supports paging.
-   * @memberof ServiceBusManagementClient
+   * @memberof ServiceBusAdministrationClient
    */
   public listQueues(
     options?: OperationOptions
   ): PagedAsyncIterableIterator<QueueProperties, EntitiesResponse<QueueProperties>> {
-    log.httpAtomXml(`Performing management operation - listQueues() with options: ${options}`);
+    logger.verbose(`Performing management operation - listQueues() with options: ${options}`);
     const iter = this.listQueuesAll(options);
     return {
       /**
@@ -541,18 +538,17 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @throws `RestError` with code `ServerBusyError` when the request fails due to server being busy,
    * @throws `RestError` with code `ServiceError` when receiving unrecognized HTTP status or for a scenarios such as
    * bad requests or requests resulting in conflicting operation on the server,
-   * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
-   * https://docs.microsoft.com/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
+   * @throws `RestError` with code and statusCode representing the standard set of REST API errors.
    */
   private async getQueuesRuntimeProperties(
     options?: ListRequestOptions & OperationOptions
   ): Promise<EntitiesResponse<QueueRuntimeProperties>> {
     const { span, updatedOperationOptions } = createSpan(
-      "ServiceBusManagementClient-getQueuesRuntimeProperties",
+      "ServiceBusAdministrationClient-getQueuesRuntimeProperties",
       options
     );
     try {
-      log.httpAtomXml(
+      logger.verbose(
         `Performing management operation - getQueuesRuntimeProperties() with options: ${options}`
       );
       const response: HttpOperationResponse = await this.listResources(
@@ -609,12 +605,12 @@ export class ServiceBusManagementClient extends ServiceClient {
    *     QueueRuntimeProperties,
    *     EntitiesResponse<QueueRuntimeProperties>,
    *   >} An asyncIterableIterator that supports paging.
-   * @memberof ServiceBusManagementClient
+   * @memberof ServiceBusAdministrationClient
    */
   public listQueuesRuntimeProperties(
     options?: OperationOptions
   ): PagedAsyncIterableIterator<QueueRuntimeProperties, EntitiesResponse<QueueRuntimeProperties>> {
-    log.httpAtomXml(
+    logger.verbose(
       `Performing management operation - listQueuesRuntimeProperties() with options: ${options}`
     );
     const iter = this.listQueuesRuntimePropertiesAll(options);
@@ -662,19 +658,18 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @throws `RestError` with code `ServerBusyError` when the request fails due to server being busy,
    * @throws `RestError` with code `ServiceError` when receiving unrecognized HTTP status or for a scenarios such as
    * bad requests or requests resulting in conflicting operation on the server,
-   * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
-   * https://docs.microsoft.com/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
+   * @throws `RestError` with code and statusCode representing the standard set of REST API errors.
    */
   async updateQueue(
     queue: QueueProperties,
     operationOptions?: OperationOptions
   ): Promise<QueueResponse> {
     const { span, updatedOperationOptions } = createSpan(
-      "ServiceBusManagementClient-updateQueue",
+      "ServiceBusAdministrationClient-updateQueue",
       operationOptions
     );
     try {
-      log.httpAtomXml(
+      logger.verbose(
         `Performing management operation - updateQueue() for "${queue.name}" with options: ${queue}`
       );
 
@@ -720,16 +715,15 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @throws `RestError` with code `ServerBusyError` when the request fails due to server being busy,
    * @throws `RestError` with code `ServiceError` when receiving unrecognized HTTP status or for a scenarios such as
    * bad requests or requests resulting in conflicting operation on the server,
-   * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
-   * https://docs.microsoft.com/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
+   * @throws `RestError` with code and statusCode representing the standard set of REST API errors.
    */
   async deleteQueue(queueName: string, operationOptions?: OperationOptions): Promise<Response> {
     const { span, updatedOperationOptions } = createSpan(
-      "ServiceBusManagementClient-deleteQueue",
+      "ServiceBusAdministrationClient-deleteQueue",
       operationOptions
     );
     try {
-      log.httpAtomXml(`Performing management operation - deleteQueue() for "${queueName}"`);
+      logger.verbose(`Performing management operation - deleteQueue() for "${queueName}"`);
       const response: HttpOperationResponse = await this.deleteResource(
         queueName,
         this.queueResourceSerializer,
@@ -755,11 +749,11 @@ export class ServiceBusManagementClient extends ServiceClient {
    */
   async queueExists(queueName: string, operationOptions?: OperationOptions): Promise<boolean> {
     const { span, updatedOperationOptions } = createSpan(
-      "ServiceBusManagementClient-queueExists",
+      "ServiceBusAdministrationClient-queueExists",
       operationOptions
     );
     try {
-      log.httpAtomXml(`Performing management operation - queueExists() for "${queueName}"`);
+      logger.verbose(`Performing management operation - queueExists() for "${queueName}"`);
       try {
         await this.getQueue(queueName, updatedOperationOptions);
       } catch (error) {
@@ -794,16 +788,15 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @throws `RestError` with code `ServerBusyError` when the request fails due to server being busy,
    * @throws `RestError` with code `ServiceError` when receiving unrecognized HTTP status or for a scenarios such as
    * bad requests or requests resulting in conflicting operation on the server,
-   * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
-   * https://docs.microsoft.com/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
+   * @throws `RestError` with code and statusCode representing the standard set of REST API errors.
    */
   async createTopic(topicName: string, options?: CreateTopicOptions): Promise<TopicResponse> {
     const { span, updatedOperationOptions } = createSpan(
-      "ServiceBusManagementClient-createTopic",
+      "ServiceBusAdministrationClient-createTopic",
       options
     );
     try {
-      log.httpAtomXml(
+      logger.verbose(
         `Performing management operation - createTopic() for "${topicName}" with options: ${options}`
       );
       const response: HttpOperationResponse = await this.putResource(
@@ -839,16 +832,15 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @throws `RestError` with code `ServerBusyError` when the request fails due to server being busy,
    * @throws `RestError` with code `ServiceError` when receiving unrecognized HTTP status or for a scenarios such as
    * bad requests or requests resulting in conflicting operation on the server,
-   * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
-   * https://docs.microsoft.com/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
+   * @throws `RestError` with code and statusCode representing the standard set of REST API errors.
    */
   async getTopic(topicName: string, operationOptions?: OperationOptions): Promise<TopicResponse> {
     const { span, updatedOperationOptions } = createSpan(
-      "ServiceBusManagementClient-getTopic",
+      "ServiceBusAdministrationClient-getTopic",
       operationOptions
     );
     try {
-      log.httpAtomXml(`Performing management operation - getTopic() for "${topicName}"`);
+      logger.verbose(`Performing management operation - getTopic() for "${topicName}"`);
       const response: HttpOperationResponse = await this.getResource(
         topicName,
         this.topicResourceSerializer,
@@ -879,19 +871,18 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @throws `RestError` with code `ServerBusyError` when the request fails due to server being busy,
    * @throws `RestError` with code `ServiceError` when receiving unrecognized HTTP status or for a scenarios such as
    * bad requests or requests resulting in conflicting operation on the server,
-   * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
-   * https://docs.microsoft.com/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
+   * @throws `RestError` with code and statusCode representing the standard set of REST API errors.
    */
   async getTopicRuntimeProperties(
     topicName: string,
     operationOptions?: OperationOptions
   ): Promise<TopicRuntimePropertiesResponse> {
     const { span, updatedOperationOptions } = createSpan(
-      "ServiceBusManagementClient-getTopicRuntimeProperties",
+      "ServiceBusAdministrationClient-getTopicRuntimeProperties",
       operationOptions
     );
     try {
-      log.httpAtomXml(
+      logger.verbose(
         `Performing management operation - getTopicRuntimeProperties() for "${topicName}"`
       );
       const response: HttpOperationResponse = await this.getResource(
@@ -923,18 +914,17 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @throws `RestError` with code `ServerBusyError` when the request fails due to server being busy,
    * @throws `RestError` with code `ServiceError` when receiving unrecognized HTTP status or for a scenarios such as
    * bad requests or requests resulting in conflicting operation on the server,
-   * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
-   * https://docs.microsoft.com/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
+   * @throws `RestError` with code and statusCode representing the standard set of REST API errors.
    */
   private async getTopics(
     options?: ListRequestOptions & OperationOptions
   ): Promise<EntitiesResponse<TopicProperties>> {
     const { span, updatedOperationOptions } = createSpan(
-      "ServiceBusManagementClient-getTopics",
+      "ServiceBusAdministrationClient-getTopics",
       options
     );
     try {
-      log.httpAtomXml(`Performing management operation - getTopics() with options: ${options}`);
+      logger.verbose(`Performing management operation - getTopics() with options: ${options}`);
       const response: HttpOperationResponse = await this.listResources(
         "$Resources/Topics",
         updatedOperationOptions,
@@ -989,12 +979,12 @@ export class ServiceBusManagementClient extends ServiceClient {
    *     TopicProperties,
    *     EntitiesResponse<TopicProperties>,
    *   >} An asyncIterableIterator that supports paging.
-   * @memberof ServiceBusManagementClient
+   * @memberof ServiceBusAdministrationClient
    */
   public listTopics(
     options?: OperationOptions
   ): PagedAsyncIterableIterator<TopicProperties, EntitiesResponse<TopicProperties>> {
-    log.httpAtomXml(`Performing management operation - listTopics() with options: ${options}`);
+    logger.verbose(`Performing management operation - listTopics() with options: ${options}`);
     const iter = this.listTopicsAll(options);
     return {
       /**
@@ -1032,18 +1022,17 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @throws `RestError` with code `ServerBusyError` when the request fails due to server being busy,
    * @throws `RestError` with code `ServiceError` when receiving unrecognized HTTP status or for a scenarios such as
    * bad requests or requests resulting in conflicting operation on the server,
-   * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
-   * https://docs.microsoft.com/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
+   * @throws `RestError` with code and statusCode representing the standard set of REST API errors.
    */
   private async getTopicsRuntimeProperties(
     options?: ListRequestOptions & OperationOptions
   ): Promise<EntitiesResponse<TopicRuntimeProperties>> {
     const { span, updatedOperationOptions } = createSpan(
-      "ServiceBusManagementClient-getTopicsRuntimeProperties",
+      "ServiceBusAdministrationClient-getTopicsRuntimeProperties",
       options
     );
     try {
-      log.httpAtomXml(
+      logger.verbose(
         `Performing management operation - getTopicsRuntimeProperties() with options: ${options}`
       );
       const response: HttpOperationResponse = await this.listResources(
@@ -1101,12 +1090,12 @@ export class ServiceBusManagementClient extends ServiceClient {
    *     EntitiesResponse<TopicRuntimeProperties>,
 
    *   >} An asyncIterableIterator that supports paging.
-   * @memberof ServiceBusManagementClient
+   * @memberof ServiceBusAdministrationClient
    */
   public listTopicsRuntimeProperties(
     options?: OperationOptions
   ): PagedAsyncIterableIterator<TopicRuntimeProperties, EntitiesResponse<TopicRuntimeProperties>> {
-    log.httpAtomXml(
+    logger.verbose(
       `Performing management operation - listTopicsRuntimeProperties() with options: ${options}`
     );
     const iter = this.listTopicsRuntimePropertiesAll(options);
@@ -1154,19 +1143,18 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @throws `RestError` with code `ServerBusyError` when the request fails due to server being busy,
    * @throws `RestError` with code `ServiceError` when receiving unrecognized HTTP status or for a scenarios such as
    * bad requests or requests resulting in conflicting operation on the server,
-   * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
-   * https://docs.microsoft.com/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
+   * @throws `RestError` with code and statusCode representing the standard set of REST API errors.
    */
   async updateTopic(
     topic: TopicProperties,
     operationOptions?: OperationOptions
   ): Promise<TopicResponse> {
     const { span, updatedOperationOptions } = createSpan(
-      "ServiceBusManagementClient-updateTopic",
+      "ServiceBusAdministrationClient-updateTopic",
       operationOptions
     );
     try {
-      log.httpAtomXml(
+      logger.verbose(
         `Performing management operation - updateTopic() for "${topic.name}" with options: ${topic}`
       );
 
@@ -1212,16 +1200,15 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @throws `RestError` with code `ServerBusyError` when the request fails due to server being busy,
    * @throws `RestError` with code `ServiceError` when receiving unrecognized HTTP status or for a scenarios such as
    * bad requests or requests resulting in conflicting operation on the server,
-   * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
-   * https://docs.microsoft.com/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
+   * @throws `RestError` with code and statusCode representing the standard set of REST API errors.
    */
   async deleteTopic(topicName: string, operationOptions?: OperationOptions): Promise<Response> {
     const { span, updatedOperationOptions } = createSpan(
-      "ServiceBusManagementClient-deleteTopic",
+      "ServiceBusAdministrationClient-deleteTopic",
       operationOptions
     );
     try {
-      log.httpAtomXml(`Performing management operation - deleteTopic() for "${topicName}"`);
+      logger.verbose(`Performing management operation - deleteTopic() for "${topicName}"`);
       const response: HttpOperationResponse = await this.deleteResource(
         topicName,
         this.topicResourceSerializer,
@@ -1247,11 +1234,11 @@ export class ServiceBusManagementClient extends ServiceClient {
    */
   async topicExists(topicName: string, operationOptions?: OperationOptions): Promise<boolean> {
     const { span, updatedOperationOptions } = createSpan(
-      "ServiceBusManagementClient-topicExists",
+      "ServiceBusAdministrationClient-topicExists",
       operationOptions
     );
     try {
-      log.httpAtomXml(`Performing management operation - topicExists() for "${topicName}"`);
+      logger.verbose(`Performing management operation - topicExists() for "${topicName}"`);
       try {
         await this.getTopic(topicName, updatedOperationOptions);
       } catch (error) {
@@ -1287,8 +1274,7 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @throws `RestError` with code `ServerBusyError` when the request fails due to server being busy,
    * @throws `RestError` with code `ServiceError` when receiving unrecognized HTTP status or for a scenarios such as
    * bad requests or requests resulting in conflicting operation on the server,
-   * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
-   * https://docs.microsoft.com/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
+   * @throws `RestError` with code and statusCode representing the standard set of REST API errors.
    */
   async createSubscription(
     topicName: string,
@@ -1296,11 +1282,11 @@ export class ServiceBusManagementClient extends ServiceClient {
     options?: CreateSubscriptionOptions
   ): Promise<SubscriptionResponse> {
     const { span, updatedOperationOptions } = createSpan(
-      "ServiceBusManagementClient-createSubscription",
+      "ServiceBusAdministrationClient-createSubscription",
       options
     );
     try {
-      log.httpAtomXml(
+      logger.verbose(
         `Performing management operation - createSubscription() for "${subscriptionName}" with options: ${options}`
       );
       const fullPath = this.getSubscriptionPath(topicName, subscriptionName);
@@ -1338,8 +1324,7 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @throws `RestError` with code `ServerBusyError` when the request fails due to server being busy,
    * @throws `RestError` with code `ServiceError` when receiving unrecognized HTTP status or for a scenarios such as
    * bad requests or requests resulting in conflicting operation on the server,
-   * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
-   * https://docs.microsoft.com/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
+   * @throws `RestError` with code and statusCode representing the standard set of REST API errors.
    */
   async getSubscription(
     topicName: string,
@@ -1347,11 +1332,11 @@ export class ServiceBusManagementClient extends ServiceClient {
     operationOptions?: OperationOptions
   ): Promise<SubscriptionResponse> {
     const { span, updatedOperationOptions } = createSpan(
-      "ServiceBusManagementClient-getSubscription",
+      "ServiceBusAdministrationClient-getSubscription",
       operationOptions
     );
     try {
-      log.httpAtomXml(
+      logger.verbose(
         `Performing management operation - getSubscription() for "${subscriptionName}"`
       );
       const fullPath = this.getSubscriptionPath(topicName, subscriptionName);
@@ -1386,8 +1371,7 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @throws `RestError` with code `ServerBusyError` when the request fails due to server being busy,
    * @throws `RestError` with code `ServiceError` when receiving unrecognized HTTP status or for a scenarios such as
    * bad requests or requests resulting in conflicting operation on the server,
-   * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
-   * https://docs.microsoft.com/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
+   * @throws `RestError` with code and statusCode representing the standard set of REST API errors.
    */
   async getSubscriptionRuntimeProperties(
     topicName: string,
@@ -1395,11 +1379,11 @@ export class ServiceBusManagementClient extends ServiceClient {
     operationOptions?: OperationOptions
   ): Promise<SubscriptionRuntimePropertiesResponse> {
     const { span, updatedOperationOptions } = createSpan(
-      "ServiceBusManagementClient-getSubscriptionRuntimeProperties",
+      "ServiceBusAdministrationClient-getSubscriptionRuntimeProperties",
       operationOptions
     );
     try {
-      log.httpAtomXml(
+      logger.verbose(
         `Performing management operation - getSubscriptionRuntimeProperties() for "${subscriptionName}"`
       );
       const fullPath = this.getSubscriptionPath(topicName, subscriptionName);
@@ -1433,19 +1417,18 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @throws `RestError` with code `ServerBusyError` when the request fails due to server being busy,
    * @throws `RestError` with code `ServiceError` when receiving unrecognized HTTP status or for a scenarios such as
    * bad requests or requests resulting in conflicting operation on the server,
-   * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
-   * https://docs.microsoft.com/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
+   * @throws `RestError` with code and statusCode representing the standard set of REST API errors.
    */
   private async getSubscriptions(
     topicName: string,
     options?: ListRequestOptions & OperationOptions
   ): Promise<EntitiesResponse<SubscriptionProperties>> {
     const { span, updatedOperationOptions } = createSpan(
-      "ServiceBusManagementClient-getSubscriptions",
+      "ServiceBusAdministrationClient-getSubscriptions",
       options
     );
     try {
-      log.httpAtomXml(
+      logger.verbose(
         `Performing management operation - getSubscriptions() with options: ${options}`
       );
       const response: HttpOperationResponse = await this.listResources(
@@ -1500,20 +1483,20 @@ export class ServiceBusManagementClient extends ServiceClient {
    *
    * .byPage() returns an async iterable iterator to list the subscriptions in pages.
    *
-   * @memberof ServiceBusManagementClient
+   * @memberof ServiceBusAdministrationClient
    * @param {string} topicName
    * @param {OperationOptions} [options]
    * @returns {PagedAsyncIterableIterator<
    *     SubscriptionProperties,
    *     EntitiesResponse<SubscriptionProperties>
    *   >} An asyncIterableIterator that supports paging.
-   * @memberof ServiceBusManagementClient
+   * @memberof ServiceBusAdministrationClient
    */
   public listSubscriptions(
     topicName: string,
     options?: OperationOptions
   ): PagedAsyncIterableIterator<SubscriptionProperties, EntitiesResponse<SubscriptionProperties>> {
-    log.httpAtomXml(
+    logger.verbose(
       `Performing management operation - listSubscriptions() with options: ${options}`
     );
     const iter = this.listSubscriptionsAll(topicName, options);
@@ -1554,19 +1537,18 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @throws `RestError` with code `ServerBusyError` when the request fails due to server being busy,
    * @throws `RestError` with code `ServiceError` when receiving unrecognized HTTP status or for a scenarios such as
    * bad requests or requests resulting in conflicting operation on the server,
-   * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
-   * https://docs.microsoft.com/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
+   * @throws `RestError` with code and statusCode representing the standard set of REST API errors.
    */
   private async getSubscriptionsRuntimeProperties(
     topicName: string,
     options?: ListRequestOptions & OperationOptions
   ): Promise<EntitiesResponse<SubscriptionRuntimeProperties>> {
     const { span, updatedOperationOptions } = createSpan(
-      "ServiceBusManagementClient-getSubscriptionsRuntimeProperties",
+      "ServiceBusAdministrationClient-getSubscriptionsRuntimeProperties",
       options
     );
     try {
-      log.httpAtomXml(
+      logger.verbose(
         `Performing management operation - getSubscriptionsRuntimeProperties() with options: ${options}`
       );
       const response: HttpOperationResponse = await this.listResources(
@@ -1631,7 +1613,7 @@ export class ServiceBusManagementClient extends ServiceClient {
    *     EntitiesResponse<SubscriptionRuntimeProperties>,
 
    *   >}  An asyncIterableIterator that supports paging.
-   * @memberof ServiceBusManagementClient
+   * @memberof ServiceBusAdministrationClient
    */
   public listSubscriptionsRuntimeProperties(
     topicName: string,
@@ -1640,7 +1622,7 @@ export class ServiceBusManagementClient extends ServiceClient {
     SubscriptionRuntimeProperties,
     EntitiesResponse<SubscriptionRuntimeProperties>
   > {
-    log.httpAtomXml(
+    logger.verbose(
       `Performing management operation - listSubscriptionsRuntimeProperties() with options: ${options}`
     );
     const iter = this.listSubscriptionsRuntimePropertiesAll(topicName, options);
@@ -1687,19 +1669,18 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @throws `RestError` with code `ServerBusyError` when the request fails due to server being busy,
    * @throws `RestError` with code `ServiceError` when receiving unrecognized HTTP status or for a scenarios such as
    * bad requests or requests resulting in conflicting operation on the server,
-   * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
-   * https://docs.microsoft.com/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
+   * @throws `RestError` with code and statusCode representing the standard set of REST API errors.
    */
   async updateSubscription(
     subscription: SubscriptionProperties,
     operationOptions?: OperationOptions
   ): Promise<SubscriptionResponse> {
     const { span, updatedOperationOptions } = createSpan(
-      "ServiceBusManagementClient-updateSubscription",
+      "ServiceBusAdministrationClient-updateSubscription",
       operationOptions
     );
     try {
-      log.httpAtomXml(
+      logger.verbose(
         `Performing management operation - updateSubscription() for "${subscription.subscriptionName}" with options: ${subscription}`
       );
 
@@ -1753,8 +1734,7 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @throws `RestError` with code `ServerBusyError` when the request fails due to server being busy,
    * @throws `RestError` with code `ServiceError` when receiving unrecognized HTTP status or for a scenarios such as
    * bad requests or requests resulting in conflicting operation on the server,
-   * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
-   * https://docs.microsoft.com/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
+   * @throws `RestError` with code and statusCode representing the standard set of REST API errors.
    */
   async deleteSubscription(
     topicName: string,
@@ -1762,11 +1742,11 @@ export class ServiceBusManagementClient extends ServiceClient {
     operationOptions?: OperationOptions
   ): Promise<Response> {
     const { span, updatedOperationOptions } = createSpan(
-      "ServiceBusManagementClient-deleteSubscription",
+      "ServiceBusAdministrationClient-deleteSubscription",
       operationOptions
     );
     try {
-      log.httpAtomXml(
+      logger.verbose(
         `Performing management operation - deleteSubscription() for "${subscriptionName}"`
       );
       const fullPath = this.getSubscriptionPath(topicName, subscriptionName);
@@ -1800,11 +1780,11 @@ export class ServiceBusManagementClient extends ServiceClient {
     operationOptions?: OperationOptions
   ): Promise<boolean> {
     const { span, updatedOperationOptions } = createSpan(
-      "ServiceBusManagementClient-subscriptionExists",
+      "ServiceBusAdministrationClient-subscriptionExists",
       operationOptions
     );
     try {
-      log.httpAtomXml(
+      logger.verbose(
         `Performing management operation - subscriptionExists() for "${topicName}" and "${subscriptionName}"`
       );
       try {
@@ -1843,8 +1823,7 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @throws `RestError` with code `ServerBusyError` when the request fails due to server being busy,
    * @throws `RestError` with code `ServiceError` when receiving unrecognized HTTP status or for a scenarios such as
    * bad requests or requests resulting in conflicting operation on the server,
-   * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
-   * https://docs.microsoft.com/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
+   * @throws `RestError` with code and statusCode representing the standard set of REST API errors.
    */
   createRule(
     topicName: string,
@@ -1870,8 +1849,7 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @throws `RestError` with code `ServerBusyError` when the request fails due to server being busy,
    * @throws `RestError` with code `ServiceError` when receiving unrecognized HTTP status or for a scenarios such as
    * bad requests or requests resulting in conflicting operation on the server,
-   * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
-   * https://docs.microsoft.com/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
+   * @throws `RestError` with code and statusCode representing the standard set of REST API errors.
    */
   createRule(
     topicName: string,
@@ -1903,11 +1881,11 @@ export class ServiceBusManagementClient extends ServiceClient {
       }
     }
     const { span, updatedOperationOptions } = createSpan(
-      "ServiceBusManagementClient-createRule",
+      "ServiceBusAdministrationClient-createRule",
       operOptions
     );
     try {
-      log.httpAtomXml(
+      logger.verbose(
         `Performing management operation - createRule() for "${ruleName}" with filter: "${ruleFilter}"`
       );
       const fullPath = this.getRulePath(topicName, subscriptionName, ruleName);
@@ -1944,8 +1922,7 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @throws `RestError` with code `ServerBusyError` when the request fails due to server being busy,
    * @throws `RestError` with code `ServiceError` when receiving unrecognized HTTP status or for a scenarios such as
    * bad requests or requests resulting in conflicting operation on the server,
-   * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
-   * https://docs.microsoft.com/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
+   * @throws `RestError` with code and statusCode representing the standard set of REST API errors.
    */
   async getRule(
     topicName: string,
@@ -1954,11 +1931,11 @@ export class ServiceBusManagementClient extends ServiceClient {
     operationOptions?: OperationOptions
   ): Promise<RuleResponse> {
     const { span, updatedOperationOptions } = createSpan(
-      "ServiceBusManagementClient-getRule",
+      "ServiceBusAdministrationClient-getRule",
       operationOptions
     );
     try {
-      log.httpAtomXml(`Performing management operation - getRule() for "${ruleName}"`);
+      logger.verbose(`Performing management operation - getRule() for "${ruleName}"`);
       const fullPath = this.getRulePath(topicName, subscriptionName, ruleName);
       const response: HttpOperationResponse = await this.getResource(
         fullPath,
@@ -1990,8 +1967,7 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @throws `RestError` with code `ServerBusyError` when the request fails due to server being busy,
    * @throws `RestError` with code `ServiceError` when receiving unrecognized HTTP status or for a scenarios such as
    * bad requests or requests resulting in conflicting operation on the server,
-   * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
-   * https://docs.microsoft.com/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
+   * @throws `RestError` with code and statusCode representing the standard set of REST API errors.
    */
   private async getRules(
     topicName: string,
@@ -1999,11 +1975,11 @@ export class ServiceBusManagementClient extends ServiceClient {
     options?: ListRequestOptions & OperationOptions
   ): Promise<EntitiesResponse<RuleProperties>> {
     const { span, updatedOperationOptions } = createSpan(
-      "ServiceBusManagementClient-getRules",
+      "ServiceBusAdministrationClient-getRules",
       options
     );
     try {
-      log.httpAtomXml(`Performing management operation - getRules() with options: ${options}`);
+      logger.verbose(`Performing management operation - getRules() with options: ${options}`);
       const fullPath = this.getSubscriptionPath(topicName, subscriptionName) + "/Rules/";
       const response: HttpOperationResponse = await this.listResources(
         fullPath,
@@ -2062,14 +2038,14 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @param {string} subscriptionName
    * @param {OperationOptions} [options]
    * @returns {PagedAsyncIterableIterator<RuleProperties, EntitiesResponse<RuleProperties>>} An asyncIterableIterator that supports paging.
-   * @memberof ServiceBusManagementClient
+   * @memberof ServiceBusAdministrationClient
    */
   public listRules(
     topicName: string,
     subscriptionName: string,
     options?: OperationOptions
   ): PagedAsyncIterableIterator<RuleProperties, EntitiesResponse<RuleProperties>> {
-    log.httpAtomXml(`Performing management operation - listRules() with options: ${options}`);
+    logger.verbose(`Performing management operation - listRules() with options: ${options}`);
     const iter = this.listRulesAll(topicName, subscriptionName, options);
     return {
       /**
@@ -2116,8 +2092,7 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @throws `RestError` with code `ServerBusyError` when the request fails due to server being busy,
    * @throws `RestError` with code `ServiceError` when receiving unrecognized HTTP status or for a scenarios such as
    * bad requests or requests resulting in conflicting operation on the server,
-   * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
-   * https://docs.microsoft.com/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
+   * @throws `RestError` with code and statusCode representing the standard set of REST API errors.
    */
   async updateRule(
     topicName: string,
@@ -2126,11 +2101,11 @@ export class ServiceBusManagementClient extends ServiceClient {
     operationOptions?: OperationOptions
   ): Promise<RuleResponse> {
     const { span, updatedOperationOptions } = createSpan(
-      "ServiceBusManagementClient-updateRule",
+      "ServiceBusAdministrationClient-updateRule",
       operationOptions
     );
     try {
-      log.httpAtomXml(
+      logger.verbose(
         `Performing management operation - updateRule() for "${rule.name}" with options: ${rule}`
       );
 
@@ -2179,8 +2154,7 @@ export class ServiceBusManagementClient extends ServiceClient {
    * @throws `RestError` with code `ServerBusyError` when the request fails due to server being busy,
    * @throws `RestError` with code `ServiceError` when receiving unrecognized HTTP status or for a scenarios such as
    * bad requests or requests resulting in conflicting operation on the server,
-   * @throws `RestError` with code that is a value from the standard set of HTTP status codes as documented at
-   * https://docs.microsoft.com/dotnet/api/system.net.httpstatuscode?view=netframework-4.8
+   * @throws `RestError` with code and statusCode representing the standard set of REST API errors.
    */
   async deleteRule(
     topicName: string,
@@ -2189,11 +2163,11 @@ export class ServiceBusManagementClient extends ServiceClient {
     operationOptions?: OperationOptions
   ): Promise<Response> {
     const { span, updatedOperationOptions } = createSpan(
-      "ServiceBusManagementClient-deleteRule",
+      "ServiceBusAdministrationClient-deleteRule",
       operationOptions
     );
     try {
-      log.httpAtomXml(`Performing management operation - deleteRule() for "${ruleName}"`);
+      logger.verbose(`Performing management operation - deleteRule() for "${ruleName}"`);
       const fullPath = this.getRulePath(topicName, subscriptionName, ruleName);
       const response: HttpOperationResponse = await this.deleteResource(
         fullPath,
@@ -2228,11 +2202,11 @@ export class ServiceBusManagementClient extends ServiceClient {
     operationOptions?: OperationOptions
   ): Promise<boolean> {
     const { span, updatedOperationOptions } = createSpan(
-      "ServiceBusManagementClient-ruleExists",
+      "ServiceBusAdministrationClient-ruleExists",
       operationOptions
     );
     try {
-      log.httpAtomXml(`Performing management operation - ruleExists() for "${ruleName}"`);
+      logger.verbose(`Performing management operation - ruleExists() for "${ruleName}"`);
       try {
         await this.getRule(topicName, subscriptionName, ruleName, updatedOperationOptions);
       } catch (error) {
@@ -2272,7 +2246,7 @@ export class ServiceBusManagementClient extends ServiceClient {
     operationOptions: OperationOptions = {}
   ): Promise<HttpOperationResponse> {
     const { span, updatedOperationOptions } = createSpan(
-      "ServiceBusManagementClient-putResource",
+      "ServiceBusAdministrationClient-putResource",
       operationOptions
     );
     try {
@@ -2337,7 +2311,7 @@ export class ServiceBusManagementClient extends ServiceClient {
     operationOptions: OperationOptions = {}
   ): Promise<HttpOperationResponse> {
     const { span, updatedOperationOptions } = createSpan(
-      "ServiceBusManagementClient-getResource",
+      "ServiceBusAdministrationClient-getResource",
       operationOptions
     );
     try {
@@ -2386,7 +2360,7 @@ export class ServiceBusManagementClient extends ServiceClient {
     serializer: AtomXmlSerializer
   ): Promise<HttpOperationResponse> {
     const { span, updatedOperationOptions } = createSpan(
-      "ServiceBusManagementClient-listResources",
+      "ServiceBusAdministrationClient-listResources",
       options
     );
     try {
@@ -2424,7 +2398,7 @@ export class ServiceBusManagementClient extends ServiceClient {
     operationOptions: OperationOptions = {}
   ): Promise<HttpOperationResponse> {
     const { span, updatedOperationOptions } = createSpan(
-      "ServiceBusManagementClient-deleteResource",
+      "ServiceBusAdministrationClient-deleteResource",
       operationOptions
     );
     try {
@@ -2489,7 +2463,7 @@ export class ServiceBusManagementClient extends ServiceClient {
       });
       return namespaceResponse;
     } catch (err) {
-      log.warning("Failure parsing response from service - %0 ", err);
+      logError(err, "Failure parsing response from service - %0 ", err);
       throw new RestError(
         `Error occurred while parsing the response body - cannot form a namespace object using the response from the service.`,
         RestError.PARSE_ERROR,
@@ -2522,7 +2496,7 @@ export class ServiceBusManagementClient extends ServiceClient {
       listQueuesResponse.continuationToken = nextMarker;
       return listQueuesResponse;
     } catch (err) {
-      log.warning("Failure parsing response from service - %0 ", err);
+      logError(err, "Failure parsing response from service - %0 ", err);
       throw new RestError(
         `Error occurred while parsing the response body - cannot form a list of queues using the response from the service.`,
         RestError.PARSE_ERROR,
@@ -2555,7 +2529,7 @@ export class ServiceBusManagementClient extends ServiceClient {
       listQueuesResponse.continuationToken = nextMarker;
       return listQueuesResponse;
     } catch (err) {
-      log.warning("Failure parsing response from service - %0 ", err);
+      logError(err, "Failure parsing response from service - %0 ", err);
       throw new RestError(
         `Error occurred while parsing the response body - cannot form a list of queues using the response from the service.`,
         RestError.PARSE_ERROR,
@@ -2574,7 +2548,7 @@ export class ServiceBusManagementClient extends ServiceClient {
       });
       return queueResponse;
     } catch (err) {
-      log.warning("Failure parsing response from service - %0 ", err);
+      logError(err, "Failure parsing response from service - %0 ", err);
       throw new RestError(
         `Error occurred while parsing the response body - cannot form a queue object using the response from the service.`,
         RestError.PARSE_ERROR,
@@ -2595,7 +2569,7 @@ export class ServiceBusManagementClient extends ServiceClient {
       });
       return queueResponse;
     } catch (err) {
-      log.warning("Failure parsing response from service - %0 ", err);
+      logError(err, "Failure parsing response from service - %0 ", err);
       throw new RestError(
         `Error occurred while parsing the response body - cannot form a queue object using the response from the service.`,
         RestError.PARSE_ERROR,
@@ -2628,7 +2602,7 @@ export class ServiceBusManagementClient extends ServiceClient {
       listTopicsResponse.continuationToken = nextMarker;
       return listTopicsResponse;
     } catch (err) {
-      log.warning("Failure parsing response from service - %0 ", err);
+      logError(err, "Failure parsing response from service - %0 ", err);
       throw new RestError(
         `Error occurred while parsing the response body - cannot form a list of topics using the response from the service.`,
         RestError.PARSE_ERROR,
@@ -2661,7 +2635,7 @@ export class ServiceBusManagementClient extends ServiceClient {
       listTopicsResponse.continuationToken = nextMarker;
       return listTopicsResponse;
     } catch (err) {
-      log.warning("Failure parsing response from service - %0 ", err);
+      logError(err, "Failure parsing response from service - %0 ", err);
       throw new RestError(
         `Error occurred while parsing the response body - cannot form a list of topics using the response from the service.`,
         RestError.PARSE_ERROR,
@@ -2679,7 +2653,7 @@ export class ServiceBusManagementClient extends ServiceClient {
       });
       return topicResponse;
     } catch (err) {
-      log.warning("Failure parsing response from service - %0 ", err);
+      logError(err, "Failure parsing response from service - %0 ", err);
       throw new RestError(
         `Error occurred while parsing the response body - cannot form a topic object using the response from the service.`,
         RestError.PARSE_ERROR,
@@ -2700,7 +2674,7 @@ export class ServiceBusManagementClient extends ServiceClient {
       });
       return topicResponse;
     } catch (err) {
-      log.warning("Failure parsing response from service - %0 ", err);
+      logError(err, "Failure parsing response from service - %0 ", err);
       throw new RestError(
         `Error occurred while parsing the response body - cannot form a topic object using the response from the service.`,
         RestError.PARSE_ERROR,
@@ -2736,7 +2710,7 @@ export class ServiceBusManagementClient extends ServiceClient {
       listSubscriptionsResponse.continuationToken = nextMarker;
       return listSubscriptionsResponse;
     } catch (err) {
-      log.warning("Failure parsing response from service - %0 ", err);
+      logError(err, "Failure parsing response from service - %0 ", err);
       throw new RestError(
         `Error occurred while parsing the response body - cannot form a list of subscriptions using the response from the service.`,
         RestError.PARSE_ERROR,
@@ -2772,7 +2746,7 @@ export class ServiceBusManagementClient extends ServiceClient {
       listSubscriptionsResponse.continuationToken = nextMarker;
       return listSubscriptionsResponse;
     } catch (err) {
-      log.warning("Failure parsing response from service - %0 ", err);
+      logError(err, "Failure parsing response from service - %0 ", err);
       throw new RestError(
         `Error occurred while parsing the response body - cannot form a list of subscriptions using the response from the service.`,
         RestError.PARSE_ERROR,
@@ -2791,7 +2765,7 @@ export class ServiceBusManagementClient extends ServiceClient {
       });
       return subscriptionResponse;
     } catch (err) {
-      log.warning("Failure parsing response from service - %0 ", err);
+      logError(err, "Failure parsing response from service - %0 ", err);
       throw new RestError(
         `Error occurred while parsing the response body - cannot form a subscription object using the response from the service.`,
         RestError.PARSE_ERROR,
@@ -2815,7 +2789,7 @@ export class ServiceBusManagementClient extends ServiceClient {
       );
       return subscriptionResponse;
     } catch (err) {
-      log.warning("Failure parsing response from service - %0 ", err);
+      logError(err, "Failure parsing response from service - %0 ", err);
       throw new RestError(
         `Error occurred while parsing the response body - cannot form a subscription object using the response from the service.`,
         RestError.PARSE_ERROR,
@@ -2848,7 +2822,7 @@ export class ServiceBusManagementClient extends ServiceClient {
       listRulesResponse.continuationToken = nextMarker;
       return listRulesResponse;
     } catch (err) {
-      log.warning("Failure parsing response from service - %0 ", err);
+      logError(err, "Failure parsing response from service - %0 ", err);
       throw new RestError(
         `Error occurred while parsing the response body - cannot form a list of rules using the response from the service.`,
         RestError.PARSE_ERROR,
@@ -2865,7 +2839,7 @@ export class ServiceBusManagementClient extends ServiceClient {
       const ruleResponse: RuleResponse = Object.assign(rule || {}, { _response: response });
       return ruleResponse;
     } catch (err) {
-      log.warning("Failure parsing response from service - %0 ", err);
+      logError(err, "Failure parsing response from service - %0 ", err);
       throw new RestError(
         `Error occurred while parsing the response body - cannot form a rule object using the response from the service.`,
         RestError.PARSE_ERROR,

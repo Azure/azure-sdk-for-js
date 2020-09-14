@@ -31,13 +31,13 @@ export function startRecorder(that: any) {
       AZ_CONFIG_ENDPOINT: "https://myappconfig.azconfig.io",
       AZURE_CLIENT_ID: "azure_client_id",
       AZURE_CLIENT_SECRET: "azure_client_secret",
-      AZURE_TENANT_ID: "azure_tenant_id",
+      AZURE_TENANT_ID: "azure_tenant_id"
     },
     customizationsOnRecordings: [
       (recording: any): any =>
-        recording.replace(/"access_token":"[^"]*"/g, `"access_token":"access_token"`),
+        recording.replace(/"access_token":"[^"]*"/g, `"access_token":"access_token"`)
     ],
-    queryParametersToSkip: [],
+    queryParametersToSkip: []
   };
 
   return record(that, recorderEnvSetup);
@@ -48,7 +48,7 @@ export function getTokenAuthenticationCredential(): CredsAndEndpoint | undefined
     "AZ_CONFIG_ENDPOINT",
     "AZURE_CLIENT_ID",
     "AZURE_TENANT_ID",
-    "AZURE_CLIENT_SECRET",
+    "AZURE_CLIENT_SECRET"
   ];
 
   for (const name of requiredEnvironmentVariables) {
@@ -66,7 +66,7 @@ export function getTokenAuthenticationCredential(): CredsAndEndpoint | undefined
 
   return {
     credential: new DefaultAzureCredential(),
-    endpoint: env["AZ_CONFIG_ENDPOINT"]!,
+    endpoint: env["AZ_CONFIG_ENDPOINT"]!
   };
 }
 
@@ -90,7 +90,7 @@ export function createAppConfigurationClientForTests(
 
 export async function deleteKeyCompletely(keys: string[], client: AppConfigurationClient) {
   const settingsIterator = client.listConfigurationSettings({
-    keyFilter: keys.join(","),
+    keyFilter: keys.join(",")
   });
 
   for await (const setting of settingsIterator) {
@@ -142,7 +142,7 @@ export function assertEqualSettings(
       key: setting.key,
       label: setting.label,
       value: setting.value,
-      isReadOnly: setting.isReadOnly,
+      isReadOnly: setting.isReadOnly
     };
   });
 

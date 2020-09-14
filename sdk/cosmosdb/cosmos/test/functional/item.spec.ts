@@ -256,7 +256,9 @@ describe("bulk item operations", function() {
         class: "2010"
       });
     });
-    after(async () => { await container.database.delete() })
+    after(async () => {
+      await container.database.delete();
+    });
     it("handles create, upsert, replace, delete", async function() {
       const operations = [
         {
@@ -334,7 +336,9 @@ describe("bulk item operations", function() {
         class: "2012"
       });
     });
-    after(async () => { await v2Container.database.delete() })
+    after(async () => {
+      await v2Container.database.delete();
+    });
     it("handles create, upsert, replace, delete", async function() {
       const operations = [
         {
@@ -458,7 +462,7 @@ describe("bulk item operations", function() {
       };
 
       const deleteResponse = await container.items.bulk([operation]);
-      assert.equal(deleteResponse[0].statusCode, 204)
+      assert.equal(deleteResponse[0].statusCode, 204);
     });
   });
 });

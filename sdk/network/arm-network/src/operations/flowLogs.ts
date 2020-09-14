@@ -42,6 +42,46 @@ export class FlowLogs {
   }
 
   /**
+   * Update tags of the specified flow log.
+   * @param resourceGroupName The name of the resource group.
+   * @param networkWatcherName The name of the network watcher.
+   * @param flowLogName The name of the flow log.
+   * @param parameters Parameters supplied to update flow log tags.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.FlowLogsUpdateTagsResponse>
+   */
+  updateTags(resourceGroupName: string, networkWatcherName: string, flowLogName: string, parameters: Models.TagsObject, options?: msRest.RequestOptionsBase): Promise<Models.FlowLogsUpdateTagsResponse>;
+  /**
+   * @param resourceGroupName The name of the resource group.
+   * @param networkWatcherName The name of the network watcher.
+   * @param flowLogName The name of the flow log.
+   * @param parameters Parameters supplied to update flow log tags.
+   * @param callback The callback
+   */
+  updateTags(resourceGroupName: string, networkWatcherName: string, flowLogName: string, parameters: Models.TagsObject, callback: msRest.ServiceCallback<Models.FlowLog>): void;
+  /**
+   * @param resourceGroupName The name of the resource group.
+   * @param networkWatcherName The name of the network watcher.
+   * @param flowLogName The name of the flow log.
+   * @param parameters Parameters supplied to update flow log tags.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  updateTags(resourceGroupName: string, networkWatcherName: string, flowLogName: string, parameters: Models.TagsObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.FlowLog>): void;
+  updateTags(resourceGroupName: string, networkWatcherName: string, flowLogName: string, parameters: Models.TagsObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.FlowLog>, callback?: msRest.ServiceCallback<Models.FlowLog>): Promise<Models.FlowLogsUpdateTagsResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        networkWatcherName,
+        flowLogName,
+        parameters,
+        options
+      },
+      updateTagsOperationSpec,
+      callback) as Promise<Models.FlowLogsUpdateTagsResponse>;
+  }
+
+  /**
    * Gets a flow log resource by name.
    * @param resourceGroupName The name of the resource group.
    * @param networkWatcherName The name of the network watcher.
@@ -195,6 +235,39 @@ export class FlowLogs {
 
 // Operation Specifications
 const serializer = new msRest.Serializer(Mappers);
+const updateTagsOperationSpec: msRest.OperationSpec = {
+  httpMethod: "PATCH",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/flowLogs/{flowLogName}",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.networkWatcherName,
+    Parameters.flowLogName,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion0
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "parameters",
+    mapper: {
+      ...Mappers.TagsObject,
+      required: true
+    }
+  },
+  responses: {
+    200: {
+      bodyMapper: Mappers.FlowLog
+    },
+    default: {
+      bodyMapper: Mappers.ErrorResponse
+    }
+  },
+  serializer
+};
+
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/networkWatchers/{networkWatcherName}/flowLogs/{flowLogName}",

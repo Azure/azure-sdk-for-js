@@ -1,5 +1,14 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { AvroReadable, AvroReader } from "../../storage-internal-avro/src";
 
+/**
+ * Creates AvroReaders.  Allows us to inject mock AvroReaders in the Chunk unit tests.
+ *
+ * @export
+ * @class AvroReaderFactory
+ */
 export class AvroReaderFactory {
   public create(headerAndDataStream: AvroReadable): AvroReader;
 

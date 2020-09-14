@@ -10,23 +10,23 @@ import {
   InternalMessageHandlers
 } from "../models";
 import { OperationOptionsBase } from "../modelsToBeSharedWithEventHubs";
-import { ReceivedMessage } from "..";
+import { ServiceBusReceivedMessage } from "..";
 import { ConnectionContext } from "../connectionContext";
 import {
   getAlreadyReceivingErrorMsg,
   getReceiverClosedErrorMsg,
+  logError,
   throwErrorIfConnectionClosed,
   throwTypeErrorIfParameterMissing,
   throwTypeErrorIfParameterNotLong
 } from "../util/errors";
-import * as log from "../log";
 import { OnError, OnMessage, ReceiveOptions } from "../core/messageReceiver";
 import { StreamingReceiver } from "../core/streamingReceiver";
 import { BatchingReceiver } from "../core/batchingReceiver";
 import { assertValidMessageHandlers, getMessageIterator, wrapProcessErrorHandler } from "./shared";
 import { convertToInternalReceiveMode } from "../constructorHelpers";
 import Long from "long";
-import { ReceivedMessageWithLock, ServiceBusMessageImpl } from "../serviceBusMessage";
+import { ServiceBusReceivedMessageWithLock, ServiceBusMessageImpl } from "../serviceBusMessage";
 import { Constants, RetryConfig, RetryOperationType, RetryOptions, retry } from "@azure/core-amqp";
 import "@azure/core-asynciterator-polyfill";
 
@@ -108,7 +108,10 @@ export interface ServiceBusReceiver<ReceivedMessageT> {
    * @param options Options that allow to specify the maximum number of messages to peek,
    * the sequenceNumber to start peeking from or an abortSignal to abort the operation.
    */
-  peekMessages(maxMessageCount: number, options?: PeekMessagesOptions): Promise<ReceivedMessage[]>;
+  peekMessages(
+    maxMessageCount: number,
+    options?: PeekMessagesOptions
+  ): Promise<ServiceBusReceivedMessage[]>;
   /**
    * Path of the entity for which the receiver has been created.
    */
@@ -135,7 +138,7 @@ export interface ServiceBusReceiver<ReceivedMessageT> {
  * @ignore
  */
 export class ServiceBusReceiverImpl<
-  ReceivedMessageT extends ReceivedMessage | ReceivedMessageWithLock
+  ReceivedMessageT extends ServiceBusReceivedMessage | ServiceBusReceivedMessageWithLock
 > implements ServiceBusReceiver<ReceivedMessageT> {
   private _retryOptions: RetryOptions;
   /**
@@ -170,7 +173,7 @@ export class ServiceBusReceiverImpl<
     if (this._isReceivingMessages()) {
       const errorMessage = getAlreadyReceivingErrorMsg(this.entityPath);
       const error = new Error(errorMessage);
-      log.error(`[${this._context.connectionId}] %O`, error);
+      logError(error, `[${this._context.connectionId}] %O`, error);
       throw error;
     }
   }
@@ -180,7 +183,7 @@ export class ServiceBusReceiverImpl<
     if (this.isClosed) {
       const errorMessage = getReceiverClosedErrorMsg(this.entityPath);
       const error = new Error(errorMessage);
-      log.error(`[${this._context.connectionId}] %O`, error);
+      logError(error, `[${this._context.connectionId}] %O`, error);
       throw error;
     }
   }
@@ -370,7 +373,7 @@ export class ServiceBusReceiverImpl<
   async peekMessages(
     maxMessageCount: number,
     options: PeekMessagesOptions = {}
-  ): Promise<ReceivedMessage[]> {
+  ): Promise<ServiceBusReceivedMessage[]> {
     this._throwIfReceiverOrConnectionClosed();
 
     if (maxMessageCount == undefined) {
@@ -400,14 +403,14 @@ export class ServiceBusReceiverImpl<
       }
     };
 
-    const config: RetryConfig<ReceivedMessage[]> = {
+    const config: RetryConfig<ServiceBusReceivedMessage[]> = {
       operation: peekOperationPromise,
       connectionId: this._context.connectionId,
       operationType: RetryOperationType.management,
       retryOptions: this._retryOptions,
       abortSignal: options?.abortSignal
     };
-    return retry<ReceivedMessage[]>(config);
+    return retry<ServiceBusReceivedMessage[]>(config);
   }
 
   subscribe(
@@ -459,7 +462,8 @@ export class ServiceBusReceiverImpl<
         }
       }
     } catch (err) {
-      log.error(
+      logError(
+        err,
         "[%s] An error occurred while closing the Receiver for %s: %O",
         this._context.connectionId,
         this.entityPath,
