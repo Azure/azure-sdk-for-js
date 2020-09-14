@@ -12,25 +12,6 @@ import * as msRest from "@azure/ms-rest-js";
 export const CloudError = CloudErrorMapper;
 export const BaseResource = BaseResourceMapper;
 
-export const DigitalTwinsSkuInfo: msRest.CompositeMapper = {
-  serializedName: "DigitalTwinsSkuInfo",
-  type: {
-    name: "Composite",
-    className: "DigitalTwinsSkuInfo",
-    modelProperties: {
-      name: {
-        required: true,
-        isConstant: true,
-        serializedName: "name",
-        defaultValue: 'F1',
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
 export const DigitalTwinsResource: msRest.CompositeMapper = {
   serializedName: "DigitalTwinsResource",
   type: {
@@ -48,7 +29,7 @@ export const DigitalTwinsResource: msRest.CompositeMapper = {
         readOnly: true,
         serializedName: "name",
         constraints: {
-          Pattern: /^(?![0-9]+$)(?!-)[a-zA-Z0-9-]{2,49}[a-zA-Z0-9]$/
+          Pattern: /^(?!-)[A-Za-z0-9-]{3,63}(?<!-)$/
         },
         type: {
           name: "String"
@@ -69,6 +50,7 @@ export const DigitalTwinsResource: msRest.CompositeMapper = {
         }
       },
       tags: {
+        nullable: true,
         serializedName: "tags",
         type: {
           name: "Dictionary",
@@ -77,15 +59,6 @@ export const DigitalTwinsResource: msRest.CompositeMapper = {
               name: "String"
             }
           }
-        }
-      },
-      sku: {
-        isConstant: true,
-        serializedName: "sku",
-        defaultValue: {},
-        type: {
-          name: "Composite",
-          className: "DigitalTwinsSkuInfo"
         }
       }
     }
@@ -121,6 +94,7 @@ export const DigitalTwinsDescription: msRest.CompositeMapper = {
         }
       },
       hostName: {
+        nullable: true,
         readOnly: true,
         serializedName: "properties.hostName",
         type: {
@@ -138,6 +112,7 @@ export const DigitalTwinsPatchDescription: msRest.CompositeMapper = {
     className: "DigitalTwinsPatchDescription",
     modelProperties: {
       tags: {
+        nullable: true,
         serializedName: "tags",
         type: {
           name: "Dictionary",
@@ -173,6 +148,7 @@ export const ErrorDefinition: msRest.CompositeMapper = {
         }
       },
       details: {
+        nullable: true,
         readOnly: true,
         serializedName: "details",
         type: {
@@ -263,6 +239,21 @@ export const Operation: msRest.CompositeMapper = {
           name: "Composite",
           className: "OperationDisplay"
         }
+      },
+      origin: {
+        nullable: true,
+        readOnly: true,
+        serializedName: "origin",
+        type: {
+          name: "String"
+        }
+      },
+      isDataAction: {
+        readOnly: true,
+        serializedName: "isDataAction",
+        type: {
+          name: "Boolean"
+        }
       }
     }
   }
@@ -306,19 +297,15 @@ export const CheckNameResult: msRest.CompositeMapper = {
           name: "Boolean"
         }
       },
-      name: {
-        serializedName: "name",
-        type: {
-          name: "String"
-        }
-      },
       message: {
+        nullable: true,
         serializedName: "message",
         type: {
           name: "String"
         }
       },
       reason: {
+        nullable: true,
         serializedName: "reason",
         type: {
           name: "String"
@@ -374,6 +361,7 @@ export const DigitalTwinsEndpointResourceProperties: msRest.CompositeMapper = {
     className: "DigitalTwinsEndpointResourceProperties",
     modelProperties: {
       provisioningState: {
+        nullable: true,
         readOnly: true,
         serializedName: "provisioningState",
         type: {
@@ -381,21 +369,18 @@ export const DigitalTwinsEndpointResourceProperties: msRest.CompositeMapper = {
         }
       },
       createdTime: {
+        nullable: true,
         readOnly: true,
         serializedName: "createdTime",
         type: {
           name: "DateTime"
         }
       },
-      tags: {
-        serializedName: "tags",
+      deadLetterSecret: {
+        nullable: true,
+        serializedName: "deadLetterSecret",
         type: {
-          name: "Dictionary",
-          value: {
-            type: {
-              name: "String"
-            }
-          }
+          name: "String"
         }
       },
       endpointType: {
@@ -437,13 +422,14 @@ export const ServiceBus: msRest.CompositeMapper = {
       ...DigitalTwinsEndpointResourceProperties.type.modelProperties,
       primaryConnectionString: {
         required: true,
+        nullable: true,
         serializedName: "primaryConnectionString",
         type: {
           name: "String"
         }
       },
       secondaryConnectionString: {
-        required: true,
+        nullable: true,
         serializedName: "secondaryConnectionString",
         type: {
           name: "String"
@@ -464,14 +450,15 @@ export const EventHub: msRest.CompositeMapper = {
       ...DigitalTwinsEndpointResourceProperties.type.modelProperties,
       connectionStringPrimaryKey: {
         required: true,
-        serializedName: "connectionString-PrimaryKey",
+        nullable: true,
+        serializedName: "connectionStringPrimaryKey",
         type: {
           name: "String"
         }
       },
       connectionStringSecondaryKey: {
-        required: true,
-        serializedName: "connectionString-SecondaryKey",
+        nullable: true,
+        serializedName: "connectionStringSecondaryKey",
         type: {
           name: "String"
         }
@@ -490,6 +477,7 @@ export const EventGrid: msRest.CompositeMapper = {
     modelProperties: {
       ...DigitalTwinsEndpointResourceProperties.type.modelProperties,
       topicEndpoint: {
+        required: true,
         serializedName: "TopicEndpoint",
         type: {
           name: "String"
@@ -497,13 +485,14 @@ export const EventGrid: msRest.CompositeMapper = {
       },
       accessKey1: {
         required: true,
+        nullable: true,
         serializedName: "accessKey1",
         type: {
           name: "String"
         }
       },
       accessKey2: {
-        required: true,
+        nullable: true,
         serializedName: "accessKey2",
         type: {
           name: "String"
@@ -520,6 +509,7 @@ export const DigitalTwinsDescriptionListResult: msRest.CompositeMapper = {
     className: "DigitalTwinsDescriptionListResult",
     modelProperties: {
       nextLink: {
+        nullable: true,
         serializedName: "nextLink",
         type: {
           name: "String"
@@ -548,6 +538,7 @@ export const DigitalTwinsEndpointResourceListResult: msRest.CompositeMapper = {
     className: "DigitalTwinsEndpointResourceListResult",
     modelProperties: {
       nextLink: {
+        nullable: true,
         serializedName: "nextLink",
         type: {
           name: "String"
@@ -576,6 +567,7 @@ export const OperationListResult: msRest.CompositeMapper = {
     className: "OperationListResult",
     modelProperties: {
       nextLink: {
+        nullable: true,
         serializedName: "nextLink",
         type: {
           name: "String"

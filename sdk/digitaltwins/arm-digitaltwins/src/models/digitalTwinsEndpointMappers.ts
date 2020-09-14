@@ -14,7 +14,6 @@ export {
   DigitalTwinsEndpointResourceListResult,
   DigitalTwinsEndpointResourceProperties,
   DigitalTwinsResource,
-  DigitalTwinsSkuInfo,
   ErrorDefinition,
   ErrorResponse,
   EventGrid,

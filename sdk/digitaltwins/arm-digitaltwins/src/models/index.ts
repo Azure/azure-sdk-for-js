@@ -12,12 +12,6 @@ import * as msRest from "@azure/ms-rest-js";
 export { BaseResource, CloudError };
 
 /**
- * Information about the SKU of the DigitalTwinsInstance.
- */
-export interface DigitalTwinsSkuInfo {
-}
-
-/**
  * The common properties of a DigitalTwinsInstance.
  */
 export interface DigitalTwinsResource extends BaseResource {
@@ -56,13 +50,13 @@ export interface DigitalTwinsDescription extends DigitalTwinsResource {
    */
   readonly createdTime?: Date;
   /**
-   * Time when DigitalTwinsInstance was created.
+   * Time when DigitalTwinsInstance was updated.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly lastUpdatedTime?: Date;
   /**
    * The provisioning state. Possible values include: 'Provisioning', 'Deleting', 'Succeeded',
-   * 'Failed', 'Canceled'
+   * 'Failed', 'Canceled', 'Deleted', 'Warning', 'Suspending', 'Restoring', 'Moving'
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly provisioningState?: ProvisioningState;
@@ -153,6 +147,16 @@ export interface Operation {
    * Operation properties display
    */
   display?: OperationDisplay;
+  /**
+   * The intended executor of the operation.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly origin?: string;
+  /**
+   * If the operation is a data action (for data plane rbac).
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly isDataAction?: boolean;
 }
 
 /**
@@ -174,10 +178,6 @@ export interface CheckNameResult {
    */
   nameAvailable?: boolean;
   /**
-   * The name that was checked.
-   */
-  name?: string;
-  /**
    * Message indicating an unavailable name due to a conflict, or a description of the naming rules
    * that are violated.
    */
@@ -190,7 +190,7 @@ export interface CheckNameResult {
 }
 
 /**
- * Definition of a Resource.
+ * Definition of a resource.
  */
 export interface ExternalResource {
   /**
@@ -225,7 +225,7 @@ export interface DigitalTwinsEndpointResourceProperties {
   endpointType: "DigitalTwinsEndpointResourceProperties";
   /**
    * The provisioning state. Possible values include: 'Provisioning', 'Deleting', 'Succeeded',
-   * 'Failed', 'Canceled'
+   * 'Failed', 'Canceled', 'Deleted', 'Warning', 'Suspending', 'Restoring', 'Moving', 'Disabled'
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly provisioningState?: EndpointProvisioningState;
@@ -235,9 +235,9 @@ export interface DigitalTwinsEndpointResourceProperties {
    */
   readonly createdTime?: Date;
   /**
-   * The resource tags.
+   * Dead letter storage secret. Will be obfuscated during read.
    */
-  tags?: { [propertyName: string]: string };
+  deadLetterSecret?: string;
 }
 
 /**
@@ -251,7 +251,7 @@ export interface DigitalTwinsEndpointResource extends BaseResource {
 }
 
 /**
- * properties related to servicebus.
+ * Properties related to ServiceBus.
  */
 export interface ServiceBus {
   /**
@@ -260,7 +260,7 @@ export interface ServiceBus {
   endpointType: "ServiceBus";
   /**
    * The provisioning state. Possible values include: 'Provisioning', 'Deleting', 'Succeeded',
-   * 'Failed', 'Canceled'
+   * 'Failed', 'Canceled', 'Deleted', 'Warning', 'Suspending', 'Restoring', 'Moving', 'Disabled'
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly provisioningState?: EndpointProvisioningState;
@@ -270,21 +270,21 @@ export interface ServiceBus {
    */
   readonly createdTime?: Date;
   /**
-   * The resource tags.
+   * Dead letter storage secret. Will be obfuscated during read.
    */
-  tags?: { [propertyName: string]: string };
+  deadLetterSecret?: string;
   /**
-   * PrimaryConnectionString of the endpoint. Will be obfuscated during read
+   * PrimaryConnectionString of the endpoint. Will be obfuscated during read.
    */
   primaryConnectionString: string;
   /**
-   * SecondaryConnectionString of the endpoint. Will be obfuscated during read
+   * SecondaryConnectionString of the endpoint. Will be obfuscated during read.
    */
-  secondaryConnectionString: string;
+  secondaryConnectionString?: string;
 }
 
 /**
- * properties related to eventhub.
+ * Properties related to EventHub.
  */
 export interface EventHub {
   /**
@@ -293,7 +293,7 @@ export interface EventHub {
   endpointType: "EventHub";
   /**
    * The provisioning state. Possible values include: 'Provisioning', 'Deleting', 'Succeeded',
-   * 'Failed', 'Canceled'
+   * 'Failed', 'Canceled', 'Deleted', 'Warning', 'Suspending', 'Restoring', 'Moving', 'Disabled'
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly provisioningState?: EndpointProvisioningState;
@@ -303,21 +303,21 @@ export interface EventHub {
    */
   readonly createdTime?: Date;
   /**
-   * The resource tags.
+   * Dead letter storage secret. Will be obfuscated during read.
    */
-  tags?: { [propertyName: string]: string };
+  deadLetterSecret?: string;
   /**
-   * PrimaryConnectionString of the endpoint. Will be obfuscated during read
+   * PrimaryConnectionString of the endpoint. Will be obfuscated during read.
    */
   connectionStringPrimaryKey: string;
   /**
-   * SecondaryConnectionString of the endpoint. Will be obfuscated during read
+   * SecondaryConnectionString of the endpoint. Will be obfuscated during read.
    */
-  connectionStringSecondaryKey: string;
+  connectionStringSecondaryKey?: string;
 }
 
 /**
- * properties related to eventgrid.
+ * Properties related to EventGrid.
  */
 export interface EventGrid {
   /**
@@ -326,7 +326,7 @@ export interface EventGrid {
   endpointType: "EventGrid";
   /**
    * The provisioning state. Possible values include: 'Provisioning', 'Deleting', 'Succeeded',
-   * 'Failed', 'Canceled'
+   * 'Failed', 'Canceled', 'Deleted', 'Warning', 'Suspending', 'Restoring', 'Moving', 'Disabled'
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly provisioningState?: EndpointProvisioningState;
@@ -336,21 +336,21 @@ export interface EventGrid {
    */
   readonly createdTime?: Date;
   /**
-   * The resource tags.
+   * Dead letter storage secret. Will be obfuscated during read.
    */
-  tags?: { [propertyName: string]: string };
+  deadLetterSecret?: string;
   /**
    * EventGrid Topic Endpoint
    */
-  topicEndpoint?: string;
+  topicEndpoint: string;
   /**
-   * EventGrid secondary accesskey. Will be obfuscated during read
+   * EventGrid secondary accesskey. Will be obfuscated during read.
    */
   accessKey1: string;
   /**
-   * EventGrid secondary accesskey. Will be obfuscated during read
+   * EventGrid secondary accesskey. Will be obfuscated during read.
    */
-  accessKey2: string;
+  accessKey2?: string;
 }
 
 /**
@@ -439,11 +439,12 @@ export interface OperationListResult extends Array<Operation> {
 
 /**
  * Defines values for ProvisioningState.
- * Possible values include: 'Provisioning', 'Deleting', 'Succeeded', 'Failed', 'Canceled'
+ * Possible values include: 'Provisioning', 'Deleting', 'Succeeded', 'Failed', 'Canceled',
+ * 'Deleted', 'Warning', 'Suspending', 'Restoring', 'Moving'
  * @readonly
  * @enum {string}
  */
-export type ProvisioningState = 'Provisioning' | 'Deleting' | 'Succeeded' | 'Failed' | 'Canceled';
+export type ProvisioningState = 'Provisioning' | 'Deleting' | 'Succeeded' | 'Failed' | 'Canceled' | 'Deleted' | 'Warning' | 'Suspending' | 'Restoring' | 'Moving';
 
 /**
  * Defines values for Reason.
@@ -455,11 +456,12 @@ export type Reason = 'Invalid' | 'AlreadyExists';
 
 /**
  * Defines values for EndpointProvisioningState.
- * Possible values include: 'Provisioning', 'Deleting', 'Succeeded', 'Failed', 'Canceled'
+ * Possible values include: 'Provisioning', 'Deleting', 'Succeeded', 'Failed', 'Canceled',
+ * 'Deleted', 'Warning', 'Suspending', 'Restoring', 'Moving', 'Disabled'
  * @readonly
  * @enum {string}
  */
-export type EndpointProvisioningState = 'Provisioning' | 'Deleting' | 'Succeeded' | 'Failed' | 'Canceled';
+export type EndpointProvisioningState = 'Provisioning' | 'Deleting' | 'Succeeded' | 'Failed' | 'Canceled' | 'Deleted' | 'Warning' | 'Suspending' | 'Restoring' | 'Moving' | 'Disabled';
 
 /**
  * Contains response data for the get operation.

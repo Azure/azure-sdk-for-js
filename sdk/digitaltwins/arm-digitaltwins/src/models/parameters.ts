@@ -26,7 +26,7 @@ export const apiVersion: msRest.OperationQueryParameter = {
     required: true,
     isConstant: true,
     serializedName: "api-version",
-    defaultValue: '2020-03-01-preview',
+    defaultValue: '2020-10-31',
     constraints: {
       MinLength: 10
     },
@@ -41,9 +41,9 @@ export const endpointName: msRest.OperationURLParameter = {
     required: true,
     serializedName: "endpointName",
     constraints: {
-      MaxLength: 64,
-      MinLength: 1,
-      Pattern: /^[A-Za-z0-9-._]{1,64}$/
+      MaxLength: 49,
+      MinLength: 2,
+      Pattern: /^(?![0-9]+$)(?!-)[a-zA-Z0-9-]{2,49}[a-zA-Z0-9]$/
     },
     type: {
       name: "String"
@@ -94,8 +94,9 @@ export const resourceName: msRest.OperationURLParameter = {
     required: true,
     serializedName: "resourceName",
     constraints: {
-      MaxLength: 64,
-      MinLength: 1
+      MaxLength: 63,
+      MinLength: 3,
+      Pattern: /^(?!-)[A-Za-z0-9-]{3,63}(?<!-)$/
     },
     type: {
       name: "String"
