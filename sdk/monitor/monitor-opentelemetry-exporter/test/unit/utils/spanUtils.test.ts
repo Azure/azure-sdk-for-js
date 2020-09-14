@@ -7,14 +7,14 @@ import * as assert from "assert";
 import { NoopLogger, hrTimeToMilliseconds } from "@opentelemetry/core";
 
 import { Tags, Properties, Measurements } from "../../../src/types";
-import { RemoteDependencyData, Envelope } from "../../../src/Declarations/Contracts";
+import { Envelope } from "../../../src/Declarations/Contracts";
 import * as http from "../../../src/utils/constants/span/httpAttributes";
 import * as grpc from "../../../src/utils/constants/span/grpcAttributes";
 import * as ai from "../../../src/utils/constants/applicationinsights";
 import { Context, getInstance } from "../../../src/platform";
 import { msToTimeSpan } from "../../../src/utils/breezeUtils";
 import { readableSpanToEnvelope } from "../../../src/utils/spanUtils";
-import { RequestData } from "../../../src/generated";
+import { RemoteDependencyData, RequestData } from "../../../src/generated";
 
 const context = getInstance(undefined, "./", "../../");
 
@@ -139,7 +139,7 @@ describe("spanUtils.ts", () => {
           [ai.AI_OPERATION_ID]: "traceid",
           [ai.AI_OPERATION_PARENT_ID]: "parentSpanId"
         };
-        const expectedProperties: Properties = {
+        const expectedProperties = {
           "extra.attribute": "foo",
           [grpc.GRPC_ERROR_MESSAGE]: "some error message",
           [grpc.GRPC_ERROR_NAME]: "some error name"
@@ -154,7 +154,7 @@ describe("spanUtils.ts", () => {
           data: "/foo.Example/Foo",
           type: "GRPC",
           name: `parent span`,
-          ver: 1,
+          version: 1,
           properties: expectedProperties,
           measurements: {}
         };
@@ -240,7 +240,7 @@ describe("spanUtils.ts", () => {
           [ai.AI_OPERATION_ID]: "traceid",
           [ai.AI_OPERATION_PARENT_ID]: "parentSpanId"
         };
-        const expectedProperties: Properties = {
+        const expectedProperties = {
           "extra.attribute": "foo"
         };
 
@@ -252,7 +252,7 @@ describe("spanUtils.ts", () => {
           target: undefined,
           type: "Dependency",
           name: `parent span`,
-          ver: 1,
+          version: 1,
           properties: expectedProperties,
           measurements: {}
         };
@@ -347,7 +347,7 @@ describe("spanUtils.ts", () => {
           [ai.AI_OPERATION_ID]: span.spanContext.traceId,
           [ai.AI_OPERATION_PARENT_ID]: "parentSpanId"
         };
-        const expectedProperties: Properties = {
+        const expectedProperties = {
           "extra.attribute": "foo"
         };
 
@@ -360,7 +360,7 @@ describe("spanUtils.ts", () => {
           target: "example.com",
           data: "https://example.com/api/example",
           name: `GET /api/example`,
-          ver: 1,
+          version: 1,
           properties: expectedProperties,
           measurements: {}
         };
