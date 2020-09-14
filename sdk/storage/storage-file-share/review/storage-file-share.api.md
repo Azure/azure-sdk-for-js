@@ -835,7 +835,6 @@ export interface FileServiceProperties {
     cors?: CorsRule[];
     hourMetrics?: Metrics;
     minuteMetrics?: Metrics;
-    // Warning: (ae-forgotten-export) The symbol "ProtocolSettings" needs to be exported by the entry point index.d.ts
     protocolSettings?: ProtocolSettings;
 }
 
@@ -1164,6 +1163,11 @@ export class Pipeline {
 // @public
 export interface PipelineOptions {
     httpClient?: IHttpClient;
+}
+
+// @public
+export interface ProtocolSettings {
+    smbSettings?: SmbSettings;
 }
 
 // @public
@@ -1817,6 +1821,16 @@ export interface SignedIdentifier {
 export interface SignedIdentifierModel {
     accessPolicy?: AccessPolicy;
     id: string;
+}
+
+// @public
+export interface SmbMultichannel {
+    enabled?: boolean;
+}
+
+// @public
+export interface SmbSettings {
+    multichannel?: SmbMultichannel;
 }
 
 // @public
