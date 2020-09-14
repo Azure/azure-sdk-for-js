@@ -304,7 +304,7 @@ describe.only("Highlevel", () => {
     assert.deepStrictEqual(response.tags, tags);
   });
 
-  it("uploadStream should abort", async () => {
+  it.only("uploadStream should abort", async () => {
     recorder.skip("node", "Temp file - recorder doesn't support saving the file");
     const rs = fs.createReadStream(tempFileLarge);
     const aborter = AbortController.timeout(1);

@@ -84,6 +84,8 @@ export class NodeFetchHttpClient extends FetchHttpClient {
 
   // eslint-disable-next-line @azure/azure-sdk/ts-apisurface-standardized-verbs
   async fetch(input: CommonRequestInfo, init?: CommonRequestInit): Promise<CommonResponse> {
+    console.log(input);
+    console.dir(init);
     return (node_fetch(input, init) as unknown) as Promise<CommonResponse>;
   }
 
