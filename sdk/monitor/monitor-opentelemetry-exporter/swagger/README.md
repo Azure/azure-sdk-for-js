@@ -8,7 +8,7 @@ From `swagger/`:
 
 ```zsh
 rm -rf ../src/generated
-autorest --typescript --version="3.0.6267"
+autorest --typescript --v3
 ```
 
 ## Configuration
@@ -21,7 +21,7 @@ generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../
 source-code-folder-path: ./src/generated
-input-file: https://github.com/srnagar/swagger/blob/master/application-insights.json
+input-file: https://github.com/srnagar/swagger/blob/3ff814d8cf6029e032999da597b0e3383874f161/application-insights.json
 add-credentials: false
 use-extension:
   "@autorest/typescript": "6.0.0-dev.20200826.1"

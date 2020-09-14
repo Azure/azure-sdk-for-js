@@ -77,7 +77,7 @@ const trackOperationSpec: coreHttp.OperationSpec = {
     }
   },
   requestBody: Parameters.body,
-  urlParameters: [Parameters.endpoint],
+  urlParameters: [Parameters.host],
   headerParameters: [Parameters.contentType, Parameters.accept],
   mediaType: "json",
   serializer

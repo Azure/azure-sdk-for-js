@@ -602,7 +602,7 @@ export interface ApplicationInsightsClientOptionalParams
   /**
    * Breeze endpoint: https://dc.services.visualstudio.com
    */
-  endpoint?: string;
+  host?: string;
   /**
    * Overrides client endpoint.
    */
