@@ -5,11 +5,12 @@ import * as opentelemetry from "@opentelemetry/api";
 import { BasicTracerProvider } from "@opentelemetry/tracing";
 import { AzureMonitorTraceExporter } from "../../../src";
 import { Expectation, Scenario } from "./types";
-import { Envelope, RemoteDependencyData, RequestData } from "../../../src/Declarations/Contracts";
+import { Envelope, RemoteDependencyData } from "../../../src/Declarations/Contracts";
 import { msToTimeSpan } from "../../../src/utils/breezeUtils";
 import { CanonicalCode } from "@opentelemetry/api";
 import { FlushSpanProcessor } from "../flushSpanProcessor";
 import { delay } from "@azure/core-http";
+import { RequestData } from "../../../src/generated";
 
 const COMMON_ENVELOPE_PARAMS: Partial<Envelope> = {
   iKey: process.env.APPINSIGHTS_INSTRUMENTATIONKEY || "ikey",
