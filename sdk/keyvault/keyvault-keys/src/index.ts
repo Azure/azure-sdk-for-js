@@ -35,7 +35,7 @@ import {
   KeyVaultClientImportKeyResponse,
   KeyVaultClientRecoverDeletedKeyResponse,
   KeyVaultClientRestoreKeyResponse,
-  KeyVaultClientUpdateKeyResponse,
+  KeyVaultClientUpdateKeyResponse
 } from "./generated/models";
 import { KeyVaultClient } from "./generated/keyVaultClient";
 import { SDK_VERSION } from "./generated/utils/constants";
@@ -366,7 +366,7 @@ export class KeyClient {
       return this.getKeyFromKeyBundle(response);
     } else {
       const response = await this.client.createKey(this.vaultUrl, name, {
-          kty: keyType,
+        kty: keyType
       });
       return this.getKeyFromKeyBundle(response);
     }
@@ -421,8 +421,8 @@ export class KeyClient {
 
       return this.getKeyFromKeyBundle(response);
     } else {
-      const response = await this.client.createKey(this.vaultUrl, name,           {
-        kty: "EC",
+      const response = await this.client.createKey(this.vaultUrl, name, {
+        kty: "EC"
       });
       return this.getKeyFromKeyBundle(response);
     }
@@ -476,7 +476,7 @@ export class KeyClient {
 
       return this.getKeyFromKeyBundle(response);
     } else {
-      const response = await this.client.createKey(this.vaultUrl, name,           {
+      const response = await this.client.createKey(this.vaultUrl, name, {
         kty: "RSA"
       });
       return this.getKeyFromKeyBundle(response);
@@ -532,9 +532,9 @@ export class KeyClient {
           this.vaultUrl,
           name,
           {
-           hsm: options.hardwareProtected,
-           key,
-           tags: options.tags
+            hsm: options.hardwareProtected,
+            key,
+            tags: options.tags
           },
           this.setParentSpan(span, unflattenedOptions)
         );
@@ -640,7 +640,7 @@ export class KeyClient {
           keyVersion,
           {
             keyOps: options.keyOps,
-            tags: options.tags,
+            tags: options.tags
           },
           this.setParentSpan(span, unflattenedOptions)
         );
