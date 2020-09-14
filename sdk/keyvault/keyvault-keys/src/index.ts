@@ -26,10 +26,16 @@ import {
   DeletionRecoveryLevel,
   KeyBundle,
   KeyItem,
+  KeyVaultClientBackupKeyResponse,
   KeyVaultClientCreateKeyResponse,
   KeyVaultClientDeleteKeyResponse,
+  KeyVaultClientGetDeletedKeyResponse,
+  KeyVaultClientGetKeyResponse,
   KeyVaultClientGetKeysOptionalParams,
+  KeyVaultClientImportKeyResponse,
   KeyVaultClientRecoverDeletedKeyResponse,
+  KeyVaultClientRestoreKeyResponse,
+  KeyVaultClientUpdateKeyResponse,
 } from "./generated/models";
 import { KeyVaultClient } from "./generated/keyVaultClient";
 import { SDK_VERSION } from "./generated/utils/constants";
@@ -346,7 +352,12 @@ export class KeyClient {
         response = await this.client.createKey(
           this.vaultUrl,
           name,
-          keyType,
+          {
+            kty: keyType,
+            keySize: options.keySize,
+            keyOps: options.keyOps,
+            tags: options.tags
+          },
           this.setParentSpan(span, unflattenedOptions)
         );
       } finally {
@@ -354,7 +365,9 @@ export class KeyClient {
       }
       return this.getKeyFromKeyBundle(response);
     } else {
-      const response = await this.client.createKey(this.vaultUrl, name, keyType, options);
+      const response = await this.client.createKey(this.vaultUrl, name, {
+          kty: keyType,
+      });
       return this.getKeyFromKeyBundle(response);
     }
   }
@@ -408,7 +421,9 @@ export class KeyClient {
 
       return this.getKeyFromKeyBundle(response);
     } else {
-      const response = await this.client.createKey(this.vaultUrl, name, "EC", options);
+      const response = await this.client.createKey(this.vaultUrl, name,           {
+        kty: "EC",
+      });
       return this.getKeyFromKeyBundle(response);
     }
   }
@@ -461,7 +476,9 @@ export class KeyClient {
 
       return this.getKeyFromKeyBundle(response);
     } else {
-      const response = await this.client.createKey(this.vaultUrl, name, "RSA", options);
+      const response = await this.client.createKey(this.vaultUrl, name,           {
+        kty: "RSA"
+      });
       return this.getKeyFromKeyBundle(response);
     }
   }
@@ -509,12 +526,16 @@ export class KeyClient {
 
       const span = this.createSpan("importKey", unflattenedOptions);
 
-      let response: ImportKeyResponse;
+      let response: KeyVaultClientImportKeyResponse;
       try {
         response = await this.client.importKey(
           this.vaultUrl,
           name,
-          key,
+          {
+           hsm: options.hardwareProtected,
+           key,
+           tags: options.tags
+          },
           this.setParentSpan(span, unflattenedOptions)
         );
       } finally {
@@ -523,7 +544,7 @@ export class KeyClient {
 
       return this.getKeyFromKeyBundle(response);
     } else {
-      const response = await this.client.importKey(this.vaultUrl, name, key, options);
+      const response = await this.client.importKey(this.vaultUrl, name, { key });
       return this.getKeyFromKeyBundle(response);
     }
   }
@@ -610,13 +631,17 @@ export class KeyClient {
 
       const span = this.createSpan("updateKeyProperties", unflattenedOptions);
 
-      let response: UpdateKeyResponse;
+      let response: KeyVaultClientUpdateKeyResponse;
 
       try {
         response = await this.client.updateKey(
           this.vaultUrl,
           name,
           keyVersion,
+          {
+            keyOps: options.keyOps,
+            tags: options.tags,
+          },
           this.setParentSpan(span, unflattenedOptions)
         );
       } finally {
@@ -625,7 +650,7 @@ export class KeyClient {
 
       return this.getKeyFromKeyBundle(response);
     } else {
-      const response = await this.client.updateKey(this.vaultUrl, name, keyVersion, options);
+      const response = await this.client.updateKey(this.vaultUrl, name, keyVersion, {});
       return this.getKeyFromKeyBundle(response);
     }
   }
@@ -647,7 +672,7 @@ export class KeyClient {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     const span = this.createSpan("getKey", requestOptions);
 
-    let response: GetKeyResponse;
+    let response: KeyVaultClientGetKeyResponse;
     try {
       response = await this.client.getKey(
         this.vaultUrl,
@@ -682,7 +707,7 @@ export class KeyClient {
     const responseOptions = operationOptionsToRequestOptionsBase(options);
     const span = this.createSpan("getDeletedKey", responseOptions);
 
-    let response: GetDeletedKeyResponse;
+    let response: KeyVaultClientGetDeletedKeyResponse;
     try {
       response = await this.client.getDeletedKey(
         this.vaultUrl,
@@ -794,7 +819,7 @@ export class KeyClient {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     const span = this.createSpan("backupKey", requestOptions);
 
-    let response: BackupKeyResponse;
+    let response: KeyVaultClientBackupKeyResponse;
     try {
       response = await this.client.backupKey(
         this.vaultUrl,
@@ -830,11 +855,13 @@ export class KeyClient {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     const span = this.createSpan("restoreKeyBackup", requestOptions);
 
-    let response: RestoreKeyResponse;
+    let response: KeyVaultClientRestoreKeyResponse;
     try {
       response = await this.client.restoreKey(
         this.vaultUrl,
-        backup,
+        {
+          keyBundleBackup: backup
+        },
         this.setParentSpan(span, requestOptions)
       );
     } finally {
