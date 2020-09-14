@@ -7,10 +7,11 @@ import { AbortController } from "@azure/abort-controller";
 import { createRandomLocalFile, getBSU, recorderEnvSetup, bodyToString } from "../utils";
 import { RetriableReadableStreamOptions } from "../../src/utils/RetriableReadableStream";
 import { record, Recorder } from "@azure/test-utils-recorder";
-import { ContainerClient, BlobClient, BlockBlobClient, BlobServiceClient } from "../../src";
+import { ContainerClient, BlobClient, BlockBlobClient, BlobServiceClient, logger } from "../../src";
 import { readStreamToLocalFileWithLogs } from "../utils/testutils.node";
 import { BLOCK_BLOB_MAX_STAGE_BLOCK_BYTES } from "../../src/utils/constants";
 import { Test_CPK_INFO } from "../utils/constants";
+import { getLogLevel, setLogLevel } from "@azure/logger";
 
 // tslint:disable:no-empty
 describe.only("Highlevel", () => {
@@ -308,13 +309,21 @@ describe.only("Highlevel", () => {
     const rs = fs.createReadStream(tempFileLarge);
     const aborter = AbortController.timeout(1);
 
+    const saved = getLogLevel();
+    setLogLevel("info");
+
     try {
       await blockBlobClient.uploadStream(rs, 4 * 1024 * 1024, 20, {
         abortSignal: aborter
       });
       assert.fail();
     } catch (err) {
+      if (err.name !== "AbortError") {
+        logger.error(err);
+      }
       assert.equal(err.name, "AbortError");
+    } finally {
+      setLogLevel(saved);
     }
   });
 
