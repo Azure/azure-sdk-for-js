@@ -36,8 +36,8 @@
     "test:browser": "npm run build:test && npm run unit-test:browser && npm run integration-test:browser",
     "test:node": "npm run build:test && npm run unit-test:node && npm run integration-test:node",
     "test": "npm run build:test && npm run unit-test && npm run integration-test",
-    "unit-test:browser": "karma start --single-run --testMode=unit",
-    "unit-test:node": "mocha --reporter ../../../common/tools/mocha-multi-reporter.js dist-test/unit.index.node.js",
+    "unit-test:browser": "karma start --single-run --testMode=unit && TEST_MODE=playback npm run integration-test:browser",
+    "unit-test:node": "mocha --reporter ../../../common/tools/mocha-multi-reporter.js dist-test/unit.index.node.js && TEST_MODE=playback npm run integration-test:node",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser"
   },
   "files": [
