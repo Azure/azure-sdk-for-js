@@ -1,5 +1,5 @@
 {
-  "name": "data-tables-samples-ts",
+  "name": "azure-data-tables-samples-ts",
   "private": true,
   "version": "0.1.0",
   "description": "Azure Tables client library samples for TypeScript",
@@ -29,12 +29,13 @@
   "homepage": "https://github.com/Azure/azure-sdk-for-js#readme",
   "sideEffects": false,
   "dependencies": {
-    "@azure/data-tables": "../..",
+    "@azure/data-tables": "next",
     "dotenv": "^8.2.0"
   },
   "devDependencies": {
+    "@azure/logger": "^1.0.0",
     "@types/node": "^8.0.0",
     "rimraf": "^3.0.0",
-    "typescript": "~3.6.4"
+    "typescript": "~3.7.5"
   }
 }
