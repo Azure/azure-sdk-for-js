@@ -394,9 +394,12 @@ export class KeyClient {
           this.vaultUrl,
           name,
           {
-            
-          }
-          options.hsm ? "EC-HSM" : "EC",
+            kty: options.hsm ? "EC-HSM" : "EC",
+            keySize: options.keySize,
+            keyOps: options.keyOps,
+            tags: options.tags,
+            curve: options.curve
+          },
           this.setParentSpan(span, unflattenedOptions)
         );
       } finally {
@@ -444,7 +447,12 @@ export class KeyClient {
         response = await this.client.createKey(
           this.vaultUrl,
           name,
-          options.hsm ? "RSA-HSM" : "RSA",
+          {
+            kty: options.hsm ? "RSA-HSM" : "RSA",
+            keySize: options.keySize,
+            keyOps: options.keyOps,
+            tags: options.tags
+          },
           this.setParentSpan(span, unflattenedOptions)
         );
       } finally {
