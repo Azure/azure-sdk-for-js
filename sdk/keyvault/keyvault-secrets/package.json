@@ -20,7 +20,7 @@
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
   "main": "./dist/index.js",
-  "module": "dist-esm/index.js",
+  "module": "dist-esm/src/index.js",
   "types": "./types/keyvault-secrets.d.ts",
   "engine": {
     "node": ">=8.0.0"
