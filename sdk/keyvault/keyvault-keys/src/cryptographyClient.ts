@@ -156,8 +156,10 @@ export class CryptographyClient {
         this.vaultUrl,
         this.name,
         this.version,
-        algorithm,
-        plaintext,
+        {
+          algorithm,
+          value: plaintext
+        },
         this.setParentSpan(span, requestOptions)
       );
     } finally {
@@ -200,8 +202,10 @@ export class CryptographyClient {
         this.vaultUrl,
         this.name,
         this.version,
-        algorithm,
-        ciphertext,
+        {
+          algorithm,
+          value: ciphertext
+        },
         this.setParentSpan(span, requestOptions)
       );
     } finally {
@@ -255,8 +259,10 @@ export class CryptographyClient {
         this.vaultUrl,
         this.name,
         this.version,
-        algorithm,
-        key,
+        {
+          algorithm,
+          value: key
+        },
         this.setParentSpan(span, requestOptions)
       );
     } finally {
@@ -298,8 +304,10 @@ export class CryptographyClient {
         this.vaultUrl,
         this.name,
         this.version,
-        algorithm,
-        encryptedKey,
+        {
+          algorithm,
+          value: encryptedKey
+        },
         this.setParentSpan(span, requestOptions)
       );
     } finally {
@@ -339,8 +347,10 @@ export class CryptographyClient {
         this.vaultUrl,
         this.name,
         this.version,
-        algorithm,
-        digest,
+        {
+          algorithm,
+          value: digest
+        },
         this.setParentSpan(span, requestOptions)
       );
     } finally {
@@ -382,9 +392,11 @@ export class CryptographyClient {
         this.vaultUrl,
         this.name,
         this.version,
-        algorithm,
-        digest,
-        signature,
+        {
+          algorithm,
+          digest,
+          signature
+        },
         this.setParentSpan(span, requestOptions)
       );
     } finally {
@@ -437,8 +449,10 @@ export class CryptographyClient {
         this.vaultUrl,
         this.name,
         this.version,
-        algorithm,
-        digest,
+        {
+          algorithm,
+          value: digest
+        },
         this.setParentSpan(span, requestOptions)
       );
     } finally {
@@ -503,9 +517,11 @@ export class CryptographyClient {
         this.vaultUrl,
         this.name,
         this.version,
-        algorithm,
-        digest,
-        signature,
+        {
+          algorithm,
+          digest,
+          signature
+        },
         this.setParentSpan(span, requestOptions)
       );
     } finally {
@@ -646,10 +662,10 @@ export class CryptographyClient {
     };
 
     const pipeline = createPipelineFromOptions(internalPipelineOptions, authPolicy);
-    this.client = new KeyVaultClient(
-      pipelineOptions.serviceVersion || LATEST_API_VERSION,
-      pipeline
-    );
+    this.client = new KeyVaultClient({
+      apiVersion: pipelineOptions.serviceVersion || LATEST_API_VERSION,
+      ...pipeline
+    });
 
     let parsed;
     if (typeof key === "string") {

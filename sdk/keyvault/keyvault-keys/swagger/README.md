@@ -6,7 +6,7 @@
 typescript:
   package-name: "@azure/keyvault-keys"
 use-extension:
-  "@microsoft.azure/autorest.typescript": "~5.0.1"
+  "@autorest/typescript": "6.0.0-dev.20200623.2"
 azure-arm: false
 generate-metadata: false
 add-credentials: false

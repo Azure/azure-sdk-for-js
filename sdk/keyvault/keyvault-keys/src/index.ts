@@ -22,20 +22,14 @@ import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
 import { PollerLike, PollOperationState } from "@azure/core-lro";
 
 import {
-  BackupKeyResponse,
-  CreateKeyResponse,
-  DeleteKeyResponse,
   DeletedKeyBundle,
   DeletionRecoveryLevel,
-  GetDeletedKeyResponse,
-  GetKeyResponse,
-  ImportKeyResponse,
   KeyBundle,
   KeyItem,
+  KeyVaultClientCreateKeyResponse,
+  KeyVaultClientDeleteKeyResponse,
   KeyVaultClientGetKeysOptionalParams,
-  RecoverDeletedKeyResponse,
-  RestoreKeyResponse,
-  UpdateKeyResponse
+  KeyVaultClientRecoverDeletedKeyResponse,
 } from "./generated/models";
 import { KeyVaultClient } from "./generated/keyVaultClient";
 import { SDK_VERSION } from "./generated/utils/constants";
@@ -250,10 +244,10 @@ export class KeyClient {
     };
 
     const pipeline = createPipelineFromOptions(internalPipelineOptions, authPolicy);
-    this.client = new KeyVaultClient(
-      pipelineOptions.serviceVersion || LATEST_API_VERSION,
-      pipeline
-    );
+    this.client = new KeyVaultClient({
+      apiVersion: pipelineOptions.serviceVersion || LATEST_API_VERSION,
+      ...pipeline
+    });
   }
 
   /**
@@ -268,7 +262,7 @@ export class KeyClient {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     const span = this.createSpan("deleteKey", requestOptions);
 
-    let response: DeleteKeyResponse;
+    let response: KeyVaultClientDeleteKeyResponse;
     try {
       response = await this.client.deleteKey(
         this.vaultUrl,
@@ -297,7 +291,7 @@ export class KeyClient {
     const requestOptions = operationOptionsToRequestOptionsBase(options);
     const span = this.createSpan("recoverDeletedKey", requestOptions);
 
-    let response: RecoverDeletedKeyResponse;
+    let response: KeyVaultClientRecoverDeletedKeyResponse;
     try {
       response = await this.client.recoverDeletedKey(
         this.vaultUrl,
@@ -346,7 +340,7 @@ export class KeyClient {
 
       const span = this.createSpan("createKey", unflattenedOptions);
 
-      let response: CreateKeyResponse;
+      let response: KeyVaultClientCreateKeyResponse;
 
       try {
         response = await this.client.createKey(
@@ -394,11 +388,14 @@ export class KeyClient {
 
       const span = this.createSpan("createEcKey", unflattenedOptions);
 
-      let response: CreateKeyResponse;
+      let response: KeyVaultClientCreateKeyResponse;
       try {
         response = await this.client.createKey(
           this.vaultUrl,
           name,
+          {
+            
+          }
           options.hsm ? "EC-HSM" : "EC",
           this.setParentSpan(span, unflattenedOptions)
         );
@@ -442,7 +439,7 @@ export class KeyClient {
 
       const span = this.createSpan("createRsaKey", unflattenedOptions);
 
-      let response: CreateKeyResponse;
+      let response: KeyVaultClientCreateKeyResponse;
       try {
         response = await this.client.createKey(
           this.vaultUrl,
