@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { Serializer } from "@azure/core-http";
 import { CloudErrorMapper, CloudError } from "../src/cloudError";
 import { expect } from "chai";
