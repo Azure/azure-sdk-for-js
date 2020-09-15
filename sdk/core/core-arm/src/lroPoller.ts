@@ -4,9 +4,19 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
-import { HttpOperationResponse, RequestOptionsBase, RestResponse, flattenResponse } from "@azure/core-http";
+import {
+  HttpOperationResponse,
+  RequestOptionsBase,
+  RestResponse,
+  flattenResponse
+} from "@azure/core-http";
 import { AzureServiceClient } from "./azureServiceClient";
-import { createLROPollStrategyFromInitialResponse, createLROPollStrategyFromPollState, LROPollState, LROPollStrategy } from "./lroPollStrategy";
+import {
+  createLROPollStrategyFromInitialResponse,
+  createLROPollStrategyFromPollState,
+  LROPollState,
+  LROPollStrategy
+} from "./lroPollStrategy";
 import { LongRunningOperationStates } from "./util/constants";
 
 /**
@@ -19,8 +29,10 @@ export class LROPoller {
    * @param _lroPollStrategy The LROPollStrategy that this HttpLongRunningOperationResponse will
    * use to interact with the LRO.
    */
-  constructor(private readonly _lroPollStrategy: LROPollStrategy | undefined, private readonly _initialResponse: HttpOperationResponse) {
-  }
+  constructor(
+    private readonly _lroPollStrategy: LROPollStrategy | undefined,
+    private readonly _initialResponse: HttpOperationResponse
+  ) {}
 
   /**
    * Get the first response that the service sent back when the LRO was initiated.
@@ -137,17 +149,34 @@ export class LROPoller {
   }
 }
 
-export function createLROPollerFromInitialResponse(azureServiceClient: AzureServiceClient, initialResponse: HttpOperationResponse, options?: RequestOptionsBase): LROPoller {
-  const lroPollStrategy: LROPollStrategy | undefined = createLROPollStrategyFromInitialResponse(initialResponse, azureServiceClient, options);
+export function createLROPollerFromInitialResponse(
+  azureServiceClient: AzureServiceClient,
+  initialResponse: HttpOperationResponse,
+  options?: RequestOptionsBase
+): LROPoller {
+  const lroPollStrategy: LROPollStrategy | undefined = createLROPollStrategyFromInitialResponse(
+    initialResponse,
+    azureServiceClient,
+    options
+  );
   return new LROPoller(lroPollStrategy, initialResponse);
 }
 
-export function createLROPollerFromPollState(azureServiceClient: AzureServiceClient, lroMemento: LROPollState): LROPoller {
-  const lroPollStrategy: LROPollStrategy | undefined = createLROPollStrategyFromPollState(azureServiceClient, lroMemento);
+export function createLROPollerFromPollState(
+  azureServiceClient: AzureServiceClient,
+  lroMemento: LROPollState
+): LROPoller {
+  const lroPollStrategy: LROPollStrategy | undefined = createLROPollStrategyFromPollState(
+    azureServiceClient,
+    lroMemento
+  );
   return new LROPoller(lroPollStrategy, lroMemento.initialResponse);
 }
 
 function flattenAzureResponse(response: HttpOperationResponse): RestResponse {
   const { operationResponseGetter, operationSpec } = response.request;
-  return flattenResponse(response, operationResponseGetter && operationSpec && operationResponseGetter(operationSpec, response));
+  return flattenResponse(
+    response,
+    operationResponseGetter && operationSpec && operationResponseGetter(operationSpec, response)
+  );
 }

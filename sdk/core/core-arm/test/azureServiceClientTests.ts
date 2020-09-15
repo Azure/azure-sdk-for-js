@@ -5,8 +5,21 @@
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
 import assert from "assert";
-import { HttpHeaders, HttpOperationResponse, RequestOptionsBase, RestError, WebResource, OperationArguments, OperationSpec, Serializer } from "@azure/core-http";
-import { AzureServiceClient, AzureServiceClientOptions, updateOptionsWithDefaultValues } from "../src/azureServiceClient";
+import {
+  HttpHeaders,
+  HttpOperationResponse,
+  RequestOptionsBase,
+  RestError,
+  WebResource,
+  OperationArguments,
+  OperationSpec,
+  Serializer
+} from "@azure/core-http";
+import {
+  AzureServiceClient,
+  AzureServiceClientOptions,
+  updateOptionsWithDefaultValues
+} from "../src/azureServiceClient";
 import * as msAssert from "./msAssert";
 import { LROPoller } from "../src/lroPoller";
 import { CloudErrorMapper } from "../src/cloudError";
@@ -21,13 +34,17 @@ describe("AzureServiceClient", () => {
     });
 
     it("with acceptLanguage provided", () => {
-      const client = new AzureServiceClient(new TestTokenCredential("my-fake-token"), { acceptLanguage: "my-fake-language" });
+      const client = new AzureServiceClient(new TestTokenCredential("my-fake-token"), {
+        acceptLanguage: "my-fake-language"
+      });
       assert.strictEqual(client.acceptLanguage, "my-fake-language");
       assert.strictEqual(client.longRunningOperationRetryTimeout, undefined);
     });
 
     it("with longRunningOperationRetryTimeout provided", () => {
-      const client = new AzureServiceClient(new TestTokenCredential("my-fake-token"), { longRunningOperationRetryTimeout: 2 });
+      const client = new AzureServiceClient(new TestTokenCredential("my-fake-token"), {
+        longRunningOperationRetryTimeout: 2
+      });
       assert.strictEqual(client.acceptLanguage, "en-us");
       assert.strictEqual(client.longRunningOperationRetryTimeout, 2);
     });
@@ -105,27 +122,49 @@ describe("AzureServiceClient", () => {
         serializer: new Serializer()
       };
 
-      const lroPoller: LROPoller = await serviceClient.sendLRORequest(operationArguments, operationSpec, options);
+      const lroPoller: LROPoller = await serviceClient.sendLRORequest(
+        operationArguments,
+        operationSpec,
+        options
+      );
       assert.strictEqual(lroPoller.isFinished(), false);
       assert.strictEqual(lroPoller.isFinalStatusAcceptable(), undefined);
       assert.strictEqual(lroPoller.getOperationStatus(), "InProgress");
       assert.strictEqual(await lroPoller.getOperationResponse(), undefined);
-      assert.strictEqual(lroPoller.getMostRecentResponse().request.url, "https://fake.azure.com/longRunningOperation");
-      assert.strictEqual(lroPoller.getMostRecentResponse().request.headers.get("x-ms-client-request-id"), requestId);
+      assert.strictEqual(
+        lroPoller.getMostRecentResponse().request.url,
+        "https://fake.azure.com/longRunningOperation"
+      );
+      assert.strictEqual(
+        lroPoller.getMostRecentResponse().request.headers.get("x-ms-client-request-id"),
+        requestId
+      );
 
       assert.strictEqual(await lroPoller.poll(), "Succeeded");
 
       assert.strictEqual(lroPoller.isFinished(), true);
       assert.strictEqual(lroPoller.isFinalStatusAcceptable(), true);
       assert.strictEqual(lroPoller.getOperationStatus(), "Succeeded");
-      assert.strictEqual(lroPoller.getMostRecentResponse().request.url, "https://fake.azure.com/longRunningOperation2");
-      assert.strictEqual(lroPoller.getMostRecentResponse().request.headers.get("x-ms-client-request-id"), requestId);
+      assert.strictEqual(
+        lroPoller.getMostRecentResponse().request.url,
+        "https://fake.azure.com/longRunningOperation2"
+      );
+      assert.strictEqual(
+        lroPoller.getMostRecentResponse().request.headers.get("x-ms-client-request-id"),
+        requestId
+      );
 
       const operationResponse: HttpOperationResponse = (await lroPoller.getOperationResponse()) as HttpOperationResponse;
       assert(operationResponse);
       assert.deepEqual(operationResponse.parsedBody, { date: new Date("2015-01-01") });
-      assert.strictEqual(lroPoller.getMostRecentResponse().request.url, "https://fake.azure.com/longRunningOperation");
-      assert.strictEqual(lroPoller.getMostRecentResponse().request.headers.get("x-ms-client-request-id"), requestId);
+      assert.strictEqual(
+        lroPoller.getMostRecentResponse().request.url,
+        "https://fake.azure.com/longRunningOperation"
+      );
+      assert.strictEqual(
+        lroPoller.getMostRecentResponse().request.headers.get("x-ms-client-request-id"),
+        requestId
+      );
     });
 
     it("with 201 (location header) and 200 (resource)", async () => {
@@ -133,7 +172,7 @@ describe("AzureServiceClient", () => {
         {
           status: 201,
           headers: new HttpHeaders({
-            "location": "https://fake.azure.com/longRunningOperation2"
+            location: "https://fake.azure.com/longRunningOperation2"
           })
         },
         {
@@ -180,19 +219,28 @@ describe("AzureServiceClient", () => {
       assert.strictEqual(lroPoller.isFinalStatusAcceptable(), undefined);
       assert.strictEqual(lroPoller.getOperationStatus(), "InProgress");
       assert.strictEqual(await lroPoller.getOperationResponse(), undefined);
-      assert.strictEqual(lroPoller.getMostRecentResponse().request.url, "https://fake.azure.com/longRunningOperation");
+      assert.strictEqual(
+        lroPoller.getMostRecentResponse().request.url,
+        "https://fake.azure.com/longRunningOperation"
+      );
 
       assert.strictEqual(await lroPoller.poll(), "Succeeded");
 
       assert.strictEqual(lroPoller.isFinished(), true);
       assert.strictEqual(lroPoller.isFinalStatusAcceptable(), true);
       assert.strictEqual(lroPoller.getOperationStatus(), "Succeeded");
-      assert.strictEqual(lroPoller.getMostRecentResponse().request.url, "https://fake.azure.com/longRunningOperation2");
+      assert.strictEqual(
+        lroPoller.getMostRecentResponse().request.url,
+        "https://fake.azure.com/longRunningOperation2"
+      );
 
       const operationResponse: HttpOperationResponse = (await lroPoller.getOperationResponse()) as HttpOperationResponse;
       assert(operationResponse);
       assert.deepEqual(operationResponse.parsedBody, { date: new Date("2015-01-02") });
-      assert.strictEqual(lroPoller.getMostRecentResponse().request.url, "https://fake.azure.com/longRunningOperation2");
+      assert.strictEqual(
+        lroPoller.getMostRecentResponse().request.url,
+        "https://fake.azure.com/longRunningOperation2"
+      );
     });
 
     it("with 200 operation response and 202 (location header), 202 (no headers or body), and 200 (status: Succeeded, resource)", async () => {
@@ -200,7 +248,7 @@ describe("AzureServiceClient", () => {
         {
           status: 202,
           headers: new HttpHeaders({
-            "location": "https://fake.azure.com/longRunningOperation2"
+            location: "https://fake.azure.com/longRunningOperation2"
           })
         },
         {
@@ -250,26 +298,38 @@ describe("AzureServiceClient", () => {
       assert.strictEqual(lroPoller.isFinalStatusAcceptable(), undefined);
       assert.strictEqual(lroPoller.getOperationStatus(), "InProgress");
       assert.strictEqual(await lroPoller.getOperationResponse(), undefined);
-      assert.strictEqual(lroPoller.getMostRecentResponse().request.url, "https://fake.azure.com/longRunningOperation");
+      assert.strictEqual(
+        lroPoller.getMostRecentResponse().request.url,
+        "https://fake.azure.com/longRunningOperation"
+      );
 
       assert.strictEqual(await lroPoller.poll(), "InProgress");
 
       assert.strictEqual(lroPoller.isFinished(), false);
       assert.strictEqual(lroPoller.isFinalStatusAcceptable(), undefined);
       assert.strictEqual(lroPoller.getOperationStatus(), "InProgress");
-      assert.strictEqual(lroPoller.getMostRecentResponse().request.url, "https://fake.azure.com/longRunningOperation2");
+      assert.strictEqual(
+        lroPoller.getMostRecentResponse().request.url,
+        "https://fake.azure.com/longRunningOperation2"
+      );
 
       assert.strictEqual(await lroPoller.poll(), "Succeeded");
 
       assert.strictEqual(lroPoller.isFinished(), true);
       assert.strictEqual(lroPoller.isFinalStatusAcceptable(), true);
       assert.strictEqual(lroPoller.getOperationStatus(), "Succeeded");
-      assert.strictEqual(lroPoller.getMostRecentResponse().request.url, "https://fake.azure.com/longRunningOperation2");
+      assert.strictEqual(
+        lroPoller.getMostRecentResponse().request.url,
+        "https://fake.azure.com/longRunningOperation2"
+      );
 
       const operationResponse: HttpOperationResponse = (await lroPoller.getOperationResponse()) as HttpOperationResponse;
       assert(operationResponse);
       assert.deepEqual(operationResponse.parsedBody, { date: new Date("2015-01-03") });
-      assert.strictEqual(lroPoller.getMostRecentResponse().request.url, "https://fake.azure.com/longRunningOperation2");
+      assert.strictEqual(
+        lroPoller.getMostRecentResponse().request.url,
+        "https://fake.azure.com/longRunningOperation2"
+      );
     });
 
     it("with 202 operation response and 202 (location header), 202 (no headers or body), and 200 (status: Succeeded, resource)", async () => {
@@ -277,7 +337,7 @@ describe("AzureServiceClient", () => {
         {
           status: 202,
           headers: new HttpHeaders({
-            "location": "https://fake.azure.com/longRunningOperation2"
+            location: "https://fake.azure.com/longRunningOperation2"
           })
         },
         {
@@ -326,26 +386,38 @@ describe("AzureServiceClient", () => {
       assert.strictEqual(lroPoller.isFinalStatusAcceptable(), undefined);
       assert.strictEqual(lroPoller.getOperationStatus(), "InProgress");
       assert.strictEqual(await lroPoller.getOperationResponse(), undefined);
-      assert.strictEqual(lroPoller.getMostRecentResponse().request.url, "https://fake.azure.com/longRunningOperation");
+      assert.strictEqual(
+        lroPoller.getMostRecentResponse().request.url,
+        "https://fake.azure.com/longRunningOperation"
+      );
 
       assert.strictEqual(await lroPoller.poll(), "InProgress");
 
       assert.strictEqual(lroPoller.isFinished(), false);
       assert.strictEqual(lroPoller.isFinalStatusAcceptable(), undefined);
       assert.strictEqual(lroPoller.getOperationStatus(), "InProgress");
-      assert.strictEqual(lroPoller.getMostRecentResponse().request.url, "https://fake.azure.com/longRunningOperation2");
+      assert.strictEqual(
+        lroPoller.getMostRecentResponse().request.url,
+        "https://fake.azure.com/longRunningOperation2"
+      );
 
       assert.strictEqual(await lroPoller.poll(), "Succeeded");
 
       assert.strictEqual(lroPoller.isFinished(), true);
       assert.strictEqual(lroPoller.isFinalStatusAcceptable(), true);
       assert.strictEqual(lroPoller.getOperationStatus(), "Succeeded");
-      assert.strictEqual(lroPoller.getMostRecentResponse().request.url, "https://fake.azure.com/longRunningOperation2");
+      assert.strictEqual(
+        lroPoller.getMostRecentResponse().request.url,
+        "https://fake.azure.com/longRunningOperation2"
+      );
 
       const operationResponse: HttpOperationResponse = (await lroPoller.getOperationResponse()) as HttpOperationResponse;
       assert(operationResponse);
       assert.deepEqual(operationResponse.parsedBody, { date: new Date("2015-01-03") });
-      assert.strictEqual(lroPoller.getMostRecentResponse().request.url, "https://fake.azure.com/longRunningOperation2");
+      assert.strictEqual(
+        lroPoller.getMostRecentResponse().request.url,
+        "https://fake.azure.com/longRunningOperation2"
+      );
     });
   });
 
@@ -374,11 +446,16 @@ describe("AzureServiceClient", () => {
             }
           ]);
           const httpRequest = new WebResource("https://fake.azure.com/longRunningOperation", "PUT");
-          const httpResponse: HttpOperationResponse = await serviceClient.sendLongRunningRequest(httpRequest);
+          const httpResponse: HttpOperationResponse = await serviceClient.sendLongRunningRequest(
+            httpRequest
+          );
           assert.strictEqual(httpResponse.status, 200);
           assert.strictEqual(httpResponse.bodyAsText, `{"a":"A"}`);
           assert.deepEqual(httpResponse.parsedBody, { a: "A" });
-          assert.strictEqual(httpResponse.request.url, "https://fake.azure.com/longRunningOperation");
+          assert.strictEqual(
+            httpResponse.request.url,
+            "https://fake.azure.com/longRunningOperation"
+          );
         });
 
         it("Headers: Azure-AsyncOperation and Location", async () => {
@@ -387,7 +464,7 @@ describe("AzureServiceClient", () => {
               status: 201,
               headers: new HttpHeaders({
                 "azure-asyncoperation": "https://fake.azure.com/longRunningOperation2",
-                "location": "https://fake.azure.com/longRunningOperation3"
+                location: "https://fake.azure.com/longRunningOperation3"
               })
             },
             {
@@ -404,11 +481,16 @@ describe("AzureServiceClient", () => {
             }
           ]);
           const httpRequest = new WebResource("https://fake.azure.com/longRunningOperation", "PUT");
-          const httpResponse: HttpOperationResponse = await serviceClient.sendLongRunningRequest(httpRequest);
+          const httpResponse: HttpOperationResponse = await serviceClient.sendLongRunningRequest(
+            httpRequest
+          );
           assert.strictEqual(httpResponse.status, 200);
           assert.strictEqual(httpResponse.bodyAsText, `{"a":"A"}`);
           assert.deepEqual(httpResponse.parsedBody, { a: "A" });
-          assert.strictEqual(httpResponse.request.url, "https://fake.azure.com/longRunningOperation");
+          assert.strictEqual(
+            httpResponse.request.url,
+            "https://fake.azure.com/longRunningOperation"
+          );
         });
 
         describe("Headers: Location,", () => {
@@ -417,7 +499,7 @@ describe("AzureServiceClient", () => {
               {
                 status: 201,
                 headers: new HttpHeaders({
-                  "location": "https://fake.azure.com/longRunningOperation2"
+                  location: "https://fake.azure.com/longRunningOperation2"
                 })
               },
               {
@@ -427,12 +509,20 @@ describe("AzureServiceClient", () => {
                 }
               }
             ]);
-            const httpRequest = new WebResource("https://fake.azure.com/longRunningOperation", "PUT");
-            const httpResponse: HttpOperationResponse = await serviceClient.sendLongRunningRequest(httpRequest);
+            const httpRequest = new WebResource(
+              "https://fake.azure.com/longRunningOperation",
+              "PUT"
+            );
+            const httpResponse: HttpOperationResponse = await serviceClient.sendLongRunningRequest(
+              httpRequest
+            );
             assert.strictEqual(httpResponse.status, 200);
             assert.strictEqual(httpResponse.bodyAsText, `{"b":"B"}`);
             assert.deepEqual(httpResponse.parsedBody, { b: "B" });
-            assert.strictEqual(httpResponse.request.url, "https://fake.azure.com/longRunningOperation2");
+            assert.strictEqual(
+              httpResponse.request.url,
+              "https://fake.azure.com/longRunningOperation2"
+            );
           });
 
           it("Poll: 200 no body", async () => {
@@ -440,7 +530,7 @@ describe("AzureServiceClient", () => {
               {
                 status: 201,
                 headers: new HttpHeaders({
-                  "location": "https://fake.azure.com/longRunningOperation2"
+                  location: "https://fake.azure.com/longRunningOperation2"
                 })
               },
               {
@@ -453,12 +543,20 @@ describe("AzureServiceClient", () => {
                 }
               }
             ]);
-            const httpRequest = new WebResource("https://fake.azure.com/longRunningOperation", "PUT");
-            const httpResponse: HttpOperationResponse = await serviceClient.sendLongRunningRequest(httpRequest);
+            const httpRequest = new WebResource(
+              "https://fake.azure.com/longRunningOperation",
+              "PUT"
+            );
+            const httpResponse: HttpOperationResponse = await serviceClient.sendLongRunningRequest(
+              httpRequest
+            );
             assert.strictEqual(httpResponse.status, 200);
             assert.strictEqual(httpResponse.bodyAsText, `{"a":"A"}`);
             assert.deepEqual(httpResponse.parsedBody, { a: "A" });
-            assert.strictEqual(httpResponse.request.url, "https://fake.azure.com/longRunningOperation");
+            assert.strictEqual(
+              httpResponse.request.url,
+              "https://fake.azure.com/longRunningOperation"
+            );
           });
 
           it("Poll: 202, 200 with body", async () => {
@@ -466,7 +564,7 @@ describe("AzureServiceClient", () => {
               {
                 status: 201,
                 headers: new HttpHeaders({
-                  "location": "https://fake.azure.com/longRunningOperation2"
+                  location: "https://fake.azure.com/longRunningOperation2"
                 })
               },
               {
@@ -479,12 +577,20 @@ describe("AzureServiceClient", () => {
                 }
               }
             ]);
-            const httpRequest = new WebResource("https://fake.azure.com/longRunningOperation", "PUT");
-            const httpResponse: HttpOperationResponse = await serviceClient.sendLongRunningRequest(httpRequest);
+            const httpRequest = new WebResource(
+              "https://fake.azure.com/longRunningOperation",
+              "PUT"
+            );
+            const httpResponse: HttpOperationResponse = await serviceClient.sendLongRunningRequest(
+              httpRequest
+            );
             assert.strictEqual(httpResponse.status, 200);
             assert.strictEqual(httpResponse.bodyAsText, `{"a":"A"}`);
             assert.deepEqual(httpResponse.parsedBody, { a: "A" });
-            assert.strictEqual(httpResponse.request.url, "https://fake.azure.com/longRunningOperation2");
+            assert.strictEqual(
+              httpResponse.request.url,
+              "https://fake.azure.com/longRunningOperation2"
+            );
           });
 
           it("Poll: 201 with body", async () => {
@@ -492,7 +598,7 @@ describe("AzureServiceClient", () => {
               {
                 status: 201,
                 headers: new HttpHeaders({
-                  "location": "https://fake.azure.com/longRunningOperation2"
+                  location: "https://fake.azure.com/longRunningOperation2"
                 })
               },
               {
@@ -502,12 +608,20 @@ describe("AzureServiceClient", () => {
                 }
               }
             ]);
-            const httpRequest = new WebResource("https://fake.azure.com/longRunningOperation", "PUT");
-            const httpResponse: HttpOperationResponse = await serviceClient.sendLongRunningRequest(httpRequest);
+            const httpRequest = new WebResource(
+              "https://fake.azure.com/longRunningOperation",
+              "PUT"
+            );
+            const httpResponse: HttpOperationResponse = await serviceClient.sendLongRunningRequest(
+              httpRequest
+            );
             assert.strictEqual(httpResponse.status, 201);
             assert.strictEqual(httpResponse.bodyAsText, `{"a":"A"}`);
             assert.deepEqual(httpResponse.parsedBody, { a: "A" });
-            assert.strictEqual(httpResponse.request.url, "https://fake.azure.com/longRunningOperation2");
+            assert.strictEqual(
+              httpResponse.request.url,
+              "https://fake.azure.com/longRunningOperation2"
+            );
           });
 
           it("Poll: 201 no body", async () => {
@@ -515,7 +629,7 @@ describe("AzureServiceClient", () => {
               {
                 status: 201,
                 headers: new HttpHeaders({
-                  "location": "https://fake.azure.com/longRunningOperation2"
+                  location: "https://fake.azure.com/longRunningOperation2"
                 })
               },
               {
@@ -528,12 +642,20 @@ describe("AzureServiceClient", () => {
                 }
               }
             ]);
-            const httpRequest = new WebResource("https://fake.azure.com/longRunningOperation", "PUT");
-            const httpResponse: HttpOperationResponse = await serviceClient.sendLongRunningRequest(httpRequest);
+            const httpRequest = new WebResource(
+              "https://fake.azure.com/longRunningOperation",
+              "PUT"
+            );
+            const httpResponse: HttpOperationResponse = await serviceClient.sendLongRunningRequest(
+              httpRequest
+            );
             assert.strictEqual(httpResponse.status, 200);
             assert.strictEqual(httpResponse.bodyAsText, `{"a":"A"}`);
             assert.deepEqual(httpResponse.parsedBody, { a: "A" });
-            assert.strictEqual(httpResponse.request.url, "https://fake.azure.com/longRunningOperation");
+            assert.strictEqual(
+              httpResponse.request.url,
+              "https://fake.azure.com/longRunningOperation"
+            );
           });
 
           it("Poll: 204", async () => {
@@ -541,17 +663,23 @@ describe("AzureServiceClient", () => {
               {
                 status: 201,
                 headers: new HttpHeaders({
-                  "location": "https://fake.azure.com/longRunningOperation2"
+                  location: "https://fake.azure.com/longRunningOperation2"
                 })
               },
               {
                 status: 204
               }
             ]);
-            const httpRequest = new WebResource("https://fake.azure.com/longRunningOperation", "PUT");
+            const httpRequest = new WebResource(
+              "https://fake.azure.com/longRunningOperation",
+              "PUT"
+            );
             await msAssert.throwsAsync(
               serviceClient.sendLongRunningRequest(httpRequest),
-              new Error(`The response with status code 204 from polling for long running operation url "https://fake.azure.com/longRunningOperation2" is not valid.`));
+              new Error(
+                `The response with status code 204 from polling for long running operation url "https://fake.azure.com/longRunningOperation2" is not valid.`
+              )
+            );
           });
         });
       });
@@ -579,11 +707,16 @@ describe("AzureServiceClient", () => {
             }
           ]);
           const httpRequest = new WebResource("https://fake.azure.com/longRunningOperation", "PUT");
-          const httpResponse: HttpOperationResponse = await serviceClient.sendLongRunningRequest(httpRequest);
+          const httpResponse: HttpOperationResponse = await serviceClient.sendLongRunningRequest(
+            httpRequest
+          );
           assert.strictEqual(httpResponse.status, 200);
           assert.strictEqual(httpResponse.bodyAsText, `{"a":"A"}`);
           assert.deepEqual(httpResponse.parsedBody, { a: "A" });
-          assert.strictEqual(httpResponse.request.url, "https://fake.azure.com/longRunningOperation");
+          assert.strictEqual(
+            httpResponse.request.url,
+            "https://fake.azure.com/longRunningOperation"
+          );
         });
 
         it("Headers: Azure-AsyncOperation and Location", async () => {
@@ -592,7 +725,7 @@ describe("AzureServiceClient", () => {
               status: 202,
               headers: new HttpHeaders({
                 "azure-asyncoperation": "https://fake.azure.com/longRunningOperation2",
-                "location": "https://fake.azure.com/longRunningOperation3"
+                location: "https://fake.azure.com/longRunningOperation3"
               })
             },
             {
@@ -609,11 +742,16 @@ describe("AzureServiceClient", () => {
             }
           ]);
           const httpRequest = new WebResource("https://fake.azure.com/longRunningOperation", "PUT");
-          const httpResponse: HttpOperationResponse = await serviceClient.sendLongRunningRequest(httpRequest);
+          const httpResponse: HttpOperationResponse = await serviceClient.sendLongRunningRequest(
+            httpRequest
+          );
           assert.strictEqual(httpResponse.status, 200);
           assert.strictEqual(httpResponse.bodyAsText, `{"a":"A"}`);
           assert.deepEqual(httpResponse.parsedBody, { a: "A" });
-          assert.strictEqual(httpResponse.request.url, "https://fake.azure.com/longRunningOperation");
+          assert.strictEqual(
+            httpResponse.request.url,
+            "https://fake.azure.com/longRunningOperation"
+          );
         });
 
         describe("Headers: Location,", () => {
@@ -622,7 +760,7 @@ describe("AzureServiceClient", () => {
               {
                 status: 202,
                 headers: new HttpHeaders({
-                  "location": "https://fake.azure.com/longRunningOperation2"
+                  location: "https://fake.azure.com/longRunningOperation2"
                 })
               },
               {
@@ -632,12 +770,20 @@ describe("AzureServiceClient", () => {
                 }
               }
             ]);
-            const httpRequest = new WebResource("https://fake.azure.com/longRunningOperation", "PUT");
-            const httpResponse: HttpOperationResponse = await serviceClient.sendLongRunningRequest(httpRequest);
+            const httpRequest = new WebResource(
+              "https://fake.azure.com/longRunningOperation",
+              "PUT"
+            );
+            const httpResponse: HttpOperationResponse = await serviceClient.sendLongRunningRequest(
+              httpRequest
+            );
             assert.strictEqual(httpResponse.status, 200);
             assert.strictEqual(httpResponse.bodyAsText, `{"b":"B"}`);
             assert.deepEqual(httpResponse.parsedBody, { b: "B" });
-            assert.strictEqual(httpResponse.request.url, "https://fake.azure.com/longRunningOperation2");
+            assert.strictEqual(
+              httpResponse.request.url,
+              "https://fake.azure.com/longRunningOperation2"
+            );
           });
 
           it("Poll: 200 no body", async () => {
@@ -645,7 +791,7 @@ describe("AzureServiceClient", () => {
               {
                 status: 202,
                 headers: new HttpHeaders({
-                  "location": "https://fake.azure.com/longRunningOperation2"
+                  location: "https://fake.azure.com/longRunningOperation2"
                 })
               },
               {
@@ -658,12 +804,20 @@ describe("AzureServiceClient", () => {
                 }
               }
             ]);
-            const httpRequest = new WebResource("https://fake.azure.com/longRunningOperation", "PUT");
-            const httpResponse: HttpOperationResponse = await serviceClient.sendLongRunningRequest(httpRequest);
+            const httpRequest = new WebResource(
+              "https://fake.azure.com/longRunningOperation",
+              "PUT"
+            );
+            const httpResponse: HttpOperationResponse = await serviceClient.sendLongRunningRequest(
+              httpRequest
+            );
             assert.strictEqual(httpResponse.status, 200);
             assert.strictEqual(httpResponse.bodyAsText, `{"a":"A"}`);
             assert.deepEqual(httpResponse.parsedBody, { a: "A" });
-            assert.strictEqual(httpResponse.request.url, "https://fake.azure.com/longRunningOperation");
+            assert.strictEqual(
+              httpResponse.request.url,
+              "https://fake.azure.com/longRunningOperation"
+            );
           });
 
           it("Poll: 202, 200 with body", async () => {
@@ -671,7 +825,7 @@ describe("AzureServiceClient", () => {
               {
                 status: 202,
                 headers: new HttpHeaders({
-                  "location": "https://fake.azure.com/longRunningOperation2"
+                  location: "https://fake.azure.com/longRunningOperation2"
                 })
               },
               {
@@ -684,12 +838,20 @@ describe("AzureServiceClient", () => {
                 }
               }
             ]);
-            const httpRequest = new WebResource("https://fake.azure.com/longRunningOperation", "PUT");
-            const httpResponse: HttpOperationResponse = await serviceClient.sendLongRunningRequest(httpRequest);
+            const httpRequest = new WebResource(
+              "https://fake.azure.com/longRunningOperation",
+              "PUT"
+            );
+            const httpResponse: HttpOperationResponse = await serviceClient.sendLongRunningRequest(
+              httpRequest
+            );
             assert.strictEqual(httpResponse.status, 200);
             assert.strictEqual(httpResponse.bodyAsText, `{"a":"A"}`);
             assert.deepEqual(httpResponse.parsedBody, { a: "A" });
-            assert.strictEqual(httpResponse.request.url, "https://fake.azure.com/longRunningOperation2");
+            assert.strictEqual(
+              httpResponse.request.url,
+              "https://fake.azure.com/longRunningOperation2"
+            );
           });
 
           it("Poll: 201 with body", async () => {
@@ -697,7 +859,7 @@ describe("AzureServiceClient", () => {
               {
                 status: 202,
                 headers: new HttpHeaders({
-                  "location": "https://fake.azure.com/longRunningOperation2"
+                  location: "https://fake.azure.com/longRunningOperation2"
                 })
               },
               {
@@ -707,12 +869,20 @@ describe("AzureServiceClient", () => {
                 }
               }
             ]);
-            const httpRequest = new WebResource("https://fake.azure.com/longRunningOperation", "PUT");
-            const httpResponse: HttpOperationResponse = await serviceClient.sendLongRunningRequest(httpRequest);
+            const httpRequest = new WebResource(
+              "https://fake.azure.com/longRunningOperation",
+              "PUT"
+            );
+            const httpResponse: HttpOperationResponse = await serviceClient.sendLongRunningRequest(
+              httpRequest
+            );
             assert.strictEqual(httpResponse.status, 201);
             assert.strictEqual(httpResponse.bodyAsText, `{"a":"A"}`);
             assert.deepEqual(httpResponse.parsedBody, { a: "A" });
-            assert.strictEqual(httpResponse.request.url, "https://fake.azure.com/longRunningOperation2");
+            assert.strictEqual(
+              httpResponse.request.url,
+              "https://fake.azure.com/longRunningOperation2"
+            );
           });
 
           it("Poll: 201 no body", async () => {
@@ -720,7 +890,7 @@ describe("AzureServiceClient", () => {
               {
                 status: 202,
                 headers: new HttpHeaders({
-                  "location": "https://fake.azure.com/longRunningOperation2"
+                  location: "https://fake.azure.com/longRunningOperation2"
                 })
               },
               {
@@ -733,12 +903,20 @@ describe("AzureServiceClient", () => {
                 }
               }
             ]);
-            const httpRequest = new WebResource("https://fake.azure.com/longRunningOperation", "PUT");
-            const httpResponse: HttpOperationResponse = await serviceClient.sendLongRunningRequest(httpRequest);
+            const httpRequest = new WebResource(
+              "https://fake.azure.com/longRunningOperation",
+              "PUT"
+            );
+            const httpResponse: HttpOperationResponse = await serviceClient.sendLongRunningRequest(
+              httpRequest
+            );
             assert.strictEqual(httpResponse.status, 200);
             assert.strictEqual(httpResponse.bodyAsText, `{"a":"A"}`);
             assert.deepEqual(httpResponse.parsedBody, { a: "A" });
-            assert.strictEqual(httpResponse.request.url, "https://fake.azure.com/longRunningOperation");
+            assert.strictEqual(
+              httpResponse.request.url,
+              "https://fake.azure.com/longRunningOperation"
+            );
           });
 
           it("Poll: 204", async () => {
@@ -746,17 +924,23 @@ describe("AzureServiceClient", () => {
               {
                 status: 202,
                 headers: new HttpHeaders({
-                  "location": "https://fake.azure.com/longRunningOperation2"
+                  location: "https://fake.azure.com/longRunningOperation2"
                 })
               },
               {
                 status: 204
               }
             ]);
-            const httpRequest = new WebResource("https://fake.azure.com/longRunningOperation", "PUT");
+            const httpRequest = new WebResource(
+              "https://fake.azure.com/longRunningOperation",
+              "PUT"
+            );
             await msAssert.throwsAsync(
               serviceClient.sendLongRunningRequest(httpRequest),
-              new Error(`The response with status code 204 from polling for long running operation url "https://fake.azure.com/longRunningOperation2" is not valid.`));
+              new Error(
+                `The response with status code 204 from polling for long running operation url "https://fake.azure.com/longRunningOperation2" is not valid.`
+              )
+            );
           });
         });
 
@@ -773,12 +957,20 @@ describe("AzureServiceClient", () => {
                 }
               }
             ]);
-            const httpRequest = new WebResource("https://fake.azure.com/longRunningOperation", "PUT");
-            const httpResponse: HttpOperationResponse = await serviceClient.sendLongRunningRequest(httpRequest);
+            const httpRequest = new WebResource(
+              "https://fake.azure.com/longRunningOperation",
+              "PUT"
+            );
+            const httpResponse: HttpOperationResponse = await serviceClient.sendLongRunningRequest(
+              httpRequest
+            );
             assert.strictEqual(httpResponse.status, 200);
             assert.strictEqual(httpResponse.bodyAsText, `{"b":"B"}`);
             assert.deepEqual(httpResponse.parsedBody, { b: "B" });
-            assert.strictEqual(httpResponse.request.url, "https://fake.azure.com/longRunningOperation");
+            assert.strictEqual(
+              httpResponse.request.url,
+              "https://fake.azure.com/longRunningOperation"
+            );
           });
 
           it("Poll: 200 with body with provisioning state", async () => {
@@ -794,12 +986,23 @@ describe("AzureServiceClient", () => {
                 }
               }
             ]);
-            const httpRequest = new WebResource("https://fake.azure.com/longRunningOperation", "PUT");
-            const httpResponse: HttpOperationResponse = await serviceClient.sendLongRunningRequest(httpRequest);
+            const httpRequest = new WebResource(
+              "https://fake.azure.com/longRunningOperation",
+              "PUT"
+            );
+            const httpResponse: HttpOperationResponse = await serviceClient.sendLongRunningRequest(
+              httpRequest
+            );
             assert.strictEqual(httpResponse.status, 200);
-            assert.strictEqual(httpResponse.bodyAsText, `{"provisioningState":"Succeeded","b":"B"}`);
+            assert.strictEqual(
+              httpResponse.bodyAsText,
+              `{"provisioningState":"Succeeded","b":"B"}`
+            );
             assert.deepEqual(httpResponse.parsedBody, { provisioningState: "Succeeded", b: "B" });
-            assert.strictEqual(httpResponse.request.url, "https://fake.azure.com/longRunningOperation");
+            assert.strictEqual(
+              httpResponse.request.url,
+              "https://fake.azure.com/longRunningOperation"
+            );
           });
 
           it("Poll: 201 with body with provisioning state", async () => {
@@ -815,12 +1018,23 @@ describe("AzureServiceClient", () => {
                 }
               }
             ]);
-            const httpRequest = new WebResource("https://fake.azure.com/longRunningOperation", "PUT");
-            const httpResponse: HttpOperationResponse = await serviceClient.sendLongRunningRequest(httpRequest);
+            const httpRequest = new WebResource(
+              "https://fake.azure.com/longRunningOperation",
+              "PUT"
+            );
+            const httpResponse: HttpOperationResponse = await serviceClient.sendLongRunningRequest(
+              httpRequest
+            );
             assert.strictEqual(httpResponse.status, 201);
-            assert.strictEqual(httpResponse.bodyAsText, `{"provisioningState":"Succeeded","b":"B"}`);
+            assert.strictEqual(
+              httpResponse.bodyAsText,
+              `{"provisioningState":"Succeeded","b":"B"}`
+            );
             assert.deepEqual(httpResponse.parsedBody, { provisioningState: "Succeeded", b: "B" });
-            assert.strictEqual(httpResponse.request.url, "https://fake.azure.com/longRunningOperation");
+            assert.strictEqual(
+              httpResponse.request.url,
+              "https://fake.azure.com/longRunningOperation"
+            );
           });
 
           it("Poll: 202 with body with provisioning state", async () => {
@@ -836,12 +1050,23 @@ describe("AzureServiceClient", () => {
                 }
               }
             ]);
-            const httpRequest = new WebResource("https://fake.azure.com/longRunningOperation", "PUT");
-            const httpResponse: HttpOperationResponse = await serviceClient.sendLongRunningRequest(httpRequest);
+            const httpRequest = new WebResource(
+              "https://fake.azure.com/longRunningOperation",
+              "PUT"
+            );
+            const httpResponse: HttpOperationResponse = await serviceClient.sendLongRunningRequest(
+              httpRequest
+            );
             assert.strictEqual(httpResponse.status, 202);
-            assert.strictEqual(httpResponse.bodyAsText, `{"provisioningState":"Succeeded","b":"B"}`);
+            assert.strictEqual(
+              httpResponse.bodyAsText,
+              `{"provisioningState":"Succeeded","b":"B"}`
+            );
             assert.deepEqual(httpResponse.parsedBody, { provisioningState: "Succeeded", b: "B" });
-            assert.strictEqual(httpResponse.request.url, "https://fake.azure.com/longRunningOperation");
+            assert.strictEqual(
+              httpResponse.request.url,
+              "https://fake.azure.com/longRunningOperation"
+            );
           });
 
           it("Poll: 201 no body, 200 no body", async () => {
@@ -853,10 +1078,14 @@ describe("AzureServiceClient", () => {
                 status: 200
               }
             ]);
-            const httpRequest = new WebResource("https://fake.azure.com/longRunningOperation", "PUT");
+            const httpRequest = new WebResource(
+              "https://fake.azure.com/longRunningOperation",
+              "PUT"
+            );
             await msAssert.throwsAsync(
               serviceClient.sendLongRunningRequest(httpRequest),
-              new Error("The response from long running operation does not contain a body."));
+              new Error("The response from long running operation does not contain a body.")
+            );
           });
         });
       });
@@ -884,11 +1113,16 @@ describe("AzureServiceClient", () => {
             }
           ]);
           const httpRequest = new WebResource("https://fake.azure.com/longRunningOperation", "PUT");
-          const httpResponse: HttpOperationResponse = await serviceClient.sendLongRunningRequest(httpRequest);
+          const httpResponse: HttpOperationResponse = await serviceClient.sendLongRunningRequest(
+            httpRequest
+          );
           assert.strictEqual(httpResponse.status, 200);
           assert.strictEqual(httpResponse.bodyAsText, `{"a":"A"}`);
           assert.deepEqual(httpResponse.parsedBody, { a: "A" });
-          assert.strictEqual(httpResponse.request.url, "https://fake.azure.com/longRunningOperation");
+          assert.strictEqual(
+            httpResponse.request.url,
+            "https://fake.azure.com/longRunningOperation"
+          );
         });
 
         it("Headers: Azure-AsyncOperation and Location", async () => {
@@ -897,7 +1131,7 @@ describe("AzureServiceClient", () => {
               status: 200,
               headers: new HttpHeaders({
                 "azure-asyncoperation": "https://fake.azure.com/longRunningOperation2",
-                "location": "https://fake.azure.com/longRunningOperation3"
+                location: "https://fake.azure.com/longRunningOperation3"
               })
             },
             {
@@ -914,11 +1148,16 @@ describe("AzureServiceClient", () => {
             }
           ]);
           const httpRequest = new WebResource("https://fake.azure.com/longRunningOperation", "PUT");
-          const httpResponse: HttpOperationResponse = await serviceClient.sendLongRunningRequest(httpRequest);
+          const httpResponse: HttpOperationResponse = await serviceClient.sendLongRunningRequest(
+            httpRequest
+          );
           assert.strictEqual(httpResponse.status, 200);
           assert.strictEqual(httpResponse.bodyAsText, `{"a":"A"}`);
           assert.deepEqual(httpResponse.parsedBody, { a: "A" });
-          assert.strictEqual(httpResponse.request.url, "https://fake.azure.com/longRunningOperation");
+          assert.strictEqual(
+            httpResponse.request.url,
+            "https://fake.azure.com/longRunningOperation"
+          );
         });
 
         describe("Headers: Location,", () => {
@@ -927,7 +1166,7 @@ describe("AzureServiceClient", () => {
               {
                 status: 200,
                 headers: new HttpHeaders({
-                  "location": "https://fake.azure.com/longRunningOperation2"
+                  location: "https://fake.azure.com/longRunningOperation2"
                 })
               },
               {
@@ -937,12 +1176,20 @@ describe("AzureServiceClient", () => {
                 }
               }
             ]);
-            const httpRequest = new WebResource("https://fake.azure.com/longRunningOperation", "PUT");
-            const httpResponse: HttpOperationResponse = await serviceClient.sendLongRunningRequest(httpRequest);
+            const httpRequest = new WebResource(
+              "https://fake.azure.com/longRunningOperation",
+              "PUT"
+            );
+            const httpResponse: HttpOperationResponse = await serviceClient.sendLongRunningRequest(
+              httpRequest
+            );
             assert.strictEqual(httpResponse.status, 200);
             assert.strictEqual(httpResponse.bodyAsText, `{"b":"B"}`);
             assert.deepEqual(httpResponse.parsedBody, { b: "B" });
-            assert.strictEqual(httpResponse.request.url, "https://fake.azure.com/longRunningOperation2");
+            assert.strictEqual(
+              httpResponse.request.url,
+              "https://fake.azure.com/longRunningOperation2"
+            );
           });
 
           it("Poll: 200 no body", async () => {
@@ -950,7 +1197,7 @@ describe("AzureServiceClient", () => {
               {
                 status: 200,
                 headers: new HttpHeaders({
-                  "location": "https://fake.azure.com/longRunningOperation2"
+                  location: "https://fake.azure.com/longRunningOperation2"
                 })
               },
               {
@@ -963,12 +1210,20 @@ describe("AzureServiceClient", () => {
                 }
               }
             ]);
-            const httpRequest = new WebResource("https://fake.azure.com/longRunningOperation", "PUT");
-            const httpResponse: HttpOperationResponse = await serviceClient.sendLongRunningRequest(httpRequest);
+            const httpRequest = new WebResource(
+              "https://fake.azure.com/longRunningOperation",
+              "PUT"
+            );
+            const httpResponse: HttpOperationResponse = await serviceClient.sendLongRunningRequest(
+              httpRequest
+            );
             assert.strictEqual(httpResponse.status, 200);
             assert.strictEqual(httpResponse.bodyAsText, `{"a":"A"}`);
             assert.deepEqual(httpResponse.parsedBody, { a: "A" });
-            assert.strictEqual(httpResponse.request.url, "https://fake.azure.com/longRunningOperation");
+            assert.strictEqual(
+              httpResponse.request.url,
+              "https://fake.azure.com/longRunningOperation"
+            );
           });
 
           it("Poll: 202, 200 with body", async () => {
@@ -976,7 +1231,7 @@ describe("AzureServiceClient", () => {
               {
                 status: 200,
                 headers: new HttpHeaders({
-                  "location": "https://fake.azure.com/longRunningOperation2"
+                  location: "https://fake.azure.com/longRunningOperation2"
                 })
               },
               {
@@ -989,12 +1244,20 @@ describe("AzureServiceClient", () => {
                 }
               }
             ]);
-            const httpRequest = new WebResource("https://fake.azure.com/longRunningOperation", "PUT");
-            const httpResponse: HttpOperationResponse = await serviceClient.sendLongRunningRequest(httpRequest);
+            const httpRequest = new WebResource(
+              "https://fake.azure.com/longRunningOperation",
+              "PUT"
+            );
+            const httpResponse: HttpOperationResponse = await serviceClient.sendLongRunningRequest(
+              httpRequest
+            );
             assert.strictEqual(httpResponse.status, 200);
             assert.strictEqual(httpResponse.bodyAsText, `{"a":"A"}`);
             assert.deepEqual(httpResponse.parsedBody, { a: "A" });
-            assert.strictEqual(httpResponse.request.url, "https://fake.azure.com/longRunningOperation2");
+            assert.strictEqual(
+              httpResponse.request.url,
+              "https://fake.azure.com/longRunningOperation2"
+            );
           });
 
           it("Poll: 201 with body", async () => {
@@ -1002,7 +1265,7 @@ describe("AzureServiceClient", () => {
               {
                 status: 200,
                 headers: new HttpHeaders({
-                  "location": "https://fake.azure.com/longRunningOperation2"
+                  location: "https://fake.azure.com/longRunningOperation2"
                 })
               },
               {
@@ -1012,12 +1275,20 @@ describe("AzureServiceClient", () => {
                 }
               }
             ]);
-            const httpRequest = new WebResource("https://fake.azure.com/longRunningOperation", "PUT");
-            const httpResponse: HttpOperationResponse = await serviceClient.sendLongRunningRequest(httpRequest);
+            const httpRequest = new WebResource(
+              "https://fake.azure.com/longRunningOperation",
+              "PUT"
+            );
+            const httpResponse: HttpOperationResponse = await serviceClient.sendLongRunningRequest(
+              httpRequest
+            );
             assert.strictEqual(httpResponse.status, 201);
             assert.strictEqual(httpResponse.bodyAsText, `{"a":"A"}`);
             assert.deepEqual(httpResponse.parsedBody, { a: "A" });
-            assert.strictEqual(httpResponse.request.url, "https://fake.azure.com/longRunningOperation2");
+            assert.strictEqual(
+              httpResponse.request.url,
+              "https://fake.azure.com/longRunningOperation2"
+            );
           });
 
           it("Poll: 201 no body", async () => {
@@ -1025,7 +1296,7 @@ describe("AzureServiceClient", () => {
               {
                 status: 200,
                 headers: new HttpHeaders({
-                  "location": "https://fake.azure.com/longRunningOperation2"
+                  location: "https://fake.azure.com/longRunningOperation2"
                 })
               },
               {
@@ -1038,12 +1309,20 @@ describe("AzureServiceClient", () => {
                 }
               }
             ]);
-            const httpRequest = new WebResource("https://fake.azure.com/longRunningOperation", "PUT");
-            const httpResponse: HttpOperationResponse = await serviceClient.sendLongRunningRequest(httpRequest);
+            const httpRequest = new WebResource(
+              "https://fake.azure.com/longRunningOperation",
+              "PUT"
+            );
+            const httpResponse: HttpOperationResponse = await serviceClient.sendLongRunningRequest(
+              httpRequest
+            );
             assert.strictEqual(httpResponse.status, 200);
             assert.strictEqual(httpResponse.bodyAsText, `{"a":"A"}`);
             assert.deepEqual(httpResponse.parsedBody, { a: "A" });
-            assert.strictEqual(httpResponse.request.url, "https://fake.azure.com/longRunningOperation");
+            assert.strictEqual(
+              httpResponse.request.url,
+              "https://fake.azure.com/longRunningOperation"
+            );
           });
 
           it("Poll: 204", async () => {
@@ -1051,17 +1330,23 @@ describe("AzureServiceClient", () => {
               {
                 status: 200,
                 headers: new HttpHeaders({
-                  "location": "https://fake.azure.com/longRunningOperation2"
+                  location: "https://fake.azure.com/longRunningOperation2"
                 })
               },
               {
                 status: 204
               }
             ]);
-            const httpRequest = new WebResource("https://fake.azure.com/longRunningOperation", "PUT");
+            const httpRequest = new WebResource(
+              "https://fake.azure.com/longRunningOperation",
+              "PUT"
+            );
             await msAssert.throwsAsync(
               serviceClient.sendLongRunningRequest(httpRequest),
-              new Error(`The response with status code 204 from polling for long running operation url "https://fake.azure.com/longRunningOperation2" is not valid.`));
+              new Error(
+                `The response with status code 204 from polling for long running operation url "https://fake.azure.com/longRunningOperation2" is not valid.`
+              )
+            );
           });
         });
       });
@@ -1090,12 +1375,20 @@ describe("AzureServiceClient", () => {
               }
             }
           ]);
-          const httpRequest = new WebResource("https://fake.azure.com/longRunningOperation", "PATCH");
-          const httpResponse: HttpOperationResponse = await serviceClient.sendLongRunningRequest(httpRequest);
+          const httpRequest = new WebResource(
+            "https://fake.azure.com/longRunningOperation",
+            "PATCH"
+          );
+          const httpResponse: HttpOperationResponse = await serviceClient.sendLongRunningRequest(
+            httpRequest
+          );
           assert.strictEqual(httpResponse.status, 200);
           assert.strictEqual(httpResponse.bodyAsText, `{"a":"A"}`);
           assert.deepEqual(httpResponse.parsedBody, { a: "A" });
-          assert.strictEqual(httpResponse.request.url, "https://fake.azure.com/longRunningOperation");
+          assert.strictEqual(
+            httpResponse.request.url,
+            "https://fake.azure.com/longRunningOperation"
+          );
         });
 
         it("Headers: Azure-AsyncOperation and Location", async () => {
@@ -1104,7 +1397,7 @@ describe("AzureServiceClient", () => {
               status: 201,
               headers: new HttpHeaders({
                 "azure-asyncoperation": "https://fake.azure.com/longRunningOperation2",
-                "location": "https://fake.azure.com/longRunningOperation3"
+                location: "https://fake.azure.com/longRunningOperation3"
               })
             },
             {
@@ -1120,12 +1413,20 @@ describe("AzureServiceClient", () => {
               }
             }
           ]);
-          const httpRequest = new WebResource("https://fake.azure.com/longRunningOperation", "PATCH");
-          const httpResponse: HttpOperationResponse = await serviceClient.sendLongRunningRequest(httpRequest);
+          const httpRequest = new WebResource(
+            "https://fake.azure.com/longRunningOperation",
+            "PATCH"
+          );
+          const httpResponse: HttpOperationResponse = await serviceClient.sendLongRunningRequest(
+            httpRequest
+          );
           assert.strictEqual(httpResponse.status, 200);
           assert.strictEqual(httpResponse.bodyAsText, `{"a":"A"}`);
           assert.deepEqual(httpResponse.parsedBody, { a: "A" });
-          assert.strictEqual(httpResponse.request.url, "https://fake.azure.com/longRunningOperation");
+          assert.strictEqual(
+            httpResponse.request.url,
+            "https://fake.azure.com/longRunningOperation"
+          );
         });
 
         describe("Headers: Location,", () => {
@@ -1134,7 +1435,7 @@ describe("AzureServiceClient", () => {
               {
                 status: 201,
                 headers: new HttpHeaders({
-                  "location": "https://fake.azure.com/longRunningOperation2"
+                  location: "https://fake.azure.com/longRunningOperation2"
                 })
               },
               {
@@ -1144,12 +1445,20 @@ describe("AzureServiceClient", () => {
                 }
               }
             ]);
-            const httpRequest = new WebResource("https://fake.azure.com/longRunningOperation", "PATCH");
-            const httpResponse: HttpOperationResponse = await serviceClient.sendLongRunningRequest(httpRequest);
+            const httpRequest = new WebResource(
+              "https://fake.azure.com/longRunningOperation",
+              "PATCH"
+            );
+            const httpResponse: HttpOperationResponse = await serviceClient.sendLongRunningRequest(
+              httpRequest
+            );
             assert.strictEqual(httpResponse.status, 200);
             assert.strictEqual(httpResponse.bodyAsText, `{"b":"B"}`);
             assert.deepEqual(httpResponse.parsedBody, { b: "B" });
-            assert.strictEqual(httpResponse.request.url, "https://fake.azure.com/longRunningOperation2");
+            assert.strictEqual(
+              httpResponse.request.url,
+              "https://fake.azure.com/longRunningOperation2"
+            );
           });
 
           it("Poll: 200 no body", async () => {
@@ -1157,7 +1466,7 @@ describe("AzureServiceClient", () => {
               {
                 status: 201,
                 headers: new HttpHeaders({
-                  "location": "https://fake.azure.com/longRunningOperation2"
+                  location: "https://fake.azure.com/longRunningOperation2"
                 })
               },
               {
@@ -1170,12 +1479,20 @@ describe("AzureServiceClient", () => {
                 }
               }
             ]);
-            const httpRequest = new WebResource("https://fake.azure.com/longRunningOperation", "PATCH");
-            const httpResponse: HttpOperationResponse = await serviceClient.sendLongRunningRequest(httpRequest);
+            const httpRequest = new WebResource(
+              "https://fake.azure.com/longRunningOperation",
+              "PATCH"
+            );
+            const httpResponse: HttpOperationResponse = await serviceClient.sendLongRunningRequest(
+              httpRequest
+            );
             assert.strictEqual(httpResponse.status, 200);
             assert.strictEqual(httpResponse.bodyAsText, `{"a":"A"}`);
             assert.deepEqual(httpResponse.parsedBody, { a: "A" });
-            assert.strictEqual(httpResponse.request.url, "https://fake.azure.com/longRunningOperation");
+            assert.strictEqual(
+              httpResponse.request.url,
+              "https://fake.azure.com/longRunningOperation"
+            );
           });
 
           it("Poll: 202, 200 with body", async () => {
@@ -1183,7 +1500,7 @@ describe("AzureServiceClient", () => {
               {
                 status: 201,
                 headers: new HttpHeaders({
-                  "location": "https://fake.azure.com/longRunningOperation2"
+                  location: "https://fake.azure.com/longRunningOperation2"
                 })
               },
               {
@@ -1196,12 +1513,20 @@ describe("AzureServiceClient", () => {
                 }
               }
             ]);
-            const httpRequest = new WebResource("https://fake.azure.com/longRunningOperation", "PATCH");
-            const httpResponse: HttpOperationResponse = await serviceClient.sendLongRunningRequest(httpRequest);
+            const httpRequest = new WebResource(
+              "https://fake.azure.com/longRunningOperation",
+              "PATCH"
+            );
+            const httpResponse: HttpOperationResponse = await serviceClient.sendLongRunningRequest(
+              httpRequest
+            );
             assert.strictEqual(httpResponse.status, 200);
             assert.strictEqual(httpResponse.bodyAsText, `{"a":"A"}`);
             assert.deepEqual(httpResponse.parsedBody, { a: "A" });
-            assert.strictEqual(httpResponse.request.url, "https://fake.azure.com/longRunningOperation2");
+            assert.strictEqual(
+              httpResponse.request.url,
+              "https://fake.azure.com/longRunningOperation2"
+            );
           });
 
           it("Poll: 201 with body", async () => {
@@ -1209,7 +1534,7 @@ describe("AzureServiceClient", () => {
               {
                 status: 201,
                 headers: new HttpHeaders({
-                  "location": "https://fake.azure.com/longRunningOperation2"
+                  location: "https://fake.azure.com/longRunningOperation2"
                 })
               },
               {
@@ -1219,12 +1544,20 @@ describe("AzureServiceClient", () => {
                 }
               }
             ]);
-            const httpRequest = new WebResource("https://fake.azure.com/longRunningOperation", "PATCH");
-            const httpResponse: HttpOperationResponse = await serviceClient.sendLongRunningRequest(httpRequest);
+            const httpRequest = new WebResource(
+              "https://fake.azure.com/longRunningOperation",
+              "PATCH"
+            );
+            const httpResponse: HttpOperationResponse = await serviceClient.sendLongRunningRequest(
+              httpRequest
+            );
             assert.strictEqual(httpResponse.status, 201);
             assert.strictEqual(httpResponse.bodyAsText, `{"a":"A"}`);
             assert.deepEqual(httpResponse.parsedBody, { a: "A" });
-            assert.strictEqual(httpResponse.request.url, "https://fake.azure.com/longRunningOperation2");
+            assert.strictEqual(
+              httpResponse.request.url,
+              "https://fake.azure.com/longRunningOperation2"
+            );
           });
 
           it("Poll: 201 no body", async () => {
@@ -1232,7 +1565,7 @@ describe("AzureServiceClient", () => {
               {
                 status: 201,
                 headers: new HttpHeaders({
-                  "location": "https://fake.azure.com/longRunningOperation2"
+                  location: "https://fake.azure.com/longRunningOperation2"
                 })
               },
               {
@@ -1245,12 +1578,20 @@ describe("AzureServiceClient", () => {
                 }
               }
             ]);
-            const httpRequest = new WebResource("https://fake.azure.com/longRunningOperation", "PATCH");
-            const httpResponse: HttpOperationResponse = await serviceClient.sendLongRunningRequest(httpRequest);
+            const httpRequest = new WebResource(
+              "https://fake.azure.com/longRunningOperation",
+              "PATCH"
+            );
+            const httpResponse: HttpOperationResponse = await serviceClient.sendLongRunningRequest(
+              httpRequest
+            );
             assert.strictEqual(httpResponse.status, 200);
             assert.strictEqual(httpResponse.bodyAsText, `{"a":"A"}`);
             assert.deepEqual(httpResponse.parsedBody, { a: "A" });
-            assert.strictEqual(httpResponse.request.url, "https://fake.azure.com/longRunningOperation");
+            assert.strictEqual(
+              httpResponse.request.url,
+              "https://fake.azure.com/longRunningOperation"
+            );
           });
 
           it("Poll: 204", async () => {
@@ -1258,17 +1599,23 @@ describe("AzureServiceClient", () => {
               {
                 status: 201,
                 headers: new HttpHeaders({
-                  "location": "https://fake.azure.com/longRunningOperation2"
+                  location: "https://fake.azure.com/longRunningOperation2"
                 })
               },
               {
                 status: 204
               }
             ]);
-            const httpRequest = new WebResource("https://fake.azure.com/longRunningOperation", "PATCH");
+            const httpRequest = new WebResource(
+              "https://fake.azure.com/longRunningOperation",
+              "PATCH"
+            );
             await msAssert.throwsAsync(
               serviceClient.sendLongRunningRequest(httpRequest),
-              new Error(`The response with status code 204 from polling for long running operation url "https://fake.azure.com/longRunningOperation2" is not valid.`));
+              new Error(
+                `The response with status code 204 from polling for long running operation url "https://fake.azure.com/longRunningOperation2" is not valid.`
+              )
+            );
           });
         });
       });
@@ -1295,12 +1642,20 @@ describe("AzureServiceClient", () => {
               }
             }
           ]);
-          const httpRequest = new WebResource("https://fake.azure.com/longRunningOperation", "PATCH");
-          const httpResponse: HttpOperationResponse = await serviceClient.sendLongRunningRequest(httpRequest);
+          const httpRequest = new WebResource(
+            "https://fake.azure.com/longRunningOperation",
+            "PATCH"
+          );
+          const httpResponse: HttpOperationResponse = await serviceClient.sendLongRunningRequest(
+            httpRequest
+          );
           assert.strictEqual(httpResponse.status, 200);
           assert.strictEqual(httpResponse.bodyAsText, `{"a":"A"}`);
           assert.deepEqual(httpResponse.parsedBody, { a: "A" });
-          assert.strictEqual(httpResponse.request.url, "https://fake.azure.com/longRunningOperation");
+          assert.strictEqual(
+            httpResponse.request.url,
+            "https://fake.azure.com/longRunningOperation"
+          );
         });
 
         it("Headers: Azure-AsyncOperation and Location", async () => {
@@ -1309,7 +1664,7 @@ describe("AzureServiceClient", () => {
               status: 202,
               headers: new HttpHeaders({
                 "azure-asyncoperation": "https://fake.azure.com/longRunningOperation2",
-                "location": "https://fake.azure.com/longRunningOperation3"
+                location: "https://fake.azure.com/longRunningOperation3"
               })
             },
             {
@@ -1325,12 +1680,20 @@ describe("AzureServiceClient", () => {
               }
             }
           ]);
-          const httpRequest = new WebResource("https://fake.azure.com/longRunningOperation", "PATCH");
-          const httpResponse: HttpOperationResponse = await serviceClient.sendLongRunningRequest(httpRequest);
+          const httpRequest = new WebResource(
+            "https://fake.azure.com/longRunningOperation",
+            "PATCH"
+          );
+          const httpResponse: HttpOperationResponse = await serviceClient.sendLongRunningRequest(
+            httpRequest
+          );
           assert.strictEqual(httpResponse.status, 200);
           assert.strictEqual(httpResponse.bodyAsText, `{"a":"A"}`);
           assert.deepEqual(httpResponse.parsedBody, { a: "A" });
-          assert.strictEqual(httpResponse.request.url, "https://fake.azure.com/longRunningOperation");
+          assert.strictEqual(
+            httpResponse.request.url,
+            "https://fake.azure.com/longRunningOperation"
+          );
         });
 
         describe("Headers: Location,", () => {
@@ -1339,7 +1702,7 @@ describe("AzureServiceClient", () => {
               {
                 status: 202,
                 headers: new HttpHeaders({
-                  "location": "https://fake.azure.com/longRunningOperation2"
+                  location: "https://fake.azure.com/longRunningOperation2"
                 })
               },
               {
@@ -1349,12 +1712,20 @@ describe("AzureServiceClient", () => {
                 }
               }
             ]);
-            const httpRequest = new WebResource("https://fake.azure.com/longRunningOperation", "PATCH");
-            const httpResponse: HttpOperationResponse = await serviceClient.sendLongRunningRequest(httpRequest);
+            const httpRequest = new WebResource(
+              "https://fake.azure.com/longRunningOperation",
+              "PATCH"
+            );
+            const httpResponse: HttpOperationResponse = await serviceClient.sendLongRunningRequest(
+              httpRequest
+            );
             assert.strictEqual(httpResponse.status, 200);
             assert.strictEqual(httpResponse.bodyAsText, `{"b":"B"}`);
             assert.deepEqual(httpResponse.parsedBody, { b: "B" });
-            assert.strictEqual(httpResponse.request.url, "https://fake.azure.com/longRunningOperation2");
+            assert.strictEqual(
+              httpResponse.request.url,
+              "https://fake.azure.com/longRunningOperation2"
+            );
           });
 
           it("Poll: 200 no body", async () => {
@@ -1362,7 +1733,7 @@ describe("AzureServiceClient", () => {
               {
                 status: 202,
                 headers: new HttpHeaders({
-                  "location": "https://fake.azure.com/longRunningOperation2"
+                  location: "https://fake.azure.com/longRunningOperation2"
                 })
               },
               {
@@ -1375,12 +1746,20 @@ describe("AzureServiceClient", () => {
                 }
               }
             ]);
-            const httpRequest = new WebResource("https://fake.azure.com/longRunningOperation", "PATCH");
-            const httpResponse: HttpOperationResponse = await serviceClient.sendLongRunningRequest(httpRequest);
+            const httpRequest = new WebResource(
+              "https://fake.azure.com/longRunningOperation",
+              "PATCH"
+            );
+            const httpResponse: HttpOperationResponse = await serviceClient.sendLongRunningRequest(
+              httpRequest
+            );
             assert.strictEqual(httpResponse.status, 200);
             assert.strictEqual(httpResponse.bodyAsText, `{"a":"A"}`);
             assert.deepEqual(httpResponse.parsedBody, { a: "A" });
-            assert.strictEqual(httpResponse.request.url, "https://fake.azure.com/longRunningOperation");
+            assert.strictEqual(
+              httpResponse.request.url,
+              "https://fake.azure.com/longRunningOperation"
+            );
           });
 
           it("Poll: 202, 200 with body", async () => {
@@ -1388,7 +1767,7 @@ describe("AzureServiceClient", () => {
               {
                 status: 202,
                 headers: new HttpHeaders({
-                  "location": "https://fake.azure.com/longRunningOperation2"
+                  location: "https://fake.azure.com/longRunningOperation2"
                 })
               },
               {
@@ -1401,12 +1780,20 @@ describe("AzureServiceClient", () => {
                 }
               }
             ]);
-            const httpRequest = new WebResource("https://fake.azure.com/longRunningOperation", "PATCH");
-            const httpResponse: HttpOperationResponse = await serviceClient.sendLongRunningRequest(httpRequest);
+            const httpRequest = new WebResource(
+              "https://fake.azure.com/longRunningOperation",
+              "PATCH"
+            );
+            const httpResponse: HttpOperationResponse = await serviceClient.sendLongRunningRequest(
+              httpRequest
+            );
             assert.strictEqual(httpResponse.status, 200);
             assert.strictEqual(httpResponse.bodyAsText, `{"a":"A"}`);
             assert.deepEqual(httpResponse.parsedBody, { a: "A" });
-            assert.strictEqual(httpResponse.request.url, "https://fake.azure.com/longRunningOperation2");
+            assert.strictEqual(
+              httpResponse.request.url,
+              "https://fake.azure.com/longRunningOperation2"
+            );
           });
 
           it("Poll: 201 with body", async () => {
@@ -1414,7 +1801,7 @@ describe("AzureServiceClient", () => {
               {
                 status: 202,
                 headers: new HttpHeaders({
-                  "location": "https://fake.azure.com/longRunningOperation2"
+                  location: "https://fake.azure.com/longRunningOperation2"
                 })
               },
               {
@@ -1424,12 +1811,20 @@ describe("AzureServiceClient", () => {
                 }
               }
             ]);
-            const httpRequest = new WebResource("https://fake.azure.com/longRunningOperation", "PATCH");
-            const httpResponse: HttpOperationResponse = await serviceClient.sendLongRunningRequest(httpRequest);
+            const httpRequest = new WebResource(
+              "https://fake.azure.com/longRunningOperation",
+              "PATCH"
+            );
+            const httpResponse: HttpOperationResponse = await serviceClient.sendLongRunningRequest(
+              httpRequest
+            );
             assert.strictEqual(httpResponse.status, 201);
             assert.strictEqual(httpResponse.bodyAsText, `{"a":"A"}`);
             assert.deepEqual(httpResponse.parsedBody, { a: "A" });
-            assert.strictEqual(httpResponse.request.url, "https://fake.azure.com/longRunningOperation2");
+            assert.strictEqual(
+              httpResponse.request.url,
+              "https://fake.azure.com/longRunningOperation2"
+            );
           });
 
           it("Poll: 201 no body", async () => {
@@ -1437,7 +1832,7 @@ describe("AzureServiceClient", () => {
               {
                 status: 202,
                 headers: new HttpHeaders({
-                  "location": "https://fake.azure.com/longRunningOperation2"
+                  location: "https://fake.azure.com/longRunningOperation2"
                 })
               },
               {
@@ -1450,12 +1845,20 @@ describe("AzureServiceClient", () => {
                 }
               }
             ]);
-            const httpRequest = new WebResource("https://fake.azure.com/longRunningOperation", "PATCH");
-            const httpResponse: HttpOperationResponse = await serviceClient.sendLongRunningRequest(httpRequest);
+            const httpRequest = new WebResource(
+              "https://fake.azure.com/longRunningOperation",
+              "PATCH"
+            );
+            const httpResponse: HttpOperationResponse = await serviceClient.sendLongRunningRequest(
+              httpRequest
+            );
             assert.strictEqual(httpResponse.status, 200);
             assert.strictEqual(httpResponse.bodyAsText, `{"a":"A"}`);
             assert.deepEqual(httpResponse.parsedBody, { a: "A" });
-            assert.strictEqual(httpResponse.request.url, "https://fake.azure.com/longRunningOperation");
+            assert.strictEqual(
+              httpResponse.request.url,
+              "https://fake.azure.com/longRunningOperation"
+            );
           });
 
           it("Poll: 204", async () => {
@@ -1463,17 +1866,23 @@ describe("AzureServiceClient", () => {
               {
                 status: 202,
                 headers: new HttpHeaders({
-                  "location": "https://fake.azure.com/longRunningOperation2"
+                  location: "https://fake.azure.com/longRunningOperation2"
                 })
               },
               {
                 status: 204
               }
             ]);
-            const httpRequest = new WebResource("https://fake.azure.com/longRunningOperation", "PATCH");
+            const httpRequest = new WebResource(
+              "https://fake.azure.com/longRunningOperation",
+              "PATCH"
+            );
             await msAssert.throwsAsync(
               serviceClient.sendLongRunningRequest(httpRequest),
-              new Error(`The response with status code 204 from polling for long running operation url "https://fake.azure.com/longRunningOperation2" is not valid.`));
+              new Error(
+                `The response with status code 204 from polling for long running operation url "https://fake.azure.com/longRunningOperation2" is not valid.`
+              )
+            );
           });
         });
 
@@ -1490,12 +1899,20 @@ describe("AzureServiceClient", () => {
                 }
               }
             ]);
-            const httpRequest = new WebResource("https://fake.azure.com/longRunningOperation", "PATCH");
-            const httpResponse: HttpOperationResponse = await serviceClient.sendLongRunningRequest(httpRequest);
+            const httpRequest = new WebResource(
+              "https://fake.azure.com/longRunningOperation",
+              "PATCH"
+            );
+            const httpResponse: HttpOperationResponse = await serviceClient.sendLongRunningRequest(
+              httpRequest
+            );
             assert.strictEqual(httpResponse.status, 200);
             assert.strictEqual(httpResponse.bodyAsText, `{"b":"B"}`);
             assert.deepEqual(httpResponse.parsedBody, { b: "B" });
-            assert.strictEqual(httpResponse.request.url, "https://fake.azure.com/longRunningOperation");
+            assert.strictEqual(
+              httpResponse.request.url,
+              "https://fake.azure.com/longRunningOperation"
+            );
           });
 
           it("Poll: 200 with body with provisioning state", async () => {
@@ -1511,12 +1928,23 @@ describe("AzureServiceClient", () => {
                 }
               }
             ]);
-            const httpRequest = new WebResource("https://fake.azure.com/longRunningOperation", "PATCH");
-            const httpResponse: HttpOperationResponse = await serviceClient.sendLongRunningRequest(httpRequest);
+            const httpRequest = new WebResource(
+              "https://fake.azure.com/longRunningOperation",
+              "PATCH"
+            );
+            const httpResponse: HttpOperationResponse = await serviceClient.sendLongRunningRequest(
+              httpRequest
+            );
             assert.strictEqual(httpResponse.status, 200);
-            assert.strictEqual(httpResponse.bodyAsText, `{"provisioningState":"Succeeded","b":"B"}`);
+            assert.strictEqual(
+              httpResponse.bodyAsText,
+              `{"provisioningState":"Succeeded","b":"B"}`
+            );
             assert.deepEqual(httpResponse.parsedBody, { provisioningState: "Succeeded", b: "B" });
-            assert.strictEqual(httpResponse.request.url, "https://fake.azure.com/longRunningOperation");
+            assert.strictEqual(
+              httpResponse.request.url,
+              "https://fake.azure.com/longRunningOperation"
+            );
           });
 
           it("Poll: 201 with body with provisioning state", async () => {
@@ -1532,12 +1960,23 @@ describe("AzureServiceClient", () => {
                 }
               }
             ]);
-            const httpRequest = new WebResource("https://fake.azure.com/longRunningOperation", "PATCH");
-            const httpResponse: HttpOperationResponse = await serviceClient.sendLongRunningRequest(httpRequest);
+            const httpRequest = new WebResource(
+              "https://fake.azure.com/longRunningOperation",
+              "PATCH"
+            );
+            const httpResponse: HttpOperationResponse = await serviceClient.sendLongRunningRequest(
+              httpRequest
+            );
             assert.strictEqual(httpResponse.status, 201);
-            assert.strictEqual(httpResponse.bodyAsText, `{"provisioningState":"Succeeded","b":"B"}`);
+            assert.strictEqual(
+              httpResponse.bodyAsText,
+              `{"provisioningState":"Succeeded","b":"B"}`
+            );
             assert.deepEqual(httpResponse.parsedBody, { provisioningState: "Succeeded", b: "B" });
-            assert.strictEqual(httpResponse.request.url, "https://fake.azure.com/longRunningOperation");
+            assert.strictEqual(
+              httpResponse.request.url,
+              "https://fake.azure.com/longRunningOperation"
+            );
           });
 
           it("Poll: 202 with body with provisioning state", async () => {
@@ -1553,12 +1992,23 @@ describe("AzureServiceClient", () => {
                 }
               }
             ]);
-            const httpRequest = new WebResource("https://fake.azure.com/longRunningOperation", "PATCH");
-            const httpResponse: HttpOperationResponse = await serviceClient.sendLongRunningRequest(httpRequest);
+            const httpRequest = new WebResource(
+              "https://fake.azure.com/longRunningOperation",
+              "PATCH"
+            );
+            const httpResponse: HttpOperationResponse = await serviceClient.sendLongRunningRequest(
+              httpRequest
+            );
             assert.strictEqual(httpResponse.status, 202);
-            assert.strictEqual(httpResponse.bodyAsText, `{"provisioningState":"Succeeded","b":"B"}`);
+            assert.strictEqual(
+              httpResponse.bodyAsText,
+              `{"provisioningState":"Succeeded","b":"B"}`
+            );
             assert.deepEqual(httpResponse.parsedBody, { provisioningState: "Succeeded", b: "B" });
-            assert.strictEqual(httpResponse.request.url, "https://fake.azure.com/longRunningOperation");
+            assert.strictEqual(
+              httpResponse.request.url,
+              "https://fake.azure.com/longRunningOperation"
+            );
           });
 
           it("Poll: 201 no body, 200 no body", async () => {
@@ -1570,10 +2020,14 @@ describe("AzureServiceClient", () => {
                 status: 200
               }
             ]);
-            const httpRequest = new WebResource("https://fake.azure.com/longRunningOperation", "PATCH");
+            const httpRequest = new WebResource(
+              "https://fake.azure.com/longRunningOperation",
+              "PATCH"
+            );
             await msAssert.throwsAsync(
               serviceClient.sendLongRunningRequest(httpRequest),
-              new Error("The response from long running operation does not contain a body."));
+              new Error("The response from long running operation does not contain a body.")
+            );
           });
         });
       });
@@ -1600,12 +2054,20 @@ describe("AzureServiceClient", () => {
               }
             }
           ]);
-          const httpRequest = new WebResource("https://fake.azure.com/longRunningOperation", "PATCH");
-          const httpResponse: HttpOperationResponse = await serviceClient.sendLongRunningRequest(httpRequest);
+          const httpRequest = new WebResource(
+            "https://fake.azure.com/longRunningOperation",
+            "PATCH"
+          );
+          const httpResponse: HttpOperationResponse = await serviceClient.sendLongRunningRequest(
+            httpRequest
+          );
           assert.strictEqual(httpResponse.status, 200);
           assert.strictEqual(httpResponse.bodyAsText, `{"a":"A"}`);
           assert.deepEqual(httpResponse.parsedBody, { a: "A" });
-          assert.strictEqual(httpResponse.request.url, "https://fake.azure.com/longRunningOperation");
+          assert.strictEqual(
+            httpResponse.request.url,
+            "https://fake.azure.com/longRunningOperation"
+          );
         });
 
         it("Headers: Azure-AsyncOperation and Location", async () => {
@@ -1614,7 +2076,7 @@ describe("AzureServiceClient", () => {
               status: 200,
               headers: new HttpHeaders({
                 "azure-asyncoperation": "https://fake.azure.com/longRunningOperation2",
-                "location": "https://fake.azure.com/longRunningOperation3"
+                location: "https://fake.azure.com/longRunningOperation3"
               })
             },
             {
@@ -1630,12 +2092,20 @@ describe("AzureServiceClient", () => {
               }
             }
           ]);
-          const httpRequest = new WebResource("https://fake.azure.com/longRunningOperation", "PATCH");
-          const httpResponse: HttpOperationResponse = await serviceClient.sendLongRunningRequest(httpRequest);
+          const httpRequest = new WebResource(
+            "https://fake.azure.com/longRunningOperation",
+            "PATCH"
+          );
+          const httpResponse: HttpOperationResponse = await serviceClient.sendLongRunningRequest(
+            httpRequest
+          );
           assert.strictEqual(httpResponse.status, 200);
           assert.strictEqual(httpResponse.bodyAsText, `{"a":"A"}`);
           assert.deepEqual(httpResponse.parsedBody, { a: "A" });
-          assert.strictEqual(httpResponse.request.url, "https://fake.azure.com/longRunningOperation");
+          assert.strictEqual(
+            httpResponse.request.url,
+            "https://fake.azure.com/longRunningOperation"
+          );
         });
 
         describe("Headers: Location,", () => {
@@ -1644,7 +2114,7 @@ describe("AzureServiceClient", () => {
               {
                 status: 200,
                 headers: new HttpHeaders({
-                  "location": "https://fake.azure.com/longRunningOperation2"
+                  location: "https://fake.azure.com/longRunningOperation2"
                 })
               },
               {
@@ -1654,12 +2124,20 @@ describe("AzureServiceClient", () => {
                 }
               }
             ]);
-            const httpRequest = new WebResource("https://fake.azure.com/longRunningOperation", "PATCH");
-            const httpResponse: HttpOperationResponse = await serviceClient.sendLongRunningRequest(httpRequest);
+            const httpRequest = new WebResource(
+              "https://fake.azure.com/longRunningOperation",
+              "PATCH"
+            );
+            const httpResponse: HttpOperationResponse = await serviceClient.sendLongRunningRequest(
+              httpRequest
+            );
             assert.strictEqual(httpResponse.status, 200);
             assert.strictEqual(httpResponse.bodyAsText, `{"b":"B"}`);
             assert.deepEqual(httpResponse.parsedBody, { b: "B" });
-            assert.strictEqual(httpResponse.request.url, "https://fake.azure.com/longRunningOperation2");
+            assert.strictEqual(
+              httpResponse.request.url,
+              "https://fake.azure.com/longRunningOperation2"
+            );
           });
 
           it("Poll: 200 no body", async () => {
@@ -1667,7 +2145,7 @@ describe("AzureServiceClient", () => {
               {
                 status: 200,
                 headers: new HttpHeaders({
-                  "location": "https://fake.azure.com/longRunningOperation2"
+                  location: "https://fake.azure.com/longRunningOperation2"
                 })
               },
               {
@@ -1680,12 +2158,20 @@ describe("AzureServiceClient", () => {
                 }
               }
             ]);
-            const httpRequest = new WebResource("https://fake.azure.com/longRunningOperation", "PATCH");
-            const httpResponse: HttpOperationResponse = await serviceClient.sendLongRunningRequest(httpRequest);
+            const httpRequest = new WebResource(
+              "https://fake.azure.com/longRunningOperation",
+              "PATCH"
+            );
+            const httpResponse: HttpOperationResponse = await serviceClient.sendLongRunningRequest(
+              httpRequest
+            );
             assert.strictEqual(httpResponse.status, 200);
             assert.strictEqual(httpResponse.bodyAsText, `{"a":"A"}`);
             assert.deepEqual(httpResponse.parsedBody, { a: "A" });
-            assert.strictEqual(httpResponse.request.url, "https://fake.azure.com/longRunningOperation");
+            assert.strictEqual(
+              httpResponse.request.url,
+              "https://fake.azure.com/longRunningOperation"
+            );
           });
 
           it("Poll: 202, 200 with body", async () => {
@@ -1693,7 +2179,7 @@ describe("AzureServiceClient", () => {
               {
                 status: 200,
                 headers: new HttpHeaders({
-                  "location": "https://fake.azure.com/longRunningOperation2"
+                  location: "https://fake.azure.com/longRunningOperation2"
                 })
               },
               {
@@ -1706,12 +2192,20 @@ describe("AzureServiceClient", () => {
                 }
               }
             ]);
-            const httpRequest = new WebResource("https://fake.azure.com/longRunningOperation", "PATCH");
-            const httpResponse: HttpOperationResponse = await serviceClient.sendLongRunningRequest(httpRequest);
+            const httpRequest = new WebResource(
+              "https://fake.azure.com/longRunningOperation",
+              "PATCH"
+            );
+            const httpResponse: HttpOperationResponse = await serviceClient.sendLongRunningRequest(
+              httpRequest
+            );
             assert.strictEqual(httpResponse.status, 200);
             assert.strictEqual(httpResponse.bodyAsText, `{"a":"A"}`);
             assert.deepEqual(httpResponse.parsedBody, { a: "A" });
-            assert.strictEqual(httpResponse.request.url, "https://fake.azure.com/longRunningOperation2");
+            assert.strictEqual(
+              httpResponse.request.url,
+              "https://fake.azure.com/longRunningOperation2"
+            );
           });
 
           it("Poll: 201 with body", async () => {
@@ -1719,7 +2213,7 @@ describe("AzureServiceClient", () => {
               {
                 status: 200,
                 headers: new HttpHeaders({
-                  "location": "https://fake.azure.com/longRunningOperation2"
+                  location: "https://fake.azure.com/longRunningOperation2"
                 })
               },
               {
@@ -1729,12 +2223,20 @@ describe("AzureServiceClient", () => {
                 }
               }
             ]);
-            const httpRequest = new WebResource("https://fake.azure.com/longRunningOperation", "PATCH");
-            const httpResponse: HttpOperationResponse = await serviceClient.sendLongRunningRequest(httpRequest);
+            const httpRequest = new WebResource(
+              "https://fake.azure.com/longRunningOperation",
+              "PATCH"
+            );
+            const httpResponse: HttpOperationResponse = await serviceClient.sendLongRunningRequest(
+              httpRequest
+            );
             assert.strictEqual(httpResponse.status, 201);
             assert.strictEqual(httpResponse.bodyAsText, `{"a":"A"}`);
             assert.deepEqual(httpResponse.parsedBody, { a: "A" });
-            assert.strictEqual(httpResponse.request.url, "https://fake.azure.com/longRunningOperation2");
+            assert.strictEqual(
+              httpResponse.request.url,
+              "https://fake.azure.com/longRunningOperation2"
+            );
           });
 
           it("Poll: 201 no body", async () => {
@@ -1742,7 +2244,7 @@ describe("AzureServiceClient", () => {
               {
                 status: 200,
                 headers: new HttpHeaders({
-                  "location": "https://fake.azure.com/longRunningOperation2"
+                  location: "https://fake.azure.com/longRunningOperation2"
                 })
               },
               {
@@ -1755,12 +2257,20 @@ describe("AzureServiceClient", () => {
                 }
               }
             ]);
-            const httpRequest = new WebResource("https://fake.azure.com/longRunningOperation", "PATCH");
-            const httpResponse: HttpOperationResponse = await serviceClient.sendLongRunningRequest(httpRequest);
+            const httpRequest = new WebResource(
+              "https://fake.azure.com/longRunningOperation",
+              "PATCH"
+            );
+            const httpResponse: HttpOperationResponse = await serviceClient.sendLongRunningRequest(
+              httpRequest
+            );
             assert.strictEqual(httpResponse.status, 200);
             assert.strictEqual(httpResponse.bodyAsText, `{"a":"A"}`);
             assert.deepEqual(httpResponse.parsedBody, { a: "A" });
-            assert.strictEqual(httpResponse.request.url, "https://fake.azure.com/longRunningOperation");
+            assert.strictEqual(
+              httpResponse.request.url,
+              "https://fake.azure.com/longRunningOperation"
+            );
           });
 
           it("Poll: 204", async () => {
@@ -1768,17 +2278,23 @@ describe("AzureServiceClient", () => {
               {
                 status: 200,
                 headers: new HttpHeaders({
-                  "location": "https://fake.azure.com/longRunningOperation2"
+                  location: "https://fake.azure.com/longRunningOperation2"
                 })
               },
               {
                 status: 204
               }
             ]);
-            const httpRequest = new WebResource("https://fake.azure.com/longRunningOperation", "PATCH");
+            const httpRequest = new WebResource(
+              "https://fake.azure.com/longRunningOperation",
+              "PATCH"
+            );
             await msAssert.throwsAsync(
               serviceClient.sendLongRunningRequest(httpRequest),
-              new Error(`The response with status code 204 from polling for long running operation url "https://fake.azure.com/longRunningOperation2" is not valid.`));
+              new Error(
+                `The response with status code 204 from polling for long running operation url "https://fake.azure.com/longRunningOperation2" is not valid.`
+              )
+            );
           });
         });
       });
@@ -1802,12 +2318,20 @@ describe("AzureServiceClient", () => {
                 }
               }
             ]);
-            const httpRequest = new WebResource("https://fake.azure.com/longRunningOperation", "POST");
-            const httpResponse: HttpOperationResponse = await serviceClient.sendLongRunningRequest(httpRequest);
+            const httpRequest = new WebResource(
+              "https://fake.azure.com/longRunningOperation",
+              "POST"
+            );
+            const httpResponse: HttpOperationResponse = await serviceClient.sendLongRunningRequest(
+              httpRequest
+            );
             assert.strictEqual(httpResponse.status, 200);
             assert.strictEqual(httpResponse.bodyAsText, `{"status":"Succeeded"}`);
             assert.deepEqual(httpResponse.parsedBody, { status: "Succeeded" });
-            assert.strictEqual(httpResponse.request.url, "https://fake.azure.com/longRunningOperation2");
+            assert.strictEqual(
+              httpResponse.request.url,
+              "https://fake.azure.com/longRunningOperation2"
+            );
           });
 
           it("Final Status: Failed", async () => {
@@ -1825,12 +2349,20 @@ describe("AzureServiceClient", () => {
                 }
               }
             ]);
-            const httpRequest = new WebResource("https://fake.azure.com/longRunningOperation", "POST");
-            const httpResponse: HttpOperationResponse = await serviceClient.sendLongRunningRequest(httpRequest);
+            const httpRequest = new WebResource(
+              "https://fake.azure.com/longRunningOperation",
+              "POST"
+            );
+            const httpResponse: HttpOperationResponse = await serviceClient.sendLongRunningRequest(
+              httpRequest
+            );
             assert.strictEqual(httpResponse.status, 200);
             assert.strictEqual(httpResponse.bodyAsText, `{"status":"Failed"}`);
             assert.deepEqual(httpResponse.parsedBody, { status: "Failed" });
-            assert.strictEqual(httpResponse.request.url, "https://fake.azure.com/longRunningOperation2");
+            assert.strictEqual(
+              httpResponse.request.url,
+              "https://fake.azure.com/longRunningOperation2"
+            );
           });
 
           it("Final Status: Canceled", async () => {
@@ -1848,12 +2380,20 @@ describe("AzureServiceClient", () => {
                 }
               }
             ]);
-            const httpRequest = new WebResource("https://fake.azure.com/longRunningOperation", "POST");
-            const httpResponse: HttpOperationResponse = await serviceClient.sendLongRunningRequest(httpRequest);
+            const httpRequest = new WebResource(
+              "https://fake.azure.com/longRunningOperation",
+              "POST"
+            );
+            const httpResponse: HttpOperationResponse = await serviceClient.sendLongRunningRequest(
+              httpRequest
+            );
             assert.strictEqual(httpResponse.status, 200);
             assert.strictEqual(httpResponse.bodyAsText, `{"status":"Canceled"}`);
             assert.deepEqual(httpResponse.parsedBody, { status: "Canceled" });
-            assert.strictEqual(httpResponse.request.url, "https://fake.azure.com/longRunningOperation2");
+            assert.strictEqual(
+              httpResponse.request.url,
+              "https://fake.azure.com/longRunningOperation2"
+            );
           });
         });
 
@@ -1863,7 +2403,7 @@ describe("AzureServiceClient", () => {
               status: 200,
               headers: new HttpHeaders({
                 "azure-asyncoperation": "https://fake.azure.com/longRunningOperation2",
-                "location": "https://fake.azure.com/longRunningOperation3"
+                location: "https://fake.azure.com/longRunningOperation3"
               })
             },
             {
@@ -1879,12 +2419,20 @@ describe("AzureServiceClient", () => {
               }
             }
           ]);
-          const httpRequest = new WebResource("https://fake.azure.com/longRunningOperation", "POST");
-          const httpResponse: HttpOperationResponse = await serviceClient.sendLongRunningRequest(httpRequest);
+          const httpRequest = new WebResource(
+            "https://fake.azure.com/longRunningOperation",
+            "POST"
+          );
+          const httpResponse: HttpOperationResponse = await serviceClient.sendLongRunningRequest(
+            httpRequest
+          );
           assert.strictEqual(httpResponse.status, 200);
           assert.strictEqual(httpResponse.bodyAsText, `{"a":"A"}`);
           assert.deepEqual(httpResponse.parsedBody, { a: "A" });
-          assert.strictEqual(httpResponse.request.url, "https://fake.azure.com/longRunningOperation3");
+          assert.strictEqual(
+            httpResponse.request.url,
+            "https://fake.azure.com/longRunningOperation3"
+          );
         });
 
         describe("Headers: Location", () => {
@@ -1893,7 +2441,7 @@ describe("AzureServiceClient", () => {
               {
                 status: 200,
                 headers: new HttpHeaders({
-                  "location": "https://fake.azure.com/longRunningOperation2"
+                  location: "https://fake.azure.com/longRunningOperation2"
                 })
               },
               {
@@ -1906,12 +2454,20 @@ describe("AzureServiceClient", () => {
                 }
               }
             ]);
-            const httpRequest = new WebResource("https://fake.azure.com/longRunningOperation", "POST");
-            const httpResponse: HttpOperationResponse = await serviceClient.sendLongRunningRequest(httpRequest);
+            const httpRequest = new WebResource(
+              "https://fake.azure.com/longRunningOperation",
+              "POST"
+            );
+            const httpResponse: HttpOperationResponse = await serviceClient.sendLongRunningRequest(
+              httpRequest
+            );
             assert.strictEqual(httpResponse.status, 200);
             assert.strictEqual(httpResponse.bodyAsText, `{"a":"A"}`);
             assert.deepEqual(httpResponse.parsedBody, { a: "A" });
-            assert.strictEqual(httpResponse.request.url, "https://fake.azure.com/longRunningOperation2");
+            assert.strictEqual(
+              httpResponse.request.url,
+              "https://fake.azure.com/longRunningOperation2"
+            );
           });
 
           it("Poll Status: 404", async () => {
@@ -1919,19 +2475,27 @@ describe("AzureServiceClient", () => {
               {
                 status: 200,
                 headers: new HttpHeaders({
-                  "location": "https://fake.azure.com/longRunningOperation2"
+                  location: "https://fake.azure.com/longRunningOperation2"
                 })
               },
               {
                 status: 404
               }
             ]);
-            const httpRequest = new WebResource("https://fake.azure.com/longRunningOperation", "POST");
-            const httpResponse: HttpOperationResponse = await serviceClient.sendLongRunningRequest(httpRequest);
+            const httpRequest = new WebResource(
+              "https://fake.azure.com/longRunningOperation",
+              "POST"
+            );
+            const httpResponse: HttpOperationResponse = await serviceClient.sendLongRunningRequest(
+              httpRequest
+            );
             assert.strictEqual(httpResponse.status, 404);
             assert.strictEqual(httpResponse.bodyAsText, undefined);
             assert.deepEqual(httpResponse.parsedBody, undefined);
-            assert.strictEqual(httpResponse.request.url, "https://fake.azure.com/longRunningOperation2");
+            assert.strictEqual(
+              httpResponse.request.url,
+              "https://fake.azure.com/longRunningOperation2"
+            );
           });
         });
       });
@@ -1953,12 +2517,20 @@ describe("AzureServiceClient", () => {
                 }
               }
             ]);
-            const httpRequest = new WebResource("https://fake.azure.com/longRunningOperation", "POST");
-            const httpResponse: HttpOperationResponse = await serviceClient.sendLongRunningRequest(httpRequest);
+            const httpRequest = new WebResource(
+              "https://fake.azure.com/longRunningOperation",
+              "POST"
+            );
+            const httpResponse: HttpOperationResponse = await serviceClient.sendLongRunningRequest(
+              httpRequest
+            );
             assert.strictEqual(httpResponse.status, 200);
             assert.strictEqual(httpResponse.bodyAsText, `{"status":"Succeeded"}`);
             assert.deepEqual(httpResponse.parsedBody, { status: "Succeeded" });
-            assert.strictEqual(httpResponse.request.url, "https://fake.azure.com/longRunningOperation2");
+            assert.strictEqual(
+              httpResponse.request.url,
+              "https://fake.azure.com/longRunningOperation2"
+            );
           });
 
           it("Final Status: Failed", async () => {
@@ -1976,12 +2548,20 @@ describe("AzureServiceClient", () => {
                 }
               }
             ]);
-            const httpRequest = new WebResource("https://fake.azure.com/longRunningOperation", "POST");
-            const httpResponse: HttpOperationResponse = await serviceClient.sendLongRunningRequest(httpRequest);
+            const httpRequest = new WebResource(
+              "https://fake.azure.com/longRunningOperation",
+              "POST"
+            );
+            const httpResponse: HttpOperationResponse = await serviceClient.sendLongRunningRequest(
+              httpRequest
+            );
             assert.strictEqual(httpResponse.status, 200);
             assert.strictEqual(httpResponse.bodyAsText, `{"status":"Failed"}`);
             assert.deepEqual(httpResponse.parsedBody, { status: "Failed" });
-            assert.strictEqual(httpResponse.request.url, "https://fake.azure.com/longRunningOperation2");
+            assert.strictEqual(
+              httpResponse.request.url,
+              "https://fake.azure.com/longRunningOperation2"
+            );
           });
 
           it("Final Status: Canceled", async () => {
@@ -1999,12 +2579,20 @@ describe("AzureServiceClient", () => {
                 }
               }
             ]);
-            const httpRequest = new WebResource("https://fake.azure.com/longRunningOperation", "POST");
-            const httpResponse: HttpOperationResponse = await serviceClient.sendLongRunningRequest(httpRequest);
+            const httpRequest = new WebResource(
+              "https://fake.azure.com/longRunningOperation",
+              "POST"
+            );
+            const httpResponse: HttpOperationResponse = await serviceClient.sendLongRunningRequest(
+              httpRequest
+            );
             assert.strictEqual(httpResponse.status, 200);
             assert.strictEqual(httpResponse.bodyAsText, `{"status":"Canceled"}`);
             assert.deepEqual(httpResponse.parsedBody, { status: "Canceled" });
-            assert.strictEqual(httpResponse.request.url, "https://fake.azure.com/longRunningOperation2");
+            assert.strictEqual(
+              httpResponse.request.url,
+              "https://fake.azure.com/longRunningOperation2"
+            );
           });
         });
 
@@ -2014,7 +2602,7 @@ describe("AzureServiceClient", () => {
               status: 201,
               headers: new HttpHeaders({
                 "azure-asyncoperation": "https://fake.azure.com/longRunningOperation2",
-                "location": "https://fake.azure.com/longRunningOperation3"
+                location: "https://fake.azure.com/longRunningOperation3"
               })
             },
             {
@@ -2030,12 +2618,20 @@ describe("AzureServiceClient", () => {
               }
             }
           ]);
-          const httpRequest = new WebResource("https://fake.azure.com/longRunningOperation", "POST");
-          const httpResponse: HttpOperationResponse = await serviceClient.sendLongRunningRequest(httpRequest);
+          const httpRequest = new WebResource(
+            "https://fake.azure.com/longRunningOperation",
+            "POST"
+          );
+          const httpResponse: HttpOperationResponse = await serviceClient.sendLongRunningRequest(
+            httpRequest
+          );
           assert.strictEqual(httpResponse.status, 200);
           assert.strictEqual(httpResponse.bodyAsText, `{"a":"A"}`);
           assert.deepEqual(httpResponse.parsedBody, { a: "A" });
-          assert.strictEqual(httpResponse.request.url, "https://fake.azure.com/longRunningOperation3");
+          assert.strictEqual(
+            httpResponse.request.url,
+            "https://fake.azure.com/longRunningOperation3"
+          );
         });
 
         describe("Headers: Location", () => {
@@ -2044,7 +2640,7 @@ describe("AzureServiceClient", () => {
               {
                 status: 201,
                 headers: new HttpHeaders({
-                  "location": "https://fake.azure.com/longRunningOperation2"
+                  location: "https://fake.azure.com/longRunningOperation2"
                 })
               },
               {
@@ -2057,12 +2653,20 @@ describe("AzureServiceClient", () => {
                 }
               }
             ]);
-            const httpRequest = new WebResource("https://fake.azure.com/longRunningOperation", "POST");
-            const httpResponse: HttpOperationResponse = await serviceClient.sendLongRunningRequest(httpRequest);
+            const httpRequest = new WebResource(
+              "https://fake.azure.com/longRunningOperation",
+              "POST"
+            );
+            const httpResponse: HttpOperationResponse = await serviceClient.sendLongRunningRequest(
+              httpRequest
+            );
             assert.strictEqual(httpResponse.status, 200);
             assert.strictEqual(httpResponse.bodyAsText, `{"a":"A"}`);
             assert.deepEqual(httpResponse.parsedBody, { a: "A" });
-            assert.strictEqual(httpResponse.request.url, "https://fake.azure.com/longRunningOperation2");
+            assert.strictEqual(
+              httpResponse.request.url,
+              "https://fake.azure.com/longRunningOperation2"
+            );
           });
 
           it("Poll Status: 404", async () => {
@@ -2070,19 +2674,27 @@ describe("AzureServiceClient", () => {
               {
                 status: 201,
                 headers: new HttpHeaders({
-                  "location": "https://fake.azure.com/longRunningOperation2"
+                  location: "https://fake.azure.com/longRunningOperation2"
                 })
               },
               {
                 status: 404
               }
             ]);
-            const httpRequest = new WebResource("https://fake.azure.com/longRunningOperation", "POST");
-            const httpResponse: HttpOperationResponse = await serviceClient.sendLongRunningRequest(httpRequest);
+            const httpRequest = new WebResource(
+              "https://fake.azure.com/longRunningOperation",
+              "POST"
+            );
+            const httpResponse: HttpOperationResponse = await serviceClient.sendLongRunningRequest(
+              httpRequest
+            );
             assert.strictEqual(httpResponse.status, 404);
             assert.strictEqual(httpResponse.bodyAsText, undefined);
             assert.deepEqual(httpResponse.parsedBody, undefined);
-            assert.strictEqual(httpResponse.request.url, "https://fake.azure.com/longRunningOperation2");
+            assert.strictEqual(
+              httpResponse.request.url,
+              "https://fake.azure.com/longRunningOperation2"
+            );
           });
         });
       });
@@ -2104,12 +2716,20 @@ describe("AzureServiceClient", () => {
                 }
               }
             ]);
-            const httpRequest = new WebResource("https://fake.azure.com/longRunningOperation", "POST");
-            const httpResponse: HttpOperationResponse = await serviceClient.sendLongRunningRequest(httpRequest);
+            const httpRequest = new WebResource(
+              "https://fake.azure.com/longRunningOperation",
+              "POST"
+            );
+            const httpResponse: HttpOperationResponse = await serviceClient.sendLongRunningRequest(
+              httpRequest
+            );
             assert.strictEqual(httpResponse.status, 200);
             assert.strictEqual(httpResponse.bodyAsText, `{"status":"Succeeded"}`);
             assert.deepEqual(httpResponse.parsedBody, { status: "Succeeded" });
-            assert.strictEqual(httpResponse.request.url, "https://fake.azure.com/longRunningOperation2");
+            assert.strictEqual(
+              httpResponse.request.url,
+              "https://fake.azure.com/longRunningOperation2"
+            );
           });
 
           it("Final Status: Failed", async () => {
@@ -2127,9 +2747,17 @@ describe("AzureServiceClient", () => {
                 }
               }
             ]);
-            const httpRequest = new WebResource("https://fake.azure.com/longRunningOperation", "POST");
-            const error: RestError = await msAssert.throwsAsync(serviceClient.sendLongRunningRequest(httpRequest));
-            assert.strictEqual(error.message, `Long running operation failed with status: "Failed".`);
+            const httpRequest = new WebResource(
+              "https://fake.azure.com/longRunningOperation",
+              "POST"
+            );
+            const error: RestError = await msAssert.throwsAsync(
+              serviceClient.sendLongRunningRequest(httpRequest)
+            );
+            assert.strictEqual(
+              error.message,
+              `Long running operation failed with status: "Failed".`
+            );
           });
 
           it("Final Status: Canceled", async () => {
@@ -2147,9 +2775,17 @@ describe("AzureServiceClient", () => {
                 }
               }
             ]);
-            const httpRequest = new WebResource("https://fake.azure.com/longRunningOperation", "POST");
-            const error: RestError = await msAssert.throwsAsync(serviceClient.sendLongRunningRequest(httpRequest));
-            assert.strictEqual(error.message, `Long running operation failed with status: "Canceled".`);
+            const httpRequest = new WebResource(
+              "https://fake.azure.com/longRunningOperation",
+              "POST"
+            );
+            const error: RestError = await msAssert.throwsAsync(
+              serviceClient.sendLongRunningRequest(httpRequest)
+            );
+            assert.strictEqual(
+              error.message,
+              `Long running operation failed with status: "Canceled".`
+            );
           });
         });
 
@@ -2159,7 +2795,7 @@ describe("AzureServiceClient", () => {
               status: 202,
               headers: new HttpHeaders({
                 "azure-asyncoperation": "https://fake.azure.com/longRunningOperation2",
-                "location": "https://fake.azure.com/longRunningOperation3"
+                location: "https://fake.azure.com/longRunningOperation3"
               })
             },
             {
@@ -2169,12 +2805,20 @@ describe("AzureServiceClient", () => {
               }
             }
           ]);
-          const httpRequest = new WebResource("https://fake.azure.com/longRunningOperation", "POST");
-          const httpResponse: HttpOperationResponse = await serviceClient.sendLongRunningRequest(httpRequest);
+          const httpRequest = new WebResource(
+            "https://fake.azure.com/longRunningOperation",
+            "POST"
+          );
+          const httpResponse: HttpOperationResponse = await serviceClient.sendLongRunningRequest(
+            httpRequest
+          );
           assert.strictEqual(httpResponse.status, 200);
           assert.strictEqual(httpResponse.bodyAsText, `{"status":"Succeeded"}`);
           assert.deepEqual(httpResponse.parsedBody, { status: "Succeeded" });
-          assert.strictEqual(httpResponse.request.url, "https://fake.azure.com/longRunningOperation2");
+          assert.strictEqual(
+            httpResponse.request.url,
+            "https://fake.azure.com/longRunningOperation2"
+          );
         });
 
         describe("Headers: Location", () => {
@@ -2183,7 +2827,7 @@ describe("AzureServiceClient", () => {
               {
                 status: 202,
                 headers: new HttpHeaders({
-                  "location": "https://fake.azure.com/longRunningOperation2"
+                  location: "https://fake.azure.com/longRunningOperation2"
                 })
               },
               {
@@ -2196,12 +2840,20 @@ describe("AzureServiceClient", () => {
                 }
               }
             ]);
-            const httpRequest = new WebResource("https://fake.azure.com/longRunningOperation", "POST");
-            const httpResponse: HttpOperationResponse = await serviceClient.sendLongRunningRequest(httpRequest);
+            const httpRequest = new WebResource(
+              "https://fake.azure.com/longRunningOperation",
+              "POST"
+            );
+            const httpResponse: HttpOperationResponse = await serviceClient.sendLongRunningRequest(
+              httpRequest
+            );
             assert.strictEqual(httpResponse.status, 200);
             assert.strictEqual(httpResponse.bodyAsText, `{"a":"A"}`);
             assert.deepEqual(httpResponse.parsedBody, { a: "A" });
-            assert.strictEqual(httpResponse.request.url, "https://fake.azure.com/longRunningOperation2");
+            assert.strictEqual(
+              httpResponse.request.url,
+              "https://fake.azure.com/longRunningOperation2"
+            );
           });
 
           it("Poll Status: 404", async () => {
@@ -2209,19 +2861,27 @@ describe("AzureServiceClient", () => {
               {
                 status: 202,
                 headers: new HttpHeaders({
-                  "location": "https://fake.azure.com/longRunningOperation2"
+                  location: "https://fake.azure.com/longRunningOperation2"
                 })
               },
               {
                 status: 404
               }
             ]);
-            const httpRequest = new WebResource("https://fake.azure.com/longRunningOperation", "POST");
-            const httpResponse: HttpOperationResponse = await serviceClient.sendLongRunningRequest(httpRequest);
+            const httpRequest = new WebResource(
+              "https://fake.azure.com/longRunningOperation",
+              "POST"
+            );
+            const httpResponse: HttpOperationResponse = await serviceClient.sendLongRunningRequest(
+              httpRequest
+            );
             assert.strictEqual(httpResponse.status, 404);
             assert.strictEqual(httpResponse.bodyAsText, undefined);
             assert.deepEqual(httpResponse.parsedBody, undefined);
-            assert.strictEqual(httpResponse.request.url, "https://fake.azure.com/longRunningOperation2");
+            assert.strictEqual(
+              httpResponse.request.url,
+              "https://fake.azure.com/longRunningOperation2"
+            );
           });
         });
 
@@ -2231,12 +2891,20 @@ describe("AzureServiceClient", () => {
               status: 202
             }
           ]);
-          const httpRequest = new WebResource("https://fake.azure.com/longRunningOperation", "POST");
-          const httpResponse: HttpOperationResponse = await serviceClient.sendLongRunningRequest(httpRequest);
+          const httpRequest = new WebResource(
+            "https://fake.azure.com/longRunningOperation",
+            "POST"
+          );
+          const httpResponse: HttpOperationResponse = await serviceClient.sendLongRunningRequest(
+            httpRequest
+          );
           assert.strictEqual(httpResponse.status, 202);
           assert.strictEqual(httpResponse.bodyAsText, undefined);
           assert.deepEqual(httpResponse.parsedBody, undefined);
-          assert.strictEqual(httpResponse.request.url, "https://fake.azure.com/longRunningOperation");
+          assert.strictEqual(
+            httpResponse.request.url,
+            "https://fake.azure.com/longRunningOperation"
+          );
         });
       });
     });
@@ -2258,12 +2926,20 @@ describe("AzureServiceClient", () => {
               }
             }
           ]);
-          const httpRequest = new WebResource("https://fake.azure.com/longRunningOperation", "DELETE");
-          const httpResponse: HttpOperationResponse = await serviceClient.sendLongRunningRequest(httpRequest);
+          const httpRequest = new WebResource(
+            "https://fake.azure.com/longRunningOperation",
+            "DELETE"
+          );
+          const httpResponse: HttpOperationResponse = await serviceClient.sendLongRunningRequest(
+            httpRequest
+          );
           assert.strictEqual(httpResponse.status, 200);
           assert.strictEqual(httpResponse.bodyAsText, `{"status":"Succeeded"}`);
           assert.deepEqual(httpResponse.parsedBody, { status: "Succeeded" });
-          assert.strictEqual(httpResponse.request.url, "https://fake.azure.com/longRunningOperation2");
+          assert.strictEqual(
+            httpResponse.request.url,
+            "https://fake.azure.com/longRunningOperation2"
+          );
         });
 
         describe("Headers: Azure-AsyncOperation and Location,", () => {
@@ -2273,7 +2949,7 @@ describe("AzureServiceClient", () => {
                 status: 200,
                 headers: new HttpHeaders({
                   "azure-asyncoperation": "https://fake.azure.com/longRunningOperation2",
-                  "location": "https://fake.azure.com/longRunningOperation3"
+                  location: "https://fake.azure.com/longRunningOperation3"
                 })
               },
               {
@@ -2289,12 +2965,20 @@ describe("AzureServiceClient", () => {
                 }
               }
             ]);
-            const httpRequest = new WebResource("https://fake.azure.com/longRunningOperation", "DELETE");
-            const httpResponse: HttpOperationResponse = await serviceClient.sendLongRunningRequest(httpRequest);
+            const httpRequest = new WebResource(
+              "https://fake.azure.com/longRunningOperation",
+              "DELETE"
+            );
+            const httpResponse: HttpOperationResponse = await serviceClient.sendLongRunningRequest(
+              httpRequest
+            );
             assert.strictEqual(httpResponse.status, 200);
             assert.strictEqual(httpResponse.bodyAsText, `{"a":"A"}`);
             assert.deepEqual(httpResponse.parsedBody, { a: "A" });
-            assert.strictEqual(httpResponse.request.url, "https://fake.azure.com/longRunningOperation3");
+            assert.strictEqual(
+              httpResponse.request.url,
+              "https://fake.azure.com/longRunningOperation3"
+            );
           });
 
           it("Final Get Resource: 404", async () => {
@@ -2303,7 +2987,7 @@ describe("AzureServiceClient", () => {
                 status: 200,
                 headers: new HttpHeaders({
                   "azure-asyncoperation": "https://fake.azure.com/longRunningOperation2",
-                  "location": "https://fake.azure.com/longRunningOperation3"
+                  location: "https://fake.azure.com/longRunningOperation3"
                 })
               },
               {
@@ -2316,12 +3000,20 @@ describe("AzureServiceClient", () => {
                 status: 404
               }
             ]);
-            const httpRequest = new WebResource("https://fake.azure.com/longRunningOperation", "DELETE");
-            const httpResponse: HttpOperationResponse = await serviceClient.sendLongRunningRequest(httpRequest);
+            const httpRequest = new WebResource(
+              "https://fake.azure.com/longRunningOperation",
+              "DELETE"
+            );
+            const httpResponse: HttpOperationResponse = await serviceClient.sendLongRunningRequest(
+              httpRequest
+            );
             assert.strictEqual(httpResponse.status, 404);
             assert.strictEqual(httpResponse.bodyAsText, undefined);
             assert.deepEqual(httpResponse.parsedBody, undefined);
-            assert.strictEqual(httpResponse.request.url, "https://fake.azure.com/longRunningOperation3");
+            assert.strictEqual(
+              httpResponse.request.url,
+              "https://fake.azure.com/longRunningOperation3"
+            );
           });
         });
 
@@ -2330,19 +3022,27 @@ describe("AzureServiceClient", () => {
             {
               status: 200,
               headers: new HttpHeaders({
-                "location": "https://fake.azure.com/longRunningOperation2"
+                location: "https://fake.azure.com/longRunningOperation2"
               })
             },
             {
               status: 200
             }
           ]);
-          const httpRequest = new WebResource("https://fake.azure.com/longRunningOperation", "DELETE");
-          const httpResponse: HttpOperationResponse = await serviceClient.sendLongRunningRequest(httpRequest);
+          const httpRequest = new WebResource(
+            "https://fake.azure.com/longRunningOperation",
+            "DELETE"
+          );
+          const httpResponse: HttpOperationResponse = await serviceClient.sendLongRunningRequest(
+            httpRequest
+          );
           assert.strictEqual(httpResponse.status, 200);
           assert.strictEqual(httpResponse.bodyAsText, undefined);
           assert.deepEqual(httpResponse.parsedBody, undefined);
-          assert.strictEqual(httpResponse.request.url, "https://fake.azure.com/longRunningOperation2");
+          assert.strictEqual(
+            httpResponse.request.url,
+            "https://fake.azure.com/longRunningOperation2"
+          );
         });
 
         it("Headers: None", async () => {
@@ -2351,12 +3051,20 @@ describe("AzureServiceClient", () => {
               status: 200
             }
           ]);
-          const httpRequest = new WebResource("https://fake.azure.com/longRunningOperation", "DELETE");
-          const httpResponse: HttpOperationResponse = await serviceClient.sendLongRunningRequest(httpRequest);
+          const httpRequest = new WebResource(
+            "https://fake.azure.com/longRunningOperation",
+            "DELETE"
+          );
+          const httpResponse: HttpOperationResponse = await serviceClient.sendLongRunningRequest(
+            httpRequest
+          );
           assert.strictEqual(httpResponse.status, 200);
           assert.strictEqual(httpResponse.bodyAsText, undefined);
           assert.deepEqual(httpResponse.parsedBody, undefined);
-          assert.strictEqual(httpResponse.request.url, "https://fake.azure.com/longRunningOperation");
+          assert.strictEqual(
+            httpResponse.request.url,
+            "https://fake.azure.com/longRunningOperation"
+          );
         });
       });
 
@@ -2367,12 +3075,20 @@ describe("AzureServiceClient", () => {
               status: 201
             }
           ]);
-          const httpRequest = new WebResource("https://fake.azure.com/longRunningOperation", "DELETE");
-          const httpResponse: HttpOperationResponse = await serviceClient.sendLongRunningRequest(httpRequest);
+          const httpRequest = new WebResource(
+            "https://fake.azure.com/longRunningOperation",
+            "DELETE"
+          );
+          const httpResponse: HttpOperationResponse = await serviceClient.sendLongRunningRequest(
+            httpRequest
+          );
           assert.strictEqual(httpResponse.status, 201);
           assert.strictEqual(httpResponse.bodyAsText, undefined);
           assert.deepEqual(httpResponse.parsedBody, undefined);
-          assert.strictEqual(httpResponse.request.url, "https://fake.azure.com/longRunningOperation");
+          assert.strictEqual(
+            httpResponse.request.url,
+            "https://fake.azure.com/longRunningOperation"
+          );
         });
       });
 
@@ -2392,12 +3108,20 @@ describe("AzureServiceClient", () => {
               }
             }
           ]);
-          const httpRequest = new WebResource("https://fake.azure.com/longRunningOperation", "DELETE");
-          const httpResponse: HttpOperationResponse = await serviceClient.sendLongRunningRequest(httpRequest);
+          const httpRequest = new WebResource(
+            "https://fake.azure.com/longRunningOperation",
+            "DELETE"
+          );
+          const httpResponse: HttpOperationResponse = await serviceClient.sendLongRunningRequest(
+            httpRequest
+          );
           assert.strictEqual(httpResponse.status, 200);
           assert.strictEqual(httpResponse.bodyAsText, `{"status":"Succeeded"}`);
           assert.deepEqual(httpResponse.parsedBody, { status: "Succeeded" });
-          assert.strictEqual(httpResponse.request.url, "https://fake.azure.com/longRunningOperation2");
+          assert.strictEqual(
+            httpResponse.request.url,
+            "https://fake.azure.com/longRunningOperation2"
+          );
         });
 
         describe("Headers: Azure-AsyncOperation and Location,", () => {
@@ -2407,7 +3131,7 @@ describe("AzureServiceClient", () => {
                 status: 202,
                 headers: new HttpHeaders({
                   "azure-asyncoperation": "https://fake.azure.com/longRunningOperation2",
-                  "location": "https://fake.azure.com/longRunningOperation3"
+                  location: "https://fake.azure.com/longRunningOperation3"
                 })
               },
               {
@@ -2423,12 +3147,20 @@ describe("AzureServiceClient", () => {
                 }
               }
             ]);
-            const httpRequest = new WebResource("https://fake.azure.com/longRunningOperation", "DELETE");
-            const httpResponse: HttpOperationResponse = await serviceClient.sendLongRunningRequest(httpRequest);
+            const httpRequest = new WebResource(
+              "https://fake.azure.com/longRunningOperation",
+              "DELETE"
+            );
+            const httpResponse: HttpOperationResponse = await serviceClient.sendLongRunningRequest(
+              httpRequest
+            );
             assert.strictEqual(httpResponse.status, 200);
             assert.strictEqual(httpResponse.bodyAsText, `{"a":"A"}`);
             assert.deepEqual(httpResponse.parsedBody, { a: "A" });
-            assert.strictEqual(httpResponse.request.url, "https://fake.azure.com/longRunningOperation3");
+            assert.strictEqual(
+              httpResponse.request.url,
+              "https://fake.azure.com/longRunningOperation3"
+            );
           });
 
           it("Final Get Resource: 404", async () => {
@@ -2437,7 +3169,7 @@ describe("AzureServiceClient", () => {
                 status: 202,
                 headers: new HttpHeaders({
                   "azure-asyncoperation": "https://fake.azure.com/longRunningOperation2",
-                  "location": "https://fake.azure.com/longRunningOperation3"
+                  location: "https://fake.azure.com/longRunningOperation3"
                 })
               },
               {
@@ -2450,12 +3182,20 @@ describe("AzureServiceClient", () => {
                 status: 404
               }
             ]);
-            const httpRequest = new WebResource("https://fake.azure.com/longRunningOperation", "DELETE");
-            const httpResponse: HttpOperationResponse = await serviceClient.sendLongRunningRequest(httpRequest);
+            const httpRequest = new WebResource(
+              "https://fake.azure.com/longRunningOperation",
+              "DELETE"
+            );
+            const httpResponse: HttpOperationResponse = await serviceClient.sendLongRunningRequest(
+              httpRequest
+            );
             assert.strictEqual(httpResponse.status, 404);
             assert.strictEqual(httpResponse.bodyAsText, undefined);
             assert.deepEqual(httpResponse.parsedBody, undefined);
-            assert.strictEqual(httpResponse.request.url, "https://fake.azure.com/longRunningOperation3");
+            assert.strictEqual(
+              httpResponse.request.url,
+              "https://fake.azure.com/longRunningOperation3"
+            );
           });
         });
 
@@ -2464,19 +3204,27 @@ describe("AzureServiceClient", () => {
             {
               status: 202,
               headers: new HttpHeaders({
-                "location": "https://fake.azure.com/longRunningOperation2"
+                location: "https://fake.azure.com/longRunningOperation2"
               })
             },
             {
               status: 200
             }
           ]);
-          const httpRequest = new WebResource("https://fake.azure.com/longRunningOperation", "DELETE");
-          const httpResponse: HttpOperationResponse = await serviceClient.sendLongRunningRequest(httpRequest);
+          const httpRequest = new WebResource(
+            "https://fake.azure.com/longRunningOperation",
+            "DELETE"
+          );
+          const httpResponse: HttpOperationResponse = await serviceClient.sendLongRunningRequest(
+            httpRequest
+          );
           assert.strictEqual(httpResponse.status, 200);
           assert.strictEqual(httpResponse.bodyAsText, undefined);
           assert.deepEqual(httpResponse.parsedBody, undefined);
-          assert.strictEqual(httpResponse.request.url, "https://fake.azure.com/longRunningOperation2");
+          assert.strictEqual(
+            httpResponse.request.url,
+            "https://fake.azure.com/longRunningOperation2"
+          );
         });
 
         it("Headers: None", async () => {
@@ -2485,12 +3233,20 @@ describe("AzureServiceClient", () => {
               status: 202
             }
           ]);
-          const httpRequest = new WebResource("https://fake.azure.com/longRunningOperation", "DELETE");
-          const httpResponse: HttpOperationResponse = await serviceClient.sendLongRunningRequest(httpRequest);
+          const httpRequest = new WebResource(
+            "https://fake.azure.com/longRunningOperation",
+            "DELETE"
+          );
+          const httpResponse: HttpOperationResponse = await serviceClient.sendLongRunningRequest(
+            httpRequest
+          );
           assert.strictEqual(httpResponse.status, 202);
           assert.strictEqual(httpResponse.bodyAsText, undefined);
           assert.deepEqual(httpResponse.parsedBody, undefined);
-          assert.strictEqual(httpResponse.request.url, "https://fake.azure.com/longRunningOperation");
+          assert.strictEqual(
+            httpResponse.request.url,
+            "https://fake.azure.com/longRunningOperation"
+          );
         });
       });
     });
@@ -2506,7 +3262,10 @@ describe("AzureServiceClient", () => {
           a: "1"
         }
       };
-      const httpResponse: HttpOperationResponse = await serviceClient.sendLongRunningRequest(httpRequest, options);
+      const httpResponse: HttpOperationResponse = await serviceClient.sendLongRunningRequest(
+        httpRequest,
+        options
+      );
       assert.strictEqual(httpResponse.status, 200);
       assert.strictEqual(httpResponse.bodyAsText, `{}`);
       assert.deepEqual(httpResponse.parsedBody, {});
@@ -2515,7 +3274,10 @@ describe("AzureServiceClient", () => {
   });
 
   describe("updateOptionsWithDefaultValues()", () => {
-    function assertOptionEqual(actual: AzureServiceClientOptions, expected: AzureServiceClientOptions) {
+    function assertOptionEqual(
+      actual: AzureServiceClientOptions,
+      expected: AzureServiceClientOptions
+    ) {
       let actualUserAgent: string | undefined;
       if (typeof actual.userAgent === "string") {
         actualUserAgent = actual.userAgent;
@@ -2530,7 +3292,9 @@ describe("AzureServiceClient", () => {
     }
 
     it("with undefined", () => {
-      assertOptionEqual(updateOptionsWithDefaultValues(undefined), { generateClientRequestIdHeader: true });
+      assertOptionEqual(updateOptionsWithDefaultValues(undefined), {
+        generateClientRequestIdHeader: true
+      });
     });
 
     it("with {}", () => {
@@ -2553,7 +3317,7 @@ describe("AzureServiceClient", () => {
   });
 
   describe("sendRequest", () => {
-    it ("adds custom user agent if specified", async () => {
+    it("adds custom user agent if specified", async () => {
       const client = createServiceClientWithOptions({ userAgent: "custom-ua" }, [{ status: 200 }]);
       const request = new WebResource("https://microsoft.com");
       await client.sendRequest(request);
@@ -2562,7 +3326,7 @@ describe("AzureServiceClient", () => {
       assert.equal(telemetry, "custom-ua");
     });
 
-    it ("adds user agent header that looks similar to \"core-arm/0.1.0 core-http/0.1.0 Node/v10.11.0 OS/(x64-Windows_NT-10.0.18267)\"", async () => {
+    it('adds user agent header that looks similar to "core-arm/0.1.0 core-http/0.1.0 Node/v10.11.0 OS/(x64-Windows_NT-10.0.18267)"', async () => {
       const client = createServiceClient([{ status: 200 }]);
       const request = new WebResource("https://microsoft.com");
       await client.sendRequest(request);
@@ -2588,23 +3352,33 @@ function createServiceClient(responses: HttpResponse[]): AzureServiceClient {
   return createServiceClientWithOptions({}, responses);
 }
 
-function createServiceClientWithOptions(options: AzureServiceClientOptions, responses: HttpResponse[]): AzureServiceClient {
-  return new AzureServiceClient(new TestTokenCredential("my-fake-token"), Object.assign({
-    httpClient: {
-      sendRequest(httpRequest: WebResource): Promise<HttpOperationResponse> {
-        const response: HttpResponse | undefined = responses.shift();
-        if (!response) {
-          throw new Error("Not enough responses provided for test.");
-        }
-        return Promise.resolve({
-          request: httpRequest,
-          status: response.status,
-          headers: response.headers || new HttpHeaders(),
-          bodyAsText: typeof response.body === "string" ? response.body : JSON.stringify(response.body),
-          parsedBody: response.body
-        });
-      }
-    },
-    longRunningOperationRetryTimeout: 0
-  }, options));
+function createServiceClientWithOptions(
+  options: AzureServiceClientOptions,
+  responses: HttpResponse[]
+): AzureServiceClient {
+  return new AzureServiceClient(
+    new TestTokenCredential("my-fake-token"),
+    Object.assign(
+      {
+        httpClient: {
+          sendRequest(httpRequest: WebResource): Promise<HttpOperationResponse> {
+            const response: HttpResponse | undefined = responses.shift();
+            if (!response) {
+              throw new Error("Not enough responses provided for test.");
+            }
+            return Promise.resolve({
+              request: httpRequest,
+              status: response.status,
+              headers: response.headers || new HttpHeaders(),
+              bodyAsText:
+                typeof response.body === "string" ? response.body : JSON.stringify(response.body),
+              parsedBody: response.body
+            });
+          }
+        },
+        longRunningOperationRetryTimeout: 0
+      },
+      options
+    )
+  );
 }

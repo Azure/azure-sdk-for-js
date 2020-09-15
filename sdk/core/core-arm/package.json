@@ -13,11 +13,31 @@
     "autorest",
     "clientruntime"
   ],
-  "keywords": ["isomorphic", "browser", "javascript", "node", "microsoft", "autorest", "clientruntime", "azure", "cloud"],
+  "keywords": [
+    "isomorphic",
+    "browser",
+    "javascript",
+    "node",
+    "microsoft",
+    "autorest",
+    "clientruntime",
+    "azure",
+    "cloud"
+  ],
   "main": "dist/index.js",
   "module": "dist-esm/src/index.js",
   "types": "./es/src/coreArm.d.ts",
-  "files": ["dist/**/*.js", "dist/**/*.js.map", "es/src/**/*.js", "es/src/**/*.js.map", "es/src/**/*.d.ts", "es/src/**/*.d.ts.map", "LICENSE", "README.md", "dist-esm/src"],
+  "files": [
+    "dist/**/*.js",
+    "dist/**/*.js.map",
+    "es/src/**/*.js",
+    "es/src/**/*.js.map",
+    "es/src/**/*.d.ts",
+    "es/src/**/*.d.ts.map",
+    "LICENSE",
+    "README.md",
+    "dist-esm/src"
+  ],
   "license": "MIT",
   "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/core/core-arm",
   "repository": "github:Azure/azure-sdk-for-js",

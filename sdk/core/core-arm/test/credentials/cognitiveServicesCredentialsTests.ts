@@ -12,24 +12,32 @@ import * as msAssert from "../msAssert";
 describe("CognitiveServicesCredentials", () => {
   describe("constructor()", () => {
     it("with undefined subscription key", () => {
-      msAssert.throws(() => new CognitiveServicesCredentials(undefined as any),
-        new Error("subscriptionKey cannot be null or undefined and must be of type string."));
+      msAssert.throws(
+        () => new CognitiveServicesCredentials(undefined as any),
+        new Error("subscriptionKey cannot be null or undefined and must be of type string.")
+      );
     });
 
     it("with null subscription key", () => {
       // tslint:disable-next-line:no-null-keyword
-      msAssert.throws(() => new CognitiveServicesCredentials(null as any),
-        new Error("subscriptionKey cannot be null or undefined and must be of type string."));
+      msAssert.throws(
+        () => new CognitiveServicesCredentials(null as any),
+        new Error("subscriptionKey cannot be null or undefined and must be of type string.")
+      );
     });
 
     it("with number subscription key", () => {
-      msAssert.throws(() => new CognitiveServicesCredentials(50 as any),
-        new Error("subscriptionKey cannot be null or undefined and must be of type string."));
+      msAssert.throws(
+        () => new CognitiveServicesCredentials(50 as any),
+        new Error("subscriptionKey cannot be null or undefined and must be of type string.")
+      );
     });
 
     it("with empty subscription key", () => {
-      msAssert.throws(() => new CognitiveServicesCredentials(""),
-        new Error("subscriptionKey cannot be null or undefined and must be of type string."));
+      msAssert.throws(
+        () => new CognitiveServicesCredentials(""),
+        new Error("subscriptionKey cannot be null or undefined and must be of type string.")
+      );
     });
 
     it("with non-empty subscription key", async () => {

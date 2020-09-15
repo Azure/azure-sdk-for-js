@@ -10,14 +10,13 @@ import { CompositeMapper } from "@azure/core-http";
  * @class
  * An empty interface.
  */
-export interface BaseResource { }
+export interface BaseResource {}
 
 export const BaseResourceMapper: CompositeMapper = {
   serializedName: "BaseResource",
   type: {
     name: "Composite",
     className: "BaseResource",
-    modelProperties: {
-    }
+    modelProperties: {}
   }
 };
