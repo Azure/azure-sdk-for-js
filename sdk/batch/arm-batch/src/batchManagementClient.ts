@@ -23,6 +23,8 @@ class BatchManagementClient extends BatchManagementClientContext {
   location: operations.Location;
   operations: operations.Operations;
   certificate: operations.CertificateOperations;
+  privateLinkResource: operations.PrivateLinkResourceOperations;
+  privateEndpointConnection: operations.PrivateEndpointConnectionOperations;
   pool: operations.PoolOperations;
 
   /**
@@ -40,6 +42,8 @@ class BatchManagementClient extends BatchManagementClientContext {
     this.location = new operations.Location(this);
     this.operations = new operations.Operations(this);
     this.certificate = new operations.CertificateOperations(this);
+    this.privateLinkResource = new operations.PrivateLinkResourceOperations(this);
+    this.privateEndpointConnection = new operations.PrivateEndpointConnectionOperations(this);
     this.pool = new operations.PoolOperations(this);
   }
 }
