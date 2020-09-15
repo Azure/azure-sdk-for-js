@@ -30,6 +30,11 @@ type ParsedWWWAuthenticate = {
  * Representation of the Authentication Challenge
  */
 export class AuthenticationChallenge {
+  /**
+   * Internal representation of an authentication challenge
+   * @param authorization The authorization of the challenge
+   * @param scope The scope to allow authentication
+   */
   constructor(public authorization: string, public scope: string) {}
 
   /**
@@ -52,8 +57,15 @@ export class AuthenticationChallenge {
  * so that we can compare on any further request.
  */
 export class AuthenticationChallengeCache {
+  /**
+   * The previously used challenge, if available
+   */
   public challenge?: AuthenticationChallenge;
 
+  /**
+   * Sets the cached challenge
+   * @param challenge the challenge that is to be cached
+   */
   public setCachedChallenge(challenge: AuthenticationChallenge) {
     this.challenge = challenge;
   }

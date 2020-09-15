@@ -61,9 +61,7 @@ export class AuthenticationChallenge {
 
 // @public
 export class AuthenticationChallengeCache {
-    // (undocumented)
     challenge?: AuthenticationChallenge;
-    // (undocumented)
     setCachedChallenge(challenge: AuthenticationChallenge): void;
 }
 
