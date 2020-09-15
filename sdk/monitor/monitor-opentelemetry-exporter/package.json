@@ -9,6 +9,7 @@
   "types": "types/src/index.d.ts",
   "scripts": {
     "clean": "rimraf dist-esm types dist",
+    "build:autorest": "autorest ./swagger/README.md --typescript --v3",
     "build:browser": "echo skipped",
     "build:test": "echo skipped",
     "build:node": "tsc -p .",
