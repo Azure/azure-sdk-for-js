@@ -556,7 +556,12 @@ export function serializeRequestBody(
 
         if (operationSpec.isXML) {
             const xmlnsKey = xmlNamespacePrefix ? `xmlns:${xmlNamespacePrefix}` : "xmlns";
-            const value = getXmlValueWithNamespace(xmlNamespace, xmlnsKey, typeName, httpRequest.body);
+            const value = getXmlValueWithNamespace(
+              xmlNamespace,
+              xmlnsKey,
+              typeName,
+              httpRequest.body
+            );
           if (typeName === MapperType.Sequence) {
             httpRequest.body = stringifyXML(
               utils.prepareXMLRootList(
