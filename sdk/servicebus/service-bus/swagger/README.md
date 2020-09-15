@@ -13,7 +13,7 @@ enable-xml: true
 generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../src/generated
-input-file: ./servicebus-swagger-jose.json
+input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/1f4095f20a2b89c056c40e85b17af7a534bffc4d/specification/servicebus/data-plane/servicebus-swagger.json
 model-date-time-as-string: true
 optional-response-headers: true
 use-extension:
