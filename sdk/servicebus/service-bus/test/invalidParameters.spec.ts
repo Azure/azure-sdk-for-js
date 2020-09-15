@@ -8,10 +8,9 @@ import chaiAsPromised from "chai-as-promised";
 chai.use(chaiAsPromised);
 import { TestClientType, TestMessage } from "./utils/testUtils";
 import { ServiceBusClientForTests, createServiceBusClientForTests } from "./utils/testutils2";
-import { Sender } from "../src/sender";
-import { SessionReceiver } from "../src/receivers/sessionReceiver";
-import { ReceivedMessageWithLock } from "../src/serviceBusMessage";
-import { ServiceBusClient } from "../src";
+import { ServiceBusSender } from "../src/sender";
+import { ServiceBusReceivedMessageWithLock } from "../src/serviceBusMessage";
+import { ServiceBusClient, ServiceBusSessionReceiver } from "../src";
 
 describe("invalid parameters", () => {
   let serviceBusClient: ServiceBusClientForTests;
@@ -25,8 +24,8 @@ describe("invalid parameters", () => {
   });
 
   describe("Invalid parameters in SessionReceiver", function(): void {
-    let sender: Sender;
-    let receiver: SessionReceiver<ReceivedMessageWithLock>;
+    let sender: ServiceBusSender;
+    let receiver: ServiceBusSessionReceiver<ServiceBusReceivedMessageWithLock>;
 
     // Since, the below tests never actually make use of any AMQP links, there is no need to create
     // new sender/receiver clients before each test. Doing it once for each describe block.
@@ -68,7 +67,7 @@ describe("invalid parameters", () => {
       }
       should.equal(
         errorCaught,
-        "Unable to parse the arguments\nTypeError: Invalid receiveMode provided",
+        `Invalid receiveMode '123' provided. Valid values are 'peekLock' and 'receiveAndDelete'`,
         "Did not throw error if created a client with invalid receiveMode."
       );
     });
@@ -225,8 +224,23 @@ describe("invalid parameters", () => {
       }
       should.equal(
         errorCaught,
-        "Unable to parse the arguments\nTypeError: Invalid receiveMode provided",
+        `Invalid receiveMode '123' provided. Valid values are 'peekLock' and 'receiveAndDelete'`,
         "Did not throw error if created a client with invalid receiveMode."
+      );
+    });
+
+    it("Receiver: Invalid SubQueue", async function(): Promise<void> {
+      let errorCaught: string = "";
+      try {
+        // @ts-expect-error
+        sbClient.createReceiver("dummyQueue", { subQueue: 123 });
+      } catch (error) {
+        errorCaught = error.message;
+      }
+      should.equal(
+        errorCaught,
+        `Invalid subQueue '123' provided. Valid values are 'deadLetter' and 'transferDeadLetter'`,
+        "Did not throw error if created a client with invalid subQueue."
       );
     });
 

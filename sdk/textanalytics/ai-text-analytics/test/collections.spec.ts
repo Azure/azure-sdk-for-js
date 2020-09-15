@@ -9,6 +9,7 @@ import { makeExtractKeyPhrasesResultArray } from "../src/extractKeyPhrasesResult
 import { makeRecognizeLinkedEntitiesResultArray } from "../src/recognizeLinkedEntitiesResultArray";
 import { makeRecognizeCategorizedEntitiesResultArray } from "../src/recognizeCategorizedEntitiesResultArray";
 import { DetectLanguageInput, TextDocumentInput } from "../src/generated/models";
+import { makeRecognizePiiEntitiesResultArray } from "../src/recognizePiiEntitiesResultArray";
 
 describe("SentimentResultArray", () => {
   it("merges items in order", () => {
@@ -199,7 +200,9 @@ describe("RecognizeCategorizedEntitiesResultArray", () => {
             {
               text: "Microsoft",
               category: "Organization",
-              confidenceScore: 0.9989
+              confidenceScore: 0.9989,
+              length: 0,
+              offset: 0
             }
           ],
           warnings: []
@@ -211,7 +214,9 @@ describe("RecognizeCategorizedEntitiesResultArray", () => {
               text: "last week",
               category: "DateTime",
               subCategory: "DateRange",
-              confidenceScore: 0.8
+              confidenceScore: 0.8,
+              length: 0,
+              offset: 0
             }
           ],
           warnings: []
@@ -262,7 +267,9 @@ describe("RecognizeLinkedEntitiesResultArray", () => {
               matches: [
                 {
                   text: "Seattle",
-                  confidenceScore: 0.15046201222847677
+                  confidenceScore: 0.15046201222847677,
+                  length: 0,
+                  offset: 0
                 }
               ],
               language: "en",
@@ -281,7 +288,9 @@ describe("RecognizeLinkedEntitiesResultArray", () => {
               matches: [
                 {
                   text: "Microsoft",
-                  confidenceScore: 0.1869365971673207
+                  confidenceScore: 0.1869365971673207,
+                  length: 0,
+                  offset: 0
                 }
               ],
               language: "en",
@@ -304,9 +313,73 @@ describe("RecognizeLinkedEntitiesResultArray", () => {
       ],
       ""
     );
-
     const inputOrder = input.map((item) => item.id);
     const outputOrder = result.map((item) => item.id);
     assert.deepEqual(inputOrder, outputOrder);
+  });
+
+  describe("RecognizePiiEntitiesResultArray", () => {
+    it("merges items in order", () => {
+      const input: TextDocumentInput[] = [
+        {
+          id: "A",
+          text: "test"
+        },
+        {
+          id: "B",
+          text: "test2"
+        },
+        {
+          id: "C",
+          text: "test3"
+        }
+      ];
+      const result = makeRecognizePiiEntitiesResultArray(input, {
+        documents: [
+          {
+            id: "A",
+            entities: [
+              {
+                text: "(555) 555-5555",
+                category: "US Phone Number",
+                confidenceScore: 0.9989,
+                length: 0,
+                offset: 0
+              }
+            ],
+            warnings: []
+          },
+          {
+            id: "C",
+            entities: [
+              {
+                text: "1234 Default Ln.",
+                category: "US Address",
+                subCategory: "",
+                confidenceScore: 0.8,
+                length: 0,
+                offset: 0
+              }
+            ],
+            warnings: []
+          }
+        ],
+        errors: [
+          {
+            id: "B",
+            error: {
+              code: "InternalServerError",
+              message: "test error"
+            }
+          }
+        ],
+        modelVersion: "",
+        _response: {} as any
+      });
+
+      const inputOrder = input.map((item) => item.id);
+      const outputOrder = result.map((item) => item.id);
+      assert.deepEqual(inputOrder, outputOrder);
+    });
   });
 });

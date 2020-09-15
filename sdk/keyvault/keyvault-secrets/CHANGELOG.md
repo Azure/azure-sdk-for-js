@@ -1,6 +1,15 @@
 # Release History
 
-## 4.1.0 (2020-08-11)
+## 4.2.0-beta.2 (Unreleased)
+
+
+## 4.2.0-beta.1 (2020-09-11)
+
+- Added `parseKeyVaultSecretsIdentifier` and `ParsedKeyVaultSecretsIdentifier` to help with parsing the unique identifiers of Key Vault Secrets.
+
+## 4.1.0 (2020-08-12)
+
+4.1.0 had changes both relative to the last GA release, `4.0.4`, and the last preview release, `4.1.0-preview.1`.
 
 ### Changes since 4.0.4
 

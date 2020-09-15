@@ -32,7 +32,7 @@ import {
  */
 export function buildTopicOptions(topic: CreateTopicOptions): InternalTopicOptions {
   return {
-    DefaultMessageTimeToLive: topic.defaultMessageTtl,
+    DefaultMessageTimeToLive: topic.defaultMessageTimeToLive,
     MaxSizeInMegabytes: getStringOrUndefined(topic.maxSizeInMegabytes),
     RequiresDuplicateDetection: getStringOrUndefined(topic.requiresDuplicateDetection),
     DuplicateDetectionHistoryTimeWindow: topic.duplicateDetectionHistoryTimeWindow,
@@ -42,7 +42,8 @@ export function buildTopicOptions(topic: CreateTopicOptions): InternalTopicOptio
     UserMetadata: getStringOrUndefined(topic.userMetadata),
     SupportOrdering: getStringOrUndefined(topic.supportOrdering),
     AutoDeleteOnIdle: getStringOrUndefined(topic.autoDeleteOnIdle),
-    EnablePartitioning: getStringOrUndefined(topic.enablePartitioning)
+    EnablePartitioning: getStringOrUndefined(topic.enablePartitioning),
+    EnableExpress: getStringOrUndefined(topic.enableExpress)
   };
 }
 
@@ -65,9 +66,9 @@ export function buildTopic(rawTopic: any): TopicProperties {
       "enableBatchedOperations"
     ),
 
-    defaultMessageTtl: getString(
+    defaultMessageTimeToLive: getString(
       rawTopic[Constants.DEFAULT_MESSAGE_TIME_TO_LIVE],
-      "defaultMessageTtl"
+      "defaultMessageTimeToLive"
     ),
     autoDeleteOnIdle: rawTopic[Constants.AUTO_DELETE_ON_IDLE],
 
@@ -83,7 +84,9 @@ export function buildTopic(rawTopic: any): TopicProperties {
     authorizationRules: getAuthorizationRulesOrUndefined(rawTopic[Constants.AUTHORIZATION_RULES]),
     userMetadata: rawTopic[Constants.USER_METADATA],
 
-    status: rawTopic[Constants.STATUS]
+    status: rawTopic[Constants.STATUS],
+
+    enableExpress: getBoolean(rawTopic[Constants.ENABLE_EXPRESS], "enableExpress")
   };
 }
 
@@ -102,7 +105,7 @@ export function buildTopicRuntimeProperties(rawTopic: any): TopicRuntimeProperti
     createdAt: getDate(rawTopic[Constants.CREATED_AT], "createdAt"),
     scheduledMessageCount: getMessageCountDetails(rawTopic[Constants.COUNT_DETAILS])
       .scheduledMessageCount,
-    updatedAt: getDate(rawTopic[Constants.UPDATED_AT], "updatedAt"),
+    modifiedAt: getDate(rawTopic[Constants.UPDATED_AT], "modifiedAt"),
     accessedAt: getDate(rawTopic[Constants.ACCESSED_AT], "accessedAt")
   };
 }
@@ -122,7 +125,7 @@ export interface CreateTopicOptions extends OperationOptions {
    *
    * More on ISO-8601 duration format: https://en.wikipedia.org/wiki/ISO_8601#Durations
    */
-  defaultMessageTtl?: string;
+  defaultMessageTimeToLive?: string;
 
   /**
    * Specifies the maximum topic size in megabytes. Any attempt to enqueue a message
@@ -190,6 +193,11 @@ export interface CreateTopicOptions extends OperationOptions {
    * Specifies whether the topic should be partitioned
    */
   enablePartitioning?: boolean;
+
+  /**
+   * Specifies whether express entities are enabled on topic.
+   */
+  enableExpress?: boolean;
 }
 
 /**
@@ -215,7 +223,7 @@ export interface TopicProperties {
    *
    * More on ISO-8601 duration format: https://en.wikipedia.org/wiki/ISO_8601#Durations
    */
-  defaultMessageTtl: string;
+  defaultMessageTimeToLive: string;
 
   /**
    * Specifies the maximum topic size in megabytes. Any attempt to enqueue a message
@@ -283,6 +291,11 @@ export interface TopicProperties {
    * Specifies whether the topic should be partitioned
    */
   readonly enablePartitioning: boolean;
+
+  /**
+   * Specifies whether express entities are enabled on topic.
+   */
+  readonly enableExpress: boolean;
 }
 
 /**
@@ -371,6 +384,11 @@ export interface InternalTopicOptions {
    * Specifies whether the topic should be partitioned
    */
   EnablePartitioning?: string;
+
+  /**
+   * Specifies whether express entities are enabled on queue.
+   */
+  EnableExpress?: string;
 }
 
 /**
@@ -406,7 +424,7 @@ export interface TopicRuntimeProperties {
   /**
    * Updated at timestamp
    */
-  updatedAt: Date;
+  modifiedAt: Date;
 
   /**
    * Accessed at timestamp

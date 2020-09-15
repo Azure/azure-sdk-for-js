@@ -262,4 +262,11 @@ describe("ShareDirectoryClient - Verify Name Properties", () => {
   it("verify endpoint without dots", async () => {
     verifyNameProperties(`https://localhost:80/${accountName}/${shareName}`);
   });
+
+  it("verify custom endpoint without valid accountName", async () => {
+    const newClient = new ShareClient(`https://customdomain.com/${shareName}`);
+
+    assert.equal(newClient.accountName, "", "Account name is not the same as expected.");
+    assert.equal(newClient.name, shareName, "Share name is not the same as the one provided.");
+  });
 });

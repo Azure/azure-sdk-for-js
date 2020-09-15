@@ -34,14 +34,17 @@
 /sdk/core/logger @xirzec @bterlson @chradek
 
 # Service teams
-# PRLabel: %AzConfig
+# PRLabel: %App Configuration
 /sdk/appconfiguration/ @richardpark-msft @chradek
 
 # PRLabel: %Batch
-/sdk/batch/ @xingwu1 @matthchr @bgklein
+/sdk/batch/ @xingwu1 @matthchr @bgklein @deyaaeldeen
 
 # PRLabel: %Cosmos
 /sdk/cosmosdb/ @southpolesteve @zfoster
+
+# PRLabel: %Event Grid
+/sdk/eventgrid/ @ramya-rao-a @ellismg
 
 # PRLabel: %Event Hubs
 /sdk/eventhub/ @ramya-rao-a @chradek @richardpark-msft @HarshaNalluru
@@ -56,15 +59,18 @@
 /sdk/keyvault/ @jonathandturner @sadasant
 
 # PRLabel: %Storage
-/sdk/storage/ @XiaoningLiu @jeremymeng @HarshaNalluru @vinjiang @jiacfan @ljian3377  
+/sdk/storage/ @XiaoningLiu @jeremymeng @HarshaNalluru @vinjiang @jiacfan @ljian3377
 
 # PRLabel: %Tables
 /sdk/tables/ @mahdiva @joheredi
 
+# PRLabel: %EngSys
+/sdk/template/ @Azure/azure-sdk-eng
+
 /sdk/test-utils/ @HarshaNalluru @sadasant
 
 # PRLabel: %Cognitive - Text Analytics
-/sdk/textanalytics/ @xirzec @willmtemple
+/sdk/textanalytics/ @deyaaeldeen @xirzec @willmtemple
 
 # PRLabel: %Cognitive - Form Recognizer
 /sdk/formrecognizer/ @jeremymeng @willmtemple
@@ -85,6 +91,9 @@
 /**/*Management*.ts @qiaozha
 /**/arm-*/ @qiaozha
 
+# PRLabel: %Monitor
+/sdk/monitor/ @markwolff @xirzec @applicationinsights-js-owners
+
 ###########
 # Eng Sys
 ###########
@@ -95,9 +104,10 @@
 ###########
 # Config
 ###########
-/.vscode/ @mikeharder @KarishmaGhiya
+/.vscode/ @mikeharder @KarishmaGhiya @deyaaeldeen
 /common/ @mikeharder @KarishmaGhiya
 /common/config/rush/pnpm-lock.yaml @bterlson
+/common/git-hooks/ @deyaaeldeen
 /rush.json @mikeharder @KarishmaGhiya
 /tsconfig.json @mikeharder @KarishmaGhiya
 /**/tsconfig.json @bterlson

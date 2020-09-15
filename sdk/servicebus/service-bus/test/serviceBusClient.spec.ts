@@ -6,9 +6,9 @@ import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
 import * as dotenv from "dotenv";
 import Long from "long";
-import { MessagingError, Receiver, ServiceBusClient, SessionReceiver } from "../src";
-import { Sender } from "../src/sender";
-import { DispositionType, ReceivedMessageWithLock } from "../src/serviceBusMessage";
+import { MessagingError, ServiceBusClient, ServiceBusSessionReceiver } from "../src";
+import { ServiceBusSender } from "../src/sender";
+import { DispositionType, ServiceBusReceivedMessageWithLock } from "../src/serviceBusMessage";
 import { getReceiverClosedErrorMsg, getSenderClosedErrorMsg } from "../src/util/errors";
 import { EnvVarNames, getEnvVars, isNode } from "../test/utils/envVarUtils";
 import { checkWithTimeout, isMessagingError, TestClientType, TestMessage } from "./utils/testUtils";
@@ -20,6 +20,7 @@ import {
   getRandomTestClientTypeWithSessions,
   getRandomTestClientTypeWithNoSessions
 } from "./utils/testutils2";
+import { ServiceBusReceiver } from "../src/receivers/receiver";
 
 const should = chai.should();
 chai.use(chaiAsPromised);
@@ -357,9 +358,9 @@ describe("Test ServiceBusClient with TokenCredentials", function(): void {
 
 describe("Errors after close()", function(): void {
   let sbClient: ServiceBusClientForTests;
-  let sender: Sender;
-  let receiver: Receiver<ReceivedMessageWithLock>;
-  let receivedMessage: ReceivedMessageWithLock;
+  let sender: ServiceBusSender;
+  let receiver: ServiceBusReceiver<ServiceBusReceivedMessageWithLock>;
+  let receivedMessage: ServiceBusReceivedMessageWithLock;
   let entityName: EntityName;
 
   afterEach(async () => {
@@ -578,7 +579,9 @@ describe("Errors after close()", function(): void {
    */
   async function testSessionReceiver(expectedErrorMsg: string): Promise<void> {
     await testReceiver(expectedErrorMsg);
-    const sessionReceiver = receiver as SessionReceiver<ReceivedMessageWithLock>;
+    const sessionReceiver = receiver as ServiceBusSessionReceiver<
+      ServiceBusReceivedMessageWithLock
+    >;
 
     let errorPeek: string = "";
     await sessionReceiver.peekMessages(1).catch((err) => {
@@ -601,16 +604,24 @@ describe("Errors after close()", function(): void {
     );
 
     let errorGetState: string = "";
-    await sessionReceiver.getState().catch((err) => {
+    await sessionReceiver.getSessionState().catch((err) => {
       errorGetState = err.message;
     });
-    should.equal(errorGetState, expectedErrorMsg, "Expected error not thrown for getState()");
+    should.equal(
+      errorGetState,
+      expectedErrorMsg,
+      "Expected error not thrown for getSessionState()"
+    );
 
     let errorSetState: string = "";
-    await sessionReceiver.setState("state!!").catch((err) => {
+    await sessionReceiver.setSessionState("state!!").catch((err) => {
       errorSetState = err.message;
     });
-    should.equal(errorSetState, expectedErrorMsg, "Expected error not thrown for setState()");
+    should.equal(
+      errorSetState,
+      expectedErrorMsg,
+      "Expected error not thrown for setSessionState()"
+    );
   }
 
   describe("Errors after close() on namespace", function(): void {
@@ -710,7 +721,7 @@ describe("entityPath on sender and receiver", async () => {
 
   it("Entity Path on Queue deadletter Receiver", () => {
     const dummyQueueName = "dummy";
-    const receiver = sbClient.createDeadLetterReceiver(dummyQueueName);
+    const receiver = sbClient.createReceiver(dummyQueueName, { subQueue: "deadLetter" });
     should.equal(
       receiver.entityPath,
       `${dummyQueueName}/$DeadLetterQueue`,
@@ -732,7 +743,9 @@ describe("entityPath on sender and receiver", async () => {
   it("Entity Path on Subscription deadletter Receiver", () => {
     const dummyTopicName = "dummyTopicName";
     const dummySubscriptionName = "dummySubscriptionName";
-    const receiver = sbClient.createDeadLetterReceiver(dummyTopicName, dummySubscriptionName);
+    const receiver = sbClient.createReceiver(dummyTopicName, dummySubscriptionName, {
+      subQueue: "deadLetter"
+    });
     should.equal(
       receiver.entityPath,
       `${dummyTopicName}/Subscriptions/${dummySubscriptionName}/$DeadLetterQueue`,

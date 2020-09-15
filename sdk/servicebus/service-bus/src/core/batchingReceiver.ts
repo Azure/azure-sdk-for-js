@@ -1,7 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import * as log from "../log";
+import { logger } from "../log";
 import { MessagingError, translate } from "@azure/core-amqp";
 import {
   AmqpError,
@@ -13,14 +13,9 @@ import {
   Session
 } from "rhea-promise";
 import { InternalReceiveMode, ServiceBusMessageImpl } from "../serviceBusMessage";
-import {
-  MessageReceiver,
-  OnAmqpEventAsPromise,
-  ReceiveOptions,
-  ReceiverType
-} from "./messageReceiver";
-import { ClientEntityContext } from "../clientEntityContext";
-import { throwErrorIfConnectionClosed } from "../util/errors";
+import { MessageReceiver, OnAmqpEventAsPromise, ReceiveOptions } from "./messageReceiver";
+import { ConnectionContext } from "../connectionContext";
+import { logError, throwErrorIfConnectionClosed } from "../util/errors";
 import { AbortSignalLike } from "@azure/abort-controller";
 import { checkAndRegisterWithAbortSignal } from "../util/utils";
 
@@ -40,11 +35,12 @@ export class BatchingReceiver extends MessageReceiver {
    * @param {ClientEntityContext} context The client entity context.
    * @param {ReceiveOptions} [options]  Options for how you'd like to connect.
    */
-  constructor(context: ClientEntityContext, options?: ReceiveOptions) {
-    super(context, ReceiverType.batching, options);
+  constructor(context: ConnectionContext, protected _entityPath: string, options?: ReceiveOptions) {
+    super(context, _entityPath, "br", options);
 
     this._batchingReceiverLite = new BatchingReceiverLite(
       context,
+      _entityPath,
       async (abortSignal?: AbortSignalLike): Promise<MinimalReceiver | undefined> => {
         let lastError: Error | AmqpError | undefined;
 
@@ -68,7 +64,7 @@ export class BatchingReceiver extends MessageReceiver {
           throw lastError;
         }
 
-        return this._receiver;
+        return this.link;
       },
       this.receiveMode
     );
@@ -86,8 +82,7 @@ export class BatchingReceiver extends MessageReceiver {
    * @returns {Promise<void>} Promise<void>.
    */
   async onDetached(connectionError?: AmqpError | Error): Promise<void> {
-    // Clears the token renewal timer. Closes the link and its session if they are open.
-    await this._closeLink(this._receiver);
+    await this.closeLink();
 
     if (connectionError == null) {
       connectionError = new Error(
@@ -114,12 +109,12 @@ export class BatchingReceiver extends MessageReceiver {
     maxTimeAfterFirstMessageInMs: number,
     userAbortSignal?: AbortSignalLike
   ): Promise<ServiceBusMessageImpl[]> {
-    throwErrorIfConnectionClosed(this._context.namespace);
+    throwErrorIfConnectionClosed(this._context);
 
     try {
-      log.batching(
+      logger.verbose(
         "[%s] Receiver '%s', setting max concurrent calls to 0.",
-        this._context.namespace.connectionId,
+        this._context.connectionId,
         this.name
       );
 
@@ -130,9 +125,10 @@ export class BatchingReceiver extends MessageReceiver {
         userAbortSignal
       });
     } catch (error) {
-      log.error(
+      logError(
+        error,
         "[%s] Receiver '%s': Rejecting receiveMessages() with error %O: ",
-        this._context.namespace.connectionId,
+        this._context.connectionId,
         this.name,
         error
       );
@@ -140,17 +136,14 @@ export class BatchingReceiver extends MessageReceiver {
     }
   }
 
-  /**
-   * Creates a batching receiver.
-   * @static
-   *
-   * @param {ClientEntityContext} context    The connection context.
-   * @param {ReceiveOptions} [options]     Receive options.
-   */
-  static create(context: ClientEntityContext, options?: ReceiveOptions): BatchingReceiver {
-    throwErrorIfConnectionClosed(context.namespace);
-    const bReceiver = new BatchingReceiver(context, options);
-    context.batchingReceiver = bReceiver;
+  static create(
+    context: ConnectionContext,
+    entityPath: string,
+    options?: ReceiveOptions
+  ): BatchingReceiver {
+    throwErrorIfConnectionClosed(context);
+    const bReceiver = new BatchingReceiver(context, entityPath, options);
+    context.messageReceivers[bReceiver.name] = bReceiver;
     return bReceiver;
   }
 }
@@ -236,7 +229,8 @@ interface ReceiveMessageArgs {
  */
 export class BatchingReceiverLite {
   constructor(
-    clientEntityContext: ClientEntityContext,
+    connectionContext: ConnectionContext,
+    entityPath: string,
     private _getCurrentReceiver: (
       abortSignal?: AbortSignalLike
     ) => Promise<MinimalReceiver | undefined>,
@@ -244,7 +238,8 @@ export class BatchingReceiverLite {
   ) {
     this._createServiceBusMessage = (context: MessageAndDelivery) => {
       return new ServiceBusMessageImpl(
-        clientEntityContext,
+        connectionContext,
+        entityPath,
         context.message!,
         context.delivery!,
         true,
@@ -332,7 +327,8 @@ export class BatchingReceiverLite {
 
         if (error) {
           error = translate(error);
-          log.error(
+          logError(
+            error,
             `${loggingPrefix} '${eventType}' event occurred. Received an error:\n%O`,
             error
           );
@@ -351,7 +347,7 @@ export class BatchingReceiverLite {
           // Return the collected messages if in ReceiveAndDelete mode because otherwise they are lost forever
           (this._receiveMode === InternalReceiveMode.receiveAndDelete && brokeredMessages.length)
         ) {
-          log.batching(
+          logger.verbose(
             `${loggingPrefix} Closing. Resolving with ${brokeredMessages.length} messages.`
           );
           return resolve(brokeredMessages);
@@ -371,7 +367,7 @@ export class BatchingReceiverLite {
 
         // Drain any pending credits.
         if (receiver.isOpen() && receiver.credit > 0) {
-          log.batching(`${loggingPrefix} Draining leftover credits(${receiver.credit}).`);
+          logger.verbose(`${loggingPrefix} Draining leftover credits(${receiver.credit}).`);
 
           // Setting drain must be accompanied by a flow call (aliased to addCredit in this case).
           receiver.drain = true;
@@ -379,7 +375,7 @@ export class BatchingReceiverLite {
         } else {
           receiver.removeListener(ReceiverEvents.receiverDrained, onReceiveDrain);
 
-          log.batching(
+          logger.verbose(
             `${loggingPrefix} Resolving receiveMessages() with ${brokeredMessages.length} messages.`
           );
           resolve(brokeredMessages);
@@ -412,7 +408,8 @@ export class BatchingReceiverLite {
           }
         } catch (err) {
           const errObj = err instanceof Error ? err : new Error(JSON.stringify(err));
-          log.error(
+          logError(
+            err,
             `${loggingPrefix} Received an error while converting AmqpMessage to ServiceBusMessage:\n%O`,
             errObj
           );
@@ -428,7 +425,8 @@ export class BatchingReceiverLite {
         const error = context.session?.error || context.receiver?.error;
 
         if (error) {
-          log.error(
+          logError(
+            error,
             `${loggingPrefix} '${type}' event occurred. The associated error is: %O`,
             error
           );
@@ -440,7 +438,7 @@ export class BatchingReceiverLite {
         receiver.removeListener(ReceiverEvents.receiverDrained, onReceiveDrain);
         receiver.drain = false;
 
-        log.batching(
+        logger.verbose(
           `${loggingPrefix} Drained, resolving receiveMessages() with ${brokeredMessages.length} messages.`
         );
 
@@ -481,13 +479,13 @@ export class BatchingReceiverLite {
 
       // Action to be performed after the max wait time is over.
       const actionAfterWaitTimeout = (): void => {
-        log.batching(
+        logger.verbose(
           `${loggingPrefix}  Batching, max wait time in milliseconds ${args.maxWaitTimeInMs} over.`
         );
         return finalAction();
       };
 
-      log.batching(
+      logger.verbose(
         `${loggingPrefix} Adding credit for receiving ${args.maxMessageCount} messages.`
       );
 
@@ -497,7 +495,7 @@ export class BatchingReceiverLite {
       // (complete/abandon/defer/deadletter) the messages from the array.
       receiver.addCredit(args.maxMessageCount);
 
-      log.batching(
+      logger.verbose(
         `${loggingPrefix} Setting the wait timer for ${args.maxWaitTimeInMs} milliseconds.`
       );
 

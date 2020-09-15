@@ -22,30 +22,26 @@ export {
   CreateSessionReceiverOptions,
   GetMessageIteratorOptions,
   MessageHandlerOptions,
+  MessageHandlerOptionsBase,
   MessageHandlers,
   PeekMessagesOptions,
   ReceiveMessagesOptions,
   ReceiveMode,
-  SenderOpenOptions,
-  SubscribeOptions,
-  WaitTimeOptions
+  SessionSubscribeOptions,
+  SubQueue,
+  SubscribeOptions
 } from "./models";
 export { OperationOptionsBase } from "./modelsToBeSharedWithEventHubs";
-export { Receiver } from "./receivers/receiver";
-export { SessionReceiver } from "./receivers/sessionReceiver";
-export { Sender } from "./sender";
+export { ServiceBusReceiver } from "./receivers/receiver";
+export { ServiceBusSessionReceiver } from "./receivers/sessionReceiver";
+export { ServiceBusSender } from "./sender";
 export { NamespaceProperties } from "./serializers/namespaceResourceSerializer";
 export {
   CreateQueueOptions,
   QueueProperties,
   QueueRuntimeProperties
 } from "./serializers/queueResourceSerializer";
-export {
-  RuleProperties,
-  SqlParameter,
-  SqlRuleAction,
-  SqlRuleFilter
-} from "./serializers/ruleResourceSerializer";
+export { RuleProperties, SqlRuleAction, SqlRuleFilter } from "./serializers/ruleResourceSerializer";
 export {
   CreateSubscriptionOptions,
   SubscriptionProperties,
@@ -63,8 +59,7 @@ export {
   QueueRuntimePropertiesResponse,
   Response,
   RuleResponse,
-  ServiceBusManagementClient,
-  ServiceBusManagementClientOptions,
+  ServiceBusAdministrationClient,
   SubscriptionResponse,
   SubscriptionRuntimePropertiesResponse,
   TopicResponse,
@@ -72,11 +67,13 @@ export {
 } from "./serviceBusAtomManagementClient";
 export { ServiceBusClient } from "./serviceBusClient";
 export {
+  AmqpAnnotatedMessage,
+  AmqpMessageHeader,
+  AmqpMessageProperties,
   DeadLetterOptions,
-  ReceivedMessage,
-  ReceivedMessageWithLock,
+  ServiceBusReceivedMessage,
+  ServiceBusReceivedMessageWithLock,
   ServiceBusMessage
 } from "./serviceBusMessage";
 export { ServiceBusMessageBatch } from "./serviceBusMessageBatch";
-export { SessionMessageHandlerOptions, SessionReceiverOptions } from "./session/messageSession";
 export { AuthorizationRule, EntityStatus } from "./util/utils";

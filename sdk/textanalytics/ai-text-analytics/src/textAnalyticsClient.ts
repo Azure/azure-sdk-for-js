@@ -37,12 +37,17 @@ import {
   ExtractKeyPhrasesResultArray
 } from "./extractKeyPhrasesResultArray";
 import {
+  RecognizePiiEntitiesResultArray,
+  makeRecognizePiiEntitiesResultArray
+} from "./recognizePiiEntitiesResultArray";
+import {
   RecognizeLinkedEntitiesResultArray,
   makeRecognizeLinkedEntitiesResultArray
 } from "./recognizeLinkedEntitiesResultArray";
 import { createSpan } from "./tracing";
 import { CanonicalCode } from "@opentelemetry/api";
 import { createTextAnalyticsAzureKeyCredentialPolicy } from "./azureKeyCredentialPolicy";
+import { addStrEncodingParam } from "./util";
 
 const DEFAULT_COGNITIVE_SCOPE = "https://cognitiveservices.azure.com/.default";
 
@@ -102,6 +107,11 @@ export interface AnalyzeSentimentOptions extends TextAnalyticsOperationOptions {
    */
   includeOpinionMining?: boolean;
 }
+
+/**
+ * Options for the recognize PII entities operation.
+ */
+export type RecognizePiiEntitiesOptions = TextAnalyticsOperationOptions;
 
 /**
  * Options for the extract key phrases operation.
@@ -354,7 +364,7 @@ export class TextAnalyticsClient {
         {
           documents: realInputs
         },
-        operationOptionsToRequestOptionsBase(finalOptions)
+        operationOptionsToRequestOptionsBase(addStrEncodingParam(finalOptions))
       );
 
       return makeRecognizeCategorizedEntitiesResultArray(
@@ -462,7 +472,7 @@ export class TextAnalyticsClient {
         {
           documents: realInputs
         },
-        operationOptionsToRequestOptionsBase(finalOptions)
+        operationOptionsToRequestOptionsBase(addStrEncodingParam(finalOptions))
       );
 
       return makeAnalyzeSentimentResultArray(realInputs, result);
@@ -560,6 +570,82 @@ export class TextAnalyticsClient {
   }
 
   /**
+   * Runs a predictive model to identify a collection of entities containing
+   * personally identifiable information found in the passed-in input strings,
+   * and categorize those entities into types such as US social security
+   * number, drivers license number, or credit card number.
+   * For a list of languages supported by this operation, see
+   * https://docs.microsoft.com/en-us/azure/cognitive-services/text-analytics/language-support.
+   * @param inputs The input strings to analyze.
+   * @param language The language that all the input strings are
+        written in. If unspecified, this value will be set to the default
+        language in `TextAnalyticsClientOptions`.  
+        If set to an empty string, the service will apply a model
+        where the lanuage is explicitly set to "None".
+   * @param options Optional parameters for the operation.
+   */
+  public async recognizePiiEntities(
+    inputs: string[],
+    language?: string,
+    options?: RecognizePiiEntitiesOptions
+  ): Promise<RecognizePiiEntitiesResultArray>;
+  /**
+   * Runs a predictive model to identify a collection of entities containing
+   * personally identifiable information found in the passed-in input documents,
+   * and categorize those entities into types such as US social security
+   * number, drivers license number, or credit card number.
+   * For a list of languages supported by this operation, see
+   * https://docs.microsoft.com/en-us/azure/cognitive-services/text-analytics/language-support.
+   * @param inputs The input documents to analyze.
+   * @param options Optional parameters for the operation.
+   */
+  public async recognizePiiEntities(
+    inputs: TextDocumentInput[],
+    options?: RecognizePiiEntitiesOptions
+  ): Promise<RecognizePiiEntitiesResultArray>;
+  public async recognizePiiEntities(
+    inputs: string[] | TextDocumentInput[],
+    languageOrOptions?: string | RecognizePiiEntitiesOptions,
+    options?: RecognizePiiEntitiesOptions
+  ): Promise<RecognizePiiEntitiesResultArray> {
+    let realOptions: RecognizePiiEntitiesOptions;
+    let realInputs: TextDocumentInput[];
+
+    if (isStringArray(inputs)) {
+      const language = (languageOrOptions as string) || this.defaultLanguage;
+      realInputs = convertToTextDocumentInput(inputs, language);
+      realOptions = options || {};
+    } else {
+      realInputs = inputs;
+      realOptions = (languageOrOptions as RecognizePiiEntitiesOptions) || {};
+    }
+
+    const { span, updatedOptions: finalOptions } = createSpan(
+      "TextAnalyticsClient-recognizePiiEntities",
+      realOptions
+    );
+
+    try {
+      const result = await this.client.entitiesRecognitionPii(
+        {
+          documents: realInputs
+        },
+        operationOptionsToRequestOptionsBase(addStrEncodingParam(finalOptions))
+      );
+
+      return makeRecognizePiiEntitiesResultArray(realInputs, result);
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
    * Runs a predictive model to identify a collection of entities
    * found in the passed-in input strings, and include information linking the
    * entities to their corresponding entries in a well-known knowledge base.
@@ -622,7 +708,7 @@ export class TextAnalyticsClient {
         {
           documents: realInputs
         },
-        operationOptionsToRequestOptionsBase(finalOptions)
+        operationOptionsToRequestOptionsBase(addStrEncodingParam(finalOptions))
       );
 
       return makeRecognizeLinkedEntitiesResultArray(

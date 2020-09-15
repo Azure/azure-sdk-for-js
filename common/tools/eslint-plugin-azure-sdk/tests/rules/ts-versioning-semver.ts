@@ -295,6 +295,42 @@ ruleTester.run("ts-versioning-semver", rule, {
       filename: "package.json"
     },
     {
+      code: '{"version": "1.1.10-beta.0"}',
+      filename: "package.json"
+    },
+    {
+      code: '{"version": "1.1.10-beta.1"}',
+      filename: "package.json"
+    },
+    {
+      code: '{"version": "1.1.10-beta.10"}',
+      filename: "package.json"
+    },
+    {
+      code: '{"version": "1.1.10-dev.20200728.0"}',
+      filename: "package.json"
+    },
+    {
+      code: '{"version": "1.1.10-dev.20210128.1"}',
+      filename: "package.json"
+    },
+    {
+      code: '{"version": "1.1.10-dev.20200728.10"}',
+      filename: "package.json"
+    },
+    {
+      code: '{"version": "1.1.10-alpha.20200728.0"}',
+      filename: "package.json"
+    },
+    {
+      code: '{"version": "1.1.10-alpha.20210128.1"}',
+      filename: "package.json"
+    },
+    {
+      code: '{"version": "1.1.10-alpha.20200728.10"}',
+      filename: "package.json"
+    },
+    {
       // a full example package.json (taken from https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/eventhub/event-hubs/package.json with "scripts" removed for testing purposes)
       code: examplePackageGood,
       filename: "package.json"
@@ -390,13 +426,13 @@ ruleTester.run("ts-versioning-semver", rule, {
         }
       ]
     },
-    // preview violations
+    // preview and beta violations
     {
       code: '{"version": "1.0.0-Preview-1"}',
       filename: "package.json",
       errors: [
         {
-          message: "preview format is not x.y.z-preview.i"
+          message: "unrecognized version syntax: Preview-1"
         }
       ]
     },
@@ -427,6 +463,133 @@ ruleTester.run("ts-versioning-semver", rule, {
         }
       ]
     },
+    {
+      code: '{"version": "1.0.0-Beta-1"}',
+      filename: "package.json",
+      errors: [
+        {
+          message: "unrecognized version syntax: Beta-1"
+        }
+      ]
+    },
+    {
+      code: '{"version": "1.0.0-beta-1"}',
+      filename: "package.json",
+      errors: [
+        {
+          message: "beta format is not x.y.z-beta.i"
+        }
+      ]
+    },
+    {
+      code: '{"version": "1.0.0-beta1"}',
+      filename: "package.json",
+      errors: [
+        {
+          message: "beta format is not x.y.z-beta.i"
+        }
+      ]
+    },
+    {
+      code: '{"version": "1.0.0-beta.01"}',
+      filename: "package.json",
+      errors: [
+        {
+          message: "beta format is not x.y.z-beta.i"
+        }
+      ]
+    },
+    // dev and alpha violations
+    {
+      code: '{"version": "1.0.0-Dev-1"}',
+      filename: "package.json",
+      errors: [
+        {
+          message: "unrecognized version syntax: Dev-1"
+        }
+      ]
+    },
+    {
+      code: '{"version": "1.0.0-dev-1"}',
+      filename: "package.json",
+      errors: [
+        {
+          message: "dev format is not x.y.z-dev.<date>.i"
+        }
+      ]
+    },
+    {
+      code: '{"version": "1.0.0-dev1"}',
+      filename: "package.json",
+      errors: [
+        {
+          message: "dev format is not x.y.z-dev.<date>.i"
+        }
+      ]
+    },
+    {
+      code: '{"version": "1.0.0-dev.01"}',
+      filename: "package.json",
+      errors: [
+        {
+          message: "dev format is not x.y.z-dev.<date>.i"
+        }
+      ]
+    },
+    {
+      code: '{"version": "1.0.0-dev.2.1"}',
+      filename: "package.json",
+      errors: [
+        {
+          message: "dev format is not x.y.z-dev.<date>.i"
+        }
+      ]
+    },
+    {
+      code: '{"version": "1.0.0-Alpha-1"}',
+      filename: "package.json",
+      errors: [
+        {
+          message: "unrecognized version syntax: Alpha-1"
+        }
+      ]
+    },
+    {
+      code: '{"version": "1.0.0-alpha-1"}',
+      filename: "package.json",
+      errors: [
+        {
+          message: "alpha format is not x.y.z-alpha.<date>.i"
+        }
+      ]
+    },
+    {
+      code: '{"version": "1.0.0-alpha1"}',
+      filename: "package.json",
+      errors: [
+        {
+          message: "alpha format is not x.y.z-alpha.<date>.i"
+        }
+      ]
+    },
+    {
+      code: '{"version": "1.0.0-alpha.01"}',
+      filename: "package.json",
+      errors: [
+        {
+          message: "alpha format is not x.y.z-alpha.<date>.i"
+        }
+      ]
+    },
+    {
+      code: '{"version": "1.0.0-alpha.2.1"}',
+      filename: "package.json",
+      errors: [
+        {
+          message: "alpha format is not x.y.z-alpha.<date>.i"
+        }
+      ]
+    },
     // major version 0 violations
     {
       code: '{"version": "0.1.0"}',
@@ -443,10 +606,10 @@ ruleTester.run("ts-versioning-semver", rule, {
       filename: "package.json",
       errors: [
         {
-          message: "preview format is not x.y.z-preview.i"
+          message: "major version should not be set to 0"
         },
         {
-          message: "major version should not be set to 0"
+          message: "preview format is not x.y.z-preview.i"
         }
       ]
     },

@@ -1,5 +1,51 @@
 # Release History
 
+## 7.0.0-preview.7 (Unreleased)
+
+
+## 7.0.0-preview.6 (2020-09-10)
+
+### New features:
+
+- Support using the SharedAccessSignature from the connection string.
+  [PR 10951](https://github.com/Azure/azure-sdk-for-js/pull/10951)
+- Added a new field `amqpAnnotatedMessage` to the received message which will hold the received
+  message in its raw form, complete with all parts of the message as per the [AMQP spec](https://www.amqp.org/sites/amqp.org/files/amqp.pdf).
+- Added `ServiceBusAdministrationClient.ruleExists()`
+- Options to create a queue and topic now support `enableExpress` boolean property. `enableExpress` indicates whether Express Entities are enabled on a queue or topic. An express queue holds a message in memory temporarily before writing it to persistent storage.
+  [PR 10984](https://github.com/Azure/azure-sdk-for-js/pull/10984)
+
+### Breaking Changes
+
+#### API changes
+
+- `SessionReceiver.sessionLockedUntilUtc` is readonly and never undefined.
+  [PR 10625](https://github.com/Azure/azure-sdk-for-js/pull/10625)
+- `ServiceBusClient.createDeadLetterReceiver()` has been absorbed into `createReceiver()`.
+  To create a dead letter receiver:
+
+  ```typescript
+  // this same method will work with subscriptions as well.
+  serviceBusClient.createReceiver(<queue>, {
+    subQueue: "deadLetter"
+  });
+  ```
+
+#### Renames
+
+- The `ServiceBusManagementClient` has been renamed to `ServiceBusAdministrationClient`. See
+  [Issue 11012](https://github.com/Azure/azure-sdk-for-js/issues/11012) for more details.
+- Sender, Receivers and the ReceivedMessage interfaces are now prefixed with `ServiceBus`: `ServiceBusSender`, `ServiceBusReceiver`, `ServiceBusSessionReceiver`, `ServiceBusReceivedMessage` and `ServiceBusReceivedMessageWithLock`.
+- Lock duration fields for receivers have been renamed to apply to message locks and session locks:
+  - `maxMessageAutoRenewLockDurationInMs` to `maxAutoRenewLockDurationInMs`
+  - `autoRenewLockDurationInMs` -> `maxAutoRenewLockDurationInMs`
+- `SessionReceiver.{get,set}State` has been renamed to `SessionReceiver.{get,set}SessionState`
+- Administration API:
+  - Property `defaultMessageTtl` renamed to `defaultMessageTimeToLive` (Wherever applicable)
+  - `updatedAt` renamed to `modifiedAt`
+  - `ServiceBusManagementClientOptions` for `ServiceBusManagementClient` is replaced by `PipelineOptions` from `@azure/core-http`
+  - `AuthorizationRule.accessRights` type has been changed to be a string union with the available rights.
+
 ## 7.0.0-preview.5 (2020-08-10)
 
 - User agent details can now be added to the outgoing requests by passing the user-agent prefixes to the `ServiceBusClient` and the `ServiceBusManagementClient` through options.
@@ -83,7 +129,7 @@
   - The "update" methods (`updateQueue`, `updateTopic`, and `updateSubscription`) now require all properties on the given queue/topic/subscription object to be set even though only a subset of them are updatable. Therefore, the suggested flow is to use the "get" methods to get the queue/topic/subscription object, update as needed and then pass it to the "update" methods.
     [PR 9751](https://github.com/Azure/azure-sdk-for-js/pull/9751)
 
-    See [update queue](https://docs.microsoft.com/en-us/rest/api/servicebus/update-queue) and [update-topic](https://docs.microsoft.com/en-us/rest/api/servicebus/update-queue) for list of updatable properties.
+    See [update queue](https://docs.microsoft.com/rest/api/servicebus/update-queue) and [update-topic](https://docs.microsoft.com/rest/api/servicebus/update-queue) for list of updatable properties.
 
 ## 7.0.0-preview.3 (2020-06-08)
 

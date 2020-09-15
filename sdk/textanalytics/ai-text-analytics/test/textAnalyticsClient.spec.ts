@@ -15,7 +15,7 @@ import {
   AnalyzeSentimentResultArray,
   AnalyzeSentimentSuccessResult
 } from "../src/index";
-import { assertAllSuccess } from "./utils/resultHelper";
+import { assertAllSuccess, isSuccess } from "./utils/resultHelper";
 
 const testDataEn = [
   "I had a wonderful trip to Seattle last week and even visited the Space Needle 2 times!",
@@ -112,7 +112,7 @@ describe("[AAD] TextAnalyticsClient", function() {
       assertAllSuccess(results);
       results.map((result) =>
         (result as AnalyzeSentimentSuccessResult).sentences.map((sentence) =>
-          assert.isUndefined(sentence.minedOpinions)
+          assert.isEmpty(sentence.minedOpinions)
         )
       );
     });
@@ -137,24 +137,27 @@ describe("[AAD] TextAnalyticsClient", function() {
           assert.equal("design", aspect.text);
           assert.equal("positive", aspect.sentiment);
           assert.isAtLeast(aspect.confidenceScores.positive, 0);
-          assert.equal(aspect.confidenceScores.neutral, 0);
           assert.isAtLeast(aspect.confidenceScores.negative, 0);
+          assert.equal(aspect.offset, 32);
+          assert.equal(aspect.length, 6);
 
           const sleekOpinion = opinion.opinions[0];
           assert.equal("sleek", sleekOpinion.text);
           assert.equal("positive", sleekOpinion.sentiment);
           assert.isAtLeast(sleekOpinion.confidenceScores.positive, 0);
-          assert.equal(sleekOpinion.confidenceScores.neutral, 0);
           assert.isAtLeast(sleekOpinion.confidenceScores.positive, 0);
           assert.isFalse(sleekOpinion.isNegated);
+          assert.equal(sleekOpinion.offset, 9);
+          assert.equal(sleekOpinion.length, 5);
 
           const premiumOpinion = opinion.opinions[1];
           assert.equal("premium", premiumOpinion.text);
           assert.equal("positive", premiumOpinion.sentiment);
           assert.isAtLeast(premiumOpinion.confidenceScores.positive, 0);
-          assert.equal(premiumOpinion.confidenceScores.neutral, 0);
           assert.isAtLeast(premiumOpinion.confidenceScores.positive, 0);
           assert.isFalse(premiumOpinion.isNegated);
+          assert.equal(premiumOpinion.offset, 15);
+          assert.equal(premiumOpinion.length, 7);
         })
       );
     });
@@ -180,12 +183,10 @@ describe("[AAD] TextAnalyticsClient", function() {
 
         const foodAspectPositiveScore = foodAspect?.confidenceScores.positive!;
         const foodAspectNegativeScore = foodAspect?.confidenceScores.negative!;
-        const foodAspectNeutralScore = foodAspect?.confidenceScores.neutral!;
 
         assert.isAtLeast(foodAspectPositiveScore, 0);
         assert.isAtLeast(foodAspectNegativeScore, 0);
-        assert.equal(foodAspectNeutralScore, 0);
-        assert.equal(foodAspectPositiveScore + foodAspectNeutralScore + foodAspectNegativeScore, 1);
+        assert.equal(foodAspectPositiveScore + foodAspectNegativeScore, 1);
 
         const serviceAspect = sentence.minedOpinions?.[1].aspect;
         assert.equal("service", serviceAspect?.text);
@@ -193,15 +194,10 @@ describe("[AAD] TextAnalyticsClient", function() {
 
         const serviceAspectPositiveScore = serviceAspect?.confidenceScores.positive!;
         const serviceAspectNegativeScore = serviceAspect?.confidenceScores.negative!;
-        const serviceAspectNeutralScore = serviceAspect?.confidenceScores.neutral!;
 
         assert.isAtLeast(serviceAspectPositiveScore, 0);
-        assert.equal(serviceAspectNeutralScore, 0);
         assert.isAtLeast(serviceAspectNegativeScore, 0);
-        assert.equal(
-          serviceAspectPositiveScore + serviceAspectNegativeScore + serviceAspectNeutralScore,
-          1
-        );
+        assert.equal(serviceAspectPositiveScore + serviceAspectNegativeScore, 1);
 
         const foodOpinion = sentence.minedOpinions?.[0].opinions[0];
         const serviceOpinion = sentence.minedOpinions?.[1].opinions[0];
@@ -213,15 +209,10 @@ describe("[AAD] TextAnalyticsClient", function() {
 
         const foodOpinionPositiveScore = foodOpinion?.confidenceScores.positive!;
         const foodOpinionNegativeScore = foodOpinion?.confidenceScores.negative!;
-        const foodOpinionNeutralScore = foodOpinion?.confidenceScores.neutral!;
 
         assert.isAtLeast(foodOpinionPositiveScore, 0);
         assert.isAtLeast(foodOpinionNegativeScore, 0);
-        assert.equal(foodOpinionNeutralScore, 0);
-        assert.equal(
-          foodOpinionPositiveScore + foodOpinionNeutralScore + foodOpinionNegativeScore,
-          1
-        );
+        assert.equal(foodOpinionPositiveScore + foodOpinionNegativeScore, 1);
         assert.isTrue(foodOpinion?.isNegated);
       });
     });
@@ -461,6 +452,75 @@ describe("[AAD] TextAnalyticsClient", function() {
     });
   });
 
+  describe("#recognizePiiEntities", () => {
+    it("client throws on empty list", async () => {
+      return assert.isRejected(client.recognizePiiEntities([]));
+    });
+
+    it("client accepts string[] with no language", async () => {
+      const results = await client.recognizePiiEntities(testDataEn);
+      assert.equal(results.length, testDataEn.length);
+      assertAllSuccess(results);
+    });
+
+    it("client accepts string[] with a language specified", async () => {
+      const results = await client.recognizePiiEntities(testDataEn, "en");
+      assert.equal(results.length, testDataEn.length);
+      assertAllSuccess(results);
+    });
+
+    it("client correctly reports recognition of PII-like pattern", async () => {
+      // 078-05-1120 is an invalid social security number due to its use in advertising
+      // throughout the late 1930s
+      const fakeSSNDocument = "Your Social Security Number is 859-98-0987.";
+      const [result] = await client.recognizePiiEntities([fakeSSNDocument], "en");
+      assert.ok(isSuccess(result));
+      if (!result.error) {
+        assert.equal(result.entities.length, 1);
+      } else {
+        assert.fail("Service returned an error.");
+      }
+    });
+
+    it("service errors on unsupported language", async () => {
+      const [result] = await client.recognizePiiEntities(
+        ["This is some text, but it doesn't matter."],
+        "notalanguage"
+      );
+
+      if (result.error === undefined) {
+        assert.fail("Expected an error from the service");
+        return;
+      }
+
+      assert.equal(result.error.code, "UnsupportedLanguageCode");
+    });
+
+    it("client accepts mixed-language TextDocumentInput[]", async () => {
+      const sliceSize = 3;
+      const enInputs = testDataEn.slice(0, sliceSize).map(
+        (text): TextDocumentInput => ({
+          id: getId(),
+          text,
+          language: "en"
+        })
+      );
+      const esInputs = testDataEs.map(
+        (text): TextDocumentInput => ({
+          id: getId(),
+          text,
+          language: "es"
+        })
+      );
+      const allInputs = enInputs.concat(esInputs);
+
+      const results = await client.recognizePiiEntities(allInputs);
+      assert.equal(results.length, sliceSize + testDataEs.length);
+      // TA NER public preview currently supports only english
+      assert.ok(results.slice(0, sliceSize).every(isSuccess));
+    });
+  });
+
   describe("#recognizeLinkedEntities", () => {
     it("client throws on empty list", async () => {
       return assert.isRejected(client.recognizeLinkedEntities([]), /non-empty array/);
@@ -540,6 +600,98 @@ describe("[AAD] TextAnalyticsClient", function() {
           e.message,
           "Batch request contains too many records. Max 5 records are permitted."
         );
+      }
+    });
+  });
+
+  describe("#String encoding", () => {
+    it("emoji", async () => {
+      const [result] = await client.recognizePiiEntities([
+        { id: "0", text: "👩 SSN: 859-98-0987", language: "en" }
+      ]);
+      if (!result.error) {
+        assert.equal(result.entities[0].offset, 8);
+        assert.equal(result.entities[0].length, 11);
+      }
+    });
+
+    it("emoji with skin tone modifier", async () => {
+      const [result] = await client.recognizePiiEntities([
+        { id: "0", text: "👩🏻 SSN: 859-98-0987", language: "en" }
+      ]);
+      if (!result.error) {
+        assert.equal(result.entities[0].offset, 10);
+        assert.equal(result.entities[0].length, 11);
+      }
+    });
+
+    it("family emoji", async () => {
+      const [result] = await client.recognizePiiEntities([
+        { id: "0", text: "👩‍👩‍👧‍👧 SSN: 859-98-0987", language: "en" }
+      ]);
+      if (!result.error) {
+        assert.equal(result.entities[0].offset, 17);
+        assert.equal(result.entities[0].length, 11);
+      }
+    });
+
+    it("family emoji wit skin tone modifier", async () => {
+      const [result] = await client.recognizePiiEntities([
+        { id: "0", text: "👩🏻‍👩🏽‍👧🏾‍👦🏿 SSN: 859-98-0987", language: "en" }
+      ]);
+      if (!result.error) {
+        assert.equal(result.entities[0].offset, 25);
+        assert.equal(result.entities[0].length, 11);
+      }
+    });
+
+    it("diacritics nfc", async () => {
+      const [result] = await client.recognizePiiEntities([
+        { id: "0", text: "año SSN: 859-98-0987", language: "en" }
+      ]);
+      if (!result.error) {
+        assert.equal(result.entities[0].offset, 9);
+        assert.equal(result.entities[0].length, 11);
+      }
+    });
+
+    it("diacritics nfd", async () => {
+      const [result] = await client.recognizePiiEntities([
+        { id: "0", text: "año SSN: 859-98-0987", language: "en" }
+      ]);
+      if (!result.error) {
+        assert.equal(result.entities[0].offset, 10);
+        assert.equal(result.entities[0].length, 11);
+      }
+    });
+
+    it("korean nfc", async () => {
+      const [result] = await client.recognizePiiEntities([
+        { id: "0", text: "아가 SSN: 859-98-0987", language: "en" }
+      ]);
+      if (!result.error) {
+        assert.equal(result.entities[0].offset, 8);
+        assert.equal(result.entities[0].length, 11);
+      }
+    });
+
+    it("korean nfd", async () => {
+      const [result] = await client.recognizePiiEntities([
+        { id: "0", text: "아가 SSN: 859-98-0987", language: "en" }
+      ]);
+      if (!result.error) {
+        assert.equal(result.entities[0].offset, 8);
+        assert.equal(result.entities[0].length, 11);
+      }
+    });
+
+    it("zalgo", async () => {
+      const [result] = await client.recognizePiiEntities([
+        { id: "0", text: "ơ̵̧̧̢̳̘̘͕͔͕̭̟̙͎͈̞͔̈̇̒̃͋̇̅͛̋͛̎́͑̄̐̂̎͗͝m̵͍͉̗̄̏͌̂̑̽̕͝͠g̵̢̡̢̡̨̡̧̛͉̞̯̠̤̣͕̟̫̫̼̰͓̦͖̣̣͎̋͒̈́̓̒̈̍̌̓̅͑̒̓̅̅͒̿̏́͗̀̇͛̏̀̈́̀̊̾̀̔͜͠͝ͅ SSN: 859-98-0987", language: "en" }
+      ]);
+      if (!result.error) {
+        assert.equal(result.entities[0].offset, 121);
+        assert.equal(result.entities[0].length, 11);
       }
     });
   });

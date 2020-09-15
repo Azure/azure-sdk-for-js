@@ -7,7 +7,12 @@ import { HttpHeaders, isNode, URLBuilder } from "@azure/core-http";
 import { BlobQueryCsvTextConfiguration, BlobQueryJsonTextConfiguration } from "../Clients";
 import { QuerySerialization, BlobTags } from "../generated/src/models";
 import { DevelopmentConnectionString, HeaderConstants, URLConstants } from "./constants";
-import { Tags } from "../models";
+import {
+  Tags,
+  ObjectReplicationPolicy,
+  ObjectReplicationRule,
+  ObjectReplicationStatus
+} from "../models";
 
 /**
  * Reserved URL characters must be properly escaped for Storage services like Blob or File.
@@ -197,8 +202,6 @@ export function extractConnectionStringParts(connectionString: string): Connecti
       throw new Error("Invalid BlobEndpoint in the provided SAS Connection String");
     } else if (!accountSas) {
       throw new Error("Invalid SharedAccessSignature in the provided SAS Connection String");
-    } else if (!accountName) {
-      throw new Error("Invalid AccountName in the provided SAS Connection String");
     }
 
     return { kind: "SASConnString", url: blobEndpoint, accountName, accountSas };
@@ -541,20 +544,36 @@ export function getAccountNameFromUrl(url: string): string {
     if (parsedUrl.getHost()!.split(".")[1] === "blob") {
       // `${defaultEndpointsProtocol}://${accountName}.blob.${endpointSuffix}`;
       accountName = parsedUrl.getHost()!.split(".")[0];
-    } else {
+    } else if (isIpEndpointStyle(parsedUrl)) {
       // IPv4/IPv6 address hosts... Example - http://192.0.0.10:10001/devstoreaccount1/
       // Single word domain without a [dot] in the endpoint... Example - http://localhost:10001/devstoreaccount1/
       // .getPath() -> /devstoreaccount1/
       accountName = parsedUrl.getPath()!.split("/")[1];
-    }
-
-    if (!accountName) {
-      throw new Error("Provided accountName is invalid.");
+    } else {
+      // Custom domain case: "https://customdomain.com/containername/blob".
+      accountName = "";
     }
     return accountName;
   } catch (error) {
     throw new Error("Unable to extract accountName with provided information.");
   }
+}
+
+export function isIpEndpointStyle(parsedUrl: URLBuilder): boolean {
+  if (parsedUrl.getHost() == undefined) {
+    return false;
+  }
+
+  const host =
+    parsedUrl.getHost()! + (parsedUrl.getPort() == undefined ? "" : ":" + parsedUrl.getPort());
+
+  // Case 1: Ipv6, use a broad regex to find out candidates whose host contains two ':'.
+  // Case 2: localhost(:port), use broad regex to match port part.
+  // Case 3: Ipv4, use broad regex which just check if host contains Ipv4.
+  // For valid host please refer to https://man7.org/linux/man-pages/man7/hostname.7.html.
+  return /^.*:.*:.*$|^localhost(:[0-9]+)?$|^(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])(\.(\d|[1-9]\d|1\d\d|2[0-4]\d|25[0-5])){3}(:[0-9]+)?$/.test(
+    host
+  );
 }
 
 /**
@@ -667,4 +686,41 @@ export function toQuerySerialization(
     default:
       throw Error("Invalid BlobQueryTextConfiguration.");
   }
+}
+
+export function parseObjectReplicationRecord(
+  objectReplicationRecord?: Record<string, string>
+): ObjectReplicationPolicy[] | undefined {
+  if (!objectReplicationRecord) {
+    return undefined;
+  }
+
+  if ("policy-id" in objectReplicationRecord) {
+    // If the dictionary contains a key with policy id, we are not required to do any parsing since
+    // the policy id should already be stored in the ObjectReplicationDestinationPolicyId.
+    return undefined;
+  }
+
+  let orProperties: ObjectReplicationPolicy[] = [];
+  for (const key in objectReplicationRecord) {
+    const ids = key.split("_");
+    const policyPrefix = "or-";
+    if (ids[0].startsWith(policyPrefix)) {
+      ids[0] = ids[0].substring(policyPrefix.length);
+    }
+    const rule: ObjectReplicationRule = {
+      ruleId: ids[1],
+      replicationStatus: objectReplicationRecord[key] as ObjectReplicationStatus
+    };
+    const policyIndex = orProperties.findIndex((policy) => policy.policyId === ids[0]);
+    if (policyIndex > -1) {
+      orProperties[policyIndex].rules.push(rule);
+    } else {
+      orProperties.push({
+        policyId: ids[0],
+        rules: [rule]
+      });
+    }
+  }
+  return orProperties;
 }

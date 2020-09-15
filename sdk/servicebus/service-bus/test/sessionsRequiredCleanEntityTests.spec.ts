@@ -8,10 +8,10 @@ import {
   testPeekMsgsLength,
   getRandomTestClientTypeWithSessions
 } from "./utils/testutils2";
-import { Sender } from "../src/sender";
-import { ServiceBusMessage, SessionReceiver } from "../src";
+import { ServiceBusSender } from "../src/sender";
+import { ServiceBusMessage, ServiceBusSessionReceiver } from "../src";
 import { TestMessage } from "./utils/testUtils";
-import { ReceivedMessageWithLock } from "../src/serviceBusMessage";
+import { ServiceBusReceivedMessageWithLock } from "../src/serviceBusMessage";
 const should = chai.should();
 
 // NOTE: these tests should be reworked, if possible. Since they need to be deterministic
@@ -22,8 +22,8 @@ const should = chai.should();
 // but it'll allow them to be reliable.
 describe("sessions tests -  requires completely clean entity for each test", () => {
   let serviceBusClient: ServiceBusClientForTests;
-  let sender: Sender;
-  let receiver: SessionReceiver<ReceivedMessageWithLock>;
+  let sender: ServiceBusSender;
+  let receiver: ServiceBusSessionReceiver<ServiceBusReceivedMessageWithLock>;
 
   let testClientType = getRandomTestClientTypeWithSessions();
 

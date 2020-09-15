@@ -4,7 +4,7 @@
 import chai from "chai";
 import chaiAsPromised from "chai-as-promised";
 import { MessageSession } from "../../src/session/messageSession";
-import { createClientEntityContextForTests, defer } from "./unittestUtils";
+import { createConnectionContextForTests, defer } from "./unittestUtils";
 import sinon from "sinon";
 import { EventEmitter } from "events";
 import {
@@ -47,9 +47,13 @@ describe("Message session unit tests", () => {
         });
 
         it("1. We received 'max messages'", async () => {
-          const receiver = new MessageSession(createClientEntityContextForTests(), {
-            receiveMode: lockMode
-          });
+          const receiver = new MessageSession(
+            createConnectionContextForTests(),
+            "dummyEntityPath",
+            {
+              receiveMode: lockMode
+            }
+          );
 
           const { receiveIsReady, emitter } = setupFakeReceiver(receiver as any);
 
@@ -71,9 +75,13 @@ describe("Message session unit tests", () => {
         // in the new world the overall timeout firing means we've received _no_ messages
         // because otherwise it'd be one of the others.
         it("2. We've waited 'max wait time'", async () => {
-          const receiver = new MessageSession(createClientEntityContextForTests(), {
-            receiveMode: lockMode
-          });
+          const receiver = new MessageSession(
+            createConnectionContextForTests(),
+            "dummyEntityPath",
+            {
+              receiveMode: lockMode
+            }
+          );
 
           const { receiveIsReady } = setupFakeReceiver(receiver);
 
@@ -95,9 +103,13 @@ describe("Message session unit tests", () => {
         (lockMode === InternalReceiveMode.peekLock ? it : it.skip)(
           `3a. (with idle timeout) We've received 1 message and _now_ have exceeded 'max wait time past first message'`,
           async () => {
-            const receiver = new MessageSession(createClientEntityContextForTests(), {
-              receiveMode: lockMode
-            });
+            const receiver = new MessageSession(
+              createConnectionContextForTests(),
+              "dummyEntityPath",
+              {
+                receiveMode: lockMode
+              }
+            );
 
             const { receiveIsReady, emitter } = setupFakeReceiver(receiver);
 
@@ -137,9 +149,13 @@ describe("Message session unit tests", () => {
         (lockMode === InternalReceiveMode.receiveAndDelete ? it : it.skip)(
           `3b. (without idle timeout)`,
           async () => {
-            const receiver = new MessageSession(createClientEntityContextForTests(), {
-              receiveMode: lockMode
-            });
+            const receiver = new MessageSession(
+              createConnectionContextForTests(),
+              "dummyEntityPath",
+              {
+                receiveMode: lockMode
+              }
+            );
 
             const { receiveIsReady, emitter } = setupFakeReceiver(receiver);
 
@@ -184,9 +200,13 @@ describe("Message session unit tests", () => {
         (lockMode === InternalReceiveMode.peekLock ? it : it.skip)(
           "4. sanity check that we're using getRemainingWaitTimeInMs",
           async () => {
-            const receiver = new MessageSession(createClientEntityContextForTests(), {
-              receiveMode: lockMode
-            });
+            const receiver = new MessageSession(
+              createConnectionContextForTests(),
+              "dummyEntityPath",
+              {
+                receiveMode: lockMode
+              }
+            );
 
             const { receiveIsReady, emitter } = setupFakeReceiver(receiver);
 
@@ -296,7 +316,7 @@ describe("Message session unit tests", () => {
         }
       } as RheaReceiver;
 
-      batchingReceiver["_receiver"] = fakeRheaReceiver;
+      batchingReceiver["_link"] = fakeRheaReceiver;
 
       batchingReceiver["_batchingReceiverLite"]["_createServiceBusMessage"] = (eventContext) => {
         return {

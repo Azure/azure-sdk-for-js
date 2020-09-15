@@ -36,7 +36,7 @@ export function buildQueueOptions(queue: CreateQueueOptions): InternalQueueOptio
     MaxSizeInMegabytes: getStringOrUndefined(queue.maxSizeInMegabytes),
     RequiresDuplicateDetection: getStringOrUndefined(queue.requiresDuplicateDetection),
     RequiresSession: getStringOrUndefined(queue.requiresSession),
-    DefaultMessageTimeToLive: queue.defaultMessageTtl,
+    DefaultMessageTimeToLive: queue.defaultMessageTimeToLive,
     DeadLetteringOnMessageExpiration: getStringOrUndefined(queue.deadLetteringOnMessageExpiration),
     DuplicateDetectionHistoryTimeWindow: queue.duplicateDetectionHistoryTimeWindow,
     MaxDeliveryCount: getStringOrUndefined(queue.maxDeliveryCount),
@@ -47,7 +47,8 @@ export function buildQueueOptions(queue: CreateQueueOptions): InternalQueueOptio
     EnablePartitioning: getStringOrUndefined(queue.enablePartitioning),
     ForwardDeadLetteredMessagesTo: getStringOrUndefined(queue.forwardDeadLetteredMessagesTo),
     ForwardTo: getStringOrUndefined(queue.forwardTo),
-    UserMetadata: getStringOrUndefined(queue.userMetadata)
+    UserMetadata: getStringOrUndefined(queue.userMetadata),
+    EnableExpress: getStringOrUndefined(queue.enableExpress)
   };
 }
 
@@ -77,9 +78,9 @@ export function buildQueue(rawQueue: any): QueueProperties {
       "enableBatchedOperations"
     ),
 
-    defaultMessageTtl: getString(
+    defaultMessageTimeToLive: getString(
       rawQueue[Constants.DEFAULT_MESSAGE_TIME_TO_LIVE],
-      "defaultMessageTtl"
+      "defaultMessageTimeToLive"
     ),
     autoDeleteOnIdle: rawQueue[Constants.AUTO_DELETE_ON_IDLE],
 
@@ -101,7 +102,9 @@ export function buildQueue(rawQueue: any): QueueProperties {
 
     authorizationRules: getAuthorizationRulesOrUndefined(rawQueue[Constants.AUTHORIZATION_RULES]),
 
-    status: rawQueue[Constants.STATUS]
+    status: rawQueue[Constants.STATUS],
+
+    enableExpress: getBoolean(rawQueue[Constants.ENABLE_EXPRESS], "enableExpress")
   };
 }
 
@@ -120,7 +123,7 @@ export function buildQueueRuntimeProperties(rawQueue: any): QueueRuntimeProperti
     totalMessageCount: getIntegerOrUndefined(rawQueue[Constants.MESSAGE_COUNT]),
     ...messageCountDetails,
     createdAt: getDate(rawQueue[Constants.CREATED_AT], "createdAt"),
-    updatedAt: getDate(rawQueue[Constants.UPDATED_AT], "updatedAt"),
+    modifiedAt: getDate(rawQueue[Constants.UPDATED_AT], "modifiedAt"),
     accessedAt: getDate(rawQueue[Constants.ACCESSED_AT], "accessedAt")
   };
 }
@@ -172,7 +175,7 @@ export interface CreateQueueOptions extends OperationOptions {
    *
    * More on ISO-8601 duration format: https://en.wikipedia.org/wiki/ISO_8601#Durations
    */
-  defaultMessageTtl?: string;
+  defaultMessageTimeToLive?: string;
 
   /**
    * If it is enabled and a message expires, the Service Bus moves the message
@@ -248,6 +251,11 @@ export interface CreateQueueOptions extends OperationOptions {
    * `sb://<your-service-bus-namespace-endpoint>/<queue-or-topic-name>`
    */
   forwardDeadLetteredMessagesTo?: string;
+
+  /**
+   * Specifies whether express entities are enabled on queue.
+   */
+  enableExpress?: boolean;
 }
 
 /**
@@ -305,7 +313,7 @@ export interface QueueProperties {
    *
    * More on ISO-8601 duration format: https://en.wikipedia.org/wiki/ISO_8601#Durations
    */
-  defaultMessageTtl: string;
+  defaultMessageTimeToLive: string;
 
   /**
    * If it is enabled and a message expires, the Service Bus moves the message
@@ -381,6 +389,11 @@ export interface QueueProperties {
    * `sb://<your-service-bus-namespace-endpoint>/<queue-or-topic-name>`
    */
   forwardDeadLetteredMessagesTo?: string;
+
+  /**
+   * Specifies whether express entities are enabled on queue.
+   */
+  readonly enableExpress: boolean;
 }
 /**
  * @internal
@@ -508,6 +521,11 @@ export interface InternalQueueOptions {
    * `sb://<your-service-bus-namespace-endpoint>/<queue-or-topic-name>`
    */
   ForwardDeadLetteredMessagesTo?: string;
+
+  /**
+   * Specifies whether express entities are enabled on queue.
+   */
+  EnableExpress?: string;
 }
 
 /**
@@ -527,7 +545,7 @@ export interface QueueRuntimeProperties {
   /**
    * Updated at timestamp
    */
-  updatedAt: Date;
+  modifiedAt: Date;
 
   /**
    * Accessed at timestamp

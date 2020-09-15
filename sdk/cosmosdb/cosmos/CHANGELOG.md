@@ -1,5 +1,56 @@
 # Release History
 
+## 3.9.2 (Unreleased)
+
+## 3.9.1 (2020-08-28)
+
+- BUGFIX: Fixes `OperationInput` type to be more accurate based on `OperationType`.
+- FEATURE: Bulk requests with `Create` operations will now autogenerate IDs if they are not present.
+- FEATURE: The `BulkOperationType` enum now exists and can be used when making bulk requests.
+
+## 3.9.0 (2020-08-13)
+
+- FEATURE: Adds support for autoscale parameters on container and database create methods
+
+Note that `maxThroughput` cannot be passed with `throughput`.
+
+```js
+// correct
+const containerDefinition = {
+  id: "sample container",
+  indexingPolicy: { indexingMode: IndexingMode.consistent },
+  maxThroughput: 500,
+  autoUpgradePolicy: {
+    throughputPolicy: {
+      incrementPercent: 15
+    }
+  }
+};
+database.container.create(containerDefinition)
+
+// incorrect
+const containerDefinition = {
+  id: "sample container",
+  indexingPolicy: { indexingMode: IndexingMode.consistent },
+  throughput: 500, // do not specify throughput with maxThroughput
+  maxThroughput: 500
+  autoUpgradePolicy: {
+    throughputPolicy: {
+      incrementPercent: 15
+    }
+  }
+};
+database.container.create(containerDefinition)
+```
+
+## 3.8.2 (2020-08-12)
+
+- BUGFIX: Fix checkURL function for Node 8
+
+## 3.8.1 (2020-08-12)
+
+- BUGFIX: Adds separate URL module for browser/node.
+
 ## 3.8.0 (2020-08-10)
 
 - FEATURE: Throws when initializing ClientContext with an invalid endpoint
@@ -11,17 +62,17 @@
 const operations: OperationInput[] = [
   {
     operationType: "Create",
-    resourceBody: { id: "doc1", name: "sample", key: "A" }
+    resourceBody: { id: "doc1", name: "sample", key: "A" },
   },
   {
     operationType: "Upsert",
-    resourceBody: { id: "doc2", name: "other", key: "A" }
+    resourceBody: { id: "doc2", name: "other", key: "A" },
   },
   {
     operationType: "Read",
     id: "readItemId",
-    partitionKey: "key"
-  }
+    partitionKey: "key",
+  },
 ];
 
 await database.container.items.bulk(operations);
@@ -238,14 +289,14 @@ Constructor options have been simplified:
 const client = new CosmosClient({
   endpoint: "https://your-database.cosmos.azure.com",
   auth: {
-    masterKey: "your-primary-key"
-  }
+    masterKey: "your-primary-key",
+  },
 });
 
 // v3
 const client = new CosmosClient({
   endpoint: "https://your-database.cosmos.azure.com",
-  key: "your-primary-key"
+  key: "your-primary-key",
 });
 ```
 
