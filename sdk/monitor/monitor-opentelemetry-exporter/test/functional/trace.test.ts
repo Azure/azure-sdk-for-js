@@ -6,8 +6,8 @@ import { BasicScenario } from "../common/scenario/basic";
 import { DEFAULT_BREEZE_ENDPOINT } from "../../src/Declarations/Constants";
 import nock from "nock";
 import { successfulBreezeResponse } from "../unit/breezeTestUtils";
-import { Envelope } from "../../src/Declarations/Contracts";
 import { gunzipSync } from "zlib";
+import { TelemetryItem as Envelope } from "../../src/generated";
 
 describe("Trace Exporter Scenarios", () => {
   describe(BasicScenario.prototype.constructor.name, () => {

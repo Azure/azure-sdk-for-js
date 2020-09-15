@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { ExportResult } from "@opentelemetry/core";
-import { Envelope } from "./Declarations/Contracts";
+import { TelemetryItem as Envelope } from "./generated";
 
 export type Tags = { [key: string]: string };
 export type PropertyType = string | number | boolean | object | Array<PropertyType>;

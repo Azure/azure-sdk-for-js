@@ -5,20 +5,23 @@ import * as opentelemetry from "@opentelemetry/api";
 import { BasicTracerProvider } from "@opentelemetry/tracing";
 import { AzureMonitorTraceExporter } from "../../../src";
 import { Expectation, Scenario } from "./types";
-import { Envelope } from "../../../src/Declarations/Contracts";
 import { msToTimeSpan } from "../../../src/utils/breezeUtils";
 import { CanonicalCode } from "@opentelemetry/api";
 import { FlushSpanProcessor } from "../flushSpanProcessor";
 import { delay } from "@azure/core-http";
-import { RemoteDependencyData, RequestData } from "../../../src/generated";
+import {
+  TelemetryItem as Envelope,
+  RemoteDependencyData,
+  RequestData
+} from "../../../src/generated";
 
 const COMMON_ENVELOPE_PARAMS: Partial<Envelope> = {
-  iKey: process.env.APPINSIGHTS_INSTRUMENTATIONKEY || "ikey",
+  instrumentationKey: process.env.APPINSIGHTS_INSTRUMENTATIONKEY || "ikey",
   sampleRate: 100
 };
 
 const exporter = new AzureMonitorTraceExporter({
-  instrumentationKey: COMMON_ENVELOPE_PARAMS.iKey
+  instrumentationKey: COMMON_ENVELOPE_PARAMS.instrumentationKey
 });
 const processor = new FlushSpanProcessor(exporter);
 
@@ -92,8 +95,7 @@ export class BasicScenario implements Scenario {
           properties: {
             foo: "bar"
           }
-        } as Partial<RequestData>,
-        properties: undefined
+        } as Partial<RequestData>
       },
       children: [
         {
@@ -108,8 +110,7 @@ export class BasicScenario implements Scenario {
               properties: {
                 numbers: 123 as any
               }
-            } as Partial<RemoteDependencyData>,
-            properties: undefined
+            } as Partial<RemoteDependencyData>
           },
           children: []
         },
@@ -125,8 +126,7 @@ export class BasicScenario implements Scenario {
               properties: {
                 numbers: 1234 as any
               }
-            } as Partial<RemoteDependencyData>,
-            properties: undefined
+            } as Partial<RemoteDependencyData>
           },
           children: []
         }

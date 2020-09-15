@@ -5,7 +5,7 @@ import { URL } from "url";
 import { ReadableSpan } from "@opentelemetry/tracing";
 import { hrTimeToMilliseconds } from "@opentelemetry/core";
 import { SpanKind, Logger, CanonicalCode, Link } from "@opentelemetry/api";
-import { Envelope, Base } from "../Declarations/Contracts";
+import { Base } from "../Declarations/Contracts";
 import { Tags, Properties, MSLink, Measurements } from "../types";
 import {
   HTTP_METHOD,
@@ -31,7 +31,7 @@ import { getInstance } from "../platform";
 import { DB_STATEMENT, DB_TYPE, DB_INSTANCE } from "./constants/span/dbAttributes";
 import { parseEventHubSpan } from "./eventhub";
 import { AzNamespace, MicrosoftEventHub } from "./constants/span/azAttributes";
-import { RemoteDependencyData, RequestData } from "../generated";
+import { RemoteDependencyData, RequestData, TelemetryItem as Envelope } from "../generated";
 
 function createTagsFromSpan(span: ReadableSpan): Tags {
   const context = getInstance();
@@ -193,7 +193,8 @@ export function readableSpanToEnvelope(
   instrumentationKey: string,
   logger?: Logger
 ): Envelope {
-  const envelope = new Envelope();
+  const envelope: Partial<Envelope> = {};
+  envelope.sampleRate = 100;
   envelope.data = new Base();
   const tags = createTagsFromSpan(span);
   const [properties, measurements] = createPropertiesFromSpan(span);
@@ -224,22 +225,25 @@ export function readableSpanToEnvelope(
       throw new Error(`Unsupported span kind ${span.kind}`);
   }
 
-  envelope.data.baseData = { ...data, properties, measurements };
+  envelope.data.baseData = { ...data, properties, measurements } as
+    | RequestData
+    | RemoteDependencyData;
   envelope.tags = tags;
-  envelope.time = new Date(hrTimeToMilliseconds(span.startTime)).toISOString();
-  envelope.iKey = instrumentationKey;
-  envelope.ver = 1;
+  envelope.time = new Date(hrTimeToMilliseconds(span.startTime));
+  envelope.instrumentationKey = instrumentationKey;
+  envelope.version = 1;
 
   if (span.attributes[AzNamespace] === MicrosoftEventHub) {
-    parseEventHubSpan(span, envelope);
+    parseEventHubSpan(span, envelope as Envelope);
   } else if (span.attributes[AzNamespace]) {
     switch (span.kind) {
       case SpanKind.INTERNAL:
-        envelope.data.baseData.type = `${INPROC} | ${span.attributes[AzNamespace]}`;
+        (envelope.data
+          .baseData as RemoteDependencyData).type = `${INPROC} | ${span.attributes[AzNamespace]}`;
         break;
       default: // no op
     }
   }
 
-  return envelope;
+  return envelope as Envelope;
 }

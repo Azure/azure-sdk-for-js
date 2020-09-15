@@ -5,7 +5,6 @@ import * as assert from "assert";
 import { ExportResult } from "@opentelemetry/core";
 import { AzureMonitorBaseExporter } from "../../../src/export/exporter";
 import { TelemetryProcessor } from "../../../src/types";
-import { Envelope } from "../../../src/Declarations/Contracts";
 import { DEFAULT_BREEZE_ENDPOINT } from "../../../src/Declarations/Constants";
 import {
   failedBreezeResponse,
@@ -13,6 +12,7 @@ import {
   successfulBreezeResponse
 } from "../breezeTestUtils";
 import { FileSystemPersist } from "../../../src/platform";
+import { TelemetryItem as Envelope } from "../../../src/generated";
 import nock = require("nock");
 
 function toObject<T>(obj: T): T {
@@ -48,7 +48,10 @@ describe("#AzureMonitorBaseExporter", () => {
   describe("Sender/Persister Controller", () => {
     describe("#exportEnvelopes()", () => {
       const scope = nock(DEFAULT_BREEZE_ENDPOINT).post("/v2/track");
-      const envelope = new Envelope();
+      const envelope = {
+        name: "Name",
+        time: new Date()
+      };
 
       after(() => {
         nock.cleanAll();
@@ -158,10 +161,14 @@ describe("#AzureMonitorBaseExporter", () => {
 
     describe("#_applyTelemetryProcessors()", () => {
       it("should filter envelopes", () => {
-        const fooEnvelope = new Envelope();
-        const barEnvelope = new Envelope();
-        fooEnvelope.name = "foo";
-        barEnvelope.name = "bar";
+        const fooEnvelope = {
+          name: "foo",
+          time: new Date()
+        };
+        const barEnvelope = {
+          name: "bar",
+          time: new Date()
+        };
 
         const exporter = new TestExporter();
         assert.strictEqual(exporter.getTelemetryProcesors().length, 0);
@@ -175,10 +182,14 @@ describe("#AzureMonitorBaseExporter", () => {
       });
 
       it("should filter modified envelopes", () => {
-        const fooEnvelope = new Envelope();
-        const barEnvelope = new Envelope();
-        fooEnvelope.name = "foo";
-        barEnvelope.name = "bar";
+        const fooEnvelope = {
+          name: "foo",
+          time: new Date()
+        };
+        const barEnvelope = {
+          name: "bar",
+          time: new Date()
+        };
 
         const exporter = new TestExporter();
         assert.strictEqual(exporter.getTelemetryProcesors().length, 0);

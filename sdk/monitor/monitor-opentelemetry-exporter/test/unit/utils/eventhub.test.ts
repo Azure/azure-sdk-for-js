@@ -5,7 +5,6 @@ import { Attributes, HrTime, SpanContext, SpanKind } from "@opentelemetry/api";
 import { NoopLogger, timeInputToHrTime } from "@opentelemetry/core";
 import { BasicTracerProvider, Span } from "@opentelemetry/tracing";
 import * as assert from "assert";
-import { Envelope } from "../../../src/Declarations/Contracts";
 import {
   ENQUEUED_TIME,
   TIME_SINCE_ENQUEUED
@@ -16,6 +15,7 @@ import {
   MicrosoftEventHub
 } from "../../../src/utils/constants/span/azAttributes";
 import { parseEventHubSpan } from "../../../src/utils/eventhub";
+import { RemoteDependencyData, TelemetryItem as Envelope } from "../../../src/generated";
 
 const tracer = new BasicTracerProvider({
   logger: new NoopLogger()
@@ -53,11 +53,13 @@ describe("#parseEventHubSpan(...)", () => {
     span.setAttributes(attributes);
 
     parseEventHubSpan(span, envelope);
-    assert.strictEqual(envelope.data?.baseData?.type, attributes[AzNamespace]);
-    assert.strictEqual(envelope.data?.baseData?.target, `${peerAddress}/${destination}`);
 
-    assert.strictEqual(envelope.data?.baseData?.source, undefined);
-    assert.strictEqual(envelope.data?.baseData?.measurements, undefined);
+    const baseData = envelope.data?.baseData as RemoteDependencyData;
+    assert.strictEqual(baseData.type, attributes[AzNamespace]);
+    assert.strictEqual(baseData.target, `${peerAddress}/${destination}`);
+
+    assert.strictEqual((baseData as any).source, undefined);
+    assert.strictEqual(baseData.measurements, undefined);
   });
 
   it("should correctly parse SpanKind.PRODUCER", () => {
@@ -71,11 +73,13 @@ describe("#parseEventHubSpan(...)", () => {
     span.setAttributes(attributes);
 
     parseEventHubSpan(span, envelope);
-    assert.strictEqual(envelope.data?.baseData?.type, `Queue Message | ${attributes[AzNamespace]}`);
-    assert.strictEqual(envelope.data?.baseData?.target, `${peerAddress}/${destination}`);
 
-    assert.strictEqual(envelope.data?.baseData?.source, undefined);
-    assert.strictEqual(envelope.data?.baseData?.measurements, undefined);
+    const baseData = envelope.data?.baseData as RemoteDependencyData;
+    assert.strictEqual(baseData.type, `Queue Message | ${attributes[AzNamespace]}`);
+    assert.strictEqual(baseData.target, `${peerAddress}/${destination}`);
+
+    assert.strictEqual((baseData as any).source, undefined);
+    assert.strictEqual(baseData.measurements, undefined);
   });
 
   it("should correctly parse SpanKind.CONSUMER", () => {
@@ -108,12 +112,13 @@ describe("#parseEventHubSpan(...)", () => {
     span.setAttributes(attributes);
 
     parseEventHubSpan(span, envelope);
-    assert.strictEqual(envelope.data?.baseData?.type, `Queue Message | ${attributes[AzNamespace]}`);
-    assert.strictEqual(envelope.data?.baseData?.source, `${peerAddress}/${destination}`);
-    assert.deepStrictEqual(envelope.data?.baseData?.measurements, {
+    const baseData = envelope.data?.baseData as RemoteDependencyData;
+    assert.strictEqual(baseData.type, `Queue Message | ${attributes[AzNamespace]}`);
+    assert.strictEqual((baseData as any).source, `${peerAddress}/${destination}`);
+    assert.deepStrictEqual(baseData.measurements, {
       [TIME_SINCE_ENQUEUED]: 148
     });
 
-    assert.strictEqual(envelope.data?.baseData?.target, undefined);
+    assert.strictEqual(baseData.target, undefined);
   });
 });

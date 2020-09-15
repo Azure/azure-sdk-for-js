@@ -5,7 +5,7 @@ import * as zlib from "zlib";
 import { Logger } from "@opentelemetry/api";
 import { ConsoleLogger, LogLevel } from "@opentelemetry/core";
 import { Sender, SenderResult } from "../../types";
-import { Envelope } from "../../Declarations/Contracts";
+import { TelemetryItem as Envelope } from "../../generated";
 import { DEFAULT_SENDER_OPTIONS, NodejsPlatformConfig } from "../types";
 import { promisify } from "util";
 import { DefaultHttpClient, HttpClient, HttpHeaders, WebResource } from "@azure/core-http";

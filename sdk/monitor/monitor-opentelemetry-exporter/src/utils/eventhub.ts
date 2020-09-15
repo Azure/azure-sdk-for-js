@@ -5,7 +5,7 @@ import { SpanKind } from "@opentelemetry/api";
 import { hrTimeToMilliseconds } from "@opentelemetry/core";
 import { GeneralAttribute } from "@opentelemetry/semantic-conventions";
 import { ReadableSpan } from "@opentelemetry/tracing";
-import { Envelope } from "../Declarations/Contracts";
+import { RemoteDependencyData, TelemetryItem as Envelope } from "../generated";
 import { TIME_SINCE_ENQUEUED, ENQUEUED_TIME } from "./constants/applicationinsights";
 import {
   AzNamespace,
@@ -46,20 +46,22 @@ export const parseEventHubSpan = (span: ReadableSpan, envelope: Envelope): void 
     "unknown") as string).replace(/\/$/g, ""); // remove trailing "/"
   const messageBusDestination = (span.attributes[MessageBusDestination] || "unknown") as string;
 
+  const baseData = envelope.data.baseData as RemoteDependencyData;
+
   switch (span.kind) {
     case SpanKind.CLIENT:
-      envelope.data.baseData.type = namespace;
-      envelope.data.baseData.target = `${peerAddress}/${messageBusDestination}`;
+      baseData.type = namespace;
+      baseData.target = `${peerAddress}/${messageBusDestination}`;
       break;
     case SpanKind.PRODUCER:
-      envelope.data.baseData.type = `Queue Message | ${namespace}`;
-      envelope.data.baseData.target = `${peerAddress}/${messageBusDestination}`;
+      baseData.type = `Queue Message | ${namespace}`;
+      baseData.target = `${peerAddress}/${messageBusDestination}`;
       break;
     case SpanKind.CONSUMER:
-      envelope.data.baseData.type = `Queue Message | ${namespace}`;
-      envelope.data.baseData.source = `${peerAddress}/${messageBusDestination}`;
-      envelope.data.baseData.measurements = {
-        ...envelope.data.baseData.measurements,
+      baseData.type = `Queue Message | ${namespace}`;
+      (baseData as any).source = `${peerAddress}/${messageBusDestination}`;
+      baseData.measurements = {
+        ...baseData.measurements,
         [TIME_SINCE_ENQUEUED]: getTimeSinceEnqueued(span)
       };
       break;
