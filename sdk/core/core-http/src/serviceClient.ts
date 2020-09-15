@@ -563,7 +563,9 @@ export function serializeRequestBody(
             httpRequest.body = stringifyXML(
               utils.prepareXMLRootList(
                 value,
-                xmlElementName || xmlName || serializedName!
+                xmlElementName || xmlName || serializedName!,
+                xmlnsKey,
+                xmlNamespace
               ),
               { rootName: xmlName || serializedName }
             );
