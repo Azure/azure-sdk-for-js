@@ -1,8 +1,7 @@
-import type { RollupOptions, RollupWarning, WarningHandler } from "rollup";
+import { RollupOptions, RollupWarning, WarningHandler } from "rollup";
 
 import nodeResolve from "@rollup/plugin-node-resolve";
 import cjs from "@rollup/plugin-commonjs";
-import { terser } from "rollup-plugin-terser";
 import sourcemaps from "rollup-plugin-sourcemaps";
 import multiEntry from "@rollup/plugin-multi-entry";
 import json from "@rollup/plugin-json";
@@ -10,8 +9,6 @@ import nodeBuiltinsPlugin from "rollup-plugin-node-builtins";
 import nodeGlobals from "rollup-plugin-node-globals";
 
 import nodeBuiltins from "builtin-modules";
-
-const IS_PRODUCTION = process.env.NODE_ENV === "production";
 
 interface PackageJson {
   name: string;
@@ -23,14 +20,18 @@ interface PackageJson {
 // #region Warning Handler
 
 function ignoreNiseSinonEvalWarnings(warning: RollupWarning): boolean {
-  return warning.code === "EVAL" && (
-    warning.id?.includes("node_modules/nise") ||
-    warning.id?.includes("node_modules/sinon")) === true;
+  return (
+    warning.code === "EVAL" &&
+    (warning.id?.includes("node_modules/nise") || warning.id?.includes("node_modules/sinon")) ===
+      true
+  );
 }
 
 function ignoreChaiCircularDependencyWarnings(warning: RollupWarning): boolean {
-  return warning.code === "CIRCULAR_DEPENDENCY" &&
-      warning.importer?.includes("node_modules/chai") === true;
+  return (
+    warning.code === "CIRCULAR_DEPENDENCY" &&
+    warning.importer?.includes("node_modules/chai") === true
+  );
 }
 
 const warningInhibitors: Array<(warning: RollupWarning) => boolean> = [
@@ -48,7 +49,7 @@ function makeOnWarnForTesting(): (warning: RollupWarning, warn: WarningHandler) 
     if (warningInhibitors.every((inhib) => !inhib(warning))) {
       warn(warning);
     }
-  }
+  };
 }
 
 // #endregion
@@ -73,7 +74,7 @@ function makeBrowserTestConfig() {
       }),
       cjs({
         namedExports: {
-          "chai": ["assert", "use"],
+          chai: ["assert", "use"],
           "@opentelemetry/api": ["CanonicalCode", "SpanKind", "TraceFlags"]
         }
       }),
@@ -84,9 +85,10 @@ function makeBrowserTestConfig() {
       //viz({ filename: "dist-test/browser-stats.html", sourcemap: true })
     ],
     onwarn: makeOnWarnForTesting(),
-    // Disable tree-shaking of test code.  In rollup-plugin-node-resolve@5.0.0, rollup started respecting
-    // the "sideEffects" field in package.json.  Since our package.json sets "sideEffects=false", this also
-    // applies to test code, which causes all tests to be removed by tree-shaking.
+    // Disable tree-shaking of test code.  In rollup-plugin-node-resolve@5.0.0,
+    // rollup started respecting the "sideEffects" field in package.json.  Since
+    // our package.json sets "sideEffects=false", this also applies to test
+    // code, which causes all tests to be removed by tree-shaking.
     treeshake: false
   };
 
@@ -95,26 +97,21 @@ function makeBrowserTestConfig() {
   return config;
 }
 
-export function makeConfig(pkg: PackageJson)  {
+export function makeConfig(pkg: PackageJson) {
   const baseConfig = {
     // Use the package's module field if it has one
     input: pkg["module"] ?? "dist-esm/src/index.js",
-    external: [...nodeBuiltins, ...Object.keys(pkg.dependencies), ...Object.keys(pkg.devDependencies)],
+    external: [
+      ...nodeBuiltins,
+      ...Object.keys(pkg.dependencies),
+      ...Object.keys(pkg.devDependencies)
+    ],
     output: { file: "dist/index.js", format: "cjs", sourcemap: true },
     preserveSymlinks: false,
     plugins: [sourcemaps(), nodeResolve(), cjs()]
-  }
+  };
 
-  if (IS_PRODUCTION) {
-    baseConfig.plugins.push(terser());
-  }
-
-  const config: RollupOptions[] = [baseConfig as RollupOptions];
-
-  if (!IS_PRODUCTION) {
-    config.push(makeBrowserTestConfig());
-  }
+  const config: RollupOptions[] = [baseConfig as RollupOptions, makeBrowserTestConfig()];
 
   return config;
 }
-
