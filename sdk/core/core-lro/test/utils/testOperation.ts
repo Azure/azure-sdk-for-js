@@ -1,5 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
+/* eslint-disable no-invalid-this */
+
 
 import { HttpOperationResponse, RequestOptionsBase } from "@azure/core-http";
 import { AbortSignalLike } from "@azure/abort-controller";
@@ -77,7 +79,7 @@ async function cancel(
 
   if (abortSignal && abortSignal.aborted) {
     // Simulating a try catch of an HTTP request that's given an aborted abortSignal.
-    return await this.update({
+    return this.update({
       abortSignal
     }); // This will throw
   }

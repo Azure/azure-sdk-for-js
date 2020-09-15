@@ -2,9 +2,6 @@
 // Licensed under the MIT license.
 
 import {
-  ServiceClientCredentials,
-  ServiceClientOptions,
-  TokenCredential,
   RequestOptionsBase
 } from "@azure/core-http";
 import { TestServiceClient } from "./testServiceClient";
@@ -20,12 +17,6 @@ interface StartLROOptions {
 }
 
 export class TestClient extends TestServiceClient {
-  constructor(
-    credentials: TokenCredential | ServiceClientCredentials,
-    options?: ServiceClientOptions
-  ) {
-    super(credentials, options);
-  }
 
   public async startLRO(options: StartLROOptions = {}): Promise<TestPoller> {
     const poller = new TestPoller(
