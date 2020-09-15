@@ -283,7 +283,6 @@ export class ServiceClient {
         );
       }
     }
-    console.log("request info = ", httpRequest.url, httpRequest.operationSpec?.requestBody);
     return httpPipeline.sendRequest(httpRequest);
   }
 
@@ -490,7 +489,6 @@ export class ServiceClient {
       let rawResponse: HttpOperationResponse;
       let sendRequestError;
       try {
-        console.log(httpRequest);
         rawResponse = await this.sendRequest(httpRequest);
       } catch (error) {
         sendRequestError = error;
@@ -558,7 +556,7 @@ export function serializeRequestBody(
 
         if (operationSpec.isXML) {
             const xmlnsKey = xmlNamespacePrefix ? `xmlns:${xmlNamespacePrefix}` : "xmlns";
-            const value = xmlNamespace && !["Composite", "Sequence"].includes(typeName) ? {_: httpRequest.body, $: {[xmlnsKey]: xmlNamespace}} : httpRequest.body;
+            const value = getXmlValueWithNamespace(xmlNamespace, xmlnsKey, typeName, httpRequest.body);
           if (typeName === MapperType.Sequence) {
             httpRequest.body = stringifyXML(
               utils.prepareXMLRootList(
@@ -614,6 +612,19 @@ export function serializeRequestBody(
       }
     }
   }
+}
+
+/**
+ * Adds an xml namespace to the xml serialized object if needed, otherwise it just returns the value itself
+ */
+function getXmlValueWithNamespace(xmlNamespace: string | undefined, xmlnsKey: string, typeName: string, serializedValue: any): any {
+  // Composite and Sequence schemas already got their root namespace set during serialization
+  // We just need to add xmlns to the other schema types
+  if(xmlNamespace && !["Composite", "Sequence"].includes(typeName)) {
+    return {_:serializedValue, $: {[xmlnsKey]: xmlNamespace}} ;
+  }
+
+  return serializedValue;
 }
 
 function getValueOrFunctionResult(
