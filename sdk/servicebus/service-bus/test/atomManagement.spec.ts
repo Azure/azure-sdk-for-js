@@ -69,16 +69,21 @@ describe("Atom management - Namespace", function(): void {
     // const namespaceProperties =
     // await serviceBusAtomManagementClient.getNamespaceProperties2();
     // console.log(namespaceProperties);
-    const queueProps = await serviceBusAtomManagementClient.createQueue("random-name", {
+    console.log("... before createQueue (no codegen)");
+    // const queueProps =
+    await serviceBusAtomManagementClient.createQueue("random-name", {
       maxDeliveryCount: 15
     });
-    console.log(queueProps);
+    // console.log(queueProps);
+    console.log("... before deleteQueue (with codegen)");
     console.log(await serviceBusAtomManagementClient.deleteQueue2("random-name"));
     // await serviceBusAtomManagementClient.deleteQueue("random-name");
+    console.log("... before createQueue (with codegen)");
     const queueProps2 = await serviceBusAtomManagementClient.createQueue2("random-name", {
       maxDeliveryCount: 15
     });
     console.log(queueProps2);
+    console.log("... before deleteQueue (with codegen)");
     await serviceBusAtomManagementClient.deleteQueue2("random-name");
   });
 

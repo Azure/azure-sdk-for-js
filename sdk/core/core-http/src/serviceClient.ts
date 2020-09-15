@@ -283,7 +283,6 @@ export class ServiceClient {
         );
       }
     }
-    console.log("request info = ", httpRequest.url, httpRequest.operationSpec?.requestBody);
     return httpPipeline.sendRequest(httpRequest);
   }
 
@@ -490,7 +489,6 @@ export class ServiceClient {
       let rawResponse: HttpOperationResponse;
       let sendRequestError;
       try {
-        console.log(httpRequest);
         rawResponse = await this.sendRequest(httpRequest);
       } catch (error) {
         sendRequestError = error;
