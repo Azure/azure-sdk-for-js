@@ -30,6 +30,7 @@ import {
 } from "./generatedModels";
 import { getClientParamsFromConnectionString } from "./utils/connectionString";
 import { TablesSharedKeyCredential } from "./TablesSharedKeyCredential";
+import "@azure/core-paging";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { LIB_INFO, TablesLoggingAllowedHeaderNames } from "./utils/constants";
 import { logger } from "./logger";
