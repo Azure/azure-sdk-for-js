@@ -1,9 +1,7 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import {
-  RequestOptionsBase
-} from "@azure/core-http";
+import { RequestOptionsBase } from "@azure/core-http";
 import { TestServiceClient } from "./testServiceClient";
 import { TestPoller } from "./testPoller";
 import { TestNonCancellablePoller } from "./testNonCancellablePoller";
@@ -17,7 +15,6 @@ interface StartLROOptions {
 }
 
 export class TestClient extends TestServiceClient {
-
   public async startLRO(options: StartLROOptions = {}): Promise<TestPoller> {
     const poller = new TestPoller(
       this,
