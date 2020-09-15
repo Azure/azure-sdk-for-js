@@ -4,8 +4,6 @@
 
 ```ts
 
-import { AbortSignalLike } from '@azure/abort-controller';
-import { AmqpMessage } from '@azure/core-amqp';
 import * as coreHttp from '@azure/core-http';
 import { delay } from '@azure/core-amqp';
 import { Delivery } from 'rhea-promise';
@@ -299,57 +297,12 @@ export interface RuleProperties {
 export interface RuleResponse extends RuleProperties, Response {
 }
 
-// @public
-export interface Sender {
-    cancelScheduledMessages(sequenceNumbers: Long | Long[], options?: OperationOptionsBase): Promise<void>;
-    close(): Promise<void>;
-    createBatch(options?: CreateBatchOptions): Promise<ServiceBusMessageBatch>;
-    entityPath: string;
-    isClosed: boolean;
-    open(options?: SenderOpenOptions): Promise<void>;
-    scheduleMessages(scheduledEnqueueTimeUtc: Date, messages: ServiceBusMessage | ServiceBusMessage[], options?: OperationOptionsBase): Promise<Long[]>;
-    sendMessages(messages: ServiceBusMessage | ServiceBusMessage[] | ServiceBusMessageBatch, options?: OperationOptionsBase): Promise<void>;
-}
-
-// @public
-export interface SenderOpenOptions {
-    abortSignal?: AbortSignalLike;
-}
-
-// @public
-export class ServiceBusClient {
-    constructor(connectionString: string, options?: ServiceBusClientOptions);
-    constructor(fullyQualifiedNamespace: string, credential: TokenCredential, options?: ServiceBusClientOptions);
-    close(): Promise<void>;
-    createDeadLetterReceiver(queueName: string, options?: CreateReceiverOptions<"peekLock">): Receiver<ReceivedMessageWithLock>;
-    createDeadLetterReceiver(queueName: string, options: CreateReceiverOptions<"receiveAndDelete">): Receiver<ReceivedMessage>;
-    createDeadLetterReceiver(topicName: string, subscriptionName: string, options?: CreateReceiverOptions<"peekLock">): Receiver<ReceivedMessageWithLock>;
-    createDeadLetterReceiver(topicName: string, subscriptionName: string, options: CreateReceiverOptions<"receiveAndDelete">): Receiver<ReceivedMessage>;
-    createReceiver(queueName: string, options?: CreateReceiverOptions<"peekLock">): Receiver<ReceivedMessageWithLock>;
-    createReceiver(queueName: string, options: CreateReceiverOptions<"receiveAndDelete">): Receiver<ReceivedMessage>;
-    createReceiver(topicName: string, subscriptionName: string, options?: CreateReceiverOptions<"peekLock">): Receiver<ReceivedMessageWithLock>;
-    createReceiver(topicName: string, subscriptionName: string, options: CreateReceiverOptions<"receiveAndDelete">): Receiver<ReceivedMessage>;
-    createSender(queueOrTopicName: string): Sender;
-    createSessionReceiver(queueName: string, options?: CreateSessionReceiverOptions<"peekLock">): Promise<SessionReceiver<ReceivedMessageWithLock>>;
-    createSessionReceiver(queueName: string, options: CreateSessionReceiverOptions<"receiveAndDelete">): Promise<SessionReceiver<ReceivedMessage>>;
-    createSessionReceiver(topicName: string, subscriptionName: string, options?: CreateSessionReceiverOptions<"peekLock">): Promise<SessionReceiver<ReceivedMessageWithLock>>;
-    createSessionReceiver(topicName: string, subscriptionName: string, options: CreateSessionReceiverOptions<"receiveAndDelete">): Promise<SessionReceiver<ReceivedMessage>>;
-    fullyQualifiedNamespace: string;
-}
-
-// @public
-export interface ServiceBusClientOptions {
-    retryOptions?: RetryOptions;
-    userAgentOptions?: UserAgentOptions;
-    webSocketOptions?: WebSocketOptions;
-}
-
 // Warning: (ae-forgotten-export) The symbol "ServiceBusManagementClientInternal" needs to be exported by the entry point index.d.ts
 //
 // @public
-export class ServiceBusManagementClient extends ServiceBusManagementClientInternal {
-    constructor(connectionString: string, options?: ServiceBusManagementClientOptions);
-    constructor(fullyQualifiedNamespace: string, credential: TokenCredential, options?: ServiceBusManagementClientOptions);
+export class ServiceBusAdministrationClient extends ServiceBusManagementClientInternal {
+    constructor(connectionString: string, options?: PipelineOptions);
+    constructor(fullyQualifiedNamespace: string, credential: TokenCredential, options?: PipelineOptions);
     createQueue(queueName: string, options?: CreateQueueOptions): Promise<QueueResponse>;
     // Warning: (ae-forgotten-export) The symbol "QueueDescription" needs to be exported by the entry point index.d.ts
     //
@@ -365,6 +318,7 @@ export class ServiceBusManagementClient extends ServiceBusManagementClientIntern
     deleteRule(topicName: string, subscriptionName: string, ruleName: string, operationOptions?: OperationOptions): Promise<Response>;
     deleteSubscription(topicName: string, subscriptionName: string, operationOptions?: OperationOptions): Promise<Response>;
     deleteTopic(topicName: string, operationOptions?: OperationOptions): Promise<Response>;
+    endpoint: string;
     getNamespaceProperties(operationOptions?: OperationOptions): Promise<NamespacePropertiesResponse>;
     // Warning: (ae-forgotten-export) The symbol "NamespaceProperties" needs to be exported by the entry point index.d.ts
     getNamespaceProperties2(operationOptions?: OperationOptions): Promise<NamespaceProperties_2 & Response>;
