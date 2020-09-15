@@ -97,7 +97,20 @@ function makeBrowserTestConfig() {
   return config;
 }
 
-export function makeConfig(pkg: PackageJson) {
+export interface ConfigurationOptions {
+  disableBrowserBundle: boolean;
+}
+
+const defaultConfigurationOptions: ConfigurationOptions = {
+  disableBrowserBundle: false
+};
+
+export function makeConfig(pkg: PackageJson, options?: Partial<ConfigurationOptions>) {
+  options = {
+    ...defaultConfigurationOptions,
+    ...(options ?? {})
+  };
+
   const baseConfig = {
     // Use the package's module field if it has one
     input: pkg["module"] ?? "dist-esm/src/index.js",
@@ -111,7 +124,11 @@ export function makeConfig(pkg: PackageJson) {
     plugins: [sourcemaps(), nodeResolve(), cjs()]
   };
 
-  const config: RollupOptions[] = [baseConfig as RollupOptions, makeBrowserTestConfig()];
+  const config: RollupOptions[] = [baseConfig as RollupOptions];
+
+  if (!options.disableBrowserBundle) {
+    config.push(makeBrowserTestConfig());
+  }
 
   return config;
 }
