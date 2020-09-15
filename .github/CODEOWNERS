@@ -34,7 +34,7 @@
 /sdk/core/logger @xirzec @bterlson @chradek
 
 # Service teams
-# PRLabel: %AzConfig
+# PRLabel: %App Configuration
 /sdk/appconfiguration/ @richardpark-msft @chradek
 
 # PRLabel: %Batch
