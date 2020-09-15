@@ -342,7 +342,7 @@ export class ServiceBusManagementClient extends ServiceBusManagementClientIntern
     // Warning: (ae-forgotten-export) The symbol "QueueDescription" needs to be exported by the entry point index.d.ts
     //
     // (undocumented)
-    createQueue2(queueName: string, options?: QueueDescription & OperationOptions): Promise<QueueDescription>;
+    createQueue2(queueName: string, options?: QueueDescription & OperationOptions): Promise<QueueDescription & Response>;
     createRule(topicName: string, subscriptionName: string, ruleName: string, ruleFilter: SqlRuleFilter | CorrelationRuleFilter, operationOptions?: OperationOptions): Promise<RuleResponse>;
     createRule(topicName: string, subscriptionName: string, ruleName: string, ruleFilter: SqlRuleFilter | CorrelationRuleFilter, ruleAction: SqlRuleAction, operationOptions?: OperationOptions): Promise<RuleResponse>;
     createSubscription(topicName: string, subscriptionName: string, options?: CreateSubscriptionOptions): Promise<SubscriptionResponse>;

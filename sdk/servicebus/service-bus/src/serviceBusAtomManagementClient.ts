@@ -364,23 +364,19 @@ export class ServiceBusManagementClient extends ServiceBusManagementClientIntern
   async createQueue2(
     queueName: string,
     options?: QueueDescription & OperationOptions
-  ): Promise<QueueDescription> {
+  ): Promise<QueueDescription & Response> {
     const response = await this.entity.putQueue(
       queueName,
       {
         updated: new Date(),
         content: {
           type: "application/xml",
-          queueDescription: {
-            ...options
-          }
+          queueDescription: options
         }
       },
       options
     );
-
-    console.log(response);
-    return {};
+    return { ...response.content?.queueDescription!, _response: response._response };
   }
 
   /**
@@ -796,7 +792,7 @@ export class ServiceBusManagementClient extends ServiceBusManagementClientIntern
   }
 
   async deleteQueue2(queueName: string, operationOptions?: OperationOptions): Promise<Response> {
-    return { _response: (await this.entity.deleteQueue(queueName, operationOptions))._response };
+    return this.entity.deleteQueue(queueName, operationOptions);
   }
 
   /**
