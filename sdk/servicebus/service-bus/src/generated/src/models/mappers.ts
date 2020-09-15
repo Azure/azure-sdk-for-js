@@ -16,14 +16,6 @@ export const CreateTopicBody: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "CreateTopicBody",
     modelProperties: {
-      updated: {
-        serializedName: "updated",
-        xmlName: "updated",
-        xmlNamespace: "http://www.w3.org/2005/Atom",
-        type: {
-          name: "DateTime"
-        }
-      },
       content: {
         serializedName: "content",
         xmlName: "content",
@@ -477,14 +469,6 @@ export const CreateQueueBody: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "CreateQueueBody",
     modelProperties: {
-      updated: {
-        serializedName: "updated",
-        xmlName: "updated",
-        xmlNamespace: "http://www.w3.org/2005/Atom",
-        type: {
-          name: "DateTime"
-        }
-      },
       content: {
         serializedName: "content",
         xmlName: "content",

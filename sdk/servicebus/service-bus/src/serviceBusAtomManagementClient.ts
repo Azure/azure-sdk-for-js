@@ -368,7 +368,6 @@ export class ServiceBusManagementClient extends ServiceBusManagementClientIntern
     const response = await this.entity.putQueue(
       queueName,
       {
-        updated: new Date(),
         content: {
           type: "application/xml",
           queueDescription: options

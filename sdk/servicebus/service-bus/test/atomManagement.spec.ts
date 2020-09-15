@@ -76,7 +76,7 @@ describe("Atom management - Namespace", function(): void {
     });
     // console.log(queueProps);
     console.log("... before deleteQueue (with codegen)");
-    console.log(await serviceBusAtomManagementClient.deleteQueue2("random-name"));
+    await serviceBusAtomManagementClient.deleteQueue2("random-name");
     // await serviceBusAtomManagementClient.deleteQueue("random-name");
     console.log("... before createQueue (with codegen)");
     const queueProps2 = await serviceBusAtomManagementClient.createQueue2("random-name", {
@@ -84,7 +84,8 @@ describe("Atom management - Namespace", function(): void {
     });
     console.log(queueProps2);
     console.log("... before deleteQueue (with codegen)");
-    await serviceBusAtomManagementClient.deleteQueue2("random-name");
+    const deleteResp = await serviceBusAtomManagementClient.deleteQueue2("random-name");
+    console.log(deleteResp);
   });
 
   it("Create queue response", async () => {

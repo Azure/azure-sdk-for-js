@@ -9,7 +9,7 @@
 import * as coreHttp from "@azure/core-http";
 import { ServiceBusManagementClientInternalOptionalParams } from "./models";
 
-const packageName = "azure-service-bus";
+const packageName = "@azure/service-bus";
 const packageVersion = "7.0.0-preview.5";
 
 export class ServiceBusManagementClientInternalContext extends coreHttp.ServiceClient {
