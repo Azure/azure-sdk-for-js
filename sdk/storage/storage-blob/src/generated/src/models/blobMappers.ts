@@ -7,6 +7,8 @@
  */
 
 export {
+  ArrowConfiguration,
+  ArrowField,
   BlobAbortCopyFromURLHeaders,
   BlobAcquireLeaseHeaders,
   BlobBreakLeaseHeaders,

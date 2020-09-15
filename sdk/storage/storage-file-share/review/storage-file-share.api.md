@@ -835,6 +835,7 @@ export interface FileServiceProperties {
     cors?: CorsRule[];
     hourMetrics?: Metrics;
     minuteMetrics?: Metrics;
+    protocolSettings?: ProtocolSettings;
 }
 
 // @public
@@ -1162,6 +1163,11 @@ export class Pipeline {
 // @public
 export interface PipelineOptions {
     httpClient?: IHttpClient;
+}
+
+// @public
+export interface ProtocolSettings {
+    smbSettings?: SmbSettings;
 }
 
 // @public
@@ -1582,6 +1588,9 @@ export interface ShareGetPropertiesHeaders {
     errorCode?: string;
     etag?: string;
     lastModified?: Date;
+    leaseDuration?: LeaseDurationType;
+    leaseState?: LeaseStateType;
+    leaseStatus?: LeaseStatusType;
     // (undocumented)
     metadata?: {
         [propertyName: string]: string;
@@ -1679,6 +1688,9 @@ export interface ShareProperties {
     etag: string;
     // (undocumented)
     lastModified: Date;
+    leaseDuration?: LeaseDurationType;
+    leaseState?: LeaseStateType;
+    leaseStatus?: LeaseStatusType;
     // (undocumented)
     nextAllowedQuotaDowngradeTime?: Date;
     // (undocumented)
@@ -1809,6 +1821,16 @@ export interface SignedIdentifier {
 export interface SignedIdentifierModel {
     accessPolicy?: AccessPolicy;
     id: string;
+}
+
+// @public
+export interface SmbMultichannel {
+    enabled?: boolean;
+}
+
+// @public
+export interface SmbSettings {
+    multichannel?: SmbMultichannel;
 }
 
 // @public

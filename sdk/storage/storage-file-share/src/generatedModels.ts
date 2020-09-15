@@ -100,5 +100,8 @@ export {
   LeaseDurationType,
   LeaseStateType,
   LeaseStatusType,
-  CopyFileSmbInfo
+  CopyFileSmbInfo,
+  ProtocolSettings,
+  SmbSettings,
+  SmbMultichannel
 } from "./generated/src/models";

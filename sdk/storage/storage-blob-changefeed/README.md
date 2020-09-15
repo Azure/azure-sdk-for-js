@@ -1,6 +1,6 @@
 # Azure Storage Blob Change Feed client library for JavaScript
 
-> Server Version: 2019-12-12
+> Server Version: 2019-12-12 or later.
 
 The change feed provides an ordered, guaranteed, durable, immutable, read-only transaction log of all the changes that occur to blobs and blob metadata in your storage account. Client applications can read these logs at any time. The change feed enables you to build efficient and scalable solutions that process change events that occur in your Blob Storage account at a low cost.
 

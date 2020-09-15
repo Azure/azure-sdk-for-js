@@ -11,11 +11,14 @@ export {
   FileServiceProperties,
   ListSharesResponse,
   Metrics,
+  ProtocolSettings,
   RetentionPolicy,
   ServiceGetPropertiesHeaders,
   ServiceListSharesSegmentHeaders,
   ServiceSetPropertiesHeaders,
   ShareItem,
   ShareProperties,
+  SmbMultichannel,
+  SmbSettings,
   StorageError
 } from "../models/mappers";

@@ -1277,17 +1277,13 @@ export class QueueClient extends StorageClient {
   ): Promise<QueueUpdateMessageResponse> {
     const { span, spanOptions } = createSpan("QueueClient-updateMessage", options.tracingOptions);
     try {
-      return await this.getMessageIdContext(messageId).update(
-        {
+      return await this.getMessageIdContext(messageId).update(popReceipt, visibilityTimeout || 0, {
+        abortSignal: options.abortSignal,
+        spanOptions,
+        queueMessage: {
           messageText: message
-        },
-        popReceipt,
-        visibilityTimeout || 0,
-        {
-          abortSignal: options.abortSignal,
-          spanOptions
         }
-      );
+      });
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,

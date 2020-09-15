@@ -901,9 +901,13 @@ export interface PathAccessControlItem {
 // @public
 export interface PathAppendDataHeaders {
     clientRequestId?: string;
+    contentMD5?: Uint8Array;
     date?: Date;
+    etag?: string;
+    isServerEncrypted?: boolean;
     requestId?: string;
     version?: string;
+    xMsContentCrc64?: Uint8Array;
 }
 
 // @public

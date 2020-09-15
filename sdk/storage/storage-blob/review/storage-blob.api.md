@@ -527,6 +527,7 @@ export interface BlobDownloadHeaders {
     etag?: string;
     isSealed?: boolean;
     isServerEncrypted?: boolean;
+    lastAccessed?: Date;
     lastModified?: Date;
     leaseDuration?: LeaseDurationType;
     leaseState?: LeaseStateType;
@@ -654,6 +655,7 @@ export interface BlobGetPropertiesHeaders {
     isIncrementalCopy?: boolean;
     isSealed?: boolean;
     isServerEncrypted?: boolean;
+    lastAccessed?: Date;
     lastModified?: Date;
     leaseDuration?: LeaseDurationType;
     leaseState?: LeaseStateType;
@@ -867,6 +869,8 @@ export interface BlobProperties {
     incrementalCopy?: boolean;
     // (undocumented)
     isSealed?: boolean;
+    // (undocumented)
+    lastAccessedOn?: Date;
     // (undocumented)
     lastModified: Date;
     leaseDuration?: LeaseDurationType;

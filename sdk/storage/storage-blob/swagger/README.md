@@ -12,7 +12,7 @@ enable-xml: true
 generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../src/generated
-input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/storage-dataplane-preview/specification/storage/data-plane/Microsoft.BlobStorage/preview/2019-12-12/blob.json
+input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/storage-dataplane-preview/specification/storage/data-plane/Microsoft.BlobStorage/preview/2020-02-10/blob.json
 model-date-time-as-string: true
 optional-response-headers: true
 ```
@@ -350,7 +350,6 @@ directive:
     transform: >
       $.Start["x-ms-client-name"] = "startsOn";
       $.Expiry["x-ms-client-name"] = "expiresOn";
-
 ```
 
 ### Rename KeyInfo start -> startsOn
@@ -362,10 +361,9 @@ directive:
     transform: >
       $.Start["x-ms-client-name"] = "startsOn";
       $.Expiry["x-ms-client-name"] = "expiresOn";
-
 ```
 
-### Un-group encryptionScope 
+### Un-group encryptionScope
 
 ```yaml
 directive:
@@ -376,7 +374,6 @@ directive:
       if (grouping) {
         delete $["x-ms-parameter-grouping"];
       }
-
 ```
 
 ### Rename ContainerCpkScopeInfo -> ContainerEncryptionScope
@@ -391,7 +388,6 @@ directive:
     where: $.parameters.DenyEncryptionScopeOverride
     transform: >
       $["x-ms-parameter-grouping"]["name"] = "container-encryption-scope";
-
 ```
 
 ### Use string union instead of string for RehydratePriority in getProperties
@@ -405,8 +401,7 @@ directive:
       $["enum"] =  ["High", "Standard"];
       $["x-ms-enum"] =  {};
       $["x-ms-enum"]["name"] = "RehydratePriority";
-      $["x-ms-enum"]["modelAsString"] = true;      
-
+      $["x-ms-enum"]["modelAsString"] = true;
 ```
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fstorage%2Fstorage-blob%2Fswagger%2FREADME.png)

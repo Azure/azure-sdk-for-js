@@ -462,6 +462,42 @@ export const ShareProperties: coreHttp.CompositeMapper = {
         type: {
           name: "Number"
         }
+      },
+      leaseStatus: {
+        xmlName: "LeaseStatus",
+        serializedName: "LeaseStatus",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "locked",
+            "unlocked"
+          ]
+        }
+      },
+      leaseState: {
+        xmlName: "LeaseState",
+        serializedName: "LeaseState",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "available",
+            "leased",
+            "expired",
+            "breaking",
+            "broken"
+          ]
+        }
+      },
+      leaseDuration: {
+        xmlName: "LeaseDuration",
+        serializedName: "LeaseDuration",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "infinite",
+            "fixed"
+          ]
+        }
       }
     }
   }
@@ -662,6 +698,24 @@ export const Metrics: coreHttp.CompositeMapper = {
   }
 };
 
+export const SmbMultichannel: coreHttp.CompositeMapper = {
+  xmlName: "Multichannel",
+  serializedName: "SmbMultichannel",
+  type: {
+    name: "Composite",
+    className: "SmbMultichannel",
+    modelProperties: {
+      enabled: {
+        xmlName: "Enabled",
+        serializedName: "Enabled",
+        type: {
+          name: "Boolean"
+        }
+      }
+    }
+  }
+};
+
 export const Range: coreHttp.CompositeMapper = {
   serializedName: "Range",
   type: {
@@ -682,6 +736,42 @@ export const Range: coreHttp.CompositeMapper = {
         serializedName: "End",
         type: {
           name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const SmbSettings: coreHttp.CompositeMapper = {
+  serializedName: "SmbSettings",
+  type: {
+    name: "Composite",
+    className: "SmbSettings",
+    modelProperties: {
+      multichannel: {
+        xmlName: "Multichannel",
+        serializedName: "Multichannel",
+        type: {
+          name: "Composite",
+          className: "SmbMultichannel"
+        }
+      }
+    }
+  }
+};
+
+export const ProtocolSettings: coreHttp.CompositeMapper = {
+  serializedName: "ProtocolSettings",
+  type: {
+    name: "Composite",
+    className: "ProtocolSettings",
+    modelProperties: {
+      smbSettings: {
+        xmlName: "SMB",
+        serializedName: "SmbSettings",
+        type: {
+          name: "Composite",
+          className: "SmbSettings"
         }
       }
     }
@@ -804,6 +894,30 @@ export const FileServiceProperties: coreHttp.CompositeMapper = {
             }
           }
         }
+      },
+      protocolSettings: {
+        xmlName: "ProtocolSettings",
+        serializedName: "ProtocolSettings",
+        type: {
+          name: "Composite",
+          className: "ProtocolSettings"
+        }
+      }
+    }
+  }
+};
+
+export const LeaseAccessConditions: coreHttp.CompositeMapper = {
+  xmlName: "lease-access-conditions",
+  type: {
+    name: "Composite",
+    className: "LeaseAccessConditions",
+    modelProperties: {
+      leaseId: {
+        xmlName: "leaseId",
+        type: {
+          name: "String"
+        }
       }
     }
   }
@@ -847,22 +961,6 @@ export const FileHttpHeaders: coreHttp.CompositeMapper = {
       },
       fileContentDisposition: {
         xmlName: "fileContentDisposition",
-        type: {
-          name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const LeaseAccessConditions: coreHttp.CompositeMapper = {
-  xmlName: "lease-access-conditions",
-  type: {
-    name: "Composite",
-    className: "LeaseAccessConditions",
-    modelProperties: {
-      leaseId: {
-        xmlName: "leaseId",
         type: {
           name: "String"
         }
@@ -1151,6 +1249,39 @@ export const ShareGetPropertiesHeaders: coreHttp.CompositeMapper = {
           name: "DateTimeRfc1123"
         }
       },
+      leaseDuration: {
+        serializedName: "x-ms-lease-duration",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "infinite",
+            "fixed"
+          ]
+        }
+      },
+      leaseState: {
+        serializedName: "x-ms-lease-state",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "available",
+            "leased",
+            "expired",
+            "breaking",
+            "broken"
+          ]
+        }
+      },
+      leaseStatus: {
+        serializedName: "x-ms-lease-status",
+        type: {
+          name: "Enum",
+          allowedValues: [
+            "locked",
+            "unlocked"
+          ]
+        }
+      },
       errorCode: {
         serializedName: "x-ms-error-code",
         type: {
@@ -1167,6 +1298,320 @@ export const ShareDeleteHeaders: coreHttp.CompositeMapper = {
     name: "Composite",
     className: "ShareDeleteHeaders",
     modelProperties: {
+      requestId: {
+        serializedName: "x-ms-request-id",
+        type: {
+          name: "String"
+        }
+      },
+      version: {
+        serializedName: "x-ms-version",
+        type: {
+          name: "String"
+        }
+      },
+      date: {
+        serializedName: "date",
+        type: {
+          name: "DateTimeRfc1123"
+        }
+      },
+      errorCode: {
+        serializedName: "x-ms-error-code",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ShareAcquireLeaseHeaders: coreHttp.CompositeMapper = {
+  serializedName: "share-acquirelease-headers",
+  type: {
+    name: "Composite",
+    className: "ShareAcquireLeaseHeaders",
+    modelProperties: {
+      etag: {
+        serializedName: "etag",
+        type: {
+          name: "String"
+        }
+      },
+      lastModified: {
+        serializedName: "last-modified",
+        type: {
+          name: "DateTimeRfc1123"
+        }
+      },
+      leaseTime: {
+        serializedName: "x-ms-lease-time",
+        type: {
+          name: "Number"
+        }
+      },
+      leaseId: {
+        serializedName: "x-ms-lease-id",
+        type: {
+          name: "String"
+        }
+      },
+      clientRequestId: {
+        serializedName: "x-ms-client-request-id",
+        type: {
+          name: "String"
+        }
+      },
+      requestId: {
+        serializedName: "x-ms-request-id",
+        type: {
+          name: "String"
+        }
+      },
+      version: {
+        serializedName: "x-ms-version",
+        type: {
+          name: "String"
+        }
+      },
+      date: {
+        serializedName: "date",
+        type: {
+          name: "DateTimeRfc1123"
+        }
+      },
+      errorCode: {
+        serializedName: "x-ms-error-code",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ShareReleaseLeaseHeaders: coreHttp.CompositeMapper = {
+  serializedName: "share-releaselease-headers",
+  type: {
+    name: "Composite",
+    className: "ShareReleaseLeaseHeaders",
+    modelProperties: {
+      etag: {
+        serializedName: "etag",
+        type: {
+          name: "String"
+        }
+      },
+      lastModified: {
+        serializedName: "last-modified",
+        type: {
+          name: "DateTimeRfc1123"
+        }
+      },
+      leaseTime: {
+        serializedName: "x-ms-lease-time",
+        type: {
+          name: "Number"
+        }
+      },
+      clientRequestId: {
+        serializedName: "x-ms-client-request-id",
+        type: {
+          name: "String"
+        }
+      },
+      requestId: {
+        serializedName: "x-ms-request-id",
+        type: {
+          name: "String"
+        }
+      },
+      version: {
+        serializedName: "x-ms-version",
+        type: {
+          name: "String"
+        }
+      },
+      date: {
+        serializedName: "date",
+        type: {
+          name: "DateTimeRfc1123"
+        }
+      },
+      errorCode: {
+        serializedName: "x-ms-error-code",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ShareChangeLeaseHeaders: coreHttp.CompositeMapper = {
+  serializedName: "share-changelease-headers",
+  type: {
+    name: "Composite",
+    className: "ShareChangeLeaseHeaders",
+    modelProperties: {
+      etag: {
+        serializedName: "etag",
+        type: {
+          name: "String"
+        }
+      },
+      lastModified: {
+        serializedName: "last-modified",
+        type: {
+          name: "DateTimeRfc1123"
+        }
+      },
+      leaseTime: {
+        serializedName: "x-ms-lease-time",
+        type: {
+          name: "Number"
+        }
+      },
+      leaseId: {
+        serializedName: "x-ms-lease-id",
+        type: {
+          name: "String"
+        }
+      },
+      clientRequestId: {
+        serializedName: "x-ms-client-request-id",
+        type: {
+          name: "String"
+        }
+      },
+      requestId: {
+        serializedName: "x-ms-request-id",
+        type: {
+          name: "String"
+        }
+      },
+      version: {
+        serializedName: "x-ms-version",
+        type: {
+          name: "String"
+        }
+      },
+      date: {
+        serializedName: "date",
+        type: {
+          name: "DateTimeRfc1123"
+        }
+      },
+      errorCode: {
+        serializedName: "x-ms-error-code",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ShareRenewLeaseHeaders: coreHttp.CompositeMapper = {
+  serializedName: "share-renewlease-headers",
+  type: {
+    name: "Composite",
+    className: "ShareRenewLeaseHeaders",
+    modelProperties: {
+      etag: {
+        serializedName: "etag",
+        type: {
+          name: "String"
+        }
+      },
+      lastModified: {
+        serializedName: "last-modified",
+        type: {
+          name: "DateTimeRfc1123"
+        }
+      },
+      leaseTime: {
+        serializedName: "x-ms-lease-time",
+        type: {
+          name: "Number"
+        }
+      },
+      leaseId: {
+        serializedName: "x-ms-lease-id",
+        type: {
+          name: "String"
+        }
+      },
+      clientRequestId: {
+        serializedName: "x-ms-client-request-id",
+        type: {
+          name: "String"
+        }
+      },
+      requestId: {
+        serializedName: "x-ms-request-id",
+        type: {
+          name: "String"
+        }
+      },
+      version: {
+        serializedName: "x-ms-version",
+        type: {
+          name: "String"
+        }
+      },
+      date: {
+        serializedName: "date",
+        type: {
+          name: "DateTimeRfc1123"
+        }
+      },
+      errorCode: {
+        serializedName: "x-ms-error-code",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ShareBreakLeaseHeaders: coreHttp.CompositeMapper = {
+  serializedName: "share-breaklease-headers",
+  type: {
+    name: "Composite",
+    className: "ShareBreakLeaseHeaders",
+    modelProperties: {
+      etag: {
+        serializedName: "etag",
+        type: {
+          name: "String"
+        }
+      },
+      lastModified: {
+        serializedName: "last-modified",
+        type: {
+          name: "DateTimeRfc1123"
+        }
+      },
+      leaseTime: {
+        serializedName: "x-ms-lease-time",
+        type: {
+          name: "Number"
+        }
+      },
+      leaseId: {
+        serializedName: "x-ms-lease-id",
+        type: {
+          name: "String"
+        }
+      },
+      clientRequestId: {
+        serializedName: "x-ms-client-request-id",
+        type: {
+          name: "String"
+        }
+      },
       requestId: {
         serializedName: "x-ms-request-id",
         type: {

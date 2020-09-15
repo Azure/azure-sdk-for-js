@@ -8,6 +8,9 @@
 
 export {
   AccessPolicy,
+  ShareAcquireLeaseHeaders,
+  ShareBreakLeaseHeaders,
+  ShareChangeLeaseHeaders,
   ShareCreateHeaders,
   ShareCreatePermissionHeaders,
   ShareCreateSnapshotHeaders,
@@ -17,6 +20,8 @@ export {
   ShareGetPropertiesHeaders,
   ShareGetStatisticsHeaders,
   SharePermission,
+  ShareReleaseLeaseHeaders,
+  ShareRenewLeaseHeaders,
   ShareRestoreHeaders,
   ShareSetAccessPolicyHeaders,
   ShareSetMetadataHeaders,

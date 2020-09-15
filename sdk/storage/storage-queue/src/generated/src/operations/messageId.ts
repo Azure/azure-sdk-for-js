@@ -31,7 +31,6 @@ export class MessageId {
    * Message operation updates the visibility timeout of a message. You can also use this operation
    * to update the contents of a message. A message must be in a format that can be included in an
    * XML request with UTF-8 encoding, and the encoded message can be up to 64KB in size.
-   * @param queueMessage A Message object which can be stored in a Queue
    * @param popReceipt Required. Specifies the valid pop receipt value returned from an earlier call
    * to the Get Messages or Update Message operation.
    * @param visibilityTimeout Optional. Specifies the new visibility timeout value, in seconds,
@@ -42,9 +41,8 @@ export class MessageId {
    * @param [options] The optional parameters
    * @returns Promise<Models.MessageIdUpdateResponse>
    */
-  update(queueMessage: Models.QueueMessage, popReceipt: string, visibilityTimeout: number, options?: Models.MessageIdUpdateOptionalParams): Promise<Models.MessageIdUpdateResponse>;
+  update(popReceipt: string, visibilityTimeout: number, options?: Models.MessageIdUpdateOptionalParams): Promise<Models.MessageIdUpdateResponse>;
   /**
-   * @param queueMessage A Message object which can be stored in a Queue
    * @param popReceipt Required. Specifies the valid pop receipt value returned from an earlier call
    * to the Get Messages or Update Message operation.
    * @param visibilityTimeout Optional. Specifies the new visibility timeout value, in seconds,
@@ -54,9 +52,8 @@ export class MessageId {
    * later than the expiry time.
    * @param callback The callback
    */
-  update(queueMessage: Models.QueueMessage, popReceipt: string, visibilityTimeout: number, callback: coreHttp.ServiceCallback<void>): void;
+  update(popReceipt: string, visibilityTimeout: number, callback: coreHttp.ServiceCallback<void>): void;
   /**
-   * @param queueMessage A Message object which can be stored in a Queue
    * @param popReceipt Required. Specifies the valid pop receipt value returned from an earlier call
    * to the Get Messages or Update Message operation.
    * @param visibilityTimeout Optional. Specifies the new visibility timeout value, in seconds,
@@ -67,11 +64,10 @@ export class MessageId {
    * @param options The optional parameters
    * @param callback The callback
    */
-  update(queueMessage: Models.QueueMessage, popReceipt: string, visibilityTimeout: number, options: Models.MessageIdUpdateOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
-  update(queueMessage: Models.QueueMessage, popReceipt: string, visibilityTimeout: number, options?: Models.MessageIdUpdateOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.MessageIdUpdateResponse> {
+  update(popReceipt: string, visibilityTimeout: number, options: Models.MessageIdUpdateOptionalParams, callback: coreHttp.ServiceCallback<void>): void;
+  update(popReceipt: string, visibilityTimeout: number, options?: Models.MessageIdUpdateOptionalParams | coreHttp.ServiceCallback<void>, callback?: coreHttp.ServiceCallback<void>): Promise<Models.MessageIdUpdateResponse> {
     return this.client.sendOperationRequest(
       {
-        queueMessage,
         popReceipt,
         visibilityTimeout,
         options
@@ -130,11 +126,11 @@ const updateOperationSpec: coreHttp.OperationSpec = {
     Parameters.requestId
   ],
   requestBody: {
-    parameterPath: "queueMessage",
-    mapper: {
-      ...Mappers.QueueMessage,
-      required: true
-    }
+    parameterPath: [
+      "options",
+      "queueMessage"
+    ],
+    mapper: Mappers.QueueMessage
   },
   contentType: "application/xml; charset=utf-8",
   responses: {
