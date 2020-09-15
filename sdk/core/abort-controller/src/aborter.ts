@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 // Changes to Aborter
 // * Rename Aborter to AbortSignal
 // * Remove withValue and getValue - async context should be solved differently/wholistically, not tied to cancellation
