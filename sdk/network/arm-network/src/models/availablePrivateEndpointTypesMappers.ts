@@ -11,4 +11,4 @@ export {
   AvailablePrivateEndpointType,
   AvailablePrivateEndpointTypesResult,
   CloudError
-} from "./mappers";
+} from "../models/mappers";
