@@ -538,8 +538,13 @@ export interface ParameterValue {
     value: any;
 }
 
-// Warning: (ae-forgotten-export) The symbol "ParsedWWWAuthenticate" needs to be exported by the entry point coreHttp.d.ts
+// Warning: (ae-forgotten-export) The symbol "ValidParsedWWWAuthenticateProperties" needs to be exported by the entry point coreHttp.d.ts
 //
+// @public
+export type ParsedWWWAuthenticate = {
+    [Key in ValidParsedWWWAuthenticateProperties]?: string;
+};
+
 // @public
 export function parseWWWAuthenticate(wwwAuthenticate: string): ParsedWWWAuthenticate;
 

@@ -65,9 +65,6 @@ export { keepAlivePolicy, KeepAliveOptions } from "./policies/keepAlivePolicy";
 export { disableResponseDecompressionPolicy } from "./policies/disableResponseDecompressionPolicy";
 export {
   challengeBasedAuthenticationPolicy,
-  parseWWWAuthenticate,
-  AuthenticationChallenge,
-  AuthenticationChallengeCache
 } from "./policies/challengeBasedAuthenticationPolicy";
 export { signingPolicy } from "./policies/signingPolicy";
 export {
