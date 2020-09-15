@@ -26,6 +26,7 @@ import {
   OperationSpec
 } from "../src/coreHttp";
 import { ParameterPath } from "../src/operationParameter";
+import { requestBody1 } from "./testMappers";
 
 describe("ServiceClient", function() {
   it("should serialize headerCollectionPrefix", async function() {
@@ -701,36 +702,14 @@ describe("ServiceClient", function() {
         new ServiceClient(),
         httpRequest,
         {
-          bodyArg: { foo: "Foo", bar: "Bar" }
+          requestBody: {
+            updated: new Date("2020-08-12T23:36:18.308Z"),
+            content: { type: "application/xml", queueDescription: { maxDeliveryCount: 15 } }
+          }
         },
         {
           httpMethod: "POST",
-          requestBody: {
-            parameterPath: "bodyArg",
-            mapper: {
-              required: true,
-              serializedName: "bodyArg",
-              type: {
-                name: MapperType.Composite,
-                modelProperties: {
-                  foo: {
-                    serializedName: "foo",
-                    xmlName: "Foo",
-                    type: {
-                      name: "String"
-                    }
-                  },
-                  bar: {
-                    xmlName: "Bar",
-                    serializedName: "bar",
-                    type: {
-                      name: "String"
-                    }
-                  }
-                }
-              }
-            }
-          },
+          requestBody: requestBody1,
           responses: { 200: {} },
           serializer: new Serializer(undefined, true),
           isXML: true
@@ -738,7 +717,7 @@ describe("ServiceClient", function() {
       );
       assert.strictEqual(
         httpRequest.body,
-        `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><bodyArg><Foo>Foo</Foo><Bar>Bar</Bar></bodyArg>`
+        `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><entry xmlns="http://www.w3.org/2005/Atom"><updated xmlns="http://www.w3.org/2005/Atom">2020-08-12T23:36:18.308Z</updated><content xmlns="http://www.w3.org/2005/Atom" type="application/xml"><QueueDescription xmlns="http://schemas.microsoft.com/netservices/2010/10/servicebus/connect"><MaxDeliveryCount xmlns="http://schemas.microsoft.com/netservices/2010/10/servicebus/connect">15</MaxDeliveryCount></QueueDescription></content></entry>`
       );
     });
 

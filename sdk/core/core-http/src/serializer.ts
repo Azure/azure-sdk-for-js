@@ -594,7 +594,7 @@ function serializeCompositeType(
           const xmlnsKey = mapper.xmlNamespacePrefix
             ? `xmlns:${mapper.xmlNamespacePrefix}`
             : "xmlns";
-          parentObject.$ = { [xmlnsKey]: mapper.xmlNamespace };
+          parentObject.$ = { ...parentObject.$, [xmlnsKey]: mapper.xmlNamespace };
         }
         const propertyObjectName =
           propertyMapper.serializedName !== ""
@@ -616,14 +616,9 @@ function serializeCompositeType(
           toSerialize,
           propertyObjectName
         );
+
         if (serializedValue !== undefined && propName != undefined) {
-          const xmlnsKey = propertyMapper.xmlNamespacePrefix
-            ? `xmlns:${propertyMapper.xmlNamespacePrefix}`
-            : "xmlns";
-          const xmlNamespace = { [xmlnsKey]: propertyMapper.xmlNamespace };
-          const value = propertyMapper.xmlNamespace
-            ? { _: serializedValue, $: xmlNamespace }
-            : serializedValue;
+          const value = getXmlObjectValue(propertyMapper, serializedValue);
           if (propertyMapper.xmlIsAttribute) {
             // $ is the key attributes are kept under in xml2js.
             // This keeps things simple while preventing name collision
@@ -657,6 +652,22 @@ function serializeCompositeType(
     return payload;
   }
   return object;
+}
+
+function getXmlObjectValue(propertyMapper: Mapper, serializedValue: any) {
+  if (!propertyMapper.xmlNamespace) {
+    return serializedValue;
+  }
+
+  const xmlnsKey = propertyMapper.xmlNamespacePrefix
+    ? `xmlns:${propertyMapper.xmlNamespacePrefix}`
+    : "xmlns";
+  const xmlNamespace = { [xmlnsKey]: propertyMapper.xmlNamespace };
+
+  if (["Composite"].includes(propertyMapper.type.name)) {
+    return { $: xmlNamespace, ...serializedValue };
+  }
+  return { _: serializedValue, $: xmlNamespace };
 }
 
 function isSpecialXmlProperty(propertyName: string): boolean {
