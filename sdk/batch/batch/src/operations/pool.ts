@@ -27,13 +27,13 @@ export class Pool {
   }
 
   /**
-   * If you do not specify a $filter clause including a poolId, the response includes all pools that
-   * existed in the account in the time range of the returned aggregation intervals. If you do not
+   * If you do not specify a $filter clause including a poolId, the response includes all Pools that
+   * existed in the Account in the time range of the returned aggregation intervals. If you do not
    * specify a $filter clause including a startTime or endTime these filters default to the start and
    * end times of the last aggregation interval currently available; that is, only the last
    * aggregation interval is returned.
-   * @summary Lists the usage metrics, aggregated by pool across individual time intervals, for the
-   * specified account.
+   * @summary Lists the usage metrics, aggregated by Pool across individual time intervals, for the
+   * specified Account.
    * @param [options] The optional parameters
    * @returns Promise<Models.PoolListUsageMetricsResponse>
    */
@@ -57,11 +57,11 @@ export class Pool {
   }
 
   /**
-   * Statistics are aggregated across all pools that have ever existed in the account, from account
+   * Statistics are aggregated across all Pools that have ever existed in the Account, from Account
    * creation to the last update time of the statistics. The statistics may not be immediately
    * available. The Batch service performs periodic roll-up of statistics. The typical delay is about
    * 30 minutes.
-   * @summary Gets lifetime summary statistics for all of the pools in the specified account.
+   * @summary Gets lifetime summary statistics for all of the Pools in the specified Account.
    * @param [options] The optional parameters
    * @returns Promise<Models.PoolGetAllLifetimeStatisticsResponse>
    */
@@ -85,21 +85,21 @@ export class Pool {
   }
 
   /**
-   * When naming pools, avoid including sensitive information such as user names or secret project
+   * When naming Pools, avoid including sensitive information such as user names or secret project
    * names. This information may appear in telemetry logs accessible to Microsoft Support engineers.
-   * @summary Adds a pool to the specified account.
-   * @param pool The pool to be added.
+   * @summary Adds a Pool to the specified Account.
+   * @param pool The Pool to be added.
    * @param [options] The optional parameters
    * @returns Promise<Models.PoolAddResponse>
    */
   add(pool: Models.PoolAddParameter, options?: Models.PoolAddOptionalParams): Promise<Models.PoolAddResponse>;
   /**
-   * @param pool The pool to be added.
+   * @param pool The Pool to be added.
    * @param callback The callback
    */
   add(pool: Models.PoolAddParameter, callback: msRest.ServiceCallback<void>): void;
   /**
-   * @param pool The pool to be added.
+   * @param pool The Pool to be added.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -115,7 +115,7 @@ export class Pool {
   }
 
   /**
-   * @summary Lists all of the pools in the specified account.
+   * @summary Lists all of the Pools in the specified Account.
    * @param [options] The optional parameters
    * @returns Promise<Models.PoolListResponse>
    */
@@ -139,29 +139,29 @@ export class Pool {
   }
 
   /**
-   * When you request that a pool be deleted, the following actions occur: the pool state is set to
-   * deleting; any ongoing resize operation on the pool are stopped; the Batch service starts
-   * resizing the pool to zero nodes; any tasks running on existing nodes are terminated and requeued
-   * (as if a resize pool operation had been requested with the default requeue option); finally, the
-   * pool is removed from the system. Because running tasks are requeued, the user can rerun these
-   * tasks by updating their job to target a different pool. The tasks can then run on the new pool.
-   * If you want to override the requeue behavior, then you should call resize pool explicitly to
-   * shrink the pool to zero size before deleting the pool. If you call an Update, Patch or Delete
-   * API on a pool in the deleting state, it will fail with HTTP status code 409 with error code
-   * PoolBeingDeleted.
-   * @summary Deletes a pool from the specified account.
-   * @param poolId The ID of the pool to delete.
+   * When you request that a Pool be deleted, the following actions occur: the Pool state is set to
+   * deleting; any ongoing resize operation on the Pool are stopped; the Batch service starts
+   * resizing the Pool to zero Compute Nodes; any Tasks running on existing Compute Nodes are
+   * terminated and requeued (as if a resize Pool operation had been requested with the default
+   * requeue option); finally, the Pool is removed from the system. Because running Tasks are
+   * requeued, the user can rerun these Tasks by updating their Job to target a different Pool. The
+   * Tasks can then run on the new Pool. If you want to override the requeue behavior, then you
+   * should call resize Pool explicitly to shrink the Pool to zero size before deleting the Pool. If
+   * you call an Update, Patch or Delete API on a Pool in the deleting state, it will fail with HTTP
+   * status code 409 with error code PoolBeingDeleted.
+   * @summary Deletes a Pool from the specified Account.
+   * @param poolId The ID of the Pool to delete.
    * @param [options] The optional parameters
    * @returns Promise<Models.PoolDeleteResponse>
    */
   deleteMethod(poolId: string, options?: Models.PoolDeleteMethodOptionalParams): Promise<Models.PoolDeleteResponse>;
   /**
-   * @param poolId The ID of the pool to delete.
+   * @param poolId The ID of the Pool to delete.
    * @param callback The callback
    */
   deleteMethod(poolId: string, callback: msRest.ServiceCallback<void>): void;
   /**
-   * @param poolId The ID of the pool to delete.
+   * @param poolId The ID of the Pool to delete.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -177,19 +177,19 @@ export class Pool {
   }
 
   /**
-   * Gets basic properties of a pool.
-   * @param poolId The ID of the pool to get.
+   * Gets basic properties of a Pool.
+   * @param poolId The ID of the Pool to get.
    * @param [options] The optional parameters
    * @returns Promise<Models.PoolExistsResponse>
    */
   exists(poolId: string, options?: Models.PoolExistsOptionalParams): Promise<Models.PoolExistsResponse>;
   /**
-   * @param poolId The ID of the pool to get.
+   * @param poolId The ID of the Pool to get.
    * @param callback The callback
    */
   exists(poolId: string, callback: msRest.ServiceCallback<boolean>): void;
   /**
-   * @param poolId The ID of the pool to get.
+   * @param poolId The ID of the Pool to get.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -205,19 +205,19 @@ export class Pool {
   }
 
   /**
-   * Gets information about the specified pool.
-   * @param poolId The ID of the pool to get.
+   * Gets information about the specified Pool.
+   * @param poolId The ID of the Pool to get.
    * @param [options] The optional parameters
    * @returns Promise<Models.PoolGetResponse>
    */
   get(poolId: string, options?: Models.PoolGetOptionalParams): Promise<Models.PoolGetResponse>;
   /**
-   * @param poolId The ID of the pool to get.
+   * @param poolId The ID of the Pool to get.
    * @param callback The callback
    */
   get(poolId: string, callback: msRest.ServiceCallback<Models.CloudPool>): void;
   /**
-   * @param poolId The ID of the pool to get.
+   * @param poolId The ID of the Pool to get.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -233,24 +233,24 @@ export class Pool {
   }
 
   /**
-   * This only replaces the pool properties specified in the request. For example, if the pool has a
-   * start task associated with it, and a request does not specify a start task element, then the
-   * pool keeps the existing start task.
-   * @summary Updates the properties of the specified pool.
-   * @param poolId The ID of the pool to update.
+   * This only replaces the Pool properties specified in the request. For example, if the Pool has a
+   * StartTask associated with it, and a request does not specify a StartTask element, then the Pool
+   * keeps the existing StartTask.
+   * @summary Updates the properties of the specified Pool.
+   * @param poolId The ID of the Pool to update.
    * @param poolPatchParameter The parameters for the request.
    * @param [options] The optional parameters
    * @returns Promise<Models.PoolPatchResponse>
    */
   patch(poolId: string, poolPatchParameter: Models.PoolPatchParameter, options?: Models.PoolPatchOptionalParams): Promise<Models.PoolPatchResponse>;
   /**
-   * @param poolId The ID of the pool to update.
+   * @param poolId The ID of the Pool to update.
    * @param poolPatchParameter The parameters for the request.
    * @param callback The callback
    */
   patch(poolId: string, poolPatchParameter: Models.PoolPatchParameter, callback: msRest.ServiceCallback<void>): void;
   /**
-   * @param poolId The ID of the pool to update.
+   * @param poolId The ID of the Pool to update.
    * @param poolPatchParameter The parameters for the request.
    * @param options The optional parameters
    * @param callback The callback
@@ -268,19 +268,19 @@ export class Pool {
   }
 
   /**
-   * @summary Disables automatic scaling for a pool.
-   * @param poolId The ID of the pool on which to disable automatic scaling.
+   * @summary Disables automatic scaling for a Pool.
+   * @param poolId The ID of the Pool on which to disable automatic scaling.
    * @param [options] The optional parameters
    * @returns Promise<Models.PoolDisableAutoScaleResponse>
    */
   disableAutoScale(poolId: string, options?: Models.PoolDisableAutoScaleOptionalParams): Promise<Models.PoolDisableAutoScaleResponse>;
   /**
-   * @param poolId The ID of the pool on which to disable automatic scaling.
+   * @param poolId The ID of the Pool on which to disable automatic scaling.
    * @param callback The callback
    */
   disableAutoScale(poolId: string, callback: msRest.ServiceCallback<void>): void;
   /**
-   * @param poolId The ID of the pool on which to disable automatic scaling.
+   * @param poolId The ID of the Pool on which to disable automatic scaling.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -296,26 +296,26 @@ export class Pool {
   }
 
   /**
-   * You cannot enable automatic scaling on a pool if a resize operation is in progress on the pool.
-   * If automatic scaling of the pool is currently disabled, you must specify a valid autoscale
-   * formula as part of the request. If automatic scaling of the pool is already enabled, you may
+   * You cannot enable automatic scaling on a Pool if a resize operation is in progress on the Pool.
+   * If automatic scaling of the Pool is currently disabled, you must specify a valid autoscale
+   * formula as part of the request. If automatic scaling of the Pool is already enabled, you may
    * specify a new autoscale formula and/or a new evaluation interval. You cannot call this API for
-   * the same pool more than once every 30 seconds.
-   * @summary Enables automatic scaling for a pool.
-   * @param poolId The ID of the pool on which to enable automatic scaling.
+   * the same Pool more than once every 30 seconds.
+   * @summary Enables automatic scaling for a Pool.
+   * @param poolId The ID of the Pool on which to enable automatic scaling.
    * @param poolEnableAutoScaleParameter The parameters for the request.
    * @param [options] The optional parameters
    * @returns Promise<Models.PoolEnableAutoScaleResponse>
    */
   enableAutoScale(poolId: string, poolEnableAutoScaleParameter: Models.PoolEnableAutoScaleParameter, options?: Models.PoolEnableAutoScaleOptionalParams): Promise<Models.PoolEnableAutoScaleResponse>;
   /**
-   * @param poolId The ID of the pool on which to enable automatic scaling.
+   * @param poolId The ID of the Pool on which to enable automatic scaling.
    * @param poolEnableAutoScaleParameter The parameters for the request.
    * @param callback The callback
    */
   enableAutoScale(poolId: string, poolEnableAutoScaleParameter: Models.PoolEnableAutoScaleParameter, callback: msRest.ServiceCallback<void>): void;
   /**
-   * @param poolId The ID of the pool on which to enable automatic scaling.
+   * @param poolId The ID of the Pool on which to enable automatic scaling.
    * @param poolEnableAutoScaleParameter The parameters for the request.
    * @param options The optional parameters
    * @param callback The callback
@@ -334,35 +334,35 @@ export class Pool {
 
   /**
    * This API is primarily for validating an autoscale formula, as it simply returns the result
-   * without applying the formula to the pool. The pool must have auto scaling enabled in order to
+   * without applying the formula to the Pool. The Pool must have auto scaling enabled in order to
    * evaluate a formula.
-   * @summary Gets the result of evaluating an automatic scaling formula on the pool.
-   * @param poolId The ID of the pool on which to evaluate the automatic scaling formula.
-   * @param autoScaleFormula The formula for the desired number of compute nodes in the pool. The
-   * formula is validated and its results calculated, but it is not applied to the pool. To apply the
-   * formula to the pool, 'Enable automatic scaling on a pool'. For more information about specifying
-   * this formula, see Automatically scale compute nodes in an Azure Batch pool
+   * @summary Gets the result of evaluating an automatic scaling formula on the Pool.
+   * @param poolId The ID of the Pool on which to evaluate the automatic scaling formula.
+   * @param autoScaleFormula The formula for the desired number of Compute Nodes in the Pool. The
+   * formula is validated and its results calculated, but it is not applied to the Pool. To apply the
+   * formula to the Pool, 'Enable automatic scaling on a Pool'. For more information about specifying
+   * this formula, see Automatically scale Compute Nodes in an Azure Batch Pool
    * (https://azure.microsoft.com/en-us/documentation/articles/batch-automatic-scaling).
    * @param [options] The optional parameters
    * @returns Promise<Models.PoolEvaluateAutoScaleResponse>
    */
   evaluateAutoScale(poolId: string, autoScaleFormula: string, options?: Models.PoolEvaluateAutoScaleOptionalParams): Promise<Models.PoolEvaluateAutoScaleResponse>;
   /**
-   * @param poolId The ID of the pool on which to evaluate the automatic scaling formula.
-   * @param autoScaleFormula The formula for the desired number of compute nodes in the pool. The
-   * formula is validated and its results calculated, but it is not applied to the pool. To apply the
-   * formula to the pool, 'Enable automatic scaling on a pool'. For more information about specifying
-   * this formula, see Automatically scale compute nodes in an Azure Batch pool
+   * @param poolId The ID of the Pool on which to evaluate the automatic scaling formula.
+   * @param autoScaleFormula The formula for the desired number of Compute Nodes in the Pool. The
+   * formula is validated and its results calculated, but it is not applied to the Pool. To apply the
+   * formula to the Pool, 'Enable automatic scaling on a Pool'. For more information about specifying
+   * this formula, see Automatically scale Compute Nodes in an Azure Batch Pool
    * (https://azure.microsoft.com/en-us/documentation/articles/batch-automatic-scaling).
    * @param callback The callback
    */
   evaluateAutoScale(poolId: string, autoScaleFormula: string, callback: msRest.ServiceCallback<Models.AutoScaleRun>): void;
   /**
-   * @param poolId The ID of the pool on which to evaluate the automatic scaling formula.
-   * @param autoScaleFormula The formula for the desired number of compute nodes in the pool. The
-   * formula is validated and its results calculated, but it is not applied to the pool. To apply the
-   * formula to the pool, 'Enable automatic scaling on a pool'. For more information about specifying
-   * this formula, see Automatically scale compute nodes in an Azure Batch pool
+   * @param poolId The ID of the Pool on which to evaluate the automatic scaling formula.
+   * @param autoScaleFormula The formula for the desired number of Compute Nodes in the Pool. The
+   * formula is validated and its results calculated, but it is not applied to the Pool. To apply the
+   * formula to the Pool, 'Enable automatic scaling on a Pool'. For more information about specifying
+   * this formula, see Automatically scale Compute Nodes in an Azure Batch Pool
    * (https://azure.microsoft.com/en-us/documentation/articles/batch-automatic-scaling).
    * @param options The optional parameters
    * @param callback The callback
@@ -380,27 +380,27 @@ export class Pool {
   }
 
   /**
-   * You can only resize a pool when its allocation state is steady. If the pool is already resizing,
-   * the request fails with status code 409. When you resize a pool, the pool's allocation state
-   * changes from steady to resizing. You cannot resize pools which are configured for automatic
-   * scaling. If you try to do this, the Batch service returns an error 409. If you resize a pool
-   * downwards, the Batch service chooses which nodes to remove. To remove specific nodes, use the
-   * pool remove nodes API instead.
-   * @summary Changes the number of compute nodes that are assigned to a pool.
-   * @param poolId The ID of the pool to resize.
+   * You can only resize a Pool when its allocation state is steady. If the Pool is already resizing,
+   * the request fails with status code 409. When you resize a Pool, the Pool's allocation state
+   * changes from steady to resizing. You cannot resize Pools which are configured for automatic
+   * scaling. If you try to do this, the Batch service returns an error 409. If you resize a Pool
+   * downwards, the Batch service chooses which Compute Nodes to remove. To remove specific Compute
+   * Nodes, use the Pool remove Compute Nodes API instead.
+   * @summary Changes the number of Compute Nodes that are assigned to a Pool.
+   * @param poolId The ID of the Pool to resize.
    * @param poolResizeParameter The parameters for the request.
    * @param [options] The optional parameters
    * @returns Promise<Models.PoolResizeResponse>
    */
   resize(poolId: string, poolResizeParameter: Models.PoolResizeParameter, options?: Models.PoolResizeOptionalParams): Promise<Models.PoolResizeResponse>;
   /**
-   * @param poolId The ID of the pool to resize.
+   * @param poolId The ID of the Pool to resize.
    * @param poolResizeParameter The parameters for the request.
    * @param callback The callback
    */
   resize(poolId: string, poolResizeParameter: Models.PoolResizeParameter, callback: msRest.ServiceCallback<void>): void;
   /**
-   * @param poolId The ID of the pool to resize.
+   * @param poolId The ID of the Pool to resize.
    * @param poolResizeParameter The parameters for the request.
    * @param options The optional parameters
    * @param callback The callback
@@ -418,25 +418,25 @@ export class Pool {
   }
 
   /**
-   * This does not restore the pool to its previous state before the resize operation: it only stops
-   * any further changes being made, and the pool maintains its current state. After stopping, the
-   * pool stabilizes at the number of nodes it was at when the stop operation was done. During the
-   * stop operation, the pool allocation state changes first to stopping and then to steady. A resize
-   * operation need not be an explicit resize pool request; this API can also be used to halt the
-   * initial sizing of the pool when it is created.
-   * @summary Stops an ongoing resize operation on the pool.
-   * @param poolId The ID of the pool whose resizing you want to stop.
+   * This does not restore the Pool to its previous state before the resize operation: it only stops
+   * any further changes being made, and the Pool maintains its current state. After stopping, the
+   * Pool stabilizes at the number of Compute Nodes it was at when the stop operation was done.
+   * During the stop operation, the Pool allocation state changes first to stopping and then to
+   * steady. A resize operation need not be an explicit resize Pool request; this API can also be
+   * used to halt the initial sizing of the Pool when it is created.
+   * @summary Stops an ongoing resize operation on the Pool.
+   * @param poolId The ID of the Pool whose resizing you want to stop.
    * @param [options] The optional parameters
    * @returns Promise<Models.PoolStopResizeResponse>
    */
   stopResize(poolId: string, options?: Models.PoolStopResizeOptionalParams): Promise<Models.PoolStopResizeResponse>;
   /**
-   * @param poolId The ID of the pool whose resizing you want to stop.
+   * @param poolId The ID of the Pool whose resizing you want to stop.
    * @param callback The callback
    */
   stopResize(poolId: string, callback: msRest.ServiceCallback<void>): void;
   /**
-   * @param poolId The ID of the pool whose resizing you want to stop.
+   * @param poolId The ID of the Pool whose resizing you want to stop.
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -452,24 +452,24 @@ export class Pool {
   }
 
   /**
-   * This fully replaces all the updatable properties of the pool. For example, if the pool has a
-   * start task associated with it and if start task is not specified with this request, then the
-   * Batch service will remove the existing start task.
-   * @summary Updates the properties of the specified pool.
-   * @param poolId The ID of the pool to update.
+   * This fully replaces all the updatable properties of the Pool. For example, if the Pool has a
+   * StartTask associated with it and if StartTask is not specified with this request, then the Batch
+   * service will remove the existing StartTask.
+   * @summary Updates the properties of the specified Pool.
+   * @param poolId The ID of the Pool to update.
    * @param poolUpdatePropertiesParameter The parameters for the request.
    * @param [options] The optional parameters
    * @returns Promise<Models.PoolUpdatePropertiesResponse>
    */
   updateProperties(poolId: string, poolUpdatePropertiesParameter: Models.PoolUpdatePropertiesParameter, options?: Models.PoolUpdatePropertiesOptionalParams): Promise<Models.PoolUpdatePropertiesResponse>;
   /**
-   * @param poolId The ID of the pool to update.
+   * @param poolId The ID of the Pool to update.
    * @param poolUpdatePropertiesParameter The parameters for the request.
    * @param callback The callback
    */
   updateProperties(poolId: string, poolUpdatePropertiesParameter: Models.PoolUpdatePropertiesParameter, callback: msRest.ServiceCallback<void>): void;
   /**
-   * @param poolId The ID of the pool to update.
+   * @param poolId The ID of the Pool to update.
    * @param poolUpdatePropertiesParameter The parameters for the request.
    * @param options The optional parameters
    * @param callback The callback
@@ -487,23 +487,23 @@ export class Pool {
   }
 
   /**
-   * This operation can only run when the allocation state of the pool is steady. When this operation
+   * This operation can only run when the allocation state of the Pool is steady. When this operation
    * runs, the allocation state changes from steady to resizing.
-   * @summary Removes compute nodes from the specified pool.
-   * @param poolId The ID of the pool from which you want to remove nodes.
+   * @summary Removes Compute Nodes from the specified Pool.
+   * @param poolId The ID of the Pool from which you want to remove Compute Nodes.
    * @param nodeRemoveParameter The parameters for the request.
    * @param [options] The optional parameters
    * @returns Promise<Models.PoolRemoveNodesResponse>
    */
   removeNodes(poolId: string, nodeRemoveParameter: Models.NodeRemoveParameter, options?: Models.PoolRemoveNodesOptionalParams): Promise<Models.PoolRemoveNodesResponse>;
   /**
-   * @param poolId The ID of the pool from which you want to remove nodes.
+   * @param poolId The ID of the Pool from which you want to remove Compute Nodes.
    * @param nodeRemoveParameter The parameters for the request.
    * @param callback The callback
    */
   removeNodes(poolId: string, nodeRemoveParameter: Models.NodeRemoveParameter, callback: msRest.ServiceCallback<void>): void;
   /**
-   * @param poolId The ID of the pool from which you want to remove nodes.
+   * @param poolId The ID of the Pool from which you want to remove Compute Nodes.
    * @param nodeRemoveParameter The parameters for the request.
    * @param options The optional parameters
    * @param callback The callback
@@ -521,13 +521,13 @@ export class Pool {
   }
 
   /**
-   * If you do not specify a $filter clause including a poolId, the response includes all pools that
-   * existed in the account in the time range of the returned aggregation intervals. If you do not
+   * If you do not specify a $filter clause including a poolId, the response includes all Pools that
+   * existed in the Account in the time range of the returned aggregation intervals. If you do not
    * specify a $filter clause including a startTime or endTime these filters default to the start and
    * end times of the last aggregation interval currently available; that is, only the last
    * aggregation interval is returned.
-   * @summary Lists the usage metrics, aggregated by pool across individual time intervals, for the
-   * specified account.
+   * @summary Lists the usage metrics, aggregated by Pool across individual time intervals, for the
+   * specified Account.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
    * @returns Promise<Models.PoolListUsageMetricsResponse>
@@ -555,7 +555,7 @@ export class Pool {
   }
 
   /**
-   * @summary Lists all of the pools in the specified account.
+   * @summary Lists all of the Pools in the specified Account.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
    * @returns Promise<Models.PoolListResponse>
@@ -611,7 +611,8 @@ const listUsageMetricsOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.PoolListUsageMetricsHeaders
     },
     default: {
-      bodyMapper: Mappers.BatchError
+      bodyMapper: Mappers.BatchError,
+      headersMapper: Mappers.PoolListUsageMetricsHeaders
     }
   },
   serializer
@@ -639,7 +640,8 @@ const getAllLifetimeStatisticsOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.PoolGetAllLifetimeStatisticsHeaders
     },
     default: {
-      bodyMapper: Mappers.BatchError
+      bodyMapper: Mappers.BatchError,
+      headersMapper: Mappers.PoolGetAllLifetimeStatisticsHeaders
     }
   },
   serializer
@@ -674,7 +676,8 @@ const addOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.PoolAddHeaders
     },
     default: {
-      bodyMapper: Mappers.BatchError
+      bodyMapper: Mappers.BatchError,
+      headersMapper: Mappers.PoolAddHeaders
     }
   },
   serializer
@@ -706,7 +709,8 @@ const listOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.PoolListHeaders
     },
     default: {
-      bodyMapper: Mappers.BatchError
+      bodyMapper: Mappers.BatchError,
+      headersMapper: Mappers.PoolListHeaders
     }
   },
   serializer
@@ -738,7 +742,8 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.PoolDeleteHeaders
     },
     default: {
-      bodyMapper: Mappers.BatchError
+      bodyMapper: Mappers.BatchError,
+      headersMapper: Mappers.PoolDeleteHeaders
     }
   },
   serializer
@@ -773,7 +778,8 @@ const existsOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.PoolExistsHeaders
     },
     default: {
-      bodyMapper: Mappers.BatchError
+      bodyMapper: Mappers.BatchError,
+      headersMapper: Mappers.PoolExistsHeaders
     }
   },
   serializer
@@ -808,7 +814,8 @@ const getOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.PoolGetHeaders
     },
     default: {
-      bodyMapper: Mappers.BatchError
+      bodyMapper: Mappers.BatchError,
+      headersMapper: Mappers.PoolGetHeaders
     }
   },
   serializer
@@ -848,7 +855,8 @@ const patchOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.PoolPatchHeaders
     },
     default: {
-      bodyMapper: Mappers.BatchError
+      bodyMapper: Mappers.BatchError,
+      headersMapper: Mappers.PoolPatchHeaders
     }
   },
   serializer
@@ -876,7 +884,8 @@ const disableAutoScaleOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.PoolDisableAutoScaleHeaders
     },
     default: {
-      bodyMapper: Mappers.BatchError
+      bodyMapper: Mappers.BatchError,
+      headersMapper: Mappers.PoolDisableAutoScaleHeaders
     }
   },
   serializer
@@ -916,7 +925,8 @@ const enableAutoScaleOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.PoolEnableAutoScaleHeaders
     },
     default: {
-      bodyMapper: Mappers.BatchError
+      bodyMapper: Mappers.BatchError,
+      headersMapper: Mappers.PoolEnableAutoScaleHeaders
     }
   },
   serializer
@@ -955,7 +965,8 @@ const evaluateAutoScaleOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.PoolEvaluateAutoScaleHeaders
     },
     default: {
-      bodyMapper: Mappers.BatchError
+      bodyMapper: Mappers.BatchError,
+      headersMapper: Mappers.PoolEvaluateAutoScaleHeaders
     }
   },
   serializer
@@ -995,7 +1006,8 @@ const resizeOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.PoolResizeHeaders
     },
     default: {
-      bodyMapper: Mappers.BatchError
+      bodyMapper: Mappers.BatchError,
+      headersMapper: Mappers.PoolResizeHeaders
     }
   },
   serializer
@@ -1027,7 +1039,8 @@ const stopResizeOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.PoolStopResizeHeaders
     },
     default: {
-      bodyMapper: Mappers.BatchError
+      bodyMapper: Mappers.BatchError,
+      headersMapper: Mappers.PoolStopResizeHeaders
     }
   },
   serializer
@@ -1063,7 +1076,8 @@ const updatePropertiesOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.PoolUpdatePropertiesHeaders
     },
     default: {
-      bodyMapper: Mappers.BatchError
+      bodyMapper: Mappers.BatchError,
+      headersMapper: Mappers.PoolUpdatePropertiesHeaders
     }
   },
   serializer
@@ -1103,7 +1117,8 @@ const removeNodesOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.PoolRemoveNodesHeaders
     },
     default: {
-      bodyMapper: Mappers.BatchError
+      bodyMapper: Mappers.BatchError,
+      headersMapper: Mappers.PoolRemoveNodesHeaders
     }
   },
   serializer
@@ -1128,7 +1143,8 @@ const listUsageMetricsNextOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.PoolListUsageMetricsHeaders
     },
     default: {
-      bodyMapper: Mappers.BatchError
+      bodyMapper: Mappers.BatchError,
+      headersMapper: Mappers.PoolListUsageMetricsHeaders
     }
   },
   serializer
@@ -1153,7 +1169,8 @@ const listNextOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.PoolListHeaders
     },
     default: {
-      bodyMapper: Mappers.BatchError
+      bodyMapper: Mappers.BatchError,
+      headersMapper: Mappers.PoolListHeaders
     }
   },
   serializer
