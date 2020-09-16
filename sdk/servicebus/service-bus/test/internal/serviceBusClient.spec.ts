@@ -5,8 +5,12 @@ import { extractReceiverArguments, ServiceBusClient } from "../../src/serviceBus
 import chai from "chai";
 import { CreateSessionReceiverOptions } from "../../src/models";
 import { entityPathMisMatchError } from "../../src/util/errors";
-import { createConnectionContext } from "../../src/constructorHelpers";
-import { SharedKeyCredential } from "@azure/core-amqp";
+import {
+  createConnectionContextForConnectionString,
+  createConnectionContextForTokenCredential
+} from "../../src/constructorHelpers";
+import { TokenCredential } from "@azure/core-http";
+import { ConnectionContext } from "../../src/connectionContext";
 const assert = chai.assert;
 
 const allLockModes: ("peekLock" | "receiveAndDelete")[] = ["peekLock", "receiveAndDelete"];
@@ -150,16 +154,11 @@ describe("serviceBusClient unit tests", () => {
     });
   });
 
-  describe("createConnectionContext", () => {
-    it("Websocket endpoint and constructor options are populated in the config", () => {
-      const connString =
-        "Endpoint=sb://a;SharedAccessKeyName=b;SharedAccessKey=c;EntityPath=some-queue";
-      const options = { randomOption: 123 };
-      const connectionContext = createConnectionContext(
-        connString,
-        SharedKeyCredential.fromConnectionString(connString),
-        { webSocketOptions: { webSocketConstructorOptions: options } }
-      );
+  describe("Create ConnectionContext helpers", () => {
+    function validateWebsocketInfo(
+      connectionContext: ConnectionContext,
+      providedWebsocketConstructorOptions: any
+    ) {
       assert.equal(
         connectionContext.config.webSocketEndpointPath,
         "$servicebus/websocket",
@@ -167,23 +166,62 @@ describe("serviceBusClient unit tests", () => {
       );
       assert.equal(
         connectionContext.config.webSocketConstructorOptions,
-        options,
+        providedWebsocketConstructorOptions,
         "Unexpected webSocketEndpointPath in the connection config"
       );
+    }
+
+    describe("createConnectionContextForConnectionString", () => {
+      it("Websocket endpoint and constructor options are populated in the config", () => {
+        const connString =
+          "Endpoint=sb://a;SharedAccessKeyName=b;SharedAccessKey=c;EntityPath=some-queue";
+        const options = { randomOption: 123 };
+        const connectionContext = createConnectionContextForConnectionString(connString, {
+          webSocketOptions: { webSocketConstructorOptions: options }
+        });
+        validateWebsocketInfo(connectionContext, options);
+      });
+
+      it("undefined entity path is translated to ''", () => {
+        const connString = "Endpoint=sb://a;SharedAccessKeyName=b;SharedAccessKey=c;";
+        const connectionContext = createConnectionContextForConnectionString(connString, {});
+        assert.equal(
+          connectionContext.config.entityPath,
+          "",
+          "Unexpected entityPath in the connection config"
+        );
+      });
     });
 
-    it("undefined entity path is translated to ''", () => {
-      const connString = "Endpoint=sb://a;SharedAccessKeyName=b;SharedAccessKey=c;";
-      const connectionContext = createConnectionContext(
-        connString,
-        SharedKeyCredential.fromConnectionString(connString),
-        {}
-      );
-      assert.equal(
-        connectionContext.config.entityPath,
-        "",
-        "Unexpected entityPath in the connection config"
-      );
+    describe("createConnectionContextForTokenCredential", () => {
+      const pseudoTokenCred: TokenCredential = {
+        async getToken() {
+          return { expiresOnTimestamp: 0, token: "" };
+        }
+      };
+      const endpoint = "endpoint";
+      it("Websocket endpoint and constructor options are populated in the config", () => {
+        const options = { randomOption: 123 };
+        const connectionContext = createConnectionContextForTokenCredential(
+          pseudoTokenCred,
+          endpoint,
+          { webSocketOptions: { webSocketConstructorOptions: options } }
+        );
+        validateWebsocketInfo(connectionContext, options);
+      });
+
+      it("undefined entity path is translated to ''", () => {
+        const connectionContext = createConnectionContextForTokenCredential(
+          pseudoTokenCred,
+          endpoint,
+          {}
+        );
+        assert.equal(
+          connectionContext.config.entityPath,
+          "",
+          "Unexpected entityPath in the connection config"
+        );
+      });
     });
   });
 });
