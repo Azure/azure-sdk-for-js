@@ -11,33 +11,33 @@
     "cache-control": "no-store, no-cache",
     "content-length": "1329",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 02 Sep 2020 23:54:10 GMT",
+    "date": "Wed, 16 Sep 2020 19:21:39 GMT",
     "expires": "-1",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
     "referrer-policy": "strict-origin-when-cross-origin",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.10985.18 - CHI ProdSlices",
-    "x-ms-request-id": "91f9f391-cce5-47c4-9246-d22be3f13600"
+    "x-ms-ests-server": "2.1.11021.16 - CHI ProdSlices",
+    "x-ms-request-id": "f76cdaff-c9e7-4eb8-aa4c-16c9d9325c00"
    }
   },
   {
    "method": "POST",
-   "url": "https://endpoint/text/analytics/v3.1-preview.1/keyPhrases",
+   "url": "https://endpoint/text/analytics/v3.1-preview.2/keyPhrases",
    "query": {},
    "requestBody": "{\"documents\":[{\"id\":\"1\",\"text\":\"I had a wonderful trip to Seattle last week and even visited the Space Needle 2 times!\",\"language\":\"en\"},{\"id\":\"2\",\"text\":\"Unfortunately, it rained during my entire trip to Seattle. I didn't even get to visit the Space Needle\",\"language\":\"en\"},{\"id\":\"3\",\"text\":\"I went to see a movie on Saturday and it was perfectly average, nothing more or less than I expected.\",\"language\":\"en\"},{\"id\":\"4\",\"text\":\"I didn't like the last book I read at all.\",\"language\":\"en\"},{\"id\":\"5\",\"text\":\"Los caminos que llevan hasta Monte Rainier son espectaculares y hermosos.\",\"language\":\"es\"},{\"id\":\"6\",\"text\":\"La carretera estaba atascada. Había mucho tráfico el día de ayer.\",\"language\":\"es\"}]}",
    "status": 200,
    "response": "{\"documents\":[{\"id\":\"1\",\"keyPhrases\":[\"week\",\"Space Needle\",\"wonderful trip\",\"Seattle\",\"times\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"entire trip\",\"Seattle\",\"Space Needle\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"movie\"],\"warnings\":[]},{\"id\":\"4\",\"keyPhrases\":[\"book\"],\"warnings\":[]},{\"id\":\"5\",\"keyPhrases\":[\"Monte Rainier\",\"caminos\"],\"warnings\":[]},{\"id\":\"6\",\"keyPhrases\":[\"carretera\",\"tráfico\",\"día\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}",
    "responseHeaders": {
-    "apim-request-id": "b96882a9-1cf0-4e34-a862-9fec68c79b02",
+    "apim-request-id": "dcaace98-562f-4fc1-8a6e-5eaca4b91661",
     "content-type": "application/json; charset=utf-8",
     "csp-billing-usage": "CognitiveServices.TextAnalytics.BatchScoring=6",
-    "date": "Wed, 02 Sep 2020 23:54:11 GMT",
+    "date": "Wed, 16 Sep 2020 19:21:38 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "17"
+    "x-envoy-upstream-service-time": "21"
    }
   }
  ],

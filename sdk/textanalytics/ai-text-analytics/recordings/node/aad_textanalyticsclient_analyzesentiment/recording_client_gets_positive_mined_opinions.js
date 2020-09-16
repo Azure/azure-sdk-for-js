@@ -24,21 +24,21 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  '2f3e21d3-2d7f-4c01-a40d-39dba1533900',
+  'a1bd149f-22ff-4c3a-9635-1846567b5f00',
   'x-ms-ests-server',
-  '2.1.10985.18 - CHI ProdSlices',
+  '2.1.11021.16 - CHI ProdSlices',
   'Set-Cookie',
-  'fpc=At4ac5iTfgBNvTR6whbJNU_IIHRUAQAAAIUn4tYOAAAA; expires=Fri, 02-Oct-2020 23:53:41 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=Au6nYTefzfFFl0XENU2oNv7IIHRUAQAAAKFc9NYOAAAA; expires=Fri, 16-Oct-2020 19:21:06 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=prod; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=ests; path=/; secure; samesite=none; httponly',
   'Date',
-  'Wed, 02 Sep 2020 23:53:41 GMT'
+  'Wed, 16 Sep 2020 19:21:05 GMT'
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .post('/text/analytics/v3.1-preview.1/sentiment', {"documents":[{"id":"0","text":"It has a sleek premium aluminum design that makes it beautiful to look at.","language":"en"}]})
+  .post('/text/analytics/v3.1-preview.2/sentiment', {"documents":[{"id":"0","text":"It has a sleek premium aluminum design that makes it beautiful to look at.","language":"en"}]})
   .query(true)
   .reply(200, {"documents":[{"id":"0","sentiment":"positive","confidenceScores":{"positive":0.98,"neutral":0.02,"negative":0},"sentences":[{"sentiment":"positive","confidenceScores":{"positive":0.98,"neutral":0.02,"negative":0},"offset":0,"length":74,"text":"It has a sleek premium aluminum design that makes it beautiful to look at.","aspects":[{"sentiment":"positive","confidenceScores":{"positive":1,"negative":0},"offset":32,"length":6,"text":"design","relations":[{"relationType":"opinion","ref":"#/documents/0/sentences/0/opinions/0"},{"relationType":"opinion","ref":"#/documents/0/sentences/0/opinions/1"}]}],"opinions":[{"sentiment":"positive","confidenceScores":{"positive":1,"negative":0},"offset":9,"length":5,"text":"sleek","isNegated":false},{"sentiment":"positive","confidenceScores":{"positive":1,"negative":0},"offset":15,"length":7,"text":"premium","isNegated":false}]}],"warnings":[]}],"errors":[],"modelVersion":"2020-04-01"}, [
   'Transfer-Encoding',
@@ -48,13 +48,13 @@ nock('https://endpoint', {"encodedQueryParams":true})
   'csp-billing-usage',
   'CognitiveServices.TextAnalytics.BatchScoring=1',
   'x-envoy-upstream-service-time',
-  '83',
+  '378',
   'apim-request-id',
-  '3d33412b-7d8e-481b-a569-593835b790e9',
+  '88097fb3-33dd-4e8a-b61f-f5a82163bc7a',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Wed, 02 Sep 2020 23:53:41 GMT'
+  'Wed, 16 Sep 2020 19:21:06 GMT'
 ]);
