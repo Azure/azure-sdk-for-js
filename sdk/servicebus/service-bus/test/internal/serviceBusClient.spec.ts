@@ -5,6 +5,8 @@ import { extractReceiverArguments, ServiceBusClient } from "../../src/serviceBus
 import chai from "chai";
 import { CreateSessionReceiverOptions } from "../../src/models";
 import { entityPathMisMatchError } from "../../src/util/errors";
+import { createConnectionContext } from "../../src/constructorHelpers";
+import { SharedKeyCredential } from "@azure/core-amqp";
 const assert = chai.assert;
 
 const allLockModes: ("peekLock" | "receiveAndDelete")[] = ["peekLock", "receiveAndDelete"];
@@ -145,6 +147,43 @@ describe("serviceBusClient unit tests", () => {
       } catch (error) {
         assert.equal(error.message, entityPathMisMatchError);
       }
+    });
+  });
+
+  describe("createConnectionContext", () => {
+    it("Websocket endpoint and constructor options are populated in the config", () => {
+      const connString =
+        "Endpoint=sb://a;SharedAccessKeyName=b;SharedAccessKey=c;EntityPath=some-queue";
+      const options = { randomOption: 123 };
+      const connectionContext = createConnectionContext(
+        connString,
+        SharedKeyCredential.fromConnectionString(connString),
+        { webSocketOptions: { webSocketConstructorOptions: options } }
+      );
+      assert.equal(
+        connectionContext.config.webSocketEndpointPath,
+        "$servicebus/websocket",
+        "Unexpected webSocketEndpointPath in the connection config"
+      );
+      assert.equal(
+        connectionContext.config.webSocketConstructorOptions,
+        options,
+        "Unexpected webSocketEndpointPath in the connection config"
+      );
+    });
+
+    it("undefined entity path is translated to ''", () => {
+      const connString = "Endpoint=sb://a;SharedAccessKeyName=b;SharedAccessKey=c;";
+      const connectionContext = createConnectionContext(
+        connString,
+        SharedKeyCredential.fromConnectionString(connString),
+        {}
+      );
+      assert.equal(
+        connectionContext.config.entityPath,
+        "",
+        "Unexpected entityPath in the connection config"
+      );
     });
   });
 });

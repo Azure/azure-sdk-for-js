@@ -55,7 +55,7 @@ function validate(config: ConnectionConfig) {
  * @param {(SharedKeyCredential | TokenCredential)} credential
  * @param {ServiceBusClientOptions} options
  */
-function createConnectionContext(
+export function createConnectionContext(
   connectionString: string,
   credential: SharedKeyCredential | TokenCredential,
   options: ServiceBusClientOptions
