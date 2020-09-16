@@ -79,8 +79,13 @@ export class BuffersStream extends Readable {
     const outBuffers: Buffer[] = [];
     let i = 0;
     while (i < size && this.pushedBytesLength < this.byteLength) {
-      const remaining = this.buffers[this.bufferIndex].byteLength - this.byteOffset;
+      // The last buffer may be longer than the data it contains.
+      const remainingDataInAllBuffers = this.byteLength - this.pushedBytesLength;
+      const remainingCapacityInThisBuffer =
+        this.buffers[this.bufferIndex].byteLength - this.byteOffset;
+      const remaining = Math.min(remainingCapacityInThisBuffer, remainingDataInAllBuffers);
       if (remaining > size - i) {
+        // chunkSize = size - i
         const end = this.byteOffset + size - i;
         outBuffers.push(this.buffers[this.bufferIndex].slice(this.byteOffset, end));
         this.pushedBytesLength += size - i;
@@ -88,9 +93,16 @@ export class BuffersStream extends Readable {
         i = size;
         break;
       } else {
-        outBuffers.push(this.buffers[this.bufferIndex].slice(this.byteOffset));
-        this.byteOffset = 0;
-        this.bufferIndex++;
+        // chunkSize = remaining
+        const end = this.byteOffset + remaining;
+        outBuffers.push(this.buffers[this.bufferIndex].slice(this.byteOffset, end));
+        if (remaining === remainingCapacityInThisBuffer) {
+          // this.buffers[this.bufferIndex] used up, shift to next one
+          this.byteOffset = 0;
+          this.bufferIndex++;
+        } else {
+          this.byteOffset = end;
+        }
         this.pushedBytesLength += remaining;
         i += remaining;
       }

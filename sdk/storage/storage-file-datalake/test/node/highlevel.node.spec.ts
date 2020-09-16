@@ -376,7 +376,11 @@ describe("Highlevel Node.js only", () => {
     assert.deepStrictEqual(await bodyToString(response), "");
   });
 
-  it.only("uploadStream should success for tiny buffers", async () => {
+  it("uploadStream should success for tiny buffers", async () => {
+    recorder.skip(
+      undefined,
+      "UUID is randomly generated within the SDK and used in the HTTP request and cannot be preserved."
+    );
     const buf = Buffer.from([0x62, 0x75, 0x66, 0x66, 0x65, 0x72]);
     const bufferStream = new PassThrough();
     bufferStream.end(buf);
