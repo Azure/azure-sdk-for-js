@@ -4,7 +4,7 @@ import * as fs from "fs";
 import * as path from "path";
 
 import { SimpleTokenCredential } from "./testutils.common";
-import { StorageSharedKeyCredential } from "../../src";
+import { StoragePipelineOptions, StorageSharedKeyCredential } from "../../src";
 import { BlobServiceClient } from "../../src";
 import { getUniqueName } from "./testutils.common";
 import { newPipeline } from "../../src";
@@ -44,7 +44,8 @@ export function getGenericCredential(accountType: string): StorageSharedKeyCrede
 
 export function getGenericBSU(
   accountType: string,
-  accountNameSuffix: string = ""
+  accountNameSuffix: string = "",
+  pipelineOptions: StoragePipelineOptions = {}
 ): BlobServiceClient {
   if (
     env.STORAGE_CONNECTION_STRING &&
@@ -55,6 +56,7 @@ export function getGenericBSU(
     const credential = getGenericCredential(accountType) as StorageSharedKeyCredential;
 
     const pipeline = newPipeline(credential, {
+      ...pipelineOptions
       // Enable logger when debugging
       // logger: new ConsoleHttpPipelineLogger(HttpPipelineLogLevel.INFO)
     });
@@ -158,19 +160,36 @@ export async function createRandomLocalFile(
 export async function createRandomLocalFile(
   folder: string,
   blockNumber: number,
-  blockSizeOrContent: number | Buffer
+  blockSize: number,
+  totalSize: number
+): Promise<string>;
+export async function createRandomLocalFile(
+  folder: string,
+  blockNumber: number,
+  blockSizeOrContent: number | Buffer,
+  totalSize?: number
 ): Promise<string> {
   return new Promise<string>((resolve, reject) => {
     const destFile = path.join(folder, getUniqueName("tempfile."));
     const ws = fs.createWriteStream(destFile);
     let offsetInMB = 0;
+    let lastBlockSize = blockSizeOrContent as number;
 
-    function randomValueHex() {
+    if (totalSize !== undefined) {
+      const blockSize = blockSizeOrContent as number;
+      blockNumber = Math.ceil(totalSize / blockSize);
+      lastBlockSize = totalSize - (blockNumber - 1) * blockSize;
+    }
+
+    function randomValueHex(blockIndex: number) {
       if (blockSizeOrContent instanceof Buffer) {
         return blockSizeOrContent;
       }
 
-      const len = blockSizeOrContent;
+      let len = blockSizeOrContent as number;
+      if (blockIndex === blockNumber) {
+        len = lastBlockSize;
+      }
 
       return randomBytes(Math.ceil(len / 2))
         .toString("hex") // convert to hexadecimal format
@@ -179,7 +198,7 @@ export async function createRandomLocalFile(
 
     ws.on("open", () => {
       // tslint:disable-next-line:no-empty
-      while (offsetInMB++ < blockNumber && ws.write(randomValueHex())) {}
+      while (offsetInMB++ < blockNumber && ws.write(randomValueHex(offsetInMB))) {}
       if (offsetInMB >= blockNumber) {
         ws.end();
       }
@@ -187,7 +206,7 @@ export async function createRandomLocalFile(
 
     ws.on("drain", () => {
       // tslint:disable-next-line:no-empty
-      while (offsetInMB++ < blockNumber && ws.write(randomValueHex())) {}
+      while (offsetInMB++ < blockNumber && ws.write(randomValueHex(offsetInMB))) {}
       if (offsetInMB >= blockNumber) {
         ws.end();
       }

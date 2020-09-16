@@ -4,16 +4,13 @@ import * as path from "path";
 import { PassThrough, Readable } from "stream";
 
 import { AbortController } from "@azure/abort-controller";
-import { createRandomLocalFile, getBSU, recorderEnvSetup, bodyToString } from "../utils";
+import { createRandomLocalFile, recorderEnvSetup, bodyToString, getGenericBSU } from "../utils";
 import { RetriableReadableStreamOptions } from "../../src/utils/RetriableReadableStream";
 import { record, Recorder } from "@azure/test-utils-recorder";
 import { ContainerClient, BlobClient, BlockBlobClient, BlobServiceClient } from "../../src";
 import { readStreamToLocalFileWithLogs } from "../utils/testutils.node";
 import { BLOCK_BLOB_MAX_STAGE_BLOCK_BYTES } from "../../src/utils/constants";
 import { Test_CPK_INFO } from "../utils/constants";
-
-import { setLogLevel } from "@azure/logger";
-setLogLevel("info");
 
 // tslint:disable:no-empty
 describe.only("Highlevel", () => {
@@ -34,7 +31,11 @@ describe.only("Highlevel", () => {
   let blobServiceClient: BlobServiceClient;
   beforeEach(async function() {
     recorder = record(this, recorderEnvSetup);
-    blobServiceClient = getBSU();
+    blobServiceClient = getGenericBSU("", undefined, {
+      keepAliveOptions: {
+        enable: true
+      }
+    });
     containerName = recorder.getUniqueName("container");
     containerClient = blobServiceClient.getContainerClient(containerName);
     await containerClient.create();
@@ -55,10 +56,11 @@ describe.only("Highlevel", () => {
     if (!fs.existsSync(tempFolderPath)) {
       fs.mkdirSync(tempFolderPath);
     }
-    tempFileLarge = await createRandomLocalFile(tempFolderPath, 257, 1024 * 1024);
-    tempFileLargeLength = 257 * 1024 * 1024;
-    tempFileSmall = await createRandomLocalFile(tempFolderPath, 15, 1024 * 1024);
-    tempFileSmallLength = 15 * 1024 * 1024;
+    const MB = 1024 * 1024;
+    tempFileLargeLength = 256 * MB + 1; // First prime number after 256MB.
+    tempFileLarge = await createRandomLocalFile(tempFolderPath, 257, MB, tempFileLargeLength);
+    tempFileSmallLength = 4 * MB + 37; // First prime number after 4MB.
+    tempFileSmall = await createRandomLocalFile(tempFolderPath, 5, MB, tempFileSmallLength);
     await recorder.stop();
   });
 
