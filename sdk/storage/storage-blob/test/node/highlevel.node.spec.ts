@@ -13,7 +13,7 @@ import { BLOCK_BLOB_MAX_STAGE_BLOCK_BYTES } from "../../src/utils/constants";
 import { Test_CPK_INFO } from "../utils/constants";
 
 // tslint:disable:no-empty
-describe.only("Highlevel", () => {
+describe("Highlevel", () => {
   let containerName: string;
   let containerClient: ContainerClient;
   let blobName: string;
@@ -323,7 +323,7 @@ describe.only("Highlevel", () => {
     }
   });
 
-  it("uploadStream should update progress event", async () => {
+  it.only("uploadStream should update progress event", async () => {
     recorder.skip("node", "Temp file - recorder doesn't support saving the file");
     const rs = fs.createReadStream(tempFileLarge);
     let eventTriggered = false;
