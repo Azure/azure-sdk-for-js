@@ -1,6 +1,8 @@
 # Release History
 
-## 3.9.2 (Unreleased)
+## 3.9.2 (2020-09-16)
+
+- BUGFIX: Fixes slow `userAgent` lookup on azure functions.
 
 ## 3.9.1 (2020-08-28)
 
