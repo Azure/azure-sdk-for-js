@@ -7,7 +7,7 @@ import { DataLakeFileClient, DataLakeFileSystemClient } from "../../src";
 import {
   bodyToString,
   createRandomLocalFile,
-  getDataLakeServiceClient,
+  getGenericDataLakeServiceClient,
   recorderEnvSetup
 } from "../utils";
 import {
@@ -20,6 +20,8 @@ import {
 import { readStreamToLocalFileWithLogs } from "../../test/utils/testutils.node";
 const { Readable } = require("stream");
 import { AbortController } from "@azure/abort-controller";
+import { PassThrough } from "stream";
+import { streamToBuffer2 } from "../../src/utils/utils.node";
 dotenv.config();
 
 describe("Highlevel Node.js only", () => {
@@ -38,7 +40,11 @@ describe("Highlevel Node.js only", () => {
 
   beforeEach(async function() {
     recorder = record(this, recorderEnvSetup);
-    const serviceClient = getDataLakeServiceClient();
+    const serviceClient = getGenericDataLakeServiceClient("DFS_", undefined, {
+      keepAliveOptions: {
+        enable: true
+      }
+    });
     fileSystemName = recorder.getUniqueName("filesystem");
     fileSystemClient = serviceClient.getFileSystemClient(fileSystemName);
     await fileSystemClient.create();
@@ -368,6 +374,19 @@ describe("Highlevel Node.js only", () => {
     await fileClient.uploadStream(readable);
     const response = await fileClient.read();
     assert.deepStrictEqual(await bodyToString(response), "");
+  });
+
+  it.only("uploadStream should success for tiny buffers", async () => {
+    const buf = Buffer.from([0x62, 0x75, 0x66, 0x66, 0x65, 0x72]);
+    const bufferStream = new PassThrough();
+    bufferStream.end(buf);
+
+    await fileClient.uploadStream(bufferStream);
+
+    const downloadResponse = await fileClient.read();
+    const downloadBuffer = Buffer.allocUnsafe(buf.byteLength);
+    await streamToBuffer2(downloadResponse.readableStreamBody!, downloadBuffer);
+    assert.ok(buf.equals(downloadBuffer));
   });
 
   it("uploadFile should work for large data", async () => {

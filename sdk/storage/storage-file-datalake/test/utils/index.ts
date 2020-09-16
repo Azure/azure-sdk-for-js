@@ -7,7 +7,7 @@ import * as path from "path";
 
 import { StorageSharedKeyCredential } from "../../src/credentials/StorageSharedKeyCredential";
 import { DataLakeServiceClient } from "../../src/DataLakeServiceClient";
-import { newPipeline } from "../../src/Pipeline";
+import { newPipeline, StoragePipelineOptions } from "../../src/Pipeline";
 import { getUniqueName, SimpleTokenCredential } from "./testutils.common";
 
 dotenv.config();
@@ -48,7 +48,8 @@ export function getTokenCredential(): TokenCredential {
 
 export function getGenericDataLakeServiceClient(
   accountType: string,
-  accountNameSuffix: string = ""
+  accountNameSuffix: string = "",
+  pipelineOptions: StoragePipelineOptions = {}
 ): DataLakeServiceClient {
   if (
     env.STORAGE_CONNECTION_STRING &&
@@ -60,6 +61,7 @@ export function getGenericDataLakeServiceClient(
   } else {
     const credential = getGenericCredential(accountType) as StorageSharedKeyCredential;
     const pipeline = newPipeline(credential, {
+      ...pipelineOptions
       // Enable logger when debugging
       // logger: new ConsoleHttpPipelineLogger(HttpPipelineLogLevel.INFO)
       // proxyOptions: {

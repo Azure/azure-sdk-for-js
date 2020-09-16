@@ -11,6 +11,7 @@ import { ContainerClient, BlobClient, BlockBlobClient, BlobServiceClient } from 
 import { readStreamToLocalFileWithLogs } from "../utils/testutils.node";
 import { BLOCK_BLOB_MAX_STAGE_BLOCK_BYTES } from "../../src/utils/constants";
 import { Test_CPK_INFO } from "../utils/constants";
+import { streamToBuffer2 } from "../../src/utils/utils.node";
 
 // tslint:disable:no-empty
 describe.only("Highlevel", () => {
@@ -272,8 +273,7 @@ describe.only("Highlevel", () => {
     fs.unlinkSync(downloadFilePath);
   }).timeout(timeoutForLargeFileUploadingTest);
 
-  it("uploadStream should success for tiny buffers", async () => {
-    recorder.skip("node", "Temp file - recorder doesn't support saving the file");
+  it.only("uploadStream should success for tiny buffers", async () => {
     const buf = Buffer.from([0x62, 0x75, 0x66, 0x66, 0x65, 0x72]);
     const bufferStream = new PassThrough();
     bufferStream.end(buf);
@@ -281,13 +281,9 @@ describe.only("Highlevel", () => {
     await blockBlobClient.uploadStream(bufferStream, 4 * 1024 * 1024, 20);
     const downloadResponse = await blockBlobClient.download(0);
 
-    const downloadFilePath = path.join(tempFolderPath, recorder.getUniqueName("downloadFile"));
-    await readStreamToLocalFileWithLogs(downloadResponse.readableStreamBody!, downloadFilePath);
-
-    const downloadedBuffer = fs.readFileSync(downloadFilePath);
-    assert.ok(buf.equals(downloadedBuffer));
-
-    fs.unlinkSync(downloadFilePath);
+    const downloadBuffer = Buffer.allocUnsafe(buf.byteLength);
+    await streamToBuffer2(downloadResponse.readableStreamBody!, downloadBuffer);
+    assert.ok(buf.equals(downloadBuffer));
   });
 
   it("uploadStream should work with tags", async function() {
@@ -323,7 +319,7 @@ describe.only("Highlevel", () => {
     }
   });
 
-  it.only("uploadStream should update progress event", async () => {
+  it("uploadStream should update progress event", async () => {
     recorder.skip("node", "Temp file - recorder doesn't support saving the file");
     const rs = fs.createReadStream(tempFileLarge);
     let eventTriggered = false;

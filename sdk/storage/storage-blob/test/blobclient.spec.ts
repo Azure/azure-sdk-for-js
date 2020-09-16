@@ -161,7 +161,7 @@ describe("BlobClient", () => {
     assert.deepStrictEqual(response.tags, tags);
   });
 
-  it.only("download with with default parameters", async () => {
+  it("download with with default parameters", async () => {
     const result = await blobClient.download();
     assert.deepStrictEqual(await bodyToString(result, content.length), content);
   });
