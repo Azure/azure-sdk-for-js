@@ -14,7 +14,7 @@ Use the client libraries in this package to:
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-blob) |
 [Package (npm)](https://www.npmjs.com/package/@azure/storage-blob/) |
-[API Reference Documentation](https://docs.microsoft.com/en-us/javascript/api/overview/azure/storage-overview) |
+[API Reference Documentation](https://docs.microsoft.com/javascript/api/@azure/storage-blob) |
 [Product documentation](https://docs.microsoft.com/azure/storage/blobs/storage-blobs-overview) |
 [Samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-blob/samples) |
 [Azure Storage Blob REST APIs](https://docs.microsoft.com/rest/api/storageservices/blob-service-rest-api)
@@ -434,18 +434,20 @@ async function main() {
   // Get blob content from position 0 to the end
   // In Node.js, get downloaded data by accessing downloadBlockBlobResponse.readableStreamBody
   const downloadBlockBlobResponse = await blobClient.download();
-  const downloaded = await streamToString(downloadBlockBlobResponse.readableStreamBody);
+  const downloaded = (
+    await streamToBuffer(downloadBlockBlobResponse.readableStreamBody)
+  ).toString();
   console.log("Downloaded blob content:", downloaded);
 
-  // [Node.js only] A helper method used to read a Node.js readable stream into string
-  async function streamToString(readableStream) {
+  // [Node.js only] A helper method used to read a Node.js readable stream into a Buffer
+  async function streamToBuffer(readableStream) {
     return new Promise((resolve, reject) => {
       const chunks = [];
       readableStream.on("data", (data) => {
-        chunks.push(data.toString());
+        chunks.push(data instanceof Buffer ? data : Buffer.from(data));
       });
       readableStream.on("end", () => {
-        resolve(chunks.join(""));
+        resolve(Buffer.concat(chunks));
       });
       readableStream.on("error", reject);
     });

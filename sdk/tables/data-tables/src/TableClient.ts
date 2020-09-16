@@ -396,20 +396,20 @@ export class TableClient {
     const { span, updatedOptions } = createSpan(`TableClient-updateEntity-${mode}`, options);
 
     try {
-      if (!entity.PartitionKey || !entity.RowKey) {
-        throw new Error("PartitionKey and RowKey must be defined");
+      if (!entity.partitionKey || !entity.rowKey) {
+        throw new Error("partitionKey and rowKey must be defined");
       }
 
       const { etag = "*", ...updateEntityOptions } = updatedOptions || {};
       if (mode === "Merge") {
-        return this.table.mergeEntity(this.tableName, entity.PartitionKey, entity.RowKey, {
+        return this.table.mergeEntity(this.tableName, entity.partitionKey, entity.rowKey, {
           tableEntityProperties: serialize(entity),
           ifMatch: etag,
           ...updateEntityOptions
         });
       }
       if (mode === "Replace") {
-        return this.table.updateEntity(this.tableName, entity.PartitionKey, entity.RowKey, {
+        return this.table.updateEntity(this.tableName, entity.partitionKey, entity.rowKey, {
           tableEntityProperties: serialize(entity),
           ifMatch: etag,
           ...updateEntityOptions
@@ -443,26 +443,24 @@ export class TableClient {
     const { span, updatedOptions } = createSpan(`TableClient-upsertEntity-${mode}`, options);
 
     try {
-      if (!entity.PartitionKey || !entity.RowKey) {
-        throw new Error("PartitionKey and RowKey must be defined");
+      if (!entity.partitionKey || !entity.rowKey) {
+        throw new Error("partitionKey and rowKey must be defined");
       }
 
-      const { queryOptions, etag = "*", ...upsertOptions } = updatedOptions || {};
+      const { queryOptions, ...upsertOptions } = updatedOptions || {};
       if (mode === "Merge") {
-        return this.table.mergeEntity(this.tableName, entity.PartitionKey, entity.RowKey, {
+        return this.table.mergeEntity(this.tableName, entity.partitionKey, entity.rowKey, {
           tableEntityProperties: serialize(entity),
           queryOptions: this.convertQueryOptions(queryOptions || {}),
-          ...upsertOptions,
-          ifMatch: etag
+          ...upsertOptions
         });
       }
 
       if (mode === "Replace") {
-        return this.table.updateEntity(this.tableName, entity.PartitionKey, entity.RowKey, {
+        return this.table.updateEntity(this.tableName, entity.partitionKey, entity.rowKey, {
           tableEntityProperties: serialize(entity),
           queryOptions: this.convertQueryOptions(queryOptions || {}),
-          ...upsertOptions,
-          ifMatch: etag
+          ...upsertOptions
         });
       }
       throw new Error(`Unexpected value for update mode: ${mode}`);

@@ -81,7 +81,7 @@ function Get-javascript-PackageInfoFromPackageFile ($pkg, $workingDirectory)
 }
 
 # Stage and Upload Docs to blob Storage
-function Publish-javascript-GithubIODocs ()
+function Publish-javascript-GithubIODocs ($DocLocation, $PublicArtifactLocation)
 {
   $PublishedDocs = Get-ChildItem "$($DocLocation)/documentation" | Where-Object -FilterScript { $_.Name.EndsWith(".zip") }
 
@@ -96,7 +96,8 @@ function Publish-javascript-GithubIODocs ()
     {
       $DocVersion = $dirList[0].Name
       Write-Host "Uploading Doc for $($PkgName) Version:- $($DocVersion)..."
-      Upload-Blobs -DocDir "$($DocLocation)/documentation/$($Item.BaseName)/$($Item.BaseName)/$($DocVersion)" -PkgName $PkgName -DocVersion $DocVersion
+      $releaseTag = RetrieveReleaseTag "NPM" $PublicArtifactLocation
+      Upload-Blobs -DocDir "$($DocLocation)/documentation/$($Item.BaseName)/$($Item.BaseName)/$($DocVersion)" -PkgName $PkgName -DocVersion $DocVersion -ReleaseTag $releaseTag
     }
     else
     {

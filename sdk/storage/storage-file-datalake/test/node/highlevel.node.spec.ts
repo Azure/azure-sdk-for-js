@@ -20,6 +20,8 @@ import {
 import { readStreamToLocalFileWithLogs } from "../../test/utils/testutils.node";
 const { Readable } = require("stream");
 import { AbortController } from "@azure/abort-controller";
+import { PassThrough } from "stream";
+import { streamToBuffer2 } from "../../src/utils/utils.node";
 dotenv.config();
 
 describe("Highlevel Node.js only", () => {
@@ -38,7 +40,11 @@ describe("Highlevel Node.js only", () => {
 
   beforeEach(async function() {
     recorder = record(this, recorderEnvSetup);
-    const serviceClient = getDataLakeServiceClient();
+    const serviceClient = getDataLakeServiceClient({
+      keepAliveOptions: {
+        enable: true
+      }
+    });
     fileSystemName = recorder.getUniqueName("filesystem");
     fileSystemClient = serviceClient.getFileSystemClient(fileSystemName);
     await fileSystemClient.create();
@@ -370,6 +376,23 @@ describe("Highlevel Node.js only", () => {
     assert.deepStrictEqual(await bodyToString(response), "");
   });
 
+  it("uploadStream should success for tiny buffers", async () => {
+    recorder.skip(
+      undefined,
+      "UUID is randomly generated within the SDK and used in the HTTP request and cannot be preserved."
+    );
+    const buf = Buffer.from([0x62, 0x75, 0x66, 0x66, 0x65, 0x72]);
+    const bufferStream = new PassThrough();
+    bufferStream.end(buf);
+
+    await fileClient.uploadStream(bufferStream);
+
+    const downloadResponse = await fileClient.read();
+    const downloadBuffer = Buffer.allocUnsafe(buf.byteLength);
+    await streamToBuffer2(downloadResponse.readableStreamBody!, downloadBuffer);
+    assert.ok(buf.equals(downloadBuffer));
+  });
+
   it("uploadFile should work for large data", async () => {
     recorder.skip("node", "Temp file - recorder doesn't support saving the file");
     await fileClient.uploadFile(tempFileLarge, {
@@ -485,7 +508,8 @@ describe("Highlevel Node.js only", () => {
     fs.unlinkSync(tempFileEmpty);
   });
 
-  it("uploadFile with chunkSize = FILE_UPLOAD_MAX_CHUNK_SIZE should succeed", async () => {
+  // Skipped since creating large file (~8GB) may take too long in live tests pipeline.
+  it.skip("uploadFile with chunkSize = FILE_UPLOAD_MAX_CHUNK_SIZE should succeed", async () => {
     recorder.skip("node", "Temp file - recorder doesn't support saving the file");
     const fileSize = FILE_UPLOAD_MAX_CHUNK_SIZE * 2 + MB;
     const tempFile = await createRandomLocalFile(tempFolderPath, fileSize / MB, MB);
@@ -501,7 +525,8 @@ describe("Highlevel Node.js only", () => {
     fs.unlinkSync(tempFile);
   }).timeout(timeoutForLargeFileUploadingTest);
 
-  // Skipped because it throw "invalid typed array length" error. Probably due to bugs underlying.
+  // Skipped because it throws an "invalid typed array length" error due to bugs in node-fetch.
+  // https://github.com/Azure/azure-sdk-for-js/issues/9481
   it.skip("upload with chunkSize = FILE_UPLOAD_MAX_CHUNK_SIZE should succeed", async () => {
     const fileSize = FILE_UPLOAD_MAX_CHUNK_SIZE * 2 + MB;
     const arrayBuf = new ArrayBuffer(fileSize);

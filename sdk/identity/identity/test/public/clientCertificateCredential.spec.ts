@@ -10,7 +10,7 @@ import { MockAuthHttpClient } from "../authTestUtils";
 import { setTracer, TestTracer, SpanGraph } from "@azure/core-tracing";
 import { ClientCertificateCredentialOptions } from "../../src/credentials/clientCertificateCredentialOptions";
 
-describe("ClientCertificateCredential", function () {
+describe("ClientCertificateCredential", function() {
   it("loads a PEM-formatted certificate from a file", () => {
     const credential = new ClientCertificateCredential(
       "tenant",
@@ -109,7 +109,6 @@ describe("ClientCertificateCredential", function () {
         true,
         "Request URL doesn't contain expected clientId"
       );
-
 
       const queryParams = qs.parse(authRequest.body);
       const jwtToken = jws.decode(queryParams.client_assertion as string);

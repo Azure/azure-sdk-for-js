@@ -5,7 +5,7 @@ import { extractConnectionStringParts } from "../../src/utils/connectionString";
 import { base64Encode, base64Decode } from "../../src/utils/bufferSerializer";
 import { isNode } from "@azure/core-http";
 import { assert } from "chai";
-import { ConnectionString } from '../../src/utils/internalModels';
+import { ConnectionString } from "../../src/utils/internalModels";
 
 describe("Utility Helpers", () => {
   describe("extractConnectionStringParts", () => {

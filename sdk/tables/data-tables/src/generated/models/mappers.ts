@@ -811,7 +811,7 @@ export const TableQueryEntitiesWithPartitionAndRowKeyHeaders: coreHttp.Composite
           name: "DateTimeRfc1123"
         }
       },
-      eTag: {
+      etag: {
         serializedName: "etag",
         xmlName: "etag",
         type: {
@@ -887,7 +887,7 @@ export const TableUpdateEntityHeaders: coreHttp.CompositeMapper = {
           name: "DateTimeRfc1123"
         }
       },
-      eTag: {
+      etag: {
         serializedName: "etag",
         xmlName: "etag",
         type: {
@@ -949,7 +949,7 @@ export const TableMergeEntityHeaders: coreHttp.CompositeMapper = {
           name: "DateTimeRfc1123"
         }
       },
-      eTag: {
+      etag: {
         serializedName: "etag",
         xmlName: "etag",
         type: {
@@ -1066,7 +1066,7 @@ export const TableInsertEntityHeaders: coreHttp.CompositeMapper = {
           name: "DateTimeRfc1123"
         }
       },
-      eTag: {
+      etag: {
         serializedName: "etag",
         xmlName: "etag",
         type: {
