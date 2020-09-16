@@ -7,7 +7,7 @@ import { DataLakeFileClient, DataLakeFileSystemClient } from "../../src";
 import {
   bodyToString,
   createRandomLocalFile,
-  getGenericDataLakeServiceClient,
+  getDataLakeServiceClient,
   recorderEnvSetup
 } from "../utils";
 import {
@@ -40,7 +40,7 @@ describe("Highlevel Node.js only", () => {
 
   beforeEach(async function() {
     recorder = record(this, recorderEnvSetup);
-    const serviceClient = getGenericDataLakeServiceClient("DFS_", undefined, {
+    const serviceClient = getDataLakeServiceClient({
       keepAliveOptions: {
         enable: true
       }

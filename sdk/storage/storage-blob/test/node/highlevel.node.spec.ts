@@ -4,7 +4,7 @@ import * as path from "path";
 import { PassThrough, Readable } from "stream";
 
 import { AbortController } from "@azure/abort-controller";
-import { createRandomLocalFile, recorderEnvSetup, bodyToString, getGenericBSU } from "../utils";
+import { createRandomLocalFile, recorderEnvSetup, bodyToString, getBSU } from "../utils";
 import { RetriableReadableStreamOptions } from "../../src/utils/RetriableReadableStream";
 import { record, Recorder } from "@azure/test-utils-recorder";
 import { ContainerClient, BlobClient, BlockBlobClient, BlobServiceClient } from "../../src";
@@ -32,7 +32,7 @@ describe("Highlevel", () => {
   let blobServiceClient: BlobServiceClient;
   beforeEach(async function() {
     recorder = record(this, recorderEnvSetup);
-    blobServiceClient = getGenericBSU("", undefined, {
+    blobServiceClient = getBSU({
       keepAliveOptions: {
         enable: true
       }

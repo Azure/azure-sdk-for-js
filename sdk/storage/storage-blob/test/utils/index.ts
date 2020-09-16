@@ -98,8 +98,8 @@ export function getTokenBSU(): BlobServiceClient {
   return new BlobServiceClient(blobPrimaryURL, pipeline);
 }
 
-export function getBSU(): BlobServiceClient {
-  return getGenericBSU("");
+export function getBSU(pipelineOptions: StoragePipelineOptions = {}): BlobServiceClient {
+  return getGenericBSU("", undefined, pipelineOptions);
 }
 
 export function getAlternateBSU(): BlobServiceClient {

@@ -92,8 +92,10 @@ export function getTokenDataLakeServiceClient(): DataLakeServiceClient {
   return new DataLakeServiceClient(dfsPrimaryURL, pipeline);
 }
 
-export function getDataLakeServiceClient(): DataLakeServiceClient {
-  return getGenericDataLakeServiceClient("DFS_");
+export function getDataLakeServiceClient(
+  pipelineOptions: StoragePipelineOptions = {}
+): DataLakeServiceClient {
+  return getGenericDataLakeServiceClient("DFS_", undefined, pipelineOptions);
 }
 
 export function getAlternateDataLakeServiceClient(): DataLakeServiceClient {
