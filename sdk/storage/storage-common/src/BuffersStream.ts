@@ -59,6 +59,15 @@ export class BuffersStream extends Readable {
     this.byteOffsetInCurrentBuffer = 0;
     this.bufferIndex = 0;
     this.pushedBytesLength = 0;
+
+    // check byteLength is no larger than buffers[] total length
+    let buffersLength = 0;
+    for (const buf of this.buffers) {
+      buffersLength += buf.byteLength;
+    }
+    if (buffersLength < this.byteLength) {
+      throw new Error("Data size shouldn't be larger than the total length of buffers.");
+    }
   }
 
   /**
