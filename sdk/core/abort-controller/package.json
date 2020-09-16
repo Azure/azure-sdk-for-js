@@ -19,8 +19,8 @@
     "integration-test:browser": "echo skipped",
     "integration-test:node": "echo skipped",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
-    "lint:fix": "eslint  -c ../../../.eslintrc.json \"src/**/*.ts\" \"test/**/*.ts\" --fix --fix-type [problem,suggestion]",
-    "lint": "eslint -c ../../../.eslintrc.json package.json api-extractor.json src test --ext .ts",
+    "lint:fix": "eslint  -c ../../../.eslintrc.json api-extractor.json src test --ext .ts --fix --fix-type [problem,suggestion]",
+    "lint": "eslint -c ../../../.eslintrc.json api-extractor.json src test --ext .ts -f html -o template-lintReport.html || exit 0",
     "pack": "npm pack 2>&1",
     "prebuild": "npm run clean",
     "pretest": "npm run build:test",
@@ -42,26 +42,17 @@
     "README.md",
     "LICENSE"
   ],
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Azure/azure-sdk-for-js.git"
+  "engines": {
+    "node": ">=8.0.0"
   },
-  "keywords": [
-    "azure",
-    "aborter",
-    "abortsignal",
-    "cancellation",
-    "node.js",
-    "typescript",
-    "javascript",
-    "browser"
-  ],
+  "repository": "github:Azure/azure-sdk-for-js",
+  "keywords": ["azure", "aborter", "abortsignal", "cancellation", "node.js", "typescript", "javascript", "browser", "cloud"],
   "author": "Microsoft Corporation",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/core/abort-controller",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/core/abort-controller/README.md",
   "sideEffects": false,
   "dependencies": {
     "tslib": "^2.0.0"
