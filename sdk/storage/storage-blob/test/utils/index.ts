@@ -172,7 +172,7 @@ export async function createRandomLocalFile(
         return blockSizeOrContent;
       }
 
-      const len = blockSizeOrContent as number;
+      const len = blockSizeOrContent;
 
       return randomBytes(Math.ceil(len / 2))
         .toString("hex") // convert to hexadecimal format
