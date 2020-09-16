@@ -27,6 +27,38 @@ export class PrivateEndpointConnections {
   }
 
   /**
+   * Gets the private endpoint connections associated with the Cognitive Services account.
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName The name of Cognitive Services account.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.PrivateEndpointConnectionsListResponse>
+   */
+  list(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase): Promise<Models.PrivateEndpointConnectionsListResponse>;
+  /**
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName The name of Cognitive Services account.
+   * @param callback The callback
+   */
+  list(resourceGroupName: string, accountName: string, callback: msRest.ServiceCallback<Models.PrivateEndpointConnectionListResult>): void;
+  /**
+   * @param resourceGroupName The name of the resource group. The name is case insensitive.
+   * @param accountName The name of Cognitive Services account.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  list(resourceGroupName: string, accountName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.PrivateEndpointConnectionListResult>): void;
+  list(resourceGroupName: string, accountName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.PrivateEndpointConnectionListResult>, callback?: msRest.ServiceCallback<Models.PrivateEndpointConnectionListResult>): Promise<Models.PrivateEndpointConnectionsListResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        accountName,
+        options
+      },
+      listOperationSpec,
+      callback) as Promise<Models.PrivateEndpointConnectionsListResponse>;
+  }
+
+  /**
    * Gets the specified private endpoint connection associated with the Cognitive Services account.
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param accountName The name of Cognitive Services account.
@@ -152,6 +184,31 @@ export class PrivateEndpointConnections {
 
 // Operation Specifications
 const serializer = new msRest.Serializer(Mappers);
+const listOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/privateEndpointConnections",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.PrivateEndpointConnectionListResult
+    },
+    default: {
+      bodyMapper: Mappers.ErrorModel
+    }
+  },
+  serializer
+};
+
 const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.CognitiveServices/accounts/{accountName}/privateEndpointConnections/{privateEndpointConnectionName}",

@@ -236,6 +236,22 @@ export interface CognitiveServicesAccountApiProperties {
    * (Personalization Only) The storage account connection string.
    */
   storageAccountConnectionString?: string;
+  /**
+   * (Metrics Advisor Only) The Azure AD Client Id (Application Id).
+   */
+  aadClientId?: string;
+  /**
+   * (Metrics Advisor Only) The Azure AD Tenant Id.
+   */
+  aadTenantId?: string;
+  /**
+   * (Metrics Advisor Only) The super user of Metrics Advisor.
+   */
+  superUser?: string;
+  /**
+   * (Metrics Advisor Only) The website name of Metrics Advisor.
+   */
+  websiteName?: string;
 }
 
 /**
@@ -748,6 +764,16 @@ export interface ResourceSku {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly restrictions?: ResourceSkuRestrictions[];
+}
+
+/**
+ * A list of private endpoint connections
+ */
+export interface PrivateEndpointConnectionListResult {
+  /**
+   * Array of private endpoint connections
+   */
+  value?: PrivateEndpointConnection[];
 }
 
 /**
@@ -1315,6 +1341,26 @@ export type CheckDomainAvailabilityResponse = CheckDomainAvailabilityResult & {
        * The response body as parsed JSON or XML
        */
       parsedBody: CheckDomainAvailabilityResult;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type PrivateEndpointConnectionsListResponse = PrivateEndpointConnectionListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateEndpointConnectionListResult;
     };
 };
 
