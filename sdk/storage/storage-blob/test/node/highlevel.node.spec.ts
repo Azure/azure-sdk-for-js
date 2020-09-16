@@ -4,7 +4,13 @@ import * as path from "path";
 import { PassThrough, Readable } from "stream";
 
 import { AbortController } from "@azure/abort-controller";
-import { createRandomLocalFile, recorderEnvSetup, bodyToString, getBSU } from "../utils";
+import {
+  createRandomLocalFile,
+  recorderEnvSetup,
+  bodyToString,
+  getBSU,
+  createRandomLocalFileWithTotalSize
+} from "../utils";
 import { RetriableReadableStreamOptions } from "../../src/utils/RetriableReadableStream";
 import { record, Recorder } from "@azure/test-utils-recorder";
 import { ContainerClient, BlobClient, BlockBlobClient, BlobServiceClient } from "../../src";
@@ -59,9 +65,17 @@ describe("Highlevel", () => {
     }
     const MB = 1024 * 1024;
     tempFileLargeLength = 256 * MB + 1; // First prime number after 256MB.
-    tempFileLarge = await createRandomLocalFile(tempFolderPath, 257, MB, tempFileLargeLength);
+    tempFileLarge = await createRandomLocalFileWithTotalSize(
+      tempFolderPath,
+      tempFileLargeLength,
+      MB
+    );
     tempFileSmallLength = 4 * MB + 37; // First prime number after 4MB.
-    tempFileSmall = await createRandomLocalFile(tempFolderPath, 5, MB, tempFileSmallLength);
+    tempFileSmall = await createRandomLocalFileWithTotalSize(
+      tempFolderPath,
+      tempFileSmallLength,
+      MB
+    );
     await recorder.stop();
   });
 

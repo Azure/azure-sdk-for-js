@@ -160,33 +160,60 @@ export async function createRandomLocalFile(
 export async function createRandomLocalFile(
   folder: string,
   blockNumber: number,
-  blockSize: number,
-  totalSize: number
-): Promise<string>;
-export async function createRandomLocalFile(
-  folder: string,
-  blockNumber: number,
-  blockSizeOrContent: number | Buffer,
-  totalSize?: number
+  blockSizeOrContent: number | Buffer
 ): Promise<string> {
   return new Promise<string>((resolve, reject) => {
     const destFile = path.join(folder, getUniqueName("tempfile."));
     const ws = fs.createWriteStream(destFile);
     let offsetInMB = 0;
-    let lastBlockSize = blockSizeOrContent as number;
 
-    if (totalSize !== undefined) {
-      const blockSize = blockSizeOrContent as number;
-      blockNumber = Math.ceil(totalSize / blockSize);
-      lastBlockSize = totalSize - (blockNumber - 1) * blockSize;
-    }
-
-    function randomValueHex(blockIndex: number) {
+    function randomValueHex() {
       if (blockSizeOrContent instanceof Buffer) {
         return blockSizeOrContent;
       }
 
       let len = blockSizeOrContent as number;
+      return randomBytes(Math.ceil(len / 2))
+        .toString("hex") // convert to hexadecimal format
+        .slice(0, len); // return required number of characters
+    }
+
+    ws.on("open", () => {
+      // tslint:disable-next-line:no-empty
+      while (offsetInMB++ < blockNumber && ws.write(randomValueHex())) {}
+      if (offsetInMB >= blockNumber) {
+        ws.end();
+      }
+    });
+
+    ws.on("drain", () => {
+      // tslint:disable-next-line:no-empty
+      while (offsetInMB++ < blockNumber && ws.write(randomValueHex())) {}
+      if (offsetInMB >= blockNumber) {
+        ws.end();
+      }
+    });
+    ws.on("finish", () => resolve(destFile));
+    ws.on("error", reject);
+  });
+}
+
+export async function createRandomLocalFileWithTotalSize(
+  folder: string,
+  totalSize: number,
+  blockSize?: number
+): Promise<string> {
+  return new Promise<string>((resolve, reject) => {
+    const destFile = path.join(folder, getUniqueName("tempfile."));
+    const ws = fs.createWriteStream(destFile);
+    if (blockSize === undefined || isNaN(blockSize) || blockSize <= 0) {
+      blockSize = 1024 * 1024;
+    }
+    let blockNumber = Math.ceil(totalSize / blockSize);
+    let lastBlockSize = totalSize - (blockNumber - 1) * blockSize;
+
+    function randomValueHex(blockIndex: number) {
+      let len = blockSize!;
       if (blockIndex === blockNumber) {
         len = lastBlockSize;
       }
@@ -196,6 +223,7 @@ export async function createRandomLocalFile(
         .slice(0, len); // return required number of characters
     }
 
+    let offsetInMB = 0;
     ws.on("open", () => {
       // tslint:disable-next-line:no-empty
       while (offsetInMB++ < blockNumber && ws.write(randomValueHex(offsetInMB))) {}
