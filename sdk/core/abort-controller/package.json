@@ -4,7 +4,7 @@
   "version": "1.0.1",
   "description": "Microsoft Azure SDK for JavaScript - Aborter",
   "main": "./dist/index.js",
-  "module": "./dist-esm/src/aborter.js",
+  "module": "dist-esm/src/index.js",
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build:es6": "tsc -p tsconfig.json",
@@ -19,8 +19,8 @@
     "integration-test:browser": "echo skipped",
     "integration-test:node": "echo skipped",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
-    "lint:fix": "eslint  -c ../../../.eslintrc.json api-extractor.json src test --ext .ts --fix --fix-type [problem,suggestion]",
-    "lint": "eslint -c ../../../.eslintrc.json api-extractor.json src test --ext .ts -f html -o template-lintReport.html || exit 0",
+    "lint:fix": "eslint  -c ../../../.eslintrc.json package.json api-extractor.json src test --ext .ts --fix --fix-type [problem,suggestion]",
+    "lint": "eslint -c ../../../.eslintrc.json package.json api-extractor.json src test --ext .ts",
     "pack": "npm pack 2>&1",
     "prebuild": "npm run clean",
     "pretest": "npm run build:test",
@@ -31,7 +31,7 @@
     "unit-test:node": "cross-env TS_NODE_FILES=true TS_NODE_COMPILER_OPTIONS=\"{\\\"module\\\": \\\"commonjs\\\"}\" mocha --require ts-node/register --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --full-trace --no-timeouts test/*.spec.ts",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser"
   },
-  "types": "./types/src/aborter.d.ts",
+  "types": "./types/src/abort-controller.d.ts",
   "engine": {
     "node": ">=8.0.0"
   },
