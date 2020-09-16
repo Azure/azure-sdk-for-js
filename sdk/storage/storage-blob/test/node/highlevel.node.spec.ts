@@ -14,7 +14,7 @@ import { Test_CPK_INFO } from "../utils/constants";
 import { streamToBuffer2 } from "../../src/utils/utils.node";
 
 // tslint:disable:no-empty
-describe.only("Highlevel", () => {
+describe("Highlevel", () => {
   let containerName: string;
   let containerClient: ContainerClient;
   let blobName: string;
