@@ -157,22 +157,34 @@ export async function createRandomLocalFile(
   blockNumber: number,
   blockSize: number
 ): Promise<string>;
+
+// Total file size = (blockNumber -1)*blockSize + lastBlockSize
 export async function createRandomLocalFile(
   folder: string,
   blockNumber: number,
-  blockSizeOrContent: number | Buffer
+  blockSize: number,
+  lastBlockSize: number
+): Promise<string>;
+export async function createRandomLocalFile(
+  folder: string,
+  blockNumber: number,
+  blockSizeOrContent: number | Buffer,
+  lastBlockSize: number = 0
 ): Promise<string> {
   return new Promise<string>((resolve, reject) => {
     const destFile = path.join(folder, getUniqueName("tempfile."));
     const ws = fs.createWriteStream(destFile);
     let offsetInMB = 0;
 
-    function randomValueHex() {
+    function randomValueHex(blockIndex: number) {
       if (blockSizeOrContent instanceof Buffer) {
         return blockSizeOrContent;
       }
 
-      const len = blockSizeOrContent;
+      let len = blockSizeOrContent;
+      if (blockIndex === blockNumber && lastBlockSize !== 0) {
+        len = lastBlockSize;
+      }
 
       return randomBytes(Math.ceil(len / 2))
         .toString("hex") // convert to hexadecimal format
@@ -181,7 +193,7 @@ export async function createRandomLocalFile(
 
     ws.on("open", () => {
       // tslint:disable-next-line:no-empty
-      while (offsetInMB++ < blockNumber && ws.write(randomValueHex())) {}
+      while (offsetInMB++ < blockNumber && ws.write(randomValueHex(offsetInMB))) {}
       if (offsetInMB >= blockNumber) {
         ws.end();
       }
@@ -189,7 +201,7 @@ export async function createRandomLocalFile(
 
     ws.on("drain", () => {
       // tslint:disable-next-line:no-empty
-      while (offsetInMB++ < blockNumber && ws.write(randomValueHex())) {}
+      while (offsetInMB++ < blockNumber && ws.write(randomValueHex(offsetInMB))) {}
       if (offsetInMB >= blockNumber) {
         ws.end();
       }
@@ -204,45 +216,12 @@ export async function createRandomLocalFileWithTotalSize(
   totalSize: number,
   blockSize?: number
 ): Promise<string> {
-  return new Promise<string>((resolve, reject) => {
-    const destFile = path.join(folder, getUniqueName("tempfile."));
-    const ws = fs.createWriteStream(destFile);
-    if (blockSize === undefined || isNaN(blockSize) || blockSize <= 0) {
-      blockSize = 1024 * 1024;
-    }
-    let blockNumber = Math.ceil(totalSize / blockSize);
-    let lastBlockSize = totalSize - (blockNumber - 1) * blockSize;
-
-    function randomValueHex(blockIndex: number) {
-      let len = blockSize!;
-      if (blockIndex === blockNumber) {
-        len = lastBlockSize;
-      }
-
-      return randomBytes(Math.ceil(len / 2))
-        .toString("hex") // convert to hexadecimal format
-        .slice(0, len); // return required number of characters
-    }
-
-    let offsetInMB = 0;
-    ws.on("open", () => {
-      // tslint:disable-next-line:no-empty
-      while (offsetInMB++ < blockNumber && ws.write(randomValueHex(offsetInMB))) {}
-      if (offsetInMB >= blockNumber) {
-        ws.end();
-      }
-    });
-
-    ws.on("drain", () => {
-      // tslint:disable-next-line:no-empty
-      while (offsetInMB++ < blockNumber && ws.write(randomValueHex(offsetInMB))) {}
-      if (offsetInMB >= blockNumber) {
-        ws.end();
-      }
-    });
-    ws.on("finish", () => resolve(destFile));
-    ws.on("error", reject);
-  });
+  if (blockSize === undefined || isNaN(blockSize) || blockSize <= 0) {
+    blockSize = 1024 * 1024;
+  }
+  let blockNumber = Math.ceil(totalSize / blockSize);
+  let lastBlockSize = totalSize - (blockNumber - 1) * blockSize;
+  return createRandomLocalFile(folder, blockNumber, blockSize, lastBlockSize);
 }
 
 export function getSASConnectionStringFromEnvironment(): string {
