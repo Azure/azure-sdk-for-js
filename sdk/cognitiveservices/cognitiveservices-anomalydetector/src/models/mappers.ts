@@ -9,11 +9,11 @@
 import * as msRest from "@azure/ms-rest-js";
 
 
-export const APIError: msRest.CompositeMapper = {
-  serializedName: "APIError",
+export const AnomalyDetectorError: msRest.CompositeMapper = {
+  serializedName: "AnomalyDetectorError",
   type: {
     name: "Composite",
-    className: "APIError",
+    className: "AnomalyDetectorError",
     modelProperties: {
       code: {
         serializedName: "code",
@@ -31,11 +31,11 @@ export const APIError: msRest.CompositeMapper = {
   }
 };
 
-export const Point: msRest.CompositeMapper = {
-  serializedName: "Point",
+export const TimeSeriesPoint: msRest.CompositeMapper = {
+  serializedName: "TimeSeriesPoint",
   type: {
     name: "Composite",
-    className: "Point",
+    className: "TimeSeriesPoint",
     modelProperties: {
       timestamp: {
         required: true,
@@ -55,11 +55,11 @@ export const Point: msRest.CompositeMapper = {
   }
 };
 
-export const Request: msRest.CompositeMapper = {
-  serializedName: "Request",
+export const DetectRequest: msRest.CompositeMapper = {
+  serializedName: "DetectRequest",
   type: {
     name: "Composite",
-    className: "Request",
+    className: "DetectRequest",
     modelProperties: {
       series: {
         required: true,
@@ -69,7 +69,7 @@ export const Request: msRest.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "Point"
+              className: "TimeSeriesPoint"
             }
           }
         }
@@ -288,7 +288,7 @@ export const ChangePointDetectRequest: msRest.CompositeMapper = {
           element: {
             type: {
               name: "Composite",
-              className: "Point"
+              className: "TimeSeriesPoint"
             }
           }
         }

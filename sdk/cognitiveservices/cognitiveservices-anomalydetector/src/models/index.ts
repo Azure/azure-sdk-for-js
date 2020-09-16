@@ -12,7 +12,7 @@ import * as msRest from "@azure/ms-rest-js";
 /**
  * Error information returned by the API.
  */
-export interface APIError {
+export interface AnomalyDetectorError {
   /**
    * The error code.
    */
@@ -24,9 +24,9 @@ export interface APIError {
 }
 
 /**
- * An interface representing Point.
+ * An interface representing TimeSeriesPoint.
  */
-export interface Point {
+export interface TimeSeriesPoint {
   /**
    * Timestamp of a data point (ISO8601 format).
    */
@@ -38,20 +38,20 @@ export interface Point {
 }
 
 /**
- * An interface representing Request.
+ * An interface representing DetectRequest.
  */
-export interface Request {
+export interface DetectRequest {
   /**
    * Time series data points. Points should be sorted by timestamp in ascending order to match the
    * anomaly detection result. If the data is not sorted correctly or there is duplicated
    * timestamp, the API will not work. In such case, an error message will be returned.
    */
-  series: Point[];
+  series: TimeSeriesPoint[];
   /**
-   * Possible values include: 'yearly', 'monthly', 'weekly', 'daily', 'hourly', 'minutely',
-   * 'secondly'
+   * Possible values include: 'yearly', 'monthly', 'weekly', 'daily', 'hourly', 'perMinute',
+   * 'perSecond'
    */
-  granularity: Granularity;
+  granularity: TimeGranularity;
   /**
    * Custom Interval is used to set non-standard time interval, for example, if the series is 5
    * minutes, request can be set as {"granularity":"minutely", "customInterval":5}.
@@ -176,13 +176,13 @@ export interface ChangePointDetectRequest {
    * Time series data points. Points should be sorted by timestamp in ascending order to match the
    * change point detection result.
    */
-  series: Point[];
+  series: TimeSeriesPoint[];
   /**
    * Can only be one of yearly, monthly, weekly, daily, hourly, minutely or secondly. Granularity
    * is used for verify whether input series is valid. Possible values include: 'yearly',
-   * 'monthly', 'weekly', 'daily', 'hourly', 'minutely', 'secondly'
+   * 'monthly', 'weekly', 'daily', 'hourly', 'perMinute', 'perSecond'
    */
-  granularity: Granularity;
+  granularity: TimeGranularity;
   /**
    * Custom Interval is used to set non-standard time interval, for example, if the series is 5
    * minutes, request can be set as {"granularity":"minutely", "customInterval":5}.
@@ -226,18 +226,18 @@ export interface ChangePointDetectResponse {
 }
 
 /**
- * Defines values for Granularity.
- * Possible values include: 'yearly', 'monthly', 'weekly', 'daily', 'hourly', 'minutely',
- * 'secondly'
+ * Defines values for TimeGranularity.
+ * Possible values include: 'yearly', 'monthly', 'weekly', 'daily', 'hourly', 'perMinute',
+ * 'perSecond'
  * @readonly
  * @enum {string}
  */
-export type Granularity = 'yearly' | 'monthly' | 'weekly' | 'daily' | 'hourly' | 'minutely' | 'secondly';
+export type TimeGranularity = 'yearly' | 'monthly' | 'weekly' | 'daily' | 'hourly' | 'minutely' | 'secondly';
 
 /**
- * Contains response data for the entireDetect operation.
+ * Contains response data for the detectEntireSeries operation.
  */
-export type EntireDetectResponse2 = EntireDetectResponse & {
+export type DetectEntireSeriesResponse = EntireDetectResponse & {
   /**
    * The underlying HTTP response.
    */
@@ -255,9 +255,9 @@ export type EntireDetectResponse2 = EntireDetectResponse & {
 };
 
 /**
- * Contains response data for the lastDetect operation.
+ * Contains response data for the detectLastPoint operation.
  */
-export type LastDetectResponse2 = LastDetectResponse & {
+export type DetectLastPointResponse = LastDetectResponse & {
   /**
    * The underlying HTTP response.
    */
@@ -275,9 +275,9 @@ export type LastDetectResponse2 = LastDetectResponse & {
 };
 
 /**
- * Contains response data for the changePointDetect operation.
+ * Contains response data for the detectChangePoint operation.
  */
-export type ChangePointDetectResponse2 = ChangePointDetectResponse & {
+export type DetectChangePointResponse = ChangePointDetectResponse & {
   /**
    * The underlying HTTP response.
    */
