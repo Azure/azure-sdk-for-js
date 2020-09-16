@@ -10,12 +10,15 @@
 
 export * from "./operations";
 export * from "./replicationAlertSettings";
+export * from "./replicationEligibilityResultsOperations";
 export * from "./replicationEvents";
 export * from "./replicationFabrics";
 export * from "./replicationLogicalNetworks";
 export * from "./replicationNetworks";
 export * from "./replicationNetworkMappings";
 export * from "./replicationProtectionContainers";
+export * from "./replicationMigrationItems";
+export * from "./migrationRecoveryPoints";
 export * from "./replicationProtectableItems";
 export * from "./replicationProtectedItems";
 export * from "./recoveryPoints";
@@ -28,4 +31,6 @@ export * from "./replicationvCenters";
 export * from "./replicationJobs";
 export * from "./replicationPolicies";
 export * from "./replicationRecoveryPlans";
+export * from "./supportedOperatingSystemsOperations";
 export * from "./replicationVaultHealth";
+export * from "./replicationVaultSetting";
