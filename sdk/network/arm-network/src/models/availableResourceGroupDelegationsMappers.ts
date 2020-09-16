@@ -11,4 +11,4 @@ export {
   AvailableDelegation,
   AvailableDelegationsResult,
   CloudError
-} from "./mappers";
+} from "../models/mappers";

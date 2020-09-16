@@ -81,7 +81,7 @@ function Get-javascript-PackageInfoFromPackageFile ($pkg, $workingDirectory)
 }
 
 # Stage and Upload Docs to blob Storage
-function Publish-javascript-GithubIODocs ()
+function Publish-javascript-GithubIODocs ($DocLocation, $PublicArtifactLocation)
 {
   $PublishedDocs = Get-ChildItem "$($DocLocation)/documentation" | Where-Object -FilterScript { $_.Name.EndsWith(".zip") }
 

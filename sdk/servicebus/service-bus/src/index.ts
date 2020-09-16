@@ -71,8 +71,8 @@ export {
   AmqpMessageHeader,
   AmqpMessageProperties,
   DeadLetterOptions,
-  ReceivedMessage,
-  ReceivedMessageWithLock,
+  ServiceBusReceivedMessage,
+  ServiceBusReceivedMessageWithLock,
   ServiceBusMessage
 } from "./serviceBusMessage";
 export { ServiceBusMessageBatch } from "./serviceBusMessageBatch";

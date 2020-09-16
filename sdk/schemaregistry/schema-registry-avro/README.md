@@ -1,8 +1,9 @@
 # Azure Schema Registry Avro serializer client library for JavaScript
 
-Azure Schema Registry is a cloud-based service that stores schemas for
-serialization. This package provides an Avro serializer that stores only schema
-ID in payload and the full Avro schema in the schema registry.
+Azure Schema Registry is a schema repository service hosted by Azure Event Hubs,
+providing schema storage, versioning, and management. This package provides an
+Avro serializer capable of serializing and deserializing payloads containing
+Schema Registry schema identifiers and Avro-encoded data.
 
 ## Getting started
 
@@ -11,11 +12,7 @@ ID in payload and the full Avro schema in the schema registry.
 ### Prerequisites
 
 - An [Azure subscription][azure_sub]
-- An existing Schema Registry resource
-
-<!--
-TODO: Links not publicly available yet for creating resource
--->
+- An existing [Schema Registry resource](https://aka.ms/schemaregistry)
 
 ### Install the `@azure/schema-registry-avro` package
 
@@ -30,8 +27,9 @@ npm install @azure/schema-registry-avro
 ### SchemaRegistryAvroSerializer
 
 Provides API to serialize to and deserialize from Avro Binary Encoding plus a
-header with schema ID. Uses [SchemaRegistryClient](../schema-registry) to get
-schema IDs from schema content or vice versa.
+header with schema ID. Uses
+`SchemaRegistryClient` from the [@azure/schema-registry](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/schemaregistry/schema-registry) package
+to get schema IDs from schema content or vice versa.
 
 ### Message format
 
@@ -88,20 +86,24 @@ const deserializedValue = await serializer.deserialize(buffer);
 
 ## Troubleshooting
 
-### Enable logs
+### Logging
 
-You can set the following environment variable to see debug logs when using this library.
+Enabling logging may help uncover useful information about failures. In order to
+see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment
+variable to `info`. Alternatively, logging can be enabled at runtime by calling
+`setLogLevel` in the `@azure/logger`:
 
-- Getting debug logs from the Azure Schema Registry client library
+```javascript
+const { setLogLevel } = require("@azure/logger");
 
-```bash
-export DEBUG=azure*
+setLogLevel("info");
 ```
 
 ## Next steps
 
-Please take a look at the [samples](./samples) directory for detailed examples
-on how to use this library.
+Please take a look at the
+[samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/schemaregistry/schema-registry-avro/samples)
+directory for detailed examples on how to use this library.
 
 ## Contributing
 

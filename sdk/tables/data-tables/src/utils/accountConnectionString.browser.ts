@@ -18,7 +18,6 @@ export function fromAccountConnectionString(
   throw new Error("Account connection string is only supported in Node.js environment");
 }
 
-
 export function getAccountConnectionString(
   _accountName: string,
   _accountKey: string,

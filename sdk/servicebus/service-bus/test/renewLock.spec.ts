@@ -14,12 +14,12 @@ import {
 } from "./utils/testutils2";
 import { ServiceBusReceiver } from "../src/receivers/receiver";
 import { ServiceBusSender } from "../src/sender";
-import { ReceivedMessageWithLock } from "../src/serviceBusMessage";
+import { ServiceBusReceivedMessageWithLock } from "../src/serviceBusMessage";
 
 describe("Message Lock Renewal", () => {
   let serviceBusClient: ServiceBusClientForTests;
   let sender: ServiceBusSender;
-  let receiver: ServiceBusReceiver<ReceivedMessageWithLock>;
+  let receiver: ServiceBusReceiver<ServiceBusReceivedMessageWithLock>;
 
   const testClientType = getRandomTestClientTypeWithNoSessions();
 
@@ -124,7 +124,7 @@ describe("Message Lock Renewal", () => {
    */
   async function testBatchReceiverManualLockRenewalHappyCase(
     sender: ServiceBusSender,
-    receiver: ServiceBusReceiver<ReceivedMessageWithLock>
+    receiver: ServiceBusReceiver<ServiceBusReceivedMessageWithLock>
   ): Promise<void> {
     const testMessage = TestMessage.getSample();
     await sender.sendMessages(testMessage);
@@ -172,7 +172,7 @@ describe("Message Lock Renewal", () => {
    */
   async function testBatchReceiverManualLockRenewalErrorOnLockExpiry(
     sender: ServiceBusSender,
-    receiver: ServiceBusReceiver<ReceivedMessageWithLock>
+    receiver: ServiceBusReceiver<ServiceBusReceivedMessageWithLock>
   ): Promise<void> {
     const testMessage = TestMessage.getSample();
     await sender.sendMessages(testMessage);
@@ -205,13 +205,15 @@ describe("Message Lock Renewal", () => {
    */
   async function testStreamingReceiverManualLockRenewalHappyCase(
     sender: ServiceBusSender,
-    receiver: ServiceBusReceiver<ReceivedMessageWithLock>
+    receiver: ServiceBusReceiver<ServiceBusReceivedMessageWithLock>
   ): Promise<void> {
     let numOfMessagesReceived = 0;
     const testMessage = TestMessage.getSample();
     await sender.sendMessages(testMessage);
 
-    async function processMessage(brokeredMessage: ReceivedMessageWithLock): Promise<void> {
+    async function processMessage(
+      brokeredMessage: ServiceBusReceivedMessageWithLock
+    ): Promise<void> {
       if (numOfMessagesReceived < 1) {
         numOfMessagesReceived++;
 
@@ -281,14 +283,16 @@ describe("Message Lock Renewal", () => {
 
   async function testAutoLockRenewalConfigBehavior(
     sender: ServiceBusSender,
-    receiver: ServiceBusReceiver<ReceivedMessageWithLock>,
+    receiver: ServiceBusReceiver<ServiceBusReceivedMessageWithLock>,
     options: AutoLockRenewalTestOptions
   ): Promise<void> {
     let numOfMessagesReceived = 0;
     const testMessage = TestMessage.getSample();
     await sender.sendMessages(testMessage);
 
-    async function processMessage(brokeredMessage: ReceivedMessageWithLock): Promise<void> {
+    async function processMessage(
+      brokeredMessage: ServiceBusReceivedMessageWithLock
+    ): Promise<void> {
       if (numOfMessagesReceived < 1) {
         numOfMessagesReceived++;
 

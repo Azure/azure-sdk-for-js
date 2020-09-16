@@ -11,10 +11,10 @@ import {
   MessageProperties,
   translate
 } from "@azure/core-amqp";
-import * as log from "./log";
+import { logger } from "./log";
 import { ConnectionContext } from "./connectionContext";
 import { reorderLockToken } from "./util/utils";
-import { getErrorMessageNotSupportedInReceiveAndDeleteMode } from "./util/errors";
+import { getErrorMessageNotSupportedInReceiveAndDeleteMode, logError } from "./util/errors";
 import { Buffer } from "buffer";
 import { DispositionStatusOptions } from "./core/managementClient";
 
@@ -233,7 +233,7 @@ export interface ServiceBusMessage {
 }
 
 /**
- * Describes the AmqpAnnotatedMessage, part of the ReceivedMessage(as `amqpAnnotatedMessage` property).
+ * Describes the AmqpAnnotatedMessage, part of the ServiceBusReceivedMessage(as `amqpAnnotatedMessage` property).
  */
 export interface AmqpAnnotatedMessage {
   /**
@@ -492,15 +492,15 @@ export function toAmqpMessage(msg: ServiceBusMessage): AmqpMessage {
   if (msg.scheduledEnqueueTimeUtc != null) {
     amqpMsg.message_annotations![Constants.scheduledEnqueueTime] = msg.scheduledEnqueueTimeUtc;
   }
-  log.message("SBMessage to AmqpMessage: %O", amqpMsg);
+  logger.verbose("SBMessage to AmqpMessage: %O", amqpMsg);
   return amqpMsg;
 }
 
 /**
  * Describes the message received from Service Bus during peek operations and so cannot be settled.
- * @class ReceivedMessage
+ * @class ServiceBusReceivedMessage
  */
-export interface ReceivedMessage extends ServiceBusMessage {
+export interface ServiceBusReceivedMessage extends ServiceBusMessage {
   /**
    * @property The reason for deadlettering the message.
    * @readonly
@@ -586,7 +586,7 @@ export interface ReceivedMessage extends ServiceBusMessage {
  * A message that can be settled by completing it, abandoning it, deferring it, or sending
  * it to the dead letter queue.
  */
-export interface ReceivedMessageWithLock extends ReceivedMessage {
+export interface ServiceBusReceivedMessageWithLock extends ServiceBusReceivedMessage {
   /**
    * Removes the message from Service Bus.
    *
@@ -707,13 +707,13 @@ export interface ReceivedMessageWithLock extends ReceivedMessage {
 /**
  * @internal
  * @ignore
- * Converts given AmqpMessage to ReceivedMessage
+ * Converts given AmqpMessage to ServiceBusReceivedMessage
  */
 export function fromAmqpMessage(
   msg: AmqpMessage,
   delivery?: Delivery,
   shouldReorderLockToken?: boolean
-): ReceivedMessage {
+): ServiceBusReceivedMessage {
   if (!msg) {
     msg = {
       body: undefined
@@ -794,21 +794,21 @@ export function fromAmqpMessage(
     props.expiresAtUtc = new Date(props.enqueuedTimeUtc.getTime() + msg.ttl!);
   }
 
-  const rcvdsbmsg: ReceivedMessage = {
+  const rcvdsbmsg: ServiceBusReceivedMessage = {
     _amqpAnnotatedMessage: toAmqpAnnotatedMessage(msg),
     _delivery: delivery,
     deliveryCount: msg.delivery_count,
     lockToken:
       delivery && delivery.tag && delivery.tag.length !== 0
         ? uuid_to_string(
-          shouldReorderLockToken === true
-            ? reorderLockToken(
-              typeof delivery.tag === "string" ? Buffer.from(delivery.tag) : delivery.tag
-            )
-            : typeof delivery.tag === "string"
+            shouldReorderLockToken === true
+              ? reorderLockToken(
+                  typeof delivery.tag === "string" ? Buffer.from(delivery.tag) : delivery.tag
+                )
+              : typeof delivery.tag === "string"
               ? Buffer.from(delivery.tag)
               : delivery.tag
-        )
+          )
         : undefined,
     ...sbmsg,
     ...props,
@@ -816,7 +816,7 @@ export function fromAmqpMessage(
     deadLetterErrorDescription: sbmsg.properties?.DeadLetterErrorDescription
   };
 
-  log.message("AmqpMessage to ReceivedSBMessage: %O", rcvdsbmsg);
+  logger.verbose("AmqpMessage to ReceivedSBMessage: %O", rcvdsbmsg);
   return rcvdsbmsg;
 }
 
@@ -854,9 +854,9 @@ export function isServiceBusMessage(possible: any): possible is ServiceBusMessag
  * @internal
  * @ignore
  * @class ServiceBusMessageImpl
- * @implements {ReceivedMessageWithLock}
+ * @implements {ServiceBusReceivedMessageWithLock}
  */
-export class ServiceBusMessageImpl implements ReceivedMessageWithLock {
+export class ServiceBusMessageImpl implements ServiceBusReceivedMessageWithLock {
   /**
    * @property The message body that needs to be sent or is received.
    */
@@ -1072,10 +1072,10 @@ export class ServiceBusMessageImpl implements ReceivedMessageWithLock {
   }
 
   /**
-   * See ReceivedMessageWithLock.complete().
+   * See ServiceBusReceivedMessageWithLock.complete().
    */
   async complete(): Promise<void> {
-    log.message(
+    logger.verbose(
       "[%s] Completing the message with id '%s'.",
       this._context.connectionId,
       this.messageId
@@ -1084,11 +1084,11 @@ export class ServiceBusMessageImpl implements ReceivedMessageWithLock {
   }
 
   /**
-   * See ReceivedMessageWithLock.abandon().
+   * See ServiceBusReceivedMessageWithLock.abandon().
    */
   async abandon(propertiesToModify?: { [key: string]: any }): Promise<void> {
     // TODO: Figure out a mechanism to convert specified properties to message_annotations.
-    log.message(
+    logger.verbose(
       "[%s] Abandoning the message with id '%s'.",
       this._context.connectionId,
       this.messageId
@@ -1099,10 +1099,10 @@ export class ServiceBusMessageImpl implements ReceivedMessageWithLock {
   }
 
   /**
-   * See ReceivedMessageWithLock.defer().
+   * See ServiceBusReceivedMessageWithLock.defer().
    */
   async defer(propertiesToModify?: { [key: string]: any }): Promise<void> {
-    log.message(
+    logger.verbose(
       "[%s] Deferring the message with id '%s'.",
       this._context.connectionId,
       this.messageId
@@ -1113,10 +1113,10 @@ export class ServiceBusMessageImpl implements ReceivedMessageWithLock {
   }
 
   /**
-   * See ReceivedMessageWithLock.deadLetter().
+   * See ServiceBusReceivedMessageWithLock.deadLetter().
    */
   async deadLetter(propertiesToModify?: DeadLetterOptions & { [key: string]: any }): Promise<void> {
-    log.message(
+    logger.verbose(
       "[%s] Deadlettering the message with id '%s'.",
       this._context.connectionId,
       this.messageId
@@ -1166,7 +1166,8 @@ export class ServiceBusMessageImpl implements ReceivedMessageWithLock {
       error = new Error(`Failed to renew the lock as this message is already settled.`);
     }
     if (error) {
-      log.error(
+      logError(
+        error,
         "[%s] An error occurred when renewing the lock on the message with id '%s': %O",
         this._context.connectionId,
         this.messageId,
@@ -1230,7 +1231,8 @@ export class ServiceBusMessageImpl implements ReceivedMessageWithLock {
       const error = new Error(
         getErrorMessageNotSupportedInReceiveAndDeleteMode(`${operation} the message`)
       );
-      log.error(
+      logError(
+        error,
         "[%s] An error occurred when settling a message with id '%s': %O",
         this._context.connectionId,
         this.messageId,
@@ -1264,7 +1266,8 @@ export class ServiceBusMessageImpl implements ReceivedMessageWithLock {
         });
       }
       if (error) {
-        log.error(
+        logError(
+          error,
           "[%s] An error occurred when settling a message with id '%s': %O",
           this._context.connectionId,
           this.messageId,

@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-export const SDK_VERSION: string = "1.0.0-preview.1";
-export const LIB_INFO = `azsdk-js-search-documents/${SDK_VERSION}`;
+export const SDK_VERSION: string = "1.0.0-beta.2";
+export const LIB_INFO = `azsdk-js-data-tables/${SDK_VERSION}`;
 
 export const HeaderConstants = {
   AUTHORIZATION: "authorization",

@@ -92,6 +92,8 @@ export function createConnectionContextForTokenCredential(
   }
   const connectionString = `Endpoint=sb://${host};SharedAccessKeyName=defaultKeyName;SharedAccessKey=defaultKeyValue;`;
   const config = ConnectionConfig.create(connectionString);
+  
+  validate(config);
   return ConnectionContext.create(config, credential, options);
 }
 

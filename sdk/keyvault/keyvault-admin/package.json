@@ -2,7 +2,7 @@
   "name": "@azure/keyvault-admin",
   "sdk-type": "client",
   "author": "Microsoft Corporation",
-  "version": "1.0.0-preview.1",
+  "version": "4.0.0-beta.1",
   "license": "MIT",
   "description": "Isomorphic client library for Azure KeyVault's administrative functions.",
   "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/keyvault/keyvault-admin/README.md",
@@ -14,7 +14,11 @@
     "typescript",
     "browser",
     "isomorphic",
-    "keyvault"
+    "keyvault",
+    "backup",
+    "restore",
+    "access",
+    "role"
   ],
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
@@ -73,6 +77,7 @@
   },
   "sideEffects": false,
   "dependencies": {
+    "@azure/abort-controller": "^1.0.0",
     "@azure/core-http": "^1.1.6",
     "@azure/core-lro": "^1.0.2",
     "@azure/core-paging": "^1.1.1",
