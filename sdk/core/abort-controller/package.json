@@ -46,7 +46,17 @@
     "node": ">=8.0.0"
   },
   "repository": "github:Azure/azure-sdk-for-js",
-  "keywords": ["azure", "aborter", "abortsignal", "cancellation", "node.js", "typescript", "javascript", "browser", "cloud"],
+  "keywords": [
+    "azure",
+    "aborter",
+    "abortsignal",
+    "cancellation",
+    "node.js",
+    "typescript",
+    "javascript",
+    "browser",
+    "cloud"
+  ],
   "author": "Microsoft Corporation",
   "license": "MIT",
   "bugs": {
