@@ -22,7 +22,7 @@ export class BuffersStream extends Readable {
    * @type {number}
    * @memberof BuffersStream
    */
-  private byteOffset: number;
+  private byteOffsetInCurrentBuffer: number;
 
   /**
    * The index of buffer to be read in the array of buffers.
@@ -56,7 +56,7 @@ export class BuffersStream extends Readable {
     options?: BuffersStreamOptions
   ) {
     super(options);
-    this.byteOffset = 0;
+    this.byteOffsetInCurrentBuffer = 0;
     this.bufferIndex = 0;
     this.pushedBytesLength = 0;
   }
@@ -82,26 +82,26 @@ export class BuffersStream extends Readable {
       // The last buffer may be longer than the data it contains.
       const remainingDataInAllBuffers = this.byteLength - this.pushedBytesLength;
       const remainingCapacityInThisBuffer =
-        this.buffers[this.bufferIndex].byteLength - this.byteOffset;
+        this.buffers[this.bufferIndex].byteLength - this.byteOffsetInCurrentBuffer;
       const remaining = Math.min(remainingCapacityInThisBuffer, remainingDataInAllBuffers);
       if (remaining > size - i) {
         // chunkSize = size - i
-        const end = this.byteOffset + size - i;
-        outBuffers.push(this.buffers[this.bufferIndex].slice(this.byteOffset, end));
+        const end = this.byteOffsetInCurrentBuffer + size - i;
+        outBuffers.push(this.buffers[this.bufferIndex].slice(this.byteOffsetInCurrentBuffer, end));
         this.pushedBytesLength += size - i;
-        this.byteOffset = end;
+        this.byteOffsetInCurrentBuffer = end;
         i = size;
         break;
       } else {
         // chunkSize = remaining
-        const end = this.byteOffset + remaining;
-        outBuffers.push(this.buffers[this.bufferIndex].slice(this.byteOffset, end));
+        const end = this.byteOffsetInCurrentBuffer + remaining;
+        outBuffers.push(this.buffers[this.bufferIndex].slice(this.byteOffsetInCurrentBuffer, end));
         if (remaining === remainingCapacityInThisBuffer) {
           // this.buffers[this.bufferIndex] used up, shift to next one
-          this.byteOffset = 0;
+          this.byteOffsetInCurrentBuffer = 0;
           this.bufferIndex++;
         } else {
-          this.byteOffset = end;
+          this.byteOffsetInCurrentBuffer = end;
         }
         this.pushedBytesLength += remaining;
         i += remaining;
