@@ -24,21 +24,21 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  'f859df56-d416-4dd1-bd76-339332e44a00',
+  '613fdf57-20ac-4371-98ec-ab49fb9f8f00',
   'x-ms-ests-server',
-  '2.1.10985.18 - CHI ProdSlices',
+  '2.1.11021.16 - CHI ProdSlices',
   'Set-Cookie',
-  'fpc=Aj5FCce6fGxJrWtslwFzcB7IIHRUAQAAAJMn4tYOAAAA; expires=Fri, 02-Oct-2020 23:53:55 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AujfV3f5YcdLgJs_HaRk6H_IIHRUAQAAALFc9NYOAAAA; expires=Fri, 16-Oct-2020 19:21:22 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=prod; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=ests; path=/; secure; samesite=none; httponly',
   'Date',
-  'Wed, 02 Sep 2020 23:53:54 GMT'
+  'Wed, 16 Sep 2020 19:21:21 GMT'
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .post('/text/analytics/v3.1-preview.1/entities/linking', {"documents":[{"id":"0","text":"This is some text, but it doesn't matter.","language":"notalanguage"}]})
+  .post('/text/analytics/v3.1-preview.2/entities/linking', {"documents":[{"id":"0","text":"This is some text, but it doesn't matter.","language":"notalanguage"}]})
   .query(true)
   .reply(200, {"documents":[],"errors":[{"id":"0","error":{"code":"InvalidArgument","message":"Invalid Language Code.","innererror":{"code":"UnsupportedLanguageCode","message":"Invalid language code. Supported languages: en,es"}}}],"modelVersion":"2020-02-01"}, [
   'Transfer-Encoding',
@@ -46,13 +46,13 @@ nock('https://endpoint', {"encodedQueryParams":true})
   'Content-Type',
   'application/json; charset=utf-8',
   'x-envoy-upstream-service-time',
-  '3',
+  '2',
   'apim-request-id',
-  '0fd81742-7175-41fe-ab4d-5eaba80a948c',
+  '44bec15a-38b7-4073-abc3-2a926d129985',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Wed, 02 Sep 2020 23:53:55 GMT'
+  'Wed, 16 Sep 2020 19:21:22 GMT'
 ]);
