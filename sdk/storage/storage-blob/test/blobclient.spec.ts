@@ -127,14 +127,13 @@ describe("BlobClient", () => {
       this.skip();
     }
 
-    await blockBlobClient.delete();
-
     const tags = {
       tag1: "val1",
       tag2: "val2"
     };
 
-    const appendBlobClient = blobClient.getAppendBlobClient();
+    const appendBlobName = recorder.getUniqueName("apendBlob");
+    const appendBlobClient = containerClient.getAppendBlobClient(appendBlobName);
     await appendBlobClient.create({ tags });
 
     const response = await appendBlobClient.getTags();

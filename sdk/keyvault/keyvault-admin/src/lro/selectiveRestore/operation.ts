@@ -10,7 +10,7 @@ import {
 } from "@azure/core-http";
 import { KeyVaultClient } from "../../generated/keyVaultClient";
 import {
-  KeyVaultClientFullBackupStatusResponse,
+  KeyVaultClientRestoreStatusResponse,
   KeyVaultClientSelectiveKeyRestoreOperationOptionalParams,
   KeyVaultClientSelectiveKeyRestoreOperationResponse
 } from "../../generated/models";
@@ -126,18 +126,18 @@ async function selectiveRestore(
 }
 
 /**
- * Tracing the fullRestoreStatus operation.
+ * Tracing the restoreStatus operation.
  */
-async function fullRestoreStatus(
+async function restoreStatus(
   client: KeyVaultClient,
   vaultUrl: string,
   jobId: string,
   options: OperationOptions
-): Promise<KeyVaultClientFullBackupStatusResponse> {
+): Promise<KeyVaultClientRestoreStatusResponse> {
   const requestOptions = operationOptionsToRequestOptionsBase(options);
-  const span = createSpan("generatedClient.fullRestoreStatus", requestOptions);
+  const span = createSpan("generatedClient.restoreStatus", requestOptions);
   try {
-    return await client.fullBackupStatus(vaultUrl, jobId, options);
+    return await client.restoreStatus(vaultUrl, jobId, options);
   } finally {
     span.end();
   }
@@ -178,7 +178,7 @@ async function update(
       }
     });
 
-    const { startTime, jobId, endTime, error } = selectiveRestoreOperation;
+    const { startTime, jobId, endTime, error, status, statusDetails } = selectiveRestoreOperation;
 
     if (!startTime) {
       state.error = new Error(`Missing "startTime" from the full restore operation.`);
@@ -190,13 +190,13 @@ async function update(
     state.jobId = jobId;
     state.endTime = endTime;
     state.startTime = startTime;
-    state.status = selectiveRestoreOperation.status;
-    state.statusDetails = selectiveRestoreOperation.statusDetails;
+    state.status = status;
+    state.statusDetails = statusDetails;
 
     if (endTime) {
       state.isCompleted = true;
     }
-    if (error) {
+    if (error && error.message) {
       state.isCompleted = true;
       state.error = new Error(error.message);
     }
@@ -209,14 +209,19 @@ async function update(
   }
 
   if (!state.isCompleted) {
-    const selectiveRestoreOperation = await fullRestoreStatus(client, vaultUrl, state.jobId, {
+    const selectiveRestoreOperation = await restoreStatus(client, vaultUrl, state.jobId, {
       requestOptions
     });
-    const { endTime, error } = selectiveRestoreOperation;
+    const { endTime, status, statusDetails, error } = selectiveRestoreOperation;
+
+    state.endTime = endTime;
+    state.status = status;
+    state.statusDetails = statusDetails;
+
     if (endTime) {
       state.isCompleted = true;
     }
-    if (error) {
+    if (error && error.message) {
       state.isCompleted = true;
       state.error = new Error(error.message);
     }

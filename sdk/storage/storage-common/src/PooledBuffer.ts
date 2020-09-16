@@ -81,7 +81,7 @@ export class PooledBuffer {
   constructor(capacity: number, buffers: Buffer[], totalLength: number);
   constructor(capacity: number, buffers?: Buffer[], totalLength?: number) {
     this.capacity = capacity;
-    this._size = capacity;
+    this._size = 0;
 
     // allocate
     const bufferNum = Math.ceil(capacity / maxBufferLength);
