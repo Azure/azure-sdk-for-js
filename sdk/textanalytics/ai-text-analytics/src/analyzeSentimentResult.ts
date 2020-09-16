@@ -91,8 +91,7 @@ export interface SentenceSentiment {
 export interface AspectSentiment {
   /**
    * The sentiment confidence score between 0 and 1 for the aspect for
-   * 'positive' and 'negative' labels. It's score for 'neutral' will always be
-   * 0.
+   * 'positive' and 'negative' labels.
    */
   confidenceScores: AspectConfidenceScoreLabel;
   /**
