@@ -38,6 +38,7 @@
   "files": [
     "dist/",
     "dist-esm/src/",
+    "shims-public.d.ts",
     "types/abort-controller.d.ts",
     "README.md",
     "LICENSE"
