@@ -142,7 +142,7 @@ export type AnalyzeSentimentErrorResult = TextAnalyticsErrorResult;
 
 export function makeAnalyzeSentimentResult(
   document: DocumentSentiment
-  ): AnalyzeSentimentSuccessResult {
+): AnalyzeSentimentSuccessResult {
   const {
     id,
     sentiment,
@@ -219,8 +219,7 @@ function convertAspectRelationToOpinionSentiment(
   const opinionPtr = aspectRelation.ref;
   const opinionIndex: OpinionIndex = findOpinionIndex(opinionPtr);
   const opinion: SentenceOpinion | undefined =
-    document.sentenceSentiments?.[opinionIndex.sentence]
-      .opinions?.[opinionIndex.opinion];
+    document.sentenceSentiments?.[opinionIndex.sentence].opinions?.[opinionIndex.opinion];
   if (opinion !== undefined) {
     return opinion;
   } else {

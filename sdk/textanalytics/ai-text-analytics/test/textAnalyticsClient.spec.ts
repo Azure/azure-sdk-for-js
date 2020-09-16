@@ -77,6 +77,26 @@ describe("[AAD] TextAnalyticsClient", function() {
       assert.equal(result.error.code, "UnsupportedLanguageCode");
     });
 
+    it("service has a bug when referencing opinions in doc #6 or greater", async () => {
+      const documents = [
+        "The food was unacceptable",
+        "The rooms were beautiful. The AC was good and quiet.",
+        "The breakfast was good, but the toilet was smelly.",
+        "Loved this hotel - good breakfast - nice shuttle service - clean rooms.",
+        "I had a great unobstructed view of the Microsoft campus.",
+        "Nice rooms but bathrooms were old and the toilet was dirty when we arrived.",
+        "The toilet smelled."
+        ];
+      const results = await client.analyzeSentiment(documents, "en", {
+        includeOpinionMining: true
+      });
+      const result1 = results[0];
+      const result2 = results[5];
+      if (result1.error === undefined && result2.error === undefined) {
+        assert.notEqual(result1.sentences[0].minedOpinions[0].opinions[0], result2.sentences[0].minedOpinions[0].opinions[0]);
+      }
+    });
+
     it("service returns an error for an empty document", async () => {
       const data = [...testDataEn];
       data.splice(1, 0, "");
