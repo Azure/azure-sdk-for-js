@@ -322,7 +322,7 @@ describe("AbortSignal", () => {
     /**
      * SessionReceiver is a bit of an odd duck because it doesn't do initialization
      * in its subscribe() call (like non-session receiver) so our normal abortSignal
-     * code isn't running there. So we have to check this _and_ Receiver.
+     * code isn't running there. So we have to check this separately from Receiver.
      */
     it("SessionReceiver.subscribe", async () => {
       const session = await ServiceBusSessionReceiverImpl.createInitializedSessionReceiver(
