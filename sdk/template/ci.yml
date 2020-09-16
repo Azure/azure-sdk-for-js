@@ -10,6 +10,7 @@ trigger:
     include:
       - sdk/template/
       - eng/common/
+      - common/tools/eslint-plugin-azure-sdk/
 
 pr:
   branches:
@@ -21,6 +22,7 @@ pr:
   paths:
     include:
       - sdk/template/
+      - common/tools/eslint-plugin-azure-sdk/
 
 extends:
   template: ../../eng/pipelines/templates/stages/archetype-sdk-client.yml
