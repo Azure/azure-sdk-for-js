@@ -4,6 +4,7 @@ export default [
     input: "dist-esm/index.js",
     external: [
       "tslib",
+      "universal-user-agent",
       "uuid/v4",
       "debug",
       "node-abort-controller",
@@ -19,6 +20,7 @@ export default [
       name: "Microsoft.Azure.Cosmos",
       sourcemap: true,
       globals: {
+        "universal-user-agent": "universalUserAgent",
         "fast-json-stable-stringify": "stableStringify",
         "uuid/v4": "uuid",
         "node-abort-controller": "AbortController",
