@@ -417,7 +417,8 @@ const getEntityTagOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.UserGetEntityTagHeaders
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ErrorResponse,
+      headersMapper: Mappers.UserGetEntityTagHeaders
     }
   },
   serializer
@@ -444,7 +445,8 @@ const getOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.UserGetHeaders
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ErrorResponse,
+      headersMapper: Mappers.UserGetHeaders
     }
   },
   serializer
@@ -460,6 +462,7 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
+    Parameters.notify,
     Parameters.apiVersion
   ],
   headerParameters: [
@@ -483,7 +486,8 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.UserCreateOrUpdateHeaders
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ErrorResponse,
+      headersMapper: Mappers.UserCreateOrUpdateHeaders
     }
   },
   serializer
@@ -533,7 +537,8 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
   queryParameters: [
     Parameters.deleteSubscriptions,
     Parameters.notify,
-    Parameters.apiVersion
+    Parameters.apiVersion,
+    Parameters.appType
   ],
   headerParameters: [
     Parameters.ifMatch1,

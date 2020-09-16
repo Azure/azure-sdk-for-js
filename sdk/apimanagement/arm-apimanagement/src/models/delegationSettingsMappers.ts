@@ -36,6 +36,8 @@ export {
   CertificateConfiguration,
   CertificateContract,
   CertificateInformation,
+  ContentItemContract,
+  ContentTypeContract,
   DelegationSettingsGetEntityTagHeaders,
   DelegationSettingsGetHeaders,
   DiagnosticContract,

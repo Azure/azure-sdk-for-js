@@ -10,16 +10,16 @@
 
 import * as msRest from "@azure/ms-rest-js";
 import * as Models from "../models";
-import * as Mappers from "../models/userConfirmationPasswordMappers";
+import * as Mappers from "../models/contentTypesMappers";
 import * as Parameters from "../models/parameters";
 import { ApiManagementClientContext } from "../apiManagementClientContext";
 
-/** Class representing a UserConfirmationPassword. */
-export class UserConfirmationPassword {
+/** Class representing a ContentTypes. */
+export class ContentTypes {
   private readonly client: ApiManagementClientContext;
 
   /**
-   * Create a UserConfirmationPassword.
+   * Create a ContentTypes.
    * @param {ApiManagementClientContext} client Reference to the service client.
    */
   constructor(client: ApiManagementClientContext) {
@@ -27,64 +27,67 @@ export class UserConfirmationPassword {
   }
 
   /**
-   * Sends confirmation
+   * Gets API Management content type details
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
-   * @param userId User identifier. Must be unique in the current API Management service instance.
+   * @param contentTypeId Content type identifier.
    * @param [options] The optional parameters
-   * @returns Promise<msRest.RestResponse>
+   * @returns Promise<Models.ContentTypesGetResponse>
    */
-  send(resourceGroupName: string, serviceName: string, userId: string, options?: Models.UserConfirmationPasswordSendOptionalParams): Promise<msRest.RestResponse>;
+  get(resourceGroupName: string, serviceName: string, contentTypeId: string, options?: msRest.RequestOptionsBase): Promise<Models.ContentTypesGetResponse>;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
-   * @param userId User identifier. Must be unique in the current API Management service instance.
+   * @param contentTypeId Content type identifier.
    * @param callback The callback
    */
-  send(resourceGroupName: string, serviceName: string, userId: string, callback: msRest.ServiceCallback<void>): void;
+  get(resourceGroupName: string, serviceName: string, contentTypeId: string, callback: msRest.ServiceCallback<Models.ContentTypeContract>): void;
   /**
    * @param resourceGroupName The name of the resource group.
    * @param serviceName The name of the API Management service.
-   * @param userId User identifier. Must be unique in the current API Management service instance.
+   * @param contentTypeId Content type identifier.
    * @param options The optional parameters
    * @param callback The callback
    */
-  send(resourceGroupName: string, serviceName: string, userId: string, options: Models.UserConfirmationPasswordSendOptionalParams, callback: msRest.ServiceCallback<void>): void;
-  send(resourceGroupName: string, serviceName: string, userId: string, options?: Models.UserConfirmationPasswordSendOptionalParams | msRest.ServiceCallback<void>, callback?: msRest.ServiceCallback<void>): Promise<msRest.RestResponse> {
+  get(resourceGroupName: string, serviceName: string, contentTypeId: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ContentTypeContract>): void;
+  get(resourceGroupName: string, serviceName: string, contentTypeId: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ContentTypeContract>, callback?: msRest.ServiceCallback<Models.ContentTypeContract>): Promise<Models.ContentTypesGetResponse> {
     return this.client.sendOperationRequest(
       {
         resourceGroupName,
         serviceName,
-        userId,
+        contentTypeId,
         options
       },
-      sendOperationSpec,
-      callback);
+      getOperationSpec,
+      callback) as Promise<Models.ContentTypesGetResponse>;
   }
 }
 
 // Operation Specifications
 const serializer = new msRest.Serializer(Mappers);
-const sendOperationSpec: msRest.OperationSpec = {
-  httpMethod: "POST",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/users/{userId}/confirmations/password/send",
+const getOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.ApiManagement/service/{serviceName}/contentTypes/{contentTypeId}",
   urlParameters: [
     Parameters.resourceGroupName,
     Parameters.serviceName,
-    Parameters.userId,
+    Parameters.contentTypeId,
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion,
-    Parameters.appType
+    Parameters.apiVersion
   ],
   headerParameters: [
     Parameters.acceptLanguage
   ],
   responses: {
-    204: {},
+    200: {
+      bodyMapper: Mappers.ContentTypeContract,
+      headersMapper: Mappers.ContentTypesGetHeaders
+    },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ErrorResponse,
+      headersMapper: Mappers.ContentTypesGetHeaders
     }
   },
   serializer

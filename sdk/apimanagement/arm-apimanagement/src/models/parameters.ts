@@ -71,6 +71,19 @@ export const apiVersion: msRest.OperationQueryParameter = {
     }
   }
 };
+export const appType: msRest.OperationQueryParameter = {
+  parameterPath: [
+    "options",
+    "appType"
+  ],
+  mapper: {
+    serializedName: "appType",
+    defaultValue: 'portal',
+    type: {
+      name: "String"
+    }
+  }
+};
 export const attachmentId: msRest.OperationURLParameter = {
   parameterPath: "attachmentId",
   mapper: {
@@ -167,6 +180,34 @@ export const configurationName: msRest.OperationURLParameter = {
     isConstant: true,
     serializedName: "configurationName",
     defaultValue: 'configuration',
+    type: {
+      name: "String"
+    }
+  }
+};
+export const contentItemId: msRest.OperationURLParameter = {
+  parameterPath: "contentItemId",
+  mapper: {
+    required: true,
+    serializedName: "contentItemId",
+    constraints: {
+      MaxLength: 80,
+      MinLength: 1
+    },
+    type: {
+      name: "String"
+    }
+  }
+};
+export const contentTypeId: msRest.OperationURLParameter = {
+  parameterPath: "contentTypeId",
+  mapper: {
+    required: true,
+    serializedName: "contentTypeId",
+    constraints: {
+      MaxLength: 80,
+      MinLength: 1
+    },
     type: {
       name: "String"
     }

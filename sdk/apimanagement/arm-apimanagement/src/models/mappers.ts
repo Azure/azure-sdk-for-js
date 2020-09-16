@@ -3651,6 +3651,69 @@ export const CertificateCreateOrUpdateParameters: msRest.CompositeMapper = {
   }
 };
 
+export const ContentItemContract: msRest.CompositeMapper = {
+  serializedName: "ContentItemContract",
+  type: {
+    name: "Composite",
+    className: "ContentItemContract",
+    modelProperties: {
+      ...Resource.type.modelProperties,
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Dictionary",
+          value: {
+            type: {
+              name: "Object"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const ContentTypeContract: msRest.CompositeMapper = {
+  serializedName: "ContentTypeContract",
+  type: {
+    name: "Composite",
+    className: "ContentTypeContract",
+    modelProperties: {
+      ...Resource.type.modelProperties,
+      contentTypeContractId: {
+        serializedName: "properties.id",
+        type: {
+          name: "String"
+        }
+      },
+      contentTypeContractName: {
+        serializedName: "properties.name",
+        type: {
+          name: "String"
+        }
+      },
+      description: {
+        serializedName: "properties.description",
+        type: {
+          name: "String"
+        }
+      },
+      schema: {
+        serializedName: "properties.schema",
+        type: {
+          name: "Object"
+        }
+      },
+      version: {
+        serializedName: "properties.version",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const ResourceSku: msRest.CompositeMapper = {
   serializedName: "ResourceSku",
   type: {
@@ -7083,6 +7146,28 @@ export const QuotaCounterValueContractProperties: msRest.CompositeMapper = {
   }
 };
 
+export const QuotaCounterValueUpdateContract: msRest.CompositeMapper = {
+  serializedName: "QuotaCounterValueUpdateContract",
+  type: {
+    name: "Composite",
+    className: "QuotaCounterValueUpdateContract",
+    modelProperties: {
+      callsCount: {
+        serializedName: "properties.callsCount",
+        type: {
+          name: "Number"
+        }
+      },
+      kbTransferred: {
+        serializedName: "properties.kbTransferred",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
 export const QuotaCounterContract: msRest.CompositeMapper = {
   serializedName: "QuotaCounterContract",
   type: {
@@ -9032,6 +9117,102 @@ export const CertificateCreateOrUpdateHeaders: msRest.CompositeMapper = {
   }
 };
 
+export const ContentTypeGetEntityTagHeaders: msRest.CompositeMapper = {
+  serializedName: "contenttype-getentitytag-headers",
+  type: {
+    name: "Composite",
+    className: "ContentTypeGetEntityTagHeaders",
+    modelProperties: {
+      eTag: {
+        serializedName: "etag",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ContentTypesGetHeaders: msRest.CompositeMapper = {
+  serializedName: "contenttypes-get-headers",
+  type: {
+    name: "Composite",
+    className: "ContentTypesGetHeaders",
+    modelProperties: {
+      eTag: {
+        serializedName: "etag",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ContentTypeCreateOrUpdateHeaders: msRest.CompositeMapper = {
+  serializedName: "contenttype-createorupdate-headers",
+  type: {
+    name: "Composite",
+    className: "ContentTypeCreateOrUpdateHeaders",
+    modelProperties: {
+      eTag: {
+        serializedName: "etag",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ContentItemGetEntityTagHeaders: msRest.CompositeMapper = {
+  serializedName: "contentitem-getentitytag-headers",
+  type: {
+    name: "Composite",
+    className: "ContentItemGetEntityTagHeaders",
+    modelProperties: {
+      eTag: {
+        serializedName: "etag",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ContentItemGetHeaders: msRest.CompositeMapper = {
+  serializedName: "contentitem-get-headers",
+  type: {
+    name: "Composite",
+    className: "ContentItemGetHeaders",
+    modelProperties: {
+      eTag: {
+        serializedName: "etag",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ContentItemCreateOrUpdateHeaders: msRest.CompositeMapper = {
+  serializedName: "contentitem-createorupdate-headers",
+  type: {
+    name: "Composite",
+    className: "ContentItemCreateOrUpdateHeaders",
+    modelProperties: {
+      eTag: {
+        serializedName: "etag",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const DiagnosticGetEntityTagHeaders: msRest.CompositeMapper = {
   serializedName: "diagnostic-getentitytag-headers",
   type: {
@@ -10525,6 +10706,66 @@ export const CertificateCollection: msRest.CompositeMapper = {
         }
       },
       nextLink: {
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ContentTypeCollection: msRest.CompositeMapper = {
+  serializedName: "ContentTypeCollection",
+  type: {
+    name: "Composite",
+    className: "ContentTypeCollection",
+    modelProperties: {
+      value: {
+        readOnly: true,
+        serializedName: "",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ContentTypeContract"
+            }
+          }
+        }
+      },
+      nextLink: {
+        readOnly: true,
+        serializedName: "nextLink",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const ContentItemCollection: msRest.CompositeMapper = {
+  serializedName: "ContentItemCollection",
+  type: {
+    name: "Composite",
+    className: "ContentItemCollection",
+    modelProperties: {
+      value: {
+        readOnly: true,
+        serializedName: "",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ContentItemContract"
+            }
+          }
+        }
+      },
+      nextLink: {
+        readOnly: true,
         serializedName: "nextLink",
         type: {
           name: "String"

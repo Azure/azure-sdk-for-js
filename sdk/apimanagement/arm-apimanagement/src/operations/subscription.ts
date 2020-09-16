@@ -472,7 +472,8 @@ const getEntityTagOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.SubscriptionGetEntityTagHeaders
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ErrorResponse,
+      headersMapper: Mappers.SubscriptionGetEntityTagHeaders
     }
   },
   serializer
@@ -499,7 +500,8 @@ const getOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.SubscriptionGetHeaders
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ErrorResponse,
+      headersMapper: Mappers.SubscriptionGetHeaders
     }
   },
   serializer
@@ -516,7 +518,8 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.notify,
-    Parameters.apiVersion
+    Parameters.apiVersion,
+    Parameters.appType
   ],
   headerParameters: [
     Parameters.ifMatch0,
@@ -539,7 +542,8 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.SubscriptionCreateOrUpdateHeaders
     },
     default: {
-      bodyMapper: Mappers.ErrorResponse
+      bodyMapper: Mappers.ErrorResponse,
+      headersMapper: Mappers.SubscriptionCreateOrUpdateHeaders
     }
   },
   serializer
@@ -556,7 +560,8 @@ const updateOperationSpec: msRest.OperationSpec = {
   ],
   queryParameters: [
     Parameters.notify,
-    Parameters.apiVersion
+    Parameters.apiVersion,
+    Parameters.appType
   ],
   headerParameters: [
     Parameters.ifMatch1,
