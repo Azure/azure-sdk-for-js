@@ -247,6 +247,8 @@ describe("ServiceClient", function() {
             parameterPath: "bodyArg",
             mapper: {
               required: true,
+              xmlNamespace: "https://example.com",
+              xmlNamespacePrefix: "foo",
               serializedName: "bodyArg",
               type: {
                 name: "String"
@@ -505,6 +507,7 @@ describe("ServiceClient", function() {
             parameterPath: "bodyArg",
             mapper: {
               required: true,
+              xmlNamespace: "https://microsoft.com",
               serializedName: "bodyArg",
               type: {
                 name: MapperTypeNames.Stream

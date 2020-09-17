@@ -497,6 +497,8 @@ describe("ServiceClient", function() {
             parameterPath: "bodyArg",
             mapper: {
               required: true,
+              xmlNamespace: "https://example.com",
+              xmlNamespacePrefix: "foo",
               serializedName: "bodyArg",
               type: {
                 name: MapperType.String
@@ -1161,6 +1163,34 @@ describe("ServiceClient", function() {
     });
 
     it("should serialize an XML Stream request body", () => {
+      const httpRequest = new WebResource();
+      serializeRequestBody(
+        new ServiceClient(),
+        httpRequest,
+        {
+          bodyArg: "body value"
+        },
+        {
+          httpMethod: "POST",
+          requestBody: {
+            parameterPath: "bodyArg",
+            mapper: {
+              required: true,
+              serializedName: "bodyArg",
+              type: {
+                name: MapperType.Stream
+              }
+            }
+          },
+          responses: { 200: {} },
+          serializer: new Serializer(),
+          isXML: true
+        }
+      );
+      assert.strictEqual(httpRequest.body, "body value");
+    });
+
+    it("should serialize an XML Stream request body, with namespace", () => {
       const httpRequest = new WebResource();
       serializeRequestBody(
         new ServiceClient(),

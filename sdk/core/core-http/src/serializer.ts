@@ -504,14 +504,12 @@ function serializeSequenceType(
         : "xmlns";
       if (elementType.type.name === "Composite") {
         tempArray[i] = { ...serializedValue, $: { [xmlnsKey]: elementType.xmlNamespace } };
-        continue;
       } else {
         tempArray[i] = { _: serializedValue, $: { [xmlnsKey]: elementType.xmlNamespace } };
-        continue;
       }
+    } else {
+      tempArray[i] = serializedValue;
     }
-
-    tempArray[i] = serializedValue;
   }
   return tempArray;
 }
@@ -544,16 +542,14 @@ function serializeDictionaryType(
       // If the value is an object the object's properties need to be siblings of the $ property
       if (valueType.type.name === "Composite") {
         tempDictionary[key] = { ...serializedValue, $: { [xmlnsKey]: valueType.xmlNamespace } };
-        continue;
       } else {
         // When the value is not an object, it has to go under _
         tempDictionary[key] = { _: serializedValue, $: { [xmlnsKey]: valueType.xmlNamespace } };
-        continue;
       }
+    } else {
+      // Add the serialized value when we are not serializing XML or it doesn't need a namespace
+      tempDictionary[key] = serializedValue;
     }
-
-    // Just add the value when we are not serializing XML or it doesn't need a namespace
-    tempDictionary[key] = serializedValue;
   }
 
   // Add the namespace to the root element if needed
