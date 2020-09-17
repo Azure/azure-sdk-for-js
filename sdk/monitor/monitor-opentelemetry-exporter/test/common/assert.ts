@@ -9,6 +9,7 @@ import {
 } from "../../src/utils/constants/applicationinsights";
 import { Expectation } from "./scenario/types";
 import { RequestData, TelemetryItem as Envelope } from "../../src/generated";
+import {TelemetryItem as EnvelopeMapper} from '../../src/generated/models/mappers';
 
 export const assertData = (actual: Base, expected: Base): void => {
   assert.strictEqual(actual.baseType, expected.baseType);
@@ -86,6 +87,7 @@ export const assertExpectation = (actual: Envelope[], expectations: Expectation[
     }
 
     for (const [key, value] of Object.entries(expectation) as [keyof Expectation, unknown][]) {
+      const serializedKey = EnvelopeMapper.type.modelProperties![key]?.serializedName ?? undefined;
       switch (key) {
         case "children":
           assertTrace(actual, expectation);
@@ -97,10 +99,11 @@ export const assertExpectation = (actual: Envelope[], expectations: Expectation[
           }
           break;
         default:
+          assert.ok(serializedKey, `Serialized key for ${key}`);
           assert.strictEqual(
-            envelope[0][key],
+            envelope[0][serializedKey as keyof Envelope], // as keyof Serialized(Envelope)
             value,
-            `envelope.${key} should be equal\nActual: ${envelope[0][key]}\nExpected: ${value}`
+            `envelope.${serializedKey} should be equal\nActual: ${envelope[0][key]}\nExpected: ${value}`
           );
       }
     }

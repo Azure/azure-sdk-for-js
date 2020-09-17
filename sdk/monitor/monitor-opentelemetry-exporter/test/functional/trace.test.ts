@@ -14,12 +14,12 @@ describe("Trace Exporter Scenarios", () => {
 
     let ingest: Envelope[] = [];
     nock(DEFAULT_BREEZE_ENDPOINT)
-      .post("/v2/track", (body) => {
+      .post("/v2/track", (body: Envelope[]) => {
         // todo: gzip is not supported by generated applicationInsightsClient
         // const buffer = gunzipSync(Buffer.from(body, "hex"));
         // ingest.push(...(JSON.parse(buffer.toString("utf8")) as Envelope[]));
-        ingest.push(body);
-        return body;
+        ingest.push(...body);
+        return true;
       })
       .reply(200, successfulBreezeResponse(1))
       .persist();
