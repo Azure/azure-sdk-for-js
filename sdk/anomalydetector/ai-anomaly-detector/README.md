@@ -25,7 +25,7 @@ The `AnomalyDetectorClient` provides methods for anomaly detection:
 ### Prerequisites
 
 - An [Azure subscription](https://azure.microsoft.com/free/).
-- An existing Cognitive Services or Anomaly Detector resource.
+- An existing Anomaly Detector resource.
 
 If you use the Azure CLI, replace `<your-resource-group-name>` and `<your-resource-name>` with your own unique names:
 
@@ -45,7 +45,7 @@ npm install @azure/ai-anomaly-detector
 
 To create a client object to access the Anomaly Detector API, you will need the `endpoint` of your Anomaly Detector resource and a `credential`. The Anomaly Detector client can use either Azure Active Directory credentials or an API key credential to authenticate.
 
-You can find the endpoint for your Anomaly Detector resource either in the Azure Portal or by using the Azure CLI snippet below:
+You can find the endpoint for your Anomaly Detector resource in the Azure Portal by clicking `Keys and Endpoint` under Resource Management in the menu or by using the Azure CLI snippet below:
 
 ```bash
 az cognitiveservices account show --name <your-resource-name> --resource-group <your-resource-group-name> --query "endpoint"
@@ -53,7 +53,7 @@ az cognitiveservices account show --name <your-resource-name> --resource-group <
 
 #### Using an API Key
 
-Use the Azure Portal to browse to your Anomaly Detector resource and retrieve an API key, or use the Azure CLI snippet below:
+Use the Azure Portal to browse to your Anomaly Detector resource and retrieve an API key by clicking `Keys and Endpoint` under Resource Management, or use the Azure CLI snippet below:
 
 **Note:** Sometimes the API key is referred to as a "subscription key" or "subscription API key."
 

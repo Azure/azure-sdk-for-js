@@ -1,6 +1,6 @@
 # Release History
 
-## 3.0.0-beta.2 (Unreleased)
+## 3.0.0-beta.2 (2020-09-17)
 
 - Fix missing types in package [#10916](https://github.com/Azure/azure-sdk-for-js/pull/10916)
 
