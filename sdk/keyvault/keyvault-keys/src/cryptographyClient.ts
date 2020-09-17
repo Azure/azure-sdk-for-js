@@ -16,7 +16,7 @@ import { Span } from "@opentelemetry/api";
 import { logger } from "./log";
 import { SDK_VERSION } from "./generated/utils/constants";
 import { KeyVaultClient } from "./generated/keyVaultClient";
-import { challengeBasedAuthenticationPolicy } from "@azure/core-http";
+import { challengeBasedAuthenticationPolicy } from "../../keyvault-common/src";
 
 import {
   LocalSupportedAlgorithmName,

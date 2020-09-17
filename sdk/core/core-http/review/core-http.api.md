@@ -108,9 +108,6 @@ export class BasicAuthenticationCredentials implements ServiceClientCredentials 
 // @public
 export function bearerTokenAuthenticationPolicy(credential: TokenCredential, scopes: string | string[]): RequestPolicyFactory;
 
-// @public
-export function challengeBasedAuthenticationPolicy(credential: TokenCredential): RequestPolicyFactory;
-
 // @public (undocumented)
 export interface CompositeMapper extends BaseMapper {
     // (undocumented)

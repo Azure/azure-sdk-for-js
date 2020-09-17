@@ -24,7 +24,7 @@
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
   "main": "./dist/index.js",
-  "module": "dist-esm/src/index.js",
+  "module": "dist-esm/keyvault-admin/src/index.js",
   "types": "./types/keyvault-admin.d.ts",
   "engine": {
     "node": ">=8.0.0"
@@ -36,7 +36,8 @@
     "types/keyvault-admin.d.ts",
     "dist/",
     "dist-browser/",
-    "dist-esm/",
+    "dist-esm/keyvault-admin/src",
+    "dist-esm/keyvault-common/src",
     "README.md",
     "LICENSE"
   ],
@@ -78,7 +79,7 @@
   "sideEffects": false,
   "dependencies": {
     "@azure/abort-controller": "^1.0.0",
-    "@azure/core-http": "^1.1.9",
+    "@azure/core-http": "^1.1.6",
     "@azure/core-lro": "^1.0.2",
     "@azure/core-paging": "^1.1.1",
     "@azure/core-tracing": "1.0.0-preview.9",
