@@ -44,6 +44,9 @@ parameters:
 - name: TestSame
   type: boolean
   default: false
+- name: TestCanary
+  type: boolean
+  default: false
 - name: Matrix
   type: object
   default:
@@ -127,7 +130,17 @@ jobs:
             TestType: "node"
             DependencyVersion: same
             NodeTestVersion: "12.x"
-            TestResultsFiles: "**/test-results.xml"            
+            TestResultsFiles: "**/test-results.xml"   
+
+        # Add matrix entry for canary testing
+        ${{ if eq(parameters.TestCanary, 'true') }}:
+          CanaryTest_Node:
+            OSVmImage: "ubuntu-18.04"
+            TestType: "node"
+            NodeTestVersion: "12.x"
+            TestResultsFiles: "**/test-results.xml"
+            SubscriptionConfiguration: $(sub-config-azure-cloud-test-resources-preview)
+            ResourceGroupLocation: centraluseuap
     pool:
       vmImage: "$(OSVmImage)"
 
