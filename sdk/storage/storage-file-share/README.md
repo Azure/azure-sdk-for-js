@@ -59,7 +59,7 @@ This library depends on following ES features which need external polyfills load
 - `String.prototype.includes`
 - `Array.prototype.includes`
 - `Object.assign`
-- `Object.keys` (Overrides the IE11's `Object.keys` with a polyfill to enable the [ES6 behavior](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Object/keys#Notes))
+- `Object.keys` (Overrides the IE11's `Object.keys` with a polyfill to enable the [ES6 behavior](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Global_Objects/Object/keys#Notes))
 - `Symbol`
 - `Symbol.iterator`
 

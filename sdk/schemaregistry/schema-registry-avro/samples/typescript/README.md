@@ -69,5 +69,5 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [schemaregistrysample]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/schemaregistry/schema-registry-avro/samples/typescript/src/schemaRegistryAvroSample.ts
 [apiref]: https://docs.microsoft.com/javascript/api
 [freesub]: https://azure.microsoft.com/free/
-[package]: ../../README.md
+[package]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/schemaregistry/schema-registry-avro/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html
