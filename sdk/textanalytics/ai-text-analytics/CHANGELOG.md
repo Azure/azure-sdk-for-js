@@ -1,6 +1,6 @@
 # Release History
 
-## 5.1.0-beta.1 (Unreleased)
+## 5.1.0-beta.1 (2020-09-17)
 
 - We are now targeting the service's v3.1-preview.2 API as the default instead of v3.0.
 - We now have added support for opinion mining feature of Sentiment Analysis. To get this support, pass `includeOpinionMining` as True when calling the `analyzeSentiment` endpoint.
@@ -31,7 +31,6 @@
 - [Breaking] Removed the `warnings` property of `SentenceSentiment`.
 - Added `warnings` property to every document response object containing a list of `TextAnalyticsWarning` objects relevant to the corresponding document.
 - Migrated to using the Text Analytics v3.0 (General Availability) service endpoint.
-
 
 ## 1.0.0-preview.4 (2020-04-07)
 
