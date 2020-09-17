@@ -1,6 +1,8 @@
 # Release History
 
-## 3.9.2 (Unreleased)
+## 3.9.2 (2020-09-16)
+
+- BUGFIX: Fixes slow `userAgent` lookup on azure functions.
 
 ## 3.9.1 (2020-08-28)
 
@@ -62,17 +64,17 @@ database.container.create(containerDefinition)
 const operations: OperationInput[] = [
   {
     operationType: "Create",
-    resourceBody: { id: "doc1", name: "sample", key: "A" },
+    resourceBody: { id: "doc1", name: "sample", key: "A" }
   },
   {
     operationType: "Upsert",
-    resourceBody: { id: "doc2", name: "other", key: "A" },
+    resourceBody: { id: "doc2", name: "other", key: "A" }
   },
   {
     operationType: "Read",
     id: "readItemId",
-    partitionKey: "key",
-  },
+    partitionKey: "key"
+  }
 ];
 
 await database.container.items.bulk(operations);
@@ -289,14 +291,14 @@ Constructor options have been simplified:
 const client = new CosmosClient({
   endpoint: "https://your-database.cosmos.azure.com",
   auth: {
-    masterKey: "your-primary-key",
-  },
+    masterKey: "your-primary-key"
+  }
 });
 
 // v3
 const client = new CosmosClient({
   endpoint: "https://your-database.cosmos.azure.com",
-  key: "your-primary-key",
+  key: "your-primary-key"
 });
 ```
 

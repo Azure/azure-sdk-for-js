@@ -24,21 +24,21 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  '4e96e76e-e6b4-4425-936c-ac0f60fe4500',
+  'c96345b7-6551-44c4-9b94-d3b47c5d6900',
   'x-ms-ests-server',
-  '2.1.10985.18 - CHI ProdSlices',
+  '2.1.11021.16 - CHI ProdSlices',
   'Set-Cookie',
-  'fpc=ApHyPJ_QzMhMlkz22YzecCfIIHRUAQAAAI4n4tYOAAAA; expires=Fri, 02-Oct-2020 23:53:51 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=Aoqo-dUG6VxKrkX-DM99ulPIIHRUAQAAAKxc9NYOAAAA; expires=Fri, 16-Oct-2020 19:21:17 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=prod; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=ests; path=/; secure; samesite=none; httponly',
   'Date',
-  'Wed, 02 Sep 2020 23:53:51 GMT'
+  'Wed, 16 Sep 2020 19:21:16 GMT'
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .post('/text/analytics/v3.1-preview.1/entities/recognition/pii', {"documents":[]})
+  .post('/text/analytics/v3.1-preview.2/entities/recognition/pii', {"documents":[]})
   .query(true)
   .reply(400, {"error":{"code":"InvalidRequest","message":"Invalid Request.","innererror":{"code":"MissingInputRecords","message":"Missing input records."}}}, [
   'Transfer-Encoding',
@@ -46,13 +46,13 @@ nock('https://endpoint', {"encodedQueryParams":true})
   'Content-Type',
   'application/json; charset=utf-8',
   'x-envoy-upstream-service-time',
-  '4',
+  '3',
   'apim-request-id',
-  '48014e21-d22c-449e-8c67-3f02047bfcce',
+  '55512312-3196-4d6b-add6-264f10c3ce57',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Wed, 02 Sep 2020 23:53:50 GMT'
+  'Wed, 16 Sep 2020 19:21:17 GMT'
 ]);

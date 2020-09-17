@@ -24,23 +24,23 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  'f17ec1d1-63b7-4d36-9ef5-cd736f3b5200',
+  '273d1947-1b0c-4915-948a-490ee3ed9a00',
   'x-ms-ests-server',
-  '2.1.10985.18 - CHI ProdSlices',
+  '2.1.11021.16 - CHI ProdSlices',
   'Set-Cookie',
-  'fpc=Amx6cLU0rTdMlQzayoICOUbIIHRUAQAAAJQn4tYOAAAA; expires=Fri, 02-Oct-2020 23:53:57 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AkIW2Jn9k_RLlGSPZFdBRrfIIHRUAQAAALNc9NYOAAAA; expires=Fri, 16-Oct-2020 19:21:24 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=prod; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=ests; path=/; secure; samesite=none; httponly',
   'Date',
-  'Wed, 02 Sep 2020 23:53:56 GMT'
+  'Wed, 16 Sep 2020 19:21:23 GMT'
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .post('/text/analytics/v3.1-preview.1/entities/recognition/pii', {"documents":[{"id":"0","text":"👩 SSN: 859-98-0987","language":"en"}]})
+  .post('/text/analytics/v3.1-preview.2/entities/recognition/pii', {"documents":[{"id":"0","text":"👩 SSN: 859-98-0987","language":"en"}]})
   .query(true)
-  .reply(200, {"documents":[{"id":"0","entities":[{"text":"859-98-0987","category":"U.S. Social Security Number (SSN)","offset":8,"length":11,"confidenceScore":0.65}],"warnings":[]}],"errors":[],"modelVersion":"2020-07-01"}, [
+  .reply(200, {"documents":[{"redactedText":"👩 SSN: ***********","id":"0","entities":[{"text":"859-98-0987","category":"U.S. Social Security Number (SSN)","offset":8,"length":11,"confidenceScore":0.65}],"warnings":[]}],"errors":[],"modelVersion":"2020-07-01"}, [
   'Transfer-Encoding',
   'chunked',
   'Content-Type',
@@ -48,13 +48,13 @@ nock('https://endpoint', {"encodedQueryParams":true})
   'csp-billing-usage',
   'CognitiveServices.TextAnalytics.BatchScoring=1',
   'x-envoy-upstream-service-time',
-  '72',
+  '70',
   'apim-request-id',
-  '27bb67f4-c37e-456d-8f66-6e2fd0fefc60',
+  'e2b27aeb-59e2-4d4d-865a-92abfd51327f',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Wed, 02 Sep 2020 23:53:56 GMT'
+  'Wed, 16 Sep 2020 19:21:23 GMT'
 ]);

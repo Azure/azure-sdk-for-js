@@ -11,33 +11,33 @@
     "cache-control": "no-store, no-cache",
     "content-length": "1329",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 02 Sep 2020 23:54:08 GMT",
+    "date": "Wed, 16 Sep 2020 19:21:36 GMT",
     "expires": "-1",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
     "referrer-policy": "strict-origin-when-cross-origin",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.10985.18 - CHI ProdSlices",
-    "x-ms-request-id": "fbcddf8b-477e-4756-983f-124a8d8a3c00"
+    "x-ms-ests-server": "2.1.11021.16 - CHI ProdSlices",
+    "x-ms-request-id": "5383a6db-5df9-43bf-92db-f9d211825100"
    }
   },
   {
    "method": "POST",
-   "url": "https://endpoint/text/analytics/v3.1-preview.1/languages",
+   "url": "https://endpoint/text/analytics/v3.1-preview.2/languages",
    "query": {},
    "requestBody": "{\"documents\":[{\"id\":\"0\",\"text\":\"I use Azure Functions to develop my service.\",\"countryHint\":\"\"}]}",
    "status": 200,
    "response": "{\"documents\":[{\"id\":\"0\",\"detectedLanguage\":{\"name\":\"English\",\"iso6391Name\":\"en\",\"confidenceScore\":1.0},\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}",
    "responseHeaders": {
-    "apim-request-id": "2da0038a-1393-4bde-a231-399d799f3cd8",
+    "apim-request-id": "15224ed9-21a2-44c7-9900-a14400bf0837",
     "content-type": "application/json; charset=utf-8",
     "csp-billing-usage": "CognitiveServices.TextAnalytics.BatchScoring=1",
-    "date": "Wed, 02 Sep 2020 23:54:08 GMT",
+    "date": "Wed, 16 Sep 2020 19:21:36 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "11"
+    "x-envoy-upstream-service-time": "13"
    }
   }
  ],

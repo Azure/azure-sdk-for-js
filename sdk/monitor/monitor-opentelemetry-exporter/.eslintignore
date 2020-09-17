@@ -11,3 +11,4 @@ browser
 coverage
 # don't lint generated files
 src/Declarations
+src/generated

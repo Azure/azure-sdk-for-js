@@ -16,6 +16,7 @@ import {
   AnalyzeSentimentSuccessResult
 } from "../src/index";
 import { assertAllSuccess, isSuccess } from "./utils/resultHelper";
+import { PiiEntityDomainType } from "../src/textAnalyticsClient";
 
 const testDataEn = [
   "I had a wonderful trip to Seattle last week and even visited the Space Needle 2 times!",
@@ -518,6 +519,28 @@ describe("[AAD] TextAnalyticsClient", function() {
       assert.equal(results.length, sliceSize + testDataEs.length);
       // TA NER public preview currently supports only english
       assert.ok(results.slice(0, sliceSize).every(isSuccess));
+    });
+
+    it("accepts domain filter", async () => {
+      const [result] = await client.recognizePiiEntities(
+        [
+          {
+            id: "0",
+            text: "I work at Microsoft and my phone number is 333-333-3333",
+            language: "en"
+          }
+        ],
+        { domainFilter: PiiEntityDomainType.PROTECTED_HEALTH_INFORMATION }
+      );
+      if (!result.error) {
+        assert.equal(result.entities.length, 1);
+        assert.equal(result.entities[0].text, "333-333-3333");
+        assert.equal(result.entities[0].category, "Phone Number");
+        assert.equal(
+          result.redactedText,
+          "I work at Microsoft and my phone number is ************"
+        );
+      }
     });
   });
 

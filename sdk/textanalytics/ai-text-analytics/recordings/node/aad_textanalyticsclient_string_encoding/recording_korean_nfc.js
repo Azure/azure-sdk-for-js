@@ -11,6 +11,8 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'no-store, no-cache',
   'Pragma',
   'no-cache',
+  'Content-Length',
+  '1329',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
@@ -22,25 +24,23 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  '19fd895e-ae28-4579-8d01-9d559a484400',
+  '8033b395-9a02-4d34-9960-5d41ade0a800',
   'x-ms-ests-server',
-  '2.1.10985.18 - CHI ProdSlices',
+  '2.1.11021.16 - CHI ProdSlices',
   'Set-Cookie',
-  'fpc=AsbEB7uhoehLrAUf7kTe2RnIIHRUAQAAAJcn4tYOAAAA; expires=Fri, 02-Oct-2020 23:54:00 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AvrEjFnmaAFCqX8OAXQUp_nIIHRUAQAAALZc9NYOAAAA; expires=Fri, 16-Oct-2020 19:21:27 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=prod; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=ests; path=/; secure; samesite=none; httponly',
   'Date',
-  'Wed, 02 Sep 2020 23:53:59 GMT',
-  'Content-Length',
-  '1329'
+  'Wed, 16 Sep 2020 19:21:27 GMT'
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .post('/text/analytics/v3.1-preview.1/entities/recognition/pii', {"documents":[{"id":"0","text":"아가 SSN: 859-98-0987","language":"en"}]})
+  .post('/text/analytics/v3.1-preview.2/entities/recognition/pii', {"documents":[{"id":"0","text":"아가 SSN: 859-98-0987","language":"en"}]})
   .query(true)
-  .reply(200, {"documents":[{"id":"0","entities":[{"text":"859-98-0987","category":"U.S. Social Security Number (SSN)","offset":8,"length":11,"confidenceScore":0.65}],"warnings":[]}],"errors":[],"modelVersion":"2020-07-01"}, [
+  .reply(200, {"documents":[{"redactedText":"아가 SSN: ***********","id":"0","entities":[{"text":"859-98-0987","category":"U.S. Social Security Number (SSN)","offset":8,"length":11,"confidenceScore":0.65}],"warnings":[]}],"errors":[],"modelVersion":"2020-07-01"}, [
   'Transfer-Encoding',
   'chunked',
   'Content-Type',
@@ -48,13 +48,13 @@ nock('https://endpoint', {"encodedQueryParams":true})
   'csp-billing-usage',
   'CognitiveServices.TextAnalytics.BatchScoring=1',
   'x-envoy-upstream-service-time',
-  '64',
+  '56',
   'apim-request-id',
-  'ac26e8c8-8a8e-42e6-b1eb-6340aaaf9734',
+  'bf9b759f-2270-44da-9e9f-078c84216281',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Wed, 02 Sep 2020 23:53:59 GMT'
+  'Wed, 16 Sep 2020 19:21:27 GMT'
 ]);
