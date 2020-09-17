@@ -28,7 +28,6 @@ export {
   BlobOutputDataSource,
   BlobReferenceInputDataSource,
   BlobStreamInputDataSource,
-  CloudError,
   Cluster,
   ClusterInfo,
   ClusterProperties,
@@ -40,6 +39,9 @@ export {
   DiagnosticCondition,
   Diagnostics,
   DocumentDbOutputDataSource,
+  ErrorDetails,
+  ErrorError,
+  ErrorModel,
   EventHubOutputDataSource,
   EventHubStreamInputDataSource,
   EventHubV2OutputDataSource,
@@ -62,6 +64,7 @@ export {
   ParquetSerialization,
   PowerBIOutputDataSource,
   PrivateEndpoint,
+  PrivateEndpointListResult,
   PrivateEndpointProperties,
   PrivateLinkConnectionState,
   PrivateLinkServiceConnection,
@@ -80,7 +83,6 @@ export {
   StreamInputProperties,
   SubResource,
   SubscriptionQuota,
-  SubscriptionQuotasListResult,
   TrackedResource,
   Transformation
 } from "../models/mappers";
