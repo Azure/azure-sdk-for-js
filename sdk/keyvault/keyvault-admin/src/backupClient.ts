@@ -9,7 +9,7 @@ import {
 } from "@azure/core-http";
 import { PollerLike } from "@azure/core-lro";
 
-import { challengeBasedAuthenticationPolicy } from "../../keyvault-common";
+import { challengeBasedAuthenticationPolicy } from "@azure/core-http";
 import { KeyVaultClient } from "./generated/keyVaultClient";
 import { BackupClientOptions, BeginBackupOptions, BeginRestoreOptions } from "./backupClientModels";
 import { LATEST_API_VERSION, SDK_VERSION } from "./constants";

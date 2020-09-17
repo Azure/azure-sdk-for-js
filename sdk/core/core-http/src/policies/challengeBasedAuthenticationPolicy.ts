@@ -1,17 +1,17 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See License.txt in the project root for license information.
 
-import { TokenCredential } from "@azure/core-http";
+import { TokenCredential } from "@azure/core-auth";
 import {
   BaseRequestPolicy,
   RequestPolicy,
   RequestPolicyOptions,
-  RequestPolicyFactory,
-} from "@azure/core-http";
-import { Constants } from "@azure/core-http";
-import { HttpOperationResponse } from "@azure/core-http";
-import { WebResource } from "@azure/core-http";
-import { AccessTokenCache, ExpiringAccessTokenCache } from "@azure/core-http";
+  RequestPolicyFactory
+} from "../policies/requestPolicy";
+import { Constants } from "../util/constants";
+import { HttpOperationResponse } from "../httpOperationResponse";
+import { WebResource } from "../webResource";
+import { AccessTokenCache, ExpiringAccessTokenCache } from "../credentials/accessTokenCache";
 
 type ValidParsedWWWAuthenticateProperties =
   // "authorization_uri" was used in the track 1 version of KeyVault.
@@ -30,6 +30,11 @@ type ParsedWWWAuthenticate = {
  * Representation of the Authentication Challenge
  */
 export class AuthenticationChallenge {
+  /**
+   * Internal representation of an authentication challenge
+   * @param authorization The authorization of the challenge
+   * @param scope The scope to allow authentication
+   */
   constructor(public authorization: string, public scope: string) {}
 
   /**
@@ -52,8 +57,15 @@ export class AuthenticationChallenge {
  * so that we can compare on any further request.
  */
 export class AuthenticationChallengeCache {
+  /**
+   * The previously used challenge, if available
+   */
   public challenge?: AuthenticationChallenge;
 
+  /**
+   * Sets the cached challenge
+   * @param challenge the challenge that is to be cached
+   */
   public setCachedChallenge(challenge: AuthenticationChallenge) {
     this.challenge = challenge;
   }
@@ -78,7 +90,7 @@ export function challengeBasedAuthenticationPolicy(
         tokenCache,
         challengeCache
       );
-    },
+    }
   };
 }
 
@@ -103,7 +115,7 @@ export function parseWWWAuthenticate(wwwAuthenticate: string): ParsedWWWAuthenti
   const parsed = keyValues.reduce<ParsedWWWAuthenticate>(
     (result, [key, value]: string[]) => ({
       ...result,
-      [key]: value.slice(1, -1),
+      [key]: value.slice(1, -1)
     }),
     {}
   );
@@ -185,7 +197,7 @@ export class ChallengeBasedAuthenticationPolicy extends BaseRequestPolicy {
 
     const challenge = new AuthenticationChallenge(authorization, resource + "/.default");
 
-    // Either if there's no cached challenge at this point (could have happen in parallel),
+    // Either if there's no cached challenge at this point (could have happened in parallel),
     // or if the cached challenge has a different scope,
     // we store the just received challenge and reset the cached token, to force a re-authentication.
     if (!this.challengeCache.challenge?.equalTo(challenge)) {
