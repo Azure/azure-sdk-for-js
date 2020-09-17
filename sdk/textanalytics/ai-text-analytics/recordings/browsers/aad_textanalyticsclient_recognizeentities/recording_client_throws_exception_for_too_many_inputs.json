@@ -11,7 +11,7 @@
     "cache-control": "no-store, no-cache",
     "content-length": "1329",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 16 Sep 2020 19:21:38 GMT",
+    "date": "Thu, 17 Sep 2020 17:45:15 GMT",
     "expires": "-1",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
@@ -19,7 +19,7 @@
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
     "x-ms-ests-server": "2.1.11021.16 - CHI ProdSlices",
-    "x-ms-request-id": "d504d040-22ca-4cd2-93dc-287edb9da400"
+    "x-ms-request-id": "04b0b7b1-ab7b-41d5-80d1-dec98e929a00"
    }
   },
   {
@@ -32,13 +32,13 @@
    "status": 400,
    "response": "{\"error\":{\"code\":\"InvalidRequest\",\"message\":\"Invalid document in request.\",\"innererror\":{\"code\":\"InvalidDocumentBatch\",\"message\":\"Batch request contains too many records. Max 5 records are permitted.\"}}}",
    "responseHeaders": {
-    "apim-request-id": "a76c000f-c001-4ae2-9908-1d125b85da19",
+    "apim-request-id": "c9a07660-04b8-451c-8ddd-456b8f3fd88e",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 16 Sep 2020 19:21:37 GMT",
+    "date": "Thu, 17 Sep 2020 17:45:14 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "4"
+    "x-envoy-upstream-service-time": "10"
    }
   }
  ],
