@@ -6,6 +6,6 @@
     "lib": ["dom"],
     "resolveJsonModule": true
   },
-  "exclude": ["node_modules", "../keyvault-common/node_modules", "./samples/**/*.ts"],
-  "include": ["./src/**/*.ts", "./test/**/*.ts", "../keyvault-common/**/*.ts"]
+  "exclude": ["node_modules"],
+  "include": ["./src/**/*.ts"]
 }

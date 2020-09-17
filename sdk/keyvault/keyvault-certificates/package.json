@@ -20,7 +20,7 @@
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
   "main": "./dist/index.js",
-  "module": "dist-esm/src/index.js",
+  "module": "dist-esm/keyvault-certificates/src/index.js",
   "types": "./types/keyvault-certificates.d.ts",
   "engines": {
     "node": ">=8.0.0"
@@ -29,7 +29,8 @@
     "types/keyvault-certificates.d.ts",
     "dist/",
     "dist-browser/",
-    "dist-esm/src",
+    "dist-esm/keyvault-certificates/src",
+    "dist-esm/keyvault-common/src",
     "README.md",
     "LICENSE"
   ],
@@ -47,7 +48,7 @@
     "build": "npm run extract-api && npm run build:es6 && npm run build:nodebrowser",
     "check-format": "prettier --list-different --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "clean": "rimraf dist-esm dist-test typings *.tgz *.log samples/typescript/dist",
-    "execute:samples": "npm run build:samples && dev-tool samples run dist-samples/javascript dist-samples/typescript/src/",
+    "execute:samples": "npm run build:samples && dev-tool samples run dist-samples/javascript dist-samples/typescript/dist/keyvault-certificates/dist-samples/typescript/src/",
     "extract-api": "tsc -p . && api-extractor run --local",
     "format": "prettier --write --config ../../../.prettierrc.json --ignore-path ../../../.prettierignore \"src/**/*.ts\" \"samples/*.ts\" \"test/**/*.ts\" \"*.{js,json}\"",
     "integration-test:browser": "karma start --single-run",
@@ -91,7 +92,7 @@
   },
   "dependencies": {
     "@azure/abort-controller": "^1.0.0",
-    "@azure/core-http": "^1.1.9",
+    "@azure/core-http": "^1.1.6",
     "@azure/core-lro": "^1.0.2",
     "@azure/core-paging": "^1.1.1",
     "@azure/core-tracing": "1.0.0-preview.9",

@@ -10,7 +10,7 @@ import {
 } from "@azure/core-http";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 
-import { challengeBasedAuthenticationPolicy } from "@azure/core-http";
+import { challengeBasedAuthenticationPolicy } from "../../keyvault-common/src";
 import { KeyVaultClient } from "./generated/keyVaultClient";
 import {
   RoleAssignmentsCreateResponse,
