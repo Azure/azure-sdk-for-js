@@ -13,7 +13,10 @@ import {
   DetectLanguageSuccessResult,
   ExtractKeyPhrasesSuccessResult,
   AnalyzeSentimentResultArray,
-  AnalyzeSentimentSuccessResult
+  AnalyzeSentimentSuccessResult,
+  SentenceSentiment,
+  MinedOpinion,
+  OpinionSentiment
 } from "../src/index";
 import { assertAllSuccess, isSuccess } from "./utils/resultHelper";
 import { PiiEntityDomainType } from "../src/textAnalyticsClient";
@@ -86,14 +89,36 @@ describe("[AAD] TextAnalyticsClient", function() {
         "I had a great unobstructed view of the Microsoft campus.",
         "Nice rooms but bathrooms were old and the toilet was dirty when we arrived.",
         "The toilet smelled."
-        ];
+      ];
       const results = await client.analyzeSentiment(documents, "en", {
         includeOpinionMining: true
       });
       const result1 = results[0];
-      const result2 = results[5];
-      if (result1.error === undefined && result2.error === undefined) {
-        assert.notEqual(result1.sentences[0].minedOpinions[0].opinions[0], result2.sentences[0].minedOpinions[0].opinions[0]);
+      const result6 = results[5];
+      const result7 = results[6];
+      if (
+        result1.error === undefined &&
+        result6.error === undefined &&
+        result7.error === undefined
+      ) {
+        const opinion1 = result1.sentences[0].minedOpinions[0].opinions[0];
+        const opinion2 = result6.sentences[0].minedOpinions[0].opinions[0];
+        assert.notDeepEqual(opinion1, opinion2);
+
+        const listAllOpinions = (acc: string[], sentence: SentenceSentiment): string[] =>
+          acc.concat(
+            sentence.minedOpinions.reduce(
+              (acc: string[], aspect: MinedOpinion) =>
+                acc.concat(aspect.opinions.map((opinion: OpinionSentiment) => opinion.text)),
+              []
+            )
+          );
+        const allOpinions1 = result1.sentences.reduce(listAllOpinions, []);
+        assert.deepEqual(allOpinions1, ["unacceptable"]);
+        const allOpinions2 = result6.sentences.reduce(listAllOpinions, []);
+        assert.deepEqual(allOpinions2, ["nice", "old", "dirty"]);
+        const allOpinions7 = result7.sentences.reduce(listAllOpinions, []);
+        assert.deepEqual(allOpinions7, ["smelled"]);
       }
     });
 
