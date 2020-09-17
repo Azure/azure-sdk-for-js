@@ -9,7 +9,7 @@ import {
 } from "../../src/utils/constants/applicationinsights";
 import { Expectation } from "./scenario/types";
 import { RequestData, TelemetryItem as Envelope } from "../../src/generated";
-import {TelemetryItem as EnvelopeMapper} from '../../src/generated/models/mappers';
+import { TelemetryItem as EnvelopeMapper } from "../../src/generated/models/mappers";
 
 export const assertData = (actual: Base, expected: Base): void => {
   assert.strictEqual(actual.baseType, expected.baseType);
