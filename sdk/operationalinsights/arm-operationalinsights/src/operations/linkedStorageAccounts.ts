@@ -32,7 +32,7 @@ export class LinkedStorageAccounts {
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
    * @param dataSourceType Linked storage accounts type. Possible values include: 'CustomLogs',
-   * 'AzureWatson'
+   * 'AzureWatson', 'Query', 'Alerts'
    * @param parameters The parameters required to create or update linked storage accounts.
    * @param [options] The optional parameters
    * @returns Promise<Models.LinkedStorageAccountsCreateOrUpdateResponse>
@@ -42,7 +42,7 @@ export class LinkedStorageAccounts {
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
    * @param dataSourceType Linked storage accounts type. Possible values include: 'CustomLogs',
-   * 'AzureWatson'
+   * 'AzureWatson', 'Query', 'Alerts'
    * @param parameters The parameters required to create or update linked storage accounts.
    * @param callback The callback
    */
@@ -51,7 +51,7 @@ export class LinkedStorageAccounts {
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
    * @param dataSourceType Linked storage accounts type. Possible values include: 'CustomLogs',
-   * 'AzureWatson'
+   * 'AzureWatson', 'Query', 'Alerts'
    * @param parameters The parameters required to create or update linked storage accounts.
    * @param options The optional parameters
    * @param callback The callback
@@ -76,7 +76,7 @@ export class LinkedStorageAccounts {
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
    * @param dataSourceType Linked storage accounts type. Possible values include: 'CustomLogs',
-   * 'AzureWatson'
+   * 'AzureWatson', 'Query', 'Alerts'
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
@@ -85,7 +85,7 @@ export class LinkedStorageAccounts {
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
    * @param dataSourceType Linked storage accounts type. Possible values include: 'CustomLogs',
-   * 'AzureWatson'
+   * 'AzureWatson', 'Query', 'Alerts'
    * @param callback The callback
    */
   deleteMethod(resourceGroupName: string, workspaceName: string, dataSourceType: Models.DataSourceType, callback: msRest.ServiceCallback<void>): void;
@@ -93,7 +93,7 @@ export class LinkedStorageAccounts {
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
    * @param dataSourceType Linked storage accounts type. Possible values include: 'CustomLogs',
-   * 'AzureWatson'
+   * 'AzureWatson', 'Query', 'Alerts'
    * @param options The optional parameters
    * @param callback The callback
    */
@@ -116,7 +116,7 @@ export class LinkedStorageAccounts {
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
    * @param dataSourceType Linked storage accounts type. Possible values include: 'CustomLogs',
-   * 'AzureWatson'
+   * 'AzureWatson', 'Query', 'Alerts'
    * @param [options] The optional parameters
    * @returns Promise<Models.LinkedStorageAccountsGetResponse>
    */
@@ -125,7 +125,7 @@ export class LinkedStorageAccounts {
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
    * @param dataSourceType Linked storage accounts type. Possible values include: 'CustomLogs',
-   * 'AzureWatson'
+   * 'AzureWatson', 'Query', 'Alerts'
    * @param callback The callback
    */
   get(resourceGroupName: string, workspaceName: string, dataSourceType: Models.DataSourceType, callback: msRest.ServiceCallback<Models.LinkedStorageAccountsResource>): void;
@@ -133,7 +133,7 @@ export class LinkedStorageAccounts {
    * @param resourceGroupName The name of the resource group. The name is case insensitive.
    * @param workspaceName The name of the workspace.
    * @param dataSourceType Linked storage accounts type. Possible values include: 'CustomLogs',
-   * 'AzureWatson'
+   * 'AzureWatson', 'Query', 'Alerts'
    * @param options The optional parameters
    * @param callback The callback
    */
