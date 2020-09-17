@@ -504,12 +504,11 @@ describe("ServiceClient", function() {
             }
           },
           responses: { 200: {} },
-          serializer: new Serializer(),
+          serializer: new Serializer()
         }
       );
       assert.strictEqual(httpRequest.body, `"body value"`);
     });
-
 
     it("should serialize a JSON ByteArray request body", () => {
       const httpRequest = new WebResource();
@@ -559,13 +558,10 @@ describe("ServiceClient", function() {
             }
           },
           responses: { 200: {} },
-          serializer: new Serializer(undefined, false /** isXML */),
+          serializer: new Serializer(undefined, false /** isXML */)
         }
       );
-      assert.strictEqual(
-        httpRequest.body,
-        `"SmF2YXNjcmlwdA=="`
-      );
+      assert.strictEqual(httpRequest.body, `"SmF2YXNjcmlwdA=="`);
     });
 
     it("should serialize a JSON Stream request body", () => {
@@ -707,7 +703,7 @@ describe("ServiceClient", function() {
             }
           },
           responses: { 200: {} },
-          serializer: new Serializer(undefined, true/** isXml */),
+          serializer: new Serializer(undefined, true /** isXml */),
           isXML: true
         }
       );
@@ -715,6 +711,127 @@ describe("ServiceClient", function() {
         httpRequest.body,
         `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><bodyArg>SmF2YXNjcmlwdA==</bodyArg>`
       );
+    });
+
+    it("should serialize an XML Dictionary request body", () => {
+      const httpRequest = new WebResource();
+      serializeRequestBody(
+        new ServiceClient(),
+        httpRequest,
+        {
+          metadata: {
+            alpha: "hello",
+            beta: "world"
+          }
+        },
+        {
+          httpMethod: "POST",
+          requestBody: {
+            parameterPath: "metadata",
+            mapper: {
+              serializedName: "metadata",
+              type: {
+                name: "Dictionary",
+                value: {
+                  type: {
+                    name: "String"
+                  }
+                }
+              },
+              headerCollectionPrefix: "foo-bar-"
+            }
+          },
+          responses: { 200: {} },
+          serializer: new Serializer(undefined, true /** isXml */),
+          isXML: true
+        }
+      );
+      assert.strictEqual(
+        httpRequest.body,
+        `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><metadata><alpha>hello</alpha><beta>world</beta></metadata>`
+      );
+    });
+
+    it("should serialize an XML Dictionary request body, with namespace and prefix", () => {
+      const httpRequest = new WebResource();
+      serializeRequestBody(
+        new ServiceClient(),
+        httpRequest,
+        {
+          metadata: {
+            alpha: "hello",
+            beta: "world"
+          }
+        },
+        {
+          httpMethod: "POST",
+          requestBody: {
+            parameterPath: "metadata",
+            mapper: {
+              xmlNamespacePrefix: "sample",
+              xmlNamespace: "https://microsoft.com",
+              serializedName: "metadata",
+              type: {
+                name: "Dictionary",
+                value: {
+                  xmlNamespacePrefix: "el",
+                  xmlNamespace: "https://microsoft.com/element",
+                  type: {
+                    name: "String"
+                  }
+                }
+              },
+              headerCollectionPrefix: "foo-bar-"
+            }
+          },
+          responses: { 200: {} },
+          serializer: new Serializer(undefined, true /** isXml */),
+          isXML: true
+        }
+      );
+      assert.strictEqual(
+        httpRequest.body,
+        `<?xml version="1.0" encoding="UTF-8" standalone="yes"?><metadata xmlns:sample="https://microsoft.com"><alpha xmlns:el="https://microsoft.com/element">hello</alpha><beta xmlns:el="https://microsoft.com/element">world</beta></metadata>`
+      );
+    });
+
+    it("should serialize a JSON Dictionary request body, ignoring xml metadata", () => {
+      const httpRequest = new WebResource();
+      serializeRequestBody(
+        new ServiceClient(),
+        httpRequest,
+        {
+          metadata: {
+            alpha: "hello",
+            beta: "world"
+          }
+        },
+        {
+          httpMethod: "POST",
+          requestBody: {
+            parameterPath: "metadata",
+            mapper: {
+              xmlNamespacePrefix: "sample",
+              xmlNamespace: "https://microsoft.com",
+              serializedName: "metadata",
+              type: {
+                name: "Dictionary",
+                value: {
+                  xmlNamespacePrefix: "el",
+                  xmlNamespace: "https://microsoft.com/element",
+                  type: {
+                    name: "String"
+                  }
+                }
+              },
+              headerCollectionPrefix: "foo-bar-"
+            }
+          },
+          responses: { 200: {} },
+          serializer: new Serializer()
+        }
+      );
+      assert.deepEqual(httpRequest.body, `{"alpha":"hello","beta":"world"}`);
     });
 
     it("should serialize a Json ByteArray request body, ignoring namespace", () => {
@@ -739,15 +856,11 @@ describe("ServiceClient", function() {
             }
           },
           responses: { 200: {} },
-          serializer: new Serializer(undefined, false /** isXML */),
+          serializer: new Serializer(undefined, false /** isXML */)
         }
       );
-      assert.strictEqual(
-        httpRequest.body,
-        `"SmF2YXNjcmlwdA=="`
-      );
+      assert.strictEqual(httpRequest.body, `"SmF2YXNjcmlwdA=="`);
     });
-
 
     it("should serialize an XML ByteArray request body with namespace", () => {
       const httpRequest = new WebResource();
@@ -854,11 +967,14 @@ describe("ServiceClient", function() {
           httpMethod: "POST",
           requestBody: requestBody1,
           responses: { 200: {} },
-          serializer: new Serializer(),
+          serializer: new Serializer()
         }
       );
 
-      assert.deepEqual(httpRequest.body, '{"updated":"2020-08-12T23:36:18.308Z","content":{"type":"application/xml","queueDescription":{"maxDeliveryCount":15}}}');
+      assert.deepEqual(
+        httpRequest.body,
+        '{"updated":"2020-08-12T23:36:18.308Z","content":{"type":"application/xml","queueDescription":{"maxDeliveryCount":15}}}'
+      );
     });
 
     it("should serialize an XML Array request body with namespace and prefix", () => {
@@ -928,11 +1044,8 @@ describe("ServiceClient", function() {
           serializer: new Serializer()
         }
       );
-      assert.deepEqual(
-        httpRequest.body, JSON.stringify(["Foo", "Bar"])
-      );
+      assert.deepEqual(httpRequest.body, JSON.stringify(["Foo", "Bar"]));
     });
-
 
     it("should serialize an XML Array of composite elements, namespace and prefix", () => {
       const httpRequest = new WebResource();
@@ -940,7 +1053,11 @@ describe("ServiceClient", function() {
         new ServiceClient(),
         httpRequest,
         {
-          bodyArg: [ { foo: "Foo1", bar: "Bar1" },  { foo: "Foo2", bar: "Bar2" },  { foo: "Foo3", bar: "Bar3" }]
+          bodyArg: [
+            { foo: "Foo1", bar: "Bar1" },
+            { foo: "Foo2", bar: "Bar2" },
+            { foo: "Foo3", bar: "Bar3" }
+          ]
         },
         {
           httpMethod: "POST",

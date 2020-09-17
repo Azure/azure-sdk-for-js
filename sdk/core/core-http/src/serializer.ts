@@ -144,11 +144,29 @@ export class Serializer {
       } else if (mapperType.match(/^Base64Url$/i) !== null) {
         payload = serializeBase64UrlType(objectName, object);
       } else if (mapperType.match(/^Sequence$/i) !== null) {
-        payload = serializeSequenceType(this, mapper as SequenceMapper, object, objectName, Boolean(this.isXML));
+        payload = serializeSequenceType(
+          this,
+          mapper as SequenceMapper,
+          object,
+          objectName,
+          Boolean(this.isXML)
+        );
       } else if (mapperType.match(/^Dictionary$/i) !== null) {
-        payload = serializeDictionaryType(this, mapper as DictionaryMapper, object, objectName);
+        payload = serializeDictionaryType(
+          this,
+          mapper as DictionaryMapper,
+          object,
+          objectName,
+          Boolean(this.isXML)
+        );
       } else if (mapperType.match(/^Composite$/i) !== null) {
-        payload = serializeCompositeType(this, mapper as CompositeMapper, object, objectName, Boolean(this.isXML));
+        payload = serializeCompositeType(
+          this,
+          mapper as CompositeMapper,
+          object,
+          objectName,
+          Boolean(this.isXML)
+        );
       }
     }
     return payload;
@@ -484,13 +502,13 @@ function serializeSequenceType(
       const xmlnsKey = elementType.xmlNamespacePrefix
         ? `xmlns:${elementType.xmlNamespacePrefix}`
         : "xmlns";
-        if(elementType.type.name === "Composite") {
-          tempArray[i] = { ...serializedValue, $: { [xmlnsKey]: elementType.xmlNamespace } };
-          continue;
-        } else {
-          tempArray[i] = { _: serializedValue, $: { [xmlnsKey]: elementType.xmlNamespace } };
-          continue;
-        }
+      if (elementType.type.name === "Composite") {
+        tempArray[i] = { ...serializedValue, $: { [xmlnsKey]: elementType.xmlNamespace } };
+        continue;
+      } else {
+        tempArray[i] = { _: serializedValue, $: { [xmlnsKey]: elementType.xmlNamespace } };
+        continue;
+      }
     }
 
     tempArray[i] = serializedValue;
@@ -502,7 +520,8 @@ function serializeDictionaryType(
   serializer: Serializer,
   mapper: DictionaryMapper,
   object: any,
-  objectName: string
+  objectName: string,
+  isXml: boolean
 ): { [key: string]: any } {
   if (typeof object !== "object") {
     throw new Error(`${objectName} must be of type object.`);
@@ -516,8 +535,34 @@ function serializeDictionaryType(
   }
   const tempDictionary: { [key: string]: any } = {};
   for (const key of Object.keys(object)) {
-    tempDictionary[key] = serializer.serialize(valueType, object[key], objectName + "." + key);
+    const serializedValue = serializer.serialize(valueType, object[key], objectName);
+    // If the element needs an XML namespace we need to add it within the $ property
+    if (isXml && valueType.xmlNamespace) {
+      const xmlnsKey = valueType.xmlNamespacePrefix
+        ? `xmlns:${valueType.xmlNamespacePrefix}`
+        : "xmlns";
+      // If the value is an object the object's properties need to be siblings of the $ property
+      if (valueType.type.name === "Composite") {
+        tempDictionary[key] = { ...serializedValue, $: { [xmlnsKey]: valueType.xmlNamespace } };
+        continue;
+      } else {
+        // When the value is not an object, it has to go under _
+        tempDictionary[key] = { _: serializedValue, $: { [xmlnsKey]: valueType.xmlNamespace } };
+        continue;
+      }
+    }
+
+    // Just add the value when we are not serializing XML or it doesn't need a namespace
+    tempDictionary[key] = serializedValue;
   }
+
+  // Add the namespace to the root element if needed
+  if (isXml && mapper.xmlNamespace) {
+    const xmlnsKey = mapper.xmlNamespacePrefix ? `xmlns:${mapper.xmlNamespacePrefix}` : "xmlns";
+
+    return { ...tempDictionary, $: { [xmlnsKey]: mapper.xmlNamespace } };
+  }
+
   return tempDictionary;
 }
 
@@ -1002,19 +1047,61 @@ export interface EnumMapperType {
 }
 
 export interface BaseMapper {
+  /**
+   * Name for the xml element
+   */
   xmlName?: string;
+  /**
+   * Xml element namespace
+   */
   xmlNamespace?: string;
+  /**
+   * Xml element namespace prefix
+   */
   xmlNamespacePrefix?: string;
+  /**
+   * Determines if the current property should be serialized as an attribute of the parent xml element
+   */
   xmlIsAttribute?: boolean;
+  /**
+   * Name for the xml elements when serializing an array
+   */
   xmlElementName?: string;
+  /**
+   * Whether or not the current propery should have a wrapping XML element
+   */
   xmlIsWrapped?: boolean;
+  /**
+   * Whether or not the current propery is readonly
+   */
   readOnly?: boolean;
+  /**
+   * Whether or not the current propery is a constant
+   */
   isConstant?: boolean;
+  /**
+   * Whether or not the current propery is required
+   */
   required?: boolean;
+  /**
+   * Whether or not the current propery allows mull as a value
+   */
   nullable?: boolean;
+  /**
+   * The name to use when serializing
+   */
   serializedName?: string;
+  /**
+   * Type of the mapper
+   */
   type: MapperType;
+  /**
+   * Default value when one is not explicitly provided
+   */
   defaultValue?: any;
+  /**
+   * Constraints to test the current value against
+   */
   constraints?: MapperConstraints;
 }
 
