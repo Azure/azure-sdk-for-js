@@ -18,10 +18,14 @@ import { OnAmqpEventAsPromise, OnError, OnMessage } from "../core/messageReceive
 import { logger } from "../log";
 import { DispositionType, InternalReceiveMode, ServiceBusMessageImpl } from "../serviceBusMessage";
 import { logError, throwErrorIfConnectionClosed } from "../util/errors";
-import { calculateRenewAfterDuration, convertTicksToDate } from "../util/utils";
+import {
+  calculateRenewAfterDuration,
+  convertTicksToDate,
+  StandardAbortMessage
+} from "../util/utils";
 import { BatchingReceiverLite, MinimalReceiver } from "../core/batchingReceiver";
 import { onMessageSettled, DeferredPromiseAndTimer } from "../core/shared";
-import { AbortSignalLike } from "@azure/abort-controller";
+import { AbortError, AbortSignalLike } from "@azure/abort-controller";
 import { ReceiverHelper } from "../core/receiverHelper";
 import { CreateSessionReceiverOptions, MessageHandlerOptionsBase } from "../models";
 
@@ -618,6 +622,11 @@ export class MessageSession extends LinkEntity<Receiver> {
    */
   subscribe(onMessage: OnMessage, onError: OnError, options?: MessageHandlerOptionsBase): void {
     if (!options) options = {};
+
+    if (options.abortSignal?.aborted) {
+      throw new AbortError(StandardAbortMessage);
+    }
+
     this._isReceivingMessagesForSubscriber = true;
     if (typeof options.maxConcurrentCalls === "number" && options.maxConcurrentCalls > 0) {
       this.maxConcurrentCalls = options.maxConcurrentCalls;

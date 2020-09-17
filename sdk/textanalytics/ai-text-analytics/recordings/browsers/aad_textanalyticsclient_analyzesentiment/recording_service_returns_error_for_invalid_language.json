@@ -11,20 +11,20 @@
     "cache-control": "no-store, no-cache",
     "content-length": "1329",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 02 Sep 2020 23:54:06 GMT",
+    "date": "Thu, 17 Sep 2020 17:45:10 GMT",
     "expires": "-1",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
     "referrer-policy": "strict-origin-when-cross-origin",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.10985.18 - CHI ProdSlices",
-    "x-ms-request-id": "4f74d6ed-7012-4b1b-a1d8-72366ded3d00"
+    "x-ms-ests-server": "2.1.11021.16 - CHI ProdSlices",
+    "x-ms-request-id": "e3400980-d6d6-443a-bab2-07b6b0202400"
    }
   },
   {
    "method": "POST",
-   "url": "https://endpoint/text/analytics/v3.1-preview.1/sentiment",
+   "url": "https://endpoint/text/analytics/v3.1-preview.2/sentiment",
    "query": {
     "stringIndexType": "Utf16CodeUnit"
    },
@@ -32,13 +32,13 @@
    "status": 200,
    "response": "{\"documents\":[],\"errors\":[{\"id\":\"0\",\"error\":{\"code\":\"InvalidArgument\",\"message\":\"Invalid Language Code.\",\"innererror\":{\"code\":\"UnsupportedLanguageCode\",\"message\":\"Invalid language code. Supported languages: de,en,es,fr,it,ja,ko,nl,no,pt-PT,tr,zh-Hans,zh-Hant\"}}}],\"modelVersion\":\"2020-04-01\"}",
    "responseHeaders": {
-    "apim-request-id": "37a6cf9d-ec9e-4ac4-ad88-69a571215f8a",
+    "apim-request-id": "00eaa603-de07-483c-9868-a05d9affb8fd",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 02 Sep 2020 23:54:05 GMT",
+    "date": "Thu, 17 Sep 2020 17:45:10 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "2"
+    "x-envoy-upstream-service-time": "3"
    }
   }
  ],
