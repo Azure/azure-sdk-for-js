@@ -9,15 +9,13 @@ import { WebResource } from "../../src/webResource";
 import { HttpHeaders } from "../../src/httpHeaders";
 import { RequestPolicy, RequestPolicyOptions } from "../../src/policies/requestPolicy";
 import { HttpOperationResponse } from "../../src/httpOperationResponse";
-import {
-  ExpiringAccessTokenCache,
-} from "../../src/credentials/accessTokenCache";
+import { ExpiringAccessTokenCache } from "../../src/credentials/accessTokenCache";
 
 import {
   AuthenticationChallengeCache,
   AuthenticationChallenge,
-  parseWWWAuthenticate, ChallengeBasedAuthenticationPolicy
-  
+  parseWWWAuthenticate,
+  ChallengeBasedAuthenticationPolicy
 } from "../../src/policies/challengeBasedAuthenticationPolicy";
 
 import { TokenCredential } from "@azure/core-auth";
@@ -34,7 +32,10 @@ describe("Challenge based authentication tests", () => {
   const mockPolicy: RequestPolicy = {
     sendRequest(request: WebResource): Promise<HttpOperationResponse> {
       let headers = new HttpHeaders();
-      headers.set("WWW-Authenticate", `Bearer authorization="some_authorization", resource="https://some.url"`);
+      headers.set(
+        "WWW-Authenticate",
+        `Bearer authorization="some_authorization", resource="https://some.url"`
+      );
       return Promise.resolve({
         request: request,
         status: 401,
@@ -51,7 +52,7 @@ describe("Challenge based authentication tests", () => {
       new RequestPolicyOptions(),
       credential,
       new ExpiringAccessTokenCache(),
-      new AuthenticationChallengeCache(),
+      new AuthenticationChallengeCache()
     );
   }
 
