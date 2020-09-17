@@ -22,10 +22,7 @@ type ValidParsedWWWAuthenticateProperties =
   | "resource"
   | "scope";
 
-/**
- * A mapping from properties to values
- */
-export type ParsedWWWAuthenticate = {
+type ParsedWWWAuthenticate = {
   [Key in ValidParsedWWWAuthenticateProperties]?: string;
 };
 
@@ -200,7 +197,7 @@ export class ChallengeBasedAuthenticationPolicy extends BaseRequestPolicy {
 
     const challenge = new AuthenticationChallenge(authorization, resource + "/.default");
 
-    // Either if there's no cached challenge at this point (could have happen in parallel),
+    // Either if there's no cached challenge at this point (could have happened in parallel),
     // or if the cached challenge has a different scope,
     // we store the just received challenge and reset the cached token, to force a re-authentication.
     if (!this.challengeCache.challenge?.equalTo(challenge)) {
