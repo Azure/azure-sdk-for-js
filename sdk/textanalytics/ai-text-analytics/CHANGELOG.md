@@ -32,7 +32,6 @@
 - Added `warnings` property to every document response object containing a list of `TextAnalyticsWarning` objects relevant to the corresponding document.
 - Migrated to using the Text Analytics v3.0 (General Availability) service endpoint.
 
-
 ## 1.0.0-preview.4 (2020-04-07)
 
 - Renamed the first parameter of all operation methods from `inputs` to `documents`
