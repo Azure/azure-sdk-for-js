@@ -12,6 +12,28 @@ import * as msRest from "@azure/ms-rest-js";
 export const CloudError = CloudErrorMapper;
 export const BaseResource = BaseResourceMapper;
 
+export const NetworkProfileOutboundIPs: msRest.CompositeMapper = {
+  serializedName: "NetworkProfile_outboundIPs",
+  type: {
+    name: "Composite",
+    className: "NetworkProfileOutboundIPs",
+    modelProperties: {
+      publicIPs: {
+        readOnly: true,
+        serializedName: "publicIPs",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const NetworkProfile: msRest.CompositeMapper = {
   serializedName: "NetworkProfile",
   type: {
@@ -46,6 +68,14 @@ export const NetworkProfile: msRest.CompositeMapper = {
         serializedName: "appNetworkResourceGroup",
         type: {
           name: "String"
+        }
+      },
+      outboundIPs: {
+        readOnly: true,
+        serializedName: "outboundIPs",
+        type: {
+          name: "Composite",
+          className: "NetworkProfileOutboundIPs"
         }
       }
     }
@@ -1181,6 +1211,12 @@ export const DeploymentSettings: msRest.CompositeMapper = {
           name: "String"
         }
       },
+      netCoreMainEntryPath: {
+        serializedName: "netCoreMainEntryPath",
+        type: {
+          name: "String"
+        }
+      },
       environmentVariables: {
         serializedName: "environmentVariables",
         type: {
@@ -1232,6 +1268,13 @@ export const DeploymentInstance: msRest.CompositeMapper = {
       discoveryStatus: {
         readOnly: true,
         serializedName: "discoveryStatus",
+        type: {
+          name: "String"
+        }
+      },
+      startTime: {
+        readOnly: true,
+        serializedName: "startTime",
         type: {
           name: "String"
         }
@@ -1880,6 +1923,57 @@ export const ResourceSku: msRest.CompositeMapper = {
             type: {
               name: "Composite",
               className: "ResourceSkuRestrictions"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const SupportedRuntimeVersion: msRest.CompositeMapper = {
+  serializedName: "SupportedRuntimeVersion",
+  type: {
+    name: "Composite",
+    className: "SupportedRuntimeVersion",
+    modelProperties: {
+      value: {
+        serializedName: "value",
+        type: {
+          name: "String"
+        }
+      },
+      platform: {
+        serializedName: "platform",
+        type: {
+          name: "String"
+        }
+      },
+      version: {
+        serializedName: "version",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const AvailableRuntimeVersions: msRest.CompositeMapper = {
+  serializedName: "AvailableRuntimeVersions",
+  type: {
+    name: "Composite",
+    className: "AvailableRuntimeVersions",
+    modelProperties: {
+      value: {
+        readOnly: true,
+        serializedName: "value",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "SupportedRuntimeVersion"
             }
           }
         }
