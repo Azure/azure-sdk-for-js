@@ -16,7 +16,7 @@ import {
   StorageSharedKeyCredential
 } from "../../src";
 import { DataLakeFileClient } from "../../src/";
-import { SASProtocol } from "../../src/SASQueryParameters";
+import { SASProtocol } from "../../src/sas/SASQueryParameters";
 import {
   getDataLakeServiceClient,
   getTokenDataLakeServiceClient,
