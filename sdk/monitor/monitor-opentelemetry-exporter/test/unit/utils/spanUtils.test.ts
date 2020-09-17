@@ -31,7 +31,7 @@ function assertEnvelope(
   expectedMeasurements: Measurements | undefined,
   expectedBaseData: Partial<RequestData | RemoteDependencyData>,
   expectedTime?: Date
-) {
+): void {
   assert.strictEqual(Context.sdkVersion, ai.packageVersion);
   assert.strictEqual(Object.keys(Context.appVersion).length, 1);
   assert.notDeepStrictEqual(Context.appVersion, "unknown");

@@ -23,7 +23,7 @@ describe("#AzureMonitorBaseExporter", () => {
   class TestExporter extends AzureMonitorBaseExporter {
     constructor() {
       super({
-        instrumentationKey: "foo"
+        instrumentationKey: "foo-ikey"
       });
     }
 
@@ -53,14 +53,18 @@ describe("#AzureMonitorBaseExporter", () => {
         time: new Date()
       };
 
+      before(() => {
+        nock.cleanAll();
+      });
+
       after(() => {
         nock.cleanAll();
       });
 
       it("should persist retriable failed telemetry", async () => {
         const exporter = new TestExporter();
-        const response = failedBreezeResponse(1, 408);
-        scope.reply(408, JSON.stringify(response));
+        const response = failedBreezeResponse(1, 429);
+        scope.reply(429, JSON.stringify(response));
 
         const result = await exporter.exportEnvelopes([envelope]);
         assert.strictEqual(result, ExportResult.FAILED_RETRYABLE);
