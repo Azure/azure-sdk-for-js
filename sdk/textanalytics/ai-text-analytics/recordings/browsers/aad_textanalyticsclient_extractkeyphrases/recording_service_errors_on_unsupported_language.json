@@ -11,7 +11,7 @@
     "cache-control": "no-store, no-cache",
     "content-length": "1329",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 16 Sep 2020 19:21:38 GMT",
+    "date": "Thu, 17 Sep 2020 17:45:15 GMT",
     "expires": "-1",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
@@ -19,7 +19,7 @@
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
     "x-ms-ests-server": "2.1.11021.16 - CHI ProdSlices",
-    "x-ms-request-id": "51ca0fb9-e677-4daa-881c-bd6366019300"
+    "x-ms-request-id": "29d6549c-e9a3-4754-b344-2f5560c37c00"
    }
   },
   {
@@ -30,13 +30,13 @@
    "status": 200,
    "response": "{\"documents\":[],\"errors\":[{\"id\":\"0\",\"error\":{\"code\":\"InvalidArgument\",\"message\":\"Invalid Language Code.\",\"innererror\":{\"code\":\"UnsupportedLanguageCode\",\"message\":\"Invalid language code. Supported languages: af,bg,ca,da,de,el,en,es,et,fi,fr,hr,hu,id,it,ja,ko,lv,nl,no,pl,pt-BR,pt-PT,ro,ru,sk,sl,sv,tr\"}}}],\"modelVersion\":\"2020-07-01\"}",
    "responseHeaders": {
-    "apim-request-id": "ac753c77-e980-4ce7-8cc0-69ff6c0cbdaa",
+    "apim-request-id": "c8403986-170c-4698-9b86-b9234ddb8d13",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 16 Sep 2020 19:21:38 GMT",
+    "date": "Thu, 17 Sep 2020 17:45:15 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "4"
+    "x-envoy-upstream-service-time": "2"
    }
   }
  ],
