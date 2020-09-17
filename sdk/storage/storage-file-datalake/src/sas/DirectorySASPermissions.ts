@@ -2,73 +2,73 @@
 // Licensed under the MIT License.
 
 /**
- * This is a helper class to construct a string representing the permissions granted by a ServiceSAS to a container.
+ * This is a helper class to construct a string representing the permissions granted by a ServiceSAS to a directory.
  * Setting a value to true means that any SAS which uses these permissions will grant permissions for that operation.
  * Once all the values are set, this should be serialized with toString and set as the permissions field on a
  * {@link DataLakeSASSignatureValues} object. It is possible to construct the permissions string without this class, but
  * the order of the permissions is particular and this class guarantees correctness.
  *
  * @export
- * @class FileSystemSASPermissions
+ * @class DirectorySASPermissions
  */
-export class FileSystemSASPermissions {
+export class DirectorySASPermissions {
   /**
-   * Creates an {@link FileSystemSASPermissions} from the specified permissions string. This method will throw an
+   * Creates an {@link DirectorySASPermissions} from the specified permissions string. This method will throw an
    * Error if it encounters a character that does not correspond to a valid permission.
    *
    * @static
    * @param {string} permissions
-   * @returns {FileSystemSASPermissions}
-   * @memberof FileSystemSASPermissions
+   * @returns {DirectorySASPermissions}
+   * @memberof DirectorySASPermissions
    */
   public static parse(permissions: string) {
-    const containerSASPermissions = new FileSystemSASPermissions();
+    const directorySASPermissions = new DirectorySASPermissions();
 
     for (const char of permissions) {
       switch (char) {
         case "r":
-          containerSASPermissions.read = true;
+          directorySASPermissions.read = true;
           break;
         case "a":
-          containerSASPermissions.add = true;
+          directorySASPermissions.add = true;
           break;
         case "c":
-          containerSASPermissions.create = true;
+          directorySASPermissions.create = true;
           break;
         case "w":
-          containerSASPermissions.write = true;
+          directorySASPermissions.write = true;
           break;
         case "d":
-          containerSASPermissions.delete = true;
+          directorySASPermissions.delete = true;
           break;
         case "l":
-          containerSASPermissions.list = true;
+          directorySASPermissions.list = true;
           break;
         case "m":
-          containerSASPermissions.move = true;
+          directorySASPermissions.move = true;
           break;
         case "e":
-          containerSASPermissions.execute = true;
+          directorySASPermissions.execute = true;
           break;
         case "o":
-          containerSASPermissions.ownership = true;
+          directorySASPermissions.ownership = true;
           break;
         case "p":
-          containerSASPermissions.permission = true;
+          directorySASPermissions.permission = true;
           break;
         default:
           throw new RangeError(`Invalid permission ${char}`);
       }
     }
 
-    return containerSASPermissions;
+    return directorySASPermissions;
   }
 
   /**
    * Specifies Read access granted.
    *
    * @type {boolean}
-   * @memberof FileSystemSASPermissions
+   * @memberof DirectorySASPermissions
    */
   public read: boolean = false;
 
@@ -76,7 +76,7 @@ export class FileSystemSASPermissions {
    * Specifies Add access granted.
    *
    * @type {boolean}
-   * @memberof FileSystemSASPermissions
+   * @memberof DirectorySASPermissions
    */
   public add: boolean = false;
 
@@ -84,7 +84,7 @@ export class FileSystemSASPermissions {
    * Specifies Create access granted.
    *
    * @type {boolean}
-   * @memberof FileSystemSASPermissions
+   * @memberof DirectorySASPermissions
    */
   public create: boolean = false;
 
@@ -92,7 +92,7 @@ export class FileSystemSASPermissions {
    * Specifies Write access granted.
    *
    * @type {boolean}
-   * @memberof FileSystemSASPermissions
+   * @memberof DirectorySASPermissions
    */
   public write: boolean = false;
 
@@ -100,7 +100,7 @@ export class FileSystemSASPermissions {
    * Specifies Delete access granted.
    *
    * @type {boolean}
-   * @memberof FileSystemSASPermissions
+   * @memberof DirectorySASPermissions
    */
   public delete: boolean = false;
 
@@ -108,7 +108,7 @@ export class FileSystemSASPermissions {
    * Specifies List access granted.
    *
    * @type {boolean}
-   * @memberof FileSystemSASPermissions
+   * @memberof DirectorySASPermissions
    */
   public list: boolean = false;
 
@@ -152,7 +152,7 @@ export class FileSystemSASPermissions {
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/constructing-a-service-sas
    *
    * @returns {string}
-   * @memberof FileSystemSASPermissions
+   * @memberof DirectorySASPermissions
    */
   public toString(): string {
     const permissions: string[] = [];

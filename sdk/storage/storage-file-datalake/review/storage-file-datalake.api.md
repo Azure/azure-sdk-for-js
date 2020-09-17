@@ -55,8 +55,12 @@ export class AccountSASPermissions {
     add: boolean;
     create: boolean;
     delete: boolean;
+    execute: boolean;
     list: boolean;
+    move: boolean;
+    ownership: boolean;
     static parse(permissions: string): AccountSASPermissions;
+    permission: boolean;
     process: boolean;
     read: boolean;
     toString(): string;
@@ -233,7 +237,11 @@ export class DataLakeSASPermissions {
     add: boolean;
     create: boolean;
     delete: boolean;
+    execute: boolean;
+    move: boolean;
+    ownership: boolean;
     static parse(permissions: string): DataLakeSASPermissions;
+    permission: boolean;
     read: boolean;
     toString(): string;
     write: boolean;
@@ -241,20 +249,25 @@ export class DataLakeSASPermissions {
 
 // @public
 export interface DataLakeSASSignatureValues {
+    authorizedUserObjectId?: string;
     cacheControl?: string;
     contentDisposition?: string;
     contentEncoding?: string;
     contentLanguage?: string;
     contentType?: string;
+    correlationId?: string;
+    directoryDepth?: number;
     expiresOn?: Date;
     fileSystemName: string;
     identifier?: string;
     ipRange?: SasIPRange;
+    isDirectory?: boolean;
     pathName?: string;
     permissions?: DataLakeSASPermissions;
     protocol?: SASProtocol;
     snapshotTime?: string;
     startsOn?: Date;
+    unauthorizedUserObjectId?: string;
     version?: string;
 }
 
@@ -693,8 +706,12 @@ export class FileSystemSASPermissions {
     add: boolean;
     create: boolean;
     delete: boolean;
+    execute: boolean;
     list: boolean;
+    move: boolean;
+    ownership: boolean;
     static parse(permissions: string): FileSystemSASPermissions;
+    permission: boolean;
     read: boolean;
     toString(): string;
     write: boolean;
@@ -1494,7 +1511,7 @@ export enum SASProtocol {
 
 // @public
 export class SASQueryParameters {
-    constructor(version: string, signature: string, permissions?: string, services?: string, resourceTypes?: string, protocol?: SASProtocol, startsOn?: Date, expiresOn?: Date, ipRange?: SasIPRange, identifier?: string, resource?: string, cacheControl?: string, contentDisposition?: string, contentEncoding?: string, contentLanguage?: string, contentType?: string, userDelegationKey?: UserDelegationKey);
+    constructor(version: string, signature: string, permissions?: string, services?: string, resourceTypes?: string, protocol?: SASProtocol, startsOn?: Date, expiresOn?: Date, ipRange?: SasIPRange, identifier?: string, resource?: string, cacheControl?: string, contentDisposition?: string, contentEncoding?: string, contentLanguage?: string, contentType?: string, userDelegationKey?: UserDelegationKey, directoryDepth?: number, authorizedUserObjectId?: string, unauthorizedUserObjectId?: string, correlationId?: string);
     readonly cacheControl?: string;
     readonly contentDisposition?: string;
     readonly contentEncoding?: string;

@@ -43,6 +43,18 @@ export class DataLakeSASPermissions {
         case "d":
           blobSASPermissions.delete = true;
           break;
+        case "m":
+          blobSASPermissions.move = true;
+          break;
+        case "e":
+          blobSASPermissions.execute = true;
+          break;
+        case "o":
+          blobSASPermissions.ownership = true;
+          break;
+        case "p":
+          blobSASPermissions.permission = true;
+          break;
         default:
           throw new RangeError(`Invalid permission: ${char}`);
       }
@@ -92,6 +104,38 @@ export class DataLakeSASPermissions {
   public delete: boolean = false;
 
   /**
+   * Specifies Move access granted.
+   *
+   * @type {boolean}
+   * @memberof DirectorySASPermissions
+   */
+  public move: boolean = false;
+
+  /**
+   * Specifies Execute access granted.
+   *
+   * @type {boolean}
+   * @memberof DirectorySASPermissions
+   */
+  public execute: boolean = false;
+
+  /**
+   * Specifies Ownership access granted.
+   *
+   * @type {boolean}
+   * @memberof DirectorySASPermissions
+   */
+  public ownership: boolean = false;
+
+  /**
+   * Specifies Permission access granted.
+   *
+   * @type {boolean}
+   * @memberof DirectorySASPermissions
+   */
+  public permission: boolean = false;
+
+  /**
    * Converts the given permissions to a string. Using this method will guarantee the permissions are in an
    * order accepted by the service.
    *
@@ -114,6 +158,18 @@ export class DataLakeSASPermissions {
     }
     if (this.delete) {
       permissions.push("d");
+    }
+    if (this.move) {
+      permissions.push("m");
+    }
+    if (this.execute) {
+      permissions.push("e");
+    }
+    if (this.ownership) {
+      permissions.push("o");
+    }
+    if (this.permission) {
+      permissions.push("p");
     }
     return permissions.join("");
   }

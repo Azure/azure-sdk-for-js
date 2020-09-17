@@ -9,6 +9,7 @@ import { ipRangeToString, SasIPRange } from "./SasIPRange";
 import { SASProtocol, SASQueryParameters } from "./SASQueryParameters";
 import { SERVICE_VERSION } from "../utils/constants";
 import { truncatedISO8061Date } from "../utils/utils.common";
+import { DirectorySASPermissions } from "./DirectorySASPermissions";
 
 /**
  * ONLY AVAILABLE IN NODE.JS RUNTIME.
@@ -87,10 +88,62 @@ export interface DataLakeSASSignatureValues {
   pathName?: string;
 
   /**
+   * Optional. Beginning in version 2020-02-10, this value defines whether or not the {@link pathName} is a directory.
+   * If this value is set to true, the Path is a Directory for a Directory SAS. If set to false or default, the Path
+   * is a File Path for a File Path SAS.
+   *
+   * @type {boolean}
+   * @memberof DataLakeSASSignatureValues
+   */
+  isDirectory?: boolean;
+
+  /**
+   * Optional, requiered when {@link isDirectory} is true. Beginning in version 2020-02-10, indicate the depth of the directory
+   * specified in the canonicalizedresource field of the string-to-sign. The depth of the directory is the number of directories
+   * beneath the root folder.
+   *
+   * @type {number}
+   * @memberof DataLakeSASSignatureValues
+   */
+  directoryDepth?: number;
+
+  /**
+   * Optional. Beginning in version 2020-02-10, specifies the Authorized AAD Object Id in GUID format. The AAD Object ID of a user
+   * authorized by the owner of the User Delegation Key to perform the action granted by the SAS. The Azure Storage service will
+   * ensure that the owner of the user delegation key has the required permissions before granting access but no additional permission
+   * check for the user specified in this value will be performed. This cannot be used in conjuction with {@link unauthorizedUserObjectId}.
+   * This is only used for User Delegation SAS.
+   *
+   * @type {string}
+   * @memberof DataLakeSASSignatureValues
+   */
+  authorizedUserObjectId?: string;
+
+  /**
+   * Optional. Beginning in version 2020-02-10, specifies the Unauthorized AAD Object Id in GUID format. The AAD Object Id of a user that is assumed
+   * to be unauthorized by the owner of the User Delegation Key. The Azure Storage Service will perform an additional POSIX ACL check to determine
+   * if the user is authorized to perform the requested operation. This cannot be used in conjuction with {@link authorizedUserObjectId}.
+   * This is only used for User Delegation SAS.
+   *
+   * @type {string}
+   * @memberof DataLakeSASSignatureValues
+   */
+  unauthorizedUserObjectId?: string;
+
+  /**
+   * Optional. Beginning in version 2020-02-10, this is a GUID value that will be logged in the storage diagnostic logs and can be used to
+   * correlate SAS generation with storage resource access. This is only used for User Delegation SAS.
+   *
+   * @type {string}
+   * @memberof DataLakeSASSignatureValues
+   */
+  correlationId?: string;
+
+  /**
    * Optional. Snapshot timestamp string the SAS user may access. Only supported from API version 2018-11-09.
    *
    * @type {string}
-   * @memberof IBlobSASSignatureValues
+   * @memberof DataLakeSASSignatureValues
    */
   snapshotTime?: string;
 
@@ -342,6 +395,8 @@ function generateBlobSASQueryParameters20150405(
     throw RangeError("'version' must be >= '2018-11-09' when provided 'snapshotTime'.");
   }
 
+  SASSignatureValuesSanityCheck(dataLakeSASSignatureValues, version);
+
   // Calling parse and toString guarantees the proper ordering and throws on invalid characters.
   if (dataLakeSASSignatureValues.permissions) {
     if (dataLakeSASSignatureValues.pathName) {
@@ -449,15 +504,24 @@ function generateBlobSASQueryParameters20181109(
     throw RangeError("Must provide 'blobName' when provided 'snapshotTime'.");
   }
 
+  SASSignatureValuesSanityCheck(dataLakeSASSignatureValues, version);
+
   // Calling parse and toString guarantees the proper ordering and throws on invalid characters.
   if (dataLakeSASSignatureValues.permissions) {
     if (dataLakeSASSignatureValues.pathName) {
-      verifiedPermissions = DataLakeSASPermissions.parse(
-        dataLakeSASSignatureValues.permissions.toString()
-      ).toString();
-      resource = "b";
-      if (dataLakeSASSignatureValues.snapshotTime) {
-        resource = "bs";
+      if (dataLakeSASSignatureValues.isDirectory) {
+        verifiedPermissions = DirectorySASPermissions.parse(
+          dataLakeSASSignatureValues.permissions.toString()
+        ).toString();
+        resource = "d";
+      } else {
+        verifiedPermissions = DataLakeSASPermissions.parse(
+          dataLakeSASSignatureValues.permissions.toString()
+        ).toString();
+        resource = "b";
+        if (dataLakeSASSignatureValues.snapshotTime) {
+          resource = "bs";
+        }
       }
     } else {
       verifiedPermissions = FileSystemSASPermissions.parse(
@@ -513,7 +577,9 @@ function generateBlobSASQueryParameters20181109(
     dataLakeSASSignatureValues.contentDisposition,
     dataLakeSASSignatureValues.contentEncoding,
     dataLakeSASSignatureValues.contentLanguage,
-    dataLakeSASSignatureValues.contentType
+    dataLakeSASSignatureValues.contentType,
+    undefined,
+    dataLakeSASSignatureValues.directoryDepth
   );
 }
 
@@ -555,15 +621,24 @@ function generateBlobSASQueryParametersUDK20181109(
     throw RangeError("Must provide 'blobName' when provided 'snapshotTime'.");
   }
 
+  SASSignatureValuesSanityCheck(dataLakeSASSignatureValues, version);
+
   // Calling parse and toString guarantees the proper ordering and throws on invalid characters.
   if (dataLakeSASSignatureValues.permissions) {
     if (dataLakeSASSignatureValues.pathName) {
-      verifiedPermissions = DataLakeSASPermissions.parse(
-        dataLakeSASSignatureValues.permissions.toString()
-      ).toString();
-      resource = "b";
-      if (dataLakeSASSignatureValues.snapshotTime) {
-        resource = "bs";
+      if (dataLakeSASSignatureValues.isDirectory) {
+        verifiedPermissions = DirectorySASPermissions.parse(
+          dataLakeSASSignatureValues.permissions.toString()
+        ).toString();
+        resource = "d";
+      } else {
+        verifiedPermissions = DataLakeSASPermissions.parse(
+          dataLakeSASSignatureValues.permissions.toString()
+        ).toString();
+        resource = "b";
+        if (dataLakeSASSignatureValues.snapshotTime) {
+          resource = "bs";
+        }
       }
     } else {
       verifiedPermissions = FileSystemSASPermissions.parse(
@@ -596,6 +671,9 @@ function generateBlobSASQueryParametersUDK20181109(
       : "",
     userDelegationKeyCredential.userDelegationKey.signedService,
     userDelegationKeyCredential.userDelegationKey.signedVersion,
+    dataLakeSASSignatureValues.authorizedUserObjectId,
+    dataLakeSASSignatureValues.unauthorizedUserObjectId,
+    dataLakeSASSignatureValues.correlationId,
     dataLakeSASSignatureValues.ipRange ? ipRangeToString(dataLakeSASSignatureValues.ipRange) : "",
     dataLakeSASSignatureValues.protocol ? dataLakeSASSignatureValues.protocol : "",
     version,
@@ -627,7 +705,11 @@ function generateBlobSASQueryParametersUDK20181109(
     dataLakeSASSignatureValues.contentEncoding,
     dataLakeSASSignatureValues.contentLanguage,
     dataLakeSASSignatureValues.contentType,
-    userDelegationKeyCredential.userDelegationKey
+    userDelegationKeyCredential.userDelegationKey,
+    dataLakeSASSignatureValues.directoryDepth,
+    dataLakeSASSignatureValues.authorizedUserObjectId,
+    dataLakeSASSignatureValues.unauthorizedUserObjectId,
+    dataLakeSASSignatureValues.correlationId
   );
 }
 
@@ -639,4 +721,59 @@ function getCanonicalName(accountName: string, containerName: string, blobName?:
     elements.push(`/${blobName}`);
   }
   return elements.join("");
+}
+
+function SASSignatureValuesSanityCheck(
+  dataLakeSASSignatureValues: DataLakeSASSignatureValues,
+  version: string
+) {
+  if (
+    version < "2020-02-10" &&
+    (dataLakeSASSignatureValues.isDirectory || dataLakeSASSignatureValues.directoryDepth)
+  ) {
+    throw RangeError("'version' must be >= '020-02-10' to support directory SAS.");
+  }
+  if (
+    dataLakeSASSignatureValues.isDirectory &&
+    dataLakeSASSignatureValues.directoryDepth === undefined
+  ) {
+    throw new RangeError("Must provide 'directoryDepth' when 'isDirectory' is set to true.");
+  }
+  if (
+    dataLakeSASSignatureValues.directoryDepth &&
+    (!Number.isInteger(dataLakeSASSignatureValues.directoryDepth) ||
+      dataLakeSASSignatureValues.directoryDepth < 0)
+  ) {
+    throw RangeError("'directoryDepth' must be a non-negative interger.");
+  }
+
+  if (
+    version < "2020-02-10" &&
+    dataLakeSASSignatureValues.permissions &&
+    (dataLakeSASSignatureValues.permissions.move ||
+      dataLakeSASSignatureValues.permissions.execute ||
+      dataLakeSASSignatureValues.permissions.ownership ||
+      dataLakeSASSignatureValues.permissions.permission)
+  ) {
+    throw RangeError("'version' must be >= '2020-02-10' when providing m, e, o or p permission.");
+  }
+
+  if (
+    version < "2020-02-10" &&
+    (dataLakeSASSignatureValues.authorizedUserObjectId ||
+      dataLakeSASSignatureValues.unauthorizedUserObjectId ||
+      dataLakeSASSignatureValues.correlationId)
+  ) {
+    throw RangeError(
+      "'version' must be >= '2020-02-10' when providing 'authorizedUserObjectId', 'unauthorizedUserObjectId' or 'correlationId'."
+    );
+  }
+  if (
+    dataLakeSASSignatureValues.authorizedUserObjectId &&
+    dataLakeSASSignatureValues.unauthorizedUserObjectId
+  ) {
+    throw RangeError(
+      "'authorizedUserObjectId' or 'unauthorizedUserObjectId' shouldn't be specified at the same time."
+    );
+  }
 }
