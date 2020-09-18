@@ -43,7 +43,7 @@ async function main() {
   // construct request
   const request: DetectRequest = {
     series: read_series_from_file(timeSeriesDataPath),
-    granularity: TimeGranularity.daily
+    granularity: "daily"
   };
 
   // get last detect result

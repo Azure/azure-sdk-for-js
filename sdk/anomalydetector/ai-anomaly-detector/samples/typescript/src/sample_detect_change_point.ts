@@ -9,8 +9,7 @@ import {
   AnomalyDetectorClient,
   DetectChangePointRequest,
   DetectChangePointResponse,
-  TimeSeriesPoint,
-  TimeGranularity
+  TimeSeriesPoint
 } from "@azure/ai-anomaly-detector";
 import { AzureKeyCredential } from "@azure/core-auth";
 
@@ -43,7 +42,7 @@ async function main() {
   // construct request
   const request: DetectChangePointRequest = {
     series: read_series_from_file(timeSeriesDataPath),
-    granularity: TimeGranularity.daily
+    granularity: "daily"
   };
 
   // get change point detect results

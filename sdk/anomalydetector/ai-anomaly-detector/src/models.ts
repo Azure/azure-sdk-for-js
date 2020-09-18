@@ -2,14 +2,14 @@
 // Licensed under the MIT license.
 
 import { PipelineOptions } from "@azure/core-http";
-import { TimeSeriesPoint } from "./generated";
+import { TimeGranularity, TimeSeriesPoint } from "./generated";
 
 /**
  * Client options used to configure Form Recognizer API requests.
  */
 export interface AnomalyDetectorClientOptions extends PipelineOptions {}
 
-export enum TimeGranularity {
+export enum TimeGranularityEnum {
   /**
    * Yearly time granularity
    */
@@ -101,5 +101,6 @@ export {
   DetectLastPointResponse,
   DetectChangePointResponse,
   DetectEntireResponse,
-  TimeSeriesPoint
+  TimeSeriesPoint,
+  TimeGranularity
 } from "./generated/models";
