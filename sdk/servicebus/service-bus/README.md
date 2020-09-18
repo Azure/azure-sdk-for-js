@@ -339,7 +339,7 @@ directory for detailed examples on how to use this library to send and receive m
 
 ## Contributing
 
-If you'd like to contribute to this library, please read the [contributing guide](../../../CONTRIBUTING.md) to learn more about how to build and test the code.
+If you'd like to contribute to this library, please read the [contributing guide](https://github.com/Azure/azure-sdk-for-js/blob/master/CONTRIBUTING.md) to learn more about how to build and test the code.
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fservicebus%2Fservice-bus%2FREADME.png)
 
@@ -353,10 +353,10 @@ If you'd like to contribute to this library, please read the [contributing guide
 [sender]: https://docs.microsoft.com/javascript/api/@azure/service-bus/sender?view=azure-node-preview
 [sender_send]: https://docs.microsoft.com/javascript/api/@azure/service-bus/sender?view=azure-node-preview#sendmessages-servicebusmessage---servicebusmessage-----servicebusmessagebatch--operationoptionsbase-
 [receiver]: https://docs.microsoft.com/javascript/api/@azure/service-bus/receiver?view=azure-node-preview
-[receiverreceivebatch]: https://docs.microsoft.com/en-us/javascript/api/@azure/service-bus/receiver?view=azure-node-preview#receivemessages-number--receivemessagesoptions-
-[receiver_subscribe]: https://docs.microsoft.com/en-us/javascript/api/@azure/service-bus/receiver?view=azure-node-preview#subscribe-messagehandlers-receivedmessaget---subscribeoptions-
-[receiver_getmessageiterator]: https://docs.microsoft.com/en-us/javascript/api/@azure/service-bus/receiver?view=azure-node-preview#getmessageiterator-getmessageiteratoroptions-
-[sessionreceiver]: https://docs.microsoft.com/en-us/javascript/api/@azure/service-bus/sessionreceiver?view=azure-node-preview
+[receiverreceivebatch]: https://docs.microsoft.com/javascript/api/@azure/service-bus/receiver?view=azure-node-preview#receivemessages-number--receivemessagesoptions-
+[receiver_subscribe]: https://docs.microsoft.com/javascript/api/@azure/service-bus/receiver?view=azure-node-preview#subscribe-messagehandlers-receivedmessaget---subscribeoptions-
+[receiver_getmessageiterator]: https://docs.microsoft.com/javascript/api/@azure/service-bus/receiver?view=azure-node-preview#getmessageiterator-getmessageiteratoroptions-
+[sessionreceiver]: https://docs.microsoft.com/javascript/api/@azure/service-bus/sessionreceiver?view=azure-node-preview
 [migrationguide]: https://github.com/Azure/azure-sdk-for-js/blob/fb53a838e702a075c4db6f1d4a17849a271342df/sdk/servicebus/service-bus/migrationguide.md
 [docsms_messagesessions]: https://docs.microsoft.com/azure/service-bus-messaging/message-sessions
 [docsms_messagesessions_fifo]: https://docs.microsoft.com/azure/service-bus-messaging/message-sessions#first-in-first-out-fifo-pattern

@@ -365,7 +365,7 @@ Once this is done, you can use parcel by configuring your project in the way tha
 
 ### Parcel with Javascript
 
-Parcel uses [browserslist](https://github.com/browserslist/browserslist) to configure what polyfills are needed when bundling. Azure SDK libraries generally target the ES2015 version of JavaScript and use some modern features of JavaScript, including [generators](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/function*), so let's edit `package.json` to target the latest version of three popular browsers:
+Parcel uses [browserslist](https://github.com/browserslist/browserslist) to configure what polyfills are needed when bundling. Azure SDK libraries generally target the ES2015 version of JavaScript and use some modern features of JavaScript, including [generators](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/function*), so let's edit `package.json` to target the latest version of three popular browsers:
 
 ```json
 "browserslist": [
@@ -413,7 +413,7 @@ This will emit a compiled version of `index.html`, as well as any included scrip
 
 ### Parcel with TypeScript
 
-Parcel uses [browserslist](https://github.com/browserslist/browserslist) to configure what polyfills are needed when bundling. The Azure SDK uses some modern features of JavaScript, including [async functions](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Statements/async_function), so let's edit `package.json` to target the latest version of three popular browsers:
+Parcel uses [browserslist](https://github.com/browserslist/browserslist) to configure what polyfills are needed when bundling. The Azure SDK uses some modern features of JavaScript, including [async functions](https://developer.mozilla.org/docs/Web/JavaScript/Reference/Statements/async_function), so let's edit `package.json` to target the latest version of three popular browsers:
 
 ```json
 "browserslist": [

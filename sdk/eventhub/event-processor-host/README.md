@@ -9,7 +9,7 @@ Azure Storage Blob. This makes it easy to continue receiving messages from where
 #### Conceptual Overview
 ![overview](https://raw.githubusercontent.com/Azure/azure-sdk-for-js/master/sdk/eventhub/event-processor-host/eph.png)
 
-- More information about Azure Event Processor Host can be found over [here](https://docs.microsoft.com/en-us/azure/event-hubs/event-hubs-event-processor-host).
+- More information about Azure Event Processor Host can be found over [here](https://docs.microsoft.com/azure/event-hubs/event-hubs-event-processor-host).
 - General overview of how the Event Processor Host SDK works internally can be found over [here](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/eventhub/event-processor-host/overview.md).
 
 ## Pre-requisite ##
