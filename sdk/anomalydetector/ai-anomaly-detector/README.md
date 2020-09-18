@@ -91,7 +91,69 @@ const client = new AnomalyDetectorClient("<endpoint>", new DefaultAzureCredentia
 
 ## Examples
 
-Samples can be found [here](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/anomalydetector/ai-anomaly-detector/samples)
+### Detect Change Points
+
+This sample demonstrates how to detect change points on entire series.
+
+```javascript
+const { AnomalyDetectorClient, TimeGranularity } = require("@azure/ai-anomaly-detector");
+const { AzureKeyCredential } = require("@azure/core-auth");
+
+// You will need to set this environment variables in .env file or edit the following values
+const apiKey = process.env["API_KEY"] || "";
+const endpoint = process.env["ENDPOINT"] || "";
+
+async function main() {
+  // create client
+  const client = new AnomalyDetectorClient(endpoint, new AzureKeyCredential(apiKey));
+
+  // construct request
+  const request = {
+    series: [
+      { timestamp: new Date("2018-03-01T00:00:00Z"), value: 32858923 },
+      { timestamp: new Date("2018-03-02T00:00:00Z"), value: 29615278 },
+      { timestamp: new Date("2018-03-03T00:00:00Z"), value: 22839355 },
+      { timestamp: new Date("2018-03-04T00:00:00Z"), value: 25948736 },
+      { timestamp: new Date("2018-03-05T00:00:00Z"), value: 34139159 },
+      { timestamp: new Date("2018-03-06T00:00:00Z"), value: 33843985 },
+      { timestamp: new Date("2018-03-07T00:00:00Z"), value: 33637661 },
+      { timestamp: new Date("2018-03-08T00:00:00Z"), value: 32627350 },
+      { timestamp: new Date("2018-03-09T00:00:00Z"), value: 29881076 },
+      { timestamp: new Date("2018-03-10T00:00:00Z"), value: 22681575 },
+      { timestamp: new Date("2018-03-11T00:00:00Z"), value: 24629393 },
+      { timestamp: new Date("2018-03-12T00:00:00Z"), value: 34010679 },
+      { timestamp: new Date("2018-03-13T00:00:00Z"), value: 33893888 },
+      { timestamp: new Date("2018-03-14T00:00:00Z"), value: 33760076 },
+      { timestamp: new Date("2018-03-15T00:00:00Z"), value: 33093515 }
+    ],
+    granularity: TimeGranularity.daily
+  };
+
+  // get change point detect results
+  const result = await client.detectChangePoint(request);
+  const isChangePointDetected = result.isChangePoint.some((changePoint) => changePoint);
+
+  if (isChangePointDetected) {
+    console.log("Change points were detected from the series at index:");
+    result.isChangePoint.forEach((changePoint, index) => {
+      if (changePoint === true) {
+        console.log(index);
+      }
+    });
+  } else {
+    console.log("There is no change point detected from the series.");
+  }
+  // output:
+  // Change points were detected from the series at index:
+  // 9
+}
+
+main().catch((err) => {
+  console.error("The sample encountered an error:", err);
+});
+```
+
+More Samples can be found [here](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/anomalydetector/ai-anomaly-detector/samples)
 
 ## Troubleshooting
 
