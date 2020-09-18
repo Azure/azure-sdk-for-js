@@ -66,8 +66,8 @@ npx cross-env SCHEMA_REGISTRY_ENDPOINT="<endpoint>" AZURE_TENANT_ID="<tenant id>
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[schemaregistrysample]: ./src/schemaRegistrySample.ts
+[schemaregistrysample]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/schemaregistry/schema-registry/samples/typescript/src/schemaRegistrySample.ts
 [apiref]: https://docs.microsoft.com/javascript/api
 [freesub]: https://azure.microsoft.com/free/
-[package]: ../../README.md
+[package]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/schemaregistry/schema-registry/README.md
 [typescript]: https://www.typescriptlang.org/docs/home.html

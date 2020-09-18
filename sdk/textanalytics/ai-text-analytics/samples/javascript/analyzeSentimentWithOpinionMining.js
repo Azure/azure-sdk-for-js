@@ -4,8 +4,7 @@
 /**
  * This sample demonstrates how to analyze sentiment on a more granular level,
  * mining individual opinions from reviews (also known as aspect-based 
- * sentiment analysis). This feature is only available for clients with api 
- * version v3.1-preview.1.
+ * sentiment analysis).
  * 
  * In this sample, a bunch of reviews about a hotel are being analyzed for
  * sentiment and different opinions about aspects in the reviews are shown.

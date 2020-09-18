@@ -33,28 +33,6 @@ export interface ServiceBusClientOptions {
 }
 
 /**
- * @param connectionString
- * @param options
- * @internal
- * @ignore
- */
-export function createConnectionContextForConnectionString(
-  connectionString: string,
-  options: ServiceBusClientOptions = {}
-): ConnectionContext {
-  const config = ConnectionConfig.create(connectionString);
-
-  config.webSocket = options?.webSocketOptions?.webSocket;
-  config.webSocketEndpointPath = "$servicebus/websocket";
-  config.webSocketConstructorOptions = options?.webSocketOptions?.webSocketConstructorOptions;
-
-  const credential = SharedKeyCredential.fromConnectionString(connectionString);
-
-  validate(config);
-  return ConnectionContext.create(config, credential, options);
-}
-
-/**
  * @internal
  * @ignore
  *
@@ -67,6 +45,43 @@ function validate(config: ConnectionConfig) {
   config.entityPath = config.entityPath ?? "";
 
   ConnectionConfig.validate(config);
+}
+
+/**
+ * @internal
+ * @ignore
+ *
+ * @param {string} connectionString
+ * @param {(SharedKeyCredential | TokenCredential)} credential
+ * @param {ServiceBusClientOptions} options
+ */
+export function createConnectionContext(
+  connectionString: string,
+  credential: SharedKeyCredential | TokenCredential,
+  options: ServiceBusClientOptions
+): ConnectionContext {
+  const config = ConnectionConfig.create(connectionString);
+
+  config.webSocket = options?.webSocketOptions?.webSocket;
+  config.webSocketEndpointPath = "$servicebus/websocket";
+  config.webSocketConstructorOptions = options?.webSocketOptions?.webSocketConstructorOptions;
+
+  validate(config);
+  return ConnectionContext.create(config, credential, options);
+}
+
+/**
+ * @param connectionString
+ * @param options
+ * @internal
+ * @ignore
+ */
+export function createConnectionContextForConnectionString(
+  connectionString: string,
+  options: ServiceBusClientOptions = {}
+): ConnectionContext {
+  const credential = SharedKeyCredential.fromConnectionString(connectionString);
+  return createConnectionContext(connectionString, credential, options);
 }
 
 /**
@@ -91,10 +106,7 @@ export function createConnectionContextForTokenCredential(
     host += "/";
   }
   const connectionString = `Endpoint=sb://${host};SharedAccessKeyName=defaultKeyName;SharedAccessKey=defaultKeyValue;`;
-  const config = ConnectionConfig.create(connectionString);
-  
-  validate(config);
-  return ConnectionContext.create(config, credential, options);
+  return createConnectionContext(connectionString, credential, options);
 }
 
 /**

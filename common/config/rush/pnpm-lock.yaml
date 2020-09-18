@@ -8278,6 +8278,10 @@ packages:
     dev: false
     resolution:
       integrity: sha1-Tz+1OxBuYJf8+ctBCfKl6b36UCI=
+  /universal-user-agent/6.0.0:
+    dev: false
+    resolution:
+      integrity: sha512-isyNax3wXoKaulPDZWHQqbmIx1k2tb9fb3GGDBRxCscfYV2Ch7WxPArBsFEG8s/safwXTT7H4QGhaIkTp9447w==
   /universalify/0.1.2:
     dev: false
     engines:
@@ -9625,11 +9629,12 @@ packages:
       tslint-config-prettier: 1.18.0
       typedoc: 0.15.8
       typescript: 3.9.7
+      universal-user-agent: 6.0.0
       uuid: 8.3.0
     dev: false
     name: '@rush-temp/cosmos'
     resolution:
-      integrity: sha512-lpTdhiEWZ/QNiArY5mrQLIdd/KjmBl/Xn71juX1PtSQ5cziny1tfnRIcSjyLUq3aTlPAYhs9XjI6ixFrknYVOA==
+      integrity: sha512-tkGeW5NMFi/1REwH/01mOKnzGUXyCBs8Zjq28esn6R0pA1vUhoNjVp4bqojqGogYme0SHdqNnWgDjFh+y0OLqQ==
       tarball: 'file:projects/cosmos.tgz'
     version: 0.0.0
   'file:projects/data-tables.tgz':

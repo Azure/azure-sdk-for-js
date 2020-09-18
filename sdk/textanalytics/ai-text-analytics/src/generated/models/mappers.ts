@@ -398,6 +398,95 @@ export const ErrorResponse: coreHttp.CompositeMapper = {
   }
 };
 
+export const PiiEntitiesResult: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PiiEntitiesResult",
+    modelProperties: {
+      documents: {
+        serializedName: "documents",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: { name: "Composite", className: "PiiDocumentEntities" }
+          }
+        }
+      },
+      errors: {
+        serializedName: "errors",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: { type: { name: "Composite", className: "DocumentError" } }
+        }
+      },
+      statistics: {
+        serializedName: "statistics",
+        type: {
+          name: "Composite",
+          className: "TextDocumentBatchStatistics"
+        }
+      },
+      modelVersion: {
+        serializedName: "modelVersion",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const PiiDocumentEntities: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PiiDocumentEntities",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      entities: {
+        serializedName: "entities",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: { type: { name: "Composite", className: "Entity" } }
+        }
+      },
+      warnings: {
+        serializedName: "warnings",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: { name: "Composite", className: "TextAnalyticsWarning" }
+          }
+        }
+      },
+      statistics: {
+        serializedName: "statistics",
+        type: {
+          name: "Composite",
+          className: "TextDocumentStatistics"
+        }
+      },
+      redactedText: {
+        serializedName: "redactedText",
+        required: true,
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const EntityLinkingResult: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
@@ -523,6 +612,12 @@ export const LinkedEntity: coreHttp.CompositeMapper = {
       dataSource: {
         serializedName: "dataSource",
         required: true,
+        type: {
+          name: "String"
+        }
+      },
+      bingEntitySearchApiId: {
+        serializedName: "bingId",
         type: {
           name: "String"
         }
