@@ -30,6 +30,64 @@ describe("odata", () => {
     assert.strictEqual(result, "search.ismatch('you''re', 'Description')");
   });
 
+  it("no arguments", () => {
+    assert.strictEqual(odata`Foo eq 2`, "Foo eq 2");
+  });
+
+  it("one argument", () => {
+     assert.strictEqual(odata`Foo eq ${2}`, "Foo eq 2");
+  });
+
+  it("many arguments", () => {
+    assert.strictEqual(odata`Foo eq ${2} and Bar eq ${3}`, "Foo eq 2 and Bar eq 3");
+    assert.strictEqual(odata`Foo eq ${2} and Bar eq ${3} and Baz eq ${4}`, "Foo eq 2 and Bar eq 3 and Baz eq 4");
+    assert.strictEqual(odata`Foo eq ${2} and Bar eq ${3} and Baz eq ${4} and Qux eq ${5}`, "Foo eq 2 and Bar eq 3 and Baz eq 4 and Qux eq 5");
+    assert.strictEqual(odata`Foo eq ${2} and Bar eq ${3} and Baz eq ${4} and Qux eq ${5} and Quux eq ${6}`, "Foo eq 2 and Bar eq 3 and Baz eq 4 and Qux eq 5 and Quux eq 6");
+  });
+
+  it("null", () => {
+    assert.strictEqual(odata`Foo eq ${null}`, "Foo eq null");
+  });
+
+  it("bool", () => {
+    let x:boolean = true;
+    assert.strictEqual(odata`Foo eq ${x}`, "Foo eq true");
+    assert.strictEqual(odata`Foo eq ${true}`, "Foo eq true");
+
+    x = false;
+    assert.strictEqual(odata`Foo eq ${x}`, "Foo eq false");
+    assert.strictEqual(odata`Foo eq ${false}`, "Foo eq false");
+  });
+
+  it("numbers", () => {
+    assert.strictEqual(odata`Foo eq ${0}`, "Foo eq 0");
+    assert.strictEqual(odata`Foo eq ${2}`, "Foo eq 2");
+    assert.strictEqual(odata`Foo eq ${-2}`, "Foo eq -2");
+    assert.strictEqual(odata`Foo eq ${2.5}`, "Foo eq 2.5");    
+  });
+
+  it("limits", () => {
+    assert.strictEqual(odata`Foo eq ${Number.NEGATIVE_INFINITY}`, "Foo eq -Infinity");
+    assert.strictEqual(odata`Foo eq ${Number.POSITIVE_INFINITY}`, "Foo eq Infinity");
+    assert.strictEqual(odata`Foo eq ${Number.NaN}`, "Foo eq NaN");
+    assert.strictEqual(odata`Foo eq ${Number.MAX_VALUE}`, "Foo eq 1.7976931348623157e+308");
+    assert.strictEqual(odata`Foo eq ${Number.MIN_VALUE}`, "Foo eq 5e-324");
+  });
+
+  it("dates", () => {
+    const result:string = odata`Foo eq ${new Date(1912, 6, 23, 11, 59, 59)}`;
+    assert.strictEqual(result.includes("Tue Jul 23 1912 11:59:59"), true);
+  });
+
+  it("text", () => {
+    assert.strictEqual(odata`Foo eq ${'x'}`, "Foo eq 'x'");
+    assert.strictEqual(odata`Foo eq ${'\''}`, "Foo eq ''''");
+    assert.strictEqual(odata`Foo eq ${'"'}`, "Foo eq '\"'");
+    assert.strictEqual(odata`Foo eq ${"bar"}`, "Foo eq 'bar'" );
+    assert.strictEqual(odata`Foo eq ${"bar's"}`, "Foo eq 'bar''s'" );
+    assert.strictEqual(odata`Foo eq ${"\"bar\""}`, "Foo eq '\"bar\"'" );
+  });
+
   afterEach(() => {
     sinon.restore();
   });

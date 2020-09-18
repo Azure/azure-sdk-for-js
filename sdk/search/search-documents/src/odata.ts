@@ -4,6 +4,10 @@
 function escapeQuotesIfString(input: unknown, previous: string): string | unknown {
   let result = input;
 
+  if(input == null) {
+    return "null";
+  }
+
   if (typeof input === "string") {
     result = input.replace(/'/g, "''");
     // check if we need to escape this literal
@@ -11,6 +15,7 @@ function escapeQuotesIfString(input: unknown, previous: string): string | unknow
       result = `'${result}'`;
     }
   }
+
   return result;
 }
 
