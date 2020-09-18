@@ -23,6 +23,7 @@ steps:
   - template: ../../../common/pipelines/templates/steps/verify-links.yml
     parameters:
       Directory: sdk/${{ parameters.ServiceDirectory }}
+      CheckLinkGuidance: $true
 
   - script: |
       npm ci
