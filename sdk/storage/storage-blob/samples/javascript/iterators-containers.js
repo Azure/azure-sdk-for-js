@@ -103,7 +103,7 @@ async function main() {
   }
   // Gets next marker
   console.log("\tContinuation");
-  let marker = response.value.nextMarker;
+  let marker = response.value.continuationToken;
   // Passing next marker as continuationToken
   iterator = blobServiceClient
     .listContainers()
