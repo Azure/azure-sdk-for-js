@@ -1,12 +1,16 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-function escapeQuotesIfString(input: unknown, previous: string): string | unknown {
-  let result = input;
-
-  if (input == null) {
+function formatNullAndUndefined(input: unknown): string | unknown {
+  if (input == null || input == undefined) {
     return "null";
   }
+
+  return input;
+}
+
+function escapeQuotesIfString(input: unknown, previous: string): string | unknown {
+  let result = input;
 
   if (typeof input === "string") {
     result = input.replace(/'/g, "''");
@@ -36,7 +40,11 @@ export function odata(strings: TemplateStringsArray, ...values: unknown[]): stri
   for (let i = 0; i < strings.length; i++) {
     results.push(strings[i]);
     if (i < values.length) {
-      results.push(escapeQuotesIfString(values[i], strings[i]));
+      if(values[i] == null || values[i] == undefined) {
+        results.push(formatNullAndUndefined(values[i]));
+      } else {
+        results.push(escapeQuotesIfString(values[i], strings[i]));
+      }
     }
   }
   return results.join("");

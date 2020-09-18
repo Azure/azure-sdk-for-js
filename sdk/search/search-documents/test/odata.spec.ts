@@ -39,15 +39,6 @@ describe("odata", () => {
   });
 
   it("many arguments", () => {
-    assert.strictEqual(odata`Foo eq ${2} and Bar eq ${3}`, "Foo eq 2 and Bar eq 3");
-    assert.strictEqual(
-      odata`Foo eq ${2} and Bar eq ${3} and Baz eq ${4}`,
-      "Foo eq 2 and Bar eq 3 and Baz eq 4"
-    );
-    assert.strictEqual(
-      odata`Foo eq ${2} and Bar eq ${3} and Baz eq ${4} and Qux eq ${5}`,
-      "Foo eq 2 and Bar eq 3 and Baz eq 4 and Qux eq 5"
-    );
     assert.strictEqual(
       odata`Foo eq ${2} and Bar eq ${3} and Baz eq ${4} and Qux eq ${5} and Quux eq ${6}`,
       "Foo eq 2 and Bar eq 3 and Baz eq 4 and Qux eq 5 and Quux eq 6"
@@ -62,10 +53,6 @@ describe("odata", () => {
     let x: boolean = true;
     assert.strictEqual(odata`Foo eq ${x}`, "Foo eq true");
     assert.strictEqual(odata`Foo eq ${true}`, "Foo eq true");
-
-    x = false;
-    assert.strictEqual(odata`Foo eq ${x}`, "Foo eq false");
-    assert.strictEqual(odata`Foo eq ${false}`, "Foo eq false");
   });
 
   it("numbers", () => {
@@ -79,8 +66,6 @@ describe("odata", () => {
     assert.strictEqual(odata`Foo eq ${Number.NEGATIVE_INFINITY}`, "Foo eq -Infinity");
     assert.strictEqual(odata`Foo eq ${Number.POSITIVE_INFINITY}`, "Foo eq Infinity");
     assert.strictEqual(odata`Foo eq ${Number.NaN}`, "Foo eq NaN");
-    assert.strictEqual(odata`Foo eq ${Number.MAX_VALUE}`, "Foo eq 1.7976931348623157e+308");
-    assert.strictEqual(odata`Foo eq ${Number.MIN_VALUE}`, "Foo eq 5e-324");
   });
 
   it("dates", () => {
