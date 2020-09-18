@@ -535,21 +535,7 @@ function serializeDictionaryType(
   for (const key of Object.keys(object)) {
     const serializedValue = serializer.serialize(valueType, object[key], objectName);
     // If the element needs an XML namespace we need to add it within the $ property
-    if (isXml && valueType.xmlNamespace) {
-      const xmlnsKey = valueType.xmlNamespacePrefix
-        ? `xmlns:${valueType.xmlNamespacePrefix}`
-        : "xmlns";
-      // If the value is an object the object's properties need to be siblings of the $ property
-      if (valueType.type.name === "Composite") {
-        tempDictionary[key] = { ...serializedValue, $: { [xmlnsKey]: valueType.xmlNamespace } };
-      } else {
-        // When the value is not an object, it has to go under _
-        tempDictionary[key] = { _: serializedValue, $: { [xmlnsKey]: valueType.xmlNamespace } };
-      }
-    } else {
-      // Add the serialized value when we are not serializing XML or it doesn't need a namespace
-      tempDictionary[key] = serializedValue;
-    }
+    tempDictionary[key] = getXmlObjectValue(valueType, serializedValue, isXml);
   }
 
   // Add the namespace to the root element if needed
