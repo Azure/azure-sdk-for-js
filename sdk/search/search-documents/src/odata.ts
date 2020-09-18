@@ -4,7 +4,7 @@
 function escapeQuotesIfString(input: unknown, previous: string): string | unknown {
   let result = input;
 
-  if(input == null) {
+  if (input == null) {
     return "null";
   }
 
