@@ -6,6 +6,7 @@ import {
   AccountSASResourceTypes,
   AccountSASServices,
   AnonymousCredential,
+  DataLakeDirectoryClient,
   DataLakeFileSystemClient,
   DataLakeSASPermissions,
   DataLakeServiceClient,
@@ -13,6 +14,7 @@ import {
   generateAccountSASQueryParameters,
   generateDataLakeSASQueryParameters,
   newPipeline,
+  PathPermissions,
   StorageSharedKeyCredential
 } from "../../src";
 import { DataLakeFileClient } from "../../src/";
@@ -620,5 +622,138 @@ describe("Shared Access Signature (SAS) generation Node.js only", () => {
     assert.equal(properties.contentType, "content-type-override");
 
     await fileSystemClient.delete();
+  });
+});
+
+describe("Shared Access Signature (SAS) generation Node.js only for Delegation SAS v2 and Direcotry SAS", () => {
+  let recorder: Recorder;
+  let serviceClient: DataLakeServiceClient;
+  let fileSystemClient: DataLakeFileSystemClient;
+  let directoryClient: DataLakeDirectoryClient;
+  let fileClient: DataLakeFileClient;
+  let sharedKeyCredential: StorageSharedKeyCredential;
+  let now: Date;
+  let tmr: Date;
+
+  const permissions: PathPermissions = {
+    extendedAcls: false,
+    stickyBit: true,
+    owner: {
+      read: true,
+      write: true,
+      execute: false
+    },
+    group: {
+      read: true,
+      write: false,
+      execute: true
+    },
+    other: {
+      read: false,
+      write: true,
+      execute: false
+    }
+  };
+
+  beforeEach(async function() {
+    recorder = record(this, recorderEnvSetup);
+    serviceClient = getDataLakeServiceClient();
+
+    const fileSystemName = recorder.getUniqueName("filesystem");
+    fileSystemClient = serviceClient.getFileSystemClient(fileSystemName);
+    await fileSystemClient.create();
+
+    const directoryName = recorder.getUniqueName("directory");
+    directoryClient = fileSystemClient.getDirectoryClient(directoryName);
+    await directoryClient.create();
+
+    const fileName = recorder.getUniqueName("file");
+    fileClient = directoryClient.getFileClient(fileName);
+    await fileClient.create();
+
+    now = recorder.newDate("now");
+    now.setMinutes(now.getMinutes() - 10); // Skip clock skew with server
+    tmr = recorder.newDate("tmr");
+    tmr.setDate(tmr.getDate() + 10);
+
+    // By default, credential is always the last element of pipeline factories
+    const factories = (serviceClient as any).pipeline.factories;
+    sharedKeyCredential = factories[factories.length - 1];
+  });
+
+  afterEach(async function() {
+    await fileSystemClient.delete();
+    await recorder.stop();
+  });
+
+  it.only("generateDataLakeSASQueryParameters for directory should work for permissions m", async () => {
+    const directorySAS = generateDataLakeSASQueryParameters(
+      {
+        fileSystemName: fileSystemClient.name,
+        pathName: directoryClient.name,
+        isDirectory: true,
+        directoryDepth: 1,
+        expiresOn: tmr,
+        ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
+        permissions: FileSystemSASPermissions.parse("racwdlmeop"),
+        protocol: SASProtocol.HttpsAndHttp,
+        startsOn: now,
+        version: "2020-02-10"
+      },
+      sharedKeyCredential as StorageSharedKeyCredential
+    );
+    const sasClient = `${directoryClient.url}?${directorySAS}`;
+    const directoryClientwithSAS = new DataLakeDirectoryClient(
+      sasClient,
+      newPipeline(new AnonymousCredential())
+    );
+
+    await directoryClientwithSAS.getAccessControl();
+    const newFileName = recorder.getUniqueName("newfile");
+    await directoryClientwithSAS.move(newFileName);
+  });
+
+  it("generateDataLakeSASQueryParameters for file should work for permissions m, e, o, p", async () => {
+    const containerSAS = generateDataLakeSASQueryParameters(
+      {
+        fileSystemName: fileSystemClient.name,
+        pathName: fileClient.name,
+        expiresOn: tmr,
+        ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
+        permissions: FileSystemSASPermissions.parse("racwdmeop"),
+        protocol: SASProtocol.HttpsAndHttp,
+        startsOn: now,
+        version: "2020-02-10"
+      },
+      sharedKeyCredential as StorageSharedKeyCredential
+    );
+    console.log(containerSAS);
+    const sasClient = `${fileClient.url}?${containerSAS}`;
+    const directoryClientwithSAS = new DataLakeFileClient(
+      sasClient,
+      newPipeline(new AnonymousCredential())
+    );
+    await directoryClientwithSAS.setPermissions(permissions);
+  });
+
+  it("generateDataLakeSASQueryParameters for filesystem should work for permissions m, e, o, p", async () => {
+    const fileSystemSASe = generateDataLakeSASQueryParameters(
+      {
+        fileSystemName: fileSystemClient.name,
+        expiresOn: tmr,
+        ipRange: { start: "0.0.0.0", end: "255.255.255.255" },
+        permissions: FileSystemSASPermissions.parse("racwdle"),
+        protocol: SASProtocol.HttpsAndHttp,
+        startsOn: now,
+        version: "2020-02-10"
+      },
+      sharedKeyCredential as StorageSharedKeyCredential
+    );
+    const sasCliente = `${directoryClient.url}?${fileSystemSASe}`;
+    const directoryClientwithSASe = new DataLakeDirectoryClient(
+      sasCliente,
+      newPipeline(new AnonymousCredential())
+    );
+    await directoryClientwithSASe.getAccessControl();
   });
 });

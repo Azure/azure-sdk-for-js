@@ -51,18 +51,6 @@ export class AccountSASPermissions {
         case "p":
           accountSASPermissions.process = true;
           break;
-        case "m":
-          accountSASPermissions.move = true;
-          break;
-        case "e":
-          accountSASPermissions.execute = true;
-          break;
-        case "o":
-          accountSASPermissions.ownership = true;
-          break;
-        case "p":
-          accountSASPermissions.permission = true;
-          break;
         default:
           throw new RangeError(`Invalid permission character: ${c}`);
       }
@@ -136,38 +124,6 @@ export class AccountSASPermissions {
   public process: boolean = false;
 
   /**
-   * Specifies Move access granted.
-   *
-   * @type {boolean}
-   * @memberof DirectorySASPermissions
-   */
-  public move: boolean = false;
-
-  /**
-   * Specifies Execute access granted.
-   *
-   * @type {boolean}
-   * @memberof DirectorySASPermissions
-   */
-  public execute: boolean = false;
-
-  /**
-   * Specifies Ownership access granted.
-   *
-   * @type {boolean}
-   * @memberof DirectorySASPermissions
-   */
-  public ownership: boolean = false;
-
-  /**
-   * Specifies Permission access granted.
-   *
-   * @type {boolean}
-   * @memberof DirectorySASPermissions
-   */
-  public permission: boolean = false;
-
-  /**
    * Produces the SAS permissions string for an Azure Storage account.
    * Call this method to set AccountSASSignatureValues Permissions field.
    *
@@ -206,18 +162,6 @@ export class AccountSASPermissions {
       permissions.push("u");
     }
     if (this.process) {
-      permissions.push("p");
-    }
-    if (this.move) {
-      permissions.push("m");
-    }
-    if (this.execute) {
-      permissions.push("e");
-    }
-    if (this.ownership) {
-      permissions.push("o");
-    }
-    if (this.permission) {
       permissions.push("p");
     }
     return permissions.join("");
