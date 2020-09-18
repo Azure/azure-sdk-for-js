@@ -250,7 +250,14 @@ export function serializeRequestBody(
     );
 
     const bodyMapper = operationSpec.requestBody.mapper;
-    const { required, serializedName, xmlName, xmlElementName } = bodyMapper;
+    const {
+      required,
+      serializedName,
+      xmlName,
+      xmlElementName,
+      xmlNamespace,
+      xmlNamespacePrefix
+    } = bodyMapper;
     const typeName = bodyMapper.type.name;
 
     try {
@@ -267,13 +274,21 @@ export function serializeRequestBody(
         const isStream = typeName === MapperTypeNames.Stream;
 
         if (operationSpec.isXML) {
+          const xmlnsKey = xmlNamespacePrefix ? `xmlns:${xmlNamespacePrefix}` : "xmlns";
+          const value = getXmlValueWithNamespace(xmlNamespace, xmlnsKey, typeName, request.body);
+
           if (typeName === MapperTypeNames.Sequence) {
             request.body = stringifyXML(
-              prepareXMLRootList(request.body, xmlElementName || xmlName || serializedName!),
+              prepareXMLRootList(
+                value,
+                xmlElementName || xmlName || serializedName!,
+                xmlnsKey,
+                xmlNamespace
+              ),
               { rootName: xmlName || serializedName }
             );
           } else if (!isStream) {
-            request.body = stringifyXML(request.body, {
+            request.body = stringifyXML(value, {
               rootName: xmlName || serializedName
             });
           }
@@ -317,6 +332,24 @@ export function serializeRequestBody(
   }
 }
 
+/**
+ * Adds an xml namespace to the xml serialized object if needed, otherwise it just returns the value itself
+ */
+function getXmlValueWithNamespace(
+  xmlNamespace: string | undefined,
+  xmlnsKey: string,
+  typeName: string,
+  serializedValue: any
+): any {
+  // Composite and Sequence schemas already got their root namespace set during serialization
+  // We just need to add xmlns to the other schema types
+  if (xmlNamespace && !["Composite", "Sequence", "Dictionary"].includes(typeName)) {
+    return { _: serializedValue, $: { [xmlnsKey]: xmlNamespace } };
+  }
+
+  return serializedValue;
+}
+
 function createDefaultPipeline(
   options: { baseUri?: string; credential?: TokenCredential } = {}
 ): Pipeline {
@@ -338,11 +371,20 @@ function createDefaultPipeline(
   return pipeline;
 }
 
-function prepareXMLRootList(obj: any, elementName: string): { [key: string]: any[] } {
+function prepareXMLRootList(
+  obj: any,
+  elementName: string,
+  xmlNamespaceKey?: string,
+  xmlNamespace?: string
+): { [key: string]: any[] } {
   if (!Array.isArray(obj)) {
     obj = [obj];
   }
-  return { [elementName]: obj };
+  if (!xmlNamespaceKey || !xmlNamespace) {
+    return { [elementName]: obj };
+  }
+
+  return { [elementName]: obj, $: { [xmlNamespaceKey]: xmlNamespace } };
 }
 
 function flattenResponse(

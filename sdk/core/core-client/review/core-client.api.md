@@ -17,30 +17,20 @@ import { TransferProgressEvent } from '@azure/core-https';
 
 // @public (undocumented)
 export interface BaseMapper {
-    // (undocumented)
     constraints?: MapperConstraints;
-    // (undocumented)
     defaultValue?: any;
-    // (undocumented)
     isConstant?: boolean;
-    // (undocumented)
     nullable?: boolean;
-    // (undocumented)
     readOnly?: boolean;
-    // (undocumented)
     required?: boolean;
-    // (undocumented)
     serializedName?: string;
-    // (undocumented)
     type: MapperType;
-    // (undocumented)
     xmlElementName?: string;
-    // (undocumented)
     xmlIsAttribute?: boolean;
-    // (undocumented)
     xmlIsWrapped?: boolean;
-    // (undocumented)
     xmlName?: string;
+    xmlNamespace?: string;
+    xmlNamespacePrefix?: string;
 }
 
 // @public (undocumented)
