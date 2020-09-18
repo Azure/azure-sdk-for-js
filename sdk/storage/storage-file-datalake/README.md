@@ -220,6 +220,19 @@ See the [Azure AD Auth sample](https://github.com/Azure/azure-sdk-for-js/blob/ma
 
 [Note - Above steps are only for Node.js]
 
+#### using connection string
+
+Alternatively, you can instantiate a `DataLakeServiceClient` using the `fromConnectionString()` static method with the full connection string as the argument. (The connection string can be obtained from the azure portal.)
+[ONLY AVAILABLE IN NODE.JS RUNTIME]
+
+```javascript
+const { DataLakeServiceClient } = require("@azure/storage-file-datalake");
+
+const connStr = "<connection string>";
+
+const DataLakeServiceClient = DataLakeServiceClient.fromConnectionString(connStr);
+```
+
 #### with `StorageSharedKeyCredential`
 
 Alternatively, you instantiate a `DataLakeServiceClient` with a `StorageSharedKeyCredential` by passing account-name and account-key as arguments. (The account-name and account-key can be obtained from the azure portal.)

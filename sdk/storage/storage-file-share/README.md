@@ -153,6 +153,18 @@ const { ShareServiceClient, StorageSharedKeyCredential } = require("@azure/stora
 
 The `ShareServiceClient` requires an URL to the file share service and an access credential. It also optionally accepts some settings in the `options` parameter.
 
+#### using connection string
+
+Alternatively, you can instantiate a `ShareServiceClient` using the `fromConnectionString()` static method with the full connection string as the argument. (The connection string can be obtained from the azure portal.)
+
+```javascript
+const { ShareServiceClient } = require("@azure/storage-file-share");
+
+const connStr = "<connection string>";
+
+const ShareServiceClient = ShareServiceClient.fromConnectionString(connStr);
+```
+
 #### with `StorageSharedKeyCredential`
 
 Pass in a `StorageSharedKeyCredential` with your account name and account key. (The account-name and account-key can be obtained from the azure portal.)
@@ -449,9 +461,9 @@ const fileName = "<file name>";
 const serviceClient = new ShareServiceClient(`https://${account}.file.core.windows.net${sas}`);
 
 async function main() {
-  const fileClient = serviceClient.getShareClient(shareName)
-    .rootDirectoryClient
-    .getFileClient(fileName);
+  const fileClient = serviceClient
+    .getShareClient(shareName)
+    .rootDirectoryClient.getFileClient(fileName);
 
   // Get file content from position 0 to the end
   // In browsers, get downloaded data by accessing downloadFileResponse.blobBody
