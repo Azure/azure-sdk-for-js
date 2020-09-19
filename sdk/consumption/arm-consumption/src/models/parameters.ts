@@ -33,7 +33,6 @@ export const apiVersion: msRest.OperationQueryParameter = {
 export const apply: msRest.OperationQueryParameter = {
   parameterPath: [
     "options",
-    "queryOptions",
     "apply"
   ],
   mapper: {
@@ -63,6 +62,27 @@ export const billingPeriodName: msRest.OperationURLParameter = {
     }
   }
 };
+export const billingProfileId: msRest.OperationURLParameter = {
+  parameterPath: "billingProfileId",
+  mapper: {
+    required: true,
+    serializedName: "billingProfileId",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const billingScope: msRest.OperationURLParameter = {
+  parameterPath: "billingScope",
+  mapper: {
+    required: true,
+    serializedName: "billingScope",
+    type: {
+      name: "String"
+    }
+  },
+  skipEncoding: true
+};
 export const budgetName: msRest.OperationURLParameter = {
   parameterPath: "budgetName",
   mapper: {
@@ -73,21 +93,23 @@ export const budgetName: msRest.OperationURLParameter = {
     }
   }
 };
-export const departmentId: msRest.OperationURLParameter = {
-  parameterPath: "departmentId",
+export const endDate0: msRest.OperationQueryParameter = {
+  parameterPath: [
+    "options",
+    "endDate"
+  ],
   mapper: {
-    required: true,
-    serializedName: "departmentId",
+    serializedName: "endDate",
     type: {
       name: "String"
     }
   }
 };
-export const enrollmentAccountId: msRest.OperationURLParameter = {
-  parameterPath: "enrollmentAccountId",
+export const endDate1: msRest.OperationQueryParameter = {
+  parameterPath: "endDate",
   mapper: {
     required: true,
-    serializedName: "enrollmentAccountId",
+    serializedName: "endDate",
     type: {
       name: "String"
     }
@@ -137,11 +159,33 @@ export const grain: msRest.OperationQueryParameter = {
     }
   }
 };
+export const lookBackPeriod: msRest.OperationQueryParameter = {
+  parameterPath: "lookBackPeriod",
+  mapper: {
+    required: true,
+    serializedName: "lookBackPeriod",
+    type: {
+      name: "String"
+    }
+  }
+};
 export const managementGroupId: msRest.OperationURLParameter = {
   parameterPath: "managementGroupId",
   mapper: {
     required: true,
     serializedName: "managementGroupId",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const metric: msRest.OperationQueryParameter = {
+  parameterPath: [
+    "options",
+    "metric"
+  ],
+  mapper: {
+    serializedName: "metric",
     type: {
       name: "String"
     }
@@ -158,7 +202,27 @@ export const nextPageLink: msRest.OperationURLParameter = {
   },
   skipEncoding: true
 };
-export const reservationId: msRest.OperationURLParameter = {
+export const product: msRest.OperationQueryParameter = {
+  parameterPath: "product",
+  mapper: {
+    required: true,
+    serializedName: "product",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const region: msRest.OperationQueryParameter = {
+  parameterPath: "region",
+  mapper: {
+    required: true,
+    serializedName: "region",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const reservationId0: msRest.OperationURLParameter = {
   parameterPath: "reservationId",
   mapper: {
     required: true,
@@ -168,7 +232,19 @@ export const reservationId: msRest.OperationURLParameter = {
     }
   }
 };
-export const reservationOrderId: msRest.OperationURLParameter = {
+export const reservationId1: msRest.OperationQueryParameter = {
+  parameterPath: [
+    "options",
+    "reservationId"
+  ],
+  mapper: {
+    serializedName: "reservationId",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const reservationOrderId0: msRest.OperationURLParameter = {
   parameterPath: "reservationOrderId",
   mapper: {
     required: true,
@@ -178,11 +254,34 @@ export const reservationOrderId: msRest.OperationURLParameter = {
     }
   }
 };
-export const resourceGroupName: msRest.OperationURLParameter = {
-  parameterPath: "resourceGroupName",
+export const reservationOrderId1: msRest.OperationQueryParameter = {
+  parameterPath: [
+    "options",
+    "reservationOrderId"
+  ],
+  mapper: {
+    serializedName: "reservationOrderId",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const scope0: msRest.OperationURLParameter = {
+  parameterPath: "scope",
   mapper: {
     required: true,
-    serializedName: "resourceGroupName",
+    serializedName: "scope",
+    type: {
+      name: "String"
+    }
+  },
+  skipEncoding: true
+};
+export const scope1: msRest.OperationQueryParameter = {
+  parameterPath: "scope",
+  mapper: {
+    required: true,
+    serializedName: "scope",
     type: {
       name: "String"
     }
@@ -200,11 +299,43 @@ export const skiptoken: msRest.OperationQueryParameter = {
     }
   }
 };
+export const startDate0: msRest.OperationQueryParameter = {
+  parameterPath: [
+    "options",
+    "startDate"
+  ],
+  mapper: {
+    serializedName: "startDate",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const startDate1: msRest.OperationQueryParameter = {
+  parameterPath: "startDate",
+  mapper: {
+    required: true,
+    serializedName: "startDate",
+    type: {
+      name: "String"
+    }
+  }
+};
 export const subscriptionId: msRest.OperationURLParameter = {
   parameterPath: "subscriptionId",
   mapper: {
     required: true,
     serializedName: "subscriptionId",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const term: msRest.OperationQueryParameter = {
+  parameterPath: "term",
+  mapper: {
+    required: true,
+    serializedName: "term",
     type: {
       name: "String"
     }
