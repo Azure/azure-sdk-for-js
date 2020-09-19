@@ -39,7 +39,7 @@
     "dist/",
     "dist-esm/src/",
     "shims-public.d.ts",
-    "types/**",
+    "types/src",
     "README.md",
     "LICENSE"
   ],
