@@ -43,6 +43,14 @@ export type DeviceCodePromptCallback = (deviceCodeInfo: DeviceCodeInfo) => void;
 const logger = credentialLogger("DeviceCodeCredential");
 
 /**
+ * Method that logs the user code from the DeviceCodeCredential.
+ * @param deviceCodeInfo The device code.
+ */
+export function defaultDeviceCodePromptCallback(deviceCodeInfo: DeviceCodeInfo): void {
+  console.log(deviceCodeInfo.userCode);
+}
+
+/**
  * Enables authentication to Azure Active Directory using a device code
  * that the user can enter into https://microsoft.com/devicelogin.
  */
@@ -62,13 +70,13 @@ export class DeviceCodeCredential implements TokenCredential {
    *                 'organizations' may be used when dealing with multi-tenant scenarios.
    * @param clientId The client (application) ID of an App Registration in the tenant.
    * @param userPromptCallback A callback function that will be invoked to show
-                               {@link DeviceCodeInfo} to the user.
+                               {@link DeviceCodeInfo} to the user. If left unassigned, a function will automatically log the user code in the console.
    * @param options Options for configuring the client which makes the authentication request.
    */
   constructor(
     tenantId: string | "organizations",
     clientId: string,
-    userPromptCallback: DeviceCodePromptCallback,
+    userPromptCallback: DeviceCodePromptCallback = defaultDeviceCodePromptCallback,
     options?: TokenCredentialOptions
   ) {
     this.identityClient = new IdentityClient(options);

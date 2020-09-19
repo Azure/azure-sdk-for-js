@@ -96,7 +96,7 @@ export interface DefaultAzureCredentialOptions extends TokenCredentialOptions {
 
 // @public
 export class DeviceCodeCredential implements TokenCredential {
-    constructor(tenantId: string | "organizations", clientId: string, userPromptCallback: DeviceCodePromptCallback, options?: TokenCredentialOptions);
+    constructor(tenantId: string | "organizations", clientId: string, userPromptCallback?: DeviceCodePromptCallback, options?: TokenCredentialOptions);
     getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken | null>;
     }
 
@@ -135,7 +135,7 @@ export { GetTokenOptions }
 export class InteractiveBrowserCredential implements TokenCredential {
     constructor(options?: InteractiveBrowserCredentialOptions);
     getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken | null>;
-}
+    }
 
 // @public
 export interface InteractiveBrowserCredentialOptions extends TokenCredentialOptions {
