@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 function formatNullAndUndefined(input: unknown): string | unknown {
-  if (input == null || input == undefined) {
+  if (input === null || input === undefined) {
     return "null";
   }
 
