@@ -26,10 +26,8 @@
   "files": [
     "types/latest/corePaging.d.ts",
     "types/3.1",
-    "dist-esm/**/*.js",
     "LICENSE",
     "README.md",
-    "dist",
     "dist-esm/src"
   ],
   "engines": {
