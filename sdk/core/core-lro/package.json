@@ -31,8 +31,7 @@
     "types/core-lro.d.ts",
     "dist/",
     "README.md",
-    "LICENSE",
-    "dist-esm/src/**/*.map"
+    "LICENSE"
   ],
   "engines": {
     "node": ">=8.0.0"
