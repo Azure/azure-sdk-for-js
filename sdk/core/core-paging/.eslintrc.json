@@ -7,7 +7,7 @@
     // polyfill.
     "@azure/azure-sdk/ts-package-json-sideeffects": "off",
     // this package does not have a module in `dist` because the directory does
-    // not exists.
+    // not exist.
     "@azure/azure-sdk/ts-package-json-main-is-cjs": "off",
     // this package does not export a module.
     "@azure/azure-sdk/ts-package-json-module": "off",
