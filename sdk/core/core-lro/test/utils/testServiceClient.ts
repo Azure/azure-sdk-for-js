@@ -10,6 +10,8 @@ import {
   RequestOptionsBase
 } from "@azure/core-http";
 
+interface TestServiceClientOptions extends ServiceClientOptions {}
+
 export class TestServiceClient extends ServiceClient {
   private responses: HttpOperationResponse[] = [];
   private initialResponse?: HttpOperationResponse;
@@ -19,7 +21,7 @@ export class TestServiceClient extends ServiceClient {
 
   constructor(
     credentials: TokenCredential | ServiceClientCredentials,
-    options?: ServiceClientOptions
+    options?: TestServiceClientOptions
   ) {
     super(credentials, options);
     this.credentials = credentials;
