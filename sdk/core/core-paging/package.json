@@ -24,11 +24,10 @@
     }
   },
   "files": [
-    "types/latest/corePaging.d.ts",
+    "types/latest/core-paging.d.ts",
     "types/3.1",
     "LICENSE",
-    "README.md",
-    "dist-esm/src"
+    "README.md"
   ],
   "engines": {
     "node": ">=8.0.0"
