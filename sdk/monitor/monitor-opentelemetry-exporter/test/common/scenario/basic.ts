@@ -88,6 +88,7 @@ export class BasicScenario implements Scenario {
       data: {
         baseType: "RequestData",
         baseData: {
+          version: 1,
           name: "BasicScenario.Root",
           duration: msToTimeSpan(600),
           responseCode: "0",
@@ -95,7 +96,7 @@ export class BasicScenario implements Scenario {
           properties: {
             foo: "bar"
           }
-        } as Partial<RequestData>
+        } as Omit<RequestData, "id">
       },
       children: [
         {
@@ -103,6 +104,7 @@ export class BasicScenario implements Scenario {
           data: {
             baseType: "RemoteDependencyData",
             baseData: {
+              version: 1,
               name: "BasicScenario.Child.1",
               duration: msToTimeSpan(100),
               success: true,
@@ -110,7 +112,7 @@ export class BasicScenario implements Scenario {
               properties: {
                 numbers: 123 as any
               }
-            } as Partial<RemoteDependencyData>
+            } as Omit<RemoteDependencyData, "id">
           },
           children: []
         },
@@ -119,6 +121,7 @@ export class BasicScenario implements Scenario {
           data: {
             baseType: "RemoteDependencyData",
             baseData: {
+              version: 1,
               name: "BasicScenario.Child.2",
               duration: msToTimeSpan(100),
               success: true,
@@ -126,7 +129,7 @@ export class BasicScenario implements Scenario {
               properties: {
                 numbers: 1234 as any
               }
-            } as Partial<RemoteDependencyData>
+            } as Omit<RemoteDependencyData, "id">
           },
           children: []
         }

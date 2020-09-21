@@ -5,7 +5,6 @@ import { URL } from "url";
 import { ReadableSpan } from "@opentelemetry/tracing";
 import { hrTimeToMilliseconds } from "@opentelemetry/core";
 import { SpanKind, Logger, CanonicalCode, Link } from "@opentelemetry/api";
-import { Base } from "../Declarations/Contracts";
 import { Tags, Properties, MSLink, Measurements } from "../types";
 import {
   HTTP_METHOD,
@@ -195,7 +194,7 @@ export function readableSpanToEnvelope(
 ): Envelope {
   const envelope: Partial<Envelope> = {};
   envelope.sampleRate = 100;
-  envelope.data = new Base();
+  envelope.data = {};
   const tags = createTagsFromSpan(span);
   const [properties, measurements] = createPropertiesFromSpan(span);
   let data;
