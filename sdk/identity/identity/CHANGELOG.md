@@ -1,7 +1,7 @@
 # Release History
 
 ## 1.2.0-beta.2 (Unreleased)
-- Removed `@rollup/plugin-json` from dependency and added it as dev dependency
+- Reverted change in 1.2.0-beta.1 which moved @rollup/plugin-json from devDependencies to dependencies
 
 ## 1.2.0-beta.1 (2020-09-08)
 
