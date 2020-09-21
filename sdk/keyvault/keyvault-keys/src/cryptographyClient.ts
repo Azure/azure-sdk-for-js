@@ -32,7 +32,6 @@ import {
   GetKeyOptions,
   KeyVaultKey,
   LATEST_API_VERSION,
-  CryptographyOptions,
   CryptographyClientOptions,
   KeyOperation
 } from "./keysModels";
@@ -46,7 +45,13 @@ import {
   SignatureAlgorithm,
   SignResult,
   VerifyResult,
-  EncryptResult
+  EncryptResult,
+  EncryptOptions,
+  DecryptOptions,
+  WrapKeyOptions,
+  UnwrapKeyOptions,
+  SignOptions,
+  VerifyOptions
 } from "./cryptographyClientModels";
 import { KeyBundle } from "./generated/models";
 import { parseKeyVaultKeyId } from "./identifier";
@@ -737,33 +742,3 @@ export class CryptographyClient {
     }
   }
 }
-
-/**
- * Options for {@link encrypt}.
- */
-export interface EncryptOptions extends CryptographyOptions {}
-
-/**
- * Options for {@link decrypt}.
- */
-export interface DecryptOptions extends CryptographyOptions {}
-
-/**
- * Options for {@link sign}.
- */
-export interface SignOptions extends CryptographyOptions {}
-
-/**
- * Options for {@link verify}.
- */
-export interface VerifyOptions extends CryptographyOptions {}
-
-/**
- * Options for {@link wrapKey}.
- */
-export interface WrapKeyOptions extends CryptographyOptions {}
-
-/**
- * Options for {@link unwrapKey}.
- */
-export interface UnwrapKeyOptions extends CryptographyOptions {}
