@@ -33,6 +33,7 @@ import {
   GeneratedClientAnalyzeWithCustomModelResponse as AnalyzeWithCustomModelResponseModel,
   GeneratedClientAnalyzeLayoutAsyncResponse as AnalyzeLayoutAsyncResponseModel,
   GeneratedClientAnalyzeReceiptAsyncResponse as AnalyzeReceiptAsyncResponseModel,
+  GeneratedClientAnalyzeBusinessCardAsyncResponse as AnalyzeBusinessCardAsyncResponseModel,
   SourcePath,
   OperationStatus
 } from "./generated/models";
@@ -49,12 +50,17 @@ import {
   RecognizeReceiptPollerClient,
   BeginRecognizeReceiptPoller
 } from "./lro/analyze/receiptPoller";
+import {
+  RecognizeBusinessCardPollerClient,
+  BeginRecognizeBusinessCardPoller
+} from "./lro/analyze/businessCardPoller";
 import { FormRecognizerRequestBody, RecognizedFormArray, FormPageArray } from "./models";
 import { RecognizeContentResultResponse, RecognizeFormResultResponse } from "./internalModels";
 import {
   toRecognizeFormResultResponse,
   toRecognizeContentResultResponse,
-  toRecognizeFormResultResponseFromReceipt
+  toRecognizeFormResultResponseFromReceipt,
+  toRecognizeFormResultResponseFromBusinessCard
 } from "./transforms";
 import { createFormRecognizerAzureKeyCredentialPolicy } from "./azureKeyCredentialPolicy";
 
@@ -163,9 +169,19 @@ type GetRecognizedFormsOptions = FormRecognizerOperationOptions;
 type GetReceiptsOptions = FormRecognizerOperationOptions;
 
 /**
+ * Options for retrieving recognized business card data
+ */
+type GetBusinessCardsOptions = FormRecognizerOperationOptions;
+
+/**
  * Options for starting the receipt recognition operation
  */
 export type BeginRecognizeReceiptsOptions = BeginRecognizeFormsOptions;
+
+/**
+ * Options for starting the Business Card recognition operation
+ */
+export type BeginRecognizeBusinessCardsOptions = BeginRecognizeFormsOptions;
 
 /**
  * Client class for interacting with Azure Form Recognizer service.
@@ -499,6 +515,49 @@ export class FormRecognizerClient {
     }
   }
 
+  public async beginRecognizeBusinessCards(
+    businessCard: FormRecognizerRequestBody,
+    options: BeginRecognizeBusinessCardsOptions = {}
+  ): Promise<FormPollerLike> {
+    const analyzePollerClient: RecognizeBusinessCardPollerClient = {
+      beginRecognize: (...args) => recognizeBusinessCardInternal(this.client, ...args),
+      getRecognizeResult: (...args) => this.getBusinessCards(...args)
+    };
+
+    const poller = new BeginRecognizeBusinessCardPoller({
+      client: analyzePollerClient,
+      source: businessCard,
+      ...options
+    });
+
+    await poller.poll();
+    return poller;
+  }
+
+  public async beginRecognizeBusinessCardsFromUrl(
+    receiptUrl: string,
+    options: BeginRecognizeBusinessCardsOptions = {}
+  ): Promise<FormPollerLike> {
+    const analyzePollerClient: RecognizeBusinessCardPollerClient = {
+      beginRecognize: (...args) => recognizeBusinessCardInternal(this.client, ...args),
+      getRecognizeResult: (...args) => this.getBusinessCards(...args)
+    };
+
+    if (options.contentType) {
+      logger.warning("Ignoring 'contentType' parameter passed to URL-based method.");
+    }
+
+    const poller = new BeginRecognizeBusinessCardPoller({
+      client: analyzePollerClient,
+      source: receiptUrl,
+      ...options,
+      contentType: undefined
+    });
+
+    await poller.poll();
+    return poller;
+  }
+
   /**
    * Recognizes data from receipts using pre-built receipt model, enabling you to extract structure data
    * from receipts such as merchant name, merchant phone number, transaction date, and more.
@@ -693,6 +752,36 @@ export class FormRecognizerClient {
       span.end();
     }
   }
+
+  /**
+   * Retrieves the result of a business card recognition operation.
+   */
+  private async getBusinessCards(
+    resultId: string,
+    options?: GetBusinessCardsOptions
+  ): Promise<RecognizeFormResultResponse> {
+    const realOptions = options || {};
+    const { span, updatedOptions: finalOptions } = createSpan(
+      "FormRecognizerClient-getBusinessCards",
+      realOptions
+    );
+
+    try {
+      const result = await this.client.getAnalyzeBusinessCardResult(
+        resultId,
+        operationOptionsToRequestOptionsBase(finalOptions)
+      );
+      return toRecognizeFormResultResponseFromBusinessCard(result);
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
 }
 
 /**
@@ -804,6 +893,48 @@ async function recognizeReceiptInternal(
       );
     }
     return await client.analyzeReceiptAsync("application/json", {
+      fileStream: requestBody as SourcePath,
+      ...operationOptionsToRequestOptionsBase(finalOptions)
+    });
+  } catch (e) {
+    span.setStatus({
+      code: CanonicalCode.UNKNOWN,
+      message: e.message
+    });
+    throw e;
+  } finally {
+    span.end();
+  }
+}
+
+/**
+ * @internal
+ */
+async function recognizeBusinessCardInternal(
+  // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
+  client: GeneratedClient,
+  body: FormRecognizerRequestBody | string,
+  contentType?: FormContentType,
+  options?: RecognizeFormsOptions,
+  _modelId?: string
+): Promise<AnalyzeBusinessCardAsyncResponseModel> {
+  const realOptions = options || { includeFieldElements: false };
+  const { span, updatedOptions: finalOptions } = createSpan("analyzeBusinessCardInternal", {
+    ...realOptions,
+    includeTextDetails: realOptions.includeFieldElements
+  });
+  const requestBody = await toRequestBody(body);
+  const requestContentType = contentType ?? (await getContentType(requestBody));
+
+  try {
+    if (requestContentType) {
+      return await client.analyzeBusinessCardAsync(
+        requestContentType,
+        requestBody as Blob | ArrayBuffer | ArrayBufferView,
+        operationOptionsToRequestOptionsBase(finalOptions)
+      );
+    }
+    return await client.analyzeBusinessCardAsync("application/json", {
       fileStream: requestBody as SourcePath,
       ...operationOptionsToRequestOptionsBase(finalOptions)
     });

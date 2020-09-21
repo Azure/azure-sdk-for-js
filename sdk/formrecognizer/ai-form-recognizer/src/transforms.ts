@@ -13,6 +13,7 @@ import {
   TextLine as TextLineModel,
   GeneratedClientGetAnalyzeFormResultResponse as GetAnalyzeFormResultResponse,
   GeneratedClientGetAnalyzeReceiptResultResponse as GetAnalyzeReceiptResultResponse,
+  GeneratedClientGetAnalyzeBusinessCardResultResponse as GetAnalyzeBusinessCardResultResponse,
   GeneratedClientGetAnalyzeLayoutResultResponse as GetAnalyzeLayoutResultResponse,
   GeneratedClientGetCustomModelResponse as GetCustomModelResponse
 } from "./generated/models";
@@ -381,6 +382,41 @@ export function toRecognizeFormResultResponseFromReceipt(
       .map((d) => {
         if (d.docType !== "prebuilt:receipt") {
           throw new RangeError("The document type is not 'prebuilt:receipt'");
+        }
+        return toRecognizedForm(d, pages);
+      })
+  };
+}
+
+export function toRecognizeFormResultResponseFromBusinessCard(
+  original: GetAnalyzeBusinessCardResultResponse
+): RecognizeFormResultResponse {
+  const common = {
+    status: original.status,
+    createdOn: original.createdOn,
+    errors: original.analyzeResult?.errors,
+    lastModified: original.lastModified,
+    _response: original._response
+  };
+  if (original.status !== "succeeded") {
+    return common;
+  }
+
+  if (!original.analyzeResult) {
+    throw new Error("Expecting valid analyzeResult from the service response");
+  }
+
+  const pages = original.analyzeResult!.readResults.map(toFormPage);
+  return {
+    ...common,
+    version: original.analyzeResult!.version,
+    forms: original
+      .analyzeResult!.documentResults!.filter((d) => {
+        return !!d.fields;
+      })
+      .map((d) => {
+        if (d.docType !== "prebuilt:businesscard") {
+          throw new RangeError("The document type is not 'prebuilt:businesscard'");
         }
         return toRecognizedForm(d, pages);
       })

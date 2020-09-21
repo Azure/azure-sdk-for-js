@@ -31,6 +31,9 @@ export type BeginCopyModelOptions = FormRecognizerOperationOptions & {
 };
 
 // @public
+export type BeginRecognizeBusinessCardsOptions = BeginRecognizeFormsOptions;
+
+// @public
 export type BeginRecognizeContentOptions = RecognizeContentOptions & {
     updateIntervalInMs?: number;
     onProgress?: (state: RecognizeContentOperationState) => void;
@@ -219,6 +222,10 @@ export type FormPollerLike = PollerLike<RecognizeFormsOperationState, Recognized
 // @public
 export class FormRecognizerClient {
     constructor(endpointUrl: string, credential: TokenCredential | KeyCredential, options?: FormRecognizerClientOptions);
+    // (undocumented)
+    beginRecognizeBusinessCards(businessCard: FormRecognizerRequestBody, options?: BeginRecognizeBusinessCardsOptions): Promise<FormPollerLike>;
+    // (undocumented)
+    beginRecognizeBusinessCardsFromUrl(receiptUrl: string, options?: BeginRecognizeBusinessCardsOptions): Promise<FormPollerLike>;
     beginRecognizeContent(form: FormRecognizerRequestBody, options?: BeginRecognizeContentOptions): Promise<ContentPollerLike>;
     beginRecognizeContentFromUrl(formUrl: string, options?: BeginRecognizeContentOptions): Promise<ContentPollerLike>;
     beginRecognizeCustomForms(modelId: string, form: FormRecognizerRequestBody, options?: BeginRecognizeFormsOptions): Promise<FormPollerLike>;
