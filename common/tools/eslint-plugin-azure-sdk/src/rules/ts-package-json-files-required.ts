@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 /**
- * @file Rule to force package.json's files value to contain paths to the package contents.
+ * @file Rule to force package.json's files value to contain paths to the package contents and excludes source code files.
  * @author Arpan Laha
  */
 
@@ -31,7 +31,7 @@ export = {
           // check to see if files exists at the outermost level
           "ExpressionStatement > ObjectExpression": verifiers.existsInFile,
 
-          // check that files contains dist, dist-esm, and src
+          // check that files contains dist, and do not include dist-esm, and src
           "ExpressionStatement > ObjectExpression > Property[key.value='files']": (
             node: Property
           ): void => {
@@ -46,37 +46,60 @@ export = {
 
             const nodeValue = node.value;
             const elements = nodeValue.elements as Literal[];
-            const elementValues = elements.map((element: Literal): unknown => element.value);
+            let elementValues = elements.map((element: Literal): unknown => element.value);
 
-            // looks for 'dist' with optional leading './' and optional trailing '/'
-            if (
-              elements.every(
-                (element: Literal): boolean =>
-                  !/^(.\/)?((dist\/)|(dist$))/.test(element.value as string)
-              )
-            ) {
-              context.report({
-                node: nodeValue,
-                message: "dist is not included in files",
-                fix: (fixer: Rule.RuleFixer): Rule.Fix => {
-                  elementValues.push("dist");
-                  return fixer.replaceText(nodeValue, arrayToString(elementValues));
+            let badFiles: string[] = [];
+            let goodFiles = ["dist"];
+            const fullMatchIndex = 0;
+            const patternRootMatchIndex = 1;
+            elements.forEach((element) => {
+              const patternMatchResult = (element.value as string).match(
+                /^(?:.\/)?(dist-esm|dist|src)(?:\/)?(?:.+)?/
+              );
+              if (patternMatchResult !== null) {
+                const patternRoot = patternMatchResult[patternRootMatchIndex];
+                switch (patternRoot) {
+                  case "dist-esm":
+                  case "src":
+                    badFiles.push(patternMatchResult[fullMatchIndex]);
+                    break;
+                  case "dist":
+                    goodFiles.splice(goodFiles.indexOf(patternRoot));
+                    break;
+                  default:
+                    context.report({
+                      node: nodeValue,
+                      message: "impossible"
+                    });
+                    return;
                 }
-              });
+              }
+            });
+            let message = "";
+            if (badFiles.length > 0) {
+              message = `${badFiles.join()} ${
+                badFiles.length === 1 ? "is" : "are"
+              } included in files`;
+              elementValues = elementValues.filter(
+                (element) => badFiles.indexOf(element as string) < 0
+              );
             }
-
-            // looks for 'dist-esm/src' with optional leading './' and optional trailing '/'
-            if (
-              elements.every(
-                (element: Literal): boolean =>
-                  !/^(.\/)?dist-esm\/((src\/)|(src$))/.test(element.value as string)
-              )
-            ) {
+            if (goodFiles.length > 0) {
+              if (message.length > 0) {
+                message = message + " and ";
+              }
+              message =
+                message +
+                `${goodFiles.join()} ${
+                  goodFiles.length === 1 ? "is" : "are"
+                } not included in files`;
+              elementValues = elementValues.concat(goodFiles);
+            }
+            if (message.length > 0) {
               context.report({
                 node: nodeValue,
-                message: "dist-esm/src is not included in files",
+                message: message,
                 fix: (fixer: Rule.RuleFixer): Rule.Fix => {
-                  elementValues.push("dist-esm/src");
                   return fixer.replaceText(nodeValue, arrayToString(elementValues));
                 }
               });

@@ -2,7 +2,7 @@
 
 Requires `files` in `package.json` to contain paths to the package contents.
 
-Specifically, this rule looks for inclusion of `dist`, `dist-esm/src`, and `src` as either just those directories or specific subdirectories
+Specifically, this rule looks for inclusion of `dist`, and the exclusion of `dist-esm/src`, and `src` as either just those directories or specific subdirectories
 
 This rule is fixable using the `--fix` option.
 
@@ -12,41 +12,25 @@ This rule is fixable using the `--fix` option.
 
 ```json
 {
-    "files": [
-        "dist",
-        "dist-esm/src"
-        "src"
-    ]
+  "files": ["dist"]
 }
 ```
 
 ```json
 {
-    "files": [
-        "./dist",
-        "./dist-esm/src"
-        "./src"
-    ]
+  "files": ["./dist"]
 }
 ```
 
 ```json
 {
-    "files": [
-        "dist/",
-        "dist-esm/src/"
-        "src/"
-    ]
+  "files": ["dist/"]
 }
 ```
 
 ```json
 {
-    "files": [
-        "dist/lib",
-        "dist-esm/src/lib"
-        "src/lib"
-    ]
+  "files": ["dist/lib"]
 }
 ```
 
@@ -55,12 +39,6 @@ This rule is fixable using the `--fix` option.
 ```json
 {
   "files": ["dist", "dist-esm/src"]
-}
-```
-
-```json
-{
-  "files": ["dist"]
 }
 ```
 
