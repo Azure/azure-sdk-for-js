@@ -10,8 +10,6 @@ import { TokenCredentialOptions, IdentityClient } from "../client/identityClient
 import { DefaultTenantId, DeveloperSignOnClientId } from "../constants";
 import { Socket } from "net";
 
-const SERVER_PORT = process.env.PORT || 80;
-
 import express from "express";
 import {
   PublicClientApplication,
@@ -22,11 +20,15 @@ import {
 import open from "open";
 import path from "path";
 import http from "http";
+import {CredentialUnavailable} from "../client/errors";
 
-const BrowserNotSupportedError = new Error(
-  "InteractiveBrowserCredential is not supported in Node.js."
-);
 const logger = credentialLogger("InteractiveBrowserCredential");
+
+class AuthenticationRequired extends CredentialUnavailable {
+  constructor(message?: string) {
+    super(message)
+  }
+}
 
 interface AuthenticationRecord {
   authority?: string;
@@ -51,6 +53,7 @@ export class InteractiveBrowserCredential implements TokenCredential {
   private redirectUri: string;
   private authorityHost: string;
   private authenticationRecord: AuthenticationRecord | undefined;
+  private port: number;
 
   constructor(options?: InteractiveBrowserCredentialOptions) {
     this.identityClient = new IdentityClient(options);
@@ -69,6 +72,12 @@ export class InteractiveBrowserCredential implements TokenCredential {
       }
     } else {
       this.redirectUri = "http://localhost";
+    }
+
+    const url = new URL(this.redirectUri);
+    this.port = parseInt(url.port);
+    if (this.port == 0) {
+      this.port = 80;
     }
 
     if (options && options.authorityHost) {
@@ -110,7 +119,15 @@ export class InteractiveBrowserCredential implements TokenCredential {
     const scopeArray = typeof scopes === "object" ? scopes : [scopes];
 
     if (this.authenticationRecord && this.persistenceEnabled) {
-      return this.acquireTokenFromCache();
+      try {
+        return this.acquireTokenFromCache();
+      } catch (e) {
+        if (e instanceof AuthenticationRequired) {
+          return this.acquireTokenFromBrowser(scopeArray);
+        } else {
+          throw e;
+        }
+      }
     } else {
       return this.acquireTokenFromBrowser(scopeArray);
     }
@@ -118,26 +135,24 @@ export class InteractiveBrowserCredential implements TokenCredential {
 
   private async acquireTokenFromCache(): Promise<AccessToken | null> {
     await this.msalCacheManager.readFromPersistence();
-    const contents = this.msalCacheManager.serialize();
-    console.log(JSON.parse(contents));
-
-    const accounts = this.msalCacheManager.getAllAccounts();
-    console.log("Accounts: ", accounts);
+    // const contents = this.msalCacheManager.serialize();
+    // const accounts = this.msalCacheManager.getAllAccounts();
 
     const silentRequest = {
       account: this.authenticationRecord!,
       scopes: ["https://vault.azure.net/user_impersonation", "https://vault.azure.net/.default"]
     };
 
-    console.log("silent request: ", silentRequest);
-
-    const response = await this.pca.acquireTokenSilent(silentRequest);
-
-    console.log("\nSuccessful silent token acquisition:\nResponse: \n:", response);
-    return {
-      expiresOnTimestamp: response.expiresOn.getTime(),
-      token: response.accessToken
-    };
+    try {
+      const response = await this.pca.acquireTokenSilent(silentRequest);
+      logger.info(`Successful silent token acquisition:\nResponse: \n${response}`);
+      return {
+        expiresOnTimestamp: response.expiresOn.getTime(),
+        token: response.accessToken
+      };
+    } catch(e) {
+      throw new AuthenticationRequired("Could not authenticate silently using the cache")
+    }
   }
 
   private async openAuthCodeUrl(scopeArray: string[]): Promise<void> {
@@ -187,7 +202,7 @@ export class InteractiveBrowserCredential implements TokenCredential {
         try {
           const authResponse = await this.pca.acquireTokenByCode(tokenRequest);
           res.sendStatus(200);
-          logger.info(`authResponse: ${authResponse}`);
+
           if (this.persistenceEnabled) {
             this.msalCacheManager.writeToPersistence();
           }
@@ -209,8 +224,8 @@ export class InteractiveBrowserCredential implements TokenCredential {
         }
       });
 
-      listen = app.listen(SERVER_PORT, () =>
-        logger.info(`Msal Node Auth Code Sample app listening on port ${SERVER_PORT}!`)
+      listen = app.listen(this.port, () =>
+        logger.info(`Msal Node Auth Code Sample app listening on port ${this.port}!`)
       );
       listen.on("connection", (socket) => (socketToDestroy = socket));
 

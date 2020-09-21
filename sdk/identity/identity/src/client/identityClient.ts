@@ -198,6 +198,10 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
 
     return this.sendRequest(webResource).then((x) => {
       let headers: Record<string, string> = {};
+      let kv = x.headers.headersArray();
+      for (let idx in kv) {
+        headers[kv[idx].name] = kv[idx].value;
+      }
 
       return {
         body: x.parsedBody as T,
@@ -215,6 +219,10 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
 
     return this.sendRequest(webResource).then((x) => {
       let headers: Record<string, string> = {};
+      let kv = x.headers.headersArray();
+      for (let idx in kv) {
+        headers[kv[idx].name] = kv[idx].value;
+      }
 
       return {
         body: x.parsedBody as T,
