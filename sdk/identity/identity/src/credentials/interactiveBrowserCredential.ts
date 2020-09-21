@@ -20,13 +20,13 @@ import {
 import open from "open";
 import path from "path";
 import http from "http";
-import {CredentialUnavailable} from "../client/errors";
+import { CredentialUnavailable } from "../client/errors";
 
 const logger = credentialLogger("InteractiveBrowserCredential");
 
 class AuthenticationRequired extends CredentialUnavailable {
   constructor(message?: string) {
-    super(message)
+    super(message);
   }
 }
 
@@ -150,8 +150,8 @@ export class InteractiveBrowserCredential implements TokenCredential {
         expiresOnTimestamp: response.expiresOn.getTime(),
         token: response.accessToken
       };
-    } catch(e) {
-      throw new AuthenticationRequired("Could not authenticate silently using the cache")
+    } catch (e) {
+      throw new AuthenticationRequired("Could not authenticate silently using the cache");
     }
   }
 
