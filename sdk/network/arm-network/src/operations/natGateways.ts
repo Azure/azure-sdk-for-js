@@ -427,9 +427,7 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
     201: {
       bodyMapper: Mappers.NatGateway
     },
-    202: {
-      bodyMapper: Mappers.NatGateway
-    },
+    202: {},
     default: {
       bodyMapper: Mappers.CloudError
     }
