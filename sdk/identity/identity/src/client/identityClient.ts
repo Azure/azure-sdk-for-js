@@ -10,7 +10,11 @@ import {
   RequestPrepareOptions,
   GetTokenOptions,
   createPipelineFromOptions,
-  isNode, OperationArguments, OperationSpec, RawHttpHeaders, HttpHeaders
+  isNode,
+  OperationArguments,
+  OperationSpec,
+  RawHttpHeaders,
+  HttpHeaders
 } from "@azure/core-http";
 import { INetworkModule, NetworkRequestOptions, NetworkResponse } from "@azure/msal-common";
 
@@ -186,30 +190,36 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
     }
   }
 
-  sendGetRequestAsync<T>(url: string, options?: NetworkRequestOptions): Promise<NetworkResponse<T>> {
+  sendGetRequestAsync<T>(
+    url: string,
+    options?: NetworkRequestOptions
+  ): Promise<NetworkResponse<T>> {
     const webResource = new WebResource(url, "GET", options?.body, {}, options?.headers);
 
     return this.sendRequest(webResource).then((x) => {
       let headers: Record<string, string> = {};
-      
+
       return {
         body: x.parsedBody as T,
         headers,
-        status: x.status,
+        status: x.status
       };
     });
   }
 
-  sendPostRequestAsync<T>(url: string, options?: NetworkRequestOptions): Promise<NetworkResponse<T>> {
+  sendPostRequestAsync<T>(
+    url: string,
+    options?: NetworkRequestOptions
+  ): Promise<NetworkResponse<T>> {
     const webResource = new WebResource(url, "POST", options?.body, {}, options?.headers);
 
     return this.sendRequest(webResource).then((x) => {
       let headers: Record<string, string> = {};
-      
+
       return {
         body: x.parsedBody as T,
         headers,
-        status: x.status,
+        status: x.status
       };
     });
   }

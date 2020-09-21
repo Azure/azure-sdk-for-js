@@ -13,7 +13,12 @@ import { Socket } from "net";
 const SERVER_PORT = process.env.PORT || 80;
 
 import express from "express";
-import { PublicClientApplication, TokenCache, AuthorizationCodeRequest, Configuration } from "@azure/msal-node";
+import {
+  PublicClientApplication,
+  TokenCache,
+  AuthorizationCodeRequest,
+  Configuration
+} from "@azure/msal-node";
 import open from "open";
 import path from "path";
 import http from "http";
@@ -82,7 +87,7 @@ export class InteractiveBrowserCredential implements TokenCredential {
         authority: this.authorityHost
       },
       cache: options?.cacheOptions,
-      system: {networkClient: this.identityClient}
+      system: { networkClient: this.identityClient }
     };
     this.pca = new PublicClientApplication(publicClientConfig);
     this.msalCacheManager = this.pca.getTokenCache();
@@ -115,24 +120,24 @@ export class InteractiveBrowserCredential implements TokenCredential {
     await this.msalCacheManager.readFromPersistence();
     const contents = this.msalCacheManager.serialize();
     console.log(JSON.parse(contents));
-    
+
     const accounts = this.msalCacheManager.getAllAccounts();
     console.log("Accounts: ", accounts);
 
     const silentRequest = {
       account: this.authenticationRecord!,
-      scopes: ['https://vault.azure.net/user_impersonation', 'https://vault.azure.net/.default'],
+      scopes: ["https://vault.azure.net/user_impersonation", "https://vault.azure.net/.default"]
     };
 
     console.log("silent request: ", silentRequest);
 
     const response = await this.pca.acquireTokenSilent(silentRequest);
-    
+
     console.log("\nSuccessful silent token acquisition:\nResponse: \n:", response);
     return {
       expiresOnTimestamp: response.expiresOn.getTime(),
       token: response.accessToken
-    };    
+    };
   }
 
   private async openAuthCodeUrl(scopeArray: string[]): Promise<void> {

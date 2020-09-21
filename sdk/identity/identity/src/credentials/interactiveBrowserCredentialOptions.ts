@@ -17,11 +17,11 @@ export type BrowserLoginStyle = "redirect" | "popup";
  * The record to use to find the cached tokens in the cache
  */
 export interface AuthenticationRecord {
-  authority?: string,
-  homeAccountId: string,
-  environment: string,
-  tenantId: string,
-  username: string,
+  authority?: string;
+  homeAccountId: string;
+  environment: string;
+  tenantId: string;
+  username: string;
 }
 
 /**
@@ -66,10 +66,10 @@ export interface InteractiveBrowserCredentialOptions extends TokenCredentialOpti
       readFromStorage: () => Promise<string>;
       writeToStorage: (getMergedState: (oldState: string) => string) => Promise<void>;
     };
-  },
+  };
 
   /**
    * The authentication record to use to find existing tokens in the cache
    */
-  authenticationRecord?: AuthenticationRecord,
+  authenticationRecord?: AuthenticationRecord;
 }
