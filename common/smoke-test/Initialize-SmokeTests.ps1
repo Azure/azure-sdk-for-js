@@ -184,7 +184,7 @@ foreach ($entry in $manifest) {
 
   foreach ($dep in $packageSpec.dependencies.Keys) {
     if ($dep.StartsWith('@azure/')) {
-      $dependencies[$dep] = "dev"
+      $dependencies[$dep] = "alpha"
     }
     else {
       $dependencies[$dep] = $packageSpec.dependencies[$dep]
