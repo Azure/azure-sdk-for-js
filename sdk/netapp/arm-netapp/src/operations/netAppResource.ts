@@ -50,7 +50,7 @@ export class NetAppResource {
    * @param resourceGroup Resource group name.
    * @param callback The callback
    */
-  checkNameAvailability(location: string, name: string, type: Models.CheckNameResourceTypes, resourceGroup: string, callback: msRest.ServiceCallback<Models.ResourceNameAvailability>): void;
+  checkNameAvailability(location: string, name: string, type: Models.CheckNameResourceTypes, resourceGroup: string, callback: msRest.ServiceCallback<Models.CheckAvailabilityResponse>): void;
   /**
    * @param location The location
    * @param name Resource name to verify.
@@ -62,8 +62,8 @@ export class NetAppResource {
    * @param options The optional parameters
    * @param callback The callback
    */
-  checkNameAvailability(location: string, name: string, type: Models.CheckNameResourceTypes, resourceGroup: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ResourceNameAvailability>): void;
-  checkNameAvailability(location: string, name: string, type: Models.CheckNameResourceTypes, resourceGroup: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ResourceNameAvailability>, callback?: msRest.ServiceCallback<Models.ResourceNameAvailability>): Promise<Models.NetAppResourceCheckNameAvailabilityResponse> {
+  checkNameAvailability(location: string, name: string, type: Models.CheckNameResourceTypes, resourceGroup: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CheckAvailabilityResponse>): void;
+  checkNameAvailability(location: string, name: string, type: Models.CheckNameResourceTypes, resourceGroup: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CheckAvailabilityResponse>, callback?: msRest.ServiceCallback<Models.CheckAvailabilityResponse>): Promise<Models.NetAppResourceCheckNameAvailabilityResponse> {
     return this.client.sendOperationRequest(
       {
         location,
@@ -100,7 +100,7 @@ export class NetAppResource {
    * @param resourceGroup Resource group name.
    * @param callback The callback
    */
-  checkFilePathAvailability(location: string, name: string, type: Models.CheckNameResourceTypes, resourceGroup: string, callback: msRest.ServiceCallback<Models.ResourceNameAvailability>): void;
+  checkFilePathAvailability(location: string, name: string, type: Models.CheckNameResourceTypes, resourceGroup: string, callback: msRest.ServiceCallback<Models.CheckAvailabilityResponse>): void;
   /**
    * @param location The location
    * @param name Resource name to verify.
@@ -112,8 +112,8 @@ export class NetAppResource {
    * @param options The optional parameters
    * @param callback The callback
    */
-  checkFilePathAvailability(location: string, name: string, type: Models.CheckNameResourceTypes, resourceGroup: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.ResourceNameAvailability>): void;
-  checkFilePathAvailability(location: string, name: string, type: Models.CheckNameResourceTypes, resourceGroup: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.ResourceNameAvailability>, callback?: msRest.ServiceCallback<Models.ResourceNameAvailability>): Promise<Models.NetAppResourceCheckFilePathAvailabilityResponse> {
+  checkFilePathAvailability(location: string, name: string, type: Models.CheckNameResourceTypes, resourceGroup: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CheckAvailabilityResponse>): void;
+  checkFilePathAvailability(location: string, name: string, type: Models.CheckNameResourceTypes, resourceGroup: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CheckAvailabilityResponse>, callback?: msRest.ServiceCallback<Models.CheckAvailabilityResponse>): Promise<Models.NetAppResourceCheckFilePathAvailabilityResponse> {
     return this.client.sendOperationRequest(
       {
         location,
@@ -124,6 +124,56 @@ export class NetAppResource {
       },
       checkFilePathAvailabilityOperationSpec,
       callback) as Promise<Models.NetAppResourceCheckFilePathAvailabilityResponse>;
+  }
+
+  /**
+   * Check if a quota is available.
+   * @summary Check quota availability
+   * @param location The location
+   * @param name Name of the resource to verify.
+   * @param type Resource type used for verification. Possible values include:
+   * 'Microsoft.NetApp/netAppAccounts', 'Microsoft.NetApp/netAppAccounts/capacityPools',
+   * 'Microsoft.NetApp/netAppAccounts/capacityPools/volumes',
+   * 'Microsoft.NetApp/netAppAccounts/capacityPools/volumes/snapshots'
+   * @param resourceGroup Resource group name.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.NetAppResourceCheckQuotaAvailabilityResponse>
+   */
+  checkQuotaAvailability(location: string, name: string, type: Models.CheckQuotaNameResourceTypes, resourceGroup: string, options?: msRest.RequestOptionsBase): Promise<Models.NetAppResourceCheckQuotaAvailabilityResponse>;
+  /**
+   * @param location The location
+   * @param name Name of the resource to verify.
+   * @param type Resource type used for verification. Possible values include:
+   * 'Microsoft.NetApp/netAppAccounts', 'Microsoft.NetApp/netAppAccounts/capacityPools',
+   * 'Microsoft.NetApp/netAppAccounts/capacityPools/volumes',
+   * 'Microsoft.NetApp/netAppAccounts/capacityPools/volumes/snapshots'
+   * @param resourceGroup Resource group name.
+   * @param callback The callback
+   */
+  checkQuotaAvailability(location: string, name: string, type: Models.CheckQuotaNameResourceTypes, resourceGroup: string, callback: msRest.ServiceCallback<Models.CheckAvailabilityResponse>): void;
+  /**
+   * @param location The location
+   * @param name Name of the resource to verify.
+   * @param type Resource type used for verification. Possible values include:
+   * 'Microsoft.NetApp/netAppAccounts', 'Microsoft.NetApp/netAppAccounts/capacityPools',
+   * 'Microsoft.NetApp/netAppAccounts/capacityPools/volumes',
+   * 'Microsoft.NetApp/netAppAccounts/capacityPools/volumes/snapshots'
+   * @param resourceGroup Resource group name.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  checkQuotaAvailability(location: string, name: string, type: Models.CheckQuotaNameResourceTypes, resourceGroup: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.CheckAvailabilityResponse>): void;
+  checkQuotaAvailability(location: string, name: string, type: Models.CheckQuotaNameResourceTypes, resourceGroup: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.CheckAvailabilityResponse>, callback?: msRest.ServiceCallback<Models.CheckAvailabilityResponse>): Promise<Models.NetAppResourceCheckQuotaAvailabilityResponse> {
+    return this.client.sendOperationRequest(
+      {
+        location,
+        name,
+        type,
+        resourceGroup,
+        options
+      },
+      checkQuotaAvailabilityOperationSpec,
+      callback) as Promise<Models.NetAppResourceCheckQuotaAvailabilityResponse>;
   }
 }
 
@@ -155,7 +205,7 @@ const checkNameAvailabilityOperationSpec: msRest.OperationSpec = {
   },
   responses: {
     200: {
-      bodyMapper: Mappers.ResourceNameAvailability
+      bodyMapper: Mappers.CheckAvailabilityResponse
     },
     default: {
       bodyMapper: Mappers.CloudError
@@ -190,7 +240,42 @@ const checkFilePathAvailabilityOperationSpec: msRest.OperationSpec = {
   },
   responses: {
     200: {
-      bodyMapper: Mappers.ResourceNameAvailability
+      bodyMapper: Mappers.CheckAvailabilityResponse
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const checkQuotaAvailabilityOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/providers/Microsoft.NetApp/locations/{location}/checkQuotaAvailability",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.location
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: {
+      name: "name",
+      type: "type",
+      resourceGroup: "resourceGroup"
+    },
+    mapper: {
+      ...Mappers.QuotaAvailabilityRequest,
+      required: true
+    }
+  },
+  responses: {
+    200: {
+      bodyMapper: Mappers.CheckAvailabilityResponse
     },
     default: {
       bodyMapper: Mappers.CloudError
