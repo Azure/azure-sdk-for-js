@@ -13,7 +13,7 @@ import { Socket } from "net";
 const SERVER_PORT = process.env.PORT || 80;
 
 import express from "express";
-import { PublicClientApplication, TokenCache, AuthorizationCodeRequest } from "@azure/msal-node";
+import { PublicClientApplication, TokenCache, AuthorizationCodeRequest, Configuration } from "@azure/msal-node";
 import open from "open";
 import path from "path";
 import http from "http";
@@ -53,8 +53,8 @@ export class InteractiveBrowserCredential implements TokenCredential {
     this.clientId = (options && options.clientId) || DeveloperSignOnClientId;
 
     // Future update: this is for persistent caching
-    this.persistenceEnabled = false;
-    this.authenticationRecord = undefined;
+    this.persistenceEnabled = this.persistenceEnabled = options?.cacheOptions !== undefined;
+    this.authenticationRecord = options?.authenticationRecord;
 
     if (options && options.redirectUri) {
       if (typeof options.redirectUri === "string") {
@@ -76,13 +76,13 @@ export class InteractiveBrowserCredential implements TokenCredential {
       this.authorityHost = "https://login.microsoftonline.com/" + this.tenantId;
     }
 
-    const publicClientConfig = {
+    const publicClientConfig: Configuration = {
       auth: {
         clientId: this.clientId,
-        authority: this.authorityHost,
-        redirectUri: this.redirectUri
+        authority: this.authorityHost
       },
-      cache: undefined
+      cache: options?.cacheOptions,
+      system: {networkClient: this.identityClient}
     };
     this.pca = new PublicClientApplication(publicClientConfig);
     this.msalCacheManager = this.pca.getTokenCache();
@@ -104,7 +104,35 @@ export class InteractiveBrowserCredential implements TokenCredential {
   ): Promise<AccessToken | null> {
     const scopeArray = typeof scopes === "object" ? scopes : [scopes];
 
-    return this.acquireTokenFromBrowser(scopeArray);
+    if (this.authenticationRecord && this.persistenceEnabled) {
+      return this.acquireTokenFromCache();
+    } else {
+      return this.acquireTokenFromBrowser(scopeArray);
+    }
+  }
+
+  private async acquireTokenFromCache(): Promise<AccessToken | null> {
+    await this.msalCacheManager.readFromPersistence();
+    const contents = this.msalCacheManager.serialize();
+    console.log(JSON.parse(contents));
+    
+    const accounts = this.msalCacheManager.getAllAccounts();
+    console.log("Accounts: ", accounts);
+
+    const silentRequest = {
+      account: this.authenticationRecord!,
+      scopes: ['https://vault.azure.net/user_impersonation', 'https://vault.azure.net/.default'],
+    };
+
+    console.log("silent request: ", silentRequest);
+
+    const response = await this.pca.acquireTokenSilent(silentRequest);
+    
+    console.log("\nSuccessful silent token acquisition:\nResponse: \n:", response);
+    return {
+      expiresOnTimestamp: response.expiresOn.getTime(),
+      token: response.accessToken
+    };    
   }
 
   private async openAuthCodeUrl(scopeArray: string[]): Promise<void> {
@@ -115,6 +143,14 @@ export class InteractiveBrowserCredential implements TokenCredential {
 
     const response = await this.pca.getAuthCodeUrl(authCodeUrlParameters);
     await open(response);
+
+    if (this.persistenceEnabled) {
+      try {
+        await this.msalCacheManager.readFromPersistence();
+      } catch (e) {
+        throw e;
+      }
+    }
   }
 
   private async acquireTokenFromBrowser(scopeArray: string[]): Promise<AccessToken | null> {

@@ -135,10 +135,18 @@ export { GetTokenOptions }
 export class InteractiveBrowserCredential implements TokenCredential {
     constructor(options?: InteractiveBrowserCredentialOptions);
     getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken | null>;
-}
+    }
 
 // @public
 export interface InteractiveBrowserCredentialOptions extends TokenCredentialOptions {
+    // Warning: (ae-forgotten-export) The symbol "AuthenticationRecord" needs to be exported by the entry point index.d.ts
+    authenticationRecord?: AuthenticationRecord;
+    cacheOptions?: {
+        cachePlugin?: {
+            readFromStorage: () => Promise<string>;
+            writeToStorage: (getMergedState: (oldState: string) => string) => Promise<void>;
+        };
+    };
     clientId?: string;
     loginStyle?: BrowserLoginStyle;
     postLogoutRedirectUri?: string | (() => string);
