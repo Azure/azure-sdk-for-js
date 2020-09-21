@@ -47,7 +47,7 @@ const logger = credentialLogger("DeviceCodeCredential");
  * @param deviceCodeInfo The device code.
  */
 export function defaultDeviceCodePromptCallback(deviceCodeInfo: DeviceCodeInfo): void {
-  console.log(deviceCodeInfo.userCode);
+  console.log(deviceCodeInfo.message);
 }
 
 /**
@@ -70,7 +70,7 @@ export class DeviceCodeCredential implements TokenCredential {
    *                 'organizations' may be used when dealing with multi-tenant scenarios.
    * @param clientId The client (application) ID of an App Registration in the tenant.
    * @param userPromptCallback A callback function that will be invoked to show
-                               {@link DeviceCodeInfo} to the user. If left unassigned, a function will automatically log the user code in the console.
+                               {@link DeviceCodeInfo} to the user. If left unassigned, we will automatically log the device code information and the authentication instructions in the console.
    * @param options Options for configuring the client which makes the authentication request.
    */
   constructor(
