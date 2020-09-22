@@ -1,6 +1,6 @@
-## Azure ManagedApplicationClient SDK for JavaScript
+## Azure ApplicationClient SDK for JavaScript
 
-This package contains an isomorphic SDK for ManagedApplicationClient.
+This package contains an isomorphic SDK for ApplicationClient.
 
 ### Currently supported environments
 
@@ -19,8 +19,9 @@ npm install @azure/arm-managedapplications
 
 ##### Install @azure/ms-rest-nodeauth
 
+- Please install minimum version of `"@azure/ms-rest-nodeauth": "^3.0.0"`.
 ```bash
-npm install @azure/ms-rest-nodeauth
+npm install @azure/ms-rest-nodeauth@"^3.0.0"
 ```
 
 ##### Sample code
@@ -29,11 +30,11 @@ npm install @azure/ms-rest-nodeauth
 import * as msRest from "@azure/ms-rest-js";
 import * as msRestAzure from "@azure/ms-rest-azure-js";
 import * as msRestNodeAuth from "@azure/ms-rest-nodeauth";
-import { ManagedApplicationClient, ManagedApplicationModels, ManagedApplicationMappers } from "@azure/arm-managedapplications";
+import { ApplicationClient, ApplicationModels, ApplicationMappers } from "@azure/arm-managedapplications";
 const subscriptionId = process.env["AZURE_SUBSCRIPTION_ID"];
 
 msRestNodeAuth.interactiveLogin().then((creds) => {
-  const client = new ManagedApplicationClient(creds, subscriptionId);
+  const client = new ApplicationClient(creds, subscriptionId);
   client.listOperations().then((result) => {
     console.log("The result is:");
     console.log(result);
@@ -76,7 +77,7 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
           // may cause redirects
           authManager.login();
         }
-        const client = new Azure.ArmManagedapplications.ManagedApplicationClient(res.creds, subscriptionId);
+        const client = new Azure.ArmManagedapplications.ApplicationClient(res.creds, subscriptionId);
         client.listOperations().then((result) => {
           console.log("The result is:");
           console.log(result);
@@ -95,4 +96,4 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
 
 - [Microsoft Azure SDK for Javascript](https://github.com/Azure/azure-sdk-for-js)
 
-![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fmanagedapplications%2Farm-managedapplications%2FREADME.png)
+![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js/sdk/managedapplications/arm-managedapplications/README.png)
