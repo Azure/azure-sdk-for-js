@@ -155,7 +155,7 @@ export class CryptographyClient {
 
     // Renaming parameters
 
-    requestOptions.aad = requestOptions.additionalAuthenticatedData;
+    requestOptions.aad = options.additionalAuthenticatedData;
 
     // Default to the service
 
@@ -203,7 +203,7 @@ export class CryptographyClient {
 
     // Renaming parameters
 
-    requestOptions.aad = requestOptions.additionalAuthenticatedData;
+    requestOptions.aad = options.additionalAuthenticatedData;
 
     // Default to the service
 
@@ -262,7 +262,7 @@ export class CryptographyClient {
 
     // Renaming parameters
 
-    requestOptions.aad = requestOptions.additionalAuthenticatedData;
+    requestOptions.aad = options.additionalAuthenticatedData;
 
     // Default to the service
 
@@ -309,7 +309,7 @@ export class CryptographyClient {
 
     // Renaming parameters
 
-    requestOptions.aad = requestOptions.additionalAuthenticatedData;
+    requestOptions.aad = options.additionalAuthenticatedData;
 
     // Default to the service
 
