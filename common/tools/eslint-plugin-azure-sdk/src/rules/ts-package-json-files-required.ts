@@ -20,7 +20,8 @@ import { arrayToString, getRuleMetaData, getVerifiers, stripPath } from "../util
  * the list of patterns that should be.
  */
 const badPatterns: string[] = ["src"];
-const goodPatterns = ["dist", "dist-esm/src"];
+const distEsmPattern = "dist-esm";
+const goodPatterns = ["dist", distEsmPattern];
 
 export = {
   meta: getRuleMetaData(
@@ -73,7 +74,7 @@ export = {
                 if (badPatterns.indexOf(patternRoot) >= 0) {
                   currBadPatterns.push(patternMatchResult[fullMatchIndex]);
                 } else if (goodPatterns.indexOf(patternRoot) >= 0) {
-                  currGoodPatterns.splice(currGoodPatterns.indexOf(patternRoot));
+                  currGoodPatterns.splice(currGoodPatterns.indexOf(patternRoot), 1);
                 }
               }
             });
@@ -90,12 +91,16 @@ export = {
               if (message.length > 0) {
                 message = message + " and ";
               }
+              const distEsmIndex = currGoodPatterns.indexOf(distEsmPattern);
+              if (distEsmIndex >= 0) {
+                currGoodPatterns[distEsmIndex] = "dist-esm/src";
+              }
+              elementValues = elementValues.concat(currGoodPatterns);
               message =
                 message +
                 `${currGoodPatterns.join()} ${
                   currGoodPatterns.length === 1 ? "is" : "are"
                 } not included in files`;
-              elementValues = elementValues.concat(currGoodPatterns);
             }
             if (message.length > 0) {
               context.report({
