@@ -19,8 +19,8 @@ import { arrayToString, getRuleMetaData, getVerifiers, stripPath } from "../util
  * patterns that should not be in package.json's files list and goodPatterns is
  * the list of patterns that should be.
  */
-const badPatterns: string[] = ["src", "dist-esm"];
-const goodPatterns = ["dist"];
+const badPatterns: string[] = ["src"];
+const goodPatterns = ["dist", "dist-esm/src"];
 
 export = {
   meta: getRuleMetaData(
