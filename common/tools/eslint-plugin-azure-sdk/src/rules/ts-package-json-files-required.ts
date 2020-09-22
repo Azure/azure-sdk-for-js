@@ -46,7 +46,6 @@ export = {
           // check to see if files exists at the outermost level
           "ExpressionStatement > ObjectExpression": verifiers.existsInFile,
 
-          // check that files contains dist, and do not include dist-esm, and src
           "ExpressionStatement > ObjectExpression > Property[key.value='files']": (
             node: Property
           ): void => {
