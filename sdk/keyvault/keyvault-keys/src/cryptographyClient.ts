@@ -153,6 +153,10 @@ export class CryptographyClient {
       }
     }
 
+    // Renaming parameters
+    
+    requestOptions.aad = requestOptions.additionalAuthenticatedData;
+
     // Default to the service
 
     let result;
@@ -182,7 +186,7 @@ export class CryptographyClient {
    * ```
    * @param {EncryptionAlgorithm} algorithm The algorithm to use.
    * @param {Uint8Array} ciphertext The text to decrypt.
-   * @param {EncryptOptions} [options] Additional options.
+   * @param {DecryptOptions} [options] Additional options.
    */
 
   public async decrypt(
@@ -196,6 +200,10 @@ export class CryptographyClient {
     await this.checkPermissions("decrypt");
     await this.getLocalCryptographyClient();
     checkKeyValidity(this.getKeyID(), this.keyBundle);
+
+    // Renaming parameters
+    
+    requestOptions.aad = requestOptions.additionalAuthenticatedData;
 
     // Default to the service
 
@@ -226,7 +234,7 @@ export class CryptographyClient {
    * ```
    * @param {KeyWrapAlgorithm} algorithm The encryption algorithm to use to wrap the given key.
    * @param {Uint8Array} key The key to wrap.
-   * @param {EncryptOptions} [options] Additional options.
+   * @param {WrapKeyOptions} [options] Additional options.
    */
   public async wrapKey(
     algorithm: KeyWrapAlgorithm,
@@ -251,6 +259,10 @@ export class CryptographyClient {
         }
       }
     }
+
+    // Renaming parameters
+    
+    requestOptions.aad = requestOptions.additionalAuthenticatedData;
 
     // Default to the service
 
@@ -281,7 +293,7 @@ export class CryptographyClient {
    * ```
    * @param {KeyWrapAlgorithm} algorithm The decryption algorithm to use to unwrap the key.
    * @param {Uint8Array} encryptedKey The encrypted key to unwrap.
-   * @param {EncryptOptions} [options] Additional options.
+   * @param {UnwrapKeyOptions} [options] Additional options.
    */
   public async unwrapKey(
     algorithm: KeyWrapAlgorithm,
@@ -294,6 +306,10 @@ export class CryptographyClient {
     await this.checkPermissions("unwrapKey");
     await this.getLocalCryptographyClient();
     checkKeyValidity(this.getKeyID(), this.keyBundle);
+
+    // Renaming parameters
+    
+    requestOptions.aad = requestOptions.additionalAuthenticatedData;
 
     // Default to the service
 
@@ -324,7 +340,7 @@ export class CryptographyClient {
    * ```
    * @param {KeySignatureAlgorithm} algorithm The signing algorithm to use.
    * @param {Uint8Array} digest The digest of the data to sign.
-   * @param {EncryptOptions} [options] Additional options.
+   * @param {SignOptions} [options] Additional options.
    */
   public async sign(
     algorithm: SignatureAlgorithm,
@@ -366,7 +382,7 @@ export class CryptographyClient {
    * @param {KeySignatureAlgorithm} algorithm The signing algorithm to use to verify with.
    * @param {Uint8Array} digest The digest to verify.
    * @param {Uint8Array} signature The signature to verify the digest against.
-   * @param {EncryptOptions} [options] Additional options.
+   * @param {VerifyOptions} [options] Additional options.
    */
   public async verify(
     algorithm: SignatureAlgorithm,
@@ -409,7 +425,7 @@ export class CryptographyClient {
    * ```
    * @param {KeySignatureAlgorithm} algorithm The signing algorithm to use.
    * @param {Uint8Array} data The data to sign.
-   * @param {EncryptOptions} [options] Additional options.
+   * @param {SignOptions} [options] Additional options.
    */
   public async signData(
     algorithm: SignatureAlgorithm,
@@ -464,7 +480,7 @@ export class CryptographyClient {
    * @param {KeySignatureAlgorithm} algorithm The algorithm to use to verify with.
    * @param {Uint8Array} data The signed block of data to verify.
    * @param {Uint8Array} signature The signature to verify the block against.
-   * @param {EncryptOptions} [options] Additional options.
+   * @param {VerifyOptions} [options] Additional options.
    */
   public async verifyData(
     algorithm: SignatureAlgorithm,
