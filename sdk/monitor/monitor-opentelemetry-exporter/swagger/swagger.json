@@ -34,13 +34,8 @@
             }
           }
         ],
-        "consumes": [
-          "application/json",
-          "x-json-stream"
-        ],
-        "produces": [
-          "application/json"
-        ],
+        "consumes": ["application/json", "x-json-stream"],
+        "produces": ["application/json"],
         "responses": {
           "200": {
             "description": "All of the telemetry items were accepted and processed.",
@@ -115,10 +110,7 @@
       "type": "object",
       "description": "The abstract common base of all domains.",
       "discriminator": "typename",
-      "required": [
-        "typename",
-        "ver"
-      ],
+      "required": ["typename", "ver"],
       "properties": {
         "ver": {
           "x-ms-client-name": "version",
@@ -140,10 +132,7 @@
         {
           "type": "object",
           "description": "An instance of Remote Dependency represents an interaction of the monitored component with a remote component/service like SQL or an HTTP endpoint.",
-          "required": [
-            "name",
-            "duration"
-          ],
+          "required": ["name", "duration"],
           "properties": {
             "id": {
               "type": "string",
@@ -212,12 +201,7 @@
         {
           "type": "object",
           "description": "An instance of PageView represents a generic action on a page like a button click. It is also the base type for PageView.",
-          "required": [
-            "id",
-            "duration",
-            "responseCode",
-            "success"
-          ],
+          "required": ["id", "duration", "responseCode", "success"],
           "properties": {
             "id": {
               "type": "string",
@@ -321,10 +305,7 @@
       "x-ms-client-name": "TelemetryItem",
       "description": "System variables for a telemetry item.",
       "type": "object",
-      "required": [
-        "name",
-        "time"
-      ],
+      "required": ["name", "time"],
       "properties": {
         "ver": {
           "type": "number",
