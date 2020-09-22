@@ -1,7 +1,6 @@
 {
   "plugins": ["@azure/azure-sdk"],
   "extends": ["plugin:@azure/azure-sdk/azure-sdk-base"],
-  // The following rules have to be turned off for this package.
   "rules": {
     // `package.json`'s sideEffects has to be true because this package loads a
     // polyfill.
