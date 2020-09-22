@@ -186,7 +186,7 @@ export type KeyOperation = "encrypt" | "decrypt" | "sign" | "verify" | "wrapKey"
 
 // @public
 export interface KeyOperationsOptions extends CryptographyOptions {
-    aad?: Uint8Array;
+    additionalAuthenticatedData?: Uint8Array;
     iv?: Uint8Array;
     tag?: Uint8Array;
 }
