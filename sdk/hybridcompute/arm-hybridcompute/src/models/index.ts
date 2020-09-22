@@ -141,24 +141,29 @@ export interface ErrorDetail {
 export interface MachineExtensionInstanceViewStatus {
   /**
    * The status code.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  code?: string;
+  readonly code?: string;
   /**
    * The level code. Possible values include: 'Info', 'Warning', 'Error'
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  level?: StatusLevelTypes;
+  readonly level?: StatusLevelTypes;
   /**
    * The short localizable label for the status.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  displayStatus?: string;
+  readonly displayStatus?: string;
   /**
    * The detailed status message, including for alerts and error messages.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  message?: string;
+  readonly message?: string;
   /**
    * The time of the status.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  time?: Date;
+  readonly time?: Date;
 }
 
 /**
@@ -167,16 +172,19 @@ export interface MachineExtensionInstanceViewStatus {
 export interface MachineExtensionInstanceView {
   /**
    * The machine extension name.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  name?: string;
+  readonly name?: string;
   /**
    * Specifies the type of the extension; an example is "CustomScriptExtension".
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  type?: string;
+  readonly type?: string;
   /**
    * Specifies the version of the script handler.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  typeHandlerVersion?: string;
+  readonly typeHandlerVersion?: string;
   /**
    * Instance view status.
    */
@@ -247,23 +255,35 @@ export interface MachineProperties {
    */
   readonly osVersion?: string;
   /**
+   * Specifies the Arc Machine's unique SMBIOS ID
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly vmUuid?: string;
+  /**
    * Machine Extensions information
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  extensions?: MachineExtensionInstanceView[];
-}
-
-/**
- * Describes the properties required to reconnect a hybrid machine.
- */
-export interface MachineReconnectProperties {
+  readonly extensions?: MachineExtensionInstanceView[];
   /**
-   * Specifies the hybrid machine unique ID.
+   * Specifies the Operating System product SKU.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  vmId?: string;
+  readonly osSku?: string;
   /**
-   * Public Key that the client provides to be used during initial resource onboarding.
+   * Specifies the Windows domain name.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  clientPublicKey?: string;
+  readonly domainName?: string;
+  /**
+   * Specifies the AD fully qualified display name.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly adFqdn?: string;
+  /**
+   * Specifies the DNS fully qualified display name.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly dnsFqdn?: string;
 }
 
 /**
@@ -274,23 +294,24 @@ export interface MachineUpdateProperties {
 }
 
 /**
- * Identity for the resource.
+ * An interface representing Identity.
+ * @summary Managed Identity.
  */
 export interface Identity {
   /**
-   * The principal ID of resource identity.
+   * The identity type.
+   */
+  type?: string;
+  /**
+   * The identity's principal id.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly principalId?: string;
   /**
-   * The tenant ID of resource.
+   * The identity's tenant id.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly tenantId?: string;
-  /**
-   * The identity type. Possible values include: 'SystemAssigned'
-   */
-  type?: ResourceIdentityType;
 }
 
 /**
@@ -400,9 +421,35 @@ export interface Machine extends TrackedResource {
    */
   readonly osVersion?: string;
   /**
-   * Machine Extensions information
+   * Specifies the Arc Machine's unique SMBIOS ID
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
-  extensions?: MachineExtensionInstanceView[];
+  readonly vmUuid?: string;
+  /**
+   * Machine Extensions information
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly extensions?: MachineExtensionInstanceView[];
+  /**
+   * Specifies the Operating System product SKU.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly osSku?: string;
+  /**
+   * Specifies the Windows domain name.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly domainName?: string;
+  /**
+   * Specifies the AD fully qualified display name.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly adFqdn?: string;
+  /**
+   * Specifies the DNS fully qualified display name.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly dnsFqdn?: string;
   identity?: MachineIdentity;
 }
 
@@ -421,34 +468,31 @@ export interface UpdateResource {
  */
 export interface MachineUpdate extends UpdateResource {
   /**
-   * The principal ID of resource identity.
+   * The identity type.
+   */
+  type?: string;
+  /**
+   * The identity's principal id.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly principalId?: string;
   /**
-   * The tenant ID of resource.
+   * The identity's tenant id.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly tenantId?: string;
-  /**
-   * The identity type. Possible values include: 'SystemAssigned'
-   */
-  type?: ResourceIdentityType;
   locationData?: LocationData;
 }
 
 /**
- * Describes a hybrid machine reconnect.
+ * Contains details when the response code indicates an error.
+ * @summary Error response.
  */
-export interface MachineReconnect {
+export interface ErrorResponse {
   /**
-   * Specifies the hybrid machine unique ID.
+   * The error details.
    */
-  vmId?: string;
-  /**
-   * Public Key that the client provides to be used during initial resource onboarding.
-   */
-  clientPublicKey?: string;
+  error: ErrorDetail;
 }
 
 /**
@@ -646,187 +690,6 @@ export interface AzureEntityResource extends Resource {
 }
 
 /**
- * An interface representing ResourceModelWithAllowedPropertySetIdentity.
- */
-export interface ResourceModelWithAllowedPropertySetIdentity extends Identity {
-}
-
-/**
- * The resource model definition representing SKU
- */
-export interface Sku {
-  /**
-   * The name of the SKU. Ex - P3. It is typically a letter+number code
-   */
-  name: string;
-  /**
-   * This field is required to be implemented by the Resource Provider if the service has more than
-   * one tier, but is not required on a PUT. Possible values include: 'Free', 'Basic', 'Standard',
-   * 'Premium'
-   */
-  tier?: SkuTier;
-  /**
-   * The SKU size. When the name field is the combination of tier and some other value, this would
-   * be the standalone code.
-   */
-  size?: string;
-  /**
-   * If the service has different generations of hardware, for the same SKU, then that can be
-   * captured here.
-   */
-  family?: string;
-  /**
-   * If the SKU supports scale out/in then the capacity integer should be included. If scale out/in
-   * is not possible for the resource this may be omitted.
-   */
-  capacity?: number;
-}
-
-/**
- * An interface representing ResourceModelWithAllowedPropertySetSku.
- */
-export interface ResourceModelWithAllowedPropertySetSku extends Sku {
-}
-
-/**
- * Plan for the resource.
- */
-export interface Plan {
-  /**
-   * A user defined name of the 3rd Party Artifact that is being procured.
-   */
-  name: string;
-  /**
-   * The publisher of the 3rd Party Artifact that is being bought. E.g. NewRelic
-   */
-  publisher: string;
-  /**
-   * The 3rd Party artifact that is being procured. E.g. NewRelic. Product maps to the OfferID
-   * specified for the artifact at the time of Data Market onboarding.
-   */
-  product: string;
-  /**
-   * A publisher provided promotion code as provisioned in Data Market for the said
-   * product/artifact.
-   */
-  promotionCode?: string;
-  /**
-   * The version of the desired product/artifact.
-   */
-  version?: string;
-}
-
-/**
- * An interface representing ResourceModelWithAllowedPropertySetPlan.
- */
-export interface ResourceModelWithAllowedPropertySetPlan extends Plan {
-}
-
-/**
- * The resource model definition containing the full set of allowed properties for a resource.
- * Except properties bag, there cannot be a top level property outside of this set.
- */
-export interface ResourceModelWithAllowedPropertySet extends BaseResource {
-  /**
-   * Fully qualified resource Id for the resource. Ex -
-   * /subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/{resourceProviderNamespace}/{resourceType}/{resourceName}
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly id?: string;
-  /**
-   * The name of the resource
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly name?: string;
-  /**
-   * The type of the resource. Ex- Microsoft.Compute/virtualMachines or
-   * Microsoft.Storage/storageAccounts..
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly type?: string;
-  /**
-   * The geo-location where the resource lives
-   */
-  location?: string;
-  /**
-   * The  fully qualified resource ID of the resource that manages this resource. Indicates if this
-   * resource is managed by another azure resource. If this is present, complete mode deployment
-   * will not delete the resource if it is removed from the template since it is managed by another
-   * resource.
-   */
-  managedBy?: string;
-  /**
-   * Metadata used by portal/tooling/etc to render different UX experiences for resources of the
-   * same type; e.g. ApiApps are a kind of Microsoft.Web/sites type.  If supported, the resource
-   * provider must validate and persist this value.
-   */
-  kind?: string;
-  /**
-   * The etag field is *not* required. If it is provided in the response body, it must also be
-   * provided as a header per the normal etag convention.  Entity tags are used for comparing two
-   * or more entities from the same requested resource. HTTP/1.1 uses entity tags in the etag
-   * (section 14.19), If-Match (section 14.24), If-None-Match (section 14.26), and If-Range
-   * (section 14.27) header fields.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly etag?: string;
-  /**
-   * Resource tags.
-   */
-  tags?: { [propertyName: string]: string };
-  identity?: ResourceModelWithAllowedPropertySetIdentity;
-  sku?: ResourceModelWithAllowedPropertySetSku;
-  plan?: ResourceModelWithAllowedPropertySetPlan;
-}
-
-/**
- * The resource management error additional info.
- */
-export interface ErrorAdditionalInfo {
-  /**
-   * The additional info type.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly type?: string;
-  /**
-   * The additional info.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly info?: any;
-}
-
-/**
- * The resource management error response.
- */
-export interface ErrorResponse {
-  /**
-   * The error code.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly code?: string;
-  /**
-   * The error message.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly message?: string;
-  /**
-   * The error target.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly target?: string;
-  /**
-   * The error details.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly details?: ErrorResponse[];
-  /**
-   * The error additional info.
-   * **NOTE: This property will not be serialized. It can only be populated by the server.**
-   */
-  readonly additionalInfo?: ErrorAdditionalInfo[];
-}
-
-/**
  * Optional Parameters.
  */
 export interface MachinesGetOptionalParams extends msRest.RequestOptionsBase {
@@ -902,22 +765,6 @@ export type StatusTypes = 'Connected' | 'Disconnected' | 'Error';
  * @enum {string}
  */
 export type StatusLevelTypes = 'Info' | 'Warning' | 'Error';
-
-/**
- * Defines values for SkuTier.
- * Possible values include: 'Free', 'Basic', 'Standard', 'Premium'
- * @readonly
- * @enum {string}
- */
-export type SkuTier = 'Free' | 'Basic' | 'Standard' | 'Premium';
-
-/**
- * Defines values for ResourceIdentityType.
- * Possible values include: 'SystemAssigned'
- * @readonly
- * @enum {string}
- */
-export type ResourceIdentityType = 'SystemAssigned';
 
 /**
  * Defines values for InstanceViewTypes.
