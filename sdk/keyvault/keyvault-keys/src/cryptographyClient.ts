@@ -154,7 +154,7 @@ export class CryptographyClient {
     }
 
     // Renaming parameters
-    
+
     requestOptions.aad = requestOptions.additionalAuthenticatedData;
 
     // Default to the service
@@ -202,7 +202,7 @@ export class CryptographyClient {
     checkKeyValidity(this.getKeyID(), this.keyBundle);
 
     // Renaming parameters
-    
+
     requestOptions.aad = requestOptions.additionalAuthenticatedData;
 
     // Default to the service
@@ -261,7 +261,7 @@ export class CryptographyClient {
     }
 
     // Renaming parameters
-    
+
     requestOptions.aad = requestOptions.additionalAuthenticatedData;
 
     // Default to the service
@@ -308,7 +308,7 @@ export class CryptographyClient {
     checkKeyValidity(this.getKeyID(), this.keyBundle);
 
     // Renaming parameters
-    
+
     requestOptions.aad = requestOptions.additionalAuthenticatedData;
 
     // Default to the service
