@@ -1,17 +1,19 @@
 {
-  "extends": "../../../tsconfig.package",
   "compilerOptions": {
-    "outDir": "./dist-esm",
-    "declarationDir": "./types"
+    "module": "es6",
+    "moduleResolution": "node",
+    "strict": true,
+    "target": "es5",
+    "sourceMap": true,
+    "declarationMap": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "forceConsistentCasingInFileNames": true,
+    "lib": ["es6", "dom"],
+    "declaration": true,
+    "outDir": "./esm",
+    "importHelpers": true
   },
-  "exclude": [
-    "node_modules",
-    "types",
-    "temp",
-    "browser",
-    "dist",
-    "dist-samples",
-    "dist-esm",
-    "./samples/**/*.ts"
-  ]
+  "include": ["./src/**/*.ts"],
+  "exclude": ["node_modules"]
 }
