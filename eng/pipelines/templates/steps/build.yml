@@ -30,7 +30,7 @@ steps:
     displayName: "Build libraries"
 
   - pwsh: |
-      eng/tools/check-api-warning.ps1 
+      eng/tools/check-api-warning.ps1
     displayName: "Check api extractor output changes"
 
   - script: |
