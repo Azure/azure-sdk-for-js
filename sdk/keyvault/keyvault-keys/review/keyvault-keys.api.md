@@ -99,7 +99,7 @@ export interface DeletedKey {
 export type DeletionRecoveryLevel = 'Purgeable' | 'Recoverable+Purgeable' | 'Recoverable' | 'Recoverable+ProtectedSubscription' | 'CustomizedRecoverable+Purgeable' | 'CustomizedRecoverable' | 'CustomizedRecoverable+ProtectedSubscription';
 
 // @public
-export type EncryptionAlgorithm = "RSA-OAEP" | "RSA-OAEP-256" | "RSA1_5" | 'A128GCM' | 'A192GCM' | 'A256GCM' | 'A128KW' | 'A192KW' | 'A256KW' | 'A128CBC' | 'A192CBC' | 'A256CBC' | 'A128CBCPAD' | 'A192CBCPAD' | 'A256CBCPAD';
+export type EncryptionAlgorithm = "RSA-OAEP" | "RSA-OAEP-256" | "RSA1_5" | "A128GCM" | "A192GCM" | "A256GCM" | "A128KW" | "A192KW" | "A256KW" | "A128CBC" | "A192CBC" | "A256CBC" | "A128CBCPAD" | "A192CBCPAD" | "A256CBCPAD";
 
 // @public
 export interface EncryptOptions extends KeyOperationsOptions {
