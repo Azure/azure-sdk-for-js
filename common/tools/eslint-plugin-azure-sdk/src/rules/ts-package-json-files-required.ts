@@ -16,12 +16,12 @@ import { arrayToString, getRuleMetaData, getVerifiers, stripPath } from "../util
 
 /**
  * The rule is configurable by those two vars, where badPatterns is the list of
- * patterns that should not be in package.json's files list and goodPatterns is
- * the list of patterns that should be.
+ * patterns that should not be in package.json's files list and requiredPatterns
+ * is the list of patterns that should be.
  */
 const badPatterns: string[] = ["src"];
 const distEsmPattern = "dist-esm";
-const goodPatterns = ["dist", distEsmPattern];
+const requiredPatterns = ["dist", distEsmPattern];
 
 export = {
   meta: getRuleMetaData(
@@ -36,7 +36,7 @@ export = {
     // sorting the patterns descendingly so in cases of overlap between patterns
     // (e.g. dist and dist-esm), the regex tries to match the longer first.
     const regExprStr = `^(?:.\/)?(${badPatterns
-      .concat(goodPatterns)
+      .concat(requiredPatterns)
       .sort()
       .reverse()
       .join("|")})(?:\/)?(?:.+)?`;
@@ -64,7 +64,7 @@ export = {
             let elementValues = elements.map((element: Literal): unknown => element.value);
 
             let currBadPatterns: string[] = [];
-            let currGoodPatterns = [...goodPatterns];
+            let currRequiredPatterns = [...requiredPatterns];
             const fullMatchIndex = 0;
             const patternRootMatchIndex = 1;
             elements.forEach((element) => {
@@ -73,8 +73,8 @@ export = {
                 const patternRoot = patternMatchResult[patternRootMatchIndex];
                 if (badPatterns.indexOf(patternRoot) >= 0) {
                   currBadPatterns.push(patternMatchResult[fullMatchIndex]);
-                } else if (goodPatterns.indexOf(patternRoot) >= 0) {
-                  currGoodPatterns.splice(currGoodPatterns.indexOf(patternRoot), 1);
+                } else if (requiredPatterns.indexOf(patternRoot) >= 0) {
+                  currRequiredPatterns.splice(currRequiredPatterns.indexOf(patternRoot), 1);
                 }
               }
             });
@@ -87,19 +87,19 @@ export = {
                 (element) => currBadPatterns.indexOf(element as string) < 0
               );
             }
-            if (currGoodPatterns.length > 0) {
+            if (currRequiredPatterns.length > 0) {
               if (message.length > 0) {
                 message = message + " and ";
               }
-              const distEsmIndex = currGoodPatterns.indexOf(distEsmPattern);
+              const distEsmIndex = currRequiredPatterns.indexOf(distEsmPattern);
               if (distEsmIndex >= 0) {
-                currGoodPatterns[distEsmIndex] = "dist-esm/src";
+                currRequiredPatterns[distEsmIndex] = "dist-esm/src";
               }
-              elementValues = elementValues.concat(currGoodPatterns);
+              elementValues = elementValues.concat(currRequiredPatterns);
               message =
                 message +
-                `${currGoodPatterns.join()} ${
-                  currGoodPatterns.length === 1 ? "is" : "are"
+                `${currRequiredPatterns.join()} ${
+                  currRequiredPatterns.length === 1 ? "is" : "are"
                 } not included in files`;
             }
             if (message.length > 0) {
