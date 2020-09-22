@@ -18,6 +18,7 @@ describe("Trace Exporter Scenarios", () => {
         // todo: gzip is not supported by generated applicationInsightsClient
         // const buffer = gunzipSync(Buffer.from(body, "hex"));
         // ingest.push(...(JSON.parse(buffer.toString("utf8")) as Envelope[]));
+        console.log(body[0].data?.baseData);
         ingest.push(...body);
         return true;
       })

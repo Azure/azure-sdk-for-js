@@ -9,11 +9,7 @@ import { msToTimeSpan } from "../../../src/utils/breezeUtils";
 import { CanonicalCode } from "@opentelemetry/api";
 import { FlushSpanProcessor } from "../flushSpanProcessor";
 import { delay } from "@azure/core-http";
-import {
-  TelemetryItem as Envelope,
-  RemoteDependencyData,
-  RequestData
-} from "../../../src/generated";
+import { TelemetryItem as Envelope } from "../../../src/generated";
 
 const COMMON_ENVELOPE_PARAMS: Partial<Envelope> = {
   instrumentationKey: process.env.APPINSIGHTS_INSTRUMENTATIONKEY || "ikey",
@@ -96,7 +92,7 @@ export class BasicScenario implements Scenario {
           properties: {
             foo: "bar"
           }
-        } as Omit<RequestData, "id">
+        } as any
       },
       children: [
         {
@@ -112,7 +108,7 @@ export class BasicScenario implements Scenario {
               properties: {
                 numbers: 123 as any
               }
-            } as Omit<RemoteDependencyData, "id">
+            } as any
           },
           children: []
         },
@@ -129,7 +125,7 @@ export class BasicScenario implements Scenario {
               properties: {
                 numbers: 1234 as any
               }
-            } as Omit<RemoteDependencyData, "id">
+            } as any
           },
           children: []
         }

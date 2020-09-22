@@ -86,6 +86,7 @@ function createPropertiesFromSpan(span: ReadableSpan): [Properties, Measurements
 
 function createDependencyData(span: ReadableSpan): RemoteDependencyData {
   const data: RemoteDependencyData = {
+    typename: "RemoteDependencyData",
     name: span.name,
     id: `|${span.spanContext.traceId}.${span.spanContext.spanId}.`,
     success: span.status.code === CanonicalCode.OK,
@@ -140,6 +141,7 @@ function createDependencyData(span: ReadableSpan): RemoteDependencyData {
 
 function createRequestData(span: ReadableSpan): RequestData {
   const data: RequestData = {
+    typename: "RequestData",
     name: span.name,
     id: `|${span.spanContext.traceId}.${span.spanContext.spanId}.`,
     success: span.status.code === CanonicalCode.OK,
@@ -224,9 +226,12 @@ export function readableSpanToEnvelope(
       throw new Error(`Unsupported span kind ${span.kind}`);
   }
 
-  envelope.data.baseData = { ...data, properties, measurements } as
-    | RequestData
-    | RemoteDependencyData;
+  envelope.data.baseData = {
+    ...data,
+    typename: envelope.data.baseType,
+    properties,
+    measurements
+  } as RequestData | RemoteDependencyData;
   envelope.tags = tags;
   envelope.time = new Date(hrTimeToMilliseconds(span.startTime));
   envelope.instrumentationKey = instrumentationKey;
