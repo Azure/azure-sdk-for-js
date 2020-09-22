@@ -14,8 +14,13 @@ import { arrayToString, getRuleMetaData, getVerifiers, stripPath } from "../util
 // Rule Definition
 //------------------------------------------------------------------------------
 
-const badFiles: string[] = ["src", "dist-esm"];
-const goodFiles = ["dist"];
+/**
+ * The rule is configurable by those two vars, where badPatterns is the list of
+ * patterns that should not be in package.json's files list and goodPatterns is
+ * the list of patterns that should be.
+ */
+const badPatterns: string[] = ["src", "dist-esm"];
+const goodPatterns = ["dist"];
 
 export = {
   meta: getRuleMetaData(
@@ -27,12 +32,13 @@ export = {
     const verifiers = getVerifiers(context, {
       outer: "files"
     });
-    const regExprStr = `^(?:.\/)?(${badFiles
-      .concat(goodFiles)
+    // sorting the patterns descendingly so in cases of overlap between patterns
+    // (e.g. dist and dist-esm), the regex tries to match the longer first.
+    const regExprStr = `^(?:.\/)?(${badPatterns
+      .concat(goodPatterns)
       .sort()
       .reverse()
       .join("|")})(?:\/)?(?:.+)?`;
-    console.log("regex: ", regExprStr);
     return stripPath(context.getFilename()) === "package.json"
       ? ({
           // callback functions
@@ -57,40 +63,40 @@ export = {
             const elements = nodeValue.elements as Literal[];
             let elementValues = elements.map((element: Literal): unknown => element.value);
 
-            let currBadFiles: string[] = [];
-            let currGoodFiles = [...goodFiles];
+            let currBadPatterns: string[] = [];
+            let currGoodPatterns = [...goodPatterns];
             const fullMatchIndex = 0;
             const patternRootMatchIndex = 1;
             elements.forEach((element) => {
               const patternMatchResult = (element.value as string).match(regExprStr);
               if (patternMatchResult !== null) {
                 const patternRoot = patternMatchResult[patternRootMatchIndex];
-                if (badFiles.indexOf(patternRoot) >= 0) {
-                  currBadFiles.push(patternMatchResult[fullMatchIndex]);
-                } else if (goodFiles.indexOf(patternRoot) >= 0) {
-                  currGoodFiles.splice(currGoodFiles.indexOf(patternRoot));
+                if (badPatterns.indexOf(patternRoot) >= 0) {
+                  currBadPatterns.push(patternMatchResult[fullMatchIndex]);
+                } else if (goodPatterns.indexOf(patternRoot) >= 0) {
+                  currGoodPatterns.splice(currGoodPatterns.indexOf(patternRoot));
                 }
               }
             });
             let message = "";
-            if (currBadFiles.length > 0) {
-              message = `${currBadFiles.join()} ${
-                currBadFiles.length === 1 ? "is" : "are"
+            if (currBadPatterns.length > 0) {
+              message = `${currBadPatterns.join()} ${
+                currBadPatterns.length === 1 ? "is" : "are"
               } included in files`;
               elementValues = elementValues.filter(
-                (element) => currBadFiles.indexOf(element as string) < 0
+                (element) => currBadPatterns.indexOf(element as string) < 0
               );
             }
-            if (currGoodFiles.length > 0) {
+            if (currGoodPatterns.length > 0) {
               if (message.length > 0) {
                 message = message + " and ";
               }
               message =
                 message +
-                `${currGoodFiles.join()} ${
-                  currGoodFiles.length === 1 ? "is" : "are"
+                `${currGoodPatterns.join()} ${
+                  currGoodPatterns.length === 1 ? "is" : "are"
                 } not included in files`;
-              elementValues = elementValues.concat(currGoodFiles);
+              elementValues = elementValues.concat(currGoodPatterns);
             }
             if (message.length > 0) {
               context.report({
