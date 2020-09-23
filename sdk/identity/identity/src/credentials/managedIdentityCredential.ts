@@ -453,14 +453,13 @@ export class ManagedIdentityCredential implements TokenCredential {
       // If err.statusCode has a value of 400, it comes from sendTokenRequest,
       // and it means that the endpoint is working, but that no identity is available.
       if (err.statusCode === 400) {
-        throw new AuthenticationError(400, {
-          error: "ManagedIdentityCredential authentication failed. No available identity.",
-          error_description: err.message
-        });
+        throw new CredentialUnavailable(
+          "The managed identity endpoint is indicating there's no available identity"
+        );
       }
 
       throw new AuthenticationError(err.statusCode, {
-        error: "ManagedIdentityCredential authentication failed. Unexpected error.",
+        error: "ManagedIdentityCredential authentication failed.",
         error_description: err.message
       });
     } finally {
