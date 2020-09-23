@@ -229,16 +229,16 @@ There are two ways of choosing which session to open:
 1. Specify a `sessionId`, which locks a named session.
 
    ```javascript
-   const receiver = await serviceBusClient.createSessionReceiver("my-session-queue", {
-     sessionId: "my-session"
-   });
+   const receiver = serviceBusClient.createSessionReceiver("my-session-queue");
+   await receiver.accept("my-session");
    ```
 
 2. Do not specify a session id. In this case Service Bus will find the next available session
    that is not already locked.
 
    ```javascript
-   const receiver = await serviceBusClient.createSessionReceiver("my-session-queue");
+   const receiver = serviceBusClient.createSessionReceiver("my-session-queue");
+   await receiver.accept();
    ```
 
    You can find the name of the session via the `sessionId` property on the `SessionReceiver`.
