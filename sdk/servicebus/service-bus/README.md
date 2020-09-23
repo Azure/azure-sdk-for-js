@@ -9,7 +9,7 @@ Use the client library `@azure/service-bus` in your application to
 
 Resources for the v7.0.0-preview.6 of `@azure/service-bus`:
 
-[Source code](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/servicebus/service-bus) |
+[Source code](https://github.com/richardpark-msft/azure-sdk-for-js/tree/richardpark-sb-track2-session-accept/sdk/servicebus/service-bus) |
 [Package (npm)](https://www.npmjs.com/package/@azure/service-bus) |
 [API Reference Documentation][apiref] |
 [Product documentation](https://azure.microsoft.com/services/service-bus/) |
