@@ -24,7 +24,7 @@ npm install @azure/ms-rest-azure-js
 ```
 
 ##### Sample code
-The following sample detects the langauge of text provided using text moderator APIs. To know more, refer to the [Azure Documentation on Content Moderator](https://docs.microsoft.com/en-us/azure/cognitive-services/content-moderator/overview)
+The following sample detects the langauge of text provided using text moderator APIs. To know more, refer to the [Azure Documentation on Content Moderator](https://docs.microsoft.com/azure/cognitive-services/content-moderator/overview)
 
 ```javascript
 const { ContentModeratorClient } = require("@azure/cognitiveservices-contentmoderator");

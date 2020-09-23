@@ -17,6 +17,7 @@ import { GeneratedClient } from "./generated/generatedClient";
 import { logger } from "./logger";
 import {
   DetectLanguageInput,
+  GeneratedClientEntitiesRecognitionPiiOptionalParams,
   GeneratedClientSentimentOptionalParams,
   TextDocumentInput
 } from "./generated/models";
@@ -102,16 +103,33 @@ export interface AnalyzeSentimentOptions extends TextAnalyticsOperationOptions {
    * analysis around the aspects of a product or service (also known as
    * aspect-based sentiment analysis). If set to true, the returned
    * `SentenceSentiment` objects will have property `mined_opinions` containing
-   * the result of this analysis. Only available for API version v3.1-preview.1.
+   * the result of this analysis.
    * More information about the feature can be found here: https://docs.microsoft.com/azure/cognitive-services/text-analytics/how-tos/text-analytics-how-to-sentiment-analysis?tabs=version-3-1#opinion-mining
    */
   includeOpinionMining?: boolean;
 }
 
 /**
+ * The types of PII domains the user can choose from.
+ */
+export enum PiiEntityDomainType {
+  /**
+   * See https://aka.ms/tanerpii for more information.
+   */
+  PROTECTED_HEALTH_INFORMATION = "PHI"
+}
+
+/**
  * Options for the recognize PII entities operation.
  */
-export type RecognizePiiEntitiesOptions = TextAnalyticsOperationOptions;
+export interface RecognizePiiEntitiesOptions extends TextAnalyticsOperationOptions {
+  /**
+   * Filters entities to ones only included in the specified domain (e.g., if
+   * set to 'PHI', entities in the Protected Healthcare Information domain will
+   * only be returned). See https://aka.ms/tanerpii for more information.
+   */
+  domainFilter?: PiiEntityDomainType;
+}
 
 /**
  * Options for the extract key phrases operation.
@@ -608,16 +626,18 @@ export class TextAnalyticsClient {
     languageOrOptions?: string | RecognizePiiEntitiesOptions,
     options?: RecognizePiiEntitiesOptions
   ): Promise<RecognizePiiEntitiesResultArray> {
-    let realOptions: RecognizePiiEntitiesOptions;
+    let realOptions: GeneratedClientEntitiesRecognitionPiiOptionalParams;
     let realInputs: TextDocumentInput[];
 
     if (isStringArray(inputs)) {
       const language = (languageOrOptions as string) || this.defaultLanguage;
       realInputs = convertToTextDocumentInput(inputs, language);
       realOptions = options || {};
+      realOptions.domain = options?.domainFilter;
     } else {
       realInputs = inputs;
       realOptions = (languageOrOptions as RecognizePiiEntitiesOptions) || {};
+      realOptions.domain = (languageOrOptions as RecognizePiiEntitiesOptions)?.domainFilter;
     }
 
     const { span, updatedOptions: finalOptions } = createSpan(

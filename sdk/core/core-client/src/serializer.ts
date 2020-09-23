@@ -153,11 +153,29 @@ class SerializerImpl implements Serializer {
       } else if (mapperType.match(/^Base64Url$/i) !== null) {
         payload = serializeBase64UrlType(objectName, object);
       } else if (mapperType.match(/^Sequence$/i) !== null) {
-        payload = serializeSequenceType(this, mapper as SequenceMapper, object, objectName);
+        payload = serializeSequenceType(
+          this,
+          mapper as SequenceMapper,
+          object,
+          objectName,
+          Boolean(this.isXML)
+        );
       } else if (mapperType.match(/^Dictionary$/i) !== null) {
-        payload = serializeDictionaryType(this, mapper as DictionaryMapper, object, objectName);
+        payload = serializeDictionaryType(
+          this,
+          mapper as DictionaryMapper,
+          object,
+          objectName,
+          Boolean(this.isXML)
+        );
       } else if (mapperType.match(/^Composite$/i) !== null) {
-        payload = serializeCompositeType(this, mapper as CompositeMapper, object, objectName);
+        payload = serializeCompositeType(
+          this,
+          mapper as CompositeMapper,
+          object,
+          objectName,
+          Boolean(this.isXML)
+        );
       }
     }
     return payload;
@@ -481,7 +499,8 @@ function serializeSequenceType(
   serializer: Serializer,
   mapper: SequenceMapper,
   object: any,
-  objectName: string
+  objectName: string,
+  isXml: boolean
 ): any {
   if (!Array.isArray(object)) {
     throw new Error(`${objectName} must be of type Array.`);
@@ -495,7 +514,19 @@ function serializeSequenceType(
   }
   const tempArray = [];
   for (let i = 0; i < object.length; i++) {
-    tempArray[i] = serializer.serialize(elementType, object[i], objectName);
+    const serializedValue = serializer.serialize(elementType, object[i], objectName);
+    if (isXml && elementType.xmlNamespace) {
+      const xmlnsKey = elementType.xmlNamespacePrefix
+        ? `xmlns:${elementType.xmlNamespacePrefix}`
+        : "xmlns";
+      if (elementType.type.name === "Composite") {
+        tempArray[i] = { ...serializedValue, $: { [xmlnsKey]: elementType.xmlNamespace } };
+      } else {
+        tempArray[i] = { _: serializedValue, $: { [xmlnsKey]: elementType.xmlNamespace } };
+      }
+    } else {
+      tempArray[i] = serializedValue;
+    }
   }
   return tempArray;
 }
@@ -504,7 +535,8 @@ function serializeDictionaryType(
   serializer: Serializer,
   mapper: DictionaryMapper,
   object: any,
-  objectName: string
+  objectName: string,
+  isXml: boolean
 ): any {
   if (typeof object !== "object") {
     throw new Error(`${objectName} must be of type object.`);
@@ -518,8 +550,18 @@ function serializeDictionaryType(
   }
   const tempDictionary: { [key: string]: any } = {};
   for (const key of Object.keys(object)) {
-    tempDictionary[key] = serializer.serialize(valueType, object[key], objectName + "." + key);
+    const serializedValue = serializer.serialize(valueType, object[key], objectName);
+    // If the element needs an XML namespace we need to add it within the $ property
+    tempDictionary[key] = getXmlObjectValue(valueType, serializedValue, isXml);
   }
+
+  // Add the namespace to the root element if needed
+  if (isXml && mapper.xmlNamespace) {
+    const xmlnsKey = mapper.xmlNamespacePrefix ? `xmlns:${mapper.xmlNamespacePrefix}` : "xmlns";
+
+    return { ...tempDictionary, $: { [xmlnsKey]: mapper.xmlNamespace } };
+  }
+
   return tempDictionary;
 }
 
@@ -568,7 +610,8 @@ function serializeCompositeType(
   serializer: Serializer,
   mapper: CompositeMapper,
   object: any,
-  objectName: string
+  objectName: string,
+  isXml: boolean
 ): any {
   if (getPolymorphicDiscriminatorRecursively(serializer, mapper)) {
     mapper = getPolymorphicMapper(serializer, mapper, object, "clientName");
@@ -609,6 +652,12 @@ function serializeCompositeType(
       }
 
       if (parentObject !== undefined && parentObject !== null) {
+        if (isXml && mapper.xmlNamespace) {
+          const xmlnsKey = mapper.xmlNamespacePrefix
+            ? `xmlns:${mapper.xmlNamespacePrefix}`
+            : "xmlns";
+          parentObject.$ = { ...parentObject.$, [xmlnsKey]: mapper.xmlNamespace };
+        }
         const propertyObjectName =
           propertyMapper.serializedName !== ""
             ? objectName + "." + propertyMapper.serializedName
@@ -630,16 +679,17 @@ function serializeCompositeType(
           propertyObjectName
         );
         if (serializedValue !== undefined && propName !== undefined && propName !== null) {
-          if (propertyMapper.xmlIsAttribute) {
+          const value = getXmlObjectValue(propertyMapper, serializedValue, isXml);
+          if (isXml && propertyMapper.xmlIsAttribute) {
             // $ is the key attributes are kept under in xml2js.
             // This keeps things simple while preventing name collision
             // with names in user documents.
             parentObject.$ = parentObject.$ || {};
             parentObject.$[propName] = serializedValue;
-          } else if (propertyMapper.xmlIsWrapped) {
-            parentObject[propName] = { [propertyMapper.xmlElementName!]: serializedValue };
+          } else if (isXml && propertyMapper.xmlIsWrapped) {
+            parentObject[propName] = { [propertyMapper.xmlElementName!]: value };
           } else {
-            parentObject[propName] = serializedValue;
+            parentObject[propName] = value;
           }
         }
       }
@@ -663,6 +713,22 @@ function serializeCompositeType(
     return payload;
   }
   return object;
+}
+
+function getXmlObjectValue(propertyMapper: Mapper, serializedValue: any, isXml: boolean) {
+  if (!isXml || !propertyMapper.xmlNamespace) {
+    return serializedValue;
+  }
+
+  const xmlnsKey = propertyMapper.xmlNamespacePrefix
+    ? `xmlns:${propertyMapper.xmlNamespacePrefix}`
+    : "xmlns";
+  const xmlNamespace = { [xmlnsKey]: propertyMapper.xmlNamespace };
+
+  if (["Composite"].includes(propertyMapper.type.name)) {
+    return { $: xmlNamespace, ...serializedValue };
+  }
+  return { _: serializedValue, $: xmlNamespace };
 }
 
 function isSpecialXmlProperty(propertyName: string): boolean {

@@ -30,9 +30,9 @@ demonstrating this [here](https://github.com/Azure/azure-sdk-for-js/blob/master/
 In V5 we've simplified the API surface, making two distinct clients, rather
 than having a single `EventHubClient`:
 
-- [EventHubProducerClient](https://docs.microsoft.com/en-us/javascript/api/@azure/event-hubs/eventhubproducerclient)
+- [EventHubProducerClient](https://docs.microsoft.com/javascript/api/@azure/event-hubs/eventhubproducerclient)
   for sending messages.
-- [EventHubConsumerClient](https://docs.microsoft.com/en-us/javascript/api/@azure/event-hubs/eventhubconsumerclient)
+- [EventHubConsumerClient](https://docs.microsoft.com/javascript/api/@azure/event-hubs/eventhubconsumerclient)
   for receiving messages.
 
 We've also merged the functionality from `EventProcessorHost` from the `@azure/event-processor-host` package into

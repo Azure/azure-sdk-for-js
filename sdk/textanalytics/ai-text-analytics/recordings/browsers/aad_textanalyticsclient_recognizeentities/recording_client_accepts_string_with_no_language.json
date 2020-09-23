@@ -11,20 +11,20 @@
     "cache-control": "no-store, no-cache",
     "content-length": "1329",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 02 Sep 2020 23:54:09 GMT",
+    "date": "Thu, 17 Sep 2020 17:45:14 GMT",
     "expires": "-1",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
     "referrer-policy": "strict-origin-when-cross-origin",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.10985.18 - CHI ProdSlices",
-    "x-ms-request-id": "f62a380c-7857-4923-8fa5-54a9d4d43700"
+    "x-ms-ests-server": "2.1.11021.16 - CHI ProdSlices",
+    "x-ms-request-id": "d691b2e4-4666-4f48-a8fc-d85b39391c00"
    }
   },
   {
    "method": "POST",
-   "url": "https://endpoint/text/analytics/v3.1-preview.1/entities/recognition/general",
+   "url": "https://endpoint/text/analytics/v3.1-preview.2/entities/recognition/general",
    "query": {
     "stringIndexType": "Utf16CodeUnit"
    },
@@ -32,14 +32,14 @@
    "status": 200,
    "response": "{\"documents\":[{\"id\":\"0\",\"entities\":[{\"text\":\"Seattle\",\"category\":\"Location\",\"subcategory\":\"GPE\",\"offset\":26,\"length\":7,\"confidenceScore\":0.75},{\"text\":\"last week\",\"category\":\"DateTime\",\"subcategory\":\"DateRange\",\"offset\":34,\"length\":9,\"confidenceScore\":0.8},{\"text\":\"2\",\"category\":\"Quantity\",\"subcategory\":\"Number\",\"offset\":78,\"length\":1,\"confidenceScore\":0.8}],\"warnings\":[]},{\"id\":\"1\",\"entities\":[{\"text\":\"Seattle\",\"category\":\"Location\",\"subcategory\":\"GPE\",\"offset\":50,\"length\":7,\"confidenceScore\":0.74}],\"warnings\":[]},{\"id\":\"2\",\"entities\":[{\"text\":\"Saturday\",\"category\":\"DateTime\",\"subcategory\":\"Date\",\"offset\":25,\"length\":8,\"confidenceScore\":0.8}],\"warnings\":[]},{\"id\":\"3\",\"entities\":[],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-04-01\"}",
    "responseHeaders": {
-    "apim-request-id": "0f3a027b-e8e3-4a5b-8053-f269ff43aead",
+    "apim-request-id": "f3ef9177-b3b4-432f-8a1b-078eb27425ad",
     "content-type": "application/json; charset=utf-8",
     "csp-billing-usage": "CognitiveServices.TextAnalytics.BatchScoring=4",
-    "date": "Wed, 02 Sep 2020 23:54:09 GMT",
+    "date": "Thu, 17 Sep 2020 17:45:13 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "129"
+    "x-envoy-upstream-service-time": "143"
    }
   }
  ],

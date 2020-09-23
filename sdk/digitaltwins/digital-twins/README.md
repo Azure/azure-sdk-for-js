@@ -114,7 +114,7 @@ See https://github.com/Azure/ms-rest-browserauth to learn how to authenticate to
 ## Key concepts
 
 Azure Digital Twins Preview is an Azure IoT service that creates comprehensive models of the physical environment. It can create spatial intelligence graphs to model the relationships and interactions between people, spaces, and devices.
-You can learn more about Azure Digital Twins by visiting [Azure Digital Twins Documentation](https://docs.microsoft.com/en-us/azure/digital-twins/)
+You can learn more about Azure Digital Twins by visiting [Azure Digital Twins Documentation](https://docs.microsoft.com/azure/digital-twins/)
 
 ## Examples
 
