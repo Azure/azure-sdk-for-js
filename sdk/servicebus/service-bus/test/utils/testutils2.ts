@@ -363,7 +363,7 @@ export class ServiceBusTestHelpers {
       );
     }
 
-    return this.addToCleanup(
+    const receiver = this.addToCleanup(
       entityNames.queue
         ? await this._serviceBusClient.createSessionReceiver(
             entityNames.queue,
@@ -375,6 +375,12 @@ export class ServiceBusTestHelpers {
             getSessionReceiverOptions
           )
     );
+
+    if (getSessionReceiverOptions?.sessionId == null) {
+      return await receiver.accept();
+    } else {
+      return await receiver.accept(getSessionReceiverOptions?.sessionId);
+    }
   }
 
   /**

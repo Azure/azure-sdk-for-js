@@ -134,7 +134,7 @@ describe("serviceBusClient unit tests", () => {
     it("mismatch with queue in createSessionReceiver", async () => {
       try {
         const client = new ServiceBusClient(connectionString);
-        await client.createSessionReceiver("my-queue");
+        await client.createSessionReceiver("my-queue").accept();
         throw new Error("Receiver should not have been created successfully.");
       } catch (error) {
         assert.equal(error.message, entityPathMisMatchError);
@@ -144,7 +144,7 @@ describe("serviceBusClient unit tests", () => {
     it("mismatch with topic and subscription in createSessionReceiver", async () => {
       try {
         const client = new ServiceBusClient(connectionString);
-        await client.createSessionReceiver("my-topic", "my-subscription");
+        await client.createSessionReceiver("my-topic", "my-subscription").accept();
         throw new Error("Receiver should not have been created successfully.");
       } catch (error) {
         assert.equal(error.message, entityPathMisMatchError);

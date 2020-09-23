@@ -77,9 +77,11 @@ async function receiveFromNextSession(serviceBusClient) {
   let sessionReceiver;
 
   try {
-    sessionReceiver = await serviceBusClient.createSessionReceiver(queueName, {
+    sessionReceiver = serviceBusClient.createSessionReceiver(queueName, {
       maxAutoRenewLockDurationInMs: sessionIdleTimeoutMs
     });
+
+    await sessionReceiver.accept();
   } catch (err) {
     if (err.code === "SessionCannotBeLockedError" || err.code === "OperationTimeoutError") {
       console.log(`INFO: no available sessions, sleeping for ${delayOnErrorMs}`);

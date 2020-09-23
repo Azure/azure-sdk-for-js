@@ -83,9 +83,11 @@ async function receiveFromNextSession(serviceBusClient: ServiceBusClient): Promi
   let sessionReceiver: ServiceBusSessionReceiver<ServiceBusReceivedMessageWithLock>;
 
   try {
-    sessionReceiver = await serviceBusClient.createSessionReceiver(queueName, {
-      maxAutoRenewLockDurationInMs: sessionIdleTimeoutMs
-    });
+    sessionReceiver = await serviceBusClient
+      .createSessionReceiver(queueName, {
+        maxAutoRenewLockDurationInMs: sessionIdleTimeoutMs
+      })
+      .accept();
   } catch (err) {
     if (
       (err as MessagingError).code === "SessionCannotBeLockedError" ||
