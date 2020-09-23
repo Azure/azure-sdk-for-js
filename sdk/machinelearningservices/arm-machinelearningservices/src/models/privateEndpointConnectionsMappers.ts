@@ -35,18 +35,14 @@ export {
   Identity,
   IdentityUserAssignedIdentitiesValue,
   KeyVaultProperties,
-  ListWorkspaceKeysResult,
   MachineLearningServiceError,
   NodeStateCounts,
-  NotebookListCredentialsResult,
   NotebookPreparationError,
   NotebookResourceInfo,
-  Password,
   PrivateEndpoint,
   PrivateEndpointConnection,
   PrivateLinkResource,
   PrivateLinkServiceConnectionState,
-  RegistryListCredentialsResult,
   Resource,
   ResourceId,
   ScaleSettings,
@@ -59,7 +55,5 @@ export {
   VirtualMachineProperties,
   VirtualMachineSshCredentials,
   Workspace,
-  WorkspaceConnection,
-  WorkspaceListResult,
-  WorkspaceUpdateParameters
+  WorkspaceConnection
 } from "../models/mappers";
