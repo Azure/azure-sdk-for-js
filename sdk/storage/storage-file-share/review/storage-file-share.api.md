@@ -835,7 +835,7 @@ export interface FileServiceProperties {
     cors?: CorsRule[];
     hourMetrics?: Metrics;
     minuteMetrics?: Metrics;
-    protocolSettings?: ProtocolSettings;
+    protocol?: ShareProtocolSettings;
 }
 
 // @public
@@ -1163,11 +1163,6 @@ export class Pipeline {
 // @public
 export interface PipelineOptions {
     httpClient?: IHttpClient;
-}
-
-// @public
-export interface ProtocolSettings {
-    smbSettings?: SmbSettings;
 }
 
 // @public
@@ -1706,6 +1701,11 @@ export interface ShareProperties {
 }
 
 // @public
+export interface ShareProtocolSettings {
+    smb?: ShareSmbSettings;
+}
+
+// @public
 export class ShareSASPermissions {
     create: boolean;
     delete: boolean;
@@ -1803,6 +1803,11 @@ export type ShareSetQuotaResponse = ShareSetQuotaHeaders & {
 };
 
 // @public
+export interface ShareSmbSettings {
+    multichannel?: SmbMultichannel;
+}
+
+// @public
 export interface ShareStats {
     shareUsageBytes: number;
 }
@@ -1826,11 +1831,6 @@ export interface SignedIdentifierModel {
 // @public
 export interface SmbMultichannel {
     enabled?: boolean;
-}
-
-// @public
-export interface SmbSettings {
-    multichannel?: SmbMultichannel;
 }
 
 // @public

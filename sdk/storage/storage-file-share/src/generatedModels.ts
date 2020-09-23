@@ -101,7 +101,7 @@ export {
   LeaseStateType,
   LeaseStatusType,
   CopyFileSmbInfo,
-  ProtocolSettings,
-  SmbSettings,
+  ShareProtocolSettings,
+  ShareSmbSettings,
   SmbMultichannel
 } from "./generated/src/models";
