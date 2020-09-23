@@ -288,6 +288,8 @@ describe("Receiver unit tests", () => {
         }
       );
 
+      await impl.accept("hello");
+
       const abortSignal = createAbortSignalForTest(true);
 
       try {
@@ -298,6 +300,7 @@ describe("Receiver unit tests", () => {
         await iter.next();
         assert.fail("Should have thrown");
       } catch (err) {
+        assert.equal("The operation was aborted.", err.message);
         assert.equal("AbortError", err.name);
       }
 
