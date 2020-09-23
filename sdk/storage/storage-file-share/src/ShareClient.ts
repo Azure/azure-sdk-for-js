@@ -45,6 +45,7 @@ import { Credential } from "./credentials/Credential";
 import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import { createSpan } from "./utils/tracing";
+import { LeaseAccessConditions } from "./generated/src/models";
 
 /**
  * Options to configure the {@link ShareClient.create} operation.
@@ -103,6 +104,13 @@ export interface ShareDeleteMethodOptions extends CommonOptions {
    * @memberof ShareDeleteMethodOptions
    */
   deleteSnapshots?: DeleteSnapshotsOptionType;
+  /**
+   * If specified, the operation only succeeds if the resource's lease is active and matches this ID.
+   *
+   * @type {LeaseAccessConditions}
+   * @memberof ShareDeleteMethodOptions
+   */
+  leaseAccessConditions?: LeaseAccessConditions;
 }
 
 /**
@@ -120,6 +128,13 @@ export interface ShareSetMetadataOptions extends CommonOptions {
    * @memberof ShareSetMetadataOptions
    */
   abortSignal?: AbortSignalLike;
+  /**
+   * If specified, the operation only succeeds if the resource's lease is active and matches this ID.
+   *
+   * @type {LeaseAccessConditions}
+   * @memberof ShareSetMetadataOptions
+   */
+  leaseAccessConditions?: LeaseAccessConditions;
 }
 
 /**
@@ -137,6 +152,13 @@ export interface ShareSetAccessPolicyOptions extends CommonOptions {
    * @memberof ShareSetAccessPolicyOptions
    */
   abortSignal?: AbortSignalLike;
+  /**
+   * If specified, the operation only succeeds if the resource's lease is active and matches this ID.
+   *
+   * @type {LeaseAccessConditions}
+   * @memberof ShareSetAccessPolicyOptions
+   */
+  leaseAccessConditions?: LeaseAccessConditions;
 }
 
 /**
@@ -154,6 +176,13 @@ export interface ShareGetAccessPolicyOptions extends CommonOptions {
    * @memberof ShareGetAccessPolicyOptions
    */
   abortSignal?: AbortSignalLike;
+  /**
+   * If specified, the operation only succeeds if the resource's lease is active and matches this ID.
+   *
+   * @type {LeaseAccessConditions}
+   * @memberof ShareGetAccessPolicyOptions
+   */
+  leaseAccessConditions?: LeaseAccessConditions;
 }
 
 /**
@@ -171,6 +200,13 @@ export interface ShareExistsOptions extends CommonOptions {
    * @memberof ShareExistsOptions
    */
   abortSignal?: AbortSignalLike;
+  /**
+   * If specified, the operation only succeeds if the resource's lease is active and matches this ID.
+   *
+   * @type {LeaseAccessConditions}
+   * @memberof ShareExistsOptions
+   */
+  leaseAccessConditions?: LeaseAccessConditions;
 }
 
 /**
@@ -188,6 +224,13 @@ export interface ShareGetPropertiesOptions extends CommonOptions {
    * @memberof ShareGetPropertiesOptions
    */
   abortSignal?: AbortSignalLike;
+  /**
+   * If specified, the operation only succeeds if the resource's lease is active and matches this ID.
+   *
+   * @type {LeaseAccessConditions}
+   * @memberof ShareGetPropertiesOptions
+   */
+  leaseAccessConditions?: LeaseAccessConditions;
 }
 
 /**
@@ -205,6 +248,13 @@ export interface ShareSetQuotaOptions extends CommonOptions {
    * @memberof ShareSetQuotaOptions
    */
   abortSignal?: AbortSignalLike;
+  /**
+   * If specified, the operation only succeeds if the resource's lease is active and matches this ID.
+   *
+   * @type {LeaseAccessConditions}
+   * @memberof ShareSetQuotaOptions
+   */
+  leaseAccessConditions?: LeaseAccessConditions;
 }
 
 /**
@@ -222,6 +272,13 @@ export interface ShareGetStatisticsOptions extends CommonOptions {
    * @memberof ShareGetStatisticsOptions
    */
   abortSignal?: AbortSignalLike;
+  /**
+   * If specified, the operation only succeeds if the resource's lease is active and matches this ID.
+   *
+   * @type {LeaseAccessConditions}
+   * @memberof ShareGetStatisticsOptions
+   */
+  leaseAccessConditions?: LeaseAccessConditions;
 }
 
 /**
@@ -794,7 +851,7 @@ export class ShareClient extends StorageClient {
     const { span, spanOptions } = createSpan("ShareClient-exists", options.tracingOptions);
     try {
       await this.getProperties({
-        abortSignal: options.abortSignal,
+        ...options,
         tracingOptions: { ...options.tracingOptions, spanOptions }
       });
       return true;
@@ -835,7 +892,7 @@ export class ShareClient extends StorageClient {
     const { span, spanOptions } = createSpan("ShareClient-getProperties", options.tracingOptions);
     try {
       return await this.context.getProperties({
-        abortSignal: options.abortSignal,
+        ...options,
         spanOptions
       });
     } catch (e) {
@@ -939,7 +996,7 @@ export class ShareClient extends StorageClient {
     const { span, spanOptions } = createSpan("ShareClient-setMetadata", options.tracingOptions);
     try {
       return await this.context.setMetadata({
-        abortSignal: options.abortSignal,
+        ...options,
         metadata,
         spanOptions
       });
@@ -973,7 +1030,7 @@ export class ShareClient extends StorageClient {
     const { span, spanOptions } = createSpan("ShareClient-getAccessPolicy", options.tracingOptions);
     try {
       const response = await this.context.getAccessPolicy({
-        abortSignal: options.abortSignal,
+        ...options,
         spanOptions
       });
 
@@ -1047,7 +1104,7 @@ export class ShareClient extends StorageClient {
       }
 
       return await this.context.setAccessPolicy({
-        abortSignal: options.abortSignal,
+        ...options,
         shareAcl: acl,
         spanOptions
       });
@@ -1110,7 +1167,7 @@ export class ShareClient extends StorageClient {
         );
       }
       return await this.context.setQuota({
-        abortSignal: options.abortSignal,
+        ...options,
         quota: quotaInGB,
         spanOptions
       });
@@ -1138,7 +1195,7 @@ export class ShareClient extends StorageClient {
     const { span, spanOptions } = createSpan("ShareClient-getStatistics", options.tracingOptions);
     try {
       const response = await this.context.getStatistics({
-        abortSignal: options.abortSignal,
+        ...options,
         spanOptions
       });
 
