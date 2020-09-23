@@ -47,7 +47,7 @@ describe("dead lettering", () => {
       // receiveAndDelete since I don't care about further settlement after it's been dead lettered!
       serviceBusClient.createReceiver(entityNames.queue, {
         receiveMode: "receiveAndDelete",
-        subQueue: "deadLetter"
+        _subQueue: "deadLetter"
       })
     );
 

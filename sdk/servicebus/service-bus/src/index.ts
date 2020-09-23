@@ -28,7 +28,7 @@ export {
   ReceiveMessagesOptions,
   ReceiveMode,
   SessionSubscribeOptions,
-  SubQueue,
+  _SubQueue,
   SubscribeOptions
 } from "./models";
 export { OperationOptionsBase } from "./modelsToBeSharedWithEventHubs";

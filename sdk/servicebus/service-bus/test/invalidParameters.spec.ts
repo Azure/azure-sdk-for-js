@@ -233,7 +233,7 @@ describe("invalid parameters", () => {
       let errorCaught: string = "";
       try {
         // @ts-expect-error
-        sbClient.createReceiver("dummyQueue", { subQueue: 123 });
+        sbClient.createReceiver("dummyQueue", { _subQueue: 123 });
       } catch (error) {
         errorCaught = error.message;
       }
