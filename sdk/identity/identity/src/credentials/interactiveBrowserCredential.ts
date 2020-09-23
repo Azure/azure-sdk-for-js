@@ -133,8 +133,6 @@ export class InteractiveBrowserCredential implements TokenCredential {
 
   private async acquireTokenFromCache(): Promise<AccessToken | null> {
     await this.msalCacheManager.readFromPersistence();
-    // const contents = this.msalCacheManager.serialize();
-    // const accounts = this.msalCacheManager.getAllAccounts();
 
     const silentRequest = {
       account: this.authenticationRecord!,
@@ -163,11 +161,7 @@ export class InteractiveBrowserCredential implements TokenCredential {
     await open(response);
 
     if (this.persistenceEnabled) {
-      try {
-        await this.msalCacheManager.readFromPersistence();
-      } catch (e) {
-        throw e;
-      }
+      await this.msalCacheManager.readFromPersistence();
     }
   }
 

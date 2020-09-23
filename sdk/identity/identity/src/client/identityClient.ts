@@ -196,17 +196,11 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
   ): Promise<NetworkResponse<T>> {
     const webResource = new WebResource(url, "GET", options?.body, {}, options?.headers);
 
-    return this.sendRequest(webResource).then((x) => {
-      let headers: Record<string, string> = {};
-      let kv = x.headers.headersArray();
-      for (let idx in kv) {
-        headers[kv[idx].name] = kv[idx].value;
-      }
-
+    return this.sendRequest(webResource).then((response) => {
       return {
-        body: x.parsedBody as T,
-        headers,
-        status: x.status
+        body: response.parsedBody as T,
+        headers: response.headers.rawHeaders(),
+        status: response.status
       };
     });
   }
@@ -217,17 +211,11 @@ export class IdentityClient extends ServiceClient implements INetworkModule {
   ): Promise<NetworkResponse<T>> {
     const webResource = new WebResource(url, "POST", options?.body, {}, options?.headers);
 
-    return this.sendRequest(webResource).then((x) => {
-      let headers: Record<string, string> = {};
-      let kv = x.headers.headersArray();
-      for (let idx in kv) {
-        headers[kv[idx].name] = kv[idx].value;
-      }
-
+    return this.sendRequest(webResource).then((response) => {
       return {
-        body: x.parsedBody as T,
-        headers,
-        status: x.status
+        body: response.parsedBody as T,
+        headers: response.headers.rawHeaders(),
+        status: response.status
       };
     });
   }
