@@ -76,7 +76,7 @@ export class InteractiveBrowserCredential implements TokenCredential {
 
     const url = new URL(this.redirectUri);
     this.port = parseInt(url.port);
-    if (this.port == 0) {
+    if (isNaN(this.port)) {
       this.port = 80;
     }
 
@@ -119,15 +119,13 @@ export class InteractiveBrowserCredential implements TokenCredential {
     const scopeArray = typeof scopes === "object" ? scopes : [scopes];
 
     if (this.authenticationRecord && this.persistenceEnabled) {
-      try {
-        return this.acquireTokenFromCache();
-      } catch (e) {
+      return this.acquireTokenFromCache().catch(e => {
         if (e instanceof AuthenticationRequired) {
           return this.acquireTokenFromBrowser(scopeArray);
         } else {
           throw e;
         }
-      }
+      });
     } else {
       return this.acquireTokenFromBrowser(scopeArray);
     }

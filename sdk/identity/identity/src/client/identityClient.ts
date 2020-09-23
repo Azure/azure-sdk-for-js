@@ -16,7 +16,7 @@ import {
   RawHttpHeaders,
   HttpHeaders
 } from "@azure/core-http";
-import { INetworkModule, NetworkRequestOptions, NetworkResponse } from "@azure/msal-common";
+import { INetworkModule, NetworkRequestOptions, NetworkResponse } from "@azure/msal-node";
 
 import { CanonicalCode } from "@opentelemetry/api";
 import { AuthenticationError, AuthenticationErrorName } from "./errors";
