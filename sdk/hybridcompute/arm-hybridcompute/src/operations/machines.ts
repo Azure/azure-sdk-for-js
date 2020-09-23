@@ -91,8 +91,7 @@ export class Machines {
   }
 
   /**
-   * Lists all the hybrid machines in the specified resource group. Use the nextLink property in the
-   * response to get the next page of hybrid machines.
+   * Lists all the hybrid machines in the specified resource group.
    * @param resourceGroupName The name of the resource group.
    * @param [options] The optional parameters
    * @returns Promise<Models.MachinesListByResourceGroupResponse>
@@ -120,8 +119,7 @@ export class Machines {
   }
 
   /**
-   * Lists all the hybrid machines in the specified subscription. Use the nextLink property in the
-   * response to get the next page of hybrid machines.
+   * Lists all the hybrid machines in the specified subscription.
    * @param [options] The optional parameters
    * @returns Promise<Models.MachinesListBySubscriptionResponse>
    */
@@ -145,8 +143,7 @@ export class Machines {
   }
 
   /**
-   * Lists all the hybrid machines in the specified resource group. Use the nextLink property in the
-   * response to get the next page of hybrid machines.
+   * Lists all the hybrid machines in the specified resource group.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
    * @returns Promise<Models.MachinesListByResourceGroupNextResponse>
@@ -174,8 +171,7 @@ export class Machines {
   }
 
   /**
-   * Lists all the hybrid machines in the specified subscription. Use the nextLink property in the
-   * response to get the next page of hybrid machines.
+   * Lists all the hybrid machines in the specified subscription.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
    * @returns Promise<Models.MachinesListBySubscriptionNextResponse>

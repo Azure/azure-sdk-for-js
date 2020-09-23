@@ -42,7 +42,7 @@ export class MachineExtensions {
   }
 
   /**
-   * The operation to create or update the extension.
+   * The operation to update the extension.
    * @param resourceGroupName The name of the resource group.
    * @param name The name of the machine where the extension should be created or updated.
    * @param extensionName The name of the machine extension.
@@ -159,7 +159,7 @@ export class MachineExtensions {
   }
 
   /**
-   * The operation to create or update the extension.
+   * The operation to update the extension.
    * @param resourceGroupName The name of the resource group.
    * @param name The name of the machine where the extension should be created or updated.
    * @param extensionName The name of the machine extension.
