@@ -29,7 +29,9 @@ export {
   BlobDownloadResponseParsed,
   ObjectReplicationPolicy,
   ObjectReplicationRule,
-  ObjectReplicationStatus
+  ObjectReplicationStatus,
+  BlobQueryArrowField,
+  BlobQueryArrowFieldType
 } from "./models";
 export * from "./Pipeline";
 export * from "./policies/AnonymousCredentialPolicy";
