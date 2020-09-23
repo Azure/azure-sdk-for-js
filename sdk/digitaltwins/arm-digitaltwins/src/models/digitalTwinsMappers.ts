@@ -17,10 +17,10 @@ export {
   DigitalTwinsEndpointResourceProperties,
   DigitalTwinsPatchDescription,
   DigitalTwinsResource,
-  DigitalTwinsSkuInfo,
   ErrorDefinition,
   ErrorResponse,
   EventGrid,
   EventHub,
+  ExternalResource,
   ServiceBus
 } from "../models/mappers";
