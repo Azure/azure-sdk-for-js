@@ -454,12 +454,15 @@ export class ManagedIdentityCredential implements TokenCredential {
       // and it means that the endpoint is working, but that no identity is available.
       if (err.statusCode === 400) {
         throw new AuthenticationError(400, {
-          error: "ManagedIdentityCredential authentication failed.",
+          error: "ManagedIdentityCredential authentication failed. No available identity.",
           error_description: err.message
         });
       }
 
-      throw err;
+      throw new AuthenticationError(err.statusCode, {
+        error: "ManagedIdentityCredential authentication failed. Unexpected error.",
+        error_description: err.message
+      });
     } finally {
       // Finally is always called, both if we return and if we throw in the above try/catch.
       span.end();
