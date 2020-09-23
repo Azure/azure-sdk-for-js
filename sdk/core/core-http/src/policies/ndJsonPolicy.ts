@@ -42,9 +42,11 @@ class NdJsonPolicy extends BaseRequestPolicy {
    */
   public async sendRequest(request: WebResourceLike): Promise<HttpOperationResponse> {
     // There currently isn't a good way to bypass the serializer
-    const body = JSON.parse(request.body);
-    if (Array.isArray(body)) {
-      request.body = body.map((item) => JSON.stringify(item) + "\n").join("");
+    if (typeof request.body === "string" && request.body.startsWith("[")) {
+      const body = JSON.parse(request.body);
+      if (Array.isArray(body)) {
+        request.body = body.map((item) => JSON.stringify(item) + "\n").join("");
+      }
     }
     return this._nextPolicy.sendRequest(request);
   }
