@@ -645,7 +645,7 @@ describe("BlobClient Node.js only", () => {
     assert.deepStrictEqual(await bodyToString(response), jsonContent);
   });
 
-  it.only("query should work with arrow output configurations", async function() {
+  it("query should work with arrow output configurations", async function() {
     const csvContent = "100,200,300,400\n150,250,350,450\n";
     await blockBlobClient.upload(csvContent, csvContent.length);
 

@@ -330,4 +330,26 @@ describe("DataLakePathClient Node.js only", () => {
     const response = await fileClient2.query("select * from BlobStorage");
     assert.deepStrictEqual(await bodyToString(response), csvContent);
   });
+
+  it("quick query should work with arrow output configuration", async () => {
+    const csvContent = "100,200,300,400\n150,250,350,450\n";
+    const fileClient2 = fileSystemClient.getFileClient(fileName + "2");
+    await fileClient2.create();
+    await fileClient2.append(csvContent, 0, csvContent.length);
+    await fileClient2.flush(csvContent.length);
+
+    await fileClient2.query("select * from BlobStorage", {
+      outputTextConfiguration: {
+        kind: "arrow",
+        schema: [
+          {
+            type: "decimal",
+            name: "name",
+            precision: 4,
+            scale: 2
+          }
+        ]
+      }
+    });
+  });
 });

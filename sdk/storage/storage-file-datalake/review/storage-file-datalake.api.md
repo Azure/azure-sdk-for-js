@@ -7,6 +7,7 @@
 import { AbortSignalLike } from '@azure/abort-controller';
 import { BaseRequestPolicy } from '@azure/core-http';
 import { BlobLeaseClient } from '@azure/storage-blob';
+import { BlobQueryArrowField } from '@azure/storage-blob';
 import * as coreHttp from '@azure/core-http';
 import { deserializationPolicy } from '@azure/core-http';
 import { HttpHeaders } from '@azure/core-http';
@@ -350,6 +351,12 @@ export interface FileParallelUploadOptions extends CommonOptions {
 }
 
 // @public
+export interface FileQueryArrowConfiguration {
+    kind: "arrow";
+    schema: BlobQueryArrowField[];
+}
+
+// @public
 export interface FileQueryCsvTextConfiguration {
     columnSeparator?: string;
     escapeCharacter?: string;
@@ -380,7 +387,7 @@ export interface FileQueryOptions extends CommonOptions {
     inputTextConfiguration?: FileQueryJsonTextConfiguration | FileQueryCsvTextConfiguration;
     onError?: (error: FileQueryError) => void;
     onProgress?: (progress: TransferProgressEvent) => void;
-    outputTextConfiguration?: FileQueryJsonTextConfiguration | FileQueryCsvTextConfiguration;
+    outputTextConfiguration?: FileQueryJsonTextConfiguration | FileQueryCsvTextConfiguration | FileQueryArrowConfiguration;
 }
 
 // @public (undocumented)
