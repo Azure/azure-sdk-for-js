@@ -4,7 +4,8 @@ import {
   getBSU,
   getSASConnectionStringFromEnvironment,
   recorderEnvSetup,
-  getSoftDeleteBSU
+  getSoftDeleteBSU,
+  getGenericBSU
 } from "./utils";
 import { record, delay, Recorder } from "@azure/test-utils-recorder";
 import * as dotenv from "dotenv";
@@ -464,5 +465,31 @@ describe("FileServiceClient", () => {
     } catch (error) {
       assert.ok((error.statusCode as number) === 404);
     }
+  });
+});
+
+describe("FileServiceClient Premium", () => {
+  let recorder: Recorder;
+  let serviceClient: ShareServiceClient;
+
+  beforeEach(function() {
+    recorder = record(this, recorderEnvSetup);
+    try {
+      serviceClient = getGenericBSU("PREMIUM_FILE_");
+    } catch (error) {
+      this.skip();
+    }
+  });
+
+  afterEach(async function() {
+    await recorder.stop();
+  });
+
+  it("SMB Multichannel", async () => {
+    await serviceClient.setProperties({
+      protocol: { smb: { multichannel: { enabled: true } } }
+    });
+    const propertiesSet = await serviceClient.getProperties();
+    assert.ok(propertiesSet.protocol?.smb?.multichannel);
   });
 });
