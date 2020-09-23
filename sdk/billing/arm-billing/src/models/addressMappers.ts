@@ -7,10 +7,9 @@
  */
 
 export {
+  AddressDetails,
   ErrorDetails,
   ErrorResponse,
   ErrorSubDetailsItem,
-  Operation,
-  OperationDisplay,
-  OperationListResult
+  ValidateAddressResponse
 } from "../models/mappers";
