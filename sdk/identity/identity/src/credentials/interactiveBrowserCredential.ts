@@ -119,7 +119,7 @@ export class InteractiveBrowserCredential implements TokenCredential {
     const scopeArray = typeof scopes === "object" ? scopes : [scopes];
 
     if (this.authenticationRecord && this.persistenceEnabled) {
-      return this.acquireTokenFromCache().catch(e => {
+      return this.acquireTokenFromCache().catch((e) => {
         if (e instanceof AuthenticationRequired) {
           return this.acquireTokenFromBrowser(scopeArray);
         } else {
