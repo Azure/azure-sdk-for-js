@@ -713,7 +713,7 @@ function deserializeCompositeType(
             xmlName is "Cors" and xmlElementName is"CorsRule".
           */
           const wrapped = responseBody[xmlName!];
-          const elementList = wrapped ? wrapped[xmlElementName!] : [];
+          const elementList = wrapped?.[xmlElementName!] ?? [];
           instance[key] = serializer.deserialize(propertyMapper, elementList, propertyObjectName);
         } else {
           const property = responseBody[propertyName!];
