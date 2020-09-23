@@ -8,6 +8,8 @@ import { Recorder } from "@azure/test-utils-recorder";
 
 import { createRecordedClient, testEnv } from "./utils/recordedClient";
 
+import { TestTracer, setTracer } from "@azure/core-tracing";
+
 import { AzureKeyCredential, EventGridPublisherClient } from "../src/index";
 
 import {
@@ -133,6 +135,48 @@ describe("EventGridPublisherClient", function() {
       ]);
 
       assert.equal(res._response.status, 200);
+    });
+
+    it("enriches events with distributed tracing information", async () => {
+      const tracer = new TestTracer();
+      setTracer(tracer);
+      const rootSpan = tracer.startSpan("root");
+
+      const res = await client.sendCloudEvents(
+        [
+          {
+            type: "Azure.Sdk.TestEvent1",
+            id: recorder.getUniqueName("cloudTracingEventId"),
+            time: recorder.newDate("cloudTracingEventDate"),
+            source: "/earth/unitedstates/washington/kirkland/finnhill",
+            subject: "Single with Trace Parent",
+            data: {
+              hello: "world"
+            }
+          }
+        ],
+        {
+          tracingOptions: {
+            spanOptions: {
+              parent: rootSpan.context()
+            }
+          }
+        }
+      );
+
+      rootSpan.end();
+
+      const parsedBody = JSON.parse(res._response.request.body);
+
+      assert.isArray(parsedBody);
+      assert.equal(parsedBody[0].traceparent, "00-1-3-00");
+
+      const spans = tracer.getKnownSpans();
+
+      assert.equal(spans.length, 3);
+      assert.equal(spans[0].name, "root");
+      assert.equal(spans[1].name, "Azure.Data.EventGrid.EventGridPublisherClient-sendCloudEvents");
+      assert.equal(spans[2].name, "/api/events");
     });
   });
 
