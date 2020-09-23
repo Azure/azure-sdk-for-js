@@ -98,7 +98,7 @@ export interface DataLakeSASSignatureValues {
   isDirectory?: boolean;
 
   /**
-   * Optional, requiered when {@link isDirectory} is true. Beginning in version 2020-02-10, indicate the depth of the directory
+   * Optional. Beginning in version 2020-02-10, indicate the depth of the directory
    * specified in the canonicalizedresource field of the string-to-sign. The depth of the directory is the number of directories
    * beneath the root folder.
    *
@@ -395,7 +395,10 @@ function generateBlobSASQueryParameters20150405(
     throw RangeError("'version' must be >= '2018-11-09' when provided 'snapshotTime'.");
   }
 
-  SASSignatureValuesSanityCheck(dataLakeSASSignatureValues, version);
+  dataLakeSASSignatureValues = SASSignatureValuesSanityCheckAndAutofill(
+    dataLakeSASSignatureValues,
+    version
+  );
 
   // Calling parse and toString guarantees the proper ordering and throws on invalid characters.
   if (dataLakeSASSignatureValues.permissions) {
@@ -504,7 +507,10 @@ function generateBlobSASQueryParameters20181109(
     throw RangeError("Must provide 'blobName' when provided 'snapshotTime'.");
   }
 
-  SASSignatureValuesSanityCheck(dataLakeSASSignatureValues, version);
+  dataLakeSASSignatureValues = SASSignatureValuesSanityCheckAndAutofill(
+    dataLakeSASSignatureValues,
+    version
+  );
 
   // Calling parse and toString guarantees the proper ordering and throws on invalid characters.
   if (dataLakeSASSignatureValues.permissions) {
@@ -621,7 +627,10 @@ function generateBlobSASQueryParametersUDK20181109(
     throw RangeError("Must provide 'blobName' when provided 'snapshotTime'.");
   }
 
-  SASSignatureValuesSanityCheck(dataLakeSASSignatureValues, version);
+  dataLakeSASSignatureValues = SASSignatureValuesSanityCheckAndAutofill(
+    dataLakeSASSignatureValues,
+    version
+  );
 
   // Calling parse and toString guarantees the proper ordering and throws on invalid characters.
   if (dataLakeSASSignatureValues.permissions) {
@@ -723,28 +732,38 @@ function getCanonicalName(accountName: string, containerName: string, blobName?:
   return elements.join("");
 }
 
-function SASSignatureValuesSanityCheck(
+function SASSignatureValuesSanityCheckAndAutofill(
   dataLakeSASSignatureValues: DataLakeSASSignatureValues,
   version: string
-) {
+): DataLakeSASSignatureValues {
   if (
     version < "2020-02-10" &&
     (dataLakeSASSignatureValues.isDirectory || dataLakeSASSignatureValues.directoryDepth)
   ) {
-    throw RangeError("'version' must be >= '020-02-10' to support directory SAS.");
+    throw RangeError("'version' must be >= '2020-02-10' to support directory SAS.");
+  }
+  if (dataLakeSASSignatureValues.isDirectory && dataLakeSASSignatureValues.pathName === undefined) {
+    throw RangeError("Must provide 'pathName' when 'isDirectory' is true.");
+  }
+  if (
+    dataLakeSASSignatureValues.directoryDepth !== undefined &&
+    (!Number.isInteger(dataLakeSASSignatureValues.directoryDepth) ||
+      dataLakeSASSignatureValues.directoryDepth < 0)
+  ) {
+    throw RangeError("'directoryDepth' must be a non-negative interger.");
   }
   if (
     dataLakeSASSignatureValues.isDirectory &&
     dataLakeSASSignatureValues.directoryDepth === undefined
   ) {
-    throw new RangeError("Must provide 'directoryDepth' when 'isDirectory' is set to true.");
-  }
-  if (
-    dataLakeSASSignatureValues.directoryDepth &&
-    (!Number.isInteger(dataLakeSASSignatureValues.directoryDepth) ||
-      dataLakeSASSignatureValues.directoryDepth < 0)
-  ) {
-    throw RangeError("'directoryDepth' must be a non-negative interger.");
+    // calculate directoryDepth from pathName
+    if (dataLakeSASSignatureValues.pathName === "/") {
+      dataLakeSASSignatureValues.directoryDepth = 0;
+    } else {
+      dataLakeSASSignatureValues.directoryDepth = dataLakeSASSignatureValues.pathName
+        ?.split("/")
+        .filter((x) => x !== "").length;
+    }
   }
 
   if (
@@ -776,4 +795,6 @@ function SASSignatureValuesSanityCheck(
       "'authorizedUserObjectId' or 'unauthorizedUserObjectId' shouldn't be specified at the same time."
     );
   }
+
+  return dataLakeSASSignatureValues;
 }
