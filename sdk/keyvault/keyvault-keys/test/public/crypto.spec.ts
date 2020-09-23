@@ -102,7 +102,7 @@ describe("CryptographyClient (all decrypts happen remotely)", () => {
   }
 
   // Local encryption is only supported in NodeJS.
-  it.only("sign and verify with RS256", async function(): Promise<void> {
+  it("sign and verify with RS256", async function(): Promise<void> {
     const signatureValue = this.test!.title;
     const hash = createHash("sha256");
     hash.update(signatureValue);
