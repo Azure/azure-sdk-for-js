@@ -30,7 +30,13 @@ import { getInstance } from "../platform";
 import { DB_STATEMENT, DB_TYPE, DB_INSTANCE } from "./constants/span/dbAttributes";
 import { parseEventHubSpan } from "./eventhub";
 import { AzNamespace, MicrosoftEventHub } from "./constants/span/azAttributes";
-import { RemoteDependencyData, RequestData, TelemetryItem as Envelope } from "../generated";
+import {
+  RemoteDependencyData,
+  RemoteDependencyTelememetry,
+  RequestData,
+  RequestTelemetry,
+  TelemetryItem as Envelope
+} from "../generated";
 
 function createTagsFromSpan(span: ReadableSpan): Tags {
   const context = getInstance();
@@ -86,7 +92,6 @@ function createPropertiesFromSpan(span: ReadableSpan): [Properties, Measurements
 
 function createDependencyData(span: ReadableSpan): RemoteDependencyData {
   const data: RemoteDependencyData = {
-    typename: "RemoteDependencyData",
     name: span.name,
     id: `|${span.spanContext.traceId}.${span.spanContext.spanId}.`,
     success: span.status.code === CanonicalCode.OK,
@@ -141,7 +146,6 @@ function createDependencyData(span: ReadableSpan): RemoteDependencyData {
 
 function createRequestData(span: ReadableSpan): RequestData {
   const data: RequestData = {
-    typename: "RequestData",
     name: span.name,
     id: `|${span.spanContext.traceId}.${span.spanContext.spanId}.`,
     success: span.status.code === CanonicalCode.OK,
@@ -196,7 +200,7 @@ export function readableSpanToEnvelope(
 ): Envelope {
   const envelope: Partial<Envelope> = {};
   envelope.sampleRate = 100;
-  envelope.data = {};
+  envelope.data = {} as RemoteDependencyTelememetry | RequestTelemetry;
   const tags = createTagsFromSpan(span);
   const [properties, measurements] = createPropertiesFromSpan(span);
   let data;
@@ -228,7 +232,6 @@ export function readableSpanToEnvelope(
 
   envelope.data.baseData = {
     ...data,
-    typename: envelope.data.baseType,
     properties,
     measurements
   } as RequestData | RemoteDependencyData;

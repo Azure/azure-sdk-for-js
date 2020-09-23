@@ -305,7 +305,6 @@ describe("spanUtils.ts", () => {
         };
 
         const expectedBaseData: RequestData = {
-          typename: "RequestData",
           duration: msToTimeSpan(hrTimeToMilliseconds(span.duration)),
           id: `|${span.spanContext.traceId}.${span.spanContext.spanId}.`,
           success: true,
@@ -356,7 +355,6 @@ describe("spanUtils.ts", () => {
         };
 
         const expectedBaseData: RemoteDependencyData = {
-          typename: "RemoteDependencyData",
           duration: msToTimeSpan(hrTimeToMilliseconds(span.duration)),
           id: `|traceid.spanId.`,
           success: true,

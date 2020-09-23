@@ -18,7 +18,12 @@ export const assertData = (actual: Base, expected: Base): void => {
   if (expected.baseData) {
     assert.ok(actual.baseData);
     for (const [key, value] of Object.entries(expected.baseData)) {
-      assert.deepStrictEqual(actual.baseData![key], value, `baseData.${key} should be equal`);
+      const serializedKey = EnvelopeMapper.type.modelProperties![key]?.serializedName ?? key;
+      assert.deepStrictEqual(
+        actual.baseData![serializedKey],
+        value,
+        `baseData.${serializedKey} should be equal`
+      );
     }
   }
 };

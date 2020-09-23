@@ -43,7 +43,7 @@ export class BasicScenario implements Scenario {
         parent: root,
         kind: opentelemetry.SpanKind.CLIENT,
         attributes: {
-          numbers: 123
+          numbers: "123"
         }
       });
 
@@ -52,7 +52,7 @@ export class BasicScenario implements Scenario {
         parent: root,
         kind: opentelemetry.SpanKind.CLIENT,
         attributes: {
-          numbers: 1234
+          numbers: "1234"
         }
       });
 
@@ -106,7 +106,7 @@ export class BasicScenario implements Scenario {
               success: true,
               resultCode: "0",
               properties: {
-                numbers: 123 as any
+                numbers: "123"
               }
             } as any
           },
@@ -123,7 +123,7 @@ export class BasicScenario implements Scenario {
               success: true,
               resultCode: "0",
               properties: {
-                numbers: 1234 as any
+                numbers: "1234"
               }
             } as any
           },
