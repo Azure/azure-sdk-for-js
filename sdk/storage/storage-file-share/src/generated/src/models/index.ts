@@ -276,7 +276,7 @@ export interface Range {
 /**
  * Settings for SMB protocol.
  */
-export interface SmbSettings {
+export interface ShareSmbSettings {
   /**
    * Settings for SMB Multichannel.
    */
@@ -286,11 +286,11 @@ export interface SmbSettings {
 /**
  * Protocol settings
  */
-export interface ProtocolSettings {
+export interface ShareProtocolSettings {
   /**
    * Settings for SMB protocol.
    */
-  smbSettings?: SmbSettings;
+  smb?: ShareSmbSettings;
 }
 
 /**
@@ -354,7 +354,7 @@ export interface FileServiceProperties {
   /**
    * Protocol settings
    */
-  protocolSettings?: ProtocolSettings;
+  protocol?: ShareProtocolSettings;
 }
 
 /**
@@ -1687,10 +1687,6 @@ export interface ShareAcquireLeaseHeaders {
    */
   lastModified?: Date;
   /**
-   * Approximate time remaining in the lease period, in seconds.
-   */
-  leaseTime?: number;
-  /**
    * Uniquely identifies a share's lease
    */
   leaseId?: string;
@@ -1731,10 +1727,6 @@ export interface ShareReleaseLeaseHeaders {
    */
   lastModified?: Date;
   /**
-   * Approximate time remaining in the lease period, in seconds.
-   */
-  leaseTime?: number;
-  /**
    * If a client request id header is sent in the request, this header will be present in the
    * response with the same value.
    */
@@ -1770,10 +1762,6 @@ export interface ShareChangeLeaseHeaders {
    * modified time of the share.
    */
   lastModified?: Date;
-  /**
-   * Approximate time remaining in the lease period, in seconds.
-   */
-  leaseTime?: number;
   /**
    * Uniquely identifies a share's lease
    */
@@ -1814,10 +1802,6 @@ export interface ShareRenewLeaseHeaders {
    * modified time of the share.
    */
   lastModified?: Date;
-  /**
-   * Approximate time remaining in the lease period, in seconds.
-   */
-  leaseTime?: number;
   /**
    * Uniquely identifies a share's lease
    */

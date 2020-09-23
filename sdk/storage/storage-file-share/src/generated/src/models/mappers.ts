@@ -742,11 +742,11 @@ export const Range: coreHttp.CompositeMapper = {
   }
 };
 
-export const SmbSettings: coreHttp.CompositeMapper = {
-  serializedName: "SmbSettings",
+export const ShareSmbSettings: coreHttp.CompositeMapper = {
+  serializedName: "ShareSmbSettings",
   type: {
     name: "Composite",
-    className: "SmbSettings",
+    className: "ShareSmbSettings",
     modelProperties: {
       multichannel: {
         xmlName: "Multichannel",
@@ -760,18 +760,18 @@ export const SmbSettings: coreHttp.CompositeMapper = {
   }
 };
 
-export const ProtocolSettings: coreHttp.CompositeMapper = {
-  serializedName: "ProtocolSettings",
+export const ShareProtocolSettings: coreHttp.CompositeMapper = {
+  serializedName: "ShareProtocolSettings",
   type: {
     name: "Composite",
-    className: "ProtocolSettings",
+    className: "ShareProtocolSettings",
     modelProperties: {
-      smbSettings: {
+      smb: {
         xmlName: "SMB",
-        serializedName: "SmbSettings",
+        serializedName: "Smb",
         type: {
           name: "Composite",
-          className: "SmbSettings"
+          className: "ShareSmbSettings"
         }
       }
     }
@@ -895,12 +895,12 @@ export const FileServiceProperties: coreHttp.CompositeMapper = {
           }
         }
       },
-      protocolSettings: {
+      protocol: {
         xmlName: "ProtocolSettings",
-        serializedName: "ProtocolSettings",
+        serializedName: "Protocol",
         type: {
           name: "Composite",
-          className: "ProtocolSettings"
+          className: "ShareProtocolSettings"
         }
       }
     }
@@ -1344,12 +1344,6 @@ export const ShareAcquireLeaseHeaders: coreHttp.CompositeMapper = {
           name: "DateTimeRfc1123"
         }
       },
-      leaseTime: {
-        serializedName: "x-ms-lease-time",
-        type: {
-          name: "Number"
-        }
-      },
       leaseId: {
         serializedName: "x-ms-lease-id",
         type: {
@@ -1408,12 +1402,6 @@ export const ShareReleaseLeaseHeaders: coreHttp.CompositeMapper = {
           name: "DateTimeRfc1123"
         }
       },
-      leaseTime: {
-        serializedName: "x-ms-lease-time",
-        type: {
-          name: "Number"
-        }
-      },
       clientRequestId: {
         serializedName: "x-ms-client-request-id",
         type: {
@@ -1464,12 +1452,6 @@ export const ShareChangeLeaseHeaders: coreHttp.CompositeMapper = {
         serializedName: "last-modified",
         type: {
           name: "DateTimeRfc1123"
-        }
-      },
-      leaseTime: {
-        serializedName: "x-ms-lease-time",
-        type: {
-          name: "Number"
         }
       },
       leaseId: {
@@ -1528,12 +1510,6 @@ export const ShareRenewLeaseHeaders: coreHttp.CompositeMapper = {
         serializedName: "last-modified",
         type: {
           name: "DateTimeRfc1123"
-        }
-      },
-      leaseTime: {
-        serializedName: "x-ms-lease-time",
-        type: {
-          name: "Number"
         }
       },
       leaseId: {
