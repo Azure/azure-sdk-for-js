@@ -59,13 +59,13 @@ export class LocationBasedPerformanceTier {
 const serializer = new msRest.Serializer(Mappers);
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
-  path: "subscriptions/{subscriptionId}/providers/Microsoft.DBforMariaDB/locations/{locationName}/performanceTiers",
+  path: "subscriptions/{subscriptionId}/providers/Microsoft.DBForMariaDB/locations/{locationName}/performanceTiers",
   urlParameters: [
     Parameters.subscriptionId,
     Parameters.locationName
   ],
   queryParameters: [
-    Parameters.apiVersion
+    Parameters.apiVersion0
   ],
   headerParameters: [
     Parameters.acceptLanguage
