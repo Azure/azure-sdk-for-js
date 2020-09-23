@@ -267,7 +267,7 @@ describe("Receiver unit tests", () => {
     });
 
     it("abortSignal is passed through (session receiver)", async () => {
-      const impl = await ServiceBusSessionReceiverImpl.createInitializedSessionReceiver(
+      const impl = new ServiceBusSessionReceiverImpl(
         createConnectionContextForTests({
           onCreateReceiverCalled: (receiver) => {
             (receiver as any).source = {
@@ -282,8 +282,10 @@ describe("Receiver unit tests", () => {
           }
         }),
         "entity path",
-        "peekLock",
-        {}
+        {},
+        {
+          receiveMode: "peekLock"
+        }
       );
 
       const abortSignal = createAbortSignalForTest(true);

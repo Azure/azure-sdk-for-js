@@ -23,9 +23,7 @@ describe("serviceBusClient unit tests", () => {
   // new set of tests for it. :)
   const sessionReceiverOptions:
     | CreateSessionReceiverOptions<"peekLock">
-    | CreateSessionReceiverOptions<"receiveAndDelete"> = {
-    sessionId: "session-id"
-  };
+    | CreateSessionReceiverOptions<"receiveAndDelete"> = {};
 
   describe("extractReceiverArguments", () => {
     // basically, getReceiver/getDeadLetterReceiver which don't currently have
@@ -36,7 +34,9 @@ describe("serviceBusClient unit tests", () => {
         assert.deepEqual(result, {
           entityPath: "queue",
           receiveMode: lockMode,
-          options: {}
+          options: {
+            receiveMode: lockMode
+          }
         });
       });
     });
@@ -52,7 +52,10 @@ describe("serviceBusClient unit tests", () => {
         assert.deepEqual(result, {
           entityPath: "queue",
           receiveMode: lockMode,
-          options: sessionReceiverOptions
+          options: {
+            ...sessionReceiverOptions,
+            receiveMode: lockMode
+          }
         });
       });
     });
@@ -65,7 +68,9 @@ describe("serviceBusClient unit tests", () => {
         assert.deepEqual(result, {
           entityPath: "topic/Subscriptions/subscription",
           receiveMode: lockMode,
-          options: {}
+          options: {
+            receiveMode: lockMode
+          }
         });
       });
     });
@@ -81,7 +86,10 @@ describe("serviceBusClient unit tests", () => {
         assert.deepEqual(result, {
           entityPath: "topic/Subscriptions/subscription",
           receiveMode: lockMode,
-          options: sessionReceiverOptions
+          options: {
+            ...sessionReceiverOptions,
+            receiveMode: lockMode
+          }
         });
       });
     });

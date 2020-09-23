@@ -58,10 +58,11 @@ describe("invalid parameters", () => {
           TestClientType.PartitionedQueueWithSessions
         );
 
-        await serviceBusClient.createSessionReceiver(queue!, {
-          sessionId: TestMessage.sessionId,
-          receiveMode: 123 as any
-        });
+        await serviceBusClient
+          .createSessionReceiver(queue!, {
+            receiveMode: 123 as any
+          })
+          .accept(TestMessage.sessionId);
       } catch (error) {
         errorCaught = error.message;
       }

@@ -2,7 +2,7 @@
   Copyright (c) Microsoft Corporation. All rights reserved.
   Licensed under the MIT Licence.
 
-  **NOTE**: If you are using version 1.1.x or lower, then please use the link below:
+   **NOTE**: If you are using version 1.1.x or lower, then please use the link below:
   https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/servicebus/service-bus/samples-v1
 
   This sample demonstrates how the receiveMessages() function can be used to receive Service Bus
@@ -28,7 +28,7 @@ async function main() {
   try {
     for (let i = 0; i < 10; i++) {
       const messages = await queueReceiver.receiveMessages(1, {
-        maxWaitTimeSeconds: 5
+        maxWaitTimeInMs: 5000
       });
       if (!messages.length) {
         console.log("No more messages to receive");

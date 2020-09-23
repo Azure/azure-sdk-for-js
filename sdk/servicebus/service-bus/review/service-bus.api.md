@@ -127,7 +127,6 @@ export interface CreateReceiverOptions<ReceiveModeT extends ReceiveMode> {
 export interface CreateSessionReceiverOptions<ReceiveModeT extends ReceiveMode> extends OperationOptionsBase {
     maxAutoRenewLockDurationInMs?: number;
     receiveMode?: ReceiveModeT;
-    sessionId?: string;
 }
 
 // @public
@@ -345,10 +344,10 @@ export class ServiceBusClient {
     createReceiver(topicName: string, subscriptionName: string, options?: CreateReceiverOptions<"peekLock">): ServiceBusReceiver<ServiceBusReceivedMessageWithLock>;
     createReceiver(topicName: string, subscriptionName: string, options: CreateReceiverOptions<"receiveAndDelete">): ServiceBusReceiver<ServiceBusReceivedMessage>;
     createSender(queueOrTopicName: string): ServiceBusSender;
-    createSessionReceiver(queueName: string, options?: CreateSessionReceiverOptions<"peekLock">): Promise<ServiceBusSessionReceiver<ServiceBusReceivedMessageWithLock>>;
-    createSessionReceiver(queueName: string, options: CreateSessionReceiverOptions<"receiveAndDelete">): Promise<ServiceBusSessionReceiver<ServiceBusReceivedMessage>>;
-    createSessionReceiver(topicName: string, subscriptionName: string, options?: CreateSessionReceiverOptions<"peekLock">): Promise<ServiceBusSessionReceiver<ServiceBusReceivedMessageWithLock>>;
-    createSessionReceiver(topicName: string, subscriptionName: string, options: CreateSessionReceiverOptions<"receiveAndDelete">): Promise<ServiceBusSessionReceiver<ServiceBusReceivedMessage>>;
+    createSessionReceiver(queueName: string, options?: CreateSessionReceiverOptions<"peekLock">): ServiceBusSessionReceiver<ServiceBusReceivedMessageWithLock>;
+    createSessionReceiver(queueName: string, options: CreateSessionReceiverOptions<"receiveAndDelete">): ServiceBusSessionReceiver<ServiceBusReceivedMessage>;
+    createSessionReceiver(topicName: string, subscriptionName: string, options?: CreateSessionReceiverOptions<"peekLock">): ServiceBusSessionReceiver<ServiceBusReceivedMessageWithLock>;
+    createSessionReceiver(topicName: string, subscriptionName: string, options: CreateSessionReceiverOptions<"receiveAndDelete">): ServiceBusSessionReceiver<ServiceBusReceivedMessage>;
     fullyQualifiedNamespace: string;
 }
 
@@ -448,9 +447,11 @@ export interface ServiceBusSender {
 
 // @public
 export interface ServiceBusSessionReceiver<ReceivedMessageT extends ServiceBusReceivedMessage | ServiceBusReceivedMessageWithLock> extends ServiceBusReceiver<ReceivedMessageT> {
+    accept(sessionId: string, options?: OperationOptions): Promise<ServiceBusSessionReceiver<ReceivedMessageT>>;
+    accept(options?: OperationOptions): Promise<ServiceBusSessionReceiver<ReceivedMessageT>>;
     getSessionState(options?: OperationOptionsBase): Promise<any>;
     renewSessionLock(options?: OperationOptionsBase): Promise<Date>;
-    readonly sessionId: string;
+    readonly sessionId: string | undefined;
     readonly sessionLockedUntilUtc: Date;
     setSessionState(state: any, options?: OperationOptionsBase): Promise<void>;
     subscribe(handlers: MessageHandlers<ReceivedMessageT>, options?: SessionSubscribeOptions): {

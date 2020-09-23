@@ -348,7 +348,7 @@ describe("Retries - Receive methods", () => {
       // Mocking `_messageSession.receiveMessages()` to throw the error and fail
       (receiver as ServiceBusSessionReceiverImpl<ServiceBusReceivedMessageWithLock>)[
         "_messageSession"
-      ].receiveMessages = fakeFunction;
+      ]!.receiveMessages = fakeFunction;
     } else {
       // Mocking batchingReceiver.receive to throw the error and fail
       const batchingReceiver = BatchingReceiver.create(

@@ -17,7 +17,7 @@ import { DispositionStatusOptions } from "../core/managementClient";
 import { OnAmqpEventAsPromise, OnError, OnMessage } from "../core/messageReceiver";
 import { logger } from "../log";
 import { DispositionType, InternalReceiveMode, ServiceBusMessageImpl } from "../serviceBusMessage";
-import { logError, throwErrorIfConnectionClosed } from "../util/errors";
+import { logError } from "../util/errors";
 import {
   calculateRenewAfterDuration,
   convertTicksToDate,
@@ -50,9 +50,10 @@ export interface CreateMessageSessionReceiverLinkOptions {
  */
 export type MessageSessionOptions = Pick<
   CreateSessionReceiverOptions<"receiveAndDelete">,
-  "sessionId" | "maxAutoRenewLockDurationInMs" | "abortSignal"
+  "maxAutoRenewLockDurationInMs"
 > & {
   receiveMode?: InternalReceiveMode;
+  sessionId?: string;
 };
 
 /**
@@ -256,7 +257,7 @@ export class MessageSession extends LinkEntity<Receiver> {
   /**
    * Creates a new AMQP receiver under a new AMQP session.
    */
-  private async _init(abortSignal?: AbortSignalLike): Promise<void> {
+  public async init(abortSignal?: AbortSignalLike): Promise<void> {
     const connectionId = this._context.connectionId;
     try {
       const options = this._createMessageSessionOptions();
@@ -862,21 +863,5 @@ export class MessageSession extends LinkEntity<Receiver> {
         delivery.reject(error);
       }
     });
-  }
-
-  /**
-   * Creates a new instance of the MessageSession based on the provided parameters.
-   * @param context The client entity context
-   * @param options Options that can be provided while creating the MessageSession.
-   */
-  static async create(
-    context: ConnectionContext,
-    entityPath: string,
-    options?: MessageSessionOptions
-  ): Promise<MessageSession> {
-    throwErrorIfConnectionClosed(context);
-    const messageSession = new MessageSession(context, entityPath, options);
-    await messageSession._init(options?.abortSignal);
-    return messageSession;
   }
 }

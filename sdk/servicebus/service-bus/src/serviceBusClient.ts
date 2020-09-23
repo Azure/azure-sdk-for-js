@@ -275,7 +275,7 @@ export class ServiceBusClient {
   createSessionReceiver(
     queueName: string,
     options?: CreateSessionReceiverOptions<"peekLock">
-  ): Promise<ServiceBusSessionReceiver<ServiceBusReceivedMessageWithLock>>;
+  ): ServiceBusSessionReceiver<ServiceBusReceivedMessageWithLock>;
   /**
    * Creates a receiver for a session enabled Azure Service Bus queue in receiveAndDelete mode.
    * If the receiveMode is not provided in the options, it defaults to the "peekLock" mode.
@@ -289,7 +289,7 @@ export class ServiceBusClient {
   createSessionReceiver(
     queueName: string,
     options: CreateSessionReceiverOptions<"receiveAndDelete">
-  ): Promise<ServiceBusSessionReceiver<ServiceBusReceivedMessage>>;
+  ): ServiceBusSessionReceiver<ServiceBusReceivedMessage>;
   /**
    * Creates a receiver for a session enabled Azure Service Bus subscription in peekLock mode.
    * If the receiveMode is not provided in the options, it defaults to the "peekLock" mode.
@@ -316,7 +316,7 @@ export class ServiceBusClient {
     topicName: string,
     subscriptionName: string,
     options?: CreateSessionReceiverOptions<"peekLock">
-  ): Promise<ServiceBusSessionReceiver<ServiceBusReceivedMessageWithLock>>;
+  ): ServiceBusSessionReceiver<ServiceBusReceivedMessageWithLock>;
   /**
    * Creates a receiver for a session enabled Azure Service Bus subscription in receiveAndDelete mode.
    * If the receiveMode is not provided in the options, it defaults to the "peekLock" mode.
@@ -332,8 +332,8 @@ export class ServiceBusClient {
     topicName: string,
     subscriptionName: string,
     options: CreateSessionReceiverOptions<"receiveAndDelete">
-  ): Promise<ServiceBusSessionReceiver<ServiceBusReceivedMessage>>;
-  async createSessionReceiver(
+  ): ServiceBusSessionReceiver<ServiceBusReceivedMessage>;
+  createSessionReceiver(
     queueOrTopicName1: string,
     optionsOrSubscriptionName2?:
       | CreateSessionReceiverOptions<"peekLock">
@@ -342,29 +342,35 @@ export class ServiceBusClient {
     options3?:
       | CreateSessionReceiverOptions<"peekLock">
       | CreateSessionReceiverOptions<"receiveAndDelete">
-  ): Promise<
+  ):
     | ServiceBusSessionReceiver<ServiceBusReceivedMessage>
-    | ServiceBusSessionReceiver<ServiceBusReceivedMessageWithLock>
-  > {
+    | ServiceBusSessionReceiver<ServiceBusReceivedMessageWithLock> {
     validateEntityPath(this._connectionContext.config, queueOrTopicName1);
 
-    const { entityPath, receiveMode, options } = extractReceiverArguments(
+    const { entityPath, options } = extractReceiverArguments(
       queueOrTopicName1,
       optionsOrSubscriptionName2,
       options3
     );
 
-    return ServiceBusSessionReceiverImpl.createInitializedSessionReceiver(
+    return new ServiceBusSessionReceiverImpl(
       this._connectionContext,
       entityPath,
-      receiveMode,
-      {
-        sessionId: options?.sessionId,
-        maxAutoRenewLockDurationInMs: options?.maxAutoRenewLockDurationInMs,
-        abortSignal: options?.abortSignal
-      },
-      this._clientOptions.retryOptions
+      this._clientOptions.retryOptions,
+      options
     );
+
+    // return ServiceBusSessionReceiverImpl.createInitializedSessionReceiver(
+    //   this._connectionContext,
+    //   entityPath,
+    //   receiveMode,
+    //   {
+    //     sessionId: options?.sessionId,
+    //     maxAutoRenewLockDurationInMs: options?.maxAutoRenewLockDurationInMs,
+    //     abortSignal: options?.abortSignal
+    //   },
+    //   this._clientOptions.retryOptions
+    // );
   }
   /**
    * Creates a Sender which can be used to send messages, schedule messages to be
@@ -409,7 +415,7 @@ export function extractReceiverArguments<OptionsT extends { receiveMode?: Receiv
 ): {
   entityPath: string;
   receiveMode: ReceiveMode;
-  options?: Omit<OptionsT, "receiveMode">;
+  options?: OptionsT;
 } {
   let entityPath: string;
   let options: OptionsT | undefined;
@@ -432,7 +438,7 @@ export function extractReceiverArguments<OptionsT extends { receiveMode?: Receiv
       `Invalid receiveMode '${options?.receiveMode}' provided. Valid values are 'peekLock' and 'receiveAndDelete'`
     );
   }
-  delete options?.receiveMode;
+
   return {
     entityPath,
     receiveMode,

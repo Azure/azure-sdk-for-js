@@ -353,7 +353,9 @@ export class ServiceBusTestHelpers {
 
   async getSessionPeekLockReceiver(
     entityNames: Omit<ReturnType<typeof getEntityNames>, "isPartitioned">,
-    getSessionReceiverOptions?: CreateSessionReceiverOptions<"peekLock">
+    getSessionReceiverOptions?: CreateSessionReceiverOptions<"peekLock"> & {
+      sessionId?: string;
+    }
   ): Promise<ServiceBusSessionReceiver<ServiceBusReceivedMessageWithLock>> {
     if (!entityNames.usesSessions) {
       throw new TypeError(
@@ -394,18 +396,16 @@ export class ServiceBusTestHelpers {
     if (entityNames.usesSessions) {
       return this.addToCleanup(
         entityNames.queue
-          ? await this._serviceBusClient.createSessionReceiver(entityNames.queue, {
-              sessionId,
-              receiveMode: "receiveAndDelete"
-            })
-          : await this._serviceBusClient.createSessionReceiver(
-              entityNames.topic!,
-              entityNames.subscription!,
-              {
-                sessionId,
+          ? await this._serviceBusClient
+              .createSessionReceiver(entityNames.queue, {
                 receiveMode: "receiveAndDelete"
-              }
-            )
+              })
+              .accept(sessionId)
+          : await this._serviceBusClient
+              .createSessionReceiver(entityNames.topic!, entityNames.subscription!, {
+                receiveMode: "receiveAndDelete"
+              })
+              .accept(sessionId)
       );
     } else {
       return this.addToCleanup(
