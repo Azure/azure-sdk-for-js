@@ -26,7 +26,7 @@ import {
   CopyFileSmbInfo,
   LeaseAccessConditions
 } from "./generatedModels";
-import { File } from "./generated/src/operations";
+import { File, Share } from "./generated/src/operations";
 import { Range, rangeToString } from "./Range";
 import {
   FileHttpHeaders,
@@ -67,6 +67,7 @@ import { createSpan } from "./utils/tracing";
 import { StorageClientContext } from "./generated/src/storageClientContext";
 import { SERVICE_VERSION } from "./utils/constants";
 import { generateUuid } from "@azure/core-http";
+import { ShareClient } from "./ShareClient";
 
 /**
  * Options to configure the {@link ShareFileClient.create} operation.
@@ -2811,6 +2812,10 @@ export interface LeaseOperationResponseHeaders {
    */
   lastModified?: Date;
   /**
+   * Approximate time remaining in the lease period, in seconds. Only availabe for {@link ShareLeaseClient.breakLease} for share lease.
+   */
+  leaseTime?: number;
+  /**
    * Uniquely identifies a file's lease, won't be set when returned by releaseLease.
    */
   leaseId?: string;
@@ -2867,7 +2872,10 @@ export interface LeaseOperationOptions extends CommonOptions {
 }
 
 /**
- * A client that manages leases for a {@link ShareFileClient}.
+ * A client that manages leases for a {@link ShareFileClient} or {@link ShareClient}.
+ * @see https://docs.microsoft.com/rest/api/storageservices/lease-file
+ * and
+ * @see https://docs.microsoft.com/rest/api/storageservices/lease-share
  *
  * @export
  * @class ShareLeaseClient
@@ -2875,7 +2883,8 @@ export interface LeaseOperationOptions extends CommonOptions {
 export class ShareLeaseClient {
   private _leaseId: string;
   private _url: string;
-  private _file: File;
+  private fileOrShare: File | Share;
+  private isShare: boolean;
   /**
    * Gets the lease Id.
    *
@@ -2904,14 +2913,20 @@ export class ShareLeaseClient {
    * @param {string} leaseId Initial proposed lease id.
    * @memberof ShareLeaseClient
    */
-  constructor(client: ShareFileClient, leaseId?: string) {
+  constructor(client: ShareFileClient | ShareClient, leaseId?: string) {
     const clientContext = new StorageClientContext(
       SERVICE_VERSION,
       client.url,
       (client as any).pipeline.toServiceClientOptions()
     );
-    this._file = new File(clientContext);
 
+    if (client instanceof ShareClient) {
+      this.isShare = true;
+      this.fileOrShare = new Share(clientContext);
+    } else {
+      this.isShare = false;
+      this.fileOrShare = new File(clientContext);
+    }
     this._url = client.url;
 
     if (!leaseId) {
@@ -2921,15 +2936,15 @@ export class ShareLeaseClient {
   }
 
   /**
-   * The Lease File operation establishes and manages a lock on a file for write and delete operations.
+   * Establishes and manages a lock on a file, share or share snapshot for write and delete operations.
    *
-   * @param {number} duration Specifies the duration of lease. The only allowed value is -1, for a lease that never expires.
+   * @param {number} duration Specifies the duration of lease in seconds. For file, the only allowed value is -1 for a lease that never expires. For share, must be -1 or between 15 to 60.
    * @param {LeaseOperationOptions} [options={}] Options for the lease management operation.
    * @returns {Promise<LeaseOperationResponse>} Response data for acquire lease operation.
    * @memberof ShareLeaseClient
    */
   public async acquireLease(
-    duration = -1,
+    duration: number = -1,
     options: LeaseOperationOptions = {}
   ): Promise<LeaseOperationResponse> {
     const { span, spanOptions } = createSpan(
@@ -2937,7 +2952,7 @@ export class ShareLeaseClient {
       options.tracingOptions
     );
     try {
-      return await this._file.acquireLease({
+      return await this.fileOrShare.acquireLease({
         abortSignal: options.abortSignal,
         duration,
         proposedLeaseId: this._leaseId,
@@ -2971,7 +2986,7 @@ export class ShareLeaseClient {
       options.tracingOptions
     );
     try {
-      const response = await this._file.changeLease(this._leaseId, {
+      const response = await this.fileOrShare.changeLease(this._leaseId, {
         proposedLeaseId,
         abortSignal: options.abortSignal,
         spanOptions
@@ -2991,7 +3006,7 @@ export class ShareLeaseClient {
 
   /**
    * To free the lease if it is no longer needed so that another client may
-   * immediately acquire a lease against the file.
+   * immediately acquire a lease.
    *
    * @param {LeaseOperationOptions} [options={}] Options for the lease management operation.
    * @returns {Promise<LeaseOperationResponse>} Response data for release lease operation.
@@ -3003,7 +3018,7 @@ export class ShareLeaseClient {
       options.tracingOptions
     );
     try {
-      return await this._file.releaseLease(this._leaseId, {
+      return await this.fileOrShare.releaseLease(this._leaseId, {
         abortSignal: options.abortSignal,
         spanOptions
       });
@@ -3028,7 +3043,39 @@ export class ShareLeaseClient {
   public async breakLease(options: LeaseOperationOptions = {}): Promise<LeaseOperationResponse> {
     const { span, spanOptions } = createSpan("ShareLeaseClient-breakLease", options.tracingOptions);
     try {
-      return await this._file.breakLease({
+      return await this.fileOrShare.breakLease({
+        abortSignal: options.abortSignal,
+        spanOptions
+      });
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * To renew the lease. Only available for lease on share or share snapshot.
+   * Note that the lease may be renewed even if it has expired as long as the share has not been leased again since the expiration of that lease.
+   * When you renew a lease, the lease duration clock resets.
+   *
+   * @param {LeaseOperationOptions} [options={}] Options for the lease management operation.
+   * @returns {Promise<LeaseOperationResponse>} Response data for renew lease operation.
+   * @memberof ShareLeaseClient
+   */
+  public async renewLease(options: LeaseOperationOptions = {}): Promise<LeaseOperationResponse> {
+    const { span, spanOptions } = createSpan("ShareLeaseClient-renewLease", options.tracingOptions);
+
+    if (this.isShare) {
+      throw new RangeError("The renewLease operation is not available for lease on file.");
+    }
+
+    try {
+      return await this.fileOrShare.releaseLease(this._leaseId, {
         abortSignal: options.abortSignal,
         spanOptions
       });

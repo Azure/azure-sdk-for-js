@@ -96,7 +96,8 @@ describe("LeaseClient", () => {
   });
 
   it("invalid duration for acquireLease", async () => {
-    const invalid_duration = 2;
+    // only -1 for infinite is allowed.
+    const invalid_duration = 20;
     const leaseClient = fileClient.getShareLeaseClient();
     try {
       await leaseClient.acquireLease(invalid_duration);
