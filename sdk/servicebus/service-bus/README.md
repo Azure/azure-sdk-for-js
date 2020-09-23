@@ -13,7 +13,7 @@ Resources for the v7.0.0-preview.6 of `@azure/service-bus`:
 [Package (npm)](https://www.npmjs.com/package/@azure/service-bus) |
 [API Reference Documentation][apiref] |
 [Product documentation](https://azure.microsoft.com/services/service-bus/) |
-[Samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/servicebus/service-bus/samples)
+[Samples](https://github.com/richardpark-msft/azure-sdk-for-js/tree/richardpark-sb-track2-session-accept/sdk/servicebus/service-bus/samples)
 
 > **NOTE**: This document has instructions, links and code snippets for the **preview** of the next version of the `@azure/service-bus` package
 > which has different APIs than the stable version. To use the stable version of the library use the below resources.
@@ -97,7 +97,7 @@ The following sections provide code snippets that cover some of the common tasks
 - [Send messages using Sessions](#send-messages-using-sessions)
 - [Receive messages from Sessions](#receive-messages-from-sessions)
 - [Manage resources of a service bus namespace](#manage-resources-of-a-service-bus-namespace)
-- [Additional samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/servicebus/service-bus/samples)
+- [Additional samples](https://github.com/richardpark-msft/azure-sdk-for-js/tree/richardpark-sb-track2-session-accept/sdk/servicebus/service-bus/samples)
 
 ### Send messages
 
@@ -277,7 +277,7 @@ console.log("Number of messages in the queue = ", queueRuntimeProperties.totalMe
 await serviceBusAdministrationClient.deleteQueue(queueName);
 ```
 
-- Sample for reference - [administrationClient.ts](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/servicebus/service-bus/samples/typescript/src/advanced/administrationClient.ts)
+- Sample for reference - [administrationClient.ts](https://github.com/richardpark-msft/azure-sdk-for-js/tree/richardpark-sb-track2-session-accept/sdk/servicebus/service-bus/samples/typescript/src/advanced/administrationClient.ts)
 
 ## Troubleshooting
 
@@ -333,7 +333,7 @@ export DEBUG=azure:service-bus:error,azure-core-amqp:error,rhea-promise:error,rh
 
 ## Next Steps
 
-Please take a look at the [samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/servicebus/service-bus/samples)
+Please take a look at the [samples](https://github.com/richardpark-msft/azure-sdk-for-js/tree/richardpark-sb-track2-session-accept/sdk/servicebus/service-bus/samples)
 directory for detailed examples on how to use this library to send and receive messages to/from
 [Service Bus Queues, Topics and Subscriptions](https://docs.microsoft.com/azure/service-bus-messaging/service-bus-messaging-overview).
 
