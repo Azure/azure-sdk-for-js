@@ -341,6 +341,7 @@ export interface InternalPipelineOptions extends PipelineOptions {
     decompressResponse?: boolean;
     deserializationOptions?: DeserializationOptions;
     loggingOptions?: LogPolicyOptions;
+    sendStreamingJson?: boolean;
 }
 
 // @public
