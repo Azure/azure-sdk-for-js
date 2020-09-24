@@ -362,7 +362,7 @@ export class DataLakePathClient extends StorageClient {
    * @memberof DataLakePathClient
    */
   public async createIfNotExists(
-    resourceType: PathResourceType,
+    resourceType: PathResourceTypeModel,
     options: PathCreateIfNotExistsOptions = {}
   ): Promise<PathCreateIfNotExistsResponse> {
     const { span, spanOptions } = createSpan(
@@ -621,7 +621,7 @@ export class DataLakePathClient extends StorageClient {
       options.tracingOptions
     );
     try {
-      return this.setAccessControlRecursiveInternal(PathSetAccessControlRecursiveMode.Set, acl, {
+      return this.setAccessControlRecursiveInternal("set", acl, {
         ...options,
         tracingOptions: { ...options.tracingOptions, spanOptions }
       });
@@ -655,7 +655,7 @@ export class DataLakePathClient extends StorageClient {
       options.tracingOptions
     );
     try {
-      return this.setAccessControlRecursiveInternal(PathSetAccessControlRecursiveMode.Modify, acl, {
+      return this.setAccessControlRecursiveInternal("modify", acl, {
         ...options,
         tracingOptions: { ...options.tracingOptions, spanOptions }
       });
@@ -689,7 +689,7 @@ export class DataLakePathClient extends StorageClient {
       options.tracingOptions
     );
     try {
-      return this.setAccessControlRecursiveInternal(PathSetAccessControlRecursiveMode.Remove, acl, {
+      return this.setAccessControlRecursiveInternal("remove", acl, {
         ...options,
         tracingOptions: { ...options.tracingOptions, spanOptions }
       });
@@ -1035,7 +1035,7 @@ export class DataLakeDirectoryClient extends DataLakePathClient {
    * @memberof DataLakeDirectoryClient
    */
   public async createIfNotExists(
-    resourceType: PathResourceType,
+    resourceType: PathResourceTypeModel,
     options?: PathCreateIfNotExistsOptions
   ): Promise<PathCreateIfNotExistsResponse>;
 
@@ -1053,16 +1053,16 @@ export class DataLakeDirectoryClient extends DataLakePathClient {
   ): Promise<DirectoryCreateIfNotExistsResponse>;
 
   public async createIfNotExists(
-    resourceTypeOrOptions?: PathResourceType | PathCreateIfNotExistsOptions,
+    resourceTypeOrOptions?: PathResourceTypeModel | PathCreateIfNotExistsOptions,
     options: PathCreateIfNotExistsOptions = {}
   ): Promise<PathCreateIfNotExistsResponse> {
-    if (resourceTypeOrOptions === PathResourceType.File) {
+    if (resourceTypeOrOptions === "file") {
       throw TypeError(
         `DataLakeDirectoryClient:createIfNotExists() resourceType cannot be ${resourceTypeOrOptions}. Refer to DataLakeFileClient for file creation.`
       );
     }
 
-    if (resourceTypeOrOptions !== PathResourceType.Directory) {
+    if (resourceTypeOrOptions !== "directory") {
       options = resourceTypeOrOptions || {};
     }
 
@@ -1071,7 +1071,7 @@ export class DataLakeDirectoryClient extends DataLakePathClient {
       options.tracingOptions
     );
     try {
-      return await super.createIfNotExists(PathResourceType.Directory, {
+      return await super.createIfNotExists("directory", {
         ...options,
         tracingOptions: {
           ...options.tracingOptions,
@@ -1284,7 +1284,7 @@ export class DataLakeFileClient extends DataLakePathClient {
    * @memberof DataLakeFileClient
    */
   public async createIfNotExists(
-    resourceType: PathResourceType,
+    resourceType: PathResourceTypeModel,
     options?: PathCreateIfNotExistsOptions
   ): Promise<PathCreateIfNotExistsResponse>;
 
@@ -1302,16 +1302,16 @@ export class DataLakeFileClient extends DataLakePathClient {
   ): Promise<FileCreateIfNotExistsResponse>;
 
   public async createIfNotExists(
-    resourceTypeOrOptions?: PathResourceType | PathCreateOptions,
+    resourceTypeOrOptions?: PathResourceTypeModel | PathCreateOptions,
     options: PathCreateIfNotExistsOptions = {}
   ): Promise<PathCreateIfNotExistsResponse> {
-    if (resourceTypeOrOptions === PathResourceType.Directory) {
+    if (resourceTypeOrOptions === "directory") {
       throw TypeError(
         `DataLakeFileClient:createIfNotExists() resourceType cannot be ${resourceTypeOrOptions}. Refer to DataLakeDirectoryClient for directory creation.`
       );
     }
 
-    if (resourceTypeOrOptions !== PathResourceType.File) {
+    if (resourceTypeOrOptions !== "file") {
       options = resourceTypeOrOptions || {};
     }
 
@@ -1320,7 +1320,7 @@ export class DataLakeFileClient extends DataLakePathClient {
       options.tracingOptions
     );
     try {
-      return await super.createIfNotExists(PathResourceType.File, {
+      return await super.createIfNotExists("file", {
         ...options,
         tracingOptions: {
           ...options.tracingOptions,

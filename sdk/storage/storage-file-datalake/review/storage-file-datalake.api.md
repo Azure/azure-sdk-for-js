@@ -78,12 +78,8 @@ export class AccountSASPermissions {
     add: boolean;
     create: boolean;
     delete: boolean;
-    execute: boolean;
     list: boolean;
-    move: boolean;
-    ownership: boolean;
     static parse(permissions: string): AccountSASPermissions;
-    permission: boolean;
     process: boolean;
     read: boolean;
     toString(): string;
@@ -160,7 +156,7 @@ export type CredentialPolicyCreator = (nextPolicy: RequestPolicy, options: Reque
 export class DataLakeDirectoryClient extends DataLakePathClient {
     create(resourceType: PathResourceTypeModel, options?: PathCreateOptions): Promise<PathCreateResponse>;
     create(options?: DirectoryCreateOptions): Promise<DirectoryCreateResponse>;
-    createIfNotExists(resourceType: PathResourceType, options?: PathCreateIfNotExistsOptions): Promise<PathCreateIfNotExistsResponse>;
+    createIfNotExists(resourceType: PathResourceTypeModel, options?: PathCreateIfNotExistsOptions): Promise<PathCreateIfNotExistsResponse>;
     createIfNotExists(options?: DirectoryCreateIfNotExistsOptions): Promise<DirectoryCreateIfNotExistsResponse>;
     getFileClient(fileName: string): DataLakeFileClient;
     getSubdirectoryClient(subdirectoryName: string): DataLakeDirectoryClient;
@@ -173,7 +169,7 @@ export class DataLakeFileClient extends DataLakePathClient {
     append(body: HttpRequestBody, offset: number, length: number, options?: FileAppendOptions): Promise<FileAppendResponse>;
     create(resourceType: PathResourceTypeModel, options?: PathCreateOptions): Promise<PathCreateResponse>;
     create(options?: FileCreateOptions): Promise<FileCreateResponse>;
-    createIfNotExists(resourceType: PathResourceType, options?: PathCreateIfNotExistsOptions): Promise<PathCreateIfNotExistsResponse>;
+    createIfNotExists(resourceType: PathResourceTypeModel, options?: PathCreateIfNotExistsOptions): Promise<PathCreateIfNotExistsResponse>;
     createIfNotExists(options?: FileCreateIfNotExistsOptions): Promise<FileCreateIfNotExistsResponse>;
     flush(position: number, options?: FileFlushOptions): Promise<PathFlushDataResponse>;
     query(query: string, options?: FileQueryOptions): Promise<FileReadResponse>;
@@ -232,8 +228,8 @@ export class DataLakeLeaseClient {
 export class DataLakePathClient extends StorageClient {
     constructor(url: string, credential?: StorageSharedKeyCredential | AnonymousCredential | TokenCredential, options?: StoragePipelineOptions);
     constructor(url: string, pipeline: Pipeline);
-    create(resourceType: PathResourceType, options?: PathCreateOptions): Promise<PathCreateResponse>;
-    createIfNotExists(resourceType: PathResourceType, options?: PathCreateIfNotExistsOptions): Promise<PathCreateIfNotExistsResponse>;
+    create(resourceType: PathResourceTypeModel, options?: PathCreateOptions): Promise<PathCreateResponse>;
+    createIfNotExists(resourceType: PathResourceTypeModel, options?: PathCreateIfNotExistsOptions): Promise<PathCreateIfNotExistsResponse>;
     delete(recursive?: boolean, options?: PathDeleteOptions): Promise<PathDeleteResponse>;
     deleteIfExists(recursive?: boolean, options?: PathDeleteOptions): Promise<PathDeleteIfExistsResponse>;
     exists(options?: PathExistsOptions): Promise<boolean>;

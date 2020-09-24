@@ -941,8 +941,6 @@ export interface DirectoryCreateResponse extends PathCreateResponse {}
 
 export interface DirectoryCreateIfNotExistsResponse extends PathCreateIfNotExistsResponse {}
 
-export interface DirectoryCreateResponse extends PathCreateResponse {}
-
 /***********************************************************/
 /** DataLakeFileClient option and response related models **/
 /***********************************************************/
@@ -1020,8 +1018,6 @@ export interface FileCreateIfNotExistsOptions extends PathCreateIfNotExistsOptio
 export interface FileCreateResponse extends PathCreateResponse {}
 
 export interface FileCreateIfNotExistsResponse extends PathCreateIfNotExistsResponse {}
-
-export interface FileCreateResponse extends PathCreateResponse {}
 
 /**
  * Option interface for Data Lake file - Upload operations
