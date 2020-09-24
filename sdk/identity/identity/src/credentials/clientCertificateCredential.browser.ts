@@ -13,20 +13,12 @@ const BrowserNotSupportedError = new Error(
 const logger = credentialLogger("ClientCertificateCredential");
 
 export class ClientCertificateCredential implements TokenCredential {
-  constructor(
-    tenantId: string,
-    clientId: string,
-    certificatePath: string,
-    options?: TokenCredentialOptions
-  ) {
+  constructor() {
     logger.info(formatError(BrowserNotSupportedError));
     throw BrowserNotSupportedError;
   }
 
-  public getToken(
-    scopes: string | string[],
-    options?: GetTokenOptions
-  ): Promise<AccessToken | null> {
+  public getToken(): Promise<AccessToken | null> {
     logger.getToken.info(formatError(BrowserNotSupportedError));
     throw BrowserNotSupportedError;
   }

@@ -15,18 +15,12 @@ const logger = credentialLogger("ManagedIdentityCredential");
 export class ManagedIdentityCredential implements TokenCredential {
   constructor(clientId: string, options?: TokenCredentialOptions);
   constructor(options?: TokenCredentialOptions);
-  constructor(
-    clientIdOrOptions: string | TokenCredentialOptions | undefined,
-    options?: TokenCredentialOptions
-  ) {
+  constructor() {
     logger.info(formatError(BrowserNotSupportedError));
     throw BrowserNotSupportedError;
   }
 
-  public async getToken(
-    scopes: string | string[],
-    options?: GetTokenOptions
-  ): Promise<AccessToken | null> {
+  public async getToken(): Promise<AccessToken | null> {
     logger.getToken.info(formatError(BrowserNotSupportedError));
     throw BrowserNotSupportedError;
   }

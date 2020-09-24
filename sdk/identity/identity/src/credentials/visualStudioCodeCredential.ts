@@ -140,10 +140,7 @@ export class VisualStudioCodeCredential implements TokenCredential {
    * @param options The options used to configure any requests this
    *                `TokenCredential` implementation might make.
    */
-  public async getToken(
-    scopes: string | string[],
-    options?: GetTokenOptions
-  ): Promise<AccessToken | null> {
+  public async getToken(scopes: string | string[]): Promise<AccessToken | null> {
     await this.prepareOnce();
     if (!keytar) {
       throw new CredentialUnavailable(

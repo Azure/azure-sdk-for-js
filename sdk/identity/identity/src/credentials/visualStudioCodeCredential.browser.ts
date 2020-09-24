@@ -13,15 +13,12 @@ const BrowserNotSupportedError = new Error(
 const logger = credentialLogger("VisualStudioCodeCredential");
 
 export class VisualStudioCodeCredential implements TokenCredential {
-  constructor(options?: TokenCredentialOptions) {
+  constructor() {
     logger.info(formatError(BrowserNotSupportedError));
     throw BrowserNotSupportedError;
   }
 
-  public getToken(
-    scopes: string | string[],
-    options?: GetTokenOptions
-  ): Promise<AccessToken | null> {
+  public getToken(): Promise<AccessToken | null> {
     logger.getToken.info(formatError(BrowserNotSupportedError));
     throw BrowserNotSupportedError;
   }

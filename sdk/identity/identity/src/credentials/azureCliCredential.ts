@@ -41,7 +41,7 @@ export class AzureCliCredential implements TokenCredential {
           `az account get-access-token --output json --resource ${resource}`,
           { cwd: getSafeWorkingDir() },
           (error, stdout, stderr) => {
-            resolve({ stdout: stdout, stderr: stderr });
+            resolve({ stdout: stdout, stderr: stderr, error });
           }
         );
       } catch (err) {

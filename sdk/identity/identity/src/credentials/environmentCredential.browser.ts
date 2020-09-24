@@ -13,12 +13,12 @@ const BrowserNotSupportedError = new Error(
 const logger = credentialLogger("EnvironmentCredential");
 
 export class EnvironmentCredential implements TokenCredential {
-  constructor(options?: TokenCredentialOptions) {
+  constructor() {
     logger.info(formatError(BrowserNotSupportedError));
     throw BrowserNotSupportedError;
   }
 
-  getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken | null> {
+  getToken(): Promise<AccessToken | null> {
     logger.getToken.info(formatError(BrowserNotSupportedError));
     throw BrowserNotSupportedError;
   }

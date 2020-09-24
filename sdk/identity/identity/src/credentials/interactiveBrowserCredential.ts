@@ -98,10 +98,7 @@ export class InteractiveBrowserCredential implements TokenCredential {
    * @param options The options used to configure any requests this
    *                TokenCredential implementation might make.
    */
-  public getToken(
-    scopes: string | string[],
-    options?: GetTokenOptions
-  ): Promise<AccessToken | null> {
+  public getToken(scopes: string | string[]): Promise<AccessToken | null> {
     const scopeArray = typeof scopes === "object" ? scopes : [scopes];
 
     return this.acquireTokenFromBrowser(scopeArray);

@@ -11,12 +11,12 @@ const BrowserNotSupportedError = new Error("AzureCliCredential is not supported 
 const logger = credentialLogger("AzureCliCredential");
 
 export class AzureCliCredential implements TokenCredential {
-  constructor(options?: TokenCredentialOptions) {
+  constructor() {
     logger.info(formatError(BrowserNotSupportedError));
     throw BrowserNotSupportedError;
   }
 
-  getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken | null> {
+  getToken(): Promise<AccessToken | null> {
     logger.getToken.info(formatError(BrowserNotSupportedError));
     throw BrowserNotSupportedError;
   }

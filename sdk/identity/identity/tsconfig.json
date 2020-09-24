@@ -7,7 +7,7 @@
     "outDir": "./dist-esm",
     "resolveJsonModule": true,
     "noUnusedLocals": false,
-    "noUnusedParameters": false,
+    "noUnusedParameters": true,
     "noImplicitReturns": true
   },
   "include": ["src/**/*", "test/**/*"],
