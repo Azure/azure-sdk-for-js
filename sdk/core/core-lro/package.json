@@ -29,6 +29,7 @@
   "types": "./types/core-lro.d.ts",
   "files": [
     "types/core-lro.d.ts",
+    "dist-esm/src",
     "dist/",
     "README.md",
     "LICENSE"
