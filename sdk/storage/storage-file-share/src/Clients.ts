@@ -4576,16 +4576,19 @@ export class ShareFileClient extends StorageClient {
         leaseAccessConditions: options.leaseAccessConditions,
         spanOptions
       });
+
+      // Only returns ranges, ignoring clearRanges.
+      const parsedBody = originalResponse._response.parsedBody.ranges
+        ? originalResponse._response.parsedBody.ranges
+        : [];
       return {
-        _response: originalResponse._response,
+        _response: { ...originalResponse._response, parsedBody },
         date: originalResponse.date,
         etag: originalResponse.etag,
         errorCode: originalResponse.errorCode,
         fileContentLength: originalResponse.fileContentLength,
         lastModified: originalResponse.lastModified,
-        rangeList: originalResponse.filter(() => {
-          return true;
-        }),
+        rangeList: originalResponse.ranges ? originalResponse.ranges : [],
         requestId: originalResponse.requestId,
         version: originalResponse.version
       };

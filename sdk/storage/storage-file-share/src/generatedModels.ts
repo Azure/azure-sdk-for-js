@@ -33,7 +33,7 @@ export {
   FileUploadRangeResponse,
   HandleItem,
   ListSharesIncludeType,
-  Range as RangeModel,
+  FileRange as RangeModel,
   ServiceGetPropertiesResponse,
   ServiceListSharesSegmentResponse,
   ServiceSetPropertiesResponse,

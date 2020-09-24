@@ -445,13 +445,13 @@ export class File {
   /**
    * @param callback The callback
    */
-  getRangeList(callback: coreHttp.ServiceCallback<Models.Range[]>): void;
+  getRangeList(callback: coreHttp.ServiceCallback<Models.ShareFileRangeList>): void;
   /**
    * @param options The optional parameters
    * @param callback The callback
    */
-  getRangeList(options: Models.FileGetRangeListOptionalParams, callback: coreHttp.ServiceCallback<Models.Range[]>): void;
-  getRangeList(options?: Models.FileGetRangeListOptionalParams | coreHttp.ServiceCallback<Models.Range[]>, callback?: coreHttp.ServiceCallback<Models.Range[]>): Promise<Models.FileGetRangeListResponse> {
+  getRangeList(options: Models.FileGetRangeListOptionalParams, callback: coreHttp.ServiceCallback<Models.ShareFileRangeList>): void;
+  getRangeList(options?: Models.FileGetRangeListOptionalParams | coreHttp.ServiceCallback<Models.ShareFileRangeList>, callback?: coreHttp.ServiceCallback<Models.ShareFileRangeList>): Promise<Models.FileGetRangeListResponse> {
     return this.client.sendOperationRequest(
       {
         options
@@ -1015,19 +1015,7 @@ const getRangeListOperationSpec: coreHttp.OperationSpec = {
   ],
   responses: {
     200: {
-      bodyMapper: {
-        xmlElementName: "Range",
-        serializedName: "parsedResponse",
-        type: {
-          name: "Sequence",
-          element: {
-            type: {
-              name: "Composite",
-              className: "Range"
-            }
-          }
-        }
-      },
+      bodyMapper: Mappers.ShareFileRangeList,
       headersMapper: Mappers.FileGetRangeListHeaders
     },
     default: {
