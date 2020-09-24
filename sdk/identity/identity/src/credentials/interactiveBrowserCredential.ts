@@ -83,8 +83,7 @@ export class InteractiveBrowserCredential implements TokenCredential {
    */
   public getToken(
     scopes: string | string[],
-    //@ts-ignore
-    options?: GetTokenOptions
+    _options?: GetTokenOptions
   ): Promise<AccessToken | null> {
     const scopeArray = typeof scopes === "object" ? scopes : [scopes];
 
@@ -108,13 +107,14 @@ export class InteractiveBrowserCredential implements TokenCredential {
       let listen: http.Server | undefined;
       let socketToDestroy: Socket | undefined;
 
-      function cleanup() {
+      function cleanup(): void {
         if (listen) {
           listen.close();
         }
         if (socketToDestroy) {
           socketToDestroy.destroy();
         }
+        return;
       }
 
       // Create Express App and Routes

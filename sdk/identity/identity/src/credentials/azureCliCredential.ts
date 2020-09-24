@@ -34,7 +34,7 @@ export class AzureCliCredential implements TokenCredential {
    * Gets the access token from Azure CLI
    * @param resource The resource to use when getting the token
    */
-  protected async getAzureCliAccessToken(resource: string) {
+  protected async getAzureCliAccessToken(resource: string): Promise<unknown> {
     return new Promise((resolve, reject) => {
       try {
         child_process.exec(
