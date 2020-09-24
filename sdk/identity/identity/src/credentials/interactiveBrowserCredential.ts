@@ -132,7 +132,7 @@ export class InteractiveBrowserCredential implements TokenCredential {
 
     try {
       const response = await this.pca.acquireTokenSilent(silentRequest);
-      logger.info(`Successful silent token acquisition:\nResponse: \n${response}`);
+      logger.info("Successful silent token acquisition");
       return {
         expiresOnTimestamp: response.expiresOn.getTime(),
         token: response.accessToken
