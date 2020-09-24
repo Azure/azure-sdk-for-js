@@ -103,5 +103,8 @@ export {
   CopyFileSmbInfo,
   ShareProtocolSettings,
   ShareSmbSettings,
-  SmbMultichannel
+  SmbMultichannel,
+  FileGetRangeListResponse as FileGetRangeListDiffResponse,
+  ShareFileRangeList,
+  ClearRange
 } from "./generated/src/models";
