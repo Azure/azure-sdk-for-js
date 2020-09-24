@@ -1,5 +1,5 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
 import { log } from "./log";
 
@@ -77,6 +77,18 @@ if (debugEnvVariable) {
   enable(debugEnvVariable);
 }
 
+const debugObj: Debug = Object.assign(
+  (namespace: string): Debugger => {
+    return createDebugger(namespace);
+  },
+  {
+    enable,
+    enabled,
+    disable,
+    log
+  }
+);
+
 function enable(namespaces: string): void {
   enabledString = namespaces;
   enabledNamespaces = [];
@@ -120,7 +132,15 @@ function disable(): string {
 }
 
 function createDebugger(namespace: string): Debugger {
-  function debug(...args: any[]) {
+  const newDebugger: Debugger = Object.assign(debug, {
+    enabled: enabled(namespace),
+    destroy,
+    log: debugObj.log,
+    namespace,
+    extend
+  });
+
+  function debug(...args: any[]): void {
     if (!newDebugger.enabled) {
       return;
     }
@@ -130,20 +150,13 @@ function createDebugger(namespace: string): Debugger {
     newDebugger.log(...args);
   }
 
-  const newDebugger: Debugger = Object.assign(debug, {
-    enabled: enabled(namespace),
-    destroy,
-    log: debugObj.log,
-    namespace,
-    extend
-  });
-
   debuggers.push(newDebugger);
 
   return newDebugger;
 }
 
 function destroy(this: Debugger): boolean {
+  // eslint-disable-next-line no-invalid-this
   const index = debuggers.indexOf(this);
   if (index >= 0) {
     debuggers.splice(index, 1);
@@ -153,21 +166,11 @@ function destroy(this: Debugger): boolean {
 }
 
 function extend(this: Debugger, namespace: string): Debugger {
+  // eslint-disable-next-line no-invalid-this
   const newDebugger = createDebugger(`${this.namespace}:${namespace}`);
+  // eslint-disable-next-line no-invalid-this
   newDebugger.log = this.log;
   return newDebugger;
 }
-
-const debugObj: Debug = Object.assign(
-  (namespace: string): Debugger => {
-    return createDebugger(namespace);
-  },
-  {
-    enable,
-    enabled,
-    disable,
-    log
-  }
-);
 
 export default debugObj;
