@@ -425,9 +425,9 @@ export class ServiceBusTestHelpers {
   ): ServiceBusReceiver<ServiceBusReceivedMessageWithLock> {
     return this.addToCleanup(
       entityNames.queue
-        ? this._serviceBusClient.createReceiver(entityNames.queue, { _subQueue: "deadLetter" })
+        ? this._serviceBusClient.createReceiver(entityNames.queue, { subQueue: "deadLetter" })
         : this._serviceBusClient.createReceiver(entityNames.topic!, entityNames.subscription!, {
-            _subQueue: "deadLetter"
+            subQueue: "deadLetter"
           })
     );
   }
@@ -459,7 +459,7 @@ async function purgeForTestClientType(
     receiver = serviceBusClient.createReceiver(entityPaths.queue, "receiveAndDelete");
     deadLetterReceiver = serviceBusClient.createReceiver(entityPaths.queue, {
       receiveMode: "receiveAndDelete",
-      _subQueue: "deadLetter"
+      subQueue: "deadLetter"
     });
   } else if (entityPaths.topic && entityPaths.subscription) {
     receiver = serviceBusClient.createReceiver(entityPaths.topic, entityPaths.subscription, {
@@ -468,7 +468,7 @@ async function purgeForTestClientType(
     deadLetterReceiver = serviceBusClient.createReceiver(
       entityPaths.topic,
       entityPaths.subscription,
-      { receiveMode: "receiveAndDelete", _subQueue: "deadLetter" }
+      { receiveMode: "receiveAndDelete", subQueue: "deadLetter" }
     );
   } else {
     throw new Error(`Unsupported TestClientType for purge: ${testClientType}`);

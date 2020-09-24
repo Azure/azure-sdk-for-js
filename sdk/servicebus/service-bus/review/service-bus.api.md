@@ -120,8 +120,7 @@ export interface CreateQueueOptions extends OperationOptions {
 // @public
 export interface CreateReceiverOptions<ReceiveModeT extends ReceiveMode> {
     receiveMode?: ReceiveModeT;
-    // @internal
-    _subQueue?: _SubQueue;
+    subQueue?: SubQueue;
 }
 
 // @public
@@ -479,8 +478,8 @@ export interface SqlRuleFilter {
     };
 }
 
-// @internal
-export type _SubQueue = "deadLetter" | "transferDeadLetter";
+// @public
+export type SubQueue = "deadLetter" | "transferDeadLetter";
 
 // @public
 export interface SubscribeOptions extends MessageHandlerOptions {
