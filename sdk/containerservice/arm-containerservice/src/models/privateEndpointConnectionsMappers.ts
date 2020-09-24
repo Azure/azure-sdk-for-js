@@ -54,6 +54,7 @@ export {
   OpenShiftManagedClusterIdentityProvider,
   OpenShiftManagedClusterMasterPoolProfile,
   OpenShiftRouterProfile,
+  PowerState,
   PrivateEndpoint,
   PrivateEndpointConnection,
   PrivateEndpointConnectionListResult,
