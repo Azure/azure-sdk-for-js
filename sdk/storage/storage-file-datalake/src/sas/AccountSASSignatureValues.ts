@@ -4,11 +4,11 @@
 import { AccountSASPermissions } from "./AccountSASPermissions";
 import { AccountSASResourceTypes } from "./AccountSASResourceTypes";
 import { AccountSASServices } from "./AccountSASServices";
-import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
+import { StorageSharedKeyCredential } from "../credentials/StorageSharedKeyCredential";
 import { SasIPRange, ipRangeToString } from "./SasIPRange";
 import { SASProtocol, SASQueryParameters } from "./SASQueryParameters";
-import { SERVICE_VERSION } from "./utils/constants";
-import { truncatedISO8061Date } from "./utils/utils.common";
+import { SERVICE_VERSION } from "../utils/constants";
+import { truncatedISO8061Date } from "../utils/utils.common";
 
 /**
  * ONLY AVAILABLE IN NODE.JS RUNTIME.

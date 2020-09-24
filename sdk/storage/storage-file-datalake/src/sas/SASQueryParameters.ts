@@ -1,8 +1,8 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License.
-import { UserDelegationKey } from "./models";
+import { UserDelegationKey } from "../models";
 import { ipRangeToString, SasIPRange } from "./SasIPRange";
-import { truncatedISO8061Date } from "./utils/utils.common";
+import { truncatedISO8061Date } from "../utils/utils.common";
 
 /**
  * Protocols for generated SAS.
@@ -231,6 +231,47 @@ export class SASQueryParameters {
   private readonly signedVersion?: string;
 
   /**
+   * Indicate the depth of the directory specified in the canonicalizedresource field of the string-to-sign.
+   * The depth of the directory is the number of directories beneath the root folder.
+   *
+   * @private
+   * @type {number}
+   * @memberof SASQueryParameters
+   */
+  private readonly directoryDepth?: number;
+
+  /**
+   * Authorized AAD Object Id in GUID format. The AAD Object ID of a user authorized by the owner of the User Delegation Key
+   * to perform the action granted by the SAS. The Azure Storage service will ensure that the owner of the user delegation key
+   * has the required permissions before granting access but no additional permission check for the user specified in
+   * this value will be performed. This cannot be used in conjuction with {@link signedUnauthorizedUserObjectId}.
+   *
+   * @private
+   * @type {string}
+   * @memberof SASQueryParameters
+   */
+  private readonly authorizedUserObjectId?: string;
+
+  /**
+   * Unauthorized AAD Object Id in GUID format. The AAD Object Id of a user that is assumed to be unauthorized by the owner of the User Delegation Key.
+   * The Azure Storage Service will perform an additional POSIX ACL check to determine if the user is authorized to perform the requested operation.
+   * This cannot be used in conjuction with {@link signedAuthorizedUserObjectId}.
+   *
+   * @private
+   * @type {string}
+   * @memberof SASQueryParameters
+   */
+  private readonly unauthorizedUserObjectId?: string;
+
+  /**
+   * A GUID value that will be logged in the storage diagnostic logs and can be used to correlate SAS generation with storage resource access.
+   *
+   * @type {string}
+   * @memberof SASQueryParameters
+   */
+  private readonly correlationId?: string;
+
+  /**
    * Optional. IP range allowed for this SAS.
    *
    * @readonly
@@ -286,7 +327,11 @@ export class SASQueryParameters {
     contentEncoding?: string,
     contentLanguage?: string,
     contentType?: string,
-    userDelegationKey?: UserDelegationKey
+    userDelegationKey?: UserDelegationKey,
+    directoryDepth?: number,
+    authorizedUserObjectId?: string,
+    unauthorizedUserObjectId?: string,
+    correlationId?: string
   ) {
     this.version = version;
     this.services = services;
@@ -304,6 +349,10 @@ export class SASQueryParameters {
     this.contentEncoding = contentEncoding;
     this.contentLanguage = contentLanguage;
     this.contentType = contentType;
+    this.directoryDepth = directoryDepth;
+    this.authorizedUserObjectId = authorizedUserObjectId;
+    this.unauthorizedUserObjectId = unauthorizedUserObjectId;
+    this.correlationId = correlationId;
 
     if (userDelegationKey) {
       this.signedOid = userDelegationKey.signedObjectId;
@@ -344,7 +393,11 @@ export class SASQueryParameters {
       "rscd",
       "rsce",
       "rscl",
-      "rsct"
+      "rsct",
+      "sdd",
+      "saoid",
+      "suoid",
+      "scid"
     ];
     const queries: string[] = [];
 
@@ -435,6 +488,18 @@ export class SASQueryParameters {
           break;
         case "rsct":
           this.tryAppendQueryParameter(queries, param, this.contentType);
+          break;
+        case "sdd":
+          this.tryAppendQueryParameter(queries, param, this.directoryDepth?.toString());
+          break;
+        case "saoid":
+          this.tryAppendQueryParameter(queries, param, this.authorizedUserObjectId);
+          break;
+        case "suoid":
+          this.tryAppendQueryParameter(queries, param, this.unauthorizedUserObjectId);
+          break;
+        case "scid":
+          this.tryAppendQueryParameter(queries, param, this.correlationId);
           break;
       }
     }
