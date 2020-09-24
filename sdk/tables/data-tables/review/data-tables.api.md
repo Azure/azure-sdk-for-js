@@ -304,11 +304,20 @@ export interface SignedIdentifier {
     id: string;
 }
 
+// @public (undocumented)
+export interface TableBatchResponse {
+    // (undocumented)
+    getResponseForEntity: () => HttpResponse;
+    // (undocumented)
+    responseCount: number;
+}
+
 // @public
 export class TableClient {
     constructor(url: string, tableName: string, credential: TablesSharedKeyCredential, options?: TableServiceClientOptions);
     constructor(url: string, tableName: string, options?: TableServiceClientOptions);
     create(options?: CreateTableOptions): Promise<CreateTableItemResponse>;
+    createBatch(partitionKey: string): TablesBatch;
     createEntity<T extends object>(entity: TableEntity<T>, options?: CreateTableEntityOptions): Promise<CreateTableEntityResponse>;
     delete(options?: DeleteTableOptions): Promise<DeleteTableResponse>;
     deleteEntity(partitionKey: string, rowKey: string, options?: DeleteTableEntityOptions): Promise<DeleteTableEntityResponse>;
@@ -318,7 +327,7 @@ export class TableClient {
     readonly tableName: string;
     updateEntity<T extends object>(entity: TableEntity<T>, mode: UpdateMode, options?: UpdateTableEntityOptions): Promise<UpdateEntityResponse>;
     upsertEntity<T extends object>(entity: TableEntity<T>, mode: UpdateMode, options?: UpsertTableEntityOptions): Promise<UpsertEntityResponse>;
-}
+    }
 
 // @public
 export interface TableCreateHeaders {
@@ -480,6 +489,22 @@ export interface TableResponseProperties {
     tableName?: string;
 }
 
+// @public (undocumented)
+export interface TablesBatch {
+    // (undocumented)
+    createEntities: <T extends object>(entitites: TableEntity<T>[]) => Promise<void>;
+    // (undocumented)
+    createEntity: <T extends object>(entity: TableEntity<T>) => Promise<void>;
+    // (undocumented)
+    deleteEntity: (partitionKey: string, rowKey: string, options?: DeleteTableEntityOptions) => Promise<void>;
+    // (undocumented)
+    partitionKey: string;
+    // (undocumented)
+    submitBatch: () => Promise<TableBatchResponse>;
+    // (undocumented)
+    updateEntity: <T extends object>(entity: TableEntity<T>, mode: UpdateMode, options?: UpdateTableEntityOptions) => Promise<void>;
+}
+
 // @public
 export class TableServiceClient {
     constructor(url: string, credential: TablesSharedKeyCredential, options?: TableServiceClientOptions);
@@ -499,6 +524,7 @@ export class TableServiceClient {
 export type TableServiceClientOptions = PipelineOptions & {
     endpoint?: string;
     version?: string;
+    requestPolicyFactories?: RequestPolicyFactory[] | ((defaultRequestPolicyFactories: RequestPolicyFactory[]) => void | RequestPolicyFactory[]);
 };
 
 // @public

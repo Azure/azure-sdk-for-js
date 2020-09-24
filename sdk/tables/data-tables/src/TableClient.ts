@@ -27,24 +27,28 @@ import {
 } from "./generatedModels";
 import { QueryOptions as GeneratedQueryOptions } from "./generated/models";
 import { getClientParamsFromConnectionString } from "./utils/connectionString";
-import { TablesSharedKeyCredential } from "./TablesSharedKeyCredential";
+import { TablesSharedKeyCredential, TablesSharedKeyCredentialLike } from "./TablesSharedKeyCredential";
 import "@azure/core-paging";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { GeneratedClient, TableDeleteEntityOptionalParams } from "./generated";
 import { deserialize, deserializeObjectsArray, serialize } from "./serialization";
 import { Table } from "./generated/operations";
 import { LIB_INFO, TablesLoggingAllowedHeaderNames } from "./utils/constants";
-import { createPipelineFromOptions, InternalPipelineOptions } from "@azure/core-http";
+import { createPipelineFromOptions, InternalPipelineOptions  } from "@azure/core-http";
 import { logger } from "./logger";
 import { createSpan } from "./utils/tracing";
 import { CanonicalCode } from "@opentelemetry/api";
-
+import { createBatch, TablesBatch } from "./TablesBatch";
+import { runInThisContext } from 'vm';
 /**
  * A TableClient represents a Client to the Azure Tables service allowing you
  * to perform operations on a single table.
  */
 export class TableClient {
   private table: Table;
+  private url: string;
+  private credential: TablesSharedKeyCredentialLike | undefined;
+
   /**
    * Name of the table to perform operations on.
    */
@@ -109,6 +113,7 @@ export class TableClient {
     credentialOrOptions?: TablesSharedKeyCredential | TableClientOptions,
     options: TableClientOptions = {}
   ) {
+    this.url = url;
     const credential =
       credentialOrOptions instanceof TablesSharedKeyCredential ? credentialOrOptions : undefined;
     const clientOptions =
@@ -136,9 +141,14 @@ export class TableClient {
       }
     };
 
-    const pipeline = createPipelineFromOptions(internalPipelineOptions, credential);
+    let pipeline = createPipelineFromOptions(internalPipelineOptions, credential);
+
+    if (Array.isArray(clientOptions.requestPolicyFactories)) {
+      pipeline = { requestPolicyFactories: clientOptions.requestPolicyFactories };
+    }
 
     this.tableName = tableName;
+    this.credential = credential;
     const { table } = new GeneratedClient(url, pipeline);
     this.table = table;
   }
@@ -468,6 +478,19 @@ export class TableClient {
     } finally {
       span.end();
     }
+  }
+
+  /**
+   * Creates a new Batch to collect sub-operations that can be submitted together via submitBatch
+   * @param tableName The name of the table.
+   * @param entity The properties for the table entity.
+   * @param mode The different modes for updating the entity:
+   *             - Merge: Updates an entity by updating the entity's properties without replacing the existing entity.
+   *             - Replace: Updates an existing entity by replacing the entire entity.
+   * @param options The options parameters.
+   */
+  public createBatch(partitionKey: string): TablesBatch {
+    return createBatch(this.url, this.tableName, partitionKey);
   }
 
   private convertQueryOptions(query: TableEntityQueryOptions): GeneratedQueryOptions {

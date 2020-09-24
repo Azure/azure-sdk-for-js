@@ -11,12 +11,23 @@ import {
   TableResponse,
   TableCreateHeaders
 } from "./generated/models";
-import { OperationOptions, HttpResponse, PipelineOptions } from "@azure/core-http";
+import {
+  OperationOptions,
+  HttpResponse,
+  PipelineOptions,
+  RequestPolicyFactory
+} from "@azure/core-http";
 
 /**
  * Client options used to configure Tables Api requests
  */
-export type TableServiceClientOptions = PipelineOptions & { endpoint?: string; version?: string };
+export type TableServiceClientOptions = PipelineOptions & {
+  endpoint?: string;
+  version?: string;
+  requestPolicyFactories?:
+    | RequestPolicyFactory[]
+    | ((defaultRequestPolicyFactories: RequestPolicyFactory[]) => void | RequestPolicyFactory[]);
+};
 
 /**
  * Contains response data for the createTable operation.

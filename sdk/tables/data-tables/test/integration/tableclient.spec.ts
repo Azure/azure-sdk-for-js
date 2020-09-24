@@ -347,4 +347,30 @@ describe("TableClient", () => {
       assert.equal(result.floatingPointNumber, 3.14);
     });
   });
+
+  describe("batch operations", () => {
+    beforeEach(function() {
+      // eslint-disable-next-line no-invalid-this
+      recorder = record(this, recordedEnvironmentSetup);
+      const tableName = "batch";
+      client = createTableClient(tableName);
+    });
+
+    afterEach(async function() {
+      await recorder.stop();
+    });
+
+    it.only("should send a set of create batch operations", async () => {
+      const partitionKey = "batchTest";
+      const batch = client.createBatch(partitionKey);
+      await batch.createEntities([
+        { partitionKey, rowKey: "1", name: "first" },
+        { partitionKey, rowKey: "2", name: "second" },
+        { partitionKey, rowKey: "3", name: "third" }
+      ]);
+      const result = await batch.submitBatch();
+
+      assert.deepEqual(result, {} as any);
+    });
+  });
 });
