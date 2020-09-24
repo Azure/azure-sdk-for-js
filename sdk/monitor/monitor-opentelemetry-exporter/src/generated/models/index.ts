@@ -8,11 +8,6 @@
 
 import * as coreHttp from "@azure/core-http";
 
-export type MonitorBaseUnion =
-  | MonitorBase
-  | RequestTelemetry
-  | RemoteDependencyTelememetry;
-
 /**
  * System variables for a telemetry item.
  */
@@ -28,7 +23,7 @@ export interface TelemetryItem {
   /**
    * Event date time when telemetry item was created. This is the wall clock time on the client when the event was generated. There is no guarantee that the client's time is accurate. This field must be formatted in UTC ISO 8601 format, with a trailing 'Z' character, as described publicly on https://en.wikipedia.org/wiki/ISO_8601#UTC. Note: the number of decimal seconds digits provided are variable (and unspecified). Consumers should handle this, i.e. managed code consumers should not use format 'O' for parsing as it specifies a fixed length. Example: 2009-06-15T13:45:30.0000000Z.
    */
-  time: Date;
+  time: string;
   /**
    * Sampling rate used in application. This telemetry item represents 1 / sampleRate actual telemetry items.
    */
@@ -48,7 +43,7 @@ export interface TelemetryItem {
   /**
    * Telemetry data item.
    */
-  data?: MonitorBaseUnion;
+  data?: MonitorBase;
 }
 
 /**
@@ -56,13 +51,27 @@ export interface TelemetryItem {
  */
 export interface MonitorBase {
   /**
-   * Polymorphic discriminator, which specifies the different types this object can be
+   * Name of item (B section) if any. If telemetry data is derived straight from this, this should be null.
    */
-  baseType: "RequestData" | "RemoteDependencyData";
+  baseType?: string;
+  /**
+   * The data payload for the telemetry request
+   */
+  baseData?: MonitorDomain;
+}
+
+/**
+ * The abstract common base of all domains.
+ */
+export interface MonitorDomain {
   /**
    * Describes unknown properties. The value of an unknown property can be of "any" type.
    */
   [property: string]: any;
+  /**
+   * Schema version
+   */
+  version: number;
 }
 
 /**
@@ -99,16 +108,6 @@ export interface TelemetryErrorDetails {
    * The error message.
    */
   message?: string;
-}
-
-/**
- * The abstract common base of all domains.
- */
-export interface MonitorDomain {
-  /**
-   * Schema version
-   */
-  version: number;
 }
 
 /**
@@ -150,6 +149,40 @@ export interface MetricDataPoint {
 }
 
 /**
+ * Exception details of the exception in a chain.
+ */
+export interface TelemetryExceptionDetails {
+  /**
+   * In case exception is nested (outer exception contains inner one), the id and outerId properties are used to represent the nesting.
+   */
+  id?: number;
+  /**
+   * The value of outerId is a reference to an element in ExceptionDetails that represents the outer exception
+   */
+  outerId?: number;
+  /**
+   * Exception type name.
+   */
+  typeName?: string;
+  /**
+   * Exception message.
+   */
+  message: string;
+  /**
+   * Indicates if full exception stack is provided in the exception. The stack may be trimmed, such as in the case of a StackOverflow exception.
+   */
+  hasFullStack?: boolean;
+  /**
+   * Text describing the stack. Either stack or parsedStack should have a value.
+   */
+  stack?: string;
+  /**
+   * List of stack frames. Either stack or parsedStack should have a value.
+   */
+  parsedStack?: StackFrame[];
+}
+
+/**
  * Stack frame information.
  */
 export interface StackFrame {
@@ -171,20 +204,6 @@ export interface StackFrame {
    */
   line?: number;
 }
-
-export type RequestTelemetry = MonitorBase & {
-  /**
-   * An instance of PageView represents a generic action on a page like a button click. It is also the base type for PageView.
-   */
-  baseData: RequestData;
-};
-
-export type RemoteDependencyTelememetry = MonitorBase & {
-  /**
-   * An instance of Remote Dependency represents an interaction of the monitored component with a remote component/service like SQL or an HTTP endpoint.
-   */
-  baseData: RemoteDependencyData;
-};
 
 /**
  * Instances of AvailabilityData represent the result of executing an availability test.
@@ -225,37 +244,159 @@ export type AvailabilityData = MonitorDomain & {
 };
 
 /**
+ * Instances of Event represent structured event records that can be grouped and searched by their properties. Event data item also creates a metric of event count by name.
+ */
+export type TelemetryEventData = MonitorDomain & {
+  /**
+   * Event name. Keep it low cardinality to allow proper grouping and useful metrics.
+   */
+  name: string;
+  /**
+   * Collection of custom properties.
+   */
+  properties?: { [propertyName: string]: string };
+  /**
+   * Collection of custom measurements.
+   */
+  measurements?: { [propertyName: string]: number };
+};
+
+/**
+ * An instance of Exception represents a handled or unhandled exception that occurred during execution of the monitored application.
+ */
+export type TelemetryExceptionData = MonitorDomain & {
+  /**
+   * Exception chain - list of inner exceptions.
+   */
+  exceptions: TelemetryExceptionDetails[];
+  /**
+   * Severity level. Mostly used to indicate exception severity level when it is reported by logging library.
+   */
+  severityLevel?: SeverityLevel;
+  /**
+   * Identifier of where the exception was thrown in code. Used for exceptions grouping. Typically a combination of exception type and a function from the call stack.
+   */
+  problemId?: string;
+  /**
+   * Collection of custom properties.
+   */
+  properties?: { [propertyName: string]: string };
+  /**
+   * Collection of custom measurements.
+   */
+  measurements?: { [propertyName: string]: number };
+};
+
+/**
+ * Instances of Message represent printf-like trace statements that are text-searched. Log4Net, NLog and other text-based log file entries are translated into instances of this type. The message does not have measurements.
+ */
+export type MessageData = MonitorDomain & {
+  /**
+   * Trace message
+   */
+  message: string;
+  /**
+   * Trace severity level.
+   */
+  severityLevel?: SeverityLevel;
+  /**
+   * Collection of custom properties.
+   */
+  properties?: { [propertyName: string]: string };
+  /**
+   * Collection of custom measurements.
+   */
+  measurements?: { [propertyName: string]: number };
+};
+
+/**
+ * An instance of the Metric item is a list of measurements (single data points) and/or aggregations.
+ */
+export type MetricsData = MonitorDomain & {
+  /**
+   * List of metrics. Only one metric in the list is currently supported by Application Insights storage. If multiple data points were sent only the first one will be used.
+   */
+  metrics: MetricDataPoint[];
+  /**
+   * Collection of custom properties.
+   */
+  properties?: { [propertyName: string]: string };
+};
+
+/**
  * An instance of PageView represents a generic action on a page like a button click. It is also the base type for PageView.
  */
-export type RequestData = MonitorDomain & {
+export type PageViewData = MonitorDomain & {
   /**
-   * Identifier of a request call instance. Used for correlation between request and other telemetry items.
+   * Identifier of a page view instance. Used for correlation between page view and other telemetry items.
    */
   id: string;
   /**
-   * Name of the request. Represents code path taken to process request. Low cardinality value to allow better grouping of requests. For HTTP requests it represents the HTTP method and URL path template like 'GET /values/{id}'.
+   * Event name. Keep it low cardinality to allow proper grouping and useful metrics.
    */
-  name?: string;
+  name: string;
   /**
-   * Request duration in format: DD.HH:MM:SS.MMMMMM. Must be less than 1000 days.
-   */
-  duration: string;
-  /**
-   * Indication of successful or unsuccessful call.
-   */
-  success: boolean;
-  /**
-   * Result of a request execution. HTTP status code for HTTP requests.
-   */
-  responseCode: string;
-  /**
-   * Source of the request. Examples are the instrumentation key of the caller or the ip address of the caller.
-   */
-  source?: string;
-  /**
-   * Request URL with all query string parameters.
+   * Request URL with all query string parameters
    */
   url?: string;
+  /**
+   * Request duration in format: DD.HH:MM:SS.MMMMMM. For a page view (PageViewData), this is the duration. For a page view with performance information (PageViewPerfData), this is the page load time. Must be less than 1000 days.
+   */
+  duration?: string;
+  /**
+   * Fully qualified page URI or URL of the referring page; if unknown, leave blank
+   */
+  referredUri?: string;
+  /**
+   * Collection of custom properties.
+   */
+  properties?: { [propertyName: string]: string };
+  /**
+   * Collection of custom measurements.
+   */
+  measurements?: { [propertyName: string]: number };
+};
+
+/**
+ * An instance of PageViewPerf represents: a page view with no performance data, a page view with performance data, or just the performance data of an earlier page request.
+ */
+export type PageViewPerfData = MonitorDomain & {
+  /**
+   * Identifier of a page view instance. Used for correlation between page view and other telemetry items.
+   */
+  id: string;
+  /**
+   * Event name. Keep it low cardinality to allow proper grouping and useful metrics.
+   */
+  name: string;
+  /**
+   * Request URL with all query string parameters
+   */
+  url?: string;
+  /**
+   * Request duration in format: DD.HH:MM:SS.MMMMMM. For a page view (PageViewData), this is the duration. For a page view with performance information (PageViewPerfData), this is the page load time. Must be less than 1000 days.
+   */
+  duration?: string;
+  /**
+   * Performance total in TimeSpan 'G' (general long) format: d:hh:mm:ss.fffffff
+   */
+  perfTotal?: string;
+  /**
+   * Network connection time in TimeSpan 'G' (general long) format: d:hh:mm:ss.fffffff
+   */
+  networkConnect?: string;
+  /**
+   * Sent request time in TimeSpan 'G' (general long) format: d:hh:mm:ss.fffffff
+   */
+  sentRequest?: string;
+  /**
+   * Received response time in TimeSpan 'G' (general long) format: d:hh:mm:ss.fffffff
+   */
+  receivedResponse?: string;
+  /**
+   * DOM processing time in TimeSpan 'G' (general long) format: d:hh:mm:ss.fffffff
+   */
+  domProcessing?: string;
   /**
    * Collection of custom properties.
    */
@@ -313,13 +454,37 @@ export type RemoteDependencyData = MonitorDomain & {
 };
 
 /**
- * Instances of Event represent structured event records that can be grouped and searched by their properties. Event data item also creates a metric of event count by name.
+ * An instance of Request represents completion of an external request to the application to do work and contains a summary of that request execution and the results.
  */
-export type TelemetryEventData = MonitorDomain & {
+export type RequestData = MonitorDomain & {
   /**
-   * Event name. Keep it low cardinality to allow proper grouping and useful metrics.
+   * Identifier of a request call instance. Used for correlation between request and other telemetry items.
    */
-  name: string;
+  id: string;
+  /**
+   * Name of the request. Represents code path taken to process request. Low cardinality value to allow better grouping of requests. For HTTP requests it represents the HTTP method and URL path template like 'GET /values/{id}'.
+   */
+  name?: string;
+  /**
+   * Request duration in format: DD.HH:MM:SS.MMMMMM. Must be less than 1000 days.
+   */
+  duration: string;
+  /**
+   * Indication of successful or unsuccessful call.
+   */
+  success: boolean;
+  /**
+   * Result of a request execution. HTTP status code for HTTP requests.
+   */
+  responseCode: string;
+  /**
+   * Source of the request. Examples are the instrumentation key of the caller or the ip address of the caller.
+   */
+  source?: string;
+  /**
+   * Request URL with all query string parameters.
+   */
+  url?: string;
   /**
    * Collection of custom properties.
    */

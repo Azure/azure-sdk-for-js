@@ -31,7 +31,7 @@ export const TelemetryItem: coreHttp.CompositeMapper = {
         serializedName: "time",
         required: true,
         type: {
-          name: "DateTime"
+          name: "String"
         }
       },
       sampleRate: {
@@ -75,22 +75,39 @@ export const TelemetryItem: coreHttp.CompositeMapper = {
 };
 
 export const MonitorBase: coreHttp.CompositeMapper = {
-  serializedName: "MonitorBase",
   type: {
     name: "Composite",
     className: "MonitorBase",
-    uberParent: "MonitorBase",
-    additionalProperties: { type: { name: "Object" } },
-    polymorphicDiscriminator: {
-      serializedName: "baseType",
-      clientName: "baseType"
-    },
     modelProperties: {
       baseType: {
         serializedName: "baseType",
-        required: true,
         type: {
           name: "String"
+        }
+      },
+      baseData: {
+        serializedName: "baseData",
+        type: {
+          name: "Composite",
+          className: "MonitorDomain"
+        }
+      }
+    }
+  }
+};
+
+export const MonitorDomain: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "MonitorDomain",
+    additionalProperties: { type: { name: "Object" } },
+    modelProperties: {
+      version: {
+        defaultValue: 2,
+        serializedName: "ver",
+        required: true,
+        type: {
+          name: "Number"
         }
       }
     }
@@ -148,23 +165,6 @@ export const TelemetryErrorDetails: coreHttp.CompositeMapper = {
         serializedName: "message",
         type: {
           name: "String"
-        }
-      }
-    }
-  }
-};
-
-export const MonitorDomain: coreHttp.CompositeMapper = {
-  type: {
-    name: "Composite",
-    className: "MonitorDomain",
-    modelProperties: {
-      version: {
-        defaultValue: 2,
-        serializedName: "ver",
-        required: true,
-        type: {
-          name: "Number"
         }
       }
     }
@@ -236,6 +236,69 @@ export const MetricDataPoint: coreHttp.CompositeMapper = {
   }
 };
 
+export const TelemetryExceptionDetails: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "TelemetryExceptionDetails",
+    modelProperties: {
+      id: {
+        serializedName: "id",
+        type: {
+          name: "Number"
+        }
+      },
+      outerId: {
+        serializedName: "outerId",
+        type: {
+          name: "Number"
+        }
+      },
+      typeName: {
+        constraints: {
+          MaxLength: 1024
+        },
+        serializedName: "typeName",
+        type: {
+          name: "String"
+        }
+      },
+      message: {
+        constraints: {
+          MaxLength: 32768
+        },
+        serializedName: "message",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      hasFullStack: {
+        defaultValue: true,
+        serializedName: "hasFullStack",
+        type: {
+          name: "Boolean"
+        }
+      },
+      stack: {
+        constraints: {
+          MaxLength: 32768
+        },
+        serializedName: "stack",
+        type: {
+          name: "String"
+        }
+      },
+      parsedStack: {
+        serializedName: "parsedStack",
+        type: {
+          name: "Sequence",
+          element: { type: { name: "Composite", className: "StackFrame" } }
+        }
+      }
+    }
+  }
+};
+
 export const StackFrame: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
@@ -286,52 +349,11 @@ export const StackFrame: coreHttp.CompositeMapper = {
   }
 };
 
-export const RequestTelemetry: coreHttp.CompositeMapper = {
-  serializedName: "RequestData",
-  type: {
-    name: "Composite",
-    className: "RequestTelemetry",
-    uberParent: "MonitorBase",
-    additionalProperties: { type: { name: "Object" } },
-    polymorphicDiscriminator: MonitorBase.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...MonitorBase.type.modelProperties,
-      baseData: {
-        serializedName: "baseData",
-        type: {
-          name: "Composite",
-          className: "RequestData"
-        }
-      }
-    }
-  }
-};
-
-export const RemoteDependencyTelememetry: coreHttp.CompositeMapper = {
-  serializedName: "RemoteDependencyData",
-  type: {
-    name: "Composite",
-    className: "RemoteDependencyTelememetry",
-    uberParent: "MonitorBase",
-    additionalProperties: { type: { name: "Object" } },
-    polymorphicDiscriminator: MonitorBase.type.polymorphicDiscriminator,
-    modelProperties: {
-      ...MonitorBase.type.modelProperties,
-      baseData: {
-        serializedName: "baseData",
-        type: {
-          name: "Composite",
-          className: "RemoteDependencyData"
-        }
-      }
-    }
-  }
-};
-
 export const AvailabilityData: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "AvailabilityData",
+    additionalProperties: { type: { name: "Object" } },
     modelProperties: {
       ...MonitorDomain.type.modelProperties,
       id: {
@@ -404,10 +426,163 @@ export const AvailabilityData: coreHttp.CompositeMapper = {
   }
 };
 
-export const RequestData: coreHttp.CompositeMapper = {
+export const TelemetryEventData: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "RequestData",
+    className: "TelemetryEventData",
+    additionalProperties: { type: { name: "Object" } },
+    modelProperties: {
+      ...MonitorDomain.type.modelProperties,
+      name: {
+        constraints: {
+          MaxLength: 512
+        },
+        serializedName: "name",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" }, constraints: { MaxLength: 8192 } }
+        }
+      },
+      measurements: {
+        serializedName: "measurements",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "Number" } }
+        }
+      }
+    }
+  }
+};
+
+export const TelemetryExceptionData: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "TelemetryExceptionData",
+    additionalProperties: { type: { name: "Object" } },
+    modelProperties: {
+      ...MonitorDomain.type.modelProperties,
+      exceptions: {
+        serializedName: "exceptions",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: {
+            type: { name: "Composite", className: "TelemetryExceptionDetails" }
+          }
+        }
+      },
+      severityLevel: {
+        serializedName: "severityLevel",
+        type: {
+          name: "String"
+        }
+      },
+      problemId: {
+        constraints: {
+          MaxLength: 1024
+        },
+        serializedName: "problemId",
+        type: {
+          name: "String"
+        }
+      },
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" }, constraints: { MaxLength: 8192 } }
+        }
+      },
+      measurements: {
+        serializedName: "measurements",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "Number" } }
+        }
+      }
+    }
+  }
+};
+
+export const MessageData: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "MessageData",
+    additionalProperties: { type: { name: "Object" } },
+    modelProperties: {
+      ...MonitorDomain.type.modelProperties,
+      message: {
+        constraints: {
+          MaxLength: 32768
+        },
+        serializedName: "message",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      severityLevel: {
+        serializedName: "severityLevel",
+        type: {
+          name: "String"
+        }
+      },
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" }, constraints: { MaxLength: 8192 } }
+        }
+      },
+      measurements: {
+        serializedName: "measurements",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "Number" } }
+        }
+      }
+    }
+  }
+};
+
+export const MetricsData: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "MetricsData",
+    additionalProperties: { type: { name: "Object" } },
+    modelProperties: {
+      ...MonitorDomain.type.modelProperties,
+      metrics: {
+        serializedName: "metrics",
+        required: true,
+        type: {
+          name: "Sequence",
+          element: { type: { name: "Composite", className: "MetricDataPoint" } }
+        }
+      },
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" }, constraints: { MaxLength: 8192 } }
+        }
+      }
+    }
+  }
+};
+
+export const PageViewData: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PageViewData",
+    additionalProperties: { type: { name: "Object" } },
     modelProperties: {
       ...MonitorDomain.type.modelProperties,
       id: {
@@ -425,40 +600,7 @@ export const RequestData: coreHttp.CompositeMapper = {
           MaxLength: 1024
         },
         serializedName: "name",
-        type: {
-          name: "String"
-        }
-      },
-      duration: {
-        serializedName: "duration",
         required: true,
-        type: {
-          name: "String"
-        }
-      },
-      success: {
-        defaultValue: true,
-        serializedName: "success",
-        required: true,
-        type: {
-          name: "Boolean"
-        }
-      },
-      responseCode: {
-        constraints: {
-          MaxLength: 1024
-        },
-        serializedName: "responseCode",
-        required: true,
-        type: {
-          name: "String"
-        }
-      },
-      source: {
-        constraints: {
-          MaxLength: 1024
-        },
-        serializedName: "source",
         type: {
           name: "String"
         }
@@ -468,6 +610,111 @@ export const RequestData: coreHttp.CompositeMapper = {
           MaxLength: 2048
         },
         serializedName: "url",
+        type: {
+          name: "String"
+        }
+      },
+      duration: {
+        serializedName: "duration",
+        type: {
+          name: "String"
+        }
+      },
+      referredUri: {
+        constraints: {
+          MaxLength: 2048
+        },
+        serializedName: "referredUri",
+        type: {
+          name: "String"
+        }
+      },
+      properties: {
+        serializedName: "properties",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" }, constraints: { MaxLength: 8192 } }
+        }
+      },
+      measurements: {
+        serializedName: "measurements",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "Number" } }
+        }
+      }
+    }
+  }
+};
+
+export const PageViewPerfData: coreHttp.CompositeMapper = {
+  type: {
+    name: "Composite",
+    className: "PageViewPerfData",
+    additionalProperties: { type: { name: "Object" } },
+    modelProperties: {
+      ...MonitorDomain.type.modelProperties,
+      id: {
+        constraints: {
+          MaxLength: 512
+        },
+        serializedName: "id",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        constraints: {
+          MaxLength: 1024
+        },
+        serializedName: "name",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      url: {
+        constraints: {
+          MaxLength: 2048
+        },
+        serializedName: "url",
+        type: {
+          name: "String"
+        }
+      },
+      duration: {
+        serializedName: "duration",
+        type: {
+          name: "String"
+        }
+      },
+      perfTotal: {
+        serializedName: "perfTotal",
+        type: {
+          name: "String"
+        }
+      },
+      networkConnect: {
+        serializedName: "networkConnect",
+        type: {
+          name: "String"
+        }
+      },
+      sentRequest: {
+        serializedName: "sentRequest",
+        type: {
+          name: "String"
+        }
+      },
+      receivedResponse: {
+        serializedName: "receivedResponse",
+        type: {
+          name: "String"
+        }
+      },
+      domProcessing: {
+        serializedName: "domProcessing",
         type: {
           name: "String"
         }
@@ -494,6 +741,7 @@ export const RemoteDependencyData: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
     className: "RemoteDependencyData",
+    additionalProperties: { type: { name: "Object" } },
     modelProperties: {
       ...MonitorDomain.type.modelProperties,
       id: {
@@ -583,18 +831,71 @@ export const RemoteDependencyData: coreHttp.CompositeMapper = {
   }
 };
 
-export const TelemetryEventData: coreHttp.CompositeMapper = {
+export const RequestData: coreHttp.CompositeMapper = {
   type: {
     name: "Composite",
-    className: "TelemetryEventData",
+    className: "RequestData",
+    additionalProperties: { type: { name: "Object" } },
     modelProperties: {
       ...MonitorDomain.type.modelProperties,
-      name: {
+      id: {
         constraints: {
           MaxLength: 512
         },
-        serializedName: "name",
+        serializedName: "id",
         required: true,
+        type: {
+          name: "String"
+        }
+      },
+      name: {
+        constraints: {
+          MaxLength: 1024
+        },
+        serializedName: "name",
+        type: {
+          name: "String"
+        }
+      },
+      duration: {
+        serializedName: "duration",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      success: {
+        defaultValue: true,
+        serializedName: "success",
+        required: true,
+        type: {
+          name: "Boolean"
+        }
+      },
+      responseCode: {
+        constraints: {
+          MaxLength: 1024
+        },
+        serializedName: "responseCode",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      source: {
+        constraints: {
+          MaxLength: 1024
+        },
+        serializedName: "source",
+        type: {
+          name: "String"
+        }
+      },
+      url: {
+        constraints: {
+          MaxLength: 2048
+        },
+        serializedName: "url",
         type: {
           name: "String"
         }
@@ -615,10 +916,4 @@ export const TelemetryEventData: coreHttp.CompositeMapper = {
       }
     }
   }
-};
-
-export let discriminators = {
-  MonitorBase: MonitorBase,
-  "MonitorBase.RequestData": RequestTelemetry,
-  "MonitorBase.RemoteDependencyData": RemoteDependencyTelememetry
 };

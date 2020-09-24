@@ -75,7 +75,7 @@ describe("FileSystemPersist", () => {
     it("should store to disk the value provided", async () => {
       const envelope: Envelope = {
         name: "name",
-        time: new Date()
+        time: new Date().toISOString()
       };
       const persister = new FileSystemPersist({ instrumentationKey });
       const envelopes = [envelope];

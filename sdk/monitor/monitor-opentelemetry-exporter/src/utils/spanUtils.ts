@@ -30,13 +30,7 @@ import { getInstance } from "../platform";
 import { DB_STATEMENT, DB_TYPE, DB_INSTANCE } from "./constants/span/dbAttributes";
 import { parseEventHubSpan } from "./eventhub";
 import { AzNamespace, MicrosoftEventHub } from "./constants/span/azAttributes";
-import {
-  RemoteDependencyData,
-  RemoteDependencyTelememetry,
-  RequestData,
-  RequestTelemetry,
-  TelemetryItem as Envelope
-} from "../generated";
+import { RemoteDependencyData, RequestData, TelemetryItem as Envelope } from "../generated";
 
 function createTagsFromSpan(span: ReadableSpan): Tags {
   const context = getInstance();
@@ -200,7 +194,7 @@ export function readableSpanToEnvelope(
 ): Envelope {
   const envelope: Partial<Envelope> = {};
   envelope.sampleRate = 100;
-  envelope.data = {} as RemoteDependencyTelememetry | RequestTelemetry;
+  envelope.data = {};
   const tags = createTagsFromSpan(span);
   const [properties, measurements] = createPropertiesFromSpan(span);
   let data;
@@ -236,7 +230,7 @@ export function readableSpanToEnvelope(
     measurements
   } as RequestData | RemoteDependencyData;
   envelope.tags = tags;
-  envelope.time = new Date(hrTimeToMilliseconds(span.startTime));
+  envelope.time = new Date(hrTimeToMilliseconds(span.startTime)).toISOString();
   envelope.instrumentationKey = instrumentationKey;
   envelope.version = 1;
 
