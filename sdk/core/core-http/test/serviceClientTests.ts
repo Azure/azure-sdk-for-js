@@ -512,7 +512,10 @@ describe("ServiceClient", function() {
           serializer: new Serializer(Mappers)
         }
       );
-      assert.strictEqual(httpRequest.body, `[{"ver":1,"name":"Test","time":"2020-09-24T17:31:35.034Z","data":{"baseData":{"test":"Hello!","extraProp":"FooBar"}}}]`);
+      assert.strictEqual(
+        httpRequest.body,
+        `[{"ver":1,"name":"Test","time":"2020-09-24T17:31:35.034Z","data":{"baseData":{"test":"Hello!","extraProp":"FooBar"}}}]`
+      );
     });
 
     it("should serialize a JSON String request body with namespace, ignoring namespace", () => {

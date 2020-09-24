@@ -554,8 +554,11 @@ function serializeDictionaryType(
  * @param mapper the composite mapper to resolve
  * @param objectName name of the object being serialized
  */
-function resolveAdditionalProperties(serializer: Serializer, mapper: CompositeMapper, objectName: string): SequenceMapper | BaseMapper | CompositeMapper | DictionaryMapper | EnumMapper | undefined
-{
+function resolveAdditionalProperties(
+  serializer: Serializer,
+  mapper: CompositeMapper,
+  objectName: string
+): SequenceMapper | BaseMapper | CompositeMapper | DictionaryMapper | EnumMapper | undefined {
   const additionalProperties = mapper.type.additionalProperties;
 
   if (!additionalProperties && mapper.type.className) {
@@ -572,7 +575,11 @@ function resolveAdditionalProperties(serializer: Serializer, mapper: CompositeMa
  * @param mapper the composite mapper to resolve
  * @param objectName name of the object being serialized
  */
-function resolveReferencedMapper(serializer: Serializer, mapper: CompositeMapper, objectName: string): CompositeMapper | undefined {
+function resolveReferencedMapper(
+  serializer: Serializer,
+  mapper: CompositeMapper,
+  objectName: string
+): CompositeMapper | undefined {
   const className = mapper.type.className;
   if (!className) {
     throw new Error(
@@ -607,9 +614,9 @@ function resolveModelProperties(
     if (!modelProps) {
       throw new Error(
         `modelProperties cannot be null or undefined in the ` +
-          `mapper "${JSON.stringify(
-            modelMapper
-          )}" of type "${mapper.type.className}" for object "${objectName}".`
+          `mapper "${JSON.stringify(modelMapper)}" of type "${
+            mapper.type.className
+          }" for object "${objectName}".`
       );
     }
   }
