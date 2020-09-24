@@ -70,7 +70,7 @@ import {
   toAclString,
   toPathGetAccessControlResponse,
   toPermissionsString,
-  toProperties,
+  toProperties
 } from "./transforms";
 import { Batch } from "./utils/Batch";
 
@@ -81,13 +81,12 @@ import {
   FILE_MAX_SINGLE_UPLOAD_THRESHOLD,
   FILE_MAX_SIZE_BYTES,
   FILE_UPLOAD_DEFAULT_CHUNK_SIZE,
-  FILE_UPLOAD_MAX_CHUNK_SIZE,
+  FILE_UPLOAD_MAX_CHUNK_SIZE
 } from "./utils/constants";
 import { createSpan } from "./utils/tracing";
 import { appendToURLPath, setURLPath } from "./utils/utils.common";
 import { fsStat, fsCreateReadStream } from "./utils/utils.node";
 import { BufferScheduler } from "../../storage-common/src";
-
 
 /**
  * A DataLakePathClient represents a URL to the Azure Storage path (directory or file).
