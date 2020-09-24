@@ -3,7 +3,7 @@
 
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
-import { TokenCredential, AccessToken } from "@azure/core-http";
+import { TokenCredential, AccessToken, GetTokenOptions } from "@azure/core-http";
 import { InteractiveBrowserCredentialOptions } from "./interactiveBrowserCredentialOptions";
 import { credentialLogger } from "../util/logging";
 import { DefaultTenantId, DeveloperSignOnClientId } from "../constants";
@@ -81,7 +81,11 @@ export class InteractiveBrowserCredential implements TokenCredential {
    * @param options The options used to configure any requests this
    *                TokenCredential implementation might make.
    */
-  public getToken(scopes: string | string[]): Promise<AccessToken | null> {
+  public getToken(
+    scopes: string | string[],
+    //@ts-ignore
+    options?: GetTokenOptions
+  ): Promise<AccessToken | null> {
     const scopeArray = typeof scopes === "object" ? scopes : [scopes];
 
     return this.acquireTokenFromBrowser(scopeArray);
