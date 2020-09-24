@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { doubleToByteArrayJSBI, writeNumberForBinaryEncodingJSBI } from "./encoding/number";
 import { writeStringForBinaryEncoding } from "./encoding/string";
 import { BytePrefix } from "./encoding/prefix";

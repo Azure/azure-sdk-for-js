@@ -24,6 +24,7 @@ import {
   FileForceCloseHandlesHeaders,
   FileGetPropertiesResponse,
   FileGetRangeListHeaders,
+  FileGetRangeListDiffResponse,
   FileItem,
   FileListHandlesResponse,
   FileSetHTTPHeadersResponse,
@@ -3834,6 +3835,25 @@ export class ShareFileClient extends StorageClient {
   }
 
   /**
+   * Creates a new ShareFileClient object identical to the source but with the specified share snapshot timestamp.
+   * Provide "" will remove the snapshot and return a URL to the base ShareFileClient.
+   *
+   * @param {string} shareSnapshot The share snapshot timestamp.
+   * @returns {ShareFileClient} A new ShareFileClient object identical to the source but with the specified share snapshot timestamp.
+   * @memberof ShareFileClient
+   */
+  public withShareSnapshot(shareSnapshot: string): ShareFileClient {
+    return new ShareFileClient(
+      setURLParameter(
+        this.url,
+        URLConstants.Parameters.SHARE_SNAPSHOT,
+        shareSnapshot.length === 0 ? undefined : shareSnapshot
+      ),
+      this.pipeline
+    );
+  }
+
+  /**
    * Creates a new file or replaces a file. Note it only initializes the file with no content.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/create-file
    *
@@ -4576,19 +4596,51 @@ export class ShareFileClient extends StorageClient {
         leaseAccessConditions: options.leaseAccessConditions,
         spanOptions
       });
+
+      // Only returns ranges, ignoring clearRanges.
+      const parsedBody = originalResponse._response.parsedBody.ranges
+        ? originalResponse._response.parsedBody.ranges
+        : [];
       return {
-        _response: originalResponse._response,
-        date: originalResponse.date,
-        etag: originalResponse.etag,
-        errorCode: originalResponse.errorCode,
-        fileContentLength: originalResponse.fileContentLength,
-        lastModified: originalResponse.lastModified,
-        rangeList: originalResponse.filter(() => {
-          return true;
-        }),
-        requestId: originalResponse.requestId,
-        version: originalResponse.version
+        ...originalResponse,
+        _response: { ...originalResponse._response, parsedBody },
+        rangeList: originalResponse.ranges ? originalResponse.ranges : []
       };
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Returns the list of ranges that differ between a previous share snapshot and this file.
+   *
+   * @param {string} [prevShareSnapshot] The previous snapshot parameter is an opaque DateTime value that specifies the previous share snapshot to compare with.
+   * @param {FileGetRangeListOptions} [options]
+   * @returns {Promise<
+   >}
+   * @memberof ShareFileClient
+   */
+  public async getRangeListDiff(
+    prevShareSnapshot: string,
+    options: FileGetRangeListOptions = {}
+  ): Promise<FileGetRangeListDiffResponse> {
+    const { span, spanOptions } = createSpan(
+      "ShareFileClient-getRangeListDiff",
+      options.tracingOptions
+    );
+    try {
+      return await this.context.getRangeList({
+        prevsharesnapshot: prevShareSnapshot,
+        ...options,
+        range: options.range ? rangeToString(options.range) : undefined,
+        spanOptions
+      });
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,

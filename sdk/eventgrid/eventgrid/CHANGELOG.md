@@ -2,6 +2,7 @@
 
 ## 3.0.0-beta.2 (Unreleased)
 
+- Added support for system events sent by the Azure Communication Services.
 
 ## 3.0.0-beta.1 (2020-09-08)
 

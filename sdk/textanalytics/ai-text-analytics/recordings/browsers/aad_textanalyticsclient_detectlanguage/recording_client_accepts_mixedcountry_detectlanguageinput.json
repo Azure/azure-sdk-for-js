@@ -11,7 +11,7 @@
     "cache-control": "no-store, no-cache",
     "content-length": "1329",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 16 Sep 2020 19:21:36 GMT",
+    "date": "Thu, 17 Sep 2020 17:45:13 GMT",
     "expires": "-1",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
@@ -19,7 +19,7 @@
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
     "x-ms-ests-server": "2.1.11021.16 - CHI ProdSlices",
-    "x-ms-request-id": "d7aab36d-9b0b-4fb6-ab71-aa06b5069b00"
+    "x-ms-request-id": "7852a787-e39d-4cbd-8179-80f8c55f7300"
    }
   },
   {
@@ -30,14 +30,14 @@
    "status": 200,
    "response": "{\"documents\":[{\"id\":\"1\",\"detectedLanguage\":{\"name\":\"English\",\"iso6391Name\":\"en\",\"confidenceScore\":1.0},\"warnings\":[]},{\"id\":\"2\",\"detectedLanguage\":{\"name\":\"English\",\"iso6391Name\":\"en\",\"confidenceScore\":1.0},\"warnings\":[]},{\"id\":\"3\",\"detectedLanguage\":{\"name\":\"English\",\"iso6391Name\":\"en\",\"confidenceScore\":1.0},\"warnings\":[]},{\"id\":\"4\",\"detectedLanguage\":{\"name\":\"English\",\"iso6391Name\":\"en\",\"confidenceScore\":1.0},\"warnings\":[]},{\"id\":\"5\",\"detectedLanguage\":{\"name\":\"Spanish\",\"iso6391Name\":\"es\",\"confidenceScore\":1.0},\"warnings\":[]},{\"id\":\"6\",\"detectedLanguage\":{\"name\":\"Spanish\",\"iso6391Name\":\"es\",\"confidenceScore\":1.0},\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}",
    "responseHeaders": {
-    "apim-request-id": "1e08ba8e-e069-4517-a1c8-e15fbf4a92a7",
+    "apim-request-id": "7dea9edf-0634-4825-b298-2b59b911263d",
     "content-type": "application/json; charset=utf-8",
     "csp-billing-usage": "CognitiveServices.TextAnalytics.BatchScoring=6",
-    "date": "Wed, 16 Sep 2020 19:21:36 GMT",
+    "date": "Thu, 17 Sep 2020 17:45:13 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "12"
+    "x-envoy-upstream-service-time": "15"
    }
   }
  ],

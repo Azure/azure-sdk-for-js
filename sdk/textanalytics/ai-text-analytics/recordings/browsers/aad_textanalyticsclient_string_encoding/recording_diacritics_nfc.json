@@ -11,7 +11,7 @@
     "cache-control": "no-store, no-cache",
     "content-length": "1329",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 16 Sep 2020 19:21:43 GMT",
+    "date": "Thu, 17 Sep 2020 17:45:21 GMT",
     "expires": "-1",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
@@ -19,7 +19,7 @@
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
     "x-ms-ests-server": "2.1.11021.16 - CHI ProdSlices",
-    "x-ms-request-id": "5383a6db-5df9-43bf-92db-f9d295835100"
+    "x-ms-request-id": "50e64afc-14d5-4994-a523-66cca15d3400"
    }
   },
   {
@@ -32,14 +32,14 @@
    "status": 200,
    "response": "{\"documents\":[{\"redactedText\":\"año SSN: ***********\",\"id\":\"0\",\"entities\":[{\"text\":\"859-98-0987\",\"category\":\"U.S. Social Security Number (SSN)\",\"offset\":9,\"length\":11,\"confidenceScore\":0.65}],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}",
    "responseHeaders": {
-    "apim-request-id": "e84fe26a-69db-47ea-b57a-f17d027253ce",
+    "apim-request-id": "ffb76e1a-7d36-4296-ac56-0987e74b29ec",
     "content-type": "application/json; charset=utf-8",
     "csp-billing-usage": "CognitiveServices.TextAnalytics.BatchScoring=1",
-    "date": "Wed, 16 Sep 2020 19:21:43 GMT",
+    "date": "Thu, 17 Sep 2020 17:45:21 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "54"
+    "x-envoy-upstream-service-time": "76"
    }
   }
  ],

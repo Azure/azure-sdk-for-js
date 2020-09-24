@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { AbortSignal, abortSignal, AbortSignalLike } from "./AbortSignal";
 
 /**
@@ -76,6 +79,7 @@ export class AbortController {
     }
     // coerce parentSignals into an array
     if (!Array.isArray(parentSignals)) {
+      // eslint-disable-next-line prefer-rest-params
       parentSignals = arguments;
     }
     for (const parentSignal of parentSignals) {

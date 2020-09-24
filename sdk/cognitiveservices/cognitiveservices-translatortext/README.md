@@ -24,7 +24,7 @@ npm install @azure/ms-rest-azure-js
 ```
 
 ##### Sample code
-The following sample translates the given text which is in Chinese to English. To know more, refer to the [Azure Documentation on Translator](https://docs.microsoft.com/en-us/azure/cognitive-services/translator/)
+The following sample translates the given text which is in Chinese to English. To know more, refer to the [Azure Documentation on Translator](https://docs.microsoft.com/azure/cognitive-services/translator/)
 
 ```javascript
 const { TranslatorTextClient } = require("@azure/cognitiveservices-translatortext");

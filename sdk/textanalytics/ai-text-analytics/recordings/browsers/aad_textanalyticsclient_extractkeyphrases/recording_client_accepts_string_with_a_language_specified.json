@@ -11,7 +11,7 @@
     "cache-control": "no-store, no-cache",
     "content-length": "1329",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 16 Sep 2020 19:21:38 GMT",
+    "date": "Thu, 17 Sep 2020 17:45:15 GMT",
     "expires": "-1",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
@@ -19,7 +19,7 @@
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
     "x-ms-ests-server": "2.1.11021.16 - CHI ProdSlices",
-    "x-ms-request-id": "3bfbe58f-e12d-4589-8fd9-4393f8daa100"
+    "x-ms-request-id": "04b0b7b1-ab7b-41d5-80d1-dec9a7929a00"
    }
   },
   {
@@ -30,14 +30,14 @@
    "status": 200,
    "response": "{\"documents\":[{\"id\":\"0\",\"keyPhrases\":[\"week\",\"Space Needle\",\"wonderful trip\",\"Seattle\",\"times\"],\"warnings\":[]},{\"id\":\"1\",\"keyPhrases\":[\"entire trip\",\"Seattle\",\"Space Needle\"],\"warnings\":[]},{\"id\":\"2\",\"keyPhrases\":[\"movie\"],\"warnings\":[]},{\"id\":\"3\",\"keyPhrases\":[\"book\"],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}",
    "responseHeaders": {
-    "apim-request-id": "df53321d-c7e9-46ad-8f9d-4e91dd69bb42",
+    "apim-request-id": "25d990d8-d0d2-4276-9538-5ecf019b17ea",
     "content-type": "application/json; charset=utf-8",
     "csp-billing-usage": "CognitiveServices.TextAnalytics.BatchScoring=4",
-    "date": "Wed, 16 Sep 2020 19:21:38 GMT",
+    "date": "Thu, 17 Sep 2020 17:45:15 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "12"
+    "x-envoy-upstream-service-time": "17"
    }
   }
  ],

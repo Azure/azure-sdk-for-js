@@ -73,7 +73,7 @@ npm run perfstress-test:node -- MyTest --warmup 2 --duration 4 --iterations 2
 
 ## Examples
 
-Check the [test folder](./test/).
+Check the [test folder](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/test-utils/perfstress/test/).
 
 ## Troubleshooting
 
@@ -81,7 +81,7 @@ TODO
 
 ## Next steps
 
-Check the [source](./src/) folder and the [test folder](./test/).
+Check the [source](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/test-utils/perfstress/src/) folder and the [test folder](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/test-utils/perfstress/test/).
 
 Also check the PerfStress EPIC, here: https://github.com/Azure/azure-sdk-for-js/issues/8057
 

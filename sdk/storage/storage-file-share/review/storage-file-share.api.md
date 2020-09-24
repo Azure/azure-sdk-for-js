@@ -92,6 +92,14 @@ export class AnonymousCredentialPolicy extends CredentialPolicy {
 export { BaseRequestPolicy }
 
 // @public
+export interface ClearRange {
+    // (undocumented)
+    end: number;
+    // (undocumented)
+    start: number;
+}
+
+// @public
 export interface CloseHandlesInfo {
     // (undocumented)
     closedHandlesCount: number;
@@ -679,6 +687,15 @@ export interface FileGetPropertiesOptions extends CommonOptions {
 export type FileGetPropertiesResponse = FileGetPropertiesHeaders & {
     _response: coreHttp.HttpResponse & {
         parsedHeaders: FileGetPropertiesHeaders;
+    };
+};
+
+// @public
+export type FileGetRangeListDiffResponse = ShareFileRangeList & FileGetRangeListHeaders & {
+    _response: coreHttp.HttpResponse & {
+        parsedHeaders: FileGetRangeListHeaders;
+        bodyAsText: string;
+        parsedBody: ShareFileRangeList;
     };
 };
 
@@ -1511,6 +1528,7 @@ export class ShareFileClient extends StorageClient {
     forceCloseHandle(handleId: string, options?: FileForceCloseHandlesOptions): Promise<FileForceCloseHandlesResponse>;
     getProperties(options?: FileGetPropertiesOptions): Promise<FileGetPropertiesResponse>;
     getRangeList(options?: FileGetRangeListOptions): Promise<FileGetRangeListResponse>;
+    getRangeListDiff(prevShareSnapshot: string, options?: FileGetRangeListOptions): Promise<FileGetRangeListDiffResponse>;
     getShareLeaseClient(proposeLeaseId?: string): ShareLeaseClient;
     listHandles(options?: FileListHandlesOptions): PagedAsyncIterableIterator<HandleItem, FileListHandlesResponse>;
     get name(): string;
@@ -1528,6 +1546,15 @@ export class ShareFileClient extends StorageClient {
     uploadResetableStream(streamFactory: (offset: number, count?: number) => NodeJS.ReadableStream, size: number, options?: FileParallelUploadOptions): Promise<void>;
     uploadSeekableBlob(blobFactory: (offset: number, size: number) => Blob, size: number, options?: FileParallelUploadOptions): Promise<void>;
     uploadStream(stream: Readable, size: number, bufferSize: number, maxBuffers: number, options?: FileUploadStreamOptions): Promise<void>;
+    withShareSnapshot(shareSnapshot: string): ShareFileClient;
+}
+
+// @public
+export interface ShareFileRangeList {
+    // (undocumented)
+    clearRanges?: ClearRange[];
+    // (undocumented)
+    ranges?: RangeModel[];
 }
 
 // @public
