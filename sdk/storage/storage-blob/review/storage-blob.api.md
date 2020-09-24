@@ -886,6 +886,23 @@ export interface BlobProperties {
 }
 
 // @public
+export interface BlobQueryArrowConfiguration {
+    kind: "arrow";
+    schema: BlobQueryArrowField[];
+}
+
+// @public
+export interface BlobQueryArrowField {
+    name?: string;
+    precision?: number;
+    scale?: number;
+    type: BlobQueryArrowFieldType;
+}
+
+// @public
+export type BlobQueryArrowFieldType = "int64" | "bool" | "timestamp[ms]" | "string" | "double" | "decimal";
+
+// @public
 export interface BlobQueryCsvTextConfiguration {
     columnSeparator?: string;
     escapeCharacter?: string;
@@ -1363,7 +1380,7 @@ export interface BlockBlobQueryOptions extends CommonOptions {
     inputTextConfiguration?: BlobQueryJsonTextConfiguration | BlobQueryCsvTextConfiguration;
     onError?: (error: BlobQueryError) => void;
     onProgress?: (progress: TransferProgressEvent) => void;
-    outputTextConfiguration?: BlobQueryJsonTextConfiguration | BlobQueryCsvTextConfiguration;
+    outputTextConfiguration?: BlobQueryJsonTextConfiguration | BlobQueryCsvTextConfiguration | BlobQueryArrowConfiguration;
 }
 
 // @public

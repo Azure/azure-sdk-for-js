@@ -4,7 +4,11 @@
 import { AbortSignalLike } from "@azure/abort-controller";
 import { HttpHeaders, isNode, URLBuilder } from "@azure/core-http";
 
-import { BlobQueryCsvTextConfiguration, BlobQueryJsonTextConfiguration } from "../Clients";
+import {
+  BlobQueryArrowConfiguration,
+  BlobQueryCsvTextConfiguration,
+  BlobQueryJsonTextConfiguration
+} from "../Clients";
 import { QuerySerialization, BlobTags } from "../generated/src/models";
 import { DevelopmentConnectionString, HeaderConstants, URLConstants } from "./constants";
 import {
@@ -650,11 +654,14 @@ export function toTags(tags?: BlobTags): Tags | undefined {
  * Convert BlobQueryTextConfiguration to QuerySerialization type.
  *
  * @export
- * @param {(BlobQueryJsonTextConfiguration | BlobQueryCsvTextConfiguration)} [textConfiguration]
+ * @param {(BlobQueryJsonTextConfiguration | BlobQueryCsvTextConfiguration | BlobQueryArrowConfiguration)} [textConfiguration]
  * @returns {(QuerySerialization | undefined)}
  */
 export function toQuerySerialization(
-  textConfiguration?: BlobQueryJsonTextConfiguration | BlobQueryCsvTextConfiguration
+  textConfiguration?:
+    | BlobQueryJsonTextConfiguration
+    | BlobQueryCsvTextConfiguration
+    | BlobQueryArrowConfiguration
 ): QuerySerialization | undefined {
   if (textConfiguration === undefined) {
     return undefined;
@@ -683,6 +690,16 @@ export function toQuerySerialization(
           }
         }
       };
+    case "arrow":
+      return {
+        format: {
+          type: "arrow",
+          arrowConfiguration: {
+            schema: textConfiguration.schema
+          }
+        }
+      };
+
     default:
       throw Error("Invalid BlobQueryTextConfiguration.");
   }

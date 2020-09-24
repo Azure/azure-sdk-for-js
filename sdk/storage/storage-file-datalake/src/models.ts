@@ -7,7 +7,8 @@ import { HttpResponse, TransferProgressEvent } from "@azure/core-http";
 import {
   LeaseAccessConditions,
   ModifiedAccessConditions as ModifiedAccessConditionsModel,
-  UserDelegationKeyModel
+  UserDelegationKeyModel,
+  BlobQueryArrowField
 } from "@azure/storage-blob";
 export type ModifiedAccessConditions = Omit<ModifiedAccessConditionsModel, "ifTags">;
 
@@ -1241,6 +1242,30 @@ export interface FileQueryCsvTextConfiguration {
 }
 
 /**
+ * Options to query file with Apache Arrow format. Only valid for {@link FileQueryOptions.outputTextConfiguration}.
+ *
+ * @export
+ * @interface FileQueryArrowConfiguration
+ */
+export interface FileQueryArrowConfiguration {
+  /**
+   * Kind.
+   *
+   * @type {"arrow"}
+   * @memberof FileQueryArrowConfiguration
+   */
+  kind: "arrow";
+
+  /**
+   * List of {@link BlobQueryArrowField} describing the schema of the data.
+   *
+   * @type {BlobQueryArrowField[]}
+   * @memberof FileQueryArrowConfiguration
+   */
+  schema: BlobQueryArrowField[];
+}
+
+/**
  * File query error type.
  *
  * @export
@@ -1305,10 +1330,13 @@ export interface FileQueryOptions extends CommonOptions {
   /**
    * Configurations for the query output.
    *
-   * @type {FileQueryJsonTextConfiguration | FileQueryCsvTextConfiguration}
+   * @type {FileQueryJsonTextConfiguration | FileQueryCsvTextConfiguration | FileQueryArrowConfiguration}
    * @memberof FileQueryOptions
    */
-  outputTextConfiguration?: FileQueryJsonTextConfiguration | FileQueryCsvTextConfiguration;
+  outputTextConfiguration?:
+    | FileQueryJsonTextConfiguration
+    | FileQueryCsvTextConfiguration
+    | FileQueryArrowConfiguration;
   /**
    * Callback to receive events on the progress of query operation.
    *
