@@ -27,19 +27,22 @@ import {
 } from "./generatedModels";
 import { QueryOptions as GeneratedQueryOptions } from "./generated/models";
 import { getClientParamsFromConnectionString } from "./utils/connectionString";
-import { TablesSharedKeyCredential, TablesSharedKeyCredentialLike } from "./TablesSharedKeyCredential";
+import {
+  TablesSharedKeyCredential,
+  TablesSharedKeyCredentialLike
+} from "./TablesSharedKeyCredential";
 import "@azure/core-paging";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { GeneratedClient, TableDeleteEntityOptionalParams } from "./generated";
 import { deserialize, deserializeObjectsArray, serialize } from "./serialization";
 import { Table } from "./generated/operations";
 import { LIB_INFO, TablesLoggingAllowedHeaderNames } from "./utils/constants";
-import { createPipelineFromOptions, InternalPipelineOptions  } from "@azure/core-http";
+import { createPipelineFromOptions, InternalPipelineOptions } from "@azure/core-http";
 import { logger } from "./logger";
 import { createSpan } from "./utils/tracing";
 import { CanonicalCode } from "@opentelemetry/api";
 import { createBatch, TablesBatch } from "./TablesBatch";
-import { runInThisContext } from 'vm';
+import { runInThisContext } from "vm";
 /**
  * A TableClient represents a Client to the Azure Tables service allowing you
  * to perform operations on a single table.

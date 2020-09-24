@@ -24,7 +24,7 @@ import {
   UpdateTableEntityOptions
 } from "./models";
 import { TableClient } from "./TableClient";
-import { TablesSharedKeyCredentialLike } from './TablesSharedKeyCredential';
+import { TablesSharedKeyCredentialLike } from "./TablesSharedKeyCredential";
 import { HeaderConstants } from "./utils/constants";
 
 export interface TablesBatch {
@@ -56,7 +56,12 @@ export interface TableBatchResponse {
   getResponseForEntity: () => HttpResponse;
 }
 
-export function createBatch(url: string, tableName: string, partitionKey: string, credential?: TablesSharedKeyCredentialLike): TablesBatch {
+export function createBatch(
+  url: string,
+  tableName: string,
+  partitionKey: string,
+  credential?: TablesSharedKeyCredentialLike
+): TablesBatch {
   const batchGuid = generateUuid();
   const batchRequest = createInnerBatchRequest(batchGuid);
   const pipeline = batchRequest.createPipeline();
@@ -72,7 +77,7 @@ export function createBatch(url: string, tableName: string, partitionKey: string
     const sas = urlParts.length > 1 ? urlParts[1] : "";
     batchUrl = `${baseUrl}/$batch?${sas}`;
   }
-  
+
   return {
     partitionKey,
     async createEntity<T extends object>(entity: TableEntity<T>): Promise<void> {
