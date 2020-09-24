@@ -107,7 +107,6 @@ describe("CryptographyClient (all decrypts happen remotely)", () => {
     const hash = createHash("sha256");
     hash.update(signatureValue);
     const digest = hash.digest();
-    console.log({ digest });
     const signature = await cryptoClient.sign("RS256", digest);
     const verifyResult = await cryptoClient.verify("RS256", digest, signature.result);
     assert.ok(verifyResult);
