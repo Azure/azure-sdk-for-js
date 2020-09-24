@@ -3,10 +3,9 @@
 
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
-import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-http";
+import { TokenCredential, AccessToken } from "@azure/core-http";
 import { InteractiveBrowserCredentialOptions } from "./interactiveBrowserCredentialOptions";
-import { credentialLogger, formatError } from "../util/logging";
-import { TokenCredentialOptions, IdentityClient } from "../client/identityClient";
+import { credentialLogger } from "../util/logging";
 import { DefaultTenantId, DeveloperSignOnClientId } from "../constants";
 import { Socket } from "net";
 
@@ -15,21 +14,9 @@ const SERVER_PORT = process.env.PORT || 80;
 import express from "express";
 import { PublicClientApplication, TokenCache, AuthorizationCodeRequest } from "@azure/msal-node";
 import open from "open";
-import path from "path";
 import http from "http";
 
-const BrowserNotSupportedError = new Error(
-  "InteractiveBrowserCredential is not supported in Node.js."
-);
 const logger = credentialLogger("InteractiveBrowserCredential");
-
-interface AuthenticationRecord {
-  authority?: string;
-  homeAccountId: string;
-  environment: string;
-  tenantId: string;
-  username: string;
-}
 
 /**
  * Enables authentication to Azure Active Directory inside of the web browser
@@ -37,7 +24,6 @@ interface AuthenticationRecord {
  * window.  This credential is not currently supported in Node.js.
  */
 export class InteractiveBrowserCredential implements TokenCredential {
-  private identityClient: IdentityClient;
   private pca: PublicClientApplication;
   private msalCacheManager: TokenCache;
   private tenantId: string;
@@ -45,16 +31,13 @@ export class InteractiveBrowserCredential implements TokenCredential {
   private persistenceEnabled: boolean;
   private redirectUri: string;
   private authorityHost: string;
-  private authenticationRecord: AuthenticationRecord | undefined;
 
   constructor(options?: InteractiveBrowserCredentialOptions) {
-    this.identityClient = new IdentityClient(options);
     this.tenantId = (options && options.tenantId) || DefaultTenantId;
     this.clientId = (options && options.clientId) || DeveloperSignOnClientId;
 
     // Future update: this is for persistent caching
     this.persistenceEnabled = false;
-    this.authenticationRecord = undefined;
 
     if (options && options.redirectUri) {
       if (typeof options.redirectUri === "string") {

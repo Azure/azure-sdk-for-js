@@ -3,9 +3,7 @@
 
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
-import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-http";
-import { DeviceCodePromptCallback } from "./deviceCodeCredential";
-import { TokenCredentialOptions } from "../client/identityClient";
+import { TokenCredential, AccessToken } from "@azure/core-http";
 import { credentialLogger, formatError } from "../util/logging";
 
 const BrowserNotSupportedError = new Error("DeviceCodeCredential is not supported in the browser.");

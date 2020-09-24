@@ -6,7 +6,7 @@
     "declarationDir": "./types",
     "outDir": "./dist-esm",
     "resolveJsonModule": true,
-    "noUnusedLocals": false,
+    "noUnusedLocals": true,
     "noUnusedParameters": true,
     "noImplicitReturns": true
   },

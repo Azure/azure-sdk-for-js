@@ -3,7 +3,7 @@
 
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
-import { AccessToken, GetTokenOptions, TokenCredential } from "@azure/core-http";
+import { AccessToken, TokenCredential } from "@azure/core-http";
 import { TokenCredentialOptions } from "../client/identityClient";
 import { credentialLogger, formatError } from "../util/logging";
 
