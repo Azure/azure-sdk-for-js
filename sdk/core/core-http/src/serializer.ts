@@ -766,21 +766,28 @@ function deserializeCompositeType(
         );
       } else {
         const propertyName = xmlElementName || xmlName || serializedName;
-        let unwrappedProperty = responseBody[propertyName!];
         if (propertyMapper.xmlIsWrapped) {
-          unwrappedProperty = responseBody[xmlName!];
-          unwrappedProperty = unwrappedProperty && unwrappedProperty[xmlElementName!];
-
-          const isEmptyWrappedList = unwrappedProperty === undefined;
-          if (isEmptyWrappedList) {
-            unwrappedProperty = [];
-          }
+          /* a list of <xmlElementName> wrapped by <xmlName>
+            For the xml example below
+              <Cors>
+                <CorsRule>...</CorsRule>
+                <CorsRule>...</CorsRule>
+              </Cors>
+            the responseBody has
+              {
+                Cors: {
+                  CorsRule: [{...}, {...}]
+                }
+              }
+            xmlName is "Cors" and xmlElementName is"CorsRule".
+          */
+          const wrapped = responseBody[xmlName!];
+          const elementList = wrapped?.[xmlElementName!] ?? [];
+          instance[key] = serializer.deserialize(propertyMapper, elementList, propertyObjectName);
+        } else {
+          const property = responseBody[propertyName!];
+          instance[key] = serializer.deserialize(propertyMapper, property, propertyObjectName);
         }
-        instance[key] = serializer.deserialize(
-          propertyMapper,
-          unwrappedProperty,
-          propertyObjectName
-        );
       }
     } else {
       // deserialize the property if it is present in the provided responseBody instance
