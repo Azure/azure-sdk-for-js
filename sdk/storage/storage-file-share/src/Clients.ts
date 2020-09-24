@@ -4622,7 +4622,7 @@ export class ShareFileClient extends StorageClient {
    *
    * @param {string} [prevShareSnapshot] The previous snapshot parameter is an opaque DateTime value that specifies the previous share snapshot to compare with.
    * @param {FileGetRangeListOptions} [options]
-   * @returns {Promise<
+   * @returns {Promise<FileGetRangeListDiffResponse>}
    * @memberof ShareFileClient
    */
   public async getRangeListDiff(
