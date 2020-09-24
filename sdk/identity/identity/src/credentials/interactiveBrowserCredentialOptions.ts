@@ -43,7 +43,6 @@ export interface AuthenticationRecord {
   username: string;
 }
 
-
 /**
  * Defines options for the InteractiveBrowserCredential class.
  */
