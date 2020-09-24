@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { ContainerRequest } from "../client/Container/ContainerRequest";
 
 export function validateOffer(body: ContainerRequest): void {

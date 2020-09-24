@@ -1,7 +1,7 @@
 parameters:
   Artifacts: []
   ServiceDirectory: not-specified
-  
+
 steps:
   - script: |
       node common/scripts/install-run-rush.js install
@@ -27,7 +27,7 @@ steps:
       node eng/tools/rush-runner.js unit-test:node "${{parameters.ServiceDirectory}}" --verbose -p max
     displayName: "Test libraries"
     condition: and(succeeded(),eq(variables['TestType'], 'node'))
-        
+
   # Option "-p max" ensures parallelism is set to the number of cores on all platforms, which improves build times.
   # The default on Windows is "cores - 1" (microsoft/rushstack#436).
   - script: |
@@ -56,7 +56,7 @@ steps:
   # PublishTestResults.searchFolder only supports absolute paths, not relative.
   - task: PublishTestResults@2
     inputs:
-      searchFolder: '$(System.DefaultWorkingDirectory)/sdk'
+      searchFolder: "$(System.DefaultWorkingDirectory)/sdk"
       testResultsFiles: "**/test-results.xml"
       testRunTitle: "$(OSName) - NodeJS - Unit Tests - [Node $(NodeTestVersion)]"
     condition: and(always(),eq(variables['TestType'], 'node'))
@@ -66,7 +66,7 @@ steps:
   # PublishTestResults.searchFolder only supports absolute paths, not relative.
   - task: PublishTestResults@2
     inputs:
-      searchFolder: '$(System.DefaultWorkingDirectory)/sdk'
+      searchFolder: "$(System.DefaultWorkingDirectory)/sdk"
       testResultsFiles: "**/test-results.browser.xml"
       testRunTitle: "$(OSName) - Browser - Unit Tests - [Node $(NodeTestVersion)]"
     condition: and(always(),eq(variables['TestType'], 'browser'))

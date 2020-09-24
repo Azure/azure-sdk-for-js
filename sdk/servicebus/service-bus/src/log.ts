@@ -6,6 +6,8 @@ import { createClientLogger } from "@azure/logger";
 /**
  * The @azure/logger configuration for this package.
  * This will output logs using the `azure:event-hubs` namespace prefix.
+ * @ignore
+ * @internal
  */
 export const logger = createClientLogger("service-bus");
 

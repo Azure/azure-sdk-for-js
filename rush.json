@@ -353,6 +353,26 @@
       "versionPolicyName": "client"
     },
     {
+      "packageName": "@azure/communication-administration",
+      "projectFolder": "sdk/communication/communication-administration",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/communication-chat",
+      "projectFolder": "sdk/communication/communication-chat",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/communication-common",
+      "projectFolder": "sdk/communication/communication-common",
+      "versionPolicyName": "client"
+    },
+    {
+      "packageName": "@azure/communication-sms",
+      "projectFolder": "sdk/communication/communication-sms",
+      "versionPolicyName": "client"
+    },
+    {
       "packageName": "@azure/core-amqp",
       "projectFolder": "sdk/core/core-amqp",
       "versionPolicyName": "core"
