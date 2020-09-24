@@ -153,10 +153,6 @@ export class CryptographyClient {
       }
     }
 
-    // Renaming parameters
-
-    requestOptions.aad = options.additionalAuthenticatedData;
-
     // Default to the service
 
     let result;
@@ -200,10 +196,6 @@ export class CryptographyClient {
     await this.checkPermissions("decrypt");
     await this.getLocalCryptographyClient();
     checkKeyValidity(this.getKeyID(), this.keyBundle);
-
-    // Renaming parameters
-
-    requestOptions.aad = options.additionalAuthenticatedData;
 
     // Default to the service
 
@@ -260,10 +252,6 @@ export class CryptographyClient {
       }
     }
 
-    // Renaming parameters
-
-    requestOptions.aad = options.additionalAuthenticatedData;
-
     // Default to the service
 
     let result;
@@ -306,10 +294,6 @@ export class CryptographyClient {
     await this.checkPermissions("unwrapKey");
     await this.getLocalCryptographyClient();
     checkKeyValidity(this.getKeyID(), this.keyBundle);
-
-    // Renaming parameters
-
-    requestOptions.aad = options.additionalAuthenticatedData;
 
     // Default to the service
 
