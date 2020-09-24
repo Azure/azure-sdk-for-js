@@ -23,9 +23,10 @@ import {
   ListContainersIncludeType,
   UserDelegationKeyModel,
   ServiceFindBlobsByTagsSegmentResponse,
-  FilterBlobItem
+  FilterBlobItem,
+  ContainerUndeleteResponse
 } from "./generatedModels";
-import { Service } from "./generated/src/operations";
+import { Container, Service } from "./generated/src/operations";
 import { newPipeline, StoragePipelineOptions, Pipeline } from "./Pipeline";
 import { ContainerClient, ContainerCreateOptions, ContainerDeleteMethodOptions } from "./Clients";
 import { appendToURLPath, extractConnectionStringParts } from "./utils/utils.common";
@@ -314,6 +315,30 @@ export declare type ServiceGetUserDelegationKeyResponse = UserDelegationKey &
   };
 
 /**
+ * Options to configure {@link BlobServiceClient.undeleteContainer} operation.
+ *
+ * @export
+ * @interface ContainerUndeleteOptions
+ */
+export interface ContainerUndeleteOptions extends CommonOptions {
+  /**
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
+   *
+   * @type {AbortSignalLike}
+   * @memberof ContainerUndeleteOptions
+   */
+  abortSignal?: AbortSignalLike;
+  /**
+   * Optional. Specifies the version of the deleted container to restore.
+   *
+   * @type {string}
+   * @memberof ContainerUndeleteOptions
+   */
+  deletedContainerVersion?: string;
+}
+
+/**
  * A BlobServiceClient represents a Client to the Azure Storage Blob service allowing you
  * to manipulate blob containers.
  *
@@ -527,6 +552,49 @@ export class BlobServiceClient extends StorageClient {
         ...options,
         tracingOptions: { ...options!.tracingOptions, spanOptions }
       });
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Restore a previously deleted Blob container.
+   * This API is only functional if Container Soft Delete is enabled for the storage account associated with the container.
+   *
+   * @param {string} deletedContainerName Name of the previously deleted container.
+   * @param {ContainerUndeleteOptions} [options] Options to configure Container undelete operation.
+   * @returns {Promise<ContainerDeleteResponse>} Container deletion response.
+   * @memberof BlobServiceClient
+   */
+  public async undeleteContainer(
+    deletedContainerName: string,
+    destinationContainerName?: string,
+    options: ContainerUndeleteOptions = {}
+  ): Promise<{
+    containerClient: ContainerClient;
+    containerUndeleteResponse: ContainerUndeleteResponse;
+  }> {
+    const { span, spanOptions } = createSpan(
+      "BlobServiceClient-undeleteContainer",
+      options.tracingOptions
+    );
+    try {
+      const containerClient = this.getContainerClient(
+        destinationContainerName || deletedContainerName
+      );
+      const container = new Container((containerClient as any).storageClientContext);
+      const containerUndeleteResponse = await container.restore({
+        deletedContainerName,
+        ...options,
+        tracingOptions: { ...options!.tracingOptions, spanOptions }
+      });
+      return { containerClient, containerUndeleteResponse };
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
