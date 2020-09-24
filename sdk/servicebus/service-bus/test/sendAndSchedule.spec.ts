@@ -288,7 +288,7 @@ describe("Sender Tests", () => {
       { body: "Hello, again!" },
       { body: "Hello, again and again!!" }
     ];
-    let [result1, result2, result3] = await Promise.all([
+    const [result1, result2, result3] = await Promise.all([
       // Schedule messages in parallel
       sender.scheduleMessages(date, messages[0]),
       sender.scheduleMessages(date, messages[1]),

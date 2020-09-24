@@ -4,6 +4,21 @@
 import { Mapper, Serializer } from "@azure/core-http";
 import { CustomEventDataDeserializer } from "./models";
 import {
+  ACSChatMessageReceivedEventData,
+  ACSChatMessageEditedEventData,
+  ACSChatMessageDeletedEventData,
+  ACSChatThreadCreatedWithUserEventData,
+  ACSChatThreadWithUserDeletedEventData,
+  ACSChatThreadPropertiesUpdatedPerUserEventData,
+  ACSChatMemberAddedToThreadWithUserEventData,
+  ACSChatMemberRemovedFromThreadWithUserEventData,
+  AcssmsDeliveryReportReceivedEventData,
+  AcssmsReceivedEventData,
+  ACSChatMessageEventBase,
+  ACSChatEventBase,
+  ACSChatThreadMember,
+  AcssmsEventBase,
+  AcssmsDeliveryAttempt,
   AppConfigurationKeyValueDeletedEventData,
   AppConfigurationKeyValueModifiedEventData,
   AppEventTypeDetail,
@@ -126,6 +141,21 @@ import {
 } from "./generated/models/mappers";
 
 const serializer = new Serializer({
+  ACSChatMessageReceivedEventData: ACSChatMessageReceivedEventData,
+  ACSChatMessageEditedEventData: ACSChatMessageEditedEventData,
+  ACSChatMessageDeletedEventData: ACSChatMessageDeletedEventData,
+  ACSChatThreadCreatedWithUserEventData: ACSChatThreadCreatedWithUserEventData,
+  ACSChatThreadWithUserDeletedEventData: ACSChatThreadWithUserDeletedEventData,
+  ACSChatThreadPropertiesUpdatedPerUserEventData: ACSChatThreadPropertiesUpdatedPerUserEventData,
+  ACSChatMemberAddedToThreadWithUserEventData: ACSChatMemberAddedToThreadWithUserEventData,
+  ACSChatMemberRemovedFromThreadWithUserEventData: ACSChatMemberRemovedFromThreadWithUserEventData,
+  AcssmsDeliveryReportReceivedEventData: AcssmsDeliveryReportReceivedEventData,
+  AcssmsReceivedEventData: AcssmsReceivedEventData,
+  ACSChatMessageEventBase: ACSChatMessageEventBase,
+  ACSChatEventBase: ACSChatEventBase,
+  ACSChatThreadMember: ACSChatThreadMember,
+  AcssmsEventBase: AcssmsEventBase,
+  AcssmsDeliveryAttempt: AcssmsDeliveryAttempt,
   AppConfigurationKeyValueDeletedEventData: AppConfigurationKeyValueDeletedEventData,
   AppConfigurationKeyValueModifiedEventData: AppConfigurationKeyValueModifiedEventData,
   AppEventTypeDetail: AppEventTypeDetail,
@@ -281,6 +311,34 @@ export const systemDeserializers: Record<string, CustomEventDataDeserializer> = 
   "Microsoft.AppConfiguration.KeyValueModified": makeDeserializerFromMapper(
     AppConfigurationKeyValueModifiedEventData
   ),
+  "Microsoft.Communication.ChatMessageReceived": makeDeserializerFromMapper(
+    ACSChatMessageReceivedEventData
+  ),
+  "Microsoft.Communication.ChatMessageEdited": makeDeserializerFromMapper(
+    ACSChatMessageEditedEventData
+  ),
+  "Microsoft.Communication.ChatMessageDeleted": makeDeserializerFromMapper(
+    ACSChatMessageDeletedEventData
+  ),
+  "Microsoft.Communication.ChatThreadCreatedWithUser": makeDeserializerFromMapper(
+    ACSChatThreadCreatedWithUserEventData
+  ),
+  "Microsoft.Communication.ChatThreadWithUserDeleted": makeDeserializerFromMapper(
+    ACSChatThreadWithUserDeletedEventData
+  ),
+  "Microsoft.Communication.ChatThreadPropertiesUpdatedPerUser": makeDeserializerFromMapper(
+    ACSChatThreadPropertiesUpdatedPerUserEventData
+  ),
+  "Microsoft.Communication.ChatMemberAddedToThreadWithUser": makeDeserializerFromMapper(
+    ACSChatMemberAddedToThreadWithUserEventData
+  ),
+  "Microsoft.Communication.ChatMemberRemovedFromThreadWithUser": makeDeserializerFromMapper(
+    ACSChatMemberRemovedFromThreadWithUserEventData
+  ),
+  "Microsoft.Communication.SMSDeliveryReportReceived": makeDeserializerFromMapper(
+    AcssmsDeliveryReportReceivedEventData
+  ),
+  "Microsoft.Communication.SMSReceived": makeDeserializerFromMapper(AcssmsReceivedEventData),
   "Microsoft.ContainerRegistry.ChartDeleted": makeDeserializerFromMapper(
     ContainerRegistryEventData,
     [jsonParseDeserializer]

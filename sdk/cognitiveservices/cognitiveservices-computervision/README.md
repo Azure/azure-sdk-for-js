@@ -24,7 +24,7 @@ npm install @azure/ms-rest-azure-js
 ```
 
 ##### Sample code
-The following sample describes a given image using Computer Vision. To know more, refer to the [Azure Documentation on Computer Vision](https://docs.microsoft.com/en-us/azure/cognitive-services/computer-vision/home)
+The following sample describes a given image using Computer Vision. To know more, refer to the [Azure Documentation on Computer Vision](https://docs.microsoft.com/azure/cognitive-services/computer-vision/home)
 
 ```javascript
 const { ComputerVisionClient } = require("@azure/cognitiveservices-computervision");
@@ -38,7 +38,7 @@ async function main() {
   const client = new ComputerVisionClient(cognitiveServiceCredentials, computerVisionEndPoint);
 
   const url =
-    "https://docs.microsoft.com/en-us/azure/includes/media/shared-image-galleries/shared-image-gallery.png";
+    "https://docs.microsoft.com/azure/includes/media/shared-image-galleries/shared-image-gallery.png";
   const options = {
     maxCandidates: 5,
     language: "en"
@@ -85,7 +85,7 @@ main();
       );
 
       const url =
-        "https://docs.microsoft.com/en-us/azure/includes/media/shared-image-galleries/shared-image-gallery.png";
+        "https://docs.microsoft.com/azure/includes/media/shared-image-galleries/shared-image-gallery.png";
       const options = {
         maxCandidates: 5,
         language: "en"

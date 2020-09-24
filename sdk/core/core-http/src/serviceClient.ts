@@ -59,6 +59,7 @@ import { InternalPipelineOptions } from "./pipelineOptions";
 import { DefaultKeepAliveOptions, keepAlivePolicy } from "./policies/keepAlivePolicy";
 import { tracingPolicy } from "./policies/tracingPolicy";
 import { disableResponseDecompressionPolicy } from "./policies/disableResponseDecompressionPolicy";
+import { ndJsonPolicy } from "./policies/ndJsonPolicy";
 
 /**
  * Options to configure a proxy for outgoing requests (Node.js only).
@@ -538,7 +539,14 @@ export function serializeRequestBody(
     );
 
     const bodyMapper = operationSpec.requestBody.mapper;
-    const { required, xmlName, xmlElementName, serializedName } = bodyMapper;
+    const {
+      required,
+      xmlName,
+      xmlElementName,
+      serializedName,
+      xmlNamespace,
+      xmlNamespacePrefix
+    } = bodyMapper;
     const typeName = bodyMapper.type.name;
 
     try {
@@ -555,16 +563,25 @@ export function serializeRequestBody(
         const isStream = typeName === MapperType.Stream;
 
         if (operationSpec.isXML) {
+          const xmlnsKey = xmlNamespacePrefix ? `xmlns:${xmlNamespacePrefix}` : "xmlns";
+          const value = getXmlValueWithNamespace(
+            xmlNamespace,
+            xmlnsKey,
+            typeName,
+            httpRequest.body
+          );
           if (typeName === MapperType.Sequence) {
             httpRequest.body = stringifyXML(
               utils.prepareXMLRootList(
-                httpRequest.body,
-                xmlElementName || xmlName || serializedName!
+                value,
+                xmlElementName || xmlName || serializedName!,
+                xmlnsKey,
+                xmlNamespace
               ),
               { rootName: xmlName || serializedName }
             );
           } else if (!isStream) {
-            httpRequest.body = stringifyXML(httpRequest.body, {
+            httpRequest.body = stringifyXML(value, {
               rootName: xmlName || serializedName
             });
           }
@@ -608,6 +625,24 @@ export function serializeRequestBody(
       }
     }
   }
+}
+
+/**
+ * Adds an xml namespace to the xml serialized object if needed, otherwise it just returns the value itself
+ */
+function getXmlValueWithNamespace(
+  xmlNamespace: string | undefined,
+  xmlnsKey: string,
+  typeName: string,
+  serializedValue: any
+): any {
+  // Composite and Sequence schemas already got their root namespace set during serialization
+  // We just need to add xmlns to the other schema types
+  if (xmlNamespace && !["Composite", "Sequence", "Dictionary"].includes(typeName)) {
+    return { _: serializedValue, $: { [xmlnsKey]: xmlNamespace } };
+  }
+
+  return serializedValue;
 }
 
 function getValueOrFunctionResult(
@@ -676,6 +711,10 @@ export function createPipelineFromOptions(
   authPolicyFactory?: RequestPolicyFactory
 ): ServiceClientOptions {
   const requestPolicyFactories: RequestPolicyFactory[] = [];
+
+  if (pipelineOptions.sendStreamingJson) {
+    requestPolicyFactories.push(ndJsonPolicy());
+  }
 
   let userAgentValue = undefined;
   if (pipelineOptions.userAgentOptions && pipelineOptions.userAgentOptions.userAgentPrefix) {

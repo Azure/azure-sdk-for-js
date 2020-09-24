@@ -35,7 +35,6 @@ export const assertTrace = (actual: Envelope[], expectation: Expectation): void 
   );
   if (envelope.length !== 1) {
     assert.ok(false, `assertTrace: could not find exported envelope: ${expectation.name}`);
-    return;
   }
   const operationId = envelope[0].tags![AI_OPERATION_ID];
 
