@@ -1271,18 +1271,21 @@ export class QueueClient extends StorageClient {
   public async updateMessage(
     messageId: string,
     popReceipt: string,
-    message: string,
+    message?: string,
     visibilityTimeout?: number,
     options: QueueUpdateMessageOptions = {}
   ): Promise<QueueUpdateMessageResponse> {
     const { span, spanOptions } = createSpan("QueueClient-updateMessage", options.tracingOptions);
+    let queueMessage = undefined;
+    if (message) {
+      queueMessage = { messageText: message };
+    }
+
     try {
       return await this.getMessageIdContext(messageId).update(popReceipt, visibilityTimeout || 0, {
         abortSignal: options.abortSignal,
         spanOptions,
-        queueMessage: {
-          messageText: message
-        }
+        queueMessage
       });
     } catch (e) {
       span.setStatus({
