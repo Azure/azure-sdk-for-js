@@ -812,7 +812,7 @@ export class ShareClient extends StorageClient {
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/create-file
    *
    * @param {string} fileName
-   * @param {number} size Specifies the maximum size in bytes for the file, up to 1 TB.
+   * @param {number} size Specifies the maximum size in bytes for the file, up to 4 TB.
    * @param {FileCreateOptions} [options] Options to File Create operation.
    * @returns {Promise<{ fileClient: ShareFileClient, fileCreateResponse: FileCreateResponse }>} File creation response data and the corresponding file client.
    * @memberof ShareClient
@@ -2035,7 +2035,7 @@ export class ShareDirectoryClient extends StorageClient {
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/create-file
    *
    * @param {string} fileName
-   * @param {number} size Specifies the maximum size in bytes for the file, up to 1 TB.
+   * @param {number} size Specifies the maximum size in bytes for the file, up to 4 TB.
    * @param {FileCreateOptions} [options] Options to File Create operation.
    * @returns {Promise<{ fileClient: ShareFileClient, fileCreateResponse: FileCreateResponse }>} File creation response data and the corresponding file client.
    * @memberof ShareDirectoryClient
@@ -3857,7 +3857,7 @@ export class ShareFileClient extends StorageClient {
    * Creates a new file or replaces a file. Note it only initializes the file with no content.
    * @see https://docs.microsoft.com/en-us/rest/api/storageservices/create-file
    *
-   * @param {number} size Specifies the maximum size in bytes for the file, up to 1 TB.
+   * @param {number} size Specifies the maximum size in bytes for the file, up to 4 TB.
    * @param {FileCreateOptions} [options] Options to File Create operation.
    * @returns {Promise<FileCreateResponse>} Response data for the File Create  operation.
    * @memberof ShareFileClient
@@ -5249,7 +5249,7 @@ export class ShareFileClient extends StorageClient {
    *   parameter, which will avoid Buffer.concat() operations.
    *
    * @param {Readable} stream Node.js Readable stream. Must be less or equal than file size.
-   * @param {number} size Size of file to be created. Maximum size allowed is 1TB.
+   * @param {number} size Size of file to be created. Maximum size allowed is 4 TB.
    *                      If this value is larger than stream size, there will be empty bytes in file tail.
    * @param {number} bufferSize Size of every buffer allocated in bytes, also the chunk/range size during
    *                            the uploaded file. Size must be > 0 and <= 4 * 1024 * 1024 (4MB)
