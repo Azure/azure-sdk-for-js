@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import assert from "assert";
 import { hashV2PartitionKey } from "../../../src/utils/hashing/v2";
 
