@@ -4,7 +4,7 @@ import * as dotenv from "dotenv";
 import { AbortController } from "@azure/abort-controller";
 import { isNode, URLBuilder, URLQuery } from "@azure/core-http";
 import { setTracer, SpanGraph, TestTracer } from "@azure/core-tracing";
-import { delay, record, Recorder, isPlaybackMode } from "@azure/test-utils-recorder";
+import { delay, record, Recorder } from "@azure/test-utils-recorder";
 
 import { FileStartCopyOptions, ShareClient, ShareDirectoryClient, ShareFileClient } from "../src";
 import { FileSystemAttributes } from "../src/FileSystemAttributes";
@@ -149,21 +149,21 @@ describe("FileClient", () => {
     assert.ok(properties.fileParentId!);
   });
 
-  // need to skip this test in live as it requires Premium_LRS SKU for 2019-12-12.
   it("create largest file", async function() {
     // IE complains about "Arithmetic result exceeded 32 bits".
-    if (!isPlaybackMode() || (!isNode && isIE())) {
+    if (!isNode && isIE()) {
       this.skip();
     }
 
-    const GB = 1024 * 1024 * 1024;
-    await shareClient.setQuota(FILE_MAX_SIZE_BYTES / GB);
-    const cResp = await fileClient.create(FILE_MAX_SIZE_BYTES);
+    const fileSize = FILE_MAX_SIZE_BYTES;
+    const cResp = await fileClient.create(fileSize);
     assert.equal(cResp.errorCode, undefined);
 
-    await fileClient.resize(FILE_MAX_SIZE_BYTES);
+    await fileClient.resize(fileSize);
     const updatedProperties = await fileClient.getProperties();
-    assert.deepStrictEqual(updatedProperties.contentLength, FILE_MAX_SIZE_BYTES);
+    assert.deepStrictEqual(updatedProperties.contentLength, fileSize);
+
+    await fileClient.uploadRange(content, fileSize - content.length, content.length);
   });
 
   it("setProperties with default parameters", async () => {
