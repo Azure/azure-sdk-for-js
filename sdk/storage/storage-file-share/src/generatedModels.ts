@@ -33,7 +33,7 @@ export {
   FileUploadRangeResponse,
   HandleItem,
   ListSharesIncludeType,
-  Range as RangeModel,
+  FileRange as RangeModel,
   ServiceGetPropertiesResponse,
   ServiceListSharesSegmentResponse,
   ServiceSetPropertiesResponse,
@@ -101,7 +101,10 @@ export {
   LeaseStateType,
   LeaseStatusType,
   CopyFileSmbInfo,
-  ProtocolSettings,
-  SmbSettings,
-  SmbMultichannel
+  ShareProtocolSettings,
+  ShareSmbSettings,
+  SmbMultichannel,
+  FileGetRangeListResponse as FileGetRangeListDiffResponse,
+  ShareFileRangeList,
+  ClearRange
 } from "./generated/src/models";

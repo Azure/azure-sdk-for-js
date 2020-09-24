@@ -1,7 +1,8 @@
 # Release History
 
-## 12.1.1 (Unreleased)
+## 12.1.1 (2020-09-17)
 
+- Bug fix - Fixes an issue where`DataLakeFileClient.uploadStream()` will give an "Invalid Verb" error when keep-alive is enabled. Fixed bug [11187](https://github.com/Azure/azure-sdk-for-js/issues/11187).
 
 ## 12.1.0 (2020-09-08)
 
@@ -15,6 +16,7 @@
 - Increased the maximum block size for file from 100MiB to 4000MiB(~4GB). And thereby supporting ~200TB maximum size for file.
 - Added more mappings for Blob and DFS endpoints. [issue #8744](https://github.com/Azure/azure-sdk-for-js/issues/8744).
 - Added convenience methods `createIfNotExists`, `deleteIfExists` to `DataLakeFileSystemClient`, `DataLakePathClient`, `DataLakeDirectoryClient`, and `DataLakeFileClient`.
+- Added support to set access control list recursively.
 
 ## 12.0.1 (2020.05)
 

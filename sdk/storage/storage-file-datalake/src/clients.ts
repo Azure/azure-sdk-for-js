@@ -3,18 +3,22 @@
 import { HttpRequestBody, isNode, TokenCredential } from "@azure/core-http";
 import { BlobClient, BlockBlobClient } from "@azure/storage-blob";
 import { CanonicalCode } from "@opentelemetry/api";
+import { Readable } from "stream";
 
 import { AnonymousCredential } from "./credentials/AnonymousCredential";
 import { StorageSharedKeyCredential } from "./credentials/StorageSharedKeyCredential";
 import { DataLakeLeaseClient } from "./DataLakeLeaseClient";
 import { PathOperations } from "./generated/src/operations";
 import {
-  DirectoryCreateOptions,
+  AccessControlChanges,
   DirectoryCreateIfNotExistsOptions,
+  DirectoryCreateIfNotExistsResponse,
+  DirectoryCreateOptions,
   DirectoryCreateResponse,
   FileAppendOptions,
   FileAppendResponse,
   FileCreateIfNotExistsOptions,
+  FileCreateIfNotExistsResponse,
   FileCreateOptions,
   FileCreateResponse,
   FileFlushOptions,
@@ -26,9 +30,13 @@ import {
   FileUploadResponse,
   Metadata,
   PathAccessControlItem,
-  PathCreateOptions,
+  PathChangeAccessControlRecursiveOptions,
+  PathChangeAccessControlRecursiveResponse,
   PathCreateIfNotExistsOptions,
+  PathCreateIfNotExistsResponse,
+  PathCreateOptions,
   PathCreateResponse,
+  PathDeleteIfExistsResponse,
   PathDeleteOptions,
   PathDeleteResponse,
   PathExistsOptions,
@@ -51,35 +59,34 @@ import {
   PathSetMetadataResponse,
   PathSetPermissionsOptions,
   PathSetPermissionsResponse,
-  PathCreateIfNotExistsResponse,
-  PathDeleteIfExistsResponse,
-  DirectoryCreateIfNotExistsResponse,
-  FileCreateIfNotExistsResponse,
+  RemovePathAccessControlItem,
   FileQueryOptions
 } from "./models";
+import { PathSetAccessControlRecursiveMode } from "./models.internal";
 import { newPipeline, Pipeline, StoragePipelineOptions } from "./Pipeline";
 import { StorageClient } from "./StorageClient";
 import {
+  toAccessControlChangeFailureArray,
   toAclString,
   toPathGetAccessControlResponse,
   toPermissionsString,
   toProperties
 } from "./transforms";
-import { createSpan } from "./utils/tracing";
-import { appendToURLPath, setURLPath } from "./utils/utils.common";
-import { Readable } from "stream";
+import { Batch } from "./utils/Batch";
+
 import {
+  BLOCK_BLOB_MAX_BLOCKS,
   DEFAULT_HIGH_LEVEL_CONCURRENCY,
+  ETagAny,
   FILE_MAX_SINGLE_UPLOAD_THRESHOLD,
-  FILE_UPLOAD_MAX_CHUNK_SIZE,
   FILE_MAX_SIZE_BYTES,
   FILE_UPLOAD_DEFAULT_CHUNK_SIZE,
-  BLOCK_BLOB_MAX_BLOCKS,
-  ETagAny
+  FILE_UPLOAD_MAX_CHUNK_SIZE
 } from "./utils/constants";
-import { BufferScheduler } from "../../storage-common/src";
-import { Batch } from "./utils/Batch";
+import { createSpan } from "./utils/tracing";
+import { appendToURLPath, setURLPath } from "./utils/utils.common";
 import { fsStat, fsCreateReadStream } from "./utils/utils.node";
+import { BufferScheduler } from "../../storage-common/src";
 
 /**
  * A DataLakePathClient represents a URL to the Azure Storage path (directory or file).
@@ -106,6 +113,98 @@ export class DataLakePathClient extends StorageClient {
    * @memberof DataLakePathClient
    */
   private blobClient: BlobClient;
+
+  /**
+   * SetAccessControlRecursiveInternal operation sets the Access Control on a path and sub paths.
+   *
+   * @private
+   * @param {PathSetAccessControlRecursiveMode} mode Mode \"set\" sets POSIX access control rights on files and directories,
+   *                                                 Mode \"modify\" modifies one or more POSIX access control rights that pre-exist on files and directories,
+   *                                                 Mode \"remove\" removes one or more POSIX access control rights that were present earlier on files and directories.
+   * @param {PathAccessControlItem[] | RemovePathAccessControlItem[]} acl The POSIX access control list for the file or directory.
+   * @param {PathChangeAccessControlRecursiveOptions} [options={}] Optional. Options
+   * @returns {Promise<PathChangeAccessControlRecursiveResponse>}
+   * @memberof DataLakePathClient
+   */
+  private async setAccessControlRecursiveInternal(
+    mode: PathSetAccessControlRecursiveMode,
+    acl: PathAccessControlItem[] | RemovePathAccessControlItem[],
+    options: PathChangeAccessControlRecursiveOptions = {}
+  ): Promise<PathChangeAccessControlRecursiveResponse> {
+    if (options.maxBatches !== undefined && options.maxBatches < 1) {
+      throw RangeError(`Options maxBatches must be larger than 0.`);
+    }
+
+    if (options.batchSize !== undefined && options.batchSize < 1) {
+      throw RangeError(`Options batchSize must be larger than 0.`);
+    }
+
+    const { span, spanOptions } = createSpan(
+      `DataLakePathClient-setAccessControlRecursiveInternal`,
+      options.tracingOptions
+    );
+
+    const result: PathChangeAccessControlRecursiveResponse = {
+      counters: {
+        failedChangesCount: 0,
+        changedDirectoriesCount: 0,
+        changedFilesCount: 0
+      },
+      continuationToken: undefined
+    };
+
+    try {
+      let continuationToken = options.continuationToken;
+      let batchCounter = 0;
+      let reachMaxBatches = false;
+      do {
+        const response = await this.pathContext.setAccessControlRecursive(mode, {
+          ...options,
+          acl: toAclString(acl as PathAccessControlItem[]),
+          maxRecords: options.batchSize,
+          continuation: continuationToken,
+          forceFlag: options.continueOnFailure,
+          spanOptions
+        });
+        batchCounter++;
+        continuationToken = response.continuation;
+
+        // Update result
+        result.continuationToken = continuationToken;
+        result.counters.failedChangesCount += response.failureCount || 0;
+        result.counters.changedDirectoriesCount += response.directoriesSuccessful || 0;
+        result.counters.changedFilesCount += response.filesSuccessful || 0;
+
+        // Progress event call back
+        if (options.onProgress) {
+          const progress: AccessControlChanges = {
+            batchFailures: toAccessControlChangeFailureArray(response.failedEntries),
+            batchCounters: {
+              failedChangesCount: response.failureCount || 0,
+              changedDirectoriesCount: response.directoriesSuccessful || 0,
+              changedFilesCount: response.filesSuccessful || 0
+            },
+            aggregateCounters: result.counters,
+            continuationToken: continuationToken
+          };
+          options.onProgress(progress);
+        }
+
+        reachMaxBatches =
+          options.maxBatches === undefined ? false : batchCounter >= options.maxBatches;
+      } while (continuationToken && !reachMaxBatches);
+
+      return result;
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
 
   /**
    * Creates an instance of DataLakePathClient from url and credential.
@@ -358,7 +457,8 @@ export class DataLakePathClient extends StorageClient {
           recursive,
           leaseAccessConditions: options.conditions,
           modifiedAccessConditions: options.conditions,
-          spanOptions
+          spanOptions,
+          abortSignal: options.abortSignal
         });
         continuation = response.continuation;
       } while (continuation !== undefined && continuation !== "");
@@ -448,7 +548,8 @@ export class DataLakePathClient extends StorageClient {
         upn: options.userPrincipalName,
         leaseAccessConditions: options.conditions,
         modifiedAccessConditions: options.conditions,
-        spanOptions
+        spanOptions,
+        abortSignal: options.abortSignal
       });
       return toPathGetAccessControlResponse(response);
     } catch (e) {
@@ -488,6 +589,108 @@ export class DataLakePathClient extends StorageClient {
         leaseAccessConditions: options.conditions,
         modifiedAccessConditions: options.conditions,
         spanOptions
+      });
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Sets the Access Control on a path and sub paths.
+   *
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/datalakestoragegen2/path/update
+   *
+   * @param {PathAccessControlItem[]} acl The POSIX access control list for the file or directory.
+   * @param {PathChangeAccessControlRecursiveOptions} [options={}] Optional. Options
+   * @returns {Promise<PathChangeAccessControlRecursiveResponse>}
+   * @memberof DataLakePathClient
+   */
+  public async setAccessControlRecursive(
+    acl: PathAccessControlItem[],
+    options: PathChangeAccessControlRecursiveOptions = {}
+  ): Promise<PathChangeAccessControlRecursiveResponse> {
+    const { span, spanOptions } = createSpan(
+      "DataLakePathClient-setAccessControlRecursive",
+      options.tracingOptions
+    );
+    try {
+      return this.setAccessControlRecursiveInternal(PathSetAccessControlRecursiveMode.Set, acl, {
+        ...options,
+        tracingOptions: { ...options.tracingOptions, spanOptions }
+      });
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Modifies the Access Control on a path and sub paths.
+   *
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/datalakestoragegen2/path/update
+   *
+   * @param {PathAccessControlItem[]} acl The POSIX access control list for the file or directory.
+   * @param {PathChangeAccessControlRecursiveOptions} [options={}] Optional. Options
+   * @returns {Promise<PathChangeAccessControlRecursiveResponse>}
+   * @memberof DataLakePathClient
+   */
+  public async updateAccessControlRecursive(
+    acl: PathAccessControlItem[],
+    options: PathChangeAccessControlRecursiveOptions = {}
+  ): Promise<PathChangeAccessControlRecursiveResponse> {
+    const { span, spanOptions } = createSpan(
+      "DataLakePathClient-updateAccessControlRecursive",
+      options.tracingOptions
+    );
+    try {
+      return this.setAccessControlRecursiveInternal(PathSetAccessControlRecursiveMode.Modify, acl, {
+        ...options,
+        tracingOptions: { ...options.tracingOptions, spanOptions }
+      });
+    } catch (e) {
+      span.setStatus({
+        code: CanonicalCode.UNKNOWN,
+        message: e.message
+      });
+      throw e;
+    } finally {
+      span.end();
+    }
+  }
+
+  /**
+   * Removes the Access Control on a path and sub paths.
+   *
+   * @see https://docs.microsoft.com/en-us/rest/api/storageservices/datalakestoragegen2/path/update
+   *
+   * @param {RemovePathAccessControlItem[]} acl The POSIX access control list for the file or directory.
+   * @param {PathChangeAccessControlRecursiveOptions} [options={}] Optional. Options
+   * @returns {Promise<PathChangeAccessControlRecursiveResponse>}
+   * @memberof DataLakePathClient
+   */
+  public async removeAccessControlRecursive(
+    acl: RemovePathAccessControlItem[],
+    options: PathChangeAccessControlRecursiveOptions = {}
+  ): Promise<PathChangeAccessControlRecursiveResponse> {
+    const { span, spanOptions } = createSpan(
+      "DataLakePathClient-removeAccessControlRecursive",
+      options.tracingOptions
+    );
+    try {
+      return this.setAccessControlRecursiveInternal(PathSetAccessControlRecursiveMode.Remove, acl, {
+        ...options,
+        tracingOptions: { ...options.tracingOptions, spanOptions }
       });
     } catch (e) {
       span.setStatus({
@@ -731,7 +934,8 @@ export class DataLakePathClient extends StorageClient {
           sourceIfUnmodifiedSince: options.conditions.ifUnmodifiedSince
         },
         modifiedAccessConditions: options.destinationConditions,
-        spanOptions
+        spanOptions,
+        abortSignal: options.abortSignal
       });
     } catch (e) {
       span.setStatus({
@@ -1237,6 +1441,7 @@ export class DataLakeFileClient extends DataLakePathClient {
         pathHttpHeaders: {
           contentMD5: options.transactionalContentMD5
         },
+        abortSignal: options.abortSignal,
         position: offset,
         contentLength: length,
         leaseAccessConditions: options.conditions,

@@ -262,7 +262,7 @@ export interface SmbMultichannel {
 /**
  * An Azure Storage file range.
  */
-export interface Range {
+export interface FileRange {
   /**
    * Start of the range.
    */
@@ -274,9 +274,17 @@ export interface Range {
 }
 
 /**
+ * An interface representing ClearRange.
+ */
+export interface ClearRange {
+  start: number;
+  end: number;
+}
+
+/**
  * Settings for SMB protocol.
  */
-export interface SmbSettings {
+export interface ShareSmbSettings {
   /**
    * Settings for SMB Multichannel.
    */
@@ -286,11 +294,19 @@ export interface SmbSettings {
 /**
  * Protocol settings
  */
-export interface ProtocolSettings {
+export interface ShareProtocolSettings {
   /**
    * Settings for SMB protocol.
    */
-  smbSettings?: SmbSettings;
+  smb?: ShareSmbSettings;
+}
+
+/**
+ * The list of file ranges
+ */
+export interface ShareFileRangeList {
+  ranges?: FileRange[];
+  clearRanges?: ClearRange[];
 }
 
 /**
@@ -354,7 +370,7 @@ export interface FileServiceProperties {
   /**
    * Protocol settings
    */
-  protocolSettings?: ProtocolSettings;
+  protocol?: ShareProtocolSettings;
 }
 
 /**
@@ -1687,10 +1703,6 @@ export interface ShareAcquireLeaseHeaders {
    */
   lastModified?: Date;
   /**
-   * Approximate time remaining in the lease period, in seconds.
-   */
-  leaseTime?: number;
-  /**
    * Uniquely identifies a share's lease
    */
   leaseId?: string;
@@ -1731,10 +1743,6 @@ export interface ShareReleaseLeaseHeaders {
    */
   lastModified?: Date;
   /**
-   * Approximate time remaining in the lease period, in seconds.
-   */
-  leaseTime?: number;
-  /**
    * If a client request id header is sent in the request, this header will be present in the
    * response with the same value.
    */
@@ -1770,10 +1778,6 @@ export interface ShareChangeLeaseHeaders {
    * modified time of the share.
    */
   lastModified?: Date;
-  /**
-   * Approximate time remaining in the lease period, in seconds.
-   */
-  leaseTime?: number;
   /**
    * Uniquely identifies a share's lease
    */
@@ -1814,10 +1818,6 @@ export interface ShareRenewLeaseHeaders {
    * modified time of the share.
    */
   lastModified?: Date;
-  /**
-   * Approximate time remaining in the lease period, in seconds.
-   */
-  leaseTime?: number;
   /**
    * Uniquely identifies a share's lease
    */
@@ -4172,7 +4172,7 @@ export type FileUploadRangeFromURLResponse = FileUploadRangeFromURLHeaders & {
 /**
  * Contains response data for the getRangeList operation.
  */
-export type FileGetRangeListResponse = Array<Range> & FileGetRangeListHeaders & {
+export type FileGetRangeListResponse = ShareFileRangeList & FileGetRangeListHeaders & {
   /**
    * The underlying HTTP response.
    */
@@ -4190,7 +4190,7 @@ export type FileGetRangeListResponse = Array<Range> & FileGetRangeListHeaders & 
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: Range[];
+      parsedBody: ShareFileRangeList;
     };
 };
 

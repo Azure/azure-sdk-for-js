@@ -22,23 +22,23 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  'e98c4742-386e-4cb2-b88a-651a08a94700',
+  '65ebbec6-bce5-4144-8143-795a2a6a3100',
   'x-ms-ests-server',
-  '2.1.10985.18 - CHI ProdSlices',
+  '2.1.11021.16 - CHI ProdSlices',
   'Set-Cookie',
-  'fpc=AuhZG78icVtPv6n_QBVIV0jIIHRUAQAAAI0n4tYOAAAA; expires=Fri, 02-Oct-2020 23:53:50 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AlbWQDxA4j1PhGLfQB5iL_fIIHRUAQAAAIaX9dYOAAAA; expires=Sat, 17-Oct-2020 17:44:39 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=prod; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=ests; path=/; secure; samesite=none; httponly',
   'Date',
-  'Wed, 02 Sep 2020 23:53:50 GMT',
+  'Thu, 17 Sep 2020 17:44:38 GMT',
   'Content-Length',
   '1329'
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .post('/text/analytics/v3.1-preview.1/keyPhrases', {"documents":[{"id":"0","text":"Hello world, thisisanextremelymassivesequenceoflettersthatislongerthansixtyfourcharacters.","language":"en"}]})
+  .post('/text/analytics/v3.1-preview.2/keyPhrases', {"documents":[{"id":"0","text":"Hello world, thisisanextremelymassivesequenceoflettersthatislongerthansixtyfourcharacters.","language":"en"}]})
   .reply(200, {"documents":[{"id":"0","keyPhrases":["world","thisisanextremelymassivesequenceoflettersthatislongerthansixtyfo"],"warnings":[{"code":"LongWordsInDocument","message":"The document contains very long words (longer than 64 characters). These words will be truncated and may result in unreliable model predictions."}]}],"errors":[],"modelVersion":"2020-07-01"}, [
   'Transfer-Encoding',
   'chunked',
@@ -47,13 +47,13 @@ nock('https://endpoint', {"encodedQueryParams":true})
   'csp-billing-usage',
   'CognitiveServices.TextAnalytics.BatchScoring=1',
   'x-envoy-upstream-service-time',
-  '11',
+  '21',
   'apim-request-id',
-  '48c93995-54d4-4208-bf81-03ecf733f776',
+  '1515e75a-bd89-4496-b8fc-6f66ad9485ba',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Wed, 02 Sep 2020 23:53:50 GMT'
+  'Thu, 17 Sep 2020 17:44:38 GMT'
 ]);

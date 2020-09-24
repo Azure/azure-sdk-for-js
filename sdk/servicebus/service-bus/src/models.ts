@@ -120,18 +120,18 @@ export interface GetMessageIteratorOptions extends OperationOptionsBase {}
 /**
  * Options used when subscribing to a Service Bus queue or subscription.
  */
-export interface SubscribeOptions extends OperationOptionsBase, MessageHandlerOptions {}
+export interface SubscribeOptions extends MessageHandlerOptions {}
 
 /**
  * Options used when subscribing to a Service Bus queue or subscription.
  */
-export interface SessionSubscribeOptions extends OperationOptionsBase, MessageHandlerOptionsBase {}
+export interface SessionSubscribeOptions extends MessageHandlerOptionsBase {}
 
 /**
  * Describes the options passed to `registerMessageHandler` method when receiving messages from a
  * Queue/Subscription.
  */
-export interface MessageHandlerOptionsBase {
+export interface MessageHandlerOptionsBase extends OperationOptionsBase {
   /**
    * @property Indicates whether the `complete()` method on the message should automatically be
    * called by the sdk after the user provided onMessage handler has been executed.

@@ -5,12 +5,16 @@
 [Source code](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/anomalydetector/ai-anomaly-detector/) |
 [Package (NPM)](https://www.npmjs.com/package/@azure/ai-anomaly-detector) |
 [API reference documentation](https://aka.ms/azsdk/net/docs/ref/anomalydetector) |
-[Product documentation](https://docs.microsoft.com/en-us/azure/cognitive-services/anomaly-detector/) |[Samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/anomalydetector/ai-anomaly-detector/samples)
+[Product documentation](https://docs.microsoft.com/azure/cognitive-services/anomaly-detector/) |
 [Samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/anomalydetector/ai-anomaly-detector/samples)
 
 ## Key concepts
 
-Coming soon (#10865)
+The `AnomalyDetectorClient` provides methods for anomaly detection:
+
+- `detectEntireSeries` - Detects anomalies on an entire data set
+- `detectLastPoint` - Detects anomalies in the latest data point
+- `detectChangePoint` - Evaluates change point score of every series point
 
 ## Getting started
 
@@ -20,8 +24,8 @@ Coming soon (#10865)
 
 ### Prerequisites
 
-- An [Azure subscription][azure_sub].
-- An existing [Cognitive Services][cognitive_resource] or Anomaly Detector resource. If you need to create the resource, you can use the [Azure Portal][azure_portal] or [Azure CLI][azure_cli].
+- An [Azure subscription](https://azure.microsoft.com/free/).
+- An existing Anomaly Detector resource.
 
 If you use the Azure CLI, replace `<your-resource-group-name>` and `<your-resource-name>` with your own unique names:
 
@@ -41,7 +45,7 @@ npm install @azure/ai-anomaly-detector
 
 To create a client object to access the Anomaly Detector API, you will need the `endpoint` of your Anomaly Detector resource and a `credential`. The Anomaly Detector client can use either Azure Active Directory credentials or an API key credential to authenticate.
 
-You can find the endpoint for your Anomaly Detector resource either in the [Azure Portal][azure_portal] or by using the [Azure CLI][azure_cli] snippet below:
+You can find the endpoint for your Anomaly Detector resource in the Azure Portal by clicking `Keys and Endpoint` under Resource Management in the menu or by using the Azure CLI snippet below:
 
 ```bash
 az cognitiveservices account show --name <your-resource-name> --resource-group <your-resource-group-name> --query "endpoint"
@@ -49,7 +53,7 @@ az cognitiveservices account show --name <your-resource-name> --resource-group <
 
 #### Using an API Key
 
-Use the [Azure Portal][azure_portal] to browse to your Anomaly Detector resource and retrieve an API key, or use the [Azure CLI][azure_cli] snippet below:
+Use the Azure Portal to browse to your Anomaly Detector resource and retrieve an API key by clicking `Keys and Endpoint` under Resource Management, or use the Azure CLI snippet below:
 
 **Note:** Sometimes the API key is referred to as a "subscription key" or "subscription API key."
 
@@ -67,14 +71,14 @@ const client = new AnomalyDetectorClient("<endpoint>", new AzureKeyCredential("<
 
 #### Using an Azure Active Directory Credential
 
-Client API key authentication is used in most of the examples, but you can also authenticate with Azure Active Directory using the [Azure Identity library][azure_identity]. To use the [DefaultAzureCredential][defaultazurecredential] provider shown below,
+Client API key authentication is used in most of the examples, but you can also authenticate with Azure Active Directory using the [Azure Identity library]. To use the DefaultAzureCredential provider shown below,
 or other credential providers provided with the Azure SDK, please install the `@azure/identity` package:
 
 ```bash
 npm install @azure/identity
 ```
 
-You will also need to [register a new AAD application][register_aad_app] and grant access to Anomaly Detector by assigning the `"Cognitive Services User"` role to your service principal (note: other roles such as `"Owner"` will not grant the necessary permissions, only `"Cognitive Services User"` will suffice to run the examples and the sample code).
+You will also need to register a new AAD application and grant access to Anomaly Detector by assigning the `"Cognitive Services User"` role to your service principal (note: other roles such as `"Owner"` will not grant the necessary permissions, only `"Cognitive Services User"` will suffice to run the examples and the sample code).
 
 Set the values of the client ID, tenant ID, and client secret of the AAD application as environment variables: `AZURE_CLIENT_ID`, `AZURE_TENANT_ID`, `AZURE_CLIENT_SECRET`.
 
@@ -87,7 +91,69 @@ const client = new AnomalyDetectorClient("<endpoint>", new DefaultAzureCredentia
 
 ## Examples
 
-Coming soon (#10865)
+### Detect Change Points
+
+This sample demonstrates how to detect change points on entire series.
+
+```javascript
+const { AnomalyDetectorClient, TimeGranularity } = require("@azure/ai-anomaly-detector");
+const { AzureKeyCredential } = require("@azure/core-auth");
+
+// You will need to set this environment variables in .env file or edit the following values
+const apiKey = process.env["API_KEY"] || "";
+const endpoint = process.env["ENDPOINT"] || "";
+
+async function main() {
+  // create client
+  const client = new AnomalyDetectorClient(endpoint, new AzureKeyCredential(apiKey));
+
+  // construct request
+  const request = {
+    series: [
+      { timestamp: new Date("2018-03-01T00:00:00Z"), value: 32858923 },
+      { timestamp: new Date("2018-03-02T00:00:00Z"), value: 29615278 },
+      { timestamp: new Date("2018-03-03T00:00:00Z"), value: 22839355 },
+      { timestamp: new Date("2018-03-04T00:00:00Z"), value: 25948736 },
+      { timestamp: new Date("2018-03-05T00:00:00Z"), value: 34139159 },
+      { timestamp: new Date("2018-03-06T00:00:00Z"), value: 33843985 },
+      { timestamp: new Date("2018-03-07T00:00:00Z"), value: 33637661 },
+      { timestamp: new Date("2018-03-08T00:00:00Z"), value: 32627350 },
+      { timestamp: new Date("2018-03-09T00:00:00Z"), value: 29881076 },
+      { timestamp: new Date("2018-03-10T00:00:00Z"), value: 22681575 },
+      { timestamp: new Date("2018-03-11T00:00:00Z"), value: 24629393 },
+      { timestamp: new Date("2018-03-12T00:00:00Z"), value: 34010679 },
+      { timestamp: new Date("2018-03-13T00:00:00Z"), value: 33893888 },
+      { timestamp: new Date("2018-03-14T00:00:00Z"), value: 33760076 },
+      { timestamp: new Date("2018-03-15T00:00:00Z"), value: 33093515 }
+    ],
+    granularity: TimeGranularity.daily
+  };
+
+  // get change point detect results
+  const result = await client.detectChangePoint(request);
+  const isChangePointDetected = result.isChangePoint.some((changePoint) => changePoint);
+
+  if (isChangePointDetected) {
+    console.log("Change points were detected from the series at index:");
+    result.isChangePoint.forEach((changePoint, index) => {
+      if (changePoint === true) {
+        console.log(index);
+      }
+    });
+  } else {
+    console.log("There is no change point detected from the series.");
+  }
+  // output:
+  // Change points were detected from the series at index:
+  // 9
+}
+
+main().catch((err) => {
+  console.error("The sample encountered an error:", err);
+});
+```
+
+More Samples can be found [here](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/anomalydetector/ai-anomaly-detector/samples)
 
 ## Troubleshooting
 

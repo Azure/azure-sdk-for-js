@@ -11,35 +11,35 @@
     "cache-control": "no-store, no-cache",
     "content-length": "1329",
     "content-type": "application/json; charset=utf-8",
-    "date": "Wed, 02 Sep 2020 23:54:14 GMT",
+    "date": "Thu, 17 Sep 2020 17:45:22 GMT",
     "expires": "-1",
     "p3p": "CP=\"DSP CUR OTPi IND OTRi ONL FIN\"",
     "pragma": "no-cache",
     "referrer-policy": "strict-origin-when-cross-origin",
     "strict-transport-security": "max-age=31536000; includeSubDomains",
     "x-content-type-options": "nosniff",
-    "x-ms-ests-server": "2.1.10985.18 - CHI ProdSlices",
-    "x-ms-request-id": "4f74d6ed-7012-4b1b-a1d8-723686ee3d00"
+    "x-ms-ests-server": "2.1.11021.16 - CHI ProdSlices",
+    "x-ms-request-id": "04b0b7b1-ab7b-41d5-80d1-dec947949a00"
    }
   },
   {
    "method": "POST",
-   "url": "https://endpoint/text/analytics/v3.1-preview.1/entities/recognition/pii",
+   "url": "https://endpoint/text/analytics/v3.1-preview.2/entities/recognition/pii",
    "query": {
     "stringIndexType": "Utf16CodeUnit"
    },
    "requestBody": "{\"documents\":[{\"id\":\"0\",\"text\":\"año SSN: 859-98-0987\",\"language\":\"en\"}]}",
    "status": 200,
-   "response": "{\"documents\":[{\"id\":\"0\",\"entities\":[{\"text\":\"859-98-0987\",\"category\":\"U.S. Social Security Number (SSN)\",\"offset\":10,\"length\":11,\"confidenceScore\":0.65}],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}",
+   "response": "{\"documents\":[{\"redactedText\":\"año SSN: ***********\",\"id\":\"0\",\"entities\":[{\"text\":\"859-98-0987\",\"category\":\"U.S. Social Security Number (SSN)\",\"offset\":10,\"length\":11,\"confidenceScore\":0.65}],\"warnings\":[]}],\"errors\":[],\"modelVersion\":\"2020-07-01\"}",
    "responseHeaders": {
-    "apim-request-id": "563ef0a8-e105-477c-a936-aad428a6beea",
+    "apim-request-id": "d029f461-df21-40e8-8e61-9ebde004ed22",
     "content-type": "application/json; charset=utf-8",
     "csp-billing-usage": "CognitiveServices.TextAnalytics.BatchScoring=1",
-    "date": "Wed, 02 Sep 2020 23:54:15 GMT",
+    "date": "Thu, 17 Sep 2020 17:45:21 GMT",
     "strict-transport-security": "max-age=31536000; includeSubDomains; preload",
     "transfer-encoding": "chunked",
     "x-content-type-options": "nosniff",
-    "x-envoy-upstream-service-time": "68"
+    "x-envoy-upstream-service-time": "81"
    }
   }
  ],

@@ -1,0 +1,48 @@
+{
+ "recordings": [
+  {
+   "method": "PUT",
+   "url": "https://pf-fakestorageaccount.file.core.windows.net/",
+   "query": {
+    "restype": "service",
+    "comp": "properties"
+   },
+   "requestBody": "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?><StorageServiceProperties><ProtocolSettings><SMB><Multichannel><Enabled>true</Enabled></Multichannel></SMB></ProtocolSettings></StorageServiceProperties>",
+   "status": 202,
+   "response": "",
+   "responseHeaders": {
+    "date": "Thu, 10 Sep 2020 14:03:06 GMT",
+    "server": "Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0",
+    "transfer-encoding": "chunked",
+    "x-ms-client-request-id": "934f892e-3e9b-44c9-8407-a50a3c40a43d",
+    "x-ms-request-id": "8db70106-201a-0042-1b7b-878fcc000000",
+    "x-ms-version": "2020-02-10"
+   }
+  },
+  {
+   "method": "GET",
+   "url": "https://pf-fakestorageaccount.file.core.windows.net/",
+   "query": {
+    "restype": "service",
+    "comp": "properties"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "<?xml version=\"1.0\" encoding=\"utf-8\"?><StorageServiceProperties><HourMetrics><Version>1.0</Version><Enabled>true</Enabled><IncludeAPIs>false</IncludeAPIs><RetentionPolicy><Enabled>true</Enabled><Days>3</Days></RetentionPolicy></HourMetrics><MinuteMetrics><Version>1.0</Version><Enabled>true</Enabled><IncludeAPIs>false</IncludeAPIs><RetentionPolicy><Enabled>true</Enabled><Days>3</Days></RetentionPolicy></MinuteMetrics><Cors><CorsRule><AllowedMethods>DELETE,GET,HEAD,MERGE,POST,OPTIONS,PUT,PATCH</AllowedMethods><AllowedOrigins>*</AllowedOrigins><AllowedHeaders>*</AllowedHeaders><ExposedHeaders>*</ExposedHeaders><MaxAgeInSeconds>86400</MaxAgeInSeconds></CorsRule><CorsRule><AllowedMethods>DELETE,GET,HEAD,MERGE,POST,OPTIONS,PUT,PATCH</AllowedMethods><AllowedOrigins>*</AllowedOrigins><AllowedHeaders>*</AllowedHeaders><ExposedHeaders>*</ExposedHeaders><MaxAgeInSeconds>86400</MaxAgeInSeconds></CorsRule></Cors><ProtocolSettings><SMB><Multichannel><Enabled>true</Enabled></Multichannel></SMB></ProtocolSettings></StorageServiceProperties>",
+   "responseHeaders": {
+    "content-type": "application/xml",
+    "date": "Thu, 10 Sep 2020 14:03:07 GMT",
+    "server": "Windows-Azure-File/1.0 Microsoft-HTTPAPI/2.0",
+    "transfer-encoding": "chunked",
+    "x-ms-client-request-id": "d7ce9946-4739-4100-a4f5-8f31e13ebdc9",
+    "x-ms-request-id": "8db70110-201a-0042-1f7b-878fcc000000",
+    "x-ms-version": "2020-02-10"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {},
+  "newDate": {}
+ },
+ "hash": "0239648c88b551390876f693c87cb2ae"
+}

@@ -18,9 +18,9 @@ Resources for the v7.0.0-preview.6 of `@azure/service-bus`:
 > **NOTE**: This document has instructions, links and code snippets for the **preview** of the next version of the `@azure/service-bus` package
 > which has different APIs than the stable version. To use the stable version of the library use the below resources.
 
-[Source code or Readme for v1.1.9](https://github.com/Azure/azure-sdk-for-js/tree/%40azure/service-bus_1.1.9/sdk/servicebus/service-bus) |
-[Package for v1.1.9 (npm)](https://www.npmjs.com/package/@azure/service-bus/v/1.1.9) |
-[API Reference Documentation for v1.1.9](https://docs.microsoft.com/javascript/api/%40azure/service-bus/?view=azure-node-latest) |
+[Source code or Readme for v1.1.10](https://github.com/Azure/azure-sdk-for-js/tree/%40azure/service-bus_1.1.10/sdk/servicebus/service-bus) |
+[Package for v1.1.10 (npm)](https://www.npmjs.com/package/@azure/service-bus/v/1.1.10) |
+[API Reference Documentation for v1.1.10](https://docs.microsoft.com/javascript/api/%40azure/service-bus/?view=azure-node-latest) |
 [Samples for @azure/service-bus v1.1.x](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/servicebus/service-bus/samples-v1)
 
 We also provide a migration guide for users familiar with the stable package that would like to try the preview: [migration guide to move from Service Bus V1 to Service Bus V7 Preview][migrationguide]
@@ -339,7 +339,7 @@ directory for detailed examples on how to use this library to send and receive m
 
 ## Contributing
 
-If you'd like to contribute to this library, please read the [contributing guide](../../../CONTRIBUTING.md) to learn more about how to build and test the code.
+If you'd like to contribute to this library, please read the [contributing guide](https://github.com/Azure/azure-sdk-for-js/blob/master/CONTRIBUTING.md) to learn more about how to build and test the code.
 
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fservicebus%2Fservice-bus%2FREADME.png)
 
@@ -353,10 +353,10 @@ If you'd like to contribute to this library, please read the [contributing guide
 [sender]: https://docs.microsoft.com/javascript/api/@azure/service-bus/sender?view=azure-node-preview
 [sender_send]: https://docs.microsoft.com/javascript/api/@azure/service-bus/sender?view=azure-node-preview#sendmessages-servicebusmessage---servicebusmessage-----servicebusmessagebatch--operationoptionsbase-
 [receiver]: https://docs.microsoft.com/javascript/api/@azure/service-bus/receiver?view=azure-node-preview
-[receiverreceivebatch]: https://docs.microsoft.com/en-us/javascript/api/@azure/service-bus/receiver?view=azure-node-preview#receivemessages-number--receivemessagesoptions-
-[receiver_subscribe]: https://docs.microsoft.com/en-us/javascript/api/@azure/service-bus/receiver?view=azure-node-preview#subscribe-messagehandlers-receivedmessaget---subscribeoptions-
-[receiver_getmessageiterator]: https://docs.microsoft.com/en-us/javascript/api/@azure/service-bus/receiver?view=azure-node-preview#getmessageiterator-getmessageiteratoroptions-
-[sessionreceiver]: https://docs.microsoft.com/en-us/javascript/api/@azure/service-bus/sessionreceiver?view=azure-node-preview
+[receiverreceivebatch]: https://docs.microsoft.com/javascript/api/@azure/service-bus/receiver?view=azure-node-preview#receivemessages-number--receivemessagesoptions-
+[receiver_subscribe]: https://docs.microsoft.com/javascript/api/@azure/service-bus/receiver?view=azure-node-preview#subscribe-messagehandlers-receivedmessaget---subscribeoptions-
+[receiver_getmessageiterator]: https://docs.microsoft.com/javascript/api/@azure/service-bus/receiver?view=azure-node-preview#getmessageiterator-getmessageiteratoroptions-
+[sessionreceiver]: https://docs.microsoft.com/javascript/api/@azure/service-bus/sessionreceiver?view=azure-node-preview
 [migrationguide]: https://github.com/Azure/azure-sdk-for-js/blob/fb53a838e702a075c4db6f1d4a17849a271342df/sdk/servicebus/service-bus/migrationguide.md
 [docsms_messagesessions]: https://docs.microsoft.com/azure/service-bus-messaging/message-sessions
 [docsms_messagesessions_fifo]: https://docs.microsoft.com/azure/service-bus-messaging/message-sessions#first-in-first-out-fifo-pattern

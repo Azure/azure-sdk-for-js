@@ -209,7 +209,7 @@ export interface KeyProperties {
 }
 
 // @public
-export type KeyType = "EC" | "EC-HSM" | "RSA" | "RSA-HSM" | "oct";
+export type KeyType = "EC" | "EC-HSM" | "RSA" | "RSA-HSM" | "oct" | "oct-HSM";
 
 // @public
 export interface KeyVaultKey {

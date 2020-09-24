@@ -60,7 +60,7 @@ describe("FileClient", () => {
 
   afterEach(async function() {
     if (!this.currentTest?.isPending()) {
-      await shareClient.delete();
+      await shareClient.delete({ deleteSnapshots: "include" });
       await recorder.stop();
     }
   });
@@ -536,6 +536,71 @@ describe("FileClient", () => {
     const result = await fileClient.getRangeList();
     assert.deepStrictEqual(result.rangeList.length, 1);
     assert.deepStrictEqual(result.rangeList[0], { start: 0, end: 9 });
+  });
+
+  it("getRangeList with share snapshot", async () => {
+    await fileClient.create(513); // 512-byte aligned
+    await fileClient.uploadRange("Hello", 0, 5);
+    await fileClient.uploadRange("World", 5, 5);
+    await fileClient.clearRange(0, 513);
+
+    const snapshotRes = await shareClient.createSnapshot();
+    assert.ok(snapshotRes.snapshot);
+
+    await fileClient.uploadRange("Hello", 0, 5);
+
+    const fileClientWithShareSnapShot = fileClient.withShareSnapshot(snapshotRes.snapshot!);
+    const result = await fileClientWithShareSnapShot.getRangeList();
+
+    assert.deepStrictEqual(result.rangeList.length, 1);
+    assert.deepStrictEqual(result.rangeList[0], { start: 512, end: 512 });
+  });
+
+  it("getRangeListDiff", async () => {
+    await fileClient.create(512 * 4 + 1);
+    await fileClient.uploadRange("Hello", 0, 5);
+
+    const snapshotRes = await shareClient.createSnapshot();
+    assert.ok(snapshotRes.snapshot);
+
+    await fileClient.clearRange(0, 1024);
+    await fileClient.uploadRange("World", 1023, 5);
+
+    const result = await fileClient.getRangeListDiff(snapshotRes.snapshot!);
+    assert.ok(result.clearRanges);
+    assert.deepStrictEqual(result.clearRanges!.length, 1);
+    assert.deepStrictEqual(result.clearRanges![0], { start: 0, end: 511 });
+
+    assert.ok(result.ranges);
+    assert.deepStrictEqual(result.ranges!.length, 1);
+    assert.deepStrictEqual(result.ranges![0], { start: 512, end: 1535 });
+  });
+
+  it("getRangeListDiff with share snapshot", async () => {
+    await fileClient.create(512 * 4 + 1);
+    await fileClient.uploadRange("Hello", 0, 5);
+
+    const snapshotRes = await shareClient.createSnapshot();
+    assert.ok(snapshotRes.snapshot);
+
+    await fileClient.clearRange(0, 1024);
+    await fileClient.uploadRange("World", 1023, 5);
+
+    const snapshotRes2 = await shareClient.createSnapshot();
+    assert.ok(snapshotRes2.snapshot);
+
+    await fileClient.uploadRange("Hello", 0, 5);
+
+    const fileClientWithShareSnapShot = fileClient.withShareSnapshot(snapshotRes2.snapshot!);
+    const result = await fileClientWithShareSnapShot.getRangeListDiff(snapshotRes.snapshot!);
+
+    assert.ok(result.clearRanges);
+    assert.deepStrictEqual(result.clearRanges!.length, 1);
+    assert.deepStrictEqual(result.clearRanges![0], { start: 0, end: 511 });
+
+    assert.ok(result.ranges);
+    assert.deepStrictEqual(result.ranges!.length, 1);
+    assert.deepStrictEqual(result.ranges![0], { start: 512, end: 1535 });
   });
 
   it("download with with default parameters", async () => {
