@@ -1028,6 +1028,10 @@ export class BlobServiceClient extends StorageClient {
     getUserDelegationKey(startsOn: Date, expiresOn: Date, options?: ServiceGetUserDelegationKeyOptions): Promise<ServiceGetUserDelegationKeyResponse>;
     listContainers(options?: ServiceListContainersOptions): PagedAsyncIterableIterator<ContainerItem, ServiceListContainersSegmentResponse>;
     setProperties(properties: BlobServiceProperties, options?: ServiceSetPropertiesOptions): Promise<ServiceSetPropertiesResponse>;
+    undeleteContainer(deletedContainerName: string, destinationContainerName?: string, options?: ContainerUndeleteOptions): Promise<{
+        containerClient: ContainerClient;
+        containerUndeleteResponse: ContainerUndeleteResponse;
+    }>;
 }
 
 // @public
@@ -1874,6 +1878,29 @@ export interface ContainerSetMetadataOptions extends CommonOptions {
 export type ContainerSetMetadataResponse = ContainerSetMetadataHeaders & {
     _response: coreHttp.HttpResponse & {
         parsedHeaders: ContainerSetMetadataHeaders;
+    };
+};
+
+// @public
+export interface ContainerUndeleteHeaders {
+    clientRequestId?: string;
+    date?: Date;
+    // (undocumented)
+    errorCode?: string;
+    requestId?: string;
+    version?: string;
+}
+
+// @public
+export interface ContainerUndeleteOptions extends CommonOptions {
+    abortSignal?: AbortSignalLike;
+    deletedContainerVersion?: string;
+}
+
+// @public
+export type ContainerUndeleteResponse = ContainerUndeleteHeaders & {
+    _response: coreHttp.HttpResponse & {
+        parsedHeaders: ContainerUndeleteHeaders;
     };
 };
 
@@ -2729,6 +2756,7 @@ export type ServiceGetUserDelegationKeyResponse = UserDelegationKey & ServiceGet
 // @public
 export interface ServiceListContainersOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
+    includeDeleted?: boolean;
     includeMetadata?: boolean;
     prefix?: string;
 }
