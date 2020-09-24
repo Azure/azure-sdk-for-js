@@ -2,8 +2,7 @@
 
 ## 1.2.0-beta.2 (Unreleased)
 - Reverted change in 1.2.0-beta.1 which moved @rollup/plugin-json from devDependencies to dependencies.
-- `DefaultAzureCredential` now by default shows the Device Code message on the console.  
-  This can still be overwritten with a custom behavior by specifying a function as the third parameter, `userPromptCallback`.
+- `DefaultAzureCredential` now by default shows the Device Code message on the console. This can still be overwritten with a custom behavior by specifying a function as the third parameter, `userPromptCallback`.
 
 ## 1.2.0-beta.1 (2020-09-08)
 
