@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+import { CryptographyOptions } from "./keysModels";
+
 /**
  * Defines values for SignatureAlgorithm.
  * @readonly
@@ -20,11 +22,26 @@ export type SignatureAlgorithm =
 
 /**
  * Defines values for EncryptionAlgorithm.
- * Possible values include: 'RSA-OAEP', 'RSA-OAEP-256', 'RSA1_5'
+ * Possible values include: 'RSA-OAEP', 'RSA-OAEP-256', 'RSA1_5', 'A128GCM', 'A192GCM', 'A256GCM', 'A128KW', 'A192KW', 'A256KW', 'A128CBC', 'A192CBC', 'A256CBC', 'A128CBCPAD', 'A192CBCPAD', 'A256CBCPAD'
  * @readonly
  * @enum {string}
  */
-export type EncryptionAlgorithm = "RSA-OAEP" | "RSA-OAEP-256" | "RSA1_5";
+export type EncryptionAlgorithm =
+  | "RSA-OAEP"
+  | "RSA-OAEP-256"
+  | "RSA1_5"
+  | "A128GCM"
+  | "A192GCM"
+  | "A256GCM"
+  | "A128KW"
+  | "A192KW"
+  | "A256KW"
+  | "A128CBC"
+  | "A192CBC"
+  | "A256CBC"
+  | "A128CBCPAD"
+  | "A192CBCPAD"
+  | "A256CBCPAD";
 
 /**
  * Defines values for KeyCurveName.
@@ -137,3 +154,52 @@ export interface VerifyResult {
    */
   keyID?: string;
 }
+
+/**
+ * Common optional properties for encrypt, decrypt, wrap and unwrap.
+ */
+export interface KeyOperationsOptions extends CryptographyOptions {
+  /**
+   * Initialization vector for symmetric algorithms.
+   */
+  iv?: Uint8Array;
+  /**
+   * Additional data to authenticate but not encrypt/decrypt when using authenticated crypto
+   * algorithms.
+   */
+  additionalAuthenticatedData?: Uint8Array;
+  /**
+   * The tag to authenticate when performing decryption with an authenticated algorithm.
+   */
+  tag?: Uint8Array;
+}
+
+/**
+ * Options for {@link encrypt}.
+ */
+export interface EncryptOptions extends KeyOperationsOptions {}
+
+/**
+ * Options for {@link decrypt}.
+ */
+export interface DecryptOptions extends KeyOperationsOptions {}
+
+/**
+ * Options for {@link sign}.
+ */
+export interface SignOptions extends CryptographyOptions {}
+
+/**
+ * Options for {@link verify}.
+ */
+export interface VerifyOptions extends CryptographyOptions {}
+
+/**
+ * Options for {@link wrapKey}.
+ */
+export interface WrapKeyOptions extends KeyOperationsOptions {}
+
+/**
+ * Options for {@link unwrapKey}.
+ */
+export interface UnwrapKeyOptions extends KeyOperationsOptions {}

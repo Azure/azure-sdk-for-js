@@ -651,7 +651,7 @@ export const KeyOperationsParameters: coreHttp.CompositeMapper = {
           name: "Base64Url"
         }
       },
-      aad: {
+      additionalAuthenticatedData: {
         serializedName: "aad",
         type: {
           name: "Base64Url"
