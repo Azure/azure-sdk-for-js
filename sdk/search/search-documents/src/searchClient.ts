@@ -248,7 +248,7 @@ export class SearchClient<T> {
 
       const { results, count, coverage, facets, nextLink, nextPageParameters } = result;
 
-      let modifiedResults = utils.generatedSearchResultToPublicSearchResult<T>(results);
+      const modifiedResults = utils.generatedSearchResultToPublicSearchResult<T>(results);
 
       const converted: SearchDocumentsPageResult<T> = {
         results: modifiedResults,
