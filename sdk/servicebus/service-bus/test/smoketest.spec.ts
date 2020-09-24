@@ -335,10 +335,10 @@ describe("Sample scenarios for track 2", () => {
       await sendSampleMessage(sender, "Queue, next unlocked session, sessions", sessionId);
 
       const receiver = serviceBusClient.test.addToCleanup(
-        await serviceBusClient
-          .createSessionReceiver(queue, { receiveMode: "receiveAndDelete" })
-          .accept()
+        serviceBusClient.createSessionReceiver(queue, { receiveMode: "receiveAndDelete" })
       );
+
+      await receiver.accept();
 
       // this queue was freshly created so we are the first session (and thus the first session to get picked
       // up by the "get next available" logic).
@@ -367,12 +367,12 @@ describe("Sample scenarios for track 2", () => {
     it("Queue, receive and delete, sessions", async () => {
       const sessionId = Date.now().toString();
       const receiver = serviceBusClient.test.addToCleanup(
-        await serviceBusClient
-          .createSessionReceiver(queue, {
-            receiveMode: "receiveAndDelete"
-          })
-          .accept(sessionId)
+        serviceBusClient.createSessionReceiver(queue, {
+          receiveMode: "receiveAndDelete"
+        })
       );
+
+      await receiver.accept(sessionId);
 
       assert.equal(receiver.sessionId, sessionId);
 
@@ -406,8 +406,10 @@ describe("Sample scenarios for track 2", () => {
       const sessionId = Date.now().toString();
 
       const receiver = serviceBusClient.test.addToCleanup(
-        await serviceBusClient.createSessionReceiver(queue).accept(sessionId)
+        await serviceBusClient.createSessionReceiver(queue)
       );
+
+      await receiver.accept(sessionId);
 
       await sendSampleMessage(sender, "Queue, peek/lock, sessions", sessionId);
 

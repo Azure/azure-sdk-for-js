@@ -377,10 +377,11 @@ export class ServiceBusTestHelpers {
     );
 
     if (getSessionReceiverOptions?.sessionId == null) {
-      return await receiver.accept();
+      await receiver.accept();
     } else {
-      return await receiver.accept(getSessionReceiverOptions?.sessionId);
+      await receiver.accept(getSessionReceiverOptions?.sessionId);
     }
+    return receiver;
   }
 
   /**
@@ -400,19 +401,22 @@ export class ServiceBusTestHelpers {
     const sessionId = entityNames.sessionId ?? TestMessage.sessionId;
 
     if (entityNames.usesSessions) {
-      return this.addToCleanup(
+      const receiver = this.addToCleanup(
         entityNames.queue
-          ? await this._serviceBusClient
-              .createSessionReceiver(entityNames.queue, {
+          ? await this._serviceBusClient.createSessionReceiver(entityNames.queue, {
+              receiveMode: "receiveAndDelete"
+            })
+          : await this._serviceBusClient.createSessionReceiver(
+              entityNames.topic!,
+              entityNames.subscription!,
+              {
                 receiveMode: "receiveAndDelete"
-              })
-              .accept(sessionId)
-          : await this._serviceBusClient
-              .createSessionReceiver(entityNames.topic!, entityNames.subscription!, {
-                receiveMode: "receiveAndDelete"
-              })
-              .accept(sessionId)
+              }
+            )
       );
+
+      await receiver.accept(sessionId);
+      return receiver;
     } else {
       return this.addToCleanup(
         entityNames.queue

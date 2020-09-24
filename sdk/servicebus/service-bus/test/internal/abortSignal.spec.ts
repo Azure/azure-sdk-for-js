@@ -326,7 +326,7 @@ describe("AbortSignal", () => {
      * code isn't running there. So we have to check this separately from Receiver.
      */
     it("SessionReceiver.subscribe", async () => {
-      const session = await new ServiceBusSessionReceiverImpl<ServiceBusReceivedMessageWithLock>(
+      const session = new ServiceBusSessionReceiverImpl<ServiceBusReceivedMessageWithLock>(
         createConnectionContextForTests({
           onCreateReceiverCalled: (receiver) => {
             (receiver as any).source = {
@@ -345,7 +345,9 @@ describe("AbortSignal", () => {
         {
           receiveMode: "peekLock"
         }
-      ).accept("hello");
+      );
+
+      await session.accept("hello");
 
       try {
         const abortSignal = createAbortSignalForTest(true);

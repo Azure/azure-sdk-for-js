@@ -447,8 +447,8 @@ export interface ServiceBusSender {
 
 // @public
 export interface ServiceBusSessionReceiver<ReceivedMessageT extends ServiceBusReceivedMessage | ServiceBusReceivedMessageWithLock> extends ServiceBusReceiver<ReceivedMessageT> {
-    accept(sessionId: string, options?: OperationOptions): Promise<ServiceBusSessionReceiver<ReceivedMessageT>>;
-    accept(options?: OperationOptions): Promise<ServiceBusSessionReceiver<ReceivedMessageT>>;
+    accept(sessionId: string, options?: OperationOptions): Promise<void>;
+    accept(options?: OperationOptions): Promise<void>;
     getSessionState(options?: OperationOptionsBase): Promise<any>;
     renewSessionLock(options?: OperationOptionsBase): Promise<Date>;
     readonly sessionId: string | undefined;

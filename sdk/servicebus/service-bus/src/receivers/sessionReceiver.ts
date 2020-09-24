@@ -89,16 +89,13 @@ export interface ServiceBusSessionReceiver<
    * @param sessionId The id of the session from which messages need to be received. If
    * sessionId is omitted or undefined Service Bus chooses a random session from available sessions.
    */
-  accept(
-    sessionId: string,
-    options?: OperationOptions
-  ): Promise<ServiceBusSessionReceiver<ReceivedMessageT>>;
+  accept(sessionId: string, options?: OperationOptions): Promise<void>;
   /**
    * Locks and opens a random session with this receiver.
    *
    * @param options Options bag for passing an abort signal or tracing options.
    */
-  accept(options?: OperationOptions): Promise<ServiceBusSessionReceiver<ReceivedMessageT>>;
+  accept(options?: OperationOptions): Promise<void>;
 
   /**
    * Renews the lock on the session.
@@ -239,20 +236,17 @@ export class ServiceBusSessionReceiverImpl<
    * @param sessionId The id of the session from which messages need to be received. If
    * sessionId is omitted or undefined Service Bus chooses a random session from available sessions.
    */
-  async accept(
-    sessionId: string,
-    options?: OperationOptions
-  ): Promise<ServiceBusSessionReceiver<ReceivedMessageT>>;
+  async accept(sessionId: string, options?: OperationOptions): Promise<void>;
   /**
    * Locks and opens a random session with this receiver.
    *
    * @param options Options bag for passing an abort signal or tracing options.
    */
-  async accept(options?: OperationOptions): Promise<ServiceBusSessionReceiver<ReceivedMessageT>>;
+  async accept(options?: OperationOptions): Promise<void>;
   async accept(
     sessionIdOrOptions1?: string | OperationOptions,
     options2?: OperationOptions
-  ): Promise<ServiceBusSessionReceiver<ReceivedMessageT>> {
+  ): Promise<void> {
     if (this.sessionId != null) {
       throw new Error(
         "A session receiver can only accept a single session. You must create a new session receiver to receive from another session."
@@ -272,7 +266,6 @@ export class ServiceBusSessionReceiverImpl<
 
     await this._messageSession.init(options?.abortSignal);
     this.sessionId = this._messageSession.sessionId;
-    return this;
   }
 
   /**

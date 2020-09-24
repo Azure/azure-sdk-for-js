@@ -74,33 +74,23 @@ describe("Streaming with sessions", () => {
     receiveMode?: "peekLock" | "receiveAndDelete"
   ) {
     const entityNames = await serviceBusClient.test.createTestEntities(testClientType);
+
     receiver = serviceBusClient.test.addToCleanup(
       receiveMode === "receiveAndDelete"
         ? entityNames.queue
-          ? await serviceBusClient
-              .createSessionReceiver(entityNames.queue, {
-                receiveMode: "receiveAndDelete"
-              })
-              .accept(TestMessage.sessionId)
-          : await serviceBusClient
-              .createSessionReceiver(entityNames.topic!, entityNames.subscription!, {
-                receiveMode: "receiveAndDelete"
-              })
-              .accept(
-                // TODO: we should just be able to randomly generate this. Change _soon_.
-                TestMessage.sessionId
-              )
+          ? serviceBusClient.createSessionReceiver(entityNames.queue, {
+              receiveMode: "receiveAndDelete"
+            })
+          : serviceBusClient.createSessionReceiver(entityNames.topic!, entityNames.subscription!, {
+              receiveMode: "receiveAndDelete"
+            })
         : entityNames.queue
-        ? await serviceBusClient
-            .createSessionReceiver(entityNames.queue)
-            .accept(TestMessage.sessionId)
-        : await serviceBusClient
-            .createSessionReceiver(entityNames.topic!, entityNames.subscription!)
-            .accept(
-              // TODO: we should just be able to randomly generate this. Change _soon_.
-              TestMessage.sessionId
-            )
+        ? serviceBusClient.createSessionReceiver(entityNames.queue)
+        : serviceBusClient.createSessionReceiver(entityNames.topic!, entityNames.subscription!)
     );
+
+    await receiver.accept();
+
     return entityNames;
   }
 

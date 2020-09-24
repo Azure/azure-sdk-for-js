@@ -74,7 +74,7 @@ async function getSessionState(sessionId) {
   // If receiving from a subscription you can use the createSessionReceiver(topic, subscription) overload
   const sessionReceiver = sbClient.createSessionReceiver(userEventsQueueName);
 
-  sessionReceiver.accept(sessionId);
+  await sessionReceiver.accept(sessionId);
 
   const sessionState = await sessionReceiver.getSessionState();
   if (sessionState) {
