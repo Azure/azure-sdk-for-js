@@ -9,7 +9,6 @@
 export {
   AzureEntityResource,
   BaseResource,
-  ErrorAdditionalInfo,
   ErrorDetail,
   ErrorResponse,
   Identity,
@@ -23,13 +22,7 @@ export {
   MachineListResult,
   MachinePropertiesOsProfile,
   OSProfile,
-  Plan,
   ProxyResource,
   Resource,
-  ResourceModelWithAllowedPropertySet,
-  ResourceModelWithAllowedPropertySetIdentity,
-  ResourceModelWithAllowedPropertySetPlan,
-  ResourceModelWithAllowedPropertySetSku,
-  Sku,
   TrackedResource
 } from "../models/mappers";

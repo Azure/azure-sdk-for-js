@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import JSBI from "jsbi";
 import { BytePrefix } from "./prefix";
 
