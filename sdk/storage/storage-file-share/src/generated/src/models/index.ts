@@ -262,7 +262,7 @@ export interface SmbMultichannel {
 /**
  * An Azure Storage file range.
  */
-export interface Range {
+export interface FileRange {
   /**
    * Start of the range.
    */
@@ -270,6 +270,14 @@ export interface Range {
   /**
    * End of the range.
    */
+  end: number;
+}
+
+/**
+ * An interface representing ClearRange.
+ */
+export interface ClearRange {
+  start: number;
   end: number;
 }
 
@@ -291,6 +299,14 @@ export interface ShareProtocolSettings {
    * Settings for SMB protocol.
    */
   smb?: ShareSmbSettings;
+}
+
+/**
+ * The list of file ranges
+ */
+export interface ShareFileRangeList {
+  ranges?: FileRange[];
+  clearRanges?: ClearRange[];
 }
 
 /**
@@ -4156,7 +4172,7 @@ export type FileUploadRangeFromURLResponse = FileUploadRangeFromURLHeaders & {
 /**
  * Contains response data for the getRangeList operation.
  */
-export type FileGetRangeListResponse = Array<Range> & FileGetRangeListHeaders & {
+export type FileGetRangeListResponse = ShareFileRangeList & FileGetRangeListHeaders & {
   /**
    * The underlying HTTP response.
    */
@@ -4174,7 +4190,7 @@ export type FileGetRangeListResponse = Array<Range> & FileGetRangeListHeaders & 
       /**
        * The response body as parsed JSON or XML
        */
-      parsedBody: Range[];
+      parsedBody: ShareFileRangeList;
     };
 };
 

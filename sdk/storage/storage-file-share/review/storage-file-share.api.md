@@ -92,6 +92,14 @@ export class AnonymousCredentialPolicy extends CredentialPolicy {
 export { BaseRequestPolicy }
 
 // @public
+export interface ClearRange {
+    // (undocumented)
+    end: number;
+    // (undocumented)
+    start: number;
+}
+
+// @public
 export interface CloseHandlesInfo {
     // (undocumented)
     closedHandlesCount: number;
@@ -683,6 +691,15 @@ export type FileGetPropertiesResponse = FileGetPropertiesHeaders & {
 };
 
 // @public
+export type FileGetRangeListDiffResponse = ShareFileRangeList & FileGetRangeListHeaders & {
+    _response: coreHttp.HttpResponse & {
+        parsedHeaders: FileGetRangeListHeaders;
+        bodyAsText: string;
+        parsedBody: ShareFileRangeList;
+    };
+};
+
+// @public
 export interface FileGetRangeListHeaders {
     date?: Date;
     // (undocumented)
@@ -1072,6 +1089,7 @@ export interface LeaseOperationResponseHeaders {
     etag?: string;
     lastModified?: Date;
     leaseId?: string;
+    leaseTime?: number;
     requestId?: string;
     version?: string;
 }
@@ -1330,6 +1348,7 @@ export class ShareClient extends StorageClient {
     getDirectoryClient(directoryName: string): ShareDirectoryClient;
     getPermission(filePermissionKey: string, options?: ShareGetPermissionOptions): Promise<ShareGetPermissionResponse>;
     getProperties(options?: ShareGetPropertiesOptions): Promise<ShareGetPropertiesResponse>;
+    getShareLeaseClient(proposeLeaseId?: string): ShareLeaseClient;
     getStatistics(options?: ShareGetStatisticsOptions): Promise<ShareGetStatisticsResponse>;
     get name(): string;
     get rootDirectoryClient(): ShareDirectoryClient;
@@ -1438,6 +1457,7 @@ export interface ShareDeleteIfExistsResponse extends ShareDeleteResponse {
 export interface ShareDeleteMethodOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
     deleteSnapshots?: DeleteSnapshotsOptionType;
+    leaseAccessConditions?: LeaseAccessConditions;
 }
 
 // @public
@@ -1487,6 +1507,7 @@ export class ShareDirectoryClient extends StorageClient {
 // @public
 export interface ShareExistsOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
+    leaseAccessConditions?: LeaseAccessConditions;
 }
 
 // @public
@@ -1507,6 +1528,7 @@ export class ShareFileClient extends StorageClient {
     forceCloseHandle(handleId: string, options?: FileForceCloseHandlesOptions): Promise<FileForceCloseHandlesResponse>;
     getProperties(options?: FileGetPropertiesOptions): Promise<FileGetPropertiesResponse>;
     getRangeList(options?: FileGetRangeListOptions): Promise<FileGetRangeListResponse>;
+    getRangeListDiff(prevShareSnapshot: string, options?: FileGetRangeListOptions): Promise<FileGetRangeListDiffResponse>;
     getShareLeaseClient(proposeLeaseId?: string): ShareLeaseClient;
     listHandles(options?: FileListHandlesOptions): PagedAsyncIterableIterator<HandleItem, FileListHandlesResponse>;
     get name(): string;
@@ -1524,6 +1546,15 @@ export class ShareFileClient extends StorageClient {
     uploadResetableStream(streamFactory: (offset: number, count?: number) => NodeJS.ReadableStream, size: number, options?: FileParallelUploadOptions): Promise<void>;
     uploadSeekableBlob(blobFactory: (offset: number, size: number) => Blob, size: number, options?: FileParallelUploadOptions): Promise<void>;
     uploadStream(stream: Readable, size: number, bufferSize: number, maxBuffers: number, options?: FileUploadStreamOptions): Promise<void>;
+    withShareSnapshot(shareSnapshot: string): ShareFileClient;
+}
+
+// @public
+export interface ShareFileRangeList {
+    // (undocumented)
+    clearRanges?: ClearRange[];
+    // (undocumented)
+    ranges?: RangeModel[];
 }
 
 // @public
@@ -1540,6 +1571,7 @@ export interface ShareGetAccessPolicyHeaders {
 // @public
 export interface ShareGetAccessPolicyOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
+    leaseAccessConditions?: LeaseAccessConditions;
 }
 
 // @public (undocumented)
@@ -1602,6 +1634,7 @@ export interface ShareGetPropertiesHeaders {
 // @public
 export interface ShareGetPropertiesOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
+    leaseAccessConditions?: LeaseAccessConditions;
 }
 
 // @public
@@ -1625,6 +1658,7 @@ export interface ShareGetStatisticsHeaders {
 // @public
 export interface ShareGetStatisticsOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
+    leaseAccessConditions?: LeaseAccessConditions;
 }
 
 // @public
@@ -1661,12 +1695,13 @@ export interface ShareItem {
 
 // @public
 export class ShareLeaseClient {
-    constructor(client: ShareFileClient, leaseId?: string);
+    constructor(client: ShareFileClient | ShareClient, leaseId?: string);
     acquireLease(duration?: number, options?: LeaseOperationOptions): Promise<LeaseOperationResponse>;
     breakLease(options?: LeaseOperationOptions): Promise<LeaseOperationResponse>;
     changeLease(proposedLeaseId: string, options?: LeaseOperationOptions): Promise<LeaseOperationResponse>;
     get leaseId(): string;
     releaseLease(options?: LeaseOperationOptions): Promise<LeaseOperationResponse>;
+    renewLease(options?: LeaseOperationOptions): Promise<LeaseOperationResponse>;
     get url(): string;
     }
 
@@ -1747,6 +1782,7 @@ export interface ShareSetAccessPolicyHeaders {
 // @public
 export interface ShareSetAccessPolicyOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
+    leaseAccessConditions?: LeaseAccessConditions;
 }
 
 // @public
@@ -1770,6 +1806,7 @@ export interface ShareSetMetadataHeaders {
 // @public
 export interface ShareSetMetadataOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
+    leaseAccessConditions?: LeaseAccessConditions;
 }
 
 // @public
@@ -1793,6 +1830,7 @@ export interface ShareSetQuotaHeaders {
 // @public
 export interface ShareSetQuotaOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
+    leaseAccessConditions?: LeaseAccessConditions;
 }
 
 // @public

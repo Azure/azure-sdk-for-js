@@ -3,9 +3,7 @@
 
 import { RestError } from "@azure/core-http";
 
-export * from "./ShareClient";
-export * from "./ShareDirectoryClient";
-export * from "./ShareFileClient";
+export * from "./Clients";
 export * from "./credentials/AnonymousCredential";
 export * from "./credentials/Credential";
 export { SasIPRange } from "./SasIPRange";

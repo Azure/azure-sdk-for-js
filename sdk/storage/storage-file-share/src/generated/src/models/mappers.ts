@@ -716,11 +716,38 @@ export const SmbMultichannel: coreHttp.CompositeMapper = {
   }
 };
 
-export const Range: coreHttp.CompositeMapper = {
-  serializedName: "Range",
+export const FileRange: coreHttp.CompositeMapper = {
+  xmlName: "Range",
+  serializedName: "FileRange",
   type: {
     name: "Composite",
-    className: "Range",
+    className: "FileRange",
+    modelProperties: {
+      start: {
+        xmlName: "Start",
+        required: true,
+        serializedName: "Start",
+        type: {
+          name: "Number"
+        }
+      },
+      end: {
+        xmlName: "End",
+        required: true,
+        serializedName: "End",
+        type: {
+          name: "Number"
+        }
+      }
+    }
+  }
+};
+
+export const ClearRange: coreHttp.CompositeMapper = {
+  serializedName: "ClearRange",
+  type: {
+    name: "Composite",
+    className: "ClearRange",
     modelProperties: {
       start: {
         xmlName: "Start",
@@ -772,6 +799,44 @@ export const ShareProtocolSettings: coreHttp.CompositeMapper = {
         type: {
           name: "Composite",
           className: "ShareSmbSettings"
+        }
+      }
+    }
+  }
+};
+
+export const ShareFileRangeList: coreHttp.CompositeMapper = {
+  serializedName: "ShareFileRangeList",
+  type: {
+    name: "Composite",
+    className: "ShareFileRangeList",
+    modelProperties: {
+      ranges: {
+        xmlName: "Ranges",
+        xmlElementName: "Range",
+        serializedName: "Ranges",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "FileRange"
+            }
+          }
+        }
+      },
+      clearRanges: {
+        xmlName: "ClearRanges",
+        xmlElementName: "ClearRange",
+        serializedName: "ClearRanges",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "ClearRange"
+            }
+          }
         }
       }
     }

@@ -1,11 +1,9 @@
-import { ShareFileClient } from "../src/ShareFileClient";
+import { ShareClient, ShareFileClient, ShareDirectoryClient } from "../src";
 import { getBSU, recorderEnvSetup } from "./utils/index";
 import * as assert from "assert";
 import { appendToURLPath } from "../src/utils/utils.common";
-import { ShareDirectoryClient } from "../src/ShareDirectoryClient";
 import { record, Recorder } from "@azure/test-utils-recorder";
 import * as dotenv from "dotenv";
-import { ShareClient } from "../src";
 dotenv.config();
 
 describe("Special Naming Tests", () => {
