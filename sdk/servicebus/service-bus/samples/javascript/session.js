@@ -78,7 +78,7 @@ async function receiveMessages(sbClient, sessionId) {
   // If receiving from a subscription you can use the createSessionReceiver(topic, subscription) overload
   const receiver = sbClient.createSessionReceiver(queueName);
 
-  receiver.accept(sessionId);
+  await receiver.accept(sessionId);
 
   const processMessage = async (message) => {
     console.log(`Received: ${message.sessionId} - ${message.body} `);
