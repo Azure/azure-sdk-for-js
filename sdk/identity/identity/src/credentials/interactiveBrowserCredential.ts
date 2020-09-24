@@ -4,7 +4,7 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
 import { TokenCredential, GetTokenOptions, AccessToken } from "@azure/core-http";
-import { InteractiveBrowserCredentialOptions } from "./interactiveBrowserCredentialOptions";
+import { InteractiveBrowserCredentialOptions, AuthenticationRecord } from "./interactiveBrowserCredentialOptions";
 import { credentialLogger, formatError } from "../util/logging";
 import { TokenCredentialOptions, IdentityClient } from "../client/identityClient";
 import { DefaultTenantId, DeveloperSignOnClientId } from "../constants";
@@ -24,19 +24,7 @@ import { CredentialUnavailable } from "../client/errors";
 
 const logger = credentialLogger("InteractiveBrowserCredential");
 
-class AuthenticationRequired extends CredentialUnavailable {
-  constructor(message?: string) {
-    super(message);
-  }
-}
-
-interface AuthenticationRecord {
-  authority?: string;
-  homeAccountId: string;
-  environment: string;
-  tenantId: string;
-  username: string;
-}
+class AuthenticationRequired extends CredentialUnavailable {}
 
 /**
  * Enables authentication to Azure Active Directory inside of the web browser

@@ -19,7 +19,8 @@ export { AzureCliCredential } from "./credentials/azureCliCredential";
 
 export {
   InteractiveBrowserCredentialOptions,
-  BrowserLoginStyle
+  BrowserLoginStyle,
+  AuthenticationRecord
 } from "./credentials/interactiveBrowserCredentialOptions";
 export { ManagedIdentityCredential } from "./credentials/managedIdentityCredential";
 export {
