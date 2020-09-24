@@ -14,7 +14,7 @@ class ServiceClient {
   createItem(options: CreateItemOptions): Item {
     /* code to return instance of Item */
   }
-  insertItem(options: InsertItemOptions): Item {
+  upsertItem(options: UpsertItemOptions): Item {
     /* code to return instance of Item */
   }
 }
