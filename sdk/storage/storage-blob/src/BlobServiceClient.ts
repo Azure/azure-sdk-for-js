@@ -214,6 +214,14 @@ export interface ServiceListContainersOptions extends CommonOptions {
    *                                   should be returned as part of the response body.
    */
   includeMetadata?: boolean;
+
+  /**
+   * Specifies whether soft deleted containers should be included in the response.
+   *
+   * @type {boolean}
+   * @memberof ServiceListContainersOptions
+   */
+  includeDeleted?: boolean;
 }
 
 /**
@@ -1139,10 +1147,19 @@ export class BlobServiceClient extends StorageClient {
     if (options.prefix === "") {
       options.prefix = undefined;
     }
+
+    const include: ListContainersIncludeType[] = [];
+    if (options.includeDeleted) {
+      include.push("deleted");
+    }
+    if (options.includeMetadata) {
+      include.push("metadata");
+    }
+
     // AsyncIterableIterator to iterate over containers
     const listSegmentOptions: ServiceListContainersSegmentOptions = {
       ...options,
-      ...(options.includeMetadata ? { include: "metadata" } : {})
+      include
     };
 
     const iter = this.listItems(listSegmentOptions);

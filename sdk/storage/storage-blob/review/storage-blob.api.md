@@ -2756,6 +2756,7 @@ export type ServiceGetUserDelegationKeyResponse = UserDelegationKey & ServiceGet
 // @public
 export interface ServiceListContainersOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
+    includeDeleted?: boolean;
     includeMetadata?: boolean;
     prefix?: string;
 }
