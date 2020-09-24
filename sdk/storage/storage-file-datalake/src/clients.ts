@@ -3,7 +3,6 @@
 import { HttpRequestBody, isNode, TokenCredential } from "@azure/core-http";
 import { BlobClient, BlockBlobClient } from "@azure/storage-blob";
 import { CanonicalCode } from "@opentelemetry/api";
-import * as fs from "fs";
 import { Readable } from "stream";
 
 import { AnonymousCredential } from "./credentials/AnonymousCredential";

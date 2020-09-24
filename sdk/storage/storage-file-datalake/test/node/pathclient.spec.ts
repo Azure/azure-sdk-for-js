@@ -13,8 +13,7 @@ import {
   PathPermissions,
 } from "../../src";
 import { toAcl, toRemoveAcl } from "../../src/transforms";
-import { PathPermissions } from "../../src/models";
-import { getDataLakeServiceClient, recorderEnvSetup, bodyToString } from "../utils";
+import { bodyToString, getDataLakeServiceClient, recorderEnvSetup } from "../utils";
 
 dotenv.config();
 
