@@ -1072,6 +1072,7 @@ export interface LeaseOperationResponseHeaders {
     etag?: string;
     lastModified?: Date;
     leaseId?: string;
+    leaseTime?: number;
     requestId?: string;
     version?: string;
 }
@@ -1330,6 +1331,7 @@ export class ShareClient extends StorageClient {
     getDirectoryClient(directoryName: string): ShareDirectoryClient;
     getPermission(filePermissionKey: string, options?: ShareGetPermissionOptions): Promise<ShareGetPermissionResponse>;
     getProperties(options?: ShareGetPropertiesOptions): Promise<ShareGetPropertiesResponse>;
+    getShareLeaseClient(proposeLeaseId?: string): ShareLeaseClient;
     getStatistics(options?: ShareGetStatisticsOptions): Promise<ShareGetStatisticsResponse>;
     get name(): string;
     get rootDirectoryClient(): ShareDirectoryClient;
@@ -1438,6 +1440,7 @@ export interface ShareDeleteIfExistsResponse extends ShareDeleteResponse {
 export interface ShareDeleteMethodOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
     deleteSnapshots?: DeleteSnapshotsOptionType;
+    leaseAccessConditions?: LeaseAccessConditions;
 }
 
 // @public
@@ -1487,6 +1490,7 @@ export class ShareDirectoryClient extends StorageClient {
 // @public
 export interface ShareExistsOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
+    leaseAccessConditions?: LeaseAccessConditions;
 }
 
 // @public
@@ -1540,6 +1544,7 @@ export interface ShareGetAccessPolicyHeaders {
 // @public
 export interface ShareGetAccessPolicyOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
+    leaseAccessConditions?: LeaseAccessConditions;
 }
 
 // @public (undocumented)
@@ -1602,6 +1607,7 @@ export interface ShareGetPropertiesHeaders {
 // @public
 export interface ShareGetPropertiesOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
+    leaseAccessConditions?: LeaseAccessConditions;
 }
 
 // @public
@@ -1625,6 +1631,7 @@ export interface ShareGetStatisticsHeaders {
 // @public
 export interface ShareGetStatisticsOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
+    leaseAccessConditions?: LeaseAccessConditions;
 }
 
 // @public
@@ -1661,12 +1668,13 @@ export interface ShareItem {
 
 // @public
 export class ShareLeaseClient {
-    constructor(client: ShareFileClient, leaseId?: string);
+    constructor(client: ShareFileClient | ShareClient, leaseId?: string);
     acquireLease(duration?: number, options?: LeaseOperationOptions): Promise<LeaseOperationResponse>;
     breakLease(options?: LeaseOperationOptions): Promise<LeaseOperationResponse>;
     changeLease(proposedLeaseId: string, options?: LeaseOperationOptions): Promise<LeaseOperationResponse>;
     get leaseId(): string;
     releaseLease(options?: LeaseOperationOptions): Promise<LeaseOperationResponse>;
+    renewLease(options?: LeaseOperationOptions): Promise<LeaseOperationResponse>;
     get url(): string;
     }
 
@@ -1747,6 +1755,7 @@ export interface ShareSetAccessPolicyHeaders {
 // @public
 export interface ShareSetAccessPolicyOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
+    leaseAccessConditions?: LeaseAccessConditions;
 }
 
 // @public
@@ -1770,6 +1779,7 @@ export interface ShareSetMetadataHeaders {
 // @public
 export interface ShareSetMetadataOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
+    leaseAccessConditions?: LeaseAccessConditions;
 }
 
 // @public
@@ -1793,6 +1803,7 @@ export interface ShareSetQuotaHeaders {
 // @public
 export interface ShareSetQuotaOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
+    leaseAccessConditions?: LeaseAccessConditions;
 }
 
 // @public
