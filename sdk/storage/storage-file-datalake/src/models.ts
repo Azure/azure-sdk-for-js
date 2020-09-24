@@ -3,7 +3,6 @@
 import { AbortSignalLike } from "@azure/abort-controller";
 import { HttpResponse, TransferProgressEvent } from "@azure/core-http";
 
-
 import {
   LeaseAccessConditions,
   ModifiedAccessConditions as ModifiedAccessConditionsModel,
@@ -17,7 +16,7 @@ import {
   PathCreateResponse,
   PathDeleteResponse,
   PathGetPropertiesHeaders as PathGetPropertiesHeadersModel,
-  PathList as PathListModel,
+  PathList as PathListModel
 } from "./generated/src/models";
 import { CommonOptions } from "./StorageClient";
 
@@ -42,15 +41,18 @@ export {
   PathSetAccessControlHeaders,
   PathSetAccessControlResponse,
   PathSetAccessControlResponse as PathSetPermissionsResponse,
-  PathResourceType,
+  PathResourceType as PathResourceTypeModel,
   PathUpdateHeaders,
   PathAppendDataHeaders,
   PathFlushDataHeaders,
   PathAppendDataResponse as FileAppendResponse,
   PathFlushDataResponse as FileFlushResponse,
   PathFlushDataResponse as FileUploadResponse,
-  PathGetPropertiesAction,
-  PathRenameMode
+  PathGetPropertiesAction as PathGetPropertiesActionModel,
+  PathRenameMode as PathRenameModeModel,
+  PathExpiryOptions as FileExpiryMode,
+  PathSetExpiryResponse as FileSetExpiryResponse,
+  PathSetExpiryHeaders as FileSetExpiryHeaders
 } from "./generated/src/models";
 
 export { PathCreateResponse };
@@ -757,6 +759,11 @@ export interface PathGetPropertiesHeaders {
   accessTierInferred?: boolean;
   archiveStatus?: string;
   accessTierChangedOn?: Date;
+
+  /**
+   * The time the file will expire.
+   */
+  expiresOn?: Date;
 }
 
 export type PathGetPropertiesResponse = PathGetPropertiesHeaders & {
@@ -890,6 +897,38 @@ export interface PathDeleteIfExistsResponse extends PathDeleteResponse {
   succeeded: boolean;
 }
 
+// Keeping these for backward compatibility when we changed to use string unions.
+/**
+ * Defines values for PathGetPropertiesAction.
+ * Possible values include: 'getAccessControl', 'getStatus'
+ * @readonly
+ * @enum {string}
+ */
+export enum PathGetPropertiesAction {
+  GetAccessControl = "getAccessControl",
+  GetStatus = "getStatus"
+}
+/**
+ * Defines values for PathRenameMode.
+ * Possible values include: 'legacy', 'posix'
+ * @readonly
+ * @enum {string}
+ */
+export enum PathRenameMode {
+  Legacy = "legacy",
+  Posix = "posix"
+}
+/**
+ * Defines values for PathResourceType.
+ * Possible values include: 'directory', 'file'
+ * @readonly
+ * @enum {string}
+ */
+export enum PathResourceType {
+  Directory = "directory",
+  File = "file"
+}
+
 /****************************************************************/
 /** DataLakeDirectoryClient option and response related models **/
 /****************************************************************/
@@ -901,6 +940,8 @@ export interface DirectoryCreateIfNotExistsOptions extends PathCreateIfNotExists
 export interface DirectoryCreateResponse extends PathCreateResponse {}
 
 export interface DirectoryCreateIfNotExistsResponse extends PathCreateIfNotExistsResponse {}
+
+export interface DirectoryCreateResponse extends PathCreateResponse {}
 
 /***********************************************************/
 /** DataLakeFileClient option and response related models **/
@@ -979,6 +1020,8 @@ export interface FileCreateIfNotExistsOptions extends PathCreateIfNotExistsOptio
 export interface FileCreateResponse extends PathCreateResponse {}
 
 export interface FileCreateIfNotExistsResponse extends PathCreateIfNotExistsResponse {}
+
+export interface FileCreateResponse extends PathCreateResponse {}
 
 /**
  * Option interface for Data Lake file - Upload operations
@@ -1359,6 +1402,39 @@ export interface FileQueryOptions extends CommonOptions {
   conditions?: DataLakeRequestConditions;
 }
 
+/**
+ * Option interface for the {@link DataLakeFileClient.setExpiry} operation.
+ *
+ * @export
+ * @interface FileSetExpiryOptions
+ */
+export interface FileSetExpiryOptions extends CommonOptions {
+  /**
+   * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
+   * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
+   *
+   * @type {AbortSignalLike}
+   * @memberof FileSetExpiryOptions
+   */
+  abortSignal?: AbortSignalLike;
+
+  /**
+   * The time to set the file to expire on, used in combination with the "Absolute" {@link FileExpiryMode}.
+   * A time in the past is not allowed and milliseconds will be dropped.
+   *
+   * @type {Date}
+   * @memberof FileSetExpiryOptions
+   */
+  expiresOn?: Date;
+
+  /**
+   * The number of milliseconds to elapse before the file expires, used in combination with the "RelativeToCreation" or "RelativeToNow" {@link FileExpiryMode}.
+   *
+   * @type {number}
+   * @memberof FileSetExpiryOptions
+   */
+  timeToExpireInMs?: number;
+}
 /***********************************************************/
 /** DataLakeLeaseClient option and response related models */
 /***********************************************************/

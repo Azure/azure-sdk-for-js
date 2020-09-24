@@ -1754,11 +1754,7 @@ export interface PathSetExpiryHeaders {
  * @readonly
  * @enum {string}
  */
-export enum PathSetAccessControlRecursiveMode {
-  Set = 'set',
-  Modify = 'modify',
-  Remove = 'remove',
-}
+export type PathSetAccessControlRecursiveMode = 'set' | 'modify' | 'remove';
 
 /**
  * Defines values for PathExpiryOptions.
@@ -1766,12 +1762,7 @@ export enum PathSetAccessControlRecursiveMode {
  * @readonly
  * @enum {string}
  */
-export enum PathExpiryOptions {
-  NeverExpire = 'NeverExpire',
-  RelativeToCreation = 'RelativeToCreation',
-  RelativeToNow = 'RelativeToNow',
-  Absolute = 'Absolute',
-}
+export type PathExpiryOptions = 'NeverExpire' | 'RelativeToCreation' | 'RelativeToNow' | 'Absolute';
 
 /**
  * Defines values for PathResourceType.
@@ -1779,10 +1770,7 @@ export enum PathExpiryOptions {
  * @readonly
  * @enum {string}
  */
-export enum PathResourceType {
-  Directory = 'directory',
-  File = 'file',
-}
+export type PathResourceType = 'directory' | 'file';
 
 /**
  * Defines values for PathRenameMode.
@@ -1790,10 +1778,7 @@ export enum PathResourceType {
  * @readonly
  * @enum {string}
  */
-export enum PathRenameMode {
-  Legacy = 'legacy',
-  Posix = 'posix',
-}
+export type PathRenameMode = 'legacy' | 'posix';
 
 /**
  * Defines values for PathUpdateAction.
@@ -1802,13 +1787,7 @@ export enum PathRenameMode {
  * @readonly
  * @enum {string}
  */
-export enum PathUpdateAction {
-  Append = 'append',
-  Flush = 'flush',
-  SetProperties = 'setProperties',
-  SetAccessControl = 'setAccessControl',
-  SetAccessControlRecursive = 'setAccessControlRecursive',
-}
+export type PathUpdateAction = 'append' | 'flush' | 'setProperties' | 'setAccessControl' | 'setAccessControlRecursive';
 
 /**
  * Defines values for PathLeaseAction.
@@ -1816,13 +1795,7 @@ export enum PathUpdateAction {
  * @readonly
  * @enum {string}
  */
-export enum PathLeaseAction {
-  Acquire = 'acquire',
-  Break = 'break',
-  Change = 'change',
-  Renew = 'renew',
-  Release = 'release',
-}
+export type PathLeaseAction = 'acquire' | 'break' | 'change' | 'renew' | 'release';
 
 /**
  * Defines values for PathGetPropertiesAction.
@@ -1830,10 +1803,7 @@ export enum PathLeaseAction {
  * @readonly
  * @enum {string}
  */
-export enum PathGetPropertiesAction {
-  GetAccessControl = 'getAccessControl',
-  GetStatus = 'getStatus',
-}
+export type PathGetPropertiesAction = 'getAccessControl' | 'getStatus';
 
 /**
  * Contains response data for the listFileSystems operation.

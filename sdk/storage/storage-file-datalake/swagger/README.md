@@ -15,7 +15,6 @@ output-folder: ../src/generated
 input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/storage-dataplane-preview/specification/storage/data-plane/Microsoft.StorageDataLake/stable/2020-02-10/DataLakeStorage.json
 model-date-time-as-string: true
 optional-response-headers: true
-enum-types: true
 ```
 
 ## Customizations for Track 2 Generator
@@ -55,12 +54,12 @@ directive:
 
 ### workaround: adding parameter location for `PathSetAccessControlRecursiveMode`
 
-``` yaml
+```yaml
 directive:
-- from: swagger-document
-  where: $["parameters"].PathSetAccessControlRecursiveMode
-  transform: >
-    $["x-ms-parameter-location"] = "method";
+  - from: swagger-document
+    where: $["parameters"].PathSetAccessControlRecursiveMode
+    transform: >
+      $["x-ms-parameter-location"] = "method";
 ```
 
 ### Rename path-HTTP-headers to path-Http-headers
