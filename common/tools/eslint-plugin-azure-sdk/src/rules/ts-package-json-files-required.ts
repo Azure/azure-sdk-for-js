@@ -13,6 +13,13 @@ import { arrayToString, getRuleMetaData, getVerifiers, stripPath } from "../util
 //------------------------------------------------------------------------------
 // Rule Definition
 //------------------------------------------------------------------------------
+interface HashTable<T> {
+  [key: string]: T;
+}
+let requiredPatternSuggestionMap: HashTable<string | undefined> = {};
+function addRequiredPattern(pattern: string, suggestion?: string): void {
+  requiredPatternSuggestionMap[pattern] = suggestion;
+}
 
 /**
  * The rule is configurable by those two vars, where badPatterns is the list of
@@ -20,8 +27,12 @@ import { arrayToString, getRuleMetaData, getVerifiers, stripPath } from "../util
  * is the list of patterns that should be.
  */
 const badPatterns: string[] = ["src"];
-const distEsmPattern = "dist-esm";
-const requiredPatterns = ["dist", distEsmPattern];
+const requiredPatterns: string[] = [];
+addRequiredPattern("dist");
+addRequiredPattern("dist-esm", "src");
+for (const pat in requiredPatternSuggestionMap) {
+  requiredPatterns.push(pat);
+}
 
 export = {
   meta: getRuleMetaData(
@@ -88,14 +99,16 @@ export = {
               );
             }
             if (currRequiredPatterns.length > 0) {
+              for (let i = 0; i < currRequiredPatterns.length; ++i) {
+                const pat = currRequiredPatterns[i];
+                if (requiredPatternSuggestionMap[pat] !== undefined) {
+                  currRequiredPatterns[i] = pat + "/" + requiredPatternSuggestionMap[pat];
+                }
+              }
+              elementValues = elementValues.concat(currRequiredPatterns);
               if (message.length > 0) {
                 message = message + " and ";
               }
-              const distEsmIndex = currRequiredPatterns.indexOf(distEsmPattern);
-              if (distEsmIndex >= 0) {
-                currRequiredPatterns[distEsmIndex] = "dist-esm/src";
-              }
-              elementValues = elementValues.concat(currRequiredPatterns);
               message =
                 message +
                 `${currRequiredPatterns.join()} ${
