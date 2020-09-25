@@ -811,6 +811,16 @@ export interface AgentPoolUpgradeSettings {
 }
 
 /**
+ * Describes the Power State of the cluster
+ */
+export interface PowerState {
+  /**
+   * Tells whether the cluster is Running or Stopped. Possible values include: 'Running', 'Stopped'
+   */
+  code?: Code;
+}
+
+/**
  * Properties for the container service agent pool profile.
  */
 export interface ManagedClusterAgentPoolProfileProperties {
@@ -868,6 +878,12 @@ export interface ManagedClusterAgentPoolProfileProperties {
    */
   osDiskSizeGB?: number;
   /**
+   * OS disk type to be used for machines in a given agent pool. Allowed values are 'Ephemeral' and
+   * 'Managed'. Defaults to 'Managed'. May not be changed after creation. Possible values include:
+   * 'Managed', 'Ephemeral'
+   */
+  osDiskType?: OSDiskType;
+  /**
    * VNet SubnetID specifies the VNet's subnet identifier.
    */
   vnetSubnetID?: string;
@@ -919,6 +935,11 @@ export interface ManagedClusterAgentPoolProfileProperties {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly provisioningState?: string;
+  /**
+   * Describes whether the Agent Pool is Running or Stopped
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly powerState?: PowerState;
   /**
    * Availability zones for nodes. Must use VirtualMachineScaleSets AgentPoolType.
    */
@@ -1031,6 +1052,12 @@ export interface AgentPool extends SubResource {
    */
   osDiskSizeGB?: number;
   /**
+   * OS disk type to be used for machines in a given agent pool. Allowed values are 'Ephemeral' and
+   * 'Managed'. Defaults to 'Managed'. May not be changed after creation. Possible values include:
+   * 'Managed', 'Ephemeral'
+   */
+  osDiskType?: OSDiskType;
+  /**
    * VNet SubnetID specifies the VNet's subnet identifier.
    */
   vnetSubnetID?: string;
@@ -1082,6 +1109,11 @@ export interface AgentPool extends SubResource {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly provisioningState?: string;
+  /**
+   * Describes whether the Agent Pool is Running or Stopped
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly powerState?: PowerState;
   /**
    * Availability zones for nodes. Must use VirtualMachineScaleSets AgentPoolType.
    */
@@ -1356,6 +1388,15 @@ export interface ManagedClusterAADProfile {
  */
 export interface ManagedClusterPropertiesAutoScalerProfile {
   balanceSimilarNodeGroups?: string;
+  /**
+   * Possible values include: 'least-waste', 'most-pods', 'random'
+   */
+  expander?: Expander;
+  maxEmptyBulkDelete?: string;
+  maxGracefulTerminationSec?: string;
+  maxTotalUnreadyPercentage?: string;
+  newPodScaleUpDelay?: string;
+  okTotalUnreadyCount?: string;
   scanInterval?: string;
   scaleDownDelayAfterAdd?: string;
   scaleDownDelayAfterDelete?: string;
@@ -1363,7 +1404,8 @@ export interface ManagedClusterPropertiesAutoScalerProfile {
   scaleDownUnneededTime?: string;
   scaleDownUnreadyTime?: string;
   scaleDownUtilizationThreshold?: string;
-  maxGracefulTerminationSec?: string;
+  skipNodesWithLocalStorage?: string;
+  skipNodesWithSystemPods?: string;
 }
 
 /**
@@ -1456,6 +1498,11 @@ export interface ManagedCluster extends Resource {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly provisioningState?: string;
+  /**
+   * Represents the Power State of the cluster
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly powerState?: PowerState;
   /**
    * The max number of agent pools for the managed cluster.
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -1817,6 +1864,47 @@ export interface PrivateEndpointConnectionListResult {
 }
 
 /**
+ * A private link resource
+ */
+export interface PrivateLinkResource {
+  /**
+   * The ID of the private link resource.
+   */
+  id?: string;
+  /**
+   * The name of the private link resource.
+   */
+  name?: string;
+  /**
+   * The resource type.
+   */
+  type?: string;
+  /**
+   * The group ID of the resource.
+   */
+  groupId?: string;
+  /**
+   * RequiredMembers of the resource
+   */
+  requiredMembers?: string[];
+  /**
+   * The private link service ID of the resource, this field is exposed only to NRP internally.
+   * **NOTE: This property will not be serialized. It can only be populated by the server.**
+   */
+  readonly privateLinkServiceID?: string;
+}
+
+/**
+ * A list of private link resources
+ */
+export interface PrivateLinkResourcesListResult {
+  /**
+   * The collection value.
+   */
+  value?: PrivateLinkResource[];
+}
+
+/**
  * Optional Parameters.
  */
 export interface ContainerServicesListOrchestratorsOptionalParams extends msRest.RequestOptionsBase {
@@ -1986,6 +2074,14 @@ export type ContainerServiceVMSizeTypes = 'Standard_A1' | 'Standard_A10' | 'Stan
 export type ContainerServiceOrchestratorTypes = 'Kubernetes' | 'Swarm' | 'DCOS' | 'DockerCE' | 'Custom';
 
 /**
+ * Defines values for OSDiskType.
+ * Possible values include: 'Managed', 'Ephemeral'
+ * @readonly
+ * @enum {string}
+ */
+export type OSDiskType = 'Managed' | 'Ephemeral';
+
+/**
  * Defines values for AgentPoolType.
  * Possible values include: 'VirtualMachineScaleSets', 'AvailabilitySet'
  * @readonly
@@ -2000,6 +2096,14 @@ export type AgentPoolType = 'VirtualMachineScaleSets' | 'AvailabilitySet';
  * @enum {string}
  */
 export type AgentPoolMode = 'System' | 'User';
+
+/**
+ * Defines values for Code.
+ * Possible values include: 'Running', 'Stopped'
+ * @readonly
+ * @enum {string}
+ */
+export type Code = 'Running' | 'Stopped';
 
 /**
  * Defines values for ScaleSetPriority.
@@ -2064,6 +2168,14 @@ export type OutboundType = 'loadBalancer' | 'userDefinedRouting';
  * @enum {string}
  */
 export type LoadBalancerSku = 'standard' | 'basic';
+
+/**
+ * Defines values for Expander.
+ * Possible values include: 'least-waste', 'most-pods', 'random'
+ * @readonly
+ * @enum {string}
+ */
+export type Expander = 'least-waste' | 'most-pods' | 'random';
 
 /**
  * Defines values for ResourceIdentityType.
@@ -2666,26 +2778,6 @@ export type ManagedClustersUpdateTagsResponse = ManagedCluster & {
 };
 
 /**
- * Contains response data for the upgradeNodeImageVersion operation.
- */
-export type ManagedClustersUpgradeNodeImageVersionResponse = AgentPool & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AgentPool;
-    };
-};
-
-/**
  * Contains response data for the beginCreateOrUpdate operation.
  */
 export type ManagedClustersBeginCreateOrUpdateResponse = ManagedCluster & {
@@ -2722,26 +2814,6 @@ export type ManagedClustersBeginUpdateTagsResponse = ManagedCluster & {
        * The response body as parsed JSON or XML
        */
       parsedBody: ManagedCluster;
-    };
-};
-
-/**
- * Contains response data for the beginUpgradeNodeImageVersion operation.
- */
-export type ManagedClustersBeginUpgradeNodeImageVersionResponse = AgentPool & {
-  /**
-   * The underlying HTTP response.
-   */
-  _response: msRest.HttpResponse & {
-      /**
-       * The response body as text (string format)
-       */
-      bodyAsText: string;
-
-      /**
-       * The response body as parsed JSON or XML
-       */
-      parsedBody: AgentPool;
     };
 };
 
@@ -2886,9 +2958,49 @@ export type AgentPoolsGetAvailableAgentPoolVersionsResponse = AgentPoolAvailable
 };
 
 /**
+ * Contains response data for the upgradeNodeImageVersion operation.
+ */
+export type AgentPoolsUpgradeNodeImageVersionResponse = AgentPool & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: AgentPool;
+    };
+};
+
+/**
  * Contains response data for the beginCreateOrUpdate operation.
  */
 export type AgentPoolsBeginCreateOrUpdateResponse = AgentPool & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: AgentPool;
+    };
+};
+
+/**
+ * Contains response data for the beginUpgradeNodeImageVersion operation.
+ */
+export type AgentPoolsBeginUpgradeNodeImageVersionResponse = AgentPool & {
   /**
    * The underlying HTTP response.
    */
@@ -2982,5 +3094,45 @@ export type PrivateEndpointConnectionsUpdateResponse = PrivateEndpointConnection
        * The response body as parsed JSON or XML
        */
       parsedBody: PrivateEndpointConnection;
+    };
+};
+
+/**
+ * Contains response data for the list operation.
+ */
+export type PrivateLinkResourcesListResponse = PrivateLinkResourcesListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateLinkResourcesListResult;
+    };
+};
+
+/**
+ * Contains response data for the pOST operation.
+ */
+export type ResolvePrivateLinkServiceIdPOSTResponse = PrivateLinkResource & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: PrivateLinkResource;
     };
 };
