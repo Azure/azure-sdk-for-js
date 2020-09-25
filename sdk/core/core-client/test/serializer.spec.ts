@@ -1464,6 +1464,46 @@ describe("Serializer", function() {
 
         assert.deepEqual(result, {});
       });
+
+      it("should be deserialized properly when item list wrapper is an empty string", function() {
+        const blobServiceProperties: CompositeMapper = {
+          xmlName: "StorageServiceProperties",
+          serializedName: "BlobServiceProperties",
+          type: {
+            name: "Composite",
+            className: "BlobServiceProperties",
+            modelProperties: {
+              cors: {
+                xmlIsWrapped: true,
+                xmlName: "Cors",
+                xmlElementName: "CorsRule",
+                serializedName: "Cors",
+                type: {
+                  name: "Sequence",
+                  element: {
+                    type: {
+                      name: "Composite",
+                      className: "CorsRule"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        };
+
+        const mappers = {
+          BlobServiceProperties: blobServiceProperties
+        };
+        const serializer = createSerializer(mappers, true);
+        const result: any = serializer.deserialize(
+          blobServiceProperties,
+          { Cors: "" },
+          "mockedBlobServiceProperties"
+        );
+
+        assert.deepEqual(result, { cors: [] });
+      });
     });
 
     describe("polymorphic composite type array", () => {
