@@ -432,6 +432,9 @@ export async function populateIndex(client: SearchClient<Hotel>): Promise<void> 
 export async function dePopulateIndex(client: SearchClient<Hotel>): Promise<void> {
   console.log(`DEPOPULATE INDEX BEGIN`);
   await client.deleteDocuments(testDocuments);
+  await delay(WAIT_TIME);
+  let count = await client.getDocumentsCount();
+  console.log(`DOCUMENTS COUNT: ${count}`);
   console.log(`DEPOPULATE INDEX END`);
 }
 
