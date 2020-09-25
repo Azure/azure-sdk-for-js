@@ -4568,7 +4568,7 @@ export class BlockBlobClient extends BlobClient {
    * @memberof BlockBlobClient
    */
   public async uploadStream(
-    stream: Readable,
+    stream: NodeJS.ReadableStream,
     bufferSize: number = DEFAULT_BLOCK_BUFFER_SIZE_BYTES,
     maxConcurrency: number = 5,
     options: BlockBlobUploadStreamOptions = {}
