@@ -15,7 +15,7 @@ import {
   IndexDocumentsBatch
 } from "../../src/index";
 import { Hotel } from "../utils/interfaces";
-import { createIndex, populateIndex, WAIT_TIME } from "../utils/setup";
+import { createIndex, populateIndex, WAIT_TIME, dePopulateIndex } from "../utils/setup";
 import { delay } from "@azure/core-http";
 
 const TEST_INDEX_NAME = "hotel-live-test1";
@@ -44,28 +44,33 @@ describe("SearchClient", function() {
       await recorder.stop();
     }
     if (!isPlaybackMode()) {
+      await dePopulateIndex(searchClient);
       await indexClient.deleteIndex(TEST_INDEX_NAME);
       await delay(WAIT_TIME);
     }
   });
 
   it("count returns the correct document count", async function() {
+    console.log("COUNT RETURNS CORRECT DOCUMENT COUNT");
     const documentCount = await searchClient.getDocumentsCount();
     assert.equal(documentCount, 10);
   });
 
   it("autocomplete returns the correct autocomplete result", async function() {
+    console.log("AUTOCOMPLETE CORRECT RESULT");
     const autoCompleteResult: AutocompleteResult = await searchClient.autocomplete("sec", "sg");
     assert.equal(autoCompleteResult.results.length, 1);
     assert.equal(autoCompleteResult.results[0].text, "secret");
   });
 
   it("autocomplete returns zero results for invalid query", async function() {
+    console.log("AUTOCOMPLETE ZERO RESULTS");
     const autoCompleteResult: AutocompleteResult = await searchClient.autocomplete("garbxyz", "sg");
     assert.isTrue(autoCompleteResult.results.length == 0);
   });
 
   it("search returns the correct search result", async function() {
+    console.log("SEARCH CORRECT RESULT");
     const searchResults = await searchClient.search("budget", {
       skip: 0,
       top: 5,
@@ -75,6 +80,7 @@ describe("SearchClient", function() {
   });
 
   it("search returns zero results for invalid query", async function() {
+    console.log("SEARCH ZERO RESULT");
     const searchResults = await searchClient.search("garbxyz", {
       skip: 0,
       top: 5,
@@ -84,6 +90,7 @@ describe("SearchClient", function() {
   });
 
   it("suggest returns the correct suggestions", async function() {
+    console.log("SUGGEST CORRECT RESULT");
     const suggestResult = await searchClient.suggest("WiFi", "sg");
     assert.equal(suggestResult.results.length, 1);
     assert.isTrue(
@@ -92,11 +99,13 @@ describe("SearchClient", function() {
   });
 
   it("suggest returns zero suggestions for invalid input", async function() {
+    console.log("SEARCH ZERO RESULT");
     const suggestResult = await searchClient.suggest("garbxyz", "sg");
     assert.equal(suggestResult.results.length, 0);
   });
 
   it("getDocument returns the correct document result", async function() {
+    console.log("GETDOCUMENT CORRECT RESULT");
     const getDocumentResult = await searchClient.getDocument("8");
     assert.equal(
       getDocumentResult.description,
@@ -110,6 +119,7 @@ describe("SearchClient", function() {
   });
 
   it("getDocument throws error for invalid getDocument Value", async function() {
+    console.log("GETDOCUMENT INVALID RESULT");
     let errorThrown = false;
     try {
       await searchClient.getDocument("garbxyz");
@@ -120,6 +130,7 @@ describe("SearchClient", function() {
   });
 
   it("deleteDocuments delete a document by documents", async function() {
+    console.log("DELETE DOCUMENT - DOCUMENT");
     const getDocumentResult = await searchClient.getDocument("8");
     await searchClient.deleteDocuments([getDocumentResult]);
     await delay(WAIT_TIME);
@@ -128,6 +139,7 @@ describe("SearchClient", function() {
   });
 
   it("deleteDocuments delete a document by key/keyNames", async function() {
+    console.log("DELETE DOCUMENT - NAME");
     await searchClient.deleteDocuments("hotelId", ["9", "10"]);
     await delay(WAIT_TIME);
     const documentCount = await searchClient.getDocumentsCount();
@@ -135,6 +147,7 @@ describe("SearchClient", function() {
   });
 
   it("mergeOrUploadDocuments modify & merge an existing document", async function() {
+    console.log("MERGE/UPLOAD EXISTING");
     let getDocumentResult = await searchClient.getDocument("6");
     getDocumentResult.description = "Modified Description";
     await searchClient.mergeOrUploadDocuments([getDocumentResult]);
@@ -144,6 +157,7 @@ describe("SearchClient", function() {
   });
 
   it("mergeOrUploadDocuments merge a new document", async function() {
+    console.log("MERGE/UPLOAD NEW");
     const document = {
       hotelId: "11",
       description: "New Hotel Description",
@@ -156,6 +170,7 @@ describe("SearchClient", function() {
   });
 
   it("mergeDocuments modify & merge an existing document", async function() {
+    console.log("MERGE/UPLOAD EXISTING 2");
     let getDocumentResult = await searchClient.getDocument("6");
     getDocumentResult.description = "Modified Description";
     await searchClient.mergeDocuments([getDocumentResult]);
@@ -165,6 +180,7 @@ describe("SearchClient", function() {
   });
 
   it("uploadDocuments upload a set of documents", async function() {
+    console.log("UPLOAD SET");
     const documents = [
       {
         hotelId: "11",
@@ -184,6 +200,7 @@ describe("SearchClient", function() {
   });
 
   it("indexDocuments upload a new document", async function() {
+    console.log("INDEX DOCS NEW");
     const batch: IndexDocumentsBatch<Hotel> = new IndexDocumentsBatch<Hotel>();
     batch.upload([
       {
@@ -199,6 +216,7 @@ describe("SearchClient", function() {
   });
 
   it("indexDocuments deletes existing documents", async function() {
+    console.log("INDEX DOCS DELETE");
     const batch: IndexDocumentsBatch<Hotel> = new IndexDocumentsBatch<Hotel>();
     batch.delete([
       {
@@ -216,6 +234,7 @@ describe("SearchClient", function() {
   });
 
   it("indexDocuments merges an existing document", async function() {
+    console.log("INDEX DOCS MERGE");
     const batch: IndexDocumentsBatch<Hotel> = new IndexDocumentsBatch<Hotel>();
     batch.merge([
       {
@@ -231,6 +250,7 @@ describe("SearchClient", function() {
   });
 
   it("indexDocuments merge/upload documents", async function() {
+    console.log("INDEX DOCS MERGE UPLOAD");
     const batch: IndexDocumentsBatch<Hotel> = new IndexDocumentsBatch<Hotel>();
     batch.mergeOrUpload([
       {
