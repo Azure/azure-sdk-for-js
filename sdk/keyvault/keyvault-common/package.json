@@ -31,7 +31,7 @@
     "integration-test:node": "echo skipped",
     "integration-test:node:no-timeout": "echo skipped",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
-    "lint:fix": "eslint package.json src --ext .ts --fix --fix-type [problem,suggestion]",
+    "lint:fix": "eslint src --ext .ts --fix --fix-type [problem,suggestion]",
     "lint": "eslint src --ext .ts -f html -o search-lintReport.html || exit 0",
     "lint:terminal": "eslint src --ext .ts",
     "pack": "npm pack 2>&1",
@@ -49,6 +49,7 @@
     "tslib": "^2.0.0"
   },
   "devDependencies": {
+    "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "typescript": "~3.9.3"
   }
 }
