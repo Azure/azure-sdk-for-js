@@ -177,9 +177,6 @@ export enum PiiEntityDomainType {
 export type RecognizeCategorizedEntitiesErrorResult = TextAnalyticsErrorResult;
 
 // @public
-export type RecognizeCategorizedEntitiesOptions = TextAnalyticsOperationOptions;
-
-// @public
 export type RecognizeCategorizedEntitiesResult = RecognizeCategorizedEntitiesSuccessResult | RecognizeCategorizedEntitiesErrorResult;
 
 // @public
@@ -193,8 +190,8 @@ export interface RecognizeCategorizedEntitiesSuccessResult extends TextAnalytics
     readonly entities: CategorizedEntity[];
 }
 
-// @public (undocumented)
-export type RecognizeEntitiesOptions = RecognizeCategorizedEntitiesOptions;
+// @public
+export type RecognizeEntitiesOptions = TextAnalyticsOperationOptions;
 
 // @public
 export type RecognizeLinkedEntitiesErrorResult = TextAnalyticsErrorResult;
