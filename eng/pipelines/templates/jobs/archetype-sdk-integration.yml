@@ -29,6 +29,9 @@ parameters:
 - name: ResourceGroupLocation
   type: string
   default: ""
+- name: ResourceGroupLocationCanary
+  type: string
+  default: "centraluseuap"
 - name: ArmTemplateParameters
   type: string
   default: "@{}"
@@ -140,7 +143,7 @@ jobs:
             NodeTestVersion: "12.x"
             TestResultsFiles: "**/test-results.xml"
             SubscriptionConfiguration: $(sub-config-azure-cloud-test-resources-preview)
-            ResourceGroupLocation: centraluseuap
+            ResourceGroupLocation: ${{ parameters.SubscriptionConfigurationCanary }}
     pool:
       vmImage: "$(OSVmImage)"
 
