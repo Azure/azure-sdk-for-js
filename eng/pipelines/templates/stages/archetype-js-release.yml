@@ -73,19 +73,16 @@ stages:
 
                       - pwsh: |
                           $tagvalue = ""
+                          $addTagvalue = ""
                           if ('$(Tag)' -ne '') {
                             $tagvalue = $(Tag)
                           }
-                          echo "##vso[task.setvariable variable=Tag]$tagvalue"
-                        displayName: "Set Tag Value"
-
-                      - pwsh: |
-                          $addTagvalue = ""
                           if ('$(AdditionalTag)' -ne '') {
                             $addTagvalue = $(AdditionalTag)
                           }
+                          echo "##vso[task.setvariable variable=Tag]$tagvalue"
                           echo "##vso[task.setvariable variable=AdditionalTag]$addTagvalue"
-                        displayName: "Set Additional Tag Value"
+                        displayName: "Set Tag and Additional Tag Value"
 
                       - task: PowerShell@2
                         displayName: 'Publish to npmjs.org'
