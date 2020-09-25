@@ -1,8 +1,6 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-/* eslint-disable @typescript-eslint/no-unused-vars */
-
 import { TokenCredential, AccessToken, GetTokenOptions } from "@azure/core-http";
 import { TokenCredentialOptions, IdentityClient } from "../client/identityClient";
 import fs from "fs";
