@@ -1,0 +1,22 @@
+{
+ "recordings": [
+  {
+   "method": "GET",
+   "url": "https://endpoint/chat/threads/19%3A4c3fdd89a82d4657a4f6aef1d3fe5d39%40thread.v2/readreceipts",
+   "query": {
+    "api-version": "2020-09-21-preview2"
+   },
+   "requestBody": null,
+   "status": 200,
+   "response": "{\"value\":[{\"senderId\":\"8:acs:8d0de54a-ca74-4b37-89ea-75a8ab565166_00000005-2f36-9058-ac00-343a0d000042\",\"chatMessageId\":\"1600132543672\",\"readOn\":\"2020-09-15T01:15:44Z\"}]}",
+   "responseHeaders": {
+    "content-type": "application/json; charset=utf-8"
+   }
+  }
+ ],
+ "uniqueTestInfo": {
+  "uniqueName": {},
+  "newDate": {}
+ },
+ "hash": "98d27d0624d3b4d36960b0a2b122ceb8"
+}

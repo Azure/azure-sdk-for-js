@@ -25,7 +25,7 @@ describe("sessions tests -  requires completely clean entity for each test", () 
   let sender: ServiceBusSender;
   let receiver: ServiceBusSessionReceiver<ServiceBusReceivedMessageWithLock>;
 
-  let testClientType = getRandomTestClientTypeWithSessions();
+  const testClientType = getRandomTestClientTypeWithSessions();
 
   async function beforeEachNoSessionTest(): Promise<void> {
     serviceBusClient = createServiceBusClientForTests();

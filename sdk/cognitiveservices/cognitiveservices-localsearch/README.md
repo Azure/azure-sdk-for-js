@@ -24,7 +24,7 @@ npm install @azure/ms-rest-azure-js
 ```
 
 ##### Sample code
-The following sample performs an local business search with the query 'Coffee 98052'. To know more, refer to the [Azure Documentation on Bing Local Search](https://docs.microsoft.com/en-us/azure/cognitive-services/bing-local-business-search/)
+The following sample performs an local business search with the query 'Coffee 98052'. To know more, refer to the [Azure Documentation on Bing Local Search](https://docs.microsoft.com/azure/cognitive-services/bing-local-business-search/)
 
 ```javascript
 const { LocalSearchClient } = require("@azure/cognitiveservices-localsearch");

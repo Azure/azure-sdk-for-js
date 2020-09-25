@@ -1,6 +1,11 @@
 # Release History
 
-## 3.9.2 (Unreleased)
+## 3.9.3 (Unreleased)
+
+
+## 3.9.2 (2020-09-16)
+
+- BUGFIX: Fixes slow `userAgent` lookup on azure functions.
 
 ## 3.9.1 (2020-08-28)
 
@@ -62,17 +67,17 @@ database.container.create(containerDefinition)
 const operations: OperationInput[] = [
   {
     operationType: "Create",
-    resourceBody: { id: "doc1", name: "sample", key: "A" },
+    resourceBody: { id: "doc1", name: "sample", key: "A" }
   },
   {
     operationType: "Upsert",
-    resourceBody: { id: "doc2", name: "other", key: "A" },
+    resourceBody: { id: "doc2", name: "other", key: "A" }
   },
   {
     operationType: "Read",
     id: "readItemId",
-    partitionKey: "key",
-  },
+    partitionKey: "key"
+  }
 ];
 
 await database.container.items.bulk(operations);
@@ -271,7 +276,7 @@ Fixes broken session tokens in the browser. Cosmos uses file system friendly bas
   - DISTINCT queries
   - LIMIT/OFFSET queries
   - User cancelable requests
-- Update to the latest Cosmos REST API version where [all containers have unlimited scale](https://docs.microsoft.com/en-us/azure/cosmos-db/migrate-containers-partitioned-to-nonpartitioned)
+- Update to the latest Cosmos REST API version where [all containers have unlimited scale](https://docs.microsoft.com/azure/cosmos-db/migrate-containers-partitioned-to-nonpartitioned)
 - Make it easier to use Cosmos from the browser
 - Better align with the new [Azure JS SDK guidlines](https://azure.github.io/azure-sdk/typescript_introduction.html)
 
@@ -289,14 +294,14 @@ Constructor options have been simplified:
 const client = new CosmosClient({
   endpoint: "https://your-database.cosmos.azure.com",
   auth: {
-    masterKey: "your-primary-key",
-  },
+    masterKey: "your-primary-key"
+  }
 });
 
 // v3
 const client = new CosmosClient({
   endpoint: "https://your-database.cosmos.azure.com",
-  key: "your-primary-key",
+  key: "your-primary-key"
 });
 ```
 
@@ -345,7 +350,7 @@ container.items.query('SELECT * from c WHERE c.yourPartitionKey = "foo"').fetchA
 
 #### Fixed Containers are now Paritioned (#308)
 
-[The Cosmos service now supports partition keys on all containers, including those that were previously created as fixed containers](https://docs.microsoft.com/en-us/azure/cosmos-db/migrate-containers-partitioned-to-nonpartitioned). The v3 SDK updates to the latest API version that implements this change, but it is not breaking. If you do not supply a partition key for operations, we will default to a system key that works with all your existing containers and documents.
+[The Cosmos service now supports partition keys on all containers, including those that were previously created as fixed containers](https://docs.microsoft.com/azure/cosmos-db/migrate-containers-partitioned-to-nonpartitioned). The v3 SDK updates to the latest API version that implements this change, but it is not breaking. If you do not supply a partition key for operations, we will default to a system key that works with all your existing containers and documents.
 
 #### `upsert` removed for Stored Procedures (#356)
 

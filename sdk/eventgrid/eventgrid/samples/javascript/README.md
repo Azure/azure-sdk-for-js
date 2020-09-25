@@ -50,5 +50,5 @@ Take a look at our [API Documentation][apiref] for more information about the AP
 [sendcloudevent]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventgrid/eventgrid/samples/javascript/src/sendCloudEvent.js
 [consumefromsb]: https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventgrid/eventgrid/samples/javascript/src/consumeEventsFromServiceBusQueue.js
 [apiref]: https://azure.github.io/azure-sdk-for-js/eventgrid.html
-[azeventgrid]: https://azure.microsoft.com/en-us/services/event-grid/
+[azeventgrid]: https://azure.microsoft.com/services/event-grid/
 [freesub]: https://azure.microsoft.com/free/

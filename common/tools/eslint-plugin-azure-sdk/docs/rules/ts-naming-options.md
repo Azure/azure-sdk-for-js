@@ -8,6 +8,9 @@ Requires client method options parameter types to be suffixed with `Options` and
 
 ```ts
 class ServiceClient {
+  constructor(options: ServiceClientOptions) {
+    /* code */
+  }
   createItem(options: CreateItemOptions): Item {
     /* code to return instance of Item */
   }
@@ -21,6 +24,9 @@ class ServiceClient {
 
 ```ts
 class ServiceClient {
+  constructor(options: Options) {
+    /* code */
+  }
   createItem(options: Options): Item {
     /* code to return instance of Item */
   }

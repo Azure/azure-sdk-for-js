@@ -35,7 +35,7 @@ export interface Debugger {
 }
 
 // @public
-export function getLogLevel(): "verbose" | "info" | "warning" | "error" | undefined;
+export function getLogLevel(): AzureLogLevel | undefined;
 
 // @public
 export function setLogLevel(level?: AzureLogLevel): void;

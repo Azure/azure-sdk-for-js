@@ -2,7 +2,7 @@
   "recordings": [
     {
       "method": "POST",
-      "url": "https://joherediteststorage.table.core.windows.net/integration",
+      "url": "https://fakestorageaccount.table.core.windows.net/integration",
       "query": {},
       "requestBody": "{\"PartitionKey\":\"P8__browser\",\"RowKey\":\"R8\",\"integerNumber\":3,\"floatingPointNumber\":3.14}",
       "status": 204,
@@ -10,10 +10,10 @@
       "responseHeaders": {
         "cache-control": "no-cache",
         "content-length": "0",
-        "dataserviceid": "https://joherediteststorage.table.core.windows.net/integration(PartitionKey='P8__browser',RowKey='R8')",
+        "dataserviceid": "https://fakestorageaccount.table.core.windows.net/integration(PartitionKey='P8__browser',RowKey='R8')",
         "date": "Fri, 21 Aug 2020 19:53:37 GMT",
         "etag": "W/\"datetime'2020-08-21T19%3A53%3A37.9584838Z'\"",
-        "location": "https://joherediteststorage.table.core.windows.net/integration(PartitionKey='P8__browser',RowKey='R8')",
+        "location": "https://fakestorageaccount.table.core.windows.net/integration(PartitionKey='P8__browser',RowKey='R8')",
         "preference-applied": "return-no-content",
         "server": "Windows-Azure-Table/1.0 Microsoft-HTTPAPI/2.0",
         "x-content-type-options": "nosniff",
@@ -23,11 +23,11 @@
     },
     {
       "method": "GET",
-      "url": "https://joherediteststorage.table.core.windows.net/integration(PartitionKey='P8__browser',RowKey='R8')",
+      "url": "https://fakestorageaccount.table.core.windows.net/integration(PartitionKey='P8__browser',RowKey='R8')",
       "query": {},
       "requestBody": null,
       "status": 200,
-      "response": "{\"odata.metadata\":\"https://joherediteststorage.table.core.windows.net/$metadata#integration/@Element\",\"odata.etag\":\"W/\\\"datetime'2020-08-21T19%3A53%3A37.9584838Z'\\\"\",\"PartitionKey\":\"P8__browser\",\"RowKey\":\"R8\",\"Timestamp\":\"2020-08-21T19:53:37.9584838Z\",\"integerNumber\":3,\"floatingPointNumber\":3.14}",
+      "response": "{\"odata.metadata\":\"https://fakestorageaccount.table.core.windows.net/$metadata#integration/@Element\",\"odata.etag\":\"W/\\\"datetime'2020-08-21T19%3A53%3A37.9584838Z'\\\"\",\"PartitionKey\":\"P8__browser\",\"RowKey\":\"R8\",\"Timestamp\":\"2020-08-21T19:53:37.9584838Z\",\"integerNumber\":3,\"floatingPointNumber\":3.14}",
       "responseHeaders": {
         "cache-control": "no-cache",
         "content-type": "application/json;odata=minimalmetadata;streaming=true;charset=utf-8",
