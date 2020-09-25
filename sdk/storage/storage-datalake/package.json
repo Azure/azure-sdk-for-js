@@ -20,7 +20,6 @@
   "module": "./esm/dataLakeStorageClient.js",
   "types": "./esm/dataLakeStorageClient.d.ts",
   "devDependencies": {
-    "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "typescript": "^3.5.3",
     "rollup": "^1.18.0",
     "rollup-plugin-node-resolve": "^5.2.0",
