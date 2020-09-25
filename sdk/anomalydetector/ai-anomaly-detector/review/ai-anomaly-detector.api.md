@@ -13,9 +13,9 @@ import { TokenCredential } from '@azure/core-auth';
 // @public
 export class AnomalyDetectorClient {
     constructor(endpointUrl: string, credential: TokenCredential | KeyCredential, options?: AnomalyDetectorClientOptions);
-    detectChangePoint(body: DetectChangePointRequest, options?: OperationOptions): Promise<AnomalyDetectorClientDetectChangePointResponse>;
-    detectEntireSeries(body: DetectRequest, options?: OperationOptions): Promise<AnomalyDetectorClientDetectEntireResponse>;
-    detectLastPoint(body: DetectRequest, options?: OperationOptions): Promise<AnomalyDetectorClientDetectLastPointResponse>;
+    detectChangePoint(body: DetectChangePointRequest, options?: DetectChangePointOptions): Promise<AnomalyDetectorClientDetectChangePointResponse>;
+    detectEntireSeries(body: DetectRequest, options?: DetectEntireSeriesOptions): Promise<AnomalyDetectorClientDetectEntireResponse>;
+    detectLastPoint(body: DetectRequest, options?: DetectLastPointOptions): Promise<AnomalyDetectorClientDetectLastPointResponse>;
     }
 
 // @public
@@ -47,6 +47,9 @@ export interface AnomalyDetectorClientOptions extends PipelineOptions {
 }
 
 // @public (undocumented)
+export type DetectChangePointOptions = OperationOptions;
+
+// @public (undocumented)
 export interface DetectChangePointRequest {
     customInterval?: number;
     granularity: TimeGranularity;
@@ -73,6 +76,12 @@ export interface DetectEntireResponse {
     period: number;
     upperMargins: number[];
 }
+
+// @public (undocumented)
+export type DetectEntireSeriesOptions = OperationOptions;
+
+// @public (undocumented)
+export type DetectLastPointOptions = OperationOptions;
 
 // @public (undocumented)
 export interface DetectLastPointResponse {
