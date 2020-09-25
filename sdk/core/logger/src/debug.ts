@@ -1,6 +1,8 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
+/* eslint-disable no-invalid-this */
+
 import { log } from "./log";
 
 /**
@@ -156,7 +158,6 @@ function createDebugger(namespace: string): Debugger {
 }
 
 function destroy(this: Debugger): boolean {
-  // eslint-disable-next-line no-invalid-this
   const index = debuggers.indexOf(this);
   if (index >= 0) {
     debuggers.splice(index, 1);
@@ -166,9 +167,7 @@ function destroy(this: Debugger): boolean {
 }
 
 function extend(this: Debugger, namespace: string): Debugger {
-  // eslint-disable-next-line no-invalid-this
   const newDebugger = createDebugger(`${this.namespace}:${namespace}`);
-  // eslint-disable-next-line no-invalid-this
   newDebugger.log = this.log;
   return newDebugger;
 }
