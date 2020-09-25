@@ -596,8 +596,9 @@ export class BlobServiceClient extends StorageClient {
       const containerClient = this.getContainerClient(
         destinationContainerName || deletedContainerName
       );
-      const container = new Container((containerClient as any).storageClientContext);
-      const containerUndeleteResponse = await container.restore({
+      // Hack to access a protected member.
+      const containerContext = new Container(containerClient["storageClientContext"]);
+      const containerUndeleteResponse = await containerContext.restore({
         deletedContainerName,
         ...options,
         tracingOptions: { ...options!.tracingOptions, spanOptions }

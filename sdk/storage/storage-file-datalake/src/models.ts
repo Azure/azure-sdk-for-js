@@ -10,6 +10,7 @@ import {
   BlobQueryArrowField
 } from "@azure/storage-blob";
 export type ModifiedAccessConditions = Omit<ModifiedAccessConditionsModel, "ifTags">;
+export type FileQueryArrowField = BlobQueryArrowField;
 
 import {
   FileSystemListPathsHeaders,
