@@ -48,7 +48,11 @@ export enum AzureAuthorityHosts {
 
 // @public
 export class AzureCliCredential implements TokenCredential {
-    protected getAzureCliAccessToken(resource: string): Promise<unknown>;
+    protected getAzureCliAccessToken(resource: string): Promise<{
+        stdout: string;
+        stderr: string;
+        error: Error | null;
+    }>;
     getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken | null>;
 }
 
