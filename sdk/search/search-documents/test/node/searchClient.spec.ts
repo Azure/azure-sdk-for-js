@@ -61,10 +61,7 @@ describe("SearchClient", function() {
   });
 
   it("autocomplete returns zero results for invalid query", async function() {
-    const autoCompleteResult: AutocompleteResult = await searchClient.autocomplete(
-      "garbxyz",
-      "sg"
-    );
+    const autoCompleteResult: AutocompleteResult = await searchClient.autocomplete("garbxyz", "sg");
     assert.isTrue(autoCompleteResult.results.length == 0);
   });
 
