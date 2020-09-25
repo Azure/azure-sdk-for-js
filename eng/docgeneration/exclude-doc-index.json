@@ -1,0 +1,10 @@
+{
+    "services": [
+      "parents",
+      "boms"
+    ],
+    "artifacts": [
+      "azure-cosmos-benchmark",
+      "azure-sdk-template"
+    ]
+  }
