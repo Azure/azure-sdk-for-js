@@ -255,7 +255,9 @@ export abstract class Poller<TState extends PollOperationState<TResult>, TResult
     // This prevents the UnhandledPromiseRejectionWarning in node.js from being thrown.
     // The above warning would get thrown if `poller.poll` is called, it returns an error,
     // and pullUntilDone did not have a .catch or await try/catch on it's return value.
-    this.promise.catch(() => {});
+    this.promise.catch(() => {
+      /* intentionally blank */
+    });
   }
 
   /**
@@ -371,7 +373,7 @@ export abstract class Poller<TState extends PollOperationState<TResult>, TResult
       const clearPollOncePromise = (): void => {
         this.pollOncePromise = undefined;
       };
-      this.pollOncePromise.then(clearPollOncePromise, clearPollOncePromise);
+      this.pollOncePromise.then(clearPollOncePromise, clearPollOncePromise).catch(this.reject);
     }
     return this.pollOncePromise;
   }
