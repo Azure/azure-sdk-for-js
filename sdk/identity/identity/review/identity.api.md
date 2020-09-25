@@ -172,7 +172,7 @@ export class UsernamePasswordCredential implements TokenCredential {
 // @public
 export class VisualStudioCodeCredential implements TokenCredential {
     constructor(options?: VisualStudioCodeCredentialOptions);
-    getToken(scopes: string | string[]): Promise<AccessToken | null>;
+    getToken(scopes: string | string[], _options?: GetTokenOptions): Promise<AccessToken | null>;
     }
 
 // @public

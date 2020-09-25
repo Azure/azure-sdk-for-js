@@ -3,7 +3,7 @@
 
 /* eslint-disable @typescript-eslint/no-unused-vars */
 
-import { TokenCredential, AccessToken } from "@azure/core-http";
+import { TokenCredential, AccessToken, GetTokenOptions } from "@azure/core-http";
 import { TokenCredentialOptions, IdentityClient } from "../client/identityClient";
 import fs from "fs";
 import os from "os";
@@ -140,7 +140,10 @@ export class VisualStudioCodeCredential implements TokenCredential {
    * @param options The options used to configure any requests this
    *                `TokenCredential` implementation might make.
    */
-  public async getToken(scopes: string | string[]): Promise<AccessToken | null> {
+  public async getToken(
+    scopes: string | string[],
+    _options?: GetTokenOptions
+  ): Promise<AccessToken | null> {
     await this.prepareOnce();
     if (!keytar) {
       throw new CredentialUnavailable(
