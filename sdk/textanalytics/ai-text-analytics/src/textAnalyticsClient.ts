@@ -141,6 +141,8 @@ export type ExtractKeyPhrasesOptions = TextAnalyticsOperationOptions;
  */
 export type RecognizeLinkedEntitiesOptions = TextAnalyticsOperationOptions;
 
+export type RecognizeEntitiesOptions = RecognizeCategorizedEntitiesOptions;
+
 /**
  * Client class for interacting with Azure Text Analytics.
  */
@@ -331,8 +333,7 @@ export class TextAnalyticsClient {
   public async recognizeEntities(
     documents: string[],
     language?: string,
-    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-    options?: RecognizeCategorizedEntitiesOptions
+    options?: RecognizeEntitiesOptions
   ): Promise<RecognizeCategorizedEntitiesResultArray>;
   /**
    * Runs a predictive model to identify a collection of named entities
@@ -347,14 +348,12 @@ export class TextAnalyticsClient {
    */
   public async recognizeEntities(
     documents: TextDocumentInput[],
-    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-    options?: RecognizeCategorizedEntitiesOptions
+    options?: RecognizeEntitiesOptions
   ): Promise<RecognizeCategorizedEntitiesResultArray>;
   public async recognizeEntities(
     documents: string[] | TextDocumentInput[],
     languageOrOptions?: string | RecognizeCategorizedEntitiesOptions,
-    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
-    options?: RecognizeCategorizedEntitiesOptions
+    options?: RecognizeEntitiesOptions
   ): Promise<RecognizeCategorizedEntitiesResultArray> {
     let realOptions: RecognizeCategorizedEntitiesOptions;
     let realInputs: TextDocumentInput[];

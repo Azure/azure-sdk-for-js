@@ -193,6 +193,9 @@ export interface RecognizeCategorizedEntitiesSuccessResult extends TextAnalytics
     readonly entities: CategorizedEntity[];
 }
 
+// @public (undocumented)
+export type RecognizeEntitiesOptions = RecognizeCategorizedEntitiesOptions;
+
 // @public
 export type RecognizeLinkedEntitiesErrorResult = TextAnalyticsErrorResult;
 
@@ -281,8 +284,8 @@ export class TextAnalyticsClient {
     readonly endpointUrl: string;
     extractKeyPhrases(documents: string[], language?: string, options?: ExtractKeyPhrasesOptions): Promise<ExtractKeyPhrasesResultArray>;
     extractKeyPhrases(documents: TextDocumentInput[], options?: ExtractKeyPhrasesOptions): Promise<ExtractKeyPhrasesResultArray>;
-    recognizeEntities(documents: string[], language?: string, options?: RecognizeCategorizedEntitiesOptions): Promise<RecognizeCategorizedEntitiesResultArray>;
-    recognizeEntities(documents: TextDocumentInput[], options?: RecognizeCategorizedEntitiesOptions): Promise<RecognizeCategorizedEntitiesResultArray>;
+    recognizeEntities(documents: string[], language?: string, options?: RecognizeEntitiesOptions): Promise<RecognizeCategorizedEntitiesResultArray>;
+    recognizeEntities(documents: TextDocumentInput[], options?: RecognizeEntitiesOptions): Promise<RecognizeCategorizedEntitiesResultArray>;
     recognizeLinkedEntities(documents: string[], language?: string, options?: RecognizeLinkedEntitiesOptions): Promise<RecognizeLinkedEntitiesResultArray>;
     recognizeLinkedEntities(documents: TextDocumentInput[], options?: RecognizeLinkedEntitiesOptions): Promise<RecognizeLinkedEntitiesResultArray>;
     recognizePiiEntities(inputs: string[], language?: string, options?: RecognizePiiEntitiesOptions): Promise<RecognizePiiEntitiesResultArray>;
