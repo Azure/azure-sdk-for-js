@@ -7,6 +7,7 @@
  */
 
 export {
+  ComponentEventDetails,
   PolicyEvent,
   PolicyEventsQueryResults,
   QueryFailure,

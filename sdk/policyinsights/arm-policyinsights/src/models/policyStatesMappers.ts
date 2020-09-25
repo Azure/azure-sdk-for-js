@@ -8,6 +8,7 @@
 
 export {
   ComplianceDetail,
+  ComponentStateDetails,
   ExpressionEvaluationDetails,
   IfNotExistsEvaluationDetails,
   PolicyAssignmentSummary,
