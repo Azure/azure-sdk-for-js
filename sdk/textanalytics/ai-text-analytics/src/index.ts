@@ -7,14 +7,13 @@ export {
   TextAnalyticsClient,
   TextAnalyticsClientOptions,
   DetectLanguageOptions,
-  RecognizeCategorizedEntitiesOptions,
+  RecognizeEntitiesOptions,
   AnalyzeSentimentOptions,
   ExtractKeyPhrasesOptions,
   RecognizePiiEntitiesOptions,
   RecognizeLinkedEntitiesOptions,
   TextAnalyticsOperationOptions,
-  PiiEntityDomainType,
-  RecognizeEntitiesOptions
+  PiiEntityDomainType
 } from "./textAnalyticsClient";
 export {
   DetectLanguageResult,

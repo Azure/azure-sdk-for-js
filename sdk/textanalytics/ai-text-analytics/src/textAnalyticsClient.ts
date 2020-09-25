@@ -92,7 +92,7 @@ export type DetectLanguageOptions = TextAnalyticsOperationOptions;
 /**
  * Options for the recognize entities operation.
  */
-export type RecognizeCategorizedEntitiesOptions = TextAnalyticsOperationOptions;
+export type RecognizeEntitiesOptions = TextAnalyticsOperationOptions;
 
 /**
  * Options for the analyze sentiment operation.
@@ -140,8 +140,6 @@ export type ExtractKeyPhrasesOptions = TextAnalyticsOperationOptions;
  * Options for the recognize linked entities operation.
  */
 export type RecognizeLinkedEntitiesOptions = TextAnalyticsOperationOptions;
-
-export type RecognizeEntitiesOptions = RecognizeCategorizedEntitiesOptions;
 
 /**
  * Client class for interacting with Azure Text Analytics.
@@ -352,10 +350,10 @@ export class TextAnalyticsClient {
   ): Promise<RecognizeCategorizedEntitiesResultArray>;
   public async recognizeEntities(
     documents: string[] | TextDocumentInput[],
-    languageOrOptions?: string | RecognizeCategorizedEntitiesOptions,
+    languageOrOptions?: string | RecognizeEntitiesOptions,
     options?: RecognizeEntitiesOptions
   ): Promise<RecognizeCategorizedEntitiesResultArray> {
-    let realOptions: RecognizeCategorizedEntitiesOptions;
+    let realOptions: RecognizeEntitiesOptions;
     let realInputs: TextDocumentInput[];
 
     if (!Array.isArray(documents) || documents.length === 0) {
@@ -368,7 +366,7 @@ export class TextAnalyticsClient {
       realOptions = options || {};
     } else {
       realInputs = documents;
-      realOptions = (languageOrOptions as RecognizeCategorizedEntitiesOptions) || {};
+      realOptions = (languageOrOptions as RecognizeEntitiesOptions) || {};
     }
 
     const { span, updatedOptions: finalOptions } = createSpan(
