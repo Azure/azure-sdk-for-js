@@ -1018,4 +1018,120 @@ internalMappers.requestBody1 = {
   mapper: CreateQueueBody
 };
 
+internalMappers.TelemetryItem = {
+  type: {
+    name: "Composite",
+    className: "TelemetryItem",
+    modelProperties: {
+      version: {
+        defaultValue: 1,
+        serializedName: "ver",
+        type: {
+          name: "Number"
+        }
+      },
+      name: {
+        serializedName: "name",
+        required: true,
+        type: {
+          name: "String"
+        }
+      },
+      time: {
+        serializedName: "time",
+        required: true,
+        type: {
+          name: "DateTime"
+        }
+      },
+      sampleRate: {
+        defaultValue: 100,
+        serializedName: "sampleRate",
+        type: {
+          name: "Number"
+        }
+      },
+      sequence: {
+        constraints: {
+          MaxLength: 64
+        },
+        serializedName: "seq",
+        type: {
+          name: "String"
+        }
+      },
+      instrumentationKey: {
+        serializedName: "iKey",
+        type: {
+          name: "String"
+        }
+      },
+      tags: {
+        serializedName: "tags",
+        type: {
+          name: "Dictionary",
+          value: { type: { name: "String" } }
+        }
+      },
+      data: {
+        serializedName: "data",
+        type: {
+          name: "Composite",
+          className: "MonitorBase"
+        }
+      }
+    }
+  }
+};
+
+internalMappers.MonitorBase = {
+  type: {
+    name: "Composite",
+    className: "MonitorBase",
+    modelProperties: {
+      baseType: {
+        serializedName: "baseType",
+        type: {
+          name: "String"
+        }
+      },
+      baseData: {
+        serializedName: "baseData",
+        type: {
+          name: "Composite",
+          className: "MonitorDomain"
+        }
+      }
+    }
+  }
+};
+
+internalMappers.MonitorDomain = {
+  type: {
+    name: "Composite",
+    className: "MonitorDomain",
+    additionalProperties: { type: { name: "Object" } },
+    modelProperties: {
+      test: {
+        serializedName: "test",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+internalMappers.body = {
+  parameterPath: "body",
+  mapper: {
+    serializedName: "body",
+    required: true,
+    type: {
+      name: "Sequence",
+      element: { type: { name: "Composite", className: "TelemetryItem" } }
+    }
+  }
+};
+
 export const Mappers = internalMappers;
