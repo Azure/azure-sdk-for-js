@@ -50,9 +50,8 @@ Write-Verbose "CORS rule set for $datalakeStorageAccountName"
 $AdditionalEnvKeys = @{}
 
 # Create SAS for storage account with additional permissions that are not supported by SRP deployment
-$storageAccount = $DeploymentOutputs['ACCOUNT_NAME']
-Write-Host "Creating SAS for storage account $storageAccount"
-$storageContext = New-AzStorageContext -StorageAccountName $storageAccount -StorageAccountKey $DeploymentOutputs['ACCOUNT_KEY']
+Write-Host "Creating SAS for storage account $storageAccountName"
+$storageContext = New-AzStorageContext -StorageAccountName $storageAccountName
 $storageSas = New-AzStorageAccountSASToken -ResourceType Service, Container, Object -Service Blob, File, Queue, Table -Permission "rwdxftlacup" -Context $storageContext
 $AdditionalEnvKeys["ACCOUNT_SAS"] = $storageSas
 
