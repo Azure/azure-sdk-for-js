@@ -84,7 +84,7 @@ describe("SearchClient", function() {
   });
 
   it("suggest returns the correct suggestions", async function() {
-    const suggestResult = await searchClient.suggest("wifi", "sg");
+    const suggestResult = await searchClient.suggest("WiFi", "sg");
     assert.equal(suggestResult.results.length, 1);
     assert.isTrue(
       suggestResult.results[0].text.startsWith("Save up to 50% off traditional hotels")
