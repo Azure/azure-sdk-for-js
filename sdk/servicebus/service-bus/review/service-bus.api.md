@@ -195,7 +195,7 @@ export interface MessageHandlerOptions extends MessageHandlerOptionsBase {
 }
 
 // @public
-export interface MessageHandlerOptionsBase {
+export interface MessageHandlerOptionsBase extends OperationOptionsBase {
     autoComplete?: boolean;
     maxConcurrentCalls?: number;
 }
@@ -466,7 +466,7 @@ export interface ServiceBusSessionReceiver<ReceivedMessageT extends ServiceBusRe
 }
 
 // @public
-export interface SessionSubscribeOptions extends OperationOptionsBase, MessageHandlerOptionsBase {
+export interface SessionSubscribeOptions extends MessageHandlerOptionsBase {
 }
 
 // @public
@@ -489,7 +489,7 @@ export interface SqlRuleFilter {
 export type SubQueue = "deadLetter" | "transferDeadLetter";
 
 // @public
-export interface SubscribeOptions extends OperationOptionsBase, MessageHandlerOptions {
+export interface SubscribeOptions extends MessageHandlerOptions {
 }
 
 // @public

@@ -7,7 +7,8 @@
  */
 
 export {
+  CheckAvailabilityResponse,
   CloudError,
-  ResourceNameAvailability,
+  QuotaAvailabilityRequest,
   ResourceNameAvailabilityRequest
 } from "../models/mappers";

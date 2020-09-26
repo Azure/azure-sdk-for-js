@@ -10,6 +10,43 @@
 import * as coreHttp from "@azure/core-http";
 
 /**
+ * An interface representing KeyReleaseCondition.
+ */
+export interface KeyReleaseCondition {
+  /**
+   * claim type name
+   */
+  claimType?: string;
+  /**
+   * condition to test. Possible values include: 'equals'
+   */
+  claimCondition?: KeyReleaseConditionCondition;
+  value?: string;
+}
+
+/**
+ * An interface representing KeyReleaseAuthority.
+ */
+export interface KeyReleaseAuthority {
+  /**
+   * Base URL of the attestation service.
+   */
+  authorityURL?: string;
+  allOf?: KeyReleaseCondition[];
+}
+
+/**
+ * An interface representing KeyReleasePolicy.
+ */
+export interface KeyReleasePolicy {
+  /**
+   * key release policy version. Possible values include: '0.2'
+   */
+  version?: KeyReleasePolicyVersion;
+  anyOf?: KeyReleaseAuthority[];
+}
+
+/**
  * As of http://tools.ietf.org/html/draft-ietf-jose-json-web-key-18
  */
 export interface JsonWebKey {
@@ -20,7 +57,7 @@ export interface JsonWebKey {
   /**
    * JsonWebKey Key Type (kty), as defined in
    * https://tools.ietf.org/html/draft-ietf-jose-json-web-algorithms-40. Possible values include:
-   * 'EC', 'EC-HSM', 'RSA', 'RSA-HSM', 'oct'
+   * 'EC', 'EC-HSM', 'RSA', 'RSA-HSM', 'oct', 'oct-HSM'
    */
   kty?: JsonWebKeyType;
   keyOps?: string[];
@@ -61,7 +98,7 @@ export interface JsonWebKey {
    */
   k?: Uint8Array;
   /**
-   * HSM Token, used with 'Bring Your Own Key'.
+   * Protected Key, used with 'Bring Your Own Key'.
    */
   t?: Uint8Array;
   /**
@@ -127,6 +164,10 @@ export interface KeyAttributes extends Attributes {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly recoveryLevel?: DeletionRecoveryLevel;
+  /**
+   * Indicates if the private key can be exported.
+   */
+  exportable?: boolean;
 }
 
 /**
@@ -151,6 +192,10 @@ export interface KeyBundle {
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
    */
   readonly managed?: boolean;
+  /**
+   * The policy rules under which the key can be exported.
+   */
+  releasePolicy?: KeyReleasePolicy;
 }
 
 /**
@@ -227,7 +272,7 @@ export interface KeyProperties {
   exportable?: boolean;
   /**
    * The type of key pair to be used for the certificate. Possible values include: 'EC', 'EC-HSM',
-   * 'RSA', 'RSA-HSM', 'oct'
+   * 'RSA', 'RSA-HSM', 'oct', 'oct-HSM'
    */
   keyType?: JsonWebKeyType;
   /**
@@ -251,13 +296,17 @@ export interface KeyProperties {
 export interface KeyCreateParameters {
   /**
    * The type of key to create. For valid values, see JsonWebKeyType. Possible values include:
-   * 'EC', 'EC-HSM', 'RSA', 'RSA-HSM', 'oct'
+   * 'EC', 'EC-HSM', 'RSA', 'RSA-HSM', 'oct', 'oct-HSM'
    */
   kty: JsonWebKeyType;
   /**
    * The key size in bits. For example: 2048, 3072, or 4096 for RSA.
    */
   keySize?: number;
+  /**
+   * The public exponent for a RSA key.
+   */
+  publicExponent?: number;
   keyOps?: JsonWebKeyOperation[];
   keyAttributes?: KeyAttributes;
   /**
@@ -269,6 +318,10 @@ export interface KeyCreateParameters {
    * 'P-256', 'P-384', 'P-521', 'P-256K'
    */
   curve?: JsonWebKeyCurveName;
+  /**
+   * The policy rules under which the key can be exported.
+   */
+  releasePolicy?: KeyReleasePolicy;
 }
 
 /**
@@ -291,6 +344,20 @@ export interface KeyImportParameters {
    * Application specific metadata in the form of key-value pairs.
    */
   tags?: { [propertyName: string]: string };
+  /**
+   * The policy rules under which the key can be exported.
+   */
+  releasePolicy?: KeyReleasePolicy;
+}
+
+/**
+ * The export key parameters.
+ */
+export interface KeyExportParameters {
+  /**
+   * The target environment assertion.
+   */
+  environment: string;
 }
 
 /**
@@ -298,10 +365,25 @@ export interface KeyImportParameters {
  */
 export interface KeyOperationsParameters {
   /**
-   * algorithm identifier. Possible values include: 'RSA-OAEP', 'RSA-OAEP-256', 'RSA1_5'
+   * algorithm identifier. Possible values include: 'RSA-OAEP', 'RSA-OAEP-256', 'RSA1_5',
+   * 'A128GCM', 'A192GCM', 'A256GCM', 'A128KW', 'A192KW', 'A256KW', 'A128CBC', 'A192CBC',
+   * 'A256CBC', 'A128CBCPAD', 'A192CBCPAD', 'A256CBCPAD'
    */
   algorithm: JsonWebKeyEncryptionAlgorithm;
   value: Uint8Array;
+  /**
+   * Initialization vector for symmetric algorithms.
+   */
+  iv?: Uint8Array;
+  /**
+   * Additional data to authenticate but not encrypt/decrypt when using authenticated crypto
+   * algorithms.
+   */
+  aad?: Uint8Array;
+  /**
+   * The tag to authenticate when performing decryption with an authenticated algorithm.
+   */
+  tag?: Uint8Array;
 }
 
 /**
@@ -351,6 +433,10 @@ export interface KeyUpdateParameters {
    * Application specific metadata in the form of key-value pairs.
    */
   tags?: { [propertyName: string]: string };
+  /**
+   * The policy rules under which the key can be exported.
+   */
+  releasePolicy?: KeyReleasePolicy;
 }
 
 /**
@@ -472,6 +558,10 @@ export interface KeyVaultClientCreateKeyOptionalParams extends coreHttp.RequestO
    * The key size in bits. For example: 2048, 3072, or 4096 for RSA.
    */
   keySize?: number;
+  /**
+   * The public exponent for a RSA key.
+   */
+  publicExponent?: number;
   keyOps?: JsonWebKeyOperation[];
   keyAttributes?: KeyAttributes;
   /**
@@ -483,6 +573,10 @@ export interface KeyVaultClientCreateKeyOptionalParams extends coreHttp.RequestO
    * 'P-256', 'P-384', 'P-521', 'P-256K'
    */
   curve?: JsonWebKeyCurveName;
+  /**
+   * The policy rules under which the key can be exported.
+   */
+  releasePolicy?: KeyReleasePolicy;
 }
 
 /**
@@ -501,6 +595,10 @@ export interface KeyVaultClientImportKeyOptionalParams extends coreHttp.RequestO
    * Application specific metadata in the form of key-value pairs.
    */
   tags?: { [propertyName: string]: string };
+  /**
+   * The policy rules under which the key can be exported.
+   */
+  releasePolicy?: KeyReleasePolicy;
 }
 
 /**
@@ -517,6 +615,10 @@ export interface KeyVaultClientUpdateKeyOptionalParams extends coreHttp.RequestO
    * Application specific metadata in the form of key-value pairs.
    */
   tags?: { [propertyName: string]: string };
+  /**
+   * The policy rules under which the key can be exported.
+   */
+  releasePolicy?: KeyReleasePolicy;
 }
 
 /**
@@ -544,6 +646,82 @@ export interface KeyVaultClientGetKeysOptionalParams extends coreHttp.RequestOpt
 /**
  * Optional Parameters.
  */
+export interface KeyVaultClientEncryptOptionalParams extends coreHttp.RequestOptionsBase {
+  /**
+   * Initialization vector for symmetric algorithms.
+   */
+  iv?: Uint8Array;
+  /**
+   * Additional data to authenticate but not encrypt/decrypt when using authenticated crypto
+   * algorithms.
+   */
+  aad?: Uint8Array;
+  /**
+   * The tag to authenticate when performing decryption with an authenticated algorithm.
+   */
+  tag?: Uint8Array;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface KeyVaultClientDecryptOptionalParams extends coreHttp.RequestOptionsBase {
+  /**
+   * Initialization vector for symmetric algorithms.
+   */
+  iv?: Uint8Array;
+  /**
+   * Additional data to authenticate but not encrypt/decrypt when using authenticated crypto
+   * algorithms.
+   */
+  aad?: Uint8Array;
+  /**
+   * The tag to authenticate when performing decryption with an authenticated algorithm.
+   */
+  tag?: Uint8Array;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface KeyVaultClientWrapKeyOptionalParams extends coreHttp.RequestOptionsBase {
+  /**
+   * Initialization vector for symmetric algorithms.
+   */
+  iv?: Uint8Array;
+  /**
+   * Additional data to authenticate but not encrypt/decrypt when using authenticated crypto
+   * algorithms.
+   */
+  aad?: Uint8Array;
+  /**
+   * The tag to authenticate when performing decryption with an authenticated algorithm.
+   */
+  tag?: Uint8Array;
+}
+
+/**
+ * Optional Parameters.
+ */
+export interface KeyVaultClientUnwrapKeyOptionalParams extends coreHttp.RequestOptionsBase {
+  /**
+   * Initialization vector for symmetric algorithms.
+   */
+  iv?: Uint8Array;
+  /**
+   * Additional data to authenticate but not encrypt/decrypt when using authenticated crypto
+   * algorithms.
+   */
+  aad?: Uint8Array;
+  /**
+   * The tag to authenticate when performing decryption with an authenticated algorithm.
+   */
+  tag?: Uint8Array;
+}
+
+/**
+ * Optional Parameters.
+ */
 export interface KeyVaultClientGetDeletedKeysOptionalParams extends coreHttp.RequestOptionsBase {
   /**
    * Maximum number of results to return in a page. If not specified the service will return up to
@@ -553,12 +731,28 @@ export interface KeyVaultClientGetDeletedKeysOptionalParams extends coreHttp.Req
 }
 
 /**
- * Defines values for JsonWebKeyType.
- * Possible values include: 'EC', 'EC-HSM', 'RSA', 'RSA-HSM', 'oct'
+ * Defines values for KeyReleaseConditionCondition.
+ * Possible values include: 'equals'
  * @readonly
  * @enum {string}
  */
-export type JsonWebKeyType = 'EC' | 'EC-HSM' | 'RSA' | 'RSA-HSM' | 'oct';
+export type KeyReleaseConditionCondition = 'equals';
+
+/**
+ * Defines values for KeyReleasePolicyVersion.
+ * Possible values include: '0.2'
+ * @readonly
+ * @enum {string}
+ */
+export type KeyReleasePolicyVersion = '0.2';
+
+/**
+ * Defines values for JsonWebKeyType.
+ * Possible values include: 'EC', 'EC-HSM', 'RSA', 'RSA-HSM', 'oct', 'oct-HSM'
+ * @readonly
+ * @enum {string}
+ */
+export type JsonWebKeyType = 'EC' | 'EC-HSM' | 'RSA' | 'RSA-HSM' | 'oct' | 'oct-HSM';
 
 /**
  * Defines values for JsonWebKeyCurveName.
@@ -581,19 +775,21 @@ export type DeletionRecoveryLevel = 'Purgeable' | 'Recoverable+Purgeable' | 'Rec
 /**
  * Defines values for JsonWebKeyOperation.
  * Possible values include: 'encrypt', 'decrypt', 'sign', 'verify', 'wrapKey', 'unwrapKey',
- * 'import'
+ * 'import', 'export'
  * @readonly
  * @enum {string}
  */
-export type JsonWebKeyOperation = 'encrypt' | 'decrypt' | 'sign' | 'verify' | 'wrapKey' | 'unwrapKey' | 'import';
+export type JsonWebKeyOperation = 'encrypt' | 'decrypt' | 'sign' | 'verify' | 'wrapKey' | 'unwrapKey' | 'import' | 'export';
 
 /**
  * Defines values for JsonWebKeyEncryptionAlgorithm.
- * Possible values include: 'RSA-OAEP', 'RSA-OAEP-256', 'RSA1_5'
+ * Possible values include: 'RSA-OAEP', 'RSA-OAEP-256', 'RSA1_5', 'A128GCM', 'A192GCM', 'A256GCM',
+ * 'A128KW', 'A192KW', 'A256KW', 'A128CBC', 'A192CBC', 'A256CBC', 'A128CBCPAD', 'A192CBCPAD',
+ * 'A256CBCPAD'
  * @readonly
  * @enum {string}
  */
-export type JsonWebKeyEncryptionAlgorithm = 'RSA-OAEP' | 'RSA-OAEP-256' | 'RSA1_5';
+export type JsonWebKeyEncryptionAlgorithm = 'RSA-OAEP' | 'RSA-OAEP-256' | 'RSA1_5' | 'A128GCM' | 'A192GCM' | 'A256GCM' | 'A128KW' | 'A192KW' | 'A256KW' | 'A128CBC' | 'A192CBC' | 'A256CBC' | 'A128CBCPAD' | 'A192CBCPAD' | 'A256CBCPAD';
 
 /**
  * Defines values for JsonWebKeySignatureAlgorithm.
@@ -901,6 +1097,26 @@ export type UnwrapKeyResponse = KeyOperationResult & {
        * The response body as parsed JSON or XML
        */
       parsedBody: KeyOperationResult;
+    };
+};
+
+/**
+ * Contains response data for the exportKey operation.
+ */
+export type ExportKeyResponse = KeyBundle & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: coreHttp.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: KeyBundle;
     };
 };
 

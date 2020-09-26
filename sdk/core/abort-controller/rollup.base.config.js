@@ -10,7 +10,7 @@ import sourcemaps from "rollup-plugin-sourcemaps";
 
 const pkg = require("./package.json");
 const depNames = Object.keys(pkg.dependencies);
-const input = "./dist-esm/src/aborter.js";
+const input = "./dist-esm/src/index.js";
 const production = process.env.NODE_ENV === "production";
 
 export function nodeConfig(test = false) {

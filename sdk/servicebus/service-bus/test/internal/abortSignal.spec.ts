@@ -18,6 +18,9 @@ import {
 import { createConnectionContextForTests } from "./unittestUtils";
 import { StandardAbortMessage } from "../../src/util/utils";
 import { isLinkLocked } from "../utils/misc";
+import { ServiceBusSessionReceiverImpl } from "../../src/receivers/sessionReceiver";
+import { Constants } from "@azure/core-amqp";
+import { ServiceBusReceiverImpl } from "../../src/receivers/receiver";
 
 describe("AbortSignal", () => {
   const testMessageThatDoesntMatter = {
@@ -312,6 +315,91 @@ describe("AbortSignal", () => {
       }
 
       assert.isFalse(isLinkLocked(messageReceiver));
+    });
+  });
+
+  describe("subscribe", () => {
+    /**
+     * SessionReceiver is a bit of an odd duck because it doesn't do initialization
+     * in its subscribe() call (like non-session receiver) so our normal abortSignal
+     * code isn't running there. So we have to check this separately from Receiver.
+     */
+    it("SessionReceiver.subscribe", async () => {
+      const session = await ServiceBusSessionReceiverImpl.createInitializedSessionReceiver(
+        createConnectionContextForTests({
+          onCreateReceiverCalled: (receiver) => {
+            (receiver as any).source = {
+              filter: {
+                [Constants.sessionFilterName]: "hello"
+              }
+            };
+
+            (receiver as any).properties = {
+              ["com.microsoft:locked-until-utc"]: Date.now()
+            };
+          }
+        }),
+        "entityPath",
+        "peekLock",
+        {
+          sessionId: "hello"
+        }
+      );
+
+      try {
+        const abortSignal = createAbortSignalForTest(true);
+        const receivedErrors: Error[] = [];
+
+        session.subscribe(
+          {
+            processMessage: async (_msg) => {},
+            processError: async (err) => {
+              receivedErrors.push(err);
+            }
+          },
+          {
+            abortSignal
+          }
+        );
+
+        assert.equal(receivedErrors[0].message, "The operation was aborted.");
+        assert.equal(receivedErrors[0].name, "AbortError");
+      } finally {
+        await session.close();
+      }
+    });
+
+    it("Receiver.subscribe", async () => {
+      const receiver = new ServiceBusReceiverImpl(
+        createConnectionContextForTests(),
+        "entityPath",
+        "peekLock"
+      );
+
+      try {
+        const abortSignal = createAbortSignalForTest(true);
+        const receivedErrors: Error[] = [];
+
+        await new Promise<void>((resolve) => {
+          receiver.subscribe(
+            {
+              processMessage: async (_msg: any) => {},
+              processError: async (err: Error) => {
+                resolve();
+                receivedErrors.push(err);
+              }
+            },
+            {
+              abortSignal
+            }
+          );
+        });
+
+        assert.equal(receivedErrors[0].message, "The operation was aborted.");
+        assert.equal(receivedErrors[0].name, "AbortError");
+      } finally {
+        await receiver.close();
+      }
     });
   });
 });

@@ -177,7 +177,7 @@ export class Volumes {
    * @param [options] The optional parameters
    * @returns Promise<msRest.RestResponse>
    */
-  breakReplication(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+  breakReplication(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, options?: Models.VolumesBreakReplicationOptionalParams): Promise<msRest.RestResponse> {
     return this.beginBreakReplication(resourceGroupName,accountName,poolName,volumeName,options)
       .then(lroPoller => lroPoller.pollUntilFinished());
   }
@@ -267,6 +267,37 @@ export class Volumes {
    */
   authorizeReplication(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, options?: Models.VolumesAuthorizeReplicationOptionalParams): Promise<msRest.RestResponse> {
     return this.beginAuthorizeReplication(resourceGroupName,accountName,poolName,volumeName,options)
+      .then(lroPoller => lroPoller.pollUntilFinished());
+  }
+
+  /**
+   * Re-Initializes the replication connection on the destination volume
+   * @summary ReInitialize volume replication
+   * @param resourceGroupName The name of the resource group.
+   * @param accountName The name of the NetApp account
+   * @param poolName The name of the capacity pool
+   * @param volumeName The name of the volume
+   * @param [options] The optional parameters
+   * @returns Promise<msRest.RestResponse>
+   */
+  reInitializeReplication(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+    return this.beginReInitializeReplication(resourceGroupName,accountName,poolName,volumeName,options)
+      .then(lroPoller => lroPoller.pollUntilFinished());
+  }
+
+  /**
+   * Moves volume to another pool
+   * @summary Change pool for volume
+   * @param resourceGroupName The name of the resource group.
+   * @param accountName The name of the NetApp account
+   * @param poolName The name of the capacity pool
+   * @param volumeName The name of the volume
+   * @param newPoolResourceId Resource id of the pool to move volume to
+   * @param [options] The optional parameters
+   * @returns Promise<msRest.RestResponse>
+   */
+  poolChange(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, newPoolResourceId: string, options?: msRest.RequestOptionsBase): Promise<msRest.RestResponse> {
+    return this.beginPoolChange(resourceGroupName,accountName,poolName,volumeName,newPoolResourceId,options)
       .then(lroPoller => lroPoller.pollUntilFinished());
   }
 
@@ -376,7 +407,7 @@ export class Volumes {
    * @param [options] The optional parameters
    * @returns Promise<msRestAzure.LROPoller>
    */
-  beginBreakReplication(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+  beginBreakReplication(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, options?: Models.VolumesBeginBreakReplicationOptionalParams): Promise<msRestAzure.LROPoller> {
     return this.client.sendLRORequest(
       {
         resourceGroupName,
@@ -457,6 +488,54 @@ export class Volumes {
         options
       },
       beginAuthorizeReplicationOperationSpec,
+      options);
+  }
+
+  /**
+   * Re-Initializes the replication connection on the destination volume
+   * @summary ReInitialize volume replication
+   * @param resourceGroupName The name of the resource group.
+   * @param accountName The name of the NetApp account
+   * @param poolName The name of the capacity pool
+   * @param volumeName The name of the volume
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginReInitializeReplication(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        accountName,
+        poolName,
+        volumeName,
+        options
+      },
+      beginReInitializeReplicationOperationSpec,
+      options);
+  }
+
+  /**
+   * Moves volume to another pool
+   * @summary Change pool for volume
+   * @param resourceGroupName The name of the resource group.
+   * @param accountName The name of the NetApp account
+   * @param poolName The name of the capacity pool
+   * @param volumeName The name of the volume
+   * @param newPoolResourceId Resource id of the pool to move volume to
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginPoolChange(resourceGroupName: string, accountName: string, poolName: string, volumeName: string, newPoolResourceId: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        accountName,
+        poolName,
+        volumeName,
+        newPoolResourceId,
+        options
+      },
+      beginPoolChangeOperationSpec,
       options);
   }
 }
@@ -696,6 +775,15 @@ const beginBreakReplicationOperationSpec: msRest.OperationSpec = {
   headerParameters: [
     Parameters.acceptLanguage
   ],
+  requestBody: {
+    parameterPath: {
+      forceBreakReplication: [
+        "options",
+        "forceBreakReplication"
+      ]
+    },
+    mapper: Mappers.BreakReplicationRequest
+  },
   responses: {
     200: {},
     202: {},
@@ -783,6 +871,67 @@ const beginAuthorizeReplicationOperationSpec: msRest.OperationSpec = {
     },
     mapper: {
       ...Mappers.AuthorizeRequest,
+      required: true
+    }
+  },
+  responses: {
+    200: {},
+    202: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const beginReInitializeReplicationOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/reinitializeReplication",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.poolName,
+    Parameters.volumeName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {},
+    202: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const beginPoolChangeOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.NetApp/netAppAccounts/{accountName}/capacityPools/{poolName}/volumes/{volumeName}/poolChange",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.accountName,
+    Parameters.poolName,
+    Parameters.volumeName
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: {
+      newPoolResourceId: "newPoolResourceId"
+    },
+    mapper: {
+      ...Mappers.PoolChangeRequest,
       required: true
     }
   },

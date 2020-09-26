@@ -14,7 +14,6 @@ import {
   SentenceSentiment as GeneratedSentenceSentiment,
   SentenceSentimentLabel,
   DocumentSentiment,
-  GeneratedClientSentimentResponse,
   SentenceAspect,
   AspectRelation,
   SentenceOpinion,
@@ -91,8 +90,7 @@ export interface SentenceSentiment {
 export interface AspectSentiment {
   /**
    * The sentiment confidence score between 0 and 1 for the aspect for
-   * 'positive' and 'negative' labels. It's score for 'neutral' will always be
-   * 0.
+   * 'positive' and 'negative' labels.
    */
   confidenceScores: AspectConfidenceScoreLabel;
   /**
@@ -143,8 +141,7 @@ export interface MinedOpinion {
 export type AnalyzeSentimentErrorResult = TextAnalyticsErrorResult;
 
 export function makeAnalyzeSentimentResult(
-  document: DocumentSentiment,
-  response: GeneratedClientSentimentResponse
+  document: DocumentSentiment
 ): AnalyzeSentimentSuccessResult {
   const {
     id,
@@ -158,7 +155,7 @@ export function makeAnalyzeSentimentResult(
     ...makeTextAnalyticsSuccessResult(id, warnings, statistics),
     sentiment,
     confidenceScores,
-    sentences: sentences.map((sentence) => convertGeneratedSentenceSentiment(sentence, response))
+    sentences: sentences.map((sentence) => convertGeneratedSentenceSentiment(sentence, document))
   };
 }
 
@@ -179,7 +176,7 @@ export function makeAnalyzeSentimentErrorResult(
  */
 function convertGeneratedSentenceSentiment(
   sentence: GeneratedSentenceSentiment,
-  response: GeneratedClientSentimentResponse
+  document: DocumentSentiment
 ): SentenceSentiment {
   return {
     confidenceScores: sentence.confidenceScores,
@@ -199,7 +196,7 @@ function convertGeneratedSentenceSentiment(
             },
             opinions: aspect.relations
               .filter((relation) => relation.relationType === "opinion")
-              .map((relation) => convertAspectRelationToOpinionSentiment(relation, response))
+              .map((relation) => convertAspectRelationToOpinionSentiment(relation, document))
           })
         )
       : []
@@ -217,13 +214,12 @@ function convertGeneratedSentenceSentiment(
  */
 function convertAspectRelationToOpinionSentiment(
   aspectRelation: AspectRelation,
-  response: GeneratedClientSentimentResponse
+  document: DocumentSentiment
 ): OpinionSentiment {
   const opinionPtr = aspectRelation.ref;
   const opinionIndex: OpinionIndex = findOpinionIndex(opinionPtr);
   const opinion: SentenceOpinion | undefined =
-    response.documents?.[opinionIndex.document].sentenceSentiments?.[opinionIndex.sentence]
-      .opinions?.[opinionIndex.opinion];
+    document.sentenceSentiments?.[opinionIndex.sentence].opinions?.[opinionIndex.opinion];
   if (opinion !== undefined) {
     return opinion;
   } else {

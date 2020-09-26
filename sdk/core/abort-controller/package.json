@@ -4,7 +4,7 @@
   "version": "1.0.1",
   "description": "Microsoft Azure SDK for JavaScript - Aborter",
   "main": "./dist/index.js",
-  "module": "./dist-esm/src/aborter.js",
+  "module": "dist-esm/src/index.js",
   "scripts": {
     "audit": "node ../../../common/scripts/rush-audit.js && rimraf node_modules package-lock.json && npm i --package-lock-only 2>&1 && npm audit",
     "build:es6": "tsc -p tsconfig.json",
@@ -19,8 +19,8 @@
     "integration-test:browser": "echo skipped",
     "integration-test:node": "echo skipped",
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
-    "lint:fix": "eslint \"src/**/*.ts\" \"test/**/*.ts\" -c ../../.eslintrc.old.json --fix --fix-type [problem,suggestion]",
-    "lint": "eslint -c ../../.eslintrc.old.json src test --ext .ts -f html -o abort-controller-lintReport.html || exit 0",
+    "lint:fix": "eslint package.json api-extractor.json src test --ext .ts --fix --fix-type [problem,suggestion]",
+    "lint": "eslint package.json api-extractor.json src test --ext .ts",
     "pack": "npm pack 2>&1",
     "prebuild": "npm run clean",
     "pretest": "npm run build:test",
@@ -31,21 +31,22 @@
     "unit-test:node": "cross-env TS_NODE_FILES=true TS_NODE_COMPILER_OPTIONS=\"{\\\"module\\\": \\\"commonjs\\\"}\" mocha --require ts-node/register --require source-map-support/register --reporter ../../../common/tools/mocha-multi-reporter.js --full-trace --no-timeouts test/*.spec.ts",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser"
   },
-  "types": "./types/src/aborter.d.ts",
+  "types": "./types/src/index.d.ts",
   "engine": {
     "node": ">=8.0.0"
   },
   "files": [
     "dist/",
     "dist-esm/src/",
+    "shims-public.d.ts",
     "types/src",
     "README.md",
     "LICENSE"
   ],
-  "repository": {
-    "type": "git",
-    "url": "git+https://github.com/Azure/azure-sdk-for-js.git"
+  "engines": {
+    "node": ">=8.0.0"
   },
+  "repository": "github:Azure/azure-sdk-for-js",
   "keywords": [
     "azure",
     "aborter",
@@ -54,19 +55,21 @@
     "node.js",
     "typescript",
     "javascript",
-    "browser"
+    "browser",
+    "cloud"
   ],
   "author": "Microsoft Corporation",
   "license": "MIT",
   "bugs": {
     "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
-  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/core/abort-controller",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/core/abort-controller/README.md",
   "sideEffects": false,
   "dependencies": {
     "tslib": "^2.0.0"
   },
   "devDependencies": {
+    "@azure/eslint-plugin-azure-sdk": "^3.0.0",
     "@microsoft/api-extractor": "7.7.11",
     "@rollup/plugin-commonjs": "11.0.2",
     "@rollup/plugin-multi-entry": "^3.0.0",

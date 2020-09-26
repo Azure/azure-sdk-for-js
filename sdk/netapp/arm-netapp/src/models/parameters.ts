@@ -35,7 +35,27 @@ export const apiVersion: msRest.OperationQueryParameter = {
   mapper: {
     required: true,
     serializedName: "api-version",
-    defaultValue: '2020-02-01',
+    defaultValue: '2020-06-01',
+    type: {
+      name: "String"
+    }
+  }
+};
+export const backupName: msRest.OperationURLParameter = {
+  parameterPath: "backupName",
+  mapper: {
+    required: true,
+    serializedName: "backupName",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const backupPolicyName: msRest.OperationURLParameter = {
+  parameterPath: "backupPolicyName",
+  mapper: {
+    required: true,
+    serializedName: "backupPolicyName",
     type: {
       name: "String"
     }
@@ -86,6 +106,16 @@ export const snapshotName: msRest.OperationURLParameter = {
   mapper: {
     required: true,
     serializedName: "snapshotName",
+    type: {
+      name: "String"
+    }
+  }
+};
+export const snapshotPolicyName: msRest.OperationURLParameter = {
+  parameterPath: "snapshotPolicyName",
+  mapper: {
+    required: true,
+    serializedName: "snapshotPolicyName",
     type: {
       name: "String"
     }
