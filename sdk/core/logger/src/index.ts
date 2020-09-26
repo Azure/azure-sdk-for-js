@@ -1,5 +1,5 @@
-// Copyright (c) Microsoft Corporation. All rights reserved.
-// Licensed under the MIT License.
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
 
 import debug, { Debugger } from "./debug";
 export { Debugger } from "./debug";
@@ -60,7 +60,7 @@ if (logLevelFromEnv) {
  * - warning
  * - error
  */
-export function setLogLevel(level?: AzureLogLevel) {
+export function setLogLevel(level?: AzureLogLevel): void {
   if (level && !isAzureLogLevel(level)) {
     throw new Error(
       `Unknown log level '${level}'. Acceptable values: ${AZURE_LOG_LEVELS.join(",")}`
@@ -81,7 +81,7 @@ export function setLogLevel(level?: AzureLogLevel) {
 /**
  * Retrieves the currently specified log level.
  */
-export function getLogLevel() {
+export function getLogLevel(): AzureLogLevel | undefined {
   return azureLogLevel;
 }
 
@@ -158,7 +158,7 @@ function createLogger(parent: AzureClientLogger, level: AzureLogLevel): AzureDeb
   return logger;
 }
 
-function shouldEnable(logger: AzureDebugger) {
+function shouldEnable(logger: AzureDebugger): boolean {
   if (azureLogLevel && levelMap[logger.level] <= levelMap[azureLogLevel]) {
     return true;
   } else {
