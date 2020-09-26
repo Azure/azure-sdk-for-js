@@ -13,7 +13,7 @@ import { Hotel } from "./interfaces";
 import { delay } from "@azure/core-http";
 import { assert } from "chai";
 
-export const WAIT_TIME = 2000;
+export const WAIT_TIME = 4000;
 
 // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
 export async function createIndex(client: SearchIndexClient, name: string): Promise<void> {
@@ -415,9 +415,11 @@ export async function populateIndex(client: SearchClient<Hotel>): Promise<void> 
 
   let count = await client.getDocumentsCount();
   while (count !== testDocuments.length) {
-    await delay(2000);
+    await delay(WAIT_TIME);
     count = await client.getDocumentsCount();
   }
+
+  await delay(WAIT_TIME);
 }
 
 // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
