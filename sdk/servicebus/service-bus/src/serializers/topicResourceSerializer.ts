@@ -44,8 +44,8 @@ export function buildTopicOptions(topic: CreateTopicOptions): InternalTopicOptio
     SupportOrdering: getStringOrUndefined(topic.supportOrdering),
     AutoDeleteOnIdle: getStringOrUndefined(topic.autoDeleteOnIdle),
     EnablePartitioning: getStringOrUndefined(topic.enablePartitioning),
-    EnableExpress: getStringOrUndefined(topic.enableExpress),
-    AvailabilityStatus: getStringOrUndefined(topic.availabilityStatus)
+    EntityAvailabilityStatus: getStringOrUndefined(topic.availabilityStatus),
+    EnableExpress: getStringOrUndefined(topic.enableExpress)
   };
 }
 
@@ -407,7 +407,7 @@ export interface InternalTopicOptions {
   /**
    * Availability status of the messaging entity.
    */
-  AvailabilityStatus?: string;
+  EntityAvailabilityStatus?: string;
 }
 
 /**
