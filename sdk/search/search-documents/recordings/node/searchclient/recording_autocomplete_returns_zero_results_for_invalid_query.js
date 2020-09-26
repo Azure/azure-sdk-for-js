@@ -1,11 +1,11 @@
 let nock = require('nock');
 
-module.exports.hash = "95ad896b393c2fcdff21c8602df36d1f";
+module.exports.hash = "e394598820014f7e3500b21be4967ab7";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
 nock('https://endpoint:443', {"encodedQueryParams":true})
-  .post('/indexes(%27hotel-live-test1%27)/docs/search.post.suggest', {"search":"garbxyz","suggesterName":"sg"})
+  .post('/indexes(%27hotel-live-test1%27)/docs/search.post.autocomplete', {"search":"garbxyz","suggesterName":"sg"})
   .query(true)
   .reply(200, ["1f8b0800000000000400edbd07601c499625262f6dca7b7f4af54ad7e074a10880601324d8904010ecc188cde692ec1d69472329ab2a81ca6556655d661640cced9dbcf7de7befbdf7de7befbdf7ba3b9d4e27f7dfff3f5c6664016cf6ce4adac99e2180aac81f3f7e7c1f3f227ef1479759b9ce3f7af4bdefff92ff0742ea40440c000000"], [ 'Cache-Control',
   'no-cache',
@@ -20,9 +20,9 @@ nock('https://endpoint:443', {"encodedQueryParams":true})
   'Vary',
   'Accept-Encoding',
   'request-id',
-  'bedeefd4-709d-488e-8eb5-9fa5d801c11f',
+  'c584029a-22c6-4a4f-9dbc-187333fb52c8',
   'elapsed-time',
-  '13',
+  '7',
   'OData-Version',
   '4.0',
   'Preference-Applied',
@@ -30,6 +30,6 @@ nock('https://endpoint:443', {"encodedQueryParams":true})
   'Strict-Transport-Security',
   'max-age=15724800; includeSubDomains',
   'Date',
-  'Wed, 26 Aug 2020 01:07:27 GMT',
+  'Sat, 26 Sep 2020 18:08:29 GMT',
   'Content-Length',
   '133' ]);

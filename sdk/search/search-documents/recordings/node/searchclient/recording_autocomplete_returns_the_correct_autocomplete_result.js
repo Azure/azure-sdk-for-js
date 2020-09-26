@@ -1,6 +1,6 @@
 let nock = require('nock');
 
-module.exports.hash = "323fcc8c4b40de5dfb89b0dd19ae9338";
+module.exports.hash = "eefb4168c8a496fd04134465a57b7aa6";
 
 module.exports.testInfo = {"uniqueName":{},"newDate":{}}
 
@@ -20,9 +20,9 @@ nock('https://endpoint:443', {"encodedQueryParams":true})
   'Vary',
   'Accept-Encoding',
   'request-id',
-  'c78e9366-c45c-47c5-83cf-f96bbf7c7479',
+  'e1c4b9a8-e0ba-4fdb-8a8c-4e5c34bd8029',
   'elapsed-time',
-  '8',
+  '7',
   'OData-Version',
   '4.0',
   'Preference-Applied',
@@ -30,6 +30,6 @@ nock('https://endpoint:443', {"encodedQueryParams":true})
   'Strict-Transport-Security',
   'max-age=15724800; includeSubDomains',
   'Date',
-  'Wed, 26 Aug 2020 01:06:49 GMT',
+  'Sat, 26 Sep 2020 18:08:22 GMT',
   'Content-Length',
   '164' ]);

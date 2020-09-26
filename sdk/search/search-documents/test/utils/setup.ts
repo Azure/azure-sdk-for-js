@@ -520,7 +520,10 @@ export async function deleteSkillsets(client: SearchIndexerClient): Promise<void
 }
 
 // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
-export async function createIndexers(client: SearchIndexerClient): Promise<void> {
+export async function createIndexers(
+  client: SearchIndexerClient,
+  targetIndexName: string
+): Promise<void> {
   const testCaseNames: string[] = ["my-azure-indexer-1", "my-azure-indexer-2"];
   const indexerNames: string[] = await client.listIndexersNames();
   const unCommonElements: string[] = indexerNames.filter(
@@ -543,7 +546,7 @@ export async function createIndexers(client: SearchIndexerClient): Promise<void>
       name: `my-azure-indexer-${i}`,
       description: "Description for Sample Indexer",
       dataSourceName: "my-data-source-1",
-      targetIndexName: "hotel-live-test2",
+      targetIndexName: targetIndexName,
       isDisabled: false
     });
   }
@@ -627,4 +630,8 @@ export async function createSimpleIndex(client: SearchIndexClient, name: string)
     ]
   };
   await client.createIndex(index);
+}
+
+export function createRandomIndexName(): string {
+  return `hotel-live-test${Math.floor(Math.random() * 1000) + 1}`;
 }
