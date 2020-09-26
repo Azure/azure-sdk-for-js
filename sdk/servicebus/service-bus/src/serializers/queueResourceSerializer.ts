@@ -49,8 +49,8 @@ export function buildQueueOptions(queue: CreateQueueOptions): InternalQueueOptio
     ForwardDeadLetteredMessagesTo: getStringOrUndefined(queue.forwardDeadLetteredMessagesTo),
     ForwardTo: getStringOrUndefined(queue.forwardTo),
     UserMetadata: getStringOrUndefined(queue.userMetadata),
-    EnableExpress: getStringOrUndefined(queue.enableExpress),
-    AvaiabilityStatus: getStringOrUndefined(queue.availabilityStatus)
+    EntityAvailabilityStatus: getStringOrUndefined(queue.availabilityStatus),
+    EnableExpress: getStringOrUndefined(queue.enableExpress)
   };
 }
 
@@ -544,7 +544,7 @@ export interface InternalQueueOptions {
   /**
    * Availability status of the messaging entity.
    */
-  AvaiabilityStatus?: string;
+  EntityAvailabilityStatus?: string;
 }
 
 /**
