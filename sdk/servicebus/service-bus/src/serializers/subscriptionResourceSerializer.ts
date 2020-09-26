@@ -47,7 +47,7 @@ export function buildSubscriptionOptions(
     UserMetadata: getStringOrUndefined(subscription.userMetadata),
     ForwardDeadLetteredMessagesTo: getStringOrUndefined(subscription.forwardDeadLetteredMessagesTo),
     AutoDeleteOnIdle: getStringOrUndefined(subscription.autoDeleteOnIdle),
-    AvailabilityStatus: getStringOrUndefined(subscription.availabilityStatus)
+    EntityAvailabilityStatus: getStringOrUndefined(subscription.availabilityStatus)
   };
 }
 
@@ -457,7 +457,7 @@ export interface InternalSubscriptionOptions {
   /**
    * Availability status of the messaging entity.
    */
-  AvailabilityStatus?: string;
+  EntityAvailabilityStatus?: string;
 }
 
 /**
