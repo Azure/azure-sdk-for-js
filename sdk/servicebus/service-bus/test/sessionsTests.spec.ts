@@ -33,7 +33,7 @@ describe("session tests", () => {
   let serviceBusClient: ServiceBusClientForTests;
   let sender: ServiceBusSender;
   let receiver: ServiceBusSessionReceiver<ServiceBusReceivedMessageWithLock>;
-  let testClientType = getRandomTestClientTypeWithSessions();
+  const testClientType = getRandomTestClientTypeWithSessions();
 
   async function beforeEachTest(sessionId?: string): Promise<void> {
     serviceBusClient = createServiceBusClientForTests();

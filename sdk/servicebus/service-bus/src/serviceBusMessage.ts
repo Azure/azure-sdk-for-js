@@ -826,6 +826,8 @@ export function fromAmqpMessage(
  * @export
  * @param {AmqpMessage} msg
  * @returns {AmqpAnnotatedMessage}
+ * @internal
+ * @ignore
  */
 export function toAmqpAnnotatedMessage(msg: AmqpMessage): AmqpAnnotatedMessage {
   const messageHeader = MessageHeader.fromAmqpMessageHeader(msg);

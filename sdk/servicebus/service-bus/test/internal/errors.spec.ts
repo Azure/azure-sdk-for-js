@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import * as sinon from "sinon";
 import { logger } from "../../src/log";
 import { logError } from "../../src/util/errors";

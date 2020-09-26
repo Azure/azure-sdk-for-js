@@ -551,7 +551,7 @@ export async function deleteSynonymMaps(client: SearchIndexClient): Promise<void
 }
 
 export async function createSimpleIndex(client: SearchIndexClient, name: string): Promise<void> {
-  let index: SearchIndex = {
+  const index: SearchIndex = {
     name,
     fields: [
       {

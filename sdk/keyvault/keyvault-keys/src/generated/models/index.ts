@@ -379,7 +379,7 @@ export interface KeyOperationsParameters {
    * Additional data to authenticate but not encrypt/decrypt when using authenticated crypto
    * algorithms.
    */
-  aad?: Uint8Array;
+  additionalAuthenticatedData?: Uint8Array;
   /**
    * The tag to authenticate when performing decryption with an authenticated algorithm.
    */
@@ -655,7 +655,7 @@ export interface KeyVaultClientEncryptOptionalParams extends coreHttp.RequestOpt
    * Additional data to authenticate but not encrypt/decrypt when using authenticated crypto
    * algorithms.
    */
-  aad?: Uint8Array;
+  additionalAuthenticatedData?: Uint8Array;
   /**
    * The tag to authenticate when performing decryption with an authenticated algorithm.
    */
@@ -674,7 +674,7 @@ export interface KeyVaultClientDecryptOptionalParams extends coreHttp.RequestOpt
    * Additional data to authenticate but not encrypt/decrypt when using authenticated crypto
    * algorithms.
    */
-  aad?: Uint8Array;
+  additionalAuthenticatedData?: Uint8Array;
   /**
    * The tag to authenticate when performing decryption with an authenticated algorithm.
    */
@@ -693,7 +693,7 @@ export interface KeyVaultClientWrapKeyOptionalParams extends coreHttp.RequestOpt
    * Additional data to authenticate but not encrypt/decrypt when using authenticated crypto
    * algorithms.
    */
-  aad?: Uint8Array;
+  additionalAuthenticatedData?: Uint8Array;
   /**
    * The tag to authenticate when performing decryption with an authenticated algorithm.
    */
@@ -712,7 +712,7 @@ export interface KeyVaultClientUnwrapKeyOptionalParams extends coreHttp.RequestO
    * Additional data to authenticate but not encrypt/decrypt when using authenticated crypto
    * algorithms.
    */
-  aad?: Uint8Array;
+  additionalAuthenticatedData?: Uint8Array;
   /**
    * The tag to authenticate when performing decryption with an authenticated algorithm.
    */
