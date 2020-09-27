@@ -1204,9 +1204,9 @@ const encryptOperationSpec: coreHttp.OperationSpec = {
         "options",
         "iv"
       ],
-      aad: [
+      additionalAuthenticatedData: [
         "options",
-        "aad"
+        "additionalAuthenticatedData"
       ],
       tag: [
         "options",
@@ -1248,9 +1248,9 @@ const decryptOperationSpec: coreHttp.OperationSpec = {
         "options",
         "iv"
       ],
-      aad: [
+      additionalAuthenticatedData: [
         "options",
-        "aad"
+        "additionalAuthenticatedData"
       ],
       tag: [
         "options",
@@ -1357,9 +1357,9 @@ const wrapKeyOperationSpec: coreHttp.OperationSpec = {
         "options",
         "iv"
       ],
-      aad: [
+      additionalAuthenticatedData: [
         "options",
-        "aad"
+        "additionalAuthenticatedData"
       ],
       tag: [
         "options",
@@ -1401,9 +1401,9 @@ const unwrapKeyOperationSpec: coreHttp.OperationSpec = {
         "options",
         "iv"
       ],
-      aad: [
+      additionalAuthenticatedData: [
         "options",
-        "aad"
+        "additionalAuthenticatedData"
       ],
       tag: [
         "options",

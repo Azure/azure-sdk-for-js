@@ -173,7 +173,7 @@ describe("Listing methods - PagedAsyncIterableIterator", function(): void {
 
       it("Verify PagedAsyncIterableIterator", async () => {
         const receivedEntities = [];
-        let iter = getIter();
+        const iter = getIter();
         for await (const entity of iter) {
           receivedEntities.push(
             methodName.includes("Subscription") ? entity.subscriptionName : entity.name
@@ -184,7 +184,7 @@ describe("Listing methods - PagedAsyncIterableIterator", function(): void {
 
       it("Verify PagedAsyncIterableIterator(byPage())", async () => {
         const receivedEntities = [];
-        let iter = getIter().byPage({
+        const iter = getIter().byPage({
           maxPageSize: 2
         });
         for await (const response of iter) {

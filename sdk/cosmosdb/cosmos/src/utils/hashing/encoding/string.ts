@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { BytePrefix } from "./prefix";
 
 export function writeStringForBinaryEncoding(payload: string) {

@@ -22,8 +22,8 @@ describe("Send Batch", () => {
   let serviceBusClient: ServiceBusClientForTests;
 
   let entityNames: EntityName;
-  let noSessionTestClientType = getRandomTestClientTypeWithNoSessions();
-  let withSessionTestClientType = getRandomTestClientTypeWithSessions();
+  const noSessionTestClientType = getRandomTestClientTypeWithNoSessions();
+  const withSessionTestClientType = getRandomTestClientTypeWithSessions();
 
   before(() => {
     serviceBusClient = createServiceBusClientForTests();
