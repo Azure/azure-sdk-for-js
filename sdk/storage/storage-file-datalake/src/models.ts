@@ -7,10 +7,17 @@ import {
   LeaseAccessConditions,
   ModifiedAccessConditions as ModifiedAccessConditionsModel,
   UserDelegationKeyModel,
-  BlobQueryArrowField
+  BlobQueryArrowConfiguration
 } from "@azure/storage-blob";
 export type ModifiedAccessConditions = Omit<ModifiedAccessConditionsModel, "ifTags">;
-export type FileQueryArrowField = BlobQueryArrowField;
+
+/**
+ * Options to query file with Apache Arrow format. Only valid for {@link FileQueryOptions.outputTextConfiguration}.
+ *
+ * @export
+ * @interface FileQueryArrowConfiguration
+ */
+export type FileQueryArrowConfiguration = BlobQueryArrowConfiguration;
 
 import {
   FileSystemListPathsHeaders,
@@ -1279,30 +1286,6 @@ export interface FileQueryCsvTextConfiguration {
    * @memberof FileQueryCsvTextConfiguration
    */
   hasHeaders?: boolean;
-}
-
-/**
- * Options to query file with Apache Arrow format. Only valid for {@link FileQueryOptions.outputTextConfiguration}.
- *
- * @export
- * @interface FileQueryArrowConfiguration
- */
-export interface FileQueryArrowConfiguration {
-  /**
-   * Kind.
-   *
-   * @type {"arrow"}
-   * @memberof FileQueryArrowConfiguration
-   */
-  kind: "arrow";
-
-  /**
-   * List of {@link BlobQueryArrowField} describing the schema of the data.
-   *
-   * @type {BlobQueryArrowField[]}
-   * @memberof FileQueryArrowConfiguration
-   */
-  schema: BlobQueryArrowField[];
 }
 
 /**
