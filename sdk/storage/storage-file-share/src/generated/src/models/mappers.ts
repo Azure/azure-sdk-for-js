@@ -1635,7 +1635,7 @@ export const ShareBreakLeaseHeaders: coreHttp.CompositeMapper = {
           name: "DateTimeRfc1123"
         }
       },
-      leaseTime: {
+      leaseTimeInSeconds: {
         serializedName: "x-ms-lease-time",
         type: {
           name: "Number"

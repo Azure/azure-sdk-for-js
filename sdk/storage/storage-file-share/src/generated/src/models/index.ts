@@ -1861,7 +1861,7 @@ export interface ShareBreakLeaseHeaders {
   /**
    * Approximate time remaining in the lease period, in seconds.
    */
-  leaseTime?: number;
+  leaseTimeInSeconds?: number;
   /**
    * Uniquely identifies a share's lease
    */

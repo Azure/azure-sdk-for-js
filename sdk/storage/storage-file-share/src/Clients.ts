@@ -5682,7 +5682,7 @@ export interface LeaseOperationResponseHeaders {
   /**
    * Approximate time remaining in the lease period, in seconds. Only availabe for {@link ShareLeaseClient.breakLease} for share lease.
    */
-  leaseTime?: number;
+  leaseTimeInSeconds?: number;
   /**
    * Uniquely identifies a file's lease, won't be set when returned by releaseLease.
    */
