@@ -551,7 +551,7 @@ export interface RouteProperties {
   /**
    * The source that the routing rule is to be applied to, such as DeviceMessages. Possible values
    * include: 'Invalid', 'DeviceMessages', 'TwinChangeEvents', 'DeviceLifecycleEvents',
-   * 'DeviceJobLifecycleEvents'
+   * 'DeviceJobLifecycleEvents', 'DigitalTwinChangeEvents'
    */
   source: RoutingSource;
   /**
@@ -727,6 +727,40 @@ export interface CloudToDeviceProperties {
 }
 
 /**
+ * The device streams properties of iothub.
+ */
+export interface IotHubPropertiesDeviceStreams {
+  /**
+   * List of Device Streams Endpoints.
+   */
+  streamingEndpoints?: string[];
+}
+
+/**
+ * The properties of the KeyVault key.
+ */
+export interface KeyVaultKeyProperties {
+  /**
+   * The identifier of the key.
+   */
+  keyIdentifier?: string;
+}
+
+/**
+ * The encryption properties for the IoT hub.
+ */
+export interface EncryptionPropertiesDescription {
+  /**
+   * The source of the key.
+   */
+  keySource?: string;
+  /**
+   * The properties of the KeyVault key.
+   */
+  keyVaultProperties?: KeyVaultKeyProperties[];
+}
+
+/**
  * Public representation of one of the locations where a resource is provisioned.
  */
 export interface IotHubLocationDescription {
@@ -812,10 +846,18 @@ export interface IotHubProperties {
    */
   comments?: string;
   /**
+   * The device streams properties of iothub.
+   */
+  deviceStreams?: IotHubPropertiesDeviceStreams;
+  /**
    * The capabilities and features enabled for the IoT hub. Possible values include: 'None',
    * 'DeviceManagement'
    */
   features?: Capabilities;
+  /**
+   * The encryption properties for the IoT hub.
+   */
+  encryption?: EncryptionPropertiesDescription;
   /**
    * Primary and secondary location for iot hub
    * **NOTE: This property will not be serialized. It can only be populated by the server.**
@@ -1375,7 +1417,7 @@ export interface RoutingTwin {
 export interface TestAllRoutesInput {
   /**
    * Routing source. Possible values include: 'Invalid', 'DeviceMessages', 'TwinChangeEvents',
-   * 'DeviceLifecycleEvents', 'DeviceJobLifecycleEvents'
+   * 'DeviceLifecycleEvents', 'DeviceJobLifecycleEvents', 'DigitalTwinChangeEvents'
    */
   routingSource?: RoutingSource;
   /**
@@ -1518,15 +1560,6 @@ export interface ExportDevicesRequest {
    * values include: 'keyBased', 'identityBased'
    */
   authenticationType?: AuthenticationType;
-  /**
-   * The value indicating whether configurations should be exported.
-   */
-  includeConfigurations?: boolean;
-  /**
-   * The name of the blob that will be created in the provided output blob container. This blob
-   * will contain the exported configurations for the Iot Hub.
-   */
-  configurationsBlobName?: string;
 }
 
 /**
@@ -1554,14 +1587,6 @@ export interface ImportDevicesRequest {
    * values include: 'keyBased', 'identityBased'
    */
   authenticationType?: AuthenticationType;
-  /**
-   * The value indicating whether configurations should be imported.
-   */
-  includeConfigurations?: boolean;
-  /**
-   * The blob name to be used when importing configurations from the provided input blob container.
-   */
-  configurationsBlobName?: string;
 }
 
 /**
@@ -1805,11 +1830,11 @@ export type AuthenticationType = 'keyBased' | 'identityBased';
 /**
  * Defines values for RoutingSource.
  * Possible values include: 'Invalid', 'DeviceMessages', 'TwinChangeEvents',
- * 'DeviceLifecycleEvents', 'DeviceJobLifecycleEvents'
+ * 'DeviceLifecycleEvents', 'DeviceJobLifecycleEvents', 'DigitalTwinChangeEvents'
  * @readonly
  * @enum {string}
  */
-export type RoutingSource = 'Invalid' | 'DeviceMessages' | 'TwinChangeEvents' | 'DeviceLifecycleEvents' | 'DeviceJobLifecycleEvents';
+export type RoutingSource = 'Invalid' | 'DeviceMessages' | 'TwinChangeEvents' | 'DeviceLifecycleEvents' | 'DeviceJobLifecycleEvents' | 'DigitalTwinChangeEvents';
 
 /**
  * Defines values for Capabilities.

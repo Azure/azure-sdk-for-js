@@ -1199,6 +1199,71 @@ export const CloudToDeviceProperties: msRest.CompositeMapper = {
   }
 };
 
+export const IotHubPropertiesDeviceStreams: msRest.CompositeMapper = {
+  serializedName: "IotHubProperties_deviceStreams",
+  type: {
+    name: "Composite",
+    className: "IotHubPropertiesDeviceStreams",
+    modelProperties: {
+      streamingEndpoints: {
+        serializedName: "streamingEndpoints",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "String"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
+export const KeyVaultKeyProperties: msRest.CompositeMapper = {
+  serializedName: "KeyVaultKeyProperties",
+  type: {
+    name: "Composite",
+    className: "KeyVaultKeyProperties",
+    modelProperties: {
+      keyIdentifier: {
+        serializedName: "keyIdentifier",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const EncryptionPropertiesDescription: msRest.CompositeMapper = {
+  serializedName: "EncryptionPropertiesDescription",
+  type: {
+    name: "Composite",
+    className: "EncryptionPropertiesDescription",
+    modelProperties: {
+      keySource: {
+        serializedName: "keySource",
+        type: {
+          name: "String"
+        }
+      },
+      keyVaultProperties: {
+        serializedName: "keyVaultProperties",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Composite",
+              className: "KeyVaultKeyProperties"
+            }
+          }
+        }
+      }
+    }
+  }
+};
+
 export const IotHubLocationDescription: msRest.CompositeMapper = {
   serializedName: "IotHubLocationDescription",
   type: {
@@ -1358,10 +1423,24 @@ export const IotHubProperties: msRest.CompositeMapper = {
           name: "String"
         }
       },
+      deviceStreams: {
+        serializedName: "deviceStreams",
+        type: {
+          name: "Composite",
+          className: "IotHubPropertiesDeviceStreams"
+        }
+      },
       features: {
         serializedName: "features",
         type: {
           name: "String"
+        }
+      },
+      encryption: {
+        serializedName: "encryption",
+        type: {
+          name: "Composite",
+          className: "EncryptionPropertiesDescription"
         }
       },
       locations: {
@@ -2551,18 +2630,6 @@ export const ExportDevicesRequest: msRest.CompositeMapper = {
         type: {
           name: "String"
         }
-      },
-      includeConfigurations: {
-        serializedName: "includeConfigurations",
-        type: {
-          name: "Boolean"
-        }
-      },
-      configurationsBlobName: {
-        serializedName: "configurationsBlobName",
-        type: {
-          name: "String"
-        }
       }
     }
   }
@@ -2602,18 +2669,6 @@ export const ImportDevicesRequest: msRest.CompositeMapper = {
       },
       authenticationType: {
         serializedName: "authenticationType",
-        type: {
-          name: "String"
-        }
-      },
-      includeConfigurations: {
-        serializedName: "includeConfigurations",
-        type: {
-          name: "Boolean"
-        }
-      },
-      configurationsBlobName: {
-        serializedName: "configurationsBlobName",
         type: {
           name: "String"
         }
