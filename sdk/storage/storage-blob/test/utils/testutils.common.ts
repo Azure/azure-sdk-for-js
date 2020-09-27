@@ -31,7 +31,11 @@ export const recorderEnvSetup: RecorderEnvironmentSetup = {
     ORS_DEST_ACCOUNT_NAME: `${mockAccountName1}`,
     ORS_DEST_ACCOUNT_KEY: `${mockAccountKey}`,
     ORS_DEST_ACCOUNT_SAS: `${mockAccountKey}`,
-    ORS_DEST_STORAGE_CONNECTION_STRING: `DefaultEndpointsProtocol=https;AccountName=${mockAccountName1};AccountKey=${mockAccountKey};EndpointSuffix=core.windows.net`
+    ORS_DEST_STORAGE_CONNECTION_STRING: `DefaultEndpointsProtocol=https;AccountName=${mockAccountName1};AccountKey=${mockAccountKey};EndpointSuffix=core.windows.net`,
+    CONTAINER_SOFT_DELETE_ACCOUNT_NAME: `${mockAccountName}`,
+    CONTAINER_SOFT_DELETE_ACCOUNT_KEY: `${mockAccountKey}`,
+    CONTAINER_SOFT_DELETE_ACCOUNT_SAS: `${mockAccountKey}`,
+    CONTAINER_SOFT_DELETE_STORAGE_CONNECTION_STRING: `DefaultEndpointsProtocol=https;AccountName=${mockAccountName};AccountKey=${mockAccountKey};EndpointSuffix=core.windows.net`
   },
   customizationsOnRecordings: [
     // Used in record mode

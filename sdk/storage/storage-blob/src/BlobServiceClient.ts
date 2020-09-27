@@ -326,24 +326,32 @@ export declare type ServiceGetUserDelegationKeyResponse = UserDelegationKey &
  * Options to configure {@link BlobServiceClient.undeleteContainer} operation.
  *
  * @export
- * @interface ContainerUndeleteOptions
+ * @interface ServiceUndeleteContainerOptions
  */
-export interface ContainerUndeleteOptions extends CommonOptions {
+export interface ServiceUndeleteContainerOptions extends CommonOptions {
   /**
    * An implementation of the `AbortSignalLike` interface to signal the request to cancel the operation.
    * For example, use the &commat;azure/abort-controller to create an `AbortSignal`.
    *
    * @type {AbortSignalLike}
-   * @memberof ContainerUndeleteOptions
+   * @memberof ServiceUndeleteContainerOptions
    */
   abortSignal?: AbortSignalLike;
   /**
    * Optional. Specifies the version of the deleted container to restore.
    *
    * @type {string}
-   * @memberof ContainerUndeleteOptions
+   * @memberof ServiceUndeleteContainerOptions
    */
   deletedContainerVersion?: string;
+  /**
+   * Optional. Specifies the new name of the restored container.
+   * Will use its original name if this is not specified.
+   *
+   * @type {string}
+   * @memberof ServiceUndeleteContainerOptions
+   */
+  destinationContainerName?: string;
 }
 
 /**
@@ -576,14 +584,13 @@ export class BlobServiceClient extends StorageClient {
    * This API is only functional if Container Soft Delete is enabled for the storage account associated with the container.
    *
    * @param {string} deletedContainerName Name of the previously deleted container.
-   * @param {ContainerUndeleteOptions} [options] Options to configure Container undelete operation.
-   * @returns {Promise<ContainerDeleteResponse>} Container deletion response.
+   * @param {ServiceUndeleteContainerOptions} [options] Options to configure Container Undelete operation.
+   * @returns {Promise<ContainerUndeleteResponse>} Container deletion response.
    * @memberof BlobServiceClient
    */
   public async undeleteContainer(
     deletedContainerName: string,
-    destinationContainerName?: string,
-    options: ContainerUndeleteOptions = {}
+    options: ServiceUndeleteContainerOptions = {}
   ): Promise<{
     containerClient: ContainerClient;
     containerUndeleteResponse: ContainerUndeleteResponse;
@@ -594,7 +601,7 @@ export class BlobServiceClient extends StorageClient {
     );
     try {
       const containerClient = this.getContainerClient(
-        destinationContainerName || deletedContainerName
+        options.destinationContainerName || deletedContainerName
       );
       // Hack to access a protected member.
       const containerContext = new Container(containerClient["storageClientContext"]);

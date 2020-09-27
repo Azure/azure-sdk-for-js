@@ -5,6 +5,7 @@ import { BlobServiceClient } from "../src";
 import {
   getAlternateBSU,
   getBSU,
+  getGenericBSU,
   getSASConnectionStringFromEnvironment,
   getTokenBSU,
   recorderEnvSetup,
@@ -560,5 +561,30 @@ describe("BlobServiceClient", () => {
     assert.ok(staticWebsite?.enabled);
     assert.equal(staticWebsite?.errorDocument404Path, errorDocument404Path);
     assert.equal(staticWebsite?.defaultIndexDocumentPath, defaultIndexDocumentPath);
+  });
+
+  it.only("restore container", async function() {
+    let blobServiceClient: BlobServiceClient;
+    try {
+      blobServiceClient = getGenericBSU("CONTAINER_SOFT_DELETE_");
+    } catch (err) {
+      console.log(err);
+      this.skip();
+    }
+
+    const containerName = recorder.getUniqueName("container");
+    const containerClient = blobServiceClient.getContainerClient(containerName);
+
+    await containerClient.create();
+    await containerClient.delete();
+
+    const restoreRes = await blobServiceClient.undeleteContainer(containerName);
+    assert.equal(restoreRes.containerClient.containerName, containerName);
+
+    // const newContainerName = recorder.getUniqueName("newContainerName");
+    // const restoreRes2 = await blobServiceClient.undeleteContainer(containerName, {
+    //   destinationContainerName: newContainerName
+    // });
+    // assert.equal(restoreRes2.containerClient.containerName, newContainerName);
   });
 });
