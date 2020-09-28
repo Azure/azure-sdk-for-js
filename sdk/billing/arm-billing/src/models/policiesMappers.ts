@@ -28,7 +28,6 @@ export {
   Document,
   Enrollment,
   EnrollmentAccount,
-  EnrollmentAccountListResult,
   EnrollmentAccountSummary,
   EnrollmentPolicies,
   ErrorDetails,
