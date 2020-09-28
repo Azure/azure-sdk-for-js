@@ -165,8 +165,8 @@ export interface MessageHandlerOptions extends MessageHandlerOptionsBase {
 }
 
 /**
- * Describes the options passed to the `acceptSession` method when using a Queue/Subscription that
- * has sessions enabled.
+ * Describes the options passed to the `acceptSession` and `acceptNextSession` methods
+ * when using a Queue/Subscription that has sessions enabled.
  *
  * @export
  * @interface AcceptSessionOptions
