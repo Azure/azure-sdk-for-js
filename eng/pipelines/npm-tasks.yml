@@ -27,5 +27,5 @@ jobs:
       inputs:
         targetType: filePath
         filePath: "eng/tools/npm-admin-tasks.ps1"
-        rguments: '-taskType $(TaskType) -packageName $(PackageName) -pkgVersion $(PkgVersion) -tagName $(TagName) -npmToken $(azure-sdk-npm-token) -reason $(Reason)'
+        arguments: '-taskType $(TaskType) -packageName $(PackageName) -pkgVersion $(PkgVersion) -tagName $(TagName) -npmToken "$(azure-sdk-npm-token)" -reason $(Reason)'
         pwsh: true
