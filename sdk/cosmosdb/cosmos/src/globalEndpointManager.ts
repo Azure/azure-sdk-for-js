@@ -200,24 +200,27 @@ export class GlobalEndpointManager {
       // if we are not able to get that info from any endpoints
     } catch (err) {
       // TODO: Tracing
-    }
 
-    if (this.preferredLocations) {
-      for (const location of this.preferredLocations) {
-        try {
-          const locationalEndpoint = GlobalEndpointManager.getLocationalEndpoint(
-            this.defaultEndpoint,
-            location
-          );
-          const options = { urlConnection: locationalEndpoint };
-          const { resource: databaseAccount } = await this.readDatabaseAccount(options);
-          if (databaseAccount) {
-            return databaseAccount;
+      if (this.preferredLocations) {
+        for (const location of this.preferredLocations) {
+          try {
+            const locationalEndpoint = GlobalEndpointManager.getLocationalEndpoint(
+              this.defaultEndpoint,
+              location
+            );
+            const options = { urlConnection: locationalEndpoint };
+            const { resource: databaseAccount } = await this.readDatabaseAccount(options);
+            if (databaseAccount) {
+              return databaseAccount;
+            }
+          } catch (err) {
+            // TODO: Tracing
+            throw err;
           }
-        } catch (err) {
-          // TODO: Tracing
         }
       }
+
+      return null;
     }
   }
 

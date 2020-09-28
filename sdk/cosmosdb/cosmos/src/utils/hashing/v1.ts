@@ -44,6 +44,7 @@ function prefixKeyByType(key: v1Key) {
       }
       return Buffer.from(BytePrefix.Undefined, "hex");
     case "undefined":
+    default:
       return Buffer.from(BytePrefix.Undefined, "hex");
   }
 }
@@ -65,6 +66,7 @@ function encodeByType(key: v1Key) {
       }
       return Buffer.from(BytePrefix.Undefined, "hex");
     case "undefined":
+    default:
       return Buffer.from(BytePrefix.Undefined, "hex");
   }
 }

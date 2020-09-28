@@ -59,6 +59,8 @@ export class InMemoryCollectionRoutingMap {
         if (queryRange.min === range.max) {
           return true;
         }
+
+        return false;
       });
 
       if (minIndex < 0) {

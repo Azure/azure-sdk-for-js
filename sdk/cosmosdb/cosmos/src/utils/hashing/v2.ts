@@ -38,6 +38,7 @@ function prefixKeyByType(key: v2Key) {
       }
       return Buffer.from(BytePrefix.Undefined, "hex");
     case "undefined":
+    default:
       return Buffer.from(BytePrefix.Undefined, "hex");
   }
 }

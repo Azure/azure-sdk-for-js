@@ -12,12 +12,13 @@ export function extractPartitionKey(
   document: any,
   partitionKeyDefinition: PartitionKeyDefinition
 ): PartitionKey[] {
+  const partitionKey: PartitionKey[] = [];
+
   if (
     partitionKeyDefinition &&
     partitionKeyDefinition.paths &&
     partitionKeyDefinition.paths.length > 0
   ) {
-    const partitionKey: PartitionKey[] = [];
     partitionKeyDefinition.paths.forEach((path: string) => {
       const pathParts = parsePath(path);
       let obj = document;
@@ -33,8 +34,9 @@ export function extractPartitionKey(
     if (partitionKey.length === 1 && partitionKey[0] === undefined) {
       return undefinedPartitionKey(partitionKeyDefinition);
     }
-    return partitionKey;
   }
+
+  return partitionKey;
 }
 /**
  * @ignore

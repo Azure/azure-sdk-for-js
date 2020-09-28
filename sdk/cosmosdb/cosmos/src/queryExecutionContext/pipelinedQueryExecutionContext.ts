@@ -153,9 +153,7 @@ export class PipelinedQueryExecutionContext implements ExecutionContext {
     } catch (err) {
       mergeHeaders(this.fetchMoreRespHeaders, err.headers);
       err.headers = this.fetchMoreRespHeaders;
-      if (err) {
-        throw err;
-      }
+      throw err;
     }
   }
 }
