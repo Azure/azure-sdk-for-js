@@ -170,13 +170,6 @@ export const Entity: coreHttp.CompositeMapper = {
           name: "Number"
         }
       },
-      length: {
-        serializedName: "length",
-        required: true,
-        type: {
-          name: "Number"
-        }
-      },
       confidenceScore: {
         serializedName: "confidenceScore",
         required: true,
@@ -651,13 +644,6 @@ export const Match: coreHttp.CompositeMapper = {
         type: {
           name: "Number"
         }
-      },
-      length: {
-        serializedName: "length",
-        required: true,
-        type: {
-          name: "Number"
-        }
       }
     }
   }
@@ -1067,13 +1053,6 @@ export const SentenceSentiment: coreHttp.CompositeMapper = {
           name: "Number"
         }
       },
-      length: {
-        serializedName: "length",
-        required: true,
-        type: {
-          name: "Number"
-        }
-      },
       aspects: {
         serializedName: "aspects",
         type: {
@@ -1114,13 +1093,6 @@ export const SentenceAspect: coreHttp.CompositeMapper = {
       },
       offset: {
         serializedName: "offset",
-        required: true,
-        type: {
-          name: "Number"
-        }
-      },
-      length: {
-        serializedName: "length",
         required: true,
         type: {
           name: "Number"
@@ -1214,13 +1186,6 @@ export const SentenceOpinion: coreHttp.CompositeMapper = {
       },
       offset: {
         serializedName: "offset",
-        required: true,
-        type: {
-          name: "Number"
-        }
-      },
-      length: {
-        serializedName: "length",
         required: true,
         type: {
           name: "Number"
