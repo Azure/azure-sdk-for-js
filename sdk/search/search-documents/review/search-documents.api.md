@@ -81,6 +81,18 @@ export interface AzureActiveDirectoryApplicationCredentials {
 export { AzureKeyCredential }
 
 // @public
+export type BlobIndexerDataToExtract = 'storageMetadata' | 'allMetadata' | 'contentAndMetadata';
+
+// @public
+export type BlobIndexerImageAction = 'none' | 'generateNormalizedImages' | 'generateNormalizedImagePerPage';
+
+// @public
+export type BlobIndexerParsingMode = 'default' | 'text' | 'delimitedText' | 'json' | 'jsonArray' | 'jsonLines';
+
+// @public
+export type BlobIndexerPDFTextRotationAlgorithm = 'none' | 'detectAngles';
+
+// @public
 export interface BM25Similarity {
     b?: number;
     k1?: number;
@@ -452,6 +464,9 @@ export interface IndexDocumentsResult {
 }
 
 // @public
+export type IndexerExecutionEnvironment = 'standard' | 'private';
+
+// @public
 export interface IndexerExecutionResult {
     readonly endTime?: Date;
     readonly errorMessage?: string;
@@ -474,11 +489,31 @@ export type IndexerStatus = 'unknown' | 'error' | 'running';
 // @public
 export interface IndexingParameters {
     batchSize?: number;
-    configuration?: {
-        [propertyName: string]: any;
-    };
+    // (undocumented)
+    configuration?: IndexingParametersConfiguration;
     maxFailedItems?: number;
     maxFailedItemsPerBatch?: number;
+}
+
+// @public
+export interface IndexingParametersConfiguration {
+    [property: string]: any;
+    allowSkillsetToReadFileData?: boolean;
+    dataToExtract?: BlobIndexerDataToExtract;
+    delimitedTextDelimiter?: string;
+    delimitedTextHeaders?: string;
+    documentRoot?: string;
+    excludedFileNameExtensions?: string;
+    executionEnvironment?: IndexerExecutionEnvironment;
+    failOnUnprocessableDocument?: boolean;
+    failOnUnsupportedContentType?: boolean;
+    firstLineContainsHeaders?: boolean;
+    imageAction?: BlobIndexerImageAction;
+    indexedFileNameExtensions?: string;
+    indexStorageMetadataOnlyForOversizedDocuments?: boolean;
+    parsingMode?: BlobIndexerParsingMode;
+    pdfTextRotationAlgorithm?: BlobIndexerPDFTextRotationAlgorithm;
+    queryTimeout?: string;
 }
 
 // @public

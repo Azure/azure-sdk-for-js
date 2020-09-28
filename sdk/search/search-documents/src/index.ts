@@ -222,6 +222,12 @@ export {
   ResourceCounter,
   LexicalAnalyzerName,
   ClassicSimilarity,
-  BM25Similarity
+  BM25Similarity,
+  IndexingParametersConfiguration,
+  BlobIndexerDataToExtract,
+  IndexerExecutionEnvironment,
+  BlobIndexerImageAction,
+  BlobIndexerParsingMode,
+  BlobIndexerPDFTextRotationAlgorithm
 } from "./generated/service/models";
 export { AzureKeyCredential } from "@azure/core-auth";
