@@ -23,20 +23,18 @@ jobs:
     vmImage: 'windows-2019'
 
   steps:
-    - ${{if eq(variables['taskType'], 'AddTag')}}:
-      - pwsh: |
-          $env:NPM_TOKEN = $(azure-sdk-npm-token)
-          $regAuth="//registry.npmjs.org/"
-          npm config set $regAuth`:_authToken=`$`{NPM_TOKEN`}
-          npm dist-tag add @azure/$(packageName)@$(pkgVersion) $(tagName)
-        displayName: "Add Tag"
-        condition: Succeeded()
+    - pwsh: |
+        $env:NPM_TOKEN = $(azure-sdk-npm-token)
+        $regAuth="//registry.npmjs.org/"
+        npm config set $regAuth`:_authToken=`$`{NPM_TOKEN`}
+        npm dist-tag add @azure/$(packageName)@$(pkgVersion) $(tagName)
+      displayName: "Add Tag"
+      condition: eq(variables['taskType'], 'AddTag')
 
-    - ${{if eq(variables['taskType'], 'RemoveTag')}}:
-      - pwsh: |
-          $env:NPM_TOKEN = $(azure-sdk-npm-token)
-          $regAuth="//registry.npmjs.org/"
-          npm config set $regAuth`:_authToken=`$`{NPM_TOKEN`}
-          npm dist-tag rm @azure/$(packageName)@$(pkgVersion) $(tagName)
-        displayName: "Remove Tag"
-        condition: Succeeded()
+    - pwsh: |
+        $env:NPM_TOKEN = $(azure-sdk-npm-token)
+        $regAuth="//registry.npmjs.org/"
+        npm config set $regAuth`:_authToken=`$`{NPM_TOKEN`}
+        npm dist-tag rm @azure/$(packageName)@$(pkgVersion) $(tagName)
+      displayName: "Remove Tag"
+      condition: eq(variables['taskType'], 'RemoveTag')
