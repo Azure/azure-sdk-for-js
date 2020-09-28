@@ -1,6 +1,6 @@
 # Release History
 
-## 5.1.0-beta.2 (2020-10-02)
+## 5.1.0-beta.2 (unreleased)
 
 - The `length` property is removed from `SentenceSentiment`, `Entity`, `Match`, PiiEntity`, and`CategorizedEntity` because the length information can be accessed from the text property itself using the string's length property.
 
