@@ -17,7 +17,6 @@ trigger: none
 
 jobs:
 - job: 'NPM_Admin_Job'
-  condition: ne(variables['taskType'], '')
 
   pool:
     vmImage: 'windows-2019'
