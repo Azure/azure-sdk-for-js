@@ -1,0 +1,42 @@
+trigger: none
+
+# This pipeline helps to run NPM admin tasks like remove or add tag to a released package version or deprecate a pacakge version
+# Following variables should be set at queue time to run this pipeline
+# variable name: taskType
+# valid Options: 'addTag', 'removeTag', 'deprecatePackage'
+
+# variable name: packageName
+# e.g. values: 'storage-blob', 'core-http'
+
+# variable name: 'pkgVersion'
+# e.g. values '1.0.0', '2.1.0.beta.1'
+
+# variable name: 'tagName'
+# e.g values: 'latest', 'next'
+
+
+jobs:
+- job: 'NPM Admin Job'
+  condition: ne($(taskType), '')
+
+  pool:
+    vmImage: 'windows-2019'
+
+  steps:
+    - ${{if eq($(TaskType), 'AddTag')}}:
+      - pwsh: |
+          $env:NPM_TOKEN = $(azure-sdk-npm-token)
+          $regAuth="//registry.npmjs.org/"
+          npm config set $regAuth`:_authToken=`$`{NPM_TOKEN`}
+          npm dist-tag add @azure/$(packageName)@$(pkgVersion) $(tagName)
+        displayName: "Add Tag $(tagName) for $(packageName)"
+        condition: Succeeded()
+
+    - ${{if eq($(TaskType), 'RemoveTag')}}:
+      - pwsh: |
+          $env:NPM_TOKEN = $(azure-sdk-npm-token)
+          $regAuth="//registry.npmjs.org/"
+          npm config set $regAuth`:_authToken=`$`{NPM_TOKEN`}
+          npm dist-tag rm @azure/$(packageName)@$(pkgVersion) $(tagName)
+        displayName: "Remove Tag $(tagName) from $(packageName)"
+        condition: Succeeded()
