@@ -92,7 +92,7 @@ directive:
   - from: swagger-document
     where: $.definitions.DocumentStatistics
     transform: >
-        $["x-ms-client-name"] = "TextDocumentStatistics";
+      $["x-ms-client-name"] = "TextDocumentStatistics";
 ```
 
 ### RequestStatistics => TextDocumentBatchStatistics
@@ -102,7 +102,7 @@ directive:
   - from: swagger-document
     where: $.definitions.RequestStatistics
     transform: >
-     $["x-ms-client-name"] = "TextDocumentBatchStatistics";
+      $["x-ms-client-name"] = "TextDocumentBatchStatistics";
 ```
 
 ### Rename showStats -> includeStatistics
@@ -121,7 +121,7 @@ directive:
       }
 ```
 
-### Rename {Document,Sentence}SentimentValue -> Label 
+### Rename {Document,Sentence}SentimentValue -> Label
 
 ```yaml
 directive:
@@ -174,7 +174,7 @@ directive:
   - from: swagger-document
     where: $.definitions.SentimentConfidenceScorePerLabel
     transform: >
-     $["x-ms-client-name"] = "SentimentConfidenceScores";
+      $["x-ms-client-name"] = "SentimentConfidenceScores";
 ```
 
 ### Change some casing to use camelCase
