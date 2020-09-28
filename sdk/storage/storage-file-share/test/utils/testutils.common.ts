@@ -8,7 +8,6 @@ export function isBrowser(): boolean {
 const mockAccountName = "fakestorageaccount";
 const mockAccountKey = "aaaaa";
 const mockSDAccountName = "sd-fakestorageaccount";
-const mockPFAccountName = "pf-fakestorageaccount";
 export const recorderEnvSetup: RecorderEnvironmentSetup = {
   replaceableVariables: {
     // Used in record and playback modes
@@ -25,7 +24,7 @@ export const recorderEnvSetup: RecorderEnvironmentSetup = {
     SOFT_DELETE_ACCOUNT_KEY: `${mockAccountKey}`,
     SOFT_DELETE_ACCOUNT_SAS: `${mockAccountKey}`,
     SOFT_DELETE_STORAGE_CONNECTION_STRING: `DefaultEndpointsProtocol=https;AccountName=${mockSDAccountName};AccountKey=${mockAccountKey};EndpointSuffix=core.windows.net`,
-    PREMIUM_FILE_ACCOUNT_NAME: `${mockPFAccountName}`,
+    PREMIUM_FILE_ACCOUNT_NAME: `${mockAccountName}`,
     PREMIUM_FILE_ACCOUNT_KEY: `${mockAccountKey}`,
     PREMIUM_FILE_ACCOUNT_SAS: `${mockAccountKey}`,
     PREMIUM_FILE_STORAGE_CONNECTION_STRING: `DefaultEndpointsProtocol=https;AccountName=${mockSDAccountName};AccountKey=${mockAccountKey};EndpointSuffix=core.windows.net`
