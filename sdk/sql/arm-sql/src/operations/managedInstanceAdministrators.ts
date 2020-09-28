@@ -199,12 +199,12 @@ const listByInstanceOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/administrators",
   urlParameters: [
-    Parameters.resourceGroupName,
+    Parameters.resourceGroupName0,
     Parameters.managedInstanceName,
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion4
+    Parameters.apiVersion6
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -224,13 +224,13 @@ const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/administrators/{administratorName}",
   urlParameters: [
-    Parameters.resourceGroupName,
+    Parameters.resourceGroupName0,
     Parameters.managedInstanceName,
-    Parameters.administratorName1,
+    Parameters.administratorName,
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion4
+    Parameters.apiVersion6
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -250,13 +250,13 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/administrators/{administratorName}",
   urlParameters: [
-    Parameters.resourceGroupName,
+    Parameters.resourceGroupName0,
     Parameters.managedInstanceName,
-    Parameters.administratorName1,
+    Parameters.administratorName,
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion4
+    Parameters.apiVersion6
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -287,13 +287,13 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/administrators/{administratorName}",
   urlParameters: [
-    Parameters.resourceGroupName,
+    Parameters.resourceGroupName0,
     Parameters.managedInstanceName,
-    Parameters.administratorName1,
+    Parameters.administratorName,
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion4
+    Parameters.apiVersion6
   ],
   headerParameters: [
     Parameters.acceptLanguage

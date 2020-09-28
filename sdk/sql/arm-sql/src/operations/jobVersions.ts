@@ -151,14 +151,14 @@ const listByJobOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}/jobs/{jobName}/versions",
   urlParameters: [
-    Parameters.resourceGroupName,
+    Parameters.resourceGroupName0,
     Parameters.serverName,
     Parameters.jobAgentName,
     Parameters.jobName,
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion4
+    Parameters.apiVersion6
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -178,7 +178,7 @@ const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}/jobs/{jobName}/versions/{jobVersion}",
   urlParameters: [
-    Parameters.resourceGroupName,
+    Parameters.resourceGroupName0,
     Parameters.serverName,
     Parameters.jobAgentName,
     Parameters.jobName,
@@ -186,7 +186,7 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion4
+    Parameters.apiVersion6
   ],
   headerParameters: [
     Parameters.acceptLanguage

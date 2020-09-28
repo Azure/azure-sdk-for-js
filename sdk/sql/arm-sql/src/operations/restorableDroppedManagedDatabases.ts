@@ -135,12 +135,12 @@ const listByInstanceOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/restorableDroppedDatabases",
   urlParameters: [
-    Parameters.resourceGroupName,
+    Parameters.resourceGroupName0,
     Parameters.managedInstanceName,
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion4
+    Parameters.apiVersion6
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -160,13 +160,13 @@ const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/managedInstances/{managedInstanceName}/restorableDroppedDatabases/{restorableDroppedDatabaseId}",
   urlParameters: [
-    Parameters.resourceGroupName,
+    Parameters.resourceGroupName0,
     Parameters.managedInstanceName,
     Parameters.restorableDroppedDatabaseId,
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion4
+    Parameters.apiVersion6
   ],
   headerParameters: [
     Parameters.acceptLanguage

@@ -579,7 +579,7 @@ const getByResourceGroupOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/locations/{locationName}/longTermRetentionServers/{longTermRetentionServerName}/longTermRetentionDatabases/{longTermRetentionDatabaseName}/longTermRetentionBackups/{backupName}",
   urlParameters: [
-    Parameters.resourceGroupName,
+    Parameters.resourceGroupName0,
     Parameters.locationName,
     Parameters.longTermRetentionServerName,
     Parameters.longTermRetentionDatabaseName,
@@ -587,7 +587,7 @@ const getByResourceGroupOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion4
+    Parameters.apiVersion6
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -607,7 +607,7 @@ const listByResourceGroupDatabaseOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/locations/{locationName}/longTermRetentionServers/{longTermRetentionServerName}/longTermRetentionDatabases/{longTermRetentionDatabaseName}/longTermRetentionBackups",
   urlParameters: [
-    Parameters.resourceGroupName,
+    Parameters.resourceGroupName0,
     Parameters.locationName,
     Parameters.longTermRetentionServerName,
     Parameters.longTermRetentionDatabaseName,
@@ -616,7 +616,7 @@ const listByResourceGroupDatabaseOperationSpec: msRest.OperationSpec = {
   queryParameters: [
     Parameters.onlyLatestPerDatabase,
     Parameters.databaseState,
-    Parameters.apiVersion4
+    Parameters.apiVersion6
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -636,14 +636,14 @@ const listByResourceGroupLocationOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/locations/{locationName}/longTermRetentionBackups",
   urlParameters: [
-    Parameters.resourceGroupName,
+    Parameters.resourceGroupName0,
     Parameters.locationName,
     Parameters.subscriptionId
   ],
   queryParameters: [
     Parameters.onlyLatestPerDatabase,
     Parameters.databaseState,
-    Parameters.apiVersion4
+    Parameters.apiVersion6
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -663,7 +663,7 @@ const listByResourceGroupServerOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/locations/{locationName}/longTermRetentionServers/{longTermRetentionServerName}/longTermRetentionBackups",
   urlParameters: [
-    Parameters.resourceGroupName,
+    Parameters.resourceGroupName0,
     Parameters.locationName,
     Parameters.longTermRetentionServerName,
     Parameters.subscriptionId
@@ -671,7 +671,7 @@ const listByResourceGroupServerOperationSpec: msRest.OperationSpec = {
   queryParameters: [
     Parameters.onlyLatestPerDatabase,
     Parameters.databaseState,
-    Parameters.apiVersion4
+    Parameters.apiVersion6
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -698,7 +698,7 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion4
+    Parameters.apiVersion6
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -726,7 +726,7 @@ const listByDatabaseOperationSpec: msRest.OperationSpec = {
   queryParameters: [
     Parameters.onlyLatestPerDatabase,
     Parameters.databaseState,
-    Parameters.apiVersion4
+    Parameters.apiVersion6
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -752,7 +752,7 @@ const listByLocationOperationSpec: msRest.OperationSpec = {
   queryParameters: [
     Parameters.onlyLatestPerDatabase,
     Parameters.databaseState,
-    Parameters.apiVersion4
+    Parameters.apiVersion6
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -779,7 +779,7 @@ const listByServerOperationSpec: msRest.OperationSpec = {
   queryParameters: [
     Parameters.onlyLatestPerDatabase,
     Parameters.databaseState,
-    Parameters.apiVersion4
+    Parameters.apiVersion6
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -799,7 +799,7 @@ const beginDeleteByResourceGroupOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/locations/{locationName}/longTermRetentionServers/{longTermRetentionServerName}/longTermRetentionDatabases/{longTermRetentionDatabaseName}/longTermRetentionBackups/{backupName}",
   urlParameters: [
-    Parameters.resourceGroupName,
+    Parameters.resourceGroupName0,
     Parameters.locationName,
     Parameters.longTermRetentionServerName,
     Parameters.longTermRetentionDatabaseName,
@@ -807,7 +807,7 @@ const beginDeleteByResourceGroupOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion4
+    Parameters.apiVersion6
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -833,7 +833,7 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion4
+    Parameters.apiVersion6
   ],
   headerParameters: [
     Parameters.acceptLanguage

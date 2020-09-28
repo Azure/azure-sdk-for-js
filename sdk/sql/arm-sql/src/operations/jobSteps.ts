@@ -375,7 +375,7 @@ const listByVersionOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}/jobs/{jobName}/versions/{jobVersion}/steps",
   urlParameters: [
-    Parameters.resourceGroupName,
+    Parameters.resourceGroupName0,
     Parameters.serverName,
     Parameters.jobAgentName,
     Parameters.jobName,
@@ -383,7 +383,7 @@ const listByVersionOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion4
+    Parameters.apiVersion6
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -403,7 +403,7 @@ const getByVersionOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}/jobs/{jobName}/versions/{jobVersion}/steps/{stepName}",
   urlParameters: [
-    Parameters.resourceGroupName,
+    Parameters.resourceGroupName0,
     Parameters.serverName,
     Parameters.jobAgentName,
     Parameters.jobName,
@@ -412,7 +412,7 @@ const getByVersionOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion4
+    Parameters.apiVersion6
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -432,14 +432,14 @@ const listByJobOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}/jobs/{jobName}/steps",
   urlParameters: [
-    Parameters.resourceGroupName,
+    Parameters.resourceGroupName0,
     Parameters.serverName,
     Parameters.jobAgentName,
     Parameters.jobName,
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion4
+    Parameters.apiVersion6
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -459,7 +459,7 @@ const getOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}/jobs/{jobName}/steps/{stepName}",
   urlParameters: [
-    Parameters.resourceGroupName,
+    Parameters.resourceGroupName0,
     Parameters.serverName,
     Parameters.jobAgentName,
     Parameters.jobName,
@@ -467,7 +467,7 @@ const getOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion4
+    Parameters.apiVersion6
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -487,7 +487,7 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
   httpMethod: "PUT",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}/jobs/{jobName}/steps/{stepName}",
   urlParameters: [
-    Parameters.resourceGroupName,
+    Parameters.resourceGroupName0,
     Parameters.serverName,
     Parameters.jobAgentName,
     Parameters.jobName,
@@ -495,7 +495,7 @@ const createOrUpdateOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion4
+    Parameters.apiVersion6
   ],
   headerParameters: [
     Parameters.acceptLanguage
@@ -525,7 +525,7 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/jobAgents/{jobAgentName}/jobs/{jobName}/steps/{stepName}",
   urlParameters: [
-    Parameters.resourceGroupName,
+    Parameters.resourceGroupName0,
     Parameters.serverName,
     Parameters.jobAgentName,
     Parameters.jobName,
@@ -533,7 +533,7 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
     Parameters.subscriptionId
   ],
   queryParameters: [
-    Parameters.apiVersion4
+    Parameters.apiVersion6
   ],
   headerParameters: [
     Parameters.acceptLanguage

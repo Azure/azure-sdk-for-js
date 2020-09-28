@@ -186,7 +186,7 @@ const deleteMethodOperationSpec: msRest.OperationSpec = {
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/communicationLinks/{communicationLinkName}",
   urlParameters: [
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
+    Parameters.resourceGroupName0,
     Parameters.serverName,
     Parameters.communicationLinkName
   ],
@@ -210,7 +210,7 @@ const getOperationSpec: msRest.OperationSpec = {
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/communicationLinks/{communicationLinkName}",
   urlParameters: [
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
+    Parameters.resourceGroupName0,
     Parameters.serverName,
     Parameters.communicationLinkName
   ],
@@ -236,7 +236,7 @@ const listByServerOperationSpec: msRest.OperationSpec = {
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/communicationLinks",
   urlParameters: [
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
+    Parameters.resourceGroupName0,
     Parameters.serverName
   ],
   queryParameters: [
@@ -261,7 +261,7 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Sql/servers/{serverName}/communicationLinks/{communicationLinkName}",
   urlParameters: [
     Parameters.subscriptionId,
-    Parameters.resourceGroupName,
+    Parameters.resourceGroupName0,
     Parameters.serverName,
     Parameters.communicationLinkName
   ],
