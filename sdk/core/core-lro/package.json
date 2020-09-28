@@ -80,7 +80,6 @@
     "integration-test": "npm run integration-test:node && npm run integration-test:browser",
     "lint:fix": "eslint package.json api-extractor.json src test --ext .ts --fix --fix-type [problem,suggestion]",
     "lint": "eslint package.json api-extractor.json src test  --ext .ts",
-    "lint:terminal": "eslint package.json api-extractor.json src test --ext .ts",
     "test:browser": "npm run build:test && npm run unit-test:browser && npm run integration-test:browser",
     "test:node": "npm run build:test && npm run unit-test:node && npm run integration-test:node",
     "test": "npm run build:test && npm run unit-test",
