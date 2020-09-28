@@ -11,6 +11,12 @@ import {
 } from "../../src/constructorHelpers";
 import { TokenCredential } from "@azure/core-http";
 import { ConnectionContext } from "../../src/connectionContext";
+import { createConnectionContextForTestsWithSessionId } from "./unittestUtils";
+import {
+  ServiceBusSessionReceiver,
+  ServiceBusSessionReceiverImpl
+} from "../../src/receivers/sessionReceiver";
+import { AbortController } from "@azure/abort-controller";
 const assert = chai.assert;
 
 const allLockModes: ("peekLock" | "receiveAndDelete")[] = ["peekLock", "receiveAndDelete"];
@@ -23,9 +29,111 @@ describe("serviceBusClient unit tests", () => {
   // new set of tests for it. :)
   const sessionReceiverOptions:
     | CreateSessionReceiverOptions<"peekLock">
-    | CreateSessionReceiverOptions<"receiveAndDelete"> = {
-    sessionId: "session-id"
-  };
+    | CreateSessionReceiverOptions<"receiveAndDelete"> = {};
+
+  const testEntities = [
+    { queue: "thequeue", entityPath: "thequeue" },
+    {
+      topic: "thetopic",
+      subscription: "thesubscription",
+      entityPath: "thetopic/Subscriptions/thesubscription"
+    }
+  ];
+
+  testEntities.forEach((testEntity) => {
+    it(`acceptSession argument extraction with ${testEntity.entityPath}`, async () => {
+      const connectionString =
+        "Endpoint=sb://testnamespace/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=testKey";
+      const client = new ServiceBusClient(connectionString);
+
+      try {
+        const abortSignalStuff = createAbortSignal();
+
+        client["_connectionContext"] = createConnectionContextForTestsWithSessionId("a session id");
+
+        let sessionReceiver: ServiceBusSessionReceiver<any>;
+
+        if (testEntity.queue) {
+          sessionReceiver = await client.acceptSession(testEntity.queue, "a session id", {
+            abortSignal: abortSignalStuff.signal,
+            maxAutoRenewLockDurationInMs: 101,
+            tracingOptions: {},
+            receiveMode: "receiveAndDelete"
+          });
+        } else {
+          sessionReceiver = await client.acceptSession(
+            testEntity.topic!,
+            testEntity.subscription!,
+            "a session id",
+            {
+              abortSignal: abortSignalStuff.signal,
+              maxAutoRenewLockDurationInMs: 101,
+              tracingOptions: {},
+              receiveMode: "receiveAndDelete"
+            }
+          );
+        }
+
+        assert.equal(sessionReceiver.receiveMode, "receiveAndDelete");
+        assert.equal(sessionReceiver.entityPath, testEntity.entityPath);
+        assert.equal(sessionReceiver.sessionId, "a session id");
+
+        const impl = sessionReceiver as ServiceBusSessionReceiverImpl<any>;
+        assert.equal(impl["_messageSession"]["maxAutoRenewDurationInMs"], 101);
+
+        assert.isTrue(abortSignalStuff.abortedPropertyWasChecked);
+      } finally {
+        await client.close();
+      }
+    });
+  });
+
+  testEntities.forEach((testEntity) => {
+    it(`acceptNextSession argument extraction with ${testEntity.entityPath}`, async () => {
+      const connectionString =
+        "Endpoint=sb://testnamespace/;SharedAccessKeyName=RootManageSharedAccessKey;SharedAccessKey=testKey";
+      const client = new ServiceBusClient(connectionString);
+
+      try {
+        const abortSignalStuff = createAbortSignal();
+
+        client["_connectionContext"] = createConnectionContextForTestsWithSessionId("session id");
+
+        let sessionReceiver: ServiceBusSessionReceiver<any>;
+
+        if (testEntity.queue) {
+          sessionReceiver = await client.acceptNextSession(testEntity.queue, {
+            abortSignal: abortSignalStuff.signal,
+            maxAutoRenewLockDurationInMs: 101,
+            tracingOptions: {},
+            receiveMode: "receiveAndDelete"
+          });
+        } else {
+          sessionReceiver = await client.acceptNextSession(
+            testEntity.topic!,
+            testEntity.subscription!,
+            {
+              abortSignal: abortSignalStuff.signal,
+              maxAutoRenewLockDurationInMs: 101,
+              tracingOptions: {},
+              receiveMode: "receiveAndDelete"
+            }
+          );
+        }
+
+        assert.equal(sessionReceiver.receiveMode, "receiveAndDelete");
+        assert.equal(sessionReceiver.entityPath, testEntity.entityPath);
+        assert.equal(sessionReceiver.sessionId, "session id");
+
+        const impl = sessionReceiver as ServiceBusSessionReceiverImpl<any>;
+        assert.equal(impl["_messageSession"]["maxAutoRenewDurationInMs"], 101);
+
+        assert.isTrue(abortSignalStuff.abortedPropertyWasChecked);
+      } finally {
+        await client.close();
+      }
+    });
+  });
 
   describe("extractReceiverArguments", () => {
     // basically, getReceiver/getDeadLetterReceiver which don't currently have
@@ -123,20 +231,40 @@ describe("serviceBusClient unit tests", () => {
       }
     });
 
-    it("mismatch with queue in createSessionReceiver", async () => {
+    it("mismatch with queue in acceptSession", async () => {
       try {
         const client = new ServiceBusClient(connectionString);
-        await client.createSessionReceiver("my-queue");
+        await client.acceptSession("my-queue", "session-id");
         throw new Error("Receiver should not have been created successfully.");
       } catch (error) {
         assert.equal(error.message, entityPathMisMatchError);
       }
     });
 
-    it("mismatch with topic and subscription in createSessionReceiver", async () => {
+    it("mismatch with queue in acceptNextSession", async () => {
       try {
         const client = new ServiceBusClient(connectionString);
-        await client.createSessionReceiver("my-topic", "my-subscription");
+        await client.acceptNextSession("my-queue");
+        throw new Error("Receiver should not have been created successfully.");
+      } catch (error) {
+        assert.equal(error.message, entityPathMisMatchError);
+      }
+    });
+
+    it("mismatch with topic and subscription in acceptSession", async () => {
+      try {
+        const client = new ServiceBusClient(connectionString);
+        await client.acceptSession("my-topic", "my-subscription");
+        throw new Error("Receiver should not have been created successfully.");
+      } catch (error) {
+        assert.equal(error.message, entityPathMisMatchError);
+      }
+    });
+
+    it("mismatch with topic and subscription in acceptNextSession", async () => {
+      try {
+        const client = new ServiceBusClient(connectionString);
+        await client.acceptNextSession("my-topic", "my-subscription");
         throw new Error("Receiver should not have been created successfully.");
       } catch (error) {
         assert.equal(error.message, entityPathMisMatchError);
@@ -225,3 +353,19 @@ describe("serviceBusClient unit tests", () => {
     });
   });
 });
+function createAbortSignal() {
+  const abortSignal = new AbortController().signal;
+  const result = {
+    signal: abortSignal,
+    abortedPropertyWasChecked: false
+  };
+
+  Object.defineProperty(abortSignal, "aborted", {
+    get: () => {
+      result.abortedPropertyWasChecked = true;
+      return false;
+    }
+  });
+
+  return result;
+}

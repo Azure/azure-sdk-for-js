@@ -210,20 +210,14 @@ export class ServiceBusTestHelpers {
 
   async verifyAndDeleteAllSentMessages(
     entityNames: EntityName,
-    useSessions: boolean,
     sentMessages: ServiceBusMessage[]
   ): Promise<void> {
     let receiver:
       | ServiceBusReceiver<ServiceBusReceivedMessage>
       | ServiceBusSessionReceiver<ServiceBusReceivedMessage>;
     let receivedMsgs: ServiceBusReceivedMessage[];
-    if (!useSessions) {
-      receiver = await this.getReceiveAndDeleteReceiver({
-        queue: entityNames.queue,
-        topic: entityNames.topic,
-        subscription: entityNames.subscription,
-        usesSessions: false
-      });
+    if (!entityNames.usesSessions) {
+      receiver = await this.createReceiveAndDeleteReceiver(entityNames);
       receivedMsgs = await receiver.receiveMessages(sentMessages.length, {
         // maxWaitTime is set same as numberOfMessages being received
         maxWaitTimeInMs: sentMessages.length * 1000
@@ -242,7 +236,7 @@ export class ServiceBusTestHelpers {
       });
       // for-loop to receive messages from those `session-id`s
       for (const id of setOfSessionIds) {
-        receiver = await this.getReceiveAndDeleteReceiver({
+        receiver = await this.createReceiveAndDeleteReceiver({
           queue: entityNames.queue,
           topic: entityNames.topic,
           subscription: entityNames.subscription,
@@ -271,7 +265,7 @@ export class ServiceBusTestHelpers {
     receivedMsgs!.forEach((receivedMessage) => {
       sentMessages = sentMessages.filter((sentMessage) => {
         try {
-          TestMessage.checkMessageContents(sentMessage, receivedMessage, useSessions);
+          TestMessage.checkMessageContents(sentMessage, receivedMessage, entityNames.usesSessions);
           return true;
         } catch (err) {
           return false;
@@ -327,7 +321,7 @@ export class ServiceBusTestHelpers {
    *
    * The receiver created by this method will be cleaned up by `afterEach()`
    */
-  async getPeekLockReceiver(
+  async createPeekLockReceiver(
     entityNames: Omit<ReturnType<typeof getEntityNames>, "isPartitioned">
   ): Promise<ServiceBusReceiver<ServiceBusReceivedMessageWithLock>> {
     try {
@@ -335,9 +329,7 @@ export class ServiceBusTestHelpers {
       // session ID for your receiver.
       // if you want to get more specific use the `getPeekLockSessionReceiver` method
       // instead.
-      return await this.getSessionPeekLockReceiver(entityNames, {
-        sessionId: TestMessage.sessionId
-      });
+      return await this.acceptSessionWithPeekLock(entityNames, TestMessage.sessionId);
     } catch (err) {
       if (!(err instanceof TypeError)) {
         throw err;
@@ -351,9 +343,31 @@ export class ServiceBusTestHelpers {
     );
   }
 
-  async getSessionPeekLockReceiver(
+  async acceptNextSessionWithPeekLock(
     entityNames: Omit<ReturnType<typeof getEntityNames>, "isPartitioned">,
-    getSessionReceiverOptions?: CreateSessionReceiverOptions<"peekLock">
+    options?: CreateSessionReceiverOptions<"peekLock">
+  ) {
+    if (!entityNames.usesSessions) {
+      throw new TypeError(
+        "Not a session-full entity - can't create a session receiver type for it"
+      );
+    }
+
+    return this.addToCleanup(
+      entityNames.queue
+        ? await this._serviceBusClient.acceptNextSession(entityNames.queue, options)
+        : await this._serviceBusClient.acceptNextSession(
+            entityNames.topic!,
+            entityNames.subscription!,
+            options
+          )
+    );
+  }
+
+  async acceptSessionWithPeekLock(
+    entityNames: Omit<ReturnType<typeof getEntityNames>, "isPartitioned">,
+    sessionId: string,
+    options?: CreateSessionReceiverOptions<"peekLock">
   ): Promise<ServiceBusSessionReceiver<ServiceBusReceivedMessageWithLock>> {
     if (!entityNames.usesSessions) {
       throw new TypeError(
@@ -363,14 +377,12 @@ export class ServiceBusTestHelpers {
 
     return this.addToCleanup(
       entityNames.queue
-        ? await this._serviceBusClient.createSessionReceiver(
-            entityNames.queue,
-            getSessionReceiverOptions
-          )
-        : await this._serviceBusClient.createSessionReceiver(
+        ? await this._serviceBusClient.acceptSession(entityNames.queue, sessionId, options)
+        : await this._serviceBusClient.acceptSession(
             entityNames.topic!,
             entityNames.subscription!,
-            getSessionReceiverOptions
+            sessionId,
+            options
           )
     );
   }
@@ -382,9 +394,9 @@ export class ServiceBusTestHelpers {
    *
    * The receiver created by this method will be cleaned up by `afterEach()`
    */
-  async getReceiveAndDeleteReceiver(
+  async createReceiveAndDeleteReceiver(
     entityNames: Omit<ReturnType<typeof getEntityNames>, "isPartitioned"> & {
-      sessionId?: string | undefined;
+      sessionId?: string;
     }
   ): Promise<ServiceBusReceiver<ServiceBusReceivedMessage>> {
     // TODO: we should generate a random ID here - there's no harm in
@@ -394,15 +406,14 @@ export class ServiceBusTestHelpers {
     if (entityNames.usesSessions) {
       return this.addToCleanup(
         entityNames.queue
-          ? await this._serviceBusClient.createSessionReceiver(entityNames.queue, {
-              sessionId,
+          ? await this._serviceBusClient.acceptSession(entityNames.queue, sessionId, {
               receiveMode: "receiveAndDelete"
             })
-          : await this._serviceBusClient.createSessionReceiver(
+          : await this._serviceBusClient.acceptSession(
               entityNames.topic!,
               entityNames.subscription!,
+              sessionId,
               {
-                sessionId,
                 receiveMode: "receiveAndDelete"
               }
             )

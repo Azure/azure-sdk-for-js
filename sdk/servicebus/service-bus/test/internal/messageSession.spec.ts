@@ -50,6 +50,7 @@ describe("Message session unit tests", () => {
           const receiver = new MessageSession(
             createConnectionContextForTests(),
             "dummyEntityPath",
+            undefined,
             {
               receiveMode: lockMode
             }
@@ -78,6 +79,7 @@ describe("Message session unit tests", () => {
           const receiver = new MessageSession(
             createConnectionContextForTests(),
             "dummyEntityPath",
+            undefined,
             {
               receiveMode: lockMode
             }
@@ -106,6 +108,7 @@ describe("Message session unit tests", () => {
             const receiver = new MessageSession(
               createConnectionContextForTests(),
               "dummyEntityPath",
+              undefined,
               {
                 receiveMode: lockMode
               }
@@ -152,6 +155,7 @@ describe("Message session unit tests", () => {
             const receiver = new MessageSession(
               createConnectionContextForTests(),
               "dummyEntityPath",
+              undefined,
               {
                 receiveMode: lockMode
               }
@@ -203,6 +207,7 @@ describe("Message session unit tests", () => {
             const receiver = new MessageSession(
               createConnectionContextForTests(),
               "dummyEntityPath",
+              undefined,
               {
                 receiveMode: lockMode
               }

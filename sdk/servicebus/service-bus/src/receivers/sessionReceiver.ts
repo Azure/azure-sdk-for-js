@@ -5,7 +5,6 @@ import { ConnectionContext } from "../connectionContext";
 import { MessageHandlers, ReceiveMessagesOptions, ServiceBusReceivedMessage } from "..";
 import {
   PeekMessagesOptions,
-  CreateSessionReceiverOptions,
   GetMessageIteratorOptions,
   MessageHandlerOptionsBase,
   SessionSubscribeOptions
@@ -125,7 +124,7 @@ export class ServiceBusSessionReceiverImpl<
    * @throws Error if the underlying connection is closed.
    * @throws Error if an open receiver is already existing for given sessionId.
    */
-  private constructor(
+  constructor(
     private _messageSession: MessageSession,
     private _context: ConnectionContext,
     public entityPath: string,
@@ -134,36 +133,6 @@ export class ServiceBusSessionReceiverImpl<
   ) {
     throwErrorIfConnectionClosed(_context);
     this.sessionId = _messageSession.sessionId;
-  }
-
-  static async createInitializedSessionReceiver<
-    ReceivedMessageT extends ServiceBusReceivedMessage | ServiceBusReceivedMessageWithLock
-  >(
-    context: ConnectionContext,
-    entityPath: string,
-    receiveMode: "peekLock" | "receiveAndDelete",
-    sessionOptions:
-      | CreateSessionReceiverOptions<"peekLock">
-      | CreateSessionReceiverOptions<"receiveAndDelete">,
-    retryOptions: RetryOptions = {}
-  ): Promise<ServiceBusSessionReceiver<ReceivedMessageT>> {
-    if (sessionOptions.sessionId != undefined) {
-      sessionOptions.sessionId = String(sessionOptions.sessionId);
-    }
-    const messageSession = await MessageSession.create(context, entityPath, {
-      sessionId: sessionOptions.sessionId,
-      maxAutoRenewLockDurationInMs: sessionOptions.maxAutoRenewLockDurationInMs,
-      receiveMode: convertToInternalReceiveMode(receiveMode),
-      abortSignal: sessionOptions.abortSignal
-    });
-    const sessionReceiver = new ServiceBusSessionReceiverImpl<ReceivedMessageT>(
-      messageSession,
-      context,
-      entityPath,
-      receiveMode,
-      retryOptions
-    );
-    return sessionReceiver;
   }
 
   private _throwIfReceiverOrConnectionClosed(): void {
