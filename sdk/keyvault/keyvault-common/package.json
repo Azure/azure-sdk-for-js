@@ -50,6 +50,7 @@
   },
   "devDependencies": {
     "@azure/eslint-plugin-azure-sdk": "^3.0.0",
+    "eslint": "^6.1.0",
     "typescript": "~3.9.3"
   }
 }
