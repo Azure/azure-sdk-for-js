@@ -981,6 +981,9 @@ export interface ScoringProfile {
 }
 
 // @public
+export type ScoringStatistics = 'local' | 'global';
+
+// @public
 export class SearchClient<T> {
     constructor(endpoint: string, indexName: string, credential: KeyCredential, options?: SearchClientOptions);
     readonly apiVersion: string;
@@ -1212,10 +1215,12 @@ export interface SearchRequest {
     queryType?: QueryType;
     scoringParameters?: string[];
     scoringProfile?: string;
+    scoringStatistics?: ScoringStatistics;
     searchFields?: string;
     searchMode?: SearchMode;
     searchText?: string;
     select?: string;
+    sessionId?: string;
     skip?: number;
     top?: number;
 }
@@ -1233,9 +1238,11 @@ export interface SearchRequestOptions<Fields> {
     queryType?: QueryType;
     scoringParameters?: string[];
     scoringProfile?: string;
+    scoringStatistics?: ScoringStatistics;
     searchFields?: Fields[];
     searchMode?: SearchMode;
     select?: Fields[];
+    sessionId?: string;
     skip?: number;
     top?: number;
 }

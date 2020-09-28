@@ -111,7 +111,8 @@ export {
   IndexDocumentsResult,
   IndexingResult,
   QueryType,
-  SearchMode
+  SearchMode,
+  ScoringStatistics
 } from "./generated/data/models";
 export {
   RegexFlags,
