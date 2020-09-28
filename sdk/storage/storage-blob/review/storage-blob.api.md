@@ -1045,7 +1045,7 @@ export class BlobServiceClient extends StorageClient {
     getUserDelegationKey(startsOn: Date, expiresOn: Date, options?: ServiceGetUserDelegationKeyOptions): Promise<ServiceGetUserDelegationKeyResponse>;
     listContainers(options?: ServiceListContainersOptions): PagedAsyncIterableIterator<ContainerItem, ServiceListContainersSegmentResponse>;
     setProperties(properties: BlobServiceProperties, options?: ServiceSetPropertiesOptions): Promise<ServiceSetPropertiesResponse>;
-    undeleteContainer(deletedContainerName: string, options?: ServiceUndeleteContainerOptions): Promise<{
+    undeleteContainer(deletedContainerName: string, deletedContainerVersion: string, options?: ServiceUndeleteContainerOptions): Promise<{
         containerClient: ContainerClient;
         containerUndeleteResponse: ContainerUndeleteResponse;
     }>;
@@ -2839,7 +2839,6 @@ export type ServiceSubmitBatchResponseModel = ServiceSubmitBatchHeaders & {
 // @public
 export interface ServiceUndeleteContainerOptions extends CommonOptions {
     abortSignal?: AbortSignalLike;
-    deletedContainerVersion?: string;
     destinationContainerName?: string;
 }
 

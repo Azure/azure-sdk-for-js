@@ -338,13 +338,6 @@ export interface ServiceUndeleteContainerOptions extends CommonOptions {
    */
   abortSignal?: AbortSignalLike;
   /**
-   * Optional. Specifies the version of the deleted container to restore.
-   *
-   * @type {string}
-   * @memberof ServiceUndeleteContainerOptions
-   */
-  deletedContainerVersion?: string;
-  /**
    * Optional. Specifies the new name of the restored container.
    * Will use its original name if this is not specified.
    *
@@ -584,12 +577,13 @@ export class BlobServiceClient extends StorageClient {
    * This API is only functional if Container Soft Delete is enabled for the storage account associated with the container.
    *
    * @param {string} deletedContainerName Name of the previously deleted container.
-   * @param {ServiceUndeleteContainerOptions} [options] Options to configure Container Undelete operation.
+   * @param {string} deletedContainerVersion Version of the previously deleted container, used to uniquely identify the deleted container.
    * @returns {Promise<ContainerUndeleteResponse>} Container deletion response.
    * @memberof BlobServiceClient
    */
   public async undeleteContainer(
     deletedContainerName: string,
+    deletedContainerVersion: string,
     options: ServiceUndeleteContainerOptions = {}
   ): Promise<{
     containerClient: ContainerClient;
@@ -607,6 +601,7 @@ export class BlobServiceClient extends StorageClient {
       const containerContext = new Container(containerClient["storageClientContext"]);
       const containerUndeleteResponse = await containerContext.restore({
         deletedContainerName,
+        deletedContainerVersion,
         ...options,
         tracingOptions: { ...options!.tracingOptions, spanOptions }
       });
