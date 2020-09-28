@@ -3,3 +3,5 @@
 
 export * from "./communicationIdentity/communicationIdentityClient";
 export * from "./communicationIdentity/models";
+export * from "./phoneNumber/phoneNumberAdministrationClient";
+export * from "./phoneNumber/models";
