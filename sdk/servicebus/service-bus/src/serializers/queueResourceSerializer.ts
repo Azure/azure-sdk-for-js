@@ -19,7 +19,8 @@ import {
   getString,
   getStringOrUndefined,
   getDate,
-  EntityStatus
+  EntityStatus,
+  EntityAvailabilityStatus
 } from "../util/utils";
 
 /**
@@ -48,6 +49,7 @@ export function buildQueueOptions(queue: CreateQueueOptions): InternalQueueOptio
     ForwardDeadLetteredMessagesTo: getStringOrUndefined(queue.forwardDeadLetteredMessagesTo),
     ForwardTo: getStringOrUndefined(queue.forwardTo),
     UserMetadata: getStringOrUndefined(queue.userMetadata),
+    EntityAvailabilityStatus: getStringOrUndefined(queue.availabilityStatus),
     EnableExpress: getStringOrUndefined(queue.enableExpress)
   };
 }
@@ -104,7 +106,9 @@ export function buildQueue(rawQueue: any): QueueProperties {
 
     status: rawQueue[Constants.STATUS],
 
-    enableExpress: getBoolean(rawQueue[Constants.ENABLE_EXPRESS], "enableExpress")
+    enableExpress: getBoolean(rawQueue[Constants.ENABLE_EXPRESS], "enableExpress"),
+
+    availabilityStatus: rawQueue[Constants.ENTITY_AVAILABILITY_STATUS]
   };
 }
 
@@ -256,6 +260,11 @@ export interface CreateQueueOptions extends OperationOptions {
    * Specifies whether express entities are enabled on queue.
    */
   enableExpress?: boolean;
+
+  /**
+   * Availability status of the messaging entity.
+   */
+  availabilityStatus?: EntityAvailabilityStatus;
 }
 
 /**
@@ -394,6 +403,11 @@ export interface QueueProperties {
    * Specifies whether express entities are enabled on queue.
    */
   readonly enableExpress: boolean;
+
+  /**
+   * Availability status of the messaging entity.
+   */
+  readonly availabilityStatus: EntityAvailabilityStatus;
 }
 /**
  * @internal
@@ -526,6 +540,11 @@ export interface InternalQueueOptions {
    * Specifies whether express entities are enabled on queue.
    */
   EnableExpress?: string;
+
+  /**
+   * Availability status of the messaging entity.
+   */
+  EntityAvailabilityStatus?: string;
 }
 
 /**

@@ -76,4 +76,4 @@ export {
   ServiceBusMessage
 } from "./serviceBusMessage";
 export { ServiceBusMessageBatch } from "./serviceBusMessageBatch";
-export { AuthorizationRule, EntityStatus } from "./util/utils";
+export { AuthorizationRule, EntityStatus, EntityAvailabilityStatus } from "./util/utils";

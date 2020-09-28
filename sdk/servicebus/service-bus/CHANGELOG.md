@@ -4,6 +4,8 @@
 
 ### New features:
 
+- Options to create/update a queue, topic and subscription now support `availabilityStatus` property. `availabilityStatus` indicates the status of entity availability. Possible values are: Available, Limited, Renaming, Restoring and Unknown.
+  [PR 11152](https://github.com/Azure/azure-sdk-for-js/pull/11152)
 - `ServiceBusClient` now supports authentication with AAD credentials in the browser(can use `InteractiveBrowserCredential` from `@azure/identity`).
   [PR 11250](https://github.com/Azure/azure-sdk-for-js/pull/11250)
 

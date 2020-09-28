@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { assert } from "chai";
-import fs from "fs-extra";
+import fs from "fs";
 import path from "path";
 
 import * as dotenv from "dotenv";

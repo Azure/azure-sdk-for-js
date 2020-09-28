@@ -77,7 +77,6 @@ export class TableClient {
     url: string,
     tableName: string,
     credential: TablesSharedKeyCredential,
-    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options?: TableClientOptions
   );
   /**
@@ -103,13 +102,11 @@ export class TableClient {
    * ```
    */
 
-  // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
   constructor(url: string, tableName: string, options?: TableClientOptions);
   constructor(
     url: string,
     tableName: string,
     credentialOrOptions?: TablesSharedKeyCredential | TableClientOptions,
-    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options: TableClientOptions = {}
   ) {
     const credential =
