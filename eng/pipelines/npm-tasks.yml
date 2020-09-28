@@ -16,14 +16,14 @@ trigger: none
 
 
 jobs:
-- job: 'NPM Admin Job'
+- job: 'NPM_Admin_Job'
   condition: ne(variables['taskType'], '')
 
   pool:
     vmImage: 'windows-2019'
 
   steps:
-    - ${{if eq(variables['TaskType'], 'AddTag')}}:
+    - ${{if eq(variables['taskType'], 'AddTag')}}:
       - pwsh: |
           $env:NPM_TOKEN = $(azure-sdk-npm-token)
           $regAuth="//registry.npmjs.org/"
@@ -32,7 +32,7 @@ jobs:
         displayName: "Add Tag"
         condition: Succeeded()
 
-    - ${{if eq(variables['TaskType'], 'RemoveTag')}}:
+    - ${{if eq(variables['taskType'], 'RemoveTag')}}:
       - pwsh: |
           $env:NPM_TOKEN = $(azure-sdk-npm-token)
           $regAuth="//registry.npmjs.org/"
