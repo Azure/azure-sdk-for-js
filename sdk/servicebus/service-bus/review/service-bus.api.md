@@ -100,6 +100,7 @@ export interface CreateBatchOptions extends OperationOptionsBase {
 export interface CreateQueueOptions extends OperationOptions {
     authorizationRules?: AuthorizationRule[];
     autoDeleteOnIdle?: string;
+    availabilityStatus?: EntityAvailabilityStatus;
     deadLetteringOnMessageExpiration?: boolean;
     defaultMessageTimeToLive?: string;
     duplicateDetectionHistoryTimeWindow?: string;
@@ -133,6 +134,7 @@ export interface CreateSessionReceiverOptions<ReceiveModeT extends ReceiveMode> 
 // @public
 export interface CreateSubscriptionOptions extends OperationOptions {
     autoDeleteOnIdle?: string;
+    availabilityStatus?: EntityAvailabilityStatus;
     deadLetteringOnFilterEvaluationExceptions?: boolean;
     deadLetteringOnMessageExpiration?: boolean;
     defaultMessageTimeToLive?: string;
@@ -150,6 +152,7 @@ export interface CreateSubscriptionOptions extends OperationOptions {
 export interface CreateTopicOptions extends OperationOptions {
     authorizationRules?: AuthorizationRule[];
     autoDeleteOnIdle?: string;
+    availabilityStatus?: EntityAvailabilityStatus;
     defaultMessageTimeToLive?: string;
     duplicateDetectionHistoryTimeWindow?: string;
     enableBatchedOperations?: boolean;
@@ -175,6 +178,9 @@ export { Delivery }
 // @public
 export interface EntitiesResponse<T> extends Array<T>, Pick<PageSettings, "continuationToken">, Response {
 }
+
+// @public
+export type EntityAvailabilityStatus = "Available" | "Limited" | "Renaming" | "Restoring" | "Unknown";
 
 // @public
 export type EntityStatus = "Active" | "Creating" | "Deleting" | "ReceiveDisabled" | "SendDisabled" | "Disabled" | "Renaming" | "Restoring" | "Unknown";
@@ -230,6 +236,7 @@ export interface PeekMessagesOptions extends OperationOptionsBase {
 export interface QueueProperties {
     authorizationRules?: AuthorizationRule[];
     autoDeleteOnIdle: string;
+    readonly availabilityStatus: EntityAvailabilityStatus;
     deadLetteringOnMessageExpiration: boolean;
     defaultMessageTimeToLive: string;
     duplicateDetectionHistoryTimeWindow: string;
@@ -488,6 +495,7 @@ export interface SubscribeOptions extends MessageHandlerOptions {
 // @public
 export interface SubscriptionProperties {
     autoDeleteOnIdle: string;
+    availabilityStatus?: EntityAvailabilityStatus;
     deadLetteringOnFilterEvaluationExceptions: boolean;
     deadLetteringOnMessageExpiration: boolean;
     defaultMessageTimeToLive: string;
@@ -533,6 +541,7 @@ export { TokenType }
 export interface TopicProperties {
     authorizationRules?: AuthorizationRule[];
     autoDeleteOnIdle: string;
+    readonly availabilityStatus: EntityAvailabilityStatus;
     defaultMessageTimeToLive: string;
     duplicateDetectionHistoryTimeWindow: string;
     enableBatchedOperations: boolean;

@@ -10,6 +10,7 @@ import {
 import * as Constants from "../util/constants";
 import {
   EntityStatus,
+  EntityAvailabilityStatus,
   getBoolean,
   getMessageCountDetails,
   getInteger,
@@ -45,7 +46,8 @@ export function buildSubscriptionOptions(
     ForwardTo: getStringOrUndefined(subscription.forwardTo),
     UserMetadata: getStringOrUndefined(subscription.userMetadata),
     ForwardDeadLetteredMessagesTo: getStringOrUndefined(subscription.forwardDeadLetteredMessagesTo),
-    AutoDeleteOnIdle: getStringOrUndefined(subscription.autoDeleteOnIdle)
+    AutoDeleteOnIdle: getStringOrUndefined(subscription.autoDeleteOnIdle),
+    EntityAvailabilityStatus: getStringOrUndefined(subscription.availabilityStatus)
   };
 }
 
@@ -91,7 +93,12 @@ export function buildSubscription(rawSubscription: any): SubscriptionProperties 
     forwardTo: getStringOrUndefined(rawSubscription[Constants.FORWARD_TO]),
     userMetadata: rawSubscription[Constants.USER_METADATA],
 
-    status: getString(rawSubscription[Constants.STATUS], "status") as EntityStatus
+    status: getString(rawSubscription[Constants.STATUS], "status") as EntityStatus,
+
+    availabilityStatus: getString(
+      rawSubscription[Constants.ENTITY_AVAILABILITY_STATUS],
+      "availabilityStatus"
+    ) as EntityAvailabilityStatus
   };
 }
 
@@ -219,6 +226,11 @@ export interface CreateSubscriptionOptions extends OperationOptions {
    * More on ISO-8601 duration format: https://en.wikipedia.org/wiki/ISO_8601#Durations
    */
   autoDeleteOnIdle?: string;
+
+  /**
+   * Availability status of the messaging entity.
+   */
+  availabilityStatus?: EntityAvailabilityStatus;
 }
 
 /**
@@ -333,6 +345,11 @@ export interface SubscriptionProperties {
    * More on ISO-8601 duration format: https://en.wikipedia.org/wiki/ISO_8601#Durations
    */
   autoDeleteOnIdle: string;
+
+  /**
+   * Availability status of the messaging entity.
+   */
+  availabilityStatus?: EntityAvailabilityStatus;
 }
 
 /**
@@ -436,6 +453,11 @@ export interface InternalSubscriptionOptions {
    * More on ISO-8601 duration format: https://en.wikipedia.org/wiki/ISO_8601#Durations
    */
   AutoDeleteOnIdle?: string;
+
+  /**
+   * Availability status of the messaging entity.
+   */
+  EntityAvailabilityStatus?: string;
 }
 
 /**
