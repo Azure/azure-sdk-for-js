@@ -1,8 +1,12 @@
 param (
+  [Parameter(mandatory = $true)]
   $taskType,
+  [Parameter(mandatory = $true)]
   $packageName,
+  [Parameter(mandatory = $true)]
   $pkgVersion,
   $tagName,
+  [Parameter(mandatory = $true)]
   $npmToken,
   $reason
 )
@@ -13,6 +17,12 @@ try {
   $regAuth = "//registry.npmjs.org/"
   npm config set $regAuth`:_authToken=`$`{NPM_TOKEN`}
   $nameAndVersion = $packageName + "@" + $pkgVersion
+
+  # Verify that package name is not "@azure"
+  if ($packageName -eq '@azure') {
+    Write-Host "Invalid package name"
+    exit 1
+  }
 
   switch ($taskType) {
     AddTag {
