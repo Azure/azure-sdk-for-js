@@ -28,7 +28,7 @@ export class VpnLinkConnections {
 
   /**
    * Retrieves all vpn site link connections for a particular virtual wan vpn gateway vpn connection.
-   * @param resourceGroupName The resource group name of the VpnGateway.
+   * @param resourceGroupName The resource group name of the vpn gateway.
    * @param gatewayName The name of the gateway.
    * @param connectionName The name of the vpn connection.
    * @param [options] The optional parameters
@@ -36,14 +36,14 @@ export class VpnLinkConnections {
    */
   listByVpnConnection(resourceGroupName: string, gatewayName: string, connectionName: string, options?: msRest.RequestOptionsBase): Promise<Models.VpnLinkConnectionsListByVpnConnectionResponse>;
   /**
-   * @param resourceGroupName The resource group name of the VpnGateway.
+   * @param resourceGroupName The resource group name of the vpn gateway.
    * @param gatewayName The name of the gateway.
    * @param connectionName The name of the vpn connection.
    * @param callback The callback
    */
   listByVpnConnection(resourceGroupName: string, gatewayName: string, connectionName: string, callback: msRest.ServiceCallback<Models.ListVpnSiteLinkConnectionsResult>): void;
   /**
-   * @param resourceGroupName The resource group name of the VpnGateway.
+   * @param resourceGroupName The resource group name of the vpn gateway.
    * @param gatewayName The name of the gateway.
    * @param connectionName The name of the vpn connection.
    * @param options The optional parameters

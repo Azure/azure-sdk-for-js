@@ -21,14 +21,14 @@
     }
   ],
   "license": "MIT",
-  "homepage": "https://github.com/Azure/azure-sdk-tools/tree/master/tools/eslint-plugin-azure-sdk",
+  "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/common/tools/eslint-plugin-azure-sdk",
   "repository": {
     "type": "git",
-    "url": "https://github.com/Azure/azure-sdk-tools.git",
-    "directory": "tools/eslint-plugin-azure-sdk"
+    "url": "https://github.com/Azure/azure-sdk-for-js.git",
+    "directory": "common/tools/eslint-plugin-azure-sdk"
   },
   "bugs": {
-    "url": "https://github.com/Azure/azure-sdk-tools/issues"
+    "url": "https://github.com/Azure/azure-sdk-for-js/issues"
   },
   "main": "dist/index.js",
   "files": [

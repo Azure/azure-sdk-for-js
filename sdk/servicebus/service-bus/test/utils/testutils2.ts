@@ -7,7 +7,8 @@ import {
   CreateSessionReceiverOptions,
   ServiceBusClient,
   ServiceBusReceiver,
-  ServiceBusSessionReceiver
+  ServiceBusSessionReceiver,
+  ServiceBusClientOptions
 } from "../../src";
 
 import { TestClientType, TestMessage } from "./testUtils";
@@ -19,7 +20,6 @@ import {
   recreateTopic,
   verifyMessageCount
 } from "./managementUtils";
-import { ServiceBusClientOptions } from "../../src";
 import chai from "chai";
 import {
   ServiceBusReceivedMessage,

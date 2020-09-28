@@ -137,6 +137,7 @@ export type InnerErrorCodeValue = "InvalidParameterValue" | "InvalidRequestBodyF
 
 // @public
 export interface LinkedEntity {
+    bingEntitySearchApiId?: string;
     dataSource: string;
     dataSourceEntityId?: string;
     language: string;
@@ -165,6 +166,11 @@ export interface OpinionSentiment extends SentenceOpinion {
 
 // @public
 export interface PiiEntity extends Entity {
+}
+
+// @public
+export enum PiiEntityDomainType {
+    PROTECTED_HEALTH_INFORMATION = "PHI"
 }
 
 // @public
@@ -211,7 +217,9 @@ export interface RecognizeLinkedEntitiesSuccessResult extends TextAnalyticsSucce
 export type RecognizePiiEntitiesErrorResult = TextAnalyticsErrorResult;
 
 // @public
-export type RecognizePiiEntitiesOptions = TextAnalyticsOperationOptions;
+export interface RecognizePiiEntitiesOptions extends TextAnalyticsOperationOptions {
+    domainFilter?: PiiEntityDomainType;
+}
 
 // @public
 export type RecognizePiiEntitiesResult = RecognizePiiEntitiesSuccessResult | RecognizePiiEntitiesErrorResult;
@@ -225,6 +233,7 @@ export interface RecognizePiiEntitiesResultArray extends Array<RecognizePiiEntit
 // @public
 export interface RecognizePiiEntitiesSuccessResult extends TextAnalyticsSuccessResult {
     readonly entities: PiiEntity[];
+    redactedText: string;
 }
 
 // @public (undocumented)

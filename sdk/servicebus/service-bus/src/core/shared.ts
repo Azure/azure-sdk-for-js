@@ -3,7 +3,7 @@
 
 import { Delivery } from "rhea-promise";
 import { translate } from "@azure/core-amqp";
-import * as log from "../log";
+import { logger } from "../log";
 
 /**
  * @internal
@@ -37,7 +37,7 @@ export function onMessageSettled(
     const id = delivery.id;
     const state = delivery.remote_state;
     const settled = delivery.remote_settled;
-    log.receiver(
+    logger.verbose(
       "[%s] Delivery with id %d, remote_settled: %s, remote_state: %o has been " + "received.",
       connectionId,
       id,
@@ -47,13 +47,13 @@ export function onMessageSettled(
     if (settled && deliveryDispositionMap.has(id)) {
       const promise = deliveryDispositionMap.get(id) as DeferredPromiseAndTimer;
       clearTimeout(promise.timer);
-      log.receiver(
+      logger.verbose(
         "[%s] Found the delivery with id %d in the map and cleared the timer.",
         connectionId,
         id
       );
       const deleteResult = deliveryDispositionMap.delete(id);
-      log.receiver(
+      logger.verbose(
         "[%s] Successfully deleted the delivery with id %d from the map.",
         connectionId,
         id,

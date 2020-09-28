@@ -24,7 +24,8 @@ class HybridComputeManagementClient extends HybridComputeManagementClientContext
   /**
    * Initializes a new instance of the HybridComputeManagementClient class.
    * @param credentials Credentials needed for the client to connect to Azure.
-   * @param subscriptionId The ID of the target subscription.
+   * @param subscriptionId Subscription credentials which uniquely identify Microsoft Azure
+   * subscription. The subscription ID forms part of the URI for every service call.
    * @param [options] The parameter options
    */
   constructor(credentials: msRest.ServiceClientCredentials, subscriptionId: string, options?: Models.HybridComputeManagementClientOptions) {

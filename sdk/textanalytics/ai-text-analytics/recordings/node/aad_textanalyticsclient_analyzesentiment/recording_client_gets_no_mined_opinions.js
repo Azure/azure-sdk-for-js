@@ -11,8 +11,6 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'no-store, no-cache',
   'Pragma',
   'no-cache',
-  'Content-Length',
-  '1329',
   'Content-Type',
   'application/json; charset=utf-8',
   'Expires',
@@ -24,21 +22,23 @@ nock('https://login.microsoftonline.com:443', {"encodedQueryParams":true})
   'P3P',
   'CP="DSP CUR OTPi IND OTRi ONL FIN"',
   'x-ms-request-id',
-  '34413d36-3fb5-4210-8197-c12884ce3300',
+  'ef29143d-d90f-4158-b20a-039f77f02400',
   'x-ms-ests-server',
-  '2.1.10985.18 - CHI ProdSlices',
+  '2.1.11021.16 - CHI ProdSlices',
   'Set-Cookie',
-  'fpc=AuP5zFHe349Pu_RybPL67-bIIHRUAQAAAIYn4tYOAAAA; expires=Fri, 02-Oct-2020 23:53:43 GMT; path=/; secure; HttpOnly; SameSite=None',
+  'fpc=AryYP_Im1q5IlH-P86AF1NTIIHRUAQAAAH6X9dYOAAAA; expires=Sat, 17-Oct-2020 17:44:30 GMT; path=/; secure; HttpOnly; SameSite=None',
   'Set-Cookie',
   'x-ms-gateway-slice=prod; path=/; secure; samesite=none; httponly',
   'Set-Cookie',
   'stsservicecookie=ests; path=/; secure; samesite=none; httponly',
   'Date',
-  'Wed, 02 Sep 2020 23:53:42 GMT'
+  'Thu, 17 Sep 2020 17:44:29 GMT',
+  'Content-Length',
+  '1329'
 ]);
 
 nock('https://endpoint', {"encodedQueryParams":true})
-  .post('/text/analytics/v3.1-preview.1/sentiment', {"documents":[{"id":"0","text":"today is a hot day","language":"en"}]})
+  .post('/text/analytics/v3.1-preview.2/sentiment', {"documents":[{"id":"0","text":"today is a hot day","language":"en"}]})
   .query(true)
   .reply(200, {"documents":[{"id":"0","sentiment":"neutral","confidenceScores":{"positive":0.1,"neutral":0.88,"negative":0.02},"sentences":[{"sentiment":"neutral","confidenceScores":{"positive":0.1,"neutral":0.88,"negative":0.02},"offset":0,"length":18,"text":"today is a hot day","aspects":[],"opinions":[]}],"warnings":[]}],"errors":[],"modelVersion":"2020-04-01"}, [
   'Transfer-Encoding',
@@ -48,13 +48,13 @@ nock('https://endpoint', {"encodedQueryParams":true})
   'csp-billing-usage',
   'CognitiveServices.TextAnalytics.BatchScoring=1',
   'x-envoy-upstream-service-time',
-  '125',
+  '166',
   'apim-request-id',
-  '95025192-2ee5-418f-b01f-d654af3fa4ea',
+  'c8a6bf3e-f335-4c8b-9a72-723ca25b3fa4',
   'Strict-Transport-Security',
   'max-age=31536000; includeSubDomains; preload',
   'x-content-type-options',
   'nosniff',
   'Date',
-  'Wed, 02 Sep 2020 23:53:42 GMT'
+  'Thu, 17 Sep 2020 17:44:30 GMT'
 ]);

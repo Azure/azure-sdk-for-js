@@ -489,6 +489,46 @@ export interface ServerConfigurationsManagementSettings {
 }
 
 /**
+ * Set disk storage settings for SQL Server.
+ */
+export interface SQLStorageSettings {
+  /**
+   * Logical Unit Numbers for the disks.
+   */
+  luns?: number[];
+  /**
+   * SQL Server default file path
+   */
+  defaultFilePath?: string;
+}
+
+/**
+ * Storage Configurations for SQL Data, Log and TempDb.
+ */
+export interface StorageConfigurationSettings {
+  /**
+   * SQL Server Data Storage Settings.
+   */
+  sqlDataSettings?: SQLStorageSettings;
+  /**
+   * SQL Server Log Storage Settings.
+   */
+  sqlLogSettings?: SQLStorageSettings;
+  /**
+   * SQL Server TempDb Storage Settings.
+   */
+  sqlTempDbSettings?: SQLStorageSettings;
+  /**
+   * Disk configuration to apply to SQL Server. Possible values include: 'NEW', 'EXTEND', 'ADD'
+   */
+  diskConfigurationType?: DiskConfigurationType;
+  /**
+   * Storage workload type. Possible values include: 'GENERAL', 'OLTP', 'DW'
+   */
+  storageWorkloadType?: StorageWorkloadType;
+}
+
+/**
  * A SQL virtual machine.
  */
 export interface SqlVirtualMachine extends TrackedResource {
@@ -510,7 +550,7 @@ export interface SqlVirtualMachine extends TrackedResource {
    */
   sqlImageOffer?: string;
   /**
-   * SQL Server license type. Possible values include: 'PAYG', 'AHUB'
+   * SQL Server license type. Possible values include: 'PAYG', 'AHUB', 'DR'
    */
   sqlServerLicenseType?: SqlServerLicenseType;
   /**
@@ -547,6 +587,10 @@ export interface SqlVirtualMachine extends TrackedResource {
    * SQL Server configuration management settings.
    */
   serverConfigurationsManagementSettings?: ServerConfigurationsManagementSettings;
+  /**
+   * Storage Configuration Settings.
+   */
+  storageConfigurationSettings?: StorageConfigurationSettings;
 }
 
 /**
@@ -678,11 +722,11 @@ export type IdentityType = 'SystemAssigned';
 
 /**
  * Defines values for SqlServerLicenseType.
- * Possible values include: 'PAYG', 'AHUB'
+ * Possible values include: 'PAYG', 'AHUB', 'DR'
  * @readonly
  * @enum {string}
  */
-export type SqlServerLicenseType = 'PAYG' | 'AHUB';
+export type SqlServerLicenseType = 'PAYG' | 'AHUB' | 'DR';
 
 /**
  * Defines values for SqlManagementMode.
@@ -748,6 +792,14 @@ export type SqlWorkloadType = 'GENERAL' | 'OLTP' | 'DW';
  * @enum {string}
  */
 export type DiskConfigurationType = 'NEW' | 'EXTEND' | 'ADD';
+
+/**
+ * Defines values for StorageWorkloadType.
+ * Possible values include: 'GENERAL', 'OLTP', 'DW'
+ * @readonly
+ * @enum {string}
+ */
+export type StorageWorkloadType = 'GENERAL' | 'OLTP' | 'DW';
 
 /**
  * Contains response data for the get operation.
@@ -1070,6 +1122,26 @@ export type SqlVirtualMachineGroupsListNextResponse = SqlVirtualMachineGroupList
 };
 
 /**
+ * Contains response data for the listBySqlVmGroup operation.
+ */
+export type SqlVirtualMachinesListBySqlVmGroupResponse = SqlVirtualMachineListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SqlVirtualMachineListResult;
+    };
+};
+
+/**
  * Contains response data for the list operation.
  */
 export type SqlVirtualMachinesListResponse = SqlVirtualMachineListResult & {
@@ -1206,6 +1278,26 @@ export type SqlVirtualMachinesBeginUpdateResponse = SqlVirtualMachine & {
        * The response body as parsed JSON or XML
        */
       parsedBody: SqlVirtualMachine;
+    };
+};
+
+/**
+ * Contains response data for the listBySqlVmGroupNext operation.
+ */
+export type SqlVirtualMachinesListBySqlVmGroupNextResponse = SqlVirtualMachineListResult & {
+  /**
+   * The underlying HTTP response.
+   */
+  _response: msRest.HttpResponse & {
+      /**
+       * The response body as text (string format)
+       */
+      bodyAsText: string;
+
+      /**
+       * The response body as parsed JSON or XML
+       */
+      parsedBody: SqlVirtualMachineListResult;
     };
 };
 

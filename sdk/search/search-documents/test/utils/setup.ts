@@ -435,11 +435,12 @@ export async function createDataSourceConnections(client: SearchIndexerClient): 
     assert.fail("Subscription has other datasource connections not related to this testing.");
   }
 
-  for (let dataSourceConnectionName of dataSourceConnectionNames) {
+  for (const dataSourceConnectionName of dataSourceConnectionNames) {
     await client.deleteDataSourceConnection(dataSourceConnectionName);
   }
 
-  const connectionString:string = "AccountEndpoint=https://hotels-docbb.documents.azure.com:443/;AccountKey=4UPsNZyFAjgZ1tzHPGZaxS09XcwLrIawbXBWk6IixcxJoSePTcjBn0mi53XiKWu8MaUgowUhIovOv7kjksqAug==;Database=SampleData";
+  const connectionString: string =
+    "AccountEndpoint=https://hotels-docbb.documents.azure.com:443/;AccountKey=4UPsNZyFAjgZ1tzHPGZaxS09XcwLrIawbXBWk6IixcxJoSePTcjBn0mi53XiKWu8MaUgowUhIovOv7kjksqAug==;Database=SampleData";
   for (let i = 1; i <= 2; i++) {
     await client.createDataSourceConnection({
       name: `my-data-source-${i}`,
@@ -474,7 +475,7 @@ export async function createSkillsets(client: SearchIndexerClient): Promise<void
     assert.fail("Subscription has other skillsets not related to this testing.");
   }
 
-  for (let skillSet of skillSetNames) {
+  for (const skillSet of skillSetNames) {
     await client.deleteSkillset(skillSet);
   }
 
@@ -533,7 +534,7 @@ export async function createIndexers(client: SearchIndexerClient): Promise<void>
     assert.fail("Subscription has other indexers not related to this testing.");
   }
 
-  for (let indexer of indexerNames) {
+  for (const indexer of indexerNames) {
     await client.deleteIndexer(indexer);
   }
 
@@ -568,7 +569,7 @@ export async function createSynonymMaps(client: SearchIndexClient): Promise<void
     assert.fail("Subscription has other synonymmaps not related to this testing.");
   }
 
-  for (let synonymMap of synonymMapNames) {
+  for (const synonymMap of synonymMapNames) {
     await client.deleteSynonymMap(synonymMap);
   }
 
@@ -587,7 +588,7 @@ export async function deleteSynonymMaps(client: SearchIndexClient): Promise<void
 }
 
 export async function createSimpleIndex(client: SearchIndexClient, name: string): Promise<void> {
-  let index: SearchIndex = {
+  const index: SearchIndex = {
     name,
     fields: [
       {

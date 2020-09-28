@@ -170,7 +170,10 @@ export function browserConfig(test = false) {
   };
 
   if (test) {
-    baseConfig.input = ["dist-esm/storage-file-datalake/test/*.spec.js", "dist-esm/storage-file-datalake/test/browser/*.spec.js"];
+    baseConfig.input = [
+      "dist-esm/storage-file-datalake/test/*.spec.js",
+      "dist-esm/storage-file-datalake/test/browser/*.spec.js"
+    ];
     baseConfig.plugins.unshift(multiEntry({ exports: false }));
     baseConfig.output.file = "dist-test/index.browser.js";
     // mark fs-extra as external

@@ -28,6 +28,41 @@ export class SqlVirtualMachines {
   }
 
   /**
+   * Gets the list of sql virtual machines in a SQL virtual machine group.
+   * @param resourceGroupName Name of the resource group that contains the resource. You can obtain
+   * this value from the Azure Resource Manager API or the portal.
+   * @param sqlVirtualMachineGroupName Name of the SQL virtual machine group.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.SqlVirtualMachinesListBySqlVmGroupResponse>
+   */
+  listBySqlVmGroup(resourceGroupName: string, sqlVirtualMachineGroupName: string, options?: msRest.RequestOptionsBase): Promise<Models.SqlVirtualMachinesListBySqlVmGroupResponse>;
+  /**
+   * @param resourceGroupName Name of the resource group that contains the resource. You can obtain
+   * this value from the Azure Resource Manager API or the portal.
+   * @param sqlVirtualMachineGroupName Name of the SQL virtual machine group.
+   * @param callback The callback
+   */
+  listBySqlVmGroup(resourceGroupName: string, sqlVirtualMachineGroupName: string, callback: msRest.ServiceCallback<Models.SqlVirtualMachineListResult>): void;
+  /**
+   * @param resourceGroupName Name of the resource group that contains the resource. You can obtain
+   * this value from the Azure Resource Manager API or the portal.
+   * @param sqlVirtualMachineGroupName Name of the SQL virtual machine group.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  listBySqlVmGroup(resourceGroupName: string, sqlVirtualMachineGroupName: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SqlVirtualMachineListResult>): void;
+  listBySqlVmGroup(resourceGroupName: string, sqlVirtualMachineGroupName: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SqlVirtualMachineListResult>, callback?: msRest.ServiceCallback<Models.SqlVirtualMachineListResult>): Promise<Models.SqlVirtualMachinesListBySqlVmGroupResponse> {
+    return this.client.sendOperationRequest(
+      {
+        resourceGroupName,
+        sqlVirtualMachineGroupName,
+        options
+      },
+      listBySqlVmGroupOperationSpec,
+      callback) as Promise<Models.SqlVirtualMachinesListBySqlVmGroupResponse>;
+  }
+
+  /**
    * Gets all SQL virtual machines in a subscription.
    * @param [options] The optional parameters
    * @returns Promise<Models.SqlVirtualMachinesListResponse>
@@ -220,6 +255,34 @@ export class SqlVirtualMachines {
   }
 
   /**
+   * Gets the list of sql virtual machines in a SQL virtual machine group.
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.SqlVirtualMachinesListBySqlVmGroupNextResponse>
+   */
+  listBySqlVmGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase): Promise<Models.SqlVirtualMachinesListBySqlVmGroupNextResponse>;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param callback The callback
+   */
+  listBySqlVmGroupNext(nextPageLink: string, callback: msRest.ServiceCallback<Models.SqlVirtualMachineListResult>): void;
+  /**
+   * @param nextPageLink The NextLink from the previous successful call to List operation.
+   * @param options The optional parameters
+   * @param callback The callback
+   */
+  listBySqlVmGroupNext(nextPageLink: string, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.SqlVirtualMachineListResult>): void;
+  listBySqlVmGroupNext(nextPageLink: string, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.SqlVirtualMachineListResult>, callback?: msRest.ServiceCallback<Models.SqlVirtualMachineListResult>): Promise<Models.SqlVirtualMachinesListBySqlVmGroupNextResponse> {
+    return this.client.sendOperationRequest(
+      {
+        nextPageLink,
+        options
+      },
+      listBySqlVmGroupNextOperationSpec,
+      callback) as Promise<Models.SqlVirtualMachinesListBySqlVmGroupNextResponse>;
+  }
+
+  /**
    * Gets all SQL virtual machines in a subscription.
    * @param nextPageLink The NextLink from the previous successful call to List operation.
    * @param [options] The optional parameters
@@ -278,6 +341,31 @@ export class SqlVirtualMachines {
 
 // Operation Specifications
 const serializer = new msRest.Serializer(Mappers);
+const listBySqlVmGroupOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.SqlVirtualMachine/sqlVirtualMachineGroups/{sqlVirtualMachineGroupName}/sqlVirtualMachines",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.sqlVirtualMachineGroupName,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.SqlVirtualMachineListResult
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
 const listOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/providers/Microsoft.SqlVirtualMachine/sqlVirtualMachines",
@@ -435,6 +523,27 @@ const beginUpdateOperationSpec: msRest.OperationSpec = {
   responses: {
     200: {
       bodyMapper: Mappers.SqlVirtualMachine
+    },
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const listBySqlVmGroupNextOperationSpec: msRest.OperationSpec = {
+  httpMethod: "GET",
+  baseUrl: "https://management.azure.com",
+  path: "{nextLink}",
+  urlParameters: [
+    Parameters.nextPageLink
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.SqlVirtualMachineListResult
     },
     default: {
       bodyMapper: Mappers.CloudError

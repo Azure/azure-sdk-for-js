@@ -12,13 +12,13 @@ Use the client libraries in this package to:
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-file-datalake) |
 [Package (npm)](https://www.npmjs.com/package/@azure/storage-file-datalake) |
 [API Reference Documentation](https://docs.microsoft.com/javascript/api/@azure/storage-file-datalake) |
-[Product documentation](https://docs.microsoft.com/en-us/azure/storage/blobs/data-lake-storage-introduction?toc=%2fazure%2fstorage%2fblobs%2ftoc.json) |
+[Product documentation](https://docs.microsoft.com/azure/storage/blobs/data-lake-storage-introduction?toc=%2fazure%2fstorage%2fblobs%2ftoc.json) |
 [Samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-file-datalake/samples) |
-[Azure Storage Data Lake REST APIs](https://docs.microsoft.com/en-us/rest/api/storageservices/data-lake-storage-gen2)
+[Azure Storage Data Lake REST APIs](https://docs.microsoft.com/rest/api/storageservices/data-lake-storage-gen2)
 
 ## Getting started
 
-**Prerequisites**: You must have an [Azure subscription](https://azure.microsoft.com/free/) and a [Storage Account](https://docs.microsoft.com/en-us/azure/storage/blobs/data-lake-storage-quickstart-create-account?toc=%2Fazure%2Fstorage%2Fblobs%2Ftoc.json#create-an-account-using-the-azure-portal) to use this package. If you are using this package in a Node.js application, then Node.js version 8.0.0 or higher is required.
+**Prerequisites**: You must have an [Azure subscription](https://azure.microsoft.com/free/) and a [Storage Account](https://docs.microsoft.com/azure/storage/blobs/data-lake-storage-quickstart-create-account?toc=%2Fazure%2Fstorage%2Fblobs%2Ftoc.json#create-an-account-using-the-azure-portal) to use this package. If you are using this package in a Node.js application, then Node.js version 8.0.0 or higher is required.
 
 ### Install the package
 
@@ -220,6 +220,19 @@ See the [Azure AD Auth sample](https://github.com/Azure/azure-sdk-for-js/blob/ma
 
 [Note - Above steps are only for Node.js]
 
+#### using connection string
+
+Alternatively, you can instantiate a `DataLakeServiceClient` using the `fromConnectionString()` static method with the full connection string as the argument. (The connection string can be obtained from the azure portal.)
+[ONLY AVAILABLE IN NODE.JS RUNTIME]
+
+```javascript
+const { DataLakeServiceClient } = require("@azure/storage-file-datalake");
+
+const connStr = "<connection string>";
+
+const DataLakeServiceClient = DataLakeServiceClient.fromConnectionString(connStr);
+```
+
 #### with `StorageSharedKeyCredential`
 
 Alternatively, you instantiate a `DataLakeServiceClient` with a `StorageSharedKeyCredential` by passing account-name and account-key as arguments. (The account-name and account-key can be obtained from the azure portal.)
@@ -228,7 +241,7 @@ Alternatively, you instantiate a `DataLakeServiceClient` with a `StorageSharedKe
 ```javascript
 const {
   DataLakeServiceClient,
-  StorageSharedKeyCredential,
+  StorageSharedKeyCredential
 } = require("@azure/storage-file-datalake");
 
 // Enter your storage account name and shared key

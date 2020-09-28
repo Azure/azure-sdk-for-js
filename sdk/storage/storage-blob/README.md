@@ -14,7 +14,7 @@ Use the client libraries in this package to:
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-blob) |
 [Package (npm)](https://www.npmjs.com/package/@azure/storage-blob/) |
-[API Reference Documentation](https://docs.microsoft.com/en-us/javascript/api/overview/azure/storage-overview) |
+[API Reference Documentation](https://docs.microsoft.com/javascript/api/@azure/storage-blob) |
 [Product documentation](https://docs.microsoft.com/azure/storage/blobs/storage-blobs-overview) |
 [Samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/storage/storage-blob/samples) |
 [Azure Storage Blob REST APIs](https://docs.microsoft.com/rest/api/storageservices/blob-service-rest-api)
@@ -201,6 +201,18 @@ const blobServiceClient = new BlobServiceClient(
 See the [Azure AD Auth sample](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/storage/storage-blob/samples/javascript/azureAdAuth.js) for a complete example using this method.
 
 [Note - Above steps are only for Node.js]
+
+#### using connection string
+
+Alternatively, you can instantiate a `BlobServiceClient` using the `fromConnectionString()` static method with the full connection string as the argument. (The connection string can be obtained from the azure portal.) [ONLY AVAILABLE IN NODE.JS RUNTIME]
+
+```javascript
+const { BlobServiceClient } = require("@azure/storage-blob");
+
+const connStr = "<connection string>";
+
+const blobServiceClient = BlobServiceClient.fromConnectionString(connStr);
+```
 
 #### with `StorageSharedKeyCredential`
 
@@ -434,7 +446,9 @@ async function main() {
   // Get blob content from position 0 to the end
   // In Node.js, get downloaded data by accessing downloadBlockBlobResponse.readableStreamBody
   const downloadBlockBlobResponse = await blobClient.download();
-  const downloaded = (await streamToBuffer(downloadBlockBlobResponse.readableStreamBody)).toString();
+  const downloaded = (
+    await streamToBuffer(downloadBlockBlobResponse.readableStreamBody)
+  ).toString();
   console.log("Downloaded blob content:", downloaded);
 
   // [Node.js only] A helper method used to read a Node.js readable stream into a Buffer

@@ -11,7 +11,7 @@ import {
   MessagingError
 } from "@azure/core-amqp";
 import { ConnectionContext } from "../connectionContext";
-import * as log from "../log";
+import { logger } from "../log";
 import {
   AwaitableSender,
   AwaitableSenderOptions,
@@ -22,6 +22,7 @@ import {
 } from "rhea-promise";
 import { getUniqueName, StandardAbortMessage } from "../util/utils";
 import { AbortError, AbortSignalLike } from "@azure/abort-controller";
+import { logError } from "../util/errors";
 
 /**
  * @internal
@@ -160,8 +161,6 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
     return this._logPrefix;
   }
 
-  private _logger: typeof log.error;
-
   /**
    * Indicates that close() has been called on this link and
    * that it should not be allowed to reopen.
@@ -192,8 +191,6 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
     this.audience = options.audience || "";
     this.name = getUniqueName(name);
     this._logPrefix = `[${context.connectionId}|${this._linkType}:${this.name}]`;
-
-    this._logger = LinkEntity.getLogger(this._linkType);
   }
 
   /**
@@ -202,7 +199,7 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
    */
   isOpen(): boolean {
     const result: boolean = this._link ? this._link.isOpen() : false;
-    log.error(`${this._logPrefix} is open? ${result}`);
+    logger.verbose(`${this._logPrefix} is open? ${result}`);
     return result;
   }
 
@@ -216,11 +213,11 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
     // we'll check that the connection isn't in the process of recycling (and if so, wait for it to complete)
     await this._context.readyToOpenLink();
 
-    log.error(
+    logger.verbose(
       `${this._logPrefix} Attempting to acquire lock token ${this._openLock} for initializing link`
     );
     return defaultLock.acquire(this._openLock, () => {
-      log.error(`${this._logPrefix} Lock ${this._openLock} acquired for initializing link`);
+      logger.verbose(`${this._logPrefix} Lock ${this._openLock} acquired for initializing link`);
       return this._initLinkImpl(options, abortSignal);
     });
   }
@@ -244,16 +241,16 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
     }
 
     if (this._wasClosedPermanently) {
-      log.error(`${this._logPrefix} Link has been permanently closed. Not reopening.`);
+      logger.verbose(`${this._logPrefix} Link has been permanently closed. Not reopening.`);
       throw new AbortError(`Link has been permanently closed. Not reopening.`);
     }
 
     if (this.isOpen()) {
-      log.error(`${this._logPrefix} Link is already open. Returning.`);
+      logger.verbose(`${this._logPrefix} Link is already open. Returning.`);
       return;
     }
 
-    log.error(`${this._logPrefix} Is not open and is not currently connecting. Opening.`);
+    logger.verbose(`${this._logPrefix} Is not open and is not currently connecting. Opening.`);
 
     try {
       await this._negotiateClaim();
@@ -261,15 +258,15 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
       checkAborted();
       this.checkIfConnectionReady();
 
-      this._logger(`${this._logPrefix} Creating with options %O`, options);
+      logger.verbose(`${this._logPrefix} Creating with options %O`, options);
       this._link = await this.createRheaLink(options);
       checkAborted();
 
       this._ensureTokenRenewal();
 
-      this._logger(`${this._logPrefix} Link has been created.`);
+      logger.verbose(`${this._logPrefix} Link has been created.`);
     } catch (err) {
-      log.error(`${this._logPrefix} Error thrown when creating the link:`, err);
+      logError(err, `${this._logPrefix} Error thrown when creating the link:`, err);
       await this.closeLinkImpl();
       throw err;
     }
@@ -284,7 +281,7 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
     // Set the flag to indicate that this instance of LinkEntity is not meant to be re-used.
     this._wasClosedPermanently = true;
 
-    log.error(
+    logger.verbose(
       "[%s] Closing the %s for entity '%s'.",
       this._context.connectionId,
       this._type,
@@ -308,7 +305,7 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
       }
     }
 
-    log.error(
+    logger.verbose(
       "[%s] Deleted the %s '%s' from the client cache.",
       this._context.connectionId,
       this._type,
@@ -331,17 +328,17 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
    * the this._link field to undefined.
    */
   protected closeLink(): Promise<void> {
-    log.error(
+    logger.verbose(
       `${this._logPrefix} Attempting to acquire lock token ${this._openLock} for closing link`
     );
     return defaultLock.acquire(this._openLock, () => {
-      log.error(`${this._logPrefix} Lock ${this._openLock} acquired for closing link`);
+      logger.verbose(`${this._logPrefix} Lock ${this._openLock} acquired for closing link`);
       return this.closeLinkImpl();
     });
   }
 
   private async closeLinkImpl(): Promise<void> {
-    this._logger(`${this._logPrefix} closeLinkImpl() called`);
+    logger.verbose(`${this._logPrefix} closeLinkImpl() called`);
 
     clearTimeout(this._tokenRenewalTimer as NodeJS.Timer);
     this._tokenRenewalTimer = undefined;
@@ -355,31 +352,9 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
         // remove them from the internal map.
         await link.close();
 
-        this._logger(`${this._logPrefix} closed.`);
+        logger.verbose(`${this._logPrefix} closed.`);
       } catch (err) {
-        log.error(`${this._logPrefix} An error occurred while closing the link.: %O`, err);
-      }
-    }
-  }
-
-  private static getLogger(
-    linkType: LinkTypeT<Receiver> | LinkTypeT<AwaitableSender> | LinkTypeT<RequestResponseLink>
-  ): typeof log.error {
-    switch (linkType) {
-      case "m": {
-        return log.mgmt;
-      }
-      case "s": {
-        return log.sender;
-      }
-      case "br": {
-        return log.batching;
-      }
-      case "sr": {
-        return log.streaming;
-      }
-      case "ms": {
-        return log.messageSession;
+        logError(err, `${this._logPrefix} An error occurred while closing the link.: %O`, err);
       }
     }
   }
@@ -410,7 +385,7 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
    * @return {Promise<void>} Promise<void>
    */
   private async _negotiateClaim(setTokenRenewal?: boolean): Promise<void> {
-    log.error(`${this._logPrefix} negotiateclaim() has been called`);
+    logger.verbose(`${this._logPrefix} negotiateclaim() has been called`);
 
     // Wait for the connectionContext to be ready to open the link.
     this.checkIfConnectionReady();
@@ -419,7 +394,7 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
     // Although node.js is single threaded, we need a locking mechanism to ensure that a
     // race condition does not happen while creating a shared resource (in this case the
     // cbs session, since we want to have exactly 1 cbs session per connection).
-    this._logger(
+    logger.verbose(
       "[%s] Acquiring cbs lock: '%s' for creating the cbs session while creating the %s: " +
         "'%s' with address: '%s'.",
       this._context.connectionId,
@@ -453,14 +428,14 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
       tokenType = TokenType.CbsTokenTypeJwt;
       this._tokenTimeout = tokenObject.expiresOnTimestamp - Date.now() - 2 * 60 * 1000;
     }
-    this._logger(
+    logger.verbose(
       "[%s] %s: calling negotiateClaim for audience '%s'.",
       this._context.connectionId,
       this._type,
       this.audience
     );
     // Acquire the lock to negotiate the CBS claim.
-    this._logger(
+    logger.verbose(
       "[%s] Acquiring cbs lock: '%s' for cbs auth for %s: '%s' with address '%s'.",
       this._context.connectionId,
       this._context.negotiateClaimLock,
@@ -475,7 +450,7 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
       this.checkIfConnectionReady();
       return this._context.cbsSession.negotiateClaim(this.audience, tokenObject, tokenType);
     });
-    this._logger(
+    logger.verbose(
       "[%s] Negotiated claim for %s '%s' with with address: %s",
       this._context.connectionId,
       this._type,
@@ -497,7 +472,7 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
       return;
     }
 
-    log.error(`${this._logPrefix} Connection is reopening, aborting link initialization.`);
+    logger.verbose(`${this._logPrefix} Connection is reopening, aborting link initialization.`);
     const err = new MessagingError("Connection is reopening, aborting link initialization.");
     err.retryable = true;
     throw err;
@@ -521,7 +496,8 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
       try {
         await this._negotiateClaim(true);
       } catch (err) {
-        log.error(
+        logError(
+          err,
           "[%s] %s '%s' with address %s, an error occurred while renewing the token: %O",
           this._context.connectionId,
           this._type,
@@ -531,7 +507,7 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
         );
       }
     }, this._tokenTimeout);
-    this._logger(
+    logger.verbose(
       "[%s] %s '%s' with address %s, has next token renewal in %d milliseconds @(%s).",
       this._context.connectionId,
       this._type,

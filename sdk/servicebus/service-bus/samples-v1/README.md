@@ -24,4 +24,8 @@ Before running any of the samples, update it with the connection string and the 
 
 See the instructions in [`samples-v1/javascript/README.md`](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/servicebus/service-bus/samples-v1/javascript/) or [`samples-v1/typescript/README.md`](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/servicebus/service-bus/samples-v1/typescript/) for instructions on running the JavaScript samples or the TypeScript samples respectively.
 
+### Browser Samples
+
+Running these samples in the browser requires a bundler. To use this client library in the browser, please refer to our [bundling documentation](https://aka.ms/AzureSDKBundling).
+
 ![Impressions](https://azure-sdk-impressions.azurewebsites.net/api/impressions/azure-sdk-for-js%2Fsdk%2Fservicebus%2Fservice-bus%2Fsamples%2FREADME.png)

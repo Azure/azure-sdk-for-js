@@ -4,7 +4,7 @@ module.exports.hash = "03abd5e158b7a7e6a14858666d0cae67";
 
 module.exports.testInfo = { uniqueName: {}, newDate: {} };
 
-nock("https://joherediteststorage.table.core.windows.net:443", { encodedQueryParams: true })
+nock("https://fakestorageaccount.table.core.windows.net:443", { encodedQueryParams: true })
   .post("/integration", {
     PartitionKey: "P8__node",
     RowKey: "R8",
@@ -20,7 +20,7 @@ nock("https://joherediteststorage.table.core.windows.net:443", { encodedQueryPar
     "ETag",
     `W/"datetime'2020-08-21T19%3A53%3A16.8185874Z'"`,
     "Location",
-    "https://joherediteststorage.table.core.windows.net/integration(PartitionKey='P8__node',RowKey='R8')",
+    "https://fakestorageaccount.table.core.windows.net/integration(PartitionKey='P8__node',RowKey='R8')",
     "Server",
     "Windows-Azure-Table/1.0 Microsoft-HTTPAPI/2.0",
     "x-ms-request-id",
@@ -32,21 +32,21 @@ nock("https://joherediteststorage.table.core.windows.net:443", { encodedQueryPar
     "Preference-Applied",
     "return-no-content",
     "DataServiceId",
-    "https://joherediteststorage.table.core.windows.net/integration(PartitionKey='P8__node',RowKey='R8')",
+    "https://fakestorageaccount.table.core.windows.net/integration(PartitionKey='P8__node',RowKey='R8')",
     "Date",
     "Fri, 21 Aug 2020 19:53:16 GMT",
     "Connection",
     "close"
   ]);
 
-nock("https://joherediteststorage.table.core.windows.net:443", { encodedQueryParams: true })
+nock("https://fakestorageaccount.table.core.windows.net:443", { encodedQueryParams: true })
   .get("/integration(PartitionKey=%27P8__node%27,RowKey=%27R8%27)")
   .query(true)
   .reply(
     200,
     {
       "odata.metadata":
-        "https://joherediteststorage.table.core.windows.net/$metadata#integration/@Element",
+        "https://fakestorageaccount.table.core.windows.net/$metadata#integration/@Element",
       "odata.etag": "W/\"datetime'2020-08-21T19%3A53%3A16.8185874Z'\"",
       PartitionKey: "P8__node",
       RowKey: "R8",

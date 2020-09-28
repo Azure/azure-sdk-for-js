@@ -1,6 +1,6 @@
 {
   "name": "@azure/data-tables",
-  "version": "1.0.0-beta.1",
+  "version": "1.0.0-beta.2",
   "description": "An isomorphic client library for the Azure Tables service.",
   "sdk-type": "client",
   "main": "dist/index.js",
@@ -36,8 +36,8 @@
     "test:browser": "npm run build:test && npm run unit-test:browser && npm run integration-test:browser",
     "test:node": "npm run build:test && npm run unit-test:node && npm run integration-test:node",
     "test": "npm run build:test && npm run unit-test && npm run integration-test",
-    "unit-test:browser": "karma start --single-run --testMode=unit",
-    "unit-test:node": "mocha --reporter ../../../common/tools/mocha-multi-reporter.js dist-test/unit.index.node.js",
+    "unit-test:browser": "karma start --single-run --testMode=unit && npm run integration-test:browser",
+    "unit-test:node": "mocha --reporter ../../../common/tools/mocha-multi-reporter.js dist-test/unit.index.node.js && npm run integration-test:node",
     "unit-test": "npm run unit-test:node && npm run unit-test:browser"
   },
   "files": [
@@ -45,7 +45,6 @@
     "dist-esm/src/",
     "types/tables.d.ts",
     "types/latest/",
-    "types/3.1/",
     "README.md",
     "LICENSE"
   ],
@@ -61,13 +60,6 @@
   },
   "engines": {
     "node": ">=8.0.0"
-  },
-  "typesVersions": {
-    "<3.6": {
-      "types/latest/*": [
-        "types/3.1/*"
-      ]
-    }
   },
   "homepage": "https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/tables/data-tables/",
   "sideEffects": false,
@@ -127,5 +119,17 @@
     "@azure/test-utils-recorder": "^1.0.0",
     "rollup-plugin-shim": "^1.0.0",
     "@rollup/plugin-inject": "^4.0.0"
+  },
+  "//metadata": {
+    "constantPaths": [
+      {
+        "path": "src/generated/generatedClientContext.ts",
+        "prefix": "packageVersion"
+      },
+      {
+        "path": "src/utils/constants.ts",
+        "prefix": "SDK_VERSION"
+      }
+    ]
   }
 }

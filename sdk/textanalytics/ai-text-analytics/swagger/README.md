@@ -12,7 +12,7 @@ generate-metadata: false
 license-header: MICROSOFT_MIT_NO_VERSION
 output-folder: ../
 source-code-folder-path: ./src/generated
-input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/master/specification/cognitiveservices/data-plane/TextAnalytics/preview/v3.1-preview.1/TextAnalytics.json
+input-file: https://raw.githubusercontent.com/Azure/azure-rest-api-specs/master/specification/cognitiveservices/data-plane/TextAnalytics/preview/v3.1-preview.2/TextAnalytics.json
 add-credentials: false
 package-version: 5.1.0-beta.1
 v3: true
@@ -41,6 +41,16 @@ directive:
     where: $.definitions.DocumentStatistics.properties.transactionsCount
     transform: >
       $["x-ms-client-name"] = "transactionCount";
+```
+
+### Rename BingId to bingEntitySearchApiId
+
+```yaml
+directive:
+  - from: swagger-document
+    where: $.definitions.LinkedEntity.properties.bingId
+    transform: >
+      $["x-ms-client-name"] = "bingEntitySearchApiId";
 ```
 
 ### Rename plurals in RequestStatistics

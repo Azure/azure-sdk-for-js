@@ -2,8 +2,12 @@
   "compilerOptions": {
     "module": "commonjs",
     "moduleResolution": "node",
-    "lib": ["dom", "dom.iterable", "esnext.asynciterable"],
+
     "allowSyntheticDefaultImports": true,
+
+    "strict": true,
+    "alwaysStrict": true,
+
     "outDir": "dist",
     "rootDir": "src"
   },

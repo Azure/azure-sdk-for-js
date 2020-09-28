@@ -14,11 +14,11 @@ dotenv.config();
 describe("FileServiceClient", () => {
   let recorder: Recorder;
 
-  beforeEach(function () {
+  beforeEach(function() {
     recorder = record(this, recorderEnvSetup);
   });
 
-  afterEach(async function () {
+  afterEach(async function() {
     await recorder.stop();
   });
 
@@ -387,12 +387,11 @@ describe("FileServiceClient", () => {
   });
 });
 
-
 describe("FileServiceClient", () => {
   let recorder: Recorder;
   let serviceClient: ShareServiceClient;
 
-  beforeEach(function () {
+  beforeEach(function() {
     recorder = record(this, recorderEnvSetup);
 
     try {
@@ -402,11 +401,11 @@ describe("FileServiceClient", () => {
     }
   });
 
-  afterEach(async function () {
+  afterEach(async function() {
     await recorder.stop();
   });
 
-  it("ListShares with deleted share", async function () {
+  it("ListShares with deleted share", async function() {
     const shareClient = serviceClient.getShareClient(recorder.getUniqueName("share"));
     await shareClient.create();
     await shareClient.delete();
@@ -422,7 +421,7 @@ describe("FileServiceClient", () => {
     assert.ok(found);
   });
 
-  it("Undelete share positive", async function () {
+  it("Undelete share positive", async function() {
     const shareClient = serviceClient.getShareClient(recorder.getUniqueName("share"));
     await shareClient.create();
     await shareClient.delete();
@@ -455,7 +454,7 @@ describe("FileServiceClient", () => {
     await restoredShareClient.delete();
   });
 
-  it("Undelete share negative", async function () {
+  it("Undelete share negative", async function() {
     const shareClient = serviceClient.getShareClient(recorder.getUniqueName("share"));
     const invalidVersion = "01D60F8BB59A4652";
 

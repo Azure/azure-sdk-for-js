@@ -1,5 +1,8 @@
 # Release History
 
+## 1.2.0-beta.2 (Unreleased)
+- Reverted change in 1.2.0-beta.1 which moved @rollup/plugin-json from devDependencies to dependencies
+
 ## 1.2.0-beta.1 (2020-09-08)
 
 - A new `InteractiveBrowserCredential` for node which will spawn a web server, start a web browser, and allow the user to interactively authenticate with the browser.
@@ -84,7 +87,7 @@
 
 ## 1.0.0-preview.4 (2019-10-07)
 
-- Introduced the `AuthorizationCodeCredential` for performing the [authorization code flow](https://docs.microsoft.com/en-us/azure/active-directory/develop/v2-oauth2-auth-code-flow) with AAD ([PR #5356](https://github.com/Azure/azure-sdk-for-js/pull/5356))
+- Introduced the `AuthorizationCodeCredential` for performing the [authorization code flow](https://docs.microsoft.com/azure/active-directory/develop/v2-oauth2-auth-code-flow) with AAD ([PR #5356](https://github.com/Azure/azure-sdk-for-js/pull/5356))
 - Fixed an issue preventing the `ManagedIdentityCredential` from working inside of Azure Function Apps ([PR #5144](https://github.com/Azure/azure-sdk-for-js/pull/5144))
 - Added tracing to `IdentityClient` and credential implementations ([PR #5283](https://github.com/Azure/azure-sdk-for-js/pull/5283))
 - Improved the exception message for `AggregateAuthenticationError` so that errors thrown from `DefaultAzureCredential` are now more actionable ([PR #5409](https://github.com/Azure/azure-sdk-for-js/pull/5409))

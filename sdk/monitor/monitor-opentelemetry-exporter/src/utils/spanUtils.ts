@@ -5,7 +5,7 @@ import { URL } from "url";
 import { ReadableSpan } from "@opentelemetry/tracing";
 import { hrTimeToMilliseconds } from "@opentelemetry/core";
 import { SpanKind, Logger, CanonicalCode, Link } from "@opentelemetry/api";
-import { Envelope, RequestData, RemoteDependencyData, Base } from "../Declarations/Contracts";
+import { Envelope, Base } from "../Declarations/Contracts";
 import { Tags, Properties, MSLink, Measurements } from "../types";
 import {
   HTTP_METHOD,
@@ -18,7 +18,7 @@ import {
   AI_OPERATION_PARENT_ID,
   AI_OPERATION_NAME,
   MS_LINKS,
-  INPROC,
+  INPROC
 } from "./constants/applicationinsights";
 import {
   GRPC_ERROR_MESSAGE,
@@ -31,6 +31,7 @@ import { getInstance } from "../platform";
 import { DB_STATEMENT, DB_TYPE, DB_INSTANCE } from "./constants/span/dbAttributes";
 import { parseEventHubSpan } from "./eventhub";
 import { AzNamespace, MicrosoftEventHub } from "./constants/span/azAttributes";
+import { RemoteDependencyData, RequestData } from "../generated";
 
 function createTagsFromSpan(span: ReadableSpan): Tags {
   const context = getInstance();
@@ -85,15 +86,16 @@ function createPropertiesFromSpan(span: ReadableSpan): [Properties, Measurements
 }
 
 function createDependencyData(span: ReadableSpan): RemoteDependencyData {
-  const data = new RemoteDependencyData();
-  data.name = span.name;
-  data.id = `|${span.spanContext.traceId}.${span.spanContext.spanId}.`;
-  data.success = span.status.code === CanonicalCode.OK;
-  data.resultCode = String(span.status.code);
-  data.target = span.attributes[HTTP_URL] as string | undefined;
-  data.type = "Dependency";
-  data.duration = msToTimeSpan(hrTimeToMilliseconds(span.duration));
-  data.ver = 1;
+  const data: RemoteDependencyData = {
+    name: span.name,
+    id: `|${span.spanContext.traceId}.${span.spanContext.spanId}.`,
+    success: span.status.code === CanonicalCode.OK,
+    resultCode: String(span.status.code),
+    target: span.attributes[HTTP_URL] as string | undefined,
+    type: "Dependency",
+    duration: msToTimeSpan(hrTimeToMilliseconds(span.duration)),
+    version: 1
+  };
 
   if (span.attributes[HTTP_STATUS_CODE]) {
     data.type = "HTTP";
@@ -138,14 +140,15 @@ function createDependencyData(span: ReadableSpan): RemoteDependencyData {
 }
 
 function createRequestData(span: ReadableSpan): RequestData {
-  const data = new RequestData();
-  data.name = span.name;
-  data.id = `|${span.spanContext.traceId}.${span.spanContext.spanId}.`;
-  data.success = span.status.code === CanonicalCode.OK;
-  data.responseCode = String(span.status.code);
-  data.duration = msToTimeSpan(hrTimeToMilliseconds(span.duration));
-  data.ver = 1;
-  data.source = undefined;
+  const data: RequestData = {
+    name: span.name,
+    id: `|${span.spanContext.traceId}.${span.spanContext.spanId}.`,
+    success: span.status.code === CanonicalCode.OK,
+    responseCode: String(span.status.code),
+    duration: msToTimeSpan(hrTimeToMilliseconds(span.duration)),
+    version: 1,
+    source: undefined
+  };
 
   if (span.attributes[HTTP_METHOD]) {
     data.name = span.attributes[HTTP_METHOD] as string;

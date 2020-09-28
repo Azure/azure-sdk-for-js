@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 import { Receiver, ReceiverEvents } from "rhea-promise";
-import * as log from "../log";
+import { logger } from "../log";
 
 /**
  * Wraps the receiver with some higher level operations for managing state
@@ -52,7 +52,7 @@ export class ReceiverHelper {
       return;
     }
 
-    log.receiver(
+    logger.verbose(
       `[${receiver.name}] User has requested to stop receiving new messages, attempting to drain the credits.`
     );
     return this.drain();
@@ -88,11 +88,11 @@ export class ReceiverHelper {
       return;
     }
 
-    log.receiver(`[${receiver.name}] Receiver is starting drain.`);
+    logger.verbose(`[${receiver.name}] Receiver is starting drain.`);
 
     const drainPromise = new Promise<void>((resolve) => {
       receiver.once(ReceiverEvents.receiverDrained, () => {
-        log.receiver(`[${receiver.name}] Receiver has been drained.`);
+        logger.verbose(`[${receiver.name}] Receiver has been drained.`);
         receiver.drain = false;
         resolve();
       });

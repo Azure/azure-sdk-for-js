@@ -43,6 +43,14 @@ export type DeviceCodePromptCallback = (deviceCodeInfo: DeviceCodeInfo) => void;
 const logger = credentialLogger("DeviceCodeCredential");
 
 /**
+ * Method that logs the user code from the DeviceCodeCredential.
+ * @param deviceCodeInfo The device code.
+ */
+export function defaultDeviceCodePromptCallback(deviceCodeInfo: DeviceCodeInfo): void {
+  console.log(deviceCodeInfo.message);
+}
+
+/**
  * Enables authentication to Azure Active Directory using a device code
  * that the user can enter into https://microsoft.com/devicelogin.
  */
@@ -62,13 +70,13 @@ export class DeviceCodeCredential implements TokenCredential {
    *                 'organizations' may be used when dealing with multi-tenant scenarios.
    * @param clientId The client (application) ID of an App Registration in the tenant.
    * @param userPromptCallback A callback function that will be invoked to show
-                               {@link DeviceCodeInfo} to the user.
+                               {@link DeviceCodeInfo} to the user. If left unassigned, we will automatically log the device code information and the authentication instructions in the console.
    * @param options Options for configuring the client which makes the authentication request.
    */
   constructor(
     tenantId: string | "organizations",
     clientId: string,
-    userPromptCallback: DeviceCodePromptCallback,
+    userPromptCallback: DeviceCodePromptCallback = defaultDeviceCodePromptCallback,
     options?: TokenCredentialOptions
   ) {
     this.identityClient = new IdentityClient(options);
@@ -87,12 +95,12 @@ export class DeviceCodeCredential implements TokenCredential {
 
     const publicClientConfig = {
       auth: {
-          clientId: this.clientId,
-          authority: this.authorityHost,
+        clientId: this.clientId,
+        authority: this.authorityHost
       },
       cache: {
-          cachePlugin: undefined
-      },
+        cachePlugin: undefined
+      }
     };
 
     this.pca = new PublicClientApplication(publicClientConfig);
@@ -108,17 +116,14 @@ export class DeviceCodeCredential implements TokenCredential {
    * @param options The options used to configure any requests this
    *                TokenCredential implementation might make.
    */
-  getToken(
-    scopes: string | string[],
-    options?: GetTokenOptions
-  ): Promise<AccessToken | null> {
+  getToken(scopes: string | string[], options?: GetTokenOptions): Promise<AccessToken | null> {
     const { span, options: newOptions } = createSpan("DeviceCodeCredential-getToken", options);
 
     const scopeArray = typeof scopes === "object" ? scopes : [scopes];
 
     const deviceCodeRequest = {
       deviceCodeCallback: this.userPromptCallback,
-      scopes: scopeArray,
+      scopes: scopeArray
     };
 
     logger.info("Sending devicecode request");
@@ -141,13 +146,15 @@ export class DeviceCodeCredential implements TokenCredential {
     }
   }
 
-  private async acquireTokenByDeviceCode(deviceCodeRequest: DeviceCodeRequest): Promise<AccessToken | null> {
+  private async acquireTokenByDeviceCode(
+    deviceCodeRequest: DeviceCodeRequest
+  ): Promise<AccessToken | null> {
     try {
       const deviceResponse = await this.pca.acquireTokenByDeviceCode(deviceCodeRequest);
-      return({
+      return {
         expiresOnTimestamp: deviceResponse.expiresOn.getTime(),
         token: deviceResponse.accessToken
-      });
+      };
     } catch (error) {
       throw new Error(`Device Authentication Error "${JSON.stringify(error)}"`);
     }

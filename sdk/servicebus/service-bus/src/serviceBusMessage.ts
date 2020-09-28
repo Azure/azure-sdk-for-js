@@ -11,10 +11,10 @@ import {
   MessageProperties,
   translate
 } from "@azure/core-amqp";
-import * as log from "./log";
+import { logger } from "./log";
 import { ConnectionContext } from "./connectionContext";
 import { reorderLockToken } from "./util/utils";
-import { getErrorMessageNotSupportedInReceiveAndDeleteMode } from "./util/errors";
+import { getErrorMessageNotSupportedInReceiveAndDeleteMode, logError } from "./util/errors";
 import { Buffer } from "buffer";
 import { DispositionStatusOptions } from "./core/managementClient";
 
@@ -492,7 +492,7 @@ export function toAmqpMessage(msg: ServiceBusMessage): AmqpMessage {
   if (msg.scheduledEnqueueTimeUtc != null) {
     amqpMsg.message_annotations![Constants.scheduledEnqueueTime] = msg.scheduledEnqueueTimeUtc;
   }
-  log.message("SBMessage to AmqpMessage: %O", amqpMsg);
+  logger.verbose("SBMessage to AmqpMessage: %O", amqpMsg);
   return amqpMsg;
 }
 
@@ -816,7 +816,7 @@ export function fromAmqpMessage(
     deadLetterErrorDescription: sbmsg.properties?.DeadLetterErrorDescription
   };
 
-  log.message("AmqpMessage to ReceivedSBMessage: %O", rcvdsbmsg);
+  logger.verbose("AmqpMessage to ReceivedSBMessage: %O", rcvdsbmsg);
   return rcvdsbmsg;
 }
 
@@ -826,6 +826,8 @@ export function fromAmqpMessage(
  * @export
  * @param {AmqpMessage} msg
  * @returns {AmqpAnnotatedMessage}
+ * @internal
+ * @ignore
  */
 export function toAmqpAnnotatedMessage(msg: AmqpMessage): AmqpAnnotatedMessage {
   const messageHeader = MessageHeader.fromAmqpMessageHeader(msg);
@@ -1075,7 +1077,7 @@ export class ServiceBusMessageImpl implements ServiceBusReceivedMessageWithLock 
    * See ServiceBusReceivedMessageWithLock.complete().
    */
   async complete(): Promise<void> {
-    log.message(
+    logger.verbose(
       "[%s] Completing the message with id '%s'.",
       this._context.connectionId,
       this.messageId
@@ -1088,7 +1090,7 @@ export class ServiceBusMessageImpl implements ServiceBusReceivedMessageWithLock 
    */
   async abandon(propertiesToModify?: { [key: string]: any }): Promise<void> {
     // TODO: Figure out a mechanism to convert specified properties to message_annotations.
-    log.message(
+    logger.verbose(
       "[%s] Abandoning the message with id '%s'.",
       this._context.connectionId,
       this.messageId
@@ -1102,7 +1104,7 @@ export class ServiceBusMessageImpl implements ServiceBusReceivedMessageWithLock 
    * See ServiceBusReceivedMessageWithLock.defer().
    */
   async defer(propertiesToModify?: { [key: string]: any }): Promise<void> {
-    log.message(
+    logger.verbose(
       "[%s] Deferring the message with id '%s'.",
       this._context.connectionId,
       this.messageId
@@ -1116,7 +1118,7 @@ export class ServiceBusMessageImpl implements ServiceBusReceivedMessageWithLock 
    * See ServiceBusReceivedMessageWithLock.deadLetter().
    */
   async deadLetter(propertiesToModify?: DeadLetterOptions & { [key: string]: any }): Promise<void> {
-    log.message(
+    logger.verbose(
       "[%s] Deadlettering the message with id '%s'.",
       this._context.connectionId,
       this.messageId
@@ -1166,7 +1168,8 @@ export class ServiceBusMessageImpl implements ServiceBusReceivedMessageWithLock 
       error = new Error(`Failed to renew the lock as this message is already settled.`);
     }
     if (error) {
-      log.error(
+      logError(
+        error,
         "[%s] An error occurred when renewing the lock on the message with id '%s': %O",
         this._context.connectionId,
         this.messageId,
@@ -1230,7 +1233,8 @@ export class ServiceBusMessageImpl implements ServiceBusReceivedMessageWithLock 
       const error = new Error(
         getErrorMessageNotSupportedInReceiveAndDeleteMode(`${operation} the message`)
       );
-      log.error(
+      logError(
+        error,
         "[%s] An error occurred when settling a message with id '%s': %O",
         this._context.connectionId,
         this.messageId,
@@ -1264,7 +1268,8 @@ export class ServiceBusMessageImpl implements ServiceBusReceivedMessageWithLock 
         });
       }
       if (error) {
-        log.error(
+        logError(
+          error,
           "[%s] An error occurred when settling a message with id '%s': %O",
           this._context.connectionId,
           this.messageId,

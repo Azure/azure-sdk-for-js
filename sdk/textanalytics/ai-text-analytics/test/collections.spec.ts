@@ -347,7 +347,8 @@ describe("RecognizeLinkedEntitiesResultArray", () => {
                 offset: 0
               }
             ],
-            warnings: []
+            warnings: [],
+            redactedText: ""
           },
           {
             id: "C",
@@ -361,7 +362,8 @@ describe("RecognizeLinkedEntitiesResultArray", () => {
                 offset: 0
               }
             ],
-            warnings: []
+            warnings: [],
+            redactedText: ""
           }
         ],
         errors: [

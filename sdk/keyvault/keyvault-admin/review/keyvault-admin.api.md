@@ -6,11 +6,45 @@
 
 import * as coreHttp from '@azure/core-http';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
+import { PollerLike } from '@azure/core-lro';
+import { PollOperationState } from '@azure/core-lro';
 import { TokenCredential } from '@azure/core-http';
 
 // @public
 export interface AccessControlClientOptions extends coreHttp.PipelineOptions {
     serviceVersion?: SUPPORTED_API_VERSIONS;
+}
+
+// @public
+export interface BackupClientOptions extends coreHttp.PipelineOptions {
+    serviceVersion?: SUPPORTED_API_VERSIONS;
+}
+
+// @public
+export interface BackupOperationState extends PollOperationState<string> {
+    endTime?: Date;
+    jobId?: string;
+    startTime?: Date;
+    status?: string;
+    statusDetails?: string;
+}
+
+// @public
+export interface BackupPollerOptions extends coreHttp.OperationOptions {
+    intervalInMs?: number;
+    resumeFrom?: string;
+}
+
+// @public
+export interface BeginBackupOptions extends BackupPollerOptions {
+}
+
+// @public
+export interface BeginRestoreOptions extends BackupPollerOptions {
+}
+
+// @public
+export interface BeginSelectiveRestoreOptions extends BackupPollerOptions {
 }
 
 // @public
@@ -33,6 +67,15 @@ export class KeyVaultAccessControlClient {
     getRoleAssignment(roleScope: RoleAssignmentScope, name: string, options?: GetRoleAssignmentOptions): Promise<KeyVaultRoleAssignment>;
     listRoleAssignments(roleScope: RoleAssignmentScope, options?: ListRoleAssignmentsOptions): PagedAsyncIterableIterator<KeyVaultRoleAssignment>;
     listRoleDefinitions(roleScope: RoleAssignmentScope, options?: ListRoleDefinitionsOptions): PagedAsyncIterableIterator<KeyVaultRoleDefinition>;
+    readonly vaultUrl: string;
+}
+
+// @public
+export class KeyVaultBackupClient {
+    constructor(vaultUrl: string, credential: TokenCredential, pipelineOptions?: BackupClientOptions);
+    beginBackup(blobStorageUri: string, sasToken: string, options?: BeginBackupOptions): Promise<PollerLike<BackupOperationState, string>>;
+    beginRestore(blobStorageUri: string, sasToken: string, folderName: string, options?: BeginRestoreOptions): Promise<PollerLike<RestoreOperationState, undefined>>;
+    beginSelectiveRestore(blobStorageUri: string, sasToken: string, folderName: string, keyName: string, options?: BeginBackupOptions): Promise<PollerLike<SelectiveRestoreOperationState, undefined>>;
     readonly vaultUrl: string;
 }
 
@@ -99,10 +142,28 @@ export interface ListRoleDefinitionsPageSettings {
 }
 
 // @public
+export interface RestoreOperationState extends PollOperationState<undefined> {
+    endTime?: Date;
+    jobId?: string;
+    startTime?: Date;
+    status?: string;
+    statusDetails?: string;
+}
+
+// @public
 export type RoleAssignmentScope = "/" | "/keys" | string;
 
 // @public
 export const SDK_VERSION: string;
+
+// @public
+export interface SelectiveRestoreOperationState extends PollOperationState<undefined> {
+    endTime?: Date;
+    jobId?: string;
+    startTime?: Date;
+    status?: string;
+    statusDetails?: string;
+}
 
 // @public
 export type SUPPORTED_API_VERSIONS = "7.2-preview";

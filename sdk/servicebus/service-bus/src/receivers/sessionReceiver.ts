@@ -14,11 +14,11 @@ import { MessageSession } from "../session/messageSession";
 import {
   getAlreadyReceivingErrorMsg,
   getReceiverClosedErrorMsg,
+  logError,
   throwErrorIfConnectionClosed,
   throwTypeErrorIfParameterMissing,
   throwTypeErrorIfParameterNotLong
 } from "../util/errors";
-import * as log from "../log";
 import { OnError, OnMessage } from "../core/messageReceiver";
 import { assertValidMessageHandlers, getMessageIterator, wrapProcessErrorHandler } from "./shared";
 import { convertToInternalReceiveMode } from "../constructorHelpers";
@@ -172,7 +172,7 @@ export class ServiceBusSessionReceiverImpl<
       if (this._isClosed) {
         const errorMessage = getReceiverClosedErrorMsg(this.entityPath, this.sessionId);
         const error = new Error(errorMessage);
-        log.error(`[${this._context.connectionId}] %O`, error);
+        logError(error, `[${this._context.connectionId}] %O`, error);
         throw error;
       }
       const amqpError: AmqpError = {
@@ -187,7 +187,7 @@ export class ServiceBusSessionReceiverImpl<
     if (this._isReceivingMessages()) {
       const errorMessage = getAlreadyReceivingErrorMsg(this.entityPath, this.sessionId);
       const error = new Error(errorMessage);
-      log.error(`[${this._context.connectionId}] %O`, error);
+      logError(error, `[${this._context.connectionId}] %O`, error);
       throw error;
     }
   }
@@ -515,7 +515,8 @@ export class ServiceBusSessionReceiverImpl<
     try {
       await this._messageSession.close();
     } catch (err) {
-      log.error(
+      logError(
+        err,
         "[%s] An error occurred while closing the SessionReceiver for session %s in %s: %O",
         this._context.connectionId,
         this.sessionId,

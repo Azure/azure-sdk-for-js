@@ -173,7 +173,7 @@ describe("Listing methods - PagedAsyncIterableIterator", function(): void {
 
       it("Verify PagedAsyncIterableIterator", async () => {
         const receivedEntities = [];
-        let iter = getIter();
+        const iter = getIter();
         for await (const entity of iter) {
           receivedEntities.push(
             methodName.includes("Subscription") ? entity.subscriptionName : entity.name
@@ -184,7 +184,7 @@ describe("Listing methods - PagedAsyncIterableIterator", function(): void {
 
       it("Verify PagedAsyncIterableIterator(byPage())", async () => {
         const receivedEntities = [];
-        let iter = getIter().byPage({
+        const iter = getIter().byPage({
           maxPageSize: 2
         });
         for await (const response of iter) {
@@ -1258,6 +1258,7 @@ describe("Atom management - Authentication", function(): void {
       duplicateDetectionHistoryTimeWindow: "PT10M",
       enableBatchedOperations: true,
       enablePartitioning: false,
+      enableExpress: false,
       maxSizeInMegabytes: 1024,
       userMetadata: undefined,
       requiresDuplicateDetection: false,
@@ -1276,6 +1277,7 @@ describe("Atom management - Authentication", function(): void {
       enableBatchedOperations: false,
       status: "SendDisabled" as EntityStatus,
       enablePartitioning: true,
+      enableExpress: false,
       supportOrdering: false,
       userMetadata: "test metadata"
     },
@@ -1287,6 +1289,7 @@ describe("Atom management - Authentication", function(): void {
       supportOrdering: false,
       requiresDuplicateDetection: true,
       enablePartitioning: true,
+      enableExpress: false,
       maxSizeInMegabytes: 16384,
       autoDeleteOnIdle: "P10675199DT2H48M5.4775807S",
       authorizationRules: undefined,
@@ -1437,6 +1440,7 @@ describe("Atom management - Authentication", function(): void {
 
       messageCount: 0,
       enablePartitioning: undefined,
+      enableExpress: undefined,
       maxSizeInMegabytes: undefined,
       sizeInBytes: undefined,
 
@@ -1512,6 +1516,7 @@ describe("Atom management - Authentication", function(): void {
       duplicateDetectionHistoryTimeWindow: "PT10M",
       enableBatchedOperations: true,
       enablePartitioning: false,
+      enableExpress: false,
       forwardDeadLetteredMessagesTo: undefined,
       lockDuration: "PT1M",
       maxDeliveryCount: 10,
@@ -1555,6 +1560,7 @@ describe("Atom management - Authentication", function(): void {
         }
       ],
       enablePartitioning: true,
+      enableExpress: false,
       userMetadata: "test metadata",
       status: "ReceiveDisabled" as EntityStatus
     },
@@ -1587,6 +1593,7 @@ describe("Atom management - Authentication", function(): void {
         }
       ],
       enablePartitioning: true,
+      enableExpress: false,
       maxSizeInMegabytes: 16384,
       forwardDeadLetteredMessagesTo: undefined,
       forwardTo: undefined,
@@ -1849,6 +1856,7 @@ describe("Atom management - Authentication", function(): void {
         }
       ],
       enablePartitioning: true,
+      enableExpress: false,
       userMetadata: "test metadata",
       status: "ReceiveDisabled" as EntityStatus
     },
@@ -1886,6 +1894,7 @@ describe("Atom management - Authentication", function(): void {
       userMetadata: "test metadata",
       status: "ReceiveDisabled",
       enablePartitioning: true,
+      enableExpress: false,
       name: managementQueue1
     }
   }
@@ -1920,7 +1929,8 @@ describe("Atom management - Authentication", function(): void {
             secondaryKey: "UreXLPWiP6Murmsq2HYiIXs23qAvWa36ZOL3gb9rXLs="
           }
         ],
-        enablePartitioning: true
+        enablePartitioning: true,
+        enableExpress: false
       });
     });
 
@@ -2079,6 +2089,7 @@ describe("Atom management - Authentication", function(): void {
       maxSizeInMegabytes: 3072,
       enableBatchedOperations: true,
       enablePartitioning: false,
+      enableExpress: false,
       authorizationRules: undefined,
       status: "SendDisabled",
       userMetadata: "test metadata",

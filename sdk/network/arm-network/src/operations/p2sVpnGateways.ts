@@ -81,32 +81,9 @@ export class P2sVpnGateways {
    * @param [options] The optional parameters
    * @returns Promise<Models.P2sVpnGatewaysUpdateTagsResponse>
    */
-  updateTags(resourceGroupName: string, gatewayName: string, p2SVpnGatewayParameters: Models.TagsObject, options?: msRest.RequestOptionsBase): Promise<Models.P2sVpnGatewaysUpdateTagsResponse>;
-  /**
-   * @param resourceGroupName The resource group name of the P2SVpnGateway.
-   * @param gatewayName The name of the gateway.
-   * @param p2SVpnGatewayParameters Parameters supplied to update a virtual wan p2s vpn gateway tags.
-   * @param callback The callback
-   */
-  updateTags(resourceGroupName: string, gatewayName: string, p2SVpnGatewayParameters: Models.TagsObject, callback: msRest.ServiceCallback<Models.P2SVpnGateway>): void;
-  /**
-   * @param resourceGroupName The resource group name of the P2SVpnGateway.
-   * @param gatewayName The name of the gateway.
-   * @param p2SVpnGatewayParameters Parameters supplied to update a virtual wan p2s vpn gateway tags.
-   * @param options The optional parameters
-   * @param callback The callback
-   */
-  updateTags(resourceGroupName: string, gatewayName: string, p2SVpnGatewayParameters: Models.TagsObject, options: msRest.RequestOptionsBase, callback: msRest.ServiceCallback<Models.P2SVpnGateway>): void;
-  updateTags(resourceGroupName: string, gatewayName: string, p2SVpnGatewayParameters: Models.TagsObject, options?: msRest.RequestOptionsBase | msRest.ServiceCallback<Models.P2SVpnGateway>, callback?: msRest.ServiceCallback<Models.P2SVpnGateway>): Promise<Models.P2sVpnGatewaysUpdateTagsResponse> {
-    return this.client.sendOperationRequest(
-      {
-        resourceGroupName,
-        gatewayName,
-        p2SVpnGatewayParameters,
-        options
-      },
-      updateTagsOperationSpec,
-      callback) as Promise<Models.P2sVpnGatewaysUpdateTagsResponse>;
+  updateTags(resourceGroupName: string, gatewayName: string, p2SVpnGatewayParameters: Models.TagsObject, options?: msRest.RequestOptionsBase): Promise<Models.P2sVpnGatewaysUpdateTagsResponse> {
+    return this.beginUpdateTags(resourceGroupName,gatewayName,p2SVpnGatewayParameters,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.P2sVpnGatewaysUpdateTagsResponse>;
   }
 
   /**
@@ -171,6 +148,18 @@ export class P2sVpnGateways {
       },
       listOperationSpec,
       callback) as Promise<Models.P2sVpnGatewaysListResponse>;
+  }
+
+  /**
+   * Resets the primary of the p2s vpn gateway in the specified resource group.
+   * @param resourceGroupName The resource group name of the P2SVpnGateway.
+   * @param gatewayName The name of the gateway.
+   * @param [options] The optional parameters
+   * @returns Promise<Models.P2sVpnGatewaysResetResponse>
+   */
+  reset(resourceGroupName: string, gatewayName: string, options?: msRest.RequestOptionsBase): Promise<Models.P2sVpnGatewaysResetResponse> {
+    return this.beginReset(resourceGroupName,gatewayName,options)
+      .then(lroPoller => lroPoller.pollUntilFinished()) as Promise<Models.P2sVpnGatewaysResetResponse>;
   }
 
   /**
@@ -249,6 +238,26 @@ export class P2sVpnGateways {
   }
 
   /**
+   * Updates virtual wan p2s vpn gateway tags.
+   * @param resourceGroupName The resource group name of the P2SVpnGateway.
+   * @param gatewayName The name of the gateway.
+   * @param p2SVpnGatewayParameters Parameters supplied to update a virtual wan p2s vpn gateway tags.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginUpdateTags(resourceGroupName: string, gatewayName: string, p2SVpnGatewayParameters: Models.TagsObject, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        gatewayName,
+        p2SVpnGatewayParameters,
+        options
+      },
+      beginUpdateTagsOperationSpec,
+      options);
+  }
+
+  /**
    * Deletes a virtual wan p2s vpn gateway.
    * @param resourceGroupName The resource group name of the P2SVpnGateway.
    * @param gatewayName The name of the gateway.
@@ -263,6 +272,24 @@ export class P2sVpnGateways {
         options
       },
       beginDeleteMethodOperationSpec,
+      options);
+  }
+
+  /**
+   * Resets the primary of the p2s vpn gateway in the specified resource group.
+   * @param resourceGroupName The resource group name of the P2SVpnGateway.
+   * @param gatewayName The name of the gateway.
+   * @param [options] The optional parameters
+   * @returns Promise<msRestAzure.LROPoller>
+   */
+  beginReset(resourceGroupName: string, gatewayName: string, options?: msRest.RequestOptionsBase): Promise<msRestAzure.LROPoller> {
+    return this.client.sendLRORequest(
+      {
+        resourceGroupName,
+        gatewayName,
+        options
+      },
+      beginResetOperationSpec,
       options);
   }
 
@@ -431,38 +458,6 @@ const getOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
-const updateTagsOperationSpec: msRest.OperationSpec = {
-  httpMethod: "PATCH",
-  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/p2svpnGateways/{gatewayName}",
-  urlParameters: [
-    Parameters.subscriptionId,
-    Parameters.resourceGroupName,
-    Parameters.gatewayName
-  ],
-  queryParameters: [
-    Parameters.apiVersion0
-  ],
-  headerParameters: [
-    Parameters.acceptLanguage
-  ],
-  requestBody: {
-    parameterPath: "p2SVpnGatewayParameters",
-    mapper: {
-      ...Mappers.TagsObject,
-      required: true
-    }
-  },
-  responses: {
-    200: {
-      bodyMapper: Mappers.P2SVpnGateway
-    },
-    default: {
-      bodyMapper: Mappers.CloudError
-    }
-  },
-  serializer
-};
-
 const listByResourceGroupOperationSpec: msRest.OperationSpec = {
   httpMethod: "GET",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/p2svpnGateways",
@@ -545,6 +540,39 @@ const beginCreateOrUpdateOperationSpec: msRest.OperationSpec = {
   serializer
 };
 
+const beginUpdateTagsOperationSpec: msRest.OperationSpec = {
+  httpMethod: "PATCH",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/p2svpnGateways/{gatewayName}",
+  urlParameters: [
+    Parameters.subscriptionId,
+    Parameters.resourceGroupName,
+    Parameters.gatewayName
+  ],
+  queryParameters: [
+    Parameters.apiVersion0
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  requestBody: {
+    parameterPath: "p2SVpnGatewayParameters",
+    mapper: {
+      ...Mappers.TagsObject,
+      required: true
+    }
+  },
+  responses: {
+    200: {
+      bodyMapper: Mappers.P2SVpnGateway
+    },
+    202: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
 const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
   httpMethod: "DELETE",
   path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/p2svpnGateways/{gatewayName}",
@@ -563,6 +591,32 @@ const beginDeleteMethodOperationSpec: msRest.OperationSpec = {
     200: {},
     202: {},
     204: {},
+    default: {
+      bodyMapper: Mappers.CloudError
+    }
+  },
+  serializer
+};
+
+const beginResetOperationSpec: msRest.OperationSpec = {
+  httpMethod: "POST",
+  path: "subscriptions/{subscriptionId}/resourceGroups/{resourceGroupName}/providers/Microsoft.Network/p2svpnGateways/{gatewayName}/reset",
+  urlParameters: [
+    Parameters.resourceGroupName,
+    Parameters.gatewayName,
+    Parameters.subscriptionId
+  ],
+  queryParameters: [
+    Parameters.apiVersion0
+  ],
+  headerParameters: [
+    Parameters.acceptLanguage
+  ],
+  responses: {
+    200: {
+      bodyMapper: Mappers.P2SVpnGateway
+    },
+    202: {},
     default: {
       bodyMapper: Mappers.CloudError
     }

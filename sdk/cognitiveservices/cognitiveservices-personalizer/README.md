@@ -24,7 +24,7 @@ npm install @azure/ms-rest-azure-js
 ```
 
 ##### Sample code
-The following sample ranks a personalized request object. To know more, refer to the [Azure Documentation on Personalizer](https://docs.microsoft.com/en-us/azure/cognitive-services/personalizer/)
+The following sample ranks a personalized request object. To know more, refer to the [Azure Documentation on Personalizer](https://docs.microsoft.com/azure/cognitive-services/personalizer/)
 
 ```javascript
 const { PersonalizerClient } = require("@azure/cognitiveservices-personalizer");

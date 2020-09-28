@@ -11,7 +11,8 @@ import {
   SenderOptions,
   generate_uuid,
   string_to_uuid,
-  types
+  types,
+  Typed
 } from "rhea-promise";
 import {
   AmqpMessage,
@@ -29,20 +30,21 @@ import {
   ServiceBusMessage,
   ServiceBusMessageImpl,
   getMessagePropertyTypeMismatchError,
-  toAmqpMessage
+  toAmqpMessage,
+  InternalReceiveMode,
+  fromAmqpMessage
 } from "../serviceBusMessage";
 import { LinkEntity, RequestResponseLinkOptions } from "./linkEntity";
-import * as log from "../log";
-import { InternalReceiveMode, fromAmqpMessage } from "../serviceBusMessage";
+import { logger } from "../log";
 import { toBuffer } from "../util/utils";
 import {
+  logError,
   throwErrorIfConnectionClosed,
   throwTypeErrorIfParameterIsEmptyString,
   throwTypeErrorIfParameterMissing,
   throwTypeErrorIfParameterNotLong,
   throwTypeErrorIfParameterTypeMismatch
 } from "../util/errors";
-import { Typed } from "rhea-promise";
 import { max32BitNumber } from "../util/constants";
 import { Buffer } from "buffer";
 import { OperationOptionsBase } from "./../modelsToBeSharedWithEventHubs";
@@ -231,7 +233,8 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
         onSessionError: (context: EventContext) => {
           const id = context.connection.options.id;
           const ehError = translate(context.session!.error!);
-          log.error(
+          logError(
+            ehError,
             "[%s] An error occurred on the session for request/response links for " +
               "$management: %O",
             id,
@@ -252,16 +255,27 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
       this.link!.sender.on(SenderEvents.senderError, (context: EventContext) => {
         const id = context.connection.options.id;
         const ehError = translate(context.sender!.error!);
-        log.error("[%s] An error occurred on the $management sender link.. %O", id, ehError);
+        logError(
+          ehError,
+          "[%s] An error occurred on the $management sender link.. %O",
+          id,
+          ehError
+        );
       });
       this.link!.receiver.on(ReceiverEvents.receiverError, (context: EventContext) => {
         const id = context.connection.options.id;
         const ehError = translate(context.receiver!.error!);
-        log.error("[%s] An error occurred on the $management receiver link.. %O", id, ehError);
+        logError(
+          ehError,
+          "[%s] An error occurred on the $management receiver link.. %O",
+          id,
+          ehError
+        );
       });
     } catch (err) {
       err = translate(err);
-      log.error(
+      logError(
+        err,
         "[%s] An error occured while establishing the $management links: %O",
         this._context.connectionId,
         err
@@ -306,10 +320,15 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
 
     const waitTimer = setTimeout(actionAfterTimeout, retryTimeoutInMs);
 
-    log.mgmt("[%s] Acquiring lock to get the management req res link.", this._context.connectionId);
+    logger.verbose(
+      "[%s] Acquiring lock to get the management req res link.",
+      this._context.connectionId
+    );
 
     try {
-      await this._init(sendRequestOptions?.abortSignal);
+      if (!this.isOpen()) {
+        await this._init(sendRequestOptions?.abortSignal);
+      }
     } finally {
       clearTimeout(waitTimer);
     }
@@ -324,7 +343,8 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
       return await this.link!.sendRequest(request, sendRequestOptions);
     } catch (err) {
       err = translate(err);
-      log.warning(
+      logError(
+        err,
         "[%s] An error occurred during send on management request-response link with address " +
           "'%s': %O",
         this._context.connectionId,
@@ -349,9 +369,10 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
       // the other links do. When we add handling of this (via the onDetached call, like other links)
       // we can change this back to closeLink("permanent").
       await this.closeLink();
-      log.mgmt("Successfully closed the management session.");
+      logger.verbose("Successfully closed the management session.");
     } catch (err) {
-      log.error(
+      logError(
+        err,
         "[%s] An error occurred while closing the management session: %O.",
         this._context.connectionId,
         err
@@ -464,7 +485,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
         request.application_properties![Constants.associatedLinkName] = options?.associatedLinkName;
       }
       request.application_properties![Constants.trackingId] = generate_uuid();
-      log.mgmt(
+      logger.verbose(
         "[%s] Peek by sequence number request body: %O.",
         this._context.connectionId,
         request.body
@@ -483,7 +504,8 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
       }
     } catch (err) {
       const error = translate(err) as MessagingError;
-      log.error(
+      logError(
+        error,
         "An error occurred while sending the request to peek messages to " +
           "$management endpoint: %O",
         error
@@ -534,7 +556,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
       if (options.associatedLinkName) {
         request.application_properties![Constants.associatedLinkName] = options.associatedLinkName;
       }
-      log.mgmt("[%s] Renew message Lock request: %O.", this._context.connectionId, request);
+      logger.verbose("[%s] Renew message Lock request: %O.", this._context.connectionId, request);
       const result = await this._makeManagementRequest(request, {
         abortSignal: options?.abortSignal,
         requestName: "renewLock"
@@ -543,7 +565,8 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
       return lockedUntilUtc;
     } catch (err) {
       const error = translate(err);
-      log.error(
+      logError(
+        error,
         "An error occurred while sending the renew lock request to $management " + "endpoint: %O",
         error
       );
@@ -600,7 +623,8 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
         } else {
           error = translate(err);
         }
-        log.error(
+        logError(
+          error,
           "An error occurred while encoding the item at position %d in the messages array" + ": %O",
           i,
           error
@@ -620,7 +644,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
         request.application_properties![Constants.associatedLinkName] = options?.associatedLinkName;
       }
       request.application_properties![Constants.trackingId] = generate_uuid();
-      log.mgmt(
+      logger.verbose(
         "[%s] Schedule messages request body: %O.",
         this._context.connectionId,
         request.body
@@ -638,7 +662,8 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
       return sequenceNumbersAsLong;
     } catch (err) {
       const error = translate(err);
-      log.error(
+      logError(
+        error,
         "An error occurred while sending the request to schedule messages to " +
           "$management endpoint: %O",
         error
@@ -665,7 +690,8 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
         messageBody[Constants.sequenceNumbers].push(Buffer.from(sequenceNumber.toBytesBE()));
       } catch (err) {
         const error = translate(err);
-        log.error(
+        logError(
+          error,
           "An error occurred while encoding the item at position %d in the " +
             "sequenceNumbers array: %O",
           i,
@@ -693,7 +719,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
         request.application_properties![Constants.associatedLinkName] = options?.associatedLinkName;
       }
       request.application_properties![Constants.trackingId] = generate_uuid();
-      log.mgmt(
+      logger.verbose(
         "[%s] Cancel scheduled messages request body: %O.",
         this._context.connectionId,
         request.body
@@ -703,7 +729,8 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
       return;
     } catch (err) {
       const error = translate(err);
-      log.error(
+      logError(
+        error,
         "An error occurred while sending the request to cancel the scheduled message to " +
           "$management endpoint: %O",
         error
@@ -739,7 +766,8 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
         messageBody[Constants.sequenceNumbers].push(Buffer.from(sequenceNumber.toBytesBE()));
       } catch (err) {
         const error = translate(err);
-        log.error(
+        logError(
+          error,
           "An error occurred while encoding the item at position %d in the " +
             "sequenceNumbers array: %O",
           i,
@@ -772,7 +800,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
         request.application_properties![Constants.associatedLinkName] = options?.associatedLinkName;
       }
       request.application_properties![Constants.trackingId] = generate_uuid();
-      log.mgmt(
+      logger.verbose(
         "[%s] Receive deferred messages request body: %O.",
         this._context.connectionId,
         request.body
@@ -798,7 +826,8 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
       return messageList;
     } catch (err) {
       const error = translate(err);
-      log.error(
+      logError(
+        error,
         "An error occurred while sending the request to receive deferred messages to " +
           "$management endpoint: %O",
         error
@@ -860,7 +889,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
         request.application_properties![Constants.associatedLinkName] = options.associatedLinkName;
       }
       request.application_properties![Constants.trackingId] = generate_uuid();
-      log.mgmt(
+      logger.verbose(
         "[%s] Update disposition status request body: %O.",
         this._context.connectionId,
         request.body
@@ -868,7 +897,8 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
       await this._makeManagementRequest(request, options);
     } catch (err) {
       const error = translate(err);
-      log.error(
+      logError(
+        error,
         "An error occurred while sending the request to update disposition status to " +
           "$management endpoint: %O",
         error
@@ -903,14 +933,14 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
       if (options?.associatedLinkName) {
         request.application_properties![Constants.associatedLinkName] = options?.associatedLinkName;
       }
-      log.mgmt(
+      logger.verbose(
         "[%s] Renew Session Lock request body: %O.",
         this._context.connectionId,
         request.body
       );
       const result = await this._makeManagementRequest(request, options);
       const lockedUntilUtc = new Date(result.body.expiration);
-      log.mgmt(
+      logger.verbose(
         "[%s] Lock for session '%s' will expire at %s.",
         this._context.connectionId,
         sessionId,
@@ -919,7 +949,8 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
       return lockedUntilUtc;
     } catch (err) {
       const error = translate(err);
-      log.error(
+      logError(
+        error,
         "An error occurred while sending the renew lock request to $management " + "endpoint: %O",
         error
       );
@@ -956,7 +987,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
         request.application_properties![Constants.associatedLinkName] = options?.associatedLinkName;
       }
       request.application_properties![Constants.trackingId] = generate_uuid();
-      log.mgmt(
+      logger.verbose(
         "[%s] Set Session state request body: %O.",
         this._context.connectionId,
         request.body
@@ -964,7 +995,8 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
       await this._makeManagementRequest(request, options);
     } catch (err) {
       const error = translate(err);
-      log.error(
+      logError(
+        error,
         "An error occurred while sending the renew lock request to $management " + "endpoint: %O",
         error
       );
@@ -997,7 +1029,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
         request.application_properties![Constants.associatedLinkName] = options?.associatedLinkName;
       }
       request.application_properties![Constants.trackingId] = generate_uuid();
-      log.mgmt(
+      logger.verbose(
         "[%s] Get session state request body: %O.",
         this._context.connectionId,
         request.body
@@ -1008,7 +1040,8 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
         : result.body["session-state"];
     } catch (err) {
       const error = translate(err);
-      log.error(
+      logError(
+        error,
         "An error occurred while sending the renew lock request to $management " + "endpoint: %O",
         error
       );
@@ -1056,13 +1089,18 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
         }
       };
       request.application_properties![Constants.trackingId] = generate_uuid();
-      log.mgmt("[%s] List sessions request body: %O.", this._context.connectionId, request.body);
+      logger.verbose(
+        "[%s] List sessions request body: %O.",
+        this._context.connectionId,
+        request.body
+      );
       const response = await this._makeManagementRequest(request, options);
 
       return (response && response.body && response.body["sessions-ids"]) || [];
     } catch (err) {
       const error = translate(err);
-      log.error(
+      logError(
+        error,
         "An error occurred while sending the renew lock request to $management " + "endpoint: %O",
         error
       );
@@ -1091,7 +1129,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
       };
       request.application_properties![Constants.trackingId] = generate_uuid();
 
-      log.mgmt("[%s] Get rules request body: %O.", this._context.connectionId, request.body);
+      logger.verbose("[%s] Get rules request body: %O.", this._context.connectionId, request.body);
       const response = await this._makeManagementRequest(request, options);
       if (
         response.application_properties!.statusCode === 204 ||
@@ -1148,7 +1186,7 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
             };
             break;
           default:
-            log.mgmt(
+            logger.warning(
               `Found unexpected descriptor code for the filter: ${filtersRawData.descriptor.value}`
             );
             break;
@@ -1168,7 +1206,8 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
       return rules;
     } catch (err) {
       const error = translate(err);
-      log.error(
+      logError(
+        error,
         "An error occurred while sending the get rules request to $management " + "endpoint: %O",
         error
       );
@@ -1201,11 +1240,16 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
       };
       request.application_properties![Constants.trackingId] = generate_uuid();
 
-      log.mgmt("[%s] Remove Rule request body: %O.", this._context.connectionId, request.body);
+      logger.verbose(
+        "[%s] Remove Rule request body: %O.",
+        this._context.connectionId,
+        request.body
+      );
       await this._makeManagementRequest(request, options);
     } catch (err) {
       const error = translate(err);
-      log.error(
+      logError(
+        error,
         "An error occurred while sending the remove rule request to $management " + "endpoint: %O",
         error
       );
@@ -1287,11 +1331,12 @@ export class ManagementClient extends LinkEntity<RequestResponseLink> {
       };
       request.application_properties![Constants.trackingId] = generate_uuid();
 
-      log.mgmt("[%s] Add Rule request body: %O.", this._context.connectionId, request.body);
+      logger.verbose("[%s] Add Rule request body: %O.", this._context.connectionId, request.body);
       await this._makeManagementRequest(request, options);
     } catch (err) {
       const error = translate(err);
-      log.error(
+      logError(
+        error,
         "An error occurred while sending the Add rule request to $management " + "endpoint: %O",
         error
       );

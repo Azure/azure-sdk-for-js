@@ -12,4 +12,4 @@ export {
   Usage,
   UsageName,
   UsagesListResult
-} from "./mappers";
+} from "../models/mappers";

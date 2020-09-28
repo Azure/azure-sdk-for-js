@@ -34,7 +34,7 @@ describe("Streaming with sessions", () => {
   let errorWasThrown: boolean;
   let unexpectedError: Error | undefined;
   let serviceBusClient: ServiceBusClientForTests;
-  let testClientType = getRandomTestClientTypeWithSessions();
+  const testClientType = getRandomTestClientTypeWithSessions();
 
   before(() => {
     serviceBusClient = createServiceBusClientForTests();

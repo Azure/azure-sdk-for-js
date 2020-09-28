@@ -132,7 +132,7 @@ export class ClientCertificateCredential implements TokenCredential {
           alg: "RS256",
           x5t: this.certificateX5t
         };
-      };
+      }
 
       const payload = {
         iss: this.clientId,

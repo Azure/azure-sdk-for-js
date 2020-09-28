@@ -3,7 +3,9 @@
 # exit with non-zero status after issuing an appropriate message if
 # it wants to stop the commit.
 
-COMMAND=common/temp/node_modules/.bin/precise-commits
+# Invoke the "rush prettier" custom command to reformat files whenever they
+# are committed. The command is defined in common/config/rush/command-line.json
+# and uses the "rush-prettier" autoinstaller.
 
 echo --------------------------------------------
 echo Starting Git hook: pre-commit
@@ -15,12 +17,7 @@ if [ ! -z ${MERGE} ]; then
     exit
 fi
 
-if [ -f $COMMAND ]; then
-  echo Invoking $COMMAND
-  $COMMAND
-else
-  echo Command not installed: $COMMAND
-fi
+node common/scripts/install-run-rush.js prettier || exit $?
 
 echo Finished Git hook: pre-commit
 echo --------------------------------------------
