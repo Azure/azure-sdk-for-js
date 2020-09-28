@@ -988,12 +988,22 @@ export class ShareClient extends StorageClient {
       };
 
       for (const identifier of response) {
+        let accessPolicy: any = undefined;
+        if (identifier.accessPolicy) {
+          accessPolicy = {
+            permissions: identifier.accessPolicy.permissions
+          };
+
+          if (identifier.accessPolicy.expiresOn) {
+            accessPolicy.expiresOn = new Date(identifier.accessPolicy.expiresOn);
+          }
+
+          if (identifier.accessPolicy.startsOn) {
+            accessPolicy.startsOn = new Date(identifier.accessPolicy.startsOn);
+          }
+        }
         res.signedIdentifiers.push({
-          accessPolicy: {
-            expiresOn: new Date(identifier.accessPolicy!.expiresOn!),
-            permissions: identifier.accessPolicy!.permissions!,
-            startsOn: new Date(identifier.accessPolicy!.startsOn!)
-          },
+          accessPolicy,
           id: identifier.id
         });
       }
