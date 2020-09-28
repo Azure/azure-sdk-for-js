@@ -17,26 +17,26 @@ trigger: none
 
 jobs:
 - job: 'NPM Admin Job'
-  condition: ne($(taskType), '')
+  condition: ne(variables['taskType'], '')
 
   pool:
     vmImage: 'windows-2019'
 
   steps:
-    - ${{if eq($(TaskType), 'AddTag')}}:
+    - ${{if eq(variables['TaskType'], 'AddTag')}}:
       - pwsh: |
           $env:NPM_TOKEN = $(azure-sdk-npm-token)
           $regAuth="//registry.npmjs.org/"
           npm config set $regAuth`:_authToken=`$`{NPM_TOKEN`}
           npm dist-tag add @azure/$(packageName)@$(pkgVersion) $(tagName)
-        displayName: "Add Tag $(tagName) for $(packageName)"
+        displayName: "Add Tag"
         condition: Succeeded()
 
-    - ${{if eq($(TaskType), 'RemoveTag')}}:
+    - ${{if eq(variables['TaskType'], 'RemoveTag')}}:
       - pwsh: |
           $env:NPM_TOKEN = $(azure-sdk-npm-token)
           $regAuth="//registry.npmjs.org/"
           npm config set $regAuth`:_authToken=`$`{NPM_TOKEN`}
           npm dist-tag rm @azure/$(packageName)@$(pkgVersion) $(tagName)
-        displayName: "Remove Tag $(tagName) from $(packageName)"
+        displayName: "Remove Tag"
         condition: Succeeded()
