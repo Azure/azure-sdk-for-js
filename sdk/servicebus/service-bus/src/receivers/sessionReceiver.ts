@@ -176,7 +176,7 @@ export class ServiceBusSessionReceiverImpl<
    *
    * When the lock on the session expires
    * - The current receiver can no longer be used to receive more messages.
-   * Create a new receiver using the `ServiceBusClient.createSessionReceiver()`.
+   * Create a new receiver using `ServiceBusClient.acceptSession()` or `ServiceBusClient.acceptNextSession()`.
    * - Messages that were received in `peekLock` mode with this receiver but not yet settled
    * will land back in the Queue/Subscription with their delivery count incremented.
    *
@@ -192,7 +192,7 @@ export class ServiceBusSessionReceiverImpl<
    *
    * When the lock on the session expires
    * - The current receiver can no longer be used to receive mode messages.
-   * Create a new receiver using the `ServiceBusClient.createSessionReceiver()`.
+   * Create a new receiver using `ServiceBusClient.acceptSession()` or `ServiceBusClient.acceptNextSession()`.
    * - Messages that were received in `peekLock` mode with this receiver but not yet settled
    * will land back in the Queue/Subscription with their delivery count incremented.
    *

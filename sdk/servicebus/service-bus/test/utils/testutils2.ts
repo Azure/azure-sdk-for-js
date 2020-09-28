@@ -4,11 +4,11 @@
 // Anything we expect to be available to users should come from this import
 // as a simple sanity check that we've exported things properly.
 import {
-  CreateSessionReceiverOptions,
   ServiceBusClient,
   ServiceBusReceiver,
   ServiceBusSessionReceiver,
-  ServiceBusClientOptions
+  ServiceBusClientOptions,
+  AcceptSessionOptions
 } from "../../src";
 
 import { TestClientType, TestMessage } from "./testUtils";
@@ -345,7 +345,7 @@ export class ServiceBusTestHelpers {
 
   async acceptNextSessionWithPeekLock(
     entityNames: Omit<ReturnType<typeof getEntityNames>, "isPartitioned">,
-    options?: CreateSessionReceiverOptions<"peekLock">
+    options?: AcceptSessionOptions<"peekLock">
   ) {
     if (!entityNames.usesSessions) {
       throw new TypeError(
@@ -367,7 +367,7 @@ export class ServiceBusTestHelpers {
   async acceptSessionWithPeekLock(
     entityNames: Omit<ReturnType<typeof getEntityNames>, "isPartitioned">,
     sessionId: string,
-    options?: CreateSessionReceiverOptions<"peekLock">
+    options?: AcceptSessionOptions<"peekLock">
   ): Promise<ServiceBusSessionReceiver<ServiceBusReceivedMessageWithLock>> {
     if (!entityNames.usesSessions) {
       throw new TypeError(
@@ -436,7 +436,9 @@ export class ServiceBusTestHelpers {
   ): ServiceBusReceiver<ServiceBusReceivedMessageWithLock> {
     return this.addToCleanup(
       entityNames.queue
-        ? this._serviceBusClient.createReceiver(entityNames.queue, { subQueue: "deadLetter" })
+        ? this._serviceBusClient.createReceiver(entityNames.queue, {
+            subQueue: "deadLetter"
+          })
         : this._serviceBusClient.createReceiver(entityNames.topic!, entityNames.subscription!, {
             subQueue: "deadLetter"
           })

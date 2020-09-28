@@ -165,15 +165,15 @@ export interface MessageHandlerOptions extends MessageHandlerOptionsBase {
 }
 
 /**
- * Describes the options passed to the `createSessionReceiver` method when using a Queue/Subscription that
+ * Describes the options passed to the `acceptSession` method when using a Queue/Subscription that
  * has sessions enabled.
  *
  * @export
- * @interface CreateSessionReceiverOptions
+ * @interface AcceptSessionOptions
  * @extends {OperationOptionsBase}
  * @template ReceiveModeT
  */
-export interface CreateSessionReceiverOptions<ReceiveModeT extends ReceiveMode>
+export interface AcceptSessionOptions<ReceiveModeT extends ReceiveMode>
   extends OperationOptionsBase {
   /**
    * Represents the receive mode for the receiver.

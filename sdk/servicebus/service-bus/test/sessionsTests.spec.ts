@@ -72,7 +72,7 @@ describe("session tests", () => {
   });
 
   describe(`${testClientType}: Session Receiver Tests`, function(): void {
-    it("createSessionReceiver() No sessionId on empty queue throws OperationTimeoutError", async function(): Promise<
+    it("acceptNextSession() No sessionId on empty queue throws OperationTimeoutError", async function(): Promise<
       void
     > {
       let expectedErrorThrown = false;
@@ -98,7 +98,7 @@ describe("session tests", () => {
       await serviceBusClient.close();
     });
 
-    it("createSessionReceiver() An already locked session throws SessionCannotBeLockedError", async function(): Promise<
+    it("acceptSession() An already locked session throws SessionCannotBeLockedError", async function(): Promise<
       void
     > {
       let expectedErrorThrown = false;

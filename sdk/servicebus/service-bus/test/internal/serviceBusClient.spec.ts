@@ -3,7 +3,7 @@
 
 import { extractReceiverArguments, ServiceBusClient } from "../../src/serviceBusClient";
 import chai from "chai";
-import { CreateSessionReceiverOptions } from "../../src/models";
+import { AcceptSessionOptions } from "../../src/models";
 import { entityPathMisMatchError } from "../../src/util/errors";
 import {
   createConnectionContextForConnectionString,
@@ -28,8 +28,8 @@ describe("serviceBusClient unit tests", () => {
   // So if we add other options types there's no need to generate a whole
   // new set of tests for it. :)
   const sessionReceiverOptions:
-    | CreateSessionReceiverOptions<"peekLock">
-    | CreateSessionReceiverOptions<"receiveAndDelete"> = {};
+    | AcceptSessionOptions<"peekLock">
+    | AcceptSessionOptions<"receiveAndDelete"> = {};
 
   const testEntities = [
     { queue: "thequeue", entityPath: "thequeue" },

@@ -3,8 +3,16 @@
 ## 7.0.0-preview.7 (Unreleased)
 
 ### New features:
+
 - `ServiceBusClient` now supports authentication with AAD credentials in the browser(can use `InteractiveBrowserCredential` from `@azure/identity`).
   [PR 11250](https://github.com/Azure/azure-sdk-for-js/pull/11250)
+
+### Breaking changes
+
+- `ServiceBusClient.createSessionReceiver` has been split into two methods:
+  - `acceptSession`, which opens a session by name
+  - `acceptNextSession`, which opens the next available session, determined by Service Bus.
+  - as part of this `CreateSessionReceiverOptions` has been renamed to `AcceptSessionReceiverOptions` to conform to guidelines.
 
 ## 7.0.0-preview.6 (2020-09-10)
 

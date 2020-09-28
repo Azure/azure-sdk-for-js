@@ -9,7 +9,7 @@ import {
   convertToInternalReceiveMode
 } from "./constructorHelpers";
 import { ConnectionContext } from "./connectionContext";
-import { CreateReceiverOptions, CreateSessionReceiverOptions, ReceiveMode } from "./models";
+import { CreateReceiverOptions, AcceptSessionOptions, ReceiveMode } from "./models";
 import { ServiceBusReceiver, ServiceBusReceiverImpl } from "./receivers/receiver";
 import {
   ServiceBusSessionReceiver,
@@ -278,7 +278,7 @@ export class ServiceBusClient {
   acceptSession(
     queueName: string,
     sessionId: string,
-    options?: CreateSessionReceiverOptions<"peekLock">
+    options?: AcceptSessionOptions<"peekLock">
   ): Promise<ServiceBusSessionReceiver<ServiceBusReceivedMessageWithLock>>;
   /**
    * Creates a receiver for a session enabled Azure Service Bus queue in receiveAndDelete mode.
@@ -294,7 +294,7 @@ export class ServiceBusClient {
   acceptSession(
     queueName: string,
     sessionId: string,
-    options: CreateSessionReceiverOptions<"receiveAndDelete">
+    options: AcceptSessionOptions<"receiveAndDelete">
   ): Promise<ServiceBusSessionReceiver<ServiceBusReceivedMessage>>;
   /**
    * Creates a receiver for a session enabled Azure Service Bus subscription in peekLock mode.
@@ -323,7 +323,7 @@ export class ServiceBusClient {
     topicName: string,
     subscriptionName: string,
     sessionId: string,
-    options?: CreateSessionReceiverOptions<"peekLock">
+    options?: AcceptSessionOptions<"peekLock">
   ): Promise<ServiceBusSessionReceiver<ServiceBusReceivedMessageWithLock>>;
   /**
    * Creates a receiver for a session enabled Azure Service Bus subscription in receiveAndDelete mode.
@@ -341,21 +341,21 @@ export class ServiceBusClient {
     topicName: string,
     subscriptionName: string,
     sessionId: string,
-    options: CreateSessionReceiverOptions<"receiveAndDelete">
+    options: AcceptSessionOptions<"receiveAndDelete">
   ): Promise<ServiceBusSessionReceiver<ServiceBusReceivedMessage>>;
   async acceptSession(
     queueOrTopicName1: string,
     optionsOrSubscriptionNameOrSessionId2?:
-      | CreateSessionReceiverOptions<"peekLock">
-      | CreateSessionReceiverOptions<"receiveAndDelete">
+      | AcceptSessionOptions<"peekLock">
+      | AcceptSessionOptions<"receiveAndDelete">
       | string,
     optionsOrSessionId3?:
-      | CreateSessionReceiverOptions<"peekLock">
-      | CreateSessionReceiverOptions<"receiveAndDelete">
+      | AcceptSessionOptions<"peekLock">
+      | AcceptSessionOptions<"receiveAndDelete">
       | string,
     options4?:
-      | CreateSessionReceiverOptions<"peekLock">
-      | CreateSessionReceiverOptions<"receiveAndDelete">
+      | AcceptSessionOptions<"peekLock">
+      | AcceptSessionOptions<"receiveAndDelete">
   ): Promise<
     | ServiceBusSessionReceiver<ServiceBusReceivedMessage>
     | ServiceBusSessionReceiver<ServiceBusReceivedMessageWithLock>
@@ -366,8 +366,8 @@ export class ServiceBusClient {
     let entityPath: string;
     let receiveMode: "peekLock" | "receiveAndDelete";
     let options:
-      | CreateSessionReceiverOptions<"peekLock">
-      | CreateSessionReceiverOptions<"receiveAndDelete">
+      | AcceptSessionOptions<"peekLock">
+      | AcceptSessionOptions<"receiveAndDelete">
       | undefined;
 
     if (
@@ -449,7 +449,7 @@ export class ServiceBusClient {
    */
   acceptNextSession(
     queueName: string,
-    options?: CreateSessionReceiverOptions<"peekLock">
+    options?: AcceptSessionOptions<"peekLock">
   ): Promise<ServiceBusSessionReceiver<ServiceBusReceivedMessageWithLock>>;
   /**
    * Creates a receiver for the next available session in a session-enabled Azure Service Bus queue in receiveAndDelete mode.
@@ -463,7 +463,7 @@ export class ServiceBusClient {
    */
   acceptNextSession(
     queueName: string,
-    options: CreateSessionReceiverOptions<"receiveAndDelete">
+    options: AcceptSessionOptions<"receiveAndDelete">
   ): Promise<ServiceBusSessionReceiver<ServiceBusReceivedMessage>>;
   /**
    * Creates a receiver for the next available session in a session-enabled Azure Service Bus subscription in peekLock mode.
@@ -490,7 +490,7 @@ export class ServiceBusClient {
   acceptNextSession(
     topicName: string,
     subscriptionName: string,
-    options?: CreateSessionReceiverOptions<"peekLock">
+    options?: AcceptSessionOptions<"peekLock">
   ): Promise<ServiceBusSessionReceiver<ServiceBusReceivedMessageWithLock>>;
   /**
    * Creates a receiver for the next available session in a session-enabled Azure Service Bus subscription in receiveAndDelete mode.
@@ -506,17 +506,17 @@ export class ServiceBusClient {
   acceptNextSession(
     topicName: string,
     subscriptionName: string,
-    options: CreateSessionReceiverOptions<"receiveAndDelete">
+    options: AcceptSessionOptions<"receiveAndDelete">
   ): Promise<ServiceBusSessionReceiver<ServiceBusReceivedMessage>>;
   async acceptNextSession(
     queueOrTopicName1: string,
     optionsOrSubscriptionName2?:
-      | CreateSessionReceiverOptions<"peekLock">
-      | CreateSessionReceiverOptions<"receiveAndDelete">
+      | AcceptSessionOptions<"peekLock">
+      | AcceptSessionOptions<"receiveAndDelete">
       | string,
     options3?:
-      | CreateSessionReceiverOptions<"peekLock">
-      | CreateSessionReceiverOptions<"receiveAndDelete">
+      | AcceptSessionOptions<"peekLock">
+      | AcceptSessionOptions<"receiveAndDelete">
   ): Promise<
     | ServiceBusSessionReceiver<ServiceBusReceivedMessage>
     | ServiceBusSessionReceiver<ServiceBusReceivedMessageWithLock>

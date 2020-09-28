@@ -73,9 +73,9 @@ brings this package in line with the [Azure SDK Design Guidelines for Typescript
   const subscriptionReceiver = serviceBusClient.createReceiver("topic", "subscription");
   ```
 
-- `createSessionReceiver()` is now an async method.
-  - The promise returned by this method is resolved when a receiver link has been initialized with a session in the service.
-  - Prior to v7 `createSessionReceiver()` worked using lazy-initialization, where the
+- `acceptSession()` and `acceptNextSession()` are now async methods.
+  - The promise returned by these methods is resolved when a receiver link has been initialized with a session in the service.
+  - Prior to v7 `acceptSession()` worked using lazy-initialization, where the
     receiver link to the session was only initialized when the async methods on the `ServiceBusSessionReceiver`
     were first called.
 
