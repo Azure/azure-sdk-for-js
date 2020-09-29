@@ -94,8 +94,7 @@
 /sdk/**/review/*api.md @bterlson @xirzec
 
 # Management Plane
-/**/*Management*.ts @qiaozha
-/**/arm-*/ @qiaozha
+/sdk/**/arm-*/ @qiaozha
 
 # PRLabel: %Monitor
 /sdk/monitor/ @markwolff @xirzec @applicationinsights-js-owners

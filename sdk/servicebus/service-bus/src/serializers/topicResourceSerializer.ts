@@ -11,6 +11,7 @@ import * as Constants from "../util/constants";
 import {
   AuthorizationRule,
   EntityStatus,
+  EntityAvailabilityStatus,
   getAuthorizationRulesOrUndefined,
   getBoolean,
   getInteger,
@@ -43,6 +44,7 @@ export function buildTopicOptions(topic: CreateTopicOptions): InternalTopicOptio
     SupportOrdering: getStringOrUndefined(topic.supportOrdering),
     AutoDeleteOnIdle: getStringOrUndefined(topic.autoDeleteOnIdle),
     EnablePartitioning: getStringOrUndefined(topic.enablePartitioning),
+    EntityAvailabilityStatus: getStringOrUndefined(topic.availabilityStatus),
     EnableExpress: getStringOrUndefined(topic.enableExpress)
   };
 }
@@ -86,7 +88,9 @@ export function buildTopic(rawTopic: any): TopicProperties {
 
     status: rawTopic[Constants.STATUS],
 
-    enableExpress: getBoolean(rawTopic[Constants.ENABLE_EXPRESS], "enableExpress")
+    enableExpress: getBoolean(rawTopic[Constants.ENABLE_EXPRESS], "enableExpress"),
+
+    availabilityStatus: rawTopic[Constants.ENTITY_AVAILABILITY_STATUS]
   };
 }
 
@@ -198,6 +202,11 @@ export interface CreateTopicOptions extends OperationOptions {
    * Specifies whether express entities are enabled on topic.
    */
   enableExpress?: boolean;
+
+  /**
+   * Availability status of the messaging entity.
+   */
+  availabilityStatus?: EntityAvailabilityStatus;
 }
 
 /**
@@ -296,6 +305,11 @@ export interface TopicProperties {
    * Specifies whether express entities are enabled on topic.
    */
   readonly enableExpress: boolean;
+
+  /**
+   * Availability status of the messaging entity.
+   */
+  readonly availabilityStatus: EntityAvailabilityStatus;
 }
 
 /**
@@ -389,6 +403,11 @@ export interface InternalTopicOptions {
    * Specifies whether express entities are enabled on queue.
    */
   EnableExpress?: string;
+
+  /**
+   * Availability status of the messaging entity.
+   */
+  EntityAvailabilityStatus?: string;
 }
 
 /**

@@ -111,7 +111,8 @@ export {
   IndexDocumentsResult,
   IndexingResult,
   QueryType,
-  SearchMode
+  SearchMode,
+  ScoringStatistics
 } from "./generated/data/models";
 export {
   RegexFlags,
@@ -221,6 +222,12 @@ export {
   ResourceCounter,
   LexicalAnalyzerName,
   ClassicSimilarity,
-  BM25Similarity
+  BM25Similarity,
+  IndexingParametersConfiguration,
+  BlobIndexerDataToExtract,
+  IndexerExecutionEnvironment,
+  BlobIndexerImageAction,
+  BlobIndexerParsingMode,
+  BlobIndexerPDFTextRotationAlgorithm
 } from "./generated/service/models";
 export { AzureKeyCredential } from "@azure/core-auth";
