@@ -600,9 +600,8 @@ class LockRenewer {
 
   constructor(
     private _linkEntity: Pick<LinkEntity<any>, "name" | "logPrefix">,
-    private _onError: (err: Error) => Promise<void>,
     private _maxAutoRenewDurationInMs: number,
-    private _mgmtClientFn: () => ManagementClient
+    private _getManagementClientFn: () => ManagementClient
   ) {}
 
   stopAutoLockRenewal(bMessage: ServiceBusMessageImpl) {
@@ -673,9 +672,12 @@ class LockRenewer {
                   );
                   // bMessage.lockedUntilUtc = await this._context
                   //   .getManagementClient(this._entityPath)
-                  bMessage.lockedUntilUtc = await this._mgmtClientFn().renewLock(lockToken, {
-                    associatedLinkName: this._linkEntity.name
-                  });
+                  bMessage.lockedUntilUtc = await this._getManagementClientFn().renewLock(
+                    lockToken,
+                    {
+                      associatedLinkName: this._linkEntity.name
+                    }
+                  );
                   logger.verbose(
                     `${logPrefix} Successfully renewed the lock for message with id '${bMessage.messageId}'. Starting next auto-lock-renew cycle for message.`
                   );
@@ -685,8 +687,7 @@ class LockRenewer {
                     err,
                     `${logPrefix} An error occured while auto renewing the message lock '${bMessage.lockToken}' for message with id '${bMessage.messageId}'`
                   );
-                  // Let the user know that there was an error renewing the message lock.
-                  this._onError(err);
+                  throw err;
                 }
               }, amount)
             );
