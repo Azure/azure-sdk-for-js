@@ -173,13 +173,11 @@ await chatThreadClient.removeMember({ communicationUserId: '<MEMBER_ID>' });
 
 In this quickstart you learned how to:
 
-> [!div class="checklist"]
->
-> - Create a chat client
-> - Create a thread with 2 users
-> - Send a message to the thread
-> - Receive messages from a thread
-> - Remove Users from a thread
+- Create a chat client
+- Create a thread with 2 users
+- Send a message to the thread
+- Receive messages from a thread
+- Remove Users from a thread
 
 ## Contributing
 
