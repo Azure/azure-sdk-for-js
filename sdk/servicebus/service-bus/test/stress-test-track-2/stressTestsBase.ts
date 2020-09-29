@@ -21,8 +21,14 @@ interface MessageLockRenewalInfo {
   numberOfSuccessfulMessageLockRenewals: number;
   numberOfFailedMessageLockRenewals: number;
   errorsInMessageLockRenewal: any[];
-  messageLockRenewalTimers: { [key: string]: NodeJS.Timer }; // key - messageId, value - next renewal timer meant for the message
-  renewalCount: { [key: string]: number }; // key - messageId, value - number of renewals
+  /**
+   * key - messageId, value - next renewal timer meant for the message
+   */
+  messageLockRenewalTimers: { [key: string]: NodeJS.Timer };
+  /**
+   * key - messageId, value - number of renewals
+   */
+  renewalCount: { [key: string]: number }; //
 }
 
 // TODO: Add readme describing the scenarios and the commands to run the specific scenario
@@ -51,7 +57,7 @@ export class SBStressTestsBase {
     numberOfFailedMessageLockRenewals: 0,
     errorsInMessageLockRenewal: [],
     messageLockRenewalTimers: {},
-    renewalCount: {} // key - messageId, value - number of renewals
+    renewalCount: {}
   };
   // Queue Management
   serviceBusAdministrationClient = new ServiceBusAdministrationClient(
