@@ -157,7 +157,7 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
    */
   private _logPrefix: string;
 
-  protected get logPrefix(): string {
+  public get logPrefix(): string {
     return this._logPrefix;
   }
 
