@@ -13,9 +13,9 @@ urlFragment: communication-administration-identity-javascript
 
 These sample programs show how to use the JavaScript client libraries for Azure Communication Service Administration Identity to issue and refresh tokens.
 
-| **File Name**                           | **Description**                                                                                            |
-| --------------------------------------- | ---------------------------------------------------------------------------------------------------------- |
-| [issueToken.js][issuetoken]     | uses the CommunicationIdentityClient to create a user and issue a token for this user                      |
+| **File Name**                    | **Description**                                                                                            |
+| -------------------------------- | ---------------------------------------------------------------------------------------------------------- |
+| [issueToken.js][issuetoken]      | uses the CommunicationIdentityClient to create a user and issue a token for this user                      |
 | [revokeTokens.js][<revoketokens] | uses the CommunicationIdentityClient to create a user, issue tokens for this user, and revoke these tokens |
 
 ## Prerequisites

@@ -13,8 +13,8 @@ urlFragment: communication-sms-javascript
 
 This sample program shows how to use the JavaScript client libraries for Azure Communication Service SMS to send SMS messages.
 
-| **File Name**                | **Description**                           |
-| ---------------------------- | ----------------------------------------- |
+| **File Name**         | **Description**                           |
+| --------------------- | ----------------------------------------- |
 | [sendSms.js][sendsms] | uses the SmsClient to send an SMS message |
 
 ## Prerequisites
