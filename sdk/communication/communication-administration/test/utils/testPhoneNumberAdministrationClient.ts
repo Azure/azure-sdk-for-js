@@ -1,4 +1,4 @@
-import { OperationOptions } from '@azure/core-http';
+import { OperationOptions } from "@azure/core-http";
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
@@ -18,7 +18,10 @@ import {
   PhonePlanGroup,
   ConfigurePhoneNumberRequest,
   ConfigurePhoneNumberOptions,
-  VoidResponse, PhoneNumberCapabilitiesUpdates, UpdateCapabilitiesOptions, UpdateNumbersCapabilitiesResponse
+  VoidResponse,
+  PhoneNumberCapabilitiesUpdates,
+  UpdateCapabilitiesOptions,
+  UpdateNumbersCapabilitiesResponse
 } from "../../src";
 import {
   baseHttpClient,

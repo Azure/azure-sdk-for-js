@@ -4,8 +4,12 @@
 import { isNode } from "@azure/core-http";
 import { assert } from "chai";
 import sinon from "sinon";
-import { NumberConfiguration, PhoneNumberAdministrationClient, PhoneNumberCapabilitiesUpdates } from "../src";
-import { NumberConfigurationPhoneNumber } from '../src/phoneNumber/generated/src/models';
+import {
+  NumberConfiguration,
+  PhoneNumberAdministrationClient,
+  PhoneNumberCapabilitiesUpdates
+} from "../src";
+import { NumberConfigurationPhoneNumber } from "../src/phoneNumber/generated/src/models";
 import { baseHttpClient, updatePhoneNumbersCapabilitiesHttpClient } from "./utils/mockHttpClients";
 import { TestPhoneNumberAdministrationClient } from "./utils/testPhoneNumberAdministrationClient";
 
@@ -91,11 +95,11 @@ describe("PhoneNumberAdministrationClient [Mocked]", () => {
     };
     const response = await client.updatePhoneNumberCapabilitiesTest(phoneNumberCapabilitiesUpdate);
 
-    assert.equal(response.capabilitiesUpdateId, "1")
+    assert.equal(response.capabilitiesUpdateId, "1");
     assert.equal(response._response.status, 200);
     sinon.assert.calledOnce(spy);
 
-     const request = spy.getCall(0).args[0];
-     assert.deepEqual(JSON.parse(request.body), { phoneNumberCapabilitiesUpdate });
+    const request = spy.getCall(0).args[0];
+    assert.deepEqual(JSON.parse(request.body), { phoneNumberCapabilitiesUpdate });
   });
 });

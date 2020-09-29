@@ -124,5 +124,6 @@ export const listReleasesOrSearchesHttpClient: HttpClient = createMockHttpClient
   PhoneNumberEntities
 >(200, { entities });
 
-export const updatePhoneNumbersCapabilitiesHttpClient: HttpClient = createMockHttpClient<UpdateNumberCapabilitiesResponse>(
-  200, { capabilitiesUpdateId: "1" });
+export const updatePhoneNumbersCapabilitiesHttpClient: HttpClient = createMockHttpClient<
+  UpdateNumberCapabilitiesResponse
+>(200, { capabilitiesUpdateId: "1" });
