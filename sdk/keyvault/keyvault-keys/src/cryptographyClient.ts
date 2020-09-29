@@ -14,7 +14,7 @@ import { getTracer } from "@azure/core-tracing";
 import { Span } from "@opentelemetry/api";
 
 import { logger } from "./log";
-import { SDK_VERSION } from "./generated/utils/constants";
+import { SDK_VERSION } from "./constants";
 import { KeyVaultClient } from "./generated/keyVaultClient";
 import { challengeBasedAuthenticationPolicy } from "../../keyvault-common/src";
 
