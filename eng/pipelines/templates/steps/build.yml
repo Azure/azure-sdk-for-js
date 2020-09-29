@@ -3,6 +3,19 @@ parameters:
   ServiceDirectory: not-specified
 
 steps:
+  - task: PowerShell@2
+    displayName: Prep template pipeline for release
+    condition: and(succeeded(),eq(variables['TestPipeline'],'true'))
+    inputs:
+      pwsh: true
+      workingDirectory: $(Build.SourcesDirectory)
+      filePath: eng/scripts/SetTestPipelineVersion.ps1
+
+  - pwsh: |
+      $latestVersion = npm view @azure/template version
+    condition: and(succeeded(),eq(variables['TestPipeline'],'true'))
+    displayName: "Prep template pipeline for release"
+
   - pwsh: |
       $folder = "${{parameters.ServiceDirectory}}"
       if ($folder -eq "*") { $folder = "" }
