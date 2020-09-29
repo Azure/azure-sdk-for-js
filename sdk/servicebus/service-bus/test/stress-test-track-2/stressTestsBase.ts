@@ -7,6 +7,24 @@ import {
   ServiceBusSender
 } from "@azure/service-bus";
 
+interface ReceiveInfo {
+  numberOfSuccessfulReceives: number;
+  numberOfFailedReceives: number;
+  errorsInReceiving: any[];
+}
+interface SendInfo {
+  numberOfSuccessfulSends: number;
+  numberOfFailedSends: number;
+  errorsInSending: any[];
+}
+interface MessageLockRenewalInfo {
+  numberOfSuccessfulMessageLockRenewals: number;
+  numberOfFailedMessageLockRenewals: number;
+  errorsInMessageLockRenewal: any[];
+  messageLockRenewalTimers: NodeJS.Timer[];
+  renewalCount: { [key: string]: number }; // key - messageId, value - number of renewals
+}
+
 // TODO: Add readme describing the scenarios and the commands to run the specific scenario
 // (along with the args to pass in for the sample/program)
 export class SBStressTestsBase {
@@ -16,19 +34,19 @@ export class SBStressTestsBase {
   startedAt: Date | undefined;
   // TODO: Take snapshot options from the sample to customize logging
   // Send metrics
-  sendInfo = {
+  sendInfo: SendInfo = {
     numberOfSuccessfulSends: 0,
     numberOfFailedSends: 0,
     errorsInSending: []
   };
   // Receive metrics
-  receiveInfo = {
+  receiveInfo: ReceiveInfo = {
     numberOfSuccessfulReceives: 0,
     numberOfFailedReceives: 0,
     errorsInReceiving: []
   };
   // Message Lock Renewal
-  messageLockRenewalInfo = {
+  messageLockRenewalInfo: MessageLockRenewalInfo = {
     numberOfSuccessfulMessageLockRenewals: 0,
     numberOfFailedMessageLockRenewals: 0,
     errorsInMessageLockRenewal: [],
@@ -37,13 +55,16 @@ export class SBStressTestsBase {
   };
   // Queue Management
   serviceBusAdministrationClient = new ServiceBusAdministrationClient(
-    process.env.SERVICEBUS_CONNECTION_STRING
+    process.env.SERVICEBUS_CONNECTION_STRING!
   );
-  queueName: string;
+  queueName!: string;
 
   constructor(
     snapshotIntervalInMs = 5000 //Snapshots are taken every 5s
   ) {
+    // TODO: Add snapshot logging options - opt-in for only the info that you're looking for-
+    //    "send-info", "receive-info", "message-lock-info", etc
+    // TODO: snapshot options - grouping
     this.messagesSent = [];
     this.snapshotTimer = setInterval(this.snapshot.bind(this), snapshotIntervalInMs);
   }
@@ -87,9 +108,10 @@ export class SBStressTestsBase {
       this.receiveInfo.errorsInReceiving.push(error);
       console.error("Error in receiving: ", error);
     }
+    return [];
   }
 
-  public async renewMessageLock(message: ServiceBusReceivedMessageWithLock) {
+  public renewMessageLock(message: ServiceBusReceivedMessageWithLock) {
     // TODO: pass in max number of lock renewals? and add settlement at the end of max??
     this.messageLockRenewalInfo.messageLockRenewalTimers.push(
       setTimeout(async () => {
@@ -107,7 +129,7 @@ export class SBStressTestsBase {
           this.messageLockRenewalInfo.errorsInMessageLockRenewal.push(error);
           console.error("Error in message lock renewal: ", error);
         }
-      }, message.lockedUntilUtc.valueOf() - new Date().valueOf() - 10000)
+      }, message.lockedUntilUtc!.valueOf() - new Date().valueOf() - 10000)
     );
   }
 
