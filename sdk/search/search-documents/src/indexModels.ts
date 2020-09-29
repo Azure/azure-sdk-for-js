@@ -29,6 +29,18 @@ export type SearchOptions<Fields> = OperationOptions & SearchRequestOptions<Fiel
  */
 export type SuggestOptions<Fields> = OperationOptions & SuggestRequest<Fields>;
 
+export interface SearchIndexingBufferedSenderOptions {
+  autoFlush?:boolean;
+  flushWindowInMs?:number;
+  batchSize?:number; 
+}
+
+export type SearchIndexingBufferedSenderUploadDocumentsOptions = OperationOptions;
+export type SearchIndexingBufferedSenderMergeDocumentsOptions = OperationOptions;
+export type SearchIndexingBufferedSenderMergeOrUploadDocumentsOptions = OperationOptions;
+export type SearchIndexingBufferedSenderDeleteDocumentsOptions = OperationOptions;
+export type SearchIndexingBufferedSenderFlushDocumentsOptions = OperationOptions;
+
 /**
  * Options for retrieving a single document.
  */

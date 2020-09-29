@@ -9,6 +9,7 @@ import { KeyCredential } from '@azure/core-auth';
 import { OperationOptions } from '@azure/core-http';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { PipelineOptions } from '@azure/core-http';
+import { RestError } from '@azure/core-http';
 
 // @public
 export interface AnalyzedTokenInfo {
@@ -1028,6 +1029,8 @@ export class SearchClient<T> {
     readonly endpoint: string;
     getDocument<Fields extends keyof T>(key: string, options?: GetDocumentOptions<Fields>): Promise<T>;
     getDocumentsCount(options?: CountDocumentsOptions): Promise<number>;
+    // (undocumented)
+    getSearchIndexingBufferedSenderInstance(options?: SearchIndexingBufferedSenderOptions): SearchIndexingBufferedSender<T>;
     indexDocuments(batch: IndexDocumentsBatch<T>, options?: IndexDocumentsOptions): Promise<IndexDocumentsResult>;
     readonly indexName: string;
     mergeDocuments(documents: T[], options?: MergeDocumentsOptions): Promise<IndexDocumentsResult>;
@@ -1221,6 +1224,57 @@ export interface SearchIndexerWarning {
     readonly message: string;
     readonly name?: string;
 }
+
+// @public
+export class SearchIndexingBufferedSender<T> {
+    constructor(client: SearchClient<T>, options?: SearchIndexingBufferedSenderOptions);
+    // (undocumented)
+    deleteDocuments(documents: T[], options?: SearchIndexingBufferedSenderDeleteDocumentsOptions): Promise<void>;
+    dispose(): void;
+    // (undocumented)
+    flush(options?: SearchIndexingBufferedSenderFlushDocumentsOptions): Promise<void>;
+    // (undocumented)
+    mergeDocuments(documents: T[], options?: SearchIndexingBufferedSenderMergeDocumentsOptions): Promise<void>;
+    // (undocumented)
+    mergeOrUploadDocuments(documents: T[], options?: SearchIndexingBufferedSenderMergeOrUploadDocumentsOptions): Promise<void>;
+    // (undocumented)
+    off(event: "batchSucceeded", listener: (e: IndexDocumentsResult) => void): void;
+    // (undocumented)
+    off(event: "batchFailed", listener: (e: RestError) => void): void;
+    // (undocumented)
+    on(event: "batchAdded", listener: (e: IndexDocumentsResult) => void): void;
+    // (undocumented)
+    on(event: "batchSucceeded", listener: (e: IndexDocumentsResult) => void): void;
+    // (undocumented)
+    on(event: "batchFailed", listener: (e: RestError) => void): void;
+    // (undocumented)
+    uploadDocuments(documents: T[], options?: SearchIndexingBufferedSenderUploadDocumentsOptions): Promise<void>;
+}
+
+// @public (undocumented)
+export type SearchIndexingBufferedSenderDeleteDocumentsOptions = OperationOptions;
+
+// @public (undocumented)
+export type SearchIndexingBufferedSenderFlushDocumentsOptions = OperationOptions;
+
+// @public (undocumented)
+export type SearchIndexingBufferedSenderMergeDocumentsOptions = OperationOptions;
+
+// @public (undocumented)
+export type SearchIndexingBufferedSenderMergeOrUploadDocumentsOptions = OperationOptions;
+
+// @public (undocumented)
+export interface SearchIndexingBufferedSenderOptions {
+    // (undocumented)
+    autoFlush?: boolean;
+    // (undocumented)
+    batchSize?: number;
+    // (undocumented)
+    flushWindowInMs?: number;
+}
+
+// @public (undocumented)
+export type SearchIndexingBufferedSenderUploadDocumentsOptions = OperationOptions;
 
 // @public
 export interface SearchIndexStatistics {

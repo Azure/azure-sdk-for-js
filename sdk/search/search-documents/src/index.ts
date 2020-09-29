@@ -2,6 +2,7 @@
 // Licensed under the MIT license.
 
 export { SearchClient, SearchClientOptions } from "./searchClient";
+export {SearchIndexingBufferedSender} from "./searchIndexingBufferedSender";
 export {
   AutocompleteRequest,
   AutocompleteOptions,
@@ -25,7 +26,13 @@ export {
   SuggestOptions,
   MergeDocumentsOptions,
   MergeOrUploadDocumentsOptions,
-  UploadDocumentsOptions
+  UploadDocumentsOptions,
+  SearchIndexingBufferedSenderOptions,
+  SearchIndexingBufferedSenderDeleteDocumentsOptions,
+  SearchIndexingBufferedSenderFlushDocumentsOptions,
+  SearchIndexingBufferedSenderMergeDocumentsOptions,
+  SearchIndexingBufferedSenderMergeOrUploadDocumentsOptions,
+  SearchIndexingBufferedSenderUploadDocumentsOptions
 } from "./indexModels";
 export { SearchIndexClient, SearchIndexClientOptions } from "./searchIndexClient";
 export { SearchIndexerClient, SearchIndexerClientOptions } from "./searchIndexerClient";
