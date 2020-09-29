@@ -14,6 +14,12 @@ trigger: none
 # variable name: 'TagName'
 # e.g values: 'latest', 'next'
 
+parameters:
+  TaskType: ''
+  PackageName: ''
+  PkgVersion: ''
+  TagName: ''
+  Reason: ''
 
 jobs:
 - job: 'NPM_Admin_Job'
@@ -26,6 +32,6 @@ jobs:
       displayName: 'Run Task'
       inputs:
         targetType: filePath
-        filePath: "eng/tools/npm-admin-tasks.ps1"
-        arguments: '-taskType $(TaskType) -packageName $(PackageName) -pkgVersion $(PkgVersion) -tagName $(TagName) -npmToken "$(azure-sdk-npm-token)" -reason $(Reason)'
+        filePath: "eng/scripts/npm-admin-tasks.ps1"
+        arguments: '-taskType ${{parameters.TaskType}} -packageName ${{parameters.PackageName}} -pkgVersion ${{parameters.PkgVersion}} -tagName ${{parameters.TagName}} -npmToken "$(azure-sdk-npm-token)" -reason ${{parameters.Reason}}'
         pwsh: true

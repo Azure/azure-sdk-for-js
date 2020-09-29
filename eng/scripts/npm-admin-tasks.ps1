@@ -25,19 +25,19 @@ try {
   }
 
   switch ($taskType) {
-    AddTag {
+    "AddTag" {
       Write-Host "Adding tag for package"
       Write-Host "npm dist-tag add $($nameAndVersion) $tagName"
       npm dist-tag add $nameAndVersion $tagName
     }
 
-    RemoveTag {
+    "RemoveTag" {
       Write-Host "Removing tag for package"
       Write-Host "npm dist-tag rm $($nameAndVersion) $tagName"
       npm dist-tag rm $nameAndVersion $tagName
     }
 
-    DeprecatePackage {
+    "DeprecatePackage" {
       Write-Host "Deprecate package $nameAndVersion, reason: $reason"
       Write-Host "npm deprecate $($nameAndVersion) $reason"
       npm deprecate $nameAndVersion $reason
