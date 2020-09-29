@@ -1,12 +1,9 @@
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
-import { publicEncrypt, createVerify } from "crypto";
-import * as constants from "constants";
 import { isNode } from "@azure/core-http";
 import { JsonWebKey, KeyOperation } from "../keysModels";
 import { LocalCryptographyUnsupportedError } from "./models";
-import { createHash } from "./hash";
 
 /**
  * This file contains the implementation of local supported algorithms, which
@@ -67,16 +64,6 @@ export const assertions: Record<"keyOps" | "rsa" | "nodeOnly", LocalAssertion> =
     if (!isNode) {
       throw new LocalCryptographyUnsupportedError("This operation is only available in NodeJS");
     }
-  }
-};
-
-/**
- * pipeAssertions allows us to execute a sequence of assertions.
- * @param assertions One or more LocalAssertions
- */
-const pipeAssertions = (...assertions: LocalAssertion[]): LocalAssertion => (...params): void => {
-  for (const assertion of assertions) {
-    assertion(...params);
   }
 };
 
@@ -152,65 +139,9 @@ export type LocalSupportedAlgorithmName =
   | "RS512";
 
 /**
- * Local support of the RSA1_5 algorithm.
- * We currently only support encrypting and wrapping keys with it.
- */
-const RSA1_5: LocalSupportedAlgorithm = {
-  validate: pipeAssertions(assertions.keyOps, assertions.rsa, assertions.nodeOnly),
-  operations: {
-    async encrypt(keyPEM: string, data: Buffer): Promise<Buffer> {
-      return publicEncrypt({ key: keyPEM, padding: constants.RSA_PKCS1_PADDING }, data);
-    },
-    async wrapKey(keyPEM: string, data: Buffer): Promise<Buffer> {
-      return publicEncrypt({ key: keyPEM, padding: constants.RSA_PKCS1_PADDING }, data);
-    }
-  }
-};
-
-/**
- * Local support of the RSA-OAEP algorithm.
- * We currently only support encrypting and wrapping keys with it.
- */
-const RSA_OAEP: LocalSupportedAlgorithm = {
-  validate: pipeAssertions(assertions.keyOps, assertions.rsa, assertions.nodeOnly),
-  operations: {
-    async encrypt(keyPEM: string, data: Buffer): Promise<Buffer> {
-      return publicEncrypt(keyPEM, data);
-    },
-    async wrapKey(keyPEM: string, data: Buffer): Promise<Buffer> {
-      return publicEncrypt(keyPEM, data);
-    }
-  }
-};
-
-/**
  * A union type representing the names of all of the locally supported sign algorithms.
  */
 export type SignAlgorithmName = "SHA256" | "SHA384" | "SHA512";
-
-/**
- * Since sign algorithms behave almost the same, we're making a generator to save up code.
- * We receive the sign algorithm, from the list of names in `SignAlgorithmName`,
- * then we generate a `LocalSupportedAlgorithm` that only create hashes and verifies signatures.
- * @param signAlgorithm
- */
-const makeSigner = (signAlgorithm: SignAlgorithmName): LocalSupportedAlgorithm => {
-  return {
-    validate: pipeAssertions(assertions.keyOps, assertions.nodeOnly),
-    signAlgorithm,
-    operations: {
-      async createHash(_keyPEM: string, data: Buffer): Promise<Buffer> {
-        return createHash(signAlgorithm, data);
-      },
-      async verify(keyPEM: string, data: Buffer, signature: Buffer): Promise<boolean> {
-        const verifier = createVerify(signAlgorithm);
-        verifier.update(data);
-        verifier.end();
-        return verifier.verify(keyPEM, signature);
-      }
-    }
-  };
-};
 
 /**
  * A Record containing all of the locally supported algorithms.
@@ -224,14 +155,14 @@ export type LocalSupportedAlgorithmsRecord = Record<
  * A plain object containing all of the locally supported algorithms.
  */
 export const localSupportedAlgorithms: LocalSupportedAlgorithmsRecord = {
-  RSA1_5,
-  "RSA-OAEP": RSA_OAEP,
-  PS256: makeSigner("SHA256"),
-  RS256: makeSigner("SHA256"),
-  PS384: makeSigner("SHA384"),
-  RS384: makeSigner("SHA384"),
-  PS512: makeSigner("SHA512"),
-  RS512: makeSigner("SHA512")
+  RSA1_5: undefined,
+  "RSA-OAEP": undefined,
+  PS256: undefined,
+  RS256: undefined,
+  PS384: undefined,
+  RS384: undefined,
+  PS512: undefined,
+  RS512: undefined
 };
 
 /**

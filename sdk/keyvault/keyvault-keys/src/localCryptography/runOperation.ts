@@ -18,7 +18,7 @@ export async function runOperation(
   data: Buffer,
   signature?: Buffer
 ): Promise<Buffer | boolean> {
-  const algorithm: LocalSupportedAlgorithm = localSupportedAlgorithms[algorithmName];
+  const algorithm: LocalSupportedAlgorithm | undefined = localSupportedAlgorithms[algorithmName];
   if (!algorithm) {
     throw new LocalCryptographyUnsupportedError(`Unsupported algorithm ${algorithm}`);
   }

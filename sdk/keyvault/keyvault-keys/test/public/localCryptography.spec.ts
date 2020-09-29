@@ -111,8 +111,7 @@ describe("Local cryptography public tests", () => {
 
     for (const localAlgorithmName of localSupportedAlgorithmNames) {
       const algorithm = localSupportedAlgorithms[localAlgorithmName as LocalSupportedAlgorithmName];
-      const signAlgorithm = algorithm.signAlgorithm;
-
+      const signAlgorithm = algorithm?.signAlgorithm;
       if (!signAlgorithm) {
         continue;
       }
