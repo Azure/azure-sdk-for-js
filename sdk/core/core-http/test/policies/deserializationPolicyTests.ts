@@ -502,6 +502,183 @@ describe("deserializationPolicy", function() {
       assert.strictEqual(deserializedResponse.parsedHeaders, undefined);
     });
 
+    it("should deserialize xml response bodies with empty list wrapper", async function() {
+      const blobServiceProperties: CompositeMapper = {
+        xmlName: "StorageServiceProperties",
+        serializedName: "BlobServiceProperties",
+        type: {
+          name: "Composite",
+          className: "BlobServiceProperties",
+          modelProperties: {
+            cors: {
+              xmlIsWrapped: true,
+              xmlName: "Cors",
+              xmlElementName: "CorsRule",
+              serializedName: "Cors",
+              type: {
+                name: "Sequence",
+                element: {
+                  type: {
+                    name: "Composite",
+                    className: "CorsRule"
+                  }
+                }
+              }
+            }
+          }
+        }
+      };
+
+      const response: HttpOperationResponse = {
+        request: createRequest({
+          httpMethod: "GET",
+          serializer: new Serializer({}, true),
+          responses: {
+            200: {
+              bodyMapper: blobServiceProperties
+            }
+          }
+        }),
+        status: 200,
+        headers: new HttpHeaders({
+          "content-type": "application/xml"
+        }),
+        bodyAsText: `<?xml version="1.0" encoding="utf-8"?><StorageServiceProperties><Cors /></StorageServiceProperties>`
+      };
+
+      const deserializedResponse: HttpOperationResponse = await deserializeResponse(response);
+
+      assert.deepStrictEqual(deserializedResponse.parsedBody, { cors: [] });
+    });
+
+    it("should deserialize xml response bodies with wrapper around empty list", async function() {
+      const blobServiceProperties: CompositeMapper = {
+        xmlName: "StorageServiceProperties",
+        serializedName: "BlobServiceProperties",
+        type: {
+          name: "Composite",
+          className: "BlobServiceProperties",
+          modelProperties: {
+            cors: {
+              xmlIsWrapped: true,
+              xmlName: "Cors",
+              xmlElementName: "CorsRule",
+              serializedName: "Cors",
+              type: {
+                name: "Sequence",
+                element: {
+                  type: {
+                    name: "Composite",
+                    className: "CorsRule"
+                  }
+                }
+              }
+            }
+          }
+        }
+      };
+      const response: HttpOperationResponse = {
+        request: createRequest({
+          httpMethod: "GET",
+          serializer: new Serializer({}, true),
+          responses: {
+            200: {
+              bodyMapper: blobServiceProperties
+            }
+          }
+        }),
+        status: 200,
+        headers: new HttpHeaders({
+          "content-type": "application/xml"
+        }),
+        bodyAsText: `<?xml version="1.0" encoding="utf-8"?><StorageServiceProperties><Cors></Cors></StorageServiceProperties>`
+      };
+
+      const deserializedResponse: HttpOperationResponse = await deserializeResponse(response);
+
+      assert.deepStrictEqual(deserializedResponse.parsedBody, { cors: [] });
+    });
+
+    it("should deserialize xml response bodies with wrapper around non-empty list", async function() {
+      const corsRule: CompositeMapper = {
+        serializedName: "CorsRule",
+        type: {
+          name: "Composite",
+          className: "CorsRule",
+          modelProperties: {
+            allowedOrigins: {
+              xmlName: "AllowedOrigins",
+              required: true,
+              serializedName: "AllowedOrigins",
+              type: {
+                name: "String"
+              }
+            }
+          }
+        }
+      };
+      const blobServiceProperties: CompositeMapper = {
+        xmlName: "StorageServiceProperties",
+        serializedName: "BlobServiceProperties",
+        type: {
+          name: "Composite",
+          className: "BlobServiceProperties",
+          modelProperties: {
+            cors: {
+              xmlIsWrapped: true,
+              xmlName: "Cors",
+              xmlElementName: "CorsRule",
+              serializedName: "Cors",
+              type: {
+                name: "Sequence",
+                element: {
+                  type: {
+                    name: "Composite",
+                    className: "CorsRule"
+                  }
+                }
+              }
+            }
+          }
+        }
+      };
+      const mappers = {
+        CorsRule: corsRule,
+        BlobServiceProperties: blobServiceProperties
+      };
+      const response: HttpOperationResponse = {
+        request: createRequest({
+          httpMethod: "GET",
+          serializer: new Serializer(mappers, true),
+          responses: {
+            200: {
+              bodyMapper: blobServiceProperties
+            }
+          }
+        }),
+        status: 200,
+        headers: new HttpHeaders({
+          "content-type": "application/xml"
+        }),
+        bodyAsText: `<?xml version="1.0" encoding="utf-8"?>
+        <StorageServiceProperties>
+            <Cors>
+                <CorsRule>
+                    <AllowedOrigins>example1.com</AllowedOrigins>
+                </CorsRule>
+                <CorsRule>
+                    <AllowedOrigins>example2.com</AllowedOrigins>
+                </CorsRule>
+            </Cors>
+        </StorageServiceProperties>`
+      };
+
+      const deserializedResponse: HttpOperationResponse = await deserializeResponse(response);
+      assert.deepStrictEqual(deserializedResponse.parsedBody, {
+        cors: [{ allowedOrigins: "example1.com" }, { allowedOrigins: "example2.com" }]
+      });
+    });
+
     it(`with default response headers`, async function() {
       const BodyMapper: CompositeMapper = {
         serializedName: "getproperties-body",

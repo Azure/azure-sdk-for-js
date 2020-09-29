@@ -49,7 +49,7 @@ describe("Retries - ManagementClient", () => {
     sender = serviceBusClient.test.addToCleanup(
       serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
     );
-    receiver = await serviceBusClient.test.getPeekLockReceiver(entityNames);
+    receiver = await serviceBusClient.test.createPeekLockReceiver(entityNames);
   }
 
   async function afterEachTest(): Promise<void> {
@@ -331,7 +331,7 @@ describe("Retries - Receive methods", () => {
 
   async function beforeEachTest(entityType: TestClientType): Promise<void> {
     const entityNames = await serviceBusClient.test.createTestEntities(entityType);
-    receiver = await serviceBusClient.test.getPeekLockReceiver(entityNames);
+    receiver = await serviceBusClient.test.createPeekLockReceiver(entityNames);
   }
 
   async function afterEachTest(): Promise<void> {
@@ -443,7 +443,7 @@ describe("Retries - onDetached", () => {
     sender = serviceBusClient.test.addToCleanup(
       serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
     );
-    receiver = await serviceBusClient.test.getPeekLockReceiver(entityNames);
+    receiver = await serviceBusClient.test.createPeekLockReceiver(entityNames);
   }
 
   async function afterEachTest(): Promise<void> {

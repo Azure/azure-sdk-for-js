@@ -7,10 +7,10 @@ import { ConnectionContext } from "../connectionContext";
 import { AmqpError } from "rhea-promise";
 
 /**
- * Error message to use when EntityPath in connection string does not match the 
+ * Error message to use when EntityPath in connection string does not match the
  * queue or topic name passed to the methods in the ServiceBusClient that create
  * senders and receivers.
- * 
+ *
  * @internal
  * @ignore
  */
@@ -61,7 +61,7 @@ export function getReceiverClosedErrorMsg(entityPath: string, sessionId?: string
   }
   return (
     `The receiver for session "${sessionId}" in "${entityPath}" has been closed and can no ` +
-    `longer be used. Please create a new receiver using the "createSessionReceiver" method on the ServiceBusClient.`
+    `longer be used. Please create a new receiver using the "acceptSession" or "acceptNextSession" method on the ServiceBusClient.`
   );
 }
 
@@ -217,6 +217,10 @@ export function logError(err: Error | AmqpError | undefined, ...args: any[]): vo
   logErrorStackTrace(err);
 }
 
+/**
+ * @internal
+ * @ignore
+ */
 function isError(err: Error | AmqpError | undefined): err is Error {
   return err != null && (err as any).name != null;
 }

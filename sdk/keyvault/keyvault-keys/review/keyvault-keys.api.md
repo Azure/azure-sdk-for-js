@@ -71,7 +71,7 @@ export interface CryptographyOptions extends coreHttp.OperationOptions {
 }
 
 // @public
-export interface DecryptOptions extends CryptographyOptions {
+export interface DecryptOptions extends KeyOperationsOptions {
 }
 
 // @public
@@ -99,10 +99,10 @@ export interface DeletedKey {
 export type DeletionRecoveryLevel = 'Purgeable' | 'Recoverable+Purgeable' | 'Recoverable' | 'Recoverable+ProtectedSubscription' | 'CustomizedRecoverable+Purgeable' | 'CustomizedRecoverable' | 'CustomizedRecoverable+ProtectedSubscription';
 
 // @public
-export type EncryptionAlgorithm = "RSA-OAEP" | "RSA-OAEP-256" | "RSA1_5";
+export type EncryptionAlgorithm = "RSA-OAEP" | "RSA-OAEP-256" | "RSA1_5" | "A128GCM" | "A192GCM" | "A256GCM" | "A128KW" | "A192KW" | "A256KW" | "A128CBC" | "A192CBC" | "A256CBC" | "A128CBCPAD" | "A192CBCPAD" | "A256CBCPAD";
 
 // @public
-export interface EncryptOptions extends CryptographyOptions {
+export interface EncryptOptions extends KeyOperationsOptions {
 }
 
 // @public
@@ -183,6 +183,13 @@ export type KeyCurveName = "P-256" | "P-384" | "P-521" | "P-256K";
 
 // @public
 export type KeyOperation = "encrypt" | "decrypt" | "sign" | "verify" | "wrapKey" | "unwrapKey" | "import";
+
+// @public
+export interface KeyOperationsOptions extends CryptographyOptions {
+    additionalAuthenticatedData?: Uint8Array;
+    iv?: Uint8Array;
+    tag?: Uint8Array;
+}
 
 // @public
 export interface KeyPollerOptions extends coreHttp.OperationOptions {
@@ -295,7 +302,7 @@ export interface SignResult {
 }
 
 // @public
-export interface UnwrapKeyOptions extends CryptographyOptions {
+export interface UnwrapKeyOptions extends KeyOperationsOptions {
 }
 
 // @public
@@ -326,7 +333,7 @@ export interface VerifyResult {
 }
 
 // @public
-export interface WrapKeyOptions extends CryptographyOptions {
+export interface WrapKeyOptions extends KeyOperationsOptions {
 }
 
 // @public

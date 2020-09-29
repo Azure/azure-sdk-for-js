@@ -34,6 +34,22 @@ export {
 export { isSystemEvent, KnownSystemEventTypes, SystemEventNameToEventData } from "./predicates";
 
 export {
+  ACSChatEventBase,
+  ACSChatMemberAddedToThreadWithUserEventData,
+  ACSChatMemberRemovedFromThreadWithUserEventData,
+  ACSChatMessageDeletedEventData,
+  ACSChatMessageEditedEventData,
+  ACSChatMessageEventBase,
+  ACSChatMessageReceivedEventData,
+  ACSChatThreadCreatedWithUserEventData,
+  ACSChatThreadEventBase,
+  ACSChatThreadMember,
+  ACSChatThreadPropertiesUpdatedPerUserEventData,
+  ACSChatThreadWithUserDeletedEventData,
+  AcssmsDeliveryAttempt,
+  AcssmsDeliveryReportReceivedEventData,
+  AcssmsEventBase,
+  AcssmsReceivedEventData,
   AppConfigurationKeyValueDeletedEventData,
   AppConfigurationKeyValueModifiedEventData,
   AppEventTypeDetail,

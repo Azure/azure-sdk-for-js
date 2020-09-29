@@ -368,7 +368,7 @@ export function buildInternalRawKeyValuePairs(
     );
   }
   const rawParameters: RawKeyValuePair[] = [];
-  for (let [key, value] of Object.entries(parameters)) {
+  for (const [key, value] of Object.entries(parameters)) {
     let type: string | number | boolean;
     if (typeof value === "number") {
       type = TypeMapForRequestSerialization.int;

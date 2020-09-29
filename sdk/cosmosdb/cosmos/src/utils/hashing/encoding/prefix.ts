@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 export const BytePrefix = {
   Undefined: "00",
   Null: "01",

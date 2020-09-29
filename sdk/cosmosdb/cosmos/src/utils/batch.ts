@@ -1,3 +1,6 @@
+// Copyright (c) Microsoft Corporation.
+// Licensed under the MIT license.
+
 import { JSONObject } from "../queryExecutionContext";
 import { extractPartitionKey } from "../extractPartitionKey";
 import { PartitionKeyDefinition } from "../documents";

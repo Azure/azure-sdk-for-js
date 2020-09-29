@@ -201,7 +201,6 @@ describe("RecognizeCategorizedEntitiesResultArray", () => {
               text: "Microsoft",
               category: "Organization",
               confidenceScore: 0.9989,
-              length: 0,
               offset: 0
             }
           ],
@@ -215,7 +214,6 @@ describe("RecognizeCategorizedEntitiesResultArray", () => {
               category: "DateTime",
               subCategory: "DateRange",
               confidenceScore: 0.8,
-              length: 0,
               offset: 0
             }
           ],
@@ -268,7 +266,6 @@ describe("RecognizeLinkedEntitiesResultArray", () => {
                 {
                   text: "Seattle",
                   confidenceScore: 0.15046201222847677,
-                  length: 0,
                   offset: 0
                 }
               ],
@@ -289,7 +286,6 @@ describe("RecognizeLinkedEntitiesResultArray", () => {
                 {
                   text: "Microsoft",
                   confidenceScore: 0.1869365971673207,
-                  length: 0,
                   offset: 0
                 }
               ],
@@ -343,7 +339,6 @@ describe("RecognizeLinkedEntitiesResultArray", () => {
                 text: "(555) 555-5555",
                 category: "US Phone Number",
                 confidenceScore: 0.9989,
-                length: 0,
                 offset: 0
               }
             ],
@@ -358,7 +353,6 @@ describe("RecognizeLinkedEntitiesResultArray", () => {
                 category: "US Address",
                 subCategory: "",
                 confidenceScore: 0.8,
-                length: 0,
                 offset: 0
               }
             ],

@@ -208,6 +208,40 @@ describe("ServiceClient", function() {
   });
 
   describe("serializeRequestBody()", () => {
+    it("should serialize additional properties when the mapper is refd by className", () => {
+      const httpRequest = createPipelineRequest({ url: "https://example.com" });
+      const body = [
+        {
+          version: 1,
+          name: "Test",
+          time: new Date("2020-09-24T17:31:35.034Z"),
+          data: {
+            baseData: {
+              test: "Hello!",
+              extraProp: "FooBar"
+            }
+          }
+        }
+      ];
+
+      serializeRequestBody(
+        httpRequest,
+        {
+          body
+        },
+        {
+          httpMethod: "POST",
+          requestBody: Mappers.body,
+          responses: { 200: {} },
+          serializer: createSerializer(Mappers)
+        }
+      );
+      assert.strictEqual(
+        httpRequest.body,
+        `[{"ver":1,"name":"Test","time":"2020-09-24T17:31:35.034Z","data":{"baseData":{"test":"Hello!","extraProp":"FooBar"}}}]`
+      );
+    });
+
     it("should serialize a JSON String request body", () => {
       const httpRequest = createPipelineRequest({ url: "https://example.com" });
       serializeRequestBody(

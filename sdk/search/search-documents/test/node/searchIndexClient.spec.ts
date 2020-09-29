@@ -2,15 +2,21 @@
 // Licensed under the MIT license.
 
 /* eslint-disable no-invalid-this */
-import { isPlaybackMode, record, Recorder } from "@azure/test-utils-recorder";
+import { isPlaybackMode, record, Recorder, isLiveMode } from "@azure/test-utils-recorder";
 import { assert } from "chai";
 import { SearchIndexClient, SynonymMap, SearchIndex } from "../../src/index";
 import { Hotel } from "../utils/interfaces";
 import { createClients, environmentSetup } from "../utils/recordedClient";
-import { createSimpleIndex, createSynonymMaps, deleteSynonymMaps, WAIT_TIME } from "../utils/setup";
+import {
+  createSimpleIndex,
+  createSynonymMaps,
+  deleteSynonymMaps,
+  WAIT_TIME,
+  createRandomIndexName
+} from "../utils/setup";
 import { delay } from "@azure/core-http";
 
-const TEST_INDEX_NAME = "hotel-live-test3";
+const TEST_INDEX_NAME = isLiveMode() ? createRandomIndexName() : "hotel-live-test3";
 
 describe("SearchIndexClient", function() {
   let recorder: Recorder;
@@ -126,7 +132,7 @@ describe("SearchIndexClient", function() {
         indexNames.push(listOfIndexes.value.name);
         listOfIndexes = await result.next();
       }
-      assert.include(indexNames, `hotel-live-test3`);
+      assert.include(indexNames, TEST_INDEX_NAME);
     });
 
     it("gets the list of indexes names", async function() {
@@ -137,7 +143,7 @@ describe("SearchIndexClient", function() {
         indexNames.push(listOfIndexNames.value);
         listOfIndexNames = await result.next();
       }
-      assert.include(indexNames, `hotel-live-test3`);
+      assert.include(indexNames, TEST_INDEX_NAME);
     });
 
     it("gets the correct index object", async function() {
@@ -157,8 +163,9 @@ describe("SearchIndexClient", function() {
     });
 
     it("creates the index object using createOrUpdateIndex", async function() {
+      const indexName: string = isLiveMode() ? createRandomIndexName() : "hotel-live-test4";
       let index: SearchIndex = {
-        name: "hotel-live-test4",
+        name: indexName,
         fields: [
           {
             type: "Edm.String",
@@ -197,8 +204,8 @@ describe("SearchIndexClient", function() {
       };
       await indexClient.createOrUpdateIndex(index);
       try {
-        index = await indexClient.getIndex("hotel-live-test4");
-        assert.equal(index.name, "hotel-live-test4");
+        index = await indexClient.getIndex(indexName);
+        assert.equal(index.name, indexName);
         assert.equal(index.fields.length, 5);
       } catch (ex) {
         throw ex;

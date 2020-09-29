@@ -129,6 +129,8 @@ export const Constants: {
     HTTPS: string;
     HTTP_PROXY: string;
     HTTPS_PROXY: string;
+    NO_PROXY: string;
+    ALL_PROXY: string;
     HttpConstants: {
         HttpVerbs: {
             PUT: string;
@@ -341,6 +343,7 @@ export interface InternalPipelineOptions extends PipelineOptions {
     decompressResponse?: boolean;
     deserializationOptions?: DeserializationOptions;
     loggingOptions?: LogPolicyOptions;
+    sendStreamingJson?: boolean;
 }
 
 // @public

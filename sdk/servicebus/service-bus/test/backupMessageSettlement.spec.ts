@@ -41,7 +41,7 @@ describe("Message settlement After Receiver is Closed - Through ManagementLink",
 
   async function beforeEachTest(entityType: TestClientType): Promise<void> {
     entityNames = await serviceBusClient.test.createTestEntities(entityType);
-    receiver = await serviceBusClient.test.getPeekLockReceiver(entityNames);
+    receiver = await serviceBusClient.test.createPeekLockReceiver(entityNames);
 
     sender = serviceBusClient.test.addToCleanup(
       serviceBusClient.createSender(entityNames.queue ?? entityNames.topic!)
@@ -87,7 +87,7 @@ describe("Message settlement After Receiver is Closed - Through ManagementLink",
       errorWasThrown = true;
     }
 
-    receiver = await serviceBusClient.test.getPeekLockReceiver(entityNames);
+    receiver = await serviceBusClient.test.createPeekLockReceiver(entityNames);
     if (entityNames.usesSessions) {
       should.equal(errorWasThrown, true, "Error was not thrown for messages with session-id");
       const msgBatch = await receiver.receiveMessages(1);
@@ -131,7 +131,7 @@ describe("Message settlement After Receiver is Closed - Through ManagementLink",
     } else {
       should.equal(errorWasThrown, false, "Error was thrown for messages without session-id");
     }
-    receiver = await serviceBusClient.test.getPeekLockReceiver(entityNames);
+    receiver = await serviceBusClient.test.createPeekLockReceiver(entityNames);
     await testPeekMsgsLength(receiver, 1);
 
     const messageBatch = await receiver.receiveMessages(1);
@@ -185,7 +185,7 @@ describe("Message settlement After Receiver is Closed - Through ManagementLink",
     } else {
       should.equal(errorWasThrown, false, "Error was thrown for sessions without session-id");
     }
-    receiver = await serviceBusClient.test.getPeekLockReceiver(entityNames);
+    receiver = await serviceBusClient.test.createPeekLockReceiver(entityNames);
     if (!entityNames.usesSessions) {
       const [deferredMsg] = await receiver.receiveDeferredMessages(sequenceNumber);
       if (!deferredMsg) {
@@ -239,7 +239,7 @@ describe("Message settlement After Receiver is Closed - Through ManagementLink",
       should.equal(errorWasThrown, false, "Error was thrown for sessions without session-id");
     }
 
-    receiver = await serviceBusClient.test.getPeekLockReceiver(entityNames);
+    receiver = await serviceBusClient.test.createPeekLockReceiver(entityNames);
 
     if (!entityNames.usesSessions) {
       const deadLetterMsgsBatch = await deadLetterReceiver.receiveMessages(1);
@@ -313,7 +313,7 @@ describe("Message settlement After Receiver is Closed - Through ManagementLink",
       errorWasThrown = true;
     }
 
-    receiver = await serviceBusClient.test.getPeekLockReceiver(entityNames);
+    receiver = await serviceBusClient.test.createPeekLockReceiver(entityNames);
     if (entityNames.usesSessions) {
       should.equal(errorWasThrown, true, "Error was not thrown for messages with session-id");
       const msgBatch = await receiver.receiveMessages(1);

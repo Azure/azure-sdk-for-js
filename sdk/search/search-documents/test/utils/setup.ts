@@ -13,7 +13,7 @@ import { Hotel } from "./interfaces";
 import { delay } from "@azure/core-http";
 import { assert } from "chai";
 
-export const WAIT_TIME = 2000;
+export const WAIT_TIME = 4000;
 
 // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
 export async function createIndex(client: SearchIndexClient, name: string): Promise<void> {
@@ -415,9 +415,11 @@ export async function populateIndex(client: SearchClient<Hotel>): Promise<void> 
 
   let count = await client.getDocumentsCount();
   while (count !== testDocuments.length) {
-    await delay(2000);
+    await delay(WAIT_TIME);
     count = await client.getDocumentsCount();
   }
+
+  await delay(WAIT_TIME);
 }
 
 // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
@@ -435,7 +437,7 @@ export async function createDataSourceConnections(client: SearchIndexerClient): 
     assert.fail("Subscription has other datasource connections not related to this testing.");
   }
 
-  for (let dataSourceConnectionName of dataSourceConnectionNames) {
+  for (const dataSourceConnectionName of dataSourceConnectionNames) {
     await client.deleteDataSourceConnection(dataSourceConnectionName);
   }
 
@@ -475,7 +477,7 @@ export async function createSkillsets(client: SearchIndexerClient): Promise<void
     assert.fail("Subscription has other skillsets not related to this testing.");
   }
 
-  for (let skillSet of skillSetNames) {
+  for (const skillSet of skillSetNames) {
     await client.deleteSkillset(skillSet);
   }
 
@@ -520,7 +522,10 @@ export async function deleteSkillsets(client: SearchIndexerClient): Promise<void
 }
 
 // eslint-disable-next-line @azure/azure-sdk/ts-use-interface-parameters
-export async function createIndexers(client: SearchIndexerClient): Promise<void> {
+export async function createIndexers(
+  client: SearchIndexerClient,
+  targetIndexName: string
+): Promise<void> {
   const testCaseNames: string[] = ["my-azure-indexer-1", "my-azure-indexer-2"];
   const indexerNames: string[] = await client.listIndexersNames();
   const unCommonElements: string[] = indexerNames.filter(
@@ -534,7 +539,7 @@ export async function createIndexers(client: SearchIndexerClient): Promise<void>
     assert.fail("Subscription has other indexers not related to this testing.");
   }
 
-  for (let indexer of indexerNames) {
+  for (const indexer of indexerNames) {
     await client.deleteIndexer(indexer);
   }
 
@@ -543,7 +548,7 @@ export async function createIndexers(client: SearchIndexerClient): Promise<void>
       name: `my-azure-indexer-${i}`,
       description: "Description for Sample Indexer",
       dataSourceName: "my-data-source-1",
-      targetIndexName: "hotel-live-test2",
+      targetIndexName: targetIndexName,
       isDisabled: false
     });
   }
@@ -569,7 +574,7 @@ export async function createSynonymMaps(client: SearchIndexClient): Promise<void
     assert.fail("Subscription has other synonymmaps not related to this testing.");
   }
 
-  for (let synonymMap of synonymMapNames) {
+  for (const synonymMap of synonymMapNames) {
     await client.deleteSynonymMap(synonymMap);
   }
 
@@ -588,7 +593,7 @@ export async function deleteSynonymMaps(client: SearchIndexClient): Promise<void
 }
 
 export async function createSimpleIndex(client: SearchIndexClient, name: string): Promise<void> {
-  let index: SearchIndex = {
+  const index: SearchIndex = {
     name,
     fields: [
       {
@@ -627,4 +632,8 @@ export async function createSimpleIndex(client: SearchIndexClient, name: string)
     ]
   };
   await client.createIndex(index);
+}
+
+export function createRandomIndexName(): string {
+  return `hotel-live-test${Math.floor(Math.random() * 1000) + 1}`;
 }
