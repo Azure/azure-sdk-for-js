@@ -36,8 +36,10 @@ export async function main() {
     while (elapsedTime < testDurationInMilliSeconds) {
       // TODO: args for maxMessageCount
       const messages = await stressBase.receiveMessages(receiver);
-      messages.map((msg) => stressBase.renewMessageLock(msg));
       elapsedTime = new Date().valueOf() - startedAt.valueOf();
+      messages.map((msg) =>
+        stressBase.renewMessageLockUntil(msg, testDurationInMilliSeconds - elapsedTime)
+      );
     }
   }
 

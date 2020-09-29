@@ -28,7 +28,7 @@ interface MessageLockRenewalInfo {
   /**
    * key - messageId, value - number of renewals
    */
-  renewalCount: { [key: string]: number }; //
+  renewalCount: { [key: string]: number };
 }
 
 // TODO: Add readme describing the scenarios and the commands to run the specific scenario
@@ -69,7 +69,7 @@ export class SBStressTestsBase {
     snapshotIntervalInMs = 5000 //Snapshots are taken every 5s
   ) {
     // TODO: Add snapshot logging options - opt-in for only the info that you're looking for-
-    //    "send-info", "receive-info", "message-lock-info", etc
+    //       "send-info", "receive-info", "message-lock-info", etc
     // TODO: snapshot options - grouping
     this.startedAt = new Date();
     this.messagesSent = [];
@@ -119,8 +119,13 @@ export class SBStressTestsBase {
     return [];
   }
 
-  public renewMessageLock(message: ServiceBusReceivedMessageWithLock) {
+  /**
+   * @param {ServiceBusReceivedMessageWithLock} message
+   * @param {number} duration Duration until which the lock is renewed
+   */
+  public renewMessageLockUntil(message: ServiceBusReceivedMessageWithLock, duration: number) {
     // TODO: pass in max number of lock renewals? and add settlement at the end of max??
+    const startTime = new Date();
     this.messageLockRenewalInfo.messageLockRenewalTimers[message.messageId as string] = setTimeout(
       async () => {
         try {
@@ -131,14 +136,20 @@ export class SBStressTestsBase {
           ];
           this.messageLockRenewalInfo.renewalCount[message.messageId as string] =
             currentRenewalCount === undefined ? 1 : currentRenewalCount + 1;
-          this.renewMessageLock(message);
+          const elapsedTime = new Date().valueOf() - startTime.valueOf();
+          if (duration - elapsedTime > 0) {
+            this.renewMessageLockUntil(message, duration - elapsedTime);
+          }else{
+            // This is reached after the duration given has passed by
+            // TODO: Settle the message maybe?
+          }
         } catch (error) {
           this.messageLockRenewalInfo.numberOfFailedMessageLockRenewals++;
           this.messageLockRenewalInfo.errorsInMessageLockRenewal.push(error);
           console.error("Error in message lock renewal: ", error);
         }
       },
-      message.lockedUntilUtc!.valueOf() - new Date().valueOf() - 10000
+      message.lockedUntilUtc!.valueOf() - startTime.valueOf() - 10000
     );
   }
 
