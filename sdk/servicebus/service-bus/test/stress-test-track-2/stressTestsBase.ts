@@ -139,7 +139,7 @@ export class SBStressTestsBase {
           const elapsedTime = new Date().valueOf() - startTime.valueOf();
           if (duration - elapsedTime > 0) {
             this.renewMessageLockUntil(message, duration - elapsedTime);
-          }else{
+          } else {
             // This is reached after the duration given has passed by
             // TODO: Settle the message maybe?
           }
