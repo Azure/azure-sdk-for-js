@@ -20,7 +20,10 @@ export async function main() {
 
   async function sendMessages() {
     let elapsedTime = new Date().valueOf() - startedAt.valueOf();
-    while (elapsedTime < testDurationInMilliSeconds && stressBase.numberOfSuccessfulSends < 1000) {
+    while (
+      elapsedTime < testDurationInMilliSeconds &&
+      stressBase.sendInfo.numberOfSuccessfulSends < 1000
+    ) {
       // TODO: args for number of messages to send at a time
       // TODO: args to set max total number of messages to send
       await stressBase.sendMessages([sender], 1);

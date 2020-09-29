@@ -16,20 +16,25 @@ export class SBStressTestsBase {
   startedAt: Date | undefined;
   // TODO: Group the metrics and take snapshot options from the sample to customize logging
   // Send metrics
-  numberOfSuccessfulSends = 0;
-  numberOfFailedSends = 0;
-  errorsInSending: any[] = [];
+  sendInfo = {
+    numberOfSuccessfulSends: 0,
+    numberOfFailedSends: 0,
+    errorsInSending: []
+  };
   // Receive metrics
-  numberOfSuccessfulReceives = 0;
-  numberOfFailedReceives = 0;
-  errorsInReceiving: any[] = [];
+  receiveInfo = {
+    numberOfSuccessfulReceives: 0,
+    numberOfFailedReceives: 0,
+    errorsInReceiving: []
+  };
   // Message Lock Renewal
-  numberOfSuccessfulMessageLockRenewals = 0;
-  numberOfFailedMessageLockRenewals = 0;
-  errorsInMessageLockRenewal: any[] = [];
-  messageLockRenewalTimers: NodeJS.Timer[] = [];
-  renewalCount: { [key: string]: number } = {}; // key - messageId, value - number of renewals
-
+  messageLockRenewalInfo = {
+    numberOfSuccessfulMessageLockRenewals: 0,
+    numberOfFailedMessageLockRenewals: 0,
+    errorsInMessageLockRenewal: [],
+    messageLockRenewalTimers: [],
+    renewalCount: {} // key - messageId, value - number of renewals
+  };
   // Queue Management
   serviceBusAdministrationClient = new ServiceBusAdministrationClient(
     process.env.SERVICEBUS_CONNECTION_STRING
@@ -56,10 +61,10 @@ export class SBStressTestsBase {
           messages.push({ body: `message ${i} ${Math.random()}` });
         }
         await sender.sendMessages(messages);
-        this.numberOfSuccessfulSends++;
+        this.sendInfo.numberOfSuccessfulSends++;
       } catch (error) {
-        this.numberOfFailedSends++;
-        this.errorsInSending.push(error);
+        this.sendInfo.numberOfFailedSends++;
+        this.sendInfo.errorsInSending.push(error);
         console.error("Error in sending: ", error);
       }
     }
@@ -75,29 +80,31 @@ export class SBStressTestsBase {
         maxWaitTimeInMs: 10000
       });
       this.messagesReceived = this.messagesReceived.concat(messages as ServiceBusReceivedMessage[]);
-      this.numberOfSuccessfulReceives++;
+      this.receiveInfo.numberOfSuccessfulReceives++;
       return messages;
     } catch (error) {
-      this.numberOfFailedReceives++;
-      this.errorsInReceiving.push(error);
+      this.receiveInfo.numberOfFailedReceives++;
+      this.receiveInfo.errorsInReceiving.push(error);
       console.error("Error in receiving: ", error);
     }
   }
 
   public async renewMessageLock(message: ServiceBusReceivedMessageWithLock) {
     // TODO: pass in max number of lock renewals? and add settlement at the end of max??
-    this.messageLockRenewalTimers.push(
+    this.messageLockRenewalInfo.messageLockRenewalTimers.push(
       setTimeout(async () => {
         try {
           await message.renewLock();
-          this.numberOfSuccessfulMessageLockRenewals++;
-          const currentRenewalCount = this.renewalCount[message.messageId as string];
-          this.renewalCount[message.messageId as string] =
+          this.messageLockRenewalInfo.numberOfSuccessfulMessageLockRenewals++;
+          const currentRenewalCount = this.messageLockRenewalInfo.renewalCount[
+            message.messageId as string
+          ];
+          this.messageLockRenewalInfo.renewalCount[message.messageId as string] =
             currentRenewalCount === undefined ? 1 : currentRenewalCount + 1;
           this.renewMessageLock(message);
         } catch (error) {
-          this.numberOfFailedMessageLockRenewals++;
-          this.errorsInMessageLockRenewal.push(error);
+          this.messageLockRenewalInfo.numberOfFailedMessageLockRenewals++;
+          this.messageLockRenewalInfo.errorsInMessageLockRenewal.push(error);
           console.error("Error in message lock renewal: ", error);
         }
       }, message.lockedUntilUtc.valueOf() - new Date().valueOf() - 10000)
@@ -115,27 +122,33 @@ export class SBStressTestsBase {
     const elapsedTimeInSeconds = (new Date().valueOf() - this.startedAt.valueOf()) / 1000;
     console.log("Elapsed time in seconds: ", elapsedTimeInSeconds);
     console.log("Number of messages sent so far : ", this.messagesSent.length);
-    console.log("Number of successful sends so far : ", this.numberOfSuccessfulSends);
-    console.log("Number of failed sends so far : ", this.numberOfFailedSends);
+    console.log("Number of successful sends so far : ", this.sendInfo.numberOfSuccessfulSends);
+    console.log("Number of failed sends so far : ", this.sendInfo.numberOfFailedSends);
     console.log(
       "(Avg)Number of sends per sec: ",
-      this.numberOfSuccessfulSends / elapsedTimeInSeconds
+      this.sendInfo.numberOfSuccessfulSends / elapsedTimeInSeconds
     );
     console.log("Number of messages received so far : ", this.messagesReceived.length);
-    console.log("Number of successful receives so far : ", this.numberOfSuccessfulReceives);
-    console.log("Number of failed receives so far : ", this.numberOfFailedReceives);
+    console.log(
+      "Number of successful receives so far : ",
+      this.receiveInfo.numberOfSuccessfulReceives
+    );
+    console.log("Number of failed receives so far : ", this.receiveInfo.numberOfFailedReceives);
     console.log(
       "(Avg)Number of receives per sec: ",
-      this.numberOfSuccessfulReceives / elapsedTimeInSeconds
+      this.receiveInfo.numberOfSuccessfulReceives / elapsedTimeInSeconds
     );
     console.log(
       "Number of successful lock renewals so far : ",
-      this.numberOfSuccessfulMessageLockRenewals
+      this.messageLockRenewalInfo.numberOfSuccessfulMessageLockRenewals
     );
-    console.log("Number of failed lock renewals so far : ", this.numberOfFailedMessageLockRenewals);
+    console.log(
+      "Number of failed lock renewals so far : ",
+      this.messageLockRenewalInfo.numberOfFailedMessageLockRenewals
+    );
     console.log(
       "(Avg)Number of lock renewals per sec: ",
-      this.numberOfSuccessfulMessageLockRenewals / elapsedTimeInSeconds
+      this.messageLockRenewalInfo.numberOfSuccessfulMessageLockRenewals / elapsedTimeInSeconds
     );
     console.log("\n");
   }
@@ -144,7 +157,7 @@ export class SBStressTestsBase {
     // TODO: Log errors in a file
     // TODO: Delete the queue at the end
     clearInterval(this.snapshotTimer);
-    this.messageLockRenewalTimers.map((timer) => clearTimeout(timer));
+    this.messageLockRenewalInfo.messageLockRenewalTimers.map((timer) => clearTimeout(timer));
     await this.serviceBusAdministrationClient.deleteQueue(this.queueName);
   }
 }
