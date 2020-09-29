@@ -8,7 +8,7 @@
 
 - Add support for `NO_PROXY` and `ALL_PROXY` environment variables [PR 7069](https://github.com/Azure/azure-sdk-for-js/pull/7069)
 
-- Serializer now resolves additionalProperties correctly from referenced mapper [PR 11473](https://github.com/Azure/azure-sdk-for-js/pull/11473)
+- Serializer now resolves `additionalProperties` correctly from referenced mapper [PR 11473](https://github.com/Azure/azure-sdk-for-js/pull/11473)
 
 - Empty wrapped XML element lists are no properly de-serialized. This fixes [issue 11071](https://github.com/Azure/azure-sdk-for-js/issues/11071)
 
