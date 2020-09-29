@@ -25,9 +25,9 @@ import {
   TokenScope,
   IssueTokenResponse,
   CreateUserResponse,
-  CommunicationUserToken,
-  VoidResponse
+  CommunicationUserToken
 } from "./models";
+import { VoidResponse } from "../common/models";
 import { attachHttpResponse } from "../common/mappers";
 
 const isCommunicationIdentityOptions = (options: any): options is CommunicationIdentityOptions =>

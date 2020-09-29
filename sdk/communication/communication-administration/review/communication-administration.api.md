@@ -11,7 +11,6 @@ import { KeyCredential } from '@azure/core-auth';
 import { OperationOptions } from '@azure/core-http';
 import { PagedAsyncIterableIterator } from '@azure/core-paging';
 import { PipelineOptions } from '@azure/core-http';
-import { RestResponse } from '@azure/core-http';
 
 // @public
 export interface AcquiredPhoneNumber {
@@ -98,6 +97,9 @@ export interface ConfigurePhoneNumberRequest {
 }
 
 // @public
+export type CreatePhoneNumberSearchResponse = WithResponse<CreateSearchResponse>;
+
+// @public
 export interface CreateSearchOptions extends OperationOptions {
     locationOptions?: LocationOptionsDetails[];
     quantity?: number;
@@ -135,6 +137,15 @@ export interface GetAreaCodesRequest {
 }
 
 // @public
+export type GetAreaCodesResponse = WithResponse<AreaCodes>;
+
+// @public
+export type GetCapabilitiesUpdateResponse = WithResponse<UpdatePhoneNumberCapabilitiesResponse>;
+
+// @public
+export type GetPhoneNumberConfigurationResponse = WithResponse<NumberConfigurationResponse>;
+
+// @public
 export type GetPhonePlanLocationOptionsOptions = PageableLocalizationOptions;
 
 // @public (undocumented)
@@ -143,6 +154,15 @@ export interface GetPhonePlanLocationOptionsRequest extends PageableLocalization
     phonePlanGroupId: string;
     phonePlanId: string;
 }
+
+// @public
+export type GetPhonePlanLocationOptionsResponse = WithResponse<LocationOptionsResponse>;
+
+// @public
+export type GetReleaseResponse = WithResponse<PhoneNumberRelease>;
+
+// @public
+export type GetSearchResponse = WithResponse<PhoneNumberSearch>;
 
 // @public
 export type IssueTokenResponse = WithResponse<CommunicationUserToken>;
@@ -235,28 +255,26 @@ export interface PageableOptions extends OperationOptions {
 export class PhoneNumberAdministrationClient {
     constructor(connectionString: string, options?: PhoneNumberAdministrationClientOptions);
     constructor(url: string, credential: KeyCredential, options?: PhoneNumberAdministrationClientOptions);
-    cancelSearch(searchId: string, options?: OperationOptions): Promise<RestResponse>;
-    configurePhoneNumber(request: ConfigurePhoneNumberRequest, options?: ConfigurePhoneNumberOptions): Promise<RestResponse>;
-    createSearch(request: CreateSearchRequest, options?: CreateSearchOptions): Promise<PhoneNumberAdministrationCreateSearchResponse>;
-    getAreaCodes(request: GetAreaCodesRequest, options?: GetAreaCodesOptions): Promise<PhoneNumberAdministrationGetAllAreaCodesResponse>;
-    getCapabilitiesUpdate(capabilitiesUpdateId: string, options?: OperationOptions): Promise<PhoneNumberAdministrationGetCapabilitiesUpdateResponse>;
-    getPhoneNumberConfiguration(phoneNumber: string, options?: OperationOptions): Promise<PhoneNumberAdministrationGetNumberConfigurationResponse>;
-    getPhonePlanLocationOptions(request: GetPhonePlanLocationOptionsRequest, options?: GetPhonePlanLocationOptionsOptions): Promise<PhoneNumberAdministrationGetPhonePlanLocationOptionsResponse>;
-    getRelease(releaseId: string, options?: OperationOptions): Promise<PhoneNumberAdministrationGetReleaseByIdResponse>;
-    getSearch(searchId: string, options?: OperationOptions): Promise<PhoneNumberAdministrationGetSearchByIdResponse>;
+    cancelSearch(searchId: string, options?: OperationOptions): Promise<VoidResponse>;
+    configurePhoneNumber(request: ConfigurePhoneNumberRequest, options?: ConfigurePhoneNumberOptions): Promise<VoidResponse>;
+    createSearch(searchRequest: CreateSearchRequest, options?: CreateSearchOptions): Promise<CreatePhoneNumberSearchResponse>;
+    getAreaCodes(searchRequest: GetAreaCodesRequest, options?: GetAreaCodesOptions): Promise<GetAreaCodesResponse>;
+    getCapabilitiesUpdate(capabilitiesUpdateId: string, options?: OperationOptions): Promise<GetCapabilitiesUpdateResponse>;
+    getPhoneNumberConfiguration(phoneNumber: string, options?: OperationOptions): Promise<GetPhoneNumberConfigurationResponse>;
+    getPhonePlanLocationOptions(searchRequest: GetPhonePlanLocationOptionsRequest, options?: GetPhonePlanLocationOptionsOptions): Promise<GetPhonePlanLocationOptionsResponse>;
+    getRelease(releaseId: string, options?: OperationOptions): Promise<GetReleaseResponse>;
+    getSearch(searchId: string, options?: OperationOptions): Promise<GetSearchResponse>;
     listPhoneNumbers(options?: ListPhoneNumbersOptions): PagedAsyncIterableIterator<AcquiredPhoneNumber>;
     listPhonePlanGroups(countryCode: string, options?: ListPhonePlanGroupsOptions): PagedAsyncIterableIterator<PhonePlanGroup>;
     listPhonePlans(planGroupInfo: ListPhonePlansRequest, options?: ListPhonePlansOptions): PagedAsyncIterableIterator<PhonePlan>;
     listReleases(options?: PageableOptions): PagedAsyncIterableIterator<PhoneNumberEntity>;
     listSearches(options?: PageableOptions): PagedAsyncIterableIterator<PhoneNumberEntity>;
     listSupportedCountries(options?: ListSupportedCountriesOptions): PagedAsyncIterableIterator<PhoneNumberCountry>;
-    purchaseSearch(searchId: string, options?: OperationOptions): Promise<RestResponse>;
-    refreshSearch(searchId: string, options?: OperationOptions): Promise<RestResponse>;
-    releasePhoneNumbers(phoneNumbers: string[], options?: OperationOptions): Promise<PhoneNumberAdministrationReleasePhoneNumbersResponse>;
-    unconfigurePhoneNumber(phoneNumber: string, options?: OperationOptions): Promise<RestResponse>;
-    updatePhoneNumbersCapabilities(phoneNumberCapabilitiesUpdate: {
-        [phoneNumber: string]: NumberUpdateCapabilities;
-    }, options?: UpdateCapabilitiesOptions): Promise<PhoneNumberAdministrationUpdateCapabilitiesResponse>;
+    purchaseSearch(searchId: string, options?: OperationOptions): Promise<VoidResponse>;
+    refreshSearch(searchId: string, options?: OperationOptions): Promise<VoidResponse>;
+    releasePhoneNumbers(phoneNumbers: string[], options?: OperationOptions): Promise<ReleasePhoneNumbersResponse>;
+    unconfigurePhoneNumber(phoneNumber: string, options?: OperationOptions): Promise<VoidResponse>;
+    updatePhoneNumbersCapabilities(phoneNumberCapabilitiesUpdates: PhoneNumberCapabilitiesUpdates, options?: UpdateCapabilitiesOptions): Promise<UpdateNumbersCapabilitiesResponse>;
 }
 
 // @public
@@ -328,11 +346,8 @@ export type PhoneNumberAdministrationReleasePhoneNumbersResponse = ReleaseRespon
 };
 
 // @public
-export type PhoneNumberAdministrationUpdateCapabilitiesResponse = UpdateNumberCapabilitiesResponse & {
-    _response: coreHttp.HttpResponse & {
-        bodyAsText: string;
-        parsedBody: UpdateNumberCapabilitiesResponse;
-    };
+export type PhoneNumberCapabilitiesUpdates = {
+    [propertyName: string]: NumberUpdateCapabilities;
 };
 
 // @public
@@ -452,6 +467,9 @@ export interface RateInformation {
 }
 
 // @public
+export type ReleasePhoneNumbersResponse = WithResponse<ReleaseResponse>;
+
+// @public
 export interface ReleaseResponse {
     releaseId: string;
 }
@@ -468,15 +486,16 @@ export type TokenScope = "chat" | "voip" | "pstn";
 // @public
 export interface UpdateCapabilitiesOptions extends OperationOptions {
     // (undocumented)
-    phoneNumbers?: {
-        [propertyName: string]: NumberUpdateCapabilities;
-    };
+    phoneNumbers?: PhoneNumberCapabilitiesUpdates;
 }
 
 // @public
 export interface UpdateNumberCapabilitiesResponse {
     capabilitiesUpdateId: string;
 }
+
+// @public
+export type UpdateNumbersCapabilitiesResponse = WithResponse<UpdateNumberCapabilitiesResponse>;
 
 // @public
 export interface UpdatePhoneNumberCapabilitiesResponse {

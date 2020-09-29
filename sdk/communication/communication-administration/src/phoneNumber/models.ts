@@ -2,10 +2,20 @@
 // Licensed under the MIT license.
 
 import { OperationOptions } from "@azure/core-http";
+import { WithResponse } from "../common/models";
 import {
   LocationOptionsDetails,
   NumberUpdateCapabilities,
-  LocationOptionsQuery
+  LocationOptionsQuery,
+  UpdateNumberCapabilitiesResponse,
+  UpdatePhoneNumberCapabilitiesResponse,
+  ReleaseResponse,
+  PhoneNumberRelease,
+  CreateSearchResponse,
+  AreaCodes,
+  NumberConfigurationResponse,
+  LocationOptionsResponse,
+  PhoneNumberSearch
 } from "./generated/src/models";
 
 /**
@@ -148,10 +158,15 @@ export interface GetAreaCodesOptions extends OperationOptions {
 }
 
 /**
+ * The capabilities update for each of a set of phone numbers.
+ */
+export type PhoneNumberCapabilitiesUpdates = { [propertyName: string]: NumberUpdateCapabilities };
+
+/**
  * Additional options for updating phone numbers capabilities.
  */
 export interface UpdateCapabilitiesOptions extends OperationOptions {
-  phoneNumbers?: { [propertyName: string]: NumberUpdateCapabilities };
+  phoneNumbers?: PhoneNumberCapabilitiesUpdates;
 }
 
 export interface ListPhonePlansRequest {
@@ -189,3 +204,48 @@ export interface GetPhonePlanLocationOptionsRequest extends PageableLocalization
  * Options for getting a plan location options
  */
 export type GetPhonePlanLocationOptionsOptions = PageableLocalizationOptions;
+
+/**
+ * Represents the response from updating the capabilities for a list of phone numbers
+ */
+export type UpdateNumbersCapabilitiesResponse = WithResponse<UpdateNumberCapabilitiesResponse>;
+
+/**
+ * Represents the response from getting the update capabilities request associated with a given id.
+ */
+export type GetCapabilitiesUpdateResponse = WithResponse<UpdatePhoneNumberCapabilitiesResponse>;
+
+/**
+ * Represents the response from requesting the release of a list of acquired phone numbers
+ */
+export type ReleasePhoneNumbersResponse = WithResponse<ReleaseResponse>;
+
+/**
+ * Represents the response from getting the release associated with a given id.
+ */
+export type GetReleaseResponse = WithResponse<PhoneNumberRelease>;
+
+/**
+ * Represents the response from starting a search for phone numbers
+ */
+export type CreatePhoneNumberSearchResponse = WithResponse<CreateSearchResponse>;
+
+/**
+ * Represents the response from getting a list of the supported area codes
+ */
+export type GetAreaCodesResponse = WithResponse<AreaCodes>;
+
+/**
+ * Represents the response from getting the configuration for a given number
+ */
+export type GetPhoneNumberConfigurationResponse = WithResponse<NumberConfigurationResponse>;
+
+/**
+ * Represents the response from getting the location options for a given phone plan
+ */
+export type GetPhonePlanLocationOptionsResponse = WithResponse<LocationOptionsResponse>;
+
+/**
+ * Represents the response from getting the search associated with a given id
+ */
+export type GetSearchResponse = WithResponse<PhoneNumberSearch>;
