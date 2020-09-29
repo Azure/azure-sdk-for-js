@@ -21,7 +21,7 @@ interface MessageLockRenewalInfo {
   numberOfSuccessfulMessageLockRenewals: number;
   numberOfFailedMessageLockRenewals: number;
   errorsInMessageLockRenewal: any[];
-  messageLockRenewalTimers: NodeJS.Timer[];
+  messageLockRenewalTimers: { [key: string]: NodeJS.Timer }; // key - messageId, value - next renewal timer meant for the message
   renewalCount: { [key: string]: number }; // key - messageId, value - number of renewals
 }
 
@@ -50,7 +50,7 @@ export class SBStressTestsBase {
     numberOfSuccessfulMessageLockRenewals: 0,
     numberOfFailedMessageLockRenewals: 0,
     errorsInMessageLockRenewal: [],
-    messageLockRenewalTimers: [],
+    messageLockRenewalTimers: {},
     renewalCount: {} // key - messageId, value - number of renewals
   };
   // Queue Management
@@ -114,8 +114,8 @@ export class SBStressTestsBase {
 
   public renewMessageLock(message: ServiceBusReceivedMessageWithLock) {
     // TODO: pass in max number of lock renewals? and add settlement at the end of max??
-    this.messageLockRenewalInfo.messageLockRenewalTimers.push(
-      setTimeout(async () => {
+    this.messageLockRenewalInfo.messageLockRenewalTimers[message.messageId as string] = setTimeout(
+      async () => {
         try {
           await message.renewLock();
           this.messageLockRenewalInfo.numberOfSuccessfulMessageLockRenewals++;
@@ -130,7 +130,8 @@ export class SBStressTestsBase {
           this.messageLockRenewalInfo.errorsInMessageLockRenewal.push(error);
           console.error("Error in message lock renewal: ", error);
         }
-      }, message.lockedUntilUtc!.valueOf() - new Date().valueOf() - 10000)
+      },
+      message.lockedUntilUtc!.valueOf() - new Date().valueOf() - 10000
     );
   }
 
@@ -180,7 +181,10 @@ export class SBStressTestsBase {
     // TODO: Log errors in a file
     // TODO: Delete the queue at the end
     clearInterval(this.snapshotTimer);
-    this.messageLockRenewalInfo.messageLockRenewalTimers.map((timer) => clearTimeout(timer));
+    for (const id in this.messageLockRenewalInfo.messageLockRenewalTimers) {
+      clearTimeout(this.messageLockRenewalInfo.messageLockRenewalTimers[id]);
+    }
+
     await this.serviceBusAdministrationClient.deleteQueue(this.queueName);
   }
 }
