@@ -12,13 +12,14 @@ export function extractPartitionKey(
   document: any,
   partitionKeyDefinition: PartitionKeyDefinition
 ): PartitionKey[] {
-  const partitionKey: PartitionKey[] = [];
+  let partitionKey: PartitionKey[];
 
   if (
     partitionKeyDefinition &&
     partitionKeyDefinition.paths &&
     partitionKeyDefinition.paths.length > 0
   ) {
+    partitionKey = [];
     partitionKeyDefinition.paths.forEach((path: string) => {
       const pathParts = parsePath(path);
       let obj = document;
