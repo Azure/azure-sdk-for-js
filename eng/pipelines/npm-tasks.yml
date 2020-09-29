@@ -35,13 +35,9 @@ parameters:
     default: ''
 
   - name: TagName
-    displayName: Tag
+    displayName: Tag (e.g. latest, next)
     type: string
     default: ''
-    values:
-    - ''
-    - latest
-    - next
 
   - name: Reason
     displayName: Reason (Required only for DeprecatePackage Task)
