@@ -83,7 +83,7 @@ To interact with these resources, one should be familiar with the following SDK 
 
 - Send messages, to a queue or topic, using a [`Sender`][sender] created using [`ServiceBusClient.createSender()`][sbclient_createsender].
 - Receive messages, from either a queue or a subscription, using a [`Receiver`][receiver] created using [`ServiceBusClient.createReceiver()`][sbclient_createreceiver].
-- Receive messages, from session enabled queues or subscriptions, using a [`SessionReceiver`][sessionreceiver] created using [`ServiceBusClient.createSessionReceiver()`][sbclient_createsessionreceiver].
+- Receive messages, from session enabled queues or subscriptions, using a [`SessionReceiver`][sessionreceiver] created using [`ServiceBusClient.acceptSession()`][sbclient_createsessionreceiver].
 
 Please note that the Queues, Topics and Subscriptions should be created prior to using this library.
 
@@ -229,16 +229,14 @@ There are two ways of choosing which session to open:
 1. Specify a `sessionId`, which locks a named session.
 
    ```javascript
-   const receiver = await serviceBusClient.createSessionReceiver("my-session-queue", {
-     sessionId: "my-session"
-   });
+   const receiver = await serviceBusClient.acceptSession("my-session-queue", "my-session");
    ```
 
 2. Do not specify a session id. In this case Service Bus will find the next available session
    that is not already locked.
 
    ```javascript
-   const receiver = await serviceBusClient.createSessionReceiver("my-session-queue");
+   const receiver = await serviceBusClient.acceptNextSession("my-session-queue");
    ```
 
    You can find the name of the session via the `sessionId` property on the `SessionReceiver`.

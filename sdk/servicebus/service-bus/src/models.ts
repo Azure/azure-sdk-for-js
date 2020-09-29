@@ -165,15 +165,15 @@ export interface MessageHandlerOptions extends MessageHandlerOptionsBase {
 }
 
 /**
- * Describes the options passed to the `createSessionReceiver` method when using a Queue/Subscription that
- * has sessions enabled.
+ * Describes the options passed to the `acceptSession` and `acceptNextSession` methods
+ * when using a Queue/Subscription that has sessions enabled.
  *
  * @export
- * @interface CreateSessionReceiverOptions
+ * @interface AcceptSessionOptions
  * @extends {OperationOptionsBase}
  * @template ReceiveModeT
  */
-export interface CreateSessionReceiverOptions<ReceiveModeT extends ReceiveMode>
+export interface AcceptSessionOptions<ReceiveModeT extends ReceiveMode>
   extends OperationOptionsBase {
   /**
    * Represents the receive mode for the receiver.
@@ -195,11 +195,6 @@ export interface CreateSessionReceiverOptions<ReceiveModeT extends ReceiveMode>
    *
    */
   receiveMode?: ReceiveModeT;
-  /**
-   * @property The id of the session from which messages need to be received. If null or undefined is
-   * provided, Service Bus chooses a random session from available sessions.
-   */
-  sessionId?: string;
   /**
    * @property The maximum duration in milliseconds
    * until which, the lock on the session will be renewed automatically by the sdk.
