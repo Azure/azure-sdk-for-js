@@ -1,4 +1,4 @@
-import { ServiceBusClient, ServiceBusSender } from "@azure/service-bus";
+import { ServiceBusClient } from "@azure/service-bus";
 import { SBStressTestsBase } from "./stressTestsBase";
 // Load the .env file if it exists
 import * as dotenv from "dotenv";
@@ -36,7 +36,7 @@ export async function main() {
     while (elapsedTime < testDurationInMilliSeconds) {
       // TODO: args for maxMessageCount
       const messages = await stressBase.receiveMessages(receiver);
-      messages.map(async (msg) => await stressBase.renewMessageLock(msg));
+      messages.map((msg) => stressBase.renewMessageLock(msg));
       elapsedTime = new Date().valueOf() - startedAt.valueOf();
     }
   }
