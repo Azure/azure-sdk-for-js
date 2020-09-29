@@ -1,4 +1,5 @@
 import {
+  ServiceBusAdministrationClient,
   ServiceBusMessage,
   ServiceBusReceivedMessage,
   ServiceBusReceivedMessageWithLock,
@@ -29,13 +30,22 @@ export class SBStressTestsBase {
   messageLockRenewalTimers: NodeJS.Timer[] = [];
   renewalCount: { [key: string]: number } = {}; // key - messageId, value - number of renewals
 
+  // Queue Management
+  serviceBusAdministrationClient = new ServiceBusAdministrationClient(
+    process.env.SERVICEBUS_CONNECTION_STRING
+  );
+  queueName: string;
+
   constructor(
     snapshotIntervalInMs = 5000 //Snapshots are taken every 5s
   ) {
-    // TODO: Take queue name as input
-    // TODO: Add init to create a queue
     this.messagesSent = [];
     this.snapshotTimer = setInterval(this.snapshot.bind(this), snapshotIntervalInMs);
+  }
+
+  public async init() {
+    this.queueName = `unpartitioned-queue-${Math.ceil(Math.random() * 100000)}`;
+    await this.serviceBusAdministrationClient.createQueue(this.queueName);
   }
 
   public async sendMessages(senders: ServiceBusSender[], numberOfMessages = 10) {
@@ -127,10 +137,11 @@ export class SBStressTestsBase {
     console.log("\n");
   }
 
-  public end() {
+  public async end() {
     // TODO: Log errors in a file
     // TODO: Delete the queue at the end
     clearInterval(this.snapshotTimer);
     this.messageLockRenewalTimers.map((timer) => clearTimeout(timer));
+    await this.serviceBusAdministrationClient.deleteQueue(this.queueName);
   }
 }

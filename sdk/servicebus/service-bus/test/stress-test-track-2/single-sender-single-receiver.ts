@@ -6,16 +6,19 @@ dotenv.config();
 
 // Define connection string and related Service Bus entity names here
 const connectionString = process.env.SERVICEBUS_CONNECTION_STRING || "<connection string>";
-const queueName = process.env.QUEUE_NAME || "partitioned-queue";
 // TODO: Pass in as args to the file
 const testDurationInMilliSeconds = 60 * 60 * 1000; // 60 Minutes
 const startedAt = new Date();
 
 export async function main() {
-  const sbClient = new ServiceBusClient(connectionString);
-  const sender = sbClient.createSender(queueName);
-  const receiver = sbClient.createReceiver(queueName, { receiveMode: "receiveAndDelete" });
   const stressBase = new SBStressTestsBase();
+  const sbClient = new ServiceBusClient(connectionString);
+
+  await stressBase.init();
+  const sender = sbClient.createSender(stressBase.queueName);
+  const receiver = sbClient.createReceiver(stressBase.queueName, {
+    receiveMode: "receiveAndDelete"
+  });
 
   async function sendMessages() {
     let elapsedTime = new Date().valueOf() - startedAt.valueOf();
@@ -39,7 +42,7 @@ export async function main() {
   await Promise.all([sendMessages(), receiveMessages()]);
   await sbClient.close();
 
-  stressBase.end();
+  await stressBase.end();
 }
 
 main().catch((err) => {
