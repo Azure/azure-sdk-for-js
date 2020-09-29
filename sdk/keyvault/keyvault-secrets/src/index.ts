@@ -34,7 +34,7 @@ import {
   RestoreSecretResponse
 } from "./generated/models";
 import { KeyVaultClient } from "./generated/keyVaultClient";
-import { SDK_VERSION } from "./generated/utils/constants";
+import { SDK_VERSION } from "./constants";
 import { challengeBasedAuthenticationPolicy } from "../../keyvault-common/src";
 
 import { DeleteSecretPoller } from "./lro/delete/poller";
