@@ -15,7 +15,8 @@ import {
   WebResourceLike,
   URLBuilder,
   ServiceClient,
-  RequestPrepareOptions, RawHttpHeaders
+  RequestPrepareOptions,
+  RawHttpHeaders
 } from "@azure/core-http";
 import {
   DeleteTableEntityOptions,
@@ -25,7 +26,7 @@ import {
 } from "./models";
 import { TableClient } from "./TableClient";
 import { TablesSharedKeyCredentialLike } from "./TablesSharedKeyCredential";
-import { getAuthorizationHeader } from './TablesSharedKeyCredentialPolicy';
+import { getAuthorizationHeader } from "./TablesSharedKeyCredentialPolicy";
 import { HeaderConstants } from "./utils/constants";
 
 export interface TablesBatch {
@@ -132,7 +133,7 @@ export function createBatch(
 
       const request = new WebResource(batchUrl, "POST", body, undefined, new HttpHeaders(headers));
 
-      if( credential) {
+      if (credential) {
         const authHeader = getAuthorizationHeader(request, credential);
         request.headers.set("Authorization", authHeader);
       }

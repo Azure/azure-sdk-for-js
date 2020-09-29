@@ -71,7 +71,7 @@ export function getAuthorizationHeader(
   request: WebResourceLike,
   credential: TablesSharedKeyCredentialLike
 ) {
-  if(!request.headers.contains(HeaderConstants.X_MS_DATE)) {
+  if (!request.headers.contains(HeaderConstants.X_MS_DATE)) {
     request.headers.set(HeaderConstants.X_MS_DATE, new Date().toUTCString());
   }
 
