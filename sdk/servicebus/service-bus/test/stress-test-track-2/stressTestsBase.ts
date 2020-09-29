@@ -82,7 +82,7 @@ export class SBStressTestsBase {
     await this.serviceBusAdministrationClient.createQueue(this.queueName);
   }
 
-  public async sendMessages(senders: ServiceBusSender[], numberOfMessages = 10) {
+  public async sendMessages(senders: ServiceBusSender[], numberOfMessages = 1) {
     for (const sender of senders) {
       try {
         const messages: ServiceBusMessage[] = [];
@@ -91,6 +91,7 @@ export class SBStressTestsBase {
         }
         await sender.sendMessages(messages);
         this.sendInfo.numberOfSuccessfulSends++;
+        this.messagesSent = this.messagesSent.concat(messages);
       } catch (error) {
         this.sendInfo.numberOfFailedSends++;
         this.sendInfo.errorsInSending.push(error);
@@ -201,7 +202,6 @@ export class SBStressTestsBase {
     for (const id in this.messageLockRenewalInfo.messageLockRenewalTimers) {
       clearTimeout(this.messageLockRenewalInfo.messageLockRenewalTimers[id]);
     }
-
     await this.serviceBusAdministrationClient.deleteQueue(this.queueName);
   }
 }
