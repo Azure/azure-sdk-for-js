@@ -195,6 +195,8 @@ export class SBStressTestsBase {
   public async end() {
     // TODO: Log errors in a file
     // TODO: Delete the queue at the end
+    // TODO: Have a copy of sentMessages and match them with receivedMessages, have the message-id's in the logged file maybe
+    // TODO: Add an argument to "end()" to not delete the resource
     clearInterval(this.snapshotTimer);
     for (const id in this.messageLockRenewalInfo.messageLockRenewalTimers) {
       clearTimeout(this.messageLockRenewalInfo.messageLockRenewalTimers[id]);
