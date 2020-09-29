@@ -15,11 +15,21 @@ trigger: none
 # e.g values: 'latest', 'next'
 
 parameters:
-  TaskType: ''
-  PackageName: ''
-  PkgVersion: ''
-  TagName: ''
-  Reason: ''
+  - name: TaskType
+    type: string
+    default: not-specified
+  - name: PackageName
+    type: string
+    default: not-specified
+  - name: PkgVersion
+    type: string
+    default: not-specified
+  - name: TagName
+    type: string
+    default: ''
+  - name: Reason
+    type: string
+    default: ''
 
 jobs:
 - job: 'NPM_Admin_Job'
