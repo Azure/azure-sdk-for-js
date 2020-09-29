@@ -40,7 +40,7 @@ parameters:
     default: ''
 
   - name: Reason
-    displayName: Reason (Required only for DeprecatePackage Task)
+    displayName: Reason
     type: string
     default: ''
 
