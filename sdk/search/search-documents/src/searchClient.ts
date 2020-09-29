@@ -48,7 +48,7 @@ import { odataMetadataPolicy } from "./odataMetadataPolicy";
 import { IndexDocumentsBatch } from "./indexDocumentsBatch";
 import { encode, decode } from "./base64";
 import * as utils from "./serviceUtils";
-import {SearchIndexingBufferedSender} from ".";
+import { SearchIndexingBufferedSender } from ".";
 
 /**
  * Client options used to configure Cognitive Search API requests.
@@ -618,7 +618,9 @@ export class SearchClient<T> {
     }
   }
 
-  public getSearchIndexingBufferedSenderInstance(options: SearchIndexingBufferedSenderOptions = {}): SearchIndexingBufferedSender<T> {
+  public getSearchIndexingBufferedSenderInstance(
+    options: SearchIndexingBufferedSenderOptions = {}
+  ): SearchIndexingBufferedSender<T> {
     return new SearchIndexingBufferedSender(this, options);
   }
 

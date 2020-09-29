@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 export { SearchClient, SearchClientOptions } from "./searchClient";
-export {SearchIndexingBufferedSender} from "./searchIndexingBufferedSender";
+export { SearchIndexingBufferedSender } from "./searchIndexingBufferedSender";
 export {
   AutocompleteRequest,
   AutocompleteOptions,

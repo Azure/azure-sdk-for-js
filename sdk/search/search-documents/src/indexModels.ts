@@ -30,9 +30,9 @@ export type SearchOptions<Fields> = OperationOptions & SearchRequestOptions<Fiel
 export type SuggestOptions<Fields> = OperationOptions & SuggestRequest<Fields>;
 
 export interface SearchIndexingBufferedSenderOptions {
-  autoFlush?:boolean;
-  flushWindowInMs?:number;
-  batchSize?:number; 
+  autoFlush?: boolean;
+  flushWindowInMs?: number;
+  batchSize?: number;
 }
 
 export type SearchIndexingBufferedSenderUploadDocumentsOptions = OperationOptions;
