@@ -58,6 +58,13 @@ export interface TableBatchResponse {
   getResponseForEntity: () => HttpResponse;
 }
 
+/**
+ * Creates a new Batch to collect sub-operations that can be submitted together via submitBatch
+ * @param url Tables account url
+ * @param tableName name of the table to target the operations
+ * @param partitionKey partition key
+ * @param credential credential to authenticate the batch request
+ */
 export function createBatch(
   url: string,
   tableName: string,
@@ -66,19 +73,26 @@ export function createBatch(
 ): TablesBatch {
   const batchGuid = generateUuid();
   const batchRequest = createInnerBatchRequest(batchGuid);
+
+  // Creates the pipeline that would intercept the requests
   const pipeline = batchRequest.createPipeline();
+
+  // Client used to intercept the requests and add them to the batch instead of sending them to the service
   const interceptClient: TableClient = new TableClient(url, tableName, {
     requestPolicyFactories: pipeline
   });
 
   let batchUrl = url;
 
+  // Depending on the auth method used we need to build the url
   if (!credential) {
+    // When authenticating with SAS we need to add the SAS token after $batch
     const urlParts = url.split("?");
     const baseUrl = urlParts[0];
-    const sas = urlParts.length > 1 ? urlParts[1] : "";
-    batchUrl = `${baseUrl}/$batch?${sas}`;
+    const sas = urlParts.length > 1 ? `?${urlParts[1]}` : "";
+    batchUrl = `${baseUrl}/$batch${sas}`;
   } else {
+    // When using a SharedKey credential no SAS token is needed
     batchUrl = `${batchUrl}/$batch`;
   }
 
@@ -153,6 +167,10 @@ export function createBatch(
   };
 }
 
+/**
+ * This method creates a batch request object that provides functions to build the envelope and body for a batch request
+ * @param batchGuid Id of the batch
+ */
 function createInnerBatchRequest(batchGuid: string) {
   const HTTP_LINE_ENDING = "\r\n";
   const HTTP_VERSION_1_1 = "HTTP/1.1";
@@ -195,7 +213,7 @@ function createInnerBatchRequest(batchGuid: string) {
         this.body += `${header.name}: ${header.value}${HTTP_LINE_ENDING}`;
       }
 
-      this.body += `${HTTP_LINE_ENDING}${request.body}${HTTP_LINE_ENDING}`; // sub request's headers need be ending with an empty line
+      this.body += `${HTTP_LINE_ENDING}${request.body}${HTTP_LINE_ENDING}`; // sub request's headers need end with an empty line
       this.operationCount++;
     },
     getHttpRequestBody(): string {
