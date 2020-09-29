@@ -6,11 +6,14 @@ import {
   ServiceBusSender
 } from "@azure/service-bus";
 
+// TODO: Add readme describing the scenarios and the commands to run the specific scenario
+// (along with the args to pass in for the sample/program)
 export class SBStressTestsBase {
   messagesSent: ServiceBusMessage[] = [];
   messagesReceived: ServiceBusMessage[] = [];
   snapshotTimer: NodeJS.Timer;
   startedAt: Date | undefined;
+  // TODO: Group the metrics and take snapshot options from the sample to customize logging
   // Send metrics
   numberOfSuccessfulSends = 0;
   numberOfFailedSends = 0;
@@ -29,6 +32,8 @@ export class SBStressTestsBase {
   constructor(
     snapshotIntervalInMs = 5000 //Snapshots are taken every 5s
   ) {
+    // TODO: Take queue name as input
+    // TODO: Add init to create a queue
     this.messagesSent = [];
     this.snapshotTimer = setInterval(this.snapshot.bind(this), snapshotIntervalInMs);
   }
@@ -55,6 +60,7 @@ export class SBStressTestsBase {
     maxMsgCount = 10
   ): Promise<ReceivedMessageT[]> {
     try {
+      // Make maxWaitTime an argument
       const messages = await receiver.receiveMessages(maxMsgCount, {
         maxWaitTimeInMs: 10000
       });
@@ -69,6 +75,7 @@ export class SBStressTestsBase {
   }
 
   public async renewMessageLock(message: ServiceBusReceivedMessageWithLock) {
+    // TODO: pass in max number of lock renewals? and add settlement at the end of max??
     this.messageLockRenewalTimers.push(
       setTimeout(async () => {
         try {
@@ -88,6 +95,8 @@ export class SBStressTestsBase {
   }
 
   public snapshot(): void {
+    // TODO: Save to a file as a table
+    // TODO: Log all the output to a file too
     if (!this.startedAt) this.startedAt = new Date();
     console.log("Time : ", new Date());
     const elapsedTimeInSeconds = (new Date().valueOf() - this.startedAt.valueOf()) / 1000;
@@ -119,6 +128,8 @@ export class SBStressTestsBase {
   }
 
   public end() {
+    // TODO: Log errors in a file
+    // TODO: Delete the queue at the end
     clearInterval(this.snapshotTimer);
     this.messageLockRenewalTimers.map((timer) => clearTimeout(timer));
   }
