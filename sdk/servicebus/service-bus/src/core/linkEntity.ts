@@ -180,7 +180,7 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
    * @param options Options that can be provided while creating the LinkEntity.
    */
   constructor(
-    name: string,
+    public entityPath: string,
     context: ConnectionContext,
     private _linkType: LinkTypeT<LinkT>,
     options?: LinkEntityOptions
@@ -189,7 +189,7 @@ export abstract class LinkEntity<LinkT extends Receiver | AwaitableSender | Requ
     this._context = context;
     this.address = options.address || "";
     this.audience = options.audience || "";
-    this.name = getUniqueName(name);
+    this.name = getUniqueName(entityPath);
     this._logPrefix = `[${context.connectionId}|${this._linkType}:${this.name}]`;
   }
 
