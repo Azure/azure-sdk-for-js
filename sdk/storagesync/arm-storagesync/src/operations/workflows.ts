@@ -153,7 +153,8 @@ const listByStorageSyncServiceOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.WorkflowsListByStorageSyncServiceHeaders
     },
     default: {
-      bodyMapper: Mappers.StorageSyncError
+      bodyMapper: Mappers.StorageSyncError,
+      headersMapper: Mappers.WorkflowsListByStorageSyncServiceHeaders
     }
   },
   serializer
@@ -180,7 +181,8 @@ const getOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.WorkflowsGetHeaders
     },
     default: {
-      bodyMapper: Mappers.StorageSyncError
+      bodyMapper: Mappers.StorageSyncError,
+      headersMapper: Mappers.WorkflowsGetHeaders
     }
   },
   serializer
@@ -206,7 +208,8 @@ const abortOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.WorkflowsAbortHeaders
     },
     default: {
-      bodyMapper: Mappers.StorageSyncError
+      bodyMapper: Mappers.StorageSyncError,
+      headersMapper: Mappers.WorkflowsAbortHeaders
     }
   },
   serializer

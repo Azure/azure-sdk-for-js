@@ -96,7 +96,8 @@ const listOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.OperationsListHeaders
     },
     default: {
-      bodyMapper: Mappers.StorageSyncError
+      bodyMapper: Mappers.StorageSyncError,
+      headersMapper: Mappers.OperationsListHeaders
     }
   },
   serializer
@@ -118,7 +119,8 @@ const listNextOperationSpec: msRest.OperationSpec = {
       headersMapper: Mappers.OperationsListHeaders
     },
     default: {
-      bodyMapper: Mappers.StorageSyncError
+      bodyMapper: Mappers.StorageSyncError,
+      headersMapper: Mappers.OperationsListHeaders
     }
   },
   serializer
