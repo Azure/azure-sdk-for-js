@@ -15,7 +15,7 @@ import {
   WebResourceLike,
   URLBuilder,
   ServiceClient,
-  RequestPrepareOptions
+  RequestPrepareOptions, RawHttpHeaders
 } from "@azure/core-http";
 import {
   DeleteTableEntityOptions,
@@ -25,6 +25,7 @@ import {
 } from "./models";
 import { TableClient } from "./TableClient";
 import { TablesSharedKeyCredentialLike } from "./TablesSharedKeyCredential";
+import { getAuthorizationHeader } from './TablesSharedKeyCredentialPolicy';
 import { HeaderConstants } from "./utils/constants";
 
 export interface TablesBatch {
@@ -76,6 +77,8 @@ export function createBatch(
     const baseUrl = urlParts[0];
     const sas = urlParts.length > 1 ? urlParts[1] : "";
     batchUrl = `${baseUrl}/$batch?${sas}`;
+  } else {
+    batchUrl = `${batchUrl}/$batch`;
   }
 
   return {
@@ -117,19 +120,27 @@ export function createBatch(
     async submitBatch(): Promise<any> {
       const body = batchRequest.getHttpRequestBody();
       const client = new ServiceClient();
+      const headers: RawHttpHeaders = {
+        accept: "application/json",
+        "x-ms-version": "2019-02-02",
+        "Accept-Charset": "UTF-8",
+        DataServiceVersion: "3.0;",
+        MaxDataServiceVersion: "3.0;NetFx",
+        "Content-Type": `multipart/mixed; boundary=batch_${batchGuid}`,
+        Connection: "Keep-Alive"
+      };
+
+      const request = new WebResource(batchUrl, "POST", body, undefined, new HttpHeaders(headers));
+
+      if( credential) {
+        const authHeader = getAuthorizationHeader(request, credential);
+        request.headers.set("Authorization", authHeader);
+      }
+
       const requestOptions: RequestPrepareOptions = {
         method: "POST",
         url: batchUrl,
-        headers: {
-          accept: "application/json",
-          "x-ms-version": "2019-02-02",
-          "Accept-Charset": "UTF-8",
-          DataServiceVersion: "3.0;",
-          MaxDataServiceVersion: "3.0;NetFx",
-          "Content-Type": `multipart/mixed; boundary=batch_${batchGuid}`,
-          "x-ms-date": new Date(),
-          Connection: "Keep-Alive"
-        },
+        headers: request.headers.rawHeaders(),
         body,
         disableJsonStringifyOnBody: true
       };

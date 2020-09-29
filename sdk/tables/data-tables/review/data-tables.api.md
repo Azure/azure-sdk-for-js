@@ -558,7 +558,7 @@ export interface TablesSharedKeyCredentialLike extends RequestPolicyFactory {
 export class TablesSharedKeyCredentialPolicy extends BaseRequestPolicy {
     constructor(nextPolicy: RequestPolicy, options: RequestPolicyOptionsLike, credential: TablesSharedKeyCredentialLike);
     sendRequest(request: WebResourceLike): Promise<HttpOperationResponse>;
-    protected signRequest(request: WebResourceLike): WebResource;
+    signRequest(request: WebResourceLike): WebResource;
 }
 
 // @public
