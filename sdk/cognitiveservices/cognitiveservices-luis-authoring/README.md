@@ -38,7 +38,7 @@ let authoringKey = process.env["luis-authoring-key"];
 const creds = new CognitiveServicesCredentials(authoringKey);
 
 // check the following link to find your region
-// https://docs.microsoft.com/en-us/azure/cognitive-services/luis/luis-reference-regions
+// https://docs.microsoft.com/azure/cognitive-services/luis/luis-reference-regions
 const region = "<your-region>";
 const client = new LUISAuthoringClient(
   creds,

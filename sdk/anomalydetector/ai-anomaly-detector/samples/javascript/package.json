@@ -24,8 +24,8 @@
   "homepage": "https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/anomalydetector/ai-anomaly-detector",
   "sideEffects": false,
   "dependencies": {
-    "@azure/ai-anomaly-detector": "../..",
-    "@azure/identity": "latest",
+    "@azure/ai-anomaly-detector": "latest",
+    "csv-parse": "^4.4.0",
     "dotenv": "^8.2.0"
   }
 }

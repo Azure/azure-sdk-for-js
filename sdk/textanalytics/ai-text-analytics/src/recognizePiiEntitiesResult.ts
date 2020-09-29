@@ -31,6 +31,10 @@ export interface RecognizePiiEntitiesSuccessResult extends TextAnalyticsSuccessR
    * The collection of entities identified in the input document.
    */
   readonly entities: PiiEntity[];
+  /**
+   * The text redacted.
+   */
+  redactedText: string;
 }
 
 /**
@@ -41,15 +45,11 @@ export type RecognizePiiEntitiesErrorResult = TextAnalyticsErrorResult;
 export function makeRecognizePiiEntitiesResult(
   document: RecognizePiiEntitiesSuccessResult
 ): RecognizePiiEntitiesSuccessResult {
-  const {
-    id,
-    entities,
-    warnings,
-    statistics
-  } = document;
+  const { id, entities, warnings, statistics, redactedText } = document;
   return {
     ...makeTextAnalyticsSuccessResult(id, warnings, statistics),
-    entities
+    entities,
+    redactedText
   };
 }
 

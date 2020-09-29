@@ -45,7 +45,6 @@ export interface AspectConfidenceScoreLabel {
 // @public
 export interface AspectSentiment {
     confidenceScores: AspectConfidenceScoreLabel;
-    length: number;
     offset: number;
     sentiment: TokenSentimentValue;
     text: string;
@@ -100,7 +99,6 @@ export type DocumentSentimentLabel = "positive" | "neutral" | "negative" | "mixe
 export interface Entity {
     category: string;
     confidenceScore: number;
-    length: number;
     offset: number;
     subCategory?: string;
     text: string;
@@ -137,6 +135,7 @@ export type InnerErrorCodeValue = "InvalidParameterValue" | "InvalidRequestBodyF
 
 // @public
 export interface LinkedEntity {
+    bingEntitySearchApiId?: string;
     dataSource: string;
     dataSourceEntityId?: string;
     language: string;
@@ -148,7 +147,6 @@ export interface LinkedEntity {
 // @public
 export interface Match {
     confidenceScore: number;
-    length: number;
     offset: number;
     text: string;
 }
@@ -165,6 +163,11 @@ export interface OpinionSentiment extends SentenceOpinion {
 
 // @public
 export interface PiiEntity extends Entity {
+}
+
+// @public
+export enum PiiEntityDomainType {
+    PROTECTED_HEALTH_INFORMATION = "PHI"
 }
 
 // @public
@@ -211,7 +214,9 @@ export interface RecognizeLinkedEntitiesSuccessResult extends TextAnalyticsSucce
 export type RecognizePiiEntitiesErrorResult = TextAnalyticsErrorResult;
 
 // @public
-export type RecognizePiiEntitiesOptions = TextAnalyticsOperationOptions;
+export interface RecognizePiiEntitiesOptions extends TextAnalyticsOperationOptions {
+    domainFilter?: PiiEntityDomainType;
+}
 
 // @public
 export type RecognizePiiEntitiesResult = RecognizePiiEntitiesSuccessResult | RecognizePiiEntitiesErrorResult;
@@ -225,13 +230,13 @@ export interface RecognizePiiEntitiesResultArray extends Array<RecognizePiiEntit
 // @public
 export interface RecognizePiiEntitiesSuccessResult extends TextAnalyticsSuccessResult {
     readonly entities: PiiEntity[];
+    redactedText: string;
 }
 
 // @public (undocumented)
 export interface SentenceOpinion {
     confidenceScores: AspectConfidenceScoreLabel;
     isNegated: boolean;
-    length: number;
     offset: number;
     sentiment: TokenSentimentValue;
     text: string;
@@ -240,7 +245,6 @@ export interface SentenceOpinion {
 // @public
 export interface SentenceSentiment {
     confidenceScores: SentimentConfidenceScores;
-    length: number;
     minedOpinions: MinedOpinion[];
     offset: number;
     sentiment: SentenceSentimentLabel;

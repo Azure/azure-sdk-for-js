@@ -1,6 +1,6 @@
 # Azure Event Grid client library for JavaScript
 
-[Azure Event Grid](https://azure.microsoft.com/en-us/services/event-grid/) is a cloud-based service that provides reliable event delivery at massive scale.
+[Azure Event Grid](https://azure.microsoft.com/services/event-grid/) is a cloud-based service that provides reliable event delivery at massive scale.
 
 Use the client library to:
 
@@ -9,9 +9,9 @@ Use the client library to:
 - Generate Shared Access Signatures for Event Grid topics
 
 [Source code](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/eventgrid/eventgrid/) |
-[Package (NPM)](https://www.npmjs.com/package/@azure/eventgrid) |
+[Package (NPM)](https://www.npmjs.com/package/@azure/eventgrid/v/next) |
 [API reference documentation](https://aka.ms/azsdk-js-eventgrid-ref-docs) |
-[Product documentation](https://docs.microsoft.com/en-us/azure/event-grid/) |
+[Product documentation](https://docs.microsoft.com/azure/event-grid/) |
 [Samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/eventgrid/eventgrid/samples)
 
 ## Getting started
@@ -256,5 +256,5 @@ If you'd like to contribute to this library, please read the [contributing guide
 
 [azure_cli]: https://docs.microsoft.com/cli/azure
 [azure_sub]: https://azure.microsoft.com/free/
-[event_grid]: https://docs.microsoft.com/en-us/azure/event-grid
+[event_grid]: https://docs.microsoft.com/azure/event-grid
 [azure_portal]: https://portal.azure.com

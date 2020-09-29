@@ -1,14 +1,32 @@
 # Release History
 
-## 7.0.0-preview.6 (Unreleased)
+## 7.0.0-preview.7 (Unreleased)
+
+### New features:
+
+- Options to create/update a queue, topic and subscription now support `availabilityStatus` property. `availabilityStatus` indicates the status of entity availability. Possible values are: Available, Limited, Renaming, Restoring and Unknown.
+  [PR 11152](https://github.com/Azure/azure-sdk-for-js/pull/11152)
+- `ServiceBusClient` now supports authentication with AAD credentials in the browser(can use `InteractiveBrowserCredential` from `@azure/identity`).
+  [PR 11250](https://github.com/Azure/azure-sdk-for-js/pull/11250)
+
+### Breaking changes
+
+- `ServiceBusClient.createSessionReceiver` has been split into two methods:
+  - `acceptSession`, which opens a session by name
+  - `acceptNextSession`, which opens the next available session, determined by Service Bus.
+  - as part of this `CreateSessionReceiverOptions` has been renamed to `AcceptSessionReceiverOptions` to conform to guidelines.
+
+## 7.0.0-preview.6 (2020-09-10)
 
 ### New features:
 
 - Support using the SharedAccessSignature from the connection string.
-  ([PR 10951](https://github.com/Azure/azure-sdk-for-js/pull/10951)).
+  [PR 10951](https://github.com/Azure/azure-sdk-for-js/pull/10951)
 - Added a new field `amqpAnnotatedMessage` to the received message which will hold the received
   message in its raw form, complete with all parts of the message as per the [AMQP spec](https://www.amqp.org/sites/amqp.org/files/amqp.pdf).
 - Added `ServiceBusAdministrationClient.ruleExists()`
+- Options to create a queue and topic now support `enableExpress` boolean property. `enableExpress` indicates whether Express Entities are enabled on a queue or topic. An express queue holds a message in memory temporarily before writing it to persistent storage.
+  [PR 10984](https://github.com/Azure/azure-sdk-for-js/pull/10984)
 
 ### Breaking Changes
 
@@ -30,7 +48,7 @@
 
 - The `ServiceBusManagementClient` has been renamed to `ServiceBusAdministrationClient`. See
   [Issue 11012](https://github.com/Azure/azure-sdk-for-js/issues/11012) for more details.
-- All senders and receivers are now prefixed with `ServiceBus`: `ServiceBusSender`, `ServiceBusReceiver`, `ServiceBusSessionReceiver`
+- Sender, Receivers and the ReceivedMessage interfaces are now prefixed with `ServiceBus`: `ServiceBusSender`, `ServiceBusReceiver`, `ServiceBusSessionReceiver`, `ServiceBusReceivedMessage` and `ServiceBusReceivedMessageWithLock`.
 - Lock duration fields for receivers have been renamed to apply to message locks and session locks:
   - `maxMessageAutoRenewLockDurationInMs` to `maxAutoRenewLockDurationInMs`
   - `autoRenewLockDurationInMs` -> `maxAutoRenewLockDurationInMs`

@@ -3,4 +3,8 @@
 
 export * from "./accessControlClient";
 export * from "./accessControlModels";
+
+export * from "./backupClient";
+export * from "./backupClientModels";
+
 export * from "./constants";

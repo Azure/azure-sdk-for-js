@@ -54,7 +54,7 @@ npx cross-env ENDPOINT="<endpoint>" API_KEY="<api key>" node schemaRegistrySampl
 
 Take a look at our [API Documentation][apiref] for more information about the APIs that are available in the clients.
 
-[schemaregistrysample]: ./schemaRegistrySample.js
+[schemaregistrysample]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/schemaregistry/schema-registry/samples/javascript/schemaRegistrySample.js
 [apiref]: https://docs.microsoft.com/javascript/api
 [freesub]: https://azure.microsoft.com/free/
-[package]: ../../README.md
+[package]: https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/schemaregistry/schema-registry/README.md

@@ -60,7 +60,7 @@ module.exports = function(config) {
       "EVENT_GRID_CUSTOM_SCHEMA_ENDPOINT",
       "EVENT_GRID_CUSTOM_SCHEMA_API_KEY",
       "EVENT_GRID_CLOUD_EVENT_SCHEMA_ENDPOINT",
-      "EVENT_GRID_CLOUD_EVENT_SCHEMA_API_KEY",
+      "EVENT_GRID_CLOUD_EVENT_SCHEMA_API_KEY"
     ],
 
     // test results reporter to use

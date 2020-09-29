@@ -39,7 +39,7 @@ export function makeAnalyzeSentimentResultArray(
   const unsortedResult = documents
     .map(
       (document): AnalyzeSentimentResult => {
-        return makeAnalyzeSentimentResult(document, response);
+        return makeAnalyzeSentimentResult(document);
       }
     )
     .concat(

@@ -2,7 +2,7 @@
   "name": "azure-storage-blob-samples-js",
   "private": true,
   "version": "0.1.0",
-  "description": "Azure Storage Blob client library samples for TypeScript",
+  "description": "Azure Storage Blob client library samples for JavaScript",
   "engine": {
     "node": ">=8.0.0"
   },

@@ -1,6 +1,9 @@
 # Release History
 
-## 4.1.1 (Unreleased)
+## 4.2.0-beta.2 (Unreleased)
+
+
+## 4.2.0-beta.1 (2020-09-11)
 
 - Added `parseKeyVaultKeysIdentifier` and `ParsedKeyVaultKeysIdentifier` to help with parsing the unique identifiers of Key Vault Keys.
 - Added the basic structure of a new client to perform local cryptography operations, which is now called `LocalCryptographyClient`.  

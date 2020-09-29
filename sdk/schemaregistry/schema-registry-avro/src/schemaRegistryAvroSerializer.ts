@@ -180,7 +180,7 @@ export class SchemaRegistryAvroSerializer {
   }
 
   private async getSchemaByContent(schema: string): Promise<CacheEntry> {
-    let cached = this.cacheByContent.get(schema);
+    const cached = this.cacheByContent.get(schema);
     if (cached) {
       return cached;
     }

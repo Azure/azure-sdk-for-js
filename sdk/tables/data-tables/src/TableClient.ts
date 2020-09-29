@@ -28,6 +28,7 @@ import {
 import { QueryOptions as GeneratedQueryOptions } from "./generated/models";
 import { getClientParamsFromConnectionString } from "./utils/connectionString";
 import { TablesSharedKeyCredential } from "./TablesSharedKeyCredential";
+import "@azure/core-paging";
 import { PagedAsyncIterableIterator } from "@azure/core-paging";
 import { GeneratedClient, TableDeleteEntityOptionalParams } from "./generated";
 import { deserialize, deserializeObjectsArray, serialize } from "./serialization";
@@ -76,7 +77,6 @@ export class TableClient {
     url: string,
     tableName: string,
     credential: TablesSharedKeyCredential,
-    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options?: TableClientOptions
   );
   /**
@@ -102,13 +102,11 @@ export class TableClient {
    * ```
    */
 
-  // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
   constructor(url: string, tableName: string, options?: TableClientOptions);
   constructor(
     url: string,
     tableName: string,
     credentialOrOptions?: TablesSharedKeyCredential | TableClientOptions,
-    // eslint-disable-next-line @azure/azure-sdk/ts-naming-options
     options: TableClientOptions = {}
   ) {
     const credential =
@@ -460,7 +458,7 @@ export class TableClient {
         return this.table.updateEntity(this.tableName, entity.partitionKey, entity.rowKey, {
           tableEntityProperties: serialize(entity),
           queryOptions: this.convertQueryOptions(queryOptions || {}),
-          ...upsertOptions,
+          ...upsertOptions
         });
       }
       throw new Error(`Unexpected value for update mode: ${mode}`);

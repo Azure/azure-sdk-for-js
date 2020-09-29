@@ -15,11 +15,11 @@ import { ConnectionContext } from "../connectionContext";
 import {
   getAlreadyReceivingErrorMsg,
   getReceiverClosedErrorMsg,
+  logError,
   throwErrorIfConnectionClosed,
   throwTypeErrorIfParameterMissing,
   throwTypeErrorIfParameterNotLong
 } from "../util/errors";
-import * as log from "../log";
 import { OnError, OnMessage, ReceiveOptions } from "../core/messageReceiver";
 import { StreamingReceiver } from "../core/streamingReceiver";
 import { BatchingReceiver } from "../core/batchingReceiver";
@@ -173,7 +173,7 @@ export class ServiceBusReceiverImpl<
     if (this._isReceivingMessages()) {
       const errorMessage = getAlreadyReceivingErrorMsg(this.entityPath);
       const error = new Error(errorMessage);
-      log.error(`[${this._context.connectionId}] %O`, error);
+      logError(error, `[${this._context.connectionId}] %O`, error);
       throw error;
     }
   }
@@ -183,7 +183,7 @@ export class ServiceBusReceiverImpl<
     if (this.isClosed) {
       const errorMessage = getReceiverClosedErrorMsg(this.entityPath);
       const error = new Error(errorMessage);
-      log.error(`[${this._context.connectionId}] %O`, error);
+      logError(error, `[${this._context.connectionId}] %O`, error);
       throw error;
     }
   }
@@ -462,7 +462,8 @@ export class ServiceBusReceiverImpl<
         }
       }
     } catch (err) {
-      log.error(
+      logError(
+        err,
         "[%s] An error occurred while closing the Receiver for %s: %O",
         this._context.connectionId,
         this.entityPath,

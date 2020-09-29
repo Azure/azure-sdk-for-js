@@ -42,7 +42,7 @@ describe("Sender Tests", () => {
 
   async function beforeEachTest(entityType: TestClientType): Promise<void> {
     entityName = await serviceBusClient.test.createTestEntities(entityType);
-    receiver = await serviceBusClient.test.getPeekLockReceiver(entityName);
+    receiver = await serviceBusClient.test.createPeekLockReceiver(entityName);
 
     sender = serviceBusClient.test.addToCleanup(
       serviceBusClient.createSender(entityName.queue ?? entityName.topic!)
@@ -288,7 +288,7 @@ describe("Sender Tests", () => {
       { body: "Hello, again!" },
       { body: "Hello, again and again!!" }
     ];
-    let [result1, result2, result3] = await Promise.all([
+    const [result1, result2, result3] = await Promise.all([
       // Schedule messages in parallel
       sender.scheduleMessages(date, messages[0]),
       sender.scheduleMessages(date, messages[1]),
@@ -380,10 +380,14 @@ describe("Sender Tests", () => {
 });
 
 describe("ServiceBusMessage validations", function(): void {
-  const sbClient = new ServiceBusClient(
-    "Endpoint=sb://a;SharedAccessKeyName=b;SharedAccessKey=c;EntityPath=d"
-  );
-  const sender = sbClient.createSender("dummyQueue");
+  let sbClient: ServiceBusClient;
+  let sender: ServiceBusSender;
+
+  before(() => {
+    sbClient = new ServiceBusClient("Endpoint=sb://a;SharedAccessKeyName=b;SharedAccessKey=c;");
+    sender = sbClient.createSender("dummyQueue");
+  });
+
   const longString =
     "A very very very very very very very very very very very very very very very very very very very very very very very very very long string.";
 

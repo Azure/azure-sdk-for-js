@@ -1,7 +1,11 @@
 # Release History
 
-## 1.1.8 (Unreleased)
+## 1.1.9 (Unreleased)
 
+
+## 1.1.8 (2020-09-08)
+
+- `URLQuery` parsing now accepts `=` in query parameter values and no longer drops such query parameter name/value pairs. This fixes [issue 11014](https://github.com/Azure/azure-sdk-for-js/issues/11014)
 
 ## 1.1.7 (2020-09-02)
 

@@ -773,6 +773,76 @@ export const ServerConfigurationsManagementSettings: msRest.CompositeMapper = {
   }
 };
 
+export const SQLStorageSettings: msRest.CompositeMapper = {
+  serializedName: "SQLStorageSettings",
+  type: {
+    name: "Composite",
+    className: "SQLStorageSettings",
+    modelProperties: {
+      luns: {
+        serializedName: "luns",
+        type: {
+          name: "Sequence",
+          element: {
+            type: {
+              name: "Number"
+            }
+          }
+        }
+      },
+      defaultFilePath: {
+        serializedName: "defaultFilePath",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
+export const StorageConfigurationSettings: msRest.CompositeMapper = {
+  serializedName: "StorageConfigurationSettings",
+  type: {
+    name: "Composite",
+    className: "StorageConfigurationSettings",
+    modelProperties: {
+      sqlDataSettings: {
+        serializedName: "sqlDataSettings",
+        type: {
+          name: "Composite",
+          className: "SQLStorageSettings"
+        }
+      },
+      sqlLogSettings: {
+        serializedName: "sqlLogSettings",
+        type: {
+          name: "Composite",
+          className: "SQLStorageSettings"
+        }
+      },
+      sqlTempDbSettings: {
+        serializedName: "sqlTempDbSettings",
+        type: {
+          name: "Composite",
+          className: "SQLStorageSettings"
+        }
+      },
+      diskConfigurationType: {
+        serializedName: "diskConfigurationType",
+        type: {
+          name: "String"
+        }
+      },
+      storageWorkloadType: {
+        serializedName: "storageWorkloadType",
+        type: {
+          name: "String"
+        }
+      }
+    }
+  }
+};
+
 export const SqlVirtualMachine: msRest.CompositeMapper = {
   serializedName: "SqlVirtualMachine",
   type: {
@@ -863,6 +933,13 @@ export const SqlVirtualMachine: msRest.CompositeMapper = {
         type: {
           name: "Composite",
           className: "ServerConfigurationsManagementSettings"
+        }
+      },
+      storageConfigurationSettings: {
+        serializedName: "properties.storageConfigurationSettings",
+        type: {
+          name: "Composite",
+          className: "StorageConfigurationSettings"
         }
       }
     }

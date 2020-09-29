@@ -24,7 +24,7 @@ npm install @azure/ms-rest-azure-js
 ```
 
 ##### Sample code
-The following sample performs a visual search, i.e. perform a search with a image. To know more, refer to the [Azure Documentation on Bing Visual Search](https://docs.microsoft.com/en-us/azure/cognitive-services/bing-visual-search/).
+The following sample performs a visual search, i.e. perform a search with a image. To know more, refer to the [Azure Documentation on Bing Visual Search](https://docs.microsoft.com/azure/cognitive-services/bing-visual-search/).
 
 ```javascript
 const { VisualSearchClient } = require("@azure/cognitiveservices-visualsearch");

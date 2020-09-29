@@ -2,11 +2,17 @@
 // Licensed under the MIT license.
 
 /* eslint-disable no-invalid-this */
-import {isPlaybackMode, record, Recorder} from "@azure/test-utils-recorder";
-import {assert} from "chai";
-import {SearchIndexClient, SearchIndexerClient, SearchIndexerDataSourceConnection, SearchIndexerSkillset, SearchIndexer} from "../../src/index";
-import {Hotel} from "../utils/interfaces";
-import {createClients, environmentSetup} from "../utils/recordedClient";
+import { isPlaybackMode, record, Recorder, isLiveMode } from "@azure/test-utils-recorder";
+import { assert } from "chai";
+import {
+  SearchIndexClient,
+  SearchIndexerClient,
+  SearchIndexerDataSourceConnection,
+  SearchIndexerSkillset,
+  SearchIndexer
+} from "../../src/index";
+import { Hotel } from "../utils/interfaces";
+import { createClients, environmentSetup } from "../utils/recordedClient";
 import {
   createIndex,
   createDataSourceConnections,
@@ -15,11 +21,12 @@ import {
   deleteSkillsets,
   createIndexers,
   deleteIndexers,
-  WAIT_TIME
+  WAIT_TIME,
+  createRandomIndexName
 } from "../utils/setup";
 import { delay } from "@azure/core-http";
 
-const TEST_INDEX_NAME = "hotel-live-test2";
+const TEST_INDEX_NAME = isLiveMode() ? createRandomIndexName() : "hotel-live-test2";
 
 describe("SearchIndexerClient", function() {
   let recorder: Recorder;
@@ -35,13 +42,12 @@ describe("SearchIndexerClient", function() {
       await createSkillsets(indexerClient);
       await createIndex(indexClient, TEST_INDEX_NAME);
       await delay(5000);
-      await createIndexers(indexerClient);
+      await createIndexers(indexerClient, TEST_INDEX_NAME);
     }
     recorder = record(this, environmentSetup);
     // create the clients again, but hooked up to the recorder
-    ({ indexClient, indexerClient } = createClients<Hotel>(TEST_INDEX_NAME))
+    ({ indexClient, indexerClient } = createClients<Hotel>(TEST_INDEX_NAME));
   });
-
 
   afterEach(async function() {
     if (recorder) {
@@ -57,12 +63,12 @@ describe("SearchIndexerClient", function() {
   });
 
   describe("#indexers", function() {
-    it("gets the list of indexers", async function(){
+    it("gets the list of indexers", async function() {
       const indexers = await indexerClient.listIndexers();
       assert.equal(indexers.length, 2);
     });
 
-    it("gets the list of indexer names", async function(){
+    it("gets the list of indexer names", async function() {
       const indexers = await indexerClient.listIndexersNames();
       assert.equal(indexers.length, 2);
       for (let i = 1; i <= 2; i++) {
@@ -70,30 +76,30 @@ describe("SearchIndexerClient", function() {
       }
     });
 
-    it("gets the correct indexer object", async function(){
+    it("gets the correct indexer object", async function() {
       const indexer = await indexerClient.getIndexer("my-azure-indexer-1");
       assert.equal(indexer.name, "my-azure-indexer-1");
       assert.equal(indexer.dataSourceName, "my-data-source-1");
-      assert.equal(indexer.targetIndexName, "hotel-live-test2");
+      assert.equal(indexer.targetIndexName, TEST_INDEX_NAME);
       assert.isFalse(indexer.isDisabled);
     });
 
-    it("throws error for invalid indexer object", async function(){
-      let retrievalError:boolean = false;
+    it("throws error for invalid indexer object", async function() {
+      let retrievalError: boolean = false;
       try {
         await indexerClient.getIndexer("garbxyz");
-      } catch(ex) {
+      } catch (ex) {
         retrievalError = true;
       }
       assert.isTrue(retrievalError);
     });
 
-    it("creates the indexer object using createOrUpdateIndexer", async function(){
+    it("creates the indexer object using createOrUpdateIndexer", async function() {
       let indexer: SearchIndexer = {
         name: "my-azure-indexer-3",
         description: "Description for Sample Indexer",
         dataSourceName: "my-data-source-1",
-        targetIndexName: "hotel-live-test2",
+        targetIndexName: TEST_INDEX_NAME,
         isDisabled: false
       };
       await indexerClient.createOrUpdateIndexer(indexer);
@@ -101,16 +107,16 @@ describe("SearchIndexerClient", function() {
         indexer = await indexerClient.getIndexer("my-azure-indexer-3");
         assert.equal(indexer.name, "my-azure-indexer-3");
         assert.equal(indexer.dataSourceName, "my-data-source-1");
-        assert.equal(indexer.targetIndexName, "hotel-live-test2");
+        assert.equal(indexer.targetIndexName, TEST_INDEX_NAME);
         assert.isFalse(indexer.isDisabled);
       } catch (ex) {
         throw ex;
       } finally {
         await indexerClient.deleteIndexer(indexer);
-      }      
+      }
     });
 
-    it("modify and updates the indexer object", async function(){
+    it("modify and updates the indexer object", async function() {
       let indexer = await indexerClient.getIndexer("my-azure-indexer-1");
       indexer.isDisabled = true;
       await indexerClient.createOrUpdateIndexer(indexer);
@@ -118,20 +124,20 @@ describe("SearchIndexerClient", function() {
       assert.isTrue(indexer.isDisabled);
     });
 
-    it("gets the status of the indexer", async function(){
+    it("gets the status of the indexer", async function() {
       const indexerStatus = await indexerClient.getIndexerStatus("my-azure-indexer-1");
-      const statuses:string[] = ['unknown','error','running']
+      const statuses: string[] = ["unknown", "error", "running"];
       assert.include(statuses, indexerStatus.status);
     });
   });
 
   describe("#datasourceconnections", function() {
-    it("gets the list of datasourceconnections", async function(){
+    it("gets the list of datasourceconnections", async function() {
       const dataSourceConnections = await indexerClient.listDataSourceConnections();
       assert.equal(dataSourceConnections.length, 2);
     });
 
-    it("gets the list of datasourceconnection names", async function(){
+    it("gets the list of datasourceconnection names", async function() {
       const dataSourceConnectionNames = await indexerClient.listDataSourceConnectionsNames();
       assert.isAtLeast(dataSourceConnectionNames.length, 2);
       for (let i = 1; i <= 2; i++) {
@@ -139,24 +145,24 @@ describe("SearchIndexerClient", function() {
       }
     });
 
-    it("gets the correct datasourceconnection object", async function(){
+    it("gets the correct datasourceconnection object", async function() {
       const dataSourceConnection = await indexerClient.getDataSourceConnection("my-data-source-1");
       assert.equal(dataSourceConnection.name, "my-data-source-1");
       assert.equal(dataSourceConnection.type, "cosmosdb");
       assert.equal(dataSourceConnection.container.name, "hotels");
     });
 
-    it("throws error for invalid datasourceconnection object", async function(){
-      let retrievalError:boolean = false;
+    it("throws error for invalid datasourceconnection object", async function() {
+      let retrievalError: boolean = false;
       try {
         await indexerClient.getDataSourceConnection("garbxyz");
-      } catch(ex) {
+      } catch (ex) {
         retrievalError = true;
       }
       assert.isTrue(retrievalError);
     });
 
-    it("creates the datasourceconnection object using createOrUpdateDataSourceConnection", async function(){
+    it("creates the datasourceconnection object using createOrUpdateDataSourceConnection", async function() {
       let dataSourceConnection: SearchIndexerDataSourceConnection = {
         name: "my-data-source-3",
         type: "cosmosdb",
@@ -179,7 +185,7 @@ describe("SearchIndexerClient", function() {
       }
     });
 
-    it("modify and updates the datasourceconnection object", async function(){
+    it("modify and updates the datasourceconnection object", async function() {
       let dataSourceConnection = await indexerClient.getDataSourceConnection("my-data-source-1");
       dataSourceConnection.container.name = "my-container-2";
       await indexerClient.createOrUpdateDataSourceConnection(dataSourceConnection);
@@ -189,12 +195,12 @@ describe("SearchIndexerClient", function() {
   });
 
   describe("#skillsets", function() {
-    it("gets the list of skillsets", async function(){
+    it("gets the list of skillsets", async function() {
       const skillsets = await indexerClient.listSkillsets();
       assert.equal(skillsets.length, 2);
     });
 
-    it("gets the list of skillset names", async function(){
+    it("gets the list of skillset names", async function() {
       const skillsets = await indexerClient.listSkillsetsNames();
       assert.equal(skillsets.length, 2);
       for (let i = 1; i <= 2; i++) {
@@ -202,7 +208,7 @@ describe("SearchIndexerClient", function() {
       }
     });
 
-    it("gets the correct skillset object", async function(){
+    it("gets the correct skillset object", async function() {
       const skillSet = await indexerClient.getSkillset("my-azureblob-skillset-1");
       assert.equal(skillSet.name, "my-azureblob-skillset-1");
       assert.equal(skillSet.skills.length, 1);
@@ -210,17 +216,17 @@ describe("SearchIndexerClient", function() {
       assert.equal(skillSet.skills[0].outputs.length, 2);
     });
 
-    it("throws error for invalid skillset object", async function(){
-      let retrievalError:boolean = false;
+    it("throws error for invalid skillset object", async function() {
+      let retrievalError: boolean = false;
       try {
         await indexerClient.getSkillset("garbxyz");
-      } catch(ex) {
+      } catch (ex) {
         retrievalError = true;
       }
       assert.isTrue(retrievalError);
     });
 
-    it("creates the skillset object using createOrUpdateSkillset", async function(){
+    it("creates the skillset object using createOrUpdateSkillset", async function() {
       let skillSet: SearchIndexerSkillset = {
         name: `my-azureblob-skillset-3`,
         description: `Skillset description`,
@@ -277,6 +283,6 @@ describe("SearchIndexerClient", function() {
       await indexerClient.createOrUpdateSkillset(skillSet);
       skillSet = await indexerClient.getSkillset("my-azureblob-skillset-2");
       assert.equal(skillSet.skills[0].outputs.length, 3);
-    });    
+    });
   });
 });

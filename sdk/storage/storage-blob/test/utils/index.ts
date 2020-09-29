@@ -4,7 +4,7 @@ import * as fs from "fs";
 import * as path from "path";
 
 import { SimpleTokenCredential } from "./testutils.common";
-import { StorageSharedKeyCredential } from "../../src";
+import { StoragePipelineOptions, StorageSharedKeyCredential } from "../../src";
 import { BlobServiceClient } from "../../src";
 import { getUniqueName } from "./testutils.common";
 import { newPipeline } from "../../src";
@@ -44,7 +44,8 @@ export function getGenericCredential(accountType: string): StorageSharedKeyCrede
 
 export function getGenericBSU(
   accountType: string,
-  accountNameSuffix: string = ""
+  accountNameSuffix: string = "",
+  pipelineOptions: StoragePipelineOptions = {}
 ): BlobServiceClient {
   if (
     env.STORAGE_CONNECTION_STRING &&
@@ -55,6 +56,7 @@ export function getGenericBSU(
     const credential = getGenericCredential(accountType) as StorageSharedKeyCredential;
 
     const pipeline = newPipeline(credential, {
+      ...pipelineOptions
       // Enable logger when debugging
       // logger: new ConsoleHttpPipelineLogger(HttpPipelineLogLevel.INFO)
     });
@@ -96,8 +98,8 @@ export function getTokenBSU(): BlobServiceClient {
   return new BlobServiceClient(blobPrimaryURL, pipeline);
 }
 
-export function getBSU(): BlobServiceClient {
-  return getGenericBSU("");
+export function getBSU(pipelineOptions: StoragePipelineOptions = {}): BlobServiceClient {
+  return getGenericBSU("", undefined, pipelineOptions);
 }
 
 export function getAlternateBSU(): BlobServiceClient {
@@ -155,22 +157,34 @@ export async function createRandomLocalFile(
   blockNumber: number,
   blockSize: number
 ): Promise<string>;
+
+// Total file size = (blockNumber -1)*blockSize + lastBlockSize
 export async function createRandomLocalFile(
   folder: string,
   blockNumber: number,
-  blockSizeOrContent: number | Buffer
+  blockSize: number,
+  lastBlockSize: number
+): Promise<string>;
+export async function createRandomLocalFile(
+  folder: string,
+  blockNumber: number,
+  blockSizeOrContent: number | Buffer,
+  lastBlockSize: number = 0
 ): Promise<string> {
   return new Promise<string>((resolve, reject) => {
     const destFile = path.join(folder, getUniqueName("tempfile."));
     const ws = fs.createWriteStream(destFile);
     let offsetInMB = 0;
 
-    function randomValueHex() {
+    function randomValueHex(blockIndex: number) {
       if (blockSizeOrContent instanceof Buffer) {
         return blockSizeOrContent;
       }
 
-      const len = blockSizeOrContent;
+      let len = blockSizeOrContent;
+      if (blockIndex === blockNumber && lastBlockSize !== 0) {
+        len = lastBlockSize;
+      }
 
       return randomBytes(Math.ceil(len / 2))
         .toString("hex") // convert to hexadecimal format
@@ -179,7 +193,7 @@ export async function createRandomLocalFile(
 
     ws.on("open", () => {
       // tslint:disable-next-line:no-empty
-      while (offsetInMB++ < blockNumber && ws.write(randomValueHex())) {}
+      while (offsetInMB++ < blockNumber && ws.write(randomValueHex(offsetInMB))) {}
       if (offsetInMB >= blockNumber) {
         ws.end();
       }
@@ -187,7 +201,7 @@ export async function createRandomLocalFile(
 
     ws.on("drain", () => {
       // tslint:disable-next-line:no-empty
-      while (offsetInMB++ < blockNumber && ws.write(randomValueHex())) {}
+      while (offsetInMB++ < blockNumber && ws.write(randomValueHex(offsetInMB))) {}
       if (offsetInMB >= blockNumber) {
         ws.end();
       }
@@ -195,6 +209,19 @@ export async function createRandomLocalFile(
     ws.on("finish", () => resolve(destFile));
     ws.on("error", reject);
   });
+}
+
+export async function createRandomLocalFileWithTotalSize(
+  folder: string,
+  totalSize: number,
+  blockSize?: number
+): Promise<string> {
+  if (blockSize === undefined || isNaN(blockSize) || blockSize <= 0) {
+    blockSize = 1024 * 1024;
+  }
+  let blockNumber = Math.ceil(totalSize / blockSize);
+  let lastBlockSize = totalSize - (blockNumber - 1) * blockSize;
+  return createRandomLocalFile(folder, blockNumber, blockSize, lastBlockSize);
 }
 
 export function getSASConnectionStringFromEnvironment(): string {

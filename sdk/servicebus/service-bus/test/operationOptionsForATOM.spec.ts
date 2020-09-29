@@ -164,12 +164,9 @@ describe("Operation Options", () => {
     it("createSubscription", async () => {
       await verifyAbortError(
         async () =>
-          await serviceBusAtomManagementClient.createSubscription(
-            entityName1,  entityName2 ,
-            {
-              abortSignal: AbortController.timeout(1)
-            }
-          )
+          await serviceBusAtomManagementClient.createSubscription(entityName1, entityName2, {
+            abortSignal: AbortController.timeout(1)
+          })
       );
     });
     it("getSubscription", async () => {

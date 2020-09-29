@@ -24,7 +24,7 @@ npm install @azure/ms-rest-azure-js
 ```
 
 ##### Sample code
-The following sample performs a video search on 'Microsoft Azure' with conditions such as the length must be Short, pricing must be Free, etc. To know more, refer to the [Azure Documentation on Bing Video Search](https://docs.microsoft.com/en-us/azure/cognitive-services/bing-video-search/)
+The following sample performs a video search on 'Microsoft Azure' with conditions such as the length must be Short, pricing must be Free, etc. To know more, refer to the [Azure Documentation on Bing Video Search](https://docs.microsoft.com/azure/cognitive-services/bing-video-search/)
 
 ```javascript
 const { VideoSearchClient } = require("@azure/cognitiveservices-videosearch");

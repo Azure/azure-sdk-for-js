@@ -1,8 +1,9 @@
 # Azure Schema Registry client library for JavaScript
 
-Azure Schema Registry is a could-based service that stores schemas for
-serialization. It can be leveraged by serializers to keep payload size smaller
-by sending only a schema ID rather than a full schema.
+Azure Schema Registry is a schema repository service hosted by Azure Event Hubs,
+providing schema storage, versioning, and management. The registry is leveraged
+by serializers to reduce payload size while describing payload structure with
+schema identifiers rather than full schemas.
 
 ## Getting started
 
@@ -11,11 +12,7 @@ by sending only a schema ID rather than a full schema.
 ### Prerequisites
 
 - An [Azure subscription][azure_sub]
-- An existing Schema Registry resource
-
-<!--
-TODO: Links not publicly available yet for creating resource
--->
+- An existing [Schema Registry resource](https://aka.ms/schemaregistry)
 
 ### Install the `@azure/schema-registry` package
 
@@ -31,10 +28,7 @@ To create a client object to access the Schema Registry API, you will need the
 `endpoint` of your Schema Registry resource and a `credential`. The Schema
 Registry client uses Azure Active Directory credentials to authenticate.
 
-#### Using an Azure Active Directory Credential
-
-Client API key authentication is used in most of the examples, but you can also
-authenticate with Azure Active Directory using the [Azure Identity
+You can authenticate with Azure Active Directory using the [Azure Identity
 library][azure_identity]. To use the
 [DefaultAzureCredential][defaultazurecredential] provider shown below, or other
 credential providers provided with the Azure SDK, please install the
@@ -64,8 +58,9 @@ schema registry.
 
 ### SchemaRegistry serializers
 
-- [SchemaRegistryAvroSerializer](../schema-registry-avro) is a separate package that
-  uses `SchemaRegistryClient` to pair schema ID along with Avro Binary Encoding.
+- [@azure/schema-registry-avro](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/schemaregistry/schema-registry-avro)
+  is a separate package that uses `SchemaRegistryClient` to pair schema ID along
+  with Avro Binary Encoding.
 
 ## Examples
 
@@ -120,20 +115,24 @@ console.log(`Got schema content=${foundSchema.content}`);
 
 ## Troubleshooting
 
-### Enable logs
+### Logging
 
-You can set the following environment variable to see debug logs when using this library.
+Enabling logging may help uncover useful information about failures. In order to
+see a log of HTTP requests and responses, set the `AZURE_LOG_LEVEL` environment
+variable to `info`. Alternatively, logging can be enabled at runtime by calling
+`setLogLevel` in the `@azure/logger`:
 
-- Getting debug logs from the Azure Schema Registry client library
+```javascript
+const { setLogLevel } = require("@azure/logger");
 
-```bash
-export DEBUG=azure*
+setLogLevel("info");
 ```
 
 ## Next steps
 
-Please take a look at the [samples](./samples) directory for detailed examples
-on how to use this library.
+Please take a look at the
+[samples](https://github.com/Azure/azure-sdk-for-js/tree/master/sdk/schemaregistry/schema-registry/samples)
+directory for detailed examples on how to use this library.
 
 ## Contributing
 
