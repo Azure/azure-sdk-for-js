@@ -107,7 +107,10 @@ export class SBStressTestsBase {
   public snapshot(): void {
     // TODO: Save to a file as a table
     // TODO: Log all the output to a file too
-    if (!this.startedAt) this.startedAt = new Date();
+    if (!this.startedAt) {
+      console.log("Queue name: ", this.queueName);
+      this.startedAt = new Date();
+    }
     console.log("Time : ", new Date());
     const elapsedTimeInSeconds = (new Date().valueOf() - this.startedAt.valueOf()) / 1000;
     console.log("Elapsed time in seconds: ", elapsedTimeInSeconds);
