@@ -16,23 +16,41 @@ trigger: none
 
 parameters:
   - name: TaskType
+    displayName: Task Type
     type: string
-    default: ''
+    default: AddTag
+    values:
+    - AddTag
+    - RemoveTag
+    - DeprecatePackage
+
   - name: PackageName
+    displayName: Package Name (e.g. @azure/template)
     type: string
     default: ''
+
   - name: PkgVersion
+    displayName: Package Version (e.g. 1.1.0)
     type: string
     default: ''
+
   - name: TagName
+    displayName: Tag
     type: string
     default: ''
+    values:
+    - ''
+    - latest
+    - next
+
   - name: Reason
+    displayName: Reason (Required only for DeprecatePackage Task)
     type: string
     default: ''
 
 jobs:
 - job: 'NPM_Admin_Job'
+  displayName: NPM package management
 
   pool:
     vmImage: 'windows-2019'
