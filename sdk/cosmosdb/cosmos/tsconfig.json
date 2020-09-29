@@ -4,7 +4,6 @@
     "module": "esnext",
     "strict": false,
     "noImplicitAny": true,
-    "noFallthroughCasesInSwitch": false,
     "outDir": "dist-esm",
     "preserveConstEnums": true,
     "removeComments": false,
