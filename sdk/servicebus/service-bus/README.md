@@ -56,7 +56,7 @@ To use this client library in the browser, first you need to use a bundler. For 
 ### Authenticate the client
 
 Interaction with Service Bus starts with an instance of the [ServiceBusClient][sbclient] class. You can
-authenticate to Service Bus using a connection string or using a service principal.
+authenticate to Service Bus using a connection string or using an Azure Active Directory credential.
 
 #### Using a connection string
 
