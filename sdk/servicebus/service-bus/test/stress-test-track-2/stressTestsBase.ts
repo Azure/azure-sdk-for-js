@@ -37,7 +37,7 @@ export class SBStressTestsBase {
   messagesSent: ServiceBusMessage[] = [];
   messagesReceived: ServiceBusMessage[] = [];
   snapshotTimer: NodeJS.Timer;
-  startedAt: Date | undefined;
+  startedAt!: Date;
   // TODO: Take snapshot options from the sample to customize logging
   // Send metrics
   sendInfo: SendInfo = {
@@ -71,6 +71,7 @@ export class SBStressTestsBase {
     // TODO: Add snapshot logging options - opt-in for only the info that you're looking for-
     //    "send-info", "receive-info", "message-lock-info", etc
     // TODO: snapshot options - grouping
+    this.startedAt = new Date();
     this.messagesSent = [];
     this.snapshotTimer = setInterval(this.snapshot.bind(this), snapshotIntervalInMs);
   }
@@ -144,10 +145,7 @@ export class SBStressTestsBase {
   public snapshot(): void {
     // TODO: Save to a file as a table
     // TODO: Log all the output to a file too
-    if (!this.startedAt) {
-      console.log("Queue name: ", this.queueName);
-      this.startedAt = new Date();
-    }
+    console.log("Queue name: ", this.queueName);
     console.log("Time : ", new Date());
     const elapsedTimeInSeconds = (new Date().valueOf() - this.startedAt.valueOf()) / 1000;
     console.log("Elapsed time in seconds: ", elapsedTimeInSeconds);
