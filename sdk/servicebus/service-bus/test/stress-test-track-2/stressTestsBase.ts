@@ -14,7 +14,7 @@ export class SBStressTestsBase {
   messagesReceived: ServiceBusMessage[] = [];
   snapshotTimer: NodeJS.Timer;
   startedAt: Date | undefined;
-  // TODO: Group the metrics and take snapshot options from the sample to customize logging
+  // TODO: Take snapshot options from the sample to customize logging
   // Send metrics
   sendInfo = {
     numberOfSuccessfulSends: 0,
