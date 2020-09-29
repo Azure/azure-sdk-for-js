@@ -6,7 +6,7 @@
 
 - Add support for NDJSON format [PR 11325](https://github.com/Azure/azure-sdk-for-js/pull/11325)
 
-- Add support for NO_PROXY and ALL_PROXY environment variables [PR 7069](https://github.com/Azure/azure-sdk-for-js/pull/7069)
+- Add support for `NO_PROXY` and `ALL_PROXY` environment variables [PR 7069](https://github.com/Azure/azure-sdk-for-js/pull/7069)
 
 - Serializer now resolves additionalProperties correctly from referenced mapper [PR 11473](https://github.com/Azure/azure-sdk-for-js/pull/11473)
 
