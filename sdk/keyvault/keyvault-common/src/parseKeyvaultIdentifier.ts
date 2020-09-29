@@ -1,6 +1,19 @@
-import { ParsedKeyVaultEntityIdentifier } from "./keyVaultBase";
 import * as url from "url";
 
+export interface ParsedKeyVaultEntityIdentifier {
+  /**
+   * The vault URI.
+   */
+  vaultUrl: string;
+  /**
+   * The version of key/secret/certificate. May be undefined.
+   */
+  version?: string;
+  /**
+   * The name of key/secret/certificate.
+   */
+  name: string;
+}
 export function parseKeyvaultIdentifier(
   collection: string,
   identifier: string | undefined
