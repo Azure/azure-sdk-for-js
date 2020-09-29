@@ -2,7 +2,7 @@
 // Licensed under the MIT license.
 
 /* eslint-disable no-invalid-this */
-import { isPlaybackMode, record, Recorder } from "@azure/test-utils-recorder";
+import { isPlaybackMode, record, Recorder, isLiveMode } from "@azure/test-utils-recorder";
 import { assert } from "chai";
 import {
   SearchIndexClient,
@@ -21,11 +21,12 @@ import {
   deleteSkillsets,
   createIndexers,
   deleteIndexers,
-  WAIT_TIME
+  WAIT_TIME,
+  createRandomIndexName
 } from "../utils/setup";
 import { delay } from "@azure/core-http";
 
-const TEST_INDEX_NAME = "hotel-live-test2";
+const TEST_INDEX_NAME = isLiveMode() ? createRandomIndexName() : "hotel-live-test2";
 
 describe("SearchIndexerClient", function() {
   let recorder: Recorder;
@@ -41,7 +42,7 @@ describe("SearchIndexerClient", function() {
       await createSkillsets(indexerClient);
       await createIndex(indexClient, TEST_INDEX_NAME);
       await delay(5000);
-      await createIndexers(indexerClient);
+      await createIndexers(indexerClient, TEST_INDEX_NAME);
     }
     recorder = record(this, environmentSetup);
     // create the clients again, but hooked up to the recorder
@@ -79,7 +80,7 @@ describe("SearchIndexerClient", function() {
       const indexer = await indexerClient.getIndexer("my-azure-indexer-1");
       assert.equal(indexer.name, "my-azure-indexer-1");
       assert.equal(indexer.dataSourceName, "my-data-source-1");
-      assert.equal(indexer.targetIndexName, "hotel-live-test2");
+      assert.equal(indexer.targetIndexName, TEST_INDEX_NAME);
       assert.isFalse(indexer.isDisabled);
     });
 
@@ -98,7 +99,7 @@ describe("SearchIndexerClient", function() {
         name: "my-azure-indexer-3",
         description: "Description for Sample Indexer",
         dataSourceName: "my-data-source-1",
-        targetIndexName: "hotel-live-test2",
+        targetIndexName: TEST_INDEX_NAME,
         isDisabled: false
       };
       await indexerClient.createOrUpdateIndexer(indexer);
@@ -106,7 +107,7 @@ describe("SearchIndexerClient", function() {
         indexer = await indexerClient.getIndexer("my-azure-indexer-3");
         assert.equal(indexer.name, "my-azure-indexer-3");
         assert.equal(indexer.dataSourceName, "my-data-source-1");
-        assert.equal(indexer.targetIndexName, "hotel-live-test2");
+        assert.equal(indexer.targetIndexName, TEST_INDEX_NAME);
         assert.isFalse(indexer.isDisabled);
       } catch (ex) {
         throw ex;
