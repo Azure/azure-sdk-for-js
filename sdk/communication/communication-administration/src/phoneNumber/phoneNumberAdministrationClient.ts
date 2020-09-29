@@ -146,18 +146,18 @@ export class PhoneNumberAdministrationClient {
 
   /**
    * Configures a phone number, for example to assign a callbackUrl.
-   * @param request The configuration details
+   * @param config The configuration details
    * @param options Additional request options.
    */
   public async configurePhoneNumber(
-    request: ConfigurePhoneNumberRequest,
+    config: ConfigurePhoneNumberRequest,
     options: ConfigurePhoneNumberOptions = {}
   ): Promise<VoidResponse> {
     const { span, updatedOptions } = createSpan(
       "PhoneNumberAdministrationClient-configurePhoneNumber",
       options
     );
-    const { phoneNumber, callbackUrl } = request;
+    const { phoneNumber, callbackUrl } = config;
     try {
       const { _response } = await this.client.configureNumber(
         {

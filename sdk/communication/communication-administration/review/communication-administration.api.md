@@ -256,7 +256,7 @@ export class PhoneNumberAdministrationClient {
     constructor(connectionString: string, options?: PhoneNumberAdministrationClientOptions);
     constructor(url: string, credential: KeyCredential, options?: PhoneNumberAdministrationClientOptions);
     cancelSearch(searchId: string, options?: OperationOptions): Promise<VoidResponse>;
-    configurePhoneNumber(request: ConfigurePhoneNumberRequest, options?: ConfigurePhoneNumberOptions): Promise<VoidResponse>;
+    configurePhoneNumber(config: ConfigurePhoneNumberRequest, options?: ConfigurePhoneNumberOptions): Promise<VoidResponse>;
     createSearch(searchRequest: CreateSearchRequest, options?: CreateSearchOptions): Promise<CreatePhoneNumberSearchResponse>;
     getAreaCodes(searchRequest: GetAreaCodesRequest, options?: GetAreaCodesOptions): Promise<GetAreaCodesResponse>;
     getCapabilitiesUpdate(capabilitiesUpdateId: string, options?: OperationOptions): Promise<GetCapabilitiesUpdateResponse>;

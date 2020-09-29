@@ -1,3 +1,4 @@
+import { OperationOptions } from '@azure/core-http';
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
@@ -14,14 +15,19 @@ import {
   PhoneNumberCountry,
   PhoneNumberEntity,
   PhonePlan,
-  PhonePlanGroup
+  PhonePlanGroup,
+  ConfigurePhoneNumberRequest,
+  ConfigurePhoneNumberOptions,
+  VoidResponse, PhoneNumberCapabilitiesUpdates, UpdateCapabilitiesOptions, UpdateNumbersCapabilitiesResponse
 } from "../../src";
 import {
+  baseHttpClient,
   listPhoneNumbersHttpClient,
   listPhonePlanGroupsHttpClient,
   listPhonePlansHttpClient,
   listReleasesOrSearchesHttpClient,
-  listSupportedCountriesHttpClient
+  listSupportedCountriesHttpClient,
+  updatePhoneNumbersCapabilitiesHttpClient
 } from "./mockHttpClients";
 
 export class TestPhoneNumberAdministrationClient {
@@ -87,5 +93,38 @@ export class TestPhoneNumberAdministrationClient {
     });
 
     return client.listSearches(options);
+  }
+
+  public async configurePhoneNumberTest(
+    config: ConfigurePhoneNumberRequest,
+    options: ConfigurePhoneNumberOptions = {}
+  ): Promise<VoidResponse> {
+    const client = new PhoneNumberAdministrationClient(this.connectionString, {
+      httpClient: baseHttpClient
+    });
+
+    return client.configurePhoneNumber(config, options);
+  }
+
+  public async unconfigurePhoneNumberTest(
+    phoneNumber: string,
+    options: OperationOptions = {}
+  ): Promise<VoidResponse> {
+    const client = new PhoneNumberAdministrationClient(this.connectionString, {
+      httpClient: baseHttpClient
+    });
+
+    return client.unconfigurePhoneNumber(phoneNumber, options);
+  }
+
+  public async updatePhoneNumberCapabilitiesTest(
+    phoneNumberCapabilitiesUpdates: PhoneNumberCapabilitiesUpdates,
+    options: UpdateCapabilitiesOptions = {}
+  ): Promise<UpdateNumbersCapabilitiesResponse> {
+    const client = new PhoneNumberAdministrationClient(this.connectionString, {
+      httpClient: updatePhoneNumbersCapabilitiesHttpClient
+    });
+
+    return client.updatePhoneNumbersCapabilities(phoneNumberCapabilitiesUpdates, options);
   }
 }

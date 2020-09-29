@@ -13,7 +13,8 @@ import {
   PhonePlan,
   PhonePlanGroup,
   PhonePlanGroups,
-  PhonePlansResponse
+  PhonePlansResponse,
+  UpdateNumberCapabilitiesResponse
 } from "../../src";
 import { CommunicationIdentity } from "../../src/communicationIdentity/generated/src/models";
 
@@ -29,6 +30,9 @@ export const createMockHttpClient = <T = {}>(status: number = 200, parsedBody?: 
     }
   };
 };
+
+export const baseHttpClient: HttpClient = createMockHttpClient();
+export const base202HttpClient: HttpClient = createMockHttpClient(202);
 
 const tokenResponse = {
   id: "identity",
@@ -119,3 +123,6 @@ const entities: PhoneNumberEntity[] = [{ id: "1" }, { id: "2" }, { id: "3" }];
 export const listReleasesOrSearchesHttpClient: HttpClient = createMockHttpClient<
   PhoneNumberEntities
 >(200, { entities });
+
+export const updatePhoneNumbersCapabilitiesHttpClient: HttpClient = createMockHttpClient<UpdateNumberCapabilitiesResponse>(
+  200, { capabilitiesUpdateId: "1" });
