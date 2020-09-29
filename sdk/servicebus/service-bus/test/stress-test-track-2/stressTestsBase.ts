@@ -70,6 +70,7 @@ export class SBStressTestsBase {
   }
 
   public async init() {
+    // TODO(stretch - low priority): arguments for init - name-prefix and CreateQueueOptions
     this.queueName = `unpartitioned-queue-${Math.ceil(Math.random() * 100000)}`;
     await this.serviceBusAdministrationClient.createQueue(this.queueName);
   }
