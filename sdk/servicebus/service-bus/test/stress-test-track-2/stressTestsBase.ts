@@ -102,12 +102,12 @@ export class SBStressTestsBase {
 
   public async receiveMessages<ReceivedMessageT extends ServiceBusReceivedMessage>(
     receiver: ServiceBusReceiver<ReceivedMessageT>,
-    maxMsgCount = 10
+    maxMsgCount = 10,
+    maxWaitTimeInMs = 10000
   ): Promise<ReceivedMessageT[]> {
     try {
-      // Make maxWaitTime an argument
       const messages = await receiver.receiveMessages(maxMsgCount, {
-        maxWaitTimeInMs: 10000
+        maxWaitTimeInMs
       });
       this.messagesReceived = this.messagesReceived.concat(messages as ServiceBusReceivedMessage[]);
       this.receiveInfo.numberOfSuccessfulReceives++;
