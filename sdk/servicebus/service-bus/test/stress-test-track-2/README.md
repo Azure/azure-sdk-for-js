@@ -46,3 +46,16 @@ Here are the scenarios being covered and how you can run them.
    - numberOfMessagesPerSend (default = 1)
    - delayBetweenSendsInMs (default = 0)
    - totalNumberOfMessagesToSend (default = Infinity)
+
+4. Renew session locks for a duration
+   `ts-node scenarioRenewSessionLock.ts` (runs with defaults)
+   `ts-node scenarioRenewSessionLock.ts --delayBetweenReceivesInMs=200 --totalNumberOfMessagesToSend=5000` (With flags)
+   Flags that can be set
+
+   - testDurationInMs (default = 3600000) // 1hr
+   - receiveBatchMaxMessageCount (default = 10)
+   - receiveBatchMaxWaitTimeInMs (default = 10000)
+   - delayBetweenReceivesInMs (default = 0)
+   - numberOfMessagesPerSend (default = 100)
+   - delayBetweenSendsInMs (default = 0)
+   - totalNumberOfMessagesToSend (default = Infinity)

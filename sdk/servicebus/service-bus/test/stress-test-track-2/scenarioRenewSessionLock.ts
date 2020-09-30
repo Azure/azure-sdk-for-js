@@ -1,4 +1,4 @@
-import { ReceiveMode, ServiceBusClient, ServiceBusReceivedMessage } from "@azure/service-bus";
+import { ServiceBusClient, ServiceBusReceivedMessage } from "@azure/service-bus";
 import { SBStressTestsBase } from "./stressTestsBase";
 import { delay } from "rhea-promise";
 import parsedArgs from "minimist";
@@ -11,9 +11,8 @@ dotenv.config();
 // Define connection string and related Service Bus entity names here
 const connectionString = process.env.SERVICEBUS_CONNECTION_STRING || "<connection string>";
 
-interface ScenarioReceiveBatchOptions {
+interface ScenarioRenewSessionLockOptions {
   testDurationInMs?: number;
-  receiveMode?: ReceiveMode;
   receiveBatchMaxMessageCount?: number;
   receiveBatchMaxWaitTimeInMs?: number;
   delayBetweenReceivesInMs?: number;
@@ -23,11 +22,10 @@ interface ScenarioReceiveBatchOptions {
 }
 
 function sanitizeOptions(
-  options: ScenarioReceiveBatchOptions
-): Required<ScenarioReceiveBatchOptions> {
+  options: ScenarioRenewSessionLockOptions
+): Required<ScenarioRenewSessionLockOptions> {
   return {
     testDurationInMs: options.testDurationInMs || 60 * 60 * 1000, // Default = 60 minutes
-    receiveMode: options.receiveMode || "receiveAndDelete",
     receiveBatchMaxMessageCount: options.receiveBatchMaxMessageCount || 10,
     receiveBatchMaxWaitTimeInMs: options.receiveBatchMaxWaitTimeInMs || 10000,
     delayBetweenReceivesInMs: options.delayBetweenReceivesInMs || 0,
@@ -40,14 +38,15 @@ function sanitizeOptions(
 export async function scenarioRenewSessionLock() {
   const {
     testDurationInMs,
-    receiveMode,
     receiveBatchMaxMessageCount,
     receiveBatchMaxWaitTimeInMs,
     delayBetweenReceivesInMs,
     numberOfMessagesPerSend,
     delayBetweenSendsInMs,
     totalNumberOfMessagesToSend
-  } = sanitizeOptions(parsedArgs<ScenarioReceiveBatchOptions>(process.argv));
+  } = sanitizeOptions(parsedArgs<ScenarioRenewSessionLockOptions>(process.argv));
+  // Since we are focusing on session locks in this test
+  const receiveMode = "receiveAndDelete";
 
   const startedAt = new Date();
 
@@ -74,14 +73,9 @@ export async function scenarioRenewSessionLock() {
     while (elapsedTime < testDurationInMs) {
       let receiver;
       try {
-        receiver = await sbClient.createSessionReceiver(
-          stressBase.queueName,
-          receiveMode === "receiveAndDelete"
-            ? {
-                receiveMode: "receiveAndDelete"
-              }
-            : {}
-        );
+        receiver = await sbClient.createSessionReceiver(stressBase.queueName, {
+          receiveMode
+        });
       } catch (error) {
         console.log(error);
       }
