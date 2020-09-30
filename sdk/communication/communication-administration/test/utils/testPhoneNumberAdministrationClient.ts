@@ -1,4 +1,3 @@
-import { OperationOptions } from "@azure/core-http";
 // Copyright (c) Microsoft Corporation.
 // Licensed under the MIT license.
 
@@ -21,16 +20,29 @@ import {
   VoidResponse,
   PhoneNumberCapabilitiesUpdates,
   UpdateCapabilitiesOptions,
-  UpdateNumbersCapabilitiesResponse
+  UpdateNumbersCapabilitiesResponse,
+  GetCapabilitiesUpdateResponse,
+  ReleasePhoneNumbersResponse,
+  GetReleaseResponse,
+  GetAreaCodesRequest,
+  GetAreaCodesOptions,
+  GetAreaCodesResponse,
+  GetReleaseOptions,
+  ReleasePhoneNumberOptions,
+  GetCapabilitiesUpdateOptions,
+  UnconfigurePhoneNumberOptions
 } from "../../src";
 import {
   baseHttpClient,
+  getAreaCodesHttpClient,
+  getReleaseHttpClient,
   listPhoneNumbersHttpClient,
   listPhonePlanGroupsHttpClient,
   listPhonePlansHttpClient,
   listReleasesOrSearchesHttpClient,
   listSupportedCountriesHttpClient,
-  updatePhoneNumbersCapabilitiesHttpClient
+  phoneNumbersCapabilitiesHttpClient,
+  releasePhoneNumbersHttpClient
 } from "./mockHttpClients";
 
 export class TestPhoneNumberAdministrationClient {
@@ -111,7 +123,7 @@ export class TestPhoneNumberAdministrationClient {
 
   public async unconfigurePhoneNumberTest(
     phoneNumber: string,
-    options: OperationOptions = {}
+    options: UnconfigurePhoneNumberOptions = {}
   ): Promise<VoidResponse> {
     const client = new PhoneNumberAdministrationClient(this.connectionString, {
       httpClient: baseHttpClient
@@ -125,9 +137,53 @@ export class TestPhoneNumberAdministrationClient {
     options: UpdateCapabilitiesOptions = {}
   ): Promise<UpdateNumbersCapabilitiesResponse> {
     const client = new PhoneNumberAdministrationClient(this.connectionString, {
-      httpClient: updatePhoneNumbersCapabilitiesHttpClient
+      httpClient: phoneNumbersCapabilitiesHttpClient
     });
 
     return client.updatePhoneNumbersCapabilities(phoneNumberCapabilitiesUpdates, options);
+  }
+
+  public async getCapabilitiesUpdateTest(
+    capabilitiesUpdateId: string,
+    options: GetCapabilitiesUpdateOptions = {}
+  ): Promise<GetCapabilitiesUpdateResponse> {
+    const client = new PhoneNumberAdministrationClient(this.connectionString, {
+      httpClient: phoneNumbersCapabilitiesHttpClient
+    });
+
+    return client.getCapabilitiesUpdate(capabilitiesUpdateId, options);
+  }
+
+  public async releasePhoneNumbersTest(
+    phoneNumbers: string[],
+    options: ReleasePhoneNumberOptions = {}
+  ): Promise<ReleasePhoneNumbersResponse> {
+    const client = new PhoneNumberAdministrationClient(this.connectionString, {
+      httpClient: releasePhoneNumbersHttpClient
+    });
+
+    return client.releasePhoneNumbers(phoneNumbers, options);
+  }
+
+  public async getReleaseTest(
+    releaseId: string,
+    options: GetReleaseOptions = {}
+  ): Promise<GetReleaseResponse> {
+    const client = new PhoneNumberAdministrationClient(this.connectionString, {
+      httpClient: getReleaseHttpClient
+    });
+
+    return client.getRelease(releaseId, options);
+  }
+
+  public async getAreaCodesTest(
+    searchRequest: GetAreaCodesRequest,
+    options: GetAreaCodesOptions = {}
+  ): Promise<GetAreaCodesResponse> {
+    const client = new PhoneNumberAdministrationClient(this.connectionString, {
+      httpClient: getAreaCodesHttpClient
+    });
+
+    return client.getAreaCodes(searchRequest, options);
   }
 }

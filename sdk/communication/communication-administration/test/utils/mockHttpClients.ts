@@ -5,15 +5,18 @@ import { HttpClient, WebResourceLike, HttpOperationResponse, HttpHeaders } from 
 import {
   AcquiredPhoneNumber,
   AcquiredPhoneNumbers,
+  AreaCodes,
   CommunicationIdentityToken,
   PhoneNumberCountries,
   PhoneNumberCountry,
   PhoneNumberEntities,
   PhoneNumberEntity,
+  PhoneNumberRelease,
   PhonePlan,
   PhonePlanGroup,
   PhonePlanGroups,
   PhonePlansResponse,
+  ReleaseResponse,
   UpdateNumberCapabilitiesResponse
 } from "../../src";
 import { CommunicationIdentity } from "../../src/communicationIdentity/generated/src/models";
@@ -124,6 +127,33 @@ export const listReleasesOrSearchesHttpClient: HttpClient = createMockHttpClient
   PhoneNumberEntities
 >(200, { entities });
 
-export const updatePhoneNumbersCapabilitiesHttpClient: HttpClient = createMockHttpClient<
+export const phoneNumbersCapabilitiesHttpClient: HttpClient = createMockHttpClient<
   UpdateNumberCapabilitiesResponse
 >(200, { capabilitiesUpdateId: "1" });
+
+export const releasePhoneNumbersHttpClient: HttpClient = createMockHttpClient<ReleaseResponse>(
+  200,
+  {
+    releaseId: "1"
+  }
+);
+
+const phoneNumberRelease: PhoneNumberRelease = {
+  releaseId: "1",
+  createdAt: new Date(),
+  status: "Complete",
+  phoneNumberReleaseStatusDetails: {
+    "+18765432109": { status: "Success" },
+    "+18766789012": { status: "Success" }
+  }
+};
+export const getReleaseHttpClient: HttpClient = createMockHttpClient<PhoneNumberRelease>(
+  200,
+  phoneNumberRelease
+);
+
+const areaCodes: AreaCodes = {
+  primaryAreaCodes: ["876", "877"],
+  secondaryAreaCodes: ["555"]
+};
+export const getAreaCodesHttpClient: HttpClient = createMockHttpClient<AreaCodes>(200, areaCodes);

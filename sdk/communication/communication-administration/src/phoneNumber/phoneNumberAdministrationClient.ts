@@ -12,7 +12,6 @@ import {
   PipelineOptions,
   InternalPipelineOptions,
   createPipelineFromOptions,
-  OperationOptions,
   operationOptionsToRequestOptionsBase
 } from "@azure/core-http";
 import "@azure/core-paging";
@@ -66,7 +65,13 @@ import {
   GetAreaCodesResponse,
   GetPhoneNumberConfigurationResponse,
   GetPhonePlanLocationOptionsResponse,
-  GetSearchResponse
+  GetSearchResponse,
+  GetCapabilitiesUpdateOptions,
+  GetPhoneNumberConfigurationOptions,
+  GetReleaseOptions,
+  ReleasePhoneNumberOptions,
+  UnconfigurePhoneNumberOptions,
+  SearchOptions
 } from "./models";
 import { VoidResponse } from "../common/models";
 import { attachHttpResponse } from "../common/mappers";
@@ -187,7 +192,7 @@ export class PhoneNumberAdministrationClient {
    */
   public async unconfigurePhoneNumber(
     phoneNumber: string,
-    options: OperationOptions = {}
+    options: UnconfigurePhoneNumberOptions = {}
   ): Promise<VoidResponse> {
     const { span, updatedOptions } = createSpan(
       "PhoneNumberAdministrationClient-unconfigurePhoneNumber",
@@ -252,7 +257,7 @@ export class PhoneNumberAdministrationClient {
    */
   public async getCapabilitiesUpdate(
     capabilitiesUpdateId: string,
-    options: OperationOptions = {}
+    options: GetCapabilitiesUpdateOptions = {}
   ): Promise<GetCapabilitiesUpdateResponse> {
     const { span, updatedOptions } = createSpan(
       "PhoneNumberAdministrationClient-getCapabilitiesUpdate",
@@ -284,7 +289,7 @@ export class PhoneNumberAdministrationClient {
    */
   public async releasePhoneNumbers(
     phoneNumbers: string[],
-    options: OperationOptions = {}
+    options: ReleasePhoneNumberOptions = {}
   ): Promise<ReleasePhoneNumbersResponse> {
     const { span, updatedOptions } = createSpan(
       "PhoneNumberAdministrationClient-releasePhoneNumbers",
@@ -315,7 +320,7 @@ export class PhoneNumberAdministrationClient {
    */
   public async getRelease(
     releaseId: string,
-    options: OperationOptions = {}
+    options: GetReleaseOptions = {}
   ): Promise<GetReleaseResponse> {
     const { span, updatedOptions } = createSpan(
       "PhoneNumberAdministrationClient-getRelease",
@@ -725,7 +730,7 @@ export class PhoneNumberAdministrationClient {
    */
   public async getPhoneNumberConfiguration(
     phoneNumber: string,
-    options: OperationOptions = {}
+    options: GetPhoneNumberConfigurationOptions = {}
   ): Promise<GetPhoneNumberConfigurationResponse> {
     const { span, updatedOptions } = createSpan(
       "PhoneNumberAdministrationClient-getPhoneNumberConfiguration",
@@ -966,7 +971,7 @@ export class PhoneNumberAdministrationClient {
    */
   public async getSearch(
     searchId: string,
-    options: OperationOptions = {}
+    options: SearchOptions = {}
   ): Promise<GetSearchResponse> {
     const { span, updatedOptions } = createSpan(
       "PhoneNumberAdministrationClient-getSearch",
@@ -994,10 +999,7 @@ export class PhoneNumberAdministrationClient {
    * @param searchId The id of the search returned by createSearch.
    * @param options Additional request options.
    */
-  public async refreshSearch(
-    searchId: string,
-    options: OperationOptions = {}
-  ): Promise<VoidResponse> {
+  public async refreshSearch(searchId: string, options: SearchOptions = {}): Promise<VoidResponse> {
     const { span, updatedOptions } = createSpan(
       "PhoneNumberAdministrationClient-refreshSearch",
       options
@@ -1024,10 +1026,7 @@ export class PhoneNumberAdministrationClient {
    * @param searchId The id of the search returned by createSearch.
    * @param options Additional request options.
    */
-  public async cancelSearch(
-    searchId: string,
-    options: OperationOptions = {}
-  ): Promise<VoidResponse> {
+  public async cancelSearch(searchId: string, options: SearchOptions = {}): Promise<VoidResponse> {
     const { span, updatedOptions } = createSpan(
       "PhoneNumberAdministrationClient-cancelSearch",
       options
@@ -1056,7 +1055,7 @@ export class PhoneNumberAdministrationClient {
    */
   public async purchaseSearch(
     searchId: string,
-    options: OperationOptions = {}
+    options: SearchOptions = {}
   ): Promise<VoidResponse> {
     const { span, updatedOptions } = createSpan(
       "PhoneNumberAdministrationClient-purchaseSearch",

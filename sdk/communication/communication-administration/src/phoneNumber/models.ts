@@ -158,6 +158,36 @@ export interface GetAreaCodesOptions extends OperationOptions {
 }
 
 /**
+ * Additional request options for unconfiguring a phone number.
+ */
+export type UnconfigurePhoneNumberOptions = OperationOptions;
+
+/**
+ * Additional request options for getting the update capabilities request.
+ */
+export type GetCapabilitiesUpdateOptions = OperationOptions;
+
+/**
+ * Additional request options for requesting the release of a list of phone numbers.
+ */
+export type ReleasePhoneNumberOptions = OperationOptions;
+
+/**
+ * Additional request options for getting a release.
+ */
+export type GetReleaseOptions = OperationOptions;
+
+/**
+ * Additional request options for getting the configuration of a phone number.
+ */
+export type GetPhoneNumberConfigurationOptions = OperationOptions;
+
+/**
+ * Additional request option for search operations
+ */
+export type SearchOptions = OperationOptions;
+
+/**
  * The capabilities update for each of a set of phone numbers.
  */
 export type PhoneNumberCapabilitiesUpdates = { [propertyName: string]: NumberUpdateCapabilities };
