@@ -25,12 +25,10 @@ function addRequiredPattern(pattern: string, suggestion?: string): void {
  * is the list of patterns that should be.
  */
 const badPatterns: string[] = ["src"];
-const requiredPatterns: string[] = [];
+let requiredPatterns: string[];
 addRequiredPattern("dist");
 addRequiredPattern("dist-esm", "src");
-requiredPatternSuggestionMap.forEach((_, pat) => {
-  requiredPatterns.push(pat);
-});
+requiredPatterns = Array.from(requiredPatternSuggestionMap.keys());
 
 export = {
   meta: getRuleMetaData(
