@@ -14,14 +14,35 @@ import {
   PhoneNumberCountry,
   PhoneNumberEntity,
   PhonePlan,
-  PhonePlanGroup
+  PhonePlanGroup,
+  ConfigurePhoneNumberRequest,
+  ConfigurePhoneNumberOptions,
+  VoidResponse,
+  PhoneNumberCapabilitiesUpdates,
+  UpdateCapabilitiesOptions,
+  UpdateNumbersCapabilitiesResponse,
+  GetCapabilitiesUpdateResponse,
+  ReleasePhoneNumbersResponse,
+  GetReleaseResponse,
+  GetAreaCodesRequest,
+  GetAreaCodesOptions,
+  GetAreaCodesResponse,
+  GetReleaseOptions,
+  ReleasePhoneNumberOptions,
+  GetCapabilitiesUpdateOptions,
+  UnconfigurePhoneNumberOptions
 } from "../../src";
 import {
+  baseHttpClient,
+  getAreaCodesHttpClient,
+  getReleaseHttpClient,
   listPhoneNumbersHttpClient,
   listPhonePlanGroupsHttpClient,
   listPhonePlansHttpClient,
   listReleasesOrSearchesHttpClient,
-  listSupportedCountriesHttpClient
+  listSupportedCountriesHttpClient,
+  phoneNumbersCapabilitiesHttpClient,
+  releasePhoneNumbersHttpClient
 } from "./mockHttpClients";
 
 export class TestPhoneNumberAdministrationClient {
@@ -87,5 +108,82 @@ export class TestPhoneNumberAdministrationClient {
     });
 
     return client.listSearches(options);
+  }
+
+  public async configurePhoneNumberTest(
+    config: ConfigurePhoneNumberRequest,
+    options: ConfigurePhoneNumberOptions = {}
+  ): Promise<VoidResponse> {
+    const client = new PhoneNumberAdministrationClient(this.connectionString, {
+      httpClient: baseHttpClient
+    });
+
+    return client.configurePhoneNumber(config, options);
+  }
+
+  public async unconfigurePhoneNumberTest(
+    phoneNumber: string,
+    options: UnconfigurePhoneNumberOptions = {}
+  ): Promise<VoidResponse> {
+    const client = new PhoneNumberAdministrationClient(this.connectionString, {
+      httpClient: baseHttpClient
+    });
+
+    return client.unconfigurePhoneNumber(phoneNumber, options);
+  }
+
+  public async updatePhoneNumberCapabilitiesTest(
+    phoneNumberCapabilitiesUpdates: PhoneNumberCapabilitiesUpdates,
+    options: UpdateCapabilitiesOptions = {}
+  ): Promise<UpdateNumbersCapabilitiesResponse> {
+    const client = new PhoneNumberAdministrationClient(this.connectionString, {
+      httpClient: phoneNumbersCapabilitiesHttpClient
+    });
+
+    return client.updatePhoneNumbersCapabilities(phoneNumberCapabilitiesUpdates, options);
+  }
+
+  public async getCapabilitiesUpdateTest(
+    capabilitiesUpdateId: string,
+    options: GetCapabilitiesUpdateOptions = {}
+  ): Promise<GetCapabilitiesUpdateResponse> {
+    const client = new PhoneNumberAdministrationClient(this.connectionString, {
+      httpClient: phoneNumbersCapabilitiesHttpClient
+    });
+
+    return client.getCapabilitiesUpdate(capabilitiesUpdateId, options);
+  }
+
+  public async releasePhoneNumbersTest(
+    phoneNumbers: string[],
+    options: ReleasePhoneNumberOptions = {}
+  ): Promise<ReleasePhoneNumbersResponse> {
+    const client = new PhoneNumberAdministrationClient(this.connectionString, {
+      httpClient: releasePhoneNumbersHttpClient
+    });
+
+    return client.releasePhoneNumbers(phoneNumbers, options);
+  }
+
+  public async getReleaseTest(
+    releaseId: string,
+    options: GetReleaseOptions = {}
+  ): Promise<GetReleaseResponse> {
+    const client = new PhoneNumberAdministrationClient(this.connectionString, {
+      httpClient: getReleaseHttpClient
+    });
+
+    return client.getRelease(releaseId, options);
+  }
+
+  public async getAreaCodesTest(
+    request: GetAreaCodesRequest,
+    options: GetAreaCodesOptions = {}
+  ): Promise<GetAreaCodesResponse> {
+    const client = new PhoneNumberAdministrationClient(this.connectionString, {
+      httpClient: getAreaCodesHttpClient
+    });
+
+    return client.getAreaCodes(request, options);
   }
 }

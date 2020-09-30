@@ -1063,7 +1063,7 @@ const configureNumberOperationSpec: coreHttp.OperationSpec = {
     mapper: Mappers.NumberConfiguration
   },
   responses: {
-    202: {},
+    200: {},
     default: {
       bodyMapper: Mappers.ErrorResponse
     }
@@ -1083,7 +1083,7 @@ const unconfigureNumberOperationSpec: coreHttp.OperationSpec = {
     mapper: Mappers.NumberConfigurationPhoneNumber
   },
   responses: {
-    202: {},
+    200: {},
     default: {
       bodyMapper: Mappers.ErrorResponse
     }

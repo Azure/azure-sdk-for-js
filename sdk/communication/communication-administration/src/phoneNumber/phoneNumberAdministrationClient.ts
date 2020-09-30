@@ -12,9 +12,7 @@ import {
   PipelineOptions,
   InternalPipelineOptions,
   createPipelineFromOptions,
-  OperationOptions,
-  operationOptionsToRequestOptionsBase,
-  RestResponse
+  operationOptionsToRequestOptionsBase
 } from "@azure/core-http";
 import "@azure/core-paging";
 import { PageSettings, PagedAsyncIterableIterator } from "@azure/core-paging";
@@ -26,21 +24,20 @@ import {
   PhoneNumberAdministration
 } from "./generated/src/phoneNumberRestClient";
 import {
-  PhoneNumberAdministrationUpdateCapabilitiesResponse,
-  PhoneNumberAdministrationReleasePhoneNumbersResponse,
-  PhoneNumberAdministrationGetReleaseByIdResponse,
-  PhoneNumberAdministrationCreateSearchResponse,
-  PhoneNumberAdministrationGetAllAreaCodesResponse,
-  PhoneNumberAdministrationGetNumberConfigurationResponse,
-  PhoneNumberAdministrationGetPhonePlanLocationOptionsResponse,
-  PhoneNumberAdministrationGetSearchByIdResponse,
-  NumberUpdateCapabilities,
-  PhoneNumberAdministrationGetCapabilitiesUpdateResponse,
   AcquiredPhoneNumber,
   PhoneNumberCountry,
   PhonePlanGroup,
   PhonePlan,
-  PhoneNumberEntity
+  PhoneNumberEntity,
+  UpdatePhoneNumberCapabilitiesResponse,
+  ReleaseResponse,
+  UpdateNumberCapabilitiesResponse,
+  PhoneNumberRelease,
+  CreateSearchResponse,
+  AreaCodes,
+  NumberConfigurationResponse,
+  LocationOptionsResponse,
+  PhoneNumberSearch
 } from "./generated/src/models";
 import { SDK_VERSION } from "./constants";
 import {
@@ -58,8 +55,29 @@ import {
   ListPhonePlansOptions,
   GetPhonePlanLocationOptionsRequest,
   GetPhonePlanLocationOptionsOptions,
-  ConfigurePhoneNumberRequest
+  ConfigurePhoneNumberRequest,
+  UpdateNumbersCapabilitiesResponse,
+  PhoneNumberCapabilitiesUpdates,
+  GetCapabilitiesUpdateResponse,
+  ReleasePhoneNumbersResponse,
+  GetReleaseResponse,
+  CreatePhoneNumberSearchResponse,
+  GetAreaCodesResponse,
+  GetPhoneNumberConfigurationResponse,
+  GetPhonePlanLocationOptionsResponse,
+  GetSearchResponse,
+  GetCapabilitiesUpdateOptions,
+  GetPhoneNumberConfigurationOptions,
+  GetReleaseOptions,
+  ReleasePhoneNumberOptions,
+  UnconfigurePhoneNumberOptions,
+  CancelSearchOptions,
+  GetSearchOptions,
+  PurchaseSearchOptions,
+  RefreshSearchOptions
 } from "./models";
+import { VoidResponse } from "../common/models";
+import { attachHttpResponse } from "../common/mappers";
 
 /**
  * Client options used to configure the UserTokenClient API requests.
@@ -136,20 +154,20 @@ export class PhoneNumberAdministrationClient {
 
   /**
    * Configures a phone number, for example to assign a callbackUrl.
-   * @param request The configuration details
+   * @param config The configuration details
    * @param options Additional request options.
    */
   public async configurePhoneNumber(
-    request: ConfigurePhoneNumberRequest,
+    config: ConfigurePhoneNumberRequest,
     options: ConfigurePhoneNumberOptions = {}
-  ): Promise<RestResponse> {
+  ): Promise<VoidResponse> {
     const { span, updatedOptions } = createSpan(
       "PhoneNumberAdministrationClient-configurePhoneNumber",
       options
     );
-    const { phoneNumber, callbackUrl } = request;
+    const { phoneNumber, callbackUrl } = config;
     try {
-      return await this.client.configureNumber(
+      const { _response } = await this.client.configureNumber(
         {
           callbackUrl: callbackUrl,
           applicationId: updatedOptions.applicationId,
@@ -158,6 +176,7 @@ export class PhoneNumberAdministrationClient {
         phoneNumber,
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
+      return attachHttpResponse({}, _response);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -176,17 +195,18 @@ export class PhoneNumberAdministrationClient {
    */
   public async unconfigurePhoneNumber(
     phoneNumber: string,
-    options: OperationOptions = {}
-  ): Promise<RestResponse> {
+    options: UnconfigurePhoneNumberOptions = {}
+  ): Promise<VoidResponse> {
     const { span, updatedOptions } = createSpan(
       "PhoneNumberAdministrationClient-unconfigurePhoneNumber",
       options
     );
     try {
-      return await this.client.unconfigureNumber(
+      const { _response } = await this.client.unconfigureNumber(
         phoneNumber,
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
+      return attachHttpResponse({}, _response);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -202,21 +222,25 @@ export class PhoneNumberAdministrationClient {
    * Updates the capabilities for a list of phone numbers.
    * The response includes the id of the created update capabilities request,
    * remember that id for subsequent calls to getCapabilitiesUpdate.
-   * @param phoneNumberCapabilitiesUpdate Dictionary containing a list of phone numbers and their capabilities updates.
+   * @param phoneNumberCapabilitiesUpdates Dictionary containing a list of phone numbers and their capabilities updates.
    * @param options Additional request options.
    */
   public async updatePhoneNumbersCapabilities(
-    phoneNumberCapabilitiesUpdate: { [phoneNumber: string]: NumberUpdateCapabilities },
+    phoneNumberCapabilitiesUpdates: PhoneNumberCapabilitiesUpdates,
     options: UpdateCapabilitiesOptions = {}
-  ): Promise<PhoneNumberAdministrationUpdateCapabilitiesResponse> {
+  ): Promise<UpdateNumbersCapabilitiesResponse> {
     const { span, updatedOptions } = createSpan(
       "PhoneNumberAdministrationClient-updatePhoneNumbersCapabilities",
       options
     );
     try {
-      return await this.client.updateCapabilities(
-        phoneNumberCapabilitiesUpdate,
+      const { capabilitiesUpdateId, _response } = await this.client.updateCapabilities(
+        phoneNumberCapabilitiesUpdates,
         operationOptionsToRequestOptionsBase(updatedOptions)
+      );
+      return attachHttpResponse<UpdateNumberCapabilitiesResponse>(
+        { capabilitiesUpdateId },
+        _response
       );
     } catch (e) {
       span.setStatus({
@@ -236,17 +260,18 @@ export class PhoneNumberAdministrationClient {
    */
   public async getCapabilitiesUpdate(
     capabilitiesUpdateId: string,
-    options: OperationOptions = {}
-  ): Promise<PhoneNumberAdministrationGetCapabilitiesUpdateResponse> {
+    options: GetCapabilitiesUpdateOptions = {}
+  ): Promise<GetCapabilitiesUpdateResponse> {
     const { span, updatedOptions } = createSpan(
       "PhoneNumberAdministrationClient-getCapabilitiesUpdate",
       options
     );
     try {
-      return await this.client.getCapabilitiesUpdate(
+      const { _response, ...rest } = await this.client.getCapabilitiesUpdate(
         capabilitiesUpdateId,
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
+      return attachHttpResponse<UpdatePhoneNumberCapabilitiesResponse>(rest, _response);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -267,17 +292,18 @@ export class PhoneNumberAdministrationClient {
    */
   public async releasePhoneNumbers(
     phoneNumbers: string[],
-    options: OperationOptions = {}
-  ): Promise<PhoneNumberAdministrationReleasePhoneNumbersResponse> {
+    options: ReleasePhoneNumberOptions = {}
+  ): Promise<ReleasePhoneNumbersResponse> {
     const { span, updatedOptions } = createSpan(
       "PhoneNumberAdministrationClient-releasePhoneNumbers",
       options
     );
     try {
-      return await this.client.releasePhoneNumbers(
+      const { releaseId, _response } = await this.client.releasePhoneNumbers(
         phoneNumbers,
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
+      return attachHttpResponse<ReleaseResponse>({ releaseId }, _response);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -297,17 +323,18 @@ export class PhoneNumberAdministrationClient {
    */
   public async getRelease(
     releaseId: string,
-    options: OperationOptions = {}
-  ): Promise<PhoneNumberAdministrationGetReleaseByIdResponse> {
+    options: GetReleaseOptions = {}
+  ): Promise<GetReleaseResponse> {
     const { span, updatedOptions } = createSpan(
       "PhoneNumberAdministrationClient-getRelease",
       options
     );
     try {
-      return await this.client.getReleaseById(
+      const { _response, ...rest } = await this.client.getReleaseById(
         releaseId,
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
+      return attachHttpResponse<PhoneNumberRelease>(rest, _response);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -321,26 +348,27 @@ export class PhoneNumberAdministrationClient {
 
   /**
    * Starts a search for phone numbers given some constraints such as name or area code.
-   * @param request Request properties to constraint the search scope.
+   * @param searchRequest Request properties to constraint the search scope.
    * @param options Additional request options.
    */
   public async createSearch(
-    request: CreateSearchRequest,
+    searchRequest: CreateSearchRequest,
     options: CreateSearchOptions = {}
-  ): Promise<PhoneNumberAdministrationCreateSearchResponse> {
+  ): Promise<CreatePhoneNumberSearchResponse> {
     const { span, updatedOptions } = createSpan(
       "PhoneNumberAdministrationClient-createSearch",
       options
     );
-    const { name, description, phonePlanIds, areaCode } = request;
+    const { name, description, phonePlanIds, areaCode } = searchRequest;
     try {
-      return await this.client.createSearch(
+      const { searchId, _response } = await this.client.createSearch(
         name,
         description,
         phonePlanIds,
         areaCode,
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
+      return attachHttpResponse<CreateSearchResponse>({ searchId }, _response);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -360,19 +388,20 @@ export class PhoneNumberAdministrationClient {
   public async getAreaCodes(
     request: GetAreaCodesRequest,
     options: GetAreaCodesOptions = {}
-  ): Promise<PhoneNumberAdministrationGetAllAreaCodesResponse> {
+  ): Promise<GetAreaCodesResponse> {
     const { span, updatedOptions } = createSpan(
       "PhoneNumberAdministrationClient-getAllAreaCodes",
       options
     );
     const { countryCode: country, locationType, phonePlanId } = request;
     try {
-      return await this.client.getAllAreaCodes(
+      const { _response, ...rest } = await this.client.getAllAreaCodes(
         locationType,
         country,
         phonePlanId,
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
+      return attachHttpResponse<AreaCodes>(rest, _response);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -704,17 +733,18 @@ export class PhoneNumberAdministrationClient {
    */
   public async getPhoneNumberConfiguration(
     phoneNumber: string,
-    options: OperationOptions = {}
-  ): Promise<PhoneNumberAdministrationGetNumberConfigurationResponse> {
+    options: GetPhoneNumberConfigurationOptions = {}
+  ): Promise<GetPhoneNumberConfigurationResponse> {
     const { span, updatedOptions } = createSpan(
       "PhoneNumberAdministrationClient-getPhoneNumberConfiguration",
       options
     );
     try {
-      return await this.client.getNumberConfiguration(
+      const { pstnConfiguration, _response } = await this.client.getNumberConfiguration(
         phoneNumber,
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
+      return attachHttpResponse<NumberConfigurationResponse>({ pstnConfiguration }, _response);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -911,19 +941,20 @@ export class PhoneNumberAdministrationClient {
   public async getPhonePlanLocationOptions(
     request: GetPhonePlanLocationOptionsRequest,
     options: GetPhonePlanLocationOptionsOptions = {}
-  ): Promise<PhoneNumberAdministrationGetPhonePlanLocationOptionsResponse> {
+  ): Promise<GetPhonePlanLocationOptionsResponse> {
     const { span, updatedOptions } = createSpan(
       "PhoneNumberAdministrationClient-getPhonePlanLocationOptions",
       options
     );
     const { countryCode, phonePlanGroupId, phonePlanId } = request;
     try {
-      return await this.client.getPhonePlanLocationOptions(
+      const { locationOptions, _response } = await this.client.getPhonePlanLocationOptions(
         countryCode,
         phonePlanGroupId,
         phonePlanId,
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
+      return attachHttpResponse<LocationOptionsResponse>({ locationOptions }, _response);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -943,17 +974,18 @@ export class PhoneNumberAdministrationClient {
    */
   public async getSearch(
     searchId: string,
-    options: OperationOptions = {}
-  ): Promise<PhoneNumberAdministrationGetSearchByIdResponse> {
+    options: GetSearchOptions = {}
+  ): Promise<GetSearchResponse> {
     const { span, updatedOptions } = createSpan(
       "PhoneNumberAdministrationClient-getSearch",
       options
     );
     try {
-      return await this.client.getSearchById(
+      const { _response, ...rest } = await this.client.getSearchById(
         searchId,
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
+      return attachHttpResponse<PhoneNumberSearch>(rest, _response);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -972,17 +1004,18 @@ export class PhoneNumberAdministrationClient {
    */
   public async refreshSearch(
     searchId: string,
-    options: OperationOptions = {}
-  ): Promise<RestResponse> {
+    options: RefreshSearchOptions = {}
+  ): Promise<VoidResponse> {
     const { span, updatedOptions } = createSpan(
       "PhoneNumberAdministrationClient-refreshSearch",
       options
     );
     try {
-      return await this.client.refreshSearch(
+      const { _response } = await this.client.refreshSearch(
         searchId,
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
+      return attachHttpResponse({}, _response);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -1001,17 +1034,18 @@ export class PhoneNumberAdministrationClient {
    */
   public async cancelSearch(
     searchId: string,
-    options: OperationOptions = {}
-  ): Promise<RestResponse> {
+    options: CancelSearchOptions = {}
+  ): Promise<VoidResponse> {
     const { span, updatedOptions } = createSpan(
       "PhoneNumberAdministrationClient-cancelSearch",
       options
     );
     try {
-      return await this.client.cancelSearch(
+      const { _response } = await this.client.cancelSearch(
         searchId,
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
+      return attachHttpResponse({}, _response);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -1030,17 +1064,18 @@ export class PhoneNumberAdministrationClient {
    */
   public async purchaseSearch(
     searchId: string,
-    options: OperationOptions = {}
-  ): Promise<RestResponse> {
+    options: PurchaseSearchOptions = {}
+  ): Promise<VoidResponse> {
     const { span, updatedOptions } = createSpan(
       "PhoneNumberAdministrationClient-purchaseSearch",
       options
     );
     try {
-      return await this.client.purchaseSearch(
+      const { _response } = await this.client.purchaseSearch(
         searchId,
         operationOptionsToRequestOptionsBase(updatedOptions)
       );
+      return attachHttpResponse({}, _response);
     } catch (e) {
       span.setStatus({
         code: CanonicalCode.UNKNOWN,
@@ -1060,7 +1095,6 @@ export {
   LocationOptionsDetails,
   NumberConfiguration,
   PhoneNumberAdministrationGetAllAreaCodesResponse,
-  PhoneNumberAdministrationUpdateCapabilitiesResponse,
   PhoneNumberAdministrationReleasePhoneNumbersResponse,
   PhoneNumberAdministrationGetReleaseByIdResponse,
   PhoneNumberAdministrationGetCapabilitiesUpdateResponse,
