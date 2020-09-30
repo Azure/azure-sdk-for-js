@@ -18,7 +18,7 @@ In order for auto-instrumentation to take effect, `tracing` must be imported **b
 
 ### Authenticating with Azure Active Directory
 
-If you have [registered an application](https://docs.microsoft.com/en-us/azure/active-directory/develop/quickstart-register-app) with an Azure Active Directory tenant, you can [assign it to an RBAC role](https://docs.microsoft.com/en-us/azure/storage/common/storage-auth-aad) in your Azure Storage account. This enables you to use the Azure.Identity library to authenticate with Azure Storage as shown in the [azureAdAuth.ts sample](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/storage/storage-blob/samples/typescript/src/azureAdAuth.ts).
+If you have [registered an application](https://docs.microsoft.com/azure/active-directory/develop/quickstart-register-app) with an Azure Active Directory tenant, you can [assign it to an RBAC role](https://docs.microsoft.com/azure/storage/common/storage-auth-aad) in your Azure Storage account. This enables you to use the Azure.Identity library to authenticate with Azure Storage as shown in the [azureAdAuth.ts sample](https://github.com/Azure/azure-sdk-for-js/blob/master/sdk/storage/storage-blob/samples/typescript/src/azureAdAuth.ts).
 
 ## JavaScript sample
 
@@ -50,7 +50,7 @@ ts-node sample.ts
 
 ## Browser sample
 
-Currently, the Azure Monitor OpenTelemetry Exporter only supports Node.js environments.  This sample will be updated once browser support becomes available.
+Currently, the Azure Monitor OpenTelemetry Exporter only supports Node.js environments. This sample will be updated once browser support becomes available.
 
 <!-- Running these samples in the browser requires a bundler. While we give examples using Webpack, any bundler will do!
 

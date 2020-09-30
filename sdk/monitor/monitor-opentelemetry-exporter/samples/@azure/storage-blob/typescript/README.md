@@ -12,9 +12,9 @@ urlFragment: storage-blob-typescript
 
 These sample programs show how to use the TypeScript client libraries for Azure Storage Blobs in some common scenarios.
 
-| **File Name**                                             | **Description**                                                                                                                                            |
-| --------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| [basic.ts][basic]                                         | authenticate with the service using an account name & key (or anonymously with a SAS URL); create and delete containers; create, list, and download a blob |
+| **File Name**     | **Description**                                                                                                                                            |
+| ----------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| [basic.ts][basic] | authenticate with the service using an account name & key (or anonymously with a SAS URL); create and delete containers; create, list, and download a blob |
 
 ## Prerequisites
 
@@ -36,23 +36,23 @@ To run the samples using the published version of the package:
 
 1. Install the dependencies using `npm`:
 
-```bash
-npm install
-```
+   ```bash
+   npm install
+   ```
 
 2. Compile the samples
 
-```bash
-npm run build
-```
+   ```bash
+   npm run build
+   ```
 
 3. Edit the file `sample.env`, adding the correct credentials to access the Azure service and run the samples. Then rename the file from `sample.env` to just `.env`. The sample programs will read this file automatically.
 
 4. Run whichever samples you like (note that some samples may require additional setup, see the table above):
 
-```bash
-node dist/basic.js
-```
+   ```bash
+   node dist/basic.js
+   ```
 
 Alternatively, run a single sample with the correct environment variables set (step 3 is not required if you do this), for example (cross-platform):
 
