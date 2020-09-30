@@ -120,7 +120,11 @@ export abstract class MessageReceiver extends LinkEntity<Receiver> {
    * inside _onAmqpError.
    */
   protected _onError?: OnError;
-  private _autolockRenewer: AutoLockRenewer | undefined;
+  /**
+   * An AutoLockRenewer. This is undefined unless the user has activated autolock renewal
+   * via ReceiveOptions.
+   */
+  protected _autolockRenewer: AutoLockRenewer | undefined;
 
   constructor(
     context: ConnectionContext,
@@ -141,27 +145,6 @@ export abstract class MessageReceiver extends LinkEntity<Receiver> {
     this.autoComplete = options.autoComplete === false ? options.autoComplete : true;
 
     this._autolockRenewer = AutoLockRenewer.create(this, this._context, options);
-
-    this._clearMessageLockRenewTimer = (messageId: string) => {
-      if (this._messageRenewLockTimers.has(messageId)) {
-        clearTimeout(this._messageRenewLockTimers.get(messageId) as NodeJS.Timer);
-        logger.verbose(
-          "[%s] Cleared the message renew lock timer for message with id '%s'.",
-          this._context.connectionId,
-          messageId
-        );
-        this._messageRenewLockTimers.delete(messageId);
-      }
-    };
-    this._clearAllMessageLockRenewTimers = () => {
-      logger.verbose(
-        "[%s] Clearing message renew lock timers for all the active messages.",
-        this._context.connectionId
-      );
-      for (const messageId of this._messageRenewLockTimers.keys()) {
-        this._clearMessageLockRenewTimer(messageId);
-      }
-    };
   }
 
   /**
@@ -248,7 +231,7 @@ export abstract class MessageReceiver extends LinkEntity<Receiver> {
    * @return {Promise<void>} Promise<void>.
    */
   async close(): Promise<void> {
-    this._clearAllMessageLockRenewTimers();
+    this._autolockRenewer?.stopAll();
     await super.close();
   }
 
@@ -268,7 +251,7 @@ export abstract class MessageReceiver extends LinkEntity<Receiver> {
       if (operation.match(/^(complete|abandon|defer|deadletter)$/) == null) {
         return reject(new Error(`operation: '${operation}' is not a valid operation.`));
       }
-      this._clearMessageLockRenewTimer(message.messageId as string);
+      this._autolockRenewer?.stop(message);
       const delivery = message.delivery;
       const timer = setTimeout(() => {
         this._deliveryDispositionMap.delete(delivery.id);

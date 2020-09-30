@@ -127,7 +127,8 @@ export class StreamingReceiver extends MessageReceiver {
         receiverError
       );
 
-      this._clearAllMessageLockRenewTimers();
+      this._autolockRenewer?.stopAll();
+
       if (receiver && !receiver.isItselfClosed()) {
         await this.onDetached(receiverError);
       } else {
@@ -153,7 +154,8 @@ export class StreamingReceiver extends MessageReceiver {
         sessionError
       );
 
-      this._clearAllMessageLockRenewTimers();
+      this._autolockRenewer?.stopAll();
+
       if (receiver && !receiver.isSessionItselfClosed()) {
         await this.onDetached(sessionError);
       } else {
@@ -256,11 +258,11 @@ export class StreamingReceiver extends MessageReceiver {
         this.receiveMode
       );
 
-      this._lockRenewer?.startAutoLockRenewal(bMessage);
+      this._autolockRenewer?.start(bMessage);
 
       try {
         await this._onMessage(bMessage);
-        this._clearMessageLockRenewTimer(bMessage.messageId as string);
+        this._autolockRenewer?.stop(bMessage);
       } catch (err) {
         // This ensures we call users' error handler when users' message handler throws.
         if (!isAmqpError(err)) {
@@ -278,7 +280,7 @@ export class StreamingReceiver extends MessageReceiver {
 
         // Do not want renewLock to happen unnecessarily, while abandoning the message. Hence,
         // doing this here. Otherwise, this should be done in finally.
-        this._clearMessageLockRenewTimer(bMessage.messageId as string);
+        this._autolockRenewer?.stop(bMessage);
         const error = translate(err) as MessagingError;
         // Nothing much to do if user's message handler throws. Let us try abandoning the message.
         if (

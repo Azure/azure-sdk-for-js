@@ -70,24 +70,35 @@ export class AutoLockRenewer {
     return new AutoLockRenewer(linkEntity, context, maxAutoRenewDurationInMs);
   }
 
-  stopAutoLockRenewal(bMessage: RenewableMessageProperties) {
-    const messageId = bMessage.messageId as string;
+  /**
+   * Cancels all pending lock renewals and removes all entries from our internal cache.
+   */
+  stopAll() {
+    logger.verbose(
+      `${this._linkEntity.logPrefix} Clearing message renew lock timers for all the active messages.`
+    );
 
-    if (messageId == null) {
-      throw new Error("Failed to stop auto lock renewal - no message ID");
+    for (const messageId of this._messageRenewLockTimers.keys()) {
+      this._stopAndRemoveById(messageId);
     }
-
-    // TODO: the message ID is not required to be unique - perhaps we should swap over to lock token?
-    const timer = this._messageRenewLockTimers.get(messageId);
-
-    if (timer != null) {
-      clearTimeout(timer);
-    }
-
-    this._messageRenewLockTimers.delete(messageId);
   }
 
-  startAutoLockRenewal(bMessage: RenewableMessageProperties) {
+  /**
+   * Stops lock renewal for a single message.
+   *
+   * @param bMessage The message whose lock renewal we will stop.
+   */
+  stop(bMessage: RenewableMessageProperties) {
+    const messageId = bMessage.messageId as string;
+    this._stopAndRemoveById(messageId);
+  }
+
+  /**
+   * Starts lock renewal for a single message.
+   *
+   * @param bMessage The message whose lock renewal we will start.
+   */
+  start(bMessage: RenewableMessageProperties) {
     const logPrefix = this._linkEntity.logPrefix;
 
     if (bMessage.lockToken == null) {
@@ -173,10 +184,26 @@ export class AutoLockRenewer {
           }'. Hence we will stop the autoLockRenewTask.`
         );
 
-        this.stopAutoLockRenewal(bMessage);
+        this.stop(bMessage);
       }
     };
     // start
     autoRenewLockTask();
+  }
+
+  private _stopAndRemoveById(messageId: string | undefined): void {
+    if (messageId == null) {
+      throw new Error("Failed to stop auto lock renewal - no message ID");
+    }
+
+    // TODO: messageId doesn't actually need to be unique. Perhaps we should use lockToken
+    // instead?
+    if (this._messageRenewLockTimers.has(messageId)) {
+      clearTimeout(this._messageRenewLockTimers.get(messageId) as NodeJS.Timer);
+      logger.verbose(
+        `${this._linkEntity.logPrefix} Cleared the message renew lock timer for message with id '${messageId}'.`
+      );
+      this._messageRenewLockTimers.delete(messageId);
+    }
   }
 }
