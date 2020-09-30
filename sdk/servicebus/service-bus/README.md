@@ -87,11 +87,13 @@ const credential = new DefaultAzureCredential();
 const serviceBusClient = new ServiceBusClient(endpoint, credential);
 ```
 
-    NOTE: If you're using your own implementation of the `TokenCredential` interface
-    against AAD, then set the "scopes" for service-bus to the following to get
-    the appropriate token:
+> NOTE: If you're using your own implementation of the `TokenCredential` interface
+> against AAD, then set the "scopes" for service-bus to the following to get
+> the appropriate token:
 
-    ["https://servicebus.azure.net//user_impersonation"]
+> ```typescript
+> ["https://servicebus.azure.net//user_impersonation"]
+> ```
 
 More information about this constructor is available in the [API documentation][sbclient_tokencred_overload]
 
