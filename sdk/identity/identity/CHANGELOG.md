@@ -2,6 +2,7 @@
 
 ## 1.2.0-beta.2 (Unreleased)
 
+- `ManagedIdentityCredential` has been aligned with other languages, now treating expected errors properly. This fixes customer issue [11451](https://github.com/Azure/azure-sdk-for-js/issues/11451).
 
 ## 1.2.0-beta.1 (2020-09-08)
 
