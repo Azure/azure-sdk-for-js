@@ -215,7 +215,8 @@ export class ManagedIdentityCredential implements TokenCredential {
       } catch (err) {
         if (
           (err instanceof RestError && err.code === RestError.REQUEST_SEND_ERROR) ||
-          err.name === "AbortError"
+          err.name === "AbortError" ||
+          err.code === "ECONNREFUSED"
         ) {
           // Either request failed or IMDS endpoint isn't available
           logger.info(`IMDS endpoint unavailable`);
@@ -429,6 +430,12 @@ export class ManagedIdentityCredential implements TokenCredential {
       logger.getToken.info(formatSuccess(scopes));
       return result;
     } catch (err) {
+      // If a CredentialUnavailable reaches here,
+      // we're intending to make it bubble up,
+      // so that DefaultAzureCredential can catch it.
+      if (err instanceof CredentialUnavailable) {
+        throw err;
+      }
       // Expected errors to reach this point:
       // - Any CredentialUnavailable errors.
       // - Errors coming from a method unexpectedly breaking.
