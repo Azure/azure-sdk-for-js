@@ -19,7 +19,7 @@ import { DispositionStatusOptions } from "./managementClient";
 import { AbortSignalLike } from "@azure/core-http";
 import { onMessageSettled, DeferredPromiseAndTimer } from "./shared";
 import { logError } from "../util/errors";
-import { AutoLockRenewer } from "./lockRenewer";
+import { AutoLockRenewer } from "./autoLockRenewer";
 
 /**
  * @internal
