@@ -177,13 +177,13 @@ export class TestPhoneNumberAdministrationClient {
   }
 
   public async getAreaCodesTest(
-    searchRequest: GetAreaCodesRequest,
+    request: GetAreaCodesRequest,
     options: GetAreaCodesOptions = {}
   ): Promise<GetAreaCodesResponse> {
     const client = new PhoneNumberAdministrationClient(this.connectionString, {
       httpClient: getAreaCodesHttpClient
     });
 
-    return client.getAreaCodes(searchRequest, options);
+    return client.getAreaCodes(request, options);
   }
 }
