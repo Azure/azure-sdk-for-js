@@ -15,7 +15,7 @@
     "cloud"
   ],
   "main": "dist/index.js",
-  "module": "dist-esm/index.js",
+  "module": "dist-esm/src/index.js",
   "types": "./types/latest/core-paging.d.ts",
   "typesVersions": {
     "<3.6": {
@@ -28,7 +28,7 @@
     "types/latest/core-paging.d.ts",
     "types/3.1",
     "dist/index.js",
-    "dist-esm/index.js",
+    "dist-esm/src/index.js",
     "LICENSE",
     "README.md"
   ],
